@@ -1,0 +1,33 @@
+# QuickApps
+
+**QuickApps** is a free open source, content management system for PHP, released under GPL License and powered by [CakePHP 2.0](http://cakephp.org) MVC framework.
+
+## Requirements
+
+  * Apache with mod_rewrite
+  * PHP 5.2.6 or higher
+  * PHP safe mode disabled
+  * MySQL 4.1 or higher
+
+## Installation
+
+#### Github based installer (Recomended)
+
+  * Download from github the latest version as zip.
+  * Extract the archive. Upload the content to your server.
+  * visit http://your-site.com/ from your browser and follow the instructions.
+  
+#### Quick-Installer
+
+  * Download the one-file installer from [here](http://cms.quickapps.es/files/installer/index.install)
+  * Rename from 'index.install' to 'index.php'
+  * Upload the new 'index.php' to your server
+  * visit http://your-site.com/ from your browser and follow the instructions.
+  
+#### Manual installation
+ 
+ * Create a new MySQL database ('utf8_unicode_ci' collation)
+ * Use the SQL dump file app/Config/Schema/manual/quickapps.install.sql
+ * Rename app/Config/database.php.install to database.php and set your database information (use 'qa_' as prefix).
+ * Copy the file app/Config/install (no extension) to app/Config
+ * The default username and password are: **admin/admin**

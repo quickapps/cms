@@ -1,0 +1,5 @@
+name: User
+description: Manages the user registration and login system.
+category: Core
+version: 1.0
+core: 1.x

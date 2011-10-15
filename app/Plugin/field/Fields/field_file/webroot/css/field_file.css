@@ -1,0 +1,23 @@
+ul.files-list {
+    display:block;
+    overflow:hidden;
+}
+
+ul.files-list li {
+    cursor:move;
+	list-style: none;
+	margin: 10px 0 15px 0;
+	padding: 10px;
+	background-color:#F5F5F5;
+	border: #CCCCCC solid 1px;
+	color:#5B5B5B;
+    
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+ul.files-list li img.file-icon { margin:0 10px 0 0; }
+ul.files-list li span.file-name a { padding:0 10px; }
+ul.files-list li span.file-size { padding:0 10px; font-style:italic; }
+ul.files-list li .submit, ul.files-list li .submit input { display:inline !important; }

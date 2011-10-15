@@ -1,0 +1,2 @@
+<?php echo $this->Form->input('Block.settings.flags', array('type' => 'checkbox',  'label' => __d('locale', 'Display language flag icon'), 'checked' => @$block['Block']['settings']['flags'])); ?>
+<?php echo $this->Form->input('Block.settings.name', array('type' => 'checkbox',  'label' => __d('locale', 'Display language name'), 'checked' => @$block['Block']['settings']['name'])); ?>

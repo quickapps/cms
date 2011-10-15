@@ -1,0 +1,86 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-07-28 21:04+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Christopher C <y2k2000@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Country: SPAIN\n"
+"X-Poedit-KeywordsList: _e;__e;__;_\n"
+"X-Poedit-Basepath: ../../../\n"
+"X-Poedit-SearchPath-0: .\n"
+
+
+msgid "wrote"
+msgstr "escribió"
+
+msgid "Your name"
+msgstr "Tu nombre"
+
+msgid "Your name *"
+msgstr "Tu nombre *"
+
+msgid "Comment"
+msgstr "Comentario"
+
+msgid "Comment *"
+msgstr "Comentario *"
+
+msgid "Add new comment"
+msgstr "Nuevo comentario"
+
+msgid "Comments"
+msgstr "Comentarios"
+
+msgid "said on %s"
+msgstr "dijo el %s"
+
+msgid "Quote"
+msgstr "Citar"
+
+msgid "Published comments"
+msgstr "Comentarios publicados"
+
+msgid "Published"
+msgstr "Publicados"
+
+msgid "Unpublished (%s)"
+msgstr "No publicados (%s)"
+
+msgid "Update Options"
+msgstr "Opciones de Modificación"
+
+msgid "Unapprove selected comments"
+msgstr "No aprobar comentarios sleccioandos"
+
+msgid "Approve selected comments"
+msgstr "Aprobar comentarios sleccioandos"
+
+msgid "Delete selected comments"
+msgstr "Eliminar comentarios seleccionados"
+
+msgid "Update"
+msgstr "Modificar"
+
+msgid "Subject"
+msgstr "Asunto"
+
+msgid "Author"
+msgstr "Autor"
+
+msgid "Posted in"
+msgstr "Publicado en"
+
+msgid "Posted on"
+msgstr "Publicado el"
+
+msgid "There are no comments to display"
+msgstr "No hay comentarios para mostrar"
+
+msgid "Are you sure ?"
+msgstr "Está seguro ?"
+

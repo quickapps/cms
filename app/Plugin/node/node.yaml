@@ -1,0 +1,5 @@
+name: Node
+description: Allows content to be submitted to the site and displayed on pages.
+category: Core
+version: 1.0
+core: 1.x
