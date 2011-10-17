@@ -930,7 +930,7 @@ class LayoutHelper extends AppHelper {
  * @return string
  */
     public function specialTags($text) {
-        // [locale]
+        //[locale]
         $text = str_replace('[language]', Configure::read('Variable.language.code'), $text);
 
         //[locale.OPTION]

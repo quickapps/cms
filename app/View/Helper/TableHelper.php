@@ -123,6 +123,7 @@ class TableHelper extends AppHelper {
         }
 
         $out .= "</table>\n";
+
         return $out;
     }
 
@@ -142,6 +143,7 @@ class TableHelper extends AppHelper {
                 if (in_array($m, array('{php}', '{/php}'))){
                     continue;
                 }
+
                 $value = str_replace($m, Set::extract(trim($matches[1][$i]), $row_data), $value);
             }
         }
@@ -160,7 +162,9 @@ class TableHelper extends AppHelper {
     protected function _php_eval($code, $row_data = array()) {
         ob_start();
         print eval('?>' . $code);
+
         $output = ob_get_contents();
+
         ob_end_clean();
 
         return $output;

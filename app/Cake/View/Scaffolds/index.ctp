@@ -11,7 +11,7 @@
  *
  * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
- * @package       cake.console.libs.templates.views
+ * @package       Cake.View.Scaffolds
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
@@ -63,7 +63,7 @@ endforeach;
 </table>
 	<p><?php
 	echo $this->Paginator->counter(array(
-		'format' => __d('cake', 'Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%')
+		'format' => __d('cake', 'Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
 	));
 	?></p>
 	<div class="paging">

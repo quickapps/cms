@@ -115,7 +115,6 @@ class MenuHelper extends AppHelper {
  * @return string html representation of the passed data
  * @access public
  */
-
     function generate($data, $settings = array ()) {
         /* Hook */
         $data = array('data' => $data, 'settings' => $settings);

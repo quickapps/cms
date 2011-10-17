@@ -26,7 +26,7 @@ App::uses('AppHelper', 'View/Helper');
  *
  * @package       Cake.View.Helper
  * @property      HtmlHelper $Html
- * @link http://book.cakephp.org/view/1458/Paginator
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/paginator.html
  */
 class PaginatorHelper extends AppHelper {
 
@@ -64,7 +64,7 @@ class PaginatorHelper extends AppHelper {
  * - `update` DOM id of the element updated with the results of the AJAX call.
  *     If this key isn't specified Paginator will use plain HTML links.
  * - `paging['paramType']` The type of parameters to use when creating links.  Valid options are
- *     'querystring', 'named', and 'route'.  See PaginatorComponent::$settings for more information.
+ *     'querystring' and 'named'.  See PaginatorComponent::$settings for more information.
  * - `convertKeys` - A list of keys in url arrays that should be converted to querysting params
  *    if paramType == 'querystring'.
  *
@@ -285,6 +285,7 @@ class PaginatorHelper extends AppHelper {
  *
  * - `escape` Whether you want the contents html entity encoded, defaults to true
  * - `model` The model to use, defaults to PaginatorHelper::defaultModel()
+ * - `direction` The default directon to use when this link isn't active.
  *
  * @param string $key The name of the key that the recordset should be sorted.
  * @param string $title Title for the link. If $title is null $key will be used
@@ -538,12 +539,14 @@ class PaginatorHelper extends AppHelper {
  * - `model` The model to use, defaults to PaginatorHelper::defaultModel();
  * - `format` The format string you want to use, defaults to 'pages' Which generates output like '1 of 5'
  *    set to 'range' to generate output like '1 - 3 of 13'.  Can also be set to a custom string, containing
- *    the following placeholders `%page%`, `%pages%`, `%current%`, `%count%`, `%model%`, `%start%`, `%end%` and any
+ *    the following placeholders `{:page}`, `{:pages}`, `{:current}`, `{:count}`, `{:model}`, `{:start}`, `{:end}` and any
  *    custom content you would like.
  * - `separator` The separator string to use, default to ' of '
  *
+ * The `%page%` style placeholders also work, but are deprecated and will be removed in a future version.
  * @param mixed $options Options for the counter string. See #options for list of keys.
  * @return string Counter string.
+ * @deprecated The %page% style placeholders are deprecated.
  */
 	public function counter($options = array()) {
 		if (is_string($options)) {
@@ -554,7 +557,7 @@ class PaginatorHelper extends AppHelper {
 			array(
 				'model' => $this->defaultModel(),
 				'format' => 'pages',
-				'separator' => __d('cake', ' of ')
+				'separator' => __(' of ')
 			),
 		$options);
 
@@ -610,7 +613,6 @@ class PaginatorHelper extends AppHelper {
  * `$this->Paginator->numbers(array('first' => 2, 'last' => 2));`
  *
  * Using the first and last options you can create links to the beginning and end of the page set.
- *
  *
  * ### Options
  *
