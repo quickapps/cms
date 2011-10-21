@@ -67,7 +67,7 @@ Cache::config('default', array('engine' => 'File'));
     $__themes = $__themes[0];
     
     foreach ($__themes as $__tname) {
-        $__searchPath[] = APP . 'View' . DS . 'Themed' . DS . $__tname . DS . 'Plugin' . DS;
+        $__searchPath[] = APP . 'View' . DS . 'Themed' . DS . $__tname . DS . 'app' . DS;
     }
 
     $__searchPath[] = ROOT . DS . 'Modules' . DS;

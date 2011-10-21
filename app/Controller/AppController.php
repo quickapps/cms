@@ -241,7 +241,7 @@ class AppController extends Controller {
             }
 
             if ((isset($modulesCache[$_plugin]['status']) && $modulesCache[$_plugin]['status'] == 0) ||
-                (strpos($ppath, DS . 'View' . DS . 'Themed') !== false && strpos($ppath, 'Themed' . DS . $themeToUse . DS . 'Plugin') === false)
+                (strpos($ppath, DS . 'View' . DS . 'Themed') !== false && strpos($ppath, 'Themed' . DS . $themeToUse . DS . 'app') === false)
             ) {
                 continue; # Important: skip no active themes
             }

@@ -47,8 +47,8 @@ class InstallerComponent extends Component {
  * Expected theme package estructure:
  *      - CamelCaseThemeName/   # $package_path
  *          - Layouts/
- *          - Plugin/
- *              - theme_camel_case_theme_name/  # prefix 'theme_'and underscore 'CamelCaseThemeName' (theme name)
+ *          - app/
+ *              - theme_underscore_theme_name/  # 'theme_' + {underscored theme name}
  *          - webroot/
  *          - CamelCaseThemeName.yaml
  *          - thumbnail.png # 206x150px
@@ -197,18 +197,18 @@ class InstallerComponent extends Component {
                             'header' => __d('system', 'Layouts Folder'),
                             'msg' => __d('system', '"Layouts" folder not found')
                         ),
-                        'Plugin' => array(
-                            'test' => file_exists($packagePath . 'Plugin'),
-                            'header' => __d('system', 'Plugin Folder'),
-                            'msg' => __d('system', '"Plugin" folder not found')
+                        'app' => array(
+                            'test' => file_exists($packagePath . 'app'),
+                            'header' => __d('system', 'app Folder'),
+                            'msg' => __d('system', '"app" folder not found')
                         ),
                         'plugin_app' => array(
-                            'test' => file_exists($packagePath . 'Plugin' . DS . 'theme_' . Inflector::underscore($appName)),
+                            'test' => file_exists($packagePath . 'app' . DS . 'theme_' . Inflector::underscore($appName)),
                             'header' => __d('system', 'Plugin app'),
                             'msg' => __d('system', 'Plugin app ("%s") folder not found', 'theme_' . Inflector::underscore($appName))
                         ),
                         'InstallComponent.php' => array(
-                            'test' => file_exists($packagePath . 'Plugin' . DS . 'theme_' . Inflector::underscore($appName).  DS . 'Controller' . DS . 'Component' . DS . 'InstallComponent.php'),
+                            'test' => file_exists($packagePath . 'app' . DS . 'theme_' . Inflector::underscore($appName).  DS . 'Controller' . DS . 'Component' . DS . 'InstallComponent.php'),
                             'header' => __d('system', 'Installer File'),
                             'msg' => __d('system', 'Installer file (InstallComponent.php) not found')
                         ),
@@ -359,7 +359,7 @@ class InstallerComponent extends Component {
             /*****************/
             /**** INSTALL ****/
             /*****************/
-            $installComponentPath = $this->options['type'] == 'theme' ? $packagePath . 'Plugin' . DS . 'theme_' . Inflector::underscore($appName) . DS . 'Controller' . DS . 'Component' . DS : $packagePath . 'Controller' . DS . 'Component' . DS;
+            $installComponentPath = $this->options['type'] == 'theme' ? $packagePath . 'app' . DS . 'theme_' . Inflector::underscore($appName) . DS . 'Controller' . DS . 'Component' . DS : $packagePath . 'Controller' . DS . 'Component' . DS;
             $Install = $this->loadInstallComponent($installComponentPath);
             $r = true;
 
@@ -393,10 +393,10 @@ class InstallerComponent extends Component {
                 case 'theme':
                     $this->buildAcos(
                         'theme_' . Inflector::underscore($appName),
-                        APP . 'View'. DS . 'Themed' . DS . Inflector::camelize($appName) . DS . 'Plugin' . DS
+                        APP . 'View'. DS . 'Themed' . DS . Inflector::camelize($appName) . DS . 'app' . DS
                     );
 
-                    App::build(array('plugins' => array(APP . 'View'. DS . 'Themed' . DS . Inflector::camelize($appName) . DS . 'Plugin' . DS)));
+                    App::build(array('plugins' => array(APP . 'View'. DS . 'Themed' . DS . Inflector::camelize($appName) . DS . 'app' . DS)));
                 break;
             }
 
@@ -441,7 +441,7 @@ class InstallerComponent extends Component {
         /* useful for before/afterUninstall */
         $this->options['type'] = $pData['Module']['type'];
         $this->options['__data'] = $pData;
-        $this->options['__path'] = $pData['Module']['type'] == 'theme' ? APP . 'View' . DS . 'Themed' . DS . str_replace('Theme', '', $Name) . DS . 'Plugin' . DS . $name . DS : CakePlugin::path($Name);
+        $this->options['__path'] = $pData['Module']['type'] == 'theme' ? APP . 'View' . DS . 'Themed' . DS . str_replace('Theme', '', $Name) . DS . 'app' . DS . $name . DS : CakePlugin::path($Name);
         $this->options['__name'] = $name;
         $this->options['__Name'] = $Name;
 
