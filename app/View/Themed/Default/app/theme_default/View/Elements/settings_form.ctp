@@ -1,6 +1,6 @@
 <?php echo $this->Form->input('Module.settings.slider_folder', array('between' => $this->Html->url('/files/', true), 'type' => 'text', 'label' => __d('theme_default', 'Image slider folder'))); ?>
 <em>
-    <?php echo __d('theme_quick', 'Recomended images size:') ?> 974x302px<br/>
+    <?php echo __d('theme_default', 'Recomended images size:') ?> 974x302px<br/>
 </em>
 <p>
     <?php echo $this->Html->script('/theme/Default/js/farbtastic/farbtastic.js'); ?>
