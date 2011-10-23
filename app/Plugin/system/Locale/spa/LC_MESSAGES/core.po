@@ -170,3 +170,14 @@ msgstr "URL de imágen del logo"
 msgid "Shortcut icon URL"
 msgstr "URL de favicon"
 
+msgid "Enable"
+msgstr "Activar"
+
+msgid "Disable"
+msgstr "Desactivar"
+
+msgid "Settings"
+msgstr "Configurar"
+
+msgid "Uninstall"
+msgstr "Desinstalar"

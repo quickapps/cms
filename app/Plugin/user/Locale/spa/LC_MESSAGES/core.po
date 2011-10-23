@@ -214,3 +214,6 @@ msgstr "Asunto"
 
 msgid "Body"
 msgstr "Cuerpo"
+
+msgid "Add New Role"
+msgstr "Agregar Nuevo Rol"

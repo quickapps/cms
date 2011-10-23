@@ -1,6 +1,6 @@
 <?php echo $this->Form->create('Role'); ?>
     <!-- Filter -->
-    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-add_fieldset" style="cursor:pointer;">' . __t('Add role') . '</span>' ); ?>
+    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-add_fieldset" style="cursor:pointer;">' . __t('Add New Role') . '</span>' ); ?>
         <div id="add_fieldset" class="horizontalLayout" style="<?php echo isset($this->data['Role']['name']) ? '' : 'display:none;'; ?>">
             <?php echo $this->Form->input('name',
                     array(
@@ -9,7 +9,7 @@
                     )
                 );
             ?>
-            <?php echo $this->Form->input(__t('Add role'), array('type' => 'submit', 'label' => false)); ?>
+            <?php echo $this->Form->input(__t('Add'), array('type' => 'submit', 'label' => false)); ?>
         </div>
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 <?php echo $this->Form->end(); ?>
