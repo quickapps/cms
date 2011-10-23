@@ -26,9 +26,9 @@ class QuickAppsComponent extends Component {
     public function initialize(&$Controller) {
         $this->Controller =& $Controller;
 
-        $this->accessCheck();
         $this->loadVariables();
         $this->loadModules();
+        $this->accessCheck();
         $this->setTheme();
         $this->setTimeZone();
         $this->setLanguage();
@@ -211,6 +211,15 @@ jQuery.extend(QuickApps.settings, {
         $this->Controller->Auth->logoutRedirect = $this->Controller->Auth->loginRedirect;
         $this->Controller->Auth->allowedActions = array('login', 'logout');
         $cookie = $this->Controller->Cookie->read('UserLogin');
+
+        if (isset($this->Controller->request->params['plugin'])) {
+            $p = Configure::read("Modules.{$this->Controller->request->params['plugin']}");
+
+            if (!$p || $p['status'] != 1) {
+                $this->Controller->Auth->allowedActions = array();
+                return;
+            }
+        }
 
         if (!$this->Controller->Auth->user() &&
             isset($cookie['id']) &&
