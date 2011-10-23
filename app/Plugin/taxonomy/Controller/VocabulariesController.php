@@ -169,6 +169,8 @@ class VocabulariesController extends TaxonomyAppController {
             )
         );
         $this->Vocabulary->Term->removeFromTree($term['Term']['id'], true);
+        $this->loadModel('NodesTerms');
+        $this->NodesTerms->deleteAll(array('NodesTerms.term_id' => $term['Term']['id']));
         $this->redirect($this->referer());
     }
 

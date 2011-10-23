@@ -210,7 +210,12 @@ class ContentsController extends NodeAppController {
 
         $del = $this->Node->delete($node['Node']['id']);
 
-        if(isset($this->request->params['requested'])) {
+        if ($del) {
+            $this->loadModel('NodesTerms');
+            $this->NodesTerms->deleteAll(array('NodesTerms.node_id' => $node['Node']['id']));
+        }
+
+        if (isset($this->request->params['requested'])) {
             return $del;
         } else {
             $this->redirect($this->referer());
