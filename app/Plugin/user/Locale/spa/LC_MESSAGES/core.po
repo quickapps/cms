@@ -217,3 +217,33 @@ msgstr "Cuerpo"
 
 msgid "Add New Role"
 msgstr "Agregar Nuevo Rol"
+
+msgid "Manage Fields"
+msgstr "Gestionar Campos"
+
+msgid "Manage Display"
+msgstr "Gestionar Visualización"
+
+msgid "There are no fields to display"
+msgstr "No hay campos para mostar"
+
+msgid "User Display Settings"
+msgstr "Configuración de Visualización de Usuarios"
+
+msgid "Add User"
+msgstr "Agregar Usuario"
+
+msgid "Active"
+msgstr "Activo"
+
+msgid "Create user"
+msgstr "Crear usuario"
+
+msgid "Public email"
+msgstr "E-mail público"
+
+msgid "Editing User"
+msgstr "Editando Usuario"
+
+msgid "Editing user"
+msgstr "Editando usuario"
