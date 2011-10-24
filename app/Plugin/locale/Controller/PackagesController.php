@@ -29,6 +29,11 @@ class PackagesController extends LocaleAppController {
         # Plugins .po
         foreach (App::objects('plugin') as $plugin) {
             $ppath = CakePlugin::path($plugin);
+
+            if (strpos($ppath, DS . 'Fields' . DS)) {
+                continue;
+            }
+
             $Locale = new Folder($ppath . 'Locale' . DS);
             $f = $Locale->read(); $f = $f[0];
 
