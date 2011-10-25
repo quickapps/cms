@@ -87,6 +87,7 @@ class AppModel extends Model {
  * @return mixed Either the last result or all results if collectReturn is on. Or null in case of no response
  */
     public function hook($hook, &$data = array(), $options = array()) {
+        $hook = Inflector::underscore($hook);
         return $this->__dispatchEvent($hook, $data, $options);
     }
 

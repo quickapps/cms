@@ -84,7 +84,7 @@ class ManageController extends MenuAppController {
     public function admin_delete_link($link_id) {
         $link = $this->MenuLink->findById($link_id);
 
-        if (!$link || $link['MenuLink']['module'] != 'menu') {
+        if (!$link || $link['MenuLink']['module'] != 'Menu') {
             $this->redirect('/admin/menu');
         }
 
@@ -109,7 +109,7 @@ class ManageController extends MenuAppController {
 
         if (isset($this->data['MenuLink'])) {
             $data = $this->data;
-            $data['MenuLink']['module'] = 'menu';
+            $data['MenuLink']['module'] = 'Menu';
             $data['MenuLink']['parent_id'] = empty($data['MenuLink']['parent_id']) ? 0 : $data['MenuLink']['parent_id'];
 
             $this->MenuLink->Behaviors->detach('Tree');

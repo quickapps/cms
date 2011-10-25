@@ -33,7 +33,7 @@ class Block extends BlockAppModel {
         'Menu' => array(
             'className' => 'Menu.Menu',
             'foreignKey' => 'delta',
-            'conditions' => 'Block.module = "menu"',
+            'conditions' => 'Block.module = "Menu"',
             'dependent' => false
         )
     );
@@ -52,11 +52,11 @@ class Block extends BlockAppModel {
     public function beforeSave() {
         /* get New delta */
         if (!isset($this->data['Block']['id'])) { # new record
-            if ($this->data['Block']['module'] == 'menu' || isset($this->data['Block']['delta'])) {
+            if ($this->data['Block']['module'] == 'Menu' || isset($this->data['Block']['delta'])) {
                 return true;
             }
 
-            $max_delta = $this->find('first', array('conditions' => array('Block.module' => 'block'), 'fields' => array('delta'), 'order' => array('delta' => 'DESC')));
+            $max_delta = $this->find('first', array('conditions' => array('Block.module' => 'Block'), 'fields' => array('delta'), 'order' => array('delta' => 'DESC')));
             $max_delta = !empty($max_delta) ? $max_delta['Block']['delta'] + 1 : 1;
             $this->data['Block']['delta'] = $max_delta;
         }

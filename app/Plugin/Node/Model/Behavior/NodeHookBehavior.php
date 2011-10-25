@@ -13,52 +13,52 @@ class NodeHookBehavior extends ModelBehavior {
     public $fieldData = null;
 
     // node type: Basic Page
-    public function node_content_beforeValidate(&$Model) {
+    public function node_content_before_validate(&$Model) {
         return true;
     }
 
-    public function node_content_beforeSave(&$Model) {
+    public function node_content_before_save(&$Model) {
         return true;
     }
 
-    public function node_content_beforeDelete(&$Model) {
+    public function node_content_before_delete(&$Model) {
         return true;
     }
 
-    public function node_content_afterFind(&$results) {
+    public function node_content_after_find(&$results) {
         return true;
     }
 
-    public function node_content_afterSave(&$Model) {
+    public function node_content_after_save(&$Model) {
         return true;
     }
 
-    public function node_content_afterDelete(&$Model) {
+    public function node_content_after_delete(&$Model) {
         return true;
     }
 
     // node type: Custom types
-    public function node_beforeValidate(&$Model) {
+    public function node_before_validate(&$Model) {
         return $this->node_content_beforeValidate($Model);
     }
 
-    public function node_beforeSave(&$Model) {
-        return $this->node_content_beforeSave($Model);
+    public function node_before_save(&$Model) {
+        return $this->node_content_before_save($Model);
     }
 
-    public function node_beforeDelete(&$Model) {
-        return $this->node_content_beforeDelete($Model);
+    public function node_before_delete(&$Model) {
+        return $this->node_content_before_delete($Model);
     }
 
-    public function node_afterFind(&$results) {
-        return $this->node_content_afterFind($results);
+    public function node_after_find(&$results) {
+        return $this->node_content_after_find($results);
     }
 
-    public function node_afterSave(&$Model) {
-        return $this->node_content_afterSave($Model);
+    public function node_after_save(&$Model) {
+        return $this->node_content_after_save($Model);
     }
 
-    public function node_afterDelete($Model) {
-        return $this->node_content_afterDelete($Model);
+    public function node_after_delete($Model) {
+        return $this->node_content_after_delete($Model);
     }
 }

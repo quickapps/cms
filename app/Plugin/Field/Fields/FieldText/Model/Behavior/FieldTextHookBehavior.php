@@ -1,7 +1,7 @@
 <?php
 class FieldTextHookBehavior extends ModelBehavior {
 
-    public function field_text_beforeSaveInstance(&$Model) {
+    public function field_text_before_save_instance(&$Model) {
         if (!isset($Model->data['Field']['id']) || empty($Model->data['Field']['id'])) {
             $__default = array(
                 'type' => 'text',
@@ -14,11 +14,11 @@ class FieldTextHookBehavior extends ModelBehavior {
         return true;
     }
 
-    public function field_text_beforeSave($info) {
+    public function field_text_before_save($info) {
         return true;
     }
 
-    public function field_text_afterSave($info) {
+    public function field_text_after_save($info) {
         if (empty($info)) {
             return true;
         }
@@ -43,7 +43,7 @@ class FieldTextHookBehavior extends ModelBehavior {
         return true;
     }
 
-    public function field_text_afterFind(&$data) {
+    public function field_text_after_find(&$data) {
         $data['field']['FieldData'] = ClassRegistry::init('Field.FieldData')->find('first',
             array(
                 'conditions' => array(
@@ -60,7 +60,7 @@ class FieldTextHookBehavior extends ModelBehavior {
         return;
     }
 
-    public function field_text_beforeValidate($info) {
+    public function field_text_before_validate($info) {
         $FieldInstance = ClassRegistry::init('Field.Field')->findById($info['field_id']);
         $errMsg = array();
 
@@ -108,11 +108,11 @@ class FieldTextHookBehavior extends ModelBehavior {
         return true;
     }
 
-    public function field_text_beforeDelete($info) {
+    public function field_text_before_delete($info) {
         return true;
     }
 
-    public function field_text_afterDelete($info) {
+    public function field_text_after_delete($info) {
         ClassRegistry::init('Field.FieldData')->deleteAll(
             array(
                 'FieldData.belongsTo' => $info['Model']->name,
@@ -124,7 +124,7 @@ class FieldTextHookBehavior extends ModelBehavior {
         return true;
     }
 
-    public function field_text_afterDeleteInstance($FieldModel) {
+    public function field_text_after_delete_instance($FieldModel) {
         ClassRegistry::init('Field.FieldData')->deleteAll(
             array(
                 'FieldData.field_id' => $FieldModel->data['Field']['id']

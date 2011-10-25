@@ -21,7 +21,7 @@
         <?php echo $this->Form->input('Role.Role', array('type' => 'select', 'multiple' => 'checkbox', 'label' => __t('User roles'), 'options' => $roles)); ?>
 
         <?php foreach ($this->data['Field'] as $field): ?>
-            <?php echo $this->Layout->hook(Inflector::underscore($field['field_module']) . "_edit", $field, array('collectReturn' => false)); ?>
+            <?php echo $this->Layout->hook("{$field['field_module']}_edit", $field, array('collectReturn' => false)); ?>
         <?php endforeach; ?>
 
     <?php echo $this->Html->useTag('fieldsetend'); ?>

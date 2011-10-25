@@ -10,7 +10,7 @@ $tSettings = array(
                 <a href='{url}/admin/node/types/display/{NodeType.id}{/url}'>" . __t('display') . "</a>
                 | <a href='{url}/admin/node/types/edit/{NodeType.id}{/url}'>" . __t('edit') . "</a>
                 | <a href='{url}/admin/node/types/fields/{NodeType.id}{/url}'>" . __t('fields') . "</a>
-                {php} return ('{NodeType.module}' == 'node') ? \"| <a href='{url}/admin/node/types/delete/{NodeType.id}{/url}' onClick=\\\"return confirm('" . __t("Are you sure that you want to delete this type of content. ? This action cannot be undone.") . "'); \\\">" . __t('delete') . "</a>\" : '';{/php}
+                {php} return ('{NodeType.module}' == 'Node') ? \"| <a href='{url}/admin/node/types/delete/{NodeType.id}{/url}' onClick=\\\"return confirm('" . __t("Are you sure that you want to delete this type of content. ? This action cannot be undone.") . "'); \\\">" . __t('delete') . "</a>\" : '';{/php}
                 "
             ,
             'thOptions' => array('align' => 'right'),

@@ -1,11 +1,11 @@
 <?php
 class FieldListHookBehavior extends ModelBehavior {
 
-    function field_list_beforeSave($info) {
+    function field_list_before_save($info) {
         return true;
     }
 
-    function field_list_afterSave($info) {
+    function field_list_after_save($info) {
         if (empty($info)) {
             return true;
         }
@@ -24,7 +24,7 @@ class FieldListHookBehavior extends ModelBehavior {
         return true;
     }
 
-    function field_list_afterFind(&$data) {
+    function field_list_after_find(&$data) {
         $data['field']['FieldData'] = ClassRegistry::init('Field.FieldData')->find('first',
             array(
                 'conditions' => array(
@@ -41,7 +41,7 @@ class FieldListHookBehavior extends ModelBehavior {
         return;
     }
 
-    function field_list_beforeValidate($info) {
+    function field_list_before_validate($info) {
         $FieldInstance = ClassRegistry::init('Field.Field')->findById($info['field_id']);
 
         if ($FieldInstance['Field']['required'] == 1) {
@@ -61,11 +61,11 @@ class FieldListHookBehavior extends ModelBehavior {
         return true;
     }
 
-    function field_list_beforeDelete($info) {
+    function field_list_before_delete($info) {
         return true;
     }
 
-    function field_list_afterDelete($info) {
+    function field_list_after_delete($info) {
         ClassRegistry::init('Field.FieldData')->deleteAll(
             array(
                 'FieldData.belongsTo' => $info['Model']->name,
@@ -77,7 +77,7 @@ class FieldListHookBehavior extends ModelBehavior {
         return true;
     }
 
-    public function field_list_afterDeleteInstance($FieldModel) {
+    public function field_list_after_delete_instance($FieldModel) {
         ClassRegistry::init('Field.FieldData')->deleteAll(
             array(
                 'FieldData.field_id' => $FieldModel->data['Field']['id']

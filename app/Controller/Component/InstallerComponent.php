@@ -763,12 +763,12 @@ class InstallerComponent extends Component {
  * @return boolean
  */
     public function checkDependency($plugin = null) {
-        $Plugin = !is_null($plugin) && isset($plugin['yaml']) ? $plugin : Configure::read('Modules.' . Inflector::underscore($plugin));
+        $Plugin = !is_null($plugin) && isset($plugin['yaml']) ? $plugin : Configure::read('Modules.' . Inflector::camelize($plugin));
 
         if (isset($Plugin['yaml']['dependencies']) && is_array($Plugin['yaml']['dependencies'])) {
             foreach ($Plugin['yaml']['dependencies'] as $p) {
                 $check = false;
-                $check = Configure::read('Modules.' . Inflector::underscore($p));
+                $check = Configure::read('Modules.' . Inflector::camelize($p));
 
                 if (!$check) {
                     return false;

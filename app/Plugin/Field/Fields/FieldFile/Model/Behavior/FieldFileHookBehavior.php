@@ -1,11 +1,11 @@
 <?php
 class FieldFileHookBehavior extends ModelBehavior {
 
-    public function field_file_beforeSave($info) {
+    public function field_file_before_save($info) {
         return true;
     }
 
-    public function field_file_beforeSaveInstance(&$Model) {
+    public function field_file_before_save_instance(&$Model) {
         // new instance, then merge default settings
         if (!isset($Model->data['Field']['id']) || empty($Model->data['Field']['id'])) {
             $__default = array(
@@ -51,7 +51,7 @@ class FieldFileHookBehavior extends ModelBehavior {
         return true;
     }
 
-    public function field_file_afterSave($info) {
+    public function field_file_after_save($info) {
         if (empty($info)) {
             return;
         }
@@ -104,7 +104,7 @@ class FieldFileHookBehavior extends ModelBehavior {
         return true;
     }
 
-    public function field_file_afterFind(&$data) {
+    public function field_file_after_find(&$data) {
         $data['field']['FieldData'] = ClassRegistry::init('Field.FieldData')->find('first',
             array(
                 'conditions' => array(
@@ -126,7 +126,7 @@ class FieldFileHookBehavior extends ModelBehavior {
         return;
     }
 
-    public function field_file_beforeValidate($info) {
+    public function field_file_before_validate($info) {
         $FieldInstance = ClassRegistry::init('Field.Field')->findById($info['field_id']);
 
         if ($FieldInstance['Field']['required'] == 1) {
@@ -146,11 +146,11 @@ class FieldFileHookBehavior extends ModelBehavior {
         return true;
     }
 
-    public function field_file_beforeDelete($info) {
+    public function field_file_before_delete($info) {
         return true;
     }
 
-    public function field_file_afterDelete($info) {
+    public function field_file_after_delete($info) {
         ClassRegistry::init('Field.FieldData')->deleteAll(
             array(
                 'FieldData.belongsTo' => $info['Model']->name,
@@ -162,7 +162,7 @@ class FieldFileHookBehavior extends ModelBehavior {
         return true;
     }
 
-    public function field_file_afterDeleteInstance($FieldModel) {
+    public function field_file_after_delete_instance($FieldModel) {
         ClassRegistry::init('Field.FieldData')->deleteAll(
             array(
                 'FieldData.field_id' => $FieldModel->data['Field']['id']

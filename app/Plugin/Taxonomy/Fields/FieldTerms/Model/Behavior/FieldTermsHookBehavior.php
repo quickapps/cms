@@ -12,7 +12,7 @@ class FieldTermsHookBehavior extends ModelBehavior {
  * @param array $info Fieldable array data
  * @return boolean true always
  */
-    public function field_terms_beforeSave($info) {
+    public function field_terms_before_save($info) {
         if (isset($info['Model']->data['FieldData']['field_terms']) && $info['Model']->name == 'Node') {
             $info['Model']->bindModel(
                 array(
@@ -58,7 +58,7 @@ class FieldTermsHookBehavior extends ModelBehavior {
         return true;
     }
 
-    public function field_terms_afterSave($info) {
+    public function field_terms_after_save($info) {
         if (empty($info)) {
             return true;
         }
@@ -77,7 +77,7 @@ class FieldTermsHookBehavior extends ModelBehavior {
         return true;
     }
 
-    public function field_terms_afterFind(&$data) {
+    public function field_terms_after_find(&$data) {
         $data['field']['FieldData'] = ClassRegistry::init('Field.FieldData')->find('first',
             array(
                 'conditions' => array(
@@ -94,7 +94,7 @@ class FieldTermsHookBehavior extends ModelBehavior {
         return;
     }
 
-    public function field_terms_beforeValidate($info) {
+    public function field_terms_before_validate($info) {
         $FieldInstance = ClassRegistry::init('Field.Field')->findById($info['field_id']);
 
         if (isset($FieldInstance['Field']['settings']['max_values']) && $FieldInstance['Field']['settings']['max_values'] != 0) {
@@ -124,11 +124,11 @@ class FieldTermsHookBehavior extends ModelBehavior {
         return true;
     }
 
-    public function field_terms_beforeDelete($info) {
+    public function field_terms_before_delete($info) {
         return true;
     }
 
-    public function field_terms_afterDelete($info) {
+    public function field_terms_after_delete($info) {
         ClassRegistry::init('Field.FieldData')->deleteAll(
             array(
                 'FieldData.belongsTo' => $info['Model']->name,
@@ -140,7 +140,7 @@ class FieldTermsHookBehavior extends ModelBehavior {
         return true;
     }
 
-    public function field_terms_afterDeleteInstance($FieldModel) {
+    public function field_terms_after_delete_instance($FieldModel) {
         ClassRegistry::init('Field.FieldData')->deleteAll(
             array(
                 'FieldData.field_id' => $FieldModel->data['Field']['id']

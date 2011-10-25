@@ -216,7 +216,7 @@ class FieldableBehavior extends ModelBehavior {
                 foreach ($fields as $field_id => $info) {
                     $info['field_id'] = $field_id;
                     $info['Model'] =& $Model;
-                    $r[] = $Model->hook($this->_($field_module) . "_beforeSave", $info, array('collectReturn' => false));
+                    $r[] = $Model->hook("{$field_module}_beforeSave", $info, array('collectReturn' => false));
                 }
             }
         }
@@ -244,7 +244,7 @@ class FieldableBehavior extends ModelBehavior {
                     $info['Model'] =& $Model;
                     $info['created'] = $created;
 
-                    $Model->hook($this->_($field_module) . "_afterSave", $info);
+                    $Model->hook("{$field_module}_afterSave", $info);
                 }
             }
         }
@@ -295,7 +295,7 @@ class FieldableBehavior extends ModelBehavior {
             foreach ($fields as $field_id => $info) {
                 $info['field_id'] = $field_id;
                 $info['Model'] =& $Model;
-                $r[] = $Model->hook($this->_($field_module) . "_beforeValidate", $info, array('collectReturn' => false));
+                $r[] = $Model->hook("{$field_module}_beforeValidate", $info, array('collectReturn' => false));
             }
         }
 
@@ -344,7 +344,7 @@ class FieldableBehavior extends ModelBehavior {
                 $data['foreignKey'] = @$result[$Model->alias][$Model->primaryKey]; # Model unique ID
                 $data['result'] =& $result; # Instance of current Entity record being fetched
 
-                $Model->hook($this->_($field['field_module']) . "_afterFind", $data);
+                $Model->hook("{$field['field_module']}_afterFind", $data);
             }
         }
 
@@ -401,7 +401,7 @@ class FieldableBehavior extends ModelBehavior {
             )
         );
         $Field = ClassRegistry::init('Field.Field');
-        $before = $Model->hook($this->_($field_module) . "_beforeAttachFieldInstance", $newField, array('collectReturn' => false));
+        $before = $Model->hook("{$field_module}_beforeAttachFieldInstance", $newField, array('collectReturn' => false));
 
         if ($before === false) {
             return false;
@@ -410,7 +410,7 @@ class FieldableBehavior extends ModelBehavior {
         if ($Field->save($newField)) {
             $field = $Field->read();
 
-            $Model->hook($this->_($field_module) . "_afterAttachFieldInstance", $field);
+            $Model->hook("{$field_module}_afterAttachFieldInstance", $field);
 
             return $Field->id;
         }
@@ -435,7 +435,7 @@ class FieldableBehavior extends ModelBehavior {
             return false;
         }
 
-        $deleted = $Model->hook($this->_($field['Field']['field_module']) . "_deleteInstance", $field_id);
+        $deleted = $Model->hook("{$field['Field']['field_module']}_deleteInstance", $field_id);
 
         if ($deleted === false) {
             return false;
@@ -504,7 +504,7 @@ class FieldableBehavior extends ModelBehavior {
         foreach ($fields as $field) {
             $info['field_id'] = $field['Field']['id'];
             $info['Model'] =& $Model;
-            $r[] = $Model->hook($this->_($field['Field']['field_module']) . "_{$type}Delete", $info, array('collectReturn' => false));
+            $r[] = $Model->hook("{$field['Field']['field_module']}_{$type}Delete", $info, array('collectReturn' => false));
         }
 
         return !in_array(false, $r, true);
@@ -550,9 +550,5 @@ class FieldableBehavior extends ModelBehavior {
  */
     public function bindFields(&$Model) {
         $Model->fieldsNoFetch = false;
-    }
-    
-    private function _($str) {
-        return Inflector::underscore($str);
     }
 }

@@ -175,6 +175,7 @@ class AppController extends Controller {
  * @return mixed FALSE -or- result array
  */
     public function hook($hook, &$data = array(), $options = array()) {
+        $hook = Inflector::underscore($hook);
         return $this->Hook->hook($hook, $data, $options);
     }
 

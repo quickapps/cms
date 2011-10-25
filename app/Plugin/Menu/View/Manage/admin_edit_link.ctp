@@ -2,7 +2,7 @@
     <?php echo $this->Html->useTag('fieldsetstart', __t('Edit menu link')); ?>
         <?php echo $this->Form->input('link_title', array('required' => 'required', 'type' => 'text', 'label' => __t('Menu link title *'))); ?>
         <em><?php echo __t('The text to be used for this link in the menu.'); ?></em>
-        <?php if ($this->data['MenuLink']['module'] == 'menu'): ?>
+        <?php if ($this->data['MenuLink']['module'] == 'Menu'): ?>
             <?php echo $this->Form->input('router_path', array('required' => 'required', 'type' => 'text', 'label' => __t('Path *'))); ?>
             <em><?php echo __t("The path for this menu link. This can be an internal QuickApps path such as /d/my-post or an external URL such as http://quickapps.es. Enter '/' to link to the front page."); ?></em>
         <?php else: ?>

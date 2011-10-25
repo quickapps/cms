@@ -145,7 +145,7 @@ class ManageController extends BlockAppController {
                 }
             }
 
-            $data['Block']['module'] = 'block';
+            $data['Block']['module'] = 'Block';
             $data['Block']['locale'] = !empty($data['Block']['locale']) ? array_values($data['Block']['locale']) : array();
             $data['Block']['themes_cache'] = $this->__themesCache($data['BlockRegion']);
 

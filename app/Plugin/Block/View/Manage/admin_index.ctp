@@ -2,7 +2,7 @@
     $actions = array(
         "<a href='{url}/admin/block/manage/clone/{Block.id}{/url}' onClick=\"return confirm('" . __t('Duplicate this block?') . "');\">" . __t('clone') . "</a> | ",
         "<a href='{url}/admin/block/manage/edit/{Block.id}{/url}'>" . __t('configure') . "</a> | ",
-        "{php} return (('{Block.module}' == 'block' || {Block.clone_of} != 0) ? \"<a href='{url}/admin/block/manage/delete/{Block.id}{/url}' onclick='return confirm(\\\" " . __t('Delete selected block ?') . " \\\");'>" . __t('delete') . "</a> | \" : ''); {/php}",
+        "{php} return (('{Block.module}' == 'Block' || {Block.clone_of} != 0) ? \"<a href='{url}/admin/block/manage/delete/{Block.id}{/url}' onclick='return confirm(\\\" " . __t('Delete selected block ?') . " \\\");'>" . __t('delete') . "</a> | \" : ''); {/php}",
         "<a href='{url}/admin/block/manage/move/{Block.__block_region_id}/up{/url}'>" . __t('move up') . "</a> | ",
         "<a href='{url}/admin/block/manage/move/{Block.__block_region_id}/down{/url}'>" . __t('move down') . "</a>"
     );
@@ -204,7 +204,7 @@
 
         foreach ($unassigned as $key => $b) {
             if (
-                strpos($b['Block']['module'], 'theme_') !== false && 
+                strpos($b['Block']['module'], 'Theme') === 0 && 
                 !in_array($b['Block']['module'], 
                     array(
                         'Theme' . Configure::read('Variable.admin_theme'), 

@@ -40,7 +40,7 @@ class TypesController extends NodeAppController {
         if (!empty($this->data['NodeType'])) {
             $data = $this->data;
             $data['NodeType']['status'] = 1;
-            $data['NodeType']['module'] = $data['NodeType']['base'] = 'node';
+            $data['NodeType']['module'] = $data['NodeType']['base'] = 'Node';
 
             if ($this->NodeType->save($data)) {
                 $this->redirect('/admin/node/types/fields/' . $this->NodeType->id);

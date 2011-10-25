@@ -185,6 +185,7 @@ class HookComponent extends Component {
  * @return mixed Either the last result or all results if collectReturn is on. Or null in case of no response
  */
     public function hook($event, &$data = array(), $options = array()) {
+        $event = Inflector::underscore($event);
         return $this->__dispatchEvent($event, $data, $options);
     }
 

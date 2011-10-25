@@ -11,6 +11,19 @@
  */
 class TaxonomyHookHelper extends AppHelper {
 
+    public function beforeLayout($layoutFile) {
+        $show_on = (
+            Router::getParam('admin') &&
+            $this->request->params['plugin'] == 'taxonomy' &&
+            $this->request->params['controller'] == 'vocabularies' &&
+            $this->request->params['action'] == 'admin_index'
+        );
+
+        $this->_View->Layout->blockPush( array('body' => $this->_View->element('toolbar') . '<!-- TaxonomyHookHelper -->' ), 'toolbar', $show_on);
+
+        return true;
+    }
+
     public function taxonomy_vocabularies($block) {
         $block['Block']['settings'] = Set::merge(
             array(
@@ -111,18 +124,5 @@ class TaxonomyHookHelper extends AppHelper {
 
     public function taxonomy_vocabularies_settings($data) {
         return $this->_View->element('taxonomy_vocabularies_settings', array('block' => $data), array('plugin' => 'Taxonomy'));
-    }
-
-    public function beforeLayout($layoutFile) {
-        $show_on = (
-            Router::getParam('admin') &&
-            $this->request->params['plugin'] == 'taxonomy' &&
-            $this->request->params['controller'] == 'vocabularies' &&
-            $this->request->params['action'] == 'admin_index'
-        );
-
-        $this->_View->Layout->blockPush( array('body' => $this->_View->element('toolbar') . '<!-- TaxonomyHookHelper -->' ), 'toolbar', $show_on);
-
-        return true;
     }
 }

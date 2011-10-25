@@ -340,7 +340,7 @@ class LayoutHelper extends AppHelper {
     public function renderField($field) {
         return
             "\n<div class=\"field-container {$field['name']}\">\n" .
-                $this->Layout->hook(Inflector::underscore($field['field_module']) . "_view", $field, array('collectReturn' => false)) .
+                $this->Layout->hook("{$field['field_module']}_view", $field, array('collectReturn' => false)) .
             "\n</div>\n";
     }
 
@@ -845,7 +845,7 @@ class LayoutHelper extends AppHelper {
         } else {
             // module block
             // module hook must return formated array block
-            $Block = $this->hook(Inflector::underscore($block['Block']['module']) . "_{$block['Block']['delta']}", $block, array('collectReturn' => false));
+            $Block = $this->hook("{$block['Block']['module']}_{$block['Block']['delta']}", $block, array('collectReturn' => false));
 
             if (empty($Block)) {
                 return false;

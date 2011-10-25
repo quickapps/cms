@@ -32,7 +32,7 @@ class Menu extends MenuAppModel {
             'className' => 'Blocks.Block',
             'foreignKey' => 'id',
             'associationForeignKey' => 'delta',
-            'conditions' => array('Block.module' => 'menu')
+            'conditions' => array('Block.module' => 'Menu')
         )
     );
 
@@ -41,7 +41,7 @@ class Menu extends MenuAppModel {
         $this->Block->deleteAll(
             array(
                 'Block.delta' => $this->id,
-                'Block.module' => 'menu'
+                'Block.module' => 'Menu'
             )
         );
 
@@ -83,7 +83,7 @@ class Menu extends MenuAppModel {
 
             // Create block
             $bdata['Block'] = array(
-                'module' => 'menu',
+                'module' => 'Menu',
                 'delta' => $this->data['Menu']['id'],
                 'themes_cache' => '',
                 'ordering' => 0,
