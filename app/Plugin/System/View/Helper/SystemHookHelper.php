@@ -32,8 +32,17 @@ class SystemHookHelper extends AppHelper {
             'title' => __t('Recent Content'),
             'body' => $this->_View->element(
                 'system_recent_content',
-                array('block' => $block, 'nodes' => $Node->find('all', array('limit' => 10, 'order' => array('Node.created' => 'DESC'))))),
-                array('plugin' => 'system')
+                array(
+                    'block' => $block, 
+                    'nodes' => $Node->find('all', 
+                        array(
+                            'limit' => Configure::read('Variable.rows_per_page'), 
+                            'order' => array('Node.created' => 'DESC')
+                        )
+                    )
+                ),
+                array('plugin' => 'System')
+            )
         );
 
         return $Block;
