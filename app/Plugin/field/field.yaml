@@ -1,5 +1,0 @@
-name: Field
-description: Field API to add fields to entities like nodes and users
-category: Core
-version: 1.0
-core: 1.x
