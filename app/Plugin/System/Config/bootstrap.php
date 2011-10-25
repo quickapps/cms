@@ -1,0 +1,14 @@
+<?php
+Configure::write('coreModules',
+    array(
+        'Field',
+        'Block',
+        'Menu',
+        'Node',
+        'System',
+        'Taxonomy',
+        'User',
+        'Locale',
+        'Comment'
+    )
+);

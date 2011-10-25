@@ -1,0 +1,18 @@
+info:
+    name: Admin Default
+    description: Default backend theme for QuickApps
+    version: 1.0
+    author: Christopher Castro <y2k2000@gmail.com>
+
+stylesheets:
+    all: [reset.css, styles.css]
+
+regions:
+    management-menu: Management menu
+    toolbar: Toolbar
+    help: Help
+    footer: Footer
+    dashboard_sidebar: Dashboard Sidebar
+    dashboard_main: Dashboard Main
+
+layout: default

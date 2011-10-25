@@ -1,0 +1,1 @@
+<?php echo $this->Html->image('/user/img/allow-' . $allowed . '.gif'); ?>

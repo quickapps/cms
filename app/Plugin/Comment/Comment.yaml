@@ -1,0 +1,5 @@
+name: Comment
+description: Allows users to comment on and discuss published content.
+category: Core
+version: 1.0
+core: 1.x

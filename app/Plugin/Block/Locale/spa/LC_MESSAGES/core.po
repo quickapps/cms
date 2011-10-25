@@ -1,0 +1,147 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-01-01 00:00+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Christopher Castro <chris@quickapps.es>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Country: SPAIN\n"
+"X-Poedit-KeywordsList: __t;__\n"
+"X-Poedit-Basepath: ../../../\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid "New Block"
+msgstr "Nuevo Bloque"
+
+msgid "Save block"
+msgstr "Guardar bloque"
+
+msgid "Unassigned"
+msgstr "No Asignados"
+
+msgid "Blocks"
+msgstr "Bloques"
+
+msgid "clone"
+msgstr "clonar"
+
+msgid "configure"
+msgstr "configurar"
+
+msgid "Block has been saved"
+msgstr "Bloque ha sido guardado"
+
+msgid "delete"
+msgstr "eliminar"
+
+msgid "move up"
+msgstr "mover arriba"
+
+msgid "move down"
+msgstr "mover abajo"
+
+msgid "Block"
+msgstr "Bloque"
+
+msgid "Region"
+msgstr "Región"
+
+msgid "Actions"
+msgstr "Acciones"
+
+msgid "Duplicate this block?"
+msgstr "Duplicar este bloque?"
+
+msgid "Active"
+msgstr "Activo"
+
+msgid "Block title"
+msgstr "Título de bloque"
+
+msgid "The title of the block as shown to the user."
+msgstr "Título de bloque que se mostrara al usuario."
+
+msgid "Block description *"
+msgstr "Descripción de bloque *"
+
+msgid "A brief description of your block. Used on the Blocks administration page."
+msgstr "Breve descripción del bloque. Utilizado en la sección de gestión de bloques."
+
+msgid "Block body *"
+msgstr "Cuerpo de bloque *"
+
+msgid "Language"
+msgstr "Idioma"
+
+msgid "Translations"
+msgstr "Traducciones"
+
+msgid "Show this block for these languages"
+msgstr "Mostrar este bloque para los siguientes idiomas"
+
+msgid "If no language is selected, block will show regardless of language."
+msgstr "Si ningún idioma se indica, el bloque se mostrara independientemente del idioma."
+
+msgid "Visibility settings"
+msgstr "Opciones de visualización"
+
+msgid "Theme Region"
+msgstr "Región de Theme"
+
+msgid "Specify in which themes and regions this block is displayed."
+msgstr "Indica en que theme y región este bloque se debe mostrar."
+
+msgid "Pages"
+msgstr "Páginas"
+
+msgid "All pages except those listed"
+msgstr "En todas las páginas excepto en las listadas"
+
+msgid "Only the listed pages"
+msgstr "Sólo en las páginas listadas"
+
+msgid "Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are blog for the blog page and blog/* for every blog entry. '/' is the front page."
+msgstr "Indique páginas usando su ruta. Ingrese una ruta por línea. El caracter '*' es un comodín. Ejemplos de rutas son blog para la página de blog y /blog/* para cualquier entrada de blog. '/' es la página principal."
+
+msgid "Roles"
+msgstr "Roles"
+
+msgid "Show block for specific roles"
+msgstr "Mostrar bloque para los roles indicados"
+
+msgid "Show this block only for the selected role(s). If you select no roles, the block will be visible to all users."
+msgstr "Muestra este bloque solo para el(los) rol(es) seleccionado(s). Si no se indica(n) rol(es), el bloque será visible para todos los usuarios."
+
+msgid "Advanced Options"
+msgstr "Opciones Avanzadas"
+
+msgid "Block class suffix"
+msgstr "Sufijo de clase para bloque"
+
+msgid "A suffix to be applied to the CSS class of the block. This allows for individual block styling."
+msgstr "Un sufijo para aplicar a las clases CSS del bloque. Esto permite estilizar individualmente el bloque."
+
+msgid "Editing Block"
+msgstr "Editando Bloque"
+
+msgid "Add new block"
+msgstr "Agregar nuevo bloque"
+
+msgid "Pages on which this PHP code returns TRUE (experts only)"
+msgstr "Páginas en las que este código PHP retorne TRUE (sólo expertos)"
+
+msgid "If the PHP option is chosen, enter PHP code between &lt;?php ?&gt;. Note that executing incorrect PHP code can break your QuickApps site."
+msgstr "Si se elige la opcion PHP, ingrese el código PHP entre &lt;?php ?&gt;. La ejecución de código PHP incorrecto puede romper su sitio QuickApps."
+
+msgid "Block moved %s!"
+msgstr "Bloque movido %s!"
+
+msgid "up"
+msgstr "arriba"
+
+msgid "down"
+msgstr "abajo"
