@@ -91,7 +91,7 @@ class FieldTextHookHelper extends AppHelper {
     }
 
     private function __filterText($text) {
-        return $this->_View->Layout->removeHookTags(html_entity_decode(strip_tags($text)));
+        return $this->_View->Layout->removeHookTags(strip_tags($text));
     }
 
     // Convert url to <a> HTML tag, also ignore URLs in existing <a> tags        
