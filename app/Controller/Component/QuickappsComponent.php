@@ -455,11 +455,7 @@ jQuery.extend(QuickApps.settings, {
  * @param string $region theme region where to push
  * @return boolean
  */
-    public function blockPush($block = array(), $region = null, $show_on = true) {
-        if (!$show_on) {
-            return;
-        }
-
+    public function blockPush($block = array(), $region = null) {
         $_block = array(
             'title' => '',
             'pages' => '',
