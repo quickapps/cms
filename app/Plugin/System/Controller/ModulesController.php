@@ -15,7 +15,7 @@ class ModulesController extends SystemAppController {
     public $components = array('Installer');
 
     public function admin_index() {
-        $results = $this->Module->find('all');
+
     }
 
     public function admin_settings($module) {
@@ -47,33 +47,42 @@ class ModulesController extends SystemAppController {
     }
 
     public function admin_toggle($plugin) {
-        if (!in_array(Inflector::camelize($plugin), Configure::read('coreModules'))) {
+        $plugin = Inflector::camelize($plugin);
+
+        if (!in_array($plugin, Configure::read('coreModules'))) {
             $to = Configure::read("Modules.{$plugin}.status") == 1 ? 0 : 1;
             $this->Install = $this->Components->load(Inflector::camelize($plugin) . '.Install');
 
-            if ($to == 1) {
+            if ($to == 1) { # enable
                 if (method_exists($this->Install, 'beforeEnable')) {
                     $this->Install->beforeEnable();
                 }
-            } else {
+            } else { # disable
                 if (method_exists($this->Install, 'beforeDisable')) {
                     $this->Install->beforeDesactivate();
                 }
+
+                $dep = $this->Installer->checkReverseDependency($plugin);
+
+                if (count($dep)) {
+                    $req_by = implode('<br />', Set::extract('{n}.name', $dep));
+                    $this->flashMsg(__t('This module can not be disabled, because it is required by: %s', $req_by));
+                }
             }
 
-            # turn off related blocks
+            # turn on/off related blocks
             ClassRegistry::init('Block.Block')->updateAll(
                 array('Block.status' => $to),
                 array('Block.status <>' => 0, 'Block.module' => $plugin)
             );
 
-            # turn off related menu links
+            # turn on/off related menu links
             ClassRegistry::init('Menu.MenuLink')->updateAll(
                 array('Menu.status' => $to),
                 array('MenuLink.status <>' => 0, 'MenuLink.module' => $plugin)
             );
 
-            # turn off module
+            # turn on/off module
             $this->Module->updateAll(
                 array('Module.status' => $to),
                 array('Module.name' => $plugin)
