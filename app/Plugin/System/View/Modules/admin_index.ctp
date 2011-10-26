@@ -31,8 +31,8 @@
         <tr>
             <td width="80%" align="left">
                 <b><?php echo $data['yaml']['name']; ?></b> <?php echo $data['yaml']['version']; ?><br/>
-                <em><?php echo __d($name, $data['yaml']['description']); ?></em><br/>
-                <?php echo isset($data['yaml']['dependencies']) ? __t('dependencies:') . ' ' . implode(', ', $module['yaml']['dependencies']) : ''; ?>
+                <em><?php echo __d(Inflector::underscore($name), $data['yaml']['description']); ?></em><br/>
+                <?php echo isset($data['yaml']['dependencies']) ?  __t('Dependencies') . ': ' . implode(', ', $data['yaml']['dependencies']) : ''; ?>
             </td>
 
             <td align="right">

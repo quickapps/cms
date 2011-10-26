@@ -21,22 +21,26 @@
 <table width="100%">
     <?php
     foreach ($themes as $name => $data):
-        if (strpos($name, 'Admin') !== false )
+        if (strpos($name, 'Admin') === 0) {
             continue;
+        }
     ?>
         <tr>
             <td width="210">
                 <img src=" <?php echo $this->Html->url('/admin/system/themes/theme_tn/' . $name) ?> " border="0" width="202" height="152" style="border:2px solid #666;" />
             </td>
+
             <td valign="top">
                 <p>
                     <b><?php echo $data['info']['name']; ?></b><br/>
                     <?php echo $data['info']['description']; ?>
                 </p>
+
                 <p>
                     <?php echo __t('<b>version:</b> %s', $data['info']['version']); ?><br/>
                     <em><?php echo __t('author: %s', htmlspecialchars($data['info']['author'])); ?></em>
                 </p>
+
                 <?php if (Configure::read('Variable.site_theme') != $name) : ?>
                     <a href="<?php echo $this->Html->url('/admin/system/themes/set_theme/' . $name); ?>" style="float:right;" onclick="return confirm('<?php echo __t('Change site theme, are you sure ?'); ?>');"><?php echo __t('Set as default'); ?></a>
                     <?php if (!in_array($name, array('Default', 'AdminDefault'))): ?>
@@ -57,8 +61,9 @@
     <table width="100%">
     <?php
     foreach ($themes as $name => $data):
-        if (strpos($name, 'Admin') === false )
+        if (strpos($name, 'Admin') !== 0) {
             continue;
+        }
     ?>
         <tr>
             <td width="210">
@@ -69,10 +74,12 @@
                     <b><?php echo $data['info']['name']; ?></b><br/>
                     <?php echo $data['info']['description']; ?>
                 </p>
+
                 <p>
                     <?php echo __t('<b>version:</b> %s', $data['info']['version']); ?><br/>
                     <em><?php echo __t('author: %s', htmlspecialchars($data['info']['author'])); ?></em>
                 </p>
+
                 <?php if (Configure::read('Variable.admin_theme') != $name) : ?>
                     <a href="<?php echo $this->Html->url('/admin/system/themes/set_theme/' . $name); ?>" style="float:right;" onclick="return confirm('<?php echo __t('Change administrator theme, are you sure ?\n'); ?>');"><?php echo __t('Set as default'); ?> </a>
                 <?php else: ?>
@@ -93,6 +100,7 @@
         }
         return true;
     }
+
     $("#toggle-install_fieldset").click(function () {
         $("#install_fieldset").toggle('fast', 'linear');
     });

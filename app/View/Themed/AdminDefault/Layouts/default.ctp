@@ -52,8 +52,8 @@
             <div id="toolbar-menu" class="clearfix" >
                 <?php echo $this->Layout->blocks('management-menu'); ?>
                 <div id="right-btns">
-                    <?php echo $this->Html->link(__d('theme_admin_default', 'Log outt'), '/user/logout'); ?>
-                    <?php echo $this->Html->link(__d('ThemeAdminDefault', 'View site'), '/',  array('target' => '_blank')); ?>
+                    <?php echo $this->Html->link(__d('theme_admin_default', 'Log out'), '/user/logout'); ?>
+                    <?php echo $this->Html->link(__d('theme_admin_default', 'View site'), '/',  array('target' => '_blank')); ?>
                 </div>
             </div>
 
