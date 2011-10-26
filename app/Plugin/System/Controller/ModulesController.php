@@ -78,7 +78,7 @@ class ModulesController extends SystemAppController {
 
             # turn on/off related menu links
             ClassRegistry::init('Menu.MenuLink')->updateAll(
-                array('Menu.status' => $to),
+                array('MenuLink.status' => $to),
                 array('MenuLink.status <>' => 0, 'MenuLink.module' => $plugin)
             );
 
