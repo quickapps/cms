@@ -1,0 +1,250 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: QuickApps v1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-01-01 00:00+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: QuickApps.fr <contact@quickapps.fr>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-KeywordsList: __t;__\n"
+"X-Poedit-Basepath: ../../../\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid "List"
+msgstr "Liste"
+
+msgid "Roles"
+msgstr "Rôles"
+
+msgid "Permissions"
+msgstr "Permissions"
+
+msgid "Filter Options"
+msgstr "Options de filtrage"
+
+msgid "Status"
+msgstr "Statut"
+
+msgid "active"
+msgstr "actif"
+
+msgid "blocked"
+msgstr "bloqué"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Filter"
+msgstr "Filtre"
+
+msgid "Update Options"
+msgstr "Options de mise à jour"
+
+msgid "Block selected users"
+msgstr "Bloquer les utilisateurs sélectionnés"
+
+msgid "Unblock selected users"
+msgstr "Débloquer les utilisateurs sélectionnés"
+
+msgid "Delete selected users"
+msgstr "Supprimer les utilisateurs sélectionnés"
+
+msgid "Update"
+msgstr "Mettre à jour"
+
+msgid "User Name"
+msgstr "Nom d'utilisateur"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "edit"
+msgstr "éditer"
+
+msgid "delete"
+msgstr "supprimer"
+
+msgid "Log out successful"
+msgstr "Déconnexion effectuée avec succès"
+
+msgid "Log in"
+msgstr "Connexion"
+
+msgid "User Permissions"
+msgstr "Permissions utilisateur"
+
+msgid "User Roles"
+msgstr "Rôles des utilisateurs"
+
+msgid "Manage User Fields"
+msgstr "Gérer les champs des utilisateurs"
+
+msgid "Field settings"
+msgstr "Options des champs"
+
+msgid "Fields"
+msgstr "Champs"
+
+msgid "Label"
+msgstr "Etiquette"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Required"
+msgstr "Requis"
+
+msgid "Add field"
+msgstr "Ajouter un champ"
+
+msgid "Add"
+msgstr "Ajouter"
+
+msgid "user_account"
+msgstr "compte utilisateur"
+
+msgid "Who's New"
+msgstr "Nouveaux utilisateurs"
+
+msgid "Add new user"
+msgstr "Ajouter un nouvel utilisateur"
+
+msgid "Create new account"
+msgstr "Créer un nouveau compte"
+
+msgid "Real name *"
+msgstr "Nom réel *"
+
+msgid "Your real name, it is used only for identification purposes. i.e: John Locke"
+msgstr "Votre véritable nom, utilisé exclusivement à des fins d'identifications. exemple: John Locke"
+
+msgid "User name *"
+msgstr "Nom d'utilisateur *"
+
+msgid "Usernames cannot be changed"
+msgstr "Les noms d'utilisateurs ne peuvent pas être changés"
+
+msgid "Nick used to login. Must be unique and alphanumeric."
+msgstr "Surnom utilisé pour se connecter. Doit être unique et contenir uniquement des caractères alphanumériques"
+
+msgid "Full url to avatar image file. i.e: http://www.some-domain.com/my-avatar.jpg"
+msgstr "Chemin d'accès de l'image de profil. exemple: http://www.domain.com/my-avatar.jpg"
+
+msgid "Language"
+msgstr "LAngue"
+
+msgid "Time zone"
+msgstr "Fuseau horaire"
+
+msgid "Password"
+msgstr "Mot de passe"
+
+msgid "New password"
+msgstr "Nouveau mot de passe"
+
+msgid "If you would like to change the password type a new one. Otherwise leave this blank."
+msgstr "Si vous souhaitez changer votre mot de passe, tapez en un nouveau. Sinon laissez ce champ vide."
+
+msgid "Confirm password"
+msgstr "Confirmer le mot de passe"
+
+msgid "User roles"
+msgstr "Rôles des utilisateurs"
+
+msgid "Update user"
+msgstr "Mettre à jour l'utilisateur"
+
+msgid "Update"
+msgstr "Actualiser"
+
+msgid "Request new password"
+msgstr "Obtenir un nouveau mot de passe"
+
+msgid "Sorry, %s is not recognized as e-mail address."
+msgstr "Désolé, %s ne semble pas être une adresse email valide"
+
+msgid "invalid email"
+msgstr "email invalide"
+
+msgid "Further instructions have been sent to your e-mail address."
+msgstr "De plus amples instructions vous ont été envoyées par email à l'adresse indiquée."
+
+msgid "E-mail new password"
+msgstr "M'envoyer un nouveau mot de passe par email"
+
+msgid "Mailing notifications"
+msgstr "Notifications par mail"
+
+msgid "Welcome"
+msgstr "Bienvenue"
+
+msgid "User activation"
+msgstr "Activation de l'utilisateur"
+
+msgid "Notify user when account is activated."
+msgstr "Envoyer une notification à l'utilisateur quand son compte est activé"
+
+msgid "Account blocked"
+msgstr "Compte bloqué"
+
+msgid "Notify user when account is blocked."
+msgstr "Envoyer une notification à l'utilisateur quand son compte a été bloqué"
+
+msgid "Password recovery"
+msgstr "Recupération du mot de passe"
+
+msgid "Account canceled"
+msgstr "Compte supprimé"
+
+msgid "Notify user when account is canceled."
+msgstr "Envoyer une notification à l'utilisateur quand son compte a été annulé."
+
+msgid "Save All"
+msgstr "Enregistrer tout "
+
+msgid "Subject"
+msgstr "Sujet"
+
+msgid "Body"
+msgstr "Corps"
+
+msgid "Add New Role"
+msgstr "Ajouter un nouveau rôle"
+
+msgid "Manage Fields"
+msgstr "Gérer les champs"
+
+msgid "Manage Display"
+msgstr "Gérer l'affichage"
+
+msgid "There are no fields to display"
+msgstr "Il n'y a aucun champ à afficher"
+
+msgid "User Display Settings"
+msgstr "Option d'affichage de l'utilisateur"
+
+msgid "Add User"
+msgstr "Ajouter un utilisateur"
+
+msgid "Active"
+msgstr "Actif"
+
+msgid "Create user"
+msgstr "Créer un utilisateur"
+
+msgid "Public email"
+msgstr "E-mail public"
+
+msgid "Editing User"
+msgstr "Edition de l'Utilisateur"
+
+msgid "Editing user"
+msgstr "Edition de l'utilisateur"
+

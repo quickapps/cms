@@ -1,0 +1,145 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: QuickApps v1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-01-01 00:00+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: QuickApps.fr <contact@quickapps.fr>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-KeywordsList: __t;__\n"
+"X-Poedit-Basepath: ../../../\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid "New Menu"
+msgstr "Nouveau menu"
+
+msgid "Add menu"
+msgstr "Ajouter un menu"
+
+msgid "Save & add links"
+msgstr "Enregistrer et ajouter des liens"
+
+msgid "Title"
+msgstr "Titre"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "edit"
+msgstr "éditer"
+
+msgid "delete"
+msgstr "supprimer"
+
+msgid "links"
+msgstr "liens"
+
+msgid "add link"
+msgstr "ajouter un lien"
+
+msgid "Menus"
+msgstr "Menus"
+
+msgid "Editing menu"
+msgstr "Edition du menu"
+
+msgid "Title *"
+msgstr "Titre *"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Save"
+msgstr "Enregistrer"
+
+msgid "Editing Menu Links"
+msgstr "Edition des Liens de Menu"
+
+msgid "Editing menu links"
+msgstr "Edition des liens de menu"
+
+msgid "Links"
+msgstr "Liens"
+
+msgid "Save changes"
+msgstr "Enregistrer les modifications"
+
+msgid "Editing Link"
+msgstr "Edition du Lien"
+
+msgid "Editing link"
+msgstr "Edition du lien"
+
+msgid "Edit menu link"
+msgstr "Edition du lien de menu"
+
+msgid "Menu link title *"
+msgstr "Titre du lien de menu *"
+
+msgid "The text to be used for this link in the menu."
+msgstr "Texte devant être utilisé pour ce lien dans le menu"
+
+msgid "Path *"
+msgstr "Chemin *"
+
+msgid "The path for this menu link. This can be an internal QuickApps path such as /d/my-post or an external URL such as http://quickapps.es. Enter '/' to link to the front page."
+msgstr "Le chemin pour ce lien de menu. Cela peut être un chemin QuickApps interne tel que /d/mi-node-slug ou un lien externe tel que http://quickapps.es. Saisissez  '/' pour faire un lien vers la page d'accueil."
+
+msgid "Shown when hovering over the menu link."
+msgstr "S'affiche lorsque le lien de menu est survolé avec la souris"
+
+msgid "Target window"
+msgstr "Fenêtre cible"
+
+msgid "Same window"
+msgstr "Même fenêtre"
+
+msgid "New window"
+msgstr "Nouvelle fenêtre"
+
+msgid "Target browser window when the link is clicked."
+msgstr "Fenêtre cible du navigateur lorsque l'on clique sur le lien"
+
+msgid "Show as expanded"
+msgstr "Montrer étendu"
+
+msgid "If selected and this menu link has children, the menu will always appear expanded."
+msgstr "Si ceci est sélectionné et que ce lien de menu a des enfants, le menu apparaîtra toujours déroulé"
+
+msgid "Enabled"
+msgstr "Activé"
+
+msgid "Menu links that are not enabled will not be listed in any menu."
+msgstr "Les liens de menu qui ne sont pas activés ne seront listés par aucun menu."
+
+msgid "Go to <a href="%s">menu links</a> list to reparent this link."
+msgstr "Allez à la liste <a href=\"%s\">liens de menu</a> pour changer le parent de ce lien."
+
+msgid "Parent link"
+msgstr "Lien parent"
+
+msgid "Add menu link"
+msgstr "Ajouter un lien de menu"
+
+msgid "Add Menu Link"
+msgstr "Ajouter un Lien de Menu"
+
+msgid "Delete selected link ?"
+msgstr "Supprimer le lien sélectionné ?"
+
+msgid "Show as selected:"
+msgstr "Montrer comme sélectionné :"
+
+msgid "When following PHP code returns TRUE (experts only)"
+msgstr "Quand le code PHP suivant renvoie TRUE (experts uniquement)"
+
+msgid "On URL matching (regular expression)"
+msgstr "Lorsque les URL correspondent (expression régulière)"
+
+msgid "If the PHP option is chosen, enter PHP code between &lt;?php ?&gt;. Note that executing incorrect PHP code can break your QuickApps site."
+msgstr "Si l'option PHP est sélectionnée, entrez le code PHP entre &lt;?php ?&gt;. Veuillez noter que l'exécution d'un code PHP invalide peut complètement bloquer votre site QuickApps."
+

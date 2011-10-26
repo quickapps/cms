@@ -1,0 +1,181 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: QuickApps v1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-01-01 00:00+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: QuickApps.fr <contact@quickapps.fr>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-KeywordsList: __t;__\n"
+"X-Poedit-Basepath: ../../../\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid "Languages"
+msgstr "Langues"
+
+msgid "List"
+msgstr "Liste"
+
+msgid "Translatable entries"
+msgstr "Entrées traductibles"
+
+msgid "Translatable Entries"
+msgstr "Entrées Traductibles"
+
+msgid "Translation packages"
+msgstr "Packages de traduction"
+
+msgid "Add New Language"
+msgstr "Ajouter une nouvelle langue"
+
+msgid "Update Options"
+msgstr "Options de mise à jour"
+
+msgid "Language name"
+msgstr "Nom de la langue"
+
+msgid "Language code *"
+msgstr "Code de la langue  *"
+
+msgid "<a href="%s" target="_blank">ISO 639-3</a> compliant language identifier."
+msgstr "ID de la langue conforme <a href=\"%s\" target=\"_blank\">ISO 639-3</a>."
+
+msgid "Language name in English *"
+msgstr "Nom de la langue en anglais"
+
+msgid "Native language name *"
+msgstr "Nom d'origine de cette langue *"
+
+msgid "Name of the language in the language being added."
+msgstr "Nom de la langue ajoutée dans la langue."
+
+msgid "Direction *"
+msgstr "Direction *"
+
+msgid "Left to Right"
+msgstr "De gauche à droite"
+
+msgid "Right to Left"
+msgstr "De droite à gauche"
+
+msgid "Direction that text in this language is presented."
+msgstr "Sens dans lequel le texte sera présenté dans cette langue."
+
+msgid "Add"
+msgstr "Ajouter"
+
+msgid "English name"
+msgstr "Nom en anglais"
+
+msgid "Native name"
+msgstr "Nom d'origine"
+
+msgid "Code"
+msgstr "Code"
+
+msgid "Direction"
+msgstr "Direction"
+
+msgid "Status"
+msgstr "Statut"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "edit"
+msgstr "éditer"
+
+msgid "delete"
+msgstr "supprimer"
+
+msgid "set as default"
+msgstr "sélectionné par défaut"
+
+msgid "Default language"
+msgstr "Langue par défaut"
+
+msgid "Save language"
+msgstr "Enregistrer la langue"
+
+msgid "Update"
+msgstr "Mettre à jour"
+
+msgid "Enable selected languages"
+msgstr "Activer les langues sélectionnées"
+
+msgid "Disable selected languages"
+msgstr "Desactiver les langues sélectionnées"
+
+msgid "Delete selected languages"
+msgstr "Supprimer les langues sélectionnées"
+
+msgid "Flag icon"
+msgstr "Icône drapeau"
+
+msgid "Editing language"
+msgstr "Modification de la langue"
+
+msgid "Custom flag icon"
+msgstr "Personnaliser l'icône drapeau"
+
+msgid "Optional URL of your language flag icon, if your language flag isn't in the above list."
+msgstr "URL de votre icône drapeau (facultative), au cas ou le drapeau de votre langue n'est pas dans la liste ci-dessous."
+
+msgid "There are no translations to display"
+msgstr "Il n'y a aucune traduction à afficher"
+
+msgid "Add translatable entry"
+msgstr "Ajouter une entrée traductible"
+
+msgid "Adding translatable entry"
+msgstr "Ajout d'une entrée traductible"
+
+msgid "Original text"
+msgstr "Texte original"
+
+msgid "Translate"
+msgstr "Traduire"
+
+msgid "Upload Translation Package"
+msgstr "Mettre à jour le package de traduction"
+
+msgid "Package (.po)"
+msgstr "Package (.po)"
+
+msgid "Language"
+msgstr "Langue"
+
+msgid "Upload"
+msgstr "Mettre à jour"
+
+msgid "download"
+msgstr "télécharger"
+
+msgid "uninstall"
+msgstr "désinstaller"
+
+msgid "Module: %s"
+msgstr "Module: %s"
+
+msgid "Theme: %s"
+msgstr "Thème: %s"
+
+msgid "Are you sure ?"
+msgstr "Êtes-vous sûr ?"
+
+msgid "Translation Packages"
+msgstr "Packages de traduction"
+
+msgid "Text"
+msgstr "Texte"
+
+msgid "Editing translation entry"
+msgstr "Edition de la traduction de l'entrée"
+
+msgid "Custom Language"
+msgstr "Personnaliser la langue"
+

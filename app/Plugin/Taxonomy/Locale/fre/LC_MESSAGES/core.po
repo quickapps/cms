@@ -1,0 +1,88 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: QuickApps v1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-01-01 00:00+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: QuickApps.fr <contact@quickapps.fr>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-KeywordsList: __t;__\n"
+"X-Poedit-Basepath: ../../../\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid "Taxonomy"
+msgstr "Taxonomie"
+
+msgid "Vocabularies"
+msgstr "Vocabulaires"
+
+msgid "There are no vocabularies to display"
+msgstr "Il n'y a aucun vocabulaire à afficher"
+
+msgid "New Vocabulary"
+msgstr "Nouveau vocabulaire"
+
+msgid "Add Vocabulary"
+msgstr "Ajouter un vocabulaire"
+
+msgid "Title *"
+msgstr "Titre *"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Save vocabulary"
+msgstr "Enregistrer le vocabulaire"
+
+msgid "%s Terms"
+msgstr "Termes %s"
+
+msgid "Add New Term"
+msgstr "Ajouter un nouveau terme"
+
+msgid "Name *"
+msgstr "Nom *"
+
+msgid "Parent term"
+msgstr "Terme parent"
+
+msgid "Save"
+msgstr "Enregistrer"
+
+msgid "edit"
+msgstr "éditer"
+
+msgid "delete"
+msgstr "supprimer"
+
+msgid "Save changes"
+msgstr "Enregistrer les changements"
+
+msgid "Saving..."
+msgstr "Enregistrement..."
+
+msgid "Saved!"
+msgstr "Enregistré!"
+
+msgid "Vocabulary name"
+msgstr "Nom du vocabulaire"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "terms"
+msgstr "termes"
+
+msgid "mover up"
+msgstr "déplacement vers le haut"
+
+msgid "mover down"
+msgstr "déplacement vers le bas"
+
+msgid "Delete selected vocabulary and all its terms ?"
+msgstr "Supprimer le vocabulaire sélectionné et tous ses termes ?"
+

@@ -1,33 +1,33 @@
 # QuickApps
 
-**QuickApps** is a free open source, content management system for PHP, released under GPL License and powered by [CakePHP 2.0](http://cakephp.org) MVC framework.
+**QuickApps** est un gratuit et open source, système de gestion de contenu en PHP, publié sous la licence GPL et propulsé par [CakePHP 2.0](http://cakephp.org) MVC framework.
 
-## Requirements
+## Configuration requise
 
-  * Apache with mod_rewrite
-  * PHP 5.2.6 or higher
-  * PHP safe mode disabled
-  * MySQL 4.1 or higher
+  * Apache avec mod_rewrite
+  * PHP 5.2.6 ou superieur
+  * PHP safe mode désactivé
+  * MySQL 4.1 ou superieur
 
 ## Installation
 
 #### Github based installer (Recomended)
 
-  * Download from github the latest version as zip.
-  * Extract the archive. Upload the content to your server.
-  * visit http://your-site.com/ from your browser and follow the instructions.
+  * Télécharger à partir de GitHub la dernière version au format zip.
+  * Extraire l'archive. Téléchargez le contenu de votre serveur.
+  * Visitez http://your-site.com/ partir de votre navigateur et suivez les instructions.
   
 #### Quick-Installer
 
-  * Download the one-file installer from [here](http://cms.quickapps.es/files/installer/index.install)
-  * Rename from 'index.install' to 'index.php'
-  * Upload the new 'index.php' to your server
-  * visit http://your-site.com/ from your browser and follow the instructions.
+  * Télécharger l'installateur un fichier [here](http://cms.quickapps.es/files/installer/index.install)
+  * Renommer 'index.install' en 'index.php'
+  * Téléchargez le nouveau 'index.php' sur votre hebergement
+  * Visitez http://your-site.com/ à partir de votre navigateur et suivez les instructions.
   
-#### Manual installation
+#### L'installation manuelle
  
- * Create a new MySQL database ('utf8_unicode_ci' collation)
- * Use the SQL dump file app/Config/Schema/manual/quickapps.install.sql
- * Rename app/Config/database.php.install to database.php and set your database information (use 'qa_' as prefix).
- * Copy the file app/Config/install (no extension) to app/Config
- * The default username and password are: **admin/admin**
+ * Créer une nouvelle base de données MySQL ('utf8_unicode_ci' collation)
+ * Utilisez le fichier SQL dump app/Config/Schema/manual/quickapps.install.sql
+ * Renommer app/Config/database.php.install en database.php et configurer votre base de données d'information(Utilisez 'qa_' comme prefix).
+ * Copiez le fichier app/Config/install (no extension) dans app/Config
+ * Le nom d'utilisateur et mot de passe par défaut sont: **admin/admin**

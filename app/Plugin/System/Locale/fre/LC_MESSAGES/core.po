@@ -1,0 +1,184 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: QuickApps v1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-01-01 00:00+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: QuickApps.fr <contact@quickapps.fr>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-KeywordsList: __t;__\n"
+"X-Poedit-Basepath: ../../../\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid "Blocks"
+msgstr "Blocs"
+
+msgid "Configure what block content appears in your site's sidebars and other regions."
+msgstr "Configurer quels blocs de contenu apparaissent dans les sidebars de votre site et les autres régions."
+
+msgid "Content Types"
+msgstr "Types de contenu"
+
+msgid "Manage content types."
+msgstr "Gérer les types de contenu."
+
+msgid "Menus"
+msgstr "Menus"
+
+msgid "Add new menus to your site, edit existing menus, and rename and reorganize menu links."
+msgstr "Ajouter de nouveaux menus à votre site, éditer les menus existants, et renommer / réorganiser les liens de menu."
+
+msgid "Taxonomy"
+msgstr "Taxonomie"
+
+msgid "Manage tagging, categorization, and classification of your content."
+msgstr "Gérer les tags, les catégories et la classification de votre contenu."
+
+msgid "Install New Module"
+msgstr "Installer un Nouveau Module"
+
+msgid "Site information"
+msgstr "Information du site"
+
+msgid "Site name *"
+msgstr "Nom du site *"
+
+msgid "Slogan"
+msgstr "Slogan"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "A brief description about your site, this will be used as default meta-description in layout."
+msgstr "Une brève description de votre site qui sera utilisée comme meta-description par défaut"
+
+msgid "How this is used depends on your site's theme."
+msgstr "LA façon dont ceci est utilisé dépend du thème de votre site."
+
+msgid "E-mail address *"
+msgstr "Adresse E-mail *"
+
+msgid "The From address in automated e-mails sent during registration and new password requests, and other notifications. (Use an address ending in your site's domain to help prevent this e-mail being flagged as spam.)"
+msgstr "L'adresse 'DE' dans les mails envoyés automatiquement pendant l'enregistrement ou lors de la requête d'un nouveau mot de passe et autres notifications. (Utilisez une adresse ce terminant par le nom de domaine de votre site pour éviter que votre e-mail ne soit automatiquement classé comme du spam.)"
+
+msgid "Front page"
+msgstr "Page d'accueil"
+
+msgid "Number of posts on front page"
+msgstr "Nombre de publications sur la page d'accueil"
+
+msgid "The maximum number of posts displayed on overview pages such as the front page."
+msgstr "Le nombre maximum de publications affichées sur les pages de vue globale telles que la page d'accueil"
+
+msgid "Default front page"
+msgstr "Page d'accueil par défaut"
+
+msgid "Optionally, specify a relative URL to display as the front page. Leave blank to display the default content feed"
+msgstr "Indiquez une adresse URL relative à afficher en guise de page d'accueil (facultatif). Laissez vide pour que soit affiché le fil de contenu par défaut"
+
+msgid "Regional settings"
+msgstr "Options de régions"
+
+msgid "Default language"
+msgstr "Langue par défaut"
+
+msgid "Default time zone"
+msgstr "Fuseau horaire par défaut"
+
+msgid "Users settings"
+msgstr "Paramètres des utilisateurs"
+
+msgid "Default avatar"
+msgstr "Image de profil par défaut"
+
+msgid "URL of picture to display for users with no custom picture selected or anonymous users."
+msgstr "URL de l'image à afficher pour les utilisateurs n'ayant pas sélectionné d'image personnalisée ou les visiteurs anonymes."
+
+msgid "Help topics"
+msgstr "Sujets d'aide"
+
+msgid "Help is available on the following items"
+msgstr "L'aide est disponible pour les sujets suivants"
+
+msgid "Recent Content"
+msgstr "Contenus récents"
+
+msgid "Package"
+msgstr "Package"
+
+msgid "Install"
+msgstr "Installer"
+
+msgid "Frontend themes"
+msgstr "Thèmes de la partie visible par tous"
+
+msgid "Backend themes"
+msgstr "Thèmes de la partie gestion du site"
+
+msgid "Configure"
+msgstr "Configurer"
+
+msgid "Set as default"
+msgstr "Définir par défaut"
+
+msgid "Site details"
+msgstr "Details du site"
+
+msgid "Save all"
+msgstr "Enregistrer tout"
+
+msgid "Other module settings"
+msgstr "Autres options de module"
+
+msgid "Install New Theme"
+msgstr "Installer un Nouveau Thème"
+
+msgid "Theme could not been installed"
+msgstr "Le thème n'a pas pu être installé"
+
+msgid "Leave blank for use default logo."
+msgstr "Laissez vide pour utiliser le logo par défaut."
+
+msgid "Leave blank for use default favicon."
+msgstr "Laissez vide pour utiliser le favicon par défaut"
+
+msgid "\"%s\" Theme"
+msgstr "Thème \"%s\""
+
+msgid "Toggle display"
+msgstr "Options de visualisation"
+
+msgid "Logo"
+msgstr "Logo"
+
+msgid "Site name"
+msgstr "Nom du site"
+
+msgid "Site slogan"
+msgstr "Slogan du site"
+
+msgid "Shortcut icon"
+msgstr "Favicon"
+
+msgid "Logo image URL"
+msgstr "URL du logo"
+
+msgid "Shortcut icon URL"
+msgstr "URL du favicon"
+
+msgid "Enable"
+msgstr "Activer"
+
+msgid "Disable"
+msgstr "Désactiver"
+
+msgid "Settings"
+msgstr "Paramètres"
+
+msgid "Uninstall"
+msgstr "Désinstaller"
+
