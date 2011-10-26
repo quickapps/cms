@@ -86,7 +86,7 @@ Cache::config('default', array('engine' => 'File'));
             App::build(array('plugins' => array($ppath . 'Fields' . DS)));
         }
     }
-    
+
     $plugins = App::objects('plugins', null, false);
 
     foreach($plugins as $plugin) {
@@ -105,17 +105,17 @@ Cache::config('default', array('engine' => 'File'));
  */
     function get_this_class_methods($class){
         $array1 = get_class_methods($class);
-        
+
         if ($parent_class = get_parent_class($class)) {
             $array2 = get_class_methods($parent_class);
             $array3 = array_diff($array1, $array2);
         } else {
             $array3 = $array1;
         }
-        
+
         return($array3);
     }
-    
+
 /**
  * Translation function, domain search order: current plugin, default (global)
  *
@@ -126,7 +126,7 @@ Cache::config('default', array('engine' => 'File'));
         if (!$singular) {
             return;
         }
-        
+
         App::uses('I18n', 'I18n');
         $route = Router::getParams();
         $translated = I18n::translate($singular, null, $route['plugin']); # look in plugin 
@@ -139,7 +139,7 @@ Cache::config('default', array('engine' => 'File'));
             $cache = Cache::read(md5($singular) . '_' . Configure::read('Config.language'), 'i18n');
             $translated = $cache ? $cache: $singular;
         }
-        
+
         if ($args === null) {
             return $translated;
         } elseif (!is_array($args)) {
@@ -148,7 +148,7 @@ Cache::config('default', array('engine' => 'File'));
 
         return vsprintf($translated, $args);    
     }
-    
+
 /**
  * Create Unique Arrays using an md5 hash
  *
@@ -158,7 +158,7 @@ Cache::config('default', array('engine' => 'File'));
     function arrayUnique($array, $preserveKeys = false) {
         $arrayRewrite = array();
         $arrayHashes = array();
-        
+
         foreach ($array as $key => $item) {
             $hash = md5(serialize($item));
 
@@ -189,5 +189,6 @@ Cache::config('default', array('engine' => 'File'));
             $occurrence = strpos($string, $str_pattern);
             return substr_replace($string, $str_replacement, strpos($string, $str_pattern), strlen($str_pattern));
         }
+
         return $string;
     }

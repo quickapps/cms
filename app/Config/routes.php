@@ -36,8 +36,8 @@
     ) {
         Router::connect('/', array('controller' => 'install'));
     } else {
-        Router::connect('/', array('plugin' => 'node', 'controller' => 'node', 'action' => 'index'));
-        Router::connect('/admin', array('plugin' => 'system', 'controller' => 'system', 'action' => 'index', 'admin' => true ));
+        Router::connect('/', array('plugin' => 'Node', 'controller' => 'node', 'action' => 'index'));
+        Router::connect('/admin', array('plugin' => 'System', 'controller' => 'system', 'action' => 'index', 'admin' => true ));
     }
 
 /**
