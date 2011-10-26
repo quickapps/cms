@@ -51,7 +51,7 @@ class InstallerComponent extends Component {
  *              - ThemeCamelCaseThemeName/  # prefix 'Theme' + {camelized theme name}
  *          - webroot/
  *          - CamelCaseThemeName.yaml
- *          - thumbnail.png # 206x150px
+ *          - thumbnail.png # 206x150px recommended
  *
  *
  * @param array $data form POST submit of the .app package ($this->data)
@@ -110,6 +110,8 @@ class InstallerComponent extends Component {
             $folders = $Folder->read();$folders = $folders[0];
             $packagePath = isset($folders[0]) && count($folders) === 1 ? CACHE . 'installer' . DS . $data['Package']['data']['name'] . DS . 'unzip' . DS . str_replace(DS, '', $folders[0]) . DS : false;
             $appName = (string)basename($packagePath);
+            $this->options['__packagePath'] = $packagePath;
+            $this->options['__appName'] = $appName;
 
             if (!$packagePath) {
                 $this->errors[] = __d('system', 'Invalid package structure after unzip');
@@ -373,8 +375,11 @@ class InstallerComponent extends Component {
             }
 
             /** Copy files **/
-            $copyTo = ($this->options['type'] == 'module') ? ROOT . DS . 'Modules' . DS . $appName : APP . 'View' . DS . 'Themed' . DS . $appName;
-            $this->rcopy($packagePath, $copyTo);
+            $copyTo = ($this->options['type'] == 'module') ? ROOT . DS . 'Modules' . DS . $appName . DS : APP . 'View' . DS . 'Themed' . DS . $appName . DS;
+
+            if(!$this->rcopy($packagePath, $copyTo)) {
+                return false;
+            }
 
             /** DB Logics **/
             $moduleData = array(
@@ -507,14 +512,6 @@ class InstallerComponent extends Component {
         return true;
     }
 
-    public function enable() {
-
-    }
-
-    public function disable() {
-
-    }
-
     public function beforeInstall() {
         return true;
     }
@@ -544,14 +541,14 @@ class InstallerComponent extends Component {
         # delete all menus created by module/theme
         ClassRegistry::init('Menu.Menu')->deleteAll(
             array(
-                'Menu.module' => $this->options['__name']
+                'Menu.module' => $this->options['__Name']
             )
         );
 
         # delete blocks
         ClassRegistry::init('Block.Block')->deleteAll(
             array(
-                'Block.module' => $this->options['__name']
+                'Block.module' => $this->options['__Name']
             )
         );
 
@@ -797,7 +794,7 @@ class InstallerComponent extends Component {
  */
     function checkReverseDependency($plugin, $returnList = true) {
         $list = array();
-        $plugin = Inflector::camelcase($plugin);
+        $plugin = Inflector::camelize($plugin);
 
         foreach (Configure::read('Modules') as $p) {
             if (isset($p['yaml']['dependencies']) &&
@@ -810,6 +807,7 @@ class InstallerComponent extends Component {
                 }
 
                 $dependencies = Set::extract('{n}.name', $dependencies);
+                $dependencies = array_map(array('Inflector', 'camelize'), $dependencies);
 
                 if (in_array($plugin, $dependencies, true) && $returnList) {
                     $list[] = $p;
@@ -860,15 +858,37 @@ class InstallerComponent extends Component {
         return $component;
     }
 
-    public function rcopy($src, $dst) {
-        $dir = opendir($src);
+    public function package_is_writable($src, $dst) {
+        $e = 0;
+        $Folder = new Folder($src);
+        $files = $Folder->findRecursive();
 
+        foreach ($files as $file) {
+            $file = str_replace($this->options['__packagePath'], '', $file);
+            $file_dst = str_replace(DS . DS, DS, $dst . DS . $file);
+
+            if (file_exists($file_dst) && !is_writable($file_dst)) {
+                $e++;
+                $this->errors[] = __t('path: %s, not writable', $file_dst);
+            }
+        }
+
+        return ($e == 0);
+    }
+
+    public function rcopy($src, $dst) {
+        if (!$this->package_is_writable($src, $dst)) {
+           
+            return false;
+        }
+
+        $dir = opendir($src);
         @mkdir($dst);
 
         while(false !== ($file = readdir($dir))) {
             if (($file != '.') && ($file != '..')) {
                 if (is_dir($src . DS . $file)) {
-                    $this->rcopy($src . DS . $file,$dst . DS . $file);
+                    $this->rcopy($src . DS . $file, $dst . DS . $file);
                 } else {
                     if (!copy($src . DS . $file, $dst . DS . $file)) {
                         return false;
@@ -878,5 +898,7 @@ class InstallerComponent extends Component {
         }
 
         closedir($dir);
+
+        return true;
     }
 }
