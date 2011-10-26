@@ -14,6 +14,9 @@ msgstr ""
 "X-Poedit-Basepath: ../../../\n"
 "X-Poedit-SearchPath-0: .\n"
 
+msgid "System Kernel."
+msgstr "Núcleo del sistema."
+
 msgid "Blocks"
 msgstr "Bloques"
 
@@ -181,3 +184,6 @@ msgstr "Configurar"
 
 msgid "Uninstall"
 msgstr "Desinstalar"
+
+msgid "Dependencies"
+msgstr "Dependencias"

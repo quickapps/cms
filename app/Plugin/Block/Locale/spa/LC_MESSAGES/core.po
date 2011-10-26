@@ -14,6 +14,9 @@ msgstr ""
 "X-Poedit-Basepath: ../../../\n"
 "X-Poedit-SearchPath-0: .\n"
 
+msgid "Controls the visual building blocks a page is constructed with. Blocks are boxes of content rendered into an area, or region, of a web page."
+msgstr "Gestiona los bloques visuales con los que una págian se construye. Los bloques son cajas de contenido que se renderizan en un área o región de una página web."
+
 msgid "New Block"
 msgstr "Nuevo Bloque"
 

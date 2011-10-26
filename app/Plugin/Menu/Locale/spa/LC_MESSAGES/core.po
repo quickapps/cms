@@ -14,6 +14,9 @@ msgstr ""
 "X-Poedit-Basepath: ../../../\n"
 "X-Poedit-SearchPath-0: .\n"
 
+msgid "Allows administrators to customize the site navigation menu."
+msgstr "Permite a los administradores personalizar los menú de navegación del sitio."
+
 msgid "New Menu"
 msgstr "Nuevo Menú"
 
