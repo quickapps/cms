@@ -5,34 +5,28 @@
         <title><?php echo $this->Layout->title(); ?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <?php echo $this->Html->css('reset.css'); ?>
-        <style>
-            html { background:#282828; color:#fff; font-family:arial; }
-            .text input, .password input { border:1px solid #4c4c4c; background:#3B3B3B; padding:8px; color:#D8D8D8; margin-bottom:8px; }
-            .submit input { margin-top:20px; float:left; background:#466C19; color:#fff; border:1px solid #6A8946; padding:5px;
-                border-radius: 5px;
-                -ms-border-radius: 5px;
-                -moz-border-radius: 5px;
-                -webkit-border-radius: 5px;
-                -khtml-border-radius: 5px;
-                cursor:pointer;
-            }
-            label { float:left; display:block; width:100px;}
-            form#UserAdminLoginForm { display:block; width:400px; margin:100px auto;}
-            .password { margin-top:15px;}
-            h2 { display:none; }
-            #sessionFlash { display:none; }
-        </style>
+        <?php echo $this->Html->css('login.css'); ?>
         <?php echo $this->Layout->header(); ?>
+        <?php echo $this->Html->script('jquery.js'); ?>
+        <?php echo $this->Html->script('quickapps.js'); ?>
+        <?php echo $this->Html->script('login.js'); ?>
     </head>
-    <body>
-        <?php if ($sessionFlash = $this->Layout->sessionFlash()): ?>
-        <div id="sessionFlash">
-            <?php echo $sessionFlash; ?>
-        </div>
-        <?php endif; ?>
 
+    <body>
         <div id="content" class="clearfix">
-            <?php echo $this->Layout->content(); ?>
+            <div class="left-block">
+                <?php echo $this->Html->image('logo.png'); ?>
+            </div>
+
+            <div class="right-block">
+                <div class="sessionFlash">
+                <?php if ($sessionFlash = $this->Layout->sessionFlash()): ?>
+                    <?php echo $sessionFlash; ?>
+                <?php endif; ?>
+                </div>
+
+                <?php echo $this->Layout->content(); ?>
+            </div>
         </div>
     </body>
 </html>
