@@ -39,12 +39,24 @@ class QuickAppsComponent extends Component {
 
     public function siteStatus() {
         if (Configure::read('Variable.site_online') != 1 && !$this->isAdmin()) {
-            if ($this->Controller->plugin != 'user' &&
+            if ($this->Controller->plugin != 'User' &&
                 $this->Controller->request->params['controller'] != 'log' &&
                 !in_array($this->Controller->request->params['controller'], array('login', 'logout'))
             ) {
-                # TODO: site down throw
-                //throw new NotFoundException(__t('Site offline'), 503);
+                $this->Controller->layout = 'error'; 
+                $this->Controller->viewPath = 'Errors'; 
+
+                @$this->Controller->response->header(
+                    array(
+                        'HTTP/1.1 503 Service Temporarily Unavailable',
+                        'Status: 503 Service Temporarily Unavailable',
+                        'Retry-After: 60'
+                    )
+                );
+
+                $this->Controller->set('name', __t('Site offline'));
+                $this->Controller->set('url', $this->Controller->request->here);
+                $this->Controller->render('offline');                
             }
         }
     }
@@ -56,8 +68,8 @@ class QuickAppsComponent extends Component {
             $this->Controller->theme =  Configure::read('Variable.site_theme') ? Configure::read('Variable.site_theme') : 'default';
         }
 
-        $this->Controller->layout    ='default';
-        $this->Controller->viewClass= 'Theme';
+        $this->Controller->layout ='default';
+        $this->Controller->viewClass = 'Theme';
 
         if (file_exists(APP . 'View' . DS . 'Themed' . DS . $this->Controller->theme . DS . "{$this->Controller->theme}.yaml")) {
             $yaml = Spyc::YAMLLoad(APP . 'View' . DS . 'Themed' . DS . $this->Controller->theme . DS . "{$this->Controller->theme}.yaml");
@@ -538,7 +550,7 @@ jQuery.extend(QuickApps.settings, {
 
         $out[] = $url;
 
-        if ($this->Controller->request->params['controller'] == $this->plugin) {
+        if ($this->Controller->request->params['controller'] == Inflector::underscore($this->plugin)) {
             $url =  str_replace_once("/{$this->Controller->request->params['controller']}", '', $url);
             $out[] = $url;
         } else if ($this->Controller->request->params['action'] == 'index' || $this->Controller->request->params['action'] == 'admin_index') {
