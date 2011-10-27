@@ -1,4 +1,4 @@
-# QuickApps - English
+# QuickApps
 
 **QuickApps** is a free open source, content management system for PHP, released under GPL License and powered by [CakePHP 2.0](http://cakephp.org) MVC framework.
 
