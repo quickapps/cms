@@ -17,6 +17,6 @@ msgstr ""
 msgid "View site"
 msgstr "Ver sitio"
 
-msgid "Log outt"
+msgid "Log out"
 msgstr "Cerrar sesión"
 

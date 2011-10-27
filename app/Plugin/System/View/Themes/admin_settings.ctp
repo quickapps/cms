@@ -1,7 +1,7 @@
 <?php $e = $this->element('settings_form', array(), array('plugin' => Inflector::camelize("theme_{$theme_name}"))); ?>
 
 <?php echo $this->Form->create('Module', array('url' => "/admin/system/themes/settings/{$theme_name}")); ?>
-    <?php echo $this->Form->input('Module.name', array('type' => 'hidden', 'value' => Inflector::underscore('Theme' . $theme_name))); ?>
+    <?php echo $this->Form->input('Module.name', array('type' => 'hidden', 'value' => 'Theme' . $theme_name)); ?>
 
     <?php if ($e ): ?>
     <?php echo $this->Html->useTag('fieldsetstart', __t('"%s" Theme', $theme_name)); ?>

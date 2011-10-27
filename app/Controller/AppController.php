@@ -126,8 +126,8 @@ class AppController extends Controller {
  * @param string $region theme region where to push
  * @return boolean
  */
-    public function blockPush($block = array(), $region = null, $show_on = true) {
-        return $this->Quickapps->blockPush($block, $region, $show_on);
+    public function blockPush($block = array(), $region = null) {
+        return $this->Quickapps->blockPush($block, $region);
     }
 
 /**

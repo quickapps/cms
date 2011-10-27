@@ -468,16 +468,9 @@ class LayoutHelper extends AppHelper {
  *
  * @param array $data Formatted block array (see $_block)
  * @param string $region Theme region
- * @param boolean $show_on Optional, shortcut for `if (this == that) { blockPush(); }`
- *                          becomes : `blockPush(., ., (this == that))`.
- *                          Default set to True.    
  * @return boolean True on success
  */
-    public function blockPush($block = array(), $region = '', $show_on = true) {
-        if (!$show_on) {
-            return false;
-        }
-
+    public function blockPush($block = array(), $region = '') {
         $_block = array(
             'title' => '',
             'pages' => '',

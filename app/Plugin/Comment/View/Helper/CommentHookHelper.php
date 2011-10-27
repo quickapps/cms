@@ -12,15 +12,14 @@
 class CommentHookHelper extends AppHelper {
     public function beforeLayout($layoutFile) {
         # content list toolbar:
-        $showOn = (
-            isset($this->request->params['admin']) &&
+        if (isset($this->request->params['admin']) &&
             $this->request->params['plugin'] == 'comment' &&
             in_array($this->request->params['controller'], array('published', 'unpublished')) &&
             $this->request->params['action'] == 'admin_index'
-        );
-
-        $this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar') . '<!-- CommentHookHelper -->' ), 'toolbar', $showOn);
-
+        ) {
+            $this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar') . '<!-- CommentHookHelper -->' ), 'toolbar');
+        }
+        
         $markeItUp_showOn = (
             !isset($this->request->params['admin']) &&
             $this->request->params['plugin'] == 'node' &&

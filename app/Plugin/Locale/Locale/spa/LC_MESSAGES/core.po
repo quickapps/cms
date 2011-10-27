@@ -14,6 +14,9 @@ msgstr ""
 "X-Poedit-Basepath: ../../../\n"
 "X-Poedit-SearchPath-0: .\n"
 
+msgid "Adds language handling functionality and enables the translation of the user interface to languages other than English"
+msgstr "Permite gestionar idiomas y traducir la interfaz de los usaurios a otros lenguajes además del Inglés."
+
 msgid "Languages"
 msgstr "Idiomas"
 

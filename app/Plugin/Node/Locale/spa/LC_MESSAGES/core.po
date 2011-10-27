@@ -14,6 +14,9 @@ msgstr ""
 "X-Poedit-Basepath: ../../../\n"
 "X-Poedit-SearchPath-0: .\n"
 
+msgid "Allows content to be submitted to the site and displayed on pages."
+msgstr "Permite poner contenidos en el sitio y mostrarlos como páginas."
+
 msgid "Content"
 msgstr "Contenidos"
 

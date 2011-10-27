@@ -14,6 +14,8 @@ msgstr ""
 "X-Poedit-Basepath: ../../../\n"
 "X-Poedit-SearchPath-0: .\n"
 
+msgid "Allows users to comment on and discuss published content."
+msgstr "Permite a los usuarios comentar y discutir contenidos publicados."
 
 msgid "wrote"
 msgstr "escribió"

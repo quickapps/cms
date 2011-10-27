@@ -80,7 +80,7 @@ class ThemesController extends SystemAppController {
         }
 
         if (!$this->Installer->install($this->data, array('type' => 'theme'))) {
-            $errors = implode('', $this->Installer->errors);
+            $errors = implode('<br />', $this->Installer->errors);
             $this->flashMsg("<b>" . __t('Theme could not been installed') . ":</b><br/>{$errors}", 'error');
         } else {
             $this->flashMsg(__t('Theme has been installed'), 'success');

@@ -14,6 +14,10 @@
 
             <?php echo $this->Form->input('Variable.site_mail', array('required' => 'required', 'type' => 'email', 'label' => __t('E-mail address *'))); ?>
             <em><?php echo __t("The From address in automated e-mails sent during registration and new password requests, and other notifications. (Use an address ending in your site's domain to help prevent this e-mail being flagged as spam.)"); ?></em>
+
+            <?php echo $this->Form->input('Variable.site_online', array('type' => 'select', 'options' => array(1 => __t('No'), 0 => __t('Yes')), 'label' => __t('Site under maintenance'))); ?>
+
+            <?php echo $this->Form->input('Variable.site_maintenance_message', array('type' => 'textarea', 'label' => __t('Maintenance message'))); ?>
         <?php echo $this->Html->useTag('fieldsetend'); ?>
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 

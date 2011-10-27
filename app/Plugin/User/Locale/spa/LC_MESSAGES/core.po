@@ -14,6 +14,9 @@ msgstr ""
 "X-Poedit-Basepath: ../../../\n"
 "X-Poedit-SearchPath-0: .\n"
 
+msgid "Manages the user registration and login system."
+msgstr "Control de registro e identificación de usuarios en el sistema."
+
 msgid "List"
 msgstr "Listado"
 

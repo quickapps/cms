@@ -1,0 +1,99 @@
+html, body { height:100%; }
+html { background:url(../img/login-bg.jpg) #EFF3F6; color:#b5b5b5; font-family:arial; }
+
+div#content { width:500px; margin:0 auto; margin-top:100px; overflow:hidden; }
+    div.left-block, div.right-block { float:left; }
+    div.left-block { 
+        border-right:1px solid #A9A9A9; 
+        padding-right:50px; 
+        height: 100%;
+        line-height:250px;
+    }
+    
+    div.right-block { width:280px; padding-left:30px; border-left:1px solid #fff; overflow:hidden; }
+    
+    div.sessionFlash div { 
+        margin-bottom:15px;
+        font-size:12px;
+        width:221px;
+        overflow:hidden;
+        padding:8px;
+        text-align:center;
+        background: -moz-linear-gradient(
+            top,
+            #F74239 0%,
+            #D3302B);
+        background: -webkit-gradient(
+            linear, left top, left bottom, 
+            from(#F74239),
+            to(#D3302B));
+        border:1px solid #C31E00;
+        border-radius: 10px;
+        -ms-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -khtml-border-radius: 10px;    
+    
+        color:#fff;
+    }
+
+h2 { padding:10px 0; font-size:18px; color:#4B4B4B; }
+label { display:none; }
+.checkbox label { display:inline !important; padding-left:20px; }
+.password { margin-top:15px;}
+div.input { width:300px; }
+fieldset { width:100px; }
+.text input, .password input { 
+	background: -moz-linear-gradient(
+		top,
+		#DEDEDE 0%,
+		#E7E7E7);
+	background: -webkit-gradient(
+		linear, left top, left bottom, 
+		from(#DEDEDE),
+		to(#E7E7E7));
+
+	width:221px;
+	color : #747862;
+	height:20px;
+	border:1px solid #ACABAB;
+	padding:4px 8px;
+    margin-bottom:8px;
+    border-radius: 10px;
+    -ms-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+}
+
+div.form { background:none; }
+
+.submit input { 
+    margin-top:20px; 
+    float:left; 
+	font-size: 14px;
+	color: #ffffff;
+	padding: 7px 17px;
+    background-color:#414141;
+	background: -moz-linear-gradient(
+		top,
+		#5e5e5e 0%,
+		#414141);
+	background: -webkit-gradient(
+		linear, left top, left bottom, 
+		from(#5e5e5e),
+		to(#414141));
+	border-radius: 8px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border: 1px solid #4b4b4b;
+	-moz-box-shadow:
+		2px 2px 3px rgba(000,000,000,0.2),
+		inset 1px 1px 1px rgba(135,135,135,0.9);
+	-webkit-box-shadow:
+		2px 2px 3px rgba(000,000,000,0.2),
+		inset 1px 1px 1px rgba(135,135,135,0.9);
+	text-shadow:
+		0px -1px 0px rgba(000,000,000,0),
+		0px 1px 0px rgba(255,255,255,0);
+}

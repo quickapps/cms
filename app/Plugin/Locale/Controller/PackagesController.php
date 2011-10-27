@@ -45,7 +45,7 @@ class PackagesController extends LocaleAppController {
         $modules['core'] = __t('Core');
 
         foreach (Configure::read('Modules') as $module) {
-            $modules[$module['name']] = (strpos($module['name'], 'theme_') !== false) ? __t('Theme: %s', $module['yaml']['info']['name']) : __t('Module: %s', $module['yaml']['name']);
+            $modules[$module['name']] = (strpos($module['name'], 'Theme') === 0) ? __t('Theme: %s', $module['yaml']['info']['name']) : __t('Module: %s', $module['yaml']['name']);
         }
 
         $this->set('modules', $modules);

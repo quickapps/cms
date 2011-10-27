@@ -656,7 +656,7 @@ class MenuHelper extends AppHelper {
 
         $out[] = $url;
 
-        if ($this->_View->request->params['controller'] == $this->plugin) {
+        if ($this->_View->request->params['controller'] == Inflector::underscore($this->plugin)) {
             $url =  str_replace_once("/{$this->_View->request->params['controller']}", '', $url);
             $out[] = $url;
         } else if ($this->_View->request->params['action'] == 'index' || $this->_View->request->params['action'] == 'admin_index') {
