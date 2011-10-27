@@ -21,8 +21,6 @@ class UserController extends UserAppController {
     public function login() {
         if ($this->__login()) {
             $this->redirect($this->Auth->loginRedirect);
-        } else {
-            $this->flashMsg(__t('Invalid username or password', 'error'));
         }
 
         $this->title(__t('Log in'));
@@ -36,8 +34,6 @@ class UserController extends UserAppController {
     public function admin_login() {
         if ($this->__login()) {
             $this->redirect($this->Auth->loginRedirect);
-        } else {
-            $this->flashMsg(__t('Invalid username or password'), 'error');
         }
 
         $this->title(__t('Log in'));
@@ -182,6 +178,8 @@ class UserController extends UserAppController {
                 return true;
             }
 
+            $this->flashMsg(__t('Invalid username or password'), 'error');
+
             return false;
 
         } elseif (isset($cookie['id']) && !empty($cookie['id']) && isset($cookie['password']) && !empty($cookie['password'])) {
@@ -209,6 +207,8 @@ class UserController extends UserAppController {
 
                 return true;
             }
+
+            $this->flashMsg(__t('Invalid username or password'), 'error');
 
             return false;
         }
