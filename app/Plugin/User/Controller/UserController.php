@@ -208,7 +208,7 @@ class UserController extends UserAppController {
                 return true;
             }
 
-            $this->flashMsg(__t('Invalid username or password'), 'error');
+            $this->Cookie->delete('UserLogin');
 
             return false;
         }
