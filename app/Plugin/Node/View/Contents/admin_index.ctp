@@ -7,7 +7,10 @@ $tSettings = array(
             'tdOptions' => array('width' => '25', 'align' => 'center')
         ),
         __t('Title') => array(
-            'value' => '{Node.title} {php} return ( {Node.sticky} ) ? \'<img src="{url}/node/img/sticky.png{/url}" title="' . __t('Sticky at top') . '" />\' : ""; {/php} {php} return ( {Node.promote} ) ? \'<img src="{url}/node/img/promote.png{/url}" title="' . __t('Promoted in front page') .'" />\' : ""; {/php}',
+            'value' => '{Node.title} 
+                {php} return ({Node.sticky}) ? \'<img src="{url}/node/img/sticky.png{/url}" title="' . __t('Sticky at top') . '" />\' : ""; {/php} 
+                {php} return ({Node.promote}) ? \'<img src="{url}/node/img/promote.png{/url}" title="' . __t('Promoted in front page') .'" />\' : ""; {/php}
+                {php} return (trim("{Node.cache}") != "") ? \'<img src="{url}/node/img/cache.png{/url}" title="' . __t('Cache activated') .': {Node.cache}" />\' : ""; {/php}',
             'sort' => 'Node.title',
             'tdOptions' => array('width' => '40%', 'align' => 'left')
         ),
