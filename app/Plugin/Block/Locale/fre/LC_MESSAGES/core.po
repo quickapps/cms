@@ -1,0 +1,148 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Quickapps v1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-01-01 00:00+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: QuickApps.fr <contact@quickapps.fr>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-KeywordsList: __t;__\n"
+"X-Poedit-Basepath: ../../../\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid "New Block"
+msgstr "Nouveau Bloc"
+
+msgid "Save block"
+msgstr "Sauvegarder le bloc"
+
+msgid "Unassigned"
+msgstr "Non assignés"
+
+msgid "Blocks"
+msgstr "Blocs"
+
+msgid "clone"
+msgstr "cloner"
+
+msgid "configure"
+msgstr "configurer"
+
+msgid "Block has been saved"
+msgstr "Bloque ha sido guardado"
+
+msgid "delete"
+msgstr "supprimer"
+
+msgid "move up"
+msgstr "Monter"
+
+msgid "move down"
+msgstr "Descendre"
+
+msgid "Block"
+msgstr "Bloc"
+
+msgid "Region"
+msgstr "Région"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Duplicate this block?"
+msgstr "Dupliquer ce bloc?"
+
+msgid "Active"
+msgstr "Activer"
+
+msgid "Block title"
+msgstr "Titre du bloc"
+
+msgid "The title of the block as shown to the user."
+msgstr "Le titre du bloc, tel qu'il sera indiqué à l'utilisateur."
+
+msgid "Block description *"
+msgstr "Description du bloc *"
+
+msgid "A brief description of your block. Used on the Blocks administration page."
+msgstr "Une brève description de votre bloc. Utilisé sur la page d'administration des blocs."
+
+msgid "Block body *"
+msgstr "Corps du bloc *"
+
+msgid "Language"
+msgstr "Langue"
+
+msgid "Translations"
+msgstr "Traductions"
+
+msgid "Show this block for these languages"
+msgstr "Afficher ce bloc pour ces langues"
+
+msgid "If no language is selected, block will show regardless of language."
+msgstr "Si aucune langue n'est sélectionnée, le bloc s'affichera dans toutes les langues."
+
+msgid "Visibility settings"
+msgstr "Paramètres de visibilité"
+
+msgid "Theme Region"
+msgstr "Thème de cette région"
+
+msgid "Specify in which themes and regions this block is displayed."
+msgstr "Indiquez dans quel thème et dans quelle région ce bloc doit être affiché."
+
+msgid "Pages"
+msgstr "Pages"
+
+msgid "All pages except those listed"
+msgstr "Toutes les pages sauf celles listées"
+
+msgid "Only the listed pages"
+msgstr "Seulement sur les pages listées"
+
+msgid "Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are blog for the blog page and blog/* for every blog entry. '/' is the front page."
+msgstr "Indiquez les pages en utilisant leurs chemins. Entrez un chemin par ligne. Le caractère '*' est un joker. Des chemins sont écrits à titre d'exemple pour la page blog et blog / * pour chaque entrée de blog. '/' Est la page d'accueil."
+
+msgid "Roles"
+msgstr "Rôles"
+
+msgid "Show block for specific roles"
+msgstr "Montrer ce bloc pour des rôles spécifiques"
+
+msgid "Show this block only for the selected role(s). If you select no roles, the block will be visible to all users."
+msgstr "Afficher cette section seulement pour le(s) rôle(s) sélectionné (s). Si vous ne sélectionnez aucun rôle, le bloc sera visible pour tous les utilisateurs."
+
+msgid "Advanced Options"
+msgstr "Options avancées"
+
+msgid "Block class suffix"
+msgstr "Suffixe de classe du bloc"
+
+msgid "A suffix to be applied to the CSS class of the block. This allows for individual block styling."
+msgstr "Un suffixe qui sera appliqué à la classe CSS du bloc. Ceci permet d'attribuer un style particulier à ce bloc."
+
+msgid "Editing Block"
+msgstr "Modification de bloc"
+
+msgid "Add new block"
+msgstr "Ajouter un nouveau bloc"
+
+msgid "Pages on which this PHP code returns TRUE (experts only)"
+msgstr "Pages sur lesquelles le code PHP renvoie TRUE (experts uniquement)"
+
+msgid "If the PHP option is chosen, enter PHP code between &lt;?php ?&gt;. Note that executing incorrect PHP code can break your QuickApps site."
+msgstr "Si l'option PHP est choisie, tapez le code PHP entre &lt;?php ?&gt;. Veuillez noter que l'exécution d'un code PHP invalide peut bloquer complètement votre site QuickApps."
+
+msgid "Block moved %s!"
+msgstr "Bloc déplacé %s!"
+
+msgid "up"
+msgstr "en haut"
+
+msgid "down"
+msgstr "en bas"
+

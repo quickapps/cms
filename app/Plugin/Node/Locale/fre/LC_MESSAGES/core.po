@@ -1,0 +1,433 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: QuickApps v1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-01-01 00:00+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: QuickApps.fr <contact@quickapps.fr>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-KeywordsList: __t;__\n"
+"X-Poedit-Basepath: ../../../\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid "Content"
+msgstr "Contenu"
+
+msgid "Contents"
+msgstr "Contenus"
+
+msgid "New Content"
+msgstr "Nouveau Contenu"
+
+msgid "Filter Options"
+msgstr "Options de filtre"
+
+msgid "Update Options"
+msgstr "Options de mise à jour"
+
+msgid "Status"
+msgstr "Statut"
+
+msgid "Front Page"
+msgstr "Page d'accueil"
+
+msgid "Sticky"
+msgstr "Premier plan"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Filter"
+msgstr "Filtre"
+
+msgid "Update"
+msgstr "Mettre à jour"
+
+msgid "Title"
+msgstr "Titre"
+
+msgid "Language"
+msgstr "Langue"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "edit"
+msgstr "éditer"
+
+msgid "delete"
+msgstr "supprimer"
+
+msgid "Clear cache"
+msgstr "Nettoyer le cache"
+
+msgid "Delete selected content ?"
+msgstr "Supprimer le contenu sélectionné ?"
+
+msgid "Are you sure ?"
+msgstr "Êtes-vous sûr ?"
+
+msgid "Add Type"
+msgstr "Ajouter un type"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "display"
+msgstr "afficher"
+
+msgid "fields"
+msgstr "champs"
+
+msgid "Fields"
+msgstr "Champs"
+
+msgid "Field"
+msgstr "Champ"
+
+msgid "move up"
+msgstr "monter"
+
+msgid "move down"
+msgstr "descendre"
+
+msgid "configure"
+msgstr "configurer"
+
+msgid "Label"
+msgstr "Etiquette"
+
+msgid "Field Display Settings"
+msgstr "Options d'Affichage du Champ"
+
+msgid "Field display settings"
+msgstr "Options d'affichage du champ"
+
+msgid "full"
+msgstr "plein"
+
+msgid "list"
+msgstr "liste"
+
+msgid "rss"
+msgstr "RSS"
+
+msgid "print"
+msgstr "imprimer"
+
+msgid "default"
+msgstr "Défaut"
+
+msgid "Comments"
+msgstr "Commentaires"
+
+msgid "%s Hours"
+msgstr "%s Heures"
+
+msgid "%s Days"
+msgstr "%s Jours"
+
+msgid "%s Weeks"
+msgstr "%s Semaines"
+
+msgid "%s Months"
+msgstr "%s Mois"
+
+msgid "%s Years"
+msgstr "%s Années"
+
+msgid "Publishing"
+msgstr "Publication"
+
+msgid "Published"
+msgstr "Publié"
+
+msgid "Promoted to front page"
+msgstr "Promu en page d'accueil"
+
+msgid "Sticky at top of lists"
+msgstr "Attaché en haut des listes"
+
+msgid "Cache this node for"
+msgstr "Mettre en cache cet article pour"
+
+msgid "Cache"
+msgstr "Cache"
+
+msgid "-- No Cache --"
+msgstr "-- Pas de Cache --"
+
+msgid "Roles"
+msgstr "Rôles"
+
+msgid "Show content for specific roles"
+msgstr "Afficher ce contenu pour des rôles spécifiques"
+
+msgid "Show this content only for the selected role(s). If you select no roles, the content will be visible to all users."
+msgstr "Montrer ce contenu uniquement pour le(s) rôle(s) sélectionnés. Si aucun rôle n'est sélectionné, le contenu sera visible par tous."
+
+msgid "Terms"
+msgstr "Termes"
+
+msgid "Language"
+msgstr "Langue"
+
+msgid "If no language is selected (-- Any --), node will show regardless of language"
+msgstr "Si aucune langue n'est sélectionnée (-- Aucune --), l'article sera vu quelque soit la langue"
+
+msgid "-- Any --"
+msgstr "-- Aucune --"
+
+msgid "Open"
+msgstr "Ouvrir"
+
+msgid "Closed"
+msgstr "Fermé"
+
+msgid "Read Only"
+msgstr "Lecture seule"
+
+msgid "Settings"
+msgstr "Options"
+
+msgid "Add"
+msgstr "Ajouter"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "A short description (255 chars. max.) about this content. Will be used as page meta-description when rendering this content node."
+msgstr "Une courte description (255 car. max.) à propos de ce contenu. Sera utilisé comme meta-description lors du référencement de ce contenu."
+
+msgid "Editing"
+msgstr "Edition"
+
+msgid "Editing Content"
+msgstr "Edition du Contenu"
+
+msgid "Add Content"
+msgstr "Ajouter un Contenu"
+
+msgid "Select content type"
+msgstr "Sélectionnez le type de contenu"
+
+msgid "Updated"
+msgstr "Mis à jour"
+
+msgid "Publish selected content"
+msgstr "Publier le contenu sélectionné"
+
+msgid "Unpublish selected content"
+msgstr "Dépublier le contenu sélectionné"
+
+msgid "Promote selected content to front page"
+msgstr "Promouvoir le contenu sélectionné en page d'accueil"
+
+msgid "Demote selected content from front page"
+msgstr "Rétrograder ce contenu (ne sera plus promu en page d'accueil)"
+
+msgid "Make selected content sticky"
+msgstr "Remonter le contenu sélectionné en haut des listes"
+
+msgid "Make selected content not sticky"
+msgstr "Ne plus remonter ce contenu en haut des listes"
+
+msgid "Delete selected content"
+msgstr "Supprimer le contenu sélectionné"
+
+msgid "updated"
+msgstr "mis à jour"
+
+msgid "Required"
+msgstr "Requis"
+
+msgid "Add field"
+msgstr "Ajouter un champ"
+
+msgid "Search"
+msgstr "Recherche"
+
+msgid "Languages"
+msgstr "Langues"
+
+msgid "Only of the type(s)"
+msgstr "Seulement le(s) type(s)"
+
+msgid "Containing any of the words"
+msgstr "contenant l'un de ces mots"
+
+msgid "Containing the phrase"
+msgstr "Contenant l'expression"
+
+msgid "Containing none of the words"
+msgstr "Ne contenant aucun de ces mots"
+
+msgid "Read More"
+msgstr "En savoir plus"
+
+msgid "published by <a href="%s">%s</a>"
+msgstr "publié par <a href=\"%s\">%s</a>"
+
+msgid "on %s"
+msgstr "le %s"
+
+msgid "M d, Y H:i"
+msgstr "d/m/Y \\a \\l\\a\\s H:i"
+
+msgid "Are you sure about this changes ?"
+msgstr "Confirmez-vous ces modifications ?"
+
+msgid "Your search yielded no results"
+msgstr "Votre recherche n'a produit aucun résultat"
+
+msgid "Check if your spelling is correct."
+msgstr "Veuillez vous assurer que vous avez orthographié correctement votre recherche."
+
+msgid "Remove quotes around phrases to search for each word individually. white cat will often show more results than \"white cat\"."
+msgstr "Supprimer les guillemets autour des expressions pour rechercher chaque mot séparément. Chat blanc produira souvent plus de résultats que \"chat blanc\"."
+
+msgid "Consider loosening your query with OR. white OR cat will often show more results than white cat."
+msgstr "Simplifiez votre recherche en utilisant OR. chat OR blanc produira souvent davantage de résultats que chat blanc."
+
+msgid "Advanced Options"
+msgstr "Options avancées"
+
+msgid "Node container class suffix"
+msgstr "Suffixe de classe du contenant de cet élément"
+
+msgid "A suffix to be applied to the CSS class of the node container. This allows for individual node styling."
+msgstr "Un suffixe peut être appliqué à la classe CSS du contenant de cet élément, afin que son design soit différent de celui des autres contenants."
+
+msgid "A suffix to be applied to the CSS class of the node container. This allows for individual node styling."
+msgstr "Un suffixe peut être appliqué à la classe CSS du contenant de cet élément, afin que son design soit différent de celui des autres contenants."
+
+msgid "Add content"
+msgstr "Ajouter un contenu"
+
+msgid "Save content"
+msgstr "Enregistrer le contenu"
+
+msgid "Regenerate slug"
+msgstr "Générer un nouveau permalien"
+
+msgid "If this option is checked and title has changed then a new slug is generated."
+msgstr "Si cette option est sélectionnée et que le titre a changé, un nouveau permalien sera généré."
+
+msgid "Name *"
+msgstr "Nom *"
+
+msgid "This text will be displayed as part of the list on the Add new content page"
+msgstr "Ce texte sera affiché dans la liste sur la page Ajouter de nouveaux contenus"
+
+msgid "Describe this content type. The text will be displayed on the Add new content page."
+msgstr "Décrivez le type de contenu. Ce texte sera affiché sur la page Ajouter un nouveau contenu."
+
+msgid "Title field label *"
+msgstr "Etiquette du champ Titre *"
+
+msgid "Display format"
+msgstr "Format d'affichage"
+
+msgid "Show author's name"
+msgstr "Montrer le nom de l'auteur"
+
+msgid "Author username will be displayed"
+msgstr "Le nom d'utilisateur de l'auteur sera affiché"
+
+msgid "Show date"
+msgstr "Montrer la date"
+
+msgid "Publish date will be displayed"
+msgstr "La date de publication sera affichée"
+
+msgid "Auto approve comments"
+msgstr "Approuver automatiquement les commentaires"
+
+msgid "Comments per page"
+msgstr "Comentaires par page"
+
+msgid "Anonymous commenting"
+msgstr "Comentaires venant de personnes anonymes"
+
+msgid "Anonymous posters may not enter their contact information"
+msgstr "Les visiteurs anonymes ne peuvent pas entrer d'information de contact"
+
+msgid "Anonymous posters may leave their contact information"
+msgstr "Les visiteurs anonymes peuvent laisser leurs informations de contact"
+
+msgid "Anonymous posters must leave their contact information"
+msgstr "Les visiteurs anonymes doivent laisser leurs informations de contact"
+
+msgid "Allow comment title"
+msgstr "Autoriser les titres de commentaires"
+
+msgid "Default options"
+msgstr "Options par défaut"
+
+msgid "Default comment setting for new content"
+msgstr "Options de commentaires par défaut pour les nouveaux contenus"
+
+msgid "Language"
+msgstr "Langue"
+
+msgid "Save and add fields"
+msgstr "Enregistrer et ajouter des champs"
+
+msgid "Save"
+msgstr "Enregistrer"
+
+msgid "Editing Type"
+msgstr "Edition du type"
+
+msgid "Content Types"
+msgstr "Tipes de Contenus"
+
+msgid "Label *"
+msgstr "Etiquette *"
+
+msgid "Field Settings"
+msgstr "Options du champ"
+
+msgid "Basic settings"
+msgstr "Options basiques"
+
+msgid "Requied field"
+msgstr "Champ requis"
+
+msgid "Help text"
+msgstr "Texte d'aide"
+
+msgid "Display"
+msgstr "Afficher"
+
+msgid "Display Settings"
+msgstr "Afficher les options"
+
+msgid "Save field"
+msgstr "Enregistrer le champ"
+
+msgid "Instructions to present to the user below this field on the editing form. (hookTags are allowed)"
+msgstr "Instructions à afficher à l'utilisateur sous ce champs dans le formulaire d'édition. (hookTags autorisés)"
+
+msgid "Format"
+msgstr "Format"
+
+msgid "edit format"
+msgstr "editer le format"
+
+msgid "View Modes"
+msgstr "Visualiser les Modes"
+
+msgid "Use custom display settings for the following view modes"
+msgstr "Utiliser des options d'affichage personnalisées pour les modes de vue suivants"
+
+msgid "Field display format (view mode: %s)"
+msgstr "Format d'affichage du champ (mode: %s)"
+
+msgid "Label"
+msgstr "Etiquette"
+
