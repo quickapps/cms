@@ -433,3 +433,12 @@ msgstr "Formato de visualización de campo (modo: %s)"
 
 msgid "Label"
 msgstr "Etiqueta"
+
+msgid "Sticky at top"
+msgstr "Destacado en listas"
+
+msgid "Promoted in front page"
+msgstr "Destacado en portada"
+
+msgid "Cache activated"
+msgstr "Caché activado"
