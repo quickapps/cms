@@ -15,7 +15,6 @@ class ModulesController extends SystemAppController {
     public $components = array('Installer');
 
     public function admin_index() {
-
     }
 
     public function admin_settings($module) {
@@ -49,6 +48,10 @@ class ModulesController extends SystemAppController {
     public function admin_toggle($plugin) {
         $plugin = Inflector::camelize($plugin);
 
+        if (!$plugin) {
+            $this->redirect('/admin/system/modules');
+        }
+
         if (!in_array($plugin, Configure::read('coreModules'))) {
             $to = Configure::read("Modules.{$plugin}.status") == 1 ? 0 : 1;
             $this->Install = $this->Components->load(Inflector::camelize($plugin) . '.Install');
@@ -56,6 +59,7 @@ class ModulesController extends SystemAppController {
             if ($to == 1) { # enable
                 if (method_exists($this->Install, 'beforeEnable')) {
                     $this->Install->beforeEnable();
+                    $this->flashMsg(__t("Module '%s' has been enabled", $plugin), 'success');
                 }
             } else { # disable
                 if (method_exists($this->Install, 'beforeDisable')) {
@@ -66,7 +70,10 @@ class ModulesController extends SystemAppController {
 
                 if (count($dep)) {
                     $req_by = implode('<br />', Set::extract('{n}.name', $dep));
-                    $this->flashMsg(__t('This module can not be disabled, because it is required by: %s', $req_by));
+                    $this->flashMsg(__t('This module can not be disabled, because it is required by: %s', $req_by), 'alert');
+                    $this->redirect('/admin/system/modules');
+                } else {
+                    $this->flashMsg(__t("Module '%s' has been disabled", $plugin), 'success');
                 }
             }
 
@@ -106,6 +113,20 @@ class ModulesController extends SystemAppController {
     }
 
     public function admin_uninstall($plugin) {
+        $plugin = Inflector::camelize($plugin);
+
+        if (!$plugin) {
+            $this->redirect('/admin/system/modules');
+        }
+
+        $dep = $this->Installer->checkReverseDependency($plugin);
+
+        if (count($dep)) {
+            $req_by = implode('<br />', Set::extract('{n}.name', $dep));
+            $this->flashMsg(__t('This module can not be uninstalled, because it is required by: %s', $req_by), 'alert');
+            $this->redirect('/admin/system/modules');
+        }
+
         if ($this->Installer->uninstall($plugin)) {
             $this->flashMsg(__t("Module '%s' has been uninstalled", $plugin), 'success');
         } else {
