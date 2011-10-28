@@ -201,7 +201,7 @@ div.toolbar ul li a {
 }
 
 div.toolbar ul li.selected a, div.toolbar ul li a:hover { color:#666; border:1px solid #bbb; }
-#sessionFlash .success, #sessionFlash .error{
+#sessionFlash .success, #sessionFlash .error {
     padding:15px;
     margin-bottom:15px;
     -webkit-border-radius: 10px;
