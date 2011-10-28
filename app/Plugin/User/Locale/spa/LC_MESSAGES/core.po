@@ -117,7 +117,7 @@ msgid "Who's New"
 msgstr "Nuevos Usuarios"
 
 msgid "Add new user"
-msgstr "Agregar nuevo usaurio"
+msgstr "Agregar nuevo usuario"
 
 msgid "Create new account"
 msgstr "Crear nueva cuenta"
