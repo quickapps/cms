@@ -515,6 +515,7 @@ jQuery.extend(QuickApps.settings, {
         $modules = Cache::read('Modules');
 
         if ($modules === false) {
+            $Modules = array();
             $modules = $this->Controller->Module->find('all', array('recursive' => -1));
 
             foreach ($modules as $m) {
@@ -526,10 +527,11 @@ jQuery.extend(QuickApps.settings, {
                 $yamlFile = (strpos($m['Module']['name'], 'Theme') === 0) ? dirname(dirname($v['path'])) . DS . basename(dirname(dirname($v['path']))) . '.yaml' : $v['path'] . "{$m['Module']['name']}.yaml";
                 $v['yaml'] = file_exists($yamlFile) ? Spyc::YAMLLoad($yamlFile) : array();
 
-                Configure::write('Modules.' . $m['Module']['name'], $v);
+                $Modules[$m['Module']['name']] = $v;
             }
 
-            Cache::write('Modules', Configure::read('Modules'));
+            Configure::write('Modules', $Modules);
+            Cache::write('Modules', $Modules);
         } else {
             Configure::write('Modules', $modules);
         }
