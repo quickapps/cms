@@ -15,17 +15,19 @@
     <body>
         <div id="content" class="clearfix">
             <div class="left-block">
-                <?php echo $this->Html->image('logo.png'); ?>
+                <a href="http://cms.quickapps.es/" target="_blank"><?php echo $this->Html->image('logo.png', array('border' => 0)); ?></a>
             </div>
 
             <div class="right-block">
-                <div class="sessionFlash">
-                <?php if ($sessionFlash = $this->Layout->sessionFlash()): ?>
-                    <?php echo $sessionFlash; ?>
-                <?php endif; ?>
-                </div>
+                <div class="container">
+                    <div class="sessionFlash">
+                    <?php if ($sessionFlash = $this->Layout->sessionFlash()): ?>
+                        <?php echo $sessionFlash; ?>
+                    <?php endif; ?>
+                    </div>
 
-                <?php echo $this->Layout->content(); ?>
+                    <?php echo $this->Layout->content(); ?>
+                </div>
             </div>
         </div>
     </body>

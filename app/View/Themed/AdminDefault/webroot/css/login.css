@@ -1,17 +1,15 @@
-html, body { height:100%; }
 html { background:url(../img/login-bg.jpg) #EFF3F6; color:#b5b5b5; font-family:arial; }
 
 div#content { width:500px; margin:0 auto; margin-top:100px; overflow:hidden; }
     div.left-block, div.right-block { float:left; }
     div.left-block { 
-        border-right:1px solid #A9A9A9; 
         padding-right:50px; 
-        height: 100%;
         line-height:250px;
     }
-    
-    div.right-block { width:280px; padding-left:30px; border-left:1px solid #fff; overflow:hidden; }
-    
+
+    div.right-block { width:280px; border-left:1px solid #A9A9A9; overflow:hidden; float:left; }
+    div.right-block .container { padding-left:30px; border-left:1px solid #fff; overflow:hidden; }
+
     div.sessionFlash div { 
         margin-bottom:15px;
         font-size:12px;
@@ -41,6 +39,7 @@ h2 { padding:10px 0; font-size:18px; color:#4B4B4B; }
 label { display:none; }
 .checkbox label { display:inline !important; padding-left:20px; }
 .password { margin-top:15px;}
+div.form { background:none; }
 div.input { width:300px; }
 fieldset { width:100px; }
 .text input, .password input { 
@@ -65,8 +64,6 @@ fieldset { width:100px; }
     -webkit-border-radius: 10px;
     -khtml-border-radius: 10px;
 }
-
-div.form { background:none; }
 
 .submit input { 
     margin-top:20px; 
