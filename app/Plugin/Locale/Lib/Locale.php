@@ -35,7 +35,7 @@ class Locale {
         return $l['direction'];
     }
 
-    public function contries_list() {
+    public function countries_list() {
         return $L10n->catalog();
     }
 
