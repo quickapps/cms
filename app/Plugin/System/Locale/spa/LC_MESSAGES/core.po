@@ -187,3 +187,6 @@ msgstr "Desinstalar"
 
 msgid "Dependencies"
 msgstr "Dependencias"
+
+msgid "Delete selected module ? This change cant be undone!"
+msgstr "Eliminar el módulo seleccionado ? Esta operación no puede ser revertida!"
