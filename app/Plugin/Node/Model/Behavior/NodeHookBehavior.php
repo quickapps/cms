@@ -39,7 +39,7 @@ class NodeHookBehavior extends ModelBehavior {
 
     // node type: Custom types
     public function node_before_validate(&$Model) {
-        return $this->node_content_beforeValidate($Model);
+        return $this->node_content_before_validate($Model);
     }
 
     public function node_before_save(&$Model) {
