@@ -110,6 +110,15 @@ class InstallerComponent extends Component {
             $folders = $Folder->read();$folders = $folders[0];
             $packagePath = isset($folders[0]) && count($folders) === 1 ? CACHE . 'installer' . DS . $data['Package']['data']['name'] . DS . 'unzip' . DS . str_replace(DS, '', $folders[0]) . DS : false;
             $appName = (string)basename($packagePath);
+
+            /**
+             * look for GitHub Package:
+             *     username-QACMS-ModuleNameInCamelCase-last_commit_id
+             */
+            if (preg_match('/(.*)\-QACMS\-(.*)\-([a-z0-9]*)/', $appName, $matches)) {
+                $appName = $matches[2];
+            }
+
             $this->options['__packagePath'] = $packagePath;
             $this->options['__appName'] = $appName;
 
@@ -123,6 +132,11 @@ class InstallerComponent extends Component {
                 case 'module':
                     default:
                         $tests = array(
+                            'CamelCaseName' => array(
+                                'test' => (Inflector::camelize($appName) == $appName),
+                                'header' => __d('system', 'Theme name'),
+                                'msg' => __d('system', 'Invalid module name (got "%s", expected: "%s")', $appName, Inflector::camelize($appName))
+                            ),
                             'notAlreadyInstalled' => array(
                                 'test' => (
                                     $this->Controller->Module->find('count', array('conditions' => array('Module.name' => $appName, 'Module.type' => 'module'))) === 0 &&
@@ -181,6 +195,11 @@ class InstallerComponent extends Component {
 
                 case 'theme':
                     $tests = array(
+                        'CamelCaseName' => array(
+                            'test' => (Inflector::camelize($appName) == $appName),
+                            'header' => __d('system', 'Theme name'),
+                            'msg' => __d('system', 'Invalid theme name (got "%s", expected: "%s")', $appName, Inflector::camelize($appName))
+                        ),
                         'notAlreadyInstalled' => array(
                             'test' => (
                                 $this->Controller->Module->find('count', array('conditions' => array('Module.name' => 'Theme' . $appName, 'Module.type' => 'theme'))) === 0 &&
@@ -227,12 +246,6 @@ class InstallerComponent extends Component {
                     );
                 break;
             }
-
-            $tests['CamelCaseName'] =array(
-                'test' => (Inflector::camelize($appName) == $appName),
-                'header' => __d('system', 'Theme name'),
-                'msg' => __d('system', 'Invalid theme name (got "%s", expected: "%s")', $appName, Inflector::camelize($appName))
-            );
 
             if (!$this->__process_tests($tests)) {
                 return false;
@@ -431,7 +444,10 @@ class InstallerComponent extends Component {
  * @return boolean true on success or false otherwise
  */
     public function uninstall($pluginName = false) {
-        if (!$pluginName || !is_string($pluginName)) {
+        if (!$pluginName || 
+            !is_string($pluginName) || 
+            !in_array($this->options['type'], array('module', 'theme'))
+        ) {
             return false;
         }
 
@@ -521,22 +537,13 @@ class InstallerComponent extends Component {
     }
 
     public function afterInstall() {
-        Cache::delete('Modules');
-        Cache::delete('Variable');
-
-        $this->Controller->Quickapps->loadVariables();
-        $this->Controller->Quickapps->loadModules();
+        $this->__clearCache();
 
         return true;
     }
 
     public function afterUninstall() {
-        # delete & regenerate caches
-        Cache::delete('Modules');
-        Cache::delete('Variable');
-
-        $this->Controller->Quickapps->loadModules();
-        $this->Controller->Quickapps->loadVariables();
+        $this->__clearCache();
 
         # delete all menus created by module/theme
         ClassRegistry::init('Menu.Menu')->deleteAll(
@@ -545,7 +552,7 @@ class InstallerComponent extends Component {
             )
         );
 
-        # delete blocks
+        # delete blocks created by module/theme
         ClassRegistry::init('Block.Block')->deleteAll(
             array(
                 'Block.module' => $this->options['__Name']
@@ -564,10 +571,10 @@ class InstallerComponent extends Component {
 
         $this->Controller->Acl->Aco->delete($rootAco['Aco']['id']);
 
-        # delete node types
+        # delete node types created by module/theme
         ClassRegistry::init('Node.NodeType')->deleteAll(
             array(
-                'NodeType.module' => $this->options['__name']
+                'NodeType.module' => $this->options['__Name']
             )
         );
 
@@ -900,5 +907,14 @@ class InstallerComponent extends Component {
         closedir($dir);
 
         return true;
+    }
+    
+    private function __clearCache() {
+        # delete & regenerate caches
+        Cache::delete('Modules');
+        Cache::delete('Variable');
+
+        $this->Controller->Quickapps->loadModules();
+        $this->Controller->Quickapps->loadVariables();
     }
 }
