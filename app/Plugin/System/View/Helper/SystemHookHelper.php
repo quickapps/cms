@@ -13,7 +13,7 @@ class SystemHookHelper extends AppHelper {
     // Block
     public function system_powered_by() {
         return array(
-            'body' => __t('Powered by &copy; QuickApps v%s', Configure::read('Variable.qa_version'))
+            'body' => __t('Powered by &copy; QuickApps v%s beta', Configure::read('Variable.qa_version'))
         );
     }
 
