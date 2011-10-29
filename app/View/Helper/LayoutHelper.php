@@ -269,7 +269,7 @@ class LayoutHelper extends AppHelper {
         $content_callback = $this->hook($callback, $node, array('collectReturn' => false));
 
         if (empty($content_callback)) {
-            $content .= $this->default_renderNode($node);
+            $content .= $this->default_render_node($node);
         } else {
             $content .= $content_callback;
         }
@@ -867,13 +867,16 @@ class LayoutHelper extends AppHelper {
             $Block['params'] = $options['params'];
         }
 
-        $this->hook('theme_block_alter', $Block, array('collectReturn' => true));    // pass block item to theme before render
-        $out = $this->hook('theme_block', $Block, array('collectReturn' => false));    // try theme rendering
+        $this->hook('theme_block_data_alter', $Block, array('collectReturn' => false)); // pass block array to modules
+
+        $out = $this->hook('theme_block', $Block, array('collectReturn' => false)); // try theme rendering
 
         // No response from theme -> use default rendering
         if (empty($out)) {
             $out = $this->default_theme_block($Block);
         }
+
+        $this->hook('theme_block_alter', $out, array('collectReturn' => false));
 
         return $out;
     }
@@ -900,6 +903,9 @@ class LayoutHelper extends AppHelper {
 /**
  * Special hookTags that are not managed by any modules:
  *  `[date=FORMAT]` Return current date(FORMAT).
+ *  `[rand={values,by,comma}]` Returns a radom value from the specified group.
+ *                             If only two numeric values are given as group, 
+ *                             then rand(num1, num2) is returned.
  *  `[language.OPTION]` Current language option (code, name, native, direction).
  *  `[language]` Shortcut to [language.code] which return current language code.
  *  `[url]YourURL[/url]` or `[url=YourURL]` Formatted url.
@@ -966,6 +972,22 @@ class LayoutHelper extends AppHelper {
             $text = str_replace("[date={$format}]", date($format), $text);
         }
 
+        //[rand=a,b,c]
+        preg_match_all('/\[rand\=(.+)\]/iUs', $text, $randomMatches);
+        foreach ($randomMatches[1] as $_values) {
+            $values = explode(',', $_values);
+            $values = array_map('trim', $values);
+            $c = count($values);
+
+            if ($c == 2 && is_numeric($values[0]) && is_numeric($values[1])) {
+                $replace = rand($values[0], $values[1]);
+            } else {
+                $replace = $values[rand(0, $c-1)];
+            }
+
+            $text = str_replace("[rand={$_values}]", $replace, $text);
+        }
+
         //[Layout.PATH]
         preg_match_all('/\[Layout.(.+)\]/iUs', $text, $layoutPaths);
         foreach ($layoutPaths[1] as $path) {
@@ -992,8 +1014,8 @@ class LayoutHelper extends AppHelper {
         return $this->_View->element('default_theme_breadcrumb', array('crumbs' => $crumb));
     }
 
-    public function default_renderNode($node) {
-        return $this->_View->element('default_renderNode', array('node' => $node));
+    public function default_render_node($node) {
+        return $this->_View->element('default_render_node', array('node' => $node));
     }
 
 /**

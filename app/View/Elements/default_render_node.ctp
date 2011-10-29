@@ -1,0 +1,1 @@
+<h1><?php echo __t('The node could not be rendered'); ?></h1>
