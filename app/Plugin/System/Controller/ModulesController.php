@@ -27,7 +27,9 @@ class ModulesController extends SystemAppController {
                 $this->Module->save($this->data);
                 Cache::delete('Modules'); # regenerate modules cache
                 $this->Quickapps->loadModules();
-            } else {
+            }
+
+            if (isset($this->data['Variable'])) {
                 $this->Variable->save($this->data);
             }
 
