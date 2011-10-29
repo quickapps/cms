@@ -351,20 +351,22 @@ class MenuHelper extends AppHelper {
                 empty($elementData['data'][$this->__settings['model']][$this->__settings['external_url']])
             ) {
                 $this->addItemAttribute('class', $this->__settings['selectedClass']);
-            } elseif (isset($elementData['data'][$this->__settings['model']][$this->__settings['url']]) &&
+            } elseif (
+                isset($elementData['data'][$this->__settings['model']][$this->__settings['url']]) &&
                 $elementData['data'][$this->__settings['model']][$this->__settings['url']] == '/' &&
                 $this->_View->here === $this->_View->Html->url('/')
             ) {
                 $this->addItemAttribute('class', $this->__settings['selectedClass']);
-            } elseif (isset($elementData['data'][$this->__settings['model']]['selected_on']) && 
+            } elseif (
+                isset($elementData['data'][$this->__settings['model']]['selected_on']) && 
                 !empty($elementData['data'][$this->__settings['model']]['selected_on']) 
             ) {
                 if (
                     ($elementData['data'][$this->__settings['model']]['selected_on_type'] == 'php' &&
-                    $this->__php_eval($elementData['data'][$this->__settings['model']]['selected_on']) === true)
+                    $this->_php_eval($elementData['data'][$this->__settings['model']]['selected_on']) === true)
                     || 
                     ($elementData['data'][$this->__settings['model']]['selected_on_type'] == 'reg' && 
-                    $this->__urlMatch($elementData['data'][$this->__settings['model']]['selected_on']))
+                    $this->_urlMatch($elementData['data'][$this->__settings['model']]['selected_on'], '/' . $this->_View->request->url))
                 ) {
                     $this->addItemAttribute('class', $this->__settings['selectedClass']);
                 }
@@ -670,37 +672,5 @@ class MenuHelper extends AppHelper {
         }
 
         return array_unique($out);
-    }
-
-    private function __urlMatch($patterns) {
-        $path = '/' . $this->_View->request->url;
-
-        $to_replace = array(
-            '/(\r\n?|\n)/', // newlines
-            '/\\\\\*/',     // asterisks
-            '/(^|\|)\/($|\|)/' // front '/'
-        );
-
-        $replacements = array(
-            '|',
-            '.*',
-            '\1' . preg_quote(Router::url('/'), '/') . '\2'
-        );
-
-        $patterns_quoted = preg_quote($patterns, '/');
-        $regexps[$patterns] = '/^(' . preg_replace($to_replace, $replacements, $patterns_quoted) . ')$/';
-
-        return (bool) preg_match($regexps[$patterns], $path);
-    }
-
-    private function __php_eval($code) {
-        ob_start();
-        $Layout =& $this->_View->viewVars['Layout'];
-        $View =& $this->_View;
-        print eval('?>' . $code);
-        $output = ob_get_contents();
-        ob_end_clean();
-
-        return (bool)$output;
-    }    
+    }  
 }

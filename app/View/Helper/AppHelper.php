@@ -153,6 +153,77 @@ class AppHelper extends Helper {
     }
 
 /**
+ * Evaluate a string of PHP code.
+ *
+ * This is a wrapper around PHP's eval(). It uses output buffering to capture both
+ * returned and printed text. Unlike eval(), we require code to be surrounded by
+ * <?php ?> tags; in other words, we evaluate the code as if it were a stand-alone
+ * PHP file.
+ *
+ * Using this wrapper also ensures that the PHP code which is evaluated can not
+ * overwrite any variables in the calling code, unlike a regular eval() call.
+ *
+ * @param string $code The code to evaluate.
+ * @return
+ *   A string containing the printed output of the code, followed by the returned
+ *   output of the code.
+ *
+ */
+    protected function _php_eval($code) {
+        ob_start();
+        $Layout =& $this->_View->viewVars['Layout'];
+        $View =& $this->_View;
+        print eval('?>' . $code);
+        $output = ob_get_contents();
+        ob_end_clean();
+
+        return (bool)$output;
+    } 
+
+/**
+ * Check if a path matches any pattern in a set of patterns.
+ *
+ * @param $path The path to match.
+ * @param $patterns String containing a set of patterns separated by \n, \r or \r\n.
+ * @return Boolean value: TRUE if the path matches a pattern, FALSE otherwise.
+ */
+    protected function _urlMatch($patterns, $path = false) {
+        if (empty($patterns)) {
+            return false;
+        }
+
+        $path = !$path ? '/' . $this->_View->request->url : $path;
+        $patterns = explode("\n", $patterns);
+
+        foreach ($patterns as &$p) {
+            $p = Router::url('/') . $p;
+            $p = str_replace('//', '/', $p);
+            $p = str_replace($this->_View->base, '', $p);
+        }
+
+        $patterns = implode("\n", $patterns);
+
+        // Convert path settings to a regular expression.
+        // Therefore replace newlines with a logical or, /* with asterisks and the <front> with the frontpage.
+        $to_replace = array(
+            '/(\r\n?|\n)/', // newlines
+            '/\\\\\*/',     // asterisks
+            '/(^|\|)\/($|\|)/' // front '/'
+        );
+
+        $replacements = array(
+            '|',
+            '.*',
+            '\1' . preg_quote(Router::url('/'), '/') . '\2'
+        );
+
+        $patterns_quoted = preg_quote($patterns, '/');
+        $regexps[$patterns] = '/^(' . preg_replace($to_replace, $replacements, $patterns_quoted) . ')$/';
+
+        return (bool) preg_match($regexps[$patterns], $path);
+    }
+
+/**
  * Dispatch Helper-hooks from all the plugins and core
  *
  * @see AppHelper::hook()
