@@ -435,17 +435,6 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
- * Get all Role ID of the current loged in user.
- *
- * @return array Array of all roles that user belongs to.
- */
-    public function getRoleId() {
-        $roleId = $this->isLoggedIn() ? $this->Session->read('Auth.User.role_id') : 3;
-
-        return $roleId;
-    }
-
-/**
  * Checks user session.
  *
  * @return boolean, TRUE if user is logged in. FALSE otherwise.
@@ -460,7 +449,7 @@ class LayoutHelper extends AppHelper {
  * @return boolean
  */ 
     public function isAdmin() {
-        return in_array(1, (array)$this->getRoleId());
+        return in_array(1, (array)$this->userRoles());
     }
 
 /**
