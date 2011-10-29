@@ -29,8 +29,8 @@
                         'legend' => false,
                         'type' => 'radio', 
                         'options' => array(
-                            'php' => __t('When following PHP code returns TRUE (experts only)'),
-                            'reg' => __t('On URL matching (regular expression)')
+                            'reg' => __t('When URL match any those listed'),
+                            'php' => __t('When following PHP code returns TRUE (experts only)')
                         ),
                         'separator' => '<br />'
                     )
@@ -39,6 +39,7 @@
 
             <?php echo $this->Form->input('selected_on', array('type' => 'textarea', 'label' => false)); ?>
             <em>
+                <?php echo __t("Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are blog for the blog page and blog/* for every blog entry. '/' is the front page."); ?>
                 <?php echo __t('If the PHP option is chosen, enter PHP code between &lt;?php ?&gt;. Note that executing incorrect PHP code can break your QuickApps site.'); ?>
             </em>
         <?php echo $this->Html->useTag('fieldsetend'); ?>

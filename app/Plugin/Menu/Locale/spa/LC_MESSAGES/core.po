@@ -140,8 +140,11 @@ msgstr "Mostrar como seleccionado:"
 msgid "When following PHP code returns TRUE (experts only)"
 msgstr "Cuando el siguiente código PHP retorne TRUE (sólo expertos)"
 
-msgid "On URL matching (regular expression)"
-msgstr "Al coincidir la URL (expresión regular)"
+msgid "When URL match any those listed"
+msgstr "Cuando la URL coincide con cualquiera de las listadas"
+
+msgid "Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are blog for the blog page and blog/* for every blog entry. '/' is the front page."
+msgstr "Indique páginas usando su ruta. Ingrese una ruta por línea. El caracter '*' es un comodín. Ejemplos de rutas son blog para la página de blog y /blog/* para cualquier entrada de blog. '/' es la página principal."
 
 msgid "If the PHP option is chosen, enter PHP code between &lt;?php ?&gt;. Note that executing incorrect PHP code can break your QuickApps site."
 msgstr "Si selecciona la opción PHP, ingrese el código PHP entre &lt;?php ?&gt;. La ejecución de código PHP incorrecto puede romper su sitio QuickApps."
