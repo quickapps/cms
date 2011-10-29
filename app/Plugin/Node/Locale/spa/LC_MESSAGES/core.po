@@ -442,3 +442,9 @@ msgstr "Destacado en portada"
 
 msgid "Cache activated"
 msgstr "Caché activado"
+
+msgid "New ID *"
+msgstr "Nuevo ID *"
+
+msgid "A unique name for this content type. It must only contain lowercase letters, numbers, and underscores."
+msgstr "Identificador único para este tipo de contenido. Debe contener unicamente letras en minúsculas, números y subrayas (_)."

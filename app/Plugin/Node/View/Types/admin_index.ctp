@@ -2,7 +2,7 @@
 $tSettings = array(
     'columns' => array(
         __t('Name') => array(
-            'value' => '{NodeType.name}',
+            'value' => '{NodeType.name} <em>(id: {NodeType.id})</em>',
             'sort' => 'NodeType.name'
         ),
         __t('Actions') => array(

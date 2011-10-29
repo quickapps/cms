@@ -3,8 +3,13 @@
         <?php echo $this->Form->hidden('NodeType.id'); ?>
         <?php echo $this->Form->input('NodeType.name', array('required' => 'required', 'type' => 'text', 'label' => __t('Name *'))); ?>
         <em><?php echo __t('This text will be displayed as part of the list on the Add new content page'); ?></em>
+
+        <?php echo $this->Form->input('NodeType.new_id', array('type' => 'text', 'label' => __t('New ID *'))); ?>
+        <em><?php echo __t('A unique name for this content type. It must only contain lowercase letters, numbers, and underscores.'); ?></em>
+
         <?php echo $this->Form->input('NodeType.description', array('type' => 'textarea', 'label' => __t('Description'))); ?>
         <em><?php echo __t('Describe this content type. The text will be displayed on the Add new content page.'); ?></em>
+
         <?php echo $this->Form->input('NodeType.title_label', array('required' => 'required', 'type' => 'text', 'label' => __t('Title field label *'))); ?>
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 

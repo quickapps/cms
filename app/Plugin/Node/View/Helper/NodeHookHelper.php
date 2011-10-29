@@ -53,16 +53,6 @@ class NodeHookHelper extends AppHelper {
         );
     }
 
-    # edit/add form (node type: Basic Page)
-    public function node_content_form($data) {
-        return $this->_View->element('node' . DS . 'edit', array('data' => $data), array('plugin' => 'Node'));
-    }
-
-    # rendering (node type: Basic Page)
-    public function node_content_page($node) {
-        return $this->_View->element('node' . DS . 'node', array('node' => $node), array('plugin' => 'Node'));
-    }
-
     # edit/add form (node type: Custom types)
     public function node_form($data) {
         return $this->_View->element('node' . DS . 'edit', array('data' => $data), array('plugin' => 'Node'));

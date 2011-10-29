@@ -88,7 +88,7 @@ class NodeController extends NodeAppController {
  *
  * @param string $slug Slug of the Node to render
  */
-    public function details($slug) {
+    public function details($type, $slug) {
         $result = Cache::read("node_{$slug}");
 
         if (!$result) {
@@ -102,6 +102,7 @@ class NodeController extends NodeAppController {
             );
 
             $conditions = array(
+                'Node.node_type_id' => $type,
                 'Node.slug' => $slug,
                 'Node.status' => 1,
                 'NodeType.status' => 1,

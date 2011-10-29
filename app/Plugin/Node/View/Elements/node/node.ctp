@@ -25,6 +25,6 @@
 
 <?php if (!in_array($Layout['viewMode'], array('full', 'print'))): ?>
     <div class="link-wrapper">
-        <?php echo $this->Html->link('<span>' . __d('node', 'Read More') . '</span>', "/d/{$node['Node']['slug']}", array('class' => 'read-more', 'escape' => false)); ?>
+        <?php echo $this->Html->link('<span>' . __d('node', 'Read More') . '</span>', "/d/{$node['Node']['node_type_id']}/{$node['Node']['slug']}", array('class' => 'read-more', 'escape' => false)); ?>
     </div>
 <?php endif; ?>

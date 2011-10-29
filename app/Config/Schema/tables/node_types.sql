@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `qa_node_types`
+-- Table structure for table `#__node_types`
 --
 
-DROP TABLE IF EXISTS `qa_node_types`;
+DROP TABLE IF EXISTS `#__node_types`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `qa_node_types` (
+CREATE TABLE `#__node_types` (
   `id` varchar(36) COLLATE utf8_unicode_ci NOT NULL COMMENT 'The machine-readable name of this type.',
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT 'The human-readable name of this type.',
   `base` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'The base string used to construct callbacks corresponding to this node type.',
@@ -46,13 +46,13 @@ CREATE TABLE `qa_node_types` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `qa_node_types`
+-- Dumping data for table `#__node_types`
 --
 
-LOCK TABLES `qa_node_types` WRITE;
-/*!40000 ALTER TABLE `qa_node_types` DISABLE KEYS */;
-INSERT INTO `qa_node_types` VALUES ('page','Basic page','node_content','System','Use <em>basic pages</em> for your static content, such as an \'About us\' page.','Title',1,10,2,1,0,0,0,'es',1,0,0,1);
-/*!40000 ALTER TABLE `qa_node_types` ENABLE KEYS */;
+LOCK TABLES `#__node_types` WRITE;
+/*!40000 ALTER TABLE `#__node_types` DISABLE KEYS */;
+INSERT INTO `#__node_types` VALUES ('page','Basic page','node','Node','Use <em>basic pages</em> for your static content, such as an \'About us\' page.','Title',1,10,2,1,0,0,0,'es',1,0,0,1);
+/*!40000 ALTER TABLE `#__node_types` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -64,4 +64,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-10-25 17:20:43
+-- Dump completed on 2011-10-29 12:07:09

@@ -12,7 +12,7 @@
 <?php
     foreach ($Layout['node'] as $node):
         $nodeTime = $node['Node']['created'];
-        $nodeLink = "/d/{$node['Node']['slug']}";
+        $nodeLink = "/d/{$node['Node']['node_type_id']}/{$node['Node']['slug']}";
 
         App::uses('Sanitize', 'Utility');
         $nodeBody = $this->Layout->renderNode($node);

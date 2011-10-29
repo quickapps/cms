@@ -22,13 +22,14 @@ class TypesController extends NodeAppController {
         if (!empty($this->data['NodeType']['id'])) {
             if ($this->NodeType->save($this->data)) {
                 $this->flashMsg(__t('Content type has been saved!'), 'success');
-                $this->redirect($this->referer());
+                $this->redirect("/admin/node/types/edit/{$this->data['NodeType']['new_id']}");
             } else {
                 $this->flashMsg(__t('Content type could not be saved'), 'error');
             }
         }
 
         $nodeType = $this->NodeType->findById($id) or $this->redirect('/admin/node/types');
+        $nodeType['NodeType']['new_id'] = $nodeType['NodeType']['id'];
         $this->data = $nodeType;
 
         $this->__setLangVar();

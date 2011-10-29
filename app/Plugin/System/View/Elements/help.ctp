@@ -80,7 +80,7 @@
         <p class="code-block">
             <code>[url=/relative_url/image.jpg] or [url]relative url/image.jpg[/url]</code>
             <br/><br/>
-            Return well formatted url. URL can be an relative url (/d/my-post) or external (http://www.domain.com/my-url).
+            Return well formatted url. URL can be an relative url (/d/type-of-content/my-post) or external (http://www.domain.com/my-url).
         </p>
 
         <p class="code-block">
