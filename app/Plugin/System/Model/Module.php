@@ -21,15 +21,6 @@ class Module extends SystemAppModel {
             $this->data['Module']['name'] = Inflector::camelize($this->data['Module']['name']);
         }
 
-        # merge settings (array treatment):
-        if (isset($this->data['Module']['name']) && isset($this->data['Module']['settings'])) {
-            $this->validate = false;
-            $settings = $this->field('settings', array('Module.name' => $this->data['Module']['name']));
-            $this->data['Module']['settings'] = Set::merge($settings, $this->data['Module']['settings']);
-            $this->data['Module']['settings'] = Set::filter($this->data['Module']['settings']);
-        } elseif (!isset($this->data['Module']['name'])) { # new module
-            $this->data['Module']['settings'] = array();
-        }
         return true;
     }
 }
