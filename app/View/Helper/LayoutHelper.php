@@ -338,6 +338,12 @@ class LayoutHelper extends AppHelper {
  * @return string HTML formatted field
  */
     public function renderField($field) {
+        if (isset($field['settings']['display'][$this->_View->viewVars['Layout']['viewMode']]['type']) &&
+            $field['settings']['display'][$this->_View->viewVars['Layout']['viewMode']]['type'] == 'hidden'
+        ) {
+            return '';
+        }
+
         return
             "\n<div class=\"field-container {$field['name']}\">\n" .
                 $this->Layout->hook("{$field['field_module']}_view", $field, array('collectReturn' => false)) .

@@ -454,3 +454,15 @@ msgstr "No hay campos para mostrar"
 
 msgid "Are you sure that you want to delete this type of content. ? This action cannot be undone."
 msgstr "¿ Está seguro que desea eliminar este tipo de contenido ? Esta operación no se puede deshacer."
+
+msgid "Field has been saved."
+msgstr "El campo ha sido guardado."
+
+msgid "Hidden"
+msgstr "Oculto"
+
+msgid "Content items can be displayed using different view modes: Full, List, RSS, Print, etc. List is a short format that is typically used in lists of multiple content items. Full content is typically used when the content is displayed on its own page."
+msgstr "Los contenidos pueden ser mostrados en diferentes modos de vistas: Full, List, RSS, Print, etc. List es un formato resumido que comúnmente se utiliza para mostrar listas de multiples contenidos. Full se utiliza comúnmente cuando el contenido se muestra en su propia página."
+
+msgid "Here, you can define which fields are shown and hidden when <em>%s</em> content is displayed in each view mode, and define how the fields are displayed in each view mode."
+msgstr "Aquí puede definir cuales campos se deben mostrar u ocultar cuando el tipo de contenido <em>%s</em> es mostrado en cada uno de los modos de vista, así como también definir la forma en que los campos son mostrados en cada modo de vista."

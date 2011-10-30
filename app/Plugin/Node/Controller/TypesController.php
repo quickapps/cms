@@ -150,7 +150,14 @@ class TypesController extends NodeAppController {
         $nodeType = $this->NodeType->findById($ntID) or $this->redirect('/admin/node/types');
 
         if (isset($this->data['Field'])) {
+            if ($this->data['Field']['display_hidden']) {
+                $data = $this->data;
+                $data['Field']['settings']['display'][$view_mode]['type'] = 'hidden';
+                $this->data = $data;
+            }
+
             if ($this->Field->save($this->data)) {
+                $this->flashMsg(__t('Field has been saved.'), 'success');
                 $this->redirect($this->referer());
             } else {
                 $this->flashMsg(__t('Field could not be saved. Please, try again.'), 'error');

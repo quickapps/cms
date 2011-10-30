@@ -4,8 +4,13 @@
 
     echo $this->Form->input("Field.settings.display.{$view_mode}.type",
         array(
+            'label' => false,
             'type' => 'select',
-            'options' => array('full' => __t('Full'), 'plain' => __t('Plain'), 'trimmed' => __t('Trimmed'), 'hidden' => __t('Hidden')),
+            'options' => array(
+                'full' => __t('Full'),
+                'plain' => __t('Plain'),
+                'trimmed' => __t('Trimmed')
+            ),
             'empty' => false,
             'escape' => false,
             'onChange' => "if (this.value == 'trimmed') { $('#trimmed').show(); }else{ $('#trimmed').hide(); };"
