@@ -17,7 +17,7 @@ class TaxonomyHookHelper extends AppHelper {
             $this->request->params['controller'] == 'vocabularies' &&
             $this->request->params['action'] == 'admin_index'
         ) {
-            $this->_View->Layout->blockPush( array('body' => $this->_View->element('toolbar') . '<!-- TaxonomyHookHelper -->' ), 'toolbar');
+            $this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar') . '<!-- TaxonomyHookHelper -->' ), 'toolbar');
         }
 
         return true;
@@ -48,7 +48,9 @@ class TaxonomyHookHelper extends AppHelper {
         
         if ($block['Block']['settings']['show_vocabulary']) {
             foreach ($vocabularies as $vocabulary) {
-                $body .= '<li>' . $this->_View->Html->link($vocabulary['Vocabulary']['title'], "/s/vocabulary:{$vocabulary['Vocabulary']['slug']}");
+                $prefix = isset($block['Block']['settings']['url_prefix']) && !empty($block['Block']['settings']['url_prefix']) ? trim($block['Block']['settings']['url_prefix']) . ' ' : '';
+                $url = "/s/{$prefix}vocabulary:{$vocabulary['Vocabulary']['slug']}";
+                $body .= '<li>' . $this->_View->Html->link($vocabulary['Vocabulary']['title'], $url);
                 $terms = ClassRegistry::init('Taxonomy.Term')->find('all', 
                     array(
                         'conditions' => array('Term.vocabulary_id' => $vocabulary['Vocabulary']['id']),
@@ -57,7 +59,8 @@ class TaxonomyHookHelper extends AppHelper {
                 );
 
                 foreach ($terms as &$term) {
-                    $term['Term']['router_path'] = "/s/term:{$term['Term']['slug']}";
+                    $prefix = isset($block['Block']['settings']['url_prefix']) && !empty($block['Block']['settings']['url_prefix']) ? trim($block['Block']['settings']['url_prefix']) . ' ' : '';
+                    $term['Term']['router_path'] = "/s/{$prefix}term:{$term['Term']['slug']}";
 
                     if ($block['Block']['settings']['content_counter']) {
                         $count = Cache::read("count_term_{$term['Term']['id']}");
@@ -91,7 +94,8 @@ class TaxonomyHookHelper extends AppHelper {
             );
 
             foreach ($terms as &$term) {
-                $term['Term']['router_path'] = "/s/term:{$term['Term']['slug']}";
+                $prefix = isset($block['Block']['settings']['url_prefix']) && !empty($block['Block']['settings']['url_prefix']) ? trim($block['Block']['settings']['url_prefix']) . ' ' : '';
+                $term['Term']['router_path'] = "/s/{$prefix}term:{$term['Term']['slug']}";
 
                 if ($block['Block']['settings']['content_counter']) {
                     $count = Cache::read("count_term_{$term['Term']['id']}");

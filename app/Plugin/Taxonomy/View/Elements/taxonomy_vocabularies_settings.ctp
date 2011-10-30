@@ -29,3 +29,12 @@
             'label' => __d('taxonomy', 'Show vocabulary and its terms as tree')
         )
     );
+
+    echo $this->Form->input('Block.settings.url_prefix',
+        array(
+            'between' => $this->Html->url('/', true) . 's/',
+            'after' => ' term:my-term-slug',
+            'type' => 'text',
+            'label' => __d('taxonomy', 'URL prefix')
+        )
+    );
