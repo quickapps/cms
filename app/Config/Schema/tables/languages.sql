@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `qa_languages`
+-- Table structure for table `#__languages`
 --
 
-DROP TABLE IF EXISTS `qa_languages`;
+DROP TABLE IF EXISTS `#__languages`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `qa_languages` (
+CREATE TABLE `#__languages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` varchar(12) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Language code, e.g. ’eng’',
   `name` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Language name in English.',
@@ -37,13 +37,13 @@ CREATE TABLE `qa_languages` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `qa_languages`
+-- Dumping data for table `#__languages`
 --
 
-LOCK TABLES `qa_languages` WRITE;
-/*!40000 ALTER TABLE `qa_languages` DISABLE KEYS */;
-INSERT INTO `qa_languages` VALUES (1,'eng','English','English','ltr','us.gif',1,0),(2,'spa','Spanish','Español','ltr','es.gif',1,0);
-/*!40000 ALTER TABLE `qa_languages` ENABLE KEYS */;
+LOCK TABLES `#__languages` WRITE;
+/*!40000 ALTER TABLE `#__languages` DISABLE KEYS */;
+INSERT INTO `#__languages` VALUES (1,'eng','English','English','ltr','us.gif',1,0),(2,'spa','Spanish','Español','ltr','es.gif',1,0);
+/*!40000 ALTER TABLE `#__languages` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-10-25 17:20:42
+-- Dump completed on 2011-10-30 14:46:34

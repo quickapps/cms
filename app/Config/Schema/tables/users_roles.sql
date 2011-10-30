@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `qa_users_roles`
+-- Table structure for table `#__users_roles`
 --
 
-DROP TABLE IF EXISTS `qa_users_roles`;
+DROP TABLE IF EXISTS `#__users_roles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `qa_users_roles` (
+CREATE TABLE `#__users_roles` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `role_id` int(11) NOT NULL,
@@ -31,13 +31,13 @@ CREATE TABLE `qa_users_roles` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `qa_users_roles`
+-- Dumping data for table `#__users_roles`
 --
 
-LOCK TABLES `qa_users_roles` WRITE;
-/*!40000 ALTER TABLE `qa_users_roles` DISABLE KEYS */;
-INSERT INTO `qa_users_roles` VALUES (8,1,1);
-/*!40000 ALTER TABLE `qa_users_roles` ENABLE KEYS */;
+LOCK TABLES `#__users_roles` WRITE;
+/*!40000 ALTER TABLE `#__users_roles` DISABLE KEYS */;
+INSERT INTO `#__users_roles` VALUES (8,1,1);
+/*!40000 ALTER TABLE `#__users_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-10-25 17:20:43
+-- Dump completed on 2011-10-30 14:46:35

@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `qa_aros_acos`
+-- Table structure for table `#__aros_acos`
 --
 
-DROP TABLE IF EXISTS `qa_aros_acos`;
+DROP TABLE IF EXISTS `#__aros_acos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `qa_aros_acos` (
+CREATE TABLE `#__aros_acos` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `aro_id` int(10) NOT NULL,
   `aco_id` int(10) NOT NULL,
@@ -35,13 +35,13 @@ CREATE TABLE `qa_aros_acos` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `qa_aros_acos`
+-- Dumping data for table `#__aros_acos`
 --
 
-LOCK TABLES `qa_aros_acos` WRITE;
-/*!40000 ALTER TABLE `qa_aros_acos` DISABLE KEYS */;
-INSERT INTO `qa_aros_acos` VALUES (1,3,68,'1','1','1','1'),(2,2,68,'1','1','1','1'),(3,3,69,'1','1','1','1'),(4,2,69,'1','1','1','1'),(5,3,70,'1','1','1','1'),(6,2,70,'1','1','1','1'),(7,3,141,'1','1','1','1'),(8,2,142,'1','1','1','1'),(9,3,143,'1','1','1','1'),(10,2,144,'1','1','1','1'),(11,3,145,'1','1','1','1'),(12,3,146,'1','1','1','1'),(13,2,146,'1','1','1','1'),(14,2,147,'1','1','1','1'),(15,3,147,'1','1','1','1'),(16,2,148,'1','1','1','1'),(17,2,149,'1','1','1','1');
-/*!40000 ALTER TABLE `qa_aros_acos` ENABLE KEYS */;
+LOCK TABLES `#__aros_acos` WRITE;
+/*!40000 ALTER TABLE `#__aros_acos` DISABLE KEYS */;
+INSERT INTO `#__aros_acos` VALUES (1,3,68,'1','1','1','1'),(2,2,68,'1','1','1','1'),(3,3,69,'1','1','1','1'),(4,2,69,'1','1','1','1'),(5,3,70,'1','1','1','1'),(6,2,70,'1','1','1','1'),(7,3,141,'1','1','1','1'),(8,2,142,'1','1','1','1'),(9,3,143,'1','1','1','1'),(10,2,144,'1','1','1','1'),(11,3,145,'1','1','1','1'),(12,3,146,'1','1','1','1'),(13,2,146,'1','1','1','1'),(14,2,147,'1','1','1','1'),(15,3,147,'1','1','1','1'),(16,2,148,'1','1','1','1'),(17,2,149,'1','1','1','1');
+/*!40000 ALTER TABLE `#__aros_acos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-10-25 17:20:42
+-- Dump completed on 2011-10-30 14:46:34

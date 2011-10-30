@@ -363,10 +363,10 @@ msgid "Anonymous posters may leave their contact information"
 msgstr "Anónimos pueden dejar su información de contacto"
 
 msgid "Anonymous posters must leave their contact information"
-msgstr "Anónimos pueden deben dejar su información de contacto"
+msgstr "Anónimos deben dejar su información de contacto"
 
 msgid "Allow comment title"
-msgstr "Habilitar título de comnetario"
+msgstr "Habilitar título de comentario"
 
 msgid "Default options"
 msgstr "Opciones por defacto"
@@ -448,3 +448,9 @@ msgstr "Nuevo ID *"
 
 msgid "A unique name for this content type. It must only contain lowercase letters, numbers, and underscores."
 msgstr "Identificador único para este tipo de contenido. Debe contener unicamente letras en minúsculas, números y subrayas (_)."
+
+msgid "There are no fields to display"
+msgstr "No hay campos para mostrar"
+
+msgid "Are you sure that you want to delete this type of content. ? This action cannot be undone."
+msgstr "¿ Está seguro que desea eliminar este tipo de contenido ? Esta operación no se puede deshacer."

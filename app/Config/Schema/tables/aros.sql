@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `qa_aros`
+-- Table structure for table `#__aros`
 --
 
-DROP TABLE IF EXISTS `qa_aros`;
+DROP TABLE IF EXISTS `#__aros`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `qa_aros` (
+CREATE TABLE `#__aros` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `parent_id` int(10) DEFAULT NULL,
   `model` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -35,13 +35,13 @@ CREATE TABLE `qa_aros` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `qa_aros`
+-- Dumping data for table `#__aros`
 --
 
-LOCK TABLES `qa_aros` WRITE;
-/*!40000 ALTER TABLE `qa_aros` DISABLE KEYS */;
-INSERT INTO `qa_aros` VALUES (1,NULL,'User.Role',1,NULL,1,2),(2,NULL,'User.Role',2,NULL,3,4),(3,NULL,'User.Role',3,NULL,5,6);
-/*!40000 ALTER TABLE `qa_aros` ENABLE KEYS */;
+LOCK TABLES `#__aros` WRITE;
+/*!40000 ALTER TABLE `#__aros` DISABLE KEYS */;
+INSERT INTO `#__aros` VALUES (1,NULL,'User.Role',1,NULL,1,2),(2,NULL,'User.Role',2,NULL,3,4),(3,NULL,'User.Role',3,NULL,5,6);
+/*!40000 ALTER TABLE `#__aros` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-10-25 17:20:42
+-- Dump completed on 2011-10-30 14:46:34

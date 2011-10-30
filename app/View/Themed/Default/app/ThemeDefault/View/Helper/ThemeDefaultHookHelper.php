@@ -24,6 +24,10 @@ class ThemeDefaultHookHelper extends AppHelper {
             background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from({$ht}), to({$hb}));
             background-image: -moz-linear-gradient(-90deg, {$ht}, {$hb});
         }";
+
+        if (count($this->_View->viewVars['Layout']['node'])) {
+            $css['embed'][] = "#search-advanced { display:none; }";
+        }
     }
 
 /* Adding toggle effect to advanced search form */
@@ -31,15 +35,17 @@ class ThemeDefaultHookHelper extends AppHelper {
         if (
             $this->request->params['plugin'] == 'node' &&
             $this->request->params['controller'] == 'node' &&
-            $this->request->params['action'] == 'search'
-        )
+            $this->request->params['action'] == 'search' &&
+            !count($this->_View->viewVars['Layout']['node'])
+        ) {
             $js['embed'][] = '
-$(document).ready(function() {
-    $("#toggle-search_advanced").click(function () {
-        $("#search_advanced").toggle("fast");
-    });
-});
-';
+                $(document).ready(function() {
+                    $("#toggle-search_advanced").click(function () {
+                        $("#search_advanced").toggle("fast");
+                    });
+                });
+                ';
+        }
     }
 
 /**

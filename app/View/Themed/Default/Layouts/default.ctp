@@ -44,27 +44,28 @@
                 <?php echo $this->Layout->blocks('main-menu'); ?>
             </div>
         </div>
-        <!--<div id="top-shadow"></div>-->
 
         <div id="page">
-            <?php if ($this->Layout->isFrontpage()): ?>
-                <?php if (!$this->Layout->emptyRegion('slider')): ?>
-                <div class="slider">
-                    <div class="container clearfix">
-                        <?php echo $this->Layout->blocks('slider'); ?>
-                    </div>
+            <?php if (!$this->Layout->emptyRegion('slider')): ?>
+            <div class="slider">
+                <div class="container clearfix">
+                    <?php echo $this->Layout->blocks('slider'); ?>
                 </div>
-                <?php endif; ?>
+            </div>
+            <?php endif; ?>
+
+            <?php if ($this->Layout->isFrontpage()): ?>
                 <?php if (Configure::read('Theme.settings.site_slogan')): ?>
                 <div id="quote">
                     <div id="quote-inner">
                         <div class="container">
                             <span id="quote-icon"></span>
-                            <p id="slogan"><?php echo Configure::read('Variable.site_slogan'); ?></p>
+                            <p id="slogan"><?php echo __t(Configure::read('Variable.site_slogan')); ?></p>
                         </div> <!-- end .container -->
                     </div> <!-- end #quote-inner -->
                 </div> <!-- end #quote -->
                 <?php endif; ?>
+
                 <div class="container">
                     <div id="services">
                         <div class="container clearfix">
@@ -98,6 +99,10 @@
                         <?php echo $sessionFlash; ?>
                     </div>
                     <?php endif; ?>
+
+                    <div id="sidebar-left">
+                        <?php echo $this->Layout->blocks('sidebar-left'); ?>&nbsp;
+                    </div>
 
                     <div id="content" class="clearfix">
                         <?php echo $this->Layout->content(); ?>

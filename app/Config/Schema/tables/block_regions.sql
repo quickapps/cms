@@ -16,30 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `qa_block_regions`
+-- Table structure for table `#__block_regions`
 --
 
-DROP TABLE IF EXISTS `qa_block_regions`;
+DROP TABLE IF EXISTS `#__block_regions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `qa_block_regions` (
+CREATE TABLE `#__block_regions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `block_id` int(11) NOT NULL,
   `theme` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `region` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `ordering` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`,`block_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=173 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=180 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `qa_block_regions`
+-- Dumping data for table `#__block_regions`
 --
 
-LOCK TABLES `qa_block_regions` WRITE;
-/*!40000 ALTER TABLE `qa_block_regions` DISABLE KEYS */;
-INSERT INTO `qa_block_regions` VALUES (8,10,'AdminDefault','dashboard_main',1),(9,10,'Default','dashboard_main',1),(13,4,'AdminDefault','management-menu',1),(14,4,'Default','management-menu',1),(18,3,'AdminDefault','footer',1),(48,3,'Default','footer',1),(131,6,'Default','main-menu',1),(133,26,'Default','slider',1),(140,9,'Default','language-switcher',1),(151,19,'Default','services-left',1),(153,20,'Default','services-center',1),(155,25,'Default','services-right',1),(157,15,'Default','search',1),(159,12,'Default','services-left',2),(161,11,'Default','services-center',2),(163,13,'Default','services-right',2),(165,14,'Default','slider',2),(166,15,'AdminDefault','dashboard_sidebar',1),(169,7,'AdminDefault','dashboard_sidebar',2),(172,5,'Default','user-menu',2);
-/*!40000 ALTER TABLE `qa_block_regions` ENABLE KEYS */;
+LOCK TABLES `#__block_regions` WRITE;
+/*!40000 ALTER TABLE `#__block_regions` DISABLE KEYS */;
+INSERT INTO `#__block_regions` VALUES (8,10,'AdminDefault','dashboard_main',1),(9,10,'Default','dashboard_main',1),(13,4,'AdminDefault','management-menu',1),(14,4,'Default','management-menu',1),(18,3,'AdminDefault','footer',1),(48,3,'Default','footer',1),(131,6,'Default','main-menu',1),(133,26,'Default','slider',1),(140,9,'Default','language-switcher',1),(151,19,'Default','services-left',1),(153,20,'Default','services-center',1),(155,25,'Default','services-right',1),(157,15,'Default','search',1),(159,12,'Default','services-left',2),(161,11,'Default','services-center',2),(163,13,'Default','services-right',2),(165,14,'Default','slider',2),(166,15,'AdminDefault','dashboard_sidebar',1),(169,7,'AdminDefault','dashboard_sidebar',2),(172,5,'Default','user-menu',2),(173,16,'AdminDefault','',1),(174,16,'Default','sidebar-left',1),(175,2,'AdminDefault','',2),(176,2,'Default','sidebar-left',2),(177,11,'AdminDefault','',3),(178,12,'AdminDefault','',4),(179,13,'AdminDefault','',5);
+/*!40000 ALTER TABLE `#__block_regions` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-10-25 17:20:42
+-- Dump completed on 2011-10-30 14:46:34

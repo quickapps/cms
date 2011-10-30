@@ -124,7 +124,7 @@ CREATE TABLE `qa_block_custom` (
 
 LOCK TABLES `qa_block_custom` WRITE;
 /*!40000 ALTER TABLE `qa_block_custom` DISABLE KEYS */;
-INSERT INTO `qa_block_custom` VALUES (11,'<p>Duis tellus nunc, egestas a interdum sed, congue vitae magna. Curabitur a tellus quis lacus blandit sagittis a sit amet elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas metus sed neque ultricies.\r\n[button size=small color=silver]Read more[/button]</p>\r\n','Services-LEFT',NULL),(12,'<p>Integer egestas ultricies urna vitae molestie. Donec nec facilisis nisi. Vivamus tempor feugiat velit gravida vehicula. Donec faucibus pellentesque ipsum id varius. Ut rutrum metus sed neque ultricies a dictum ante sagittis.\r\n[button size=small color=silver]Read more[/button]</p>\r\n','Services-CENTER',NULL),(13,'<p>Praesent et metus sit amet nisl luctus commodo ut a risus. Mauris vehicula, ligula quis consectetur feugiat, arcu nibh tempor nisi, at varius dolor dolor nec dolor. Donec auctor mi vitae neque. Praesent sollicitudin egestas felis vitae gravida.\r\n[button size=small color=silver]Read more[/button]\r\n</p>\r\n','Services-RIGHT',NULL);
+INSERT INTO `qa_block_custom` VALUES (11,'<p>Duis tellus nunc, egestas a interdum sed, congue vitae magna. Curabitur a tellus quis lacus blandit sagittis a sit amet elit. Pellentesque habitant morbi tristique senectus et netus ets egestas metus sed.\r\n<br/>\r\n[button size=small color=silver]Read more[/button]</p>\r\n','Services-LEFT',NULL),(12,'<p>Integer egestas ultricies urna vitae molestie. Donec nec facilisis nisi. Vivamus tempor feugiat velit gravida vehicula. Donec faucibus pellentesque ipsum id varius. Ut rutrum metus sed neque ultricies a dictum ante sagittis.\r\n<br/>\r\n[button size=small color=silver]Read more[/button]</p>\r\n','Services-CENTER',NULL),(13,'<p>Praesent et metus sit amet nisl luctus commodo ut a risus. Mauris vehicula, ligula quis consectetur feugiat, arcu nibh tempor nisi, at varius dolor dolor nec dolor. Donec auctor mi vitae neque.\r\n<br/>\r\n[button size=small color=silver]Read more[/button]</p>\r\n','Services-RIGHT',NULL);
 /*!40000 ALTER TABLE `qa_block_custom` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -142,7 +142,7 @@ CREATE TABLE `qa_block_regions` (
   `region` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `ordering` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`,`block_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=173 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=180 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -151,7 +151,7 @@ CREATE TABLE `qa_block_regions` (
 
 LOCK TABLES `qa_block_regions` WRITE;
 /*!40000 ALTER TABLE `qa_block_regions` DISABLE KEYS */;
-INSERT INTO `qa_block_regions` VALUES (8,10,'AdminDefault','dashboard_main',1),(9,10,'Default','dashboard_main',1),(13,4,'AdminDefault','management-menu',1),(14,4,'Default','management-menu',1),(18,3,'AdminDefault','footer',1),(48,3,'Default','footer',1),(131,6,'Default','main-menu',1),(133,26,'Default','slider',1),(140,9,'Default','language-switcher',1),(151,19,'Default','services-left',1),(153,20,'Default','services-center',1),(155,25,'Default','services-right',1),(157,15,'Default','search',1),(159,12,'Default','services-left',2),(161,11,'Default','services-center',2),(163,13,'Default','services-right',2),(165,14,'Default','slider',2),(166,15,'AdminDefault','dashboard_sidebar',1),(169,7,'AdminDefault','dashboard_sidebar',2),(172,5,'Default','user-menu',2);
+INSERT INTO `qa_block_regions` VALUES (8,10,'AdminDefault','dashboard_main',1),(9,10,'Default','dashboard_main',1),(13,4,'AdminDefault','management-menu',1),(14,4,'Default','management-menu',1),(18,3,'AdminDefault','footer',1),(48,3,'Default','footer',1),(131,6,'Default','main-menu',1),(133,26,'Default','slider',1),(140,9,'Default','language-switcher',1),(151,19,'Default','services-left',1),(153,20,'Default','services-center',1),(155,25,'Default','services-right',1),(157,15,'Default','search',1),(159,12,'Default','services-left',2),(161,11,'Default','services-center',2),(163,13,'Default','services-right',2),(165,14,'Default','slider',2),(166,15,'AdminDefault','dashboard_sidebar',1),(169,7,'AdminDefault','dashboard_sidebar',2),(172,5,'Default','user-menu',2),(173,16,'AdminDefault','',1),(174,16,'Default','sidebar-left',1),(175,2,'AdminDefault','',2),(176,2,'Default','sidebar-left',2),(177,11,'AdminDefault','',3),(178,12,'AdminDefault','',4),(179,13,'AdminDefault','',5);
 /*!40000 ALTER TABLE `qa_block_regions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -210,7 +210,7 @@ CREATE TABLE `qa_blocks` (
 
 LOCK TABLES `qa_blocks` WRITE;
 /*!40000 ALTER TABLE `qa_blocks` DISABLE KEYS */;
-INSERT INTO `qa_blocks` VALUES (1,'User','login',0,'',1,0,0,'','User Login','a:0:{}','',NULL),(2,'Menu','navigation',0,':Default:',2,1,0,'','',NULL,'',NULL),(3,'System','powered_by',0,':AdminDefault:Default:',1,1,0,'','Powered By','a:0:{}','',NULL),(4,'Menu','management',0,':AdminDefault:',1,1,1,'/admin/*','','a:0:{}','',NULL),(5,'Menu','user-menu',0,':Default:',4,1,0,'','User Menu','a:0:{}','',NULL),(6,'Menu','main-menu',0,':Default:',1,1,0,'','','a:0:{}','',NULL),(7,'User','new',0,':AdminDefault:',5,1,0,'','New Users','a:0:{}','a:1:{s:10:\"show_limit\";s:1:\"5\";}',NULL),(9,'Locale','language_switcher',0,':Default:',3,1,0,'','Language switcher','a:0:{}','a:2:{s:5:\"flags\";s:1:\"1\";s:4:\"name\";s:1:\"1\";}',NULL),(10,'System','recent_content',0,':AdminDefault:',1,1,0,'','Updates','a:0:{}','',NULL),(11,'Block','5',0,':Default:',1,1,0,'','WHAT WE DO','a:0:{}','',NULL),(12,'Block','6',0,':Default:',1,1,0,'','OUR MISSION','a:0:{}','',NULL),(13,'Block','7',0,':Default:',1,1,0,'','WHO WE ARE','a:0:{}','',NULL),(14,'ThemeDefault','slider',0,':Default:',1,1,1,'/','Slider','a:0:{}','a:1:{s:12:\"slider_order\";s:52:\"1_[language].jpg\r\n2_[language].jpg\r\n3_[language].jpg\";}',NULL),(15,'Node','search',0,':AdminDefault:Default:',1,1,0,'','Search','a:0:{}','',NULL),(16,'Taxonomy','vocabularies',0,NULL,1,1,0,NULL,'Vocabularies',NULL,NULL,NULL);
+INSERT INTO `qa_blocks` VALUES (1,'User','login',0,'',1,0,0,'','User Login','a:0:{}','',NULL),(2,'Menu','navigation',0,':Default:',2,1,0,'','','a:0:{}','','a:1:{s:5:\"class\";s:0:\"\";}'),(3,'System','powered_by',0,':AdminDefault:Default:',1,1,0,'','Powered By','a:0:{}','',NULL),(4,'Menu','management',0,':AdminDefault:',1,1,1,'/admin/*','','a:0:{}','',NULL),(5,'Menu','user-menu',0,':Default:',4,1,0,'','User Menu','a:0:{}','',NULL),(6,'Menu','main-menu',0,':Default:',1,1,0,'','','a:0:{}','',NULL),(7,'User','new',0,':AdminDefault:',5,1,0,'','New Users','a:0:{}','a:1:{s:10:\"show_limit\";s:1:\"5\";}',NULL),(9,'Locale','language_switcher',0,':Default:',3,1,0,'','Language switcher','a:0:{}','a:2:{s:5:\"flags\";s:1:\"1\";s:4:\"name\";s:1:\"1\";}',NULL),(10,'System','recent_content',0,':AdminDefault:',1,1,0,'','Updates','a:0:{}','',NULL),(11,'Block','5',0,':Default:',1,1,0,'','WHAT WE DO','a:0:{}','','a:1:{s:5:\"class\";s:0:\"\";}'),(12,'Block','6',0,':Default:',1,1,0,'','OUR MISSION','a:0:{}','','a:1:{s:5:\"class\";s:0:\"\";}'),(13,'Block','7',0,':Default:',1,1,0,'','WHO WE ARE','a:0:{}','','a:1:{s:5:\"class\";s:0:\"\";}'),(14,'ThemeDefault','slider',0,':Default:',1,1,1,'/','Slider','a:0:{}','a:1:{s:12:\"slider_order\";s:52:\"1_[language].jpg\r\n2_[language].jpg\r\n3_[language].jpg\";}',NULL),(15,'Node','search',0,':AdminDefault:Default:',1,1,0,'','Search','a:0:{}','',NULL),(16,'Taxonomy','vocabularies',0,':Default:',1,1,1,'/d/article/*\r\n/s/*','Categories','a:0:{}','a:3:{s:12:\"vocabularies\";a:1:{i:0;s:1:\"1\";}s:15:\"content_counter\";s:1:\"1\";s:15:\"show_vocabulary\";s:1:\"0\";}','a:1:{s:5:\"class\";s:0:\"\";}');
 /*!40000 ALTER TABLE `qa_blocks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -235,7 +235,7 @@ CREATE TABLE `qa_comments` (
   `name` varchar(60) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'The comment author’s name. Uses users.name if the user is logged in, otherwise uses the value typed into the comment form.',
   `mail` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'The comment author’s e-mail address from the comment form, if user is anonymous, and the ’Anonymous users may/must leave their contact information’ setting is turned on.',
   PRIMARY KEY (`id`,`node_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Stores comments and associated data.';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Stores comments and associated data.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -244,6 +244,7 @@ CREATE TABLE `qa_comments` (
 
 LOCK TABLES `qa_comments` WRITE;
 /*!40000 ALTER TABLE `qa_comments` DISABLE KEYS */;
+INSERT INTO `qa_comments` VALUES (1,3,1,'Fusce pretium, libero a viverra congue, leo dui auctor tellus, in tincidunt lacus ligula a dolor. Praesent rutrum iaculis semper. Sed tortor eros, tempus sit amet molestie posuere.','Fusce pretium, libero a','127.0.0.1',NULL,1319980300,1319980322,1,NULL,NULL);
 /*!40000 ALTER TABLE `qa_comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -262,7 +263,7 @@ CREATE TABLE `qa_field_data` (
   `data` longtext COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
   KEY `field_id` (`field_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -271,7 +272,7 @@ CREATE TABLE `qa_field_data` (
 
 LOCK TABLES `qa_field_data` WRITE;
 /*!40000 ALTER TABLE `qa_field_data` DISABLE KEYS */;
-INSERT INTO `qa_field_data` VALUES (1,1,'1','Node','<h3>Content Boxes</h3>\r\n<p>\r\n	[content_box type=success]Maecenas pellentesque cursus auctor.[/content_box]</p>\r\n<p>\r\n	[content_box type=error]Nam sagittis nisl non turpis aliquam mollis. Suspendisse ac metus nisi, sed vulputate arcu.[/content_box]</p>\r\n<p>\r\n	[content_box type=alert]Cras interdum leo quis arcu sagittis pulvinar. Curabitur suscipit vulputate erat eu rhoncus. Morbi facilisis mi in ligula ornare ultricies.[/content_box]</p>\r\n<p>\r\n	[content_box type=bubble]Fusce interdum cursus turpis vitae gravida. Aenean aliquet venenatis posuere. Etiam gravida ullamcorper purus.[/content_box]</p>\r\n<hr />\r\n<h3>\r\n	Buttons</h3>\r\n<p>\r\n	Using buttons hookTags, you can easily create a variety of buttons. These buttons all stem from a single tag, but vary in color and size (each of which are adjustable using color=&rdquo;&quot; and size=&rdquo;&quot; parameters).<br />\r\n	Allowed parameters:</p>\r\n<ol>\r\n	<li>\r\n		<strong>size:</strong> big, small</li>\r\n	<li>\r\n		<strong>color:</strong>\r\n		<ul>\r\n			<li>\r\n				small: black, blue, green, lightblue, orange, pink, purple, red, silver, teal</li>\r\n			<li>\r\n				big: blue, green, orange, purple, red, turquoise</li>\r\n		</ul>\r\n	</li>\r\n	<li>\r\n		<strong>link:</strong> url of your button</li>\r\n	<li>\r\n		<strong>target:</strong> open link en new window (_blank), open in same window (_self or unset parameter)</li>\r\n</ol>\r\n<h4>\r\n	&nbsp;</h4>\r\n<p>\r\n	&nbsp;</p>\r\n<h4>\r\n	Small Buttons</h4>\r\n<table style=\"width: 478px; height: 25px;\">\r\n	<tbody>\r\n		<tr>\r\n			<td>\r\n				[button color=black]Button text[/button]</td>\r\n			<td>\r\n				[button color=blue]Button text[/button]</td>\r\n		</tr>\r\n		<tr>\r\n			<td>\r\n				[button color=green]Button text[/button]</td>\r\n			<td>\r\n				[button color=lightblue]Button text[/button]</td>\r\n		</tr>\r\n		<tr>\r\n			<td>\r\n				[button color=orange]Button text[/button]</td>\r\n			<td>\r\n				[button color=pink]Button text[/button]</td>\r\n		</tr>\r\n		<tr>\r\n			<td>\r\n				[button color=purple]Button text[/button]</td>\r\n			<td>\r\n				[button color=red]Button text[/button]</td>\r\n		</tr>\r\n		<tr>\r\n			<td>\r\n				[button color=silver]Button text[/button]</td>\r\n			<td>\r\n				[button color=teal]Button text[/button]</td>\r\n		</tr>\r\n	</tbody>\r\n</table>\r\n<h4>\r\n	&nbsp;</h4>\r\n<p>\r\n	&nbsp;</p>\r\n<h4>\r\n	Big Buttons</h4>\r\n<table style=\"width: 478px; height: 25px;\">\r\n	<tbody>\r\n		<tr>\r\n			<td>\r\n				[button color=blue size=big]Button text[/button]</td>\r\n			<td>\r\n				[button color=green size=big]Button text[/button]</td>\r\n		</tr>\r\n		<tr>\r\n			<td>\r\n				[button color=orange size=big]Button text[/button]</td>\r\n			<td>\r\n				[button color=purple size=big]Button text[/button]</td>\r\n		</tr>\r\n		<tr>\r\n			<td>\r\n				[button color=red size=big]Button text[/button]</td>\r\n			<td>\r\n				[button color=turquoise size=big]Button text[/button]</td>\r\n		</tr>\r\n	</tbody>\r\n</table>\r\n<p>\r\n	&nbsp;</p>\r\n'),(2,1,'2','Node','Nam in iaculis lectus? Sed egestas dui quis leo porttitor vitae bibendum ipsum ultrices. Mauris nisi nulla, volutpat vel vestibulum non, lobortis sed lectus. Integer quis volutpat.');
+INSERT INTO `qa_field_data` VALUES (1,1,'1','Node','<h3>Content Boxes</h3>\r\n<p>\r\n	[content_box type=success]Maecenas pellentesque cursus auctor.[/content_box]</p>\r\n<p>\r\n	[content_box type=error]Nam sagittis nisl non turpis aliquam mollis. Suspendisse ac metus nisi, sed vulputate arcu.[/content_box]</p>\r\n<p>\r\n	[content_box type=alert]Cras interdum leo quis arcu sagittis pulvinar. Curabitur suscipit vulputate erat eu rhoncus. Morbi facilisis mi in ligula ornare ultricies.[/content_box]</p>\r\n<p>\r\n	[content_box type=bubble]Fusce interdum cursus turpis vitae gravida. Aenean aliquet venenatis posuere. Etiam gravida ullamcorper purus.[/content_box]</p>\r\n<hr />\r\n<h3>\r\n	Buttons</h3>\r\n<p>\r\n	Using buttons hookTags, you can easily create a variety of buttons. These buttons all stem from a single tag, but vary in color and size (each of which are adjustable using color=&rdquo;&quot; and size=&rdquo;&quot; parameters).<br />\r\n	Allowed parameters:</p>\r\n<ol>\r\n	<li>\r\n		<strong>size:</strong> big, small</li>\r\n	<li>\r\n		<strong>color:</strong>\r\n		<ul>\r\n			<li>\r\n				small: black, blue, green, lightblue, orange, pink, purple, red, silver, teal</li>\r\n			<li>\r\n				big: blue, green, orange, purple, red, turquoise</li>\r\n		</ul>\r\n	</li>\r\n	<li>\r\n		<strong>link:</strong> url of your button</li>\r\n	<li>\r\n		<strong>target:</strong> open link en new window (_blank), open in same window (_self or unset parameter)</li>\r\n</ol>\r\n<h4>\r\n	&nbsp;</h4>\r\n<p>\r\n	&nbsp;</p>\r\n<h4>\r\n	Small Buttons</h4>\r\n<table style=\"width: 478px; height: 25px;\">\r\n	<tbody>\r\n		<tr>\r\n			<td>\r\n				[button color=black]Button text[/button]</td>\r\n			<td>\r\n				[button color=blue]Button text[/button]</td>\r\n		</tr>\r\n		<tr>\r\n			<td>\r\n				[button color=green]Button text[/button]</td>\r\n			<td>\r\n				[button color=lightblue]Button text[/button]</td>\r\n		</tr>\r\n		<tr>\r\n			<td>\r\n				[button color=orange]Button text[/button]</td>\r\n			<td>\r\n				[button color=pink]Button text[/button]</td>\r\n		</tr>\r\n		<tr>\r\n			<td>\r\n				[button color=purple]Button text[/button]</td>\r\n			<td>\r\n				[button color=red]Button text[/button]</td>\r\n		</tr>\r\n		<tr>\r\n			<td>\r\n				[button color=silver]Button text[/button]</td>\r\n			<td>\r\n				[button color=teal]Button text[/button]</td>\r\n		</tr>\r\n	</tbody>\r\n</table>\r\n<h4>\r\n	&nbsp;</h4>\r\n<p>\r\n	&nbsp;</p>\r\n<h4>\r\n	Big Buttons</h4>\r\n<table style=\"width: 478px; height: 25px;\">\r\n	<tbody>\r\n		<tr>\r\n			<td>\r\n				[button color=blue size=big]Button text[/button]</td>\r\n			<td>\r\n				[button color=green size=big]Button text[/button]</td>\r\n		</tr>\r\n		<tr>\r\n			<td>\r\n				[button color=orange size=big]Button text[/button]</td>\r\n			<td>\r\n				[button color=purple size=big]Button text[/button]</td>\r\n		</tr>\r\n		<tr>\r\n			<td>\r\n				[button color=red size=big]Button text[/button]</td>\r\n			<td>\r\n				[button color=turquoise size=big]Button text[/button]</td>\r\n		</tr>\r\n	</tbody>\r\n</table>\r\n<p>\r\n	&nbsp;</p>\r\n'),(2,1,'2','Node','Nam in iaculis lectus? Sed egestas dui quis leo porttitor vitae bibendum ipsum ultrices. Mauris nisi nulla, volutpat vel vestibulum non, lobortis sed lectus. Integer quis volutpat.'),(3,2,'3','Node','Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum turpis mi, pulvinar ac placerat ut, luctus vel arcu. Cras ac vulputate sed.\r\n'),(4,3,'3','Node','Integer in augue a neque mollis semper eget nec est. Donec eros justo, ornare non sollicitudin ut, viverra nec ligula. Cras quis nisl magna. Vivamus tortor est, lobortis sit amet vehicula sed, porta vitae risus. Quisque sit amet justo elit. Fusce in eros augue, sed gravida ligula. Integer ac sem neque. Nulla vitae neque a nibh ultricies vehicula vel a massa.\r\n\r\nQuisque at ante sit amet metus auctor dignissim nec nec est. Nullam et lacus a diam viverra suscipit vitae ut neque. Suspendisse in lacus vel ipsum lacinia rutrum id eget ligula. Vestibulum vehicula elit vel nunc ultricies scelerisque sagittis mi consectetur. Maecenas bibendum augue ut urna sodales molestie! Quisque ultrices hendrerit ipsum, ac dictum mi porta eget. Integer fringilla suscipit nisl, id hendrerit elit fringilla sed! Curabitur quis elit vitae est vulputate adipiscing nec a risus. Curabitur euismod sodales risus non commodo?Integer tincidunt dolor a urna convallis interdum. Curabitur quis velit et ante convallis venenatis. \r\n\r\nUt nec ipsum et arcu ultrices mattis? Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam nec est neque. Donec vitae interdum velit? Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis venenatis faucibus odio, sed lobortis enim euismod et. Fusce vel risus et mauris feugiat consectetur. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.Aenean condimentum feugiat lectus eget porttitor. \r\n\r\nSed volutpat pretium felis, ac pulvinar sapien dapibus quis.'),(5,4,'3','Node','1');
 /*!40000 ALTER TABLE `qa_field_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -293,7 +294,7 @@ CREATE TABLE `qa_fields` (
   `settings` longtext COLLATE utf8_unicode_ci NOT NULL COMMENT 'Rendering settings (View mode)',
   `ordering` int(11) DEFAULT '1' COMMENT 'edit form ordering',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Fields instances';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Fields instances';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -302,7 +303,7 @@ CREATE TABLE `qa_fields` (
 
 LOCK TABLES `qa_fields` WRITE;
 /*!40000 ALTER TABLE `qa_fields` DISABLE KEYS */;
-INSERT INTO `qa_fields` VALUES (1,'body','Body','NodeType-page','FieldText','',1,'a:7:{s:7:\"display\";a:4:{s:7:\"default\";a:5:{s:5:\"label\";s:6:\"hidden\";s:4:\"type\";s:4:\"full\";s:8:\"settings\";a:0:{}s:8:\"ordering\";i:1;s:11:\"trim_length\";s:3:\"180\";}s:4:\"full\";a:5:{s:5:\"label\";s:6:\"hidden\";s:4:\"type\";s:4:\"full\";s:8:\"settings\";a:0:{}s:8:\"ordering\";i:0;s:11:\"trim_length\";s:3:\"600\";}s:4:\"list\";a:5:{s:5:\"label\";s:6:\"hidden\";s:4:\"type\";s:7:\"trimmed\";s:8:\"settings\";a:0:{}s:8:\"ordering\";i:0;s:11:\"trim_length\";s:3:\"400\";}s:3:\"rss\";a:5:{s:5:\"label\";s:6:\"hidden\";s:4:\"type\";s:7:\"trimmed\";s:8:\"settings\";a:0:{}s:8:\"ordering\";i:0;s:11:\"trim_length\";s:3:\"400\";}}s:4:\"type\";s:8:\"textarea\";s:11:\"text_format\";s:4:\"full\";s:7:\"max_len\";s:0:\"\";s:15:\"validation_rule\";s:0:\"\";s:18:\"validation_message\";s:0:\"\";s:15:\"text_processing\";s:4:\"full\";}',1);
+INSERT INTO `qa_fields` VALUES (1,'body','Body','NodeType-page','FieldText','',1,'a:7:{s:7:\"display\";a:4:{s:7:\"default\";a:5:{s:5:\"label\";s:6:\"hidden\";s:4:\"type\";s:4:\"full\";s:8:\"settings\";a:0:{}s:8:\"ordering\";i:1;s:11:\"trim_length\";s:3:\"180\";}s:4:\"full\";a:5:{s:5:\"label\";s:6:\"hidden\";s:4:\"type\";s:4:\"full\";s:8:\"settings\";a:0:{}s:8:\"ordering\";i:0;s:11:\"trim_length\";s:3:\"600\";}s:4:\"list\";a:5:{s:5:\"label\";s:6:\"hidden\";s:4:\"type\";s:7:\"trimmed\";s:8:\"settings\";a:0:{}s:8:\"ordering\";i:0;s:11:\"trim_length\";s:3:\"400\";}s:3:\"rss\";a:5:{s:5:\"label\";s:6:\"hidden\";s:4:\"type\";s:7:\"trimmed\";s:8:\"settings\";a:0:{}s:8:\"ordering\";i:0;s:11:\"trim_length\";s:3:\"400\";}}s:4:\"type\";s:8:\"textarea\";s:11:\"text_format\";s:4:\"full\";s:7:\"max_len\";s:0:\"\";s:15:\"validation_rule\";s:0:\"\";s:18:\"validation_message\";s:0:\"\";s:15:\"text_processing\";s:4:\"full\";}',1),(2,'field_article_introduction','Introduction','NodeType-article','FieldText','',1,'a:6:{s:4:\"type\";s:8:\"textarea\";s:15:\"text_processing\";s:5:\"plain\";s:7:\"display\";a:4:{s:7:\"default\";a:5:{s:5:\"label\";s:6:\"hidden\";s:4:\"type\";s:6:\"hidden\";s:8:\"settings\";a:0:{}s:8:\"ordering\";i:0;s:11:\"trim_length\";s:0:\"\";}s:4:\"full\";a:5:{s:5:\"label\";s:6:\"hidden\";s:4:\"type\";s:6:\"hidden\";s:8:\"settings\";a:0:{}s:8:\"ordering\";i:0;s:11:\"trim_length\";s:0:\"\";}s:4:\"list\";a:5:{s:5:\"label\";s:6:\"hidden\";s:4:\"type\";s:5:\"plain\";s:8:\"settings\";a:0:{}s:8:\"ordering\";i:0;s:11:\"trim_length\";s:0:\"\";}s:3:\"rss\";a:5:{s:5:\"label\";s:6:\"hidden\";s:4:\"type\";s:5:\"plain\";s:8:\"settings\";a:0:{}s:8:\"ordering\";i:0;s:11:\"trim_length\";s:0:\"\";}}s:7:\"max_len\";s:0:\"\";s:15:\"validation_rule\";s:0:\"\";s:18:\"validation_message\";s:0:\"\";}',1),(3,'field_aricle_content','Article content','NodeType-article','FieldText','',1,'a:6:{s:4:\"type\";s:8:\"textarea\";s:15:\"text_processing\";s:4:\"full\";s:7:\"display\";a:4:{s:7:\"default\";a:5:{s:5:\"label\";s:6:\"hidden\";s:4:\"type\";s:4:\"full\";s:8:\"settings\";a:0:{}s:8:\"ordering\";i:0;s:11:\"trim_length\";s:0:\"\";}s:4:\"full\";a:5:{s:5:\"label\";s:6:\"hidden\";s:4:\"type\";s:4:\"full\";s:8:\"settings\";a:0:{}s:8:\"ordering\";i:0;s:11:\"trim_length\";s:0:\"\";}s:4:\"list\";a:5:{s:5:\"label\";s:6:\"hidden\";s:4:\"type\";s:6:\"hidden\";s:8:\"settings\";a:0:{}s:8:\"ordering\";i:0;s:11:\"trim_length\";s:0:\"\";}s:3:\"rss\";a:5:{s:5:\"label\";s:6:\"hidden\";s:4:\"type\";s:6:\"hidden\";s:8:\"settings\";a:0:{}s:8:\"ordering\";i:0;s:11:\"trim_length\";s:0:\"\";}}s:7:\"max_len\";s:0:\"\";s:15:\"validation_rule\";s:0:\"\";s:18:\"validation_message\";s:0:\"\";}',1),(4,'field_article_category','Category','NodeType-article','FieldTerms','',1,'a:4:{s:7:\"display\";a:1:{s:7:\"default\";a:4:{s:5:\"label\";s:6:\"inline\";s:4:\"type\";s:14:\"link-localized\";s:8:\"settings\";a:0:{}s:8:\"ordering\";i:0;}}s:10:\"vocabulary\";s:1:\"1\";s:4:\"type\";s:6:\"select\";s:10:\"max_values\";s:1:\"1\";}',1);
 /*!40000 ALTER TABLE `qa_fields` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -325,7 +326,7 @@ CREATE TABLE `qa_i18n` (
   KEY `model` (`model`),
   KEY `row_id` (`foreign_key`),
   KEY `field` (`field`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -334,6 +335,7 @@ CREATE TABLE `qa_i18n` (
 
 LOCK TABLES `qa_i18n` WRITE;
 /*!40000 ALTER TABLE `qa_i18n` DISABLE KEYS */;
+INSERT INTO `qa_i18n` VALUES (1,'eng','Locale.Translation',1,NULL,'Open Source CMS built on CakePHP 2.0'),(2,'spa','Locale.Translation',1,NULL,'CMS de código libre construido sobre CakePHP 2.0');
 /*!40000 ALTER TABLE `qa_i18n` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -395,7 +397,7 @@ CREATE TABLE `qa_menu_links` (
   PRIMARY KEY (`id`),
   KEY `router_path` (`router_path`(128)),
   KEY `menu_id` (`menu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Contains the individual links within a menu.';
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Contains the individual links within a menu.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -404,7 +406,7 @@ CREATE TABLE `qa_menu_links` (
 
 LOCK TABLES `qa_menu_links` WRITE;
 /*!40000 ALTER TABLE `qa_menu_links` DISABLE KEYS */;
-INSERT INTO `qa_menu_links` VALUES (1,'management',1,2,0,NULL,'/admin/system/dashboard',NULL,'Dashboard',NULL,'System','_self',0,NULL,NULL,1),(2,'management',3,12,0,NULL,'/admin/system/structure',NULL,'Structure',NULL,'System','_self',0,NULL,NULL,1),(3,'management',13,14,0,NULL,'/admin/node/contents',NULL,'Content',NULL,'System','_self',0,NULL,NULL,1),(4,'management',15,16,0,NULL,'/admin/system/themes',NULL,'Appearance',NULL,'System','_self',0,NULL,NULL,1),(5,'management',17,18,0,NULL,'/admin/system/modules',NULL,'Modules',NULL,'System','_self',0,NULL,NULL,1),(6,'management',19,20,0,NULL,'/admin/user',NULL,'Users',NULL,'System','_self',0,NULL,NULL,1),(7,'management',23,24,0,NULL,'/admin/system/configuration',NULL,'Configuration',NULL,'System','_self',0,NULL,NULL,1),(8,'management',25,26,0,NULL,'/admin/system/help',NULL,'Help',NULL,'System','_self',0,NULL,NULL,1),(9,'management',4,5,2,NULL,'/admin/block','Configure what block content appears in your site\'s sidebars and other regions.','Blocks',NULL,'System','_self',0,NULL,NULL,1),(10,'management',6,7,2,NULL,'/admin/node/types','Manage content types.','Content Types',NULL,'System','_self',0,NULL,NULL,1),(11,'management',8,9,2,NULL,'/admin/menu','Add new menus to your site, edit existing menus, and rename and reorganize menu links.','Menus',NULL,'System','_self',0,NULL,NULL,1),(12,'management',10,11,2,NULL,'/admin/taxonomy','Manage tagging, categorization, and classification of your content.','Taxonomy',NULL,'System','_self',0,NULL,NULL,1),(13,'main-menu',3,4,0,NULL,'/d/page/hook-tags','','Hook Tags',NULL,'Menu','_self',0,NULL,NULL,1),(17,'main-menu',5,6,0,NULL,'/d/page/about','','About',NULL,'Menu','_self',0,NULL,NULL,1),(18,'management',21,22,0,NULL,'/admin/locale','','Languages',NULL,'Locale','_self',0,NULL,NULL,1),(21,'main-menu',1,2,0,NULL,'/','','Home',NULL,'Menu','_self',0,NULL,NULL,1),(22,'user-menu',1,2,0,NULL,'/user/my_account','','My account',NULL,'Menu','_self',0,NULL,NULL,1),(23,'user-menu',3,4,0,NULL,'/user/logout','','Logout',NULL,'Menu','_self',0,NULL,NULL,1);
+INSERT INTO `qa_menu_links` VALUES (1,'management',1,2,0,NULL,'/admin/system/dashboard',NULL,'Dashboard',NULL,'System','_self',0,NULL,NULL,1),(2,'management',3,12,0,NULL,'/admin/system/structure',NULL,'Structure',NULL,'System','_self',0,NULL,NULL,1),(3,'management',13,14,0,NULL,'/admin/node/contents',NULL,'Content',NULL,'System','_self',0,NULL,NULL,1),(4,'management',15,16,0,NULL,'/admin/system/themes',NULL,'Appearance',NULL,'System','_self',0,NULL,NULL,1),(5,'management',17,18,0,NULL,'/admin/system/modules',NULL,'Modules',NULL,'System','_self',0,NULL,NULL,1),(6,'management',19,20,0,NULL,'/admin/user',NULL,'Users',NULL,'System','_self',0,NULL,NULL,1),(7,'management',23,24,0,NULL,'/admin/system/configuration',NULL,'Configuration',NULL,'System','_self',0,NULL,NULL,1),(8,'management',25,26,0,NULL,'/admin/system/help',NULL,'Help',NULL,'System','_self',0,NULL,NULL,1),(9,'management',4,5,2,NULL,'/admin/block','Configure what block content appears in your site\'s sidebars and other regions.','Blocks',NULL,'System','_self',0,NULL,NULL,1),(10,'management',6,7,2,NULL,'/admin/node/types','Manage content types.','Content Types',NULL,'System','_self',0,NULL,NULL,1),(11,'management',8,9,2,NULL,'/admin/menu','Add new menus to your site, edit existing menus, and rename and reorganize menu links.','Menus',NULL,'System','_self',0,NULL,NULL,1),(12,'management',10,11,2,NULL,'/admin/taxonomy','Manage tagging, categorization, and classification of your content.','Taxonomy',NULL,'System','_self',0,NULL,NULL,1),(13,'main-menu',3,4,0,NULL,'/d/page/hook-tags','','Hook Tags',NULL,'Menu','_self',0,NULL,NULL,1),(17,'main-menu',5,6,0,NULL,'/d/page/about','','About',NULL,'Menu','_self',0,NULL,NULL,1),(18,'management',21,22,0,NULL,'/admin/locale','','Languages',NULL,'Locale','_self',0,NULL,NULL,1),(21,'main-menu',1,2,0,NULL,'/','','Home',NULL,'Menu','_self',0,NULL,NULL,1),(22,'user-menu',1,2,0,NULL,'/user/my_account','','My account',NULL,'Menu','_self',0,NULL,NULL,1),(23,'user-menu',3,4,0,NULL,'/user/logout','','Logout',NULL,'Menu','_self',0,NULL,NULL,1),(24,'main-menu',7,8,0,NULL,'/s/type:article','','Blog',NULL,'Menu','_self',0,'/d/article/*\r\n/s/*','reg',1),(25,'navigation',1,2,0,'http://cms.quickapps.es',NULL,'','QuickApps Site',NULL,'Menu','_blank',0,'','',1),(26,'navigation',3,4,0,'https://github.com/quickapps/QuickApps-CMS/wiki',NULL,'','Wiki',NULL,'Menu','_blank',0,'','',1);
 /*!40000 ALTER TABLE `qa_menu_links` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -496,7 +498,7 @@ CREATE TABLE `qa_node_types` (
 
 LOCK TABLES `qa_node_types` WRITE;
 /*!40000 ALTER TABLE `qa_node_types` DISABLE KEYS */;
-INSERT INTO `qa_node_types` VALUES ('page','Basic page','node','Node','Use <em>basic pages</em> for your static content, such as an \'About us\' page.','Title',1,10,2,1,0,0,0,'es',1,0,0,1);
+INSERT INTO `qa_node_types` VALUES ('article','Article','Node','Node','Use articles for time-sensitive content like news, press releases or blog posts.','Title',0,10,2,0,1,1,2,'',1,0,0,1),('page','Basic page','node','Node','Use <em>basic pages</em> for your static content, such as an \'About us\' page.','Title',1,10,2,1,0,0,0,'es',1,0,0,1);
 /*!40000 ALTER TABLE `qa_node_types` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -529,7 +531,7 @@ CREATE TABLE `qa_nodes` (
   `cache` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `params` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`,`node_type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='The base table for nodes.';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='The base table for nodes.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -538,7 +540,7 @@ CREATE TABLE `qa_nodes` (
 
 LOCK TABLES `qa_nodes` WRITE;
 /*!40000 ALTER TABLE `qa_nodes` DISABLE KEYS */;
-INSERT INTO `qa_nodes` VALUES (1,'page','node_content','','Hook Tags','','hook-tags','','',1,1,1310424311,1310424311,1,0,0,0,0,'',NULL),(2,'page','node_content','','About','','about','','',1,1,1310424311,1310424311,1,0,1,1,0,'',NULL);
+INSERT INTO `qa_nodes` VALUES (1,'page','node_content','','Hook Tags','','hook-tags','','',1,1,1310424311,1310424311,1,0,0,0,0,'',NULL),(2,'page','node_content','','About','','about','','',1,1,1310424311,1310424311,1,0,1,1,0,'',NULL),(3,'article','Node','','My first article!','','my-first-article','1:announcements','',1,1,1319979547,1319979547,1,2,1,0,0,'','a:1:{s:5:\"class\";s:0:\"\";}');
 /*!40000 ALTER TABLE `qa_nodes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -579,7 +581,7 @@ CREATE TABLE `qa_nodes_terms` (
   `term_id` int(20) NOT NULL DEFAULT '0',
   `field_id` int(11) NOT NULL DEFAULT '0' COMMENT 'field instance''s ID which creates this tag assoc.',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -588,6 +590,7 @@ CREATE TABLE `qa_nodes_terms` (
 
 LOCK TABLES `qa_nodes_terms` WRITE;
 /*!40000 ALTER TABLE `qa_nodes_terms` DISABLE KEYS */;
+INSERT INTO `qa_nodes_terms` VALUES (1,3,1,4);
 /*!40000 ALTER TABLE `qa_nodes_terms` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -636,7 +639,7 @@ CREATE TABLE `qa_terms` (
   `rght` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -645,6 +648,7 @@ CREATE TABLE `qa_terms` (
 
 LOCK TABLES `qa_terms` WRITE;
 /*!40000 ALTER TABLE `qa_terms` DISABLE KEYS */;
+INSERT INTO `qa_terms` VALUES (1,1,'Announcements','announcements',NULL,1319979841,1319979841,NULL,1,6),(2,1,'PHP','php',NULL,1319979888,1319979888,NULL,7,8),(3,1,'cakePHP','cakephp',NULL,1319979899,1319979899,NULL,9,10),(4,1,'Next Events','next-events','',1319979929,1319979911,1,2,3),(5,1,'Past','past',NULL,1319979918,1319979918,1,4,5);
 /*!40000 ALTER TABLE `qa_terms` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -663,7 +667,7 @@ CREATE TABLE `qa_translations` (
   `modified` int(11) NOT NULL,
   `modified_by` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -672,6 +676,7 @@ CREATE TABLE `qa_translations` (
 
 LOCK TABLES `qa_translations` WRITE;
 /*!40000 ALTER TABLE `qa_translations` DISABLE KEYS */;
+INSERT INTO `qa_translations` VALUES (1,'Open Source CMS built on CakePHP 2.0',1319980605,1,1319980612,1);
 /*!40000 ALTER TABLE `qa_translations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -756,7 +761,7 @@ CREATE TABLE `qa_variables` (
 
 LOCK TABLES `qa_variables` WRITE;
 /*!40000 ALTER TABLE `qa_variables` DISABLE KEYS */;
-INSERT INTO `qa_variables` VALUES ('admin_theme','s:12:\"AdminDefault\";'),('date_default_timezone','s:13:\"Europe/Madrid\";'),('default_language','s:3:\"eng\";'),('default_nodes_main','s:1:\"8\";'),('failed_login_limit','i:5;'),('rows_per_page','i:10;'),('site_description','a:0:{}'),('site_frontpage','a:0:{}'),('site_logo','s:8:\"logo.gif\";'),('site_mail','s:24:\"no-reply@your-domain.com\";'),('site_maintenance_message','s:177:\"We sincerely apologize for the inconvenience.<br/>Our site is currently undergoing scheduled maintenance and upgrades, but will return shortly.<br/>Thanks you for your patience.\";'),('site_name','s:17:\"My QuickApps Site\";'),('site_online','s:1:\"1\";'),('site_slogan','s:142:\"Vivamus id feugiat ligula. Nulla facilisi. Integer lacus justo, elementum eget consequat a, molestie nec sapien. Quisque tincidunt, nunc vitae\";'),('site_theme','s:7:\"Default\";'),('user_default_avatar','s:25:\"/img/anonymous_avatar.jpg\";'),('user_mail_activation_body','s:246:\"[user_name],\r\n\r\nYour account at [site_name] has been activated.\r\n\r\nYou may now log in by clicking this link or copying and pasting it into your browser:\r\n\r\n[site_login_url]\r\n\r\nusername: [user_name]\r\npassword: Your password\r\n\r\n--  [site_name] team\";'),('user_mail_activation_notify','s:1:\"1\";'),('user_mail_activation_subject','s:57:\"Account details for [user_name] at [site_name] (approved)\";'),('user_mail_blocked_body','s:85:\"[user_name],\r\n\r\nYour account on [site_name] has been blocked.\r\n\r\n--  [site_name] team\";'),('user_mail_blocked_notify','s:1:\"1\";'),('user_mail_blocked_subject','s:56:\"Account details for [user_name] at [site_name] (blocked)\";'),('user_mail_canceled_body','s:86:\"[user_name],\r\n\r\nYour account on [site_name] has been canceled.\r\n\r\n--  [site_name] team\";'),('user_mail_canceled_notify','s:1:\"1\";'),('user_mail_canceled_subject','s:57:\"Account details for [user_name] at [site_name] (canceled)\";'),('user_mail_password_recovery_body','s:273:\"[user_name],\r\n\r\nA request to reset the password for your account has been made at [site_name].\r\nYou may now log in by clicking this link or copying and pasting it to your browser:\r\n\r\n[user_activation_url]\r\n\r\nAfter log in you can reset your password.\r\n\r\n--  [site_name] team\";'),('user_mail_password_recovery_subject','s:60:\"Replacement login information for [user_name] at [site_name]\";'),('user_mail_welcome_body','s:301:\"[user_name],\r\n\r\nThank you for registering at [site_name]. You may now activate your account by clicking this link or copying and pasting it to your browser:\r\n\r\n[user_activation_url]\r\n\r\nThis link can only be used once to log in.\r\n\r\nusername: [user_name]\r\npassword: Your password\r\n\r\n--  [site_name] team\";'),('user_mail_welcome_subject','s:46:\"Account details for [user_name] at [site_name]\";');
+INSERT INTO `qa_variables` VALUES ('admin_theme','s:12:\"AdminDefault\";'),('date_default_timezone','s:13:\"Europe/Madrid\";'),('default_language','s:3:\"eng\";'),('default_nodes_main','s:1:\"8\";'),('failed_login_limit','i:5;'),('rows_per_page','i:10;'),('site_description','a:0:{}'),('site_frontpage','a:0:{}'),('site_logo','s:8:\"logo.gif\";'),('site_mail','s:24:\"no-reply@your-domain.com\";'),('site_maintenance_message','s:177:\"We sincerely apologize for the inconvenience.<br/>Our site is currently undergoing scheduled maintenance and upgrades, but will return shortly.<br/>Thanks you for your patience.\";'),('site_name','s:17:\"My QuickApps Site\";'),('site_online','s:1:\"1\";'),('site_slogan','s:36:\"Open Source CMS built on CakePHP 2.0\";'),('site_theme','s:7:\"Default\";'),('user_default_avatar','s:25:\"/img/anonymous_avatar.jpg\";'),('user_mail_activation_body','s:246:\"[user_name],\r\n\r\nYour account at [site_name] has been activated.\r\n\r\nYou may now log in by clicking this link or copying and pasting it into your browser:\r\n\r\n[site_login_url]\r\n\r\nusername: [user_name]\r\npassword: Your password\r\n\r\n--  [site_name] team\";'),('user_mail_activation_notify','s:1:\"1\";'),('user_mail_activation_subject','s:57:\"Account details for [user_name] at [site_name] (approved)\";'),('user_mail_blocked_body','s:85:\"[user_name],\r\n\r\nYour account on [site_name] has been blocked.\r\n\r\n--  [site_name] team\";'),('user_mail_blocked_notify','s:1:\"1\";'),('user_mail_blocked_subject','s:56:\"Account details for [user_name] at [site_name] (blocked)\";'),('user_mail_canceled_body','s:86:\"[user_name],\r\n\r\nYour account on [site_name] has been canceled.\r\n\r\n--  [site_name] team\";'),('user_mail_canceled_notify','s:1:\"1\";'),('user_mail_canceled_subject','s:57:\"Account details for [user_name] at [site_name] (canceled)\";'),('user_mail_password_recovery_body','s:273:\"[user_name],\r\n\r\nA request to reset the password for your account has been made at [site_name].\r\nYou may now log in by clicking this link or copying and pasting it to your browser:\r\n\r\n[user_activation_url]\r\n\r\nAfter log in you can reset your password.\r\n\r\n--  [site_name] team\";'),('user_mail_password_recovery_subject','s:60:\"Replacement login information for [user_name] at [site_name]\";'),('user_mail_welcome_body','s:301:\"[user_name],\r\n\r\nThank you for registering at [site_name]. You may now activate your account by clicking this link or copying and pasting it to your browser:\r\n\r\n[user_activation_url]\r\n\r\nThis link can only be used once to log in.\r\n\r\nusername: [user_name]\r\npassword: Your password\r\n\r\n--  [site_name] team\";'),('user_mail_welcome_subject','s:46:\"Account details for [user_name] at [site_name]\";');
 /*!40000 ALTER TABLE `qa_variables` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -778,7 +783,7 @@ CREATE TABLE `qa_vocabularies` (
   `created` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `slug` (`slug`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -787,6 +792,7 @@ CREATE TABLE `qa_vocabularies` (
 
 LOCK TABLES `qa_vocabularies` WRITE;
 /*!40000 ALTER TABLE `qa_vocabularies` DISABLE KEYS */;
+INSERT INTO `qa_vocabularies` VALUES (1,'Categories','categories','',0,0,1319979737,1319979737);
 /*!40000 ALTER TABLE `qa_vocabularies` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -799,4 +805,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-10-29 14:32:03
+-- Dump completed on 2011-10-30 14:46:34

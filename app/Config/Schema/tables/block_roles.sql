@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `qa_block_roles`
+-- Table structure for table `#__block_roles`
 --
 
-DROP TABLE IF EXISTS `qa_block_roles`;
+DROP TABLE IF EXISTS `#__block_roles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `qa_block_roles` (
+CREATE TABLE `#__block_roles` (
   `block_id` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `user_role_id` int(10) unsigned NOT NULL COMMENT 'The user’s role ID from users_roles.rid.',
   PRIMARY KEY (`block_id`,`user_role_id`)
@@ -30,13 +30,13 @@ CREATE TABLE `qa_block_roles` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `qa_block_roles`
+-- Dumping data for table `#__block_roles`
 --
 
-LOCK TABLES `qa_block_roles` WRITE;
-/*!40000 ALTER TABLE `qa_block_roles` DISABLE KEYS */;
-INSERT INTO `qa_block_roles` VALUES ('1',3),('5',2);
-/*!40000 ALTER TABLE `qa_block_roles` ENABLE KEYS */;
+LOCK TABLES `#__block_roles` WRITE;
+/*!40000 ALTER TABLE `#__block_roles` DISABLE KEYS */;
+INSERT INTO `#__block_roles` VALUES ('1',3),('5',2);
+/*!40000 ALTER TABLE `#__block_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-10-25 17:20:42
+-- Dump completed on 2011-10-30 14:46:34

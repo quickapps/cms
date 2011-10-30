@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `qa_comments`
+-- Table structure for table `#__comments`
 --
 
-DROP TABLE IF EXISTS `qa_comments`;
+DROP TABLE IF EXISTS `#__comments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `qa_comments` (
+CREATE TABLE `#__comments` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key: Unique comment ID.',
   `node_id` int(11) NOT NULL COMMENT 'The node.nid to which this comment is a reply.',
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT 'The users.uid who authored the comment. If set to 0, this comment was created by an anonymous user.',
@@ -36,16 +36,17 @@ CREATE TABLE `qa_comments` (
   `name` varchar(60) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'The comment author’s name. Uses users.name if the user is logged in, otherwise uses the value typed into the comment form.',
   `mail` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'The comment author’s e-mail address from the comment form, if user is anonymous, and the ’Anonymous users may/must leave their contact information’ setting is turned on.',
   PRIMARY KEY (`id`,`node_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Stores comments and associated data.';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Stores comments and associated data.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `qa_comments`
+-- Dumping data for table `#__comments`
 --
 
-LOCK TABLES `qa_comments` WRITE;
-/*!40000 ALTER TABLE `qa_comments` DISABLE KEYS */;
-/*!40000 ALTER TABLE `qa_comments` ENABLE KEYS */;
+LOCK TABLES `#__comments` WRITE;
+/*!40000 ALTER TABLE `#__comments` DISABLE KEYS */;
+INSERT INTO `#__comments` VALUES (1,3,1,'Fusce pretium, libero a viverra congue, leo dui auctor tellus, in tincidunt lacus ligula a dolor. Praesent rutrum iaculis semper. Sed tortor eros, tempus sit amet molestie posuere.','Fusce pretium, libero a','127.0.0.1',NULL,1319980300,1319980322,1,NULL,NULL);
+/*!40000 ALTER TABLE `#__comments` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -57,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-10-25 17:20:42
+-- Dump completed on 2011-10-30 14:46:34

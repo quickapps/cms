@@ -51,7 +51,7 @@ CREATE TABLE `#__node_types` (
 
 LOCK TABLES `#__node_types` WRITE;
 /*!40000 ALTER TABLE `#__node_types` DISABLE KEYS */;
-INSERT INTO `#__node_types` VALUES ('page','Basic page','node','Node','Use <em>basic pages</em> for your static content, such as an \'About us\' page.','Title',1,10,2,1,0,0,0,'es',1,0,0,1);
+INSERT INTO `#__node_types` VALUES ('article','Article','Node','Node','Use articles for time-sensitive content like news, press releases or blog posts.','Title',0,10,2,0,1,1,2,'',1,0,0,1),('page','Basic page','node','Node','Use <em>basic pages</em> for your static content, such as an \'About us\' page.','Title',1,10,2,1,0,0,0,'es',1,0,0,1);
 /*!40000 ALTER TABLE `#__node_types` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -64,4 +64,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-10-29 12:07:09
+-- Dump completed on 2011-10-30 14:46:35

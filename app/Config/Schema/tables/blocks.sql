@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `qa_blocks`
+-- Table structure for table `#__blocks`
 --
 
-DROP TABLE IF EXISTS `qa_blocks`;
+DROP TABLE IF EXISTS `#__blocks`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `qa_blocks` (
+CREATE TABLE `#__blocks` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key - Unique block ID.',
   `module` varchar(64) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT 'The module from which the block originates; for example, ’user’ for the Who’s Online block, and ’block’ for any custom blocks.',
   `delta` varchar(32) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0' COMMENT 'Unique ID for block within a module. Or menu_id',
@@ -41,13 +41,13 @@ CREATE TABLE `qa_blocks` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `qa_blocks`
+-- Dumping data for table `#__blocks`
 --
 
-LOCK TABLES `qa_blocks` WRITE;
-/*!40000 ALTER TABLE `qa_blocks` DISABLE KEYS */;
-INSERT INTO `qa_blocks` VALUES (1,'User','login',0,'',1,0,0,'','User Login','a:0:{}','',NULL),(2,'Menu','navigation',0,':Default:',2,1,0,'','',NULL,'',NULL),(3,'System','powered_by',0,':AdminDefault:Default:',1,1,0,'','Powered By','a:0:{}','',NULL),(4,'Menu','management',0,':AdminDefault:',1,1,1,'/admin/*','','a:0:{}','',NULL),(5,'Menu','user-menu',0,':Default:',4,1,0,'','User Menu','a:0:{}','',NULL),(6,'Menu','main-menu',0,':Default:',1,1,0,'','','a:0:{}','',NULL),(7,'User','new',0,':AdminDefault:',5,1,0,'','New Users','a:0:{}','a:1:{s:10:\"show_limit\";s:1:\"5\";}',NULL),(9,'Locale','language_switcher',0,':Default:',3,1,0,'','Language switcher','a:0:{}','a:2:{s:5:\"flags\";s:1:\"1\";s:4:\"name\";s:1:\"1\";}',NULL),(10,'System','recent_content',0,':AdminDefault:',1,1,0,'','Updates','a:0:{}','',NULL),(11,'Block','5',0,':Default:',1,1,0,'','WHAT WE DO','a:0:{}','',NULL),(12,'Block','6',0,':Default:',1,1,0,'','OUR MISSION','a:0:{}','',NULL),(13,'Block','7',0,':Default:',1,1,0,'','WHO WE ARE','a:0:{}','',NULL),(14,'ThemeDefault','slider',0,':Default:',1,1,1,'/','Slider','a:0:{}','a:1:{s:12:\"slider_order\";s:52:\"1_[language].jpg\r\n2_[language].jpg\r\n3_[language].jpg\";}',NULL),(15,'Node','search',0,':AdminDefault:Default:',1,1,0,'','Search','a:0:{}','',NULL),(16,'Taxonomy','vocabularies',0,NULL,1,1,0,NULL,'Vocabularies',NULL,NULL,NULL);
-/*!40000 ALTER TABLE `qa_blocks` ENABLE KEYS */;
+LOCK TABLES `#__blocks` WRITE;
+/*!40000 ALTER TABLE `#__blocks` DISABLE KEYS */;
+INSERT INTO `#__blocks` VALUES (1,'User','login',0,'',1,0,0,'','User Login','a:0:{}','',NULL),(2,'Menu','navigation',0,':Default:',2,1,0,'','','a:0:{}','','a:1:{s:5:\"class\";s:0:\"\";}'),(3,'System','powered_by',0,':AdminDefault:Default:',1,1,0,'','Powered By','a:0:{}','',NULL),(4,'Menu','management',0,':AdminDefault:',1,1,1,'/admin/*','','a:0:{}','',NULL),(5,'Menu','user-menu',0,':Default:',4,1,0,'','User Menu','a:0:{}','',NULL),(6,'Menu','main-menu',0,':Default:',1,1,0,'','','a:0:{}','',NULL),(7,'User','new',0,':AdminDefault:',5,1,0,'','New Users','a:0:{}','a:1:{s:10:\"show_limit\";s:1:\"5\";}',NULL),(9,'Locale','language_switcher',0,':Default:',3,1,0,'','Language switcher','a:0:{}','a:2:{s:5:\"flags\";s:1:\"1\";s:4:\"name\";s:1:\"1\";}',NULL),(10,'System','recent_content',0,':AdminDefault:',1,1,0,'','Updates','a:0:{}','',NULL),(11,'Block','5',0,':Default:',1,1,0,'','WHAT WE DO','a:0:{}','','a:1:{s:5:\"class\";s:0:\"\";}'),(12,'Block','6',0,':Default:',1,1,0,'','OUR MISSION','a:0:{}','','a:1:{s:5:\"class\";s:0:\"\";}'),(13,'Block','7',0,':Default:',1,1,0,'','WHO WE ARE','a:0:{}','','a:1:{s:5:\"class\";s:0:\"\";}'),(14,'ThemeDefault','slider',0,':Default:',1,1,1,'/','Slider','a:0:{}','a:1:{s:12:\"slider_order\";s:52:\"1_[language].jpg\r\n2_[language].jpg\r\n3_[language].jpg\";}',NULL),(15,'Node','search',0,':AdminDefault:Default:',1,1,0,'','Search','a:0:{}','',NULL),(16,'Taxonomy','vocabularies',0,':Default:',1,1,1,'/d/article/*\r\n/s/*','Categories','a:0:{}','a:3:{s:12:\"vocabularies\";a:1:{i:0;s:1:\"1\";}s:15:\"content_counter\";s:1:\"1\";s:15:\"show_vocabulary\";s:1:\"0\";}','a:1:{s:5:\"class\";s:0:\"\";}');
+/*!40000 ALTER TABLE `#__blocks` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -59,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-10-25 17:20:42
+-- Dump completed on 2011-10-30 14:46:34

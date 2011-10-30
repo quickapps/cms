@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `qa_nodes`
+-- Table structure for table `#__nodes`
 --
 
-DROP TABLE IF EXISTS `qa_nodes`;
+DROP TABLE IF EXISTS `#__nodes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `qa_nodes` (
+CREATE TABLE `#__nodes` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'The primary identifier for a node.',
   `node_type_id` varchar(32) COLLATE utf8_unicode_ci NOT NULL COMMENT 'The node_type.type of this node.',
   `node_type_base` varchar(36) COLLATE utf8_unicode_ci NOT NULL COMMENT 'performance data for models',
@@ -44,17 +44,17 @@ CREATE TABLE `qa_nodes` (
   `cache` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `params` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`,`node_type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='The base table for nodes.';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='The base table for nodes.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `qa_nodes`
+-- Dumping data for table `#__nodes`
 --
 
-LOCK TABLES `qa_nodes` WRITE;
-/*!40000 ALTER TABLE `qa_nodes` DISABLE KEYS */;
-INSERT INTO `qa_nodes` VALUES (1,'page','node_content','','Hook Tags','','hook-tags','','',1,1,1310424311,1310424311,1,0,0,0,0,'',NULL),(2,'page','node_content','','About','','about','','',1,1,1310424311,1310424311,1,0,1,1,0,'',NULL);
-/*!40000 ALTER TABLE `qa_nodes` ENABLE KEYS */;
+LOCK TABLES `#__nodes` WRITE;
+/*!40000 ALTER TABLE `#__nodes` DISABLE KEYS */;
+INSERT INTO `#__nodes` VALUES (1,'page','node_content','','Hook Tags','','hook-tags','','',1,1,1310424311,1310424311,1,0,0,0,0,'',NULL),(2,'page','node_content','','About','','about','','',1,1,1310424311,1310424311,1,0,1,1,0,'',NULL),(3,'article','Node','','My first article!','','my-first-article','1:announcements','',1,1,1319979547,1319979547,1,2,1,0,0,'','a:1:{s:5:\"class\";s:0:\"\";}');
+/*!40000 ALTER TABLE `#__nodes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -66,4 +66,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-10-25 17:20:42
+-- Dump completed on 2011-10-30 14:46:35

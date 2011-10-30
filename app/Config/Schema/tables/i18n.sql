@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `qa_i18n`
+-- Table structure for table `#__i18n`
 --
 
-DROP TABLE IF EXISTS `qa_i18n`;
+DROP TABLE IF EXISTS `#__i18n`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `qa_i18n` (
+CREATE TABLE `#__i18n` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `locale` varchar(6) COLLATE utf8_unicode_ci NOT NULL,
   `model` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -34,16 +34,17 @@ CREATE TABLE `qa_i18n` (
   KEY `model` (`model`),
   KEY `row_id` (`foreign_key`),
   KEY `field` (`field`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `qa_i18n`
+-- Dumping data for table `#__i18n`
 --
 
-LOCK TABLES `qa_i18n` WRITE;
-/*!40000 ALTER TABLE `qa_i18n` DISABLE KEYS */;
-/*!40000 ALTER TABLE `qa_i18n` ENABLE KEYS */;
+LOCK TABLES `#__i18n` WRITE;
+/*!40000 ALTER TABLE `#__i18n` DISABLE KEYS */;
+INSERT INTO `#__i18n` VALUES (1,'eng','Locale.Translation',1,NULL,'Open Source CMS built on CakePHP 2.0'),(2,'spa','Locale.Translation',1,NULL,'CMS de código libre construido sobre CakePHP 2.0');
+/*!40000 ALTER TABLE `#__i18n` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-10-25 17:20:42
+-- Dump completed on 2011-10-30 14:46:34

@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `qa_terms`
+-- Table structure for table `#__terms`
 --
 
-DROP TABLE IF EXISTS `qa_terms`;
+DROP TABLE IF EXISTS `#__terms`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `qa_terms` (
+CREATE TABLE `#__terms` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `vocabulary_id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -35,16 +35,17 @@ CREATE TABLE `qa_terms` (
   `rght` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `qa_terms`
+-- Dumping data for table `#__terms`
 --
 
-LOCK TABLES `qa_terms` WRITE;
-/*!40000 ALTER TABLE `qa_terms` DISABLE KEYS */;
-/*!40000 ALTER TABLE `qa_terms` ENABLE KEYS */;
+LOCK TABLES `#__terms` WRITE;
+/*!40000 ALTER TABLE `#__terms` DISABLE KEYS */;
+INSERT INTO `#__terms` VALUES (1,1,'Announcements','announcements',NULL,1319979841,1319979841,NULL,1,6),(2,1,'PHP','php',NULL,1319979888,1319979888,NULL,7,8),(3,1,'cakePHP','cakephp',NULL,1319979899,1319979899,NULL,9,10),(4,1,'Next Events','next-events','',1319979929,1319979911,1,2,3),(5,1,'Past','past',NULL,1319979918,1319979918,1,4,5);
+/*!40000 ALTER TABLE `#__terms` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -56,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-10-25 17:20:43
+-- Dump completed on 2011-10-30 14:46:35

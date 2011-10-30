@@ -20,5 +20,6 @@ regions:
     services-left: Services Left
     services-center: Services Center
     services-right: Services Right
-
+    
+    sidebar-left: Sidebar Left
 layout: default    

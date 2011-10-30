@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `qa_vocabularies`
+-- Table structure for table `#__vocabularies`
 --
 
-DROP TABLE IF EXISTS `qa_vocabularies`;
+DROP TABLE IF EXISTS `#__vocabularies`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `qa_vocabularies` (
+CREATE TABLE `#__vocabularies` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -33,16 +33,17 @@ CREATE TABLE `qa_vocabularies` (
   `created` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `slug` (`slug`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `qa_vocabularies`
+-- Dumping data for table `#__vocabularies`
 --
 
-LOCK TABLES `qa_vocabularies` WRITE;
-/*!40000 ALTER TABLE `qa_vocabularies` DISABLE KEYS */;
-/*!40000 ALTER TABLE `qa_vocabularies` ENABLE KEYS */;
+LOCK TABLES `#__vocabularies` WRITE;
+/*!40000 ALTER TABLE `#__vocabularies` DISABLE KEYS */;
+INSERT INTO `#__vocabularies` VALUES (1,'Categories','categories','',0,0,1319979737,1319979737);
+/*!40000 ALTER TABLE `#__vocabularies` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -54,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-10-25 17:20:43
+-- Dump completed on 2011-10-30 14:46:35
