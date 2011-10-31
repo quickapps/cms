@@ -24,7 +24,7 @@ App::uses('Debugger', 'Utility');
 	<p>For updates and important announcements, visit http://cakefest.org</p>
 </iframe>
 <h2><?php echo __d('cake_dev', 'Release Notes for CakePHP %s.', Configure::version()); ?></h2>
-<a href="http://cakephp.org/changelogs/2.0.0"><?php __d('cake_dev', 'Read the changelog'); ?> </a>
+<a href="http://cakephp.org/changelogs/2.0.1"><?php __d('cake_dev', 'Read the changelog'); ?> </a>
 <?php
 if (Configure::read('debug') > 0):
 	Debugger::checkSecurityKeys();
@@ -36,7 +36,7 @@ endif;
 	2) <a target="_blank" href="http://book.cakephp.org/2.0/en/development/configuration.html#cakephp-core-configuration" style="color:#fff;">I don't / can't use URL rewriting</a>
 </p>
 <p>
-<?php 
+<?php
 	if (version_compare(PHP_VERSION, '5.2.6', '>=')):
 		echo '<span class="notice success">';
 			echo __d('cake_dev', 'Your version of PHP is 5.2.6 or higher.');
@@ -138,7 +138,7 @@ You can also add some CSS styles for your pages at: APP/webroot/css.');
 <p>
 	<?php
 		echo $this->Html->link(
-			sprintf('<strong>%s</strong> %s', __d('cake_dev', 'New'), __d('cake_dev', 'CakePHP 1.3 Docs')),
+			sprintf('<strong>%s</strong> %s', __d('cake_dev', 'New'), __d('cake_dev', 'CakePHP 2.0 Docs')),
 			'http://book.cakephp.org/2.0/en/',
 			array('target' => '_blank', 'escape' => false)
 		);

@@ -16,6 +16,9 @@
  * @since         CakePHP(tm) v 2.0
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+
+App::uses('Multibyte', 'I18n');
+
 /**
  * CakeResponse is responsible for managing the response text, status and headers of a HTTP response.
  *
@@ -313,9 +316,9 @@ class CakeResponse {
  * Class constructor
  *
  * @param array $options list of parameters to setup the response. Possible values are:
- *	- body: the rensonse text that should be sent to the client
+ *	- body: the response text that should be sent to the client
  *	- status: the HTTP status code to respond with
- *	- type: a complete mime-type string or an extension mapepd in this class
+ *	- type: a complete mime-type string or an extension mapped in this class
  *	- charset: the charset for the response body
  */
 	public function __construct(array $options = array()) {
@@ -347,7 +350,11 @@ class CakeResponse {
 		$codeMessage = $this->_statusCodes[$this->_status];
 		$this->_sendHeader("{$this->_protocol} {$this->_status} {$codeMessage}");
 		$this->_sendHeader('Content-Type', "{$this->_contentType}; charset={$this->_charset}");
-
+		$shouldSetLength = empty($this->_headers['Content-Length']) && class_exists('Multibyte');
+		$shouldSetLength = $shouldSetLength && !in_array($this->_status, range(301, 307));
+		if ($shouldSetLength && !$this->outputCompressed()) {
+			$this->_headers['Content-Length'] = mb_strlen($this->_body);
+		}
 		foreach ($this->_headers as $header => $value) {
 			$this->_sendHeader($header, $value);
 		}
@@ -641,6 +648,15 @@ class CakeResponse {
 			extension_loaded("zlib") &&
 			(strpos(env('HTTP_ACCEPT_ENCODING'), 'gzip') !== false);
 		return $compressionEnabled && ob_start('ob_gzhandler');
+	}
+
+/**
+ * Returns whether the resulting output will be compressed by PHP
+ *
+ * @return boolean
+ */
+	public function outputCompressed() {
+		return ini_get("zlib.output_compression") === '1' || in_array('ob_gzhandler', ob_list_handlers());
 	}
 
 /**

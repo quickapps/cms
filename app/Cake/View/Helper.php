@@ -444,30 +444,30 @@ class Helper extends Object {
 			$entity = $this->_modelScope . '.' . $entity;
 		}
 
-		// 0.name, 0.created.month style inputs.
+		// 0.name, 0.created.month style inputs.  Excludes inputs with the modelScope in them.
 		if (
-			$count >= 2 && is_numeric($parts[0]) && !is_numeric($parts[1]) && $this->_modelScope
+			$count >= 2 && is_numeric($parts[0]) && !is_numeric($parts[1]) && $this->_modelScope && strpos($entity, $this->_modelScope) === false
 		) {
 			$entity = $this->_modelScope . '.' . $entity;
 		}
 
 		$this->_association = null;
 
-		// habtm models are special
-		if (
+		$isHabtm = (
 			isset($this->fieldset[$this->_modelScope]['fields'][$parts[0]]['type']) &&
-			$this->fieldset[$this->_modelScope]['fields'][$parts[0]]['type'] === 'multiple'
-		) {
+			$this->fieldset[$this->_modelScope]['fields'][$parts[0]]['type'] === 'multiple' &&
+			$count == 1
+		);
+
+		// habtm models are special
+		if ($count == 1 && $isHabtm) {
 			$this->_association = $parts[0];
 			$entity = $parts[0] . '.' . $parts[0];
 		} else {
 			// check for associated model.
 			$reversed = array_reverse($parts);
-			foreach ($reversed as $part) {
-				if (
-					!isset($this->fieldset[$this->_modelScope]['fields'][$part]) &&
-					preg_match('/^[A-Z]/', $part)
-				) {
+			foreach ($reversed as $i => $part) {
+				if ($i > 0 && preg_match('/^[A-Z]/', $part)) {
 					$this->_association = $part;
 					break;
 				}

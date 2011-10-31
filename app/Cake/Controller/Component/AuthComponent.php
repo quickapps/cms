@@ -161,6 +161,14 @@ class AuthComponent extends Component {
 	public static $sessionKey = 'Auth.User';
 
 /**
+ * The current user, used for stateless authentication when
+ * sessions are not available.
+ *
+ * @var array
+ */
+	protected static $_user = array();
+
+/**
  * A URL (defined as a string or array) to the controller action that handles
  * logins.  Defaults to `/users/login`
  *
@@ -337,7 +345,7 @@ class AuthComponent extends Component {
 	protected function _setDefaults() {
 		$defaults = array(
 			'logoutRedirect' => $this->loginAction,
-			'authError' => __d('cake_dev', 'You are not authorized to access that location.')
+			'authError' => __d('cake', 'You are not authorized to access that location.')
 		);
 		foreach ($defaults as $key => $value) {
 			if (empty($this->{$key})) {
@@ -444,7 +452,8 @@ class AuthComponent extends Component {
  * You can use deny with either an array, or var args.
  *
  * `$this->Auth->deny(array('edit', 'add'));` or
- * `$this->Auth->deny('edit', 'add');`
+ * `$this->Auth->deny('edit', 'add');` or
+ * `$this->Auth->deny();` to remove all items from the allowed list
  *
  * @param mixed $action,... Controller action name or array of actions
  * @return void
@@ -453,16 +462,20 @@ class AuthComponent extends Component {
  */
 	public function deny($action = null) {
 		$args = func_get_args();
-		if (isset($args[0]) && is_array($args[0])) {
-			$args = $args[0];
-		}
-		foreach ($args as $arg) {
-			$i = array_search($arg, $this->allowedActions);
-			if (is_int($i)) {
-				unset($this->allowedActions[$i]);
+		if(empty($args)){
+			$this->allowedActions = array();
+		}else{
+			if (isset($args[0]) && is_array($args[0])) {
+				$args = $args[0];
 			}
+			foreach ($args as $arg) {
+				$i = array_search($arg, $this->allowedActions);
+				if (is_int($i)) {
+					unset($this->allowedActions[$i]);
+				}
+			}
+			$this->allowedActions = array_values($this->allowedActions);
 		}
-		$this->allowedActions = array_values($this->allowedActions);
 	}
 
 /**
@@ -511,7 +524,7 @@ class AuthComponent extends Component {
  * Logs a user out, and returns the login action to redirect to.
  * Triggers the logout() method of all the authenticate objects, so they can perform
  * custom logout logic.  AuthComponent will remove the session data, so
- * there is no need to do that in an authentication object.  Logging out 
+ * there is no need to do that in an authentication object.  Logging out
  * will also renew the session id.  This helps mitigate issues with session replays.
  *
  * @return string AuthComponent::$logoutRedirect
@@ -534,22 +547,28 @@ class AuthComponent extends Component {
 	}
 
 /**
- * Get the current user from the session.
+ * Get the current user.
  *
- * @param string $key field to retrive.  Leave null to get entire User record
+ * Will prefer the static user cache over sessions.  The static user
+ * cache is primarily used for stateless authentication.  For stateful authentication,
+ * cookies + sessions will be used.
+ *
+ * @param string $key field to retrieve.  Leave null to get entire User record
  * @return mixed User record. or null if no user is logged in.
  * @link http://book.cakephp.org/2.0/en/core-libraries/components/authentication.html#accessing-the-logged-in-user
  */
 	public static function user($key = null) {
-		if (!CakeSession::check(self::$sessionKey)) {
+		if (empty(self::$_user) && !CakeSession::check(self::$sessionKey)) {
 			return null;
 		}
-
-		if ($key == null) {
-			return CakeSession::read(self::$sessionKey);
+		if (!empty(self::$_user)) {
+			$user = self::$_user;
+		} else {
+			$user = CakeSession::read(self::$sessionKey);
 		}
-
-		$user = CakeSession::read(self::$sessionKey);
+		if ($key === null) {
+			return $user;
+		}
 		if (isset($user[$key])) {
 			return $user[$key];
 		}
@@ -573,6 +592,7 @@ class AuthComponent extends Component {
 		foreach ($this->_authenticateObjects as $auth) {
 			$result = $auth->getUser($this->request);
 			if (!empty($result) && is_array($result)) {
+				self::$_user = $result;
 				return true;
 			}
 		}
