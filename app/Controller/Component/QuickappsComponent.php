@@ -141,6 +141,7 @@ class QuickAppsComponent extends Component {
             jQuery.extend(QuickApps.settings, {
                 "url": "' . str_replace("//", "/", $this->Controller->here . '/') . '",
                 "base_url": "' . Router::url('/') . '",
+                "domain": "' . str_replace(Router::url('/'), '', Router::url('/', true)) . '/",
                 "locale": {"code": "' . Configure::read('Variable.language.code') . '"}
             });';
 
