@@ -204,10 +204,6 @@ class NodeController extends NodeAppController {
             )
         );
 
-        if (isset($this->request->query['criteria']) && !empty($this->request->query['criteria'])) {
-            $criteria = $this->request->query['criteria'];
-        }
-
         if ($criteria) {
             $criteria = urldecode($criteria);
             $data = array();
@@ -314,6 +310,7 @@ class NodeController extends NodeAppController {
             }
 
             $criteria = explode('OR', trim($criteria));
+
             foreach ($criteria as $or) {
                 $or = trim($or);
 
