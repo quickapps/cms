@@ -15,7 +15,7 @@ class QuickAppsComponent extends Component {
     public function startup() { }
     public function beforeRender() { }
     public function shutdown() { }
-    public function beforeRedirect() {}
+    public function beforeRedirect() { }
 
 /**
  * Called before the Controller::beforeFilter().
@@ -37,6 +37,12 @@ class QuickAppsComponent extends Component {
         $this->setCrumb();
     }
 
+/**
+ * Check for maintenance status,
+ * 'Site Offline' screen is rendered if site is offline
+ *
+ * @return void
+ */ 
     public function siteStatus() {
         if (Configure::read('Variable.site_online') != 1 && !$this->isAdmin()) {
             if ($this->Controller->plugin != 'User' &&
@@ -61,6 +67,11 @@ class QuickAppsComponent extends Component {
         }
     }
 
+/**
+ * Set theme to use and load its information
+ *
+ * @return void
+ */
     public function setTheme() {
         if (isset($this->Controller->request->params['admin']) && $this->Controller->request->params['admin'] == 1) {
             $this->Controller->theme =  Configure::read('Variable.admin_theme') ? Configure::read('Variable.admin_theme') : 'admin_default';
@@ -102,6 +113,11 @@ class QuickAppsComponent extends Component {
         $this->Controller->hook('stylesheets_alter', $this->Controller->Layout['stylesheets']);    # pass css list to modules if they need to alter them (add/remove)
     }
 
+/**
+ * Prepare blocks, js, css, metas & basic data for rendering
+ *
+ * @return void
+ */ 
     public function prepareContent() {
         $theme = Router::getParam('admin') ? Configure::read('Variable.admin_theme') : Configure::read('Variable.site_theme');
         $options = array(
@@ -122,12 +138,11 @@ class QuickAppsComponent extends Component {
 
         /* Basic js files/embed */
         $this->Controller->Layout['javascripts']['embed'][] = '
-jQuery.extend(QuickApps.settings, {
-    "url": "' . str_replace("//", "/", $this->Controller->here . '/') . '",
-    "base_url": "' . Router::url('/') . '",
-    "locale": {"code": "' . Configure::read('Variable.language.code') . '"}
-} );
-';
+            jQuery.extend(QuickApps.settings, {
+                "url": "' . str_replace("//", "/", $this->Controller->here . '/') . '",
+                "base_url": "' . Router::url('/') . '",
+                "locale": {"code": "' . Configure::read('Variable.language.code') . '"}
+            });';
 
         $this->Controller->hook('javascripts_alter', $this->Controller->Layout['javascripts']); # pass js to modules
         $this->Controller->paginate = array('limit' => Configure::read('Variable.rows_per_page'));
@@ -147,6 +162,11 @@ jQuery.extend(QuickApps.settings, {
         }
     }
 
+/**
+ * Set system language for the current user.
+ * 
+ * @return void
+ */ 
     public function setLanguage() {
         $urlBefore = $this->__urlChunk();
         $urlBefore = isset($urlBefore[0]) ? $urlBefore[0] : '';
@@ -199,6 +219,12 @@ jQuery.extend(QuickApps.settings, {
         }
     }
 
+/**
+ * Check if current user is allowed to access the requested location.
+ * 'Access Deny' screen is rendered if user can not access.
+ *
+ * @return void
+ */ 
     public function accessCheck() {
         $this->Controller->Auth->authenticate = array(
             'Form' => array(
@@ -341,10 +367,24 @@ jQuery.extend(QuickApps.settings, {
        }
     }
 
+/**
+ * Set default time zone
+ *
+ * @return void
+ */
     public function setTimeZone() {
         return date_default_timezone_set(Configure::read('Variable.date_default_timezone'));
     }
 
+/**
+ * Performs a cache all environment variables stored in `#__variables` table
+ *  {{{
+ *      Configure::read('Variable.varible_id')
+ *  }}}
+ *
+ * @return void
+ */ 
+ 
     public function loadVariables() {
         $variables = Cache::read('Variable');
 
@@ -511,6 +551,14 @@ jQuery.extend(QuickApps.settings, {
         $this->Controller->Layout['blocks'][] = $Block;
     }
 
+/**
+ * Collect and cache information about all active modules.
+ *  {{{
+ *      Configure::read('Modules.YourModuleName')
+ *  }}}
+ *
+ * @return void
+ */
     public function loadModules() {
         $modules = Cache::read('Modules');
 
@@ -537,6 +585,37 @@ jQuery.extend(QuickApps.settings, {
         }
     }
 
+/**
+ * Checks User is logged in
+ *
+ * @return boolean
+ */
+    public function loggedIn() {
+        return $this->Controller->Session->check('Auth.User.id');
+    }
+
+/**
+ * Retuns current user roles
+ *
+ * @return array associative array with id and names of the roles: array(id:integer => name:string, ...)
+ */    
+    public function userRoles() {
+        $roles = array();
+
+        if (!$this->loggedIn()) {
+            $roles[] = 3;
+        } else {
+            $roles = $this->Controller->Session->read('Auth.User.role_id');
+        }
+
+        return $roles;        
+    }
+
+/**
+ * Check if the logged user has admin privileges
+ *
+ * @return boolean
+ */ 
     public function isAdmin() {
         return ($this->Controller->Auth->user() && in_array(1, (array)$this->Controller->Auth->user('role_id')));
     }

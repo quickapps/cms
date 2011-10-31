@@ -250,7 +250,7 @@ class HookComponent extends Component {
 /**
  * Callback function
  *
- * @see hookTags()
+ * @see HookComponent::hookTags
  * @return mixed Hook response or false in case of no response.
  */
     private function __doHookTag($m) {

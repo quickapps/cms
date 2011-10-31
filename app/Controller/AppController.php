@@ -90,16 +90,13 @@ class AppController extends Controller {
     public function isAuthorized($user) {
         $this->Quickapps->accessCheck();
 
-		$isAllowed = (
-			$this->Auth->allowedActions == array('*') || 
-			in_array($this->request->params['action'], $this->Auth->allowedActions)
-		);
+		$isAllowed = ($this->Auth->allowedActions == array('*') || in_array($this->request->params['action'], $this->Auth->allowedActions));
 
         return $isAllowed;
     }
 
 /**
- * shortcut for $this->set(`title_for_layout`...)
+ * shortcut for $this->set(`title_for_layout`, ...)
  *
  * @param string $str layout title
  * @return void
@@ -131,7 +128,7 @@ class AppController extends Controller {
     }
 
 /**
- * Wrapper method to Hook::hook_defined
+ * Wrapper method to HookComponent::hook_defined
  *
  * @param string $hook Name of the event
  * @return bool
@@ -167,11 +164,12 @@ class AppController extends Controller {
     }
 
 /**
- * Wrapper method to Hook::__dispatchEvent
+ * Wrapper method to HookComponent::hook
  *
- * @param string $hook Name of the event
+ * @see HookComponent::__dispatchEvent
+ * @param string $hook Name of the event to fire
  * @param mix $data Any data to attach
- * @param bool $raw_return false means return asociative data, true will return a listed array
+ * @param array $options Options for hook dispatcher
  * @return mixed FALSE -or- result array
  */
     public function hook($hook, &$data = array(), $options = array()) {

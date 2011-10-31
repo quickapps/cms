@@ -18,10 +18,10 @@ class InstallerComponent extends Component {
         'status' => 1       # install and activate(status=1), install and do not activate (status=0)
     );
 
-    public function startup() {}
-    public function beforeRender() {}
-    public function shutdown() {}
-    public function beforeRedirect() {}
+    public function startup() { }
+    public function beforeRender() { }
+    public function shutdown() { }
+    public function beforeRedirect() { }
 
     public function initialize(&$Controller) {
         $this->Controller =& $Controller;
@@ -30,9 +30,10 @@ class InstallerComponent extends Component {
     }
 
 /**
- * Begin instalation proccess for the indicated package.
+ * Begins install process for the specified package.
  * Expected module package estructure:
- *      - ModuleFolderName/   # $package_path
+ * ZIP:
+ *      - ModuleFolderName/
  *          - Config/
  *          - Controller/
  *              - Component/
@@ -45,14 +46,14 @@ class InstallerComponent extends Component {
  *          - ModuleFolderName.yaml
  *
  * Expected theme package estructure:
- *      - CamelCaseThemeName/   # $package_path
+ * ZIP:
+ *      - CamelCaseThemeName/
  *          - Layouts/
  *          - app/
- *              - ThemeCamelCaseThemeName/  # prefix 'Theme' + {camelized theme name}
+ *              - ThemeCamelCaseThemeName/  # prefix 'Theme' + {CamelizedThemeName}
  *          - webroot/
  *          - CamelCaseThemeName.yaml
  *          - thumbnail.png # 206x150px recommended
- *
  *
  * @param array $data form POST submit of the .app package ($this->data)
  * @param array $options optional settings, see InstallerComponent::$options
@@ -844,6 +845,12 @@ class InstallerComponent extends Component {
         return ($e == 0);
     }
 
+/**
+ * Loads plugin's installer component
+ *
+ * @param string $search Path where to look for component
+ * @return mix object Instance of component, Or bool false if Component could not be loaded
+ */
     public function loadInstallComponent($search = false) {
         if (!file_exists($search . 'InstallComponent.php')) {
             return false;
@@ -865,6 +872,13 @@ class InstallerComponent extends Component {
         return $component;
     }
 
+/**
+ * Check if all files & folders contained in `source` can be copied to `destination`
+ *
+ * @param string $src Path content to check
+ * @param string $dst Destination path that $source should be copied to
+ * @return bool True if all files & folder can be copied to `destination`. False otherwise
+ */ 
     public function package_is_writable($src, $dst) {
         $e = 0;
         $Folder = new Folder($src);
@@ -883,9 +897,15 @@ class InstallerComponent extends Component {
         return ($e == 0);
     }
 
+/**
+ * Recursively copy `source` to `destination`
+ *
+ * @param string $src Path content to copy
+ * @param string $dst Destination path that $source should be copied to
+ * @return bool True on sucess. False otherwise
+ */
     public function rcopy($src, $dst) {
         if (!$this->package_is_writable($src, $dst)) {
-           
             return false;
         }
 
@@ -908,7 +928,12 @@ class InstallerComponent extends Component {
 
         return true;
     }
-    
+
+/**
+ * Regenerate Modules & Variable cache
+ *
+ * @return void
+ */ 
     private function __clearCache() {
         # delete & regenerate caches
         Cache::delete('Modules');
