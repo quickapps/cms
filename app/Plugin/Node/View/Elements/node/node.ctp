@@ -23,7 +23,7 @@
     <?php echo $this->Layout->renderField($field); ?>
 <?php endforeach; ?>
 
-<?php if (!in_array($Layout['viewMode'], array('full', 'print'))): ?>
+<?php if (!in_array($Layout['viewMode'], array('full', 'print', 'rss'))): ?>
     <div class="link-wrapper">
         <?php echo $this->Html->link('<span>' . __d('node', 'Read More') . '</span>', "/d/{$node['Node']['node_type_id']}/{$node['Node']['slug']}", array('class' => 'read-more', 'escape' => false)); ?>
     </div>
