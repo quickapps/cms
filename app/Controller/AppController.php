@@ -230,10 +230,10 @@ class AppController extends Controller {
         $_modules = array_keys($_modules);
         $themeToUse = $_variable[$_themeType];
         $plugins = App::objects('plugin', null, false);
+        $modulesCache = Cache::read('Modules');
 
         foreach ($plugins as $plugin) {
             $ppath = CakePlugin::path($plugin);
-            $modulesCache = Cache::read('Modules');
 
             # inactive module, except fields that are nor registered as plugin en DB
             if (!in_array($plugin, $_modules) && strpos($ppath, DS . 'Fields' . DS) === false) {
