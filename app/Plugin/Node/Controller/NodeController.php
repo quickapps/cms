@@ -406,7 +406,7 @@ class NodeController extends NodeAppController {
         }
 
         if ($rss) {
-            $this->layout = 'rss';
+            $this->layoutPath = 'rss';
             $this->helpers[] = 'Rss';
             $this->helpers[] = 'Text';
             $this->Layout['viewMode'] = 'rss';

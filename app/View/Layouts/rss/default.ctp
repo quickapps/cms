@@ -1,5 +1,4 @@
 <?php header('Content-Type: text/xml'); ?>
-<?php Configure::write('debug', 2); ?>
 <?php echo '<?xml version="1.0" encoding="UTF-8"?>'; ?>
 
 <rss version="2.0">
@@ -15,9 +14,10 @@
         $nodeLink = "/d/{$node['Node']['node_type_id']}/{$node['Node']['slug']}";
 
         App::uses('Sanitize', 'Utility');
+
         $nodeBody = $this->Layout->renderNode($node);
 
-        echo  $this->Rss->item(array(),
+        echo $this->Rss->item(array(),
             array(
                 'title' => $node['Node']['title'],
                 'link' => $nodeLink,
