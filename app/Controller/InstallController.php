@@ -288,7 +288,7 @@ class InstallController extends Controller {
 
     private function __prepareDump($sql) {
         $sql = trim($sql);
-        $sql = ereg_replace("\n#[^\n]*\n", "\n", $sql);
+        $sql = preg_replace("/\n#[^\n]*\n/", "\n", $sql);
         $sql = preg_replace('/^\-\-(.*)/im', '', $sql);
         $sql = preg_replace("/\n{2,}/m", "\n", $sql);
 
