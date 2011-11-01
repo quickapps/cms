@@ -143,7 +143,7 @@ class ModulesController extends SystemAppController {
             $this->redirect('/admin/system/modules');
         }
 
-        if (!$this->Installer->install($this->data, array('type' => 'module'))) {
+        if (!$this->Installer->install($this->data, array('type' => 'module', 'status' => $this->data['Package']['activate']))) {
             $errors = implode('', $this->Installer->errors);
             $this->flashMsg($errors, 'error');
         } else {

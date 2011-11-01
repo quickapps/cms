@@ -7,10 +7,18 @@
     <!-- Filter -->
     <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-install_fieldset" style="cursor:pointer;">' . __t('Install New Module') . '</span>' ); ?>
         <div id="install_fieldset" class="horizontalLayout" style="display:none;">
-            <?php echo $this->Form->input('Package.data',
+            <?php
+                echo $this->Form->input('Package.data',
                     array(
                         'type' => 'file',
                         'label' => __t('Package')
+                    )
+                );
+
+                echo $this->Form->input('Package.activate',
+                    array(
+                        'type' => 'checkbox',
+                        'label' => __t('Activate after install')
                     )
                 );
             ?>
