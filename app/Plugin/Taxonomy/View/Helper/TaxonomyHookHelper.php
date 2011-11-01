@@ -24,7 +24,10 @@ class TaxonomyHookHelper extends AppHelper {
     }
 
     public function taxonomy_vocabularies($block) {
+        $cd = isset($block['Block']['settings']['terms_cache_duration']) ? $block['Block']['settings']['terms_cache_duration'] : '+10 minutes';
         $lc = Configure::read('Variable.language.code');
+
+        Cache::config('terms_cache', array('engine' => 'File', 'duration' => $cd));
 
         $block['Block']['settings'] = Set::merge(
             array(
@@ -65,7 +68,7 @@ class TaxonomyHookHelper extends AppHelper {
                     $term['Term']['router_path'] = "/s/{$prefix}term:{$term['Term']['slug']}";
 
                     if ($block['Block']['settings']['content_counter']) {
-                        $count = Cache::read("count_term_{$term['Term']['id']}_{$lc}");
+                        $count = Cache::read("count_term_{$term['Term']['id']}_{$lc}", 'terms_cache');
 
                         if (!$count) {
                             $count = ClassRegistry::init('Node')->find('count', 
@@ -77,7 +80,7 @@ class TaxonomyHookHelper extends AppHelper {
                                 )
                             );
 
-                            Cache::write("count_term_{$term['Term']['id']}_{$lc}", $count);
+                            Cache::write("count_term_{$term['Term']['id']}_{$lc}", $count, 'terms_cache');
                         }
 
                         $term['Term']['name'] = $term['Term']['name'] . " ({$count})";
@@ -103,7 +106,7 @@ class TaxonomyHookHelper extends AppHelper {
                 $term['Term']['router_path'] = "/s/{$prefix}term:{$term['Term']['slug']}";
 
                 if ($block['Block']['settings']['content_counter']) {
-                    $count = Cache::read("count_term_{$term['Term']['id']}_{$lc}");
+                    $count = Cache::read("count_term_{$term['Term']['id']}_{$lc}", 'terms_cache');
 
                     if (!$count) {
                         $count = ClassRegistry::init('Node')->find('count', 
@@ -115,7 +118,7 @@ class TaxonomyHookHelper extends AppHelper {
                             )
                         );
 
-                        Cache::write("count_term_{$term['Term']['id']}_{$lc}", $count);
+                        Cache::write("count_term_{$term['Term']['id']}_{$lc}", $count, 'terms_cache');
                     }
 
                     $term['Term']['name'] = $term['Term']['name'] . " ({$count})";
