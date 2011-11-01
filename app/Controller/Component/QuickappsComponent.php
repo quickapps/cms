@@ -26,9 +26,9 @@ class QuickAppsComponent extends Component {
     public function initialize(&$Controller) {
         $this->Controller =& $Controller;
 
-        $this->accessCheck();
         $this->loadVariables();
         $this->loadModules();
+        $this->accessCheck();
         $this->setTheme();
         $this->setTimeZone();
         $this->setLanguage();
@@ -227,6 +227,16 @@ class QuickAppsComponent extends Component {
  * @return void
  */ 
     public function accessCheck() {
+        if ($this->Controller->request->params['plugin']) {
+            if (!Configure::read('Modules.' . Inflector::camelize($this->Controller->request->params['plugin']) . '.status')) {
+                if ($this->Controller->request->params['admin']) {
+                    $this->Controller->redirect('/admin');
+                }
+
+                $this->Controller->redirect('/');
+            }
+        }
+
         $this->Controller->Auth->authenticate = array(
             'Form' => array(
                 'fields' => array(
@@ -243,7 +253,7 @@ class QuickAppsComponent extends Component {
             'action' => 'login',
             'plugin' => 'user'
         );
-        
+
         $this->Controller->Auth->authError = '';
         $this->Controller->Auth->authorize = array('Controller');
         $this->Controller->Auth->loginRedirect = Router::getParam('admin') ? '/admin' : '/';
