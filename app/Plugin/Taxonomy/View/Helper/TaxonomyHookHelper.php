@@ -24,6 +24,8 @@ class TaxonomyHookHelper extends AppHelper {
     }
 
     public function taxonomy_vocabularies($block) {
+        $lc = Configure::read('Variable.language.code');
+
         $block['Block']['settings'] = Set::merge(
             array(
                 'vocabularies' => array(),
@@ -63,16 +65,19 @@ class TaxonomyHookHelper extends AppHelper {
                     $term['Term']['router_path'] = "/s/{$prefix}term:{$term['Term']['slug']}";
 
                     if ($block['Block']['settings']['content_counter']) {
-                        $count = Cache::read("count_term_{$term['Term']['id']}");
+                        $count = Cache::read("count_term_{$term['Term']['id']}_{$lc}");
 
                         if (!$count) {
-                            $count = ClassRegistry::init('NodesTerms')->find('count', 
+                            $count = ClassRegistry::init('Node')->find('count', 
                                 array(
-                                    'conditions' => array('NodesTerms.term_id' => $term['Term']['id'])
+                                    'conditions' => array(
+                                        'Node.terms_cache LIKE' => "%{$term['Term']['id']}:%",
+                                        'Node.language' => array(null, '', $lc)
+                                    )
                                 )
                             );
 
-                            Cache::write("count_term_{$term['Term']['id']}", $count);
+                            Cache::write("count_term_{$term['Term']['id']}_{$lc}", $count);
                         }
 
                         $term['Term']['name'] = $term['Term']['name'] . " ({$count})";
@@ -98,16 +103,19 @@ class TaxonomyHookHelper extends AppHelper {
                 $term['Term']['router_path'] = "/s/{$prefix}term:{$term['Term']['slug']}";
 
                 if ($block['Block']['settings']['content_counter']) {
-                    $count = Cache::read("count_term_{$term['Term']['id']}");
+                    $count = Cache::read("count_term_{$term['Term']['id']}_{$lc}");
 
                     if (!$count) {
-                        $count = ClassRegistry::init('NodesTerms')->find('count', 
+                        $count = ClassRegistry::init('Node')->find('count', 
                             array(
-                                'conditions' => array('NodesTerms.term_id' => $term['Term']['id'])
+                                'conditions' => array(
+                                    'Node.terms_cache LIKE' => "%{$term['Term']['id']}:%",
+                                    'Node.language' => array(null, '', $lc)
+                                )
                             )
                         );
 
-                        Cache::write("count_term_{$term['Term']['id']}", $count);
+                        Cache::write("count_term_{$term['Term']['id']}_{$lc}", $count);
                     }
 
                     $term['Term']['name'] = $term['Term']['name'] . " ({$count})";
@@ -116,7 +124,7 @@ class TaxonomyHookHelper extends AppHelper {
 
             $body .= $this->Menu->generate($terms, array('model' => 'Term', 'alias' => 'name'));
         }
-        
+
         $body .= '</ul>';
         $Block = array(
             'body' => $body
