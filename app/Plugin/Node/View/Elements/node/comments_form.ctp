@@ -8,7 +8,7 @@
 ?>
 
 <?php
-    $collect = $this->Layout->hook('beforeCommentsForm', $this, array('collectReturn' => true));
+    $collect = $this->Layout->hook('before_comments_form', $this, array('collectReturn' => true));
 
     echo implode(' ', (array)$collect);
 ?>
@@ -63,7 +63,7 @@
     <?php echo $this->Form->end(); ?>
 </div>
 <?php
-    $collect = $this->Layout->hook('afterCommentsForm', $this, array('collectReturn' => true));
+    $collect = $this->Layout->hook('after_comments_form', $this, array('collectReturn' => true));
 
     echo implode(' ', (array)$collect);
 ?>

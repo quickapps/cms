@@ -78,38 +78,43 @@ class HookComponent extends Component {
     }
 
 /**
- * Replace some core useful tags:
+ * Special hookTags that are not managed by any modules:
  *  `[date=FORMAT]` Return current date(FORMAT).
+ *  `[rand={values,by,comma}]` Returns a radom value from the specified group.
+ *                             If only two numeric values are given as group, 
+ *                             then rand(num1, num2) is returned.
  *  `[language.OPTION]` Current language option (code, name, native, direction).
  *  `[language]` Shortcut to [language.code] which return current language code.
  *  `[url]YourURL[/url]` or `[url=YourURL]` Formatted url.
  *  `[url=LINK]LABEL[/url]` Returns link tag <href="LINK">LABEL</a>
  *  `[t=stringToTranslate]` or `[t]stringToTranslate[/t]` text translation: __t(stringToTranslate)
  *  `[t=domain@@stringToTranslate]` Translation by domain __d(domain, stringToTranslate)
+ *  `[Layout.PATH]` Get any value from `Layout` variable. i.e.: [Layout.viewMode] gets current view mode
+ *                  if path does not exists then '' (empty) is rendered instead the hookTag code.
  *
  * @param string $text original text where to replace tags
  * @return string
  */
     public function specialTags($text) {
-        // [locale]
+        //[locale]
         $text = str_replace('[language]', Configure::read('Variable.language.code'), $text);
 
         //[locale.OPTION]
         preg_match_all('/\[language.(.+)\]/iUs', $text, $localeMatches);
         foreach ($localeMatches[1] as $attr) {
-            $text = str_replace("[language.{$attr}]", Configure::read('Variable.language.' .$attr), $text);
+            $text = str_replace("[language.{$attr}]", Configure::read('Variable.language.' .$attr ), $text);
         }
 
         //[url]URL[/url]
         preg_match_all('/\[url\](.+)\[\/url\]/iUs', $text, $urlMatches);
         foreach ($urlMatches[1] as $url) {
-            $text = str_replace("[url]{$url}[/url]", $this->_View->Html->url($url, true), $text);
+            $text = str_replace("[url]{$url}[/url]", Router::url($url, true), $text);
         }
 
         //[url=URL]
         preg_match_all('/\[url\=(.+)\]/iUs', $text, $urlMatches);
         foreach ($urlMatches[1] as $url) {
-            $text = str_replace("[url={$url}]", $this->_View->Html->url($url, true), $text );
+            $text = str_replace("[url={$url}]", Router::url($url, true), $text);
         }
 
         //[t=text to translate]
@@ -127,7 +132,7 @@ class HookComponent extends Component {
         //[t=domain@@text to translate]
         preg_match_all('/\[t\=(.+)\@\@(.+)\]/iUs', $text, $dMatches);
         foreach ($dMatches[1] as $key => $domain) {
-            $text = str_replace("[d={$domain}@@{$dMatches[2][$key]}]", __d($domain, $dMatches[2][$key]), $text );
+            $text = str_replace("[d={$domain}@@{$dMatches[2][$key]}]", __d($domain, $dMatches[2][$key]), $text);
         }
 
         //[date=FORMAT@@TIME_STAMP]
@@ -144,8 +149,31 @@ class HookComponent extends Component {
             $text = str_replace("[date={$format}]", date($format), $text);
         }
 
+        //[rand=a,b,c]
+        preg_match_all('/\[rand\=(.+)\]/iUs', $text, $randomMatches);
+        foreach ($randomMatches[1] as $_values) {
+            $values = explode(',', $_values);
+            $values = array_map('trim', $values);
+            $c = count($values);
+
+            if ($c == 2 && is_numeric($values[0]) && is_numeric($values[1])) {
+                $replace = rand($values[0], $values[1]);
+            } else {
+                $replace = $values[rand(0, $c-1)];
+            }
+
+            $text = str_replace("[rand={$_values}]", $replace, $text);
+        }
+
+        //[Layout.PATH]
+        preg_match_all('/\[Layout.(.+)\]/iUs', $text, $layoutPaths);
+        foreach ($layoutPaths[1] as $path) {
+            $extract = Set::extract("{$path}", $this->Controller->Layout);
+            $text = str_replace("[Layout.{$path}]", $extract, $text);
+        }
+
         # pass text to modules so they can apply their own special tags
-        $this->hook('specialTags_alter', $text);
+        $this->hook('special_tags_alter', $text);
 
         return $text;
     }
@@ -205,7 +233,7 @@ class HookComponent extends Component {
  *  $response = $this->hook('collect_hook_with_no_parameters');
  *
  *  $this->setHookOptions(array('collectReturn' => false, 'break' => true, 'breakOn' => false));
- *  $response2 = $this->hook('OTHER_collect_hook_with_no_parameters');
+ *  $response2 = $this->hook('other_collect_hook_with_no_parameters');
  * }}}
  *
  * @param array $options Array of options to overwrite

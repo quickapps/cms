@@ -49,7 +49,7 @@ class Node extends NodeAppModel {
                 continue;
             }
 
-            $this->hook("{$result['Node']['node_type_base']}_afterFind", $result, array('collectReturn' => false));
+            $this->hook("{$result['Node']['node_type_base']}_after_find", $result, array('collectReturn' => false));
         }
 
         return $results;
@@ -61,7 +61,7 @@ class Node extends NodeAppModel {
             $this->Behaviors->attach('Sluggable', array('overwrite' => false));
         }
 
-        $r = isset($this->data['Node']['node_type_base']) ? $this->hook("{$this->data['Node']['node_type_base']}_beforeValidate", $this) : null;
+        $r = isset($this->data['Node']['node_type_base']) ? $this->hook("{$this->data['Node']['node_type_base']}_before_validate", $this) : null;
 
         return ($r !== false);
     }
@@ -76,7 +76,7 @@ class Node extends NodeAppModel {
 
         $this->data['Node']['comment'] = !isset($this->data['Node']['comment']) || empty($this->data['Node']['comment']) ? 0 : $this->data['Node']['comment'];
 
-        $r = isset($this->data['Node']['node_type_base']) ? $this->hook("{$this->data['Node']['node_type_base']}_beforeSave", $this) : null;
+        $r = isset($this->data['Node']['node_type_base']) ? $this->hook("{$this->data['Node']['node_type_base']}_before_save", $this) : null;
 
         return ($r !== false);
     }
@@ -87,7 +87,7 @@ class Node extends NodeAppModel {
         }
 
         if ($this->node_type_base) {
-            $this->hook("{$this->node_type_base}_afterSave", $this);
+            $this->hook("{$this->node_type_base}_after_save", $this);
         }
     }
 
@@ -97,7 +97,7 @@ class Node extends NodeAppModel {
 
         $this->recursive = -1;
         $n = $this->data = $this->read();
-        $r = isset($n['Node']['node_type_base']) ? $this->hook("{$n['Node']['node_type_base']}_beforeDelete", $this) : null;
+        $r = isset($n['Node']['node_type_base']) ? $this->hook("{$n['Node']['node_type_base']}_before_delete", $this) : null;
 
         return ($r !== false);
     }
@@ -107,7 +107,7 @@ class Node extends NodeAppModel {
             Cache::delete("node_{$this->data['Node']['slug']}");
         }
 
-        $r = isset($this->data['Node']['node_type_base']) ? $this->hook("{$this->data['Node']['node_type_base']}_afterDelete", $this) : null;
+        $r = isset($this->data['Node']['node_type_base']) ? $this->hook("{$this->data['Node']['node_type_base']}_after_delete", $this) : null;
 
         $this->unbindComments();
 

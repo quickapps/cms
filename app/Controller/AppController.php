@@ -153,7 +153,7 @@ class AppController extends Controller {
  *  $response = $this->hook('collect_hook_with_no_parameters');
  *
  *  $this->setHookOptions(array('collectReturn' => false, 'break' => true, 'breakOn' => false));
- *  $response2 = $this->hook('no_collect_and_breakOn_hook_with_no_parameters');
+ *  $response2 = $this->hook('no_collect_and_breakon_hook_with_no_parameters');
  * }}}
  *
  * @param array $options Array of options to overwrite

@@ -142,7 +142,7 @@ class AppHelper extends Helper {
  *  $response = $this->hook('collect_hook_with_no_parameters');
  *
  *  $this->setHookOptions(array('collectReturn' => false, 'break' => true, 'breakOn' => false));
- *  $response2 = $this->hook('OTHER_collect_hook_with_no_parameters');
+ *  $response2 = $this->hook('other_collect_hook_with_no_parameters');
  * }}}
  *
  * @param array $options Array of options to overwrite

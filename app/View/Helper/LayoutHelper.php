@@ -265,7 +265,7 @@ class LayoutHelper extends AppHelper {
         $node['Field'] = Set::sort($node['Field'], "{n}.settings.display.{$view_mode}.ordering", 'asc');
         $sufix = $node['NodeType']['module'] == 'Node' ? 'render' : $node['NodeType']['id'];
         $callback = "{$node['NodeType']['base']}_{$sufix}";
-        $content .= implode('', (array)$this->hook('beforeRenderNode', $node, array('collectReturn' => true)));
+        $content .= implode('', (array)$this->hook('before_render_node', $node, array('collectReturn' => true)));
         $content_callback = $this->hook($callback, $node, array('collectReturn' => false));
 
         if (empty($content_callback)) {
@@ -274,7 +274,7 @@ class LayoutHelper extends AppHelper {
             $content .= $content_callback;
         }
 
-        $content .= implode('', (array)$this->hook('afterRenderNode', $node, array('collectReturn' => true)));
+        $content .= implode('', (array)$this->hook('after_render_node', $node, array('collectReturn' => true)));
         $content = "\n\t" . $this->hookTags($content) . "\n";
 
         if (isset($this->tmp['renderedNodes'])) {
@@ -937,13 +937,13 @@ class LayoutHelper extends AppHelper {
         //[url]URL[/url]
         preg_match_all('/\[url\](.+)\[\/url\]/iUs', $text, $urlMatches);
         foreach ($urlMatches[1] as $url) {
-            $text = str_replace("[url]{$url}[/url]", $this->_View->Html->url($url, true), $text);
+            $text = str_replace("[url]{$url}[/url]", Router::url($url, true), $text);
         }
 
         //[url=URL]
         preg_match_all('/\[url\=(.+)\]/iUs', $text, $urlMatches);
         foreach ($urlMatches[1] as $url) {
-            $text = str_replace("[url={$url}]", $this->_View->Html->url($url, true), $text);
+            $text = str_replace("[url={$url}]", Router::url($url, true), $text);
         }
 
         //[t=text to translate]
@@ -1002,7 +1002,7 @@ class LayoutHelper extends AppHelper {
         }
 
         # pass text to modules so they can apply their own special tags
-        $this->hook('specialTags_alter', $text);
+        $this->hook('special_tags_alter', $text);
 
         return $text;
     }

@@ -48,7 +48,7 @@ class Field extends FieldAppModel {
             $this->data['Field']['settings'] = isset($this->data['Field']['settings']) ? Set::merge($this->data['Field']['settings'], $default_settings) : $default_settings;
         }
 
-        $before = $this->hook("{$this->data['Field']['field_module']}_beforeValidateInstance", $this);
+        $before = $this->hook("{$this->data['Field']['field_module']}_before_validate_instance", $this);
 
         if ($before === false) {
             return $before;
@@ -60,7 +60,7 @@ class Field extends FieldAppModel {
     public function beforeSave() {
         if (isset($this->data['Field']['field_module'])) {
             $this->data['Field']['settings'] = @unserialize($this->data['Field']['settings']);
-            $before = $this->hook("{$this->data['Field']['field_module']}_beforeSaveInstance", $this);
+            $before = $this->hook("{$this->data['Field']['field_module']}_before_save_instance", $this);
             $this->data['Field']['settings'] = !is_array($this->data['Field']['settings']) ? array() : $this->data['Field']['settings'];
             $this->data['Field']['settings'] = @serialize($this->data['Field']['settings']);
 
@@ -75,12 +75,12 @@ class Field extends FieldAppModel {
     public function afterSave() {
         $field = $this->read();
 
-        $this->hook("{$field['Field']['field_module']}_afterSaveInstance", $this);
+        $this->hook("{$field['Field']['field_module']}_after_save_instance", $this);
     }
 
     public function beforeDelete() {
         $this->data = $this->read(); # tmp holder (before/afterDelete)
-        $before = $this->hook("{$this->field['Field']['field_module']}_beforeDeleteInstance", $this, array('collectReturn' => false));
+        $before = $this->hook("{$this->field['Field']['field_module']}_before_delete_instance", $this, array('collectReturn' => false));
 
         if ($before === false) {
             return $before;
@@ -90,7 +90,7 @@ class Field extends FieldAppModel {
     }
 
     public function afterDelete() {
-        $this->hook("{$this->data['Field']['field_module']}_afterDeleteInstance", $this, array('collectReturn' => false));
+        $this->hook("{$this->data['Field']['field_module']}_after_delete_instance", $this, array('collectReturn' => false));
     }
 
     public function checkUnique($check) {
@@ -113,7 +113,7 @@ class Field extends FieldAppModel {
 
         $_data = array('id' => $id, 'dir' => $dir, 'view_mode' => $view_mode);
 
-        $this->hook("{$record['Field']['field_module']}_beforeMoveInstance", $_data);
+        $this->hook("{$record['Field']['field_module']}_before_move_instance", $_data);
         extract($_data);
 
         # get brothers
@@ -168,7 +168,7 @@ class Field extends FieldAppModel {
 
         $this->id = $prev_id;
 
-        $this->hook("{$record['Field']['field_module']}_afterMoveInstance", $_data);
+        $this->hook("{$record['Field']['field_module']}_after_move_instance", $_data);
 
         return true;
     }
@@ -182,7 +182,7 @@ class Field extends FieldAppModel {
         $fields = $this->find('all', array('conditions' => $conditions));
 
         foreach ($fields as &$field) {
-            $this->hook("{$field['Field']['field_module']}_beforeSetViewModes", $field);
+            $this->hook("{$field['Field']['field_module']}_before_set_view_modes", $field);
 
             $actual = array_keys($field['Field']['settings']['display']);
 
@@ -206,7 +206,7 @@ class Field extends FieldAppModel {
             }
 
             $this->save($field, false);
-            $this->hook("{$field['Field']['field_module']}_afterSetViewModes", $field);
+            $this->hook("{$field['Field']['field_module']}_after_set_view_modes", $field);
         }
     }
 }
