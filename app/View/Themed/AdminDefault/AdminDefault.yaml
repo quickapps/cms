@@ -2,7 +2,7 @@ info:
     name: Admin Default
     description: Default backend theme for QuickApps
     version: 1.0
-    author: Christopher Castro <y2k2000@gmail.com>
+    author: Christopher Castro <chris@quickapps.es>
 
 stylesheets:
     all: [reset.css, styles.css]
