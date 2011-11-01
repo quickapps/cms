@@ -65,7 +65,8 @@ fieldset { width:100px; }
     -khtml-border-radius: 10px;
 }
 
-.submit input { 
+.submit input {
+    cursor:pointer;
     margin-top:20px; 
     float:left; 
 	font-size: 14px;
