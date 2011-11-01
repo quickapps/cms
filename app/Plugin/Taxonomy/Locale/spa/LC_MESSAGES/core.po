@@ -89,9 +89,5 @@ msgstr "mover abajo"
 msgid "Delete selected vocabulary and all its terms ?"
 msgstr "Eliminar el vocabulario seleccionado y todos sus términos ?"
 
-
-
-
-
-
-
+msgid "Cache terms counters for"
+msgstr "Cachear los contadores por"
