@@ -437,7 +437,10 @@ class LayoutHelper extends AppHelper {
  * @return boolean True if is frontpage. False otherwise.
  */
     public function isFrontpage() {
-        return ($this->_View->plugin == 'Node' && $this->_View->params['action'] == 'index');
+        return ($this->_View->plugin == 'Node' &&
+                $this->_View->params['action'] == 'index' &&
+                !Configure::read('Variable.site_frontpage')
+        );
     }
 
 /**
