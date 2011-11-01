@@ -279,6 +279,8 @@ class NodeController extends NodeAppController {
                     $scope['Node.language'][] = '';
                     unset($scope['Node.language'][array_search('any', $scope['Node.language'])]);
                 }
+            } else {
+                $scope['Node.language'] = array(null, '', Configure::read('Variable.language.code'));
             }
 
             preg_match_all('/(^| )\-[a-z0-9]+/i', $criteria, $negative);
