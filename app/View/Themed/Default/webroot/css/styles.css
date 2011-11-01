@@ -185,7 +185,7 @@ legend { font-weight:bold; font-size:16px; border-radius: 8px; -webkit-border-ra
 
 
 /*---------------[SEARCH-BLOCK]------------------*/ 
-#search-block * { display:inline; }
+#search-block div { display:inline; }
 #search-block { float:right; display:block; width:400px; text-align:right; }
 #search-block label { display:none; padding:0 15px; color:#fff; }
 #search-block div.submit input { margin-left:15px; }
