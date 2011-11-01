@@ -14,7 +14,6 @@ regions:
     user-menu: User menu
     
     slider: Slider
-    content: Content
     footer: Footer
     
     services-left: Services Left
