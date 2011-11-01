@@ -375,7 +375,9 @@ class QuickAppsComponent extends Component {
             }
 
             $this->Controller->Auth->allowedActions = array_merge($this->Controller->Auth->allowedActions, $allow);
-       }
+        }
+
+        Configure::write('allowedActions', $this->Controller->Auth->allowedActions);
     }
 
 /**
