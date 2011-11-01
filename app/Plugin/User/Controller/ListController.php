@@ -135,7 +135,7 @@ class ListController extends UserAppController {
         );
         $this->title(__t('Add User'));
         $this->setCrumb('/admin/user/');
-        $this->setCrumb( array(__t('Add new user')));
+        $this->setCrumb(array(__t('Add new user')));
     }
 
     public function admin_edit($id) {

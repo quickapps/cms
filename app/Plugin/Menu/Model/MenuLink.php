@@ -30,7 +30,10 @@ class MenuLink extends MenuAppModel {
             $this->data['MenuLink']['router_path'] = preg_replace('/\/{2,}/', '',  "{$this->data['MenuLink']['router_path']}//");
         }
 
-        if (isset($this->data['MenuLink']['id']) && $this->data['MenuLink']['status'] == 0) {
+        if (isset($this->data['MenuLink']['id']) &&
+            isset($this->data['MenuLink']['status']) &&
+            $this->data['MenuLink']['status'] == 0
+        ) {
             $this->Behaviors->detach('Tree');
 
             $root = $this->findById($this->data['MenuLink']['id']);
