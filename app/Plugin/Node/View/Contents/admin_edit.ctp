@@ -46,24 +46,24 @@
                             'label' => __t('Cache'),
                             'options' => array(
                                 '' => __t('-- No Cache --'),
-                                '+1 hour' => __t('%s Hours', 1),
+                                '+1 hour' => __t('%s Hour', 1),
                                 '+2 hours' => __t('%s Hours', 2),
                                 '+4 hours' => __t('%s Hours', 3),
                                 '+7 hours' => __t('%s Hours', 7),
                                 '+11 hours' => __t('%s Hours', 11),
                                 '+16 hours' => __t('%s Hours', 16),
                                 '+22 hours' => __t('%s Hours', 22),
-                                '+1 day' => __t('%s Days', 1),
+                                '+1 day' => __t('%s Day', 1),
                                 '+3 day' => __t('%s Days', 3),
                                 '+5 day' => __t('%s Days', 5),
-                                '+1 week' => __t('%s Weeks', 1),
+                                '+1 week' => __t('%s Week', 1),
                                 '+2 weeks' => __t('%s Weeks', 2),
                                 '+3 weeks' => __t('%s Weeks', 3),
-                                '+1 month' => __t('%s Months', 1),
+                                '+1 month' => __t('%s Month', 1),
                                 '+3 months' => __t('%s Months', 3),
                                 '+6 months' => __t('%s Months', 6),
                                 '+9 months' => __t('%s Months', 9),
-                                '+1 year' => __t('Year')
+                                '+1 year' => __t('%s Year', 1)
                             )
                         )
                     );
