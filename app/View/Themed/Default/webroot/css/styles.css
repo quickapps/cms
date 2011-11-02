@@ -185,9 +185,9 @@ legend { font-weight:bold; font-size:16px; border-radius: 8px; -webkit-border-ra
 #language-switcher ul li.selected a span { text-decoration:underline; }
 
 
-/*---------------[SEARCH-BLOCK]------------------*/ 
+/*---------------[SEARCH-BLOCK]------------------*/
+#search-block { float:right; clear:right; display:block; width:400px; text-align:right; }
 #search-block div { display:inline; }
-#search-block { float:right; display:block; width:400px; text-align:right; }
 #search-block label { display:none; padding:0 15px; color:#fff; }
 #search-block div.submit input { margin-left:15px; }
 #search-block div.input.text input {
