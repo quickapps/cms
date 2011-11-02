@@ -38,7 +38,7 @@
 
     <?php echo $this->Html->useTag('fieldsetstart', __t('Users settings')); ?>
         <?php echo $this->Form->input('Variable.user_default_avatar', array('type' => 'text', 'label' => __t('Default avatar'))); ?>
-        <em><?php echo __t('URL of picture to display for users with no custom picture selected or anonymous users.'); ?></em>
+        <em><?php echo __t("URL of picture to display for users with no custom picture selected or anonymous users. Leave empty to use <a href='http://www.gravatar.com'>Gravatar</a> based on user's email."); ?></em>
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 
     <?php

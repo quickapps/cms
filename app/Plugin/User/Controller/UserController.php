@@ -118,10 +118,10 @@ class UserController extends UserAppController {
 
     public function profile($username = null) {
         $user = $this->User->findByUsername($username) or $this->redirect('/');
+        $this->data = $user;
 
         unset($user['User']['password'], $user['User']['key']);
         $this->title(__t('%s profile', $user['User']['username']));
-        $this->set('result', $user);
     }
 
     function my_account() {

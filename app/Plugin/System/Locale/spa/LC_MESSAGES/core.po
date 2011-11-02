@@ -98,8 +98,8 @@ msgstr "Parámetros de usuarios"
 msgid "Default avatar"
 msgstr "Avatar por defecto"
 
-msgid "URL of picture to display for users with no custom picture selected or anonymous users."
-msgstr "URL de la imágen a mostrar para usuarios sin avatar personalizado o usuarios anónimos."
+msgid "URL of picture to display for users with no custom picture selected or anonymous users. Leave empty to use <a href='http://www.gravatar.com'>Gravatar</a> based on user's email."
+msgstr "URL de la imágen a mostrar para usuarios sin avatar personalizado o usuarios anónimos. Dejar en blanco para utilizar <a href='http://www.gravatar.com'>Gravatar</a> basado en email de usuario."
 
 msgid "Help topics"
 msgstr "Temas de ayuda"

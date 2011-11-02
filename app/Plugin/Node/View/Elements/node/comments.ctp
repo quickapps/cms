@@ -29,17 +29,27 @@
                     <div class="attribution">
                         <div class="submited">
                             <p class="commenter-name">
-                                <?php
-                                    if (
-                                        (isset($comment['User']['avatar']) && !empty($comment['User']['avatar'])) ||
-                                        (!isset($comment['User']['avatar']) && Configure::read('Variable.user_default_avatar') != '')
-                                    ):
-                                ?>
-                                    <div class="avatar">
-                                        <?php $avatar = (isset($comment['User']['avatar']) && !empty($comment['User']['avatar'])) ? $comment['User']['avatar'] : Configure::read('Variable.user_default_avatar') ; ?>
-                                        <?php echo $this->Html->image($avatar); ?>
-                                    </div>
-                                <?php endif; ?>
+
+                                <div class="avatar">
+                                    <?php
+                                        if (isset($comment['User']['avatar']) && !empty($comment['User']['avatar'])) {
+                                            $avatar = $comment['User']['avatar'];
+                                        } else {
+                                            if (!Configure::read('Variable.user_default_avatar')) {
+                                                if (isset($comment['User']['email']) && !empty($comment['User']['email'])) {
+                                                    $avatar = "http://www.gravatar.com/avatar/" . md5(strtolower(trim("{$comment['User']['email']}")));
+                                                } elseif (isset($comment['Comment']['mail']) && !empty($comment['Comment']['mail'])) {
+                                                    $avatar = "http://www.gravatar.com/avatar/" . md5(strtolower(trim("{$comment['Comment']['mail']}")));
+                                                }
+                                            } else {
+                                                $avatar = Configure::read('Variable.user_default_avatar');
+                                            }
+                                        }
+
+                                        echo $this->Html->image($avatar);
+                                    ?>
+                                </div>
+
                                 <?php $userURL = !empty($comment['Comment']['homepage']) ? $comment['Comment']['homepage'] : 'javascript: return false;'; ?>
                                 <?php $userURL = empty($userURL) && isset($comment['User']['username']) ? $this->Html->url("/user/profile/{$comment['User']['username']}") : $userURL; ?>
                                 <a href="<?php echo $userURL; ?>" class="username" rel="nofollow">
