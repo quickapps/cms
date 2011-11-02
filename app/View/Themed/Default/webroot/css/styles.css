@@ -150,11 +150,12 @@ legend { font-weight:bold; font-size:16px; border-radius: 8px; -webkit-border-ra
     width:100%; 
 }
 
-#header-top a#logo { 
+#header-top a#logo {
+    overflow:hidden;
     margin:20px 0 0 15px; 
     display:block; 
     height:80px; 
-    width:400px; 
+    width:200px; 
     float:left; 
 }
 
@@ -178,7 +179,7 @@ legend { font-weight:bold; font-size:16px; border-radius: 8px; -webkit-border-ra
 
 
 /*---------------[LANGUAGE-SWITCH]------------------*/ 
-#language-switcher { float:right; padding:10px 0; }
+#language-switcher { overflow:hidden; float:right; padding:10px 0; }
 #language-switcher ul li { float:left; list-style:none; }
 #language-switcher ul li a { margin-left:20px; }
 #language-switcher ul li.selected a span { text-decoration:underline; }
