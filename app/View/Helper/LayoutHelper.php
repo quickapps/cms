@@ -732,7 +732,7 @@ class LayoutHelper extends AppHelper {
             }
 
             $_data = array('html' => $output, 'region' => $region);
-            $this->hook('theme_region_blocks_alter', $_data, array('collectReturn' => false)); // pass all rendered blocks (HTML) to modules
+            $this->hook('blocks_alter', $_data, array('collectReturn' => false)); // pass all rendered blocks (HTML) to modules
 
             extract($_data);
         }
@@ -876,7 +876,7 @@ class LayoutHelper extends AppHelper {
             $Block['params'] = $options['params'];
         }
 
-        $this->hook('theme_block_data_alter', $Block, array('collectReturn' => false)); // pass block array to modules
+        $this->hook('block_data_alter', $Block, array('collectReturn' => false)); // pass block array to modules
 
         $out = $this->hook('theme_block', $Block, array('collectReturn' => false)); // try theme rendering
 
@@ -885,7 +885,7 @@ class LayoutHelper extends AppHelper {
             $out = $this->default_theme_block($Block);
         }
 
-        $this->hook('theme_block_alter', $out, array('collectReturn' => false));
+        $this->hook('block_alter', $out, array('collectReturn' => false));
 
         return $out;
     }
