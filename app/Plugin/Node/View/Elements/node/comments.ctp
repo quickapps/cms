@@ -38,7 +38,7 @@
                                             if (!Configure::read('Variable.user_default_avatar')) {
                                                 if (isset($comment['User']['email']) && !empty($comment['User']['email'])) {
                                                     $avatar = "http://www.gravatar.com/avatar/" . md5(strtolower(trim("{$comment['User']['email']}")));
-                                                } elseif (isset($comment['Comment']['mail']) && !empty($comment['Comment']['mail'])) {
+                                                } elseif (isset($comment['U']['mail']) && !empty($comment['Comment']['mail'])) {
                                                     $avatar = "http://www.gravatar.com/avatar/" . md5(strtolower(trim("{$comment['Comment']['mail']}")));
                                                 }
                                             } else {
@@ -50,8 +50,8 @@
                                     ?>
                                 </div>
 
-                                <?php $userURL = !empty($comment['Comment']['homepage']) ? $comment['Comment']['homepage'] : 'javascript: return false;'; ?>
-                                <?php $userURL = empty($userURL) && isset($comment['User']['username']) ? $this->Html->url("/user/profile/{$comment['User']['username']}") : $userURL; ?>
+                                <?php $userURL = !empty($comment['Comment']['homepage']) ? $comment['Comment']['homepage'] : ''; ?>
+                                <?php $userURL = empty($userURL) && isset($comment['User']['username']) ? $this->Html->url("/user/profile/{$comment['User']['username']}") : 'javascript: return false;'; ?>
                                 <a href="<?php echo $userURL; ?>" class="username" rel="nofollow">
                                     <?php echo isset($comment['User']['username']) ? $comment['User']['username'] : $comment['Comment']['name']; ?>
                                 </a>
