@@ -14,20 +14,17 @@ class CommentHookHelper extends AppHelper {
         # content list toolbar:
         if (isset($this->request->params['admin']) &&
             $this->request->params['plugin'] == 'comment' &&
-            in_array($this->request->params['controller'], array('published', 'unpublished')) &&
-            $this->request->params['action'] == 'admin_index'
+            $this->request->params['controller'] = 'list' &&
+            $this->request->params['action'] == 'admin_show'
         ) {
             $this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar') . '<!-- CommentHookHelper -->' ), 'toolbar');
         }
-        
-        $markeItUp_showOn = (
-            !isset($this->request->params['admin']) &&
+
+        if (!isset($this->request->params['admin']) &&
             $this->request->params['plugin'] == 'node' &&
             in_array($this->request->params['controller'], array('node')) &&
             $this->request->params['action'] == 'details'
-        );
-
-        if ($markeItUp_showOn) {
+        ) {
             if ($this->_View->Layout->getNodeField('comment') == 2) {
                 $this->_View->viewVars['Layout']['javascripts']['file'][] = '/comment/js/markItUp/locale/' . Configure::read('Variable.language.code') . '.js';
                 $this->_View->viewVars['Layout']['javascripts']['file'][] = '/comment/js/markItUp/jquery.markitup.js';
@@ -36,8 +33,7 @@ class CommentHookHelper extends AppHelper {
                 $this->_View->viewVars['Layout']['javascripts']['embed'][] = "
                     $(document).ready(function()    {
                         $('#CommentBody').markItUp(MerkeItUpBbcodeSettings);
-                    });
-                ";
+                    });";
 
                 $this->_View->viewVars['Layout']['stylesheets']['all'][] = '/comment/js/markItUp/sets/bbcode/style.css';
                 $this->_View->viewVars['Layout']['stylesheets']['all'][] = '/comment/js/markItUp/skins/simple/style.css';

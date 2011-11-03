@@ -86,3 +86,29 @@ msgstr "No hay comentarios para mostrar"
 msgid "Are you sure ?"
 msgstr "Está seguro ?"
 
+msgid "Comment Details"
+msgstr "Detalle de Comentario"
+
+msgid "Comment details"
+msgstr "Detalle de comentario"
+
+msgid "Published in content"
+msgstr "Publicado en contenido"
+
+msgid "Published by"
+msgstr "Publicado por"
+
+msgid "Hostname"
+msgstr "Nombre de host"
+
+msgid "Web page"
+msgstr "Página web"
+
+msgid "Message"
+msgstr "Mensaje"
+
+msgid "on %s"
+msgstr "el %s"
+
+msgid "M d, Y H:i"
+msgstr "d \\d\\e M, Y H:i"

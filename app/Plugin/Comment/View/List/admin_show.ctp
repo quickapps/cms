@@ -7,7 +7,7 @@ $tSettings = array(
             'tdOptions' => array('width' => '25', 'align' => 'center')
         ),
         __t('Subject') => array(
-            'value' => '{Comment.subject}',
+            'value' => '<a href="' . $this->Html->url('/admin/comment/list/view/') .'{Comment.id}">{Comment.subject}</a>',
             'sort' => 'Comment.subject'
         ),
         __t('Author') => array(
@@ -34,14 +34,24 @@ $tSettings = array(
     <!-- Update -->
     <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-update_fieldset" style="cursor:pointer;">' . __t('Update Options') . '</span>' ); ?>
         <div id="update_fieldset" class="horizontalLayout" style="<?php echo isset($this->data['Comment']['update']) ? '' : 'display:none;'; ?>">
-            <?php echo $this->Form->input('Comment.update',
+            <?php 
+                $options = array(
+                    'approve' => __t('Approve selected comments'),
+                    'unapprove' => __t('Unapprove selected comments'),
+                    'delete' => __t('Delete selected comments')
+                );
+
+                if ($status == 'published') {
+                    unset($options['approve']);
+                } else {
+                    unset($options['unapprove']);
+                }
+
+                echo $this->Form->input('Comment.update',
                     array(
                         'type' => 'select',
                         'label' => false,
-                        'options' => array(
-                            'unapprove' => __t('Unapprove selected comments'),
-                            'delete' => __t('Delete selected comments')
-                        )
+                        'options' => $options
                     )
                 );
             ?>
