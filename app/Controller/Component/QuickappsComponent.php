@@ -82,8 +82,8 @@ class QuickAppsComponent extends Component {
         $this->Controller->layout ='default';
         $this->Controller->viewClass = 'Theme';
 
-        if (file_exists(APP . 'View' . DS . 'Themed' . DS . $this->Controller->theme . DS . "{$this->Controller->theme}.yaml")) {
-            $yaml = Spyc::YAMLLoad(APP . 'View' . DS . 'Themed' . DS . $this->Controller->theme . DS . "{$this->Controller->theme}.yaml");
+        if (file_exists(THEMES . $this->Controller->theme . DS . "{$this->Controller->theme}.yaml")) {
+            $yaml = Spyc::YAMLLoad(THEMES . $this->Controller->theme . DS . "{$this->Controller->theme}.yaml");
             $yaml['info']['folder'] = $this->Controller->theme;
             $yaml['settings'] = Configure::read("Modules.Theme{$this->Controller->theme}.settings");
 

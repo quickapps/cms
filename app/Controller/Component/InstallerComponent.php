@@ -204,7 +204,7 @@ class InstallerComponent extends Component {
                         'notAlreadyInstalled' => array(
                             'test' => (
                                 $this->Controller->Module->find('count', array('conditions' => array('Module.name' => 'Theme' . $appName, 'Module.type' => 'theme'))) === 0 &&
-                                !file_exists(APP . 'View' . DS . 'Themed' . DS . $appName)
+                                !file_exists(THEMES . $appName)
                             ),
                             'header' => __d('system', 'Already Installed'),
                             'msg' => __d('system', 'This theme is already installed')
@@ -389,7 +389,7 @@ class InstallerComponent extends Component {
             }
 
             /** Copy files **/
-            $copyTo = ($this->options['type'] == 'module') ? ROOT . DS . 'Modules' . DS . $appName . DS : APP . 'View' . DS . 'Themed' . DS . $appName . DS;
+            $copyTo = ($this->options['type'] == 'module') ? ROOT . DS . 'Modules' . DS . $appName . DS : THEMES . $appName . DS;
 
             if(!$this->rcopy($packagePath, $copyTo)) {
                 return false;
@@ -413,10 +413,10 @@ class InstallerComponent extends Component {
                 case 'theme':
                     $this->buildAcos(
                         'Theme' . $appName,
-                        APP . 'View'. DS . 'Themed' . DS . $appName . DS . 'app' . DS
+                        THEMES . $appName . DS . 'app' . DS
                     );
 
-                    App::build(array('plugins' => array(APP . 'View'. DS . 'Themed' . DS . $appName . DS . 'app' . DS)));
+                    App::build(array('plugins' => array(THEMES . $appName . DS . 'app' . DS)));
                 break;
             }
 
@@ -463,7 +463,7 @@ class InstallerComponent extends Component {
         /* useful for before/afterUninstall */
         $this->options['type'] = $pData['Module']['type'];
         $this->options['__data'] = $pData;
-        $this->options['__path'] = $pData['Module']['type'] == 'theme' ? APP . 'View' . DS . 'Themed' . DS . str_replace('Theme', '', $Name) . DS . 'app' . DS . $Name . DS : CakePlugin::path($Name);
+        $this->options['__path'] = $pData['Module']['type'] == 'theme' ? THEMES . str_replace('Theme', '', $Name) . DS . 'app' . DS . $Name . DS : CakePlugin::path($Name);
         $this->options['__Name'] = $Name;
 
         # core plugins can not be deleted

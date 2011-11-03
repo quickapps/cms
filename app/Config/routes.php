@@ -31,13 +31,11 @@
  * Installer
  *
  */
-    if (  !file_exists(APP . 'Config' . DS . 'database.php') || 
-          !file_exists(APP . 'Config' . DS . 'install')
-    ) {
+    if (!file_exists(APP . 'Config' . DS . 'database.php') || !file_exists(APP . 'Config' . DS . 'install')) {
         Router::connect('/', array('controller' => 'install'));
     } else {
         Router::connect('/', array('plugin' => 'Node', 'controller' => 'node', 'action' => 'index'));
-        Router::connect('/admin', array('plugin' => 'System', 'controller' => 'system', 'action' => 'index', 'admin' => true ));
+        Router::connect('/admin', array('plugin' => 'System', 'controller' => 'system', 'action' => 'index', 'admin' => true));
     }
 
 /**

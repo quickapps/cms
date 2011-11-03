@@ -52,7 +52,7 @@ Cache::config('default', array('engine' => 'File'));
  * Inflector::rules('plural', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
  *
  */
-
+    define('THEMES', ROOT  . DS . 'Themes' . DS . 'Themed' . DS);
     App::uses('Spyc', 'vendors');
     App::uses('Folder', 'Utility');
     $__searchPath = array();
@@ -61,18 +61,18 @@ Cache::config('default', array('engine' => 'File'));
  * Load themes as plugin
  */
     $folder = new Folder;
-    $folder->path = APP . 'View' . DS . 'Themed' . DS;
+    $folder->path = THEMES;
     
     $__themes = $folder->read();
     $__themes = $__themes[0];
     
     foreach ($__themes as $__tname) {
-        $__searchPath[] = APP . 'View' . DS . 'Themed' . DS . $__tname . DS . 'app' . DS;
+        $__searchPath[] = THEMES . $__tname . DS . 'app' . DS;
     }
 
     $__searchPath[] = ROOT . DS . 'Modules' . DS;
 
-    App::build(array('plugins' => $__searchPath));
+    App::build(array('views' => ROOT  . DS . 'Themes' . DS, 'plugins' => $__searchPath));
 
     $plugins = App::objects('plugins', null, false);
 

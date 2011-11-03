@@ -93,7 +93,7 @@ class ThemesController extends SystemAppController {
     public function admin_theme_tn($theme_name) {
         /* Manual rendering */
         /* For some unknown reason, cakephp MediaView rendering fails */
-        $filename = APP . 'View' . DS . 'Themed' . DS . $theme_name . DS . 'thumbnail.png';
+        $filename = THEMES . $theme_name . DS . 'thumbnail.png';
         $specs = getimagesize($filename);
 
         header('Content-type: ' . $specs['mime']);
@@ -116,7 +116,7 @@ class ThemesController extends SystemAppController {
             $ThemeName = Inflector::camelize($theme['Module']['name']);
             $folder = str_replace('Theme', '', $ThemeName);
             $themes[$folder] = $theme['Module'];
-            $yaml = APP . 'View' . DS . 'Themed' . DS . $folder . DS ."{$folder}.yaml";
+            $yaml = THEMES . $folder . DS ."{$folder}.yaml";
 
             if (file_exists($yaml)) {
                 $themes[$folder] = Set::merge($themes[$folder], Spyc::YAMLLoad($yaml));
