@@ -250,3 +250,18 @@ msgstr "Editando Usuario"
 
 msgid "Editing user"
 msgstr "Editando usuario"
+
+msgid "Username"
+msgstr "Nombre de usuario"
+
+msgid "Real name"
+msgstr "Nombre real"
+
+msgid "User since"
+msgstr "Usuario desde"
+
+msgid "Last connection"
+msgstr "Última conexión"
+
+msgid "M d, Y"
+msgstr "d M, Y"
