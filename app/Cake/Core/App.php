@@ -510,6 +510,7 @@ class App {
 		foreach ($paths as $path) {
 			$file = $path . $className . '.php';
 			if (file_exists($file)) {
+				//self::_map($file, $className);
 				self::_map($file, $className, $plugin);
 				return include $file;
 			}
@@ -526,6 +527,7 @@ class App {
 			}
 			foreach ($tries as $file) {
 				if (file_exists($file)) {
+					//self::_map($file, $className);
 					self::_map($file, $className, $plugin);
 					return include $file;
 				}
