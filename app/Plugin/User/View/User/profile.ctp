@@ -2,19 +2,7 @@
     <?php echo $this->Html->useTag('fieldsetstart', __d('user', 'Profile')); ?>
 
         <div class="avatar">
-            <?php 
-                if (!empty($this->data['User']['avatar'])) {
-                    $avatar = $this->data['User']['avatar'];
-                } else {
-                    if (!Configure::read('Variable.user_default_avatar')) {
-                        $avatar = "http://www.gravatar.com/avatar/" . md5(strtolower(trim("{$this->data['User']['email']}")));;
-                    } else {
-                        $avatar = Configure::read('Variable.user_default_avatar');
-                    }
-                }
-
-                echo $this->Html->image($avatar, array('width' => '80'));
-            ?>
+            <?php echo $this->Layout->userAvatar($this->data, array('width' => '80', 'border' => 0)); ?>
         </div>
 
         <div class="information">

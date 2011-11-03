@@ -32,21 +32,17 @@
 
                                 <div class="avatar">
                                     <?php
-                                        if (isset($comment['User']['avatar']) && !empty($comment['User']['avatar'])) {
-                                            $avatar = $comment['User']['avatar'];
+                                        if (isset($comment['User'])) {
+                                            echo $this->Layout->userAvatar($comment);
                                         } else {
-                                            if (!Configure::read('Variable.user_default_avatar')) {
-                                                if (isset($comment['User']['email']) && !empty($comment['User']['email'])) {
-                                                    $avatar = "http://www.gravatar.com/avatar/" . md5(strtolower(trim("{$comment['User']['email']}")));
-                                                } elseif (isset($comment['U']['mail']) && !empty($comment['Comment']['mail'])) {
-                                                    $avatar = "http://www.gravatar.com/avatar/" . md5(strtolower(trim("{$comment['Comment']['mail']}")));
-                                                }
-                                            } else {
-                                                $avatar = Configure::read('Variable.user_default_avatar');
-                                            }
+                                            $this->Layout->userAvatar(
+                                                array(
+                                                    'User' => array(
+                                                        'email' => $comment['Comment']['mail']
+                                                    )
+                                                )
+                                            );
                                         }
-
-                                        echo $this->Html->image($avatar);
                                     ?>
                                 </div>
 

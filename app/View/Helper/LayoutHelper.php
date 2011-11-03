@@ -462,6 +462,45 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
+ * Generates user's avatar image
+ *
+ * @param array $user Optional user data, current logged user data will be used otherwise
+ * @param array $options extra Options for Html->image()
+ * @return HTML <img>
+ */ 
+    public function userAvatar($user = false, $options = array()) {
+        $__options = array(
+            'class' => 'user-avatar'
+        );
+
+        if (!$user) {
+            $user = $this->Session->read('Auth.User');
+        }
+
+        if (!isset($user['User'])) {
+            return '';
+        }
+
+        if (isset($user['User']['avatar']) && !empty($user['User']['avatar'])) {
+            $avatar = $user['User']['avatar'];
+        } else {
+            if (!Configure::read('Variable.user_default_avatar')) {
+                if (isset($user['User']['email']) && !empty($user['User']['email'])) {
+                    $avatar = "http://www.gravatar.com/avatar/" . md5(strtolower(trim("{$user['User']['email']}")));
+                } else {
+                    return '';
+                }
+            } else {
+                $avatar = Configure::read('Variable.user_default_avatar');
+            }
+        }
+
+        $options = array_merge($__options, $options);
+
+        return $this->_View->Html->image($avatar, $options);
+    }
+
+/**
  * Manually insert a custom block to stack.
  *
  * @param array $data Formatted block array (see $_block)
