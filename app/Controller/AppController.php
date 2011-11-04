@@ -233,7 +233,7 @@ class AppController extends Controller {
         foreach ($plugins as $plugin) {
             $ppath = CakePlugin::path($plugin);
 
-            # inactive module, except fields that are nor registered as plugin en DB
+            # inactive module, except fields that are nor registered as plugin in DB
             if (!in_array($plugin, $_modules) && strpos($ppath, DS . 'Fields' . DS) === false) {
                 continue;
             }
@@ -241,7 +241,7 @@ class AppController extends Controller {
             if ((isset($modulesCache[$plugin]['status']) && $modulesCache[$plugin]['status'] == 0) ||
                 (strpos($ppath, THEMES) !== false && strpos($ppath, THEMES . $themeToUse . DS . 'app') === false)
             ) {
-                continue; # Important: skip no active themes
+                continue; # Important: skip disabled themes
             }
 
             $paths["{$plugin}_components"] = $ppath . 'Controller' . DS . 'Component' . DS;
