@@ -228,7 +228,10 @@ class QuickAppsComponent extends Component {
  */ 
     public function accessCheck() {
         if ($this->Controller->request->params['plugin']) {
-            if (!Configure::read('Modules.' . Inflector::camelize($this->Controller->request->params['plugin']) . '.status')) {
+            $plugin = Inflector::camelize($this->Controller->request->params['plugin']);
+            $ppath = CakePlugin::path($plugin);
+
+            if (strpos($ppath, DS . 'Fields' . DS) === false && !Configure::read('Modules.' . $plugin . '.status')) {
                 if ($this->Controller->request->params['admin']) {
                     $this->Controller->redirect('/admin');
                 }
