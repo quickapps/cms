@@ -114,7 +114,14 @@ QuickApps.field_file.afterUpload = function (_field_id, response) {
         $(field_id + ' div.uploader').hide();        
     }
 };
-                                      
+
+/**
+ * Delete file for the specified field instance,
+ * if file has been just uploaded then is deleted from server.
+ * otherwise, the file will be deleted ONLY after user clicks `SAVE` in the entity edit form.
+ *
+ * @param string _field_id
+ */
 QuickApps.field_file.remove = function (_field_id) {
     var splited_id = _field_id.split('_');
     var file_id = splited_id[1];
@@ -129,7 +136,7 @@ QuickApps.field_file.remove = function (_field_id) {
         
     }
 
-    var file_name = $('#' + _field_id + ' input.file_name').attr('value');
+    var file_name = $('#' + _field_id + ' .file_name').attr('value');
 
     if (!$.isArray(__upload_path)) {
         var upload_path = new Array();

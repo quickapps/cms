@@ -113,7 +113,7 @@
     echo $this->Form->hidden("FieldData.field_file.{$data['id']}.uploaded_path", array('value' => $uploaded_path));
 
     $show_uploader = (
-        !count($data['FieldData']['data']['files']) ||
+        !count($data['FieldData']['data']['files']) || 
         ($multi && count($data['FieldData']['data']['files']) < $data['settings']['multi'])
     );
 ?>

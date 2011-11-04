@@ -2,13 +2,20 @@
 class UploadifyController extends FieldFileAppController {
     public $uses = array('Field.Field');
 
-    public function beforeFilter() {
-        $this->autoRender = false;
+    public function __construct($request = null, $response = null) {
+        $params = Router::getParams();
 
-        if ($this->action == 'upload') {
-            CakeSession::id($this->params['named']['session_id']);
+        if ($params['action'] == 'upload') {
+            App::uses('CakeSession', 'Model/Datasource');
+            CakeSession::id($params['named']['session_id']);
             CakeSession::start();
         }
+
+        parent::__construct($request, $response);
+    }
+
+    public function beforeFilter() {
+        $this->autoRender = false;
 
         parent::beforeFilter();
     }
@@ -65,7 +72,7 @@ class UploadifyController extends FieldFileAppController {
             echo json_encode($return);
         } else {
             header("HTTP/1.1 500 File Upload Error");
-            echo __d('field_file', 'Error: %s', $handle->error);
+            echo __d('field_file', 'Error: %s', $Upload->error);
         }
 
         die;
