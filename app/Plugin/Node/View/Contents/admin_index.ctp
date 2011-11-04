@@ -110,6 +110,16 @@ $tSettings = array(
                 );
             ?>
 
+            <?php echo $this->Form->input('Node.filter.Node|language',
+                    array(
+                        'type' => 'select',
+                        'label' => __t('Language'),
+                        'empty' => true,
+                        'options' => $languages
+                    )
+                );
+            ?>
+
             <?php echo $this->Form->input(__t('Filter'), array('type' => 'submit', 'label' => false)); ?>
         </div>
     <?php echo $this->Html->useTag('fieldsetend'); ?>

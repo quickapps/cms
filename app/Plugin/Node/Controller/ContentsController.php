@@ -82,7 +82,7 @@ class ContentsController extends NodeAppController {
                 foreach ($filter as $field => $value) {
                     if ($value !== '') {
                         $field = str_replace('|', '.', $field);
-                        $field = strpos($field, 'Node.title') !== false ? "{$field} LIKE" : $field;
+                        $field = strpos($field, 'Node.title') !== false || strpos($field, 'Node.language') !== false ? "{$field} LIKE" : $field;
                         $value = str_replace('*', '%', $value);
                         $paginationScope[$field] = $value;
                     }
@@ -94,6 +94,7 @@ class ContentsController extends NodeAppController {
 
         $results = $this->paginate('Node', $paginationScope);
 
+        $this->__setLangVar();
         $this->title(__t('Contents'));
         $this->set('results', $results);
         $this->set('types', $this->Node->NodeType->find('list'));
