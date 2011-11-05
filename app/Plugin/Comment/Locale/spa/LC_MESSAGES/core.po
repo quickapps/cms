@@ -112,3 +112,18 @@ msgstr "el %s"
 
 msgid "M d, Y H:i"
 msgstr "d \\d\\e M, Y H:i"
+
+msgid "Quoting"
+msgstr "Citando"
+
+msgid "No subject"
+msgstr "Sin asunto"
+
+msgid "Your comment has been queued for review by site administrators and will be published after approval."
+msgstr "Tu comentario ha sido puesto en espera de revisar por algun administrador y será publicado después de su aprobación."
+
+msgid "Your comment has been posted."
+msgstr "Tu comentario ha sido publicado."
+
+msgid "Comment could not be saved. Please try again."
+msgstr "No se ha podido procesar el comentario. Por favor intenta otra vez."
