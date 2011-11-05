@@ -113,7 +113,7 @@ class Comment extends CommentAppModel {
             $this->data['Comment']['user_id'] = $userId;
         }
 
-        $r = $this->hook('comment_beforeValidate', $this, array('collectReturn' => true, 'break' => true, 'breakOn' => false));
+        $r = $this->hook('comment_before_validate', $this, array('collectReturn' => true, 'break' => true, 'breakOn' => false));
 
         return !in_array(false, (array)$r, true);
     }
@@ -148,6 +148,7 @@ class Comment extends CommentAppModel {
 
     private function __defaultSubject($string, $len = 30) {
         # ignore quotes
+        $__string = $string;
         $string = preg_replace('#\[quote(.*?)\](.*)\[/quote\]#U', '', $string);
         $string = $this->Behaviors->BBCode->bb_parse($string);
         $string = html_entity_decode(strip_tags($string));
@@ -167,6 +168,8 @@ class Comment extends CommentAppModel {
         }
 
         $string = trim($string);
+        $string = empty($string) && strpos($__string, '[quote') ? __d('comment', 'Quoting') : $string;
+        $string = empty($string) ? __d('comment', 'No subject') : $string;
 
         return $string;
     }
