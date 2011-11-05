@@ -486,10 +486,12 @@ class LayoutHelper extends AppHelper {
         } else {
             if (!Configure::read('Variable.user_default_avatar')) {
                 if (isset($user['User']['email']) && !empty($user['User']['email'])) {
-                    $avatar = "http://www.gravatar.com/avatar/" . md5(strtolower(trim("{$user['User']['email']}")));
+                    $hash = md5(strtolower(trim("{$user['User']['email']}")));
                 } else {
-                    return '';
+                    $hash = md5(strtolower(trim("")));
                 }
+
+                $avatar = "http://www.gravatar.com/avatar/{$hash}";
             } else {
                 $avatar = Configure::read('Variable.user_default_avatar');
             }
