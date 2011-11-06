@@ -13,17 +13,30 @@
 class ThemeDefaultHookHelper extends AppHelper {
 
 /* Header gradients */
-    function stylesheets_alter(&$css) {
+    public function stylesheets_alter(&$css) {
         $s = Configure::read('Modules.ThemeDefault');
         $ht = @$s['settings']['color_header_top'];
         $hb = @$s['settings']['color_header_bottom'];
+        $links = @$s['settings']['color_links'];
+        $text = @$s['settings']['color_text'];
+        $main_bg = @$s['settings']['color_main_bg'];        
+        $footer = @$s['settings']['color_footer'];        
+
         $ht = !$ht ? '#282727': $ht;
-        $hb = !$hb ? '#282727': $hb;
+        $links = !$links ? '#00b7f3': $links;
+        $text = !$text ? '#555555': $text;
+        $main_bg = !$main_bg ? '#ededec': $main_bg;
+        $footer = !$footer ? '#282727': $footer;
+
         $css['embed'][] = "
         div#header-top {
-            background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from({$ht}), to({$hb}));
-            background-image: -moz-linear-gradient(-90deg, {$ht}, {$hb});
-        }";
+            background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from({$ht}), to({$hb})) !important;
+            background-image: -moz-linear-gradient(-90deg, {$ht}, {$hb}) !important;
+        }\n";
+
+        $css['embed'][] = "a { color:{$links} !important; }\n";
+        $css['embed'][] = "body { color:{$text} !important; background:{$footer}; }\n";
+        $css['embed'][] = "#page { background:{$main_bg} !important; }\n";
 
         if (count($this->_View->viewVars['Layout']['node'])) {
             $css['embed'][] = "#search-advanced { display:none; }";
@@ -31,7 +44,7 @@ class ThemeDefaultHookHelper extends AppHelper {
     }
 
 /* Adding toggle effect to advanced search form */
-    function javascripts_alter(&$js) {
+    public function javascripts_alter(&$js) {
         if (
             $this->request->params['plugin'] == 'node' &&
             $this->request->params['controller'] == 'node' &&
@@ -52,7 +65,7 @@ class ThemeDefaultHookHelper extends AppHelper {
  * Block
  *
  */
-    function theme_default_slider($block) {
+    public function theme_default_slider($block) {
         return array(
             'body' => $this->_View->element('theme_default_slider', array('block' => $block), array('plugin' => 'ThemeDefault'))
         );
@@ -62,7 +75,7 @@ class ThemeDefaultHookHelper extends AppHelper {
  * Block Settings
  *
  */
-    function theme_default_slider_settings($data) {
+    public function theme_default_slider_settings($data) {
         return $this->_View->element('theme_default_slider_settings', array('block' => $data), array('plugin' => 'ThemeDefault'));
     }
 
@@ -71,7 +84,7 @@ class ThemeDefaultHookHelper extends AppHelper {
  *
  * @return string HTML
  */
-    function theme_menu($menu) {
+    public function theme_menu($menu) {
         $output = '';
 
         switch ($menu['region']) {
@@ -87,7 +100,7 @@ class ThemeDefaultHookHelper extends AppHelper {
         return $this->Menu->generate($menu, $settings);
     }
 
-    function theme_breadcrumb($b) {
+    public function theme_breadcrumb($b) {
         $out = array();
 
         foreach ($b as $node) {
@@ -103,7 +116,7 @@ class ThemeDefaultHookHelper extends AppHelper {
     }
 
     # hookTag
-    function content_box($atts, $content=null, $code="") {
+    public function content_box($atts, $content=null, $code="") {
         $type = isset($atts['type']) ? $atts['type'] : 'success';
         $return = "<div class=\"td-box dialog-{$type}\">";
         $return .= $content;
@@ -113,7 +126,7 @@ class ThemeDefaultHookHelper extends AppHelper {
     }
 
     # hookTag
-    function button($atts, $content = null, $code="") {
+    public function button($atts, $content = null, $code="") {
         $atts = Set::merge(
             array(
             'link'    => '#',
@@ -132,7 +145,7 @@ class ThemeDefaultHookHelper extends AppHelper {
         return $out;
     }
 
-    function theme_block($block) {
+    public function theme_block($block) {
         $output = '';
 
         switch ( $block['region']) {
