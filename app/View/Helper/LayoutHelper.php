@@ -344,10 +344,13 @@ class LayoutHelper extends AppHelper {
             return '';
         }
 
-        return
-            "\n<div class=\"field-container {$field['name']}\">\n" .
-                $this->Layout->hook("{$field['field_module']}_view", $field, array('collectReturn' => false)) .
-            "\n</div>\n";
+        $result = $this->Layout->hook("{$field['field_module']}_view", $field, array('collectReturn' => false));
+
+        if (!empty($result)) {
+            return "\n<div class=\"field-container {$field['name']}\">\n{$result}\n</div>\n";
+        }
+
+        return '';
     }
 
 /**
