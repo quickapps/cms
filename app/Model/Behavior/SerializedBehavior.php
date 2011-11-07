@@ -98,6 +98,6 @@ class SerializedBehavior extends ModelBehavior {
     }
 
     public function serialize($data) {
-        return (empty($data) ? @serialize(array()): @serialize($data));
+        return (trim($data) == "" ? @serialize(array()): @serialize($data));
     }
 }
