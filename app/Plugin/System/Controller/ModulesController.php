@@ -109,6 +109,9 @@ class ModulesController extends SystemAppController {
                     $this->Install->afterDisable();
                 }
             }
+
+            Cache::delete('hook_objects_admin_theme');
+            Cache::delete('hook_objects_site_theme');
         }
 
         $this->redirect($this->referer());
@@ -131,6 +134,9 @@ class ModulesController extends SystemAppController {
 
         if ($this->Installer->uninstall($plugin)) {
             $this->flashMsg(__t("Module '%s' has been uninstalled", $plugin), 'success');
+
+            Cache::delete('hook_objects_admin_theme');
+            Cache::delete('hook_objects_site_theme');
         } else {
             $this->flashMsg(__t("Error uninstalling module '%s'", $plugin), 'error');
         }
@@ -148,6 +154,9 @@ class ModulesController extends SystemAppController {
             $this->flashMsg($errors, 'error');
         } else {
             $this->flashMsg(__t('Module has been installed'), 'success');
+
+            Cache::delete('hook_objects_admin_theme');
+            Cache::delete('hook_objects_site_theme');
         }
 
         $this->redirect('/admin/system/modules');

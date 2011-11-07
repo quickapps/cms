@@ -66,6 +66,8 @@ class ThemesController extends SystemAppController {
         if (!in_array($theme, array('Default', 'AdminDefault'))) {
             if ($this->Installer->uninstall($Theme)) {
                 $this->flashMsg(__t("Theme '%s' has been uninstalled", $theme), 'success');
+
+                Cache::delete("theme_{$theme}_yaml");
             } else {
                 $this->flashMsg(__t("Error uninstalling theme '%s'", $theme), 'error');
             }
@@ -84,6 +86,8 @@ class ThemesController extends SystemAppController {
             $this->flashMsg("<b>" . __t('Theme could not been installed') . ":</b><br/>{$errors}", 'error');
         } else {
             $this->flashMsg(__t('Theme has been installed'), 'success');
+
+            Cache::delete("theme_{$this->Installer->options['__appName']}_yaml");
         }
 
         $this->redirect('/admin/system/themes');

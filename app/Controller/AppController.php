@@ -197,99 +197,108 @@ class AppController extends Controller {
  * @return void
  */
     private function __preloadHooks() {
-        $paths = $c = $h = $b = array();
-
-        // load current theme hooks only
         $_variable = Cache::read('Variable');
         $_modules = Cache::read('Modules');
         $_themeType = Router::getParam('admin') ? 'admin_theme' : 'site_theme';
 
-        if (!$_variable) {
-            $this->loadModel('System.Variable');
+        $hook_objects = Cache::read("hook_objects_{$_themeType}");
 
-            $_variable = $this->Variable->find('first', array('conditions' => array('Variable.name' => $_themeType)));
-            $_variable[$_themeType] = $_variable['Variable']['value'];
+        if (!$hook_objects) {
+            if (!$_variable) {
+                $this->loadModel('System.Variable');
 
-            ClassRegistry::flush();
-            unset($this->Variable);
-        }
+                $_variable = $this->Variable->find('first', array('conditions' => array('Variable.name' => $_themeType)));
+                $_variable[$_themeType] = $_variable['Variable']['value'];
 
-        if (!$_modules) {
-            $this->loadModel('System.Module');
-
-            foreach ($this->Module->find('all', array('fields' => array('name'), 'conditions' => array('Module.status' => 1))) as $m) {
-                $_modules[$m['Module']['name']] = array();
+                ClassRegistry::flush();
+                unset($this->Variable);
             }
 
-            ClassRegistry::flush();
-            unset($this->Module);
-        }
+            if (!$_modules) {
+                $this->loadModel('System.Module');
 
-        $_modules = array_keys($_modules);
-        $themeToUse = $_variable[$_themeType];
-        $plugins = App::objects('plugin', null, false);
-        $modulesCache = Cache::read('Modules');
+                foreach ($this->Module->find('all', array('fields' => array('name'), 'conditions' => array('Module.status' => 1))) as $m) {
+                    $_modules[$m['Module']['name']] = array();
+                }
 
-        foreach ($plugins as $plugin) {
-            $ppath = CakePlugin::path($plugin);
+                ClassRegistry::flush();
+                unset($this->Module);
+            }        
+        
+            $paths = $c = $h = $b = array();
+            $_modules = array_keys($_modules);
+            $themeToUse = $_variable[$_themeType];
+            $plugins = App::objects('plugin', null, false);
+            $modulesCache = Cache::read('Modules');
 
-            # inactive module, except fields that are nor registered as plugin in DB
-            if (!in_array($plugin, $_modules) && strpos($ppath, DS . 'Fields' . DS) === false) {
-                continue;
+            foreach ($plugins as $plugin) {
+                $ppath = CakePlugin::path($plugin);
+
+                # inactive module, except fields that are nor registered as plugin in DB
+                if (!in_array($plugin, $_modules) && strpos($ppath, DS . 'Fields' . DS) === false) {
+                    continue;
+                }
+
+                if ((isset($modulesCache[$plugin]['status']) && $modulesCache[$plugin]['status'] == 0) ||
+                    (strpos($ppath, THEMES) !== false && strpos($ppath, THEMES . $themeToUse . DS . 'app') === false)
+                ) {
+                    continue; # Important: skip disabled themes
+                }
+
+                $paths["{$plugin}_components"] = $ppath . 'Controller' . DS . 'Component' . DS;
+                $paths["{$plugin}_behaviors"] = $ppath . 'Model' . DS . 'Behavior' . DS;
+                $paths["{$plugin}_helpers"] = $ppath . 'View' . DS . 'Helper' . DS;
             }
 
-            if ((isset($modulesCache[$plugin]['status']) && $modulesCache[$plugin]['status'] == 0) ||
-                (strpos($ppath, THEMES) !== false && strpos($ppath, THEMES . $themeToUse . DS . 'app') === false)
-            ) {
-                continue; # Important: skip disabled themes
-            }
+            $paths = array_merge(
+                array(
+                    APP . 'Controller' . DS . 'Components' . DS,    # core components
+                    APP . 'View' . DS . 'Helper' . DS,              # core helpers
+                    APP . 'Model' . DS . 'Behavior' . DS,           # core behaviors
+                    ROOT . DS . 'Hooks' . DS . 'Behavior' . DS,  # custom MH
+                    ROOT . DS . 'Hooks' . DS . 'Helper' . DS,    # custom VH
+                    ROOT . DS . 'Hooks' . DS . 'Component' . DS  # custom CH
+                ),
+                (array)$paths
+            );
 
-            $paths["{$plugin}_components"] = $ppath . 'Controller' . DS . 'Component' . DS;
-            $paths["{$plugin}_behaviors"] = $ppath . 'Model' . DS . 'Behavior' . DS;
-            $paths["{$plugin}_helpers"] = $ppath . 'View' . DS . 'Helper' . DS;
-        }
+            $folder = new Folder;
 
-        $paths = array_merge(
-            array(
-                APP . 'Controller' . DS . 'Components' . DS,    # core components
-                APP . 'View' . DS . 'Helper' . DS,              # core helpers
-                APP . 'Model' . DS . 'Behavior' . DS,           # core behaviors
-                ROOT . DS . 'Hooks' . DS . 'Behavior' . DS,  # custom MH
-                ROOT . DS . 'Hooks' . DS . 'Helper' . DS,    # custom VH
-                ROOT . DS . 'Hooks' . DS . 'Component' . DS  # custom CH
-            ),
-            (array)$paths
-        );
+            foreach ($paths as $key => $path) {
+                $folder->path = $path;
+                $files = $folder->find('(.*)Hook(Component|Behavior|Helper|TagsHelper)\.php');
+                $plugin = is_string($key) ? explode('_', $key) : false;
+                $plugin = is_array($plugin) ? $plugin[0] : $plugin;
 
-        $folder = new Folder;
+                foreach ($files as $file) {
+                    $prefix = ($plugin) ? Inflector::camelize($plugin) . '.' : '';
+                    $hook = $prefix . Inflector::camelize(str_replace(array('.php'), '', basename($file)));
+                    $hook = str_replace(array('Component', 'Behavior', 'Helper'),'', $hook);
 
-        foreach ($paths as $key => $path) {
-            $folder->path = $path;
-            $files = $folder->find('(.*)Hook(Component|Behavior|Helper|TagsHelper)\.php');
-            $plugin = is_string($key) ? explode('_', $key) : false;
-            $plugin = is_array($plugin) ? $plugin[0] : $plugin;
-
-            foreach ($files as $file) {
-                $prefix = ($plugin) ? Inflector::camelize($plugin) . '.' : '';
-                $hook = $prefix . Inflector::camelize(str_replace(array('.php'), '', basename($file)));
-                $hook = str_replace(array('Component', 'Behavior', 'Helper'),'', $hook);
-
-                if (strpos($path, 'Helper')) {
-                    $h[] = $hook;
-                    $this->helpers[] = $hook;
-                } elseif (strpos($path, 'Behavior')) {
-                    $b[] = $hook;
-                } else {
-                    $c[] = $hook;
-                    $this->components[] = $hook;
+                    if (strpos($path, 'Helper')) {
+                        $h[] = $hook;
+                        $this->helpers[] = $hook;
+                    } elseif (strpos($path, 'Behavior')) {
+                        $b[] = $hook;
+                    } else {
+                        $c[] = $hook;
+                        $this->components[] = $hook;
+                    }
                 }
             }
+
+            $h[] = 'CustomHooks'; # merge custom hooktags helper
+
+            Configure::write('Hook.components', $c);
+            Configure::write('Hook.behaviors', $b);
+            Configure::write('Hook.helpers', $h);
+
+            Cache::write("hook_objects_{$_themeType}", Configure::read('Hook'));
+        } else {
+            $this->helpers = array_merge($this->helpers, $hook_objects['helpers']);
+            $this->components = array_merge($this->components, $hook_objects['components']);
+
+            Configure::write('Hook', $hook_objects);
         }
-
-        $h[] = 'CustomHooks'; # merge custom hooktags helper
-
-        Configure::write('Hook.components', $c);
-        Configure::write('Hook.behaviors', $b);
-        Configure::write('Hook.helpers', $h);
     }
 }
