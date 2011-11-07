@@ -265,3 +265,17 @@ msgstr "Última conexión"
 
 msgid "M d, Y"
 msgstr "d M, Y"
+
+msgid "This message has been marked as `do not notify`."
+msgstr "Este mensaje ha sido marcado como `no notificar`"
+
+msgid "Invalid message preset."
+msgstr "Mensaje preestablecido inválido."
+
+msgid "Email could not be send."
+msgstr "No se puedo enviar el email."
+
+msgid "User not found."
+msgstr "Usuario no encontrado."
+
+

@@ -19,7 +19,6 @@ class ListController extends UserAppController {
                 $update = ($this->data['User']['update'] != 'delete');
 
                 foreach ($this->data['Items']['id'] as $key => $id) {
-
                     if ($id === 1) {
                         continue; # admin protected
                     }
@@ -73,8 +72,10 @@ class ListController extends UserAppController {
 
         if ($id != 1) {
             $user = $this->User->findById($id) or $this->redirect($this->referer());
+            $notify = $this->Variable->findByName('user_mail_canceled_notify');
+            $del = $this->User->delete($id);
 
-            if ($del = $this->User->delete($id)) {
+            if ($del && $notify) {
                 $this->Mailer->send($user, 'canceled');
             }
         }
@@ -95,7 +96,14 @@ class ListController extends UserAppController {
             )
         );
 
-        return $this->User->save($data, false);
+        $save = $this->User->save($data, false);
+        $notify = $this->Variable->findByName('user_mail_blocked_notify');
+
+        if ($save && $notify) {
+            $this->Mailer->send($this->User->id, 'blocked');
+        }
+
+        return $save;
     }
 
     public function admin_activate($id) {
@@ -107,7 +115,14 @@ class ListController extends UserAppController {
             )
         );
 
-        return $this->User->save($data, false);
+        $save = $this->User->save($data, false);
+        $notify = $this->Variable->findByName('user_mail_activation_notify');
+
+        if ($save && $notify) {
+            $this->Mailer->send($this->User->id, 'activation');
+        }
+
+        return $save;
     }
 
     public function admin_add() {

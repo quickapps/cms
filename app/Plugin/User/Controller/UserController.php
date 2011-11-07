@@ -80,6 +80,7 @@ class UserController extends UserAppController {
         );
 
         if ($this->User->save($save, false)) {
+            $notify = $this->Variable->findByName('user_mail_activation_notify');
             $this->User->id = $user['User']['id'];
             $this->User->saveField('last_login', time());
 
@@ -98,6 +99,11 @@ class UserController extends UserAppController {
             $session['role_id'][] = 2; #role: authenticated user
 
             $this->Auth->login($session);
+
+            if ($notify) {
+                $this->Mailer->send($id, 'activation');
+            }
+
             $this->redirect('/user/my_account');
         }
     }

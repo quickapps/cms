@@ -89,9 +89,9 @@ class MailerComponent extends Component {
                 } else {
                     $this->errors[] = __d('user', 'Email could not be send.');
                 }
+            } else {
+                $this->errors[] = __d('user', 'Invalid message preset.');
             }
-
-            $this->errors[] = __d('user', 'Invalid message preset.');
 
             return false;
         }
