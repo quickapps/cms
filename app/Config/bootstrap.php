@@ -72,7 +72,14 @@ Cache::config('default', array('engine' => 'File'));
 
     $__searchPath[] = ROOT . DS . 'Modules' . DS;
 
-    App::build(array('views' => ROOT  . DS . 'Themes' . DS, 'plugins' => $__searchPath));
+    App::build(
+        array(
+            'views' => ROOT  . DS . 'Themes' . DS, 'plugins' => $__searchPath,
+            'Model/Behavior' => ROOT . DS . 'Hooks' . DS . 'Behavior' . DS,
+            'View/Helper' => ROOT . DS . 'Hooks' . DS . 'Helper' . DS,
+            'Controller/Component' => ROOT . DS . 'Hooks' . DS . 'Component' . DS
+        )
+    );
 
     $plugins = App::objects('plugins', null, false);
 

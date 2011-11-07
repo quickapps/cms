@@ -312,7 +312,7 @@ class LayoutHelper extends AppHelper {
  */
     public function removeHookTags($string) {
         $string = $this->specialTags($string);
-        $tags = implode('|', $this->events);
+        $tags = implode('|', $this->hooks);
 
         return preg_replace('/(.?)\[(' . $tags . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', '', $string);
     }
@@ -941,10 +941,10 @@ class LayoutHelper extends AppHelper {
     public function hookTags($text) {
         $text = $this->specialTags($text);
 
-        if (!empty($this->tmp['hookTagsEvents'])) {
-            $tags = $this->tmp['hookTagsEvents'];
+        if (!empty($this->tmp['__hooks_reg'])) {
+            $tags = $this->tmp['__hooks_reg'];
         } else {
-            $tags = $this->tmp['hookTagsEvents'] = implode('|', $this->events);
+            $tags = $this->tmp['__hooks_reg'] = implode('|', $this->hooks);
         }
 
         return preg_replace_callback('/(.?)\[(' . $tags . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', array($this, '__doHookTag'), $text);
@@ -1082,17 +1082,19 @@ class LayoutHelper extends AppHelper {
 
         $tag = $m[2];
         $attr = $this->__hookTagParseAtts( $m[3] );
-        $hook = isset($this->eventMap[$tag]) ? $this->eventMap[$tag] : false;
+        $hook = isset($this->hooksMap[$tag]) ? $this->hooksMap[$tag] : false;
 
         if ($hook) {
-            $hook =& $this->{$hook};
+            foreach ($this->hooksMap[$tag] as $object) {
+                $hook =& $this->{$object};
 
-            if (isset( $m[5] )) {
-                // enclosing tag - extra parameter
-                return $m[1] . call_user_func(array($hook, $tag), $attr, $m[5], $tag) . $m[6];
-            } else {
-                // self-closing tag
-                return $m[1] . call_user_func(array($hook, $tag), $attr, null, $tag) . $m[6];
+                if (isset($m[5])) {
+                    // enclosing tag - extra parameter
+                    return $m[1] . call_user_func(array($hook, $tag), $attr, $m[5], $tag) . $m[6];
+                } else {
+                    // self-closing tag
+                    return $m[1] . call_user_func(array($hook, $tag), $attr, null, $tag) . $m[6];
+                }
             }
         }
 

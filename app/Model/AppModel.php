@@ -11,8 +11,9 @@
  */
 class AppModel extends Model {
     public $cacheQueries = false;
-    public $listeners = array();
-    public $events = array();
+    public $hooksMap = array();
+    public $hooks = array();
+    public $hookObjects = array();
     public $actsAs = array(
         'WhoDidIt' => array(
             'auth_session' => 'Auth.User.id',
@@ -31,9 +32,9 @@ class AppModel extends Model {
     );
 
     public function __construct($id = false, $table = null, $ds = null) {
-        $this->__loadHooks();
+        $this->__loadHookObjects();
         parent::__construct($id, $table, $ds);
-        $this->__loadHookEvents();
+        $this->__loadHooks();
     }
 
 /**
@@ -43,7 +44,7 @@ class AppModel extends Model {
  * @return bool
  */
     public function hook_defined($hook) {
-        return (in_array($hook, $this->events) == true);
+        return (isset($this->hooksMap[$hook]));
     }
 
 /**
@@ -72,7 +73,8 @@ class AppModel extends Model {
  */
     public function hook($hook, &$data = array(), $options = array()) {
         $hook = Inflector::underscore($hook);
-        return $this->__dispatchEvent($hook, $data, $options);
+
+        return $this->__dispatchHook($hook, $data, $options);
     }
 
 /**
@@ -107,27 +109,26 @@ class AppModel extends Model {
  * @see AppModel::hook()
  * @return mixed Either the last result or all results if collectReturn is on. Or NULL in case of no response
  */
-    private function __dispatchEvent($event, &$data = array(), $options = array()) {
+    private function __dispatchHook($hook, &$data = array(), $options = array()) {
         $options = array_merge($this->Options, (array)$options);
         $collected = array();
+        $result = null;
 
-        if (!$this->hook_defined($event)) {
+        if (!$this->hook_defined($hook)) {
             $this->__resetOptions();
 
             return null;
-        }
-
-        foreach ($this->listeners as $object => $methods) {
-            foreach ($methods as $method) {
-                if ($method == $event && is_callable(array($this->Behaviors->{$object}, $method))) {
-                    $result = @call_user_func(array($this->Behaviors->{$object}, $event), $data);
+        } else {
+            foreach ($this->hooksMap[$hook] as $object) {
+                if (is_callable(array($this->Behaviors->{$object}, $hook))) {
+                    $result = $this->Behaviors->{$object}->$hook($data);
 
                     if ($options['collectReturn'] === true) {
                         $collected[] = $result;
                     }
 
-                    if ($options['break'] &&
-                        ($result === $options['breakOn'] || (is_array($options['breakOn']) && in_array($result, $options['breakOn'], true)))
+                    if ($options['break'] && ($result === $options['breakOn'] ||
+                        (is_array($options['breakOn']) && in_array($result, $options['breakOn'], true)))
                     ) {
                         $this->__resetOptions();
 
@@ -154,7 +155,7 @@ class AppModel extends Model {
         }
     }
 
-    private function __loadHooks() {
+    private function __loadHookObjects() {
         $b = Configure::read('Hook.behaviors');
 
         if (!$b){
@@ -166,8 +167,9 @@ class AppModel extends Model {
         }
     }
 
-    private function __loadHookEvents() {
+    private function __loadHooks() {
         foreach ($this->actsAs as $behavior => $b_data) {
+            $pluginSplit = pluginSplit($behavior);
             $behavior = strpos($behavior, '.') !== false ? substr($behavior, strpos($behavior, '.')+1) : $behavior;
 
             if (strpos($behavior, 'Hook')) {
@@ -176,16 +178,23 @@ class AppModel extends Model {
 
                 foreach ($_methods as $method) {
                     $methods[] = $method;
+
+                    if (isset($this->hooksMap[$method])) {
+                        $this->hooksMap[$method][] = (string)$behavior;
+                    } else {
+                        $this->hooksMap[$method] = array((string)$behavior);
+                    }
                 }
 
-                $this->listeners[$behavior] = $methods;
-                $this->events = array_merge($this->events, $methods);
+                if ($pluginSplit[0]) {
+                    $this->hookObjects["{$pluginSplit[0]}.{$behavior}"] = $methods;
+                } else {
+                    $this->hookObjects[$helper] = $methods;
+                }
             }
         }
 
-        $this->events = array_unique($this->events);
-
-        return true;
+        $this->hooks = array_keys($this->hooksMap);
     }
 
 /**

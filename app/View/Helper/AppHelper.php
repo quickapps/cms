@@ -1,10 +1,9 @@
 <?php
 App::uses('Helper', 'View');
 class AppHelper extends Helper {
+    public $hooksMap = array();
     public $hooks = array();
-    public $events = array();
-    public $listeners = array();
-    public $eventMap = array(); # function_name => Helper, useful for hookTags() searching
+    public $hookObjects = array();
     public $helpers = array(
         'Layout',
         'Menu',        # menu helper
@@ -25,19 +24,19 @@ class AppHelper extends Helper {
     );
 
     public function __construct(View $View, $settings = array()) {
-        $this->__loadHooks();
+        $this->__loadHookObjects();
         parent::__construct($View, $settings = array());
     }
 
     public function beforeRender() {
-        $this->__loadHookEvents();
+        $this->__loadHooks();
         return true;
     }
 
     public function attachModuleHooks($plugin) {
         $Plugin = Inflector::camelize($plugin);
 
-        if (isset($this->listeners[$Plugin . 'Hook'])) {
+        if (isset($this->hookObjects[$Plugin . 'Hook'])) {
             return;
         }
 
@@ -47,8 +46,7 @@ class AppHelper extends Helper {
 
         foreach ($files as $helper) {
             $helper = str_replace('Helper.php', '', $helper);
-            $this->hooks[] = "{$Plugin}.{$helper}";
-            $this->$helper = $this->_View->loadHelper("{$Plugin}.{$helper}" , array('plugin' => $plugin));
+            $this->$helper = $this->_View->loadHelper("{$Plugin}.{$helper}" , array('plugin' => $Plugin));
 
             if (!is_object($this->{$helper})) {
                 continue;
@@ -59,31 +57,36 @@ class AppHelper extends Helper {
 
             foreach ($_methods as $method) {
                 $methods[] = $method;
+
+                if (isset($this->hooksMap[$method])) {
+                    $this->hooksMap[$method][] = (string)$helper;
+                } else {
+                    $this->hooksMap[$method] = array((string)$helper);
+                }
             }
 
-            $this->listeners[$helper] = $methods;
-            $this->events = array_merge($this->events, $methods);
+            $this->hookObjects["{$Plugin}.{$helper}"] = $methods;
         }
+
+        $this->hooks = array_keys($this->hooksMap);
     }
 
     public function deattachModuleHooks($plugin) {
         $Plugin = Inflector::camelize($plugin);
 
-        foreach ($this->hooks as $hk => $hook) {
-            if (strpos($hook, "{$Plugin}.") === false) {
+        foreach ($this->hookObjects as $helper) {
+            if (strpos($helper, "{$Plugin}.") === false) {
                 continue;
             }
 
-            $Hook = str_replace("{$Plugin}.", '', $hook);
-
-            foreach ($this->listeners[$Hook] as $event) {
-                unset($this->events[array_search($event, $this->events)]);
+            foreach ($this->hookObjects[$helper] as $hook) {
+                unset($this->hooksMap[$hook]);
             }
 
-            unset($this->hooks[$hk]);
-            unset($this->listeners[$Hook]);
-            unset($this->{$Hook});
+            unset($this->hookObjects[$helper]);
         }
+
+        $this->hooks = array_keys($this->hooksMap);
     }
 
 /**
@@ -93,7 +96,7 @@ class AppHelper extends Helper {
  * @return boolean
  */
     public function hook_defined($hook) {
-        return ( in_array($hook, $this->events) == true );
+        return (isset($this->hooksMap[$hook]));
     }
 
 /**
@@ -120,10 +123,10 @@ class AppHelper extends Helper {
  * @param array $option Array of options
  * @return mixed Either the last result or all results if collectReturn is on. Or null in case of no response
  */
-    public function hook($event, &$data = array(), $options = array()) {
-        $event = Inflector::underscore($event);
-        $result = $this->__dispatchEvent($event, $data, $options);
-        return $result;
+    public function hook($hook, &$data = array(), $options = array()) {
+        $hook = Inflector::underscore($hook);
+
+        return $this->__dispatchHook($hook, $data, $options);
     }
 
 /**
@@ -229,20 +232,21 @@ class AppHelper extends Helper {
  * @see AppHelper::hook()
  * @return mixed Either the last result or all results if collectReturn is on. Or NULL in case of no response
  */
-    private function __dispatchEvent($event, &$data = array(), $options = array()) {
+    private function __dispatchHook($hook, &$data = array(), $options = array()) {
         $options = array_merge($this->Options, (array)$options);
         $collected = array();
+        $result = null;
 
-        if (!$this->hook_defined($event)) {
+        if (!$this->hook_defined($hook)) {
             $this->__resetOptions();
 
             return null;
         }
 
-        foreach ($this->listeners as $object => $methods) {
-            foreach ($methods as $method) {
-                if ($method == $event && is_callable(array($this->{$object}, $method))) {
-                    $result = $this->{$object}->$event($data);
+        if (isset($this->hooksMap[$hook])) {
+            foreach ($this->hooksMap[$hook] as $object) {
+                if (is_callable(array($this->{$object}, $hook))) {
+                    $result = $this->{$object}->$hook($data);
 
                     if ($options['collectReturn'] === true) {
                         $collected[] = $result;
@@ -276,14 +280,13 @@ class AppHelper extends Helper {
         }
     }
 
-    private function __loadHookEvents() {
-        $eventMap = array();
-
+    private function __loadHooks() {
         foreach ($this->helpers as $helper) {
             if (is_array($helper)) {
                 continue;
             }
-
+            
+            $pluginSplit = pluginSplit($helper);
             $helper = strpos($helper, '.') !== false ? substr($helper, strpos($helper, '.')+1) : $helper;
 
             if (strpos($helper, 'Hook') !== false) {
@@ -296,35 +299,56 @@ class AppHelper extends Helper {
 
                 foreach ($_methods as $method) {
                     $methods[] = $method;
-                    $eventMap[$method] = (string)$helper;
+
+                    if (isset($this->hooksMap[$method])) {
+                        $this->hooksMap[$method][] = (string)$helper;
+                    } else {
+                        $this->hooksMap[$method] = array((string)$helper);
+                    }
                 }
 
-                $this->listeners[$helper] = $methods;
-                $this->events = array_merge($this->events, $methods);
-                $this->eventMap = array_merge($this->eventMap, $eventMap);
+                if ($pluginSplit[0]) {
+                    $this->hookObjects["{$pluginSplit[0]}.{$helper}"] = $methods;
+                } else {
+                    $this->hookObjects[$helper] = $methods;
+                }
             }
         }
+
+        $this->hooks = array_keys($this->hooksMap);
     }
 
-    private function __loadHooks() {
+    private function __loadHookObjects() {
         if ($hooks = Configure::read('Hook.helpers')) {
             foreach ($hooks as $hook) {
+                $filePath = array();
+
                 if (strpos($hook, '.') !== false) {
                     $hookE = explode('.', $hook);
                     $plugin = $hookE[0];
                     $hookHelper = $hookE[1];
-                    $filePath = App::pluginPath($plugin) . 'View' . DS . 'Helper' . DS . "{$hookHelper}Helper" . '.php';
+                    $filePath[] = App::pluginPath($plugin) . 'View' . DS . 'Helper' . DS . "{$hookHelper}Helper" . '.php';
                 } else {
-                    $filePath = APP . 'View' . DS . 'Helper' . DS . "{$hook}Helper.php";
+                    $filePath[] = APP . 'View' . DS . 'Helper' . DS . "{$hook}Helper.php";
+                    $filePath[] = dirname(THEMES) . DS . 'HookTags' . DS . "{$hook}Helper.php";
                 }
 
-                if (file_exists($filePath)) {
-                    $this->hooks[] = $hook;
+                if ($this->files_exists($filePath)) {
                     $this->helpers[] = $hook;
                 }
             }
         }
 
         $this->helpers = array_unique($this->helpers);
+    }
+
+    private function files_exists($files) {
+        foreach ($files as $f) {
+            if (!file_exists($f)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

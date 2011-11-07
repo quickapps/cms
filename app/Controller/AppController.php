@@ -166,7 +166,7 @@ class AppController extends Controller {
 /**
  * Wrapper method to HookComponent::hook
  *
- * @see HookComponent::__dispatchEvent
+ * @see HookComponent::__dispatchHook
  * @param string $hook Name of the event to fire
  * @param mix $data Any data to attach
  * @param array $options Options for hook dispatcher
@@ -253,7 +253,10 @@ class AppController extends Controller {
             array(
                 APP . 'Controller' . DS . 'Components' . DS,    # core components
                 APP . 'View' . DS . 'Helper' . DS,              # core helpers
-                APP . 'Model' . DS . 'Behavior' . DS            # core behaviors
+                APP . 'Model' . DS . 'Behavior' . DS,           # core behaviors
+                ROOT . DS . 'Hooks' . DS . 'Behavior' . DS,  # custom MH
+                ROOT . DS . 'Hooks' . DS . 'Helper' . DS,    # custom VH
+                ROOT . DS . 'Hooks' . DS . 'Component' . DS  # custom CH
             ),
             (array)$paths
         );
@@ -262,7 +265,7 @@ class AppController extends Controller {
 
         foreach ($paths as $key => $path) {
             $folder->path = $path;
-            $files = $folder->find('(.*)Hook(Component|Behavior|Helper)\.php');
+            $files = $folder->find('(.*)Hook(Component|Behavior|Helper|TagsHelper)\.php');
             $plugin = is_string($key) ? explode('_', $key) : false;
             $plugin = is_array($plugin) ? $plugin[0] : $plugin;
 

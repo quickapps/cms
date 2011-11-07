@@ -11,9 +11,9 @@
  */
 class HookComponent extends Component {
     public $Controller;
-    public $listeners = array();
-    public $events = array();
-    public $eventMap = array();
+    public $hooksMap = array();
+    public $hooks = array();
+    public $hookObjects = array();
     public $Options = array(
         'break' => false,
         'breakOn' => false,
@@ -41,6 +41,7 @@ class HookComponent extends Component {
         $eventMap = array();
 
         foreach (Configure::read('Hook.components') as $component) {
+            $pluginSplit = pluginSplit($component);
             $component = strpos($component, '.') !== false ? substr($component, strpos($component, '.')+1) : $component;
 
             if (strpos($component, 'Hook')) {
@@ -49,16 +50,23 @@ class HookComponent extends Component {
 
                 foreach ($_methods as $method) {
                     $methods[] = $method;
-                    $eventMap[$method] = (string)$component;
+
+                    if (isset($this->hooksMap[$method])) {
+                        $this->hooksMap[$method][] = (string)$component;
+                    } else {
+                        $this->hooksMap[$method] = array((string)$component);
+                    }
                 }
 
-                $this->listeners[$component] = $methods;
-                $this->events = array_merge($this->events, $methods);
-                $this->eventMap = array_merge($this->eventMap, $eventMap);
+                if ($pluginSplit[0]) {
+                    $this->hookObjects["{$pluginSplit[0]}.{$component}"] = $methods;
+                } else {
+                    $this->hookObjects[$helper] = $methods;
+                }
             }
         }
 
-        $this->events = array_unique($this->events);
+        $this->hooks = array_keys($this->hooksMap);
 
         return true;
     }
@@ -72,7 +80,7 @@ class HookComponent extends Component {
  */
     public function hookTags($text) {
         $text = $this->specialTags($text);
-        $tags = implode('|', $this->events);
+        $tags = implode('|', $this->hooks);
 
         return preg_replace_callback('/(.?)\[(' . $tags . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', array($this, '__doHookTag'), $text);
     }
@@ -185,7 +193,7 @@ class HookComponent extends Component {
  * @return boolean
  */
     public function hook_defined($hook) {
-        return (in_array($hook, $this->events) == true);
+        return (isset($this->hooksMap[$hook]));
     }
 
 /**
@@ -212,9 +220,10 @@ class HookComponent extends Component {
  * @param array $option Array of options
  * @return mixed Either the last result or all results if collectReturn is on. Or null in case of no response
  */
-    public function hook($event, &$data = array(), $options = array()) {
-        $event = Inflector::underscore($event);
-        return $this->__dispatchEvent($event, $data, $options);
+    public function hook($hook, &$data = array(), $options = array()) {
+        $hook = Inflector::underscore($hook);
+
+        return $this->__dispatchHook($hook, $data, $options);
     }
 
 /**
@@ -289,17 +298,19 @@ class HookComponent extends Component {
 
         $tag = $m[2];
         $attr = $this->__hookTagParseAtts( $m[3] );
-        $hook = isset($this->eventMap[$tag]) ? $this->eventMap[$tag] : false;
+        $hook = isset($this->hooksMap[$tag]) ? $this->hooksMap[$tag] : false;
 
         if ($hook) {
-            $hook =& $this->Controller->{$hook};
+            foreach ($this->hooksMap[$tag] as $object) {
+                $hook =& $this->Controller->{$object};
 
-            if (isset( $m[5] )) {
-                // enclosing tag - extra parameter
-                return $m[1] . call_user_func(array($hook, $tag), $attr, $m[5], $tag) . $m[6];
-            } else {
-                // self-closing tag
-                return $m[1] . call_user_func(array($hook, $tag), $attr, null, $tag) . $m[6];
+                if (isset( $m[5] )) {
+                    // enclosing tag - extra parameter
+                    return $m[1] . call_user_func(array($hook, $tag), $attr, $m[5], $tag) . $m[6];
+                } else {
+                    // self-closing tag
+                    return $m[1] . call_user_func(array($hook, $tag), $attr, null, $tag) . $m[6];
+                }
             }
         }
 
@@ -312,27 +323,28 @@ class HookComponent extends Component {
  * @see HookComponent::hook()
  * @return mixed Either the last result or all results if collectReturn is on. Or NULL in case of no response
  */
-    private function __dispatchEvent($event, &$data = array(), $options = array()) {
+    private function __dispatchHook($hook, &$data = array(), $options = array()) {
         $options = array_merge($this->Options, (array)$options);
         $collected = array();
+        $result = null;
 
-        if (!$this->hook_defined($event)) {
+        if (!$this->hook_defined($hook)) {
             $this->__resetOptions();
 
             return null;
         }
 
-        foreach ($this->listeners as $component => $methods) {
-            foreach ($methods as $method) {
-                if ($method == $event && is_callable(array($this->Controller->{$component}, $method))) {
-                    $result = call_user_func(array($this->Controller->{$component}, $event), $data);
+        if (isset($this->hooksMap[$hook])) {
+            foreach ($this->hooksMap[$hook] as $object) {
+                if (is_callable(array($this->Controller->{$object}, $hook))) {
+                    $result = $this->Controller->{$object}->$hook($data);
 
                     if ($options['collectReturn'] === true) {
                         $collected[] = $result;
                     }
 
-                    if ($options['break'] &&
-                        ($result === $options['breakOn'] || (is_array($options['breakOn']) && in_array($result, $options['breakOn'], true)))
+                    if ($options['break'] && ($result === $options['breakOn'] ||
+                        (is_array($options['breakOn']) && in_array($result, $options['breakOn'], true)))
                     ) {
                         $this->__resetOptions();
 
