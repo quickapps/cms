@@ -1,6 +1,7 @@
 info:
     name: Admin Default
     description: Default backend theme for QuickApps
+    core: 1.x
     version: 1.0
     author: Christopher Castro <chris@quickapps.es>
 

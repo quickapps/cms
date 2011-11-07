@@ -1,6 +1,7 @@
 info:
     name: Default
     description: Default frontend theme for QuickApps
+    core: 1.x
     version: 1.0
     author: Christopher Castro <chris@quickapps.es>
 
