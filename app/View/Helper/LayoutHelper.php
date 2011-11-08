@@ -283,8 +283,8 @@ class LayoutHelper extends AppHelper {
             $this->tmp['renderedNodes'] = 1;
         }
 
-        if (empty($nodeClasses)) {
-            $nodeClasses = explode(' ', preg_replace('/\s{2,}/', ' ', $node['Node']['params']['class']));
+        if (isset($node['Node']['params']['class'])) {
+            $nodeClasses = array_merge($nodeClasses, explode(' ', preg_replace('/\s{2,}/', ' ', $node['Node']['params']['class'])));
         }
 
         $nodeClasses = array_merge(
