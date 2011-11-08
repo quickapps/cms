@@ -14,6 +14,17 @@ class ManageController extends BlockAppController {
     public $uses = array('Block.Block', 'User.Role');
 
     public function admin_index() {
+        if (isset($this->data['BlockRegion'])) {
+            foreach ($this->data['BlockRegion'] as $region_name => $block_regions) {
+                foreach ($block_regions as $i => $id) {
+                    $this->Block->BlockRegion->id = $id;
+                    $this->Block->BlockRegion->saveField('ordering', $i, false);
+                }
+            }
+
+            $this->redirect('/admin/block');
+        }
+
         $site_theme = $this->Block->find('all',
             array(
                 'conditions' => array(
@@ -46,6 +57,10 @@ class ManageController extends BlockAppController {
                 )
             )
         );
+
+        $this->Layout['javascripts']['file'][] = 'ui/jquery-ui';
+        $this->Layout['stylesheets']['all'][] = '/js/ui/css/ui-lightness/styles.css';
+        $this->Layout['stylesheets']['all'][] = '/block/css/sortable.css';
 
         $this->set('site_theme', (array)$site_theme);
         $this->set('admin_theme', (array)$admin_theme);

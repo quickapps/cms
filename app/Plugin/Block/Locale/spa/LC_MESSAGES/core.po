@@ -23,8 +23,8 @@ msgstr "Nuevo Bloque"
 msgid "Save block"
 msgstr "Guardar bloque"
 
-msgid "Unassigned"
-msgstr "No Asignados"
+msgid "Unassigned or Disabled"
+msgstr "No Asignados o Desactivados"
 
 msgid "Blocks"
 msgstr "Bloques"

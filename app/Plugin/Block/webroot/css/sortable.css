@@ -1,0 +1,6 @@
+ul.sortable, ul.not-sortable { margin-bottom:30px; }
+ul.sortable li, ul.not-sortable li { overflow:hidden; margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 0.2em; height: 18px; }
+ul.sortable { cursor:move; }
+ul.sortable li .fl, ul.not-sortable li .fl { float:left; }
+ul.sortable li .fr, ul.not-sortable li .fr { float:right; }
+ul.sortable li a:hover, ul.not-sortable li a:hover { text-decoration:underline; }
