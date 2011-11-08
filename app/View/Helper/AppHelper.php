@@ -74,7 +74,7 @@ class AppHelper extends Helper {
     public function deattachModuleHooks($plugin) {
         $Plugin = Inflector::camelize($plugin);
 
-        foreach ($this->hookObjects as $helper) {
+        foreach ($this->hookObjects as $helper => $hooks) {
             if (strpos($helper, "{$Plugin}.") === false) {
                 continue;
             }
