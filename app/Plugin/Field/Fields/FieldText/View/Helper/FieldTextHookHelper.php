@@ -91,7 +91,33 @@ class FieldTextHookHelper extends AppHelper {
     }
 
     private function __filterText($text) {
-        return $this->_View->Layout->removeHookTags(strip_tags($text));
+        return $this->_View->Layout->removeHookTags($this->__strip_html_tags($text));
+    }
+
+    private function __strip_html_tags($text, $allow) {
+        $text = preg_replace(
+            array(
+                '@<head[^>]*?>.*?</head>@siu',
+                '@<style[^>]*?>.*?</style>@siu',
+                '@<object[^>]*?.*?</object>@siu',
+                '@<embed[^>]*?.*?</embed>@siu',
+                '@<applet[^>]*?.*?</applet>@siu',
+                '@<noframes[^>]*?.*?</noframes>@siu',
+                '@<noscript[^>]*?.*?</noscript>@siu',
+                '@<noembed[^>]*?.*?</noembed>@siu',
+                '@</?((address)|(blockquote)|(center)|(del))@iu',
+                '@</?((div)|(h[1-9])|(ins)|(isindex)|(p)|(pre))@iu',
+                '@</?((dir)|(dl)|(dt)|(dd)|(li)|(menu)|(ol)|(ul))@iu',
+                '@</?((table)|(th)|(td)|(caption))@iu',
+                '@</?((form)|(button)|(fieldset)|(legend)|(input))@iu',
+                '@</?((label)|(select)|(optgroup)|(option)|(textarea))@iu',
+                '@</?((frameset)|(frame)|(iframe))@iu',
+            ),
+            array(' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',"$0", "$0", "$0", "$0", "$0", "$0","$0", "$0"), 
+            $text
+        );
+
+        return strip_tags($text, '<script>');
     }
 
     // Convert url to <a> HTML tag, also ignore URLs in existing <a> tags        
