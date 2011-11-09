@@ -43,6 +43,14 @@ class NodeType extends NodeAppModel {
         return true;
     }
 
+    public function beforeSave() {
+        if (isset($this->data['NodeType']['base'])) {
+            $this->data['NodeType']['base'] = Inflector::underscore($this->data['NodeType']['base']);
+        }
+
+        return true;
+    }
+
     public function afterSave() {
         if (isset($this->__tmp['old_id'])) {
             # update ID

@@ -71,6 +71,7 @@ class Node extends NodeAppModel {
         $this->data['Node']['roles_cache'] = !empty($roles) ? "|" . $roles . "|" : '';;
 
         if (isset($this->data['Node']['node_type_base'])) {
+            $this->data['Node']['node_type_base'] = Inflector::underscore($this->data['Node']['node_type_base']);
             $this->node_type_base = $this->data['Node']['node_type_base'];
         }
 
