@@ -2,7 +2,7 @@
 /**
  * Render Node's comments list.
  *
- * @package QuickApps.Plugin.Node.View.Elements
+ * @package QuickApps.Plugin.Node.View.Elements.node
  * @author Christopher Castro
  */
 ?>

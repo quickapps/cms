@@ -1,8 +1,9 @@
 <?php 
 /**
  * Edit form for NodeType
+ * This element is rendered by NodeHookHelper::node_form().
  *
- * @package QuickApps.Plugin.Node.View.Elements
+ * @package QuickApps.Plugin.Node.View.Elements.node
  * @author Christopher Castro
  */ 
 ?>

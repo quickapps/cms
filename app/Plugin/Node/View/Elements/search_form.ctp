@@ -1,6 +1,7 @@
 <?php 
 /**
  * Advanced search form
+ * This element is rendered as part of search result: View/Node/search.ctp
  *
  * @package QuickApps.Plugin.Node.View.Elements
  * @author Christopher Castro

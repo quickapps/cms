@@ -1,3 +1,12 @@
+<?php 
+/**
+ * Search results
+ *
+ * @package QuickApps.Plugin.Node.View
+ * @author Christopher Castro
+ */ 
+?>
+
 <?php echo $this->element('search_form'); ?>
 
 <?php

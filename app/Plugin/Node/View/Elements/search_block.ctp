@@ -1,6 +1,6 @@
 <?php 
 /**
- * Search form for block hook().
+ * This element is rendered by NodeHookHelper::node_search().
  *
  * @package QuickApps.Plugin.Node.View.Elements
  * @author Christopher Castro

@@ -1,3 +1,12 @@
+<?php 
+/**
+ * This element is rendered by NodeHookHelper::node_search_settings().
+ *
+ * @package QuickApps.Plugin.Node.View.Elements
+ * @author Christopher Castro
+ */
+?>
+
 <?php
     echo $this->Form->input('Block.settings.url_prefix',
         array(

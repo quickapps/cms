@@ -2,7 +2,7 @@
 /**
  * Render full Node details based on viewMode
  *
- * @package QuickApps.Plugin.Node.View.Elements
+ * @package QuickApps.Plugin.Node.View
  * @author Christopher Castro
  */
 ?>
