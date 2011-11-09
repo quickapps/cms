@@ -15,10 +15,12 @@ class ManageController extends BlockAppController {
 
     public function admin_index() {
         if (isset($this->data['BlockRegion'])) {
-            foreach ($this->data['BlockRegion'] as $region_name => $block_regions) {
-                foreach ($block_regions as $i => $id) {
-                    $this->Block->BlockRegion->id = $id;
-                    $this->Block->BlockRegion->saveField('ordering', $i, false);
+            foreach ($this->data['BlockRegion'] as $theme => $regions) {
+                foreach ($regions as $region_name => $block_regions) {
+                    foreach ($block_regions as $i => $id) {
+                        $this->Block->BlockRegion->id = $id;
+                        $this->Block->BlockRegion->saveField('ordering', $i, false);
+                    }
                 }
             }
 

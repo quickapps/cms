@@ -69,7 +69,7 @@
             <ul class="sortable">
                 <?php foreach ($blocks_in_region as $block): ?>
                 <li class="ui-state-default">
-                    <input type="hidden" name="data[BlockRegion][<?php echo $region; ?>][]" value="<?php echo $block['Block']['__block_region_id']; ?>" />
+                    <input type="hidden" name="data[BlockRegion][<?php echo $theme; ?>][<?php echo $region; ?>][]" value="<?php echo $block['Block']['__block_region_id']; ?>" />
 
                     <div class="fl">
                         <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
@@ -180,7 +180,7 @@
             <ul class="sortable">
                 <?php foreach ($blocks_in_region as $block): ?>
                 <li class="ui-state-default">
-                    <input type="hidden" name="data[BlockRegion][<?php echo $region; ?>][]" value="<?php echo $block['Block']['__block_region_id']; ?>" />
+                    <input type="hidden" name="data[BlockRegion][<?php echo $theme; ?>][<?php echo $region; ?>][]" value="<?php echo $block['Block']['__block_region_id']; ?>" />
 
                     <div class="fl">
                         <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>

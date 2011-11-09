@@ -148,3 +148,6 @@ msgstr "arriba"
 
 msgid "down"
 msgstr "abajo"
+
+msgid "Save all"
+msgstr "Guardar todo"
