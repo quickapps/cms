@@ -31,7 +31,7 @@ CREATE TABLE `#__aros_acos` (
   `_update` varchar(2) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
   `_delete` varchar(2) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `#__aros_acos` (
 
 LOCK TABLES `#__aros_acos` WRITE;
 /*!40000 ALTER TABLE `#__aros_acos` DISABLE KEYS */;
-INSERT INTO `#__aros_acos` VALUES (1,3,68,'1','1','1','1'),(2,2,68,'1','1','1','1'),(3,3,69,'1','1','1','1'),(4,2,69,'1','1','1','1'),(5,3,70,'1','1','1','1'),(6,2,70,'1','1','1','1'),(7,3,141,'1','1','1','1'),(8,2,142,'1','1','1','1'),(9,3,143,'1','1','1','1'),(10,2,144,'1','1','1','1'),(11,3,145,'1','1','1','1'),(12,3,146,'1','1','1','1'),(13,2,146,'1','1','1','1'),(14,2,147,'1','1','1','1'),(15,3,147,'1','1','1','1'),(16,2,148,'1','1','1','1'),(17,2,149,'1','1','1','1');
+INSERT INTO `#__aros_acos` VALUES (1,3,143,'1','1','1','1'),(2,2,144,'1','1','1','1'),(3,3,145,'1','1','1','1'),(4,2,146,'1','1','1','1'),(5,3,147,'1','1','1','1'),(6,3,148,'1','1','1','1'),(7,3,149,'1','1','1','1'),(8,2,150,'1','1','1','1'),(9,2,151,'1','1','1','1'),(10,3,72,'1','1','1','1'),(11,2,72,'1','1','1','1'),(12,2,71,'1','1','1','1'),(13,3,71,'1','1','1','1'),(14,2,70,'1','1','1','1'),(15,3,70,'1','1','1','1');
 /*!40000 ALTER TABLE `#__aros_acos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-10-30 14:46:34
+-- Dump completed on 2011-11-09 14:46:09
