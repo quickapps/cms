@@ -79,42 +79,6 @@ class ThemeDefaultHookHelper extends AppHelper {
         return $this->_View->element('theme_default_slider_settings', array('block' => $data), array('plugin' => 'ThemeDefault'));
     }
 
-/**
- * Returns formated menu
- *
- * @return string HTML
- */
-    public function theme_menu($menu) {
-        $output = '';
-
-        switch ($menu['region']) {
-            case 'main-menu':
-                $settings = array('id' => 'top-menu');
-            break;
-
-            default:
-                $settings = array();
-            break;
-        }
-
-        return $this->Menu->generate($menu, $settings);
-    }
-
-    public function theme_breadcrumb($b) {
-        $out = array();
-
-        foreach ($b as $node) {
-            $selected = $node['MenuLink']['router_path'] == str_replace($this->_View->base, '', $this->_View->here) ? 'text-decoration:underline;' : '';
-            $out[] = $this->_View->Html->link($node['MenuLink']['link_title'], $node['MenuLink']['router_path'], array('style' => $selected));
-        }
-
-        if (empty($out)) {
-            return '';
-        }
-
-        return implode(' » ', $out) . ' » ';
-    }
-
     # hookTag
     public function content_box($atts, $content=null, $code="") {
         $type = isset($atts['type']) ? $atts['type'] : 'success';
@@ -143,26 +107,5 @@ class ThemeDefaultHookHelper extends AppHelper {
         $out = "<a href=\"{$link}\" class=\"{$size}-button {$size}{$color}\" {$target}><span>{$content}</span></a>";
 
         return $out;
-    }
-
-    public function theme_block($block) {
-        $output = '';
-
-        switch ( $block['region']) {
-            case 'main-menu':
-                case 'footer':
-                    case 'slider':
-                        case 'language-switcher':
-                            case 'search':
-                                case 'user-menu':
-                $output .= "{$block['body']}";
-            break;
-
-            default:
-                $output = $this->_View->element('default_theme_block', array('block' => $block));
-            break;
-        }
-
-        return $output;
     }
 }

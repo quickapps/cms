@@ -269,7 +269,7 @@ class LayoutHelper extends AppHelper {
         $content_callback = $this->hook($callback, $node, array('collectReturn' => false));
 
         if (empty($content_callback)) {
-            $content .= $this->default_render_node($node);
+            $content .= "<h1>" . __d('system', 'The node could not be rendered') . "</h1>";
         } else {
             $content .= $content_callback;
         }
@@ -384,8 +384,7 @@ class LayoutHelper extends AppHelper {
  */
     public function breadCrumb() {
         $b = $this->_View->viewVars['breadCrumb'];
-        $crumbs = $this->hook('theme_breadcrumb', $b, array('collectReturn' => false));
-        $crumbs = empty($crumbs) ? $this->default_theme_breadcrumb($b) : $crumbs;
+        $crumbs = $this->_View->element('theme_breadcrumb', array('breadcrumb' => $b));
 
         return $crumbs;
     }
@@ -428,10 +427,22 @@ class LayoutHelper extends AppHelper {
                 $node['description'] = __t($node['description']);
             }
 
-            $output = $this->hook('theme_menu', $_subs, array('collectReturn' => false));
+            $output = $this->_View->element('theme_menu', array('menu' => $_subs));
         }
 
         return $output;
+    }
+
+/**
+ * Wrapper method to MenuHelper::generate()
+ *
+ * @see MenuHelper::generate
+ * @param array $menu Array of links to render
+ * @param array $settings Optional, customization options for menu rendering process
+ * @return string HTML rendered menu
+ */
+    public function menu($menu, $settings = array()) {
+        return $this->Menu->generate($menu, $settings);
     }
 
 /**
@@ -870,7 +881,7 @@ class LayoutHelper extends AppHelper {
             // menu block
             $block['Menu']['region'] = $region;
             $Block['title'] = empty($Block['title']) ? $block['Menu']['title'] : $Block['title'];
-            $Block['body'] = $this->hook('theme_menu', $block['Menu'], array('collectReturn' => false));
+            $Block['body'] = $this->_View->element('theme_menu', array('menu' => $block['Menu']));
             $Block['description'] = $block['Menu']['description'];
         } elseif (!empty($block['BlockCustom']['body'])) {
             // custom block
@@ -922,12 +933,7 @@ class LayoutHelper extends AppHelper {
 
         $this->hook('block_data_alter', $Block, array('collectReturn' => false)); // pass block array to modules
 
-        $out = $this->hook('theme_block', $Block, array('collectReturn' => false)); // try theme rendering
-
-        // No response from theme -> use default rendering
-        if (empty($out)) {
-            $out = $this->default_theme_block($Block);
-        }
+        $out = $this->_View->element('theme_block', array('block' => $Block)); // try theme rendering
 
         $this->hook('block_alter', $out, array('collectReturn' => false));
 
@@ -1052,23 +1058,6 @@ class LayoutHelper extends AppHelper {
         $this->hook('special_tags_alter', $text);
 
         return $text;
-    }
-
-/**
- * Default hooks, used in case of no response
- *
- * @return string HTML rendered elements
- */
-    public function default_theme_block($Block) {
-        return $this->_View->element('default_theme_block', array('block' => $Block));
-    }
-
-    public function default_theme_breadcrumb($crumb) {
-        return $this->_View->element('default_theme_breadcrumb', array('crumbs' => $crumb));
-    }
-
-    public function default_render_node($node) {
-        return $this->_View->element('default_render_node', array('node' => $node));
     }
 
 /**
