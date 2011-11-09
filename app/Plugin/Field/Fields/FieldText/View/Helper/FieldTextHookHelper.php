@@ -94,7 +94,7 @@ class FieldTextHookHelper extends AppHelper {
         return $this->_View->Layout->removeHookTags($this->__strip_html_tags($text));
     }
 
-    private function __strip_html_tags($text, $allow) {
+    private function __strip_html_tags($text) {
         $text = preg_replace(
             array(
                 '@<head[^>]*?>.*?</head>@siu',
