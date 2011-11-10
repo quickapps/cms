@@ -11,6 +11,7 @@
  * @link     http://cms.quickapps.es
  */
 class Comment extends CommentAppModel {
+    public $status = null;
     private $__nodeData = null; # tmp holder
     public $name = 'Comment';
     public $useTable = "comments";
@@ -140,7 +141,7 @@ class Comment extends CommentAppModel {
             # prepare hostname
             $this->data['Comment']['hostname'] = env('REMOTE_ADDR');
         }
-
+        $this->status = $this->data['Comment']['status'];
         $r = $this->hook('comment_before_save', $this, array('collectReturn' => true, 'break' => true, 'breakOn' => false));
 
         return !in_array(false, (array)$r, true);

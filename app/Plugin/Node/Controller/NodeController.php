@@ -148,7 +148,7 @@ class NodeController extends NodeAppController {
             $data['Comment']['node_id'] = $result['Node']['id'];
 
             if ($this->Comment->save($data)) {
-                if (!$this->Comment->data['Comment']['status']) {
+                if (!$this->Comment->status) {
                     $this->flashMsg(__d('comment', 'Your comment has been queued for review by site administrators and will be published after approval.'), 'alert');
                 } else {
                     $this->flashMsg(__d('comment', 'Your comment has been posted.'), 'success');
