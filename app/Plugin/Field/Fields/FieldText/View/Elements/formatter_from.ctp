@@ -7,9 +7,9 @@
             'label' => false,
             'type' => 'select',
             'options' => array(
-                'full' => __t('Full'),
-                'plain' => __t('Plain'),
-                'trimmed' => __t('Trimmed')
+                'full' => __d('field_text', 'Full'),
+                'plain' => __d('field_text', 'Plain'),
+                'trimmed' => __d('field_text', 'Trimmed')
             ),
             'empty' => false,
             'escape' => false,
@@ -23,7 +23,7 @@
         echo $this->Form->input("Field.settings.display.{$view_mode}.trim_length",
             array(
                 'type' => 'text',
-                'label' => __d('field_text', "Trim length or read-more-cutter")
+                'label' => __d('field_text', 'Trim length or read-more-cutter')
             )
         );
     ?>

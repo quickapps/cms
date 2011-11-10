@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-01 00:00+0100\n"
+"POT-Creation-Date: 2011-11-10 16:54+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christopher Castro <chris@quickapps.es>\n"
 "Language-Team: \n"
@@ -13,6 +13,119 @@ msgstr ""
 "X-Poedit-KeywordsList: __t;__\n"
 "X-Poedit-Basepath: ../../../\n"
 "X-Poedit-SearchPath-0: .\n"
+
+#: Controller/ListController.php:20
+msgid "Unpublished comments"
+msgstr "Comentarios no publicados"
+
+#: Controller/ListController.php:24
+msgid "Published comments"
+msgstr "Comentarios publicados"
+
+#: Controller/ListController.php:61
+#: Controller/ListController.php:70
+msgid "Comments"
+msgstr "Comentarios"
+
+#: Controller/ListController.php:71
+msgid "Comment details"
+msgstr "Detalle de comentario"
+
+#: Controller/ListController.php:72
+msgid "Comment Details"
+msgstr "Detalle de Comentario"
+
+#: Model/Comment.php:85
+#: Model/Comment.php:96
+msgid "Anonymous"
+msgstr "Anónimo"
+
+#: View/Elements/toolbar.ctp:3
+msgid "Published"
+msgstr "Publicados"
+
+#: View/Elements/toolbar.ctp:4
+#, php-format
+msgid "Unpublished (%s)"
+msgstr "No publicados (%s)"
+
+#: View/List/admin_show.ctp:9
+#: View/List/admin_view.ctp:17
+msgid "Subject"
+msgstr "Asunto"
+
+#: View/List/admin_show.ctp:13
+msgid "Author"
+msgstr "Autor"
+
+#: View/List/admin_show.ctp:17
+msgid "Posted in"
+msgstr "Publicado en"
+
+#: View/List/admin_show.ctp:21
+msgid "Posted on"
+msgstr "Publicado el"
+
+#: View/List/admin_show.ctp:22
+msgid "Y/m/d - H:i"
+msgstr "d/m/Y - H:i"
+
+#: View/List/admin_show.ctp:26
+msgid "There are no comments to display"
+msgstr "No hay comentarios para mostrar"
+
+#: View/List/admin_show.ctp:33
+msgid "Are you sure ?"
+msgstr "Está seguro ?"
+
+#: View/List/admin_show.ctp:35
+msgid "Update Options"
+msgstr "Opciones de Modificación"
+
+#: View/List/admin_show.ctp:39
+msgid "Approve selected comments"
+msgstr "Aprobar comentarios sleccioandos"
+
+#: View/List/admin_show.ctp:40
+msgid "Unapprove selected comments"
+msgstr "No aprobar comentarios sleccioandos"
+
+#: View/List/admin_show.ctp:41
+msgid "Delete selected comments"
+msgstr "Eliminar comentarios seleccionados"
+
+#: View/List/admin_show.ctp:58
+msgid "Update"
+msgstr "Modificar"
+
+#: View/List/admin_view.ctp:3
+msgid "Published in content"
+msgstr "Publicado en contenido"
+
+#: View/List/admin_view.ctp:4
+msgid "Published by"
+msgstr "Publicado por"
+
+#: View/List/admin_view.ctp:14
+msgid "M d, Y H:i"
+msgstr "d \\d\\e M, Y H:i"
+
+#: View/List/admin_view.ctp:14
+#, php-format
+msgid "on %s"
+msgstr "el %s"
+
+#: View/List/admin_view.ctp:15
+msgid "Hostname"
+msgstr "Nombre de host"
+
+#: View/List/admin_view.ctp:16
+msgid "Web page"
+msgstr "Página web"
+
+#: View/List/admin_view.ctp:18
+msgid "Message"
+msgstr "Mensaje"
 
 msgid "Allows users to comment on and discuss published content."
 msgstr "Permite a los usuarios comentar y discutir contenidos publicados."
@@ -35,83 +148,11 @@ msgstr "Comentario *"
 msgid "Add new comment"
 msgstr "Nuevo comentario"
 
-msgid "Comments"
-msgstr "Comentarios"
-
 msgid "said on %s"
 msgstr "dijo el %s"
 
 msgid "Quote"
 msgstr "Citar"
-
-msgid "Published comments"
-msgstr "Comentarios publicados"
-
-msgid "Published"
-msgstr "Publicados"
-
-msgid "Unpublished (%s)"
-msgstr "No publicados (%s)"
-
-msgid "Update Options"
-msgstr "Opciones de Modificación"
-
-msgid "Unapprove selected comments"
-msgstr "No aprobar comentarios sleccioandos"
-
-msgid "Approve selected comments"
-msgstr "Aprobar comentarios sleccioandos"
-
-msgid "Delete selected comments"
-msgstr "Eliminar comentarios seleccionados"
-
-msgid "Update"
-msgstr "Modificar"
-
-msgid "Subject"
-msgstr "Asunto"
-
-msgid "Author"
-msgstr "Autor"
-
-msgid "Posted in"
-msgstr "Publicado en"
-
-msgid "Posted on"
-msgstr "Publicado el"
-
-msgid "There are no comments to display"
-msgstr "No hay comentarios para mostrar"
-
-msgid "Are you sure ?"
-msgstr "Está seguro ?"
-
-msgid "Comment Details"
-msgstr "Detalle de Comentario"
-
-msgid "Comment details"
-msgstr "Detalle de comentario"
-
-msgid "Published in content"
-msgstr "Publicado en contenido"
-
-msgid "Published by"
-msgstr "Publicado por"
-
-msgid "Hostname"
-msgstr "Nombre de host"
-
-msgid "Web page"
-msgstr "Página web"
-
-msgid "Message"
-msgstr "Mensaje"
-
-msgid "on %s"
-msgstr "el %s"
-
-msgid "M d, Y H:i"
-msgstr "d \\d\\e M, Y H:i"
 
 msgid "Quoting"
 msgstr "Citando"

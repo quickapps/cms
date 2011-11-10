@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-11-10 16:56+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Christopher Castro <chris@quickapps.es>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Country: SPAIN\n"
+"X-Poedit-KeywordsList: __t;__\n"
+"X-Poedit-Basepath: ../../../\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid "Default"
+msgstr "Descripción"
+
+msgid "Key"
+msgstr "Eliminar"
+
+msgid "List Type"
+msgstr "Adjuntos"
+
+msgid "Options"
+msgstr "Tamaño"
+
+msgid "The possible values this field can contain. Enter one value per line, in the format <b>key|label</b>."
+msgstr "Los posibles valores que el campo puede contener. Ingrese un valor por linea, en el formato <b>clave|Etiqueta</b>"
+
+msgid "The key is the stored value. The label will be used in displayed values and edit forms."
+msgstr "La clave es el valor almacenado. La etiqueta se utilizará para los valores mostrados y formularios de edición."
+
+msgid "The label is optional: if a line contains a single string, it will be used as key and label."
+msgstr "La etiqueta es opcional: si una linea contiene una sola cadena de texto, se utilizará como clave y etiqueta."

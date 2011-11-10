@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-01 00:00+0100\n"
+"POT-Creation-Date: 2011-11-10 16:56+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christopher Castro <chris@quickapps.es>\n"
 "Language-Team: \n"
@@ -13,6 +13,18 @@ msgstr ""
 "X-Poedit-KeywordsList: __t;__\n"
 "X-Poedit-Basepath: ../../../\n"
 "X-Poedit-SearchPath-0: .\n"
+
+#: View/Elements/formatter_from.ctp:8
+msgid "Link to file"
+msgstr "Link a fichero"
+
+#: View/Elements/formatter_from.ctp:9
+msgid "Table of Files"
+msgstr "Tabla de Ficheros"
+
+#: View/Elements/formatter_from.ctp:10
+msgid "File URL"
+msgstr "URL de Fichero"
 
 msgid "Files must be less than <b>%sB</b>."
 msgstr "Archivos deben menores a <b>%sB</b>."

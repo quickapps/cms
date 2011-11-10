@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-01 00:00+0100\n"
+"POT-Creation-Date: 2011-11-10 17:50+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christopher Castro <chris@quickapps.es>\n"
 "Language-Team: \n"
@@ -13,6 +13,360 @@ msgstr ""
 "X-Poedit-KeywordsList: __t;__\n"
 "X-Poedit-Basepath: ../../../\n"
 "X-Poedit-SearchPath-0: .\n"
+
+#: Controller/ConfigurationController.php:37
+msgid "Configuration has been saved."
+msgstr "Configuración guardada."
+
+#: Controller/ConfigurationController.php:40
+msgid "Configuration could not be saved. Please, try again."
+msgstr "No se puedo guardar la configuración. Por favor, intente otra vez."
+
+#: Controller/HelpController.php:29
+msgid "Help"
+msgstr "Ayuda"
+
+#: Controller/ModulesController.php:36
+msgid "Module changes has been saved!"
+msgstr "Módulo modificado correctamente!"
+
+#: Controller/ModulesController.php:46
+msgid "Settings"
+msgstr "Configurar"
+
+#: Controller/ModulesController.php:47
+msgid "Configure Module"
+msgstr "Configurar Módulo"
+
+#: Controller/ModulesController.php:64
+#, php-format
+msgid "Module '%s' has been enabled"
+msgstr "El módulo '%s' ha sido habilitado"
+
+#: Controller/ModulesController.php:75
+#, php-format
+msgid "This module can not be disabled, because it is required by: %s"
+msgstr "Este módulo no se puede deshabilitar, porque es requerido por: %s"
+
+#: Controller/ModulesController.php:78
+#, php-format
+msgid "Module '%s' has been disabled"
+msgstr "El módulo '%s' ha sido deshabilitado"
+
+#: Controller/ModulesController.php:131
+#, php-format
+msgid "This module can not be uninstalled, because it is required by: %s"
+msgstr "Este módulo no puede ser desinstalado, porque es requerido por: %s"
+
+#: Controller/ModulesController.php:136
+#, php-format
+msgid "Module '%s' has been uninstalled"
+msgstr "El módulo '%s' ha sido desinstalado"
+
+#: Controller/ModulesController.php:141
+#, php-format
+msgid "Error uninstalling module '%s'"
+msgstr "Error al desinstalar el módulo '%s'"
+
+#: Controller/ModulesController.php:156
+msgid "Module has been installed"
+msgstr "El módulo ha sido instalado"
+
+#: Controller/ThemesController.php:58
+msgid "Theme settings"
+msgstr "Configuración de theme"
+
+#: Controller/ThemesController.php:59
+msgid "Configure Theme"
+msgstr "Configurar Theme"
+
+#: Controller/ThemesController.php:68
+#, php-format
+msgid "Theme '%s' has been uninstalled"
+msgstr "El theme '%s' ha sido desinstalado"
+
+#: Controller/ThemesController.php:72
+#, php-format
+msgid "Error uninstalling theme '%s'"
+msgstr "Error al desinstalar el theme '%s'"
+
+#: Controller/ThemesController.php:86
+msgid "Theme could not been installed"
+msgstr "No se puedo instalar el tema"
+
+#: Controller/ThemesController.php:88
+msgid "Theme has been installed"
+msgstr "El theme ha sido instalado"
+
+#: View/Helper/SystemHookHelper.php:16
+#, php-format
+msgid "Powered by &copy; QuickApps v%s beta"
+msgstr ""
+
+#: View/Helper/SystemHookHelper.php:32
+msgid "Recent Content"
+msgstr "Contenidos Recientes"
+
+#: View/Configuration/admin_index.ctp:3
+msgid "Site information"
+msgstr "Información del sitio"
+
+#: View/Configuration/admin_index.ctp:4
+msgid "Site details"
+msgstr "Detalles del sitio"
+
+#: View/Configuration/admin_index.ctp:5
+msgid "Site online"
+msgstr "Sitio en línea"
+
+#: View/Configuration/admin_index.ctp:7
+msgid "Site name *"
+msgstr "Nombre del sitio *"
+
+#: View/Configuration/admin_index.ctp:9
+msgid "Slogan"
+msgstr "Eslogan"
+
+#: View/Configuration/admin_index.ctp:10
+msgid "How this is used depends on your site's theme."
+msgstr "Su utilización depende del theme de su sitio."
+
+#: View/Configuration/admin_index.ctp:12
+msgid "Description"
+msgstr "Descripción"
+
+#: View/Configuration/admin_index.ctp:13
+msgid "A brief description about your site, this will be used as default meta-description in layout."
+msgstr "Una breve descripción sobre su sitio, será utilizado como meta-description por defecto."
+
+#: View/Configuration/admin_index.ctp:15
+msgid "E-mail address *"
+msgstr "Dirección E-mail *"
+
+#: View/Configuration/admin_index.ctp:16
+msgid "The From address in automated e-mails sent during registration and new password requests, and other notifications. (Use an address ending in your site's domain to help prevent this e-mail being flagged as spam.)"
+msgstr "La dirección 'DE' en los envios de e-mails automatizados como solicitudes de registro, recuperación de contraseñas y otras notificaciones. (Utilice una dirección acabada en el dominio de su sitio para evitar que los e-mails sean marcados como SPAM)"
+
+#: View/Configuration/admin_index.ctp:18
+msgid "No"
+msgstr "No"
+
+#: View/Configuration/admin_index.ctp:18
+msgid "Yes"
+msgstr "Si"
+
+#: View/Configuration/admin_index.ctp:18
+msgid "Site under maintenance"
+msgstr "Sitio bajo mantenimiento"
+
+#: View/Configuration/admin_index.ctp:20
+msgid "Maintenance message"
+msgstr "Mensaje de mantenimiento"
+
+#: View/Configuration/admin_index.ctp:24
+msgid "Front page"
+msgstr "Portada"
+
+#: View/Configuration/admin_index.ctp:25
+msgid "Number of posts on front page"
+msgstr "Número de publicaciones en portada"
+
+#: View/Configuration/admin_index.ctp:26
+msgid "The maximum number of posts displayed on overview pages such as the front page."
+msgstr "El número máximo de nodos mostrado en listados como por ejemplo la portada."
+
+#: View/Configuration/admin_index.ctp:28
+msgid "Default front page"
+msgstr "Portada por defecto"
+
+#: View/Configuration/admin_index.ctp:29
+msgid "Optionally, specify a relative URL to display as the front page. Leave blank to display the default content feed"
+msgstr "Opcional, indique una URL relativa al sitio para mostrar como portada. Déjelo en blanco para mostrar los nodos destacados en portada"
+
+#: View/Configuration/admin_index.ctp:32
+msgid "Regional settings"
+msgstr "Opciones Regionales"
+
+#: View/Configuration/admin_index.ctp:34
+msgid "Default language"
+msgstr "Lenguaje por defecto"
+
+#: View/Configuration/admin_index.ctp:36
+msgid "Default time zone"
+msgstr "Zona horaria por defecto"
+
+#: View/Configuration/admin_index.ctp:39
+msgid "Users settings"
+msgstr "Parámetros de usuarios"
+
+#: View/Configuration/admin_index.ctp:40
+msgid "Default avatar"
+msgstr "Avatar por defecto"
+
+#: View/Configuration/admin_index.ctp:41
+msgid "URL of picture to display for users with no custom picture selected or anonymous users. Leave empty to use <a href='http://www.gravatar.com'>Gravatar</a> based on user's email."
+msgstr "URL de la imágen a mostrar para usuarios sin avatar personalizado o usuarios anónimos. Dejar en blanco para utilizar <a href='http://www.gravatar.com'>Gravatar</a> basado en email de usuario."
+
+#: View/Configuration/admin_index.ctp:59
+msgid "Other module settings"
+msgstr "Otros parámetros de módulos"
+
+#: View/Configuration/admin_index.ctp:67
+msgid "Save all"
+msgstr "Guardar todo"
+
+#: View/Elements/system_recent_content.ctp:5
+msgid "edit"
+msgstr "editar"
+
+#: View/Help/admin_index.ctp:1
+msgid "Help topics"
+msgstr "Temas de ayuda"
+
+#: View/Help/admin_index.ctp:2
+msgid "Help is available on the following items"
+msgstr "La ayuda está disponible para los siguientes elementos"
+
+#: View/Modules/admin_index.ctp:8
+msgid "Install New Module"
+msgstr "Instalar Nuevo Módulo"
+
+#: View/Modules/admin_index.ctp:14
+#: View/Themes/admin_index.ctp:8
+msgid "Package"
+msgstr "Paquete"
+
+#: View/Modules/admin_index.ctp:21
+msgid "Activate after install"
+msgstr "Activar tras instalar"
+
+#: View/Modules/admin_index.ctp:26
+#: View/Themes/admin_index.ctp:13
+msgid "Install"
+msgstr "Instalar"
+
+#: View/Modules/admin_index.ctp:43
+msgid "Dependencies"
+msgstr "Dependencias"
+
+#: View/Modules/admin_index.ctp:56
+msgid "Disable"
+msgstr "Desactivar"
+
+#: View/Modules/admin_index.ctp:56
+msgid "Enable"
+msgstr "Activar"
+
+#: View/Modules/admin_index.ctp:60
+msgid "Delete selected module ? This change cant be undone!"
+msgstr "Eliminar el módulo seleccionado ? Esta operación no puede ser revertida!"
+
+#: View/Modules/admin_index.ctp:60
+#: View/Themes/admin_index.ctp:47
+msgid "Uninstall"
+msgstr "Desinstalar"
+
+#: View/Modules/admin_index.ctp:76
+#: View/Themes/admin_index.ctp:98
+msgid "Invalid package"
+msgstr "Paquete inválido"
+
+#: View/Themes/admin_index.ctp:3
+msgid "Install New Theme"
+msgstr "Instalar un nuevo tema"
+
+#: View/Themes/admin_index.ctp:20
+msgid "Frontend themes"
+msgstr "Themes principales"
+
+#: View/Themes/admin_index.ctp:40
+#: View/Themes/admin_index.ctp:79
+#, php-format
+msgid "<b>version:</b> %s"
+msgstr "<b>versión:</b> %s"
+
+#: View/Themes/admin_index.ctp:41
+#: View/Themes/admin_index.ctp:80
+#, php-format
+msgid "author: %s"
+msgstr "autor: %s"
+
+#: View/Themes/admin_index.ctp:45
+msgid "Change site theme, are you sure ?"
+msgstr "¿Cambiar el theme del sitio, seguro?"
+
+#: View/Themes/admin_index.ctp:45
+#: View/Themes/admin_index.ctp:84
+msgid "Set as default"
+msgstr "Utilizar"
+
+#: View/Themes/admin_index.ctp:47
+msgid ""
+"Delete selected theme ?\\n"
+"This operation can be undone!"
+msgstr ""
+"¿Eliminar el theme seleccionado?\\n"
+"Esta operación no se puede revertir!"
+
+#: View/Themes/admin_index.ctp:50
+#: View/Themes/admin_index.ctp:86
+msgid "Configure"
+msgstr "Configurar"
+
+#: View/Themes/admin_index.ctp:60
+msgid "Backend themes"
+msgstr "Themes de gestión"
+
+#: View/Themes/admin_index.ctp:84
+msgid "Change administrator theme, are you sure ?\\n"
+msgstr "¿Cambiar el theme de administración, seguro?\\n"
+
+#: View/Themes/admin_settings.ctp:7
+#, php-format
+msgid "\"%s\" Theme"
+msgstr "Tema \"%s\""
+
+#: View/Themes/admin_settings.ctp:12
+msgid "Toggle display"
+msgstr "Opciones de visualización"
+
+#: View/Themes/admin_settings.ctp:13
+#: View/Themes/admin_settings.ctp:19
+msgid "Logo"
+msgstr "Logo"
+
+#: View/Themes/admin_settings.ctp:14
+msgid "Site name"
+msgstr "Nombre del sitio"
+
+#: View/Themes/admin_settings.ctp:15
+msgid "Site slogan"
+msgstr "Eslogan del sitio"
+
+#: View/Themes/admin_settings.ctp:16
+#: View/Themes/admin_settings.ctp:24
+msgid "Shortcut icon"
+msgstr "Favicon"
+
+#: View/Themes/admin_settings.ctp:20
+msgid "Logo image URL"
+msgstr "URL de imágen del logo"
+
+#: View/Themes/admin_settings.ctp:21
+msgid "Leave blank for use default logo."
+msgstr "Dejar en blanco para usar el logo por defecto."
+
+#: View/Themes/admin_settings.ctp:25
+msgid "Shortcut icon URL"
+msgstr "URL de favicon"
+
+#: View/Themes/admin_settings.ctp:26
+msgid "Leave blank for use default favicon."
+msgstr "Dejar en blanco para usar el favicon por defecto."
+
+#: View/Themes/admin_settings.ctp:29
+msgid "Save"
+msgstr "Guardar"
 
 msgid "System Kernel."
 msgstr "Núcleo del sistema."
@@ -33,163 +387,10 @@ msgid "Menus"
 msgstr "Menus"
 
 msgid "Add new menus to your site, edit existing menus, and rename and reorganize menu links."
-msgstr "Agrege nuevos menus a su sitio, edite menus ya existentes, y renombre y reorganice los vínculos de sus menus."
+msgstr "Agrege nuevos menús a su sitio, edite menús ya existentes o renombre y reorganice los vínculos de sus menús."
 
 msgid "Taxonomy"
 msgstr "Taxonomía"
 
 msgid "Manage tagging, categorization, and classification of your content."
 msgstr "Gestión de etiquetado, categorización, y clasificación de su contenido."
-
-msgid "Install New Module"
-msgstr "Instalar Nuevo Módulo"
-
-msgid "Site information"
-msgstr "Información del sitio"
-
-msgid "Site name *"
-msgstr "Nombre del sitio *"
-
-msgid "Slogan"
-msgstr "Eslogan"
-
-msgid "Description"
-msgstr "Descripción"
-
-msgid "A brief description about your site, this will be used as default meta-description in layout."
-msgstr "Una breve descripción sobre su sitio, será utilizado como meta-description por defecto."
-
-msgid "How this is used depends on your site's theme."
-msgstr "Su utilización depende del theme de su sitio."
-
-msgid "E-mail address *"
-msgstr "Dirección E-mail *"
-
-msgid "The From address in automated e-mails sent during registration and new password requests, and other notifications. (Use an address ending in your site's domain to help prevent this e-mail being flagged as spam.)"
-msgstr "La dirección 'DE' en los envios de e-mails automatizados como solicitudes de registro, recuperación de contraseñas y otras notificaciones. (Utilice una dirección acabada en el dominio de su sitio para evitar que los e-mails sean marcados como SPAM)"
-
-msgid "Front page"
-msgstr "Portada"
-
-msgid "Number of posts on front page"
-msgstr "Número de publicaciones en portada"
-
-msgid "The maximum number of posts displayed on overview pages such as the front page."
-msgstr "El número máximo de nodos mostrado en listados como por ejemplo la portada."
-
-msgid "Default front page"
-msgstr "Portada por defecto"
-
-msgid "Optionally, specify a relative URL to display as the front page. Leave blank to display the default content feed"
-msgstr "Opcional, indique una URL relativa al sitio para mostrar como portada. Déjelo en blanco para mostrar los nodos destacados en portada"
-
-msgid "Regional settings"
-msgstr "Opciones Regionales"
-
-msgid "Default language"
-msgstr "Lenguaje por defecto"
-
-msgid "Default time zone"
-msgstr "Zona horaria por defecto"
-
-msgid "Users settings"
-msgstr "Parámetros de usuarios"
-
-msgid "Default avatar"
-msgstr "Avatar por defecto"
-
-msgid "URL of picture to display for users with no custom picture selected or anonymous users. Leave empty to use <a href='http://www.gravatar.com'>Gravatar</a> based on user's email."
-msgstr "URL de la imágen a mostrar para usuarios sin avatar personalizado o usuarios anónimos. Dejar en blanco para utilizar <a href='http://www.gravatar.com'>Gravatar</a> basado en email de usuario."
-
-msgid "Help topics"
-msgstr "Temas de ayuda"
-
-msgid "Help is available on the following items"
-msgstr "La ayuda está disponible para los siguientes elementos"
-
-msgid "Recent Content"
-msgstr "Contenidos Recientes"
-
-msgid "Package"
-msgstr "Paquete"
-
-msgid "Install"
-msgstr "Instalar"
-
-msgid "Frontend themes"
-msgstr "Themes principales"
-
-msgid "Backend themes"
-msgstr "Themes de gestión"
-
-msgid "Configure"
-msgstr "Configurar"
-
-msgid "Set as default"
-msgstr "Utilizar"
-
-msgid "Site details"
-msgstr "Detalles del sitio"
-
-msgid "Save all"
-msgstr "Guardar todo"
-
-msgid "Other module settings"
-msgstr "Otros parámetros de módulos"
-
-msgid "Install New Theme"
-msgstr "Instalar un nuevo tema"
-
-msgid "Theme could not been installed"
-msgstr "No se puedo instalar el tema"
-
-msgid "Leave blank for use default logo."
-msgstr "Dejar en blanco para usar el logo por defecto."
-
-msgid "Leave blank for use default favicon."
-msgstr "Dejar en blanco para usar el favicon por defecto."
-
-msgid "\"%s\" Theme"
-msgstr "Tema \"%s\""
-
-msgid "Toggle display"
-msgstr "Opciones de visualización"
-
-msgid "Logo"
-msgstr "Logo"
-
-msgid "Site name"
-msgstr "Nombre del sitio"
-
-msgid "Site slogan"
-msgstr "Eslogan del sitio"
-
-msgid "Shortcut icon"
-msgstr "Favicon"
-
-msgid "Logo image URL"
-msgstr "URL de imágen del logo"
-
-msgid "Shortcut icon URL"
-msgstr "URL de favicon"
-
-msgid "Enable"
-msgstr "Activar"
-
-msgid "Disable"
-msgstr "Desactivar"
-
-msgid "Settings"
-msgstr "Configurar"
-
-msgid "Uninstall"
-msgstr "Desinstalar"
-
-msgid "Dependencies"
-msgstr "Dependencias"
-
-msgid "Delete selected module ? This change cant be undone!"
-msgstr "Eliminar el módulo seleccionado ? Esta operación no puede ser revertida!"
-
-msgid "Activate after install"
-msgstr "Activar tras instalar"

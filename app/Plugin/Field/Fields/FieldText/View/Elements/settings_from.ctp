@@ -3,7 +3,10 @@
     echo $this->Form->input("Field.settings.type",
         array(
             'type' => 'select',
-            'options' => array('text' => __t('Text field'), 'textarea' => __d('field_text', 'Long text')),
+            'options' => array(
+                'text' => __d('field_text', 'Text field'), 
+                'textarea' => __d('field_text', 'Long text')
+            ),
             'label' => __d('field_text', 'Type of content')
         )
     );
