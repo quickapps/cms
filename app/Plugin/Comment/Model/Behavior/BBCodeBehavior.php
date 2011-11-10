@@ -83,6 +83,7 @@ class BBCodeBehavior extends ModelBehavior {
         );
 
         $string = $bbcode->Parse($string);
+
         return $string;
     }
 }
@@ -94,7 +95,9 @@ function videoTag($bbcode, $action, $name, $default, $params, $content) {
 
     if ($action == BBCODE_OUTPUT) {
         preg_match('/<a href\=\"(.*)\">(.*)<\/a>/', $content, $matches);
+
         $videourl = parse_url($matches[1]);
+
         parse_str($videourl['query'], $videoquery);
 
         if (strpos($videourl['host'], 'youtube.com') !== false) {
