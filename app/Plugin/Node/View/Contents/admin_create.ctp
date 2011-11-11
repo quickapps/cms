@@ -14,7 +14,7 @@
         $menu['region']        = 'content';
         $menu['id']            = 'nodeTypesMenu';
 
-        echo $this->Layout->hook('theme_menu', $menu);
+        echo $this->element('theme_menu', array('menu' => $menu));
     else:
 ?>
 
