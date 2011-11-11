@@ -884,6 +884,10 @@ class InstallerComponent extends Component {
         $Folder = new Folder($src);
         $files = $Folder->findRecursive();
 
+        if (!is_writable($dst)) {
+            $this->errors[] = __t('path: %s, not writable', $dst);
+        }
+
         foreach ($files as $file) {
             $file = str_replace($this->options['__packagePath'], '', $file);
             $file_dst = str_replace(DS . DS, DS, $dst . DS . $file);
