@@ -398,9 +398,16 @@ class QuickAppsComponent extends Component {
     public function setTimeZone() {
         date_default_timezone_set(Configure::read('Variable.date_default_timezone'));
 
+        $offset = 0;
         $tz = $this->loggedIn() ? $this->Controller->Session->read('Auth.User.timezone') : Configure::read('Variable.date_default_timezone');
-        $timezone = new DateTimeZone($tz);
-        $offset = $timezone->getOffset(new DateTime);
+        $tz = empty($tz) ? 'GMT' : $tz;
+
+        try {
+            $timezone = new DateTimeZone($tz);
+            $offset = $timezone->getOffset(new DateTime);
+        } catch(Exception $error) {
+            LogError($error->getMessage());
+        }
 
         Configure::write('Variable.timezone', $offset / 60 / 60);
     }
