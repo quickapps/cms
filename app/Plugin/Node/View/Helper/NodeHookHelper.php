@@ -57,11 +57,11 @@ class NodeHookHelper extends AppHelper {
 
     # edit/add form (node type: Custom types)
     public function node_form($data) {
-        return $this->_View->element('node' . DS . 'edit', array('data' => $data), array('plugin' => 'Node'));
+        return $this->_View->element('theme_node_edit', array('data' => $data));
     }
 
     # rendering (node type: Custom types) /node/details/
     public function node_render($node) {
-        return $this->_View->element('node' . DS . 'node', array('node' => $node), array('plugin' => 'Node'));
+        return $this->_View->element('theme_node', array('node' => $node));
     }
 }

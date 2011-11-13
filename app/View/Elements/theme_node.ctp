@@ -3,7 +3,7 @@
  * Render Node details for NodeType 'Basic Page' (page).
  * This element is rendered by NodeHookHelper::node_render().
  *
- * @package QuickApps.Plugin.Node.View.Elements.node
+ * @package QuickApps.View.Elements
  * @author Christopher Castro
  */
 ?>
