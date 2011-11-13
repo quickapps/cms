@@ -14,11 +14,11 @@
             $options['required'] = 'required';
         }
 
-        echo $this->Form->input("FieldData.field_text.{$data['id']}.data", $options);
-        echo $this->Form->hidden("FieldData.field_text.{$data['id']}.id", array('value' => null));
+        echo $this->Form->input("FieldData.FieldText.{$data['id']}.data", $options);
+        echo $this->Form->hidden("FieldData.FieldText.{$data['id']}.id", array('value' => null));
     } else {
-        if (isset($this->data['FieldData']['field_text'][$data['id']]['data'])) {
-            $value = $this->data['FieldData']['field_text'][$data['id']]['data'];
+        if (isset($this->data['FieldData']['FieldText'][$data['id']]['data'])) {
+            $value = $this->data['FieldData']['FieldText'][$data['id']]['data'];
         } else {
             $value = @$data['FieldData']['data'];
         }
@@ -35,8 +35,8 @@
         }
 
         $data['FieldData'] = array_merge(array('id' => null, 'field_id' => null, 'foreignKey' => null, 'belongsTo' => null, 'data' => ''), $data['FieldData']);
-        echo $this->Form->input("FieldData.field_text.{$data['id']}.data", $options);
-        echo $this->Form->hidden("FieldData.field_text.{$data['id']}.id", array('value' => $data['FieldData']['id']));
+        echo $this->Form->input("FieldData.FieldText.{$data['id']}.data", $options);
+        echo $this->Form->hidden("FieldData.FieldText.{$data['id']}.id", array('value' => $data['FieldData']['id']));
     }
 
 ?>

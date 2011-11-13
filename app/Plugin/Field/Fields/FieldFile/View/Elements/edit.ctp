@@ -59,9 +59,9 @@
     $uploaded_path = '[]';
 
     # form realoaded by validation error
-    if (isset($this->data['FieldData']['field_file'][$data['id']]['data']['files'])) {
-        $uploaded_path = $this->data['FieldData']['field_file'][$data['id']]['uploaded_path'];
-        $data['FieldData']['data']['files'] = $this->data['FieldData']['field_file'][$data['id']]['data']['files'];
+    if (isset($this->data['FieldData']['FieldFile'][$data['id']]['data']['files'])) {
+        $uploaded_path = $this->data['FieldData']['FieldFile'][$data['id']]['uploaded_path'];
+        $data['FieldData']['data']['files'] = $this->data['FieldData']['FieldFile'][$data['id']]['data']['files'];
     }
 
     echo '<ul class="files-list">';
@@ -92,16 +92,16 @@
         <div class="submit"><input type="button" value="<?php echo __d('field_file', 'Remove'); ?>" onClick="QuickApps.field_file.remove('FieldDataFieldFile<?php echo $data['id']; ?>_<?php echo $uid; ?>'); return false;" /></div>
 
         <?php
-            echo $this->Form->hidden("FieldData.field_file.{$data['id']}.data.files.{$key}.mime_icon", array('class' => 'mime_icon', 'value' => $file['mime_icon'])) . "\n";
-            echo "\t" . $this->Form->hidden("FieldData.field_file.{$data['id']}.data.files.{$key}.file_name", array('class' => 'file_name', 'value' => $file['file_name'])) . "\n";
-            echo "\t" . $this->Form->hidden("FieldData.field_file.{$data['id']}.data.files.{$key}.file_size", array('class' => 'file_size', 'value' => $file['file_size'])) . "\n";
+            echo $this->Form->hidden("FieldData.FieldFile.{$data['id']}.data.files.{$key}.mime_icon", array('class' => 'mime_icon', 'value' => $file['mime_icon'])) . "\n";
+            echo "\t" . $this->Form->hidden("FieldData.FieldFile.{$data['id']}.data.files.{$key}.file_name", array('class' => 'file_name', 'value' => $file['file_name'])) . "\n";
+            echo "\t" . $this->Form->hidden("FieldData.FieldFile.{$data['id']}.data.files.{$key}.file_size", array('class' => 'file_size', 'value' => $file['file_size'])) . "\n";
         ?>
 
     </div>
 
 <?php
         if (isset($data['settings']['description']) && $data['settings']['description']) {
-            echo $this->Form->input("FieldData.field_file.{$data['id']}.data.files.{$key}.description", array('value' => @$file['description']));
+            echo $this->Form->input("FieldData.FieldFile.{$data['id']}.data.files.{$key}.description", array('value' => @$file['description']));
         }
 
         echo '</li>';
@@ -109,8 +109,8 @@
 
     echo '</ul>';
 
-    echo $this->Form->hidden("FieldData.field_file.{$data['id']}.id", array('value' => @$data['FieldData']['id']));
-    echo $this->Form->hidden("FieldData.field_file.{$data['id']}.uploaded_path", array('value' => $uploaded_path));
+    echo $this->Form->hidden("FieldData.FieldFile.{$data['id']}.id", array('value' => @$data['FieldData']['id']));
+    echo $this->Form->hidden("FieldData.FieldFile.{$data['id']}.uploaded_path", array('value' => $uploaded_path));
 
     $show_uploader = (
         !count($data['FieldData']['data']['files']) || 
@@ -119,7 +119,7 @@
 ?>
 
     <div class="uploader <?php echo $multi ? 'multi-upload' : 'single-upload'; ?>" style="<?php echo $show_uploader ? '' : 'display:none;'; ?>">
-        <?php echo $this->Form->input("FieldData.field_file.{$data['id']}.uploader", array('type' => 'file', 'label' => false)); ?>
+        <?php echo $this->Form->input("FieldData.FieldFile.{$data['id']}.uploader", array('type' => 'file', 'label' => false)); ?>
         <em><?php echo __d('field_file', 'Files must be less than <b>%sB</b>.', ini_get('upload_max_filesize')) ; ?></em>
         <br />
         <em><?php echo __d('field_file', 'Allowed file types: <b>%s</b>.', str_replace(',', ', ', $data['settings']['extensions'])); ?></em>

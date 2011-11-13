@@ -21,8 +21,8 @@
         );
     }
 
-    if (isset($this->data['FieldData']['field_terms'][$data['id']]['data'])) {
-        $selected = $this->data['FieldData']['field_terms'][$data['id']]['data'];
+    if (isset($this->data['FieldData']['FieldTerms'][$data['id']]['data'])) {
+        $selected = $this->data['FieldData']['FieldTerms'][$data['id']]['data'];
     } else {
         $selected = explode('|', (string)$data['FieldData']['data']);
     }
@@ -47,8 +47,8 @@
         unset($Options['multiple']);
     }  
 
-    echo $this->Form->input("FieldData.field_terms.{$data['id']}.data", $Options);
-    echo $this->Form->hidden("FieldData.field_terms.{$data['id']}.id", array('value' => $data['FieldData']['id']));
+    echo $this->Form->input("FieldData.FieldTerms.{$data['id']}.data", $Options);
+    echo $this->Form->hidden("FieldData.FieldTerms.{$data['id']}.id", array('value' => $data['FieldData']['id']));
 ?>
 
 <?php if (!empty($data['description'])): ?>
