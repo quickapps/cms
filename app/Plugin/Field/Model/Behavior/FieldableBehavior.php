@@ -16,30 +16,30 @@
  *
  * ### What a Field is
  *
- * Fields are actually modules (cake's plugin), which manage the storing proccess of especific data.
- * Acts like a module, what means they may have hooks and all that a common plugin have.
- * The data is commonly stored in DB tables, QuickApps provides a basic storage table
- * called '{prefix}_field_data'. Anyway, each field is able to define its own storing system (extra tables commonly).
- * Also, each field's data must have a unique ID in that storing system and each data is associated
- * to a unique Model record.
+ * Internaly Fields are actually modules (cake's plugin), which manage the storing proccess of specific data. 
+ * They behave like modules, this means they may have hooks and all what a common plugin has.
+ * Data is usually stored in DB tables, QuickApps provides a basic storage table called `field_data`.
+ * Though, each field is able to define its own storage system (usually extra tables). 
+ * Also, each field's data element must have an unique ID in that storage system, 
+ * and such data is associated to an unique Model record.
  *
  * ### Understanding Model->Field relations
  *
- * - Model -> hasMany -> FieldInstances:
- *      A model may have multples instances of the same field, i.e.:
- *      An User model may define extra fields 'last name' and 'age', both represented
+ * - Model -> hasMany -> Field Instances:
+ *      Models may have multiple instances of the same field, i.e.:
+ *      User model may define extra fields: 'last name' and 'age', both represented
  *      by a textbox, means that each field ('last name' & 'age') is an instance of the same Field handler: 'field_textbox'.
  *
  *
- * - FieldInstance -> hasMany -> FieldData:
- *      Obviously each instance may have multiple data records in its storing system, BUT each of
- *      this records belongs to diferent Model record. i.e.: the instance 'last name' for the
+ * - FieldInstance -> hasMany -> Field Data:
+ *      Obviously each instance may have multiple data records in its storage system, BUT each of
+ *      this records belongs to diferent Model records. i.e.: the instance 'last name' for the
  *      User model may have many records of data but each 'last name' actually belong to diferent Users.
  *
- * - Model -> FieldInstance -> hasOne -> FieldData:
+ * - Model -> Field Instance -> hasOne -> Field Data:
  *      When retrieving a Model record, all its extra fields are captured (instances).
- *      Then each of this instances has ONLY ONE related data for this Model record.
- *      i.e.: When editing a User, its 'last name' field must have only one value even though the
+ *      Therefore each of this instances has ONLY ONE related data for this Model record.
+ *      i.e.: When editing a User, its 'last name' field must have only one value, even though the
  *      field instance has many data records in its storage system. (explanation above)
  *
  * ### Field posting strucure:
@@ -49,99 +49,105 @@
  *      data[FieldData][{field_module}][{field_instance_id}][data]
  *      data[FieldData][{field_module}][{field_instance_id}][id]
  *
- *      - (string) {field_module}: name of the field handler, i.e.: 'field_textarea', 'field_my_field'.
- *                                 Note: 'field_' prefix is not required but highly recommended.
+ *      - (string) {field_module}: name of the field handler in CamelCase, i.e.: 'FieldTextarea', 'FieldMyField'.
+ *                                 Note: 'Field' prefix is not required but highly recommended.
  *
  *      - (int) {field_instance_id}: ID of the field instance attached to the current Model.
  *                                   (field instances are stored in '{prefix}_fields' table)
  *
  *      - (mixed) data: Field data. It may be from a simple text to complex arrays of mixed data
- *                      For example, an 'field_image_album' could define data as an array of images.
+ *                      i.e.: 'FieldAlbumImage' could define data as an array of images.
  *
  *      - (int) id: Storage ID. Unique ID for the data in the storage system implemented by the field.
  *                  null ID means that there is no data stored yet for this Model record and this field instance.
  *
  *
- *  debug($this->data) should look like:
+ *  // debug($this->data) should looks:
  *
  *          array(
  *              .... // Other Model's native fields (table columns)
  *              'FieldData' => array(
- *                  'field_module_1' => array(
+ *                  'FieldHandler1' => array(
  *                      41 => array(
  *                          'id' => 153,
  *                          'data' => 'This data has an id = 153 and instance id 41'
  *                      ),
  *                      95 => array(
  *                          'id' => 181,
- *                          'data' => 'This is other instance (95) of field_module_1'
+ *                          'data' => 'This is other instance (95) of FieldHandler1'
  *                      )...
  *                  ),
- *                  'field_module_2' => array(
+ *                  'FieldHandler2' => array(
  *                      60 => array(
  *                          id => null,
- *                          'data' => 'null storage ID means that there is no data stored yet for this field instance and Model record'
+ *                          'data' => 'null storage ID means that there is no data stored yet for this field instance (60) and Model record'
  *                      )
  *                  )
  *              )
  *          )
  *
- * ### Fields, capturing POST and saving the data
+ * ### Capturing POST and saving data
+ * Capturing field's data and saving process are performed by using Model hooks callbacks (Behaviors Hooks).
+ * In this process there are two diferent callbacks types, 
+ * `Entity callbacks`, related to Model entities (User, Node, etc).
+ * And `Instance callbacks`, related to Field attachment process.
  *
- * All field objects (modules) may/must have the following Model hooks:
  *
- * **Entity callbacks:**
+ * ####Entity callbacks
+ * This hooks callbacks are fired after each `fieldable` Model's callbacks.
  *
- *  - {field_module}_beforeSave() [optional]
- *      before Entity record is saved
+ *  * `{field_module}_before_save($info)` [optional]: before Entity record is saved
  *
- *  - {field_module}_afterSave() [required]
- *      after Entity record has been saved
+ *  * `{field_module}_after_save($info)` [required]: after Entity record has been saved
  *
- *  - {field_module}_beforeValidate() [optional]
- *      before validate Entity record
+ *  * `{field_module}_before_validate($info)` [optional]: before validate Entity record
  *
- *  - {field_module}_beforeDelete() [optional]
- *      before Entity record delete
+ *  * `{field_module}_before_delete($info)` [optional]: before Entity record delete
  *
- *  - {field_module}_afterDelete() [requited]
- *      after Entity record has been deleted.
- *      Here is where field should delete data from storing system.
+ *  * `{field_module}_after_delete($info)` [requited]: after Entity record has been deleted.
+ *      (Here is where field should remove data from storage system.)
+ * 
+ * **_$info_ structure:**
  *
- * **Instance callbacks:**
+ *      $info = array(
+ *          [data] => ...,
+ *          [id] => ...,
+ *          [created] => ...,
+ *          [Model] => ...
+ *     );
  *
- *  - {field_module}_beforeDeleteInstance(&$FieldModel) [required/optional]
- *      (at least one of (before/after) must be defined).
+ * (mixed) **[data]**: Field Data. data[FieldData][{field_module}][{field_instance_id}][data]
+ * (int) **[id]**: Storage ID. data[FieldData][{field_module}][{field_instance_id}][id]
+ * (bool) **[created]**: Set ONLY on afterSave() callback.
+ * (object) **[Model]**: Instance of Model entity that Field is attached to.
  *
- *  - {field_module}_afterDeleteInstance(&$FieldModel) [required/optional]
- *      (at least one of (before/after) must be defined).
  *
- *  - {field_module}_beforeValidateInstance(&$FieldModel) [optional]
- *      before validate the field instance being saved (attached to entity).
+ * ####Instance callbacks
+ * This hooks callbacks are fired when Fields are being attached to Entities, or when
+ * Field is being unattached, etc.
  *
- *  - {field_module}_beforeSaveInstance(&$FieldModel) [optional]
- *      before field is attached to entity.
+ *  * {field_module}_before_delete_instance(&$FieldModel) [required/optional]: (at least one of (before/after) must be defined).
  *
- *  - {field_module}_afterSaveInstance(&$FieldModel) [optional]
- *      after field has been attached to entity.
+ *  * {field_module}_after_delete_instance(&$FieldModel) [required/optional]: (at least one of (before/after) must be defined).
  *
- *  - {field_module}_beforeMoveInstance(&$move_parametters) [optional]
- *      before field instance is moved (reordered) within an entity.
- *      $move_parametters = array('id', 'dir', 'view_mode')
+ *  * {field_module}_before_validate_instance(&$FieldModel) [optional]: before validate the field instance being saved (attached to entity).
  *
- *  - {field_module}_afterMoveInstance(&$move_parametters) [optional]
- *      after field instance was moved (reordered) within an entity.
+ *  * {field_module}_before_save_instance(&$FieldModel) [optional]: before field is attached to entity.
  *
- *  - {field_module}_beforeSetViewModes(&$field_record) [optional]
- *      before `view modes` are modified within an entity.
+ *  * {field_module}_after_save_instance(&$FieldModel) [optional]: after field has been attached to entity.
  *
- *  - {field_module}_afterSetViewModes(&$field_record) [optional]
- *      after `view modes` were modified within an entity.
+ *  * {field_module}_before_move_instance(&$move_parametters) [optional]: before field instance is moved (reordered) within an entity.
+ *    $move_parametters = array('id', 'dir', 'view_mode')
  *
- * ### NOTE:
+ *  * {field_module}_after_move_instance(&$move_parametters) [optional]: after field instance was moved (reordered) within an entity.
  *
- * Field data must always be saved after Entity record has been saved,
- * that is on afterSave() callback.
+ *  * {field_module}_before_set_view_modes(&$field_record) [optional]: before `view modes` are modified within an entity.
+ *
+ *  * {field_module}_after_set_view_modes(&$field_record) [optional]: after `view modes` were modified within an entity.
+ *
+ *
+ * ####IMPORTANT
+ * Field data **MUST** always be **saved after Entity** record has been saved, that is on afterSave() callback.
  * i.e.: When updating/creating a new User, all field's data must be saved after the User native data has been updated/created
  */
 class FieldableBehavior extends ModelBehavior {
@@ -197,9 +203,9 @@ class FieldableBehavior extends ModelBehavior {
  * Invoke each field's beforeSave() event and proceed with the Model's save proccess
  * if all the fields has returned 'true'.
  *
- * Fields data is stored in a temporaly variable (__fieldData) in order to save it
+ * Fields data is stored in a temporaly variable ($__fieldData) in order to save it
  * after the new Model record has been saved. That is, in afterSave() callback.
- * Remember: Field's storing process must always be executed after Model's save()
+ * Remember: Field's storage process must always be executed after Model's save()
  *
  * @param object $Model instance of model
  * @return boolean False if any of the fields has returned false. True otherwise
@@ -207,16 +213,12 @@ class FieldableBehavior extends ModelBehavior {
     public function beforeSave(&$Model) {
         $r = array();
 
-        /**
-         * optionaly we send field information to field handlers before save the Model record,
-         * so they can stop the proccess if it is required
-         */
         if (isset($Model->data['FieldData'])) {
             foreach ($Model->data['FieldData'] as $field_module => $fields) {
                 foreach ($fields as $field_id => $info) {
                     $info['field_id'] = $field_id;
                     $info['Model'] =& $Model;
-                    $r[] = $Model->hook("{$field_module}_beforeSave", $info, array('collectReturn' => false));
+                    $r[] = $Model->hook("{$field_module}_before_save", $info, array('collectReturn' => false));
                 }
             }
         }
@@ -229,7 +231,7 @@ class FieldableBehavior extends ModelBehavior {
     }
 
 /**
- * Save field information after Model record has been saved.
+ * Save field data after Model record has been saved.
  *
  * @param object $Model instance of model
  * @param boolean $created which indicate if a new record has been inserted
@@ -513,8 +515,8 @@ class FieldableBehavior extends ModelBehavior {
 /**
  * Parses 'belongsTo' parameter looking for array paths.
  * This functionality is used only (and should be used only) by Nodes. That is so because,
- * Nodes may have diferent fields attached depending in NodeType (bridge association), so nodes
- * uses a 'belongsTo' like: 'NodeType-{Node.node_type_id}'
+ * Nodes may have diferent fields attached depending in NodeType (bridge association), 
+ * Nodes's 'belongsTo' looks: 'NodeType-{Node.node_type_id}'
  *
  * @param string $belongsTo string to parse
  * @param array $result a Node model row
