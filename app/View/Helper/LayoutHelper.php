@@ -390,7 +390,7 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
- * Render child nodes of the given menu node (father) (direct nodes onlye, that is no recursive)
+ * Render child nodes of the given menu node (father).
  *
  * @param mixed $path String path of the father node or boolen false to use current path
  * @param string $region Theme region where the child nodes will be rendered, 'content' by default
@@ -407,7 +407,7 @@ class LayoutHelper extends AppHelper {
         }
 
         $MenuLink = Classregistry::init('Menu.MenuLink');
-        $here =  $MenuLink->find('first',
+        $here = $MenuLink->find('first',
             array(
                 'conditions' => array(
                     'MenuLink.router_path' => $path,
@@ -417,8 +417,13 @@ class LayoutHelper extends AppHelper {
         );
 
         if (!empty($here)) {
-            $subs = $MenuLink->find('all', array('conditions' => array('MenuLink.status' => 1, 'MenuLink.parent_id' => $here['MenuLink']['id'])));
+            $subs = $MenuLink->children($here['MenuLink']['id']);
             $_subs['MenuLink'] = Set::extract('{n}.MenuLink', $subs);
+
+            if (empty($_subs['MenuLink'])) {
+                return '';
+            }
+
             $_subs['region'] = $region;
             $_subs['id'] = 'no-id';
 
