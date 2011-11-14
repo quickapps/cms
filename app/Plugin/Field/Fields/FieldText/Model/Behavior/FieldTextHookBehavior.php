@@ -22,9 +22,9 @@ class FieldTextHookBehavior extends ModelBehavior {
         if (empty($info)) {
             return true;
         }
-        
+
         $field = ClassRegistry::init('Field.Field')->findById($info['field_id']);
-        
+
         if (isset($field['Field']['settings']['text_processing']) && !empty($field['Field']['settings']['text_processing'])) {
             $info['Model']->hook('text_processing_' . $field['Field']['settings']['text_processing'], $info['data']);
         }
@@ -139,7 +139,7 @@ class FieldTextHookBehavior extends ModelBehavior {
         $h2t = new html2text($text);
         $text = $h2t->get_text();
     }
-    
+
     // filter forbidden tags
     public function text_processing_filtered(&$text) {
         $text = strip_tags($text, '<a><em><strong><cite><blockquote><code><ul><ol><li><dl><dt><dd>');
@@ -150,6 +150,11 @@ class FieldTextHookBehavior extends ModelBehavior {
         App::import('Lib', 'FieldText.Html2text');
 
         $h2t = new html2text($text);
+
+        unset($h2t->search[0], $h2t->search[1], $h2t->search[2], $h2t->replace[0], $h2t->replace[1], $h2t->replace[2]);
+        array_pop($h2t->search);
+        array_pop($h2t->replace);
+
         $text = $h2t->get_text();
     }
 
