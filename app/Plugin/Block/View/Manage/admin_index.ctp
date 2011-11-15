@@ -98,7 +98,7 @@
                         <a href="<?php echo $this->Html->url("/admin/block/manage/clone/{$block['Block']['id']}"); ?>" onClick="return confirm('<?php echo __t('Duplicate this block?'); ?>');"><?php echo __t('clone') ?></a> |
                         <a href="<?php echo $this->Html->url("/admin/block/manage/edit/{$block['Block']['id']}"); ?>"><?php echo __t('configure'); ?></a> | 
                         <?php if ($block['Block']['module'] == 'Block' || $block['Block']['clone_of'] != 0) { ?>
-                            <a href="<?php echo $this->Html->url("/admin/block/manage/delete/{{$block['Block']['id']}"); ?>" onclick="return confirm('<?php echo __t('Delete selected block ?'); ?>');"><?php echo __t('delete'); ?></a> |
+                            <a href="<?php echo $this->Html->url("/admin/block/manage/delete/{$block['Block']['id']}"); ?>" onclick="return confirm('<?php echo __t('Delete selected block ?'); ?>');"><?php echo __t('delete'); ?></a> |
                         <?php } ?>
                     </div>
                 </li>
