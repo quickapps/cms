@@ -195,7 +195,12 @@ class ManageController extends BlockAppController {
         if (!$block || ($block['Block']['module'] != 'block' && !$block['Block']['module'])) {
             $this->redirect('/admin');
         } else {
-            $this->Block->delete($id);
+            if ($this->Block->delete($id)) {
+                $this->flashMsg(__t('Block has been deleted'), 'success');
+            } else {
+                $this->flashMsg(__t('Block could not be deleted'), 'alert');
+            }
+
             $this->redirect($this->referer());
         }
     }

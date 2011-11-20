@@ -233,3 +233,8 @@ msgstr "arriba"
 msgid "down"
 msgstr "abajo"
 
+msgid "Block has been deleted"
+msgstr "El bloque ha sido eliminado
+
+msgid "Block could not be deleted"
+msgstr "No se pudo eliminar el bloque"
