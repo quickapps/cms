@@ -31,7 +31,7 @@ class NodeController extends NodeAppController {
         $front_page = '';
 
         if (!empty($fp)) {
-            $front_page = $this->requestAction($fp);
+            $front_page = $this->requestAction($fp, array('return'));
         }
 
         if (empty($front_page)) {
