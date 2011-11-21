@@ -498,7 +498,7 @@ CREATE TABLE `qa_node_types` (
 
 LOCK TABLES `qa_node_types` WRITE;
 /*!40000 ALTER TABLE `qa_node_types` DISABLE KEYS */;
-INSERT INTO `qa_node_types` VALUES ('article','Article','node','Node','Use articles for time-sensitive content like news, press releases or blog posts.','Title',0,10,2,0,1,1,2,'',1,0,0,1),('page','Basic page','node','Node','Use <em>basic pages</em> for your static content, such as an \'About us\' page.','Title',1,10,2,1,0,0,0,'es',1,0,0,1),('probando_type','Probando Type','node','Node','','Titulo de los huevos',0,10,0,0,0,0,0,'',0,0,0,1);
+INSERT INTO `qa_node_types` VALUES ('article','Article','node','Node','Use articles for time-sensitive content like news, press releases or blog posts.','Title',0,10,2,0,1,1,2,'',1,0,0,1),('page','Basic page','node','Node','Use <em>basic pages</em> for your static content, such as an \'About us\' page.','Title',1,10,2,1,0,0,0,'es',1,0,0,1);
 /*!40000 ALTER TABLE `qa_node_types` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -805,4 +805,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-11-21 12:54:48
+-- Dump completed on 2011-11-21 19:08:55
