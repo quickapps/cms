@@ -101,7 +101,7 @@ msgstr "la entrada no puedo ser guardada. Por favor, intente otra vez."
 
 #: Controller/TranslationsController.php:51
 #: Controller/TranslationsController.php:66
-msgid "Translations entries"
+msgid "Translatable entries"
 msgstr "Entradas traducibles"
 
 #: Controller/TranslationsController.php:52
