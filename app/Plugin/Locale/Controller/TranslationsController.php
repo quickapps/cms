@@ -48,7 +48,7 @@ class TranslationsController extends LocaleAppController {
 
         $this->data = $this->Translation->findById($id) or $this->redirect('/admin/locale/translations/list');
         $this->setCrumb('/admin/locale');
-        $this->setCrumb( array(__t('Translations entries'), ''));
+        $this->setCrumb(array(__t('Translations entries'), ''));
         $this->title(__t('Editing entry'));
     }
 
@@ -63,7 +63,7 @@ class TranslationsController extends LocaleAppController {
         }
 
         $this->setCrumb('/admin/locale');
-        $this->setCrumb( array(__t('Translations entries'), '/admin/locale/translations'));
+        $this->setCrumb(array(__t('Translatable entries'), '/admin/locale/translations'));
         $this->title(__t('Add new entry'));
     }
 
