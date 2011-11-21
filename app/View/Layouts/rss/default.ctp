@@ -11,7 +11,7 @@
 <?php
     foreach ($Layout['node'] as $node):
         $nodeTime = $node['Node']['created'];
-        $nodeLink = "/d/{$node['Node']['node_type_id']}/{$node['Node']['slug']}";
+        $nodeLink = "/{$node['Node']['node_type_id']}/{$node['Node']['slug']}.html";
 
         App::uses('Sanitize', 'Utility');
 

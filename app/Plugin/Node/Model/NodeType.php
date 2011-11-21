@@ -79,14 +79,14 @@ class NodeType extends NodeAppModel {
             $links = $MenuLink->find('all',
                 array(
                     'conditions' => array(
-                        'MenuLink.router_path LIKE' => "%/d/{$this->__tmp['old_id']}%"
+                        'MenuLink.router_path LIKE' => "%/%/{$this->__tmp['old_id']}%"
                     ),
                     'fields' => array('id', 'router_path')
                 )
             );
 
             foreach ($links as $link) {
-                $link['MenuLink']['router_path'] = str_replace("/d/{$this->__tmp['old_id']}", "/d/{$this->__tmp['new_id']}" , $link['MenuLink']['router_path']);
+                $link['MenuLink']['router_path'] = str_replace("/{$this->__tmp['old_id']}", "/{$this->__tmp['new_id']}" , $link['MenuLink']['router_path']);
                 $MenuLink->save($link, false);
             }
         }
