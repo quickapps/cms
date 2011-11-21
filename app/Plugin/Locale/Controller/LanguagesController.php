@@ -49,9 +49,8 @@ class LanguagesController extends LocaleAppController {
         }
 
         $this->__setLangs();
-        $results = $this->paginate('Language');
         $this->setCrumb('/admin/locale');
-        $this->set('results', $results);
+        $this->set('results', $this->Language->find('all'));
     }
 
     public function admin_set_default($id) {
@@ -111,6 +110,11 @@ class LanguagesController extends LocaleAppController {
         $this->setCrumb('/admin/locale');
         $this->setCrumb( array(__t('Editing language'), ''));
         $this->title(__t('Editing language'));
+    }
+
+    public function admin_move($id, $dir) {
+        $this->Language->move($id, $dir);
+        $this->redirect($this->referer());
     }
 
     public function admin_delete($id) {

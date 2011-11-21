@@ -13,7 +13,7 @@ class Language extends LocaleAppModel {
     public $name = 'Language';
     public $useTable = "languages";
     public $primaryKey = 'id';
-    public $order = array('Language.ordering' => 'ASC');
+    public $order = 'Language.ordering ASC';
     public $validate = array(
         'code' => array(
             'len' => array(
@@ -85,6 +85,55 @@ class Language extends LocaleAppModel {
                 'model' => 'Locale.Translation'
             )
         );
+
+        return true;
+    }
+
+    public function move($id, $dir = 'up') {
+        if (!($record = $this->findById($id))) {
+            return false;
+        }
+
+        $_data = array('id' => $id, 'dir' => $dir);
+
+        $this->hook("language_before_move", $_data);
+        extract($_data);
+
+        # get brothers
+        $nodes = $this->find('all',
+            array(
+                'order' => array('Language.ordering' => 'ASC'),
+                'fields' => array('id', 'ordering'),
+                'recursive' => -1
+            )
+        );
+
+        $ids = Set::extract('/Language/id', $nodes);
+
+        if (($dir == 'down' && $ids[count($ids)-1] == $record['Language']['id']) ||
+            ($dir == 'up' && $ids[0] == $record['Language']['id'])
+        ) { #edge -> cant go down/up
+            return false;
+        }
+
+        $position = array_search($record['Language']['id'], $ids);
+        $key = ($dir == 'up') ? $position-1 : $position+1;
+        $tmp = $ids[$key];
+        $ids[$key] = $ids[$position];
+        $ids[$position] = $tmp;
+        $i = 0;
+        $prev_id = $this->id;
+
+        foreach ($ids as $id) {
+            $this->id = $id;
+            $i++;
+
+            $this->saveField('ordering', $i, false);
+        }
+
+        $this->id = $prev_id;
+
+        $this->hook("language_after_move", $_data);
 
         return true;
     }

@@ -11,37 +11,34 @@ $tSettings = array(
                 {Language.name}
                 {php} return ("{Language.icon}" != "" ? $this->_View->Html->image(\'/locale/img/flags/{Language.icon}\') : ""); {/php}
                 {php} return ("{Language.code}" == "' . Configure::read('Variable.default_language') . '" ? $this->_View->Html->image(\'/locale/img/default.png\', array(\'title\' => \'' . __t('Default language') . '\')) : ""); {/php}
-                ',
-            'sort' => 'Language.name'
+            '
         ),
         __t('Native name') => array(
             'value' => '{Language.native}',
             'sort'    => 'Language.native'
         ),
         __t('Code') => array(
-            'value' => '{Language.code}',
-            'sort'    => 'Language.code'
+            'value' => '{Language.code}'
         ),
         __t('Direction') => array(
-            'value' => '{php} return ( "{Language.direction}" == "ltr" ? "' . __t('Left to right') . '" : "' . __t('Right to left') . '");{/php}',
-            'sort'    => '{Language.direction}'
+            'value' => '{php} return ("{Language.direction}" == "ltr" ? "' . __t('Left to right') . '" : "' . __t('Right to left') . '");{/php}'
         ),
         __t('Status') => array(
-            'value' => '{php} return ( {Language.status} == 1 ? "' . __t('active') . '" : "' . __t('disabled') . '");{/php}',
-            'sort'    => '{Language.direction}'
+            'value' => '{php} return ({Language.status} == 1 ? "' . __t('active') . '" : "' . __t('disabled') . '");{/php}'
         ),
         __t('Actions') => array(
             'value' => '
+                <a href="{url}/admin/locale/languages/move/{Language.id}/up{/url}">' . __t('move up') . '</a> |
+                <a href="{url}/admin/locale/languages/move/{Language.id}/down{/url}">' . __t('move down') . '</a> |
                 <a href="{url}/admin/locale/languages/edit/{Language.id}{/url}">' . __t('edit') . '</a> |
                 <a href="{url}/admin/locale/languages/set_default/{Language.id}{/url}">' . __t('set as default') . '</a>
             ',
             'thOptions' => array('align' => 'center'),
-            'tdOptions' => array('width' => '180', 'align' => 'center'),
-            'sort'    => false
+            'tdOptions' => array('width' => '300', 'align' => 'center')
         )
     ),
     'noItemsMessage' => __t('There are no languages to display. Critical error'),
-    'paginate' => true,
+    'paginate' => false,
     'headerPosition' => 'top',
     'tableOptions' => array('width' => '100%')    # table attributes
 );
@@ -117,7 +114,6 @@ $tSettings = array(
     <?php echo $this->Html->useTag('fieldsetend'); ?>
     <?php echo $this->Html->table($results, $tSettings); ?>
 <?php echo $this->Form->end(); ?>
-
 
 <script type="text/javascript">
     $("#toggle-update_fieldset").click(function () {
