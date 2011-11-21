@@ -4,7 +4,7 @@ if (!class_exists('L10n')) {
 }
 
 class Locale {
-    public function languages() {
+    static function languages() {
         $L10n = new L10n;
         $catalog = $L10n->catalog();
         $r = array();
@@ -20,7 +20,7 @@ class Locale {
         return $r;
     }
 
-    public function language_direction($code = false) {
+    static function language_direction($code = false) {
         if (!$code) {
             $code = Configure::read('Config.language');
         }
@@ -35,11 +35,11 @@ class Locale {
         return $l['direction'];
     }
 
-    public function countries_list() {
+    static function countries_list() {
         return $L10n->catalog();
     }
 
-    public function time_zones($blank = NULL) {
+    static function time_zones($blank = NULL) {
         $zonelist = timezone_identifiers_list();
         $zones = $blank ? array('' => __t('- None selected -')) : array();
 
@@ -54,7 +54,7 @@ class Locale {
         return $zones;
     }
 
-    public function format_date($timestamp, $type = 'medium', $format = '', $timezone = null, $langcode = null) {
+    static function format_date($timestamp, $type = 'medium', $format = '', $timezone = null, $langcode = null) {
         if (!isset($timezone)) {
             $timezone = date_default_timezone_get();
         }
@@ -107,10 +107,9 @@ class Locale {
     }
 
 /**
-* Callback function for preg_replace_callback().
-*/
-    public function format_date_callback(array $matches = null, $new_langcode = null) {
-        // We cache translations to avoid redundant and rather costly calls to t().
+ * Callback function for preg_replace_callback().
+ */
+    static function format_date_callback(array $matches = null, $new_langcode = null) {
         static $cache, $langcode;
 
         if (!isset($matches)) {
