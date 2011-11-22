@@ -809,3 +809,18 @@ msgstr "publicado por <a href=\"%s\">%s</a>"
 
 msgid "on %s"
 msgstr "el %s"
+
+msgid "Menu Link"
+msgstr "Enlazar en Menu"
+
+msgid "Provide a menu link"
+msgstr "Proporcionar un enlace en menú"
+
+msgid "Menu link title"
+msgstr "Título de enlace"
+
+msgid "Shown when hovering over the menu link."
+msgstr "Aparece al pasar el cursor sobre el enlace."
+
+msgid "Parent item"
+msgstr "Padre"

@@ -125,9 +125,28 @@ class ContentsController extends NodeAppController {
             $this->loadModel('User.Role');
             $this->__setLangVar();
 
+            $_data['MenuLink'] = array();
             $this->Node->recursive = 2;
-            $this->data = Set::merge((array)$this->Node->findBySlug($slug), $_data);
+            $data = Set::merge((array)$this->Node->findBySlug($slug), $_data);
+            $menu_link = ClassRegistry::init('Menu.MenuLink')->find('first',
+                array(
+                    'conditions' => array(
+                        'MenuLink.router_path' => "/{$data['NodeType']['id']}/{$data['Node']['slug']}.html"
+                    )
+                )
+            );
 
+            if ($menu_link) {
+                if (!$menu_link['MenuLink']['parent_id']) {
+                    $menu_link['MenuLink']['parent_id'] = $menu_link['MenuLink']['menu_id'];
+                }
+
+                $data['MenuLink'] = $menu_link['MenuLink'];
+            }
+
+            $this->data = $data;
+
+            $this->__setMenus();
             $this->set('roles', $this->Role->find('list'));
             $this->set('vocabularies', $this->__typeTerms($this->data['NodeType']));
         }
@@ -193,9 +212,9 @@ class ContentsController extends NodeAppController {
         );
         $this->data = Set::merge($type, $_data);
 
-        $this->loadModel('User.Role');
+        $this->__setMenus();
         $this->__setLangVar();
-        $this->set('roles', $this->Role->find('list'));
+        $this->set('roles', ClassRegistry::init('User.Role')->find('list'));
         $this->set('vocabularies', $this->__typeTerms($type));
         $this->setCrumb('/admin/node/contents');
         $this->title(__t('Add Content'));
@@ -263,5 +282,25 @@ class ContentsController extends NodeAppController {
         }
 
         return $vocabularies;
+    }
+
+    private function __setMenus() {
+        $list = array();
+        $menus = ClassRegistry::init('Menu.Menu')->find('all', array('fields' => array('id', 'title'), 'recursive' => -1));
+
+        foreach ($menus as $menu) {
+            $list[$menu['Menu']['id']] = "&lt;{$menu['Menu']['title']}&gt;";
+            $mLinks = ClassRegistry::init('Menu.MenuLink')->generateTreeList(
+                array(
+                    'MenuLink.menu_id' => $menu['Menu']['id']
+                ), null, null, '&nbsp;&nbsp;&nbsp;|-&nbsp;'
+            );
+
+            foreach ($mLinks as $id => $link_title) {
+                $list[$id] = $link_title;
+            }
+        }
+
+        $this->set('menus', $list); 
     }
 }

@@ -67,7 +67,19 @@
             <?php echo $this->Form->input('Role', array('options' => $roles, 'type' => 'select', 'multiple' => 'checkbox', 'label' => __t('Show content for specific roles'))); ?>
             <em><?php echo __t("Show this content only for the selected role(s). If you select no roles, the content will be visible to all users."); ?></em>
         <?php echo $this->Html->useTag('fieldsetend'); ?>
-            
+
+        <?php echo $this->Html->useTag('fieldsetstart', __t('Menu Link')); ?>
+            <?php $checked = (isset($this->data['MenuLink']) && !empty($this->data['MenuLink'])); ?>
+            <?php echo $this->Form->input('Node.menu_link', array('onClick' => "$('#node_menu_link').toggle();", 'type' => 'checkbox', 'checked' => $checked,'label' => __t('Provide a menu link'))); ?>
+
+            <div id="node_menu_link" style="<?php echo !$checked ? 'display:none;' : ''; ?>">
+                <?php echo $this->Form->input('MenuLink.link_title', array('label' => __t('Menu link title'))); ?>
+                <?php echo $this->Form->input('MenuLink.description', array('type' => 'textarea', 'label' => __t('Description'))); ?>
+                <em><?php echo __t('Shown when hovering over the menu link.'); ?></em>
+                <?php echo $this->Form->input('MenuLink.parent_id', array('type' => 'select', 'options' => $menus, 'escape' => false, 'label' => __t('Parent item'))); ?>
+            </div>
+        <?php echo $this->Html->useTag('fieldsetend'); ?>
+
         <?php echo $this->Html->useTag('fieldsetstart', __t('Advanced Options')); ?>
             <?php echo $this->Form->input('Node.params.class', array('label' => __t('Node container class suffix'))); ?>
             <em><?php echo __t('A suffix to be applied to the CSS class of the node container. This allows for individual node styling.'); ?></em>
