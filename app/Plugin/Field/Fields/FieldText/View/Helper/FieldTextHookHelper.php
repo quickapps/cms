@@ -136,11 +136,16 @@ class FieldTextHookHelper extends AppHelper {
     }
 
     private function __email2Link($text) {
-        preg_match_all("/([a-z0-9_\-\.]+)@([a-z0-9-]{1,64})\.([a-z]{2,10})/i", $text, $emails);
+        preg_match_all("/([\\\a-z0-9_\-\.]+)@([a-z0-9-]{1,64})\.([a-z]{2,10})/i", $text, $emails);
 
         foreach ($emails[0] as $email) {
             $email = trim($email);
-            $text = str_replace($email, $this->obfuscate_email($email), $text);
+
+            if ($email[0] == '\\') {
+                $text = str_replace($email, substr($email, 1), $text);
+            } else {
+                $text = str_replace($email, $this->obfuscate_email($email), $text);
+            }
         }
 
         return $text;
