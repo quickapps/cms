@@ -3,7 +3,7 @@
     $categories = array_unique(Set::extract('{s}.yaml.category', $modules));
 ?>
 
-<?php echo $this->Form->create('Package', array('url' => '/admin/system/modules/install', 'enctype' => 'multipart/form-data', 'onsubmit' => 'return checkPackage();')); ?>
+<?php echo $this->Form->create('Package', array('url' => '/admin/system/modules/install', 'enctype' => 'multipart/form-data')); ?>
     <!-- Filter -->
     <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-install_fieldset" style="cursor:pointer;">' . __t('Install New Module') . '</span>' ); ?>
         <div id="install_fieldset" class="horizontalLayout" style="display:none;">
@@ -70,14 +70,6 @@
 <?php endforeach; ?>
 
 <script>
-    function checkPackage() {
-        var ext = $('#PackageData').val().substr( ($('#PackageData').val().lastIndexOf('.') +1));
-        if (ext != 'app') {
-            alert('<?php echo __t('Invalid package'); ?>');
-            return false;
-        }
-        return true;
-    }
     $("#toggle-install_fieldset").click(function () {
         $("#install_fieldset").toggle('fast', 'linear');
     });

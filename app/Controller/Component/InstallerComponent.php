@@ -66,16 +66,8 @@ class InstallerComponent extends Component {
 
         $oldMask = umask(0);
         $this->options = array_merge($this->options, $options);
-        $ext = strtolower(strrchr($data['Package']['data']['name'], '.'));
 
-        if ($ext !== '.app') {
-            $this->errors[] = __d('system', 'Invalid package extension. Got `%s`, `.app` expected', $ext);
-            return false;
-        }
-
-        /**********/
-        /* upload */
-        /**********/
+        // Upload
         App::import('Vendor', 'Upload');
 
         $uploadPath = CACHE. 'installer';
@@ -94,28 +86,24 @@ class InstallerComponent extends Component {
             return false;
         }
 
-        /*******************/
-        /* unzip & install */
-        /*******************/
+        // Unzip & Install
         App::import('Vendor', 'PclZip');
 
         $PclZip = new PclZip($Upload->file_dst_pathname);
 
-        if (($v_result_list = $PclZip->extract(PCLZIP_OPT_PATH, $workingDir . 'unzip')) == 0 ) {
+        if (!$v_result_list = $PclZip->extract(PCLZIP_OPT_PATH, $workingDir . 'unzip')) {
             $this->errors[] = __d('system', 'Unzip error.') . "<br/><p>" . $PclZip->errorInfo(true) . "</p>";
 
             return false;
         } else {
-            /* Package Validation */
+            // Package Validation
             $Folder->path = $workingDir . 'unzip' . DS;
             $folders = $Folder->read();$folders = $folders[0];
             $packagePath = isset($folders[0]) && count($folders) === 1 ? CACHE . 'installer' . DS . $data['Package']['data']['name'] . DS . 'unzip' . DS . str_replace(DS, '', $folders[0]) . DS : false;
             $appName = (string)basename($packagePath);
 
-            /**
-             * look for GitHub Package:
-             *     username-QACMS-ModuleNameInCamelCase-last_commit_id
-             */
+            // Look for GitHub Package:
+            //      username-QACMS-ModuleNameInCamelCase-last_commit_id
             if (preg_match('/(.*)\-QACMS\-(.*)\-([a-z0-9]*)/', $appName, $matches)) {
                 $appName = $matches[2];
             }
@@ -252,7 +240,7 @@ class InstallerComponent extends Component {
                 return false;
             }
 
-            /** YAML validations **/
+            // YAML validations
             $yaml = Spyc::YAMLLoad($packagePath . "{$appName}.yaml");
 
             switch ($this->options['type']) {
@@ -300,49 +288,36 @@ class InstallerComponent extends Component {
                 return false;
             }
 
-            /**
-             * validate dependencies and required core version
-             */
-            switch ($this->options['type']) {
-                case 'module':
-                    $core = "core ({$yaml['core']})";
-                    $r = $this->checkIncompatibility($this->parseDependency($core), Configure::read('Variable.qa_version'));
+            // Validate dependencies and required core version
+            $core = $this->options['type'] == 'module' ? "core ({$yaml['core']})" : "core ({$yaml['info']['core']})";
+            $r = $this->checkIncompatibility($this->parseDependency($core), Configure::read('Variable.qa_version'));
 
-                    if ($r !== null) {
-                        $this->errors[] = __d('system', 'This module is incompatible with your QuickApps version.');
+            if ($r !== null) {
+                if ($this->options['type'] == 'module') {
+                    $this->errors[] = __d('system', 'This module is incompatible with your QuickApps version.');
+                } else {
+                   $this->errors[] = __d('system', 'This theme is incompatible with your QuickApps version.');
+                }
 
-                        return false;
-                    }
-
-                    if (isset($yaml['dependencies']) && $this->checkDependency($yaml)) {
-                        $this->errors[] = __d('system', "This module depends on other modules that you do not have or doesn't meet the version required: %s", implode('<br/>', $yaml['dependencies']));
-
-                        return false;
-                    }
-                break;
-
-                case 'theme':
-                    $core = "core ({$yaml['info']['core']})";
-                    $r = $this->checkIncompatibility($this->parseDependency($core), Configure::read('Variable.qa_version'));
-
-                    if ($r !== null) {
-                        $this->errors[] = __d('system', 'This theme is incompatible with your QuickApps version.');
-
-                        return false;
-                    }
-
-                    if (isset($yaml['info']['dependencies']) && $this->checkDependency($yaml['info'])) {
-                        $this->errors[] = __d('system', "This theme depends on other modules that you do not have or doesn't meet the version required: %s", implode('<br/>', $yaml['info']['dependencies']));
-
-                        return false;
-                    }
-                break;
+                return false;
             }
 
-            /**
-             * validate custom fields
-             * Only modules are allowed to define fields.
-             */
+            if (
+                ($this->options['type'] == 'theme' && isset($yaml['info']['dependencies']) && $this->checkDependency($yaml['info'])) ||
+                ($this->options['type'] == 'module' && isset($yaml['dependencies']) && $this->checkDependency($yaml))
+            ) {
+                if ($this->options['type'] == 'module') {
+                    $this->errors[] = __d('system', "This module depends on other modules that you do not have or doesn't meet the version required: %s", implode('<br/>', $yaml['dependencies']));
+                } else {
+                    $this->errors[] = __d('system', "This theme depends on other modules that you do not have or doesn't meet the version required: %s", implode('<br/>', $yaml['info']['dependencies']));
+                }
+
+                return false;
+            }
+            // end of dependencies check
+
+            // Validate custom fields.
+            // Only modules are allowed to define fields.
             if ($this->options['type'] == 'module' && file_exists($packagePath . 'Fields')) {
                 $Folder = new Folder($packagePath . 'Fields');
                 $fields = $Folder->read();
@@ -370,12 +345,10 @@ class InstallerComponent extends Component {
                     return false;
                 }
             }
-            ### End of validations ###
+            // End of validations
 
 
-            /*****************/
-            /**** INSTALL ****/
-            /*****************/
+            // INSTALL
             $installComponentPath = $this->options['type'] == 'theme' ? $packagePath . 'app' . DS . 'Theme' . $appName . DS . 'Controller' . DS . 'Component' . DS : $packagePath . 'Controller' . DS . 'Component' . DS;
             $Install = $this->loadInstallComponent($installComponentPath);
             $r = true;
@@ -388,14 +361,14 @@ class InstallerComponent extends Component {
                 return false;
             }
 
-            /** Copy files **/
+            // Copy files
             $copyTo = ($this->options['type'] == 'module') ? ROOT . DS . 'Modules' . DS . $appName . DS : THEMES . $appName . DS;
 
             if(!$this->rcopy($packagePath, $copyTo)) {
                 return false;
             }
 
-            /** DB Logics **/
+            // DB Logics
             $moduleData = array(
                 'name' => ($this->options['type'] == 'module' ? $appName : 'Theme' . $appName),
                 'type' => ($this->options['type'] == 'module' ? 'module' : 'theme' ),
@@ -404,7 +377,7 @@ class InstallerComponent extends Component {
 
             $this->Controller->Module->save($moduleData); # register module
 
-            /** Build ACOS && Register module in core **/
+            // Build ACOS && Register module in core
             switch ($this->options['type']) {
                 case 'module':
                     $this->buildAcos($appName);
@@ -420,15 +393,15 @@ class InstallerComponent extends Component {
                 break;
             }
 
-            /** Delete unziped package **/
+            // Delete unziped package
             $Folder->delete($workingDir);
 
-            /** Finish **/
+            // Finish
             if (method_exists($Install, 'afterInstall')) {
                 $Install->afterInstall($this);
             }
 
-            $this->afterInstall();
+            $this->__clearCache();
         }
 
         umask($oldMask);
@@ -457,16 +430,30 @@ class InstallerComponent extends Component {
         $pData = $this->Controller->Module->findByName($Name);
 
         if (!$pData) {
+            $this->errors[] = __t('Module does not exists.');
+
+            return false;
+        } elseif (in_array($Name, Configure::read('coreModules'))) {
+            $this->errors[] = __t('Core modules can not be uninstalled.');
+
             return false;
         }
 
-        /* useful for before/afterUninstall */
+        $dep = $this->Installer->checkReverseDependency($Name);
+
+        if (count($dep)) {
+            $this->errors[] = __t('This module can not be uninstalled, because it is required by: %s', implode('<br />', Set::extract('{n}.name', $dep)));
+
+            return false;
+        }
+
+        // useful for before/afterUninstall
         $this->options['type'] = $pData['Module']['type'];
         $this->options['__data'] = $pData;
         $this->options['__path'] = $pData['Module']['type'] == 'theme' ? THEMES . str_replace('Theme', '', $Name) . DS . 'app' . DS . $Name . DS : CakePlugin::path($Name);
         $this->options['__Name'] = $Name;
 
-        # core plugins can not be deleted
+        // core plugins can not be deleted
         if (in_array($this->options['__Name'], array_merge(array('ThemeDefault', 'ThemeAdminDefault'), Configure::read('coreModules')))) {
             return false;
         }
@@ -529,15 +516,112 @@ class InstallerComponent extends Component {
         return true;
     }
 
-    public function beforeInstall() {
-        return true;
+    public function enableModule($module) {
+        return $this->__toggleModule($module, 1);
     }
 
-    public function beforeUninstall() {
-        return true;
+    public function disableModule($module) {
+        return $this->__toggleModule($module, 0);
     }
 
-    public function afterInstall() {
+    private function __toggleModule($module, $to) {
+        $module = Inflector::camelize($module);
+        $isTheme = strpos($module, 'Theme') === 0;
+        $path =  $isTheme ? THEMES . str_replace('Theme', '', $module) . DS . 'app' . DS . $module . DS : CakePlugin::path($module);
+        $yamlPath = $isTheme ? THEMES . str_replace('Theme', '', $module) . DS . str_replace('Theme', '', $module) . '.yaml' : CakePlugin::path($module) . "{$module}.yaml";
+        $Install =& $this->loadInstallComponent($path . 'Controller' . DS . 'Component' . DS);
+        $this->options = array(
+            'name' => $module,
+            'type' => ($isTheme ? 'theme' : 'module'),
+            'status' => $to
+        );        
+
+        if (!$Install) {
+            $this->errors[] = __t('Module does not exists.');
+
+            return false;
+        }
+
+        if (!$to) {
+            $dep = $this->checkReverseDependency($module);
+
+            if (count($dep)) {
+                $this->errors[] = __t('This module can not be disabled, because it is required by: %s', implode('<br />', Set::extract('{n}.name', $dep)));
+
+                return false;
+            }
+        } else {
+            $core = $isTheme ? "core ({$yaml['info']['core']})" : "core ({$yaml['core']})";
+            $r = $this->checkIncompatibility($this->parseDependency($core), Configure::read('Variable.qa_version'));
+
+            if ($r !== null) {
+                if (!$isTheme) {
+                    $this->errors[] = __d('system', 'This module is incompatible with your QuickApps version.');
+                } else {
+                   $this->errors[] = __d('system', 'This theme is incompatible with your QuickApps version.');
+                }
+
+                return false;
+            }
+
+            $yaml = Spyc::YAMLLoad($yamlPath);
+
+            if (
+                ($isTheme && isset($yaml['info']['dependencies']) && $this->checkDependency($yaml['info'])) ||
+                (!$isTheme && isset($yaml['dependencies']) && $this->checkDependency($yaml))
+            ) {
+                if ($this->options['type'] == 'module') {
+                    $this->errors[] = __d('system', "This module depends on other modules that you do not have or doesn't meet the version required: %s", implode('<br/>', $yaml['dependencies']));
+                } else {
+                    $this->errors[] = __d('system', "This theme depends on other modules that you do not have or doesn't meet the version required: %s", implode('<br/>', $yaml['info']['dependencies']));
+                }
+
+                return false;
+            }
+        }
+
+        if ($to) {
+            if (method_exists($Install, 'beforeEnable')) {
+                $r = $Install->beforeEnable($this);
+            }
+        } else {
+            if (method_exists($Install, 'beforeDisable')) {
+                $r = $Install->beforeDisable($this);
+            }
+        }
+
+        if (isset($r) && $r === false) {
+            return false;
+        }
+
+        # turn on/off related blocks
+        ClassRegistry::init('Block.Block')->updateAll(
+            array('Block.status' => $to),
+            array('Block.status <>' => 0, 'Block.module' => $module)
+        );
+
+        # turn on/off related menu links
+        ClassRegistry::init('Menu.MenuLink')->updateAll(
+            array('MenuLink.status' => $to),
+            array('MenuLink.status <>' => 0, 'MenuLink.module' => $module)
+        );
+
+        # turn on/off module
+        $this->Controller->Module->updateAll(
+            array('Module.status' => $to),
+            array('Module.name' => $module)
+        );
+
+        if ($to) {
+            if (method_exists($Install, 'afterEnable')) {
+                $Install->afterEnable($this);
+            }
+        } else {
+            if (method_exists($Install, 'afterDisable')) {
+                $Install->afterDisable($this);
+            }
+        }
+
         $this->__clearCache();
 
         return true;
@@ -934,7 +1018,7 @@ class InstallerComponent extends Component {
     }
 
 /**
- * Regenerate Modules & Variable cache
+ * Regenerate cache of: Modules, Variable and Hook-Objects Map
  *
  * @return void
  */ 
@@ -942,6 +1026,10 @@ class InstallerComponent extends Component {
         # delete & regenerate caches
         Cache::delete('Modules');
         Cache::delete('Variable');
+
+        # clear objects map
+        Cache::delete('hook_objects_admin_theme');
+        Cache::delete('hook_objects_site_theme');
 
         $this->Controller->Quickapps->loadModules();
         $this->Controller->Quickapps->loadVariables();
