@@ -43,6 +43,11 @@
             <?php echo $plugin == 'Core' ? '<b>' . __t('Core') . '</b>' : $Name; ?><br/>
             <ul>
             <?php foreach ($langs as $code => $po): ?>
+                <?php 
+                    if (!isset($languages[$code])) {
+                        continue;
+                    }
+                ?>
                 <li>
                     <?php echo $languages[$code]; ?>
                     <a href="<?php echo $this->Html->url("/admin/locale/packages/download_package/{$plugin}/{$code}"); ?>" target="_blank"><?php echo __t('download'); ?></a>
