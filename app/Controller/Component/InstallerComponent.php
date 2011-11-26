@@ -267,11 +267,7 @@ class InstallerComponent extends Component {
                             'test' => (
                                     (isset($yaml['info']) && !empty($yaml['info'])) &&
                                     (isset($yaml['info']['name']) && !empty($yaml['info']['name'])) &&
-                                    (isset($yaml['info']['description']) && !empty($yaml['info']['description'])) &&
-                                    (isset($yaml['info']['version']) && !empty($yaml['info']['version'])) &&
-                                    (isset($yaml['info']['author']) && !empty($yaml['info']['author'])) &&
                                     (isset($yaml['info']['core']) && !empty($yaml['info']['core'])) &&
-                                    isset($yaml['stylesheets']) &&
                                     (isset($yaml['regions']) && !empty($yaml['regions'])) &&
                                     (isset($yaml['layout']) && !empty($yaml['layout']))
                             ),
@@ -357,7 +353,7 @@ class InstallerComponent extends Component {
                 $r = $Install->beforeInstall($this);
             }
 
-            if ($r === false) {
+            if ($r !== true) {
                 return false;
             }
 
@@ -476,7 +472,7 @@ class InstallerComponent extends Component {
             $r = $Install->beforeUninstall($this);
         }
 
-        if ($r === false) {
+        if ($r !== true) {
             return false;
         }
 
@@ -580,6 +576,8 @@ class InstallerComponent extends Component {
             }
         }
 
+        $r = true;
+
         if ($to) {
             if (method_exists($Install, 'beforeEnable')) {
                 $r = $Install->beforeEnable($this);
@@ -590,7 +588,7 @@ class InstallerComponent extends Component {
             }
         }
 
-        if (isset($r) && $r === false) {
+        if ($r !== true) {
             return false;
         }
 
