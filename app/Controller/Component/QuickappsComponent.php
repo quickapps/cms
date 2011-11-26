@@ -102,13 +102,15 @@ class QuickAppsComponent extends Component {
 
             Configure::write('Theme', $yaml);
 
-            foreach ($yaml['stylesheets'] as $media => $files) {
-                if (!isset($this->Controller->Layout['stylesheets'][$media])){
-                    $this->Controller->Layout['stylesheets'][$media] = array();
-                }
+            if (isset($yaml['stylesheets']) && !empty($yaml['stylesheets'])) {
+                foreach ($yaml['stylesheets'] as $media => $files) {
+                    if (!isset($this->Controller->Layout['stylesheets'][$media])){
+                        $this->Controller->Layout['stylesheets'][$media] = array();
+                    }
 
-                foreach ($files as $file) {
-                    $this->Controller->Layout['stylesheets'][$media][] = $file;
+                    foreach ($files as $file) {
+                        $this->Controller->Layout['stylesheets'][$media][] = $file;
+                    }
                 }
             }
         }

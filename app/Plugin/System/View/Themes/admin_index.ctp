@@ -20,7 +20,20 @@
 <?php echo $this->Html->useTag('fieldsetstart', __t('Frontend themes')  ); ?>
 <table width="100%">
     <?php
-    foreach ($themes as $name => $data):
+    foreach ($themes as $name => $_data):
+        $data = array(
+            'info' => array(
+                'name' => '',
+                'description' => '',
+                'version' => '--',
+                'core' => '',
+                'author' => '--',
+                'dependencies' => array()
+            )
+        );
+
+        $data = Set::merge($data, $_data);
+
         if (strpos($name, 'Admin') === 0) {
             continue;
         }
@@ -60,7 +73,20 @@
 <?php echo $this->Html->useTag('fieldsetstart', __t('Backend themes')  ); ?>
     <table width="100%">
     <?php
-    foreach ($themes as $name => $data):
+    foreach ($themes as $name => $_data):
+        $data = array(
+            'info' => array(
+                'name' => '',
+                'description' => '',
+                'version' => '--',
+                'core' => '',
+                'author' => '--',
+                'dependencies' => array()
+            )
+        );
+
+        $data = Set::merge($data, $_data);
+
         if (strpos($name, 'Admin') !== 0) {
             continue;
         }
