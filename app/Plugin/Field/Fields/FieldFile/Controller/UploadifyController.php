@@ -25,8 +25,8 @@ class UploadifyController extends FieldFileAppController {
 
         if ($field) {
             $folder = str_replace('/', DS, $field['Field']['settings']['upload_folder']);
-            $path = APP . 'webroot' . DS . 'files' . DS . $folder . DS;
-            $file = str_replace(DS.DS, DS, $path . $file);
+            $path = WWW_ROOT . 'files' . DS . $folder . DS;
+            $file = str_replace(DS . DS, DS, $path . $file);
 
             if (file_exists($file)) {
                 @unlink($file);
@@ -53,7 +53,7 @@ class UploadifyController extends FieldFileAppController {
         }
 
         $Upload->file_overwrite = false;
-        $folder = APP . 'webroot' . DS . 'files' . DS;
+        $folder = WWW_ROOT . 'files' . DS;
         $folder .= isset($field['Field']['settings']['upload_folder']) ? str_replace('/', DS, $field['Field']['settings']['upload_folder']) : '';
         $url = '/files/';
         $url .= isset($field['Field']['settings']['upload_folder']) ? $field['Field']['settings']['upload_folder'] : '';

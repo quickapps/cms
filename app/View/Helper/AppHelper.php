@@ -330,7 +330,7 @@ class AppHelper extends Helper {
                     $filePath[] = App::pluginPath($plugin) . 'View' . DS . 'Helper' . DS . "{$hookHelper}Helper" . '.php';
                 } else {
                     $filePath[] = APP . 'View' . DS . 'Helper' . DS . "{$hook}Helper.php";
-                    $filePath[] = dirname(THEMES) . DS . 'HookTags' . DS . "{$hook}Helper.php";
+                    $filePath[] = ROOT . DS . 'Hooks' . DS . 'Helper' . DS . "{$hook}Helper.php";
                 }
 
                 if ($this->files_exists($filePath)) {

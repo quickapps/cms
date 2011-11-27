@@ -31,7 +31,7 @@
  * Installer
  *
  */
-    if (!file_exists(APP . 'Config' . DS . 'database.php') || !file_exists(APP . 'Config' . DS . 'install')) {
+    if (!file_exists(ROOT . DS . 'Config' . DS . 'database.php') || !file_exists(ROOT . DS . 'Config' . DS . 'install')) {
         Router::connect('/', array('controller' => 'install'));
     } else {
         Router::connect('/', array('plugin' => 'Node', 'controller' => 'node', 'action' => 'index'));
@@ -49,3 +49,5 @@
  * the built-in default routes.
  */
 	require CAKE . 'Config' . DS . 'routes.php';
+
+    include_once ROOT . DS . 'Config' . DS . 'routes.php';

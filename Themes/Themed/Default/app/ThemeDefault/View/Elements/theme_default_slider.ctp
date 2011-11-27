@@ -1,11 +1,14 @@
 <div id="slider-wrapper">
     <div id="slider" class="nivoSlider">
         <?php
-            $folder = 'files/' . Configure::read('Modules.ThemeDefault.settings.slider_folder') . '/';
-            $folder = preg_replace('/\/{2,}/i', '/', $folder);
+            $folder = WWW_ROOT . DS . 'files' . DS . Configure::read('Modules.ThemeDefault.settings.slider_folder') . DS;
+            $url_folder = 'files/' . Configure::read('Modules.ThemeDefault.settings.slider_folder') . '/';
+            $folder = str_replace('/', DS, $folder);
+            $folder = preg_replace('/\/{2,}/i', DS, $folder);
             $images = explode("\n", $this->Layout->hookTags($block['Block']['settings']['slider_order']));
             $i = 1;
             $captions = array();
+
             foreach ($images as $image) {
                 if (empty($image)) {
                     continue;
@@ -15,7 +18,7 @@
                 $image[0] = @trim($image[0]);
 
                 if (file_exists($folder . $image[0])) {
-                    $url = '/' . $folder . $image[0];
+                    $url = '/' . $url_folder . $image[0];
                     $url = preg_replace('/\/{2,}/i', '/', $url);
 
                     if (isset($image[1]) && !empty($image[1])  && isset($image[2]) && !empty($image[2])) {

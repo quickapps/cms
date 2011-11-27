@@ -81,7 +81,7 @@ class FieldFileHookBehavior extends ModelBehavior {
 
             foreach ($old_files as $file_name) {
                 if (!in_array($file_name, $new_files)) {
-                    $file_path = APP . 'webroot' . DS . 'files' . DS . str_replace('/', DS, $data['Field']['settings']['upload_folder']) . $file_name;
+                    $file_path = WWW_ROOT . 'files' . DS . str_replace('/', DS, $data['Field']['settings']['upload_folder']) . $file_name;
 
                     if (file_exists($file_path)) {
                         @unlink($file_path);

@@ -29,6 +29,7 @@ class QaHtmlHelper extends AppHelper {
  */
     function table($data , $options) {
         $_data = array('data' => $data, 'options' => $options);
+
         $this->hook('html_table_alter', $_data);
         extract($_data);
 
@@ -45,9 +46,9 @@ class QaHtmlHelper extends AppHelper {
  * @see HtmlHelper::link() for details on $options that can be used.
  */
     public function addCrumb($name, $link = null, $options = null) {
-        /* Hook */
         $data = array('name' => $name, 'link' => $link, 'options' => $options);
-        $this->hook('html_meta_alter',  $data);
+
+        $this->hook('html_meta_alter', $data);
         extract($data);
 
         return $this->CoreHtml->addCrumb($name, $link, $options);
@@ -73,7 +74,8 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1439/docType
  */
     public function docType($type = 'xhtml-strict') {
-        $this->hook('html_docType_alter', $type);
+        $this->hook('html_doc_type_alter', $type);
+
         return $this->CoreHtml->docType($type);
     }
 
@@ -93,9 +95,9 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1438/meta
  */
     public function meta($type, $url = null, $options = array()) {
-        /* Hook */
         $data = array('type' => $type, 'url' => $url, 'options' => $options);
-        $this->hook('html_meta_alter',  $data);
+
+        $this->hook('html_meta_alter', $data);
         extract($data);
 
         return $this->CoreHtml->meta($type, $url, $options);
@@ -111,8 +113,7 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1436/charset
  */
     public function charset($charset = null) {
-        /* Hook */
-        $this->hook('html_charset_alter',  $charset);
+        $this->hook('html_charset_alter', $charset);
 
         return $this->CoreHtml->charset($charset);
     }
@@ -139,9 +140,9 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1442/link
  */
     public function link($title, $url = null, $options = array(), $confirmMessage = false) {
-        /* Hook */
         $data = array('title' => $title, 'url' => $url, 'options' => $options, 'confirmMessage' => $confirmMessage);
-        $this->hook('html_link_alter',  $data);
+
+        $this->hook('html_link_alter', $data);
         extract($data);
 
         return $this->CoreHtml->link($title, $url, $options, $confirmMessage);
@@ -164,9 +165,9 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1437/css
  */
     public function css($path, $rel = null, $options = array()) {
-        /* Hook */
         $data = array('path' => $path, 'rel' => $rel, 'options' => $options);
-        $this->hook('html_css_alter',  $data);
+
+        $this->hook('html_css_alter', $data);
         extract($data);
 
         return $this->CoreHtml->css($path, $rel, $options);
@@ -194,9 +195,9 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1589/script
  */
     public function script($url, $options = array()) {
-        /* Hook */
         $data = array('url' => $url, 'options' => $options);
-        $this->hook('html_script_alter',  $data);
+
+        $this->hook('html_script_alter', $data);
         extract($data);
 
         return $this->CoreHtml->script($url, $options);
@@ -217,9 +218,9 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1604/scriptBlock
  */
     public function scriptBlock($script, $options = array()) {
-        /* Hook */
         $data = array('script' => $script, 'options' => $options);
-        $this->hook('html_scriptBlock_alter',  $data);
+
+        $this->hook('html_script_block_alter', $data);
         extract($data);
 
         return $this->CoreHtml->scriptBlock($script, $options);
@@ -241,8 +242,7 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1605/scriptStart
  */
     public function scriptStart($options = array()) {
-        /* Hook */
-        $this->hook('html_scriptStart_alter',  $options);
+        $this->hook('html_script_start_alter', $options);
 
         return $this->CoreHtml->scriptStart($options);
     }
@@ -257,7 +257,11 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1606/scriptEnd
  */
     public function scriptEnd() {
-        return $this->CoreHtml->scriptEnd();
+        $r = $this->CoreHtml->scriptEnd();
+
+        $this->hook('html_script_end_alter', $r);
+
+        return $r;
     }
 
 /**
@@ -279,9 +283,9 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1440/style
  */
     public function style($data, $oneline = true) {
-        /* Hook */
         $data = array('data' => $data, 'oneline' => $oneline);
-        $this->hook('html_style_alter',  $data);
+
+        $this->hook('html_style_alter', $data);
         extract($data);
 
         return $this->CoreHtml->style($data, $oneline);
@@ -295,9 +299,9 @@ class QaHtmlHelper extends AppHelper {
  * @return string Composed bread crumbs
  */
     public function getCrumbs($separator = '&raquo;', $startText = false) {
-        /* Hook */
         $data = array('separator' => $separator, 'startText' => $startText);
-        $this->hook('html_getCrumbs_alter',  $data);
+
+        $this->hook('html_get_crumbs_alter', $data);
         extract($data);
 
         return $this->CoreHtml->getCrumbs($separator, $startText);
@@ -315,8 +319,7 @@ class QaHtmlHelper extends AppHelper {
  * @access public
  */
     function getCrumbList($options = array()) {
-        /* Hook */
-        $this->hook('html_getCrumbList_alter',  $options);
+        $this->hook('html_get_crumb_list_alter', $options);
 
         return $this->CoreHtml->getCrumbList($options);
     }
@@ -343,9 +346,9 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1441/image
  */
     public function image($path, $options = array()) {
-        /* Hook */
         $data = array('path' => $path, 'options' => $options);
-        $this->hook('html_image_alter',  $data);
+
+        $this->hook('html_image_alter', $data);
         extract($data);
 
         return $this->CoreHtml->image($path, $options);
@@ -362,9 +365,9 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1446/tableHeaders
  */
     public function tableHeaders($names, $trOptions = null, $thOptions = null) {
-        /* Hook */
         $data = array('names' => $names, 'trOptions' => $trOptions, 'thOptions' => $thOptions);
-        $this->hook('html_tableHeaders_alter',  $data);
+
+        $this->hook('html_table_headers_alter', $data);
         extract($data);
 
         return $this->CoreHtml->tableHeaders($names, $trOptions, $thOptions);
@@ -384,9 +387,9 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1447/tableCells
  */
     public function tableCells($data, $oddTrOptions = null, $evenTrOptions = null, $useCount = false, $continueOddEven = true) {
-        /* Hook */
         $data = array('data' => $data, 'oddTrOptions' => $oddTrOptions, 'evenTrOptions' => $evenTrOptions, 'useCount' => $useCount, 'continueOddEven' => $continueOddEven);
-        $this->hook('html_tableCells_alter',  $data);
+
+        $this->hook('html_table_cells_alter', $data);
         extract($data);
 
         return $this->CoreHtml->tableCells($data, $oddTrOptions, $evenTrOptions, $useCount, $continueOddEven);
@@ -408,8 +411,8 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1443/tag
  */
     public function tag($name, $text = null, $options = array()) {
-        /* Hook */
         $data = array('name' => $name, 'text' => $text, 'options' => $options);
+
         $this->hook('html_tag_alter',  $data);
         extract($data);
 
@@ -423,10 +426,12 @@ class QaHtmlHelper extends AppHelper {
  * @return string Formatted block
  */
     public function useTag($tag) {
-        /* Hook */
         $args = func_get_args();
+
         array_shift($args);
+
         $data = array('tag' => $tag, 'args' => $args);
+
         $this->hook('html_useTag_alter', $data);
         extract($data);
 
@@ -438,6 +443,7 @@ class QaHtmlHelper extends AppHelper {
 
         $before = $this->hook('html_before_useTag', $data, array('collectReturn' => true));
         $after = $this->hook('html_after_useTag', $data, array('collectReturn' => true));
+
         return implode(' ', (array)$before) . vsprintf($this->CoreHtml->_tags[$tag], $args) . implode(' ', (array)$after);
     }
 
@@ -457,9 +463,9 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1444/div
  */
     public function div($class = null, $text = null, $options = array()) {
-        /* Hook */
         $data = array('class' => $class, 'text' => $text, 'options' => $options);
-        $this->hook('html_div_alter',  $data);
+
+        $this->hook('html_div_alter', $data);
         extract($data);
 
         return $this->CoreHtml->div($class, $text, $options);
@@ -480,9 +486,9 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1445/para
  */
     public function para($class, $text, $options = array()) {
-        /* Hook */
         $data = array('class' => $class, 'text' => $text, 'options' => $options);
-        $this->hook('html_para_alter',  $data);
+
+        $this->hook('html_para_alter', $data);
         extract($data);
 
         return $this->CoreHtml->para($class, $text, $options);
@@ -498,9 +504,9 @@ class QaHtmlHelper extends AppHelper {
  * @return string The nested list
  */
     public function nestedList($list, $options = array(), $itemOptions = array(), $tag = 'ul') {
-        /* Hook */
         $data = array('list' => $list, 'options' => $options, 'itemOptions' => $itemOptions, 'tag' => $tag);
-        $this->hook('html_nestedList_alter',  $data);
+
+        $this->hook('html_nested_list_alter',  $data);
         extract($data);
 
         return $this->CoreHtml->nestedList($list, $options, $itemOptions, $tag);
@@ -514,9 +520,9 @@ class QaHtmlHelper extends AppHelper {
  * @return mixed False to error or loaded configs
  */
     public function loadConfig($configFile, $path = CONFIGS) {
-        /* Hook */
         $data = array('configFile' => $configFile, 'path' => $path);
-        $this->hook('html_loadConfig_alter',  $data);
+
+        $this->hook('html_load_config_alter',  $data);
         extract($data);
 
         return $this->CoreHtml->loadConfig($configFile, $path);

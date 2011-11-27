@@ -34,7 +34,7 @@ class InstallController extends Controller {
         $this->layout    = 'install';
 
         # already installed ?
-        if (file_exists(APP . DS . 'Config' . DS . 'database.php') && file_exists(APP . DS . 'Config' . DS . 'install')) {
+        if (file_exists(ROOT . DS . 'Config' . DS . 'database.php') && file_exists(ROOT . DS . 'Config' . DS . 'install')) {
             $this->redirect('/');
         }
     }
@@ -76,36 +76,36 @@ class InstallController extends Controller {
                 'msg'  => __t('Your server has SafeMode on, please turn it off before continue.')
             ),
             'tmp_writable' => array(
-                'test' => is_writable(APP . DS . 'tmp'),
-                'msg'  => __t('APP/tmp folder is not writable')
+                'test' => is_writable(TMP),
+                'msg'  => __t('tmp folder is not writable')
             ),
             'cache_writable' => array(
-                'test' => is_writable(APP . DS . 'tmp' . DS . 'cache'),
-                'msg'  => __t('APP/tmp/cache folder is not writable')
+                'test' => is_writable(TMP . 'cache'),
+                'msg'  => __t('tmp/cache folder is not writable')
             ),
             'installer_writable' => array(
-                'test' => is_writable(APP . DS . 'tmp' . DS . 'cache' . DS . 'installer'),
-                'msg'  => __t('APP/tmp/cache/installer folder is not writable')
+                'test' => is_writable(TMP . 'cache' . DS . 'installer'),
+                'msg'  => __t('tmp/cache/installer folder is not writable')
             ),
             'models_writable' => array(
-                'test' => is_writable(APP . DS . 'tmp' . DS . 'cache' . DS . 'models'),
-                'msg'  => __t('APP/tmp/cache/models folder is not writable')
+                'test' => is_writable(TMP . 'cache' . DS . 'models'),
+                'msg'  => __t('tmp/cache/models folder is not writable')
             ),
             'persistent_writable' => array(
-                'test' => is_writable(APP . DS . 'tmp' . DS . 'cache' . DS . 'persistent'),
-                'msg'  => __t('APP/tmp/cache/persistent folder is not writable')
+                'test' => is_writable(TMP . 'cache' . DS . 'persistent'),
+                'msg'  => __t('tmp/cache/persistent folder is not writable')
             ),
             'i18n_writable' => array(
-                'test' => is_writable(APP . DS . 'tmp' . DS . 'cache' . DS . 'i18n'),
-                'msg'  => __t('APP/tmp/cache/i18n folder is not writable')
+                'test' => is_writable(TMP . 'cache' . DS . 'i18n'),
+                'msg'  => __t('tmp/cache/i18n folder is not writable')
             ),
             'Config_writable' => array(
-                'test' => is_writable(APP . DS . 'Config'),
-                'msg'  => __t('APP/Config folder is not writable')
+                'test' => is_writable(ROOT . DS . 'Config'),
+                'msg'  => __t('Config folder is not writable')
             ),
             'core.php_writable' => array(
-                'test' => is_writable(APP . DS . 'Config'),
-                'msg'  => __t('APP/Config/core.php file is not writable')
+                'test' => is_writable(ROOT . DS . 'Config' . DS . 'core.php'),
+                'msg'  => __t('Config/core.php file is not writable')
             )
         );
 
@@ -126,10 +126,10 @@ class InstallController extends Controller {
         }
 
         if (!empty($this->data['Database'])) {
-            copy(APP . 'Config' . DS . 'database.php.install', APP . 'Config' . DS . 'database.php');
+            copy(APP . 'Config' . DS . 'database.php.install', ROOT . DS . 'Config' . DS . 'database.php');
             App::import('Utility', 'File');
 
-            $file = new File(APP . 'Config' . DS . 'database.php', true);
+            $file = new File(ROOT . DS . 'Config' . DS . 'database.php', true);
             $dbSettings = $file->read();
             $data = $this->data;
             $data['Database']['datasource'] = 'Database/Mysql';
@@ -164,9 +164,9 @@ class InstallController extends Controller {
 
                 if (@mysql_select_db($this->__defaultDbConfig['database'], $MySQLConn)) {
                     @App::import('Model', 'ConnectionManager');
-                    @ConnectionManager::create('default');
+                    @ConnectionManager::create('default', $this->__defaultDbConfig);
 
-                    $db = ConnectionManager::getDataSource('default', $this->__defaultDbConfig);
+                    $db = ConnectionManager::getDataSource('default');
                     $folder = new Folder(APP . 'Config' . DS . 'Schema' . DS . 'tables' . DS);
                     $files = $folder->read();
                     $files = $files[1];
@@ -181,7 +181,7 @@ class InstallController extends Controller {
 
                     if (!in_array(false, array_values($execute), true)) {
                         # random keys values
-                        $file = new File(APP . 'Config' . DS . 'core.php');
+                        $file = new File(ROOT . DS . 'Config' . DS . 'core.php');
 
                         App::uses('Security', 'Utility');
                         App::load('Security');
@@ -200,7 +200,7 @@ class InstallController extends Controller {
                     }
                 } else {
                     $file->close();
-                    unlink(APP . 'Config' . DS . 'database.php');
+                    unlink(ROOT . DS . 'Config' . DS . 'database.php');
                     $this->Session->setFlash(__t('Could not connect to database.'), 'default', 'error');
                 }
             } else {
@@ -255,7 +255,7 @@ class InstallController extends Controller {
 
         App::import('Utility', 'File');
 
-        $file = new File(APP . 'Config' . DS . 'install', true);
+        $file = new File(ROOT . DS . 'Config' . DS . 'install', true);
 
         if ($file->write(time())) {
             $this->__stepSuccess('finish');

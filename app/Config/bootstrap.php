@@ -124,7 +124,10 @@ Cache::config('default', array('engine' => 'File'));
     }
 
 /**
- * Translation function, domain search order: current plugin, default (global)
+ * Translation function, domain search order:
+ * 1º Current plugin
+ * 2º Default
+ * 3º Translatable entries cache
  *
  * @param string $singular String to translate
  * @return string the translated string
@@ -136,13 +139,13 @@ Cache::config('default', array('engine' => 'File'));
 
         App::uses('I18n', 'I18n');
         $route = Router::getParams();
-        $translated = I18n::translate($singular, null, $route['plugin']); # look in plugin 
+        $translated = I18n::translate($singular, null, $route['plugin']); # 1º look in plugin 
 
-        if ($translated === $singular) { # look in default
+        if ($translated === $singular) { # 2º look in default
             $translated = I18n::translate($singular, null, 'default');
         }
 
-        if ($translated === $singular) { # llok in transtalion db-cache
+        if ($translated === $singular) { # 3º look in transtalion db-cache
             $cache = Cache::read(md5($singular) . '_' . Configure::read('Config.language'), 'i18n');
             $translated = $cache ? $cache: $singular;
         }
@@ -199,3 +202,5 @@ Cache::config('default', array('engine' => 'File'));
 
         return $string;
     }
+
+    include_once ROOT . DS . 'Config' . DS . 'bootstrap.php';

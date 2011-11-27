@@ -2,6 +2,6 @@
  
  * Create a new MySQL database ('utf8_unicode_ci' collation)
  * Use the SQL dump file 'quickapps.install.sql'
- * Rename app/Config/database.php.install to database.php and set your database information (use 'qa_' as prefix)
- * Copy the 'install' file located in this folder to app/Config/
+ * Rename ./Config/database.php.install to database.php and set your database information (use 'qa_' as prefix)
+ * Copy the 'install' file located in this folder to ./Config/
  * The default username and password are: **admin/admin**

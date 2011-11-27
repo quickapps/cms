@@ -9,16 +9,52 @@
  * @author   Christopher Castro <chris@quickapps.es>
  * @link     http://cms.quickapps.es
  */
+ 
+ /**
+  * ##Expected data's structure
+  * $data MUST be a numeric array. (Any list result of `Model::find()` or paginated result)
+  *     {{{
+  *         $data = array(
+  *             0 => array(
+  *                 'Model' => array('field1' => 'data', ...),
+  *                 'Model2' => ...
+  *             ),
+  *             ....
+  *         );
+  *     }}}
+  *
+  * ##Options:
+  * columns (array): Information about each of the columns of your table.
+  *    {{{
+  *         ...
+  *         'Column Title' => array(
+  *             'value' => ,        # (string) Values to display when filling this column. 
+  *                                     You can specify array paths to find in the $data array. e.g.: `{Model.field}`
+  *                                     Also:
+  *                                         {php}{/php}: Will print out the result returned by the PHP code. e.g.: {php} return 'hello world!'; {/php}
+  *                                         {url}{/url}: Will print out the specified internal/external URL. e.g.: {url}/this/is_an/internal_url{/url}
+  *             'thOptions' => ,    # (array) <th> tag options for this column. This will affect table header only.
+  *             'tdOptions' => ,    # (array) <td> tag options for this column. This will affect table body (result rows) only.
+  *             'sort' =>           # Optional (string) `Model.field`
+  *         )
+  *         ...
+  *     }}}
+  *
+  * headerPosition (mixed): render header at `top`, `bottom`, `top&bottom`, false (no render).
+  * headerRowOptions (array): header <tr> tag attributes.
+  * noItemsMessage (string): message when there are 0 records.
+  * tableOptions (array): table tag <table> attributes.
+  * paginate (array): set to false for no pagination.
+  */
 class TableHelper extends AppHelper {
     public $helpers = array('Html', 'Paginator');
-
     private $_defaults = array(
-        'columns' => array(),            # Array: db results
-        'headerPosition' => 'top',        # Mix: render header at top, bottom, top&bottom, false (no render)
-        'headerRowOptions' => array(),    # Array: header <tr> tag attributes
-        'noItemsMessage' => 'There are no items to display',    # String: message when there are 0 records
-        'tableOptions' => array(),        # Array: table tag attributes
-        'paginate' => array(            # Array: or false for no pagination
+        'columns' => array(),
+        'headerPosition' => 'top',
+        'headerRowOptions' => array(),
+        'noItemsMessage' => 'There are no items to display',
+        'tableOptions' => array(),
+        'paginate' => array(
             'options' => array(),
             'prev' => array(
                 'title' => '« Previous ',
@@ -60,7 +96,7 @@ class TableHelper extends AppHelper {
 
     private $_colsCount = 0;
 
-    function create($data, $options) {
+    public function create($data, $options) {
         $this->_defaults['paginate']['prev']['title'] = __t('« Previous ');
         $this->_defaults['paginate']['next']['title'] = __t(' Next »');
 
@@ -194,12 +230,10 @@ class TableHelper extends AppHelper {
     protected function _renderPaginator($array) {
         $out = $paginator = '';
         $array = $array['paginate'];
-
         $paginator .= $this->Paginator->options($array['options']);
         $paginator .= $this->Paginator->prev($array['prev']['title'], $array['prev']['options'], $array['prev']['disabledTitle'], $array['prev']['disabledOptions']);
         $paginator .= $this->Paginator->numbers($array['numbers']['options']);
         $paginator .= $this->Paginator->next($array['next']['title'], $array['next']['options'], $array['next']['disabledTitle'], $array['next']['disabledOptions']);
-
         $td    = $this->Html->useTag('tablecell', $this->Html->_parseAttributes(array_merge(array('colspan' => $this->_colsCount), $array['tdOptions'])), $paginator);
         $out .= $this->Html->useTag('tablerow', $this->Html->_parseAttributes($array['trOptions']), $td);
 

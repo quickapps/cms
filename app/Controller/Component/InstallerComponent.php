@@ -435,7 +435,7 @@ class InstallerComponent extends Component {
             return false;
         }
 
-        $dep = $this->Installer->checkReverseDependency($Name);
+        $dep = $this->checkReverseDependency($Name);
 
         if (count($dep)) {
             $this->errors[] = __t('This module can not be uninstalled, because it is required by: %s', implode('<br />', Set::extract('{n}.name', $dep)));
@@ -668,11 +668,11 @@ class InstallerComponent extends Component {
     }
 
 /**
- * Creates acos for especified plugin by parsing its Controller folder.
- * Plugin's fields are also analyzed.
+ * Creates acos for especified module by parsing its Controller folder.
+ * Module's fields are also analyzed.
  * Usage example:
  * {{{
- *      buildAcos('user', APP . 'Plugin' . DS); // Core plugin
+ *      buildAcos('User', APP . 'Plugin' . DS); // Core module `User`
  * }}}
  *
  * @param string $plugin CamelCase plugin name to analyze
