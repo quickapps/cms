@@ -1021,7 +1021,7 @@ class InstallerComponent extends Component {
  * @return void
  */ 
     private function __clearCache() {
-        # delete & regenerate caches
+        # clear modules & variables
         Cache::delete('Modules');
         Cache::delete('Variable');
 
@@ -1029,6 +1029,10 @@ class InstallerComponent extends Component {
         Cache::delete('hook_objects_admin_theme');
         Cache::delete('hook_objects_site_theme');
 
+        # clear bootstrap plugin paths
+        Cache::delete('plugin_paths');
+
+        # regenerate modules & variables
         $this->Controller->Quickapps->loadModules();
         $this->Controller->Quickapps->loadVariables();
     }

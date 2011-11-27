@@ -55,44 +55,54 @@ Cache::config('default', array('engine' => 'File'));
     define('THEMES', ROOT  . DS . 'Themes' . DS . 'Themed' . DS);
     App::uses('Spyc', 'vendors');
     App::uses('Folder', 'Utility');
-    $__searchPath = array();
 
 /**
  * Load themes as plugin
+ *
  */
-    $folder = new Folder;
-    $folder->path = THEMES;
-    
-    $__themes = $folder->read();
-    $__themes = $__themes[0];
-    
-    foreach ($__themes as $__tname) {
-        $__searchPath[] = THEMES . $__tname . DS . 'app' . DS;
-    }
+    $__plugin_paths = Cache::read('plugin_paths');
 
-    $__searchPath[] = ROOT . DS . 'Modules' . DS;
+    if (!$__plugin_paths) {
+        $folder = new Folder;
+        $folder->path = THEMES;
+
+        $__themes = $folder->read();
+        $__themes = $__themes[0];
+
+        foreach ($__themes as $__tname) {
+            $__plugin_paths[] = THEMES . $__tname . DS . 'app' . DS;
+        }
+
+        $__plugin_paths[] = ROOT . DS . 'Modules' . DS;
+
+        App::build(array('plugins' => $__plugin_paths));
+
+        $plugins = App::objects('plugins', null, false);
+
+        foreach ($plugins as $plugin) {
+            CakePlugin::load($plugin, array('bootstrap' => true, 'routes' => true));
+
+            $__ppath = CakePlugin::path($plugin);
+            $__ppath = str_replace(DS . $plugin . DS, DS . $plugin . DS, $__ppath);
+
+            if (file_exists($__ppath . 'Fields' . DS)) {
+                $__plugin_paths[] = $__ppath . 'Fields' . DS;
+            }
+        }
+
+        Cache::write('plugin_paths', $__plugin_paths);
+        unset($__themes, $__tname, $folder, $__ppath);
+    }
 
     App::build(
         array(
-            'views' => ROOT  . DS . 'Themes' . DS, 'plugins' => $__searchPath,
+            'views' => ROOT  . DS . 'Themes' . DS, 
+            'plugins' => $__plugin_paths,
             'Model/Behavior' => ROOT . DS . 'Hooks' . DS . 'Behavior' . DS,
             'View/Helper' => ROOT . DS . 'Hooks' . DS . 'Helper' . DS,
             'Controller/Component' => ROOT . DS . 'Hooks' . DS . 'Component' . DS
         )
     );
-
-    $plugins = App::objects('plugins', null, false);
-
-    foreach ($plugins as $plugin) {
-        CakePlugin::load($plugin, array('bootstrap' => true, 'routes' => true));
-
-        $ppath = CakePlugin::path($plugin);
-        $ppath = str_replace(DS . $plugin . DS, DS . $plugin . DS, $ppath);
-
-        if (file_exists($ppath . 'Fields' . DS)) {
-            App::build(array('plugins' => array($ppath . 'Fields' . DS)));
-        }
-    }
 
     $plugins = App::objects('plugins', null, false);
 
@@ -102,7 +112,7 @@ Cache::config('default', array('engine' => 'File'));
         }
     }
 
-    unset($__searchPath, $__themes, $__tname, $folder, $plugins, $plugin);         
+    unset($__plugin_paths, $plugins, $plugin);
 
 /**
  * Return only the methods for the object you indicate. It will strip out the inherited methods
