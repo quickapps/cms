@@ -1,7 +1,7 @@
 <div id="slider-wrapper">
     <div id="slider" class="nivoSlider">
         <?php
-            $folder = WWW_ROOT . DS . 'files' . DS . Configure::read('Modules.ThemeDefault.settings.slider_folder') . DS;
+            $folder = WWW_ROOT . 'files' . DS . Configure::read('Modules.ThemeDefault.settings.slider_folder') . DS;
             $url_folder = 'files/' . Configure::read('Modules.ThemeDefault.settings.slider_folder') . '/';
             $folder = str_replace('/', DS, $folder);
             $folder = preg_replace('/\/{2,}/i', DS, $folder);
@@ -26,13 +26,13 @@
 
                         $captions[] = "<div id=\"sliderCaption{$i}\" class=\"nivo-html-caption\">" . __t($image[2]) . "</div>";
                     } elseif (isset($image[1]) && !empty($image[1])) {
-                        echo "<a href=\"{$image[1]}\">" . $this->Html->image($url) . "</a>";
+                        echo "<a href=\"{$image[1]}\">" . $this->Html->image($url, array('title' => '')) . "</a>";
                     } elseif (isset($image[2]) && !empty($image[2])) {
                         echo $this->Html->image($url, array('title' => "#sliderCaption{$i}"));
 
                         $captions[] = "<div id=\"sliderCaption{$i}\" class=\"nivo-html-caption\">" . __t($image[2]) . "</div>";
                     } else {
-                        echo $this->Html->image($url);
+                        echo $this->Html->image($url, array('title' => ''));
                     }
 
                     echo "\n";
