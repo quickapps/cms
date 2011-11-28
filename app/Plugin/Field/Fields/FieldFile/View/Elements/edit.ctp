@@ -142,16 +142,18 @@
     Settings['fileExt'] = '*.<?php echo str_replace(',', ';*.', $data['settings']['extensions']); ?>';
     Settings['fileDesc'] = '<?php echo $data['label']; ?>';
     Settings['queueID'] = 'FieldQueue<?php echo $data['id']; ?>';
-    Settings['multi'] = false;
-    Settings['queueSizeLimit'] = 1;
     Settings['upload_folder'] = '<?php echo @$data['settings']['upload_folder']; ?>';
     Settings['description'] = <?php echo isset($data['settings']['description']) && $data['settings']['description'] ? 'true' : 'false'; ?>;
     Settings['instance_id'] = <?php echo $data['id']; ?>;
-    Settings['num_files'] = <?php echo $data['settings']['multi']; ?>;
+    Settings['can_upload'] = <?php echo $data['settings']['multi'] - count($data['FieldData']['data']['files']); ?>;
     <?php if ($multi): ?>
 
     Settings['multi'] = true;
-    Settings['queueSizeLimit'] = <?php echo $data['settings']['multi'] - count($data['FieldData']['data']['files']); ?>;
+    Settings['queueSizeLimit'] = <?php echo $data['settings']['multi']; ?>;
+    <?php else: ?>
+    
+    Settings['multi'] = false;
+    Settings['queueSizeLimit'] = 1;
     <?php endif; ?>
 
     QuickApps.field_file.setupField('FieldDataFieldFile<?php echo $data['id']; ?>', Settings);

@@ -15,14 +15,14 @@ QuickApps.field_file.setupField = function (_field_id, settings) {
 
         QuickApps.field_file.instances[_field_id] = {'settings': settings};
         
-        $(field_id + 'Uploader').uploadify({                                             
+        $(field_id + 'Uploader').uploadify({
             'uploader'  : QuickApps.field_file.uploader,
             'script'    : QuickApps.settings.base_url + 'field_file/uploadify/upload/' + field_id.replace('#FieldDataFieldFile', '') + '/session_id:' + QuickApps.field_file.session_id,
             'cancelImg' : QuickApps.field_file.cancelImg,
             'queueID'   : settings['queueID'],
             'multi'     : settings['multi'],
             'buttonText': QuickApps.__t('Upload'),
-            'queueSizeLimit'   : settings['queueSizeLimit'],
+            'queueSizeLimit' : settings['queueSizeLimit'],
             'auto'      : true,
             'fileExt'   : settings['fileExt'],
             'fileDesc'  : settings['fileDesc'],
@@ -31,9 +31,23 @@ QuickApps.field_file.setupField = function (_field_id, settings) {
                 r.ID = ID;
 
                 QuickApps.field_file.afterUpload(_field_id, r);
-            }           
+            },
+            'onSelectOnce'    : function(event, data) {
+                QuickApps.field_file.onSelectOnce(_field_id, data);
+            }
         });
     });
+};
+
+
+QuickApps.field_file.onSelectOnce = function (_field_id, data) {
+    field_id = '#' + _field_id;
+    var settings = QuickApps.field_file.instances[_field_id].settings;
+
+    if (data.filesSelected > settings.can_upload) {
+        $(field_id + 'Uploader').uploadifyClearQueue();
+        alert(data.filesSelected + ' files selected. You are allowed to select ' + settings.can_upload + ' as max.');
+    }
 };
 
 QuickApps.field_file.afterUpload = function (_field_id, response) {
@@ -51,7 +65,7 @@ QuickApps.field_file.afterUpload = function (_field_id, response) {
     try {
         var __uploaded = $.parseJSON($(field_id + 'UploadedPath').attr('value'));
     } catch(e) {
-        
+
     }
 
     if ($.isArray(__uploaded)) {
@@ -97,22 +111,19 @@ QuickApps.field_file.afterUpload = function (_field_id, response) {
     // insert new node
     $(field_id + ' .files-list').append(html);    
     $(field_id + ' .files-list').show();
-    QuickApps.field_file.instances[_field_id].settings.queueSizeLimit--;    
 
     try {
-        // wont work if uploader is hidden
-        $(field_id + 'Uploader').uploadifySettings('queueSizeLimit', settings.queueSizeLimit);
         $(field_id + 'UploadedPath').attr('value', $.toJSON(uploaded));
     } catch(e){
-        
+
     }
 
     // toggle off uploader
-    if ((count > settings.queueSizeLimit+1) ||
-        (settings.multi == 1 && settings.num_files == count)
-    ) {
-        $(field_id + ' div.uploader').hide();        
+    if (settings.can_upload+1 < count) {
+        $(field_id + ' div.uploader').hide();
     }
+
+    settings.can_upload--;
 };
 
 /**
@@ -126,7 +137,9 @@ QuickApps.field_file.remove = function (_field_id) {
     var splited_id = _field_id.split('_');
     var file_id = splited_id[1];
     var __upload_path = [];
-    QuickApps.field_file.instances[splited_id[0]].settings.__deleted = false;
+    var settings = QuickApps.field_file.instances[splited_id[0]].settings;
+
+    settings.__deleted = false;
     field_id = '#' + splited_id[0];
     var instance_id = field_id.replace('#FieldDataFieldFile', '');
 
@@ -146,6 +159,7 @@ QuickApps.field_file.remove = function (_field_id) {
 
     if (upload_path.length) { // just uploaded
         var i = 0;
+
         $.each(upload_path, function (key, value) {
             if (value == file_name) {
                 $.ajax({
@@ -153,7 +167,7 @@ QuickApps.field_file.remove = function (_field_id) {
                 });
 
                 delete upload_path[key];
-                QuickApps.field_file.instances[splited_id[0]].settings.__deleted = true;
+                settings.__deleted = true;
                 $('div#' + _field_id).parent().remove(); // remove li div
 
                 try {
@@ -165,7 +179,7 @@ QuickApps.field_file.remove = function (_field_id) {
         });
     }
 
-    // look in atatched list
+    // look in attached list
     if (QuickApps.field_file.instances[splited_id[0]].settings.__deleted == false) {
         $(field_id + ' div.snippet').each(function(){
             var snippet = $(this);
@@ -177,19 +191,13 @@ QuickApps.field_file.remove = function (_field_id) {
         });
     }
 
+    settings.can_upload++;
+
     // toggle on uploader
-    count = QuickApps.field_file.__countFiles(field_id);
-    QuickApps.field_file.instances[splited_id[0]].settings.queueSizeLimit = QuickApps.field_file.instances[splited_id[0]].settings.num_files - count;
+    if (settings.can_upload > 0) {
+        $(field_id + ' div.uploader').show();
 
-    if (QuickApps.field_file.instances[splited_id[0]].settings.queueSizeLimit > 0) {
-        $(field_id + ' div.uploader').show(0.5,
-            function (){
-                var limit = QuickApps.field_file.instances[splited_id[0]].settings.queueSizeLimit;
-                $(field_id + 'Uploader').uploadifySettings('queueSizeLimit', limit); 
-            }
-        );
-
-        if (count == 0) {
+        if (!QuickApps.field_file.__countFiles(field_id)) {
             $(field_id + ' .files-list').hide();
         } else {
             $(field_id + ' .files-list').show();
