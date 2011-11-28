@@ -6,5 +6,29 @@ app/Cake/Console/
 app/Cake/Test/
 app/Cake/TestSuite/
 
+# modules
+Modules/
+
+# themes
+Themes/Themed/*
+!Themes/Themed/Default
+!Themes/Themed/AdminDefault
+
+# site files
+webroot/files/*
+!webroot/files/slider
+
+# custom hooks
+Hooks/*
+!Hooks/Helper/CustomHooksHelper.php
+
+# site config
+Config/database.php
+Config/core.php
+Config/install
+
+# development stuff
+dev/
+
 # cache
 tmp/
