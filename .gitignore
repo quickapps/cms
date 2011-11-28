@@ -2,6 +2,9 @@
 app/Plugin/System/Console/
 app/Cake/Console/
 
+# Tests
+app/Cake/Test/
+app/Cake/TestSuite/
 
 # cache
 tmp/
