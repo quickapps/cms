@@ -1,0 +1,7 @@
+# Dev Console
+app/Plugin/System/Console/
+app/Cake/Console/
+
+
+# cache
+tmp/
