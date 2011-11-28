@@ -5,7 +5,7 @@
             $url_folder = 'files/' . Configure::read('Modules.ThemeDefault.settings.slider_folder') . '/';
             $folder = str_replace('/', DS, $folder);
             $folder = preg_replace('/\/{2,}/i', DS, $folder);
-            $images = explode("\n", $this->Layout->hookTags($block['Block']['settings']['slider_order']));
+            $images = explode("\n", $this->Layout->hooktags($block['Block']['settings']['slider_order']));
             $i = 1;
             $captions = array();
 

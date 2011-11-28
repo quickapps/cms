@@ -52,5 +52,5 @@
 ?>
 
 <?php if (!empty($data['description'])): ?>
-    <em><?php echo $this->Layout->hookTags($data['description']); ?></em>
+    <em><?php echo $this->Layout->hooktags($data['description']); ?></em>
 <?php endif; ?>

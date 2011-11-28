@@ -444,7 +444,7 @@ class MenuHelper extends AppHelper {
             }
         }
 
-        return $this->_View->Layout->hookTags($return);
+        return $this->_View->Layout->hooktags($return);
     }
 
 /**

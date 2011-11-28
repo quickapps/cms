@@ -122,12 +122,12 @@ class MailerComponent extends Component {
     }
 
 /**
- * Find and replace User's special tags (and optionally HookTags) 
+ * Find and replace User's special tags (and optionally Hooktags) 
  * for the given string.
  * 
  * @param array $user User's associative array (User::find() structure)
  * @param string $text Text where to find and replace
- * @param boolean $doHookTags Set to true for find and replace HookTags
+ * @param boolean $doHooktags Set to true for find and replace Hooktags
  * @return string Replaced text
  */
     public function parseVariables($user, $text, $doHooktags = true) {
@@ -174,7 +174,7 @@ class MailerComponent extends Component {
         }
 
         if ($doHooktags) {
-            $text = $this->Controller->Hook->hookTags($text);
+            $text = $this->Controller->Hook->hooktags($text);
         }
 
         return $text;

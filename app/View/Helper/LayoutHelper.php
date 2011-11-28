@@ -119,7 +119,7 @@ class LayoutHelper extends AppHelper {
         $title = $this->_View->viewVars['title_for_layout'] != Inflector::camelize($this->_View->params['controller']) || Router::getParam('admin') ? $this->_View->viewVars['title_for_layout'] : $title;
         $this->hook('title_for_layout_alter', $title);    # pass title_for_layout to modules
 
-        return $this->hookTags(__t($title));
+        return $this->hooktags(__t($title));
     }
 
 /**
@@ -275,7 +275,7 @@ class LayoutHelper extends AppHelper {
         }
 
         $content .= implode('', (array)$this->hook('after_render_node', $node, array('collectReturn' => true)));
-        $content = "\n\t" . $this->hookTags($content) . "\n";
+        $content = "\n\t" . $this->hooktags($content) . "\n";
 
         if (isset($this->tmp['renderedNodes'])) {
             $this->tmp['renderedNodes']++;
@@ -304,13 +304,13 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
- * Removes all hookTags from given string (except special tags)
+ * Removes all hooktags from given string (except special tags)
  * Useful for plain text converting
  *
  * @param string $string Text where to remove all tags
  * @return string
  */
-    public function removeHookTags($string) {
+    public function removeHooktags($string) {
         $string = $this->specialTags($string);
         $tags = implode('|', $this->hooks);
 
@@ -916,13 +916,13 @@ class LayoutHelper extends AppHelper {
         $Block['weight'] = $block['Block']['__weight']; // X of total
 
         if ($options['title']) {
-            $Block['title'] = $this->hookTags($Block['title']);
+            $Block['title'] = $this->hooktags($Block['title']);
         } else {
             unset($Block['title']);
         }
 
         if ($options['body']) {
-            $Block['body'] = $this->hookTags($Block['body']);
+            $Block['body'] = $this->hooktags($Block['body']);
         } else {
             unset($Block['body']);
         }
@@ -952,7 +952,7 @@ class LayoutHelper extends AppHelper {
  *
  * @return string HTML
  */
-    public function hookTags($text) {
+    public function hooktags($text) {
         $text = $this->specialTags($text);
 
         if (!empty($this->tmp['__hooks_reg'])) {
@@ -961,11 +961,11 @@ class LayoutHelper extends AppHelper {
             $tags = $this->tmp['__hooks_reg'] = implode('|', $this->hooks);
         }
 
-        return preg_replace_callback('/(.?)\[(' . $tags . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', array($this, '__doHookTag'), $text);
+        return preg_replace_callback('/(.?)\[(' . $tags . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', array($this, '__doHooktag'), $text);
     }
 
 /**
- * Special hookTags that are not managed by any modules:
+ * Special hooktags that are not managed by any modules:
  *  `[date=FORMAT]` Return current date(FORMAT).
  *  `[rand={values,by,comma}]` Returns a radom value from the specified group.
  *                             If only two numeric values are given as group, 
@@ -977,7 +977,7 @@ class LayoutHelper extends AppHelper {
  *  `[t=stringToTranslate]` or `[t]stringToTranslate[/t]` text translation: __t(stringToTranslate)
  *  `[t=domain@@stringToTranslate]` Translation by domain __d(domain, stringToTranslate)
  *  `[Layout.PATH]` Get any value from `Layout` variable. i.e.: [Layout.viewMode] gets current view mode
- *                  if path does not exists then '' (empty) is rendered instead the hookTag code.
+ *                  if path does not exists then '' (empty) is rendered instead the hooktag code.
  *
  * @param string $text original text where to replace tags
  * @return string
@@ -1068,17 +1068,17 @@ class LayoutHelper extends AppHelper {
 /**
  * Callback function
  *
- * @see hookTags()
+ * @see Layout::hooktags()
  * @return mixed Hook response or false in case of no response.
  */
-    private function __doHookTag($m) {
+    private function __doHooktag($m) {
         // allow [[foo]] syntax for escaping a tag
         if ($m[1] == '[' && $m[6] == ']') {
             return substr($m[0], 1, -1);
         }
 
         $tag = $m[2];
-        $attr = $this->__hookTagParseAtts( $m[3] );
+        $attr = $this->__hooktagParseAtts( $m[3] );
         $hook = isset($this->hooksMap[$tag]) ? $this->hooksMap[$tag] : false;
 
         if ($hook) {
@@ -1104,7 +1104,7 @@ class LayoutHelper extends AppHelper {
  * @param string $text Tag string to parse
  * @return Array array of attributes
  */
-    private function __hookTagParseAtts($text) {
+    private function __hooktagParseAtts($text) {
         $atts       = array();
         $pattern    = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
         $text       = preg_replace("/[\x{00a0}\x{200b}]+/u", " ", $text);

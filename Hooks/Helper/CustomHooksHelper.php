@@ -10,8 +10,9 @@
  * @link     http://cms.quickapps.es
  */
 
- /*
- * Put here your custom hookTags
+/**
+ * Put here your custom hooktags handler methods
+ *
  */
 class CustomHooksHelper extends AppHelper {
 

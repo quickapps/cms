@@ -1,6 +1,6 @@
 <?php
     $data['label'] = $data['required'] ? $data['label'] . ' *' : $data['label'];
-    $data['label'] = $this->Layout->hookTags($data['label']);
+    $data['label'] = $this->Layout->hooktags($data['label']);
     $data['settings']['type'] = isset($data['settings']['type']) ? $data['settings']['type'] : 'text';
 
     if (!isset($data['FieldData'])) {
@@ -42,5 +42,5 @@
 ?>
 
 <?php if (!empty($data['description'])): ?>
-    <em><?php echo $this->Layout->hookTags($data['description']); ?></em>
+    <em><?php echo $this->Layout->hooktags($data['description']); ?></em>
 <?php endif; ?>

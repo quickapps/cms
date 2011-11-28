@@ -307,7 +307,7 @@ msgid "Requied field"
 msgstr "Campo requerido"
 
 #: View/Fields/admin_field_settings.ctp:7
-msgid "Instructions to present to the user below this field on the editing form. (hookTags are allowed)"
+msgid "Instructions to present to the user below this field on the editing form. (hooktags are allowed)"
 msgstr "Instrucciones para mostrar al usuario en el formulario de edición. (hooktags permitidos)"
 
 #: View/Fields/admin_field_settings.ctp:7

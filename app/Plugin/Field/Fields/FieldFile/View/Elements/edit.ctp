@@ -1,7 +1,7 @@
 <!-- Field File -->
 <?php
     # attach js & css files only if there is no file field instances yet
-    if(!isset($this->__fileFieldCount) || $this->__fileFieldCount < 1) {
+    if (!isset($this->__fileFieldCount) || $this->__fileFieldCount < 1) {
 ?>
 
     <link href="<?php echo $this->Html->url('/field_file/js/uploadify/uploadify.css'); ?>" type="text/css" rel="stylesheet" />
@@ -128,7 +128,7 @@
     </div>
 
 <?php if (!empty($data['description'])): ?>
-    <em><?php echo $this->Layout->hookTags($data['description']); ?></em>
+    <em><?php echo $this->Layout->hooktags($data['description']); ?></em>
 <?php endif; ?>
 
 <?php echo $this->Html->useTag('fieldsetend'); ?>

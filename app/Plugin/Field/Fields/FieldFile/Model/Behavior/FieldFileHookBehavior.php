@@ -59,6 +59,7 @@ class FieldFileHookBehavior extends ModelBehavior {
         $__defaultData = array('files' => array());
         $info['id'] =  empty($info['id']) || !isset($info['id']) ? null : $info['id'];
         $info['data'] = Set::merge($__defaultData, @$info['data']);
+        $instance = ClassRegistry::init('Field.Field')->findById($info['field_id']);
         $files = array();
         $i = 0;
 
@@ -70,7 +71,7 @@ class FieldFileHookBehavior extends ModelBehavior {
 
         $info['data']['files'] = $files;
 
-        # delete old files
+        // delete old files
         if (is_numeric($info['id'])) {
             $data = ClassRegistry::init('Field.FieldData')->field('data', array('FieldData.id' => $info['id']));
             $data = !is_array($data) ? @unserialize($data) : $data;
@@ -81,7 +82,7 @@ class FieldFileHookBehavior extends ModelBehavior {
 
             foreach ($old_files as $file_name) {
                 if (!in_array($file_name, $new_files)) {
-                    $file_path = WWW_ROOT . 'files' . DS . str_replace('/', DS, $data['Field']['settings']['upload_folder']) . $file_name;
+                    $file_path = WWW_ROOT . 'files' . DS . str_replace('/', DS, $instance['Field']['settings']['upload_folder']) . DS . $file_name;
 
                     if (file_exists($file_path)) {
                         @unlink($file_path);
@@ -90,8 +91,7 @@ class FieldFileHookBehavior extends ModelBehavior {
             }
         }
 
-        # data.files = json array data
-        $_data['FieldData'] = array(
+        $_data = array(
             'id' => $info['id'], # storage update or create
             'field_id' => $info['field_id'],
             'data' => @serialize($info['data']),

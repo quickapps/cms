@@ -78,7 +78,7 @@ QuickApps.field_file.afterUpload = function (_field_id, response) {
 
     // inputs
     var instance_id = settings.instance_id;
-    var base_input_name = 'data[FieldData][field_file][' + instance_id + '][data][files][' + response.ID + ']';
+    var base_input_name = 'data[FieldData][FieldFile][' + instance_id + '][data][files][' + response.ID + ']';
 
     html += '<input type="hidden" class="mime_icon" name="' + base_input_name + '[mime_icon]" value="' + response.mime_icon + '" />';
     html += '<input type="hidden" class="file_name" name="' + base_input_name + '[file_name]" value="' + response.file_name + '" />';
@@ -109,7 +109,7 @@ QuickApps.field_file.afterUpload = function (_field_id, response) {
 
     // toggle off uploader
     if ((count > settings.queueSizeLimit+1) ||
-        (settings.num_files == 1 && settings.num_files == count)
+        (settings.multi == 1 && settings.num_files == count)
     ) {
         $(field_id + ' div.uploader').hide();        
     }

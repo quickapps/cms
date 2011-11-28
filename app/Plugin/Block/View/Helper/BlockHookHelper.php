@@ -22,7 +22,7 @@ class BlockHookHelper extends AppHelper {
         return true;
     }
 
-    // hookTag, block rendering
+    // hooktag, block rendering
     public function block($options) {
         extract($options);
 
@@ -64,6 +64,6 @@ class BlockHookHelper extends AppHelper {
             return false;
         }
 
-        return $this->_View->Layout->hookTags($block['Block']['title']);
+        return $this->_View->Layout->hooktags($block['Block']['title']);
     }
 }

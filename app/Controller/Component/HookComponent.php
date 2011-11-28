@@ -78,15 +78,15 @@ class HookComponent extends Component {
  *
  * @return string HTML
  */
-    public function hookTags($text) {
+    public function hooktags($text) {
         $text = $this->specialTags($text);
         $tags = implode('|', $this->hooks);
 
-        return preg_replace_callback('/(.?)\[(' . $tags . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', array($this, '__doHookTag'), $text);
+        return preg_replace_callback('/(.?)\[(' . $tags . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', array($this, '__doHooktag'), $text);
     }
 
 /**
- * Special hookTags that are not managed by any modules:
+ * Special hooktags that are not managed by any modules:
  *  `[date=FORMAT]` Return current date(FORMAT).
  *  `[rand={values,by,comma}]` Returns a radom value from the specified group.
  *                             If only two numeric values are given as group, 
@@ -98,7 +98,7 @@ class HookComponent extends Component {
  *  `[t=stringToTranslate]` or `[t]stringToTranslate[/t]` text translation: __t(stringToTranslate)
  *  `[t=domain@@stringToTranslate]` Translation by domain __d(domain, stringToTranslate)
  *  `[Layout.PATH]` Get any value from `Layout` variable. i.e.: [Layout.viewMode] gets current view mode
- *                  if path does not exists then '' (empty) is rendered instead the hookTag code.
+ *                  if path does not exists then '' (empty) is rendered instead the hooktag code.
  *
  * @param string $text original text where to replace tags
  * @return string
@@ -258,7 +258,7 @@ class HookComponent extends Component {
  * @param string $text Tag string to parse
  * @return Array array of attributes
  */
-    private function __hookTagParseAtts($text) {
+    private function __hooktagParseAtts($text) {
         $atts       = array();
         $pattern    = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
         $text       = preg_replace("/[\x{00a0}\x{200b}]+/u", " ", $text);
@@ -287,17 +287,17 @@ class HookComponent extends Component {
 /**
  * Callback function
  *
- * @see HookComponent::hookTags
+ * @see HookComponent::hooktags
  * @return mixed Hook response or false in case of no response.
  */
-    private function __doHookTag($m) {
+    private function __doHooktag($m) {
         // allow [[foo]] syntax for escaping a tag
         if ($m[1] == '[' && $m[6] == ']') {
             return substr($m[0], 1, -1);
         }
 
         $tag = $m[2];
-        $attr = $this->__hookTagParseAtts( $m[3] );
+        $attr = $this->__hooktagParseAtts( $m[3] );
         $hook = isset($this->hooksMap[$tag]) ? $this->hooksMap[$tag] : false;
 
         if ($hook) {

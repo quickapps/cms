@@ -79,7 +79,7 @@ class ThemeDefaultHookHelper extends AppHelper {
         return $this->_View->element('theme_default_slider_settings', array('block' => $data), array('plugin' => 'ThemeDefault'));
     }
 
-    # hookTag
+    # hooktag
     public function content_box($atts, $content=null, $code="") {
         $type = isset($atts['type']) ? $atts['type'] : 'success';
         $return = "<div class=\"td-box dialog-{$type}\">";
@@ -89,7 +89,7 @@ class ThemeDefaultHookHelper extends AppHelper {
         return $return;
     }
 
-    # hookTag
+    # hooktag
     public function button($atts, $content = null, $code="") {
         $atts = Set::merge(
             array(

@@ -36,11 +36,11 @@
         </p>
 
         <p>
-            You are able to define your own custom hookTags functions in: <em><?php echo ROOT . DS . 'HookTags' . DS . 'Helper' . DS; ?>CustomHooksHelper.php</em>
+            You are able to define your own custom hooktags handler functions in: <em><?php echo ROOT . DS . 'Hooks' . DS . 'Helper' . DS; ?>CustomHooksHelper.php</em>
         </p>
 
         <p>
-            Also modules and themes are able to define their own hookTags</em>
+            Also modules and themes are able to define their own hooktags</em>
         </p>
 
         <hr class="hooktags" />
