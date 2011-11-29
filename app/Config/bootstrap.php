@@ -130,6 +130,12 @@ Cache::config('default', array('engine' => 'File'));
         $__coreThemes = $__coreModules = array();
 
         foreach($plugins as $plugin) {
+            $__ppath = CakePlugin::path($plugin);
+
+            if (strpos($__ppath, DS . 'Fields' . DS) !== false) {
+                continue;
+            }
+
             if (!$__coreModulesCache && isCoreModule($plugin)) {
                 $__coreModules[] = $plugin;
             }
