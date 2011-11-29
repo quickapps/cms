@@ -234,16 +234,24 @@ class AppController extends Controller {
 
             foreach ($plugins as $plugin) {
                 $ppath = CakePlugin::path($plugin);
+                $isTheme = false;
+
+                if (strpos($ppath, APP . 'View' . DS . 'Themed' . DS) !== false || strpos($ppath, THEMES) !== false) {
+                    $isTheme = true;
+                }
 
                 // inactive module. (except fields because they are not registered as plugin in DB)
                 if (!in_array($plugin, $_modules) && strpos($ppath, DS . 'Fields' . DS) === false) {
                     continue;
                 }
 
-                // ignore disabled themes
-                if ((isset($modulesCache[$plugin]['status']) && $modulesCache[$plugin]['status'] == 0) ||
-                    (strpos($ppath, dirname($theme_path)) !== false && strpos($ppath, $theme_path . 'app') === false)
-                ) {
+                // ignore disabled modules
+                if (isset($modulesCache[$plugin]['status']) && $modulesCache[$plugin]['status'] == 0) {
+                    continue;
+                }
+
+                // disabled themes
+                if ($isTheme && basename(dirname(dirname($ppath))) != $themeToUse) {
                     continue;
                 }
 
