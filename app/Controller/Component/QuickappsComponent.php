@@ -114,6 +114,18 @@ class QuickAppsComponent extends Component {
                     }
                 }
             }
+
+            if (isset($yaml['javascripts']) && !empty($yaml['javascripts'])) {
+                foreach ($yaml['javascripts'] as $type => $files) {
+                    if (!in_array($type, array('file', 'embed'))) {
+                        continue;
+                    }
+
+                    foreach ($files as $file) {
+                        $this->Controller->Layout['javascripts'][$type][] = $file;
+                    }
+                }
+            }
         }
 
         if (Configure::read('Theme.layout')) {
