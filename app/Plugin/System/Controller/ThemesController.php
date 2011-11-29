@@ -65,7 +65,7 @@ class ThemesController extends SystemAppController {
     public function admin_uninstall($theme) {
         $Theme = "Theme{$theme}";
 
-        if (!in_array($theme, array('Default', 'AdminDefault'))) {
+        if (!in_array($theme, Configure::read('coreThemes'))) {
             if ($this->Installer->uninstall($Theme)) {
                 $this->flashMsg(__t("Theme '%s' has been uninstalled", $theme), 'success');
 
@@ -95,24 +95,27 @@ class ThemesController extends SystemAppController {
         $this->redirect('/admin/system/themes');
     }
 
-    # render thumbnail of any theme in themed folder
+/**
+ * Render theme thumbnail
+ *
+ */
     public function admin_theme_tn($theme_name) {
-        /* Manual rendering */
-        /* For some unknown reason, cakephp MediaView rendering fails */
-        $filename = THEMES . $theme_name . DS . 'thumbnail.png';
-        $specs = getimagesize($filename);
+        $this->viewClass  = 'Media';
 
-        header('Content-type: ' . $specs['mime']);
-        header('Content-length: ' . filesize($filename));
-        header('Cache-Control: public');
-        header('Expires: ' . gmdate('D, d M Y H:i:s', strtotime('+1 year')));
-        header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime($filename)));
+        $params = array(
+            'id' => 'thumbnail.png',
+            'name' => 'thumbnail',
+            'download' => false,
+            'extension' => 'png',
+            'path' => App::themePath($theme_name)
+        );
 
-        die(file_get_contents($filename));
+        $this->set($params);
     }
 
-/*
- * Return all available themes (in themed folder)
+/**
+ * Return all available (installed) themes
+ *
  */
     private function __availableThemes() {
         $_themes = $this->Module->find('all', array('conditions' => array('Module.type' => 'theme')));
@@ -122,7 +125,7 @@ class ThemesController extends SystemAppController {
             $ThemeName = Inflector::camelize($theme['Module']['name']);
             $folder = str_replace('Theme', '', $ThemeName);
             $themes[$folder] = $theme['Module'];
-            $yaml = THEMES . $folder . DS ."{$folder}.yaml";
+            $yaml = App::themePath($folder) ."{$folder}.yaml";
 
             if (file_exists($yaml)) {
                 $themes[$folder] = Set::merge($themes[$folder], Spyc::YAMLLoad($yaml));

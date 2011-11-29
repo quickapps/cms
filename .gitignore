@@ -11,8 +11,7 @@ Modules/
 
 # themes
 Themes/Themed/*
-!Themes/Themed/Default
-!Themes/Themed/AdminDefault
+!Themes/Themed/empty
 
 # site files
 webroot/files/*

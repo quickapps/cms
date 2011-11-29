@@ -230,19 +230,21 @@ class AppController extends Controller {
             $themeToUse = $_variable[$_themeType];
             $plugins = App::objects('plugin', null, false);
             $modulesCache = Cache::read('Modules');
+            $theme_path = App::themePath($themeToUse);
 
             foreach ($plugins as $plugin) {
                 $ppath = CakePlugin::path($plugin);
 
-                # inactive module, except fields that are nor registered as plugin in DB
+                // inactive module. (except fields because they are not registered as plugin in DB)
                 if (!in_array($plugin, $_modules) && strpos($ppath, DS . 'Fields' . DS) === false) {
                     continue;
                 }
 
+                // ignore disabled themes
                 if ((isset($modulesCache[$plugin]['status']) && $modulesCache[$plugin]['status'] == 0) ||
-                    (strpos($ppath, THEMES) !== false && strpos($ppath, THEMES . $themeToUse . DS . 'app') === false)
+                    (strpos($ppath, dirname($theme_path)) !== false && strpos($ppath, $theme_path . 'app') === false)
                 ) {
-                    continue; # Important: skip disabled themes
+                    continue;
                 }
 
                 $paths["{$plugin}_components"] = $ppath . 'Controller' . DS . 'Component' . DS;

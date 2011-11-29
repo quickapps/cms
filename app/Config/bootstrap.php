@@ -66,11 +66,21 @@ Cache::config('default', array('engine' => 'File'));
         $folder = new Folder;
         $folder->path = THEMES;
 
+        // site themes
         $__themes = $folder->read();
         $__themes = $__themes[0];
 
         foreach ($__themes as $__tname) {
             $__plugin_paths[] = THEMES . $__tname . DS . 'app' . DS;
+        }
+
+        // core themes
+        $folder->path = APP . 'View' . DS . 'Themed' . DS;
+        $__themes = $folder->read();
+        $__themes = $__themes[0];
+
+        foreach ($__themes as $__tname) {
+            $__plugin_paths[] =  APP . 'View' . DS . 'Themed' . DS . $__tname . DS . 'app' . DS;
         }
 
         $__plugin_paths[] = ROOT . DS . 'Modules' . DS;
@@ -91,7 +101,7 @@ Cache::config('default', array('engine' => 'File'));
         }
 
         Cache::write('plugin_paths', $__plugin_paths);
-        unset($__themes, $__tname, $folder, $__ppath);
+        unset($__themes, $__tname, $folder);
     }
 
     App::build(
@@ -112,7 +122,81 @@ Cache::config('default', array('engine' => 'File'));
         }
     }
 
-    unset($__plugin_paths, $plugins, $plugin);
+    $__coreModulesCache = Cache::read('core_modules');
+    $__coreThemesCache = Cache::read('core_themes');
+
+    if (!$__coreModulesCache || !$__coreThemesCache) {
+        $plugins = App::objects('plugins', null, false);
+        $__coreThemes = $__coreModules = array();
+
+        foreach($plugins as $plugin) {
+            if (!$__coreModulesCache && isCoreModule($plugin)) {
+                $__coreModules[] = $plugin;
+            }
+
+            if (!$__coreThemesCache && isCoreTheme($plugin)) {
+                $__coreThemes[] = str_replace_once('Theme', '', $plugin);
+            }
+        }
+
+        if (!$__coreModulesCache) {
+            $__coreModulesCache = $__coreModules;
+            Cache::write('core_modules', $__coreModules);
+        }
+
+        if (!$__coreThemesCache) {
+            $__coreThemesCache = $__coreThemes;
+            Cache::write('core_themes', $__coreThemes);
+        }
+
+        unset($__coreModules, $__coreThemes);
+    }
+
+    Configure::write('coreModules', $__coreModulesCache);
+    Configure::write('coreThemes', $__coreThemesCache);
+
+    unset($__plugin_paths, $plugins, $plugin, $__ppath, $__coreModulesCache, $__coreThemesCache);
+
+/**
+ * Check if the given theme name belongs to QA Core installation.
+ *
+ * @param string $theme Theme name to check.
+ * @return bool TRUE if theme is a core theme, FALSE otherwise.
+ */
+    function isCoreTheme($theme) {
+        $theme = Inflector::camelize($theme);
+        $theme = strpos($theme, 'Theme') !== 0 ? "Theme{$theme}" : $theme;
+
+        if (CakePlugin::loaded($theme)) {
+            $app_path = CakePlugin::path($theme);
+
+            if (strpos($app_path, APP . 'View' . DS . 'Themed' . DS) !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+/**
+ * Check if the given module name belongs to QA Core installation.
+ *
+ * @param string $module Module name to check.
+ * @return bool TRUE if module is a core module, FALSE otherwise.
+ */
+    function isCoreModule($module) {
+        $module = Inflector::camelize($module);
+
+        if (CakePlugin::loaded($module)) {
+            $path = CakePlugin::path($module);
+
+            if (strpos($path, APP . 'Plugin' . DS) !== false) {
+                return true;
+            }
+        }
+
+        return false;    
+    }
 
 /**
  * Return only the methods for the object you indicate. It will strip out the inherited methods

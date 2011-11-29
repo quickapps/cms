@@ -81,12 +81,13 @@ class QuickAppsComponent extends Component {
 
         $this->Controller->layout ='default';
         $this->Controller->viewClass = 'Theme';
+        $theme_path = App::themePath($this->Controller->theme);
 
-        if (file_exists(THEMES . $this->Controller->theme . DS . "{$this->Controller->theme}.yaml")) {
+        if (file_exists($theme_path . "{$this->Controller->theme}.yaml")) {
             $yaml = Cache::read("theme_{$this->Controller->theme}_yaml");
 
             if (!$yaml) {
-                $yaml = Spyc::YAMLLoad(THEMES . $this->Controller->theme . DS . "{$this->Controller->theme}.yaml");
+                $yaml = Spyc::YAMLLoad($theme_path . "{$this->Controller->theme}.yaml");
 
                 Cache::write("theme_{$this->Controller->theme}_yaml", $yaml);
             }

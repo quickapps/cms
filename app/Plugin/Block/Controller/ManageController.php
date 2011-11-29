@@ -223,10 +223,16 @@ class ManageController extends BlockAppController {
         $folder = new Folder;
         $folder->path = THEMES;
         $folders = $folder->read();
+        $themes = $folders[0];
+        $folder->path = APP . 'View' . DS . 'Themed' . DS;
+        $folders = $folder->read();
+        $themes = array_merge($themes, $folders[0]);
 
-        foreach ($folders[0] as $theme) {
-            if (THEMES . $theme . DS . "{$theme}.yaml") {
-                $yaml = Spyc::YAMLLoad(THEMES . $theme . DS . "{$theme}.yaml");
+        foreach ($themes as $theme) {
+            $theme_path = App::themePath($theme);
+
+            if (file_exists($theme_path . "{$theme}.yaml")) {
+                $yaml = Spyc::YAMLLoad($theme_path . "{$theme}.yaml");
                 $return[$theme] = $yaml;
             }
         }

@@ -1032,6 +1032,10 @@ class InstallerComponent extends Component {
         # clear bootstrap plugin paths
         Cache::delete('plugin_paths');
 
+        # clear core modules/themes list
+        Cache::delete('core_modules');
+        Cache::delete('core_themes');
+
         # regenerate modules & variables
         $this->Controller->Quickapps->loadModules();
         $this->Controller->Quickapps->loadVariables();

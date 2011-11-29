@@ -54,9 +54,9 @@
                     <em><?php echo __t('author: %s', htmlspecialchars($data['info']['author'])); ?></em>
                 </p>
 
-                <?php if (Configure::read('Variable.site_theme') != $name) : ?>
+                <?php if (Configure::read('Variable.site_theme') != $name): ?>
                     <a href="<?php echo $this->Html->url('/admin/system/themes/set_theme/' . $name); ?>" style="float:right;" onclick="return confirm('<?php echo __t('Change site theme, are you sure ?'); ?>');"><?php echo __t('Set as default'); ?></a>
-                    <?php if (!in_array($name, array('Default', 'AdminDefault'))): ?>
+                    <?php if (!in_array($name, Configure::read('coreThemes'))): ?>
                     <a href="<?php echo $this->Html->url('/admin/system/themes/uninstall/' . $name); ?>" style="float:right;" onclick="return confirm('<?php echo __t('Delete selected theme ?\nThis operation can be undone!'); ?>');"><?php echo __t('Uninstall'); ?>&nbsp;</a>
                     <?php endif; ?>
                 <?php else: ?>
