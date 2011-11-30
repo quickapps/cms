@@ -50,7 +50,7 @@ class FieldListHookBehavior extends ModelBehavior {
 
             if (empty($filtered)) {
                 ClassRegistry::init('Field.FieldData')->invalidate(
-                    "field_list.{$info['field_id']}.data",
+                    "FieldList.{$info['field_id']}.data",
                     __d('field_list', 'You must select at least on option')
                 );
 

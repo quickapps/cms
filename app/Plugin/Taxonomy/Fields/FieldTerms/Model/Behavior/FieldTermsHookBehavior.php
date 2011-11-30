@@ -100,7 +100,7 @@ class FieldTermsHookBehavior extends ModelBehavior {
         if (isset($FieldInstance['Field']['settings']['max_values']) && $FieldInstance['Field']['settings']['max_values'] != 0) {
             if (is_array($info['data']) && count($info['data']) > $FieldInstance['Field']['settings']['max_values']) {
                 ClassRegistry::init('Field.FieldData')->invalidate(
-                    "field_terms.{$info['field_id']}.data",
+                    "FieldTerms.{$info['field_id']}.data",
                     __d('field_terms', 'This field cannot hold more than 2 values')
                 );
 

@@ -98,7 +98,7 @@ class FieldTextHookBehavior extends ModelBehavior {
 
         if (!empty($errMsg)) {
             ClassRegistry::init('Field.FieldData')->invalidate(
-                "field_text.{$info['field_id']}.data",
+                "FieldText.{$info['field_id']}.data",
                 implode(", ", $errMsg)
             );
 
