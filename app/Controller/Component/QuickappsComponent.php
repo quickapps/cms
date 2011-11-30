@@ -464,7 +464,7 @@ class QuickAppsComponent extends Component {
  * @return void
  */
     public function flashMsg($msg, $class = 'success') {
-        return $this->Controller->Session->setFlash($msg, 'default', array('class' => $class));
+        return $this->Controller->Session->setFlash($msg, 'theme_flash_message', array('class' => $class));
     }
 
 /**
