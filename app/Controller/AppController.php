@@ -276,7 +276,7 @@ class AppController extends Controller {
 
             foreach ($paths as $key => $path) {
                 $folder->path = $path;
-                $files = $folder->find('(.*)Hook(Component|Behavior|Helper|TagsHelper)\.php');
+                $files = $folder->find('(.*)Hook(Component|Behavior|Helper|tagsHelper)\.php');
                 $plugin = is_string($key) ? explode('_', $key) : false;
                 $plugin = is_array($plugin) ? $plugin[0] : $plugin;
 
@@ -296,8 +296,6 @@ class AppController extends Controller {
                     }
                 }
             }
-
-            $h[] = 'CustomHooks'; # merge custom hooktags helper
 
             Configure::write('Hook.components', $c);
             Configure::write('Hook.behaviors', $b);

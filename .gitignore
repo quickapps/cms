@@ -19,7 +19,7 @@ webroot/files/*
 
 # custom hooks
 Hooks/*
-!Hooks/Helper/CustomHooksHelper.php
+!Hooks/Helper/CustomHooktagsHelper.php
 
 # site config
 Config/database.php

@@ -36,7 +36,7 @@
         </p>
 
         <p>
-            You are able to define your own custom hooktags handler functions in: <em><?php echo ROOT . DS . 'Hooks' . DS . 'Helper' . DS; ?>CustomHooksHelper.php</em>
+            You are able to define your own custom hooktags handler functions in: <em><?php echo ROOT . DS . 'Hooks' . DS . 'Helper' . DS; ?>CustomHooktagsHelper.php</em>
         </p>
 
         <p>

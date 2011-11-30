@@ -14,6 +14,5 @@
  * Put here your custom hooktags handler methods
  *
  */
-class CustomHooksHelper extends AppHelper {
-
+class CustomHooktagsHelper extends AppHelper {
 }
