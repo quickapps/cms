@@ -12,9 +12,10 @@
             <div id="topspacer">
                 &nbsp;
             </div>
+
             <div id="content">
                 <div id="logo"><?php echo $this->Html->image('logo.png'); ?></div>
-                <?php echo $content_for_layout; ?>
+                <?php echo $this->Layout->content(); ?>
             </div>
         </div>
     </body>

@@ -8,27 +8,28 @@
         <language><?php echo Configure::read('Variable.language.code'); ?></language>
         <description><?php echo is_string(Configure::read('Variable.site_description')) ? Configure::read('Variable.site_description') : ''; ?></description>
         <generator>QuickApps v<?php echo Configure::read('Variable.qa_version'); ?></generator>
-<?php
-    foreach ($Layout['node'] as $node):
-        $nodeTime = $node['Node']['created'];
-        $nodeLink = "/{$node['Node']['node_type_id']}/{$node['Node']['slug']}.html";
 
-        App::uses('Sanitize', 'Utility');
+        <?php
+            foreach ($Layout['node'] as $node):
+                $nodeTime = $node['Node']['created'];
+                $nodeLink = "/{$node['Node']['node_type_id']}/{$node['Node']['slug']}.html";
 
-        $nodeBody = $this->Layout->renderNode($node);
+                App::uses('Sanitize', 'Utility');
 
-        echo $this->Rss->item(array(),
-            array(
-                'title' => $node['Node']['title'],
-                'link' => $nodeLink,
-                'guid' => array('url' => $nodeLink, 'isPermaLink' => 'true'),
-                'description' => $nodeBody,
-                'author' => (string)$node['CreatedBy']['username'],
-                'pubDate' => $node['Node']['created']
-            )
-        );
-        echo "\n\n";
-    endforeach;
-?>
+                $nodeBody = $this->Layout->renderNode($node);
+
+                echo $this->Rss->item(array(),
+                    array(
+                        'title' => $node['Node']['title'],
+                        'link' => $nodeLink,
+                        'guid' => array('url' => $nodeLink, 'isPermaLink' => 'true'),
+                        'description' => $nodeBody,
+                        'author' => (string)$node['CreatedBy']['username'],
+                        'pubDate' => $node['Node']['created']
+                    )
+                );
+                echo "\n\n";
+            endforeach;
+        ?>
     </channel>
 </rss>
