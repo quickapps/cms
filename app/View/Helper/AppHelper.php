@@ -69,6 +69,7 @@ class AppHelper extends Helper {
         }
 
         $this->hooks = array_keys($this->hooksMap);
+        $this->_View->Layout->_tmp['__hooks_reg'] = implode('|', $this->hooks);
     }
 
     public function deattachModuleHooks($plugin) {
@@ -87,6 +88,7 @@ class AppHelper extends Helper {
         }
 
         $this->hooks = array_keys($this->hooksMap);
+        $this->_View->Layout->_tmp['__hooks_reg'] = implode('|', $this->hooks);
     }
 
 /**

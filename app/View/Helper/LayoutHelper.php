@@ -15,9 +15,9 @@ class LayoutHelper extends AppHelper {
 
 /**
  * Used by some methods to cache data in order to improve
- * comunication between them, for example see blocksInRegion()
+ * comunication between them, for example see LayoutHelper::blocksInRegion()
  */
-    private $tmp = array();
+    protected $_tmp = array();
 
 /**
  * Render css files links
@@ -277,10 +277,10 @@ class LayoutHelper extends AppHelper {
         $content .= implode('', (array)$this->hook('after_render_node', $node, array('collectReturn' => true)));
         $content = "\n\t" . $this->hooktags($content) . "\n";
 
-        if (isset($this->tmp['renderedNodes'])) {
-            $this->tmp['renderedNodes']++;
+        if (isset($this->_tmp['renderedNodes'])) {
+            $this->_tmp['renderedNodes']++;
         } else {
-            $this->tmp['renderedNodes'] = 1;
+            $this->_tmp['renderedNodes'] = 1;
         }
 
         if (isset($node['Node']['params']['class'])) {
@@ -294,7 +294,7 @@ class LayoutHelper extends AppHelper {
                 "node-{$this->_View->viewVars['Layout']['viewMode']}",
                 "node-" . ($node['Node']['promote'] ? "promoted" : "demote"),
                 "node-" . ($node['Node']['sticky'] ? "sticky" : "nosticky"),
-                "node-" . ($this->tmp['renderedNodes']%2 ? "odd" : "even")
+                "node-" . ($this->_tmp['renderedNodes']%2 ? "odd" : "even")
             ),
             $nodeClasses);
 
@@ -575,7 +575,7 @@ class LayoutHelper extends AppHelper {
         );
 
         $this->_View->viewVars['Layout']['blocks'][] = $Block;
-        $this->tmp['blocksInRegion'][$region][] = $Block;
+        $this->_tmp['blocksInRegion'][$region][] = $Block;
 
         return true;
     }
@@ -652,8 +652,8 @@ class LayoutHelper extends AppHelper {
  * @return integer
  */
     public function blocksInRegion($region) {
-        if (isset($this->tmp['blocksInRegion'][$region])) {
-            return count($this->tmp['blocksInRegion'][$region]);
+        if (isset($this->_tmp['blocksInRegion'][$region])) {
+            return count($this->_tmp['blocksInRegion'][$region]);
         }
 
         $blocks_in_theme = Set::extract("/BlockRegion[theme=" . $this->themeName() . "]/..", $this->_View->viewVars['Layout']['blocks']);
@@ -710,11 +710,11 @@ class LayoutHelper extends AppHelper {
                 continue;
             }
 
-            if (!isset($this->tmp['blocksInRegion'][$region]['blocks_ids']) ||
-                !in_array($block['Block']['id'], $this->tmp['blocksInRegion'][$region]['blocks_ids'])
+            if (!isset($this->_tmp['blocksInRegion'][$region]['blocks_ids']) ||
+                !in_array($block['Block']['id'], $this->_tmp['blocksInRegion'][$region]['blocks_ids'])
             ) {
-                $this->tmp['blocksInRegion'][$region][] = $block;                              # Cache improve
-                $this->tmp['blocksInRegion'][$region]['blocks_ids'][] = $block['Block']['id']; # Cache improve
+                $this->_tmp['blocksInRegion'][$region][] = $block;                              # Cache improve
+                $this->_tmp['blocksInRegion'][$region]['blocks_ids'][] = $block['Block']['id']; # Cache improve
             }
 
             $t++;
@@ -759,8 +759,8 @@ class LayoutHelper extends AppHelper {
         $output = '';
 
         if (!$this->emptyRegion($region)) {
-            if (isset($this->tmp['blocksInRegion'][$region])) {
-                $blocks = $this->tmp['blocksInRegion'][$region];
+            if (isset($this->_tmp['blocksInRegion'][$region])) {
+                $blocks = $this->_tmp['blocksInRegion'][$region];
             } else {
                 $blocks = Set::extract("/BlockRegion[region={$region}]/..",
                     Set::extract("/BlockRegion[theme=" . $this->themeName() . "]/..", $this->_View->viewVars['Layout']['blocks'])
@@ -955,10 +955,10 @@ class LayoutHelper extends AppHelper {
     public function hooktags($text) {
         $text = $this->specialTags($text);
 
-        if (!empty($this->tmp['__hooks_reg'])) {
-            $tags = $this->tmp['__hooks_reg'];
+        if (!empty($this->_tmp['__hooks_reg'])) {
+            $tags = $this->_tmp['__hooks_reg'];
         } else {
-            $tags = $this->tmp['__hooks_reg'] = implode('|', $this->hooks);
+            $tags = $this->_tmp['__hooks_reg'] = implode('|', $this->hooks);
         }
 
         return preg_replace_callback('/(.?)\[(' . $tags . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', array($this, '__doHooktag'), $text);
