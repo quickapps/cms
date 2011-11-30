@@ -9,43 +9,43 @@
  * @author   Christopher Castro <chris@quickapps.es>
  * @link     http://cms.quickapps.es
  */
- 
- /**
-  * ##Expected data's structure
-  * $data MUST be a numeric array. (Any list result of `Model::find()` or paginated result)
-  *     {{{
-  *         $data = array(
-  *             0 => array(
-  *                 'Model' => array('field1' => 'data', ...),
-  *                 'Model2' => ...
-  *             ),
-  *             ....
-  *         );
-  *     }}}
-  *
-  * ##Options:
-  * columns (array): Information about each of the columns of your table.
-  *    {{{
-  *         ...
-  *         'Column Title' => array(
-  *             'value' => ,        # (string) Values to display when filling this column. 
-  *                                     You can specify array paths to find in the $data array. e.g.: `{Model.field}`
-  *                                     Also:
-  *                                         {php}{/php}: Will print out the result returned by the PHP code. e.g.: {php} return 'hello world!'; {/php}
-  *                                         {url}{/url}: Will print out the specified internal/external URL. e.g.: {url}/this/is_an/internal_url{/url}
-  *             'thOptions' => ,    # (array) <th> tag options for this column. This will affect table header only.
-  *             'tdOptions' => ,    # (array) <td> tag options for this column. This will affect table body (result rows) only.
-  *             'sort' =>           # Optional (string) `Model.field`
-  *         )
-  *         ...
-  *     }}}
-  *
-  * headerPosition (mixed): render header at `top`, `bottom`, `top&bottom`, false (no render).
-  * headerRowOptions (array): header <tr> tag attributes.
-  * noItemsMessage (string): message when there are 0 records.
-  * tableOptions (array): table tag <table> attributes.
-  * paginate (array): set to false for no pagination.
-  */
+
+/**
+ * ##Expected data's structure
+ * $data MUST be a numeric array. (Any list result of `Model::find()` or paginated result)
+ *     {{{
+ *         $data = array(
+ *             0 => array(
+ *                 'Model' => array('field1' => 'data', ...),
+ *                 'Model2' => ...
+ *             ),
+ *             ....
+ *         );
+ *     }}}
+ *
+ * ##Options:
+ * columns (array): Information about each of the columns of your table.
+ *    {{{
+ *         ...
+ *         'Column Title' => array(
+ *             'value' => ,        # (string) Values to display when filling this column. 
+ *                                     You can specify array paths to find in the $data array. e.g.: `{Model.field}`
+ *                                     Also:
+ *                                         {php}{/php}: Will print out the result returned by the PHP code. e.g.: {php} return 'hello world!'; {/php}
+ *                                         {url}{/url}: Will print out the specified internal/external URL. e.g.: {url}/this/is_an/internal_url{/url}
+ *             'thOptions' => ,    # (array) <th> tag options for this column. This will affect table header only.
+ *             'tdOptions' => ,    # (array) <td> tag options for this column. This will affect table body (result rows) only.
+ *             'sort' =>           # Optional (string) `Model.field`
+ *         )
+ *         ...
+ *     }}}
+ *
+ * headerPosition (mixed): render header at `top`, `bottom`, `top&bottom`, false (no render).
+ * headerRowOptions (array): header <tr> tag attributes.
+ * noItemsMessage (string): message when there are 0 records.
+ * tableOptions (array): table tag <table> attributes.
+ * paginate (array): set to false for no pagination.
+*/
 class TableHelper extends AppHelper {
     public $helpers = array('Html', 'Paginator');
     private $_defaults = array(
