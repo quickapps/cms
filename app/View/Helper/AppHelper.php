@@ -1,9 +1,21 @@
 <?php
 App::uses('Helper', 'View');
 class AppHelper extends Helper {
-    public $hooksMap = array();
-    public $hooks = array();
-    public $hookObjects = array();
+    private $__map = array(
+        'Hooks' => array(),
+        'Hooktags' => array(),
+    );
+
+    protected $_methods = array(
+        'Hooks' => array(),
+        'Hooktags' => array()
+    );
+
+    protected $_hookObjects = array(
+        'Hooks' => array(),
+        'Hooktags' => array()
+    );
+
     public $helpers = array(
         'Layout',
         'Menu',        # menu helper
@@ -12,11 +24,13 @@ class AppHelper extends Helper {
         'Session',
         'Js'
     );
+
     public $Options = array(
         'break' => false,
         'breakOn' => false,
         'collectReturn' => false
     );
+
     private $__Options = array(
         'break' => false,
         'breakOn' => false,
@@ -33,16 +47,24 @@ class AppHelper extends Helper {
         return true;
     }
 
-    public function attachModuleHooks($plugin) {
-        $Plugin = Inflector::camelize($plugin);
+/**
+ * Load all hooks (and optionally hooktags) of specified Module.
+ *
+ * @param string $module Name of the module
+ * @param boolean $hooktags TRUE load hooktags. FALSE do not load.
+ * @return void
+ */
+    public function attachModuleHooks($module, $hooktags = true) {
+        $Plugin = Inflector::camelize($module);
 
-        if (isset($this->hookObjects[$Plugin . 'Hook'])) {
+        if (isset($this->_hookObjects[$Plugin . 'Hook'])) {
             return;
         }
 
         $folder = new Folder;
         $folder->path = CakePlugin::path($Plugin) . 'View' . DS . 'Helper' . DS;
-        $files = $folder->find('(.*)Hook(Helper)\.php');
+        $file_pattern = $hooktags ? '(.*)Hook(tagsHelper|Helper)\.php' : '(.*)Hook(Helper)\.php';
+        $files = $folder->find($file_pattern);
 
         foreach ($files as $helper) {
             $helper = str_replace('Helper.php', '', $helper);
@@ -58,47 +80,65 @@ class AppHelper extends Helper {
             foreach ($_methods as $method) {
                 $methods[] = $method;
 
-                if (isset($this->hooksMap[$method])) {
-                    $this->hooksMap[$method][] = (string)$helper;
+                if (isset($this->__map[$method])) {
+                    $this->__map[$method][] = (string)$helper;
                 } else {
-                    $this->hooksMap[$method] = array((string)$helper);
+                    $this->__map[$method] = array((string)$helper);
                 }
             }
 
-            $this->hookObjects["{$Plugin}.{$helper}"] = $methods;
+            $this->_hookObjects["{$Plugin}.{$helper}"] = $methods;
         }
 
-        $this->hooks = array_keys($this->hooksMap);
-        $this->_View->Layout->_tmp['__hooks_reg'] = implode('|', $this->hooks);
+        $this->_methods['Hooks'] = array_keys($this->__map['Hooks']);
+        $this->_methods['Hooktags'] = array_keys($this->__map['Hooktags']);
+        $this->_View->Layout->_tmp['__hooktags_reg'] = implode('|', $this->hooktagsList());
     }
 
-    public function deattachModuleHooks($plugin) {
-        $Plugin = Inflector::camelize($plugin);
+/**
+ * Unload all hooks & hooktags of specified Module.
+ *
+ * @param string $module Name of the module
+ * @return void
+ */  
+    public function deattachModuleHooks($module) {
+        $Plugin = Inflector::camelize($module);
 
-        foreach ($this->hookObjects as $helper => $hooks) {
+        foreach ($this->_hookObjects as $helper => $hooks) {
             if (strpos($helper, "{$Plugin}.") === false) {
                 continue;
             }
 
-            foreach ($this->hookObjects[$helper] as $hook) {
-                unset($this->hooksMap[$hook]);
+            foreach ($this->_hookObjects[$helper] as $hook) {
+                unset($this->__map[$hook]);
             }
 
-            unset($this->hookObjects[$helper]);
+            unset($this->_hookObjects[$helper]);
         }
 
-        $this->hooks = array_keys($this->hooksMap);
-        $this->_View->Layout->_tmp['__hooks_reg'] = implode('|', $this->hooks);
+        $this->_methods['Hooks'] = array_keys($this->__map['Hooks']);
+        $this->_methods['Hooktags'] = array_keys($this->__map['Hooktags']);
+        $this->_View->Layout->_tmp['__hooktags_reg'] = implode('|', $this->hooktagsList());
     }
 
 /**
- * Chech if hook exists
+ * Chech if hook method exists.
  *
  * @param string $hook Name of the hook to check
  * @return boolean
  */
     public function hook_defined($hook) {
-        return (isset($this->hooksMap[$hook]));
+        return (isset($this->__map['Hooks'][$hook]));
+    }
+
+/**
+ * Chech if hooktag method exists.
+ *
+ * @param string $hooktag Name of the hooktag method to check
+ * @return boolean
+ */
+    public function hooktag_defined($hooktag) {
+        return (isset($this->__map['Hooktags'][$hooktag]));
     }
 
 /**
@@ -129,6 +169,48 @@ class AppHelper extends Helper {
         $hook = Inflector::underscore($hook);
 
         return $this->__dispatchHook($hook, $data, $options);
+    }
+
+/**
+ * Return an array list of all registered hooktag methods.
+ *
+ * @return array Array list of all available hooktag methods.
+ */ 
+    public function hooktagsList() {
+        return $this->_methods['Hooktags'];
+    }
+
+/**
+ * Callback function
+ *
+ * @see Layout::hooktags()
+ * @return mixed Hook response or false in case of no response.
+ */
+    public function doHooktag($m) {
+        // allow [[foo]] syntax for escaping a tag
+        if ($m[1] == '[' && $m[6] == ']') {
+            return substr($m[0], 1, -1);
+        }
+
+        $tag = $m[2];
+        $attr = $this->__hooktagParseAtts( $m[3] );
+        $hook = isset($this->__map['Hooktags'][$tag]) ? $this->__map['Hooktags'][$tag] : false;
+
+        if ($hook) {
+            foreach ($this->__map['Hooktags'][$tag] as $object) {
+                $hook =& $this->{$object};
+
+                if (isset($m[5])) {
+                    // enclosing tag - extra parameter
+                    return $m[1] . call_user_func(array($hook, $tag), $attr, $m[5], $tag) . $m[6];
+                } else {
+                    // self-closing tag
+                    return $m[1] . call_user_func(array($hook, $tag), $attr, null, $tag) . $m[6];
+                }
+            }
+        }
+
+        return false;
     }
 
 /**
@@ -176,10 +258,14 @@ class AppHelper extends Helper {
  */
     protected function _php_eval($code) {
         ob_start();
+
         $Layout =& $this->_View->viewVars['Layout'];
         $View =& $this->_View;
+
         print eval('?>' . $code);
+
         $output = ob_get_contents();
+
         ob_end_clean();
 
         return (bool)$output;
@@ -190,7 +276,7 @@ class AppHelper extends Helper {
  *
  * @param $path The path to match.
  * @param $patterns String containing a set of patterns separated by \n, \r or \r\n.
- * @return Boolean value: TRUE if the path matches a pattern, FALSE otherwise.
+ * @return boolean TRUE if the path matches a pattern, FALSE otherwise.
  */
     protected function _urlMatch($patterns, $path = false) {
         if (empty($patterns)) {
@@ -245,8 +331,8 @@ class AppHelper extends Helper {
             return null;
         }
 
-        if (isset($this->hooksMap[$hook])) {
-            foreach ($this->hooksMap[$hook] as $object) {
+        if (isset($this->__map['Hooks'][$hook])) {
+            foreach ($this->__map['Hooks'][$hook] as $object) {
                 if (is_callable(array($this->{$object}, $hook))) {
                     $result = $this->{$object}->$hook($data);
 
@@ -276,6 +362,38 @@ class AppHelper extends Helper {
         return $options['collectReturn'] ? $collected : $result;
     }
 
+/**
+ * Parse hooktags attributes
+ *
+ * @param string $text Tag string to parse
+ * @return array Array of attributes
+ */
+    private function __hooktagParseAtts($text) {
+        $atts = array();
+        $pattern = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
+        $text = preg_replace("/[\x{00a0}\x{200b}]+/u", " ", $text);
+
+        if (preg_match_all($pattern, $text, $match, PREG_SET_ORDER)) {
+            foreach ($match as $m) {
+                if (!empty($m[1])) {
+                    $atts[strtolower($m[1])] = stripcslashes($m[2]);
+                } elseif (!empty($m[3])) {
+                    $atts[strtolower($m[3])] = stripcslashes($m[4]);
+                } elseif (!empty($m[5])) {
+                    $atts[strtolower($m[5])] = stripcslashes($m[6]);
+                } elseif (isset($m[7]) and strlen($m[7])) {
+                    $atts[] = stripcslashes($m[7]);
+                } elseif (isset($m[8])) {
+                    $atts[] = stripcslashes($m[8]);
+                }
+            }
+        } else {
+            $atts = ltrim($text);
+        }
+
+        return $atts;
+    }
+
     private function __resetOptions() {
         if ($this->Options !== $this->__Options) {
             $this->Options = $this->__Options;
@@ -287,9 +405,9 @@ class AppHelper extends Helper {
             if (is_array($helper)) {
                 continue;
             }
-            
+
             $pluginSplit = pluginSplit($helper);
-            $helper = strpos($helper, '.') !== false ? substr($helper, strpos($helper, '.')+1) : $helper;
+            $helper = strpos($helper, '.') !== false ? substr($helper, strpos($helper, '.') + 1) : $helper;
 
             if (strpos($helper, 'Hook') !== false) {
                 if (!is_object($this->{$helper})) {
@@ -298,26 +416,33 @@ class AppHelper extends Helper {
 
                 $methods = array();
                 $_methods = get_this_class_methods($this->{$helper});
+                $group = strpos($helper, 'Hooktags') !== false ? 'Hooktags' : 'Hooks';
 
                 foreach ($_methods as $method) {
+                    // ignore private and protected methods
+                    if (strpos($method, '__') === 0 || strpos($method, '_') === 0) {
+                        continue;
+                    }
+
                     $methods[] = $method;
 
-                    if (isset($this->hooksMap[$method])) {
-                        $this->hooksMap[$method][] = (string)$helper;
+                    if (isset($this->__map[$group][$method])) {
+                        $this->__map[$group][$method][] = (string)$helper;
                     } else {
-                        $this->hooksMap[$method] = array((string)$helper);
-                    }
+                        $this->__map[$group][$method] = array((string)$helper);
+                    }  
                 }
 
                 if ($pluginSplit[0]) {
-                    $this->hookObjects["{$pluginSplit[0]}.{$helper}"] = $methods;
+                    $this->_hookObjects[$group]["{$pluginSplit[0]}.{$helper}"] = $methods;
                 } else {
-                    $this->hookObjects[$helper] = $methods;
+                    $this->_hookObjects[$group][$helper] = $methods;
                 }
             }
         }
 
-        $this->hooks = array_keys($this->hooksMap);
+        $this->_methods['Hooks'] = array_keys($this->__map['Hooks']);
+        $this->_methods['Hooktags'] = array_keys($this->__map['Hooktags']);
     }
 
     private function __loadHookObjects() {
@@ -326,16 +451,14 @@ class AppHelper extends Helper {
                 $filePath = array();
 
                 if (strpos($hook, '.') !== false) {
-                    $hookE = explode('.', $hook);
-                    $plugin = $hookE[0];
-                    $hookHelper = $hookE[1];
-                    $filePath[] = App::pluginPath($plugin) . 'View' . DS . 'Helper' . DS . "{$hookHelper}Helper" . '.php';
+                    list($plugin, $class) = pluginSplit($hook);
+                    $filePath[] = App::pluginPath($plugin) . 'View' . DS . 'Helper' . DS . "{$class}Helper" . '.php';
                 } else {
                     $filePath[] = APP . 'View' . DS . 'Helper' . DS . "{$hook}Helper.php";
                     $filePath[] = ROOT . DS . 'Hooks' . DS . 'Helper' . DS . "{$hook}Helper.php";
                 }
 
-                if ($this->files_exists($filePath)) {
+                if ($this->__files_exists($filePath)) {
                     $this->helpers[] = $hook;
                 }
             }
@@ -344,7 +467,7 @@ class AppHelper extends Helper {
         $this->helpers = array_unique($this->helpers);
     }
 
-    private function files_exists($files) {
+    private function __files_exists($files) {
         foreach ($files as $f) {
             if (!file_exists($f)) {
                 return false;
