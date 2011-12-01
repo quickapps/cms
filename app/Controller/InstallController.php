@@ -177,6 +177,8 @@ class InstallController extends Controller {
                         $sql = $file->read();
                         $query = $this->__prepareDump($sql);
                         $execute[] = $db->execute(str_replace('#__', $data['Database']['prefix'], $query));
+
+                        $db->reconnect();
                     }
 
                     if (!in_array(false, array_values($execute), true)) {
