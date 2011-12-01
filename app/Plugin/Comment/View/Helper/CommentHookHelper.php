@@ -25,7 +25,7 @@ class CommentHookHelper extends AppHelper {
             in_array($this->request->params['controller'], array('node')) &&
             $this->request->params['action'] == 'details'
         ) {
-            if ($this->_View->Layout->getNodeField('comment') == 2) {
+            if ($this->_View->Layout->nodeField('comment') == 2) {
                 $this->_View->viewVars['Layout']['javascripts']['file'][] = '/comment/js/markItUp/locale/' . Configure::read('Variable.language.code') . '.js';
                 $this->_View->viewVars['Layout']['javascripts']['file'][] = '/comment/js/markItUp/jquery.markitup.js';
                 $this->_View->viewVars['Layout']['javascripts']['file'][] = '/comment/js/markItUp/sets/bbcode/set.js';
