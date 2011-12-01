@@ -9,8 +9,8 @@
  * @author   Christopher Castro <chris@quickapps.es>
  * @link     http://cms.quickapps.es
  */
-App::uses('AppHelper', 'View/Helper');
 
+App::uses('AppHelper', 'View/Helper');
 class LayoutHelper extends AppHelper {
 
 /**
@@ -23,12 +23,16 @@ class LayoutHelper extends AppHelper {
  * Render css files links
  *
  * @param array $stylesheets Asociative array of extra css elements to merge
- *     array(
- *        'print' => array(file1, file2),
- *        'all' => array(file3, file4),
+ * {{{
+ * array(
+       'embed' => array("css code1", "css code2", ...)
+ *     'print' => array("file1", "file2", ...),
+ *     'all' => array("file3", "file4", ...),
  *      ....
- *    );
- * @return string HTML css link-tags/embed-code
+ * );
+ * }}
+ * @return string HTML css link-tags and embed-styles
+ * @see AppController::$Layout
  */
     public function stylesheets($stylesheets = array()) {
         $output = $embed = '';
@@ -55,11 +59,14 @@ class LayoutHelper extends AppHelper {
  * Render js files links
  *
  * @param array $javascripts Asociative array of extra js elements to merge:
- *     array(
- *        'code' => array("code1", "code2"),
- *        'files' => array("path_to_file1", "path_to_file2")
- *    )
- * @return string HTML javascript link-tags/embed-code
+ * {{{
+ * array(
+ *     'embed' => array("code1", "code2", ...),
+ *     'file' => array("path_to_file1", "path_to_file2", ...)
+ * );
+ * }}}
+ * @return string HTML javascript link-tags and embed-code
+ * @see AppController::$Layout
  */
     public function javascripts($javascripts = array()) {
         $output = '';
@@ -110,7 +117,7 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
- * Shortcut for `title_for_layout`
+ * Shortcut for `title_for_layout`.
  *
  * @return string Current page's title
  */
@@ -158,10 +165,12 @@ class LayoutHelper extends AppHelper {
 
 /**
  * Return all meta-tags for the current page.
- * This function should be used by themes between <head> and </head>.
+ * This function should be used by themes between <head> and </head> tags.
  *
- * @param array $metaForLayout Optional asociative array of aditional metas to merge with Layout metas meta_name => content.
- * @return string HTML formatted meta tags
+ * @param array $metaForLayout Optional asociative array of aditional meta-tags to
+ *                             merge with Layout metas `meta_name => content`.
+ * @return string HTML formatted meta tags.
+ * @see AppController::$Layout
  */
     public function meta($metaForLayout = array()) {
         if (!is_array($metaForLayout) || empty($metaForLayout)) {
@@ -178,7 +187,7 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
- * Returns node type of the current node's page
+ * Returns node type of the current node's being renderend.
  * (Valid only when rendering a single node [viewMode = full])
  *
  * @return mixed String ID of the NodeType or false if could not be found.
@@ -192,13 +201,13 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
- * Returns specified node's field value.
+ * Returns specified node's field.
  * (Valid only when rendering a single node [viewMode = full])
  *
  * @param string $field Node field name to retrieve.
- * @return mixed Value of the field if exists. FALSE otherwise.
+ * @return mixed Array of the field if exists. FALSE otherwise.
  */
-    public function getNodeField($field = false) {
+    public function nodeField($field = false) {
         if (!is_string($field)) {
             return false;
         }
@@ -215,14 +224,14 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
- * Returns content of current node for `content_for_layout`, render based on NodeType.
+ * Render a specified Node or `current` Node, render based on NodeType.
  * Node rendering hook is called based on NodeType, but if is there is no response
  * then default rendering proccess is fired.
  *
  * @param mixed $node Optional:
- *                    boolean FALSE: current node will be rendered. (by default)
- *                    string SLUG: render node by node's slug.
- *                    array : asociative Node's array to render.
+ *                    - boolean FALSE: current node will be rendered. (by default)
+ *                    - string SLUG: render node by node's slug.
+ *                    - array : asociative Node's array to render.
  * @param array $options Node rendering options:
  *                       - mixed class: array or string, extra CSS class(es) for node DIV container
  *                       - mixed viewMode: set to string value to force rendering viewMode. set to boolean false for automatic.
@@ -312,27 +321,13 @@ class LayoutHelper extends AppHelper {
  */
     public function removeHooktags($string) {
         $string = $this->specialTags($string);
-        $tags = implode('|', $this->hooks);
+        $tags = implode('|', $this->hooktagsList());
 
         return preg_replace('/(.?)\[(' . $tags . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', '', $string);
     }
 
 /**
- * Get value of Node's field
- *
- * @param string $field Name of the field to get from Node
- * @return string
- */
-    public function nodeField($field = 'id') {
-        if (isset($this->_View->viewVars['Layout']['node']['Node'][$field])) {
-            return $this->_View->viewVars['Layout']['node']['Node'][$field];
-        }
-
-        return false;
-    }
-
-/**
- * Wrapper for field rendering hook
+ * Wrapper for field rendering hook.
  *
  * @param array $field Field information array
  * @return string HTML formatted field
@@ -377,8 +372,8 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
- * return rendered breadcrumb. Data is passed to themes for formatting the crumbs.
- * If is no response from theme then default formatting is fired.
+ * Return rendered breadcrumb. Data is passed to themes for formatting the crumbs.
+ * Default formatting is fired in case of no theme format-response.
  *
  * @return string HTML formatted breadcrumb
  */
@@ -441,19 +436,19 @@ class LayoutHelper extends AppHelper {
 /**
  * Wrapper method to MenuHelper::generate()
  *
- * @see MenuHelper::generate
  * @param array $menu Array of links to render
  * @param array $settings Optional, customization options for menu rendering process
  * @return string HTML rendered menu
+ * @see MenuHelper::generate
  */
     public function menu($menu, $settings = array()) {
         return $this->Menu->generate($menu, $settings);
     }
 
 /**
- * Check is the current page being viewed is the site frontpage.
+ * Check is the page being viewed is the site frontpage.
  *
- * @return boolean True if is frontpage. False otherwise.
+ * @return boolean TRUE if is frontpage. FALSE otherwise.
  */
     public function isFrontpage() {
         return ($this->_View->plugin == 'Node' &&
@@ -481,7 +476,7 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
- * Generates user's avatar image
+ * Generates user's avatar image.
  *
  * @param array $user Optional user data, current logged user data will be used otherwise
  * @param array $options extra Options for Html->image()
@@ -524,9 +519,16 @@ class LayoutHelper extends AppHelper {
 /**
  * Manually insert a custom block to stack.
  *
- * @param array $data Formatted block array (see $_block)
+ * @param array $block Formatted block array:
+ *     - title
+ *     - pages
+ *     - visibility
+ *     - body
+ *     - region
+ *     - theme
+ *     - format
  * @param string $region Theme region
- * @return boolean True on success
+ * @return boolean TRUE on success. FALSE otherwise.
  */
     public function blockPush($block = array(), $region = '') {
         $_block = array(
@@ -585,7 +587,7 @@ class LayoutHelper extends AppHelper {
  * Useful when creating backend submenu buttons.
  *
  * @param array $links Array of links: array('title', '/your/url/')
- * @param array $options Can be:
+ * @param array $options Array of options:
  *      `type`: type of list, ol, ul. default: ul
  *      `id`: id attribute for the container (ul, ol)
  *      `itemType`: type of child node. default: li
@@ -626,30 +628,29 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
- * Returns current theme's machine name (underscored).
+ * Returns current theme's machine name (CamelCased).
  *
- * @return string theme name
+ * @return string Theme name in CamelCase
  */
     public function themeName() {
         return Configure::read('Theme.info.folder');
     }
 
 /**
- * Is region empty ?
- * returns true if Region has no Blocks.
+ * Checks if the given theme region is empty or not.
  *
  * @param string $region Region alias
- * @return boolean true if region has no blocks, false otherwise
+ * @return boolean TRUE no blocks in region, FALSE otherwise.
  */
     public function emptyRegion($region) {
         return ($this->blocksInRegion($region) == 0);
     }
 
 /**
- * Returns the numbers of blocks in a region
+ * Returns the numbers of blocks in the specified region.
  *
- * @param string $region Region alias
- * @return integer
+ * @param string $region Region alias to check
+ * @return integer Number of blocks
  */
     public function blocksInRegion($region) {
         if (isset($this->_tmp['blocksInRegion'][$region])) {
@@ -750,9 +751,9 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
- * Render all blocks for a particular Region
+ * Render all blocks for a particular region
  *
- * @param string $region Region alias
+ * @param string $region Region alias to render.
  * @return string Html blocks
  */
     public function blocks($region) {
@@ -946,30 +947,32 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
- * Parse string for special placeholders
- * placeholder example: [hook_function param1=text param=2 param3=0 ... /]
- *                      [other_hook_function]only content & no params[/other_hook_function]
+ * Parse string for special hooktags placeholders and replace them with the corresponding hooktag method return.
+ * Placeholder example:
+ * {{{
+ *     [hook_function param1=text param=2 param3=0 ... /]
+ *     [other_hook_function]only content & no params[/other_hook_function]
+ * }}}
  *
- * @return string HTML
+ * @return string HTML with all placeholders replaced.
  */
     public function hooktags($text) {
         $text = $this->specialTags($text);
 
-        if (!empty($this->_tmp['__hooks_reg'])) {
-            $tags = $this->_tmp['__hooks_reg'];
+        if (!empty($this->_tmp['__hooktags_reg'])) {
+            $tags = $this->_tmp['__hooktags_reg'];
         } else {
-            $tags = $this->_tmp['__hooks_reg'] = implode('|', $this->hooks);
+            $tags = $this->_tmp['__hooktags_reg'] = implode('|', $this->_methods['Hooktags']);
         }
 
-        return preg_replace_callback('/(.?)\[(' . $tags . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', array($this, '__doHooktag'), $text);
+        return preg_replace_callback('/(.?)\[(' . $tags . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', array($this, 'doHooktag'), $text);
     }
 
 /**
  * Special hooktags that are not managed by any modules:
  *  `[date=FORMAT]` Return current date(FORMAT).
  *  `[rand={values,by,comma}]` Returns a radom value from the specified group.
- *                             If only two numeric values are given as group, 
- *                             then rand(num1, num2) is returned.
+ *                             If only two numeric values are given as group, then rand(num1, num2) is returned.
  *  `[language.OPTION]` Current language option (code, name, native, direction).
  *  `[language]` Shortcut to [language.code] which return current language code.
  *  `[url]YourURL[/url]` or `[url=YourURL]` Formatted url.
@@ -1063,70 +1066,5 @@ class LayoutHelper extends AppHelper {
         $this->hook('special_tags_alter', $text);
 
         return $text;
-    }
-
-/**
- * Callback function
- *
- * @see Layout::hooktags()
- * @return mixed Hook response or false in case of no response.
- */
-    private function __doHooktag($m) {
-        // allow [[foo]] syntax for escaping a tag
-        if ($m[1] == '[' && $m[6] == ']') {
-            return substr($m[0], 1, -1);
-        }
-
-        $tag = $m[2];
-        $attr = $this->__hooktagParseAtts( $m[3] );
-        $hook = isset($this->hooksMap[$tag]) ? $this->hooksMap[$tag] : false;
-
-        if ($hook) {
-            foreach ($this->hooksMap[$tag] as $object) {
-                $hook =& $this->{$object};
-
-                if (isset($m[5])) {
-                    // enclosing tag - extra parameter
-                    return $m[1] . call_user_func(array($hook, $tag), $attr, $m[5], $tag) . $m[6];
-                } else {
-                    // self-closing tag
-                    return $m[1] . call_user_func(array($hook, $tag), $attr, null, $tag) . $m[6];
-                }
-            }
-        }
-
-        return false;
-    }
-
-/**
- * Parse hook tags attributes
- *
- * @param string $text Tag string to parse
- * @return Array array of attributes
- */
-    private function __hooktagParseAtts($text) {
-        $atts       = array();
-        $pattern    = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
-        $text       = preg_replace("/[\x{00a0}\x{200b}]+/u", " ", $text);
-
-        if (preg_match_all($pattern, $text, $match, PREG_SET_ORDER)) {
-            foreach ($match as $m) {
-                if (!empty($m[1])) {
-                    $atts[strtolower($m[1])] = stripcslashes($m[2]);
-                } elseif (!empty($m[3])) {
-                    $atts[strtolower($m[3])] = stripcslashes($m[4]);
-                } elseif (!empty($m[5])) {
-                    $atts[strtolower($m[5])] = stripcslashes($m[6]);
-                } elseif (isset($m[7]) and strlen($m[7])) {
-                    $atts[] = stripcslashes($m[7]);
-                } elseif (isset($m[8])) {
-                    $atts[] = stripcslashes($m[8]);
-                }
-            }
-        } else {
-            $atts = ltrim($text);
-        }
-
-        return $atts;
     }
 }
