@@ -9,8 +9,6 @@
  * @author   Christopher Castro <chris@quickapps.es>
  * @link     http://cms.quickapps.es
  */
-
-App::uses('AppHelper', 'View/Helper');
 class LayoutHelper extends AppHelper {
 
 /**

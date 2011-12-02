@@ -30,7 +30,6 @@
  * Author: Andy Dawson
  * Modifications by: Christopher Castro for QuickApps
  */
-App::uses('AppHelper', 'View/Helper');
 class MenuHelper extends AppHelper {
 /**
  * name property
