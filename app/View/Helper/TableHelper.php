@@ -53,7 +53,7 @@ class TableHelper extends AppHelper {
         'headerPosition' => 'top',
         'headerRowOptions' => array(),
         'noItemsMessage' => 'There are no items to display',
-        'tableOptions' => array(),
+        'tableOptions' => array('cellpadding' => 0, 'cellspacing' => 0, 'border' => 0),
         'paginate' => array(
             'options' => array(),
             'prev' => array(
@@ -106,7 +106,7 @@ class TableHelper extends AppHelper {
             $this->_defaults['paginate'] = !isset($options['paginate']) ? false : $this->_defaults['paginate'];
         }
 
-        $options = array_merge($this->_defaults, $options);
+        $options = Set::merge($this->_defaults, $options);
         $this->_colsCount = count($options['columns']);
 
 
