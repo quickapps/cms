@@ -8,17 +8,15 @@
  */
     define('DS', DIRECTORY_SEPARATOR);
     define('ROOT', dirname(dirname(__FILE__)));
-    define('QA_DIR', 'app');
-    define('QA_CORE_INCLUDE_PATH', ROOT);
+    define('QA_PATH', ROOT . DS . 'app');
 
 /**
  * Editing below this line should NOT be necessary.
  * Change at your own risk.
  *
  */
-    define('APP_DIR', QA_DIR);
-    define('QA_PATH', QA_CORE_INCLUDE_PATH . DS . QA_DIR);
-    define('CAKE_CORE_INCLUDE_PATH', QA_PATH);
+    define('APP_DIR', dirname(QA_PATH));
+    define('CAKE_CORE_INCLUDE_PATH', dirname(dirname(QA_PATH)));
     define('TMP', ROOT . DS . 'tmp' . DS);
     define('APP', QA_PATH . DS);
 
