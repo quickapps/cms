@@ -1,4 +1,4 @@
-<?php echo $this->Form->create('Package', array( 'url' => '/admin/system/themes/install', 'enctype' => 'multipart/form-data')); ?>
+<?php echo $this->Form->create('Package', array('url' => '/admin/system/themes/install', 'enctype' => 'multipart/form-data')); ?>
     <!-- Filter -->
     <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-install_fieldset" style="cursor:pointer;">' . __t('Install New Theme') . '</span>' ); ?>
         <div id="install_fieldset" class="horizontalLayout" style="display:none;">
@@ -16,9 +16,9 @@
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 <?php echo $this->Form->end(); ?>
 
-
 <?php echo $this->Html->useTag('fieldsetstart', __t('Frontend themes')  ); ?>
 <table width="100%">
+    <tbody>
     <?php
     foreach ($themes as $name => $_data):
         $data = array(
@@ -40,7 +40,7 @@
     ?>
         <tr>
             <td width="210">
-                <img src=" <?php echo $this->Html->url('/admin/system/themes/theme_tn/' . $name) ?> " border="0" width="202" height="152" style="border:2px solid #666;" />
+                <img src=" <?php echo $this->Html->url('/admin/system/themes/theme_tn/' . $name) ?> " class="theme_tn" />
             </td>
 
             <td valign="top">
@@ -65,13 +65,15 @@
             </td>
         </tr>
     <?php endforeach; ?>
+    </tbody>
 </table>
 <?php echo $this->Html->useTag('fieldsetend'); ?>
 
 <p>&nbsp;</p>
 
 <?php echo $this->Html->useTag('fieldsetstart', __t('Backend themes')  ); ?>
-    <table width="100%">
+<table width="100%">
+    <tbody>
     <?php
     foreach ($themes as $name => $_data):
         $data = array(
@@ -93,7 +95,7 @@
     ?>
         <tr>
             <td width="210">
-                <img src=" <?php echo $this->Html->url('/admin/system/themes/theme_tn/' . $name) ?> " border="0" width="202" height="152" style="border:2px solid #666;" />
+                <img src=" <?php echo $this->Html->url('/admin/system/themes/theme_tn/' . $name) ?> " class="theme_tn" />
             </td>
             <td valign="top">
                 <p>
@@ -114,7 +116,8 @@
             </td>
         </tr>
     <?php endforeach; ?>
-    </table>
+    </tbody>
+</table>
 <?php echo $this->Html->useTag('fieldsetend'); ?>
 
 <script>
