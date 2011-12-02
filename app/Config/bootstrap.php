@@ -106,6 +106,7 @@ Cache::config('default', array('engine' => 'File'));
 
     App::build(
         array(
+            'locales' => ROOT . DS . 'Locale' . DS,
             'views' => ROOT  . DS . 'Themes' . DS, 
             'plugins' => $__plugin_paths,
             'Model/Behavior' => ROOT . DS . 'Hooks' . DS . 'Behavior' . DS,

@@ -1,0 +1,12 @@
+# Custom Site Language Packages
+
+Put your custom language .po packages here following the structure below:
+
+ * Locale/
+     * {lang_code}/
+         * LC\_MESSAGES/
+             * default.po
+ 
+Where `{lang_code}` must be a three letters code (ISO 639-3), e.g.: fre, eng, spa, etc.
+
+Or you can upload packages by using the Packages Maganament section in Locale module (/locale/packages/).
