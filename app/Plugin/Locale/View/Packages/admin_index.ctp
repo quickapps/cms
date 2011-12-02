@@ -37,10 +37,30 @@
 
 <table width="100%">
     <?php foreach ($packages as $plugin => $langs): ?>
-    <?php $Name = (strpos($plugin, 'Theme') !== false) ? __t('Theme: %s', Configure::read('Modules.' . $plugin . '.yaml.info.name')) : __t('Module: %s', Configure::read('Modules.' . $plugin . '.yaml.name')); ?>
+    <?php
+        if ($plugin != 'Core' && $plugin != 'Site') {
+            $ppath = CakePlugin::path($plugin);
+
+            if (strpos($plugin, 'Theme') !== false) {
+                $Name = __t('Theme: %s', Configure::read('Modules.' . $plugin . '.yaml.info.name'));
+            } elseif (strpos($ppath, DS . 'Fields' . DS)) {
+                $Name = __t('Field: %s', $field_modules[$plugin]['name']);
+            } else {
+                $Name = __t('Module: %s', Configure::read('Modules.' . $plugin . '.yaml.name'));
+            }
+        } else {
+            if ($plugin == 'Core') {
+                $ppath = APP;
+                $Name = '<b>' . __t('Core') . '</b>';
+            } else {
+                $ppath = ROOT . DS;
+                $Name = '<b>' . __t('Site Domain') . '</b>';
+            }
+        }
+    ?>
     <tr>
         <td>
-            <?php echo $plugin == 'Core' ? '<b>' . __t('Core') . '</b>' : $Name; ?><br/>
+            <?php echo $Name; ?><br/>
             <ul>
             <?php foreach ($langs as $code => $po): ?>
                 <?php 
@@ -51,7 +71,10 @@
                 <li>
                     <?php echo $languages[$code]; ?>
                     <a href="<?php echo $this->Html->url("/admin/locale/packages/download_package/{$plugin}/{$code}"); ?>" target="_blank"><?php echo __t('download'); ?></a>
+
+                    <?php if (strpos($ppath, APP) === false): ?>
                     <a href="<?php echo $this->Html->url("/admin/locale/packages/uninstall/{$plugin}/{$code}"); ?>" onClick="return confirm('<?php echo __t('Delete the selected package ?'); ?>'); "><?php echo __t('uninstall'); ?></a>
+                    <?php endif; ?>
                 </li>
             <?php endforeach; ?>
             </ul>
@@ -70,6 +93,7 @@
         }
         return true;
     }
+
     $("#toggle-upload_fieldset").click(function () {
         $("#upload_fieldset").toggle('fast', 'linear');
     });

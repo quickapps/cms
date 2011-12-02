@@ -38,6 +38,9 @@ msgstr "Editando idioma"
 msgid "Core"
 msgstr "Núcleo"
 
+msgid "Site Domain"
+msgstr "Dominio de Sitio"
+
 #: Controller/PackagesController.php:48
 #, php-format
 msgid "Theme: %s"
@@ -47,6 +50,9 @@ msgstr "Tema: %s"
 #, php-format
 msgid "Module: %s"
 msgstr "Módulo: %s"
+
+msgid "Field: %s"
+msgstr "Campo: %s"
 
 #: Controller/PackagesController.php:55
 msgid "Translation packages"

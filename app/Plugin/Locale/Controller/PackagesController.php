@@ -14,40 +14,53 @@ class PackagesController extends LocaleAppController {
     public $uses = array();
 
     public function admin_index() {
-        Configure::write('debug', 0);
-        $poFolders = array();
+        $poFolders = $modules = array();
+        $modules['Site'] = __t('Site Domain');
+        $field_modules = $this->hook('field_info', $this, array('collectReturn' => false));
 
-        # Core .po
+        # Site core.po
+        $Locale = new Folder(ROOT . DS . 'Locale' . DS);
+        $f = $Locale->read(); $f = $f[0];
+
+        foreach ($f as $langF) {
+            if (file_exists(ROOT . DS . 'Locale' . DS . $langF . DS . 'LC_MESSAGES' . DS . 'core.po')) {
+                $poFolders['Site'][$langF] = ROOT . DS . 'Locale' . DS . $langF . DS . 'LC_MESSAGES' . DS . 'core.po';
+            }
+        }
+
+        # Core default.po
         $Locale = new Folder(APP . 'Locale' . DS);
         $f = $Locale->read(); $f = $f[0];
+
         foreach ($f as $langF) {
-            if (file_exists(APP . 'Locale' . DS . $langF . DS . 'LC_MESSAGES' . DS . 'core.po')) {
-                $poFolders['Core'][$langF] = APP . 'Locale' . DS . $langF . DS . 'LC_MESSAGES' . DS . 'core.po';
+            if (file_exists(APP . 'Locale' . DS . $langF . DS . 'LC_MESSAGES' . DS . 'default.po')) {
+                $poFolders['Core'][$langF] = APP . 'Locale' . DS . $langF . DS . 'LC_MESSAGES' . DS . 'default.po';
             }
         }
 
         # Plugins .po
         foreach (App::objects('plugin') as $plugin) {
             $ppath = CakePlugin::path($plugin);
-
-            if (strpos($ppath, DS . 'Fields' . DS)) {
-                continue;
-            }
-
             $Locale = new Folder($ppath . 'Locale' . DS);
             $f = $Locale->read(); $f = $f[0];
 
             foreach ($f as $langF) {
                 $poFolders[$plugin][$langF] = $ppath . 'Locale' . DS . $langF . DS . 'LC_MESSAGES' . DS . 'core.po';
             }
+
+            // Core apps cannot be overwritten
+            if (strpos($ppath, APP) === false) {
+                if (strpos($plugin, 'Theme') === 0) {
+                    $modules[$plugin] = __t('Theme: %s', Configure::read("Modules.{$plugin}.yaml.info.name"));
+                } elseif (strpos($ppath, DS . 'Fields' . DS) !== false) {
+                    $modules[$plugin] = __t('Field: %s', $field_modules[$plugin]['name']);
+                } else {
+                    $modules[$plugin] = __t('Module: %s', Configure::read("Modules.{$plugin}.yaml.name"));
+                }
+            }
         }
 
-        $modules['core'] = __t('Core');
-
-        foreach (Configure::read('Modules') as $module) {
-            $modules[$module['name']] = (strpos($module['name'], 'Theme') === 0) ? __t('Theme: %s', $module['yaml']['info']['name']) : __t('Module: %s', $module['yaml']['name']);
-        }
-
+        $this->set('field_modules', $field_modules);
         $this->set('modules', $modules);
         $this->set('languages', $this->__languageList());
         $this->set('packages', $poFolders);
@@ -57,20 +70,35 @@ class PackagesController extends LocaleAppController {
     }
 
     public function admin_download_package($plugin, $language) {
+        $plugin = Inflector::camelize($plugin);
         $err = false;
-        $ppath = $plugin === 'Core' ? APP : CakePlugin::path($plugin);
+
+        switch ($plugin) {
+            case 'Core':
+                $ppath = APP;
+            break;
+
+            case 'Site':
+                $ppath = ROOT . DS;
+            break;
+
+            default:
+                $ppath = CakePlugin::path($plugin);
+            break;
+        }
 
         if ($ppath) {
-            $poPath = $ppath . 'Locale' . DS . $language . DS . 'LC_MESSAGES' . DS;
+            $file = $ppath . 'Locale' . DS . $language . DS . 'LC_MESSAGES' . DS;
+            $file .= $plugin === 'Core' ? 'default.po' : 'core.po';
 
-            if (file_exists($poPath . 'core.po')) {
+            if (file_exists($file)) {
                 $this->viewClass = 'Media';
                 $params = array(
-                    'id' => 'core.po',
-                    'name' => 'core.po',
+                    'id' => basename($file),
+                    'name' => basename($file),
                     'download' => true,
                     'extension' => 'po',
-                    'path' => $poPath
+                    'path' => dirname($file) . DS
                 );
                 $this->set($params);
             } else {
@@ -86,29 +114,70 @@ class PackagesController extends LocaleAppController {
     }
 
     public function admin_uninstall($plugin, $language) {
-        $ppath = strtolower($plugin) !== 'core' ? CakePlugin::path(Inflector::camelize($this->data['Package']['module'])) : APP;
+        $plugin = Inflector::camelize($plugin);
+        $language = strtolower($language);
 
-        if (file_exists($ppath . 'Locale' . DS . $language . DS . 'LC_MESSAGES' . DS . 'core.po')) {
-            $Folder = new Folder($ppath . 'Locale' . DS . $language . DS);
+        switch ($plugin) {
+            case 'Core':
+                $ppath = APP;
+            break;
 
-            if (!$Folder->delete()) {
-                $this->flashMsg(__t("Could not delete package folder. Please check folder permissions for '%s'.", $ppath . 'Locale' . DS . $language . DS), 'error');
+            case 'Site':
+                $ppath = ROOT . DS;
+            break;
+
+            default:
+                $ppath = CakePlugin::path($plugin);
+            break;
+        }
+
+        // Core apps's .po cannot be deleted
+        if (strpos($ppath, APP) === false) {
+            if ($plugin == 'Core') {
+                $file = $ppath . 'Locale' . DS . $language . DS . 'LC_MESSAGES' . DS . 'default.po';
             } else {
-                $this->flashMsg(__t('Language package removed!'), 'success');
+                $file = $ppath . 'Locale' . DS . $language . DS . 'LC_MESSAGES' . DS . 'core.po';
             }
-        } else {
-            $this->flashMsg(__t('Invalid module or language '), 'error');
+
+            if (file_exists($file)) {
+                $Folder = new Folder($ppath . 'Locale' . DS . $language . DS);
+
+                if (!$Folder->delete()) {
+                    $this->flashMsg(__t("Could not delete package folder. Please check folder permissions for '%s'.", $ppath . 'Locale' . DS . $language . DS), 'error');
+                } else {
+                    $this->flashMsg(__t('Language package removed!'), 'success');
+                }
+            } else {
+                $this->flashMsg(__t('Invalid module or language '), 'error');
+            }
         }
 
         $this->redirect('/admin/locale/packages');
     }
 
     public function admin_install() {
-        if (!isset($this->data['Package']['po'])) {
+        if (!isset($this->data['Package']['po']) || empty($this->data['Package']['module'])) {
             $this->redirect('/admin/locale/packages');
         }
 
-        $ppath = $this->data['Package']['module'] !== 'core' ? CakePlugin::path(Inflector::camelize($this->data['Package']['module'])) : APP;
+        switch ($this->data['Package']['module']) {
+            case 'Core':
+                $ppath = APP;
+            break;
+
+            case 'Site':
+                $ppath = ROOT . DS;
+            break;
+
+            default:
+                $ppath = CakePlugin::path(Inflector::camelize($this->data['Package']['module']));
+            break;
+        }
+
+        if (strpos($ppath, APP) !== false) {
+            $this->flashMsg(__t('Invalid module'), 'error');
+            $this->redirect('/admin/locale/packages');
+        }
 
         if (file_exists($ppath)) {
             if (in_array($this->data['Package']['language'], array_keys($this->__languageList()))) {
@@ -117,8 +186,8 @@ class PackagesController extends LocaleAppController {
                 $Folder = new Folder;
                 $Upload = new Upload($this->data['Package']['po']);
                 $Upload->file_overwrite = true;
-                $Upload->file_new_name_ext  = 'po';
-                $Upload->file_new_name_body  = 'core';
+                $Upload->file_new_name_ext = 'po';
+                $Upload->file_new_name_body = 'core';
                 $Upload->Process($destFolder);
 
                 if (!$Upload->processed) {
