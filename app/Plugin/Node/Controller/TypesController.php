@@ -202,8 +202,8 @@ class TypesController extends NodeAppController {
         $this->set('result', $nodeType);
         $this->set('field_modules', $this->hook('field_info', $this, array('collectReturn' => false)));
         $this->setCrumb('/admin/node/types');
-        $this->setCrumb( array($nodeType['NodeType']['name'], '/admin/node/types/edit/' . $nodeType['NodeType']['id']));
-        $this->setCrumb( array(__t('Fields'), '/admin/node/types/fields/' . $nodeType['NodeType']['id']));
+        $this->setCrumb(array($nodeType['NodeType']['name'], '/admin/node/types/edit/' . $nodeType['NodeType']['id']));
+        $this->setCrumb(array(__t('Fields'), '/admin/node/types/fields/' . $nodeType['NodeType']['id']));
         $this->title(__t('Fields'));
     }
 
