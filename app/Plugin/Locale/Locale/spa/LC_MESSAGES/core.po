@@ -67,7 +67,7 @@ msgstr "No se puedo eliminar la carpeta del paquete. Por favor verifique los per
 
 #: Controller/PackagesController.php:97
 msgid "Language package removed!"
-msgstr "Pquete de idioma eliminado!"
+msgstr "Paquete de idioma eliminado!"
 
 #: Controller/PackagesController.php:100
 msgid "Invalid module or language "
