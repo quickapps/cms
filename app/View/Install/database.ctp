@@ -39,7 +39,7 @@
                     <fieldset>
                         <label class="twin-top"><?php echo __t('Database password'); ?>:</label>
                         <label class="sub"><?php echo __t('Password used to log into this database.'); ?></label>
-                        <div class="input-wrap"><?php echo $this->Form->text('Database.password', array('class' => 'wide')); ?></div>
+                        <div class="input-wrap"><?php echo $this->Form->password('Database.password', array('class' => 'wide')); ?></div>
                     </fieldset>
                 </td>
             </tr>
