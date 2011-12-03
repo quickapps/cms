@@ -26,7 +26,6 @@
  * to use (in this case, /app/View/Pages/home.ctp)...
  */
 
-
 /**
  * Installer
  *
@@ -36,18 +35,36 @@
     } else {
         Router::connect('/', array('plugin' => 'Node', 'controller' => 'node', 'action' => 'index'));
         Router::connect('/admin', array('plugin' => 'System', 'controller' => 'system', 'action' => 'index', 'admin' => true));
-    }
+   }
 
 /**
- * Load all plugin routes.  See the CakePlugin documentation on 
- * how to customize the loading of plugin routes.
+ * Load site routes
  */
-	CakePlugin::routes();
+    include_once ROOT . DS . 'Config' . DS . 'routes.php';
+
+/**
+ * Load all plugin routes.
+ */
+    CakePlugin::routes();
+
+/**
+ * Add language prefix to each url
+ */
+    if (Configure::read('Variable.url_language_prefix')) {
+        Router::connect('/admin/:plugin', array('action' => 'index', 'admin' => true));
+        Router::connect('/admin/:plugin/:controller', array('action' => 'index', 'admin' => true));
+        Router::connect('/admin/:plugin/:controller/:action/*', array('admin' => true));
+
+        foreach (Router::$routes as $_route) {
+            $route = clone $_route;
+            $route->options['language'] = '[a-z]{3}';
+            $route->template = "/:language{$route->template}";
+            Router::$routes[] = $route;
+        }
+    }
 
 /**
  * Load the CakePHP default routes. Remove this if you do not want to use
  * the built-in default routes.
  */
 	require CAKE . 'Config' . DS . 'routes.php';
-
-    include_once ROOT . DS . 'Config' . DS . 'routes.php';

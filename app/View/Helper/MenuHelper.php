@@ -37,7 +37,7 @@ class MenuHelper extends AppHelper {
  * @var string 'Tree'
  * @access public
  */
-    var $name = 'Menu';
+    public $name = 'Menu';
 
 /**
  * settings property
@@ -45,7 +45,7 @@ class MenuHelper extends AppHelper {
  * @var array
  * @access private
  */
-    var $__settings = array();
+    private $__settings = array();
 
 /**
  * typeAttributes property
@@ -53,7 +53,7 @@ class MenuHelper extends AppHelper {
  * @var array
  * @access private
  */
-    var $__typeAttributes = array();
+    private $__typeAttributes = array();
 
 /**
  * typeAttributesNext property
@@ -61,7 +61,7 @@ class MenuHelper extends AppHelper {
  * @var array
  * @access private
  */
-    var $__typeAttributesNext = array();
+    private $__typeAttributesNext = array();
 
 /**
  * itemAttributes property
@@ -69,9 +69,12 @@ class MenuHelper extends AppHelper {
  * @var array
  * @access private
  */
-    var $__itemAttributes = array();
+    private $__itemAttributes = array();
 
-    var $__crumb_urls = array();
+/**
+ * Holds temp data used by methods.
+ */
+    private $__tmp = array();
 
 /**
  * helpers variable
@@ -153,8 +156,16 @@ class MenuHelper extends AppHelper {
             $this->__settings['autoPath'][2] = 'active';
         }
 
-        if (empty($this->__crumb_urls)) {
-            $this->__crumb_urls = (array)Set::extract("{n}.{$this->__settings['model']}.router_path", $this->_View->viewVars['breadCrumb']);
+        if (!isset($this->__tmp['crumb_urls']) || empty($this->__tmp['crumb_urls'])) {
+            $this->__tmp['crumb_urls'] = (array)Set::extract("{n}.{$this->__settings['model']}.router_path", $this->_View->viewVars['breadCrumb']);
+
+            if (Configure::read('Variable.url_language_prefix')) {
+                foreach ($this->__tmp['crumb_urls'] as $key => $crumb) {
+                    if (!preg_match('/^\/[a-z]{3}\//', $crumb)) {
+                        $this->__tmp['crumb_urls'][] = '/' . Configure::read('Config.language') . $crumb;
+                    }
+                }
+            }
         }
 
         extract($this->__settings);
@@ -340,21 +351,26 @@ class MenuHelper extends AppHelper {
                 $this->addItemAttribute('class', $count_prefix . $count);
             }
 
-            $crumb_urls = $this->__crumb_urls;
+            $crumb_urls = $this->__tmp['crumb_urls'];
 
-            if (
-                ((isset($elementData['data'][$this->__settings['model']]) && in_array($elementData['data'][$this->__settings['model']][$this->__settings['url']], $crumb_urls)) ||
-                 (isset($elementData['data']['data'][$this->__settings['model']]) && in_array($elementData['data']['data'][$this->__settings['model']][$this->__settings['url']], $crumb_urls))
-                ) && 
+            if (isset($elementData['data'][$this->__settings['model']])) {
+                $link_url = $elementData['data'][$this->__settings['model']][$this->__settings['url']];
+            } elseif (isset($elementData['data']['data'][$this->__settings['model']])) {
+                $link_url = $elementData['data']['data'][$this->__settings['model']][$this->__settings['url']];
+            }
+
+            if (Configure::read('Variable.url_language_prefix')) {
+                if (!preg_match('/^\/[a-z]{3}\//', $link_url)) {
+                    $link_url = "/" . Configure::read('Config.language'). $link_url;
+                }
+            }
+
+            if (in_array($link_url, $crumb_urls) &&
                 $itemType == $this->__settings['itemType'] && 
                 empty($elementData['data'][$this->__settings['model']][$this->__settings['external_url']])
             ) {
                 $this->addItemAttribute('class', $this->__settings['selectedClass']);
-            } elseif (
-                isset($elementData['data'][$this->__settings['model']][$this->__settings['url']]) &&
-                $elementData['data'][$this->__settings['model']][$this->__settings['url']] == '/' &&
-                $this->_View->here === $this->_View->Html->url('/')
-            ) {
+            } elseif (str_replace_once('/' . Configure::read('Config.language'), '', $link_url) == '/' && $this->_View->here === str_replace_once('/' . Configure::read('Config.language'), '', $this->_View->Html->url('/'))) {
                 $this->addItemAttribute('class', $this->__settings['selectedClass']);
             } elseif (
                 isset($elementData['data'][$this->__settings['model']]['selected_on']) && 
@@ -372,7 +388,7 @@ class MenuHelper extends AppHelper {
             } elseif ($_url) {
                 $getURL = $this->__getUrl();
 
-                if (isset($getURL[0]) && $getURL[0] == __t($_url)) {
+                if (isset($getURL[0]) && $getURL[0] == __t($link_url)) {
                     $this->addItemAttribute('class', $this->__settings['selectedClass']);
                 }
             }
@@ -645,6 +661,10 @@ class MenuHelper extends AppHelper {
     }
 
     private function __getUrl() {
+        if (isset($this->__tmp['__getUrl']) && !empty($this->__tmp['__getUrl'])) {
+            return $this->__tmp['__getUrl'];
+        }
+
         $url = '/' . $this->_View->request->url;
         $out = array();
 
@@ -670,6 +690,8 @@ class MenuHelper extends AppHelper {
             $out[] = $url;
         }
 
-        return array_unique($out);
+        $this->__tmp['__getUrl'] = array_unique($out);
+
+        return $this->__tmp['__getUrl'];
     }  
 }

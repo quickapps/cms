@@ -34,6 +34,9 @@
         <?php echo $this->Form->input('Variable.default_language', array('type' => 'select', 'options' => $languages, 'label' => __t('Default language'))); ?>
 
         <?php echo $this->Form->input('Variable.date_default_timezone', array('type' => 'select', 'options' => Locale::time_zones(), 'label' => __t('Default time zone'))); ?>
+
+        <?php echo $this->Form->input('Variable.url_language_prefix', array('type' => 'checkbox', 'options' => array(0 => __t('No'), 1 => __t('Yes')), 'label' => __t('URL path prefix'))); ?>
+        <em><?php echo __t('URLs like http://domain.com/fre/about set language to French (fre). <b>Warning: Changing this setting may break incoming URLs. Use with caution on a production site.</b>'); ?></em>
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 
     <?php echo $this->Html->useTag('fieldsetstart', __t('Users settings')); ?>

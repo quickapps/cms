@@ -90,8 +90,8 @@ class ModulesController extends SystemAppController {
         }
 
         if (!$this->Installer->install($this->data, array('type' => 'module', 'status' => $this->data['Package']['activate']))) {
-            $errors = implode('', $this->Installer->errors);
-            $this->flashMsg($errors, 'error');
+            $errors = implode('<br />', $this->Installer->errors);
+            $this->flashMsg("<b>" . __t('Module could not been installed') . ":</b><br/>{$errors}", 'error');
         } else {
             $this->flashMsg(__t('Module has been installed'), 'success');
         }

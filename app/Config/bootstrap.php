@@ -56,6 +56,11 @@ Cache::config('default', array('engine' => 'File'));
     App::uses('Spyc', 'vendors');
     App::uses('Folder', 'Utility');
 
+    if ($__variables = Cache::read('Variable')) {
+        Configure::write('Variable', $__variables);
+        unset($__variables);
+    }
+
 /**
  * Load themes as plugin
  *

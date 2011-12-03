@@ -274,8 +274,8 @@ class AppHelper extends Helper {
 /**
  * Check if a path matches any pattern in a set of patterns.
  *
- * @param $path The path to match.
- * @param $patterns String containing a set of patterns separated by \n, \r or \r\n.
+ * @param string $patterns String containing a set of patterns separated by \n, \r or \r\n.
+ * @param mixed $path String as path to match. Or boolean FALSE to use actual page url.
  * @return boolean TRUE if the path matches a pattern, FALSE otherwise.
  */
     protected function _urlMatch($patterns, $path = false) {
@@ -285,6 +285,12 @@ class AppHelper extends Helper {
 
         $path = !$path ? '/' . $this->_View->request->url : $path;
         $patterns = explode("\n", $patterns);
+
+        if (Configure::read('Variable.url_language_prefix')) {
+            if (!preg_match('/^\/([a-z]{3})\//', $path, $matches)) {
+                $path = "/" . Configure::read('Config.language'). $path;
+            }
+        }
 
         foreach ($patterns as &$p) {
             $p = Router::url('/') . $p;

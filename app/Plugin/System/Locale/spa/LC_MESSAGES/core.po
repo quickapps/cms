@@ -92,7 +92,10 @@ msgstr "Error al desinstalar el theme '%s'"
 
 #: Controller/ThemesController.php:86
 msgid "Theme could not been installed"
-msgstr "No se puedo instalar el tema"
+msgstr "No se pudo instalar el tema"
+
+msgid "Module could not been installed"
+msgstr "No se pudo instalar el módulo"
 
 #: Controller/ThemesController.php:88
 msgid "Theme has been installed"
@@ -394,3 +397,9 @@ msgstr "Taxonomía"
 
 msgid "Manage tagging, categorization, and classification of your content."
 msgstr "Gestión de etiquetado, categorización, y clasificación de su contenido."
+
+msgid "URL path prefix"
+msgstr "Prefijo en URL"
+
+msgid "URLs like http://domain.com/fre/about set language to French (fre). <b>Warning: Changing this setting may break incoming URLs. Use with caution on a production site.</b>"
+msgstr "URLs como http://cominio.com/fre/about se mostrarán en Francés (fre). <b>Advertencia: Modificar este parámetro puede romper URLs entrantes. Utilizar con precaución en entornos de producción.</b>"

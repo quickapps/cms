@@ -189,7 +189,7 @@ class QuickAppsComponent extends Component {
  * Set system language for the current user.
  * 
  * @return void
- */ 
+ */
     public function setLanguage() {
         $urlBefore = $this->__urlChunk();
         $urlBefore = isset($urlBefore[0]) ? $urlBefore[0] : '';
@@ -197,7 +197,17 @@ class QuickAppsComponent extends Component {
 
         $langs = $this->Controller->Language->find('all', array('conditions' => array('status' => 1), 'order' => array('ordering' => 'ASC')));
         $installed_codes = Set::extract('/Language/code', $langs);
-        $lang = $this->Controller->Session->read('language');
+
+        if (isset($this->Controller->request->params['language'])) {
+            if (in_array($this->Controller->request->params['language'], $installed_codes)) {
+                $lang = $this->Controller->request->params['language'];
+            } else {
+                header('Location: '. $this->Controller->request->base);
+                exit;
+            }
+        } else {
+            $lang = $this->Controller->Session->read('language');
+        }
 
         Configure::write('Config.language', $lang);
 
@@ -437,6 +447,11 @@ class QuickAppsComponent extends Component {
  */ 
  
     public function loadVariables() {
+        // already loaded during bootstrap
+        if (Configure::read('Variable')) {
+            return;
+        }
+
         $variables = Cache::read('Variable');
 
         if ($variables === false) {
@@ -478,7 +493,6 @@ class QuickAppsComponent extends Component {
         if (is_array($url) && !empty($url)) {
             if (is_array($url[0])) {
                 foreach ($url as $link) {
-
                     if (empty($link)) {
                         continue;
                     }
@@ -512,6 +526,10 @@ class QuickAppsComponent extends Component {
         if (is_array($url)) {
             foreach ($url as $k => $u) {
                 $url[$k] = preg_replace('/\/{2,}/', '',  "{$u}//");
+
+                if (Configure::read('Variable.url_language_prefix')) {
+                    $url[] = str_replace_once('/' . Configure::read('Config.language'), '', $u);
+                }
             }
         } else {
             $url = preg_replace('/\/{2,}/', '',  "{$url}//");
@@ -545,7 +563,6 @@ class QuickAppsComponent extends Component {
             }
 
             $this->Controller->set('breadCrumb', $path);
-
         }
 
         return;

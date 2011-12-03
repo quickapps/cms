@@ -35,10 +35,11 @@ class ConfigurationController extends AppController {
 
             if (!$err) {
                 $this->flashMsg(__t('Configuration has been saved.'), 'success');
-                $this->redirect($this->referer());
             } else {
                 $this->flashMsg(__t('Configuration could not be saved. Please, try again.'), 'error');
             }
+
+            $this->redirect('/admin/system/configuration');
         } else {
             $this->__setLangs();
 
