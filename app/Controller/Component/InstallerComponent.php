@@ -82,7 +82,7 @@ class InstallerComponent extends Component {
         $Upload->Process($workingDir . 'package' . DS);
 
         if (!$Upload->processed) {
-            $this->errors[] = __d('system', 'Package upload error') . "<br/><p>{$Upload->error}</p>";
+            $this->errors[] = __d('system', 'Package upload error') . ": {$Upload->error}";
             return false;
         }
 
@@ -92,7 +92,7 @@ class InstallerComponent extends Component {
         $PclZip = new PclZip($Upload->file_dst_pathname);
 
         if (!$v_result_list = $PclZip->extract(PCLZIP_OPT_PATH, $workingDir . 'unzip')) {
-            $this->errors[] = __d('system', 'Unzip error.') . "<br/><p>" . $PclZip->errorInfo(true) . "</p>";
+            $this->errors[] = __d('system', 'Unzip error.') . ": " . $PclZip->errorInfo(true);
 
             return false;
         } else {
@@ -920,7 +920,7 @@ class InstallerComponent extends Component {
         foreach ($tests as $key => $test) {
             if (!$test['test']) {
                 $e++;
-                $this->errors[] = $header ? "<b>{$test['header']}</b><br/><p>{$test['msg']}</p>" : "<p>{$test['msg']}</p>";
+                $this->errors[] = $header ? "<b>{$test['header']}</b>: {$test['msg']}" : $test['msg'];
             }
         }
 
