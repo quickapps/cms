@@ -35,6 +35,7 @@ class ConfigurationController extends AppController {
 
             if (!$err) {
                 $this->flashMsg(__t('Configuration has been saved.'), 'success');
+                $this->__setLangPrefix();
             } else {
                 $this->flashMsg(__t('Configuration could not be saved. Please, try again.'), 'error');
             }
@@ -46,6 +47,28 @@ class ConfigurationController extends AppController {
             $data = array();
             $data['Variable'] = Configure::read('Variable');
             $this->data = $data;
+        }
+    }
+
+    private function __setLangPrefix() {
+        if (isset($this->data['Variable']['url_language_prefix'])) {
+            if (is_writable(ROOT . DS . 'Config' . DS . 'core.php')) {
+                App::import('Utility', 'File');
+
+                $File = new File(ROOT . DS . 'Config' . DS . 'core.php', false);
+                $core = $File->read();
+
+                if (preg_match('/Configure\:\:write\(\'Variable\.url_language_prefix\'\,(.*)\)\;/s', $core, $match)) {
+                    $new = $this->data['Variable']['url_language_prefix'] ? "true" : "false";
+                    $core = str_replace($match[0], "Configure::write('Variable.url_language_prefix', {$new});", $core);
+                    $File->write($core);
+                    $File->close();
+                } else {
+                    $this->flashMsg(__t('The file `%s` appears to be invalid, `Variable.url_language_prefix` parameter not found.', ROOT . DS . 'Config' . DS . 'core.php'), 'alert');
+                }
+            } else {
+                $this->flashMsg(__t('The file `%s` could not be written.', ROOT . DS . 'Config' . DS . 'core.php'), 'alert');
+            }
         }
     }
 

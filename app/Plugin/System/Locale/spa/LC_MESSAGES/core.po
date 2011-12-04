@@ -404,3 +404,8 @@ msgstr "Prefijo en URL"
 msgid "URLs like http://domain.com/fre/about set language to French (fre). <b>Warning: Changing this setting may break incoming URLs. Use with caution on a production site.</b>"
 msgstr "URLs como http://cominio.com/fre/about se mostrarán en Francés (fre). <b>Advertencia: Modificar este parámetro puede romper URLs entrantes. Utilizar con precaución en entornos de producción.</b>"
 
+msgid "The file `%s` appears to be invalid, `Variable.url_language_prefix` parameter not found."
+msgstr "El fichero `%s` parece ser inválido, no se encontró el parámetro `Variable.url_language_prefix`."
+
+msgid "The file `%s` could not be written."
+msgstr "El fichero `%s` no pudo ser escrito."

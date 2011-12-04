@@ -447,18 +447,16 @@ class QuickAppsComponent extends Component {
  */ 
  
     public function loadVariables() {
-        // already loaded during bootstrap
-        if (Configure::read('Variable')) {
-            return;
-        }
-
         $variables = Cache::read('Variable');
+        $lp = Configure::read('Variable.url_language_prefix');
 
         if ($variables === false) {
             $this->Controller->Variable->writeCache();
         } else {
             Configure::write('Variable', $variables);
         }
+
+        Configure::write('Variable.url_language_prefix', $lp);
     }
 
 /**

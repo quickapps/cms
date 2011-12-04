@@ -33,3 +33,9 @@ Configure::write('Security.salt', 'alknLsnÑQUCMdnweuNsd83P390dm');
  *
  */
 Configure::write('Security.cipherSeed', '8701467490498213157498310');
+
+/**
+ * URLs like http://domain.com/fre/about set language to French (fre).
+ * Warning: Changing this setting may break incoming URLs. Use with caution on a production site.
+ */
+Configure::write('Variable.url_language_prefix', false);
