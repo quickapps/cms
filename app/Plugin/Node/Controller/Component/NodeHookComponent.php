@@ -10,11 +10,11 @@
  * @link     http://cms.quickapps.es
  */
 class NodeHookComponent extends Component {
-    var $controller = null;
+    var $Controller = null;
     var $components = array('Hook');
 
-    function initialize(&$controller) {
-        $this->controller = $controller;
+    function initialize(&$Controller) {
+        $this->Controller = $Controller;
     }
 
     function get_node_types() {
@@ -23,5 +23,4 @@ class NodeHookComponent extends Component {
 
         return $types['NodeType'];
     }
-
 }
