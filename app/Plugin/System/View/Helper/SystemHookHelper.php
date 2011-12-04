@@ -29,7 +29,7 @@ class SystemHookHelper extends AppHelper {
         $Node = ClassRegistry::init('Node.Node');
 
         $Block = array(
-            'title' => __t('Recent Content'),
+            'title' => __d('system', 'Recent Content'),
             'body' => $this->_View->element(
                 'system_recent_content',
                 array(
