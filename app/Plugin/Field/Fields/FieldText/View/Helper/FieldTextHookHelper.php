@@ -1,14 +1,14 @@
 <?php
 class FieldTextHookHelper extends AppHelper {
-    function field_text_view($data) {
+    public function field_text_view($data) {
         return $this->_View->element('view', array('data' => $data), array('plugin' => 'FieldText'));
     }
 
-    function field_text_edit($data) {
+    public function field_text_edit($data) {
         return $this->_View->element('edit', array('data' => $data), array('plugin' => 'FieldText'));
     }
 
-    function field_text_formatter($data) {
+    public function field_text_formatter($data) {
         if (isset($data['settings']['text_processing']) && !empty($data['settings']['text_processing'])) {
             $this->_View->Layout->hook('text_processing_' . $data['settings']['text_processing'], $data['content']);
         }
