@@ -126,7 +126,7 @@ msgstr "Editando Rol"
 
 #: Controller/UserController.php:26
 #: Controller/UserController.php:39
-msgid "Log in"
+msgid "Login"
 msgstr "Inicio de sesión"
 
 #: Controller/UserController.php:50
@@ -167,17 +167,16 @@ msgstr "%s perfil"
 msgid "Invalid username or password"
 msgstr "Nombre de usuario o contraseña inválidos"
 
+msgid "You are not authorized to access that location."
+msgstr "No está autorizado para acceder a esa área."
+
 #: Controller/UserController.php:228
-msgid "Log out successful."
+msgid "Logout successful."
 msgstr "Desidentificación exitosa."
 
 #: View/Dashboard/login.ctp:6
 msgid "Username"
 msgstr "Nombre de usuario"
-
-#: View/Dashboard/login.ctp:14
-msgid "Remember me"
-msgstr "Recordarme"
 
 #: View/Display/admin_field_formatter.ctp:2
 #, php-format
@@ -598,3 +597,5 @@ msgstr "No se puedo enviar el email."
 msgid "User not found."
 msgstr "Usuario no encontrado."
 
+msgid "Remember"
+msgstr "Recordar"

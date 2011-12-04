@@ -13,7 +13,6 @@ class UserController extends UserAppController {
     public $components = array('Cookie', 'Session');
     public $uses = array('User.User', 'UsersRoles');
 
-    # do not touch this method
     public function admin_index() {
         $this->redirect('/admin/user/list');
     }
@@ -23,7 +22,7 @@ class UserController extends UserAppController {
             $this->redirect($this->Auth->loginRedirect);
         }
 
-        $this->title(__t('Log in'));
+        $this->title(__t('Login'));
     }
 
     public function logout() {
@@ -36,7 +35,7 @@ class UserController extends UserAppController {
             $this->redirect($this->Auth->loginRedirect);
         }
 
-        $this->title(__t('Log in'));
+        $this->title(__t('Login'));
     }
 
     public function admin_logout() {
@@ -47,8 +46,12 @@ class UserController extends UserAppController {
     public function register() {
         if (isset($this->data['User'])) {
             if ($this->User->save($this->data)) {
-                $this->flashMsg(__t('Registration complete. A welcome message has been sent to your e-mail address with instructions about how to active your account.'), 'success');
-                $this->Mailer->send($this->User->id, 'welcome');
+                if ($this->Mailer->send($this->User->id, 'welcome')) {
+                    $this->flashMsg(__t('Registration complete. A welcome message has been sent to your e-mail address with instructions about how to active your account.'), 'success');
+                } else {
+                    $this->flashMsg(implode('<br />', $this->Mailer->errors), 'error');
+                }
+
                 $this->redirect($this->referer());
             } else {
                 $this->flashMsg(__t('User could not be saved. Please, try again.'), 'error');
@@ -111,12 +114,17 @@ class UserController extends UserAppController {
     public function password_recovery() {
         if (isset($this->data['User'])) {
             if ($user = $this->User->findByEmail($this->data['User']['email'])) {
-                $this->Mailer->send($user['User']['id'], 'password_recovery');
-                $this->flashMsg(__t('Further instructions have been sent to your e-mail address.'), 'success');
+                if ($this->Mailer->send($user['User']['id'], 'password_recovery')) {
+                    $this->flashMsg(__t('Further instructions have been sent to your e-mail address.'), 'success');
+                } else {
+                    $this->flashMsg(implode('<br />', $this->Mailer->errors), 'error');
+                }
             } else {
                 $this->User->invalidate('email', __t('invalid email'));
                 $this->flashMsg(__t('Sorry, %s is not recognized as e-mail address.', $this->data['User']['email']), 'error');
             }
+
+            $this->redirect($this->referer());
         }
 
         $this->title(__t('Request new password'));
@@ -225,7 +233,7 @@ class UserController extends UserAppController {
     private function __logout() {
         $this->Cookie->delete('UserLogin');
         $this->Session->delete('Auth');
-        $this->flashMsg(__t('Log out successful.'), 'success');
+        $this->flashMsg(__t('Logout successful.'), 'success');
 
         return true;
     }
