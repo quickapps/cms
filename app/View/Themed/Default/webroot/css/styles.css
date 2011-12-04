@@ -250,6 +250,11 @@ legend { font-weight:bold; font-size:16px; border-radius: 8px; -webkit-border-ra
 }
 
 
+/*---------------[LOGIN-BLOCK]------------------*/ 
+#sidebar-left div.delta-login fieldset { border:none; margin:0; padding:0 0 20px 0; background:transparent; }
+#sidebar-left div.delta-login form .input input { width:99% !important; }
+#sidebar-left div.delta-login form .submit input { margin-bottom:20px; }
+
 /*---------------[MAIN-CONTENT]------------------*/ 
 #page { float:left; width:100%; }
     #page .container { width:980px; margin:0 auto; padding:25px 0 40px 0; }
