@@ -102,6 +102,9 @@ msgstr "la entrada no puedo ser guardada. Por favor, intente otra vez."
 msgid "Translatable entries"
 msgstr "Entradas traducibles"
 
+msgid "Translatable Entries"
+msgstr "Entradas Traducibles"
+
 #: Controller/TranslationsController.php:52
 msgid "Editing entry"
 msgstr "Editando entrada"
@@ -390,4 +393,10 @@ msgstr "Permite gestionar idiomas y traducir la interfaz de los usuarios a otros
 
 msgid "Languages"
 msgstr "Idiomas"
+
+msgid "move up"
+msgstr "mover arriba"
+
+msgid "move down"
+msgstr "mover abajo"
 
