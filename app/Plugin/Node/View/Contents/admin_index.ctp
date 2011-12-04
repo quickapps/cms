@@ -8,9 +8,9 @@ $tSettings = array(
         ),
         __t('Title') => array(
             'value' => '{Node.title} 
-                {php} return ({Node.sticky}) ? \'<img src="{url}/node/img/sticky.png{/url}" title="' . __t('Sticky at top') . '" />\' : ""; {/php} 
-                {php} return ({Node.promote}) ? \'<img src="{url}/node/img/promote.png{/url}" title="' . __t('Promoted in front page') .'" />\' : ""; {/php}
-                {php} return (trim("{Node.cache}") != "") ? \'<img src="{url}/node/img/cache.png{/url}" title="' . __t('Cache activated') .': {Node.cache}" />\' : ""; {/php}',
+                {php} return ({Node.sticky}) ? \'{img title="' . __t("Sticky at top") . '"}/node/img/sticky.png{/img}\' : ""; {/php} 
+                {php} return ({Node.promote}) ? \'{img title="' . __t("Promoted in front page") . '"}/node/img/promote.png{/img}\' : ""; {/php}
+                {php} return (trim("{Node.cache}") != "") ? \'{img title="' . __t("Cache activated") . ': ' . '{Node.cache}"}/node/img/cache.png{/img}\' : ""; {/php}',
             'sort' => 'Node.title',
             'tdOptions' => array('width' => '40%', 'align' => 'left')
         ),
@@ -23,7 +23,7 @@ $tSettings = array(
             'sort'    => 'NodeType.id'
         ),
         __t('Status') => array(
-            'value' => '{php} return ( {Node.status} == 0 ? "' . __t('not published') . '" : "' . __t('published') . '" ); {/php}',
+            'value' => '{php} return ({Node.status} == 0 ? "' . __t('not published') . '" : "' . __t('published') . '"); {/php}',
             'sort'    => 'Node.status'
         ),
         __t('Updated') => array(
@@ -31,7 +31,7 @@ $tSettings = array(
             'sort' => 'Node.modified'
         ),
         __t('Language') => array(
-            'value' => '{php} return ( "{Node.language}" == "" ? "' . __t('-- Any --') . '" : "{Node.language}" ); {/php}',
+            'value' => '{php} return ("{Node.language}" == "" ? "' . __t('-- Any --') . '" : "{Node.language}"); {/php}',
             'sort' => 'Node.language'
         ),
         __t('Actions') => array(
