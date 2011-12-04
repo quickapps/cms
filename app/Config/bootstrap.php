@@ -244,8 +244,14 @@ Cache::config('default', array('engine' => 'File'));
         }
 
         App::uses('I18n', 'I18n');
+
         $route = Router::getParams();
-        $translated = I18n::translate($singular, null, $route['plugin']); # 1º look in plugin 
+
+        if (isset($route['plugin']) && !empty($route['plugin'])) {
+            $translated = I18n::translate($singular, null, Inflector::underscore($route['plugin'])); # 1º look in plugin 
+        } else {
+            $translated = $singular;
+        }
 
         if ($translated === $singular) { # 2º look in default
             $translated = I18n::translate($singular, null, 'default');
