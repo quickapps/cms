@@ -25,24 +25,25 @@ class MailerComponent extends Component {
  * or send custom message by giving an associtive array with
  * body and subject of the message.
  * 
- * @param integer $user_id Id of the user to send the message.
+ * @param mixed $user_id Integer Id of the user to send the message.
+ *                       Or User array data result of Model::find().
  * @param mixed $type 
- *  It may be a string indicating one of the preset messages:
- *  - `blocked`: Message notifying that the account has been BLOCKED.
- *  - `activation`: Message notifying that account has been UNBLOCKED.
- *  - `canceled`: Message notifying that account has been DELETED.
- *  - `password_recovery`: Message notifying PASSWORD RECOVERY proccess.
- *  - `welcome`: WELCOME message, after user registration but before activation.
+ *  It may be a string or integer indicating one of the preset messages:
+ *  - `blocked` (0): Message notifying that the account has been BLOCKED.
+ *  - `activation` (1): Message notifying that account has been UNBLOCKED.
+ *  - `canceled` (2): Message notifying that account has been DELETED.
+ *  - `password_recovery` (3): Message notifying PASSWORD RECOVERY proccess.
+ *  - `welcome` (4): WELCOME message, after user registration but before activation.
  * 
  * Or an associative array with keys `body` and `subject`
  *  {{{
  *      array(
- *          'body' => 'Your message's body',
- *          'subject' => 'your message's subject'
+ *          'body' => "Your message's body",
+ *          'subject' => "your message's subject"
  *      )
  *  }}}
  * @return boolean True on send success. False otherwise.
- *                  All error messages are stored in array $errors
+ *                 All error messages are stored in array $errors
  */
     public function send($user_id, $type) {
         $user = is_numeric($user_id) ? ClassRegistry::init('User.User')->findById($user_id) : $user_id;
@@ -57,6 +58,16 @@ class MailerComponent extends Component {
         $this->Email->from = Configure::read('Variable.site_name') . ' <' . Configure::read('Variable.site_mail') . '>';
 
         if (!is_array($type)) {
+            if (is_integer($type)) {
+                switch ($type) {
+                    case 0: $type = 'blocked'; break;
+                    case 1: $type = 'activation'; break;
+                    case 2: $type = 'canceled'; break;
+                    case 3: $type = 'password_recovery'; break;
+                    case 4: $type = 'welcome'; break;
+                }
+            }
+
             $variables = $this->mailVariables();
 
             if (isset($variables["user_mail_{$type}_body"]) && isset($variables["user_mail_{$type}_subject"])) {
@@ -127,10 +138,9 @@ class MailerComponent extends Component {
  * 
  * @param array $user User's associative array (User::find() structure)
  * @param string $text Text where to find and replace
- * @param boolean $doHooktags Set to true for find and replace Hooktags
  * @return string Replaced text
  */
-    public function parseVariables($user, $text, $doHooktags = true) {
+    public function parseVariables($user, $text) {
         if (is_numeric($user)) {
             $user = ClassRegistry::init('User.User')->findById($user);
         }
@@ -171,10 +181,6 @@ class MailerComponent extends Component {
                     break;
                 }
             }
-        }
-
-        if ($doHooktags) {
-            $text = $this->Controller->Hook->hooktags($text);
         }
 
         return $text;
