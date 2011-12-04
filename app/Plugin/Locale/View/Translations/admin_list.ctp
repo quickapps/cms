@@ -2,7 +2,7 @@
 $tSettings = array(
     'columns' => array(
         __t('Text') => array(
-            'value' => '{Translation.original}',
+            'value' => '{php} return $this->_View->Text->truncate("{Translation.original}"); {/php}',
             'sort' => 'Translation.original'
         ),
         __t('Actions') => array(

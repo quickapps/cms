@@ -12,6 +12,7 @@
 class TranslationsController extends LocaleAppController {
     public $name = 'Translations';
     public $uses = array('Locale.Translation');
+    public $helpers = array('Text');
 
     public function admin_index() {
         $this->redirect('/admin/locale/translations/list');
