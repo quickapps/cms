@@ -165,34 +165,84 @@ class TableHelper extends AppHelper {
 
     protected function _renderCell($value, $row_data) {
         # look for urls
-        preg_match_all('/\{url\}(.+)\{\/url\}/iUs', $value, $matches);
-        if (isset($matches[1]) && !empty($matches[1])) {
-            foreach ($matches[0] as $i => $m) {
-                $value = str_replace($m, $this->Html->url(trim($matches[1][$i]), true), $value);
+        preg_match_all('/\{url\}(.+)\{\/url\}/iUs', $value, $url);
+        if (isset($url[1]) && !empty($url[1])) {
+            foreach ($url[0] as $i => $m) {
+                $value = str_replace($m, $this->Html->url(trim($url[1][$i]), true), $value);
             }
         }
 
         # look for array paths
-        preg_match_all('/\{([\{\}0-9a-zA-Z_\.]+)\}/iUs', $value, $matches);
-        if (isset($matches[1]) && !empty($matches[1])) {
-            foreach ($matches[0] as $i => $m) {
+        preg_match_all('/\{([\{\}0-9a-zA-Z_\.]+)\}/iUs', $value, $path);
+        if (isset($path[1]) && !empty($path[1])) {
+            foreach ($path[0] as $i => $m) {
                 if (in_array($m, array('{php}', '{/php}'))){
                     continue;
                 }
 
-                $value = str_replace($m, Set::extract(trim($matches[1][$i]), $row_data), $value);
+                $value = str_replace($m, Set::extract(trim($path[1][$i]), $row_data), $value);
+            }
+        }
+
+        # look for images
+        preg_match_all('/\{img(.*)\}(.+)\{\/img\}/iUs', $value, $img);
+        if (isset($img[1]) && !empty($img[1])) {
+            foreach ($img[0] as $i => $m) {
+                $opts = isset($img[1][$i]) ? $this->__parseAtts(trim($img[1][$i])) : array();
+                $value = str_replace($m, $this->Html->image(trim($img[2][$i]), $opts), $value);
+            }
+        }
+
+        # look for links
+        preg_match_all('/\{link(.*)\}(.+)\{\/link\}/iUs', $value, $link);
+        if (isset($link[1]) && !empty($link[1])) {
+            foreach ($link[0] as $i => $m) {
+                $opts = isset($link[1][$i]) ? $this->__parseAtts(trim($link[1][$i])) : array();
+                $value = str_replace($m, $this->Html->link(trim($link[2][$i]), $opts), $value);
             }
         }
 
         # look for php code
-        preg_match_all('/\{php\}(.+)\{\/php\}/iUs', $value, $matches);
-        if (isset($matches[1]) && !empty($matches[1])) {
-            foreach ($matches[0] as $i => $m) {
-                $value = str_replace($m, $this->_php_eval("<?php {$matches[1][$i]}", $row_data), $value);
+        preg_match_all('/\{php\}(.+)\{\/php\}/iUs', $value, $php);
+        if (isset($php[1]) && !empty($php[1])) {
+            foreach ($php[0] as $i => $m) {
+                $value = str_replace($m, $this->_php_eval("<?php {$php[1][$i]}", $row_data), $value);
             }
         }
 
         return $value;
+    }
+
+/**
+ * Parse hooktags attributes
+ *
+ * @param string $text Tag string to parse
+ * @return array Array of attributes
+ */
+    private function __parseAtts($text) {
+        $atts = array();
+        $pattern = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
+        $text = preg_replace("/[\x{00a0}\x{200b}]+/u", " ", $text);
+
+        if (preg_match_all($pattern, $text, $match, PREG_SET_ORDER)) {
+            foreach ($match as $m) {
+                if (!empty($m[1])) {
+                    $atts[strtolower($m[1])] = stripcslashes($m[2]);
+                } elseif (!empty($m[3])) {
+                    $atts[strtolower($m[3])] = stripcslashes($m[4]);
+                } elseif (!empty($m[5])) {
+                    $atts[strtolower($m[5])] = stripcslashes($m[6]);
+                } elseif (isset($m[7]) and strlen($m[7])) {
+                    $atts[] = stripcslashes($m[7]);
+                } elseif (isset($m[8])) {
+                    $atts[] = stripcslashes($m[8]);
+                }
+            }
+        } else {
+            $atts = ltrim($text);
+        }
+
+        return $atts;
     }
 
     protected function _php_eval($code, $row_data = array()) {
