@@ -824,3 +824,6 @@ msgstr "Aparece al pasar el cursor sobre el enlace."
 
 msgid "Parent item"
 msgstr "Padre"
+
+msgid "Keywords"
+msgstr "Criterio"
