@@ -79,9 +79,11 @@ class MailerComponent extends Component {
 
                 $this->Email->subject = $this->parseVariables($user, $variables["user_mail_{$type}_subject"]);
 
-                if ($this->Email->send($this->parseVariables($user, $variables["user_mail_{$type}_body"]))) {
+                try {
+                    $this->Email->send($this->parseVariables($user, $variables["user_mail_{$type}_body"]));
+
                     return true;
-                } else {
+                } catch (Exception $error) {
                     $this->errors[] = __d('user', 'Email could not be send.');
 
                     return false;
@@ -93,7 +95,7 @@ class MailerComponent extends Component {
             }
         } else {
             if (isset($type['subject']) && isset($type['body'])) {
-                $this->Email->subject   = $this->parseVariables($user, $type['subject']);
+                $this->Email->subject = $this->parseVariables($user, $type['subject']);
 
                 if ($this->Email->send($this->parseVariables($user, $type['body']))) {
                     return true;
@@ -133,10 +135,9 @@ class MailerComponent extends Component {
     }
 
 /**
- * Find and replace User's special tags (and optionally Hooktags) 
- * for the given string.
+ * Find and replace User's special tags for the given string.
  * 
- * @param array $user User's associative array (User::find() structure)
+ * @param array $user User's associative Array Model::find() structure
  * @param string $text Text where to find and replace
  * @return string Replaced text
  */
@@ -180,6 +181,13 @@ class MailerComponent extends Component {
                         $text = str_replace("[site_{$var}]", Router::url("/user/login", true), $text);
                     break;
                 }
+            }
+        }
+
+        if (Configure::read('Variable.url_language_prefix') && isset($user['User']['language']) && !empty($user['User']['language'])) {
+            preg_match_all('/\/([a-z]{3})\//s', $text, $lang);
+            foreach ($lang[0] as $m) {
+                $text = str_replace($m, "/{$user['User']['language']}/", $text);
             }
         }
 
