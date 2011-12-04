@@ -10,10 +10,10 @@
  * @link     http://cms.quickapps.es
  */
 class AppModel extends Model {
+    private $__map = array();
+    public $_methods = array();
+    public $_hookObjects = array();
     public $cacheQueries = false;
-    public $hooksMap = array();
-    public $hooks = array();
-    public $hookObjects = array();
     public $actsAs = array(
         'WhoDidIt' => array(
             'auth_session' => 'Auth.User.id',
@@ -44,7 +44,7 @@ class AppModel extends Model {
  * @return bool
  */
     public function hook_defined($hook) {
-        return (isset($this->hooksMap[$hook]));
+        return (isset($this->__map[$hook]));
     }
 
 /**
@@ -119,7 +119,7 @@ class AppModel extends Model {
 
             return null;
         } else {
-            foreach ($this->hooksMap[$hook] as $object) {
+            foreach ($this->__map[$hook] as $object) {
                 if (is_callable(array($this->Behaviors->{$object}, $hook))) {
                     $result = $this->Behaviors->{$object}->$hook($data);
 
@@ -159,7 +159,7 @@ class AppModel extends Model {
         $b = Configure::read('Hook.behaviors');
 
         if (!$b){
-            return false; # fix for AppController __preloadHooks()
+            return false; // fix for AppController __preloadHooks()
         }
 
         foreach ($b as $hook) {
@@ -179,22 +179,22 @@ class AppModel extends Model {
                 foreach ($_methods as $method) {
                     $methods[] = $method;
 
-                    if (isset($this->hooksMap[$method])) {
-                        $this->hooksMap[$method][] = (string)$behavior;
+                    if (isset($this->__map[$method])) {
+                        $this->__map[$method][] = (string)$behavior;
                     } else {
-                        $this->hooksMap[$method] = array((string)$behavior);
+                        $this->__map[$method] = array((string)$behavior);
                     }
                 }
 
                 if ($pluginSplit[0]) {
-                    $this->hookObjects["{$pluginSplit[0]}.{$behavior}"] = $methods;
+                    $this->_hookObjects["{$pluginSplit[0]}.{$behavior}"] = $methods;
                 } else {
-                    $this->hookObjects[$helper] = $methods;
+                    $this->_hookObjects[$helper] = $methods;
                 }
             }
         }
 
-        $this->hooks = array_keys($this->hooksMap);
+        $this->_methods = array_keys($this->__map);
     }
 
 /**
