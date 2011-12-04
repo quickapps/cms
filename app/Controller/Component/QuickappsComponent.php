@@ -181,7 +181,7 @@ class QuickAppsComponent extends Component {
         #auto favicon meta
         if (Configure::read('Theme.settings.site_favicon')) {
             $faviconURL = Configure::read('Theme.settings.site_favicon_url');
-            $this->Controller->Layout['meta']['icon'] = $faviconURL && !empty($faviconURL) ? Router::url($faviconURL) : '/favicon.ico';
+            $this->Controller->Layout['meta']['icon'] = $faviconURL && !empty($faviconURL) ? Router::url($faviconURL) : Router::url('/favicon.ico');
         }
     }
 
