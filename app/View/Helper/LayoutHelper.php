@@ -421,8 +421,10 @@ class LayoutHelper extends AppHelper {
             $_subs['id'] = 'no-id';
 
             foreach ($_subs['MenuLink'] as &$node) {
-                $node['link_title'] = __t($node['link_title']);
-                $node['description'] = __t($node['description']);
+                $tt = __t($node['link_title']);
+                $dt = __t($node['description']);
+                $node['link_title'] = $tt != $node['link_title'] ? $tt : __d(Inflector::underscore($node['module']), $node['link_title']);
+                $node['description'] = $dt != $node['description'] ? $dt : __d(Inflector::underscore($node['module']), $node['description']);
             }
 
             $output = $this->_View->element('theme_menu', array('menu' => $_subs));
