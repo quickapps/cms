@@ -403,3 +403,4 @@ msgstr "Prefijo en URL"
 
 msgid "URLs like http://domain.com/fre/about set language to French (fre). <b>Warning: Changing this setting may break incoming URLs. Use with caution on a production site.</b>"
 msgstr "URLs como http://cominio.com/fre/about se mostrarán en Francés (fre). <b>Advertencia: Modificar este parámetro puede romper URLs entrantes. Utilizar con precaución en entornos de producción.</b>"
+

@@ -87,14 +87,6 @@ msgstr "Paquete de idioma cargado correctamente"
 msgid "Invalid package"
 msgstr "Paquete inválido"
 
-#: Controller/TranslationsController.php:35
-msgid "Translatable entries"
-msgstr "Entradas traducibles"
-
-#: Controller/TranslationsController.php:36
-msgid "Translatable Entries"
-msgstr "Entradas Traducibles"
-
 #: Controller/TranslationsController.php:42
 #: Controller/TranslationsController.php:58
 msgid "Entry has been saved"

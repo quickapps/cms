@@ -168,3 +168,4 @@ msgstr "Tu comentario ha sido publicado."
 
 msgid "Comment could not be saved. Please try again."
 msgstr "No se ha podido procesar el comentario. Por favor intenta otra vez."
+
