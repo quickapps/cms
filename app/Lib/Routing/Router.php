@@ -800,10 +800,14 @@ class Router {
 		$protocol = preg_match('#^[a-z][a-z0-9+-.]*\://#i', $output);
 
         if (Configure::read('Variable.url_language_prefix')) {
-            $pattern  = $output[0] === '/' ? '/^\/[a-z]{3}\//' : '/^[a-z]{3}\//';
+            if (!preg_match('/\.(js|ico|css|php)$/i', $output) &&
+                !preg_match('/\/(img|files|css|js)\/(.*)\.[a-z]{1,5}$/i', $output)
+            ) {
+                $pattern  = $output[0] === '/' ? '/^\/[a-z]{3}\//' : '/^[a-z]{3}\//';
 
-            if (!preg_match($pattern, $output)) {
-                $output = '/' . Configure::read('Config.language') . "/{$output}";
+                if (!preg_match($pattern, $output)) {
+                    $output = '/' . Configure::read('Config.language') . "/{$output}";
+                }
             }
         }
 
