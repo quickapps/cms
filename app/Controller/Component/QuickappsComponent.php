@@ -28,10 +28,10 @@ class QuickAppsComponent extends Component {
 
         $this->loadVariables();
         $this->loadModules();
+        $this->setLanguage();
         $this->accessCheck();
         $this->setTheme();
         $this->setTimeZone();
-        $this->setLanguage();
         $this->prepareContent();
         $this->siteStatus();
         $this->setCrumb();
@@ -289,7 +289,7 @@ class QuickAppsComponent extends Component {
             'plugin' => 'user'
         );
 
-        $this->Controller->Auth->authError = '';
+        $this->Controller->Auth->authError = __d('user', 'You are not authorized to access that location.');
         $this->Controller->Auth->authorize = array('Controller');
         $this->Controller->Auth->loginRedirect = Router::getParam('admin') ? '/admin' : '/';
         $this->Controller->Auth->logoutRedirect = $this->Controller->Auth->loginRedirect;
