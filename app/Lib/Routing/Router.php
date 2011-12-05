@@ -800,13 +800,24 @@ class Router {
 		$protocol = preg_match('#^[a-z][a-z0-9+-.]*\://#i', $output);
 
         if (Configure::read('Variable.url_language_prefix')) {
-            if (!preg_match('/\.(js|ico|css|php)$/i', $output) &&
-                !preg_match('/\/(img|files|css|js)\/(.*)\.[a-z]{1,5}$/i', $output)
-            ) {
-                $pattern  = $output[0] === '/' ? '/^\/[a-z]{3}\//' : '/^[a-z]{3}\//';
+            $output = $output[0] !== '/' ? "/{$output}" : $output;
 
-                if (!preg_match($pattern, $output)) {
-                    $output = '/' . Configure::read('Config.language') . "/{$output}";
+            if (!preg_match('/^\/theme\/(.*)/i', $output)) {
+                if (!preg_match('/\/(.*)\.([a-z]{1,})$/i', $output) ||
+                    !file_exists(ROOT . DS . 'webroot' . str_replace('/', DS, $output))
+                ) {
+                    preg_match('/^\/([a-z]{1,})\/(.*)$/s', $output, $p);
+
+                    $pname = isset($p[1]) ? Inflector::camelize($p[1]) : false;
+
+                    if (!$pname ||
+                        !CakePlugin::loaded($pname) ||
+                        !file_exists(CakePlugin::path($pname) . 'webroot/' . str_replace('/', DS, str_replace("/{$p[1]}/", '', $output)))
+                    ) {
+                        if (!preg_match('/^\/[a-z]{3}\//', $output)) {
+                            $output = '/' . Configure::read('Config.language') . $output;
+                        }
+                    }
                 }
             }
         }
