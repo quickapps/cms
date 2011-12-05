@@ -39,6 +39,14 @@
                 endforeach;
             ?>
         </p>
+
+        <?php echo $this->Html->useTag('fieldsetstart', __t('Usage')); ?>
+            <code>
+                <p><b>[t]</b><?php echo $this->data['Translation']['original']; ?><b>[/t]</b></p>
+                <p><b>[t=</b><?php echo $this->data['Translation']['original']; ?><b>]</b></p>
+            </code>
+        <?php echo $this->Html->useTag('fieldsetend'); ?>
+
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 
     <!-- Submit -->
