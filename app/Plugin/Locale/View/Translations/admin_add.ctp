@@ -11,32 +11,34 @@
             );
 
             $i = 0;
+
             foreach (Configure::read('Variable.languages') as $lang):
-                $t = Set::extract("/I18n[locale={$lang['Language']['code']}]", $this->data);
-                $t = Set::merge(array('I18n' => array('content' => '', 'id' => null)), @$t[0]);
-                echo $this->Form->input("I18n.{$i}.content",
+                $t = Set::extract("/Translation[locale={$lang['Language']['code']}]", $this->data);
+                $t = Set::merge(array('Translation' => array('content' => '', 'id' => null)), @$t[0]);
+
+                echo $this->Form->input("Translation.{$i}.content",
                     array(
                         'type' => 'textarea',
-                        'value' => $t['I18n']['content'],
+                        'value' => $t['Translation']['content'],
                         'label' => $lang['Language']['native']
                     )
                 );
 
-                echo $this->Form->input("I18n.{$i}.id",
+                echo $this->Form->input("Translation.{$i}.id",
                     array(
                         'type' => 'hidden',
-                        'value' => $t['I18n']['id']
+                        'value' => $t['Translation']['id']
                     )
                 );
 
-                echo $this->Form->input("I18n.{$i}.model",
+                echo $this->Form->input("Translation.{$i}.model",
                     array(
                         'type' => 'hidden',
                         'value' => 'Locale.Translation'
                     )
                 );
 
-                echo $this->Form->input("I18n.{$i}.locale",
+                echo $this->Form->input("Translation.{$i}.locale",
                     array(
                         'type' => 'hidden',
                         'value' => $lang['Language']['code']
