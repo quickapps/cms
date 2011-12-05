@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.8, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.5.16, for Win64 (x86)
 --
--- Host: localhost    Database: quickapps
+-- Host: localhost    Database: #__dev
 -- ------------------------------------------------------
--- Server version	5.5.8
+-- Server version	5.5.16-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -40,7 +40,7 @@ CREATE TABLE `#__aros_acos` (
 
 LOCK TABLES `#__aros_acos` WRITE;
 /*!40000 ALTER TABLE `#__aros_acos` DISABLE KEYS */;
-INSERT INTO `#__aros_acos` VALUES (1,3,143,'1','1','1','1'),(2,2,144,'1','1','1','1'),(3,3,145,'1','1','1','1'),(4,2,146,'1','1','1','1'),(5,3,147,'1','1','1','1'),(6,3,148,'1','1','1','1'),(7,3,149,'1','1','1','1'),(8,2,150,'1','1','1','1'),(9,2,151,'1','1','1','1'),(10,3,72,'1','1','1','1'),(11,2,72,'1','1','1','1'),(12,2,71,'1','1','1','1'),(13,3,71,'1','1','1','1'),(14,2,70,'1','1','1','1'),(15,3,70,'1','1','1','1');
+INSERT INTO `#__aros_acos` VALUES (1,2,72,'1','1','1','1'),(2,3,72,'1','1','1','1'),(3,2,73,'1','1','1','1'),(4,3,73,'1','1','1','1'),(5,2,74,'1','1','1','1'),(6,3,74,'1','1','1','1'),(7,3,145,'1','1','1','1'),(8,2,146,'1','1','1','1'),(9,3,147,'1','1','1','1'),(10,2,148,'1','1','1','1'),(11,3,149,'1','1','1','1'),(12,3,150,'1','1','1','1'),(13,3,151,'1','1','1','1'),(14,2,152,'1','1','1','1'),(15,2,153,'1','1','1','1');
 /*!40000 ALTER TABLE `#__aros_acos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-11-09 14:46:09
+-- Dump completed on 2011-12-05 14:38:26

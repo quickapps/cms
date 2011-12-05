@@ -95,7 +95,7 @@ msgstr "Entrada guardada con éxito"
 #: Controller/TranslationsController.php:45
 #: Controller/TranslationsController.php:61
 msgid "Entry could not be saved. Please, try again."
-msgstr "la entrada no puedo ser guardada. Por favor, intente otra vez."
+msgstr "La entrada no puedo ser guardada. Por favor, intente otra vez."
 
 #: Controller/TranslationsController.php:51
 #: Controller/TranslationsController.php:66
@@ -136,8 +136,8 @@ msgid "D, m/d/Y - H:i"
 msgstr "D, d/m/Y - H:i"
 
 #: View/Elements/toolbar.ctp:3
-msgid "List"
-msgstr "Listado"
+msgid "Languages"
+msgstr "Idiomas"
 
 #: View/Elements/toolbar.ctp:3
 msgid "Configure languages for content and the user interface."
@@ -399,4 +399,16 @@ msgstr "mover arriba"
 
 msgid "move down"
 msgstr "mover abajo"
+
+msgid "Delete this entry ?"
+msgstr "Eliminar esta entrada ?"
+
+msgid "regenerate"
+msgstr "regenerar"
+
+msgid "Regenerate translation cache"
+msgstr "Regenerar cache de traducciones"
+
+msgid "Usage"
+msgstr "Modo de uso"
 

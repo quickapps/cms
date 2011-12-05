@@ -68,6 +68,16 @@ class TranslationsController extends LocaleAppController {
         $this->title(__t('Add new entry'));
     }
 
+    public function admin_regenerate($id) {
+        $t = $this->Translation->findById($id);
+
+        if ($t) {
+            $this->Translation->save($t);
+        }
+
+        $this->redirect('/admin/locale/translations/list');
+    }
+
     public function admin_delete($id) {
         $this->Translation->delete($id);
         $this->redirect('/admin/locale/translations/list');
