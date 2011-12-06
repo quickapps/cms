@@ -299,13 +299,13 @@ class InstallerComponent extends Component {
             }
 
             if (
-                ($this->options['type'] == 'theme' && isset($yaml['info']['dependencies']) && $this->checkDependency($yaml['info'])) ||
-                ($this->options['type'] == 'module' && isset($yaml['dependencies']) && $this->checkDependency($yaml))
+                ($this->options['type'] == 'theme' && isset($yaml['info']['dependencies']) && !$this->checkDependency($yaml['info'])) ||
+                ($this->options['type'] == 'module' && isset($yaml['dependencies']) && !$this->checkDependency($yaml))
             ) {
                 if ($this->options['type'] == 'module') {
-                    $this->errors[] = __d('system', "This module depends on other modules that you do not have or doesn't meet the version required: %s", implode('<br/>', $yaml['dependencies']));
+                    $this->errors[] = __d('system', "This module depends on other modules that you do not have or doesn't meet the version required: %s", implode(', ', $yaml['dependencies']));
                 } else {
-                    $this->errors[] = __d('system', "This theme depends on other modules that you do not have or doesn't meet the version required: %s", implode('<br/>', $yaml['info']['dependencies']));
+                    $this->errors[] = __d('system', "This theme depends on other modules that you do not have or doesn't meet the version required: %s", implode(', ', $yaml['info']['dependencies']));
                 }
 
                 return false;
@@ -850,20 +850,27 @@ class InstallerComponent extends Component {
  * @return boolean
  */
     public function checkDependency($plugin = null) {
-        $Plugin = !is_null($plugin) && isset($plugin['yaml']) ? $plugin : Configure::read('Modules.' . Inflector::camelize($plugin));
+        $dependencies = false;
 
-        if (isset($Plugin['yaml']['dependencies']) && is_array($Plugin['yaml']['dependencies'])) {
-            foreach ($Plugin['yaml']['dependencies'] as $p) {
-                $check = false;
-                $check = Configure::read('Modules.' . Inflector::camelize($p));
+        if (is_array($plugin) && isset($plugin['dependencies'])) {
+            $dependencies = $plugin['dependencies'];
+        } elseif (is_string($plugin)) {
+            $dependencies = Configure::read('Modules.' . Inflector::camelize($plugin) . '.yaml');
+        } else {
+            return true;
+        }
 
-                if (!$check) {
+        if (is_array($dependencies)) {
+            foreach ($dependencies as $p) {
+                $d = $this->parseDependency($p);
+
+                if (!$m = Configure::read('Modules.' . Inflector::camelize($d['name']))) {
                     return false;
                 }
 
-                $check = $this->checkIncompatibility($this->parseDependency($p), $check['yaml']['version']);
+                $check = $this->checkIncompatibility($d, $m['yaml']['version']);
 
-                if (!$check) {
+                if ($check !== null) {
                     return false;
                 }
             }
