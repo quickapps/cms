@@ -412,3 +412,6 @@ msgstr "Regenerar cache de traducciones"
 msgid "Usage"
 msgstr "Modo de uso"
 
+msgid "Search"
+msgstr "Buscar"
+
