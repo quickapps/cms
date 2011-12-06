@@ -22,6 +22,15 @@ $tSettings = array(
 );
 ?>
 
+<?php echo $this->Form->create('Translation'); ?>
+    <!-- Filter -->
+    <?php echo $this->Html->useTag('fieldsetstart', __t('Search')); ?>
+            <?php echo $this->Form->input('Translation.filter.original', array('type' => 'text', 'label' => __t('Original text'))); ?>
+
+            <?php echo $this->Form->input(__t('Search'), array('type' => 'submit', 'label' => false)); ?>
+    <?php echo $this->Html->useTag('fieldsetend'); ?>
+<?php echo $this->Form->end(); ?>
+
 <?php echo $this->Html->table($results, $tSettings);?>
 
 <script>

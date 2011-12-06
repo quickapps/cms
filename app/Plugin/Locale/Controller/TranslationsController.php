@@ -19,17 +19,29 @@ class TranslationsController extends LocaleAppController {
     }
 
     public function admin_list() {
-        $this->Translation->unbindModel(
-            array(
-                'hasMany' => array('I18n')
-            )
-        );
+        $this->Translation->unbindModel(array('hasMany' => array('I18n')));
 
-        $results = $this->paginate('Translation');
+        $paginationScope = array();
 
-        foreach ($results as &$result) {
-            $result['Translation']['original'] = $this->__textSnippet($result['Translation']['original'], 80);
+        if (isset($this->data['Translation']['filter']) || $this->Session->check('Translation.filter')) {
+            if (isset($this->data['Translation']['filter']) && empty($this->data['Translation']['filter'])) {
+                $this->Session->delete('Translation.filter');
+            } else {
+                $filter = isset($this->data['Translation']['filter']) ? $this->data['Translation']['filter'] : $this->Session->read('Translation.filter');
+
+                foreach ($filter as $field => $value) {
+                    if ($value !== '') {
+                        $field = "{$field} LIKE";
+                        $value = str_replace('*', '%', $value);
+                        $paginationScope[$field] = "%{$value}%";
+                    }
+                }
+
+                $this->Session->write('Translation.filter', $filter);
+            }
         }
+
+        $results = $this->paginate('Translation', $paginationScope);
 
         $this->set('results', $results);
         $this->setCrumb('/admin/locale');
@@ -81,13 +93,5 @@ class TranslationsController extends LocaleAppController {
     public function admin_delete($id) {
         $this->Translation->delete($id);
         $this->redirect('/admin/locale/translations/list');
-    }
-
-    private function __textSnippet($string, $max_len = 180, $cutter = '...') {
-        if (strlen($string) < $max_len) {
-            return $string;
-        }
-
-        return substr($string, 0, $max_len) . $cutter;
     }
 }
