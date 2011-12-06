@@ -51,7 +51,7 @@ $tSettings = array(
 
 <?php echo $this->Form->create(); ?>
     <!-- Filter -->
-    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-filter_fieldset" style="cursor:pointer;">' . __t('Filter Options') . '</span>' ); ?>
+    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-filter_fieldset" style="cursor:pointer;">' . __t('Filter Options') . '</span>'); ?>
         <div id="filter_fieldset" class="horizontalLayout" style="<?php echo isset($this->data['Node']['filter']) ? '' : 'display:none;'; ?>">
             <?php echo $this->Form->input('Node.filter.Node|title',
                     array(
@@ -125,8 +125,6 @@ $tSettings = array(
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 <?php echo $this->Form->end(); ?>
 
-
-
 <?php echo $this->Form->create(null, array('onsubmit' => 'return confirm("' . __t('Are you sure about this changes ?') . '");')); ?>
     <!-- Update -->
     <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-update_fieldset" style="cursor:pointer;">' . __t('Update Options') . '</span>' ); ?>
@@ -155,7 +153,6 @@ $tSettings = array(
     <?php echo $this->Html->table($results, $tSettings); ?>
     <!-- end: table results -->
 <?php echo $this->Form->end(); ?>
-
 
 <script type="text/javascript">
 
