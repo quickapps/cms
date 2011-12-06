@@ -82,9 +82,10 @@ class ContentsController extends NodeAppController {
                 foreach ($filter as $field => $value) {
                     if ($value !== '') {
                         $field = str_replace('|', '.', $field);
-                        $field = strpos($field, 'Node.title') !== false || strpos($field, 'Node.language') !== false ? "{$field} LIKE" : $field;
+                        $doLike = strpos($field, 'Node.title') !== false || strpos($field, 'Node.language') !== false;
+                        $field = $doLike ? "{$field} LIKE" : $field;
                         $value = str_replace('*', '%', $value);
-                        $paginationScope[$field] = $value;
+                        $paginationScope[$field] = $doLike ? "%{$value}%" : $value;
                     }
                 }
 
