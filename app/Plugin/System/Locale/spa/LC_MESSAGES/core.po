@@ -419,9 +419,6 @@ msgstr "Nombre de módulo inválido (se tiene \"%s\", se esperaba: \"%s\")"
 msgid "This module is already installed"
 msgstr "El módulo ya ha sido instalado"
 
-msgid "The prefix \"Theme\" is not allowed for modules"
-msgstr "El prefijo \"Theme\" no está permitido en nombres módulo"
-
 msgid "\"Config\" folder not found"
 msgstr "Directorio \"Config\" no encontrado"
 
@@ -457,4 +454,10 @@ msgstr "Directorio \"webroot\" no encontrado"
 
 msgid "Thumbnail image (\"%s\") not found"
 msgstr "Imágen de theme (\"%s\") no encontrada"
+
+msgid "\"Config/bootstrap.php\" file not found"
+msgstr "Fichero \"Config/bootstrap.php\" no encontrado"
+
+msgid "\"Config/routes.php\" file not found"
+msgstr "Fichero \"Config/routes.php\" no encontrado"
 

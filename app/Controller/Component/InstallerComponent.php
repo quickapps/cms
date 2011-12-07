@@ -121,6 +121,16 @@ class InstallerComponent extends Component {
                 case 'module':
                     default:
                         $tests = array(
+                            'ForbiddenName' => array(
+                                'test' => (
+                                    strpos('Theme', Inflector::camelize($appName)) === false &&
+                                    !in_array(Inflector::camelize($appName), array('Site', 'Custom', 'Core')) &&
+                                    strlen(Inflector::camelize($appName)) != 3 &&
+                                    preg_match('/^[a-zA-Z0-9]+$/', Inflector::camelize($appName))
+                                ),
+                                'header' => __d('system', 'Forbidden Names'),
+                                'msg' => __d('system', 'Forbidden module name "%s"', $appName, Inflector::camelize($appName))
+                            ),
                             'CamelCaseName' => array(
                                 'test' => (Inflector::camelize($appName) == $appName),
                                 'header' => __d('system', 'Theme name'),
@@ -134,45 +144,35 @@ class InstallerComponent extends Component {
                                 'header' => __d('system', 'Already Installed'),
                                 'msg' => __d('system', 'This module is already installed')
                             ),
-                            'protectedPrefix' => array(
-                                'test' => (strpos(Inflector::camelize($appName), 'Theme') !== 0),
-                                'header' => __d('system', 'Invalid prefix'),
-                                'msg' => __d('system', "The prefix 'Theme' is not allowed for modules.")
-                            ),
                             'Config' => array(
                                 'test' => file_exists($packagePath . 'Config'),
                                 'header' => __d('system', 'Config Folder'),
-                                'msg' => __d('system', 'Config folder not found')
+                                'msg' => __d('system', '"Config" folder not found')
+                            ),
+                            'bootstrap' => array(
+                                'test' => file_exists($packagePath . 'Config' . DS . 'bootstrap.php'),
+                                'header' => __d('system', 'Bootstrap File'),
+                                'msg' => __d('system', '"Config/bootstrap.php" file not found')
+                            ),
+                            'routes' => array(
+                                'test' => file_exists($packagePath . 'Config' . DS . 'routes.php'),
+                                'header' => __d('system', 'Routes File'),
+                                'msg' => __d('system', '"Config/routes.php" file not found')
                             ),
                             'Controller' => array(
                                 'test' => file_exists($packagePath . 'Controller'),
                                 'header' => __d('system', 'Controller Folder'),
-                                'msg' => __d('system', 'Controller folder not found')
+                                'msg' => __d('system', '"Controller" folder not found')
                             ),
                             'Component' => array(
                                 'test' => file_exists($packagePath . 'Controller' . DS . 'Component'),
                                 'header' => __d('system', 'Component Folder'),
-                                'msg' => __d('system', 'Component folder not found')
+                                'msg' => __d('system', '"Component" folder not found')
                             ),
                             'InstallComponent.php' => array(
                                 'test' => file_exists($packagePath . 'Controller' . DS . 'Component' . DS . 'InstallComponent.php'),
                                 'header' => __d('system', 'Installer File'),
                                 'msg' => __d('system', 'Installer file (InstallComponent.php) not found')
-                            ),
-                            'Lib' => array(
-                                'test' => file_exists($packagePath . 'Lib'),
-                                'header' => __d('system', 'Lib Folder'),
-                                'msg' => __d('system', 'Lib folder not found')
-                            ),
-                            'Locale' => array(
-                                'test' => file_exists($packagePath . 'Locale'),
-                                'header' => __d('system', 'Locale Folder'),
-                                'msg' => __d('system', 'Locale folder not found')
-                            ),
-                            'Model' => array(
-                                'test' => file_exists($packagePath . 'Model'),
-                                'header' => __d('system', 'Model Folder'),
-                                'msg' => __d('system', 'Model folder not found')
                             ),
                             'yaml' => array(
                                 'test' => file_exists($packagePath . "{$appName}.yaml"),
@@ -210,7 +210,22 @@ class InstallerComponent extends Component {
                         'plugin_app' => array(
                             'test' => file_exists($packagePath . 'app' . DS . 'Theme' . $appName),
                             'header' => __d('system', 'Plugin app'),
-                            'msg' => __d('system', 'Plugin app ("%s") folder not found', 'Theme' . Inflector::camelize($appName))
+                            'msg' => __d('system', 'Module app ("%s") folder not found', 'Theme' . Inflector::camelize($appName))
+                        ),
+                        'Config' => array(
+                            'test' => file_exists($packagePath . 'app' . DS . 'Theme' . $appName . DS . 'Config'),
+                            'header' => __d('system', 'Config Folder'),
+                            'msg' => __d('system', '"Config" folder not found')
+                        ),
+                        'bootstrap' => array(
+                            'test' => file_exists($packagePath . 'app' . DS . 'Theme' . $appName . DS . 'Config' . DS . 'bootstrap.php'),
+                            'header' => __d('system', 'Bootstrap File'),
+                            'msg' => __d('system', '"Config/bootstrap.php" file not found')
+                        ),
+                        'routes' => array(
+                            'test' => file_exists($packagePath . 'app' . DS . 'Theme' . $appName . DS . 'Config' . DS . 'routes.php'),
+                            'header' => __d('system', 'Routes file'),
+                            'msg' => __d('system', '"Config/routes.php" file not found')
                         ),
                         'InstallComponent.php' => array(
                             'test' => file_exists($packagePath . 'app' . DS . 'Theme' . $appName .  DS . 'Controller' . DS . 'Component' . DS . 'InstallComponent.php'),
@@ -220,7 +235,7 @@ class InstallerComponent extends Component {
                         'webroot' => array(
                             'test' => file_exists($packagePath . 'webroot'),
                             'header' => __d('system', 'webroot Folder'),
-                            'msg' => __d('system', 'webroot folder not found')
+                            'msg' => __d('system', '"webroot" folder not found')
                         ),
                         'yaml' => array(
                             'test' => file_exists($packagePath . "{$appName}.yaml"),
