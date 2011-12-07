@@ -409,3 +409,52 @@ msgstr "El fichero `%s` parece ser inválido, no se encontró el parámetro `Var
 
 msgid "The file `%s` could not be written."
 msgstr "El fichero `%s` no pudo ser escrito."
+
+msgid "Forbidden module name \"%s\""
+msgstr "Nombre de módulo no admitido \"%s\""
+
+msgid "Invalid module name (got \"%s\", expected: \"%s\")"
+msgstr "Nombre de módulo inválido (se tiene \"%s\", se esperaba: \"%s\")"
+
+msgid "This module is already installed"
+msgstr "El módulo ya ha sido instalado"
+
+msgid "The prefix \"Theme\" is not allowed for modules"
+msgstr "El prefijo \"Theme\" no está permitido en nombres módulo"
+
+msgid "\"Config\" folder not found"
+msgstr "Directorio \"Config\" no encontrado"
+
+msgid "\"Controller\" folder not found"
+msgstr "Directorio \"Controller\" no encontrado"
+
+msgid "\"Component\" folder not found"
+msgstr "Directorio \"Component\" no encontrado"
+
+msgid "Installer file (InstallComponent.php) not found"
+msgstr "Fichero de instalación (InstallComponent.php) no encontrado"
+
+msgid "YAML File (%s) not found"
+msgstr "Fichero YAML (%s) no encontrado"
+
+msgid "Invalid theme name (got \"%s\", expected: \"%s\")"
+msgstr "Nombre de theme inválido (se tiene \"%s\", se esperaba: \"%s\")"
+
+msgid "This theme is already installed"
+msgstr "El theme ya ha sido instalado"
+
+msgid "\"Layouts\" folder not found"
+msgstr "Directorio \"Layouts\" no encontrado"
+
+msgid "\"app\" folder not found"
+msgstr "Directorio \"app\" no encontrado"
+
+msgid "Module app (\"%s\") folder not found"
+msgstr "Directorio de módulo asociado (\"%s\") no encontrado"
+
+msgid "\"webroot\" folder not found"
+msgstr "Directorio \"webroot\" no encontrado"
+
+msgid "Thumbnail image (\"%s\") not found"
+msgstr "Imágen de theme (\"%s\") no encontrada"
+
