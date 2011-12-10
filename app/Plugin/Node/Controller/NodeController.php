@@ -194,7 +194,8 @@ class NodeController extends NodeAppController {
             'language' => null,
             'or' => null,
             'negative' => null,
-            'phrase' => null
+            'phrase' => null,
+            'limit' => null
         );
 
         $this->Node->unbindModel(
@@ -209,6 +210,14 @@ class NodeController extends NodeAppController {
             $data = array();
             $data['Search']['criteria'] = $criteria; // hold untouch criteria query
             $this->data = $data;
+
+            if ($limit = $this->__search_expression_extract($criteria, 'limit')) {
+                $criteria = str_replace("limit:{$limit}", '', $criteria);
+                $limit = intval($limit);
+                $limit = $limit <= 0 ? Configure::read('Variable.default_nodes_main') : $limit;
+            } else {
+                $limit = Configure::read('Variable.default_nodes_main');
+            }
 
             if ($promote = $this->__search_expression_extract($criteria, 'promote')) {
                 $criteria = str_replace("promote:{$promote}", '', $criteria);
@@ -255,7 +264,7 @@ class NodeController extends NodeAppController {
             if (($terms = $this->__search_expression_extract($criteria, 'term')) || isset($vocabulary_terms)) {
                 $criteria = str_replace("term:{$terms}", '', $criteria);
                 $terms = explode(',', $terms);
-                
+
                 if (isset($vocabulary_terms)) {
                     $terms = array_merge($terms, $vocabulary_terms);
                 }
@@ -347,20 +356,24 @@ class NodeController extends NodeAppController {
                 }
             }
 
-            if (trim($this->data['Search']['or']) != '') {
+            if (isset($this->data['Search']['or']) && trim($this->data['Search']['or']) != '') {
                 if (preg_match_all('/ ("[^"]+"|[^" ]+)/i', ' ' . $this->data['Search']['or'], $matches)) {
                     $keys['or'] = ' ' . implode(' OR ', $matches[1]);
                 }
             }
 
-            if (trim($this->data['Search']['negative']) != '') {
+            if (isset($this->data['Search']['negative']) && trim($this->data['Search']['negative']) != '') {
                 if (preg_match_all('/ ("[^"]+"|[^" ]+)/i', ' ' . $this->data['Search']['negative'], $matches)) {
                     $keys['negative'] = ' -' . implode(' -', $matches[1]);
                 }
             }
 
-            if (trim($this->data['Search']['phrase']) != '') {
+            if (isset($this->data['Search']['phrase']) && trim($this->data['Search']['phrase']) != '') {
                 $keys['phrase'] = ' "' . str_replace('"', ' ', $this->data['Search']['phrase']) . '"';
+            }
+
+            if (isset($this->data['Search']['limit']) && trim($this->data['Search']['limit']) != '') {
+                $keys['limit'] = intval($this->data['Search']['limit']);
             }
 
             $keys = Set::filter($keys);
@@ -395,7 +408,7 @@ class NodeController extends NodeAppController {
         if (!empty($scope)) {
             $scope['Node.status'] = 1; # only published content!
             $this->paginate = array(
-                'limit' => Configure::read('Variable.default_nodes_main'),
+                'limit' => $limit,
                 'order' => array(
                     'Node.sticky' => 'DESC',
                     'Node.created' => 'DESC'
