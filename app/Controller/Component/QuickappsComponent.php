@@ -39,7 +39,7 @@ class QuickAppsComponent extends Component {
 
 /**
  * Check for maintenance status,
- * 'Site Offline' screen is rendered if site is offline
+ * 'Site Offline' screen is rendered if site is offline.
  *
  * @return void
  */ 
@@ -68,7 +68,7 @@ class QuickAppsComponent extends Component {
     }
 
 /**
- * Set theme to use and load its information
+ * Set theme to use and load its information.
  *
  * @return void
  */
@@ -178,7 +178,7 @@ class QuickAppsComponent extends Component {
             $this->Controller->Layout['meta']['description'] = $defaultMetaDescription;
         }
 
-        #auto favicon meta
+        // auto favicon meta
         if (Configure::read('Theme.settings.site_favicon')) {
             $faviconURL = Configure::read('Theme.settings.site_favicon_url');
             $this->Controller->Layout['meta']['icon'] = $faviconURL && !empty($faviconURL) ? Router::url($faviconURL) : Router::url('/favicon.ico');
@@ -416,7 +416,7 @@ class QuickAppsComponent extends Component {
     }
 
 /**
- * Set default time zone
+ * Set site default time zone, and `timezone` environment variable based on User session.
  *
  * @return void
  */
@@ -438,9 +438,10 @@ class QuickAppsComponent extends Component {
     }
 
 /**
- * Performs a cache all environment variables stored in `#__variables` table
+ * Performs a cache of all environment variables stored in `variables` table.
+ * ###Usage
  *  {{{
- *      Configure::read('Variable.varible_id')
+ *   Configure::read('Variable.varible_key');
  *  }}}
  *
  * @return void
@@ -460,9 +461,9 @@ class QuickAppsComponent extends Component {
     }
 
 /**
- * shortcut for $this->set(`title_for_layout`...)
+ * Shortcut for $this->set(`title_for_layout`...).
  *
- * @param string $str layout title
+ * @param string $str Title for layout
  * @return void
  */
     public function title($str) {
@@ -470,10 +471,10 @@ class QuickAppsComponent extends Component {
     }
 
 /**
- * shortcut for Session setFlash
+ * Shortcut for Session setFlash.
  *
- * @param string $msg mesagge to display
- * @param string $class type of message: error, success, alert, bubble
+ * @param string $msg Mesagge to display
+ * @param string $class Type of message: error, success, alert, bubble
  * @return void
  */
     public function flashMsg($msg, $class = 'success') {
@@ -481,10 +482,9 @@ class QuickAppsComponent extends Component {
     }
 
 /**
- * Set crumb from url parse or add url to the links list
+ * Set crumb from url parse or add url(s) to the links list.
  *
- * @param mixed $url if is array then will push de formated array to the crumbs list
- *                   else will set base crum from string parsing
+ * @param mixed $url Array of links to push to the crumbs list. Or String url.
  * @return void
  */
     public function setCrumb($url = false) {
@@ -567,11 +567,11 @@ class QuickAppsComponent extends Component {
     }
 
 /**
- * Insert custom block in stack
+ * Insert custom block in stack.
  *
- * @param array $data formatted block array
- * @param string $region theme region where to push
- * @return boolean
+ * @param array $data Formatted block array
+ * @param string $region Theme region where to push
+ * @return boolean TRUE on sucess, FALSE otherwise
  */
     public function blockPush($block = array(), $region = null) {
         $_block = array(
@@ -619,8 +619,9 @@ class QuickAppsComponent extends Component {
 
 /**
  * Collect and cache information about all active modules.
+ * ###Usage
  *  {{{
- *      Configure::read('Modules.YourModuleName')
+ *   Configure::read('Modules.YourModuleName');
  *  }}}
  *
  * @return void
@@ -652,7 +653,7 @@ class QuickAppsComponent extends Component {
     }
 
 /**
- * Checks User is logged in
+ * Checks User is logged in.
  *
  * @return boolean
  */
@@ -661,9 +662,9 @@ class QuickAppsComponent extends Component {
     }
 
 /**
- * Retuns current user roles
+ * Retuns current user roles.
  *
- * @return array associative array with id and names of the roles: array(id:integer => name:string, ...)
+ * @return array Associative array with id and names of the roles: array(id:integer => name:string, ...)
  */    
     public function userRoles() {
         $roles = array();
@@ -678,7 +679,7 @@ class QuickAppsComponent extends Component {
     }
 
 /**
- * Check if the logged user has admin privileges
+ * Check if the logged user has admin privileges.
  *
  * @return boolean
  */ 
