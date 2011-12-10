@@ -1,4 +1,17 @@
-<p><?php foreach ($acoPath as $node) { echo ' » ' . $node['Aco']['alias']; } ?></p>
+<p>
+    <?php
+        foreach ($acoPath as $node) {
+            echo ' » ' . $acos_details[$node['Aco']['id']]['name'];
+        }
+    ?>
+</p>
+
+<em>
+    <?php
+        $method = end($acoPath);
+        echo $acos_details[$method['Aco']['id']]['description'];
+    ?>
+</em>
 
 <p>
     <table width="100%">
