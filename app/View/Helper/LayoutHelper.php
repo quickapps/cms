@@ -311,20 +311,6 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
- * Removes all hooktags from given string (except special tags)
- * Useful for plain text converting
- *
- * @param string $string Text where to remove all tags
- * @return string
- */
-    public function removeHooktags($string) {
-        $string = $this->specialTags($string);
-        $tags = implode('|', $this->hooktagsList());
-
-        return preg_replace('/(.?)\[(' . $tags . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', '', $string);
-    }
-
-/**
  * Wrapper for field rendering hook.
  *
  * @param array $field Field information array
@@ -966,6 +952,25 @@ class LayoutHelper extends AppHelper {
         }
 
         return preg_replace_callback('/(.?)\[(' . $tags . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', array($this, 'doHooktag'), $text);
+    }
+
+/**
+ * Removes all hooktags from the given content (except special tags).
+ * Useful for plain text converting.
+ *
+ * @param string $string Text to remove hooktags.
+ * @return string Content without hooktags.
+ */
+    public function stripHooktags($string) {
+        $string = $this->specialTags($string);
+
+        if (!empty($this->_tmp['__hooktags_reg'])) {
+            $tags = $this->_tmp['__hooktags_reg'];
+        } else {
+            $tags = $this->_tmp['__hooktags_reg'] = implode('|', $this->_methods['Hooktags']);
+        }
+
+        return preg_replace('/(.?)\[(' . $tags . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', '$1$6', $string);
     }
 
 /**

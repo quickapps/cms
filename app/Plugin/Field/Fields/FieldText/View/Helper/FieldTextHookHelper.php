@@ -91,7 +91,7 @@ class FieldTextHookHelper extends AppHelper {
     }
 
     private function __filterText($text) {
-        return $this->_View->Layout->removeHooktags($this->__strip_html_tags($text));
+        return $this->_View->Layout->stripHooktags($this->__strip_html_tags($text));
     }
 
     private function __strip_html_tags($text) {
