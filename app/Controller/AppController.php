@@ -90,7 +90,7 @@ class AppController extends Controller {
     public function isAuthorized($user) {
         $this->Quickapps->accessCheck();
 
-		$isAllowed = ($this->Auth->allowedActions == array('*') || in_array($this->request->params['action'], $this->Auth->allowedActions));
+        $isAllowed = ($this->Auth->allowedActions == array('*') || in_array($this->request->params['action'], $this->Auth->allowedActions));
 
         return $isAllowed;
     }
@@ -164,35 +164,36 @@ class AppController extends Controller {
     }
 
 /**
- * Wrapper method to HookComponent::hook
+ * Wrapper method to HookComponent::hook()
  *
- * @see HookComponent::__dispatchHook
  * @param string $hook Name of the event to fire
  * @param mix $data Any data to attach
  * @param array $options Options for hook dispatcher
  * @return mixed FALSE -or- result array
+ * @see HookComponent::__dispatchHook()
  */
     public function hook($hook, &$data = array(), $options = array()) {
         $hook = Inflector::underscore($hook);
+
         return $this->Hook->hook($hook, $data, $options);
     }
 
 /**
- * Set crumb from url parse or add url to the links list
+ * Wrapper method to QuickappsComponent::setCrumb()
  *
- * @param mixed $url if is array then will push de formated array to the crumbs list
- *                   else will set base crum from string parsing
+ * @param mixed $url Array of links to push to the crumbs list. Or String url.
  * @return void
+ * @see QuickappsComponent::setCrumb()
  */
     public function setCrumb($url = false) {
         return $this->Quickapps->setCrumb($url);
     }
 
 /**
- * Load and attach hooks to AppController. (Hooks can be Components, Helpers, Behaviours)
- *  - Preload helpers hooks
- *  - Preload behaviors hooks
- *  - Preload components hooks
+ * Load and attach hooks to AppController.
+ *  - Preload helpers hooks.
+ *  - Preload behaviors hooks.
+ *  - Preload components hooks.
  *
  * @return void
  */
