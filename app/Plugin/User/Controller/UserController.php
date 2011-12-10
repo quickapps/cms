@@ -139,8 +139,6 @@ class UserController extends UserAppController {
     }
 
     function my_account() {
-        $this->__setLangs();
-
         if (isset($this->data['User'])) {
             $data = $this->data;
             $session = $this->Session->read('Auth.User');
@@ -155,6 +153,8 @@ class UserController extends UserAppController {
                 $this->flashMsg(__t('User could not be saved. Please, try again.'), 'error');
             }
         }
+
+        $this->__setLangs();
 
         $this->data = $this->User->findById($this->Session->read('Auth.User.id')) or $this->redirect('/');
     }
