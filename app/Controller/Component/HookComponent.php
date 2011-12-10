@@ -38,7 +38,6 @@ class HookComponent extends Component {
  */
     public function initialize(&$Controller) {
         $this->Controller =& $Controller;
-        $eventMap = array();
 
         foreach (Configure::read('Hook.components') as $component) {
             $pluginSplit = pluginSplit($component);
