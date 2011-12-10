@@ -146,6 +146,7 @@ class UserController extends UserAppController {
             $session = $this->Session->read('Auth.User');
             $data['User']['id'] = $session['id'];
             $data['User']['username'] = $session['username'];
+            unset($data['Role']);
 
             if ($this->User->save($data)) {
                 $this->flashMsg(__t('User has been saved'), 'success');
