@@ -685,14 +685,14 @@ class InstallerComponent extends Component {
 /**
  * Creates acos for especified module by parsing its Controller folder.
  * Module's fields are also analyzed.
- * Usage example:
+ * ###Usage:
  * {{{
- *      buildAcos('User', APP . 'Plugin' . DS); // Core module `User`
+ *  buildAcos('User', APP . 'Plugin' . DS); // Core module `User`
  * }}}
  *
- * @param string $plugin CamelCase plugin name to analyze
- * @param mixed $pluginPath Optional (string) plugin full base path. If it is set to false
- *          then ROOT/Modules is used as default base path.
+ * @param string $plugin Plugin name to analyze (CamelCase or underscored)
+ * @param mixed $pluginPath Optional (string) plugin full base path. If it is set to FALSE
+ *                          then ROOT/Modules is used as default base path.
  * @return void
  */
     public function buildAcos($plugin, $pluginPath = false) {
@@ -714,65 +714,150 @@ class InstallerComponent extends Component {
         }
 
         $appControllerPath = $cPath . $plugin . 'AppController.php';
+        $acoExists = $this->Controller->Acl->Aco->find('first',
+            array(
+                'conditions' => array(
+                    'Aco.alias' => Inflector::camelize($plugin),
+                    'Aco.parent_id' => null
+                )
+            )
+        );
 
-        if (file_exists($appControllerPath)) {
-            include_once($appControllerPath);
+        if ($acoExists) {
+            $_controllers = $this->Controller->Acl->Aco->children($acoExists['Aco']['id'], true);
+
+            // delete removed controllers (and al its methods)
+            foreach ($_controllers as $c) {
+                if (!in_array("{$c['Aco']['alias']}Controller.php", $controllers)) {
+                    $this->Controller->Acl->Aco->removeFromTree($c['Aco']['id'], true);
+                }
+            }
+
+            $_controllersNames = Set::extract('/Aco/alias', $_controllers);
         }
 
-        $this->Controller->Acl->Aco->create();
-        $this->Controller->Acl->Aco->save(array('alias' => Inflector::camelize($plugin)));
+        if (!$acoExists) {
+            $this->Controller->Acl->Aco->create();
+            $this->Controller->Acl->Aco->save(array('alias' => Inflector::camelize($plugin)));
 
-        $_parent_id =  $this->Controller->Acl->Aco->getInsertID();
+            $_parent_id =  $this->Controller->Acl->Aco->getInsertID();
+        } else {
+            $_parent_id = $acoExists['Aco']['id'];
+        }
 
         foreach ($controllers as $c) {
             if (strpos($c, 'AppController.php') !== false) {
                 continue;
             }
 
-            include_once($cPath .  $c);
-
-            $className = str_replace('.php', '', $c);
-            $methods = get_this_class_methods($className);
+            $alias = str_replace(array('Controller', '.php'), '', $c);
+            $methods = $this->__getControllerMethods($cPath . $c, $appControllerPath);
 
             foreach ($methods as $i => $m) {
                 if (strpos($m, '__') === 0 ||
                     strpos($m, '_') === 0 ||
                     in_array($m, array('beforeFilter', 'beforeRender', 'beforeRedirect', 'afterFilter'))
-                ) { # ignore private and callback methods
+                ) {
                     unset($methods[$i]);
                 }
             }
 
-            $this->Controller->Acl->Aco->create();
-            $this->Controller->Acl->Aco->save(
-                array(
-                    'parent_id' => $_parent_id,
-                    'alias' => str_replace('Controller', '', $className)
-                )
-            );
+            if ($acoExists && in_array($alias, $_controllersNames)) {
+                $controller = Set::extract("/Aco[alias={$alias}]", $_controllers);
+                $controller = $controller[0];
+                $_methods = $this->Controller->Acl->Aco->children($controller['Aco']['id'], true);
 
-            $parent_id =  $this->Controller->Acl->Aco->getInsertID();
+                // delete removed methods
+                foreach ($_methods as $m) {
+                    if (!in_array($m['Aco']['alias'], $methods)) {
+                        $this->Controller->Acl->Aco->removeFromTree($m['Aco']['id'], true);
+                    }
+                }
 
-            foreach ($methods as $m) {
+                $_methods = Set::extract('/Aco/alias', $_methods);
+
+                // add new methods
+                foreach ($methods as $m) {
+                    if (!in_array($m, $_methods)) {
+                        $this->Controller->Acl->Aco->save(
+                            array(
+                                'parent_id' => $controller['Aco']['id'],
+                                'alias' => $m
+                            )
+                        );
+                    }
+                }
+            } else {
                 $this->Controller->Acl->Aco->create();
                 $this->Controller->Acl->Aco->save(
                     array(
-                        'parent_id' => $parent_id,
-                        'alias' => $m
+                        'parent_id' => $_parent_id,
+                        'alias' => $alias
                     )
                 );
+
+                $parent_id =  $this->Controller->Acl->Aco->getInsertID();
+
+                foreach ($methods as $m) {
+                    $this->Controller->Acl->Aco->create();
+                    $this->Controller->Acl->Aco->save(
+                        array(
+                            'parent_id' => $parent_id,
+                            'alias' => $m
+                        )
+                    );
+                }
             }
         }
 
         # Fields
         if (file_exists($pluginPath . $plugin . DS . 'Fields')) {
             $__folder->path = $pluginPath . $plugin . DS . 'Fields' . DS;
-            $fieldsFolders = $__folder->read(); $fieldsFolders = $fieldsFolders[0];
+            $fieldsFolders = $__folder->read();
+            $fieldsFolders = $fieldsFolders[0];
 
             foreach ($fieldsFolders as $field) {
                 $this->buildAcos(basename($field), $pluginPath . $plugin . DS . 'Fields' . DS);
             }
         }
+    }
+
+/**
+ * Get a list of methods for the spcified controller class.
+ *
+ * @param string $path Full path to the Controller class .php file.
+ * @param mixed $includeBefore (Optional) Indicate classes to load (include) before Controller class, use this to load
+ *                             classes which the Controller depends.
+ *                              - Array list of full paths for classes to include before Controller class is loaded.
+ *                              - String value to load a single class file before Controller class is loaded.
+ *                              - FALSE for load nothing.
+ * @return array List of all controller's method names.
+ * @see Installer::buildAcos()
+ */
+    private function __getControllerMethods($path, $includeBefore = false) {
+        $methods = array();
+
+        if (file_exists($path)) {
+            if ($includeBefore) {
+                if (is_array($includeBefore)) {
+                    foreach ($includeBefore as $i) {
+                        if (file_exists($i)) {
+                            include_once $i;
+                        }
+                    }
+                } elseif (is_string($includeBefore) && file_exists($includeBefore)) {
+                    include_once $includeBefore;
+                }
+            }
+
+            include_once $path;
+
+            $file = basename($path);
+            $className = str_replace('.php', '', $file);
+            $methods = get_this_class_methods($className);
+        }
+
+        return $methods;
     }
 
 /**
