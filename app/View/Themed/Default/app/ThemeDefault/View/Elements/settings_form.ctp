@@ -3,8 +3,8 @@
     <?php echo __d('ThemeDefault', 'Recomended images size:') ?> 974x302px<br/>
 </em>
 <p>
-    <?php echo $this->Html->script('/theme/Default/js/farbtastic/farbtastic.js'); ?>
-    <?php echo $this->Html->css('/theme/Default/js/farbtastic/farbtastic.css'); ?>
+    <?php echo $this->Html->script('/theme/Default/js/farbtastic.js'); ?>
+    <?php echo $this->Html->css('/theme/Default/css/farbtastic.css'); ?>
     <?php echo $this->Html->useTag('fieldsetstart', __t('Color Scheme')); ?>
         <div style="width:200px; float:left;">
             <?php $color_header_top = @empty($this->data['Module']['settings']['color_header_top']) ? '#123456' : $this->data['Module']['settings']['color_header_top']; ?>
