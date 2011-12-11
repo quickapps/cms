@@ -448,7 +448,7 @@ class LayoutHelper extends AppHelper {
  *
  * @return boolean, TRUE if user is logged in. FALSE otherwise.
  */ 
-    public function isLoggedIn() {
+    public function loggedIn() {
         return $this->Session->check('Auth.User.id');
     }
 
@@ -459,6 +459,23 @@ class LayoutHelper extends AppHelper {
  */ 
     public function isAdmin() {
         return in_array(1, (array)$this->userRoles());
+    }
+
+/**
+ * Retuns current user roles
+ *
+ * @return array associative array with id and names of the roles: array(id:integer => name:string, ...)
+ */
+    public function userRoles() {
+        $roles = array();
+
+        if (!$this->loggedIn()) {
+            $roles[] = 3;
+        } else {
+            $roles = CakeSession::read('Auth.User.role_id');
+        }
+
+        return $roles;
     }
 
 /**
@@ -521,10 +538,10 @@ class LayoutHelper extends AppHelper {
             'title' => '',
             'pages' => '',
             'visibility' => 0,
-            'body' => '', #
+            'body' => '',
             'region' => null,
             'theme' => null,
-            'format' => null #
+            'format' => null
         );
 
         $block = array_merge($_block, $block);
@@ -708,32 +725,6 @@ class LayoutHelper extends AppHelper {
         }
 
         return ($t > 0);
-    }
-
-/**
- * Checks User is logged in
- *
- * @return boolean
- */
-    public function loggedIn() {
-        return $this->Session->check('Auth.User.id');
-    }
-
-/**
- * Retuns current user roles
- *
- * @return array associative array with id and names of the roles: array(id:integer => name:string, ...)
- */
-    public function userRoles() {
-        $roles = array();
-
-        if (!$this->loggedIn()) {
-            $roles[] = 3;
-        } else {
-            $roles = CakeSession::read('Auth.User.role_id');
-        }
-
-        return $roles;
     }
 
 /**
