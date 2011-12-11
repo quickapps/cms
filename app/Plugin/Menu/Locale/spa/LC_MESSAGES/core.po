@@ -154,8 +154,8 @@ msgid "Path *"
 msgstr "Ruta *"
 
 #: View/Manage/admin_add_link.ctp:9
-msgid "The path for this menu link. This can be an internal QuickApps path such as /d/type-of-content/my-post or an external URL such as http://quickapps.es. Enter '/' to link to the front page."
-msgstr "La ruta para este enlace. Puede ser una ruta interna a QuickApps como /d/mi-node-slug or una URL externa como http://quickapps.es. Ingrese '/' para enlazar con la portada."
+msgid "The path for this menu link. This can be an internal QuickApps path such as /type-of-content/my-post.html or an external URL such as http://quickapps.es. Enter '/' to link to the front page."
+msgstr "La ruta para este enlace. Puede ser una ruta interna a QuickApps como /tipo-nodo/mi-nodo.html or una URL externa como http://quickapps.es. Ingrese '/' para enlazar con la portada."
 
 #: View/Manage/admin_add_link.ctp:12
 msgid "Shown when hovering over the menu link."
