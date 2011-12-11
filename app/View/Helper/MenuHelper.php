@@ -135,6 +135,7 @@ class MenuHelper extends AppHelper {
                 'itemType' => 'li',
                 'id' => false,
                 'class' => false,
+                'doPathSelect' => false,
                 'selectedClass' => 'selected',  // css class name to apply when link is selected
                 'counterClass' => true,         // set to true to apply a link counter class 'item_{x}'. Or set to a string value to use as prefix '{your_value}_{x}'
                 'element' => false,
@@ -365,7 +366,8 @@ class MenuHelper extends AppHelper {
                 }
             }
 
-            if (in_array($link_url, $crumb_urls) &&
+            if ($this->__settings['doPathSelect'] &&
+                in_array($link_url, $crumb_urls) &&
                 $itemType == $this->__settings['itemType'] && 
                 empty($elementData['data'][$this->__settings['model']][$this->__settings['external_url']])
             ) {

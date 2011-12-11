@@ -3,7 +3,7 @@
 
     switch ($menu['region']) {
         case 'management-menu':
-            echo $this->Layout->menu($menu, array('id' => 'top-menu'));
+            echo $this->Layout->menu($menu, array('id' => 'top-menu', 'doPathSelect' => true));
         break;
 
         case 'content':
