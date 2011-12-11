@@ -599,3 +599,6 @@ msgstr "Usuario no encontrado."
 
 msgid "Remember"
 msgstr "Recordar"
+
+msgid "Save All"
+msgstr "Guardar Todo"
