@@ -18,7 +18,7 @@ class ModulesController extends SystemAppController {
     }
 
     public function admin_settings($module) {
-        if (!Configure::read('Modules.' . $module)) {
+        if (!Configure::read('Modules.' . $module) || strpos($module, 'Theme') === 0) {
             $this->redirect('/admin/system/modules');
         }
 

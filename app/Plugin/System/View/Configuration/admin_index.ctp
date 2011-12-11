@@ -45,17 +45,19 @@
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 
     <?php
-        $modules = Configure::read('Modules');
         $moduleSettingsLinks = array();
 
-        foreach ($modules as $name => $data)
-            if (file_exists($data['path'] . 'View' . DS . 'Elements' . DS . 'settings.ctp' )) {
+        foreach (Configure::read('Modules') as $name => $data) {
+            $isTheme = strpos($name, 'Theme') === 0;
+
+            if (!$isTheme && file_exists($data['path'] . 'View' . DS . 'Elements' . DS . 'settings.ctp' )) {
                 $moduleSettingsLinks[] =
                     "<li>" .
                         $this->Html->link($data['yaml']['name'], '/admin/system/modules/settings/' . $name) .
                         "<p><em>" . __d($name, $data['yaml']['description']) . "</em></p>" .
                     "</li>";
             }
+        }
 
         if (!empty($moduleSettingsLinks)):
     ?>
