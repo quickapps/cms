@@ -8,8 +8,9 @@
         )
     );
 
-    foreach ($_variables as $v)
+    foreach ($_variables as $v) {
         $variables[$v['Variable']['name']] = $v['Variable']['value'];
+    }
 ?>
 
 <?php echo $this->Form->create('Variable'); ?>
@@ -39,7 +40,6 @@
         </div>
         <?php echo $this->Html->useTag('fieldsetend'); ?>
 
-
         <!-- User activation -->
         <?php echo $this->Html->useTag('fieldsetstart', __d('user', 'User activation')); ?>
         <div style="display:none;">
@@ -63,7 +63,6 @@
             ?>
         </div>
         <?php echo $this->Html->useTag('fieldsetend'); ?>
-
 
         <!-- Account blocked -->
         <?php echo $this->Html->useTag('fieldsetstart', __d('user', 'Account blocked')); ?>
@@ -89,7 +88,6 @@
         </div>
         <?php echo $this->Html->useTag('fieldsetend'); ?>
 
-
         <!-- Password recovery -->
         <?php echo $this->Html->useTag('fieldsetstart', __d('user', 'Password recovery')); ?>
         <div style="display:none;">
@@ -112,7 +110,6 @@
         ?>
         </div>
         <?php echo $this->Html->useTag('fieldsetend'); ?>
-
 
         <!-- Account canceled -->
         <?php echo $this->Html->useTag('fieldsetstart', __d('user', 'Account canceled')); ?>
@@ -140,7 +137,7 @@
     </div>
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 
-    <?php echo $this->Form->submit(__d('user', __d('user', 'Save All'))); ?>
+    <?php echo $this->Form->submit(__d('user', 'Save All')); ?>
 <?php echo $this->Form->end(); ?>
 
 <script>
