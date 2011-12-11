@@ -13,7 +13,7 @@ class FieldTermsHookBehavior extends ModelBehavior {
  * @return boolean true always
  */
     public function field_terms_before_save($info) {
-        if (isset($info['Model']->data['FieldData']['field_terms']) && $info['Model']->name == 'Node') {
+        if (isset($info['Model']->data['FieldData']['FieldTerms']) && $info['Model']->name == 'Node') {
             $info['Model']->bindModel(
                 array(
                     'hasAndBelongsToMany' => array(
@@ -31,7 +31,7 @@ class FieldTermsHookBehavior extends ModelBehavior {
 
             $terms_cache = array();
             $terms_ids = $_terms_ids = array();
-            $_terms_ids = (array)Set::extract('FieldData.field_terms.{n}.data', $info['Model']->data);
+            $_terms_ids = (array)Set::extract('FieldData.FieldTerms.{n}.data', $info['Model']->data);
             $_terms_ids = (array)Set::filter($_terms_ids);
 
             if (!empty($_terms_ids)) {
@@ -113,7 +113,7 @@ class FieldTermsHookBehavior extends ModelBehavior {
             $filtered = strip_tags($info['data']);
             if (empty($filtered)) {
                 ClassRegistry::init('Field.FieldData')->invalidate(
-                    "field_terms.{$info['field_id']}.data",
+                    "FieldTerms.{$info['field_id']}.data",
                     __d('field_terms', 'You must select at least on option')
                 );
 
