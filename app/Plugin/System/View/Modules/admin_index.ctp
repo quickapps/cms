@@ -54,9 +54,6 @@
 
                 <?php if (!in_array(Inflector::camelize($name), Configure::read('coreModules'))) : ?>
                 <a href="<?php echo $this->Html->url('/admin/system/modules/toggle/' . $name); ?>"><?php echo $data['status'] == 1 ? __t('Disable') : __t('Enable'); ?></a>
-                <?php endif; ?>
-
-                <?php if (!in_array(Inflector::camelize($name), Configure::read('coreModules'))) : ?>
                 <a href="<?php echo $this->Html->url('/admin/system/modules/uninstall/' . $name); ?>" onclick="return confirm('<?php echo __t('Delete selected module ? This change cant be undone!'); ?>'); "><?php echo __t('Uninstall'); ?></a>
                 <?php endif; ?>
             </td>
