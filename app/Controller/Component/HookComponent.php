@@ -111,6 +111,58 @@ class HookComponent extends Component {
     }
 
 /**
+ * Turns on the hook method if it's turned off.
+ *
+ * @param string $hook Hook name to turn on.
+ * @return boolean TRUE on success. FALSE hook does not exists or is already on.
+ */
+    public function hookEnable($hook) {
+        $hook = Inflector::underscore($hook);
+
+        if (isset($this->__map["{$hook}::Disabled"])) {
+            $this->__map[$hook] = $this->__map["{$hook}::Disabled"];
+
+            unset($this->__map["{$hook}::Disabled"]);
+
+            if (isset($this->_methods["{$hook}::Disabled"])) {
+                $this->_methods[] = $hook;
+
+                unset($this->_methods["{$hook}::Disabled"]);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+/**
+ * Turns off hook method.
+ *
+ * @param string $hook Hook name to turn off.
+ * @return boolean TRUE on success. FALSE hook does not exists.
+ */ 
+    public function hookDisable($hook) {
+        $hook = Inflector::underscore($hook);
+
+        if (isset($this->__map[$hook])) {
+            $this->__map["{$hook}::Disabled"] = $this->__map[$hook];
+
+            unset($this->__map[$hook]);
+
+            if (isset($this->_methods[$hook])) {
+                $this->_methods[] = "{$hook}::Disabled";
+
+                unset($this->_methods["{$hook}"]);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+/**
  * Overwrite default options for Hook dispatcher.
  * Useful when calling a hook with non-parameter and custom options.
  *

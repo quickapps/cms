@@ -172,6 +172,58 @@ class AppHelper extends Helper {
     }
 
 /**
+ * Turn on hook method if is turned off.
+ *
+ * @param string $hook Hook name to turn on.
+ * @return boolean TRUE on success. FALSE hook does not exists or is already on.
+ */
+    public function hookEnable($hook) {
+        $hook = Inflector::underscore($hook);
+
+        if (isset($this->__map['Hooks']["{$hook}::Disabled"])) {
+            $this->__map['Hooks'][$hook] = $this->__map['Hooks']["{$hook}::Disabled"];
+
+            unset($this->__map['Hooks']["{$hook}::Disabled"]);
+
+            if (isset($this->_methods['Hooks']["{$hook}::Disabled"])) {
+                $this->_methods['Hooks'][] = $hook;
+
+                unset($this->_methods['Hooks']["{$hook}::Disabled"]);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+/**
+ * Turns off hook method.
+ *
+ * @param string $hook Hook name to turn off.
+ * @return boolean TRUE on success. FALSE hook does not exists.
+ */ 
+    public function hookDisable($hook) {
+        $hook = Inflector::underscore($hook);
+
+        if (isset($this->__map['Hooks'][$hook])) {
+            $this->__map['Hooks']["{$hook}::Disabled"] = $this->__map['Hooks'][$hook];
+
+            unset($this->__map['Hooks'][$hook]);
+
+            if (isset($this->_methods['Hooks'][$hook])) {
+                $this->_methods['Hooks'][] = "{$hook}::Disabled";
+
+                unset($this->_methods['Hooks']["{$hook}"]);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+/**
  * Return an array list of all registered hooktag methods.
  *
  * @return array Array list of all available hooktag methods.
