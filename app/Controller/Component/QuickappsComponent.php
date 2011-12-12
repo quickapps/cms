@@ -488,6 +488,14 @@ class QuickAppsComponent extends Component {
  * @return void
  */
     public function setCrumb($url = false) {
+        if (func_num_args() > 1) {
+            $args = func_get_args();
+
+            foreach ($args as $arg) {
+                $this->setCrumb($arg);
+            }
+        }
+
         if (is_array($url) && !empty($url)) {
             if (is_array($url[0])) {
                 foreach ($url as $link) {

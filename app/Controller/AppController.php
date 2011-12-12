@@ -186,7 +186,15 @@ class AppController extends Controller {
  * @see QuickappsComponent::setCrumb()
  */
     public function setCrumb($url = false) {
-        return $this->Quickapps->setCrumb($url);
+        if (func_num_args() > 1) {
+            $args = func_get_args();
+
+            foreach ($args as $arg) {
+                $this->Quickapps->setCrumb($arg);
+            }
+        } else {
+            return $this->Quickapps->setCrumb($url);
+        }
     }
 
 /**
