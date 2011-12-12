@@ -494,7 +494,7 @@ class InstallerComponent extends Component {
         }
 
         /**
-         * Theme Controller does not allow to delete in-use-theme,
+         * System.Controller/ThemeController does not allow to delete in-use-theme,
          * but for precaution we assign to Core Default ones if for some reason
          * the in-use-theme is being deleted.
          */
@@ -536,21 +536,44 @@ class InstallerComponent extends Component {
     public function afterUninstall() {
         $this->__clearCache();
 
-        # delete all menus created by module/theme
+        // delete all menus created by module/theme
         ClassRegistry::init('Menu.Menu')->deleteAll(
             array(
                 'Menu.module' => $this->options['__Name']
             )
         );
 
-        # delete blocks created by module/theme
+        // delete foreign links
+        $MenuLink = ClassRegistry::init('Menu.MenuLink');
+        $links = $MenuLink->find('all',
+            array(
+                'conditions' => array(
+                    'MenuLink.module' => $this->options['__Name']
+                )
+            )
+        );
+
+        foreach ($links as $link) {
+            $MenuLink->Behaviors->detach('Tree');
+            $MenuLink->Behaviors->attach('Tree',
+                array(
+                    'parent' => 'parent_id',
+                    'left' => 'lft',
+                    'right' => 'rght',
+                    'scope' => "MenuLink.menu_id = '{$link['MenuLink']['menu_id']}'"
+                )
+            );
+            $MenuLink->removeFromTree($link['MenuLink']['id'], true);
+        }
+
+        // delete blocks created by module/theme
         ClassRegistry::init('Block.Block')->deleteAll(
             array(
                 'Block.module' => $this->options['__Name']
             )
         );
 
-        # delete acos branch
+        // delete acos branch
         $rootAco = $this->Controller->Acl->Aco->find('first',
             array(
                 'conditions' => array(
@@ -562,14 +585,14 @@ class InstallerComponent extends Component {
 
         $this->Controller->Acl->Aco->delete($rootAco['Aco']['id']);
 
-        # delete node types created by module/theme
+        // delete node types created by module/theme
         ClassRegistry::init('Node.NodeType')->deleteAll(
             array(
                 'NodeType.module' => $this->options['__Name']
             )
         );
 
-        # delete app folder
+        // delete app folder
         $folderpath = ($this->options['type'] == 'module') ? $this->options['__path'] : dirname(dirname($this->options['__path']));
         $Folder = new Folder($folderpath);
         $Folder->delete();
