@@ -20,7 +20,7 @@ $tSettings = array(
         ),
         __t('Author') => array(
             'value' => '{CreatedBy.name}',
-            'sort'    => 'NodeType.id'
+            'sort'    => 'CreatedBy.name'
         ),
         __t('Status') => array(
             'value' => '{php} return ({Node.status} == 0 ? "' . __t('not published') . '" : "' . __t('published') . '"); {/php}',
