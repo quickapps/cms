@@ -35,14 +35,11 @@ class InstallerComponent extends Component {
  * ZIP:
  *      - ModuleFolderName/
  *          - Config/
+ *              - bootstrap.php
+ *              - routes.php
  *          - Controller/
  *              - Component/
  *                  - InstallComponent.php
- *          - Lib/
- *          - Locale/
- *          - Model/
- *          - View/
- *          - webroot/
  *          - ModuleFolderName.yaml
  *
  * Expected theme package estructure:
@@ -50,14 +47,15 @@ class InstallerComponent extends Component {
  *      - CamelCaseThemeName/
  *          - Layouts/
  *          - app/
- *              - ThemeCamelCaseThemeName/  # prefix 'Theme' + {CamelizedThemeName}
+ *              - ThemeCamelCaseThemeName/  # `Theme` prefix
+ *                  .... # same as modules
  *          - webroot/
  *          - CamelCaseThemeName.yaml
  *          - thumbnail.png # 206x150px recommended
  *
- * @param array $data form POST submit of the .app package ($this->data)
- * @param array $options optional settings, see InstallerComponent::$options
- * @return bool true on success or false otherwise
+ * @param array $data Data form POST submit of the .app package ($this->data)
+ * @param array $options Optional settings, see InstallerComponent::$options
+ * @return bool TRUE on success or FALSE otherwise
  */
     public function install($data = false, $options = array()) {
         if (!$data) {
@@ -423,10 +421,10 @@ class InstallerComponent extends Component {
 /**
  * Uninstall plugin by name
  *
- * @param string $pluginName name of the plugin to uninstall, it could be a theme plugin
+ * @param string $pluginName Name of the plugin to uninstall, it could be a theme plugin
  *                           (ThemeMyThemeName or theme_my_theme_name) or module plugin
  *                           (MyModuleName or my_module_name)
- * @return boolean true on success or false otherwise
+ * @return boolean TRUE on success or FALSE otherwise
  */
     public function uninstall($pluginName = false) {
         if (!$pluginName || 
@@ -535,111 +533,6 @@ class InstallerComponent extends Component {
         return $this->__toggleModule($module, 0);
     }
 
-    private function __toggleModule($module, $to) {
-        $module = Inflector::camelize($module);
-        $isTheme = strpos($module, 'Theme') === 0;
-        $path =  $isTheme ? THEMES . str_replace('Theme', '', $module) . DS . 'app' . DS . $module . DS : CakePlugin::path($module);
-        $yamlPath = $isTheme ? THEMES . str_replace('Theme', '', $module) . DS . str_replace('Theme', '', $module) . '.yaml' : CakePlugin::path($module) . "{$module}.yaml";
-        $Install =& $this->loadInstallComponent($path . 'Controller' . DS . 'Component' . DS);
-        $this->options = array(
-            'name' => $module,
-            'type' => ($isTheme ? 'theme' : 'module'),
-            'status' => $to
-        );        
-
-        if (!$Install) {
-            $this->errors[] = __t('Module does not exists.');
-
-            return false;
-        }
-
-        if (!$to) {
-            $dep = $this->checkReverseDependency($module);
-
-            if (count($dep)) {
-                $this->errors[] = __t('This module can not be disabled, because it is required by: %s', implode('<br />', Set::extract('{n}.name', $dep)));
-
-                return false;
-            }
-        } else {
-            $core = $isTheme ? "core ({$yaml['info']['core']})" : "core ({$yaml['core']})";
-            $r = $this->checkIncompatibility($this->parseDependency($core), Configure::read('Variable.qa_version'));
-
-            if ($r !== null) {
-                if (!$isTheme) {
-                    $this->errors[] = __d('system', 'This module is incompatible with your QuickApps version.');
-                } else {
-                   $this->errors[] = __d('system', 'This theme is incompatible with your QuickApps version.');
-                }
-
-                return false;
-            }
-
-            $yaml = Spyc::YAMLLoad($yamlPath);
-
-            if (
-                ($isTheme && isset($yaml['info']['dependencies']) && $this->checkDependency($yaml['info'])) ||
-                (!$isTheme && isset($yaml['dependencies']) && $this->checkDependency($yaml))
-            ) {
-                if ($this->options['type'] == 'module') {
-                    $this->errors[] = __d('system', "This module depends on other modules that you do not have or doesn't meet the version required: %s", implode('<br/>', $yaml['dependencies']));
-                } else {
-                    $this->errors[] = __d('system', "This theme depends on other modules that you do not have or doesn't meet the version required: %s", implode('<br/>', $yaml['info']['dependencies']));
-                }
-
-                return false;
-            }
-        }
-
-        $r = true;
-
-        if ($to) {
-            if (method_exists($Install, 'beforeEnable')) {
-                $r = $Install->beforeEnable($this);
-            }
-        } else {
-            if (method_exists($Install, 'beforeDisable')) {
-                $r = $Install->beforeDisable($this);
-            }
-        }
-
-        if ($r !== true) {
-            return false;
-        }
-
-        # turn on/off related blocks
-        ClassRegistry::init('Block.Block')->updateAll(
-            array('Block.status' => $to),
-            array('Block.status <>' => 0, 'Block.module' => $module)
-        );
-
-        # turn on/off related menu links
-        ClassRegistry::init('Menu.MenuLink')->updateAll(
-            array('MenuLink.status' => $to),
-            array('MenuLink.status <>' => 0, 'MenuLink.module' => $module)
-        );
-
-        # turn on/off module
-        $this->Controller->Module->updateAll(
-            array('Module.status' => $to),
-            array('Module.name' => $module)
-        );
-
-        if ($to) {
-            if (method_exists($Install, 'afterEnable')) {
-                $Install->afterEnable($this);
-            }
-        } else {
-            if (method_exists($Install, 'afterDisable')) {
-                $Install->afterDisable($this);
-            }
-        }
-
-        $this->__clearCache();
-
-        return true;
-    }
-
     public function afterUninstall() {
         $this->__clearCache();
 
@@ -683,16 +576,116 @@ class InstallerComponent extends Component {
     }
 
 /**
- * Creates acos for especified module by parsing its Controller folder.
- * Module's fields are also analyzed.
+ * Insert a new link to specified menu.
+ *
+ * @param mixed $menu_id Set to string value to indicate the menu id slug, e.g.: `management`.
+ *                       Or set to one of the following integer values:
+ *                          - 0: Main menu of the site.
+ *                          - 1: Backend menu (by default).
+ *                          - 2: Navigation menu.
+ *                          - 3: User menu.
+ * @param array $link Array information of the link to add.
+ * @return mixed Array information of the new inserted link. FALSE on failure.
+ */
+    public function menuLink($link, $menu_id = 1) {
+        $menu_id = is_string($menu_id) ? trim($menu_id) : $menu_id;
+        $Menu = ClassRegistry::init('Menu.Menu');
+
+        if (is_integer($menu_id)) {
+            switch ($menu_id) {
+                case 0:
+                    default:
+                        $menu_id = 'main-menu';
+                break;
+
+                case 1:
+                    $menu_id = 'management';
+                break;
+
+                case 2:
+                    $menu_id = 'navigation';
+                break;
+
+                case 3:
+                    $menu_id = 'user-menu';
+                break;
+            }
+        }
+
+        if (!($menu = $Menu->findById($menu_id))) {
+            return false;
+        }
+
+        // Column alias
+        if (isset($link['path'])) {
+            $link['router_path'] = $link['path'];
+            unset($link['path']);
+        }
+
+        if (isset($link['url'])) {
+            $link['router_path'] = $link['url'];
+            unset($link['url']);
+        }
+
+        if (isset($link['label'])) {
+            $link['link_title'] = $link['label'];
+            unset($link['label']);
+        }
+
+        if (isset($link['title'])) {
+            $link['link_title'] = $link['title'];
+            unset($link['title']);
+        }
+
+        if (isset($link['parent'])) {
+            $link['parent_id'] = $link['parent'];
+            unset($link['parent']);
+        }
+
+        if (isset($this->options['__appName']) &&
+            !empty($this->options['__appName']) &&
+            !isset($link['module'])
+        ) {
+            $link['module'] = $this->options['__appName'];
+        }
+
+        $__link = array(
+            'parent_id' => 0,
+            'router_path' => '',
+            'description' => '',
+            'link_title' => '',
+            'module' => 'System',
+            'target' => '_self',
+            'expanded' => false,
+            'status' => 1
+        );
+
+        $link = Set::merge($__link, $link);
+        $link['menu_id'] = $menu_id;
+
+        $Menu->MenuLink->Behaviors->detach('Tree');
+        $Menu->MenuLink->Behaviors->attach('Tree',
+            array(
+                'parent' => 'parent_id',
+                'left' => 'lft',
+                'right' => 'rght',
+                'scope' => "MenuLink.menu_id = '{$menu_id}'"
+            )
+        );
+
+        return $Menu->MenuLink->save($link);
+    }
+
+/**
+ * Creates acos for especified module by parsing its Controller folder. (Module's fields are also analyzed).
+ * If module is already installed then Aco update will be executed.
  * ###Usage:
  * {{{
  *  buildAcos('User', APP . 'Plugin' . DS); // Core module `User`
  * }}}
  *
  * @param string $plugin Plugin name to analyze (CamelCase or underscored)
- * @param mixed $pluginPath Optional (string) plugin full base path. If it is set to FALSE
- *                          then ROOT/Modules is used as default base path.
+ * @param mixed $pluginPath Optional plugin full base path. Set to FALSE to use site modules path `ROOT/Modules`.
  * @return void
  */
     public function buildAcos($plugin, $pluginPath = false) {
@@ -726,7 +719,7 @@ class InstallerComponent extends Component {
         if ($acoExists) {
             $_controllers = $this->Controller->Acl->Aco->children($acoExists['Aco']['id'], true);
 
-            // delete removed controllers (and al its methods)
+            // delete removed controllers (and all its methods)
             foreach ($_controllers as $c) {
                 if (!in_array("{$c['Aco']['alias']}Controller.php", $controllers)) {
                     $this->Controller->Acl->Aco->removeFromTree($c['Aco']['id'], true);
@@ -823,60 +816,19 @@ class InstallerComponent extends Component {
     }
 
 /**
- * Get a list of methods for the spcified controller class.
+ * Parse a dependency for comparison by InstallerComponent::checkIncompatibility().
  *
- * @param string $path Full path to the Controller class .php file.
- * @param mixed $includeBefore (Optional) Indicate classes to load (include) before Controller class, use this to load
- *                             classes which the Controller depends.
- *                              - Array list of full paths for classes to include before Controller class is loaded.
- *                              - String value to load a single class file before Controller class is loaded.
- *                              - FALSE for load nothing.
- * @return array List of all controller's method names.
- * @see Installer::buildAcos()
- */
-    private function __getControllerMethods($path, $includeBefore = false) {
-        $methods = array();
-
-        if (file_exists($path)) {
-            if ($includeBefore) {
-                if (is_array($includeBefore)) {
-                    foreach ($includeBefore as $i) {
-                        if (file_exists($i)) {
-                            include_once $i;
-                        }
-                    }
-                } elseif (is_string($includeBefore) && file_exists($includeBefore)) {
-                    include_once $includeBefore;
-                }
-            }
-
-            include_once $path;
-
-            $file = basename($path);
-            $className = str_replace('.php', '', $file);
-            $methods = get_this_class_methods($className);
-        }
-
-        return $methods;
-    }
-
-/**
- * By: Drupal
- * Parse a dependency for comparison by checkIncompatibility().
- *
- * @param $dependency
- *   A dependency string, for example 'foo (>=7.x-4.5-beta5, 3.x)'.
- * @return
+ * @param string $dependency A dependency string, for example 'foo (>=7.x-4.5-beta5, 3.x)'.
+ * @return mixed
  *   An associative array with three keys:
- *   - 'name' includes the name of the thing to depend on (e.g. 'foo').
- *   - 'original_version' contains the original version string (which can be
- *     used in the UI for reporting incompatibilities).
- *   - 'versions' is a list of associative arrays, each containing the keys
- *     'op' and 'version'. 'op' can be one of: '=', '==', '!=', '<>', '<',
- *     '<=', '>', or '>='. 'version' is one piece like '4.5-beta3'.
+ *      - 'name' includes the name of the thing to depend on (e.g. 'foo').
+ *      - 'original_version' contains the original version string (which can be
+ *         used in the UI for reporting incompatibilities).
+ *      - 'versions' is a list of associative arrays, each containing the keys
+ *         'op' and 'version'. 'op' can be one of: '=', '==', '!=', '<>', '<',
+ *         '<=', '>', or '>='. 'version' is one piece like '4.5-beta3'.
  *   Callers should pass this structure to checkIncompatibility().
- *
- * @see checkIncompatibility()
+ * @see InstallerComponent::checkIncompatibility()
  */
     public function parseDependency($dependency) {
         // We use named subpatterns and support every op that version_compare
@@ -918,18 +870,12 @@ class InstallerComponent extends Component {
     }
 
 /**
- * By: Drupal
  * Check whether a version is compatible with a given dependency.
  *
- * @param $v
- *   The parsed dependency structure from parseDependency().
- * @param $current_version
- *   The version to check against (like 4.2).
- * @return
- *   NULL if compatible, otherwise the original dependency version string that
- *   caused the incompatibility.
- *
- * @see parseDependency()
+ * @param array $v The parsed dependency structure from InstallerComponent::parseDependency().
+ * @param string $current_version The version to check against (e.g.: 4.2).
+ * @return mixed NULL if compatible, otherwise the original dependency version string that caused the incompatibility.
+ * @see InstallerComponent::parseDependency().
  */
     public function checkIncompatibility($v, $current_version) {
         if (!empty($v['versions'])) {
@@ -946,7 +892,7 @@ class InstallerComponent extends Component {
 /**
  * Verify if all the plugins that $plugin depends on are available and match the required version.
  *
- * @param  string $plugin plugin alias
+ * @param  string $plugin Plugin alias.
  * @return boolean
  */
     public function checkDependency($plugin = null) {
@@ -980,12 +926,101 @@ class InstallerComponent extends Component {
     }
 
 /**
+ * Loads plugin's installer component
+ *
+ * @param string $search Path where to look for component.
+ * @return mix OBJECT Instance of component, Or FALSE if Component could not be loaded.
+ */
+    public function loadInstallComponent($search = false) {
+        if (!file_exists($search . 'InstallComponent.php')) {
+            return false;
+        }
+
+        include_once($search . 'InstallComponent.php');
+
+        $class = "InstallComponent";
+        $component = new $class($this->Controller->Components);
+
+        if (method_exists($component, 'initialize')) {
+            $component->initialize($this);
+        }
+
+        if (method_exists($component, 'startup')) {
+            $component->startup($this);
+        }
+
+        return $component;
+    }
+
+/**
+ * Check if all files & folders contained in `source` can be copied to `destination`
+ *
+ * @param string $src Path content to check.
+ * @param string $dst Destination path that $source should be copied to.
+ * @return bool TRUE if all files & folder can be copied to `destination`. FALSE otherwise.
+ */ 
+    public function packageIsWritable($src, $dst) {
+        $e = 0;
+        $Folder = new Folder($src);
+        $files = $Folder->findRecursive();
+
+        if (!is_writable($dst)) {
+            $this->errors[] = __t('path: %s, not writable', $dst);
+        }
+
+        foreach ($files as $file) {
+            $file = str_replace($this->options['__packagePath'], '', $file);
+            $file_dst = str_replace(DS . DS, DS, $dst . DS . $file);
+
+            if (file_exists($file_dst) && !is_writable($file_dst)) {
+                $e++;
+                $this->errors[] = __t('path: %s, not writable', $file_dst);
+            }
+        }
+
+        return ($e == 0);
+    }
+
+/**
+ * Recursively copy `source` to `destination`
+ *
+ * @param string $src Path content to copy
+ * @param string $dst Destination path that $source should be copied to
+ * @return bool True on sucess. False otherwise
+ */
+    public function rcopy($src, $dst) {
+        if (!$this->packageIsWritable($src, $dst)) {
+            return false;
+        }
+
+        $dir = opendir($src);
+
+        @mkdir($dst);
+
+        while(false !== ($file = readdir($dir))) {
+            if (($file != '.') && ($file != '..')) {
+                if (is_dir($src . DS . $file)) {
+                    $this->rcopy($src . DS . $file, $dst . DS . $file);
+                } else {
+                    if (!copy($src . DS . $file, $dst . DS . $file)) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        closedir($dir);
+
+        return true;
+    }
+
+/**
  * Verify if there is any plugin that depends of $plugin
  *
- * @param  string $plugin plugin alias
- * @param  boolean $returnList set to true to return an array list of all plugins that uses $plugin.
+ * @param  string $plugin Plugin alias
+ * @param  boolean $returnList Set to true to return an array list of all plugins that uses $plugin.
  *                             The array list contains all the plugin information Configure::read('Modules.{plugin}')
- * @return mixed boolean (if $returnList = false), false return means that there are no plugins that uses $plugin.
+ * @return mixed Boolean (if $returnList = false), false return means that there are no plugins that uses $plugin.
  *                       Or an array list of all plugins that uses $plugin ($returnList = true), empty arrray is returned
  *                       if there are no plugins that uses $plugin.
  */
@@ -1021,6 +1056,111 @@ class InstallerComponent extends Component {
         return false;
     }
 
+    private function __toggleModule($module, $to) {
+        $module = Inflector::camelize($module);
+        $isTheme = strpos($module, 'Theme') === 0;
+        $path =  $isTheme ? THEMES . str_replace('Theme', '', $module) . DS . 'app' . DS . $module . DS : CakePlugin::path($module);
+        $yamlPath = $isTheme ? THEMES . str_replace('Theme', '', $module) . DS . str_replace('Theme', '', $module) . '.yaml' : CakePlugin::path($module) . "{$module}.yaml";
+        $Install =& $this->loadInstallComponent($path . 'Controller' . DS . 'Component' . DS);
+        $this->options = array(
+            'name' => $module,
+            'type' => ($isTheme ? 'theme' : 'module'),
+            'status' => $to
+        );
+
+        if (!$Install) {
+            $this->errors[] = __t('Module does not exists.');
+
+            return false;
+        }
+
+        if (!$to) {
+            $dep = $this->checkReverseDependency($module);
+
+            if (count($dep)) {
+                $this->errors[] = __t('This module can not be disabled, because it is required by: %s', implode('<br />', Set::extract('{n}.name', $dep)));
+
+                return false;
+            }
+        } else {
+            $core = $isTheme ? "core ({$yaml['info']['core']})" : "core ({$yaml['core']})";
+            $r = $this->checkIncompatibility($this->parseDependency($core), Configure::read('Variable.qa_version'));
+
+            if ($r !== null) {
+                if (!$isTheme) {
+                    $this->errors[] = __d('system', 'This module is incompatible with your QuickApps version.');
+                } else {
+                   $this->errors[] = __d('system', 'This theme is incompatible with your QuickApps version.');
+                }
+
+                return false;
+            }
+
+            $yaml = Spyc::YAMLLoad($yamlPath);
+
+            if (
+                ($isTheme && isset($yaml['info']['dependencies']) && $this->checkDependency($yaml['info'])) ||
+                (!$isTheme && isset($yaml['dependencies']) && $this->checkDependency($yaml))
+            ) {
+                if ($this->options['type'] == 'module') {
+                    $this->errors[] = __d('system', "This module depends on other modules that you do not have or doesn't meet the version required: %s", implode('<br/>', $yaml['dependencies']));
+                } else {
+                    $this->errors[] = __d('system', "This theme depends on other modules that you do not have or doesn't meet the version required: %s", implode('<br/>', $yaml['info']['dependencies']));
+                }
+
+                return false;
+            }
+        }
+
+        $r = true;
+
+        if ($to) {
+            if (method_exists($Install, 'beforeEnable')) {
+                $r = $Install->beforeEnable($this);
+            }
+        } else {
+            if (method_exists($Install, 'beforeDisable')) {
+                $r = $Install->beforeDisable($this);
+            }
+        }
+
+        if ($r !== true) {
+            return false;
+        }
+
+        # turn on/off related blocks
+        ClassRegistry::init('Block.Block')->updateAll(
+            array('Block.status' => $to),
+            array('Block.status <>' => 0, 'Block.module' => $module)
+        );
+
+        # turn on/off related menu links
+        ClassRegistry::init('Menu.MenuLink')->updateAll(
+            array('MenuLink.status' => $to),
+            array('MenuLink.status <>' => 0, 'MenuLink.module' => $module)
+        );
+
+        # turn on/off module
+        $this->Controller->Module->updateAll(
+            array('Module.status' => $to),
+            array('Module.name' => $module)
+        );
+
+        if ($to) {
+            if (method_exists($Install, 'afterEnable')) {
+                $Install->afterEnable($this);
+            }
+        } else {
+            if (method_exists($Install, 'afterDisable')) {
+                $Install->afterDisable($this);
+            }
+        }
+
+        $this->__clearCache();
+
+        return true;
+    }
+
     private function __process_tests($tests, $header = false) {
         $e = 0;
 
@@ -1035,91 +1175,41 @@ class InstallerComponent extends Component {
     }
 
 /**
- * Loads plugin's installer component
+ * Get a list of methods for the spcified controller class.
  *
- * @param string $search Path where to look for component
- * @return mix object Instance of component, Or bool false if Component could not be loaded
+ * @param string $path Full path to the Controller class .php file.
+ * @param mixed $includeBefore (Optional) Indicate classes to load (include) before Controller class, use this to load
+ *                             classes which the Controller depends.
+ *                              - Array list of full paths for classes to include before Controller class is loaded.
+ *                              - String value to load a single class file before Controller class is loaded.
+ *                              - FALSE for load nothing.
+ * @return array List of all controller's method names.
+ * @see Installer::buildAcos()
  */
-    public function loadInstallComponent($search = false) {
-        if (!file_exists($search . 'InstallComponent.php')) {
-            return false;
-        }
+    private function __getControllerMethods($path, $includeBefore = false) {
+        $methods = array();
 
-        include_once($search . 'InstallComponent.php');
-
-        $class = "InstallComponent";
-        $component = new $class($this->Controller->Components);
-
-        if (method_exists($component, 'initialize')) {
-            $component->initialize($this);
-        }
-
-        if (method_exists($component, 'startup')) {
-            $component->startup($this);
-        }
-
-        return $component;
-    }
-
-/**
- * Check if all files & folders contained in `source` can be copied to `destination`
- *
- * @param string $src Path content to check
- * @param string $dst Destination path that $source should be copied to
- * @return bool True if all files & folder can be copied to `destination`. False otherwise
- */ 
-    public function package_is_writable($src, $dst) {
-        $e = 0;
-        $Folder = new Folder($src);
-        $files = $Folder->findRecursive();
-
-        if (!is_writable($dst)) {
-            $this->errors[] = __t('path: %s, not writable', $dst);
-        }
-
-        foreach ($files as $file) {
-            $file = str_replace($this->options['__packagePath'], '', $file);
-            $file_dst = str_replace(DS . DS, DS, $dst . DS . $file);
-
-            if (file_exists($file_dst) && !is_writable($file_dst)) {
-                $e++;
-                $this->errors[] = __t('path: %s, not writable', $file_dst);
-            }
-        }
-
-        return ($e == 0);
-    }
-
-/**
- * Recursively copy `source` to `destination`
- *
- * @param string $src Path content to copy
- * @param string $dst Destination path that $source should be copied to
- * @return bool True on sucess. False otherwise
- */
-    public function rcopy($src, $dst) {
-        if (!$this->package_is_writable($src, $dst)) {
-            return false;
-        }
-
-        $dir = opendir($src);
-        @mkdir($dst);
-
-        while(false !== ($file = readdir($dir))) {
-            if (($file != '.') && ($file != '..')) {
-                if (is_dir($src . DS . $file)) {
-                    $this->rcopy($src . DS . $file, $dst . DS . $file);
-                } else {
-                    if (!copy($src . DS . $file, $dst . DS . $file)) {
-                        return false;
+        if (file_exists($path)) {
+            if ($includeBefore) {
+                if (is_array($includeBefore)) {
+                    foreach ($includeBefore as $i) {
+                        if (file_exists($i)) {
+                            include_once $i;
+                        }
                     }
+                } elseif (is_string($includeBefore) && file_exists($includeBefore)) {
+                    include_once $includeBefore;
                 }
             }
+
+            include_once $path;
+
+            $file = basename($path);
+            $className = str_replace('.php', '', $file);
+            $methods = get_this_class_methods($className);
         }
 
-        closedir($dir);
-
-        return true;
+        return $methods;
     }
 
 /**
