@@ -44,6 +44,9 @@ msgstr "No se pudo guardar el bloque. Por favor intente otra vez."
 msgid "Editing Block"
 msgstr "Editando Bloque"
 
+msgid "Editing block"
+msgstr "Editando bloque"
+
 #: Controller/ManageController.php:152
 msgid "Add new block"
 msgstr "Agregar nuevo bloque"
