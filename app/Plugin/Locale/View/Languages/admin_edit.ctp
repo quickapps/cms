@@ -11,6 +11,12 @@
         <?php echo $this->Form->input('native', array('required' => 'required', 'type' => 'text', 'label' => __t('Native language name *'))); ?>
         <em><?php echo __t('Name of the language in the language being added.'); ?></em>
         <?php
+            if (strpos($this->data['Language']['icon'], '://') !== false) {
+                $icon = $this->data['Language']['icon'];
+            } else {
+                $icon = "/locale/img/flags/{$this->data['Language']['icon']}";
+            }
+
             echo $this->Form->input('icon',
                 array(
                     'type' => 'select',
@@ -18,12 +24,16 @@
                     'options' => $flags,
                     'empty' => __t('-- None --'),
                     'onChange' => 'showFlag(this);',
-                    'after' => " <img src=\"" . $this->Html->url("/locale/img/flags/{$this->data['Language']['icon']}") . "\" id=\"flag-icon\" style=\"" . ( empty($this->data['Language']['icon']) ? 'display:none;' : '' ) . "\" /> "
+                    'after' => ' ' .
+                    $this->Html->image($icon,
+                        array(
+                            'class' => 'flag-icon',
+                            'style' => (empty($this->data['Language']['icon']) ? 'display:none;' : '' )
+                        )
+                    )
                 )
             );
-        ?>
 
-        <?php
             echo $this->Form->input('custom_icon',
                 array(
                     'type' => 'text',

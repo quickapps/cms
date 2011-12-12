@@ -9,13 +9,16 @@ $tSettings = array(
         __t('English name') => array(
             'value' => '
                 {Language.name}
-                {php} return ("{Language.icon}" != "" ? $this->_View->Html->image(\'/locale/img/flags/{Language.icon}\') : ""); {/php}
-                {php} return ("{Language.code}" == "' . Configure::read('Variable.default_language') . '" ? $this->_View->Html->image(\'/locale/img/default.png\', array(\'title\' => \'' . __t('Default language') . '\')) : ""); {/php}
+                {php}
+                    $icon = strpos("{Language.icon}", "://") !== false ? "{Language.icon}" : "/locale/img/flags/{Language.icon}";
+                    return ("{Language.icon}" != "" ? $this->_View->Html->image($icon, array("width" => 16, "class" => "flag-icon")) : "");
+                {/php}
+                {php} return ("{Language.code}" == "' . Configure::read('Variable.default_language') . '" ? $this->_View->Html->image("/locale/img/default.png", array("title" => "' . __t('Default language') . '")) : ""); {/php}
             '
         ),
         __t('Native name') => array(
             'value' => '{Language.native}',
-            'sort'    => 'Language.native'
+            'sort' => 'Language.native'
         ),
         __t('Code') => array(
             'value' => '{Language.code}'
@@ -30,8 +33,8 @@ $tSettings = array(
             'value' => '
                 <a href="{url}/admin/locale/languages/move/{Language.id}/up{/url}">' . __t('move up') . '</a> |
                 <a href="{url}/admin/locale/languages/move/{Language.id}/down{/url}">' . __t('move down') . '</a> |
-                <a href="{url}/admin/locale/languages/edit/{Language.id}{/url}">' . __t('edit') . '</a> |
-                <a href="{url}/admin/locale/languages/set_default/{Language.id}{/url}">' . __t('set as default') . '</a>
+                <a href="{url}/admin/locale/languages/set_default/{Language.id}{/url}">' . __t('set as default') . '</a> |
+                <a href="{url}/admin/locale/languages/edit/{Language.id}{/url}">' . __t('edit') . '</a>
             ',
             'thOptions' => array('align' => 'center'),
             'tdOptions' => array('width' => '300', 'align' => 'center')
