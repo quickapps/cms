@@ -601,7 +601,14 @@ class InstallerComponent extends Component {
 /**
  * Insert a new link to specified menu.
  *
- * @param array $link Array information of the link to add.
+ * @param array $link Associative array information of the link to add:
+ *  - [parent|parent_id]: Parent link ID.
+ *  - [url|link|path|router_path]: Link url (href).
+ *  - [description]: Link description used as `title` attribute.
+ *  - [title|label|link_title]: Link text to show between tags: <a href="">TEXT</a>
+ *  - [module]: Name of the module that link belongs to,
+ *              by default it is set to the name of module being installed or
+ *              to `System` if method is called on non-install process.
  * @param mixed $menu_id Set to string value to indicate the menu id slug, e.g.: `management`.
  *                       Or set to one of the following integer values:
  *                          - 0: Main menu of the site.
@@ -651,6 +658,11 @@ class InstallerComponent extends Component {
         if (isset($link['url'])) {
             $link['router_path'] = $link['url'];
             unset($link['url']);
+        }
+
+        if (isset($link['link'])) {
+            $link['router_path'] = $link['link'];
+            unset($link['link']);
         }
 
         if (isset($link['label'])) {
