@@ -601,16 +601,19 @@ class InstallerComponent extends Component {
 /**
  * Insert a new link to specified menu.
  *
+ * @param array $link Array information of the link to add.
  * @param mixed $menu_id Set to string value to indicate the menu id slug, e.g.: `management`.
  *                       Or set to one of the following integer values:
  *                          - 0: Main menu of the site.
  *                          - 1: Backend menu (by default).
  *                          - 2: Navigation menu.
  *                          - 3: User menu.
- * @param array $link Array information of the link to add.
+ * @param integer $move Number of positions to move the link after add.
+ *                      Negative values will move down, positive values will move up.
+ *                      Zero value (0) wont move.
  * @return mixed Array information of the new inserted link. FALSE on failure.
  */
-    public function menuLink($link, $menu_id = 1) {
+    public function menuLink($link, $menu_id = 1, $move = 0) {
         $menu_id = is_string($menu_id) ? trim($menu_id) : $menu_id;
         $Menu = ClassRegistry::init('Menu.Menu');
 
@@ -696,7 +699,17 @@ class InstallerComponent extends Component {
             )
         );
 
-        return $Menu->MenuLink->save($link);
+        $save = $Menu->MenuLink->save($link);
+
+        if (is_integer($move) && $move !== 0) {
+            if ($move > 0) {
+                $Menu->MenuLink->moveUp($save['MenuLink']['id'], $move);
+            } else {
+                $Menu->MenuLink->moveDown($save['MenuLink']['id'], abs($move));
+            }
+        }
+
+        return $save;
     }
 
 /**
