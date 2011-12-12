@@ -100,9 +100,11 @@ class TypesController extends NodeAppController {
         $this->set('result', $fields);
         $this->set('view_mode', $view_mode);
         $this->set('typeId', $typeId);
-        $this->setCrumb('/admin/node/types');
-        $this->setCrumb(array($nodeType['NodeType']['name'], '/admin/node/types/edit/' . $nodeType['NodeType']['id']));
-        $this->setCrumb(array(__t('Display'), ''));
+        $this->setCrumb(
+            '/admin/node/types',
+            array($nodeType['NodeType']['name'], '/admin/node/types/edit/' . $nodeType['NodeType']['id']),
+            array(__t('Display'))
+        );
         $this->title(__t('Display Settings'));
     }
 
@@ -131,9 +133,11 @@ class TypesController extends NodeAppController {
         $ntID = substr($this->data['Field']['belongsTo'], strpos($this->data['Field']['belongsTo'], '-')+1);
         $nodeType = $this->NodeType->findById($ntID) or $this->redirect('/admin/node/types');
 
-        $this->setCrumb('/admin/node/types');
-        $this->setCrumb(array($nodeType['NodeType']['name'], '/admin/node/types/edit/' . $nodeType['NodeType']['id']));
-        $this->setCrumb(array(__t('Fields'), '/admin/node/types/fields/' . $nodeType['NodeType']['id']));
+        $this->setCrumb(
+            '/admin/node/types',
+            array($nodeType['NodeType']['name'], '/admin/node/types/edit/' . $nodeType['NodeType']['id']),
+            array(__t('Fields'), '/admin/node/types/fields/' . $nodeType['NodeType']['id'])
+        );
         $this->title(__t('Field Settings'));
         $this->set('result', $this->data);
     }
@@ -163,10 +167,12 @@ class TypesController extends NodeAppController {
         $this->data = $field;
 
         $this->set('view_mode', $view_mode);
-        $this->setCrumb('/admin/node/types');
-        $this->setCrumb(array($nodeType['NodeType']['name'], '/admin/node/types/edit/' . $nodeType['NodeType']['id']));
-        $this->setCrumb(array(__t('Display'), '/admin/node/types/display/' . $nodeType['NodeType']['id']));
-        $this->setCrumb(array(__t('Field display settings'), ''));
+        $this->setCrumb(
+            '/admin/node/types',
+            array($nodeType['NodeType']['name'], '/admin/node/types/edit/' . $nodeType['NodeType']['id']),
+            array(__t('Display'), '/admin/node/types/display/' . $nodeType['NodeType']['id']),
+            array(__t('Field display settings'))
+        );
         $this->title(__t('Field Display Settings'));
     }
 
@@ -201,9 +207,11 @@ class TypesController extends NodeAppController {
 
         $this->set('result', $nodeType);
         $this->set('field_modules', $this->hook('field_info', $this, array('collectReturn' => false)));
-        $this->setCrumb('/admin/node/types');
-        $this->setCrumb(array($nodeType['NodeType']['name'], '/admin/node/types/edit/' . $nodeType['NodeType']['id']));
-        $this->setCrumb(array(__t('Fields'), '/admin/node/types/fields/' . $nodeType['NodeType']['id']));
+        $this->setCrumb(
+            '/admin/node/types',
+            array($nodeType['NodeType']['name'], '/admin/node/types/edit/' . $nodeType['NodeType']['id']),
+            array(__t('Fields'), '/admin/node/types/fields/' . $nodeType['NodeType']['id'])
+        );
         $this->title(__t('Fields'));
     }
 

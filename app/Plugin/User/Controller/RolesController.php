@@ -25,8 +25,10 @@ class RolesController extends UserAppController {
         $roles = $this->User->Role->find('all');
 
         $this->set('results', $roles);
-        $this->setCrumb('/admin/user/');
-        $this->setCrumb( array(__t('User roles'), ''));
+        $this->setCrumb(
+            '/admin/user/',
+            array(__t('User roles'))
+        );
         $this->title(__t('User Roles'));
     }
 
@@ -42,9 +44,11 @@ class RolesController extends UserAppController {
 
         $this->data = $this->User->Role->findById($id) or $this->redirect('/admin/user/roles');
 
-        $this->setCrumb('/admin/user/');
-        $this->setCrumb( array(__t('User roles'), '/admin/user/roles'));
-        $this->setCrumb( array(__t('Editing role'), ''));
+        $this->setCrumb(
+            '/admin/user/',
+            array(__t('User roles'), '/admin/user/roles'),
+            array(__t('Editing role'))
+        );
         $this->title(__t('Editing Role'));
     }
 

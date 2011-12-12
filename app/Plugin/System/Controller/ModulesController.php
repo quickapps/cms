@@ -41,9 +41,11 @@ class ModulesController extends SystemAppController {
         $data['Module'] = Configure::read("Modules.{$module}");
         $this->data = $data;
 
-        $this->setCrumb('/admin/system/modules');
-        $this->setCrumb( array($data['Module']['yaml']['name']));
-        $this->setCrumb( array(__t('Settings')));
+        $this->setCrumb(
+            '/admin/system/modules',
+            array($data['Module']['yaml']['name']),
+            array(__t('Settings'))
+        );
         $this->title(__t('Configure Module'));
     }
 

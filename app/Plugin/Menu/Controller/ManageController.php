@@ -18,8 +18,10 @@ class ManageController extends MenuAppController {
         $this->Menu->recursive = -1;
 
         $this->set('results', $this->paginate('Menu'));
-        $this->setCrumb('/admin/system/structure');
-        $this->setCrumb(array(__t('Menu'), ''));
+        $this->setCrumb(
+            '/admin/system/structure',
+            array(__t('Menu'))
+        );
         $this->title(__t('Menus'));
     }
 
@@ -46,12 +48,10 @@ class ManageController extends MenuAppController {
             }
         }
 
-        $this->setCrumb('/admin/system/structure');
         $this->setCrumb(
-            array(
-                array(__t('Menu'), '/admin/menu'),
-                array(__t('Add menu'), '')
-            )
+            '/admin/system/structure',
+            array(__t('Menu'), '/admin/menu'),
+            array(__t('Add menu'))
         );
         $this->title(__t('Menus'));
     }
@@ -76,8 +76,11 @@ class ManageController extends MenuAppController {
             ) or $this->redirect('/admin/menu');
         }
 
-        $this->setCrumb('/admin/system/structure');
-        $this->setCrumb( array(array(__t('Menu'), '/admin/menu/manage'), array(__t('Editing menu'), '')));
+        $this->setCrumb(
+            '/admin/system/structure',
+            array(__t('Menu'), '/admin/menu/manage'),
+            array(__t('Editing menu'))
+        );
         $this->title(__t('Editing Menu'));
     }
 
@@ -130,13 +133,11 @@ class ManageController extends MenuAppController {
             }
         }
 
-        $this->setCrumb('/admin/system/structure');
         $this->setCrumb(
-            array(
-                array(__t('Menu'), '/admin/menu/manage'),
-                array($menu['Menu']['title'], '/admin/menu/manage/links/' . $menu['Menu']['id'], __t('Menu links list')),
-                array( __t('Add menu link'))
-            )
+            '/admin/system/structure',
+            array(__t('Menu'), '/admin/menu/manage'),
+            array($menu['Menu']['title'], '/admin/menu/manage/links/' . $menu['Menu']['id'], __t('Menu links list')),
+            array(__t('Add menu link'))
         );
         $this->title(__t('Add Menu Link'));
         $links = $this->MenuLink->generateTreeList("MenuLink.menu_id = '{$menu_id}'", null, null, '&nbsp;&nbsp;|- ');
@@ -167,21 +168,18 @@ class ManageController extends MenuAppController {
 
         $data['MenuLink']['router_path'] = !empty($data['MenuLink']['link_path']) ? $data['MenuLink']['link_path'] : $data['MenuLink']['router_path'];
         $this->data = $data;
-
         $this->Menu->recursive = 1;
 
         $this->Menu->unbindModel(array('belongsTo' => array('Block')));
 
         $menu = $this->Menu->findById($this->data['MenuLink']['menu_id']);
 
-        $this->setCrumb('/admin/system/structure');
         $this->setCrumb(
-            array(
-                array(__t('Menu'), '/admin/menu/manage'),
-                array($menu['Menu']['title'], '/admin/menu/manage/edit/' . $menu['Menu']['id']),
-                array(__t('Editing menu links'), '/admin/menu/manage/links/' . $this->data['MenuLink']['menu_id']),
-                array(__t('Editing link'), '')
-            )
+            '/admin/system/structure',
+            array(__t('Menu'), '/admin/menu/manage'),
+            array($menu['Menu']['title'], '/admin/menu/manage/edit/' . $menu['Menu']['id']),
+            array(__t('Editing menu links'), '/admin/menu/manage/links/' . $this->data['MenuLink']['menu_id']),
+            array(__t('Editing link'))
         );
 
         $this->title(__t('Editing Link'));
@@ -226,13 +224,11 @@ class ManageController extends MenuAppController {
         );
 
         $this->title(__t('Editing Menu Links'));
-        $this->setCrumb('/admin/system/structure');
         $this->setCrumb(
-            array(
-                array(__t('Menu'), '/admin/menu/manage'),
-                array($menu['Menu']['title'], '/admin/menu/manage/edit/' . $menu['Menu']['id']),
-                array(__t('Editing menu links'), '')
-            )
+            '/admin/system/structure',
+            array(__t('Menu'), '/admin/menu/manage'),
+            array($menu['Menu']['title'], '/admin/menu/manage/edit/' . $menu['Menu']['id']),
+            array(__t('Editing menu links'))
         );
 
         $this->set('links', $links);

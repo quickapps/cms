@@ -29,8 +29,10 @@ class FieldsController extends UserAppController {
 
         $this->set('results', $fields);
         $this->set('field_modules', $this->hook('field_info', $this, array('collectReturn' => false)));
-        $this->setCrumb('/admin/user/');
-        $this->setCrumb( array(__t('Manage Fields'), ''));
+        $this->setCrumb(
+            '/admin/user/',
+            array(__t('Manage Fields'))
+        );
         $this->title(__t('Manage User Fields'));
     }
 
@@ -43,9 +45,11 @@ class FieldsController extends UserAppController {
 
         $this->data = $this->Field->findById($id) or  $this->redirect('/admin/node/types');
 
-        $this->setCrumb('/admin/user');
-        $this->setCrumb( array(__t('Fields'), '/admin/user/fields'));
-        $this->setCrumb( array(__t('Field settings'), ''));
+        $this->setCrumb(
+            '/admin/user',
+            array(__t('Fields'), '/admin/user/fields'),
+            array(__t('Field settings'))
+        );
         $this->title(__t('Field Settings'));
         $this->set('result', $this->data);
     }

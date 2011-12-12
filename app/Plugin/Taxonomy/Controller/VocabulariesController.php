@@ -33,8 +33,10 @@ class VocabulariesController extends TaxonomyAppController {
 
         $types = ClassRegistry::init('Node.NodeType')->find('list');
 
-        $this->setCrumb('/admin/taxonomy/');
-        $this->setCrumb(array(__t('Add vocabulary'), ''));
+        $this->setCrumb(
+            '/admin/taxonomy/',
+            array(__t('Add vocabulary'))
+        );
         $this->title(__t('Add Vocabulary'));        
     }
 
@@ -62,8 +64,10 @@ class VocabulariesController extends TaxonomyAppController {
         $this->data = $vocabulary;
         $types = ClassRegistry::init('Node.NodeType')->find('list');
 
-        $this->setCrumb('/admin/taxonomy/');
-        $this->setCrumb( array($vocabulary['Vocabulary']['title']));
+        $this->setCrumb(
+            '/admin/taxonomy/',
+            array($vocabulary['Vocabulary']['title'])
+        );
         $this->title(__t('Editing Vocabulary "%s"', $vocabulary['Vocabulary']['title']));
         $this->set('types', $types);
     }
@@ -150,9 +154,11 @@ class VocabulariesController extends TaxonomyAppController {
 
         $this->set('results', $results);
         $this->set('parents', $parents);
-        $this->setCrumb('/admin/taxonomy/');
-        $this->setCrumb( array($vocabulary['Vocabulary']['title'], '/admin/taxonomy/vocabularies/edit/' . $vocabulary['Vocabulary']['slug']));
-        $this->setCrumb( array(__t('Terms')));
+        $this->setCrumb(
+            '/admin/taxonomy/',
+            array($vocabulary['Vocabulary']['title'], '/admin/taxonomy/vocabularies/edit/' . $vocabulary['Vocabulary']['slug']),
+            array(__t('Terms'))
+        );
         $this->title(__t('%s Terms', $vocabulary['Vocabulary']['title']));
     }
 
@@ -193,10 +199,12 @@ class VocabulariesController extends TaxonomyAppController {
 
         $this->data = $term;
 
-        $this->setCrumb('/admin/taxonomy/');
-        $this->setCrumb( array($term['Vocabulary']['title'], '/admin/taxonomy/vocabularies/edit/' . $term['Vocabulary']['slug']));
-        $this->setCrumb( array(__t('Terms'), '/admin/taxonomy/vocabularies/terms/' . $term['Vocabulary']['slug']));
-        $this->setCrumb( array(__t('Editing term')));
+        $this->setCrumb(
+            '/admin/taxonomy/',
+            array($term['Vocabulary']['title'], '/admin/taxonomy/vocabularies/edit/' . $term['Vocabulary']['slug']),
+            array(__t('Terms'), '/admin/taxonomy/vocabularies/terms/' . $term['Vocabulary']['slug']),
+            array(__t('Editing term'))
+        );
         $this->title(__t('Editing term "%s"', $term['Term']['name']));
     }
 }

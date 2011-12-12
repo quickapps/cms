@@ -149,8 +149,10 @@ class ListController extends UserAppController {
             )
         );
         $this->title(__t('Add User'));
-        $this->setCrumb('/admin/user/');
-        $this->setCrumb(array(__t('Add new user')));
+        $this->setCrumb(
+            '/admin/user/',
+            array(__t('Add new user'))
+        );
     }
 
     public function admin_edit($id) {
@@ -202,8 +204,10 @@ class ListController extends UserAppController {
             )
         );
         $this->title(__t('Editing User'));
-        $this->setCrumb('/admin/user/');
-        $this->setCrumb( array(__t('Editing user')));
+        $this->setCrumb(
+            '/admin/user/',
+            array(__t('Editing user'))
+        );
     }
 
     private function __setLangs() {

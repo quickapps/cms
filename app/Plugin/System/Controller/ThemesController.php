@@ -56,8 +56,10 @@ class ThemesController extends SystemAppController {
         $data['Module'] = Configure::read('Modules.' . 'Theme' . $theme_name);
         $this->data = $data;
 
-        $this->setCrumb('/admin/system/themes');
-        $this->setCrumb(array(array(__t('Theme settings'), '')));
+        $this->setCrumb(
+            '/admin/system/themes',
+            array(__t('Theme settings'))
+        );
         $this->title(__t('Configure Theme'));
         $this->set('theme_name', $theme_name);
     }

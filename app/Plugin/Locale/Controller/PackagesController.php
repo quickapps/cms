@@ -64,8 +64,10 @@ class PackagesController extends LocaleAppController {
         $this->set('modules', $modules);
         $this->set('languages', $this->__languageList());
         $this->set('packages', $poFolders);
-        $this->setCrumb('/admin/locale');
-        $this->setCrumb( array(__t('Translation packages'), ''));
+        $this->setCrumb(
+            '/admin/locale',
+            array(__t('Translation packages'))
+        );
         $this->title(__t('Translation Packages'));
     }
 

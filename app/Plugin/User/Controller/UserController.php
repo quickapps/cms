@@ -61,8 +61,10 @@ class UserController extends UserAppController {
         $this->__setLangs();
         $this->set('fields', $this->User->fieldInstances());
         $this->title(__t('Create new account'));
-        $this->setCrumb('/user/register');
-        $this->setCrumb(array(__t('Create new user account')));
+        $this->setCrumb(
+            '/user/register',
+            array(__t('Create new user account'))
+        );
     }
 
     public function activate($id, $key) {

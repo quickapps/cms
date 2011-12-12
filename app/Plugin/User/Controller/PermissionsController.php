@@ -31,8 +31,10 @@ class PermissionsController extends UserAppController {
         $this->__acos_details($results);
 
         $this->set('results', $results);
-        $this->setCrumb('/admin/user/');
-        $this->setCrumb( array(__t('User Permissions'), ''));
+        $this->setCrumb(
+            '/admin/user/',
+            array(__t('User Permissions'))
+        );
         $this->title(__t('User Permissions'));
     }
 

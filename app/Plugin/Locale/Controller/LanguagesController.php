@@ -107,8 +107,10 @@ class LanguagesController extends LocaleAppController {
         }
 
         $this->set('flags', $icons);
-        $this->setCrumb('/admin/locale');
-        $this->setCrumb( array(__t('Editing language'), ''));
+        $this->setCrumb(
+            '/admin/locale',
+            array(__t('Editing language'))
+        );
         $this->title(__t('Editing language'));
     }
 

@@ -160,8 +160,10 @@ class ContentsController extends NodeAppController {
         $types = $this->Node->NodeType->find('all', array('conditions' => array('NodeType.status' => 1)));
 
         $this->title(__t('Add Content'));
-        $this->setCrumb('/admin/node/contents');
-        $this->setCrumb(array(__t('Select content type'), ''));
+        $this->setCrumb(
+            '/admin/node/contents',
+            array(__t('Select content type'))
+        );
         $this->set('types', $types);
     }
 

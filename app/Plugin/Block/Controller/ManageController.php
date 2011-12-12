@@ -143,15 +143,20 @@ class ManageController extends BlockAppController {
         $this->data = $this->Block->findById($bid) or $this->redirect('/admin/block/manage');
 
         $this->title(__t('Editing Block'));
-        $this->setCrumb('/admin/block');
+        $this->setCrumb(
+            '/admin/block',
+            array(__t('Editing block'))
+        );
         $this->set('regions', $_regions);
         $this->set('roles', $this->Role->find('list'));
     }
 
     public function admin_add() {
         $this->title(__t('Add new block'));
-        $this->setCrumb('/admin/block');
-        $this->setCrumb(array(__t('New block'), ''));
+        $this->setCrumb(
+            '/admin/block',
+            array(__t('New block'))
+        );
 
         if (isset($this->data['Block'])) {
             $data = $this->data;

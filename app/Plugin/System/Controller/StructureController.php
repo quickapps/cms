@@ -14,6 +14,5 @@ class StructureController extends SystemAppController {
     public $uses = array();
 
     public function admin_index() {
-
     }
 }

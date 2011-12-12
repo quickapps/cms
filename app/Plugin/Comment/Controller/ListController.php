@@ -57,8 +57,10 @@ class ListController extends CommentAppController {
         $this->countUnpublished();
         $this->set('status', $status);
         $this->set('results', $results);
-        $this->setCrumb('/admin/node/contents');
-        $this->setCrumb(array(__t('Comments')));
+        $this->setCrumb(
+            '/admin/node/contents',
+            array(__t('Comments'))
+        );
         $this->title($title);
     }
 
@@ -66,9 +68,11 @@ class ListController extends CommentAppController {
         $comment = $this->Comment->findById($id) or $this->redirect('/admin/comment');
         $this->data = $comment;
 
-        $this->setCrumb('/admin/node/contents');
-        $this->setCrumb(array(__t('Comments'), '/admin/comment/'));
-        $this->setCrumb(array(__t('Comment details')));
+        $this->setCrumb(
+            '/admin/node/contents',
+            array(__t('Comments'), '/admin/comment/'),
+            array(__t('Comment details'))
+        );
         $this->title(__t('Comment Details'));
     }
 
