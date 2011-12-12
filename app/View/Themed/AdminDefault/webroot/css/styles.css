@@ -59,7 +59,7 @@ div.checkbox { padding-top:6px;}
 
 /*----------------------[HEADER]------------------*/
 #toolbar-menu { background:#2A2A2A; color:#fff; padding:5px 0 5px 15px; }
-#toolbar-menu #right-btns { float:right; line-height:40px;}
+#toolbar-menu #right-btns { float:right; line-height:32px; }
 #toolbar-menu #right-btns a { margin-right:20px; text-shadow:none; color:#fff; }
 
 
