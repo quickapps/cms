@@ -94,11 +94,6 @@ class Language extends LocaleAppModel {
             return false;
         }
 
-        $_data = array('id' => $id, 'dir' => $dir);
-
-        $this->hook("language_before_move", $_data);
-        extract($_data);
-
         # get brothers
         $nodes = $this->find('all',
             array(
@@ -132,8 +127,6 @@ class Language extends LocaleAppModel {
         }
 
         $this->id = $prev_id;
-
-        $this->hook("language_after_move", $_data);
 
         return true;
     }
