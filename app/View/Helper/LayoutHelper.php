@@ -272,7 +272,13 @@ class LayoutHelper extends AppHelper {
         $node['Field'] = Set::sort($node['Field'], "{n}.settings.display.{$view_mode}.ordering", 'asc');
         $sufix = $node['NodeType']['module'] == 'Node' ? 'render' : $node['NodeType']['id'];
         $callback = "{$node['NodeType']['base']}_{$sufix}";
-        $content .= implode('', (array)$this->hook('before_render_node', $node, array('collectReturn' => true)));
+        $beforeRender = (array)$this->hook('before_render_node', $node, array('collectReturn' => true));
+
+        if (in_array(false, $beforeRender, true)) {
+            return '';
+        }
+
+        $content .= implode('', $beforeRender);
         $content_callback = $this->hook($callback, $node, array('collectReturn' => false));
 
         if (empty($content_callback)) {
