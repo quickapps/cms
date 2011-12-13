@@ -1,4 +1,6 @@
 <?php
+require ROOT . DS . 'Config' . DS . 'core.php';
+
 /**
  * This is core configuration file.
  *
@@ -325,5 +327,3 @@ Cache::config('_cake_model_', array(
 	'serialize' => ($engine === 'File'),
 	'duration' => $duration
 ));
-
-require ROOT . DS . 'Config' . DS . 'core.php';
