@@ -380,10 +380,10 @@ class MenuHelper extends AppHelper {
             ) {
                 if (
                     ($elementData['data'][$this->__settings['model']]['selected_on_type'] == 'php' &&
-                    $this->_php_eval($elementData['data'][$this->__settings['model']]['selected_on']) === true)
+                    $this->php_eval($elementData['data'][$this->__settings['model']]['selected_on']) === true)
                     || 
                     ($elementData['data'][$this->__settings['model']]['selected_on_type'] == 'reg' && 
-                    $this->_urlMatch($elementData['data'][$this->__settings['model']]['selected_on'], '/' . $this->_View->request->url))
+                    $this->urlMatch($elementData['data'][$this->__settings['model']]['selected_on'], '/' . $this->_View->request->url))
                 ) {
                     $this->addItemAttribute('class', $this->__settings['selectedClass']);
                 }
