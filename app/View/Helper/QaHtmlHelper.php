@@ -439,8 +439,8 @@ class QaHtmlHelper extends AppHelper {
             }
         }
 
-        $before = $this->hook('html_before_useTag', $data, array('collectReturn' => true));
-        $after = $this->hook('html_after_useTag', $data, array('collectReturn' => true));
+        $before = $this->hook('html_before_use_tag', $data, array('collectReturn' => true));
+        $after = $this->hook('html_after_use_tag', $data, array('collectReturn' => true));
 
         return implode(' ', (array)$before) . vsprintf($this->CoreHtml->_tags[$tag], $args) . implode(' ', (array)$after);
     }
