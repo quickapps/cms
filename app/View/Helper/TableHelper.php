@@ -45,7 +45,7 @@
  * noItemsMessage (string): message when there are 0 records.
  * tableOptions (array): table tag <table> attributes.
  * paginate (array): set to false for no pagination.
-*/
+ */
 class TableHelper extends AppHelper {
     public $helpers = array('Html', 'Paginator');
     private $_defaults = array(
@@ -108,8 +108,6 @@ class TableHelper extends AppHelper {
 
         $options = Set::merge($this->_defaults, $options);
         $this->_colsCount = count($options['columns']);
-
-
         $out = sprintf('<table%s>', $this->Html->_parseAttributes($options['tableOptions'])) . "\n";
 
         if (count($data) > 0) {
@@ -119,8 +117,8 @@ class TableHelper extends AppHelper {
 
             if ($print_header_top ||  $print_paginator_top) {
                 $out .= "\t<thead>\n";
-                    $out .= $print_header_top ? $this->_renderHeader($options) : '';
-                    $out .= $print_paginator_top ? $this->_renderPaginator($options) : '';
+                $out .= $print_header_top ? $this->_renderHeader($options) : '';
+                $out .= $print_paginator_top ? $this->_renderPaginator($options) : '';
                 $out .= "\n\t</thead>\n";
             }
 
@@ -149,8 +147,8 @@ class TableHelper extends AppHelper {
 
             if ($print_header_bottom || $print_paginator_bottom) {
                 $out .= "\t<tfoot>\n";
-                    $out .= $print_header_bottom ? $this->_renderHeader($options) : '';
-                    $out .= $print_paginator_bottom ? $this->_renderPaginator($options) : '';
+                $out .= $print_header_bottom ? $this->_renderHeader($options) : '';
+                $out .= $print_paginator_bottom ? $this->_renderPaginator($options) : '';
                 $out .= "\n\t</tfoot>\n";
             }
         } else {
@@ -206,7 +204,7 @@ class TableHelper extends AppHelper {
         preg_match_all('/\{php\}(.+)\{\/php\}/iUs', $value, $php);
         if (isset($php[1]) && !empty($php[1])) {
             foreach ($php[0] as $i => $m) {
-                $value = str_replace($m, $this->_php_eval("<?php {$php[1][$i]}", $row_data), $value);
+                $value = str_replace($m, $this->__php_eval("<?php {$php[1][$i]}", $row_data), $value);
             }
         }
 
@@ -245,7 +243,7 @@ class TableHelper extends AppHelper {
         return $atts;
     }
 
-    protected function _php_eval($code, $row_data = array()) {
+    private function __php_eval($code, $row_data = array()) {
         ob_start();
         print eval('?>' . $code);
 
@@ -284,7 +282,7 @@ class TableHelper extends AppHelper {
         $paginator .= $this->Paginator->prev($array['prev']['title'], $array['prev']['options'], $array['prev']['disabledTitle'], $array['prev']['disabledOptions']);
         $paginator .= $this->Paginator->numbers($array['numbers']['options']);
         $paginator .= $this->Paginator->next($array['next']['title'], $array['next']['options'], $array['next']['disabledTitle'], $array['next']['disabledOptions']);
-        $td    = $this->Html->useTag('tablecell', $this->Html->_parseAttributes(array_merge(array('colspan' => $this->_colsCount), $array['tdOptions'])), $paginator);
+        $td = $this->Html->useTag('tablecell', $this->Html->_parseAttributes(array_merge(array('colspan' => $this->_colsCount), $array['tdOptions'])), $paginator);
         $out .= $this->Html->useTag('tablerow', $this->Html->_parseAttributes($array['trOptions']), $td);
 
         return $out;
