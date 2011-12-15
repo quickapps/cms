@@ -10,9 +10,6 @@
  * @link     http://cms.quickapps.es
  */
 class AppModel extends Model {
-    private $__map = array();
-    public $_methods = array();
-    public $_hookObjects = array();
     public $cacheQueries = false;
     public $actsAs = array(
         'WhoDidIt' => array(
@@ -20,21 +17,24 @@ class AppModel extends Model {
             'user_model' => 'User.User'
         )
     );
-    public $Options = array(
-        'break' => false,
-        'breakOn' => false,
-        'collectReturn' => false
-    );
-    private $__Options = array(
-        'break' => false,
-        'breakOn' => false,
-        'collectReturn' => false
-    );
 
     public function __construct($id = false, $table = null, $ds = null) {
         $this->__loadHookObjects();
         parent::__construct($id, $table, $ds);
-        $this->__loadHooks();
+    }
+
+    private function __loadHookObjects() {
+        $b = Configure::read('Hook.behaviors');
+
+        if (!$b){
+            return false; // fix for AppController __preloadHooks()
+        }
+
+        foreach ($b as $hook) {
+            $this->actsAs[$hook] = array();
+        }
+
+        $this->actsAs['HookCollection'] = array();
     }
 
 /**
@@ -43,8 +43,8 @@ class AppModel extends Model {
  * @param string $hook Name of the hook to check
  * @return bool
  */
-    public function hook_defined($hook) {
-        return (isset($this->__map[$hook]));
+    public function hookDefined($hook) {
+        return $this->Behaviors->HookCollection->hookDefined($hook);
     }
 
 /**
@@ -72,9 +72,7 @@ class AppModel extends Model {
  * @return mixed Either the last result or all results if collectReturn is on. Or null in case of no response
  */
     public function hook($hook, &$data = array(), $options = array()) {
-        $hook = Inflector::underscore($hook);
-
-        return $this->__dispatchHook($hook, $data, $options);
+        return $this->Behaviors->HookCollection->hook($hook, $data, $options);
     }
 
 /**
@@ -84,23 +82,7 @@ class AppModel extends Model {
  * @return boolean TRUE on success. FALSE hook does not exists or is already on.
  */
     public function hookEnable($hook) {
-        $hook = Inflector::underscore($hook);
-
-        if (isset($this->__map["{$hook}::Disabled"])) {
-            $this->__map[$hook] = $this->__map["{$hook}::Disabled"];
-
-            unset($this->__map["{$hook}::Disabled"]);
-
-            if (isset($this->_methods["{$hook}::Disabled"])) {
-                $this->_methods[] = $hook;
-
-                unset($this->_methods["{$hook}::Disabled"]);
-            }
-
-            return true;
-        }
-
-        return false;
+        return $this->Behaviors->HookCollection->hookEnable($hook);
     }
 
 /**
@@ -110,23 +92,7 @@ class AppModel extends Model {
  * @return boolean TRUE on success. FALSE hook does not exists.
  */ 
     public function hookDisable($hook) {
-        $hook = Inflector::underscore($hook);
-
-        if (isset($this->__map[$hook])) {
-            $this->__map["{$hook}::Disabled"] = $this->__map[$hook];
-
-            unset($this->__map[$hook]);
-
-            if (isset($this->_methods[$hook])) {
-                $this->_methods[] = "{$hook}::Disabled";
-
-                unset($this->_methods["{$hook}"]);
-            }
-
-            return true;
-        }
-
-        return false;
+        return $this->Behaviors->HookCollection->hookDisable($hook);
     }
 
 /**
@@ -152,101 +118,7 @@ class AppModel extends Model {
  * @return void
  */
     public function setHookOptions($options) {
-        $this->Options = Set::merge($this->Options, $options);
-    }
-
-/**
- * Dispatch Component-hooks from all the plugins and core
- *
- * @see AppModel::hook()
- * @return mixed Either the last result or all results if collectReturn is on. Or NULL in case of no response
- */
-    private function __dispatchHook($hook, &$data = array(), $options = array()) {
-        $options = array_merge($this->Options, (array)$options);
-        $collected = array();
-        $result = null;
-
-        if (!$this->hook_defined($hook)) {
-            $this->__resetOptions();
-
-            return null;
-        } else {
-            foreach ($this->__map[$hook] as $object) {
-                if (is_callable(array($this->Behaviors->{$object}, $hook))) {
-                    $result = $this->Behaviors->{$object}->$hook($data);
-
-                    if ($options['collectReturn'] === true) {
-                        $collected[] = $result;
-                    }
-
-                    if ($options['break'] && ($result === $options['breakOn'] ||
-                        (is_array($options['breakOn']) && in_array($result, $options['breakOn'], true)))
-                    ) {
-                        $this->__resetOptions();
-
-                        return $result;
-                    }
-                }
-            }
-        }
-
-        if (empty($collected) && in_array($result, array('', null), true)) {
-            $this->__resetOptions();
-
-            return null;
-        }
-
-        $this->__resetOptions();
-
-        return $options['collectReturn'] ? $collected : $result;
-    }
-
-    private function __resetOptions() {
-        if ($this->Options !== $this->__Options) {
-            $this->Options = $this->__Options;
-        }
-    }
-
-    private function __loadHookObjects() {
-        $b = Configure::read('Hook.behaviors');
-
-        if (!$b){
-            return false; // fix for AppController __preloadHooks()
-        }
-
-        foreach ($b as $hook) {
-            $this->actsAs[$hook] = array();
-        }
-    }
-
-    private function __loadHooks() {
-        foreach ($this->actsAs as $behavior => $b_data) {
-            $pluginSplit = pluginSplit($behavior);
-            $behavior = strpos($behavior, '.') !== false ? substr($behavior, strpos($behavior, '.')+1) : $behavior;
-
-            if (strpos($behavior, 'Hook')) {
-                $methods = array();
-                $_methods = get_this_class_methods($this->Behaviors->{$behavior});
-
-                foreach ($_methods as $method) {
-                    $methods[] = $method;
-
-                    if (isset($this->__map[$method])) {
-                        $this->__map[$method][] = (string)$behavior;
-                    } else {
-                        $this->__map[$method] = array((string)$behavior);
-                    }
-                }
-
-                if ($pluginSplit[0]) {
-                    $this->_hookObjects["{$pluginSplit[0]}.{$behavior}"] = $methods;
-                } else {
-                    $this->_hookObjects[$helper] = $methods;
-                }
-            }
-        }
-
-        $this->_methods = array_keys($this->__map);
+        return $this->Behaviors->HookCollection->setHookOptions($options); 
     }
 
 /**

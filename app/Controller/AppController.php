@@ -41,6 +41,7 @@ class AppController extends Controller {
     );
 
     public $helpers = array(
+        'HookCollection',
         'Layout',
         'Form' => array('className' => 'QaForm'),
         'Html' => array('className' => 'QaHtml'),
@@ -58,10 +59,10 @@ class AppController extends Controller {
     );
 
     public $components = array(
+        'HookCollection',
         'Session',
         'Cookie',
         'RequestHandler',
-        'Hook',
         'Acl',
         'Auth',
         'Quickapps'
@@ -128,13 +129,33 @@ class AppController extends Controller {
     }
 
 /**
- * Wrapper method to HookComponent::hook_defined
+ * Wrapper method to HookCollectionComponent::hookDefined
  *
  * @param string $hook Name of the event
  * @return bool
  */
-    public function hook_defined($hook) {
-        return $this->Hook->hook_defined($hook);
+    public function hookDefined($hook) {
+        return $this->HookCollection->hookDefined($hook);
+    }
+
+/**
+ * Turns on the hook method if it's turned off.
+ *
+ * @param string $hook Hook name to turn on.
+ * @return boolean TRUE on success. FALSE hook does not exists or is already on.
+ */
+    public function hookEnable($hook) {
+        return $this->HookCollection->hookEnable($hook);
+    }
+
+/**
+ * Turns off hook method.
+ *
+ * @param string $hook Hook name to turn off.
+ * @return boolean TRUE on success. FALSE hook does not exists.
+ */
+    public function hookDisable($hook) {
+        return $this->HookCollection->hookDisable($hook);
     }
 
 /**
@@ -160,22 +181,22 @@ class AppController extends Controller {
  * @return void
  */
     public function setHookOptions($options) {
-        $this->Hook->setHookOptions($options);
+        $this->HookCollection->setHookOptions($options);
     }
 
 /**
- * Wrapper method to HookComponent::hook()
+ * Wrapper method to HookCollectionComponent::hook()
  *
  * @param string $hook Name of the event to fire
  * @param mix $data Any data to attach
  * @param array $options Options for hook dispatcher
  * @return mixed FALSE -or- result array
- * @see HookComponent::__dispatchHook()
+ * @see HookCollectionComponent::__dispatchHook()
  */
     public function hook($hook, &$data = array(), $options = array()) {
         $hook = Inflector::underscore($hook);
 
-        return $this->Hook->hook($hook, $data, $options);
+        return $this->HookCollection->hook($hook, $data, $options);
     }
 
 /**

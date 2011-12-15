@@ -1,19 +1,20 @@
 <?php
 /**
- * Hook Component
+ * Hooks collection is used as a registry for loaded hook behaviors and handles dispatching
+ * and loading hook methods.
  *
  * PHP version 5
  *
- * @package  QuickApps.Controller.Component
+ * @package  QuickApps.Model.Behavior
  * @version  1.0
  * @author   Christopher Castro <chris@quickapps.es>
  * @link     http://cms.quickapps.es
  */
-class HookComponent extends Component {
+class HookCollectionBehavior extends ModelBehavior {
+    private $__model;
     private $__map = array();
-    protected $_methods = array();
-    protected $_hookObjects = array();
-    public $Controller;
+    public $_methods = array();
+    public $_hookObjects = array();
     public $Options = array(
         'break' => false,
         'breakOn' => false,
@@ -25,63 +26,23 @@ class HookComponent extends Component {
         'collectReturn' => false
     );
 
-    public function startup() { }
-    public function beforeRender() { }
-    public function shutdown() { }
-    public function beforeRedirect() { }
-
-/**
- * Called before the Controller::beforeFilter().
- *
- * @param object $controller Controller with components to initialize
- * @return void
- */
-    public function initialize(&$Controller) {
-        $this->Controller =& $Controller;
-
-        foreach (Configure::read('Hook.components') as $component) {
-            $pluginSplit = pluginSplit($component);
-            $component = strpos($component, '.') !== false ? substr($component, strpos($component, '.')+1) : $component;
-
-            if (strpos($component, 'Hook')) {
-                $methods = array();
-                $_methods = get_this_class_methods($this->Controller->{$component});
-
-                foreach ($_methods as $method) {
-                    $methods[] = $method;
-
-                    if (isset($this->__map[$method])) {
-                        $this->__map[$method][] = (string)$component;
-                    } else {
-                        $this->__map[$method] = array((string)$component);
-                    }
-                }
-
-                if ($pluginSplit[0]) {
-                    $this->_hookObjects["{$pluginSplit[0]}.{$component}"] = $methods;
-                } else {
-                    $this->_hookObjects[$helper] = $methods;
-                }
-            }
-        }
-
-        $this->_methods = array_keys($this->__map);
-
-        return true;
+    public function setup(&$Model, $settings = array()) {
+        $this->__model = $Model;
+        return $this->__loadHooks();
     }
 
 /**
  * Chech if hook exists
  *
  * @param string $hook Name of the hook to check
- * @return boolean
+ * @return bool
  */
-    public function hook_defined($hook) {
-        return isset($this->__map[$hook]);
+    public function hookDefined($hook) {
+        return (isset($this->__map[$hook]));
     }
 
 /**
- * Trigger a callback method on every HookComponent.
+ * Trigger a callback method on every HookBehavior.
  *
  * ### Options
  *
@@ -191,7 +152,7 @@ class HookComponent extends Component {
 /**
  * Dispatch Component-hooks from all the plugins and core
  *
- * @see HookComponent::hook()
+ * @see AppModel::hook()
  * @return mixed Either the last result or all results if collectReturn is on. Or NULL in case of no response
  */
     private function __dispatchHook($hook, &$data = array(), $options = array()) {
@@ -199,16 +160,18 @@ class HookComponent extends Component {
         $collected = array();
         $result = null;
 
-        if (!$this->hook_defined($hook)) {
+        if (!$this->hookDefined($hook)) {
             $this->__resetOptions();
 
             return null;
-        }
-
-        if (isset($this->__map[$hook])) {
+        } else {
             foreach ($this->__map[$hook] as $object) {
-                if (is_callable(array($this->Controller->{$object}, $hook))) {
-                    $result = $this->Controller->{$object}->$hook($data);
+                if (in_array("{$hook}::Disabled", $this->_methods)) {
+                    break;
+                }
+
+                if (is_callable(array($this->__model->Behaviors->{$object}, $hook))) {
+                    $result = $this->__model->Behaviors->{$object}->$hook($data);
 
                     if ($options['collectReturn'] === true) {
                         $collected[] = $result;
@@ -240,5 +203,41 @@ class HookComponent extends Component {
         if ($this->Options !== $this->__Options) {
             $this->Options = $this->__Options;
         }
+    }
+
+    private function __loadHooks() {
+        foreach (Configure::read('Hook.behaviors') as $behavior) {
+            $pluginSplit = pluginSplit($behavior);
+            $behavior = strpos($behavior, '.') !== false ? substr($behavior, strpos($behavior, '.')+1) : $behavior;
+
+            if ($behavior == 'HookCollection' || !is_object($this->__model->Behaviors->{$behavior})) {
+                continue;
+            }
+
+            if (strpos($behavior, 'Hook')) {
+                $methods = array();
+                $_methods = get_this_class_methods($this->__model->Behaviors->{$behavior});
+
+                foreach ($_methods as $method) {
+                    $methods[] = $method;
+
+                    if (isset($this->__map[$method])) {
+                        $this->__map[$method][] = (string)$behavior;
+                    } else {
+                        $this->__map[$method] = array((string)$behavior);
+                    }
+                }
+
+                if ($pluginSplit[0]) {
+                    $this->_hookObjects["{$pluginSplit[0]}.{$behavior}"] = $methods;
+                } else {
+                    $this->_hookObjects[$helper] = $methods;
+                }
+            }
+        }
+
+        $this->_methods = array_keys($this->__map);
+
+        return true;    
     }
 }

@@ -704,15 +704,15 @@ class LayoutHelper extends AppHelper {
 
             switch ($block['Block']['visibility']) {
                 case 0:
-                    $allowed = $this->_urlMatch($block['Block']['pages']) ? false : true;
+                    $allowed = $this->urlMatch($block['Block']['pages']) ? false : true;
                 break;
 
                 case 1:
-                    $allowed = $this->_urlMatch($block['Block']['pages']) ? true : false;
+                    $allowed = $this->urlMatch($block['Block']['pages']) ? true : false;
                 break;
 
                 case 2:
-                    $allowed = $this->_php_eval($block['Block']['pages']);
+                    $allowed = $this->php_eval($block['Block']['pages']);
                 break;
             }
 
@@ -838,15 +838,15 @@ class LayoutHelper extends AppHelper {
          */
         switch ($block['Block']['visibility']) {
             case 0:
-                $allowed = $this->_urlMatch($block['Block']['pages']) ? false : true;
+                $allowed = $this->urlMatch($block['Block']['pages']) ? false : true;
             break;
 
             case 1:
-                $allowed = $this->_urlMatch($block['Block']['pages']) ? true : false;
+                $allowed = $this->urlMatch($block['Block']['pages']) ? true : false;
             break;
 
             case 2:
-                $allowed = $this->_php_eval($block['Block']['pages']);
+                $allowed = $this->php_eval($block['Block']['pages']);
             break;
         }
 
@@ -945,7 +945,7 @@ class LayoutHelper extends AppHelper {
         if (!empty($this->_tmp['__hooktags_reg'])) {
             $tags = $this->_tmp['__hooktags_reg'];
         } else {
-            $tags = $this->_tmp['__hooktags_reg'] = implode('|', $this->_methods['Hooktags']);
+            $tags = $this->_tmp['__hooktags_reg'] = implode('|', $this->_View->HookCollection->_methods['Hooktags']);
         }
 
         return preg_replace_callback('/(.?)\[(' . $tags . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', array($this, 'doHooktag'), $text);
