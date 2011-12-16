@@ -16,18 +16,13 @@ class HookCollectionComponent extends Component {
     protected $_methods = array();
     protected $_hookObjects = array();
 
-    public function startup() { }
-    public function beforeRender() { }
-    public function shutdown() { }
-    public function beforeRedirect() { }
-
 /**
  * Called before the Controller::beforeFilter().
  *
  * @param object $controller Controller with components to initialize
  * @return void
  */
-    public function initialize(&$Controller) {
+    public function initialize($Controller) {
         $this->__controller = $Controller;
         return $this->__loadHooks();
     }

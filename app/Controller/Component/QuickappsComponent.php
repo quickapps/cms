@@ -12,19 +12,14 @@
 class QuickAppsComponent extends Component {
     public $Controller;
 
-    public function startup() { }
-    public function beforeRender() { }
-    public function shutdown() { }
-    public function beforeRedirect() { }
-
 /**
  * Called before the Controller::beforeFilter().
  *
  * @param object $controller Controller with components to initialize
  * @return void
  */
-    public function initialize(&$Controller) {
-        $this->Controller =& $Controller;
+    public function initialize($Controller) {
+        $this->Controller = $Controller;
 
         $this->loadVariables();
         $this->loadModules();

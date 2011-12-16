@@ -18,13 +18,8 @@ class InstallerComponent extends Component {
         'status' => 1       # install and activate(status=1), install and do not activate (status=0)
     );
 
-    public function startup() { }
-    public function beforeRender() { }
-    public function shutdown() { }
-    public function beforeRedirect() { }
-
-    public function initialize(&$Controller) {
-        $this->Controller =& $Controller;
+    public function initialize($Controller) {
+        $this->Controller = $Controller;
 
         return true;
     }

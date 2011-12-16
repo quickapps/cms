@@ -16,7 +16,7 @@ class HookCollectionBehavior extends ModelBehavior {
     public $_methods = array();
     public $_hookObjects = array();
 
-    public function setup(&$Model, $settings = array()) {
+    public function setup($Model, $settings = array()) {
         $this->__model = $Model;
         return $this->__loadHooks();
     }
