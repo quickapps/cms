@@ -1,4 +1,4 @@
-<!-- default error -->
+<!-- default error 400 -->
 <h2><?php echo $name; ?></h2>
 <p class="error">
     <strong><?php echo __('Error'); ?>: </strong>
@@ -13,7 +13,7 @@
     <script type="text/javascript" src="http://linkhelp.clients.google.com/tbproxy/lh/wm/fixurl.js"></script>
 </p>
 <?php
-if (Configure::read('debug') > 0):
+if (Configure::read('debug')) {
     echo $this->element('exception_stack_trace');
-endif;
+}
 ?>

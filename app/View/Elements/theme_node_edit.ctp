@@ -1,10 +1,10 @@
-<?php 
+<?php
 /**
- * Edit form for NodeType
+ * Edit form for NodeType.
  * This element is rendered by NodeHookHelper::node_form().
  *
  * @package QuickApps.View.Elements
- * @author Christopher Castro
+ * @author Christopher Castro <chris@quickapps.es>
  */ 
 ?>
 

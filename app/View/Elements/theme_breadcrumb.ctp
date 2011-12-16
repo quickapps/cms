@@ -1,4 +1,13 @@
 <?php
+/**
+ * Default breadcrumbs rendering.
+ *
+ * @package QuickApps.View.Elements
+ * @author Christopher Castro <chris@quickapps.es>
+ */
+?>
+
+<?php
     $out = array();
 
     foreach ($crumbs as $node) {

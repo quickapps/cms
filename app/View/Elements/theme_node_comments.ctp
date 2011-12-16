@@ -1,9 +1,9 @@
-<?php 
+<?php
 /**
  * Render Node's comments list.
  *
  * @package QuickApps.View.Elements
- * @author Christopher Castro
+ * @author Christopher Castro <chris@quickapps.es>
  */
 ?>
 

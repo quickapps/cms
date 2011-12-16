@@ -1,10 +1,10 @@
-<?php 
+<?php
 /**
- * Render Node details for NodeType 'Basic Page' (page).
+ * Default Node rendering.
  * This element is rendered by NodeHookHelper::node_render().
  *
  * @package QuickApps.View.Elements
- * @author Christopher Castro
+ * @author Christopher Castro <chris@quickapps.es>
  */
 ?>
 
