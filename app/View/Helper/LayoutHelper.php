@@ -945,7 +945,7 @@ class LayoutHelper extends AppHelper {
         if (!empty($this->_tmp['__hooktags_reg'])) {
             $tags = $this->_tmp['__hooktags_reg'];
         } else {
-            $tags = $this->_tmp['__hooktags_reg'] = implode('|', $this->_View->HookCollection->_methods['Hooktags']);
+            $tags = $this->_tmp['__hooktags_reg'] = implode('|', $this->_View->HookCollection->hooktagsList());
         }
 
         return preg_replace_callback('/(.?)\[(' . $tags . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', array($this, 'doHooktag'), $text);
