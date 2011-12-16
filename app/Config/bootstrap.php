@@ -206,32 +206,33 @@ Cache::config('default', array('engine' => 'File'));
     }
 
 /**
- * Return only the methods for the object you indicate. It will strip out the inherited methods
- * web: http://php.net/manual/es/function.get-class-methods.php
- * author: onesimus at cox dot net 
- * date: 19-Jun-2004 09:32
+ * Return only the methods for the indicated object.
+ * It will strip out the inherited methods.
+ *
+ * @return array List of methods.
  */
     function get_this_class_methods($class){
-        $array1 = get_class_methods($class);
+        $methods = array();
+        $primary = get_class_methods($class);
 
-        if ($parent_class = get_parent_class($class)) {
-            $array2 = get_class_methods($parent_class);
-            $array3 = array_diff($array1, $array2);
+        if ($parent = get_parent_class($class)) {
+            $secondary = get_class_methods($parent);
+            $methods = array_diff($primary, $secondary);
         } else {
-            $array3 = $array1;
+            $methods = $primary;
         }
 
-        return($array3);
+        return $methods;
     }
 
 /**
  * Translation function, domain search order:
- * 1º Current plugin
- * 2º Default
- * 3º Translatable entries cache
+ * 1- Current plugin
+ * 2- Default
+ * 3- Translatable entries cache
  *
- * @param string $singular String to translate
- * @return string the translated string
+ * @param string $singular String to translate.
+ * @return string The translated string.
  */
     function __t($singular, $args = null) {
         if (!$singular) {
@@ -294,11 +295,11 @@ Cache::config('default', array('engine' => 'File'));
     }
 
 /**
- * replace the first ocurrence only
+ * Replace the first ocurrence only.
  *
- * @param string $str_pattern what to find for
- * @param string $str_replacement the replacement for $str_pattern
- * @param string $string the original to find and replace
+ * @param string $str_pattern What to find for.
+ * @param string $str_replacement The replacement for $str_pattern.
+ * @param string $string The original to find and replace.
  * @return string
  */    
     function str_replace_once($str_pattern, $str_replacement, $string) {
