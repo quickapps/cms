@@ -7,7 +7,7 @@
 
 <body>
     <div id="error-container">
-        <?php echo $this->Layout->content(); ?>
+        <?php echo $content_for_layout; ?>
     </div>
 </body>
 </html>
