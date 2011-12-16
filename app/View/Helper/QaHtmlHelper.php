@@ -46,7 +46,7 @@ class QaHtmlHelper extends AppHelper {
     public function addCrumb($name, $link = null, $options = null) {
         $data = array('name' => $name, 'link' => $link, 'options' => $options);
 
-        $this->hook('html_meta_alter', $data);
+        $this->hook('html_add_crumb_alter', $data);
         extract($data);
 
         return $this->CoreHtml->addCrumb($name, $link, $options);
@@ -57,9 +57,9 @@ class QaHtmlHelper extends AppHelper {
  *
  * Possible doctypes:
  *
- *  - html4-strict:  HTML4 Strict.
- *  - html4-trans:  HTML4 Transitional.
- *  - html4-frame:  HTML4 Frameset.
+ *  - html4-strict: HTML4 Strict.
+ *  - html4-trans: HTML4 Transitional.
+ *  - html4-frame: HTML4 Frameset.
  *  - html5: HTML5.
  *  - xhtml-strict: XHTML1 Strict.
  *  - xhtml-trans: XHTML1 Transitional.
