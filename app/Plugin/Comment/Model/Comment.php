@@ -17,7 +17,11 @@ class Comment extends CommentAppModel {
     public $useTable = "comments";
     public $primaryKey = 'id';
     public $order = array('Comment.created' => 'DESC');
-    public $actsAs = array('Comment.BBCode' => array('fields' => array('body')));
+    public $actsAs = array(
+        'Comment.BBCode' => array(
+            'fields' => array('body')
+        )
+    );
 
     public $belongsTo  = array(
         'Node' => array(
@@ -151,11 +155,14 @@ class Comment extends CommentAppModel {
         # ignore quotes
         $__string = $string;
         $string = preg_replace('#\[quote(.*?)\](.*)\[/quote\]#U', '', $string);
-        $string = $this->Behaviors->BBCode->bb_parse($string);
+        $string = $this->bb_parse($string);
         $string = html_entity_decode(strip_tags($string));
 
         if (strlen($string) <= $len) {
             $string = trim($string);
+            $string = str_replace('[/quote]', '', $string);
+            $string = trim(str_replace('[quote]', '', $string));
+            $string = empty($string) ? __d('comment', 'No subject') : $string;
 
             return $string;
         }
@@ -169,7 +176,8 @@ class Comment extends CommentAppModel {
         }
 
         $string = trim($string);
-        $string = empty($string) && strpos($__string, '[quote') ? __d('comment', 'Quoting') : $string;
+        $string = str_replace('[/quote]', '', $string);
+        $string = trim(str_replace('[quote]', '', $string));
         $string = empty($string) ? __d('comment', 'No subject') : $string;
 
         return $string;

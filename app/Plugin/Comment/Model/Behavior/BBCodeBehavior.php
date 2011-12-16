@@ -9,12 +9,8 @@
  * @author   Christopher Castro <chris@quickapps.es>
  * @link     http://cms.quickapps.es
  */
-App::import('Comment.Lib', 'Nbbc');
 class BBCodeBehavior extends ModelBehavior {
-
-    public $settings = array(
-        'fields' => array('body')
-    );
+    public $settings = array();
 
 /**
  * Initiate Serialized behavior
@@ -25,34 +21,47 @@ class BBCodeBehavior extends ModelBehavior {
  * @access public
  */
     public function setup($Model, $config = array()) {
+        $smileyURL = Router::url('/', true);
+        $smileyURL = Configure::read('Variable.url_language_prefix') ? preg_replace('/\/[a-z]{3}\/$/', '/', $smileyURL) : $SetSmileyURL;
+        $smileyURL .= 'comment/img/smileys';
+
+        $__settings = array(
+            'fields' => array('body'),
+            'smileys' => true,
+            'smiley_url' => $smileyURL,
+            'detect_url' => true
+        );
+
         if (isset($config['fields']) && is_string($config['fields'])) {
             $config['fields'] = array($config['fields']);
         }
 
-        if (is_string($config)) {
-            $config['fields'] = array($config);
-        }
-
-        $this->settings = Set::merge($this->settings, $config);
-        $this->settings['fields'] = array_unique($this->settings['fields']);
+        $this->settings[$Model->alias] = Set::merge($__settings, $config);
+        $this->settings[$Model->alias]['fields'] = array_unique($this->settings[$Model->alias]['fields']);
     }
 
     public function afterFind(&$Model, $results, $primary) {
         $_results = $results;
         if (isset($_results[0][$Model->alias])) {
             foreach ($_results as $rkey => &$record) {
-                foreach ($this->settings['fields'] as $field) {
-                    if (isset($record[$Model->alias][$field]) && !empty($record[$Model->alias][$field]) && is_string($record[$Model->alias][$field])) {
+                foreach ($this->settings[$Model->alias]['fields'] as $field) {
+                    if (isset($record[$Model->alias][$field]) && 
+                        !empty($record[$Model->alias][$field]) &&
+                        is_string($record[$Model->alias][$field])
+                    ) {
                         $record[$Model->alias]["raw_{$field}"] = $record[$Model->alias][$field];
-                        $record[$Model->alias][$field] = $this->bb_parse($record[$Model->alias][$field]);
+                        $record[$Model->alias][$field] = $this->bb_parse($Model, $record[$Model->alias][$field]);
                     }
                 }
             }
         } else {
-            foreach ($this->settings['fields'] as $field) {
-                if (isset($_results[$Model->alias][$field]) && !empty($_results[$Model->alias][$field]) && is_string($_results[$Model->alias][$field])) {
+            foreach ($this->settings[$Model->alias]['fields'] as $field) {
+                if (isset($_results[$Model->alias][$field]) && 
+                    !empty($_results[$Model->alias][$field]) && 
+                    is_string($_results[$Model->alias][$field])
+                ) {
                     $_results[$Model->alias]["raw_{$field}"] = $_results[$Model->alias][$field];
-                    $_results[$Model->alias][$field] = $this->bb_parse($_results[$Model->alias][$field]);
+                    $_results[$Model->alias][$field] = $this->bb_parse($Model, $_results[$Model->alias][$field]);
                 }
             }
         }
@@ -60,10 +69,21 @@ class BBCodeBehavior extends ModelBehavior {
         return $_results;
     }
 
-    public function bb_parse($string) {
+    public function bb_parse(&$Model, $string) {
+        if (!defined('BBCODE_VERSION')) {
+            App::import('Comment.Lib', 'Nbbc');
+        }
+
         $bbcode = new BBCode;
-        $bbcode->SetDetectURLs(true);
+        $bbcode->SetDetectURLs($this->settings[$Model->alias]['detect_url']);
         $bbcode->SetTagMarker('[');
+
+        if ($this->settings[$Model->alias]['smileys']) {
+            $bbcode->SetEnableSmileys(true);
+            $bbcode->SetSmileyURL($this->settings[$Model->alias]['smiley_url']);
+        } else {
+            $bbcode->SetEnableSmileys(false);
+        }
 
         $bbcode->AddRule('quote',
             array(
@@ -76,37 +96,40 @@ class BBCodeBehavior extends ModelBehavior {
         $bbcode->AddRule('video',
             array(
                 'mode' => BBCODE_MODE_CALLBACK,
-                'method' => 'videoTag',
-                //'class' => 'BBCodeBehavior',
+                'method' => 'BBCodeBehavior::videoTag',
                 'allow_in' => Array('listitem', 'block', 'columns')
             )
         );
+        
+        $Model->hook('before_parse_comment_bbcode', $string);
 
         $string = $bbcode->Parse($string);
 
+        $Model->hook('after_parse_comment_bbcode', $string);
+
         return $string;
     }
-}
 
-function videoTag($bbcode, $action, $name, $default, $params, $content) {
-    if ($action == BBCODE_CHECK) {
-        return true;
-    }
-
-    if ($action == BBCODE_OUTPUT) {
-        preg_match('/<a href\=\"(.*)\">(.*)<\/a>/', $content, $matches);
-
-        $videourl = parse_url($matches[1]);
-
-        parse_str($videourl['query'], $videoquery);
-
-        if (strpos($videourl['host'], 'youtube.com') !== false) {
-            $replacement = '<embed src="http://www.youtube.com/v/' . $videoquery['v'] . '" type="application/x-shockwave-flash" width="425" height="344"></embed>';
+    public function videoTag($bbcode, $action, $name, $default, $params, $content) {
+        if ($action == BBCODE_CHECK) {
+            return true;
         }
 
-        if (strpos($videourl['host'], 'google.com') !== false) {
-            $replacement = '<embed src="http://video.google.com/googleplayer.swf?docid=' . $videoquery['docid'] . '" width="400" height="326" type="application/x-shockwave-flash"></embed>';
+        if ($action == BBCODE_OUTPUT) {
+            preg_match('/<a href\=\"(.*)\">(.*)<\/a>/', $content, $matches);
+
+            $videourl = parse_url($matches[1]);
+
+            parse_str($videourl['query'], $videoquery);
+
+            if (strpos($videourl['host'], 'youtube.com') !== false) {
+                $replacement = '<embed src="http://www.youtube.com/v/' . $videoquery['v'] . '" type="application/x-shockwave-flash" width="425" height="344"></embed>';
+            }
+
+            if (strpos($videourl['host'], 'google.com') !== false) {
+                $replacement = '<embed src="http://video.google.com/googleplayer.swf?docid=' . $videoquery['docid'] . '" width="400" height="326" type="application/x-shockwave-flash"></embed>';
+            }
+            return $replacement;
         }
-        return $replacement;
-    }
+    }    
 }
