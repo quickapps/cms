@@ -3,7 +3,6 @@
     # attach js & css files only if there is no file field instances yet
     if (!isset($this->__fileFieldCount) || $this->__fileFieldCount < 1) {
 ?>
-
     <link href="<?php echo $this->Html->url('/field_file/js/uploadify/uploadify.css'); ?>" type="text/css" rel="stylesheet" />
     <link href="<?php echo $this->Html->url('/field_file/css/field_file.css'); ?>" type="text/css" rel="stylesheet" />
     <script type="text/javascript" src="<?php echo $this->Html->url('/js/ui/jquery-ui.js'); ?>"></script>
