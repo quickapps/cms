@@ -948,7 +948,7 @@ class LayoutHelper extends AppHelper {
             $tags = $this->_tmp['__hooktags_reg'] = implode('|', $this->_View->HookCollection->hooktagsList());
         }
 
-        return preg_replace_callback('/(.?)\[(' . $tags . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', array($this, 'doHooktag'), $text);
+        return preg_replace_callback('/(.?)\[(' . $tags . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', array($this->_View->HookCollection, 'doHooktag'), $text);
     }
 
 /**

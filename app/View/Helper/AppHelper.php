@@ -112,24 +112,6 @@ class AppHelper extends Helper {
     }
 
 /**
- * Wrapper method to HookCollectionHelper::hooktagsList()
- *
- * @see HookCollectionHelper::hooktagsList()
- */
-    public function hooktagsList() {
-        return $this->_View->HookCollection->hooktagsList();
-    }
-
-/**
- * Wrapper method to HookCollectionHelper::doHooktag()
- *
- * @see HookCollectionHelper::doHooktag()
- */
-    public function doHooktag($m) {
-        return $this->_View->HookCollection->doHooktag($m);
-    }
-
-/**
  * Evaluate a string of PHP code.
  *
  * This is a wrapper around PHP's eval(). It uses output buffering to capture both
