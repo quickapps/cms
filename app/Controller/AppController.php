@@ -97,101 +97,54 @@ class AppController extends Controller {
     }
 
 /**
- * shortcut for $this->set(`title_for_layout`, ...)
+ * Wrapper method to QuickappsComponent::title()
  *
- * @param string $str layout title
- * @return void
+ * @see QuickappsComponent::title()
  */
     public function title($str) {
         return $this->Quickapps->title($str);
     }
 
 /**
- * shortcut for Session setFlash
+ * Wrapper method to QuickappsComponent::flashMsg()
  *
- * @param string $msg mesagge to display
- * @param string $class type of message: error, success, alert, bubble
- * @return void
+ * @see QuickappsComponent::flashMsg()
  */
     public function flashMsg($msg, $class = 'success') {
         return $this->Quickapps->flashMsg($msg, $class);
     }
 
 /**
- * Insert custom block in stack
+ * Wrapper method to QuickappsComponent::blockPush()
  *
- * @param array $data formatted block array
- * @param string $region theme region where to push
- * @return boolean
+ * @see QuickappsComponent::blockPush()
  */
     public function blockPush($block = array(), $region = null) {
         return $this->Quickapps->blockPush($block, $region);
     }
 
 /**
- * Wrapper method to HookCollectionComponent::hookDefined
+ * Wrapper method to HookCollectionComponent::attachModuleHooks()
  *
- * @param string $hook Name of the event
- * @return bool
+ * @see HookCollectionComponent::attachModuleHooks()
  */
-    public function hookDefined($hook) {
-        return $this->HookCollection->hookDefined($hook);
+    public function attachModuleHooks($module) {
+        return $this->HookCollection->attachModuleHooks($module);
     }
 
 /**
- * Turns on the hook method if it's turned off.
+ * Wrapper method to HookCollectionComponent::deattachModuleHooks()
  *
- * @param string $hook Hook name to turn on.
- * @return boolean TRUE on success. FALSE hook does not exists or is already on.
+ * @see HookCollectionComponent::deattachModuleHooks()
  */
-    public function hookEnable($hook) {
-        return $this->HookCollection->hookEnable($hook);
-    }
-
-/**
- * Turns off hook method.
- *
- * @param string $hook Hook name to turn off.
- * @return boolean TRUE on success. FALSE hook does not exists.
- */
-    public function hookDisable($hook) {
-        return $this->HookCollection->hookDisable($hook);
-    }
-
-/**
- * Overwrite default options for Hook dispatcher.
- * Useful when calling a hook with non-parameter and custom options.
- *
- * Watch out!: Hook dispatcher automatic reset its default options to
- * the original ones after `hook()` is invoked.
- * Means that if you need to call more than one hook (consecutive) with no parameters and
- * same options ** you must call `setHookOptions()` after each hook() **
- *
- * ### Usage
- * For example in any controller action:
- * {{{
- *  $this->setHookOptions(array('collectReturn' => false));
- *  $response = $this->hook('collect_hook_with_no_parameters');
- *
- *  $this->setHookOptions(array('collectReturn' => false, 'break' => true, 'breakOn' => false));
- *  $response2 = $this->hook('no_collect_and_breakon_hook_with_no_parameters');
- * }}}
- *
- * @param array $options Array of options to overwrite
- * @return void
- */
-    public function setHookOptions($options) {
-        $this->HookCollection->setHookOptions($options);
+    public function deattachModuleHooks($module) {
+        return $this->HookCollection->deattachModuleHooks($module);
     }
 
 /**
  * Wrapper method to HookCollectionComponent::hook()
  *
- * @param string $hook Name of the event to fire
- * @param mix $data Any data to attach
- * @param array $options Options for hook dispatcher
- * @return mixed FALSE -or- result array
- * @see HookCollectionComponent::__dispatchHook()
+ * @see HookCollectionComponent::hook()
  */
     public function hook($hook, &$data = array(), $options = array()) {
         $hook = Inflector::underscore($hook);
@@ -200,10 +153,35 @@ class AppController extends Controller {
     }
 
 /**
+ * Wrapper method to HookCollectionComponent::hookDefined()
+ *
+ * @see HookCollectionComponent::hookDefined()
+ */
+    public function hookDefined($hook) {
+        return $this->HookCollection->hookDefined($hook);
+    }
+
+/**
+ * Wrapper method to HookCollectionComponent::hookEnable()
+ *
+ * @see HookCollectionComponent::hookEnable()
+ */
+    public function hookEnable($hook) {
+        return $this->HookCollection->hookEnable($hook);
+    }
+
+/**
+ * Wrapper method to HookCollectionComponent::hookDisable()
+ *
+ * @see HookCollectionComponent::hookDisable()
+ */
+    public function hookDisable($hook) {
+        return $this->HookCollection->hookDisable($hook);
+    }
+
+/**
  * Wrapper method to QuickappsComponent::setCrumb()
  *
- * @param mixed $url Array of links to push to the crumbs list. Or String url.
- * @return void
  * @see QuickappsComponent::setCrumb()
  */
     public function setCrumb($url = false) {
@@ -254,7 +232,7 @@ class AppController extends Controller {
                 ClassRegistry::flush();
                 unset($this->Module);
             }        
-        
+
             $paths = $c = $h = $b = array();
             $_modules = array_keys($_modules);
             $themeToUse = $_variable[$_themeType];
@@ -330,7 +308,6 @@ class AppController extends Controller {
             Configure::write('Hook.components', $c);
             Configure::write('Hook.behaviors', $b);
             Configure::write('Hook.helpers', $h);
-
             Cache::write("hook_objects_{$_themeType}", Configure::read('Hook'));
         } else {
             $this->helpers = array_merge($this->helpers, $hook_objects['helpers']);

@@ -15,16 +15,6 @@ class HookCollectionComponent extends Component {
     private $__map = array();
     protected $_methods = array();
     protected $_hookObjects = array();
-    public $Options = array(
-        'break' => false,
-        'breakOn' => false,
-        'collectReturn' => false
-    );
-    private $__Options = array(
-        'break' => false,
-        'breakOn' => false,
-        'collectReturn' => false
-    );
 
     public function startup() { }
     public function beforeRender() { }
@@ -43,13 +33,78 @@ class HookCollectionComponent extends Component {
     }
 
 /**
- * Chech if hook exists
+ * Load all hooks of specified Module.
  *
- * @param string $hook Name of the hook to check
- * @return boolean
+ * @param string $module Name of the module.
+ * @return boolean TRUE on success. FALSE otherwise.
  */
-    public function hookDefined($hook) {
-        return isset($this->__map[$hook]);
+    public function attachModuleHooks($module) {
+        $Plugin = Inflector::camelize($module);
+
+        if (!CakePlugin::loaded($Plugin) || isset($this->_hookObjects[$Plugin . 'Hook'])) {
+            return false;
+        }
+
+        $folder = new Folder;
+        $folder->path = CakePlugin::path($Plugin) . 'Controller' . DS . 'Component' . DS;
+        $files = $folder->find('(.*)HookComponent\.php');
+
+        foreach ($files as $object) {
+            $object = str_replace('Component.php', '', $object);
+            $class = "{$object}Component";
+
+            include_once $folder->path . $class . '.php';
+
+            $this->__controller->{$object} = new $class($this->__controller->Components);
+
+            if (!is_object($this->__controller->{$object})) {
+                continue;
+            }
+
+            $methods = array();
+            $_methods = get_this_class_methods($this->__controller->{$object});
+
+            foreach ($_methods as $method) {
+                $methods[] = $method;
+                $this->__map[$method][] = (string)$object;
+            }
+
+            $this->_hookObjects["{$Plugin}.{$object}"] = $methods;
+        }
+
+        $this->_methods = array_keys($this->__map);
+
+        return true;
+    }
+
+/**
+ * Unload all hooks of specified Module.
+ *
+ * @param string $module Name of the module
+ * @return boolean TRUE on success. FALSE otherwise.
+ */
+    public function deattachModuleHooks($module) {
+        $Plugin = Inflector::camelize($module);
+        $found = 0;
+
+        foreach ($this->_hookObjects as $object => $hooks) {
+            if (strpos($object, "{$Plugin}.") === 0) {
+                foreach ($hooks as $hook) {
+                    unset($this->__map[$hook]);
+                }
+
+                $className = str_replace("{$Plugin}.", '', $object);
+
+                unset($this->_hookObjects[$object]);
+                unset($this->__controller->{$className});
+
+                $found++;
+            }
+        }
+
+        $this->_methods = array_keys($this->__map);
+
+        return $found > 0;
     }
 
 /**
@@ -80,6 +135,16 @@ class HookCollectionComponent extends Component {
         $hook = Inflector::underscore($hook);
 
         return $this->__dispatchHook($hook, $data, $options);
+    }
+
+/**
+ * Chech if hook exists
+ *
+ * @param string $hook Name of the hook to check
+ * @return boolean
+ */
+    public function hookDefined($hook) {
+        return isset($this->__map[$hook]);
     }
 
 /**
@@ -136,45 +201,23 @@ class HookCollectionComponent extends Component {
     }
 
 /**
- * Overwrite default options for Hook dispatcher.
- * Useful when calling a hook with non-parameter and custom options.
- *
- * Watch out!: Hook dispatcher automatic reset its default options to
- * the original ones after `hook()` is invoked.
- * Means that if you need to call more than one hook (consecutive) with no parameters and
- * same options ** you must call `setHookOptions()` after each hook() **
- *
- * ### Usage
- * For example in any controller action:
- * {{{
- *  $this->setHookOptions(array('collectReturn' => false));
- *  $response = $this->hook('collect_hook_with_no_parameters');
- *
- *  $this->setHookOptions(array('collectReturn' => false, 'break' => true, 'breakOn' => false));
- *  $response2 = $this->hook('other_collect_hook_with_no_parameters');
- * }}}
- *
- * @param array $options Array of options to overwrite
- * @return void
- */
-    public function setHookOptions($options) {
-        $this->Options = Set::merge($this->Options, $options);
-    }
-
-/**
  * Dispatch Component-hooks from all the plugins and core
  *
  * @see HookComponent::hook()
  * @return mixed Either the last result or all results if collectReturn is on. Or NULL in case of no response
  */
     private function __dispatchHook($hook, &$data = array(), $options = array()) {
-        $options = array_merge($this->Options, (array)$options);
         $collected = array();
         $result = null;
+        $__options = array(
+            'break' => false,
+            'breakOn' => false,
+            'collectReturn' => false
+        );
+
+        $options = array_merge($__options, $options);
 
         if (!$this->hookDefined($hook)) {
-            $this->__resetOptions();
-
             return null;
         }
 
@@ -203,20 +246,10 @@ class HookCollectionComponent extends Component {
         }
 
         if (empty($collected) && in_array($result, array('', null), true)) {
-            $this->__resetOptions();
-
             return null;
         }
 
-        $this->__resetOptions();
-
         return $options['collectReturn'] ? $collected : $result;
-    }
-
-    private function __resetOptions() {
-        if ($this->Options !== $this->__Options) {
-            $this->Options = $this->__Options;
-        }
     }
 
     private function __loadHooks() {

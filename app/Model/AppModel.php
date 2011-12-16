@@ -23,102 +23,58 @@ class AppModel extends Model {
         parent::__construct($id, $table, $ds);
     }
 
-    private function __loadHookObjects() {
-        $b = Configure::read('Hook.behaviors');
-
-        if (!$b){
-            return false; // fix for AppController __preloadHooks()
-        }
-
-        foreach ($b as $hook) {
-            $this->actsAs[$hook] = array();
-        }
-
-        $this->actsAs['HookCollection'] = array();
-    }
-
 /**
- * Chech if hook exists
+ * Wrapper method to HookCollectionBehavior::attachModuleHooks()
  *
- * @param string $hook Name of the hook to check
- * @return bool
+ * @see HookCollectionBehavior::attachModuleHooks()
  */
-    public function hookDefined($hook) {
-        return $this->Behaviors->HookCollection->hookDefined($hook);
+    public function attachModuleHooks($module) {
+        return $this->Behaviors->HookCollection->attachModuleHooks($module);
     }
 
 /**
- * Trigger a callback method on every HookBehavior.
+ * Wrapper method to HookCollectionBehavior::deattachModuleHooks()
  *
- * ### Options
+ * @see HookCollectionBehavior::deattachModuleHooks()
+ */
+    public function deattachModuleHooks($module) {
+        return $this->Behaviors->HookCollection->deattachModuleHooks($module);
+    }
+
+/**
+ * Wrapper method to HookCollectionBehavior::hook()
  *
- * - `breakOn` Set to the value or values you want the callback propagation to stop on.
- *    Can either be a scalar value, or an array of values to break on.
- *    Defaults to `false`.
- *
- * - `break` Set to true to enabled breaking. When a trigger is broken, the last returned value
- *    will be returned.  If used in combination with `collectReturn` the collected results will be returned.
- *    Defaults to `false`.
- *
- * - `collectReturn` Set to true to collect the return of each object into an array.
- *    This array of return values will be returned from the hook() call. Defaults to `false`.
- *
- * - `alter` Allows each callback gets called on to modify the parameters to the next object.
- *    Defaults to true.
- *
- * @param string $event name of the hook to call
- * @param mixed $data data for the triggered callback
- * @param array $option Array of options
- * @return mixed Either the last result or all results if collectReturn is on. Or null in case of no response
+ * @see HookCollectionBehavior::hook()
  */
     public function hook($hook, &$data = array(), $options = array()) {
         return $this->Behaviors->HookCollection->hook($hook, $data, $options);
     }
 
 /**
- * Turns on the hook method if it's turned off.
+ * Wrapper method to HookCollectionBehavior::hookDefined()
  *
- * @param string $hook Hook name to turn on.
- * @return boolean TRUE on success. FALSE hook does not exists or is already on.
+ * @see HookCollectionBehavior::hookDefined()
+ */
+    public function hookDefined($hook) {
+        return $this->Behaviors->HookCollection->hookDefined($hook);
+    }
+
+/**
+ * Wrapper method to HookCollectionBehavior::hookEnable()
+ *
+ * @see HookCollectionBehavior::hookEnable()
  */
     public function hookEnable($hook) {
         return $this->Behaviors->HookCollection->hookEnable($hook);
     }
 
 /**
- * Turns off hook method.
+ * Wrapper method to HookCollectionBehavior::hookDisable()
  *
- * @param string $hook Hook name to turn off.
- * @return boolean TRUE on success. FALSE hook does not exists.
- */ 
+ * @see HookCollectionBehavior::hookDisable()
+ */
     public function hookDisable($hook) {
         return $this->Behaviors->HookCollection->hookDisable($hook);
-    }
-
-/**
- * Overwrite default options for Hook dispatcher.
- * Useful when calling a hook with non-parameter and custom options.
- *
- * Watch out!: Hook dispatcher automatic reset its default options to
- * the original ones after `hook()` is invoked.
- * Means that if you need to call more than one hook (consecutive) with no parameters and
- * same options ** you must call `setHookOptions()` after each hook() **
- *
- * ### Usage
- * For example in any controller action:
- * {{{
- *  $this->setHookOptions(array('collectReturn' => false));
- *  $response = $this->hook('collect_hook_with_no_parameters');
- *
- *  $this->setHookOptions(array('collectReturn' => false, 'break' => true, 'breakOn' => false));
- *  $response2 = $this->hook('other_collect_hook_with_no_parameters');
- * }}}
- *
- * @param array $options Array of options to overwrite
- * @return void
- */
-    public function setHookOptions($options) {
-        return $this->Behaviors->HookCollection->setHookOptions($options); 
     }
 
 /**
@@ -225,4 +181,18 @@ class AppModel extends Model {
 			}
 		}
 	}
+
+    private function __loadHookObjects() {
+        $b = Configure::read('Hook.behaviors');
+
+        if (!$b){
+            return false; // fix for AppController __preloadHooks()
+        }
+
+        foreach ($b as $hook) {
+            $this->actsAs[$hook] = array();
+        }
+
+        $this->actsAs['HookCollection'] = array();
+    }
 }
