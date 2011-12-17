@@ -806,9 +806,13 @@ class Router {
                 if (!preg_match('/\/(.*)\.([a-z]{1,})$/i', $output) ||
                     !file_exists(ROOT . DS . 'webroot' . str_replace('/', DS, $output))
                 ) {
-                    preg_match('/^\/([a-z]{1,})\/(.*)$/s', $output, $p);
+                    $pname = false;
 
-                    $pname = isset($p[1]) ? Inflector::camelize($p[1]) : false;
+                    if (Configure::read('_implode_plugins_match_')) {
+                        preg_match('/\/(' .Configure::read('_implode_plugins_match_') . ')\/(.*)$/s', $output, $p);
+
+                        $pname = isset($p[1]) ? Inflector::camelize($p[1]) : false;
+                    }
 
                     if (!$pname ||
                         !CakePlugin::loaded($pname) ||
