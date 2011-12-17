@@ -17,7 +17,7 @@ class TaxonomyHookHelper extends AppHelper {
             $this->request->params['controller'] == 'vocabularies' &&
             $this->request->params['action'] == 'admin_index'
         ) {
-            $this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar') . '<!-- TaxonomyHookHelper -->' ), 'toolbar');
+            $this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar') . '<!-- TaxonomyHookHelper -->'), 'toolbar');
         }
 
         return true;

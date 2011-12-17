@@ -1,11 +1,11 @@
 <?php
 class FieldFileHookHelper extends AppHelper {
     function field_file_view($data){
-        return $this->_View->element('view', array('data' => $data), array('plugin' => 'FieldFile') );
+        return $this->_View->element('view', array('data' => $data), array('plugin' => 'FieldFile'));
     }
 
     function field_file_edit($data){
-        return $this->_View->element('edit', array('data' => $data), array('plugin' => 'FieldFile') );
+        return $this->_View->element('edit', array('data' => $data), array('plugin' => 'FieldFile'));
     }
 
     function field_file_formatter($data){

@@ -187,7 +187,7 @@ class ContentsController extends NodeAppController {
 
         $this->Node->NodeType->bindModel(
             array(
-                'hasMany' =>  array(
+                'hasMany' => array(
                     'Field' => array(
                         'className' => 'Field.Field',
                         'foreignKey' => false,
@@ -277,7 +277,7 @@ class ContentsController extends NodeAppController {
 
         foreach ($_vocabularies as $v) {
             $this->Term->Behaviors->detach('Tree');
-            $this->Term->Behaviors->attach('Tree', array('parent' => 'parent_id', 'left' => 'lft', 'right' => 'rght', 'scope' => "Term.vocabulary_id = {$v['id']}" ));
+            $this->Term->Behaviors->attach('Tree', array('parent' => 'parent_id', 'left' => 'lft', 'right' => 'rght', 'scope' => "Term.vocabulary_id = {$v['id']}"));
 
             $terms = array();
             $terms = $this->Term->generateTreeList("Term.vocabulary_id = {$v['id']}", "{n}.Term.id", "{n}.Term.name",'&nbsp;&nbsp;&nbsp;&nbsp;');

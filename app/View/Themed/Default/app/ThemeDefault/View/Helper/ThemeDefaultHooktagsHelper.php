@@ -24,10 +24,10 @@ class ThemeDefaultHooktagsHelper extends AppHelper {
     public function button($atts, $content = null, $code="") {
         $atts = Set::merge(
             array(
-            'link'    => '#',
-            'target'    => '',
-            'color'    => '',
-            'size'    => '', #big/small
+            'link' => '#',
+            'target' => '',
+            'color' => '',
+            'size' => '', #big/small
             ), $atts
         );
 

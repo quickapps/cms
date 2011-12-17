@@ -19,7 +19,7 @@
     <div class="nodes-pagination paginator">
         <?php $this->Paginator->options(array('url' => array('criteria' => $criteria))); ?>
         <?php echo $this->Paginator->prev(__d('node', '«'), null, null, array('class' => 'disabled')); ?>
-        <?php echo $this->Paginator->numbers( array('separator' => ' ')); ?>
+        <?php echo $this->Paginator->numbers(array('separator' => ' ')); ?>
         <?php echo $this->Paginator->next(__d('node', '»'), null, null, array('class' => 'disabled')); ?>
     </div>
 <?php else: ?>

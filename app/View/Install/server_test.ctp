@@ -13,7 +13,7 @@
         <p>
             <ul>
                 <?php foreach ($tests as $name => $testNode): ?>
-                    <?php if (!$testNode['test'] ): ?>
+                    <?php if (!$testNode['test']): ?>
                         <li><em><?php echo $testNode['msg']; ?></em><br/></li>
                     <?php endif; ?>
                 <?php endforeach; ?>

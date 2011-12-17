@@ -17,7 +17,7 @@ class CommentHookHelper extends AppHelper {
             $this->request->params['controller'] = 'list' &&
             $this->request->params['action'] == 'admin_show'
         ) {
-            $this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar') . '<!-- CommentHookHelper -->' ), 'toolbar');
+            $this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar') . '<!-- CommentHookHelper -->'), 'toolbar');
         }
 
         if (!isset($this->request->params['admin']) &&

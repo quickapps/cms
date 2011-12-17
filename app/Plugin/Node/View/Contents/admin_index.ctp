@@ -16,18 +16,18 @@ $tSettings = array(
         ),
         __t('Type') => array(
             'value' => '{php} return ("{NodeType.name}" != "") ? "{NodeType.name}" : "---"; {/php}',
-            'sort'    => 'NodeType.id'
+            'sort' => 'NodeType.id'
         ),
         __t('Author') => array(
             'value' => '{CreatedBy.name}',
-            'sort'    => 'CreatedBy.name'
+            'sort' => 'CreatedBy.name'
         ),
         __t('Status') => array(
             'value' => '{php} return ({Node.status} == 0 ? "' . __t('not published') . '" : "' . __t('published') . '"); {/php}',
-            'sort'    => 'Node.status'
+            'sort' => 'Node.status'
         ),
         __t('Updated') => array(
-            'value' => '{php} return $this->_View->Time->format("' . __t('Y/m/d - H:i') . '", {Node.modified}, null, "' . $this->Session->read('Auth.User.timezone') . '"); {/php} {php} return ( {Node.modified} != {Node.created} ? "<span style=\\"color:red;\\">' . __t('updated') . '</span>" : "" ); {/php}',
+            'value' => '{php} return $this->_View->Time->format("' . __t('Y/m/d - H:i') . '", {Node.modified}, null, "' . $this->Session->read('Auth.User.timezone') . '"); {/php} {php} return ({Node.modified} != {Node.created} ? "<span style=\\"color:red;\\">' . __t('updated') . '</span>" : ""); {/php}',
             'sort' => 'Node.modified'
         ),
         __t('Language') => array(
@@ -127,7 +127,7 @@ $tSettings = array(
 
 <?php echo $this->Form->create(null, array('onsubmit' => 'return confirm("' . __t('Are you sure about this changes ?') . '");')); ?>
     <!-- Update -->
-    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-update_fieldset" style="cursor:pointer;">' . __t('Update Options') . '</span>' ); ?>
+    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-update_fieldset" style="cursor:pointer;">' . __t('Update Options') . '</span>'); ?>
         <div id="update_fieldset" class="horizontalLayout" style="<?php echo isset($this->data['Node']['update']) ? '' : 'display:none;'; ?>">
             <?php echo $this->Form->input('Node.update',
                     array(

@@ -994,7 +994,7 @@ class LayoutHelper extends AppHelper {
         //[locale.OPTION]
         preg_match_all('/\[language.(.+)\]/iUs', $text, $localeMatches);
         foreach ($localeMatches[1] as $attr) {
-            $text = str_replace("[language.{$attr}]", Configure::read('Variable.language.' .$attr ), $text);
+            $text = str_replace("[language.{$attr}]", Configure::read('Variable.language.' .$attr), $text);
         }
 
         //[url]URL[/url]

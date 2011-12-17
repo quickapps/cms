@@ -14,7 +14,7 @@
                 'tdOptions' => array('width' => '15%')
             ),
             __t('Required') => array(
-                'value' => '{php} return ( "{required}" == "1" ) ? "' . __t('Yes') . '" : "' . __t('No') . '";  {/php}'
+                'value' => '{php} return ("{required}" == "1") ? "' . __t('Yes') . '" : "' . __t('No') . '";  {/php}'
             ),
             __t('Actions') => array(
                 'value' => "
@@ -36,7 +36,7 @@
 
 <?php echo $this->Form->create(); ?>
     <!-- Add -->
-    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-addfield_fieldset" style="cursor:pointer;">' . __t('Add field') . '</span>' ); ?>
+    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-addfield_fieldset" style="cursor:pointer;">' . __t('Add field') . '</span>'); ?>
         <div id="addfield_fieldset" class="horizontalLayout" style="<?php echo isset($this->data['Field']) ? '' : 'display:none;'; ?>">
             <?php echo $this->Form->input('Field.label',
                     array(

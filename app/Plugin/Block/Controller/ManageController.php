@@ -172,7 +172,7 @@ class ManageController extends BlockAppController {
             $data['Block']['themes_cache'] = $this->__themesCache($data['BlockRegion']);
 
             if ($this->Block->saveAll($data, array('validate' => 'first'))) {
-                $this->Block->BlockRegion->deleteAll( array('region' => ''));
+                $this->Block->BlockRegion->deleteAll(array('region' => ''));
                 $this->flashMsg(__t('Block has been saved'), 'success');
                 $this->redirect("/admin/block/manage/edit/{$this->Block->id}");
             } else {

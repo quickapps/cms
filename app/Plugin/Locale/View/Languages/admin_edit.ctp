@@ -28,7 +28,7 @@
                     $this->Html->image($icon,
                         array(
                             'class' => 'flag-icon',
-                            'style' => (empty($this->data['Language']['icon']) ? 'display:none;' : '' )
+                            'style' => (empty($this->data['Language']['icon']) ? 'display:none;' : '')
                         )
                     )
                 )

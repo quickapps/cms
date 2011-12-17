@@ -1,6 +1,6 @@
 <?php echo $this->Form->create('Package', array('url' => '/admin/system/themes/install', 'enctype' => 'multipart/form-data')); ?>
     <!-- Filter -->
-    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-install_fieldset" style="cursor:pointer;">' . __t('Install New Theme') . '</span>' ); ?>
+    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-install_fieldset" style="cursor:pointer;">' . __t('Install New Theme') . '</span>'); ?>
         <div id="install_fieldset" class="horizontalLayout" style="display:none;">
             <?php echo $this->Form->input('Package.data',
                     array(
@@ -16,7 +16,7 @@
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 <?php echo $this->Form->end(); ?>
 
-<?php echo $this->Html->useTag('fieldsetstart', __t('Frontend themes')  ); ?>
+<?php echo $this->Html->useTag('fieldsetstart', __t('Frontend themes')); ?>
 <table width="100%">
     <tbody>
     <?php
@@ -60,7 +60,7 @@
                     <a href="<?php echo $this->Html->url('/admin/system/themes/uninstall/' . $name); ?>" style="float:right;" onclick="return confirm('<?php echo __t('Delete selected theme ?\nThis operation can be undone!'); ?>');"><?php echo __t('Uninstall'); ?>&nbsp;</a>
                     <?php endif; ?>
                 <?php else: ?>
-                    <a href="<?php echo $this->Html->url('/admin/system/themes/settings/' . $name ); ?>" style="float:right;"><?php echo __t('Configure'); ?></a>
+                    <a href="<?php echo $this->Html->url('/admin/system/themes/settings/' . $name); ?>" style="float:right;"><?php echo __t('Configure'); ?></a>
                 <?php endif; ?>
             </td>
         </tr>
@@ -71,7 +71,7 @@
 
 <p>&nbsp;</p>
 
-<?php echo $this->Html->useTag('fieldsetstart', __t('Backend themes')  ); ?>
+<?php echo $this->Html->useTag('fieldsetstart', __t('Backend themes')); ?>
 <table width="100%">
     <tbody>
     <?php
@@ -111,7 +111,7 @@
                 <?php if (Configure::read('Variable.admin_theme') != $name) : ?>
                     <a href="<?php echo $this->Html->url('/admin/system/themes/set_theme/' . $name); ?>" style="float:right;" onclick="return confirm('<?php echo __t('Change administrator theme, are you sure ?\n'); ?>');"><?php echo __t('Set as default'); ?> </a>
                 <?php else: ?>
-                    <a href="<?php echo $this->Html->url('/admin/system/themes/settings/' . $name ); ?>" style="float:right;"><?php echo __t('Configure'); ?></a>
+                    <a href="<?php echo $this->Html->url('/admin/system/themes/settings/' . $name); ?>" style="float:right;"><?php echo __t('Configure'); ?></a>
                 <?php endif; ?>
             </td>
         </tr>

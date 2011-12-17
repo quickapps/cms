@@ -21,7 +21,7 @@ class NodeHookHelper extends AppHelper {
             $this->request->params['controller'] == 'contents' &&
             $this->request->params['action'] == 'admin_index'
         ) {
-            $this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar-index') . '<!-- NodeHookHelper -->' ), 'toolbar');
+            $this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar-index') . '<!-- NodeHookHelper -->'), 'toolbar');
         }
 
         # content types toolbar:
@@ -30,7 +30,7 @@ class NodeHookHelper extends AppHelper {
             $this->request->params['controller'] == 'types' &&
             $this->request->params['action'] == 'admin_index'
         ) {
-            $this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar-types') . '<!-- NodeHookHelper -->' ), 'toolbar');
+            $this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar-types') . '<!-- NodeHookHelper -->'), 'toolbar');
         }
 
         # display toolbar:
@@ -39,7 +39,7 @@ class NodeHookHelper extends AppHelper {
             $this->request->params['controller'] == 'types' &&
             $this->request->params['action'] == 'admin_display'
         ) {
-            $this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar-display') . '<!-- NodeHookHelper -->' ), 'toolbar');
+            $this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar-display') . '<!-- NodeHookHelper -->'), 'toolbar');
         }
 
         return true;

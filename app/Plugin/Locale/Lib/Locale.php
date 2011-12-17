@@ -121,7 +121,7 @@ class Locale {
         $string = $matches[2];
 
         if (!isset($cache[$langcode][$code][$string])) {
-            $options = array( 'langcode' => $langcode );
+            $options = array('langcode' => $langcode);
 
             if ($code == 'F') {
                 $options['context'] = 'Long month name';

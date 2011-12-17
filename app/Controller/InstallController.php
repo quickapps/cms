@@ -65,47 +65,47 @@ class InstallController extends Controller {
         $tests = array(
             'php' => array(
                 'test' => version_compare(PHP_VERSION, '5.2.6', '>='),
-                'msg'  => __t('Your php version is not suported. check that your version is 5.2 or newer.')
+                'msg' => __t('Your php version is not suported. check that your version is 5.2 or newer.')
             ),
             'mysql' => array(
                 'test' => (extension_loaded('mysql') || extension_loaded('mysqli')),
-                'msg'  => __t('MySQL extension is not loaded on your server.')
+                'msg' => __t('MySQL extension is not loaded on your server.')
             ),
             'no_safe_mode' => array(
                 'test' => (ini_get('safe_mode') == false || ini_get('safe_mode') == '' || strtolower(ini_get('safe_mode')) == 'off'),
-                'msg'  => __t('Your server has SafeMode on, please turn it off before continue.')
+                'msg' => __t('Your server has SafeMode on, please turn it off before continue.')
             ),
             'tmp_writable' => array(
                 'test' => is_writable(TMP),
-                'msg'  => __t('tmp folder is not writable')
+                'msg' => __t('tmp folder is not writable')
             ),
             'cache_writable' => array(
                 'test' => is_writable(TMP . 'cache'),
-                'msg'  => __t('tmp/cache folder is not writable')
+                'msg' => __t('tmp/cache folder is not writable')
             ),
             'installer_writable' => array(
                 'test' => is_writable(TMP . 'cache' . DS . 'installer'),
-                'msg'  => __t('tmp/cache/installer folder is not writable')
+                'msg' => __t('tmp/cache/installer folder is not writable')
             ),
             'models_writable' => array(
                 'test' => is_writable(TMP . 'cache' . DS . 'models'),
-                'msg'  => __t('tmp/cache/models folder is not writable')
+                'msg' => __t('tmp/cache/models folder is not writable')
             ),
             'persistent_writable' => array(
                 'test' => is_writable(TMP . 'cache' . DS . 'persistent'),
-                'msg'  => __t('tmp/cache/persistent folder is not writable')
+                'msg' => __t('tmp/cache/persistent folder is not writable')
             ),
             'i18n_writable' => array(
                 'test' => is_writable(TMP . 'cache' . DS . 'i18n'),
-                'msg'  => __t('tmp/cache/i18n folder is not writable')
+                'msg' => __t('tmp/cache/i18n folder is not writable')
             ),
             'Config_writable' => array(
                 'test' => is_writable(ROOT . DS . 'Config'),
-                'msg'  => __t('Config folder is not writable')
+                'msg' => __t('Config folder is not writable')
             ),
             'core.php_writable' => array(
                 'test' => is_writable(ROOT . DS . 'Config' . DS . 'core.php'),
-                'msg'  => __t('Config/core.php file is not writable')
+                'msg' => __t('Config/core.php file is not writable')
             )
         );
 

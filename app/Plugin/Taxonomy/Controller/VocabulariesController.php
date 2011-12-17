@@ -134,7 +134,7 @@ class VocabulariesController extends TaxonomyAppController {
             $data['Term']['vocabulary_id'] = $vocabulary['Vocabulary']['id'];
 
             $this->Vocabulary->Term->Behaviors->detach('Tree');
-            $this->Vocabulary->Term->Behaviors->attach('Tree', array('parent' => 'parent_id', 'left' => 'lft', 'right' => 'rght', 'scope' => "Term.vocabulary_id = {$vocabulary['Vocabulary']['id']}" ));
+            $this->Vocabulary->Term->Behaviors->attach('Tree', array('parent' => 'parent_id', 'left' => 'lft', 'right' => 'rght', 'scope' => "Term.vocabulary_id = {$vocabulary['Vocabulary']['id']}"));
 
             if ($this->Vocabulary->Term->save($data)) {
                 $this->flashMsg(__t('Term has been created.'), 'success');

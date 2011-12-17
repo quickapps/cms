@@ -1,6 +1,6 @@
-<?php echo $this->Form->create('Package', array( 'url' => '/admin/locale/packages/install', 'enctype' => 'multipart/form-data', 'onsubmit' => 'return checkPackage();')); ?>
+<?php echo $this->Form->create('Package', array('url' => '/admin/locale/packages/install', 'enctype' => 'multipart/form-data', 'onsubmit' => 'return checkPackage();')); ?>
     <!-- Filter -->
-    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-upload_fieldset" style="cursor:pointer;">' . __t('Upload Translation Package') . '</span>' ); ?>
+    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-upload_fieldset" style="cursor:pointer;">' . __t('Upload Translation Package') . '</span>'); ?>
         <div id="upload_fieldset" class="horizontalLayout" style="display:none;">
             <?php echo $this->Form->input('Package.po',
                     array(
@@ -86,7 +86,7 @@
 
 <script>
     function checkPackage() {
-        var ext = $('#PackageData').val().substr( ($('#PackageData').val().lastIndexOf('.') +1));
+        var ext = $('#PackageData').val().substr(($('#PackageData').val().lastIndexOf('.') +1));
         if (ext != 'po') {
             alert('<?php echo __t('Invalid package'); ?>');
             return false;

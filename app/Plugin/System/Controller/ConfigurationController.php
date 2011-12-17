@@ -29,7 +29,7 @@ class ConfigurationController extends AppController {
                     $err = true;
                     break;
                 } else {
-                    $this->Variable->save( array('name' => $name, 'value' => $value));
+                    $this->Variable->save(array('name' => $name, 'value' => $value));
                 }
             }
 

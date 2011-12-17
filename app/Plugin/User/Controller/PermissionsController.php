@@ -51,10 +51,10 @@ class PermissionsController extends UserAppController {
 
         foreach ($this->User->Role->find('all') as $role) {
             $hasAny = array(
-                'aco_id'  => $acoId,
-                'aro_id'  => $role['Role']['id'],
+                'aco_id' => $acoId,
+                'aro_id' => $role['Role']['id'],
                 '_create' => 1,
-                '_read'   => 1,
+                '_read' => 1,
                 '_update' => 1,
                 '_delete' => 1
             );

@@ -16,9 +16,9 @@
     <?php echo $this->Html->tag('h2', __d('comment', 'Comments')); ?>
     <div id="comments-list">
         <div class="comments-pagination paginator paginator-top">
-            <?php $this->Paginator->options( array( 'url'=> $this->passedArgs)); ?>
+            <?php $this->Paginator->options(array('url'=> $this->passedArgs)); ?>
             <?php echo $this->Paginator->prev(__d('comment', '«'), null, null, array('class' => 'disabled')); ?>
-            <?php echo $this->Paginator->numbers( array('separator' => ' ')); ?>
+            <?php echo $this->Paginator->numbers(array('separator' => ' ')); ?>
             <?php echo $this->Paginator->next(__d('comment', '»'), null, null, array('class' => 'disabled')); ?>
         </div>
 
@@ -80,9 +80,9 @@
         <?php endforeach; ?>
 
         <div class="comments-pagination paginator paginator-bottom">
-            <?php $this->Paginator->options( array( 'url'=> $this->passedArgs)); ?>
+            <?php $this->Paginator->options(array('url'=> $this->passedArgs)); ?>
             <?php echo $this->Paginator->prev(__d('comment', '«'), null, null, array('class' => 'disabled')); ?>
-            <?php echo $this->Paginator->numbers( array('separator' => ' ')); ?>
+            <?php echo $this->Paginator->numbers(array('separator' => ' ')); ?>
             <?php echo $this->Paginator->next(__d('comment', '»'), null, null, array('class' => 'disabled')); ?>
         </div>
     </div>

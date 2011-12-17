@@ -20,7 +20,7 @@
         <tr>
             <td align="left"><?php echo $roleName; ?></td>
             <td align="right">
-                <a href="" id="<?php echo 'permission-' . $acoPath[count($acoPath)-1]['Aco']['id'] . '-' . $data['id']; ?>" onClick="<?php if ($roleName != 'administrator' ): ?> toggle_permission(<?php echo $acoPath[count($acoPath)-1]['Aco']['id']; ?>, <?php echo $data['id']; ?>);<?php endif; ?> return false;">
+                <a href="" id="<?php echo 'permission-' . $acoPath[count($acoPath)-1]['Aco']['id'] . '-' . $data['id']; ?>" onClick="<?php if ($roleName != 'administrator'): ?> toggle_permission(<?php echo $acoPath[count($acoPath)-1]['Aco']['id']; ?>, <?php echo $data['id']; ?>);<?php endif; ?> return false;">
                     <?php echo $this->Html->image('/user/img/allow-' . $data['allowed'] . '.gif'); ?>
                 </a>
             </td>

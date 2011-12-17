@@ -1,5 +1,5 @@
 <?php echo $this->Form->create('NodeType', array('url' => '/admin/node/types/add/')); ?>
-    <?php echo $this->Html->useTag('fieldsetstart', __t('Type')  ); ?>
+    <?php echo $this->Html->useTag('fieldsetstart', __t('Type')); ?>
         <?php echo $this->Form->input('NodeType.name', array('required' => 'required', 'type' => 'text', 'label' => __t('Name *'))); ?>
         <em><?php echo __t('This text will be displayed as part of the list on the Add new content page'); ?></em>
         <?php echo $this->Form->input('NodeType.description', array('type' => 'textarea', 'label' => __t('Description'))); ?>
@@ -7,14 +7,14 @@
         <?php echo $this->Form->input('NodeType.title_label', array('required' => 'required', 'type' => 'text', 'label' => __t('Title field label *'))); ?>
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 
-    <?php echo $this->Html->useTag('fieldsetstart', __t('Display format')  ); ?>
+    <?php echo $this->Html->useTag('fieldsetstart', __t('Display format')); ?>
         <?php echo $this->Form->input('NodeType.node_show_author', array('type' => 'checkbox', 'label' => __t("Show author's name"))); ?>
         <em><?php echo __t('Author username will be displayed'); ?></em>
         <?php echo $this->Form->input('NodeType.node_show_date', array('type' => 'checkbox', 'label' => __t('Show date'))); ?>
         <em><?php echo __t('Publish date will be displayed'); ?></em>
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 
-    <?php echo $this->Html->useTag('fieldsetstart', __t('Comments')  ); ?>
+    <?php echo $this->Html->useTag('fieldsetstart', __t('Comments')); ?>
         <?php echo $this->Form->input('NodeType.comments_approve', array('type' => 'checkbox', 'label' => __t('Auto approve comments'))); ?>
         <?php echo $this->Form->input('NodeType.comments_per_page', array('type' => 'select', 'options' => Set::combine(array(10, 30, 50, 70, 90, 150, 200, 250, 300), '{n}', '{n}'), 'label' => __t('Comments per page'))); ?>
         <?php echo $this->Form->input('NodeType.comments_anonymous',
@@ -30,17 +30,17 @@
         <?php echo $this->Form->input('NodeType.comments_subject_field', array('type' => 'checkbox', 'label' => __t('Allow comment title'))); ?>
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 
-    <?php echo $this->Html->useTag('fieldsetstart', __t('Default options')  ); ?>
-        <?php echo $this->Html->useTag('fieldsetstart', __t('Comments')  ); ?>
+    <?php echo $this->Html->useTag('fieldsetstart', __t('Default options')); ?>
+        <?php echo $this->Html->useTag('fieldsetstart', __t('Comments')); ?>
             <?php echo $this->Form->input('default_comment', array('value' => 0, 'type' => 'radio', 'legend' => false, 'separator' => '<br>', 'options' => array(2 => __t('Open'), 0 => __t('Closed'), 1 => __t('Read Only')))); ?>
             <em><?php echo __t('Default comment setting for new content'); ?></em>
         <?php echo $this->Html->useTag('fieldsetend'); ?>
 
-        <?php echo $this->Html->useTag('fieldsetstart', __t('Language')  ); ?>
+        <?php echo $this->Html->useTag('fieldsetstart', __t('Language')); ?>
             <?php echo $this->Form->input('default_language', array('empty' => __t('-- Any --'), 'type' => 'select', 'label' => __t('Language'), 'options' => $languages)); ?>
         <?php echo $this->Html->useTag('fieldsetend'); ?>
 
-        <?php echo $this->Html->useTag('fieldsetstart', __t('Publishing')  ); ?>
+        <?php echo $this->Html->useTag('fieldsetstart', __t('Publishing')); ?>
             <?php echo $this->Form->input('default_status', array('type' => 'checkbox', 'label' => __t('Published'), 'value' => 1)); ?>
             <?php echo $this->Form->input('default_promote', array('type' => 'checkbox', 'label' => __t('Promoted to front page'), 'value' => 1)); ?>
             <?php echo $this->Form->input('default_sticky', array('type' => 'checkbox', 'label' => __t('Sticky at top of lists'), 'value' => 1)); ?>

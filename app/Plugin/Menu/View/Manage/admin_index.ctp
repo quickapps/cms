@@ -11,7 +11,7 @@ $tSettings = array(
                 <a href='{url}/admin/menu/manage/links/{Menu.id}{/url}'>" . __t('links') . "</a> |
                 <a href='{url}/admin/menu/manage/add_link/{Menu.id}{/url}'>" . __t('add link') . "</a>
                 {php}
-                    return ( in_array('{Menu.id}', array('main-menu', 'management', 'navigation', 'user-menu'))  ) ?
+                    return (in_array('{Menu.id}', array('main-menu', 'management', 'navigation', 'user-menu'))) ?
                         '' :
                         \"| <a href='{url}/admin/menu/manage/delete/{Menu.id}{/url}' onclick='return confirm(\\\" " . __t('Delete selected menu ?') . " \\\");'>\" . __t('delete') . \"</a>\";
                 {/php}"

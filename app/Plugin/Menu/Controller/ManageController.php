@@ -42,7 +42,7 @@ class ManageController extends MenuAppController {
 
             if ($this->Menu->save($data)) {
                 $this->flashMsg(__t('Menu has been saved'), 'success');
-                $this->redirect('/admin/menu/manage/add_link/' . $this->Menu->id );
+                $this->redirect('/admin/menu/manage/add_link/' . $this->Menu->id);
             } else {
                 $this->flashMsg(__t('Menu could not be saved. Please, try again.'), 'error');
             }
@@ -107,7 +107,7 @@ class ManageController extends MenuAppController {
     // add link to menu
     public function admin_add_link($menu_id) {
         $this->Menu->recursive = 1;
-        $this->Menu->unbindModel( array('belongsTo' => array('Block')));
+        $this->Menu->unbindModel(array('belongsTo' => array('Block')));
         $menu = $this->Menu->findById($menu_id) or $this->redirect('/admin/menu');
 
         if (isset($this->data['MenuLink'])) {
@@ -189,7 +189,7 @@ class ManageController extends MenuAppController {
     public function admin_links($menu_id) {
         $this->Menu->recursive = -1;
 
-        $this->Menu->unbindModel( array('belongsTo' => array('Block')));
+        $this->Menu->unbindModel(array('belongsTo' => array('Block')));
 
         $menu = $this->Menu->findById($menu_id) or $this->redirect('/admin/menu/manage');
 

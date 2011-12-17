@@ -264,7 +264,7 @@ class InstallerComponent extends Component {
                                     (isset($yaml['core']) && !empty($yaml['core']))
                                 ),
                                 'header' => __d('system', 'YAML Validation'),
-                                'msg' =>  __d('system', 'Module configuration file (%s) appears to be invalid.', "{$appName}.yaml")
+                                'msg' => __d('system', 'Module configuration file (%s) appears to be invalid.', "{$appName}.yaml")
                             )
                         );
                 break;

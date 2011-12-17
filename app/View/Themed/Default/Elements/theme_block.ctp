@@ -1,7 +1,7 @@
 <?php 
     $output = '';
 
-    switch ( $block['region']) {
+    switch ($block['region']) {
         case 'main-menu':
             case 'footer':
                 case 'slider':

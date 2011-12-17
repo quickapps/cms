@@ -16,7 +16,7 @@ class MenuHookHelper extends AppHelper {
             $this->request->params['action'] == 'admin_index' && 
             $this->request->controller == 'manage'
         ) {
-            $this->_View->Layout->blockPush( array('body' => $this->_View->element('toolbar')), 'toolbar');
+            $this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar')), 'toolbar');
         }
 
         return true;

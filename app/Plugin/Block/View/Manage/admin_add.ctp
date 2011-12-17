@@ -27,7 +27,7 @@
     <?php echo $this->Html->useTag('fieldsetstart', __t('Visibility settings')); ?>
         <?php echo $this->Html->useTag('fieldsetstart', __t('Theme Region')); ?>
             <em><?php echo __t('Specify in which themes and regions this block is displayed.'); ?></em><br/>
-            <?php $i = 0; foreach ($regions as $theme => $_regions ): ?>
+            <?php $i = 0; foreach ($regions as $theme => $_regions): ?>
                 <?php $theme = explode('@|@', $theme); // name, folder ?>
                 <label><?php echo $theme[0]; ?></label>
                 <?php echo $this->Form->select("BlockRegion.{$i}.region", $_regions, array('empty' => __t('--None--'))) . "\n"; ?>

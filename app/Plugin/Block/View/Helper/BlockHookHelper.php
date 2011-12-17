@@ -36,7 +36,7 @@ class BlockHookHelper extends AppHelper {
             $block = ClassRegistry::init('Block.Block')->findById($id);
         }
 
-        if (!$block ) {
+        if (!$block) {
             return;
         }
 

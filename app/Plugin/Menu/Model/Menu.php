@@ -50,9 +50,9 @@ class Menu extends MenuAppModel {
         $this->MenuLink->Behaviors->attach('Tree',
             array(
                 'parent' => 'parent_id',
-                'left'   => 'lft',
-                'right'  => 'rght',
-                'scope'  => "MenuLink.menu_id = {$this->id}"
+                'left' => 'lft',
+                'right' => 'rght',
+                'scope' => "MenuLink.menu_id = {$this->id}"
             )
         );
         $this->MenuLink->deleteAll(
@@ -72,7 +72,7 @@ class Menu extends MenuAppModel {
             $_id = $id;
             $c = '';
 
-            while ( $this->find('count', array('conditions' => array('Menu.id' => $_id))) > 0) {
+            while ($this->find('count', array('conditions' => array('Menu.id' => $_id))) > 0) {
                 $c = '-' . $i;
                 $_id = $id . $c;
                 $i++;

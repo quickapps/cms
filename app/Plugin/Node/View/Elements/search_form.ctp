@@ -12,7 +12,7 @@
 
     <?php echo $this->Form->create('Search', array('url' => '/s/')); ?>
 
-            <?php echo $this->Html->useTag('fieldsetstart', "<span id=\"toggle-search_advanced\">" . __t('Search') . "</span>" ); ?>
+            <?php echo $this->Html->useTag('fieldsetstart', "<span id=\"toggle-search_advanced\">" . __t('Search') . "</span>"); ?>
 
                 <div id="search_advanced">
                     <div class="text-criterias">

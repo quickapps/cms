@@ -31,7 +31,7 @@ Cache::config('default', array('engine' => 'File'));
  *
  * App::build(array(
  *     'plugins' => array('/full/path/to/plugins/', '/next/full/path/to/plugins/'),
- *     'models' =>  array('/full/path/to/models/', '/next/full/path/to/models/'),
+ *     'models' => array('/full/path/to/models/', '/next/full/path/to/models/'),
  *     'views' => array('/full/path/to/views/', '/next/full/path/to/views/'),
  *     'controllers' => array('/full/path/to/controllers/', '/next/full/path/to/controllers/'),
  *     'datasources' => array('/full/path/to/datasources/', '/next/full/path/to/datasources/'),

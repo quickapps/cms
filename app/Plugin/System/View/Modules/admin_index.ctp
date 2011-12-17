@@ -5,7 +5,7 @@
 
 <?php echo $this->Form->create('Package', array('url' => '/admin/system/modules/install', 'enctype' => 'multipart/form-data')); ?>
     <!-- Filter -->
-    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-install_fieldset" style="cursor:pointer;">' . __t('Install New Module') . '</span>' ); ?>
+    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-install_fieldset" style="cursor:pointer;">' . __t('Install New Module') . '</span>'); ?>
         <div id="install_fieldset" class="horizontalLayout" style="display:none;">
             <?php
                 echo $this->Form->input('Package.data',

@@ -12,15 +12,15 @@ $tSettings = array(
         ),
         __t('Author') => array(
             'value' => '{php} return ("{Comment.name}" != "" ? "{Comment.name}" : "{User.name}"); {/php}',
-            'sort'    => 'User.name'
+            'sort' => 'User.name'
         ),
         __t('Posted in') => array(
             'value' => '<a href="' . $this->Html->url('/admin/node/contents/edit/') . '{Node.slug}">{Node.title}</a>',
-            'sort'    => 'Node.title'
+            'sort' => 'Node.title'
         ),
         __t('Posted on') => array(
             'value' => '{php} return date("' . __t('Y/m/d - H:i') . '", {Comment.created}); {/php}',
-            'sort'    => 'Comment.created'
+            'sort' => 'Comment.created'
         )
     ),
     'noItemsMessage' => __t('There are no comments to display'),
@@ -32,7 +32,7 @@ $tSettings = array(
 
 <?php echo $this->Form->create(null, array('onsubmit' => 'return confirm("' . __t('Are you sure ?') . '");')); ?>
     <!-- Update -->
-    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-update_fieldset" style="cursor:pointer;">' . __t('Update Options') . '</span>' ); ?>
+    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-update_fieldset" style="cursor:pointer;">' . __t('Update Options') . '</span>'); ?>
         <div id="update_fieldset" class="horizontalLayout" style="<?php echo isset($this->data['Comment']['update']) ? '' : 'display:none;'; ?>">
             <?php 
                 $options = array(

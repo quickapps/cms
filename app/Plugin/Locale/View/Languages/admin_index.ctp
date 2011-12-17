@@ -47,7 +47,7 @@ $tSettings = array(
 );
 ?>
 <!-- Add form -->
-    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-add_fieldset" style="cursor:pointer;">' . __t('Add New Language') . '</span>' ); ?>
+    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-add_fieldset" style="cursor:pointer;">' . __t('Add New Language') . '</span>'); ?>
         <div id="add_fieldset" class="horizontalLayout" style="display:none;">
             <?php echo $this->Form->create('Language', array('url' => '/admin/locale/languages/add')); ?>
                 <div id="predefinedList">
@@ -59,7 +59,7 @@ $tSettings = array(
             <?php echo $this->Form->end(); ?>
 
             <?php echo $this->Form->create('Language', array('url' => '/admin/locale/languages/add')); ?>
-                <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-addCustom_fieldset" style="cursor:pointer;">' . __t('Custom Language') . '</span>' ); ?>
+                <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-addCustom_fieldset" style="cursor:pointer;">' . __t('Custom Language') . '</span>'); ?>
                     <div id="addCustom_fieldset" class="verticalLayout" style="display:none;">
                         <?php echo $this->Form->input('status', array('type' => 'hidden', 'value' => 1)); ?>
 
@@ -98,7 +98,7 @@ $tSettings = array(
 
 <?php echo $this->Form->create('Language', array('onsubmit' => 'return confirm("' . __t('Are you sure ?') . '");')); ?>
     <!-- Update -->
-    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-update_fieldset" style="cursor:pointer;">' . __t('Update Options') . '</span>' ); ?>
+    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-update_fieldset" style="cursor:pointer;">' . __t('Update Options') . '</span>'); ?>
         <div id="update_fieldset" class="horizontalLayout" style="<?php echo isset($this->data['Comment']['update']) ? '' : 'display:none;'; ?>">
             <?php echo $this->Form->input('Language.update',
                     array(

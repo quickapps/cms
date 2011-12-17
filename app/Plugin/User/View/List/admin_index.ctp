@@ -13,7 +13,7 @@ $tSettings = array(
         __t('Email') => array(
             'value' => '{User.email}',
             'tdOptions' => array('width' => '30%'),
-            'sort'    => 'User.email'
+            'sort' => 'User.email'
         ),
         __t('Roles') => array(
             'value' => '{php} return implode(", ", Set::extract("/Role/name", $row_data)); {/php}',
@@ -34,7 +34,7 @@ $tSettings = array(
 
 <?php echo $this->Form->create(); ?>
     <!-- Filter -->
-    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-filter_fieldset" style="cursor:pointer;">' . __t('Filter Options') . '</span>' ); ?>
+    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-filter_fieldset" style="cursor:pointer;">' . __t('Filter Options') . '</span>'); ?>
         <div id="filter_fieldset" class="horizontalLayout" style="<?php echo isset($this->data['User']['filter']) ? '' : 'display:none;'; ?>">
             <?php echo $this->Form->input('User.filter.User|status',
                     array(
@@ -71,7 +71,7 @@ $tSettings = array(
 
 <?php echo $this->Form->create('User', array('onsubmit' => 'return confirm("' . __t('Are you sure about this changes ?') . '");')); ?>
     <!-- Update -->
-    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-update_fieldset" style="cursor:pointer;">' . __t('Update Options') . '</span>' ); ?>
+    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-update_fieldset" style="cursor:pointer;">' . __t('Update Options') . '</span>'); ?>
         <div id="update_fieldset" class="horizontalLayout" style="<?php echo isset($this->data['User']['update']) ? '' : 'display:none;'; ?>">
             <?php echo $this->Form->input('User.update',
                     array(
@@ -85,7 +85,7 @@ $tSettings = array(
                     )
                 );
             ?>
-            <?php echo $this->Form->input(__t('Update'), array('type' => 'submit', 'label' => false )); ?>
+            <?php echo $this->Form->input(__t('Update'), array('type' => 'submit', 'label' => false)); ?>
         </div>
     <?php echo $this->Html->useTag('fieldsetend'); ?>
     <?php echo $this->Html->table($results, $tSettings);?>

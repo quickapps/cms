@@ -41,7 +41,7 @@ class Node extends NodeAppModel {
     );
 
     public function afterFind($results, $primary) {
-        if (empty($results) || !$primary ) {
+        if (empty($results) || !$primary) {
             return $results;
         }
 

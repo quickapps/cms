@@ -50,7 +50,7 @@
         foreach (Configure::read('Modules') as $name => $data) {
             $isTheme = strpos($name, 'Theme') === 0;
 
-            if (!$isTheme && file_exists($data['path'] . 'View' . DS . 'Elements' . DS . 'settings.ctp' )) {
+            if (!$isTheme && file_exists($data['path'] . 'View' . DS . 'Elements' . DS . 'settings.ctp')) {
                 $moduleSettingsLinks[] =
                     "<li>" .
                         $this->Html->link($data['yaml']['name'], '/admin/system/modules/settings/' . $name) .

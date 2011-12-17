@@ -251,7 +251,7 @@ class HookCollectionHelper extends AppHelper {
         }
 
         $tag = $m[2];
-        $attr = $this->__hooktagParseAtts( $m[3] );
+        $attr = $this->__hooktagParseAtts($m[3]);
         $hook = isset($this->__map['Hooktags'][$tag]) ? $this->__map['Hooktags'][$tag] : false;
 
         if ($hook) {

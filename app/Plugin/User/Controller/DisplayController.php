@@ -19,7 +19,7 @@ class DisplayController extends UserAppController {
         }
 
         if (isset($this->data['User']['viewModes'])) { # set available view modes
-            $this->Field->setViewModes( $this->data['User']['viewModes'], array('Field.belongsTo' => 'User'));
+            $this->Field->setViewModes($this->data['User']['viewModes'], array('Field.belongsTo' => 'User'));
             $this->redirect($this->referer());
         }
 
