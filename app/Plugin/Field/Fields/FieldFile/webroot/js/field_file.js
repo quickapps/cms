@@ -79,13 +79,12 @@ QuickApps.field_file.afterUpload = function (_field_id, response) {
 
     count               = count + 1;
     var node_id         = _field_id + '_' + response.ID;           
-    var mime_icon_url   = QuickApps.settings.base_url + 'field_file/img/icons/' + response.mime_icon;
 
     // html
     var html = '';
     html += '<li>';
     html += '<div class="snippet" id="' + node_id + '">';
-    html += '<img class="file-icon" src="' + mime_icon_url + '" />';
+    html += '<img class="file-icon" src="' + response.mime_icon + '" />';
     html += '<span class="file-name"><a href="' + response.file_url + '" target="_blank">' + response.file_name + '</a></span>';
     html += '<span class="file-size">(' + response.file_size + ')</span>';
     html += '<div class="submit"><input type="submit" value="' + QuickApps.__t('Remove') + '" onClick="QuickApps.field_file.remove(\'' + node_id + '\'); return false;" /></div>';
