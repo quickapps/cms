@@ -90,8 +90,7 @@ class Menu extends MenuAppModel {
                 'status' => 0,
                 'visibility' => 0,
                 'pages' => '',
-                'title' => $this->data['Menu']['title'],
-                'locale' => $this->data['Menu']['locale']
+                'title' => $this->data['Menu']['title']
             );
             $this->Block->save($bdata, false);
         }

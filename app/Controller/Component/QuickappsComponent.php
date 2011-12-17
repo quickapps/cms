@@ -694,9 +694,11 @@ class QuickAppsComponent extends Component {
         $url = '/' . $this->Controller->request->url;
         $out = array($url);
 
-        foreach ($this->Controller->request->params['named'] as $key => $val) {
-            $url = str_replace_once("/{$key}:{$val}", '', $url);
-            $out[] = $url;
+        if (isset($this->Controller->request->params['named'])) {
+            foreach ($this->Controller->request->params['named'] as $key => $val) {
+                $url = str_replace_once("/{$key}:{$val}", '', $url);
+                $out[] = $url;
+            }
         }
 
         $out[] = $url;
@@ -709,9 +711,11 @@ class QuickAppsComponent extends Component {
             $out[] = $url;
         }
 
-        foreach ($this->Controller->request->params['pass'] as $p) {
-            $url = str_replace_once("/{$p}", '', $url);
-            $out[] = $url;
+        if (isset($this->Controller->request->params['pass'])) {
+            foreach ($this->Controller->request->params['pass'] as $p) {
+                $url = str_replace_once("/{$p}", '', $url);
+                $out[] = $url;
+            }
         }
 
         return array_unique($out);

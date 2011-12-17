@@ -1126,6 +1126,7 @@ class InstallerComponent extends Component {
                 return false;
             }
         } else {
+            $yaml = Spyc::YAMLLoad($yamlPath);
             $core = $isTheme ? "core ({$yaml['info']['core']})" : "core ({$yaml['core']})";
             $r = $this->checkIncompatibility($this->parseDependency($core), Configure::read('Variable.qa_version'));
 
@@ -1138,8 +1139,6 @@ class InstallerComponent extends Component {
 
                 return false;
             }
-
-            $yaml = Spyc::YAMLLoad($yamlPath);
 
             if (
                 ($isTheme && isset($yaml['info']['dependencies']) && $this->checkDependency($yaml['info'])) ||

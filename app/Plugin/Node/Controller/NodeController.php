@@ -207,9 +207,10 @@ class NodeController extends NodeAppController {
 
         if ($criteria) {
             $criteria = urldecode($criteria);
-            $data = array();
             $data['Search']['criteria'] = $criteria; // hold untouch criteria query
             $this->data = $data;
+
+            $this->set('criteria', $data['Search']['criteria']);
 
             if ($limit = $this->__search_expression_extract($criteria, 'limit')) {
                 $criteria = str_replace("limit:{$limit}", '', $criteria);
@@ -431,7 +432,6 @@ class NodeController extends NodeAppController {
 
         $this->set('languages', $languages);
         $this->set('scope', $scope);
-        $this->set('criteria', $data['Search']['criteria']);
     }
 
 /**
