@@ -33,10 +33,10 @@ class SystemHookHelper extends AppHelper {
             'body' => $this->_View->element(
                 'system_recent_content',
                 array(
-                    'block' => $block, 
-                    'nodes' => $Node->find('all', 
+                    'block' => $block,
+                    'nodes' => $Node->find('all',
                         array(
-                            'limit' => Configure::read('Variable.rows_per_page'), 
+                            'limit' => Configure::read('Variable.rows_per_page'),
                             'order' => array('Node.created' => 'DESC')
                         )
                     )

@@ -36,15 +36,15 @@
         <?php echo $this->Html->useTag('fieldsetend'); ?>
 
         <?php echo $this->Html->useTag('fieldsetstart', __t('Pages')); ?>
-            <?php 
-                echo $this->Form->input('visibility', 
+            <?php
+                echo $this->Form->input('visibility',
                     array(
-                        'type' => 'radio', 
+                        'type' => 'radio',
                         'legend' => false,
-                        'value' => 0, 
-                        'separator' => '<br>', 
+                        'value' => 0,
+                        'separator' => '<br>',
                         'options' => array(
-                            0 => __t('All pages except those listed'), 
+                            0 => __t('All pages except those listed'),
                             1 => __t('Only the listed pages'),
                             2 => __t('Pages on which this PHP code returns TRUE (experts only)')
                         )

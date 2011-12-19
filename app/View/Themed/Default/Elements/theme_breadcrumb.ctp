@@ -1,4 +1,4 @@
-<?php 
+<?php
     $out = array();
 
     foreach ($breadcrumb as $node) {
@@ -8,4 +8,4 @@
 
     if (!empty($out)) {
         echo implode(' » ', $out) . ' » ';
-    }  
+    }

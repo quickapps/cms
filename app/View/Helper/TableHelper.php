@@ -28,7 +28,7 @@
  *    {{{
  *         ...
  *         'Column Title' => array(
- *             'value' => ,        # (string) Values to display when filling this column. 
+ *             'value' => ,        # (string) Values to display when filling this column.
  *                                     You can specify array paths to find in the $data array. e.g.: `{Model.field}`
  *                                     Also:
  *                                         {php}{/php}: Will print out the result returned by the PHP code. e.g.: {php} return 'hello world!'; {/php}

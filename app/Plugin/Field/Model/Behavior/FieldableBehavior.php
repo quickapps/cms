@@ -16,11 +16,11 @@
  *
  * ### What a Field is
  *
- * Internaly Fields are actually modules (cake's plugin), which manage the storing proccess of specific data. 
+ * Internaly Fields are actually modules (cake's plugin), which manage the storing proccess of specific data.
  * They behave like modules, this means they may have hooks and all what a common plugin has.
  * Data is usually stored in DB tables, QuickApps provides a basic storage table called `field_data`.
- * Though, each field is able to define its own storage system (usually extra tables). 
- * Also, each field's data element must have an unique ID in that storage system, 
+ * Though, each field is able to define its own storage system (usually extra tables).
+ * Also, each field's data element must have an unique ID in that storage system,
  * and such data is associated to an unique Model record.
  *
  * ### Understanding Model->Field relations
@@ -88,7 +88,7 @@
  *
  * ### Capturing POST and saving data
  * Capturing field's data and saving process are performed by using Model hooks callbacks (Behaviors Hooks).
- * In this process there are two diferent callbacks types, 
+ * In this process there are two diferent callbacks types,
  * `Entity callbacks`, related to Model entities (User, Node, etc).
  * And `Instance callbacks`, related to Field attachment process.
  *
@@ -106,7 +106,7 @@
  *
  *  * `{field_module}_after_delete($info)` [requited]: after Entity record has been deleted.
  *      (Here is where field should remove data from storage system.)
- * 
+ *
  * **_$info_ structure:**
  *
  *      $info = array(
@@ -515,7 +515,7 @@ class FieldableBehavior extends ModelBehavior {
 /**
  * Parses 'belongsTo' parameter looking for array paths.
  * This functionality is used only (and should be used only) by Nodes. That is so because,
- * Nodes may have diferent fields attached depending in NodeType (bridge association), 
+ * Nodes may have diferent fields attached depending in NodeType (bridge association),
  * Nodes's 'belongsTo' looks: 'NodeType-{Node.node_type_id}'
  *
  * @param string $belongsTo string to parse

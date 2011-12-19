@@ -26,8 +26,8 @@ class NodeType extends NodeAppModel {
     }
 
     public function beforeValidate() {
-        if (isset($this->data['NodeType']['id']) && 
-            isset($this->data['NodeType']['new_id']) && 
+        if (isset($this->data['NodeType']['id']) &&
+            isset($this->data['NodeType']['new_id']) &&
             $this->data['NodeType']['id'] != $this->data['NodeType']['new_id']
         ) {
             if ($this->field('module', array('NodeType.id' => $this->data['NodeType']['id'])) == 'Node') {
@@ -38,7 +38,7 @@ class NodeType extends NodeAppModel {
                 $this->__tmp['old_id'] = $this->data['NodeType']['id'];
                 $this->__tmp['new_id'] = $this->data['NodeType']['new_id'];
             }
-        }    
+        }
 
         return true;
     }

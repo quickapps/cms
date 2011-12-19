@@ -40,7 +40,7 @@ class Field extends FieldAppModel {
                         'label' => 'hidden',
                         'type' => '', #formatter name
                         'settings' => array(),
-                        'ordering' => 0 
+                        'ordering' => 0
                     )
                 )
             );

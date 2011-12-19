@@ -99,21 +99,21 @@
 
     <dt>Managing modules</dt>
     <dd>
-        The QuickApps module allows users with the appropriate permissions to enable and disable modules on the 
-        <a href="<?php echo $this->Html->url('/admin/system/modules'); ?>">Modules administration page</a>. 
-        QuickApps CMS comes with a number of core modules, and each module provides a discrete set of features and may be enabled or disabled depending on the needs of the site. 
+        The QuickApps module allows users with the appropriate permissions to enable and disable modules on the
+        <a href="<?php echo $this->Html->url('/admin/system/modules'); ?>">Modules administration page</a>.
+        QuickApps CMS comes with a number of core modules, and each module provides a discrete set of features and may be enabled or disabled depending on the needs of the site.
     </dd>
 
     <dt>Managing themes</dt>
     <dd>
-        The QuickApps module allows users with the appropriate permissions to enable and disable themes on the <a href="<?php echo $this->Html->url('/admin/system/themes'); ?>">Appearance administration page</a>. 
-        Themes determine the design and presentation of your site. 
+        The QuickApps module allows users with the appropriate permissions to enable and disable themes on the <a href="<?php echo $this->Html->url('/admin/system/themes'); ?>">Appearance administration page</a>.
+        Themes determine the design and presentation of your site.
         QuickApps CMS comes packaged with one core theme (Default).
     </dd>
 
     <dt>Configuring basic site settings</dt>
     <dd>
-        The QuickApps module also handles basic configuration options for your site, 
+        The QuickApps module also handles basic configuration options for your site,
         including Date and time settings, Site name and other information</a>.
-    </dd>    
+    </dd>
 </dl>

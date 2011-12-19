@@ -9,4 +9,4 @@
         default:
             echo $this->Layout->menu($menu);
         break;
-    }  
+    }

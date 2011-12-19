@@ -3,7 +3,7 @@
     $data['FieldData'] = !isset($data['FieldData']) ? array() : $data['FieldData'];
     $data['FieldData'] = array_merge(array('id' => null, 'field_id' => null, 'foreignKey' => null, 'belongsTo' => null, 'data' => ''), $data['FieldData']);
     $options = array();
-    
+
     $data['settings'] = array_merge(
         array(
             'vocabulary' => 0,
@@ -29,11 +29,11 @@
 
     // max_values > 1
     $Options = array(
-        'escape' => false, 
-        'type' => 'select', 
-        'label' => $data['label'], 
-        'multiple' => ($data['settings']['type'] === 'checkbox' ? 'checkbox' : true), 
-        'options' => $options, 
+        'escape' => false,
+        'type' => 'select',
+        'label' => $data['label'],
+        'multiple' => ($data['settings']['type'] === 'checkbox' ? 'checkbox' : true),
+        'options' => $options,
         'value' => $selected
     );
 
@@ -45,7 +45,7 @@
         $Options['legend'] = $data['label'];
         $Options['value'] = @$selected[0];
         unset($Options['multiple']);
-    }  
+    }
 
     echo $this->Form->input("FieldData.FieldTerms.{$data['id']}.data", $Options);
     echo $this->Form->hidden("FieldData.FieldTerms.{$data['id']}.id", array('value' => $data['FieldData']['id']));

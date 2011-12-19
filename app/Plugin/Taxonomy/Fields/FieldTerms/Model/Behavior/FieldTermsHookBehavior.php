@@ -2,7 +2,7 @@
 class FieldTermsHookBehavior extends ModelBehavior {
 
 /**
- * Create Entity's tags cache for search queries, 
+ * Create Entity's tags cache for search queries,
  * this feature is available only for `Node` entity.
  *
  * Only Nodes (contents) are alowed to appear in search results with tag filter option,
@@ -40,9 +40,9 @@ class FieldTermsHookBehavior extends ModelBehavior {
                 }
             }
 
-            $terms = ClassRegistry::init('Taxonomy.Term')->find('all', 
+            $terms = ClassRegistry::init('Taxonomy.Term')->find('all',
                 array(
-                    'fields' => array('slug', 'id'), 
+                    'fields' => array('slug', 'id'),
                     'conditions' => array('Term.id' => $terms_ids)
                 )
             );
@@ -53,7 +53,7 @@ class FieldTermsHookBehavior extends ModelBehavior {
             }
 
             $info['Model']->data['Node']['terms_cache'] = implode('|', $terms_cache);
-        }    
+        }
 
         return true;
     }

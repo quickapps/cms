@@ -141,7 +141,7 @@ class AppHelper extends Helper {
         ob_end_clean();
 
         return (bool)$output;
-    } 
+    }
 
 /**
  * Check if a path matches any pattern in a set of patterns.

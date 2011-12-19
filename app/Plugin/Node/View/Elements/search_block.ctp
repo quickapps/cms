@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * This element is rendered by NodeHookHelper::node_search().
  *
@@ -7,19 +7,19 @@
  */
 ?>
 
-<?php 
+<?php
     $prefix = '';
 
     if (isset($data['Block']['settings']['url_prefix']) && !empty($data['Block']['settings']['url_prefix'])) {
         $prefix = trim($data['Block']['settings']['url_prefix']) . ' ';
     }
 
-    echo $this->Form->create('Search', 
+    echo $this->Form->create('Search',
         array(
-            'url' => '/s/', 
+            'url' => '/s/',
             'onSubmit' => "QuickApps.doSearch(); return false;"
         )
-            
+
     );
 ?>
     <?php echo $this->Form->input('criteria', array('required' => 'required', 'type' => 'text', 'label' => __d('node', 'Keywords'))); ?>
@@ -28,7 +28,7 @@
 
 <script type="text/javascript">
     QuickApps.doSearch = function () {
-        $(location).attr('href', 
+        $(location).attr('href',
             QuickApps.settings.base_url + 's/<?php echo $prefix; ?>' + decodeURIComponent($('#SearchCriteria').val())
         );
     };

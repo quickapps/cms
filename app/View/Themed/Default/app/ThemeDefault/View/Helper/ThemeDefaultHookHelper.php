@@ -19,8 +19,8 @@ class ThemeDefaultHookHelper extends AppHelper {
         $hb = @$s['settings']['color_header_bottom'];
         $links = @$s['settings']['color_links'];
         $text = @$s['settings']['color_text'];
-        $main_bg = @$s['settings']['color_main_bg'];        
-        $footer = @$s['settings']['color_footer'];        
+        $main_bg = @$s['settings']['color_main_bg'];
+        $footer = @$s['settings']['color_footer'];
 
         $ht = !$ht ? '#282727': $ht;
         $links = !$links ? '#00b7f3': $links;

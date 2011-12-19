@@ -186,9 +186,7 @@ class AppController extends Controller {
  */
     public function setCrumb($url = false) {
         if (func_num_args() > 1) {
-            $args = func_get_args();
-
-            foreach ($args as $arg) {
+            foreach (func_get_args() as $arg) {
                 $this->Quickapps->setCrumb($arg);
             }
         } else {
@@ -208,7 +206,6 @@ class AppController extends Controller {
         $_variable = Cache::read('Variable');
         $_modules = Cache::read('Modules');
         $_themeType = Router::getParam('admin') ? 'admin_theme' : 'site_theme';
-
         $hook_objects = Cache::read("hook_objects_{$_themeType}");
 
         if (!$hook_objects) {
@@ -231,7 +228,7 @@ class AppController extends Controller {
 
                 ClassRegistry::flush();
                 unset($this->Module);
-            }        
+            }
 
             $paths = $c = $h = $b = array();
             $_modules = array_keys($_modules);

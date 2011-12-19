@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Render Node details based on viewMode
  *

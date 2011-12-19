@@ -42,14 +42,14 @@
 
     <dt>Assigning vocabularies to content types</dt>
     <dd>
-        Before you can use a new vocabulary to classify your content, a new Taxonomy terms field must be added to a <a href="<?php echo $this->Html->url('/admin/node/types'); ?>">content type</a> on its <em>fields</em> page. 
-        After choosing the terms field, on the subsequent <em>field settings</em> page you can choose the desired vocabulary, whether one or multiple terms can be chosen from the vocabulary, and other settings. 
+        Before you can use a new vocabulary to classify your content, a new Taxonomy terms field must be added to a <a href="<?php echo $this->Html->url('/admin/node/types'); ?>">content type</a> on its <em>fields</em> page.
+        After choosing the terms field, on the subsequent <em>field settings</em> page you can choose the desired vocabulary, whether one or multiple terms can be chosen from the vocabulary, and other settings.
         The same vocabulary can be added to multiple content types by using the terms field.
     </dd>
 
     <dt>Classifying content</dt>
     <dd>
-        After the vocabulary is assigned to the content type, you can start classifying content. 
+        After the vocabulary is assigned to the content type, you can start classifying content.
         The field with terms will appear on the content editing screen when you edit or <a href="<?php echo $this->Html->url('/admin/node/contents/create/'); ?>">add new content</a>.
     </dd>
 
@@ -58,7 +58,7 @@
         Each taxonomy term automatically provides a page listing content that has its classification,
         and a corresponding RSS feed. For example, if the taxonomy term <em>Country Rock</em>
         has the slug <em>country-rock</em> (you can see this by looking at the URL when hovering on the linked term,
-        which you can click to navigate to the listing page), 
+        which you can click to navigate to the listing page),
         then you will find this list at the path <em>/s/term:country-rock</em>.
         The RSS feed will use the path <em>/s/term:country-rock/feed</em>.
     </dd>

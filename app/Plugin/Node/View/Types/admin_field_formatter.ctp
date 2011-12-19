@@ -1,5 +1,5 @@
-<?php 
-    $hidden = (isset($this->data['Field']['settings']['display'][$view_mode]['type']) && 
+<?php
+    $hidden = (isset($this->data['Field']['settings']['display'][$view_mode]['type']) &&
                 $this->data['Field']['settings']['display'][$view_mode]['type'] == 'hidden'
     );
 ?>
@@ -8,7 +8,7 @@
         <?php echo $this->Form->hidden('Field.id'); ?>
 
         <?php echo $this->Html->useTag('fieldsetstart', __t('Label')); ?>
-            <?php 
+            <?php
                 echo $this->Form->input("Field.settings.display.{$view_mode}.label",
                     array(
                         'type' => 'select',
@@ -19,13 +19,13 @@
                 );
             ?>
         <?php echo $this->Html->useTag('fieldsetend'); ?>
-        
+
         <?php echo $this->Html->useTag('fieldsetstart', __t('Format')); ?>
             <?php echo $this->Form->input('display_hidden', array('type' => 'checkbox', 'label' => __t('Hidden'), 'onClick' => "$('#field-formatter-form').toggle();", 'value' => 1, 'checked' => $hidden)); ?>
             <div id="field-formatter-form" style="<?php echo $hidden ? 'display:none;' : ''; ?>">
             <?php
                 echo $this->element('formatter_from',
-                    array(), 
+                    array(),
                     array(
                         'plugin' => Inflector::camelize($this->data['Field']['field_module'])
                     )

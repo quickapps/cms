@@ -34,7 +34,7 @@ class TaxonomyHookHelper extends AppHelper {
                 'vocabularies' => array(),
                 'content_counter' => 0,
                 'show_vocabulary' => 0
-            ), 
+            ),
             (array)$block['Block']['settings']
         );
 
@@ -50,13 +50,13 @@ class TaxonomyHookHelper extends AppHelper {
         );
 
         $body = '<ul id="taxonomy-vocabularies-' . $block['Block']['id'] . '" class="taxonomy-vocabularies">';
-        
+
         if ($block['Block']['settings']['show_vocabulary']) {
             foreach ($vocabularies as $vocabulary) {
                 $prefix = isset($block['Block']['settings']['url_prefix']) && !empty($block['Block']['settings']['url_prefix']) ? trim($block['Block']['settings']['url_prefix']) . ' ' : '';
                 $url = "/s/{$prefix}vocabulary:{$vocabulary['Vocabulary']['slug']}";
                 $body .= '<li>' . $this->_View->Html->link($vocabulary['Vocabulary']['title'], $url);
-                $terms = ClassRegistry::init('Taxonomy.Term')->find('all', 
+                $terms = ClassRegistry::init('Taxonomy.Term')->find('all',
                     array(
                         'conditions' => array('Term.vocabulary_id' => $vocabulary['Vocabulary']['id']),
                         'order' => array('Term.lft' => 'ASC')
@@ -71,7 +71,7 @@ class TaxonomyHookHelper extends AppHelper {
                         $count = Cache::read("count_term_{$term['Term']['id']}_{$lc}", 'terms_cache');
 
                         if (!$count) {
-                            $count = ClassRegistry::init('Node')->find('count', 
+                            $count = ClassRegistry::init('Node')->find('count',
                                 array(
                                     'conditions' => array(
                                         'Node.terms_cache LIKE' => "%{$term['Term']['id']}:%",
@@ -94,7 +94,7 @@ class TaxonomyHookHelper extends AppHelper {
                 $body .= '</li>';
             }
         } else {
-            $terms = ClassRegistry::init('Taxonomy.Term')->find('all', 
+            $terms = ClassRegistry::init('Taxonomy.Term')->find('all',
                 array(
                     'conditions' => array('Term.vocabulary_id' => $block['Block']['settings']['vocabularies']),
                     'order' => array('Term.lft' => 'ASC')
@@ -109,7 +109,7 @@ class TaxonomyHookHelper extends AppHelper {
                     $count = Cache::read("count_term_{$term['Term']['id']}_{$lc}", 'terms_cache');
 
                     if (!$count) {
-                        $count = ClassRegistry::init('Node')->find('count', 
+                        $count = ClassRegistry::init('Node')->find('count',
                             array(
                                 'conditions' => array(
                                     'Node.terms_cache LIKE' => "%{$term['Term']['id']}:%",

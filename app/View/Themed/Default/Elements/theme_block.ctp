@@ -1,4 +1,4 @@
-<?php 
+<?php
     $output = '';
 
     switch ($block['region']) {

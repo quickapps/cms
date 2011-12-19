@@ -45,7 +45,7 @@ class BBCodeBehavior extends ModelBehavior {
         if (isset($_results[0][$Model->alias])) {
             foreach ($_results as $rkey => &$record) {
                 foreach ($this->settings[$Model->alias]['fields'] as $field) {
-                    if (isset($record[$Model->alias][$field]) && 
+                    if (isset($record[$Model->alias][$field]) &&
                         !empty($record[$Model->alias][$field]) &&
                         is_string($record[$Model->alias][$field])
                     ) {
@@ -56,8 +56,8 @@ class BBCodeBehavior extends ModelBehavior {
             }
         } else {
             foreach ($this->settings[$Model->alias]['fields'] as $field) {
-                if (isset($_results[$Model->alias][$field]) && 
-                    !empty($_results[$Model->alias][$field]) && 
+                if (isset($_results[$Model->alias][$field]) &&
+                    !empty($_results[$Model->alias][$field]) &&
                     is_string($_results[$Model->alias][$field])
                 ) {
                     $_results[$Model->alias]["raw_{$field}"] = $_results[$Model->alias][$field];
@@ -100,7 +100,7 @@ class BBCodeBehavior extends ModelBehavior {
                 'allow_in' => Array('listitem', 'block', 'columns')
             )
         );
-        
+
         $Model->hook('before_parse_comment_bbcode', $string);
 
         $string = $bbcode->Parse($string);
@@ -131,5 +131,5 @@ class BBCodeBehavior extends ModelBehavior {
             }
             return $replacement;
         }
-    }    
+    }
 }

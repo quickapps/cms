@@ -304,6 +304,6 @@ class ContentsController extends NodeAppController {
             }
         }
 
-        $this->set('menus', $list); 
+        $this->set('menus', $list);
     }
 }

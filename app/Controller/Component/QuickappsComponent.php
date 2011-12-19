@@ -37,15 +37,15 @@ class QuickAppsComponent extends Component {
  * 'Site Offline' screen is rendered if site is offline.
  *
  * @return void
- */ 
+ */
     public function siteStatus() {
         if (Configure::read('Variable.site_online') != 1 && !$this->isAdmin()) {
             if ($this->Controller->plugin != 'User' &&
                 $this->Controller->request->params['controller'] != 'log' &&
                 !in_array($this->Controller->request->params['controller'], array('login', 'logout'))
             ) {
-                $this->Controller->layout = 'error'; 
-                $this->Controller->viewPath = 'Errors'; 
+                $this->Controller->layout = 'error';
+                $this->Controller->viewPath = 'Errors';
 
                 @$this->Controller->response->header(
                     array(
@@ -57,7 +57,7 @@ class QuickAppsComponent extends Component {
 
                 $this->Controller->set('name', __t('Site offline'));
                 $this->Controller->set('url', $this->Controller->request->here);
-                $this->Controller->render('offline');                
+                $this->Controller->render('offline');
             }
         }
     }
@@ -134,7 +134,7 @@ class QuickAppsComponent extends Component {
  * Prepare blocks, js, css, metas & basic data for rendering
  *
  * @return void
- */ 
+ */
     public function prepareContent() {
         $theme = Router::getParam('admin') ? Configure::read('Variable.admin_theme') : Configure::read('Variable.site_theme');
         $options = array(
@@ -142,9 +142,9 @@ class QuickAppsComponent extends Component {
                 'Block.themes_cache LIKE' => "%:{$theme}:%", # only blocks assigned to current theme
                 'Block.status' => 1,
                 'OR' => array( # only blocks assigned to any/current language
-                    'Block.locale = ' => null,
+                    'Block.locale =' => null,
                     'Block.locale =' => '',
-                    'Block.locale LIKE ' => '%s:3:"' . Configure::read('Variable.language.code') . '"%',
+                    'Block.locale LIKE' => '%s:3:"' . Configure::read('Variable.language.code') . '"%',
                     'Block.locale' => 'a:0:{}'
                 )
             )
@@ -182,14 +182,13 @@ class QuickAppsComponent extends Component {
 
 /**
  * Set system language for the current user.
- * 
+ *
  * @return void
  */
     public function setLanguage() {
         $urlBefore = $this->__urlChunk();
         $urlBefore = isset($urlBefore[0]) ? $urlBefore[0] : '';
         $urlBeforeT = __t($urlBefore);
-
         $langs = $this->Controller->Language->find('all', array('conditions' => array('status' => 1), 'order' => array('ordering' => 'ASC')));
         $installed_codes = Set::extract('/Language/code', $langs);
 
@@ -207,13 +206,13 @@ class QuickAppsComponent extends Component {
         Configure::write('Config.language', $lang);
 
         $last_i18n_urlT = __t($this->Controller->Session->read('last_i18n_url'));
-
         $lang = isset($this->Controller->request->params['named']['lang']) ? $this->Controller->request->params['named']['lang'] : $lang;
         $lang = isset($this->Controller->request->query['lang']) && !empty($this->Controller->request->query['lang']) ? $this->Controller->request->query['lang'] : $lang;
         $lang = empty($lang) ? Configure::read('Variable.default_language') : $lang;
         $lang = empty($lang) || !in_array($lang, $installed_codes) || strlen($lang) != 3 ? 'eng' : $lang;
 
         $this->Controller->Session->write('language', $lang);
+
         $_lang = Set::extract("/Language[code={$lang}]/..", $langs);
 
         if (!isset($_lang[0]['Language'])) { # not defined -> default = english
@@ -252,7 +251,7 @@ class QuickAppsComponent extends Component {
  * 'Access Deny' screen is rendered if user can not access.
  *
  * @return void
- */ 
+ */
     public function accessCheck() {
         if ($this->Controller->request->params['plugin']) {
             $plugin = Inflector::camelize($this->Controller->request->params['plugin']);
@@ -298,7 +297,9 @@ class QuickAppsComponent extends Component {
             !empty($cookie['password'])
         ) {
             $User = ClassRegistry::init('User.User');
+
             $User->unbindFields();
+
             $user = $User->find('first',
                 array(
                     'conditions' => array(
@@ -323,6 +324,7 @@ class QuickAppsComponent extends Component {
 
                 $session['role_id'] = Set::extract('/UsersRole/role_id', $session['role_id']);
                 $session['role_id'][] = 2; #role: authenticated user
+
                 $this->Controller->Auth->login($session);
 
                 return true;
@@ -440,8 +442,8 @@ class QuickAppsComponent extends Component {
  *  }}}
  *
  * @return void
- */ 
- 
+ */
+
     public function loadVariables() {
         $variables = Cache::read('Variable');
         $lp = Configure::read('Variable.url_language_prefix');
@@ -484,9 +486,7 @@ class QuickAppsComponent extends Component {
  */
     public function setCrumb($url = false) {
         if (func_num_args() > 1) {
-            $args = func_get_args();
-
-            foreach ($args as $arg) {
+            foreach (func_get_args() as $arg) {
                 $this->setCrumb($arg);
             }
         }
@@ -668,7 +668,7 @@ class QuickAppsComponent extends Component {
  * Retuns current user roles.
  *
  * @return array Associative array with id and names of the roles: array(id:integer => name:string, ...)
- */    
+ */
     public function userRoles() {
         $roles = array();
 
@@ -678,14 +678,14 @@ class QuickAppsComponent extends Component {
             $roles = $this->Controller->Session->read('Auth.User.role_id');
         }
 
-        return $roles;        
+        return $roles;
     }
 
 /**
  * Check if the logged user has admin privileges.
  *
  * @return boolean
- */ 
+ */
     public function isAdmin() {
         return ($this->Controller->Auth->user() && in_array(1, (array)$this->Controller->Auth->user('role_id')));
     }

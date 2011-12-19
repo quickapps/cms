@@ -219,7 +219,7 @@ class ManageController extends BlockAppController {
             }
         }
         $o = ':' . implode(":", array_unique($o)) . ':';
-        
+
         return preg_replace('/\:{2,}/', ':', $o);
     }
 

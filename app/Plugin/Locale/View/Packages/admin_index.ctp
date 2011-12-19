@@ -63,7 +63,7 @@
             <?php echo $Name; ?><br/>
             <ul>
             <?php foreach ($langs as $code => $po): ?>
-                <?php 
+                <?php
                     if (!isset($languages[$code])) {
                         continue;
                     }

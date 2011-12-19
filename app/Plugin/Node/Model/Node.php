@@ -15,7 +15,7 @@ class Node extends NodeAppModel {
     public $useTable = "nodes";
     public $order = array('Node.modified' => 'DESC');
     public $actsAs = array(
-        'Sluggable', 
+        'Sluggable',
         'Field.Fieldable' => array('belongsTo' => 'NodeType-{Node.node_type_id}'),
         'Serialized' => array('params')
     );
@@ -102,7 +102,7 @@ class Node extends NodeAppModel {
         $nId = $created ? $this->id : $this->__tmp['data']['Node']['id'];
         $MenuLink = ClassRegistry::init('Menu.MenuLink');
 
-        if (isset($this->__tmp['data']['Node']['menu_link']) && 
+        if (isset($this->__tmp['data']['Node']['menu_link']) &&
             $this->__tmp['data']['Node']['menu_link'] &&
             isset($this->__tmp['data']['MenuLink']) &&
             !empty($this->__tmp['data']['MenuLink'])
@@ -111,7 +111,7 @@ class Node extends NodeAppModel {
             $node = $this->findById($nId);
 
             $path = "/{$node['Node']['node_type_id']}/{$node['Node']['slug']}.html";
-            $link_exists = $MenuLink->find('first', 
+            $link_exists = $MenuLink->find('first',
                 array(
                     'conditions' => array(
                         'MenuLink.router_path' => $path

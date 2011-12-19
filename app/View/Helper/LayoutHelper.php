@@ -453,7 +453,7 @@ class LayoutHelper extends AppHelper {
  * Checks user session.
  *
  * @return boolean, TRUE if user is logged in. FALSE otherwise.
- */ 
+ */
     public function loggedIn() {
         return $this->Session->check('Auth.User.id');
     }
@@ -462,7 +462,7 @@ class LayoutHelper extends AppHelper {
  * Check if the logged user has admin privileges
  *
  * @return boolean
- */ 
+ */
     public function isAdmin() {
         return in_array(1, (array)$this->userRoles());
     }
@@ -490,7 +490,7 @@ class LayoutHelper extends AppHelper {
  * @param array $user Optional user data, current logged user data will be used otherwise
  * @param array $options extra Options for Html->image()
  * @return HTML <img>
- */ 
+ */
     public function userAvatar($user = false, $options = array()) {
         $__options = array(
             'class' => 'user-avatar'

@@ -93,7 +93,7 @@ class AppModel extends Model {
 			$this->validationErrors = array();
 		}
 		$this->validationErrors = Set::insert($this->validationErrors, $field, $value); # QUICKAPPS MOD
-	}    
+	}
 
 /**
  * Saves model hasAndBelongsToMany data to the database.

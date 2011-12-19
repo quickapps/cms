@@ -22,7 +22,7 @@ class ListController extends CommentAppController {
             $filter = 1;
             $status = 'published';
             $title = __t('Published comments');
-        }    
+        }
 
         if (isset($this->data['Comment']['update'])) {
             if (isset($this->data['Items']['id'])) {
@@ -30,7 +30,9 @@ class ListController extends CommentAppController {
 
                 foreach ($this->data['Items']['id'] as $key => $id) {
                     if ($update) { // approve | unapprove
-                        if (!$this->Quickapps->isAdmin() && !in_array("admin_{$this->data['Comment']['update']}", Configure::read('allowedActions'))) {
+                        if (!$this->Quickapps->isAdmin() &&
+                            !in_array("admin_{$this->data['Comment']['update']}", Configure::read('allowedActions'))
+                        ) {
                             continue;
                         }
 
@@ -40,7 +42,9 @@ class ListController extends CommentAppController {
                             $this->admin_unapprove($id);
                         }
                     } else {
-                        if (!$this->Quickapps->isAdmin() && !in_array('admin_delete', Configure::read('allowedActions'))) {
+                        if (!$this->Quickapps->isAdmin() &&
+                            !in_array('admin_delete', Configure::read('allowedActions'))
+                        ) {
                             continue;
                         }
 

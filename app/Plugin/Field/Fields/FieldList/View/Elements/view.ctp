@@ -5,17 +5,17 @@
         $label = $data['settings']['display'][$view_mode]['label'];
 
         switch($label) {
-            case 'hidden': 
-                default: 
-                    echo ''; 
+            case 'hidden':
+                default:
+                    echo '';
             break;
 
-            case 'inline': 
-                echo "<h4 class=\"field-label\" style=\"display:inline;\">{$data['label']}</h4> "; 
+            case 'inline':
+                echo "<h4 class=\"field-label\" style=\"display:inline;\">{$data['label']}</h4> ";
             break;
 
-            case 'above': 
-                echo "<h4 class=\"field-label\">{$data['label']}</h4> "; 
+            case 'above':
+                echo "<h4 class=\"field-label\">{$data['label']}</h4> ";
             break;
         }
 

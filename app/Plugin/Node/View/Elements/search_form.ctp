@@ -1,11 +1,11 @@
-<?php 
+<?php
 /**
  * Advanced search form
  * This element is rendered as part of search result: View/Node/search.ctp
  *
  * @package QuickApps.Plugin.Node.View.Elements
  * @author Christopher Castro
- */ 
+ */
 ?>
 
 <div id="search-advanced">
@@ -22,12 +22,12 @@
                     </div>
 
                     <div class="check-criterias">
-                        <?php 
-                            echo $this->Form->input('type', 
+                        <?php
+                            echo $this->Form->input('type',
                                 array(
-                                    'label' => __t('Only of the type(s)'), 
-                                    'type' => 'select', 
-                                    'multiple' => 'checkbox', 
+                                    'label' => __t('Only of the type(s)'),
+                                    'type' => 'select',
+                                    'multiple' => 'checkbox',
                                     'options' => $nodeTypes
                                 )
                             );
@@ -35,12 +35,12 @@
 
                         <!-- types | languages -->
 
-                         <?php 
-                            echo $this->Form->input('language', 
+                         <?php
+                            echo $this->Form->input('language',
                                 array(
-                                    'label' => __t('Languages'), 
-                                    'type' => 'select', 
-                                    'multiple' => 'checkbox', 
+                                    'label' => __t('Languages'),
+                                    'type' => 'select',
+                                    'multiple' => 'checkbox',
                                     'options' => $languages
                                 )
                             );

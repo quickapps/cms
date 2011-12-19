@@ -5,7 +5,7 @@
  *
  * @package QuickApps.View.Elements
  * @author Christopher Castro <chris@quickapps.es>
- */ 
+ */
 ?>
 
 <?php echo $this->Html->useTag('fieldsetstart', __t('Content')); ?>

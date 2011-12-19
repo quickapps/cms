@@ -11,9 +11,9 @@
  */
 class MenuHookHelper extends AppHelper {
     function beforeLayout($layoutFile) {
-        if (isset($this->request->params['plugin']) && 
-            $this->request->params['plugin'] == 'menu' && 
-            $this->request->params['action'] == 'admin_index' && 
+        if (isset($this->request->params['plugin']) &&
+            $this->request->params['plugin'] == 'menu' &&
+            $this->request->params['action'] == 'admin_index' &&
             $this->request->controller == 'manage'
         ) {
             $this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar')), 'toolbar');

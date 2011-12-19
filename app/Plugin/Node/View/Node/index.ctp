@@ -1,11 +1,11 @@
-<?php 
+<?php
 /**
- * Nodes list for front page. Will render promoted nodes or 
+ * Nodes list for front page. Will render promoted nodes or
  * 'frontpage' if it was set in configuration panel.
  *
  * @package QuickApps.Plugin.Node.View.Elements
  * @author Christopher Castro
- */ 
+ */
 ?>
 
 <?php if (Configure::read('Variable.site_frontpage')): ?>

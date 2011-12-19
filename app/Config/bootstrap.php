@@ -2,7 +2,7 @@
 /**
  * This file is loaded automatically by the app/webroot/index.php file after core.php
  *
- * This file should load/create any application wide configuration settings, such as 
+ * This file should load/create any application wide configuration settings, such as
  * Caching, Logging, loading additional configuration files.
  *
  * You should also use this file to include any files that provide global functions/constants
@@ -107,7 +107,7 @@ Cache::config('default', array('engine' => 'File'));
     App::build(
         array(
             'locales' => ROOT . DS . 'Locale' . DS,
-            'views' => ROOT  . DS . 'Themes' . DS, 
+            'views' => ROOT  . DS . 'Themes' . DS,
             'plugins' => $__plugin_paths,
             'Model/Behavior' => ROOT . DS . 'Hooks' . DS . 'Behavior' . DS,
             'View/Helper' => ROOT . DS . 'Hooks' . DS . 'Helper' . DS,
@@ -202,7 +202,7 @@ Cache::config('default', array('engine' => 'File'));
             }
         }
 
-        return false;    
+        return false;
     }
 
 /**
@@ -244,7 +244,7 @@ Cache::config('default', array('engine' => 'File'));
         $route = Router::getParams();
 
         if (isset($route['plugin']) && !empty($route['plugin'])) {
-            $translated = I18n::translate($singular, null, Inflector::underscore($route['plugin'])); # 1º look in plugin 
+            $translated = I18n::translate($singular, null, Inflector::underscore($route['plugin'])); # 1º look in plugin
         } else {
             $translated = $singular;
         }
@@ -264,7 +264,7 @@ Cache::config('default', array('engine' => 'File'));
             $args = array_slice(func_get_args(), 1);
         }
 
-        return vsprintf($translated, $args);    
+        return vsprintf($translated, $args);
     }
 
 /**
@@ -301,7 +301,7 @@ Cache::config('default', array('engine' => 'File'));
  * @param string $str_replacement The replacement for $str_pattern.
  * @param string $string The original to find and replace.
  * @return string
- */    
+ */
     function str_replace_once($str_pattern, $str_replacement, $string) {
         if (strpos($string, $str_pattern) !== false) {
             $occurrence = strpos($string, $str_pattern);

@@ -23,11 +23,11 @@
         <p>&nbsp;</p>
 
         <?php echo $this->Html->useTag('fieldsetstart', __t('Show as selected:')); ?>
-            <?php 
-                echo $this->Form->input('selected_on_type', 
+            <?php
+                echo $this->Form->input('selected_on_type',
                     array(
                         'legend' => false,
-                        'type' => 'radio', 
+                        'type' => 'radio',
                         'options' => array(
                             'reg' => __t('When URL match any those listed'),
                             'php' => __t('When following PHP code returns TRUE (experts only)')

@@ -112,7 +112,7 @@
     echo $this->Form->hidden("FieldData.FieldFile.{$data['id']}.uploaded_path", array('value' => $uploaded_path));
 
     $show_uploader = (
-        !count($data['FieldData']['data']['files']) || 
+        !count($data['FieldData']['data']['files']) ||
         ($multi && count($data['FieldData']['data']['files']) < $data['settings']['multi'])
     );
 ?>
@@ -150,7 +150,7 @@
     Settings['multi'] = true;
     Settings['queueSizeLimit'] = <?php echo $data['settings']['multi']; ?>;
     <?php else: ?>
-    
+
     Settings['multi'] = false;
     Settings['queueSizeLimit'] = 1;
     <?php endif; ?>

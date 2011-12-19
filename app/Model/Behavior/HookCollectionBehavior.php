@@ -165,7 +165,7 @@ class HookCollectionBehavior extends ModelBehavior {
  *
  * @param string $hook Hook name to turn off.
  * @return boolean TRUE on success. FALSE hook does not exists.
- */ 
+ */
     public function hookDisable($hook) {
         $hook = Inflector::underscore($hook);
 
@@ -269,6 +269,6 @@ class HookCollectionBehavior extends ModelBehavior {
 
         $this->_methods = array_keys($this->__map);
 
-        return true;    
+        return true;
     }
 }

@@ -229,12 +229,12 @@ class NodeController extends NodeAppController {
                 $criteria = str_replace("type:{$type}", '', $criteria);
                 $scope['Node.node_type_id'] = explode(',', $type);
             }
-            
+
             if ($vocabulary = $this->__search_expression_extract($criteria, 'vocabulary')) {
                 $criteria = str_replace("vocabulary:{$vocabulary}", '', $criteria);
                 $vSlugs = explode(',', $vocabulary);
                 $vSlugs = Set::filter($vSlugs);
-                
+
                 if (!empty($vSlugs)) {
                     $Vocabulary = ClassRegistry::init('Taxonomy.Vocabulary');
 

@@ -26,18 +26,18 @@ class FieldTextHookHelper extends AppHelper {
 
         return $data['content'];
     }
-    
+
     // already saved in plain, nothing to do
     public function text_processing_plain(&$text) {
         $text = $this->__email2Link($text);
-        $text = $this->__url2Link($text);        
+        $text = $this->__url2Link($text);
         $text = nl2br($text);
     }
 
     // already saved in plain, nothing to do
     public function text_processing_filtered(&$text) {
         $text = $this->__email2Link($text);
-        $text = $this->__url2Link($text);                
+        $text = $this->__url2Link($text);
         $text = nl2br($text);
     }
 
@@ -45,14 +45,14 @@ class FieldTextHookHelper extends AppHelper {
     public function text_processing_markdown(&$text) {
         if (!isset($this->MarkdownParser) || !is_object($this->MarkdownParser)) {
             App::import('Lib', 'FieldText.Markdown');
-            
+
             $this->MarkdownParser = new Markdown_Parser;
         }
 
         $text = $this->MarkdownParser->transform($text);
         $text = $this->__email2Link($text);
         $text = str_replace('<p>h', '<p> h', $text);
-        $text = $this->__url2Link($text);            
+        $text = $this->__url2Link($text);
     }
 
     public function text_processing_full(&$text) {
@@ -113,14 +113,14 @@ class FieldTextHookHelper extends AppHelper {
                 '@</?((label)|(select)|(optgroup)|(option)|(textarea))@iu',
                 '@</?((frameset)|(frame)|(iframe))@iu',
             ),
-            array(' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',"$0", "$0", "$0", "$0", "$0", "$0","$0", "$0"), 
+            array(' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',"$0", "$0", "$0", "$0", "$0", "$0","$0", "$0"),
             $text
         );
 
         return strip_tags($text, '<script>');
     }
 
-    // Convert url to <a> HTML tag, also ignore URLs in existing <a> tags        
+    // Convert url to <a> HTML tag, also ignore URLs in existing <a> tags
     public static function __url2Link($text) {
         $pattern = array(
             '/(?<!http:\/\/|https:\/\/|\"|=|\'|\'>|\">)(www\..*?)(\s|\Z|\.\Z|\.\s|\<|\>|,)/i',
@@ -168,7 +168,7 @@ class FieldTextHookHelper extends AppHelper {
 
         return $text;
     }
-    
+
     public function obfuscate_email($email) {
         $plaintext = $email;
         $result = "<a href=\"";
@@ -181,11 +181,11 @@ class FieldTextHookHelper extends AppHelper {
 
         for ($i = 0; $i < strlen($pt); ++$i) {
             switch ($pt[$i]) {
-                case "'": 
+                case "'":
                     $result2 .= "\"'\"";
                 break;
 
-                case '"': 
+                case '"':
                     $result2 .= '"\'"';
                 break;
 

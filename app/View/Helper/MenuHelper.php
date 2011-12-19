@@ -368,21 +368,21 @@ class MenuHelper extends AppHelper {
 
             if ($this->__settings['doPathSelect'] &&
                 in_array($link_url, $crumb_urls) &&
-                $itemType == $this->__settings['itemType'] && 
+                $itemType == $this->__settings['itemType'] &&
                 empty($elementData['data'][$this->__settings['model']][$this->__settings['external_url']])
             ) {
                 $this->addItemAttribute('class', $this->__settings['selectedClass']);
             } elseif (str_replace_once('/' . Configure::read('Config.language'), '', $link_url) == '/' && $this->_View->here === str_replace_once('/' . Configure::read('Config.language'), '', $this->_View->Html->url('/'))) {
                 $this->addItemAttribute('class', $this->__settings['selectedClass']);
             } elseif (
-                isset($elementData['data'][$this->__settings['model']]['selected_on']) && 
-                !empty($elementData['data'][$this->__settings['model']]['selected_on']) 
+                isset($elementData['data'][$this->__settings['model']]['selected_on']) &&
+                !empty($elementData['data'][$this->__settings['model']]['selected_on'])
             ) {
                 if (
                     ($elementData['data'][$this->__settings['model']]['selected_on_type'] == 'php' &&
                     $this->php_eval($elementData['data'][$this->__settings['model']]['selected_on']) === true)
-                    || 
-                    ($elementData['data'][$this->__settings['model']]['selected_on_type'] == 'reg' && 
+                    ||
+                    ($elementData['data'][$this->__settings['model']]['selected_on_type'] == 'reg' &&
                     $this->urlMatch($elementData['data'][$this->__settings['model']]['selected_on'], '/' . $this->_View->request->url))
                 ) {
                     $this->addItemAttribute('class', $this->__settings['selectedClass']);
@@ -695,5 +695,5 @@ class MenuHelper extends AppHelper {
         $this->__tmp['__getUrl'] = array_unique($out);
 
         return $this->__tmp['__getUrl'];
-    }  
+    }
 }

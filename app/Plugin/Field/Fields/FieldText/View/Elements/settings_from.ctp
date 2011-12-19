@@ -4,7 +4,7 @@
         array(
             'type' => 'select',
             'options' => array(
-                'text' => __d('field_text', 'Text field'), 
+                'text' => __d('field_text', 'Text field'),
                 'textarea' => __d('field_text', 'Long text')
             ),
             'label' => __d('field_text', 'Type of content')
@@ -12,14 +12,14 @@
     );
 ?>
 
-<?php  
+<?php
     echo $this->Form->input("Field.settings.text_processing",
         array(
             'type' => 'select',
             'options' => array(
-                'plain' => __d('field_text', 'Plain text'), 
-                'full' => __d('field_text', 'Full HTML'), 
-                'filtered' => __d('field_text', 'Filtered HTML'), 
+                'plain' => __d('field_text', 'Plain text'),
+                'full' => __d('field_text', 'Full HTML'),
+                'filtered' => __d('field_text', 'Filtered HTML'),
                 'markdown' => __d('field_text', 'Markdown')
             ),
             'label' => __d('field_text', 'Text processing')
@@ -36,14 +36,14 @@
                 <li><?php echo __d('field_text', 'Lines and paragraphs break automatically.'); ?></li>
             </ul>
         </li>
-    
+
         <li>
             <b><?php echo __d('field_text', 'Full HTML'); ?>:</b>
             <ul>
                 <li><?php echo __d('field_text', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
             </ul>
         </li>
-        
+
         <li>
             <b><?php echo __d('field_text', 'Filtered HTML'); ?>:</b>
             <ul>

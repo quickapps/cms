@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * This element is rendered by NodeHookHelper::node_search_settings().
  *

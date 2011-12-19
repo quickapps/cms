@@ -12,8 +12,8 @@
 class BlockHookHelper extends AppHelper {
     // toolbar
     public function beforeLayout($layoutFile) {
-        if (isset($this->request->params['plugin']) &&  
-            $this->request->params['plugin'] == 'block' && 
+        if (isset($this->request->params['plugin']) &&
+            $this->request->params['plugin'] == 'block' &&
             $this->request->params['action'] != 'admin_add'
         ) {
             $this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar')), 'toolbar');

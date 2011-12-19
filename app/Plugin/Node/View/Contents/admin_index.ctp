@@ -7,8 +7,8 @@ $tSettings = array(
             'tdOptions' => array('width' => '25', 'align' => 'center')
         ),
         __t('Title') => array(
-            'value' => '{Node.title} 
-                {php} return ({Node.sticky}) ? \'{img title="' . __t("Sticky at top") . '"}/node/img/sticky.png{/img}\' : ""; {/php} 
+            'value' => '{Node.title}
+                {php} return ({Node.sticky}) ? \'{img title="' . __t("Sticky at top") . '"}/node/img/sticky.png{/img}\' : ""; {/php}
                 {php} return ({Node.promote}) ? \'{img title="' . __t("Promoted in front page") . '"}/node/img/promote.png{/img}\' : ""; {/php}
                 {php} return (trim("{Node.cache}") != "") ? \'{img title="' . __t("Cache activated") . ': ' . '{Node.cache}"}/node/img/cache.png{/img}\' : ""; {/php}',
             'sort' => 'Node.title',

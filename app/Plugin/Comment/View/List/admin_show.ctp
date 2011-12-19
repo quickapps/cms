@@ -34,7 +34,7 @@ $tSettings = array(
     <!-- Update -->
     <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-update_fieldset" style="cursor:pointer;">' . __t('Update Options') . '</span>'); ?>
         <div id="update_fieldset" class="horizontalLayout" style="<?php echo isset($this->data['Comment']['update']) ? '' : 'display:none;'; ?>">
-            <?php 
+            <?php
                 $options = array(
                     'approve' => __t('Approve selected comments'),
                     'unapprove' => __t('Unapprove selected comments'),
@@ -60,7 +60,6 @@ $tSettings = array(
     <?php echo $this->Html->useTag('fieldsetend'); ?>
     <?php echo $this->Html->table($results, $tSettings); ?>
 <?php echo $this->Form->end(); ?>
-
 
 <script type="text/javascript">
     $("#toggle-update_fieldset").click(function () {

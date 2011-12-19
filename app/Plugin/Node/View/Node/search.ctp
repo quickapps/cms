@@ -1,10 +1,10 @@
-<?php 
+<?php
 /**
  * Search results
  *
  * @package QuickApps.Plugin.Node.View
  * @author Christopher Castro
- */ 
+ */
 ?>
 
 <?php echo $this->element('search_form'); ?>
@@ -25,7 +25,7 @@
 <?php else: ?>
     <div id="node-no-search-results" class="node node-page node-list node-demote node-nosticky node-odd ">
         <h1><?php echo __t('Your search yielded no results'); ?></h1>
-        
+
         <ul>
             <li><?php echo __t('Check if your spelling is correct.'); ?></li>
             <li><?php echo __t('Remove quotes around phrases to search for each word individually. white cat will often show more results than "white cat".'); ?></li>

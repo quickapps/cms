@@ -422,8 +422,8 @@ class InstallerComponent extends Component {
  * @return boolean TRUE on success or FALSE otherwise
  */
     public function uninstall($pluginName = false) {
-        if (!$pluginName || 
-            !is_string($pluginName) || 
+        if (!$pluginName ||
+            !is_string($pluginName) ||
             !in_array($this->options['type'], array('module', 'theme'))
         ) {
             return false;
@@ -507,7 +507,7 @@ class InstallerComponent extends Component {
                         'name' => 'admin_theme',
                         'value' => 'AdminDefault'
                     )
-                );            
+                );
             }
         }
 
@@ -1001,7 +1001,7 @@ class InstallerComponent extends Component {
  * @param string $src Path content to check.
  * @param string $dst Destination path that $source should be copied to.
  * @return bool TRUE if all files & folder can be copied to `destination`. FALSE otherwise.
- */ 
+ */
     public function packageIsWritable($src, $dst) {
         $e = 0;
         $Folder = new Folder($src);
@@ -1258,7 +1258,7 @@ class InstallerComponent extends Component {
  * Regenerate cache of: Modules, Variable and Hook-Objects Map
  *
  * @return void
- */ 
+ */
     private function __clearCache() {
         # clear modules & variables
         Cache::delete('Modules');

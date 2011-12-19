@@ -1,4 +1,4 @@
-<?php 
+<?php
     $options = ClassRegistry::init('Taxonomy.Vocabulary')->find('list', array('recursive' => -1));
 
     echo $this->Form->input('Block.settings.vocabularies',

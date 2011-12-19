@@ -59,7 +59,7 @@
                     if (!isset($block['Block']['__block_region_id'])) {
                         unset($blocks_in_region[$key]);
                     }
-                } 
+                }
 
                 if (empty($blocks_in_region)) {
                     continue;
@@ -76,7 +76,7 @@
                     </div>
 
                     <div class="fl" style="width:60%;">
-                    <?php 
+                    <?php
                         if ($block['Block']['title'] == '') {
                             if ($block['Menu']['title'] != '') {
                                 echo $block['Menu']['title'];
@@ -96,7 +96,7 @@
 
                     <div class="fr">
                         <a href="<?php echo $this->Html->url("/admin/block/manage/clone/{$block['Block']['id']}"); ?>" onClick="return confirm('<?php echo __t('Duplicate this block?'); ?>');"><?php echo __t('clone') ?></a> |
-                        <a href="<?php echo $this->Html->url("/admin/block/manage/edit/{$block['Block']['id']}"); ?>"><?php echo __t('configure'); ?></a> | 
+                        <a href="<?php echo $this->Html->url("/admin/block/manage/edit/{$block['Block']['id']}"); ?>"><?php echo __t('configure'); ?></a> |
                         <?php if ($block['Block']['module'] == 'Block' || $block['Block']['clone_of'] != 0) { ?>
                             <a href="<?php echo $this->Html->url("/admin/block/manage/delete/{$block['Block']['id']}"); ?>" onclick="return confirm('<?php echo __t('Delete selected block ?'); ?>');"><?php echo __t('delete'); ?></a> |
                         <?php } ?>
@@ -170,7 +170,7 @@
                     if (!isset($block['Block']['__block_region_id'])) {
                         unset($blocks_in_region[$key]);
                     }
-                } 
+                }
 
                 if (empty($blocks_in_region)) {
                     continue;
@@ -187,7 +187,7 @@
                     </div>
 
                     <div class="fl" style="width:60%;">
-                    <?php 
+                    <?php
                         if ($block['Block']['title'] == '') {
                             if ($block['Menu']['title'] != '') {
                                 echo $block['Menu']['title'];
@@ -207,7 +207,7 @@
 
                     <div class="fr">
                         <a href="<?php echo $this->Html->url("/admin/block/manage/clone/{$block['Block']['id']}"); ?>" onClick="return confirm('<?php echo __t('Duplicate this block?'); ?>');"><?php echo __t('clone') ?></a> |
-                        <a href="<?php echo $this->Html->url("/admin/block/manage/edit/{$block['Block']['id']}"); ?>"><?php echo __t('configure'); ?></a> | 
+                        <a href="<?php echo $this->Html->url("/admin/block/manage/edit/{$block['Block']['id']}"); ?>"><?php echo __t('configure'); ?></a> |
                         <?php if ($block['Block']['module'] == 'Block' || $block['Block']['clone_of'] != 0) { ?>
                             <a href="<?php echo $this->Html->url("/admin/block/manage/delete/{{$block['Block']['id']}"); ?>" onclick="return confirm('<?php echo __t('Delete selected block ?'); ?>');"><?php echo __t('delete'); ?></a> |
                         <?php } ?>
@@ -227,10 +227,10 @@
 
             foreach ($unassigned as $key => $b) {
                 if (
-                    strpos($b['Block']['module'], 'Theme') === 0 && 
-                    !in_array($b['Block']['module'], 
+                    strpos($b['Block']['module'], 'Theme') === 0 &&
+                    !in_array($b['Block']['module'],
                         array(
-                            'Theme' . Configure::read('Variable.admin_theme'), 
+                            'Theme' . Configure::read('Variable.admin_theme'),
                             'Theme' . Configure::read('Variable.site_theme')
                         )
                     )
@@ -249,7 +249,7 @@
                 </div>
 
                 <div class="fl" style="width:60%;">
-                <?php 
+                <?php
                     if ($block['Block']['title'] == '') {
                         if ($block['Menu']['title'] != '') {
                             echo $block['Menu']['title'];
@@ -269,7 +269,7 @@
 
                 <div class="fr">
                     <a href="<?php echo $this->Html->url("/admin/block/manage/clone/{$block['Block']['id']}"); ?>" onClick="return confirm('<?php echo __t('Duplicate this block?'); ?>');"><?php echo __t('clone') ?></a> |
-                    <a href="<?php echo $this->Html->url("/admin/block/manage/edit/{$block['Block']['id']}"); ?>"><?php echo __t('configure'); ?></a> | 
+                    <a href="<?php echo $this->Html->url("/admin/block/manage/edit/{$block['Block']['id']}"); ?>"><?php echo __t('configure'); ?></a> |
                     <?php if ($block['Block']['module'] == 'Block' || $block['Block']['clone_of'] != 0) { ?>
                         <a href="<?php echo $this->Html->url("/admin/block/manage/delete/{{$block['Block']['id']}"); ?>" onclick="return confirm('<?php echo __t('Delete selected block ?'); ?>');"><?php echo __t('delete'); ?></a> |
                     <?php } ?>

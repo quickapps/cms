@@ -123,7 +123,7 @@ class HookCollectionHelper extends AppHelper {
         $_tmp = $this->_View->Layout->_tmp;
         $_tmp['__hooktags_reg'] = implode('|', $this->hooktagsList());
         $this->_View->Layout->_tmp = $_tmp;
-        
+
         return $found > 0;
     }
 
@@ -208,7 +208,7 @@ class HookCollectionHelper extends AppHelper {
  *
  * @param string $hook Hook name to turn off.
  * @return boolean TRUE on success. FALSE hook does not exists.
- */ 
+ */
     public function hookDisable($hook) {
         $hook = Inflector::underscore($hook);
 
@@ -233,7 +233,7 @@ class HookCollectionHelper extends AppHelper {
  * Return an array list of all registered hooktag methods.
  *
  * @return array Array list of all available hooktag methods.
- */ 
+ */
     public function hooktagsList() {
         return $this->_methods['Hooktags'];
     }
@@ -385,7 +385,7 @@ class HookCollectionHelper extends AppHelper {
                         $this->__map[$group][$method][] = (string)$helper;
                     } else {
                         $this->__map[$group][$method] = array((string)$helper);
-                    }  
+                    }
                 }
 
                 if ($pluginSplit[0]) {

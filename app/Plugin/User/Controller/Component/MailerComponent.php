@@ -20,21 +20,21 @@ class MailerComponent extends Component {
     }
 
 /**
- * Send email notification to user. 
+ * Send email notification to user.
  * It can send a preset message by indicating the preset type,
  * or send custom message by giving an associtive array with
  * body and subject of the message.
- * 
+ *
  * @param mixed $user_id Integer Id of the user to send the message.
  *                       Or User array data result of Model::find().
- * @param mixed $type 
+ * @param mixed $type
  *  It may be a string or integer indicating one of the preset messages:
  *  - `blocked` (0): Message notifying that the account has been BLOCKED.
  *  - `activation` (1): Message notifying that account has been UNBLOCKED.
  *  - `canceled` (2): Message notifying that account has been DELETED.
  *  - `password_recovery` (3): Message notifying PASSWORD RECOVERY proccess.
  *  - `welcome` (4): WELCOME message, after user registration but before activation.
- * 
+ *
  * Or an associative array with keys `body` and `subject`
  *  {{{
  *      array(
@@ -114,7 +114,7 @@ class MailerComponent extends Component {
 
 /**
  * Get all email template messages from DB.
- * 
+ *
  * @return array Associative array `email_variable_name => text`
  */
     public function mailVariables() {
@@ -136,7 +136,7 @@ class MailerComponent extends Component {
 
 /**
  * Find and replace User's special tags for the given string.
- * 
+ *
  * @param array $user User's associative Array Model::find() structure
  * @param string $text Text where to find and replace
  * @return string Replaced text

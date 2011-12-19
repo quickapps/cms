@@ -37,7 +37,7 @@ class VocabulariesController extends TaxonomyAppController {
             '/admin/taxonomy/',
             array(__t('Add vocabulary'))
         );
-        $this->title(__t('Add Vocabulary'));        
+        $this->title(__t('Add Vocabulary'));
     }
 
     public function admin_move($id, $dir = 'up') {
