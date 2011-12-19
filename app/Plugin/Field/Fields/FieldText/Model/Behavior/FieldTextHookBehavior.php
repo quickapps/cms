@@ -137,6 +137,7 @@ class FieldTextHookBehavior extends ModelBehavior {
         App::import('Lib', 'FieldText.Html2text');
 
         $h2t = new html2text($text);
+        $h2t->width = 0;
         $text = $h2t->get_text();
     }
 
@@ -150,6 +151,7 @@ class FieldTextHookBehavior extends ModelBehavior {
         App::import('Lib', 'FieldText.Html2text');
 
         $h2t = new html2text($text);
+        $h2t->width = 0;
 
         unset($h2t->search[0], $h2t->search[1], $h2t->search[2], $h2t->replace[0], $h2t->replace[1], $h2t->replace[2]);
         array_pop($h2t->search);
