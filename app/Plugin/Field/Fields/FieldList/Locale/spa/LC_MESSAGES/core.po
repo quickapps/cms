@@ -18,13 +18,13 @@ msgid "Default"
 msgstr "Descripción"
 
 msgid "Key"
-msgstr "Eliminar"
+msgstr "Clave"
 
 msgid "List Type"
-msgstr "Adjuntos"
+msgstr "Tipo de Lista"
 
 msgid "Options"
-msgstr "Tamaño"
+msgstr "Opciones"
 
 msgid "The possible values this field can contain. Enter one value per line, in the format <b>key|label</b>."
 msgstr "Los posibles valores que el campo puede contener. Ingrese un valor por linea, en el formato <b>clave|Etiqueta</b>"

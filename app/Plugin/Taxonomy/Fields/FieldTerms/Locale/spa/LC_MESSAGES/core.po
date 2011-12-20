@@ -1,0 +1,40 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-01-01 00:00+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Christopher Castro <chris@quickapps.es>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Country: SPAIN\n"
+"X-Poedit-KeywordsList: __t;__\n"
+"X-Poedit-Basepath: ../../../\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid "Vocabulary *"
+msgstr "Vocabulario *"
+
+msgid "The vocabulary which supplies the options for this field."
+msgstr "El vocabulario que proporciona las opciones para este campo."
+
+msgid "Element Type"
+msgstr "Tipo de Elemento"
+
+msgid "Check boxes/radio buttons"
+msgstr "Check boxes/radio buttons"
+
+msgid "The type of form element you would like to present to the user when creating this field."
+msgstr "El tipo de elemento de formulario con el que le gustaría presentar al usuario al crear este campo."
+
+msgid "Unlimited"
+msgstr "Ilimitado"
+
+msgid "Number of values"
+msgstr "Número de Valores"
+
+msgid "Maximum number of values users can enter for this field."
+msgstr "Número máximo de valores que el usaurio puede ingresar para este campo."
+

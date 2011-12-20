@@ -44,3 +44,26 @@ msgstr "Adjuntos"
 msgid "Size"
 msgstr "Tamaño"
 
+msgid "Allowed extensions"
+msgstr "Extensiones admitidas"
+
+msgid "Comma separated. i.e.: jpg,gif,png"
+msgstr "Separados por coma. ej.: jpg,gif,png"
+
+msgid "Number of files"
+msgstr "Número de ficheros"
+
+msgid "Maximum number of files users can upload for this field."
+msgstr "Número máximo de ficheros que los usuarios pueden subir para este campo."
+
+msgid "Upload folder"
+msgstr "Carpeta de subida"
+
+msgid "Optional subdirectory within the upload destination where files will be stored. Do not include preceding or trailing slashes."
+msgstr "Subdirectorio opcional en donde los ficheros se almacenarán. No incluya barras (/) iniciales ni finales."
+
+msgid "Enable Description field"
+msgstr "Habilitar campo de Descripción"
+
+msgid "The description field allows users to enter a description about the uploaded file."
+msgstr "El campo de descripción permite a los usuarios ingresar una breve descripción sobre el fichero cargado."
