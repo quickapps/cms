@@ -1,7 +1,11 @@
 <?php
     $view_mode = isset($data['settings']['display'][$Layout['viewMode']]) ? $Layout['viewMode'] : 'default';
 
-    if (isset($data['settings']['display'][$view_mode]['type']) && $data['settings']['display'][$view_mode]['type'] != 'hidden') {
+    if (isset($data['settings']['display'][$view_mode]['type']) &&
+        isset($data['settings']['options']) &&
+        !empty($data['settings']['options']) &&
+        $data['settings']['display'][$view_mode]['type'] != 'hidden'
+    ) {
         $label = $data['settings']['display'][$view_mode]['label'];
 
         switch($label) {
