@@ -174,7 +174,7 @@ class TableHelper extends AppHelper {
         preg_match_all('/\{([\{\}0-9a-zA-Z_\.]+)\}/iUs', $value, $path);
         if (isset($path[1]) && !empty($path[1])) {
             foreach ($path[0] as $i => $m) {
-                if (in_array($m, array('{php}', '{/php}'))){
+                if (in_array($m, array('{php}', '{/php}'))) {
                     continue;
                 }
 

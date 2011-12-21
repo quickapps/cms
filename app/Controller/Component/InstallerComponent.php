@@ -368,7 +368,7 @@ class InstallerComponent extends Component {
             // Copy files
             $copyTo = ($this->options['type'] == 'module') ? ROOT . DS . 'Modules' . DS . $appName . DS : THEMES . $appName . DS;
 
-            if(!$this->rcopy($packagePath, $copyTo)) {
+            if (!$this->rcopy($packagePath, $copyTo)) {
                 return false;
             }
 

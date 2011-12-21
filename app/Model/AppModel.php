@@ -185,7 +185,7 @@ class AppModel extends Model {
     private function __loadHookObjects() {
         $b = Configure::read('Hook.behaviors');
 
-        if (!$b){
+        if (!$b) {
             return false; // fix for AppController __preloadHooks()
         }
 

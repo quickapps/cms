@@ -100,7 +100,7 @@ class QuickAppsComponent extends Component {
 
             if (isset($yaml['stylesheets']) && !empty($yaml['stylesheets'])) {
                 foreach ($yaml['stylesheets'] as $media => $files) {
-                    if (!isset($this->Controller->Layout['stylesheets'][$media])){
+                    if (!isset($this->Controller->Layout['stylesheets'][$media])) {
                         $this->Controller->Layout['stylesheets'][$media] = array();
                     }
 
@@ -169,7 +169,7 @@ class QuickAppsComponent extends Component {
 
         $defaultMetaDescription = Configure::read('Variable.site_description');
 
-        if (!empty($defaultMetaDescription)){
+        if (!empty($defaultMetaDescription)) {
             $this->Controller->Layout['meta']['description'] = $defaultMetaDescription;
         }
 
@@ -401,7 +401,7 @@ class QuickAppsComponent extends Component {
             $allow = array();
 
             if (isset($allowedActionsIds) && is_array($allowedActionsIds) && count($allowedActionsIds) > 0) {
-                foreach ($allowedActionsIds as $i => $aId){
+                foreach ($allowedActionsIds as $i => $aId) {
                     $allow[] = $thisControllerActions[$aId];
                 }
             }

@@ -25,7 +25,7 @@ class FieldHookBehavior extends ModelBehavior {
         $field_modules = array();
         $plugins = App::objects('plugins');
 
-        if(!empty($field) && in_array($field, $plugins)) {
+        if (!empty($field) && in_array($field, $plugins)) {
             $plugins = array();
             $plugins[] = $field;
         }

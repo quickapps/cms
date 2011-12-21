@@ -80,7 +80,7 @@ class ListController extends UserAppController {
             }
         }
 
-        if(isset($this->request->params['requested'])) {
+        if (isset($this->request->params['requested'])) {
             return $del;
         } else {
             $this->redirect($this->referer());

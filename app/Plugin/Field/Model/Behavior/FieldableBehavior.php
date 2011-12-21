@@ -522,7 +522,7 @@ class FieldableBehavior extends ModelBehavior {
  * @param array $result a Node model row
  * @return string
  */
-    private function __parseBelongsTo($belongsTo, $result = array()){
+    private function __parseBelongsTo($belongsTo, $result = array()) {
          # look for dynamic belongsTo
         preg_match_all('/\{([\{\}0-9a-zA-Z_\.]+)\}/iUs', $belongsTo, $matches);
         if (isset($matches[1]) && !empty($matches[1])) {

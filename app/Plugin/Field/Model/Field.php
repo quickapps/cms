@@ -192,7 +192,7 @@ class Field extends FieldAppModel {
                 }
             }
 
-            if (!empty($modes)){
+            if (!empty($modes)) {
                 foreach ($modes as $new_mode) { # add if not set yet
                     if (!isset($field['Field']['settings']['display'][$new_mode])) {
                         $field['Field']['settings']['display'][$new_mode] = array(

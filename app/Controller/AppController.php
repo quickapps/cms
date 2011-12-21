@@ -292,7 +292,7 @@ class AppController extends Controller {
                 foreach ($files as $file) {
                     $prefix = ($plugin) ? Inflector::camelize($plugin) . '.' : '';
                     $hook = $prefix . Inflector::camelize(str_replace(array('.php'), '', basename($file)));
-                    $hook = str_replace(array('Component', 'Behavior', 'Helper'),'', $hook);
+                    $hook = str_replace(array('Component', 'Behavior', 'Helper'), '', $hook);
 
                     if (strpos($path, 'Helper')) {
                         $h[] = $hook;

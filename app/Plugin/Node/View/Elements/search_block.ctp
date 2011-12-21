@@ -35,7 +35,7 @@
 
     QuickApps.__searchCriteria = '<?php echo @$criteria; ?>';
 
-    $(document).ready(function (){
+    $(document).ready(function () {
         $('#SearchCriteria').focus(function () {
             if ($(this).val() == QuickApps.__searchCriteria) {
                 $(this).val('');

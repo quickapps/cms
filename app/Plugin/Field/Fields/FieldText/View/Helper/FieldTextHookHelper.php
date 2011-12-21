@@ -73,7 +73,7 @@ class FieldTextHookHelper extends AppHelper {
         $len_opened = count($openedtags);
 
         # all tags are closed
-        if(count($closedtags) == $len_opened){
+        if (count($closedtags) == $len_opened) {
             return $html;
         }
 

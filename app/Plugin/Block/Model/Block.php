@@ -56,7 +56,13 @@ class Block extends BlockAppModel {
                 return true;
             }
 
-            $max_delta = $this->find('first', array('conditions' => array('Block.module' => 'Block'), 'fields' => array('delta'), 'order' => array('delta' => 'DESC')));
+            $max_delta = $this->find('first',
+                array(
+                    'conditions' => array('Block.module' => 'Block'),
+                    'fields' => array('delta'),
+                    'order' => array('delta' => 'DESC')
+                )
+            );
             $max_delta = !empty($max_delta) ? $max_delta['Block']['delta'] + 1 : 1;
             $this->data['Block']['delta'] = $max_delta;
         }

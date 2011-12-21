@@ -20,7 +20,7 @@ class NodeType extends NodeAppModel {
         'title_label' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Title field label can not be empty')
     );
 
-    public function beforeDelete(){
+    public function beforeDelete() {
         $this->tmpId = $this->id;
         return true;
     }
@@ -94,7 +94,7 @@ class NodeType extends NodeAppModel {
         return true;
     }
 
-    public function afterDelete(){
+    public function afterDelete() {
         return ClassRegistry::init('Field.Field')->deleteAll(array('Field.belongsTo' => "NodeType-{$this->tmpId}"), true, true);
     }
 

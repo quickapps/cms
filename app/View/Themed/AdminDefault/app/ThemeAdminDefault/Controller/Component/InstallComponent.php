@@ -8,11 +8,11 @@ class InstallComponent extends Component {
         return true;
     }
 
-    public function beforeUninstall(&$Installer){
+    public function beforeUninstall(&$Installer) {
         return true;
     }
 
-    public function afterUninstall(&$Installer){
+    public function afterUninstall(&$Installer) {
         return true;
     }
 }

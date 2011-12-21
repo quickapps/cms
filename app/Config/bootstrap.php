@@ -211,7 +211,7 @@ Cache::config('default', array('engine' => 'File'));
  *
  * @return array List of methods.
  */
-    function get_this_class_methods($class){
+    function get_this_class_methods($class) {
         $methods = array();
         $primary = get_class_methods($class);
 
