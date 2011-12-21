@@ -267,7 +267,7 @@ class AppController extends Controller {
 
             $paths = array_merge(
                 array(
-                    APP . 'Controller' . DS . 'Components' . DS,    # core components
+                    APP . 'Controller' . DS . 'Component' . DS,     # core components
                     APP . 'View' . DS . 'Helper' . DS,              # core helpers
                     APP . 'Model' . DS . 'Behavior' . DS,           # core behaviors
                     ROOT . DS . 'Hooks' . DS . 'Behavior' . DS,     # custom MH
@@ -280,6 +280,10 @@ class AppController extends Controller {
             $folder = new Folder;
 
             foreach ($paths as $key => $path) {
+                if (!file_exists($path)) {
+                    continue;
+                }
+
                 $folder->path = $path;
                 $files = $folder->find('(.*)Hook(Component|Behavior|Helper|tagsHelper)\.php');
                 $plugin = is_string($key) ? explode('_', $key) : false;
