@@ -787,8 +787,12 @@ class LayoutHelper extends AppHelper {
 /**
  * Render single block
  *
- * @param array $block Well formated  block array
- * @param array $options
+ * @param array $block Well formated block array.
+ * @param array $options Array of options:
+ *                       - boolean title: Render title. default true.
+ *                       - boolean body: Render body. default true.
+ *                       - string region: Region where block belongs to.
+ *                       - array params: extra options used by block.
  * @return string Html
  */
     public function block($block, $options = array()) {
