@@ -53,7 +53,7 @@ class DisplayController extends UserAppController {
         $this->set('view_mode', $view_mode);
         $this->setCrumb(
             '/admin/user/',
-            array(__t('User Display Settings'))
+            array(__t('User Display Settings')),
             array(__t('Field display settings'))
         );
         $this->title(__t('Field Display Settings'));
