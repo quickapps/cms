@@ -1,37 +1,36 @@
 <?php
-    $tSettings = array(
-        'columns' => array(
-            __t('Label') => array(
-                'value' => '{Field.label}',
-                'tdOptions' => array('width' => '15%')
-            ),
-            __t('Name') => array(
-                'value' => '{Field.name}',
-                'tdOptions' => array('width' => '15%')
-            ),
-            __t('Type') => array(
-                'value' => '{Field.field_module}',
-                'tdOptions' => array('width' => '15%')
-            ),
-            __t('Required') => array(
-                'value' => '{php} return ("{required}" == "1") ? "' . __t('Yes') . '" : "' . __t('No') . '";  {/php}'
-            ),
-            __t('Actions') => array(
-                'value' => "
-                    <a href='{url}/admin/user/fields/field_settings/{Field.id}{/url}'>" . __t('configure') . "</a> |
-                    <a href='{url}/admin/field/handler/move/{Field.id}/up{/url}'>" . __t('move up') . "</a> |
-                    <a href='{url}/admin/field/handler/move/{Field.id}/down{/url}'>" . __t('move down') . "</a> |
-                    <a href='{url}/admin/field/handler/delete/{Field.id}{/url}' onclick=\"return confirm('" . __t('Delete selected field and all related data, this can not be undone ?') . "');\">" . __t('delete') . "</a>",
-                'thOptions' => array('align' => 'right'),
-                'tdOptions' => array('align' => 'right')
-            ),
+$tSettings = array(
+    'columns' => array(
+        __t('Label') => array(
+            'value' => '{Field.label}',
+            'tdOptions' => array('width' => '15%')
         ),
-        'noItemsMessage' => __t('There are no fields to display'),
-        'paginate' => false,
-        'headerPosition' => 'top',
-        'tableOptions' => array('width' => '100%')    # table attributes
-    );
-
+        __t('Name') => array(
+            'value' => '{Field.name}',
+            'tdOptions' => array('width' => '15%')
+        ),
+        __t('Type') => array(
+            'value' => '{Field.field_module}',
+            'tdOptions' => array('width' => '15%')
+        ),
+        __t('Required') => array(
+            'value' => '{php} return ("{required}" == "1") ? "' . __t('Yes') . '" : "' . __t('No') . '";  {/php}'
+        ),
+        __t('Actions') => array(
+            'value' => "
+                <a href='{url}/admin/user/fields/field_settings/{Field.id}{/url}'>" . __t('configure') . "</a> |
+                <a href='{url}/admin/field/handler/move/{Field.id}/up{/url}'>" . __t('move up') . "</a> |
+                <a href='{url}/admin/field/handler/move/{Field.id}/down{/url}'>" . __t('move down') . "</a> |
+                <a href='{url}/admin/field/handler/delete/{Field.id}{/url}' onclick=\"return confirm('" . __t('Delete selected field and all related data, this can not be undone ?') . "');\">" . __t('delete') . "</a>",
+            'thOptions' => array('align' => 'right'),
+            'tdOptions' => array('align' => 'right')
+        ),
+    ),
+    'noItemsMessage' => __t('There are no fields to display'),
+    'paginate' => false,
+    'headerPosition' => 'top',
+    'tableOptions' => array('width' => '100%')    # table attributes
+);
 ?>
 
 <?php echo $this->Form->create(); ?>

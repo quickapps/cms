@@ -10,5 +10,4 @@
  * @link     http://cms.quickapps.es
  */
 class TaxonomyAppController extends AppController {
-
 }

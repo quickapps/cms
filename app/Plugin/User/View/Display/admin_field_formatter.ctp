@@ -1,13 +1,15 @@
 <?php echo $this->Form->create('User'); ?>
     <?php echo $this->Html->useTag('fieldsetstart', __t('Field display format (view mode: %s)', Inflector::camelize($view_mode))); ?>
         <?php echo $this->Form->hidden('Field.id'); ?>
-        <?php echo $this->Form->input("Field.settings.display.{$view_mode}.label",
-            array(
-                'type' => 'select',
-                'options' => array('hidden' => __t('Hidden'), 'above' => __t('Above'), 'inline' => __t('Inline')),
-                'empty' => false
-            )
-        ); ?>
+        <?php
+            echo $this->Form->input("Field.settings.display.{$view_mode}.label",
+                array(
+                    'type' => 'select',
+                    'options' => array('hidden' => __t('Hidden'), 'above' => __t('Above'), 'inline' => __t('Inline')),
+                    'empty' => false
+                )
+            );
+        ?>
         <?php echo $this->element('formatter_from', array(), array('plugin' => Inflector::camelize($this->data['Field']['field_module']))); ?>
     <?php echo $this->Html->useTag('fieldsetend'); ?>
     <?php echo $this->Form->input(__t('Save field'), array('type' => 'submit')); ?>

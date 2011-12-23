@@ -1,5 +1,4 @@
 <?php echo $this->Form->create('User', array('url' => "/admin/user/list/add/")); ?>
-
     <!-- Settings -->
     <?php echo $this->Html->useTag('fieldsetstart', __t('Add new user')); ?>
         <?php echo $this->Form->input('status', array('type' => 'checkbox', 'label' => __t('Active'))); ?>

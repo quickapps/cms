@@ -68,7 +68,6 @@ $tSettings = array(
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 <?php echo $this->Form->end(); ?>
 
-
 <?php echo $this->Form->create('User', array('onsubmit' => 'return confirm("' . __t('Are you sure about this changes ?') . '");')); ?>
     <!-- Update -->
     <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-update_fieldset" style="cursor:pointer;">' . __t('Update Options') . '</span>'); ?>
@@ -90,7 +89,6 @@ $tSettings = array(
     <?php echo $this->Html->useTag('fieldsetend'); ?>
     <?php echo $this->Html->table($results, $tSettings);?>
 <?php echo $this->Form->end(); ?>
-
 
 <script>
     $("#toggle-update_fieldset").click(function () {

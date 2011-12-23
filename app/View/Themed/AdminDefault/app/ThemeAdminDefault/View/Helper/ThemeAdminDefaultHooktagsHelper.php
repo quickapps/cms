@@ -11,5 +11,4 @@
  * @link     http://cms.quickapps.es
  */
 class ThemeAdminDefaultHooktagsHelper extends AppHelper {
-
 }

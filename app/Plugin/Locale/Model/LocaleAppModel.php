@@ -10,5 +10,4 @@
  * @link     http://cms.quickapps.es
  */
 class LocaleAppModel extends AppModel {
-
 }
