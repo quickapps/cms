@@ -5,6 +5,7 @@
         <?php
             echo $this->Form->input('username');
             echo $this->Form->input('password');
+            echo $this->Form->input('remember', array('type' => 'checkbox', 'label' => __t('Remember')));
         ?>
         </fieldset>
     <?php echo $this->Form->end('Submit');?>
