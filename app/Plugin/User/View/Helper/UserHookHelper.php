@@ -30,11 +30,12 @@ class UserHookHelper extends AppHelper {
         );
     }
 
+    // Block, whos new
     public function user_new_settings() {
         return $this->_View->element('user_new_block_settings', array(), array('plugin' => 'User'));
     }
 
-    // Block
+    // Block, user login form
     public function user_login() {
         return array(
             'title' => __d('user', 'Login'),
