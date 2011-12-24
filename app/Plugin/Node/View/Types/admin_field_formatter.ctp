@@ -1,15 +1,16 @@
 <?php
-    $hidden = (isset($this->data['Field']['settings']['display'][$view_mode]['type']) &&
-                $this->data['Field']['settings']['display'][$view_mode]['type'] == 'hidden'
+    $hidden = (
+        isset($this->data['Field']['settings']['display'][$viewMode]['type']) &&
+        $this->data['Field']['settings']['display'][$viewMode]['type'] == 'hidden'
     );
 ?>
-<?php echo $this->Form->create('Field', array('url' => "/admin/node/types/field_formatter/{$this->data['Field']['id']}/{$view_mode}")); ?>
-    <?php echo $this->Html->useTag('fieldsetstart', __t('Field display format (view mode: %s)', Inflector::camelize($view_mode))); ?>
+<?php echo $this->Form->create('Field', array('url' => "/admin/node/types/field_formatter/{$this->data['Field']['id']}/{$viewMode}")); ?>
+    <?php echo $this->Html->useTag('fieldsetstart', __t('Field display format (view mode: %s)', Inflector::camelize($viewMode))); ?>
         <?php echo $this->Form->hidden('Field.id'); ?>
 
         <?php echo $this->Html->useTag('fieldsetstart', __t('Label')); ?>
             <?php
-                echo $this->Form->input("Field.settings.display.{$view_mode}.label",
+                echo $this->Form->input("Field.settings.display.{$viewMode}.label",
                     array(
                         'type' => 'select',
                         'label' => false,
@@ -21,7 +22,17 @@
         <?php echo $this->Html->useTag('fieldsetend'); ?>
 
         <?php echo $this->Html->useTag('fieldsetstart', __t('Format')); ?>
-            <?php echo $this->Form->input('display_hidden', array('type' => 'checkbox', 'label' => __t('Hidden'), 'onClick' => "$('#field-formatter-form').toggle();", 'value' => 1, 'checked' => $hidden)); ?>
+            <?php 
+                echo $this->Form->input('display_hidden', 
+                    array(
+                        'type' => 'checkbox',
+                        'label' => __t('Hidden'),
+                        'onClick' => "$('#field-formatter-form').toggle();",
+                        'value' => 1,
+                        'checked' => $hidden
+                    )
+                );
+            ?>
             <div id="field-formatter-form" style="<?php echo $hidden ? 'display:none;' : ''; ?>">
             <?php
                 echo $this->element('formatter_from',

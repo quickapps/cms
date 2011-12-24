@@ -27,7 +27,7 @@
 
 <div id="FieldDataFieldFile<?php echo $data['id']; ?>">
 <?php
-    echo $this->Html->useTag('fieldsetstart', ($data['required'] ? $data['label'] . ' *' : $data['label']));
+    echo $this->Html->useTag('fieldsetstart', $data['label']);
 
     if ($data['required']) {
         $options['required'] = 'required';
@@ -127,7 +127,7 @@
     </div>
 
 <?php if (!empty($data['description'])): ?>
-    <em><?php echo $this->Layout->hooktags($data['description']); ?></em>
+    <em><?php echo $data['description']; ?></em>
 <?php endif; ?>
 
 <?php echo $this->Html->useTag('fieldsetend'); ?>

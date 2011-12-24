@@ -1,6 +1,5 @@
 <?php
 class FieldFileHookBehavior extends ModelBehavior {
-
     public function field_file_before_save($info) {
         return true;
     }

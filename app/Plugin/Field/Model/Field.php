@@ -129,7 +129,13 @@ class Field extends FieldAppModel {
         );
 
         if (is_string($view_mode)) {
-            $nodes = Set::sort($nodes, '{n}.Field.settings.display.' . $view_mode . '.ordering', 'asc');
+            foreach ($nodes as &$node) {
+                if (!isset($node['Field']['settings']['display'][$view_mode])) {
+                    $node['Field']['settings']['display'][$view_mode]['ordering'] = 0;
+                }
+            }
+
+            $nodes = Set::sort($nodes, "{n}.Field.settings.display.{$view_mode}.ordering", 'asc');
         }
 
         $ids = Set::extract('/Field/id', $nodes);

@@ -1,6 +1,5 @@
 <?php
 class FieldTermsHookBehavior extends ModelBehavior {
-
 /**
  * Create Entity's tags cache for search queries,
  * this feature is available only for `Node` entity.

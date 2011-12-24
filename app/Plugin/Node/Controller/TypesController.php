@@ -98,7 +98,7 @@ class TypesController extends NodeAppController {
         $this->data = $nodeType;
 
         $this->set('result', $fields);
-        $this->set('view_mode', $view_mode);
+        $this->set('viewMode', $view_mode);
         $this->set('typeId', $typeId);
         $this->setCrumb(
             '/admin/node/types',
@@ -142,7 +142,7 @@ class TypesController extends NodeAppController {
         $this->set('result', $this->data);
     }
 
-    public function admin_field_formatter($id, $view_mode = 'default') {
+    public function admin_field_formatter($id, $viewMode = 'default') {
         $this->loadModel('Field.Field');
 
         $field = $this->Field->findById($id) or $this->redirect($this->referer());
@@ -150,11 +150,17 @@ class TypesController extends NodeAppController {
         $nodeType = $this->NodeType->findById($ntID) or $this->redirect('/admin/node/types');
 
         if (isset($this->data['Field'])) {
+            $data = $this->data;
+
             if ($this->data['Field']['display_hidden']) {
-                $data = $this->data;
-                $data['Field']['settings']['display'][$view_mode]['type'] = 'hidden';
-                $this->data = $data;
+                $data['Field']['settings']['display'][$viewMode]['type'] = 'hidden';
+            } else {
+                if (!isset($data['Field']['settings']['display'][$viewMode]['type'])) {
+                    $data['Field']['settings']['display'][$viewMode]['type'] = false;
+                }
             }
+
+            $this->data = $data;
 
             if ($this->Field->save($this->data)) {
                 $this->flashMsg(__t('Field has been saved.'), 'success');
@@ -166,7 +172,7 @@ class TypesController extends NodeAppController {
 
         $this->data = $field;
 
-        $this->set('view_mode', $view_mode);
+        $this->set('viewMode', $viewMode);
         $this->setCrumb(
             '/admin/node/types',
             array($nodeType['NodeType']['name'], '/admin/node/types/edit/' . $nodeType['NodeType']['id']),

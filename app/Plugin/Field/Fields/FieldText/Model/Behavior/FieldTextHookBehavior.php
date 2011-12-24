@@ -1,6 +1,5 @@
 <?php
 class FieldTextHookBehavior extends ModelBehavior {
-
     public function field_text_before_save_instance(&$Model) {
         if (!isset($Model->data['Field']['id']) || empty($Model->data['Field']['id'])) {
             $__default = array(

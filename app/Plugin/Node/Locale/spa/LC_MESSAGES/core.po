@@ -772,7 +772,7 @@ msgstr "Texto de ayuda"
 #: View/Types/admin_field_settings.ctp:11
 #, php-format
 msgid "%s field settings"
-msgstr "configuración de campo %s"
+msgstr "Configuración de campo %s"
 
 #: View/Types/admin_index.ctp:10
 msgid "display"

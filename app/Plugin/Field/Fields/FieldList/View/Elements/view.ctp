@@ -1,14 +1,8 @@
 <?php
-    $view_mode = isset($data['settings']['display'][$Layout['viewMode']]) ? $Layout['viewMode'] : 'default';
-
-    if (isset($data['settings']['display'][$view_mode]['type']) &&
-        isset($data['settings']['options']) &&
-        !empty($data['settings']['options']) &&
-        $data['settings']['display'][$view_mode]['type'] != 'hidden'
+    if (isset($data['settings']['options']) &&
+        !empty($data['settings']['options'])
     ) {
-        $label = $data['settings']['display'][$view_mode]['label'];
-
-        switch($label) {
+        switch($display['label']) {
             case 'hidden':
                 default:
                     echo '';
@@ -24,7 +18,11 @@
         }
 
         $fieldData = isset($data['FieldData']['data']) ? $data['FieldData']['data'] : '';
-        $data = array('content' => $fieldData, 'options' => $data['settings']['options'], 'format' => $data['settings']['display'][$view_mode]);
+        $data = array(
+            'content' => $fieldData,
+            'options' => $data['settings']['options'],
+            'format' => $display
+        );
         $html = $this->Layout->hook('field_list_formatter', $data, array('collectReturn' => false));
 
         echo $html;

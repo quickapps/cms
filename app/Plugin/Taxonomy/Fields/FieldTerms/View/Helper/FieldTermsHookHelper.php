@@ -1,14 +1,6 @@
 <?php
 class FieldTermsHookHelper extends AppHelper {
-    function field_terms_view($data) {
-        return $this->_View->element('view', array('data' => $data), array('plugin' => 'FieldTerms'));
-    }
-
-    function field_terms_edit($data) {
-        return $this->_View->element('edit', array('data' => $data), array('plugin' => 'FieldTerms'));
-    }
-
-    function field_terms_formatter($data) {
+    public function field_terms_formatter($data) {
         $terms = ClassRegistry::init('Taxonomy.Term')->find('all',
             array(
                 'conditions' => array(

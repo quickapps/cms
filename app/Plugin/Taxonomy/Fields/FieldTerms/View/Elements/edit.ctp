@@ -1,5 +1,4 @@
 <?php
-    $data['label'] = $data['required'] ? $data['label'] . ' *' : $data['label'];
     $data['FieldData'] = !isset($data['FieldData']) ? array() : $data['FieldData'];
     $data['FieldData'] = array_merge(array('id' => null, 'field_id' => null, 'foreignKey' => null, 'belongsTo' => null, 'data' => ''), $data['FieldData']);
     $options = array();
@@ -52,5 +51,5 @@
 ?>
 
 <?php if (!empty($data['description'])): ?>
-    <em><?php echo $this->Layout->hooktags($data['description']); ?></em>
+    <em><?php echo $data['description']; ?></em>
 <?php endif; ?>

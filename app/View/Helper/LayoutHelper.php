@@ -319,17 +319,40 @@ class LayoutHelper extends AppHelper {
 /**
  * Wrapper for field rendering hook.
  *
- * @param array $field Field information array
- * @return string HTML formatted field
+ * @param array $field Field information array.
+ * @param boolean $edit Set to TRUE for edit form. FALSE for view mode.
+ * @return string HTML formatted field.
  */
-    public function renderField($field) {
+    public function renderField($field, $edit = false) {
         if (isset($field['settings']['display'][$this->_View->viewVars['Layout']['viewMode']]['type']) &&
             $field['settings']['display'][$this->_View->viewVars['Layout']['viewMode']]['type'] == 'hidden'
         ) {
             return '';
         }
 
-        $result = $this->hook("{$field['field_module']}_view", $field, array('collectReturn' => false));
+        $field['label'] = $this->hooktags($field['label']);
+        $viewVars = array('data' => $field);
+
+        if ($edit) {
+            $view = 'edit';
+            $field['label'] .= $field['required'] ? ' *' : '';
+            $field['description'] = !empty($field['description']) ? $this->hooktags($field['description']) : '';
+        } else {
+            $viewMode = isset($field['settings']['display'][$this->_View->viewVars['Layout']['viewMode']]) ? $this->_View->viewVars['Layout']['viewMode'] : 'default';
+
+            if (isset($field['settings']['display'][$viewMode]['type']) && $field['settings']['display'][$viewMode]['type'] != 'hidden') {
+                $view = 'view';
+                $viewVars['viewMode'] = $viewMode;
+                $viewVars['display'] = $field['settings']['display'][$viewMode];
+            } else {
+                return '';
+            }
+        }
+
+        $result = $this->_View->element($view, 
+            $viewVars, 
+            array('plugin' => Inflector::camelize($field['field_module']))
+        );
 
         if (!empty($result)) {
             return "\n<div class=\"field-container {$field['name']}\">\n{$result}\n</div>\n";
