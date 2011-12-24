@@ -13,8 +13,8 @@ App::uses('Controller', 'Controller');
 class InstallController extends Controller {
     public $name = 'Install';
     public $uses = array();
-    public $components = array('Session');
-    public $helpers = array('Layout', 'Html', 'Form');
+    public $components = array('HookCollection', 'Session');
+    public $helpers = array('HookCollection', 'Layout', 'Html', 'Form');
     private $__defaultDbConfig = array(
         'name' => 'default',
         'datasource'=> 'Database/Mysql',
