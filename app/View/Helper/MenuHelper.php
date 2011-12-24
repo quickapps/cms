@@ -118,12 +118,6 @@ class MenuHelper extends AppHelper {
  * @access public
  */
     function generate($data, $settings = array ()) {
-        /* Hook */
-        $data = array('data' => $data, 'settings' => $settings);
-
-        $this->hook('menu_generate_alter', $data , array('collectReturn' => true));
-        extract($data);
-
         $this->__settings = array_merge(
             array(
                 'model' => 'MenuLink',
