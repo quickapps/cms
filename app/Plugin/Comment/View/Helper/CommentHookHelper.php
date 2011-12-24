@@ -30,7 +30,7 @@ class CommentHookHelper extends AppHelper {
                 $this->_View->viewVars['Layout']['javascripts']['file'][] = '/comment/js/markItUp/jquery.markitup.js';
                 $this->_View->viewVars['Layout']['javascripts']['file'][] = '/comment/js/markItUp/sets/bbcode/set.js';
                 $this->_View->viewVars['Layout']['javascripts']['file'][] = '/comment/js/jquery.scrollTo-min.js';
-                $this->_View->viewVars['Layout']['javascripts']['embed'][] = "
+                $this->_View->viewVars['Layout']['javascripts']['inline'][] = "
                     $(document).ready(function()    {
                         $('#CommentBody').markItUp(MerkeItUpBbcodeSettings);
                     });";

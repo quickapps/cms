@@ -31,10 +31,10 @@ class AppController extends Controller {
             'speech' => array(),
             'tty' => array(),
             'tv' => array(),
-            'embed' => array()
+            'inline' => array()
         ),
         'javascripts' => array(
-            'embed' => array(),
+            'inline' => array(),
             'file' => array('jquery.js', 'quickapps.js')
         ),
         'meta' => array() # meta tags for layout

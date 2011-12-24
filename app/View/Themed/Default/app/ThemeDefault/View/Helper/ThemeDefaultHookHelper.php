@@ -28,18 +28,18 @@ class ThemeDefaultHookHelper extends AppHelper {
         $main_bg = !$main_bg ? '#ededec': $main_bg;
         $footer = !$footer ? '#282727': $footer;
 
-        $css['embed'][] = "
+        $css['inline'][] = "
         div#header-top {
             background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from({$ht}), to({$hb})) !important;
             background-image: -moz-linear-gradient(-90deg, {$ht}, {$hb}) !important;
         }\n";
 
-        $css['embed'][] = "a { color:{$links} !important; }\n";
-        $css['embed'][] = "body { color:{$text} !important; background:{$footer}; }\n";
-        $css['embed'][] = "#page { background:{$main_bg} !important; }\n";
+        $css['inline'][] = "a { color:{$links} !important; }\n";
+        $css['inline'][] = "body { color:{$text} !important; background:{$footer}; }\n";
+        $css['inline'][] = "#page { background:{$main_bg} !important; }\n";
 
         if (count($this->_View->viewVars['Layout']['node'])) {
-            $css['embed'][] = "#search-advanced { display:none; }";
+            $css['inline'][] = "#search-advanced { display:none; }";
         }
     }
 
@@ -51,7 +51,7 @@ class ThemeDefaultHookHelper extends AppHelper {
             $this->request->params['action'] == 'search' &&
             !count($this->_View->viewVars['Layout']['node'])
         ) {
-            $js['embed'][] = '
+            $js['inline'][] = '
                 $(document).ready(function() {
                     $("#toggle-search_advanced").click(function () {
                         $("#search_advanced").toggle("fast");

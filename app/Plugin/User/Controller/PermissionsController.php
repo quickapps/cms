@@ -19,7 +19,7 @@ class PermissionsController extends UserAppController {
         $this->Layout['javascripts']['file'][] = '/user/js/jquery.cookie.js';
         $this->Layout['javascripts']['file'][] = '/user/js/treeview.js';
         $this->Layout['javascripts']['file'][] = '/user/js/acos.js';
-        $this->Layout['javascripts']['embed'][] = '$(document).ready(function() { $("#acos").treeview({collapsed: true}); });';
+        $this->Layout['javascripts']['inline'][] = '$(document).ready(function() { $("#acos").treeview({collapsed: true}); });';
         $results = $this->Acl->Aco->find('all',
             array(
                 'order' => array('lft' => 'ASC'),

@@ -112,7 +112,7 @@ class QuickAppsComponent extends Component {
 
             if (isset($yaml['javascripts']) && !empty($yaml['javascripts'])) {
                 foreach ($yaml['javascripts'] as $type => $files) {
-                    if (!in_array($type, array('file', 'embed'))) {
+                    if (!in_array($type, array('file', 'inline'))) {
                         continue;
                     }
 
@@ -153,8 +153,8 @@ class QuickAppsComponent extends Component {
         $this->Controller->Layout['blocks'] = $this->Controller->hook('blocks_list', $options, array('collectReturn' => false)); # request blocks to block module
         $this->Controller->hook('blocks_alter', $this->Controller->Layout['blocks']); # pass blocks to modules
 
-        /* Basic js files/embed */
-        $this->Controller->Layout['javascripts']['embed'][] = '
+        /* Basic js files/inline */
+        $this->Controller->Layout['javascripts']['inline'][] = '
             jQuery.extend(QuickApps.settings, {
                 "url": "' . str_replace("//", "/", $this->Controller->here . '/') . '",
                 "base_url": "' . Router::url('/') . '",
