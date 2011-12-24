@@ -23,32 +23,32 @@ class LayoutHelper extends AppHelper {
  * @param array $stylesheets Asociative array of extra css elements to merge
  * {{{
  * array(
-       'embed' => array("css code1", "css code2", ...)
+       'inline' => array("css code1", "css code2", ...)
  *     'print' => array("file1", "file2", ...),
  *     'all' => array("file3", "file4", ...),
  *      ....
  * );
  * }}
- * @return string HTML css link-tags and embed-styles
+ * @return string HTML css link-tags and inline-styles
  * @see AppController::$Layout
  */
     public function stylesheets($stylesheets = array()) {
-        $output = $embed = '';
+        $output = $inline = '';
         $stylesheets = Set::merge($this->_View->viewVars['Layout']['stylesheets'], $stylesheets);
 
         $this->hook('stylesheets_alter', $stylesheets); # pass css list array to modules
 
         foreach ($stylesheets as $media => $files) {
             foreach ($files as $file) {
-                if ($media !== 'embed') {
+                if ($media !== 'inline') {
                     $output .= "\n". $this->_View->Html->css($file, 'stylesheet', array('media' => $media));
                 } else {
-                    $embed .= "{$file}\n\n";
+                    $inline .= "{$file}\n\n";
                 }
             }
         }
 
-        $output = !empty($embed) ? $output . "\n<style>\t\n {$embed} \n</style>\n" : $output;
+        $output = !empty($inline) ? $output . "\n<style type=\"text/css\"><!--\t\n {$inline} \n--></style>\n" : $output;
 
         return $output;
     }
@@ -59,11 +59,11 @@ class LayoutHelper extends AppHelper {
  * @param array $javascripts Asociative array of extra js elements to merge:
  * {{{
  * array(
- *     'embed' => array("code1", "code2", ...),
+ *     'inline' => array("code1", "code2", ...),
  *     'file' => array("path_to_file1", "path_to_file2", ...)
  * );
  * }}}
- * @return string HTML javascript link-tags and embed-code
+ * @return string HTML javascript link-tags and inline-code
  * @see AppController::$Layout
  */
     public function javascripts($javascripts = array()) {
@@ -79,11 +79,11 @@ class LayoutHelper extends AppHelper {
             $output .= "\n" . $this->_View->Html->script($file);
         }
 
-        # js embed code blocks after
+        # js inline code blocks after
         $c_blocks = "\n";
-        $javascripts['embed'] = array_unique($javascripts['embed']);
+        $javascripts['inline'] = array_unique($javascripts['inline']);
 
-        foreach ($javascripts['embed'] as $block) {
+        foreach ($javascripts['inline'] as $block) {
             $c_blocks .=  $block . "\n\n";
         }
 
@@ -349,22 +349,34 @@ class LayoutHelper extends AppHelper {
             }
         }
 
+        $data = array('field' => $field, 'edit' => $edit);
+        $beforeRender = (array)$this->hook('before_render_field', $data, array('collectReturn' => true));
+
+        if (in_array(false, $beforeRender, true)) {
+            return '';
+        }
+
+        extract($data);
+
         $result = $this->_View->element($view, 
             $viewVars, 
             array('plugin' => Inflector::camelize($field['field_module']))
         );
 
         if (!empty($result)) {
-            return "\n<div class=\"field-container {$field['name']}\">\n{$result}\n</div>\n";
+            $result .= implode('', (array)$this->hook('after_render_field', $data, array('collectReturn' => true)));
+            $result = "\n\t" . $this->hooktags($result) . "\n";
+
+            return "\n<div class=\"field-container field-name-{$field['name']}\">{$result}</div>\n";
         }
 
         return '';
     }
 
 /**
- * Show flash message
+ * Show flash message.
  *
- * @return string
+ * @return string.
  */
     public function sessionFlash() {
         $messages = $this->Session->read('Message');
@@ -392,7 +404,15 @@ class LayoutHelper extends AppHelper {
  */
     public function breadCrumb() {
         $b = $this->_View->viewVars['breadCrumb'];
+        $beforeRender = (array)$this->hook('before_render_breadcrumb', $b, array('collectReturn' => true));
+
+        if (in_array(false, $beforeRender, true)) {
+            return '';
+        }
+
         $crumbs = $this->_View->element('theme_breadcrumb', array('breadcrumb' => $b));
+        $crumbs .= implode('', (array)$this->hook('after_render_breadcrumb', $b, array('collectReturn' => true)));
+        $crumbs = $this->hooktags($crumbs);
 
         return $crumbs;
     }
@@ -457,6 +477,14 @@ class LayoutHelper extends AppHelper {
  * @see MenuHelper::generate
  */
     public function menu($menu, $settings = array()) {
+        $data = array(
+            'menu' => $menu,
+            'settings' => $settings
+        );
+
+        $this->hook('menu_alter', $data);
+        extract($data);
+
         return $this->Menu->generate($menu, $settings);
     }
 
@@ -544,8 +572,11 @@ class LayoutHelper extends AppHelper {
         }
 
         $options = array_merge($__options, $options);
+        $html = $this->_View->Html->image($avatar, $options);
 
-        return $this->_View->Html->image($avatar, $options);
+        $this->hook('after_render_user_avatar', $html);
+
+        return $html;
     }
 
 /**
@@ -763,9 +794,9 @@ class LayoutHelper extends AppHelper {
  * @return string Html blocks
  */
     public function blocks($region) {
-        $output = '';
-
         if (!$this->emptyRegion($region)) {
+            $output = '';
+
             if (isset($this->_tmp['blocksInRegion'][$region])) {
                 $blocks = $this->_tmp['blocksInRegion'][$region];
             } else {
@@ -799,12 +830,14 @@ class LayoutHelper extends AppHelper {
             }
 
             $_data = array('html' => $output, 'region' => $region);
-            $this->hook('blocks_alter', $_data, array('collectReturn' => false)); // pass all rendered blocks (HTML) to modules
+            $this->hook('after_render_blocks', $_data, array('collectReturn' => false)); // pass all rendered blocks (HTML) to modules
 
             extract($_data);
+
+            return $html;
         }
 
-        return $output;
+        return '';
     }
 
 /**
@@ -947,13 +980,18 @@ class LayoutHelper extends AppHelper {
             $Block['params'] = $options['params'];
         }
 
-        $this->hook('block_data_alter', $Block, array('collectReturn' => false)); // pass block array to modules
+        $this->hook('block_alter', $Block, array('collectReturn' => false)); // pass block array to modules
 
         $out = $this->_View->element('theme_block', array('block' => $Block)); // try theme rendering
+        $data = array(
+            'html' => $out,
+            'block' => $Block
+        );
 
-        $this->hook('block_alter', $out, array('collectReturn' => false));
+        $this->hook('after_render_block', $data, array('collectReturn' => false));
+        extract($data);
 
-        return $out;
+        return $html;
     }
 
 /**
