@@ -268,15 +268,16 @@ legend { font-weight:bold; font-size:16px; border-radius: 8px; -webkit-border-ra
 /*---------------[FOOTER]------------------*/ 
 #footer { width:100%; float:left; background: url(../img/footer-top-bg.png) top left repeat-x; padding:20px 0 20px 0; text-shadow:none; color:#fff; }
 #header-top .container, #header-bottom .container, #footer .container{ width:980px; margin:0 auto; }
+#header-bottom .container { height:50px; overflow:hidden; }
 a.rss-feed-icon { padding:0 10px 0 0; }
 
 /*---------------[MAIN-MENU]------------------*/ 
-#top-menu { float: left; display:block; padding:10px 0 0 0; overflow:hidden; }
-	#top-menu li { padding:16px 9px 0 0; display:inline; }
-		#top-menu a { text-decoration:none; margin-right:20px; color:#666 !important; font-size:15px; height:32px; line-height:30px; padding-right:17px; text-shadow:1px 1px 1px #ccc; display:block; float:left; }
+#top-menu { height:50px; float:left; display:block; padding-top:10px; overflow:hidden; margin:0; }
+	#top-menu li { display:inline; overflow:hidden; float:left; }
+		#top-menu a { text-decoration:none; margin-right:10px; color:#666 !important; font-size:15px; height:32px; line-height:30px; padding-right:17px; text-shadow:1px 1px 1px #ccc; display:block; float:left; }
             #top-menu a span { display:block; height:32px; padding-left: 17px; padding-right: 2px; }
             #top-menu li.selected a span, #top-menu li a:hover span { background:url(../img/menu-nav.png) no-repeat; display:block; height:32px; padding-left: 17px; padding-right: 2px; }
-		#top-menu > li.selected > a, #top-menu a:hover { margin-right:20px; background:url(../img/menu-nav.png) no-repeat right bottom; color:#fff !important; display:block; font-size:15px; height:32px; line-height:30px; padding-right:17px; text-shadow:1px 1px 1px #000; float:left; }
+		#top-menu > li.selected > a, #top-menu a:hover { margin-right:10px; background:url(../img/menu-nav.png) no-repeat right bottom; color:#fff !important; display:block; font-size:15px; height:32px; line-height:30px; padding-right:17px; text-shadow:1px 1px 1px #000; float:left; }
 
 
 /*---------------[INDEX QUOTE SLOGAN]------------------*/ 
