@@ -438,7 +438,12 @@ class InstallerComponent extends Component {
                         $region['Block']['themes_cache'] .= ":{$appName}:";
                         $region['Block']['themes_cache'] = str_replace('::', ':', $region['Block']['themes_cache']);
 
-                        $BlockRegion->Block->save($region['Block']);
+                        $BlockRegion->Block->save(
+                            array(
+                                'id' => $region['Block']['id'],
+                                'themes_cache' => $region['Block']['themes_cache']
+                            )
+                        );
                     }
                 }
             }
@@ -635,7 +640,7 @@ class InstallerComponent extends Component {
 
         // delete blocks position
         if ($this->options['type'] == 'theme') {
-            $themeName = str_replace_once('Theme', '', $this->options['__Name']);
+            $themeName = str_replace('Theme', '', $this->options['__Name']);
             $BlockRegion = ClassRegistry::init('Block.BlockRegion');
 
             $BlockRegion->bindModel(
@@ -663,7 +668,12 @@ class InstallerComponent extends Component {
                     $region['Block']['themes_cache'] = str_replace(":{$themeName}:", ':', $region['Block']['themes_cache']);
                     $region['Block']['themes_cache'] = str_replace('::', ':', $region['Block']['themes_cache']);
 
-                    $BlockRegion->Block->save($region['Block']);
+                    $BlockRegion->Block->save(
+                        array(
+                            'id' => $region['Block']['id'],
+                            'themes_cache' => $region['Block']['themes_cache']
+                        )
+                    );
                 }
             }
         }
