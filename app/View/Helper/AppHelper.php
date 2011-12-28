@@ -58,12 +58,12 @@ class AppHelper extends Helper {
     }
 
 /**
- * Wrapper method to HookCollectionHelper::deattachModuleHooks()
+ * Wrapper method to HookCollectionHelper::detachModuleHooks()
  *
- * @see HookCollectionHelper::deattachModuleHooks()
+ * @see HookCollectionHelper::detachModuleHooks()
  */
-    public function deattachModuleHooks($module) {
-        return $this->_View->HookCollection->deattachModuleHooks($module);
+    public function detachModuleHooks($module) {
+        return $this->_View->HookCollection->detachModuleHooks($module);
     }
 
 /**

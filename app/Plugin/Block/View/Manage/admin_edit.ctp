@@ -21,7 +21,7 @@
                 <?php echo $wg; ?>
             <?php echo $this->Html->useTag('fieldsetend'); ?>
         <?php endif; ?>
-        <?php $this->Layout->deattachModuleHooks($this->data['Block']['module']); ?>
+        <?php $this->Layout->detachModuleHooks($this->data['Block']['module']); ?>
     <?php endif; ?>
 
     <!-- Language -->

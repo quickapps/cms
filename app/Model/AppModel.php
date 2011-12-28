@@ -33,12 +33,12 @@ class AppModel extends Model {
     }
 
 /**
- * Wrapper method to HookCollectionBehavior::deattachModuleHooks()
+ * Wrapper method to HookCollectionBehavior::detachModuleHooks()
  *
- * @see HookCollectionBehavior::deattachModuleHooks()
+ * @see HookCollectionBehavior::detachModuleHooks()
  */
-    public function deattachModuleHooks($module) {
-        return $this->Behaviors->HookCollection->deattachModuleHooks($module);
+    public function detachModuleHooks($module) {
+        return $this->Behaviors->HookCollection->detachModuleHooks($module);
     }
 
 /**

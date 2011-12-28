@@ -97,7 +97,7 @@ class HookCollectionHelper extends AppHelper {
  * @param string $module Name of the module
  * @return boolean TRUE on success. FALSE otherwise.
  */
-    public function deattachModuleHooks($module) {
+    public function detachModuleHooks($module) {
         $Plugin = Inflector::camelize($module);
         $found = 0;
 

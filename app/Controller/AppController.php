@@ -133,12 +133,12 @@ class AppController extends Controller {
     }
 
 /**
- * Wrapper method to HookCollectionComponent::deattachModuleHooks()
+ * Wrapper method to HookCollectionComponent::detachModuleHooks()
  *
- * @see HookCollectionComponent::deattachModuleHooks()
+ * @see HookCollectionComponent::detachModuleHooks()
  */
-    public function deattachModuleHooks($module) {
-        return $this->HookCollection->deattachModuleHooks($module);
+    public function detachModuleHooks($module) {
+        return $this->HookCollection->detachModuleHooks($module);
     }
 
 /**
