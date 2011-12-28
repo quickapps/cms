@@ -40,7 +40,8 @@
     <?php echo $this->Html->useTag('fieldsetstart', __t('Visibility settings')); ?>
         <?php echo $this->Html->useTag('fieldsetstart', __t('Theme Region')); ?>
             <em><?php echo __t('Specify in which themes and regions this block is displayed.'); ?></em><br/>
-            <?php $i = 0; foreach ($regions as $theme => $_regions): ?>
+            <?php $i = 0; ?>
+            <?php foreach ($regions as $theme => $_regions) { ?>
                 <?php $theme = explode('@|@', $theme); // name, folder ?>
                 <label><?php echo $theme[0]; ?></label>
                 <?php
@@ -52,11 +53,12 @@
                 <?php echo $this->Form->hidden("BlockRegion.{$i}.theme", array('value' => $theme[1])) . "\n"; ?>
                 <?php echo $this->Form->hidden("BlockRegion.{$i}.block_id", array('value' => $this->data['Block']['id'])) . "\n"; ?>
 
-                <?php if ($selected !== null): ?>
+                <?php if ($selected !== null) { ?>
                     <?php $brId = Set::extract("/BlockRegion[theme={$theme[1]}]/id", $this->data); ?>
                     <?php echo $this->Form->hidden("BlockRegion.{$i}.id", array('value' => $brId[0]))  . "\n"; ?>
-                <?php endif; ?>
-            <?php $i++; endforeach; ?>
+                <?php } ?>
+                <?php $i++; ?>
+            <?php }; ?>
         <?php echo $this->Html->useTag('fieldsetend'); ?>
 
         <?php echo $this->Html->useTag('fieldsetstart', __t('Pages')); ?>

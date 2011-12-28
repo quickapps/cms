@@ -211,8 +211,18 @@ class TypesController extends NodeAppController {
             $this->flashMsg(__t('Field could not be created. Please, try again.'), 'error');
         }
 
+        $field_modules = $this->hook('field_info', $this, array('collectReturn' => false));
+
+        foreach ($field_modules as $key => $field) {
+            if (isset($field['max_instances']) &&
+                $field['max_instances'] === 0
+            ) {
+                unset($field_modules[$key]);
+            }
+        }
+
         $this->set('result', $nodeType);
-        $this->set('field_modules', $this->hook('field_info', $this, array('collectReturn' => false)));
+        $this->set('field_modules', $field_modules);
         $this->setCrumb(
             '/admin/node/types',
             array($nodeType['NodeType']['name'], '/admin/node/types/edit/' . $nodeType['NodeType']['id']),

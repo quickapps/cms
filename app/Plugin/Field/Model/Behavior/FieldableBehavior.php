@@ -379,6 +379,12 @@ class FieldableBehavior extends ModelBehavior {
 
         $field_info = $Model->hook('field_info', $field_module, array('collectReturn' => false));
 
+        if (isset($field_info['max_instances']) &&
+            $field_info['max_instances'] === 0
+        ) {
+            return false;
+        }
+
         if (isset($field_info[$field_module])) {
             if (isset($field_info[$field_module]['max_instances']) && is_numeric($field_info[$field_module]['max_instances']) && $field_info[$field_module]['max_instances'] > 0) {
                 $count = ClassRegistry::init('Field.Field')->find('count',

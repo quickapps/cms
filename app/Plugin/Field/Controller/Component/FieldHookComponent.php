@@ -22,10 +22,11 @@ class FieldHookComponent extends Component {
  * If $field is given, then only information for $field is return.
  * All fields information is returned otherwise.
  *
- * @param string $field optional, return only information for the specified field
- * @return array associative array with field(s) information
+ * @param mixed $field Optional string will return only information for the specified field.
+ *                     FALSE will return all fields information.
+ * @return array Associative array with field(s) information.
  */
-    public function field_info($field = '') {
+    public function field_info($field = false) {
         $field = is_string($field) ? Inflector::camelize($field) : '';
         $field_modules = array();
         $plugins = App::objects('plugins');
