@@ -397,6 +397,52 @@ class InstallerComponent extends Component {
                 break;
             }
 
+            // copy block positions
+            if ($this->options['type'] == 'theme') {
+                $BlockRegion = ClassRegistry::init('Block.BlockRegion');
+
+                $BlockRegion->bindModel(
+                    array(
+                        'belongsTo' => array(
+                            'Block' => array(
+                                'className' => 'Block.Block'
+                            )
+                        )
+                    )
+                );
+
+                $regions = $BlockRegion->find('all',
+                    array(
+                        'conditions' => array(
+                            'BlockRegion.theme' => Inflector::camelize(Configure::read('Variable.site_theme')),
+                            'BlockRegion.region' => array_keys($yaml['regions'])
+                        )
+                    )
+                );
+
+                foreach ($regions as $region) {
+                    if (strpos($region['Block']['module'], 'Theme') === 0) {
+                        continue;
+                    }
+
+                    $region['BlockRegion']['theme'] = $appName;
+                    $region['BlockRegion']['ordering']++;
+
+                    unset($region['BlockRegion']['id']);
+                    $BlockRegion->create();
+
+                    if ($BlockRegion->save($region['BlockRegion']) &&
+                        $region['Block']['id'] &&
+                        strpos($region['Block']['themes_cache'], ":{$appName}:") === false
+                    ) {
+                        $region['Block']['themes_cache'] .= ":{$appName}:";
+                        $region['Block']['themes_cache'] = str_replace('::', ':', $region['Block']['themes_cache']);
+
+                        $BlockRegion->Block->save($region['Block']);
+                    }
+                }
+            }
+
             // Delete unziped package
             $Folder->delete($workingDir);
 
@@ -586,6 +632,41 @@ class InstallerComponent extends Component {
                 'NodeType.module' => $this->options['__Name']
             )
         );
+
+        // delete blocks position
+        if ($this->options['type'] == 'theme') {
+            $themeName = str_replace_once('Theme', '', $this->options['__Name']);
+            $BlockRegion = ClassRegistry::init('Block.BlockRegion');
+
+            $BlockRegion->bindModel(
+                array(
+                    'belongsTo' => array(
+                        'Block' => array(
+                            'className' => 'Block.Block'
+                        )
+                    )
+                )
+            );
+
+            $regions = $BlockRegion->find('all',
+                array(
+                    'conditions' => array(
+                        'BlockRegion.theme' => $themeName
+                    )
+                )
+            );
+
+            foreach ($regions as $region) {
+                if ($BlockRegion->delete($region['BlockRegion']['id']) &&
+                    $region['Block']['id']
+                ) {
+                    $region['Block']['themes_cache'] = str_replace(":{$themeName}:", ':', $region['Block']['themes_cache']);
+                    $region['Block']['themes_cache'] = str_replace('::', ':', $region['Block']['themes_cache']);
+
+                    $BlockRegion->Block->save($region['Block']);
+                }
+            }
+        }
 
         // delete app folder
         $folderpath = ($this->options['type'] == 'module') ? $this->options['__path'] : dirname(dirname($this->options['__path']));
