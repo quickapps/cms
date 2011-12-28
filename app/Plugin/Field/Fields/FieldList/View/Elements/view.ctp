@@ -3,11 +3,6 @@
         !empty($data['settings']['options'])
     ) {
         switch($display['label']) {
-            case 'hidden':
-                default:
-                    echo '';
-            break;
-
             case 'inline':
                 echo "<h4 class=\"field-label\" style=\"display:inline;\">{$data['label']}</h4> ";
             break;
