@@ -142,3 +142,9 @@
         <?php echo $this->Layout->footer(); ?>
     </body>
 </html>
+
+<?php
+    if (Configure::read('debug') > 0) {
+        echo "<!-- " . round(microtime(true) - TIME_START, 4) . "s -->";
+    }
+?>
