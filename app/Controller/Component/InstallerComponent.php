@@ -48,9 +48,9 @@ class InstallerComponent extends Component {
  *          - CamelCaseThemeName.yaml
  *          - thumbnail.png # 206x150px recommended
  *
- * @param array $data Data form POST submit of the .app package ($this->data)
- * @param array $options Optional settings, see InstallerComponent::$options
- * @return bool TRUE on success or FALSE otherwise
+ * @param array $data Data form POST submit of the .app package ($this->data).
+ * @param array $options Optional settings, see InstallerComponent::$options.
+ * @return bool TRUE on success or FALSE otherwise.
  */
     public function install($data = false, $options = array()) {
         if (!$data) {
@@ -116,7 +116,7 @@ class InstallerComponent extends Component {
                         $tests = array(
                             'ForbiddenName' => array(
                                 'test' => (
-                                    strpos('Theme', Inflector::camelize($appName)) === false &&
+                                    strpos('Theme', Inflector::camelize($appName)) !== 0 &&
                                     !in_array(Inflector::camelize($appName), array('Site', 'Custom', 'Core')) &&
                                     strlen(Inflector::camelize($appName)) != 3 &&
                                     preg_match('/^[a-zA-Z0-9]+$/', Inflector::camelize($appName))
@@ -331,16 +331,21 @@ class InstallerComponent extends Component {
                     $fields = $fields[0];
 
                     foreach ($fields as $field) {
-                        if (file_exists($packagePath . 'Fields' . DS . $field . DS . "{$field}.yaml")) {
-                            $yaml = Spyc::YAMLLoad($packagePath . 'Fields' . DS . $field . DS . "{$field}.yaml");
+                        if (strpos($field, 'Field') === 0) {
+                            if (file_exists($packagePath . 'Fields' . DS . $field . DS . "{$field}.yaml")) {
+                                $yaml = Spyc::YAMLLoad($packagePath . 'Fields' . DS . $field . DS . "{$field}.yaml");
 
-                            if (!isset($yaml['name']) || !isset($yaml['description'])) {
+                                if (!isset($yaml['name']) || !isset($yaml['description'])) {
+                                    $fieldErrors = true;
+                                    $this->errors[] = __d('system', 'invalid information file (.yaml). Field "%s"', $field);
+                                }
+                            } else {
                                 $fieldErrors = true;
-                                $this->errors[] = __d('system', 'invalid information file (.yaml). Field "%s"', $field);
+                                $this->errors[] = __d('system', 'Invalid field "%s". Information file (.yaml) not found.', $field);
                             }
                         } else {
                             $fieldErrors = true;
-                            $this->errors[] = __d('system', 'Invalid field "%s". Information file (.yaml) not found.', $field);
+                            $this->errors[] = __d('system', 'Invalid field name "%s".', $field);
                         }
                     }
                 }
@@ -350,7 +355,6 @@ class InstallerComponent extends Component {
                 }
             }
             // End of validations
-
 
             // INSTALL
             $installComponentPath = $this->options['type'] == 'theme' ? $packagePath . 'app' . DS . 'Theme' . $appName . DS . 'Controller' . DS . 'Component' . DS : $packagePath . 'Controller' . DS . 'Component' . DS;
@@ -372,7 +376,7 @@ class InstallerComponent extends Component {
                 return false;
             }
 
-            // DB Logics
+            // DB Logic
             $moduleData = array(
                 'name' => ($this->options['type'] == 'module' ? $appName : 'Theme' . $appName),
                 'type' => ($this->options['type'] == 'module' ? 'module' : 'theme' ),
@@ -465,12 +469,12 @@ class InstallerComponent extends Component {
     }
 
 /**
- * Uninstall plugin by name
+ * Uninstall plugin by name.
  *
  * @param string $pluginName Name of the plugin to uninstall, it could be a theme plugin
  *                           (ThemeMyThemeName or theme_my_theme_name) or module plugin
- *                           (MyModuleName or my_module_name)
- * @return boolean TRUE on success or FALSE otherwise
+ *                           (MyModuleName or my_module_name).
+ * @return boolean TRUE on success or FALSE otherwise.
  */
     public function uninstall($pluginName = false) {
         if (!$pluginName ||
@@ -812,7 +816,7 @@ class InstallerComponent extends Component {
 
 /**
  * Creates acos for especified module by parsing its Controller folder. (Module's fields are also analyzed).
- * If module is already installed then Aco update will be executed.
+ * If module is already installed then an Aco update will be performed.
  * ###Usage:
  * {{{
  *  buildAcos('User', APP . 'Plugin' . DS); // Core module `User`
