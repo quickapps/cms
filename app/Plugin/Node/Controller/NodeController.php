@@ -408,6 +408,13 @@ class NodeController extends NodeAppController {
         # prepare content
         if (!empty($scope)) {
             $scope['Node.status'] = 1; # only published content!
+            $scope['AND']['OR'][] = array('Node.roles_cache LIKE' => null);
+            $scope['AND']['OR'][] = array('Node.roles_cache LIKE' => '');
+
+            foreach ($this->Quickapps->userRoles() as $role) {
+                $scope['AND']['OR'][] =  array('Node.roles_cache LIKE' => "%|{$role}|%");
+            }
+
             $this->paginate = array(
                 'limit' => $limit,
                 'order' => array(
