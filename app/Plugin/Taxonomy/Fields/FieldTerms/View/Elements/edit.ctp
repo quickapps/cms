@@ -1,55 +1,55 @@
 <?php
-    $data['FieldData'] = !isset($data['FieldData']) ? array() : $data['FieldData'];
-    $data['FieldData'] = array_merge(array('id' => null, 'field_id' => null, 'foreignKey' => null, 'belongsTo' => null, 'data' => ''), $data['FieldData']);
+    $field['FieldData'] = !isset($field['FieldData']) ? array() : $field['FieldData'];
+    $field['FieldData'] = array_merge(array('id' => null, 'field_id' => null, 'foreignKey' => null, 'belongsTo' => null, 'data' => ''), $field['FieldData']);
     $options = array();
 
-    $data['settings'] = array_merge(
+    $field['settings'] = array_merge(
         array(
             'vocabulary' => 0,
             'type' => 'checkbox',
             'max_values' => 0
         ),
-        $data['settings']
+        $field['settings']
     );
 
-    if ($data['settings']['vocabulary'] > 0) {
+    if ($field['settings']['vocabulary'] > 0) {
         $options = ClassRegistry::init('Taxonomy.Term')->generateTreeList(
             array(
-                'Term.vocabulary_id' => $data['settings']['vocabulary']
+                'Term.vocabulary_id' => $field['settings']['vocabulary']
             ), null, null, '&nbsp;&nbsp;&nbsp;|-&nbsp;'
         );
     }
 
-    if (isset($this->data['FieldData']['FieldTerms'][$data['id']]['data'])) {
-        $selected = $this->data['FieldData']['FieldTerms'][$data['id']]['data'];
+    if (isset($this->data['FieldData']['FieldTerms'][$field['id']]['data'])) {
+        $selected = $this->data['FieldData']['FieldTerms'][$field['id']]['data'];
     } else {
-        $selected = explode('|', (string)$data['FieldData']['data']);
+        $selected = explode('|', (string)$field['FieldData']['data']);
     }
 
     // max_values > 1
     $Options = array(
         'escape' => false,
         'type' => 'select',
-        'label' => $data['label'],
-        'multiple' => ($data['settings']['type'] === 'checkbox' ? 'checkbox' : true),
+        'label' => $field['label'],
+        'multiple' => ($field['settings']['type'] === 'checkbox' ? 'checkbox' : true),
         'options' => $options,
         'value' => $selected
     );
 
-    if ($data['settings']['type'] == 'select' && $data['settings']['max_values'] == 1) {
+    if ($field['settings']['type'] == 'select' && $field['settings']['max_values'] == 1) {
         $Options['multiple'] = false;
-    } elseif ($data['settings']['type'] == 'checkbox' && $data['settings']['max_values'] == 1) {
+    } elseif ($field['settings']['type'] == 'checkbox' && $field['settings']['max_values'] == 1) {
         $Options['type'] = 'radio';
         $Options['separator'] = '<br />';
-        $Options['legend'] = $data['label'];
+        $Options['legend'] = $field['label'];
         $Options['value'] = @$selected[0];
         unset($Options['multiple']);
     }
 
-    echo $this->Form->input("FieldData.FieldTerms.{$data['id']}.data", $Options);
-    echo $this->Form->hidden("FieldData.FieldTerms.{$data['id']}.id", array('value' => $data['FieldData']['id']));
+    echo $this->Form->input("FieldData.FieldTerms.{$field['id']}.data", $Options);
+    echo $this->Form->hidden("FieldData.FieldTerms.{$field['id']}.id", array('value' => $field['FieldData']['id']));
 ?>
 
-<?php if (!empty($data['description'])): ?>
-    <em><?php echo $data['description']; ?></em>
+<?php if (!empty($field['description'])): ?>
+    <em><?php echo $field['description']; ?></em>
 <?php endif; ?>

@@ -331,7 +331,7 @@ class LayoutHelper extends AppHelper {
         }
 
         $field['label'] = $this->hooktags($field['label']);
-        $viewVars = array('data' => $field);
+        $viewVars = array();
 
         if ($edit) {
             $view = 'edit';
@@ -349,6 +349,7 @@ class LayoutHelper extends AppHelper {
             }
         }
 
+        $viewVars['field'] = $field;
         $data = array('field' => $field, 'edit' => $edit);
         $beforeRender = (array)$this->hook('before_render_field', $data, array('collectReturn' => true));
 

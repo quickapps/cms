@@ -22,18 +22,18 @@
         $this->__fileFieldCount++;
     }
 
-    $multi = (isset($data['settings']['multi']) && $data['settings']['multi'] > 1);
+    $multi = (isset($field['settings']['multi']) && $field['settings']['multi'] > 1);
 ?>
 
-<div id="FieldDataFieldFile<?php echo $data['id']; ?>">
+<div id="FieldDataFieldFile<?php echo $field['id']; ?>">
 <?php
-    echo $this->Html->useTag('fieldsetstart', $data['label']);
+    echo $this->Html->useTag('fieldsetstart', $field['label']);
 
-    if ($data['required']) {
+    if ($field['required']) {
         $options['required'] = 'required';
     }
 
-    $data['FieldData'] = Set::merge(
+    $field['FieldData'] = Set::merge(
         array(
             'id' => null,
             'field_id' => null,
@@ -44,28 +44,28 @@
                 'file_path' => '',
                 'description' => ''
             )
-        ), @$data['FieldData']
+        ), @$field['FieldData']
     );
 
-    $data['FieldData']['data'] = Set::merge(
+    $field['FieldData']['data'] = Set::merge(
         array(
             'files' => array(),
             'description' => ''
         ),
-        (array)$data['FieldData']['data']
+        (array)$field['FieldData']['data']
     );
 
     $uploaded_path = '[]';
 
     # form realoaded by validation error
-    if (isset($this->data['FieldData']['FieldFile'][$data['id']]['data']['files'])) {
-        $uploaded_path = $this->data['FieldData']['FieldFile'][$data['id']]['uploaded_path'];
-        $data['FieldData']['data']['files'] = $this->data['FieldData']['FieldFile'][$data['id']]['data']['files'];
+    if (isset($this->data['FieldData']['FieldFile'][$field['id']]['data']['files'])) {
+        $uploaded_path = $this->data['FieldData']['FieldFile'][$field['id']]['uploaded_path'];
+        $field['FieldData']['data']['files'] = $this->data['FieldData']['FieldFile'][$field['id']]['data']['files'];
     }
 
     echo '<ul class="files-list">';
 
-    foreach ($data['FieldData']['data']['files'] as $key => $file) {
+    foreach ($field['FieldData']['data']['files'] as $key => $file) {
         $file = Set::merge(
             array(
                 'mime_icon' => '',
@@ -80,27 +80,27 @@
         $uid = strtoupper(substr(md5($key . time()), 0, 8));
 ?>
 
-    <div class="snippet" id="FieldDataFieldFile<?php echo $data['id']; ?>_<?php echo $uid; ?>">
+    <div class="snippet" id="FieldDataFieldFile<?php echo $field['id']; ?>_<?php echo $uid; ?>">
         <img class="file-icon" src="<?php echo isset($file['mime_icon']) && !empty($file['mime_icon']) ? $this->Html->url('/field_file/img/icons/' . $file['mime_icon']) : ''; ?>" />
         <span class="file-name">
-            <a href="<?php echo $this->Html->url("/files/{$data['settings']['upload_folder']}/{$file['file_name']}"); ?>" target="_blank">
+            <a href="<?php echo $this->Html->url("/files/{$field['settings']['upload_folder']}/{$file['file_name']}"); ?>" target="_blank">
                 <?php echo @$file['file_name']; ?>
             </a>
         </span>
         <span class="file-size">(<?php echo @$file['file_size']; ?>)</span>
-        <div class="submit"><input type="button" value="<?php echo __d('field_file', 'Remove'); ?>" onClick="QuickApps.field_file.remove('FieldDataFieldFile<?php echo $data['id']; ?>_<?php echo $uid; ?>'); return false;" /></div>
+        <div class="submit"><input type="button" value="<?php echo __d('field_file', 'Remove'); ?>" onClick="QuickApps.field_file.remove('FieldDataFieldFile<?php echo $field['id']; ?>_<?php echo $uid; ?>'); return false;" /></div>
 
         <?php
-            echo $this->Form->hidden("FieldData.FieldFile.{$data['id']}.data.files.{$key}.mime_icon", array('class' => 'mime_icon', 'value' => $file['mime_icon'])) . "\n";
-            echo "\t" . $this->Form->hidden("FieldData.FieldFile.{$data['id']}.data.files.{$key}.file_name", array('class' => 'file_name', 'value' => $file['file_name'])) . "\n";
-            echo "\t" . $this->Form->hidden("FieldData.FieldFile.{$data['id']}.data.files.{$key}.file_size", array('class' => 'file_size', 'value' => $file['file_size'])) . "\n";
+            echo $this->Form->hidden("FieldData.FieldFile.{$field['id']}.data.files.{$key}.mime_icon", array('class' => 'mime_icon', 'value' => $file['mime_icon'])) . "\n";
+            echo "\t" . $this->Form->hidden("FieldData.FieldFile.{$field['id']}.data.files.{$key}.file_name", array('class' => 'file_name', 'value' => $file['file_name'])) . "\n";
+            echo "\t" . $this->Form->hidden("FieldData.FieldFile.{$field['id']}.data.files.{$key}.file_size", array('class' => 'file_size', 'value' => $file['file_size'])) . "\n";
         ?>
 
     </div>
 
 <?php
-        if (isset($data['settings']['description']) && $data['settings']['description']) {
-            echo $this->Form->input("FieldData.FieldFile.{$data['id']}.data.files.{$key}.description", array('value' => @$file['description']));
+        if (isset($field['settings']['description']) && $field['settings']['description']) {
+            echo $this->Form->input("FieldData.FieldFile.{$field['id']}.data.files.{$key}.description", array('value' => @$file['description']));
         }
 
         echo '</li>';
@@ -108,26 +108,26 @@
 
     echo '</ul>';
 
-    echo $this->Form->hidden("FieldData.FieldFile.{$data['id']}.id", array('value' => @$data['FieldData']['id']));
-    echo $this->Form->hidden("FieldData.FieldFile.{$data['id']}.uploaded_path", array('value' => $uploaded_path));
+    echo $this->Form->hidden("FieldData.FieldFile.{$field['id']}.id", array('value' => @$field['FieldData']['id']));
+    echo $this->Form->hidden("FieldData.FieldFile.{$field['id']}.uploaded_path", array('value' => $uploaded_path));
 
     $show_uploader = (
-        !count($data['FieldData']['data']['files']) ||
-        ($multi && count($data['FieldData']['data']['files']) < $data['settings']['multi'])
+        !count($field['FieldData']['data']['files']) ||
+        ($multi && count($field['FieldData']['data']['files']) < $field['settings']['multi'])
     );
 ?>
 
     <div class="uploader <?php echo $multi ? 'multi-upload' : 'single-upload'; ?>" style="<?php echo $show_uploader ? '' : 'display:none;'; ?>">
-        <?php echo $this->Form->input("FieldData.FieldFile.{$data['id']}.uploader", array('type' => 'file', 'label' => false)); ?>
+        <?php echo $this->Form->input("FieldData.FieldFile.{$field['id']}.uploader", array('type' => 'file', 'label' => false)); ?>
         <em><?php echo __d('field_file', 'Files must be less than <b>%sB</b>.', ini_get('upload_max_filesize')) ; ?></em>
         <br />
-        <em><?php echo __d('field_file', 'Allowed file types: <b>%s</b>.', str_replace(',', ', ', $data['settings']['extensions'])); ?></em>
+        <em><?php echo __d('field_file', 'Allowed file types: <b>%s</b>.', str_replace(',', ', ', $field['settings']['extensions'])); ?></em>
 
-        <div id="FieldQueue<?php echo $data['id']; ?>" class="field-queue"></div>
+        <div id="FieldQueue<?php echo $field['id']; ?>" class="field-queue"></div>
     </div>
 
-<?php if (!empty($data['description'])): ?>
-    <em><?php echo $data['description']; ?></em>
+<?php if (!empty($field['description'])): ?>
+    <em><?php echo $field['description']; ?></em>
 <?php endif; ?>
 
 <?php echo $this->Html->useTag('fieldsetend'); ?>
@@ -138,22 +138,22 @@
     $("ul.files-list").sortable({opacity: 0.6, cursor: 'move'});
 
     var Settings = new Array();
-    Settings['fileExt'] = '*.<?php echo str_replace(',', ';*.', $data['settings']['extensions']); ?>';
-    Settings['fileDesc'] = '<?php echo $data['label']; ?>';
-    Settings['queueID'] = 'FieldQueue<?php echo $data['id']; ?>';
-    Settings['upload_folder'] = '<?php echo @$data['settings']['upload_folder']; ?>';
-    Settings['description'] = <?php echo isset($data['settings']['description']) && $data['settings']['description'] ? 'true' : 'false'; ?>;
-    Settings['instance_id'] = <?php echo $data['id']; ?>;
-    Settings['can_upload'] = <?php echo $data['settings']['multi'] - count($data['FieldData']['data']['files']); ?>;
+    Settings['fileExt'] = '*.<?php echo str_replace(',', ';*.', $field['settings']['extensions']); ?>';
+    Settings['fileDesc'] = '<?php echo $field['label']; ?>';
+    Settings['queueID'] = 'FieldQueue<?php echo $field['id']; ?>';
+    Settings['upload_folder'] = '<?php echo @$field['settings']['upload_folder']; ?>';
+    Settings['description'] = <?php echo isset($field['settings']['description']) && $field['settings']['description'] ? 'true' : 'false'; ?>;
+    Settings['instance_id'] = <?php echo $field['id']; ?>;
+    Settings['can_upload'] = <?php echo $field['settings']['multi'] - count($field['FieldData']['data']['files']); ?>;
     <?php if ($multi): ?>
 
     Settings['multi'] = true;
-    Settings['queueSizeLimit'] = <?php echo $data['settings']['multi']; ?>;
+    Settings['queueSizeLimit'] = <?php echo $field['settings']['multi']; ?>;
     <?php else: ?>
 
     Settings['multi'] = false;
     Settings['queueSizeLimit'] = 1;
     <?php endif; ?>
 
-    QuickApps.field_file.setupField('FieldDataFieldFile<?php echo $data['id']; ?>', Settings);
+    QuickApps.field_file.setupField('FieldDataFieldFile<?php echo $field['id']; ?>', Settings);
 </script>

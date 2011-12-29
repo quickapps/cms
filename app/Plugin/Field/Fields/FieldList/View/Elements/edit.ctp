@@ -1,10 +1,10 @@
 <?php
-    $data['FieldData'] = !isset($data['FieldData']) ? array() : $data['FieldData'];
-    $data['FieldData'] = array_merge(array('id' => null, 'field_id' => null, 'foreignKey' => null, 'belongsTo' => null, 'data' => ''), $data['FieldData']);
+    $field['FieldData'] = !isset($field['FieldData']) ? array() : $field['FieldData'];
+    $field['FieldData'] = array_merge(array('id' => null, 'field_id' => null, 'foreignKey' => null, 'belongsTo' => null, 'data' => ''), $field['FieldData']);
     $_options = $options = array();
 
-    if (!empty($data['settings']['options'])) {
-        $_options = explode("\n", $data['settings']['options']);
+    if (!empty($field['settings']['options'])) {
+        $_options = explode("\n", $field['settings']['options']);
 
         foreach ($_options as $option) {
             $option = explode("|",$option);
@@ -14,23 +14,23 @@
         }
     }
 
-    $data['settings']['type'] = empty($data['settings']['type']) ? 'checkbox' : $data['settings']['type'];
+    $field['settings']['type'] = empty($field['settings']['type']) ? 'checkbox' : $field['settings']['type'];
 
-    if (isset($this->data['FieldData']['FieldList'][$data['id']]['data'])) {
-        $selected = $this->data['FieldData']['FieldList'][$data['id']]['data'];
+    if (isset($this->data['FieldData']['FieldList'][$field['id']]['data'])) {
+        $selected = $this->data['FieldData']['FieldList'][$field['id']]['data'];
     } else {
-        $selected = explode('|', (string)$data['FieldData']['data']);
+        $selected = explode('|', (string)$field['FieldData']['data']);
     }
 
-    if ($data['settings']['type'] === 'checkbox') {
-        echo $this->Form->input("FieldData.FieldList.{$data['id']}.data", array('type' => 'select', 'label' => $data['label'], 'multiple' => 'checkbox', 'options' => $options, 'value' => $selected));
+    if ($field['settings']['type'] === 'checkbox') {
+        echo $this->Form->input("FieldData.FieldList.{$field['id']}.data", array('type' => 'select', 'label' => $field['label'], 'multiple' => 'checkbox', 'options' => $options, 'value' => $selected));
     } else {
-        echo $this->Form->input("FieldData.FieldList.{$data['id']}.data", array('type' => 'radio', 'separator' => '<br/>', 'options' => $options, 'legend' => $data['label'], 'checked' => @$selected[0]));
+        echo $this->Form->input("FieldData.FieldList.{$field['id']}.data", array('type' => 'radio', 'separator' => '<br/>', 'options' => $options, 'legend' => $field['label'], 'checked' => @$selected[0]));
     }
 
-    echo $this->Form->hidden("FieldData.FieldList.{$data['id']}.id", array('value' => $data['FieldData']['id']));
+    echo $this->Form->hidden("FieldData.FieldList.{$field['id']}.id", array('value' => $field['FieldData']['id']));
 ?>
 
-<?php if (!empty($data['description'])): ?>
-    <em><?php echo $data['description']; ?></em>
+<?php if (!empty($field['description'])): ?>
+    <em><?php echo $field['description']; ?></em>
 <?php endif; ?>
