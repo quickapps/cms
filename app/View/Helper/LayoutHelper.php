@@ -115,26 +115,26 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
- * Shortcut for `title_for_layout`.
+ * Shortcut for `$title_for_layout`.
  *
  * @return string Current page's title
  */
     public function title() {
         $title = isset($this->_View->viewVars['Layout']['node']['Node']['title']) ? __t($this->_View->viewVars['Layout']['node']['Node']['title']) : Configure::read('Variable.site_name');
         $title = $this->_View->viewVars['title_for_layout'] != Inflector::camelize($this->_View->params['controller']) || Router::getParam('admin') ? $this->_View->viewVars['title_for_layout'] : $title;
-        $this->hook('title_for_layout_alter', $title);    # pass title_for_layout to modules
+        $this->hook('title_for_layout_alter', $title);
 
         return $this->hooktags(__t($title));
     }
 
 /**
- * Shortcut for `content_for_layout`
+ * Shortcut for `View::fetch('content')`
  *
  * @return string Current page's HTML content
  */
     public function content() {
-        $content = $this->_View->viewVars['content_for_layout'];
-        $this->hook('content_for_layout_alter', $content);    # pass content_for_layout to modules
+        $content = $this->_View->fetch('content');
+        $this->hook('content_alter', $content);
 
         return $content;
     }
@@ -359,10 +359,7 @@ class LayoutHelper extends AppHelper {
 
         extract($data);
 
-        $result = $this->_View->element($view, 
-            $viewVars, 
-            array('plugin' => Inflector::camelize($field['field_module']))
-        );
+        $result = $this->_View->element(Inflector::camelize($field['field_module']) . '.' . $view, $viewVars);
 
         if (!empty($result)) {
             $result .= implode('', (array)$this->hook('after_render_field', $data, array('collectReturn' => true)));
