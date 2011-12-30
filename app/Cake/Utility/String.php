@@ -247,13 +247,13 @@ class String {
 		}
 
 		if (!isset($options['format']) && isset($options['before'])) {
-			$str = str_replace($options['escape'].$options['before'], $options['before'], $str);
+			$str = str_replace($options['escape'] . $options['before'], $options['before'], $str);
 		}
 		return ($options['clean']) ? String::cleanInsert($str, $options) : $str;
 	}
 
 /**
- * Cleans up a String::insert() formated string with given $options depending on the 'clean' key in
+ * Cleans up a String::insert() formatted string with given $options depending on the 'clean' key in
  * $options. The default method used is text but html is also available. The goal of this function
  * is to replace all whitespace and unneeded markup around placeholders that did not get replaced
  * by String::insert().

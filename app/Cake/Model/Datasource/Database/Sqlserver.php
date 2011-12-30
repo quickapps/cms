@@ -167,7 +167,7 @@ class Sqlserver extends DboSource {
  * Returns an array of sources (tables) in the database.
  *
  * @param mixed $data
- * @return array Array of tablenames in the database
+ * @return array Array of table names in the database
  */
 	public function listSources($data = null) {
 		$cache = parent::listSources();
@@ -260,7 +260,7 @@ class Sqlserver extends DboSource {
  * Generates the fields list of an SQL query.
  *
  * @param Model $model
- * @param string $alias Alias tablename
+ * @param string $alias Alias table name
  * @param array $fields
  * @param boolean $quote
  * @return array
@@ -302,7 +302,7 @@ class Sqlserver extends DboSource {
 						$fieldAlias = $this->name($alias . '__' . $fields[$i]);
 					} else {
 						$build = explode('.', $fields[$i]);
-						$this->_fieldMappings[$build[0] . '__' .$build[1]] = $fields[$i];
+						$this->_fieldMappings[$build[0] . '__'  . $build[1]] = $fields[$i];
 						$fieldName  = $this->name($build[0] . '.' . $build[1]);
 						$fieldAlias = $this->name(preg_replace("/^\[(.+)\]$/", "$1", $build[0]) . '__' . $build[1]);
 					}
@@ -585,6 +585,7 @@ class Sqlserver extends DboSource {
 				return parent::value($data, $column);
 		}
 	}
+
 /**
  * Returns an array of all result rows for a given SQL query.
  * Returns false if no rows matched.
@@ -742,14 +743,15 @@ class Sqlserver extends DboSource {
 		}
 		return $affected;
 	}
+
 /**
  * Executes given SQL statement.
  *
  * @param string $sql SQL statement
  * @param array $params list of params to be bound to query (supported only in select)
  * @param array $prepareOptions Options to be used in the prepare statement
- * @return mixed PDOStatement if query executes with no problem, true as the result of a succesfull, false on error
- * query returning no rows, suchs as a CREATE statement, false otherwise
+ * @return mixed PDOStatement if query executes with no problem, true as the result of a successful, false on error
+ * query returning no rows, such as a CREATE statement, false otherwise
  */
 	protected function _execute($sql, $params = array(), $prepareOptions = array()) {
 		$this->_lastAffected = false;
@@ -793,6 +795,15 @@ class Sqlserver extends DboSource {
 			}
 		}
 		return $out;
+	}
+
+/**
+ * Gets the schema name
+ *
+ * @return string The schema name
+ */
+	public function getSchemaName() {
+		return $this->config['database'];
 	}
 
 }

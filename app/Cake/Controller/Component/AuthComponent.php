@@ -204,7 +204,7 @@ class AuthComponent extends Component {
 
 /**
  * Error to display when user attempts to access an object or action to which they do not have
- * acccess.
+ * access.
  *
  * @var string
  * @link http://book.cakephp.org/2.0/en/core-libraries/components/authentication.html#AuthComponent::$authError
@@ -314,7 +314,7 @@ class AuthComponent extends Component {
 			if (!$this->_getUser()) {
 				if (!$request->is('ajax')) {
 					$this->flash($this->authError);
-					$this->Session->write('Auth.redirect', Router::reverse($request));
+					$this->Session->write('Auth.redirect', $request->here());
 					$controller->redirect($loginAction);
 					return false;
 				} elseif (!empty($this->ajaxLogin)) {
@@ -423,12 +423,8 @@ class AuthComponent extends Component {
  * You can use allow with either an array, or var args.
  *
  * `$this->Auth->allow(array('edit', 'add'));` or
- * `$this->Auth->allow('edit', 'add');`
- * `$this->Auth->allow();` to allow all actions.
- *
- * allow() also supports '*' as a wildcard to mean all actions.
- *
- * `$this->Auth->allow('*');`
+ * `$this->Auth->allow('edit', 'add');` or
+ * `$this->Auth->allow();` to allow all actions
  *
  * @param mixed $action,... Controller action name or array of actions
  * @return void
@@ -436,7 +432,7 @@ class AuthComponent extends Component {
  */
 	public function allow($action = null) {
 		$args = func_get_args();
-		if (empty($args) || $args == array('*')) {
+		if (empty($args)) {
 			$this->allowedActions = $this->_methods;
 		} else {
 			if (isset($args[0]) && is_array($args[0])) {

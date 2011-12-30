@@ -181,6 +181,7 @@ class ExceptionRenderer {
 			'url' => h($url),
 			'name' => $error->getMessage(),
 			'error' => $error,
+			'serialize' => array('code', 'url', 'name')
 		));
 		try {
 			$this->controller->set($error->getAttributes());
@@ -208,7 +209,8 @@ class ExceptionRenderer {
 		$this->controller->set(array(
 			'name' => $message,
 			'url' => h($url),
-			'error' => $error,
+			'error' => $error, 
+			'serialize' => array('name', 'url')
 		));
 		$this->_outputMessage('error400');
 	}
@@ -222,7 +224,7 @@ class ExceptionRenderer {
 	public function error500($error) {
 		$message = $error->getMessage();
 		if (Configure::read('debug') == 0) {
-			$message = __d('cake', 'An Internal Error Has Occurred');
+			$message = __d('cake', 'An Internal Error Has Occurred.');
 		}
 		$url = $this->controller->request->here();
 		$code = ($error->getCode() > 500 && $error->getCode() < 506) ? $error->getCode() : 500;
@@ -231,6 +233,7 @@ class ExceptionRenderer {
 			'name' => $message,
 			'message' => h($url),
 			'error' => $error,
+			'serialize' => array('name', 'message')
 		));
 		$this->_outputMessage('error500');
 	}
@@ -250,6 +253,7 @@ class ExceptionRenderer {
 			'url' => h($url),
 			'name' => $error->getMessage(),
 			'error' => $error,
+			'serialize' => array('code', 'url', 'name', 'error')
 		));
 		try {
 			$this->_outputMessage($this->template);

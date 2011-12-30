@@ -28,6 +28,7 @@ App::uses('AppHelper', 'View/Helper');
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/html.html
  */
 class HtmlHelper extends AppHelper {
+
 /**
  * html tags used by this helper.
  *
@@ -45,7 +46,7 @@ class HtmlHelper extends AppHelper {
 		'hidden' => '<input type="hidden" name="%s"%s/>',
 		'checkbox' => '<input type="checkbox" name="%s" %s/>',
 		'checkboxmultiple' => '<input type="checkbox" name="%s[]"%s />',
-		'radio' => '<input type="radio" name="%s" id="%s" %s />%s',
+		'radio' => '<input type="radio" name="%s" id="%s"%s />%s',
 		'selectstart' => '<select name="%s"%s>',
 		'selectmultiplestart' => '<select name="%s[]"%s>',
 		'selectempty' => '<option value=""%s>&nbsp;</option>',
@@ -129,21 +130,23 @@ class HtmlHelper extends AppHelper {
  * @var array
  */
 	protected $_includedScripts = array();
+
 /**
  * Options for the currently opened script block buffer if any.
  *
  * @var array
  */
 	protected $_scriptBlockOptions = array();
+
 /**
  * Document type definitions
  *
  * @var array
  */
 	protected $_docTypes = array(
-		'html4-strict'  => '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">',
-		'html4-trans'  => '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">',
-		'html4-frame'  => '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">',
+		'html4-strict' => '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">',
+		'html4-trans' => '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">',
+		'html4-frame' => '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">',
 		'html5' => '<!DOCTYPE html>',
 		'xhtml-strict' => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">',
 		'xhtml-trans' => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
@@ -178,7 +181,7 @@ class HtmlHelper extends AppHelper {
  *
  * @param string $name Text for link
  * @param string $link URL for link (if empty it won't be a link)
- * @param mixed $options Link attributes e.g. array('id'=>'selected')
+ * @param mixed $options Link attributes e.g. array('id' => 'selected')
  * @return void
  * @see HtmlHelper::link() for details on $options that can be used.
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/html.html#creating-breadcrumb-trails-with-htmlhelper
@@ -195,7 +198,7 @@ class HtmlHelper extends AppHelper {
  *  - html4-strict:  HTML4 Strict.
  *  - html4-trans:  HTML4 Transitional.
  *  - html4-frame:  HTML4 Frameset.
- *  - html5: HTML5.
+ *  - html5: HTML5. Default value.
  *  - xhtml-strict: XHTML1 Strict.
  *  - xhtml-trans: XHTML1 Transitional.
  *  - xhtml-frame: XHTML1 Frameset.
@@ -205,7 +208,7 @@ class HtmlHelper extends AppHelper {
  * @return string Doctype string
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/html.html#HtmlHelper::docType
  */
-	public function docType($type = 'xhtml-strict') {
+	public function docType($type = 'html5') {
 		if (isset($this->_docTypes[$type])) {
 			return $this->_docTypes[$type];
 		}
@@ -215,9 +218,24 @@ class HtmlHelper extends AppHelper {
 /**
  * Creates a link to an external resource and handles basic meta tags
  *
+ * Create a meta tag that is output inline:
+ *
+ * `$this->Html->meta('icon', 'favicon.ico');
+ *
+ * Append the meta tag to `$scripts_for_layout`:
+ *
+ * `$this->Html->meta('description', 'A great page', array('inline' => false));`
+ *
+ * Append the meta tag to custom view block:
+ *
+ * `$this->Html->meta('description', 'A great page', array('block' => 'metaTags'));`
+ *
  * ### Options
  *
- * - `inline` Whether or not the link element should be output inline, or in scripts_for_layout.
+ * - `inline` Whether or not the link element should be output inline. Set to false to 
+ *   have the meta tag included in `$scripts_for_layout`, and appended to the 'meta' view block.
+ * - `block` Choose a custom block to append the meta tag to.  Using this option
+ *   will override the inline option.
  *
  * @param string $type The title of the external resource
  * @param mixed $url The address of the external resource or string for content attribute
@@ -227,14 +245,17 @@ class HtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/html.html#HtmlHelper::meta
  */
 	public function meta($type, $url = null, $options = array()) {
-		$inline = isset($options['inline']) ? $options['inline'] : true;
+		$options += array('inline' => true, 'block' => null);
+		if (!$options['inline'] && empty($options['block'])) {
+			$options['block'] = __FUNCTION__;
+		}
 		unset($options['inline']);
 
 		if (!is_array($type)) {
 			$types = array(
-				'rss'	=> array('type' => 'application/rss+xml', 'rel' => 'alternate', 'title' => $type, 'link' => $url),
-				'atom'	=> array('type' => 'application/atom+xml', 'title' => $type, 'link' => $url),
-				'icon'	=> array('type' => 'image/x-icon', 'rel' => 'icon', 'link' => $url),
+				'rss' => array('type' => 'application/rss+xml', 'rel' => 'alternate', 'title' => $type, 'link' => $url),
+				'atom' => array('type' => 'application/atom+xml', 'title' => $type, 'link' => $url),
+				'icon' => array('type' => 'image/x-icon', 'rel' => 'icon', 'link' => $url),
 				'keywords' => array('name' => 'keywords', 'content' => $url),
 				'description' => array('name' => 'description', 'content' => $url),
 			);
@@ -265,20 +286,20 @@ class HtmlHelper extends AppHelper {
 
 		if (isset($options['link'])) {
 			if (isset($options['rel']) && $options['rel'] === 'icon') {
-				$out = sprintf($this->_tags['metalink'], $options['link'], $this->_parseAttributes($options, array('link'), ' ', ' '));
+				$out = sprintf($this->_tags['metalink'], $options['link'], $this->_parseAttributes($options, array('block', 'link'), ' ', ' '));
 				$options['rel'] = 'shortcut icon';
 			} else {
 				$options['link'] = $this->url($options['link'], true);
 			}
-			$out .= sprintf($this->_tags['metalink'], $options['link'], $this->_parseAttributes($options, array('link'), ' ', ' '));
+			$out .= sprintf($this->_tags['metalink'], $options['link'], $this->_parseAttributes($options, array('block', 'link'), ' ', ' '));
 		} else {
-			$out = sprintf($this->_tags['meta'], $this->_parseAttributes($options, array('type'), ' ', ' '));
+			$out = sprintf($this->_tags['meta'], $this->_parseAttributes($options, array('block', 'type'), ' ', ' '));
 		}
 
-		if ($inline) {
+		if (empty($options['block'])) {
 			return $out;
 		} else {
-			$this->_View->addScript($out);
+			$this->_View->append($options['block'], $out);
 		}
 	}
 
@@ -324,7 +345,7 @@ class HtmlHelper extends AppHelper {
 			$url = $this->url($url);
 		} else {
 			$url = $this->url($title);
-			$title = $url;
+			$title = h(urldecode($url));
 			$escapeTitle = false;
 		}
 
@@ -374,9 +395,16 @@ class HtmlHelper extends AppHelper {
  *
  * `$this->Html->css('styles.css', null, array('inline' => false));`
  *
+ * Add the stylesheet to a custom block:
+ *
+ * `$this->Html->css('styles.css', null, array('block' => 'layoutCss'));`
+ *
  * ### Options
  *
- * - `inline` If set to false, the generated tag appears in the head tag of the layout. Defaults to true
+ * - `inline` If set to false, the generated tag will be appended to the 'css' block, 
+ *   and included in the `$scripts_for_layout` layout variable. Defaults to true.
+ * - `block` Set the name of the block link/style tag will be appended to.  This overrides the `inline`
+ *   option.
  *
  * @param mixed $path The name of a CSS style sheet or an array containing names of
  *   CSS stylesheets. If `$path` is prefixed with '/', the path will be relative to the webroot
@@ -387,13 +415,18 @@ class HtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/html.html#HtmlHelper::css
  */
 	public function css($path, $rel = null, $options = array()) {
-		$options += array('inline' => true);
+		$options += array('block' => null, 'inline' => true);
+		if (!$options['inline'] && empty($options['block'])) {
+			$options['block'] = __FUNCTION__;
+		}
+		unset($options['inline']);
+
 		if (is_array($path)) {
 			$out = '';
 			foreach ($path as $i) {
 				$out .= "\n\t" . $this->css($i, $rel, $options);
 			}
-			if ($options['inline'])  {
+			if (empty($options['block']))  {
 				return $out . "\n";
 			}
 			return;
@@ -430,10 +463,10 @@ class HtmlHelper extends AppHelper {
 			$out = sprintf($this->_tags['css'], $rel, $url, $this->_parseAttributes($options, array('inline'), '', ' '));
 		}
 
-		if ($options['inline']) {
+		if (empty($options['block'])) {
 			return $out;
 		} else {
-			$this->_View->addScript($out);
+			$this->_View->append($options['block'], $out);
 		}
 	}
 
@@ -458,10 +491,17 @@ class HtmlHelper extends AppHelper {
  *
  * `$this->Html->script('styles.js', null, array('inline' => false));`
  *
+ * Add the script file to a custom block:
+ *
+ * `$this->Html->script('styles.js', null, array('block' => 'bodyScript'));`
+ *
  * ### Options
  *
- * - `inline` - Whether script should be output inline or into scripts_for_layout.
- * - `once` - Whether or not the script should be checked for uniqueness. If true scripts will only be
+ * - `inline` Whether script should be output inline or into `$scripts_for_layout`. When set to false,
+ *   the script tag will be appended to the 'script' view block as well as `$scripts_for_layout`.
+ * - `block` The name of the block you want the script appended to.  Leave undefined to output inline.
+ *   Using this option will override the inline option.
+ * - `once` Whether or not the script should be checked for uniqueness. If true scripts will only be
  *   included once, use false to allow the same script to be included more than once per request.
  *
  * @param mixed $url String or array of javascript files to include
@@ -475,13 +515,18 @@ class HtmlHelper extends AppHelper {
 			list($inline, $options) = array($options, array());
 			$options['inline'] = $inline;
 		}
-		$options = array_merge(array('inline' => true, 'once' => true), $options);
+		$options = array_merge(array('block' => null, 'inline' => true, 'once' => true), $options);
+		if (!$options['inline'] && empty($options['block'])) {
+			$options['block'] = __FUNCTION__;
+		}
+		unset($options['inline']);
+
 		if (is_array($url)) {
 			$out = '';
 			foreach ($url as $i) {
 				$out .= "\n\t" . $this->script($i, $options);
 			}
-			if ($options['inline'])  {
+			if (empty($options['block']))  {
 				return $out . "\n";
 			}
 			return null;
@@ -504,13 +549,13 @@ class HtmlHelper extends AppHelper {
 				$url = str_replace(JS_URL, 'cjs/', $url);
 			}
 		}
-		$attributes = $this->_parseAttributes($options, array('inline', 'once'), ' ');
+		$attributes = $this->_parseAttributes($options, array('block', 'once'), ' ');
 		$out = sprintf($this->_tags['javascriptlink'], $url, $attributes);
 
-		if ($options['inline']) {
+		if (empty($options['block'])) {
 			return $out;
 		} else {
-			$this->_View->addScript($out);
+			$this->_View->append($options['block'], $out);
 		}
 	}
 
@@ -538,7 +583,7 @@ class HtmlHelper extends AppHelper {
 		if ($inline) {
 			return sprintf($this->_tags['javascriptblock'], $attributes, $script);
 		} else {
-			$this->_View->addScript(sprintf($this->_tags['javascriptblock'], $attributes, $script));
+			$this->_View->append('script', sprintf($this->_tags['javascriptblock'], $attributes, $script));
 			return null;
 		}
 	}
@@ -602,7 +647,7 @@ class HtmlHelper extends AppHelper {
 		}
 		$out = array();
 		foreach ($data as $key=> $value) {
-			$out[] = $key.':'.$value.';';
+			$out[] = $key . ':' . $value . ';';
 		}
 		if ($oneline) {
 			return join(' ', $out);
@@ -642,7 +687,7 @@ class HtmlHelper extends AppHelper {
  * Returns breadcrumbs as a (x)html list
  *
  * This method uses HtmlHelper::tag() to generate list and its elements. Works
- * similiary to HtmlHelper::getCrumbs(), so it uses options which every
+ * similar to HtmlHelper::getCrumbs(), so it uses options which every
  * crumb was added with.
  *
  * @param array $options Array of html attributes to apply to the generated list elements.
@@ -828,6 +873,7 @@ class HtmlHelper extends AppHelper {
  *
  * @param string $tag Tag name
  * @return string Formatted block
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/html.html#HtmlHelper::useTag
  */
 	public function useTag($tag) {
 		if (!isset($this->_tags[$tag])) {
@@ -900,6 +946,7 @@ class HtmlHelper extends AppHelper {
  * @param array $itemOptions Additional HTML attributes of the list item (LI) tag
  * @param string $tag Type of list tag to use (ol/ul)
  * @return string The nested list
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/html.html#HtmlHelper::nestedList
  */
 	public function nestedList($list, $options = array(), $itemOptions = array(), $tag = 'ul') {
 		if (is_string($options)) {

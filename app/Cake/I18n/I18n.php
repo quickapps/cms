@@ -96,7 +96,7 @@ class I18n {
  *
  * @return void
  */
-	protected function __construct() {
+	public function __construct() {
 		$this->l10n = new L10n();
 	}
 
@@ -164,7 +164,7 @@ class I18n {
 		}
 
 		if ($_this->category == 'LC_TIME') {
-			return $_this->_translateTime($singular,$domain);
+			return $_this->_translateTime($singular, $domain);
 		}
 
 		if (!isset($count)) {
@@ -466,7 +466,7 @@ class I18n {
 		} while (!feof($file));
 		fclose($file);
 		$merge[""] = $header;
-		return $this->_domains[$domain][$this->_lang][$this->category] = array_merge($merge ,$translations);
+		return $this->_domains[$domain][$this->_lang][$this->category] = array_merge($merge, $translations);
 	}
 
 /**
@@ -486,7 +486,7 @@ class I18n {
 			if (empty($line) || $line[0] === $comment) {
 				continue;
 			}
-			$parts = preg_split("/[[:space:]]+/",$line);
+			$parts = preg_split("/[[:space:]]+/", $line);
 			if ($parts[0] === 'comment_char') {
 				$comment = $parts[1];
 				continue;
@@ -511,7 +511,7 @@ class I18n {
 				continue;
 			}
 
-			$mustEscape = array($escape . ',' , $escape . ';', $escape . '<', $escape . '>', $escape . $escape);
+			$mustEscape = array($escape . ',', $escape . ';', $escape . '<', $escape . '>', $escape . $escape);
 			$replacements = array_map('crc32', $mustEscape);
 			$value = str_replace($mustEscape, $replacements, $value);
 			$value = explode(';', $value);
