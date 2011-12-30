@@ -35,12 +35,7 @@
             ?>
             <div id="field-formatter-form" style="<?php echo $hidden ? 'display:none;' : ''; ?>">
             <?php
-                echo $this->element('formatter_from',
-                    array(),
-                    array(
-                        'plugin' => Inflector::camelize($this->data['Field']['field_module'])
-                    )
-                );
+                echo $this->element(Inflector::camelize($this->data['Field']['field_module']) . '.formatter_from');
             ?>
             </div>
         <?php echo $this->Html->useTag('fieldsetend'); ?>

@@ -64,7 +64,7 @@ class HookCollectionHelper extends AppHelper {
 
         foreach ($files as $object) {
             $object = str_replace('Helper.php', '', $object);
-            $this->{$object} = $this->_View->loadHelper("{$Plugin}.{$object}" , array('plugin' => $Plugin));
+            $this->{$object} = $this->_View->loadHelper("{$Plugin}.{$object}");
             $mapGroup = strpos($object, 'Hooktags') !== false ? 'Hooktags' : 'Hooks';
 
             if (!is_object($this->{$object})) {

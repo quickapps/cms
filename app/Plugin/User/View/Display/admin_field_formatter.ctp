@@ -10,7 +10,7 @@
                 )
             );
         ?>
-        <?php echo $this->element('formatter_from', array(), array('plugin' => Inflector::camelize($this->data['Field']['field_module']))); ?>
+        <?php echo $this->element(Inflector::camelize($this->data['Field']['field_module']) . '.formatter_from'); ?>
     <?php echo $this->Html->useTag('fieldsetend'); ?>
     <?php echo $this->Form->input(__t('Save field'), array('type' => 'submit')); ?>
 <?php echo $this->Form->end(); ?>

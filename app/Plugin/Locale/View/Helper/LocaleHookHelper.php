@@ -22,7 +22,7 @@ class LocaleHookHelper extends AppHelper {
     public function locale_language_switcher($block) {
         return array(
             'title' => false,
-            'body' => $this->_View->element('locale_language_switcher', array('block' => $block), array('plugin' => 'locale'))
+            'body' => $this->_View->element('Locale.locale_language_switcher', array('block' => $block))
         );
     }
 
@@ -36,6 +36,6 @@ class LocaleHookHelper extends AppHelper {
 
     // Block
     public function locale_language_switcher_settings($data) {
-        return $this->_View->element('locale_language_switcher_settings', array('block' => $data), array('plugin' => 'Locale'));
+        return $this->_View->element('Locale.locale_language_switcher_settings', array('block' => $data));
     }
 }

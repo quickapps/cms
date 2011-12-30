@@ -67,7 +67,7 @@ class ThemeDefaultHookHelper extends AppHelper {
  */
     public function theme_default_slider($block) {
         return array(
-            'body' => $this->_View->element('theme_default_slider', array('block' => $block), array('plugin' => 'ThemeDefault'))
+            'body' => $this->_View->element('ThemeDefault.theme_default_slider', array('block' => $block))
         );
     }
 
@@ -76,6 +76,6 @@ class ThemeDefaultHookHelper extends AppHelper {
  *
  */
     public function theme_default_slider_settings($data) {
-        return $this->_View->element('theme_default_slider_settings', array('block' => $data), array('plugin' => 'ThemeDefault'));
+        return $this->_View->element('ThemeDefault.theme_default_slider_settings', array('block' => $data));
     }
 }

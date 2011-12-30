@@ -1,4 +1,4 @@
-<?php $e = $this->element('settings', array(), array('plugin' => Inflector::camelize("theme_{$theme_name}"))); ?>
+<?php $e = $this->element(Inflector::camelize("theme_{$theme_name}") . '.settings'); ?>
 
 <?php echo $this->Form->create('Module', array('url' => "/admin/system/themes/settings/{$theme_name}")); ?>
     <?php echo $this->Form->input('Module.name', array('type' => 'hidden', 'value' => 'Theme' . $theme_name)); ?>

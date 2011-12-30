@@ -1,1 +1,1 @@
-<?php echo $this->element('help', array(), array('plugin' => Inflector::camelize($name))); ?>
+<?php echo $this->element(Inflector::camelize($name) . '.help'); ?>

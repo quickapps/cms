@@ -137,6 +137,6 @@ class TaxonomyHookHelper extends AppHelper {
     }
 
     public function taxonomy_vocabularies_settings($data) {
-        return $this->_View->element('taxonomy_vocabularies_settings', array('block' => $data), array('plugin' => 'Taxonomy'));
+        return $this->_View->element('Taxonomy.taxonomy_vocabularies_settings', array('block' => $data));
     }
 }
