@@ -23,8 +23,8 @@ class QuickAppsComponent extends Component {
 
         $this->loadVariables();
         $this->loadModules();
-        $this->setLanguage();
         $this->accessCheck();
+        $this->setLanguage();
         $this->setTheme();
         $this->setTimeZone();
         $this->prepareContent();
@@ -186,9 +186,6 @@ class QuickAppsComponent extends Component {
  * @return void
  */
     public function setLanguage() {
-        $urlBefore = $this->__urlChunk();
-        $urlBefore = isset($urlBefore[0]) ? $urlBefore[0] : '';
-        $urlBeforeT = __t($urlBefore);
         $langs = $this->Controller->Language->find('all', array('conditions' => array('status' => 1), 'order' => array('ordering' => 'ASC')));
         $installed_codes = Set::extract('/Language/code', $langs);
 
@@ -203,20 +200,15 @@ class QuickAppsComponent extends Component {
             $lang = $this->Controller->Session->read('language');
         }
 
-        Configure::write('Config.language', $lang);
-
-        $last_i18n_urlT = __t($this->Controller->Session->read('last_i18n_url'));
         $lang = isset($this->Controller->request->params['named']['lang']) ? $this->Controller->request->params['named']['lang'] : $lang;
         $lang = isset($this->Controller->request->query['lang']) && !empty($this->Controller->request->query['lang']) ? $this->Controller->request->query['lang'] : $lang;
+        $lang = empty($lang) && $this->loggedIn() ? CakeSession::read('Auth.User.language') : $lang;
         $lang = empty($lang) ? Configure::read('Variable.default_language') : $lang;
-        $lang = empty($lang) || !in_array($lang, $installed_codes) || strlen($lang) != 3 ? 'eng' : $lang;
+        $lang = empty($lang) || strlen($lang) != 3 || !in_array($lang, $installed_codes) ? 'eng' : $lang;
+        $lang = Set::extract("/Language[code={$lang}]/..", $langs);
 
-        $this->Controller->Session->write('language', $lang);
-
-        $_lang = Set::extract("/Language[code={$lang}]/..", $langs);
-
-        if (!isset($_lang[0]['Language'])) { # not defined -> default = english
-            $_lang[0]['Language'] = array(
+        if (!isset($lang[0]['Language'])) { # not defined -> default = english
+            $lang[0]['Language'] = array(
                 'code' => 'eng',
                 'name' => 'English',
                 'native' => 'English',
@@ -224,26 +216,11 @@ class QuickAppsComponent extends Component {
             );
         }
 
-        Configure::write('Variable.language', $_lang[0]['Language']);
+        Configure::write('Variable.language', $lang[0]['Language']);
         Configure::write('Variable.languages', $langs);
         Configure::write('Config.language', Configure::read('Variable.language.code'));
 
-        $urlAfter = $this->__urlChunk();
-        $urlAfter = isset($urlAfter[0]) ? $urlAfter[0] : '';
-        $urlAfterT = __t($urlAfter);
-
-        if ($urlBeforeT != $urlAfterT) {
-            $this->Controller->Session->write('last_i18n_url', $urlBefore);
-            $this->Controller->redirect($urlAfterT);
-        }
-
-        if (isset($this->Controller->request->params['named']['lang']) || (isset($this->Controller->request->query['lang']) && !empty($this->Controller->request->query['lang']))) {
-            $last_i18n_url = $this->Controller->Session->read('last_i18n_url');
-
-            if ($last_i18n_url && $last_i18n_urlT == $urlAfterT) {
-                $this->Controller->redirect($last_i18n_url);
-            }
-        }
+        $this->Controller->Session->write('language', Configure::read('Variable.language.code'));
     }
 
 /**
