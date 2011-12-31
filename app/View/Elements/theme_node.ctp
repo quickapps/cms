@@ -8,7 +8,20 @@
  */
 ?>
 
-<?php echo $this->Html->tag('h2', $node['Node']['title'], array('class' => 'node-title')); ?>
+<?php if ($Layout['viewMode'] != 'rss'): ?>
+    <?php if (!in_array($Layout['viewMode'], array('full', 'print'))): ?>
+        <?php
+            echo $this->Html->link(
+                $this->Html->tag('h2', $node['Node']['title'], array('class' => 'node-title')),
+                "/{$node['Node']['node_type_id']}/{$node['Node']['slug']}.html",
+                array('escape' => false)
+            );
+        ?>
+    <?php else: ?>
+        <?php echo $this->Html->tag('h2', $node['Node']['title'], array('class' => 'node-title')); ?>
+    <?php endif; ?>
+<?php endif; ?>
+
 <?php if ($node['NodeType']['node_show_author'] || $node['NodeType']['node_show_date']): ?>
     <div class="meta submitter">
         <span>
