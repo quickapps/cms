@@ -428,6 +428,10 @@ class NodeController extends NodeAppController {
             $this->Layout['node'] = array();
         }
 
+        if ($this->request->is('requested')) {
+            return $this->Layout['node'];
+        }
+
         if ($rss) {
             $this->layoutPath = 'rss';
             $this->helpers[] = 'Rss';
