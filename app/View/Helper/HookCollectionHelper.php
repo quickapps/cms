@@ -356,7 +356,7 @@ class HookCollectionHelper extends AppHelper {
     }
 
     private function __loadHooks() {
-        foreach (Configure::read('Hook.helpers') as $helper) {
+        foreach ((array)Configure::read('Hook.helpers') as $helper) {
             $pluginSplit = pluginSplit($helper);
             $helper = strpos($helper, '.') !== false ? substr($helper, strpos($helper, '.') + 1) : $helper;
 

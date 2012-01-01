@@ -248,7 +248,7 @@ class HookCollectionComponent extends Component {
     }
 
     private function __loadHooks() {
-        foreach (Configure::read('Hook.components') as $component) {
+        foreach ((array)Configure::read('Hook.components') as $component) {
             $pluginSplit = pluginSplit($component);
             $component = strpos($component, '.') !== false ? substr($component, strpos($component, '.')+1) : $component;
 
