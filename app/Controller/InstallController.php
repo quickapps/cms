@@ -125,13 +125,13 @@ class InstallController extends Controller {
             $this->redirect('/install/license');
         }
 
-        if (!empty($this->data['Database'])) {
+        if (!empty($this->data)) {
             copy(APP . 'Config' . DS . 'database.php.install', ROOT . DS . 'Config' . DS . 'database.php');
             App::import('Utility', 'File');
 
             $file = new File(ROOT . DS . 'Config' . DS . 'database.php', true);
             $dbSettings = $file->read();
-            $data = $this->data;
+            $data['Database'] = $this->data;
             $data['Database']['datasource'] = 'Database/Mysql';
             $data['Database']['persistent'] = 'false';
 
