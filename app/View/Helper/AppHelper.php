@@ -19,7 +19,7 @@ class AppHelper extends Helper {
 
     public $helpers = array(
         'Layout',
-        'Menu',        # menu helper
+        'Menu',
         'Form' => array('className' => 'QaForm'),
         'Html' => array('className' => 'QaHtml'),
         'Session',
