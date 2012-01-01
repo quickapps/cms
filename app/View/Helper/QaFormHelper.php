@@ -25,7 +25,7 @@ class QaFormHelper extends AppHelper {
  *
  * @return boolean True on errors.
  */
-    function tagIsInvalid() {
+    public function tagIsInvalid() {
         return $this->CoreForm->tagIsInvalid();
     }
 
@@ -165,7 +165,7 @@ class QaFormHelper extends AppHelper {
  * @return string The formatted LABEL element
  * @link http://book.cakephp.org/view/1427/label
  */
-    function label($fieldName = null, $text = null, $options = array()) {
+    public function label($fieldName = null, $text = null, $options = array()) {
         $data = array('fieldName' => $fieldName, 'text' => $text, 'options' => $options);
 
         $this->hook('form_label_alter', $data);
@@ -729,7 +729,7 @@ class QaFormHelper extends AppHelper {
  * @param boolean $setScope Sets the view scope to the model specified in $tagValue
  * @return void
  */
-    function setEntity($entity, $setScope = false) {
+    public function setEntity($entity, $setScope = false) {
         $data = array('entity' => $entity, 'setScope' => $setScope);
 
         $this->hook('form_set_entity_alter', $data);
