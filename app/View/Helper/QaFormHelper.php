@@ -737,4 +737,29 @@ class QaFormHelper extends AppHelper {
 
         return $this->CoreForm->setEntity($entity, $setScope);
     }
+
+/**
+ * Missing method handler - implements various simple input types. Is used to create inputs
+ * of various types.  e.g. `$this->Form->text();` will create `<input type="text" />` while
+ * `$this->Form->range();` will create `<input type="range" />`
+ *
+ * ### Usage
+ *
+ * `$this->Form->search('User.query', array('value' => 'test'));`
+ *
+ * Will make an input like:
+ *
+ * `<input type="search" id="UserQuery" name="data[User][query]" value="test" />`
+ *
+ * The first argument to an input type should always be the fieldname, in `Model.field` format.
+ * The second argument should always be an array of attributes for the input.
+ *
+ * @param string $method Method name / input type to make.
+ * @param array $params Parameters for the method call
+ * @return string Formatted input method.
+ * @throws CakeException When there are no params for the method call.
+ */
+	public function __call($method, $params) {
+        return $this->CoreForm->__call($method, $params);
+	}
 }
