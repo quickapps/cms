@@ -53,7 +53,7 @@ CREATE TABLE `#__nodes` (
 
 LOCK TABLES `#__nodes` WRITE;
 /*!40000 ALTER TABLE `#__nodes` DISABLE KEYS */;
-INSERT INTO `#__nodes` VALUES (1,'page','node','','Hook Tags','','hook-tags','','',1,1,1310424311,1310424311,1,0,0,0,0,'',NULL),(2,'page','node','','About','','about','','',1,1,1310424311,1310424311,1,0,1,1,0,'',NULL),(3,'article',' node','','My first article!','','my-first-article','1:announcements','',1,1,1319979547,1319979547,1,2,1,0,0,'','a:1:{s:5:\"class\";s:0:\"\";}');
+INSERT INTO `#__nodes` VALUES (1,'page','node','','Hooktags','','hooktags','','',1,1,1310424311,1310424311,1,0,0,0,0,'',NULL),(2,'page','node','','About','','about','','',1,1,1310424311,1310424311,1,0,1,1,0,'',NULL),(3,'article',' node','','My first article!','','my-first-article','1:announcements','',1,1,1319979547,1319979547,1,2,1,0,0,'','a:1:{s:5:\"class\";s:0:\"\";}');
 /*!40000 ALTER TABLE `#__nodes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
