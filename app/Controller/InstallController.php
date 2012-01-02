@@ -31,7 +31,7 @@ class InstallController extends Controller {
 
     public function beforeFilter() {
         $this->viewClass = 'View';
-        $this->layout    = 'install';
+        $this->layout = 'install';
 
         # already installed ?
         if (file_exists(ROOT . DS . 'Config' . DS . 'database.php') && file_exists(ROOT . DS . 'Config' . DS . 'install')) {
