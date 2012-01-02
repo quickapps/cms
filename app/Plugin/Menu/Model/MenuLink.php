@@ -20,8 +20,8 @@ class MenuLink extends MenuAppModel {
         'Tree'
     );
     public $validate = array(
-        'link_title' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Menu link title can not be empty'),
-        'router_path' => array('required' => true, 'allowEmpty' => false, 'rule' => 'validatePath', 'message' => 'Invalid link path')
+        'link_title' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Menu link title can not be empty.'),
+        'router_path' => array('required' => true, 'allowEmpty' => false, 'rule' => 'validatePath', 'message' => 'Invalid link path.')
     );
 
     public function beforeSave() {

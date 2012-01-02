@@ -35,3 +35,6 @@ msgstr "La clave es el valor almacenado. La etiqueta se utilizará para los valo
 msgid "The label is optional: if a line contains a single string, it will be used as key and label."
 msgstr "La etiqueta es opcional: si una linea contiene una sola cadena de texto, se utilizará como clave y etiqueta."
 
+msgid "You must select at least on option."
+msgstr "Debe seleccionar al menos una opción."
+

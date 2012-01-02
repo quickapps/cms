@@ -242,3 +242,9 @@ msgstr "El bloque ha sido eliminad"
 msgid "Block could not be deleted"
 msgstr "No se pudo eliminar el bloque"
 
+msgid "Invalid description."
+msgstr "Descripción inválida."
+
+msgid "Invalid block body."
+msgstr "Cuerpo de bloque inválida."
+

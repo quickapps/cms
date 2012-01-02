@@ -391,9 +391,6 @@ msgstr "No hay traducciones disponibles"
 msgid "Adds language handling functionality and enables the translation of the user interface to languages other than English"
 msgstr "Permite gestionar idiomas y traducir la interfaz de los usuarios a otros lenguajes además del Inglés."
 
-msgid "Languages"
-msgstr "Idiomas"
-
 msgid "move up"
 msgstr "mover arriba"
 
@@ -414,4 +411,25 @@ msgstr "Modo de uso"
 
 msgid "Search"
 msgstr "Buscar"
+
+msgid "Code must be 3 letters (lowercase) long."
+msgstr "El código deben ser 3 letras minúsculas."
+
+msgid "Language code already exists."
+msgstr "Código de idioma no disponible."
+
+msgid "English name can not be empty."
+msgstr "El nombre en inglés no puede ser vacío."
+
+msgid "Native name can not be empty."
+msgstr "El nombre nativo no puede ser vacío."
+
+msgid "Invalid language direction."
+msgstr "Dirección de idioma incorrecto."
+
+msgid "Original text can not be empty."
+msgstr "Texto original no puede ser vacío."
+
+msgid "Original text already exists."
+msgstr "El texto original ya existe."
 

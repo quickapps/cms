@@ -38,3 +38,18 @@ msgstr "Número de Valores"
 msgid "Maximum number of values users can enter for this field."
 msgstr "Número máximo de valores que el usaurio puede ingresar para este campo."
 
+msgid "This field cannot hold more than 2 values."
+msgstr "Este campo no admite más de 2 valores."
+
+msgid "You must select at least on option."
+msgstr "Debe seleccionar al menos una opción."
+
+msgid "Plain"
+msgstr "Plano"
+
+msgid "Plain (localized)"
+msgstr "Plano (traducido)"
+
+msgid "Select list"
+msgstr "Lista de selección"
+

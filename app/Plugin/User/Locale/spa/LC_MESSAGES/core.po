@@ -522,11 +522,6 @@ msgstr "¿Esta seguro?"
 msgid "There are no roles to display"
 msgstr "No hay roles para mostar"
 
-#: View/User/admin_login.ctp:2
-#: View/User/login.ctp:2
-msgid "Login"
-msgstr "Inicio de sesión"
-
 #: View/User/password_recovery.ctp:6
 msgid "E-mail new password"
 msgstr "Enviar nueva contraseña"
@@ -585,8 +580,8 @@ msgstr "Usuario desde"
 msgid "Last connection"
 msgstr "Última conexión"
 
-msgid "This message has been marked as `do not notify`."
-msgstr "Este mensaje ha sido marcado como `no notificar`"
+msgid "This message has been marked as \"do not notify\"."
+msgstr "Este mensaje ha sido marcado como \"no notificar\""
 
 msgid "Invalid message preset."
 msgstr "Mensaje preestablecido inválido."
@@ -602,3 +597,37 @@ msgstr "Recordar"
 
 msgid "Save All"
 msgstr "Guardar Todo"
+
+msgid "Password missmatch."
+msgstr "Contraseñas distintas."
+
+msgid "Role name can not be empty."
+msgstr "Nombre de rol no puede ser vacío."
+
+msgid "Only letters and numbers allowed."
+msgstr "Letras y números unicamente."
+
+msgid "Minimum length of 3 characters."
+msgstr "Como mínimo 3 caracteres."
+
+msgid "Maximum length of 32 characters."
+msgstr "Como máximo 32 caracteres."
+
+msgid "Username already in use."
+msgstr "El nombre de usuario ya existe."
+
+msgid "You must enter your real name."
+msgstr "Debe ingresar su nombre real."
+
+msgid "Invalid email."
+msgstr "E-mail inválido."
+
+msgid "Email already in use."
+msgstr "El e-mail ya ha sido registrado."
+
+msgid "Password mismatch or less than 6 characters."
+msgstr "Contraseñas distintas o con menos de 6 caracteres."
+
+msgid "Number of users"
+msgstr "Número de usuarios"
+

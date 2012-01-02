@@ -13,6 +13,6 @@ class Term extends TaxonomyAppModel {
     public $useTable = 'terms';
     public $actsAs = array('Tree', 'Sluggable' => array('label' => 'name'));
     public $validate = array(
-        'name' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Term name can not be empty')
+        'name' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Term name can not be empty.')
     );
 }

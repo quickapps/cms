@@ -70,7 +70,7 @@ class FieldTextHookBehavior extends ModelBehavior {
             $FieldInstance['Field']['settings']['max_len'] > 0 &&
             strlen(trim($info['data'])) > $FieldInstance['Field']['settings']['max_len']
         ) {
-            $errMsg[] = __d('field_text', 'Max. %s characters length', $FieldInstance['Field']['settings']['max_len']);
+            $errMsg[] = __d('field_text', 'Max. %s characters length.', $FieldInstance['Field']['settings']['max_len']);
         }
 
         if ($FieldInstance['Field']['required'] == 1) {
@@ -81,7 +81,7 @@ class FieldTextHookBehavior extends ModelBehavior {
             }
 
             if (empty($filtered)) {
-                $errMsg[] = __d('field_text', 'Field required');
+                $errMsg[] = __d('field_text', 'Field required.');
             }
         }
 
@@ -90,7 +90,7 @@ class FieldTextHookBehavior extends ModelBehavior {
                 if (isset($FieldInstance['Field']['settings']['validation_message']) && !empty($FieldInstance['Field']['settings']['validation_rule'])) {
                     $errMsg[] = __t($FieldInstance['Field']['settings']['validation_message']);
                 } else {
-                    $errMsg[] = __d('field_text', 'Invalid field');
+                    $errMsg[] = __d('field_text', 'Invalid field.');
                 }
             }
         }

@@ -72,7 +72,7 @@ class MailerComponent extends Component {
 
             if (isset($variables["user_mail_{$type}_body"]) && isset($variables["user_mail_{$type}_subject"])) {
                 if (isset($variables["user_mail_{$type}_notify"]) && !$variables["user_mail_{$type}_notify"]) {
-                    $this->errors[] = __d('user', 'This message has been marked as `do not notify`.');
+                    $this->errors[] = __d('user', 'This message has been marked as "do not notify".');
 
                     return false;
                 }

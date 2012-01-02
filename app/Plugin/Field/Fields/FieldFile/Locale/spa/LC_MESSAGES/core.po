@@ -67,3 +67,10 @@ msgstr "Habilitar campo de Descripción"
 
 msgid "The description field allows users to enter a description about the uploaded file."
 msgstr "El campo de descripción permite a los usuarios ingresar una breve descripción sobre el fichero cargado."
+
+msgid "Invalid file extension."
+msgstr "Extensión de fichero inválida."
+
+msgid "You must upload at least one file."
+msgstr "Debe subir al menos un fichero."
+

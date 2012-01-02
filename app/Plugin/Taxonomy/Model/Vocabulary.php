@@ -14,7 +14,7 @@ class Vocabulary extends TaxonomyAppModel {
     public $order = array('Vocabulary.ordering' => 'ASC');
     public $actsAs = array('Sluggable');
     public $validate = array(
-        'title' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Vocabulary title can not be empty'),
+        'title' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Vocabulary title can not be empty.'),
     );
 
     public $hasMany = array(

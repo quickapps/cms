@@ -20,7 +20,7 @@ class Node extends NodeAppModel {
         'Serialized' => array('params')
     );
     public $validate = array(
-        'title' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Node title can not be empty')
+        'title' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Node title can not be empty.')
     );
 
     public $belongsTo = array(

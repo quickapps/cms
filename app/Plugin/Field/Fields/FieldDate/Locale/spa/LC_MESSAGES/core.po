@@ -32,3 +32,6 @@ msgstr "Mostrar multiples meses"
 msgid "Localize"
 msgstr "Idioma"
 
+msgid "Date cannot be empty."
+msgstr "Fecha no puede ser vacía."
+

@@ -17,7 +17,7 @@ class Field extends FieldAppModel {
     public $validate = array(
         'label' => array('required' => true, 'allowEmpty' => false, 'rule' => array('between', 1, 128), 'message' => 'Invalid field label.'),
         'name' => array(
-            'alphaNumeric' => array('required' => true, 'allowEmpty' => false, 'rule' => array('custom', '/^[a-z0-9_]{3,32}$/i'), 'message' => "Field name must only contain letters and numbers. between 3-32 characters are required (character '_' is allowed)."),
+            'alphaNumeric' => array('required' => true, 'allowEmpty' => false, 'rule' => array('custom', '/^[a-z0-9_]{3,32}$/i'), 'message' => "Field name must only contain letters and numbers. Between 3-32 characters are required (character '_' is allowed)."),
             'isUnique' => array('required' => true, 'allowEmpty' => false, 'rule' => 'checkUnique', 'message' => 'Field name already in use.')
         ),
         'field_module' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Select a field type.')

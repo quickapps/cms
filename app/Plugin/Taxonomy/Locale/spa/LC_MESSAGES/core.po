@@ -193,3 +193,21 @@ msgstr "Vocabularios"
 msgid "Cache terms counters for"
 msgstr "Cachear los contadores por"
 
+msgid "Term name can not be empty."
+msgstr "Nombre de término no puede ser vacío."
+
+msgid "Vocabulary title can not be empty."
+msgstr "El título del vocabulario no puede ser vacío."
+
+msgid "No"
+msgstr "No"
+
+msgid "Yes"
+msgstr "Si"
+
+msgid "Show vocabulary and its terms as tree"
+msgstr "Mostrar vocabulario y sus términos como árbol."
+
+msgid "URL prefix"
+msgstr "Prefijo de URL"
+

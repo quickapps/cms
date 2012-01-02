@@ -266,3 +266,12 @@ msgstr "Enlaces"
 msgid "Allows administrators to customize the site navigation menu."
 msgstr "Permite a los administradores personalizar los menú de navegación del sitio."
 
+msgid "Menu title can not be empty."
+msgstr "El título de menú no puede ser vacío."
+
+msgid "Menu link title can not be empty."
+msgstr "El título del vínculo de menú no puede ser vacío."
+
+msgid "Invalid link path."
+msgstr "Ruta de vínculo inválida."
+

@@ -16,14 +16,8 @@ class Language extends LocaleAppModel {
     public $order = 'Language.ordering ASC';
     public $validate = array(
         'code' => array(
-            'len' => array(
-                'rule' => '/^[a-z]{3,3}$/s',
-                'message' => 'Code must be 3 letters (lowercase) long.'
-            ),
-            'unique' => array(
-                'rule' => 'isUnique',
-                'message' => 'Language code already exists'
-            )
+            'len' => array('rule' => '/^[a-z]{3,3}$/s', 'message' => 'Code must be 3 letters (lowercase) long.'),
+            'unique' => array('rule' => 'isUnique', 'message' => 'Language code already exists.')
         ),
         'name' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'English name can not be empty.'),
         'native' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Native name can not be empty.'),

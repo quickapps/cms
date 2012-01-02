@@ -17,19 +17,19 @@ class User extends UserAppModel {
         'username' => array(
             'alphanumeric' => array(
                 'rule' => 'alphaNumeric',
-                'message' => 'Only letters and numbers allowed'
+                'message' => 'Only letters and numbers allowed.'
             ),
             'minlength' => array(
                 'rule' => array('minLength', '3'),
-                'message' => 'Minimum length of 3 characters'
+                'message' => 'Minimum length of 3 characters.'
             ),
             'maxlength' => array(
                 'rule' => array('maxLength', '32'),
-                'message' => 'Maximum length of 32 characters'
+                'message' => 'Maximum length of 32 characters.'
             ),
             'unique' => array(
                 'rule' => 'isUnique',
-                'message' => 'Username already in use'
+                'message' => 'Username already in use.'
             )
         ),
         'name' => array(
@@ -43,21 +43,21 @@ class User extends UserAppModel {
                 'required' => true,
                 'allowEmpty' => false,
                 'rule' => 'email',
-                'message' => 'Invalid email',
+                'message' => 'Invalid email.',
                 'last' => true
             ),
             'unique' => array(
                 'required' => true,
                 'allowEmpty' => false,
                 'rule' => 'isUnique',
-                'message' => 'Email already in use'
+                'message' => 'Email already in use.'
             )
         ),
         'password' => array(
             'required' => true,
             'allowEmpty' => false,
             'rule' => 'comparePwd',
-            'message' => 'Password mismatch or less than 6 characters'
+            'message' => 'Password mismatch or less than 6 characters.'
         )
     );
 
@@ -107,7 +107,7 @@ class User extends UserAppModel {
         $r = ($check['password'] == $this->data['User']['password2'] && strlen($check['password']) >= 6);
 
         if (!$r) {
-            $this->invalidate('password2', __d('user', 'Password missmatch'));
+            $this->invalidate('password2', __d('user', 'Password missmatch.'));
         }
 
         return $r;

@@ -16,8 +16,8 @@ class NodeType extends NodeAppModel {
     public $primaryKey = 'id';
     public $actsAs = array('Sluggable' => array('overwrite' => false, 'slug' => 'id', 'label' => 'name', 'separator' => '_'));
     public $validate = array(
-        'name' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Type name can not be empty'),
-        'title_label' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Title field label can not be empty')
+        'name' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Type name can not be empty.'),
+        'title_label' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Title field label can not be empty.')
     );
 
     public function beforeDelete() {

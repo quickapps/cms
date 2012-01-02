@@ -211,6 +211,12 @@ msgstr "Caché"
 msgid "-- No Cache --"
 msgstr "-- Sin Caché --"
 
+msgid "%s Minute"
+msgstr "%s Minuto"
+
+msgid "%s Minutes"
+msgstr "%s Minutos"
+
 #: View/Contents/admin_add.ctp:42
 #: View/Contents/admin_edit.ctp:49
 #, php-format
@@ -827,4 +833,19 @@ msgstr "Padre"
 
 msgid "Keywords"
 msgstr "Criterio"
+
+msgid "Node title can not be empty."
+msgstr "Título de  nodo no puede ser vacío."
+
+msgid "Type name can not be empty."
+msgstr "El nombre del tipo no puede ser vacío."
+
+msgid "Title field label can not be empty."
+msgstr "Nombre del campo título no puede ser vacío."
+
+msgid "URL prefix"
+msgstr "Prefijo de URL"
+
+msgid "Adds a prefix to each search URL query."
+msgstr "Agrega un prefijo a cada URL de búsqueda."
 

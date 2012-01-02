@@ -49,7 +49,7 @@ class UploadifyController extends FieldFileAppController {
 
         if (!in_array(strtolower($Upload->file_src_name_ext), explode(',', $field['Field']['settings']['extensions']))) {
             header("HTTP/1.1 500 Invalid file extension");
-            die(__d('field_file', 'Invalid file extension'));
+            die(__d('field_file', 'Invalid file extension.'));
         }
 
         $Upload->file_overwrite = false;

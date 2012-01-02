@@ -17,3 +17,18 @@ msgstr ""
 msgid "Field API to add fields to entities like nodes and users."
 msgstr "API Campos, permite agregar campos a entidades como nodos y usuarios."
 
+msgid "Invalid field label."
+msgstr "Etiqueta de campo inválida."
+
+msgid "Field name must only contain letters and numbers. Between 3-32 characters are required (character '_' is allowed)."
+msgstr "El nombre del campo puede contener unicamente letras y números. Se requieren entre 3 y 32 caracteres (el caracter '_' está permitido)."
+
+msgid "Select a field type."
+msgstr "Debe seleccionar un tipo de campo."
+
+msgid "Display language flag icon"
+msgstr "Mostrar icono de idioma"
+
+msgid "Display language name"
+msgstr "Mostrar nombre de idioma"
+

@@ -15,14 +15,8 @@ class Role extends UserAppModel {
     public $order = array('Role.ordering' => 'ASC');
     public $validate = array(
         'name' => array(
-            'notEmpty' => array(
-                'rule' => 'notEmpty',
-                'message' => 'Role name can not be empty'
-            ),
-            'unique' => array(
-                'rule' => 'isUnique',
-                'message' => 'Role name already in use'
-            )
+            'notEmpty' => array('rule' => 'notEmpty', 'message' => 'Role name can not be empty.'),
+            'unique' => array('rule' => 'isUnique','message' => 'Role name already in use.')
         )
     );
 

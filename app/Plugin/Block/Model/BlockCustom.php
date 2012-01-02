@@ -14,7 +14,7 @@ class BlockCustom extends BlockAppModel {
     public $useTable = "block_custom";
     public $primaryKey = "block_id";
     public $validate = array(
-        'description' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Invalid description'),
-        'body' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Invalid block body'),
+        'description' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Invalid description.'),
+        'body' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Invalid block body.'),
     );
 }

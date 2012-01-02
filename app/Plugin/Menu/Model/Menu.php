@@ -14,7 +14,7 @@ class Menu extends MenuAppModel {
     public $useTable = "menus";
     public $primaryKey = 'id';
     public $validate = array(
-        'title' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Menu title can not be empty'),
+        'title' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Menu title can not be empty.'),
     );
 
     public $hasMany = array(

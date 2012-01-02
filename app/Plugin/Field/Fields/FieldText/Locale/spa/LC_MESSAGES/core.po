@@ -89,3 +89,15 @@ msgstr "Mensaje de validación"
 msgid "This is only used if `Validation rule` has been set."
 msgstr "Será utilizado únicamente si se ha establecido una `Regla de validación`."
 
+msgid "Max. %s characters length."
+msgstr "%s caracteres de longitud como máximo."
+
+msgid "Field required."
+msgstr "Campo requerido."
+
+msgid "Invalid field."
+msgstr "Campo inválido."
+
+msgid "Turn on JavaScript to see the email address."
+msgstr "Active JavaScript para ver la dirección email."
+
