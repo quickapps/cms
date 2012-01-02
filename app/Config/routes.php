@@ -48,30 +48,19 @@
     CakePlugin::routes();
 
 /**
- * Add language prefix to each url
- */
-    if (Configure::read('Variable.url_language_prefix')) {
-        $plugins = implode('|', array_map('Inflector::underscore', CakePlugin::loaded()));
-        $match = array('plugin' => $plugins);
-
-        Configure::write('_implode_plugins_match_', $plugins);
-		Router::connect('/:plugin', array('action' => 'index'), $match);
-		Router::connect('/:plugin/:controller', array('action' => 'index'), $match);
-		Router::connect('/:plugin/:controller/:action/*', array(), $match);
-        Router::connect('/admin/:plugin', array('action' => 'index', 'admin' => true), $match);
-        Router::connect('/admin/:plugin/:controller', array('action' => 'index', 'admin' => true), $match);
-        Router::connect('/admin/:plugin/:controller/:action/*', array('admin' => true), $match);
-
-        foreach (Router::$routes as $_route) {
-            $route = clone $_route;
-            $route->options['language'] = '[a-z]{3}';
-            $route->template = "/:language{$route->template}";
-            Router::$routes[] = $route;
-        }
-    }
-
-/**
  * Load the CakePHP default routes. Remove this if you do not want to use
  * the built-in default routes.
  */
 	require CAKE . 'Config' . DS . 'routes.php';
+
+/**
+ * Add language prefix to each url
+ */
+    if (Configure::read('Variable.url_language_prefix')) {
+        foreach (Router::$routes as $key => $_route) {
+            $route = clone $_route;
+            $route->options['language'] = '[a-z]{3}';
+            $route->template = "/:language{$route->template}";
+            array_splice(Router::$routes, $key, 0, array($route));
+        }
+    }

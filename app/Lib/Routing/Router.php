@@ -808,11 +808,15 @@ class Router {
                 ) {
                     $pname = false;
 
-                    if (Configure::read('_implode_plugins_match_')) {
-                        preg_match('/\/(' . Configure::read('_implode_plugins_match_') . ')\/(.*)$/s', $output, $p);
+                    if (!Configure::read('_implode_plugins_match_')) {
+                        $plugins = implode('|', array_map('Inflector::underscore', CakePlugin::loaded()));
 
-                        $pname = isset($p[1]) ? Inflector::camelize($p[1]) : false;
+                        Configure::write('_implode_plugins_match_', $plugins);
                     }
+
+                    preg_match('/\/(' . Configure::read('_implode_plugins_match_') . ')\/(.*)$/s', $output, $p);
+
+                    $pname = isset($p[1]) ? Inflector::camelize($p[1]) : false;
 
                     if (!$pname ||
                         !CakePlugin::loaded($pname) ||
