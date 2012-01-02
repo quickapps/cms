@@ -169,3 +169,45 @@ msgstr "Tu comentario ha sido publicado."
 msgid "Comment could not be saved. Please try again."
 msgstr "No se ha podido procesar el comentario. Por favor intenta otra vez."
 
+msgid "Commenter name required."
+msgstr "Nombre requerido."
+
+msgid "Invalid email."
+msgstr "Email inválido."
+
+msgid "Invalid homepage URL."
+msgstr "URL web inválida."
+
+msgid "Comment body can not be empty."
+msgstr "Cuerpo de comentario no puede ser vacío."
+
+msgid "Anti-Spam Protection"
+msgstr "Protección Anti-Spam"
+
+msgid "Invalid security code."
+msgstr "Código de seguridad inválido."
+
+msgid "Use ReCaptcha"
+msgstr "Utilizar ReCaptcha"
+
+msgid "Theme"
+msgstr "Estilo Visual"
+
+msgid "Language"
+msgstr "Idioma"
+
+msgid "Custom Translation"
+msgstr "Traducción Personalizada"
+
+msgid "Use Akismet"
+msgstr "Utilizar Akismet"
+
+msgid "On SPAM detected"
+msgstr "Al detectar SPAM"
+
+msgid "Mark as SPAM"
+msgstr "Marcar como SPAM"
+
+msgid "Delete"
+msgstr "Eliminar"
+

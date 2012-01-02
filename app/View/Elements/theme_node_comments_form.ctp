@@ -51,11 +51,14 @@
             <?php   break; ?>
             <?php endswitch; ?>
         <?php endif; ?>
+
         <?php if ($Layout['node']['NodeType']['comments_subject_field']): ?>
             <p><?php echo $this->Form->input('subject', array('type' => 'text', 'label' => __d('comment', 'Subject'))); ?></p>
         <?php endif; ?>
 
         <p><?php echo $this->Form->input('body', array('type' => 'textarea', 'label' => __d('comment', 'Comment *'))); ?></p>
+
+        <p><?php echo $this->Layout->hook('comment_captcha'); ?></p>
 
         <div class="form-actions">
             <?php echo $this->Form->input(__d('comment', 'Save'), array('type' => 'submit', 'label' => false)); ?>

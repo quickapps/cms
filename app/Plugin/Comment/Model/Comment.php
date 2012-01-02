@@ -41,31 +41,53 @@ class Comment extends CommentAppModel {
             'required' => true,
             'allowEmpty' => false,
             'rule' => 'notEmpty',
-            'message' => 'Commenter name required'
+            'message' => 'Commenter name required.'
         ),
         'email' => array(
             'required' => true,
             'allowEmpty' => false,
             'rule' => 'email',
-            'message' => 'Invalid email'
+            'message' => 'Invalid email.'
         ),
         'homepage' => array(
             'required' => false,
             'allowEmpty' => true,
             'rule' => array('url', true), # strict url
-            'message' => 'Invalid homepage URL'
+            'message' => 'Invalid homepage URL.'
         ),
         'body' => array(
             'required' => true,
             'allowEmpty' => false,
             'rule' => 'notEmpty',
-            'message' => 'Comment body can not be empty'
+            'message' => 'Comment body can not be empty.'
         )
     );
 
     public function beforeValidate() {
         if (!isset($this->data['Comment']['node_id'])) {
             return false;
+        }
+
+        if (Configure::read('Modules.Comment.settings.use_recaptcha') &&
+            Configure::read('Modules.Comment.settings.recaptcha.private_key') &&
+            Configure::read('Modules.Comment.settings.recaptcha.public_key')
+        ) {
+            if (!defined('RECAPTCHA_API_SERVER')) {
+                App::import('Lib', 'Comment.Recaptcha');
+            }
+
+            $recaptcha = recaptcha_check_answer (
+                Configure::read('Modules.Comment.settings.recaptcha.private_key'),
+                env('REMOTE_ADDR'),
+                $this->data['Comment']['recaptcha_challenge_field'],
+                $this->data['Comment']['recaptcha_response_field']
+            );
+
+            if (!$recaptcha->is_valid) {
+                CakeSession::write('invalid_recaptcha', true);
+
+               return false;
+            }
         }
 
         $this->Node->recursive = 1;
@@ -114,7 +136,12 @@ class Comment extends CommentAppModel {
         } else {
             unset($this->validate['name'], $this->validate['email'], $this->validate['homepage']);
 
-            $this->data['Comment']['status'] = intval($this->__nodeData['NodeType']['comments_approve']);
+            if (in_array(1, (array)CakeSession::read('Auth.User.role_id'))) {
+               $this->data['Comment']['status'] = 1;
+            } else {
+                $this->data['Comment']['status'] = intval($this->__nodeData['NodeType']['comments_approve']);
+            }
+
             $this->data['Comment']['user_id'] = $userId;
         }
 
@@ -125,11 +152,7 @@ class Comment extends CommentAppModel {
 
     public function beforeSave() {
         if (isset($this->data['Comment']['node_id'])) {
-            /* clear related node cache */
-            $this->Node->id = $this->data['Comment']['node_id'];
-            $nSlug = $this->Node->field('slug');
-
-            Cache::delete("node_{$nSlug}");
+            Cache::delete("node_{$this->__nodeData['Node']['slug']}");
         }
 
         /* new comment */
@@ -145,6 +168,31 @@ class Comment extends CommentAppModel {
             # prepare hostname
             $this->data['Comment']['hostname'] = env('REMOTE_ADDR');
         }
+
+        if (Configure::read('Modules.Comment.settings.use_akismet') &&
+            Configure::read('Modules.Comment.settings.akismet.key')
+        ) {
+            if (!class_exists('Akismet')) {
+                App::import('Lib', 'Comment.Akismet');
+            }
+
+            $akismet = new Akismet(Router::url('/'), Configure::read('Modules.Comment.settings.akismet.key'));
+            $akismet->setCommentAuthor(@$this->data['Comment']['name']);
+            $akismet->setCommentAuthorEmail(@$this->data['Comment']['email']);
+            $akismet->setCommentAuthorURL(@$this->data['Comment']['homepage']);
+            $akismet->setCommentContent(@$this->data['Comment']['body']);
+            $akismet->setPermalink(Router::url("/{$this->__nodeData['Node']['node_type_id']}/{$this->__nodeData['Node']['slug']}.html"));
+
+            if ($akismet->isCommentSpam()) {
+                if (Configure::read('Modules.Comment.settings.akismet.action') == 'mark') {
+                    $this->data['Comment']['status'] = 0;
+                    $this->data['Comment']['subject'] = '-- SPAM -- ' . $this->data['Comment']['subject'];
+                } else {
+                    return false;
+                }
+            }
+        }
+
         $this->status = $this->data['Comment']['status'];
         $r = $this->hook('comment_before_save', $this, array('collectReturn' => true, 'break' => true, 'breakOn' => false));
 
