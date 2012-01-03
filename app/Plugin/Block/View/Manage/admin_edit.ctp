@@ -92,6 +92,13 @@
         <?php echo $this->Html->useTag('fieldsetstart', __t('Advanced Options')); ?>
             <?php echo $this->Form->input('Block.params.class', array('value' => (isset($this->data['Block']['params']['class']) ? $this->data['Block']['params']['class'] : ''), 'label' => __t('Block class suffix'))); ?>
             <em><?php echo __t('A suffix to be applied to the CSS class of the block. This allows for individual block styling.'); ?></em>
+
+            <?php
+                $data = $this->data['Block'];
+                $params =  $this->Layout->hook('block_form_params', $data, array('collectReturn' => true));
+
+                echo implode("\n ", (array)$params);
+            ?>
         <?php echo $this->Html->useTag('fieldsetend'); ?>
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 
