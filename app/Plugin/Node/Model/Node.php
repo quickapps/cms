@@ -60,6 +60,11 @@ class Node extends NodeAppModel {
         if (!isset($this->data['Node']['regenerate_slug']) || !$this->data['Node']['regenerate_slug']) {
             $this->Behaviors->detach('Sluggable');
             $this->Behaviors->attach('Sluggable', array('overwrite' => false));
+        } else {
+            if (isset($this->data['Node']['id'])) {
+                $this->id = $this->data['Node']['id'];
+                $this->__tmp['slugRegenerated'] = $this->field('slug');
+            }
         }
 
         $r = isset($this->data['Node']['node_type_base']) ? $this->hook("{$this->data['Node']['node_type_base']}_before_validate", $this) : null;
@@ -102,6 +107,35 @@ class Node extends NodeAppModel {
         $nId = $created ? $this->id : $this->__tmp['data']['Node']['id'];
         $MenuLink = ClassRegistry::init('Menu.MenuLink');
 
+        if (isset($this->__tmp['slugRegenerated'])) {
+            $node = $this->findById($nId);
+            $path = "/{$node['Node']['node_type_id']}/{$this->__tmp['slugRegenerated']}.html";
+            $link_exists = $MenuLink->find('first',
+                array(
+                    'conditions' => array(
+                        'MenuLink.router_path' => $path
+                    ),
+                    'recursive' => -1
+                )
+            );
+
+            if ($link_exists) {
+                $update = array(
+                    'MenuLink' => array(
+                        'id' => $link_exists['MenuLink']['id'],
+                        'link_title' => $link_exists['MenuLink']['link_title'],
+                        'description' => $link_exists['MenuLink']['description'],
+                        'router_path' => "/{$node['Node']['node_type_id']}/{$node['Node']['slug']}.html"
+                    )
+                );
+
+                $MenuLink->Behaviors->detach('Tree');
+                $MenuLink->save($update);
+            }
+
+            return;
+        }
+
         if (isset($this->__tmp['data']['Node']['menu_link']) &&
             $this->__tmp['data']['Node']['menu_link'] &&
             isset($this->__tmp['data']['MenuLink']) &&
@@ -109,7 +143,6 @@ class Node extends NodeAppModel {
         ) { # add to menu
             $this->recursive = -1;
             $node = $this->findById($nId);
-
             $path = "/{$node['Node']['node_type_id']}/{$node['Node']['slug']}.html";
             $link_exists = $MenuLink->find('first',
                 array(
