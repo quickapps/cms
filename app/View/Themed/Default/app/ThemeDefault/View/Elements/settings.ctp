@@ -1,4 +1,4 @@
-<?php echo $this->Form->input('Module.settings.slider_folder', array('between' => $this->Html->url('/files/', true), 'type' => 'text', 'label' => __d('theme_default', 'Image slider folder'))); ?>
+<?php echo $this->Form->input('Module.settings.slider_folder', array('between' => preg_replace('/\/[a-z]{3}\//', '/', $this->Html->url('/files/', true)), 'type' => 'text', 'label' => __d('theme_default', 'Image slider folder'))); ?>
 <em>
     <?php echo __d('ThemeDefault', 'Recomended images size:') ?> 974x302px<br/>
 </em>
