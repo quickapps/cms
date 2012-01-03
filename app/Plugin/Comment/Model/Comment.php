@@ -12,7 +12,7 @@
  */
 class Comment extends CommentAppModel {
     public $status = null;
-    private $__nodeData = null; # tmp holder
+    private $__tmp = null;
     public $name = 'Comment';
     public $useTable = "comments";
     public $primaryKey = 'id';
@@ -91,9 +91,9 @@ class Comment extends CommentAppModel {
         }
 
         $this->Node->recursive = 1;
-        $this->__nodeData = $this->Node->findById($this->data['Comment']['node_id']);
+        $this->__tmp['nodeData'] = $this->Node->findById($this->data['Comment']['node_id']);
 
-        if (!$this->__nodeData) {
+        if (!$this->__tmp['nodeData']) {
             return false;
         }
 
@@ -102,7 +102,7 @@ class Comment extends CommentAppModel {
         $userId = CakeSession::read('Auth.User.id');
 
         if (!$userId) { # anonymous
-            switch ($this->__nodeData['NodeType']['comments_anonymous']) {
+            switch ($this->__tmp['nodeData']['NodeType']['comments_anonymous']) {
                 #name
                 case 0: #mail not sended, not requierd | name sended but not required
                     unset($this->validate['name'], $this->validate['email']);
@@ -139,7 +139,7 @@ class Comment extends CommentAppModel {
             if (in_array(1, (array)CakeSession::read('Auth.User.role_id'))) {
                $this->data['Comment']['status'] = 1;
             } else {
-                $this->data['Comment']['status'] = intval($this->__nodeData['NodeType']['comments_approve']);
+                $this->data['Comment']['status'] = intval($this->__tmp['nodeData']['NodeType']['comments_approve']);
             }
 
             $this->data['Comment']['user_id'] = $userId;
@@ -152,13 +152,13 @@ class Comment extends CommentAppModel {
 
     public function beforeSave() {
         if (isset($this->data['Comment']['node_id'])) {
-            Cache::delete("node_{$this->__nodeData['Node']['slug']}");
+            Cache::delete("node_{$this->__tmp['nodeData']['Node']['slug']}");
         }
 
         /* new comment */
         if (!isset($this->data['Comment']['id'])) {
             #prepare body
-            $this->data['Comment']['body'] = html_entity_decode(strip_tags($this->data['Comment']['body'])); #filter
+            $this->data['Comment']['body'] = html_entity_decode(strip_tags($this->data['Comment']['body']));
 
             # prepare subject
             if (!isset($this->data['Comment']['subject']) || empty($this->data['Comment']['subject'])) {
@@ -181,14 +181,15 @@ class Comment extends CommentAppModel {
             $akismet->setCommentAuthorEmail(@$this->data['Comment']['email']);
             $akismet->setCommentAuthorURL(@$this->data['Comment']['homepage']);
             $akismet->setCommentContent(@$this->data['Comment']['body']);
-            $akismet->setPermalink(Router::url("/{$this->__nodeData['Node']['node_type_id']}/{$this->__nodeData['Node']['slug']}.html"));
+            $akismet->setPermalink(Router::url("/{$this->__tmp['nodeData']['Node']['node_type_id']}/{$this->__tmp['nodeData']['Node']['slug']}.html"));
 
             if ($akismet->isCommentSpam()) {
+                $this->data['Comment']['status'] = 0;
+
                 if (Configure::read('Modules.Comment.settings.akismet.action') == 'mark') {
-                    $this->data['Comment']['status'] = 0;
                     $this->data['Comment']['subject'] = '-- SPAM -- ' . $this->data['Comment']['subject'];
                 } else {
-                    return false;
+                    $this->__tmp['deleteSpam'] = true;
                 }
             }
         }
@@ -197,6 +198,12 @@ class Comment extends CommentAppModel {
         $r = $this->hook('comment_before_save', $this, array('collectReturn' => true, 'break' => true, 'breakOn' => false));
 
         return !in_array(false, (array)$r, true);
+    }
+
+    public function afterSave() {
+        if (isset($this->__tmp['deleteSpam'])) {
+            $this->delete($this->id);
+        }
     }
 
     private function __defaultSubject($string, $len = 30) {
