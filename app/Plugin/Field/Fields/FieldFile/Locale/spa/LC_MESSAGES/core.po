@@ -27,7 +27,7 @@ msgid "File URL"
 msgstr "URL de Fichero"
 
 msgid "Files must be less than <b>%sB</b>."
-msgstr "Archivos deben menores a <b>%sB</b>."
+msgstr "Archivos deben ser menores que <b>%sB</b>."
 
 msgid "Allowed file types: <b>%s</b>."
 msgstr "Extensiones admitidas: <b>%s</b>."
