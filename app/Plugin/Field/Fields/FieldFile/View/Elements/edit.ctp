@@ -5,8 +5,8 @@
 ?>
     <link href="<?php echo $this->Html->url('/field_file/js/uploadify/uploadify.css'); ?>" type="text/css" rel="stylesheet" />
     <link href="<?php echo $this->Html->url('/field_file/css/field_file.css'); ?>" type="text/css" rel="stylesheet" />
-    <script type="text/javascript" src="<?php echo $this->Html->url('/js/ui/jquery-ui.js'); ?>"></script>
-    <script type="text/javascript" src="<?php echo $this->Html->url('/js/json.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo $this->Html->url('/system/js/ui/jquery-ui.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo $this->Html->url('/system/js/json.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo $this->Html->url('/field_file/js/field_file.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo $this->Html->url('/field_file/js/locale.' . Configure::read('Variable.language.code') . '.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo $this->Html->url('/field_file/js/uploadify/swfobject.js'); ?>"></script>

@@ -3,8 +3,8 @@
     <head>
         <title><?php echo __t('QuickApps Installation'); ?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <?php echo $this->Html->css('reset');?>
-        <?php echo $this->Html->css('install');?>
+        <?php echo $this->Html->css('/system/css/reset.css');?>
+        <?php echo $this->Html->css('/system/css/install.css');?>
     </head>
 
     <body>
@@ -14,7 +14,7 @@
             </div>
 
             <div id="content">
-                <div id="logo"><?php echo $this->Html->image('logo.png'); ?></div>
+                <div id="logo"><?php echo $this->Html->image('/system/img/logo.png'); ?></div>
                 <?php echo $this->Layout->content(); ?>
             </div>
         </div>

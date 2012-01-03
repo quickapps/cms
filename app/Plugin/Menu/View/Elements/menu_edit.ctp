@@ -35,7 +35,7 @@
 <?php //echo $this->Html->script('nestedSortable/jquery-1.5.2.min.js'); ?>
 <?php echo $this->Html->script('/menu/js/nestedSortable/jquery-ui-1.8.11.custom.min.js'); ?>
 <?php echo $this->Html->script('/menu/js/nestedSortable/jquery.ui.nestedSortable'); ?>
-<?php echo $this->Html->script('json.js'); ?>
+<?php echo $this->Html->script('/system/js/json.js'); ?>
 
 <div id="menu-sortContainer">
     <?php echo $this->Tree->generate($links, array('class' => 'sortable', 'plugin' => 'menu', 'element' => 'menu_link_node', 'id' => 'menuLinks', 'model' => 'MenuLink', 'alias' => 'link_title')); ?>

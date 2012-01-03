@@ -35,7 +35,7 @@ class AppController extends Controller {
         ),
         'javascripts' => array(
             'inline' => array(),
-            'file' => array('jquery.js', 'quickapps.js')
+            'file' => array('/system/js/jquery.js', '/system/js/quickapps.js')
         ),
         'meta' => array() # meta tags for layout
     );

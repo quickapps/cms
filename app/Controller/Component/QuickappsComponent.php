@@ -91,10 +91,10 @@ class QuickAppsComponent extends Component {
             $yaml['settings'] = Configure::read("Modules.Theme{$this->Controller->theme}.settings");
 
             # set custom or default logo
-            $yaml['settings']['site_logo_url'] = isset($yaml['settings']['site_logo_url']) && !empty($yaml['settings']['site_logo_url']) ? $yaml['settings']['site_logo_url'] : '/img/logo.png';
+            $yaml['settings']['site_logo_url'] = isset($yaml['settings']['site_logo_url']) && !empty($yaml['settings']['site_logo_url']) ? $yaml['settings']['site_logo_url'] : '/system/img/logo.png';
 
             # set custom or default favicon
-            $yaml['settings']['site_favicon_url'] = isset($yaml['settings']['site_favicon_url']) && !empty($yaml['settings']['site_favicon_url']) ? $yaml['settings']['site_logo_url'] : '/favicon.ico';
+            $yaml['settings']['site_favicon_url'] = isset($yaml['settings']['site_favicon_url']) && !empty($yaml['settings']['site_favicon_url']) ? $yaml['settings']['site_logo_url'] : '/system/favicon.ico';
 
             Configure::write('Theme', $yaml);
 
@@ -175,8 +175,7 @@ class QuickAppsComponent extends Component {
 
         // auto favicon meta
         if (Configure::read('Theme.settings.site_favicon')) {
-            $faviconURL = Configure::read('Theme.settings.site_favicon_url');
-            $this->Controller->Layout['meta']['icon'] = $faviconURL && !empty($faviconURL) ? Router::url($faviconURL) : Router::url('/favicon.ico');
+            $this->Controller->Layout['meta']['icon'] = Router::url(Configure::read('Theme.settings.site_favicon_url'));
         }
     }
 

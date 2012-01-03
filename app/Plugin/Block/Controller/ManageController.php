@@ -60,8 +60,8 @@ class ManageController extends BlockAppController {
             )
         );
 
-        $this->Layout['javascripts']['file'][] = 'ui/jquery-ui';
-        $this->Layout['stylesheets']['all'][] = '/js/ui/css/ui-lightness/styles.css';
+        $this->Layout['javascripts']['file'][] = '/system/js/ui/jquery-ui';
+        $this->Layout['stylesheets']['all'][] = '/system/js/ui/css/ui-lightness/styles.css';
         $this->Layout['stylesheets']['all'][] = '/block/css/sortable.css';
 
         $this->set('site_theme', (array)$site_theme);

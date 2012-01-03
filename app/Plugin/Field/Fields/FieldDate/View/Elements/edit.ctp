@@ -1,6 +1,6 @@
 <?php if (!isset($this->__dateFieldCount) || $this->__dateFieldCount < 1): ?>
-    <?php echo $this->Html->script('/js/ui/jquery-ui.js'); ?>
-    <?php echo $this->Html->css('/js/ui/css/ui-lightness/styles.css'); ?>
+    <?php echo $this->Html->script('/system/js/ui/jquery-ui.js'); ?>
+    <?php echo $this->Html->css('/system/js/ui/css/ui-lightness/styles.css'); ?>
     <?php $this->__dateFieldCount++; ?>
 <?php endif; ?>
 
