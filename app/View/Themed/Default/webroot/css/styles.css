@@ -259,7 +259,7 @@ legend { font-weight:bold; font-size:16px; border-radius: 8px; -webkit-border-ra
 #sidebar-left div.delta-login form .submit input { margin-bottom:20px; }
 
 /*---------------[MAIN-CONTENT]------------------*/ 
-#page { float:left; width:100%; }
+#page { float:left; width:100%; padding-bottom:20px; }
     #page .container { width:980px; margin:0 auto; padding:25px 0 40px 0; }
         #page .container #sidebar-left { width:240px; float:left; margin-right:30px; }
         #page .container #content { width:700px; float:left; }
