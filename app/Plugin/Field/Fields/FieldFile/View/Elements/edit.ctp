@@ -1,29 +1,6 @@
 <!-- Field File -->
-<?php
-    # attach js & css files only if there is no file field instances yet
-    if (!isset($this->__fileFieldCount) || $this->__fileFieldCount < 1) {
-?>
-    <link href="<?php echo $this->Html->url('/field_file/js/uploadify/uploadify.css'); ?>" type="text/css" rel="stylesheet" />
-    <link href="<?php echo $this->Html->url('/field_file/css/field_file.css'); ?>" type="text/css" rel="stylesheet" />
-    <script type="text/javascript" src="<?php echo $this->Html->url('/system/js/ui/jquery-ui.js'); ?>"></script>
-    <script type="text/javascript" src="<?php echo $this->Html->url('/system/js/json.js'); ?>"></script>
-    <script type="text/javascript" src="<?php echo $this->Html->url('/field_file/js/field_file.js'); ?>"></script>
-    <script type="text/javascript" src="<?php echo $this->Html->url('/field_file/js/locale.' . Configure::read('Variable.language.code') . '.js'); ?>"></script>
-    <script type="text/javascript" src="<?php echo $this->Html->url('/field_file/js/uploadify/swfobject.js'); ?>"></script>
-    <script type="text/javascript" src="<?php echo $this->Html->url('/field_file/js/uploadify/jquery.uploadify.v2.1.4.min.js'); ?>"></script>
-
-    <script type="text/javascript">
-        QuickApps.field_file.uploader = '<?php echo $this->Html->url('/field_file/js/uploadify/uploadify.swf'); ?>';
-        QuickApps.field_file.session_id = '<?php echo CakeSession::id(); ?>';
-        QuickApps.field_file.cancelImg = '<?php echo $this->Html->url('/field_file/js/uploadify/cancel.png'); ?>';
-    </script>
-
-<?php
-        $this->__fileFieldCount++;
-    }
-
-    $multi = (isset($field['settings']['multi']) && $field['settings']['multi'] > 1);
-?>
+<?php echo $this->Layout->hook('field_file_libs'); ?>
+<?php  $multi = (isset($field['settings']['multi']) && $field['settings']['multi'] > 1); ?>
 
 <div id="FieldDataFieldFile<?php echo $field['id']; ?>">
 <?php

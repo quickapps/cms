@@ -1,9 +1,3 @@
-<?php if (!isset($this->__dateFieldCount) || $this->__dateFieldCount < 1): ?>
-    <?php echo $this->Html->script('/system/js/ui/jquery-ui.js'); ?>
-    <?php echo $this->Html->css('/system/js/ui/css/ui-lightness/styles.css'); ?>
-    <?php $this->__dateFieldCount++; ?>
-<?php endif; ?>
-
 <?php
     $field['FieldData'] = !isset($field['FieldData']) ? array() : $field['FieldData'];
     $field['FieldData'] = array_merge(array('id' => null, 'field_id' => null, 'foreignKey' => null, 'belongsTo' => null, 'data' => ''), $field['FieldData']);

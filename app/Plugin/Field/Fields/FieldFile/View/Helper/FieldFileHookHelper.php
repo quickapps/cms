@@ -1,5 +1,30 @@
 <?php
 class FieldFileHookHelper extends AppHelper {
+    private $__instancesCount = 0;
+
+    public function field_file_libs() {
+        $out = '';
+
+        if (!$this->__instancesCount) {
+            $out .= $this->_View->Html->css('/field_file/js/uploadify/uploadify.css');
+            $out .= $this->_View->Html->css('/field_file/css/field_file.css');
+            $out .= $this->_View->Html->script('/system/js/ui/jquery-ui.js');
+            $out .= $this->_View->Html->script('/system/js/json.js');
+            $out .= $this->_View->Html->script('/field_file/js/field_file.js');
+            $out .= $this->_View->Html->script('/field_file/js/locale.' . Configure::read('Variable.language.code') . '.js');
+            $out .= $this->_View->Html->script('/field_file/js/uploadify/swfobject.js');
+            $out .= $this->_View->Html->script('/field_file/js/uploadify/jquery.uploadify.v2.1.4.min.js');
+            $out .=  "
+            <script type=\"text/javascript\">
+                QuickApps.field_file.uploader = '" . Router::url('/field_file/js/uploadify/uploadify.swf') . "';
+                QuickApps.field_file.session_id = '" . CakeSession::id() . "';
+                QuickApps.field_file.cancelImg = '" . Router::url('/field_file/js/uploadify/cancel.png') . "';
+            </script>";
+        }
+
+        return $out;
+    }
+
     public function field_file_formatter($data) {
         $__default = array(
             'content' => array(

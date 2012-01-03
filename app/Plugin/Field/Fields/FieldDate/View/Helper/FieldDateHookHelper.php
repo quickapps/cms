@@ -1,21 +1,25 @@
 <?php
 class FieldDateHookHelper extends AppHelper {
+    private $__fieldDateLocale = array();
+    private $__instancesCount = 0;
+
     public function field_date_js_init($data) {
         extract($data);
 
         $out = '';
 
-        if (!isset($this->_View->fieldDateLocale)) {
-            $this->_View->fieldDateLocale = array();
+        if (!$this->__instancesCount) {
+            $out .= $this->_View->Html->script('/system/js/ui/jquery-ui.js');
+            $out .= $this->_View->Html->css('/system/js/ui/css/ui-lightness/styles.css');
         }
 
         if (isset($settings['locale']) &&
             !empty($settings['locale']) &&
-            !isset($this->_View->fieldDateLocale[$settings['locale']])
+            !isset($this->__fieldDateLocale[$settings['locale']])
         ) {
-            $locales = $this->_View->fieldDateLocale;
+            $locales = $this->__fieldDateLocale;
             $locales[$settings['locale']] = true;
-            $this->_View->fieldDateLocale = $locales;
+            $this->__fieldDateLocale = $locales;
             $out .= $this->_View->Html->script("/field_date/js/i18n/jquery.ui.datepicker-{$settings['locale']}.js");
         }
 
@@ -58,6 +62,7 @@ class FieldDateHookHelper extends AppHelper {
 
         $out .= "});";
         $out .= "</script>";
+        $this->__instancesCount++;
 
         return $out;
     }
