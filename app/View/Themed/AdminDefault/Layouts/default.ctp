@@ -7,8 +7,8 @@
         <?php echo $this->Html->css('reset.css'); ?>
         <?php echo $this->Html->css('login.css'); ?>
         <?php echo $this->Layout->header(); ?>
-        <?php echo $this->Html->script('jquery.js'); ?>
-        <?php echo $this->Html->script('quickapps.js'); ?>
+        <?php echo $this->Html->script('/system/js/jquery.js'); ?>
+        <?php echo $this->Html->script('/system/js/quickapps.js'); ?>
         <?php echo $this->Html->script('login.js'); ?>
     </head>
 
