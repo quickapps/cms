@@ -74,3 +74,6 @@ msgstr "Buscando..."
 msgid "x"
 msgstr "x"
 
+msgid "You must <a href="%s">select a vocabulary</a> for this field!"
+msgstr "Debe <a href="%s">seleccionar un vocabulario</a> para este campo!"
+

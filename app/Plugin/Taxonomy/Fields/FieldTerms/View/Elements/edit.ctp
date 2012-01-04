@@ -18,6 +18,11 @@
                 'Term.vocabulary_id' => $field['settings']['vocabulary']
             ), null, null, '&nbsp;&nbsp;&nbsp;|-&nbsp;'
         );
+    } else {
+        echo "<label>{$field['label']}</label>";
+       echo __d('field_terms', 'You must <a href="%s">select a vocabulary</a> for this field!', Router::url("/admin/node/types/field_settings/{$field['id']}"));
+
+       return;
     }
 
     if (isset($this->data['FieldData']['FieldTerms'][$field['id']]['data'])) {
