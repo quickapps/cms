@@ -365,7 +365,7 @@ class LayoutHelper extends AppHelper {
             $result .= implode('', (array)$this->hook('after_render_field', $data, array('collectReturn' => true)));
             $result = "\n\t" . $this->hooktags($result) . "\n";
 
-            return "\n<div class=\"field-container field-name-{$field['name']}\">{$result}</div>\n";
+            return "\n<div class=\"field-container field-name-{$field['name']} field-module-{$field['field_module']}\">{$result}</div>\n";
         }
 
         return '';
