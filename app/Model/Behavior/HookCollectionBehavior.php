@@ -236,7 +236,7 @@ class HookCollectionBehavior extends ModelBehavior {
     private function __loadHooks() {
         foreach ((array)Configure::read('Hook.behaviors') as $behavior) {
             $pluginSplit = pluginSplit($behavior);
-            $behavior = strpos($behavior, '.') !== false ? substr($behavior, strpos($behavior, '.')+1) : $behavior;
+            $behavior = $pluginSplit[1];
 
             if ($behavior == 'HookCollection' || !is_object($this->__model->Behaviors->{$behavior})) {
                 continue;

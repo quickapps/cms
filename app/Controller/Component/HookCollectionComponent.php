@@ -247,7 +247,7 @@ class HookCollectionComponent extends Component {
     private function __loadHooks() {
         foreach ((array)Configure::read('Hook.components') as $component) {
             $pluginSplit = pluginSplit($component);
-            $component = strpos($component, '.') !== false ? substr($component, strpos($component, '.')+1) : $component;
+            $component = $pluginSplit[1];
 
             if ($component == 'HookCollection' || !is_object($this->__controller->{$component})) {
                 continue;

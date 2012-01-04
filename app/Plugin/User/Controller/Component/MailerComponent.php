@@ -186,6 +186,7 @@ class MailerComponent extends Component {
 
         if (Configure::read('Variable.url_language_prefix') && isset($user['User']['language']) && !empty($user['User']['language'])) {
             preg_match_all('/\/([a-z]{3})\//s', $text, $lang);
+
             foreach ($lang[0] as $m) {
                 $text = str_replace($m, "/{$user['User']['language']}/", $text);
             }
