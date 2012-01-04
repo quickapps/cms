@@ -21,9 +21,7 @@ class BBCodeBehavior extends ModelBehavior {
  * @access public
  */
     public function setup($Model, $config = array()) {
-        $smileyURL = Router::url('/', true);
-        $smileyURL = Configure::read('Variable.url_language_prefix') ? preg_replace('/\/[a-z]{3}\/$/', '/', $smileyURL) : $SetSmileyURL;
-        $smileyURL .= 'comment/img/smileys';
+        $smileyURL = strip_language_prefix(Router::url('/', true)) . 'comment/img/smileys';
 
         $__settings = array(
             'fields' => array('body'),
