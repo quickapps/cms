@@ -461,3 +461,6 @@ msgstr "Fichero \"Config/bootstrap.php\" no encontrado"
 msgid "\"Config/routes.php\" file not found"
 msgstr "Fichero \"Config/routes.php\" no encontrado"
 
+msgid "Files must be less than <b>%sB</b>."
+msgstr "Los ficheros deben pesar menos de <b>%sB</b>."
+

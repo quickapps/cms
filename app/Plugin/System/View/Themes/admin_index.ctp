@@ -9,6 +9,7 @@
                     )
                 );
             ?>
+            <em><?php echo __t('Files must be less than <b>%sB</b>.', ini_get('upload_max_filesize')) ; ?></em>
             <p>
                 <?php echo $this->Form->input(__t('Install'), array('type' => 'submit', 'label' => false)); ?>
             </p>
