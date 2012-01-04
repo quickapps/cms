@@ -10,17 +10,20 @@
  * @link     http://cms.quickapps.es
  */
 class NodeHookComponent extends Component {
-    var $Controller = null;
-    var $components = array('Hook');
+    public $Controller = null;
 
-    function initialize(&$Controller) {
+    public function initialize(&$Controller) {
         $this->Controller = $Controller;
     }
 
-    function get_node_types() {
+    public function get_node_types() {
         $NodeType = ClassRegistry::init('Node.NodeType');
         $types = $NodeType->find('all', array('recursive' => -1, 'fields' => array('type', 'name')));
 
         return $types['NodeType'];
+    }
+
+    public function search_results($query) {
+        return $this->Controller->requestAction("/s/{$query}");
     }
 }

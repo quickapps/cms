@@ -11,7 +11,6 @@
  */
 class FieldHookComponent extends Component {
     public $Controller = null;
-    public $components = array('Hook');
 
     public function initialize(&$Controller) {
         $this->Controller = $Controller;
