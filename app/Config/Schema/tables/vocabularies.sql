@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.8, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.5.16, for Win64 (x86)
 --
--- Host: localhost    Database: quickapps
+-- Host: localhost    Database: #__dev
 -- ------------------------------------------------------
--- Server version	5.5.8
+-- Server version	5.5.16-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -33,7 +33,7 @@ CREATE TABLE `#__vocabularies` (
   `created` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `slug` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `#__vocabularies` (
 
 LOCK TABLES `#__vocabularies` WRITE;
 /*!40000 ALTER TABLE `#__vocabularies` DISABLE KEYS */;
-INSERT INTO `#__vocabularies` VALUES (1,'Categories','categories','',0,0,1319979737,1319979737);
+INSERT INTO `#__vocabularies` VALUES (1,'Categories','categories','',0,0,1319979737,1319979737),(2,'Tags','tags','',0,0,1325701898,1325701898);
 /*!40000 ALTER TABLE `#__vocabularies` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-10-30 14:46:35
+-- Dump completed on 2012-01-04 20:22:22

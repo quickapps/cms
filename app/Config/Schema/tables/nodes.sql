@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.8, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.5.16, for Win64 (x86)
 --
--- Host: localhost    Database: quickapps
+-- Host: localhost    Database: #__dev
 -- ------------------------------------------------------
--- Server version	5.5.8
+-- Server version	5.5.16-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -53,7 +53,7 @@ CREATE TABLE `#__nodes` (
 
 LOCK TABLES `#__nodes` WRITE;
 /*!40000 ALTER TABLE `#__nodes` DISABLE KEYS */;
-INSERT INTO `#__nodes` VALUES (1,'page','node','','Hooktags','','hooktags','','',1,1,1310424311,1310424311,1,0,0,0,0,'',NULL),(2,'page','node','','About','','about','','',1,1,1310424311,1310424311,1,0,1,1,0,'',NULL),(3,'article',' node','','My first article!','','my-first-article','1:announcements','',1,1,1319979547,1319979547,1,2,1,0,0,'','a:1:{s:5:\"class\";s:0:\"\";}');
+INSERT INTO `#__nodes` VALUES (1,'page','node','','Hooktags','','hooktags','','',1,1,1310424311,1310424311,1,0,0,0,0,'',NULL),(2,'page','node','','About','','about','','',1,1,1310424311,1310424311,1,0,1,1,0,'',NULL),(3,'article',' node','','My first article!','','my-first-article','1:announcements|9:cakephp-1|8:cms|7:quickapps','',1,1,1319979547,1319979547,1,2,1,0,0,'','a:1:{s:5:\"class\";s:0:\"\";}');
 /*!40000 ALTER TABLE `#__nodes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -66,4 +66,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-11-09 14:46:09
+-- Dump completed on 2012-01-04 20:22:22

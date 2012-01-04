@@ -36,14 +36,23 @@
         'value' => $selected
     );
 
-    if ($field['settings']['type'] == 'select' && $field['settings']['max_values'] == 1) {
-        $Options['multiple'] = false;
-    } elseif ($field['settings']['type'] == 'checkbox' && $field['settings']['max_values'] == 1) {
-        $Options['type'] = 'radio';
-        $Options['separator'] = '<br />';
-        $Options['legend'] = $field['label'];
-        $Options['value'] = @$selected[0];
-        unset($Options['multiple']);
+    if (in_array($field['settings']['type'], array('select', 'checkbox'))) {
+        if ($field['settings']['type'] == 'select' && $field['settings']['max_values'] == 1) {
+            $Options['multiple'] = false;
+        } elseif ($field['settings']['type'] == 'checkbox' && $field['settings']['max_values'] == 1) {
+            $Options['type'] = 'radio';
+            $Options['separator'] = '<br />';
+            $Options['legend'] = $field['label'];
+            $Options['value'] = @$selected[0];
+
+            unset($Options['multiple']);
+        }
+    } else {
+        $Options['type'] = 'text';
+        $Options['class'] = 'tags';
+
+        unset($Options['multiple'], $Options['options']);
+        echo $this->Layout->hook('field_terms_render_autocomplete', $field);
     }
 
     echo $this->Form->input("FieldData.FieldTerms.{$field['id']}.data", $Options);

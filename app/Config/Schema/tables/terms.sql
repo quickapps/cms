@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.8, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.5.16, for Win64 (x86)
 --
--- Host: localhost    Database: quickapps
+-- Host: localhost    Database: #__dev
 -- ------------------------------------------------------
--- Server version	5.5.8
+-- Server version	5.5.16-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -35,7 +35,7 @@ CREATE TABLE `#__terms` (
   `rght` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +44,7 @@ CREATE TABLE `#__terms` (
 
 LOCK TABLES `#__terms` WRITE;
 /*!40000 ALTER TABLE `#__terms` DISABLE KEYS */;
-INSERT INTO `#__terms` VALUES (1,1,'Announcements','announcements',NULL,1319979841,1319979841,NULL,1,6),(2,1,'PHP','php',NULL,1319979888,1319979888,NULL,7,8),(3,1,'cakePHP','cakephp',NULL,1319979899,1319979899,NULL,9,10),(4,1,'Next Events','next-events','',1319979929,1319979911,1,2,3),(5,1,'Past','past',NULL,1319979918,1319979918,1,4,5);
+INSERT INTO `#__terms` VALUES (1,1,'Announcements','announcements',NULL,1319979841,1319979841,NULL,1,6),(2,1,'PHP','php',NULL,1319979888,1319979888,NULL,7,8),(3,1,'cakePHP','cakephp',NULL,1319979899,1319979899,NULL,9,10),(4,1,'Next Events','next-events','',1319979929,1319979911,1,2,3),(5,1,'Past','past',NULL,1319979918,1319979918,1,4,5),(6,2,'my cool term','my-cool-term',NULL,1325701956,1325701910,0,13,14),(7,2,'quickapps','quickapps',NULL,1325701956,1325701927,0,1,2),(8,2,'cms','cms',NULL,1325701956,1325701930,0,3,4),(9,2,'cakephp','cakephp-1',NULL,1325701956,1325701934,0,5,6),(10,2,'php','php-1',NULL,1325701956,1325701943,0,7,8),(11,2,'drupal','drupal',NULL,1325701956,1325701946,0,9,10),(12,2,'wordpress','wordpress',NULL,1325701956,1325701951,0,11,12);
 /*!40000 ALTER TABLE `#__terms` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-10-30 14:46:35
+-- Dump completed on 2012-01-04 20:22:22

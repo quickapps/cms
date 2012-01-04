@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.8, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.5.16, for Win64 (x86)
 --
--- Host: localhost    Database: quickapps
+-- Host: localhost    Database: #__dev
 -- ------------------------------------------------------
--- Server version	5.5.8
+-- Server version	5.5.16-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -28,7 +28,7 @@ CREATE TABLE `#__nodes_terms` (
   `term_id` int(20) NOT NULL DEFAULT '0',
   `field_id` int(11) NOT NULL DEFAULT '0' COMMENT 'field instance''s ID which creates this tag assoc.',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +37,7 @@ CREATE TABLE `#__nodes_terms` (
 
 LOCK TABLES `#__nodes_terms` WRITE;
 /*!40000 ALTER TABLE `#__nodes_terms` DISABLE KEYS */;
-INSERT INTO `#__nodes_terms` VALUES (1,3,1,4);
+INSERT INTO `#__nodes_terms` VALUES (5,3,1,4),(6,3,9,4),(7,3,8,4),(8,3,7,4);
 /*!40000 ALTER TABLE `#__nodes_terms` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-10-30 14:46:35
+-- Dump completed on 2012-01-04 20:22:22

@@ -47,9 +47,30 @@ msgstr "Debe seleccionar al menos una opción."
 msgid "Plain"
 msgstr "Plano"
 
+msgid "Link (localized)"
+msgstr "Vínculo (traducido)"
+
+msgid "URL prefix"
+msgstr "Prefijo en URL"
+
+msgid "Valid only when format is \"Link (localized)\". Adds a prefix to each term link url."
+msgstr "Válido solo cuando formato es \"Vínculo (traducido)\". Agrega un prefijo a cada url en los vínculos."
+
 msgid "Plain (localized)"
 msgstr "Plano (traducido)"
 
 msgid "Select list"
 msgstr "Lista de selección"
+
+msgid "Type in a search term"
+msgstr "Escriba término a buscar"
+
+msgid "No results"
+msgstr "Sin resultados"
+
+msgid "Searching"
+msgstr "Buscando..."
+
+msgid "x"
+msgstr "x"
 

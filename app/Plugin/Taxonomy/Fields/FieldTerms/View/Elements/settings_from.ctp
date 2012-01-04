@@ -14,7 +14,11 @@
     echo $this->Form->input("Field.settings.type",
         array(
             'type' => 'select',
-            'options' => array('checkbox' => __d('field_terms', 'Check boxes/radio buttons'), 'select' => __d('field_terms', 'Select list')),
+            'options' => array(
+                'checkbox' => __d('field_terms', 'Check boxes/radio buttons'),
+                'select' => __d('field_terms', 'Select list'),
+                'autocomplete' => __d('field_terms', 'Autocomplete term (tagging)')
+            ),
             'empty' => false,
             'label' => __d('field_terms', 'Element Type')
         )
