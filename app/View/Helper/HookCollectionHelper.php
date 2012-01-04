@@ -12,34 +12,14 @@
  */
 class HookCollectionHelper extends AppHelper {
     private $__view;
-
-    private $__map = array(
-        'Hooks' => array(),
-        'Hooktags' => array(),
-    );
-
-    protected $_methods = array(
-        'Hooks' => array(),
-        'Hooktags' => array()
-    );
-
-    protected $_hookObjects = array(
-        'Hooks' => array(),
-        'Hooktags' => array()
-    );
-
-    public $helpers = array(
-        'Layout',
-        'Menu',
-        'Form' => array('className' => 'QaForm'),
-        'Html' => array('className' => 'QaHtml'),
-        'Session',
-        'Js'
-    );
+    private $__map = array();
+    protected $_methods = array();
+    protected $_hookObjects = array();
 
     public function beforeRender() {
         $this->__view = $this->_View;
         $this->__loadHooks();
+
         return true;
     }
 
@@ -47,10 +27,9 @@ class HookCollectionHelper extends AppHelper {
  * Load all hooks (and optionally hooktags) of specified Module.
  *
  * @param string $module Name of the module.
- * @param boolean $hooktags TRUE load hooktags. FALSE do not load.
  * @return boolean TRUE on success. FALSE otherwise.
  */
-    public function attachModuleHooks($module, $hooktags = true) {
+    public function attachModuleHooks($module) {
         $Plugin = Inflector::camelize($module);
 
         if (!CakePlugin::loaded($Plugin) || isset($this->_hookObjects['Hooks'][$Plugin . 'Hook'])) {
@@ -59,13 +38,12 @@ class HookCollectionHelper extends AppHelper {
 
         $folder = new Folder;
         $folder->path = CakePlugin::path($Plugin) . 'View' . DS . 'Helper' . DS;
-        $file_pattern = $hooktags ? '(.*)Hook(tagsHelper|Helper)\.php' : '(.*)HookHelper\.php';
+        $file_pattern = '(.*)HookHelper\.php';
         $files = $folder->find($file_pattern);
 
         foreach ($files as $object) {
             $object = str_replace('Helper.php', '', $object);
             $this->{$object} = $this->_View->loadHelper("{$Plugin}.{$object}");
-            $mapGroup = strpos($object, 'Hooktags') !== false ? 'Hooktags' : 'Hooks';
 
             if (!is_object($this->{$object})) {
                 continue;
@@ -76,23 +54,19 @@ class HookCollectionHelper extends AppHelper {
 
             foreach ($_methods as $method) {
                 $methods[] = $method;
-                $this->__map[$mapGroup][$method][] = (string)$object;
+                $this->__map[$method][] = (string)$object;
             }
 
-            $this->_hookObjects[$mapGroup]["{$Plugin}.{$object}"] = $methods;
+            $this->_hookObjects["{$Plugin}.{$object}"] = $methods;
         }
 
-        $this->_methods['Hooks'] = array_keys($this->__map['Hooks']);
-        $this->_methods['Hooktags'] = array_keys($this->__map['Hooktags']);
-        $_tmp = $this->_View->Layout->_tmp;
-        $_tmp['__hooktags_reg'] = implode('|', $this->hooktagsList());
-        $this->_View->Layout->_tmp = $_tmp;
+        $this->_methods = array_keys($this->__map);
 
         return true;
     }
 
 /**
- * Unload all hooks & hooktags of specified Module.
+ * Unload all hooks of specified Module.
  *
  * @param string $module Name of the module
  * @return boolean TRUE on success. FALSE otherwise.
@@ -101,28 +75,22 @@ class HookCollectionHelper extends AppHelper {
         $Plugin = Inflector::camelize($module);
         $found = 0;
 
-        foreach (array('Hooks', 'Hooktags') as $group) {
-            foreach ($this->_hookObjects[$group] as $object => $hooks) {
-                if (strpos($object, "{$Plugin}.") === 0) {
-                    foreach ($hooks as $hook) {
-                        unset($this->__map[$group][$hook]);
-                    }
-
-                    $className = str_replace("{$Plugin}.", '', $object);
-
-                    unset($this->_hookObjects[$group][$object]);
-                    unset($this->__view->{$className});
-
-                    $found++;
+        foreach ($this->_hookObjects as $object => $hooks) {
+            if (strpos($object, "{$Plugin}.") === 0) {
+                foreach ($hooks as $hook) {
+                    unset($this->__map[$hook]);
                 }
+
+                $className = str_replace("{$Plugin}.", '', $object);
+
+                unset($this->_hookObjects[$object]);
+                unset($this->__view->{$className});
+
+                $found++;
             }
         }
 
-        $this->_methods['Hooks'] = array_keys($this->__map['Hooks']);
-        $this->_methods['Hooktags'] = array_keys($this->__map['Hooktags']);
-        $_tmp = $this->_View->Layout->_tmp;
-        $_tmp['__hooktags_reg'] = implode('|', $this->hooktagsList());
-        $this->_View->Layout->_tmp = $_tmp;
+        $this->_methods = array_keys($this->__map);
 
         return $found > 0;
     }
@@ -161,17 +129,7 @@ class HookCollectionHelper extends AppHelper {
  * @return boolean
  */
     public function hookDefined($hook) {
-        return isset($this->__map['Hooks'][$hook]);
-    }
-
-/**
- * Chech if hooktag method exists.
- *
- * @param string $hooktag Name of the hooktag method to check
- * @return boolean
- */
-    public function hooktagDefined($hooktag) {
-        return isset($this->__map['Hooktags'][$hooktag]);
+        return isset($this->__map[$hook]);
     }
 
 /**
@@ -183,15 +141,15 @@ class HookCollectionHelper extends AppHelper {
     public function hookEnable($hook) {
         $hook = Inflector::underscore($hook);
 
-        if (isset($this->__map['Hooks']["{$hook}::Disabled"])) {
-            $this->__map['Hooks'][$hook] = $this->__map['Hooks']["{$hook}::Disabled"];
+        if (isset($this->__map["{$hook}::Disabled"])) {
+            $this->__map[$hook] = $this->__map["{$hook}::Disabled"];
 
-            unset($this->__map['Hooks']["{$hook}::Disabled"]);
+            unset($this->__map["{$hook}::Disabled"]);
 
-            if (in_array("{$hook}::Disabled", $this->_methods['Hooks'])) {
-                $this->_methods['Hooks'][] = $hook;
+            if (in_array("{$hook}::Disabled", $this->_methods)) {
+                $this->_methods[] = $hook;
 
-                unset($this->_methods['Hooks'][array_search("{$hook}::Disabled", $this->_methods['Hooks'])]);
+                unset($this->_methods[array_search("{$hook}::Disabled", $this->_methods)]);
             }
 
             return true;
@@ -209,60 +167,18 @@ class HookCollectionHelper extends AppHelper {
     public function hookDisable($hook) {
         $hook = Inflector::underscore($hook);
 
-        if (isset($this->__map['Hooks'][$hook])) {
-            $this->__map['Hooks']["{$hook}::Disabled"] = $this->__map['Hooks'][$hook];
+        if (isset($this->__map[$hook])) {
+            $this->__map["{$hook}::Disabled"] = $this->__map[$hook];
 
-            unset($this->__map['Hooks'][$hook]);
+            unset($this->__map[$hook]);
 
-            if (in_array($hook, $this->_methods['Hooks'])) {
-                $this->_methods['Hooks'][] = "{$hook}::Disabled";
+            if (in_array($hook, $this->_methods)) {
+                $this->_methods[] = "{$hook}::Disabled";
 
-                unset($this->_methods['Hooks'][array_search("{$hook}", $this->_methods['Hooks'])]);
+                unset($this->_methods[array_search("{$hook}", $this->_methods)]);
             }
 
             return true;
-        }
-
-        return false;
-    }
-
-/**
- * Return an array list of all registered hooktag methods.
- *
- * @return array Array list of all available hooktag methods.
- */
-    public function hooktagsList() {
-        return $this->_methods['Hooktags'];
-    }
-
-/**
- * Callback function
- *
- * @see Layout::hooktags()
- * @return mixed Hook response or false in case of no response.
- */
-    public function doHooktag($m) {
-        // allow [[foo]] syntax for escaping a tag
-        if ($m[1] == '[' && $m[6] == ']') {
-            return substr($m[0], 1, -1);
-        }
-
-        $tag = $m[2];
-        $attr = $this->__hooktagParseAtts($m[3]);
-        $hook = isset($this->__map['Hooktags'][$tag]) ? $this->__map['Hooktags'][$tag] : false;
-
-        if ($hook) {
-            foreach ($this->__map['Hooktags'][$tag] as $object) {
-                $hook =& $this->{$object};
-
-                if (isset($m[5])) {
-                    // enclosing tag - extra parameter
-                    return $m[1] . call_user_func(array($hook, $tag), $attr, $m[5], $tag) . $m[6];
-                } else {
-                    // self-closing tag
-                    return $m[1] . call_user_func(array($hook, $tag), $attr, null, $tag) . $m[6];
-                }
-            }
         }
 
         return false;
@@ -289,9 +205,9 @@ class HookCollectionHelper extends AppHelper {
             return null;
         }
 
-        if (isset($this->__map['Hooks'][$hook])) {
-            foreach ($this->__map['Hooks'][$hook] as $object) {
-                if (in_array("{$hook}::Disabled", $this->_methods['Hooks'])) {
+        if (isset($this->__map[$hook])) {
+            foreach ($this->__map[$hook] as $object) {
+                if (in_array("{$hook}::Disabled", $this->_methods)) {
                     break;
                 }
 
@@ -320,42 +236,10 @@ class HookCollectionHelper extends AppHelper {
         return $options['collectReturn'] ? $collected : $result;
     }
 
-/**
- * Parse hooktags attributes
- *
- * @param string $text Tag string to parse
- * @return array Array of attributes
- */
-    private function __hooktagParseAtts($text) {
-        $atts = array();
-        $pattern = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
-        $text = preg_replace("/[\x{00a0}\x{200b}]+/u", " ", $text);
-
-        if (preg_match_all($pattern, $text, $match, PREG_SET_ORDER)) {
-            foreach ($match as $m) {
-                if (!empty($m[1])) {
-                    $atts[strtolower($m[1])] = stripcslashes($m[2]);
-                } elseif (!empty($m[3])) {
-                    $atts[strtolower($m[3])] = stripcslashes($m[4]);
-                } elseif (!empty($m[5])) {
-                    $atts[strtolower($m[5])] = stripcslashes($m[6]);
-                } elseif (isset($m[7]) and strlen($m[7])) {
-                    $atts[] = stripcslashes($m[7]);
-                } elseif (isset($m[8])) {
-                    $atts[] = stripcslashes($m[8]);
-                }
-            }
-        } else {
-            $atts = ltrim($text);
-        }
-
-        return $atts;
-    }
-
     private function __loadHooks() {
         foreach ((array)Configure::read('Hook.helpers') as $helper) {
             $pluginSplit = pluginSplit($helper);
-            $helper = strpos($helper, '.') !== false ? substr($helper, strpos($helper, '.') + 1) : $helper;
+            $helper = $pluginSplit[1];
 
             if ($helper == 'HookCollection' || !is_object($this->__view->{$helper})) {
                 continue;
@@ -368,7 +252,6 @@ class HookCollectionHelper extends AppHelper {
 
                 $methods = array();
                 $_methods = get_this_class_methods($this->__view->{$helper});
-                $group = strpos($helper, 'Hooktags') !== false ? 'Hooktags' : 'Hooks';
 
                 foreach ($_methods as $method) {
                     // ignore private and protected methods
@@ -378,22 +261,21 @@ class HookCollectionHelper extends AppHelper {
 
                     $methods[] = $method;
 
-                    if (isset($this->__map[$group][$method])) {
-                        $this->__map[$group][$method][] = (string)$helper;
+                    if (isset($this->__map[$method])) {
+                        $this->__map[$method][] = (string)$helper;
                     } else {
-                        $this->__map[$group][$method] = array((string)$helper);
+                        $this->__map[$method] = array((string)$helper);
                     }
                 }
 
                 if ($pluginSplit[0]) {
-                    $this->_hookObjects[$group]["{$pluginSplit[0]}.{$helper}"] = $methods;
+                    $this->_hookObjects["{$pluginSplit[0]}.{$helper}"] = $methods;
                 } else {
-                    $this->_hookObjects[$group][$helper] = $methods;
+                    $this->_hookObjects[$helper] = $methods;
                 }
             }
         }
 
-        $this->_methods['Hooks'] = array_keys($this->__map['Hooks']);
-        $this->_methods['Hooktags'] = array_keys($this->__map['Hooktags']);
+        $this->_methods = array_keys($this->__map);
     }
 }

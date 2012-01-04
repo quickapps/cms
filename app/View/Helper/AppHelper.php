@@ -2,21 +2,6 @@
 App::uses('Helper', 'View');
 
 class AppHelper extends Helper {
-    private $__map = array(
-        'Hooks' => array(),
-        'Hooktags' => array(),
-    );
-
-    protected $_methods = array(
-        'Hooks' => array(),
-        'Hooktags' => array()
-    );
-
-    protected $_hookObjects = array(
-        'Hooks' => array(),
-        'Hooktags' => array()
-    );
-
     public $helpers = array(
         'Layout',
         'Menu',
@@ -53,8 +38,17 @@ class AppHelper extends Helper {
  *
  * @see HookCollectionHelper::attachModuleHooks()
  */
-    public function attachModuleHooks($module, $hooktags = true) {
-        return $this->_View->HookCollection->attachModuleHooks($module, $hooktags);
+    public function attachModuleHooks($module) {
+        return $this->_View->HookCollection->attachModuleHooks($module);
+    }
+
+/**
+ * Wrapper method to HooktagsCollectionHelper::attachModuleHooktags()
+ *
+ * @see HooktagsCollectionHelper::attachModuleHooktags()
+ */
+    public function attachModuleHooktags($module) {
+        return $this->_View->HooktagsCollection->attachModuleHooktags($module);
     }
 
 /**
@@ -67,12 +61,30 @@ class AppHelper extends Helper {
     }
 
 /**
+ * Wrapper method to HooktagsCollectionHelper::detachModuleHooktags()
+ *
+ * @see HooktagsCollectionHelper::detachModuleHooktags()
+ */
+    public function detachModuleHooktags($module) {
+        return $this->_View->HooktagsCollection->detachModuleHooktags($module);
+    }
+
+/**
  * Wrapper method to HookCollectionHelper::hook()
  *
  * @see HookCollectionHelper::hook()
  */
     public function hook($hook, &$data = array(), $options = array()) {
         return $this->_View->HookCollection->hook($hook, $data, $options);
+    }
+
+/**
+ * Wrapper method to HooktagsCollectionHelper::hooktags()
+ *
+ * @see HooktagsCollectionHelper::hooktags()
+ */
+    public function hooktags($text) {
+        return $this->_View->HooktagsCollection->hooktags($text);
     }
 
 /**
@@ -90,7 +102,7 @@ class AppHelper extends Helper {
  * @see HookCollectionHelper::hooktagDefined()
  */
     public function hooktagDefined($hooktag) {
-        return $this->_View->HookCollection->hooktagDefined($hooktag);
+        return $this->_View->HooktagsCollection->hooktagDefined($hooktag);
     }
 
 /**
@@ -103,12 +115,48 @@ class AppHelper extends Helper {
     }
 
 /**
+ * Wrapper method to HooktagsCollectionHelper::hooktagEnable()
+ *
+ * @see HooktagsCollectionHelper::hooktagEnable()
+ */
+    public function hooktagEnable($hooktag) {
+        return $this->_View->HooktagsCollection->hooktagEnable($hooktag);
+    }
+
+/**
  * Wrapper method to HookCollectionHelper::hookDisable()
  *
  * @see HookCollectionHelper::hookDisable()
  */
     public function hookDisable($hook) {
         return $this->_View->HookCollection->hookDisable($hook);
+    }
+
+/**
+ * Wrapper method to HooktagsCollectionHelper::hooktagDisable()
+ *
+ * @see HooktagsCollectionHelper::hooktagDisable()
+ */
+    public function hooktagDisable($hooktag) {
+        return $this->_View->HooktagsCollection->hooktagDisable($hooktag);
+    }
+
+/**
+ * Wrapper method to HooktagsCollectionHelper::stripHooktags()
+ *
+ * @see HooktagsCollectionHelper::stripHooktags()
+ */
+    public function stripHooktags($text) {
+        return $this->_View->HooktagsCollection->stripHooktags($text);
+    }
+
+/**
+ * Wrapper method to HooktagsCollectionHelper::specialTags()
+ *
+ * @see HooktagsCollectionHelper::specialTags()
+ */
+    public function specialTags($text) {
+        return $this->_View->HooktagsCollection->specialTags($text);
     }
 
 /**
@@ -193,7 +241,9 @@ class AppHelper extends Helper {
     }
 
     private function __loadHookObjects() {
-        if ($hooks = Configure::read('Hook.helpers')) {
+        $hooks = array_merge((array)Configure::read('Hook.helpers'), (array)Configure::read('Hook.hooktags'));
+
+        if ($hooks) {
             foreach ($hooks as $hook) {
                 $filePath = array();
 

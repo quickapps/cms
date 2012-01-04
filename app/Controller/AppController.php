@@ -42,6 +42,7 @@ class AppController extends Controller {
 
     public $helpers = array(
         'HookCollection',
+        'HooktagsCollection',
         'Layout',
         'Form' => array('className' => 'QaForm'),
         'Html' => array('className' => 'QaHtml'),
@@ -230,7 +231,7 @@ class AppController extends Controller {
                 unset($this->Module);
             }
 
-            $paths = $c = $h = $b = array();
+            $paths = $c = $h = $ht = $b = array();
             $_modules = array_keys($_modules);
             $themeToUse = $_variable[$_themeType];
             $plugins = App::objects('plugin', null, false);
@@ -295,7 +296,12 @@ class AppController extends Controller {
                     $hook = str_replace(array('Component', 'Behavior', 'Helper'), '', $hook);
 
                     if (strpos($path, 'Helper')) {
-                        $h[] = $hook;
+                        if (strpos($hook, 'Hooktags') !== false) {
+                            $ht[] = $hook;
+                        } else {
+                            $h[] = $hook;
+                        }
+
                         $this->helpers[] = $hook;
                     } elseif (strpos($path, 'Behavior')) {
                         $b[] = $hook;
@@ -309,9 +315,10 @@ class AppController extends Controller {
             Configure::write('Hook.components', $c);
             Configure::write('Hook.behaviors', $b);
             Configure::write('Hook.helpers', $h);
+            Configure::write('Hook.hooktags', $ht);
             Cache::write("hook_objects_{$_themeType}", Configure::read('Hook'));
         } else {
-            $this->helpers = array_merge($this->helpers, $hook_objects['helpers']);
+            $this->helpers = array_merge($this->helpers, $hook_objects['helpers'], $hook_objects['hooktags']);
             $this->components = array_merge($this->components, $hook_objects['components']);
 
             Configure::write('Hook', $hook_objects);
