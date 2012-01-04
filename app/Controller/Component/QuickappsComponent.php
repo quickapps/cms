@@ -23,8 +23,8 @@ class QuickAppsComponent extends Component {
 
         $this->loadVariables();
         $this->loadModules();
-        $this->accessCheck();
         $this->setLanguage();
+        $this->accessCheck();
         $this->setTheme();
         $this->setTimeZone();
         $this->prepareContent();
@@ -302,6 +302,7 @@ class QuickAppsComponent extends Component {
                 $session['role_id'][] = 2; #role: authenticated user
 
                 $this->Controller->Auth->login($session);
+                $this->setLanguage();
 
                 return true;
             }
