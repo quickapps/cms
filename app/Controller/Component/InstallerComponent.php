@@ -1370,6 +1370,10 @@ class InstallerComponent extends Component {
         Cache::delete('core_modules');
         Cache::delete('core_themes');
 
+        if (isset($this->Controller->Variable) && $this->Controller->Variable->cacheSources) {
+            clearCache('cake_model_*_list', 'models', '');
+        }
+
         # regenerate modules & variables
         $this->Controller->Quickapps->loadModules();
         $this->Controller->Quickapps->loadVariables();
