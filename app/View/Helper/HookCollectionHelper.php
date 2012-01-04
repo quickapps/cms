@@ -143,13 +143,10 @@ class HookCollectionHelper extends AppHelper {
  * - `collectReturn` Set to true to collect the return of each object into an array.
  *    This array of return values will be returned from the hook() call. Defaults to `false`.
  *
- * - `alter` Allows each callback gets called on to modify the parameters to the next object.
- *    Defaults to true.
- *
- * @param string $event name of the hook to call
- * @param mixed $data data for the triggered callback
- * @param array $option Array of options
- * @return mixed Either the last result or all results if collectReturn is on. Or null in case of no response
+ * @param string $hook Name of the hook to call.
+ * @param mixed $data Data for the triggered callback.
+ * @param array $option Array of options.
+ * @return mixed Either the last result or all results if collectReturn is on. Or null in case of no response.
  */
     public function hook($hook, &$data = array(), $options = array()) {
         $hook = Inflector::underscore($hook);
@@ -274,7 +271,7 @@ class HookCollectionHelper extends AppHelper {
 /**
  * Dispatch Helper-hooks from all the plugins and core
  *
- * @see AppHelper::hook()
+ * @see HookCollectionHelper::hook()
  * @return mixed Either the last result or all results if collectReturn is on. Or NULL in case of no response
  */
     private function __dispatchHook($hook, &$data = array(), $options = array()) {
