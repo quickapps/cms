@@ -226,6 +226,19 @@ Cache::config('default', array('engine' => 'File'));
     }
 
 /**
+ * Strip language prefix from the given URL.
+ * e.g.: `http://site.com/eng/some-url` becomes http://site.com/some-url`
+ *
+ * @param string $url URL to replace.
+ * @return string URL with no language prefix.
+ */
+    function strip_language_prefix($url) {
+        $url = preg_replace('/\/[a-z]{3}\//', '/', $url);
+
+        return $url;
+    }
+
+/**
  * Translation function, domain search order:
  * 1- Current plugin
  * 2- Default
