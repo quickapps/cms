@@ -110,6 +110,14 @@ class AppModel extends Model {
 				list($join) = $this->joinModel($this->hasAndBelongsToMany[$assoc]['with']);
 
 				$keyInfo = $this->{$join}->schema($this->{$join}->primaryKey);
+				if ($with = $this->hasAndBelongsToMany[$assoc]['with']) {
+					$withModel = is_array($with) ? key($with) : $with;
+					list($pluginName, $withModel) = pluginSplit($withModel);
+					$dbMulti = $this->{$withModel}->getDataSource();
+				} else {
+					$dbMulti = $db;
+				}
+
 				$isUUID = !empty($this->{$join}->primaryKey) && (
 						$keyInfo['length'] == 36 && (
 						$keyInfo['type'] === 'string' ||
@@ -117,12 +125,12 @@ class AppModel extends Model {
 					)
 				);
 
-				$newData = $newValues = array();
+				$newData = $newValues = $newJoins = array();
 				$primaryAdded = false;
 
 				$fields =  array(
-					$db->name($this->hasAndBelongsToMany[$assoc]['foreignKey']),
-					$db->name($this->hasAndBelongsToMany[$assoc]['associationForeignKey'])
+					$dbMulti->name($this->hasAndBelongsToMany[$assoc]['foreignKey']),
+					$dbMulti->name($this->hasAndBelongsToMany[$assoc]['associationForeignKey'])
 				);
 
 				$idField = $db->name($this->{$join}->primaryKey);
@@ -132,12 +140,13 @@ class AppModel extends Model {
 				}
 
 				foreach ((array)$data as $row) {
-					if (!empty($row) && (is_string($row) /*&& (strlen($row) == 36 || strlen($row) == 16)*/) || is_numeric($row)) { # QUICKAPPS MOD
+					if ((is_string($row) /*&& (strlen($row) == 36 || strlen($row) == 16)*/) || is_numeric($row)) {
+						$newJoins[] = $row;
 						$values = array($id, $row);
 						if ($isUUID && $primaryAdded) {
 							$values[] = String::uuid();
 						}
-						$newValues[] = $values;
+						$newValues[$row] = $values;
 						unset($values);
 					} elseif (isset($row[$this->hasAndBelongsToMany[$assoc]['associationForeignKey']])) {
 						$newData[] = $row;
@@ -146,6 +155,7 @@ class AppModel extends Model {
 					}
 				}
 
+				$keepExisting = $this->hasAndBelongsToMany[$assoc]['unique'] === 'keepExisting';
 				if ($this->hasAndBelongsToMany[$assoc]['unique']) {
 					$conditions = array(
 						$join . '.' . $this->hasAndBelongsToMany[$assoc]['foreignKey'] => $id
@@ -153,17 +163,21 @@ class AppModel extends Model {
 					if (!empty($this->hasAndBelongsToMany[$assoc]['conditions'])) {
 						$conditions = array_merge($conditions, (array)$this->hasAndBelongsToMany[$assoc]['conditions']);
 					}
+					$associationForeignKey = $this->{$join}->alias .'.'. $this->hasAndBelongsToMany[$assoc]['associationForeignKey'];
 					$links = $this->{$join}->find('all', array(
 						'conditions' => $conditions,
 						'recursive' => empty($this->hasAndBelongsToMany[$assoc]['conditions']) ? -1 : 0,
-						'fields' => $this->hasAndBelongsToMany[$assoc]['associationForeignKey']
+						'fields' => $associationForeignKey,
 					));
 
-					$associationForeignKey = "{$join}." . $this->hasAndBelongsToMany[$assoc]['associationForeignKey'];
 					$oldLinks = Set::extract($links, "{n}.{$associationForeignKey}");
 					if (!empty($oldLinks)) {
- 						$conditions[$associationForeignKey] = $oldLinks;
-						$db->delete($this->{$join}, $conditions);
+						if ($keepExisting && !empty($newJoins)) {
+							$conditions[$associationForeignKey] = array_diff($oldLinks, $newJoins);
+						} else {
+							$conditions[$associationForeignKey] = $oldLinks;
+						}
+						$dbMulti->delete($this->{$join}, $conditions);
 					}
 				}
 
@@ -176,7 +190,21 @@ class AppModel extends Model {
 				}
 
 				if (!empty($newValues)) {
-					$db->insertMulti($this->{$join}, $fields, $newValues);
+					if ($keepExisting && !empty($links)) {
+						foreach ($links as $link) {
+							$oldJoin = $link[$join][$this->hasAndBelongsToMany[$assoc]['associationForeignKey']];
+							if (! in_array($oldJoin, $newJoins) ) {
+								$conditions[$associationForeignKey] = $oldJoin;
+								$db->delete($this->{$join}, $conditions);
+							} else {
+								unset($newValues[$oldJoin]);
+							}
+						}
+						$newValues = array_values($newValues);
+					}
+					if (!empty($newValues)) {
+						$dbMulti->insertMulti($this->{$join}, $fields, $newValues);
+					}
 				}
 			}
 		}
