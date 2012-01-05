@@ -512,6 +512,15 @@ class InstallerComponent extends Component {
         $this->options['__path'] = $pData['Module']['type'] == 'theme' ? THEMES . str_replace('Theme', '', $Name) . DS . 'app' . DS . $Name . DS : CakePlugin::path($Name);
         $this->options['__Name'] = $Name;
 
+        // check if can be deleted
+        $folderpath = ($this->options['type'] == 'module') ? $this->options['__path'] : dirname(dirname($this->options['__path']));
+
+        if (!$this->isRemoveable($folderpath)) {
+            $this->errors[] = __t('This module can not be uninstalled because some files/folder can not be deleted, please check the permissions.');
+
+            return false;
+        }
+
         // core plugins can not be deleted
         if (in_array($this->options['__Name'], array_merge(array('ThemeDefault', 'ThemeAdminDefault'), Configure::read('coreModules')))) {
             return false;
@@ -685,6 +694,7 @@ class InstallerComponent extends Component {
         // delete app folder
         $folderpath = ($this->options['type'] == 'module') ? $this->options['__path'] : dirname(dirname($this->options['__path']));
         $Folder = new Folder($folderpath);
+
         $Folder->delete();
     }
 
@@ -1091,6 +1101,35 @@ class InstallerComponent extends Component {
     }
 
 /**
+ * Check if all files & folders contained in `dir` can be removed.
+ *
+ * @param string $dir Path content to check.
+ * @return bool TRUE if all files & folder can be removed. FALSE otherwise.
+ */
+    public function isRemoveable($dir) {
+        if (!is_writable($dir)) {
+            return false;
+        }
+
+        $Folder = new Folder($dir);
+        $read = $Folder->read(false, false, true);
+
+        foreach ($read[1] as $file) {
+            if (!is_writable($dir)) {
+                return false;
+            }
+        }
+
+        foreach ($read[0] as $folder) {
+            if (!$this->isRemoveable($folder)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+/**
  * Check if all files & folders contained in `source` can be copied to `destination`
  *
  * @param string $src Path content to check.
@@ -1103,6 +1142,7 @@ class InstallerComponent extends Component {
         $files = $Folder->findRecursive();
 
         if (!is_writable($dst)) {
+            $e++;
             $this->errors[] = __t('path: %s, not writable', $dst);
         }
 
