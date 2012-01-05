@@ -211,3 +211,6 @@ msgstr "Marcar como SPAM"
 msgid "Delete"
 msgstr "Eliminar"
 
+msgid "Auto-Detect"
+msgstr "Autodetectar"
+

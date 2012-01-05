@@ -32,6 +32,7 @@
                         'type' => 'select',
                         'label' => __d('comment', 'Language'),
                         'options' => array(
+                            'auto' => __d('comment', 'Auto-Detect'),
                             'en' => __d('comment', 'English'),
                             'nl' => __d('comment', 'Dutch'),
                             'fr' => __d('comment', 'French'),

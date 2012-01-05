@@ -75,22 +75,40 @@ class CommentHookHelper extends AppHelper {
             $out .= '<script type="text/javascript">';
             $out .= 'var RecaptchaOptions = {';
 
-            if ($settings['lang'] != 'custom') {
-                $out .= "lang: '{$settings['lang']}',";
-            } else {
-                $out .= 'custom_translations: {';
-                $strings = array();
+            switch ($settings['lang']) {
+                case 'auto':
+                    $L10n = new L10n;
+                    $langs = $L10n->map();
+                    $language_code = 'en';
 
-                foreach ($settings['custom_translations'] as $key => $str) {
-                    if (empty($str)) {
-                        continue;
+                    if (isset($langs[Configure::read('Variable.language.code')]) &&
+                        in_array($langs[Configure::read('Variable.language.code')], array('en', 'nl', 'fr', 'de', 'pt', 'ru', 'es', 'tr'))
+                    ) {
+                        $language_code = $langs[Configure::read('Variable.language.code')];
                     }
 
-                    $strings[] = "{$key}: '" . str_replace("'", "\'", $str) . "'";
-                }
+                    $out .= "lang: '{$language_code}',";
+                break;
 
-                $out .= implode(",\n", $strings);
-                $out .= '},';
+                case 'custom':
+                    $out .= 'custom_translations: {';
+                    $strings = array();
+
+                    foreach ($settings['custom_translations'] as $key => $str) {
+                        if (empty($str)) {
+                            continue;
+                        }
+
+                        $strings[] = "{$key}: '" . str_replace("'", "\'", $str) . "'";
+                    }
+
+                    $out .= implode(",\n", $strings);
+                    $out .= '},';
+                break;
+
+                default:
+                    $out .= "lang: '{$settings['lang']}',";
+                break;
             }
 
             $out .= "theme: '{$settings['theme']}'";
