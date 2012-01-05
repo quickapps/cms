@@ -28,7 +28,7 @@
     if (isset($this->data['FieldData']['FieldTerms'][$field['id']]['data'])) {
         $selected = $this->data['FieldData']['FieldTerms'][$field['id']]['data'];
     } else {
-        $selected = explode('|', (string)$field['FieldData']['data']);
+        $selected = explode(',', (string)$field['FieldData']['data']);
     }
 
     // max_values > 1

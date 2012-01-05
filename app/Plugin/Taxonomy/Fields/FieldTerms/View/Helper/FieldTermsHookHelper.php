@@ -8,7 +8,7 @@ class FieldTermsHookHelper extends AppHelper {
         $terms = ClassRegistry::init('Taxonomy.Term')->find('all',
             array(
                 'conditions' => array(
-                    'Term.id' => explode("|", $data['content'])
+                    'Term.id' => explode(",", $data['content'])
                 )
             )
         );

@@ -104,7 +104,7 @@ class FieldTermsHookBehavior extends ModelBehavior {
         $data['FieldData'] = array(
             'id' => $info['id'],
             'field_id' => $info['field_id'],
-            'data' => implode('|', (array)$info['data']),
+            'data' => implode(',', (array)$info['data']),
             'belongsTo' => $info['Model']->name,
             'foreignKey' => $info['Model']->id
         );
