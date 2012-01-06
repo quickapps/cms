@@ -564,7 +564,6 @@ CREATE TABLE `qa_nodes_roles` (
 
 LOCK TABLES `qa_nodes_roles` WRITE;
 /*!40000 ALTER TABLE `qa_nodes_roles` DISABLE KEYS */;
-INSERT INTO `qa_nodes_roles` VALUES ('1',0),('3',0);
 /*!40000 ALTER TABLE `qa_nodes_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -805,4 +804,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-01-05  0:58:25
+-- Dump completed on 2012-01-06 14:41:23
