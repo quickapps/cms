@@ -1137,6 +1137,10 @@ class InstallerComponent extends Component {
  * @return bool TRUE if all files & folder can be copied to `destination`. FALSE otherwise.
  */
     public function packageIsWritable($src, $dst) {
+        if (!file_exists($dst)) {
+            return $this->packageIsWritable($src, dirname($dst));
+        }
+
         $e = 0;
         $Folder = new Folder($src);
         $files = $Folder->findRecursive();
