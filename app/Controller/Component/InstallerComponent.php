@@ -699,129 +699,184 @@ class InstallerComponent extends Component {
     }
 
 /**
- * Insert a new link to specified menu.
+ * Parse a dependency for comparison by InstallerComponent::checkIncompatibility().
  *
- * @param array $link Associative array information of the link to add:
- *  - [parent|parent_id]: Parent link ID.
- *  - [url|link|path|router_path]: Link url (href).
- *  - [description]: Link description used as `title` attribute.
- *  - [title|label|link_title]: Link text to show between tags: <a href="">TEXT</a>
- *  - [module]: Name of the module that link belongs to,
- *              by default it is set to the name of module being installed or
- *              to `System` if method is called on non-install process.
- * @param mixed $menu_id Set to string value to indicate the menu id slug, e.g.: `management`.
- *                       Or set to one of the following integer values:
- *                          - 0: Main menu of the site.
- *                          - 1: Backend menu (by default).
- *                          - 2: Navigation menu.
- *                          - 3: User menu.
- * @param integer $move Number of positions to move the link after add.
- *                      Negative values will move down, positive values will move up.
- *                      Zero value (0) wont move.
- * @return mixed Array information of the new inserted link. FALSE on failure.
+ * @param string $dependency A dependency string, for example 'foo (>=7.x-4.5-beta5, 3.x)'.
+ * @return mixed
+ *   An associative array with three keys:
+ *      - 'name' includes the name of the thing to depend on (e.g. 'foo').
+ *      - 'original_version' contains the original version string (which can be
+ *         used in the UI for reporting incompatibilities).
+ *      - 'versions' is a list of associative arrays, each containing the keys
+ *         'op' and 'version'. 'op' can be one of: '=', '==', '!=', '<>', '<',
+ *         '<=', '>', or '>='. 'version' is one piece like '4.5-beta3'.
+ *   Callers should pass this structure to checkIncompatibility().
+ * @see InstallerComponent::checkIncompatibility()
  */
-    public function menuLink($link, $menu_id = 1, $move = 0) {
-        $menu_id = is_string($menu_id) ? trim($menu_id) : $menu_id;
-        $Menu = ClassRegistry::init('Menu.Menu');
+    public function parseDependency($dependency) {
+        // We use named subpatterns and support every op that version_compare
+        // supports. Also, op is optional and defaults to equals.
+        $p_op = '(?P<operation>!=|==|=|<|<=|>|>=|<>)?';
+        // Core version is always optional: 7.x-2.x and 2.x is treated the same.
+        $p_core = '(?:' . preg_quote(Configure::read('Variable.qa_version')) . '-)?';
+        $p_major = '(?P<major>\d+)';
+        // By setting the minor version to x, branches can be matched.
+        $p_minor = '(?P<minor>(?:\d+|x)(?:-[A-Za-z]+\d+)?)';
+        $value = array();
+        $parts = explode('(', $dependency, 2);
+        $value['name'] = trim($parts[0]);
 
-        if (is_integer($menu_id)) {
-            switch ($menu_id) {
-                case 0:
-                    default:
-                        $menu_id = 'main-menu';
-                break;
+        if (isset($parts[1])) {
+            $value['original_version'] = ' (' . $parts[1];
 
-                case 1:
-                    $menu_id = 'management';
-                break;
+            foreach (explode(',', $parts[1]) as $version) {
+                if (preg_match("/^\s*{$p_op}\s*{$p_core}{$p_major}\.{$p_minor}/", $version, $matches)) {
+                    $op = !empty($matches['operation']) ? $matches['operation'] : '=';
 
-                case 2:
-                    $menu_id = 'navigation';
-                break;
+                    if ($matches['minor'] == 'x') {
+                        if ($op == '>' || $op == '<=') {
+                            $matches['major']++;
+                        }
 
-                case 3:
-                    $menu_id = 'user-menu';
-                break;
+                        if ($op == '=' || $op == '==') {
+                            $value['versions'][] = array('op' => '<', 'version' => ($matches['major'] + 1) . '.x');
+                            $op = '>=';
+                        }
+                    }
+
+                    $value['versions'][] = array('op' => $op, 'version' => $matches['major'] . '.' . $matches['minor']);
+                }
             }
         }
 
-        if (!($menu = $Menu->findById($menu_id))) {
+        return $value;
+    }
+
+/**
+ * Check whether a version is compatible with a given dependency.
+ *
+ * @param array $v The parsed dependency structure from InstallerComponent::parseDependency().
+ * @param string $current_version The version to check against (e.g.: 4.2).
+ * @return mixed NULL if compatible, otherwise the original dependency version string that caused the incompatibility.
+ * @see InstallerComponent::parseDependency().
+ */
+    public function checkIncompatibility($v, $current_version) {
+        if (!empty($v['versions'])) {
+            foreach ($v['versions'] as $required_version) {
+                if ((isset($required_version['op']) && !version_compare($current_version, $required_version['version'], $required_version['op']))) {
+                    return $v['original_version'];
+                }
+            }
+        }
+
+        return null;
+    }
+
+/**
+ * Verify if all the modules that $module depends on are available and match the required version.
+ *
+ * @param  string $module Module alias.
+ * @return boolean
+ */
+    public function checkDependency($module = null) {
+        $dependencies = false;
+
+        if (is_array($module) && isset($module['dependencies'])) {
+            $dependencies = $module['dependencies'];
+        } elseif (is_string($module)) {
+            $dependencies = Configure::read('Modules.' . Inflector::camelize($module) . '.yaml');
+        } else {
+            return true;
+        }
+
+        if (is_array($dependencies)) {
+            foreach ($dependencies as $p) {
+                $d = $this->parseDependency($p);
+
+                if (!$m = Configure::read('Modules.' . Inflector::camelize($d['name']))) {
+                    return false;
+                }
+
+                $check = $this->checkIncompatibility($d, $m['yaml']['version']);
+
+                if ($check !== null) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+/**
+ * Verify if there is any module that depends of `$module`.
+ *
+ * @param  string $module Module alias
+ * @param  boolean $returnList Set to true to return an array list of all modules that uses $module.
+ *                             The array list contains all the module information Configure::read('Modules.{module}')
+ * @return mixed Boolean (if $returnList = false), false return means that there are no module that uses $module.
+ *                       Or an array list of all modules that uses $module ($returnList = true), empty arrray is returned
+ *                       if there are no module that uses $module.
+ */
+    function checkReverseDependency($module, $returnList = true) {
+        $list = array();
+        $module = Inflector::camelize($module);
+
+        foreach (Configure::read('Modules') as $p) {
+            if (isset($p['yaml']['dependencies']) &&
+                is_array($p['yaml']['dependencies'])
+            ) {
+                $dependencies = array();
+
+                foreach ($p['yaml']['dependencies'] as $d) {
+                    $dependencies[] = $this->parseDependency($d);
+                }
+
+                $dependencies = Set::extract('{n}.name', $dependencies);
+                $dependencies = array_map(array('Inflector', 'camelize'), $dependencies);
+
+                if (in_array($module, $dependencies, true) && $returnList) {
+                    $list[] = $p;
+                } elseif (in_array($module, $dependencies, true)) {
+                    return true;
+                }
+            }
+        }
+
+        if ($returnList) {
+            return $list;
+        }
+
+        return false;
+    }
+
+/**
+ * Loads plugin's installer component
+ *
+ * @param string $search Path where to look for component.
+ * @return mix OBJECT Instance of component, Or FALSE if Component could not be loaded.
+ */
+    public function loadInstallComponent($search = false) {
+        if (!file_exists($search . 'InstallComponent.php')) {
             return false;
         }
 
-        // Column alias
-        if (isset($link['path'])) {
-            $link['router_path'] = $link['path'];
-            unset($link['path']);
+        include_once($search . 'InstallComponent.php');
+
+        $class = "InstallComponent";
+        $component = new $class($this->Controller->Components);
+
+        if (method_exists($component, 'initialize')) {
+            $component->initialize($this);
         }
 
-        if (isset($link['url'])) {
-            $link['router_path'] = $link['url'];
-            unset($link['url']);
+        if (method_exists($component, 'startup')) {
+            $component->startup($this);
         }
 
-        if (isset($link['link'])) {
-            $link['router_path'] = $link['link'];
-            unset($link['link']);
-        }
+        $component->Installer = $this;
 
-        if (isset($link['label'])) {
-            $link['link_title'] = $link['label'];
-            unset($link['label']);
-        }
-
-        if (isset($link['title'])) {
-            $link['link_title'] = $link['title'];
-            unset($link['title']);
-        }
-
-        if (isset($link['parent'])) {
-            $link['parent_id'] = $link['parent'];
-            unset($link['parent']);
-        }
-
-        if (isset($this->options['__appName']) &&
-            !empty($this->options['__appName']) &&
-            !isset($link['module'])
-        ) {
-            $link['module'] = $this->options['__appName'];
-        }
-
-        $__link = array(
-            'parent_id' => 0,
-            'router_path' => '',
-            'description' => '',
-            'link_title' => '',
-            'module' => 'System',
-            'target' => '_self',
-            'expanded' => false,
-            'status' => 1
-        );
-
-        $link = Set::merge($__link, $link);
-        $link['menu_id'] = $menu_id;
-
-        $Menu->MenuLink->Behaviors->detach('Tree');
-        $Menu->MenuLink->Behaviors->attach('Tree',
-            array(
-                'parent' => 'parent_id',
-                'left' => 'lft',
-                'right' => 'rght',
-                'scope' => "MenuLink.menu_id = '{$menu_id}'"
-            )
-        );
-
-        $save = $Menu->MenuLink->save($link);
-
-        if (is_integer($move) && $move !== 0) {
-            if ($move > 0) {
-                $Menu->MenuLink->moveUp($save['MenuLink']['id'], $move);
-            } else {
-                $Menu->MenuLink->moveDown($save['MenuLink']['id'], abs($move));
-            }
-        }
-
-        return $save;
+        return $component;
     }
 
 /**
@@ -964,143 +1019,6 @@ class InstallerComponent extends Component {
     }
 
 /**
- * Parse a dependency for comparison by InstallerComponent::checkIncompatibility().
- *
- * @param string $dependency A dependency string, for example 'foo (>=7.x-4.5-beta5, 3.x)'.
- * @return mixed
- *   An associative array with three keys:
- *      - 'name' includes the name of the thing to depend on (e.g. 'foo').
- *      - 'original_version' contains the original version string (which can be
- *         used in the UI for reporting incompatibilities).
- *      - 'versions' is a list of associative arrays, each containing the keys
- *         'op' and 'version'. 'op' can be one of: '=', '==', '!=', '<>', '<',
- *         '<=', '>', or '>='. 'version' is one piece like '4.5-beta3'.
- *   Callers should pass this structure to checkIncompatibility().
- * @see InstallerComponent::checkIncompatibility()
- */
-    public function parseDependency($dependency) {
-        // We use named subpatterns and support every op that version_compare
-        // supports. Also, op is optional and defaults to equals.
-        $p_op = '(?P<operation>!=|==|=|<|<=|>|>=|<>)?';
-        // Core version is always optional: 7.x-2.x and 2.x is treated the same.
-        $p_core = '(?:' . preg_quote(Configure::read('Variable.qa_version')) . '-)?';
-        $p_major = '(?P<major>\d+)';
-        // By setting the minor version to x, branches can be matched.
-        $p_minor = '(?P<minor>(?:\d+|x)(?:-[A-Za-z]+\d+)?)';
-        $value = array();
-        $parts = explode('(', $dependency, 2);
-        $value['name'] = trim($parts[0]);
-
-        if (isset($parts[1])) {
-            $value['original_version'] = ' (' . $parts[1];
-
-            foreach (explode(',', $parts[1]) as $version) {
-                if (preg_match("/^\s*{$p_op}\s*{$p_core}{$p_major}\.{$p_minor}/", $version, $matches)) {
-                    $op = !empty($matches['operation']) ? $matches['operation'] : '=';
-
-                    if ($matches['minor'] == 'x') {
-                        if ($op == '>' || $op == '<=') {
-                            $matches['major']++;
-                        }
-
-                        if ($op == '=' || $op == '==') {
-                            $value['versions'][] = array('op' => '<', 'version' => ($matches['major'] + 1) . '.x');
-                            $op = '>=';
-                        }
-                    }
-
-                    $value['versions'][] = array('op' => $op, 'version' => $matches['major'] . '.' . $matches['minor']);
-                }
-            }
-        }
-
-        return $value;
-    }
-
-/**
- * Check whether a version is compatible with a given dependency.
- *
- * @param array $v The parsed dependency structure from InstallerComponent::parseDependency().
- * @param string $current_version The version to check against (e.g.: 4.2).
- * @return mixed NULL if compatible, otherwise the original dependency version string that caused the incompatibility.
- * @see InstallerComponent::parseDependency().
- */
-    public function checkIncompatibility($v, $current_version) {
-        if (!empty($v['versions'])) {
-            foreach ($v['versions'] as $required_version) {
-                if ((isset($required_version['op']) && !version_compare($current_version, $required_version['version'], $required_version['op']))) {
-                    return $v['original_version'];
-                }
-            }
-        }
-
-        return null;
-    }
-
-/**
- * Verify if all the plugins that $plugin depends on are available and match the required version.
- *
- * @param  string $plugin Plugin alias.
- * @return boolean
- */
-    public function checkDependency($plugin = null) {
-        $dependencies = false;
-
-        if (is_array($plugin) && isset($plugin['dependencies'])) {
-            $dependencies = $plugin['dependencies'];
-        } elseif (is_string($plugin)) {
-            $dependencies = Configure::read('Modules.' . Inflector::camelize($plugin) . '.yaml');
-        } else {
-            return true;
-        }
-
-        if (is_array($dependencies)) {
-            foreach ($dependencies as $p) {
-                $d = $this->parseDependency($p);
-
-                if (!$m = Configure::read('Modules.' . Inflector::camelize($d['name']))) {
-                    return false;
-                }
-
-                $check = $this->checkIncompatibility($d, $m['yaml']['version']);
-
-                if ($check !== null) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-/**
- * Loads plugin's installer component
- *
- * @param string $search Path where to look for component.
- * @return mix OBJECT Instance of component, Or FALSE if Component could not be loaded.
- */
-    public function loadInstallComponent($search = false) {
-        if (!file_exists($search . 'InstallComponent.php')) {
-            return false;
-        }
-
-        include_once($search . 'InstallComponent.php');
-
-        $class = "InstallComponent";
-        $component = new $class($this->Controller->Components);
-
-        if (method_exists($component, 'initialize')) {
-            $component->initialize($this);
-        }
-
-        if (method_exists($component, 'startup')) {
-            $component->startup($this);
-        }
-
-        return $component;
-    }
-
-/**
  * Check if all files & folders contained in `dir` can be removed.
  *
  * @param string $dir Path content to check.
@@ -1197,45 +1115,129 @@ class InstallerComponent extends Component {
     }
 
 /**
- * Verify if there is any plugin that depends of $plugin
+ * Insert a new link to specified menu.
  *
- * @param  string $plugin Plugin alias
- * @param  boolean $returnList Set to true to return an array list of all plugins that uses $plugin.
- *                             The array list contains all the plugin information Configure::read('Modules.{plugin}')
- * @return mixed Boolean (if $returnList = false), false return means that there are no plugins that uses $plugin.
- *                       Or an array list of all plugins that uses $plugin ($returnList = true), empty arrray is returned
- *                       if there are no plugins that uses $plugin.
+ * @param array $link Associative array information of the link to add:
+ *  - [parent|parent_id]: Parent link ID.
+ *  - [url|link|path|router_path]: Link url (href).
+ *  - [description]: Link description used as `title` attribute.
+ *  - [title|label|link_title]: Link text to show between tags: <a href="">TEXT</a>
+ *  - [module]: Name of the module that link belongs to,
+ *              by default it is set to the name of module being installed or
+ *              to `System` if method is called on non-install process.
+ * @param mixed $menu_id Set to string value to indicate the menu id slug, e.g.: `management`.
+ *                       Or set to one of the following integer values:
+ *                          - 0: Main menu of the site.
+ *                          - 1: Backend menu (by default).
+ *                          - 2: Navigation menu.
+ *                          - 3: User menu.
+ * @param integer $move Number of positions to move the link after add.
+ *                      Negative values will move down, positive values will move up.
+ *                      Zero value (0) wont move.
+ * @return mixed Array information of the new inserted link. FALSE on failure.
  */
-    function checkReverseDependency($plugin, $returnList = true) {
-        $list = array();
-        $plugin = Inflector::camelize($plugin);
+    public function menuLink($link, $menu_id = 1, $move = 0) {
+        $menu_id = is_string($menu_id) ? trim($menu_id) : $menu_id;
+        $Menu = ClassRegistry::init('Menu.Menu');
 
-        foreach (Configure::read('Modules') as $p) {
-            if (isset($p['yaml']['dependencies']) &&
-                is_array($p['yaml']['dependencies'])
-            ) {
-                $dependencies = array();
+        if (is_integer($menu_id)) {
+            switch ($menu_id) {
+                case 0:
+                    default:
+                        $menu_id = 'main-menu';
+                break;
 
-                foreach ($p['yaml']['dependencies'] as $d) {
-                    $dependencies[] = $this->parseDependency($d);
-                }
+                case 1:
+                    $menu_id = 'management';
+                break;
 
-                $dependencies = Set::extract('{n}.name', $dependencies);
-                $dependencies = array_map(array('Inflector', 'camelize'), $dependencies);
+                case 2:
+                    $menu_id = 'navigation';
+                break;
 
-                if (in_array($plugin, $dependencies, true) && $returnList) {
-                    $list[] = $p;
-                } elseif (in_array($plugin, $dependencies, true)) {
-                    return true;
-                }
+                case 3:
+                    $menu_id = 'user-menu';
+                break;
             }
         }
 
-        if ($returnList) {
-            return $list;
+        if (!($menu = $Menu->findById($menu_id))) {
+            return false;
         }
 
-        return false;
+        // Column alias
+        if (isset($link['path'])) {
+            $link['router_path'] = $link['path'];
+            unset($link['path']);
+        }
+
+        if (isset($link['url'])) {
+            $link['router_path'] = $link['url'];
+            unset($link['url']);
+        }
+
+        if (isset($link['link'])) {
+            $link['router_path'] = $link['link'];
+            unset($link['link']);
+        }
+
+        if (isset($link['label'])) {
+            $link['link_title'] = $link['label'];
+            unset($link['label']);
+        }
+
+        if (isset($link['title'])) {
+            $link['link_title'] = $link['title'];
+            unset($link['title']);
+        }
+
+        if (isset($link['parent'])) {
+            $link['parent_id'] = $link['parent'];
+            unset($link['parent']);
+        }
+
+        if (isset($this->options['__appName']) &&
+            !empty($this->options['__appName']) &&
+            !isset($link['module'])
+        ) {
+            $link['module'] = $this->options['__appName'];
+        }
+
+        $__link = array(
+            'parent_id' => 0,
+            'router_path' => '',
+            'description' => '',
+            'link_title' => '',
+            'module' => 'System',
+            'target' => '_self',
+            'expanded' => false,
+            'status' => 1
+        );
+
+        $link = Set::merge($__link, $link);
+        $link['menu_id'] = $menu_id;
+
+        $Menu->MenuLink->Behaviors->detach('Tree');
+        $Menu->MenuLink->Behaviors->attach('Tree',
+            array(
+                'parent' => 'parent_id',
+                'left' => 'lft',
+                'right' => 'rght',
+                'scope' => "MenuLink.menu_id = '{$menu_id}'"
+            )
+        );
+
+        $save = $Menu->MenuLink->save($link);
+
+        if (is_integer($move) && $move !== 0) {
+            if ($move > 0) {
+                $Menu->MenuLink->moveUp($save['MenuLink']['id'], $move);
+            } else {
+                $Menu->MenuLink->moveDown($save['MenuLink']['id'], abs($move));
+            }
+        }
+
+        return $save;
     }
 
     private function __toggleModule($module, $to) {
