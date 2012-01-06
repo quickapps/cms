@@ -1,17 +1,16 @@
 <?php
     $field['settings']['type'] = isset($field['settings']['type']) ? $field['settings']['type'] : 'text';
+    $options = array(
+        'type' => $field['settings']['type'],
+        'label' => $field['label'],
+        'class' => $field['settings']['text_processing']
+    );
+
+    if ($field['required']) {
+        $options['required'] = 'required';
+    }
 
     if (!isset($field['FieldData'])) {
-        $options = array(
-            'type' => $field['settings']['type'],
-            'label' => $field['label'],
-            'class' => $field['settings']['text_processing']
-        );
-
-        if ($field['required']) {
-            $options['required'] = 'required';
-        }
-
         echo $this->Form->input("FieldData.FieldText.{$field['id']}.data", $options);
         echo $this->Form->hidden("FieldData.FieldText.{$field['id']}.id", array('value' => null));
     } else {
@@ -21,17 +20,7 @@
             $value = @$field['FieldData']['data'];
         }
 
-        $options = array(
-            'type' => $field['settings']['type'],
-            'label' => $field['label'],
-            'value' => @$value,
-            'class' => @$field['settings']['text_processing']
-        );
-
-        if ($field['required']) {
-            $options['required'] = 'required';
-        }
-
+        $options['value'] = @$value;
         $field['FieldData'] = array_merge(array('id' => null, 'field_id' => null, 'foreignKey' => null, 'belongsTo' => null, 'data' => ''), $field['FieldData']);
         echo $this->Form->input("FieldData.FieldText.{$field['id']}.data", $options);
         echo $this->Form->hidden("FieldData.FieldText.{$field['id']}.id", array('value' => $field['FieldData']['id']));
