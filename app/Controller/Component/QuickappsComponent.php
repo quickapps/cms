@@ -447,12 +447,13 @@ class QuickAppsComponent extends Component {
 /**
  * Shortcut for Session setFlash.
  *
- * @param string $msg Mesagge to display
- * @param string $class Type of message: error, success, alert, bubble
- * @return void
+ * @param string $msg Mesagge to display.
+ * @param string $class Type of message: error, success, alert, bubble.
+ * @param string $id Message id, default is 'flash'.
+ * @return void.
  */
-    public function flashMsg($msg, $class = 'success') {
-        return $this->Controller->Session->setFlash($msg, 'theme_flash_message', array('class' => $class));
+    public function flashMsg($msg, $class = 'success', $id = 'flash') {
+        return $this->Controller->Session->setFlash($msg, 'theme_flash_message', array('class' => $class), $id);
     }
 
 /**
@@ -598,7 +599,7 @@ class QuickAppsComponent extends Component {
     }
 
 /**
- * Collect and cache information about all active modules.
+ * Collect and cache information about all modules.
  * ###Usage
  *  {{{
  *   Configure::read('Modules.YourModuleName');
@@ -610,23 +611,27 @@ class QuickAppsComponent extends Component {
         $modules = Cache::read('Modules');
 
         if ($modules === false) {
-            $Modules = array();
-            $modules = $this->Controller->Module->find('all', array('recursive' => -1));
+            $Modules = (array)$this->Controller->Module->find('all', array('recursive' => -1));
 
-            foreach ($modules as $m) {
-                $v = $m['Module'];
+            foreach ($Modules as $module) {
+                if (!CakePlugin::loaded($module['Module']['name'])) {
+                    CakePlugin::load($module['Module']['name']);
+                }
 
-                CakePlugin::load($m['Module']['name']);
+                $module['Module']['path'] = App::pluginPath($module['Module']['name']);
 
-                $v['path'] = App::pluginPath($m['Module']['name']);
-                $yamlFile = (strpos($m['Module']['name'], 'Theme') === 0) ? dirname(dirname($v['path'])) . DS . basename(dirname(dirname($v['path']))) . '.yaml' : $v['path'] . "{$m['Module']['name']}.yaml";
-                $v['yaml'] = file_exists($yamlFile) ? Spyc::YAMLLoad($yamlFile) : array();
+                if (strpos($module['Module']['name'], 'Theme') === 0) {
+                    $yamlFile = dirname(dirname($module['Module']['path'])) . DS . basename(dirname(dirname($module['Module']['path']))) . '.yaml';
+                } else {
+                    $yamlFile = $module['Module']['path'] . "{$module['Module']['name']}.yaml";
+                }
 
-                $Modules[$m['Module']['name']] = $v;
+                $module['Module']['yaml'] = file_exists($yamlFile) ? Spyc::YAMLLoad($yamlFile) : array();
+                $modules[$module['Module']['name']] = $module['Module'];
             }
 
-            Configure::write('Modules', $Modules);
-            Cache::write('Modules', $Modules);
+            Configure::write('Modules', $modules);
+            Cache::write('Modules', $modules);
         } else {
             Configure::write('Modules', $modules);
         }

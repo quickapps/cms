@@ -111,8 +111,8 @@ class AppController extends Controller {
  *
  * @see QuickappsComponent::flashMsg()
  */
-    public function flashMsg($msg, $class = 'success') {
-        return $this->Quickapps->flashMsg($msg, $class);
+    public function flashMsg($msg, $class = 'success', $id = 'flash') {
+        return $this->Quickapps->flashMsg($msg, $class, $id);
     }
 
 /**

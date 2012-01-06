@@ -374,16 +374,17 @@ class LayoutHelper extends AppHelper {
 /**
  * Shortcut for Session setFlash.
  *
- * @param string $msg Mesagge to display
- * @param string $class Type of message: error, success, alert, bubble
- * @return void
+ * @param string $msg Mesagge to display.
+ * @param string $class Type of message: error, success, alert, bubble.
+ * @param string $id Message id, default is 'flash'.
+ * @return void.
  */
-    public function flashMsg($msg, $class) {
+    public function flashMsg($msg, $class, $id = 'flash') {
         $message = $msg;
         $element = 'theme_flash_message';
         $params = array('class' => $class);
 
-        CakeSession::write('Message.flash', compact('message', 'element', 'params'));
+        CakeSession::write("Message.{$id}", compact('message', 'element', 'params'));
     }
 
 /**
