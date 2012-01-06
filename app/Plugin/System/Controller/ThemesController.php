@@ -15,6 +15,10 @@ class ThemesController extends SystemAppController {
     public $components = array('Installer');
 
     public function admin_index() {
+        if (!is_writable(ROOT . DS . 'Themes' . DS . 'Themed' . DS)) {
+            $this->flashMsg(__t('Your themes folder is not writable. %s', ROOT . DS . 'Themes' . DS . 'Themed' . DS), 'alert');
+        }
+
         $this->set('themes', $this->__availableThemes());
     }
 

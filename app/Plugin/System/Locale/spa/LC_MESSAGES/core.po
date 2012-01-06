@@ -467,3 +467,9 @@ msgstr "Fichero \"Config/routes.php\" no encontrado"
 msgid "Files must be less than <b>%sB</b>."
 msgstr "Los ficheros deben pesar menos de <b>%sB</b>."
 
+msgid "Your themes folder is not writable. %s"
+msgstr "Su directorio de themes no tiene permisos de escritura. %s"
+
+msgid "Your modules folder is not writable. %s"
+msgstr "Su directorio de modulos no tiene permisos de escritura. %s"
+

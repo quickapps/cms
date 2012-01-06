@@ -15,6 +15,9 @@ class ModulesController extends SystemAppController {
     public $components = array('Installer');
 
     public function admin_index() {
+        if (!is_writable(ROOT . DS . 'Modules' . DS)) {
+            $this->flashMsg(__t('Your modules folder is not writable. %s', ROOT . DS . 'Modules' . DS), 'alert');
+        }
     }
 
     public function admin_settings($module) {
