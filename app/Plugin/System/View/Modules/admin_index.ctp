@@ -41,6 +41,7 @@
             <td width="80%" align="left">
                 <b><?php echo $data['yaml']['name']; ?></b> <?php echo $data['yaml']['version']; ?><br/>
                 <em><?php echo __d(Inflector::underscore($name), $data['yaml']['description']); ?></em><br/>
+                <em><?php echo isset($data['yaml']['author']) ? __t('author: %s', htmlspecialchars($data['yaml']['author'])) : ''; ?></em>
                 <?php echo isset($data['yaml']['dependencies']) ?  __t('Dependencies') . ': ' . implode(', ', $data['yaml']['dependencies']) : ''; ?>
             </td>
 
