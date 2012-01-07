@@ -1,16 +1,17 @@
-<?php echo $this->Form->create('Package', array('url' => '/admin/locale/packages/install', 'enctype' => 'multipart/form-data', 'onsubmit' => 'return checkPackage();')); ?>
+<?php echo $this->Form->create('Locale', array('url' => '/admin/locale/packages/install', 'enctype' => 'multipart/form-data', 'onsubmit' => 'return checkPackage();')); ?>
     <!-- Filter -->
     <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-upload_fieldset" style="cursor:pointer;">' . __t('Upload Translation Package') . '</span>'); ?>
         <div id="upload_fieldset" class="horizontalLayout" style="display:none;">
-            <?php echo $this->Form->input('Package.po',
+            <?php echo $this->Form->input('Locale.po',
                     array(
+                        'id' => 'package_po',
                         'type' => 'file',
                         'label' => __t('Package (.po)')
                     )
                 );
             ?>
 
-            <?php echo $this->Form->input('Package.module',
+            <?php echo $this->Form->input('Locale.module',
                     array(
                         'type' => 'select',
                         'options' => $modules,
@@ -19,7 +20,7 @@
                 );
             ?>
 
-            <?php echo $this->Form->input('Package.language',
+            <?php echo $this->Form->input('Locale.language',
                     array(
                         'type' => 'select',
                         'options' => $languages,

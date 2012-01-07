@@ -158,11 +158,11 @@ class PackagesController extends LocaleAppController {
     }
 
     public function admin_install() {
-        if (!isset($this->data['Package']['po']) || empty($this->data['Package']['module'])) {
+        if (!isset($this->data['Locale']['po']) || empty($this->data['Locale']['module'])) {
             $this->redirect('/admin/locale/packages');
         }
 
-        switch ($this->data['Package']['module']) {
+        switch ($this->data['Locale']['module']) {
             case 'Core':
                 $ppath = APP;
             break;
@@ -172,7 +172,7 @@ class PackagesController extends LocaleAppController {
             break;
 
             default:
-                $ppath = CakePlugin::path(Inflector::camelize($this->data['Package']['module']));
+                $ppath = CakePlugin::path(Inflector::camelize($this->data['Locale']['module']));
             break;
         }
 
@@ -182,11 +182,11 @@ class PackagesController extends LocaleAppController {
         }
 
         if (file_exists($ppath)) {
-            if (in_array($this->data['Package']['language'], array_keys($this->__languageList()))) {
+            if (in_array($this->data['Locale']['language'], array_keys($this->__languageList()))) {
                 App::import('Vendor', 'Upload');
-                $destFolder = $ppath . 'Locale' . DS . $this->data['Package']['language'] . DS . 'LC_MESSAGES' . DS;
+                $destFolder = $ppath . 'Locale' . DS . $this->data['Locale']['language'] . DS . 'LC_MESSAGES' . DS;
                 $Folder = new Folder;
-                $Upload = new Upload($this->data['Package']['po']);
+                $Upload = new Upload($this->data['Locale']['po']);
                 $Upload->file_overwrite = true;
                 $Upload->file_new_name_ext = 'po';
                 $Upload->file_new_name_body = 'core';
