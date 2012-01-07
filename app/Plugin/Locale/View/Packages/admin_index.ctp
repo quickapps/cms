@@ -1,17 +1,16 @@
-<?php echo $this->Form->create('Locale', array('url' => '/admin/locale/packages/install', 'enctype' => 'multipart/form-data', 'onsubmit' => 'return checkPackage();')); ?>
+<?php echo $this->Form->create(false, array('url' => '/admin/locale/packages/install', 'enctype' => 'multipart/form-data', 'onsubmit' => 'return checkPackage();')); ?>
     <!-- Filter -->
     <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-upload_fieldset" style="cursor:pointer;">' . __t('Upload Translation Package') . '</span>'); ?>
         <div id="upload_fieldset" class="horizontalLayout" style="display:none;">
-            <?php echo $this->Form->input('Locale.po',
+            <?php echo $this->Form->input('po',
                     array(
-                        'id' => 'package_po',
                         'type' => 'file',
                         'label' => __t('Package (.po)')
                     )
                 );
             ?>
 
-            <?php echo $this->Form->input('Locale.module',
+            <?php echo $this->Form->input('module',
                     array(
                         'type' => 'select',
                         'options' => $modules,
@@ -20,7 +19,7 @@
                 );
             ?>
 
-            <?php echo $this->Form->input('Locale.language',
+            <?php echo $this->Form->input('language',
                     array(
                         'type' => 'select',
                         'options' => $languages,
@@ -73,7 +72,7 @@
                     <?php echo $languages[$code]; ?>
                     <a href="<?php echo $this->Html->url("/admin/locale/packages/download_package/{$plugin}/{$code}"); ?>" target="_blank"><?php echo __t('download'); ?></a>
 
-                    <?php if (strpos($ppath, APP) === false): ?>
+                    <?php if (strpos($po, APP) === false): ?>
                     <a href="<?php echo $this->Html->url("/admin/locale/packages/uninstall/{$plugin}/{$code}"); ?>" onClick="return confirm('<?php echo __t('Delete the selected package ?'); ?>'); "><?php echo __t('uninstall'); ?></a>
                     <?php endif; ?>
                 </li>
