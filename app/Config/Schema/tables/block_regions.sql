@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.8, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.5.16, for Win64 (x86)
 --
--- Host: localhost    Database: quickapps
+-- Host: localhost    Database: #__dev
 -- ------------------------------------------------------
--- Server version	5.5.8
+-- Server version	5.5.16-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -38,7 +38,7 @@ CREATE TABLE `#__block_regions` (
 
 LOCK TABLES `#__block_regions` WRITE;
 /*!40000 ALTER TABLE `#__block_regions` DISABLE KEYS */;
-INSERT INTO `#__block_regions` VALUES (8,10,'AdminDefault','dashboard_main',1),(9,10,'Default','dashboard_main',1),(13,4,'AdminDefault','management-menu',1),(14,4,'Default','management-menu',1),(18,3,'AdminDefault','footer',1),(48,3,'Default','footer',1),(131,6,'Default','main-menu',1),(133,26,'Default','slider',1),(140,9,'Default','language-switcher',1),(151,19,'Default','services-left',1),(153,20,'Default','services-center',1),(155,25,'Default','services-right',1),(157,15,'Default','search',1),(159,12,'Default','services-left',2),(161,11,'Default','services-center',2),(163,13,'Default','services-right',2),(165,14,'Default','slider',2),(166,15,'AdminDefault','dashboard_sidebar',1),(169,7,'AdminDefault','dashboard_sidebar',2),(172,5,'Default','user-menu',2),(173,16,'AdminDefault','',1),(174,16,'Default','sidebar-left',1),(175,2,'AdminDefault','',2),(176,2,'Default','sidebar-left',2),(177,11,'AdminDefault','',3),(178,12,'AdminDefault','',4),(179,13,'AdminDefault','',5);
+INSERT INTO `#__block_regions` VALUES (8,10,'Admin','dashboard_main',1),(9,10,'Default','dashboard_main',1),(13,4,'Admin','management-menu',1),(14,4,'Default','management-menu',1),(18,3,'Admin','footer',1),(48,3,'Default','footer',1),(131,6,'Default','main-menu',1),(133,26,'Default','slider',1),(140,9,'Default','language-switcher',1),(151,19,'Default','services-left',1),(153,20,'Default','services-center',1),(155,25,'Default','services-right',1),(157,15,'Default','search',1),(159,12,'Default','services-left',2),(161,11,'Default','services-center',2),(163,13,'Default','services-right',2),(165,14,'Default','slider',2),(166,15,'Admin','dashboard_sidebar',1),(169,7,'Admin','dashboard_sidebar',2),(172,5,'Default','user-menu',2),(173,16,'Admin','',1),(174,16,'Default','sidebar-left',1),(175,2,'Admin','',2),(176,2,'Default','sidebar-left',2),(177,11,'Admin','',3),(178,12,'Admin','',4),(179,13,'Admin','',5);
 /*!40000 ALTER TABLE `#__block_regions` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-10-30 14:46:34
+-- Dump completed on 2012-01-07  2:18:51

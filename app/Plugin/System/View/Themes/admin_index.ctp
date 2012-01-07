@@ -35,7 +35,7 @@
 
         $data = Set::merge($data, $_data);
 
-        if (strpos($name, 'Admin') === 0) {
+        if (isset($data['info']['admin']) && $data['info']['admin']) {
             continue;
         }
     ?>
@@ -90,7 +90,7 @@
 
         $data = Set::merge($data, $_data);
 
-        if (strpos($name, 'Admin') !== 0) {
+        if (!isset($data['info']['admin']) || !$data['info']['admin']) {
             continue;
         }
     ?>

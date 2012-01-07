@@ -1,4 +1,5 @@
 info:
+    admin: true
     name: Admin Default
     description: Default backend theme for QuickApps
     core: 1.x

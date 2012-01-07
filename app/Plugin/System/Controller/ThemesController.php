@@ -31,7 +31,9 @@ class ThemesController extends SystemAppController {
         $themes = $this->__availableThemes();
 
         if (in_array($theme_name, array_keys($themes))) {
-            $data['Variable']['name'] = strpos($theme_name, 'Admin') !== false ? 'admin_theme' : 'site_theme';
+            if (isset($themes[$theme_name]['info']['admin']) && $themes[$theme_name]['info']['admin']) {
+                $data['Variable']['name'] = 'admin_theme';
+            }
 
             $this->Variable->save($data);
             Cache::delete('Variable');

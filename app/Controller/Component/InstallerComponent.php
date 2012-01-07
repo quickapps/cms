@@ -522,7 +522,7 @@ class InstallerComponent extends Component {
         }
 
         // core plugins can not be deleted
-        if (in_array($this->options['__Name'], array_merge(array('ThemeDefault', 'ThemeAdminDefault'), Configure::read('coreModules')))) {
+        if (in_array($this->options['__Name'], array_merge(array('ThemeDefault', 'ThemeAdmin'), Configure::read('coreModules')))) {
             return false;
         }
 
@@ -569,7 +569,7 @@ class InstallerComponent extends Component {
                 ClassRegistry::init('System.Variable')->save(
                     array(
                         'name' => 'admin_theme',
-                        'value' => 'AdminDefault'
+                        'value' => 'Admin'
                     )
                 );
             }
