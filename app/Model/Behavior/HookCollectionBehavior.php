@@ -259,7 +259,7 @@ class HookCollectionBehavior extends ModelBehavior {
                 if ($pluginSplit[0]) {
                     $this->_hookObjects["{$pluginSplit[0]}.{$behavior}"] = $methods;
                 } else {
-                    $this->_hookObjects[$helper] = $methods;
+                    $this->_hookObjects[$behavior] = $methods;
                 }
             }
         }

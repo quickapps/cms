@@ -270,7 +270,7 @@ class HookCollectionComponent extends Component {
                 if ($pluginSplit[0]) {
                     $this->_hookObjects["{$pluginSplit[0]}.{$component}"] = $methods;
                 } else {
-                    $this->_hookObjects[$helper] = $methods;
+                    $this->_hookObjects[$component] = $methods;
                 }
             }
         }
