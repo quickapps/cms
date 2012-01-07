@@ -121,6 +121,8 @@ class InstallController extends Controller {
 
     /* Step 3: Database  */
     public function database() {
+        Configure::write('debug', 2);
+
         if (!$this->__stepSuccess(array('license', 'server_test'), true)) {
             $this->redirect('/install/license');
         }
@@ -160,29 +162,49 @@ class InstallController extends Controller {
             $this->__defaultDbConfig = Set::merge($this->__defaultDbConfig, $data['Database']);
 
             if ($file->write($dbSettings)) {
-                $MySQLConn = @mysql_connect($this->__defaultDbConfig['host'] . ':' . $this->__defaultDbConfig['port'], $this->__defaultDbConfig['login'], $this->__defaultDbConfig['password'], true);
+                App::uses('Model', 'Model');
+                App::uses('CakeSchema', 'Model');
+                App::uses('ConnectionManager', 'Model');
 
-                if (@mysql_select_db($this->__defaultDbConfig['database'], $MySQLConn)) {
-                    @App::import('Model', 'ConnectionManager');
-                    @ConnectionManager::create('default', $this->__defaultDbConfig);
+                $db = ConnectionManager::getDataSource('default');
 
-                    $db = ConnectionManager::getDataSource('default');
-                    $folder = new Folder(APP . 'Config' . DS . 'Schema' . DS . 'tables' . DS);
-                    $files = $folder->read();
-                    $files = $files[1];
+                if ($db->isConnected()) {
+                    $schema = new CakeSchema(array('name' => 'quickapps', 'file' => 'quickapps.php'));
+                    $schema = $schema->load();
                     $execute = array();
 
-                    foreach ($files as $sql_file) {
-                        $file = new File(APP . 'Config' . DS . 'Schema' . DS . 'tables' . DS . $sql_file);
-                        $sql = $file->read();
-                        $query = $this->__prepareDump($sql);
-                        $execute[] = $db->execute(str_replace('#__', $data['Database']['prefix'], $query));
+                    foreach($schema->tables as $table => $fields) {
+                        $create = $db->createSchema($schema, $table);
 
+                        $execute[] = $db->execute($create);
                         $db->reconnect();
                     }
 
+                    $dataPath = APP . 'Config' . DS . 'Schema' . DS . 'data' . DS;
+                    $modelDataObjects = App::objects('class', $dataPath, false);
+
+                    foreach ($modelDataObjects as $model) {
+                        include_once $dataPath . $model . '.php';
+
+                        $model = new $model;
+                        $Model = new Model(
+                            array(
+                                'name' => get_class($model),
+                                'table' => $model->table,
+                                'ds' => 'default'
+                            )
+                        );
+                        $Model->cacheSources = false;
+
+                        if (isset($model->records) && !empty($model->records)) {
+                            foreach($model->records as $record) {
+                                $Model->create($record);
+                                $Model->save();
+                            }
+                        }
+                    }
+
                     if (!in_array(false, array_values($execute), true)) {
-                        # random keys values
                         $file = new File(ROOT . DS . 'Config' . DS . 'core.php');
 
                         App::uses('Security', 'Utility');
@@ -286,14 +308,5 @@ class InstallController extends Controller {
         }
 
         return false;
-    }
-
-    private function __prepareDump($sql) {
-        $sql = trim($sql);
-        $sql = preg_replace("/\n#[^\n]*\n/", "\n", $sql);
-        $sql = preg_replace('/^\-\-(.*)/im', '', $sql);
-        $sql = preg_replace("/\n{2,}/m", "\n", $sql);
-
-        return $sql;
     }
 }
