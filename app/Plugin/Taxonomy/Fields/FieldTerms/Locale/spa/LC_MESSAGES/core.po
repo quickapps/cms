@@ -41,7 +41,7 @@ msgstr "Número máximo de valores que el usaurio puede ingresar para este campo
 msgid "This field cannot hold more than 2 values."
 msgstr "Este campo no admite más de 2 valores."
 
-msgid "You must select at least on option."
+msgid "You must select at least one option."
 msgstr "Debe seleccionar al menos una opción."
 
 msgid "Plain"

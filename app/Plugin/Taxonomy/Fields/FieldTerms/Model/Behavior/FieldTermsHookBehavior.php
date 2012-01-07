@@ -151,7 +151,7 @@ class FieldTermsHookBehavior extends ModelBehavior {
             if (empty($filtered)) {
                 ClassRegistry::init('Field.FieldData')->invalidate(
                     "FieldTerms.{$info['field_id']}.data",
-                    __d('field_terms', 'You must select at least on option.')
+                    __d('field_terms', 'You must select at least one option.')
                 );
 
                 return false;
