@@ -121,111 +121,84 @@ class InstallController extends Controller {
 
     /* Step 3: Database  */
     public function database() {
-        Configure::write('debug', 2);
-
         if (!$this->__stepSuccess(array('license', 'server_test'), true)) {
             $this->redirect('/install/license');
         }
 
         if (!empty($this->data)) {
-            copy(APP . 'Config' . DS . 'database.php.install', ROOT . DS . 'Config' . DS . 'database.php');
-            App::import('Utility', 'File');
+            App::uses('ConnectionManager', 'Model');
 
-            $file = new File(ROOT . DS . 'Config' . DS . 'database.php', true);
-            $dbSettings = $file->read();
-            $data['Database'] = $this->data;
-            $data['Database']['datasource'] = 'Database/Mysql';
-            $data['Database']['persistent'] = 'false';
+            $data = $this->data;
+            $data['datasource'] = 'Database/Mysql';
+            $data['persistent'] = false;
+            $data = Set::merge($this->__defaultDbConfig, $data);
 
-            $dbSettings = str_replace(
-                array(
-                    '{db_datasource}',
-                    '{db_persistent}',
-                    '{db_host}',
-                    '{db_login}',
-                    '{db_password}',
-                    '{db_database}',
-                    '{db_prefix}'
-                ),
-                array(
-                    $data['Database']['datasource'],
-                    $data['Database']['persistent'],
-                    $data['Database']['host'],
-                    $data['Database']['login'],
-                    $data['Database']['password'],
-                    $data['Database']['database'],
-                    $data['Database']['prefix']
-                ),
-                $dbSettings
-            );
+            if ($this->__writeDatabaseFile($data)) {
+                if (!$this->__checkDatabaseConnection($data)) {
+                    $this->Session->setFlash(__t('Could not connect to database.'), 'default', 'error');
+                    $this->__removeDatabaseFile();
 
-            $this->__defaultDbConfig = Set::merge($this->__defaultDbConfig, $data['Database']);
-
-            if ($file->write($dbSettings)) {
-                App::uses('Model', 'Model');
-                App::uses('CakeSchema', 'Model');
-                App::uses('ConnectionManager', 'Model');
+                    return;
+                }
 
                 $db = ConnectionManager::getDataSource('default');
 
-                if ($db->isConnected()) {
-                    $schema = new CakeSchema(array('name' => 'quickapps', 'file' => 'quickapps.php'));
-                    $schema = $schema->load();
-                    $execute = array();
+                App::uses('Model', 'Model');
+                App::uses('CakeSchema', 'Model');
 
-                    foreach($schema->tables as $table => $fields) {
-                        $create = $db->createSchema($schema, $table);
+                $schema = new CakeSchema(array('name' => 'quickapps', 'file' => 'quickapps.php'));
+                $schema = $schema->load();
+                $execute = array();
 
-                        $execute[] = $db->execute($create);
-                        $db->reconnect();
-                    }
+                foreach($schema->tables as $table => $fields) {
+                    $db->execute("DROP TABLE IF EXISTS `{$data['prefix']}{$table}`;");
 
-                    $dataPath = APP . 'Config' . DS . 'Schema' . DS . 'data' . DS;
-                    $modelDataObjects = App::objects('class', $dataPath, false);
+                    $create = $db->createSchema($schema, $table);
+                    $execute[] = $db->execute($create);
 
-                    foreach ($modelDataObjects as $model) {
-                        include_once $dataPath . $model . '.php';
+                    $db->reconnect();
+                }
 
-                        $model = new $model;
-                        $Model = new Model(
-                            array(
-                                'name' => get_class($model),
-                                'table' => $model->table,
-                                'ds' => 'default'
-                            )
-                        );
-                        $Model->cacheSources = false;
+                $dataPath = APP . 'Config' . DS . 'Schema' . DS . 'data' . DS;
+                $modelDataObjects = App::objects('class', $dataPath, false);
 
-                        if (isset($model->records) && !empty($model->records)) {
-                            foreach($model->records as $record) {
-                                $Model->create($record);
-                                $Model->save();
-                            }
+                foreach ($modelDataObjects as $model) {
+                    include_once $dataPath . $model . '.php';
+
+                    $model = new $model;
+                    $Model = new Model(
+                        array(
+                            'name' => get_class($model),
+                            'table' => $model->table,
+                            'ds' => 'default'
+                        )
+                    );
+                    $Model->cacheSources = false;
+
+                    if (isset($model->records) && !empty($model->records)) {
+                        foreach($model->records as $record) {
+                            $Model->create($record);
+                            $execute[] = $Model->save();
                         }
                     }
+                }
 
-                    if (!in_array(false, array_values($execute), true)) {
-                        $file = new File(ROOT . DS . 'Config' . DS . 'core.php');
+                if (!in_array(false, array_values($execute), true)) {
+                    App::uses('Security', 'Utility');
+                    App::load('Security');
 
-                        App::uses('Security', 'Utility');
-                        App::load('Security');
+                    $salt = Security::generateAuthKey();
+                    $seed = mt_rand() . mt_rand();
+                    $file = new File(ROOT . DS . 'Config' . DS . 'core.php');
+                    $contents = $file->read();
+                    $contents = preg_replace('/(?<=Configure::write\(\'Security.salt\', \')([^\' ]+)(?=\'\))/', $salt, $contents);
+                    $contents = preg_replace('/(?<=Configure::write\(\'Security.cipherSeed\', \')(\d+)(?=\'\))/', $seed, $contents);
 
-                        $salt = Security::generateAuthKey();
-                        $seed = mt_rand() . mt_rand();
-                        $contents = $file->read();
-                        $contents = preg_replace('/(?<=Configure::write\(\'Security.salt\', \')([^\' ]+)(?=\'\))/', $salt, $contents);
-                        $contents = preg_replace('/(?<=Configure::write\(\'Security.cipherSeed\', \')(\d+)(?=\'\))/', $seed, $contents);
-
-                        $file->write($contents);
-                        Cache::write('QaInstallDatabase', 'success'); # fix: Security keys change
-                        $this->redirect('/install/user_account');
-                    } else {
-                        $this->Session->setFlash(__t('Could not dump database'), 'default', 'error');
-                    }
+                    $file->write($contents);
+                    Cache::write('QaInstallDatabase', 'success'); # fix: Security keys change
+                    $this->redirect('/install/user_account');
                 } else {
-                    $file->close();
-                    unlink(ROOT . DS . 'Config' . DS . 'database.php');
-                    $this->Session->setFlash(__t('Could not connect to database.'), 'default', 'error');
+                    $this->Session->setFlash(__t('Could not dump database'), 'default', 'error');
                 }
             } else {
                 $this->Session->setFlash(__t('Could not write database.php file.'), 'default', 'error');
@@ -288,6 +261,58 @@ class InstallController extends Controller {
         } else {
             $this->Session->setFlash(__t("Could not write 'install' file. Check file/folder permissions and refresh this page"), 'default', 'error');
         }
+    }
+
+    private function __writeDatabaseFile($data) {
+        App::import('Utility', 'File');
+
+        if (!copy(APP . 'Config' . DS . 'database.php.install', ROOT . DS . 'Config' . DS . 'database.php')) {
+            return false;
+        }
+
+        $file = new File(ROOT . DS . 'Config' . DS . 'database.php', true);
+        $dbSettings = $file->read();
+        $dbSettings = str_replace(
+            array(
+                '{db_datasource}',
+                '{db_persistent}',
+                '{db_host}',
+                '{db_login}',
+                '{db_password}',
+                '{db_database}',
+                '{db_prefix}'
+            ),
+            array(
+                $data['datasource'],
+                ($data['persistent'] ? 'true' : 'false'),
+                $data['host'],
+                $data['login'],
+                $data['password'],
+                $data['database'],
+                $data['prefix']
+            ),
+            $dbSettings
+        );
+
+        $r = $file->write($dbSettings);
+        $file->close();
+
+        return $r;
+    }
+
+    private function __removeDatabaseFile() {
+        @unlink(ROOT . DS . 'Config' . DS . 'database.php');
+    }
+
+    private function __checkDatabaseConnection($data) {
+        $MySQLConn = @mysql_connect(
+            $data['host'] . ':' . $data['port'],
+            $data['login'],
+            $data['password'],
+            true
+        );
+
+        return @mysql_select_db($data['database'], $MySQLConn);
     }
 
     private function __stepSuccess($step, $check = false) {

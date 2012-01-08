@@ -90,7 +90,7 @@ label.sub {font-weight:normal; font-size:10px}
 	font-weight: normal;
 	font-family:Arial;
 	margin-bottom: 30px;
-	padding: 15px 15px 15px 80px;
+	padding: 8px 8px 8px 50px;
 	position: relative;
 	/*width: 100%;*/
     -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
@@ -99,19 +99,13 @@ label.sub {font-weight:normal; font-size:10px}
 }
 
 .content-box-success {
-    border: 1px solid #8FAD3D;
-    background:url(../img/boxes/success.png) no-repeat 10px 50% #EEF4D4 !important;
+    border: 1px solid #679C19;
+    background:#76B41C !important;
     color: #596C26;
 }
 
 .content-box-error {
-    border: 1px solid #AD3F30;
-    background:url(../img/boxes/error.png) no-repeat 10px 50% #EFCEC9 !important;
-    color: #923428;
-}
-
-.content-box-alert {
-    border: 1px solid #AD3F30;
-    background:url(../img/boxes/alert.png) no-repeat 10px 50% #EFCEC9 !important;
-    color: #923428;
+    border: 1px solid #620513;
+    background:url(../img/bg_alert_error.gif) no-repeat 10px 50% #B4001C !important;
+    color: #fff;
 }
