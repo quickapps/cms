@@ -23,6 +23,10 @@ class Variable extends SystemAppModel {
             $rows = array();
 
             foreach ($data['Variable'] as $name => $value) {
+                if ($name == 'url_language_prefix') {
+                    continue;
+                }
+
                 $rows['Variable'][] = array(
                     'name' => $name,
                     'value' => $value
@@ -31,6 +35,10 @@ class Variable extends SystemAppModel {
 
             return $this->saveAll($rows['Variable'], array('validate' => $validate));
         } else {
+            if ($data['Variable']['name'] == 'url_language_prefix') {
+                return true;
+            }
+
             return parent::save($data, $validate, $fieldList);
         }
     }
@@ -46,6 +54,10 @@ class Variable extends SystemAppModel {
         $variables = $this->find('all', array('fields' => array('name', 'value')));
 
         foreach ($variables as $v) {
+            if ($v['Variable']['name'] == 'url_language_prefix') {
+                continue;
+            }
+
             Configure::write('Variable.' . $v['Variable']['name'] , $v['Variable']['value']);
         }
 

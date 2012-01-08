@@ -18,6 +18,10 @@ class ConfigurationController extends AppController {
             $err = false;
 
             foreach ($this->data['Variable'] as $name => $value) {
+                if ($name == 'url_language_prefix') {
+                    continue;
+                }
+
                 if ($name == 'site_name' && empty($value)) {
                     $this->Variable->invalidate('site_name', 'Site name can not be blank');
 

@@ -63,10 +63,6 @@ class Variable {
 			'value' => 's:7:"Default";'
 		),
 		array(
-			'name' => 'url_language_prefix',
-			'value' => 's:1:"1";'
-		),
-		array(
 			'name' => 'user_default_avatar',
 			'value' => 's:32:"/system/img/anonymous_avatar.jpg";'
 		),
