@@ -194,9 +194,7 @@ class Block {
 			'pages' => '/',
 			'title' => 'Slider',
 			'locale' => 'a:0:{}',
-			'settings' => 'a:1:{s:12:"slider_order";s:52:"1_[language].jpg
-2_[language].jpg
-3_[language].jpg";}',
+			'settings' => 'a:1:{s:12:"slider_order";s:52:"1_[language].jpg@~r~@@~n~@2_[language].jpg@~r~@@~n~@3_[language].jpg";}',
 			'params' => ''
 		),
 		array(

@@ -45,7 +45,7 @@ class SerializedBehavior extends ModelBehavior {
                         !empty($record[$Model->alias][$field]) &&
                         is_string($record[$Model->alias][$field])
                     ) {
-                        $record[$Model->alias][$field] = @unserialize($record[$Model->alias][$field]);
+                        $record[$Model->alias][$field] = $this->unserialize($record[$Model->alias][$field]);
                     }
                 }
             }
@@ -97,7 +97,27 @@ class SerializedBehavior extends ModelBehavior {
         return true;
     }
 
+    public function unserialize($serialized) {
+        $serialized = (string)$serialized;
+        $serialized = str_replace('@~n~@', "\n", $serialized);
+        $serialized = str_replace('@~r~@', "\r", $serialized);
+
+        if (is_string($serialized) && strpos($serialized, "\0") === false) {
+            if (strpos($serialized, 'O:') === false) {
+                return @unserialize($serialized);
+            } else if (!preg_match('/(^|;|{|})O:[0-9]+:"/', $serialized)) {
+                return @unserialize($serialized);
+            }
+        }
+
+        return false;
+    }
+
     public function serialize($data) {
-        return (is_array($data) && empty($data) ? @serialize(array()) : @serialize($data));
+        $data = is_array($data) && empty($data) ? @serialize(array()) : @serialize($data);
+        $data = preg_replace("/\n/", '@~n~@', $data);
+        $data = preg_replace("/\r/", '@~r~@', $data);
+
+        return $data;
     }
 }
