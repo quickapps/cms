@@ -135,7 +135,7 @@ class FieldFileHookBehavior extends ModelBehavior {
             if (!count($info['data']['files'])) { # at leats one field required
                 ClassRegistry::init('Field.FieldData')->invalidate(
                     "FieldFile.{$info['field_id']}.uploader",
-                    __d('field_file', 'You must upload at least one file.')
+                    __t('You must upload at least one file.')
                 );
 
                 return false;

@@ -5,8 +5,8 @@
             'label' => false,
             'type' => 'select',
             'options' => array(
-                'default' => __d('field_list', 'Default'),
-                'key' => __d('field_list', 'Key')
+                'default' => __t('Default'),
+                'key' => __t('Key')
             ),
             'empty' => false
         )

@@ -195,7 +195,7 @@ class FieldTextHookHelper extends AppHelper {
             }
         }
 
-        $result2 .= ");</script><noscript>[" . __d('field_text', 'Turn on JavaScript to see the email address.') . "]</noscript>";
+        $result2 .= ");</script><noscript>[" . __t('Turn on JavaScript to see the email address.') . "]</noscript>";
 
         return $result2;
     }

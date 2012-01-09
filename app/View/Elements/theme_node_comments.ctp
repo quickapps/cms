@@ -13,13 +13,13 @@
 
     if ($count > 0):
 ?>
-    <?php echo $this->Html->tag('h2', __d('comment', 'Comments')); ?>
+    <?php echo $this->Html->tag('h2', __t('Comments')); ?>
     <div id="comments-list">
         <div class="comments-pagination paginator paginator-top">
             <?php $this->Paginator->options(array('url'=> $this->passedArgs)); ?>
-            <?php echo $this->Paginator->prev(__d('comment', '«'), null, null, array('class' => 'disabled')); ?>
+            <?php echo $this->Paginator->prev(__t('«'), null, null, array('class' => 'disabled')); ?>
             <?php echo $this->Paginator->numbers(array('separator' => ' ')); ?>
-            <?php echo $this->Paginator->next(__d('comment', '»'), null, null, array('class' => 'disabled')); ?>
+            <?php echo $this->Paginator->next(__t('»'), null, null, array('class' => 'disabled')); ?>
         </div>
 
         <?php foreach ($Layout['node']['Comment'] as $comment): ?>
@@ -52,8 +52,8 @@
                                     <?php echo isset($comment['User']['username']) ? $comment['User']['username'] : $comment['Comment']['name']; ?>
                                 </a>
                             </p>
-                            <p class="comment-time"><span><?php echo __d('comment', 'said on %s', $this->Time->format(__t('M d, Y H:i'), $comment['Comment']['created'], null, $comment_time_zone)); ?></span></p>
-                            <p class="comment-permalink"><?php echo $this->Html->link(__d('comment', 'Permalink'), "/{$Layout['node']['Node']['node_type_id']}/{$Layout['node']['Node']['slug']}.html#comment-{$comment['Comment']['id']}", array('id' => "comment-{$comment['Comment']['id']}", 'class' => 'permalink')); ?></p>
+                            <p class="comment-time"><span><?php echo __t('said on %s', $this->Time->format(__t('M d, Y H:i'), $comment['Comment']['created'], null, $comment_time_zone)); ?></span></p>
+                            <p class="comment-permalink"><?php echo $this->Html->link(__t('Permalink'), "/{$Layout['node']['Node']['node_type_id']}/{$Layout['node']['Node']['slug']}.html#comment-{$comment['Comment']['id']}", array('id' => "comment-{$comment['Comment']['id']}", 'class' => 'permalink')); ?></p>
                         </div>
                     </div>
                     <div class="comment-body">
@@ -65,7 +65,7 @@
                                     echo implode(' ', (array)$collect);
                                 ?>
                                 <?php if ($Layout['node']['Node']['comment'] == 2): ?>
-                                    <a href="" onClick="quoteComment(<?php echo $comment['Comment']['id']; ?>); return false;" class="quote"><?php echo __d('comment', 'Quote'); ?></a>
+                                    <a href="" onClick="quoteComment(<?php echo $comment['Comment']['id']; ?>); return false;" class="quote"><?php echo __t('Quote'); ?></a>
                                 <?php endif; ?>
                             </div>
                             <?php if ($Layout['node']['NodeType']['comments_subject_field']): ?>
@@ -81,9 +81,9 @@
 
         <div class="comments-pagination paginator paginator-bottom">
             <?php $this->Paginator->options(array('url'=> $this->passedArgs)); ?>
-            <?php echo $this->Paginator->prev(__d('comment', '«'), null, null, array('class' => 'disabled')); ?>
+            <?php echo $this->Paginator->prev(__t('«'), null, null, array('class' => 'disabled')); ?>
             <?php echo $this->Paginator->numbers(array('separator' => ' ')); ?>
-            <?php echo $this->Paginator->next(__d('comment', '»'), null, null, array('class' => 'disabled')); ?>
+            <?php echo $this->Paginator->next(__t('»'), null, null, array('class' => 'disabled')); ?>
         </div>
     </div>
 <?php endif; ?>

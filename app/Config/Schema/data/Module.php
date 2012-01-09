@@ -57,6 +57,12 @@ class Module {
 			'status' => '1'
 		),
 		array(
+			'name' => 'ThemeDark',
+			'type' => 'theme',
+			'settings' => '',
+			'status' => '1'
+		),
+		array(
 			'name' => 'ThemeDefault',
 			'type' => 'theme',
 			'settings' => 'a:7:{s:13:"slider_folder";s:6:"slider";s:9:"site_logo";s:1:"1";s:9:"site_name";s:1:"0";s:11:"site_slogan";s:1:"1";s:12:"site_favicon";s:1:"1";s:16:"color_header_top";s:7:"#282727";s:19:"color_header_bottom";s:7:"#332f2f";}',

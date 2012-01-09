@@ -217,7 +217,7 @@ class Comment extends CommentAppModel {
             $string = trim($string);
             $string = str_replace('[/quote]', '', $string);
             $string = trim(str_replace('[quote]', '', $string));
-            $string = empty($string) ? __d('comment', 'No subject') : $string;
+            $string = empty($string) ? __t('No subject') : $string;
 
             return $string;
         }
@@ -233,7 +233,7 @@ class Comment extends CommentAppModel {
         $string = trim($string);
         $string = str_replace('[/quote]', '', $string);
         $string = trim(str_replace('[quote]', '', $string));
-        $string = empty($string) ? __d('comment', 'No subject') : $string;
+        $string = empty($string) ? __t('No subject') : $string;
 
         return $string;
     }

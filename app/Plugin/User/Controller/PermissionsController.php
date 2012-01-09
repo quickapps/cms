@@ -98,11 +98,11 @@ class PermissionsController extends UserAppController {
                     }
 
                     if ($isField) {
-                        $list[$aco['Aco']['id']]['name'] = __d('locale', 'Field: %s', $m['yaml']['name']);
+                        $list[$aco['Aco']['id']]['name'] = __t('Field: %s', $m['yaml']['name']);
                     } elseif ($isTheme) {
-                        $list[$aco['Aco']['id']]['name'] = __d('locale', 'Theme: %s', $m['yaml']['name']);
+                        $list[$aco['Aco']['id']]['name'] = __t('Theme: %s', $m['yaml']['name']);
                     } else {
-                        $list[$aco['Aco']['id']]['name'] = __d('locale', 'Module: %s', $m['yaml']['name']);
+                        $list[$aco['Aco']['id']]['name'] = __t('Module: %s', $m['yaml']['name']);
                     }
 
                     $list[$aco['Aco']['id']]['description'] = $m['yaml']['description'];

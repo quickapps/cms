@@ -2,28 +2,28 @@
     echo $this->Form->input("Field.settings.format",
         array(
             'type' => 'text',
-            'label' => __d('field_date', 'Date format')
+            'label' => __t('Date format')
         )
     );
 
     echo $this->Form->input("Field.settings.button_bar",
         array(
             'type' => 'checkbox',
-            'label' => __d('field_date', 'Display button bar')
+            'label' => __t('Display button bar')
         )
     );
 
     echo $this->Form->input("Field.settings.month_year_menu",
         array(
             'type' => 'checkbox',
-            'label' => __d('field_date', 'Display month & year menu')
+            'label' => __t('Display month & year menu')
         )
     );
 
     echo $this->Form->input("Field.settings.show_weeks",
         array(
             'type' => 'checkbox',
-            'label' => __d('field_date', 'Show week of the year')
+            'label' => __t('Show week of the year')
         )
     );
 
@@ -38,7 +38,7 @@
                 5 => 5
             ),
             'empty' => false,
-            'label' => __d('field_date', 'Display multiple months')
+            'label' => __t('Display multiple months')
         )
     );
 
@@ -112,6 +112,6 @@
             ),
             'empty' => '---',
             'escape' => false,
-            'label' => __d('field_date', 'Localize')
+            'label' => __t('Localize')
         )
     );

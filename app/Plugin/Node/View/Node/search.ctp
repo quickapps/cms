@@ -18,9 +18,9 @@
 ?>
     <div class="nodes-pagination paginator">
         <?php $this->Paginator->options(array('url' => array('criteria' => $criteria))); ?>
-        <?php echo $this->Paginator->prev(__d('node', '«'), null, null, array('class' => 'disabled')); ?>
+        <?php echo $this->Paginator->prev(__t('«'), null, null, array('class' => 'disabled')); ?>
         <?php echo $this->Paginator->numbers(array('separator' => ' ')); ?>
-        <?php echo $this->Paginator->next(__d('node', '»'), null, null, array('class' => 'disabled')); ?>
+        <?php echo $this->Paginator->next(__t('»'), null, null, array('class' => 'disabled')); ?>
     </div>
 <?php else: ?>
     <div id="node-no-search-results" class="node node-page node-list node-demote node-nosticky node-odd ">

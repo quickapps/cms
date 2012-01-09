@@ -86,7 +86,7 @@ class BBCodeBehavior extends ModelBehavior {
         $bbcode->AddRule('quote',
             array(
                 'mode' => BBCODE_MODE_ENHANCED,
-                'template' => '<blockquote><cite>{$username} ' . __d('comment', 'wrote') . ':</cite>{$_content}</blockquote>',
+                'template' => '<blockquote><cite>{$username} ' . __t('wrote') . ':</cite>{$_content}</blockquote>',
                 'allow_in' => Array('listitem', 'block', 'columns')
             )
         );

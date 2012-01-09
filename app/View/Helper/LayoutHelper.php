@@ -282,7 +282,7 @@ class LayoutHelper extends AppHelper {
         $content_callback = $this->hook($callback, $node, array('collectReturn' => false));
 
         if (empty($content_callback)) {
-            $content .= "<h1>" . __d('system', 'The node could not be rendered') . "</h1>";
+            $content .= "<h1>" . __t('The node could not be rendered') . "</h1>";
         } else {
             $content .= $content_callback;
         }

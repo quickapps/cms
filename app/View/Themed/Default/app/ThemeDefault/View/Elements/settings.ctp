@@ -1,6 +1,6 @@
-<?php echo $this->Form->input('Module.settings.slider_folder', array('between' => strip_language_prefix($this->Html->url('/files/', true)), 'type' => 'text', 'label' => __d('theme_default', 'Image slider folder'))); ?>
+<?php echo $this->Form->input('Module.settings.slider_folder', array('between' => strip_language_prefix($this->Html->url('/files/', true)), 'type' => 'text', 'label' => __t('Image slider folder'))); ?>
 <em>
-    <?php echo __d('ThemeDefault', 'Recomended images size:') ?> 974x302px<br/>
+    <?php echo __t('Recomended images size:') ?> 974x302px<br/>
 </em>
 <p>
     <?php echo $this->Html->script('/theme/Default/js/farbtastic.js'); ?>
@@ -14,12 +14,12 @@
             <?php $color_main_bg = @empty($this->data['Module']['settings']['color_main_bg']) ? '#ededec' : $this->data['Module']['settings']['color_main_bg']; ?>
             <?php $color_footer = @empty($this->data['Module']['settings']['color_footer']) ? '#282727' : $this->data['Module']['settings']['color_footer']; ?>
 
-            <?php echo $this->Form->input('Module.settings.color_header_top', array('value' => $color_header_top, 'class' => 'colorwell', 'style' => 'width:50px;', 'type' => 'text', 'label' => __d('theme_default', 'Header top'))); ?>
-            <?php echo $this->Form->input('Module.settings.color_header_bottom', array('value' => $color_header_bottom, 'class' => 'colorwell', 'style' => 'width:50px;', 'type' => 'text', 'label' => __d('theme_default', 'Header bottom'))); ?>
-            <?php echo $this->Form->input('Module.settings.color_links', array('value' => $color_links, 'class' => 'colorwell', 'style' => 'width:50px;', 'type' => 'text', 'label' => __d('theme_default', 'Links'))); ?>
-            <?php echo $this->Form->input('Module.settings.color_text', array('value' => $color_text, 'class' => 'colorwell', 'style' => 'width:50px;', 'type' => 'text', 'label' => __d('theme_default', 'Text'))); ?>
-            <?php echo $this->Form->input('Module.settings.color_main_bg', array('value' => $color_main_bg, 'class' => 'colorwell', 'style' => 'width:50px;', 'type' => 'text', 'label' => __d('theme_default', 'Main Background'))); ?>
-            <?php echo $this->Form->input('Module.settings.color_footer', array('value' => $color_footer, 'class' => 'colorwell', 'style' => 'width:50px;', 'type' => 'text', 'label' => __d('theme_default', 'Footer'))); ?>
+            <?php echo $this->Form->input('Module.settings.color_header_top', array('value' => $color_header_top, 'class' => 'colorwell', 'style' => 'width:50px;', 'type' => 'text', 'label' => __t('Header top'))); ?>
+            <?php echo $this->Form->input('Module.settings.color_header_bottom', array('value' => $color_header_bottom, 'class' => 'colorwell', 'style' => 'width:50px;', 'type' => 'text', 'label' => __t('Header bottom'))); ?>
+            <?php echo $this->Form->input('Module.settings.color_links', array('value' => $color_links, 'class' => 'colorwell', 'style' => 'width:50px;', 'type' => 'text', 'label' => __t('Links'))); ?>
+            <?php echo $this->Form->input('Module.settings.color_text', array('value' => $color_text, 'class' => 'colorwell', 'style' => 'width:50px;', 'type' => 'text', 'label' => __t('Text'))); ?>
+            <?php echo $this->Form->input('Module.settings.color_main_bg', array('value' => $color_main_bg, 'class' => 'colorwell', 'style' => 'width:50px;', 'type' => 'text', 'label' => __t('Main Background'))); ?>
+            <?php echo $this->Form->input('Module.settings.color_footer', array('value' => $color_footer, 'class' => 'colorwell', 'style' => 'width:50px;', 'type' => 'text', 'label' => __t('Footer'))); ?>
         </div>
         <div id="colorpicker" style="float:left;"></div>
     <?php echo $this->Html->useTag('fieldsetend'); ?>

@@ -20,7 +20,7 @@
         );
     } else {
         echo "<label>{$field['label']}</label>";
-       echo __d('field_terms', 'You must <a href="%s">select a vocabulary</a> for this field!', Router::url("/admin/node/types/field_settings/{$field['id']}"));
+       echo __t('You must <a href="%s">select a vocabulary</a> for this field!', Router::url("/admin/node/types/field_settings/{$field['id']}"));
 
        return;
     }

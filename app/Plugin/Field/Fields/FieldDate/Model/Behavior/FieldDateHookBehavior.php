@@ -47,7 +47,7 @@ class FieldDateHookBehavior extends ModelBehavior {
             if (empty($info['data'])) {
                 ClassRegistry::init('Field.FieldData')->invalidate(
                     "FieldDate.{$info['field_id']}.data",
-                    __d('field_date', 'Date cannot be empty.')
+                    __t('Date cannot be empty.')
                 );
 
                 return false;

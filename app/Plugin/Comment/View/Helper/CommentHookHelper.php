@@ -26,7 +26,7 @@ class CommentHookHelper extends AppHelper {
             $this->request->params['action'] == 'details'
         ) {
             if ($this->_View->Layout->nodeField('comment') == 2) {
-                $this->_View->viewVars['Layout']['javascripts']['file'][] = '/comment/js/markItUp/locale/' . Configure::read('Variable.language.code') . '.js';
+                $this->_View->viewVars['Layout']['javascripts']['file'][] = '/comment/js/markItUp/locale.js';
                 $this->_View->viewVars['Layout']['javascripts']['file'][] = '/comment/js/markItUp/jquery.markitup.js';
                 $this->_View->viewVars['Layout']['javascripts']['file'][] = '/comment/js/markItUp/sets/bbcode/set.js';
                 $this->_View->viewVars['Layout']['javascripts']['file'][] = '/comment/js/jquery.scrollTo-min.js';
@@ -117,7 +117,7 @@ class CommentHookHelper extends AppHelper {
             $out .= recaptcha_get_html(Configure::read('Modules.Comment.settings.recaptcha.public_key'));
 
             if (CakeSession::read('invalid_recaptcha')) {
-                $out .= '<div class="error-message">' . __d('comment', 'Invalid security code.') . '</div>';
+                $out .= '<div class="error-message">' . __t('Invalid security code.') . '</div>';
 
                 CakeSession::write('invalid_recaptcha' ,false);
             }

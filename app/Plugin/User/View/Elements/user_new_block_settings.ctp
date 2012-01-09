@@ -3,7 +3,7 @@ echo
     $this->Form->input('Block.settings.limit',
         array(
             'type' => 'select',
-            'label' => __d('user', 'Number of users'),
+            'label' => __t('Number of users'),
             'options' => array(
                 5 => 5,
                 10 => 10,

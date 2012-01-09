@@ -25,7 +25,7 @@ class UserHookHelper extends AppHelper {
     // Block, last registered users
     public function user_new($block) {
         return array(
-            'title' => __d('user', "Who's New"),
+            'title' => __t("Who's New"),
             'body' => $this->_View->element('User.user_new_block', array('block' => $block))
         );
     }
@@ -38,7 +38,7 @@ class UserHookHelper extends AppHelper {
     // Block, user login form
     public function user_login() {
         return array(
-            'title' => __d('user', 'Login'),
+            'title' => __t('Login'),
             'body' => $this->_View->element('User.user_login_block')
         );
     }

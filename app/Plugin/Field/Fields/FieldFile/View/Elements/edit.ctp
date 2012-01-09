@@ -65,7 +65,7 @@
             </a>
         </span>
         <span class="file-size">(<?php echo @$file['file_size']; ?>)</span>
-        <div class="submit"><input type="button" value="<?php echo __d('field_file', 'Remove'); ?>" onClick="QuickApps.field_file.remove('FieldDataFieldFile<?php echo $field['id']; ?>_<?php echo $uid; ?>'); return false;" /></div>
+        <div class="submit"><input type="button" value="<?php echo __t('Remove'); ?>" onClick="QuickApps.field_file.remove('FieldDataFieldFile<?php echo $field['id']; ?>_<?php echo $uid; ?>'); return false;" /></div>
 
         <?php
             echo $this->Form->hidden("FieldData.FieldFile.{$field['id']}.data.files.{$key}.mime_icon", array('class' => 'mime_icon', 'value' => $file['mime_icon'])) . "\n";
@@ -96,9 +96,9 @@
 
     <div class="uploader <?php echo $multi ? 'multi-upload' : 'single-upload'; ?>" style="<?php echo $show_uploader ? '' : 'display:none;'; ?>">
         <?php echo $this->Form->input("FieldData.FieldFile.{$field['id']}.uploader", array('type' => 'file', 'label' => false)); ?>
-        <em><?php echo __d('field_file', 'Files must be less than <b>%sB</b>.', ini_get('upload_max_filesize')) ; ?></em>
+        <em><?php echo __t('Files must be less than <b>%sB</b>.', ini_get('upload_max_filesize')) ; ?></em>
         <br />
-        <em><?php echo __d('field_file', 'Allowed file types: <b>%s</b>.', str_replace(',', ', ', $field['settings']['extensions'])); ?></em>
+        <em><?php echo __t('Allowed file types: <b>%s</b>.', str_replace(',', ', ', $field['settings']['extensions'])); ?></em>
 
         <div id="FieldQueue<?php echo $field['id']; ?>" class="field-queue"></div>
     </div>

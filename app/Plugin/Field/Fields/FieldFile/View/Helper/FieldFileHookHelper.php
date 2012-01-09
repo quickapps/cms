@@ -70,8 +70,8 @@ class FieldFileHookHelper extends AppHelper {
             <table width=\"100%\">
                 <thead>
                     <tr>
-                        <th align=\"left\" width=\"75%\">" . __d('field_file', 'Attachment') . "</th>
-                        <th align=\"center\">" . __d('field_file', 'Size') . "</th>
+                        <th align=\"left\" width=\"75%\">" . __t('Attachment') . "</th>
+                        <th align=\"center\">" . __t('Size') . "</th>
                     </tr>
                 </thead>
 

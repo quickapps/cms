@@ -82,10 +82,10 @@ class FieldTermsHookHelper extends AppHelper {
         $out .= "$('#{$field_id}').tokenInput('" . Router::url("/admin/field_terms/tokeninput/suggest/{$field['settings']['vocabulary']}", true) . "', 
             {
                 allowNewItems: true,
-                hintText: '" . __d('field_terms', 'Type in a search term') . "',
-                noResultsText: '" . __d('field_terms', 'No results') . "',
-                searchingText: '" . __d('field_terms', 'Searching...') . "',
-                deleteText: '" . __d('field_terms', 'x') . "',
+                hintText: '" . __t('Type in a search term') . "',
+                noResultsText: '" . __t('No results') . "',
+                searchingText: '" . __t('Searching...') . "',
+                deleteText: '" . __t('x') . "',
                 {$tokenLimit}
                 theme: 'facebook',
                 preventDuplicates: true,

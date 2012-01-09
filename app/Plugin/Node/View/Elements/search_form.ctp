@@ -47,7 +47,7 @@
                         ?>
                     </div>
 
-                    <?php echo $this->Form->submit(__d('node', 'Search')); ?>
+                    <?php echo $this->Form->submit(__t('Search')); ?>
 
                 </div>
             <?php echo $this->Html->useTag('fieldsetend'); ?>

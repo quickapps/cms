@@ -49,7 +49,7 @@ class MailerComponent extends Component {
         $user = is_numeric($user_id) ? ClassRegistry::init('User.User')->findById($user_id) : $user_id;
 
         if (!$user) {
-            $this->errors[] = __d('user', 'User not found.');
+            $this->errors[] = __t('User not found.');
 
             return false;
         }
@@ -72,7 +72,7 @@ class MailerComponent extends Component {
 
             if (isset($variables["user_mail_{$type}_body"]) && isset($variables["user_mail_{$type}_subject"])) {
                 if (isset($variables["user_mail_{$type}_notify"]) && !$variables["user_mail_{$type}_notify"]) {
-                    $this->errors[] = __d('user', 'This message has been marked as "do not notify".');
+                    $this->errors[] = __t('This message has been marked as "do not notify".');
 
                     return false;
                 }
@@ -84,12 +84,12 @@ class MailerComponent extends Component {
 
                     return true;
                 } catch (Exception $error) {
-                    $this->errors[] = __d('user', 'Email could not be send.');
+                    $this->errors[] = __t('Email could not be send.');
 
                     return false;
                 }
             } else {
-                $this->errors[] = __d('user', 'Invalid message preset.');
+                $this->errors[] = __t('Invalid message preset.');
 
                 return false;
             }
@@ -100,10 +100,10 @@ class MailerComponent extends Component {
                 if ($this->Email->send($this->parseVariables($user, $type['body']))) {
                     return true;
                 } else {
-                    $this->errors[] = __d('user', 'Email could not be send.');
+                    $this->errors[] = __t('Email could not be send.');
                 }
             } else {
-                $this->errors[] = __d('user', 'Invalid message preset.');
+                $this->errors[] = __t('Invalid message preset.');
             }
 
             return false;

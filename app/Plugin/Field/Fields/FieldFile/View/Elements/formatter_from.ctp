@@ -5,9 +5,9 @@
             'label' => false,
             'type' => 'select',
             'options' => array(
-                'link' => __d('field_file', 'Link to file'),
-                'table' => __d('field_file', 'Table of Files'),
-                'url' => __d('field_file', 'File URL')
+                'link' => __t('Link to file'),
+                'table' => __t('Table of Files'),
+                'url' => __t('File URL')
             ),
             'empty' => false
         )

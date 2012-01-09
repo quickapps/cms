@@ -107,7 +107,7 @@ class User extends UserAppModel {
         $r = ($check['password'] == $this->data['User']['password2'] && strlen($check['password']) >= 6);
 
         if (!$r) {
-            $this->invalidate('password2', __d('user', 'Password missmatch.'));
+            $this->invalidate('password2', __t('Password missmatch.'));
         }
 
         return $r;

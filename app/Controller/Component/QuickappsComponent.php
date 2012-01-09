@@ -259,7 +259,7 @@ class QuickAppsComponent extends Component {
             'plugin' => 'user'
         );
 
-        $this->Controller->Auth->authError = __d('user', 'You are not authorized to access that location.');
+        $this->Controller->Auth->authError = __t('You are not authorized to access that location.');
         $this->Controller->Auth->authorize = array('Controller');
         $this->Controller->Auth->loginRedirect = Router::getParam('admin') ? '/admin' : '/';
         $this->Controller->Auth->logoutRedirect = $this->Controller->Auth->loginRedirect;

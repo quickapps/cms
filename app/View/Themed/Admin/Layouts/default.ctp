@@ -48,8 +48,8 @@
             <div id="toolbar-menu" class="clearfix" >
                 <?php echo $this->Layout->blocks('management-menu'); ?>
                 <div id="right-btns">
-                    <?php echo $this->Html->link(__d('theme_admin_default', 'Log out'), '/user/logout'); ?>
-                    <?php echo $this->Html->link(__d('theme_admin_default', 'View site'), '/',  array('target' => '_blank')); ?>
+                    <?php echo $this->Html->link(__t('Logout'), '/user/logout'); ?>
+                    <?php echo $this->Html->link(__t('View site'), '/',  array('target' => '_blank')); ?>
                 </div>
             </div>
 

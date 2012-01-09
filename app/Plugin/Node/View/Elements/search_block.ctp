@@ -22,8 +22,8 @@
 
     );
 ?>
-    <?php echo $this->Form->input('criteria', array('required' => 'required', 'type' => 'text', 'label' => __d('node', 'Keywords'))); ?>
-    <?php echo $this->Form->submit(__d('node', 'Search')); ?>
+    <?php echo $this->Form->input('criteria', array('required' => 'required', 'type' => 'text', 'label' => __t('Keywords'))); ?>
+    <?php echo $this->Form->submit(__t('Search')); ?>
 <?php echo $this->Form->end(); ?>
 
 <script type="text/javascript">

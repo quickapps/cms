@@ -48,7 +48,7 @@ class NodeHookHelper extends AppHelper {
     # search block
     public function node_search($data) {
         return array(
-            'title' => __d('node', 'Search'),
+            'title' => __t('Search'),
             'body' => $this->_View->element('Node.search_block', array('data' => $data))
         );
     }

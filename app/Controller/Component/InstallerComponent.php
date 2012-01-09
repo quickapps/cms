@@ -75,7 +75,7 @@ class InstallerComponent extends Component {
         $Upload->Process($workingDir . 'package' . DS);
 
         if (!$Upload->processed) {
-            $this->errors[] = __d('system', 'Package upload error') . ": {$Upload->error}";
+            $this->errors[] = __t('Package upload error') . ": {$Upload->error}";
             return false;
         }
 
@@ -85,7 +85,7 @@ class InstallerComponent extends Component {
         $PclZip = new PclZip($Upload->file_dst_pathname);
 
         if (!$v_result_list = $PclZip->extract(PCLZIP_OPT_PATH, $workingDir . 'unzip')) {
-            $this->errors[] = __d('system', 'Unzip error.') . ": " . $PclZip->errorInfo(true);
+            $this->errors[] = __t('Unzip error.') . ": " . $PclZip->errorInfo(true);
 
             return false;
         } else {
@@ -105,7 +105,7 @@ class InstallerComponent extends Component {
             $this->options['__appName'] = $appName;
 
             if (!$packagePath) {
-                $this->errors[] = __d('system', 'Invalid package structure after unzip');
+                $this->errors[] = __t('Invalid package structure after unzip');
 
                 return false;
             }
@@ -121,56 +121,56 @@ class InstallerComponent extends Component {
                                     strlen(Inflector::camelize($appName)) != 3 &&
                                     preg_match('/^[a-zA-Z0-9]+$/', Inflector::camelize($appName))
                                 ),
-                                'header' => __d('system', 'Forbidden Names'),
-                                'msg' => __d('system', 'Forbidden module name "%s"', $appName, Inflector::camelize($appName))
+                                'header' => __t('Forbidden Names'),
+                                'msg' => __t('Forbidden module name "%s"', $appName, Inflector::camelize($appName))
                             ),
                             'CamelCaseName' => array(
                                 'test' => (Inflector::camelize($appName) == $appName),
-                                'header' => __d('system', 'Theme name'),
-                                'msg' => __d('system', 'Invalid module name (got "%s", expected: "%s")', $appName, Inflector::camelize($appName))
+                                'header' => __t('Theme name'),
+                                'msg' => __t('Invalid module name (got "%s", expected: "%s")', $appName, Inflector::camelize($appName))
                             ),
                             'notAlreadyInstalled' => array(
                                 'test' => (
                                     $this->Controller->Module->find('count', array('conditions' => array('Module.name' => $appName, 'Module.type' => 'module'))) === 0 &&
                                     !file_exists(ROOT . DS . 'Modules' . DS . $appName)
                                 ),
-                                'header' => __d('system', 'Already Installed'),
-                                'msg' => __d('system', 'This module is already installed')
+                                'header' => __t('Already Installed'),
+                                'msg' => __t('This module is already installed')
                             ),
                             'Config' => array(
                                 'test' => file_exists($packagePath . 'Config'),
-                                'header' => __d('system', 'Config Folder'),
-                                'msg' => __d('system', '"Config" folder not found')
+                                'header' => __t('Config Folder'),
+                                'msg' => __t('"Config" folder not found')
                             ),
                             'bootstrap' => array(
                                 'test' => file_exists($packagePath . 'Config' . DS . 'bootstrap.php'),
-                                'header' => __d('system', 'Bootstrap File'),
-                                'msg' => __d('system', '"Config/bootstrap.php" file not found')
+                                'header' => __t('Bootstrap File'),
+                                'msg' => __t('"Config/bootstrap.php" file not found')
                             ),
                             'routes' => array(
                                 'test' => file_exists($packagePath . 'Config' . DS . 'routes.php'),
-                                'header' => __d('system', 'Routes File'),
-                                'msg' => __d('system', '"Config/routes.php" file not found')
+                                'header' => __t('Routes File'),
+                                'msg' => __t('"Config/routes.php" file not found')
                             ),
                             'Controller' => array(
                                 'test' => file_exists($packagePath . 'Controller'),
-                                'header' => __d('system', 'Controller Folder'),
-                                'msg' => __d('system', '"Controller" folder not found')
+                                'header' => __t('Controller Folder'),
+                                'msg' => __t('"Controller" folder not found')
                             ),
                             'Component' => array(
                                 'test' => file_exists($packagePath . 'Controller' . DS . 'Component'),
-                                'header' => __d('system', 'Component Folder'),
-                                'msg' => __d('system', '"Component" folder not found')
+                                'header' => __t('Component Folder'),
+                                'msg' => __t('"Component" folder not found')
                             ),
                             'InstallComponent.php' => array(
                                 'test' => file_exists($packagePath . 'Controller' . DS . 'Component' . DS . 'InstallComponent.php'),
-                                'header' => __d('system', 'Installer File'),
-                                'msg' => __d('system', 'Installer file (InstallComponent.php) not found')
+                                'header' => __t('Installer File'),
+                                'msg' => __t('Installer file (InstallComponent.php) not found')
                             ),
                             'yaml' => array(
                                 'test' => file_exists($packagePath . "{$appName}.yaml"),
-                                'header' => __d('system', 'YAML File'),
-                                'msg' => __d('system', 'YAML File (%s) not found', "{$appName}.yaml")
+                                'header' => __t('YAML File'),
+                                'msg' => __t('YAML File (%s) not found', "{$appName}.yaml")
                             )
                         );
                 break;
@@ -179,66 +179,66 @@ class InstallerComponent extends Component {
                     $tests = array(
                         'CamelCaseName' => array(
                             'test' => (Inflector::camelize($appName) == $appName),
-                            'header' => __d('system', 'Theme name'),
-                            'msg' => __d('system', 'Invalid theme name (got "%s", expected: "%s")', $appName, Inflector::camelize($appName))
+                            'header' => __t('Theme name'),
+                            'msg' => __t('Invalid theme name (got "%s", expected: "%s")', $appName, Inflector::camelize($appName))
                         ),
                         'notAlreadyInstalled' => array(
                             'test' => (
                                 $this->Controller->Module->find('count', array('conditions' => array('Module.name' => 'Theme' . $appName, 'Module.type' => 'theme'))) === 0 &&
                                 !file_exists(THEMES . $appName)
                             ),
-                            'header' => __d('system', 'Already Installed'),
-                            'msg' => __d('system', 'This theme is already installed')
+                            'header' => __t('Already Installed'),
+                            'msg' => __t('This theme is already installed')
                         ),
                         'Layouts' => array(
                             'test' => file_exists($packagePath . 'Layouts'),
-                            'header' => __d('system', 'Layouts Folder'),
-                            'msg' => __d('system', '"Layouts" folder not found')
+                            'header' => __t('Layouts Folder'),
+                            'msg' => __t('"Layouts" folder not found')
                         ),
                         'app' => array(
                             'test' => file_exists($packagePath . 'app'),
-                            'header' => __d('system', 'app Folder'),
-                            'msg' => __d('system', '"app" folder not found')
+                            'header' => __t('app Folder'),
+                            'msg' => __t('"app" folder not found')
                         ),
                         'plugin_app' => array(
                             'test' => file_exists($packagePath . 'app' . DS . 'Theme' . $appName),
-                            'header' => __d('system', 'Plugin app'),
-                            'msg' => __d('system', 'Module app ("%s") folder not found', 'Theme' . Inflector::camelize($appName))
+                            'header' => __t('Plugin app'),
+                            'msg' => __t('Module app ("%s") folder not found', 'Theme' . Inflector::camelize($appName))
                         ),
                         'Config' => array(
                             'test' => file_exists($packagePath . 'app' . DS . 'Theme' . $appName . DS . 'Config'),
-                            'header' => __d('system', 'Config Folder'),
-                            'msg' => __d('system', '"Config" folder not found')
+                            'header' => __t('Config Folder'),
+                            'msg' => __t('"Config" folder not found')
                         ),
                         'bootstrap' => array(
                             'test' => file_exists($packagePath . 'app' . DS . 'Theme' . $appName . DS . 'Config' . DS . 'bootstrap.php'),
-                            'header' => __d('system', 'Bootstrap File'),
-                            'msg' => __d('system', '"Config/bootstrap.php" file not found')
+                            'header' => __t('Bootstrap File'),
+                            'msg' => __t('"Config/bootstrap.php" file not found')
                         ),
                         'routes' => array(
                             'test' => file_exists($packagePath . 'app' . DS . 'Theme' . $appName . DS . 'Config' . DS . 'routes.php'),
-                            'header' => __d('system', 'Routes file'),
-                            'msg' => __d('system', '"Config/routes.php" file not found')
+                            'header' => __t('Routes file'),
+                            'msg' => __t('"Config/routes.php" file not found')
                         ),
                         'InstallComponent.php' => array(
                             'test' => file_exists($packagePath . 'app' . DS . 'Theme' . $appName .  DS . 'Controller' . DS . 'Component' . DS . 'InstallComponent.php'),
-                            'header' => __d('system', 'Installer File'),
-                            'msg' => __d('system', 'Installer file (InstallComponent.php) not found')
+                            'header' => __t('Installer File'),
+                            'msg' => __t('Installer file (InstallComponent.php) not found')
                         ),
                         'webroot' => array(
                             'test' => file_exists($packagePath . 'webroot'),
-                            'header' => __d('system', 'webroot Folder'),
-                            'msg' => __d('system', '"webroot" folder not found')
+                            'header' => __t('webroot Folder'),
+                            'msg' => __t('"webroot" folder not found')
                         ),
                         'yaml' => array(
                             'test' => file_exists($packagePath . "{$appName}.yaml"),
-                            'header' => __d('system', 'YAML File'),
-                            'msg' => __d('system', 'YAML File (%s) not found', "{$appName}.yaml")
+                            'header' => __t('YAML File'),
+                            'msg' => __t('YAML File (%s) not found', "{$appName}.yaml")
                         ),
                         'thumbnail' => array(
                             'test' => file_exists($packagePath . 'thumbnail.png'),
-                            'header' => __d('system', 'Theme thumbnail'),
-                            'msg' => __d('system', 'Thumbnail image ("%s") not found', 'thumbnail.png')
+                            'header' => __t('Theme thumbnail'),
+                            'msg' => __t('Thumbnail image ("%s") not found', 'thumbnail.png')
                         )
                     );
                 break;
@@ -263,8 +263,8 @@ class InstallerComponent extends Component {
                                     (isset($yaml['version']) &&  !empty($yaml['version'])) &&
                                     (isset($yaml['core']) && !empty($yaml['core']))
                                 ),
-                                'header' => __d('system', 'YAML Validation'),
-                                'msg' => __d('system', 'Module configuration file (%s) appears to be invalid.', "{$appName}.yaml")
+                                'header' => __t('YAML Validation'),
+                                'msg' => __t('Module configuration file (%s) appears to be invalid.', "{$appName}.yaml")
                             )
                         );
                 break;
@@ -279,15 +279,15 @@ class InstallerComponent extends Component {
                                     (isset($yaml['regions']) && !empty($yaml['regions'])) &&
                                     (isset($yaml['layout']) && !empty($yaml['layout']))
                             ),
-                            'header' => __d('system', 'YAML Validation'),
-                            'msg' => __d('system', 'Theme configuration file (%s) appears to be invalid.', "{$appName}.yaml")
+                            'header' => __t('YAML Validation'),
+                            'msg' => __t('Theme configuration file (%s) appears to be invalid.', "{$appName}.yaml")
                         )
                     );
                 break;
             }
 
             if (!$this->__process_tests($tests)) {
-                $this->errors[] = __d('system', 'Invalid information file (.yaml)');
+                $this->errors[] = __t('Invalid information file (.yaml)');
 
                 return false;
             }
@@ -298,9 +298,9 @@ class InstallerComponent extends Component {
 
             if ($r !== null) {
                 if ($this->options['type'] == 'module') {
-                    $this->errors[] = __d('system', 'This module is incompatible with your QuickApps version.');
+                    $this->errors[] = __t('This module is incompatible with your QuickApps version.');
                 } else {
-                   $this->errors[] = __d('system', 'This theme is incompatible with your QuickApps version.');
+                   $this->errors[] = __t('This theme is incompatible with your QuickApps version.');
                 }
 
                 return false;
@@ -311,9 +311,9 @@ class InstallerComponent extends Component {
                 ($this->options['type'] == 'module' && isset($yaml['dependencies']) && !$this->checkDependency($yaml))
             ) {
                 if ($this->options['type'] == 'module') {
-                    $this->errors[] = __d('system', "This module depends on other modules that you do not have or doesn't meet the version required: %s", implode(', ', $yaml['dependencies']));
+                    $this->errors[] = __t("This module depends on other modules that you do not have or doesn't meet the version required: %s", implode(', ', $yaml['dependencies']));
                 } else {
-                    $this->errors[] = __d('system', "This theme depends on other modules that you do not have or doesn't meet the version required: %s", implode(', ', $yaml['info']['dependencies']));
+                    $this->errors[] = __t("This theme depends on other modules that you do not have or doesn't meet the version required: %s", implode(', ', $yaml['info']['dependencies']));
                 }
 
                 return false;
@@ -337,15 +337,15 @@ class InstallerComponent extends Component {
 
                                 if (!isset($yaml['name']) || !isset($yaml['description'])) {
                                     $fieldErrors = true;
-                                    $this->errors[] = __d('system', 'invalid information file (.yaml). Field "%s"', $field);
+                                    $this->errors[] = __t('invalid information file (.yaml). Field "%s"', $field);
                                 }
                             } else {
                                 $fieldErrors = true;
-                                $this->errors[] = __d('system', 'Invalid field "%s". Information file (.yaml) not found.', $field);
+                                $this->errors[] = __t('Invalid field "%s". Information file (.yaml) not found.', $field);
                             }
                         } else {
                             $fieldErrors = true;
-                            $this->errors[] = __d('system', 'Invalid field name "%s".', $field);
+                            $this->errors[] = __t('Invalid field name "%s".', $field);
                         }
                     }
                 }
@@ -1273,9 +1273,9 @@ class InstallerComponent extends Component {
 
             if ($r !== null) {
                 if (!$isTheme) {
-                    $this->errors[] = __d('system', 'This module is incompatible with your QuickApps version.');
+                    $this->errors[] = __t('This module is incompatible with your QuickApps version.');
                 } else {
-                   $this->errors[] = __d('system', 'This theme is incompatible with your QuickApps version.');
+                   $this->errors[] = __t('This theme is incompatible with your QuickApps version.');
                 }
 
                 return false;
@@ -1286,9 +1286,9 @@ class InstallerComponent extends Component {
                 (!$isTheme && isset($yaml['dependencies']) && $this->checkDependency($yaml))
             ) {
                 if ($this->options['type'] == 'module') {
-                    $this->errors[] = __d('system', "This module depends on other modules that you do not have or doesn't meet the version required: %s", implode('<br/>', $yaml['dependencies']));
+                    $this->errors[] = __t("This module depends on other modules that you do not have or doesn't meet the version required: %s", implode('<br/>', $yaml['dependencies']));
                 } else {
-                    $this->errors[] = __d('system', "This theme depends on other modules that you do not have or doesn't meet the version required: %s", implode('<br/>', $yaml['info']['dependencies']));
+                    $this->errors[] = __t("This theme depends on other modules that you do not have or doesn't meet the version required: %s", implode('<br/>', $yaml['info']['dependencies']));
                 }
 
                 return false;

@@ -110,7 +110,7 @@
                 </p>
 
                 <?php if (Configure::read('Variable.admin_theme') != $name) : ?>
-                    <a href="<?php echo $this->Html->url('/admin/system/themes/set_theme/' . $name); ?>" style="float:right;" onclick="return confirm('<?php echo __t('Change administrator theme, are you sure ?\n'); ?>');"><?php echo __t('Set as default'); ?> </a>
+                    <a href="<?php echo $this->Html->url('/admin/system/themes/set_theme/' . $name); ?>" style="float:right;" onclick="return confirm('<?php echo __t('Change administrator theme, are you sure ?\n'); ?>');"><?php echo __t('Set as default'); ?></a>
                 <?php else: ?>
                     <a href="<?php echo $this->Html->url('/admin/system/themes/settings/' . $name); ?>" style="float:right;"><?php echo __t('Configure'); ?></a>
                 <?php endif; ?>
