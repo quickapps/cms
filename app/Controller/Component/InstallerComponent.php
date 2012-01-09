@@ -117,7 +117,7 @@ class InstallerComponent extends Component {
                             'ForbiddenName' => array(
                                 'test' => (
                                     strpos('Theme', Inflector::camelize($appName)) !== 0 &&
-                                    !in_array(Inflector::camelize($appName), array('Site', 'Custom', 'Core')) &&
+                                    !in_array(Inflector::camelize($appName), array('Default')) &&
                                     strlen(Inflector::camelize($appName)) != 3 &&
                                     preg_match('/^[a-zA-Z0-9]+$/', Inflector::camelize($appName))
                                 ),

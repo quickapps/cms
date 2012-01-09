@@ -840,7 +840,7 @@ msgstr "Eliminar"
 
 #: Plugin\Field\Fields\FieldFile\View\Elements\edit.ctp:99
 msgid "Files must be less than <b>%sB</b>."
-msgstr "Archivos deben ser menores que <b>%sB</b>.\n"
+msgstr "Archivos deben ser menores que <b>%sB</b>."
 
 
 msgid "Allowed file types: <b>%s</b>."
@@ -1108,7 +1108,7 @@ msgstr "el %s"
 #: View/List/admin_view.ctp:14
 #: View/Elements/node/comments.ctp:55
 msgid "M d, Y H:i"
-msgstr "d \\d\\e M, Y H:i\n"
+msgstr "d \\d\\e M, Y H:i"
 
 msgid "Read More"
 msgstr "Leer Más"
@@ -1390,7 +1390,7 @@ msgstr "Indique páginas usando su ruta. Ingrese una ruta por línea. El caracte
 #: View/Manage/admin_add.ctp:58
 #: View/Manage/admin_add_link.ctp:36
 msgid "If the PHP option is chosen, enter PHP code between &lt;?php ?&gt;. Note that executing incorrect PHP code can break your QuickApps site."
-msgstr "Si se elige la opcion PHP, ingrese el código PHP entre &lt;?php ?&gt;. La ejecución de código PHP incorrecto puede romper su sitio QuickApps.\n"
+msgstr "Si se elige la opcion PHP, ingrese el código PHP entre &lt;?php ?&gt;. La ejecución de código PHP incorrecto puede romper su sitio QuickApps."
 
 #: View/Manage/admin_add.ctp:62
 #: View/Contents/admin_add.ctp:66
@@ -1863,7 +1863,7 @@ msgstr "Nombre en inglés"
 #: View/Languages/admin_index.ctp:13
 #: View/Configuration/admin_index.ctp:34
 msgid "Default language"
-msgstr "Idioma por defecto\n"
+msgstr "Idioma por defecto"
 
 #: View/Languages/admin_index.ctp:17
 msgid "Native name"
@@ -2363,12 +2363,12 @@ msgstr "El campo no pudo ser guardado. Por favor, intente otra vez."
 #: Controller/TypesController.php:169
 #: Controller/DisplayController.php:54
 msgid "Field display settings"
-msgstr "Parámetros de visualización de campo\n"
+msgstr "Parámetros de visualización de campo"
 
 #: Controller/TypesController.php:170
 #: Controller/DisplayController.php:55
 msgid "Field Display Settings"
-msgstr "Parámetros de Visualización de Campo\n"
+msgstr "Parámetros de Visualización de Campo"
 
 #: Controller/TypesController.php:199
 #: Controller/FieldsController.php:25
@@ -2389,7 +2389,7 @@ msgstr "Una breve descripción (255 car. máx.) sobre este contenido. Será util
 #: View/Contents/admin_edit.ctp:25
 #: Controller/ModulesController.php:46
 msgid "Settings"
-msgstr "Configuración\n"
+msgstr "Configuración"
 
 #: View/Contents/admin_add.ctp:20
 #: View/Contents/admin_edit.ctp:27
@@ -2814,12 +2814,12 @@ msgstr "Aquí puede definir cuales campos se deben mostrar u ocultar cuando el t
 #: View/Types/admin_display.ctp:38
 #: View/Display/admin_index.ctp:35
 msgid "View Modes"
-msgstr "Modos de Visualización\n"
+msgstr "Modos de Visualización"
 
 #: View/Types/admin_display.ctp:40
 #: View/Display/admin_index.ctp:37
 msgid "Use custom display settings for the following view modes"
-msgstr "Utilizar opciones de visualización personalizadas para los siguientes modos\n"
+msgstr "Utilizar opciones de visualización personalizadas para los siguientes modos"
 
 #: View/Types/admin_display.ctp:41
 msgid "full"
@@ -2869,7 +2869,7 @@ msgstr "Etiqueta *"
 #: View/Types/admin_field_formatter.ctp:7
 #: View/Display/admin_field_formatter.ctp:2
 msgid "Field display format (view mode: %s)"
-msgstr "Formato de visualización de campo (modo: %s)\n"
+msgstr "Formato de visualización de campo (modo: %s)"
 
 #: View/Types/admin_field_formatter.ctp:16
 #: View/Display/admin_field_formatter.ctp:7
@@ -2891,7 +2891,7 @@ msgstr "Guardar campo"
 #: View/Types/admin_field_settings.ctp:3
 #: View/Fields/admin_field_settings.ctp:3
 msgid "Basic settings"
-msgstr "Configuración Básica\n"
+msgstr "Configuración Básica"
 
 
 #: View/Types/admin_field_settings.ctp:6

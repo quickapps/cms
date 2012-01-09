@@ -38,7 +38,7 @@
 <table width="100%">
     <?php foreach ($packages as $plugin => $langs): ?>
     <?php
-        if ($plugin != 'Core' && $plugin != 'Site') {
+        if ($plugin != 'Default') {
             $ppath = CakePlugin::path($plugin);
 
             if (strpos($plugin, 'Theme') !== false) {
@@ -49,13 +49,8 @@
                 $Name = __t('Module: %s', Configure::read('Modules.' . $plugin . '.yaml.name'));
             }
         } else {
-            if ($plugin == 'Core') {
-                $ppath = APP;
-                $Name = '<b>' . __t('Core') . '</b>';
-            } else {
-                $ppath = ROOT . DS;
-                $Name = '<b>' . __t('Site Domain') . '</b>';
-            }
+            $ppath = APP;
+            $Name = '<b>' . __t('Global') . '</b>';
         }
     ?>
     <tr>
@@ -71,10 +66,7 @@
                 <li>
                     <?php echo $languages[$code]; ?>
                     <a href="<?php echo $this->Html->url("/admin/locale/packages/download_package/{$plugin}/{$code}"); ?>" target="_blank"><?php echo __t('download'); ?></a>
-
-                    <?php if (strpos($po, APP) === false): ?>
                     <a href="<?php echo $this->Html->url("/admin/locale/packages/uninstall/{$plugin}/{$code}"); ?>" onClick="return confirm('<?php echo __t('Delete the selected package ?'); ?>'); "><?php echo __t('uninstall'); ?></a>
-                    <?php endif; ?>
                 </li>
             <?php endforeach; ?>
             </ul>
