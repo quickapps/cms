@@ -9,15 +9,17 @@
                     )
                 );
             ?>
+            <em><?php echo __t('Select a translation package.'); ?></em>
 
             <?php echo $this->Form->input('module',
                     array(
                         'type' => 'select',
                         'options' => $modules,
-                        'label' => __t('App')
+                        'label' => __t('Translation for')
                     )
                 );
             ?>
+            <em><?php echo __t('What would you like to translate? QUICKAPPS CMS represent all the <a href="%s">Core modules</a> and other defaults.', $this->Html->url('/admin/system/modules')); ?></em>
 
             <?php echo $this->Form->input('language',
                     array(
@@ -27,6 +29,7 @@
                     )
                 );
             ?>
+            <em><?php echo __t('What is the language of this package? You can register more languages on the <a href="%s">Languages</a> section.', $this->Html->url('/admin/locale/languages')); ?></em>
 
             <p>
                 <?php echo $this->Form->input(__t('Upload'), array('type' => 'submit', 'label' => false)); ?>
@@ -50,7 +53,7 @@
             }
         } else {
             $ppath = APP;
-            $Name = '<b>' . __t('Global') . '</b>';
+            $Name = '<b>' . __t('QUICKAPPS CMS') . '</b>';
         }
     ?>
     <tr>

@@ -15,7 +15,7 @@ class PackagesController extends LocaleAppController {
 
     public function admin_index() {
         $modules = array();
-        $modules['Default'] = __t('QUICKAPPS CORE');
+        $modules['Default'] = __t('QUICKAPPS CMS');
         $field_modules = $this->hook('field_info', $this, array('collectReturn' => false));
 
         foreach (App::objects('plugin') as $plugin) {
