@@ -3,7 +3,7 @@ if (!class_exists('L10n')) {
     App::import('I18n', 'L10n');
 }
 
-class QALocale extends Locale{
+class QALocale {
     static function languages() {
         $L10n = new L10n;
         $catalog = $L10n->catalog();
