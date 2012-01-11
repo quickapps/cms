@@ -3,7 +3,7 @@ if (!class_exists('L10n')) {
     App::import('I18n', 'L10n');
 }
 
-class Locale {
+class QALocale {
     static function languages() {
         $L10n = new L10n;
         $catalog = $L10n->catalog();
@@ -103,7 +103,7 @@ class Locale {
         self::format_date_callback(NULL, $langcode);
 
         // Translate the marked sequences.
-        return preg_replace_callback('/\xEF([AaeDlMTF]?)(.*?)\xFF/', array('Locale', 'format_date_callback') , $format);
+        return preg_replace_callback('/\xEF([AaeDlMTF]?)(.*?)\xFF/', array('QALocale', 'format_date_callback') , $format);
     }
 
 /**
