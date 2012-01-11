@@ -19,7 +19,7 @@
                     )
                 );
             ?>
-            <em><?php echo __t('What would you like to translate? QUICKAPPS CMS represent all the <a href="%s">Core modules</a> and other defaults.', $this->Html->url('/admin/system/modules')); ?></em>
+            <em><?php echo __t('What would you like to translate?'); ?></em>
 
             <?php echo $this->Form->input('language',
                     array(
@@ -53,7 +53,7 @@
             }
         } else {
             $ppath = APP;
-            $Name = '<b>' . __t('QUICKAPPS CMS') . '</b>';
+            $Name = '<b>' . __t('ALL') . '</b>';
         }
     ?>
     <tr>
