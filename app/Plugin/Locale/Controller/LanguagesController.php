@@ -146,8 +146,8 @@ class LanguagesController extends LocaleAppController {
     }
 
     private function __setLangs() {
-        App::import('Lib', 'Locale.Locale');
-        $this->set('languages', Locale::languages());
-        Locale::language_direction('eng');
+        App::import('Lib', 'Locale.QALocale');
+        $this->set('languages', QALocale::languages());
+        QALocale::language_direction('eng');
     }
 }

@@ -9,8 +9,8 @@
         <em><?php echo __t('Full url to avatar image file. i.e: http://www.some-domain.com/my-avatar.jpg'); ?></em>
         <?php echo $this->Form->input('email', array('required' => true, 'type' => 'text', 'label' => __t('E-mail *'))); ?>
         <?php echo $this->Form->input('language', array('type' => 'select', 'options' => $languages, 'label' => __t('Language'))); ?>
-        <?php App::import('Lib', 'Locale.Locale'); ?>
-        <?php echo $this->Form->input('timezone', array('type' => 'select', 'value' => Configure::read('Variable.date_default_timezone'), 'options' => Locale::time_zones(), 'label' => __t('Time zone'))); ?>
+        <?php App::import('Lib', 'Locale.QALocale'); ?>
+        <?php echo $this->Form->input('timezone', array('type' => 'select', 'value' => Configure::read('Variable.date_default_timezone'), 'options' => QALocale::time_zones(), 'label' => __t('Time zone'))); ?>
         <?php echo $this->Form->input('password', array('required' => true, 'type' => 'password', 'label' => __t('Password') . ' *', 'value' => '')); ?>
         <?php echo $this->Form->input('password2', array('required' => true, 'type' => 'password', 'label' => __t('Confirm password') . ' *')); ?>
 
