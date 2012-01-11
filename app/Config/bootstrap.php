@@ -254,7 +254,7 @@ Cache::config('default', array('engine' => 'File'));
 
         App::uses('I18n', 'I18n');
 
-        $route = Router::getParams();
+        $route = class_exists('Router') ? Router::getParams() : null;
 
         if (isset($route['plugin']) && !empty($route['plugin'])) {
             $translated = I18n::translate($singular, null, Inflector::underscore($route['plugin'])); # 1º look in plugin
