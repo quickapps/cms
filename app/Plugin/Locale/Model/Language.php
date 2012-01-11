@@ -27,8 +27,8 @@ class Language extends LocaleAppModel {
     public function beforeValidate() {
         if (!isset($this->data['Language']['id']) && !isset($this->data['Language']['addCustom'])) { # new language -> determinate name&native
             if (isset($this->data['Language']['code'])) {
-                App::import('Lib', 'Locale.Locale');
-                $l = Locale::languages();
+                App::import('Lib', 'Locale.QALocale');
+                $l = QALocale::languages();
 
                 if (!isset($this->data['Language']['name'])) {
                     $this->data['Language']['name'] = @$l[$this->data['Language']['code']];
@@ -39,7 +39,7 @@ class Language extends LocaleAppModel {
                 }
 
                 if (!isset($this->data['Language']['direction'])) {
-                    $this->data['Language']['direction'] = Locale::language_direction();
+                    $this->data['Language']['direction'] = QALocale::language_direction();
                 }
             }
         }
