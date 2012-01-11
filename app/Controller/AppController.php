@@ -60,6 +60,7 @@ class AppController extends Controller {
     );
 
     public $components = array(
+        'Security',
         'HookCollection',
         'Session',
         'Cookie',
