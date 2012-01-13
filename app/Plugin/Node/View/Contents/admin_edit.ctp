@@ -90,6 +90,13 @@
             <?php echo $this->Html->useTag('fieldsetstart', __t('Advanced Options')); ?>
                 <?php echo $this->Form->input('Node.params.class', array('value' => (isset($this->data['Node']['params']['class']) ? $this->data['Node']['params']['class'] : ''), 'label' => __t('Node container class suffix'))); ?>
                 <em><?php echo __t('A suffix to be applied to the CSS class of the node container. This allows for individual node styling.'); ?></em>
+
+                <?php
+                    $data = $this->data;
+                    $params =  $this->Layout->hook('node_form_params', $data, array('collectReturn' => true));
+
+                    echo implode("\n ", (array)$params);
+                ?>
             <?php echo $this->Html->useTag('fieldsetend'); ?>
         <?php echo $this->Html->useTag('fieldsetend'); ?>
 
