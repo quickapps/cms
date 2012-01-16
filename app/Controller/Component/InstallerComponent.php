@@ -244,6 +244,15 @@ class InstallerComponent extends Component {
                 break;
             }
 
+            // Install component
+            $installComponentPath = $this->options['type'] == 'theme' ? $packagePath . 'app' . DS . 'Theme' . $appName . DS . 'Controller' . DS . 'Component' . DS : $packagePath . 'Controller' . DS . 'Component' . DS;
+            $Install = $this->loadInstallComponent($installComponentPath);
+            $doUpdate = !$tests['notAlreadyInstalled']['test'] && method_exists($Install, 'beforeUpdate');
+
+            if ($doUpdate) {
+                unset($tests['notAlreadyInstalled']);
+            }
+
             if (!$this->__process_tests($tests)) {
                 return false;
             }
@@ -354,15 +363,14 @@ class InstallerComponent extends Component {
                     return false;
                 }
             }
-            // End of validations
+            // End of field validations
 
-            // INSTALL
-            $installComponentPath = $this->options['type'] == 'theme' ? $packagePath . 'app' . DS . 'Theme' . $appName . DS . 'Controller' . DS . 'Component' . DS : $packagePath . 'Controller' . DS . 'Component' . DS;
-            $Install = $this->loadInstallComponent($installComponentPath);
             $r = true;
 
-            if (method_exists($Install, 'beforeInstall')) {
-                $r = $Install->beforeInstall($this);
+            if ($doUpdate) {
+                $r = $Install->beforeUpdate();
+            } elseif (method_exists($Install, 'beforeInstall')) {
+                $r = $Install->beforeInstall();
             }
 
             if ($r !== true) {
@@ -376,78 +384,80 @@ class InstallerComponent extends Component {
                 return false;
             }
 
-            // DB Logic
-            $moduleData = array(
-                'name' => ($this->options['type'] == 'module' ? $appName : 'Theme' . $appName),
-                'type' => ($this->options['type'] == 'module' ? 'module' : 'theme' ),
-                'status' => intval($this->options['status'])
-            );
+            if (!$doUpdate) {
+                // DB Logic
+                $moduleData = array(
+                    'name' => ($this->options['type'] == 'module' ? $appName : 'Theme' . $appName),
+                    'type' => ($this->options['type'] == 'module' ? 'module' : 'theme' ),
+                    'status' => intval($this->options['status'])
+                );
 
-            $this->Controller->Module->save($moduleData); # register module
+                $this->Controller->Module->save($moduleData); # register module
 
-            // Build ACOS && Register module in core
-            switch ($this->options['type']) {
-                case 'module':
-                    $this->buildAcos($appName);
-                break;
+                // Build ACOS && Register module in core
+                switch ($this->options['type']) {
+                    case 'module':
+                        $this->buildAcos($appName);
+                    break;
 
-                case 'theme':
-                    $this->buildAcos(
-                        'Theme' . $appName,
-                        THEMES . $appName . DS . 'app' . DS
+                    case 'theme':
+                        $this->buildAcos(
+                            'Theme' . $appName,
+                            THEMES . $appName . DS . 'app' . DS
+                        );
+
+                        App::build(array('plugins' => array(THEMES . $appName . DS . 'app' . DS)));
+                    break;
+                }
+
+                // copy block positions
+                if ($this->options['type'] == 'theme') {
+                    $BlockRegion = ClassRegistry::init('Block.BlockRegion');
+
+                    $BlockRegion->bindModel(
+                        array(
+                            'belongsTo' => array(
+                                'Block' => array(
+                                    'className' => 'Block.Block'
+                                )
+                            )
+                        )
                     );
 
-                    App::build(array('plugins' => array(THEMES . $appName . DS . 'app' . DS)));
-                break;
-            }
-
-            // copy block positions
-            if ($this->options['type'] == 'theme') {
-                $BlockRegion = ClassRegistry::init('Block.BlockRegion');
-
-                $BlockRegion->bindModel(
-                    array(
-                        'belongsTo' => array(
-                            'Block' => array(
-                                'className' => 'Block.Block'
+                    $regions = $BlockRegion->find('all',
+                        array(
+                            'conditions' => array(
+                                'BlockRegion.theme' => Inflector::camelize(Configure::read('Variable.site_theme')),
+                                'BlockRegion.region' => array_keys($yaml['regions'])
                             )
                         )
-                    )
-                );
+                    );
 
-                $regions = $BlockRegion->find('all',
-                    array(
-                        'conditions' => array(
-                            'BlockRegion.theme' => Inflector::camelize(Configure::read('Variable.site_theme')),
-                            'BlockRegion.region' => array_keys($yaml['regions'])
-                        )
-                    )
-                );
+                    foreach ($regions as $region) {
+                        if (strpos($region['Block']['module'], 'Theme') === 0) {
+                            continue;
+                        }
 
-                foreach ($regions as $region) {
-                    if (strpos($region['Block']['module'], 'Theme') === 0) {
-                        continue;
-                    }
+                        $region['BlockRegion']['theme'] = $appName;
+                        $region['BlockRegion']['ordering']++;
 
-                    $region['BlockRegion']['theme'] = $appName;
-                    $region['BlockRegion']['ordering']++;
+                        unset($region['BlockRegion']['id']);
+                        $BlockRegion->create();
 
-                    unset($region['BlockRegion']['id']);
-                    $BlockRegion->create();
+                        if ($BlockRegion->save($region['BlockRegion']) &&
+                            $region['Block']['id'] &&
+                            strpos($region['Block']['themes_cache'], ":{$appName}:") === false
+                        ) {
+                            $region['Block']['themes_cache'] .= ":{$appName}:";
+                            $region['Block']['themes_cache'] = str_replace('::', ':', $region['Block']['themes_cache']);
 
-                    if ($BlockRegion->save($region['BlockRegion']) &&
-                        $region['Block']['id'] &&
-                        strpos($region['Block']['themes_cache'], ":{$appName}:") === false
-                    ) {
-                        $region['Block']['themes_cache'] .= ":{$appName}:";
-                        $region['Block']['themes_cache'] = str_replace('::', ':', $region['Block']['themes_cache']);
-
-                        $BlockRegion->Block->save(
-                            array(
-                                'id' => $region['Block']['id'],
-                                'themes_cache' => $region['Block']['themes_cache']
-                            )
-                        );
+                            $BlockRegion->Block->save(
+                                array(
+                                    'id' => $region['Block']['id'],
+                                    'themes_cache' => $region['Block']['themes_cache']
+                                )
+                            );
+                        }
                     }
                 }
             }
@@ -456,8 +466,12 @@ class InstallerComponent extends Component {
             $Folder->delete($workingDir);
 
             // Finish
-            if (method_exists($Install, 'afterInstall')) {
-                $Install->afterInstall($this);
+            if ($doUpdate) {
+                if (method_exists($Install, 'afterUpdate')) {
+                    $Install->afterUpdate();
+                }
+            } elseif (!$doUpdate && method_exists($Install, 'afterInstall')) {
+                $Install->afterInstall();
             }
 
             $this->__clearCache();
@@ -541,7 +555,7 @@ class InstallerComponent extends Component {
         $r = true;
 
         if (method_exists($Install, 'beforeUninstall')) {
-            $r = $Install->beforeUninstall($this);
+            $r = $Install->beforeUninstall();
         }
 
         if ($r !== true) {
@@ -576,7 +590,7 @@ class InstallerComponent extends Component {
         }
 
         if (method_exists($Install, 'afterUninstall')) {
-            $Install->afterUninstall($this);
+            $Install->afterUninstall();
         }
 
         $this->afterUninstall();
@@ -1299,11 +1313,11 @@ class InstallerComponent extends Component {
 
         if ($to) {
             if (method_exists($Install, 'beforeEnable')) {
-                $r = $Install->beforeEnable($this);
+                $r = $Install->beforeEnable();
             }
         } else {
             if (method_exists($Install, 'beforeDisable')) {
-                $r = $Install->beforeDisable($this);
+                $r = $Install->beforeDisable();
             }
         }
 
@@ -1331,11 +1345,11 @@ class InstallerComponent extends Component {
 
         if ($to) {
             if (method_exists($Install, 'afterEnable')) {
-                $Install->afterEnable($this);
+                $Install->afterEnable();
             }
         } else {
             if (method_exists($Install, 'afterDisable')) {
-                $Install->afterDisable($this);
+                $Install->afterDisable();
             }
         }
 
