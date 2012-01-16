@@ -60,7 +60,7 @@ class Variable {
 		),
 		array(
 			'name' => 'site_theme',
-			'value' => 's:4:"Dark";'
+			'value' => 's:7:"Default";'
 		),
 		array(
 			'name' => 'user_default_avatar',
