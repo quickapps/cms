@@ -1,23 +1,22 @@
-# Dev Console
+# shell
 app/Plugin/System/Console/
 app/Cake/Console/
 
-# Tests
+# tests
 app/Cake/Test/
 app/Cake/TestSuite/
 
-# modules
+# site modules
 Modules/
 
-# themes
+# sie themes
 Themes/Themed/*
-!Themes/Themed/empty
 
-# site files
+# site webroot files
 webroot/files/*
 !webroot/files/slider
 
-# custom hooks
+# site hooks
 Hooks/*
 !Hooks/Helper/CustomHooktagsHelper.php
 
@@ -29,5 +28,5 @@ Config/install
 # development stuff
 dev/
 
-# cache
+# site cache
 tmp/
