@@ -1,5 +1,5 @@
 <?php
-class Field {
+class Fields {
 	public $table = 'fields';
 	public $records = array(
 		array(

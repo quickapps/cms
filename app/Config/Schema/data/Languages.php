@@ -1,5 +1,5 @@
 <?php
-class Language {
+class Languages {
 	public $table = 'languages';
 	public $records = array(
 		array(

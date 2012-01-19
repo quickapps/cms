@@ -1,5 +1,5 @@
 <?php
-class Comment {
+class Comments {
 	public $table = 'comments';
 	public $records = array(
 		array(

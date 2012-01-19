@@ -1,5 +1,5 @@
 <?php
-class Variable {
+class Variables {
 	public $table = 'variables';
 	public $records = array(
 		array(

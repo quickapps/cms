@@ -1,5 +1,5 @@
 <?php
-class Menu {
+class Menus {
 	public $table = 'menus';
 	public $records = array(
 		array(

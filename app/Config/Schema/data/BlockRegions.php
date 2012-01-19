@@ -1,5 +1,5 @@
 <?php
-class BlockRegion {
+class BlockRegions {
 	public $table = 'block_regions';
 	public $records = array(
 		array(

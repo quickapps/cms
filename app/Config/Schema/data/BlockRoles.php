@@ -1,5 +1,5 @@
 <?php
-class BlockRole {
+class BlockRoles {
 	public $table = 'block_roles';
 	public $records = array(
 		array(

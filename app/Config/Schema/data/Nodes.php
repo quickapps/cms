@@ -1,5 +1,5 @@
 <?php
-class Node {
+class Nodes {
 	public $table = 'nodes';
 	public $records = array(
 		array(

@@ -99,24 +99,12 @@ class SerializedBehavior extends ModelBehavior {
 
     public function unserialize($serialized) {
         $serialized = (string)$serialized;
-        $serialized = str_replace('@~n~@', "\n", $serialized);
-        $serialized = str_replace('@~r~@', "\r", $serialized);
 
-        if (is_string($serialized) && strpos($serialized, "\0") === false) {
-            if (strpos($serialized, 'O:') === false) {
-                return @unserialize($serialized);
-            } else if (!preg_match('/(^|;|{|})O:[0-9]+:"/', $serialized)) {
-                return @unserialize($serialized);
-            }
-        }
-
-        return false;
+        return @unserialize($serialized);
     }
 
     public function serialize($data) {
         $data = is_array($data) && empty($data) ? @serialize(array()) : @serialize($data);
-        $data = preg_replace("/\n/", '@~n~@', $data);
-        $data = preg_replace("/\r/", '@~r~@', $data);
 
         return $data;
     }

@@ -1,5 +1,5 @@
 <?php
-class Vocabulary {
+class Vocabularies {
 	public $table = 'vocabularies';
 	public $records = array(
 		array(

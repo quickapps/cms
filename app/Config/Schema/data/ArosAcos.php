@@ -1,5 +1,5 @@
 <?php
-class ArosAco {
+class ArosAcos {
 	public $table = 'aros_acos';
 	public $records = array(
 		array(

@@ -1,5 +1,5 @@
 <?php
-class Module {
+class Modules {
 	public $table = 'modules';
 	public $records = array(
 		array(
