@@ -32,36 +32,36 @@
         <?php echo $this->Html->useTag('fieldsetend'); ?>
 
         <?php echo $this->Html->useTag('fieldsetstart', __t('Cache this node for')); ?>
-                <?php
-                    echo $this->Form->input('cache',
-                        array(
-                            'type' => 'select',
-                            'label' => __t('Cache'),
-                            'options' => array(
-                                '' => __t('-- No Cache --'),
-                                '+1 hour' => __t('%s Hour', 1),
-                                '+2 hours' => __t('%s Hours', 2),
-                                '+4 hours' => __t('%s Hours', 3),
-                                '+7 hours' => __t('%s Hours', 7),
-                                '+11 hours' => __t('%s Hours', 11),
-                                '+16 hours' => __t('%s Hours', 16),
-                                '+22 hours' => __t('%s Hours', 22),
-                                '+1 day' => __t('%s Day', 1),
-                                '+3 day' => __t('%s Days', 3),
-                                '+5 day' => __t('%s Days', 5),
-                                '+1 week' => __t('%s Week', 1),
-                                '+2 weeks' => __t('%s Weeks', 2),
-                                '+3 weeks' => __t('%s Weeks', 3),
-                                '+1 month' => __t('%s Month', 1),
-                                '+3 months' => __t('%s Months', 3),
-                                '+6 months' => __t('%s Months', 6),
-                                '+9 months' => __t('%s Months', 9),
-                                '+1 year' => __t('%s Year', 1)
-                            )
+            <?php
+                echo $this->Form->input('cache',
+                    array(
+                        'type' => 'select',
+                        'label' => __t('Cache'),
+                        'options' => array(
+                            '' => __t('-- No Cache --'),
+                            '+1 hour' => __t('%s Hour', 1),
+                            '+2 hours' => __t('%s Hours', 2),
+                            '+4 hours' => __t('%s Hours', 3),
+                            '+7 hours' => __t('%s Hours', 7),
+                            '+11 hours' => __t('%s Hours', 11),
+                            '+16 hours' => __t('%s Hours', 16),
+                            '+22 hours' => __t('%s Hours', 22),
+                            '+1 day' => __t('%s Day', 1),
+                            '+3 day' => __t('%s Days', 3),
+                            '+5 day' => __t('%s Days', 5),
+                            '+1 week' => __t('%s Week', 1),
+                            '+2 weeks' => __t('%s Weeks', 2),
+                            '+3 weeks' => __t('%s Weeks', 3),
+                            '+1 month' => __t('%s Month', 1),
+                            '+3 months' => __t('%s Months', 3),
+                            '+6 months' => __t('%s Months', 6),
+                            '+9 months' => __t('%s Months', 9),
+                            '+1 year' => __t('%s Year', 1)
                         )
-                    );
-                ?>
-       <?php echo $this->Html->useTag('fieldsetend'); ?>
+                    )
+                );
+            ?>
+        <?php echo $this->Html->useTag('fieldsetend'); ?>
 
         <?php echo $this->Html->useTag('fieldsetstart', __t('Roles')); ?>
             <?php echo $this->Form->input('Role', array('options' => $roles, 'type' => 'select', 'multiple' => 'checkbox', 'label' => __t('Show content for specific roles'))); ?>
@@ -86,7 +86,7 @@
 
             <?php
                 $data = $this->data;
-                $params =  $this->Layout->hook('node_form_params', $data, array('collectReturn' => true));
+                $params = $this->Layout->hook('node_form_params', $data, array('collectReturn' => true));
 
                 echo implode("\n ", (array)$params);
             ?>
