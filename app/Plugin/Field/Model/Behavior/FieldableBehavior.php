@@ -189,6 +189,8 @@ class FieldableBehavior extends ModelBehavior {
         if ((isset($Model->fieldsNoFetch) && $Model->fieldsNoFetch) ||
             (isset($query['recursive']) && $query['recursive'] <= 0)
         ) {
+            $Model->fieldsNoFetch = true;
+
             $Model->unbindModel(
                 array(
                     'hasMany' => array('Field')
