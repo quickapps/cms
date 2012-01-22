@@ -516,6 +516,7 @@ CREATE TABLE `qa_nodes` (
   `node_type_id` varchar(32) COLLATE utf8_unicode_ci NOT NULL COMMENT 'The node_type.type of this node.',
   `node_type_base` varchar(36) COLLATE utf8_unicode_ci NOT NULL COMMENT 'performance data for models',
   `language` varchar(12) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'The languages.language of this node.',
+  `translation_of` text COLLATE utf8_unicode_ci,
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'The title of this node, always treated as non-markup plain text.',
   `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `slug` text COLLATE utf8_unicode_ci NOT NULL,
@@ -543,7 +544,7 @@ CREATE TABLE `qa_nodes` (
 
 LOCK TABLES `qa_nodes` WRITE;
 /*!40000 ALTER TABLE `qa_nodes` DISABLE KEYS */;
-INSERT INTO `qa_nodes` VALUES (1,'page','node','','Hooktags','','hooktags','','',1,1,1310424311,1310424311,1,0,0,0,0,'',NULL),(2,'page','node','','About','','about','','',1,1,1310424311,1310424311,1,0,1,1,0,'',NULL),(3,'article',' node','','My first article!','','my-first-article','1:announcements|9:cakephp-1|8:cms|7:quickapps','',1,1,1319979547,1319979547,1,2,1,0,0,'','a:1:{s:5:\"class\";s:0:\"\";}');
+INSERT INTO `qa_nodes` VALUES (1,'page','node','',NULL,'Hooktags','','hooktags','','',1,1,1310424311,1310424311,1,0,0,0,0,'',NULL),(2,'page','node','',NULL,'About','','about','','',1,1,1310424311,1310424311,1,0,1,1,0,'',NULL),(3,'article',' node','',NULL,'My first article!','','my-first-article','1:announcements|9:cakephp-1|8:cms|7:quickapps','',1,1,1319979547,1319979547,1,2,1,0,0,'','a:1:{s:5:\"class\";s:0:\"\";}');
 /*!40000 ALTER TABLE `qa_nodes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -810,4 +811,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-01-19 13:14:30
+-- Dump completed on 2012-01-23  0:16:44

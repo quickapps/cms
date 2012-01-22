@@ -27,10 +27,12 @@
                 <?php echo $this->Form->input('comment', array('type' => 'radio', 'legend' => false, 'separator' => '<br>', 'options' => array(2 => __t('Open'), 0 => __t('Closed'), 1 => __t('Read Only')))); ?>
             <?php echo $this->Html->useTag('fieldsetend'); ?>
 
-            <?php echo $this->Html->useTag('fieldsetstart', __t('Language')); ?>
-                <?php echo $this->Form->input('language', array('empty' => __t('-- Any --'), 'type' => 'select', 'label' => __t('Language'), 'options' => $languages)); ?>
-                <em><?php echo __t('If no language is selected (-- Any --), node will show regardless of language'); ?></em>
-            <?php echo $this->Html->useTag('fieldsetend'); ?>
+            <?php if (empty($this->data['Node']['translation_of'])): ?>
+                <?php echo $this->Html->useTag('fieldsetstart', __t('Language')); ?>
+                    <?php echo $this->Form->input('language', array('empty' => __t('-- Any --'), 'type' => 'select', 'label' => __t('Language'), 'options' => $languages)); ?>
+                    <em><?php echo __t('If no language is selected (-- Any --), node will show regardless of language'); ?></em>
+                <?php echo $this->Html->useTag('fieldsetend'); ?>
+            <?php endif; ?>
 
             <?php echo $this->Html->useTag('fieldsetstart', __t('Publishing')); ?>
                 <?php echo $this->Form->input('status', array('type' => 'checkbox', 'label' => __t('Published'), 'value' => 1)); ?>

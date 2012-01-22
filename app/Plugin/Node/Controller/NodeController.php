@@ -126,6 +126,38 @@ class NodeController extends NodeAppController {
             $this->Node->recursive = 2;
             $result = $this->Node->find('first', array('conditions' => $conditions));
 
+            // try to to find translation
+            if (!$result) {
+                $hasTranslation = $this->Node->find('first',
+                    array(
+                        'recursive' => -1,
+                        'conditions' => array(
+                            'Node.translation_of' => $slug,
+                            'Node.language' => Configure::read('Variable.language.code')
+                        )
+                    )
+                );
+
+                if ($hasTranslation) {
+                    $this->redirect("/{$type}/{$hasTranslation['Node']['slug']}.html");
+                }
+
+                $isTranslationOf = $this->Node->find('first',
+                    array(
+                        'recursive' => -1,
+                        'conditions' => array(
+                            'NOT' => array(
+                                'Node.translation_of' => null
+                            )
+                        )
+                    )
+                );
+
+                if ($isTranslationOf) {
+                    $this->redirect("/{$type}/{$isTranslationOf['Node']['translation_of']}.html");
+                }
+            }
+
             if (isset($result['Node']['cache']) && !empty($result['Node']['cache'])) { #in seconds
                 Cache::config('node_cache', array('engine' => 'File', 'duration' => $result['Node']['cache']));
                 Cache::write("node_{$slug}", $result, 'node_cache');

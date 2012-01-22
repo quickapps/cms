@@ -74,7 +74,7 @@ class Node extends NodeAppModel {
 
     public function beforeSave($options) {
         $roles = implode("|", Set::extract('/Role/Role', $this->data));
-        $this->data['Node']['roles_cache'] = !empty($roles) ? "|" . $roles . "|" : '';;
+        $this->data['Node']['roles_cache'] = !empty($roles) ? "|" . $roles . "|" : '';
 
         if (isset($this->data['Node']['node_type_base'])) {
             $this->data['Node']['node_type_base'] = Inflector::underscore($this->data['Node']['node_type_base']);
@@ -269,6 +269,59 @@ class Node extends NodeAppModel {
         $this->unbindComments();
 
         return (is_array($r) ? (!in_array(false, $r, true)) : ($r !== false));
+    }
+
+    public function createTranslation($slug, $language, $new_title = false) {
+        $languages = Configure::read('Variable.languages');
+
+        if (!in_array($language, Set::extract('/Language/code', $languages))) {
+            return false;
+        }
+
+        $invalid = $this->find('count',
+            array(
+                'conditions' => array(
+                    'Node.slug' => $slug,
+                    'NOT' => array(
+                        'Node.translation_of' => null
+                    )
+                )
+            )
+        );
+
+        if ($invalid) {
+            return false;
+        }
+
+        $original = $this->find('first',
+            array(
+                'conditions' => array('Node.slug' => $slug),
+                'recursive' => -1
+            )
+        );
+
+        if ($original) {
+            unset($original['Node']['id']);
+
+            $l = '';
+
+            foreach ($languages as $l) {
+                if ($l['Language']['code'] == $language) {
+                    $l = $l['Language']['name'];
+                    break;
+                }
+            }
+
+            $original['Node']['title'] = !$new_title ? "{$original['Node']['title']} ({$l})" : $new_title;
+            $original['Node']['regenerate_slug'] = true;
+            $original['Node']['language'] = $language;
+            $original['Node']['translation_of'] = $slug;
+            $original['Node']['status'] = 0;
+
+            return $this->save($original, false);
+        }
+
+        return false;
     }
 
     public function bindComments() {

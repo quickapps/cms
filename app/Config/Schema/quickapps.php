@@ -1,5 +1,5 @@
 <?php
-class quickappsSchema extends CakeSchema {
+class AppSchema extends CakeSchema {
 
 	public function before($event = array()) {
 		return true;
@@ -67,7 +67,7 @@ class quickappsSchema extends CakeSchema {
 	);
 	public $blocks = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary', 'collate' => NULL, 'comment' => 'Primary Key - Unique block ID.'),
-		'module' => array('type' => 'string', 'null' => false, 'length' => 64, 'collate' => 'utf8_unicode_ci', 'comment' => 'The module from which the block originates, for example: "User" for the Who\'s Online block, and "Block" for any custom blocks.', 'charset' => 'utf8'),
+		'module' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 64, 'collate' => 'utf8_unicode_ci', 'comment' => 'The module from which the block originates, for example: "User" for the Who\'s Online block, and "Block" for any custom blocks.', 'charset' => 'utf8'),
 		'delta' => array('type' => 'string', 'null' => false, 'default' => '0', 'length' => 32, 'collate' => 'utf8_unicode_ci', 'comment' => 'Unique ID for block within a module. Or menu_id', 'charset' => 'utf8'),
 		'clone_of' => array('type' => 'integer', 'null' => false, 'default' => '0', 'collate' => NULL, 'comment' => ''),
 		'themes_cache' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 200, 'collate' => 'utf8_unicode_ci', 'comment' => 'store all themes that belongs to (see block_regions table)', 'charset' => 'utf8'),
@@ -163,8 +163,8 @@ class quickappsSchema extends CakeSchema {
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'InnoDB')
 	);
 	public $menus = array(
-		'id' => array('type' => 'string', 'null' => false, 'length' => 32, 'key' => 'primary', 'collate' => 'utf8_unicode_ci', 'comment' => 'Primary Key: Unique key for menu. This is used as a block delta so length is 32.', 'charset' => 'utf8'),
-		'title' => array('type' => 'string', 'null' => false, 'collate' => 'utf8_unicode_ci', 'comment' => 'Menu title, displayed at top of block.', 'charset' => 'utf8'),
+		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 32, 'key' => 'primary', 'collate' => 'utf8_unicode_ci', 'comment' => 'Primary Key: Unique key for menu. This is used as a block delta so length is 32.', 'charset' => 'utf8'),
+		'title' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'comment' => 'Menu title, displayed at top of block.', 'charset' => 'utf8'),
 		'description' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'comment' => 'Menu description.', 'charset' => 'utf8'),
 		'module' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 128, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
@@ -180,11 +180,11 @@ class quickappsSchema extends CakeSchema {
 	);
 	public $node_types = array(
 		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_unicode_ci', 'comment' => 'The machine-readable name of this type.', 'charset' => 'utf8'),
-		'name' => array('type' => 'string', 'null' => false, 'collate' => 'utf8_unicode_ci', 'comment' => 'The human-readable name of this type.', 'charset' => 'utf8'),
+		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'comment' => 'The human-readable name of this type.', 'charset' => 'utf8'),
 		'base' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'comment' => 'The base string used to construct callbacks corresponding to this node type.', 'charset' => 'utf8'),
 		'module' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'comment' => 'The module defining this node type.', 'charset' => 'utf8'),
 		'description' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'comment' => 'A brief description of this type.', 'charset' => 'utf8'),
-		'title_label' => array('type' => 'string', 'null' => false, 'collate' => 'utf8_unicode_ci', 'comment' => 'The label displayed for the title field on the edit form.', 'charset' => 'utf8'),
+		'title_label' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'comment' => 'The label displayed for the title field on the edit form.', 'charset' => 'utf8'),
 		'comments_approve' => array('type' => 'boolean', 'null' => true, 'default' => '0', 'collate' => NULL, 'comment' => ''),
 		'comments_per_page' => array('type' => 'integer', 'null' => false, 'default' => '10', 'length' => 4, 'collate' => NULL, 'comment' => ''),
 		'comments_anonymous' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 3, 'collate' => NULL, 'comment' => ''),
@@ -205,6 +205,7 @@ class quickappsSchema extends CakeSchema {
 		'node_type_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 32, 'key' => 'index', 'collate' => 'utf8_unicode_ci', 'comment' => 'The node_type.type of this node.', 'charset' => 'utf8'),
 		'node_type_base' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_unicode_ci', 'comment' => 'performance data for models', 'charset' => 'utf8'),
 		'language' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 12, 'collate' => 'utf8_unicode_ci', 'comment' => 'The languages.language of this node.', 'charset' => 'utf8'),
+		'translation_of' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
 		'title' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'comment' => 'The title of this node, always treated as non-markup plain text.', 'charset' => 'utf8'),
 		'description' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
 		'slug' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),

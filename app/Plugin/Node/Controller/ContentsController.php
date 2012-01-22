@@ -101,6 +101,53 @@ class ContentsController extends NodeAppController {
         $this->set('types', $this->Node->NodeType->find('list'));
     }
 
+    public function admin_translate($slug) {
+        $node = $this->Node->find('first',
+            array(
+                'conditions' => array(
+                    'Node.slug' => $slug,
+                    'Node.language LIKE' => '___',
+                    'Node.translation_of' => null
+                )
+            )
+        );
+
+        if (!$node) {
+            $this->redirect('/admin/node/contents');
+        }
+
+        if (isset($this->data['Node']['title']) && !empty($this->data['Node']['language'])) {
+            if (!empty($this->data['Node']['title'])) {
+                if ($translated = $this->Node->createTranslation($slug, $this->data['Node']['language'], $this->data['Node']['title'])) {
+                    $this->redirect("/admin/node/contents/edit/{$translated['Node']['slug']}");
+                }
+            } else {
+                $this->Node->invalidate('title');
+            }
+        }
+
+        $this->data = $node;
+        $translations = $this->Node->find('all',
+            array(
+                'conditions' => array('Node.translation_of' => $slug),
+                'recursive' => -1,
+                'fields' => array('id', 'title', 'slug', 'language')
+            )
+        );
+
+        if (!$node) {
+            $this->redirect('/admin/node/contents');
+        }
+
+        $this->set('translations', $translations);
+        $this->__setLangVar();
+        $this->setCrumb(
+            '/admin/node/contents',
+            array(__t('Translate Content'))
+        );
+        $this->title(__t('Translating Content'));
+    }
+
     public function admin_edit($slug = null) {
         $this->Node->recursive = 1;
 
