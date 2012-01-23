@@ -199,6 +199,27 @@ class ContentsController extends NodeAppController {
             $this->set('vocabularies', $this->__typeTerms($this->data['NodeType']));
         }
 
+        if ($this->data['Node']['translation_of']) {
+            $parent = $this->Node->find('count',
+                array(
+                    'conditions' => array('Node.slug' => $this->data['Node']['translation_of'])
+                )
+            );
+
+            if (!$parent) {
+                $this->flashMsg(__t('Missing parent content. This is translated content, and reference a missing parent content.'), 'alert');
+            }
+        }
+
+        $translations = $this->Node->find('all',
+            array(
+                'conditions' => array('Node.translation_of' => $slug),
+                'recursive' => -1,
+                'fields' => array('id', 'title', 'slug', 'language')
+            )
+        );
+
+        $this->set('translations', $translations);
         $this->setCrumb('/admin/node/contents');
         $this->title(__t('Editing Content'));
     }

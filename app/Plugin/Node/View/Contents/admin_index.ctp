@@ -36,7 +36,7 @@ $tSettings = array(
         ),
         __t('Actions') => array(
             'value' => "
-                {php} return ('{Node.translation_of}') ? '' : \"<a href='{url}/admin/node/contents/translate/{Node.slug}{/url}'>" . __t('translate') . "</a> |\"; {/php}
+                {php} return (!'{Node.translation_of}' && '{Node.language}') ? \"<a href='{url}/admin/node/contents/translate/{Node.slug}{/url}'>" . __t('translate') . "</a> |\" : ''; {/php}
                 <a href='{url}/admin/node/contents/edit/{Node.slug}{/url}'>" . __t('edit') . "</a> |
                 <a href='{url}/admin/node/contents/delete/{Node.slug}{/url}' onclick=\"return confirm('" . __t('Delete selected content ?') . "');\">" . __t('delete') . "</a>",
             'thOptions' => array('align' => 'right'),

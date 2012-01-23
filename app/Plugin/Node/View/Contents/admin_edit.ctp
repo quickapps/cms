@@ -9,6 +9,10 @@
             <?php echo $this->Form->input('Node.title', array('required' => 'required', 'label' => __t($this->data['NodeType']['title_label']) . ' *')); ?>
             <em><?php echo __t('Slug: %s', $this->data['Node']['slug']); ?></em>
 
+            <?php if (!empty($this->data['Node']['translation_of'])): ?>
+            <br /><em><?php echo __t('Translation for: %s [%s]', $this->Html->link($this->data['Node']['translation_of'], "/admin/node/contents/edit/{$this->data['Node']['translation_of']}"), $this->data['Node']['language']); ?></em>
+            <?php endif; ?>
+
             <p>
                 <?php echo $this->Form->input('regenerate_slug', array('type' => 'checkbox', 'label' => __t('Regenerate slug'))); ?>
                 <em><?php echo __t('If this option is checked and title has changed then a new slug is generated.'); ?></em>
@@ -101,6 +105,19 @@
                 ?>
             <?php echo $this->Html->useTag('fieldsetend'); ?>
         <?php echo $this->Html->useTag('fieldsetend'); ?>
+
+        <?php if (!empty($translations)): ?>
+        <?php echo $this->Html->useTag('fieldsetstart', __t('Available Translations')); ?>
+        <ul>
+        <?php foreach ($translations as $t): ?>
+            <li>
+                <?php echo $this->Html->link($t['Node']['title'], "/admin/node/contents/edit/{$t['Node']['slug']}"); ?> [<?php echo $t['Node']['language']; ?>] | 
+                <?php echo $this->Html->link(__t('delete'), "/admin/node/contents/delete/{$t['Node']['slug']}", array('onClick' => "return confirm('" . __t('Delete selected content ?') . "');")); ?>
+            </li>
+        <?php endforeach; ?>
+        </ul>
+        <?php echo $this->Html->useTag('fieldsetend'); ?>
+        <?php endif; ?>
 
         <!-- Submit -->
         <?php echo $this->Form->input(__t('Save content'), array('type' => 'submit')); ?>
