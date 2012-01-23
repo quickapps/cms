@@ -250,7 +250,9 @@ class HookCollectionBehavior extends ModelBehavior {
                     $methods[] = $method;
 
                     if (isset($this->__map[$method])) {
-                        $this->__map[$method][] = (string)$behavior;
+                        if (!in_array($behavior, $this->__map[$method])) {
+                            $this->__map[$method][] = (string)$behavior;
+                        }
                     } else {
                         $this->__map[$method] = array((string)$behavior);
                     }

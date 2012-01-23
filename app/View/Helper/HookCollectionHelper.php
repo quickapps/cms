@@ -262,7 +262,9 @@ class HookCollectionHelper extends AppHelper {
                     $methods[] = $method;
 
                     if (isset($this->__map[$method])) {
-                        $this->__map[$method][] = (string)$helper;
+                        if (!in_array($helper, $this->__map[$method])) {
+                            $this->__map[$method][] = (string)$helper;
+                        }
                     } else {
                         $this->__map[$method] = array((string)$helper);
                     }

@@ -261,7 +261,9 @@ class HookCollectionComponent extends Component {
                     $methods[] = $method;
 
                     if (isset($this->__map[$method])) {
-                        $this->__map[$method][] = (string)$component;
+                        if (!in_array($component, $this->__map[$method])) {
+                            $this->__map[$method][] = (string)$component;
+                        }
                     } else {
                         $this->__map[$method] = array((string)$component);
                     }
