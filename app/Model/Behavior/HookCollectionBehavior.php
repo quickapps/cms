@@ -18,7 +18,7 @@ class HookCollectionBehavior extends ModelBehavior {
 
     public function setup($Model, $settings = array()) {
         $this->__model = $Model;
-        return $this->__loadHooks();
+        $this->__loadHooks();
     }
 
 /**
@@ -234,6 +234,10 @@ class HookCollectionBehavior extends ModelBehavior {
     }
 
     private function __loadHooks() {
+        if (!empty($this->__map)) {
+            return;
+        }
+
         foreach ((array)Configure::read('Hook.behaviors') as $behavior) {
             $pluginSplit = pluginSplit($behavior);
             $behavior = $pluginSplit[1];
