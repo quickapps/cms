@@ -523,7 +523,7 @@ class InstallerComponent extends Component {
         // useful for before/afterUninstall
         $this->options['type'] = $pData['Module']['type'];
         $this->options['__data'] = $pData;
-        $this->options['__path'] = $pData['Module']['type'] == 'theme' ? THEMES . str_replace('Theme', '', $Name) . DS . 'app' . DS . $Name . DS : CakePlugin::path($Name);
+        $this->options['__path'] = $pData['Module']['type'] == 'theme' ? THEMES . preg_replace('/^Theme/', '', $Name) . DS . 'app' . DS . $Name . DS : CakePlugin::path($Name);
         $this->options['__Name'] = $Name;
 
         // check if can be deleted
@@ -572,14 +572,14 @@ class InstallerComponent extends Component {
          * the in-use-theme is being deleted.
          */
         if ($this->options['type'] == 'theme') {
-            if (Configure::read('Variable.site_theme') == str_replace('Theme', '', $Name)) {
+            if (Configure::read('Variable.site_theme') == preg_replace('/^Theme/', '', $Name)) {
                 ClassRegistry::init('System.Variable')->save(
                     array(
                         'name' => 'site_theme',
                         'value' => 'Default'
                     )
                 );
-            } elseif (Configure::read('Variable.admin_theme') == str_replace('Theme', '', $Name)) {
+            } elseif (Configure::read('Variable.admin_theme') == preg_replace('/^Theme/', '', $Name)) {
                 ClassRegistry::init('System.Variable')->save(
                     array(
                         'name' => 'admin_theme',
@@ -667,7 +667,7 @@ class InstallerComponent extends Component {
 
         // delete blocks position
         if ($this->options['type'] == 'theme') {
-            $themeName = str_replace('Theme', '', $this->options['__Name']);
+            $themeName = preg_replace('/^Theme/', '', $this->options['__Name']);
             $BlockRegion = ClassRegistry::init('Block.BlockRegion');
 
             $BlockRegion->bindModel(
@@ -1257,8 +1257,8 @@ class InstallerComponent extends Component {
     private function __toggleModule($module, $to) {
         $module = Inflector::camelize($module);
         $isTheme = strpos($module, 'Theme') === 0;
-        $path =  $isTheme ? THEMES . str_replace('Theme', '', $module) . DS . 'app' . DS . $module . DS : CakePlugin::path($module);
-        $yamlPath = $isTheme ? THEMES . str_replace('Theme', '', $module) . DS . str_replace('Theme', '', $module) . '.yaml' : CakePlugin::path($module) . "{$module}.yaml";
+        $path =  $isTheme ? THEMES . preg_replace('/^Theme/', '', $module) . DS . 'app' . DS . $module . DS : CakePlugin::path($module);
+        $yamlPath = $isTheme ? THEMES . preg_replace('/^Theme/', '', $module) . DS . preg_replace('/^Theme/', '', $module) . '.yaml' : CakePlugin::path($module) . "{$module}.yaml";
         $Install =& $this->loadInstallComponent($path . 'Controller' . DS . 'Component' . DS);
         $this->options = array(
             'name' => $module,

@@ -142,7 +142,7 @@ Cache::config('default', array('engine' => 'File'));
             }
 
             if (!$__coreThemesCache && isCoreTheme($plugin)) {
-                $__coreThemes[] = str_replace_once('Theme', '', $plugin);
+                $__coreThemes[] = preg_replace('/^Theme/', '', $plugin);
             }
         }
 

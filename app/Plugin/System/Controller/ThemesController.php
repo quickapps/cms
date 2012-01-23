@@ -131,7 +131,7 @@ class ThemesController extends SystemAppController {
 
         foreach ($_themes as $theme) {
             $ThemeName = Inflector::camelize($theme['Module']['name']);
-            $folder = str_replace('Theme', '', $ThemeName);
+            $folder = preg_replace('/^Theme/', '', $ThemeName);
             $themes[$folder] = $theme['Module'];
             $yaml = App::themePath($folder) ."{$folder}.yaml";
 
