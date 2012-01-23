@@ -15,34 +15,36 @@ class FieldTermsHookBehavior extends ModelBehavior {
  */
     public function field_terms_before_save($info) {
         foreach ($info['Model']->data['FieldData']['FieldTerms'] as $field_instance_id => $post) {
-            $data = explode(',', $post['data']);
+            if (is_string($post['data'])) {
+                $data = explode(',', $post['data']);
 
-            foreach ($data as &$id) {
-                if (!is_numeric($id)) {
-                    $field_instance = ClassRegistry::init('Field.Field')->find('first',
-                        array(
-                            'conditions' => array(
-                                'Field.id' => $field_instance_id
-                            ),
-                            'recursive' => -1
-                        )
-                    );
+                foreach ($data as &$id) {
+                    if (!is_numeric($id)) {
+                        $field_instance = ClassRegistry::init('Field.Field')->find('first',
+                            array(
+                                'conditions' => array(
+                                    'Field.id' => $field_instance_id
+                                ),
+                                'recursive' => -1
+                            )
+                        );
 
-                    ClassRegistry::init('Taxonomy.Term')->create();
+                        ClassRegistry::init('Taxonomy.Term')->create();
 
-                    $new_term = ClassRegistry::init('Taxonomy.Term')->save(
-                        array(
-                            'name' => $id,
-                            'vocabulary_id' => $field_instance['Field']['settings']['vocabulary']
-                        )
-                    );
+                        $new_term = ClassRegistry::init('Taxonomy.Term')->save(
+                            array(
+                                'name' => $id,
+                                'vocabulary_id' => $field_instance['Field']['settings']['vocabulary']
+                            )
+                        );
 
-                    $id = $new_term['Term']['id'];
+                        $id = $new_term['Term']['id'];
+                    }
                 }
-            }
 
-            $post['data'] = implode(',', $data);
-            $info['Model']->data['FieldData']['FieldTerms'][$field_instance_id] = $post;
+                $post['data'] = implode(',', $data);
+                $info['Model']->data['FieldData']['FieldTerms'][$field_instance_id] = $post;
+            }
         }
 
         if (isset($info['Model']->data['FieldData']['FieldTerms']) &&
@@ -71,7 +73,10 @@ class FieldTermsHookBehavior extends ModelBehavior {
 
             if (!empty($_terms_ids)) {
                 foreach ($_terms_ids as $key => $ids) {
-                    $ids = explode(',', $ids);
+                    if (is_string($ids)) {
+                        $ids = explode(',', $ids);
+                    }
+
                     $terms_ids = array_merge($terms_ids, $ids);
                 }
             }
@@ -100,7 +105,7 @@ class FieldTermsHookBehavior extends ModelBehavior {
             return true;
         }
 
-        $info['id'] =  empty($info['id']) || !isset($info['id']) ? null : $info['id'];
+        $info['id'] = empty($info['id']) || !isset($info['id']) ? null : $info['id'];
         $data['FieldData'] = array(
             'id' => $info['id'],
             'field_id' => $info['field_id'],
@@ -109,6 +114,7 @@ class FieldTermsHookBehavior extends ModelBehavior {
             'foreignKey' => $info['Model']->id
         );
 
+        ClassRegistry::init('Field.FieldData')->create();
         ClassRegistry::init('Field.FieldData')->save($data);
 
         return true;
