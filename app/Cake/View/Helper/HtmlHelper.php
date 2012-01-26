@@ -232,7 +232,7 @@ class HtmlHelper extends AppHelper {
  *
  * ### Options
  *
- * - `inline` Whether or not the link element should be output inline. Set to false to 
+ * - `inline` Whether or not the link element should be output inline. Set to false to
  *   have the meta tag included in `$scripts_for_layout`, and appended to the 'meta' view block.
  * - `block` Choose a custom block to append the meta tag to.  Using this option
  *   will override the inline option.
@@ -401,7 +401,7 @@ class HtmlHelper extends AppHelper {
  *
  * ### Options
  *
- * - `inline` If set to false, the generated tag will be appended to the 'css' block, 
+ * - `inline` If set to false, the generated tag will be appended to the 'css' block,
  *   and included in the `$scripts_for_layout` layout variable. Defaults to true.
  * - `block` Set the name of the block link/style tag will be appended to.  This overrides the `inline`
  *   option.
@@ -455,12 +455,12 @@ class HtmlHelper extends AppHelper {
 		}
 
 		if ($rel == 'import') {
-			$out = sprintf($this->_tags['style'], $this->_parseAttributes($options, array('inline'), '', ' '), '@import url(' . $url . ');');
+			$out = sprintf($this->_tags['style'], $this->_parseAttributes($options, array('inline', 'block'), '', ' '), '@import url(' . $url . ');');
 		} else {
 			if ($rel == null) {
 				$rel = 'stylesheet';
 			}
-			$out = sprintf($this->_tags['css'], $rel, $url, $this->_parseAttributes($options, array('inline'), '', ' '));
+			$out = sprintf($this->_tags['css'], $rel, $url, $this->_parseAttributes($options, array('inline', 'block'), '', ' '));
 		}
 
 		if (empty($options['block'])) {
@@ -658,8 +658,16 @@ class HtmlHelper extends AppHelper {
 /**
  * Returns the breadcrumb trail as a sequence of &raquo;-separated links.
  *
+ * If `$startText` is an array, the accepted keys are:
+ *
+ * - `text` Define the text/content for the link.
+ * - `url` Define the target of the created link.
+ *
+ * All other keys will be passed to HtmlHelper::link() as the `$options` parameter.
+ *
  * @param string $separator Text to separate crumbs.
- * @param string $startText This will be the first crumb, if false it defaults to first crumb in array
+ * @param mixed $startText This will be the first crumb, if false it defaults to first crumb in array. Can
+ *   also be an array, see above for details.
  * @return string Composed bread crumbs
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/html.html#creating-breadcrumb-trails-with-htmlhelper
  */
@@ -667,7 +675,17 @@ class HtmlHelper extends AppHelper {
 		if (!empty($this->_crumbs)) {
 			$out = array();
 			if ($startText) {
-				$out[] = $this->link($startText, '/');
+				if (!is_array($startText)) {
+					$startText = array(
+						'url' => '/',
+						'text' => $startText
+					);
+				}
+				$startText += array('url' => '/', 'text' => __('Home'));
+				list($url, $text) = array($startText['url'], $startText['text']);
+				unset($startText['url'], $startText['text']);
+
+				$out[] = $this->link($text, $url, $startText);
 			}
 
 			foreach ($this->_crumbs as $crumb) {
@@ -720,11 +738,11 @@ class HtmlHelper extends AppHelper {
 	}
 
 /**
- * Creates a formatted IMG element. If `$options['url']` is provided, an image link will be
- * generated with the link pointed at `$options['url']`.  This method will set an empty
- * alt attribute if one is not supplied.
+ * Creates a formatted IMG element.
  *
- * ### Usage
+ * This method will set an empty alt attribute if one is not supplied.
+ *
+ * ### Usage:
  *
  * Create a regular image:
  *
@@ -734,8 +752,15 @@ class HtmlHelper extends AppHelper {
  *
  * `echo $html->image('cake_icon.png', array('alt' => 'CakePHP', 'url' => 'http://cakephp.org'));`
  *
+ * ### Options:
+ *
+ * - `url` If provided an image link will be generated and the link will point at
+ *   `$options['url']`.
+ * - `fullBase` If provided the src attribute will get a full addres (non-relative url) for 
+ *   the image file.
+ *
  * @param string $path Path to the image file, relative to the app/webroot/img/ directory.
- * @param array $options Array of HTML attributes.
+ * @param array $options Array of HTML attributes.  See above for special options.
  * @return string completed img tag
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/html.html#HtmlHelper::image
  */
@@ -747,6 +772,11 @@ class HtmlHelper extends AppHelper {
 				$path = IMAGES_URL . $path;
 			}
 			$path = $this->assetTimestamp($this->webroot($path));
+		}
+		
+		if (!empty($options['fullBase'])) {
+			$path = $this->url('/', true) . $path;
+			unset($options['fullBase']);
 		}
 
 		if (!isset($options['alt'])) {
