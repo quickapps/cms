@@ -132,6 +132,7 @@ class NodeController extends NodeAppController {
                     array(
                         'recursive' => -1,
                         'conditions' => array(
+                            'Node.status' => 1,
                             'Node.translation_of' => $slug,
                             'Node.language' => Configure::read('Variable.language.code')
                         )
@@ -146,6 +147,7 @@ class NodeController extends NodeAppController {
                     array(
                         'recursive' => -1,
                         'conditions' => array(
+                            'status' => 1,
                             'NOT' => array(
                                 'Node.translation_of' => null
                             )
