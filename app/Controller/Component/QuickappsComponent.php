@@ -312,16 +312,17 @@ class QuickAppsComponent extends Component {
             $this->Controller->Auth->allowedActions = array('*');
         } else {
             $roleId = $this->Controller->Auth->user() ? $this->Controller->Auth->user('role_id') : 3; # 3: anonymous user (public)
-            $aro = $this->Controller->Acl->Aro->find('first',
+            $aro = $this->Controller->Acl->Aro->find('all',
                 array(
                     'conditions' => array(
                         'Aro.model' => 'User.Role',
                         'Aro.foreign_key' => $roleId, # roles! array of ids
                     ),
+                    'fields' => array('Aro.id'),
                     'recursive' => -1,
                 )
             );
-            $aroId = $aro['Aro']['id'];
+            $aroId = Set::extract('/Aro/id', $aro);
 
             # get current plugin ACO
             $pluginNode = $this->Controller->Acl->Aco->find('first',
