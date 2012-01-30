@@ -39,4 +39,14 @@ class BlockHooktagsHelper extends AppHelper {
             )
         );
     }
+
+    public function blocks_in($options) {
+        extract($options);
+
+        if (!isset($region)) {
+            return;
+        }
+
+        return $this->_View->Layout->blocks($region);
+    }
 }
