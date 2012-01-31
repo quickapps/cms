@@ -64,8 +64,8 @@ class InstallController extends Controller {
 
         $tests = array(
             'php' => array(
-                'test' => version_compare(PHP_VERSION, '5.2.6', '>='),
-                'msg' => __t('Your php version is not suported. check that your version is 5.2 or newer.')
+                'test' => version_compare(PHP_VERSION, '5.2.8', '>='),
+                'msg' => __t('Your php version is not suported. check that your version is 5.2.8 or newer.')
             ),
             'mysql' => array(
                 'test' => (extension_loaded('mysql') || extension_loaded('mysqli')),
