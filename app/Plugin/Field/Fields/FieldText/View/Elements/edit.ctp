@@ -25,7 +25,6 @@
         echo $this->Form->input("FieldData.FieldText.{$field['id']}.data", $options);
         echo $this->Form->hidden("FieldData.FieldText.{$field['id']}.id", array('value' => $field['FieldData']['id']));
     }
-
 ?>
 
 <?php if (!empty($field['description'])): ?>

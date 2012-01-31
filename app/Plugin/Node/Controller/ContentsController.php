@@ -207,7 +207,7 @@ class ContentsController extends NodeAppController {
             );
 
             if (!$parent) {
-                $this->flashMsg(__t('Missing parent content. This is translated content, and reference a missing parent content.'), 'alert');
+                $this->flashMsg(__t('Missing parent content. This is a translated content, and reference a missing parent content.'), 'alert');
             }
         }
 
