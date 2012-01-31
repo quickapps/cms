@@ -147,6 +147,7 @@ class NodeController extends NodeAppController {
                     array(
                         'recursive' => -1,
                         'conditions' => array(
+                            'slug' => $slug,
                             'status' => 1,
                             'NOT' => array(
                                 'Node.translation_of' => null
