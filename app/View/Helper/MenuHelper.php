@@ -366,6 +366,12 @@ class MenuHelper extends AppHelper {
                 empty($elementData['data'][$this->__settings['model']][$this->__settings['external_url']])
             ) {
                 $this->addItemAttribute('class', $this->__settings['selectedClass']);
+            } elseif (
+                preg_match('/\/(.*)\.html$/', $link_url) &&
+                isset($this->_View->viewVars['Layout']['node']['Node']['translation_of']) &&
+                strpos($link_url, "/{$this->_View->viewVars['Layout']['node']['Node']['translation_of']}.html") !== false
+            ) {
+                $this->addItemAttribute('class', $this->__settings['selectedClass']);
             } elseif (str_replace_once('/' . Configure::read('Config.language'), '', $link_url) == '/' && $this->_View->here === str_replace_once('/' . Configure::read('Config.language'), '', $this->_View->Html->url('/'))) {
                 $this->addItemAttribute('class', $this->__settings['selectedClass']);
             } elseif (
