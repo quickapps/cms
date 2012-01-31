@@ -26,7 +26,12 @@ class InstallerComponent extends Component {
 
 /**
  * Begins install process for the specified package.
- * Expected module package estructure:
+ * And update will be performed if:
+ *  - Module/theme is already installed.
+ *  - The module/theme being installed is newer than the installed (higher version number).
+ *  - The module/theme has the `beforeUpdate` callback on its `InstallComponent` class.
+ *
+ * ####Expected module package estructure:
  * ZIP:
  *      - ModuleFolderName/
  *          - Config/
@@ -37,7 +42,7 @@ class InstallerComponent extends Component {
  *                  - InstallComponent.php
  *          - ModuleFolderName.yaml
  *
- * Expected theme package estructure:
+ * ####Expected theme package estructure:
  * ZIP:
  *      - CamelCaseThemeName/
  *          - Layouts/
@@ -244,10 +249,17 @@ class InstallerComponent extends Component {
                 break;
             }
 
+            //Load YAML
+            $yaml = Spyc::YAMLLoad($packagePath . "{$appName}.yaml");
+
             // Install component
             $installComponentPath = $this->options['type'] == 'theme' ? $packagePath . 'app' . DS . 'Theme' . $appName . DS . 'Controller' . DS . 'Component' . DS : $packagePath . 'Controller' . DS . 'Component' . DS;
             $Install = $this->loadInstallComponent($installComponentPath);
             $doUpdate = !$tests['notAlreadyInstalled']['test'] && method_exists($Install, 'beforeUpdate');
+
+            if ($doUpdate && $this->options['type'] == 'module') {
+                $doUpdate = isset($yaml['version']) ? version_compare(Configure::read("Modules.{$appName}.yaml.version"), $yaml['version'], '<') : false;
+            }
 
             if ($doUpdate) {
                 unset($tests['notAlreadyInstalled']);
@@ -257,9 +269,7 @@ class InstallerComponent extends Component {
                 return false;
             }
 
-            // YAML validations
-            $yaml = Spyc::YAMLLoad($packagePath . "{$appName}.yaml");
-
+            //YAML validation
             switch ($this->options['type']) {
                 case 'module':
                     default:
