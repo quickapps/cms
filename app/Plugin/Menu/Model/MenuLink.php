@@ -68,7 +68,7 @@ class MenuLink extends MenuAppModel {
             return false;
         }
 
-        if ($value[0] !== '/') {
+        if (!in_array($value[0], array('/', '#'))) {
             $this->data['MenuLink']['link_path'] = $value;
             $this->data['MenuLink']['router_path'] = null;
 
