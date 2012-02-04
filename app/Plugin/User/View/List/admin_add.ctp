@@ -16,7 +16,7 @@
         <?php echo $this->Form->input('timezone', array('type' => 'select', 'options' => QALocale::time_zones(), 'label' => __t('Time zone'))); ?>
         <?php echo $this->Form->input('password', array('type' => 'password', 'label' => __t('Password'), 'value' => '')); ?>
         <?php echo $this->Form->input('password2', array('type' => 'password', 'label' => __t('Confirm password'))); ?>
-        <?php echo $this->Form->input('Role.Role', array('type' => 'select', 'multiple' => 'checkbox', 'label' => __t('User roles'), 'options' => $roles)); ?>
+        <?php echo $this->Form->input('Role.Role', array('type' => 'select', 'multiple' => true, 'label' => __t('User roles'), 'options' => $roles)); ?>
 
         <?php foreach ($fields as $field): ?>
             <?php echo $this->Layout->hook("{$field['Field']['field_module']}_edit", $field['Field'], array('collectReturn' => false)); ?>

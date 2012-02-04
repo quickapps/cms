@@ -18,7 +18,7 @@
                 $langs = array();
                 foreach (Configure::read('Variable.languages') as $lang) $langs[$lang['Language']['code']] = $lang['Language']['name'];
             ?>
-            <?php echo $this->Form->input('locale', array('options' => $langs, 'type' => 'select', 'selected' => Set::extract('/Block/locale', $this->data), 'multiple' => 'checkbox', 'label' => __t('Show this block for these languages'))); ?>
+            <?php echo $this->Form->input('locale', array('options' => $langs, 'type' => 'select', 'selected' => Set::extract('/Block/locale', $this->data), 'multiple' => true, 'label' => __t('Show this block for these languages'))); ?>
             <em><?php echo __t('If no language is selected, block will show regardless of language.'); ?></em>
         <?php echo $this->Html->useTag('fieldsetend'); ?>
     <?php echo $this->Html->useTag('fieldsetend'); ?>
@@ -60,7 +60,7 @@
         <?php echo $this->Html->useTag('fieldsetend'); ?>
 
         <?php echo $this->Html->useTag('fieldsetstart', __t('Roles')); ?>
-            <?php echo $this->Form->input('Role', array('options' => $roles, 'type' => 'select', 'multiple' => 'checkbox', 'label' => __t('Show block for specific roles'))); ?>
+            <?php echo $this->Form->input('Role', array('options' => $roles, 'type' => 'select', 'multiple' => true, 'label' => __t('Show block for specific roles'))); ?>
             <em><?php echo __t("Show this block only for the selected role(s). If you select no roles, the block will be visible to all users."); ?></em>
         <?php echo $this->Html->useTag('fieldsetend'); ?>
 
@@ -69,8 +69,7 @@
             <em><?php echo __t('A suffix to be applied to the CSS class of the block. This allows for individual block styling.'); ?></em>
 
             <?php
-                $data = $this->data['Block'];
-                $params =  $this->Layout->hook('block_form_params', $data, array('collectReturn' => true));
+                $params =  $this->Layout->hook('block_form_params', $data = null, array('collectReturn' => true));
 
                 echo implode("\n ", (array)$params);
             ?>

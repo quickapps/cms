@@ -18,7 +18,7 @@
         <?php echo $this->Form->input('password', array('type' => 'password', 'label' => __t('New password'), 'value' => '')); ?>
         <?php echo $this->Form->input('password2', array('type' => 'password', 'label' => __t('Confirm password'))); ?>
         <em><?php echo __t('If you would like to change the password type a new one. Otherwise leave this blank.'); ?></em>
-        <?php echo $this->Form->input('Role.Role', array('type' => 'select', 'multiple' => 'checkbox', 'label' => __t('User roles'), 'options' => $roles)); ?>
+        <?php echo $this->Form->input('Role.Role', array('type' => 'select', 'multiple' => true, 'label' => __t('User roles'), 'options' => $roles)); ?>
 
         <?php foreach ($this->data['Field'] as $field): ?>
             <?php echo $this->Layout->renderField($field, true); ?>

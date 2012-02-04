@@ -7,7 +7,8 @@
             <?php echo $this->Form->hidden('node_type_base'); ?>
             <?php echo $this->Form->hidden('id'); ?>
             <?php echo $this->Form->input('Node.title', array('required' => 'required', 'label' => __t($this->data['NodeType']['title_label']) . ' *')); ?>
-            <em><?php echo __t('Slug: %s', $this->data['Node']['slug']); ?></em>
+            <em><?php echo __t('Slug: %s', $this->data['Node']['slug']); ?></em><br />
+            <em><?php echo __t('URL: %s', $this->Html->link("/{$this->data['Node']['node_type_id']}/{$this->data['Node']['slug']}.html", "/{$this->data['Node']['node_type_id']}/{$this->data['Node']['slug']}.html", array('target' => '_blank'))); ?></em>
 
             <?php if (!empty($this->data['Node']['translation_of'])): ?>
             <br /><em><?php echo __t('Translation for: %s [%s]', $this->Html->link($this->data['Node']['translation_of'], "/admin/node/contents/edit/{$this->data['Node']['translation_of']}"), $this->data['Node']['language']); ?></em>
@@ -74,10 +75,10 @@
                         )
                     );
                 ?>
-           <?php echo $this->Html->useTag('fieldsetend'); ?>
+            <?php echo $this->Html->useTag('fieldsetend'); ?>
 
             <?php echo $this->Html->useTag('fieldsetstart', __t('Roles')); ?>
-                <?php echo $this->Form->input('Role', array('options' => $roles, 'type' => 'select', 'selected' => Set::extract('/Role/id', $this->data), 'multiple' => 'checkbox', 'label' => __t('Show content for specific roles'))); ?>
+                <?php echo $this->Form->input('Role', array('options' => $roles, 'type' => 'select', 'selected' => Set::extract('/Role/id', $this->data), 'multiple' => true, 'label' => __t('Show content for specific roles'))); ?>
                 <em><?php echo __t("Show this content only for the selected role(s). If you select no roles, the content will be visible to all users."); ?></em>
             <?php echo $this->Html->useTag('fieldsetend'); ?>
 
