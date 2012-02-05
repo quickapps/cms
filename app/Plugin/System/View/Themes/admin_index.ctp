@@ -1,4 +1,4 @@
-<p>
+<div>
     <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-install_fieldset" style="cursor:pointer;">' . __t('Install New Theme') . '</span>'); ?>
         <div id="install_fieldset" class="horizontalLayout" style="display:none;">
             <!-- from file -->
@@ -35,7 +35,9 @@
             <?php echo $this->Form->end(); ?>
         </div>
     <?php echo $this->Html->useTag('fieldsetend'); ?>
-</p>
+
+    <p>&nbsp;</p>
+</div>
 
 <?php echo $this->Html->useTag('fieldsetstart', __t('Frontend themes')); ?>
 <table width="100%">

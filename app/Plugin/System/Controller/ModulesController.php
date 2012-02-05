@@ -20,6 +20,44 @@ class ModulesController extends SystemAppController {
         }
     }
 
+    public function admin_load_order() {
+        if (isset($this->data['Module'])) {
+            foreach ($this->data['Module'] as $i => $name) {
+                $this->Module->save(
+                    array(
+                        'name' => $name,
+                        'ordering' => $i
+                    )
+                );
+            }
+
+            Cache::delete('modules_load_order');
+            Cache::delete('hook_objects_site_theme');
+            Cache::delete('hook_objects_admin_theme');
+
+            $this->redirect('/admin/system/modules/load_order/');
+        }
+
+        $modules = $this->Module->find('all',
+            array(
+                'conditions' => array('Module.status' => 1, 'Module.type' => 'module'),
+                'fields' => array('Module.name', 'Module.type', 'Module.ordering'),
+                'order' => array('Module.ordering' => 'ASC'),
+                'recursive' => -1
+            )
+        );
+        $this->Layout['javascripts']['file'][] = '/system/js/ui/jquery-ui';
+        $this->Layout['stylesheets']['all'][] = '/system/js/ui/css/ui-lightness/styles.css';
+        $this->Layout['stylesheets']['all'][] = '/block/css/sortable.css';
+
+        $this->set('modules', $modules);
+        $this->setCrumb(
+            '/admin/system/modules',
+            array(__t('Load order'))
+        );
+        $this->title(__t('Load Order'));
+    }
+
     public function admin_settings($module) {
         if (!Configure::read('Modules.' . $module) || strpos($module, 'Theme') === 0) {
             $this->redirect('/admin/system/modules');

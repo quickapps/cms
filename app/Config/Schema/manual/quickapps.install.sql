@@ -450,6 +450,7 @@ CREATE TABLE `qa_modules` (
   `type` varchar(10) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'module' COMMENT 'module or theme',
   `settings` text COLLATE utf8_unicode_ci COMMENT 'serialized extra data',
   `status` tinyint(1) NOT NULL DEFAULT '0',
+  `ordering` int(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -460,7 +461,7 @@ CREATE TABLE `qa_modules` (
 
 LOCK TABLES `qa_modules` WRITE;
 /*!40000 ALTER TABLE `qa_modules` DISABLE KEYS */;
-INSERT INTO `qa_modules` VALUES ('Block','module','',1),('Comment','module','',1),('Field','module','',1),('Locale','module','',1),('Menu','module','',1),('Node','module','',1),('System','module','',1),('Taxonomy','module','',1),('ThemeAdmin','theme','a:4:{s:9:\"site_logo\";s:1:\"1\";s:9:\"site_name\";s:1:\"1\";s:11:\"site_slogan\";s:1:\"1\";s:12:\"site_favicon\";s:1:\"1\";}',1),('ThemeDefault','theme','a:7:{s:13:\"slider_folder\";s:6:\"slider\";s:9:\"site_logo\";s:1:\"1\";s:9:\"site_name\";s:1:\"0\";s:11:\"site_slogan\";s:1:\"1\";s:12:\"site_favicon\";s:1:\"1\";s:16:\"color_header_top\";s:7:\"#282727\";s:19:\"color_header_bottom\";s:7:\"#332f2f\";}',1),('User','module','',1);
+INSERT INTO `qa_modules` VALUES ('Block','module','',1,0),('Comment','module','',1,0),('Field','module','',1,0),('Locale','module','',1,0),('Menu','module','',1,0),('Node','module','',1,0),('System','module','',1,0),('Taxonomy','module','',1,0),('ThemeAdmin','theme','a:4:{s:9:\"site_logo\";s:1:\"1\";s:9:\"site_name\";s:1:\"1\";s:11:\"site_slogan\";s:1:\"1\";s:12:\"site_favicon\";s:1:\"1\";}',1,0),('ThemeDefault','theme','a:7:{s:13:\"slider_folder\";s:6:\"slider\";s:9:\"site_logo\";s:1:\"1\";s:9:\"site_name\";s:1:\"0\";s:11:\"site_slogan\";s:1:\"1\";s:12:\"site_favicon\";s:1:\"1\";s:16:\"color_header_top\";s:7:\"#282727\";s:19:\"color_header_bottom\";s:7:\"#332f2f\";}',1,0),('User','module','',1,0);
 /*!40000 ALTER TABLE `qa_modules` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -811,4 +812,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-01-23  0:16:44
+-- Dump completed on 2012-02-05 17:24:09

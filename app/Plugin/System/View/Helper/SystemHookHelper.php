@@ -10,6 +10,17 @@
  * @link     http://cms.quickapps.es
  */
 class SystemHookHelper extends AppHelper {
+    public function beforeLayout() {
+        if (isset($this->request->params['plugin']) &&
+            $this->request->params['plugin'] == 'system' &&
+            $this->request->params['controller'] == 'modules'
+        ) {
+            $this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar-modules')), 'toolbar');
+        }
+
+        return true;
+    }
+
     // Block
     public function system_powered_by() {
         return array(

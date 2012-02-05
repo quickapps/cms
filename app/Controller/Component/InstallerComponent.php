@@ -1456,6 +1456,9 @@ class InstallerComponent extends Component {
         Cache::delete('core_modules');
         Cache::delete('core_themes');
 
+        # clear loading order list
+        Cache::delete('modules_load_order');
+
         if (isset($this->Controller->Variable) && $this->Controller->Variable->cacheSources) {
             clearCache('cake_model_*_list', 'models', '');
         }
