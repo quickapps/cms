@@ -64,30 +64,46 @@ class InstallerComponent extends Component {
 
         $oldMask = umask(0);
         $this->options = array_merge($this->options, $options);
-
-        // Upload
-        App::import('Vendor', 'Upload');
-
-        $uploadPath = CACHE. 'installer';
-        $workingDir = CACHE . 'installer' . DS . $data['Package']['data']['name'] . DS;
         $Folder = new Folder;
-        $Upload = new Upload($data['Package']['data']);
-        $Upload->allowed = array('application/*');
-        $Upload->file_overwrite = true;
-        $Upload->file_src_name_ext = 'zip';
 
-        $Folder->delete($workingDir);
-        $Upload->Process($workingDir . 'package' . DS);
+        if (is_string($data['Package']['data'])) {
+            $workingDir = CACHE . 'installer' . DS . md5($data['Package']['data']) . DS;
 
-        if (!$Upload->processed) {
-            $this->errors[] = __t('Package upload error') . ": {$Upload->error}";
-            return false;
+            $Folder->delete($workingDir);
+
+            // download from remote url
+            if (!$this->__downloadPackage($data['Package']['data'], $workingDir . 'package' . DS)) {
+                $this->errors[] = __t('Could not download package file.');
+
+                return false;
+            } else {
+                $file_dst_pathname = $workingDir . 'package' . DS . md5($data['Package']['data']) . '.zip';
+            }
+        } else {
+            // Upload
+            App::import('Vendor', 'Upload');
+
+            $workingDir = CACHE . 'installer' . DS . $data['Package']['data']['name'] . DS;
+            $Upload = new Upload($data['Package']['data']);
+            $Upload->allowed = array('application/*');
+            $Upload->file_overwrite = true;
+            $Upload->file_src_name_ext = 'zip';
+
+            $Folder->delete($workingDir);
+            $Upload->Process($workingDir . 'package' . DS);
+
+            if (!$Upload->processed) {
+                $this->errors[] = __t('Package upload error') . ": {$Upload->error}";
+                return false;
+            }
+
+            $file_dst_pathname = $Upload->file_dst_pathname;
         }
 
         // Unzip & Install
         App::import('Vendor', 'PclZip');
 
-        $PclZip = new PclZip($Upload->file_dst_pathname);
+        $PclZip = new PclZip($file_dst_pathname);
 
         if (!$v_result_list = $PclZip->extract(PCLZIP_OPT_PATH, $workingDir . 'unzip')) {
             $this->errors[] = __t('Unzip error.') . ": " . $PclZip->errorInfo(true);
@@ -97,11 +113,11 @@ class InstallerComponent extends Component {
             // Package Validation
             $Folder->path = $workingDir . 'unzip' . DS;
             $folders = $Folder->read();$folders = $folders[0];
-            $packagePath = isset($folders[0]) && count($folders) === 1 ? CACHE . 'installer' . DS . $data['Package']['data']['name'] . DS . 'unzip' . DS . str_replace(DS, '', $folders[0]) . DS : false;
+            $packagePath = isset($folders[0]) && count($folders) === 1 ? $workingDir . 'unzip' . DS . str_replace(DS, '', $folders[0]) . DS : false;
             $appName = (string)basename($packagePath);
 
             // Look for GitHub Package:
-            //      username-QACMS-ModuleNameInCamelCase-last_commit_id
+            // username-QACMS-ModuleNameInCamelCase-last_commit_id
             if (preg_match('/(.*)\-QACMS\-(.*)\-([a-z0-9]*)/', $appName, $matches)) {
                 $appName = $matches[2];
             }
@@ -265,7 +281,7 @@ class InstallerComponent extends Component {
                 unset($tests['notAlreadyInstalled']);
             }
 
-            if (!$this->__process_tests($tests)) {
+            if (!$this->__processTests($tests)) {
                 return false;
             }
 
@@ -305,7 +321,7 @@ class InstallerComponent extends Component {
                 break;
             }
 
-            if (!$this->__process_tests($tests)) {
+            if (!$this->__processTests($tests)) {
                 $this->errors[] = __t('Invalid information file (.yaml)');
 
                 return false;
@@ -1110,7 +1126,7 @@ class InstallerComponent extends Component {
  *
  * @param string $src Path content to copy
  * @param string $dst Destination path that $source should be copied to
- * @return bool True on sucess. False otherwise
+ * @return bool True on success. False otherwise
  */
     public function rcopy($src, $dst) {
         if (!$this->packageIsWritable($src, $dst)) {
@@ -1368,7 +1384,7 @@ class InstallerComponent extends Component {
         return true;
     }
 
-    private function __process_tests($tests, $header = false) {
+    private function __processTests($tests, $header = false) {
         $e = 0;
 
         foreach ($tests as $key => $test) {
@@ -1447,5 +1463,78 @@ class InstallerComponent extends Component {
         # regenerate modules & variables
         $this->Controller->Quickapps->loadModules();
         $this->Controller->Quickapps->loadVariables();
+    }
+
+/**
+ * Download module/theme ZIP package from given URL.
+ *
+ * @param string $url URL of the package.
+ * @param string $dst Full path where to save the downloaded package.
+ * @return boolean. TRUE on success, FALSE otherwise.
+ */
+    private function __downloadPackage($url, $dst) {
+        $path = $dst . md5($url) . '.zip';
+        $Foder = new Folder($dst, true);
+
+        if (extension_loaded('curl')) {
+            $cp = curl_init($url);
+            $fp = fopen($path, "w+");
+
+            if (!$fp) {
+                curl_close($cp);
+
+                return false;
+            } else {
+                curl_setopt($cp, CURLOPT_FILE, $fp);
+                curl_exec($cp);
+                curl_close($cp);
+                fclose($fp);
+
+                return true;
+            }
+        } else {
+            $url = parse_url($url);
+            $port = isset($url['port']) ? $url['port'] : 80;
+            $port = $url['scheme'] == 'https' ? 443 : $port;
+            $fp = fsockopen($url['host'], $port, $errno, $errstr, 15);
+
+            if ($fp) {
+                $response = '';
+                $header = "GET {$url['path']} " . strtoupper($url['scheme']) . "/1.0\r\n";
+                $header .= "Host: {$url['host']}\r\n";
+                $header .= "User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:8.0) Gecko/20100101 Firefox/8.0\r\n";
+                $header .= "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n";
+                $header .= "Accept-Language: es-es,es;q=0.8,en-us;q=0.5,en;q=0.3\r\n";
+                $header .= "Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7\r\n";
+                $header .= "Accept-Encoding: gzip, deflate\r\n";
+                $header .= "Keep-Alive: 300\r\n";
+                $header .= "Connection: keep-alive\r\n";
+                $header .= "Referer: {$url['scheme']}://{$url['host']}\r\n\r\n";
+
+                fputs($fp, $header);
+
+                while($line = fread($fp, 4096)){
+                    $response .= $line;
+                }
+
+                fclose($fp);
+
+                $pos = strpos($response, "\r\n\r\n");
+                $response = substr($response, $pos + 4);
+
+                $fp = fopen($path, "w+");
+
+                if (!$fp) {
+                    return false;
+                } else {
+                    fwrite($fp, $response);
+                    fclose($fp);
+
+                    return true;
+                }
+            } else {
+                return false;
+            }
+        }
     }
 }

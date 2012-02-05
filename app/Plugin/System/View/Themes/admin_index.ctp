@@ -1,21 +1,41 @@
-<?php echo $this->Form->create('Package', array('url' => '/admin/system/themes/install', 'enctype' => 'multipart/form-data')); ?>
-    <!-- Filter -->
+<p>
     <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-install_fieldset" style="cursor:pointer;">' . __t('Install New Theme') . '</span>'); ?>
         <div id="install_fieldset" class="horizontalLayout" style="display:none;">
-            <?php echo $this->Form->input('Package.data',
-                    array(
-                        'type' => 'file',
-                        'label' => __t('Package')
-                    )
-                );
-            ?>
-            <em><?php echo __t('Files must be less than <b>%sB</b>.', ini_get('upload_max_filesize')) ; ?></em>
-            <p>
-                <?php echo $this->Form->input(__t('Install'), array('type' => 'submit', 'label' => false)); ?>
-            </p>
+            <!-- from file -->
+            <?php echo $this->Form->create('Package', array('url' => '/admin/system/themes/install', 'enctype' => 'multipart/form-data')); ?>
+                <?php echo $this->Html->useTag('fieldsetstart', __t('Upload Package File')); ?>
+                    <?php echo $this->Form->input('Package.data',
+                            array(
+                                'type' => 'file',
+                                'label' => __t('Package')
+                            )
+                        );
+                    ?>
+                    <em><?php echo __t('Files must be less than <b>%sB</b>.', ini_get('upload_max_filesize')) ; ?></em>
+                    <p>
+                        <?php echo $this->Form->input(__t('Install'), array('type' => 'submit', 'label' => false)); ?>
+                    </p>
+                <?php echo $this->Html->useTag('fieldsetend'); ?>
+            <?php echo $this->Form->end(); ?>
+
+            <!-- from url -->
+            <?php echo $this->Form->create('Package', array('url' => '/admin/system/themes/install', 'enctype' => 'multipart/form-data')); ?>
+                <?php echo $this->Html->useTag('fieldsetstart', __t('Install From URL')); ?>
+                    <?php echo $this->Form->input('Package.data',
+                            array(
+                                'type' => 'text',
+                                'label' => __t('Package')
+                            )
+                        );
+                    ?>
+                    <p>
+                        <?php echo $this->Form->input(__t('Install'), array('type' => 'submit', 'label' => false)); ?>
+                    </p>
+                <?php echo $this->Html->useTag('fieldsetend'); ?>
+            <?php echo $this->Form->end(); ?>
         </div>
     <?php echo $this->Html->useTag('fieldsetend'); ?>
-<?php echo $this->Form->end(); ?>
+</p>
 
 <?php echo $this->Html->useTag('fieldsetstart', __t('Frontend themes')); ?>
 <table width="100%">
