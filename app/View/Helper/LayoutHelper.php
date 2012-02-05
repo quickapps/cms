@@ -13,12 +13,12 @@ class LayoutHelper extends AppHelper {
 
 /**
  * Used by some methods to cache data in order to improve
- * comunication between them, for example see LayoutHelper::blocksInRegion()
+ * comunication between them, for example see LayoutHelper::blocksInRegion().
  */
     protected $_tmp = array();
 
 /**
- * Render css files links
+ * Render css files links.
  *
  * @param array $stylesheets Asociative array of extra css elements to merge
  * {{{
@@ -28,9 +28,9 @@ class LayoutHelper extends AppHelper {
  *     'all' => array("file3", "file4", ...),
  *      ....
  * );
- * }}
- * @return string HTML css link-tags and inline-styles
- * @see AppController::$Layout
+ * }}}
+ * @return string HTML css link-tags and inline-styles.
+ * @see AppController::$Layout.
  */
     public function stylesheets($stylesheets = array()) {
         $output = $inline = '';
@@ -54,7 +54,7 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
- * Render js files links
+ * Render js files links.
  *
  * @param array $javascripts Asociative array of extra js elements to merge:
  * {{{
@@ -63,8 +63,8 @@ class LayoutHelper extends AppHelper {
  *     'file' => array("path_to_file1", "path_to_file2", ...)
  * );
  * }}}
- * @return string HTML javascript link-tags and inline-code
- * @see AppController::$Layout
+ * @return string HTML javascript link-tags and inline-code.
+ * @see AppController::$Layout.
  */
     public function javascripts($javascripts = array()) {
         $output = '';
@@ -117,7 +117,7 @@ class LayoutHelper extends AppHelper {
 /**
  * Shortcut for `$title_for_layout`.
  *
- * @return string Current page's title
+ * @return string Current page's title.
  */
     public function title() {
         $title = isset($this->_View->viewVars['Layout']['node']['Node']['title']) ? __t($this->_View->viewVars['Layout']['node']['Node']['title']) : Configure::read('Variable.site_name');
@@ -128,9 +128,9 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
- * Shortcut for `View::fetch('content')`
+ * Shortcut for `View::fetch('content')`.
  *
- * @return string Current page's HTML content
+ * @return string Current page's HTML content.
  */
     public function content() {
         $content = $this->_View->fetch('content');
@@ -143,7 +143,7 @@ class LayoutHelper extends AppHelper {
  * Render extra code for footer.
  * This function should be used by themes just before </body>.
  *
- * @return string HTML code
+ * @return string HTML code.
  */
     public function footer() {
         if (is_string($this->_View->viewVars['Layout']['footer'])) {
@@ -168,7 +168,7 @@ class LayoutHelper extends AppHelper {
  * @param array $metaForLayout Optional asociative array of aditional meta-tags to
  *                             merge with Layout metas `meta_name => content`.
  * @return string HTML formatted meta tags.
- * @see AppController::$Layout
+ * @see AppController::$Layout.
  */
     public function meta($metaForLayout = array()) {
         if (!is_array($metaForLayout) || empty($metaForLayout)) {
@@ -188,7 +188,7 @@ class LayoutHelper extends AppHelper {
  * Returns node type of the current node's being renderend.
  * (Valid only when rendering a single node [viewMode = full])
  *
- * @return mixed String ID of the NodeType or false if could not be found.
+ * @return mixed String ID of the NodeType or FALSE if could not be found.
  */
     public function getNodeType() {
         if (!isset($this->_View->viewVars['Layout']['node']['NodeType']['id'])) {
@@ -227,12 +227,12 @@ class LayoutHelper extends AppHelper {
  * then default rendering proccess is fired.
  *
  * @param mixed $node Optional:
- *                    - boolean FALSE: current node will be rendered. (by default)
- *                    - string SLUG: render node by node's slug.
- *                    - array : asociative Node's array to render.
+ *                  - boolean FALSE: current node will be rendered. (by default)
+ *                  - string SLUG: render node by node's slug.
+ *                  - array : asociative Node's array to render.
  * @param array $options Node rendering options:
- *                       - mixed class: array or string, extra CSS class(es) for node DIV container
- *                       - mixed viewMode: set to string value to force rendering viewMode. set to boolean false for automatic.
+ *                  - mixed class: array or string, extra CSS class(es) for node DIV container
+ *                  - mixed viewMode: set to string value to force rendering viewMode. set to boolean false for automatic.
  * @return string HTML formatted node. Empty string ('') will be returned if node could not be rendered.
  */
     public function renderNode($node = false, $options = array()) {
@@ -415,7 +415,7 @@ class LayoutHelper extends AppHelper {
  * Return rendered breadcrumb. Data is passed to themes for formatting the crumbs.
  * Default formatting is fired in case of no theme format-response.
  *
- * @return string HTML formatted breadcrumb
+ * @return string HTML formatted breadcrumb.
  */
     public function breadCrumb() {
         $b = $this->_View->viewVars['breadCrumb'];
@@ -435,9 +435,9 @@ class LayoutHelper extends AppHelper {
 /**
  * Render child nodes of the given menu node (father).
  *
- * @param mixed $path String path of the father node or boolen false to use current path
- * @param string $region Theme region where the child nodes will be rendered, 'content' by default
- * @return string Html rendered menu
+ * @param mixed $path String path of the father node or boolen false to use current path.
+ * @param string $region Theme region where the child nodes will be rendered, 'content' by default.
+ * @return string Html rendered menu.
  */
     public function menuNodeChildren($path = false, $region = 'content') {
         $output = '';
@@ -484,12 +484,12 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
- * Wrapper method to MenuHelper::generate()
+ * Wrapper method to MenuHelper::generate().
  *
- * @param array $menu Array of links to render
- * @param array $settings Optional, customization options for menu rendering process
- * @return string HTML rendered menu
- * @see MenuHelper::generate
+ * @param array $menu Array of links to render.
+ * @param array $settings Optional, customization options for menu rendering process.
+ * @return string HTML rendered menu.
+ * @see MenuHelper::generate.
  */
     public function menu($menu, $settings = array()) {
         $data = array(
@@ -525,7 +525,7 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
- * Check if the logged user has admin privileges
+ * Check if the logged user has admin privileges.
  *
  * @return boolean
  */
@@ -534,7 +534,7 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
- * Retuns current user roles
+ * Retuns current user roles.
  *
  * @return array associative array with id and names of the roles: array(id:integer => name:string, ...)
  */
@@ -803,7 +803,7 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
- * Render all blocks for a particular region
+ * Render all blocks for a particular region.
  *
  * @param string $region Region alias to render.
  * @return string Html blocks

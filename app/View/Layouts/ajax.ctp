@@ -1,1 +1,1 @@
-<?php echo $this->Layout->content(); ?>
+<?php echo $this->fetch('content'); ?>
