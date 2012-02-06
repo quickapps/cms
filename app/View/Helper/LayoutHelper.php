@@ -664,7 +664,15 @@ class LayoutHelper extends AppHelper {
  * Creates a simple plain (deph 0) menu list.
  * Useful when creating backend submenu buttons.
  *
- * @param array $links Array of links: array('title', '/your/url/')
+ * @param array $links Array of links:
+ * {{{
+ *   array(
+ *      array('title', '/your/url/', 'options' => array(), 'pattern' => '/url/to/match'),
+ *      ...
+ *   );
+ * }}}
+ * `options` array (optional): array of options for HtmlHelper::link()
+ * `pattern` string (optional): show link as selected on pattern match (asterisk allowed)
  * @param array $options Array of options:
  *      `type`: type of list, ol, ul. default: ul
  *      `id`: id attribute for the container (ul, ol)
@@ -674,7 +682,7 @@ class LayoutHelper extends AppHelper {
  */
     public function toolbar($links, $options = array()) {
         $data = array('links' => $links, 'options' => $options);
-        $this->hook('toolbar_alter', $data, array('collectReturn' => true));
+        $this->hook('toolbar_alter', $data);
 
         extract($data);
 
@@ -691,12 +699,30 @@ class LayoutHelper extends AppHelper {
 
         $id = !is_null($id) ? " id=\"{$id}\" " : '';
         $o = "<{$type}{$id}>\n";
-        $here = preg_replace("/\/{2,}/i", '/', str_replace($this->_View->base, '', $this->_View->here) . "/");
+        $here = preg_replace("/\/{2,}/", '/', "/" . str_replace($this->_View->base, '', $this->_View->here) . "/");
+        $here = preg_replace(array('/^\/[a-z]{3}\//', '/\/{1,}$/'), array('/', ''), $here);
+        $path = parse_url($here);
+        $path = $path['path'];
+
+        foreach ($this->_View->request->named as $key => $val) {
+            $path = str_replace("{$key}:{$val}", '', $path);
+        }
+
+        $path = preg_replace('/\/{2,}/', '/', "/{$path}/");
+        $path = preg_replace(array('/^\/[a-z]{3}\//', '/\/{1,}$/'), array('/', ''), $path);
 
         foreach ($links as $link) {
-            $link[1] = preg_replace("/\/{2,}/i", '/', "{$link[1]}/");
-            $selected =   strpos($here, $link[1]) !== false  ? " class=\"{$selectedClass}\" " : '';
-            $link = isset($link[2]) && is_array($link[2]) ? $this->_View->Html->link($link[0], $link[1], $link[2]) : $this->_View->Html->link($link[0], $link[1]);
+            $link[1] = preg_replace(array('/\/{2,}/', '/^\/[a-z]{3}\//', '/\/{1,}$/'), array('/', '', ''), "{$link[1]}/");
+            $selected = '';
+
+            if ($here == $link[1] || $path == $link[1]) {
+                $selected = " class=\"{$selectedClass}\" ";
+            } elseif (isset($link['pattern'])) {
+                $link['pattern'] = $link['pattern'] === true ? "*{$link[1]}*": $link['pattern'];
+                $selected = $this->urlMatch($link['pattern'], $here) ? " class=\"{$selectedClass}\" " : '';
+            }
+
+            $link = isset($link['options']) && is_array($link['options']) ? $this->_View->Html->link($link[0], $link[1], $link['options']) : $this->_View->Html->link($link[0], $link[1]);
             $o .= "\t<{$itemType}{$selected}><span>" . $link . "</span></{$itemType}>\n";
         }
 

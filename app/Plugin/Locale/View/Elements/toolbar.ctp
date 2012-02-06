@@ -10,7 +10,7 @@
             array(
                 array(__t('Add translatable entry'),
                     '/admin/locale/translations/add',
-                    array('title' => __t('Add new translatable entry.'))
+                    'options' => array('title' => __t('Add new translatable entry.'))
                 )
             )
         );
