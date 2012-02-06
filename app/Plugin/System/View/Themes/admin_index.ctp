@@ -131,8 +131,11 @@
                     <em><?php echo __t('author: %s', htmlspecialchars($data['info']['author'])); ?></em>
                 </p>
 
-                <?php if (Configure::read('Variable.admin_theme') != $name) : ?>
+                <?php if (Configure::read('Variable.admin_theme') != $name): ?>
                     <a href="<?php echo $this->Html->url('/admin/system/themes/set_theme/' . $name); ?>" style="float:right;" onclick="return confirm('<?php echo __t('Change administrator theme, are you sure ?\n'); ?>');"><?php echo __t('Set as default'); ?></a>
+                    <?php if (!in_array($name, Configure::read('coreThemes'))): ?>
+                    <a href="<?php echo $this->Html->url('/admin/system/themes/uninstall/' . $name); ?>" style="float:right;" onclick="return confirm('<?php echo __t('Delete selected theme ?\nThis operation can be undone!'); ?>');"><?php echo __t('Uninstall'); ?>&nbsp;</a>
+                    <?php endif; ?>
                 <?php else: ?>
                     <a href="<?php echo $this->Html->url('/admin/system/themes/settings/' . $name); ?>" style="float:right;"><?php echo __t('Configure'); ?></a>
                 <?php endif; ?>
