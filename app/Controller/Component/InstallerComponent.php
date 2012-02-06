@@ -316,6 +316,18 @@ class InstallerComponent extends Component {
                             ),
                             'header' => __t('YAML Validation'),
                             'msg' => __t('Theme configuration file (%s) appears to be invalid.', "{$appName}.yaml")
+                        ),
+                        'requiredRegions' => array(
+                            'test' => (
+                                !isset($yaml['info']['admin']) ||
+                                (
+                                    isset($yaml['info']['admin']) &&
+                                    in_array('toolbar', array_keys($yaml['regions'])) &&
+                                    in_array('help', array_keys($yaml['regions']))
+                                )
+                            ),
+                            'header' => __t('Required regions'),
+                            'msg' => __t('Missing theme region(s) "toolbar" and/or "help". Are requied for backend themes.')
                         )
                     );
                 break;
