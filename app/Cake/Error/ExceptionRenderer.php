@@ -181,16 +181,10 @@ class ExceptionRenderer {
 			'url' => h($url),
 			'name' => $error->getMessage(),
 			'error' => $error,
-			'serialize' => array('code', 'url', 'name')
+			'_serialize' => array('code', 'url', 'name')
 		));
-		try {
-			$this->controller->set($error->getAttributes());
-			$this->_outputMessage($this->template);
-		} catch (MissingViewException $e) {
-			$this->_outputMessage('error500');
-		} catch (Exception $e) {
-			$this->_outputMessageSafe('error500');
-		}
+		$this->controller->set($error->getAttributes());
+		$this->_outputMessage($this->template);
 	}
 
 /**
@@ -210,7 +204,7 @@ class ExceptionRenderer {
 			'name' => $message,
 			'url' => h($url),
 			'error' => $error, 
-			'serialize' => array('name', 'url')
+			'_serialize' => array('name', 'url')
 		));
 		$this->_outputMessage('error400');
 	}
@@ -233,7 +227,7 @@ class ExceptionRenderer {
 			'name' => $message,
 			'message' => h($url),
 			'error' => $error,
-			'serialize' => array('name', 'message')
+			'_serialize' => array('name', 'message')
 		));
 		$this->_outputMessage('error500');
 	}
@@ -253,13 +247,9 @@ class ExceptionRenderer {
 			'url' => h($url),
 			'name' => $error->getMessage(),
 			'error' => $error,
-			'serialize' => array('code', 'url', 'name', 'error')
+			'_serialize' => array('code', 'url', 'name', 'error')
 		));
-		try {
-			$this->_outputMessage($this->template);
-		} catch (Exception $e) {
-			$this->_outputMessageSafe('error500');
-		}
+		$this->_outputMessage($this->template);
 	}
 
 /**
@@ -269,9 +259,13 @@ class ExceptionRenderer {
  * @return void
  */
 	protected function _outputMessage($template) {
-		$this->controller->render($template);
-		$this->controller->afterFilter();
-		$this->controller->response->send();
+		try {
+			$this->controller->render($template);
+			$this->controller->afterFilter();
+			$this->controller->response->send();
+		} catch (Exception $e) {
+			$this->_outputMessageSafe('error500');
+		}
 	}
 
 /**
@@ -282,8 +276,14 @@ class ExceptionRenderer {
  * @return void
  */
 	protected function _outputMessageSafe($template) {
+		$this->controller->layoutPath = '';
+		$this->controller->subDir = '';
+		$this->controller->viewPath = 'Errors/';
+		$this->controller->viewClass = 'View';
 		$this->controller->helpers = array('Form', 'Html', 'Session');
+
 		$this->controller->render($template);
+		$this->controller->response->type('html');
 		$this->controller->response->send();
 	}
 }
