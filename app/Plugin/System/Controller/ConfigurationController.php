@@ -67,6 +67,8 @@ class ConfigurationController extends AppController {
                     $core = str_replace($match[0], "Configure::write('Variable.url_language_prefix', {$new});", $core);
                     $File->write($core);
                     $File->close();
+
+                    Configure::write('Variable.url_language_prefix', $this->data['Variable']['url_language_prefix']);
                 } else {
                     $this->flashMsg(__t('The file `%s` appears to be invalid, `Variable.url_language_prefix` parameter not found.', ROOT . DS . 'Config' . DS . 'core.php'), 'alert');
                 }
