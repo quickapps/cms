@@ -54,6 +54,7 @@ class TableHelper extends AppHelper {
         'headerRowOptions' => array(),
         'noItemsMessage' => 'There are no items to display',
         'tableOptions' => array('cellpadding' => 0, 'cellspacing' => 0, 'border' => 0),
+        'rowOptions' => array(),
         'paginate' => array(
             'options' => array(),
             'prev' => array(
@@ -80,8 +81,7 @@ class TableHelper extends AppHelper {
                 'disabledTitle' => null,
                 'disabledOptions' => array('class' => 'disabled')
             ),
-
-            'position' => 'bottom',                                # String: row position, 'top', 'top&bottom', 'bottom'
+            'position' => 'bottom',                              # String: row position, 'top', 'top&bottom', 'bottom'
             'trOptions' => array('class' => 'paginator'),        # Array: <tr> tag attributes
             'tdOptions' => array('align' => 'center')            # Array: <td> tag attributes
         )
@@ -132,12 +132,30 @@ class TableHelper extends AppHelper {
                     $c_data = array_merge($this->_columnDefaults, $c_data);
 
                     $td .= "\n\t";
-                    $td .= $this->Html->useTag('tablecell', $this->Html->_parseAttributes($c_data['tdOptions']),$this->_renderCell($c_data['value'], $data[$i]));
+                    $td .= $this->Html->useTag('tablecell',
+                            $this->Html->_parseAttributes($c_data['tdOptions']),
+                            $this->_renderCell($c_data['value'], $data[$i])
+                    );
                     $td .= "\t";
                 }
 
-                $tr_class = $count%2 ? 'even' : 'odd';
-                $out .= $this->Html->useTag('tablerow', $this->Html->_parseAttributes(array('class' => $tr_class)), $td);
+                $tr_options = array(
+                    'class' => ($count%2 ? 'even' : 'odd')
+                );
+
+                if (!empty($options['rowOptions']) && is_array($options['rowOptions'])) {
+                    foreach ($options['rowOptions'] as $key => $val) {
+                        $val = $this->_renderCell($val, $data[$i]);
+
+                        if ($key == 'class') {
+                            $tr_options['class'] = $tr_options['class'] . " {$val}";
+                        } else {
+                            $tr_options[$key] = $val;
+                        }
+                    }
+                }
+
+                $out .= $this->Html->useTag('tablerow', $this->Html->_parseAttributes($tr_options), $td);
                 $count++;
             }
 
@@ -174,7 +192,7 @@ class TableHelper extends AppHelper {
         preg_match_all('/\{([\{\}0-9a-zA-Z_\.]+)\}/iUs', $value, $path);
         if (isset($path[1]) && !empty($path[1])) {
             foreach ($path[0] as $i => $m) {
-                if (in_array($m, array('{php}', '{/php}'))) {
+                if (in_array($m, array('{php}', '{/php}', '{img}', '{/img}', '{link}', '{/link}'))) {
                     continue;
                 }
 
@@ -183,20 +201,27 @@ class TableHelper extends AppHelper {
         }
 
         # look for images
-        preg_match_all('/\{img(.*)\}(.+)\{\/img\}/iUs', $value, $img);
+        preg_match_all('/\{img(.*?)\}(.+)\{\/img\}/i', $value, $img);
         if (isset($img[1]) && !empty($img[1])) {
             foreach ($img[0] as $i => $m) {
                 $opts = isset($img[1][$i]) ? $this->__parseAtts(trim($img[1][$i])) : array();
-                $value = str_replace($m, $this->Html->image(trim($img[2][$i]), $opts), $value);
+                $opts = empty($opts) ? array(): $opts;
+                $value = str_replace($m, $this->Html->image($img[2][$i], $opts), $value);
             }
         }
 
         # look for links
-        preg_match_all('/\{link(.*)\}(.+)\{\/link\}/iUs', $value, $link);
+        preg_match_all('/\{link(.*?)\}(.*)\|(.*)\{\/link\}/i', $value, $link);
         if (isset($link[1]) && !empty($link[1])) {
             foreach ($link[0] as $i => $m) {
                 $opts = isset($link[1][$i]) ? $this->__parseAtts(trim($link[1][$i])) : array();
-                $value = str_replace($m, $this->Html->link(trim($link[2][$i]), $opts), $value);
+                $opts = empty($opts) ? array(): $opts;
+
+                if (isset($opts['escape'])) {
+                    $opts['escape'] = $opts['escape'] == "true";
+                }
+
+                $value = str_replace($m, $this->Html->link(trim($link[2][$i]), $link[3][$i], $opts), $value);
             }
         }
 
