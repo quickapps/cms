@@ -2,6 +2,14 @@
 class FieldFileHookHelper extends AppHelper {
     private $__instancesCount = 0;
 
+    public function form_create_alter(&$data) {
+        if (isset($this->_View->viewVars['Layout']['fields'][$data['model']]) &&
+            in_array('FieldFile', $this->_View->viewVars['Layout']['fields'][$data['model']])
+        ) {
+            $data['options']['enctype'] = 'multipart/form-data';
+        }
+    }
+
     public function field_file_libs() {
         $out = '';
 
@@ -14,7 +22,7 @@ class FieldFileHookHelper extends AppHelper {
             $out .= $this->_View->Html->script('/field_file/js/locale.' . Configure::read('Variable.language.code') . '.js');
             $out .= $this->_View->Html->script('/field_file/js/uploadify/swfobject.js');
             $out .= $this->_View->Html->script('/field_file/js/uploadify/jquery.uploadify.v2.1.4.min.js');
-            $out .=  "
+            $out .= "
             <script type=\"text/javascript\">
                 QuickApps.field_file.uploader = '" . Router::url('/field_file/js/uploadify/uploadify.swf') . "';
                 QuickApps.field_file.session_id = '" . CakeSession::id() . "';
