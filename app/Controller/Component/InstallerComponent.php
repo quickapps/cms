@@ -427,8 +427,21 @@ class InstallerComponent extends Component {
                 $moduleData = array(
                     'name' => ($this->options['type'] == 'module' ? $appName : 'Theme' . $appName),
                     'type' => ($this->options['type'] == 'module' ? 'module' : 'theme' ),
-                    'status' => intval($this->options['status'])
+                    'status' => intval($this->options['status']),
+                    'ordering' => 0
                 );
+
+                if ($this->options['type'] == 'module') {
+                    $max_order = $this->Controller->Module->find('first',
+                        array(
+                            'conditions' => array('Module.type' => 'module'),
+                            'order' => array('Module.ordering' => 'DESC'),
+                            'recursive' => -1
+                        )
+                    );
+                    $max_order = $max_order ? $max_order['Module']['ordering'] + 1 : 0;
+                    $moduleData['ordering'] = $max_order;
+                }
 
                 $this->Controller->Module->save($moduleData); # register module
 
@@ -1290,6 +1303,20 @@ class InstallerComponent extends Component {
         }
 
         return $save;
+    }
+
+/**
+ * Execute an SQL statement.
+ *
+ * @param string $query SQL to execute
+ * @param string $prefix_pattern Pattern to replace for database prefix. default to `#__`
+ * @return boolean
+ */
+    public function sql($query, $prefix_pattern = '#__') {
+        $dSource = $this->Controller->Module->getDataSource();
+        $query = str_replace($prefix_pattern, $dSource->config['prefix'], $query);
+
+        return $dSource->execute($query);
     }
 
     private function __toggleModule($module, $to) {
