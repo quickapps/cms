@@ -12,7 +12,7 @@
  */
 class ThemeDefaultHooktagsHelper extends AppHelper {
 
-    public function content_box($atts, $content=null, $code="") {
+    public function content_box($atts, $content = null, $code = "") {
         $type = isset($atts['type']) ? $atts['type'] : 'success';
         $return = "<div class=\"td-box dialog-{$type}\">";
         $return .= $content;
@@ -21,7 +21,7 @@ class ThemeDefaultHooktagsHelper extends AppHelper {
         return $return;
     }
 
-    public function button($atts, $content = null, $code="") {
+    public function button($atts, $content = null, $code = "") {
         $atts = Set::merge(
             array(
             'link' => '#',

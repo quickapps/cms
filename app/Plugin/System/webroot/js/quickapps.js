@@ -3,19 +3,10 @@ var QuickApps = QuickApps || { 'settings': {}, 'behaviors': {}, 'locale': { 'str
 (function ($) {
 /**
  * Translate strings to the page language or a given language.
- *
- * See the documentation of the server-side __() function for further details.
+ * See the documentation of the server-side __t() function for further details.
  *
  * @param str
  *   A string containing the English string to translate.
- * @param args
- *   An object of replacements pairs to make after translation. Incidences
- *   of any key in this array are replaced with the corresponding value.
- *   Based on the first character of the key, the value is escaped and/or themed:
- *    - !variable: inserted as is
- *    - @variable: escape plain text to HTML (QuickApps.checkPlain)
- *    - %variable: escape text and theme as a placeholder for user-submitted
- *      content (checkPlain + QuickApps.theme('placeholder'))
  * @return
  *   The translated string.
  */
@@ -27,33 +18,19 @@ var QuickApps = QuickApps || { 'settings': {}, 'behaviors': {}, 'locale': { 'str
         }
 
         if (args) {
-            // Transform arguments before inserting them.
+            call = "QuickApps.sprintf(str";
             for (var key in args) {
-                switch (key.charAt(0)) {
-                    // Escaped only.
-                    case '@':
-                        args[key] = QuickApps.checkPlain(args[key]);
-                    break;
-                    
-                    // Pass-through.
-                    case '!':
-                    break;
-                    
-                    // Escaped and placeholder.
-                    case '%':
-                        default:
-                      args[key] = QuickApps.theme('placeholder', args[key]);
-                    break;
-                }
-                str = str.replace(key, args[key]);
+                call += ", args[" + key + "]";
             }
+            call += ");";
+            str = eval(call);
         }
+
         return str;
     };
-    
+
 /**
  * Generate the themed representation of a QuickApps object.
- *
  * All requests for themed output must go through this function. It examines
  * the request and routes it to the appropriate theme function. If the current
  * theme does not provide an override function, the generic theme function is
@@ -75,9 +52,10 @@ var QuickApps = QuickApps || { 'settings': {}, 'behaviors': {}, 'locale': { 'str
         var args = Array.prototype.slice.apply(arguments, [1]);
         return (QuickApps.theme[func] || QuickApps.theme.prototype[func]).apply(this, args);
     };
-    
+
 /**
  * Encode special characters in a plain-text string for display as HTML.
+ *
  */
     QuickApps.checkPlain = function (str) {
       var character, regex,
@@ -93,7 +71,8 @@ var QuickApps = QuickApps || { 'settings': {}, 'behaviors': {}, 'locale': { 'str
     };
 
 /**
- * PHP sprintf equivalent
+ * PHP sprintf() equivalent
+ *
  */
     QuickApps.sprintf = function () {
         var i = 0,
@@ -148,9 +127,10 @@ var QuickApps = QuickApps || { 'settings': {}, 'behaviors': {}, 'locale': { 'str
         }
         return (o.join(''));
     };
-    
-/* 
+
+/**
  * Creates a cookie
+ *
  */
     QuickApps.setCookie = function (name, value, expires, path) {
         var today = new Date();
@@ -163,16 +143,16 @@ var QuickApps = QuickApps || { 'settings': {}, 'behaviors': {}, 'locale': { 'str
         var expires_date = new Date(today.getTime() + expires);
         document.cookie = name + "=" + escape(value) + "; expires=" + expires_date.toGMTString() + ((path) ? "; path=" + path: "; path=/;");
     };
-    
-/* 
+
+/**
  * Check all checkbox in page
  * 
  */
     QuickApps.checkAll = function (el) {
         QuickApps.checkAllByClassName(el, '');
     };    
-    
-/* 
+
+/**
  * Check all checkbox in page with className
  * 
  */
@@ -181,30 +161,35 @@ var QuickApps = QuickApps || { 'settings': {}, 'behaviors': {}, 'locale': { 'str
         if (el.checked == true){ c = true; } else { c = false; }
         $('input[type="checkbox"]').attr('checked', c);
     };    
-    
-// Class indicating that JS is enabled; used for styling purpose.
+
+/**
+ * Class indicating that JS is enabled; used for styling purpose.
+ *
+ */
     $('html').addClass('js');
 
-// 'js enabled' cookie.
+/**
+ * 'js enabled' cookie.
+ *
+ */
     QuickApps.setCookie('has_js', 1);
 
 /**
  * Additions to jQuery.support.
+ *
  */
     $(function () {
-      /**
-       * Boolean indicating whether or not position:fixed is supported.
-       * 
-       */
-      if (jQuery.support.positionFixed === undefined) {
-        var el = $('<div style="position:fixed; top:10px" />').appendTo(document.body);
-        jQuery.support.positionFixed = el[0].offsetTop === 10;
-        el.remove();
-      }
+        // Boolean indicating whether or not position:fixed is supported.
+        if (jQuery.support.positionFixed === undefined) {
+            var el = $('<div style="position:fixed; top:10px" />').appendTo(document.body);
+            jQuery.support.positionFixed = el[0].offsetTop === 10;
+            el.remove();
+        }
     });
-    
+
 /**
  * The default themes.
+ *
  */
     QuickApps.theme.prototype = {
         /**
@@ -215,9 +200,8 @@ var QuickApps = QuickApps || { 'settings': {}, 'behaviors': {}, 'locale': { 'str
         * @return
         *   The formatted text (html).
         */
-      placeholder: function (str) {
-        return '<em class="placeholder">' + QuickApps.checkPlain(str) + '</em>';
-      }
+        placeholder: function (str) {
+            return '<em class="placeholder">' + QuickApps.checkPlain(str) + '</em>';
+        }
     };
-    
 })(jQuery);

@@ -10,9 +10,9 @@
             );
         }
 
-        $menu['MenuLink']   = $links;
-        $menu['region']        = 'content';
-        $menu['id']            = 'nodeTypesMenu';
+        $menu['MenuLink'] = $links;
+        $menu['region'] = 'content';
+        $menu['id'] = 'nodeTypesMenu';
 
         echo $this->element('theme_menu', array('menu' => $menu));
     else:
