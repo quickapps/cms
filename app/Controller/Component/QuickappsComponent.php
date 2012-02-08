@@ -33,6 +33,17 @@ class QuickAppsComponent extends Component {
     }
 
 /**
+ * Called after the Controller::beforeRender(), after the view class is loaded, and before the
+ * Controller::render().
+ *
+ * @param Controller $controller Controller with components to beforeRender
+ * @return void
+ */
+    public function beforeRender($controller) {
+        $this->fieldsList();
+    }
+
+/**
  * Check for maintenance status,
  * 'Site Offline' screen is rendered if site is offline.
  *
@@ -131,7 +142,7 @@ class QuickAppsComponent extends Component {
     }
 
 /**
- * Prepare blocks, js, css, metas & basic data for rendering
+ * Prepare blocks, js, css, metas & basic data for rendering.
  *
  * @return void
  */
@@ -177,6 +188,25 @@ class QuickAppsComponent extends Component {
         if (Configure::read('Theme.settings.site_favicon')) {
             $this->Controller->Layout['meta']['icon'] = Router::url(Configure::read('Theme.settings.site_favicon_url'));
         }
+    }
+
+/**
+ * Prepares the list of fields for the view.
+ * Fields are grouped by models as below:
+ * {{{
+ *  array(
+ *      'MyModel' => array('FieldModule1', 'FieldModule2', ...),
+ *      ...
+ *  )
+ * }}}
+ *
+ * @return void
+ * @see AppController::$Layout['fields']
+ */
+    public function fieldsList() {
+        $fields = $this->Controller->Layout['fields'];
+        $fields = Set::merge($fields, Configure::read('Fieldable.fieldsList'));
+        $this->Controller->Layout['fields'] = $fields;
     }
 
 /**
@@ -448,10 +478,10 @@ class QuickAppsComponent extends Component {
 /**
  * Shortcut for Session setFlash.
  *
- * @param string $msg Mesagge to display.
- * @param string $class Type of message: error, success, alert, bubble.
- * @param string $id Message id, default is 'flash'.
- * @return void.
+ * @param string $msg Mesagge to display
+ * @param string $class Type of message: error, success, alert, bubble
+ * @param string $id Message id, default is 'flash'
+ * @return void
  */
     public function flashMsg($msg, $class = 'success', $id = 'flash') {
         return $this->Controller->Session->setFlash($msg, 'theme_flash_message', array('class' => $class), $id);
@@ -460,7 +490,7 @@ class QuickAppsComponent extends Component {
 /**
  * Set crumb from url parse or add url(s) to the links list.
  *
- * @param mixed $url Array of links to push to the crumbs list. Or String url.
+ * @param mixed $url Array of links to push to the crumbs list. Or String url
  * @return void
  */
     public function setCrumb($url = false) {

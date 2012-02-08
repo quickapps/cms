@@ -202,6 +202,67 @@ class FieldableBehavior extends ModelBehavior {
     }
 
 /**
+ * Fecth fields to Model results
+ *
+ * @param object $Model instance of model
+ * @param array $results The results of the Model's find operation
+ * @param boolean $primary Whether Model is being queried directly (vs. being queried as an association)
+ * @return mixed An array value will replace the value of $results - any other value will be ignored.
+ */
+    public function afterFind(&$Model, $results, $primary) {
+        if (empty($results) ||
+            !$primary ||
+            (isset($Model->fieldsNoFetch) && $Model->fieldsNoFetch)
+        ) {
+            return $results;
+        }
+
+        // holds a list of fields attached to this model.
+        $fieldsList = Configure::read('Fieldable.fieldsList');
+
+        if (!isset($fieldsList[$Model->alias])) {
+            $fieldsList[$Model->alias] = array();
+        }
+
+        # fetch model instance Fields
+        foreach ($results as &$result) {
+            if (!isset($result[$Model->alias])) {
+                continue;
+            }
+
+            $belongsTo = $this->__parseBelongsTo($this->__settings[$Model->alias]['belongsTo'], $result);
+            $result['Field'] = array();
+            $modelFields = ClassRegistry::init('Field.Field')->find('all',
+                array(
+                    'order' => array('Field.ordering' => 'ASC'),
+                    'conditions' => array(
+                        'Field.belongsTo' => $belongsTo
+                    )
+                )
+            );
+            $result['Field'] = Set::extract('/Field/.', $modelFields);
+
+            foreach ($result['Field'] as $key => &$field) {
+                if (!in_array($field['field_module'], $fieldsList[$Model->alias])) {
+                    $fieldsList[$Model->alias][] = $field['field_module'];
+                }
+
+                $field['FieldData'] = array();  # Field storage data must be set here
+                $data['field'] =& $field; # Field instance information
+                $data['belongsTo'] = $Model->alias; # Field belongsTo
+                $data['foreignKey'] = @$result[$Model->alias][$Model->primaryKey]; # Model unique ID
+                $data['result'] =& $result; # Instance of current Entity record being fetched
+
+                $Model->hook("{$field['field_module']}_after_find", $data);
+            }
+        }
+
+        Configure::write('Fieldable.fieldsList', $fieldsList);
+
+        return $results;
+    }
+
+/**
  * Invoke each field's beforeSave() event and proceed with the Model's save proccess
  * if all the fields has returned 'true'.
  *
@@ -304,55 +365,6 @@ class FieldableBehavior extends ModelBehavior {
         }
 
         return !in_array(false, $r, true);
-    }
-
-/**
- * Fecth fields to Model results
- *
- * @param object $Model instance of model
- * @param array $results The results of the Model's find operation
- * @param boolean $primary Whether Model is being queried directly (vs. being queried as an association)
- * @return mixed An array value will replace the value of $results - any other value will be ignored.
- */
-    public function afterFind(&$Model, $results, $primary) {
-        if (empty($results) ||
-            !$primary ||
-            (isset($Model->fieldsNoFetch) && $Model->fieldsNoFetch)
-        ) {
-            return $results;
-        }
-
-        # fetch model instance Fields
-        foreach ($results as &$result) {
-            if (!isset($result[$Model->alias])) {
-                continue;
-            }
-
-            $belongsTo = $this->__parseBelongsTo($this->__settings[$Model->alias]['belongsTo'], $result);
-
-            $result['Field'] = array();
-            $modelFields = ClassRegistry::init('Field.Field')->find('all',
-                array(
-                    'order' => array('Field.ordering' => 'ASC'),
-                    'conditions' => array(
-                        'Field.belongsTo' => $belongsTo
-                    )
-                )
-            );
-            $result['Field'] = Set::extract('/Field/.', $modelFields);
-
-            foreach ($result['Field'] as $key => &$field) {
-                $field['FieldData'] = array();  # Field storage data must be set here
-                $data['field'] =& $field; # Field instance information
-                $data['belongsTo'] = $Model->alias; # Field belongsTo
-                $data['foreignKey'] = @$result[$Model->alias][$Model->primaryKey]; # Model unique ID
-                $data['result'] =& $result; # Instance of current Entity record being fetched
-
-                $Model->hook("{$field['field_module']}_after_find", $data);
-            }
-        }
-
-        return $results;
     }
 
 /**

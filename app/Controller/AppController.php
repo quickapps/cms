@@ -37,7 +37,8 @@ class AppController extends Controller {
             'inline' => array(),
             'file' => array('/system/js/jquery.js', '/system/js/quickapps.js')
         ),
-        'meta' => array() # meta tags for layout
+        'meta' => array(), # meta tags for layout
+        'fields' => array() # list of fields being rendered on actual request grouped by model.
     );
 
     public $helpers = array(
