@@ -14,7 +14,8 @@ Modules/
 Themes/Themed/*
 
 # site webroot files
-webroot/
+webroot/files/*
+!webroot/files/slider
 
 # site webroot
 
