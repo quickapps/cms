@@ -31,7 +31,8 @@ class AppController extends Controller {
             'speech' => array(),
             'tty' => array(),
             'tv' => array(),
-            'inline' => array()
+            'inline' => array(),
+            'import' => array()
         ),
         'javascripts' => array(
             'inline' => array(),
@@ -49,7 +50,7 @@ class AppController extends Controller {
         'Html' => array('className' => 'QaHtml'),
         'Session',
         'Cache',
-        'Js',
+        'Js' => array('Jquery', 'className' => 'QaJs'),
         'Time'
     );
 
@@ -67,7 +68,8 @@ class AppController extends Controller {
         'RequestHandler',
         'Acl',
         'Auth',
-        'Quickapps'
+        'Quickapps',
+        'System.JqueryUI'
     );
 
     public function __construct($request = null, $response = null) {
