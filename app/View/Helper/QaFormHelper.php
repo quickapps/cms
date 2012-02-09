@@ -20,6 +20,17 @@ class QaFormHelper extends AppHelper {
     public $helpers = array('CoreForm' => array('className' => 'Form'));
 
 /**
+ * Copies the validationErrors variable from the View object into this instance
+ *
+ * @param View $View The View this helper is being attached to.
+ * @param array $settings Configuration settings for the helper.
+ */
+	public function __construct(View $View, $settings = array()) {
+		parent::__construct($View, $settings);
+		$this->CoreForm->validationErrors =& $View->validationErrors;
+	}
+
+/**
  * Returns false if given form field described by the current entity has no errors.
  * Otherwise it returns the validation message
  *
@@ -51,8 +62,7 @@ class QaFormHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1384/Creating-Forms
  */
     public function create($model = null, $options = array()) {
-        /* Hook */
-        $data = array('model' => $model, 'options' => $options);
+        $data = compact('model', 'options');
         $this->hook('form_create_alter', $data);
 
         extract($data);
@@ -147,7 +157,7 @@ class QaFormHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1423/error
  */
     public function error($field, $text = null, $options = array()) {
-        $data = array('field' => $field, 'text' => $text, 'options' => $options);
+        $data = compact('field', 'text', 'options');
 
         $this->hook('form_error_alter', $data);
         extract($data);
@@ -166,7 +176,7 @@ class QaFormHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1427/label
  */
     public function label($fieldName = null, $text = null, $options = array()) {
-        $data = array('fieldName' => $fieldName, 'text' => $text, 'options' => $options);
+        $data = compact('fieldName', 'text', 'options');
 
         $this->hook('form_label_alter', $data);
         extract($data);
@@ -201,7 +211,7 @@ class QaFormHelper extends AppHelper {
  * @return string Completed form inputs.
  */
     public function inputs($fields = null, $blacklist = null) {
-        $data = array('fields' => $fields, 'blacklist' => $blacklist);
+        $data = compact('fields', 'blacklist');
 
         $this->hook('form_inputs_alter', $data);
         extract($data);
@@ -240,7 +250,8 @@ class QaFormHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1390/Automagic-Form-Elements
  */
     public function input($fieldName, $options = array()) {
-        $data = array('fieldName' => $fieldName, 'options' => $options);
+        $data = compact('fieldName', 'options');
+
         $this->hook('form_input_alter', $data);
 
         if (isset($options['type'])) {
@@ -271,7 +282,7 @@ class QaFormHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1414/checkbox
  */
     public function checkbox($fieldName, $options = array()) {
-        $data = array('fieldName' => $fieldName, 'options' => $options);
+        $data = compact('fieldName', 'options');
 
         $this->hook('form_checkbox_alter', $data);
         extract($data);
@@ -300,7 +311,7 @@ class QaFormHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1429/radio
  */
     public function radio($fieldName, $options = array(), $attributes = array()) {
-        $data = array('fieldName' => $fieldName, 'options' => $options, 'attributes' => $attributes);
+        $data = compact('fieldName', 'options', 'attributes');
 
         $this->hook('form_radio_alter', $data);
         extract($data);
@@ -322,7 +333,7 @@ class QaFormHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1433/textarea
  */
     public function textarea($fieldName, $options = array()) {
-        $data = array('fieldName' => $fieldName, 'options' => $options);
+        $data = compact('fieldName', 'options');
 
         $this->hook('form_textarea_alter', $data);
         extract($data);
@@ -340,7 +351,7 @@ class QaFormHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1425/hidden
  */
     public function hidden($fieldName, $options = array()) {
-        $data = array('fieldName' => $fieldName, 'options' => $options);
+        $data = compact('fieldName', 'options');
 
         $this->hook('form_hidden_alter', $data);
         extract($data);
@@ -358,7 +369,7 @@ class QaFormHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1424/file
  */
     public function file($fieldName, $options = array()) {
-        $data = array('fieldName' => $fieldName, 'options' => $options);
+        $data = compact('fieldName', 'options');
 
         $this->hook('form_file_alter', $data);
         extract($data);
@@ -381,7 +392,7 @@ class QaFormHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1415/button
  */
     public function button($title, $options = array()) {
-        $data = array('title' => $title, 'options' => $options);
+        $data = compact('title', 'options');
 
         $this->hook('form_button_alter', $data);
         extract($data);
@@ -405,7 +416,7 @@ class QaFormHelper extends AppHelper {
  * @return string A HTML button tag.
  */
     public function postButton($title, $url, $options = array()) {
-        $data = array('title' => $title, 'url' => $url, 'options' => $options);
+        $data = compact('title', 'url', 'options');
 
         $this->hook('form_post_button_alter', $data);
         extract($data);
@@ -431,7 +442,7 @@ class QaFormHelper extends AppHelper {
  * @return string An `<a />` element.
  */
     public function postLink($title, $url = null, $options = array(), $confirmMessage = false) {
-        $data = array('title' => $title, 'url' => $url, 'options' => $options, 'confirmMessage' => $confirmMessage);
+        $data = compact('title', 'url', 'options', 'confirmMessage');
 
         $this->hook('form_post_link_alter', $data);
         extract($data);
@@ -469,7 +480,7 @@ class QaFormHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1431/submit
  */
     public function submit($caption = null, $options = array()) {
-        $data = array('caption' => $caption, 'options' => $options);
+        $data = compact('caption', 'options');
 
         $this->hook('form_submit_alter', $data);
         extract($data);
@@ -526,7 +537,7 @@ class QaFormHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1430/select
  */
     public function select($fieldName, $options = array(), $attributes = array()) {
-        $data = array('fieldName' => $fieldName, 'options' => $options, 'attributes' => $attributes);
+        $data = compact('fieldName', 'options', 'attributes');
 
         $this->hook('form_select_alter', $data);
         extract($data);
@@ -550,7 +561,7 @@ class QaFormHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1419/day
  */
     public function day($fieldName = null, $attributes = array()) {
-        $data = array('fieldName' => $fieldName, 'attributes' => $attributes);
+        $data = compact('fieldName', 'attributes');
 
         $this->hook('form_day_alter', $data);
         extract($data);
@@ -578,7 +589,7 @@ class QaFormHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1416/year
  */
     public function year($fieldName, $minYear = null, $maxYear = null, $attributes = array()) {
-        $data = array('fieldName' => $fieldName, 'minYear' => $minYear, 'maxYear' => $maxYear, 'attributes' => $attributes);
+        $data = compact('fieldName', 'minYear', 'maxYear', 'attributes');
 
         $this->hook('form_year_alter', $data);
         extract($data);
@@ -604,7 +615,7 @@ class QaFormHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1417/month
  */
     public function month($fieldName, $attributes = array()) {
-        $data = array('fieldName' => $fieldName, 'attributes' => $attributes);
+        $data = compact('fieldName', 'attributes');
 
         $this->hook('form_month_alter', $data);
         extract($data);
@@ -629,7 +640,7 @@ class QaFormHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1420/hour
  */
     public function hour($fieldName, $format24Hours = false, $attributes = array()) {
-        $data = array('fieldName' => $fieldName, 'format24Hours' => $format24Hours, 'attributes' => $attributes);
+        $data = compact('fieldName', 'format24Hours', 'attributes');
 
         $this->hook('form_hour_alter', $data);
         extract($data);
@@ -653,7 +664,7 @@ class QaFormHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1421/minute
  */
     public function minute($fieldName, $attributes = array()) {
-        $data = array('fieldName' => $fieldName, 'attributes' => $attributes);
+        $data = compact('fieldName', 'attributes');
 
         $this->hook('form_minute_alter', $data);
         extract($data);
@@ -678,8 +689,7 @@ class QaFormHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1422/meridian
  */
     public function meridian($fieldName, $attributes = array()) {
-        /* Hook */
-        $data = array('fieldName' => $fieldName, 'attributes' => $attributes);
+        $data = compact('fieldName', 'attributes');
 
         $this->hook('form_meridian_alter', $data);
         extract($data);
@@ -712,7 +722,7 @@ class QaFormHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1418/dateTime
  */
     public function dateTime($fieldName, $dateFormat = 'DMY', $timeFormat = '12', $attributes = array()) {
-        $data = array('fieldName' => $fieldName, 'dateFormat' => $dateFormat, 'timeFormat' => $timeFormat, 'attributes' => $attributes);
+        $data = compact('fieldName', 'dateFormat', 'timeFormat', 'attributes');
 
         $this->hook('form_date_time_alter', $data);
         extract($data);
@@ -730,7 +740,7 @@ class QaFormHelper extends AppHelper {
  * @return void
  */
     public function setEntity($entity, $setScope = false) {
-        $data = array('entity' => $entity, 'setScope' => $setScope);
+        $data = compact('entity', 'setScope');
 
         $this->hook('form_set_entity_alter', $data);
         extract($data);

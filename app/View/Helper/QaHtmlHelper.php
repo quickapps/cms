@@ -20,13 +20,35 @@ class QaHtmlHelper extends AppHelper {
     var $helpers = array('CoreHtml' => array('className' => 'Html'), 'Table');
 
 /**
+ * Constructor
+ *
+ * ### Settings
+ *
+ * - `configFile` A file containing an array of tags you wish to redefine.
+ *
+ * ### Customizing tag sets
+ *
+ * Using the `configFile` option you can redefine the tag HtmlHelper will use.
+ * The file named should be compatible with HtmlHelper::loadConfig().
+ *
+ * @param View $View The View this helper is being attached to.
+ * @param array $settings Configuration settings for the helper.
+ */
+	public function __construct(View $View, $settings = array()) {
+		parent::__construct($View, $settings);
+		if (!empty($settings['configFile'])) {
+			$this->CoreHtml->loadConfig($settings['configFile']);
+		}
+	}
+
+/**
  * QuickApps implementation of TableHelper
  *
  * @var array
  * @access public
  */
     function table($data , $options) {
-        $_data = array('data' => $data, 'options' => $options);
+        $_data = compact('data', 'options');
 
         $this->hook('html_table_alter', $_data);
         extract($_data);
@@ -44,7 +66,7 @@ class QaHtmlHelper extends AppHelper {
  * @see HtmlHelper::link() for details on $options that can be used.
  */
     public function addCrumb($name, $link = null, $options = null) {
-        $data = array('name' => $name, 'link' => $link, 'options' => $options);
+        $data = compact('name', 'link', 'options');
 
         $this->hook('html_add_crumb_alter', $data);
         extract($data);
@@ -93,7 +115,7 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1438/meta
  */
     public function meta($type, $url = null, $options = array()) {
-        $data = array('type' => $type, 'url' => $url, 'options' => $options);
+        $data = compact('type', 'url', 'options');
 
         $this->hook('html_meta_alter', $data);
         extract($data);
@@ -138,7 +160,7 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1442/link
  */
     public function link($title, $url = null, $options = array(), $confirmMessage = false) {
-        $data = array('title' => $title, 'url' => $url, 'options' => $options, 'confirmMessage' => $confirmMessage);
+        $data = compact('title', 'url', 'options', 'confirmMessage');
 
         $this->hook('html_link_alter', $data);
         extract($data);
@@ -163,7 +185,7 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1437/css
  */
     public function css($path, $rel = null, $options = array()) {
-        $data = array('path' => $path, 'rel' => $rel, 'options' => $options);
+        $data = compact('path', 'rel', 'options');
 
         $this->hook('html_css_alter', $data);
         extract($data);
@@ -193,7 +215,7 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1589/script
  */
     public function script($url, $options = array()) {
-        $data = array('url' => $url, 'options' => $options);
+        $data = compact('url', 'options');
 
         $this->hook('html_script_alter', $data);
         extract($data);
@@ -216,7 +238,7 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1604/scriptBlock
  */
     public function scriptBlock($script, $options = array()) {
-        $data = array('script' => $script, 'options' => $options);
+        $data = compact('script', 'options');
 
         $this->hook('html_script_block_alter', $data);
         extract($data);
@@ -281,7 +303,7 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1440/style
  */
     public function style($data, $oneline = true) {
-        $data = array('data' => $data, 'oneline' => $oneline);
+        $data = compact('data', 'oneline');
 
         $this->hook('html_style_alter', $data);
         extract($data);
@@ -297,7 +319,7 @@ class QaHtmlHelper extends AppHelper {
  * @return string Composed bread crumbs
  */
     public function getCrumbs($separator = '&raquo;', $startText = false) {
-        $data = array('separator' => $separator, 'startText' => $startText);
+        $data = compact('separator', 'startText');
 
         $this->hook('html_get_crumbs_alter', $data);
         extract($data);
@@ -344,7 +366,7 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1441/image
  */
     public function image($path, $options = array()) {
-        $data = array('path' => $path, 'options' => $options);
+        $data = compact('path', 'options');
 
         $this->hook('html_image_alter', $data);
         extract($data);
@@ -363,7 +385,7 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1446/tableHeaders
  */
     public function tableHeaders($names, $trOptions = null, $thOptions = null) {
-        $data = array('names' => $names, 'trOptions' => $trOptions, 'thOptions' => $thOptions);
+        $data = compact('names', 'trOptions', 'thOptions');
 
         $this->hook('html_table_headers_alter', $data);
         extract($data);
@@ -385,7 +407,7 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1447/tableCells
  */
     public function tableCells($data, $oddTrOptions = null, $evenTrOptions = null, $useCount = false, $continueOddEven = true) {
-        $data = array('data' => $data, 'oddTrOptions' => $oddTrOptions, 'evenTrOptions' => $evenTrOptions, 'useCount' => $useCount, 'continueOddEven' => $continueOddEven);
+        $data = compact('data', 'oddTrOptions', 'evenTrOptions', 'useCount', 'continueOddEven');
 
         $this->hook('html_table_cells_alter', $data);
         extract($data);
@@ -409,7 +431,7 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1443/tag
  */
     public function tag($name, $text = null, $options = array()) {
-        $data = array('name' => $name, 'text' => $text, 'options' => $options);
+        $data = compact('name', 'text', 'options');
 
         $this->hook('html_tag_alter',  $data);
         extract($data);
@@ -428,7 +450,7 @@ class QaHtmlHelper extends AppHelper {
 
         array_shift($args);
 
-        $data = array('tag' => $tag, 'args' => $args);
+        $data = compact('tag', 'args');
 
         $this->hook('html_useTag_alter', $data);
         extract($data);
@@ -461,7 +483,7 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1444/div
  */
     public function div($class = null, $text = null, $options = array()) {
-        $data = array('class' => $class, 'text' => $text, 'options' => $options);
+        $data = compact('class', 'text', 'options');
 
         $this->hook('html_div_alter', $data);
         extract($data);
@@ -484,7 +506,7 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1445/para
  */
     public function para($class, $text, $options = array()) {
-        $data = array('class' => $class, 'text' => $text, 'options' => $options);
+        $data = compact('class', 'text', 'options');
 
         $this->hook('html_para_alter', $data);
         extract($data);
@@ -502,7 +524,7 @@ class QaHtmlHelper extends AppHelper {
  * @return string The nested list
  */
     public function nestedList($list, $options = array(), $itemOptions = array(), $tag = 'ul') {
-        $data = array('list' => $list, 'options' => $options, 'itemOptions' => $itemOptions, 'tag' => $tag);
+        $data = compact('list', 'options', 'itemOptions', 'tag');
 
         $this->hook('html_nested_list_alter',  $data);
         extract($data);
@@ -518,7 +540,7 @@ class QaHtmlHelper extends AppHelper {
  * @return mixed False to error or loaded configs
  */
     public function loadConfig($configFile, $path = CONFIGS) {
-        $data = array('configFile' => $configFile, 'path' => $path);
+        $data = compact('configFile', 'path');
 
         $this->hook('html_load_config_alter',  $data);
         extract($data);
