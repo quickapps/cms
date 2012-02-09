@@ -1,4 +1,4 @@
-var QuickApps = QuickApps || { 'settings': {}, 'behaviors': {}, 'locale': { 'strings': {} } };
+var QuickApps = QuickApps || {'settings': {}, 'behaviors': {}, 'locale': {'strings': {}}};
 
 (function ($) {
 /**
@@ -27,30 +27,6 @@ var QuickApps = QuickApps || { 'settings': {}, 'behaviors': {}, 'locale': { 'str
         }
 
         return str;
-    };
-
-/**
- * Generate the themed representation of a QuickApps object.
- * All requests for themed output must go through this function. It examines
- * the request and routes it to the appropriate theme function. If the current
- * theme does not provide an override function, the generic theme function is
- * called.
- *
- * For example, to retrieve the HTML for text that should be emphasized and
- * displayed as a placeholder inside a sentence, call
- * QuickApps.theme('placeholder', text).
- *
- * @param func
- *   The name of the theme function to call.
- * @param ...
- *   Additional arguments to pass along to the theme function.
- * @return
- *   Any data the theme function returns. This could be a plain HTML string,
- *   but also a complex object.
- */    
-    QuickApps.theme = function (func) {
-        var args = Array.prototype.slice.apply(arguments, [1]);
-        return (QuickApps.theme[func] || QuickApps.theme.prototype[func]).apply(this, args);
     };
 
 /**
@@ -186,22 +162,4 @@ var QuickApps = QuickApps || { 'settings': {}, 'behaviors': {}, 'locale': { 'str
             el.remove();
         }
     });
-
-/**
- * The default themes.
- *
- */
-    QuickApps.theme.prototype = {
-        /**
-        * Formats text for emphasized display in a placeholder inside a sentence.
-        *
-        * @param str
-        *   The text to format (plain-text).
-        * @return
-        *   The formatted text (html).
-        */
-        placeholder: function (str) {
-            return '<em class="placeholder">' + QuickApps.checkPlain(str) + '</em>';
-        }
-    };
 })(jQuery);
