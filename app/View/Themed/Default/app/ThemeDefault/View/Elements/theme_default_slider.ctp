@@ -1,3 +1,12 @@
+<?php echo $this->Html->script('nivo-slider/jquery.nivo.slider.pack.js'); ?>
+<?php echo $this->Html->css('nivo-slider.css'); ?>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#slider').nivoSlider({effect: 'fade'});
+    });
+</script>
+
 <div id="slider-wrapper">
     <div id="slider" class="nivoSlider">
         <?php
@@ -44,11 +53,3 @@
     </div>
     <?php echo implode("\n", $captions); ?>
 </div>
-
-<?php echo $this->Html->script('nivo-slider/jquery.nivo.slider.pack.js'); ?>
-<?php echo $this->Html->css('nivo-slider.css'); ?>
-<script type="text/javascript">
-    $(window).load(function() {
-        $('#slider').nivoSlider({effect: 'fade'});
-    });
-</script>

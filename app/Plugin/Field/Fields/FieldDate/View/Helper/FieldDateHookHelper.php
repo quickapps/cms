@@ -9,8 +9,8 @@ class FieldDateHookHelper extends AppHelper {
         $out = '';
 
         if (!$this->__instancesCount) {
-            $out .= $this->_View->Html->script('/system/js/ui/jquery-ui.js');
-            $out .= $this->_View->Html->css('/system/js/ui/css/ui-lightness/styles.css');
+            $this->_View->JqueryUI->add('all');
+            $this->_View->JqueryUI->theme();
         }
 
         if (isset($settings['locale']) &&
@@ -20,7 +20,7 @@ class FieldDateHookHelper extends AppHelper {
             $locales = $this->__fieldDateLocale;
             $locales[$settings['locale']] = true;
             $this->__fieldDateLocale = $locales;
-            $out .= $this->_View->Html->script("/field_date/js/i18n/jquery.ui.datepicker-{$settings['locale']}.js");
+            $this->_View->Layout->script("/field_date/js/i18n/jquery.ui.datepicker-{$settings['locale']}.js");
         }
 
         $out .= "<script>";

@@ -1,41 +1,7 @@
-<style>
-    #menu-sortContainer ul {
-        margin: 0;
-        padding: 0;
-        padding-left: 30px;
-    }
-
-    #menu-sortContainer ul.sortable, #menu-sortContainer ul.sortable ul {
-        margin: 0 0 0 25px;
-        padding: 0;
-        list-style-type: none;
-    }
-
-    #menu-sortContainer ul.sortable {
-        margin: 0 0 2em 0;
-    }
-
-    #menu-sortContainer .sortable li {
-        margin: 7px 0 0 0;
-        padding: 0;
-    }
-
-    #menu-sortContainer .sortable li div  {
-        border: 1px solid #ccc;
-        padding: 3px;
-        margin: 0;
-        cursor: move;
-    }
-
-    #menu-sortContainer .placeholder {
-        background-color: #cfcfcf;
-        padding:15px;
-    }
-</style>
-<?php //echo $this->Html->script('nestedSortable/jquery-1.5.2.min.js'); ?>
-<?php echo $this->Html->script('/menu/js/nestedSortable/jquery-ui-1.8.11.custom.min.js'); ?>
-<?php echo $this->Html->script('/menu/js/nestedSortable/jquery.ui.nestedSortable'); ?>
-<?php echo $this->Html->script('/system/js/json.js'); ?>
+<?php $this->Layout->css('/menu/css/sortable-menu.css'); ?>
+<?php $this->Layout->script('/menu/js/nestedSortable/jquery-ui-1.8.11.custom.min.js'); ?>
+<?php $this->Layout->script('/menu/js/nestedSortable/jquery.ui.nestedSortable'); ?>
+<?php $this->Layout->script('/system/js/json.js'); ?>
 
 <div id="menu-sortContainer">
     <?php echo $this->Tree->generate($links, array('class' => 'sortable', 'plugin' => 'menu', 'element' => 'menu_link_node', 'id' => 'menuLinks', 'model' => 'MenuLink', 'alias' => 'link_title')); ?>
@@ -74,5 +40,4 @@
             });
         });
     });
-
 </script>

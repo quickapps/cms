@@ -50,9 +50,9 @@ class FieldTermsHookHelper extends AppHelper {
         $prePopulate = array();
 
         if (!$this->__tmp['autocompleteCount']) {
-            $out .= $this->_View->Html->css('/field_terms/css/token-input.css') . "\n ";
-            $out .= $this->_View->Html->css('/field_terms/css/token-input-facebook.css') . "\n ";
-            $out .= $this->_View->Html->script('/field_terms/js/jquery.tokeninput.js') . "\n ";
+            $this->_View->Layout->css('/field_terms/css/token-input.css');
+            $this->_View->Layout->css('/field_terms/css/token-input-facebook.css');
+            $this->_View->Layout->script('/field_terms/js/jquery.tokeninput.js');
             $this->__tmp['autocompleteCount']++;
         }
 

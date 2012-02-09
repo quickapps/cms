@@ -14,20 +14,20 @@ class FieldFileHookHelper extends AppHelper {
         $out = '';
 
         if (!$this->__instancesCount) {
-            $out .= $this->_View->Html->css('/field_file/js/uploadify/uploadify.css');
-            $out .= $this->_View->Html->css('/field_file/css/field_file.css');
-            $out .= $this->_View->Html->script('/system/js/ui/jquery-ui.js');
-            $out .= $this->_View->Html->script('/system/js/json.js');
-            $out .= $this->_View->Html->script('/field_file/js/field_file.js');
-            $out .= $this->_View->Html->script('/field_file/js/locale.' . Configure::read('Variable.language.code') . '.js');
-            $out .= $this->_View->Html->script('/field_file/js/uploadify/swfobject.js');
-            $out .= $this->_View->Html->script('/field_file/js/uploadify/jquery.uploadify.v2.1.4.min.js');
-            $out .= "
-            <script type=\"text/javascript\">
+            $this->_View->Layout->css('/field_file/js/uploadify/uploadify.css');
+            $this->_View->Layout->css('/field_file/css/field_file.css');
+            $this->_View->Layout->script('/system/js/ui/jquery-ui.js');
+            $this->_View->Layout->script('/system/js/json.js');
+            $this->_View->Layout->script('/field_file/js/field_file.js');
+            $this->_View->Layout->script('/field_file/js/locale.' . Configure::read('Variable.language.code') . '.js');
+            $this->_View->Layout->script('/field_file/js/uploadify/swfobject.js');
+            $this->_View->Layout->script('/field_file/js/uploadify/jquery.uploadify.v2.1.4.min.js');
+            $this->_View->Layout->script("
+            $(document).ready(function() {
                 QuickApps.field_file.uploader = '" . Router::url('/field_file/js/uploadify/uploadify.swf') . "';
                 QuickApps.field_file.session_id = '" . CakeSession::id() . "';
                 QuickApps.field_file.cancelImg = '" . Router::url('/field_file/js/uploadify/cancel.png') . "';
-            </script>";
+            });", 'inline');
         }
 
         return $out;

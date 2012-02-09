@@ -46,8 +46,10 @@ class ModulesController extends SystemAppController {
                 'recursive' => -1
             )
         );
-        $this->Layout['javascripts']['file'][] = '/system/js/ui/jquery-ui';
-        $this->Layout['stylesheets']['all'][] = '/system/js/ui/css/ui-lightness/styles.css';
+
+        $this->JqueryUI->add('sortable');
+        $this->JqueryUI->theme();
+
         $this->Layout['stylesheets']['all'][] = '/block/css/sortable.css';
 
         $this->set('modules', $modules);
