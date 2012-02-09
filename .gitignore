@@ -14,8 +14,9 @@ Modules/
 Themes/Themed/*
 
 # site webroot files
-webroot/files/*
-!webroot/files/slider
+webroot/
+
+# site webroot
 
 # site hooks
 Hooks/*
