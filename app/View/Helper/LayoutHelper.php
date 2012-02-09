@@ -14,6 +14,7 @@ class LayoutHelper extends AppHelper {
 /**
  * Used by some methods to cache data in order to improve
  * comunication between them, for example see LayoutHelper::blocksInRegion().
+ *
  */
     protected $_tmp = array();
 
@@ -29,28 +30,55 @@ class LayoutHelper extends AppHelper {
  *      ....
  * );
  * }}}
- * @return string HTML css link-tags and inline-styles.
- * @see AppController::$Layout.
+ * @return string HTML css link-tags and inline-styles
+ * @see AppController::$Layout
  */
     public function stylesheets($stylesheets = array()) {
-        $output = $inline = '';
+        $output = $inline = $import = '';
         $stylesheets = Set::merge($this->_View->viewVars['Layout']['stylesheets'], $stylesheets);
 
-        $this->hook('stylesheets_alter', $stylesheets); # pass css list array to modules
+        // pass css list array to modules
+        $this->hook('stylesheets_alter', $stylesheets);
 
         foreach ($stylesheets as $media => $files) {
             foreach ($files as $file) {
-                if ($media !== 'inline') {
-                    $output .= "\n". $this->_View->Html->css($file, 'stylesheet', array('media' => $media));
-                } else {
+                if ($media == 'inline') {
                     $inline .= "{$file}\n\n";
+                } elseif ($media == 'import') {
+                    $import .= '@import url("' . Router::url($file, true) . '");' . "\n";
+                } else {
+                    $output .= "\n". $this->_View->Html->css($file, 'stylesheet', array('media' => $media));
                 }
             }
         }
 
-        $output = !empty($inline) ? $output . "\n<style type=\"text/css\"><!--\t\n {$inline} \n--></style>\n" : $output;
+        if (!empty($import)) {
+            $output .= "\n<style type=\"text/css\" media=\"all\">\n{$import}</style>\n";
+        }
+
+        if (!empty($inline)) {
+            $output .= "\n<style type=\"text/css\"><!--\t\n {$inline} \n--></style>\n";
+        }
 
         return $output;
+    }
+
+/**
+ * Insert a CSS file in the stylesheets list to be included
+ * on layout header using Layout::stylesheets().
+ *
+ * This method will NOT work if used on Themes layouts.
+ * Use in Views ONLY.
+ *
+ * @param string $path URL to the css file
+ * @param string $media Media type
+ * @return void
+ * @see AppController::$Layout
+ */
+    public function css($path, $media = 'all') {
+        if (!in_array($path, $this->_View->viewVars['Layout']['stylesheets'][$media])) {
+            $this->_View->viewVars['Layout']['stylesheets'][$media][] = $path;
+        }
     }
 
 /**
@@ -63,40 +91,68 @@ class LayoutHelper extends AppHelper {
  *     'file' => array("path_to_file1", "path_to_file2", ...)
  * );
  * }}}
- * @return string HTML javascript link-tags and inline-code.
- * @see AppController::$Layout.
+ * @return string HTML javascript link-tags and inline-code
+ * @see AppController::$Layout
  */
     public function javascripts($javascripts = array()) {
         $output = '';
         $javascripts = Set::merge($this->_View->viewVars['Layout']['javascripts'], $javascripts);
 
-        $this->hook('javascripts_alter', $javascripts);    # pass javascripts list to modules if they need to alter them
+        // pass javascripts list to modules if they need to alter them
+        $this->hook('javascripts_alter', $javascripts);
 
-        # js files first
+        // js files
         $javascripts['file'] = array_unique($javascripts['file']);
 
         foreach ($javascripts['file'] as $file) {
             $output .= "\n" . $this->_View->Html->script($file);
         }
 
-        # js inline code blocks after
-        $c_blocks = "\n";
+        // js inline code
+        $inline = "\n";
         $javascripts['inline'] = array_unique($javascripts['inline']);
 
         foreach ($javascripts['inline'] as $block) {
-            $c_blocks .=  $block . "\n\n";
+            $inline .= "{$block}\n\n";
         }
 
-        $output .= "\n" . $this->_View->Html->scriptBlock($c_blocks);
+        if ($buffer = $this->_View->Js->writeBuffer(array('safe' => false))) {
+            $buffer = preg_replace(
+            array(
+                '/<script type="text\/javascript".*?>/',
+                '/<\/script>/',
+            ), '', $buffer);
+            $inline .= "{$buffer}\n\n";
+        }
+
+        $output .= "\n" . $this->_View->Html->scriptBlock($inline);
 
         return "\n" . $output . "\n";
+    }
+
+/**
+ * Insert a JS file in the javascripts list to be included
+ * on layout header using Layout::javascripts().
+ *
+ * This method will NOT work if used on Themes layouts.
+ * Use in Views ONLY.
+ *
+ * @param string $url URL to the js file
+ * @param string $type Insert as `file` or `inline`. default: `file`
+ * @return void
+ * @see AppController::$Layout
+ */
+    public function script($url, $type = 'file') {
+        if (!in_array($url, $this->_View->viewVars['Layout']['javascripts'][$type])) {
+            $this->_View->viewVars['Layout']['javascripts'][$type][] = $url;
+        }
     }
 
 /**
  * Render extra code for header.
  * This function should be used by themes just before </head>.
  *
- * @return string HTML code to include in header.
+ * @return string HTML code to include in header
  */
     public function header() {
         if (is_string($this->_View->viewVars['Layout']['header'])) {
@@ -117,7 +173,7 @@ class LayoutHelper extends AppHelper {
 /**
  * Shortcut for `$title_for_layout`.
  *
- * @return string Current page's title.
+ * @return string Current page's title
  */
     public function title() {
         $title = isset($this->_View->viewVars['Layout']['node']['Node']['title']) ? __t($this->_View->viewVars['Layout']['node']['Node']['title']) : Configure::read('Variable.site_name');
@@ -130,7 +186,7 @@ class LayoutHelper extends AppHelper {
 /**
  * Shortcut for `View::fetch('content')`.
  *
- * @return string Current page's HTML content.
+ * @return string Current page's HTML content
  */
     public function content() {
         $content = $this->_View->fetch('content');
@@ -143,7 +199,7 @@ class LayoutHelper extends AppHelper {
  * Render extra code for footer.
  * This function should be used by themes just before </body>.
  *
- * @return string HTML code.
+ * @return string HTML code
  */
     public function footer() {
         if (is_string($this->_View->viewVars['Layout']['footer'])) {
@@ -167,8 +223,8 @@ class LayoutHelper extends AppHelper {
  *
  * @param array $metaForLayout Optional asociative array of aditional meta-tags to
  *                             merge with Layout metas `meta_name => content`.
- * @return string HTML formatted meta tags.
- * @see AppController::$Layout.
+ * @return string HTML formatted meta tags
+ * @see AppController::$Layout
  */
     public function meta($metaForLayout = array()) {
         if (!is_array($metaForLayout) || empty($metaForLayout)) {
@@ -200,10 +256,10 @@ class LayoutHelper extends AppHelper {
 
 /**
  * Returns specified node's field.
- * (Valid only when rendering a single node [viewMode = full])
+ * Valid only when rendering a single node (viewMode = full).
  *
- * @param string $field Node field name to retrieve.
- * @return mixed Array of the field if exists. FALSE otherwise.
+ * @param string $field Node field name to retrieve
+ * @return mixed Array of the field if exists. FALSE otherwise
  */
     public function nodeField($field = false) {
         if (!is_string($field)) {
@@ -233,7 +289,8 @@ class LayoutHelper extends AppHelper {
  * @param array $options Node rendering options:
  *                  - mixed class: array or string, extra CSS class(es) for node DIV container
  *                  - mixed viewMode: set to string value to force rendering viewMode. set to boolean false for automatic.
- * @return string HTML formatted node. Empty string ('') will be returned if node could not be rendered.
+ * @return string HTML formatted node.
+ *                Empty string ('') will be returned if node could not be rendered.
  */
     public function renderNode($node = false, $options = array()) {
         $options = array_merge(
@@ -263,7 +320,7 @@ class LayoutHelper extends AppHelper {
         $view_mode = $viewMode !== false ? $viewMode : $this->_View->viewVars['Layout']['viewMode'];
 
         foreach ($node['Field'] as $key => &$data) {
-            # undefined viewMode -> use default
+            // undefined viewMode -> use default
             if (!isset($data['settings']['display'][$view_mode]) && isset($data['settings']['display']['default'])) {
                 $data['settings']['display'][$view_mode] = $data['settings']['display']['default'];
             }
@@ -319,9 +376,9 @@ class LayoutHelper extends AppHelper {
 /**
  * Wrapper for field rendering hook.
  *
- * @param array $field Field information array.
- * @param boolean $edit Set to TRUE for edit form. FALSE for view mode.
- * @return string HTML formatted field.
+ * @param array $field Field information array
+ * @param boolean $edit Set to TRUE for edit form. FALSE for view mode
+ * @return string HTML formatted field
  */
     public function renderField($field, $edit = false) {
         if (isset($field['settings']['display'][$this->_View->viewVars['Layout']['viewMode']]['type']) &&
@@ -375,10 +432,10 @@ class LayoutHelper extends AppHelper {
 /**
  * Shortcut for Session setFlash.
  *
- * @param string $msg Mesagge to display.
- * @param string $class Type of message: error, success, alert, bubble.
- * @param string $id Message id, default is 'flash'.
- * @return void.
+ * @param string $msg Mesagge to display
+ * @param string $class Type of message: error, success, alert, bubble
+ * @param string $id Message id, default is 'flash'
+ * @return void
  */
     public function flashMsg($msg, $class, $id = 'flash') {
         $message = $msg;
@@ -415,7 +472,7 @@ class LayoutHelper extends AppHelper {
  * Return rendered breadcrumb. Data is passed to themes for formatting the crumbs.
  * Default formatting is fired in case of no theme format-response.
  *
- * @return string HTML formatted breadcrumb.
+ * @return string HTML formatted breadcrumb
  */
     public function breadCrumb() {
         $b = $this->_View->viewVars['breadCrumb'];
@@ -435,9 +492,9 @@ class LayoutHelper extends AppHelper {
 /**
  * Render child nodes of the given menu node (father).
  *
- * @param mixed $path String path of the father node or boolen false to use current path.
- * @param string $region Theme region where the child nodes will be rendered, 'content' by default.
- * @return string Html rendered menu.
+ * @param mixed $path String path of the father node or boolen false to use current path
+ * @param string $region Theme region where the child nodes will be rendered, 'content' by default
+ * @return string Html rendered menu
  */
     public function menuNodeChildren($path = false, $region = 'content') {
         $output = '';
@@ -486,10 +543,10 @@ class LayoutHelper extends AppHelper {
 /**
  * Wrapper method to MenuHelper::generate().
  *
- * @param array $menu Array of links to render.
- * @param array $settings Optional, customization options for menu rendering process.
- * @return string HTML rendered menu.
- * @see MenuHelper::generate.
+ * @param array $menu Array of links to render
+ * @param array $settings Optional, customization options for menu rendering process
+ * @return string HTML rendered menu
+ * @see MenuHelper::generate
  */
     public function menu($menu, $settings = array()) {
         $data = array(
@@ -506,7 +563,7 @@ class LayoutHelper extends AppHelper {
 /**
  * Check is the page being viewed is the site frontpage.
  *
- * @return boolean TRUE if is frontpage. FALSE otherwise.
+ * @return boolean TRUE if is frontpage. FALSE otherwise
  */
     public function isFrontpage() {
         return ($this->_View->plugin == 'Node' &&
@@ -518,7 +575,7 @@ class LayoutHelper extends AppHelper {
 /**
  * Checks user session.
  *
- * @return boolean, TRUE if user is logged in. FALSE otherwise.
+ * @return boolean, TRUE if user is logged in. FALSE otherwise
  */
     public function loggedIn() {
         return $this->Session->check('Auth.User.id');
@@ -566,7 +623,11 @@ class LayoutHelper extends AppHelper {
             $user = $this->Session->read('Auth.User');
         }
 
-        if (!isset($user['User'])) {
+        if (!isset($user['User']) && is_array($user)) {
+            $user['User'] = $user;
+        }
+
+        if (!isset($user['User']['email'])) {
             return '';
         }
 
@@ -598,15 +659,15 @@ class LayoutHelper extends AppHelper {
  * Manually insert a custom block to stack.
  *
  * @param array $block Formatted block array:
- *     - title
- *     - pages
- *     - visibility
- *     - body
- *     - region
- *     - theme
- *     - format
+ *  - title
+ *  - pages
+ *  - visibility
+ *  - body
+ *  - region
+ *  - theme
+ *  - format
  * @param string $region Theme region
- * @return boolean TRUE on success. FALSE otherwise.
+ * @return boolean TRUE on success. FALSE otherwise
  */
     public function blockPush($block = array(), $region = '') {
         $_block = array(
@@ -671,13 +732,13 @@ class LayoutHelper extends AppHelper {
  *      ...
  *   );
  * }}}
- * `options` array (optional): array of options for HtmlHelper::link()
- * `pattern` string (optional): show link as selected on pattern match (asterisk allowed)
+ *  - `options` array (optional): array of options for HtmlHelper::link()
+ *  - `pattern` string (optional): show link as selected on pattern match (asterisk allowed)
  * @param array $options Array of options:
- *      `type`: type of list, ol, ul. default: ul
- *      `id`: id attribute for the container (ul, ol)
- *      `itemType`: type of child node. default: li
- *      `selectedClass`: class attribute for selected itemType. default: `selected`
+ *  - type: type of list, ol, ul. default: ul
+ *  - id: id attribute for the container (ul, ol)
+ *  - itemType: type of child node. default: li
+ *  - selectedClass: class attribute for selected itemType. default: `selected`
  * @return string HTML
  */
     public function toolbar($links, $options = array()) {
@@ -744,7 +805,7 @@ class LayoutHelper extends AppHelper {
  * Checks if the given theme region is empty or not.
  *
  * @param string $region Region alias
- * @return boolean TRUE no blocks in region, FALSE otherwise.
+ * @return boolean TRUE no blocks in region, FALSE otherwise
  */
     public function emptyRegion($region) {
         return ($this->blocksInRegion($region) == 0);
@@ -818,8 +879,9 @@ class LayoutHelper extends AppHelper {
             if (!isset($this->_tmp['blocksInRegion'][$region]['blocks_ids']) ||
                 !in_array($block['Block']['id'], $this->_tmp['blocksInRegion'][$region]['blocks_ids'])
             ) {
-                $this->_tmp['blocksInRegion'][$region][] = $block;                              # Cache improve
-                $this->_tmp['blocksInRegion'][$region]['blocks_ids'][] = $block['Block']['id']; # Cache improve
+                // Cache improve
+                $this->_tmp['blocksInRegion'][$region][] = $block;
+                $this->_tmp['blocksInRegion'][$region]['blocks_ids'][] = $block['Block']['id'];
             }
 
             $t++;
@@ -831,7 +893,7 @@ class LayoutHelper extends AppHelper {
 /**
  * Render all blocks for a particular region.
  *
- * @param string $region Region alias to render.
+ * @param string $region Region alias to render
  * @return string Html blocks
  */
     public function blocks($region) {
@@ -886,10 +948,10 @@ class LayoutHelper extends AppHelper {
  *
  * @param array $block Well formated block array.
  * @param array $options Array of options:
- *                       - boolean title: Render title. default true.
- *                       - boolean body: Render body. default true.
- *                       - string region: Region where block belongs to.
- *                       - array params: extra options used by block.
+ *  - boolean title: Render title. default true.
+ *  - boolean body: Render body. default true.
+ *  - string region: Region where block belongs to.
+ *  - array params: extra options used by block.
  * @return string Html
  */
     public function block($block, $options = array()) {
