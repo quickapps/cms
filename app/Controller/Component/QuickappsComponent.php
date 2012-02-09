@@ -40,6 +40,10 @@ class QuickAppsComponent extends Component {
  * @return void
  */
     public function beforeRender($controller) {
+        if ($this->Controller->request->is('ajax')) {
+            $this->Controller->layout = 'ajax';
+        }
+
         $this->fieldsList();
     }
 
