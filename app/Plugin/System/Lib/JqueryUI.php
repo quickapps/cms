@@ -111,7 +111,7 @@ class JqueryUI {
                     false;
                 }
 
-                $cacheFile = md5($cache) . '.js';
+                $cacheFile = 'jquery-ui-' . md5($cache) . '.js';
 
                 if (!cache(str_replace(WWW_ROOT, '', JS) . $cacheFile, null, '+99 days', 'public')) {
                     cache(str_replace(WWW_ROOT, '', JS) . $cacheFile, JSMin::minify($cache), '+99 days', 'public');
