@@ -67,7 +67,7 @@
     <?php foreach ($modules as $name => $data): ?>
     <?php if (strpos($name, 'Theme') === 0) continue; ?>
     <?php if (empty($data['yaml']) || $data['yaml']['category'] !== $category) continue; ?>
-    <tr>
+    <tr id="module-<?php echo $name; ?>" class="<?php echo $data['status'] ? 'module-enabled' : 'module-disabled'; ?>">
         <td width="80%" align="left">
             <b><?php echo $data['yaml']['name']; ?></b> <?php echo $data['yaml']['version']; ?><br />
             <em><?php echo __d(Inflector::underscore($name), $data['yaml']['description']); ?></em><br />
@@ -77,22 +77,21 @@
 
         <td align="right">
             <?php if (file_exists($data['path'] . 'View' . DS . 'Elements' . DS . 'help.ctp')): ?>
-            <a href="<?php echo $this->Html->url("/admin/system/help/module/" . $name); ?>"><?php echo __t('Help'); ?></a>
+            <a class="help-btn" href="<?php echo $this->Html->url("/admin/system/help/module/" . $name); ?>"><?php echo __t('Help'); ?></a>
             <?php endif; ?>
 
             <?php if (file_exists($data['path'] . 'View' . DS . 'Elements' . DS . 'settings.ctp') && Configure::read('Modules.' . $name)): ?>
-            <a href="<?php echo $this->Html->url('/admin/system/modules/settings/' . $name); ?>"><?php echo __t('Settings'); ?></a>
+            <a class="settings-btn" href="<?php echo $this->Html->url('/admin/system/modules/settings/' . $name); ?>"><?php echo __t('Settings'); ?></a>
             <?php endif; ?>
 
             <?php if (!in_array(Inflector::camelize($name), Configure::read('coreModules'))) : ?>
-            <a href="<?php echo $this->Html->url('/admin/system/modules/toggle/' . $name); ?>"><?php echo $data['status'] == 1 ? __t('Disable') : __t('Enable'); ?></a>
-            <a href="<?php echo $this->Html->url('/admin/system/modules/uninstall/' . $name); ?>" onclick="return confirm('<?php echo __t('Delete selected module ? This change cant be undone!'); ?>'); "><?php echo __t('Uninstall'); ?></a>
+            <a class="toggle-btn" href="<?php echo $this->Html->url('/admin/system/modules/toggle/' . $name); ?>"><?php echo $data['status'] == 1 ? __t('Disable') : __t('Enable'); ?></a>
+            <a class="delete-btn" href="<?php echo $this->Html->url('/admin/system/modules/uninstall/' . $name); ?>" onclick="return confirm('<?php echo __t('Delete selected module ? This change cant be undone!'); ?>'); "><?php echo __t('Uninstall'); ?></a>
             <?php endif; ?>
         </td>
     </tr>
     <?php endforeach; ?>
 </table>
-
 
 <p>&nbsp;</p>
 
