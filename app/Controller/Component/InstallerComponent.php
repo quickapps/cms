@@ -53,9 +53,9 @@ class InstallerComponent extends Component {
  *          - CamelCaseThemeName.yaml
  *          - thumbnail.png # 206x150px recommended
  *
- * @param array $data Data form POST submit of the .app package ($this->data).
- * @param array $options Optional settings, see InstallerComponent::$options.
- * @return bool TRUE on success or FALSE otherwise.
+ * @param array $data Data form POST submit of the .app package ($this->data)
+ * @param array $options Optional settings, see InstallerComponent::$options
+ * @return bool TRUE on success or FALSE otherwise
  */
     public function install($data = false, $options = array()) {
         if (!$data) {
@@ -539,7 +539,7 @@ class InstallerComponent extends Component {
  * @param string $pluginName Name of the plugin to uninstall, it could be a theme plugin
  *                           (ThemeMyThemeName or theme_my_theme_name) or module plugin
  *                           (MyModuleName or my_module_name).
- * @return boolean TRUE on success or FALSE otherwise.
+ * @return boolean TRUE on success or FALSE otherwise
  */
     public function uninstall($pluginName = false) {
         if (!$pluginName ||
@@ -820,10 +820,10 @@ class InstallerComponent extends Component {
 /**
  * Check whether a version is compatible with a given dependency.
  *
- * @param array $v The parsed dependency structure from InstallerComponent::parseDependency().
- * @param string $current_version The version to check against (e.g.: 4.2).
- * @return mixed NULL if compatible, otherwise the original dependency version string that caused the incompatibility.
- * @see InstallerComponent::parseDependency().
+ * @param array $v The parsed dependency structure from InstallerComponent::parseDependency()
+ * @param string $current_version The version to check against (e.g.: 4.2)
+ * @return mixed NULL if compatible, otherwise the original dependency version string that caused the incompatibility
+ * @see InstallerComponent::parseDependency()
  */
     public function checkIncompatibility($v, $current_version) {
         if (!empty($v['versions'])) {
@@ -840,7 +840,7 @@ class InstallerComponent extends Component {
 /**
  * Verify if all the modules that $module depends on are available and match the required version.
  *
- * @param  string $module Module alias.
+ * @param  string $module Module alias
  * @return boolean
  */
     public function checkDependency($module = null) {
@@ -916,10 +916,10 @@ class InstallerComponent extends Component {
     }
 
 /**
- * Loads plugin's installer component
+ * Loads plugin's installer component.
  *
- * @param string $search Path where to look for component.
- * @return mix OBJECT Instance of component, Or FALSE if Component could not be loaded.
+ * @param string $search Path where to look for component
+ * @return mix OBJECT Instance of component, Or FALSE if Component could not be loaded
  */
     public function loadInstallComponent($search = false) {
         if (!file_exists($search . 'InstallComponent.php')) {
@@ -949,8 +949,10 @@ class InstallerComponent extends Component {
  * If module is already installed then an Aco update will be performed.
  * ###Usage:
  * {{{
- *  buildAcos('User', APP . 'Plugin' . DS); // Core module `User`
+ *  $this->Installer->buildAcos('User', APP . 'Plugin' . DS);
  * }}}
+ *
+ * The above would generate all the permissions tree for the Core module User.
  *
  * @param string $plugin Plugin name to analyze (CamelCase or underscored)
  * @param mixed $pluginPath Optional plugin full base path. Set to FALSE to use site modules path `ROOT/Modules`.
@@ -1086,8 +1088,8 @@ class InstallerComponent extends Component {
 /**
  * Check if all files & folders contained in `dir` can be removed.
  *
- * @param string $dir Path content to check.
- * @return bool TRUE if all files & folder can be removed. FALSE otherwise.
+ * @param string $dir Path content to check
+ * @return bool TRUE if all files & folder can be removed. FALSE otherwise
  */
     public function isRemoveable($dir) {
         if (!is_writable($dir)) {
@@ -1115,9 +1117,9 @@ class InstallerComponent extends Component {
 /**
  * Check if all files & folders contained in `source` can be copied to `destination`
  *
- * @param string $src Path content to check.
- * @param string $dst Destination path that $source should be copied to.
- * @return bool TRUE if all files & folder can be copied to `destination`. FALSE otherwise.
+ * @param string $src Path content to check
+ * @param string $dst Destination path that $source should be copied to
+ * @return bool TRUE if all files & folder can be copied to `destination`. FALSE otherwise
  */
     public function packageIsWritable($src, $dst) {
         if (!file_exists($dst)) {
@@ -1182,6 +1184,20 @@ class InstallerComponent extends Component {
 /**
  * Insert a new link to specified menu.
  *
+ * Example of use on module install, the following code will insert a new link
+ * to the backend menu (`management`):
+ * {{{
+ *  $this->Installer->menuLink(
+ *      array(
+ *          'link' => '/my_new_module/dashboard',
+ *         'description' => 'This is a link to my new awesome module',
+ *         'label' => 'My Awesome Module'
+ *      ), 1
+ *  );
+ * }}}
+ *
+ * Notice that this example uses `1` as menu ID instead of `management`.
+ *
  * @param array $link Associative array information of the link to add:
  *  - [parent|parent_id]: Parent link ID.
  *  - [url|link|path|router_path]: Link url (href).
@@ -1199,7 +1215,7 @@ class InstallerComponent extends Component {
  * @param integer $move Number of positions to move the link after add.
  *                      Negative values will move down, positive values will move up.
  *                      Zero value (0) wont move.
- * @return mixed Array information of the new inserted link. FALSE on failure.
+ * @return mixed Array information of the new inserted link. FALSE on failure
  */
     public function menuLink($link, $menu_id = 1, $move = 0) {
         $menu_id = is_string($menu_id) ? trim($menu_id) : $menu_id;
@@ -1308,6 +1324,13 @@ class InstallerComponent extends Component {
 /**
  * Execute an SQL statement.
  *
+ * Example of use on module install/uninstall:
+ * {{{
+ *  $this->Installer->sql('DROP TABLE `#__table_to_remove`');
+ * }}}
+ *
+ * NOTE: Remember to include the table prefix pattern (`#__` by default) on each query string.
+ *
  * @param string $query SQL to execute
  * @param string $prefix_pattern Pattern to replace for database prefix. default to `#__`
  * @return boolean
@@ -1317,6 +1340,25 @@ class InstallerComponent extends Component {
         $query = str_replace($prefix_pattern, $dSource->config['prefix'], $query);
 
         return $dSource->execute($query);
+    }
+
+/**
+ * Insert an error message(s).
+ * Messages must be passed as arguments.
+ *
+ * Example of use on module install/uninstall:
+ * {{{
+ *  $this->Installer->error('error 1', 'error 2');
+ * }}}
+ *
+ * @return void
+ */
+    public function error() {
+        $messages = func_get_args();
+
+        foreach ($messages as $m) {
+            $this->errors[] = $m;
+        }
     }
 
     private function __toggleModule($module, $to) {
@@ -1439,13 +1481,13 @@ class InstallerComponent extends Component {
 /**
  * Get a list of methods for the spcified controller class.
  *
- * @param string $path Full path to the Controller class .php file.
+ * @param string $path Full path to the Controller class .php file
  * @param mixed $includeBefore (Optional) Indicate classes to load (include) before Controller class, use this to load
  *                             classes which the Controller depends.
  *                              - Array list of full paths for classes to include before Controller class is loaded.
  *                              - String value to load a single class file before Controller class is loaded.
  *                              - FALSE for load nothing.
- * @return array List of all controller's method names.
+ * @return array List of all controller's method names
  * @see Installer::buildAcos()
  */
     private function __getControllerMethods($path, $includeBefore = false) {
@@ -1475,7 +1517,7 @@ class InstallerComponent extends Component {
     }
 
 /**
- * Regenerate cache of: Modules, Variable and Hook-Objects Map
+ * Regenerate cache of: Modules, Variable and Hook-Objects Map.
  *
  * @return void
  */
@@ -1510,9 +1552,9 @@ class InstallerComponent extends Component {
 /**
  * Download module/theme ZIP package from given URL.
  *
- * @param string $url URL of the package.
- * @param string $dst Full path where to save the downloaded package.
- * @return boolean. TRUE on success, FALSE otherwise.
+ * @param string $url URL of the package
+ * @param string $dst Full path where to save the downloaded package
+ * @return boolean. TRUE on success, FALSE otherwise
  */
     private function __downloadPackage($url, $dst) {
         $path = $dst . md5($url) . '.zip';
