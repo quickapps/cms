@@ -1,9 +1,9 @@
-/*----------------------[BASICS]------------------*/ 
+/*----------------------[BASICS]------------------*/
 body {
-    line-height: 18px; 
-    font-family: Helvetica, Arial, sans-serif; 
-    font-size: 13px; 
-    text-shadow: 1px 1px 1px #ffffff; 
+    line-height: 18px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    text-shadow: 1px 1px 1px #ffffff;
 }
 
 div.paginator .disabled { display:none; }
@@ -42,12 +42,12 @@ hr { height:0; text-align:left; border-top:0; border-bottom:1px solid #DADADA; m
 
 
 
-/*---------------[FORMS]------------------*/ 
+/*---------------[FORMS]------------------*/
 form label { display:block; font-weight: bold; margin-top:15px; padding:0; }
 form fieldset { margin-bottom:25px; padding:15px; background:#fff; }
 form div.error-message { display:inline; font-size:8px; color:red; padding-left:15px; }
 
-div.text input { width:390px; } 
+div.text input { width:390px; }
 div.text input.form-error { border:1px solid red; }
 div.checkbox { padding-top:15px; }
 div.radio label, div.checkbox label { padding:0 0 0 15px; display:inline; }
@@ -55,10 +55,10 @@ div.radio { padding:5px; margin-bottom:5px; }
 div.textarea textarea { width:99%; } div.textarea textarea.form-error { border:1px solid red; }
 div.submit input:hover { color:#00B7F3; cursor:pointer; }
 div.submit label { display:none; }
-div.submit input { 
-    border:1px solid #ccc; 
+div.submit input {
+    border:1px solid #ccc;
     padding:5px;
-    color:#555; 
+    color:#555;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
@@ -100,7 +100,7 @@ legend { font-weight:bold; font-size:16px; border-radius: 8px; -webkit-border-ra
     text-shadow:none;
 }
 
-#sessionFlash #flashMessage {
+#sessionFlash div.flash-message {
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
@@ -140,22 +140,22 @@ legend { font-weight:bold; font-size:16px; border-radius: 8px; -webkit-border-ra
     color: #265895;
 }
 
-/*---------------[HEADER]------------------*/ 
-#header-top { 
-    text-shadow:none; 
-    height:90px; 
+/*---------------[HEADER]------------------*/
+#header-top {
+    text-shadow:none;
+    height:90px;
     background:#282727;
-    float:left; 
-    width:100%; 
+    float:left;
+    width:100%;
 }
 
 #header-top a#logo {
     overflow:hidden;
-    margin:20px 0 0 15px; 
-    display:block; 
-    height:80px; 
-    width:200px; 
-    float:left; 
+    margin:20px 0 0 15px;
+    display:block;
+    height:80px;
+    width:200px;
+    float:left;
 }
 
 #header-top a#logo img {
@@ -167,7 +167,7 @@ legend { font-weight:bold; font-size:16px; border-radius: 8px; -webkit-border-ra
 
 
 
-/*---------------[USER-MENU]------------------*/ 
+/*---------------[USER-MENU]------------------*/
 #user-menu { float:right; padding:10px 0;  }
 #user-menu ul { margin:0; padding:0; }
 #user-menu ul li { float:left; list-style:none; }
@@ -177,13 +177,13 @@ legend { font-weight:bold; font-size:16px; border-radius: 8px; -webkit-border-ra
 
 
 
-/*---------------[LANGUAGE-SWITCH]------------------*/ 
+/*---------------[LANGUAGE-SWITCH]------------------*/
 #language-switcher { overflow:hidden; float:right; padding:10px 0; }
 #language-switcher ul li { float:left; list-style:none; }
 #language-switcher ul li a { margin-left:20px; }
 #language-switcher ul li.selected a span { text-decoration:underline; }
 
-/*---------------[PAGINATION]------------------*/ 
+/*---------------[PAGINATION]------------------*/
 .paginator span { padding-right:5px; font-size:16px; }
 
 
@@ -206,13 +206,13 @@ legend { font-weight:bold; font-size:16px; border-radius: 8px; -webkit-border-ra
     border: 1px solid #717171;
 }
 
-#search-block div.input.text input:focus {  
-    -webkit-box-shadow: 0 0 5px #007eff;  
-    -moz-box-shadow: 0 0 5px #007eff;  
-    box-shadow: 0 0 5px #007eff;  
+#search-block div.input.text input:focus {
+    -webkit-box-shadow: 0 0 5px #007eff;
+    -moz-box-shadow: 0 0 5px #007eff;
+    box-shadow: 0 0 5px #007eff;
 }
 
-/*---------------[SEARCH-ADVANCED-FROM]------------------*/ 
+/*---------------[SEARCH-ADVANCED-FROM]------------------*/
 #search-advanced { padding:0 10px 20px 10px; }
 #search-advanced legend span { font-weight:bold; font-size:16px; cursor:pointer; }
 #search-advanced div.input.text label{ display:block; }
@@ -235,7 +235,7 @@ legend { font-weight:bold; font-size:16px; border-radius: 8px; -webkit-border-ra
 		#f9971e 0%,
 		#f95c07);
 	background: -webkit-gradient(
-		linear, left top, left bottom, 
+		linear, left top, left bottom,
 		from(#f9971e),
 		to(#f95c07));
 	border-radius: 14px;
@@ -254,25 +254,25 @@ legend { font-weight:bold; font-size:16px; border-radius: 8px; -webkit-border-ra
 }
 
 
-/*---------------[LOGIN-BLOCK]------------------*/ 
+/*---------------[LOGIN-BLOCK]------------------*/
 #sidebar-left div.delta-login fieldset { border:none; margin:0; padding:0 0 20px 0; background:transparent; }
 #sidebar-left div.delta-login form .input input { width:99% !important; }
 #sidebar-left div.delta-login form .submit input { margin-bottom:20px; }
 
-/*---------------[MAIN-CONTENT]------------------*/ 
+/*---------------[MAIN-CONTENT]------------------*/
 #page { float:left; width:100%; padding-bottom:20px; }
     #page .container { width:980px; margin:0 auto; padding:25px 0 40px 0; }
         #page .container #sidebar-left { width:240px; float:left; margin-right:30px; }
         #page .container #content { width:700px; float:left; }
 
 
-/*---------------[FOOTER]------------------*/ 
+/*---------------[FOOTER]------------------*/
 #footer { width:100%; float:left; background: url(../img/footer-top-bg.png) top left repeat-x; padding:20px 0 20px 0; text-shadow:none; color:#fff; }
 #header-top .container, #header-bottom .container, #footer .container{ width:980px; margin:0 auto; }
 #header-bottom .container { height:50px; overflow:hidden; }
 a.rss-feed-icon { padding:0 10px 0 0; }
 
-/*---------------[MAIN-MENU]------------------*/ 
+/*---------------[MAIN-MENU]------------------*/
 #top-menu { height:50px; float:left; display:block; padding-top:10px; overflow:hidden; margin:0; }
 	#top-menu li { display:inline; overflow:hidden; float:left; }
 		#top-menu a { text-decoration:none; margin-right:10px; color:#666 !important; font-size:15px; height:32px; line-height:30px; padding-right:17px; text-shadow:1px 1px 1px #ccc; display:block; float:left; }
@@ -281,21 +281,21 @@ a.rss-feed-icon { padding:0 10px 0 0; }
 		#top-menu > li.selected > a, #top-menu a:hover { margin-right:10px; background:url(../img/menu-nav.png) no-repeat right bottom; color:#fff !important; display:block; font-size:15px; height:32px; line-height:30px; padding-right:17px; text-shadow:1px 1px 1px #000; float:left; }
 
 
-/*---------------[INDEX QUOTE SLOGAN]------------------*/ 
+/*---------------[INDEX QUOTE SLOGAN]------------------*/
 #quote { background:url(../img/quote-bg.png) repeat-x left bottom; padding-bottom: 3px; }			
     #quote-inner { position:relative; background: #f4f4f4 url(../img/quote-inner-bg.png) repeat-x; }
         #quote-inner .container { padding-top: 10px !important; padding-bottom: 30px !important; }
-            #quote-icon { 
-                display: block; 
+            #quote-icon {
+                display: block;
                 background:url(../img/quote-icon.png) no-repeat;
-                width:28px; 
+                width:28px;
                 height: 28px;
                 margin:0 auto;
             }
-        #quote-inner p { text-align: center; font-size: 30px; color: #343434; }        
+        #quote-inner p { text-align: center; font-size: 30px; color: #343434; }
 
 
-/*---------------[SERVICES-AREA]------------------*/ 
+/*---------------[SERVICES-AREA]------------------*/
 #services { margin-bottom: 15px; }
     .service { margin-right: 45px; width: 238px; float:left; position:relative; padding-left: 52px; }
                     .last { margin-right: 0; }
@@ -304,7 +304,7 @@ a.rss-feed-icon { padding:0 10px 0 0; }
                         .service p { line-height: 21px; }
                         .service a.readmore { background:url(../img/readmore.png) no-repeat right bottom; color:#1c2329; display:block; font-size:11px; height:24px; line-height:24px; padding-right:10px; text-shadow:1px 1px 1px #ffffff; display:block; float:right; }
                             .service a.readmore span { background:url(../img/readmore.png) no-repeat; display:block; height:24px; padding-left: 12px; padding-right: 2px; }
-                            .service a.readmore:hover { color: #000; }  
+                            .service a.readmore:hover { color: #000; }
 
 #services div.block{
 	border-radius: 10px;
@@ -315,22 +315,22 @@ a.rss-feed-icon { padding:0 10px 0 0; }
 }
 
 
-/*---------------[BASIC-BLOCK]------------------*/ 
-div.block { 
-    border:1px solid #ccc; 
+/*---------------[BASIC-BLOCK]------------------*/
+div.block {
+    border:1px solid #ccc;
     margin-bottom:15px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
-    border-radius: 10px; 
+    border-radius: 10px;
     background-image: -webkit-gradient(linear, 0% 0%, 0% 75%, from(#FFFFFF), to(#F5F5F5));
-    background-image: -moz-linear-gradient(0% 100% 90deg,#F5F5F5, #FFFFFF);    
+    background-image: -moz-linear-gradient(0% 100% 90deg,#F5F5F5, #FFFFFF);
 }
 div.block h2 {
-    white-space: nowrap; 
-    float:none; 
-    font-size:16px; 
-    color:#333; 
-    font-weight:bold; 
+    white-space: nowrap;
+    float:none;
+    font-size:16px;
+    color:#333;
+    font-weight:bold;
     padding:5px 5px 5px 15px;
     font-weight:normal;
 }
@@ -338,7 +338,7 @@ div.block div.content { padding:0 20px; padding-bottom:20px; }
 div.block div.content ul, div.block div.content ol { padding:0; margin:0; }
 
 
-/*---------------[NODE-RENDERING]------------------*/ 
+/*---------------[NODE-RENDERING]------------------*/
 h2.node-title { border-bottom:1px solid #DADADA; }
 div.node-list h2.node-title { border-bottom:none; font-size:18px; }
 div.node-list { margin:0 0 20px 0; border-bottom:1px solid #DADADA; }
@@ -350,7 +350,7 @@ div.submitter {  padding:15px 0; }
 div.submitter span { font-style:italic; }
 
 
-/*---------------[COMMENTS]------------------*/ 
+/*---------------[COMMENTS]------------------*/
 div.node-comments { border-top:1px solid #ccc; overflow:hidden; margin-top:15px; }
 div.node-comments > h2 { border-top:1px solid #fff; padding-top:15px; }
 #comments-list { width:980px; overflow:hidden; }
@@ -379,7 +379,7 @@ div.node-comments > h2 { border-top:1px solid #fff; padding-top:15px; }
 #comment-form form label { display:block; width:100px; }
 #comment-form form div.input.text input { width:300px; }
 #comment-form form div.input.textarea textarea { width:99%; }
-#comment-form form div.submit input { 
+#comment-form form div.submit input {
     cursor:pointer;
 	font-size: 14px;
 	color: #030303;
@@ -391,7 +391,7 @@ div.node-comments > h2 { border-top:1px solid #fff; padding-top:15px; }
 		#dbdbdb 50%,
 		#b5b5b5);
 	background: -webkit-gradient(
-		linear, left top, left bottom, 
+		linear, left top, left bottom,
 		from(#ffffff),
 		color-stop(0.50, #ebebeb),
 		color-stop(0.50, #dbdbdb),
@@ -412,14 +412,14 @@ div.node-comments > h2 { border-top:1px solid #fff; padding-top:15px; }
 }
 
 
-/*---------------[USER-PROFILE]------------------*/ 
+/*---------------[USER-PROFILE]------------------*/
 div.user-profile h4 { display:inline; font-weight:bold; font-size:12px; }
 div.user-profile div.avatar { width:96px; height:96px; border:1px solid #ccc; float:left; margin-right:15px; }
 div.user-profile div.avatar img{ width:100%; }
 div.user-profile div.information { float:left; }
 
 
-/*---------------[HOOKTAGS]------------------*/ 
+/*---------------[HOOKTAGS]------------------*/
 
 /** Small Buttons hookTags **/
 a.small-button { padding-right: 17px; height: 32px; float: left; display: block; font: 14px Arial,sans-serif; color: #ffffff !important; margin: 8px 0; text-shadow: 1px 1px 1px rgba(0,0,0,0.3) !important; text-decoration: none; }
@@ -480,7 +480,7 @@ a.biggreen { background: url(../img/big-buttons/big-button-green.png) no-repeat 
 
 a.bigteal, a.bigturquoise { background: url(../img/big-buttons/big-button-turquoise.png) no-repeat bottom right; }
 	a.bigteal span, a.bigturquoise span { background: url(../img/big-buttons/big-button-turquoise.png) no-repeat; }
-    
+
 
 /* Boxes hookTags */
 .td-box {
@@ -498,8 +498,8 @@ a.bigteal, a.bigturquoise { background: url(../img/big-buttons/big-button-turquo
     -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
     -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
-    
-    
+
+
 }
 
 .dialog-success {
@@ -527,7 +527,7 @@ a.bigteal, a.bigturquoise { background: url(../img/big-buttons/big-button-turquo
 }
 
 
-/*---------------[NIVO SLIDER]------------------*/ 
+/*---------------[NIVO SLIDER]------------------*/
 div.slider { overflow:hidden; height:430px; background:#fff; }
 
 #slider-wrapper {
@@ -601,7 +601,7 @@ a.nivo-prevNav {
     font-family: Helvetica, Arial, sans-serif;
 }
 
-.nivo-caption a { 
+.nivo-caption a {
     color:#efe9d1;
     text-decoration:underline;
 }

@@ -76,10 +76,10 @@ class FieldTermsHookHelper extends AppHelper {
         }
 
         $prePopulate = "\n " . implode(",\n ", $prePopulate) . "\n ";
-        $tokenLimit = !$field['settings']['max_values'] ? '' : "tokenLimit: {$field['settings']['max_values']},"; 
+        $tokenLimit = !$field['settings']['max_values'] ? '' : "tokenLimit: {$field['settings']['max_values']},";
         $out .= "\n<script type=\"text/javascript\">\n";
         $out .= "$(document).ready(function() {\n";
-        $out .= "$('#{$field_id}').tokenInput('" . Router::url("/admin/field_terms/tokeninput/suggest/{$field['settings']['vocabulary']}", true) . "', 
+        $out .= "$('#{$field_id}').tokenInput('" . Router::url("/admin/field_terms/tokeninput/suggest/{$field['settings']['vocabulary']}", true) . "',
             {
                 allowNewItems: true,
                 hintText: '" . __t('Type in a search term') . "',

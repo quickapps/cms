@@ -15,7 +15,7 @@
         <ul>
         <?php foreach ($translations as $t): ?>
             <li>
-                <?php echo $this->Html->link($t['Node']['title'], "/admin/node/contents/edit/{$t['Node']['slug']}"); ?> [<?php echo $t['Node']['language']; ?>] | 
+                <?php echo $this->Html->link($t['Node']['title'], "/admin/node/contents/edit/{$t['Node']['slug']}"); ?> [<?php echo $t['Node']['language']; ?>] |
                 <?php echo $this->Html->link(__t('delete'), "/admin/node/contents/delete/{$t['Node']['slug']}", array('onClick' => "return confirm('" . __t('Delete selected content ?') . "');")); ?>
             </li>
         <?php endforeach; ?>

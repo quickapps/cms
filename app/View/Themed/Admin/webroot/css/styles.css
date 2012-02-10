@@ -1,10 +1,10 @@
-/*----------------------[BASICS]------------------*/ 
+/*----------------------[BASICS]------------------*/
 body {
-    line-height: 18px; 
-    font-family: Arial, sans-serif; 
-    font-size: 13px; 
-    color: #555555; 
-    text-shadow: 1px 1px 1px #ffffff; 
+    line-height: 18px;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    color: #555555;
+    text-shadow: 1px 1px 1px #ffffff;
     background: #F9F9F8;
 }
 
@@ -63,7 +63,7 @@ div.checkbox { padding-top:6px;}
 #toolbar-menu #right-btns a { margin-right:20px; text-shadow:none; color:#fff; }
 
 
-/*---------------[MAIN MENU]------------------*/ 
+/*---------------[MAIN MENU]------------------*/
 #top-menu li { margin-left: 10px; display:block; height:32px; float:left; position: relative; }
 #top-menu a { font-size: 12px; color: #ccc; text-decoration: none; text-shadow:none; display: block; line-height:32px; }
 
@@ -83,7 +83,7 @@ div.checkbox { padding-top:6px;}
 #breadcrumb-menu li{ display:inline; }
 
 
-/*---------------[PAGE]------------------*/ 
+/*---------------[PAGE]------------------*/
 
 #page {
   padding: 20px 0 40px 0;
@@ -144,9 +144,9 @@ div.block div.content{ padding:10px; }
 /**
  * HTML elements.
  */
-table { 
+table {
     border:1px solid #ccc;
-    margin:0; 
+    margin:0;
     background:#EFF0EF;
     border-collapse: separate;
 }
@@ -194,12 +194,12 @@ div.toolbar { padding: 0px 0px 50px 0px; margin-bottom:10px; }
 div.toolbar ul { float: left; }
 div.toolbar ul li { margin: 0px 10px 0px 0px; padding: 0px; list-style: none; float: left; }
 div.toolbar ul li a {
-    padding: 8px; 
-    margin-right: 10px; 
-    text-decoration: none; 
-    background-color: #eee; 
-    font-weight: bold; 
-    float: left; 
+    padding: 8px;
+    margin-right: 10px;
+    text-decoration: none;
+    background-color: #eee;
+    font-weight: bold;
+    float: left;
     border:1px solid #ddd;
     background-image: -webkit-gradient(
         linear,
@@ -227,8 +227,8 @@ div.toolbar ul li.selected a, div.toolbar ul li a:hover { color:#666; border:1px
     border-radius: 10px;
     text-shadow:none;
 }
-#sessionFlash  { width:100%; }
-#sessionFlash #flashMessage {
+#sessionFlash { width:100%; }
+#sessionFlash div.flash-message {
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
@@ -272,7 +272,7 @@ div.toolbar ul li.selected a, div.toolbar ul li a:hover { color:#666; border:1px
 form label { display:block; font-weight: bold; margin-top:15px; padding:0;}
 form fieldset { margin-bottom:25px; padding:15px; background:#fff; }
 form div.error-message { display:inline; font-size:8px; color:red; padding-left:15px; }
-div.text input { width:390px; } 
+div.text input { width:390px; }
 div.text input.form-error { border:1px solid red; }
 div.radio label, div.checkbox label { padding:0 0 0 15px; display:inline; }
 div.radio { padding:5px; margin-bottom:5px; }
@@ -280,10 +280,10 @@ div.textarea textarea { width:99%; } div.textarea textarea.form-error { border:1
 
 div.submit input:hover { color:#00B7F3; cursor:pointer;}
 div.submit label { display:none; }
-div.submit input { 
-    border:1px solid #ccc; 
+div.submit input {
+    border:1px solid #ccc;
     padding:5px;
-    color:#555; 
+    color:#555;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;

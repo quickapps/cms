@@ -1,7 +1,7 @@
 <?php
     switch($display['label']) {
         case 'inline':
-            echo "<h4 class=\"field-label\" style=\"display:inline;\">{$field['label']}</h4> "; 
+            echo "<h4 class=\"field-label\" style=\"display:inline;\">{$field['label']}</h4> ";
         break;
 
         case 'above':

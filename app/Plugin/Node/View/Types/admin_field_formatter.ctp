@@ -22,7 +22,7 @@
         <?php echo $this->Html->useTag('fieldsetend'); ?>
 
         <?php echo $this->Html->useTag('fieldsetstart', __t('Format')); ?>
-            <?php 
+            <?php
                 echo $this->Form->input('display_hidden',
                     array(
                         'type' => 'checkbox',
