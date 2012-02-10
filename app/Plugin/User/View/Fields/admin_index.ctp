@@ -14,7 +14,7 @@ $tSettings = array(
             'tdOptions' => array('width' => '15%')
         ),
         __t('Required') => array(
-            'value' => '{php} return ({Field.required}) ? "' . __t('Yes') . '" : "' . __t('No') . '";  {/php}'
+            'value' => '{php} return ("{Field.required}") ? "' . __t('Yes') . '" : "' . __t('No') . '";  {/php}'
         ),
         __t('Actions') => array(
             'value' => "
