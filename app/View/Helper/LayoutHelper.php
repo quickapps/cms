@@ -778,8 +778,15 @@ class LayoutHelper extends AppHelper {
 
             if ($here == $link[1] || $path == $link[1]) {
                 $selected = " class=\"{$selectedClass}\" ";
-            } elseif (isset($link['pattern'])) {
-                $link['pattern'] = $link['pattern'] === true ? "*{$link[1]}*": $link['pattern'];
+            } elseif (isset($link['pattern']) && $link['pattern'] !== false) {
+                if ($link['pattern'] === true) {
+                    if ($link[1][0] === '/') {
+                        $__l = substr($link[1], 1);
+                    }
+
+                    $link['pattern'] = "*{$__l}*";
+                }
+
                 $selected = $this->urlMatch($link['pattern'], $here) ? " class=\"{$selectedClass}\" " : '';
             }
 
