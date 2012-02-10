@@ -28,6 +28,7 @@ class JqueryUI {
         'datepicker' => array('ui.core'),
         'dialog' => array('ui.core', 'ui.position', 'ui.widget', 'ui.mouse', 'ui.draggable', 'ui.resizable'),
         'progressbar' => array('ui.core', 'ui.widget'),
+        'slider' => array('ui.core', 'ui.widget', 'ui.mouse'),
         'tabs' => array('ui.core', 'ui.widget')
     );
 
@@ -104,6 +105,10 @@ class JqueryUI {
                     if (file_exists("{$source}jquery.{$file}.min.js")) {
                         $cache .= file_get_contents("{$source}jquery.{$file}.min.js") . ";\n\n";
                     }
+                }
+
+                if (empty($cache)) {
+                    false;
                 }
 
                 $cacheFile = md5($cache) . '.js';
