@@ -854,7 +854,7 @@ class Router {
             $output = $output[0] !== '/' ? "/{$output}" : $output;
 
             if (!preg_match('/^\/theme\/(.*)/i', $output)) {
-                if (!preg_match('/\/(.*)\.([a-z]{1,})$/i', $output) ||
+                if (!preg_match('/\/(.*)\.([a-z0-9]{1,})$/i', $output) ||
                     !file_exists(ROOT . DS . 'webroot' . str_replace('/', DS, $output))
                 ) {
                     $pname = false;
