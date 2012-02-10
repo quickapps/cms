@@ -137,10 +137,10 @@ class ModulesController extends SystemAppController {
         if (!$this->Installer->install($this->data, array('type' => 'module', 'status' => $this->data['Package']['activate']))) {
             $errors = implode('<br />', $this->Installer->errors);
             $this->flashMsg("<b>" . __t('Module could not been installed') . ":</b><br/>{$errors}", 'error');
+            $this->redirect('/admin/system/modules');
         } else {
             $this->flashMsg(__t('Module has been installed'), 'success');
+            $this->redirect('/admin/system/modules#module-' . $this->Installer->options['__appName']);
         }
-
-        $this->redirect('/admin/system/modules');
     }
 }
