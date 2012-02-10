@@ -7,4 +7,4 @@
  */
 ?>
 
-<div id="flashMessage" class="<?php echo $class; ?>"><?php echo $message; ?></div>
+<div class="<?php echo $class; ?> flash-message"><?php echo $message; ?></div>
