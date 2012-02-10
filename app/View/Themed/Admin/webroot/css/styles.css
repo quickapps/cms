@@ -7,7 +7,6 @@ body {
     text-shadow: 1px 1px 1px #ffffff;
     background: #F9F9F8;
 }
-
 a { text-decoration: none; color: #0074BD; }
 a:hover { text-decoration: underline; }
 .clear { clear: both; }
@@ -34,7 +33,6 @@ dl dt { font-weight: bold; }
 dd  { margin-left: 1.5em; margin-bottom:1.5em; }
 blockquote  { margin: 1.5em; padding: 1em; color: #666666; background: #e6e6e6; font-style: italic; border: 1px solid #dcdcdc; }
 blockquote p { padding-bottom: 0px; }
-
 input[type=text], .text input, .email input, .textarea textarea, select, .password input { background-color:#fff; border:1px solid #bbb; padding: 2px; color: #4e4e4e; }
 input[type=text]:focus, input.text:focus, input.title:focus, textarea:focus, select:focus { border-color:#2D3940; color: #3e3e3e; }
 input[type=text], input.text, input.title, textarea, select { margin:0.5em 0; }
@@ -42,7 +40,6 @@ div.checkbox { padding-top:6px;}
 .text input.form-error, .textarea textarea.form-error, select.form-error, .password input.form-error {
     border:1px solid #CF240D !important;
 }
-
 .clearfix:after {
 	visibility: hidden;
 	display: block;
@@ -51,40 +48,36 @@ div.checkbox { padding-top:6px;}
 	clear: both;
 	height: 0;
 }
-
 .clearfix { display: inline-table; } /* Hides from IE-mac \*/
 * html .clearfix { height: 1%; }
 .clearfix { display: block; } /* End hide from IE-mac */
 #SearchAdminIndexForm .text input { width:100%; }
+#footer { text-align:center; padding:20px 0; }
+.sortable-hover { border:2px dotted #ccc; }
 
-/*----------------------[HEADER]------------------*/
+/* header */
 #toolbar-menu { background:#2A2A2A; color:#fff; padding:5px 0 5px 15px; }
 #toolbar-menu #right-btns { float:right; line-height:32px; }
 #toolbar-menu #right-btns a { margin-right:20px; text-shadow:none; color:#fff; }
 
 
-/*---------------[MAIN MENU]------------------*/
+/* main menu */
 #top-menu li { margin-left: 10px; display:block; height:32px; float:left; position: relative; }
 #top-menu a { font-size: 12px; color: #ccc; text-decoration: none; text-shadow:none; display: block; line-height:32px; }
-
 #top-menu > li { padding:0 5px 0 0; }
 #top-menu > li > a { padding:0 0 0 5px; }
-
 #top-menu > li.selected { background:url(../img/menu-nav-white.png) no-repeat scroll right bottom transparent; padding:0 17px 0 0; }
 #top-menu > li.selected > a { color: #fff; text-shadow: 1px 1px 1px rgba(0,0,0,0.4); background:url(../img/menu-nav-white.png) no-repeat scroll 0 0 transparent; display:block; height:32px; line-height:32px; padding:0 0 0 17px; }
 
 
-
-/* content menu*/
+/* content menu */
 #content-menu li { margin-bottom:15px; }
 #content-menu li span.desc{ padding:0 0 0 15px;}
-
 #breadcrumb-menu ul{ display:block;  }
 #breadcrumb-menu li{ display:inline; }
 
 
-/*---------------[PAGE]------------------*/
-
+/* page container */
 #page {
   padding: 20px 0 40px 0;
   margin-right: 40px;
@@ -92,10 +85,7 @@ div.checkbox { padding-top:6px;}
   position: relative;
 }
 
-
-/**
- * Branding.
- */
+/* branding */
 #branding {
     text-shadow:none;
 	overflow: hidden;
@@ -108,8 +98,6 @@ div.checkbox { padding-top:6px;}
     box-shadow:0px 2px 9px #B5B5B5;
 }
 #branding a { color:#0074BD; }
-
-
 #branding h1.page-title {
 	padding-top:10px;
 	color: #000;
@@ -121,8 +109,7 @@ div.checkbox { padding-top:6px;}
     color:#000;
 }
 
-
-.sortable-hover { border:2px dotted #ccc; }
+/* dashboard */
 div.dashboard-region { float: left; min-height: 1px; padding-bottom:20px; }
 #dashboard_main { width: 65%; margin-right: 1%;}
 #dashboard_sidebar { width: 33%; }
@@ -133,17 +120,14 @@ div.dashboard-region .block {
     border-radius: 10px;
 }
 div.dashboard-region .block h2 { font-size:16px; font-weight:normal; }
+
+/* blocks */
 div.block.block-node.delta-search form#SearchAdminIndexForm label { display:none; }
-
-
 div.block { border:1px solid #ccc; margin-bottom:15px; }
 div.block h2 { white-space: nowrap; float: none; font-size:13px; color:#333;  font-weight:bold; padding:5px 5px 5px 15px;}
 div.block div.content{ padding:10px; }
 
-
-/**
- * HTML elements.
- */
+/* HTML elements */
 table {
     border:1px solid #ccc;
     margin:0;
@@ -159,14 +143,9 @@ table tbody tr.even td { padding:5px; background-color:#FFF; }
 table tbody tr.odd td { padding:5px; background-color:#F0F0F0; }
 table td, table th { padding:5px; border-bottom:1px solid #ccc; border-style:dotted; }
 table thead th, table thead td, table tfoot th, table tfoot td { background:#F0F1F3; font-weight:bold; }
-
 table .disabled { display:none; }
-
 table img.theme_tn { margin:2px; width:202px; height:152px; }
 table img.theme_tn:hover { margin:0; border:2px solid #666; }
-
-#footer { text-align:center; padding:20px 0; }
-
 fieldset {
     background:#fff;
     border:1px solid #ccc;
@@ -175,7 +154,6 @@ fieldset {
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
 }
-
 legend {
     font-weight:bold;
     font-size:16px;
@@ -184,12 +162,12 @@ legend {
     -moz-border-radius: 8px;
     padding: 6px;
 }
-
 fieldset div.horizontalLayout label { display:inline; padding-right: 15px; }
 fieldset div.verticalLayout label { display:block; padding-right: 15px; }
 fieldset div.verticalLayout .input.radio label { display:inline !important; padding-right: 15px; }
+table tr.module-disabled .toggle-btn { color:#E9180D; font-weight:bold; }
 
-
+/* toolbars */
 div.toolbar { padding: 0px 0px 50px 0px; margin-bottom:10px; }
 div.toolbar ul { float: left; }
 div.toolbar ul li { margin: 0px 10px 0px 0px; padding: 0px; list-style: none; float: left; }
@@ -217,8 +195,9 @@ div.toolbar ul li a {
     -moz-border-radius: 3px;
     border-radius: 3px;
 }
-
 div.toolbar ul li.selected a, div.toolbar ul li a:hover { color:#666; border:1px solid #bbb; }
+
+/* flash messages */
 #sessionFlash .success, #sessionFlash .error {
     padding:15px;
     margin-bottom:15px;
@@ -243,32 +222,28 @@ div.toolbar ul li.selected a, div.toolbar ul li a:hover { color:#666; border:1px
     -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
 }
-
 #sessionFlash .success {
     border: 1px solid #8FAD3D;
     background:url(../img/boxes/success.png) no-repeat 10px 50% #EEF4D4;
     color: #596C26;
 }
-
 #sessionFlash .error {
     border: 1px solid #AD3F30;
     background:url(../img/boxes/error.png) no-repeat 10px 50% #EFCEC9;
     color: #923428;
 }
-
 #sessionFlash .alert {
     border: 1px solid #E2B500;
     background:url(../img/boxes/alert.png) no-repeat 10px 50% #FFEA97;
     color: #776100;
 }
-
 #sessionFlash .bubble {
     border: 1px solid #4381CC;
     background:url(../img/boxes/bubble.png) no-repeat 10px 50% #C6D8F0;
     color: #265895;
 }
 
-
+/* forms */
 form label { display:block; font-weight: bold; margin-top:15px; padding:0;}
 form fieldset { margin-bottom:25px; padding:15px; background:#fff; }
 form div.error-message { display:inline; font-size:8px; color:red; padding-left:15px; }
@@ -277,7 +252,6 @@ div.text input.form-error { border:1px solid red; }
 div.radio label, div.checkbox label { padding:0 0 0 15px; display:inline; }
 div.radio { padding:5px; margin-bottom:5px; }
 div.textarea textarea { width:99%; } div.textarea textarea.form-error { border:1px solid red; }
-
 div.submit input:hover { color:#00B7F3; cursor:pointer;}
 div.submit label { display:none; }
 div.submit input {
