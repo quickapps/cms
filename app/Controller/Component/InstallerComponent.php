@@ -322,6 +322,7 @@ class InstallerComponent extends Component {
                                 !isset($yaml['info']['admin']) ||
                                 (
                                     isset($yaml['info']['admin']) &&
+                                    $yaml['info']['admin'] &&
                                     in_array('toolbar', array_keys($yaml['regions'])) &&
                                     in_array('help', array_keys($yaml['regions']))
                                 )
