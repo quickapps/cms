@@ -73,6 +73,8 @@ class MenuLink extends MenuAppModel {
             $this->data['MenuLink']['router_path'] = null;
 
             return Validation::url($value) || preg_match('/^mailto\:(.*)$/iu', $value);
+        } else {
+            return true;
         }
 
         $validChars = '([' . preg_quote('!"$&\'()*+,-.@_:;=~') . '\/0-9a-z\p{L}\p{N}]*)';
