@@ -1,5 +1,7 @@
 <!-- File Formatter Form -->
 <?php
+    $viewMode = $this->data['Field']['viewMode'];
+
     echo $this->Form->input("Field.settings.display.{$viewMode}.type",
         array(
             'label' => false,

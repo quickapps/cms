@@ -1,5 +1,6 @@
 <!-- Text Formatter Form -->
 <?php
+    $viewMode = $this->data['Field']['viewMode'];
     $actualType = @$this->data['Field']['settings']['display'][$viewMode]['type'];
 
     echo $this->Form->input("Field.settings.display.{$viewMode}.type",

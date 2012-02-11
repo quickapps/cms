@@ -13,8 +13,8 @@ class DisplayController extends UserAppController {
     public $name = 'Display';
     public $uses = array('Field.Field');
 
-    public function admin_index($view_mode = false) {
-        if (!$view_mode && !isset($this->data['User']['viewModes'])) {
+    public function admin_index($viewMode = false) {
+        if (!$viewMode && !isset($this->data['User']['viewModes'])) {
             $this->redirect("/admin/user/display/index/default");
         }
 
@@ -24,12 +24,12 @@ class DisplayController extends UserAppController {
         }
 
         $fields = $this->Field->find('all',  array('conditions' => array('Field.belongsTo' => 'User')));
-        $fields = @Set::sort((array)$fields, '{n}.Field.settings.display.' . $view_mode . '.ordering', 'asc');
+        $fields = @Set::sort((array)$fields, '{n}.Field.settings.display.' . $viewMode . '.ordering', 'asc');
         $data['User']['viewModes'] = isset($fields[0]['Field']['settings']['display']) ? array_keys($fields[0]['Field']['settings']['display']) : array();
         $this->data = $data;
 
         $this->set('result', $fields);
-        $this->set('viewMode', $view_mode);
+        $this->set('viewMode', $viewMode);
         $this->setCrumb(
             '/admin/user',
             array(__t('Manage Display'))
@@ -37,20 +37,21 @@ class DisplayController extends UserAppController {
         $this->title(__t('User Display Settings'));
     }
 
-    public function admin_field_formatter($id, $view_mode = 'default') {
+    public function admin_field_formatter($id, $viewMode = 'default') {
         $field = $this->Field->findById($id) or $this->redirect($this->referer());
 
         if (isset($this->data['Field'])) {
             if ($this->Field->save($this->data)) {
+                $this->flashMsg(__t('Field has been saved.'), 'success');
                 $this->redirect($this->referer());
             } else {
                 $this->flashMsg(__t('Field could not be saved. Please, try again.'), 'error');
             }
+        } else {
+            $field['Field']['viewMode'] = $viewMode;
+            $this->data = $field;
         }
 
-        $this->data = $field;
-
-        $this->set('viewMode', $view_mode);
         $this->setCrumb(
             '/admin/user/',
             array(__t('User Display Settings')),

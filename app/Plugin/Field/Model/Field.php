@@ -69,6 +69,19 @@ class Field extends FieldAppModel {
             }
         }
 
+        // field formatter
+        if (isset($this->data['Field']['viewMode'])) {
+            $viewMode = $this->data['Field']['viewMode'];
+
+            if ($this->data['Field']['display_hidden']) {
+                $data['Field']['settings']['display'][$viewMode]['type'] = 'hidden';
+            } else {
+                if (!isset($data['Field']['settings']['display'][$viewMode]['type'])) {
+                    $data['Field']['settings']['display'][$viewMode]['type'] = false;
+                }
+            }
+        }
+
         return true;
     }
 

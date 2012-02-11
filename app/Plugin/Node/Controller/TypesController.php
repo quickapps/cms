@@ -150,29 +150,17 @@ class TypesController extends NodeAppController {
         $nodeType = $this->NodeType->findById($ntID) or $this->redirect('/admin/node/types');
 
         if (isset($this->data['Field'])) {
-            $data = $this->data;
-
-            if ($this->data['Field']['display_hidden']) {
-                $data['Field']['settings']['display'][$viewMode]['type'] = 'hidden';
-            } else {
-                if (!isset($data['Field']['settings']['display'][$viewMode]['type'])) {
-                    $data['Field']['settings']['display'][$viewMode]['type'] = false;
-                }
-            }
-
-            $this->data = $data;
-
             if ($this->Field->save($this->data)) {
                 $this->flashMsg(__t('Field has been saved.'), 'success');
                 $this->redirect($this->referer());
             } else {
                 $this->flashMsg(__t('Field could not be saved. Please, try again.'), 'error');
             }
+        } else {
+            $field['Field']['viewMode'] = $viewMode;
+            $this->data = $field;
         }
 
-        $this->data = $field;
-
-        $this->set('viewMode', $viewMode);
         $this->setCrumb(
             '/admin/node/types',
             array($nodeType['NodeType']['name'], '/admin/node/types/edit/' . $nodeType['NodeType']['id']),
