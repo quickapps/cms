@@ -17,6 +17,7 @@ class RolesController extends UserAppController {
         if (isset($this->data['Role'])) {
             if ($this->User->Role->save($this->data)) {
                 $this->flashMsg(__t('Role has been saved'), 'success');
+                $this->redirect($this->referer());
             } else {
                 $this->flashMsg(__t('Role could not be saved. Please, try again.'), 'error');
             }
