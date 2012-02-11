@@ -381,8 +381,10 @@ class LayoutHelper extends AppHelper {
  * @return string HTML formatted field
  */
     public function renderField($field, $edit = false) {
-        if (isset($field['settings']['display'][$this->_View->viewVars['Layout']['viewMode']]['type']) &&
-            $field['settings']['display'][$this->_View->viewVars['Layout']['viewMode']]['type'] == 'hidden'
+        $__viewMode = $this->_View->viewVars['Layout']['viewMode'];
+
+        if (isset($field['settings']['display'][$__viewMode]['type']) &&
+            $field['settings']['display'][$__viewMode]['type'] == 'hidden'
         ) {
             return '';
         }
@@ -395,7 +397,7 @@ class LayoutHelper extends AppHelper {
             $field['label'] .= $field['required'] ? ' *' : '';
             $field['description'] = !empty($field['description']) ? $this->hooktags($field['description']) : '';
         } else {
-            $viewMode = isset($field['settings']['display'][$this->_View->viewVars['Layout']['viewMode']]) ? $this->_View->viewVars['Layout']['viewMode'] : 'default';
+            $viewMode = isset($field['settings']['display'][$__viewMode]) ? $__viewMode: 'default';
 
             if (isset($field['settings']['display'][$viewMode]['type']) && $field['settings']['display'][$viewMode]['type'] != 'hidden') {
                 $view = 'view';
@@ -420,7 +422,13 @@ class LayoutHelper extends AppHelper {
 
         if (!empty($result)) {
             $result .= implode('', (array)$this->hook('after_render_field', $data, array('collectReturn' => true)));
-            $result = !$edit ? $this->hooktags($result) : $result;
+
+            if (!$edit &&
+                (!isset($field['settings']['display'][$__viewMode]['hooktags']) || $field['settings']['display'][$__viewMode]['hooktags'])
+            ) {
+                $result = $this->hooktags($result);
+            }
+
             $result = "\n\t" . $result . "\n";
 
             return "\n<div class=\"field-container field-name-{$field['name']} field-module-{$field['field_module']}\">{$result}</div>\n";
