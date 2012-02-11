@@ -117,6 +117,12 @@ Cache::config('default', array('engine' => 'File'));
 
     $plugins = App::objects('plugins', null, false);
 
+    if ($load_order = Cache::read('modules_load_order')) {
+        $load_order = array_intersect($load_order, $plugins);
+        $tail = array_diff($plugins, $load_order);
+        $plugins = array_merge($load_order, $tail);
+    }
+
     foreach($plugins as $plugin) {
         if (!CakePlugin::loaded($plugin)) {
             CakePlugin::load($plugin, array('bootstrap' => true, 'routes' => true) );
