@@ -74,7 +74,10 @@ class TaxonomyHookHelper extends AppHelper {
                             $count = ClassRegistry::init('Node')->find('count',
                                 array(
                                     'conditions' => array(
-                                        'Node.terms_cache LIKE' => "%{$term['Term']['id']}:%",
+                                        'OR' => array(
+                                            array('Node.terms_cache LIKE' => "{$term['Term']['id']}:%"),
+                                            array('Node.terms_cache LIKE' => "%|{$term['Term']['id']}:%")
+                                        ),
                                         'Node.language' => array(null, '', $lc)
                                     )
                                 )
@@ -112,7 +115,10 @@ class TaxonomyHookHelper extends AppHelper {
                         $count = ClassRegistry::init('Node')->find('count',
                             array(
                                 'conditions' => array(
-                                    'Node.terms_cache LIKE' => "%{$term['Term']['id']}:%",
+                                    'OR' => array(
+                                        array('Node.terms_cache LIKE' => "{$term['Term']['id']}:%"),
+                                        array('Node.terms_cache LIKE' => "%|{$term['Term']['id']}:%")
+                                    ),
                                     'Node.language' => array(null, '', $lc)
                                 )
                             )
