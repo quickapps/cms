@@ -1323,6 +1323,136 @@ class InstallerComponent extends Component {
     }
 
 /**
+ * Defines a new content type and optionally attaches a list of fields to it.
+ *
+ * ###Example
+ * Example of usage on `afterInstall`:
+ *
+ * {{{
+ *  $this->Installer->createContentType(
+ *      array(
+ *          'module' => 'Blog', # OPTIONAL
+ *          'name' => 'Blog Entry',
+ *          'label' => 'Entry Title'
+ *      ),
+ *      array(
+ *          'FieldText' => array(
+ *              'name' => 'blog_body',
+ *              'label' => 'Entry Body'
+ *          )
+ *      )
+ *  );
+ * }}}
+ *
+ * Note that `module` key is OPTIONAL when the method is invoked
+ * from an installation session. If `module` key is not set and this method is invoked
+ * during an install process (e.g.: `afterInstall`) it wil use the name of the module
+ * being installed.
+ *
+ * Although this methods just be used on `afterInstall` callback only:
+ * If you are adding fields that belongs to the module being installed
+ * MAKE SURE to use this method on `afterInstall` callback, this is after
+ * module has been installed and its fields has been REGISTERED on the system.
+ *
+ * @param array $type Content Type information. see $__type
+ * @param array $fields Optional Associative array of fields to attach to the new content type:
+ * Keys `label` and `name` are REQUIRED!
+ * {{{
+ *  $fields = array(
+ *      'FieldText' => array(
+ *          'label' => 'Title', # required
+ *          'name' => 'underscored_unique_name', # required
+ *          'required' => true, # optional
+ *          'description' => 'Help text, instructions.', # optional
+ *          'settings' => array( # optional array of specific settings for this field.
+ *              'extensions' => 'jpg,gif,png',
+ *              ...
+ *          )
+ *      ),
+ *      ...
+ * }}}
+ * @return mixed boolean FALSE on failure. NodeType array on success
+ * @link https://github.com/QuickAppsCMS/QuickApps-CMS/wiki/Field-API
+ */
+    public function createContentType($type, $fields = array()) {
+        $__type = array(
+            // The module defining this node type
+            'module' => (isset($this->options['__appName']) ? $this->options['__appName'] : false),
+            // information
+            'name' => false,
+            'description' => '',
+            'label' => false,
+            // display format
+            'author_name' => 0, # show publisher info.: NO
+            'publish_date' => 0, # show publish date: NO
+            // comments
+            'comments' => 0, # comments: CLOSED (1: read only, 2: open)
+            'comments_approve' => 0, # auto approve: NO
+            'comments_per_page' => 10,
+            'comments_anonymous' => 0,
+            'comments_title' => 0, # allow comment title: NO
+            // language
+            'language' => '', # language: any
+            // publishing
+            'published' => 1, # active: YES
+            'promote' => 0, # publish to front page: NO
+            'sticky' => 0 # sticky at top of lists: NO
+        );
+        $type = array_merge($__type, $type);
+
+        if (!$type['name'] ||
+            !$type['label'] ||
+            empty($type['module']) ||
+            !CakePlugin::loaded($type['module'])
+        ) {
+            return false;
+        }
+
+        $NodeType = ClassRegistry::init('Node.NodeType');
+        $newType = $NodeType->save(
+            array(
+                'NodeType' => array(
+                    'module' => $type['module'],
+                    'name' => $type['name'],
+                    'description' => $type['description'],
+                    'title_label' => $type['label'],
+                    'node_show_author' => $type['author_name'],
+                    'node_show_date' => $type['publish_date'],
+                    'default_comment' => $type['comments'],
+                    'comments_approve' => $type['comments_approve'],
+                    'comments_per_page' => $type['comments_per_page'],
+                    'comments_anonymous' => $type['comments_anonymous'],
+                    'comments_subject_field' => $type['comments_title'],
+                    'default_language' => $type['language'],
+                    'default_status' => $type['published'],
+                    'default_promote' => $type['promote'],
+                    'default_sticky' => $type['sticky']
+                )
+            )
+        );
+
+        if ($newType) {
+            if (!empty($fields)) {
+                $NodeType->Behaviors->attach('Field.Fieldable', array('belongsTo' => "NodeType-{$newType['NodeType']['id']}"));
+
+                foreach ($fields as $module => $data) {
+                    $data['field_module'] = $module;
+
+                    if (!$NodeType->attachFieldInstance($data)) {
+                        $NodeType->delete($newType['NodeType']['id']);
+
+                        return false;
+                    }
+                }
+            }
+
+            return $newType;
+        } else {
+            return false;
+        }
+    }
+
+/**
  * Execute an SQL statement.
  *
  * Example of use on module install/uninstall:
@@ -1598,7 +1728,7 @@ class InstallerComponent extends Component {
 
                 fputs($fp, $header);
 
-                while($line = fread($fp, 4096)){
+                while($line = fread($fp, 4096)) {
                     $response .= $line;
                 }
 
