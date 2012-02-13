@@ -33,15 +33,30 @@ class JqueryUI {
     );
 
 /**
- * Load in stack the specified Jquery UI JS files.
+ * Loads in stack all the specified Jquery UI JS files.
  *
- * If site's `js` folder is writable then all files will be combined and mergered using JSMin.
- * See the contents of the jquery.ui-X.X sub-directory for a list of available
+ * If site's `js` folder (ROOT/webroot/js/) is writable all the files will be
+ * combined and mergered using JSMin.
+ * See the contents of the `System/webroot/js/ui` sub-directory for a list of available
  * files that may be included.
+ *
  * The required ui.core file is automatically included,
  * as is effects.core if you include any effects files.
  *
  * You can load a preset, which include all the required js files for that preset.
+ *
+ * ###Example
+ * {{{
+ *  $this->JqueryUI->add('sortable');
+ * }}}
+ *
+ * The above will load all the JS libraries required for a `sortable` interaction.
+ *
+ * {{{
+ *  $this->JqueryUI->add('effects.blind', 'effects.fade');
+ * }}}
+ *
+ * The above will load both `blind` & `fade` effects.
  *
  * @param array $files List of UI files to include
  * @param array $stack Reference to AppController::$Layout['javascripts']['file']
@@ -136,7 +151,7 @@ class JqueryUI {
     }
 
 /**
- * Load in stack the CSS styles for the specified Jquery UI Theme.
+ * Loads in stack the CSS styles for the specified Jquery UI theme.
  *
  * Themes must be located under `/webroot/css/ui/` folder of you Module or Site.
  * Example, some valid routes are:
@@ -144,13 +159,28 @@ class JqueryUI {
  *  - Site Css: ROOT/webroot/css/ui/theme-name
  *  - Site Module: ROOT/Modules/MyModule/webroot/css/ui/theme-name
  *
- * Plugin-dot-syntax is allowed, to themes located in Module's css folder.
+ * Plugin-dot-syntax is allowed, for themes located in Module's css folder.
  * `Site Css` folder will be used otherwise.
  *
  * ###Theme auto-detect:
  * If no theme is given (FALSE):
  *  - Try to use global parametter `JqueryUI.default_theme`.
  *  - Use `System.ui-lightness` otherwise.
+ *
+ * ###Example:
+ * {{{
+ *  $this->JqueryUI->theme('MyModule.flick');
+ * }}}
+ * 
+ * The above will load `flick` theme.
+ * Theme should be located in `ROOT/Modules/MyModule/webroot/css/ui/flick/`
+ *
+ * {{{
+ *  $this->JqueryUI->theme('flick');
+ * }}} 
+ *
+ * The above will load `flick` theme. But, now it should be located in
+ * `ROOT/webroot/css/ui/flick/`
  *
  * @param mixed $theme String name of the theme to load (Plugin-dot-syntax allowed)
  * or leave empty for auto-detect.

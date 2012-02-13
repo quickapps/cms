@@ -25,12 +25,22 @@ class JqueryUIComponent extends Component {
         $this->Controller->helpers[] = 'System.JqueryUI';
     }
 
+/**
+ * Loads in stack all the specified Jquery UI JS files.
+ *
+ * @see JqueryUI::add()
+ */
     public function add() {
         $files = func_get_args();
 
         return JqueryUI::add($files, $this->Controller->Layout['javascripts']['file']);
     }
 
+/**
+ * Loads in stack the CSS styles for the specified Jquery UI theme.
+ *
+ * @see JqueryUI::theme()
+ */
     public function theme($theme = false) {
         return JqueryUI::theme($theme, $this->Controller->Layout['stylesheets']['all']);
     }
