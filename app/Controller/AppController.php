@@ -92,14 +92,6 @@ class AppController extends Controller {
         return true;
     }
 
-    public function isAuthorized($user) {
-        $this->Quickapps->accessCheck();
-
-        $isAllowed = ($this->Auth->allowedActions == array('*') || in_array($this->request->params['action'], $this->Auth->allowedActions));
-
-        return $isAllowed;
-    }
-
 /**
  * Wrapper method to QuickappsComponent::title()
  *
