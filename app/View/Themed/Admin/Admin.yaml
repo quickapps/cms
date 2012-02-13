@@ -18,3 +18,4 @@ regions:
     dashboard_main: Dashboard Main
 
 layout: default
+login_layout: login
