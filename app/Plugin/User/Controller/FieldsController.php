@@ -15,10 +15,7 @@ class FieldsController extends UserAppController {
 
     public function admin_index() {
         if (isset($this->data['Field'])) {
-            $data = $this->data;
-            $data['Field']['name'] = !empty($data['Field']['name']) ? 'field_' . $data['Field']['name'] : '';
-
-            if ($field_id = $this->User->attachFieldInstance($data)) {
+            if ($field_id = $this->User->attachFieldInstance($this->data)) {
                 $this->redirect("/admin/user/fields/field_settings/{$field_id}");
             }
 

@@ -187,12 +187,9 @@ class TypesController extends NodeAppController {
         $nodeType = $this->NodeType->findById($typeId) or $this->redirect('/admin/node/types');
 
         if (isset($this->data['Field'])) {
-            $data = $this->data;
-            $data['Field']['name'] = !empty($data['Field']['name']) ? 'field_' . $data['Field']['name'] : '';
-
             $this->NodeType->Behaviors->attach('Field.Fieldable', array('belongsTo' => "NodeType-{$typeId}"));
 
-            if ($field_id = $this->NodeType->attachFieldInstance($data)) {
+            if ($field_id = $this->NodeType->attachFieldInstance($this->data)) {
                 $this->redirect("/admin/node/types/field_settings/{$field_id}");
             }
 
