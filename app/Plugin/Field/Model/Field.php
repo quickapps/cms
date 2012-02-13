@@ -17,14 +17,14 @@ class Field extends FieldAppModel {
     public $validate = array(
         'label' => array('required' => true, 'allowEmpty' => false, 'rule' => array('between', 1, 128), 'message' => 'Invalid field label.'),
         'name' => array(
-            'alphaNumeric' => array('required' => true, 'allowEmpty' => false, 'rule' => array('custom', '/^[a-z0-9_]{3,32}$/i'), 'message' => "Field name must only contain letters and numbers. Between 3-32 characters are required (character '_' is allowed)."),
+            'alphaNumeric' => array('required' => true, 'allowEmpty' => false, 'rule' => array('custom', '/^[a-z0-9_]{3,32}$/s'), 'message' => "Field name must only contain letters and numbers. Between 3-32 characters are required (character '_' is allowed)."),
             'isUnique' => array('required' => true, 'allowEmpty' => false, 'rule' => 'checkUnique', 'message' => 'Field name already in use.')
         ),
         'field_module' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Select a field type.')
     );
 
     public function beforeValidate() {
-        # merge settings (array treatment): formatter form post
+        // merge settings (array treatment): formatter form post
         if (isset($this->data['Field']['id']) && isset($this->data['Field']['settings'])) {
             $this->validate = false;
             $settings = $this->field('settings', array('Field.id' => $this->data['Field']['id']));
@@ -38,7 +38,7 @@ class Field extends FieldAppModel {
                 'display' => array(
                     'default' => array(
                         'label' => 'hidden',
-                        'type' => '', #formatter name
+                        'type' => '', # formatter name
                         'settings' => array(),
                         'ordering' => 0
                     )
@@ -59,6 +59,7 @@ class Field extends FieldAppModel {
 
     public function beforeSave() {
         if (isset($this->data['Field']['field_module'])) {
+            $this->data['Field']['name'] = 'field_' . str_replace('field_', '', $this->data['Field']['name']);
             $this->data['Field']['settings'] = @unserialize($this->data['Field']['settings']);
             $before = $this->hook("{$this->data['Field']['field_module']}_before_save_instance", $this);
             $this->data['Field']['settings'] = !is_array($this->data['Field']['settings']) ? array() : $this->data['Field']['settings'];

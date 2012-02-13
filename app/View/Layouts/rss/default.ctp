@@ -10,12 +10,11 @@
         <generator>QuickApps v<?php echo Configure::read('Variable.qa_version'); ?></generator>
 
         <?php
+            App::uses('Sanitize', 'Utility');
+
             foreach ($Layout['node'] as $node):
                 $nodeTime = $node['Node']['created'];
                 $nodeLink = "/{$node['Node']['node_type_id']}/{$node['Node']['slug']}.html";
-
-                App::uses('Sanitize', 'Utility');
-
                 $nodeBody = $this->Layout->renderNode($node);
 
                 echo $this->Rss->item(array(),

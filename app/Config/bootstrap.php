@@ -125,7 +125,7 @@ Cache::config('default', array('engine' => 'File'));
 
     foreach($plugins as $plugin) {
         if (!CakePlugin::loaded($plugin)) {
-            CakePlugin::load($plugin, array('bootstrap' => true, 'routes' => true) );
+            CakePlugin::load($plugin, array('bootstrap' => true, 'routes' => true));
         }
     }
 

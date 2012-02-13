@@ -376,7 +376,7 @@ class FieldableBehavior extends ModelBehavior {
  *  - label: Field input label. i.e.: 'Article Body' for a textarea
  *  - name: Filed unique name. underscored and alphanumeric characters only. i.e.: 'field_article_body'
  *  - field_module: Name of the module that handle this instance. i.e.: 'filed_textarea'
- * @return mixed Return (int) Field instance ID if it was added correctly. False otherwise.
+ * @return mixed Return (int) Field instance ID if it was added correctly. FALSE otherwise.
  */
     public function attachFieldInstance(&$Model, $data) {
         $data = isset($data['Field']) ? $data['Field'] : $data;

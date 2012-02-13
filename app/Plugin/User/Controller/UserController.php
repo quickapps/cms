@@ -101,7 +101,7 @@ class UserController extends UserAppController {
                 )
             );
             $session['role_id'] = Set::extract('/UsersRoles/role_id', $session['role_id']);
-            $session['role_id'][] = 2; #role: authenticated user
+            $session['role_id'][] = 2; # role: authenticated user
 
             $this->Auth->login($session);
 
@@ -175,7 +175,7 @@ class UserController extends UserAppController {
                     )
                 );
                 $session['role_id'] = Set::extract('/UsersRoles/role_id', $session['role_id']);
-                $session['role_id'][] = 2; #role: authenticated user
+                $session['role_id'][] = 2; # role: authenticated user
                 $this->User->id = $session['id'];
 
                 if (isset($this->data['User']['remember']) && $this->data['User']['remember'] == 1) {
@@ -218,7 +218,7 @@ class UserController extends UserAppController {
                     )
                 );
                 $session['role_id'] = Set::extract('/UsersRoles/role_id', $session['role_id']);
-                $session['role_id'][] = 2; #role: authenticated user
+                $session['role_id'][] = 2; # role: authenticated user
 
                 $this->Auth->login($session);
 

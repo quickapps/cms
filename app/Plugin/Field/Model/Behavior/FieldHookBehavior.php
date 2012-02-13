@@ -13,12 +13,10 @@ class FieldHookBehavior extends ModelBehavior {
 
 /**
  * Return an associative array with field(s) information.
- * If $field is given, then only information for $field is return.
- * All fields information is returned otherwise.
  *
  * @param mixed $field Optional string will return only information for the specified field.
  *                     FALSE will return all fields information.
- * @return array Associative array with field(s) information.
+ * @return array Associative array.
  */
     public function field_info($field = false) {
         $field = is_string($field) ? Inflector::camelize($field) : '';

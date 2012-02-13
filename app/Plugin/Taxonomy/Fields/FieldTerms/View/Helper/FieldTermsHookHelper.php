@@ -61,7 +61,7 @@ class FieldTermsHookHelper extends AppHelper {
 
         foreach ($ids as $id) {
             if ($id) {
-                $term = ClassRegistry::init('Taxonomy.Term')->find('first', 
+                $term = ClassRegistry::init('Taxonomy.Term')->find('first',
                     array(
                         'conditions' => array(
                             'Term.id' => $id
