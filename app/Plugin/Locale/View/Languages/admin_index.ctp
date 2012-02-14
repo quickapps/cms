@@ -27,17 +27,17 @@ $tSettings = array(
             'value' => '{php} return ("{Language.direction}" == "ltr" ? "' . __t('Left to right') . '" : "' . __t('Right to left') . '");{/php}'
         ),
         __t('Status') => array(
-            'value' => '{php} return ({Language.status} == 1 ? "' . __t('active') . '" : "' . __t('disabled') . '");{/php}'
+            'value' => '{php} return {Language.status} == 1 ? "' . __t('active') . '" : "' . __t('disabled') . '"; {/php}'
         ),
         __t('Actions') => array(
             'value' => '
                 <a href="{url}/admin/locale/languages/move/{Language.id}/up{/url}">' . __t('move up') . '</a> |
                 <a href="{url}/admin/locale/languages/move/{Language.id}/down{/url}">' . __t('move down') . '</a> |
-                <a href="{url}/admin/locale/languages/set_default/{Language.id}{/url}">' . __t('set as default') . '</a> |
+                {php} return {Language.status} == 1 ? \'<a href="{url}/admin/locale/languages/set_default/{Language.id}{/url}">' . __t('set as default') . '</a> |\' : \'\'; {/php}
                 <a href="{url}/admin/locale/languages/edit/{Language.id}{/url}">' . __t('edit') . '</a>
             ',
             'thOptions' => array('align' => 'center'),
-            'tdOptions' => array('width' => '300', 'align' => 'center')
+            'tdOptions' => array('width' => '300', 'align' => 'right')
         )
     ),
     'noItemsMessage' => __t('There are no languages to display. Critical error'),
