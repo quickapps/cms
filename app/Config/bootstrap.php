@@ -55,6 +55,7 @@ Cache::config('default', array('engine' => 'File'));
     define('THEMES', ROOT  . DS . 'Themes' . DS . 'Themed' . DS);
     App::uses('Spyc', 'vendors');
     App::uses('Folder', 'Utility');
+    App::uses('QADetector', 'System.Lib');
 
 /**
  * Load themes as plugin
