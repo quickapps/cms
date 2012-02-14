@@ -1688,68 +1688,29 @@ class InstallerComponent extends Component {
  * @return boolean. TRUE on success, FALSE otherwise
  */
     private function __downloadPackage($url, $dst) {
+        App::uses('HttpSocket', 'Network/Http');
+
         $path = $dst . md5($url) . '.zip';
         $Foder = new Folder($dst, true);
+        $uri = parse_url($url);
+        $http = new HttpSocket(
+            array(
+                'host' => $uri['host'],
+                'request' => array(
+                    'redirect' => true
+                )
+            )
+        );
+        $response = $http->get($uri);
+        $fp = fopen($path, "w+");
 
-        if (extension_loaded('curl')) {
-            $cp = curl_init($url);
-            $fp = fopen($path, "w+");
-
-            if (!$fp) {
-                curl_close($cp);
-
-                return false;
-            } else {
-                curl_setopt($cp, CURLOPT_FILE, $fp);
-                curl_exec($cp);
-                curl_close($cp);
-                fclose($fp);
-
-                return true;
-            }
+        if (!$fp) {
+            return false;
         } else {
-            $url = parse_url($url);
-            $port = isset($url['port']) ? $url['port'] : 80;
-            $port = $url['scheme'] == 'https' ? 443 : $port;
-            $fp = fsockopen($url['host'], $port, $errno, $errstr, 15);
+            fwrite($fp, $response);
+            fclose($fp);
 
-            if ($fp) {
-                $response = '';
-                $header = "GET {$url['path']} " . strtoupper($url['scheme']) . "/1.0\r\n";
-                $header .= "Host: {$url['host']}\r\n";
-                $header .= "User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:8.0) Gecko/20100101 Firefox/8.0\r\n";
-                $header .= "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n";
-                $header .= "Accept-Language: es-es,es;q=0.8,en-us;q=0.5,en;q=0.3\r\n";
-                $header .= "Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7\r\n";
-                $header .= "Accept-Encoding: gzip, deflate\r\n";
-                $header .= "Keep-Alive: 300\r\n";
-                $header .= "Connection: keep-alive\r\n";
-                $header .= "Referer: {$url['scheme']}://{$url['host']}\r\n\r\n";
-
-                fputs($fp, $header);
-
-                while($line = fread($fp, 4096)) {
-                    $response .= $line;
-                }
-
-                fclose($fp);
-
-                $pos = strpos($response, "\r\n\r\n");
-                $response = substr($response, $pos + 4);
-
-                $fp = fopen($path, "w+");
-
-                if (!$fp) {
-                    return false;
-                } else {
-                    fwrite($fp, $response);
-                    fclose($fp);
-
-                    return true;
-                }
-            } else {
-                return false;
-            }
+            return true;
         }
     }
 }
