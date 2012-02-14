@@ -1050,11 +1050,13 @@ class LayoutHelper extends AppHelper {
             $Block['title'] = empty($Block['title']) ? $block['Menu']['title'] : $Block['title'];
             $Block['body'] = $this->_View->element('theme_menu', array('menu' => $block['Menu']));
             $Block['description'] = $block['Menu']['description'];
+            $wrapperClass = 'qa-block-menu';
         } elseif (!empty($block['BlockCustom']['body'])) {
             // custom block
             $Block['body'] = @$block['BlockCustom']['body'];
             $Block['format'] = @$block['BlockCustom']['format'];
             $Block['description'] = @$block['BlockCustom']['description'];
+            $wrapperClass = 'qa-block-custom';
         } else {
             // module block
             // module hook must return formated array block
@@ -1073,6 +1075,7 @@ class LayoutHelper extends AppHelper {
             $Block['delta'] = $block['Block']['delta'];
             $Block['region'] = $region;
             $Block['title'] = !isset($Block['title']) ? $block['Block']['title'] : $Block['title'];
+            $wrapperClass = 'qa-block-module';
         }
 
         $Block['weight'] = $block['Block']['__weight']; // X of total
@@ -1109,6 +1112,6 @@ class LayoutHelper extends AppHelper {
         $this->hook('after_render_block', $data, array('collectReturn' => false));
         extract($data);
 
-        return "<div class=\"qa-block\">{$html}</div>";
+        return "<div class=\"qa-block {$wrapperClass}\">{$html}</div>";
     }
 }
