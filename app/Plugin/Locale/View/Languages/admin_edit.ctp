@@ -1,3 +1,16 @@
+<?php
+    $this->Layout->script("
+    function showFlag(s) {
+        if (s.value == '') {
+            $('img.flag-icon').hide();
+        } else {
+            $('img.flag-icon').attr('src', QuickApps.settings.base_url + 'locale/img/flags/' + s.value);
+            $('img.flag-icon').show();
+        }
+    }
+    ", 'inline');
+?>
+
 <?php echo $this->Form->create('Language', array('url' => "/admin/locale/languages/edit/{$this->data['Language']['id']}")); ?>
     <?php echo $this->Html->useTag('fieldsetstart', __t('Editing language')); ?>
         <?php if (!in_array($this->data['Language']['code'], array('eng', Configure::read('Variable.default_language')))): ?>
@@ -65,14 +78,3 @@
     <!-- Submit -->
     <?php echo $this->Form->input(__t('Save language'), array('type' => 'submit')); ?>
 <?php echo $this->Form->end(); ?>
-
-<script>
-    function showFlag(s) {
-        if (s.value == '') {
-             $('#flag-icon').hide();
-        } else {
-            $('#flag-icon').attr('src', QuickApps.settings.base_url + 'locale/img/flags/' + s.value);
-            $('#flag-icon').show();
-        }
-    }
-</script>
