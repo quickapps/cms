@@ -63,7 +63,7 @@ class TypesController extends NodeAppController {
         $this->redirect($this->referer());
     }
 
-    //node type display settings
+    // node type display settings
     public function admin_display($typeId, $view_mode = false) {
         if (!$view_mode && !isset($this->data['NodeType']['viewModes'])) {
             $this->redirect("/admin/node/types/display/{$typeId}/default");

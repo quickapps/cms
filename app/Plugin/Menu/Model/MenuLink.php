@@ -26,7 +26,7 @@ class MenuLink extends MenuAppModel {
 
     public function beforeSave() {
         if (isset($this->data['MenuLink']['router_path']) && $this->data['MenuLink']['router_path'] !== '/') {
-            # fix: paths must never end with '/'-
+            // fix: paths must never end with '/'
             $this->data['MenuLink']['router_path'] = preg_replace('/\/{2,}/', '',  "{$this->data['MenuLink']['router_path']}//");
         }
 

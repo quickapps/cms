@@ -41,7 +41,7 @@ class Vocabulary extends TaxonomyAppModel {
 
         if (($dir == 'down' && $ids[count($ids)-1] == $record['Vocabulary']['id']) ||
             ($dir == 'up' && $ids[0] == $record['Vocabulary']['id'])
-        ) { #edge -> cant go down/up
+        ) { # edge -> cant go down/up
             return false;
         }
 

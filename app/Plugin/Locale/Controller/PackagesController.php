@@ -133,7 +133,7 @@ class PackagesController extends LocaleAppController {
             }
         }
 
-        # Plugins .po
+        // Plugins .po
         foreach (App::objects('plugin') as $plugin) {
             if (!Configure::read("Modules.{$plugin}.yaml")) {
                 continue;

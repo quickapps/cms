@@ -103,8 +103,8 @@ class Comment extends CommentAppModel {
 
         if (!$userId) { # anonymous
             switch ($this->__tmp['nodeData']['NodeType']['comments_anonymous']) {
-                #name
-                case 0: #mail not sended, not requierd | name sended but not required
+                // name
+                case 0: # mail not sended, not requierd | name sended but not required
                     unset($this->validate['name'], $this->validate['email']);
 
                     if (empty($this->data['Comment']['name'])) {
@@ -112,10 +112,9 @@ class Comment extends CommentAppModel {
                     }
                 break;
 
-                #name
-                #email
-                #host
-                case 1: #mail optional, can be empty, if it is not -> must be validated | name optional
+                // name, email, host
+                // mail optional, can be empty, if it is not -> must be validated | name optional
+                case 1:
                    $this->validate['email']['allowEmpty'] = true;
 
                     if (empty($this->data['Comment']['name'])) {
@@ -123,10 +122,9 @@ class Comment extends CommentAppModel {
                     }
                 break;
 
-                #name*
-                #email*
-                #host
-                case 2: #mail/name required
+                // name*, email*, host
+                // mail/name required
+                case 2:
                     # already set as class attribute
                 break;
             }
@@ -157,15 +155,15 @@ class Comment extends CommentAppModel {
 
         /* new comment */
         if (!isset($this->data['Comment']['id'])) {
-            #prepare body
+            // prepare body
             $this->data['Comment']['body'] = html_entity_decode(strip_tags($this->data['Comment']['body']));
 
-            # prepare subject
+            / prepare subject
             if (!isset($this->data['Comment']['subject']) || empty($this->data['Comment']['subject'])) {
                 $this->data['Comment']['subject'] = $this->__defaultSubject($this->data['Comment']['body']);
             }
 
-            # prepare hostname
+            // prepare hostname
             $this->data['Comment']['hostname'] = env('REMOTE_ADDR');
         }
 
@@ -207,7 +205,7 @@ class Comment extends CommentAppModel {
     }
 
     private function __defaultSubject($string, $len = 30) {
-        # ignore quotes
+        // ignore quotes
         $__string = $string;
         $string = preg_replace('#\[quote(.*?)\](.*)\[/quote\]#U', '', $string);
         $string = $this->bb_parse($string);

@@ -10,6 +10,7 @@
  * @link     http://cms.quickapps.es
  */
 App::uses('Controller', 'Controller');
+
 class InstallController extends Controller {
     public $name = 'Install';
     public $uses = array();

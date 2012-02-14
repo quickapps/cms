@@ -130,7 +130,7 @@ class Field extends FieldAppModel {
         $this->hook("{$record['Field']['field_module']}_before_move_instance", $_data);
         extract($_data);
 
-        # get brothers
+        // get brothers
         $nodes = $this->find('all',
             array(
                 'conditions' => array(
@@ -156,7 +156,7 @@ class Field extends FieldAppModel {
 
         if (($dir == 'down' && $ids[count($ids)-1] == $record['Field']['id']) ||
             ($dir == 'up' && $ids[0] == $record['Field']['id'])
-        ) { #edge -> cant go down/up
+        ) { # edge -> cant go down/up
             return false;
         }
 
@@ -217,7 +217,7 @@ class Field extends FieldAppModel {
                     if (!isset($field['Field']['settings']['display'][$new_mode])) {
                         $field['Field']['settings']['display'][$new_mode] = array(
                             'label' => 'hidden',
-                            'type' => '', #formatter name
+                            'type' => '', # formatter name
                             'settings' => array(),
                             'ordering' => 0
                         );

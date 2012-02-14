@@ -29,7 +29,7 @@ class ListController extends CommentAppController {
                 $update = (!in_array($this->data['Comment']['update'], array('delete')));
 
                 foreach ($this->data['Items']['id'] as $key => $id) {
-                    if ($update) { // approve | unapprove
+                    if ($update) { # approve | unapprove
                         if (!$this->Quickapps->isAdmin() &&
                             !in_array("admin_{$this->data['Comment']['update']}", Configure::read('allowedActions'))
                         ) {

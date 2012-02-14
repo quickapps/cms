@@ -164,7 +164,7 @@ class ListController extends UserAppController {
                 /*****************/
                 /* Email sending */
                 /*****************/
-                # Send "activated" mail
+                // Send "activated" mail
                 if ($user['User']['status'] == 0 && $this->data['User']['status'] == 1) {
                     $notify = $this->Variable->findByName('user_mail_activation_notify');
 
@@ -173,14 +173,14 @@ class ListController extends UserAppController {
                     }
                 }
 
-                # Send "blocked" mail
+                // Send "blocked" mail
                 if ($user['User']['status'] == 1 && $this->data['User']['status'] == 0) {
                     $notify = $this->Variable->findByName('user_mail_blocked_notify_notify');
 
                     if ($notify['Variable']['value']) {
                         $this->Mailer->send($id, 'blocked');
                     }
-                }// -->
+                }
 
                 $this->flashMsg(__t('User has been saved'), 'success');
                 $this->redirect($this->referer());

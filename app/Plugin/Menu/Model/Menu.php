@@ -45,7 +45,7 @@ class Menu extends MenuAppModel {
             )
         );
 
-        # links delete
+        // links delete
         $this->MenuLink->Behaviors->detach('Tree');
         $this->MenuLink->Behaviors->attach('Tree',
             array(

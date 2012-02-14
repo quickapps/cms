@@ -88,7 +88,7 @@ class Language extends LocaleAppModel {
             return false;
         }
 
-        # get brothers
+        // get brothers
         $nodes = $this->find('all',
             array(
                 'order' => array('Language.ordering' => 'ASC'),
@@ -101,7 +101,7 @@ class Language extends LocaleAppModel {
 
         if (($dir == 'down' && $ids[count($ids)-1] == $record['Language']['id']) ||
             ($dir == 'up' && $ids[0] == $record['Language']['id'])
-        ) { #edge -> cant go down/up
+        ) { # edge -> cant go down/up
             return false;
         }
 

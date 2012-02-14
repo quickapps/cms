@@ -101,7 +101,7 @@ class AppModel extends Model {
         $b = Configure::read('Hook.behaviors');
 
         if (!$b) {
-            return false; // fix for AppController __preloadHooks()
+            return false; # fix for AppController::__preloadHooks()
         }
 
         foreach ($b as $hook) {

@@ -35,7 +35,7 @@ class NodeController extends NodeAppController {
         }
 
         if (empty($front_page)) {
-            # USE Node.roles_cache
+            // USE Node.roles_cache
             $this->Node->unbindModel(array('hasAndBelongsToMany' => array('Role')));
             $this->Node->unbindComments();
 
@@ -92,7 +92,7 @@ class NodeController extends NodeAppController {
         $result = Cache::read("node_{$slug}");
 
         if (!$result) {
-            # USE Node.roles_cache
+            // USE Node.roles_cache
             $this->Node->unbindModel(array('hasAndBelongsToMany' => array('Role')));
             $this->Node->unbindComments();
             $this->Node->Behaviors->attach('Field.Fieldable',
@@ -177,7 +177,7 @@ class NodeController extends NodeAppController {
 
         $this->loadModel('Comment.Comment');
 
-        # comment reply
+        // comment reply
         if (isset($this->data['Comment']) && $result['Node']['comment'] == 2) {
             $data = $this->data;
             $data['Comment']['node_id'] = $result['Node']['id'];
@@ -370,21 +370,21 @@ class NodeController extends NodeAppController {
                 $scope['AND']['OR'][] = array('Node.description' => "%{$or}%");
             }
 
-            # pass scoping params to modules
+            // pass scoping params to modules
             $this->hook('node_search_scope_alter', $scope);
 
         } elseif (isset($this->data['Search'])) {
-            # node types
+            // node types
             if (isset($this->data['Search']['type']) && !empty($this->data['Search']['type'])) {
                 $keys['type'] = $this->__search_expression($keys['type'], 'type', implode(',', $this->data['Search']['type']));
             }
 
-            # taxonomy terms
+            // taxonomy terms
             if (isset($this->data['Search']['term']) && is_array($this->data['Search']['term']) && !empty($this->data['Search']['term'])) {
                 $keys['term'] = $this->__search_expression($keys['term'], 'term', implode(',', $this->data['Search']['term']));
             }
 
-            # node language
+            // node language
             if (isset($this->data['Search']['language']) && is_array($this->data['Search']['language'])) {
                 $languages = array_filter($this->data['Search']['language']);
                 if (count($languages)) {
@@ -413,7 +413,7 @@ class NodeController extends NodeAppController {
             }
 
             $keys = Set::filter($keys);
-            # pass search keys to modules
+            // pass search keys to modules
             $this->hook('node_search_keys_alter', $keys);
 
             if (!empty($keys)) {
@@ -440,7 +440,7 @@ class NodeController extends NodeAppController {
             )
         );
 
-        # prepare content
+        // prepare content
         if (!empty($scope)) {
             $scope['Node.status'] = 1; # only published content!
             $scope['AND']['AND']['OR'][] = array('Node.roles_cache LIKE' => null);

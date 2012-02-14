@@ -16,7 +16,7 @@ class Module extends SystemAppModel {
     public $actsAs = array('Serialized' => array('settings'));
 
     public function beforeValidate() {
-        # force CamelCase module names
+        // force CamelCase module names
         if (isset($this->data['Module']['name'])) {
             $this->data['Module']['name'] = Inflector::camelize($this->data['Module']['name']);
         }
