@@ -17,7 +17,7 @@ class AppController extends Controller {
         'feed' => null, # url to rss feed
         'blocks' => array(),
         'node' => array(),
-        'viewMode' => '', # full, list
+        'viewMode' => '', # full, list, rss, print
         'header' => array(), # extra code for header
         'footer' => array(), # extra code for </body>
         'stylesheets' => array(
@@ -90,6 +90,14 @@ class AppController extends Controller {
         }
 
         return true;
+    }
+
+    public function isAuthorized($user) {
+        $this->Quickapps->accessCheck();
+
+        $isAllowed = ($this->Auth->allowedActions == array('*') || in_array($this->request->params['action'], $this->Auth->allowedActions));
+
+        return $isAllowed;
     }
 
 /**
