@@ -2,19 +2,19 @@
 App::uses('JSMin', 'Vendor');
 
 /**
- * Jquery UI Component
+ * JqueryUI class
  *
  * PHP version 5
  *
- * @package  QuickApps.Controller.Plugin.System
+ * @package  QuickApps.Controller.Plugin.System.Lib
  * @version  1.0
  * @author   Christopher Castro <chris@quickapps.es>
  * @link     http://cms.quickapps.es
  */
 class JqueryUI {
-    static $loadedUI = array();
-    static $loadedThemes = array();
-    static $presets = array(
+    protected static $_loadedUI = array();
+    protected static $_loadedThemes = array();
+    private static $__presets = array(
         // interactions
         'draggable' => array('ui.core', 'ui.widget', 'ui.mouse'),
         'droppable' => array('ui.core', 'ui.widget', 'ui.mouse', 'ui.raggable'),
@@ -62,12 +62,12 @@ class JqueryUI {
  * @param array $stack Reference to AppController::$Layout['javascripts']['file']
  * @return mixed
  *  TRUE if `all` was included.
- *  FALSE no files where included because they are already included or where not found.
+ *  FALSE no files were included because they are already included or were not found.
  *  String HTML <script> tags on success.
- * @see JqueryUI::$presets
+ * @see JqueryUI::$__presets
  */
-    public function add($files = array(), &$stack) {
-        if (in_array('all', self::$loadedUI)) {
+    public static function add($files = array(), &$stack) {
+        if (in_array('all', self::$_loadedUI)) {
             return true;
         }
 
@@ -79,11 +79,11 @@ class JqueryUI {
         // load preset
         if (count($files) === 1 &&
             strpos($files[0], '.') === false &&
-            isset(self::$presets[strtolower($files[0])])
+            isset(self::$__presets[strtolower($files[0])])
         ) {
             $l = strtolower($files[0]);
-            self::$loadedUI[] = $l;
-            $files = self::$presets[$l];
+            self::$_loadedUI[] = $l;
+            $files = self::$__presets[$l];
             $files[] = 'ui.' . $l;
         }
 
@@ -92,7 +92,7 @@ class JqueryUI {
         // autoload missing effects.core
         if (strpos($m, 'effects.') !== false &&
             strpos($m, 'effects.core') === false &&
-            !in_array('effects.core', self::$loadedUI) &&
+            !in_array('effects.core', self::$_loadedUI) &&
             !in_array('all', $files)
         ) {
             array_unshift($files, 'effects.core');
@@ -101,14 +101,14 @@ class JqueryUI {
         // autoload missing ui.core
         if (strpos($m, 'ui.') !== false &&
             strpos($m, 'ui.core') === false &&
-            !in_array('ui.core', self::$loadedUI) &&
+            !in_array('ui.core', self::$_loadedUI) &&
             !in_array('all', $files)
         ) {
             array_unshift($files, 'ui.core');
         }
 
-        $files = array_diff($files, self::$loadedUI);
-        self::$loadedUI = Set::merge(self::$loadedUI, $files);
+        $files = array_diff($files, self::$_loadedUI);
+        self::$_loadedUI = Set::merge(self::$_loadedUI, $files);
         $rootJS = ROOT . DS . 'webroot' . DS . 'js' . DS;
 
         if (!empty($files)) {
@@ -190,7 +190,7 @@ class JqueryUI {
  *  FALSE theme was not found.
  *  String HTML <style> tags on success.
  */
-    public function theme($theme = false, &$stack) {
+    public static function theme($theme = false, &$stack) {
         if (!$theme) {
             if ($d = Configure::read('JqueryUI.default_theme')) {
                 $theme = $d;
@@ -201,7 +201,7 @@ class JqueryUI {
 
         list($plugin, $theme) = pluginSplit($theme);
 
-        if (in_array($theme, self::$loadedThemes)) {
+        if (in_array($theme, self::$_loadedThemes)) {
             return true;
         }
 
@@ -219,7 +219,7 @@ class JqueryUI {
 
         if (file_exists($path)) {
             $stack[] = "{$plugin}/css/ui/{$theme}/{$cssName}";
-            self::$loadedThemes = Set::merge(self::$loadedThemes, array($theme));
+            self::$_loadedThemes = Set::merge(self::$_loadedThemes, array($theme));
 
             return '<link rel="stylesheet" type="text/css" href="' . Router::url("{$plugin}/css/ui/{$theme}/{$cssName}") . '" media="all" />';
         }
@@ -227,7 +227,19 @@ class JqueryUI {
         return false;
     }
 
-    public function __themeCssFile($folder) {
+/**
+ * Register a new preset, or overwrite if already exists.
+ *
+ * @param string $name Lowercase preset name
+ * @param array $libs Array of libraries used by the preset
+ * @return void
+ */
+    public static function addPreset($name, $libs = array()) {
+        $name = strtolower($name);
+        self::$__presets[$name] = $libs;
+    }
+
+    private static function __themeCssFile($folder) {
         $f = new Folder($folder);
         $files = $f->read();
 
