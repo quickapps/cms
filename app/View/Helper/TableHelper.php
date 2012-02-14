@@ -13,32 +13,32 @@
 /**
  * ##Expected data's structure
  * $data MUST be a numeric array. (Any list result of `Model::find()` or paginated result)
- *     {{{
- *         $data = array(
- *             0 => array(
- *                 'Model' => array('field1' => 'data', ...),
- *                 'Model2' => ...
- *             ),
- *             ....
- *         );
- *     }}}
+ * {{{
+ *  $data = array(
+ *      0 => array(
+ *          'Model' => array('field1' => 'data', ...),
+ *          'Model2' => ...
+ *      ),
+ *       ....
+ *  );
+ * }}}
  *
  * ##Options:
  * columns (array): Information about each of the columns of your table.
- *    {{{
- *         ...
- *         'Column Title' => array(
- *             'value' => ,        # (string) Values to display when filling this column.
- *                                     You can specify array paths to find in the $data array. e.g.: `{Model.field}`
- *                                     Also:
- *                                         {php}{/php}: Will print out the result returned by the PHP code. e.g.: {php} return 'hello world!'; {/php}
- *                                         {url}{/url}: Will print out the specified internal/external URL. e.g.: {url}/this/is_an/internal_url{/url}
- *             'thOptions' => ,    # (array) <th> tag options for this column. This will affect table header only.
- *             'tdOptions' => ,    # (array) <td> tag options for this column. This will affect table body (result rows) only.
- *             'sort' =>           # Optional (string) `Model.field`
- *         )
- *         ...
- *     }}}
+ * {{{
+ *  ...
+ *  'Column Title' => array(
+ *      'value' => ,        # (string) Values to display when filling this column.
+ *                            You can specify array paths to find in the $data array. e.g.: `{Model.field}`
+ *                            Also:
+ *                              {php}{/php}: Will print out the result returned by the PHP code. e.g.: {php} return 'hello world!'; {/php}
+ *                              {url}{/url}: Will print out the specified internal/external URL. e.g.: {url}/this/is_an/internal_url{/url}
+ *      'thOptions' => ,    # (array) <th> tag options for this column. This will affect table header only.
+ *      'tdOptions' => ,    # (array) <td> tag options for this column. This will affect table body (result rows) only.
+ *      'sort' =>           # Optional (string) `Model.field`
+ *  )
+ *  ...
+ * }}}
  *
  * headerPosition (mixed): render header at `top`, `bottom`, `top&bottom`, false (no render).
  * headerRowOptions (array): header <tr> tag attributes.
@@ -88,10 +88,10 @@ class TableHelper extends AppHelper {
     );
 
     private $_columnDefaults = array(
-        'value' => '',                                # String: cell content,
+        'value' => '',                              # String: cell content,
         'thOptions' => array('align' => 'left'),    # Array: th attributes, header cells (text align left by default)
         'tdOptions' => array('align' => 'left'),    # Array: td attributes, body cells (text align left by default)
-        'sort' => false                                # Mix: sortable field name:String, false (no sort this col), paginate must be on (see paginate option)
+        'sort' => false                             # Mix: sortable field name:String, false (no sort this col), paginate must be on (see paginate option)
     );
 
     private $_colsCount = 0;
@@ -180,7 +180,7 @@ class TableHelper extends AppHelper {
     }
 
     protected function _renderCell($value, $row_data) {
-        # look for urls
+        // look for urls
         preg_match_all('/\{url\}(.+)\{\/url\}/iUs', $value, $url);
         if (isset($url[1]) && !empty($url[1])) {
             foreach ($url[0] as $i => $m) {
@@ -188,7 +188,7 @@ class TableHelper extends AppHelper {
             }
         }
 
-        # look for array paths
+        // look for array paths
         preg_match_all('/\{([\{\}0-9a-zA-Z_\.]+)\}/iUs', $value, $path);
         if (isset($path[1]) && !empty($path[1])) {
             foreach ($path[0] as $i => $m) {
@@ -200,7 +200,7 @@ class TableHelper extends AppHelper {
             }
         }
 
-        # look for images
+        // look for images
         preg_match_all('/\{img(.*?)\}(.+)\{\/img\}/i', $value, $img);
         if (isset($img[1]) && !empty($img[1])) {
             foreach ($img[0] as $i => $m) {
@@ -210,7 +210,7 @@ class TableHelper extends AppHelper {
             }
         }
 
-        # look for links
+        // look for links
         preg_match_all('/\{link(.*?)\}(.*)\|(.*)\{\/link\}/i', $value, $link);
         if (isset($link[1]) && !empty($link[1])) {
             foreach ($link[0] as $i => $m) {
@@ -225,7 +225,7 @@ class TableHelper extends AppHelper {
             }
         }
 
-        # look for php code
+        // look for php code
         preg_match_all('/\{php\}(.+)\{\/php\}/iUs', $value, $php);
         if (isset($php[1]) && !empty($php[1])) {
             foreach ($php[0] as $i => $m) {

@@ -25,15 +25,16 @@ class HooktagsCollectionHelper extends AppHelper {
     }
 
 /**
- * Parse string for special hooktags placeholders and replace them with the corresponding hooktag method return.
- * Placeholder example:
+ * Parse string for special hooktags placeholders and replace
+ * them with the corresponding hooktag method return.
+ * Hooktag example:
  * {{{
- *     [hook_function param1=text param=2 param3=0 ... /]
- *     [other_hook_function]only content & no params[/other_hook_function]
+ *  [self_closing_hooktag param1=text param=2 param3=0 /]
+ *  [other_hook_hooktag]only content & no params[/other_hook_hooktag]
  * }}}
  *
  * @param string $text Text to replace.
- * @return string HTML with all placeholders replaced.
+ * @return string HTML with all hooktags replaced.
  */
     public function hooktags($text) {
         $text = $this->specialTags($text);
