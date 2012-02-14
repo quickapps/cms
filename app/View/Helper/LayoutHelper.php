@@ -569,50 +569,13 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
- * Check is the page being viewed is the site frontpage.
- *
- * @return boolean TRUE if is frontpage. FALSE otherwise
- */
-    public function isFrontpage() {
-        return ($this->_View->plugin == 'Node' &&
-                $this->_View->params['action'] == 'index' &&
-                !Configure::read('Variable.site_frontpage')
-        );
-    }
-
-/**
- * Checks user session.
- *
- * @return boolean, TRUE if user is logged in. FALSE otherwise
- */
-    public function loggedIn() {
-        return $this->Session->check('Auth.User.id');
-    }
-
-/**
- * Check if the logged user has admin privileges.
- *
- * @return boolean
- */
-    public function isAdmin() {
-        return in_array(1, (array)$this->userRoles());
-    }
-
-/**
  * Retuns current user roles.
  *
  * @return array associative array with id and names of the roles: array(id:integer => name:string, ...)
+ * @see QADetector::userRoles()
  */
     public function userRoles() {
-        $roles = array();
-
-        if (!$this->loggedIn()) {
-            $roles[] = 3;
-        } else {
-            $roles = CakeSession::read('Auth.User.role_id');
-        }
-
-        return $roles;
+        return QADetector::userRoles();
     }
 
 /**
