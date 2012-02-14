@@ -15,6 +15,8 @@ class LanguagesController extends LocaleAppController {
 
     public function admin_index() {
         if (isset($this->data['Language']['update'])) {
+            $redirect = $this->referer();
+
             if (isset($this->data['Items']['id'])) {
                 $update = (!in_array($this->data['Language']['update'], array('delete')));
                 switch ($this->data['Language']['update']) {
@@ -33,6 +35,10 @@ class LanguagesController extends LocaleAppController {
                         continue;
                     }
 
+                    if (($c = $this->__languageCodeById($id)) == Configure::read('Variable.language.code')) {
+                        $redirect = str_replace('/' . $c . '/', '/' . Configure::read('Variable.default_language') . '/', $redirect);
+                    }
+
                     if ($update) { # update langs
                         $this->Language->id = $id;
                         $this->Language->saveField($data['field'], $data['value'], false);
@@ -45,7 +51,8 @@ class LanguagesController extends LocaleAppController {
                     }
                 }
             }
-            $this->redirect($this->referer());
+
+            $this->redirect($redirect);
         }
 
         $this->__setLangs();
@@ -55,6 +62,11 @@ class LanguagesController extends LocaleAppController {
 
     public function admin_set_default($id) {
         $language = $this->Language->findById($id) or $this->redirect($this->referer());
+
+        if (!$language['Language']['status']) {
+            $this->redirect($this->referer());
+        }
+
         $this->Variable->save(
             array(
                 'name' => 'default_language',
