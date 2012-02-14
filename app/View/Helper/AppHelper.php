@@ -70,6 +70,15 @@ class AppHelper extends Helper {
     }
 
 /**
+ * Wrapper method to QADetector::is()
+ *
+ * @see QADetector::is()
+ */
+    public function is($detect) {
+        return QADetector::is($detect, $this->_View);
+    }
+
+/**
  * Wrapper method to HookCollectionHelper::hook()
  *
  * @see HookCollectionHelper::hook()

@@ -64,7 +64,7 @@ class NodeController extends NodeAppController {
                 $conditions['OR'][] = array('Node.roles_cache LIKE' => "%|{$role_id}|%");
             }
 
-            if ($this->Quickapps->isAdmin()) { #admin-> no role restrictions
+            if ($this->Quickapps->is('user.admin')) { # admin-> no role restrictions
                 unset($conditions['OR']);
             }
 
@@ -119,7 +119,7 @@ class NodeController extends NodeAppController {
                 $conditions['OR'][] = array('Node.roles_cache LIKE' => "%|{$role_id}|%");
             }
 
-            if ($this->Quickapps->isAdmin()) { #admin-> no role restrictions
+            if ($this->Quickapps->is('user.admin')) { # admin-> no role restrictions
                 unset($conditions['OR']);
             }
 

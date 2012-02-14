@@ -24,7 +24,7 @@
 
         <?php foreach ($Layout['node']['Comment'] as $comment): ?>
             <?php $this->Layout->hook('comment_alter', $comment); ?>
-            <?php $comment_time_zone = $this->Layout->loggedIn() ? $this->Session->read('Auth.User.timezone') : Configure::read('Variable.date_default_timezone');  ?>
+            <?php $comment_time_zone = $this->Layout->is('user.logged') ? $this->Session->read('Auth.User.timezone') : Configure::read('Variable.date_default_timezone');  ?>
                 <div id="<?php echo "comment-{$comment['Comment']['id']}"; ?>" class="comment <?php echo $i%2 ? 'even': 'odd'; ?> <?php echo $i==1 ? 'comment-first' : ''; ?> <?php echo $i == $count ? 'comment-last' : ''; ?>">
                     <div class="attribution">
                         <div class="submited">

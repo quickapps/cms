@@ -110,6 +110,15 @@ class AppController extends Controller {
     }
 
 /**
+ * Wrapper method to QuickappsComponent::is()
+ *
+ * @see QuickappsComponent::is()
+ */
+    public function is($detect) {
+        return $this->Quickapps->is($detect);
+    }
+
+/**
  * Wrapper method to QuickappsComponent::flashMsg()
  *
  * @see QuickappsComponent::flashMsg()

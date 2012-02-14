@@ -17,7 +17,7 @@
     <div id="sessionFlash"><?php echo $this->Layout->sessionFlash(); ?></div>
     <?php echo $this->Form->create('Comment'); ?>
         <?php echo $this->Form->input('node_id', array('type' => 'hidden', 'value' => $Layout['node']['Node']['id'])); ?>
-        <?php if ($this->Layout->loggedIn()): ?>
+        <?php if ($this->Layout->is('user.logged')): ?>
            <p><div class="input text required"><label for="CommentUserId"><?php echo __t('Your name'); ?></label> <a href="" id="CommentUserId"><?php echo $this->Session->read('Auth.User.username'); ?></a></div></p>
         <?php else: ?> <!-- Anonymous: -->
             <?php

@@ -54,7 +54,7 @@ class QuickAppsComponent extends Component {
  * @return void
  */
     public function siteStatus() {
-        if (Configure::read('Variable.site_online') != 1 && !$this->isAdmin()) {
+        if (Configure::read('Variable.site_online') != 1 && !$this->is('user.admin')) {
             if ($this->Controller->plugin != 'User' &&
                 $this->Controller->request->params['controller'] != 'log' &&
                 !in_array($this->Controller->request->params['controller'], array('login', 'logout'))
@@ -242,7 +242,7 @@ class QuickAppsComponent extends Component {
 
         $lang = isset($this->Controller->request->params['named']['lang']) ? $this->Controller->request->params['named']['lang'] : $lang;
         $lang = isset($this->Controller->request->query['lang']) && !empty($this->Controller->request->query['lang']) ? $this->Controller->request->query['lang'] : $lang;
-        $lang = empty($lang) && $this->loggedIn() ? CakeSession::read('Auth.User.language') : $lang;
+        $lang = empty($lang) && $this->is('user.logged') ? CakeSession::read('Auth.User.language') : $lang;
         $lang = empty($lang) ? Configure::read('Variable.default_language') : $lang;
         $lang = empty($lang) || strlen($lang) != 3 || !in_array($lang, $installed_codes) ? 'eng' : $lang;
         $lang = Set::extract("/Language[code={$lang}]/..", $langs);
@@ -349,7 +349,7 @@ class QuickAppsComponent extends Component {
             }
         }
 
-        if ($this->isAdmin()) {
+        if ($this->is('user.admin')) {
             $this->Controller->Auth->allowedActions = array('*');
         } else {
             $roleId = $this->Controller->Auth->user() ? $this->Controller->Auth->user('role_id') : 3; # 3: anonymous user (public)
@@ -440,7 +440,7 @@ class QuickAppsComponent extends Component {
         date_default_timezone_set(Configure::read('Variable.date_default_timezone'));
 
         $offset = 0;
-        $tz = $this->loggedIn() ? $this->Controller->Session->read('Auth.User.timezone') : Configure::read('Variable.date_default_timezone');
+        $tz = $this->is('user.logged') ? $this->Controller->Session->read('Auth.User.timezone') : Configure::read('Variable.date_default_timezone');
         $tz = empty($tz) ? 'GMT' : $tz;
 
         try {
@@ -680,38 +680,22 @@ class QuickAppsComponent extends Component {
     }
 
 /**
- * Checks User is logged in.
- *
- * @return boolean
- */
-    public function loggedIn() {
-        return $this->Controller->Session->check('Auth.User.id');
-    }
-
-/**
  * Retuns current user roles.
  *
  * @return array Associative array with id and names of the roles: array(id:integer => name:string, ...)
+ * @see QADetector::userRoles()
  */
     public function userRoles() {
-        $roles = array();
-
-        if (!$this->loggedIn()) {
-            $roles[] = 3;
-        } else {
-            $roles = $this->Controller->Session->read('Auth.User.role_id');
-        }
-
-        return $roles;
+        return QADetector::userRoles();
     }
 
 /**
- * Check if the logged user has admin privileges.
+ * Wrapper method to QADetector::is()
  *
- * @return boolean
+ * @see QADetector::is()
  */
-    public function isAdmin() {
-        return ($this->Controller->Auth->user() && in_array(1, (array)$this->Controller->Auth->user('role_id')));
+    public function is($detect) {
+        return QADetector::is($detect, $this->Controller);
     }
 
     private function __urlChunk() {

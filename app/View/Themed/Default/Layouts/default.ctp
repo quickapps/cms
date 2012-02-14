@@ -54,7 +54,7 @@
             </div>
             <?php endif; ?>
 
-            <?php if ($this->Layout->isFrontpage()): ?>
+            <?php if ($this->Layout->is('view.frontpage')): ?>
                 <?php if (Configure::read('Theme.settings.site_slogan')): ?>
                 <div id="quote">
                     <div id="quote-inner">

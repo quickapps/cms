@@ -158,7 +158,7 @@ class Comment extends CommentAppModel {
             // prepare body
             $this->data['Comment']['body'] = html_entity_decode(strip_tags($this->data['Comment']['body']));
 
-            / prepare subject
+            // prepare subject
             if (!isset($this->data['Comment']['subject']) || empty($this->data['Comment']['subject'])) {
                 $this->data['Comment']['subject'] = $this->__defaultSubject($this->data['Comment']['body']);
             }
