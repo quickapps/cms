@@ -10,11 +10,11 @@
  * @link     http://cms.quickapps.es
  */
 class LayoutHelper extends AppHelper {
-
 /**
  * Used by some methods to cache data in order to improve
  * comunication between them, for example see LayoutHelper::blocksInRegion().
  *
+ * @var array
  */
     protected $_tmp = array();
 
@@ -572,10 +572,10 @@ class LayoutHelper extends AppHelper {
  * Retuns current user roles.
  *
  * @return array associative array with id and names of the roles: array(id:integer => name:string, ...)
- * @see QADetector::userRoles()
+ * @see QuickApps::userRoles()
  */
     public function userRoles() {
-        return QADetector::userRoles();
+        return QuickApps::userRoles();
     }
 
 /**

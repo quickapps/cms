@@ -1,6 +1,6 @@
 <?php
 /**
- * QADetector class
+ * QuickApps class
  *
  * PHP version 5
  *
@@ -9,7 +9,7 @@
  * @author   Christopher Castro <chris@quickapps.es>
  * @link     http://cms.quickapps.es
  */
-class QADetector {
+class QuickApps {
 /**
  * The built in detectors used with `is()` can be modified with `addDetector()`.
  *
@@ -28,7 +28,7 @@ class QADetector {
 
 /**
  * Detector method. Uses the built in detection rules
- * as well as additional rules defined with QADetector::addDetector()
+ * as well as additional rules defined with QuickApps::addDetector()
  * Any detector can be called as `is($detect)`.
  *
  * #Built-in detectors:
@@ -67,7 +67,7 @@ class QADetector {
  *
  * ###Example:
  * {{{
- *  QADetector::addDetector('my_module.detector_name', array('MyModuleHookHelper', 'detector_handler'));
+ *  QuickApps::addDetector('my_module.detector_name', array('MyModuleHookHelper', 'detector_handler'));
  * }}}
  *
  * The above will register `detector_name` on `my_module` category.

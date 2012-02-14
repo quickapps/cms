@@ -58,7 +58,7 @@ class NodeController extends NodeAppController {
                 'Node.language' => array('', Configure::read('Variable.language.code'))
             );
 
-            $userRoles = $this->Auth->user('role_id') ? $this->Auth->user('role_id') : array(3);
+            $userRoles = QuickApps::userRoles();
 
             foreach ($userRoles as $role_id) {
                 $conditions['OR'][] = array('Node.roles_cache LIKE' => "%|{$role_id}|%");
@@ -113,7 +113,7 @@ class NodeController extends NodeAppController {
                 'Node.language' => array('', Configure::read('Variable.language.code'))
             );
 
-            $userRoles = $this->Auth->user('role_id') ? $this->Auth->user('role_id') : array(3);
+            $userRoles = QuickApps::userRoles();
 
             foreach ($userRoles as $role_id) {
                 $conditions['OR'][] = array('Node.roles_cache LIKE' => "%|{$role_id}|%");

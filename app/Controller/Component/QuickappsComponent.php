@@ -10,6 +10,11 @@
  * @link     http://cms.quickapps.es
  */
 class QuickAppsComponent extends Component {
+/**
+ * Controller reference
+ *
+ * @var Controller
+ */
     public $Controller;
 
 /**
@@ -683,19 +688,19 @@ class QuickAppsComponent extends Component {
  * Retuns current user roles.
  *
  * @return array Associative array with id and names of the roles: array(id:integer => name:string, ...)
- * @see QADetector::userRoles()
+ * @see QuickApps::userRoles()
  */
     public function userRoles() {
-        return QADetector::userRoles();
+        return QuickApps::userRoles();
     }
 
 /**
- * Wrapper method to QADetector::is()
+ * Wrapper method to QuickApps::is()
  *
- * @see QADetector::is()
+ * @see QuickApps::is()
  */
     public function is($detect) {
-        return QADetector::is($detect, $this->Controller);
+        return QuickApps::is($detect, $this->Controller);
     }
 
     private function __urlChunk() {
