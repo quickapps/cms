@@ -122,7 +122,7 @@ class QuickApps {
         $params = Router::getParams();
 
         return (
-            $params['plugin'] == 'User' &&
+            $params['plugin'] == 'user' &&
             $params['controller'] == 'user' &&
             in_array($params['action'], array('login', 'admin_login'))
         );
