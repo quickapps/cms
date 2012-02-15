@@ -1,0 +1,16 @@
+Controller:
+    Comment:
+        hidden:true
+    List:
+        hidden:true
+Preset:
+    administer_comments:
+        name: "Administer comments"
+        description: "Administer comments and comment settings"
+        acos:
+            Comment.admin_index
+            List.admin_show
+            List.admin_view
+            List.admin_approve
+            List.admin_unapprove
+            List.admin_delete

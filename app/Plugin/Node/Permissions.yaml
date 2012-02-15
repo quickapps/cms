@@ -1,0 +1,41 @@
+Controller:
+    Node:
+        actions:
+            admin_index:
+                hidden:true
+Preset:
+    manage_types:
+        name: "Administer content types"
+        description: "Warning: Give to trusted roles only; this permission has security implications."
+        acos:
+            Types.admin_index
+            Types.admin_edit
+            Types.admin_add
+            Types.admin_delete
+            Types.admin_display
+            Types.admin_field_settings
+            Types.admin_field_formatter
+            Types.admin_fields
+    manage_contents:
+        name: "Administer content"
+        description: "Warning: Give to trusted roles only; this permission has security implications."
+        acos:
+            Node.admin_index
+            Contents.admin_index
+            Contents.admin_edit
+            Contents.admin_create
+            Contents.admin_add
+            Contents.admin_delete
+            Contents.admin_clear_cache
+    site_frontpage:
+        name: "Access the site's front page"
+        acos:
+            Node.index
+    node_details:
+        name: "View published content"
+        acos:
+            Node.details
+    node_details:
+        name: "Search content and RSS feeds"
+        acos:
+            Node.search

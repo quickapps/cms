@@ -1,0 +1,17 @@
+Controller:
+    Block:
+        hidden:true
+    Manage:
+        hidden:true
+Preset:
+    administer_blocks:
+        name: "Administer blocks"
+        description: "Grant full access to administer blocks"
+        acos:
+            Block.admin_index
+            Manage.admin_index
+            Manage.admin_move
+            Manage.admin_clone
+            Manage.admin_edit
+            Manage.admin_add
+            Manage.admin_delete

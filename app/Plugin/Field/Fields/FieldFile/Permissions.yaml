@@ -1,0 +1,10 @@
+Controller:
+    Uploadify:
+        hidden:true
+Preset:
+    uploadify:
+        name: "Upload & Delete files"
+        description: "Allow user to upload new files and delete existing ones."
+        acos:
+            Uploadify.upload
+            Uploadify.delete

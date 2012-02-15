@@ -1,0 +1,10 @@
+Controller:
+    Handler:
+        hidden:true
+Preset:
+    delete_fields:
+        name: "Delete fields"
+        description: "Allow user to delete CCK fields"
+        acos:
+            Handler.admin_delete
+            Handler.admin_move
