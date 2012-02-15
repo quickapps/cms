@@ -288,7 +288,7 @@ class QuickAppsComponent extends Component {
             }
         }
 
-        $this->Controller->Auth->authenticate = array(
+        $authenticate = array(
             'Form' => array(
                 'fields' => array(
                     'username' => 'username',
@@ -298,15 +298,15 @@ class QuickAppsComponent extends Component {
                 'scope' => array('User.status' => 1)
             )
         );
+        $authorize = false;
 
-        $this->Controller->Auth->loginAction = array(
-            'controller' => 'user',
-            'action' => 'login',
-            'plugin' => 'user'
-        );
+        $this->Controller->hook('authenticate_alter', $authenticate);
+        $this->Controller->hook('authorize_alter', $authorize);
 
+        $this->Controller->Auth->loginAction = array('controller' => 'user', 'action' => 'login', 'plugin' => 'user');
         $this->Controller->Auth->authError = __t('You are not authorized to access that location.');
-        $this->Controller->Auth->authorize = array('Controller');
+        $this->Controller->Auth->authenticate = $authenticate;
+        $this->Controller->Auth->authorize = $authorize;
         $this->Controller->Auth->loginRedirect = Router::getParam('admin') ? '/admin' : '/';
         $this->Controller->Auth->logoutRedirect = $this->Controller->Auth->loginRedirect;
         $this->Controller->Auth->allowedActions = array('login', 'logout');
@@ -345,7 +345,7 @@ class QuickAppsComponent extends Component {
                 );
 
                 $session['role_id'] = Set::extract('/UsersRole/role_id', $session['role_id']);
-                $session['role_id'][] = 2; #role: authenticated user
+                $session['role_id'][] = 2; # role: authenticated user
 
                 $this->Controller->Auth->login($session);
                 $this->setLanguage();
