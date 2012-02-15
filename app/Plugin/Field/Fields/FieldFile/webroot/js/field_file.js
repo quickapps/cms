@@ -3,7 +3,6 @@
  *
  * @author Christopher Castro <chri@quickapps.es>
  * @link http://cms.quickapps.es
- * @copy QuickApps.es
  */
 QuickApps.field_file = {
     instances: {}        
@@ -39,7 +38,6 @@ QuickApps.field_file.setupField = function (_field_id, settings) {
     });
 };
 
-
 QuickApps.field_file.onSelectOnce = function (_field_id, data) {
     field_id = '#' + _field_id;
     var settings = QuickApps.field_file.instances[_field_id].settings;
@@ -53,7 +51,6 @@ QuickApps.field_file.onSelectOnce = function (_field_id, data) {
 QuickApps.field_file.afterUpload = function (_field_id, response) {
     field_id = '#' + _field_id;
     var uploaded = new Array();
-    var count = QuickApps.field_file.__countFiles(field_id);
     var uploaded_value = $(field_id + 'UploadedPath').attr('value');
     var __uploaded = new Array();
     var settings = QuickApps.field_file.instances[_field_id].settings;
@@ -77,7 +74,6 @@ QuickApps.field_file.afterUpload = function (_field_id, response) {
 
     uploaded[upCount] = response.file_name;
 
-    count = count + 1;
     var node_id = _field_id + '_' + response.ID;
     var mime_icon = QuickApps.settings.base_url + 'field_file/img/icons/' + response.mime_icon;
     mime_icon = mime_icon.replace('/' + QuickApps.settings.locale.code + '/', '/');
@@ -119,12 +115,12 @@ QuickApps.field_file.afterUpload = function (_field_id, response) {
 
     }
 
+    settings.can_upload--;
+
     // toggle off uploader
-    if (settings.can_upload+1 < count) {
+    if (!settings.can_upload) {
         $(field_id + ' div.uploader').hide();
     }
-
-    settings.can_upload--;
 };
 
 /**
