@@ -75,6 +75,10 @@ class User extends UserAppModel {
             $this->validate['password']['allowEmpty'] = true;
         }
 
+        if (isset($this->data['User']['email'])) {
+            $this->data['User']['email'] = strtolower($this->data['User']['email']);
+        }
+
         return true;
     }
 
@@ -86,6 +90,10 @@ class User extends UserAppModel {
             unset($this->data['User']['password']);
         } else {
             $this->data['User']['password'] = Security::hash($this->data['User']['password'], null, true);
+        }
+
+        if (isset($this->data['User']['email'])) {
+            $this->data['User']['email'] = strtolower($this->data['User']['email']);
         }
 
         $this->data['User']['key'] = String::uuid();
