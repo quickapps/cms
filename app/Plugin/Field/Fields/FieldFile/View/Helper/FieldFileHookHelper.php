@@ -19,7 +19,7 @@ class FieldFileHookHelper extends AppHelper {
             $this->_View->JqueryUI->add('sortable');
             $this->_View->Layout->script('/system/js/json.js');
             $this->_View->Layout->script('/field_file/js/field_file.js');
-            $this->_View->Layout->script('/field_file/js/locale.' . Configure::read('Variable.language.code') . '.js');
+            $this->_View->Layout->script('/field_file/js/locale.js');
             $this->_View->Layout->script('/field_file/js/uploadify/swfobject.js');
             $this->_View->Layout->script('/field_file/js/uploadify/jquery.uploadify.v2.1.4.min.js');
             $this->_View->Layout->script("
