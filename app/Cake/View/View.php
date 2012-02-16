@@ -23,6 +23,7 @@ App::uses('Router', 'Routing');
 App::uses('ViewBlock', 'View');
 App::uses('CakeEvent', 'Event');
 App::uses('CakeEventManager', 'Event');
+App::uses('CakeResponse', 'Network');
 
 /**
  * View, the V in the MVC triad. View interacts with Helpers and view variables passed
@@ -202,6 +203,13 @@ class View extends Object {
 	public $request;
 
 /**
+ * Reference to the Response object
+ *
+ * @var CakeResponse
+ */
+	public $response;
+
+/**
  * The Cache configuration View will use to store cached elements.  Changing this will change
  * the default configuration elements are stored under.  You can also choose a cache config
  * per element.
@@ -305,6 +313,11 @@ class View extends Object {
 				$this->{$var} = $controller->{$var};
 			}
 			$this->_eventManager = $controller->getEventManager();
+		}
+		if (is_object($controller) && isset($controller->response)) {
+			$this->response = $controller->response;
+		} else {
+			$this->response = new CakeResponse(array('charset' => Configure::read('App.encoding')));
 		}
 		$this->Helpers = new HelperCollection($this);
 		$this->Blocks = new ViewBlock();
@@ -672,7 +685,7 @@ class View extends Object {
 				case self::TYPE_ELEMENT:
 					$parent = $this->_getElementFileName($name);
 					if (!$parent) {
-						list($plugin, $name) = $this->_pluginSplit($name);
+						list($plugin, $name) = $this->pluginSplit($name);
 						$paths = $this->_paths($plugin);
 						$defaultPath = $paths[0] . 'Elements' . DS;
 						throw new LogicException(__d(
@@ -930,7 +943,7 @@ class View extends Object {
 			$name = $this->view;
 		}
 		$name = str_replace('/', DS, $name);
-		list($plugin, $name) = $this->_pluginSplit($name);
+		list($plugin, $name) = $this->pluginSplit($name);
 
 		if (strpos($name, DS) === false && $name[0] !== '.') {
 			$name = $this->viewPath . DS . $subDir . Inflector::underscore($name);
@@ -975,16 +988,17 @@ class View extends Object {
  * It checks if the plugin is loaded, else filename will stay unchanged for filenames containing dot
  *
  * @param string $name The name you want to plugin split.
+ * @param boolean $fallback If true uses the plugin set in the current CakeRequest when parsed plugin is not loaded
  * @return array Array with 2 indexes.  0 => plugin name, 1 => filename
  */
-	protected function _pluginSplit($name) {
+	public function pluginSplit($name, $fallback = true) {
 		$plugin = null;
 		list($first, $second) = pluginSplit($name);
 		if (CakePlugin::loaded($first) === true) {
 			$name = $second;
 			$plugin = $first;
 		}
-		if (isset($this->plugin) && !$plugin) {
+		if (isset($this->plugin) && !$plugin && $fallback) {
 			$plugin = $this->plugin;
 		}
 		return array($plugin, $name);
@@ -1006,7 +1020,7 @@ class View extends Object {
 		if (!is_null($this->layoutPath)) {
 			$subDir = $this->layoutPath . DS;
 		}
-		list($plugin, $name) = $this->_pluginSplit($name);
+		list($plugin, $name) = $this->pluginSplit($name);
 		$paths = $this->_paths($plugin);
 		$file = 'Layouts' . DS . $subDir . $name;
 
@@ -1042,7 +1056,7 @@ class View extends Object {
  * @return mixed Either a string to the element filename or false when one can't be found.
  */
 	protected function _getElementFileName($name) {
-		list($plugin, $name) = $this->_pluginSplit($name);
+		list($plugin, $name) = $this->pluginSplit($name);
 
 		$paths = $this->_paths($plugin);
 		$exts = $this->_getExtensions();
@@ -1083,15 +1097,14 @@ class View extends Object {
 		$paths = array_unique(array_merge($paths, $viewPaths, array_keys($corePaths)));
 		if (!empty($this->theme)) {
 			$themePaths = array();
-			$count = count($paths);
-			for ($i = 0; $i < $count; $i++) {
-				if (strpos($paths[$i], DS . 'Plugin' . DS) === false
-					&& strpos($paths[$i], DS . 'Cake' . DS . 'View') === false) {
-						if ($plugin) {
-							$themePaths[] = $paths[$i] . 'Themed'. DS . $this->theme . DS . 'Plugin' . DS . $plugin . DS;
-						}
-						$themePaths[] = $paths[$i] . 'Themed'. DS . $this->theme . DS;
+			foreach ($paths as $path) {
+				if (strpos($path, DS . 'Plugin' . DS) === false
+					&& strpos($path, DS . 'Cake' . DS . 'View') === false) {
+					if ($plugin) {
+						$themePaths[] = $path . 'Themed'. DS . $this->theme . DS . 'Plugin' . DS . $plugin . DS;
 					}
+					$themePaths[] = $path . 'Themed'. DS . $this->theme . DS;
+				}
 			}
 			$paths = array_merge($themePaths, $paths);
 		}
