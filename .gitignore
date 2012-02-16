@@ -1,6 +1,7 @@
 # shell
 app/Plugin/System/Console/
 app/Console/
+app/Lib/Console/
 app/Cake/Console/
 
 # tests
