@@ -14,9 +14,9 @@ Modules/
 # sie themes
 Themes/Themed/*
 
-# site webroot files
-webroot/files/*
-!webroot/files/slider
+# site webroot
+webroot/
+!app/Plugin/*/webroot/
 
 # site webroot
 
