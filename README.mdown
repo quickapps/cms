@@ -5,7 +5,7 @@ Free open source content management system for PHP, released under GPL License a
 ## Requirements
 
  * Apache with mod_rewrite
- * PHP 5.2.6 or higher
+ * PHP 5.2.8 or higher
  * PHP safe mode disabled
  * MySQL 4.1 or higher
 
