@@ -25,7 +25,7 @@
     if ($field['settings']['type'] === 'checkbox') {
         echo $this->Form->input("FieldData.FieldList.{$field['id']}.data", array('type' => 'select', 'label' => $field['label'], 'multiple' => 'checkbox', 'options' => $options, 'value' => $selected));
     } else {
-        echo $this->Form->input("FieldData.FieldList.{$field['id']}.data", array('type' => 'radio', 'separator' => '<br/>', 'options' => $options, 'legend' => $field['label'], 'checked' => @$selected[0]));
+        echo $this->Form->input("FieldData.FieldList.{$field['id']}.data", array('type' => 'radio', 'separator' => '<br/>', 'options' => $options, 'legend' => $field['label'], 'value' => @$selected[0]));
     }
 
     echo $this->Form->hidden("FieldData.FieldList.{$field['id']}.id", array('value' => $field['FieldData']['id']));
