@@ -14,8 +14,8 @@ class FieldListHookBehavior extends ModelBehavior {
             'id' => $info['id'], # update or create
             'field_id' => $info['field_id'],
             'data' => implode('|', (array)$info['data']),
-            'belongsTo' => $info['Model']->name,
-            'foreignKey' => $info['Model']->id
+            'belongsTo' => $info['entity']->alias,
+            'foreignKey' => $info['entity']->id
         );
 
         ClassRegistry::init('Field.FieldData')->save($data);
@@ -28,8 +28,8 @@ class FieldListHookBehavior extends ModelBehavior {
             array(
                 'conditions' => array(
                     'FieldData.field_id' => $data['field']['id'],
-                    'FieldData.belongsTo' => $data['belongsTo'],
-                    'FieldData.foreignKey' => $data['foreignKey']
+                    'FieldData.belongsTo' => $data['entity']->alias,
+                    'FieldData.foreignKey' => $data['result'][$data['entity']->alias][$data['entity']->primaryKey]
                 )
             )
         );
@@ -67,9 +67,9 @@ class FieldListHookBehavior extends ModelBehavior {
     public function field_list_after_delete($info) {
         ClassRegistry::init('Field.FieldData')->deleteAll(
             array(
-                'FieldData.belongsTo' => $info['Model']->name,
+                'FieldData.belongsTo' => $info['entity']->alias,
                 'FieldData.field_id' => $info['field_id'],
-                'FieldData.foreignKey' => $info['Model']->id
+                'FieldData.foreignKey' => $info['entity']->id
             )
         );
 

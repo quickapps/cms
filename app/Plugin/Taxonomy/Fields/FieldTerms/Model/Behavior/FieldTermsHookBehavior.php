@@ -14,7 +14,7 @@ class FieldTermsHookBehavior extends ModelBehavior {
  * @return boolean true always
  */
     public function field_terms_before_save($info) {
-        foreach ($info['Model']->data['FieldData']['FieldTerms'] as $field_instance_id => $post) {
+        foreach ($info['entity']->data['FieldData']['FieldTerms'] as $field_instance_id => $post) {
             if (is_string($post['data'])) {
                 $data = explode(',', $post['data']);
 
@@ -43,15 +43,15 @@ class FieldTermsHookBehavior extends ModelBehavior {
                 }
 
                 $post['data'] = implode(',', $data);
-                $info['Model']->data['FieldData']['FieldTerms'][$field_instance_id] = $post;
+                $info['entity']->data['FieldData']['FieldTerms'][$field_instance_id] = $post;
             }
         }
 
-        if (isset($info['Model']->data['FieldData']['FieldTerms']) &&
-            $info['Model']->name == 'Node' &&
-            !isset($this->__tmp['before_save_' . $info['Model']->alias])
+        if (isset($info['entity']->data['FieldData']['FieldTerms']) &&
+            $info['entity']->alias == 'Node' &&
+            !isset($this->__tmp['before_save_' . $info['entity']->alias])
         ) {
-            $info['Model']->bindModel(
+            $info['entity']->bindModel(
                 array(
                     'hasAndBelongsToMany' => array(
                         'Term' => array(
@@ -68,7 +68,7 @@ class FieldTermsHookBehavior extends ModelBehavior {
 
             $terms_cache = array();
             $terms_ids = $_terms_ids = array();
-            $_terms_ids = (array)Set::extract('FieldData.FieldTerms.{n}.data', $info['Model']->data);
+            $_terms_ids = (array)Set::extract('FieldData.FieldTerms.{n}.data', $info['entity']->data);
             $_terms_ids = (array)Set::filter($_terms_ids);
 
             if (!empty($_terms_ids)) {
@@ -89,12 +89,12 @@ class FieldTermsHookBehavior extends ModelBehavior {
             );
 
             foreach ($terms as $term) {
-                $info['Model']->data['Term']['Term'][] = array('field_id' => $info['field_id'], 'term_id' => $term['Term']['id']);
+                $info['entity']->data['Term']['Term'][] = array('field_id' => $info['field_id'], 'term_id' => $term['Term']['id']);
                 $terms_cache[] = "{$term['Term']['id']}:{$term['Term']['slug']}";
             }
 
-            $info['Model']->data['Node']['terms_cache'] = implode('|', $terms_cache);
-            $this->__tmp['before_save_' . $info['Model']->alias] = true;
+            $info['entity']->data['Node']['terms_cache'] = implode('|', $terms_cache);
+            $this->__tmp['before_save_' . $info['entity']->alias] = true;
         }
 
         return true;
@@ -110,8 +110,8 @@ class FieldTermsHookBehavior extends ModelBehavior {
             'id' => $info['id'],
             'field_id' => $info['field_id'],
             'data' => implode(',', (array)$info['data']),
-            'belongsTo' => $info['Model']->name,
-            'foreignKey' => $info['Model']->id
+            'belongsTo' => $info['entity']->alias,
+            'foreignKey' => $info['entity']->id
         );
 
         ClassRegistry::init('Field.FieldData')->create();
@@ -125,8 +125,8 @@ class FieldTermsHookBehavior extends ModelBehavior {
             array(
                 'conditions' => array(
                     'FieldData.field_id' => $data['field']['id'],
-                    'FieldData.belongsTo' => $data['belongsTo'],
-                    'FieldData.foreignKey' => $data['foreignKey']
+                    'FieldData.belongsTo' => $data['entity']->alias,
+                    'FieldData.foreignKey' => $data['result'][$data['entity']->alias][$data['entity']->primaryKey]
                 )
             )
         );
@@ -174,9 +174,9 @@ class FieldTermsHookBehavior extends ModelBehavior {
     public function field_terms_after_delete($info) {
         ClassRegistry::init('Field.FieldData')->deleteAll(
             array(
-                'FieldData.belongsTo' => $info['Model']->name,
+                'FieldData.belongsTo' => $info['entity']->alias,
                 'FieldData.field_id' => $info['field_id'],
-                'FieldData.foreignKey' => $info['Model']->id
+                'FieldData.foreignKey' => $info['entity']->id
             )
         );
 
