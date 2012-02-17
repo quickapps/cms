@@ -11,18 +11,31 @@
  */
 
  /**
- * Basically this behavior allows to:
- * Custom data fields to be attached to Models and takes care of storing, loading, editing, and rendering field data.
- * Any Model type (Node, User, etc.) can use the Field API to make itself `fieldable` and
- * thus allow fields to be attached to it.
+ * Fieldable behavior allows to custom data fields to be attached to Models and takes care of storing,
+ * loading, editing, and rendering field data.
+ * Any Model type (Node, User, etc.) can use this behavior to make itself `fieldable` and thus allow
+ * fields to be attached to it.
  *
  * ### What a Field is
  *
- * Internaly Fields are actually modules (cake's plugin), which manage the storing proccess of specific data.
- * They behave -functionally- like modules, this means they may have hooks and all what a common plugin has.
- * Data is usually stored in DB tables, QuickApps CMS provides a basic storage table called `field_data`.
- * Though, each field is able to define its own storing system (usually extra tables in DB).
- * Also, each field's data-element must have an unique ID in that storing system, and such data is associated to an unique Model record.
+ * Internaly fields are actually modules (cake's plugin), which manage the storing proccess of specific data.
+ * They behave -functionally- like modules, this means they may have hooks and all what a common module has.
+ *
+ * Field data is usually stored in DB tables, QuickApps CMS provides a basic storage table called `field_data`,
+ * though, each field is able to define its own storing system (usually extra tables in DB).
+ * Also, each field's data-element must have an unique ID in that storing system, and such data is associated to
+ * an unique Model record.
+ *
+ * Fields belongs always to modules, modules are allowed to define an unlimeted number of fields by placing them on
+ * the `Fields` folder. e.g.: The core module `Taxonomy` has it own field `FieldTerms` in `app/Plugins/Taxonomy/Fields/FieldTerms`.
+ * Most of the fields included in the core of QuickApps belongs to the `Fields` module (app/Plugins/Field/Fields).
+ *
+ * As field are actually modules, they must be prefix its name by the `Field` in order to avoid name collitions between
+ * other modules in the system. As modules, field names must be always in CamelCase, e.g.:
+ *
+ * - `image_album`: invalid, no CamelCase name
+ * - `ImageAlbum`: invalid, no prefix
+ * - `FieldImageAlbum`: valid
  *
  * ### Understanding Model & Field relations
  *
@@ -54,13 +67,12 @@
  *      data[FieldData][{field_module}][{field_instance_id}][id]
  *
  *      - (string) {field_module}: name of the field handler in CamelCase, i.e.: 'FieldTextarea', 'FieldMyField'.
- *                                 Note: 'Field' prefix is not required but highly recommended.
  *
  *      - (int) {field_instance_id}: ID of the field instance attached to the current Model.
- *                                   (field instances are stored in '{prefix}_fields' table)
+ *                                   (field instances are stored in `fields` table)
  *
  *      - (mixed) data: Field data. It may be from a simple text to complex arrays of mixed data
- *                      i.e.: 'FieldAlbumImage' could define data as an array of images.
+ *                      i.g.: `FieldAlbumImage` could define data as an array of images.
  *
  *      - (int) id: Storage ID. Unique ID for the data in the storage system implemented by the field.
  *                  null ID means that there is no data stored yet for this Model record and this field instance.
@@ -97,45 +109,37 @@
  * #### Entity callbacks
  * This hooks callbacks are fired before/after each `fieldable` Model's callbacks.
  *
- *  - `{field_module}_after_find($data)` [optional]: after Entity find query
+ *  - `{field_module}_after_find($info)` [optional]: after Entity find query
  *  - `{field_module}_before_save($info)` [optional]: before Entity record is saved
  *  - `{field_module}_after_save($info)` [required]: after Entity record has been saved
  *  - `{field_module}_before_validate($info)` [optional]: before validate Entity record
  *  - `{field_module}_before_delete($info)` [optional]: before Entity record delete
  *  - `{field_module}_after_delete($info)` [requited]: after Entity record has been deleted.
- *      (Here is where field should remove data from storage system.)
  *
- *  **_$info_ structure:**
+ *  **$info:** Possible keys and values
+ * {{{
+ *  $info = array(
+ *      [entity] => ...,
+ *      [query] => ...,
+ *      [field] => ...,
+ *      [field_id] => ...,
+ *      [created] => ...,
+ *      [result] => ...,
+ *      [settings] => ...
+ *  );
+ * }}}
  *
- *      $info = array(
- *          [data] => ...,
- *          [id] => ...,
- *          [created] => ...,
- *          [Model] => ...
- *     );
- *
- * (mixed) **[data]**: Field Data. data[FieldData][{field_module}][{field_instance_id}][data]
- * (int) **[id]**: Storage ID. data[FieldData][{field_module}][{field_instance_id}][id]
- * (bool) **[created]**: Set ONLY on afterSave() callback.
- * (object) **[Model]**: Instance of Model entity that Field is attached to.
- *
- *  **_$data_ structure:**
- *
- *      $data= array(
- *          [field] => ...,
- *          [Model] => ...,
- *          [foreignKey] => ...,
- *          [result] => ...
- *      );
- *
- * (array) **[field]**: Field instance information.
- * (string) **[Model]**: Entity instance that.
- * (string) **[foreignKey]**: Entity ID field.
- * (array) **[result]**: Instance of current Entity record being fetched.
+ * (object) **entity**: Instance of Model that Field is attached to.
+ * (array) **query**: SQL query (only on beforeFind)
+ * (array) **field**: Field instance information
+ * (integer) **field_id**: Field instance ID (only on beforeValidate, afterSave, beforeDelete, afterDelete)
+ * (boolean) **created**: TRUE if entity record has been created. FALSE if it was updated. (only on afterSave)
+ * (boolean) **result**: Entity row of array results (only on afterFind)
+ * (array) **settings**: Entity fieldable-settings array
  *
  * #### Instance callbacks
- * This hooks callbacks are fired when Fields are being attached to Entities, or when
- * Field is being unattached, etc.
+ * This hooks callbacks are fired when field instances are being attached to entities, or when
+ * field is being detached, deleted, etc.
  *
  *  - {field_module}_before_delete_instance(&$FieldModel) [required/optional]: (at least one of (before/after) must be defined).
  *  - {field_module}_after_delete_instance(&$FieldModel) [required/optional]: (at least one of (before/after) must be defined).
@@ -151,6 +155,8 @@
  * #### IMPORTANT
  * Field data **MUST** always be **saved after Entity** record has been saved, that is on afterSave() callback.
  * i.e.: When updating/creating a new User, all field's data must be saved after the User native data has been updated/created
+ *
+ * @link https://github.com/QuickAppsCMS/QuickApps-CMS/wiki/Field-API
  */
 class FieldableBehavior extends ModelBehavior {
 /**
