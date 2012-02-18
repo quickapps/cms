@@ -11,7 +11,7 @@
  */
 class QuickAppsComponent extends Component {
 /**
- * Controller reference
+ * Controller reference.
  *
  * @var Controller
  */

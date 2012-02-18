@@ -74,7 +74,7 @@ class LanguagesController extends LocaleAppController {
             )
         );
         Cache::delete('Variable');
-        $this->Quickapps->loadVariables();
+        $this->QuickApps->loadVariables();
         $this->redirect($this->referer());
     }
 

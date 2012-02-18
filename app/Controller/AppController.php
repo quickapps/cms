@@ -87,7 +87,7 @@ class AppController extends Controller {
         'RequestHandler',
         'Acl',
         'Auth',
-        'Quickapps',
+        'QuickApps',
         'System.JqueryUI'
     );
 
@@ -125,39 +125,39 @@ class AppController extends Controller {
     }
 
 /**
- * Wrapper method to QuickappsComponent::title()
+ * Wrapper method to QuickAppsComponent::title()
  *
- * @see QuickappsComponent::title()
+ * @see QuickAppsComponent::title()
  */
     public function title($str) {
-        return $this->Quickapps->title($str);
+        return $this->QuickApps->title($str);
     }
 
 /**
- * Wrapper method to QuickappsComponent::is()
+ * Wrapper method to QuickAppsComponent::is()
  *
- * @see QuickappsComponent::is()
+ * @see QuickAppsComponent::is()
  */
     public function is($detect) {
-        return $this->Quickapps->is($detect);
+        return $this->QuickApps->is($detect);
     }
 
 /**
- * Wrapper method to QuickappsComponent::flashMsg()
+ * Wrapper method to QuickAppsComponent::flashMsg()
  *
- * @see QuickappsComponent::flashMsg()
+ * @see QuickAppsComponent::flashMsg()
  */
     public function flashMsg($msg, $class = 'success', $id = 'flash') {
-        return $this->Quickapps->flashMsg($msg, $class, $id);
+        return $this->QuickApps->flashMsg($msg, $class, $id);
     }
 
 /**
- * Wrapper method to QuickappsComponent::blockPush()
+ * Wrapper method to QuickAppsComponent::blockPush()
  *
- * @see QuickappsComponent::blockPush()
+ * @see QuickAppsComponent::blockPush()
  */
     public function blockPush($block = array(), $region = null) {
-        return $this->Quickapps->blockPush($block, $region);
+        return $this->QuickApps->blockPush($block, $region);
     }
 
 /**
@@ -217,17 +217,17 @@ class AppController extends Controller {
     }
 
 /**
- * Wrapper method to QuickappsComponent::setCrumb()
+ * Wrapper method to QuickAppsComponent::setCrumb()
  *
- * @see QuickappsComponent::setCrumb()
+ * @see QuickAppsComponent::setCrumb()
  */
     public function setCrumb($url = false) {
         if (func_num_args() > 1) {
             foreach (func_get_args() as $arg) {
-                $this->Quickapps->setCrumb($arg);
+                $this->QuickApps->setCrumb($arg);
             }
         } else {
-            return $this->Quickapps->setCrumb($url);
+            return $this->QuickApps->setCrumb($url);
         }
     }
 

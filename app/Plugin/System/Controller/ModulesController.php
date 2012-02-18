@@ -69,7 +69,7 @@ class ModulesController extends SystemAppController {
             if (isset($this->data['Module']['name'])) {
                 $this->Module->save($this->data);
                 Cache::delete('Modules'); # regenerate modules cache
-                $this->Quickapps->loadModules();
+                $this->QuickApps->loadModules();
             }
 
             if (isset($this->data['Variable'])) {

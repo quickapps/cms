@@ -1676,8 +1676,8 @@ class InstallerComponent extends Component {
         }
 
         # regenerate modules & variables
-        $this->Controller->Quickapps->loadModules();
-        $this->Controller->Quickapps->loadVariables();
+        $this->Controller->QuickApps->loadModules();
+        $this->Controller->QuickApps->loadVariables();
     }
 
 /**

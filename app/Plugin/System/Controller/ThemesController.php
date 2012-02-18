@@ -39,7 +39,7 @@ class ThemesController extends SystemAppController {
             Cache::delete('Variable');
             Cache::delete("hook_objects_{$data['Variable']['name']}");
             Cache::delete("theme_{$theme_name}_yaml");
-            $this->Quickapps->loadVariables(); # IMPORTANT! regenerate cache
+            $this->QuickApps->loadVariables(); # IMPORTANT! regenerate cache
         }
 
         $this->redirect('/admin/system/themes');
@@ -55,7 +55,7 @@ class ThemesController extends SystemAppController {
         if (isset($this->data['Module'])) {
             $this->Module->save($this->data);
             Cache::delete('Modules');
-            $this->Quickapps->loadModules();
+            $this->QuickApps->loadModules();
             $this->redirect($this->referer());
         }
 
