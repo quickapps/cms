@@ -270,13 +270,14 @@ class QuickAppsComponent extends Component {
 
 /**
  * Check if current user is allowed to access the requested location.
- * 'Access Deny' screen is rendered if user can not access.
+ * `Access Denied` screen is rendered if user can not access.
  *
  * @return void
  */
     public function accessCheck() {
-        if ($this->Controller->request->params['plugin']) {
-            $plugin = Inflector::camelize($this->Controller->request->params['plugin']);
+        // inactive modules cannot be accessed
+        if ($plugin = $this->Controller->request->params['plugin']) {
+            $plugin = Inflector::camelize($plugin);
             $ppath = CakePlugin::path($plugin);
 
             if (strpos($ppath, DS . 'Fields' . DS) === false && !Configure::read('Modules.' . $plugin . '.status')) {
@@ -307,8 +308,8 @@ class QuickAppsComponent extends Component {
         $this->Controller->Auth->authError = __t('You are not authorized to access that location.');
         $this->Controller->Auth->authenticate = $authenticate;
         $this->Controller->Auth->authorize = $authorize;
-        $this->Controller->Auth->loginRedirect = Router::getParam('admin') ? '/admin' : '/';
-        $this->Controller->Auth->logoutRedirect = $this->Controller->Auth->loginRedirect;
+        $this->Controller->Auth->loginRedirect = Router::getParam('admin') ? '/admin' : '/user/my_account';
+        $this->Controller->Auth->logoutRedirect = Router::getParam('admin') ? '/admin' : '/';
         $this->Controller->Auth->allowedActions = array('login', 'logout');
         $cookie = $this->Controller->Cookie->read('UserLogin');
 
@@ -370,7 +371,7 @@ class QuickAppsComponent extends Component {
             );
             $aroId = Set::extract('/Aro/id', $aro);
 
-            # get current plugin ACO
+            // get current plugin ACO
             $pluginNode = $this->Controller->Acl->Aco->find('first',
                 array(
                     'conditions' => array(
@@ -381,7 +382,7 @@ class QuickAppsComponent extends Component {
                 )
             );
 
-            # get plugin controllers ACOs
+            // get plugin controllers ACOs
             $thisControllerNode = $this->Controller->Acl->Aco->find('first',
                 array(
                     'conditions' => array(

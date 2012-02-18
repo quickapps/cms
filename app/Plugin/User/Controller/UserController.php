@@ -163,7 +163,6 @@ class UserController extends UserAppController {
 
     private function __login() {
         $this->User->unbindFields();
-        $cookie = $this->Cookie->read('UserLogin');
 
         if (isset($this->data['User'])) {
             if ($this->Auth->login()) {
@@ -196,36 +195,6 @@ class UserController extends UserAppController {
             }
 
             $this->flashMsg(__t('Invalid username or password'), 'error');
-
-            return false;
-
-        } elseif (isset($cookie['id']) && !empty($cookie['id']) && isset($cookie['password']) && !empty($cookie['password'])) {
-            $user = $this->User->find('first',
-                array(
-                    'conditions' => array(
-                        'User.id' => @$cookie['id'],
-                        'User.password' => @$cookie['password']
-                    )
-                )
-            );
-
-            if ($user) {
-                $session = $user['User'];
-                $session['role_id'] = $this->UsersRoles->find('all',
-                    array(
-                        'conditions' => array('UsersRoles.user_id' => $user['User']['id']),
-                        'fields' => array('role_id', 'user_id')
-                    )
-                );
-                $session['role_id'] = Set::extract('/UsersRoles/role_id', $session['role_id']);
-                $session['role_id'][] = 2; # role: authenticated user
-
-                $this->Auth->login($session);
-
-                return true;
-            }
-
-            $this->Cookie->delete('UserLogin');
 
             return false;
         }
