@@ -13,6 +13,11 @@ class NodeController extends NodeAppController {
     public $name = 'Node';
     public $uses = array('Node.Node');
 
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->QuickApps->enableSecurity();
+    }
+
 /**
  * Redirect to default controller (Contents)
  */
@@ -64,7 +69,7 @@ class NodeController extends NodeAppController {
                 $conditions['OR'][] = array('Node.roles_cache LIKE' => "%|{$role_id}|%");
             }
 
-            if ($this->Quickapps->is('user.admin')) { # admin-> no role restrictions
+            if ($this->QuickApps->is('user.admin')) { # admin-> no role restrictions
                 unset($conditions['OR']);
             }
 
@@ -119,7 +124,7 @@ class NodeController extends NodeAppController {
                 $conditions['OR'][] = array('Node.roles_cache LIKE' => "%|{$role_id}|%");
             }
 
-            if ($this->Quickapps->is('user.admin')) { # admin-> no role restrictions
+            if ($this->QuickApps->is('user.admin')) { # admin-> no role restrictions
                 unset($conditions['OR']);
             }
 
@@ -446,7 +451,7 @@ class NodeController extends NodeAppController {
             $scope['AND']['AND']['OR'][] = array('Node.roles_cache LIKE' => null);
             $scope['AND']['AND']['OR'][] = array('Node.roles_cache LIKE' => '');
 
-            foreach ($this->Quickapps->userRoles() as $role) {
+            foreach ($this->QuickApps->userRoles() as $role) {
                 $scope['AND']['AND']['OR'][] =  array('Node.roles_cache LIKE' => "%|{$role}|%");
             }
 

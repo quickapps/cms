@@ -13,6 +13,11 @@ class DisplayController extends UserAppController {
     public $name = 'Display';
     public $uses = array('Field.Field');
 
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->QuickApps->enableSecurity();
+    }
+
     public function admin_index($viewMode = false) {
         if (!$viewMode && !isset($this->data['User']['viewModes'])) {
             $this->redirect("/admin/user/display/index/default");

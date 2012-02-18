@@ -13,6 +13,11 @@ class TypesController extends NodeAppController {
     public $name = 'Types';
     public $uses = array('Node.NodeType');
 
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->QuickApps->enableSecurity();
+    }
+
     public function admin_index() {
         $this->set('results', $this->paginate('NodeType'));
         $this->title(__t('Content Types'));

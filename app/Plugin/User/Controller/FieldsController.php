@@ -13,6 +13,11 @@ class FieldsController extends UserAppController {
     public $name = 'Fields';
     public $uses = array('Field.Field', 'User.User');
 
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->QuickApps->enableSecurity();
+    }
+
     public function admin_index() {
         if (isset($this->data['Field'])) {
             if ($field_id = $this->User->attachFieldInstance($this->data)) {
