@@ -1641,7 +1641,7 @@ class InstallerComponent extends Component {
 
             $file = basename($path);
             $className = str_replace('.php', '', $file);
-            $methods = get_this_class_methods($className);
+            $methods = QuickApps::get_this_class_methods($className);
         }
 
         return $methods;

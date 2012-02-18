@@ -185,7 +185,7 @@ class QuickAppsComponent extends Component {
         $this->Controller->Layout['javascripts']['inline'][] = '
             jQuery.extend(QuickApps.settings, {
                 "url": "' . Router::url($this->Controller->here, true) . '",
-                "base_url": "' . strip_language_prefix(Router::url('/', true)) . '",
+                "base_url": "' . QuickApps::strip_language_prefix(Router::url('/', true)) . '",
                 "domain": "' . env('HTTP_HOST') . '",
                 "locale": {"code": "' . Configure::read('Variable.language.code') . '"}
             });';
@@ -556,7 +556,7 @@ class QuickAppsComponent extends Component {
                 $url[$k] = preg_replace('/\/{2,}/', '',  "{$u}//");
 
                 if (Configure::read('Variable.url_language_prefix')) {
-                    $url[] = str_replace_once('/' . Configure::read('Config.language'), '', $u);
+                    $url[] = QuickApps::str_replace_once('/' . Configure::read('Config.language'), '', $u);
                 }
             }
         } else {
@@ -731,7 +731,7 @@ class QuickAppsComponent extends Component {
 
         if (isset($this->Controller->request->params['named'])) {
             foreach ($this->Controller->request->params['named'] as $key => $val) {
-                $url = str_replace_once("/{$key}:{$val}", '', $url);
+                $url = QuickApps::str_replace_once("/{$key}:{$val}", '', $url);
                 $out[] = $url;
             }
         }
@@ -739,16 +739,16 @@ class QuickAppsComponent extends Component {
         $out[] = $url;
 
         if ($this->Controller->request->params['controller'] == Inflector::underscore($this->plugin)) {
-            $url =  str_replace_once("/{$this->Controller->request->params['controller']}", '', $url);
+            $url =  QuickApps::str_replace_once("/{$this->Controller->request->params['controller']}", '', $url);
             $out[] = $url;
         } else if ($this->Controller->request->params['action'] == 'index' || $this->Controller->request->params['action'] == 'admin_index') {
-            $url =  str_replace_once("/index", '', $url);
+            $url =  QuickApps::str_replace_once("/index", '', $url);
             $out[] = $url;
         }
 
         if (isset($this->Controller->request->params['pass'])) {
             foreach ($this->Controller->request->params['pass'] as $p) {
-                $url = str_replace_once("/{$p}", '', $url);
+                $url = QuickApps::str_replace_once("/{$p}", '', $url);
                 $out[] = $url;
             }
         }

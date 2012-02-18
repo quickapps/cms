@@ -50,7 +50,7 @@ class HookCollectionHelper extends AppHelper {
             }
 
             $methods = array();
-            $_methods = get_this_class_methods($this->{$object});
+            $_methods = QuickApps::get_this_class_methods($this->{$object});
 
             foreach ($_methods as $method) {
                 $methods[] = $method;
@@ -251,7 +251,7 @@ class HookCollectionHelper extends AppHelper {
                 }
 
                 $methods = array();
-                $_methods = get_this_class_methods($this->__view->{$helper});
+                $_methods = QuickApps::get_this_class_methods($this->__view->{$helper});
 
                 foreach ($_methods as $method) {
                     // ignore private and protected methods

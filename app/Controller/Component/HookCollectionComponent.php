@@ -57,7 +57,7 @@ class HookCollectionComponent extends Component {
             }
 
             $methods = array();
-            $_methods = get_this_class_methods($this->__controller->{$object});
+            $_methods = QuickApps::get_this_class_methods($this->__controller->{$object});
 
             foreach ($_methods as $method) {
                 $methods[] = $method;
@@ -255,7 +255,7 @@ class HookCollectionComponent extends Component {
 
             if (strpos($component, 'Hook')) {
                 $methods = array();
-                $_methods = get_this_class_methods($this->__controller->{$component});
+                $_methods = QuickApps::get_this_class_methods($this->__controller->{$component});
 
                 foreach ($_methods as $method) {
                     $methods[] = $method;

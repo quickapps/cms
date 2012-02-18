@@ -27,9 +27,9 @@
     <li class="<?php echo "{$lang['Language']['code']} {$selected}"; ?>">
         <?php
             if (Configure::read('Variable.url_language_prefix')) {
-                $switch_url = $this->request->base . str_replace_once(Configure::read('Config.language') . '/' , "{$lang['Language']['code']}/", $url);
+                $switch_url = $this->request->base . QuickApps::str_replace_once(Configure::read('Config.language') . '/' , "{$lang['Language']['code']}/", $url);
             } else {
-                $switch_url = str_replace_once('/' . Configure::read('Config.language') . '/' , '', $this->here) . "?lang=" . $lang['Language']['code'];
+                $switch_url = QuickApps::str_replace_once('/' . Configure::read('Config.language') . '/' , '', $this->here) . "?lang=" . $lang['Language']['code'];
             }
         ?>
         <a href="<?php echo $switch_url; ?>">

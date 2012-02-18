@@ -51,7 +51,7 @@ class HookCollectionBehavior extends ModelBehavior {
             }
 
             $methods = array();
-            $_methods = get_this_class_methods($this->__model->Behaviors->{$object});
+            $_methods = QuickApps::get_this_class_methods($this->__model->Behaviors->{$object});
 
             foreach ($_methods as $method) {
                 $methods[] = $method;
@@ -248,7 +248,7 @@ class HookCollectionBehavior extends ModelBehavior {
 
             if (strpos($behavior, 'Hook')) {
                 $methods = array();
-                $_methods = get_this_class_methods($this->__model->Behaviors->{$behavior});
+                $_methods = QuickApps::get_this_class_methods($this->__model->Behaviors->{$behavior});
 
                 foreach ($_methods as $method) {
                     $methods[] = $method;

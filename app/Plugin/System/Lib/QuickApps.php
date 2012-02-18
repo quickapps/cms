@@ -11,7 +11,7 @@
  */
 class QuickApps {
 /**
- * The built in detectors used with `is()` can be modified with `addDetector()`.
+ * The built in detectors used with `is()`. Can be modified with `addDetector()`.
  *
  * @var array
  */
@@ -23,6 +23,12 @@ class QuickApps {
         'user' => array(
             'admin' => array('self', '__userIsAdmin'),
             'logged' => array('self', '__userIsLogged')
+        ),
+        'theme' => array(
+            'core' => array('self', '__themeIsCore')
+        ),
+        'module' => array(
+            'core' => array('self', '__moduleIsCore')
         )
     );
 
@@ -32,13 +38,15 @@ class QuickApps {
  * Any detector can be called as `is($detect)`.
  *
  * #Built-in detectors:
- * - is('view.frontpage')
- * - is('view.login')
- * - is('user.logged')
- * - is('user.admin')
+ * - is('view.frontpage'): is frontpage ?
+ * - is('view.login'): is login screen ?
+ * - is('user.logged'): is user logged in?
+ * - is('user.admin'): has user admin privileges ?
+ * - is('theme.core', 'ThemeName'): is `ThemeName` a core theme ?
+ * - is('module.core', 'ModuleName'): is `ModuleName` a core module ?
  *
  * ##Example:
- * Is actual request site frontpage ?
+ * Is actual request site's frontpage ?
  * {{{
  *  $this->Layout->is('view.frontpage');
  * }}}
@@ -46,7 +54,7 @@ class QuickApps {
  * @param string $detect Dot-Syntax unsersored_detector_name and group name. e.g.: `group.detector_name`
  * @param mixed $p Optional parameter for callback methods
  * @return boolean Whether or not the element is the type you are checking
- */    
+ */
     public static function is($detect, $p = null) {
         $detect = strtolower($detect);
         list($group, $check) = pluginSplit($detect);
@@ -96,6 +104,46 @@ class QuickApps {
         }
     }
 
+/**
+ * Translation function, domain search order:
+ * 1- Current plugin
+ * 2- Default
+ * 3- Translatable entries cache
+ *
+ * @param string $singular String to translate.
+ * @return string The translated string.
+ */
+    public static function __t($singular = false, $args = null) {
+        if (!$singular) {
+            return;
+        }
+
+        App::uses('I18n', 'I18n');
+
+        $route = class_exists('Router') ? Router::getParams() : null;
+
+        if (isset($route['plugin']) && !empty($route['plugin'])) {
+            $translated = I18n::translate($singular, null, Inflector::underscore($route['plugin'])); # 1º look in plugin
+        } else {
+            $translated = $singular;
+        }
+
+        if ($translated === $singular) { # 2º look in default
+            $translated = I18n::translate($singular, null, 'default');
+        }
+
+        if ($translated === $singular) { # 3º look in transtalion db-cache
+            $cache = Cache::read(md5($singular) . '_' . Configure::read('Config.language'), 'i18n');
+            $translated = $cache ? $cache: $singular;
+        }
+
+        if ($args === null) {
+            return $translated;
+        }
+
+        return vsprintf($translated, $args);
+    }
+
     public static function userRoles() {
         $roles = array();
 
@@ -106,6 +154,124 @@ class QuickApps {
         }
 
         return $roles;
+    }
+
+/**
+ * Return only the methods for the indicated object.
+ * It will strip out the inherited methods.
+ *
+ * @return array List of methods.
+ */
+    public static function get_this_class_methods($class) {
+        $methods = array();
+        $primary = get_class_methods($class);
+
+        if ($parent = get_parent_class($class)) {
+            $secondary = get_class_methods($parent);
+            $methods = array_diff($primary, $secondary);
+        } else {
+            $methods = $primary;
+        }
+
+        return $methods;
+    }
+
+/**
+ * Create Unique Arrays using an md5 hash
+ *
+ * @param array $array
+ * @return array
+ */
+    public static function arrayUnique($array, $preserveKeys = false) {
+        $arrayRewrite = array();
+        $arrayHashes = array();
+
+        foreach ($array as $key => $item) {
+            $hash = md5(serialize($item));
+
+            if (!isset($arrayHashes[$hash])) {
+                $arrayHashes[$hash] = $hash;
+
+                if ($preserveKeys) {
+                    $arrayRewrite[$key] = $item;
+                } else {
+                    $arrayRewrite[] = $item;
+                }
+            }
+        }
+
+        return $arrayRewrite;
+    }
+
+/**
+ * Strip language prefix from the given URL.
+ * e.g.: `http://site.com/eng/some-url` becomes http://site.com/some-url`
+ *
+ * @param string $url URL to replace.
+ * @return string URL with no language prefix.
+ */
+    public static function strip_language_prefix($url) {
+        $url = preg_replace('/\/[a-z]{3}\//', '/', $url);
+
+        return $url;
+    }
+
+/**
+ * Replace the first ocurrence only.
+ *
+ * @param string $str_pattern What to find for.
+ * @param string $str_replacement The replacement for $str_pattern.
+ * @param string $string The original to find and replace.
+ * @return string
+ */
+    public static function str_replace_once($str_pattern, $str_replacement, $string) {
+        if (strpos($string, $str_pattern) !== false) {
+            $occurrence = strpos($string, $str_pattern);
+            return substr_replace($string, $str_replacement, strpos($string, $str_pattern), strlen($str_pattern));
+        }
+
+        return $string;
+    }
+
+/**
+ * Check if the given module name belongs to QA Core installation.
+ *
+ * @param string $module Module name to check.
+ * @return bool TRUE if module is a core module, FALSE otherwise.
+ */
+    function __moduleIsCore($module) {
+        $module = Inflector::camelize($module);
+
+        if (CakePlugin::loaded($module)) {
+            $path = CakePlugin::path($module);
+
+            if (strpos($path, APP . 'Plugin' . DS) !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+/**
+ * Check if the given theme name belongs to QA Core installation.
+ *
+ * @param string $theme Theme name to check.
+ * @return bool TRUE if theme is a core theme, FALSE otherwise.
+ */
+    private static function __themeIsCore($theme) {
+        $theme = Inflector::camelize($theme);
+        $theme = strpos($theme, 'Theme') !== 0 ? "Theme{$theme}" : $theme;
+
+        if (CakePlugin::loaded($theme)) {
+            $app_path = CakePlugin::path($theme);
+
+            if (strpos($app_path, APP . 'View' . DS . 'Themed' . DS) !== false) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static function __viewIsFrontpage() {

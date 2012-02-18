@@ -29,7 +29,7 @@
                     continue;
                 }
 
-                $blocks_in_region = arrayUnique($blocks_in_region);
+                $blocks_in_region = QuickApps::arrayUnique($blocks_in_region);
 
                 foreach ($blocks_in_region as $bkey => $block) {
                     foreach ($block['BlockRegion'] as $rkey => $BlockRegion) {
@@ -140,7 +140,7 @@
                     continue;
                 }
 
-                $blocks_in_region = arrayUnique($blocks_in_region);
+                $blocks_in_region = QuickApps::arrayUnique($blocks_in_region);
 
                 foreach ($blocks_in_region as $bkey => $block) {
                     foreach ($block['BlockRegion'] as $rkey => $BlockRegion) {

@@ -144,11 +144,11 @@ Cache::config('default', array('engine' => 'File'));
                 continue;
             }
 
-            if (!$__coreModulesCache && isCoreModule($plugin)) {
+            if (!$__coreModulesCache && QuickApps::is('module.core', $plugin)) {
                 $__coreModules[] = $plugin;
             }
 
-            if (!$__coreThemesCache && isCoreTheme($plugin)) {
+            if (!$__coreThemesCache && QuickApps::is('theme.core', $plugin)) {
                 $__coreThemes[] = preg_replace('/^Theme/', '', $plugin);
             }
         }
@@ -172,163 +172,18 @@ Cache::config('default', array('engine' => 'File'));
     unset($__plugin_paths, $plugins, $plugin, $__ppath, $__coreModulesCache, $__coreThemesCache);
 
 /**
- * Check if the given theme name belongs to QA Core installation.
+ * Translation function.
  *
- * @param string $theme Theme name to check.
- * @return bool TRUE if theme is a core theme, FALSE otherwise.
- */
-    function isCoreTheme($theme) {
-        $theme = Inflector::camelize($theme);
-        $theme = strpos($theme, 'Theme') !== 0 ? "Theme{$theme}" : $theme;
-
-        if (CakePlugin::loaded($theme)) {
-            $app_path = CakePlugin::path($theme);
-
-            if (strpos($app_path, APP . 'View' . DS . 'Themed' . DS) !== false) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-/**
- * Check if the given module name belongs to QA Core installation.
- *
- * @param string $module Module name to check.
- * @return bool TRUE if module is a core module, FALSE otherwise.
- */
-    function isCoreModule($module) {
-        $module = Inflector::camelize($module);
-
-        if (CakePlugin::loaded($module)) {
-            $path = CakePlugin::path($module);
-
-            if (strpos($path, APP . 'Plugin' . DS) !== false) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-/**
- * Return only the methods for the indicated object.
- * It will strip out the inherited methods.
- *
- * @return array List of methods.
- */
-    function get_this_class_methods($class) {
-        $methods = array();
-        $primary = get_class_methods($class);
-
-        if ($parent = get_parent_class($class)) {
-            $secondary = get_class_methods($parent);
-            $methods = array_diff($primary, $secondary);
-        } else {
-            $methods = $primary;
-        }
-
-        return $methods;
-    }
-
-/**
- * Strip language prefix from the given URL.
- * e.g.: `http://site.com/eng/some-url` becomes http://site.com/some-url`
- *
- * @param string $url URL to replace.
- * @return string URL with no language prefix.
- */
-    function strip_language_prefix($url) {
-        $url = preg_replace('/\/[a-z]{3}\//', '/', $url);
-
-        return $url;
-    }
-
-/**
- * Translation function, domain search order:
- * 1- Current plugin
- * 2- Default
- * 3- Translatable entries cache
- *
- * @param string $singular String to translate.
- * @return string The translated string.
+ * @param string $singular String to translate
+ * @return string The translated string
+ * @see QuickApps::__t()
  */
     function __t($singular, $args = null) {
-        if (!$singular) {
-            return;
-        }
-
-        App::uses('I18n', 'I18n');
-
-        $route = class_exists('Router') ? Router::getParams() : null;
-
-        if (isset($route['plugin']) && !empty($route['plugin'])) {
-            $translated = I18n::translate($singular, null, Inflector::underscore($route['plugin'])); # 1º look in plugin
-        } else {
-            $translated = $singular;
-        }
-
-        if ($translated === $singular) { # 2º look in default
-            $translated = I18n::translate($singular, null, 'default');
-        }
-
-        if ($translated === $singular) { # 3º look in transtalion db-cache
-            $cache = Cache::read(md5($singular) . '_' . Configure::read('Config.language'), 'i18n');
-            $translated = $cache ? $cache: $singular;
-        }
-
-        if ($args === null) {
-            return $translated;
-        } elseif (!is_array($args)) {
+        if (!is_array($args) && !is_null($args)) {
             $args = array_slice(func_get_args(), 1);
         }
 
-        return vsprintf($translated, $args);
-    }
-
-/**
- * Create Unique Arrays using an md5 hash
- *
- * @param array $array
- * @return array
- */
-    function arrayUnique($array, $preserveKeys = false) {
-        $arrayRewrite = array();
-        $arrayHashes = array();
-
-        foreach ($array as $key => $item) {
-            $hash = md5(serialize($item));
-
-            if (!isset($arrayHashes[$hash])) {
-                $arrayHashes[$hash] = $hash;
-
-                if ($preserveKeys) {
-                    $arrayRewrite[$key] = $item;
-                } else {
-                    $arrayRewrite[] = $item;
-                }
-            }
-        }
-
-        return $arrayRewrite;
-    }
-
-/**
- * Replace the first ocurrence only.
- *
- * @param string $str_pattern What to find for.
- * @param string $str_replacement The replacement for $str_pattern.
- * @param string $string The original to find and replace.
- * @return string
- */
-    function str_replace_once($str_pattern, $str_replacement, $string) {
-        if (strpos($string, $str_pattern) !== false) {
-            $occurrence = strpos($string, $str_pattern);
-            return substr_replace($string, $str_replacement, strpos($string, $str_pattern), strlen($str_pattern));
-        }
-
-        return $string;
+        return QuickApps::__t($singular, $args);
     }
 
     include_once ROOT . DS . 'Config' . DS . 'bootstrap.php';

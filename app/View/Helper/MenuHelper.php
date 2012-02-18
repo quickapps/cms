@@ -372,7 +372,7 @@ class MenuHelper extends AppHelper {
                 strpos($link_url, "/{$this->_View->viewVars['Layout']['node']['Node']['translation_of']}.html") !== false
             ) {
                 $this->addItemAttribute('class', $this->__settings['selectedClass']);
-            } elseif (str_replace_once('/' . Configure::read('Config.language'), '', $link_url) == '/' && $this->_View->here === str_replace_once('/' . Configure::read('Config.language'), '', $this->_View->Html->url('/'))) {
+            } elseif (QuickApps::str_replace_once('/' . Configure::read('Config.language'), '', $link_url) == '/' && $this->_View->here === QuickApps::str_replace_once('/' . Configure::read('Config.language'), '', $this->_View->Html->url('/'))) {
                 $this->addItemAttribute('class', $this->__settings['selectedClass']);
             } elseif (
                 isset($elementData['data'][$this->__settings['model']]['selected_on']) &&
@@ -673,22 +673,22 @@ class MenuHelper extends AppHelper {
         $out[] = $url;
 
         foreach ($this->_View->request->params['named'] as $key => $val) {
-            $url = str_replace_once("/{$key}:{$val}", '', $url);
+            $url = QuickApps::str_replace_once("/{$key}:{$val}", '', $url);
             $out[] = $url;
         }
 
         $out[] = $url;
 
         if ($this->_View->request->params['controller'] == Inflector::underscore($this->plugin)) {
-            $url =  str_replace_once("/{$this->_View->request->params['controller']}", '', $url);
+            $url =  QuickApps::str_replace_once("/{$this->_View->request->params['controller']}", '', $url);
             $out[] = $url;
         } else if ($this->_View->request->params['action'] == 'index' || $this->_View->request->params['action'] == 'admin_index') {
-            $url =  str_replace_once("/index", '', $url);
+            $url =  QuickApps::str_replace_once("/index", '', $url);
             $out[] = $url;
         }
 
         foreach ($this->_View->request->params['pass'] as $p) {
-            $url = str_replace_once("/{$p}", '', $url);
+            $url = QuickApps::str_replace_once("/{$p}", '', $url);
             $out[] = $url;
         }
 
