@@ -10,16 +10,19 @@
  * @link     http://cms.quickapps.es
  */
 class AppController extends Controller {
-    public $view = 'Theme';
-    public $theme = 'default';
-
+/**
+ * An array containing all the information needed by themes
+ * to render each page request.
+ *
+ * @var array
+ */
     public $Layout = array(
-        'feed' => null, # url to rss feed
+        'feed' => null,
         'blocks' => array(),
         'node' => array(),
-        'viewMode' => '', # full, list, rss, print
-        'header' => array(), # extra code for header
-        'footer' => array(), # extra code for </body>
+        'viewMode' => '',
+        'header' => array(),
+        'footer' => array(),
         'stylesheets' => array(
             'all' => array(),
             'braille' => array(),
@@ -38,10 +41,15 @@ class AppController extends Controller {
             'inline' => array(),
             'file' => array('/system/js/jquery.js', '/system/js/quickapps.js')
         ),
-        'meta' => array(), # meta tags for layout
-        'fields' => array() # list of fields being rendered on actual request grouped by model.
+        'meta' => array(),
+        'fields' => array()
     );
 
+/**
+ * Basic helpers
+ *
+ * @var array
+ */
     public $helpers = array(
         'HookCollection',
         'HooktagsCollection',
@@ -54,6 +62,11 @@ class AppController extends Controller {
         'Time'
     );
 
+/**
+ * Basic models
+ *
+ * @var array
+ */
     public $uses = array(
         'System.Variable',
         'System.Module',
@@ -61,6 +74,11 @@ class AppController extends Controller {
         'Locale.Language'
     );
 
+/**
+ * Basic components
+ *
+ * @var array
+ */
     public $components = array(
         'HookCollection',
         'Session',
@@ -72,11 +90,24 @@ class AppController extends Controller {
         'System.JqueryUI'
     );
 
+/**
+ * Constructor.
+ * Preloads all hook objects.
+ *
+ * @param CakeRequest $request Request object for this controller
+ * @param CakeResponse $response Response object for this controller
+ */
     public function __construct($request = null, $response = null) {
         $this->__preloadHooks();
         parent::__construct($request, $response);
     }
 
+/**
+ * Called after the controller action is run, but before the view is rendered. You can use this method
+ * to perform logic or set view variables that are required on every request.
+ *
+ * @return void
+ */
     public function beforeRender() {
         if ($this->Layout['feed']) {
             $this->Layout['meta']['link'] = $this->Layout['feed'];
