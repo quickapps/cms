@@ -12,8 +12,25 @@ App::uses('JSMin', 'Vendor');
  * @link     http://cms.quickapps.es
  */
 class JqueryUI {
+/**
+ * List of loaded libraries.
+ *
+ * @var array
+ */
     protected static $_loadedUI = array();
+
+/**
+ * List of loaded themes.
+ *
+ * @var array
+ */
     protected static $_loadedThemes = array();
+
+/**
+ * UI presets list. Can be modified with `definePreset()`.
+ *
+ * @var array
+ */
     private static $__presets = array(
         // interactions
         'draggable' => array('ui.core', 'ui.widget', 'ui.mouse'),
@@ -45,24 +62,11 @@ class JqueryUI {
  *
  * You can load a preset, which include all the required js files for that preset.
  *
- * ###Example
- * {{{
- *  $this->JqueryUI->add('sortable');
- * }}}
- *
- * The above will load all the JS libraries required for a `sortable` interaction.
- *
- * {{{
- *  $this->JqueryUI->add('effects.blind', 'effects.fade');
- * }}}
- *
- * The above will load both `blind` & `fade` effects.
- *
- * @param array $files List of UI files to include
+ * @param mixed $files Array list of UI files to include.
  * @param array $stack Reference to AppController::$Layout['javascripts']['file']
  * @return mixed
  *  TRUE if `all` was included.
- *  FALSE no files were included because they are already included or were not found.
+ *  FALSE if no files were included because they are already included or were not found.
  *  String HTML <script> tags on success.
  * @see JqueryUI::$__presets
  */
@@ -162,26 +166,6 @@ class JqueryUI {
  * Plugin-dot-syntax is allowed, for themes located in Module's css folder.
  * `Site Css` folder will be used otherwise.
  *
- * ###Theme auto-detect:
- * If no theme is given (FALSE):
- *  - Try to use global parametter `JqueryUI.default_theme`.
- *  - Use `System.ui-lightness` otherwise.
- *
- * ###Example:
- * {{{
- *  $this->JqueryUI->theme('MyModule.flick');
- * }}}
- * 
- * The above will load `flick` theme.
- * Theme should be located in `ROOT/Modules/MyModule/webroot/css/ui/flick/`
- *
- * {{{
- *  $this->JqueryUI->theme('flick');
- * }}} 
- *
- * The above will load `flick` theme. But, now it should be located in
- * `ROOT/webroot/css/ui/flick/`
- *
  * @param mixed $theme String name of the theme to load (Plugin-dot-syntax allowed)
  * or leave empty for auto-detect.
  * @param array $stack Reference to AppController::$Layout['stylesheets']['file']
@@ -230,11 +214,11 @@ class JqueryUI {
 /**
  * Register a new preset, or overwrite if already exists.
  *
- * @param string $name Lowercase preset name
+ * @param string $name Lowercase preset name. e.g.: `preset_name`
  * @param array $libs Array of libraries used by the preset
  * @return void
  */
-    public static function addPreset($name, $libs = array()) {
+    public static function definePreset($name, $libs = array()) {
         $name = strtolower($name);
         self::$__presets[$name] = $libs;
     }
