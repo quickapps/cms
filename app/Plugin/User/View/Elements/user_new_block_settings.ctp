@@ -1,6 +1,5 @@
 <?php
-echo
-    $this->Form->input('Block.settings.limit',
+    echo $this->Form->input('Block.settings.limit',
         array(
             'type' => 'select',
             'label' => __t('Number of users'),
@@ -11,4 +10,3 @@ echo
             )
         )
     );
-?>

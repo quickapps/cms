@@ -10,7 +10,7 @@
  * @link     http://cms.quickapps.es
  */
 class UserHookBehavior extends ModelBehavior {
-    # prevent unnecessary variables to load on startup by Quickapps::loadVariables()
+    // prevent unnecessary variables to load on startup by QuickAppsComponent::loadVariables()
     public function beforeFind($model, $query) {
         if ($model->name == 'Variable' && empty($query['conditions'])) { # empty conditions = select *
             $query['conditions'] = Set::merge($query['conditions'],

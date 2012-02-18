@@ -1,4 +1,4 @@
-<div class="users form">
+<div class="user-login-form">
     <?php echo $this->Form->create('User', array('url' => '/user/login'));?>
         <fieldset>
         <?php
