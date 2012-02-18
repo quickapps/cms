@@ -59,7 +59,10 @@ class Field extends FieldAppModel {
 
     public function beforeSave() {
         if (isset($this->data['Field']['field_module'])) {
-            $this->data['Field']['name'] = 'field_' . str_replace('field_', '', $this->data['Field']['name']);
+            if (isset($this->data['Field']['name'])) {
+                $this->data['Field']['name'] = 'field_' . str_replace('field_', '', $this->data['Field']['name']);
+            }
+
             $this->data['Field']['settings'] = @unserialize($this->data['Field']['settings']);
             $before = $this->hook("{$this->data['Field']['field_module']}_before_save_instance", $this);
             $this->data['Field']['settings'] = !is_array($this->data['Field']['settings']) ? array() : $this->data['Field']['settings'];
