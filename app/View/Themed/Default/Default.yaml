@@ -23,3 +23,4 @@ regions:
     
     sidebar-left: Sidebar Left
 layout: default
+login_layout: default
