@@ -36,7 +36,10 @@ class FieldsController extends UserAppController {
     public function admin_field_settings($id) {
         if (isset($this->data['Field'])) {
             if ($this->Field->save($this->data)) {
+                $this->flashMsg(__t('Field has been saved'));
                 $this->redirect($this->referer());
+            } else {
+                $this->flashMsg(__t('Field could not be saved'), 'error');
             }
         }
 

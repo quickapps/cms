@@ -109,14 +109,6 @@ class TypesController extends NodeAppController {
     }
 
     public function admin_field_settings($id) {
-        if (isset($this->data['Field'])) {
-            $this->loadModel('Field.Field');
-
-            if ($this->Field->save($this->data)) {
-                $this->redirect($this->referer());
-            }
-        }
-
         $this->NodeType->bindModel(
             array(
                 'hasMany' => array(
@@ -128,6 +120,15 @@ class TypesController extends NodeAppController {
                 )
             )
         );
+
+        if (isset($this->data['Field'])) {
+            if ($this->NodeType->Field->save($this->data)) {
+                $this->flashMsg(__t('Field has been saved'));
+                $this->redirect($this->referer());
+            } else {
+                $this->flashMsg(__t('Field could not be saved'), 'error');
+            }
+        }
 
         $this->data = $this->NodeType->Field->findById($id) or $this->redirect('/admin/node/types');
         $ntID = substr($this->data['Field']['belongsTo'], strpos($this->data['Field']['belongsTo'], '-')+1);
