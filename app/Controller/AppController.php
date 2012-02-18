@@ -80,6 +80,7 @@ class AppController extends Controller {
  * @var array
  */
     public $components = array(
+        'Security' => array('csrfUseOnce' => false, 'csrfExpires' => '+1 hour'),
         'HookCollection',
         'Session',
         'Cookie',

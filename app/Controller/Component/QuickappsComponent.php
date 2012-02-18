@@ -35,6 +35,7 @@ class QuickAppsComponent extends Component {
         $this->prepareContent();
         $this->siteStatus();
         $this->setCrumb();
+        $this->disableSecurity();
     }
 
 /**
@@ -702,6 +703,26 @@ class QuickAppsComponent extends Component {
  */
     public function is($detect) {
         return QuickApps::is($detect, $this->Controller);
+    }
+
+/**
+ * Disables security component.
+ *
+ * @return void
+ */ 
+    public function disableSecurity() {
+        $this->Controller->Security->validatePost = false;
+        $this->Controller->Security->csrfCheck = false;
+    }
+
+/**
+ * Enables security component.
+ *
+ * @return void
+ */     
+    public function enableSecurity() {
+        $this->Controller->Security->validatePost = true;
+        $this->Controller->Security->csrfCheck = true;
     }
 
     private function __urlChunk() {
