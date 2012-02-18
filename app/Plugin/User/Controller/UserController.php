@@ -165,6 +165,8 @@ class UserController extends UserAppController {
         $this->User->unbindFields();
 
         if (isset($this->data['User'])) {
+            $this->hook('before_login', $this->data);
+
             if ($this->Auth->login()) {
                 $session = $this->Auth->user();
                 $session['role_id'] = $this->UsersRoles->find('all',
@@ -176,6 +178,8 @@ class UserController extends UserAppController {
                 $session['role_id'] = Set::extract('/UsersRoles/role_id', $session['role_id']);
                 $session['role_id'][] = 2; # role: authenticated user
                 $this->User->id = $session['id'];
+
+                $this->hook('after_login', $session);
 
                 if (isset($this->data['User']['remember']) && $this->data['User']['remember'] == 1) {
                     $user = $this->User->read();
@@ -203,9 +207,11 @@ class UserController extends UserAppController {
     }
 
     private function __logout() {
+        $this->hook('before_logout', $session = $this->Auth->user());
         $this->Cookie->delete('UserLogin');
         $this->Session->delete('Auth');
         $this->flashMsg(__t('Logout successful.'), 'success');
+        $this->hook('after_logout');
 
         return true;
     }
