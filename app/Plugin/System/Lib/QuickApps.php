@@ -184,7 +184,7 @@ class QuickApps {
  * @param array $array
  * @return array
  */
-    public static function arrayUnique($array, $preserveKeys = false) {
+    public static function array_unique_assoc($array, $preserveKeys = false) {
         $arrayRewrite = array();
         $arrayHashes = array();
 
