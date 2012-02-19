@@ -18,7 +18,8 @@ class QuickApps {
     protected static $_detectors = array(
         'view' => array(
             'frontpage' => array('self', '__viewIsFrontpage'),
-            'login' => array('self', '__viewIsLogin')
+            'login' => array('self', '__viewIsLogin'),
+            'admin' => array('self', '__viewIsAdmin')
         ),
         'user' => array(
             'admin' => array('self', '__userIsAdmin'),
@@ -40,6 +41,7 @@ class QuickApps {
  * #Built-in detectors:
  * - is('view.frontpage'): is frontpage ?
  * - is('view.login'): is login screen ?
+ * - is('view.admin'): is admin prefix ?
  * - is('user.logged'): is user logged in?
  * - is('user.admin'): has user admin privileges ?
  * - is('theme.core', 'ThemeName'): is `ThemeName` a core theme ?
@@ -292,6 +294,12 @@ class QuickApps {
             $params['controller'] == 'user' &&
             in_array($params['action'], array('login', 'admin_login'))
         );
+    }
+
+    private static function __viewIsAdmin() {
+        $params = Router::getParams();
+
+        return isset($params['admin']) && $params['admin'];
     }
 
     private static function __userIsAdmin() {
