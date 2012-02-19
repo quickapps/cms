@@ -144,15 +144,12 @@ class QuickAppsComponent extends Component {
             }
         }
 
-        if ($this->Controller->request->params['plugin'] == 'user' &&
-            $this->Controller->request->params['controller'] == 'user' &&
-            in_array($this->Controller->request->params['action'], array('login', 'admin_login'))
-        ) {
+        if ($this->is('view.login') && $this->is('view.admin')) {
             $this->Controller->layout = Configure::read('Theme.login_layout') ? Configure::read('Theme.login_layout') : 'login';
-        } else {
-            if (Configure::read('Theme.layout')) {
-                $this->Controller->layout = Configure::read('Theme.layout');
-            }
+        } elseif ($this->is('view.login') && !$this->is('view.admin') && Configure::read('Theme.login_layout')) {
+            $this->Controller->layout = Configure::read('Theme.login_layout');
+        } elseif (Configure::read('Theme.layout')) {
+            $this->Controller->layout = Configure::read('Theme.layout');
         }
 
         $this->Controller->hook('stylesheets_alter', $this->Controller->Layout['stylesheets']);    # pass css list to modules if they need to alter them (add/remove)
