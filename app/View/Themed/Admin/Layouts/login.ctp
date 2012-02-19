@@ -12,7 +12,7 @@
     <body>
         <div id="content" class="clearfix">
             <div class="left-block">
-                <a href="http://cms.quickapps.es/" target="_blank"><?php echo $this->Html->image('/system/img/logo.png', array('border' => 0)); ?></a>
+                <a href="http://cms.quickapps.es/" target="_blank"><?php echo $this->Html->image('/system/img/logo.png', array('border' => 0, 'width' => 128)); ?></a>
             </div>
 
             <div class="right-block">
