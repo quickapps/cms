@@ -101,7 +101,7 @@ class CakeTime {
  * @param array $specifier match from regular expression
  * @return string converted element
  */
-	protected function _translateSpecifier($specifier) {
+	protected static function _translateSpecifier($specifier) {
 		switch ($specifier[1]) {
 			case 'a':
 				$abday = __dc('cake', 'abday', 5);
@@ -327,7 +327,6 @@ class CakeTime {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/time.html#formatting
  */
 	public static function dayAsSql($dateString, $fieldName, $userOffset = null) {
-		$date = self::fromString($dateString, $userOffset);
 		return self::daysAsSql($dateString, $dateString, $fieldName);
 	}
 
@@ -559,9 +558,6 @@ class CakeTime {
 
 		// If more than a week, then take into account the length of months
 		if ($diff >= 604800) {
-			$current = array();
-			$date = array();
-
 			list($future['H'], $future['i'], $future['s'], $future['d'], $future['m'], $future['Y']) = explode('/', date('H/i/s/d/m/Y', $futureTime));
 
 			list($past['H'], $past['i'], $past['s'], $past['d'], $past['m'], $past['Y']) = explode('/', date('H/i/s/d/m/Y', $pastTime));
