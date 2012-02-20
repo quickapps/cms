@@ -10,14 +10,39 @@
  * @link     http://cms.quickapps.es
  */
 class InstallerComponent extends Component {
+/**
+ * Holds a list of all errors.
+ *
+ * @var array
+ */
     public $errors = array();
+
+/**
+ * Controller reference.
+ *
+ * @var Controller
+ */
     public $Controller;
+
+/**
+ * Array of defaults options used by install process.
+ * `type`: type of package to install (`module` or `theme`m default `module`)
+ * `status`: install and activate `status=1` (by default), install and do not activate `status=0`
+ *
+ * @var array
+ */
     public $options = array(
-        'name' => null,     # used while deleting
-        'type' => 'module', # type of package to install
-        'status' => 1       # install and activate(status=1), install and do not activate (status=0)
+        'name' => null,
+        'type' => 'module',
+        'status' => 1
     );
 
+/**
+ * Initializes InstallerComponent for use in the controller.
+ *
+ * @param Controller $controller A reference to the instantiating controller object
+ * @return void
+ */
     public function initialize($Controller) {
         $this->Controller = $Controller;
 
@@ -265,7 +290,7 @@ class InstallerComponent extends Component {
                 break;
             }
 
-            //Load YAML
+            // Load YAML
             $yaml = Spyc::YAMLLoad($packagePath . "{$appName}.yaml");
 
             // Install component
@@ -285,7 +310,7 @@ class InstallerComponent extends Component {
                 return false;
             }
 
-            //YAML validation
+            // YAML validation
             switch ($this->options['type']) {
                 case 'module':
                     default:
@@ -1074,7 +1099,7 @@ class InstallerComponent extends Component {
             }
         }
 
-        # Fields
+        // Fields
         if (file_exists($pluginPath . $plugin . DS . 'Fields')) {
             $__folder->path = $pluginPath . $plugin . DS . 'Fields' . DS;
             $fieldsFolders = $__folder->read();
@@ -1563,19 +1588,19 @@ class InstallerComponent extends Component {
             return false;
         }
 
-        # turn on/off related blocks
+        // turn on/off related blocks
         ClassRegistry::init('Block.Block')->updateAll(
             array('Block.status' => $to),
             array('Block.status <>' => 0, 'Block.module' => $module)
         );
 
-        # turn on/off related menu links
+        // turn on/off related menu links
         ClassRegistry::init('Menu.MenuLink')->updateAll(
             array('MenuLink.status' => $to),
             array('MenuLink.status <>' => 0, 'MenuLink.module' => $module)
         );
 
-        # turn on/off module
+        // turn on/off module
         $this->Controller->Module->updateAll(
             array('Module.status' => $to),
             array('Module.name' => $module)
@@ -1653,29 +1678,29 @@ class InstallerComponent extends Component {
  * @return void
  */
     private function __clearCache() {
-        # clear modules & variables
+        // clear modules & variables
         Cache::delete('Modules');
         Cache::delete('Variable');
 
-        # clear objects map
+        // clear objects map
         Cache::delete('hook_objects_admin_theme');
         Cache::delete('hook_objects_site_theme');
 
-        # clear bootstrap plugin paths
+        // clear bootstrap plugin paths
         Cache::delete('plugin_paths');
 
-        # clear core modules/themes list
+        // clear core modules/themes list
         Cache::delete('core_modules');
         Cache::delete('core_themes');
 
-        # clear loading order list
+        // clear loading order list
         Cache::delete('modules_load_order');
 
         if (isset($this->Controller->Variable) && $this->Controller->Variable->cacheSources) {
             clearCache('cake_model_*_list', 'models', '');
         }
 
-        # regenerate modules & variables
+        // regenerate modules & variables
         $this->Controller->QuickApps->loadModules();
         $this->Controller->QuickApps->loadVariables();
     }
