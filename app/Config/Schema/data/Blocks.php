@@ -97,7 +97,7 @@ class Blocks {
 			'module' => 'User',
 			'delta' => 'new',
 			'clone_of' => '0',
-			'themes_cache' => ':AdminDefault:',
+			'themes_cache' => ':Admin:',
 			'ordering' => '5',
 			'status' => '1',
 			'visibility' => '0',
