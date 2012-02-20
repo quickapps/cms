@@ -275,27 +275,11 @@ class AppController extends Controller {
             $theme_path = App::themePath($themeToUse);
             $load_order = Cache::read('modules_load_order');
 
-            if (!$load_order) {
-                $this->loadModel('System.Module');
-
-                $order = $this->Module->find('all',
-                    array(
-                        'conditions' => array('Module.status' => 1, 'Module.type' => 'module'),
-                        'fields' => array('Module.name', 'Module.type', 'Module.ordering'),
-                        'order' => array('Module.ordering' => 'ASC'),
-                        'recursive' => -1
-                    )
-                );
-                $load_order = Set::extract('/Module/name', $order);
-
-                Cache::write('modules_load_order', $load_order);
-                ClassRegistry::flush();
-                unset($this->Module);
+            if ($load_order) {
+                $load_order = array_intersect($load_order, $plugins);
+                $tail = array_diff($plugins, $load_order);
+                $plugins = array_merge($load_order, $tail);
             }
-
-            $load_order = array_intersect($load_order, $plugins);
-            $tail = array_diff($plugins, $load_order);
-            $plugins = array_merge($load_order, $tail);
 
             foreach ($plugins as $plugin) {
                 $ppath = CakePlugin::path($plugin);

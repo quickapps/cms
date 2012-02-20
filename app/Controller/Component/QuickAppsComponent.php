@@ -681,6 +681,20 @@ class QuickAppsComponent extends Component {
         } else {
             Configure::write('Modules', $modules);
         }
+
+        if (!Cache::read('modules_load_order')) {
+            $order = ClassRegistry::init('System.Module')->find('all',
+                array(
+                    'conditions' => array('Module.status' => 1, 'Module.type' => 'module'),
+                    'fields' => array('Module.name', 'Module.type', 'Module.ordering'),
+                    'order' => array('Module.ordering' => 'ASC'),
+                    'recursive' => -1
+                )
+            );
+            $load_order = Set::extract('/Module/name', $order);
+
+            Cache::write('modules_load_order', $load_order);
+        }
     }
 
 /**
