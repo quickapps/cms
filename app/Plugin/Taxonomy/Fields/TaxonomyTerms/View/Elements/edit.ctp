@@ -25,8 +25,8 @@
        return;
     }
 
-    if (isset($this->data['FieldData']['FieldTerms'][$field['id']]['data'])) {
-        $selected = $this->data['FieldData']['FieldTerms'][$field['id']]['data'];
+    if (isset($this->data['FieldData']['TaxonomyTerms'][$field['id']]['data'])) {
+        $selected = $this->data['FieldData']['TaxonomyTerms'][$field['id']]['data'];
     } else {
         $selected = explode(',', (string)$field['FieldData']['data']);
     }
@@ -57,11 +57,11 @@
         $Options['class'] = 'tags';
 
         unset($Options['multiple'], $Options['options']);
-        echo $this->Layout->hook('field_terms_render_autocomplete', $field);
+        echo $this->Layout->hook('taxonomy_terms_render_autocomplete', $field);
     }
 
-    echo $this->Form->input("FieldData.FieldTerms.{$field['id']}.data", $Options);
-    echo $this->Form->hidden("FieldData.FieldTerms.{$field['id']}.id", array('value' => $field['FieldData']['id']));
+    echo $this->Form->input("FieldData.TaxonomyTerms.{$field['id']}.data", $Options);
+    echo $this->Form->hidden("FieldData.TaxonomyTerms.{$field['id']}.id", array('value' => $field['FieldData']['id']));
 ?>
 
 <?php if (!empty($field['description'])): ?>

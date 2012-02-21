@@ -27,7 +27,7 @@
  * an unique Model record.
  *
  * Fields belongs always to modules, modules are allowed to define an unlimeted number of fields by placing them on
- * the `Fields` folder. e.g.: The core module `Taxonomy` has it own field `FieldTerms` in `app/Plugins/Taxonomy/Fields/FieldTerms`.
+ * the `Fields` folder. e.g.: The core module `Taxonomy` has it own field `TaxonomyTerms` in `app/Plugins/Taxonomy/Fields/TaxonomyTerms`.
  * Most of the fields included in the core of QuickApps belongs to the `Fields` module (app/Plugins/Field/Fields).
  *
  * As field are actually modules, they must be prefix its name by the `Field` in order to avoid name collitions between

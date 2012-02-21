@@ -1,5 +1,5 @@
 <?php
-class FieldTermsHookBehavior extends ModelBehavior {
+class TaxonomyTermsHookBehavior extends ModelBehavior {
     private $__tmp = array();
 
 /**
@@ -13,8 +13,8 @@ class FieldTermsHookBehavior extends ModelBehavior {
  * @param array $info Fieldable array data
  * @return boolean true always
  */
-    public function field_terms_before_save($info) {
-        foreach ($info['entity']->data['FieldData']['FieldTerms'] as $field_instance_id => $post) {
+    public function taxonomy_terms_before_save($info) {
+        foreach ($info['entity']->data['FieldData']['TaxonomyTerms'] as $field_instance_id => $post) {
             if (is_string($post['data'])) {
                 $data = explode(',', $post['data']);
 
@@ -43,11 +43,11 @@ class FieldTermsHookBehavior extends ModelBehavior {
                 }
 
                 $post['data'] = implode(',', $data);
-                $info['entity']->data['FieldData']['FieldTerms'][$field_instance_id] = $post;
+                $info['entity']->data['FieldData']['TaxonomyTerms'][$field_instance_id] = $post;
             }
         }
 
-        if (isset($info['entity']->data['FieldData']['FieldTerms']) &&
+        if (isset($info['entity']->data['FieldData']['TaxonomyTerms']) &&
             $info['entity']->alias == 'Node' &&
             !isset($this->__tmp['before_save_' . $info['entity']->alias])
         ) {
@@ -68,7 +68,7 @@ class FieldTermsHookBehavior extends ModelBehavior {
 
             $terms_cache = array();
             $terms_ids = $_terms_ids = array();
-            $_terms_ids = (array)Set::extract('FieldData.FieldTerms.{n}.data', $info['entity']->data);
+            $_terms_ids = (array)Set::extract('FieldData.TaxonomyTerms.{n}.data', $info['entity']->data);
             $_terms_ids = (array)Set::filter($_terms_ids);
 
             if (!empty($_terms_ids)) {
@@ -100,7 +100,7 @@ class FieldTermsHookBehavior extends ModelBehavior {
         return true;
     }
 
-    public function field_terms_after_save($info) {
+    public function taxonomy_terms_after_save($info) {
         if (empty($info)) {
             return true;
         }
@@ -120,7 +120,7 @@ class FieldTermsHookBehavior extends ModelBehavior {
         return true;
     }
 
-    public function field_terms_after_find(&$data) {
+    public function taxonomy_terms_after_find(&$data) {
         $data['field']['FieldData'] = ClassRegistry::init('Field.FieldData')->find('first',
             array(
                 'conditions' => array(
@@ -137,13 +137,13 @@ class FieldTermsHookBehavior extends ModelBehavior {
         return;
     }
 
-    public function field_terms_before_validate($info) {
+    public function taxonomy_terms_before_validate($info) {
         $FieldInstance = ClassRegistry::init('Field.Field')->findById($info['field_id']);
 
         if (isset($FieldInstance['Field']['settings']['max_values']) && $FieldInstance['Field']['settings']['max_values'] != 0) {
             if (is_array($info['data']) && count($info['data']) > $FieldInstance['Field']['settings']['max_values']) {
                 ClassRegistry::init('Field.FieldData')->invalidate(
-                    "FieldTerms.{$info['field_id']}.data",
+                    "TaxonomyTerms.{$info['field_id']}.data",
                     __t('This field cannot hold more than 2 values.')
                 );
 
@@ -156,7 +156,7 @@ class FieldTermsHookBehavior extends ModelBehavior {
             $filtered = strip_tags($info['data']);
             if (empty($filtered)) {
                 ClassRegistry::init('Field.FieldData')->invalidate(
-                    "FieldTerms.{$info['field_id']}.data",
+                    "TaxonomyTerms.{$info['field_id']}.data",
                     __t('You must select at least one option.')
                 );
 
@@ -167,11 +167,11 @@ class FieldTermsHookBehavior extends ModelBehavior {
         return true;
     }
 
-    public function field_terms_before_delete($info) {
+    public function taxonomy_terms_before_delete($info) {
         return true;
     }
 
-    public function field_terms_after_delete($info) {
+    public function taxonomy_terms_after_delete($info) {
         ClassRegistry::init('Field.FieldData')->deleteAll(
             array(
                 'FieldData.belongsTo' => $info['entity']->alias,
@@ -183,7 +183,7 @@ class FieldTermsHookBehavior extends ModelBehavior {
         return true;
     }
 
-    public function field_terms_after_delete_instance($FieldModel) {
+    public function taxonomy_terms_after_delete_instance($FieldModel) {
         ClassRegistry::init('Field.FieldData')->deleteAll(
             array(
                 'FieldData.field_id' => $FieldModel->data['Field']['id']

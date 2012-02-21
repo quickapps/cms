@@ -1,10 +1,10 @@
 <?php
-class FieldTermsHookHelper extends AppHelper {
+class TaxonomyTermsHookHelper extends AppHelper {
     private $__tmp = array(
         'autocompleteCount' => 0
     );
 
-    public function field_terms_formatter($data) {
+    public function taxonomy_terms_formatter($data) {
         $terms = ClassRegistry::init('Taxonomy.Term')->find('all',
             array(
                 'conditions' => array(
@@ -45,19 +45,19 @@ class FieldTermsHookHelper extends AppHelper {
         return implode(', ', (array)$data['content']);
     }
 
-    public function field_terms_render_autocomplete($field) {
+    public function taxonomy_terms_render_autocomplete($field) {
         $out = "\n ";
         $prePopulate = array();
 
         if (!$this->__tmp['autocompleteCount']) {
-            $this->_View->Layout->css('/field_terms/css/token-input.css');
-            $this->_View->Layout->css('/field_terms/css/token-input-facebook.css');
-            $this->_View->Layout->script('/field_terms/js/jquery.tokeninput.js');
+            $this->_View->Layout->css('/taxonomy_terms/css/token-input.css');
+            $this->_View->Layout->css('/taxonomy_terms/css/token-input-facebook.css');
+            $this->_View->Layout->script('/taxonomy_terms/js/jquery.tokeninput.js');
             $this->__tmp['autocompleteCount']++;
         }
 
         $ids = explode(',', $field['FieldData']['data']);
-        $field_id = Inflector::camelize("FieldDataFieldTerms{$field['id']}Data");
+        $field_id = Inflector::camelize("FieldDataTaxonomyTerms{$field['id']}Data");
 
         foreach ($ids as $id) {
             if ($id) {
@@ -79,7 +79,7 @@ class FieldTermsHookHelper extends AppHelper {
         $tokenLimit = !$field['settings']['max_values'] ? '' : "tokenLimit: {$field['settings']['max_values']},";
         $out .= "\n<script type=\"text/javascript\">\n";
         $out .= "$(document).ready(function() {\n";
-        $out .= "$('#{$field_id}').tokenInput('" . Router::url("/admin/field_terms/tokeninput/suggest/{$field['settings']['vocabulary']}", true) . "',
+        $out .= "$('#{$field_id}').tokenInput('" . Router::url("/admin/taxonomy_terms/tokeninput/suggest/{$field['settings']['vocabulary']}", true) . "',
             {
                 allowNewItems: true,
                 hintText: '" . __t('Type in a search term') . "',

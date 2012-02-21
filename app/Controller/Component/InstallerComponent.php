@@ -404,7 +404,7 @@ class InstallerComponent extends Component {
                     $fields = $fields[0];
 
                     foreach ($fields as $field) {
-                        if (strpos($field, 'Field') === 0) {
+                        if (strpos($field, $appName) === 0) {
                             if (file_exists($packagePath . 'Fields' . DS . $field . DS . "{$field}.yaml")) {
                                 $yaml = Spyc::YAMLLoad($packagePath . 'Fields' . DS . $field . DS . "{$field}.yaml");
 

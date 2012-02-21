@@ -1384,7 +1384,7 @@ class Acos {
 			'parent_id' => '',
 			'model' => '',
 			'foreign_key' => '',
-			'alias' => 'FieldTerms',
+			'alias' => 'TaxonomyTerms',
 			'lft' => '307',
 			'rght' => '312'
 		),

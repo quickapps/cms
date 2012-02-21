@@ -13,6 +13,6 @@
         'content' => (isset($field['FieldData']['data']) ? $field['FieldData']['data'] : ''),
         'format' => $display
     );
-    $html = $this->Layout->hook('field_terms_formatter', $formatter_data, array('collectReturn' => false));
+    $html = $this->Layout->hook('taxonomy_terms_formatter', $formatter_data, array('collectReturn' => false));
 
     echo $html;
