@@ -1075,6 +1075,6 @@ class LayoutHelper extends AppHelper {
         $this->hook('after_render_block', $data, array('collectReturn' => false));
         extract($data);
 
-        return "<div class=\"qa-block {$wrapperClass}\">{$html}</div>";
+        return "<div id=\"qa-block-{$Block['id']}\" class=\"qa-block {$wrapperClass}\">{$html}</div>";
     }
 }
