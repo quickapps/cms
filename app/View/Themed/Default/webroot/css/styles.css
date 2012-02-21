@@ -178,10 +178,14 @@ legend { font-weight:bold; font-size:16px; border-radius: 8px; -webkit-border-ra
 
 
 /*---------------[LANGUAGE-SWITCH]------------------*/
-#language-switcher { overflow:hidden; float:right; padding:10px 0; }
+#language-switcher { overflow:hidden; float:right; }
+#language-switcher ul { margin-top:10px; }
 #language-switcher ul li { float:left; list-style:none; }
-#language-switcher ul li a { margin-left:20px; }
+#language-switcher ul li a { margin-left:6px; }
 #language-switcher ul li.selected a span { text-decoration:underline; }
+#language-switcher select { font-size:10px; }
+#language-switcher div.select { padding-top:5px; }
+#language-switcher div.select label { padding-right:5px; color:#fff; font-weight:bold; }
 
 /*---------------[PAGINATION]------------------*/
 .paginator span { padding-right:5px; font-size:16px; }
@@ -282,7 +286,7 @@ a.rss-feed-icon { padding:0 10px 0 0; }
 
 
 /*---------------[INDEX QUOTE SLOGAN]------------------*/
-#quote { background:url(../img/quote-bg.png) repeat-x left bottom; padding-bottom: 3px; }			
+#quote { background:url(../img/quote-bg.png) repeat-x left bottom; padding-bottom: 3px; }
     #quote-inner { position:relative; background: #f4f4f4 url(../img/quote-inner-bg.png) repeat-x; }
         #quote-inner .container { padding-top: 10px !important; padding-bottom: 30px !important; }
             #quote-icon {
@@ -431,16 +435,16 @@ a.smallblue { background: url(../img/small-buttons/small-button-blue.png) no-rep
 
 a.smalllightblue { background: url(../img/small-buttons/small-button-lightblue.png) no-repeat bottom right; }
 	a.smalllightblue span { background: url(../img/small-buttons/small-button-lightblue.png) no-repeat; }
-	
+
 a.smallteal { background: url(../img/small-buttons/small-button-teal.png) no-repeat bottom right; }
 	a.smallteal span { background: url(../img/small-buttons/small-button-teal.png) no-repeat; }
 
 a.smallgreen { background: url(../img/small-buttons/small-button-green.png) no-repeat bottom right; }
 	a.smallgreen span { background: url(../img/small-buttons/small-button-green.png) no-repeat; }
-	
+
 a.smallorange { background: url(../img/small-buttons/small-button-orange.png) no-repeat bottom right; }
 	a.smallorange span { background: url(../img/small-buttons/small-button-orange.png) no-repeat; }
-	
+
 a.smallsilver { background: url(../img/small-buttons/small-button-silver.png) no-repeat bottom right; color: #3d3d3d !important; text-shadow: 1px 1px 1px #ffffff !important; }
 a.smallsilver:hover { color: #000000 !important; }
 	a.smallsilver span { background: url(../img/small-buttons/small-button-silver.png) no-repeat; }
@@ -450,7 +454,7 @@ a.smallblack { background: url(../img/small-buttons/small-button-black.png) no-r
 
 a.smallred { background: url(../img/small-buttons/small-button-red.png) no-repeat bottom right; }
 	a.smallred span { background: url(../img/small-buttons/small-button-red.png) no-repeat; }
-	
+
 a.smallpurple { background: url(../img/small-buttons/small-button-purple.png) no-repeat bottom right; }
 	a.smallpurple span { background: url(../img/small-buttons/small-button-purple.png) no-repeat; }
 
@@ -468,13 +472,13 @@ a.bigblue { background: url(../img/big-buttons/big-button-blue.png) no-repeat bo
 
 a.bigpurple { background: url(../img/big-buttons/big-button-purple.png) no-repeat bottom right; }
 	a.bigpurple span { background: url(../img/big-buttons/big-button-purple.png) no-repeat; }
-	
+
 a.bigred { background: url(../img/big-buttons/big-button-red.png) no-repeat bottom right; }
 	a.bigred span { background: url(../img/big-buttons/big-button-red.png) no-repeat; }
-	
+
 a.bigorange { background: url(../img/big-buttons/big-button-orange.png) no-repeat bottom right; }
 	a.bigorange span { background: url(../img/big-buttons/big-button-orange.png) no-repeat; }
-	
+
 a.biggreen { background: url(../img/big-buttons/big-button-green.png) no-repeat bottom right; }
 	a.biggreen span { background: url(../img/big-buttons/big-button-green.png) no-repeat; }
 
