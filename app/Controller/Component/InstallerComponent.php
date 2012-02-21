@@ -723,17 +723,8 @@ class InstallerComponent extends Component {
             )
         );
 
-        // delete acos branch
-        $rootAco = $this->Controller->Acl->Aco->find('first',
-            array(
-                'conditions' => array(
-                    'Aco.alias' => $this->options['__Name'],
-                    'Aco.parent_id' => null
-                )
-            )
-        );
-
-        $this->Controller->Acl->Aco->delete($rootAco['Aco']['id']);
+        // delete module (and related fields) acos
+        $this->__removeModuleAcos($this->options['__Name']);
 
         // delete node types created by module/theme
         ClassRegistry::init('Node.NodeType')->deleteAll(
@@ -993,6 +984,18 @@ class InstallerComponent extends Component {
         }
 
         $__folder = new Folder;
+
+        // Fields
+        if (file_exists($pluginPath . $plugin . DS . 'Fields')) {
+            $__folder->path = $pluginPath . $plugin . DS . 'Fields' . DS;
+            $fieldsFolders = $__folder->read();
+            $fieldsFolders = $fieldsFolders[0];
+
+            foreach ($fieldsFolders as $field) {
+                $this->buildAcos(basename($field), $pluginPath . $plugin . DS . 'Fields' . DS);
+            }
+        }
+
         $cPath = $pluginPath . $plugin . DS . 'Controller' . DS;
         $__folder->path = $cPath;
         $controllers = $__folder->read();
@@ -1096,17 +1099,6 @@ class InstallerComponent extends Component {
                         )
                     );
                 }
-            }
-        }
-
-        // Fields
-        if (file_exists($pluginPath . $plugin . DS . 'Fields')) {
-            $__folder->path = $pluginPath . $plugin . DS . 'Fields' . DS;
-            $fieldsFolders = $__folder->read();
-            $fieldsFolders = $fieldsFolders[0];
-
-            foreach ($fieldsFolders as $field) {
-                $this->buildAcos(basename($field), $pluginPath . $plugin . DS . 'Fields' . DS);
             }
         }
     }
@@ -1515,6 +1507,32 @@ class InstallerComponent extends Component {
         foreach ($messages as $m) {
             $this->errors[] = $m;
         }
+    }
+
+    private function __removeModuleAcos($module_name) {
+        $ppath = CakePlugin::path($module_name);
+
+        if (file_exists($ppath . 'Fields')) {
+            $Folder = new Folder($ppath . 'Fields');
+            $fields = $Folder->read();
+
+            if (isset($fields[0])) {
+                foreach ($fields[0] as $field) {
+                    $this->__removeModuleAcos(basename($field));
+                }
+            }
+        }
+
+        $rootAco = $this->Controller->Acl->Aco->find('first',
+            array(
+                'conditions' => array(
+                    'Aco.alias' => $module_name,
+                    'Aco.parent_id' => null
+                )
+            )
+        );
+
+        $this->Controller->Acl->Aco->delete($rootAco['Aco']['id']);
     }
 
     private function __toggleModule($module, $to) {
