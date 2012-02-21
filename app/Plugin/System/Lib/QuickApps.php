@@ -29,7 +29,9 @@ class QuickApps {
             'core' => array('self', '__themeIsCore')
         ),
         'module' => array(
-            'core' => array('self', '__moduleIsCore')
+            'core' => array('self', '__moduleIsCore'),
+            'field' => array('self', '__moduleIsField'),
+            'theme' => array('self', '__moduleIsTheme')
         )
     );
 
@@ -236,18 +238,58 @@ class QuickApps {
     }
 
 /**
- * Check if the given module name belongs to QA Core installation.
+ * Check if the given module name belongs to QA's Core.
  *
  * @param string $module Module name to check.
  * @return bool TRUE if module is a core module, FALSE otherwise.
  */
-    function __moduleIsCore($module) {
+    private static function __moduleIsCore($module) {
         $module = Inflector::camelize($module);
 
         if (CakePlugin::loaded($module)) {
             $path = CakePlugin::path($module);
 
             if (strpos($path, APP . 'Plugin' . DS) !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+/**
+ * Check if the given `plugin` name is a QA Field.
+ *
+ * @param string $module Module name to check.
+ * @return bool TRUE if module is a field, FALSE otherwise.
+ */
+    private static function __moduleIsField($module) {
+        $module = Inflector::camelize($module);
+
+        if (CakePlugin::loaded($module)) {
+            $path = CakePlugin::path($module);
+
+            if (strpos($path, DS . 'Fields' . DS) !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+/**
+ * Check if the given module name belongs to some theme.
+ *
+ * @param string $module Module name to check.
+ * @return bool TRUE if module is a field, FALSE otherwise.
+ */
+    private static function __moduleIsTheme($module) {
+        $module = Inflector::camelize($module);
+
+        if (CakePlugin::loaded($module)) {
+            $path = CakePlugin::path($module);
+
+            if (strpos($path, DS . 'Themed' . DS) !== false) {
                 return true;
             }
         }
