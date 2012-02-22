@@ -229,8 +229,6 @@ class HookCollectionComponent extends Component {
                     if ($options['break'] && ($result === $options['breakOn'] ||
                         (is_array($options['breakOn']) && in_array($result, $options['breakOn'], true)))
                     ) {
-                        $this->__resetOptions();
-
                         return $result;
                     }
                 }
