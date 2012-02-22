@@ -122,7 +122,8 @@ class JqueryUI {
 
                 foreach ($files as $file) {
                     if (file_exists("{$source}jquery.{$file}.min.js")) {
-                        $cache .= file_get_contents("{$source}jquery.{$file}.min.js") . ";\n\n";
+                        $content = preg_replace('/\(jQuery\)$/', '(jQuery);', file_get_contents("{$source}jquery.{$file}.min.js"));
+                        $cache .=  "{$content}\n\n";
                     }
                 }
 
@@ -133,7 +134,9 @@ class JqueryUI {
                 $cacheFile = 'jquery-ui-' . md5($cache) . '.js';
 
                 if (!cache(str_replace(WWW_ROOT, '', JS) . $cacheFile, null, '+99 days', 'public')) {
-                    cache(str_replace(WWW_ROOT, '', JS) . $cacheFile, JSMin::minify($cache), '+99 days', 'public');
+                    $cache = '/* ' . implode(',', $files) . ' */' . "\n" . JSMin::minify($cache);
+
+                    cache(str_replace(WWW_ROOT, '', JS) . $cacheFile, $cache, '+99 days', 'public');
                 }
 
                 $stack[] = "/js/{$cacheFile}";
