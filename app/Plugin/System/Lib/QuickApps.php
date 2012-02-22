@@ -40,7 +40,7 @@ class QuickApps {
  * as well as additional rules defined with QuickApps::addDetector()
  * Any detector can be called as `is($detect)`.
  *
- * #Built-in detectors:
+ * # Built-in detectors:
  * - is('view.frontpage'): is frontpage ?
  * - is('view.login'): is login screen ?
  * - is('view.admin'): is admin prefix ?
@@ -48,8 +48,10 @@ class QuickApps {
  * - is('user.admin'): has user admin privileges ?
  * - is('theme.core', 'ThemeName'): is `ThemeName` a core theme ?
  * - is('module.core', 'ModuleName'): is `ModuleName` a core module ?
+ * - is('module.field', 'ModuleName'): is `ModuleName` a field app ?
+ * - is('module.theme', 'ModuleName'): is `ModuleName` a theme app ?
  *
- * ##Example:
+ * ## Example
  * Is actual request site's frontpage ?
  * {{{
  *  $this->Layout->is('view.frontpage');
@@ -77,7 +79,7 @@ class QuickApps {
  * All detector callbacks are grouped by category, this allows to group all
  * detectors by module name and avoid collisions between each other.
  *
- * ###Example:
+ * ### Example
  * {{{
  *  QuickApps::addDetector('my_module.detector_name', array('MyModuleHookHelper', 'detector_handler'));
  * }}}

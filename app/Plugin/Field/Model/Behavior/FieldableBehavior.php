@@ -481,7 +481,6 @@ class FieldableBehavior extends ModelBehavior {
 /**
  * Delete a field instance by id.
  * (Would be like to delete a column in your table)
- * Insted this method Field Controller Handler should be used.
  *
  * @see QuickApps.Plugin.Field.Controller.Handler::admin_delete()
  * @param object $Model instance of model

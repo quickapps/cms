@@ -56,7 +56,7 @@ class InstallerComponent extends Component {
  *  - The module/theme being installed is newer than the installed (higher version number).
  *  - The module/theme has the `beforeUpdate` callback on its `InstallComponent` class.
  *
- * ####Expected module package estructure:
+ * #### Expected module package estructure:
  * ZIP:
  *      - ModuleFolderName/
  *          - Config/
@@ -67,7 +67,7 @@ class InstallerComponent extends Component {
  *                  - InstallComponent.php
  *          - ModuleFolderName.yaml
  *
- * ####Expected theme package estructure:
+ * #### Expected theme package estructure:
  * ZIP:
  *      - CamelCaseThemeName/
  *          - Layouts/
@@ -964,7 +964,7 @@ class InstallerComponent extends Component {
 /**
  * Creates acos for especified module by parsing its Controller folder. (Module's fields are also analyzed).
  * If module is already installed then an Aco update will be performed.
- * ###Usage:
+ * ### Usage:
  * {{{
  *  $this->Installer->buildAcos('User', APP . 'Plugin' . DS);
  * }}}
@@ -1342,7 +1342,7 @@ class InstallerComponent extends Component {
 /**
  * Defines a new content type and optionally attaches a list of fields to it.
  *
- * ###Example
+ * ### Example
  * Example of usage on `afterInstall`:
  *
  * {{{

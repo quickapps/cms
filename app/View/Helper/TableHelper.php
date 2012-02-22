@@ -11,7 +11,7 @@
  */
 
 /**
- * ##Expected data's structure
+ * ## Expected data's structure
  * $data MUST be a numeric array. (Any list result of `Model::find()` or paginated result)
  * {{{
  *  $data = array(
@@ -23,7 +23,7 @@
  *  );
  * }}}
  *
- * ##Options:
+ * ## Options:
  * columns (array): Information about each of the columns of your table.
  * {{{
  *  ...

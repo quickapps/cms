@@ -20,7 +20,7 @@
 
             foreach ($regions as $region):
                 if (empty($region)) {
-                    continue; #unasisgned
+                    continue; # unasisgned
                 }
 
                 $blocks_in_region = Set::extract("/BlockRegion[region={$region}]/..", $blocks_in_theme);
@@ -131,7 +131,7 @@
 
             foreach ($regions as $region):
                 if (empty($region)) {
-                    continue; #unasisgned
+                    continue; # unasisgned
                 }
 
                 $blocks_in_region = Set::extract("/BlockRegion[region={$region}]/..", $blocks_in_theme);

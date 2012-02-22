@@ -459,7 +459,7 @@ class QuickAppsComponent extends Component {
 
 /**
  * Performs a cache of all environment variables stored in `variables` table.
- * ###Usage
+ * ### Usage
  *  {{{
  *   Configure::read('Variable.varible_key');
  *  }}}
@@ -646,7 +646,7 @@ class QuickAppsComponent extends Component {
 
 /**
  * Collect and cache information about all modules.
- * ###Usage
+ * ### Usage
  *  {{{
  *   Configure::read('Modules.YourModuleName');
  *  }}}
