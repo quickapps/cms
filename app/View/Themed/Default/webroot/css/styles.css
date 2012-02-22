@@ -86,7 +86,7 @@ fieldset div.horizontalLayout label { display:inline; padding-right: 15px; }
 fieldset div.verticalLayout label { display:block; padding-right: 15px; }
 fieldset div.verticalLayout .input.radio label { display:inline !important; padding-right: 15px; }
 div.field-container { margin-bottom:15px; }
-div.field-module-FieldTerms { margin-bottom:0 !important; }
+div.field-module-TaxonomyTerms { margin-bottom:0 !important; }
 legend { font-weight:bold; font-size:16px; border-radius: 8px; -webkit-border-radius: 8px; -moz-border-radius: 8px; padding: 6px; }
 
 #sessionFlash  { width:100%; }
