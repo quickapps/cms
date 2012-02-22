@@ -104,6 +104,20 @@ class HookCollectionComponent extends Component {
 
 /**
  * Trigger a callback method on every HookComponent.
+ * Plugin-Dot-Syntax is allowed.
+ *
+ * ### Example
+ * {{{
+ *  $this->hook('Block.blocks_list');
+ * }}}
+ *
+ * The above will trigger the `blocks_list` callback for the `Block` module only.
+ *
+ * {{{
+ *  $this->hook('block_list');
+ * }}}
+ *
+ * The above will trigger the `block_list` callback on every Hook class.
  *
  * ### Options
  *
@@ -124,8 +138,6 @@ class HookCollectionComponent extends Component {
  * @return mixed Either the last result or all results if collectReturn is on. Or null in case of no response.
  */
     public function hook($hook, &$data = array(), $options = array()) {
-        $hook = Inflector::underscore($hook);
-
         return $this->__dispatchHook($hook, $data, $options);
     }
 
@@ -199,6 +211,10 @@ class HookCollectionComponent extends Component {
  * @return mixed Either the last result or all results if collectReturn is on. Or NULL in case of no response
  */
     private function __dispatchHook($hook, &$data = array(), $options = array()) {
+        list($plugin, $hook) = pluginSplit($hook);
+
+        $plugin = Inflector::camelize($plugin);
+        $hook = Inflector::underscore($hook);
         $collected = array();
         $result = null;
         $__options = array(
@@ -213,23 +229,39 @@ class HookCollectionComponent extends Component {
             return null;
         }
 
-        if (isset($this->__map[$hook])) {
-            foreach ($this->__map[$hook] as $object) {
-                if (in_array("{$hook}::Disabled", $this->_methods)) {
-                    break;
-                }
+        if ($plugin &&
+            !in_array("{$hook}::Disabled", $this->_methods) &&
+            isset($this->_hookObjects["{$plugin}.{$plugin}Hook"]) &&
+            in_array($hook, $this->_hookObjects["{$plugin}.{$plugin}Hook"])
+        ) {
+            $object = "{$plugin}Hook";
 
-                if (is_callable(array($this->__controller->{$object}, $hook))) {
-                    $result = $this->__controller->{$object}->$hook($data);
+            if (is_callable(array($this->__controller->{$object}, $hook))) {
+                $result = $this->__controller->{$object}->$hook($data);
 
-                    if ($options['collectReturn'] === true) {
-                        $collected[] = $result;
+                return $result;
+            } else {
+                return null;
+            }
+        } else {
+            if (isset($this->__map[$hook])) {
+                foreach ($this->__map[$hook] as $object) {
+                    if (in_array("{$hook}::Disabled", $this->_methods)) {
+                        break;
                     }
 
-                    if ($options['break'] && ($result === $options['breakOn'] ||
-                        (is_array($options['breakOn']) && in_array($result, $options['breakOn'], true)))
-                    ) {
-                        return $result;
+                    if (is_callable(array($this->__controller->{$object}, $hook))) {
+                        $result = $this->__controller->{$object}->$hook($data);
+
+                        if ($options['collectReturn'] === true) {
+                            $collected[] = $result;
+                        }
+
+                        if ($options['break'] && ($result === $options['breakOn'] ||
+                            (is_array($options['breakOn']) && in_array($result, $options['breakOn'], true)))
+                        ) {
+                            return $result;
+                        }
                     }
                 }
             }
