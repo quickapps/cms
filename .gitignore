@@ -18,11 +18,8 @@ Themes/Themed/*
 webroot/
 !app/Plugin/*/webroot/
 
-# site webroot
-
 # site hooks
 Hooks/*
-!Hooks/Helper/CustomHooktagsHelper.php
 
 # site config
 Config/database.php

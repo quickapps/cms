@@ -1,18 +1,18 @@
 <?php
 /**
- * CustomHooks Helper
+ * Site Hooktags Helper
  *
  * PHP version 5
  *
- * @package  QuickApps.View.Helper
+ * @package  Site.Hook.Helper
  * @version  1.0
  * @author   Christopher Castro <chris@quickapps.es>
  * @link     http://cms.quickapps.es
  */
 
 /**
- * Put here your custom hooktags handler methods
+ * Site hooktags methods
  *
  */
-class CustomHooktagsHelper extends AppHelper {
+class SiteHooktagsHelper extends AppHelper {
 }
