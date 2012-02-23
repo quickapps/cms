@@ -34,7 +34,7 @@ class InstallController extends Controller {
         $this->viewClass = 'View';
         $this->layout = 'install';
 
-        # already installed ?
+        // already installed ?
         if (file_exists(ROOT . DS . 'Config' . DS . 'database.php') && file_exists(ROOT . DS . 'Config' . DS . 'install')) {
             $this->redirect('/');
         }

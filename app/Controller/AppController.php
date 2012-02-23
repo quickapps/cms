@@ -80,8 +80,8 @@ class AppController extends Controller {
  * @var array
  */
     public $components = array(
-        'Security' => array('csrfUseOnce' => false, 'csrfExpires' => '+1 hour'),
         'HookCollection',
+        'Security' => array('csrfUseOnce' => false, 'csrfExpires' => '+1 hour'),
         'Session',
         'Cookie',
         'RequestHandler',
@@ -99,7 +99,7 @@ class AppController extends Controller {
  * @param CakeResponse $response Response object for this controller
  */
     public function __construct($request = null, $response = null) {
-        $this->__preloadHooks();
+        HookCollection::preloadHooks($this);
         parent::__construct($request, $response);
     }
 
@@ -228,143 +228,6 @@ class AppController extends Controller {
             }
         } else {
             return $this->QuickApps->setCrumb($url);
-        }
-    }
-
-/**
- * Load and attach hooks to AppController.
- *  - Preload helpers hooks.
- *  - Preload behaviors hooks.
- *  - Preload components hooks.
- *
- * @return void
- */
-    private function __preloadHooks() {
-        $_variable = Cache::read('Variable');
-        $_modules = Cache::read('Modules');
-        $_themeType = Router::getParam('admin') ? 'admin_theme' : 'site_theme';
-        $hook_objects = Cache::read("hook_objects_{$_themeType}");
-
-        if (!$hook_objects) {
-            if (!$_variable) {
-                $this->loadModel('System.Variable');
-
-                $_variable = $this->Variable->find('first', array('conditions' => array('Variable.name' => $_themeType)));
-                $_variable[$_themeType] = $_variable['Variable']['value'];
-
-                ClassRegistry::flush();
-                unset($this->Variable);
-            }
-
-            if (!$_modules) {
-                $this->loadModel('System.Module');
-
-                foreach ($this->Module->find('all', array('fields' => array('name'), 'conditions' => array('Module.status' => 1))) as $m) {
-                    $_modules[$m['Module']['name']] = array();
-                }
-
-                ClassRegistry::flush();
-                unset($this->Module);
-            }
-
-            $paths = $c = $h = $ht = $b = array();
-            $_modules = array_keys($_modules);
-            $themeToUse = $_variable[$_themeType];
-            $plugins = App::objects('plugin', null, false);
-            $modulesCache = Cache::read('Modules');
-            $theme_path = App::themePath($themeToUse);
-            $load_order = Cache::read('modules_load_order');
-
-            if ($load_order) {
-                $load_order = array_intersect($load_order, $plugins);
-                $tail = array_diff($plugins, $load_order);
-                $plugins = array_merge($load_order, $tail);
-            }
-
-            foreach ($plugins as $plugin) {
-                $ppath = CakePlugin::path($plugin);
-                $isTheme = false;
-
-                if (strpos($ppath, APP . 'View' . DS . 'Themed' . DS) !== false || strpos($ppath, THEMES) !== false) {
-                    $isTheme = true;
-                }
-
-                // inactive module. (except fields because they are not registered as plugin in DB)
-                if (!in_array($plugin, $_modules) && strpos($ppath, DS . 'Fields' . DS) === false) {
-                    continue;
-                }
-
-                // ignore disabled modules
-                if (isset($modulesCache[$plugin]['status']) && $modulesCache[$plugin]['status'] == 0) {
-                    continue;
-                }
-
-                // disabled themes
-                if ($isTheme && basename(dirname(dirname($ppath))) != $themeToUse) {
-                    continue;
-                }
-
-                $paths["{$plugin}_components"] = $ppath . 'Controller' . DS . 'Component' . DS;
-                $paths["{$plugin}_behaviors"] = $ppath . 'Model' . DS . 'Behavior' . DS;
-                $paths["{$plugin}_helpers"] = $ppath . 'View' . DS . 'Helper' . DS;
-            }
-
-            $paths = array_merge(
-                array(
-                    APP . 'Controller' . DS . 'Component' . DS,     # core components
-                    APP . 'View' . DS . 'Helper' . DS,              # core helpers
-                    APP . 'Model' . DS . 'Behavior' . DS,           # core behaviors
-                    ROOT . DS . 'Hooks' . DS . 'Behavior' . DS,     # custom MH
-                    ROOT . DS . 'Hooks' . DS . 'Helper' . DS,       # custom VH
-                    ROOT . DS . 'Hooks' . DS . 'Component' . DS     # custom CH
-                ),
-                (array)$paths
-            );
-
-            $folder = new Folder;
-
-            foreach ($paths as $key => $path) {
-                if (!file_exists($path)) {
-                    continue;
-                }
-
-                $folder->path = $path;
-                $files = $folder->find('(.*)Hook(Component|Behavior|Helper|tagsHelper)\.php');
-                $plugin = is_string($key) ? explode('_', $key) : false;
-                $plugin = is_array($plugin) ? $plugin[0] : $plugin;
-
-                foreach ($files as $file) {
-                    $prefix = ($plugin) ? Inflector::camelize($plugin) . '.' : '';
-                    $hook = $prefix . Inflector::camelize(str_replace(array('.php'), '', basename($file)));
-                    $hook = str_replace(array('Component', 'Behavior', 'Helper'), '', $hook);
-
-                    if (strpos($path, 'Helper')) {
-                        if (strpos($hook, 'Hooktags') !== false) {
-                            $ht[] = $hook;
-                        } else {
-                            $h[] = $hook;
-                        }
-
-                        $this->helpers[] = $hook;
-                    } elseif (strpos($path, 'Behavior')) {
-                        $b[] = $hook;
-                    } else {
-                        $c[] = $hook;
-                        $this->components[] = $hook;
-                    }
-                }
-            }
-
-            Configure::write('Hook.components', $c);
-            Configure::write('Hook.behaviors', $b);
-            Configure::write('Hook.helpers', $h);
-            Configure::write('Hook.hooktags', $ht);
-            Cache::write("hook_objects_{$_themeType}", Configure::read('Hook'));
-        } else {
-            $this->helpers = array_merge($this->helpers, $hook_objects['helpers'], $hook_objects['hooktags']);
-            $this->components = array_merge($this->components, $hook_objects['components']);
-
-            Configure::write('Hook', $hook_objects);
         }
     }
 }

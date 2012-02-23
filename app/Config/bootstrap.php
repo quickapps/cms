@@ -56,6 +56,7 @@ Cache::config('default', array('engine' => 'File'));
     App::uses('Spyc', 'vendors');
     App::uses('Folder', 'Utility');
     App::uses('QuickApps', 'System.Lib');
+    App::uses('HookCollection', 'System.Lib');
 
 /**
  * Load themes as plugin

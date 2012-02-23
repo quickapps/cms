@@ -24,16 +24,6 @@ class AppHelper extends Helper {
     );
 
 /**
- * Preload hook helpers classes
- *
- * @return void
- */
-    public function __construct(View $View, $settings = array()) {
-        $this->__loadHookObjects();
-        parent::__construct($View, $settings = array());
-    }
-
-/**
  * Wrapper method to HookCollectionHelper::attachModuleHooks()
  *
  * @see HookCollectionHelper::attachModuleHooks()
@@ -247,39 +237,5 @@ class AppHelper extends Helper {
         $regexps[$patterns] = '/^(' . preg_replace($to_replace, $replacements, $patterns_quoted) . ')$/';
 
         return (bool) preg_match($regexps[$patterns], $path);
-    }
-
-    private function __loadHookObjects() {
-        $hooks = array_merge((array)Configure::read('Hook.helpers'), (array)Configure::read('Hook.hooktags'));
-
-        if ($hooks) {
-            foreach ($hooks as $hook) {
-                $filePath = array();
-
-                if (strpos($hook, '.') !== false) {
-                    list($plugin, $class) = pluginSplit($hook);
-                    $filePath[] = App::pluginPath($plugin) . 'View' . DS . 'Helper' . DS . "{$class}Helper" . '.php';
-                } else {
-                    $filePath[] = APP . 'View' . DS . 'Helper' . DS . "{$hook}Helper.php";
-                    $filePath[] = ROOT . DS . 'Hooks' . DS . 'Helper' . DS . "{$hook}Helper.php";
-                }
-
-                if ($this->__filesExists($filePath)) {
-                    $this->helpers[] = $hook;
-                }
-            }
-        }
-
-        $this->helpers = array_unique($this->helpers);
-    }
-
-    private function __filesExists($files) {
-        foreach ($files as $f) {
-            if (!file_exists($f)) {
-                return false;
-            }
-        }
-
-        return true;
     }
 }

@@ -384,18 +384,15 @@ class HooktagsCollectionHelper extends AppHelper {
 
     private function __loadHooktags() {
         foreach ((array)Configure::read('Hook.hooktags') as $helper) {
-            $pluginSplit = pluginSplit($helper);
-            $helper = $pluginSplit[1];
+            list($plugin, $helper) = pluginSplit($helper);
+
+            $this->__view->Helpers->load("{$plugin}.{$helper}");
 
             if ($helper == 'HooktagsCollection' || !is_object($this->__view->{$helper})) {
                 continue;
             }
 
             if (strpos($helper, 'Hook') !== false) {
-                if (!is_object($this->{$helper})) {
-                    continue;
-                }
-
                 $methods = array();
                 $_methods = QuickApps::get_this_class_methods($this->__view->{$helper});
 
@@ -414,8 +411,8 @@ class HooktagsCollectionHelper extends AppHelper {
                     }
                 }
 
-                if ($pluginSplit[0]) {
-                    $this->_hookObjects["{$pluginSplit[0]}.{$helper}"] = $methods;
+                if ($plugin) {
+                    $this->_hookObjects["{$plugin}.{$helper}"] = $methods;
                 } else {
                     $this->_hookObjects[$helper] = $methods;
                 }
