@@ -109,14 +109,17 @@
 
         <?php if (!empty($translations)): ?>
         <?php echo $this->Html->useTag('fieldsetstart', __t('Available Translations')); ?>
-        <ul>
-        <?php foreach ($translations as $t): ?>
-            <li>
-                <?php echo $this->Html->link($t['Node']['title'], "/admin/node/contents/edit/{$t['Node']['slug']}"); ?> [<?php echo $t['Node']['language']; ?>] |
-                <?php echo $this->Html->link(__t('delete'), "/admin/node/contents/delete/{$t['Node']['slug']}", array('onClick' => "return confirm('" . __t('Delete selected content ?') . "');")); ?>
-            </li>
-        <?php endforeach; ?>
-        </ul>
+            <?php
+                $li = array();
+
+                foreach ($translations as $t) {
+                    $li[] =
+                        $this->Html->link($t['Node']['title'], "/admin/node/contents/edit/{$t['Node']['slug']}") . " [" . $t['Node']['language'] . "] | " .
+                        $this->Html->link(__t('delete'), "/admin/node/contents/delete/{$t['Node']['slug']}", array('onClick' => "return confirm('" . __t('Delete selected content ?') . "');"));
+                }
+
+                echo $this->Html->nestedList($li, array('id' => 'node-available-translations-list'));
+            ?>
         <?php echo $this->Html->useTag('fieldsetend'); ?>
         <?php endif; ?>
 

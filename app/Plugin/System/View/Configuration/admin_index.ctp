@@ -52,19 +52,15 @@
 
             if (!$isTheme && file_exists($data['path'] . 'View' . DS . 'Elements' . DS . 'settings.ctp')) {
                 $moduleSettingsLinks[] =
-                    "<li>" .
-                        $this->Html->link($data['yaml']['name'], '/admin/system/modules/settings/' . $name) .
-                        "<p><em>" . __d($name, $data['yaml']['description']) . "</em></p>" .
-                    "</li>";
+                    $this->Html->link($data['yaml']['name'], '/admin/system/modules/settings/' . $name) .
+                    "<p><em>" . __d($name, $data['yaml']['description']) . "</em></p>";
             }
         }
 
         if (!empty($moduleSettingsLinks)):
     ?>
         <?php echo $this->Html->useTag('fieldsetstart', __t('Other module settings')); ?>
-            <ul>
-                <?php echo implode("\n",  $moduleSettingsLinks); ?>
-            </ul>
+            <?php echo $this->Html->nestedList($moduleSettingsLinks, array('id' => 'other-module-settings-list')); ?>
         <?php echo $this->Html->useTag('fieldsetend'); ?>
     <?php endif; ?>
 

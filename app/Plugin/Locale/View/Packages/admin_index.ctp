@@ -59,20 +59,22 @@
     <tr>
         <td>
             <?php echo $Name; ?><br/>
-            <ul>
-            <?php foreach ($langs as $code => $po): ?>
-                <?php
+            <?php
+                $li = array();
+
+                foreach ($langs as $code => $po) {
                     if (!isset($languages[$code])) {
                         continue;
                     }
-                ?>
-                <li>
-                    <?php echo $languages[$code]; ?>
-                    <a href="<?php echo $this->Html->url("/admin/locale/packages/download_package/{$plugin}/{$code}"); ?>" target="_blank"><?php echo __t('download'); ?></a>
-                    <a href="<?php echo $this->Html->url("/admin/locale/packages/uninstall/{$plugin}/{$code}"); ?>" onClick="return confirm('<?php echo __t('Delete the selected package ?'); ?>'); "><?php echo __t('uninstall'); ?></a>
-                </li>
-            <?php endforeach; ?>
-            </ul>
+
+                    $li[] =
+                        $languages[$code] . '&nbsp;' .
+                        '&nbsp;' . $this->Html->link(__t('download'), "/admin/locale/packages/download_package/{$plugin}/{$code}", array('target' => '_blank')) .
+                        '&nbsp;' . $this->Html->link(__t('uninstall'), "/admin/locale/packages/uninstall/{$plugin}/{$code}", array('target' => '_blank', 'onclick' => "return confirm('" . __t('Delete the selected package ?') . "');")); 
+                }
+
+                echo $this->Html->nestedList($li, array('id' => 'translation-packages-list'));
+            ?>
         </td>
         <td></td>
     </tr>
