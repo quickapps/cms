@@ -166,7 +166,10 @@ class UserController extends UserAppController {
         $this->User->unbindFields();
 
         if (isset($this->data['User'])) {
-            $this->hook('before_login', $this->data);
+            $data = $this->data;
+            $this->hook('before_login', $data);
+
+            $this->data = $data;
 
             if ($this->Auth->login()) {
                 $session = $this->Auth->user();
