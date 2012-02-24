@@ -524,14 +524,13 @@ class HookCollection {
         }
 
         foreach ((array)Configure::read('Hook.' . strtolower("{$this->__type}s")) as $hookClass) {
-            $pluginSplit = pluginSplit($hookClass);
-            $hookClass = $pluginSplit[1];
+            list($plugin, $hookClass) = pluginSplit($hookClass);
 
             if ($hookClass == 'HookCollection' || !is_object($this->__getHookClass($hookClass))) {
                 continue;
             }
 
-            if (strpos($hookClass, 'Hook')) {
+            if (preg_match('/Hook$/', $hookClass)) {
                 $methods = array();
                 $_methods = QuickApps::get_this_class_methods($this->__getHookClass($hookClass));
 
@@ -547,8 +546,8 @@ class HookCollection {
                     }
                 }
 
-                if ($pluginSplit[0]) {
-                    $this->_hookObjects["{$pluginSplit[0]}.{$hookClass}"] = $methods;
+                if ($plugin) {
+                    $this->_hookObjects["{$plugin}.{$hookClass}"] = $methods;
                 } else {
                     $this->_hookObjects[$hookClass] = $methods;
                 }
