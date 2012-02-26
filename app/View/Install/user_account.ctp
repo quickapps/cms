@@ -25,7 +25,7 @@
                 <td>
                     <fieldset>
                         <label class="twin-top"><?php echo __t('Username'); ?>:</label>
-                        <label class="sub"><?php echo __t('The username you will use to login to QuickApps.'); ?></label>
+                        <label class="sub"><?php echo __t('The username you will use to login to QuickApps CMS.'); ?></label>
                         <div class="input-wrap"><?php echo $this->Form->text('User.username', array('class' => 'wide')); ?></div>
                     </fieldset>
                 </td>
@@ -43,7 +43,7 @@
                 <td>
                     <fieldset>
                         <label class="twin-top"><?php echo __t('Password'); ?>:</label>
-                        <label class="sub"><?php echo __t('The password you will use to login to Director.'); ?></label>
+                        <label class="sub"><?php echo __t('The password you will use to login to QuickApps CMS.'); ?></label>
                         <div class="input-wrap"><?php echo $this->Form->password('User.password', array('class' => 'wide')); ?></div>
                     </fieldset>
                 </td>
@@ -58,7 +58,7 @@
             </tr>
         </table>
         <fieldset>
-            <input class="submit" type="submit" value="<?php echo __t('Install QuickApps'); ?>" />
+            <input class="submit" type="submit" value="<?php echo __t('Install QuickApps CMS'); ?>" />
         </fieldset>
     </form>
 </p>

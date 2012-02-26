@@ -64,7 +64,7 @@ class TranslationsController extends LocaleAppController {
         $this->data = $this->Translation->findById($id) or $this->redirect('/admin/locale/translations/list');
         $this->setCrumb(
             '/admin/locale',
-            array(__t('Translations entries'))
+            array(__t('Translatable entries'))
         );
         $this->title(__t('Editing entry'));
     }
