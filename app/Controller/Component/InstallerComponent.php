@@ -26,7 +26,7 @@ class InstallerComponent extends Component {
 
 /**
  * Array of defaults options used by install process.
- * `type`: type of package to install (`module` or `theme`m default `module`)
+ * `type`: type of package to install (`module` or `theme`, default `module`)
  * `status`: install and activate `status=1` (by default), install and do not activate `status=0`
  *
  * @var array
@@ -1509,6 +1509,13 @@ class InstallerComponent extends Component {
         }
     }
 
+/**
+ * Removes all ACOs of the specified module, and ACOs of all its
+ * `Field`.
+ *
+ * @param string $module_name Name of the module in CamelCase
+ * @return void
+ */
     private function __removeModuleAcos($module_name) {
         $ppath = CakePlugin::path($module_name);
 
@@ -1535,6 +1542,13 @@ class InstallerComponent extends Component {
         $this->Controller->Acl->Aco->delete($rootAco['Aco']['id']);
     }
 
+/**
+ * Tries to Activate/Desactivate the specified module.
+ *
+ * @param string $module CamelCase or underscored_name of the module
+ * @param integer $to Module status. 1 means Activate, 0 Desactivate
+ * @return boolean TRUE on success. FALSE otherwise.
+ */
     private function __toggleModule($module, $to) {
         $module = Inflector::camelize($module);
         $isTheme = strpos($module, 'Theme') === 0;
@@ -1691,7 +1705,11 @@ class InstallerComponent extends Component {
     }
 
 /**
- * Regenerate cache of: Modules, Variable and Hook-Objects Map.
+ * Regenerate cache of:
+ *  - Modules
+ *  - Variables
+ *  - Hook-Objects mapping
+ *  - Modules loading order
  *
  * @return void
  */

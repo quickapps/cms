@@ -152,7 +152,8 @@ class QuickAppsComponent extends Component {
             $this->Controller->layout = Configure::read('Theme.layout');
         }
 
-        $this->Controller->hook('stylesheets_alter', $this->Controller->Layout['stylesheets']);    # pass css list to modules if they need to alter them (add/remove)
+        // pass css list to modules if they need to alter them (add/remove)
+        $this->Controller->hook('stylesheets_alter', $this->Controller->Layout['stylesheets']);
     }
 
 /**
@@ -187,7 +188,8 @@ class QuickAppsComponent extends Component {
                 "locale": {"code": "' . Configure::read('Variable.language.code') . '"}
             });';
 
-        $this->Controller->hook('javascripts_alter', $this->Controller->Layout['javascripts']); # pass js to modules
+        // pass js to modules
+        $this->Controller->hook('javascripts_alter', $this->Controller->Layout['javascripts']);
         $this->Controller->paginate = array('limit' => Configure::read('Variable.rows_per_page'));
 
         Configure::write('Variable.qa_version', Configure::read('Modules.System.yaml.version'));
@@ -466,7 +468,6 @@ class QuickAppsComponent extends Component {
  *
  * @return void
  */
-
     public function loadVariables() {
         $variables = Cache::read('Variable');
         $lp = Configure::read('Variable.url_language_prefix');

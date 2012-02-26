@@ -11,6 +11,11 @@
  * @link     http://cms.quickapps.es
  */
 class HookCollectionHelper extends AppHelper {
+/**
+ * Instance of HookCollection class.
+ *
+ * @var HookCollection
+ */
     public $HookCollection;
 
     public function beforeRender() {

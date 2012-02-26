@@ -11,10 +11,39 @@
  * @link     http://cms.quickapps.es
  */
 class HooktagsCollectionHelper extends AppHelper {
+/**
+ * Temporaly information used by some methods.
+ *
+ * @var array
+ */
     private $__tmp;
+
+/**
+ * Instance of View class.
+ *
+ * @var View
+ */
     private $__view;
+
+/**
+ * Associtive array of methods and Hooktag classes
+ *
+ * @var array
+ */
     private $__map = array();
+
+/**
+ * List of all available hooktag methods
+ *
+ * @var array
+ */
     protected $_methods = array();
+
+/**
+ * List of all available hooktags objects.
+ *
+ * @var array
+ */
     protected $_hookObjects = array();
 
     public function beforeRender() {
@@ -382,6 +411,11 @@ class HooktagsCollectionHelper extends AppHelper {
         return $atts;
     }
 
+/**
+ * Loads Hooktag classes.
+ *
+ * @return void
+ */
     private function __loadHooktags() {
         foreach ((array)Configure::read('Hook.hooktags') as $helper) {
             list($plugin, $helper) = pluginSplit($helper);

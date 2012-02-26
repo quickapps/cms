@@ -11,6 +11,11 @@
  * @link     http://cms.quickapps.es
  */
 class HookCollectionComponent extends Component {
+/**
+ * Instance of HookCollection class.
+ *
+ * @var HookCollection
+ */
     public $HookCollection;
 
 /**

@@ -11,6 +11,11 @@
  * @link     http://cms.quickapps.es
  */
 class HookCollectionBehavior extends ModelBehavior {
+/**
+ * Instance of HookCollection class.
+ *
+ * @var HookCollection
+ */
     public $HookCollection;
 
     public function setup(&$Model, $settings = array()) {
