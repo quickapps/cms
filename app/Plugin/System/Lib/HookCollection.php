@@ -82,11 +82,11 @@ class HookCollection {
             break;
 
             case 'Helper':
-                $__folder = 'Helper';
+                $__folder = 'View';
             break;
 
             case 'Component':
-                $__folder = 'Component';
+                $__folder = 'Controller';
             break;
         }
 
@@ -469,11 +469,33 @@ class HookCollection {
             break;
 
             case 'Helper':
-                $this->__object->_View->Helpers->load("{$plugin}.{$class}");
+                $this->__object->Helpers->load("{$plugin}.{$class}");
             break;
 
             case 'Component':
                 $this->__object->Components->attach("{$plugin}.{$class}");
+            break;
+        }
+    }
+
+    private function __unloadHookClass($class) {
+        list($plugin, $object) = pluginSplit($class);
+
+        switch ($this->__type) {
+            case 'Behavior':
+                $this->__object->Behaviors->unload("{$plugin}.{$object}");
+            break;
+
+            case 'Helper':
+                if (isset($this->__object->{$object})) {
+                    unset($this->__object->{$object});
+                }
+            break;
+
+            case 'Component':
+                if (isset($this->__object->{$object})) {
+                    unset($this->__object->{$object});
+                }
             break;
         }
     }
@@ -494,28 +516,6 @@ class HookCollection {
                 return $this->__object->{$object};
             break;
         }
-    }
-
-    private function __unloadHookClass($class) {
-        list($plugin, $object) = pluginSplit($class);
-
-        switch ($this->__type) {
-            case 'Behavior':
-                $this->__object->Behaviors->unload("{$plugin}.{$object}");
-            break;
-
-            case 'Helper':
-                if (isset($this->__object->_View) && isset($this->__object->_View->{$object})) {
-                    unset($this->__object->_View->{$object});
-                }
-            break;
-
-            case 'Component':
-                if (isset($this->__object->{$object})) {
-                    unset($this->__object->{$object});
-                }
-            break;
-        }    
     }
 
     private function __loadHooks() {
