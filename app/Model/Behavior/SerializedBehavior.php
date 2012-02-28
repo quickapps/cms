@@ -10,7 +10,6 @@
  * @link     http://cms.quickapps.es
  */
 class SerializedBehavior extends ModelBehavior {
-
 /**
  * Fields
  *
