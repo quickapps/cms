@@ -348,7 +348,7 @@ class HookCollection {
                 }
 
                 $folder->path = $path;
-                $files = $folder->find('(.*)Hook(Component|Behavior|Helper|tagsHelper)\.php');
+                $files = $folder->find('([a-zA-Z0-9]*)Hook(Component|Behavior|Helper|tagsHelper)\.php');
                 $plugin = is_string($key) ? explode('_', $key) : false;
                 $plugin = is_array($plugin) ? $plugin[0] : $plugin;
 
