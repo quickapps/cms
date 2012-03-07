@@ -138,8 +138,8 @@ class AppController extends Controller {
  *
  * @see QuickAppsComponent::is()
  */
-    public function is($detect) {
-        return $this->QuickApps->is($detect);
+    public function is($detect, $p = null) {
+        return $this->QuickApps->is($detect, $p);
     }
 
 /**

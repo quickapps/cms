@@ -500,7 +500,11 @@ class QuickAppsComponent extends Component {
  * @return void
  */
     public function flashMsg($msg, $class = 'success', $id = 'flash') {
-        return $this->Controller->Session->setFlash($msg, 'theme_flash_message', array('class' => $class), $id);
+        $message = $msg;
+        $element = 'theme_flash_message';
+        $params = array('class' => $class);
+
+        CakeSession::write("Message.{$id}", compact('message', 'element', 'params'));
     }
 
 /**
@@ -713,8 +717,8 @@ class QuickAppsComponent extends Component {
  *
  * @see QuickApps::is()
  */
-    public function is($detect) {
-        return QuickApps::is($detect, $this->Controller);
+    public function is($detect, $p = null) {
+        return QuickApps::is($detect, $p);
     }
 
 /**

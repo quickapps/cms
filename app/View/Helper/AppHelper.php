@@ -64,8 +64,8 @@ class AppHelper extends Helper {
  *
  * @see QuickApps::is()
  */
-    public function is($detect) {
-        return QuickApps::is($detect, $this->_View);
+    public function is($detect, $p = null) {
+        return QuickApps::is($detect, $p);
     }
 
 /**
