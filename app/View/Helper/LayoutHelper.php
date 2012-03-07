@@ -244,7 +244,7 @@ class LayoutHelper extends AppHelper {
  * Returns node type of the current node's being renderend.
  * (Valid only when rendering a single node [viewMode = full])
  *
- * @return mixed String ID of the NodeType or FALSE if could not be found.
+ * @return mixed String ID of the NodeType or FALSE if could not be found
  */
     public function getNodeType() {
         if (!isset($this->_View->viewVars['Layout']['node']['NodeType']['id'])) {
@@ -454,26 +454,34 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
- * Show flash message.
+ * Show flash messages.
+ * If ID is given only that message will be rendered.
+ * All messages will be rendered otherwise.
  *
- * @return string.
+ * @param string $id Optional ID of the messages
+ * @return string
+ * @see LayoutHelper::flashMsg()
  */
-    public function sessionFlash() {
-        $messages = $this->Session->read('Message');
+    public function sessionFlash($id = false) {
+        if ($id) {
+            return $this->Session->flash($id);
+        } else {
+            $messages = CakeSession::read('Message');
 
-        if (is_array($messages)) {
-            $out = '';
+            if (is_array($messages)) {
+                $out = '';
 
-            foreach (array_keys($messages) as $key) {
-                $out .= $this->Session->flash($key);
+                foreach (array_keys($messages) as $key) {
+                    $out .= $this->Session->flash($key);
+                }
+
+                return $out;
+            } elseif (is_string($messages)) {
+                return $messages;
             }
-
-            return $out;
-        } elseif (is_string($messages)) {
-            return $messages;
         }
 
-        return false;
+        return '';
     }
 
 /**
