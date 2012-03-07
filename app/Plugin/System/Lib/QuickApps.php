@@ -11,6 +11,13 @@
  */
 class QuickApps {
 /**
+ * Holds temporary information generated and used by some methods.
+ *
+ * @var array
+ */
+    private static $__tmp = array();
+
+/**
  * The built in detectors used with `is()`. Can be modified with `addDetector()`.
  *
  * @var array
@@ -23,7 +30,8 @@ class QuickApps {
         ),
         'user' => array(
             'admin' => array('self', '__userIsAdmin'),
-            'logged' => array('self', '__userIsLogged')
+            'logged' => array('self', '__userIsLogged'),
+            'authorized' => array('self', '__userIsAuthorized')
         ),
         'theme' => array(
             'core' => array('self', '__themeIsCore')
@@ -46,6 +54,7 @@ class QuickApps {
  * - is('view.admin'): is admin prefix ?
  * - is('user.logged'): is user logged in?
  * - is('user.admin'): has user admin privileges ?
+ * - is('user.authorized', 'AcoPath'): is user allowed to use AcoPath ?
  * - is('theme.core', 'ThemeName'): is `ThemeName` a core theme ?
  * - is('module.core', 'ModuleName'): is `ModuleName` a core module ?
  * - is('module.field', 'ModuleName'): is `ModuleName` a field app ?
@@ -150,6 +159,11 @@ class QuickApps {
         return vsprintf($translated, $args);
     }
 
+/**
+ * Returns the roles to which user belongs.
+ *
+ * @return array List of user's roles.
+ */
     public static function userRoles() {
         $roles = array();
 
@@ -320,6 +334,11 @@ class QuickApps {
         return false;
     }
 
+/**
+ * Checks if current view site's front page.
+ *
+ * @return boolean
+ */
     private static function __viewIsFrontpage() {
         $params = Router::getParams();
 
@@ -330,6 +349,11 @@ class QuickApps {
         );
     }
 
+/**
+ * Checks if current view is the login screen.
+ *
+ * @return boolean
+ */
     private static function __viewIsLogin() {
         $params = Router::getParams();
 
@@ -340,17 +364,84 @@ class QuickApps {
         );
     }
 
+/**
+ * Checks if current view is a `backend` view.
+ *
+ * @return boolean
+ */
     private static function __viewIsAdmin() {
         $params = Router::getParams();
 
         return isset($params['admin']) && $params['admin'];
     }
 
+/**
+ * Checks if user has admin privileges.
+ *
+ * @return boolean
+ */
     private static function __userIsAdmin() {
         return in_array(1, (array)self::userRoles());
     }
 
+/**
+ * Checks if user is logged in.
+ *
+ * @return boolean
+ */
     private static function __userIsLogged() {
         return CakeSession::check('Auth.User.id');
+    }
+
+/**
+ * Checks if user is allowed to access the specified ACO.
+ * ACO path syntax: `Module.Controller.action`
+ *
+ * @param string $acoPath DotSyntax path to aco. e.g.: `Block.Manage.admin_index`
+ * @return boolean
+ */
+    private static function __userIsAuthorized($acoPath) {
+        if (isset(self::$__tmp['authorized'][$acoPath])) {
+            return self::$__tmp['authorized'][$acoPath];
+        }
+
+        $roles = self::userRoles();
+
+        if (in_array(1, $roles)) {
+            self::$__tmp['authorized'][$acoPath] = true;
+
+            return true;
+        }
+
+        list($plugin, $controller, $action) = explode('.', $acoPath);
+
+        if ($plugin && $controller && $action) {
+            $Aco = ClassRegistry::init('Aco');
+            $Permission = ClassRegistry::init('Permission');
+            $conditions = array();
+            $p = $Aco->find('first', array('conditions' => array('Aco.parent_id' => null, 'Aco.alias' => $plugin), 'recursive' => -1));
+            $c = $Aco->find('first', array('conditions' => array('Aco.parent_id' => $p['Aco']['id']), 'recursive' => -1));
+            $a = $Aco->find('first', array('conditions' => array('Aco.parent_id' => $c['Aco']['id']), 'recursive' => -1));
+
+            foreach($roles as $role) {
+                $conditions['OR'][] = array(
+                    'AND' => array(
+                        'Permission.aro_id' => $role,
+                        'Permission.aco_id ' => $a['Aco']['id'],
+                        'Permission._create' => 1,
+                        'Permission._read' => 1,
+                        'Permission._update' => 1,
+                        'Permission._delete' => 1
+                    )
+                );
+            }
+
+            $authorized = $Permission->find('count', array('conditions' => $conditions)) > 0;
+            self::$__tmp['authorized'][$acoPath] = $authorized;
+
+            return $authorized;
+        }
+
+        return false;
     }
 }
