@@ -95,7 +95,7 @@
                     </div>
 
                     <?php if ($sessionFlash = $this->Layout->sessionFlash()): ?>
-                    <div id="sessionFlash">
+                    <div class="session-flash">
                         <?php echo $sessionFlash; ?>
                     </div>
                     <?php endif; ?>

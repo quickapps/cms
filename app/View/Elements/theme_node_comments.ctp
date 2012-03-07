@@ -24,12 +24,11 @@
 
         <?php foreach ($Layout['node']['Comment'] as $comment): ?>
             <?php $this->Layout->hook('comment_alter', $comment); ?>
-            <?php $comment_time_zone = $this->Layout->is('user.logged') ? $this->Session->read('Auth.User.timezone') : Configure::read('Variable.date_default_timezone');  ?>
+            <?php $comment_time_zone = $this->Layout->is('user.logged') ? $this->Session->read('Auth.User.timezone') : Configure::read('Variable.date_default_timezone'); ?>
                 <div id="<?php echo "comment-{$comment['Comment']['id']}"; ?>" class="comment <?php echo $i%2 ? 'even': 'odd'; ?> <?php echo $i==1 ? 'comment-first' : ''; ?> <?php echo $i == $count ? 'comment-last' : ''; ?>">
                     <div class="attribution">
                         <div class="submited">
                             <p class="commenter-name">
-
                                 <div class="avatar">
                                     <?php
                                         if (isset($comment['User'])) {
@@ -60,13 +59,14 @@
                         <div class="comment-text">
                             <div class="comment-actions">
                                 <?php
-                                    $collect = $this->Layout->hook('commentActions', $this, array('collectReturn' => true));
+                                    $comment_actions = array();
 
-                                    echo implode(' ', (array)$collect);
+                                    if ($Layout['node']['Node']['comment'] == 2) {
+                                        $comment_actions[] = $this->Html->link(__t('Quote'), '#', array('class' => 'quote', 'onclick' => "quoteComment({$comment['Comment']['id']}); return false;"));
+                                    }
+
+                                    echo $this->Html->nestedList($comment_actions, array('class' => 'comment-actions-list', 'id' => "comment-actions-{$comment['Comment']['id']}"));
                                 ?>
-                                <?php if ($Layout['node']['Node']['comment'] == 2): ?>
-                                    <a href="" onClick="quoteComment(<?php echo $comment['Comment']['id']; ?>); return false;" class="quote"><?php echo __t('Quote'); ?></a>
-                                <?php endif; ?>
                             </div>
                             <?php if ($Layout['node']['NodeType']['comments_subject_field']): ?>
                                 <h3><?php echo $this->Html->link($comment['Comment']['subject'], "/{$Layout['node']['Node']['node_type_id']}/{$Layout['node']['Node']['slug']}.html#comment-{$comment['Comment']['id']}", array('class' => 'permalink')); ?></h3>

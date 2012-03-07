@@ -10,7 +10,6 @@
  * @link     http://cms.quickapps.es
  */
 class QaFormHelper extends AppHelper {
-
 /**
  * Other helpers used by QaFormHelper
  *

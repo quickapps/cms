@@ -89,9 +89,9 @@ div.field-container { margin-bottom:15px; }
 div.field-module-TaxonomyTerms { margin-bottom:0 !important; }
 legend { font-weight:bold; font-size:16px; border-radius: 8px; -webkit-border-radius: 8px; -moz-border-radius: 8px; padding: 6px; }
 
-#sessionFlash  { width:100%; }
+div.session-flash  { width:100%; }
 
-#sessionFlash .success, #sessionFlash .error{
+div.session-flash .success, div.session-flash .error{
     padding:15px;
     margin-bottom:15px;
     -webkit-border-radius: 10px;
@@ -100,7 +100,7 @@ legend { font-weight:bold; font-size:16px; border-radius: 8px; -webkit-border-ra
     text-shadow:none;
 }
 
-#sessionFlash div.flash-message {
+div.session-flash div.flash-message {
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
@@ -116,25 +116,25 @@ legend { font-weight:bold; font-size:16px; border-radius: 8px; -webkit-border-ra
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
 }
 
-#sessionFlash .success {
+div.session-flash .success {
     border: 1px solid #8FAD3D;
     background:url(../img/boxes/success.png) no-repeat 10px 50% #EEF4D4;
     color: #596C26;
 }
 
-#sessionFlash .error {
+div.session-flash .error {
     border: 1px solid #AD3F30;
     background:url(../img/boxes/error.png) no-repeat 10px 50% #EFCEC9;
     color: #923428;
 }
 
-#sessionFlash .alert {
+div.session-flash .alert {
     border: 1px solid #E2B500;
     background:url(../img/boxes/alert.png) no-repeat 10px 50% #FFEA97;
     color: #776100;
 }
 
-#sessionFlash .bubble {
+div.session-flash .bubble {
     border: 1px solid #4381CC;
     background:url(../img/boxes/bubble.png) no-repeat 10px 50% #C6D8F0;
     color: #265895;
@@ -370,6 +370,8 @@ div.node-comments > h2 { border-top:1px solid #fff; padding-top:15px; }
 #comments-list div.comment-text h3 { font-size:16px; }
 #comments-list div.comment-text blockquote { background:#F9F8F8;  }
 #comments-list div.comment-text blockquote cite { background:url(../img/comment-quote.gif) center left no-repeat; padding-left:20px;  display:block; font-weight:bold; }
+#comments-list .comment-actions ul { display:block; }
+#comments-list .comment-actions ul li { display:inline; }
 #comments-list .comment-actions { text-align:right; }
 
 #comments-list .comments-pagination { display:block; text-align:center; font-size:16px; }

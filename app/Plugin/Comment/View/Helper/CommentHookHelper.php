@@ -11,7 +11,7 @@
  */
 class CommentHookHelper extends AppHelper {
     public function beforeLayout($layoutFile) {
-        # content list toolbar:
+        // content list toolbar:
         if (isset($this->request->params['admin']) &&
             $this->request->params['plugin'] == 'comment' &&
             $this->request->params['controller'] = 'list' &&
@@ -126,5 +126,18 @@ class CommentHookHelper extends AppHelper {
         }
 
         return $out;
+    }
+
+    public function html_nested_list_alter(&$data) {
+        if (isset($data['options']['class']) &&
+            isset($data['options']['id']) &&
+            preg_match('/^comment-actions-/', $data['options']['id']) &&
+            isset($data['list']) &&
+            $data['options']['class'] == 'comment-actions-list' &&
+            $this->is('user.authorized', 'Block.Manage.admin_index')
+        ) {
+            $id = explode('comment-actions-', $data['options']['id']);
+            $data['list'][] = $this->_View->Html->link(__t('Details'), '/admin/comment/list/view/' . $id[1]);
+        }
     }
 }

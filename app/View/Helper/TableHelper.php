@@ -48,7 +48,7 @@
  */
 class TableHelper extends AppHelper {
     public $helpers = array('Html', 'Paginator');
-    private $_defaults = array(
+    private $__defaults = array(
         'columns' => array(),
         'headerPosition' => 'top',
         'headerRowOptions' => array(),
@@ -97,16 +97,16 @@ class TableHelper extends AppHelper {
     private $_colsCount = 0;
 
     public function create($data, $options) {
-        $this->_defaults['paginate']['prev']['title'] = __t('« Previous ');
-        $this->_defaults['paginate']['next']['title'] = __t(' Next »');
+        $this->__defaults['paginate']['prev']['title'] = __t('« Previous ');
+        $this->__defaults['paginate']['next']['title'] = __t(' Next »');
 
         if (isset($options['paginate']) && $options['paginate'] === true) {
             unset($options['paginate']); # default settings
         } else {
-            $this->_defaults['paginate'] = !isset($options['paginate']) ? false : $this->_defaults['paginate'];
+            $this->__defaults['paginate'] = !isset($options['paginate']) ? false : $this->__defaults['paginate'];
         }
 
-        $options = Set::merge($this->_defaults, $options);
+        $options = Set::merge($this->__defaults, $options);
         $this->_colsCount = count($options['columns']);
         $out = sprintf('<table%s>', $this->Html->_parseAttributes($options['tableOptions'])) . "\n";
 

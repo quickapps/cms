@@ -10,8 +10,14 @@
  * @link     http://cms.quickapps.es
  */
 class SystemHookHelper extends AppHelper {
+/**
+ * Adds a toolbar menu on the `Modules` section.
+ *
+ * @return void
+ */
     public function beforeLayout() {
-        if (isset($this->request->params['plugin']) &&
+        if ($this->is('view.admin') &&
+            isset($this->request->params['plugin']) &&
             $this->request->params['plugin'] == 'system' &&
             $this->request->params['controller'] == 'modules'
         ) {
@@ -21,21 +27,33 @@ class SystemHookHelper extends AppHelper {
         return true;
     }
 
-    // Block
+/**
+ * `Powered by` block.
+ *
+ * @return array formatted block array
+ */
     public function system_powered_by() {
         return array(
-            'body' => __t('Powered by &copy; QuickApps v%s', Configure::read('Variable.qa_version'))
+            'body' => __t('Powered by &copy; <a href="http://cms.quickapps.es/">QuickApps CMS</a> v%s', Configure::read('Variable.qa_version'))
         );
     }
 
-    // Block
+/**
+ * Language selector block.
+ *
+ * @return array formatted block array
+ */
     public function system_language_selector($block = array()) {
         return array(
             'body' => $this->_View->element('system_language_selector', array('block' => $block))
         );
     }
 
-    // Block
+/**
+ * Recent contents block.
+ *
+ * @return array formatted block array
+ */
     public function system_recent_content($block = array()) {
         $Node = ClassRegistry::init('Node.Node');
 

@@ -189,14 +189,14 @@ class NodeController extends NodeAppController {
 
             if ($this->Comment->save($data)) {
                 if (!$this->Comment->status) {
-                    $this->flashMsg(__t('Your comment has been queued for review by site administrators and will be published after approval.'), 'alert');
+                    $this->flashMsg(__t('Your comment has been queued for review by site administrators and will be published after approval.'), 'alert', 'comment-form');
                 } else {
-                    $this->flashMsg(__t('Your comment has been posted.'), 'success');
+                    $this->flashMsg(__t('Your comment has been posted.'), 'success', 'comment-form');
                 }
 
                 $this->redirect($this->referer());
             } else {
-               $this->flashMsg(__t('Comment could not be saved. Please try again.'), 'error');
+               $this->flashMsg(__t('Comment could not be saved. Please try again.'), 'error', 'comment-form');
             }
         }
 
