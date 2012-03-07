@@ -10,7 +10,6 @@
  * @link     http://cms.quickapps.es
  */
 class QaHtmlHelper extends AppHelper {
-
 /**
  * Other helpers used by QaHtmlHelper
  *
@@ -433,7 +432,7 @@ class QaHtmlHelper extends AppHelper {
     public function tag($name, $text = null, $options = array()) {
         $data = compact('name', 'text', 'options');
 
-        $this->hook('html_tag_alter',  $data);
+        $this->hook('html_tag_alter', $data);
         extract($data);
 
         return $this->CoreHtml->tag($name, $text, $options);
@@ -515,6 +514,67 @@ class QaHtmlHelper extends AppHelper {
     }
 
 /**
+ * Returns an audio/video element
+ *
+ * ### Usage
+ *
+ * Using an audio file:
+ *
+ * `echo $this->Html->media('audio.mp3', array('fullBase' => true));`
+ *
+ * Outputs:
+ *
+ * `<video src="http://www.somehost.com/files/audio.mp3">Fallback text</video>`
+ *
+ * Using a video file:
+ *
+ * `echo $this->Html->media('video.mp4', array('text' => 'Fallback text'));`
+ *
+ * Outputs:
+ *
+ * `<video src="/files/video.mp4">Fallback text</video>`
+ *
+ * Using multiple video files:
+ *
+ * {{{
+ * echo $this->Html->media(
+ * 		array('video.mp4', array('src' => 'video.ogv', 'type' => "video/ogg; codecs='theora, vorbis'")),
+ * 		array('tag' => 'video', 'autoplay')
+ * );
+ * }}}
+ *
+ * Outputs:
+ *
+ * {{{
+ * <video autoplay="autoplay">
+ * 		<source src="/files/video.mp4" type="video/mp4"/>
+ * 		<source src="/files/video.ogv" type="video/ogv; codecs='theora, vorbis'"/>
+ * </video>
+ * }}}
+ *
+ * ### Options
+ *
+ * - `tag` Type of media element to generate, either "audio" or "video".
+ * 	If tag is not provided it's guessed based on file's mime type.
+ * - `text` Text to include inside the audio/video tag
+ * - `pathPrefix` Path prefix to use for relative urls, defaults to 'files/'
+ * - `fullBase` If provided the src attribute will get a full address including domain name
+ *
+ * @param string|array $path Path to the video file, relative to the webroot/{$options['pathPrefix']} directory.
+ *  Or an array where each item itself can be a path string or an associate array containing keys `src` and `type`
+ * @param array $options Array of HTML attributes, and special options above.
+ * @return string Generated media element
+ */
+	public function media($path, $options = array()) {
+        $data = compact('path', 'options');
+
+        $this->hook('html_media_alter', $data);
+        extract($data);
+
+        return $this->CoreHtml->media($path, $options);
+	}
+
+/**
  * Build a nested list (UL/OL) out of an associative array.
  *
  * @param array $list Set of elements to list
@@ -526,7 +586,7 @@ class QaHtmlHelper extends AppHelper {
     public function nestedList($list, $options = array(), $itemOptions = array(), $tag = 'ul') {
         $data = compact('list', 'options', 'itemOptions', 'tag');
 
-        $this->hook('html_nested_list_alter',  $data);
+        $this->hook('html_nested_list_alter', $data);
         extract($data);
 
         return $this->CoreHtml->nestedList($list, $options, $itemOptions, $tag);
@@ -542,7 +602,7 @@ class QaHtmlHelper extends AppHelper {
     public function loadConfig($configFile, $path = CONFIGS) {
         $data = compact('configFile', 'path');
 
-        $this->hook('html_load_config_alter',  $data);
+        $this->hook('html_load_config_alter', $data);
         extract($data);
 
         return $this->CoreHtml->loadConfig($configFile, $path);
