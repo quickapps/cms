@@ -15,7 +15,7 @@ Modules/
 Themes/Themed/*
 
 # site webroot
-webroot/
+/webroot/
 !app/Plugin/*/webroot/
 
 # site hooks
