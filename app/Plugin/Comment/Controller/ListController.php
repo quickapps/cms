@@ -89,6 +89,18 @@ class ListController extends CommentAppController {
     }
 
     public function admin_delete($id) {
-        return $this->Comment->delete($id);
+        $result = $this->Comment->delete($id);
+
+        if ($this->request->params['action'] == 'admin_delete') {
+            if ($result) {
+                $this->flashMsg(__t('Comment has been deleted.'));
+            } else {
+                $this->flashMsg(__t('Comment could not be deleted.'), 'error');
+            }
+
+            $this->redirect($this->referer());
+        } else {
+            return $result;
+        }
     }
 }

@@ -133,11 +133,18 @@ class CommentHookHelper extends AppHelper {
             isset($data['options']['id']) &&
             preg_match('/^comment-actions-/', $data['options']['id']) &&
             isset($data['list']) &&
-            $data['options']['class'] == 'comment-actions-list' &&
-            $this->is('user.authorized', 'Block.Manage.admin_index')
+            $data['options']['class'] == 'comment-actions-list'
         ) {
             $id = explode('comment-actions-', $data['options']['id']);
-            $data['list'][] = $this->_View->Html->link(__t('Details'), '/admin/comment/list/view/' . $id[1]);
+            $id = $id[1];
+
+            if ($this->is('user.authorized', 'Block.Manage.admin_view')) {
+                $data['list'][] = $this->_View->Html->link(__t('Details'), '/admin/comment/list/view/' . $id);
+            }
+
+            if ($this->is('user.authorized', 'Block.Manage.admin_delete')) {
+                $data['list'][] = $this->_View->Html->link(__t('Delete'), '/admin/comment/list/delete/' . $id, array('onclick' => 'return confirm("' . __t('Delete selected comment ?') . '");'));
+            }
         }
     }
 }
