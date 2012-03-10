@@ -19,7 +19,8 @@ class Variable extends SystemAppModel {
         if (!isset($data['Variable']['name']) &&
             !isset($data['Variable']['value']) &&
             !empty($data['Variable'])
-        ) { # saving data array of type: array('var_name' => 'value')
+        ) {
+            // saving array of data in the format: array('var_name' => 'value')
             $rows = array();
 
             foreach ($data['Variable'] as $name => $value) {
@@ -35,7 +36,10 @@ class Variable extends SystemAppModel {
 
             return $this->saveAll($rows['Variable'], array('validate' => $validate));
         } else {
-            if ($data['Variable']['name'] == 'url_language_prefix') {
+            if (
+                (isset($data['Variable']['name']) && $data['Variable']['name'] == 'url_language_prefix') ||
+                (isset($data['name']) && $data['name'] == 'url_language_prefix')
+            ) {
                 return true;
             }
 
