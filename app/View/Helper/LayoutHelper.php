@@ -167,6 +167,8 @@ class LayoutHelper extends AppHelper {
             }
         }
 
+        $this->hook('layout_header_alter', $out);
+
         return "\n" . $out;
     }
 
@@ -178,7 +180,8 @@ class LayoutHelper extends AppHelper {
     public function title() {
         $title = isset($this->_View->viewVars['Layout']['node']['Node']['title']) ? __t($this->_View->viewVars['Layout']['node']['Node']['title']) : Configure::read('Variable.site_name');
         $title = $this->_View->viewVars['title_for_layout'] != Inflector::camelize($this->_View->params['controller']) || Router::getParam('admin') ? $this->_View->viewVars['title_for_layout'] : $title;
-        $this->hook('title_for_layout_alter', $title);
+
+        $this->hook('layout_title_alter', $title);
 
         return $this->hooktags(__t($title));
     }
@@ -190,7 +193,8 @@ class LayoutHelper extends AppHelper {
  */
     public function content() {
         $content = $this->_View->fetch('content');
-        $this->hook('content_alter', $content);
+
+        $this->hook('layout_content_alter', $content);
 
         return $content;
     }
@@ -214,6 +218,8 @@ class LayoutHelper extends AppHelper {
             }
         }
 
+        $this->hook('layout_footer_alter', $out);
+
         return "\n" . $out;
     }
 
@@ -231,13 +237,15 @@ class LayoutHelper extends AppHelper {
             $metaForLayout = Set::merge($this->_View->viewVars['Layout']['meta'], $metaForLayout);
         }
 
-        $output = '';
+        $out = '';
 
         foreach ($metaForLayout as $name => $content) {
-            $output .= $this->_View->Html->meta($name, $content) . "\n";
+            $out .= $this->_View->Html->meta($name, $content) . "\n";
         }
 
-        return $output;
+        $this->hook('layout_meta_alter', $out);
+
+        return $out;
     }
 
 /**
