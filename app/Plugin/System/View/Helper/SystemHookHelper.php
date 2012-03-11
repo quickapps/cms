@@ -11,7 +11,7 @@
  */
 class SystemHookHelper extends AppHelper {
 /**
- * Adds a toolbar menu on the `Modules` section.
+ * Toolbar menu for section: `Modules`.
  *
  * @return void
  */
@@ -28,7 +28,7 @@ class SystemHookHelper extends AppHelper {
     }
 
 /**
- * `Powered by` block.
+ * Block: `Powered by`.
  *
  * @return array formatted block array
  */
@@ -39,7 +39,7 @@ class SystemHookHelper extends AppHelper {
     }
 
 /**
- * Language selector block.
+ * Block: Language selector.
  *
  * @return array formatted block array
  */
@@ -50,7 +50,7 @@ class SystemHookHelper extends AppHelper {
     }
 
 /**
- * Recent contents block.
+ * Block: Recent contents.
  *
  * @return array formatted block array
  */

@@ -10,15 +10,24 @@
  * @link     http://cms.quickapps.es
  */
 class LocaleHookHelper extends AppHelper {
-    //Toolbar Block
+/**
+ * Toolbar menu for section: `Languages`.
+ *
+ * @return void
+ */
     public function beforeLayout($layoutFile) {
         if (Router::getParam('admin') && $this->request->params['plugin'] == 'locale') {
             $this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar') . '<!-- LocaleHookHelper -->'), 'toolbar');
         }
+
         return true;
     }
 
-    // Block
+/**
+ * Block: Language selector.
+ *
+ * @return array formatted block array
+ */
     public function locale_language_switcher($block) {
         return array(
             'title' => false,
@@ -26,15 +35,11 @@ class LocaleHookHelper extends AppHelper {
         );
     }
 
-    public function locale($data) {
-        if (!isset($data['lang']) || $data['lang'] != Configure::read('Variable.language')) {
-            return '';
-        }
-
-        return __t($data['text']);
-    }
-
-    // Block
+/**
+ * Block settings: Language selector.
+ *
+ * @return string HTML element
+ */
     public function locale_language_switcher_settings($data) {
         return $this->_View->element('Locale.locale_language_switcher_settings', array('block' => $data));
     }

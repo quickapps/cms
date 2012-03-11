@@ -10,7 +10,12 @@
  * @link     http://cms.quickapps.es
  */
 class MenuHookHelper extends AppHelper {
-    function beforeLayout($layoutFile) {
+/**
+ * Toolbar menu for section: `Structure/Menu`.
+ *
+ * @return void
+ */
+    public function beforeLayout($layoutFile) {
         if (isset($this->request->params['plugin']) &&
             $this->request->params['plugin'] == 'menu' &&
             $this->request->params['action'] == 'admin_index' &&

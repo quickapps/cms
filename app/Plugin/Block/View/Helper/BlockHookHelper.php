@@ -10,7 +10,12 @@
  * @link     http://cms.quickapps.es
  */
 class BlockHookHelper extends AppHelper {
-    public function beforeLayout() {
+/**
+ * Toolbar menu for section: `Structure/Blocks`.
+ *
+ * @return void
+ */
+    public function beforeLayout($layoutFile) {
         if (isset($this->request->params['plugin']) &&
             $this->request->params['plugin'] == 'block' &&
             $this->request->params['action'] != 'admin_add'

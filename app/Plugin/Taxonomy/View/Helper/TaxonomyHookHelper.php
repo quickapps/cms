@@ -10,7 +10,11 @@
  * @link     http://cms.quickapps.es
  */
 class TaxonomyHookHelper extends AppHelper {
-
+/**
+ * Toolbar menu for section: `Structure/Taxonomy`.
+ *
+ * @return void
+ */
     public function beforeLayout($layoutFile) {
         if (Router::getParam('admin') &&
             $this->request->params['plugin'] == 'taxonomy' &&
@@ -23,6 +27,11 @@ class TaxonomyHookHelper extends AppHelper {
         return true;
     }
 
+/**
+ * Block: Vocabularies.
+ *
+ * @return array formatted block array
+ */
     public function taxonomy_vocabularies($block) {
         $cd = isset($block['Block']['settings']['terms_cache_duration']) ? $block['Block']['settings']['terms_cache_duration'] : '+10 minutes';
         $lc = Configure::read('Variable.language.code');
@@ -142,6 +151,11 @@ class TaxonomyHookHelper extends AppHelper {
         return $Block;
     }
 
+/**
+ * Block settings: Vocabularies.
+ *
+ * @return string HTML element
+ */
     public function taxonomy_vocabularies_settings($data) {
         return $this->_View->element('Taxonomy.taxonomy_vocabularies_settings', array('block' => $data));
     }

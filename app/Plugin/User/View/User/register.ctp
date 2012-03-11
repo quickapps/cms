@@ -17,9 +17,8 @@
         <?php foreach ($fields as $field): ?>
             <?php echo $this->Layout->hook("{$field['Field']['field_module']}_edit", $field['Field'], array('collectReturn' => false)); ?>
         <?php endforeach; ?>
-
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 
     <!-- Submit -->
-    <?php echo $this->Form->submit(__t('Create user')); ?>
+    <?php echo $this->Form->submit(__t('Register')); ?>
 <?php echo $this->Form->end(); ?>

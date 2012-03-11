@@ -10,6 +10,13 @@
  * @link     http://cms.quickapps.es
  */
 class BlockHooktagsHelper extends AppHelper {
+/**
+ * Renders out single block by ID.
+ * ### Usage:
+ *  `[block id=1 /]`
+ *
+ * @return string HTML
+ */
     public function block($options) {
         extract($options);
 
@@ -40,6 +47,13 @@ class BlockHooktagsHelper extends AppHelper {
         );
     }
 
+/**
+ * Renders out all the blocks that belongs to the specified region.
+ * ### Usage:
+ *  `[blocks_in region=region-name /]`
+ *
+ * @return string HTML
+ */
     public function blocks_in($options) {
         extract($options);
 

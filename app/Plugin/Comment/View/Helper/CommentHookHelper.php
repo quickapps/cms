@@ -10,8 +10,12 @@
  * @link     http://cms.quickapps.es
  */
 class CommentHookHelper extends AppHelper {
+/**
+ * Toolbar menu for section: `Content/Comments`.
+ *
+ * @return void
+ */
     public function beforeLayout($layoutFile) {
-        // content list toolbar:
         if (isset($this->request->params['admin']) &&
             $this->request->params['plugin'] == 'comment' &&
             $this->request->params['controller'] = 'list' &&
@@ -43,6 +47,11 @@ class CommentHookHelper extends AppHelper {
         return true;
     }
 
+/**
+ * Renders ReCaptcha for comments form.
+ *
+ * @return string HTML
+ */
     public function comment_captcha() {
         $out = '';
 
@@ -128,12 +137,17 @@ class CommentHookHelper extends AppHelper {
         return $out;
     }
 
+/**
+ * Adds management shortcuts to each comment.
+ *
+ * @return string HTML
+ */
     public function html_nested_list_alter(&$data) {
         if (isset($data['options']['class']) &&
+            $data['options']['class'] == 'comment-actions-list' &&
             isset($data['options']['id']) &&
-            preg_match('/^comment-actions-/', $data['options']['id']) &&
-            isset($data['list']) &&
-            $data['options']['class'] == 'comment-actions-list'
+            preg_match('/^comment-actions-[0-9]*$/', $data['options']['id']) &&
+            isset($data['list'])
         ) {
             $id = explode('comment-actions-', $data['options']['id']);
             $id = $id[1];

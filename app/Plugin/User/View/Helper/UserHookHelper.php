@@ -10,7 +10,11 @@
  * @link     http://cms.quickapps.es
  */
 class UserHookHelper extends AppHelper {
-    // Toolbar Block
+/**
+ * Toolbar menu for section: `Users`.
+ *
+ * @return void
+ */
     public function beforeLayout($layoutFile) {
         if (Router::getParam('admin') &&
             $this->request->params['plugin'] == 'user' &&
@@ -22,7 +26,11 @@ class UserHookHelper extends AppHelper {
         return true;
     }
 
-    // Block, last registered users
+/**
+ * Block: `Who is new`.
+ *
+ * @return array formatted block array
+ */
     public function user_new($block) {
         return array(
             'title' => __t("Who's New"),
@@ -30,12 +38,20 @@ class UserHookHelper extends AppHelper {
         );
     }
 
-    // Block, whos new
+/**
+ * Block settings: `Who is new`.
+ *
+ * @return string HTML element
+ */
     public function user_new_settings() {
         return $this->_View->element('User.user_new_block_settings');
     }
 
-    // Block, user login form
+/**
+ * Block: Login form.
+ *
+ * @return array formatted block array
+ */
     public function user_login() {
         return array(
             'title' => __t('Login'),

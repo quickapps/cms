@@ -10,12 +10,20 @@
  * @link     http://cms.quickapps.es
  */
 class NodeHookHelper extends AppHelper {
+/**
+ * Toolbar menu for section:
+ *  - `Contents`
+ *  - `Structure/Content Types`
+ *  - `Structure/Content Types/Display`
+ *
+ * @return void
+ */
     public function beforeLayout($layoutFile) {
         if (!isset($this->request->params['admin'])) {
             return true;
         }
 
-        # content list toolbar:
+        // contents
         if (isset($this->request->params['admin']) &&
             $this->request->params['plugin'] == 'node' &&
             $this->request->params['controller'] == 'contents' &&
@@ -24,7 +32,7 @@ class NodeHookHelper extends AppHelper {
             $this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar-index') . '<!-- NodeHookHelper -->'), 'toolbar');
         }
 
-        # content types toolbar:
+        // content types
         if (isset($this->request->params['admin']) &&
             $this->request->params['plugin'] == 'node' &&
             $this->request->params['controller'] == 'types' &&
@@ -33,7 +41,7 @@ class NodeHookHelper extends AppHelper {
             $this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar-types') . '<!-- NodeHookHelper -->'), 'toolbar');
         }
 
-        # display toolbar:
+        // display
         if (isset($this->request->params['admin']) &&
             $this->request->params['plugin'] == 'node' &&
             $this->request->params['controller'] == 'types' &&
@@ -45,7 +53,11 @@ class NodeHookHelper extends AppHelper {
         return true;
     }
 
-    # search block
+/**
+ * Block: Search form.
+ *
+ * @return array formatted block array
+ */
     public function node_search($data) {
         return array(
             'title' => __t('Search'),
@@ -53,17 +65,29 @@ class NodeHookHelper extends AppHelper {
         );
     }
 
-    # search block settings form
+/**
+ * Block settings: Search form.
+ *
+ * @return string HTML element
+ */
     public function node_search_settings($data) {
         return $this->_View->element('Node.search_block_settings', array('data' => $data));
     }
 
-    # edit/add form (node type: Custom types)
+/**
+ * Add/edit form for custom node types.
+ *
+ * @return string HTML element
+ */
     public function node_form($data) {
         return $this->_View->element('theme_node_edit', array('data' => $data));
     }
 
-    # rendering (node type: Custom types) /node/details/
+/**
+ * Rendering for custom node types.
+ *
+ * @return string HTML element
+ */
     public function node_render($node) {
         return $this->_View->element('theme_node', array('node' => $node));
     }
