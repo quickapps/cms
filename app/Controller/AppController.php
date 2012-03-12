@@ -217,6 +217,21 @@ class AppController extends Controller {
     }
 
 /**
+ * Wrapper method to Controller::paginate()
+ * Adds the `paginate_alter` hook to Controller's paginate method.
+ *
+ * @see Controller::paginate()
+ */
+    public function paginate($object = null, $scope = array(), $whitelist = array()) {
+        $data = compact('object', 'scope', 'whitelist');
+
+        $this->hook('paginate_alter', $data);
+        extract($data);
+
+        return parent::paginate($object, $scope, $whitelist);
+    }
+
+/**
  * Wrapper method to QuickAppsComponent::setCrumb()
  *
  * @see QuickAppsComponent::setCrumb()
