@@ -2,12 +2,12 @@
 /**
  * Search results
  *
- * @package QuickApps.Plugin.Node.View
+ * @package QuickApps.View.Elements
  * @author Christopher Castro
  */
 ?>
 
-<?php echo $this->element('search_form'); ?>
+<?php echo $this->element('theme_search_form'); ?>
 
 <?php
     foreach ($Layout['node'] as $node) {
