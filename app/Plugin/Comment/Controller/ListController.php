@@ -29,7 +29,8 @@ class ListController extends CommentAppController {
                 $update = (!in_array($this->data['Comment']['update'], array('delete')));
 
                 foreach ($this->data['Items']['id'] as $key => $id) {
-                    if ($update) { # approve | unapprove
+                    if ($update) {
+                        // approve | unapprove
                         if (!$this->QuickApps->is('user.admin') &&
                             !in_array("admin_{$this->data['Comment']['update']}", Configure::read('allowedActions'))
                         ) {
@@ -56,7 +57,36 @@ class ListController extends CommentAppController {
             $this->redirect($this->referer());
         }
 
-        $results = $this->paginate('Comment', array('Comment.status' => $filter));
+        $paginationScope = array('Comment.status' => $filter);
+
+        if (isset($this->data['Comment']['filter']) || $this->Session->check('Comment.filter')) {
+            if (isset($this->data['Comment']['filter']) && empty($this->data['Comment']['filter'])) {
+                $this->Session->delete('Comment.filter');
+            } else {
+                $filter = isset($this->data['Comment']['filter']) ? $this->data['Comment']['filter'] : $this->Session->read('Comment.filter');
+
+                foreach ($filter as $field => $value) {
+                    if ($value !== '') {
+                        $field = str_replace('|', '.', $field);
+                        list($model, $attr) = pluginSplit($field);
+
+                        if ($attr === 'name') {
+                            $paginationScope['OR']['Comment.name LIKE'] = "%{$value}%";
+                            $paginationScope['OR']['User.name LIKE'] = "%{$value}%";
+                        } else {
+                            $doLike = in_array($attr, array('body', 'subject', 'hostname', 'name', 'homepage', 'mail'));
+                            $field = $doLike ? "{$field} LIKE" : $field;
+                            $value = str_replace('*', '%', $value);
+                            $paginationScope[$field] = $doLike ? "%{$value}%" : $value;
+                        }
+                    }
+                }
+
+                $this->Session->write('Comment.filter', $filter);
+            }
+        }
+
+        $results = $this->paginate('Comment', $paginationScope);
 
         $this->countUnpublished();
         $this->set('status', $status);

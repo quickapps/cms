@@ -26,9 +26,66 @@ $tSettings = array(
     'noItemsMessage' => __t('There are no comments to display'),
     'paginate' => true,
     'headerPosition' => 'top',
-    'tableOptions' => array('width' => '100%')    # table attributes
+    'tableOptions' => array('width' => '100%')
 );
 ?>
+
+<?php echo $this->Form->create(); ?>
+    <!-- Filter -->
+    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-filter_fieldset" style="cursor:pointer;">' . __t('Filter Options') . '</span>'); ?>
+        <div id="filter_fieldset" class="horizontalLayout" style="<?php echo isset($this->data['Comment']['filter']) ? '' : 'display:none;'; ?>">
+            <?php echo $this->Form->input('Comment.filter.Comment|name',
+                    array(
+                        'type' => 'text',
+                        'label' => __t('Author’s name')
+                    )
+                );
+            ?>
+
+            <?php echo $this->Form->input('Comment.filter.Comment|mail',
+                    array(
+                        'type' => 'text',
+                        'label' => __t('Author’s e-mail')
+                    )
+                );
+            ?>
+
+            <?php echo $this->Form->input('Comment.filter.Comment|subject',
+                    array(
+                        'type' => 'text',
+                        'label' => __t('Subject')
+                    )
+                );
+            ?>
+
+            <?php echo $this->Form->input('Comment.filter.Comment|body',
+                    array(
+                        'type' => 'text',
+                        'label' => __t('Comment’s body')
+                    )
+                );
+            ?>
+
+            <?php echo $this->Form->input('Comment.filter.Comment|hostname',
+                    array(
+                        'type' => 'text',
+                        'label' => __t('Author’s host name (IP)')
+                    )
+                );
+            ?>
+
+            <?php echo $this->Form->input('Comment.filter.Comment|homepage',
+                    array(
+                        'type' => 'text',
+                        'label' => __t('Author’s web site')
+                    )
+                );
+            ?>
+
+            <?php echo $this->Form->input(__t('Filter'), array('type' => 'submit', 'label' => false)); ?>
+        </div>
+    <?php echo $this->Html->useTag('fieldsetend'); ?>
+<?php echo $this->Form->end(); ?>
 
 <?php echo $this->Form->create(null, array('onsubmit' => 'return confirm("' . __t('Are you sure ?') . '");')); ?>
     <!-- Update -->
@@ -64,5 +121,9 @@ $tSettings = array(
 <script type="text/javascript">
     $("#toggle-update_fieldset").click(function () {
         $("#update_fieldset").toggle('fast', 'linear');
+    });
+
+    $("#toggle-filter_fieldset").click(function () {
+        $("#filter_fieldset").toggle('fast', 'linear');
     });
 </script>
