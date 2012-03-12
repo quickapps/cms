@@ -33,11 +33,15 @@ App::uses('AppHelper', 'View/Helper');
  */
 class NumberHelper extends AppHelper {
 
-/** CakeNumber instance
+/**
+ * CakeNumber instance
+ *
+ * @var CakeNumber
  */
 	protected $_engine = null;
 
-/* Default Constructor
+/**
+ * Default Constructor
  *
  * ### Settings:
  *
@@ -46,8 +50,9 @@ class NumberHelper extends AppHelper {
  *
  * @param View $View The View this helper is being attached to.
  * @param array $settings Configuration settings for the helper
+ * @throws CakeException When the engine class could not be found.
  */
-	function __construct(View $View, $settings = array()) {
+	public function __construct(View $View, $settings = array()) {
 		$settings = Set::merge(array('engine' => 'CakeNumber'), $settings);
 		parent::__construct($View, $settings);
 		list($plugin, $engineClass) = pluginSplit($settings['engine'], true);

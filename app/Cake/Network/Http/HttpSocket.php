@@ -403,7 +403,7 @@ class HttpSocket extends CakeSocket {
 			$this->config['request']['cookies'][$Host] = array_merge($this->config['request']['cookies'][$Host], $this->response->cookies);
 		}
 
-		if($this->request['redirect'] && $this->response->isRedirect()) {
+		if ($this->request['redirect'] && $this->response->isRedirect()) {
 			$request['uri'] = $this->response->getHeader('Location');
 			$request['redirect'] = is_int($this->request['redirect']) ? $this->request['redirect'] - 1 : $this->request['redirect'];
 			$this->response = $this->request($request);
@@ -603,7 +603,7 @@ class HttpSocket extends CakeSocket {
 		}
 		list($plugin, $authClass) = pluginSplit($this->_proxy['method'], true);
 		$authClass = Inflector::camelize($authClass) . 'Authentication';
-		App::uses($authClass, $plugin. 'Network/Http');
+		App::uses($authClass, $plugin . 'Network/Http');
 
 		if (!class_exists($authClass)) {
 			throw new SocketException(__d('cake_dev', 'Unknown authentication method for proxy.'));
@@ -768,7 +768,58 @@ class HttpSocket extends CakeSocket {
 		if (is_array($query)) {
 			return $query;
 		}
-		parse_str(ltrim($query, '?'), $parsedQuery);
+
+		if (is_array($query)) {
+			return $query;
+		}
+		$parsedQuery = array();
+
+		if (is_string($query) && !empty($query)) {
+			$query = preg_replace('/^\?/', '', $query);
+			$items = explode('&', $query);
+
+			foreach ($items as $item) {
+				if (strpos($item, '=') !== false) {
+					list($key, $value) = explode('=', $item, 2);
+				} else {
+					$key = $item;
+					$value = null;
+				}
+
+				$key = urldecode($key);
+				$value = urldecode($value);
+
+				if (preg_match_all('/\[([^\[\]]*)\]/iUs', $key, $matches)) {
+					$subKeys = $matches[1];
+					$rootKey = substr($key, 0, strpos($key, '['));
+					if (!empty($rootKey)) {
+						array_unshift($subKeys, $rootKey);
+					}
+					$queryNode =& $parsedQuery;
+
+					foreach ($subKeys as $subKey) {
+						if (!is_array($queryNode)) {
+							$queryNode = array();
+						}
+
+						if ($subKey === '') {
+							$queryNode[] = array();
+							end($queryNode);
+							$subKey = key($queryNode);
+						}
+						$queryNode =& $queryNode[$subKey];
+					}
+					$queryNode = $value;
+					continue;
+				}
+				if (!isset($parsedQuery[$key])) {
+					$parsedQuery[$key] = $value;
+				} else {
+					$parsedQuery[$key] = (array)$parsedQuery[$key];
+					$parsedQuery[$key][] = $value;
+				}
+			}
+		}
 		return $parsedQuery;
 	}
 
@@ -926,4 +977,5 @@ class HttpSocket extends CakeSocket {
 		parent::reset($initalState);
 		return true;
 	}
+
 }

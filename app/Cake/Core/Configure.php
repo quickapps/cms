@@ -69,15 +69,12 @@ class Configure {
 				'www_root' => WWW_ROOT
 			));
 
-			if (!include(APP . 'Config' . DS . 'core.php')) {
+			if (!include APP . 'Config' . DS . 'core.php') {
 				trigger_error(__d('cake_dev', "Can't find application core file. Please create %score.php, and make sure it is readable by PHP.", APP . 'Config' . DS), E_USER_ERROR);
 			}
 			App::$bootstrapping = false;
 			App::init();
 			App::build();
-			if (!include(APP . 'Config' . DS . 'bootstrap.php')) {
-				trigger_error(__d('cake_dev', "Can't find application bootstrap file. Please create %sbootstrap.php, and make sure it is readable by PHP.", APP . 'Config' . DS), E_USER_ERROR);
-			}
 			$level = -1;
 			if (isset(self::$_values['Error']['level'])) {
 				error_reporting(self::$_values['Error']['level']);
@@ -88,6 +85,9 @@ class Configure {
 			}
 			if (!empty(self::$_values['Exception']['handler'])) {
 				set_exception_handler(self::$_values['Exception']['handler']);
+			}
+			if (!include APP . 'Config' . DS . 'bootstrap.php') {
+				trigger_error(__d('cake_dev', "Can't find application bootstrap file. Please create %sbootstrap.php, and make sure it is readable by PHP.", APP . 'Config' . DS), E_USER_ERROR);
 			}
 		}
 	}
@@ -335,5 +335,5 @@ class Configure {
 		}
 		return false;
 	}
-}
 
+}
