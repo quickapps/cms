@@ -74,7 +74,7 @@ class ListController extends CommentAppController {
                             $paginationScope['OR']['Comment.name LIKE'] = "%{$value}%";
                             $paginationScope['OR']['User.name LIKE'] = "%{$value}%";
                         } else {
-                            $doLike = in_array($attr, array('body', 'subject', 'hostname', 'name', 'homepage', 'mail'));
+                            $doLike = in_array($attr, array('body', 'subject', 'hostname', 'name', 'homepage', 'mail', 'title', 'slug'));
                             $field = $doLike ? "{$field} LIKE" : $field;
                             $value = str_replace('*', '%', $value);
                             $paginationScope[$field] = $doLike ? "%{$value}%" : $value;

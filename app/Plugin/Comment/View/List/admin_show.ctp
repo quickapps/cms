@@ -34,53 +34,83 @@ $tSettings = array(
     <!-- Filter -->
     <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-filter_fieldset" style="cursor:pointer;">' . __t('Filter Options') . '</span>'); ?>
         <div id="filter_fieldset" class="horizontalLayout" style="<?php echo isset($this->data['Comment']['filter']) ? '' : 'display:none;'; ?>">
-            <?php echo $this->Form->input('Comment.filter.Comment|name',
-                    array(
-                        'type' => 'text',
-                        'label' => __t('Author’s name')
-                    )
-                );
-            ?>
+            <?php echo $this->Html->useTag('fieldsetstart', __t('Author')); ?>
+                <?php echo $this->Form->input('Comment.filter.Comment|name',
+                        array(
+                            'type' => 'text',
+                            'label' => __t('Author’s name')
+                        )
+                    );
+                ?>
 
-            <?php echo $this->Form->input('Comment.filter.Comment|mail',
-                    array(
-                        'type' => 'text',
-                        'label' => __t('Author’s e-mail')
-                    )
-                );
-            ?>
+                <?php echo $this->Form->input('Comment.filter.Comment|mail',
+                        array(
+                            'type' => 'text',
+                            'label' => __t('Author’s e-mail')
+                        )
+                    );
+                ?>
 
-            <?php echo $this->Form->input('Comment.filter.Comment|subject',
-                    array(
-                        'type' => 'text',
-                        'label' => __t('Subject')
-                    )
-                );
-            ?>
+                <?php echo $this->Form->input('Comment.filter.Comment|hostname',
+                        array(
+                            'type' => 'text',
+                            'label' => __t('Author’s host name (IP)')
+                        )
+                    );
+                ?>
 
-            <?php echo $this->Form->input('Comment.filter.Comment|body',
-                    array(
-                        'type' => 'text',
-                        'label' => __t('Comment’s body')
-                    )
-                );
-            ?>
+                <?php echo $this->Form->input('Comment.filter.Comment|homepage',
+                        array(
+                            'type' => 'text',
+                            'label' => __t('Author’s web site')
+                        )
+                    );
+                ?>
+            <?php echo $this->Html->useTag('fieldsetend'); ?>
 
-            <?php echo $this->Form->input('Comment.filter.Comment|hostname',
-                    array(
-                        'type' => 'text',
-                        'label' => __t('Author’s host name (IP)')
-                    )
-                );
-            ?>
+            <?php echo $this->Html->useTag('fieldsetstart', __t('Comment')); ?>
+                <?php echo $this->Form->input('Comment.filter.Comment|subject',
+                        array(
+                            'type' => 'text',
+                            'label' => __t('Subject')
+                        )
+                    );
+                ?>
 
-            <?php echo $this->Form->input('Comment.filter.Comment|homepage',
-                    array(
-                        'type' => 'text',
-                        'label' => __t('Author’s web site')
-                    )
-                );
-            ?>
+                <?php echo $this->Form->input('Comment.filter.Comment|body',
+                        array(
+                            'type' => 'text',
+                            'label' => __t('Comment’s body')
+                        )
+                    );
+                ?>
+            <?php echo $this->Html->useTag('fieldsetend'); ?>
+
+            <?php echo $this->Html->useTag('fieldsetstart', __t('Posted in')); ?>
+                <?php echo $this->Form->input('Comment.filter.Node|title',
+                        array(
+                            'type' => 'text',
+                            'label' => __t('Content’s title')
+                        )
+                    );
+                ?>
+
+                <?php echo $this->Form->input('Comment.filter.Node|slug',
+                        array(
+                            'type' => 'text',
+                            'label' => __t('Content’s slug')
+                        )
+                    );
+                ?>
+
+                <?php echo $this->Form->input('Comment.filter.Node|id',
+                        array(
+                            'type' => 'text',
+                            'label' => __t('Content’s id')
+                        )
+                    );
+                ?>
+            <?php echo $this->Html->useTag('fieldsetend'); ?>
 
             <?php echo $this->Form->input(__t('Filter'), array('type' => 'submit', 'label' => false)); ?>
         </div>
