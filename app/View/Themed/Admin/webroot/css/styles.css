@@ -1,14 +1,13 @@
 /*----------------------[BASICS]------------------*/
 body {
     line-height: 18px;
-    font-family: Arial, sans-serif;
-    font-size: 13px;
-    color: #555555;
+    font: /*[font title='Main font' group='Body']*/13px Arial/*[/font]*/;
+    color: /*[color title='Text' group='Body']*/#555555/*[/color]*/;
     text-shadow: 1px 1px 1px #ffffff;
-    background: #F9F9F8;
+    background: /*[color title='Background' group='Body']*/#F9F9F8/*[/color]*/;
 }
-a { text-decoration: none; color: #0074BD; }
-a:hover { text-decoration: underline; }
+a { text-decoration: none; color:/*[color title='Links' id='links' group='Links']*/#0074BD/*[/color]*/; }
+a:hover { text-decoration: underline; color:/*[color title='Links hover' group='Links']*/#0074BD/*[/color]*/; }
 .clear { clear: both; }
 .ui-tabs-hide { display: none; }
 br.clear { margin: 0px; padding: 0px; }
@@ -56,9 +55,10 @@ div.checkbox { padding-top:6px;}
 .sortable-hover { border:2px dotted #ccc; }
 
 /* header */
-#toolbar-menu { background:#2A2A2A; color:#fff; padding:5px 0 5px 15px; }
+#toolbar-menu { background:/*[color title='Main menu backrgound' group='Header']*/#2A2A2A/*[/color]*/; padding:5px 0 5px 15px; }
+#toolbar-menu a, #toolbar-menu a span { color:/*[color title='Main menu text' group='Header']*/#ffffff/*[/color]*/; }
 #toolbar-menu #right-btns { float:right; line-height:32px; }
-#toolbar-menu #right-btns a { margin-right:20px; text-shadow:none; color:#fff; }
+#toolbar-menu #right-btns a { margin-right:20px; text-shadow:none;  }
 
 
 /* main menu */
@@ -91,13 +91,13 @@ div.checkbox { padding-top:6px;}
 	overflow: hidden;
 	padding: 5px 20px 0 20px;
 	position: relative;
-	background: #E0E0D8;
+	background: /*[color title='Branding background' group='Header']*/#E0E0D8/*[/color]*/;
 	margin-bottom: 10px;
 	border-bottom: 1px solid #ccc;
 	border-top: 1px solid #ccc;
     box-shadow:0px 2px 9px #B5B5B5;
 }
-#branding a { color:#0074BD; }
+#branding a { color:/*[links]*/#0074BD/*[/links]*/; }
 #branding h1.page-title {
 	padding-top:10px;
 	color: #000;
@@ -138,7 +138,7 @@ table th a.asc, table .desc { cursor:pointer; padding-right:20px; background-rep
 table th a.asc { background-image:url(../img/up.gif); }
 table th a.desc { background-image:url(../img/down.gif); }
 table th a { font-weight:bold; }
-table tbody a { color:#6B9225; }
+table tbody a { color:/*[links]*/#6B9225/*[/links]*/; }
 table tbody tr.even td { padding:5px; background-color:#FFF; }
 table tbody tr.odd td { padding:5px; background-color:#F0F0F0; }
 table td, table th { padding:5px; border-bottom:1px solid #ccc; border-style:dotted; }
