@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2012-03-13 20:01+0000\n"
+"POT-Creation-Date: 2012-03-13 21:32+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christopher Castro <chris@quickapps.es>\n"
 "Language-Team: \n"
@@ -630,11 +630,11 @@ msgstr "Estilo Visual"
 
 #: Plugin\Comment\View\Elements\settings.ctp:21
 msgid "Red"
-msgstr ""
+msgstr "Rojo"
 
 #: Plugin\Comment\View\Elements\settings.ctp:22
 msgid "White"
-msgstr ""
+msgstr "Blanco"
 
 #: Plugin\Comment\View\Elements\settings.ctp:23
 msgid "Black Glass"
@@ -729,19 +729,19 @@ msgstr "Detalles"
 msgid "Delete selected comment ?"
 msgstr "¿Eliminar el comentario seleccionado?"
 
-#: Plugin\Comment\View\List\admin_show.ctp:9;56
+#: Plugin\Comment\View\List\admin_show.ctp:9;75
 #: Plugin\Comment\View\List\admin_view.ctp:17
 #: Plugin\User\View\Elements\settings.ctp:26;50;97;121
 #: View\Elements\theme_node_comments_form.ctp:53
 msgid "Subject"
 msgstr "Asunto"
 
-#: Plugin\Comment\View\List\admin_show.ctp:13
+#: Plugin\Comment\View\List\admin_show.ctp:13;37
 #: Plugin\Node\View\Contents\admin_index.ctp:21
 msgid "Author"
 msgstr "Autor"
 
-#: Plugin\Comment\View\List\admin_show.ctp:17
+#: Plugin\Comment\View\List\admin_show.ctp:17;89
 msgid "Posted in"
 msgstr "Publicado en"
 
@@ -764,57 +764,73 @@ msgstr "No hay comentarios para mostrar"
 msgid "Filter Options"
 msgstr "Opciones de Filtrado"
 
-#: Plugin\Comment\View\List\admin_show.ctp:40
+#: Plugin\Comment\View\List\admin_show.ctp:41
 msgid "Author’s name"
 msgstr "Nombre del autor"
 
-#: Plugin\Comment\View\List\admin_show.ctp:48
+#: Plugin\Comment\View\List\admin_show.ctp:49
 msgid "Author’s e-mail"
 msgstr "E-mail del autor"
 
-#: Plugin\Comment\View\List\admin_show.ctp:64
-msgid "Comment’s body"
-msgstr "Cuerpo de comentario"
-
-#: Plugin\Comment\View\List\admin_show.ctp:72
+#: Plugin\Comment\View\List\admin_show.ctp:57
 msgid "Author’s host name (IP)"
 msgstr "Host del autor (IP)"
 
-#: Plugin\Comment\View\List\admin_show.ctp:80
+#: Plugin\Comment\View\List\admin_show.ctp:65
 msgid "Author’s web site"
 msgstr "Web del autor"
 
-#: Plugin\Comment\View\List\admin_show.ctp:85
+#: Plugin\Comment\View\List\admin_show.ctp:71
+msgid "Comment"
+msgstr "Comentario"
+
+#: Plugin\Comment\View\List\admin_show.ctp:83
+msgid "Comment’s body"
+msgstr "Cuerpo de comentario"
+
+#: Plugin\Comment\View\List\admin_show.ctp:93
+msgid "Content’s title"
+msgstr "Título de contenido"
+
+#: Plugin\Comment\View\List\admin_show.ctp:101
+msgid "Content’s slug"
+msgstr "Slug de contenido"
+
+#: Plugin\Comment\View\List\admin_show.ctp:109
+msgid "Content’s id"
+msgstr "ID de contenido"
+
+#: Plugin\Comment\View\List\admin_show.ctp:115
 #: Plugin\Node\View\Contents\admin_index.ctp:124
 #: Plugin\User\View\List\admin_index.ctp:66
 msgid "Filter"
 msgstr "Filtrar"
 
-#: Plugin\Comment\View\List\admin_show.ctp:90
+#: Plugin\Comment\View\List\admin_show.ctp:120
 #: Plugin\Locale\View\Languages\admin_index.ctp:99
 msgid "Are you sure ?"
 msgstr "¿Está seguro ?"
 
-#: Plugin\Comment\View\List\admin_show.ctp:92
+#: Plugin\Comment\View\List\admin_show.ctp:122
 #: Plugin\Locale\View\Languages\admin_index.ctp:101
 #: Plugin\Node\View\Contents\admin_index.ctp:131
 #: Plugin\User\View\List\admin_index.ctp:73
 msgid "Update Options"
 msgstr "Opciones de Modificación"
 
-#: Plugin\Comment\View\List\admin_show.ctp:96
+#: Plugin\Comment\View\List\admin_show.ctp:126
 msgid "Approve selected comments"
 msgstr "Aprobar comentarios sleccioandos"
 
-#: Plugin\Comment\View\List\admin_show.ctp:97
+#: Plugin\Comment\View\List\admin_show.ctp:127
 msgid "Unapprove selected comments"
 msgstr "No aprobar comentarios sleccioandos"
 
-#: Plugin\Comment\View\List\admin_show.ctp:98
+#: Plugin\Comment\View\List\admin_show.ctp:128
 msgid "Delete selected comments"
 msgstr "Eliminar comentarios seleccionados"
 
-#: Plugin\Comment\View\List\admin_show.ctp:115
+#: Plugin\Comment\View\List\admin_show.ctp:145
 #: Plugin\Locale\View\Languages\admin_index.ctp:115
 #: Plugin\Node\View\Contents\admin_index.ctp:150
 #: Plugin\User\View\List\admin_index.ctp:87
@@ -2025,7 +2041,7 @@ msgstr "Una breve descripción (255 car. máx.) sobre este contenido. Será util
 #: Plugin\Node\View\Contents\admin_add.ctp:18
 #: Plugin\Node\View\Contents\admin_edit.ctp:30
 #: Plugin\System\Controller\ModulesController.php:90
-#: Plugin\System\View\Modules\admin_index.ctp:84
+#: Plugin\System\View\Modules\admin_index.ctp:93
 msgid "Settings"
 msgstr "Configuración"
 
@@ -2632,7 +2648,7 @@ msgid "The file `%s` could not be written."
 msgstr "El fichero `%s` no pudo ser escrito."
 
 #: Plugin\System\Controller\HelpController.php:31
-#: Plugin\System\View\Modules\admin_index.ctp:80
+#: Plugin\System\View\Modules\admin_index.ctp:89
 #: Vendor\DummyLocale.php:13
 msgid "Help"
 msgstr "Ayuda"
@@ -2784,7 +2800,7 @@ msgstr "Prefijo en URL"
 
 #: Plugin\System\View\Configuration\admin_index.ctp:39
 msgid "URLs like http://domain.com/fre/about set language to French (fre). <b>Warning: Changing this setting may break incoming URLs. Use with caution on a production site.</b>"
-msgstr "URLs como http://cominio.com/fre/about se mostrarán en Francés (fre). <b>Advertencia: Modificar este parámetro puede romper URLs entrantes. Utilizar con precaución en entornos de producción.</b>"
+msgstr "URLs como http://dominio.com/fre/about se mostrarán en Francés (fre). <b>Advertencia: Modificar este parámetro puede romper URLs entrantes. Utilizar con precaución en entornos de producción.</b>"
 
 #: Plugin\System\View\Configuration\admin_index.ctp:42
 msgid "Users settings"
@@ -2878,28 +2894,28 @@ msgstr "Instalar"
 msgid "Install From URL"
 msgstr "Instalar Desde URL"
 
-#: Plugin\System\View\Modules\admin_index.ctp:74
+#: Plugin\System\View\Modules\admin_index.ctp:83
 #: Plugin\System\View\Themes\admin_index.ctp:77;131
 msgid "author: %s"
 msgstr "autor: %s"
 
-#: Plugin\System\View\Modules\admin_index.ctp:75
+#: Plugin\System\View\Modules\admin_index.ctp:84
 msgid "Dependencies"
 msgstr "Dependencias"
 
-#: Plugin\System\View\Modules\admin_index.ctp:88
+#: Plugin\System\View\Modules\admin_index.ctp:97
 msgid "Disable"
 msgstr "Desactivar"
 
-#: Plugin\System\View\Modules\admin_index.ctp:88
+#: Plugin\System\View\Modules\admin_index.ctp:97
 msgid "Enable"
 msgstr "Activar"
 
-#: Plugin\System\View\Modules\admin_index.ctp:89
+#: Plugin\System\View\Modules\admin_index.ctp:98
 msgid "Delete selected module ? This change cant be undone!"
 msgstr "Eliminar el módulo seleccionado ? Esta operación no puede ser revertida!"
 
-#: Plugin\System\View\Modules\admin_index.ctp:89
+#: Plugin\System\View\Modules\admin_index.ctp:98
 #: Plugin\System\View\Themes\admin_index.ctp:83;137
 msgid "Uninstall"
 msgstr "Desinstalar"
@@ -3668,6 +3684,58 @@ msgstr "« Anterior"
 msgid " Next »"
 msgstr " Siguiente »"
 
+#: Vendor\DummyLocale.php:22
+msgid "Configure what block content appears in your site's sidebars and other regions."
+msgstr "Configura que bloques aparecen en las barras lateras y otras regiones de tu sitio."
+
+#: Vendor\DummyLocale.php:23
+msgid "Manage content types."
+msgstr "Gestión de tipos de contenidos."
+
+#: Vendor\DummyLocale.php:24
+msgid "Add new menus to your site, edit existing menus, and rename and reorganize menu links."
+msgstr "Agrege nuevos menús a su sitio, edite menús ya existentes o renombre y reorganice los vínculos de sus menús."
+
+#: Vendor\DummyLocale.php:25
+msgid "Manage tagging, categorization, and classification of your content."
+msgstr "Gestión de etiquetado, categorización, y clasificación de su contenido."
+
+#: Vendor\DummyLocale.php:26
+msgid "Controls the visual building blocks a page is constructed with. Blocks are boxes of content rendered into an area, or region, of a web page."
+msgstr "Gestiona los bloques visuales con los que una págian se construye. Los bloques son cajas de contenido que se renderizan en un área o región de una página web."
+
+#: Vendor\DummyLocale.php:27
+msgid "Allows users to comment on and discuss published content."
+msgstr "Permite a los usuarios comentar y discutir contenidos publicados."
+
+#: Vendor\DummyLocale.php:28
+msgid "Field API to add fields to entities like nodes and users."
+msgstr "API Campos, permite agregar campos a entidades como nodos y usuarios."
+
+#: Vendor\DummyLocale.php:29
+msgid "Adds language handling functionality and enables the translation of the user interface to languages other than English"
+msgstr "Permite gestionar idiomas y traducir la interfaz de los usuarios a otros lenguajes además del Inglés."
+
+#: Vendor\DummyLocale.php:30
+msgid "Allows administrators to customize the site navigation menu."
+msgstr "Permite a los administradores personalizar los menú de navegación del sitio."
+
+#: Vendor\DummyLocale.php:31
+msgid "Allows content to be submitted to the site and displayed on pages."
+msgstr "Permite poner contenidos en el sitio y mostrarlos como páginas."
+
+#: Vendor\DummyLocale.php:32
+msgid "System Kernel."
+msgstr "Núcleo del sistema."
+
+#: Vendor\DummyLocale.php:33
+msgid "Enables the categorization of content."
+msgstr "Permite la categorización de contenidos."
+
+#: Vendor\DummyLocale.php:34
+msgid "Manages the user registration and login system."
+msgstr "Control de registro e identificación de usuarios en el sistema."
+
 #: View\Elements\theme_comment.ctp:28
 msgid "said on %s"
 msgstr "dijo el %s"
@@ -4114,14 +4182,6 @@ msgstr ""
 #~ msgid "Region"
 #~ msgstr "Región"
 
-#~ msgid ""
-#~ "Controls the visual building blocks a page is constructed with. Blocks "
-#~ "are boxes of content rendered into an area, or region, of a web page."
-#~ msgstr ""
-#~ "Gestiona los bloques visuales con los que una págian se construye. Los "
-#~ "bloques son cajas de contenido que se renderizan en un área o región de "
-#~ "una página web."
-
 #~ msgid "Block"
 #~ msgstr "Bloque"
 
@@ -4134,18 +4194,8 @@ msgstr ""
 #~ msgid "down"
 #~ msgstr "abajo"
 
-#~ msgid "Allows users to comment on and discuss published content."
-#~ msgstr "Permite a los usuarios comentar y discutir contenidos publicados."
-
-#~ msgid "Comment"
-#~ msgstr "Comentario"
-
 #~ msgid "Quoting"
 #~ msgstr "Citando"
-
-#~ msgid "Field API to add fields to entities like nodes and users."
-#~ msgstr ""
-#~ "API Campos, permite agregar campos a entidades como nodos y usuarios."
 
 #~ msgid "Searching"
 #~ msgstr "Buscando..."
@@ -4159,23 +4209,8 @@ msgstr ""
 #~ msgid "App"
 #~ msgstr "App"
 
-#~ msgid ""
-#~ "Adds language handling functionality and enables the translation of the "
-#~ "user interface to languages other than English"
-#~ msgstr ""
-#~ "Permite gestionar idiomas y traducir la interfaz de los usuarios a otros "
-#~ "lenguajes además del Inglés."
-
-#~ msgid "Allows administrators to customize the site navigation menu."
-#~ msgstr ""
-#~ "Permite a los administradores personalizar los menú de navegación del "
-#~ "sitio."
-
 #~ msgid "%s Minute"
 #~ msgstr "%s Minuto"
-
-#~ msgid "Allows content to be submitted to the site and displayed on pages."
-#~ msgstr "Permite poner contenidos en el sitio y mostrarlos como páginas."
 
 #~ msgid "Field"
 #~ msgstr "Campo"
@@ -4186,41 +4221,11 @@ msgstr ""
 #~ msgid "Error uninstalling module '%s'"
 #~ msgstr "Error al desinstalar el módulo '%s'"
 
-#~ msgid "System Kernel."
-#~ msgstr "Núcleo del sistema."
-
-#~ msgid ""
-#~ "Configure what block content appears in your site's sidebars and other "
-#~ "regions."
-#~ msgstr ""
-#~ "Configura que bloques aparecen en las barras lateras y otras regiones de "
-#~ "tu sitio."
-
-#~ msgid "Manage content types."
-#~ msgstr "Gestión de tipos de contenidos."
-
-#~ msgid ""
-#~ "Add new menus to your site, edit existing menus, and rename and "
-#~ "reorganize menu links."
-#~ msgstr ""
-#~ "Agrege nuevos menús a su sitio, edite menús ya existentes o renombre y "
-#~ "reorganice los vínculos de sus menús."
-
 #~ msgid "Taxonomy"
 #~ msgstr "Taxonomía"
 
-#~ msgid "Manage tagging, categorization, and classification of your content."
-#~ msgstr ""
-#~ "Gestión de etiquetado, categorización, y clasificación de su contenido."
-
-#~ msgid "Enables the categorization of content."
-#~ msgstr "Permite la categorización de contenidos."
-
 #~ msgid "E-mail"
 #~ msgstr "E-mail"
-
-#~ msgid "Manages the user registration and login system."
-#~ msgstr "Control de registro e identificación de usuarios en el sistema."
 
 #~ msgid "Save All"
 #~ msgstr "Guardar Todo"
