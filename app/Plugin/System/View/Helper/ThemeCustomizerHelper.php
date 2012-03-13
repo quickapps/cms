@@ -169,6 +169,12 @@ class ThemeCustomizerHelper extends AppHelper {
                             . $this->_View->Html->useTag('fieldsetend');
                     }
                 }
+
+                if (empty($out)) {
+                    return false;
+                }
+            } else {
+                return false;
             }
 
             $scripts = '
