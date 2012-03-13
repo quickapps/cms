@@ -29,7 +29,7 @@
             ?>
         <?php echo $this->Html->useTag('fieldsetend'); ?>
 
-        <?php echo $this->Html->useTag('fieldsetstart', __t('Hooktags')); ?>
+        <?php echo $this->Html->useTag('fieldsetstart', 'Hooktags'); ?>
             <?php
                 echo $this->Form->input("Field.settings.display.{$viewMode}.hooktags",
                     array(

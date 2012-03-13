@@ -263,7 +263,7 @@ class InstallerComponent extends Component {
                         ),
                         'routes' => array(
                             'test' => file_exists($packagePath . 'app' . DS . 'Theme' . $appName . DS . 'Config' . DS . 'routes.php'),
-                            'header' => __t('Routes file'),
+                            'header' => __t('Routes File'),
                             'msg' => __t('"Config/routes.php" file not found')
                         ),
                         'InstallComponent.php' => array(

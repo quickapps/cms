@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2012-02-26 01:02+0000\n"
+"POT-Creation-Date: 2012-03-13 20:01+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christopher Castro <chris@quickapps.es>\n"
 "Language-Team: \n"
@@ -129,7 +129,7 @@ msgstr ""
 msgid "\"Config/bootstrap.php\" file not found"
 msgstr "Fichero \"Config/bootstrap.php\" no encontrado"
 
-#: Controller\Component\InstallerComponent.php:198
+#: Controller\Component\InstallerComponent.php:198;266
 msgid "Routes File"
 msgstr ""
 
@@ -200,10 +200,6 @@ msgstr ""
 #: Controller\Component\InstallerComponent.php:252
 msgid "Module app (\"%s\") folder not found"
 msgstr "Directorio de módulo asociado (\"%s\") no encontrado"
-
-#: Controller\Component\InstallerComponent.php:266
-msgid "Routes file"
-msgstr ""
 
 #: Controller\Component\InstallerComponent.php:276
 msgid "webroot Folder"
@@ -573,7 +569,7 @@ msgstr "Comentarios no publicados"
 msgid "Published comments"
 msgstr "Comentarios publicados"
 
-#: Plugin\Comment\Controller\ListController.php:66;77
+#: Plugin\Comment\Controller\ListController.php:96;107
 #: Plugin\Node\View\Contents\admin_add.ctp:19
 #: Plugin\Node\View\Contents\admin_edit.ctp:31
 #: Plugin\Node\View\Elements\toolbar-index.ctp:4
@@ -583,14 +579,22 @@ msgstr "Comentarios publicados"
 msgid "Comments"
 msgstr "Comentarios"
 
-#: Plugin\Comment\Controller\ListController.php:78
+#: Plugin\Comment\Controller\ListController.php:108
 msgid "Comment details"
 msgstr "Detalle de comentario"
 
-#: Plugin\Comment\Controller\ListController.php:80
+#: Plugin\Comment\Controller\ListController.php:110
 #: Plugin\Comment\View\List\admin_view.ctp:1
 msgid "Comment Details"
 msgstr "Detalle de Comentario"
+
+#: Plugin\Comment\Controller\ListController.php:126
+msgid "Comment has been deleted."
+msgstr "El comentario ha sido eliminado."
+
+#: Plugin\Comment\Controller\ListController.php:128
+msgid "Comment could not be deleted."
+msgstr "El comentario no pudo ser eliminado."
 
 #: Plugin\Comment\Model\Comment.php:111;121
 msgid "Anonymous"
@@ -634,11 +638,11 @@ msgstr ""
 
 #: Plugin\Comment\View\Elements\settings.ctp:23
 msgid "Black Glass"
-msgstr ""
+msgstr "Cirstal Oscuro"
 
 #: Plugin\Comment\View\Elements\settings.ctp:24
 msgid "Clean"
-msgstr ""
+msgstr "Limpio"
 
 #: Plugin\Comment\View\Elements\settings.ctp:35
 msgid "Auto-Detect"
@@ -697,6 +701,7 @@ msgid "Mark as SPAM"
 msgstr "Marcar como SPAM"
 
 #: Plugin\Comment\View\Elements\settings.ctp:89
+#: Plugin\Comment\View\Helper\CommentHookHelper.php:160
 msgid "Delete"
 msgstr "Eliminar"
 
@@ -712,14 +717,22 @@ msgstr "Publicado"
 msgid "Unpublished (%s)"
 msgstr "No publicados (%s)"
 
-#: Plugin\Comment\View\Helper\CommentHookHelper.php:120
+#: Plugin\Comment\View\Helper\CommentHookHelper.php:129
 msgid "Invalid security code."
 msgstr "Código de seguridad inválido."
 
-#: Plugin\Comment\View\List\admin_show.ctp:9
+#: Plugin\Comment\View\Helper\CommentHookHelper.php:156
+msgid "Details"
+msgstr "Detalles"
+
+#: Plugin\Comment\View\Helper\CommentHookHelper.php:160
+msgid "Delete selected comment ?"
+msgstr "¿Eliminar el comentario seleccionado?"
+
+#: Plugin\Comment\View\List\admin_show.ctp:9;56
 #: Plugin\Comment\View\List\admin_view.ctp:17
 #: Plugin\User\View\Elements\settings.ctp:26;50;97;121
-#: View\Elements\theme_node_comments_form.ctp:56
+#: View\Elements\theme_node_comments_form.ctp:53
 msgid "Subject"
 msgstr "Asunto"
 
@@ -745,31 +758,63 @@ msgstr "d/m/Y - H:i"
 msgid "There are no comments to display"
 msgstr "No hay comentarios para mostrar"
 
-#: Plugin\Comment\View\List\admin_show.ctp:33
+#: Plugin\Comment\View\List\admin_show.ctp:35
+#: Plugin\Node\View\Contents\admin_index.ctp:55
+#: Plugin\User\View\List\admin_index.ctp:37
+msgid "Filter Options"
+msgstr "Opciones de Filtrado"
+
+#: Plugin\Comment\View\List\admin_show.ctp:40
+msgid "Author’s name"
+msgstr "Nombre del autor"
+
+#: Plugin\Comment\View\List\admin_show.ctp:48
+msgid "Author’s e-mail"
+msgstr "E-mail del autor"
+
+#: Plugin\Comment\View\List\admin_show.ctp:64
+msgid "Comment’s body"
+msgstr "Cuerpo de comentario"
+
+#: Plugin\Comment\View\List\admin_show.ctp:72
+msgid "Author’s host name (IP)"
+msgstr "Host del autor (IP)"
+
+#: Plugin\Comment\View\List\admin_show.ctp:80
+msgid "Author’s web site"
+msgstr "Web del autor"
+
+#: Plugin\Comment\View\List\admin_show.ctp:85
+#: Plugin\Node\View\Contents\admin_index.ctp:124
+#: Plugin\User\View\List\admin_index.ctp:66
+msgid "Filter"
+msgstr "Filtrar"
+
+#: Plugin\Comment\View\List\admin_show.ctp:90
 #: Plugin\Locale\View\Languages\admin_index.ctp:99
 msgid "Are you sure ?"
 msgstr "¿Está seguro ?"
 
-#: Plugin\Comment\View\List\admin_show.ctp:35
+#: Plugin\Comment\View\List\admin_show.ctp:92
 #: Plugin\Locale\View\Languages\admin_index.ctp:101
 #: Plugin\Node\View\Contents\admin_index.ctp:131
 #: Plugin\User\View\List\admin_index.ctp:73
 msgid "Update Options"
 msgstr "Opciones de Modificación"
 
-#: Plugin\Comment\View\List\admin_show.ctp:39
+#: Plugin\Comment\View\List\admin_show.ctp:96
 msgid "Approve selected comments"
 msgstr "Aprobar comentarios sleccioandos"
 
-#: Plugin\Comment\View\List\admin_show.ctp:40
+#: Plugin\Comment\View\List\admin_show.ctp:97
 msgid "Unapprove selected comments"
 msgstr "No aprobar comentarios sleccioandos"
 
-#: Plugin\Comment\View\List\admin_show.ctp:41
+#: Plugin\Comment\View\List\admin_show.ctp:98
 msgid "Delete selected comments"
 msgstr "Eliminar comentarios seleccionados"
 
-#: Plugin\Comment\View\List\admin_show.ctp:58
+#: Plugin\Comment\View\List\admin_show.ctp:115
 #: Plugin\Locale\View\Languages\admin_index.ctp:115
 #: Plugin\Node\View\Contents\admin_index.ctp:150
 #: Plugin\User\View\List\admin_index.ctp:87
@@ -791,8 +836,8 @@ msgid "on %s"
 msgstr "el %s"
 
 #: Plugin\Comment\View\List\admin_view.ctp:14
+#: View\Elements\theme_comment.ctp:28
 #: View\Elements\theme_node.ctp:33
-#: View\Elements\theme_node_comments.ctp:55
 msgid "M d, Y H:i"
 msgstr "d \\d\\e M, Y H:i"
 
@@ -801,7 +846,7 @@ msgid "Hostname"
 msgstr "Nombre de host"
 
 #: Plugin\Comment\View\List\admin_view.ctp:16
-#: View\Elements\theme_node_comments_form.ctp:39;50
+#: View\Elements\theme_node_comments_form.ctp:38;47
 msgid "Web page"
 msgstr "Página web"
 
@@ -930,11 +975,11 @@ msgstr "Clave"
 
 #: Plugin\Field\Fields\FieldList\View\Elements\settings_from.ctp:5
 msgid "Radio buttons"
-msgstr ""
+msgstr "Botones de opción"
 
 #: Plugin\Field\Fields\FieldList\View\Elements\settings_from.ctp:5
 msgid "Checkboxes"
-msgstr ""
+msgstr "Casilla de verificación"
 
 #: Plugin\Field\Fields\FieldList\View\Elements\settings_from.ctp:7
 msgid "List Type"
@@ -1098,10 +1143,6 @@ msgstr "Sobre"
 msgid "Inline"
 msgstr "En línea"
 
-#: Plugin\Field\View\Elements\display_settings.ctp:32
-msgid "Hooktags"
-msgstr ""
-
 #: Plugin\Field\View\Elements\display_settings.ctp:38
 msgid "Allow hooktags"
 msgstr "Permitir hooktags"
@@ -1203,10 +1244,14 @@ msgstr "Módulo o idioma inválido"
 msgid "Language package upload success"
 msgstr "Paquete de idioma cargado correctamente"
 
-#: Plugin\Locale\Controller\TranslationsController.php:49;51;67;84
+#: Plugin\Locale\Controller\TranslationsController.php:49;67;84
 #: Plugin\Locale\View\Elements\toolbar.ctp:4
 msgid "Translatable entries"
 msgstr "Entradas traducibles"
+
+#: Plugin\Locale\Controller\TranslationsController.php:51
+msgid "Translatable Entries"
+msgstr "Entradas Traducibles"
 
 #: Plugin\Locale\Controller\TranslationsController.php:57;75
 msgid "Entry has been saved"
@@ -1254,7 +1299,7 @@ msgstr "Lista HTML"
 
 #: Plugin\Locale\View\Elements\locale_language_switcher_settings.ctp:8
 msgid "Selectbox"
-msgstr ""
+msgstr "Lista de Selección"
 
 #: Plugin\Locale\View\Elements\locale_language_switcher_settings.ctp:16
 msgid "Display language flag icon"
@@ -1265,8 +1310,8 @@ msgid "Display language name"
 msgstr "Mostrar nombre de idioma"
 
 #: Plugin\Locale\View\Elements\toolbar.ctp:3
-#: Plugin\Node\View\Elements\search_form.ctp:41
 #: Vendor\DummyLocale.php:15
+#: View\Elements\theme_search_form.ctp:41
 msgid "Languages"
 msgstr "Idiomas"
 
@@ -1555,7 +1600,6 @@ msgid "Usage"
 msgstr "Modo de uso"
 
 #: Plugin\Locale\View\Translations\admin_list.ctp:4
-#: View\Themed\Default\app\ThemeDefault\View\Elements\settings.ctp:20
 msgid "Text"
 msgstr "Texto"
 
@@ -1577,8 +1621,8 @@ msgstr "No hay traducciones disponibles"
 
 #: Plugin\Locale\View\Translations\admin_list.ctp:27;30
 #: Plugin\Node\View\Elements\search_block.ctp:26
-#: Plugin\Node\View\Elements\search_form.ctp:15;50
-#: Plugin\Node\View\Helper\NodeHookHelper.php:51
+#: Plugin\Node\View\Helper\NodeHookHelper.php:63
+#: View\Elements\theme_search_form.ctp:15;50
 msgid "Search"
 msgstr "Buscar"
 
@@ -1718,6 +1762,11 @@ msgstr "Texto a utilizar para este enlace en el menú."
 msgid "Path *"
 msgstr "Ruta *"
 
+#: Plugin\Menu\View\Manage\admin_add_link.ctp:9
+#: Plugin\Menu\View\Manage\admin_edit_link.ctp:7
+msgid "The path for this menu link. This can be an internal QuickApps path such as /type-of-content/my-post.html or an external URL such as http://quickapps.es. Enter '/' to link to the front page."
+msgstr "La ruta para este enlace. Puede ser una ruta interna a QuickApps como /tipo-nodo/mi-nodo.html or una URL externa como http://quickapps.es. Ingrese '/' para enlazar con la portada."
+
 #: Plugin\Menu\View\Manage\admin_add_link.ctp:12
 #: Plugin\Menu\View\Manage\admin_edit_link.ctp:18
 #: Plugin\Node\View\Contents\admin_add.ctp:78
@@ -1778,20 +1827,16 @@ msgstr "Si está marcado y este enlace tiene hijos, el menu aparecerá como expa
 #: Plugin\Menu\View\Manage\admin_edit_link.ctp:56
 #: Plugin\Node\View\Types\admin_display.ctp:44
 #: Plugin\Node\View\Types\admin_edit.ctp:56
-#: Plugin\System\View\Themes\admin_settings.ctp:29
+#: Plugin\System\View\Themes\admin_settings.ctp:35
 #: Plugin\Taxonomy\View\Vocabularies\admin_terms.ctp:9
 #: Plugin\User\View\Display\admin_index.ctp:41
-#: View\Elements\theme_node_comments_form.ctp:64
+#: View\Elements\theme_node_comments_form.ctp:60
 msgid "Save"
 msgstr "Guardar"
 
 #: Plugin\Menu\View\Manage\admin_edit_link.ctp:2
 msgid "Edit menu link"
 msgstr "Editar enlace de menú"
-
-#: Plugin\Menu\View\Manage\admin_edit_link.ctp:7
-msgid "The path for this menu link. This can be an internal QuickApps path such as /type-of-content/my-post.html or an external URL such as http://quickapps.es. Enter '/' to link to the front page."
-msgstr "La ruta para este enlace. Puede ser una ruta interna a QuickApps como /tipo-nodo/mi-nodo.html or una URL externa como http://quickapps.es. Ingrese '/' para enlazar con la portada."
 
 #: Plugin\Menu\View\Manage\admin_edit_link.ctp:9
 msgid "Path"
@@ -1831,7 +1876,6 @@ msgid "Delete selected menu ?"
 msgstr "¿Eliminar el menú seleccionado?"
 
 #: Plugin\Menu\View\Manage\admin_links.ctp:2;4
-#: View\Themed\Default\app\ThemeDefault\View\Elements\settings.ctp:19
 msgid "Links"
 msgstr "Enlaces"
 
@@ -2239,11 +2283,6 @@ msgstr "traducir"
 msgid "There are no nodes to display"
 msgstr "No hay nodos disponibles"
 
-#: Plugin\Node\View\Contents\admin_index.ctp:55
-#: Plugin\User\View\List\admin_index.ctp:37
-msgid "Filter Options"
-msgstr "Opciones de Filtrado"
-
 #: Plugin\Node\View\Contents\admin_index.ctp:81
 msgid "Front Page"
 msgstr "En portada"
@@ -2267,11 +2306,6 @@ msgstr "superior en listas"
 #: Plugin\Node\View\Contents\admin_index.ctp:98
 msgid "not sticky at top"
 msgstr "no superior en listas"
-
-#: Plugin\Node\View\Contents\admin_index.ctp:124
-#: Plugin\User\View\List\admin_index.ctp:66
-msgid "Filter"
-msgstr "Filtrar"
 
 #: Plugin\Node\View\Contents\admin_index.ctp:129
 #: Plugin\User\View\List\admin_index.ctp:71
@@ -2328,22 +2362,6 @@ msgstr "Prefijo de URL"
 msgid "Adds a prefix to each search URL query."
 msgstr "Agrega un prefijo a cada URL de búsqueda."
 
-#: Plugin\Node\View\Elements\search_form.ctp:19
-msgid "Containing any of the words"
-msgstr "Contenga alguna de estas palabras"
-
-#: Plugin\Node\View\Elements\search_form.ctp:20
-msgid "Containing the phrase"
-msgstr "Contenga la frase"
-
-#: Plugin\Node\View\Elements\search_form.ctp:21
-msgid "Containing none of the words"
-msgstr "No contenga estas palabras"
-
-#: Plugin\Node\View\Elements\search_form.ctp:28
-msgid "Only of the type(s)"
-msgstr "Solo del tipo(s)"
-
 #: Plugin\Node\View\Elements\toolbar-index.ctp:3
 msgid "New Content"
 msgstr "Nuevo Contenido"
@@ -2353,12 +2371,12 @@ msgid "Add Type"
 msgstr "Nuevo Tipo"
 
 #: Plugin\Node\View\Node\search.ctp:21
-#: View\Elements\theme_node_comments.ctp:20;84
+#: View\Elements\theme_node_comments.ctp:20;37
 msgid "«"
 msgstr "«"
 
 #: Plugin\Node\View\Node\search.ctp:23
-#: View\Elements\theme_node_comments.ctp:22;86
+#: View\Elements\theme_node_comments.ctp:22;39
 msgid "»"
 msgstr "»"
 
@@ -2660,31 +2678,31 @@ msgstr "No se pudo instalar el módulo"
 msgid "Module has been installed"
 msgstr "El módulo ha sido instalado"
 
-#: Plugin\System\Controller\ThemesController.php:19
+#: Plugin\System\Controller\ThemesController.php:37
 msgid "Your themes folder is not writable. %s"
 msgstr "Su directorio de themes no tiene permisos de escritura. %s"
 
-#: Plugin\System\Controller\ThemesController.php:67
+#: Plugin\System\Controller\ThemesController.php:86
 msgid "Theme settings"
 msgstr "Configuración de theme"
 
-#: Plugin\System\Controller\ThemesController.php:69
+#: Plugin\System\Controller\ThemesController.php:88
 msgid "Configure Theme"
 msgstr "Configurar Theme"
 
-#: Plugin\System\Controller\ThemesController.php:78
+#: Plugin\System\Controller\ThemesController.php:97
 msgid "Theme '%s' has been uninstalled"
 msgstr "El theme '%s' ha sido desinstalado"
 
-#: Plugin\System\Controller\ThemesController.php:82
+#: Plugin\System\Controller\ThemesController.php:101
 msgid "Error uninstalling theme '%s'"
 msgstr "Error al desinstalar el theme '%s'"
 
-#: Plugin\System\Controller\ThemesController.php:96
+#: Plugin\System\Controller\ThemesController.php:115
 msgid "Theme could not been installed"
 msgstr "No se pudo instalar el tema"
 
-#: Plugin\System\Controller\ThemesController.php:98
+#: Plugin\System\Controller\ThemesController.php:117
 msgid "Theme has been installed"
 msgstr "El theme ha sido instalado"
 
@@ -2796,13 +2814,41 @@ msgstr "Temas de ayuda"
 msgid "Help is available on the following items"
 msgstr "La ayuda está disponible para los siguientes elementos"
 
-#: Plugin\System\View\Helper\SystemHookHelper.php:27
-msgid "Powered by &copy; QuickApps v%s"
-msgstr "Powered by &copy; QuickApps v%s"
+#: Plugin\System\View\Helper\SystemHookHelper.php:37
+msgid "Powered by &copy; <a href=\"http://cms.quickapps.es/\">QuickApps CMS</a> v%s"
+msgstr ""
 
-#: Plugin\System\View\Helper\SystemHookHelper.php:43
+#: Plugin\System\View\Helper\SystemHookHelper.php:61
 msgid "Recent Content"
 msgstr "Contenidos Recientes"
+
+#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:48
+msgid "Color %d"
+msgstr "Color %"
+
+#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:52
+msgid "Font %d"
+msgstr "Fuente %d"
+
+#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:56
+msgid "Size %d"
+msgstr "Tamaño %d"
+
+#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:60
+msgid "Add Your CSS"
+msgstr "CSS Personalizado"
+
+#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:65
+msgid "Unknow property %d"
+msgstr "Propiedad desconocida"
+
+#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:166
+msgid "Reset"
+msgstr "Reestablecer"
+
+#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:181
+msgid "Reset selected style sheet ?"
+msgstr "¿Reestablecer la hoja de estilos seleccionada?"
 
 #: Plugin\System\View\Modules\admin_index.ctp:7
 msgid "Install New Module"
@@ -2906,39 +2952,43 @@ msgstr "¿Cambiar el theme de administración, seguro?\\n"
 msgid "\"%s\" Theme"
 msgstr "Tema \"%s\""
 
-#: Plugin\System\View\Themes\admin_settings.ctp:12
+#: Plugin\System\View\Themes\admin_settings.ctp:13
+msgid "Customize Appearance"
+msgstr "Personalizar Apariencia"
+
+#: Plugin\System\View\Themes\admin_settings.ctp:18
 msgid "Toggle display"
 msgstr "Opciones de visualización"
 
-#: Plugin\System\View\Themes\admin_settings.ctp:13;19
+#: Plugin\System\View\Themes\admin_settings.ctp:19;25
 msgid "Logo"
 msgstr "Logo"
 
-#: Plugin\System\View\Themes\admin_settings.ctp:14
+#: Plugin\System\View\Themes\admin_settings.ctp:20
 msgid "Site name"
 msgstr "Nombre del sitio"
 
-#: Plugin\System\View\Themes\admin_settings.ctp:15
+#: Plugin\System\View\Themes\admin_settings.ctp:21
 msgid "Site slogan"
 msgstr "Eslogan del sitio"
 
-#: Plugin\System\View\Themes\admin_settings.ctp:16;24
+#: Plugin\System\View\Themes\admin_settings.ctp:22;30
 msgid "Shortcut icon"
 msgstr "Favicon"
 
-#: Plugin\System\View\Themes\admin_settings.ctp:20
+#: Plugin\System\View\Themes\admin_settings.ctp:26
 msgid "Logo image URL"
 msgstr "URL de imágen del logo"
 
-#: Plugin\System\View\Themes\admin_settings.ctp:21
+#: Plugin\System\View\Themes\admin_settings.ctp:27
 msgid "Leave blank for use default logo."
 msgstr "Dejar en blanco para usar el logo por defecto."
 
-#: Plugin\System\View\Themes\admin_settings.ctp:25
+#: Plugin\System\View\Themes\admin_settings.ctp:31
 msgid "Shortcut icon URL"
 msgstr "URL de favicon"
 
-#: Plugin\System\View\Themes\admin_settings.ctp:26
+#: Plugin\System\View\Themes\admin_settings.ctp:32
 msgid "Leave blank for use default favicon."
 msgstr "Dejar en blanco para usar el favicon por defecto."
 
@@ -3230,7 +3280,7 @@ msgstr "Editando Rol"
 
 #: Plugin\User\Controller\UserController.php:25;38
 #: Plugin\User\View\Elements\user_login_block.ctp:9
-#: Plugin\User\View\Helper\UserHookHelper.php:41
+#: Plugin\User\View\Helper\UserHookHelper.php:57
 #: Plugin\User\View\User\admin_login.ctp:2;11
 #: Plugin\User\View\User\login.ctp:2
 msgid "Login"
@@ -3389,7 +3439,7 @@ msgstr "Contraseña"
 msgid "Number of users"
 msgstr "Número de usuarios"
 
-#: Plugin\User\View\Helper\UserHookHelper.php:28
+#: Plugin\User\View\Helper\UserHookHelper.php:36
 msgid "Who's New"
 msgstr "Nuevos Usuarios"
 
@@ -3461,7 +3511,6 @@ msgid "Confirm password"
 msgstr "Confirme contraseña"
 
 #: Plugin\User\View\List\admin_add.ctp:28
-#: Plugin\User\View\User\register.ctp:24
 msgid "Create user"
 msgstr "Crear usuario"
 
@@ -3494,7 +3543,7 @@ msgstr "Nombre de usuario"
 
 #: Plugin\User\View\List\admin_index.ctp:13;62
 #: Plugin\User\View\User\profile.ctp:14
-#: View\Elements\theme_node_comments_form.ctp:38
+#: View\Elements\theme_node_comments_form.ctp:37
 #: View\Install\user_account.ctp:35
 msgid "Email"
 msgstr "Email"
@@ -3568,6 +3617,10 @@ msgstr "d M, Y"
 msgid "Last connection"
 msgstr "Última conexión"
 
+#: Plugin\User\View\User\register.ctp:23
+msgid "Register"
+msgstr "Registrarse"
+
 #: Vendor\DummyLocale.php:6
 msgid "Dashboard"
 msgstr "Resumen"
@@ -3615,6 +3668,18 @@ msgstr "« Anterior"
 msgid " Next »"
 msgstr " Siguiente »"
 
+#: View\Elements\theme_comment.ctp:28
+msgid "said on %s"
+msgstr "dijo el %s"
+
+#: View\Elements\theme_comment.ctp:29
+msgid "Permalink"
+msgstr "Permalink"
+
+#: View\Elements\theme_comment.ctp:40
+msgid "Quote"
+msgstr "Citar"
+
 #: View\Elements\theme_node.ctp:32
 msgid "published by <a href=\"%s\">%s</a>"
 msgstr "publicado por <a href=\"%s\">%s</a>"
@@ -3627,37 +3692,41 @@ msgstr "%d comentarios"
 msgid "Read More"
 msgstr "Leer Más"
 
-#: View\Elements\theme_node_comments.ctp:55
-msgid "said on %s"
-msgstr "dijo el %s"
-
-#: View\Elements\theme_node_comments.ctp:56
-msgid "Permalink"
-msgstr "Permalink"
-
-#: View\Elements\theme_node_comments.ctp:68
-msgid "Quote"
-msgstr "Citar"
-
 #: View\Elements\theme_node_comments_form.ctp:16
 msgid "Add new comment"
 msgstr "Nuevo comentario"
 
-#: View\Elements\theme_node_comments_form.ctp:21;28;37
+#: View\Elements\theme_node_comments_form.ctp:21;29;36
 msgid "Your name"
 msgstr "Tu nombre"
 
-#: View\Elements\theme_node_comments_form.ctp:48
+#: View\Elements\theme_node_comments_form.ctp:45
 msgid "Your name *"
 msgstr "Tu nombre *"
 
-#: View\Elements\theme_node_comments_form.ctp:49
+#: View\Elements\theme_node_comments_form.ctp:46
 msgid "Email *"
 msgstr "Email *"
 
-#: View\Elements\theme_node_comments_form.ctp:59
+#: View\Elements\theme_node_comments_form.ctp:56
 msgid "Comment *"
 msgstr "Comentario *"
+
+#: View\Elements\theme_search_form.ctp:19
+msgid "Containing any of the words"
+msgstr "Contenga alguna de estas palabras"
+
+#: View\Elements\theme_search_form.ctp:20
+msgid "Containing the phrase"
+msgstr "Contenga la frase"
+
+#: View\Elements\theme_search_form.ctp:21
+msgid "Containing none of the words"
+msgstr "No contenga estas palabras"
+
+#: View\Elements\theme_search_form.ctp:28
+msgid "Only of the type(s)"
+msgstr "Solo del tipo(s)"
 
 #: View\Errors\error400.ctp:4
 #: View\Errors\error500.ctp:4
@@ -3697,7 +3766,7 @@ msgstr "Aviso"
 msgid "If you want to customize this error message, create %s"
 msgstr "Si desea personalizar este mensaje de error, cree %s"
 
-#: View\Helper\LayoutHelper.php:342
+#: View\Helper\LayoutHelper.php:367
 msgid "The node could not be rendered"
 msgstr "El nodo no pudo ser renderizado"
 
@@ -3843,26 +3912,6 @@ msgstr "Directorio de slider fotográfico"
 #: View\Themed\Default\app\ThemeDefault\View\Elements\settings.ctp:3
 msgid "Recomended images size:"
 msgstr "Tamaño de imágen recomendado:"
-
-#: View\Themed\Default\app\ThemeDefault\View\Elements\settings.ctp:8
-msgid "Color Scheme"
-msgstr "Configuración de Colores"
-
-#: View\Themed\Default\app\ThemeDefault\View\Elements\settings.ctp:17
-msgid "Header top"
-msgstr ""
-
-#: View\Themed\Default\app\ThemeDefault\View\Elements\settings.ctp:18
-msgid "Header bottom"
-msgstr ""
-
-#: View\Themed\Default\app\ThemeDefault\View\Elements\settings.ctp:21
-msgid "Main Background"
-msgstr ""
-
-#: View\Themed\Default\app\ThemeDefault\View\Elements\settings.ctp:22
-msgid "Footer"
-msgstr ""
 
 #: View\Themed\Default\app\ThemeDefault\View\Elements\theme_default_slider_settings.ctp:2
 msgid "Enter one image per line, in the format <b>file name|url|caption</b>. e.g.:"
@@ -4050,6 +4099,17 @@ msgstr "Contraseñas distintas o con menos de 6 caracteres."
 #: Lib\Routing\Router.php:186
 msgid "Route classes must extend CakeRoute"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Invalid album name"
+#~ msgstr "Nombre de Campo inválido \"%s\"."
+
+#, fuzzy
+#~ msgid "Invalid gallery name"
+#~ msgstr "Módulo o idioma inválido"
+
+#~ msgid "Powered by &copy; QuickApps v%s"
+#~ msgstr "Powered by &copy; QuickApps v%s"
 
 #~ msgid "Region"
 #~ msgstr "Región"
