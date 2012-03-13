@@ -12,7 +12,25 @@
 class ThemesController extends SystemAppController {
     public $name = 'Themes';
     public $uses = array('Block.Block');
-    public $components = array('Installer');
+    public $components = array('Installer', 'System.ThemeCustomizer');
+    public $helpers = array('System.ThemeCustomizer');
+
+    public function beforeFilter() {
+        parent::beforeFilter();
+
+        $this->Auth->allow('serve_css');
+    }
+
+    public function serve_css($theme_name, $css) {
+        Configure::write('debug', 0);
+        header("Content-type: text/css", true);
+
+        if ($cache = Cache::read("theme_{$theme_name}_{$css}", '__theme_css__')) {
+            die($cache['content']);
+        }
+
+        die(' ');
+    }
 
     public function admin_index() {
         if (!is_writable(ROOT . DS . 'Themes' . DS . 'Themed' . DS)) {
@@ -53,6 +71,7 @@ class ThemesController extends SystemAppController {
         }
 
         if (isset($this->data['Module'])) {
+            $this->ThemeCustomizer->savePost();
             $this->Module->save($this->data);
             Cache::delete('Modules');
             $this->QuickApps->loadModules();

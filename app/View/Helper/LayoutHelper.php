@@ -36,6 +36,7 @@ class LayoutHelper extends AppHelper {
     public function stylesheets($stylesheets = array()) {
         $output = $inline = $import = '';
         $stylesheets = Set::merge($this->_View->viewVars['Layout']['stylesheets'], $stylesheets);
+        $themePath = App::themePath(Configure::read('Theme.info.folder'));
 
         // pass css list array to modules
         $this->hook('stylesheets_alter', $stylesheets);
@@ -45,9 +46,25 @@ class LayoutHelper extends AppHelper {
                 if ($media == 'inline') {
                     $inline .= "{$file}\n\n";
                 } elseif ($media == 'import') {
-                    $import .= '@import url("' . Router::url($file, true) . '");' . "\n";
+                    $c = Router::url($file, true);
                 } else {
-                    $output .= "\n". $this->_View->Html->css($file, 'stylesheet', array('media' => $media));
+                    $c = $this->_View->Html->css($file, 'stylesheet', array('media' => $media));
+                }
+
+                if ($media != 'inline') {
+                    if (preg_match('/\/theme\/' . Configure::read('Theme.info.folder') . '\/css\/(.*).css/', $c, $matches)) {
+                        if ($matches[1] &&
+                            file_exists(TMP . 'cache' . DS . 'persistent' . DS . Inflector::underscore('cake_theme_' . Configure::read('Theme.info.folder') . '_' . $matches[1] . '_css'))
+                        ) {
+                            $c = preg_replace('/\/theme\/' . Configure::read('Theme.info.folder') . '\/css\/(.*).css/', '/theme/' . Configure::read('Theme.info.folder') . '/css/\1.css@@custom', $c);
+                        }
+                    }
+                }
+
+                if ($media == 'import') {
+                    $import .= '@import url("' . $c . '");' . "\n";
+                } elseif ($media != 'inline') {
+                    $output .= "\n". $c;
                 }
             }
         }
