@@ -26,7 +26,7 @@ class Fields {
 		),
 		array(
 			'id' => '3',
-			'name' => 'field_aricle_content',
+			'name' => 'field_article_content',
 			'label' => 'Article content',
 			'belongsTo' => 'NodeType-article',
 			'field_module' => 'FieldText',
