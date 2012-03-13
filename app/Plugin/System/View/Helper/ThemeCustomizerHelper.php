@@ -22,7 +22,8 @@ class ThemeCustomizerHelper extends AppHelper {
                 $color = $font = 0;
 
                 foreach ($cssFiles as $css) {
-                    $__out = '';
+                    $__css = '';
+                    $__groups = array();
                     $__noTitleCounters = array(
                         'color' => 0,
                         'font' => 0,
@@ -34,6 +35,7 @@ class ThemeCustomizerHelper extends AppHelper {
 
                     if (preg_match_all('/\/\*([\s\t\n\r]*?)\[(' . $tags . ')\b(.*?)(?:(\/))?\]([\s\t\n\r]*?)\*\/(?:(.+?)\/\*([\s\t\n\r]*?)\[\/\2\]([\s\t\n\r]*?)\*\/)?/s', $cssContent, $matches)) {
                         foreach ($matches[0] as $i => $match) {
+                            $__style = '';
                             $field = base64_encode($css) . ".{$i}";
                             $attrs = $this->__parseAtts($matches[3][$i]);
                             $value = '';
@@ -79,7 +81,7 @@ class ThemeCustomizerHelper extends AppHelper {
                                 case 'color':
                                     $color++;
                                     $id = md5("ThemeCustomizer.{$theme_name}.{$field}");
-                                    $__out .=
+                                    $__style .=
                                         $this->_View->Form->label(__d($theme_name, $attrs['title']))
                                         . '<div class="colorSelector">'
                                         . $this->_View->Form->input(
@@ -99,7 +101,7 @@ class ThemeCustomizerHelper extends AppHelper {
                                 case 'font':
                                     $font++;
                                     $id = md5("ThemeCustomizer.{$theme_name}.{$field}");
-                                    $__out .= $this->_View->Form->input(
+                                    $__style .= $this->_View->Form->input(
                                         "ThemeCustomizer.{$theme_name}.{$field}", 
                                         array(
                                             'id' => $id,
@@ -113,7 +115,7 @@ class ThemeCustomizerHelper extends AppHelper {
                                 break;
 
                                 case 'miscellaneous':
-                                    $__out .= $this->_View->Form->input(
+                                    $__style .= $this->_View->Form->input(
                                         "ThemeCustomizer.{$theme_name}.{$field}", 
                                         array(
                                             'value' => $value,
@@ -140,7 +142,7 @@ class ThemeCustomizerHelper extends AppHelper {
                                         }
 
                                         if (!$h) {
-                                            $__out .= $this->_View->Form->input(
+                                            $__style .= $this->_View->Form->input(
                                                 "ThemeCustomizer.{$theme_name}.{$field}", 
                                                 array(
                                                     'value' => $value,
@@ -150,21 +152,41 @@ class ThemeCustomizerHelper extends AppHelper {
                                                 )
                                             );
                                         } else {
-                                            $__out .= $h;
+                                            $__style .= $h;
                                         }
                                 break;
                             }
+                            
+                            if (!empty($__style)) {
+                                if (isset($attrs['group'])) {
+                                    $__groups[$attrs['group']][] = $__style;
+                                } else {
+                                    $__css .= $__style;
+                                }
+                            }
                         }
                     }
+                    
+                    $__g = '';
 
-                    if (!empty($__out)) {
-                        $__out .= $this->_View->Form->hidden("ThemeCustomizer.{$theme_name}.__reset", array('value' => 0));
+                    foreach ($__groups as $title => $content) {
+                        $__g .= $this->_View->Html->useTag('fieldsetstart', $title);
+                        $__g .= implode(' ', $content);
+                        $__g .= $this->_View->Html->useTag('fieldsetend');
+                    }
+
+                    $__css = $__g . $__css;
+
+                    if (!empty($__css)) {
+                        $__css .= $this->_View->Form->hidden("ThemeCustomizer.{$theme_name}.__reset", array('value' => 0));
 
                         $out .=
-                            $this->_View->Html->useTag('fieldsetstart', '<span class="toggle-style-customizer" id="' . md5($css) . '" style="cursor:pointer;"><em>' . $css . '</em></span>')
-                            . "<div class=\"styles-container-" . md5($css) . "\" style=\"display:none;\" id=\"{$css}\">"
-                            . $this->_View->Form->submit(__t('Reset'), array('style' => 'float:right; display:block;', 'onclick' => 'return reset_styles("' . $theme_name . '", "' . $css . '");'))
-                            . $__out
+                            $this->_View->Html->useTag('fieldsetstart', '<span class="fieldset-toggle"><em>' . $css . '</em></span>')
+                            . "<div class=\"fieldset-toggle-container\" style=\"display:none;\" id=\"{$css}\">"
+                                . '<div style="overflow:hidden;">'
+                                    . $this->_View->Form->submit(__t('Reset'), array('style' => 'float:right; display:block;', 'onclick' => 'return reset_styles("' . $theme_name . '", "' . $css . '");'))
+                                . '</div>'
+                                . $__css
                             . "</div>"
                             . $this->_View->Html->useTag('fieldsetend');
                     }
@@ -179,10 +201,6 @@ class ThemeCustomizerHelper extends AppHelper {
 
             $scripts = '
                 <script>
-                    $("span.toggle-style-customizer").click(function () {
-                        $("div.styles-container-" + $(this).attr("id")).toggle("fast", "linear");
-                    });
-
                     function reset_styles(theme_name, css) {
                         var c = confirm("' . __t('Reset selected style sheet ?') . '");
 
