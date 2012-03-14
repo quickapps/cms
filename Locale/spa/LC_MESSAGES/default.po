@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2012-03-14 13:02+0000\n"
+"POT-Creation-Date: 2012-03-14 22:49+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christopher Castro <chris@quickapps.es>\n"
 "Language-Team: \n"
@@ -294,7 +294,6 @@ msgid "This module can not be disabled, because it is required by: %s"
 msgstr "Este módulo no se puede deshabilitar, porque es requerido por: %s"
 
 #: Controller\Component\QuickAppsComponent.php:79
-#: View\Layouts\error.ctp:3
 msgid "Site offline"
 msgstr "Sitio fuera de línea"
 
@@ -1617,7 +1616,7 @@ msgid "Usage"
 msgstr "Modo de uso"
 
 #: Plugin\Locale\View\Translations\admin_list.ctp:4
-#: Vendor\DummyLocale.php:57;67
+#: Vendor\DummyLocale.php:65;75
 msgid "Text"
 msgstr "Texto"
 
@@ -1894,7 +1893,7 @@ msgid "Delete selected menu ?"
 msgstr "¿Eliminar el menú seleccionado?"
 
 #: Plugin\Menu\View\Manage\admin_links.ctp:2;4
-#: Vendor\DummyLocale.php:59;69
+#: Vendor\DummyLocale.php:67;77
 msgid "Links"
 msgstr "Enlaces"
 
@@ -1939,19 +1938,19 @@ msgstr "Agregar Contenido"
 msgid "Select content type"
 msgstr "Seleccione tipo de contenido"
 
-#: Plugin\Node\Controller\NodeController.php:176
+#: Plugin\Node\Controller\NodeController.php:177
 msgid "Page not found"
 msgstr "Página no encontrada"
 
-#: Plugin\Node\Controller\NodeController.php:192
+#: Plugin\Node\Controller\NodeController.php:193
 msgid "Your comment has been queued for review by site administrators and will be published after approval."
 msgstr "Tu comentario ha sido puesto en espera de revisar por algun administrador y será publicado después de su aprobación."
 
-#: Plugin\Node\Controller\NodeController.php:194
+#: Plugin\Node\Controller\NodeController.php:195
 msgid "Your comment has been posted."
 msgstr "Tu comentario ha sido publicado."
 
-#: Plugin\Node\Controller\NodeController.php:199
+#: Plugin\Node\Controller\NodeController.php:200
 msgid "Comment could not be saved. Please try again."
 msgstr "No se ha podido procesar el comentario. Por favor intenta otra vez."
 
@@ -3382,7 +3381,7 @@ msgid "Welcome"
 msgstr "Bienvenida"
 
 #: Plugin\User\View\Elements\settings.ctp:32;55;71;78;100;123
-#: Vendor\DummyLocale.php:65
+#: Vendor\DummyLocale.php:73
 msgid "Body"
 msgstr "Cuerpo"
 
@@ -3749,86 +3748,102 @@ msgid "Default backend theme for QuickApps"
 msgstr "Tema administrativo por defecto para QuickApps"
 
 #: Vendor\DummyLocale.php:49
+msgid "Article"
+msgstr "Artículo"
+
+#: Vendor\DummyLocale.php:50
+msgid "Basic page"
+msgstr "Página básica"
+
+#: Vendor\DummyLocale.php:53
+msgid "Use articles for time-sensitive content like news, press releases or blog posts."
+msgstr "Utilice artículos para contenidos variables en el tiempo como noticias, notas de prensa o entradas de blog."
+
+#: Vendor\DummyLocale.php:54
+msgid "Use basic pages for your static content, such as an 'About us' page."
+msgstr "Utilice páginas básicas para contenido estático, como por ejemplo una página \"Quiénes somos\"."
+
+#: Vendor\DummyLocale.php:57
 msgid "Date picker field."
 msgstr "Selector de fechas."
 
-#: Vendor\DummyLocale.php:50
+#: Vendor\DummyLocale.php:58
 msgid "Define file uploader."
 msgstr "Permite la carga de ficheros."
 
-#: Vendor\DummyLocale.php:51
+#: Vendor\DummyLocale.php:59
 msgid "Defines list field types. Use with Options to create selection lists."
 msgstr "Define un campo de tipo lista. Permite la creacion de listas de selección."
 
-#: Vendor\DummyLocale.php:52
+#: Vendor\DummyLocale.php:60
 msgid "Defines simple text field types."
 msgstr "Incorpora campos de tipo texto."
 
-#: Vendor\DummyLocale.php:53
+#: Vendor\DummyLocale.php:61
 msgid "Defines terms list."
 msgstr "Incorpora un listado de términos."
 
-#: Vendor\DummyLocale.php:56;66
+#: Vendor\DummyLocale.php:64;74
 msgid "Main font"
 msgstr "Fuente principal"
 
-#: Vendor\DummyLocale.php:58
+#: Vendor\DummyLocale.php:66
 msgid "Footer"
 msgstr "Pie de página"
 
-#: Vendor\DummyLocale.php:60
+#: Vendor\DummyLocale.php:68
 msgid "Header top"
 msgstr "Cabecera superior"
 
-#: Vendor\DummyLocale.php:61
+#: Vendor\DummyLocale.php:69
 msgid "Header bottom"
 msgstr "Cabecera inferior"
 
-#: Vendor\DummyLocale.php:62
+#: Vendor\DummyLocale.php:70
 msgid "Main background"
 msgstr "Fondo principal"
 
-#: Vendor\DummyLocale.php:68
+#: Vendor\DummyLocale.php:76
 msgid "Background"
 msgstr "Fondo"
 
-#: Vendor\DummyLocale.php:70
+#: Vendor\DummyLocale.php:78
 msgid "Links hover"
 msgstr "Sobre enlaces"
 
-#: Vendor\DummyLocale.php:71
+#: Vendor\DummyLocale.php:79
 msgid "Header"
 msgstr "Cabecera"
 
-#: Vendor\DummyLocale.php:72
+#: Vendor\DummyLocale.php:80
 msgid "Main menu backrgound"
 msgstr "Fondo de menú principal"
 
-#: Vendor\DummyLocale.php:73
+#: Vendor\DummyLocale.php:81
 msgid "Main menu text"
 msgstr "Texto menú principal"
 
-#: Vendor\DummyLocale.php:74
+#: Vendor\DummyLocale.php:82
 msgid "Branding background"
 msgstr "Fondo barra de navegación"
 
-#: Vendor\DummyLocale.php:77
+#: Vendor\DummyLocale.php:85
 msgid "The <em>Main</em> menu is used on many sites to show the major sections of the site, often in a top navigation bar."
 msgstr "Se utiliza en muchos sitios para mostrar las secciones pricipales del sitio web, comunmente en una barra de navegación superior."
 
-#: Vendor\DummyLocale.php:78
+#: Vendor\DummyLocale.php:86
 msgid "The <em>Management</em> menu contains links for administrative tasks."
 msgstr "Contiene enlaces relacionados a tereas administrativas."
 
-#: Vendor\DummyLocale.php:79
+#: Vendor\DummyLocale.php:87
 msgid "The <em>Navigation</em> menu contains links intended for site visitors. Links are added to the <em>Navigation</em> menu automatically by some modules."
 msgstr "Contiene enlaces orientados a los visitantes. Algunos módulos agregan enalces a este menú de forma automática."
 
-#: Vendor\DummyLocale.php:80
+#: Vendor\DummyLocale.php:88
 msgid "The <em>User</em> menu contains links related to the user's account, as well as the 'Log out' link."
 msgstr "Contiene enlaces relacionados con las cuentas de usuarios, como por ejemplo el enlace \"cerrar sesión\"."
 
-#: Vendor\DummyLocale.php:83
+#: Vendor\DummyLocale.php:91
 msgid "We sincerely apologize for the inconvenience.<br/>Our site is currently undergoing scheduled maintenance and upgrades, but will return shortly.<br/>Thanks you for your patience."
 msgstr "Le pedimos disculpas por las molestias. <br/> Nuestro sitio se encuentra actualmente bajo mantenimiento y actualizaciones, pero volverá en breve. <br/> Gracias por su paciencia."
 

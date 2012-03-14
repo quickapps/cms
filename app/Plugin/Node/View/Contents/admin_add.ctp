@@ -1,7 +1,7 @@
 <?php echo $this->Form->create('Node', array('url' => "/admin/node/contents/add/{$this->data['NodeType']['id']}")); ?>
     <!-- Content -->
     <?php echo $this->Html->useTag('fieldsetstart', __t('Add') . ' "' . $this->data['NodeType']['name'] . '"'); ?>
-        <?php echo !empty($this->data['NodeType']['description']) ? $this->data['NodeType']['description'] : ''; ?>
+        <?php echo !empty($this->data['NodeType']['description']) ? __t($this->data['NodeType']['description']) : ''; ?>
         <?php echo $this->Form->hidden('node_type_id', array('value' => $this->data['NodeType']['id'])); ?>
         <?php echo $this->Form->hidden('node_type_base', array('value' => $this->data['NodeType']['base'])); ?>
         <?php echo $this->Form->input('title', array('required' => 'required', 'label' => __t("%s *", $this->data['NodeType']['title_label']))); ?>

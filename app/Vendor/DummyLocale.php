@@ -45,6 +45,14 @@
     echo __t("Default frontend theme for QuickApps");
     echo __t("Default backend theme for QuickApps");
 
+    // Basic content-type titles
+    echo __t("Article");
+    echo __t("Basic page");
+
+    // Basic content-type descriptions
+    echo __t("Use articles for time-sensitive content like news, press releases or blog posts.");
+    echo __t("Use basic pages for your static content, such as an 'About us' page.");
+
     // Field descriptions
     echo __t("Date picker field.");
     echo __t("Define file uploader.");
