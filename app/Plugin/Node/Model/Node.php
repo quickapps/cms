@@ -14,11 +14,13 @@ class Node extends NodeAppModel {
     public $name = 'Node';
     public $useTable = "nodes";
     public $order = array('Node.modified' => 'DESC');
+
     public $actsAs = array(
         'Sluggable',
         'Field.Fieldable' => array('belongsTo' => 'NodeType-{Node.node_type_id}'),
         'Serialized' => array('params')
     );
+
     public $validate = array(
         'title' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Node title can not be empty.')
     );
@@ -133,6 +135,12 @@ class Node extends NodeAppModel {
                 $MenuLink->save($update);
             }
 
+            // update associated translation links
+            $this->UpdateAll(
+                array('Node.translation_of' => "'{$node['Node']['slug']}'"),
+                array('Node.translation_of' => $this->__tmp['slugRegenerated'])
+            );
+
             return;
         }
 
@@ -140,7 +148,8 @@ class Node extends NodeAppModel {
             $this->__tmp['data']['Node']['menu_link'] &&
             isset($this->__tmp['data']['MenuLink']) &&
             !empty($this->__tmp['data']['MenuLink'])
-        ) { # add to menu
+        ) {
+            // add to menu
             $this->recursive = -1;
             $node = $this->findById($nId);
             $path = "/{$node['Node']['node_type_id']}/{$node['Node']['slug']}.html";
@@ -219,7 +228,8 @@ class Node extends NodeAppModel {
             );
 
             $MenuLink->save($data);
-        } else { # remove from menu
+        } else {
+            // remove from menu
             if (!$created) {
                 $node = $this->findById($nId);
                 $link = $MenuLink->find('first',
@@ -249,7 +259,7 @@ class Node extends NodeAppModel {
     }
 
     public function beforeDelete($cascade) {
-        # bind comments and delete them
+        // bind comments and delete them
         $this->bindComments();
 
         $this->recursive = -1;
@@ -315,6 +325,7 @@ class Node extends NodeAppModel {
             $original['Node']['title'] = !$new_title ? "{$original['Node']['title']} ({$l})" : $new_title;
             $original['Node']['regenerate_slug'] = true;
             $original['Node']['language'] = $language;
+            $original['Node']['comment_count'] = 0;
             $original['Node']['translation_of'] = $slug;
             $original['Node']['status'] = 0;
 
