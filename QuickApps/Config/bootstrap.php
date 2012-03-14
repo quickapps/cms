@@ -117,16 +117,18 @@ Cache::config('default', array('engine' => 'File'));
         )
     );
 
-    App::build(
-        array(
-            'Controller' => ROOT . DS . 'SiteApp' . DS . 'Controller' . DS,
-            'Controller/Component' => ROOT . DS . 'SiteApp' . DS . 'Controller' . DS . 'Component' . DS,
-            'Model' => ROOT . DS . 'SiteApp' . DS . 'Model' . DS,
-            'Model/Behavior' => ROOT . DS . 'SiteApp' . DS . 'Model' . DS . 'Behavior' . DS,
-            'View' => ROOT . DS . 'SiteApp' . DS . 'View' . DS,
-            'View/Helper' => ROOT . DS . 'SiteApp' . DS . 'View' . DS . 'Helper' . DS
-        ),
-    App::APPEND);
+    if (file_exists(ROOT . DS . 'SiteApp' . DS)) {
+        App::build(
+            array(
+                'Controller' => ROOT . DS . 'SiteApp' . DS . 'Controller' . DS,
+                'Controller/Component' => ROOT . DS . 'SiteApp' . DS . 'Controller' . DS . 'Component' . DS,
+                'Model' => ROOT . DS . 'SiteApp' . DS . 'Model' . DS,
+                'Model/Behavior' => ROOT . DS . 'SiteApp' . DS . 'Model' . DS . 'Behavior' . DS,
+                'View' => ROOT . DS . 'SiteApp' . DS . 'View' . DS,
+                'View/Helper' => ROOT . DS . 'SiteApp' . DS . 'View' . DS . 'Helper' . DS
+            ),
+        App::APPEND);
+    }
 
     $plugins = App::objects('plugins', null, false);
 
