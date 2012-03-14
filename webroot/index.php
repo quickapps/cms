@@ -8,7 +8,7 @@
  */
     define('DS', DIRECTORY_SEPARATOR);
     define('ROOT', dirname(dirname(__FILE__)));
-    define('QA_PATH', ROOT . DS . 'app');
+    define('QA_PATH', ROOT . DS . 'QuickApps');
 
 /**
  * Editing below this line should NOT be necessary.

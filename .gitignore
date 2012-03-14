@@ -1,22 +1,22 @@
 # shell
-app/Plugin/System/Console/
-app/Console/
-app/Lib/Console/
-app/Cake/Console/
+QuickApps/Plugin/System/Console/
+QuickApps/Console/
+QuickApps/Lib/Console/
+QuickApps/Cake/Console/
 
 # tests
-app/Cake/Test/
-app/Cake/TestSuite/
+QuickApps/Cake/Test/
+QuickApps/Cake/TestSuite/
 
 # site modules
-Modules/
+/Modules/
 
 # sie themes
 Themes/Themed/*
 
 # site webroot
 /webroot/
-!app/Plugin/*/webroot/
+!QuickApps/Plugin/*/webroot/
 
 # site hooks
 Hooks/*
