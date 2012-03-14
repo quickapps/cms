@@ -53,24 +53,25 @@ class FieldTextHookHelper extends AppHelper {
     }
 
     public function close_open_tags($html) {
-        #put all opened tags into an array
+        // put all opened tags into an array
         preg_match_all("#<([a-z]+)( .*)?(?!/)>#iU", $html, $result);
 
         $openedtags = $result[1];
 
-        #put all closed tags into an array
+        // put all closed tags into an array
         preg_match_all("#</([a-z]+)>#iU", $html, $result);
 
         $closedtags = $result[1];
         $len_opened = count($openedtags);
 
-        # all tags are closed
+        // all tags are closed
         if (count($closedtags) == $len_opened) {
             return $html;
         }
 
         $openedtags = array_reverse($openedtags);
-        # close tags
+
+        // close tags
         for($i=0; $i < $len_opened; $i++) {
             if (!in_array($openedtags[$i], $closedtags)) {
                 $html .= '</' . $openedtags[$i] . '>';
@@ -144,7 +145,8 @@ class FieldTextHookHelper extends AppHelper {
     }
 
     private function __trimmer($text, $len = false) {
-        if (!preg_match('/[0-9]+/i', $len)) { # not numeric, readmore line (<!-- readmore -->)
+        if (!preg_match('/[0-9]+/i', $len)) {
+            //not numeric, readmore line (<!-- readmore -->)
             $read_more = explode($len, $text);
 
             return $this->close_open_tags($read_more[0]);
@@ -162,41 +164,15 @@ class FieldTextHookHelper extends AppHelper {
     }
 
     public function obfuscate_email($email) {
-        $plaintext = $email;
-        $result = "<a href=\"";
-        $result .= htmlentities("mailto:" . urlencode($plaintext));
-        $result .= "\">";
-        $result .= htmlentities($plaintext);
-        $result .= "</a>";
-        $pt = $result; // "<a href='mailto:" + plaintext + "'>" + plaintext + "</a>";
-        $result2 = "<script>document.write(";
+        $link = str_rot13('<a href="mailto:' . $email . '" rel="nofollow">' . $email . '</a>');
+        $out = '
+            <script type="text/javascript">
+                document.write(\'' . $link . '\'.replace(/[a-zA-Z]/g,
+                function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
+            </script>
+        ';
+        $out .= "<noscript>[" . __t('Turn on JavaScript to see the email address.') . "]</noscript>";
 
-        for ($i = 0; $i < strlen($pt); ++$i) {
-            switch ($pt[$i]) {
-                case "'":
-                    $result2 .= "\"'\"";
-                break;
-
-                case '"':
-                    $result2 .= '"\'"';
-                break;
-
-                default:
-                    $result2 .= "'" . $pt[$i] . "'";
-                break;
-            }
-
-            if ($i < (strlen($pt)-1)) {
-                $result2 .= '+';
-            }
-
-            if ($i % 25 == 24) {
-              $result2 .= "\n";
-            }
-        }
-
-        $result2 .= ");</script><noscript>[" . __t('Turn on JavaScript to see the email address.') . "]</noscript>";
-
-        return $result2;
+        return $out;
     }
 }
