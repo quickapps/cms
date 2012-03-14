@@ -94,7 +94,7 @@ class NodeController extends NodeAppController {
  * @param string $slug Slug of the Node to render
  */
     public function details($type, $slug) {
-        $result = Cache::read("node_{$slug}");
+        $result = Cache::read("node_{$slug}_" . Configure::read('Variable.language.code'));
 
         if (!$result) {
             // USE Node.roles_cache
@@ -124,7 +124,8 @@ class NodeController extends NodeAppController {
                 $conditions['OR'][] = array('Node.roles_cache LIKE' => "%|{$role_id}|%");
             }
 
-            if ($this->QuickApps->is('user.admin')) { # admin-> no role restrictions
+            if ($this->QuickApps->is('user.admin')) {
+                // admin-> no role restrictions
                 unset($conditions['OR']);
             }
 
@@ -168,7 +169,7 @@ class NodeController extends NodeAppController {
 
             if (isset($result['Node']['cache']) && !empty($result['Node']['cache'])) { #in seconds
                 Cache::config('node_cache', array('engine' => 'File', 'duration' => $result['Node']['cache']));
-                Cache::write("node_{$slug}", $result, 'node_cache');
+                Cache::write("node_{$slug}_" . Configure::read('Variable.language.code'), $result, 'node_cache');
             }
         }
 
