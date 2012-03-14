@@ -4,8 +4,8 @@
 ?>
 
 <div>
-    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-install_fieldset" style="cursor:pointer;">' . __t('Install New Module') . '</span>'); ?>
-        <div id="install_fieldset" class="horizontalLayout" style="display:none;">
+    <?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Install New Module') . '</span>'); ?>
+        <div class="fieldset-toggle-container horizontalLayout" style="display:none;">
             <!-- from file -->
             <?php echo $this->Form->create('Package', array('url' => '/admin/system/modules/install', 'enctype' => 'multipart/form-data')); ?>
                 <?php echo $this->Html->useTag('fieldsetstart', __t('Upload Package File')); ?>
@@ -105,9 +105,3 @@
 <p>&nbsp;</p>
 
 <?php endforeach; ?>
-
-<script>
-    $("#toggle-install_fieldset").click(function () {
-        $("#install_fieldset").toggle('fast', 'linear');
-    });
-</script>

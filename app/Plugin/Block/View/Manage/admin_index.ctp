@@ -1,6 +1,6 @@
 <?php echo $this->Form->create('BlockRegion'); ?>
-    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-site_theme" style="cursor:pointer;">' . $themes[Configure::read('Variable.site_theme')]['info']['name'] . '</span>'); ?>
-    <div id="site_theme" style="display:none;">
+    <?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . $themes[Configure::read('Variable.site_theme')]['info']['name'] . '</span>'); ?>
+    <div class="fieldset-toggle-container" style="display:none;">
         <?php
             $theme = Configure::read('Variable.site_theme');
             $blocks_in_theme = $site_theme;
@@ -110,8 +110,8 @@
 
 
     <!-- Backend theme -->
-    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-admin_theme" style="cursor:pointer;">' . $themes[Configure::read('Variable.admin_theme')]['info']['name'] . '</span>'); ?>
-    <div id="admin_theme" style="display:none;">
+    <?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . $themes[Configure::read('Variable.admin_theme')]['info']['name'] . '</span>'); ?>
+    <div class="fieldset-toggle-container" style="display:none;">
         <?php
             $theme = Configure::read('Variable.admin_theme');
             $blocks_in_theme = $admin_theme;
@@ -220,8 +220,8 @@
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 
     <!-- Unassigned blocks -->
-    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-unasigned" style="cursor:pointer;">' . __t('Unassigned or Disabled') . '</span>'); ?>
-    <div id="unasigned_theme" style="display:none;">
+    <?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Unassigned or Disabled') . '</span>'); ?>
+    <div class="fieldset-toggle-container" style="display:none;">
         <?php
             $notAssigned = array();
 
@@ -283,18 +283,5 @@
     <?php echo $this->Form->submit(__t('Save all')); ?>
 <?php echo $this->Form->end(); ?>
 <script>
-
-    $("#toggle-admin_theme").click(function () {
-        $("#admin_theme").toggle('fast', 'linear');
-    });
-
-    $("#toggle-site_theme").click(function () {
-        $("#site_theme").toggle('fast', 'linear');
-    });
-
-    $("#toggle-unasigned").click(function () {
-        $("#unasigned_theme").toggle('fast', 'linear');
-    });
-
     $(".sortable").sortable().disableSelection();
 </script>

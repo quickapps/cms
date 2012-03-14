@@ -14,12 +14,10 @@
 ?>
 
 <?php echo $this->Html->useTag('fieldsetstart', __t('Mailing notifications')); ?>
-<div id="messages">
     <!-- Welcome -->
-    <?php echo $this->Html->useTag('fieldsetstart', __t('Welcome')); ?>
-    <div style="display:none;">
+    <?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Welcome') . '</span>'); ?>
+    <div class="fieldset-toggle-container" style="display:none;">
         <?php
-            # Welcome
             echo $this->Form->input('Variable.user_mail_welcome_subject',
                 array(
                     'type' => 'text',
@@ -39,10 +37,9 @@
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 
     <!-- User activation -->
-    <?php echo $this->Html->useTag('fieldsetstart', __t('User activation')); ?>
-    <div style="display:none;">
+    <?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('User activation') . '</span>'); ?>
+    <div class="fieldset-toggle-container" style="display:none;">
         <?php
-            # Account Activation
             echo $this->Form->input('Variable.user_mail_activation_notify', array('checked' => @$variables['user_mail_activation_notify'], 'label' => __t('Notify user when account is activated.'), 'type' => 'checkbox'));
             echo $this->Form->input('Variable.user_mail_activation_subject',
                 array(
@@ -63,10 +60,9 @@
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 
     <!-- Account blocked -->
-    <?php echo $this->Html->useTag('fieldsetstart', __t('Account blocked')); ?>
-    <div style="display:none;">
+    <?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Account blocked') . '</span>'); ?>
+    <div class="fieldset-toggle-container" style="display:none;">
         <?php
-            # Blocking
             echo $this->Form->input('Variable.user_mail_blocked_notify', array('checked' => @$variables['user_mail_blocked_notify'], 'label' => __t('Notify user when account is blocked.'), 'type' => 'checkbox'));
             echo $this->Form->input('Variable.user_mail_blocked_subject',
                 array(
@@ -87,10 +83,9 @@
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 
     <!-- Password recovery -->
-    <?php echo $this->Html->useTag('fieldsetstart', __t('Password recovery')); ?>
-    <div style="display:none;">
+    <?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Password recovery') . '</span>'); ?>
+    <div class="fieldset-toggle-container" style="display:none;">
     <?php
-        # Pass Recovery
         echo $this->Form->input('Variable.user_mail_password_recovery_subject',
             array(
                 'type' => 'text',
@@ -110,10 +105,9 @@
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 
     <!-- Account canceled -->
-    <?php echo $this->Html->useTag('fieldsetstart', __t('Account canceled')); ?>
-    <div style="display:none;">
+    <?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Account canceled') . '</span>'); ?>
+    <div class="fieldset-toggle-container" style="display:none;">
     <?php
-        # account canceled Recovery
         echo $this->Form->input('Variable.user_mail_canceled_notify', array('checked' => @$variables['user_mail_canceled_notify'], 'label' => __t('Notify user when account is canceled.'), 'type' => 'checkbox'));
         echo $this->Form->input('Variable.user_mail_canceled_subject',
             array(
@@ -132,18 +126,4 @@
     ?>
     </div>
     <?php echo $this->Html->useTag('fieldsetend'); ?>
-</div>
 <?php echo $this->Html->useTag('fieldsetend'); ?>
-
-<script>
-    $(document).ready(
-        function() {
-            $('form fieldset legend').css({'cursor': 'pointer'});
-            $('form #messages fieldset legend').click(
-                function() {
-                    $(this).next().toggle('fast', 'linear');
-                }
-            );
-        }
-    );
-</script>

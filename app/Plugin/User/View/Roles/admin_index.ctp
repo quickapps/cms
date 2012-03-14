@@ -1,7 +1,7 @@
 <?php echo $this->Form->create('Role'); ?>
     <!-- Filter -->
-    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-add_fieldset" style="cursor:pointer;">' . __t('Add New Role') . '</span>'); ?>
-        <div id="add_fieldset" class="horizontalLayout" style="<?php echo isset($this->data['Role']['name']) ? '' : 'display:none;'; ?>">
+    <?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Add New Role') . '</span>'); ?>
+        <div class="fieldset-toggle-container horizontalLayout" style="<?php echo isset($this->data['Role']['name']) ? '' : 'display:none;'; ?>">
             <?php echo $this->Form->input('name',
                     array(
                         'type' => 'text',
@@ -32,16 +32,8 @@ $tSettings = array(
     'noItemsMessage' => __t('There are no roles to display'),
     'paginate' => false,
     'headerPosition' => 'top',
-    'tableOptions' => array('width' => '100%')    # table attributes
+    'tableOptions' => array('width' => '100%')
 );
 
 echo $this->Html->table($results, $tSettings);
-
 ?>
-
-<script>
-    $("#toggle-add_fieldset").click(function () {
-        $("#add_fieldset").toggle('fast', 'linear');
-    });
-
-</script>

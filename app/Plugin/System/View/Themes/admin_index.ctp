@@ -1,6 +1,6 @@
 <div>
-    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-install_fieldset" style="cursor:pointer;">' . __t('Install New Theme') . '</span>'); ?>
-        <div id="install_fieldset" class="horizontalLayout" style="display:none;">
+    <?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Install New Theme') . '</span>'); ?>
+        <div class="fieldset-toggle-container horizontalLayout" style="display:none;">
             <!-- from file -->
             <?php echo $this->Form->create('Package', array('url' => '/admin/system/themes/install', 'enctype' => 'multipart/form-data')); ?>
                 <?php echo $this->Html->useTag('fieldsetstart', __t('Upload Package File')); ?>
@@ -145,9 +145,3 @@
     </tbody>
 </table>
 <?php echo $this->Html->useTag('fieldsetend'); ?>
-
-<script>
-    $("#toggle-install_fieldset").click(function () {
-        $("#install_fieldset").toggle('fast', 'linear');
-    });
-</script>

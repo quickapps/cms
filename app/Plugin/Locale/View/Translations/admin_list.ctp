@@ -32,9 +32,3 @@ $tSettings = array(
 <?php echo $this->Form->end(); ?>
 
 <?php echo $this->Html->table($results, $tSettings);?>
-
-<script>
-    $("#toggle-filter_fieldset").click(function () {
-        $("#filter_fieldset").toggle('fast', 'linear');
-    });
-</script>

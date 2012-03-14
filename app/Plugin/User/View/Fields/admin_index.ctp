@@ -35,8 +35,8 @@ $tSettings = array(
 
 <?php echo $this->Form->create(); ?>
     <!-- Add -->
-    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-addfield_fieldset" style="cursor:pointer;">' . __t('Add field') . '</span>'); ?>
-        <div id="addfield_fieldset" class="horizontalLayout" style="<?php echo isset($this->data['Field']) ? '' : 'display:none;'; ?>">
+    <?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Add field') . '</span>'); ?>
+        <div class="fieldset-toggle-container horizontalLayout" style="<?php echo isset($this->data['Field']) ? '' : 'display:none;'; ?>">
             <?php echo $this->Form->input('Field.label',
                     array(
                         'type' => 'text',
@@ -90,10 +90,6 @@ $tSettings = array(
 <?php echo $this->Html->table($results, $tSettings); ?>
 
 <script type="text/javascript">
-    $("#toggle-addfield_fieldset").click(function () {
-        $("#addfield_fieldset").toggle('fast', 'linear');
-    });
-
     var field_descriptions = new Array();
 
     <?php foreach($fieldsOptions['description'] as $plugin => $desc): ?>

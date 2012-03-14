@@ -43,12 +43,12 @@ $tSettings = array(
     'noItemsMessage' => __t('There are no languages to display. Critical error'),
     'paginate' => false,
     'headerPosition' => 'top',
-    'tableOptions' => array('width' => '100%')    # table attributes
+    'tableOptions' => array('width' => '100%')
 );
 ?>
 <!-- Add form -->
-    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-add_fieldset" style="cursor:pointer;">' . __t('Add New Language') . '</span>'); ?>
-        <div id="add_fieldset" class="horizontalLayout" style="display:none;">
+    <?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Add New Language') . '</span>'); ?>
+        <div class="fieldset-toggle-container horizontalLayout" style="display:none;">
             <?php echo $this->Form->create('Language', array('url' => '/admin/locale/languages/add')); ?>
                 <div id="predefinedList">
                     <?php echo $this->Form->input('code', array('type' => 'select', 'options' => $languages, 'label' => __t('Language name'))); ?>
@@ -59,8 +59,8 @@ $tSettings = array(
             <?php echo $this->Form->end(); ?>
 
             <?php echo $this->Form->create('Language', array('url' => '/admin/locale/languages/add')); ?>
-                <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-addCustom_fieldset" style="cursor:pointer;">' . __t('Custom Language') . '</span>'); ?>
-                    <div id="addCustom_fieldset" class="verticalLayout" style="display:none;">
+                <?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle" onclick="$(\'#predefinedList\').toggle(\'fast\', \'linear\');">' . __t('Custom Language') . '</span>'); ?>
+                    <div class="fieldset-toggle-container verticalLayout" style="display:none;">
                         <?php echo $this->Form->input('status', array('type' => 'hidden', 'value' => 1)); ?>
 
                         <?php echo $this->Form->input('custom_code', array('required' => 'required', 'maxlength' => 3, 'style' => 'width:50px;', 'type' => 'text', 'label' => __t('Language code *'))); ?>
@@ -98,8 +98,8 @@ $tSettings = array(
 
 <?php echo $this->Form->create('Language', array('onsubmit' => 'return confirm("' . __t('Are you sure ?') . '");')); ?>
     <!-- Update -->
-    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-update_fieldset" style="cursor:pointer;">' . __t('Update Options') . '</span>'); ?>
-        <div id="update_fieldset" class="horizontalLayout" style="<?php echo isset($this->data['Comment']['update']) ? '' : 'display:none;'; ?>">
+    <?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Update Options') . '</span>'); ?>
+        <div class="fieldset-toggle-container horizontalLayout" style="<?php echo isset($this->data['Comment']['update']) ? '' : 'display:none;'; ?>">
             <?php echo $this->Form->input('Language.update',
                     array(
                         'type' => 'select',
@@ -117,18 +117,3 @@ $tSettings = array(
     <?php echo $this->Html->useTag('fieldsetend'); ?>
     <?php echo $this->Html->table($results, $tSettings); ?>
 <?php echo $this->Form->end(); ?>
-
-<script type="text/javascript">
-    $("#toggle-update_fieldset").click(function () {
-        $("#update_fieldset").toggle('fast', 'linear');
-    });
-
-    $("#toggle-add_fieldset").click(function () {
-        $("#add_fieldset").toggle('fast', 'linear');
-    });
-
-    $("#toggle-addCustom_fieldset").click(function () {
-        $("#addCustom_fieldset").toggle('fast', 'linear');
-        $("#predefinedList").toggle('fast', 'linear');
-    });
-</script>

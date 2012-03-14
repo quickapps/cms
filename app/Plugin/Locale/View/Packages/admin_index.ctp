@@ -1,7 +1,7 @@
 <?php echo $this->Form->create(false, array('url' => '/admin/locale/packages/install', 'enctype' => 'multipart/form-data', 'onsubmit' => 'return checkPackage();')); ?>
     <!-- Filter -->
-    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-upload_fieldset" style="cursor:pointer;">' . __t('Upload Translation Package') . '</span>'); ?>
-        <div id="upload_fieldset" class="horizontalLayout" style="display:none;">
+    <?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Upload Translation Package') . '</span>'); ?>
+        <div class="fieldset-toggle-container horizontalLayout" style="display:none;">
             <?php echo $this->Form->input('po',
                     array(
                         'type' => 'file',
@@ -84,14 +84,12 @@
 <script>
     function checkPackage() {
         var ext = $('#PackageData').val().substr(($('#PackageData').val().lastIndexOf('.') +1));
+
         if (ext != 'po') {
             alert('<?php echo __t('Invalid package'); ?>');
             return false;
         }
+
         return true;
     }
-
-    $("#toggle-upload_fieldset").click(function () {
-        $("#upload_fieldset").toggle('fast', 'linear');
-    });
 </script>

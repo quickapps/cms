@@ -2,8 +2,8 @@
 
 <?php echo $this->Form->create(); ?>
     <!-- New Term -->
-    <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-add_new_term_fieldset" style="cursor:pointer;">' . __t('Add New Term') . '</span>'); ?>
-        <div id="add_new_term_fieldset" class="horizontalLayout" style="display:none;">
+    <?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Add New Term') . '</span>'); ?>
+        <div class="fieldset-toggle-container horizontalLayout" style="display:none;">
             <?php echo $this->Form->input('Term.name', array('required' => 'required', 'type' => 'text', 'label' => __t('Name *'))); ?>
             <?php echo $this->Form->input('Term.parent_id', array('type' => 'select', 'label' => __t('Parent term'), 'options' => $parents, 'escape' => false, 'empty' => __t('-- None --'))); ?>
             <?php echo $this->Form->input(__t('Save'), array('type' => 'submit', 'label' => false)); ?>
@@ -55,8 +55,3 @@
         });
     </script>
 <?php endif; ?>
-<script>
-    $("#toggle-add_new_term_fieldset").click(function () {
-        $("#add_new_term_fieldset").toggle('fast', 'linear');
-    });
-</script>

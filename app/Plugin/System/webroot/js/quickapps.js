@@ -163,3 +163,12 @@ var QuickApps = QuickApps || {'settings': {}, 'behaviors': {}, 'locale': {'strin
         }
     });
 })(jQuery);
+
+$(document).ready(function() {
+    $("span.fieldset-toggle").each(function () {
+        $(this).css('cursor', 'pointer');
+        $(this).click(function () {
+            $(this).parent("legend").next(".fieldset-toggle-container").toggle("fast", "linear");
+        });
+    });
+});

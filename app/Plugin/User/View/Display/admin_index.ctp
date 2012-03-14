@@ -32,8 +32,8 @@ $tSettings = array(
 <?php if ($viewMode === 'default' && count($result)): ?>
     <p>
     <?php echo $this->Form->create('User', array('url' => "/admin/user/display/")); ?>
-        <?php echo $this->Html->useTag('fieldsetstart', '<span id="toggle-viewModes_fieldset" style="cursor:pointer;">' . __t('View Modes') . '</span>'); ?>
-            <div id="viewModes_fieldset" class="horizontalLayout" style="display:none;">
+        <?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('View Modes') . '</span>'); ?>
+            <div class="fieldset-toggle-container horizontalLayout" style="display:none;">
                 <em><?php echo __t('Use custom display settings for the following view modes'); ?></em>
                 <?php echo $this->Form->input('User.viewModes', array('type' => 'select', 'multiple' => 'checkbox', 'options' => array('user_profile' => __t('User profile')), 'label' => false)); ?>
             </div>
@@ -41,10 +41,4 @@ $tSettings = array(
         <?php echo $this->Form->input(__t('Save'), array('type' => 'submit')); ?>
     <?php echo $this->Form->end(); ?>
     </p>
-
-    <script type="text/javascript">
-        $("#toggle-viewModes_fieldset").click(function () {
-            $("#viewModes_fieldset").toggle('fast', 'linear');
-        });
-    </script>
 <?php endif; ?>
