@@ -67,6 +67,8 @@ class ThemeCustomizerHelper extends AppHelper {
                                         $attrs['title'] = __t('Unknow property %d', $__noTitleCounters['undefined']);
                                     break;
                                 }
+                            } else {
+                                $attrs['title'] = QuickApps::is('theme.core', $theme_name) ? __t($attrs['title']) : __d("Theme{$theme_name}", $attrs['title']);
                             }
 
                             if ($cache = Cache::read("theme_{$theme_name}_{$css}", '__theme_css__')) {
@@ -170,6 +172,7 @@ class ThemeCustomizerHelper extends AppHelper {
                     $__g = '';
 
                     foreach ($__groups as $title => $content) {
+                        $title = QuickApps::is('theme.core', $theme_name) ? __t($title) : __d("Theme{$theme_name}", $title);
                         $__g .= $this->_View->Html->useTag('fieldsetstart', $title);
                         $__g .= implode(' ', $content);
                         $__g .= $this->_View->Html->useTag('fieldsetend');

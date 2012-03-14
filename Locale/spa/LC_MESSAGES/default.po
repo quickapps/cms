@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2012-03-13 21:32+0000\n"
+"POT-Creation-Date: 2012-03-14 11:52+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christopher Castro <chris@quickapps.es>\n"
 "Language-Team: \n"
@@ -115,7 +115,7 @@ msgstr "El módulo ya ha sido instalado"
 
 #: Controller\Component\InstallerComponent.php:188;256
 msgid "Config Folder"
-msgstr ""
+msgstr "Config Folder"
 
 #: Controller\Component\InstallerComponent.php:189;257
 msgid "\"Config\" folder not found"
@@ -123,7 +123,7 @@ msgstr "Directorio \"Config\" no encontrado"
 
 #: Controller\Component\InstallerComponent.php:193;261
 msgid "Bootstrap File"
-msgstr ""
+msgstr "Bootstrap File"
 
 #: Controller\Component\InstallerComponent.php:194;262
 msgid "\"Config/bootstrap.php\" file not found"
@@ -131,7 +131,7 @@ msgstr "Fichero \"Config/bootstrap.php\" no encontrado"
 
 #: Controller\Component\InstallerComponent.php:198;266
 msgid "Routes File"
-msgstr ""
+msgstr "Routes File"
 
 #: Controller\Component\InstallerComponent.php:199;267
 msgid "\"Config/routes.php\" file not found"
@@ -147,7 +147,7 @@ msgstr "Directorio \"Controller\" no encontrado"
 
 #: Controller\Component\InstallerComponent.php:208
 msgid "Component Folder"
-msgstr ""
+msgstr "Component Folder"
 
 #: Controller\Component\InstallerComponent.php:209
 msgid "\"Component\" folder not found"
@@ -155,7 +155,7 @@ msgstr "Directorio \"Component\" no encontrado"
 
 #: Controller\Component\InstallerComponent.php:213;271
 msgid "Installer File"
-msgstr ""
+msgstr "Installer File"
 
 #: Controller\Component\InstallerComponent.php:214;272
 msgid "Installer file (InstallComponent.php) not found"
@@ -163,7 +163,7 @@ msgstr "Fichero de instalación (InstallComponent.php) no encontrado"
 
 #: Controller\Component\InstallerComponent.php:218;281
 msgid "YAML File"
-msgstr ""
+msgstr "YAML File"
 
 #: Controller\Component\InstallerComponent.php:219;282
 msgid "YAML File (%s) not found"
@@ -179,7 +179,7 @@ msgstr "El theme ya ha sido instalado"
 
 #: Controller\Component\InstallerComponent.php:241
 msgid "Layouts Folder"
-msgstr ""
+msgstr "Layouts Folder"
 
 #: Controller\Component\InstallerComponent.php:242
 msgid "\"Layouts\" folder not found"
@@ -187,7 +187,7 @@ msgstr "Directorio \"Layouts\" no encontrado"
 
 #: Controller\Component\InstallerComponent.php:246
 msgid "app Folder"
-msgstr ""
+msgstr "app Folder"
 
 #: Controller\Component\InstallerComponent.php:247
 msgid "\"app\" folder not found"
@@ -195,7 +195,7 @@ msgstr "Directorio \"app\" no encontrado"
 
 #: Controller\Component\InstallerComponent.php:251
 msgid "Plugin app"
-msgstr ""
+msgstr "Plugin app"
 
 #: Controller\Component\InstallerComponent.php:252
 msgid "Module app (\"%s\") folder not found"
@@ -203,7 +203,7 @@ msgstr "Directorio de módulo asociado (\"%s\") no encontrado"
 
 #: Controller\Component\InstallerComponent.php:276
 msgid "webroot Folder"
-msgstr ""
+msgstr "webroot Folder"
 
 #: Controller\Component\InstallerComponent.php:277
 msgid "\"webroot\" folder not found"
@@ -211,7 +211,7 @@ msgstr "Directorio \"webroot\" no encontrado"
 
 #: Controller\Component\InstallerComponent.php:286
 msgid "Theme thumbnail"
-msgstr ""
+msgstr "Theme thumbnail"
 
 #: Controller\Component\InstallerComponent.php:287
 msgid "Thumbnail image (\"%s\") not found"
@@ -219,7 +219,7 @@ msgstr "Imágen de theme (\"%s\") no encontrada"
 
 #: Controller\Component\InstallerComponent.php:326;342
 msgid "YAML Validation"
-msgstr ""
+msgstr "YAML Validation"
 
 #: Controller\Component\InstallerComponent.php:327
 msgid "Module configuration file (%s) appears to be invalid."
@@ -294,6 +294,7 @@ msgid "This module can not be disabled, because it is required by: %s"
 msgstr "Este módulo no se puede deshabilitar, porque es requerido por: %s"
 
 #: Controller\Component\QuickAppsComponent.php:79
+#: View\Layouts\error.ctp:3
 msgid "Site offline"
 msgstr "Sitio fuera de línea"
 
@@ -355,7 +356,7 @@ msgstr "Nuevo Bloque"
 
 #: Plugin\Block\View\Manage\admin_add.ctp:3
 #: Plugin\Block\View\Manage\admin_edit.ctp:3
-#: Vendor\DummyLocale.php:8
+#: Vendor\DummyLocale.php:10
 #: View\Elements\theme_node_edit.ctp:11
 msgid "Content"
 msgstr "Contenidos"
@@ -731,7 +732,7 @@ msgstr "¿Eliminar el comentario seleccionado?"
 
 #: Plugin\Comment\View\List\admin_show.ctp:9;75
 #: Plugin\Comment\View\List\admin_view.ctp:17
-#: Plugin\User\View\Elements\settings.ctp:26;50;97;121
+#: Plugin\User\View\Elements\settings.ctp:24;47;92;115
 #: View\Elements\theme_node_comments_form.ctp:53
 msgid "Subject"
 msgstr "Asunto"
@@ -1147,7 +1148,7 @@ msgid "Label"
 msgstr "Etiqueta"
 
 #: Plugin\Field\View\Elements\display_settings.ctp:25;50
-#: Vendor\DummyLocale.php:14
+#: Vendor\DummyLocale.php:18
 msgid "Hidden"
 msgstr "Oculto"
 
@@ -1326,7 +1327,7 @@ msgid "Display language name"
 msgstr "Mostrar nombre de idioma"
 
 #: Plugin\Locale\View\Elements\toolbar.ctp:3
-#: Vendor\DummyLocale.php:15
+#: Vendor\DummyLocale.php:19
 #: View\Elements\theme_search_form.ctp:41
 msgid "Languages"
 msgstr "Idiomas"
@@ -1587,7 +1588,7 @@ msgstr "desinstalar"
 msgid "Delete the selected package ?"
 msgstr "¿Eliminar el paquete seleccionado?"
 
-#: Plugin\Locale\View\Packages\admin_index.ctp:88
+#: Plugin\Locale\View\Packages\admin_index.ctp:89
 msgid "Invalid package"
 msgstr "Paquete inválido"
 
@@ -1616,6 +1617,7 @@ msgid "Usage"
 msgstr "Modo de uso"
 
 #: Plugin\Locale\View\Translations\admin_list.ctp:4
+#: Vendor\DummyLocale.php:57;67
 msgid "Text"
 msgstr "Texto"
 
@@ -1892,6 +1894,7 @@ msgid "Delete selected menu ?"
 msgstr "¿Eliminar el menú seleccionado?"
 
 #: Plugin\Menu\View\Manage\admin_links.ctp:2;4
+#: Vendor\DummyLocale.php:59;69
 msgid "Links"
 msgstr "Enlaces"
 
@@ -2649,7 +2652,7 @@ msgstr "El fichero `%s` no pudo ser escrito."
 
 #: Plugin\System\Controller\HelpController.php:31
 #: Plugin\System\View\Modules\admin_index.ctp:89
-#: Vendor\DummyLocale.php:13
+#: Vendor\DummyLocale.php:15
 msgid "Help"
 msgstr "Ayuda"
 
@@ -2832,37 +2835,37 @@ msgstr "La ayuda está disponible para los siguientes elementos"
 
 #: Plugin\System\View\Helper\SystemHookHelper.php:37
 msgid "Powered by &copy; <a href=\"http://cms.quickapps.es/\">QuickApps CMS</a> v%s"
-msgstr ""
+msgstr "Powered by &copy; <a href=\"http://cms.quickapps.es/\">QuickApps CMS</a> v%s"
 
 #: Plugin\System\View\Helper\SystemHookHelper.php:61
 msgid "Recent Content"
 msgstr "Contenidos Recientes"
 
-#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:48
+#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:50
 msgid "Color %d"
 msgstr "Color %"
 
-#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:52
+#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:54
 msgid "Font %d"
 msgstr "Fuente %d"
 
-#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:56
+#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:58
 msgid "Size %d"
 msgstr "Tamaño %d"
 
-#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:60
+#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:62
 msgid "Add Your CSS"
 msgstr "CSS Personalizado"
 
-#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:65
+#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:67
 msgid "Unknow property %d"
 msgstr "Propiedad desconocida"
 
-#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:166
+#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:190
 msgid "Reset"
 msgstr "Reestablecer"
 
-#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:181
+#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:208
 msgid "Reset selected style sheet ?"
 msgstr "¿Reestablecer la hoja de estilos seleccionada?"
 
@@ -2947,7 +2950,7 @@ msgstr "Utilizar"
 #: Plugin\System\View\Themes\admin_index.ctp:83;137
 msgid ""
 "Delete selected theme ?\\n"
-"This operation can be undone!"
+"This operation cannot be undone!"
 msgstr ""
 "¿Eliminar el theme seleccionado?\\n"
 "Esta operación no se puede revertir!"
@@ -3231,7 +3234,7 @@ msgstr "Configuración de campo"
 
 #: Plugin\User\Controller\ListController.php:67
 #: Plugin\User\View\Elements\toolbar.ctp:3
-#: Vendor\DummyLocale.php:11
+#: Vendor\DummyLocale.php:13
 msgid "Users"
 msgstr "Usuarios"
 
@@ -3374,39 +3377,40 @@ msgstr "Perfil de usuario"
 msgid "Mailing notifications"
 msgstr "Notificaciones email"
 
-#: Plugin\User\View\Elements\settings.ctp:19
+#: Plugin\User\View\Elements\settings.ctp:18
 msgid "Welcome"
 msgstr "Bienvenida"
 
-#: Plugin\User\View\Elements\settings.ctp:34;58;75;82;105;129
+#: Plugin\User\View\Elements\settings.ctp:32;55;71;78;100;123
+#: Vendor\DummyLocale.php:65
 msgid "Body"
 msgstr "Cuerpo"
 
-#: Plugin\User\View\Elements\settings.ctp:42
+#: Plugin\User\View\Elements\settings.ctp:40
 msgid "User activation"
 msgstr "Activación de cuenta"
 
-#: Plugin\User\View\Elements\settings.ctp:46
+#: Plugin\User\View\Elements\settings.ctp:43
 msgid "Notify user when account is activated."
 msgstr "Notificar cuando la cuenta es activada."
 
-#: Plugin\User\View\Elements\settings.ctp:66
+#: Plugin\User\View\Elements\settings.ctp:63
 msgid "Account blocked"
 msgstr "Bloqueo de cuenta"
 
-#: Plugin\User\View\Elements\settings.ctp:70
+#: Plugin\User\View\Elements\settings.ctp:66
 msgid "Notify user when account is blocked."
 msgstr "Notificar cuando la cuenta es bloqueada."
 
-#: Plugin\User\View\Elements\settings.ctp:90
+#: Plugin\User\View\Elements\settings.ctp:86
 msgid "Password recovery"
 msgstr "Recuperación de contraseña"
 
-#: Plugin\User\View\Elements\settings.ctp:113
+#: Plugin\User\View\Elements\settings.ctp:108
 msgid "Account canceled"
 msgstr "Cancelación de cuenta"
 
-#: Plugin\User\View\Elements\settings.ctp:117
+#: Plugin\User\View\Elements\settings.ctp:111
 msgid "Notify user when account is canceled."
 msgstr "Notificar cuando la cuenta es cancelada (eliminada)."
 
@@ -3589,8 +3593,8 @@ msgid "Role name"
 msgstr "Nombre del rol"
 
 #: Plugin\User\View\Roles\admin_edit.ctp:9
-msgid "Update role"
-msgstr "Actualizar rol"
+msgid "Update Role"
+msgstr "Actualizar Rol"
 
 #: Plugin\User\View\Roles\admin_index.ctp:3
 msgid "Add New Role"
@@ -3637,104 +3641,196 @@ msgstr "Última conexión"
 msgid "Register"
 msgstr "Registrarse"
 
-#: Vendor\DummyLocale.php:6
+#: Vendor\DummyLocale.php:8
 msgid "Dashboard"
 msgstr "Resumen"
 
-#: Vendor\DummyLocale.php:7
+#: Vendor\DummyLocale.php:9
 msgid "Structure"
 msgstr "Estructura"
 
-#: Vendor\DummyLocale.php:9
+#: Vendor\DummyLocale.php:11
 msgid "Appearance"
 msgstr "Apariencia"
 
-#: Vendor\DummyLocale.php:10
+#: Vendor\DummyLocale.php:12
 msgid "Modules"
 msgstr "Módulos"
 
-#: Vendor\DummyLocale.php:12
+#: Vendor\DummyLocale.php:14
 msgid "Configuration"
 msgstr "Configuración"
 
-#: Vendor\DummyLocale.php:16
+#: Vendor\DummyLocale.php:20
 msgid "View Site"
 msgstr "Ver Sitio"
 
-#: Vendor\DummyLocale.php:17
+#: Vendor\DummyLocale.php:21
 msgid "Log out"
 msgstr "Cerrar sesión"
 
-#: Vendor\DummyLocale.php:18
+#: Vendor\DummyLocale.php:22
 #: View\Themed\Admin\Layouts\default.ctp:17
 msgid "Logout"
 msgstr "Cerrar Sesión"
 
-#: Vendor\DummyLocale.php:19
+#: Vendor\DummyLocale.php:23
 msgid "My account"
 msgstr "Mi cuenta"
 
-#: Vendor\DummyLocale.php:20
+#: Vendor\DummyLocale.php:24
 #: View\Helper\TableHelper.php:100
 msgid "« Previous "
 msgstr "« Anterior"
 
-#: Vendor\DummyLocale.php:21
+#: Vendor\DummyLocale.php:25
 #: View\Helper\TableHelper.php:101
 msgid " Next »"
 msgstr " Siguiente »"
 
-#: Vendor\DummyLocale.php:22
+#: Vendor\DummyLocale.php:28
 msgid "Configure what block content appears in your site's sidebars and other regions."
 msgstr "Configura que bloques aparecen en las barras lateras y otras regiones de tu sitio."
 
-#: Vendor\DummyLocale.php:23
+#: Vendor\DummyLocale.php:29
 msgid "Manage content types."
 msgstr "Gestión de tipos de contenidos."
 
-#: Vendor\DummyLocale.php:24
+#: Vendor\DummyLocale.php:30
 msgid "Add new menus to your site, edit existing menus, and rename and reorganize menu links."
 msgstr "Agrege nuevos menús a su sitio, edite menús ya existentes o renombre y reorganice los vínculos de sus menús."
 
-#: Vendor\DummyLocale.php:25
+#: Vendor\DummyLocale.php:31
 msgid "Manage tagging, categorization, and classification of your content."
 msgstr "Gestión de etiquetado, categorización, y clasificación de su contenido."
 
-#: Vendor\DummyLocale.php:26
+#: Vendor\DummyLocale.php:34
 msgid "Controls the visual building blocks a page is constructed with. Blocks are boxes of content rendered into an area, or region, of a web page."
 msgstr "Gestiona los bloques visuales con los que una págian se construye. Los bloques son cajas de contenido que se renderizan en un área o región de una página web."
 
-#: Vendor\DummyLocale.php:27
+#: Vendor\DummyLocale.php:35
 msgid "Allows users to comment on and discuss published content."
 msgstr "Permite a los usuarios comentar y discutir contenidos publicados."
 
-#: Vendor\DummyLocale.php:28
+#: Vendor\DummyLocale.php:36
 msgid "Field API to add fields to entities like nodes and users."
 msgstr "API Campos, permite agregar campos a entidades como nodos y usuarios."
 
-#: Vendor\DummyLocale.php:29
+#: Vendor\DummyLocale.php:37
 msgid "Adds language handling functionality and enables the translation of the user interface to languages other than English"
 msgstr "Permite gestionar idiomas y traducir la interfaz de los usuarios a otros lenguajes además del Inglés."
 
-#: Vendor\DummyLocale.php:30
+#: Vendor\DummyLocale.php:38
 msgid "Allows administrators to customize the site navigation menu."
 msgstr "Permite a los administradores personalizar los menú de navegación del sitio."
 
-#: Vendor\DummyLocale.php:31
+#: Vendor\DummyLocale.php:39
 msgid "Allows content to be submitted to the site and displayed on pages."
 msgstr "Permite poner contenidos en el sitio y mostrarlos como páginas."
 
-#: Vendor\DummyLocale.php:32
+#: Vendor\DummyLocale.php:40
 msgid "System Kernel."
 msgstr "Núcleo del sistema."
 
-#: Vendor\DummyLocale.php:33
+#: Vendor\DummyLocale.php:41
 msgid "Enables the categorization of content."
 msgstr "Permite la categorización de contenidos."
 
-#: Vendor\DummyLocale.php:34
+#: Vendor\DummyLocale.php:42
 msgid "Manages the user registration and login system."
 msgstr "Control de registro e identificación de usuarios en el sistema."
+
+#: Vendor\DummyLocale.php:45
+msgid "Default frontend theme for QuickApps"
+msgstr "Tema principal por defecto para QuickApps"
+
+#: Vendor\DummyLocale.php:46
+msgid "Default backend theme for QuickApps"
+msgstr "Tema administrativo por defecto para QuickApps"
+
+#: Vendor\DummyLocale.php:49
+msgid "Date picker field."
+msgstr "Selector de fechas."
+
+#: Vendor\DummyLocale.php:50
+msgid "Define file uploader."
+msgstr "Permite la carga de ficheros."
+
+#: Vendor\DummyLocale.php:51
+msgid "Defines list field types. Use with Options to create selection lists."
+msgstr "Define un campo de tipo lista. Permite la creacion de listas de selección."
+
+#: Vendor\DummyLocale.php:52
+msgid "Defines simple text field types."
+msgstr "Incorpora campos de tipo texto."
+
+#: Vendor\DummyLocale.php:53
+msgid "Defines terms list."
+msgstr "Incorpora un listado de términos."
+
+#: Vendor\DummyLocale.php:56;66
+msgid "Main font"
+msgstr "Fuente principal"
+
+#: Vendor\DummyLocale.php:58
+msgid "Footer"
+msgstr "Pie de página"
+
+#: Vendor\DummyLocale.php:60
+msgid "Header Top"
+msgstr "Cabecera Superior"
+
+#: Vendor\DummyLocale.php:61
+msgid "Header Bottom"
+msgstr "Cabecera Inferior"
+
+#: Vendor\DummyLocale.php:62
+msgid "Main Background"
+msgstr "Fondo Principal"
+
+#: Vendor\DummyLocale.php:68
+msgid "Background"
+msgstr "Fondo"
+
+#: Vendor\DummyLocale.php:70
+msgid "Links Hover"
+msgstr "Sobre Enlaces"
+
+#: Vendor\DummyLocale.php:71
+msgid "Header"
+msgstr "Cabecera"
+
+#: Vendor\DummyLocale.php:72
+msgid "Main Menu Backrgound"
+msgstr "Fondo de Menu Principal"
+
+#: Vendor\DummyLocale.php:73
+msgid "Main Menu Text"
+msgstr "Texto Menu Principal"
+
+#: Vendor\DummyLocale.php:74
+msgid "Branding Background"
+msgstr "Fondo Barra de Navegación"
+
+#: Vendor\DummyLocale.php:77
+msgid "The <em>Main</em> menu is used on many sites to show the major sections of the site, often in a top navigation bar."
+msgstr "Se utiliza en muchos sitios para mostrar las secciones pricipales del sitio web, comunmente en una barra de navegación superior."
+
+#: Vendor\DummyLocale.php:78
+msgid "The <em>Management</em> menu contains links for administrative tasks."
+msgstr "Contiene enlaces relacionados a tereas administrativas."
+
+#: Vendor\DummyLocale.php:79
+msgid "The <em>Navigation</em> menu contains links intended for site visitors. Links are added to the <em>Navigation</em> menu automatically by some modules."
+msgstr "Contiene enlaces orientados a los visitantes. Algunos módulos agregan enalces a este menú de forma automática."
+
+#: Vendor\DummyLocale.php:80
+msgid "The <em>User</em> menu contains links related to the user's account, as well as the 'Log out' link."
+msgstr "Contiene enlaces relacionados con las cuentas de usuarios, como por ejemplo el enlace \"cerrar sesión\"."
+
+#: Vendor\DummyLocale.php:83
+msgid "We sincerely apologize for the inconvenience.<br/>Our site is currently undergoing scheduled maintenance and upgrades, but will return shortly.<br/>Thanks you for your patience."
+msgstr "Le pedimos disculpas por las molestias. <br/> Nuestro sitio se encuentra actualmente bajo mantenimiento y actualizaciones, pero volverá en breve. <br/> Gracias por su paciencia."
 
 #: View\Elements\theme_comment.ctp:28
 msgid "said on %s"
@@ -3800,7 +3896,6 @@ msgstr "Solo del tipo(s)"
 #: View\Errors\error500.ctp:4
 #: View\Errors\private_action.ctp:4
 #: View\Layouts\default.ctp:3
-#: View\Layouts\error.ctp:3
 msgid "Error"
 msgstr "Error"
 
@@ -4166,7 +4261,7 @@ msgstr "Contraseñas distintas o con menos de 6 caracteres."
 
 #: Lib\Routing\Router.php:186
 msgid "Route classes must extend CakeRoute"
-msgstr ""
+msgstr "Route classes must extend CakeRoute"
 
 #, fuzzy
 #~ msgid "Invalid album name"

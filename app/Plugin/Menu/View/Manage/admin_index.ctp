@@ -2,7 +2,7 @@
 $tSettings = array(
     'columns' => array(
         __t('Title') => array(
-            'value' => '<b>{Menu.title}</b><br/><em>{Menu.description}</em>',
+            'value' => '<b>{Menu.title}</b><br/><em>{php} return __t("{Menu.description}"); {/php}</em>',
             'sort' => 'Menu.title'
         ),
         __t('Actions') => array(
@@ -22,7 +22,7 @@ $tSettings = array(
     ),
     'paginate' => true,
     'headerPosition' => 'top',
-    'tableOptions' => array('width' => '100%')    # table attributes
+    'tableOptions' => array('width' => '100%')
 );
 
 

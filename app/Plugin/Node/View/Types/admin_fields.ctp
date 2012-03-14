@@ -96,7 +96,7 @@ $tSettings = array(
     var field_descriptions = new Array();
 
     <?php foreach($fieldsOptions['description'] as $plugin => $desc): ?>
-        field_descriptions['<?php echo $plugin; ?>'] = '<?php echo __d($plugin, $desc); ?>';
+        field_descriptions['<?php echo $plugin; ?>'] = '<?php echo QuickApps::is('module.core', $plugin) ? __t($desc) : __d($plugin, $desc); ?>';
     <?php endforeach; ?>
 
     function showDescription(field) {

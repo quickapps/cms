@@ -6,5 +6,5 @@
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 
     <!-- Submit -->
-    <?php echo $this->Form->input(__t('Update role'), array('type' => 'submit')); ?>
+    <?php echo $this->Form->input(__t('Update Role'), array('type' => 'submit')); ?>
 <?php echo $this->Form->end(); ?>
