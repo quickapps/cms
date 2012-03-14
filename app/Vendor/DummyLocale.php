@@ -57,9 +57,9 @@
     echo __t("Text");
     echo __t("Footer");
     echo __t("Links");
-    echo __t("Header Top");
-    echo __t("Header Bottom");
-    echo __t("Main Background");
+    echo __t("Header top");
+    echo __t("Header bottom");
+    echo __t("Main background");
 
     // Admin theme `Configurable Style` titles
     echo __t("Body");
@@ -67,11 +67,11 @@
     echo __t("Text");
     echo __t("Background");
     echo __t("Links");
-    echo __t("Links Hover");
+    echo __t("Links hover");
     echo __t("Header");
-    echo __t("Main Menu Backrgound");
-    echo __t("Main Menu Text");
-    echo __t("Branding Background");
+    echo __t("Main menu backrgound");
+    echo __t("Main menu text");
+    echo __t("Branding background");
 
     // Menus descriptions
     echo __t("The <em>Main</em> menu is used on many sites to show the major sections of the site, often in a top navigation bar.");

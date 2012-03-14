@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2012-03-14 11:52+0000\n"
+"POT-Creation-Date: 2012-03-14 13:02+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christopher Castro <chris@quickapps.es>\n"
 "Language-Team: \n"
@@ -1131,7 +1131,7 @@ msgstr "Mensaje de validación"
 msgid "This is only used if `Validation rule` has been set."
 msgstr "Será utilizado únicamente si se ha establecido una `Regla de validación`."
 
-#: Plugin\Field\Fields\FieldText\View\Helper\FieldTextHookHelper.php:198
+#: Plugin\Field\Fields\FieldText\View\Helper\FieldTextHookHelper.php:174
 msgid "Turn on JavaScript to see the email address."
 msgstr "Active JavaScript para ver la dirección email."
 
@@ -3777,40 +3777,40 @@ msgid "Footer"
 msgstr "Pie de página"
 
 #: Vendor\DummyLocale.php:60
-msgid "Header Top"
-msgstr "Cabecera Superior"
+msgid "Header top"
+msgstr "Cabecera superior"
 
 #: Vendor\DummyLocale.php:61
-msgid "Header Bottom"
-msgstr "Cabecera Inferior"
+msgid "Header bottom"
+msgstr "Cabecera inferior"
 
 #: Vendor\DummyLocale.php:62
-msgid "Main Background"
-msgstr "Fondo Principal"
+msgid "Main background"
+msgstr "Fondo principal"
 
 #: Vendor\DummyLocale.php:68
 msgid "Background"
 msgstr "Fondo"
 
 #: Vendor\DummyLocale.php:70
-msgid "Links Hover"
-msgstr "Sobre Enlaces"
+msgid "Links hover"
+msgstr "Sobre enlaces"
 
 #: Vendor\DummyLocale.php:71
 msgid "Header"
 msgstr "Cabecera"
 
 #: Vendor\DummyLocale.php:72
-msgid "Main Menu Backrgound"
-msgstr "Fondo de Menu Principal"
+msgid "Main menu backrgound"
+msgstr "Fondo de menú principal"
 
 #: Vendor\DummyLocale.php:73
-msgid "Main Menu Text"
-msgstr "Texto Menu Principal"
+msgid "Main menu text"
+msgstr "Texto menú principal"
 
 #: Vendor\DummyLocale.php:74
-msgid "Branding Background"
-msgstr "Fondo Barra de Navegación"
+msgid "Branding background"
+msgstr "Fondo barra de navegación"
 
 #: Vendor\DummyLocale.php:77
 msgid "The <em>Main</em> menu is used on many sites to show the major sections of the site, often in a top navigation bar."

@@ -84,7 +84,7 @@ class ThemeCustomizerHelper extends AppHelper {
                                     $color++;
                                     $id = md5("ThemeCustomizer.{$theme_name}.{$field}");
                                     $__style .=
-                                        $this->_View->Form->label(__d($theme_name, $attrs['title']))
+                                        $this->_View->Form->label("ThemeCustomizer.{$theme_name}.{$field}", $attrs['title'])
                                         . '<div class="colorSelector">'
                                         . $this->_View->Form->input(
                                             "ThemeCustomizer.{$theme_name}.{$field}", 
@@ -93,7 +93,7 @@ class ThemeCustomizerHelper extends AppHelper {
                                                 'class' => $id,
                                                 'style' => 'width:50px;',
                                                 'type' => 'text',
-                                                'label' => __d($theme_name, $attrs['title'])
+                                                'label' => $attrs['title']
                                             )
                                         )
                                         . '<div class="preview" id="' . $id . '"></div>'
@@ -111,7 +111,7 @@ class ThemeCustomizerHelper extends AppHelper {
                                             'class' => 'fontselector',
                                             'style' => 'width:200px;',
                                             'type' => 'text',
-                                            'label' => __d($theme_name, $attrs['title'])
+                                            'label' => $attrs['title']
                                         )
                                     );
                                 break;
@@ -123,7 +123,7 @@ class ThemeCustomizerHelper extends AppHelper {
                                             'value' => $value,
                                             'style' => 'width:100%;',
                                             'type' => 'textarea',
-                                            'label' => __d($theme_name, $attrs['title'])
+                                            'label' => $attrs['title']
                                         )
                                     );
                                 break;
@@ -150,7 +150,7 @@ class ThemeCustomizerHelper extends AppHelper {
                                                     'value' => $value,
                                                     'style' => 'width:50px;',
                                                     'type' => 'text',
-                                                    'label' => __d($theme_name, $attrs['title'])
+                                                    'label' => $attrs['title']
                                                 )
                                             );
                                         } else {
