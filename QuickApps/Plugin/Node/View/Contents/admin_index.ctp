@@ -46,7 +46,7 @@ $tSettings = array(
     'noItemsMessage' => __t('There are no nodes to display'),
     'paginate' => true,
     'headerPosition' => 'top',
-    'tableOptions' => array('width' => '100%')    # table attributes
+    'tableOptions' => array('width' => '100%')
 );
 ?>
 
