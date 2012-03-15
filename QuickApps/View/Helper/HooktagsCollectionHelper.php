@@ -335,7 +335,7 @@ class HooktagsCollectionHelper extends AppHelper {
             $text = str_replace("[Layout.{$path}]", $extract, $text);
         }
 
-        # pass text to modules so they can apply their own special tags
+        // pass text to modules so they can apply their own special tags
         $this->hook('special_tags_alter', $text);
 
         return $text;

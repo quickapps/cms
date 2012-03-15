@@ -1,4 +1,6 @@
 <?php
+App::uses('Model', 'Model');
+
 /**
  * Application Model
  *
@@ -9,8 +11,6 @@
  * @author   Christopher Castro <chris@quickapps.es>
  * @link     http://cms.quickapps.es
  */
-App::uses('Model', 'Model');
-
 class AppModel extends Model {
     public $cacheQueries = false;
     public $actsAs = array(
