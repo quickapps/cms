@@ -30,9 +30,7 @@
  *  'Column Title' => array(
  *      'value' => ,        # (string) Values to display when filling this column.
  *                            You can specify array paths to find in the $data array. e.g.: `{Model.field}`
- *                            Also:
- *                              {php}{/php}: Will print out the result returned by the PHP code. e.g.: {php} return 'hello world!'; {/php}
- *                              {url}{/url}: Will print out the specified internal/external URL. e.g.: {url}/this/is_an/internal_url{/url}
+ *                            See TableHelper::_renderCell() for more tags.
  *      'thOptions' => ,    # (array) <th> tag options for this column. This will affect table header only.
  *      'tdOptions' => ,    # (array) <td> tag options for this column. This will affect table body (result rows) only.
  *      'sort' =>           # Optional (string) `Model.field`
@@ -40,21 +38,34 @@
  *  ...
  * }}}
  *
- * headerPosition (mixed): render header at `top`, `bottom`, `top&bottom`, false (no render).
- * headerRowOptions (array): header <tr> tag attributes.
- * noItemsMessage (string): message when there are 0 records.
- * tableOptions (array): table tag <table> attributes.
- * paginate (array): set to false for no pagination.
  */
 class TableHelper extends AppHelper {
+/**
+ * Helpers used by TableHelper.
+ *
+ * @var array
+ */
     public $helpers = array('Html', 'Paginator');
+
+/**
+ * Default table rendering options.
+ * `columns` (array): Settings for each table's column. (see TableHelper::$__columnDefaults).
+ * `headerPosition` (mixed): Column titles position. 'top', 'top&bottom', bottom'. Or (boolean) FALSE for no titles.
+ * `noItemsMessage` (string): Message to show if there are no rows to display.
+ * `tableOptions` (array): <table> tag attributes.
+ * `trOptions` (array): <tr> tag attributes for every row of content (between <tbody></tbody>).
+ * `paginate.position` (string): Pagination row position, 'top' or 'top&bottom' or 'bottom'.
+ * `paginate.trOptions` (array): <tr> tags attributes.
+ * `paginate.tdOptions` (array): <td> tags attributes.
+ *
+ * @var array
+ */
     private $__defaults = array(
         'columns' => array(),
         'headerPosition' => 'top',
-        'headerRowOptions' => array(),
         'noItemsMessage' => 'There are no items to display',
         'tableOptions' => array('cellpadding' => 0, 'cellspacing' => 0, 'border' => 0),
-        'rowOptions' => array(),
+        'trOptions' => array(),
         'paginate' => array(
             'options' => array(),
             'prev' => array(
@@ -81,33 +92,55 @@ class TableHelper extends AppHelper {
                 'disabledTitle' => null,
                 'disabledOptions' => array('class' => 'disabled')
             ),
-            'position' => 'bottom',                              # String: row position, 'top', 'top&bottom', 'bottom'
-            'trOptions' => array('class' => 'paginator'),        # Array: <tr> tag attributes
-            'tdOptions' => array('align' => 'center')            # Array: <td> tag attributes
+            'position' => 'bottom',
+            'trOptions' => array('class' => 'paginator'),
+            'tdOptions' => array('align' => 'center')
         )
     );
 
-    private $_columnDefaults = array(
-        'value' => '',                              # String: cell content,
-        'thOptions' => array('align' => 'left'),    # Array: th attributes, header cells (text align left by default)
-        'tdOptions' => array('align' => 'left'),    # Array: td attributes, body cells (text align left by default)
-        'sort' => false                             # Mix: sortable field name:String, false (no sort this col), paginate must be on (see paginate option)
+/**
+ * Column default options.
+ * `value` (string): Cell's content. You can use special tags, see TableHelper::_renderCell().
+ * `thOptions` (array): <th> tag attributes for header cells (between <thead></thead>).
+ * `tdOptions` (array): <td> tag attributes for body cells (for each row of content between <tbody></tbody>).
+ * `sort` (mixed): Set to a string indicating the column name (`Model.column`). Set to (boolean) FALSE for do not sort this column.
+ *
+ * @var array
+ */
+    private $__columnDefaults = array(
+        'value' => '',
+        'thOptions' => array('align' => 'left'),
+        'tdOptions' => array('align' => 'left'),
+        'sort' => false
     );
 
-    private $_colsCount = 0;
+/**
+ * Holds the number of columns of the table being rendered.
+ *
+ * @var integer
+ */
+    private $__colsCount = 0;
 
+/**
+ * Renders out HTML table.
+ *
+ * @param array $data Data to fill table rows
+ * @param array $options Table options.
+ * @return string HTML table element
+ * @see TableHelper::$__defaults
+ */
     public function create($data, $options) {
         $this->__defaults['paginate']['prev']['title'] = __t('« Previous ');
         $this->__defaults['paginate']['next']['title'] = __t(' Next »');
 
         if (isset($options['paginate']) && $options['paginate'] === true) {
-            unset($options['paginate']); # default settings
+            unset($options['paginate']);
         } else {
             $this->__defaults['paginate'] = !isset($options['paginate']) ? false : $this->__defaults['paginate'];
         }
 
         $options = Set::merge($this->__defaults, $options);
-        $this->_colsCount = count($options['columns']);
+        $this->__colsCount = count($options['columns']);
         $out = sprintf('<table%s>', $this->Html->_parseAttributes($options['tableOptions'])) . "\n";
 
         if (count($data) > 0) {
@@ -129,7 +162,7 @@ class TableHelper extends AppHelper {
                 $td = '';
 
                 foreach ($options['columns'] as $name => $c_data) {
-                    $c_data = array_merge($this->_columnDefaults, $c_data);
+                    $c_data = array_merge($this->__columnDefaults, $c_data);
 
                     $td .= "\n\t";
                     $td .= $this->Html->useTag('tablecell',
@@ -143,8 +176,8 @@ class TableHelper extends AppHelper {
                     'class' => ($count%2 ? 'even' : 'odd')
                 );
 
-                if (!empty($options['rowOptions']) && is_array($options['rowOptions'])) {
-                    foreach ($options['rowOptions'] as $key => $val) {
+                if (!empty($options['trOptions']) && is_array($options['trOptions'])) {
+                    foreach ($options['trOptions'] as $key => $val) {
                         $val = $this->_renderCell($val, $data[$i]);
 
                         if ($key == 'class') {
@@ -170,7 +203,7 @@ class TableHelper extends AppHelper {
                 $out .= "\n\t</tfoot>\n";
             }
         } else {
-            $td   = $this->Html->useTag('tablecell', $this->Html->_parseAttributes(array('colspan' => $this->_colsCount)), __t($options['noItemsMessage']));
+            $td   = $this->Html->useTag('tablecell', $this->Html->_parseAttributes(array('colspan' => $this->__colsCount)), __t($options['noItemsMessage']));
             $out .= $this->Html->useTag('tablerow', $this->Html->_parseAttributes(array('class' => 'even')), $td);
         }
 
@@ -179,8 +212,23 @@ class TableHelper extends AppHelper {
         return $out;
     }
 
+/**
+ * Render the given cell.
+ * Looks for special tags to be replaced, valid tags are:
+ *  - URL. e.g.: {url}/my/url.html{url}
+ *  - Array path. e.g.: {Node.slug}
+ *  - Image. e.g.: {img class='width' border=0}/url/to/image.jpg{/img}
+ *  - Link. e.g.: {link class='css-class' title='Link title'}Link label|/link/url.html{/link}
+ *  - Translation __t(). e.g.: {t}Translate this{/t}
+ *  - Translation __d(). e.g.: {d|System}System module will translate this{/d}
+ *  - PHP code. e.g.: {php} return 'Testing'; {/php}
+ *
+ * @param string $value Cell content
+ * @param array $row_data Array of data of the row that cell belongs to
+ * @return string HTML table cell content
+ */
     protected function _renderCell($value, $row_data) {
-        // look for urls
+        // look for urls. e.g.: {url}/my/url.html{url}
         preg_match_all('/\{url\}(.+)\{\/url\}/iUs', $value, $url);
         if (isset($url[1]) && !empty($url[1])) {
             foreach ($url[0] as $i => $m) {
@@ -188,11 +236,13 @@ class TableHelper extends AppHelper {
             }
         }
 
-        // look for array paths
+        // look for array paths. e.g.: {Node.slug}
         preg_match_all('/\{([\{\}0-9a-zA-Z_\.]+)\}/iUs', $value, $path);
         if (isset($path[1]) && !empty($path[1])) {
+            $exclude = array('{d}', '{/d}', '{t}', '{/t}', '{php}', '{/php}', '{img}', '{/img}', '{link}', '{/link}');
+
             foreach ($path[0] as $i => $m) {
-                if (in_array($m, array('{php}', '{/php}', '{img}', '{/img}', '{link}', '{/link}'))) {
+                if (in_array($m, $exclude)) {
                     continue;
                 }
 
@@ -200,7 +250,7 @@ class TableHelper extends AppHelper {
             }
         }
 
-        // look for images
+        // look for images. {img class='width' border=0}/url/to/image.jpg{/img}
         preg_match_all('/\{img(.*?)\}(.+)\{\/img\}/i', $value, $img);
         if (isset($img[1]) && !empty($img[1])) {
             foreach ($img[0] as $i => $m) {
@@ -210,7 +260,7 @@ class TableHelper extends AppHelper {
             }
         }
 
-        // look for links
+        // look for links. e.g..: {link class='css-class' title='Link title'}Link label|/link/url.html{/link}
         preg_match_all('/\{link(.*?)\}(.*)\|(.*)\{\/link\}/i', $value, $link);
         if (isset($link[1]) && !empty($link[1])) {
             foreach ($link[0] as $i => $m) {
@@ -225,7 +275,23 @@ class TableHelper extends AppHelper {
             }
         }
 
-        // look for php code
+        // look for __t(). e.g.: {t}Translate this{/t}
+        preg_match_all('/\{t\}(.+)\{\/t\}/i', $value, $t);
+        if (isset($t[1]) && !empty($t[1])) {
+            foreach ($t[0] as $i => $m) {
+                $value = str_replace($m, __t($t[1][$i]), $value);
+            }
+        }
+
+        // look for __d(). e.g.: {d|System}System module will translate this{/d}
+        preg_match_all('/\{d\|(.+)\}(.+)\{\/d\}/i', $value, $d);
+        if (isset($d[1]) && !empty($d[1])) {
+            foreach ($d[0] as $i => $m) {
+                $value = str_replace($m, __d($d[1][$i], $d[2][$i]), $value);
+            }
+        }
+
+        // look for php code. e.g.: {php} return 'Testing'; {/php}
         preg_match_all('/\{php\}(.+)\{\/php\}/iUs', $value, $php);
         if (isset($php[1]) && !empty($php[1])) {
             foreach ($php[0] as $i => $m) {
@@ -237,7 +303,7 @@ class TableHelper extends AppHelper {
     }
 
 /**
- * Parse hooktags attributes
+ * Parse tag attributes.
  *
  * @param string $text Tag string to parse
  * @return array Array of attributes
@@ -268,6 +334,23 @@ class TableHelper extends AppHelper {
         return $atts;
     }
 
+/**
+ * Evaluate a string of PHP code.
+ *
+ * This is a wrapper around PHP's eval(). It uses output buffering to capture both
+ * returned and printed text. Unlike eval(), we require code to be surrounded by
+ * <?php ?> tags; in other words, we evaluate the code as if it were a stand-alone
+ * PHP file.
+ *
+ * Using this wrapper also ensures that the PHP code which is evaluated can not
+ * overwrite any variables in the calling code, unlike a regular eval() call.
+ *
+ * @param string $code The code to evaluate.
+ * @return
+ *   A string containing the printed output of the code, followed by the returned
+ *   output of the code.
+ *
+ */
     private function __php_eval($code, $row_data = array()) {
         ob_start();
         print eval('?>' . $code);
@@ -279,6 +362,11 @@ class TableHelper extends AppHelper {
         return $output;
     }
 
+/**
+ * Renders table's header.
+ *
+ * @return string HTML
+ */
     protected function _renderHeader($options, $footer = false) {
         $th = $out ='';
 
@@ -287,7 +375,8 @@ class TableHelper extends AppHelper {
         }
 
         foreach ($options['columns'] as $name => $data) {
-            $data = array_merge($this->_columnDefaults, $data);
+            $data = array_merge($this->__columnDefaults, $data);
+
             if ($options['paginate'] !== false && is_string($data['sort'])) {
                 @$name = $this->Paginator->sort($data['sort'], $name);
             }
@@ -300,6 +389,11 @@ class TableHelper extends AppHelper {
         return $out;
     }
 
+/**
+ * Renders table's pagination-row.
+ *
+ * @return string HTML
+ */
     protected function _renderPaginator($array) {
         $out = $paginator = '';
         $array = $array['paginate'];
@@ -307,7 +401,7 @@ class TableHelper extends AppHelper {
         $paginator .= $this->Paginator->prev($array['prev']['title'], $array['prev']['options'], $array['prev']['disabledTitle'], $array['prev']['disabledOptions']);
         $paginator .= $this->Paginator->numbers($array['numbers']['options']);
         $paginator .= $this->Paginator->next($array['next']['title'], $array['next']['options'], $array['next']['disabledTitle'], $array['next']['disabledOptions']);
-        $td = $this->Html->useTag('tablecell', $this->Html->_parseAttributes(array_merge(array('colspan' => $this->_colsCount), $array['tdOptions'])), $paginator);
+        $td = $this->Html->useTag('tablecell', $this->Html->_parseAttributes(array_merge(array('colspan' => $this->__colsCount), $array['tdOptions'])), $paginator);
         $out .= $this->Html->useTag('tablerow', $this->Html->_parseAttributes($array['trOptions']), $td);
 
         return $out;
