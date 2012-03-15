@@ -1,7 +1,7 @@
 <h3>About</h3>
 <p>
      The Block module allows you to create boxes of content, which are rendered into an area, or region, of one or more pages of a website.
-     The core Default administration theme, for example, implements the regions "Content", "Help", "Dashboard main", and "Dashboard sidebar", and a block may appear in any one of these regions.
+     The core Default administration theme, for example, implements the regions "Help", "Dashboard main", and "Dashboard sidebar", and a block may appear in any one of these regions.
      The <a href="<?php echo $this->Html->url('/admin/block/manage'); ?>">Blocks administration page</a> provides an interface for assigning a block to a region, and for controlling the order of blocks within regions.
 </p>
 

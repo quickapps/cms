@@ -3,7 +3,7 @@
     The Node module manages the creation, editing, deletion, settings, and display of the main site content.
     Content items managed by the Node module are typically displayed as pages on your site, and include a title,
     some meta-data (author, creation time, content type, etc.), and optional fields containing text or other data
-    (fields are managed by the <a href="<?php echo $this->Html->url('/admin/system/help/module/field'); ?>">Field module</a>).
+    (fields are managed by the <a href="<?php echo $this->Html->url('/admin/system/help/module/Field'); ?>">Field module</a>).
 </p>
 
 <h3>Uses</h3>
@@ -20,7 +20,7 @@
         The Node module gives users with the proper permission the ability to
         <a href="<?php echo $this->Html->url('/admin/node/types/add/'); ?>">create new content types</a>
         in addition to the default ones already configured.
-        Creating custom content types allows you the flexibility to add <a href="<?php echo $this->Html->url('/admin/system/help/module/field'); ?>">fields</a> and configure default settings that suit the differing needs of various site content.
+        Creating custom content types allows you the flexibility to add <a href="<?php echo $this->Html->url('/admin/system/help/module/Field'); ?>">fields</a> and configure default settings that suit the differing needs of various site content.
     </dd>
 
     <dt>Administering content</dt>

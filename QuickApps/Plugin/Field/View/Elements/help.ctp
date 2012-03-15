@@ -3,7 +3,7 @@
     The Field module allows custom data fields to be defined for <em>entity</em> types
     (entities include content items, comments, user accounts or any <b>Model</b> in general).
     The Field module takes care of storing, loading, editing, and rendering field data.
-    Most users will not interact with the Field module directly, but will instead use the <em>Field GUI</a>.
+    Most users will not interact with the Field module directly, but will instead use a <em>Field GUI</em>.
     Module developers can use the Field API to make new entity types "fieldable" and thus allow fields to be attached to them.
 </p>
 
@@ -12,12 +12,10 @@
     <dt>Enabling field types</dt>
     <dd>
         The Field module provides the infrastructure for fields and field attachment;
-        the field types and input are provided by additional modules.
-        Some of the modules are required; the optional modules can be enabled from the
-        <a href="<?php echo $this->Html->url('/admin/system/modules'); ?>">Modules administration page</a>.
-        QuickApps core includes the following field type modules:
-        Text box, Text area, List and Terms.
-        Additional fields may be provided by contributed modules.
+        Field types and inputs are provided by additional modules.
+        QuickApps CMS includes the following field type modules:
+        Date, File, List, Text and Terms.
+        Additional fields may be provided by other modules.
     </dd>
 
     <dt>Managing field data storage</dt>

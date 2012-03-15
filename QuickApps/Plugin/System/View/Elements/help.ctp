@@ -24,9 +24,9 @@
     <dt>Hook tags</dt>
     <dd>
         <p>
-            A hookTag is a QuickApps-specific code that lets you do nifty things with very little effort.
-            hookTag can for example print current language code/name/nativeName or call especifics modules/themes functions.
-            For example, block module has the 'block' hook which will print out the indicated block by id:
+            A Hooktag is a QuickApps-specific code that lets you do nifty things with very little effort.
+            Hooktags can for example print current language code/name/nativeName or call especifics modules/themes functions.
+            For example, block module has the 'block' hooktag which will print out the indicated block by id:
         </p>
 
         <p class="code-block">
@@ -40,12 +40,12 @@
         </p>
 
         <p>
-            Also modules and themes are able to define their own hooktags</em>
+            Modules and themes are able to define their own hooktags.
         </p>
 
         <hr class="hooktags" />
 
-        Some useful built-in Hook Tags are:
+        Some useful built-in Hookags are:
         <p class="code-block">
             <code>[language.OPTION]</code>
             <br/><br/>
@@ -94,6 +94,12 @@
             <code>[date=FORMAT]</code>
             <br/><br/>
             Returns php result of <em>date(FORMAT)</em>. <a href="http://www.php.net/manual/function.date.php" target="_blank">More info about date()</a>
+        </p>
+
+        <p class="code-block">
+            <code>[rand={values,by,comma}]</code>
+            <br/><br/>
+            Returns a radom value from the specified group. If only two numeric values are given as group, then php function <a href="http://www.php.net/manual/function.rand.php" target="_blank">rand</a>(num1, num2) is returned.
         </p>
     </dd>
 
