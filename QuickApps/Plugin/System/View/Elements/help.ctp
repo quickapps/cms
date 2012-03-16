@@ -21,7 +21,7 @@
 
 <h3>Uses</h3>
 <dl>
-    <dt>Hook tags</dt>
+    <dt>Hooktags</dt>
     <dd>
         <p>
             A Hooktag is a QuickApps-specific code that lets you do nifty things with very little effort.

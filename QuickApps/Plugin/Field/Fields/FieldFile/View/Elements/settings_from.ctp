@@ -6,7 +6,7 @@
         )
     );
 ?>
-<em><?php echo __t('Comma separated. i.e.: jpg,gif,png'); ?></em>
+<em><?php echo __t('Comma separated. e.g.: jpg,gif,png'); ?></em>
 
 <?php
     echo $this->Form->input('Field.settings.multi',

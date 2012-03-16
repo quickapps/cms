@@ -66,7 +66,7 @@
  *      data[FieldData][{field_module}][{field_instance_id}][data]
  *      data[FieldData][{field_module}][{field_instance_id}][id]
  *
- *      - (string) {field_module}: name of the field handler in CamelCase, i.e.: 'FieldTextarea', 'FieldMyField'.
+ *      - (string) {field_module}: name of the field handler in CamelCase, e.g.: 'FieldTextarea', 'FieldMyField'.
  *
  *      - (int) {field_instance_id}: ID of the field instance attached to the current Model.
  *                                   (field instances are stored in `fields` table)
@@ -154,7 +154,7 @@
  *
  * #### IMPORTANT
  * Field data **MUST** always be **saved after Entity** record has been saved, that is on afterSave() callback.
- * i.e.: When updating/creating a new User, all field's data must be saved after the User native data has been updated/created
+ * e.g.: When updating/creating a new User, all field's data must be saved after the User native data has been updated/created
  *
  * @link https://github.com/QuickAppsCMS/QuickApps-CMS/wiki/Field-API
  */
@@ -411,9 +411,9 @@ class FieldableBehavior extends ModelBehavior {
  *
  * @param object $Model instance of model
  * @param array $data Field instance information:
- *  - label: Field input label. i.e.: 'Article Body' for a textarea
- *  - name: Filed unique name. underscored and alphanumeric characters only. i.e.: 'field_article_body'
- *  - field_module: Name of the module that handle this instance. i.e.: 'filed_textarea'
+ *  - label: Field input label. e.g..: 'Article Body' for a textarea
+ *  - name: Filed unique name. underscored and alphanumeric characters only. e.g.: 'field_article_body'
+ *  - field_module: Name of the module that handle this instance. e.g.: `filed_text` or `FieldText`
  * @return mixed Return (int) Field instance ID if it was added correctly. FALSE otherwise.
  */
     public function attachFieldInstance(&$Model, $data) {

@@ -86,7 +86,7 @@
         )
     );
 ?>
-<em><?php echo __t('Enter your custom regular expression. i.e.: "/^[a-z0-9]{3,}$/i" (Only letters and integers, min 3 characters)'); ?></em>
+<em><?php echo __t('Enter your custom regular expression. e.g.: "/^[a-z0-9]{3,}$/i" (Only letters and integers, min 3 characters)'); ?></em>
 
 <?php
     echo $this->Form->input("Field.settings.validation_message",
