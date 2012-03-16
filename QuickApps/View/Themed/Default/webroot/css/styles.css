@@ -615,4 +615,7 @@ a.nivo-prevNav {
     text-decoration:underline;
 }
 
+table.cake-sql-log { display:block; width:99%; float:left; text-shadow:none; color:#fff; }
+table.cake-sql-log td { border-bottom:1px solid #00B7F3; }
+
 /*[miscellaneous]*/ /*[/miscellaneous]*/
