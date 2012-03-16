@@ -165,21 +165,27 @@ class QuickAppsComponent extends Component {
         $theme = Router::getParam('admin') ? Configure::read('Variable.admin_theme') : Configure::read('Variable.site_theme');
         $options = array(
             'conditions' => array(
-                'Block.themes_cache LIKE' => "%:{$theme}:%", # only blocks assigned to current theme
+                // only blocks assigned to current theme
+                'Block.themes_cache LIKE' => "%:{$theme}:%",
                 'Block.status' => 1,
-                'OR' => array( # only blocks assigned to any/current language
+                'OR' => array(
+                    // only blocks assigned to any/current language
                     'Block.locale =' => null,
                     'Block.locale =' => '',
                     'Block.locale LIKE' => '%s:3:"' . Configure::read('Variable.language.code') . '"%',
                     'Block.locale' => 'a:0:{}'
                 )
-            )
+            ),
+            'recursive' => 2
         );
+        $Block = ClassRegistry::init('Block.Block');
 
-        $this->Controller->Layout['blocks'] = $this->Controller->hook('blocks_list', $options, array('collectReturn' => false)); # request blocks to block module
-        $this->Controller->hook('blocks_alter', $this->Controller->Layout['blocks']); # pass blocks to modules
+        $Block->Menu->unbindModel(array('hasMany' => array('Block')));
 
-        /* Basic js files/inline */
+        $this->Controller->Layout['blocks'] = $Block->find('all', $options);
+        $this->Controller->hook('blocks_alter', $this->Controller->Layout['blocks']);
+
+        // Basic js files/inline
         $this->Controller->Layout['javascripts']['inline'][] = '
             jQuery.extend(QuickApps.settings, {
                 "url": "' . Router::url($this->Controller->here, true) . '",
