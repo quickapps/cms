@@ -26,7 +26,12 @@ class QuickApps {
         'view' => array(
             'frontpage' => array('self', '__viewIsFrontpage'),
             'login' => array('self', '__viewIsLogin'),
-            'admin' => array('self', '__viewIsAdmin')
+            'admin' => array('self', '__viewIsAdmin'),
+            'frontend' => array('self', '__viewIsFrontend'),
+            'backend' => array('self', '__viewIsBackend'),
+            'search' => array('self', '__viewIsSearch'),
+            'rss' => array('self', '__viewIsRss'),
+            'node' => array('self', '__viewIsNode')
         ),
         'user' => array(
             'admin' => array('self', '__userIsAdmin'),
@@ -52,6 +57,11 @@ class QuickApps {
  * - is('view.frontpage'): is frontpage ?
  * - is('view.login'): is login screen ?
  * - is('view.admin'): is admin prefix ?
+ * - is('view.frontend'): is front site ?
+ * - is('view.backend'): same as `view.admin`
+ * - is('view.search'): is search results page ?
+ * - is('view.rss'): is rss feed page ?
+ * - is('view.node'): is node details page ?
  * - is('user.logged'): is user logged in?
  * - is('user.admin'): has user admin privileges ?
  * - is('user.authorized', 'AcoPath'): is user allowed to use AcoPath ?
@@ -68,7 +78,7 @@ class QuickApps {
  *
  * @param string $detect Dot-Syntax unsersored_detector_name and group name. e.g.: `group.detector_name`
  * @param mixed $p Optional parameter for callback methods
- * @return boolean Whether or not the element is the type you are checking
+ * @return boolean
  */
     public static function is($detect, $p = null) {
         $detect = strtolower($detect);
@@ -377,6 +387,74 @@ class QuickApps {
         $params = Router::getParams();
 
         return isset($params['admin']) && $params['admin'];
+    }
+
+/**
+ * Checks if current view is not a `backend` view.
+ *
+ * @return boolean
+ */
+    private static function __viewIsFrontend() {
+        return !self::__viewIsAdmin();
+    }
+
+/**
+ * Checks if current view is a `backend` view.
+ * Alias for QuickApps::is('view.admin').
+ *
+ * @return boolean
+ */
+    private static function __viewIsBackend() {
+        return self::__viewIsAdmin();
+    }
+
+/**
+ * Checks if current view is a `backend` view.
+ * Alias for QuickApps::is('view.admin').
+ *
+ * @return boolean
+ */
+    private static function __viewIsSearch() {
+        $params = Router::getParams();
+
+        return (
+            $params['plugin'] == 'node' &&
+            $params['controller'] == 'node' &&
+            $params['action'] == 'search'
+        );
+    }
+
+/**
+ * Checks if current view is a `backend` view.
+ * Alias for QuickApps::is('view.admin').
+ *
+ * @return boolean
+ */
+    private static function __viewIsRss() {
+        $params = Router::getParams();
+
+        return (
+            $params['plugin'] == 'node' &&
+            $params['controller'] == 'node' &&
+            $params['action'] == 'search' &&
+            isset($params['pass'][1])
+        );
+    }
+
+/**
+ * Checks if current view is a `backend` view.
+ * Alias for QuickApps::is('view.admin').
+ *
+ * @return boolean
+ */
+    private static function __viewIsNode() {
+        $params = Router::getParams();
+
+        return (
+            $params['plugin'] == 'node' &&
+            $params['controller'] == 'node' &&
+            $params['action'] == 'details'
+        );
     }
 
 /**
