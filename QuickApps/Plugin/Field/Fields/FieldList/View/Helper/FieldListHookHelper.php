@@ -23,7 +23,8 @@ class FieldListHookHelper extends AppHelper {
                     $data['content'] .= "{$key}<br/>";
                 break;
 
-                case 'default': #Label
+                case 'default':
+                    // Label
                     default:
                         $data['content'] .= @"{$options[$key]}<br/>";
                 break;

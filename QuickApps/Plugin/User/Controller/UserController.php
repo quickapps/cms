@@ -89,7 +89,8 @@ class UserController extends UserAppController {
             $this->User->id = $user['User']['id'];
             $this->User->saveField('last_login', time());
 
-            $user = $this->User->read(); # read again because key has changed
+            // read again because key has changed
+            $user = $this->User->read();
 
             unset($user['User']['password']);
 
@@ -101,7 +102,7 @@ class UserController extends UserAppController {
                 )
             );
             $session['role_id'] = Set::extract('/UsersRoles/role_id', $session['role_id']);
-            $session['role_id'][] = 2; # role: authenticated user
+            $session['role_id'][] = 2; // authenticated user
 
             $this->Auth->login($session);
 
@@ -180,7 +181,7 @@ class UserController extends UserAppController {
                     )
                 );
                 $session['role_id'] = Set::extract('/UsersRoles/role_id', $session['role_id']);
-                $session['role_id'][] = 2; # role: authenticated user
+                $session['role_id'][] = 2; // authenticated user
                 $this->User->id = $session['id'];
 
                 $this->hook('after_login', $session);

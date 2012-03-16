@@ -19,7 +19,7 @@ $tSettings = array(
     ),
     'paginate' => true,
     'headerPosition' => 'top&bottom',
-    'tableOptions' => array('width' => '100%')    # table attributes
+    'tableOptions' => array('width' => '100%')
 );
 
  echo $this->Html->table($results, $tSettings);

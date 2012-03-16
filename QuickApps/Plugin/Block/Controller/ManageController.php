@@ -110,8 +110,10 @@ class ManageController extends BlockAppController {
             $data['Block']['locale'] = !empty($data['Block']['locale']) ? array_values($data['Block']['locale']) : array();
             $data['Block']['themes_cache'] = $this->__themesCache($data['BlockRegion']);
 
-            if ($this->Block->saveAll($data, array('validate' => 'first'))) { # saveAll only will save Block related models!
-                if (isset($data['Module'])) { # save widgets variables
+            if ($this->Block->saveAll($data, array('validate' => 'first'))) {
+                // saveAll only will save Block related models!
+                if (isset($data['Module'])) {
+                    // save widgets variables
                     $this->Module->save($data['Module']);
                     Cache::delete('Modules');
                     $this->QuickApps->loadModules();

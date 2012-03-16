@@ -111,10 +111,10 @@ class QuickAppsComponent extends Component {
             $yaml['info']['folder'] = $this->Controller->theme;
             $yaml['settings'] = Configure::read("Modules.Theme{$this->Controller->theme}.settings");
 
-            # set custom or default logo
+            // set custom or default logo
             $yaml['settings']['site_logo_url'] = isset($yaml['settings']['site_logo_url']) && !empty($yaml['settings']['site_logo_url']) ? $yaml['settings']['site_logo_url'] : '/system/img/logo.png';
 
-            # set custom or default favicon
+            // set custom or default favicon
             $yaml['settings']['site_favicon_url'] = isset($yaml['settings']['site_favicon_url']) && !empty($yaml['settings']['site_favicon_url']) ? $yaml['settings']['site_logo_url'] : '/system/favicon.ico';
 
             Configure::write('Theme', $yaml);
@@ -258,7 +258,8 @@ class QuickAppsComponent extends Component {
         $lang = empty($lang) || strlen($lang) != 3 || !in_array($lang, $installed_codes) ? 'eng' : $lang;
         $lang = Set::extract("/Language[code={$lang}]/..", $langs);
 
-        if (!isset($lang[0]['Language'])) { # not defined -> default = english
+        if (!isset($lang[0]['Language'])) {
+            // undefined => default = english
             $lang[0]['Language'] = array(
                 'code' => 'eng',
                 'name' => 'English',
@@ -352,7 +353,7 @@ class QuickAppsComponent extends Component {
                 );
 
                 $session['role_id'] = Set::extract('/UsersRole/role_id', $session['role_id']);
-                $session['role_id'][] = 2; # role: authenticated user
+                $session['role_id'][] = 2; // authenticated user
 
                 $this->Controller->Auth->login($session);
                 $this->setLanguage();
@@ -364,12 +365,13 @@ class QuickAppsComponent extends Component {
         if ($this->is('user.admin')) {
             $this->Controller->Auth->allowedActions = array('*');
         } else {
-            $roleId = $this->Controller->Auth->user() ? $this->Controller->Auth->user('role_id') : 3; # 3: anonymous user (public)
+            // 3 = anonymous user (public)
+            $roleId = $this->Controller->Auth->user() ? $this->Controller->Auth->user('role_id') : 3;
             $aro = $this->Controller->Acl->Aro->find('all',
                 array(
                     'conditions' => array(
                         'Aro.model' => 'User.Role',
-                        'Aro.foreign_key' => $roleId, # roles! array of ids
+                        'Aro.foreign_key' => $roleId, // array of role ids
                     ),
                     'fields' => array('Aro.id'),
                     'recursive' => -1,
@@ -616,9 +618,9 @@ class QuickAppsComponent extends Component {
             'title' => '',
             'pages' => '',
             'visibility' => 0,
-            'body' => '', #
+            'body' => '',
             'region' => null,
-            'format' => null #
+            'format' => null
         );
 
         $block = array_merge($_block, $block);

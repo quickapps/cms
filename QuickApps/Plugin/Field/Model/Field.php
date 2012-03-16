@@ -33,12 +33,13 @@ class Field extends FieldAppModel {
             if (!isset($this->data['Field']['field_module']) || empty($this->data['Field']['field_module'])) {
                 $this->data['Field']['field_module'] = $this->field('field_module', array('Field.id' => $this->data['Field']['id']));
             }
-        } elseif (!isset($this->data['Field']['id'])) { # new field
+        } elseif (!isset($this->data['Field']['id'])) {
+            // new field
             $default_settings = array(
                 'display' => array(
                     'default' => array(
                         'label' => 'hidden',
-                        'type' => '', # formatter name
+                        'type' => '', // formatter name
                         'settings' => array(),
                         'ordering' => 0
                     )
@@ -96,7 +97,7 @@ class Field extends FieldAppModel {
     }
 
     public function beforeDelete() {
-        $this->data = $this->read(); # tmp holder (before/afterDelete)
+        $this->data = $this->read(); // tmp holder (before/afterDelete)
         $before = $this->hook("{$this->field['Field']['field_module']}_before_delete_instance", $this, array('collectReturn' => false));
 
         if ($before === false) {
@@ -159,7 +160,8 @@ class Field extends FieldAppModel {
 
         if (($dir == 'down' && $ids[count($ids)-1] == $record['Field']['id']) ||
             ($dir == 'up' && $ids[0] == $record['Field']['id'])
-        ) { # edge -> cant go down/up
+        ) {
+            // edge => cant go down/up
             return false;
         }
 
@@ -209,18 +211,20 @@ class Field extends FieldAppModel {
 
             $actual = array_keys($field['Field']['settings']['display']);
 
-            foreach ($actual as $actual_mode) { # remove old modes
+            foreach ($actual as $actual_mode) {
+                // remove old modes
                 if (!in_array($actual_mode, $modes) && $actual_mode !== 'default') {
                     unset($field['Field']['settings']['display'][$actual_mode]);
                 }
             }
 
             if (!empty($modes)) {
-                foreach ($modes as $new_mode) { # add if not set yet
+                foreach ($modes as $new_mode) {
+                    // add if not set yet
                     if (!isset($field['Field']['settings']['display'][$new_mode])) {
                         $field['Field']['settings']['display'][$new_mode] = array(
                             'label' => 'hidden',
-                            'type' => '', # formatter name
+                            'type' => '', // formatter name
                             'settings' => array(),
                             'ordering' => 0
                         );

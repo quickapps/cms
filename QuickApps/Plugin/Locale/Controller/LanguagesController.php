@@ -39,10 +39,12 @@ class LanguagesController extends LocaleAppController {
                         $redirect = str_replace('/' . $c . '/', '/' . Configure::read('Variable.default_language') . '/', $redirect);
                     }
 
-                    if ($update) { # update langs
+                    if ($update) {
+                        // update langs
                         $this->Language->id = $id;
                         $this->Language->saveField($data['field'], $data['value'], false);
-                    } else { # delete node
+                    } else {
+                        // delete node
                         switch ($this->data['Language']['update']) {
                             case 'delete':
                                 $this->admin_delete($id);

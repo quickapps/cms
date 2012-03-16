@@ -280,11 +280,11 @@ class FieldableBehavior extends ModelBehavior {
                     $fieldsList[$Model->alias][] = $field['field_module'];
                 }
 
-                $field['FieldData'] = array();  # Field storage data must be set here
-                $data['entity'] =& $Model; # Entity instance
-                $data['field'] =& $field; # Field information
-                $data['result'] =& $result; # Instance of current Entity record being fetched
-                $data['settings'] = $this->__settings[$Model->alias]; # fieldable settings
+                $field['FieldData'] = array();  // Field storage data must be set here
+                $data['entity'] =& $Model; // Entity instance
+                $data['field'] =& $field; // Field information
+                $data['result'] =& $result; // Instance of current Entity record being fetched
+                $data['settings'] = $this->__settings[$Model->alias]; // fieldable settings
 
                 $Model->hook("{$field['field_module']}_after_find", $data);
             }

@@ -34,7 +34,7 @@
 
     $uploaded_path = '[]';
 
-    # form realoaded by validation error
+    // form realoaded by validation error
     if (isset($this->data['FieldData']['FieldFile'][$field['id']]['data']['files'])) {
         $uploaded_path = $this->data['FieldData']['FieldFile'][$field['id']]['uploaded_path'];
         $field['FieldData']['data']['files'] = $this->data['FieldData']['FieldFile'][$field['id']]['data']['files'];

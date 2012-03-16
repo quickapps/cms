@@ -330,12 +330,12 @@ class HookCollection {
 
             $paths = array_merge(
                 array(
-                    APP . 'Controller' . DS . 'Component' . DS,     # core components
-                    APP . 'View' . DS . 'Helper' . DS,              # core helpers
-                    APP . 'Model' . DS . 'Behavior' . DS,           # core behaviors
-                    ROOT . DS . 'Hooks' . DS . 'Behavior' . DS,     # custom MH
-                    ROOT . DS . 'Hooks' . DS . 'Helper' . DS,       # custom VH
-                    ROOT . DS . 'Hooks' . DS . 'Component' . DS     # custom CH
+                    APP . 'Controller' . DS . 'Component' . DS,     // core components
+                    APP . 'View' . DS . 'Helper' . DS,              // core helpers
+                    APP . 'Model' . DS . 'Behavior' . DS,           // core behaviors
+                    ROOT . DS . 'Hooks' . DS . 'Behavior' . DS,     // custom MH
+                    ROOT . DS . 'Hooks' . DS . 'Helper' . DS,       // custom VH
+                    ROOT . DS . 'Hooks' . DS . 'Component' . DS     // custom CH
                 ),
                 (array)$paths
             );

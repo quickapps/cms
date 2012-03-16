@@ -138,16 +138,19 @@ class QuickApps {
         $route = class_exists('Router') ? Router::getParams() : null;
 
         if (isset($route['plugin']) && !empty($route['plugin'])) {
-            $translated = I18n::translate($singular, null, Inflector::underscore($route['plugin'])); # 1º look in plugin
+            // 1º look in plugin
+            $translated = I18n::translate($singular, null, Inflector::underscore($route['plugin']));
         } else {
             $translated = $singular;
         }
 
-        if ($translated === $singular) { # 2º look in default
+        if ($translated === $singular) {
+            // 2º look in default
             $translated = I18n::translate($singular, null, 'default');
         }
 
-        if ($translated === $singular) { # 3º look in transtalion db-cache
+        if ($translated === $singular) {
+            // 3º look in transtalion db-cache
             $cache = Cache::read(md5($singular) . '_' . Configure::read('Config.language'), 'i18n');
             $translated = $cache ? $cache: $singular;
         }

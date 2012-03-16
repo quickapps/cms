@@ -52,7 +52,7 @@ class Comment extends CommentAppModel {
         'homepage' => array(
             'required' => false,
             'allowEmpty' => true,
-            'rule' => array('url', true), # strict url
+            'rule' => array('url', true),
             'message' => 'Invalid homepage URL.'
         ),
         'body' => array(
@@ -101,10 +101,12 @@ class Comment extends CommentAppModel {
 
         $userId = CakeSession::read('Auth.User.id');
 
-        if (!$userId) { # anonymous
+        if (!$userId) {
+            // anonymous
             switch ($this->__tmp['nodeData']['NodeType']['comments_anonymous']) {
                 // name
-                case 0: # mail not sended, not requierd | name sended but not required
+                case 0:
+                    // mail not sent, not requierd OR name sent but not required
                     unset($this->validate['name'], $this->validate['email']);
 
                     if (empty($this->data['Comment']['name'])) {
@@ -125,12 +127,12 @@ class Comment extends CommentAppModel {
                 // name*, email*, host
                 // mail/name required
                 case 2:
-                    # already set as class attribute
+                    // already set as class attribute
                 break;
             }
 
-            $this->data['Comment']['status'] = 0; # anonymous comments must always be approved by administrators
-            $this->data['Comment']['user_id'] = 0; # belongs to no one
+            $this->data['Comment']['status'] = 0; // anonymous comments must always be approved by administrators
+            $this->data['Comment']['user_id'] = 0; // belongs to no one
         } else {
             unset($this->validate['name'], $this->validate['email'], $this->validate['homepage']);
 

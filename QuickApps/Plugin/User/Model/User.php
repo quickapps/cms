@@ -86,7 +86,8 @@ class User extends UserAppModel {
         App::uses('Security', 'Utility');
         App::uses('String', 'Utility');
 
-        if (empty($this->data['User']['password'])) { # empty password -> do not update
+        if (empty($this->data['User']['password'])) {
+            // empty password => do not update
             unset($this->data['User']['password']);
         } else {
             $this->data['User']['password'] = Security::hash($this->data['User']['password'], null, true);

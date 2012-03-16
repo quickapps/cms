@@ -69,7 +69,8 @@ class NodeController extends NodeAppController {
                 $conditions['OR'][] = array('Node.roles_cache LIKE' => "%|{$role_id}|%");
             }
 
-            if ($this->QuickApps->is('user.admin')) { # admin-> no role restrictions
+            if ($this->QuickApps->is('user.admin')) {
+                // admin => no role restrictions
                 unset($conditions['OR']);
             }
 
@@ -167,7 +168,8 @@ class NodeController extends NodeAppController {
                 }
             }
 
-            if (isset($result['Node']['cache']) && !empty($result['Node']['cache'])) { #in seconds
+            if (isset($result['Node']['cache']) && !empty($result['Node']['cache'])) {
+                // in seconds
                 Cache::config('node_cache', array('engine' => 'File', 'duration' => $result['Node']['cache']));
                 Cache::write("node_{$slug}_" . Configure::read('Variable.language.code'), $result, 'node_cache');
             }
@@ -241,7 +243,7 @@ class NodeController extends NodeAppController {
 
         $this->Node->unbindModel(
             array(
-                'hasAndBelongsToMany' => array('Role'), # USE Node.roles_cache
+                'hasAndBelongsToMany' => array('Role'), // USE Node.roles_cache
                 'hasMany' => array('Comment')
             )
         );
@@ -448,7 +450,7 @@ class NodeController extends NodeAppController {
 
         // prepare content
         if (!empty($scope)) {
-            $scope['Node.status'] = 1; # only published content!
+            $scope['Node.status'] = 1;
             $scope['AND']['AND']['OR'][] = array('Node.roles_cache LIKE' => null);
             $scope['AND']['AND']['OR'][] = array('Node.roles_cache LIKE' => '');
 

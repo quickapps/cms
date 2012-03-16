@@ -91,7 +91,7 @@ class FieldFileHookBehavior extends ModelBehavior {
         }
 
         $_data = array(
-            'id' => $info['id'], # storage update or create
+            'id' => $info['id'], // storage update or create
             'field_id' => $info['field_id'],
             'data' => @serialize($info['data']),
             'belongsTo' => $info['entity']->alias,
@@ -132,7 +132,7 @@ class FieldFileHookBehavior extends ModelBehavior {
             $info['data']['files'] = !isset($info['data']['files']) ? array() : $info['data']['files'];
             $info['data']['files'] = Set::filter($info['data']['files']);
 
-            if (!count($info['data']['files'])) { # at leats one field required
+            if (!count($info['data']['files'])) { // at leats one field required
                 ClassRegistry::init('Field.FieldData')->invalidate(
                     "FieldFile.{$info['field_id']}.uploader",
                     __t('You must upload at least one file.')

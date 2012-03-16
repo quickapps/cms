@@ -20,10 +20,11 @@ class ListController extends UserAppController {
 
                 foreach ($this->data['Items']['id'] as $key => $id) {
                     if ($id === 1) {
-                        continue; # admin protected
+                        continue; // admin protected
                     }
 
-                    if ($update) { # update User
+                    if ($update) {
+                        // update User
                         switch ($this->data['User']['update']) {
                             case 'block':
                                 $this->requestAction('/admin/user/list/block/' . $id);
@@ -33,7 +34,8 @@ class ListController extends UserAppController {
                                 $this->requestAction('/admin/user/list/activate/' . $id);
                             break;
                         }
-                    } else { # delete User
+                    } else {
+                        // delete User
                         $this->requestAction('/admin/user/list/delete/' . $id);
                     }
                 }

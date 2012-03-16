@@ -76,7 +76,8 @@ class TypesController extends NodeAppController {
 
         $this->loadModel('Field.Field');
 
-        if (isset($this->data['NodeType']['viewModes'])) { # set available view modes
+        if (isset($this->data['NodeType']['viewModes'])) {
+            // set view mode available
             $this->Field->setViewModes($this->data['NodeType']['viewModes'], array('Field.belongsTo' => "NodeType-{$typeId}"));
             $this->redirect($this->referer());
         }

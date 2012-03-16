@@ -129,7 +129,8 @@ class VocabulariesController extends TaxonomyAppController {
             }
 
             die('ok');
-        } elseif (isset($this->data['Term']['name'])) { # new term
+        } elseif (isset($this->data['Term']['name'])) {
+            // new term
             $data = $this->data;
             $data['Term']['vocabulary_id'] = $vocabulary['Vocabulary']['id'];
 

@@ -53,25 +53,25 @@ class NodeType extends NodeAppModel {
 
     public function afterSave() {
         if (isset($this->__tmp['old_id'])) {
-            # update ID
+            // update ID
             $this->updateAll(
                 array('NodeType.id' => "'{$this->__tmp['new_id']}'"),
                 array('NodeType.id' => $this->__tmp['old_id'])
             );
 
-            # update existing contents
+            // update existing contents
             ClassRegistry::init('Node.Node')->updateAll(
                 array('Node.node_type_id' => "'{$this->__tmp['new_id']}'"),
                 array('Node.node_type_id' => $this->__tmp['old_id'])
             );
 
-            #update related fields
+            // update related fields
             ClassRegistry::init('Field.Field')->updateAll(
                 array('Field.belongsTo' => "'NodeType-{$this->__tmp['new_id']}'"),
                 array('Field.belongsTo' => "NodeType-{$this->__tmp['old_id']}")
             );
 
-            #try to correct URLs in existing menu links
+            // try to correct URLs in existing menu links
             $MenuLink = ClassRegistry::init('Menu.MenuLink');
 
             $MenuLink->Behaviors->detach('Tree');

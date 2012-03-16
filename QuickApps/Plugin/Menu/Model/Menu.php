@@ -23,7 +23,7 @@ class Menu extends MenuAppModel {
             'foreignKey' => 'menu_id',
             'order' => 'MenuLink.lft ASC',
             'conditions' => array('MenuLink.status' => 1),
-            'dependent' => false # must BE DELETED MANUALY
+            'dependent' => false // must BE DELETED MANUALY
         )
     );
 

@@ -304,7 +304,8 @@ class PermissionsController extends UserAppController {
         foreach ($results as $key => $aco) {
             $list[$aco['Aco']['id']] = $aco['Aco'];
 
-            if (!$aco['Aco']['parent_id']) { # module
+            if (!$aco['Aco']['parent_id']) {
+                // module
                 if (CakePlugin::loaded($aco['Aco']['alias'])) {
                     $yaml = array();
                     $ppath = CakePlugin::path($aco['Aco']['alias']);

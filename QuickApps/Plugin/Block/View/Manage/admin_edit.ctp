@@ -6,7 +6,7 @@
         <?php echo $this->Form->input('title', array('label' => __t('Block title'))); ?>
         <em><?php echo __t('The title of the block as shown to the user.'); ?></em>
 
-        <?php if ($this->data['Block']['module'] === 'Block'): # custom data only for custom blocks ?>
+        <?php if ($this->data['Block']['module'] === 'Block'): // custom data only for custom blocks ?>
             <?php echo $this->Form->input('BlockCustom.description', array('required' => 'required', 'label' => __t('Block description *'))); ?>
             <em><?php echo __t('A brief description of your block. Used on the Blocks administration page.'); ?></em>
             <?php echo $this->Form->input('BlockCustom.body', array('required' => 'required', 'type' => 'textarea', 'class' => 'full', 'label' => __t('Block body *'), 'after' => '')); ?>
@@ -16,7 +16,7 @@
     <?php if ($this->data['Block']['module'] !== 'Block'): ?>
         <?php $this->Layout->attachModuleHooks($this->data['Block']['module']); ?>
         <?php $data = $this->data; ?>
-        <?php if ($wg = $this->Layout->hook("{$this->data['Block']['module']}_{$this->data['Block']['delta']}_settings", $data, array('collectReturn' => false))): # widget ?>
+        <?php if ($wg = $this->Layout->hook("{$this->data['Block']['module']}_{$this->data['Block']['delta']}_settings", $data, array('collectReturn' => false))): // widget ?>
             <?php echo $this->Html->useTag('fieldsetstart', 'Widget settings'); ?>
                 <?php echo $wg; ?>
             <?php echo $this->Html->useTag('fieldsetend'); ?>

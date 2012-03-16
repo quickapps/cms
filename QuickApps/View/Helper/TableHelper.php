@@ -28,12 +28,12 @@
  * {{{
  *  ...
  *  'Column Title' => array(
- *      'value' => ,        # (string) Values to display when filling this column.
+ *      'value' => ,        (string) Values to display when filling this column.
  *                            You can specify array paths to find in the $data array. e.g.: `{Model.field}`
  *                            See TableHelper::_renderCell() for more tags.
- *      'thOptions' => ,    # (array) <th> tag options for this column. This will affect table header only.
- *      'tdOptions' => ,    # (array) <td> tag options for this column. This will affect table body (result rows) only.
- *      'sort' =>           # Optional (string) `Model.field`
+ *      'thOptions' => ,    (array) <th> tag options for this column. This will affect table header only.
+ *      'tdOptions' => ,    (array) <td> tag options for this column. This will affect table body (result rows) only.
+ *      'sort' =>           Optional (string) `Model.field`
  *  )
  *  ...
  * }}}

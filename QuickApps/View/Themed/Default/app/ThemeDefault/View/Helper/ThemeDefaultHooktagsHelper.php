@@ -27,7 +27,7 @@ class ThemeDefaultHooktagsHelper extends AppHelper {
             'link' => '#',
             'target' => '',
             'color' => '',
-            'size' => '', #big/small
+            'size' => '', // big|small
             ), $atts
         );
 

@@ -196,7 +196,7 @@ class InstallController extends Controller {
                     $contents = preg_replace('/(?<=Configure::write\(\'Security.cipherSeed\', \')(\d+)(?=\'\))/', $seed, $contents);
 
                     $file->write($contents);
-                    Cache::write('QaInstallDatabase', 'success'); # fix: Security keys change
+                    Cache::write('QaInstallDatabase', 'success'); // fix: Security keys change
                     $this->redirect('/install/user_account');
                 } else {
                     $this->Session->setFlash(__t('Could not dump database'), 'default', 'error');

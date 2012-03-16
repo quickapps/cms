@@ -46,7 +46,7 @@ class BlockRegion extends BlockAppModel {
 
         if (($dir == 'down' && $ids[count($ids)-1] == $record['BlockRegion']['id']) ||
             ($dir == 'up' && $ids[0] == $record['BlockRegion']['id'])
-        ) { # edge -> cant go down/up
+        ) { // edge => cant go down/up
             return false;
         }
 

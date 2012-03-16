@@ -51,7 +51,8 @@ class Block extends BlockAppModel {
 
     public function beforeSave() {
         // get new delta
-        if (!isset($this->data['Block']['id'])) { # new record
+        if (!isset($this->data['Block']['id'])) {
+            // new record
             if ($this->data['Block']['module'] == 'Menu' || isset($this->data['Block']['delta'])) {
                 return true;
             }

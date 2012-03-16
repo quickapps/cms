@@ -25,7 +25,8 @@ class Language extends LocaleAppModel {
     );
 
     public function beforeValidate() {
-        if (!isset($this->data['Language']['id']) && !isset($this->data['Language']['addCustom'])) { # new language -> determinate name&native
+        if (!isset($this->data['Language']['id']) && !isset($this->data['Language']['addCustom'])) {
+            // new language => determinate name&native
             if (isset($this->data['Language']['code'])) {
                 App::import('Lib', 'Locale.QALocale');
                 $l = QALocale::languages();
@@ -57,9 +58,10 @@ class Language extends LocaleAppModel {
         }
 
         if ($this->data['Language']['code'] == Configure::read('Variable.default_language') ||
-            (isset($this->data['Language']['id']) && $this->data['Language']['id'] == 1) #id=1=eng
+            (isset($this->data['Language']['id']) && $this->data['Language']['id'] == 1) // id = 1 = eng
         ) {
-            $this->data['Language']['status'] = 1; # prevent desactivation
+            // prevent desactivation
+            $this->data['Language']['status'] = 1;
         }
 
         return true;
@@ -101,7 +103,8 @@ class Language extends LocaleAppModel {
 
         if (($dir == 'down' && $ids[count($ids)-1] == $record['Language']['id']) ||
             ($dir == 'up' && $ids[0] == $record['Language']['id'])
-        ) { # edge -> cant go down/up
+        ) {
+            // edge => cant go down/up
             return false;
         }
 

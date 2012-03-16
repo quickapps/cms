@@ -57,7 +57,7 @@ class ThemesController extends SystemAppController {
             Cache::delete('Variable');
             Cache::delete("hook_objects_{$data['Variable']['name']}");
             Cache::delete("theme_{$theme_name}_yaml");
-            $this->QuickApps->loadVariables(); # IMPORTANT! regenerate cache
+            $this->QuickApps->loadVariables(); // IMPORTANT! regenerate cache
         }
 
         $this->redirect('/admin/system/themes');

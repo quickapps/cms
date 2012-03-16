@@ -165,7 +165,7 @@ class MenuHelper extends AppHelper {
 
         extract($this->__settings);
 
-        # prevent bad formated data
+        // prevent bad formated data
         if (isset($data[$this->__settings['model']])) {
             $data = $data[$this->__settings['model']];
             $data = $this->__prepareMenuLink($data);
@@ -304,7 +304,7 @@ class MenuHelper extends AppHelper {
                 $_url = !empty($result[$model][$external_url]) ? $result[$model][$external_url] : $result[$model][$url];
                 $title = !empty($result[$model][$alt_text]) ? __t($result[$model][$alt_text]) : '';
                 $target = isset($result[$model]['target']) && !empty($result[$model]['target']) ? $result[$model]['target'] : '_self';
-                $content = $this->Html->link("<span>" . __t($result[$model][$alias]) . "</span>", __t($_url), array('target' => $target, 'escape' => false, 'title' => $title)); # href
+                $content = $this->Html->link("<span>" . __t($result[$model][$alias]) . "</span>", __t($_url), array('target' => $target, 'escape' => false, 'title' => $title)); // href
             }
 
             if (!$content) {

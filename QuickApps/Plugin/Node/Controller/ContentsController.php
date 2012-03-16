@@ -46,10 +46,12 @@ class ContentsController extends NodeAppController {
                 }
 
                 foreach ($this->data['Items']['id'] as $id) {
-                    if ($update) { # update node
+                    if ($update) {
+                        // update node
                         $this->Node->id = $id;
                         $this->Node->saveField($data['field'], $data['value'], false);
-                    } else { # delete/clear_cache
+                    } else {
+                        // delete/clear_cache
                         $this->Node->id = $id;
                         $slug = $this->Node->field('slug');
 

@@ -72,11 +72,11 @@ class InstallerComponent extends Component {
  *      - CamelCaseThemeName/
  *          - Layouts/
  *          - app/
- *              - ThemeCamelCaseThemeName/  # `Theme` prefix
- *                  .... # same as modules
+ *              - ThemeCamelCaseThemeName/  (Note `Theme` prefix)
+ *                  .... (same as modules)
  *          - webroot/
  *          - CamelCaseThemeName.yaml
- *          - thumbnail.png # 206x150px recommended
+ *          - thumbnail.png  (206x150px recommended)
  *
  * @param array $data Data form POST submit of the .app package ($this->data)
  * @param array $options Optional settings, see InstallerComponent::$options
@@ -469,7 +469,7 @@ class InstallerComponent extends Component {
                     $moduleData['ordering'] = $max_order;
                 }
 
-                $this->Controller->Module->save($moduleData); # register module
+                $this->Controller->Module->save($moduleData); // register module
 
                 // Build ACOS && Register module in core
                 switch ($this->options['type']) {
@@ -1348,7 +1348,7 @@ class InstallerComponent extends Component {
  * {{{
  *  $this->Installer->createContentType(
  *      array(
- *          'module' => 'Blog', # OPTIONAL
+ *          'module' => 'Blog',  (OPTIONAL)
  *          'name' => 'Blog Entry',
  *          'label' => 'Entry Title'
  *      ),
@@ -1377,11 +1377,12 @@ class InstallerComponent extends Component {
  * {{{
  *  $fields = array(
  *      'FieldText' => array(
- *          'label' => 'Title', # required
- *          'name' => 'underscored_unique_name', # required
- *          'required' => true, # optional
- *          'description' => 'Help text, instructions.', # optional
- *          'settings' => array( # optional array of specific settings for this field.
+ *          'label' => 'Title',  [required]
+ *          'name' => 'underscored_unique_name', [required]
+ *          'required' => true, [optional]
+ *          'description' => 'Help text, instructions.', [optional]
+ *          'settings' => array(
+                [optional array of specific settings for this field.]
  *              'extensions' => 'jpg,gif,png',
  *              ...
  *          )
@@ -1400,20 +1401,20 @@ class InstallerComponent extends Component {
             'description' => '',
             'label' => false,
             // display format
-            'author_name' => 0, # show publisher info.: NO
-            'publish_date' => 0, # show publish date: NO
+            'author_name' => 0, // show publisher info.: NO
+            'publish_date' => 0, // show publish date: NO
             // comments
-            'comments' => 0, # comments: CLOSED (1: read only, 2: open)
-            'comments_approve' => 0, # auto approve: NO
+            'comments' => 0, // comments: CLOSED (1: read only, 2: open)
+            'comments_approve' => 0, // auto approve: NO
             'comments_per_page' => 10,
             'comments_anonymous' => 0,
-            'comments_title' => 0, # allow comment title: NO
+            'comments_title' => 0, // allow comment title: NO
             // language
-            'language' => '', # language: any
+            'language' => '', // language: any
             // publishing
-            'published' => 1, # active: YES
-            'promote' => 0, # publish to front page: NO
-            'sticky' => 0 # sticky at top of lists: NO
+            'published' => 1, // active: YES
+            'promote' => 0, // publish to front page: NO
+            'sticky' => 0 // sticky at top of lists: NO
         );
         $type = array_merge($__type, $type);
 

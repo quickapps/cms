@@ -30,7 +30,7 @@ class FieldTextHookBehavior extends ModelBehavior {
 
         $info['id'] =  empty($info['id']) || !isset($info['id']) ? null : $info['id'];
         $data['FieldData'] = array(
-            'id' => $info['id'], # update or create
+            'id' => $info['id'], // update or create
             'field_id' => $info['field_id'],
             'data' => $info['data'],
             'belongsTo' => $info['entity']->alias,

@@ -1025,7 +1025,8 @@ class LayoutHelper extends AppHelper {
         }
 
         if (!$allowed) {
-            return; #skip if is not allowed
+            // skip if not allowed
+            return; 
         }
 
         $Block = array(
