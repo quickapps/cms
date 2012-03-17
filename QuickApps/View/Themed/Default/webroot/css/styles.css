@@ -347,14 +347,15 @@ div.block div.content ul, div.block div.content ol { padding:0; margin:0; }
 
 /*---------------[NODE-RENDERING]------------------*/
 h2.node-title { border-bottom:1px solid #DADADA; }
-div.node-list h2.node-title { border-bottom:none; font-size:18px; }
+div.node h2.node-title { margin-bottom:8px; }
+div.node-list h2.node-title { border-bottom:none; margin:0 !important; font-size:18px; }
 div.node-list { margin:0 0 20px 0; border-bottom:1px solid #DADADA; }
 div.node-list .link-wrapper { text-align:right; overflow:hidden; }
 div.node-list .link-wrapper a.read-more {  padding-right: 17px; height: 32px; float: right; display: block; font: 14px Arial,sans-serif; color: #ffffff !important; margin: 8px 0; text-shadow: 1px 1px 1px rgba(0,0,0,0.3) !important; text-decoration: none;  background: url(../img/small-buttons/small-button-black.png) no-repeat bottom right; }
 div.node-list .link-wrapper a.read-more:hover { text-decoration: none; color: #eeeeee !important; }
 div.node-list .link-wrapper a.read-more span { height: 32px; display: block; line-height: 30px; padding: 0 0 0 17px; background: url(../img/small-buttons/small-button-black.png) no-repeat; }
-div.submitter {  padding:15px 0; }
-div.submitter span { font-style:italic; }
+div.node div.submitter { padding:15px 0; }
+div.node div.submitter span { font-style:italic; }
 
 
 /*---------------[COMMENTS]------------------*/
