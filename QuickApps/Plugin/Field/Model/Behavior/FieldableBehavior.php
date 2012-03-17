@@ -16,145 +16,22 @@
  * Any Model type (Node, User, etc.) can use this behavior to make itself `fieldable` and thus allow
  * fields to be attached to it.
  *
- * ### What a Field is
+ * The Field API allows custom data fields to be attached to Models and takes care of storing, loading, editing,
+ * and rendering field data. Any Model type (Node, User, etc.) can use the Field API to make itself "fieldable"
+ * and thus allow fields to be attached to it.
  *
- * Internaly fields are actually modules (cake's plugin), which manage the storing proccess of specific data.
- * They behave -functionally- like modules, this means they may have hooks and all what a common module has.
+ * The Field API defines two primary data structures, Field and Instance.
+ * A Field defines a particular type of data that can be attached to Models.
+ * A Field Instance is a Field attached to a single Model.
  *
- * Field data is usually stored in DB tables, QuickApps CMS provides a basic storage table called `field_data`,
- * though, each field is able to define its own storing system (usually extra tables in DB).
- * Also, each field's data-element must have an unique ID in that storing system, and such data is associated to
- * an unique Model record.
+ * Internally, fields behave (functionally) like modules (cake's plugin), and they are responsible of manage the
+ * storing proccess of specific data. As before, they behave -functionally- like modules,
+ * this means they may have hooks and all what a regular module has.
  *
- * Fields belongs always to modules, modules are allowed to define an unlimeted number of fields by placing them on
- * the `Fields` folder. e.g.: The core module `Taxonomy` has it own field `TaxonomyTerms` in `app/Plugins/Taxonomy/Fields/TaxonomyTerms`.
- * Most of the fields included in the core of QuickApps belongs to the `Fields` module (app/Plugins/Field/Fields).
- *
- * As field are actually modules, they must be prefix its name by the `Field` in order to avoid name collitions between
- * other modules in the system. As modules, field names must be always in CamelCase, e.g.:
- *
- * - `image_album`: invalid, no CamelCase name
- * - `ImageAlbum`: invalid, no prefix
- * - `FieldImageAlbum`: valid
- *
- * ### Understanding Model & Field relations
- *
- *  - Model -> hasMany -> Field Instances:
- *      Models may have multiple instances of the same field.
- *      e.g.:
- *          User model may define extra fields: `last name` and `age`, both represented
- *          by a textbox, means that each field (`last name` & `age`) is an instance of the same Field handler (e.g. `FieldText`).
- *
- *  - FieldInstance -> hasMany -> Field Data:
- *      Obviously each instance may have multiple data records in its storage system, BUT each of
- *      this records belongs to diferent Model records.
- *      e.g.:
- *          The instance `last name` for the User model may have many records of data but
- *          each `last name` actually belong to diferent Users.
- *
- *  - Model -> Field Instance -> hasOne -> Field Data:
- *      When retrieving a Model record, all its extra fields are captured (instances data).
- *      Therefore each of this instances has ONLY ONE related data for this Model record.
- *      e.g..:
- *          When editing a User, its 'last name' field must have only one value, even though the
- *          field instance has many data records in its storage system. (explanation above)
- *
- * ### Field posting strucure:
- *
- * Each field MUST always send its information following this structure,
- *
- *      data[FieldData][{field_module}][{field_instance_id}][data]
- *      data[FieldData][{field_module}][{field_instance_id}][id]
- *
- *      - (string) {field_module}: name of the field handler in CamelCase, e.g.: 'FieldTextarea', 'FieldMyField'.
- *
- *      - (int) {field_instance_id}: ID of the field instance attached to the current Model.
- *                                   (field instances are stored in `fields` table)
- *
- *      - (mixed) data: Field data. It may be from a simple text to complex arrays of mixed data
- *                      i.g.: `FieldAlbumImage` could define data as an array of images.
- *
- *      - (int) id: Storage ID. Unique ID for the data in the storage system implemented by the field.
- *                  null ID means that there is no data stored yet for this Model record and this field instance.
- *
- *      // debug($this->data) should looks:
- *
- *          array(
- *              .... // Other Model's native fields (table columns)
- *              'FieldData' => array(
- *                  'FieldHandler1' => array(
- *                      41 => array(
- *                          'id' => 153,
- *                          'data' => 'This data has an id = 153 and instance id 41'
- *                      ),
- *                      95 => array(
- *                          'id' => 181,
- *                          'data' => 'This is other instance (95) of FieldHandler1'
- *                      )...
- *                  ),
- *                  'FieldHandler2' => array(
- *                      60 => array(
- *                          id => null,
- *                          'data' => 'null storage ID means that there is no data stored yet for this field instance (60) and Model record'
- *                      )
- *                  )
- *              )
- *          )
- *
- * ### Capturing POST and saving data
- * Capturing field's data and saving process are performed by using Model hooks callbacks (Behaviors Hooks).
- * In this process there are two diferent callbacks types,`Entity callbacks`, related to Model entities (User, Node, etc).
- * And `Instance callbacks`, related to Field attachment process.
- *
- * #### Entity callbacks
- * This hooks callbacks are fired before/after each `fieldable` Model's callbacks.
- *
- *  - `{field_module}_after_find($info)` [optional]: after Entity find query
- *  - `{field_module}_before_save($info)` [optional]: before Entity record is saved
- *  - `{field_module}_after_save($info)` [required]: after Entity record has been saved
- *  - `{field_module}_before_validate($info)` [optional]: before validate Entity record
- *  - `{field_module}_before_delete($info)` [optional]: before Entity record delete
- *  - `{field_module}_after_delete($info)` [requited]: after Entity record has been deleted.
- *
- *  **$info:** Possible keys and values
- * {{{
- *  $info = array(
- *      [entity] => ...,
- *      [query] => ...,
- *      [field] => ...,
- *      [field_id] => ...,
- *      [created] => ...,
- *      [result] => ...,
- *      [settings] => ...
- *  );
- * }}}
- *
- * (object) **entity**: Instance of Model that Field is attached to.
- * (array) **query**: SQL query (only on beforeFind)
- * (array) **field**: Field instance information
- * (integer) **field_id**: Field instance ID (only on beforeValidate, afterSave, beforeDelete, afterDelete)
- * (boolean) **created**: TRUE if entity record has been created. FALSE if it was updated. (only on afterSave)
- * (boolean) **result**: Entity row of array results (only on afterFind)
- * (array) **settings**: Entity fieldable-settings array
- *
- * #### Instance callbacks
- * This hooks callbacks are fired when field instances are being attached to entities, or when
- * field is being detached, deleted, etc.
- *
- *  - {field_module}_before_delete_instance(&$FieldModel) [required/optional]: (at least one of (before/after) must be defined).
- *  - {field_module}_after_delete_instance(&$FieldModel) [required/optional]: (at least one of (before/after) must be defined).
- *  - {field_module}_before_validate_instance(&$FieldModel) [optional]: before validate the field instance being saved (attached to entity).
- *  - {field_module}_before_save_instance(&$FieldModel) [optional]: before field is attached to entity.
- *  - {field_module}_after_save_instance(&$FieldModel) [optional]: after field has been attached to entity.
- *  - {field_module}_before_move_instance(&$move_parametters) [optional]: before field instance is moved (reordered) within an entity.
- *  - {field_module}_after_move_instance(&$move_parametters) [optional]: after field instance was moved (reordered) within an entity.
- *  - {field_module}_before_set_view_modes(&$field_record) [optional]: before `view modes` are modified within an entity.
- *  - {field_module}_after_set_view_modes(&$field_record) [optional]: after `view modes` were modified within an entity.
- *
- *
- * #### IMPORTANT
- * Field data **MUST** always be **saved after Entity** record has been saved, that is on afterSave() callback.
- * e.g.: When updating/creating a new User, all field's data must be saved after the User native data has been updated/created
+ * Fields belongs always to modules, modules are allowed to define an unlimeted number of fields by placing
+ * them on the Fields folder.
+ * e.g.: The core module Taxonomy has it own field TaxonomyTerms in QuickApps/Plugins/Taxonomy/Fields/TaxonomyTerms.
+ * Most of the Fields included in the core of QuickApps belongs to the Fields module (QuickApps/Plugins/Field/Fields/).
  *
  * @link https://github.com/QuickAppsCMS/QuickApps-CMS/wiki/Field-API
  */
