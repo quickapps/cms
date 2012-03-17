@@ -116,7 +116,9 @@ class FieldData {
 			'field_id' => '1',
 			'foreignKey' => '2',
 			'belongsTo' => 'Node',
-			'data' => 'Nam in iaculis lectus? Sed egestas dui quis leo porttitor vitae bibendum ipsum ultrices. Mauris nisi nulla, volutpat vel vestibulum non, lobortis sed lectus. Integer quis volutpat.'
+			'data' => '<p>
+	<strong>QuickApps CMS</strong> is a free open source CMS released under GPL license, and inspired by most of the popular cms.<br />
+	Powered by CakePHP v2 <strong>MVC framework</strong> makes this cms the perfect development platform. A robust application fully expandable and capable of manage virtually any website, from very simplistic websites, as well as very complex web sites.</p>'
 		),
 		array(
 			'id' => '3',
