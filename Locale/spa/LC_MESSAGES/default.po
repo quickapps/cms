@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2012-03-14 22:49+0000\n"
+"POT-Creation-Date: 2012-03-16 23:58+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christopher Castro <chris@quickapps.es>\n"
 "Language-Team: \n"
@@ -241,19 +241,19 @@ msgstr "No se encontraron las regiones \"toolbar\" y/o \"help\". Son obligatoria
 msgid "Invalid information file (.yaml)"
 msgstr "Fichero de información inválido (.yaml)"
 
-#: Controller\Component\InstallerComponent.php:374;1585
+#: Controller\Component\InstallerComponent.php:374;1586
 msgid "This module is incompatible with your QuickApps version."
 msgstr "Este módulo es incompatible con su versión de QuickApps."
 
-#: Controller\Component\InstallerComponent.php:376;1587
+#: Controller\Component\InstallerComponent.php:376;1588
 msgid "This theme is incompatible with your QuickApps version."
 msgstr "Este theme es incompatible con su versión de QuickApps."
 
-#: Controller\Component\InstallerComponent.php:387;1598
+#: Controller\Component\InstallerComponent.php:387;1599
 msgid "This module depends on other modules that you do not have or doesn't meet the version required: %s"
 msgstr "Este módulo depende de otros módulos que no han sido instalados o bien no cumplen con los requerimientos de versión: %s"
 
-#: Controller\Component\InstallerComponent.php:389;1600
+#: Controller\Component\InstallerComponent.php:389;1601
 msgid "This theme depends on other modules that you do not have or doesn't meet the version required: %s"
 msgstr "Este theme depende de otros módulos que no han sido instalados o bien no cumplen con los requerimientos de versión: %s"
 
@@ -269,7 +269,7 @@ msgstr "Camp inválido \"%s\". Fichero de informacion (.yaml) no encontrado."
 msgid "Invalid field name \"%s\"."
 msgstr "Nombre de Campo inválido \"%s\"."
 
-#: Controller\Component\InstallerComponent.php:583;1565
+#: Controller\Component\InstallerComponent.php:583;1566
 msgid "Module does not exists."
 msgstr "El módulo no existe."
 
@@ -289,7 +289,7 @@ msgstr "Este módulo no puede ser desinstalado porque algunos ficheros/directori
 msgid "path: %s, not writable"
 msgstr "ruta: %s, no se puede escribir."
 
-#: Controller\Component\InstallerComponent.php:1574
+#: Controller\Component\InstallerComponent.php:1575
 msgid "This module can not be disabled, because it is required by: %s"
 msgstr "Este módulo no se puede deshabilitar, porque es requerido por: %s"
 
@@ -297,7 +297,7 @@ msgstr "Este módulo no se puede deshabilitar, porque es requerido por: %s"
 msgid "Site offline"
 msgstr "Sitio fuera de línea"
 
-#: Controller\Component\QuickAppsComponent.php:308
+#: Controller\Component\QuickAppsComponent.php:315
 msgid "You are not authorized to access that location."
 msgstr "No está autorizado para acceder a esa área."
 
@@ -317,35 +317,35 @@ msgstr "Bloque clonado con éxito"
 msgid "Block could not be cloned"
 msgstr "No se pudo clonar el bloque."
 
-#: Plugin\Block\Controller\ManageController.php:126;177
+#: Plugin\Block\Controller\ManageController.php:128;179
 msgid "Block has been saved"
 msgstr "Bloque ha sido guardado"
 
-#: Plugin\Block\Controller\ManageController.php:128;180
+#: Plugin\Block\Controller\ManageController.php:130;182
 msgid "Block could not be saved. Please, try again."
 msgstr "No se pudo guardar el bloque. Por favor intente otra vez."
 
-#: Plugin\Block\Controller\ManageController.php:146
+#: Plugin\Block\Controller\ManageController.php:148
 msgid "Editing Block"
 msgstr "Editando Bloque"
 
-#: Plugin\Block\Controller\ManageController.php:149
+#: Plugin\Block\Controller\ManageController.php:151
 msgid "Editing block"
 msgstr "Editando bloque"
 
-#: Plugin\Block\Controller\ManageController.php:156
+#: Plugin\Block\Controller\ManageController.php:158
 msgid "Add new block"
 msgstr "Agregar nuevo bloque"
 
-#: Plugin\Block\Controller\ManageController.php:159
+#: Plugin\Block\Controller\ManageController.php:161
 msgid "New block"
 msgstr "Nuevo bloque"
 
-#: Plugin\Block\Controller\ManageController.php:205
+#: Plugin\Block\Controller\ManageController.php:207
 msgid "Block has been deleted"
 msgstr "El bloque ha sido eliminad"
 
-#: Plugin\Block\Controller\ManageController.php:207
+#: Plugin\Block\Controller\ManageController.php:209
 msgid "Block could not be deleted"
 msgstr "No se pudo eliminar el bloque"
 
@@ -596,11 +596,11 @@ msgstr "El comentario ha sido eliminado."
 msgid "Comment could not be deleted."
 msgstr "El comentario no pudo ser eliminado."
 
-#: Plugin\Comment\Model\Comment.php:111;121
+#: Plugin\Comment\Model\Comment.php:113;123
 msgid "Anonymous"
 msgstr "Anónimo"
 
-#: Plugin\Comment\Model\Comment.php:218;234
+#: Plugin\Comment\Model\Comment.php:220;236
 msgid "No subject"
 msgstr "Sin asunto"
 
@@ -941,7 +941,7 @@ msgid "Allowed extensions"
 msgstr "Extensiones admitidas"
 
 #: Plugin\Field\Fields\FieldFile\View\Elements\settings_from.ctp:9
-msgid "Comma separated. i.e.: jpg,gif,png"
+msgid "Comma separated. e.g.: jpg,gif,png"
 msgstr "Separados por coma. ej.: jpg,gif,png"
 
 #: Plugin\Field\Fields\FieldFile\View\Elements\settings_from.ctp:16
@@ -1047,12 +1047,12 @@ msgid "Trim length or read-more-cutter"
 msgstr "Longitud de recorte o barra-leer-más"
 
 #: Plugin\Field\Fields\FieldText\View\Elements\formatter_from.ctp:33
-msgid "Numeric value will convert content to plain text and then trim it to the especified number of chars. i.e.: 400"
-msgstr "Valores numericos convertiran el contenido a texto plano y será recortado a la longitud de caracteres indicada. ejemplo: 400"
+msgid "Numeric value will convert content to plain text and then trim it to the especified number of chars. e.g.: 400"
+msgstr "Valores numericos convertiran el contenido a texto plano y será recortado a la longitud de caracteres indicada. ej.: 400"
 
 #: Plugin\Field\Fields\FieldText\View\Elements\formatter_from.ctp:34
-msgid "String value will cut the content in two by the specified string, the first part will be displayed. i.e.: &lt;!-- readmore --&gt;"
-msgstr "Valores tipo texto cortarán el contenido en dos en la cadena indicada, la primera parte será mostrada. ejemplo: &lt;!-- leermas --&gt;"
+msgid "String value will cut the content in two by the specified string, the first part will be displayed. e.g.: &lt;!-- readmore --&gt;"
+msgstr "Valores tipo texto cortarán el contenido en dos en la cadena indicada, la primera parte será mostrada. ej.: &lt;!-- leermas --&gt;"
 
 #: Plugin\Field\Fields\FieldText\View\Elements\settings_from.ctp:7
 msgid "Text field"
@@ -1119,8 +1119,8 @@ msgid "Validation rule"
 msgstr "Regla de validación"
 
 #: Plugin\Field\Fields\FieldText\View\Elements\settings_from.ctp:89
-msgid "Enter your custom regular expression. i.e.: \"/^[a-z0-9]{3,}$/i\" (Only letters and integers, min 3 characters)"
-msgstr "Ingrese una expresión regular. ejemplo: \"/^[a-z0-9]{3,}$/i\" (Sólo letras y números, mínimo 3 caracteres)"
+msgid "Enter your custom regular expression. e.g.: \"/^[a-z0-9]{3,}$/i\" (Only letters and integers, min 3 characters)"
+msgstr "Ingrese una expresión regular. ej.: \"/^[a-z0-9]{3,}$/i\" (Sólo letras y números, mínimo 3 caracteres)"
 
 #: Plugin\Field\Fields\FieldText\View\Elements\settings_from.ctp:95
 msgid "Validation message"
@@ -1191,19 +1191,19 @@ msgstr "Formato"
 msgid "Save field"
 msgstr "Guardar campo"
 
-#: Plugin\Locale\Controller\LanguagesController.php:86;93
+#: Plugin\Locale\Controller\LanguagesController.php:88;95
 msgid "New language has been saved"
 msgstr "Nuevo idioma guardado éxitosamente"
 
-#: Plugin\Locale\Controller\LanguagesController.php:89;96;109
+#: Plugin\Locale\Controller\LanguagesController.php:91;98;111
 msgid "Language could not be saved. Please, try again."
 msgstr "No se puedo guardar el idioma. Por favor, intente otra vez."
 
-#: Plugin\Locale\Controller\LanguagesController.php:106
+#: Plugin\Locale\Controller\LanguagesController.php:108
 msgid "Language has been saved"
 msgstr "El idioma ha sido guardado"
 
-#: Plugin\Locale\Controller\LanguagesController.php:124;126
+#: Plugin\Locale\Controller\LanguagesController.php:126;128
 #: Plugin\Locale\View\Languages\admin_edit.ctp:15
 msgid "Editing language"
 msgstr "Editando idioma"
@@ -1215,19 +1215,19 @@ msgstr "TODO"
 
 #: Plugin\Locale\Controller\PackagesController.php:25
 #: Plugin\Locale\View\Packages\admin_index.ctp:48
-#: Plugin\User\Controller\PermissionsController.php:61;324
+#: Plugin\User\Controller\PermissionsController.php:61;325
 msgid "Theme: %s"
 msgstr "Tema: %s"
 
 #: Plugin\Locale\Controller\PackagesController.php:27
 #: Plugin\Locale\View\Packages\admin_index.ctp:50
-#: Plugin\User\Controller\PermissionsController.php:59;322
+#: Plugin\User\Controller\PermissionsController.php:59;323
 msgid "Field: %s"
 msgstr "Campo: %s"
 
 #: Plugin\Locale\Controller\PackagesController.php:29
 #: Plugin\Locale\View\Packages\admin_index.ctp:52
-#: Plugin\User\Controller\PermissionsController.php:63;326
+#: Plugin\User\Controller\PermissionsController.php:63;327
 msgid "Module: %s"
 msgstr "Módulo: %s"
 
@@ -1897,60 +1897,60 @@ msgstr "¿Eliminar el menú seleccionado?"
 msgid "Links"
 msgstr "Enlaces"
 
-#: Plugin\Node\Controller\ContentsController.php:99
+#: Plugin\Node\Controller\ContentsController.php:101
 msgid "Contents"
 msgstr "Contenidos"
 
-#: Plugin\Node\Controller\ContentsController.php:146
+#: Plugin\Node\Controller\ContentsController.php:148
 msgid "Translate Content"
 msgstr "Traducir Contenido"
 
-#: Plugin\Node\Controller\ContentsController.php:148
+#: Plugin\Node\Controller\ContentsController.php:150
 #: Plugin\Node\View\Contents\admin_translate.ctp:11
 msgid "Translating Content"
 msgstr "Traduciendo Contenido"
 
-#: Plugin\Node\Controller\ContentsController.php:163;249
+#: Plugin\Node\Controller\ContentsController.php:165;251
 msgid "Content has been saved"
 msgstr "Contenido guardado"
 
-#: Plugin\Node\Controller\ContentsController.php:166;252
+#: Plugin\Node\Controller\ContentsController.php:168;254
 msgid "Content could not be saved. Please, try again."
 msgstr "El contenido no puedo ser guardado, Por favor, intente otra vez."
 
-#: Plugin\Node\Controller\ContentsController.php:171
+#: Plugin\Node\Controller\ContentsController.php:173
 msgid "<b>Content type not found.</b><br/>You can't edit this undefined type of content."
 msgstr "<b>Tipo de contenido no encontrado</b><br/>No puede editar un este contenido de tipo desconocido."
 
-#: Plugin\Node\Controller\ContentsController.php:210
+#: Plugin\Node\Controller\ContentsController.php:212
 msgid "Missing parent content. This is a translated content, and reference a missing parent content."
 msgstr "Contenido padre no encontrado. Este es un contenido traducido, y referencia a un contenido padre que no existe."
 
-#: Plugin\Node\Controller\ContentsController.php:224
+#: Plugin\Node\Controller\ContentsController.php:226
 msgid "Editing Content"
 msgstr "Editando Contenido"
 
-#: Plugin\Node\Controller\ContentsController.php:230;291
+#: Plugin\Node\Controller\ContentsController.php:232;293
 msgid "Add Content"
 msgstr "Agregar Contenido"
 
-#: Plugin\Node\Controller\ContentsController.php:233
+#: Plugin\Node\Controller\ContentsController.php:235
 msgid "Select content type"
 msgstr "Seleccione tipo de contenido"
 
-#: Plugin\Node\Controller\NodeController.php:177
+#: Plugin\Node\Controller\NodeController.php:179
 msgid "Page not found"
 msgstr "Página no encontrada"
 
-#: Plugin\Node\Controller\NodeController.php:193
+#: Plugin\Node\Controller\NodeController.php:195
 msgid "Your comment has been queued for review by site administrators and will be published after approval."
 msgstr "Tu comentario ha sido puesto en espera de revisar por algun administrador y será publicado después de su aprobación."
 
-#: Plugin\Node\Controller\NodeController.php:195
+#: Plugin\Node\Controller\NodeController.php:197
 msgid "Your comment has been posted."
 msgstr "Tu comentario ha sido publicado."
 
-#: Plugin\Node\Controller\NodeController.php:200
+#: Plugin\Node\Controller\NodeController.php:202
 msgid "Comment could not be saved. Please try again."
 msgstr "No se ha podido procesar el comentario. Por favor intenta otra vez."
 
@@ -1978,55 +1978,55 @@ msgstr "Agregar Tipo de Contenido"
 msgid "Content type has been deleted"
 msgstr "Tipo de contenido eliminado"
 
-#: Plugin\Node\Controller\TypesController.php:111;173
+#: Plugin\Node\Controller\TypesController.php:112;174
 msgid "Display"
 msgstr "Visualización"
 
-#: Plugin\Node\Controller\TypesController.php:113
+#: Plugin\Node\Controller\TypesController.php:114
 msgid "Display Settings"
 msgstr "Opciones de Visualización"
 
-#: Plugin\Node\Controller\TypesController.php:131
+#: Plugin\Node\Controller\TypesController.php:132
 #: Plugin\User\Controller\FieldsController.php:44
 msgid "Field has been saved"
 msgstr "El campo ha sido guardado"
 
-#: Plugin\Node\Controller\TypesController.php:134
+#: Plugin\Node\Controller\TypesController.php:135
 #: Plugin\User\Controller\FieldsController.php:47
 msgid "Field could not be saved"
 msgstr "El campo no pudo ser guardado"
 
-#: Plugin\Node\Controller\TypesController.php:145;220;222
+#: Plugin\Node\Controller\TypesController.php:146;221;223
 #: Plugin\User\Controller\FieldsController.php:55
 msgid "Fields"
 msgstr "Campos"
 
-#: Plugin\Node\Controller\TypesController.php:147
+#: Plugin\Node\Controller\TypesController.php:148
 #: Plugin\User\Controller\FieldsController.php:58
 msgid "Field Settings"
 msgstr "Configuración de Campo"
 
-#: Plugin\Node\Controller\TypesController.php:160
-#: Plugin\User\Controller\DisplayController.php:50
+#: Plugin\Node\Controller\TypesController.php:161
+#: Plugin\User\Controller\DisplayController.php:51
 msgid "Field has been saved."
 msgstr "El campo ha sido guardado."
 
-#: Plugin\Node\Controller\TypesController.php:163
-#: Plugin\User\Controller\DisplayController.php:53
+#: Plugin\Node\Controller\TypesController.php:164
+#: Plugin\User\Controller\DisplayController.php:54
 msgid "Field could not be saved. Please, try again."
 msgstr "El campo no pudo ser guardado. Por favor, intente otra vez."
 
-#: Plugin\Node\Controller\TypesController.php:174
-#: Plugin\User\Controller\DisplayController.php:63
+#: Plugin\Node\Controller\TypesController.php:175
+#: Plugin\User\Controller\DisplayController.php:64
 msgid "Field display settings"
 msgstr "Parámetros de visualización de campo"
 
-#: Plugin\Node\Controller\TypesController.php:176
-#: Plugin\User\Controller\DisplayController.php:65
+#: Plugin\Node\Controller\TypesController.php:177
+#: Plugin\User\Controller\DisplayController.php:66
 msgid "Field Display Settings"
 msgstr "Parámetros de Visualización de Campo"
 
-#: Plugin\Node\Controller\TypesController.php:202
+#: Plugin\Node\Controller\TypesController.php:203
 #: Plugin\User\Controller\FieldsController.php:27
 msgid "Field could not be created. Please, try again."
 msgstr "El campo no pudo ser creado. Por favor, intente otra vez."
@@ -3036,31 +3036,31 @@ msgstr "El vocabulario ha sido guardado"
 msgid "Editing Vocabulary \"%s\""
 msgstr "Editando vocabulario \"%s\""
 
-#: Plugin\Taxonomy\Controller\VocabulariesController.php:140
+#: Plugin\Taxonomy\Controller\VocabulariesController.php:141
 msgid "Term has been created."
 msgstr "El término ha sido creado."
 
-#: Plugin\Taxonomy\Controller\VocabulariesController.php:143;194
+#: Plugin\Taxonomy\Controller\VocabulariesController.php:144;195
 msgid "Term could not be saved. Please, try again."
 msgstr "No se pudo guardar el término. Por favor, intente otra vez."
 
-#: Plugin\Taxonomy\Controller\VocabulariesController.php:160;205
+#: Plugin\Taxonomy\Controller\VocabulariesController.php:161;206
 msgid "Terms"
 msgstr "Términos"
 
-#: Plugin\Taxonomy\Controller\VocabulariesController.php:162
+#: Plugin\Taxonomy\Controller\VocabulariesController.php:163
 msgid "%s Terms"
 msgstr "Términos %s"
 
-#: Plugin\Taxonomy\Controller\VocabulariesController.php:190
+#: Plugin\Taxonomy\Controller\VocabulariesController.php:191
 msgid "Term has been saved."
 msgstr "El término ha sido guardado."
 
-#: Plugin\Taxonomy\Controller\VocabulariesController.php:206
+#: Plugin\Taxonomy\Controller\VocabulariesController.php:207
 msgid "Editing term"
 msgstr "Editando término"
 
-#: Plugin\Taxonomy\Controller\VocabulariesController.php:208
+#: Plugin\Taxonomy\Controller\VocabulariesController.php:209
 msgid "Editing term \"%s\""
 msgstr "Editando término \"%s\""
 
@@ -3209,12 +3209,12 @@ msgstr "Agregar Nuevo Término"
 msgid "Parent term"
 msgstr "Término padre"
 
-#: Plugin\User\Controller\DisplayController.php:40
+#: Plugin\User\Controller\DisplayController.php:41
 #: Plugin\User\View\Elements\toolbar.ctp:8
 msgid "Manage Display"
 msgstr "Gestionar Visualización"
 
-#: Plugin\User\Controller\DisplayController.php:42;62
+#: Plugin\User\Controller\DisplayController.php:43;63
 msgid "User Display Settings"
 msgstr "Configuración de Visualización de Usuarios"
 
@@ -3231,37 +3231,37 @@ msgstr "Gestión de Campos de Usuario"
 msgid "Field settings"
 msgstr "Configuración de campo"
 
-#: Plugin\User\Controller\ListController.php:67
+#: Plugin\User\Controller\ListController.php:69
 #: Plugin\User\View\Elements\toolbar.ctp:3
 #: Vendor\DummyLocale.php:13
 msgid "Users"
 msgstr "Usuarios"
 
-#: Plugin\User\Controller\ListController.php:134;185
-#: Plugin\User\Controller\UserController.php:153
+#: Plugin\User\Controller\ListController.php:136;187
+#: Plugin\User\Controller\UserController.php:154
 msgid "User has been saved"
 msgstr "El usuario ha sido guardado"
 
-#: Plugin\User\Controller\ListController.php:137;188
-#: Plugin\User\Controller\UserController.php:57;156
+#: Plugin\User\Controller\ListController.php:139;190
+#: Plugin\User\Controller\UserController.php:57;157
 msgid "User could not be saved. Please, try again."
 msgstr "El usuario no pudo ser guardado. Por favor, intente otra vez."
 
-#: Plugin\User\Controller\ListController.php:151
+#: Plugin\User\Controller\ListController.php:153
 msgid "Add User"
 msgstr "Agregar Usuario"
 
-#: Plugin\User\Controller\ListController.php:154
+#: Plugin\User\Controller\ListController.php:156
 #: Plugin\User\View\Elements\toolbar.ctp:4
 #: Plugin\User\View\List\admin_add.ctp:3
 msgid "Add new user"
 msgstr "Agregar nuevo usuario"
 
-#: Plugin\User\Controller\ListController.php:206
+#: Plugin\User\Controller\ListController.php:208
 msgid "Editing User"
 msgstr "Editando Usuario"
 
-#: Plugin\User\Controller\ListController.php:209
+#: Plugin\User\Controller\ListController.php:211
 msgid "Editing user"
 msgstr "Editando usuario"
 
@@ -3318,33 +3318,33 @@ msgstr "Crear nueva cuenta"
 msgid "Create new user account"
 msgstr "Crear nueva cuenta de usuario"
 
-#: Plugin\User\Controller\UserController.php:120
+#: Plugin\User\Controller\UserController.php:121
 msgid "Further instructions have been sent to your e-mail address."
 msgstr "Instrucciones adicionales han sido enviados a su email."
 
-#: Plugin\User\Controller\UserController.php:125
+#: Plugin\User\Controller\UserController.php:126
 msgid "invalid email"
 msgstr "email inválido"
 
-#: Plugin\User\Controller\UserController.php:126
+#: Plugin\User\Controller\UserController.php:127
 msgid "Sorry, %s is not recognized as e-mail address."
 msgstr "Lo sentimos, %s no es un email válido."
 
-#: Plugin\User\Controller\UserController.php:132
+#: Plugin\User\Controller\UserController.php:133
 #: Plugin\User\View\Elements\user_login_block.ctp:15
 #: Plugin\User\View\User\password_recovery.ctp:3
 msgid "Request new password"
 msgstr "Solicitar nueva contraseña"
 
-#: Plugin\User\Controller\UserController.php:141
+#: Plugin\User\Controller\UserController.php:142
 msgid "%s profile"
 msgstr "%s perfil"
 
-#: Plugin\User\Controller\UserController.php:205
+#: Plugin\User\Controller\UserController.php:206
 msgid "Invalid username or password"
 msgstr "Nombre de usuario o contraseña inválidos"
 
-#: Plugin\User\Controller\UserController.php:217
+#: Plugin\User\Controller\UserController.php:218
 msgid "Logout successful."
 msgstr "Desidentificación exitosa."
 
@@ -3364,7 +3364,7 @@ msgstr "No se puedo enviar el email."
 msgid "Invalid message preset."
 msgstr "Mensaje preestablecido inválido."
 
-#: Plugin\User\Model\User.php:118
+#: Plugin\User\Model\User.php:119
 msgid "Password missmatch."
 msgstr "Contraseñas distintas."
 
@@ -3678,12 +3678,12 @@ msgid "My account"
 msgstr "Mi cuenta"
 
 #: Vendor\DummyLocale.php:24
-#: View\Helper\TableHelper.php:100
+#: View\Helper\TableHelper.php:133
 msgid "« Previous "
 msgstr "« Anterior"
 
 #: Vendor\DummyLocale.php:25
-#: View\Helper\TableHelper.php:101
+#: View\Helper\TableHelper.php:134
 msgid " Next »"
 msgstr " Siguiente »"
 
