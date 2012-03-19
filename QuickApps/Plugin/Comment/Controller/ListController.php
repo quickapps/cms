@@ -111,11 +111,11 @@ class ListController extends CommentAppController {
     }
 
     public function admin_approve($id) {
-        return $this->Comment->updateAll(array('Comment.status' => 1), array('Comment.id' => $id));
+        return $this->Comment->approve($id);
     }
 
     public function admin_unapprove($id) {
-        return $this->Comment->updateAll(array('Comment.status' => 0), array('Comment.id' => $id));
+        return $this->Comment->unapprove($id);
     }
 
     public function admin_delete($id) {

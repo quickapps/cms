@@ -23,7 +23,7 @@ class Nodes {
 			'promote' => '0',
 			'sticky' => '0',
 			'cache' => '',
-			'params' => ''
+			'params' => 'a:1:{s:5:"class";s:0:"";}'
 		),
 		array(
 			'id' => '2',
@@ -39,11 +39,11 @@ class Nodes {
 			'created_by' => '1',
 			'status' => '1',
 			'created' => '1310424311',
-			'modified' => '1331941780',
+			'modified' => '1310424311',
 			'modified_by' => '1',
 			'comment' => '0',
 			'comment_count' => '1',
-			'promote' => '1',
+			'promote' => '0',
 			'sticky' => '0',
 			'cache' => '',
 			'params' => 'a:1:{s:5:"class";s:0:"";}'
@@ -66,7 +66,7 @@ class Nodes {
 			'modified_by' => '1',
 			'comment' => '2',
 			'comment_count' => '1',
-			'promote' => '0',
+			'promote' => '1',
 			'sticky' => '0',
 			'cache' => '',
 			'params' => 'a:1:{s:5:"class";s:0:"";}'

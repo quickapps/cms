@@ -20,7 +20,7 @@ class FieldData {
 <h3>
 	Buttons</h3>
 <p>
-	Using buttons hookTags, you can easily create a variety of buttons. These buttons all stem from a single tag, but vary in color and size (each of which are adjustable using color=&rdquo;&quot; and size=&rdquo;&quot; parameters).<br />
+	Using buttons Hooktags, you can easily create a variety of buttons. These buttons all stem from a single tag, but vary in color and size (each of which are adjustable using color=&rdquo;&quot; and size=&rdquo;&quot; parameters).<br />
 	Allowed parameters:</p>
 <ol>
 	<li>

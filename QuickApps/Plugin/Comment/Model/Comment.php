@@ -206,6 +206,37 @@ class Comment extends CommentAppModel {
         }
     }
 
+    public function approve($id = false) {
+        $this->__toggleComment($id, 1);
+    }
+
+    public function unapprove($id = false) {
+        $this->__toggleComment($id, 0);
+    }
+
+    private function __toggleComment($id, $newStatus) {
+        $newStatus = intval($newStatus);
+
+        if (!$id) {
+            $id = $this->id;
+        }
+
+        $options = array(
+            'conditions' => array(
+                'Comment.id' => $id
+            ),
+            'fields' => array('id', 'status'),
+            'recursive' => -1
+        );
+
+        if ($c = $this->find('first', $options)) {
+            $c['Comment']['status'] = $newStatus;
+            $this->save($c, false);
+        } else {
+            return false;
+        }    
+    }
+
     private function __defaultSubject($string, $len = 30) {
         // ignore quotes
         $__string = $string;

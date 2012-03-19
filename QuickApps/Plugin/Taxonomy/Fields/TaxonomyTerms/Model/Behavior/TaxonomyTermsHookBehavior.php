@@ -14,6 +14,8 @@ class TaxonomyTermsHookBehavior extends ModelBehavior {
  * @return boolean true always
  */
     public function taxonomy_terms_before_save($info) {
+        $_searchIndex = '';
+
         foreach ($info['entity']->data['FieldData']['TaxonomyTerms'] as $field_instance_id => $post) {
             if (is_string($post['data'])) {
                 $data = explode(',', $post['data']);
@@ -91,11 +93,14 @@ class TaxonomyTermsHookBehavior extends ModelBehavior {
             foreach ($terms as $term) {
                 $info['entity']->data['Term']['Term'][] = array('field_id' => $info['field_id'], 'term_id' => $term['Term']['id']);
                 $terms_cache[] = "{$term['Term']['id']}:{$term['Term']['slug']}";
+                $_searchIndex .= ' ' . $term['Term']['slug'];
             }
 
             $info['entity']->data['Node']['terms_cache'] = implode('|', $terms_cache);
             $this->__tmp['before_save_' . $info['entity']->alias] = true;
         }
+
+        $info['entity']->indexField($_searchIndex);
 
         return true;
     }

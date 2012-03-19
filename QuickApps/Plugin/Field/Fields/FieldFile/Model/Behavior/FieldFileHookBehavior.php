@@ -55,6 +55,7 @@ class FieldFileHookBehavior extends ModelBehavior {
             return;
         }
 
+        $_searchIndex = '';
         $__defaultData = array('files' => array());
         $info['id'] =  empty($info['id']) || !isset($info['id']) ? null : $info['id'];
         $info['data'] = Set::merge($__defaultData, @$info['data']);
@@ -65,6 +66,15 @@ class FieldFileHookBehavior extends ModelBehavior {
         // fix fields array keys
         foreach ($info['data']['files'] as $key => $field_post) {
             $files[$i] = $field_post;
+
+            if (isset($field_post['file_name'])) {
+                $_searchIndex .= ' ' . $field_post['file_name'];
+            }
+
+            if (isset($field_post['description'])) {
+                $_searchIndex .= ' ' . $field_post['description'];
+            }
+
             $i++;
         }
 
@@ -99,6 +109,7 @@ class FieldFileHookBehavior extends ModelBehavior {
         );
 
         ClassRegistry::init('Field.FieldData')->save($_data);
+        $info['entity']->indexField($_searchIndex);
 
         return true;
     }

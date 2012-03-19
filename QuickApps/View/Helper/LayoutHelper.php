@@ -631,10 +631,6 @@ class LayoutHelper extends AppHelper {
             $user['User'] = $user;
         }
 
-        if (!isset($user['User']['email'])) {
-            return '';
-        }
-
         if (isset($user['User']['avatar']) && !empty($user['User']['avatar'])) {
             $avatar = $user['User']['avatar'];
         } else {

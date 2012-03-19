@@ -38,6 +38,7 @@ class FieldTextHookBehavior extends ModelBehavior {
         );
 
         ClassRegistry::init('Field.FieldData')->save($data);
+        $info['entity']->indexField($info['data']);
 
         return true;
     }
