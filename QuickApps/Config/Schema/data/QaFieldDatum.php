@@ -1,5 +1,5 @@
 <?php
-class FieldData {
+class QaFieldDatum {
 	public $table = 'field_data';
 	public $records = array(
 		array(

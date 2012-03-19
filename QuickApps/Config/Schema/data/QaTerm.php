@@ -1,5 +1,5 @@
 <?php
-class Terms {
+class QaTerm {
 	public $table = 'terms';
 	public $records = array(
 		array(

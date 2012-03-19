@@ -1,5 +1,5 @@
 <?php
-class Modules {
+class QaModule {
 	public $table = 'modules';
 	public $records = array(
 		array(

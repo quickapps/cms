@@ -1,5 +1,5 @@
 <?php
-class BlockRegions {
+class QaBlockRegion {
 	public $table = 'block_regions';
 	public $records = array(
 		array(

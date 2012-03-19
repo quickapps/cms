@@ -147,7 +147,7 @@ class InstallController extends Controller {
                 App::uses('Model', 'Model');
                 App::uses('CakeSchema', 'Model');
 
-                $schema = new CakeSchema(array('name' => 'quickapps', 'file' => 'quickapps.php'));
+                $schema = new CakeSchema(array('name' => 'QuickApps', 'file' => 'QuickApps.php'));
                 $schema = $schema->load();
                 $execute = array();
 

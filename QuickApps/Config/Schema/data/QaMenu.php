@@ -1,5 +1,5 @@
 <?php
-class Menus {
+class QaMenu {
 	public $table = 'menus';
 	public $records = array(
 		array(

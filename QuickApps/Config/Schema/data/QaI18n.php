@@ -1,5 +1,5 @@
 <?php
-class I18n {
+class QaI18n {
 	public $table = 'i18n';
 	public $records = array(
 		array(

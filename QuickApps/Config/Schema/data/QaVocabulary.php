@@ -1,5 +1,5 @@
 <?php
-class Vocabularies {
+class QaVocabulary {
 	public $table = 'vocabularies';
 	public $records = array(
 		array(

@@ -1,5 +1,5 @@
 <?php
-class Languages {
+class QaLanguage {
 	public $table = 'languages';
 	public $records = array(
 		array(

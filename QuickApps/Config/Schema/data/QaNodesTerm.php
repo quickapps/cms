@@ -1,5 +1,5 @@
 <?php
-class NodesTerms {
+class QaNodesTerm {
 	public $table = 'nodes_terms';
 	public $records = array(
 		array(

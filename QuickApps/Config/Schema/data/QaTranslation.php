@@ -1,5 +1,5 @@
 <?php
-class Translations {
+class QaTranslation {
 	public $table = 'translations';
 	public $records = array(
 		array(

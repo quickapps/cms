@@ -345,6 +345,7 @@ class InstallerComponent extends Component {
                         'requiredRegions' => array(
                             'test' => (
                                 !isset($yaml['info']['admin']) ||
+                                !$yaml['info']['admin'] ||
                                 (
                                     isset($yaml['info']['admin']) &&
                                     $yaml['info']['admin'] &&
@@ -858,7 +859,8 @@ class InstallerComponent extends Component {
  * Verify if all the modules that $module depends on are available and match the required version.
  *
  * @param  string $module Module alias
- * @return boolean
+ * @return boolean TRUE if all modules are available.
+ *                 FALSE if any of the required modules is not present/version-compatible
  */
     public function checkDependency($module = null) {
         $dependencies = false;
@@ -949,11 +951,11 @@ class InstallerComponent extends Component {
         $component = new $class($this->Controller->Components);
 
         if (method_exists($component, 'initialize')) {
-            $component->initialize($this);
+            $component->initialize($this->Controller);
         }
 
         if (method_exists($component, 'startup')) {
-            $component->startup($this);
+            $component->startup($this->Controller);
         }
 
         $component->Installer = $this;
@@ -1592,8 +1594,8 @@ class InstallerComponent extends Component {
             }
 
             if (
-                ($isTheme && isset($yaml['info']['dependencies']) && $this->checkDependency($yaml['info'])) ||
-                (!$isTheme && isset($yaml['dependencies']) && $this->checkDependency($yaml))
+                ($isTheme && isset($yaml['info']['dependencies']) && !$this->checkDependency($yaml['info'])) ||
+                (!$isTheme && isset($yaml['dependencies']) && !$this->checkDependency($yaml))
             ) {
                 if ($this->options['type'] == 'module') {
                     $this->errors[] = __t("This module depends on other modules that you do not have or doesn't meet the version required: %s", implode('<br/>', $yaml['dependencies']));

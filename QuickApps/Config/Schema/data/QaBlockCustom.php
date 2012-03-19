@@ -1,5 +1,5 @@
 <?php
-class BlockCustom {
+class QaBlockCustom {
 	public $table = 'block_custom';
 	public $records = array(
 		array(

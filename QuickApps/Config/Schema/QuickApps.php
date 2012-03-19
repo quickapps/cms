@@ -1,5 +1,5 @@
 <?php
-class quickappsSchema extends CakeSchema {
+class QuickAppsSchema extends CakeSchema {
 
 	public function before($event = array()) {
 		return true;
@@ -230,6 +230,13 @@ class quickappsSchema extends CakeSchema {
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 		'node_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 32, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'role_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'comment' => 'The user’s role ID from roles.id.'),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'InnoDB')
+	);
+	public $nodes_searches = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
+		'node_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10),
+		'data' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'InnoDB')
 	);

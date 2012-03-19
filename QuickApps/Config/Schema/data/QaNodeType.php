@@ -1,5 +1,5 @@
 <?php
-class NodeTypes {
+class QaNodeType {
 	public $table = 'node_types';
 	public $records = array(
 		array(

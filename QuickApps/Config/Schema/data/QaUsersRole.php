@@ -1,5 +1,5 @@
 <?php
-class UsersRoles {
+class QaUsersRole {
 	public $table = 'users_roles';
 	public $records = array(
 		array(

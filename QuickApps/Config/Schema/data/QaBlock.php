@@ -1,5 +1,5 @@
 <?php
-class Blocks {
+class QaBlock {
 	public $table = 'blocks';
 	public $records = array(
 		array(

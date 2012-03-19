@@ -1,5 +1,5 @@
 <?php
-class Comments {
+class QaComment {
 	public $table = 'comments';
 	public $records = array(
 		array(
