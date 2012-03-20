@@ -4077,7 +4077,7 @@ msgstr "Instalar QuickApps CMS"
 
 #: View\Layouts\install.ctp:4
 msgid "QuickApps Installation"
-msgstr "Instalación de QuickAps"
+msgstr "Instalación de QuickApps"
 
 #: View\Themed\Admin\Layouts\default.ctp:18
 msgid "View site"
