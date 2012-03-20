@@ -48,6 +48,13 @@ class QuickAppsComponent extends Component {
     public function beforeRender($controller) {
         if ($this->Controller->request->is('ajax')) {
             $this->Controller->layout = 'ajax';
+        } elseif ($this->is('view.node')) {
+            // node-type based layout
+            $tp = App::themePath(Configure::read('Theme.info.folder'));
+
+            if (file_exists($tp . 'Layouts' . DS . 'node_' . $this->Controller->Layout['node']['NodeType']['id'] . '.ctp')) {
+                $this->Controller->layout = 'node_' . $this->Controller->Layout['node']['NodeType']['id'];
+            }
         }
 
         $this->fieldsList();
