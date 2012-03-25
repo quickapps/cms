@@ -47,7 +47,7 @@ class UserController extends UserAppController {
         if (isset($this->data['User'])) {
             if ($this->User->save($this->data)) {
                 if ($this->Mailer->send($this->User->id, 'welcome')) {
-                    $this->flashMsg(__t('Registration complete. A welcome message has been sent to your e-mail address with instructions about how to active your account.'), 'success');
+                    $this->flashMsg(__t('Registration complete. A welcome message has been sent to your e-mail address with instructions on how to active your account.'), 'success');
                 } else {
                     $this->flashMsg(implode('<br />', $this->Mailer->errors), 'error');
                 }

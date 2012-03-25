@@ -10,7 +10,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: Controller\InstallController.php:69
-msgid "Your php version is not suported. check that your version is 5.2.8 or newer."
+msgid "Your php version is not supported. check that your version is 5.2.8 or newer."
 msgstr "Su versión de php no está soportada. Vetifique que su verisón es superior o igual a 5.2.8."
 
 #: Controller\InstallController.php:73
@@ -18,39 +18,39 @@ msgid "MySQL extension is not loaded on your server."
 msgstr "La extensión MySQL no se encontró en su servidor."
 
 #: Controller\InstallController.php:77
-msgid "Your server has SafeMode on, please turn it off before continue."
+msgid "Your server has SafeMode on, please turn it off before continuing."
 msgstr "Su servidor tiene la opción SaveMode activada, por favor desactivela antes de continuar."
 
 #: Controller\InstallController.php:81
-msgid "tmp folder is not writable"
+msgid "tmp folder is not writable."
 msgstr "El directorio tmp no se puede escribir."
 
 #: Controller\InstallController.php:85
-msgid "tmp/cache folder is not writable"
+msgid "tmp/cache folder is not writable."
 msgstr "El directorio tmp/cache/models no se puede escribir."
 
 #: Controller\InstallController.php:89
-msgid "tmp/cache/installer folder is not writable"
+msgid "tmp/cache/installer folder is not writable."
 msgstr "El directorio tmp/cache no se puede escribir."
 
 #: Controller\InstallController.php:93
-msgid "tmp/cache/models folder is not writable"
+msgid "tmp/cache/models folder is not writable."
 msgstr "El directorio tmp/cache/models no se puede escribir."
 
 #: Controller\InstallController.php:97
-msgid "tmp/cache/persistent folder is not writable"
+msgid "tmp/cache/persistent folder is not writable."
 msgstr "El directorio tmp/cache/persistent no se puede escribir."
 
 #: Controller\InstallController.php:101
-msgid "tmp/cache/i18n folder is not writable"
+msgid "tmp/cache/i18n folder is not writable."
 msgstr "El directorio tmp/cache/i18n no se puede escribir."
 
 #: Controller\InstallController.php:105
-msgid "Config folder is not writable"
+msgid "Config folder is not writable."
 msgstr "El directorio Config no se puede escribir."
 
 #: Controller\InstallController.php:109
-msgid "Config/core.php file is not writable"
+msgid "Config/core.php file is not writable."
 msgstr "El fichero Config/core.php no se puede escribir."
 
 #: Controller\InstallController.php:139
@@ -58,7 +58,7 @@ msgid "Could not connect to database."
 msgstr "No se pudo conectar con la Base de Datos."
 
 #: Controller\InstallController.php:202
-msgid "Could not dump database"
+msgid "Could not dump database."
 msgstr "No se pudo volcar la información de la Base de Datos."
 
 #: Controller\InstallController.php:205
@@ -70,7 +70,7 @@ msgid "Could not create new user, please try again."
 msgstr "No se pudo crear el usuario, por favor intente nuevamente."
 
 #: Controller\InstallController.php:263
-msgid "Could not write 'install' file. Check file/folder permissions and refresh this page"
+msgid "Could not write 'install' file. Check file/folder permissions and refresh this page."
 msgstr "No pudo escribir en el fichero 'install'. Por favor verifique los permisos y actualice esta página."
 
 #: Controller\Component\InstallerComponent.php:101
@@ -78,7 +78,7 @@ msgid "Could not download package file."
 msgstr "No se pudo descargar el paquete."
 
 #: Controller\Component\InstallerComponent.php:121
-msgid "Package upload error"
+msgid "Package upload error."
 msgstr "Error al subir el paquete."
 
 #: Controller\Component\InstallerComponent.php:134
@@ -86,7 +86,7 @@ msgid "Unzip error."
 msgstr "Error al descomprimir."
 
 #: Controller\Component\InstallerComponent.php:154
-msgid "Invalid package structure after unzip"
+msgid "Invalid package structure after unzip."
 msgstr "Estructura de paquete inválida tras descomprimir."
 
 #: Controller\Component\InstallerComponent.php:170
@@ -106,7 +106,7 @@ msgid "Invalid module name (got \"%s\", expected: \"%s\")"
 msgstr "Nombre de módulo inválido (se tiene \"%s\", se esperaba: \"%s\")"
 
 #: Controller\Component\InstallerComponent.php:183;236
-msgid "Already Installed"
+msgid "Already installed"
 msgstr "Ya instalado"
 
 #: Controller\Component\InstallerComponent.php:184
@@ -234,7 +234,7 @@ msgid "Required regions"
 msgstr "Regiones requeridas"
 
 #: Controller\Component\InstallerComponent.php:356
-msgid "Missing theme region(s) \"toolbar\" and/or \"help\". Are requied for backend themes."
+msgid "Missing theme region(s) \"toolbar\" and/or \"help\". Are required for backend themes."
 msgstr "No se encontraron las regiones \"toolbar\" y/o \"help\". Son obligatorias para themes de backend."
 
 #: Controller\Component\InstallerComponent.php:363
@@ -270,7 +270,7 @@ msgid "Invalid field name \"%s\"."
 msgstr "Nombre de Campo inválido \"%s\"."
 
 #: Controller\Component\InstallerComponent.php:583;1566
-msgid "Module does not exists."
+msgid "Module does not exist."
 msgstr "El módulo no existe."
 
 #: Controller\Component\InstallerComponent.php:587
@@ -1047,7 +1047,7 @@ msgid "Trim length or read-more-cutter"
 msgstr "Longitud de recorte o barra-leer-más"
 
 #: Plugin\Field\Fields\FieldText\View\Elements\formatter_from.ctp:33
-msgid "Numeric value will convert content to plain text and then trim it to the especified number of chars. e.g.: 400"
+msgid "Numeric value will convert content to plain text and then trim it to the specified number of chars. e.g.: 400"
 msgstr "Valores numericos convertiran el contenido a texto plano y será recortado a la longitud de caracteres indicada. ej.: 400"
 
 #: Plugin\Field\Fields\FieldText\View\Elements\formatter_from.ctp:34
@@ -2588,7 +2588,7 @@ msgstr "Etiqueta *"
 
 #: Plugin\Node\View\Types\admin_field_settings.ctp:6
 #: Plugin\User\View\Fields\admin_field_settings.ctp:6
-msgid "Requied field"
+msgid "Required field"
 msgstr "Campo requerido"
 
 #: Plugin\Node\View\Types\admin_field_settings.ctp:7
@@ -2833,8 +2833,8 @@ msgid "Help is available on the following items"
 msgstr "La ayuda está disponible para los siguientes elementos"
 
 #: Plugin\System\View\Helper\SystemHookHelper.php:37
-msgid "Powered by &copy; <a href=\"http://cms.quickapps.es/\">QuickApps CMS</a> v%s"
-msgstr "Powered by &copy; <a href=\"http://cms.quickapps.es/\">QuickApps CMS</a> v%s"
+msgid "Powered by &copy; <a href=\"http://www.quickappscms.org/\">QuickApps CMS</a> v%s"
+msgstr "Powered by &copy; <a href=\"http://www.quickappscms.org/\">QuickApps CMS</a> v%s"
 
 #: Plugin\System\View\Helper\SystemHookHelper.php:61
 msgid "Recent Content"
@@ -2857,7 +2857,7 @@ msgid "Add Your CSS"
 msgstr "CSS Personalizado"
 
 #: Plugin\System\View\Helper\ThemeCustomizerHelper.php:67
-msgid "Unknow property %d"
+msgid "Unknown property %d"
 msgstr "Propiedad desconocida"
 
 #: Plugin\System\View\Helper\ThemeCustomizerHelper.php:190
@@ -2914,7 +2914,7 @@ msgid "Enable"
 msgstr "Activar"
 
 #: Plugin\System\View\Modules\admin_index.ctp:98
-msgid "Delete selected module ? This change cant be undone!"
+msgid "Delete selected module ? This change can't be undone!"
 msgstr "Eliminar el módulo seleccionado ? Esta operación no puede ser revertida!"
 
 #: Plugin\System\View\Modules\admin_index.ctp:98
@@ -2999,7 +2999,7 @@ msgid "Logo image URL"
 msgstr "URL de imágen del logo"
 
 #: Plugin\System\View\Themes\admin_settings.ctp:27
-msgid "Leave blank for use default logo."
+msgid "Leave blank to use default logo."
 msgstr "Dejar en blanco para usar el logo por defecto."
 
 #: Plugin\System\View\Themes\admin_settings.ctp:31
@@ -3007,7 +3007,7 @@ msgid "Shortcut icon URL"
 msgstr "URL de favicon"
 
 #: Plugin\System\View\Themes\admin_settings.ctp:32
-msgid "Leave blank for use default favicon."
+msgid "Leave blank to use default favicon."
 msgstr "Dejar en blanco para usar el favicon por defecto."
 
 #: Plugin\Taxonomy\Controller\VocabulariesController.php:27
@@ -3305,7 +3305,7 @@ msgid "Login"
 msgstr "Inicio de sesión"
 
 #: Plugin\User\Controller\UserController.php:50
-msgid "Registration complete. A welcome message has been sent to your e-mail address with instructions about how to active your account."
+msgid "Registration complete. A welcome message has been sent to your e-mail address with instructions on how to active your account."
 msgstr "Registro completo. Un mensaje de bienvenida ha sido enviado a su e-mail con instrucciones"
 
 #: Plugin\User\Controller\UserController.php:63
@@ -3357,7 +3357,7 @@ msgid "This message has been marked as \"do not notify\"."
 msgstr "Este mensaje ha sido marcado como \"no notificar\""
 
 #: Plugin\User\Controller\Component\MailerComponent.php:87;103
-msgid "Email could not be send."
+msgid "Email could not be sent."
 msgstr "No se puedo enviar el email."
 
 #: Plugin\User\Controller\Component\MailerComponent.php:92;106
@@ -3365,7 +3365,7 @@ msgid "Invalid message preset."
 msgstr "Mensaje preestablecido inválido."
 
 #: Plugin\User\Model\User.php:119
-msgid "Password missmatch."
+msgid "Password mismatch."
 msgstr "Contraseñas distintas."
 
 #: Plugin\User\View\Display\admin_index.ctp:38
@@ -3816,7 +3816,7 @@ msgid "Header"
 msgstr "Cabecera"
 
 #: Vendor\DummyLocale.php:80
-msgid "Main menu backrgound"
+msgid "Main menu background"
 msgstr "Fondo de menú principal"
 
 #: Vendor\DummyLocale.php:81
@@ -3915,7 +3915,7 @@ msgid "Error"
 msgstr "Error"
 
 #: View\Errors\error400.ctp:5
-msgid "The requested address %s was not found. <br/> There are no translations available or you have not the sufficient permissions."
+msgid "The requested address %s was not found. <br/> There are no translations available or you don't have sufficient permissions."
 msgstr "La dirección %s no se ha encontrado. <br/> No existen traducciones disponibles o bien no tiene permisos suficientes."
 
 #: View\Errors\error400.ctp:6
@@ -4048,7 +4048,7 @@ msgid "Real Name"
 msgstr "Nombre Real"
 
 #: View\Install\user_account.ctp:16
-msgid "You real name."
+msgid "Your real name."
 msgstr "Su nombre real."
 
 #: View\Install\user_account.ctp:28
@@ -4088,7 +4088,7 @@ msgid "Image slider folder"
 msgstr "Directorio de slider fotográfico"
 
 #: View\Themed\Default\app\ThemeDefault\View\Elements\settings.ctp:3
-msgid "Recomended images size:"
+msgid "Recommended images size:"
 msgstr "Tamaño de imágen recomendado:"
 
 #: View\Themed\Default\app\ThemeDefault\View\Elements\theme_default_slider_settings.ctp:2
@@ -4096,7 +4096,7 @@ msgid "Enter one image per line, in the format <b>file name|url|caption</b>. e.g
 msgstr "Ingrese una imagen por línea, en el formato <b>nombre fichero|url|descripción</b>. ej.:"
 
 #: View\Themed\Default\app\ThemeDefault\View\Elements\theme_default_slider_settings.ctp:9
-msgid "Image files should be stoted in /files/<b>%s</b>, you can change this folder in the <a href=\"%s\">theme settings panel</a>"
+msgid "Image files should be stored in /files/<b>%s</b>, you can change this folder in the <a href=\"%s\">theme settings panel</a>"
 msgstr "Los ficheros de imágenes deben estar en /files/<b>%s</b>, puede cambiar de directorio en el <a href=\"%s\">panel de ajustes de theme</a>"
 
 #: View\Themed\Default\app\ThemeDefault\View\Elements\theme_default_slider_settings.ctp:10

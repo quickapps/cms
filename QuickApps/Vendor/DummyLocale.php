@@ -77,7 +77,7 @@
     echo __t("Links");
     echo __t("Links hover");
     echo __t("Header");
-    echo __t("Main menu backrgound");
+    echo __t("Main menu background");
     echo __t("Main menu text");
     echo __t("Branding background");
 
