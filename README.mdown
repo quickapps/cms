@@ -11,7 +11,7 @@ Free open source content management system for PHP, released under GPL License a
 
 ## Installation
 
-#### Github based installer (Recomended)
+#### Github based installer (Recommended)
 
  * Download from github the latest version as zip.
  * Extract the archive. Upload the content to your server.

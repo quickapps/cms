@@ -64,7 +64,7 @@ class ThemeCustomizerHelper extends AppHelper {
 
                                     default:
                                         $__noTitleCounters['undefined']++;
-                                        $attrs['title'] = __t('Unknow property %d', $__noTitleCounters['undefined']);
+                                        $attrs['title'] = __t('Unknown property %d', $__noTitleCounters['undefined']);
                                     break;
                                 }
                             } else {
