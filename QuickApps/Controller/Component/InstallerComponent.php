@@ -43,7 +43,7 @@ class InstallerComponent extends Component {
  * @param Controller $controller A reference to the instantiating controller object
  * @return void
  */
-    public function initialize($Controller) {
+    public function initialize(Controller $Controller) {
         $this->Controller = $Controller;
 
         return true;

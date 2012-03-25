@@ -14,8 +14,8 @@ class MailerComponent extends Component {
     public $components = array('Email');
     public $errors = array();
 
-    public function initialize(&$Controller) {
-        $this->Controller =& $Controller;
+    public function initialize(Controller $Controller) {
+        $this->Controller = $Controller;
         return true;
     }
 
