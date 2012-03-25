@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2012-03-16 23:58+0000\n"
+"POT-Creation-Date: 2012-03-25 21:48+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christopher Castro <chris@quickapps.es>\n"
 "Language-Team: \n"
@@ -105,7 +105,7 @@ msgstr "Nombre de theme"
 msgid "Invalid module name (got \"%s\", expected: \"%s\")"
 msgstr "Nombre de módulo inválido (se tiene \"%s\", se esperaba: \"%s\")"
 
-#: Controller\Component\InstallerComponent.php:183;236
+#: Controller\Component\InstallerComponent.php:183
 msgid "Already installed"
 msgstr "Ya instalado"
 
@@ -173,6 +173,10 @@ msgstr "Fichero YAML (%s) no encontrado"
 msgid "Invalid theme name (got \"%s\", expected: \"%s\")"
 msgstr "Nombre de theme inválido (se tiene \"%s\", se esperaba: \"%s\")"
 
+#: Controller\Component\InstallerComponent.php:236
+msgid "Already Installed"
+msgstr "Ya instalado"
+
 #: Controller\Component\InstallerComponent.php:237
 msgid "This theme is already installed"
 msgstr "El theme ya ha sido instalado"
@@ -229,67 +233,67 @@ msgstr "El fichero de configuración del módulo (%s) parece inválido."
 msgid "Theme configuration file (%s) appears to be invalid."
 msgstr "El fichero de configuración del theme  (%s) parece inválido."
 
-#: Controller\Component\InstallerComponent.php:355
+#: Controller\Component\InstallerComponent.php:356
 msgid "Required regions"
 msgstr "Regiones requeridas"
 
-#: Controller\Component\InstallerComponent.php:356
+#: Controller\Component\InstallerComponent.php:357
 msgid "Missing theme region(s) \"toolbar\" and/or \"help\". Are required for backend themes."
 msgstr "No se encontraron las regiones \"toolbar\" y/o \"help\". Son obligatorias para themes de backend."
 
-#: Controller\Component\InstallerComponent.php:363
+#: Controller\Component\InstallerComponent.php:364
 msgid "Invalid information file (.yaml)"
 msgstr "Fichero de información inválido (.yaml)"
 
-#: Controller\Component\InstallerComponent.php:374;1586
+#: Controller\Component\InstallerComponent.php:375;1588
 msgid "This module is incompatible with your QuickApps version."
 msgstr "Este módulo es incompatible con su versión de QuickApps."
 
-#: Controller\Component\InstallerComponent.php:376;1588
+#: Controller\Component\InstallerComponent.php:377;1590
 msgid "This theme is incompatible with your QuickApps version."
 msgstr "Este theme es incompatible con su versión de QuickApps."
 
-#: Controller\Component\InstallerComponent.php:387;1599
+#: Controller\Component\InstallerComponent.php:388;1601
 msgid "This module depends on other modules that you do not have or doesn't meet the version required: %s"
 msgstr "Este módulo depende de otros módulos que no han sido instalados o bien no cumplen con los requerimientos de versión: %s"
 
-#: Controller\Component\InstallerComponent.php:389;1601
+#: Controller\Component\InstallerComponent.php:390;1603
 msgid "This theme depends on other modules that you do not have or doesn't meet the version required: %s"
 msgstr "Este theme depende de otros módulos que no han sido instalados o bien no cumplen con los requerimientos de versión: %s"
 
-#: Controller\Component\InstallerComponent.php:413
+#: Controller\Component\InstallerComponent.php:414
 msgid "invalid information file (.yaml). Field \"%s\""
 msgstr "fichero de información inválido (.yaml). Campo \"%s\""
 
-#: Controller\Component\InstallerComponent.php:417
+#: Controller\Component\InstallerComponent.php:418
 msgid "Invalid field \"%s\". Information file (.yaml) not found."
 msgstr "Camp inválido \"%s\". Fichero de informacion (.yaml) no encontrado."
 
-#: Controller\Component\InstallerComponent.php:421
+#: Controller\Component\InstallerComponent.php:422
 msgid "Invalid field name \"%s\"."
 msgstr "Nombre de Campo inválido \"%s\"."
 
-#: Controller\Component\InstallerComponent.php:583;1566
+#: Controller\Component\InstallerComponent.php:584;1568
 msgid "Module does not exist."
 msgstr "El módulo no existe."
 
-#: Controller\Component\InstallerComponent.php:587
+#: Controller\Component\InstallerComponent.php:588
 msgid "Core modules can not be uninstalled."
 msgstr "Los módulo del núcleo no pueden ser eliminados."
 
-#: Controller\Component\InstallerComponent.php:595
+#: Controller\Component\InstallerComponent.php:596
 msgid "This module can not be uninstalled, because it is required by: %s"
 msgstr "Este módulo no puede ser desinstalado, porque es requerido por: %s"
 
-#: Controller\Component\InstallerComponent.php:610
+#: Controller\Component\InstallerComponent.php:611
 msgid "This module can not be uninstalled because some files/folder can not be deleted, please check the permissions."
 msgstr "Este módulo no puede ser desinstalado porque algunos ficheros/directorios no pueden ser eliminados, por favor verifique los permisos."
 
-#: Controller\Component\InstallerComponent.php:1153;1162
+#: Controller\Component\InstallerComponent.php:1155;1164
 msgid "path: %s, not writable"
 msgstr "ruta: %s, no se puede escribir."
 
-#: Controller\Component\InstallerComponent.php:1575
+#: Controller\Component\InstallerComponent.php:1577
 msgid "This module can not be disabled, because it is required by: %s"
 msgstr "Este módulo no se puede deshabilitar, porque es requerido por: %s"
 
@@ -600,7 +604,7 @@ msgstr "El comentario no pudo ser eliminado."
 msgid "Anonymous"
 msgstr "Anónimo"
 
-#: Plugin\Comment\Model\Comment.php:220;236
+#: Plugin\Comment\Model\Comment.php:251;267
 msgid "No subject"
 msgstr "Sin asunto"
 
@@ -870,7 +874,7 @@ msgstr "Página web"
 msgid "Message"
 msgstr "Mensaje"
 
-#: Plugin\Field\Fields\FieldDate\Model\Behavior\FieldDateHookBehavior.php:50
+#: Plugin\Field\Fields\FieldDate\Model\Behavior\FieldDateHookBehavior.php:51
 msgid "Date cannot be empty."
 msgstr "Fecha no puede ser vacía."
 
@@ -906,7 +910,7 @@ msgstr "Extensión de fichero inválida."
 msgid "Error: %s"
 msgstr "Error: %s"
 
-#: Plugin\Field\Fields\FieldFile\Model\Behavior\FieldFileHookBehavior.php:138
+#: Plugin\Field\Fields\FieldFile\Model\Behavior\FieldFileHookBehavior.php:149
 msgid "You must upload at least one file."
 msgstr "Debe subir al menos un fichero."
 
@@ -976,8 +980,8 @@ msgstr "Adjuntos"
 msgid "Size"
 msgstr "Tamaño"
 
-#: Plugin\Field\Fields\FieldList\Model\Behavior\FieldListHookBehavior.php:53
-#: Plugin\Taxonomy\Fields\TaxonomyTerms\Model\Behavior\TaxonomyTermsHookBehavior.php:160
+#: Plugin\Field\Fields\FieldList\Model\Behavior\FieldListHookBehavior.php:54
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\Model\Behavior\TaxonomyTermsHookBehavior.php:165
 msgid "You must select at least one option."
 msgstr "Debe seleccionar al menos una opción."
 
@@ -1017,15 +1021,15 @@ msgstr "La clave es el valor almacenado. La etiqueta se utilizará para los valo
 msgid "The label is optional: if a line contains a single string, it will be used as key and label."
 msgstr "La etiqueta es opcional: si una linea contiene una sola cadena de texto, se utilizará como clave y etiqueta."
 
-#: Plugin\Field\Fields\FieldText\Model\Behavior\FieldTextHookBehavior.php:73
+#: Plugin\Field\Fields\FieldText\Model\Behavior\FieldTextHookBehavior.php:74
 msgid "Max. %s characters length."
 msgstr "%s caracteres de longitud como máximo."
 
-#: Plugin\Field\Fields\FieldText\Model\Behavior\FieldTextHookBehavior.php:84
+#: Plugin\Field\Fields\FieldText\Model\Behavior\FieldTextHookBehavior.php:85
 msgid "Field required."
 msgstr "Campo requerido."
 
-#: Plugin\Field\Fields\FieldText\Model\Behavior\FieldTextHookBehavior.php:93
+#: Plugin\Field\Fields\FieldText\Model\Behavior\FieldTextHookBehavior.php:94
 msgid "Invalid field."
 msgstr "Campo inválido."
 
@@ -1938,19 +1942,19 @@ msgstr "Agregar Contenido"
 msgid "Select content type"
 msgstr "Seleccione tipo de contenido"
 
-#: Plugin\Node\Controller\NodeController.php:179
+#: Plugin\Node\Controller\NodeController.php:182
 msgid "Page not found"
 msgstr "Página no encontrada"
 
-#: Plugin\Node\Controller\NodeController.php:195
+#: Plugin\Node\Controller\NodeController.php:198
 msgid "Your comment has been queued for review by site administrators and will be published after approval."
 msgstr "Tu comentario ha sido puesto en espera de revisar por algun administrador y será publicado después de su aprobación."
 
-#: Plugin\Node\Controller\NodeController.php:197
+#: Plugin\Node\Controller\NodeController.php:200
 msgid "Your comment has been posted."
 msgstr "Tu comentario ha sido publicado."
 
-#: Plugin\Node\Controller\NodeController.php:202
+#: Plugin\Node\Controller\NodeController.php:205
 msgid "Comment could not be saved. Please try again."
 msgstr "No se ha podido procesar el comentario. Por favor intenta otra vez."
 
@@ -3064,7 +3068,7 @@ msgstr "Editando término"
 msgid "Editing term \"%s\""
 msgstr "Editando término \"%s\""
 
-#: Plugin\Taxonomy\Fields\TaxonomyTerms\Model\Behavior\TaxonomyTermsHookBehavior.php:147
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\Model\Behavior\TaxonomyTermsHookBehavior.php:152
 msgid "This field cannot hold more than 2 values."
 msgstr "Este campo no admite más de 2 valores."
 
