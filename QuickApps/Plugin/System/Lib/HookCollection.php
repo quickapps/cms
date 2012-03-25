@@ -8,7 +8,7 @@
  * @package  QuickApps.Plugin.System.Lib
  * @version  1.0
  * @author   Christopher Castro <chris@quickapps.es>
- * @link     http://cms.quickapps.es
+ * @link     http://www.quickappscms.org
  */
 class HookCollection {
 /**
@@ -22,7 +22,7 @@ class HookCollection {
     private $__type;
 
 /**
- * Instance of `Helper` or `Controller` or `Model`
+ * Instance of `Helper`, `Controller` or `Model`
  *
  * @var object
  */
@@ -51,10 +51,10 @@ class HookCollection {
     public $_hookObjects = array();
 
 /**
- * Initializes hook classes and methods.
+ * Initializes hook objects and methods.
  *
- * @param object $object Instance of `Helper` or `Controller` or `Model`
- * @param string $type Type of hook objects to handle `Behavior` or `Helper` or `Component`
+ * @param object $object Instance of `Helper`, `Controller` or `Model`
+ * @param string $type Type of hook objects to handle `Behavior`, `Helper` or `Component`
  * @param return void
  */ 
     public function __construct(&$object, $type) {
@@ -149,7 +149,7 @@ class HookCollection {
     }
 
 /**
- * Trigger a callback method on every HookBehavior.
+ * Trigger a callback method on every Hook object.
  * Plugin-Dot-Syntax is allowed.
  *
  * ### Example
@@ -188,7 +188,7 @@ class HookCollection {
     }
 
 /**
- * Chech if hook exists
+ * Chech if hook exists.
  *
  * @param string $hook Name of the hook to check
  * @return bool
@@ -198,7 +198,7 @@ class HookCollection {
     }
 
 /**
- * Turns on the hook method if it's turned off.
+ * Turns on the hook method.
  *
  * @param string $hook Hook name to turn on.
  * @return boolean TRUE on success. FALSE hook does not exists or is already on.
@@ -388,9 +388,9 @@ class HookCollection {
     }
 
 /**
- * Dispatch Behavior-hooks from all the plugins and core
+ * Dispatch hook.
  *
- * @see HookCollectionBehavior::hook()
+ * @see HookCollection::hook()
  * @return mixed Either the last result or all results if collectReturn is on. Or NULL in case of no response
  */
     private function __dispatchHook($hook, &$data = array(), $options = array()) {
