@@ -1107,7 +1107,7 @@ msgid "<a href=\"%s\" target=\"_blank\">Markdown</a> text format allowed only."
 msgstr "Texto formateado como <a href=\"%s\" target=\"_blank\">Markdown</a> únicamente."
 
 #: Plugin\Field\Fields\FieldText\View\Elements\settings_from.ctp:75
-msgid "Max lenght"
+msgid "Max length"
 msgstr "Longitud máxima"
 
 #: Plugin\Field\Fields\FieldText\View\Elements\settings_from.ctp:79
