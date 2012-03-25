@@ -7,7 +7,7 @@
  * @package  QuickApps.Plugin.System.View.Helper
  * @version  1.0
  * @author   Christopher Castro <chris@qucikapps.es>
- * @link     http://cms.quickapps.es
+ * @link     http://www.quickappscms.org
  */
 class SystemHookHelper extends AppHelper {
 /**
@@ -34,7 +34,7 @@ class SystemHookHelper extends AppHelper {
  */
     public function system_powered_by() {
         return array(
-            'body' => __t('Powered by &copy; <a href="http://cms.quickapps.es/">QuickApps CMS</a> v%s', Configure::read('Variable.qa_version'))
+            'body' => __t('Powered by &copy; <a href="http://www.quickappscms.org/">QuickApps CMS</a> v%s', Configure::read('Variable.qa_version'))
         );
     }
 

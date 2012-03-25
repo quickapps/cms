@@ -8,7 +8,7 @@
  * @package  QuickApps.Plugin.Comment.Model
  * @version  1.0
  * @author   Christopher Castro <chris@quickapps.es>
- * @link     http://cms.quickapps.es
+ * @link     http://www.quickappscms.org
  */
 class Comment extends CommentAppModel {
     public $status = null;

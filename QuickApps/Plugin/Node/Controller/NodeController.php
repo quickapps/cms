@@ -7,7 +7,7 @@
  * @package  QuickApps.Plugin.Node.Controller
  * @version  1.0
  * @author   Christopher Castro <chris@quickapps.es>
- * @link     http://cms.quickapps.es
+ * @link     http://www.quickappscms.org
  */
 class NodeController extends NodeAppController {
     public $name = 'Node';
@@ -20,6 +20,7 @@ class NodeController extends NodeAppController {
 
 /**
  * Redirect to default controller (Contents)
+ *
  */
     public function admin_index() {
         $this->redirect("/admin/node/contents");
@@ -30,6 +31,7 @@ class NodeController extends NodeAppController {
  * "Default front page" URL will be displayed if this option has been set in configuration panel.
  * Otherwise, promoted nodes are captured and default front page is rendered,
  * how it is displayed depends on active FrontEnd Theme.
+ *
  */
     public function index() {
         $fp = Configure::read('Variable.site_frontpage');
@@ -89,9 +91,10 @@ class NodeController extends NodeAppController {
  * Node rendering by given node-slug.
  * Error 404 will be rendered if:
  *  - Node does not exists
- *  - User has no access to it (Roles)
- *  - User's language is different to the node's languages
+ *  - User has no access to it
+ *  - User's language is different to node's languages
  *
+ * @param string $type Node type of the node
  * @param string $slug Slug of the Node to render
  */
     public function details($type, $slug) {
@@ -224,7 +227,7 @@ class NodeController extends NodeAppController {
  * Search engine.
  * Process search form-POST criteria and convert it to a nice-well-formatted url query.
  * If no form-POST criteria is given then query criteria is spected.
- * Optionally it can render results as RSS feed. Theme rendering is invoked as default.
+ * Optionally it can render results as RSS feed.
  *
  * @param string $criteria Well formatted filter criteria. If no criteria is pass POST criteria is spected.
  * @param mixed $rss set to any value (except bool FALSE) to render all results as RSS feed layout.

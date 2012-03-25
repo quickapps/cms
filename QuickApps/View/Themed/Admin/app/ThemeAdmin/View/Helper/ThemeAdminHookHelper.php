@@ -8,7 +8,7 @@
  * @package  Quickapps.Theme.Admin.View.Helper
  * @version  1.0
  * @author   Christopher Castro <chris@qucikapps.es>
- * @link     http://cms.quickapps.es
+ * @link     http://www.quickappscms.org
  */
 class ThemeAdminHookHelper extends AppHelper {
     public function beforeRender() {

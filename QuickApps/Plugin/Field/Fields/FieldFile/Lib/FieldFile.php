@@ -3,7 +3,7 @@
  * Utility functions for File field handler
  *
  * @author Christopher Castro <chris@quickapps.es>
- * @link http://cms.quickapps.es
+ * @link http://www.quickappscms.org
  */
 class FieldFile {
 

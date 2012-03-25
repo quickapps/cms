@@ -2,7 +2,7 @@
  * File Field handler for Uploadify
  *
  * @author Christopher Castro <chri@quickapps.es>
- * @link http://cms.quickapps.es
+ * @link http://www.quickappscms.org
  */
 QuickApps.field_file = {
     instances: {}        

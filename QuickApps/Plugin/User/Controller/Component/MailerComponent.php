@@ -7,7 +7,7 @@
  * @package  QuickApps.Plugin.User.Controller.Component
  * @version  1.0
  * @author   Christopher Castro <chris@qucikapps.es>
- * @link     http://cms.quickapps.es
+ * @link     http://www.quickappscms.org
  */
 class MailerComponent extends Component {
     public $Controller;
