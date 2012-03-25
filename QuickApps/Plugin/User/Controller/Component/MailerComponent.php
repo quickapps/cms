@@ -84,7 +84,7 @@ class MailerComponent extends Component {
 
                     return true;
                 } catch (Exception $error) {
-                    $this->errors[] = __t('Email could not be send.');
+                    $this->errors[] = __t('Email could not be sent.');
 
                     return false;
                 }
@@ -100,7 +100,7 @@ class MailerComponent extends Component {
                 if ($this->Email->send($this->parseVariables($user, $type['body']))) {
                     return true;
                 } else {
-                    $this->errors[] = __t('Email could not be send.');
+                    $this->errors[] = __t('Email could not be sent.');
                 }
             } else {
                 $this->errors[] = __t('Invalid message preset.');

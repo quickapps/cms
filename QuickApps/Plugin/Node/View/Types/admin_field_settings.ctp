@@ -3,7 +3,7 @@
     <?php echo $this->Html->useTag('fieldsetstart', __t('Basic settings')); ?>
         <?php echo $this->Form->input('Field.id', array('type' => 'hidden')); ?>
         <?php echo $this->Form->input('Field.label', array('required' => 'required', 'type' => 'text', 'label' => __t('Label *'))); ?>
-        <p><?php echo $this->Form->input('Field.required', array('type' => 'checkbox', 'label' => __t('Requied field'))); ?></p>
+        <p><?php echo $this->Form->input('Field.required', array('type' => 'checkbox', 'label' => __t('Required field'))); ?></p>
         <?php echo $this->Form->input('Field.description', array('after' => __t('Instructions to present to the user below this field on the editing form. (hooktags are allowed)'),'type' => 'textarea', 'label' => __t('Help text'))); ?>
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 

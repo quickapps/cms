@@ -118,7 +118,7 @@ class InstallerComponent extends Component {
             $Upload->Process($workingDir . 'package' . DS);
 
             if (!$Upload->processed) {
-                $this->errors[] = __t('Package upload error') . ": {$Upload->error}";
+                $this->errors[] = __t('Package upload error.') . ": {$Upload->error}";
                 return false;
             }
 
@@ -151,7 +151,7 @@ class InstallerComponent extends Component {
             $this->options['__appName'] = $appName;
 
             if (!$packagePath) {
-                $this->errors[] = __t('Invalid package structure after unzip');
+                $this->errors[] = __t('Invalid package structure after unzip.');
 
                 return false;
             }
@@ -180,7 +180,7 @@ class InstallerComponent extends Component {
                                     $this->Controller->Module->find('count', array('conditions' => array('Module.name' => $appName, 'Module.type' => 'module'))) === 0 &&
                                     !file_exists(ROOT . DS . 'Modules' . DS . $appName)
                                 ),
-                                'header' => __t('Already Installed'),
+                                'header' => __t('Already installed'),
                                 'msg' => __t('This module is already installed')
                             ),
                             'Config' => array(
@@ -354,7 +354,7 @@ class InstallerComponent extends Component {
                                 )
                             ),
                             'header' => __t('Required regions'),
-                            'msg' => __t('Missing theme region(s) "toolbar" and/or "help". Are requied for backend themes.')
+                            'msg' => __t('Missing theme region(s) "toolbar" and/or "help". Are required for backend themes.')
                         )
                     );
                 break;
@@ -581,7 +581,7 @@ class InstallerComponent extends Component {
         $pData = $this->Controller->Module->findByName($Name);
 
         if (!$pData) {
-            $this->errors[] = __t('Module does not exists.');
+            $this->errors[] = __t('Module does not exist.');
 
             return false;
         } elseif (in_array($Name, Configure::read('coreModules'))) {
@@ -964,7 +964,7 @@ class InstallerComponent extends Component {
     }
 
 /**
- * Creates acos for especified module by parsing its Controller folder. (Module's fields are also analyzed).
+ * Creates acos for specified module by parsing its Controller folder. (Module's fields are also analyzed).
  * If module is already installed then an Aco update will be performed.
  * ### Usage:
  * {{{
@@ -1565,7 +1565,7 @@ class InstallerComponent extends Component {
         );
 
         if (!$Install) {
-            $this->errors[] = __t('Module does not exists.');
+            $this->errors[] = __t('Module does not exist.');
 
             return false;
         }
