@@ -72,7 +72,7 @@
     echo $this->Form->input("Field.settings.max_len",
         array(
             'type' => 'text',
-            'label' => __t('Max lenght')
+            'label' => __t('Max length')
         )
     );
 ?>
