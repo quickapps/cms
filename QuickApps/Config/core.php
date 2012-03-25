@@ -52,7 +52,7 @@ require ROOT . DS . 'Config' . DS . 'core.php';
  */
 	Configure::write('Error', array(
 		'handler' => 'ErrorHandler::handleError',
-		'level' => E_ALL,
+		'level' => E_ALL & ~E_DEPRECATED & ~E_STRICT,
 		'trace' => true
 	));
 
