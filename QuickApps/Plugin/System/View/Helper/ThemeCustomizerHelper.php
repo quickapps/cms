@@ -1,6 +1,6 @@
 <?php
 class ThemeCustomizerHelper extends AppHelper {
-    public function beforeRender() {
+    public function beforeRender($viewFile) {
         $this->_View->viewVars['Layout']['stylesheets']['all'][] = '/system/js/colorpicker/colorpicker.css';
         $this->_View->viewVars['Layout']['javascripts']['file'][] = '/system/js/colorpicker/colorpicker.js';
         $this->_View->viewVars['Layout']['javascripts']['file'][] = '/system/js/fontpanel/fontpanel.js';

@@ -47,7 +47,7 @@ class Variable extends SystemAppModel {
         }
     }
 
-    public function afterSave() {
+    public function afterSave($created) {
         Cache::delete('Variable');
         $this->writeCache();
 

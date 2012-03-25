@@ -11,7 +11,7 @@
  * @link     http://www.quickappscms.org
  */
 class ThemeAdminHookHelper extends AppHelper {
-    public function beforeRender() {
+    public function beforeRender($viewFile) {
         if ($this->_View->request->params['plugin'] == 'user' &&
             $this->_View->request->params['controller'] == 'user' &&
             in_array($this->_View->request->params['action'], array('login', 'admin_login'))
