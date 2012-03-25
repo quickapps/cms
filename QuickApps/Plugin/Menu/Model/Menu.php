@@ -36,7 +36,7 @@ class Menu extends MenuAppModel {
         )
     );
 
-    public function beforeDelete($cascade) {
+    public function beforeDelete($cascade = true) {
         // delete block
         $this->Block->deleteAll(
             array(
@@ -64,7 +64,7 @@ class Menu extends MenuAppModel {
         return true;
     }
 
-    public function beforeSave() {
+    public function beforeSave($options = array()) {
         if (!isset($this->data['Menu']['id'])) {
             /* menu slug */
             $id = Inflector::slug($this->data['Menu']['title'], '-');

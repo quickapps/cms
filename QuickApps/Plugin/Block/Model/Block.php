@@ -49,7 +49,7 @@ class Block extends BlockAppModel {
         )
     );
 
-    public function beforeSave() {
+    public function beforeSave($options = array()) {
         // get new delta
         if (!isset($this->data['Block']['id'])) {
             // new record

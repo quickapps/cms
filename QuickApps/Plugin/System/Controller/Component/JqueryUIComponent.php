@@ -20,7 +20,7 @@ class JqueryUIComponent extends Component {
  * @param object $controller Controller with components to initialize
  * @return void
  */
-    public function initialize($Controller) {
+    public function initialize(Controller $Controller) {
         $this->Controller = $Controller;
         $this->Controller->helpers[] = 'System.JqueryUI';
     }

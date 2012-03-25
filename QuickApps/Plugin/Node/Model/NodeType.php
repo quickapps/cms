@@ -20,12 +20,13 @@ class NodeType extends NodeAppModel {
         'title_label' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Title field label can not be empty.')
     );
 
-    public function beforeDelete() {
+    public function beforeDelete($cascade = true) {
         $this->tmpId = $this->id;
+
         return true;
     }
 
-    public function beforeValidate() {
+    public function beforeValidate($options = array()) {
         if (isset($this->data['NodeType']['id']) &&
             isset($this->data['NodeType']['new_id']) &&
             $this->data['NodeType']['id'] != $this->data['NodeType']['new_id']
@@ -43,7 +44,7 @@ class NodeType extends NodeAppModel {
         return true;
     }
 
-    public function beforeSave() {
+    public function beforeSave($options = array()) {
         if (isset($this->data['NodeType']['base'])) {
             $this->data['NodeType']['base'] = Inflector::underscore($this->data['NodeType']['base']);
         }
@@ -51,7 +52,7 @@ class NodeType extends NodeAppModel {
         return true;
     }
 
-    public function afterSave() {
+    public function afterSave($created) {
         if (isset($this->__tmp['old_id'])) {
             // update ID
             $this->updateAll(

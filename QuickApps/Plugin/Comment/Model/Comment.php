@@ -63,7 +63,7 @@ class Comment extends CommentAppModel {
         )
     );
 
-    public function beforeValidate() {
+    public function beforeValidate($options = array()) {
         if (!isset($this->data['Comment']['node_id'])) {
             return false;
         }
@@ -150,7 +150,7 @@ class Comment extends CommentAppModel {
         return !in_array(false, (array)$r, true);
     }
 
-    public function beforeSave() {
+    public function beforeSave($options = array()) {
         if (isset($this->data['Comment']['node_id'])) {
             Cache::delete("node_{$this->__tmp['nodeData']['Node']['slug']}");
         }
@@ -200,7 +200,7 @@ class Comment extends CommentAppModel {
         return !in_array(false, (array)$r, true);
     }
 
-    public function afterSave() {
+    public function afterSave($created) {
         if (isset($this->__tmp['deleteSpam'])) {
             $this->delete($this->id);
         }

@@ -26,7 +26,7 @@ class SerializedBehavior extends ModelBehavior {
  * @return void
  * @access public
  */
-    public function setup($Model, $config = array()) {
+    public function setup(Model $Model, $config = array()) {
         if (is_string($config)) {
             $config = array($config);
         }
@@ -34,7 +34,7 @@ class SerializedBehavior extends ModelBehavior {
         $this->fields = array_merge($this->fields, $config);
     }
 
-    public function afterFind(&$Model, $results, $primary) {
+    public function afterFind(Model $Model, $results, $primary) {
         $_results = $results;
 
         if (isset($_results[0][$Model->alias])) {
@@ -62,7 +62,7 @@ class SerializedBehavior extends ModelBehavior {
         return $_results;
     }
 
-    public function beforeSave($Model) {
+    public function beforeSave(Model $Model) {
         if (isset($Model->data[$Model->alias][0])) {
             foreach ($Model->data[$Model->alias] as &$record) {
                 foreach ($record as $field => &$data) {

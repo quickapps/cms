@@ -70,7 +70,7 @@ class User extends UserAppModel {
         )
     );
 
-    public function beforeValidate() {
+    public function beforeValidate($options = array()) {
         if (isset($this->data['User']['id'])) {
             $this->validate['password']['allowEmpty'] = true;
         }
@@ -82,7 +82,7 @@ class User extends UserAppModel {
         return true;
     }
 
-    public function beforeSave() {
+    public function beforeSave($options = array()) {
         App::uses('Security', 'Utility');
         App::uses('String', 'Utility');
 

@@ -20,7 +20,7 @@ class BBCodeBehavior extends ModelBehavior {
  * @return void
  * @access public
  */
-    public function setup($Model, $config = array()) {
+    public function setup(Model $Model, $config = array()) {
         $smileyURL = QuickApps::strip_language_prefix(Router::url('/', true)) . 'comment/img/smileys';
 
         $__settings = array(
@@ -38,7 +38,7 @@ class BBCodeBehavior extends ModelBehavior {
         $this->settings[$Model->alias]['fields'] = array_unique($this->settings[$Model->alias]['fields']);
     }
 
-    public function afterFind(&$Model, $results, $primary) {
+    public function afterFind(Model $Model, $results, $primary) {
         $_results = $results;
         if (isset($_results[0][$Model->alias])) {
             foreach ($_results as $rkey => &$record) {

@@ -15,7 +15,7 @@ class BlockRegion extends BlockAppModel {
     public $order = array('BlockRegion.ordering' => 'ASC');
     public $primaryKey = 'id';
 
-    public function beforeSave() {
+    public function beforeSave($options = array()) {
         if (!isset($this->data['BlockRegion']['id'])) {
             $r = $this->data['BlockRegion']['region'];
             $t = $this->data['BlockRegion']['theme'];
