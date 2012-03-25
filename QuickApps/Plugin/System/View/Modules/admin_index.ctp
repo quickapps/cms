@@ -95,7 +95,7 @@
 
             <?php if (!in_array(Inflector::camelize($name), Configure::read('coreModules'))) : ?>
             <a class="toggle-btn" href="<?php echo $this->Html->url('/admin/system/modules/toggle/' . $name); ?>"><?php echo $data['status'] == 1 ? __t('Disable') : __t('Enable'); ?></a>
-            <a class="delete-btn" href="<?php echo $this->Html->url('/admin/system/modules/uninstall/' . $name); ?>" onclick="return confirm('<?php echo __t('Delete selected module ? This change can't be undone!'); ?>'); "><?php echo __t('Uninstall'); ?></a>
+            <a class="delete-btn" href="<?php echo $this->Html->url('/admin/system/modules/uninstall/' . $name); ?>" onclick="return confirm('<?php echo __t("Delete selected module ? This change can't be undone!"); ?>'); "><?php echo __t('Uninstall'); ?></a>
             <?php endif; ?>
         </td>
     </tr>
