@@ -7,7 +7,7 @@
  * @package  QuickApps.Plugin.System.Controller
  * @version  1.0
  * @author   Christopher Castro <chris@quickapps.es>
- * @link     http://cms.quickapps.es
+ * @link     http://www.quickappscms.org
  */
 class StructureController extends SystemAppController {
     public $name = 'Structure';

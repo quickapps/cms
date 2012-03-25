@@ -7,7 +7,7 @@
  * @package  QuickApps.Plugin.Comment.Model.Behavior
  * @version  1.0
  * @author   Christopher Castro <chris@quickapps.es>
- * @link     http://cms.quickapps.es
+ * @link     http://www.quickappscms.org
  */
 class BBCodeBehavior extends ModelBehavior {
     public $settings = array();

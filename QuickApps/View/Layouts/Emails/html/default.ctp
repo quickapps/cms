@@ -12,6 +12,6 @@
 <body>
 	<?php echo $this->Layout->content() ;?>
 
-	<p>This email was sent using <a href="http://cms.quickapps.es">QuickApps CMS v<?php echo Configure::read('Variable.qa_version'); ?></a></p>
+	<p>This email was sent using <a href="http://www.quickappscms.org">QuickApps CMS v<?php echo Configure::read('Variable.qa_version'); ?></a></p>
 </body>
 </html>

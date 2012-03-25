@@ -6,4 +6,4 @@
 ?>
 <?php echo $this->Layout->content();?>
 
-This email was sent using QuickApps CMS v<?php echo Configure::read('Variable.qa_version'); ?>, http://cms.quickapps.es
+This email was sent using QuickApps CMS v<?php echo Configure::read('Variable.qa_version'); ?>, http://www.quickappscms.org

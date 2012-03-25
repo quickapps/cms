@@ -7,7 +7,7 @@
  * @package  QuickApps.Plugin.User.Controller
  * @version  1.0
  * @author   Christopher Castro <chris@qucikapps.es>
- * @link     http://cms.quickapps.es
+ * @link     http://www.quickappscms.org
  */
 class ListController extends UserAppController {
     public $name = 'List';
