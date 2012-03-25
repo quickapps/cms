@@ -55,7 +55,7 @@ div.checkbox { padding-top:6px;}
 .sortable-hover { border:2px dotted #ccc; }
 
 /* header */
-#toolbar-menu { background:/*[color title='Main menu backrgound' group='Header']*/#2A2A2A/*[/color]*/; padding:5px 0 5px 15px; }
+#toolbar-menu { background:/*[color title='Main menu background' group='Header']*/#2A2A2A/*[/color]*/; padding:5px 0 5px 15px; }
 #toolbar-menu a, #toolbar-menu a span { color:/*[color title='Main menu text' group='Header']*/#ffffff/*[/color]*/; }
 #toolbar-menu #right-btns { float:right; line-height:32px; }
 #toolbar-menu #right-btns a { margin-right:20px; text-shadow:none;  }

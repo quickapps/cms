@@ -13,7 +13,7 @@
                 <td width="60%">
                     <fieldset>
                         <label class="twin-top"><?php echo __t('Real Name'); ?>:</label>
-                        <label class="sub"><?php echo __t('You real name.'); ?></label>
+                        <label class="sub"><?php echo __t('Your real name.'); ?></label>
                         <div class="input-wrap">
                             <?php echo $this->Form->text('User.name', array('class' => 'wide')); ?>
                         </div>

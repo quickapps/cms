@@ -2,7 +2,7 @@
 <h2><?php echo $name; ?></h2>
 <p class="error">
     <strong><?php echo __('Error'); ?>: </strong>
-    <?php echo __('The requested address %s was not found. <br/> There are no translations available or you have not the sufficient permissions.', "<strong>'{$url}'</strong>"); ?>
+    <?php echo __('The requested address %s was not found. <br/> There are no translations available or you don\'t have sufficient permissions.', "<strong>'{$url}'</strong>"); ?>
     <p><?php echo __('<a href="%s">Go to home page</a>', Router::url('/')); ?></p>
 
     <script type="text/javascript">
