@@ -39,7 +39,7 @@ class WhoDidItBehavior extends ModelBehavior {
  * @return void
  * @access public
  */
-    function setup(&$model, $config = array()) {
+    function setup(Model $model, $config = array()) {
         //assigne default settings
         $this->settings[$model->alias] = $this->_defaults;
 
@@ -80,7 +80,7 @@ class WhoDidItBehavior extends ModelBehavior {
  * @return boolean True if the operation should continue, false if it should abort
  * @access public
  */
-    function beforeSave(&$model) {
+    function beforeSave(Model $model) {
         if ($this->settings[$model->alias]['has_created_by'] || $this->settings[$model->alias]['has_modified_by']) {
             $AuthSession = $this->settings[$model->alias]['auth_session'];
 

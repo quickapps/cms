@@ -42,7 +42,7 @@ class Node extends NodeAppModel {
         )
     );
 
-    public function afterFind($results, $primary) {
+    public function afterFind($results, $primary = false) {
         if (empty($results) || !$primary) {
             return $results;
         }
@@ -58,7 +58,7 @@ class Node extends NodeAppModel {
         return $results;
     }
 
-    public function beforeValidate() {
+    public function beforeValidate($options = array()) {
         if (!isset($this->data['Node']['regenerate_slug']) || !$this->data['Node']['regenerate_slug']) {
             $this->Behaviors->detach('Sluggable');
             $this->Behaviors->attach('Sluggable', array('overwrite' => false));
@@ -74,7 +74,7 @@ class Node extends NodeAppModel {
         return ($r !== false);
     }
 
-    public function beforeSave($options) {
+    public function beforeSave($options = array()) {
         $roles = implode("|", Set::extract('/Role/Role', $this->data));
         $this->data['Node']['roles_cache'] = !empty($roles) ? "|" . $roles . "|" : '';
 
@@ -258,7 +258,7 @@ class Node extends NodeAppModel {
         }
     }
 
-    public function beforeDelete($cascade) {
+    public function beforeDelete($cascade = true) {
         // bind comments and delete them
         $this->bindComments();
 

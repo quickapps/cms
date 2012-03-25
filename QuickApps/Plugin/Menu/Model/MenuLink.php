@@ -24,7 +24,7 @@ class MenuLink extends MenuAppModel {
         'router_path' => array('required' => true, 'allowEmpty' => false, 'rule' => 'validatePath', 'message' => 'Invalid link path.')
     );
 
-    public function beforeSave() {
+    public function beforeSave($options = array()) {
         if (isset($this->data['MenuLink']['router_path']) && $this->data['MenuLink']['router_path'] !== '/') {
             // fix: paths must never end with '/'
             $this->data['MenuLink']['router_path'] = preg_replace('/\/{2,}/', '',  "{$this->data['MenuLink']['router_path']}//");

@@ -23,7 +23,7 @@ class Field extends FieldAppModel {
         'field_module' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Select a field type.')
     );
 
-    public function beforeValidate() {
+    public function beforeValidate($options = array()) {
         // merge settings (array treatment): formatter form post
         if (isset($this->data['Field']['id']) && isset($this->data['Field']['settings'])) {
             $this->validate = false;
@@ -58,7 +58,7 @@ class Field extends FieldAppModel {
         return true;
     }
 
-    public function beforeSave() {
+    public function beforeSave($options = array()) {
         if (isset($this->data['Field']['field_module'])) {
             if (isset($this->data['Field']['name'])) {
                 $this->data['Field']['name'] = 'field_' . str_replace('field_', '', $this->data['Field']['name']);
@@ -90,13 +90,13 @@ class Field extends FieldAppModel {
         return true;
     }
 
-    public function afterSave() {
+    public function afterSave($created) {
         $field = $this->read();
 
         $this->hook("{$field['Field']['field_module']}_after_save_instance", $this);
     }
 
-    public function beforeDelete() {
+    public function beforeDelete($cascade = true) {
         $this->data = $this->read(); // tmp holder (before/afterDelete)
         $before = $this->hook("{$this->field['Field']['field_module']}_before_delete_instance", $this, array('collectReturn' => false));
 

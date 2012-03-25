@@ -18,7 +18,7 @@ class HookCollectionBehavior extends ModelBehavior {
  */
     public $HookCollection;
 
-    public function setup(&$Model, $settings = array()) {
+    public function setup(Model $Model, $settings = array()) {
         if (!Configure::read('__HookCollectionBehavior')) {
             $this->HookCollection = new HookCollection($Model, 'Behavior');
 

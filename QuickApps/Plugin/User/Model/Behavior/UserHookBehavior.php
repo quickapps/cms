@@ -19,7 +19,7 @@ class UserHookBehavior extends ModelBehavior {
  * @return array Modified query array
  * @see QuickAppsComponent::loadVariables()
  */
-    public function beforeFind($Model, $query) {
+    public function beforeFind(Model $Model, $query) {
         if ($Model->name == 'Variable' && empty($query['conditions'])) {
             $query['conditions'] = Set::merge($query['conditions'],
                 array(

@@ -24,7 +24,7 @@ class Language extends LocaleAppModel {
         'direction' => array('required' => true, 'allowEmpty' => false, 'rule' => '/^(ltr|rtl)$/s', 'message' => 'Invalid language direction.')
     );
 
-    public function beforeValidate() {
+    public function beforeValidate($options = array()) {
         if (!isset($this->data['Language']['id']) && !isset($this->data['Language']['addCustom'])) {
             // new language => determinate name&native
             if (isset($this->data['Language']['code'])) {
@@ -48,7 +48,7 @@ class Language extends LocaleAppModel {
         return true;
     }
 
-    public function beforeSave() {
+    public function beforeSave($options = array()) {
         if (isset($this->data['Language']['custom_icon']) && trim($this->data['Language']['custom_icon']) !== '') {
             $this->data['Language']['icon'] = $this->data['Language']['custom_icon'];
         }
@@ -67,7 +67,7 @@ class Language extends LocaleAppModel {
         return true;
     }
 
-    public function beforeDelete() {
+    public function beforeDelete($cascade = true) {
         if (in_array($this->id, array(1, $this->__languageIdByCode(Configure::read('Variable.default_language'))))) {
             return false;
         }

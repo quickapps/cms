@@ -23,7 +23,7 @@ class QuickAppsComponent extends Component {
  * @param object $controller Controller with components to initialize
  * @return void
  */
-    public function initialize($Controller) {
+    public function initialize(Controller $Controller) {
         $this->Controller = $Controller;
 
         $this->loadVariables();
@@ -45,7 +45,7 @@ class QuickAppsComponent extends Component {
  * @param Controller $controller Controller with components to beforeRender
  * @return void
  */
-    public function beforeRender($controller) {
+    public function beforeRender(Controller $Controller) {
         if ($this->Controller->request->is('ajax')) {
             $this->Controller->layout = 'ajax';
         } elseif ($this->is('view.node')) {

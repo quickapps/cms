@@ -156,7 +156,7 @@ class FieldableBehavior extends ModelBehavior {
  * @param array $settings array of configuration settings
  * @return void
  */
-    public function setup(&$Model, $settings = array()) {
+    public function setup(Model $Model, $settings = array()) {
         // keep a setings array for each model
         $this->__settings[$Model->alias] = array();
         $this->__settings[$Model->alias] = Set::merge($this->__settings[$Model->alias], $settings);
@@ -172,7 +172,7 @@ class FieldableBehavior extends ModelBehavior {
  * @param object $Model instance of model
  * @return boolean true
  */
-    public function beforeFind(&$Model, $query) {
+    public function beforeFind(Model $Model, $query) {
         if ((isset($Model->fieldsNoFetch) && $Model->fieldsNoFetch) ||
             (isset($query['recursive']) && $query['recursive'] <= 0)
         ) {
@@ -216,7 +216,7 @@ class FieldableBehavior extends ModelBehavior {
  * @param boolean $primary Whether Model is being queried directly (vs. being queried as an association)
  * @return mixed An array value will replace the value of $results - any other value will be ignored
  */
-    public function afterFind(&$Model, $results, $primary) {
+    public function afterFind(Model $Model, $results, $primary) {
         if (empty($results) ||
             !$primary ||
             (isset($Model->fieldsNoFetch) && $Model->fieldsNoFetch)
@@ -280,7 +280,7 @@ class FieldableBehavior extends ModelBehavior {
  * @param object $Model instance of model
  * @return boolean FALSE if any of the fields has returned FALSE. TRUE otherwise
  */
-    public function beforeSave(&$Model) {
+    public function beforeSave(Model $Model) {
         $r = array();
 
         if (isset($Model->data['FieldData'])) {
@@ -310,7 +310,7 @@ class FieldableBehavior extends ModelBehavior {
  * @see $this::beforeSave()
  * @return void
  */
-    public function afterSave(&$Model, $created) {
+    public function afterSave(Model $Model, $created) {
         if (!empty($this->__tmp['fieldData'])) {
             foreach ($this->__tmp['fieldData'] as $field_module => $fields) {
                 foreach ($fields as $field_id => $info) {
@@ -333,7 +333,7 @@ class FieldableBehavior extends ModelBehavior {
  * @param object $Model instance of model
  * @return boolean False if any of the fields has returned false. True otherwise.
  */
-    public function beforeDelete(&$Model) {
+    public function beforeDelete(Model $Model, $cascade = true) {
        return $this->__beforeAfterDelete($Model, 'before');
     }
 
@@ -343,7 +343,7 @@ class FieldableBehavior extends ModelBehavior {
  * @param object $Model instance of model
  * @return boolean False if any of the fields has returned false. True otherwise.
  */
-    public function afterDelete(&$Model) {
+    public function afterDelete(Model $Model) {
         return $this->__beforeAfterDelete($Model, 'after');
     }
 
@@ -359,7 +359,7 @@ class FieldableBehavior extends ModelBehavior {
  * @param object $Model instance of model
  * @return boolean True if all the fields are valid, false otherwise
  */
-    public function beforeValidate(&$Model) {
+    public function beforeValidate(Model $Model) {
         if (!isset($Model->data['FieldData'])) {
             return true;
         }

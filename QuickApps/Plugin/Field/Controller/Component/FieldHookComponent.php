@@ -12,7 +12,7 @@
 class FieldHookComponent extends Component {
     public $Controller = null;
 
-    public function initialize(&$Controller) {
+    public function initialize(Controller $Controller) {
         $this->Controller = $Controller;
     }
 

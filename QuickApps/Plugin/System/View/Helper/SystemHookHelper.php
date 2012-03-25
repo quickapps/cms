@@ -15,7 +15,7 @@ class SystemHookHelper extends AppHelper {
  *
  * @return void
  */
-    public function beforeLayout() {
+    public function beforeLayout($layoutFile) {
         if ($this->is('view.admin') &&
             isset($this->request->params['plugin']) &&
             $this->request->params['plugin'] == 'system' &&

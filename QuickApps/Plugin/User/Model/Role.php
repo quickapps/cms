@@ -20,7 +20,7 @@ class Role extends UserAppModel {
         )
     );
 
-    public function beforeDelete() {
+    public function beforeDelete($cascade = true) {
         $Aro = ClassRegistry::init('Aro');
         $Permission = ClassRegistry::init('Permission');
 
@@ -29,7 +29,7 @@ class Role extends UserAppModel {
         return $Aro->deleteAll(array('model' => 'User.Role', 'foreign_key' => $this->id));
     }
 
-    public function afterSave() {
+    public function afterSave($created) {
         $Aro = ClassRegistry::init('Aro');
         $data = array(
             'model' => 'User.Role',

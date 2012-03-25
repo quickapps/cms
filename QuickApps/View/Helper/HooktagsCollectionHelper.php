@@ -46,7 +46,7 @@ class HooktagsCollectionHelper extends AppHelper {
  */
     protected $_hookObjects = array();
 
-    public function beforeRender() {
+    public function beforeRender($viewFile) {
         $this->__view = $this->_View;
         $this->__loadHooktags();
 
