@@ -142,10 +142,3 @@
         <?php echo $this->Layout->footer(); ?>
     </body>
 </html>
-
-<?php
-    if (Configure::read('debug') > 0) {
-        echo $this->element('sql_dump');
-        echo "<!-- " . round(microtime(true) - TIME_START, 4) . "s -->";
-    }
-?>
