@@ -8,10 +8,12 @@
  */
 ?>
 
-<?php if (Configure::read('Variable.site_frontpage')): ?>
-        <?php echo $front_page; ?>
-    <?php elseif (!empty($Layout['node'])): ?>
-        <?php foreach ($Layout['node'] as $node): ?>
-            <?php echo $this->Layout->renderNode($node); ?>
-        <?php endforeach; ?>
-<?php endif; ?>
+<?php
+    if (Configure::read('Variable.site_frontpage')) {
+        echo $front_page;
+    } elseif (!empty($Layout['node'])) {
+        foreach ($Layout['node'] as $node) {
+            echo $this->Layout->renderNode($node);
+        }
+    }
+?>
