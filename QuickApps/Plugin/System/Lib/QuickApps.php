@@ -451,7 +451,7 @@ class QuickApps {
         $params = Router::getParams();
 
         return (
-            $params['plugin'] == 'node' &&
+            strtolower($params['plugin']) == 'node' &&
             $params['controller'] == 'node' &&
             $params['action'] == 'details'
         );
