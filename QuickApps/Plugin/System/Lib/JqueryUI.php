@@ -160,17 +160,33 @@ class JqueryUI {
 /**
  * Loads in stack the CSS styles for the specified Jquery UI theme.
  *
+ * If no theme name is given (false) then `Configure::read('JqueryUI.default_theme')`
+ * will be used by default if its set. You can define this value in your site's
+ * `bootstrap.php` file.
+ * `System.ui-lightness` will be used otherwise.
+ *
  * Themes must be located under `/webroot/css/ui/` folder of you Module or Site.
  * Example, some valid routes are:
- *  - Core Module: ROOT/app/Plugin/System/webroot/css/ui/theme-name
- *  - Site Css: ROOT/webroot/css/ui/theme-name
- *  - Site Module: ROOT/Modules/MyModule/webroot/css/ui/theme-name
+ *  - Core module webroot: ROOT/QuickApps/Plugin/System/webroot/css/ui/theme-name/
+ *  - Site webroot: ROOT/webroot/css/ui/theme-name/
+ *  - Module webroot: ROOT/Modules/MyModule/webroot/css/ui/theme-name/
+ *
+ * A theme folder must contain at least one .css file to be included. e.g.:
+ *  ROOT/webroot/css/ui/theme-name/
+ *      images/
+ *      theme-name.css
  *
  * Plugin-dot-syntax is allowed, for themes located in Module's css folder.
  * `Site Css` folder will be used otherwise.
  *
+ * ## Example:
+ *  `MyModule.theme_name`:
+ *      This will load **the .css file** located in `ROOT/Modules/MyModule/webroot/css/ui/theme_name/`
+ *  `theme_name`:
+ *      This will load **the .css file** located in `ROOT/webroot/css/ui/theme_name/`
+ *
  * @param mixed $theme String name of the theme to load (Plugin-dot-syntax allowed)
- * or leave empty for auto-detect.
+ *                     or leave empty for auto-detect.
  * @param array $stack Reference to AppController::$Layout['stylesheets']['file']
  * @return mixed
  *  TRUE if theme has been already included.
