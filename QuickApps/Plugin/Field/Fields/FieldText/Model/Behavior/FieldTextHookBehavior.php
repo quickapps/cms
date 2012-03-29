@@ -1,22 +1,5 @@
 <?php
 class FieldTextHookBehavior extends ModelBehavior {
-    public function field_text_before_save_instance(&$Model) {
-        if (!isset($Model->data['Field']['id']) || empty($Model->data['Field']['id'])) {
-            $__default = array(
-                'type' => 'text',
-                'text_processing' => 'plain'
-            );
-
-            $Model->data['Field']['settings'] = Set::merge($__default, $Model->data['Field']['settings']);
-        }
-
-        return true;
-    }
-
-    public function field_text_before_save($info) {
-        return true;
-    }
-
     public function field_text_after_save($info) {
         if (empty($info)) {
             return true;
@@ -28,7 +11,7 @@ class FieldTextHookBehavior extends ModelBehavior {
             $info['entity']->hook('text_processing_' . $field['Field']['settings']['text_processing'], $info['data']);
         }
 
-        $info['id'] =  empty($info['id']) || !isset($info['id']) ? null : $info['id'];
+        $info['id'] = empty($info['id']) || !isset($info['id']) ? null : $info['id'];
         $data['FieldData'] = array(
             'id' => $info['id'], // update or create
             'field_id' => $info['field_id'],
@@ -132,35 +115,16 @@ class FieldTextHookBehavior extends ModelBehavior {
         );
     }
 
-    // convert all to plain text
-    public function text_processing_plain(&$text) {
-        App::import('Lib', 'FieldText.Html2text');
+    public function field_text_before_save_instance(&$Model) {
+        if (!isset($Model->data['Field']['id']) || empty($Model->data['Field']['id'])) {
+            $__default = array(
+                'type' => 'text',
+                'text_processing' => 'plain'
+            );
 
-        $h2t = new html2text($text);
-        $h2t->width = 0;
-        $text = $h2t->get_text();
-    }
+            $Model->data['Field']['settings'] = Set::merge($__default, $Model->data['Field']['settings']);
+        }
 
-    // filter forbidden tags
-    public function text_processing_filtered(&$text) {
-        $text = strip_tags($text, '<a><em><strong><cite><blockquote><code><ul><ol><li><dl><dt><dd>');
-    }
-
-    // make safe for for View hook `text_processing_markdown()`
-    public function text_processing_markdown(&$text) {
-        App::import('Lib', 'FieldText.Html2text');
-
-        $h2t = new html2text($text);
-        $h2t->width = 0;
-
-        unset($h2t->search[0], $h2t->search[1], $h2t->search[2], $h2t->replace[0], $h2t->replace[1], $h2t->replace[2]);
-        array_pop($h2t->search);
-        array_pop($h2t->replace);
-
-        $text = $h2t->get_text();
-    }
-
-    public function text_processing_full(&$text) {
-        return;
-    }
+        return true;
+    }    
 }
