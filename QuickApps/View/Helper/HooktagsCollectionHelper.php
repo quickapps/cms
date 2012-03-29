@@ -74,7 +74,7 @@ class HooktagsCollectionHelper extends AppHelper {
             $tags = $this->__tmp['__hooktags_reg'] = implode('|', $this->hooktagsList());
         }
 
-        return preg_replace_callback('/(.?)\[(' . $tags . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', array($this, 'doHooktag'), $text);
+        return preg_replace_callback('/(.?)\[(' . $tags . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', array($this, '__doHooktag'), $text);
     }
 
 /**
@@ -344,10 +344,9 @@ class HooktagsCollectionHelper extends AppHelper {
 /**
  * Callback function
  *
- * @see Layout::hooktags()
  * @return mixed Hook response or false in case of no response.
  */
-    public function doHooktag($m) {
+    private function __doHooktag($m) {
         // allow [[foo]] syntax for escaping a tag
         if ($m[1] == '[' && $m[6] == ']') {
             return substr($m[0], 1, -1);
