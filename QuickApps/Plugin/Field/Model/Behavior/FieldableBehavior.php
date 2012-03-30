@@ -145,7 +145,7 @@ class FieldableBehavior extends ModelBehavior {
  *
  * @var array
  */
-    private $__temp = array(
+    private $__tmp = array(
         'fieldData' => array()
     );
 
