@@ -98,7 +98,7 @@ class Node extends NodeAppModel {
 
     public function afterSave($created) {
         if (isset($this->data['Node']['slug'])) {
-            Cache::delete("node_{$this->data['Node']['slug']}");
+            $this->clearCache($this->data['Node']['slug']);
         }
 
         if (isset($this->__tmp['node_type_base'])) {
@@ -271,7 +271,7 @@ class Node extends NodeAppModel {
 
     public function afterDelete() {
         if (isset($this->data['Node']['slug'])) {
-            Cache::delete("node_{$this->data['Node']['slug']}");
+            $this->clearCache($this->data['Node']['slug']);
         }
 
         $r = isset($this->data['Node']['node_type_base']) ? $this->hook("{$this->data['Node']['node_type_base']}_after_delete", $this) : null;
@@ -350,5 +350,9 @@ class Node extends NodeAppModel {
 
     public function unbindComments() {
         return $this->unbindModel(array('hasMany' => array('Comment')));
+    }
+
+    public function clearCache($slug) {
+        clearCache("node_{$slug}", '', '');
     }
 }

@@ -316,7 +316,7 @@ class ContentsController extends NodeAppController {
     }
 
     public function admin_clear_cache($slug) {
-        $del = Cache::delete("node_{$slug}");
+        $del = $this->Node->clearCache($slug);
 
         if (isset($this->request->params['requested'])) {
             return $del;
