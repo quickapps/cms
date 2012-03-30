@@ -349,15 +349,15 @@ class FieldableBehavior extends ModelBehavior {
 
 /**
  * Invoke each field's beforeValidate()
- * If any of the fields return 'false' then Model's save() proccess is interrupted
+ * If any of the fields returns FALSE then Model's save() proccess is interrupted
  *
  * Note:
- *  The hook chain does not stop if in chain any of the fields returns a false value.
- *  All fields response for the event are collected, this is so because fields
+ *  The **hook chain** will no stop if in chain some of the fields returns a FALSE value.
+ *  All fields response for the callback are collected, this is so because fields
  *  may invalidate its field input in form.
  *
  * @param object $Model instance of model
- * @return boolean True if all the fields are valid, false otherwise
+ * @return boolean TRUE if all the fields are valid, FALSE otherwise
  */
     public function beforeValidate(Model $Model) {
         if (!isset($Model->data['FieldData'])) {
