@@ -390,7 +390,7 @@ class FieldableBehavior extends ModelBehavior {
  *  - field_module: Name of the module that handle this instance. e.g.: `filed_text` or `FieldText`
  * @return mixed Return (int) Field instance ID if it was added correctly. FALSE otherwise.
  */
-    public function attachFieldInstance(&$Model, $data) {
+    public function attachFieldInstance(Model $Model, $data) {
         $data = isset($data['Field']) ? $data['Field'] : $data;
         $data = array_merge(
             array(
@@ -461,7 +461,7 @@ class FieldableBehavior extends ModelBehavior {
  * @param integer $field_id Field instance ID (stored in table `_fields`)
  * @return boolean False if the instance does not exists. True if was deleted correctly.
  */
-    public function removeFieldInstance(&$Model, $field_id) {
+    public function removeFieldInstance(Model $Model, $field_id) {
         $field = ClassRegistry::init('Field.Field')->findById($field_id);
 
         if (!$field) {
@@ -484,7 +484,7 @@ class FieldableBehavior extends ModelBehavior {
  * @param object $Model instance of model
  * @return array List array of all attached fields
  */
-    public function fieldInstances(&$Model) {
+    public function fieldInstances(Model $Model) {
         $results = ClassRegistry::init('Field.Field')->find('all',
             array(
                 'conditions' => array(
@@ -507,7 +507,7 @@ class FieldableBehavior extends ModelBehavior {
  * @param string $field_content Field's text (content) to index
  * return boolean TRUE on sucess, FALSE otherwise
  */
-    public function indexField(&$Model, $field_content) {
+    public function indexField(Model $Model, $field_content) {
         if ($Model->alias != 'Node' || !$Model->id || !is_string($field_content)) {
             return false;
         }
@@ -522,12 +522,32 @@ class FieldableBehavior extends ModelBehavior {
     }
 
 /**
+ * Do not fetch fields instances on Model->find()
+ *
+ * @param object $Model instance of model
+ * @return void
+ */
+    public function unbindFields(Model $Model) {
+        $Model->fieldsNoFetch = true;
+    }
+
+/**
+ * Fetch all field instances on Model->find()
+ *
+ * @param object $Model instance of model
+ * @return void
+ */
+    public function bindFields(Model $Model) {
+        $Model->fieldsNoFetch = false;
+    }
+
+/**
  * Save all the texts added to the stack by FieldableBehavior::indexField()
  *
  * @return boolean TRUE on sucess, FALSE otherwise.
  * @see FieldableBehavior::indexField()
  */
-    private function __processSearchIndex(&$Model) {
+    private function __processSearchIndex(Model $Model) {
         if (!isset($this->__tmp['NodeSearchData'])) {
             return false;
         }
@@ -606,7 +626,7 @@ class FieldableBehavior extends ModelBehavior {
  * @param string $type callback to execute, possible values: 'before' or 'after'
  * @return boolean False if any of the fields has returned false. True otherwise
  */
-    private function __beforeAfterDelete(&$Model, $type = 'before') {
+    private function __beforeAfterDelete(Model $Model, $type = 'before') {
         $Model->id = $Model->id ? $Model->id : $Model->tmpData[$Model->alias][$Model->primaryKey];
 
         if ($type == 'before') {
@@ -646,26 +666,6 @@ class FieldableBehavior extends ModelBehavior {
     }
 
 /**
- * Do not fetch fields instances on Model->find()
- *
- * @param object $Model instance of model
- * @return void
- */
-    public function unbindFields(&$Model) {
-        $Model->fieldsNoFetch = true;
-    }
-
-/**
- * Fetch all field instances on Model->find()
- *
- * @param object $Model instance of model
- * @return void
- */
-    public function bindFields(&$Model) {
-        $Model->fieldsNoFetch = false;
-    }
-
-/**
  * Parses `belongsTo` setting parameter looking for array paths.
  * This is used by polymorphic objects such as `Node.
  * e.g.: Node objects may have diferent fields attached depending on its `NodeType`.
@@ -679,8 +679,8 @@ class FieldableBehavior extends ModelBehavior {
  *  );
  * }}}
  *
- * @param string $belongsTo string to parse
- * @param array $result a model row
+ * @param string $belongsTo String to parse
+ * @param array $result Model record where to get array paths
  * @return string
  */
     private function __parseBelongsTo($belongsTo, $result = array()) {
