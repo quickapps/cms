@@ -167,10 +167,12 @@ class FieldableBehavior extends ModelBehavior {
     }
 
 /**
- * Check if field instances should be fetch or not to the Model.
+ * Check if field instances should be fetched or not to entity.
+ * `before_find` hook is invoked on each field so they can alter
+ * the find operation.
  *
- * @param object $Model instance of model
- * @return boolean true
+ * @param object $Model Instance of model
+ * @return array Modified query parameters
  */
     public function beforeFind(Model $Model, $query) {
         if ((isset($Model->fieldsNoFetch) && $Model->fieldsNoFetch) ||
@@ -201,20 +203,22 @@ class FieldableBehavior extends ModelBehavior {
                 $data['field'] = $field;
                 $data['settings'] = $this->__settings[$Model->alias];
 
-                $Model->hook("{$field['field_module']}_before_find", $data);
+                if ($Model->hookDefined("{$field['field_module']}_before_find")) {
+                    $Model->hook("{$field['field_module']}_before_find", $data);
+                }
             }
         }
 
-        return true;
+        return $query;
     }
 
 /**
  * Fetch fields to Model results.
  *
- * @param object $Model instance of model
- * @param array $results The results of the Model's find operation
+ * @param object $Model Instance of model
+ * @param array $results Array of results from Model's find operation
  * @param boolean $primary Whether Model is being queried directly (vs. being queried as an association)
- * @return mixed An array value will replace the value of $results - any other value will be ignored
+ * @return array Modified results array
  */
     public function afterFind(Model $Model, $results, $primary) {
         if (empty($results) ||
@@ -270,8 +274,8 @@ class FieldableBehavior extends ModelBehavior {
     }
 
 /**
- * Invoke each field's beforeSave() event.
- * Return a FALSE result to halt the save.
+ * Invokes each field's `before_save()` hook.
+ * Return a non-true result to halt the save.
  *
  * Fields data is stored in a temporaly variable (FieldableBehavior::$__tmp['fieldData']) in order to save it
  * after the new Model record has been saved. That is, in afterSave() callback.
@@ -290,7 +294,9 @@ class FieldableBehavior extends ModelBehavior {
                     $info['field_id'] = $field_id;
                     $info['settings'] = $this->__settings[$Model->alias];
 
-                    $r[] = $Model->hook("{$field_module}_before_save", $info, array('collectReturn' => false));
+                    if ($Model->hookDefined("{$field_module}_before_save")) {
+                        $r[] = $Model->hook("{$field_module}_before_save", $info, array('collectReturn' => false));
+                    }
                 }
             }
         }
@@ -299,7 +305,9 @@ class FieldableBehavior extends ModelBehavior {
             $this->__tmp['fieldData'] = $Model->data['FieldData'];
         }
 
-        return !in_array(false, $r, true);
+        $r = array_unique($r);
+
+        return empty($r) || (count($r) === 1 && $r[0] === true);
     }
 
 /**
@@ -331,7 +339,7 @@ class FieldableBehavior extends ModelBehavior {
  * Call each Model's field instances callback
  *
  * @param object $Model instance of model
- * @return boolean False if any of the fields has returned false. True otherwise.
+ * @return boolean FALSE if any of the fields has returned a non-true value. TRUE otherwise.
  */
     public function beforeDelete(Model $Model, $cascade = true) {
        return $this->__beforeAfterDelete($Model, 'before');
@@ -341,10 +349,10 @@ class FieldableBehavior extends ModelBehavior {
  * Call each Model's field instances callback
  *
  * @param object $Model instance of model
- * @return boolean False if any of the fields has returned false. True otherwise.
+ * @return void
  */
     public function afterDelete(Model $Model) {
-        return $this->__beforeAfterDelete($Model, 'after');
+        $this->__beforeAfterDelete($Model, 'after');
     }
 
 /**
@@ -372,11 +380,15 @@ class FieldableBehavior extends ModelBehavior {
                 $info['field_id'] = $field_id;
                 $info['settings'] = $this->__settings[$Model->alias];
 
-                $r[] = $Model->hook("{$field_module}_before_validate", $info, array('collectReturn' => false));
+                if ($Model->hookDefined("{$field_module}_before_validate")) {
+                    $r[] = $Model->hook("{$field_module}_before_validate", $info, array('collectReturn' => false));
+                }
             }
         }
 
-        return !in_array(false, $r, true);
+        $r = array_unique($r);
+
+        return empty($r) || (count($r) === 1 && $r[0] === true);
     }
 
 /**
@@ -412,7 +424,10 @@ class FieldableBehavior extends ModelBehavior {
         }
 
         if (isset($field_info[$field_module])) {
-            if (isset($field_info[$field_module]['max_instances']) && is_numeric($field_info[$field_module]['max_instances']) && $field_info[$field_module]['max_instances'] > 0) {
+            if (isset($field_info[$field_module]['max_instances']) &&
+                is_numeric($field_info[$field_module]['max_instances']) &&
+                $field_info[$field_module]['max_instances'] > 0
+            ) {
                 $count = ClassRegistry::init('Field.Field')->find('count',
                     array(
                         'Field.belongsTo' => $this->__settings[$Model->alias]['belongsTo'],
@@ -435,10 +450,13 @@ class FieldableBehavior extends ModelBehavior {
             )
         );
         $Field = ClassRegistry::init('Field.Field');
-        $before = $Model->hook("{$field_module}_before_attach_field_instance", $newField, array('collectReturn' => false));
 
-        if ($before === false) {
-            return false;
+        if ($Model->hookDefined("{$field_module}_before_attach_field_instance")) {
+            $before = $Model->hook("{$field_module}_before_attach_field_instance", $newField, array('collectReturn' => false));
+
+            if ($before !== true) {
+                return false;
+            }
         }
 
         if ($Field->save($newField)) {
@@ -453,27 +471,16 @@ class FieldableBehavior extends ModelBehavior {
     }
 
 /**
- * Delete a field instance by id.
- * (Would be like to delete a column in your table)
+ * Delete a field instance by instance ID.
+ * This is a simple wrapper method to `Field::delete()`.
+ * Both `before_delete_instance` and `after_delete_instance` hooks are invoked
+ * by `Field` model on on deletion process.
  *
- * @see QuickApps.Plugin.Field.Controller.Handler::admin_delete()
- * @param object $Model instance of model
- * @param integer $field_id Field instance ID (stored in table `_fields`)
- * @return boolean False if the instance does not exists. True if was deleted correctly.
+ * @param object $Model Instance of model
+ * @param integer $field_id Field instance ID (in `fields` table)
+ * @return boolean TRUE on success
  */
-    public function removeFieldInstance(Model $Model, $field_id) {
-        $field = ClassRegistry::init('Field.Field')->findById($field_id);
-
-        if (!$field) {
-            return false;
-        }
-
-        $deleted = $Model->hook("{$field['Field']['field_module']}_delete_instance", $field_id);
-
-        if ($deleted === false) {
-            return false;
-        }
-
+    public function detachFieldInstance(Model $Model, $field_id) {
         return ClassRegistry::init('Field.Field')->delete($field_id);
     }
 
@@ -498,14 +505,16 @@ class FieldableBehavior extends ModelBehavior {
     }
 
 /**
- * Node entity only.
+ * For `Node` entity only.
  * Indexes Field's content, so nodes can be searched by any of
  * the words in any of its fields.
- * This method simply adds the given text to a stack to be processed later.
+ * This method simply adds the given text to a stack to be processed
+ * later by `FieldableBehavior::__processSearchIndex()`.
  *
  * @param object $Model instance of model
  * @param string $field_content Field's text (content) to index
- * return boolean TRUE on sucess, FALSE otherwise
+ * @return boolean TRUE on sucess, FALSE otherwise
+ * @see FieldableBehavior::__processSearchIndex()
  */
     public function indexField(Model $Model, $field_content) {
         if ($Model->alias != 'Node' || !$Model->id || !is_string($field_content)) {
@@ -624,7 +633,9 @@ class FieldableBehavior extends ModelBehavior {
  *
  * @param object $Model instance of model
  * @param string $type callback to execute, possible values: 'before' or 'after'
- * @return boolean False if any of the fields has returned false. True otherwise
+ * @return mixed
+ *  `before_delete`: FALSE if any of the fields has returned a non-true value. TRUE otherwise
+ *  `after_delete`: void
  */
     private function __beforeAfterDelete(Model $Model, $type = 'before') {
         $Model->id = $Model->id ? $Model->id : $Model->tmpData[$Model->alias][$Model->primaryKey];
@@ -659,15 +670,24 @@ class FieldableBehavior extends ModelBehavior {
             $info['field_id'] = $field['Field']['id'];
             $info['entity'] =& $Model;
             $info['settings'] = $this->__settings[$Model->alias];
-            $r[] = $Model->hook("{$field['Field']['field_module']}_{$type}_delete", $info, array('collectReturn' => false));
+
+            if ($Model->hookDefined("{$field['Field']['field_module']}_{$type}_delete")) {
+                $r[] = $Model->hook("{$field['Field']['field_module']}_{$type}_delete", $info, array('collectReturn' => false));
+            }
         }
 
-        return !in_array(false, $r, true);
+        if ($type == 'before') {
+            $r = array_unique($r);
+
+            return empty($r) || (count($r) === 1 && $r[0] === true);
+        }
+
+        return;
     }
 
 /**
  * Parses `belongsTo` setting parameter looking for array paths.
- * This is used by polymorphic objects such as `Node.
+ * This is used by polymorphic objects such as `Node`.
  * e.g.: Node objects may have diferent fields attached depending on its `NodeType`.
  *
  * ### Usage
