@@ -819,9 +819,9 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
- * Returns the numbers of blocks in the specified region.
+ * Returns the number of blocks in the specified region.
  *
- * @param string $region Region alias to check
+ * @param string $region Region alias to count
  * @return integer Number of blocks
  */
     public function blocksInRegion($region) {
@@ -894,7 +894,7 @@ class LayoutHelper extends AppHelper {
             $t++;
         }
 
-        return ($t > 0);
+        return $t;
     }
 
 /**
