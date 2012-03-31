@@ -306,7 +306,7 @@ class QuickAppsComponent extends Component {
                 'scope' => array('User.status' => 1)
             )
         );
-        $authorize = false;
+        $authorize = true;
 
         $this->Controller->hook('authenticate_alter', $authenticate);
         $this->Controller->hook('authorize_alter', $authorize);
@@ -363,7 +363,7 @@ class QuickAppsComponent extends Component {
         }
 
         if ($this->is('user.admin')) {
-            $this->Controller->Auth->allowedActions = array('*');
+            $this->Controller->Auth->allow();
         } else {
             // 3 = anonymous user (public)
             $roleId = $this->Controller->Auth->user() ? $this->Controller->Auth->user('role_id') : 3;
