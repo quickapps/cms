@@ -106,6 +106,18 @@ class AppController extends Controller {
     }
 
 /**
+ * Authorization method used by Auth component and Controller Adapter.
+ *
+ * @param array $user User session
+ * @return boolean Whether or not the user is authorized
+ */
+    public function isAuthorized($user) {
+        $this->QuickApps->accessCheck();
+
+        return in_array($this->request->params['action'], $this->Auth->allowedActions);
+    }
+
+/**
  * Called after the controller action is run, but before the view is rendered. You can use this method
  * to perform logic or set view variables that are required on every request.
  *

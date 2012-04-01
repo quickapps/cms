@@ -306,7 +306,7 @@ class QuickAppsComponent extends Component {
                 'scope' => array('User.status' => 1)
             )
         );
-        $authorize = true;
+        $authorize = array('Controller');
 
         $this->Controller->hook('authenticate_alter', $authenticate);
         $this->Controller->hook('authorize_alter', $authorize);

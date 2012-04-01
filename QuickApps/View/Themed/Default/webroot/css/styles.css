@@ -92,7 +92,7 @@ legend { font-weight:bold; font-size:16px; border-radius: 8px; -webkit-border-ra
 
 div.session-flash  { width:100%; }
 
-div.session-flash .success, div.session-flash .error{
+div.session-flash .success, div.session-flash .error {
     padding:15px;
     margin-bottom:15px;
     -webkit-border-radius: 10px;
@@ -101,7 +101,7 @@ div.session-flash .success, div.session-flash .error{
     text-shadow:none;
 }
 
-div.session-flash div.flash-message {
+div.session-flash div.flash-message, #authMessage {
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
@@ -123,7 +123,7 @@ div.session-flash .success {
     color: #596C26;
 }
 
-div.session-flash .error {
+div.session-flash .error, #authMessage {
     border: 1px solid #AD3F30;
     background:url(../img/boxes/error.png) no-repeat 10px 50% #EFCEC9;
     color: #923428;

@@ -198,7 +198,7 @@ div.toolbar ul li a {
 div.toolbar ul li.selected a, div.toolbar ul li a:hover { color:#666; border:1px solid #bbb; }
 
 /* flash messages */
-#sessionFlash .success, #sessionFlash .error {
+#sessionFlash .success, #sessionFlash .error, #authMessage {
     padding:15px;
     margin-bottom:15px;
     -webkit-border-radius: 10px;
@@ -207,7 +207,7 @@ div.toolbar ul li.selected a, div.toolbar ul li a:hover { color:#666; border:1px
     text-shadow:none;
 }
 #sessionFlash { width:100%; }
-#sessionFlash div.flash-message {
+#sessionFlash div.flash-message, #authMessage {
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
@@ -227,7 +227,7 @@ div.toolbar ul li.selected a, div.toolbar ul li a:hover { color:#666; border:1px
     background:url(../img/boxes/success.png) no-repeat 10px 50% #EEF4D4;
     color: #596C26;
 }
-#sessionFlash .error {
+#sessionFlash .error, #authMessage {
     border: 1px solid #AD3F30;
     background:url(../img/boxes/error.png) no-repeat 10px 50% #EFCEC9;
     color: #923428;
