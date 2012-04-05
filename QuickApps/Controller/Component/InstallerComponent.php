@@ -1328,6 +1328,8 @@ class InstallerComponent extends Component {
             )
         );
 
+        $Menu->MenuLink->create();
+
         $save = $Menu->MenuLink->save($link);
 
         if (is_integer($move) && $move !== 0) {
