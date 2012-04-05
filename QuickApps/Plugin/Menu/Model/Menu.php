@@ -29,7 +29,7 @@ class Menu extends MenuAppModel {
 
     public $belongsTo = array(
         'Block' => array(
-            'className' => 'Blocks.Block',
+            'className' => 'Block.Block',
             'foreignKey' => 'id',
             'associationForeignKey' => 'delta',
             'conditions' => array('Block.module' => 'Menu')
