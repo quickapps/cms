@@ -2918,7 +2918,7 @@ msgid "Enable"
 msgstr "Activar"
 
 #: Plugin\System\View\Modules\admin_index.ctp:98
-msgid "Delete selected module ? This change can't be undone!"
+msgid "Delete selected module ? This change cannot be undone!"
 msgstr "Eliminar el módulo seleccionado ? Esta operación no puede ser revertida!"
 
 #: Plugin\System\View\Modules\admin_index.ctp:98
