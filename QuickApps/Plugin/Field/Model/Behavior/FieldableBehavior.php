@@ -408,7 +408,11 @@ class FieldableBehavior extends ModelBehavior {
             array(
                 'label' => '',
                 'name' => '',
-                'field_module' => ''
+                'field_module' => '',
+                'description' => '',
+                'required' => 0,
+                'settings' => array(),
+                'locked' => 0
             ),
             $data
         );
@@ -441,25 +445,18 @@ class FieldableBehavior extends ModelBehavior {
             }
         }
 
-        $newField = array(
-            'Field' => array(
-                'belongsTo' => $this->__settings[$Model->alias]['belongsTo'],
-                'label' => $label,
-                'name' => $name,
-                'field_module' => $field_module
-            )
-        );
+        $data['belongsTo'] = $this->__settings[$Model->alias]['belongsTo'];
         $Field = ClassRegistry::init('Field.Field');
 
         if ($Model->hookDefined("{$field_module}_before_attach_field_instance")) {
-            $before = $Model->hook("{$field_module}_before_attach_field_instance", $newField, array('collectReturn' => false));
+            $before = $Model->hook("{$field_module}_before_attach_field_instance", $data, array('collectReturn' => false));
 
             if ($before !== true) {
                 return false;
             }
         }
 
-        if ($Field->save($newField)) {
+        if ($Field->save($data)) {
             $field = $Field->read();
 
             $Model->hook("{$field_module}_after_attach_field_instance", $field);
