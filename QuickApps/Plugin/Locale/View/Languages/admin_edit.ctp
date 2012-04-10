@@ -1,11 +1,15 @@
 <?php
     $this->Layout->script("
+    var _custom_icon_ = '{$this->data['Language']['icon']}';
+
     function showFlag(s) {
         if (s.value == '') {
             $('img.flag-icon').hide();
+            $('#LanguageCustomIcon').val(_custom_icon_);
         } else {
             $('img.flag-icon').attr('src', QuickApps.settings.base_url + 'locale/img/flags/' + s.value);
             $('img.flag-icon').show();
+            $('#LanguageCustomIcon').val('');
         }
     }
     ", 'inline');
@@ -51,7 +55,7 @@
                 array(
                     'type' => 'text',
                     'label' => __t('Custom flag icon'),
-                    'value' => (strpos($this->data['Language']['icon'], '://') !== false ? $this->data['Language']['icon'] : '')
+                    'value' => (!in_array($this->data['Language']['icon'], array_keys($flags)) ? $this->data['Language']['icon'] : '')
                 )
             );
         ?>
