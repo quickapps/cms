@@ -188,7 +188,7 @@ class QuickAppsComponent extends Component {
         // Basic js files/inline
         $this->Controller->Layout['javascripts']['inline'][] = '
             jQuery.extend(QuickApps.settings, {
-                "url": "' . Router::url($this->Controller->here, true) . '",
+                "url": "' . (defined('FULL_BASE_URL') ? FULL_BASE_URL . $this->Controller->here : $this->Controller->here) . '",
                 "base_url": "' . QuickApps::strip_language_prefix(Router::url('/', true)) . '",
                 "domain": "' . env('HTTP_HOST') . '",
                 "locale": {"code": "' . Configure::read('Variable.language.code') . '"}
