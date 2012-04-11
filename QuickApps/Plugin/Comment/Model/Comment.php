@@ -234,7 +234,7 @@ class Comment extends CommentAppModel {
             $this->save($c, false);
         } else {
             return false;
-        }    
+        }
     }
 
     private function __defaultSubject($string, $len = 30) {

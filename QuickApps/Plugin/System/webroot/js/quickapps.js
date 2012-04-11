@@ -122,21 +122,21 @@ var QuickApps = QuickApps || {'settings': {}, 'behaviors': {}, 'locale': {'strin
 
 /**
  * Check all checkbox in page
- * 
+ *
  */
     QuickApps.checkAll = function (el) {
         QuickApps.checkAllByClassName(el, '');
-    };    
+    };
 
 /**
  * Check all checkbox in page with className
- * 
+ *
  */
     QuickApps.checkAllByClassName = function (el, className) {
         var className = className.length > 0 ? '.' + className : '' ;
         if (el.checked == true){ c = true; } else { c = false; }
         $('input[type="checkbox"]').attr('checked', c);
-    };    
+    };
 
 /**
  * Class indicating that JS is enabled; used for styling purpose.

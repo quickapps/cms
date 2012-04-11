@@ -56,7 +56,7 @@ class HookCollection {
  * @param object $object Instance of `Helper`, `Controller` or `Model`
  * @param string $type Type of hook objects to handle `Behavior`, `Helper` or `Component`
  * @param return void
- */ 
+ */
     public function __construct(&$object, $type) {
         $this->__object = $object;
         $this->__type = Inflector::camelize($type);

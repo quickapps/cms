@@ -5,7 +5,7 @@
  * @link http://www.quickappscms.org
  */
 QuickApps.field_file = {
-    instances: {}        
+    instances: {}
 };
 
 QuickApps.field_file.setupField = function (_field_id, settings) {
@@ -13,7 +13,7 @@ QuickApps.field_file.setupField = function (_field_id, settings) {
         field_id = '#' + _field_id;
 
         QuickApps.field_file.instances[_field_id] = {'settings': settings};
-        
+
         $(field_id + 'Uploader').uploadify({
             'uploader'  : QuickApps.field_file.uploader,
             'script'    : QuickApps.settings.base_url + 'field_file/uploadify/upload/' + field_id.replace('#FieldDataFieldFile', '') + '/session_id:' + QuickApps.field_file.session_id,
@@ -171,7 +171,7 @@ QuickApps.field_file.remove = function (_field_id) {
                     $(field_id + 'UploadedPath').attr('value', $.toJSON(upload_path));
                 } catch(e) {}
 
-                return false; // break 
+                return false; // break
             }
         });
     }

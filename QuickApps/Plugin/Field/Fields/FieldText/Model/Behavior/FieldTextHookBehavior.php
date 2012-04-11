@@ -126,5 +126,5 @@ class FieldTextHookBehavior extends ModelBehavior {
         }
 
         return true;
-    }    
+    }
 }

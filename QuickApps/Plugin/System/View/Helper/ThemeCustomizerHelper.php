@@ -87,7 +87,7 @@ class ThemeCustomizerHelper extends AppHelper {
                                         $this->_View->Form->label("ThemeCustomizer.{$theme_name}.{$field}", $attrs['title'])
                                         . '<div class="colorSelector">'
                                         . $this->_View->Form->input(
-                                            "ThemeCustomizer.{$theme_name}.{$field}", 
+                                            "ThemeCustomizer.{$theme_name}.{$field}",
                                             array(
                                                 'value' => $value,
                                                 'class' => $id,
@@ -104,7 +104,7 @@ class ThemeCustomizerHelper extends AppHelper {
                                     $font++;
                                     $id = md5("ThemeCustomizer.{$theme_name}.{$field}");
                                     $__style .= $this->_View->Form->input(
-                                        "ThemeCustomizer.{$theme_name}.{$field}", 
+                                        "ThemeCustomizer.{$theme_name}.{$field}",
                                         array(
                                             'id' => $id,
                                             'value' => $value,
@@ -118,7 +118,7 @@ class ThemeCustomizerHelper extends AppHelper {
 
                                 case 'miscellaneous':
                                     $__style .= $this->_View->Form->input(
-                                        "ThemeCustomizer.{$theme_name}.{$field}", 
+                                        "ThemeCustomizer.{$theme_name}.{$field}",
                                         array(
                                             'value' => $value,
                                             'style' => 'width:100%;',
@@ -133,7 +133,7 @@ class ThemeCustomizerHelper extends AppHelper {
                                         $h = false;
 
                                         if ($matches[2][$i] != 'size') {
-                                            $h = $this->hook('customize_' . $matches[2][$i], 
+                                            $h = $this->hook('customize_' . $matches[2][$i],
                                                 $__data = array(
                                                     'theme_name' => $theme_name,
                                                     'css' => $css,
@@ -145,7 +145,7 @@ class ThemeCustomizerHelper extends AppHelper {
 
                                         if (!$h) {
                                             $__style .= $this->_View->Form->input(
-                                                "ThemeCustomizer.{$theme_name}.{$field}", 
+                                                "ThemeCustomizer.{$theme_name}.{$field}",
                                                 array(
                                                     'value' => $value,
                                                     'style' => 'width:50px;',
@@ -158,7 +158,7 @@ class ThemeCustomizerHelper extends AppHelper {
                                         }
                                 break;
                             }
-                            
+
                             if (!empty($__style)) {
                                 if (isset($attrs['group'])) {
                                     $__groups[$attrs['group']][] = $__style;
@@ -168,7 +168,7 @@ class ThemeCustomizerHelper extends AppHelper {
                             }
                         }
                     }
-                    
+
                     $__g = '';
 
                     foreach ($__groups as $title => $content) {
@@ -235,7 +235,7 @@ class ThemeCustomizerHelper extends AppHelper {
                                });
                             });
                         });
-                    </script>"; 
+                    </script>";
             }
 
             if ($font) {
@@ -246,7 +246,7 @@ class ThemeCustomizerHelper extends AppHelper {
                                 $("input.fontselector").FontPanel();
                             });
                         });
-                    </script>'; 
+                    </script>';
             }
         }
 

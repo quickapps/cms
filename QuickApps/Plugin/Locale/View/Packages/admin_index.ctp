@@ -70,7 +70,7 @@
                     $li[] =
                         $languages[$code] . '&nbsp;' .
                         '&nbsp;' . $this->Html->link(__t('download'), "/admin/locale/packages/download_package/{$plugin}/{$code}", array('target' => '_blank')) .
-                        '&nbsp;' . $this->Html->link(__t('uninstall'), "/admin/locale/packages/uninstall/{$plugin}/{$code}", array('target' => '_blank', 'onclick' => "return confirm('" . __t('Delete the selected package ?') . "');")); 
+                        '&nbsp;' . $this->Html->link(__t('uninstall'), "/admin/locale/packages/uninstall/{$plugin}/{$code}", array('target' => '_blank', 'onclick' => "return confirm('" . __t('Delete the selected package ?') . "');"));
                 }
 
                 echo $this->Html->nestedList($li, array('id' => 'translation-packages-list'));

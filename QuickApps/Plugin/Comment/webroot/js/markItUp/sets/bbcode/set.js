@@ -28,11 +28,11 @@ MerkeItUpBbcodeSettings = {
 		]},
 		//{separator:'---------------' },
 		//{name:QuickApps.__t('Bulleted list'), openWith:'[list]\n', closeWith:'\n[/list]'},
-		//{name:QuickApps.__t('Numeric list'), openWith:'[list=[![' + QuickApps.__t('Starting number') + ']!]]\n', closeWith:'\n[/list]'}, 
+		//{name:QuickApps.__t('Numeric list'), openWith:'[list=[![' + QuickApps.__t('Starting number') + ']!]]\n', closeWith:'\n[/list]'},
 		//{name:QuickApps.__t('List item'), openWith:'[*] '},
 		{separator:'---------------' },
 		{name:QuickApps.__t('Quotes'), openWith:'[quote]', closeWith:'[/quote]'},
-		{name:QuickApps.__t('Code'), openWith:'[code]', closeWith:'[/code]'}, 
+		{name:QuickApps.__t('Code'), openWith:'[code]', closeWith:'[/code]'},
 		{separator:'---------------' },
 		{name:QuickApps.__t('Clean'), className:"clean", replaceWith:function(markitup) { return markitup.selection.replace(/\[(.*?)\]/g, "") } },
 		//{name:QuickApps.__t('Preview'), className:"preview", call:'preview' }
