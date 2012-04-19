@@ -5,7 +5,7 @@
                 <p class="commenter-name">
                     <div class="avatar">
                         <?php
-                            if (isset($comment['User']) && !empty($comment['User'])) {
+                            if (isset($comment['User']) && !empty($comment['User']['id'])) {
                                 echo $this->Layout->userAvatar($comment);
                             } else {
                                 echo $this->Layout->userAvatar(
