@@ -34,7 +34,7 @@
                     case 1:
             ?>
             <p><?php echo $this->Form->input('name', array('type' => 'text', 'label' => __t('Your name'))); ?></p>
-            <p><?php echo $this->Form->input('email', array('type' => 'text', 'label' => __t('Email'))); ?></p>
+            <p><?php echo $this->Form->input('mail', array('type' => 'text', 'label' => __t('Email'))); ?></p>
             <p><?php echo $this->Form->input('homepage', array('type' => 'text', 'label' => __t('Web page'))); ?></p>
             <?php
                     break;
@@ -43,7 +43,7 @@
                     case 2:
             ?>
             <p><?php echo $this->Form->input('name', array('type' => 'text', 'label' => __t('Your name *'))); ?></p>
-            <p><?php echo $this->Form->input('email', array('type' => 'text', 'label' => __t('Email *'))); ?></p>
+            <p><?php echo $this->Form->input('mail', array('type' => 'text', 'label' => __t('Email *'))); ?></p>
             <p><?php echo $this->Form->input('homepage', array('type' => 'text', 'label' => __t('Web page'))); ?></p>
             <?php   break; ?>
             <?php endswitch; ?>

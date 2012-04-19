@@ -43,7 +43,7 @@ class Comment extends CommentAppModel {
             'rule' => 'notEmpty',
             'message' => 'Commenter name required.'
         ),
-        'email' => array(
+        'mail' => array(
             'required' => true,
             'allowEmpty' => false,
             'rule' => 'email',
@@ -107,7 +107,7 @@ class Comment extends CommentAppModel {
                 // name
                 case 0:
                     // mail not sent, not requierd OR name sent but not required
-                    unset($this->validate['name'], $this->validate['email']);
+                    unset($this->validate['name'], $this->validate['mail']);
 
                     if (empty($this->data['Comment']['name'])) {
                         $this->data['Comment']['name'] = __t('Anonymous');
@@ -117,7 +117,7 @@ class Comment extends CommentAppModel {
                 // name, email, host
                 // mail optional, can be empty, if it is not -> must be validated | name optional
                 case 1:
-                   $this->validate['email']['allowEmpty'] = true;
+                   $this->validate['mail']['allowEmpty'] = true;
 
                     if (empty($this->data['Comment']['name'])) {
                         $this->data['Comment']['name'] = __t('Anonymous');
@@ -134,7 +134,7 @@ class Comment extends CommentAppModel {
             $this->data['Comment']['status'] = 0; // anonymous comments must always be approved by administrators
             $this->data['Comment']['user_id'] = 0; // belongs to no one
         } else {
-            unset($this->validate['name'], $this->validate['email'], $this->validate['homepage']);
+            unset($this->validate['name'], $this->validate['mail'], $this->validate['homepage']);
 
             if (in_array(1, (array)CakeSession::read('Auth.User.role_id'))) {
                $this->data['Comment']['status'] = 1;
@@ -178,7 +178,7 @@ class Comment extends CommentAppModel {
 
             $akismet = new Akismet(Router::url('/'), Configure::read('Modules.Comment.settings.akismet.key'));
             $akismet->setCommentAuthor(@$this->data['Comment']['name']);
-            $akismet->setCommentAuthorEmail(@$this->data['Comment']['email']);
+            $akismet->setCommentAuthorEmail(@$this->data['Comment']['mail']);
             $akismet->setCommentAuthorURL(@$this->data['Comment']['homepage']);
             $akismet->setCommentContent(@$this->data['Comment']['body']);
             $akismet->setPermalink(Router::url("/{$this->__tmp['nodeData']['Node']['node_type_id']}/{$this->__tmp['nodeData']['Node']['slug']}.html"));
