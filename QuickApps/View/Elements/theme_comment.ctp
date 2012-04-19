@@ -5,10 +5,10 @@
                 <p class="commenter-name">
                     <div class="avatar">
                         <?php
-                            if (isset($comment['User'])) {
+                            if (isset($comment['User']) && !empty($comment['User'])) {
                                 echo $this->Layout->userAvatar($comment);
                             } else {
-                                $this->Layout->userAvatar(
+                                echo $this->Layout->userAvatar(
                                     array(
                                         'User' => array(
                                             'email' => $comment['Comment']['mail']
