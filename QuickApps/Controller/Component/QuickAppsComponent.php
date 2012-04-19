@@ -357,8 +357,6 @@ class QuickAppsComponent extends Component {
 
                 $this->Controller->Auth->login($session);
                 $this->setLanguage();
-
-                return true;
             }
         }
 
