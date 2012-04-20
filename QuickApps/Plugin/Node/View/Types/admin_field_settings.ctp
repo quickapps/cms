@@ -9,7 +9,7 @@
 
     <!-- Especifics -->
     <?php echo $this->Html->useTag('fieldsetstart', __t('%s field settings', $this->data['Field']['label'])); ?>
-        <?php echo $this->element($this->data['Field']['field_module'] . '.settings_from'); ?>
+        <?php echo $this->element($this->data['Field']['field_module'] . '.settings_form'); ?>
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 
     <!-- Submit -->
