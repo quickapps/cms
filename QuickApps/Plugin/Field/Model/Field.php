@@ -77,14 +77,17 @@ class Field extends FieldAppModel {
         // field formatter
         if (isset($this->data['Field']['viewMode'])) {
             $viewMode = $this->data['Field']['viewMode'];
+            $this->data['Field']['settings'] = @unserialize($this->data['Field']['settings']);
 
             if ($this->data['Field']['display_hidden']) {
-                $data['Field']['settings']['display'][$viewMode]['type'] = 'hidden';
+                $this->data['Field']['settings']['display'][$viewMode]['type'] = 'hidden';
             } else {
                 if (!isset($data['Field']['settings']['display'][$viewMode]['type'])) {
-                    $data['Field']['settings']['display'][$viewMode]['type'] = false;
+                    $this->data['Field']['settings']['display'][$viewMode]['type'] = false;
                 }
             }
+
+            $this->data['Field']['settings'] = @serialize($this->data['Field']['settings']);
         }
 
         return true;
