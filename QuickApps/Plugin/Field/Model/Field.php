@@ -82,7 +82,7 @@ class Field extends FieldAppModel {
             if ($this->data['Field']['display_hidden']) {
                 $this->data['Field']['settings']['display'][$viewMode]['type'] = 'hidden';
             } else {
-                if (!isset($data['Field']['settings']['display'][$viewMode]['type'])) {
+                if (!isset($this->data['Field']['settings']['display'][$viewMode]['type'])) {
                     $this->data['Field']['settings']['display'][$viewMode]['type'] = false;
                 }
             }
