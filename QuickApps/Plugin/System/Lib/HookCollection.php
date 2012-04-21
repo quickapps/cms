@@ -188,10 +188,13 @@ class HookCollection {
     }
 
 /**
- * Chech if hook exists.
+ * Chech if hook exists and is enabled.
+ *
+ * Note that hooks disabled using `hookDisable()` won't be considered
+ * and they will be detected as undefined/nonexistent by this method.
  *
  * @param string $hook Name of the hook to check
- * @return bool
+ * @return boolean
  */
     public function hookDefined($hook) {
         return isset($this->__map[Inflector::underscore($hook)]);
