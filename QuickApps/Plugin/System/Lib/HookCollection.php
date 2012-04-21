@@ -194,7 +194,7 @@ class HookCollection {
  * @return bool
  */
     public function hookDefined($hook) {
-        return isset($this->__map[$hook]);
+        return isset($this->__map[Inflector::underscore($hook)]);
     }
 
 /**
