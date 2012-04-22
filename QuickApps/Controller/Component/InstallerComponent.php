@@ -1723,6 +1723,13 @@ class InstallerComponent extends Component {
         Cache::delete('Modules');
         Cache::delete('Variable');
 
+        // clear theme styles cache
+        if ($this->options['type'] == 'theme') {
+            $theme_name = preg_replace('/^theme_/', '', Inflector::underscore($this->options['name']));
+
+            clearCache("theme__{$theme_name}", 'persistent', '');
+        }
+
         // clear objects map
         Cache::delete('hook_objects_admin_theme');
         Cache::delete('hook_objects_site_theme');
