@@ -398,7 +398,6 @@ class HookCollection {
  */
     private function __dispatchHook($hook, &$data = array(), $options = array()) {
         list($plugin, $hook) = pluginSplit((string)$hook);
-
         $plugin = Inflector::camelize($plugin);
         $hook = Inflector::underscore($hook);
         $collected = array();

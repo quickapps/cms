@@ -111,7 +111,7 @@ class QuickApps {
  * {{{
  *  class MyModuleHookHelper extends AppHelper {
  *      public static function detector_handler() {
- *          return (detector login here);
+ *          return (detector logic here);
  *      }
  *  }
  * }}}
