@@ -109,7 +109,10 @@ class ContentsController extends NodeAppController {
                 'conditions' => array(
                     'Node.slug' => $slug,
                     'Node.language LIKE' => '___',
-                    'Node.translation_of' => null
+                    'OR' => array(
+                        'Node.translation_of' => '',
+                        'Node.translation_of IS NULL'
+                    )
                 )
             )
         );
@@ -136,10 +139,6 @@ class ContentsController extends NodeAppController {
                 'fields' => array('id', 'title', 'slug', 'language')
             )
         );
-
-        if (!$node) {
-            $this->redirect('/admin/node/contents');
-        }
 
         $this->set('translations', $translations);
         $this->__setLangVar();

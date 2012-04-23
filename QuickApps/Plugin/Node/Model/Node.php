@@ -293,7 +293,10 @@ class Node extends NodeAppModel {
                 'conditions' => array(
                     'Node.slug' => $slug,
                     'NOT' => array(
-                        'Node.translation_of' => null
+                        'OR' => array(
+                            'Node.translation_of' => '',
+                            'Node.translation_of IS NULL'
+                        )
                     )
                 )
             )
