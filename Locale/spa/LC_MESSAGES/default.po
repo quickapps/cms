@@ -57,6 +57,10 @@ msgstr "El fichero Config/core.php no se puede escribir."
 msgid "Could not connect to database."
 msgstr "No se pudo conectar con la Base de Datos."
 
+#: Controller\InstallController.php:158
+msgid "A QuickApps CMS database already exists, please drop it or change the prefix."
+msgstr "Ya existe una base de datos QuickApps CMS, vacíela o cambie el prefijo."
+
 #: Controller\InstallController.php:202
 msgid "Could not dump database."
 msgstr "No se pudo volcar la información de la Base de Datos."
