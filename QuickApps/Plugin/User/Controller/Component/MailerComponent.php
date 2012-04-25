@@ -80,7 +80,7 @@ class MailerComponent extends Component {
                 $this->Email->subject = $this->parseVariables($user, $variables["user_mail_{$type}_subject"]);
 
                 try {
-                    $this->Email->send($this->parseVariables($user, $variables["user_mail_{$type}_body"]));
+                    $this->Email->send($this->parseVariables($user, $variables["user_mail_{$type}_body"]), 'default');
 
                     return true;
                 } catch (Exception $error) {
@@ -97,7 +97,7 @@ class MailerComponent extends Component {
             if (isset($type['subject']) && isset($type['body'])) {
                 $this->Email->subject = $this->parseVariables($user, $type['subject']);
 
-                if ($this->Email->send($this->parseVariables($user, $type['body']))) {
+                if ($this->Email->send($this->parseVariables($user, $type['body']), 'default')) {
                     return true;
                 } else {
                     $this->errors[] = __t('Email could not be sent.');
