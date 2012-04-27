@@ -1073,6 +1073,7 @@ class InstallerComponent extends Component {
                 // add new methods
                 foreach ($methods as $m) {
                     if (!in_array($m, $_methods)) {
+                        $this->Controller->Acl->Aco->create();
                         $this->Controller->Acl->Aco->save(
                             array(
                                 'parent_id' => $controller['Aco']['id'],
