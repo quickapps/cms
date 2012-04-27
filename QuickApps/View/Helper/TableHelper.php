@@ -246,7 +246,7 @@ class TableHelper extends AppHelper {
                     continue;
                 }
 
-                $value = str_replace($m, Set::extract(trim($path[1][$i]), $row_data), $value);
+                $value = str_replace($m, addslashes(Set::extract(trim($path[1][$i]), $row_data)), $value);
             }
         }
 
