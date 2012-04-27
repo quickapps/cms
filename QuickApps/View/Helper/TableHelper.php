@@ -203,7 +203,8 @@ class TableHelper extends AppHelper {
                 $out .= "\n\t</tfoot>\n";
             }
         } else {
-            $td   = $this->Html->useTag('tablecell', $this->Html->_parseAttributes(array('colspan' => $this->__colsCount)), __t($options['noItemsMessage']));
+            $options['noItemsMessage'] = $options['noItemsMessage'] != 'There are no items to display' ? $options['noItemsMessage'] : __t($options['noItemsMessage']);
+            $td = $this->Html->useTag('tablecell', $this->Html->_parseAttributes(array('colspan' => $this->__colsCount)), $options['noItemsMessage']);
             $out .= $this->Html->useTag('tablerow', $this->Html->_parseAttributes(array('class' => 'even')), $td);
         }
 
