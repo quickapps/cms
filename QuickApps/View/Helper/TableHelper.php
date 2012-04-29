@@ -81,8 +81,8 @@ class TableHelper extends AppHelper {
                     'modulus' => 10,
                     'separator' => ' &nbsp; ',
                     'tag' => 'span',
-                    'first' => 'first',
-                    'last' => 'last',
+                    'first' => 'First ',
+                    'last' => ' Last',
                     'ellipsis' => '...'
                 )
             ),
@@ -398,6 +398,8 @@ class TableHelper extends AppHelper {
     protected function _renderPaginator($array) {
         $out = $paginator = '';
         $array = $array['paginate'];
+        $array['numbers']['options']['first'] = $array['numbers']['options']['first'] != 'First ' ? __t($array['numbers']['options']['first']) : $array['numbers']['options']['first'];
+        $array['numbers']['options']['last'] = $array['numbers']['options']['last'] != ' Last' ? __t($array['numbers']['options']['last']) : $array['numbers']['options']['last'];
         $paginator .= $this->Paginator->options($array['options']);
         $paginator .= $this->Paginator->prev($array['prev']['title'], $array['prev']['options'], $array['prev']['disabledTitle'], $array['prev']['disabledOptions']);
         $paginator .= $this->Paginator->numbers($array['numbers']['options']);

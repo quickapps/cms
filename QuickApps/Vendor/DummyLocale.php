@@ -23,6 +23,8 @@
     echo __t("My account");
     echo __t("« Previous ");
     echo __t(" Next »");
+    echo __t(" Last");
+    echo __t("First ");
 
     // Content type descriptions
     echo __t("Configure what block content appears in your site's sidebars and other regions.");
