@@ -381,7 +381,7 @@ class QuickAppsComponent extends Component {
             $pluginNode = $this->Controller->Acl->Aco->find('first',
                 array(
                     'conditions' => array(
-                        'Aco.alias' => $this->Controller->params['plugin'],
+                        'Aco.alias' => Inflector::camelize($this->Controller->params['plugin']),
                         'parent_id = ' => null
                     ),
                     'fields' => array('alias', 'id')
