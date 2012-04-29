@@ -3688,7 +3688,7 @@ msgstr "Mi cuenta"
 #: Vendor\DummyLocale.php:24
 #: View\Helper\TableHelper.php:133
 msgid "« Previous "
-msgstr "« Anterior"
+msgstr "« Anterior "
 
 #: Vendor\DummyLocale.php:25
 #: View\Helper\TableHelper.php:134
