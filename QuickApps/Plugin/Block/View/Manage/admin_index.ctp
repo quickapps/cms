@@ -84,10 +84,9 @@
                                 echo "{$block['Block']['module']}_{$block['Block']['delta']}";
                             }
                         } else {
-                            echo "{$block['Block']['title']}";
+                            echo "{$block['Block']['title']} ";
+                            echo !empty($block['BlockCustom']['description']) ? "(<em>{$block['BlockCustom']['description']}</em>)" : "";
                         }
-
-                        echo !empty($block['BlockCustom']['description']) ? " (<em>{$block['BlockCustom']['description']}</em>)" : '';
                     ?>
                     </div>
 
@@ -196,10 +195,9 @@
                                 echo "{$block['Block']['module']}_{$block['Block']['delta']}";
                             }
                         } else {
-                            echo "{$block['Block']['title']}";
+                            echo "{$block['Block']['title']} ";
+                            echo !empty($block['BlockCustom']['description']) ? "(<em>{$block['BlockCustom']['description']}</em>)" : "";
                         }
-
-                        echo !empty($block['BlockCustom']['description']) ? " (<em>{$block['BlockCustom']['description']}</em>)" : '';
                     ?>
                     </div>
 
@@ -259,10 +257,9 @@
                             echo "{$block['Block']['module']}_{$block['Block']['delta']}";
                         }
                     } else {
-                        echo "{$block['Block']['title']}";
+                        echo "{$block['Block']['title']} ";
+                        echo !empty($block['BlockCustom']['description']) ? "(<em>{$block['BlockCustom']['description']}</em>)" : "";
                     }
-
-                    echo !empty($block['BlockCustom']['description']) ? " (<em>{$block['BlockCustom']['description']}</em>)" : '';
                 ?>
                 </div>
 

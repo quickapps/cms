@@ -102,7 +102,7 @@ class NodeType extends NodeAppModel {
     public function idAvailable($check) {
         $value = array_shift($check);
 
-        if (!preg_match('/^[a-z0-9_]{4,}$/', $value)) {
+        if (!preg_match('/^[a-z0-9_]{3,}$/', $value)) {
             return false;
         }
 

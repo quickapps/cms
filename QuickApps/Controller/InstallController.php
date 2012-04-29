@@ -151,17 +151,9 @@ class InstallController extends Controller {
                 $schema = $schema->load();
                 $execute = array();
 
-                foreach(array_keys($schema->tables) as $table) {
-                    $tableExists = $db->query("SHOW TABLES LIKE \"{$data['prefix']}{$table}\";");
-
-                    if (!empty($tableExists)) {
-                        $this->Session->setFlash(__t('A QuickApps CMS database already exists, please drop it or change the prefix.'), 'default', 'error');
-
-                        return;
-                    }
-                }
-
                 foreach($schema->tables as $table => $fields) {
+                    $db->execute("DROP TABLE IF EXISTS `{$data['prefix']}{$table}`;");
+
                     $create = $db->createSchema($schema, $table);
                     $execute[] = $db->execute($create);
 

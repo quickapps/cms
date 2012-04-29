@@ -1,9 +1,9 @@
 <?php
 /**
- * Default template for plain text e-mails.
+ * Default Layout for plain text emails
  *
  */
 ?>
+<?php echo $this->Layout->content();?>
 
-<?php echo $this->Layout->hooktags($this->Layout->content()); ?>
-<?php echo __t('This email was sent using QuickApps CMS v%s [http://www.quickappscms.org/]', Configure::read('Variable.qa_version')); ?>
+This email was sent using QuickApps CMS v<?php echo Configure::read('Variable.qa_version'); ?>, http://www.quickappscms.org
