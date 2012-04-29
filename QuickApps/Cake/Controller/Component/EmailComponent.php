@@ -5,12 +5,12 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Controller.Component
  * @since         CakePHP(tm) v 1.2.0.3467
@@ -421,31 +421,6 @@ class EmailComponent extends Component {
 	}
 
 /**
- * Encode the specified string using the current charset
- *
- * @param string $subject String to encode
- * @return string Encoded string
- */
-	protected function _encode($subject) {
-		$subject = $this->_strip($subject);
-
-		$nl = "\r\n";
-		if ($this->delivery == 'mail') {
-			$nl = '';
-		}
-		$internalEncoding = function_exists('mb_internal_encoding');
-		if ($internalEncoding) {
-			$restore = mb_internal_encoding();
-			mb_internal_encoding($this->charset);
-		}
-		$return = mb_encode_mimeheader($subject, $this->charset, 'B', $nl);
-		if ($internalEncoding) {
-			mb_internal_encoding($restore);
-		}
-		return $return;
-	}
-
-/**
  * Format addresses to be an array with email as key and alias as value
  *
  * @param array $addresses
@@ -455,7 +430,7 @@ class EmailComponent extends Component {
 		$formatted = array();
 		foreach ($addresses as $address) {
 			if (preg_match('/((.*))?\s?<(.+)>/', $address, $matches) && !empty($matches[2])) {
-				$formatted[$this->_strip($matches[3])] = $this->_encode($matches[2]);
+				$formatted[$this->_strip($matches[3])] = $matches[2];
 			} else {
 				$address = $this->_strip($address);
 				$formatted[$address] = $address;

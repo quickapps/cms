@@ -1,21 +1,18 @@
 <?php
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Controller
  * @since         CakePHP(tm) v 0.2.9
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
-/**
- * Include files
- */
 App::uses('CakeResponse', 'Network');
 App::uses('ClassRegistry', 'Utility');
 App::uses('ComponentCollection', 'Controller');
@@ -103,6 +100,7 @@ class Controller extends Object implements CakeEventListener {
  * additional information about the request.
  *
  * @var CakeRequest
+ * @link http://book.cakephp.org/2.0/en/controllers/request-response.html#cakerequest
  */
 	public $request;
 
@@ -110,6 +108,7 @@ class Controller extends Object implements CakeEventListener {
  * An instance of a CakeResponse object that contains information about the impending response
  *
  * @var CakeResponse
+ * @link http://book.cakephp.org/2.0/en/controllers/request-response.html#cakeresponse
  */
 	public $response;
 
@@ -187,7 +186,7 @@ class Controller extends Object implements CakeEventListener {
  * Example: `public $components = array('Session', 'RequestHandler', 'Acl');`
  *
  * @var array
- * @link http://book.cakephp.org/view/961/components-helpers-and-uses
+ * @link http://book.cakephp.org/2.0/en/controllers/components.html
  */
 	public $components = array('Session');
 
@@ -199,7 +198,8 @@ class Controller extends Object implements CakeEventListener {
 	public $viewClass = 'View';
 
 /**
- * Instance of the View created during rendering. Won't be set until after Controller::render() is called.
+ * Instance of the View created during rendering. Won't be set until after
+ * Controller::render() is called.
  *
  * @var View
  */
@@ -237,7 +237,7 @@ class Controller extends Object implements CakeEventListener {
  * marks all the actions in the controller for view caching.
  *
  * @var mixed
- * @link http://book.cakephp.org/view/1380/Caching-in-the-Controller
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/cache.html#additional-configuration-options
  */
 	public $cacheAction = false;
 
@@ -252,20 +252,20 @@ class Controller extends Object implements CakeEventListener {
  * Triggers Scaffolding
  *
  * @var mixed
- * @link http://book.cakephp.org/view/1103/Scaffolding
+ * @link http://book.cakephp.org/2.0/en/controllers/scaffolding.html
  */
 	public $scaffold = false;
 
 /**
- * Holds current methods of the controller.  This is a list of all the methods reachable
- * via url.  Modifying this array, will allow you to change which methods can be reached.
+ * Holds current methods of the controller. This is a list of all the methods reachable
+ * via url. Modifying this array, will allow you to change which methods can be reached.
  *
  * @var array
  */
 	public $methods = array();
 
 /**
- * This controller's primary model class name, the Inflector::classify()'ed version of
+ * This controller's primary model class name, the Inflector::singularize()'ed version of
  * the controller's $name property.
  *
  * Example: For a controller named 'Comments', the modelClass would be 'Comment'
@@ -316,7 +316,7 @@ class Controller extends Object implements CakeEventListener {
  */
 	public function __construct($request = null, $response = null) {
 		if ($this->name === null) {
-			$this->name = substr(get_class($this), 0, strlen(get_class($this)) - 10);
+			$this->name = substr(get_class($this), 0, -10);
 		}
 
 		if ($this->viewPath == null) {
@@ -363,9 +363,6 @@ class Controller extends Object implements CakeEventListener {
 			foreach ($this->uses as $modelClass) {
 				list($plugin, $class) = pluginSplit($modelClass, true);
 				if ($name === $class) {
-					if (!$plugin) {
-						$plugin = $this->plugin ? $this->plugin . '.' : null;
-					}
 					return $this->loadModel($modelClass);
 				}
 			}

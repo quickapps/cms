@@ -5,12 +5,12 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Model.Datasource.Database
  * @since         CakePHP(tm) v 0.9.0
@@ -166,7 +166,9 @@ class Sqlite extends DboSource {
 			return $cache;
 		}
 		$fields = array();
-		$result = $this->_execute('PRAGMA table_info(' . $table . ')');
+		$result = $this->_execute(
+			'PRAGMA table_info(' . $this->value($table, 'string') . ')'
+		);
 
 		foreach ($result as $column) {
 			$column = (array)$column;
