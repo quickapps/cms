@@ -10,4 +10,14 @@
  * @link     http://www.quickappscms.org
  */
 class LocaleAppController extends AppController {
+    protected function _languageList() {
+        $list = array();
+        $_languages = Configure::read('Variable.languages');
+
+        foreach ($_languages as $l) {
+            $list[$l['Language']['code']] = $l['Language']['native'];
+        }
+
+        return $list;
+    }
 }

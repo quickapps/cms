@@ -16,7 +16,7 @@
 
     echo $this->Form->create('Search',
         array(
-            'url' => '/s/',
+            'url' => '/search/',
             'onSubmit' => "QuickApps.doSearch(); return false;"
         )
 
@@ -29,7 +29,7 @@
 <script type="text/javascript">
     QuickApps.doSearch = function () {
         $(location).attr('href',
-            QuickApps.settings.base_url + 's/<?php echo $prefix; ?>' + decodeURIComponent($('#SearchCriteria').val())
+            QuickApps.settings.base_url + 'search/<?php echo $prefix; ?>' + decodeURIComponent($('#SearchCriteria').val())
         );
     };
 

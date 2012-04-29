@@ -30,7 +30,7 @@ class FieldsController extends UserAppController {
         $fields = $this->Field->find('all', array('conditions' => array('Field.belongsTo' => 'User')));
 
         $this->set('results', $fields);
-        $this->set('field_modules', $this->hook('field_info', $this, array('collectReturn' => false)));
+        $this->set('field_modules', QuickApps::field_info());
         $this->setCrumb(
             '/admin/user/',
             array(__t('Manage Fields'))

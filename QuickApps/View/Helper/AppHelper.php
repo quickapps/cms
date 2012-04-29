@@ -74,8 +74,10 @@ class AppHelper extends Helper {
  *
  * @see QuickApps::is()
  */
-    public function is($detect, $p = null) {
-        return QuickApps::is($detect, $p);
+    public function is($detect) {
+        $params = func_get_args();
+
+        return call_user_func_array('QuickApps::is', $params);
     }
 
 /**
@@ -139,6 +141,15 @@ class AppHelper extends Helper {
  */
     public function hookDisable($hook) {
         return $this->_View->HookCollection->hookDisable($hook);
+    }
+
+/**
+ * Wrapper method to HookCollectionHelper::hooktagsList()
+ *
+ * @see HookCollectionHelper::hooktagsList()
+ */
+    public function hooktagsList() {
+        return $this->_View->HookCollection->hooktagsList();
     }
 
 /**

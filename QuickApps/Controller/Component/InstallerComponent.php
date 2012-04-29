@@ -734,7 +734,7 @@ class InstallerComponent extends Component {
             )
         );
 
-        // delete blocks position
+        // delete blocks position & cache
         if ($this->options['type'] == 'theme') {
             $themeName = preg_replace('/^Theme/', '', $this->options['__Name']);
             $BlockRegion = ClassRegistry::init('Block.BlockRegion');
@@ -1073,6 +1073,7 @@ class InstallerComponent extends Component {
                 // add new methods
                 foreach ($methods as $m) {
                     if (!in_array($m, $_methods)) {
+                        $this->Controller->Acl->Aco->create();
                         $this->Controller->Acl->Aco->save(
                             array(
                                 'parent_id' => $controller['Aco']['id'],
@@ -1240,6 +1241,7 @@ class InstallerComponent extends Component {
     public function menuLink($link, $menu_id = 1, $move = 0) {
         $menu_id = is_string($menu_id) ? trim($menu_id) : $menu_id;
         $Menu = ClassRegistry::init('Menu.Menu');
+        $MenuLink = ClassRegistry::init('Menu.MenuLink');
 
         if (is_integer($menu_id)) {
             switch ($menu_id) {
@@ -1318,8 +1320,8 @@ class InstallerComponent extends Component {
         $link = Set::merge($__link, $link);
         $link['menu_id'] = $menu_id;
 
-        $Menu->MenuLink->Behaviors->detach('Tree');
-        $Menu->MenuLink->Behaviors->attach('Tree',
+        $MenuLink->Behaviors->detach('Tree');
+        $MenuLink->Behaviors->attach('Tree',
             array(
                 'parent' => 'parent_id',
                 'left' => 'lft',
@@ -1328,15 +1330,15 @@ class InstallerComponent extends Component {
             )
         );
 
-        $Menu->MenuLink->create();
+        $MenuLink->create();
 
-        $save = $Menu->MenuLink->save($link);
+        $save = $MenuLink->save($link);
 
         if (is_integer($move) && $move !== 0) {
             if ($move > 0) {
-                $Menu->MenuLink->moveUp($save['MenuLink']['id'], $move);
+                $MenuLink->moveUp($save['MenuLink']['id'], $move);
             } else {
-                $Menu->MenuLink->moveDown($save['MenuLink']['id'], abs($move));
+                $MenuLink->moveDown($save['MenuLink']['id'], abs($move));
             }
         }
 
@@ -1723,10 +1725,11 @@ class InstallerComponent extends Component {
         Cache::delete('Modules');
         Cache::delete('Variable');
 
-        // clear theme styles cache
+        // clear blocks cache
         if ($this->options['type'] == 'theme') {
             $theme_name = preg_replace('/^theme_/', '', Inflector::underscore($this->options['name']));
 
+            ClassRegistry::init('Block.Block')->clearCache();
             clearCache("theme__{$theme_name}", 'persistent', '');
         }
 

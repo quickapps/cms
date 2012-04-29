@@ -70,4 +70,16 @@ class Block extends BlockAppModel {
 
         return true;
     }
+
+    public function afterSave($created) {
+        $this->clearCache();
+    }
+
+    public function afterDelete() {
+        $this->clearCache();
+    }
+
+    public function clearCache() {
+        clearCache('blocks', '', '');
+    }
 }

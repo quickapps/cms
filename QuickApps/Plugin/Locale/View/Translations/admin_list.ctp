@@ -2,7 +2,7 @@
 $tSettings = array(
     'columns' => array(
         __t('Text') => array(
-            'value' => '{php} return $this->_View->Text->truncate("{Translation.original}"); {/php}',
+            'value' => '{php} return String::truncate(htmlentities("{Translation.original}", ENT_QUOTES, "UTF-8"), 150); {/php}',
             'sort' => 'Translation.original'
         ),
         __t('Actions') => array(
@@ -24,11 +24,18 @@ $tSettings = array(
 
 <?php echo $this->Form->create('Translation'); ?>
     <!-- Filter -->
-    <?php echo $this->Html->useTag('fieldsetstart', __t('Search')); ?>
+    <?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Search') . '</span>'); ?>
+        <div class="fieldset-toggle-container" style="display:none;">
             <?php echo $this->Form->input('Translation.filter.original', array('type' => 'text', 'label' => __t('Original text'))); ?>
-
             <?php echo $this->Form->input(__t('Search'), array('type' => 'submit', 'label' => false)); ?>
+        </div>
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 <?php echo $this->Form->end(); ?>
 
-<?php echo $this->Html->table($results, $tSettings);?>
+<p>
+    <?php echo $this->Html->link('<b>' . __t('Export') . '</b>', '/admin/locale/translations/export/', array('escape' => false)); ?>
+    &nbsp;
+    <?php echo $this->Html->link('<b>' . __t('Import') . '</b>', '/admin/locale/translations/import/', array('escape' => false)); ?>
+</p>
+
+<?php echo $this->Html->table($results, $tSettings); ?>

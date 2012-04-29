@@ -88,5 +88,5 @@ class ThemeCustomizerComponent extends Component {
         }
 
         return $atts;
-    }
+    }    
 }

@@ -40,7 +40,7 @@
 
     <em>
         <?php echo @$preset['description']; ?>
-    </em>
+    </em> 
 
     <p>
         <table width="100%">
@@ -56,5 +56,5 @@
             </tr>
         <?php endforeach; ?>
         </table>
-    </p>
+    </p>    
 <?php endif; ?>

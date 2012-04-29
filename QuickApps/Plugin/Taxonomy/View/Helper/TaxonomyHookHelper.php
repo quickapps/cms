@@ -34,7 +34,6 @@ class TaxonomyHookHelper extends AppHelper {
  */
     public function taxonomy_vocabularies($block) {
         $cd = isset($block['Block']['settings']['terms_cache_duration']) ? $block['Block']['settings']['terms_cache_duration'] : '+10 minutes';
-        $lc = Configure::read('Variable.language.code');
 
         Cache::config('terms_cache', array('engine' => 'File', 'duration' => $cd));
 
@@ -65,7 +64,7 @@ class TaxonomyHookHelper extends AppHelper {
                 $prefix = isset($block['Block']['settings']['url_prefix']) && !empty($block['Block']['settings']['url_prefix']) ? trim($block['Block']['settings']['url_prefix']) . ' ' : '';
                 $url = "/s/{$prefix}vocabulary:{$vocabulary['Vocabulary']['slug']}";
                 $body .= '<li>' . $this->_View->Html->link($vocabulary['Vocabulary']['title'], $url);
-                $terms = ClassRegistry::init('Taxonomy.Term')->find('all',
+                $terms = ClassRegistry::init('Taxonomy.Term')->find('threaded',
                     array(
                         'conditions' => array('Term.vocabulary_id' => $vocabulary['Vocabulary']['id']),
                         'order' => array('Term.lft' => 'ASC')
@@ -73,40 +72,17 @@ class TaxonomyHookHelper extends AppHelper {
                 );
 
                 foreach ($terms as &$term) {
-                    $prefix = isset($block['Block']['settings']['url_prefix']) && !empty($block['Block']['settings']['url_prefix']) ? trim($block['Block']['settings']['url_prefix']) . ' ' : '';
-                    $term['Term']['router_path'] = "/s/{$prefix}term:{$term['Term']['slug']}";
-
-                    if ($block['Block']['settings']['content_counter']) {
-                        $count = Cache::read("count_term_{$term['Term']['id']}_{$lc}", 'terms_cache');
-
-                        if (!$count) {
-                            $count = ClassRegistry::init('Node')->find('count',
-                                array(
-                                    'conditions' => array(
-                                        'OR' => array(
-                                            array('Node.terms_cache LIKE' => "{$term['Term']['id']}:%"),
-                                            array('Node.terms_cache LIKE' => "%|{$term['Term']['id']}:%")
-                                        ),
-                                        'Node.language' => array(null, '', $lc)
-                                    )
-                                )
-                            );
-
-                            Cache::write("count_term_{$term['Term']['id']}_{$lc}", $count, 'terms_cache');
-                        }
-
-                        $term['Term']['name'] = $term['Term']['name'] . " ({$count})";
-                    }
+                    $this->__proccessTerm($term, $block, $count);
                 }
 
                 if ($terms) {
-                    $body .= $this->Menu->generate($terms, array('model' => 'Term', 'alias' => 'name', 'id' => "{$vocabulary['Vocabulary']['slug']}-terms"));
+                    $body .= $this->Menu->generate($terms, array('model' => 'Term', 'id' => "{$vocabulary['Vocabulary']['slug']}-terms"));
                 }
 
                 $body .= '</li>';
             }
         } else {
-            $terms = ClassRegistry::init('Taxonomy.Term')->find('all',
+            $terms = ClassRegistry::init('Taxonomy.Term')->find('threaded',
                 array(
                     'conditions' => array('Term.vocabulary_id' => $block['Block']['settings']['vocabularies']),
                     'order' => array('Term.lft' => 'ASC')
@@ -114,33 +90,10 @@ class TaxonomyHookHelper extends AppHelper {
             );
 
             foreach ($terms as &$term) {
-                $prefix = isset($block['Block']['settings']['url_prefix']) && !empty($block['Block']['settings']['url_prefix']) ? trim($block['Block']['settings']['url_prefix']) . ' ' : '';
-                $term['Term']['router_path'] = "/s/{$prefix}term:{$term['Term']['slug']}";
-
-                if ($block['Block']['settings']['content_counter']) {
-                    $count = Cache::read("count_term_{$term['Term']['id']}_{$lc}", 'terms_cache');
-
-                    if (!$count) {
-                        $count = ClassRegistry::init('Node')->find('count',
-                            array(
-                                'conditions' => array(
-                                    'OR' => array(
-                                        array('Node.terms_cache LIKE' => "{$term['Term']['id']}:%"),
-                                        array('Node.terms_cache LIKE' => "%|{$term['Term']['id']}:%")
-                                    ),
-                                    'Node.language' => array(null, '', $lc)
-                                )
-                            )
-                        );
-
-                        Cache::write("count_term_{$term['Term']['id']}_{$lc}", $count, 'terms_cache');
-                    }
-
-                    $term['Term']['name'] = $term['Term']['name'] . " ({$count})";
-                }
+                $this->__proccessTerm($term, $block, $count);
             }
 
-            $body .= $this->Menu->generate($terms, array('model' => 'Term', 'alias' => 'name'));
+            $body .= $this->Menu->generate($terms, array('model' => 'Term'));
         }
 
         $body .= '</ul>';
@@ -158,5 +111,39 @@ class TaxonomyHookHelper extends AppHelper {
  */
     public function taxonomy_vocabularies_settings($data) {
         return $this->_View->element('Taxonomy.taxonomy_vocabularies_settings', array('block' => $data));
+    }
+
+    private function __proccessTerm(&$term, &$block, &$count) {
+        $lc = Configure::read('Variable.language.code');
+        $prefix = isset($block['Block']['settings']['url_prefix']) && !empty($block['Block']['settings']['url_prefix']) ? trim($block['Block']['settings']['url_prefix']) . ' ' : '';
+        $term['Term']['router_path'] = "/s/{$prefix}term:{$term['Term']['slug']}";
+
+        if ($block['Block']['settings']['content_counter']) {
+            $count = Cache::read("count_term_{$term['Term']['id']}_{$lc}", 'terms_cache');
+
+            if (!$count) {
+                $count = ClassRegistry::init('Node')->find('count',
+                    array(
+                        'conditions' => array(
+                            'OR' => array(
+                                array('Node.terms_cache LIKE' => "{$term['Term']['id']}:%"),
+                                array('Node.terms_cache LIKE' => "%|{$term['Term']['id']}:%")
+                            ),
+                            'Node.language' => array(null, '', $lc)
+                        )
+                    )
+                );
+
+                Cache::write("count_term_{$term['Term']['id']}_{$lc}", $count, 'terms_cache');
+            }
+
+            $term['Term']['title'] = $term['Term']['name'] . " ({$count})";
+        }
+
+        if (!empty($term['children'])) {
+            foreach ($term['children'] as &$t) {
+                $this->__proccessTerm($t, $block, $count);
+            }
+        }
     }
 }

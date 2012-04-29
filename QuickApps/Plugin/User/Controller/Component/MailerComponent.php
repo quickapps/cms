@@ -16,6 +16,7 @@ class MailerComponent extends Component {
 
     public function initialize(Controller $Controller) {
         $this->Controller = $Controller;
+
         return true;
     }
 
@@ -25,8 +26,8 @@ class MailerComponent extends Component {
  * or send custom message by giving an associtive array with
  * body and subject of the message.
  *
- * @param mixed $user_id Integer Id of the user to send the message.
- *                       Or User array data result of Model::find().
+ * @param mixed $user_id Integer ID of the user to send the message.
+ *                       Or User array information result of Model::find().
  * @param mixed $type
  *  It may be a string or integer indicating one of the preset messages:
  *  - `blocked` (0): Message notifying that the account has been BLOCKED.
@@ -39,11 +40,20 @@ class MailerComponent extends Component {
  *  {{{
  *      array(
  *          'body' => "Your message's body",
- *          'subject' => "your message's subject"
+ *          'subject' => "your message's subject",
+ *          'layout' => 'layout_to_use',
+ *          'params' => array('param1' => 'value', ...)
  *      )
  *  }}}
- * @return boolean True on send success. False otherwise.
- *                 All error messages are stored in array $errors
+ *
+ * Optionally you can indicate a layout to use to enclose email body,
+ * as well a list of parameters to be passed to it.
+ *
+ * If you want to send email using layouts in a plugin you can use the familiar plugin syntax.
+ * e.g.: `User.email_message` This would use layout from the `User` module.
+ *
+ * @return boolean TRUE on send success. FALSE otherwise.
+ *                 All error messages are stored in self::$errors.
  */
     public function send($user_id, $type) {
         $user = is_numeric($user_id) ? ClassRegistry::init('User.User')->findById($user_id) : $user_id;
@@ -54,6 +64,7 @@ class MailerComponent extends Component {
             return false;
         }
 
+        $this->Email->sendAs = 'both';
         $this->Email->to = $user['User']['email'];
         $this->Email->from = Configure::read('Variable.site_name') . ' <' . Configure::read('Variable.site_mail') . '>';
 
@@ -80,7 +91,9 @@ class MailerComponent extends Component {
                 $this->Email->subject = $this->parseVariables($user, $variables["user_mail_{$type}_subject"]);
 
                 try {
-                    $this->Email->send($this->parseVariables($user, $variables["user_mail_{$type}_body"]));
+                    $message = $this->parseVariables($user, $variables["user_mail_{$type}_body"]);
+
+                    $this->Email->send($message, 'default', null);
 
                     return true;
                 } catch (Exception $error) {
@@ -95,9 +108,17 @@ class MailerComponent extends Component {
             }
         } else {
             if (isset($type['subject']) && isset($type['body'])) {
+                $layout = isset($type['layout']) && !empty($type['layout']) ? $type['layout'] : null;
+                $message = $this->parseVariables($user, $type['body']);
                 $this->Email->subject = $this->parseVariables($user, $type['subject']);
 
-                if ($this->Email->send($this->parseVariables($user, $type['body']))) {
+                if (isset($type['params']) && !empty($type['params'])) {
+                    foreach ($type['params'] as $name => $value) {
+                        $this->Controller->viewVars[$name] = $value;
+                    }
+                }
+
+                if ($this->Email->send($message, 'default', $layout)) {
                     return true;
                 } else {
                     $this->errors[] = __t('Email could not be sent.');

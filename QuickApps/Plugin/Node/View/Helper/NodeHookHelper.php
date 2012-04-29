@@ -89,6 +89,33 @@ class NodeHookHelper extends AppHelper {
  * @return string HTML element
  */
     public function node_render($node) {
-        return $this->_View->element('theme_node', array('node' => $node));
+        $tp = App::themePath(Configure::read('Theme.info.folder'));
+        $nodeType = false;
+
+        if (!$this->_View->request->is('requested') &&
+            isset($node['NodeType']['id'])
+        ) {
+            $nodeType = $node['NodeType']['id'];
+        } elseif (
+            strtolower(Router::getParam('plugin')) == 'node' &&
+            Router::getParam('controller') == 'node' &&
+            Router::getParam('action') == 'index' &&
+            $siteFrontPage = Configure::read('Variable.site_frontpage')
+        ) {
+            $params = Router::parse($siteFrontPage);
+
+            if (isset($params['pass'][0])) {
+                $nodeType = $params['pass'][0];
+            }
+        }
+
+        if (
+            $nodeType &&
+            file_exists($tp . 'Elements' . DS . 'theme_node_' . $nodeType . '.ctp')
+        ) {
+            return $this->_View->element('theme_node_' . $nodeType, array('node' => $node));
+        } else {
+            return $this->_View->element('theme_node', array('node' => $node));
+        }
     }
 }

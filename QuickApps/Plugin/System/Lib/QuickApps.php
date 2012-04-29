@@ -20,6 +20,25 @@ class QuickApps {
 /**
  * The built in detectors used with `is()`. Can be modified with `addDetector()`.
  *
+ * # Built-in detectors:
+ * - is('view.frontpage'): is frontpage ?
+ * - is('view.login'): is login screen ?
+ * - is('view.admin'): is admin prefix ?
+ * - is('view.frontend'): is front site ?
+ * - is('view.backend'): same as `view.admin`
+ * - is('view.search'): is search results page ?
+ * - is('view.rss'): is rss feed page ?
+ * - is('view.node'): is node details page ?
+ * - is('view.user_profile'): is user profile page ?
+ * - is('view.my_account'): is user's "my account" form page ?
+ * - is('user.logged'): is user logged in?
+ * - is('user.admin'): has user admin privileges ?
+ * - is('user.authorized', 'AcoPath'): is user allowed to use AcoPath ?
+ * - is('theme.core', 'ThemeName'): is `ThemeName` a core theme ?
+ * - is('module.core', 'ModuleName'): is `ModuleName` a core module ?
+ * - is('module.field', 'ModuleName'): is `ModuleName` a field app ?
+ * - is('module.theme', 'ModuleName'): is `ModuleName` a theme app ?
+ *
  * @var array
  */
     protected static $_detectors = array(
@@ -31,7 +50,9 @@ class QuickApps {
             'backend' => array('self', '__viewIsBackend'),
             'search' => array('self', '__viewIsSearch'),
             'rss' => array('self', '__viewIsRss'),
-            'node' => array('self', '__viewIsNode')
+            'node' => array('self', '__viewIsNode'),
+            'user_profile' => array('self', '__viewIsUserProfile'),
+            'my_account' => array('self', '__viewIsUserMyAccount')
         ),
         'user' => array(
             'admin' => array('self', '__userIsAdmin'),
@@ -51,43 +72,41 @@ class QuickApps {
 /**
  * Detector method. Uses the built in detection rules
  * as well as additional rules defined with QuickApps::addDetector()
- * Any detector can be called as `is($detect)`.
+ * Any detector can be called as `is($detector)`.
+ * Multiple parameters can be passed to detectors.
  *
- * # Built-in detectors:
- * - is('view.frontpage'): is frontpage ?
- * - is('view.login'): is login screen ?
- * - is('view.admin'): is admin prefix ?
- * - is('view.frontend'): is front site ?
- * - is('view.backend'): same as `view.admin`
- * - is('view.search'): is search results page ?
- * - is('view.rss'): is rss feed page ?
- * - is('view.node'): is node details page ?
- * - is('user.logged'): is user logged in?
- * - is('user.admin'): has user admin privileges ?
- * - is('user.authorized', 'AcoPath'): is user allowed to use AcoPath ?
- * - is('theme.core', 'ThemeName'): is `ThemeName` a core theme ?
- * - is('module.core', 'ModuleName'): is `ModuleName` a core module ?
- * - is('module.field', 'ModuleName'): is `ModuleName` a field app ?
- * - is('module.theme', 'ModuleName'): is `ModuleName` a theme app ?
- *
- * ## Example
- * Is actual request site's frontpage ?
+ * ## Simple usage
  * {{{
- *  $this->Layout->is('view.frontpage');
+ *  QuickApps::is('view.frontpage');
+ * }}}
+ *
+ * ## Passing multiple parameters
+ * {{{
+ *  QuickApps::is('group.detector', 'param 1', 'param 2', ...);
  * }}}
  *
  * @param string $detect Dot-Syntax unsersored_detector_name and group name. e.g.: `group.detector_name`
- * @param mixed $p Optional parameter for callback methods
  * @return boolean
+ * @see QuickApps::$_detectors
  */
-    public static function is($detect, $p = null) {
+    public static function is($detect) {
         $detect = strtolower($detect);
         list($group, $check) = pluginSplit($detect);
 
         if (isset(self::$_detectors[$group][$check]) &&
             is_callable(self::$_detectors[$group][$check])
         ) {
-            return call_user_func(self::$_detectors[$group][$check], $p);
+            $num_parameters = func_num_args() - 1;
+
+            if ($num_parameters) {
+                $params = func_get_args();
+
+                array_shift($params);
+
+                return call_user_func_array(self::$_detectors[$group][$check], $params);
+            } else {
+                return call_user_func(self::$_detectors[$group][$check], null);
+            }
         } else {
             return false;
         }
@@ -111,7 +130,7 @@ class QuickApps {
  * {{{
  *  class MyModuleHookHelper extends AppHelper {
  *      public static function detector_handler() {
- *          return (detector logic here);
+ *          return (detector login here);
  *      }
  *  }
  * }}}
@@ -135,6 +154,10 @@ class QuickApps {
  * 2- Default
  * 3- Translatable entries cache
  *
+ * If no translation is found for the given string in any of the
+ * domains above, then it gets marked as `fuzzy`.
+ * To manage all `fuzzy` entries go to: `/admin/locale/translations/fuzzy_list`
+ *
  * @param string $singular String to translate.
  * @return string The translated string.
  */
@@ -146,10 +169,15 @@ class QuickApps {
         App::uses('I18n', 'I18n');
 
         $route = class_exists('Router') ? Router::getParams() : null;
+        $translation_found = false;
+        $language = Configure::read('Config.language');
 
         if (isset($route['plugin']) && !empty($route['plugin'])) {
             // 1º look in plugin
-            $translated = I18n::translate($singular, null, Inflector::underscore($route['plugin']));
+            $plugin = Inflector::underscore($route['plugin']);
+            $translated = I18n::translate($singular, null, $plugin);
+            $domains = I18n::domains();
+            $translation_found = isset($domains[$plugin][$language]['LC_MESSAGES'][$singular]);
         } else {
             $translated = $singular;
         }
@@ -157,12 +185,50 @@ class QuickApps {
         if ($translated === $singular) {
             // 2º look in default
             $translated = I18n::translate($singular, null, 'default');
+            $domains = I18n::domains();
+            $translation_found = isset($domains['default'][$language]['LC_MESSAGES'][$singular]);
         }
 
         if ($translated === $singular) {
             // 3º look in transtalion db-cache
-            $cache = Cache::read(md5($singular) . '_' . Configure::read('Config.language'), 'i18n');
-            $translated = $cache ? $cache: $singular;
+            $cache = Cache::read(md5($singular) . '_' . $language, 'i18n');
+            $translated = $cache ? $cache : $singular;
+            $translation_found = !empty($cache);
+        }
+
+        if (!$translation_found && $language != Configure::read('Variable.default_language')) {
+            // translation not found, create fuzzy
+            $id = md5($singular);
+            $i18n = Cache::config('i18n');
+
+            if (
+                Cache::isInitialized('i18n') &&
+                !file_exists(CACHE . 'i18n' . DS . "{$i18n['settings']['prefix']}fuzzy_{$id}_{$language}")
+            ) {
+                $backtrace = debug_backtrace();
+                $back1 = array_shift($backtrace);
+                $back2 = array_shift($backtrace);
+
+                if (!isset($back2['function']) || $back2['function'] != '__t') {
+                    // direct call of QuickApps::__t()
+                    $caller = $back1;
+                } else {
+                    // called using __t()
+                    $caller = $back2;
+                }
+
+                array_shift($caller['args']);
+
+                $info['id'] = "{$id}_{$language}";
+                $info['file'] = $caller['file'];
+                $info['line'] = $caller['line'];
+                $info['language'] = Configure::read('Config.language');
+                $info['original'] = $singular;
+                $info['args'] = $caller['args'];
+                $info['hidden'] = 0;
+
+                Cache::write("fuzzy_{$id}_{$language}", $info, 'i18n');
+            }
         }
 
         if ($args === null) {
@@ -265,6 +331,45 @@ class QuickApps {
         }
 
         return $string;
+    }
+
+/**
+ * Return an associative array with field(s) information.
+ *
+ * @param mixed $field Optional string will return only information for the specified field.
+ *                     FALSE will return all fields information.
+ * @return array Associative array.
+ */
+    public static function field_info($field = false) {
+        if (!isset(self::$__tmp['field_modules'])) {
+            $plugins = App::objects('plugins');
+
+            foreach ($plugins as $plugin) {
+                $ppath = App::pluginPath($plugin);
+
+                if (strpos($ppath, DS . 'Fields' . DS . $plugin . DS) !== false) {
+                    $yaml = Spyc::YAMLLoad($ppath . "{$plugin}.yaml");
+                    $yaml['path'] = $ppath;
+                    $field_modules[$plugin] = $yaml;
+                }
+            }
+
+            self::$__tmp['field_modules'] = $field_modules;
+        }
+
+        if (!$field) {
+            return self::$__tmp['field_modules'];
+        } else {
+            $field = Inflector::camelize((string)$field);
+
+            if (isset(self::$__tmp['field_modules'][$field])) {
+                return array(
+                    $field => self::$__tmp['field_modules'][$field]
+                );
+            } else {
+                return array();
+            }
+        }
     }
 
 /**
@@ -454,6 +559,36 @@ class QuickApps {
             strtolower($params['plugin']) == 'node' &&
             $params['controller'] == 'node' &&
             $params['action'] == 'details'
+        );
+    }
+
+/**
+ * Checks if current view is a user's profile view.
+ *
+ * @return boolean
+ */
+    private static function __viewIsUserProfile() {
+        $params = Router::getParams();
+
+        return (
+            strtolower($params['plugin']) == 'user' &&
+            $params['controller'] == 'user' &&
+            $params['action'] == 'profile'
+        );
+    }
+
+/**
+ * Checks if current view is a user's "my account" view.
+ *
+ * @return boolean
+ */
+    private static function __viewIsUserMyAccount() {
+        $params = Router::getParams();
+
+        return (
+            strtolower($params['plugin']) == 'user' &&
+            $params['controller'] == 'user' &&
+            $params['action'] == 'my_account'
         );
     }
 

@@ -427,6 +427,8 @@ div.user-profile h4 { display:inline; font-weight:bold; font-size:12px; }
 div.user-profile div.avatar { width:96px; height:96px; border:1px solid #ccc; float:left; margin-right:15px; }
 div.user-profile div.avatar img{ width:100%; }
 div.user-profile div.information { float:left; }
+#user-profile-menu { display:block; overflow:hidden; text-align:right; }
+#user-profile-menu li { display:inline; }
 
 
 /*---------------[HOOKTAGS]------------------*/

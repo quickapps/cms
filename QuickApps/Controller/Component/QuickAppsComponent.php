@@ -48,6 +48,34 @@ class QuickAppsComponent extends Component {
     public function beforeRender(Controller $Controller) {
         if ($this->Controller->request->is('ajax')) {
             $this->Controller->layout = 'ajax';
+        } else {
+            $nodeType = false;
+
+            if (!$this->Controller->request->is('requested') &&
+                $this->is('view.node') &&
+                isset($this->Controller->Layout['node']['NodeType']['id'])
+            ) {
+                $nodeType = $this->Controller->Layout['node']['NodeType']['id'];
+            } elseif (
+                strtolower($this->Controller->request->params['plugin']) == 'node' &&
+                $this->Controller->request->params['controller'] == 'node' &&
+                $this->Controller->request->params['action'] == 'index' &&
+                $siteFrontPage = Configure::read('Variable.site_frontpage')
+            ) {
+                $params = Router::parse($siteFrontPage);
+
+                if (isset($params['pass'][0])) {
+                    $nodeType = $params['pass'][0];
+                }
+            }
+
+            if ($nodeType) {
+                $tp = App::themePath(Configure::read('Theme.info.folder'));
+
+                if (file_exists($tp . 'Layouts' . DS . 'node_' . $nodeType . '.ctp')) {
+                    $this->Controller->layout = 'node_' . $nodeType;
+                }
+            }
         }
 
         $this->fieldsList();
@@ -178,16 +206,27 @@ class QuickAppsComponent extends Component {
             ),
             'recursive' => 2
         );
-        $Block = ClassRegistry::init('Block.Block');
+        $blocks = Cache::read('blocks_' . md5(serialize($options)));
 
-        $Block->Menu->unbindModel(array('hasMany' => array('Block')));
+        if (!$blocks) {
+            $Block = ClassRegistry::init('Block.Block');
 
-        $this->Controller->Layout['blocks'] = $Block->find('all', $options);
+            $Block->Menu->unbindModel(array('hasMany' => array('Block')));
+
+            $blocks = $Block->find('all', $options);
+
+            Cache::write('blocks_' . md5(serialize($options)), $blocks);
+        }
+
+        $this->Controller->Layout['blocks'] = $blocks;
+
         $this->Controller->hook('blocks_alter', $this->Controller->Layout['blocks']);
+        Configure::write('Variable.qa_version', Configure::read('Modules.System.yaml.version'));
 
         // Basic js files/inline
         $this->Controller->Layout['javascripts']['inline'][] = '
             jQuery.extend(QuickApps.settings, {
+                "version": "' . Configure::read('Variable.qa_version'). '",
                 "url": "' . (defined('FULL_BASE_URL') ? FULL_BASE_URL . $this->Controller->here : $this->Controller->here) . '",
                 "base_url": "' . QuickApps::strip_language_prefix(Router::url('/', true)) . '",
                 "domain": "' . env('HTTP_HOST') . '",
@@ -196,10 +235,8 @@ class QuickAppsComponent extends Component {
 
         // pass js to modules
         $this->Controller->hook('javascripts_alter', $this->Controller->Layout['javascripts']);
+
         $this->Controller->paginate = array('limit' => Configure::read('Variable.rows_per_page'));
-
-        Configure::write('Variable.qa_version', Configure::read('Modules.System.yaml.version'));
-
         $defaultMetaDescription = Configure::read('Variable.site_description');
 
         if (!empty($defaultMetaDescription)) {
@@ -381,7 +418,7 @@ class QuickAppsComponent extends Component {
             $pluginNode = $this->Controller->Acl->Aco->find('first',
                 array(
                     'conditions' => array(
-                        'Aco.alias' => $this->Controller->params['plugin'],
+                        'Aco.alias' => Inflector::camelize($this->Controller->params['plugin']),
                         'parent_id = ' => null
                     ),
                     'fields' => array('alias', 'id')

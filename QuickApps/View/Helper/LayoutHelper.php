@@ -634,14 +634,32 @@ class LayoutHelper extends AppHelper {
         if (isset($user['User']['avatar']) && !empty($user['User']['avatar'])) {
             $avatar = $user['User']['avatar'];
         } else {
-            if (!Configure::read('Variable.user_default_avatar')) {
+            if (Configure::read('Variable.user_use_gravatar')) {
                 if (isset($user['User']['email']) && !empty($user['User']['email'])) {
                     $hash = md5(strtolower(trim("{$user['User']['email']}")));
                 } else {
                     $hash = md5(strtolower(trim("")));
                 }
 
-                $avatar = "http://www.gravatar.com/avatar/{$hash}";
+                $args = array();
+
+                if (Configure::read('Variable.user_gravatar_size')) {
+                    $args[] = 's=' . Configure::read('Variable.user_gravatar_size');
+                }
+
+                if (Configure::read('Variable.user_gravatar_default')) {
+                    $args[] = 'd=' . Configure::read('Variable.user_gravatar_default');
+                }
+
+                if (Configure::read('Variable.user_gravatar_rating')) {
+                    $args[] = 'r=' . Configure::read('Variable.user_gravatar_rating');
+                }
+
+                if (Configure::read('Variable.user_gravatar_force_default') == 'y') {
+                    $args[] = 'f=' . Configure::read('Variable.user_gravatar_force_default');
+                }
+
+                $avatar = "http://www.gravatar.com/avatar/{$hash}?" . implode('&', $args);
             } else {
                 $avatar = Configure::read('Variable.user_default_avatar');
             }
@@ -738,7 +756,7 @@ class LayoutHelper extends AppHelper {
  *  - type: type of list, ol, ul. default: ul
  *  - id: id attribute for the container (ul, ol)
  *  - itemType: type of child node. default: li
- *  - selectedClass: class attribute for selected itemType. default: `selected`
+ *  - activeClass: class attribute for selected itemType. default: `selected`
  * @return string HTML
  */
     public function toolbar($links, $options = array()) {
@@ -751,7 +769,7 @@ class LayoutHelper extends AppHelper {
             'id' => null,
             'type' => 'ul',
             'itemType' => 'li',
-            'selectedClass' => 'selected'
+            'activeClass' => 'selected'
         );
 
         $options = array_merge($_options, $options);
@@ -777,7 +795,7 @@ class LayoutHelper extends AppHelper {
             $selected = '';
 
             if ($here == $link[1] || $path == $link[1]) {
-                $selected = " class=\"{$selectedClass}\" ";
+                $selected = " class=\"{$activeClass}\" ";
             } elseif (isset($link['pattern']) && $link['pattern'] !== false) {
                 if ($link['pattern'] === true) {
                     if ($link[1][0] === '/') {
@@ -787,7 +805,7 @@ class LayoutHelper extends AppHelper {
                     $link['pattern'] = "*{$__l}*";
                 }
 
-                $selected = $this->urlMatch($link['pattern'], $here) ? " class=\"{$selectedClass}\" " : '';
+                $selected = $this->urlMatch($link['pattern'], $here) ? " class=\"{$activeClass}\" " : '';
             }
 
             $link = isset($link['options']) && is_array($link['options']) ? $this->_View->Html->link($link[0], $link[1], $link['options']) : $this->_View->Html->link($link[0], $link[1]);

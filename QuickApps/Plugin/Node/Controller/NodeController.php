@@ -77,7 +77,7 @@ class NodeController extends NodeAppController {
             }
 
             $this->Layout['node'] = $this->paginate('Node', $conditions);
-            $this->Layout['feed'] = '/s/promote:1 language:any';
+            $this->Layout['feed'] = '/search/promote:1 language:any';
             $this->Layout['feed'] .= Configure::read('Variable.language.code') ? ',' . Configure::read('Variable.language.code')  : '';
             $this->Layout['feed'] .= '/feed';
         }
@@ -435,7 +435,7 @@ class NodeController extends NodeAppController {
 
             if (!empty($keys)) {
                 $keys = preg_replace('/ {2,}/', ' ',  implode(' ', $keys));
-                $this->redirect('/s/' . urldecode(trim($keys)));
+                $this->redirect('/search/' . urldecode(trim($keys)));
             }
         } else {
             $this->redirect('/');

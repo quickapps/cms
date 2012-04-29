@@ -16,18 +16,20 @@ class CommentHookHelper extends AppHelper {
  * @return void
  */
     public function beforeLayout($layoutFile) {
-        if (isset($this->request->params['admin']) &&
-            $this->request->params['plugin'] == 'comment' &&
-            $this->request->params['controller'] = 'list' &&
-            $this->request->params['action'] == 'admin_show'
+        $params = Router::getParams();
+
+        if (isset($params['admin']) &&
+            $params['plugin'] == 'comment' &&
+            $params['controller'] = 'list' &&
+            $params['action'] == 'admin_show'
         ) {
             $this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar') . '<!-- CommentHookHelper -->'), 'toolbar');
         }
 
-        if (!isset($this->request->params['admin']) &&
-            $this->request->params['plugin'] == 'node' &&
-            in_array($this->request->params['controller'], array('node')) &&
-            $this->request->params['action'] == 'details'
+        if (!isset($params['admin']) &&
+            $params['plugin'] == 'node' &&
+            in_array($params['controller'], array('node')) &&
+            $params['action'] == 'details'
         ) {
             if ($this->_View->Layout->nodeField('comment') == 2) {
                 $this->_View->viewVars['Layout']['javascripts']['file'][] = '/comment/js/markItUp/locale.js';

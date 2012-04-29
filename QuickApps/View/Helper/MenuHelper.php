@@ -1,665 +1,440 @@
 <?php
 /**
- * Tree Helper.
+ * Menu Helper
  *
- * Used the generate nested representations of hierarchial data
- *
- * PHP versions 4 and 5
- *
- * Copyright (c) 2008, Andy Dawson
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- *
- * @filesource
- * @copyright            Copyright (c) 2008, Andy Dawson
- * @link                 www.ad7six.com
- * @package              cake-base
- * @subpackage           cake-base.app.views.helpers
- * @since                v 1.0
- * @version              $Revision: 205 $
- * @modifiedBy           $LastChangedBy: ad7six $
- * @lastModified         $Date: 2008-08-13 16:13:32 +0200 (Wed, 13 Aug 2008) $
- * @license              http://www.opensource.org/licenses/mit-license.php The MIT License
- */
-
-/**
- * Tree helper
- *
- * Helper to generate tree representations of MPTT or recursively nested data
- * Author: Andy Dawson
- * Modifications by: Christopher Castro for QuickApps
+ * @author Christopher Castro <chris@quickapps.es>
+ * @package QuickApps.View.Helper
  */
 class MenuHelper extends AppHelper {
 /**
- * name property
- *
- * @var string 'Tree'
- * @access public
- */
-    public $name = 'Menu';
-
-/**
- * settings property
+ * Temporary container
  *
  * @var array
- * @access private
- */
-    private $__settings = array();
-
-/**
- * typeAttributes property
- *
- * @var array
- * @access private
- */
-    private $__typeAttributes = array();
-
-/**
- * typeAttributesNext property
- *
- * @var array
- * @access private
- */
-    private $__typeAttributesNext = array();
-
-/**
- * itemAttributes property
- *
- * @var array
- * @access private
- */
-    private $__itemAttributes = array();
-
-/**
- * Holds temp data used by methods.
  */
     private $__tmp = array();
 
 /**
- * helpers variable
+ * Menu item settings
  *
  * @var array
- * @access public
  */
-    var $helpers = array ('Html' => array('className' => 'QaHtml'));
+    private $__itemDefaults = array(
+        'id' => null,
+        'class' => null,
+        'title' => null,
+        'description' => '',
+        'url' => null,
+        'target' => '_self',
+        'permissions' => array(),
+        'children' => array(),
+        'expanded' => true,
+        'status' => 1
+    );
 
 /**
- * Tree generation method.
+ * Menu settings
  *
- * Accepts the results of
- *     find('all', array('fields' => array('lft', 'rght', 'whatever'), 'order' => 'lft ASC'));
- *     children(); // if you have the tree behavior of course!
- * or     findAllThreaded(); and generates a tree structure of the data.
+ * @var array
+ */
+    private $__defaultSettings = array(
+        'model' => 'MenuLink',
+        'id' => null,
+        'class' => null,
+        'partialMatch' => false,
+        'activeClass' => 'selected',
+        'firstClass' => 'first-item',
+        'lastClass' => 'last-item',
+        'childrenClass' => 'hasChildren',
+        'evenOdd' => false,
+        'itemFormat' => '<li %s>%s</li>',
+        'itemAttributes' => array(),
+        'wrapperFormat' => '<ul %s>%s</ul>',
+        'wrapperAttributes' => array(),
+        'element' => false,
+        'callback' => false,
+        'urlPath' => array('link_path', 'router_path'),
+        'titlePath' => array('link_title', 'title', 'name', 'alias'),
+        'descriptionPath' => array('description'),
+        '__pos__' => 0,
+        '__depth__' => 0
+    );
+
+/**
+ * Settings of the menu being rendered
  *
- * Settings (2nd parameter):
- *    'model' => name of the model (key) to look for in the data array. defaults to the first model for the current
- * controller. If set to false 2d arrays will be allowed/expected.
- *    'alias' => the array key to output for a simple ul (not used if element or callback is specified)
- *    'type' => type of output defaults to ul
- *    'itemType => type of item output default to li
- *    'id' => id for top level 'type'
- *    'class' => class for top level 'type'
- *    'element' => path to an element to render to get node contents.
- *    'callback' => callback to use to get node contents. e.g. array(&$anObject, 'methodName') or 'floatingMethod'
- *    'autoPath' => array($left, $right [$classToAdd = 'active']) if set any item in the path will have the class $classToAdd added. MPTT only.
- *    'left' => name of the 'lft' field if not lft. only applies to MPTT data
- *    'right' => name of the 'rght' field if not lft. only applies to MPTT data
- *    'depth' => used internally when running recursively, can be used to override the depth in either mode.
- *    'firstChild' => used internally when running recursively.
- *    'splitDepth' => if multiple "parallel" types are required, instead of one big type, nominate the depth to do so here
- *        example: useful if you have 30 items to display, and you'd prefer they appeared in the source as 3 lists of 10 to be able to
- *        style/float them.
- *    'splitCount' => the number of "parallel" types. defaults to 3
+ * @var array
+ */
+    public $settings = array();
+
+/**
+ * Tree menu generation method.
+ *
+ * Accepts the results of `find('threaded')`.
+ *
+ * ## Settings:
+ *  - `model`: Name of the model (key) to look for in the data array. (default - 'MenuLink')
+ *  - `id`: Optional string for the id attribute of top level tag. (default - none)
+ *  - `class`: Optional string of CSS classes for top level tag. (default - none)
+ *  - `partialMatch`: Normally url matching are strict.
+ *      e.g.: Suppose you are in /items/details and your menu contains an entry for `/item` then by
+ *      default it'll not set active. But if you set `partialMatch` to true then it'll set active. (default - false)
+ *  - `activeClass`: Classname for the selected/current item. (default - 'selected')
+ *  - `firstClass`: Classname for the first item. (default - 'first-item')
+ *  - `lastClass`: Classname for the first item. (default - 'last-item')
+ *  - `childrenClass`: Classname for an item containing sub menu. (default - 'hasChildren')
+ *  - `evenOdd`: If it is set to true then even/odd classname will be provided with each item. (default - false)
+ *  - `itemFormat`: If you want to use other tag than li for menu items. (default - '<li %s>%s</li>')
+ *      Array-path-patterns are allowed. e.g.: The pattern `{title}` will be replaced by `$item['title']`.
+ *  - `itemAttributes`: Mixed array list of html attributes for the item tag. (default - none)
+ *      It accept: associative array, plain array or mixed structure.
+ *      e.g.: array('id' => 'item-id', 'class' => 'item-class', 'rare-attr="attr-value"')
+ *  - `wrapperFormat`: if you want to use other tag than ul for menu items container. (default - '<ul %s>%s</ul>')
+ *      Array-path-patterns are allowed.
+ *  - `wrapperAttributes`: Mixed array list of html attributes for the top level tag. Same as `itemAttributes` (default - none)
+ *  - `element`: Path to an element to render to get node contents, Plugin-Dot-Syntax allowed.
+ *      e.g.: 'MyPlugin.node_element'. (default - false)
+ *  - `callback`: Callback to use to get node contents.
+ *      e.g. array(&$anObject, 'methodName') or 'floatingMethod'. (default - false)
+ *  - `urlPath`: The array key where to get the `url` parameter. It can be a single value as string, or
+ *      a list of possible keys to try.
+ *      e.g.: `array('url', 'link_url')` will try to get the URL from `$item['title']` or `$item['link_url']`
+ *      if first fail.
+ *  - `titlePath`: The array key where to get the `title` parameter. Work same as `urlPath`.
+ *  - `descriptionPath`: The array key where to get the `description` parameter. Work same as `urlPath`.
+ *      This value is used as `title` attrbute for the <a> tag. e.g.: `<a href="" title="DESCRIPTION">...`
+ *  - `__pos__`: Used internally when running recursively.
+ *  - `__depth__`: Used internally when running recursively.
  *
  * @param array $data data to loop on
  * @param array $settings
- * @return string html representation of the passed data
- * @access public
+ * @return string HTML representation of the passed data
  */
-    function generate($data, $settings = array ()) {
-        $this->__settings = array_merge(
-            array(
-                'model' => 'MenuLink',
-                'alias' => 'link_title',        // array key where to get the href label: <a href=".">{label}</a>
-                'url' => 'router_path',         // array key where to get the href URL (internal)
-                'external_url' => 'link_path',  // array key where to get the href URL (external)
-                'alt_text' => 'description',    // array key where to get the `title` attr.
-                'type' => 'ul',
-                'itemType' => 'li',
-                'id' => false,
-                'class' => false,
-                'doPathSelect' => false,
-                'selectedClass' => 'selected',  // css class name to apply when link is selected
-                'counterClass' => true,         // set to true to apply a link counter class 'item_{x}'. Or set to a string value to use as prefix '{your_value}_{x}'
-                'element' => false,
-                'callback' => false,
-                'autoPath' => false,
-                'left' => 'lft',
-                'right' => 'rght',
-                'depth' => 0,
-                'firstChild' => true,
-                'indent' => null,
-                'splitDepth' => false,
-                'splitCount' => 3,
-                'plugin' => false
-            ),
-            (array)$settings
-        );
+    public function generate($data, $settings = array()) {
+        $this->settings = array_merge($this->__defaultSettings, $settings);
+        $out = '';
+        $__attrs = $wrapperAttributes = array();
+        $this->__tmp['wrapperAttributes'] = $this->settings['wrapperAttributes'];
 
-        if ($this->__settings['autoPath'] && !isset($this->__settings['autoPath'][2])) {
-            $this->__settings['autoPath'][2] = 'active';
+        if (isset($data[$this->settings['model']])) {
+            $data = $data[$this->settings['model']];
         }
 
         if (!isset($this->__tmp['crumb_urls']) || empty($this->__tmp['crumb_urls'])) {
-            $this->__tmp['crumb_urls'] = (array)Set::extract("{n}.{$this->__settings['model']}.router_path", $this->_View->viewVars['breadCrumb']);
+            $this->__tmp['crumb_urls'] = (array)Set::extract("{n}.{$this->settings['model']}.router_path", $this->_View->viewVars['breadCrumb']);
 
             if (Configure::read('Variable.url_language_prefix')) {
-                foreach ($this->__tmp['crumb_urls'] as $key => $crumb) {
+                foreach ($this->__tmp['crumb_urls'] as $crumb) {
                     if (!preg_match('/^\/[a-z]{3}\//', $crumb)) {
-                        $this->__tmp['crumb_urls'][] = '/' . Configure::read('Config.language') . $crumb;
+                        $this->__tmp['crumb_urls'][] = str_replace('//', '/', '/' . Configure::read('Config.language') . '/' . $crumb);
                     }
                 }
             }
         }
 
-        extract($this->__settings);
+        $this->settings['urlPath'] = empty($this->settings['urlPath']) ? 'url' : $this->settings['urlPath'];
+        $this->settings['titlePath'] = empty($this->settings['titlePath']) ? 'title' : $this->settings['titlePath'];
 
-        // prevent bad formated data
-        if (isset($data[$this->__settings['model']])) {
-            $data = $data[$this->__settings['model']];
-            $data = $this->__prepareMenuLink($data);
+        if (is_string($this->settings['urlPath'])) {
+            $this->settings['urlPath'] = array($this->settings['urlPath']);
         }
 
-        if ($indent === null && Configure::read()) {
-            $indent = true;
+        if (is_string($this->settings['titlePath'])) {
+            $this->settings['titlePath'] = array($this->settings['titlePath']);
         }
 
-        $view =& $this->_View;
-
-        if ($model === null) {
-            $model = Inflector::classify($view->request->params['models'][0]);
+        foreach ($this->settings['itemAttributes'] as $attr => $values) {
+            $__attrs[] = "{$attr}=\"" . implode(' ', $values) . "\"";
         }
 
-        if (!$model) {
-            $model = '_NULL_';
+        if (!empty($__attrs)) {
+            $this->settings['itemAttributes'] = $__attrs;
         }
 
-        $stack = array();
-
-        if ($depth == 0) {
-            if ($class) {
-                $this->addTypeAttribute('class', $class, null, 'previous');
-            }
-
-            if ($id) {
-                $this->addTypeAttribute('id', $id, null, 'previous');
+        if (is_array($data)) {
+        	foreach($data as $item) {
+                $out .= $this->_buildItem($item, $this->settings['__pos__'], $this->settings['__depth__']);
             }
         }
 
-        $return = '';
-
-        if ($indent) {
-            $return = "\r\n";
+        if ($this->settings['id']) {
+            $this->settings['wrapperAttributes']['id'] = $this->settings['id'];
         }
 
-        $__addType = true;
-        $count = 1;
-        $total = count($data);
-
-        foreach ($data as $i => $result) {
-            /* Allow 2d data arrays */
-            if ($model == '_NULL_') {
-                $_result = $result;
-                $result[$model] = $_result;
-            }
-
-            /* BulletProof */
-            if (!isset($result[$model][$left]) && !isset($result['children'])) {
-                $result['children'] = array();
-            }
-
-            /* Close open items as appropriate */
-            while ($stack && ($stack[count($stack)-1] < $result[$model][$right])) {
-                array_pop($stack);
-
-                if ($indent) {
-                    $whiteSpace = str_repeat("\t", count($stack));
-                    $return .= "\r\n" . $whiteSpace . "\t";
-                }
-
-                if ($type) {
-                    $return .= '</' . $type . '>';
-                }
-
-                if ($itemType) {
-                    $return .= '</' . $itemType . '>';
-                }
-            }
-
-            /* Some useful vars */
-            $hasChildren = $firstChild = $lastChild = $hasVisibleChildren = false;
-            $numberOfDirectChildren = $numberOfTotalChildren = null;
-
-            if (isset($result['children'])) {
-                if ($result['children']) {
-                    $hasChildren = $hasVisibleChildren = true;
-                    $numberOfDirectChildren = count($result['children']);
-                }
-
-                $prevRow = prev($data);
-
-                if (!$prevRow) {
-                    $firstChild = true;
-                }
-
-                next($data);
-
-                $nextRow = next($data);
-
-                if (!$nextRow) {
-                    $lastChild = true;
-                }
-
-                prev($data);
-            } elseif (isset($result[$model][$left])) {
-                if ($result[$model][$left] != ($result[$model][$right] - 1)) {
-                    $hasChildren = true;
-                    $numberOfTotalChildren = ($result[$model][$right] - $result[$model][$left] - 1) / 2;
-
-                    if (isset($data[$i + 1]) && $data[$i + 1][$model][$right] < $result[$model][$right]) {
-                        $hasVisibleChildren = true;
-                    }
-                }
-
-                if (!isset($data[$i - 1]) || ($data[$i - 1][$model][$left] == ($result[$model][$left] - 1))) {
-                    $firstChild = true;
-                }
-
-                if (!isset($data[$i + 1]) || ($stack && $stack[count($stack) - 1] == ($result[$model][$right] + 1))) {
-                    $lastChild = true;
-                }
-            }
-
-            $elementOptions = is_string($plugin) ? array('plugin' => $plugin) : array();
-            $elementData = array(
-                'data' => $result,
-                'plugin' => $plugin,
-                'depth' => $depth ? $depth : count($stack),
-                'hasChildren' => $hasChildren,
-                'numberOfDirectChildren' => $numberOfDirectChildren,
-                'numberOfTotalChildren' => $numberOfTotalChildren,
-                'firstChild' => $firstChild,
-                'lastChild' => $lastChild,
-                'hasVisibleChildren' => $hasVisibleChildren
-            );
-            $this->__settings = array_merge($this->__settings, $elementData);
-
-            /* Main Content */
-            if ($element) {
-                $content = $view->element($element, $elementData, $elementOptions);
-            } elseif ($callback) {
-                list($content) = array_map($callback, array($elementData));
+        if ($this->settings['class']) {
+            if (
+                isset($this->settings['wrapperAttributes']['class']) &&
+                is_string($this->settings['wrapperAttributes']['class'])
+            ) {
+                $this->settings['wrapperAttributes']['class'] .= ' ' . $this->settings['class'];
             } else {
-                $_url = !empty($result[$model][$external_url]) ? $result[$model][$external_url] : $result[$model][$url];
-                $title = !empty($result[$model][$alt_text]) ? __t($result[$model][$alt_text]) : '';
-                $target = isset($result[$model]['target']) && !empty($result[$model]['target']) ? $result[$model]['target'] : '_self';
-                $content = $this->Html->link("<span>" . __t($result[$model][$alias]) . "</span>", __t($_url), array('target' => $target, 'escape' => false, 'title' => $title)); // href
+                $this->settings['wrapperAttributes']['class'] = $this->settings['class'];
             }
+        }
 
-            if (!$content) {
-                continue;
-            }
+        $out = preg_replace('~(.*)' . preg_quote('$__last-class__$', '~') . '~', '$1' . $this->settings['lastClass'], $out, 1);
+        $out = str_replace('$__last-class__$', '', $out);
 
-            $whiteSpace = str_repeat("\t", $depth);
+        if (isset($this->__tmp['regenerateCrumbs'])) {
+            $this->__tmp['crumb_urls'] = null;
+        }
 
-            if ($indent && strpos($content, "\r\n", 1)) {
-                $content = str_replace("\r\n", "\n" . $whiteSpace . "\t", $content);
-            }
-
-            /* Prefix */
-            if ($__addType) {
-                if ($indent) {
-                    $return .= "\r\n" . $whiteSpace;
-                }
-
-                if ($type) {
-                    $typeAttributes = $this->__attributes($type, array('data' => $elementData));
-                    $return .= '<' . $type .  $typeAttributes . '>';
-                }
-            }
-
-            if ($indent) {
-                $return .= "\r\n" . $whiteSpace . "\t";
-            }
-
-            if ($count === 1) {
-                $this->addItemAttribute('class', 'first');
-            }
-
-            if ($count === $total) {
-                $this->addItemAttribute('class', 'last');
-            }
-
-            if ($this->__settings['counterClass'] !== false) {
-                $count_prefix = is_string($this->__settings['counterClass']) ? $this->__settings['counterClass'] : 'item_';
-                $this->addItemAttribute('class', $count_prefix . $count);
-            }
-
-            $crumb_urls = $this->__tmp['crumb_urls'];
-
-            if (isset($elementData['data'][$this->__settings['model']])) {
-                $link_url = $elementData['data'][$this->__settings['model']][$this->__settings['url']];
-            } elseif (isset($elementData['data']['data'][$this->__settings['model']])) {
-                $link_url = $elementData['data']['data'][$this->__settings['model']][$this->__settings['url']];
-            }
-
-            if (Configure::read('Variable.url_language_prefix')) {
-                if (!preg_match('/^\/[a-z]{3}\//', $link_url)) {
-                    $link_url = "/" . Configure::read('Config.language'). $link_url;
-                }
-            }
-
-            if ($this->__settings['doPathSelect'] &&
-                in_array($link_url, $crumb_urls) &&
-                $itemType == $this->__settings['itemType'] &&
-                empty($elementData['data'][$this->__settings['model']][$this->__settings['external_url']])
-            ) {
-                $this->addItemAttribute('class', $this->__settings['selectedClass']);
-            } elseif (
-                preg_match('/\/(.*)\.html$/', $link_url) &&
-                isset($this->_View->viewVars['Layout']['node']['Node']['translation_of']) &&
-                strpos($link_url, "/{$this->_View->viewVars['Layout']['node']['Node']['translation_of']}.html") !== false
-            ) {
-                $this->addItemAttribute('class', $this->__settings['selectedClass']);
-            } elseif (QuickApps::str_replace_once('/' . Configure::read('Config.language'), '', $link_url) == '/' && $this->_View->here === QuickApps::str_replace_once('/' . Configure::read('Config.language'), '', $this->_View->Html->url('/'))) {
-                $this->addItemAttribute('class', $this->__settings['selectedClass']);
-            } elseif (
-                isset($elementData['data'][$this->__settings['model']]['selected_on']) &&
-                !empty($elementData['data'][$this->__settings['model']]['selected_on'])
-            ) {
-                if (
-                    ($elementData['data'][$this->__settings['model']]['selected_on_type'] == 'php' &&
-                    $this->php_eval($elementData['data'][$this->__settings['model']]['selected_on']) === true)
-                    ||
-                    ($elementData['data'][$this->__settings['model']]['selected_on_type'] == 'reg' &&
-                    $this->urlMatch($elementData['data'][$this->__settings['model']]['selected_on'], '/' . $this->_View->request->url))
-                ) {
-                    $this->addItemAttribute('class', $this->__settings['selectedClass']);
-                }
-            } elseif ($_url) {
-                $getURL = $this->__getUrl();
-
-                if (isset($getURL[0]) && $getURL[0] == __t($link_url)) {
-                    $this->addItemAttribute('class', $this->__settings['selectedClass']);
-                }
-            }
-
-            if ($itemType) {
-                $itemAttributes = $this->__attributes($itemType, $elementData, true);
-                $return .= '<' . $itemType . $itemAttributes . '>';
-            }
-
-            unset($this->__itemAttributes['class']);
-
-            $return .= $content;
-
-            /* Suffix */
-            $__addType = false;
-
-            if ($hasVisibleChildren) {
-                if ($numberOfDirectChildren) {
-                    $settings['depth'] = $depth + 1;
-                    $return .= $this->__suffix();
-                    $return .= $this->generate($result['children'], $settings);
-
-                    if ($itemType) {
-                        $return .= '</' . $itemType . '>';
-                    }
-                } elseif ($numberOfTotalChildren) {
-                    $__addType = true;
-                    $stack[] = $result[$model][$right];
-                }
+        foreach ($this->settings['wrapperAttributes'] as $name => $value) {
+            if (is_integer($name) && $name === 0) {
+                $wrapperAttributes[] = $value;
             } else {
-                if ($itemType) {
-                    $return .= '</' . $itemType . '>';
-                }
-
-                $return .= $this->__suffix();
-            }
-
-            $count++;
-        }
-
-        /* Cleanup */
-        while ($stack) {
-            array_pop($stack);
-
-            if ($indent) {
-                $whiteSpace = str_repeat("\t",count($stack));
-                $return .= "\r\n" . $whiteSpace . "\t";
-            }
-
-            if ($type) {
-                $return .= '</' . $type . '>';
-            }
-
-            if ($itemType) {
-                $return .= '</' . $itemType . '>';
+                $wrapperAttributes[] = "{$name}=\"{$value}\"";
             }
         }
 
-        if ($indent) {
-            $return .= "\r\n";
-        }
+        $this->settings['wrapperAttributes'] = $this->__tmp['wrapperAttributes'];
 
-        if ($type) {
-            $return .= '</' . $type . '>';
-
-            if ($indent) {
-                $return .= "\r\n";
-            }
-        }
-
-        return $this->_View->Layout->hooktags($return);
+        return sprintf($this->settings['wrapperFormat'], implode(' ', $wrapperAttributes), $out);
     }
 
-/**
- * addItemAttribute function
- *
- * Called to modify the attributes of the next <item> to be processed
- * Note that the content of a 'node' is processed before generating its wrapping <item> tag
- *
- * @param string $id
- * @param string $key
- * @param mixed $value
- * @access public
- * @return void
- */
-    function addItemAttribute($id = '', $key = '', $value = null) {
-        if (!is_null($value)) {
-            $this->__itemAttributes[$id][$key] = $value;
-        } elseif (!(isset($this->__itemAttributes[$id]) && in_array($key, $this->__itemAttributes[$id]))) {
-            $this->__itemAttributes[$id][] = $key;
-        }
-    }
+    protected function _buildItem($item, $pos = 0, $depth = 0) {
+        if (!empty($item[$this->settings['model']])) {
+            $__item = array_merge($this->__itemDefaults, $item[$this->settings['model']]);
 
-/**
- * addTypeAttribute function
- *
- * Called to modify the attributes of the next <type> to be processed
- * Note that the content of a 'node' is processed before generating its wrapping <type> tag (if appropriate)
- * An 'interesting' case is that of a first child with children. To generate the output
- * <ul> (1)
- *      <li>XYZ (3)
- *              <ul> (2)
- *                      <li>ABC...
- *                      ...
- *              </ul>
- *              ...
- * The processing order is indicated by the numbers in brackets.
- * attributes are allways applied to the next type (2) to be generated
- * to set properties of the holding type - pass 'previous' for the 4th param
- * i.e.
- * // Hide children (2)
- * $tree->addTypeAttribute('style', 'display', 'hidden');
- * // give top level type (1) a class
- * $tree->addTypeAttribute('class', 'hasHiddenGrandChildren', null, 'previous');
- *
- * @param string $id
- * @param string $key
- * @param mixed $value
- * @access public
- * @return void
- */
-    function addTypeAttribute($id = '', $key = '', $value = null, $previousOrNext = 'next') {
-        $var = '__typeAttributes';
-        $firstChild = isset($this->__settings['firstChild'])?$this->__settings['firstChild']:true;
-        if ($previousOrNext == 'next' && $firstChild) {
-            $var = '__typeAttributesNext';
-        }
-        if (!is_null($value)) {
-            $this->{$var}[$id][$key] = $value;
-        } elseif (!(isset($this->{$var}[$id]) && in_array($key, $this->{$var}[$id]))) {
-            $this->{$var}[$id][] = $key;
-        }
-    }
-
-/**
- * suffix method
- *
- * Used to close and reopen a ul/ol to allow easier listings
- *
- * @access private
- * @return void
- */
-    function __suffix() {
-        static $__splitCount = 0;
-        static $__splitCounter = 0;
-
-        extract($this->__settings);
-
-        if ($splitDepth) {
-            if ($depth == $splitDepth -1) {
-                $total = $numberOfDirectChildren?$numberOfDirectChildren:$numberOfTotalChildren;
-                if ($total) {
-                    $__splitCounter = 0;
-                    $__splitCount = $total / $splitCount;
-                    $rounded = (int)$__splitCount;
-
-                    if ($rounded < $__splitCount) {
-                        $__splitCount = $rounded + 1;
-                    }
-                }
+            if (isset($item['children'])) {
+                $__item['children'] = $item['children'];
             }
 
-            if ($depth == $splitDepth) {
-                $__splitCounter++;
-
-                if ($type && ($__splitCounter % $__splitCount) == 0) {
-                    return '</' . $type . '><' . $type . '>';
-                }
-            }
-        }
-
-        return;
-    }
-
-/**
- * attributes function
- *
- * Logic to apply styles to tags.
- *
- * @param mixed $rType
- * @param array $elementData
- * @access private
- * @return void
- */
-    function __attributes($rType, $elementData = array(), $clear = true) {
-        extract($this->__settings);
-
-        if ($rType == $type) {
-            $attributes = $this->__typeAttributes;
-
-            if ($clear) {
-                $this->__typeAttributes = $this->__typeAttributesNext;
-                $this->__typeAttributesNext = array();
-            }
+            $item = $__item;
         } else {
-            $attributes = $this->__itemAttributes;
-            $this->__itemAttributes = array();
-
-            if ($clear) {
-                $this->__itemAttributes = array();
-            }
+            $item = array_merge($this->__itemDefaults, $item);
         }
 
-        if ($autoPath && $depth) {
-            if ($this->__settings['data'][$model][$left] < $autoPath[0] && $this->__settings['data'][$model][$right] > $autoPath[1]) {
-                $attributes['class'][] = $autoPath[2];
-            } elseif (isset($autoPath[3]) && $this->__settings['data'][$model][$left] == $autoPath[0]) {
-                $attributes['class'][] = $autoPath[3];
-            }
+        if (!$item['status']) {
+            return '';
         }
 
-        if ($attributes) {
-            foreach ($attributes as $type => $values) {
-                foreach ($values as $key => $val) {
-                    if (is_array($val)) {
-                        $attributes[$type][$key] = '';
+        $out = $children = '';
+        $isSelected = $hasChildren = false;
+        $itemClass = array('$__last-class__$');
+        $itemAttributes = array();
+        $item['title'] = $this->__title($item);
+        $this->__tmp['itemAttributes'] = $this->settings['itemAttributes'];
 
-                        foreach ($val as $vKey => $v) {
-                            $attributes[$type][$key][$vKey] .= $vKey . ':' . $v;
-                        }
+        if (empty($item['title'])) {
+        	return '';
+        }
 
-                        $attributes[$type][$key] = implode(';', $attributes[$type][$key]);
-                    }
+        if (!empty($item['permissions'])) {
+            $userRoles = QuickApps::userRoles();
+            $allowed = false;
 
-                    if (is_string($key)) {
-                        $attributes[$type][$key] = $key . ':' . $val . ';';
-                    }
+        	foreach ($item['permissions'] as $p) {
+                if (in_array($p, $userRoles)) {
+                    $allowed = true;
+
+                    break;
                 }
-
-                $attributes[$type] = $type . '="' . implode(' ', $attributes[$type]) . '"';
             }
 
-            return ' ' . implode(' ', $attributes);
+            if (!$allowed) {
+                return '';
+            }
+        }
+
+        if (!empty($item['children']) && $item['expanded']) {
+            $pos = $this->settings['__pos__'];
+            $depth = $this->settings['__depth__'];
+            $this->settings['__pos__']++;
+            $this->settings['__depth__']++;
+            $children = $this->generate($item['children'], $this->settings);
+            $this->settings['__pos__'] = $pos;
+            $this->settings['__depth__'] = $depth;
+            $hasChildren = true;
+        }
+
+        $item['url'] = $this->__url($item);
+
+        if (!empty($item['url'])) {
+            $options = array(
+                'target' => $item['target'],
+                'escape' => false
+            );
+
+            if ($item['url'] == '#') {
+                if (isset($options['onclick'])) {
+                    $options['onclick'] .= 'return false;';
+                } else {
+                    $options['onclick'] = 'return false;';
+                }
+            }
+
+            if ($description = $this->__description($item)) {
+                $options['title'] = $description;
+            }
+
+            $url = $this->_View->Html->link(
+                '<span>' . __t($item['title']) . '</span>',
+                __t($item['url']),
+                $options
+            );
+
+            $isSelected = $this->__isSelected($item);
+        }
+
+        if ($pos === 0) {
+        	$itemClass[] = $this->settings['firstClass'];
+        }
+
+        if ($isSelected) {
+        	$itemClass[] = $this->settings['activeClass'];
+        }
+
+        if ($hasChildren) {
+        	$itemClass[] = $this->settings['childrenClass'];
+        }
+
+        if ($this->settings['evenOdd']) {
+        	$itemClass[] = (($pos&1) ? 'even' : 'odd');
+        }
+
+        $itemClass = array_filter($itemClass);
+
+        if (isset($item['class'])) {
+        	if (is_array($item['class'])) {
+        		$itemClass = array_merge($itemClass, $item['class']);
+        	} else {
+                $itemClass[] = $item['class'];
+            }
+        }
+
+        if (!empty($itemClass)) {
+            if (isset($this->settings['itemAttributes']['class'])) {
+                $this->settings['itemAttributes']['class'] = $this->settings['itemAttributes']['class'] . ' ' . implode(' ', $itemClass);
+            } else {
+                $this->settings['itemAttributes']['class'] = implode(' ', $itemClass);
+            }
+        }
+
+        if(isset($item['id'])) {
+            $id = is_numeric($item['id']) ? "item-{$item['id']}" : $item['id'];
+            $this->settings['itemAttributes']['id'] = $id;
+        }
+
+        $elementData = array(
+            'data' => $item,
+            'depth' => $this->settings['__depth__'],
+            'position' => $this->settings['__pos__'],
+            'hasChildren' => $hasChildren
+        );
+
+        if ($this->settings['element']) {
+            $content = $this->_View->element($this->settings['element'], $elementData);
+            $this->__tmp['regenerateCrumbs'] = true;
+        } elseif ($this->settings['callback']) {
+            list($content) = array_map($callback, array($elementData));
+        } else {
+            $content = $url;
+        }
+
+        $content .= $children;
+
+        foreach ($this->settings['itemAttributes'] as $name => $value) {
+            if (is_integer($name) && $name === 0) {
+                $itemAttributes[] = $value;
+            } else {
+                $itemAttributes[] = "{$name}=\"{$value}\"";
+            }        
+        }
+
+        $return = sprintf('%s' . $this->settings['itemFormat'], str_repeat("\t", $depth), implode(' ', $itemAttributes), $content);
+        $this->settings['itemAttributes'] = $this->__tmp['itemAttributes'];
+
+        return $this->__parseAtts($return, $item);
+    }
+
+    private function __isSelected($item) {
+        $isSelected = false;
+
+        if (isset($item['link_path']) && !empty($item['link_path'])) {
+            return false;
+        }
+
+        if (
+            isset($item['selected_on']) && !empty($item['selected_on']) &&
+            isset($item['selected_on_type']) && !empty($item['selected_on_type'])
+        ) {
+            switch ($item['selected_on_type']) {
+                case 'php':
+                    $isSelected = $this->php_eval($item['selected_on']) === true;
+                break;
+
+                case 'reg':
+                    $isSelected = $this->urlMatch($item['selected_on'], '/' . $this->_View->request->url);
+                break;
+            }
+        } elseif (
+            isset($this->_View->viewVars['Layout']['node']['Node']['translation_of']) &&
+            !empty($this->_View->viewVars['Layout']['node']['Node']['translation_of']) &&
+            preg_match('/\/(.*)\.html$/', $item['url']) &&
+            strpos($item['url'], "/{$this->_View->viewVars['Layout']['node']['Node']['translation_of']}.html") !== false
+        ) {
+            $isSelected = true;
+        } elseif (
+            $this->settings['partialMatch'] &&
+            in_array($item['url'], $this->__tmp['crumb_urls'])
+        ) {
+            $isSelected = true;
+        } elseif (
+            QuickApps::is('view.frontpage') &&
+            QuickApps::strip_language_prefix($item['url']) == '/'
+        ) {
+            $isSelected = true;
+        } else {
+            $getURL = $this->__getUrl();
+
+            if (isset($getURL[0]) && $getURL[0] == __t($item['url'])) {
+                $isSelected = true;
+            }
+        }
+
+        return $isSelected;
+    }
+
+    private function __title($item) {
+        foreach ($this->settings['titlePath'] as $tp) {
+            if (isset($item[$tp]) && !empty($item[$tp])) {
+                return $item[$tp];
+            }
         }
 
         return '';
     }
 
-    private function __prepareMenuLink($links) {
-        $no_expanded = array();
-
-        foreach ($links as &$link) {
-            $_link = $link;
-            $link = array();
-            $link[$this->__settings['model']] = $_link;
-
-            if ($link[$this->__settings['model']]['expanded'] == 0) {
-                $no_expanded[] = $link;
+    private function __url($item) {
+        foreach ($this->settings['urlPath'] as $up) {
+            if (isset($item[$up]) && !empty($item[$up])) {
+                return $item[$up];
             }
         }
 
-        /* Remove childs from no expanded nodes */
-        $remove_ids = array();
+        return '#';
+    }
 
-        foreach ($no_expanded as $node) {
-            $ids = Set::extract("/{$this->__settings['model']}[{$this->__settings['left']}>{$node['MenuLink']['lft']}]", $links);
-            $ids = Set::extract("/{$this->__settings['model']}[{$this->__settings['right']}<{$node['MenuLink']['rght']}]", $ids);
-            $remove_ids = array_merge($remove_ids, Set::extract("/{$this->__settings['model']}/id", $ids));
-        }
-
-        $remove_ids = array_unique($remove_ids);
-
-        foreach ($links as $i => $l) {
-            if (in_array($l[$this->__settings['model']]['id'], $remove_ids)) {
-                unset($links[$i]);
+    private function __description($item) {
+        foreach ($this->settings['descriptionPath'] as $dp) {
+            if (isset($item[$dp]) && !empty($item[$dp])) {
+                return $item[$dp];
             }
         }
 
-        return $links;
+        return '';
+    }
+
+    private function __parseAtts($string, $item) {
+        preg_match_all('/\{([\{\}0-9a-zA-Z_\.]+)\}/iUs', $string, $path);
+
+        if (isset($path[1]) && !empty($path[1])) {
+            foreach ($path[0] as $i => $m) {
+                $string = str_replace($m, Set::extract(trim($path[1][$i]), $item), $string);
+            }
+        }
+
+        return $string;
     }
 
     private function __getUrl() {
@@ -669,7 +444,6 @@ class MenuHelper extends AppHelper {
 
         $url = '/' . $this->_View->request->url;
         $out = array();
-
         $out[] = $url;
 
         foreach ($this->_View->request->params['named'] as $key => $val) {
@@ -692,7 +466,13 @@ class MenuHelper extends AppHelper {
             $out[] = $url;
         }
 
-        $this->__tmp['__getUrl'] = array_unique($out);
+        $out = array_unique($out);
+
+        foreach ($out as &$u) {
+            $u = urldecode(QuickApps::strip_language_prefix($u));
+        }
+
+        $this->__tmp['__getUrl'] = $out;
 
         return $this->__tmp['__getUrl'];
     }

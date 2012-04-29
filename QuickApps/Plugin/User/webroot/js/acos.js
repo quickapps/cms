@@ -17,5 +17,5 @@ function toggle_permission(aco, aro) {
 
             $('#permission-' + aco + '-' + aro).html(response);
         }
-    });
+    });  
 }

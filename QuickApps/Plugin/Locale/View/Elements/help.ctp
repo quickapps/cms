@@ -14,6 +14,14 @@
             <li>
                 Translating within your site, using the Locale module's integrated
                 <a href="<?php echo $this->Html->url('/admin/locale/translations'); ?>">translation interface</a>.
+
+                <p>
+                    <dt>Fuzzy Entries</dt>
+                    <dd>
+                        Each time QuickApps CMS fails when it tries to translate a text of your site, the text is marked as <b>fuzzy</b>.
+                        Fuzzy entries are suggested translatable entries. You can export and import the list of entries as .pot packages. 
+                    </dd>
+                </p>
             </li>
 
             <li>

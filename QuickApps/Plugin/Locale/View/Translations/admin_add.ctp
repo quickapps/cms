@@ -1,5 +1,4 @@
 <?php echo $this->Form->create('Translation'); ?>
-    <!-- Settings -->
     <?php echo $this->Html->useTag('fieldsetstart', __t('Adding translatable entry')); ?>
         <?php echo $this->Form->input('Translation.id', array('type' => 'hidden')); ?>
         <?php

@@ -60,6 +60,10 @@ class MenuLink extends MenuAppModel {
         return true;
     }
 
+    public function afterSave($created) {
+        ClassRegistry::init('Block.Block')->clearCache();
+    }
+
     public function validatePath($check) {
         $value = array_values($check);
         $value = $value[0];

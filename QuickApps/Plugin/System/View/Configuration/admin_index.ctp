@@ -40,10 +40,72 @@
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 
     <?php echo $this->Html->useTag('fieldsetstart', __t('Users settings')); ?>
-        <?php echo $this->Form->input('Variable.user_default_avatar', array('type' => 'text', 'label' => __t('Default avatar'))); ?>
-        <em><?php echo __t("URL of picture to display for users with no custom picture selected or anonymous users. Leave empty to use <a href='http://www.gravatar.com'>Gravatar</a> based on user's email."); ?></em>
-    <?php echo $this->Html->useTag('fieldsetend'); ?>
+        <?php
+            echo $this->Form->input('Variable.user_use_gravatar',
+                array(
+                    'type' => 'checkbox',
+                    'label' => __t("Use <a href='http://www.gravatar.com'>Gravatar</a>"),
+                    'checked' => Configure::read('Variable.user_use_gravatar'),
+                    'onclick' => "
+                        $('#gravatar-options').toggle();
+                        $('#default_avatar-options').toggle();
+                    "
+                )
+            );
+        ?>
 
+        <div id="gravatar-options" style="<?php echo !Configure::read('Variable.user_use_gravatar') ? 'display:none;' : ''; ?>">
+            <?php echo $this->Form->input('Variable.user_gravatar_size', array('type' => 'text', 'label' => __t('Avatar width'))); ?>
+            <em><?php echo __t('By default, images are presented at 80px by 80px if no size parameter is supplied.'); ?></em>
+
+            <?php echo $this->Form->input('Variable.user_gravatar_default', array('type' => 'text', 'label' => __t('Default avatar URL'))); ?>
+            <em><?php echo __t('URL of picture to display for users with an email not matching a Gravatar image.'); ?></em>
+
+            <?php
+                echo $this->Form->input('Variable.user_gravatar_force_default',
+                    array(
+                        'type' => 'select',
+                        'label' => __t('Force default'),
+                        'options' => array(
+                            'n' => __t('No'),
+                            'y' => __t('Yes')
+                        )
+                    )
+                );
+            ?>
+            <em><?php echo __t('Force the default image to always load.'); ?></em>
+
+            <?php
+                echo $this->Form->input('Variable.user_gravatar_rating',
+                    array(
+                        'type' => 'select',
+                        'label' => __t('Rating'),
+                        'options' => array(
+                            'g' => 'G',
+                            'pg' => 'PG',
+                            'r' => 'R',
+                            'x' => 'X'
+                        ),
+                        'empty' => __t('-- None --')
+                    )
+                );
+            ?>
+            <em><?php echo __t("If the user's email does not have an image meeting the requested rating level, then the default image is returned (or the specified default)"); ?></em>
+            <p>
+                <ul>
+                    <li><b>G:</b> <?php echo __t('suitable for display on all websites with any audience type.'); ?></li>
+                    <li><b>PG:</b> <?php echo __t('may contain rude gestures, provocatively dressed individuals, the lesser swear words, or mild violence.'); ?></li>
+                    <li><b>R:</b> <?php echo __t('may contain such things as harsh profanity, intense violence, nudity, or hard drug use.'); ?></li>
+                    <li><b>X:</b> <?php echo __t('may contain hardcore sexual imagery or extremely disturbing violence.'); ?></li>
+                </ul>
+            </p>
+        </div>
+
+        <div id="default_avatar-options" style="<?php echo !Configure::read('Variable.user_use_gravatar') ? '' : 'display:none;'; ?>">
+            <?php echo $this->Form->input('Variable.user_default_avatar', array('type' => 'text', 'label' => __t('Default avatar'))); ?>
+            <em><?php echo __t("URL of picture to display for users with no custom picture selected or anonymous users."); ?></em>
+        </div>
+    <?php echo $this->Html->useTag('fieldsetend'); ?>
     <?php
         $moduleSettingsLinks = array();
 

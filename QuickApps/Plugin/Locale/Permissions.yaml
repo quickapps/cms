@@ -24,16 +24,20 @@ Preset:
         description: "Allow user to administer translatable entries"
         acos:
             Translations.admin_index
-            Translations.admin_list
+            Translations.admin_list 
+            Translations.admin_fuzzy_list
+            Translations.admin_fuzzy_delete
             Translations.admin_edit
             Translations.admin_add
             Translations.admin_regenerate
             Translations.admin_delete
+            Translations.admin_import
+            Translations.admin_export
     packages:
         name: "Administer language packages"
         description: "Allow user to install and modify existing language packages (.po)"
         acos:
             Packages.admin_index
-            Packages.admin_download_package
+            Packages.admin_download_package 
             Packages.admin_uninstall
             Packages.admin_install

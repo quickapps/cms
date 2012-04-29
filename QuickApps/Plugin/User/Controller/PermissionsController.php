@@ -12,7 +12,6 @@
 class PermissionsController extends UserAppController {
     public $name = 'Permissions';
     public $uses = array('User.User');
-    public $helpers = array('User.Tree');
 
     public function admin_index() {
         $this->Layout['stylesheets']['all'][] = '/user/css/treeview.css';
@@ -216,7 +215,7 @@ class PermissionsController extends UserAppController {
  * Returns all ID of the acos that belongs to the specified preset.
  *
  * @param string $preset Dot-Syntax `module.preset_name`
- */
+ */ 
     private function __presetAcosId($preset) {
         list($module, $preset) = pluginSplit($preset);
         $ids = array();
@@ -258,7 +257,7 @@ class PermissionsController extends UserAppController {
  * A preset is considered allowed only if all its acos are allowed.
  *
  * @param string $preset Dot-Syntax `module.preset_name`
- */
+ */ 
     private function __presetStatus($preset, $role_id) {
         $acos = $this->__presetAcosId($preset);
         $allowed = false;

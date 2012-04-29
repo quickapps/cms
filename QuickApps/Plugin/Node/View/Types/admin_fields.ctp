@@ -18,7 +18,7 @@ $tSettings = array(
         ),
         __t('Actions') => array(
             'value' => "
-                <a href='{url}/admin/node/types/field_settings/{id}{/url}'>" . __t('configure') . "</a> |
+                {php} return ('{locked}' != '1') ? '<a href=\"{url}/admin/node/types/field_settings/{id}{/url}\">" . __t('configure') . "</a> |' : ''; {/php}
                 <a href='{url}/admin/field/handler/move/{id}/up{/url}'>" . __t('move up') . "</a> |
                 <a href='{url}/admin/field/handler/move/{id}/down{/url}'>" . __t('move down') . "</a> |
                 <a href='{url}/admin/field/handler/delete/{id}{/url}' onclick=\"return confirm('" . __t('Delete selected field and all related data, this can not be undone ?') . "');\">" . __t('delete') . "</a>",

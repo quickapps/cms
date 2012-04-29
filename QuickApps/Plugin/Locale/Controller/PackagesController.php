@@ -16,7 +16,7 @@ class PackagesController extends LocaleAppController {
     public function admin_index() {
         $modules = array();
         $modules['Default'] = __t('ALL');
-        $field_modules = $this->hook('field_info', $this, array('collectReturn' => false));
+        $field_modules = QuickApps::field_info();
 
         foreach (App::objects('plugin') as $plugin) {
             $ppath = CakePlugin::path($plugin);
@@ -32,7 +32,7 @@ class PackagesController extends LocaleAppController {
 
         $this->set('field_modules', $field_modules);
         $this->set('modules', $modules);
-        $this->set('languages', $this->__languageList());
+        $this->set('languages', $this->_languageList());
         $this->set('packages', $this->__packagesList());
         $this->setCrumb(
             '/admin/locale',
@@ -100,7 +100,7 @@ class PackagesController extends LocaleAppController {
             $this->redirect('/admin/locale/packages');
         }
 
-        if (in_array($this->data['language'], array_keys($this->__languageList()))) {
+        if (in_array($this->data['language'], array_keys($this->_languageList()))) {
             App::import('Vendor', 'Upload');
 
             $file_name = Inflector::underscore($this->data['module']);
@@ -155,16 +155,5 @@ class PackagesController extends LocaleAppController {
         }
 
         return $poFolders;
-    }
-
-    private function __languageList() {
-        $list = array();
-        $_languages = Configure::read('Variable.languages');
-
-        foreach ($_languages as $l) {
-            $list[$l['Language']['code']] = $l['Language']['native'];
-        }
-
-        return $list;
     }
 }

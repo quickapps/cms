@@ -24,6 +24,7 @@ class ManageController extends BlockAppController {
                 }
             }
 
+            $this->Block->clearCache();
             $this->redirect('/admin/block');
         }
 

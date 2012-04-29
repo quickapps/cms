@@ -111,10 +111,6 @@ define('PREG_CLASS_UNICODE_WORD_BOUNDARY',
  * Any Model type (Node, User, etc.) can use this behavior to make itself `fieldable` and thus allow
  * fields to be attached to it.
  *
- * The Field API allows custom data fields to be attached to Models and takes care of storing, loading, editing,
- * and rendering field data. Any Model type (Node, User, etc.) can use the Field API to make itself "fieldable"
- * and thus allow fields to be attached to it.
- *
  * The Field API defines two primary data structures, Field and Instance.
  * A Field defines a particular type of data that can be attached to Models.
  * A Field Instance is a Field attached to a single Model.
@@ -152,7 +148,7 @@ class FieldableBehavior extends ModelBehavior {
 /**
  * Initiate Fieldable behavior.
  *
- * @param object $Model instance of model
+ * @param object $Model Instance of model
  * @param array $settings array of configuration settings
  * @return void
  */
@@ -281,7 +277,7 @@ class FieldableBehavior extends ModelBehavior {
  * after the new Model record has been saved. That is, in afterSave() callback.
  * Remember: Field's storage process must always be executed after Model's save()
  *
- * @param object $Model instance of model
+ * @param object $Model Instance of model
  * @return boolean FALSE if any of the fields has returned FALSE. TRUE otherwise
  */
     public function beforeSave(Model $Model) {
@@ -313,7 +309,7 @@ class FieldableBehavior extends ModelBehavior {
 /**
  * Save field data after Model record has been saved.
  *
- * @param object $Model instance of model
+ * @param object $Model Instance of model
  * @param boolean $created which indicate if a new record has been inserted
  * @see $this::beforeSave()
  * @return void
@@ -338,7 +334,7 @@ class FieldableBehavior extends ModelBehavior {
 /**
  * Call each Model's field instances callback
  *
- * @param object $Model instance of model
+ * @param object $Model Instance of model
  * @return boolean FALSE if any of the fields has returned a non-true value. TRUE otherwise.
  */
     public function beforeDelete(Model $Model, $cascade = true) {
@@ -348,7 +344,7 @@ class FieldableBehavior extends ModelBehavior {
 /**
  * Call each Model's field instances callback
  *
- * @param object $Model instance of model
+ * @param object $Model Instance of model
  * @return void
  */
     public function afterDelete(Model $Model) {
@@ -364,7 +360,7 @@ class FieldableBehavior extends ModelBehavior {
  *  All fields response for the callback are collected, this is so because fields
  *  may invalidate its field input in form.
  *
- * @param object $Model instance of model
+ * @param object $Model Instance of model
  * @return boolean TRUE if all the fields are valid, FALSE otherwise
  */
     public function beforeValidate(Model $Model) {
@@ -392,10 +388,10 @@ class FieldableBehavior extends ModelBehavior {
     }
 
 /**
- * Attach a new field instance to Model.
+ * Attach a new field instance to entity.
  * (Would be like to add a new column to your table)
  *
- * @param object $Model instance of model
+ * @param object $Model Instance of model
  * @param array $data Field instance information:
  *  - label: Field input label. e.g..: 'Article Body' for a textarea
  *  - name: Filed unique name. underscored and alphanumeric characters only. e.g.: 'field_article_body'
@@ -419,10 +415,20 @@ class FieldableBehavior extends ModelBehavior {
 
         extract($data);
 
-        $field_info = $Model->hook('field_info', $field_module, array('collectReturn' => false));
+        $field_info = QuickApps::field_info($field_module);
 
         if (isset($field_info['max_instances']) &&
             $field_info['max_instances'] === 0
+        ) {
+            return false;
+        }
+
+        if (isset($field_info['entity_types']) &&
+            !empty($field_info['entity_types']) &&
+            !in_array(
+                Inflector::underscore($Model->alias),
+                array_map('Inflector::underscore', (array)$field_info['entity_types'])
+            )
         ) {
             return false;
         }
@@ -485,7 +491,7 @@ class FieldableBehavior extends ModelBehavior {
  * Return all fields instantces attached to Model.
  * Useful when rendering forms.
  *
- * @param object $Model instance of model
+ * @param object $Model Instance of model
  * @return array List array of all attached fields
  */
     public function fieldInstances(Model $Model) {
@@ -508,7 +514,7 @@ class FieldableBehavior extends ModelBehavior {
  * This method simply adds the given text to a stack to be processed
  * later by `FieldableBehavior::__processSearchIndex()`.
  *
- * @param object $Model instance of model
+ * @param object $Model Instance of model
  * @param string $field_content Field's text (content) to index
  * @return boolean TRUE on sucess, FALSE otherwise
  * @see FieldableBehavior::__processSearchIndex()
@@ -530,7 +536,7 @@ class FieldableBehavior extends ModelBehavior {
 /**
  * Do not fetch fields instances on Model->find()
  *
- * @param object $Model instance of model
+ * @param object $Model Instance of model
  * @return void
  */
     public function unbindFields(Model $Model) {
@@ -540,11 +546,54 @@ class FieldableBehavior extends ModelBehavior {
 /**
  * Fetch all field instances on Model->find()
  *
- * @param object $Model instance of model
+ * @param object $Model Instance of model
  * @return void
  */
     public function bindFields(Model $Model) {
         $Model->fieldsNoFetch = false;
+    }
+
+/**
+ * Lock the specified field, so users can't modify its settings.
+ *
+ * @param integer $instance_id Instance ID of the field to lock
+ * @return boolean TRUE on success, FALSE on failure
+ * @see Field::lockField()
+ */
+    public function lockField(Model $Model, $instance_id) {
+        return ClassRegistry::init('Field.Field')->lockField($instance_id);
+    }
+
+/**
+ * Lock the specified field, so users can't modify its settings.
+ *
+ * @param integer $instance_id Instance ID of the field to unlock
+ * @return boolean TRUE on success, FALSE on failure
+ * @see Field::unlockField()
+ */
+    public function unlockField(Model $Model, $instance_id) {
+        return ClassRegistry::init('Field.Field')->unlockField($instance_id);
+    }
+
+/**
+ * Allows to modify the `belongsTo` parameter on the fly.
+ *
+ * Useful for polymorphic entities such as `Node`, allows to
+ * quickly change the `belongsTo` value whithout detaching and attaching again
+ * the `Fielable` behavior.
+ *
+ * ### Example of usage:
+ * {{{
+ *  $node = $this->Node->findById(1);
+ *  $this->Node->fieldsBelongsTo('NodeType-' . $node['Node']['node_type_id']);
+ * }}}
+ *
+ * @param integer $instance_id Instance ID of the field to unlock
+ * @return boolean TRUE on success, FALSE on failure
+ * @see Field::unlockField()
+ */
+    public function fieldsBelongsTo(Model $Model, $belongs_to) {
+        $this->__settings[$Model->alias]['belongsTo'] = $belongs_to;
     }
 
 /**
@@ -628,7 +677,7 @@ class FieldableBehavior extends ModelBehavior {
  * Makes a beforeDelete() or afterDelete().
  * Invoke each field before/afterDelte event.
  *
- * @param object $Model instance of model
+ * @param object $Model Instance of model
  * @param string $type callback to execute, possible values: 'before' or 'after'
  * @return mixed
  *  `before_delete`: FALSE if any of the fields has returned a non-true value. TRUE otherwise
@@ -684,8 +733,8 @@ class FieldableBehavior extends ModelBehavior {
 
 /**
  * Parses `belongsTo` setting parameter looking for array paths.
- * This is used by polymorphic objects such as `Node`.
- * e.g.: Node objects may have diferent fields attached depending on its `NodeType`.
+ * This is used by polymorphic entities such as `Node`.
+ * e.g.: Node objects may have different fields attached depending on its `NodeType`.
  *
  * ### Usage
  * {{{

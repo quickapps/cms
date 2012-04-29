@@ -56,7 +56,7 @@ class HookCollection {
  * @param object $object Instance of `Helper`, `Controller` or `Model`
  * @param string $type Type of hook objects to handle `Behavior`, `Helper` or `Component`
  * @param return void
- */
+ */ 
     public function __construct(&$object, $type) {
         $this->__object = $object;
         $this->__type = Inflector::camelize($type);
@@ -189,15 +189,31 @@ class HookCollection {
 
 /**
  * Chech if hook exists and is enabled.
+ * Plugin-dot-syntax is allowed iif you need to check if an specific module
+ * has defined a certain hook method.
  *
  * Note that hooks disabled using `hookDisable()` won't be considered
  * and they will be detected as undefined/nonexistent by this method.
+ *
+ * ## Example:
+ *  hookDefined('ModuleName.hook_to_check')
+ *
+ * The above will check if `ModuleName` module has
+ * defined the `hook_to_check` hook method.
  *
  * @param string $hook Name of the hook to check
  * @return boolean
  */
     public function hookDefined($hook) {
-        return isset($this->__map[Inflector::underscore($hook)]);
+        list($plugin, $hook) = pluginSplit((string)$hook);
+        $plugin = Inflector::camelize($plugin);
+        $hook = Inflector::underscore($hook);
+
+        if ($plugin) {
+            return isset($this->__map[$hook]) && in_array($plugin, $this->__map[$hook]);
+        } else {
+            return isset($this->__map[$hook]);
+        }
     }
 
 /**
@@ -398,6 +414,7 @@ class HookCollection {
  */
     private function __dispatchHook($hook, &$data = array(), $options = array()) {
         list($plugin, $hook) = pluginSplit((string)$hook);
+
         $plugin = Inflector::camelize($plugin);
         $hook = Inflector::underscore($hook);
         $collected = array();

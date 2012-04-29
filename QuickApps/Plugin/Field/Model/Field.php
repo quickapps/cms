@@ -23,6 +23,15 @@ class Field extends FieldAppModel {
         'field_module' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Select a field type.')
     );
 
+/**
+ * Before instance is attached to entity, Nor before instance
+ * settings is updated. And before field POST validation.
+ *
+ * Invokes field's 'before_validate_instance'.
+ * Return a non-true value to halt attachment or saving operation
+ *
+ * @return boolean
+ */
     public function beforeValidate($options = array()) {
         // merge settings (array treatment): formatter form post
         if (isset($this->data['Field']['id']) && isset($this->data['Field']['settings'])) {
@@ -49,29 +58,52 @@ class Field extends FieldAppModel {
             $this->data['Field']['settings'] = isset($this->data['Field']['settings']) ? Set::merge($this->data['Field']['settings'], $default_settings) : $default_settings;
         }
 
-        $before = $this->hook("{$this->data['Field']['field_module']}_before_validate_instance", $this);
+        if ($this->hookDefined("{$this->data['Field']['field_module']}_before_validate_instance")) {
+            $before = $this->hook("{$this->data['Field']['field_module']}_before_validate_instance", $this);
 
-        if ($before === false) {
-            return $before;
+            if ($before !== true) {
+                return false;
+            }
         }
 
         return true;
     }
 
+/**
+ * Before instance is attached to entity, Nor before instance
+ * settings is updated.
+ *
+ * Invokes field's 'before_save_instance'.
+ * Return a non-true value to halt attachment or saving operation
+ *
+ * @return boolean
+ */
     public function beforeSave($options = array()) {
         if (isset($this->data['Field']['field_module'])) {
             if (isset($this->data['Field']['name'])) {
+                // attaching new instance to entity
                 $this->data['Field']['name'] = 'field_' . str_replace('field_', '', $this->data['Field']['name']);
+            } elseif (isset($this->data['Field']['id']) && !empty($this->data['Field']['id'])) {
+                // updating field settings
+                if ($this->isFieldLocked($this->data['Field']['id'])) {
+                    $this->invalidate('label', __t('This field is locked and cannot be modified'));
+
+                    return false;
+                }
             }
 
             $this->data['Field']['settings'] = @unserialize($this->data['Field']['settings']);
-            $before = $this->hook("{$this->data['Field']['field_module']}_before_save_instance", $this);
+
+            if ($this->hookDefined("{$this->data['Field']['field_module']}_before_save_instance")) {
+                $before = $this->hook("{$this->data['Field']['field_module']}_before_save_instance", $this);
+
+                if ($before !== true) {
+                    return false;
+                }
+            }
+
             $this->data['Field']['settings'] = !is_array($this->data['Field']['settings']) ? array() : $this->data['Field']['settings'];
             $this->data['Field']['settings'] = @serialize($this->data['Field']['settings']);
-
-            if ($before === false) {
-                return $before;
-            }
         }
 
         // field formatter
@@ -93,27 +125,61 @@ class Field extends FieldAppModel {
         return true;
     }
 
+/**
+ * After instance has been attached to entity, Nor after instance
+ * settings has been updated.
+ *
+ * Invokes field's 'after_save_instance'.
+ *
+ * @return void
+ */
     public function afterSave($created) {
         $field = $this->read();
 
         $this->hook("{$field['Field']['field_module']}_after_save_instance", $this);
     }
 
+/**
+ * Before instance is detached from entity.
+ *
+ * Invokes field's 'before_delete_instance'.
+ * Return a non-true value to halt field detachment operation.
+ *
+ * @return boolean
+ */
     public function beforeDelete($cascade = true) {
         $this->data = $this->read(); // tmp holder (before/afterDelete)
-        $before = $this->hook("{$this->field['Field']['field_module']}_before_delete_instance", $this, array('collectReturn' => false));
 
-        if ($before === false) {
-            return $before;
+        if ($this->hookDefined("{$this->field['Field']['field_module']}_before_delete_instance")) {
+            $before = $this->hook("{$this->field['Field']['field_module']}_before_delete_instance", $this, array('collectReturn' => false));
+
+            if ($before !== true) {
+                return false;
+            }
         }
 
         return true;
     }
 
+/**
+ * After instance has been detached from entity.
+ *
+ * Invokes field's 'after_delete_instance'.
+ *
+ * @return void
+ */
     public function afterDelete() {
         $this->hook("{$this->data['Field']['field_module']}_after_delete_instance", $this, array('collectReturn' => false));
     }
 
+/**
+ * Very that the given field name is unique in the group of
+ * fields already attached to entity.
+ * May exists same named fields but attached to different entities.
+ *
+ * @param array $check Value to check
+ * @return boolean
+ */
     public function checkUnique($check) {
         $value = array_shift($check);
 
@@ -238,5 +304,52 @@ class Field extends FieldAppModel {
             $this->save($field, false);
             $this->hook("{$field['Field']['field_module']}_after_set_view_modes", $field);
         }
+    }
+
+/**
+ * Whether or not the field is available for editing.
+ * If TRUE, users can't change field settings.
+ *
+ * @param integer $id Field instance ID
+ * @return boolean TRUE if field is locked. FALSE otherwise
+ */
+    public function isFieldLocked($instance_id) {
+        $c = $this->find('count',
+            array(
+                'conditions' => array(
+                    'Field.id' => $instance_id,
+                    'Field.locked' => 1
+                ),
+                'recursive' => -1
+            )
+        );
+
+        return $c > 0;
+    }
+
+/**
+ * Lock the specified field, so users can't modify its settings.
+ *
+ * @param integer $instance_id Instance ID of the field to lock
+ * @return boolean TRUE on success, FALSE on failure
+ */
+    public function lockField($instance_id) {
+        return $this->updateAll(
+            array('Field.locked' => 1),
+            array('Field.id' => $instance_id)
+        );
+    }
+
+/**
+ * Lock the specified field, so users can't modify its settings.
+ *
+ * @param integer $instance_id Instance ID of the field to unlock
+ * @return boolean TRUE on success, FALSE on failure
+ */
+    public function unlockField($instance_id) {
+        return $this->updateAll(
+            array('Field.locked' => 0),
+            array('Field.id' => $instance_id)
+        );
     }
 }

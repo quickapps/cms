@@ -151,15 +151,15 @@ class ManageController extends MenuAppController {
             $data = $this->data;
             $data['MenuLink']['id'] = $id;
 
-            if ($this->Menu->MenuLink->save($data)) {
+            if ($this->MenuLink->save($data)) {
                 $this->flashMsg(__t('Menu link has been saved'), 'success');
-                $this->redirect('/admin/menu/manage/edit_link/' . $this->Menu->MenuLink->id);
+                $this->redirect('/admin/menu/manage/edit_link/' . $this->MenuLink->id);
             } else {
                 $this->flashMsg(__t('Menu link could not be saved. Please, try again.'), 'error');
             }
         }
 
-        $data = $this->Menu->MenuLink->find('first',
+        $data = $this->MenuLink->find('first',
             array(
                 'conditions' => array('MenuLink.id' => $id),
                 'recursive' => -1
@@ -194,7 +194,7 @@ class ManageController extends MenuAppController {
         $menu = $this->Menu->findById($menu_id) or $this->redirect('/admin/menu/manage');
 
         if (isset($this->data['MenuLink'])) {
-            $this->Menu->MenuLink->Behaviors->detach('Tree');
+            $this->MenuLink->Behaviors->detach('Tree');
             $items = json_decode($this->data['MenuLink']);
 
             unset($items[0]);
@@ -210,13 +210,13 @@ class ManageController extends MenuAppController {
                     'rght' => $item->right
                 );
 
-                $this->Menu->MenuLink->save($data, false);
+                $this->MenuLink->save($data, false);
             }
 
             die('ok');
         }
 
-        $links = $this->Menu->MenuLink->find('all',
+        $links = $this->MenuLink->find('all',
             array(
                 'conditions' => array('MenuLink.menu_id' => $menu_id),
                 'order' => 'lft ASC'

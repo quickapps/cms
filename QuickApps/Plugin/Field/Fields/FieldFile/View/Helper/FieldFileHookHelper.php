@@ -39,7 +39,9 @@ class FieldFileHookHelper extends AppHelper {
                 'files' => array()
             ),
             'settings' => array(),
-            'format' => array()
+            'format' => array(
+                'type' => ''
+            )
         );
         $data = Set::merge($__default, $data);
         $content = '';
@@ -53,7 +55,7 @@ class FieldFileHookHelper extends AppHelper {
 
             switch($data['format']['type']) {
                 case 'link':
-                    default:
+                    case '':
                         $content .= '<p>';
                             $content .= $this->_View->Html->link($title, $base_url . $file['file_name'], array('escape' => false, 'target' => '_blank'));
                             $content .= $description;
@@ -69,6 +71,10 @@ class FieldFileHookHelper extends AppHelper {
 
                 case 'url':
                     $content .= "<p>{$base_url}{$file['file_name']}</p>";
+                break;
+
+                default:
+                    $content .= $this->hook("field_file_formatter_{$data['format']['type']}", $__hookData = compact('file', 'base_url', 'data'));
                 break;
             }
         }

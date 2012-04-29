@@ -81,8 +81,8 @@ class TableHelper extends AppHelper {
                     'modulus' => 10,
                     'separator' => ' &nbsp; ',
                     'tag' => 'span',
-                    'first' => 'first',
-                    'last' => 'last',
+                    'first' => 'First ',
+                    'last' => ' Last',
                     'ellipsis' => '...'
                 )
             ),
@@ -203,7 +203,8 @@ class TableHelper extends AppHelper {
                 $out .= "\n\t</tfoot>\n";
             }
         } else {
-            $td   = $this->Html->useTag('tablecell', $this->Html->_parseAttributes(array('colspan' => $this->__colsCount)), __t($options['noItemsMessage']));
+            $options['noItemsMessage'] = $options['noItemsMessage'] != 'There are no items to display' ? $options['noItemsMessage'] : __t($options['noItemsMessage']);
+            $td = $this->Html->useTag('tablecell', $this->Html->_parseAttributes(array('colspan' => $this->__colsCount)), $options['noItemsMessage']);
             $out .= $this->Html->useTag('tablerow', $this->Html->_parseAttributes(array('class' => 'even')), $td);
         }
 
@@ -246,7 +247,7 @@ class TableHelper extends AppHelper {
                     continue;
                 }
 
-                $value = str_replace($m, Set::extract(trim($path[1][$i]), $row_data), $value);
+                $value = str_replace($m, addslashes(Set::extract(trim($path[1][$i]), $row_data)), $value);
             }
         }
 
@@ -397,6 +398,8 @@ class TableHelper extends AppHelper {
     protected function _renderPaginator($array) {
         $out = $paginator = '';
         $array = $array['paginate'];
+        $array['numbers']['options']['first'] = $array['numbers']['options']['first'] != 'First ' ? __t($array['numbers']['options']['first']) : $array['numbers']['options']['first'];
+        $array['numbers']['options']['last'] = $array['numbers']['options']['last'] != ' Last' ? __t($array['numbers']['options']['last']) : $array['numbers']['options']['last'];
         $paginator .= $this->Paginator->options($array['options']);
         $paginator .= $this->Paginator->prev($array['prev']['title'], $array['prev']['options'], $array['prev']['disabledTitle'], $array['prev']['disabledOptions']);
         $paginator .= $this->Paginator->numbers($array['numbers']['options']);

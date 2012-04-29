@@ -55,6 +55,9 @@ class Translation extends LocaleAppModel {
 
         $cacheID = md5($original);
 
+        // delete fuzzy entry if exists
+        Cache::delete("fuzzy_{$cacheID}", 'i18n');
+
         foreach ($this->data['I18n'] as $t) {
             Cache::delete("{$cacheID}_{$t['locale']}", 'i18n');
             Cache::write("{$cacheID}_{$t['locale']}", $t['content'], 'i18n');

@@ -203,7 +203,7 @@ class TypesController extends NodeAppController {
             $this->flashMsg(__t('Field could not be created. Please, try again.'), 'error');
         }
 
-        $field_modules = $this->hook('field_info', $this, array('collectReturn' => false));
+        $field_modules = QuickApps::field_info();
 
         foreach ($field_modules as $key => $field) {
             if (isset($field['max_instances']) &&

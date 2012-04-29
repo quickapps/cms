@@ -17,16 +17,6 @@ class Menu extends MenuAppModel {
         'title' => array('required' => true, 'allowEmpty' => false, 'rule' => 'notEmpty', 'message' => 'Menu title can not be empty.'),
     );
 
-    public $hasMany = array(
-        'MenuLink' => array(
-            'className' => 'Menu.MenuLink',
-            'foreignKey' => 'menu_id',
-            'order' => 'MenuLink.lft ASC',
-            'conditions' => array('MenuLink.status' => 1),
-            'dependent' => false // must BE DELETED MANUALY
-        )
-    );
-
     public $belongsTo = array(
         'Block' => array(
             'className' => 'Block.Block',
@@ -35,6 +25,22 @@ class Menu extends MenuAppModel {
             'conditions' => array('Block.module' => 'Menu')
         )
     );
+
+    public function afterFind($results, $primary = false) {
+        if (isset($results['id']) && $this->recursive) {
+            $results['MenuLink'] = ClassRegistry::init('Menu.MenuLink')->find('threaded',
+                array(
+                    'conditions' => array(
+                        'MenuLink.menu_id' => $results['id']
+                    ),
+                    'order' => array('lft' => 'ASC'),
+                    'recursive' => -1
+                )
+            );
+        }
+
+        return $results;
+    }
 
     public function beforeDelete($cascade = true) {
         // delete block
@@ -46,6 +52,7 @@ class Menu extends MenuAppModel {
         );
 
         // links delete
+        $this->MenuLink = ClassRegistry::init('Menu.MenuLink');
         $this->MenuLink->Behaviors->detach('Tree');
         $this->MenuLink->Behaviors->attach('Tree',
             array(

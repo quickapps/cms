@@ -62,7 +62,7 @@ class JqueryUI {
  *
  * You can load a preset, which include all the required js files for that preset.
  *
- * @param mixed $files Array list of UI files to include.
+ * @param mixed $files Array list of UI files to include. Or string as preset name to load.
  * @param array $stack Reference to AppController::$Layout['javascripts']['file']
  * @return mixed
  *  TRUE if `all` was included.
@@ -81,14 +81,15 @@ class JqueryUI {
         }
 
         // load preset
-        if (count($files) === 1 &&
-            strpos($files[0], '.') === false &&
-            isset(self::$__presets[strtolower($files[0])])
+        if (
+            (is_array($files) && count($files) === 1 && strpos($files[0], '.') === false && isset(self::$__presets[strtolower($files[0])])) ||
+            (is_string($files) && strpos($files, '.') === false && isset(self::$__presets[strtolower($files)]))
         ) {
-            $l = strtolower($files[0]);
-            self::$_loadedUI[] = $l;
-            $files = self::$__presets[$l];
-            $files[] = 'ui.' . $l;
+            $preset = is_array($files) ? strtolower($files[0]) : strtolower($files);
+            self::$_loadedUI[] = $preset;
+            $files = array();
+            $files = self::$__presets[$preset];
+            $files[] = 'ui.' . $preset;
         }
 
         $m = implode('|', $files);

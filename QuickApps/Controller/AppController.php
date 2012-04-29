@@ -152,8 +152,10 @@ class AppController extends Controller {
  *
  * @see QuickAppsComponent::is()
  */
-    public function is($detect, $p = null) {
-        return $this->QuickApps->is($detect, $p);
+    public function is($detect) {
+        $params = func_get_args();
+
+        return call_user_func_array('QuickApps::is', $params);
     }
 
 /**

@@ -60,6 +60,7 @@ class ThemesController extends SystemAppController {
             $this->QuickApps->loadVariables(); // IMPORTANT! regenerate cache
         }
 
+        $this->Block->clearCache();
         $this->redirect('/admin/system/themes');
     }
 

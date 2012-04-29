@@ -10,7 +10,7 @@
 
 <div id="search-advanced">
 
-    <?php echo $this->Form->create('Search', array('url' => '/s/')); ?>
+    <?php echo $this->Form->create('Search', array('url' => '/search/')); ?>
 
             <?php echo $this->Html->useTag('fieldsetstart', "<span id=\"toggle-search_advanced\">" . __t('Search') . "</span>"); ?>
 

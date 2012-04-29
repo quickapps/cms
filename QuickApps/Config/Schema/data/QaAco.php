@@ -252,7 +252,7 @@ class QaAco {
 			'foreign_key' => '',
 			'alias' => 'Locale',
 			'lft' => '55',
-			'rght' => '98'
+			'rght' => '106'
 		),
 		array(
 			'id' => '29',
@@ -387,7 +387,7 @@ class QaAco {
 			'foreign_key' => '',
 			'alias' => 'Translations',
 			'lft' => '84',
-			'rght' => '97'
+			'rght' => '105'
 		),
 		array(
 			'id' => '44',
@@ -449,8 +449,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'Menu',
-			'lft' => '99',
-			'rght' => '122'
+			'lft' => '107',
+			'rght' => '130'
 		),
 		array(
 			'id' => '51',
@@ -458,8 +458,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'Manage',
-			'lft' => '100',
-			'rght' => '117'
+			'lft' => '108',
+			'rght' => '125'
 		),
 		array(
 			'id' => '52',
@@ -467,8 +467,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_index',
-			'lft' => '101',
-			'rght' => '102'
+			'lft' => '109',
+			'rght' => '110'
 		),
 		array(
 			'id' => '53',
@@ -476,8 +476,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_delete',
-			'lft' => '103',
-			'rght' => '104'
+			'lft' => '111',
+			'rght' => '112'
 		),
 		array(
 			'id' => '54',
@@ -485,8 +485,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_add',
-			'lft' => '105',
-			'rght' => '106'
+			'lft' => '113',
+			'rght' => '114'
 		),
 		array(
 			'id' => '55',
@@ -494,8 +494,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_edit',
-			'lft' => '107',
-			'rght' => '108'
+			'lft' => '115',
+			'rght' => '116'
 		),
 		array(
 			'id' => '56',
@@ -503,8 +503,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_delete_link',
-			'lft' => '109',
-			'rght' => '110'
+			'lft' => '117',
+			'rght' => '118'
 		),
 		array(
 			'id' => '57',
@@ -512,8 +512,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_add_link',
-			'lft' => '111',
-			'rght' => '112'
+			'lft' => '119',
+			'rght' => '120'
 		),
 		array(
 			'id' => '58',
@@ -521,8 +521,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_edit_link',
-			'lft' => '113',
-			'rght' => '114'
+			'lft' => '121',
+			'rght' => '122'
 		),
 		array(
 			'id' => '59',
@@ -530,8 +530,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_links',
-			'lft' => '115',
-			'rght' => '116'
+			'lft' => '123',
+			'rght' => '124'
 		),
 		array(
 			'id' => '60',
@@ -539,8 +539,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'Menu',
-			'lft' => '118',
-			'rght' => '121'
+			'lft' => '126',
+			'rght' => '129'
 		),
 		array(
 			'id' => '61',
@@ -548,8 +548,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_index',
-			'lft' => '119',
-			'rght' => '120'
+			'lft' => '127',
+			'rght' => '128'
 		),
 		array(
 			'id' => '62',
@@ -557,8 +557,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'Node',
-			'lft' => '123',
-			'rght' => '166'
+			'lft' => '131',
+			'rght' => '174'
 		),
 		array(
 			'id' => '63',
@@ -566,8 +566,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'Contents',
-			'lft' => '124',
-			'rght' => '137'
+			'lft' => '132',
+			'rght' => '145'
 		),
 		array(
 			'id' => '64',
@@ -575,8 +575,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_index',
-			'lft' => '125',
-			'rght' => '126'
+			'lft' => '133',
+			'rght' => '134'
 		),
 		array(
 			'id' => '65',
@@ -584,8 +584,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_edit',
-			'lft' => '127',
-			'rght' => '128'
+			'lft' => '135',
+			'rght' => '136'
 		),
 		array(
 			'id' => '66',
@@ -593,8 +593,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_create',
-			'lft' => '129',
-			'rght' => '130'
+			'lft' => '137',
+			'rght' => '138'
 		),
 		array(
 			'id' => '67',
@@ -602,8 +602,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_add',
-			'lft' => '131',
-			'rght' => '132'
+			'lft' => '139',
+			'rght' => '140'
 		),
 		array(
 			'id' => '68',
@@ -611,8 +611,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_delete',
-			'lft' => '133',
-			'rght' => '134'
+			'lft' => '141',
+			'rght' => '142'
 		),
 		array(
 			'id' => '69',
@@ -620,8 +620,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_clear_cache',
-			'lft' => '135',
-			'rght' => '136'
+			'lft' => '143',
+			'rght' => '144'
 		),
 		array(
 			'id' => '70',
@@ -629,8 +629,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'Node',
-			'lft' => '138',
-			'rght' => '147'
+			'lft' => '146',
+			'rght' => '155'
 		),
 		array(
 			'id' => '71',
@@ -638,8 +638,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_index',
-			'lft' => '139',
-			'rght' => '140'
+			'lft' => '147',
+			'rght' => '148'
 		),
 		array(
 			'id' => '72',
@@ -647,8 +647,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'index',
-			'lft' => '141',
-			'rght' => '142'
+			'lft' => '149',
+			'rght' => '150'
 		),
 		array(
 			'id' => '73',
@@ -656,8 +656,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'details',
-			'lft' => '143',
-			'rght' => '144'
+			'lft' => '151',
+			'rght' => '152'
 		),
 		array(
 			'id' => '74',
@@ -665,8 +665,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'search',
-			'lft' => '145',
-			'rght' => '146'
+			'lft' => '153',
+			'rght' => '154'
 		),
 		array(
 			'id' => '75',
@@ -674,8 +674,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'Types',
-			'lft' => '148',
-			'rght' => '165'
+			'lft' => '156',
+			'rght' => '173'
 		),
 		array(
 			'id' => '76',
@@ -683,8 +683,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_index',
-			'lft' => '149',
-			'rght' => '150'
+			'lft' => '157',
+			'rght' => '158'
 		),
 		array(
 			'id' => '77',
@@ -692,8 +692,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_edit',
-			'lft' => '151',
-			'rght' => '152'
+			'lft' => '159',
+			'rght' => '160'
 		),
 		array(
 			'id' => '78',
@@ -701,8 +701,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_add',
-			'lft' => '153',
-			'rght' => '154'
+			'lft' => '161',
+			'rght' => '162'
 		),
 		array(
 			'id' => '79',
@@ -710,8 +710,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_delete',
-			'lft' => '155',
-			'rght' => '156'
+			'lft' => '163',
+			'rght' => '164'
 		),
 		array(
 			'id' => '80',
@@ -719,8 +719,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_display',
-			'lft' => '157',
-			'rght' => '158'
+			'lft' => '165',
+			'rght' => '166'
 		),
 		array(
 			'id' => '81',
@@ -728,8 +728,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_field_settings',
-			'lft' => '159',
-			'rght' => '160'
+			'lft' => '167',
+			'rght' => '168'
 		),
 		array(
 			'id' => '82',
@@ -737,8 +737,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_field_formatter',
-			'lft' => '161',
-			'rght' => '162'
+			'lft' => '169',
+			'rght' => '170'
 		),
 		array(
 			'id' => '83',
@@ -746,8 +746,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_fields',
-			'lft' => '163',
-			'rght' => '164'
+			'lft' => '171',
+			'rght' => '172'
 		),
 		array(
 			'id' => '84',
@@ -755,8 +755,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'System',
-			'lft' => '167',
-			'rght' => '216'
+			'lft' => '175',
+			'rght' => '224'
 		),
 		array(
 			'id' => '85',
@@ -764,8 +764,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'Configuration',
-			'lft' => '168',
-			'rght' => '171'
+			'lft' => '176',
+			'rght' => '179'
 		),
 		array(
 			'id' => '86',
@@ -773,8 +773,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_index',
-			'lft' => '169',
-			'rght' => '170'
+			'lft' => '177',
+			'rght' => '178'
 		),
 		array(
 			'id' => '87',
@@ -782,8 +782,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'Dashboard',
-			'lft' => '172',
-			'rght' => '175'
+			'lft' => '180',
+			'rght' => '183'
 		),
 		array(
 			'id' => '88',
@@ -791,8 +791,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_index',
-			'lft' => '173',
-			'rght' => '174'
+			'lft' => '181',
+			'rght' => '182'
 		),
 		array(
 			'id' => '89',
@@ -800,8 +800,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'Help',
-			'lft' => '176',
-			'rght' => '181'
+			'lft' => '184',
+			'rght' => '189'
 		),
 		array(
 			'id' => '90',
@@ -809,8 +809,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_index',
-			'lft' => '177',
-			'rght' => '178'
+			'lft' => '185',
+			'rght' => '186'
 		),
 		array(
 			'id' => '91',
@@ -818,8 +818,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_module',
-			'lft' => '179',
-			'rght' => '180'
+			'lft' => '187',
+			'rght' => '188'
 		),
 		array(
 			'id' => '92',
@@ -827,8 +827,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'Modules',
-			'lft' => '182',
-			'rght' => '193'
+			'lft' => '190',
+			'rght' => '201'
 		),
 		array(
 			'id' => '93',
@@ -836,8 +836,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_index',
-			'lft' => '183',
-			'rght' => '184'
+			'lft' => '191',
+			'rght' => '192'
 		),
 		array(
 			'id' => '94',
@@ -845,8 +845,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_settings',
-			'lft' => '185',
-			'rght' => '186'
+			'lft' => '193',
+			'rght' => '194'
 		),
 		array(
 			'id' => '95',
@@ -854,8 +854,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_toggle',
-			'lft' => '187',
-			'rght' => '188'
+			'lft' => '195',
+			'rght' => '196'
 		),
 		array(
 			'id' => '96',
@@ -863,8 +863,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_uninstall',
-			'lft' => '189',
-			'rght' => '190'
+			'lft' => '197',
+			'rght' => '198'
 		),
 		array(
 			'id' => '97',
@@ -872,8 +872,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_install',
-			'lft' => '191',
-			'rght' => '192'
+			'lft' => '199',
+			'rght' => '200'
 		),
 		array(
 			'id' => '98',
@@ -881,8 +881,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'Structure',
-			'lft' => '194',
-			'rght' => '197'
+			'lft' => '202',
+			'rght' => '205'
 		),
 		array(
 			'id' => '99',
@@ -890,8 +890,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_index',
-			'lft' => '195',
-			'rght' => '196'
+			'lft' => '203',
+			'rght' => '204'
 		),
 		array(
 			'id' => '100',
@@ -899,8 +899,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'System',
-			'lft' => '198',
-			'rght' => '201'
+			'lft' => '206',
+			'rght' => '209'
 		),
 		array(
 			'id' => '101',
@@ -908,8 +908,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_index',
-			'lft' => '199',
-			'rght' => '200'
+			'lft' => '207',
+			'rght' => '208'
 		),
 		array(
 			'id' => '102',
@@ -917,8 +917,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'Themes',
-			'lft' => '202',
-			'rght' => '215'
+			'lft' => '210',
+			'rght' => '223'
 		),
 		array(
 			'id' => '103',
@@ -926,8 +926,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_index',
-			'lft' => '203',
-			'rght' => '204'
+			'lft' => '211',
+			'rght' => '212'
 		),
 		array(
 			'id' => '104',
@@ -935,8 +935,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_set_theme',
-			'lft' => '205',
-			'rght' => '206'
+			'lft' => '213',
+			'rght' => '214'
 		),
 		array(
 			'id' => '105',
@@ -944,8 +944,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_settings',
-			'lft' => '207',
-			'rght' => '208'
+			'lft' => '215',
+			'rght' => '216'
 		),
 		array(
 			'id' => '106',
@@ -953,8 +953,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_uninstall',
-			'lft' => '209',
-			'rght' => '210'
+			'lft' => '217',
+			'rght' => '218'
 		),
 		array(
 			'id' => '107',
@@ -962,8 +962,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_install',
-			'lft' => '211',
-			'rght' => '212'
+			'lft' => '219',
+			'rght' => '220'
 		),
 		array(
 			'id' => '108',
@@ -971,8 +971,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_theme_tn',
-			'lft' => '213',
-			'rght' => '214'
+			'lft' => '221',
+			'rght' => '222'
 		),
 		array(
 			'id' => '109',
@@ -980,8 +980,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'Taxonomy',
-			'lft' => '217',
-			'rght' => '240'
+			'lft' => '225',
+			'rght' => '248'
 		),
 		array(
 			'id' => '110',
@@ -989,8 +989,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'Taxonomy',
-			'lft' => '218',
-			'rght' => '221'
+			'lft' => '226',
+			'rght' => '229'
 		),
 		array(
 			'id' => '111',
@@ -998,8 +998,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_index',
-			'lft' => '219',
-			'rght' => '220'
+			'lft' => '227',
+			'rght' => '228'
 		),
 		array(
 			'id' => '112',
@@ -1007,8 +1007,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'Vocabularies',
-			'lft' => '222',
-			'rght' => '239'
+			'lft' => '230',
+			'rght' => '247'
 		),
 		array(
 			'id' => '113',
@@ -1016,8 +1016,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_index',
-			'lft' => '223',
-			'rght' => '224'
+			'lft' => '231',
+			'rght' => '232'
 		),
 		array(
 			'id' => '114',
@@ -1025,8 +1025,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_add',
-			'lft' => '225',
-			'rght' => '226'
+			'lft' => '233',
+			'rght' => '234'
 		),
 		array(
 			'id' => '115',
@@ -1034,8 +1034,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_move',
-			'lft' => '227',
-			'rght' => '228'
+			'lft' => '235',
+			'rght' => '236'
 		),
 		array(
 			'id' => '116',
@@ -1043,8 +1043,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_edit',
-			'lft' => '229',
-			'rght' => '230'
+			'lft' => '237',
+			'rght' => '238'
 		),
 		array(
 			'id' => '117',
@@ -1052,8 +1052,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_delete',
-			'lft' => '231',
-			'rght' => '232'
+			'lft' => '239',
+			'rght' => '240'
 		),
 		array(
 			'id' => '118',
@@ -1061,8 +1061,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_terms',
-			'lft' => '233',
-			'rght' => '234'
+			'lft' => '241',
+			'rght' => '242'
 		),
 		array(
 			'id' => '119',
@@ -1070,8 +1070,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_delete_term',
-			'lft' => '235',
-			'rght' => '236'
+			'lft' => '243',
+			'rght' => '244'
 		),
 		array(
 			'id' => '120',
@@ -1079,8 +1079,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_edit_term',
-			'lft' => '237',
-			'rght' => '238'
+			'lft' => '245',
+			'rght' => '246'
 		),
 		array(
 			'id' => '121',
@@ -1088,8 +1088,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'User',
-			'lft' => '241',
-			'rght' => '306'
+			'lft' => '249',
+			'rght' => '314'
 		),
 		array(
 			'id' => '122',
@@ -1097,8 +1097,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'Display',
-			'lft' => '242',
-			'rght' => '247'
+			'lft' => '250',
+			'rght' => '255'
 		),
 		array(
 			'id' => '123',
@@ -1106,8 +1106,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_index',
-			'lft' => '243',
-			'rght' => '244'
+			'lft' => '251',
+			'rght' => '252'
 		),
 		array(
 			'id' => '124',
@@ -1115,8 +1115,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_field_formatter',
-			'lft' => '245',
-			'rght' => '246'
+			'lft' => '253',
+			'rght' => '254'
 		),
 		array(
 			'id' => '125',
@@ -1124,8 +1124,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'Fields',
-			'lft' => '248',
-			'rght' => '253'
+			'lft' => '256',
+			'rght' => '261'
 		),
 		array(
 			'id' => '126',
@@ -1133,8 +1133,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_index',
-			'lft' => '249',
-			'rght' => '250'
+			'lft' => '257',
+			'rght' => '258'
 		),
 		array(
 			'id' => '127',
@@ -1142,8 +1142,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_field_settings',
-			'lft' => '251',
-			'rght' => '252'
+			'lft' => '259',
+			'rght' => '260'
 		),
 		array(
 			'id' => '128',
@@ -1151,8 +1151,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'List',
-			'lft' => '254',
-			'rght' => '267'
+			'lft' => '262',
+			'rght' => '275'
 		),
 		array(
 			'id' => '129',
@@ -1160,8 +1160,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_index',
-			'lft' => '255',
-			'rght' => '256'
+			'lft' => '263',
+			'rght' => '264'
 		),
 		array(
 			'id' => '130',
@@ -1169,8 +1169,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_delete',
-			'lft' => '257',
-			'rght' => '258'
+			'lft' => '265',
+			'rght' => '266'
 		),
 		array(
 			'id' => '131',
@@ -1178,8 +1178,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_block',
-			'lft' => '259',
-			'rght' => '260'
+			'lft' => '267',
+			'rght' => '268'
 		),
 		array(
 			'id' => '132',
@@ -1187,8 +1187,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_activate',
-			'lft' => '261',
-			'rght' => '262'
+			'lft' => '269',
+			'rght' => '270'
 		),
 		array(
 			'id' => '133',
@@ -1196,8 +1196,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_add',
-			'lft' => '263',
-			'rght' => '264'
+			'lft' => '271',
+			'rght' => '272'
 		),
 		array(
 			'id' => '134',
@@ -1205,8 +1205,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_edit',
-			'lft' => '265',
-			'rght' => '266'
+			'lft' => '273',
+			'rght' => '274'
 		),
 		array(
 			'id' => '135',
@@ -1214,8 +1214,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'Permissions',
-			'lft' => '268',
-			'rght' => '275'
+			'lft' => '276',
+			'rght' => '283'
 		),
 		array(
 			'id' => '136',
@@ -1223,8 +1223,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_index',
-			'lft' => '269',
-			'rght' => '270'
+			'lft' => '277',
+			'rght' => '278'
 		),
 		array(
 			'id' => '137',
@@ -1232,8 +1232,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_edit',
-			'lft' => '271',
-			'rght' => '272'
+			'lft' => '279',
+			'rght' => '280'
 		),
 		array(
 			'id' => '138',
@@ -1241,8 +1241,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_toggle',
-			'lft' => '273',
-			'rght' => '274'
+			'lft' => '281',
+			'rght' => '282'
 		),
 		array(
 			'id' => '139',
@@ -1250,8 +1250,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'Roles',
-			'lft' => '276',
-			'rght' => '283'
+			'lft' => '284',
+			'rght' => '291'
 		),
 		array(
 			'id' => '140',
@@ -1259,8 +1259,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_index',
-			'lft' => '277',
-			'rght' => '278'
+			'lft' => '285',
+			'rght' => '286'
 		),
 		array(
 			'id' => '141',
@@ -1268,8 +1268,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_edit',
-			'lft' => '279',
-			'rght' => '280'
+			'lft' => '287',
+			'rght' => '288'
 		),
 		array(
 			'id' => '142',
@@ -1277,8 +1277,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_delete',
-			'lft' => '281',
-			'rght' => '282'
+			'lft' => '289',
+			'rght' => '290'
 		),
 		array(
 			'id' => '143',
@@ -1286,8 +1286,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'User',
-			'lft' => '284',
-			'rght' => '305'
+			'lft' => '292',
+			'rght' => '313'
 		),
 		array(
 			'id' => '144',
@@ -1295,8 +1295,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_index',
-			'lft' => '285',
-			'rght' => '286'
+			'lft' => '293',
+			'rght' => '294'
 		),
 		array(
 			'id' => '145',
@@ -1304,8 +1304,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'login',
-			'lft' => '287',
-			'rght' => '288'
+			'lft' => '295',
+			'rght' => '296'
 		),
 		array(
 			'id' => '146',
@@ -1313,8 +1313,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'logout',
-			'lft' => '289',
-			'rght' => '290'
+			'lft' => '297',
+			'rght' => '298'
 		),
 		array(
 			'id' => '147',
@@ -1322,8 +1322,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_login',
-			'lft' => '291',
-			'rght' => '292'
+			'lft' => '299',
+			'rght' => '300'
 		),
 		array(
 			'id' => '148',
@@ -1331,8 +1331,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_logout',
-			'lft' => '293',
-			'rght' => '294'
+			'lft' => '301',
+			'rght' => '302'
 		),
 		array(
 			'id' => '149',
@@ -1340,8 +1340,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'register',
-			'lft' => '295',
-			'rght' => '296'
+			'lft' => '303',
+			'rght' => '304'
 		),
 		array(
 			'id' => '150',
@@ -1349,8 +1349,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'activate',
-			'lft' => '297',
-			'rght' => '298'
+			'lft' => '305',
+			'rght' => '306'
 		),
 		array(
 			'id' => '151',
@@ -1358,8 +1358,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'password_recovery',
-			'lft' => '299',
-			'rght' => '300'
+			'lft' => '307',
+			'rght' => '308'
 		),
 		array(
 			'id' => '152',
@@ -1367,8 +1367,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'profile',
-			'lft' => '301',
-			'rght' => '302'
+			'lft' => '309',
+			'rght' => '310'
 		),
 		array(
 			'id' => '153',
@@ -1376,8 +1376,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'my_account',
-			'lft' => '303',
-			'rght' => '304'
+			'lft' => '311',
+			'rght' => '312'
 		),
 		array(
 			'id' => '154',
@@ -1385,8 +1385,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'TaxonomyTerms',
-			'lft' => '307',
-			'rght' => '312'
+			'lft' => '315',
+			'rght' => '320'
 		),
 		array(
 			'id' => '155',
@@ -1394,8 +1394,8 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'Tokeninput',
-			'lft' => '308',
-			'rght' => '311'
+			'lft' => '316',
+			'rght' => '319'
 		),
 		array(
 			'id' => '156',
@@ -1403,8 +1403,44 @@ class QaAco {
 			'model' => '',
 			'foreign_key' => '',
 			'alias' => 'admin_suggest',
-			'lft' => '309',
-			'rght' => '310'
+			'lft' => '317',
+			'rght' => '318'
+		),
+		array(
+			'id' => '157',
+			'parent_id' => '43',
+			'model' => '',
+			'foreign_key' => '',
+			'alias' => 'admin_fuzzy_list',
+			'lft' => '97',
+			'rght' => '98'
+		),
+		array(
+			'id' => '158',
+			'parent_id' => '43',
+			'model' => '',
+			'foreign_key' => '',
+			'alias' => 'admin_fuzzy_delete',
+			'lft' => '99',
+			'rght' => '100'
+		),
+		array(
+			'id' => '159',
+			'parent_id' => '43',
+			'model' => '',
+			'foreign_key' => '',
+			'alias' => 'admin_import',
+			'lft' => '101',
+			'rght' => '102'
+		),
+		array(
+			'id' => '160',
+			'parent_id' => '43',
+			'model' => '',
+			'foreign_key' => '',
+			'alias' => 'admin_export',
+			'lft' => '103',
+			'rght' => '104'
 		),
 	);
 

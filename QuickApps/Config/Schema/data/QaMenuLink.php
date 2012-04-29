@@ -351,7 +351,7 @@ class QaMenuLink {
 			'lft' => '1',
 			'rght' => '2',
 			'parent_id' => '0',
-			'link_path' => 'http://www.quickappscms.org',
+			'link_path' => 'http://cms.quickapps.es',
 			'router_path' => '',
 			'description' => '',
 			'link_title' => 'QuickApps Site',

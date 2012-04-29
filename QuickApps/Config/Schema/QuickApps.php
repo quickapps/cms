@@ -116,7 +116,8 @@ class QuickAppsSchema extends CakeSchema {
 		'description' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'required' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'settings' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'comment' => 'Rendering settings (View mode)', 'charset' => 'utf8'),
-		'ordering' => array('type' => 'integer', 'null' => true, 'default' => '1', 'comment' => 'edit form ordering'),
+        'locked' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 4),
+        'ordering' => array('type' => 'integer', 'null' => true, 'default' => '1', 'comment' => 'edit form ordering'),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'InnoDB')
 	);
