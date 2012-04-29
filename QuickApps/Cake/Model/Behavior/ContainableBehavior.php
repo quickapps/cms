@@ -7,12 +7,12 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Model.Behavior
  * @since         CakePHP(tm) v 1.2.0.5669
@@ -304,7 +304,7 @@ class ContainableBehavior extends ModelBehavior {
 					$option = 'fields';
 					$val = array($key);
 					if ($key{0} == '(') {
-						$val = preg_split('/\s*,\s*/', substr(substr($key, 1), 0, -1));
+						$val = preg_split('/\s*,\s*/', substr($key, 1, -1));
 					} elseif (preg_match('/ASC|DESC$/', $key)) {
 						$option = 'order';
 						$val = $Model->{$name}->alias . '.' . $key;

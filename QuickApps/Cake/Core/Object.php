@@ -1,12 +1,12 @@
 <?php
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Core
  * @since         CakePHP(tm) v 0.2.9
@@ -80,6 +80,9 @@ class Object {
 		$data = isset($extra['data']) ? $extra['data'] : null;
 		unset($extra['data']);
 
+		if (is_string($url) && strpos($url, FULL_BASE_URL) === 0) {
+			$url = Router::normalize(str_replace(FULL_BASE_URL, '', $url));
+		}
 		if (is_string($url)) {
 			$request = new CakeRequest($url);
 		} elseif (is_array($url)) {
@@ -90,7 +93,6 @@ class Object {
 		if (isset($data)) {
 			$request->data = $data;
 		}
-
 		$dispatcher = new Dispatcher();
 		$result = $dispatcher->dispatch($request, new CakeResponse(), $extra);
 		Router::popRequest();

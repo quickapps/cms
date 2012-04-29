@@ -10,12 +10,12 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Model.Datasource
  * @since         CakePHP(tm) v .0.10.0.1222
@@ -601,11 +601,9 @@ class CakeSession {
 			if (empty($_SESSION)) {
 				$_SESSION = array();
 			}
-		} elseif (!isset($_SESSION)) {
-			session_cache_limiter ("must-revalidate");
-			session_start();
-			header ('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
 		} else {
+			// For IE<=8
+			session_cache_limiter("must-revalidate");
 			session_start();
 		}
 		return true;

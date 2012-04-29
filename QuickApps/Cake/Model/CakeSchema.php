@@ -5,12 +5,12 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Model
  * @since         CakePHP(tm) v 1.2.0.5550
@@ -20,6 +20,7 @@
 App::uses('Model', 'Model');
 App::uses('AppModel', 'Model');
 App::uses('ConnectionManager', 'Model');
+App::uses('File', 'Utility');
 
 /**
  * Base Class for Schema management
@@ -484,7 +485,7 @@ class CakeSchema extends Object {
 				if (!empty($old[$table][$field])) {
 					$diff = $this->_arrayDiffAssoc($value, $old[$table][$field]);
 					if (!empty($diff) && $field !== 'indexes' && $field !== 'tableParameters') {
-						$tables[$table]['change'][$field] = array_merge($old[$table][$field], $diff);
+						$tables[$table]['change'][$field] = $value;
 					}
 				}
 

@@ -7,12 +7,12 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.View.Helper
  * @since         CakePHP(tm) v 0.10.0.1076
@@ -139,12 +139,12 @@ class TextHelper extends AppHelper {
  */
 	protected function _linkUrls($text, $htmlOptions) {
 		$replace = array();
-		foreach ($this->_placeholders as $md5 => $url) {
+		foreach ($this->_placeholders as $hash => $url) {
 			$link = $url;
 			if (!preg_match('#^[a-z]+\://#', $url)) {
 				$url = 'http://' . $url;
 			}
-			$replace[$md5] = $this->Html->link($link, $url, $htmlOptions);
+			$replace[$hash] = $this->Html->link($link, $url, $htmlOptions);
 		}
 		return strtr($text, $replace);
 	}
@@ -159,8 +159,8 @@ class TextHelper extends AppHelper {
  */
 	protected function _linkEmails($text, $options) {
 		$replace = array();
-		foreach ($this->_placeholders as $md5 => $url) {
-			$replace[$md5] = $this->Html->link($url, 'mailto:' . $url, $options);
+		foreach ($this->_placeholders as $hash => $url) {
+			$replace[$hash] = $this->Html->link($url, 'mailto:' . $url, $options);
 		}
 		return strtr($text, $replace);
 	}

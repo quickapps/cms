@@ -5,12 +5,12 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Utility
  * @since         CakePHP(tm) v 1.2.0
@@ -34,7 +34,7 @@ class Set {
  * Since this method emulates `array_merge`, it will re-order numeric keys.  When combined with out of
  * order numeric keys containing arrays, results can be lossy.
  *
- * Note: This function will work with an unlimited amount of arguments and typecasts non-array 
+ * Note: This function will work with an unlimited amount of arguments and typecasts non-array
  * parameters into arrays.
  *
  * @param array $arr1 Array to be merged
@@ -322,7 +322,7 @@ class Set {
 
 /**
  * Implements partial support for XPath 2.0. If $path does not contain a '/' the call
- * is delegated to Set::classicExtract(). Also the $path and $data arguments are 
+ * is delegated to Set::classicExtract(). Also the $path and $data arguments are
  * reversible.
  *
  * #### Currently implemented selectors:
@@ -686,7 +686,7 @@ class Set {
 				$_list =& $_list[$key];
 			}
 			if (!is_array($_list)) {
-				return array();
+				$_list = array();
 			}
 		}
 		return $list;
@@ -982,7 +982,7 @@ class Set {
 						$new = array_merge($new, Set::reverse($value));
 					} else {
 						$new[$key] = Set::reverse($value);
-					}	
+					}
 					// @codingStandardsIgnoreEnd
 				}
 			}
@@ -1070,8 +1070,10 @@ class Set {
  */
 	public static function sort($data, $path, $dir) {
 		$originalKeys = array_keys($data);
+		$numeric = false;
 		if (is_numeric(implode('', $originalKeys))) {
 			$data = array_values($data);
+			$numeric = true;
 		}
 		$result = Set::_flatten(Set::extract($data, $path));
 		list($keys, $values) = array(Set::extract($result, '{n}.id'), Set::extract($result, '{n}.value'));
@@ -1087,7 +1089,15 @@ class Set {
 		$keys = array_unique($keys);
 
 		foreach ($keys as $k) {
-			$sorted[] = $data[$k];
+			if ($numeric) {
+				$sorted[] = $data[$k];
+			} else {
+				if (isset($originalKeys[$k])) {
+					$sorted[$originalKeys[$k]] = $data[$originalKeys[$k]];
+				} else {
+					$sorted[$k] = $data[$k];
+				}
+			}
 		}
 		return $sorted;
 	}

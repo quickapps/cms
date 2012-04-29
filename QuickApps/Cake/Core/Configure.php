@@ -1,12 +1,12 @@
 <?php
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Core
  * @since         CakePHP(tm) v 1.0.0.2363
@@ -75,20 +75,26 @@ class Configure {
 			App::$bootstrapping = false;
 			App::init();
 			App::build();
-			$level = -1;
-			if (isset(self::$_values['Error']['level'])) {
-				error_reporting(self::$_values['Error']['level']);
-				$level = self::$_values['Error']['level'];
-			}
-			if (!empty(self::$_values['Error']['handler'])) {
-				set_error_handler(self::$_values['Error']['handler'], $level);
-			}
-			if (!empty(self::$_values['Exception']['handler'])) {
-				set_exception_handler(self::$_values['Exception']['handler']);
-			}
+
+			$exception = array(
+				'handler' => 'ErrorHandler::handleException',
+			);
+			$error = array(
+				'handler' => 'ErrorHandler::handleError',
+				'level' => E_ALL & ~E_DEPRECATED,
+			);
+			self::_setErrorHandlers($error, $exception);
+
 			if (!include APP . 'Config' . DS . 'bootstrap.php') {
 				trigger_error(__d('cake_dev', "Can't find application bootstrap file. Please create %sbootstrap.php, and make sure it is readable by PHP.", APP . 'Config' . DS), E_USER_ERROR);
 			}
+			restore_error_handler();
+
+			self::_setErrorHandlers(
+				self::$_values['Error'],
+				self::$_values['Exception']
+			);
+			unset($error, $exception);
 		}
 	}
 
@@ -336,4 +342,24 @@ class Configure {
 		return false;
 	}
 
+/**
+ * Set the error and exception handlers.
+ * 
+ * @param array $error The Error handling configuration.
+ * @param array $exception The exception handling configuration.
+ * @return void
+ */
+	protected static function _setErrorHandlers($error, $exception) {
+		$level = -1;
+		if (isset($error['level'])) {
+			error_reporting($error['level']);
+			$level = $error['level'];
+		}
+		if (!empty($error['handler'])) {
+			set_error_handler($error['handler'], $level);
+		}
+		if (!empty($exception['handler'])) {
+			set_exception_handler($exception['handler']);
+		}
+	}
 }

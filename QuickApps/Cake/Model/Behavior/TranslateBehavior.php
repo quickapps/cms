@@ -1,12 +1,12 @@
 <?php
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Model.Behavior
  * @since         CakePHP(tm) v 1.2.0.4525
@@ -471,17 +471,7 @@ class TranslateBehavior extends ModelBehavior {
 				);
 			}
 
-			if (array_key_exists($field, $this->settings[$model->alias])) {
-				unset($this->settings[$model->alias][$field]);
-			} elseif (in_array($field, $this->settings[$model->alias])) {
-				$this->settings[$model->alias] = array_merge(array_diff_assoc($this->settings[$model->alias], array($field)));
-			}
-
-			if (array_key_exists($field, $this->runtime[$model->alias]['fields'])) {
-				unset($this->runtime[$model->alias]['fields'][$field]);
-			} elseif (in_array($field, $this->runtime[$model->alias]['fields'])) {
-				$this->runtime[$model->alias]['fields'] = array_merge(array_diff_assoc($this->runtime[$model->alias]['fields'], array($field)));
-			}
+			$this->_updateSettings($model, $field);
 
 			if (is_null($association)) {
 				if ($reset) {
@@ -519,6 +509,25 @@ class TranslateBehavior extends ModelBehavior {
 	}
 
 /**
+ * Update runtime setting for a given field.
+ *
+ * @param string $field The field to update.
+ */
+	protected function _updateSettings(Model $model, $field) {
+		if (array_key_exists($field, $this->settings[$model->alias])) {
+			unset($this->settings[$model->alias][$field]);
+		} elseif (in_array($field, $this->settings[$model->alias])) {
+			$this->settings[$model->alias] = array_merge(array_diff_assoc($this->settings[$model->alias], array($field)));
+		}
+
+		if (array_key_exists($field, $this->runtime[$model->alias]['fields'])) {
+			unset($this->runtime[$model->alias]['fields'][$field]);
+		} elseif (in_array($field, $this->runtime[$model->alias]['fields'])) {
+			$this->runtime[$model->alias]['fields'] = array_merge(array_diff_assoc($this->runtime[$model->alias]['fields'], array($field)));
+		}
+	}
+
+/**
  * Unbind translation for fields, optionally unbinds hasMany association for
  * fake field
  *
@@ -550,17 +559,7 @@ class TranslateBehavior extends ModelBehavior {
 				$association = $value;
 			}
 
-			if (array_key_exists($field, $this->settings[$model->alias])) {
-				unset($this->settings[$model->alias][$field]);
-			} elseif (in_array($field, $this->settings[$model->alias])) {
-				$this->settings[$model->alias] = array_merge(array_diff_assoc($this->settings[$model->alias], array($field)));
-			}
-
-			if (array_key_exists($field, $this->runtime[$model->alias]['fields'])) {
-				unset($this->runtime[$model->alias]['fields'][$field]);
-			} elseif (in_array($field, $this->runtime[$model->alias]['fields'])) {
-				$this->runtime[$model->alias]['fields'] = array_merge(array_diff_assoc($this->runtime[$model->alias]['fields'], array($field)));
-			}
+			$this->_updateSettings($model, $field);
 
 			if (!is_null($association) && (isset($model->hasMany[$association]) || isset($model->__backAssociation['hasMany'][$association]))) {
 				$associations[] = $association;

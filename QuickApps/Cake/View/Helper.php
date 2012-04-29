@@ -1,12 +1,12 @@
 <?php
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.View
  * @since         CakePHP(tm) v 0.2.9
@@ -141,6 +141,20 @@ class Helper extends Object {
 	);
 
 /**
+ * Format to attribute
+ *
+ * @var string
+ */
+	protected $_attributeFormat = '%s="%s"';
+
+/**
+ * Format to attribute
+ *
+ * @var string
+ */
+	protected $_minimizedAttributeFormat = '%s="%s"';
+
+/**
  * Default Constructor
  *
  * @param View $View The View this helper is being attached to.
@@ -270,10 +284,10 @@ class Helper extends Object {
  *
  * @param string|array Path string or url array
  * @param array $options Options array. Possible keys:
- * 	`fullBase` Return full url with domain name
- * 	`pathPrefix` Path prefix for relative urls
- * 	`ext` Asset extension to append
- * 	`plugin` False value will prevent parsing path as a plugin
+ *   `fullBase` Return full url with domain name
+ *   `pathPrefix` Path prefix for relative urls
+ *   `ext` Asset extension to append
+ *   `plugin` False value will prevent parsing path as a plugin
  * @return string Generated url
  */
 	public function assetUrl($path, $options = array()) {
@@ -296,7 +310,7 @@ class Helper extends Object {
 			if (isset($plugin)) {
 				$path = Inflector::underscore($plugin) . '/' . $path;
 			}
-			$path = $this->assetTimestamp($this->webroot($path));
+			$path = h($this->assetTimestamp($this->webroot($path)));
 
 			if (!empty($options['fullBase'])) {
 				$path = $this->url('/', true) . $path;

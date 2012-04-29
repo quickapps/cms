@@ -1,12 +1,12 @@
 <?php
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Utility
  * @since         CakePHP(tm) v 0.2.9
@@ -124,7 +124,7 @@ class Inflector {
 			'/(drive)s$/i' => '\1',
 			'/([^fo])ves$/i' => '\1fe',
 			'/(^analy)ses$/i' => '\1sis',
-			'/(analy|ba|diagno|(p)arenthe|(p)rogno|(s)ynop|(t)he)ses$/i' => '\1\2sis',
+			'/(analy|diagno|^ba|(p)arenthe|(p)rogno|(s)ynop|(t)he)ses$/i' => '\1\2sis',
 			'/([ti])a$/i' => '\1um',
 			'/(p)eople$/i' => '\1\2erson',
 			'/(m)en$/i' => '\1an',
@@ -515,9 +515,9 @@ class Inflector {
  */
 	public static function variable($string) {
 		if (!($result = self::_cache(__FUNCTION__, $string))) {
-			$string2 = Inflector::camelize(Inflector::underscore($string));
-			$replace = strtolower(substr($string2, 0, 1));
-			$result = preg_replace('/\\w/', $replace, $string2, 1);
+			$camelized = Inflector::camelize(Inflector::underscore($string));
+			$replace = strtolower(substr($camelized, 0, 1));
+			$result = preg_replace('/\\w/', $replace, $camelized, 1);
 			self::_cache(__FUNCTION__, $string, $result);
 		}
 		return $result;

@@ -5,12 +5,12 @@
  * Simplifies the construction of HTML elements.
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.View.Helper
  * @since         CakePHP(tm) v 0.9.1
@@ -101,20 +101,6 @@ class HtmlHelper extends AppHelper {
 		'javascriptlink' => '<script type="text/javascript" src="%s"%s></script>',
 		'javascriptend' => '</script>'
 	);
-
-/**
- * Format to attribute
- *
- * @var string
- */
-	protected $_attributeFormat = '%s="%s"';
-
-/**
- * Format to attribute
- *
- * @var string
- */
-	protected $_minimizedAttributeFormat = '%s="%s"';
 
 /**
  * Breadcrumbs.
@@ -671,9 +657,9 @@ class HtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/html.html#creating-breadcrumb-trails-with-htmlhelper
  */
 	public function getCrumbs($separator = '&raquo;', $startText = false) {
-		if (!empty($this->_crumbs)) {
+		$crumbs = $this->_prepareCrumbs($startText);
+		if (!empty($crumbs)) {
 			$out = array();
-			$crumbs = $this->_prepareCrumbs($startText);
 			foreach ($crumbs as $crumb) {
 				if (!empty($crumb[1])) {
 					$out[] = $this->link($crumb[0], $crumb[1], $crumb[2]);
@@ -701,9 +687,9 @@ class HtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/html.html#creating-breadcrumb-trails-with-htmlhelper
  */
 	public function getCrumbList($options = array(), $startText = false) {
-		if (!empty($this->_crumbs)) {
+		$crumbs = $this->_prepareCrumbs($startText);
+		if (!empty($crumbs)) {
 			$result = '';
-			$crumbs = $this->_prepareCrumbs($startText);
 			$crumbCount = count($crumbs);
 			$ulOptions = $options;
 			foreach ($crumbs as $which => $crumb) {
