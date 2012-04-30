@@ -33,7 +33,7 @@ $tSettings = array(
 <?php echo $this->Form->end(); ?>
 
 <p>
-    <?php echo $this->Html->link('<b>' . __t('Export') . '</b>', '/admin/locale/translations/export/', array('escape' => false)); ?>
+    <?php echo $this->Html->link('<b>' . __t('Export all') . '</b>', '/admin/locale/translations/export/', array('escape' => false)); ?>
     &nbsp;
     <?php echo $this->Html->link('<b>' . __t('Import') . '</b>', '/admin/locale/translations/import/', array('escape' => false)); ?>
 </p>

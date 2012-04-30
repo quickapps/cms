@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2012-04-30 14:13+0000\n"
+"POT-Creation-Date: 2012-04-30 18:17+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christopher Castro <chris@quickapps.es>\n"
 "Language-Team: \n"
@@ -546,7 +546,7 @@ msgid "Delete selected block ?"
 msgstr "¿Eliminar el bloque seleccionado?"
 
 #: Plugin\Block\View\Manage\admin_index.ctp:102;214;277
-#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:14
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:19
 #: Plugin\Locale\View\Translations\admin_list.ctp:12
 #: Plugin\Menu\View\Elements\menu_link_node.ctp:4
 #: Plugin\Node\View\Contents\admin_edit.ctp:118
@@ -712,6 +712,7 @@ msgstr "Marcar como SPAM"
 
 #: Plugin\Comment\View\Elements\settings.ctp:89
 #: Plugin\Comment\View\Helper\CommentHookHelper.php:162
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:93
 msgid "Delete"
 msgstr "Eliminar"
 
@@ -769,7 +770,7 @@ msgid "There are no comments to display"
 msgstr "No hay comentarios para mostrar"
 
 #: Plugin\Comment\View\List\admin_show.ctp:35
-#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:29
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:34
 #: Plugin\Node\View\Contents\admin_index.ctp:55
 #: Plugin\User\View\List\admin_index.ctp:37
 msgid "Filter Options"
@@ -812,7 +813,7 @@ msgid "Content’s id"
 msgstr "ID de contenido"
 
 #: Plugin\Comment\View\List\admin_show.ctp:115
-#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:72
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:77
 #: Plugin\Node\View\Contents\admin_index.ctp:124
 #: Plugin\User\View\List\admin_index.ctp:66
 msgid "Filter"
@@ -825,6 +826,7 @@ msgstr "¿Está seguro ?"
 
 #: Plugin\Comment\View\List\admin_show.ctp:122
 #: Plugin\Locale\View\Languages\admin_index.ctp:101
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:84
 #: Plugin\Node\View\Contents\admin_index.ctp:131
 #: Plugin\User\View\List\admin_index.ctp:73
 msgid "Update Options"
@@ -844,6 +846,7 @@ msgstr "Eliminar comentarios seleccionados"
 
 #: Plugin\Comment\View\List\admin_show.ctp:145
 #: Plugin\Locale\View\Languages\admin_index.ctp:115
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:99
 #: Plugin\Node\View\Contents\admin_index.ctp:150
 #: Plugin\User\View\List\admin_index.ctp:87
 #: Plugin\User\View\User\my_account.ctp:26
@@ -1163,7 +1166,7 @@ msgid "Label"
 msgstr "Etiqueta"
 
 #: Plugin\Field\View\Elements\display_settings.ctp:25;50
-#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:62
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:67
 #: Vendor\DummyLocale.php:18
 msgid "Hidden"
 msgstr "Oculto"
@@ -1181,7 +1184,7 @@ msgid "Allow hooktags"
 msgstr "Permitir hooktags"
 
 #: Plugin\Field\View\Elements\display_settings.ctp:39
-#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:65
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:70
 #: Plugin\Node\View\Types\admin_fields.ctp:17
 #: Plugin\System\View\Configuration\admin_index.ctp:18;38;71
 #: Plugin\Taxonomy\View\Elements\taxonomy_vocabularies_settings.ctp:20;28
@@ -1190,7 +1193,7 @@ msgid "Yes"
 msgstr "Si"
 
 #: Plugin\Field\View\Elements\display_settings.ctp:39
-#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:66
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:71
 #: Plugin\Node\View\Types\admin_fields.ctp:17
 #: Plugin\System\View\Configuration\admin_index.ctp:18;38;70
 #: Plugin\Taxonomy\View\Elements\taxonomy_vocabularies_settings.ctp:20;28
@@ -1279,7 +1282,7 @@ msgstr "Módulo o idioma inválido"
 msgid "Language package upload success"
 msgstr "Paquete de idioma cargado correctamente"
 
-#: Plugin\Locale\Controller\TranslationsController.php:49;108;142;172;283
+#: Plugin\Locale\Controller\TranslationsController.php:49;139;169;199;310
 #: Plugin\Locale\View\Elements\toolbar.ctp:4
 msgid "Translatable entries"
 msgstr "Entradas traducibles"
@@ -1288,45 +1291,45 @@ msgstr "Entradas traducibles"
 msgid "Translatable Entries"
 msgstr "Entradas Traducibles"
 
-#: Plugin\Locale\Controller\TranslationsController.php:109
+#: Plugin\Locale\Controller\TranslationsController.php:140
 #: Plugin\Locale\View\Elements\toolbar.ctp:22
 msgid "Fuzzy entries"
 msgstr "Entradas parciales"
 
-#: Plugin\Locale\Controller\TranslationsController.php:120
+#: Plugin\Locale\Controller\TranslationsController.php:147
 msgid "Fuzzy entry has been deleted."
 msgstr "Entrada parcial ha sido eliminada."
 
-#: Plugin\Locale\Controller\TranslationsController.php:122
+#: Plugin\Locale\Controller\TranslationsController.php:149
 msgid "Fuzzy entry was not found."
 msgstr "Entrada parcial no encontrada."
 
-#: Plugin\Locale\Controller\TranslationsController.php:132;150
+#: Plugin\Locale\Controller\TranslationsController.php:159;177
 msgid "Entry has been saved"
 msgstr "Entrada guardada con éxito"
 
-#: Plugin\Locale\Controller\TranslationsController.php:135;158
+#: Plugin\Locale\Controller\TranslationsController.php:162;185
 msgid "Entry could not be saved. Please, try again."
 msgstr "La entrada no puedo ser guardada. Por favor, intente otra vez."
 
-#: Plugin\Locale\Controller\TranslationsController.php:144
+#: Plugin\Locale\Controller\TranslationsController.php:171
 msgid "Editing entry"
 msgstr "Editando entrada"
 
-#: Plugin\Locale\Controller\TranslationsController.php:174
+#: Plugin\Locale\Controller\TranslationsController.php:201
 msgid "Add new entry"
 msgstr "Nueva entrada"
 
-#: Plugin\Locale\Controller\TranslationsController.php:275
+#: Plugin\Locale\Controller\TranslationsController.php:302
 msgid "%s entries has been imported."
 msgstr "Se han importado %s entradas."
 
-#: Plugin\Locale\Controller\TranslationsController.php:284
+#: Plugin\Locale\Controller\TranslationsController.php:311
 #: Plugin\Locale\View\Translations\admin_import.ctp:2;22
 msgid "Import entries"
 msgstr "Importar entradas"
 
-#: Plugin\Locale\Controller\TranslationsController.php:286
+#: Plugin\Locale\Controller\TranslationsController.php:313
 msgid "Import Entries"
 msgstr "Importar Entradas"
 
@@ -1507,7 +1510,7 @@ msgid "disabled"
 msgstr "desactivado"
 
 #: Plugin\Locale\View\Languages\admin_index.ctp:32
-#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:10
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:15
 #: Plugin\Locale\View\Translations\admin_list.ctp:8
 #: Plugin\Menu\View\Manage\admin_index.ctp:8
 #: Plugin\Node\View\Contents\admin_index.ctp:37
@@ -1652,7 +1655,7 @@ msgstr "Agregando nueva entrada"
 
 #: Plugin\Locale\View\Translations\admin_add.ctp:8
 #: Plugin\Locale\View\Translations\admin_edit.ctp:5
-#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:35
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:40
 #: Plugin\Locale\View\Translations\admin_list.ctp:29
 msgid "Original text"
 msgstr "Texto original"
@@ -1671,52 +1674,70 @@ msgstr "Editando entrada"
 msgid "Usage"
 msgstr "Modo de uso"
 
-#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:4
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:9
 #: Plugin\Locale\View\Translations\admin_list.ctp:4
 #: Vendor\DummyLocale.php:67;77
 msgid "Text"
 msgstr "Texto"
 
-#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:12
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:17
 #: Plugin\Node\View\Contents\admin_index.ctp:39
 msgid "translate"
 msgstr "traducir"
 
-#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:13
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:18
 msgid "unhide"
 msgstr "mostrar"
 
-#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:13
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:18
 msgid "hide"
 msgstr "ocultar"
 
-#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:14
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:19
 #: Plugin\Locale\View\Translations\admin_list.ctp:12
 msgid "Delete this entry ?"
 msgstr "Eliminar esta entrada ?"
 
-#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:20
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:25
 msgid "There are no fuzzy entries to display"
 msgstr "No hay entradas parciales que mostrar."
 
-#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:44
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:49
 msgid "In file"
 msgstr "En fichero"
 
-#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:53
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:58
 msgid "Line number"
 msgstr "Número de línea"
 
-#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:68
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:73
 msgid "Both"
 msgstr "Ambos"
 
-#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:78
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:82
+#: Plugin\Node\View\Contents\admin_index.ctp:129
+#: Plugin\User\View\List\admin_index.ctp:71
+msgid "Are you sure about this changes ?"
+msgstr "¿Está seguro?"
+
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:91
+msgid "Hide"
+msgstr "Ocultar"
+
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:92
+msgid "Unhide"
+msgstr "No ocultar"
+
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:94
 #: Plugin\Locale\View\Translations\admin_list.ctp:36
 msgid "Export"
 msgstr "Exportar"
 
-#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:79
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:104
+msgid "Export all"
+msgstr "Exportar todo"
+
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:106
 msgid "Clear all"
 msgstr "Limpiar todo"
 
@@ -2424,11 +2445,6 @@ msgstr "superior en listas"
 #: Plugin\Node\View\Contents\admin_index.ctp:98
 msgid "not sticky at top"
 msgstr "no superior en listas"
-
-#: Plugin\Node\View\Contents\admin_index.ctp:129
-#: Plugin\User\View\List\admin_index.ctp:71
-msgid "Are you sure about this changes ?"
-msgstr "¿Está seguro?"
 
 #: Plugin\Node\View\Contents\admin_index.ctp:138
 msgid "Publish selected content"

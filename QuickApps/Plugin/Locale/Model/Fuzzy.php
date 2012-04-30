@@ -55,4 +55,35 @@ class Fuzzy extends LocaleAppModel {
 
         parent::__construct();
     }
+
+/**
+ * Hide/Unhide the given fuzzy entry.
+ *
+ * @param string $hash ID of entry to toggle
+ * @param integer $to New status. 1 = Hidden, 0 = Not hidden
+ * @return boolean TRUE on success, FALSE otherwise
+ */
+    public function toggle($id, $to = 1) {
+        $data = Cache::read("fuzzy_{$id}", 'i18n');
+
+        if (!empty($data)) {
+            $data['hidden'] = $to;
+
+            Cache::write("fuzzy_{$id}", $data, 'i18n');
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function delete($id) {
+        $cache = Cache::read("fuzzy_{$id}", 'i18n');
+
+        if ($cache) {
+            return Cache::delete("fuzzy_{$id}", 'i18n');
+        }
+
+        return false;
+    }
 }

@@ -1,6 +1,11 @@
 <?php
 $tSettings = array(
     'columns' => array(
+        '<input type="checkbox" onclick="QuickApps.checkAll(this);">' => array(
+            'value' => '<input type="checkbox" name="data[Items][id][]" value="{Fuzzy.id}">',
+            'thOptions' => array('align' => 'center'),
+            'tdOptions' => array('width' => '25', 'align' => 'center')
+        ),
         __t('Text') => array(
             'value' => '
                 <p style="text-decoration:{php} return ({Fuzzy.hidden}) ? "line-through" : "none"; {/php};">{php} return htmlentities("{Fuzzy.original}", ENT_QUOTES, "UTF-8"); {/php}</p>
@@ -74,9 +79,31 @@ $tSettings = array(
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 <?php echo $this->Form->end(); ?>
 
-<p>
-    <?php echo $this->Html->link('<b>' . __t('Export') . '</b>', '/admin/locale/translations/export/fuzzy', array('escape' => false)); ?>
-    <?php echo $this->Html->link('<b>' . __t('Clear all') . '</b>', '/admin/locale/translations/fuzzy_list/clear:all', array('escape' => false)); ?>
-</p>
+<?php echo $this->Form->create(null, array('onsubmit' => 'return confirm("' . __t('Are you sure about this changes ?') . '");')); ?>
+    <!-- Update -->
+    <?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Update Options') . '</span>'); ?>
+        <div class="fieldset-toggle-container horizontalLayout" style="<?php echo isset($this->data['Fuzzy']['update']) ? '' : 'display:none;'; ?>">
+            <?php echo $this->Form->input('Fuzzy.update',
+                    array(
+                        'type' => 'select',
+                        'label' => false,
+                        'options' => array(
+                            'hide' => __t('Hide'),
+                            'unhide' => __t('Unhide'),
+                            'delete' => __t('Delete'),
+                            'export' => __t('Export')
+                        )
+                    )
+                );
+            ?>
+            <?php echo $this->Form->input(__t('Update'), array('type' => 'submit', 'label' => false)); ?>
+        </div>
+    <?php echo $this->Html->useTag('fieldsetend'); ?>
 
-<?php echo $this->Html->table($results, $tSettings); ?>
+    <p>
+        <?php echo $this->Html->link('<b>' . __t('Export all') . '</b>', '/admin/locale/translations/export/fuzzy', array('escape' => false)); ?>
+        |
+        <?php echo $this->Html->link('<b>' . __t('Clear all') . '</b>', '/admin/locale/translations/fuzzy_list/clear:all', array('escape' => false)); ?>
+    </p>
+    <?php echo $this->Html->table($results, $tSettings); ?>
+<?php echo $this->Form->end(); ?>

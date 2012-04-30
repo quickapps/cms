@@ -52,19 +52,52 @@ class TranslationsController extends LocaleAppController {
     }
 
     public function admin_fuzzy_list() {
+        if (isset($this->data['Fuzzy']['update']) && isset($this->data['Items']['id'])) {
+            switch ($this->data['Fuzzy']['update']) {
+                case 'hide':
+                    foreach ($this->data['Items']['id'] as $id) {
+                        $this->Fuzzy->toggle($id, 1);
+                    }
+                break;
+
+                case 'unhide':
+                    foreach ($this->data['Items']['id'] as $id) {
+                        $this->Fuzzy->toggle($id, 0);
+                    }
+                break;
+
+                case 'delete':
+                    foreach ($this->data['Items']['id'] as $id) {
+                        $this->Fuzzy->delete($id);
+                    }
+                break;
+
+                case 'export':
+                    $ids = array();
+
+                    foreach ($this->data['Items']['id'] as $id) {
+                        $ids[] = $id;
+                    }
+
+                    if (!empty($ids)) {
+                        $this->admin_export($ids);
+
+                        return;
+                    }
+                break;
+            }
+
+            $this->redirect($this->referer());
+        }
+
         if (
             isset($this->request->params['named']['hide']) ||
             isset($this->request->params['named']['unhide'])
         ) {
-            $hash = isset($this->request->params['named']['hide']) ? $this->request->params['named']['hide'] : $this->request->params['named']['unhide'];
-            $data = Cache::read("fuzzy_{$hash}", 'i18n');
+            $id = isset($this->request->params['named']['hide']) ? $this->request->params['named']['hide'] : $this->request->params['named']['unhide'];
+            $to = isset($this->request->params['named']['hide']) ? 1 : 0;
 
-            if (!empty($data)) {
-                $data['hidden'] = isset($this->request->params['named']['hide']) ? 1 : 0;
-
-                Cache::write("fuzzy_{$hash}", $data, 'i18n');
-            }
-
+            $this->Fuzzy->toggle($id, $to);
             $this->redirect($this->referer());
         }
 
@@ -112,11 +145,7 @@ class TranslationsController extends LocaleAppController {
 
     public function admin_fuzzy_delete($id = false) {
         if ($id) {
-            $cache = Cache::read("fuzzy_{$id}", 'i18n');
-
-            if ($cache) {
-                Cache::delete("fuzzy_{$id}", 'i18n');
-
+            if ($this->Fuzzy->delete($id)) {
                 $this->flashMsg(__t('Fuzzy entry has been deleted.'));
             } else {
                 $this->flashMsg(__t('Fuzzy entry was not found.'), 'error');
@@ -292,8 +321,12 @@ class TranslationsController extends LocaleAppController {
         if ($fuzzy) {
             $conditions = array();
 
-            if (!CakeSession::read('Fuzzy.filter.hidden')) {
-                $conditions['hidden'] = 0;
+            if (!is_array($fuzzy)) {
+                if (!CakeSession::read('Fuzzy.filter.hidden')) {
+                    $conditions['Fuzzy.hidden'] = 0;
+                }
+            } else {
+                $conditions['Fuzzy.id'] = $fuzzy;
             }
 
             $entries = $this->Fuzzy->find('all', array('conditions' => $conditions));
