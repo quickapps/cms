@@ -11,7 +11,9 @@ class MenuHelper extends AppHelper {
  *
  * @var array
  */
-    private $__tmp = array();
+    private $__tmp = array(
+        'ids' => array()
+    );
 
 /**
  * Menu item settings
@@ -237,12 +239,9 @@ class MenuHelper extends AppHelper {
         }
 
         if (!empty($item['children']) && $item['expanded']) {
-            $pos = $this->settings['__pos__'];
             $depth = $this->settings['__depth__'];
-            $this->settings['__pos__']++;
             $this->settings['__depth__']++;
             $children = $this->generate($item['children'], $this->settings);
-            $this->settings['__pos__'] = $pos;
             $this->settings['__depth__'] = $depth;
             $hasChildren = true;
         }
@@ -302,17 +301,23 @@ class MenuHelper extends AppHelper {
             }
         }
 
+        if (isset($item['id'])) {
+            $id = is_numeric($item['id']) ? "menu-item-{$item['id']}" : $item['id'];
+
+            if (!in_array($id, $this->__tmp['ids'])) {
+                $this->settings['itemAttributes']['id'] = $id;
+                $this->__tmp['ids'][] = $id;
+            }
+
+            $itemClass[] = is_numeric($item['id']) ? "menu-item-{$item['id']}" : $item['id'];
+        }
+
         if (!empty($itemClass)) {
             if (isset($this->settings['itemAttributes']['class'])) {
                 $this->settings['itemAttributes']['class'] = $this->settings['itemAttributes']['class'] . ' ' . implode(' ', $itemClass);
             } else {
                 $this->settings['itemAttributes']['class'] = implode(' ', $itemClass);
             }
-        }
-
-        if(isset($item['id'])) {
-            $id = is_numeric($item['id']) ? "item-{$item['id']}" : $item['id'];
-            $this->settings['itemAttributes']['id'] = $id;
         }
 
         $elementData = array(
@@ -343,6 +348,7 @@ class MenuHelper extends AppHelper {
 
         $return = sprintf('%s' . $this->settings['itemFormat'], str_repeat("\t", $depth), implode(' ', $itemAttributes), $content);
         $this->settings['itemAttributes'] = $this->__tmp['itemAttributes'];
+        $this->settings['__pos__']++;
 
         return $this->__parseAtts($return, $item);
     }
