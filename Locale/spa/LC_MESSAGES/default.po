@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2012-04-30 18:17+0000\n"
+"POT-Creation-Date: 2012-04-30 23:19+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christopher Castro <chris@quickapps.es>\n"
 "Language-Team: \n"
@@ -9,71 +9,71 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: Controller\InstallController.php:69
+#: Controller\InstallController.php:113
 msgid "Your php version is not supported. check that your version is 5.2.8 or newer."
 msgstr "Su versión de php no está soportada. Vetifique que su verisón es superior o igual a 5.2.8."
 
-#: Controller\InstallController.php:73
+#: Controller\InstallController.php:117
 msgid "MySQL extension is not loaded on your server."
 msgstr "La extensión MySQL no se encontró en su servidor."
 
-#: Controller\InstallController.php:77
+#: Controller\InstallController.php:121
 msgid "Your server has SafeMode on, please turn it off before continuing."
 msgstr "Su servidor tiene la opción SaveMode activada, por favor desactivela antes de continuar."
 
-#: Controller\InstallController.php:81
+#: Controller\InstallController.php:125
 msgid "tmp folder is not writable."
 msgstr "El directorio tmp no se puede escribir."
 
-#: Controller\InstallController.php:85
+#: Controller\InstallController.php:129
 msgid "tmp/cache folder is not writable."
 msgstr "El directorio tmp/cache/models no se puede escribir."
 
-#: Controller\InstallController.php:89
+#: Controller\InstallController.php:133
 msgid "tmp/cache/installer folder is not writable."
 msgstr "El directorio tmp/cache no se puede escribir."
 
-#: Controller\InstallController.php:93
+#: Controller\InstallController.php:137
 msgid "tmp/cache/models folder is not writable."
 msgstr "El directorio tmp/cache/models no se puede escribir."
 
-#: Controller\InstallController.php:97
+#: Controller\InstallController.php:141
 msgid "tmp/cache/persistent folder is not writable."
 msgstr "El directorio tmp/cache/persistent no se puede escribir."
 
-#: Controller\InstallController.php:101
+#: Controller\InstallController.php:145
 msgid "tmp/cache/i18n folder is not writable."
 msgstr "El directorio tmp/cache/i18n no se puede escribir."
 
-#: Controller\InstallController.php:105
+#: Controller\InstallController.php:149
 msgid "Config folder is not writable."
 msgstr "El directorio Config no se puede escribir."
 
-#: Controller\InstallController.php:109
+#: Controller\InstallController.php:153
 msgid "Config/core.php file is not writable."
 msgstr "El fichero Config/core.php no se puede escribir."
 
-#: Controller\InstallController.php:139
+#: Controller\InstallController.php:187
 msgid "Could not connect to database."
 msgstr "No se pudo conectar con la Base de Datos."
 
-#: Controller\InstallController.php:158
+#: Controller\InstallController.php:206
 msgid "A QuickApps CMS database already exists, please drop it or change the prefix."
 msgstr "Ya existe una base de datos QuickApps CMS, vacíela o cambie el prefijo."
 
-#: Controller\InstallController.php:210
+#: Controller\InstallController.php:258
 msgid "Could not dump database."
 msgstr "No se pudo volcar la información de la Base de Datos."
 
-#: Controller\InstallController.php:213
+#: Controller\InstallController.php:261
 msgid "Could not write database.php file."
 msgstr "No se pudo escribir en el fichero database.php."
 
-#: Controller\InstallController.php:249
+#: Controller\InstallController.php:301
 msgid "Could not create new user, please try again."
 msgstr "No se pudo crear el usuario, por favor intente nuevamente."
 
-#: Controller\InstallController.php:271
+#: Controller\InstallController.php:327
 msgid "Could not write 'install' file. Check file/folder permissions and refresh this page."
 msgstr "No pudo escribir en el fichero 'install'. Por favor verifique los permisos y actualice esta página."
 
@@ -363,7 +363,7 @@ msgstr "Nuevo Bloque"
 
 #: Plugin\Block\View\Manage\admin_add.ctp:3
 #: Plugin\Block\View\Manage\admin_edit.ctp:3
-#: Vendor\DummyLocale.php:10
+#: Vendor\DummyLocale.php:14
 #: View\Elements\theme_node_edit.ctp:11
 msgid "Content"
 msgstr "Contenidos"
@@ -1167,7 +1167,7 @@ msgstr "Etiqueta"
 
 #: Plugin\Field\View\Elements\display_settings.ctp:25;50
 #: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:67
-#: Vendor\DummyLocale.php:18
+#: Vendor\DummyLocale.php:22
 msgid "Hidden"
 msgstr "Oculto"
 
@@ -1282,7 +1282,7 @@ msgstr "Módulo o idioma inválido"
 msgid "Language package upload success"
 msgstr "Paquete de idioma cargado correctamente"
 
-#: Plugin\Locale\Controller\TranslationsController.php:49;139;169;199;310
+#: Plugin\Locale\Controller\TranslationsController.php:49;141;171;201;312
 #: Plugin\Locale\View\Elements\toolbar.ctp:4
 msgid "Translatable entries"
 msgstr "Entradas traducibles"
@@ -1291,45 +1291,45 @@ msgstr "Entradas traducibles"
 msgid "Translatable Entries"
 msgstr "Entradas Traducibles"
 
-#: Plugin\Locale\Controller\TranslationsController.php:140
+#: Plugin\Locale\Controller\TranslationsController.php:142
 #: Plugin\Locale\View\Elements\toolbar.ctp:22
 msgid "Fuzzy entries"
 msgstr "Entradas parciales"
 
-#: Plugin\Locale\Controller\TranslationsController.php:147
+#: Plugin\Locale\Controller\TranslationsController.php:149
 msgid "Fuzzy entry has been deleted."
 msgstr "Entrada parcial ha sido eliminada."
 
-#: Plugin\Locale\Controller\TranslationsController.php:149
+#: Plugin\Locale\Controller\TranslationsController.php:151
 msgid "Fuzzy entry was not found."
 msgstr "Entrada parcial no encontrada."
 
-#: Plugin\Locale\Controller\TranslationsController.php:159;177
+#: Plugin\Locale\Controller\TranslationsController.php:161;179
 msgid "Entry has been saved"
 msgstr "Entrada guardada con éxito"
 
-#: Plugin\Locale\Controller\TranslationsController.php:162;185
+#: Plugin\Locale\Controller\TranslationsController.php:164;187
 msgid "Entry could not be saved. Please, try again."
 msgstr "La entrada no puedo ser guardada. Por favor, intente otra vez."
 
-#: Plugin\Locale\Controller\TranslationsController.php:171
+#: Plugin\Locale\Controller\TranslationsController.php:173
 msgid "Editing entry"
 msgstr "Editando entrada"
 
-#: Plugin\Locale\Controller\TranslationsController.php:201
+#: Plugin\Locale\Controller\TranslationsController.php:203
 msgid "Add new entry"
 msgstr "Nueva entrada"
 
-#: Plugin\Locale\Controller\TranslationsController.php:302
+#: Plugin\Locale\Controller\TranslationsController.php:304
 msgid "%s entries has been imported."
 msgstr "Se han importado %s entradas."
 
-#: Plugin\Locale\Controller\TranslationsController.php:311
+#: Plugin\Locale\Controller\TranslationsController.php:313
 #: Plugin\Locale\View\Translations\admin_import.ctp:2;22
 msgid "Import entries"
 msgstr "Importar entradas"
 
-#: Plugin\Locale\Controller\TranslationsController.php:313
+#: Plugin\Locale\Controller\TranslationsController.php:315
 msgid "Import Entries"
 msgstr "Importar Entradas"
 
@@ -1378,7 +1378,7 @@ msgid "Display language name"
 msgstr "Mostrar nombre de idioma"
 
 #: Plugin\Locale\View\Elements\toolbar.ctp:3
-#: Vendor\DummyLocale.php:19
+#: Vendor\DummyLocale.php:23
 #: View\Elements\theme_search_form.ctp:41
 msgid "Languages"
 msgstr "Idiomas"
@@ -1676,7 +1676,7 @@ msgstr "Modo de uso"
 
 #: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:9
 #: Plugin\Locale\View\Translations\admin_list.ctp:4
-#: Vendor\DummyLocale.php:67;77
+#: Vendor\DummyLocale.php:71;81
 msgid "Text"
 msgstr "Texto"
 
@@ -1729,11 +1729,11 @@ msgid "Unhide"
 msgstr "No ocultar"
 
 #: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:94
-#: Plugin\Locale\View\Translations\admin_list.ctp:36
 msgid "Export"
 msgstr "Exportar"
 
 #: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:104
+#: Plugin\Locale\View\Translations\admin_list.ctp:36
 msgid "Export all"
 msgstr "Exportar todo"
 
@@ -2018,7 +2018,7 @@ msgid "Delete selected menu ?"
 msgstr "¿Eliminar el menú seleccionado?"
 
 #: Plugin\Menu\View\Manage\admin_links.ctp:2;4
-#: Vendor\DummyLocale.php:69;79
+#: Vendor\DummyLocale.php:73;83
 msgid "Links"
 msgstr "Enlaces"
 
@@ -2767,7 +2767,7 @@ msgstr "El fichero `%s` no pudo ser escrito."
 
 #: Plugin\System\Controller\HelpController.php:31
 #: Plugin\System\View\Modules\admin_index.ctp:89
-#: Vendor\DummyLocale.php:15
+#: Vendor\DummyLocale.php:19
 msgid "Help"
 msgstr "Ayuda"
 
@@ -3401,7 +3401,7 @@ msgstr "Configuración de campo"
 
 #: Plugin\User\Controller\ListController.php:69
 #: Plugin\User\View\Elements\toolbar.ctp:3
-#: Vendor\DummyLocale.php:13
+#: Vendor\DummyLocale.php:17
 msgid "Users"
 msgstr "Usuarios"
 
@@ -3549,7 +3549,7 @@ msgid "Welcome"
 msgstr "Bienvenida"
 
 #: Plugin\User\View\Elements\settings.ctp:32;55;71;78;100;123
-#: Vendor\DummyLocale.php:75
+#: Vendor\DummyLocale.php:79
 msgid "Body"
 msgstr "Cuerpo"
 
@@ -3789,217 +3789,225 @@ msgid "Register"
 msgstr "Registrarse"
 
 #: Vendor\DummyLocale.php:8
+msgid "Welcome to QuickApps CMS"
+msgstr "Bienvenido a QuickApps CMS"
+
+#: Vendor\DummyLocale.php:9
+msgid "Click here to install in English"
+msgstr "Pulse aquí para comenzar la instalación en Español"
+
+#: Vendor\DummyLocale.php:12
 msgid "Dashboard"
 msgstr "Resumen"
 
-#: Vendor\DummyLocale.php:9
+#: Vendor\DummyLocale.php:13
 msgid "Structure"
 msgstr "Estructura"
 
-#: Vendor\DummyLocale.php:11
+#: Vendor\DummyLocale.php:15
 msgid "Appearance"
 msgstr "Apariencia"
 
-#: Vendor\DummyLocale.php:12
+#: Vendor\DummyLocale.php:16
 msgid "Modules"
 msgstr "Módulos"
 
-#: Vendor\DummyLocale.php:14
+#: Vendor\DummyLocale.php:18
 msgid "Configuration"
 msgstr "Configuración"
 
-#: Vendor\DummyLocale.php:20
+#: Vendor\DummyLocale.php:24
 msgid "View Site"
 msgstr "Ver Sitio"
 
-#: Vendor\DummyLocale.php:21
+#: Vendor\DummyLocale.php:25
 msgid "Log out"
 msgstr "Cerrar sesión"
 
-#: Vendor\DummyLocale.php:22
+#: Vendor\DummyLocale.php:26
 #: View\Themed\Admin\Layouts\default.ctp:17
 msgid "Logout"
 msgstr "Cerrar Sesión"
 
-#: Vendor\DummyLocale.php:23
+#: Vendor\DummyLocale.php:27
 msgid "My account"
 msgstr "Mi cuenta"
 
-#: Vendor\DummyLocale.php:24
+#: Vendor\DummyLocale.php:28
 #: View\Helper\TableHelper.php:133
 msgid "« Previous "
 msgstr "« Anterior "
 
-#: Vendor\DummyLocale.php:25
+#: Vendor\DummyLocale.php:29
 #: View\Helper\TableHelper.php:134
 msgid " Next »"
 msgstr " Siguiente »"
 
-#: Vendor\DummyLocale.php:26
+#: Vendor\DummyLocale.php:30
 msgid " Last"
 msgstr "Último"
 
-#: Vendor\DummyLocale.php:27
+#: Vendor\DummyLocale.php:31
 msgid "First "
 msgstr "Primero "
 
-#: Vendor\DummyLocale.php:30
+#: Vendor\DummyLocale.php:34
 msgid "Configure what block content appears in your site's sidebars and other regions."
 msgstr "Configura que bloques aparecen en las barras lateras y otras regiones de tu sitio."
 
-#: Vendor\DummyLocale.php:31
+#: Vendor\DummyLocale.php:35
 msgid "Manage content types."
 msgstr "Gestión de tipos de contenidos."
 
-#: Vendor\DummyLocale.php:32
+#: Vendor\DummyLocale.php:36
 msgid "Add new menus to your site, edit existing menus, and rename and reorganize menu links."
 msgstr "Agrege nuevos menús a su sitio, edite menús ya existentes o renombre y reorganice los vínculos de sus menús."
 
-#: Vendor\DummyLocale.php:33
+#: Vendor\DummyLocale.php:37
 msgid "Manage tagging, categorization, and classification of your content."
 msgstr "Gestión de etiquetado, categorización, y clasificación de su contenido."
 
-#: Vendor\DummyLocale.php:36
+#: Vendor\DummyLocale.php:40
 msgid "Controls the visual building blocks a page is constructed with. Blocks are boxes of content rendered into an area, or region, of a web page."
 msgstr "Gestiona los bloques visuales con los que una págian se construye. Los bloques son cajas de contenido que se renderizan en un área o región de una página web."
 
-#: Vendor\DummyLocale.php:37
+#: Vendor\DummyLocale.php:41
 msgid "Allows users to comment on and discuss published content."
 msgstr "Permite a los usuarios comentar y discutir contenidos publicados."
 
-#: Vendor\DummyLocale.php:38
+#: Vendor\DummyLocale.php:42
 msgid "Field API to add fields to entities like nodes and users."
 msgstr "API Campos, permite agregar campos a entidades como nodos y usuarios."
 
-#: Vendor\DummyLocale.php:39
+#: Vendor\DummyLocale.php:43
 msgid "Adds language handling functionality and enables the translation of the user interface to languages other than English"
 msgstr "Permite gestionar idiomas y traducir la interfaz de los usuarios a otros lenguajes además del Inglés."
 
-#: Vendor\DummyLocale.php:40
+#: Vendor\DummyLocale.php:44
 msgid "Allows administrators to customize the site navigation menu."
 msgstr "Permite a los administradores personalizar los menú de navegación del sitio."
 
-#: Vendor\DummyLocale.php:41
+#: Vendor\DummyLocale.php:45
 msgid "Allows content to be submitted to the site and displayed on pages."
 msgstr "Permite poner contenidos en el sitio y mostrarlos como páginas."
 
-#: Vendor\DummyLocale.php:42
+#: Vendor\DummyLocale.php:46
 msgid "System Kernel."
 msgstr "Núcleo del sistema."
 
-#: Vendor\DummyLocale.php:43
+#: Vendor\DummyLocale.php:47
 msgid "Enables the categorization of content."
 msgstr "Permite la categorización de contenidos."
 
-#: Vendor\DummyLocale.php:44
+#: Vendor\DummyLocale.php:48
 msgid "Manages the user registration and login system."
 msgstr "Control de registro e identificación de usuarios en el sistema."
 
-#: Vendor\DummyLocale.php:47
+#: Vendor\DummyLocale.php:51
 msgid "Default frontend theme for QuickApps"
 msgstr "Tema principal por defecto para QuickApps"
 
-#: Vendor\DummyLocale.php:48
+#: Vendor\DummyLocale.php:52
 msgid "Default backend theme for QuickApps"
 msgstr "Tema administrativo por defecto para QuickApps"
 
-#: Vendor\DummyLocale.php:51
+#: Vendor\DummyLocale.php:55
 msgid "Article"
 msgstr "Artículo"
 
-#: Vendor\DummyLocale.php:52
+#: Vendor\DummyLocale.php:56
 msgid "Basic page"
 msgstr "Página básica"
 
-#: Vendor\DummyLocale.php:55
+#: Vendor\DummyLocale.php:59
 msgid "Use articles for time-sensitive content like news, press releases or blog posts."
 msgstr "Utilice artículos para contenidos variables en el tiempo como noticias, notas de prensa o entradas de blog."
 
-#: Vendor\DummyLocale.php:56
+#: Vendor\DummyLocale.php:60
 msgid "Use basic pages for your static content, such as an 'About us' page."
 msgstr "Utilice páginas básicas para contenido estático, como por ejemplo una página \"Quiénes somos\"."
 
-#: Vendor\DummyLocale.php:59
+#: Vendor\DummyLocale.php:63
 msgid "Date picker field."
 msgstr "Selector de fechas."
 
-#: Vendor\DummyLocale.php:60
+#: Vendor\DummyLocale.php:64
 msgid "Define file uploader."
 msgstr "Permite la carga de ficheros."
 
-#: Vendor\DummyLocale.php:61
+#: Vendor\DummyLocale.php:65
 msgid "Defines list field types. Use with Options to create selection lists."
 msgstr "Define un campo de tipo lista. Permite la creacion de listas de selección."
 
-#: Vendor\DummyLocale.php:62
+#: Vendor\DummyLocale.php:66
 msgid "Defines simple text field types."
 msgstr "Incorpora campos de tipo texto."
 
-#: Vendor\DummyLocale.php:63
+#: Vendor\DummyLocale.php:67
 msgid "Defines terms list."
 msgstr "Incorpora un listado de términos."
 
-#: Vendor\DummyLocale.php:66;76
+#: Vendor\DummyLocale.php:70;80
 msgid "Main font"
 msgstr "Fuente principal"
 
-#: Vendor\DummyLocale.php:68
+#: Vendor\DummyLocale.php:72
 msgid "Footer"
 msgstr "Pie de página"
 
-#: Vendor\DummyLocale.php:70
+#: Vendor\DummyLocale.php:74
 msgid "Header top"
 msgstr "Cabecera superior"
 
-#: Vendor\DummyLocale.php:71
+#: Vendor\DummyLocale.php:75
 msgid "Header bottom"
 msgstr "Cabecera inferior"
 
-#: Vendor\DummyLocale.php:72
+#: Vendor\DummyLocale.php:76
 msgid "Main background"
 msgstr "Fondo principal"
 
-#: Vendor\DummyLocale.php:78
+#: Vendor\DummyLocale.php:82
 msgid "Background"
 msgstr "Fondo"
 
-#: Vendor\DummyLocale.php:80
+#: Vendor\DummyLocale.php:84
 msgid "Links hover"
 msgstr "Sobre enlaces"
 
-#: Vendor\DummyLocale.php:81
+#: Vendor\DummyLocale.php:85
 msgid "Header"
 msgstr "Cabecera"
 
-#: Vendor\DummyLocale.php:82
+#: Vendor\DummyLocale.php:86
 msgid "Main menu background"
 msgstr "Fondo de menú principal"
 
-#: Vendor\DummyLocale.php:83
+#: Vendor\DummyLocale.php:87
 msgid "Main menu text"
 msgstr "Texto menú principal"
 
-#: Vendor\DummyLocale.php:84
+#: Vendor\DummyLocale.php:88
 msgid "Branding background"
 msgstr "Fondo barra de navegación"
 
-#: Vendor\DummyLocale.php:87
+#: Vendor\DummyLocale.php:91
 msgid "The <em>Main</em> menu is used on many sites to show the major sections of the site, often in a top navigation bar."
 msgstr "Se utiliza en muchos sitios para mostrar las secciones pricipales del sitio web, comunmente en una barra de navegación superior."
 
-#: Vendor\DummyLocale.php:88
+#: Vendor\DummyLocale.php:92
 msgid "The <em>Management</em> menu contains links for administrative tasks."
 msgstr "Contiene enlaces relacionados a tereas administrativas."
 
-#: Vendor\DummyLocale.php:89
+#: Vendor\DummyLocale.php:93
 msgid "The <em>Navigation</em> menu contains links intended for site visitors. Links are added to the <em>Navigation</em> menu automatically by some modules."
 msgstr "Contiene enlaces orientados a los visitantes. Algunos módulos agregan enalces a este menú de forma automática."
 
-#: Vendor\DummyLocale.php:90
+#: Vendor\DummyLocale.php:94
 msgid "The <em>User</em> menu contains links related to the user's account, as well as the 'Log out' link."
 msgstr "Contiene enlaces relacionados con las cuentas de usuarios, como por ejemplo el enlace \"cerrar sesión\"."
 
-#: Vendor\DummyLocale.php:93
+#: Vendor\DummyLocale.php:97
 msgid "We sincerely apologize for the inconvenience.<br/>Our site is currently undergoing scheduled maintenance and upgrades, but will return shortly.<br/>Thanks you for your patience."
 msgstr "Le pedimos disculpas por las molestias. <br/> Nuestro sitio se encuentra actualmente bajo mantenimiento y actualizaciones, pero volverá en breve. <br/> Gracias por su paciencia."
 

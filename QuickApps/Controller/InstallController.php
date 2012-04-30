@@ -38,13 +38,53 @@ class InstallController extends Controller {
         if (file_exists(ROOT . DS . 'Config' . DS . 'database.php') && file_exists(ROOT . DS . 'Config' . DS . 'install')) {
             $this->redirect('/');
         }
+
+        if (!CakeSession::read('Config.language')) {
+            Configure::write('Config.language', 'eng');
+        }
     }
 
+/**
+ * Step 0, Select language.
+ *
+ * @return void
+ */
     public function index() {
-       $this->redirect('/install/license');
+        App::uses('I18n', 'I18n');
+
+        if (isset($this->params['named']['lang']) && preg_match('/^[a-z]{3}$/', $this->params['named']['lang'])) {
+            CakeSession::write('Config.language', $this->params['named']['lang']);
+            $this->redirect('/install/license');
+        }
+
+        $Folder = new Folder(ROOT . DS . 'Locale' . DS);
+        $langs = $Folder->read(true, false);
+        $languages = array();
+
+        foreach ($langs[0] as $l) {
+            $file = ROOT . DS . 'Locale' . DS . $l . DS . 'LC_MESSAGES' . DS . 'default.po';
+
+			if ($l != 'eng' && file_exists($file)) {
+                $languages[$l] = array(
+                    'welcome' => I18n::translate('Welcome to QuickApps CMS', null, null, 6, null, $l),
+                    'action' => I18n::translate('Click here to install in English', null, null, 6, null, $l)
+                );
+			}
+		}
+
+        if (empty($languages)) {
+			CakeSession::write('Config.language', 'eng');
+			$this->redirect('/install/license');
+		}
+
+        $this->set('languages', $languages);
     }
 
-    /* Step 1: License agreement */
+/**
+ * Step 1, License agreement
+ *
+ * @return void
+ */
     public function license() {
         if (isset($this->data['License'])) {
             $this->__stepSuccess('license');
@@ -52,7 +92,11 @@ class InstallController extends Controller {
         }
     }
 
-    /* Step 2: Server test */
+/**
+ * Step 2, Server test
+ *
+ * @return void
+ */
     public function server_test() {
         if (!$this->__stepSuccess('license', true)) {
             $this->redirect('/install/license');
@@ -120,7 +164,11 @@ class InstallController extends Controller {
         }
     }
 
-    /* Step 3: Database  */
+/**
+ * Step 3, Database
+ *
+ * @return void
+ */
     public function database() {
         if (!$this->__stepSuccess(array('license', 'server_test'), true)) {
             $this->redirect('/install/license');
@@ -215,7 +263,11 @@ class InstallController extends Controller {
         }
     }
 
-    /* Step 4: User account */
+/**
+ * Step 4, User account
+ *
+ * @return void
+ */
     public function user_account() {
         if (Cache::read('QaInstallDatabase') == 'success' ||
             $this->__stepSuccess(array('license', 'server_test', 'database'), true)
@@ -253,7 +305,11 @@ class InstallController extends Controller {
         }
     }
 
-    /* Step 5: Finish */
+/**
+ * Step 5, Finish
+ *
+ * @return void
+ */
     public function finish() {
         if (!$this->__stepSuccess(array('license', 'server_test', 'database', 'user_account'), true)) {
             $this->redirect('/install/license');

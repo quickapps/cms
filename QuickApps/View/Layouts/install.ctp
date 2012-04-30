@@ -3,8 +3,10 @@
     <head>
         <title><?php echo __t('QuickApps Installation'); ?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <?php echo $this->Html->css('/system/css/reset.css');?>
-        <?php echo $this->Html->css('/system/css/install.css');?>
+        <?php echo $this->Html->css('System.reset.css');?>
+        <?php echo $this->Html->css('System.install.css');?>
+        <?php echo $this->Html->script('System.jquery.js');?>
+        <?php echo $this->Html->script('System.ui/jquery.effects.all.min.js');?>
     </head>
 
     <body>

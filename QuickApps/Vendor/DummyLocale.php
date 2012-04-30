@@ -4,6 +4,10 @@
  * add translations that are not in the source code.
  *
  */
+    //Installation
+    echo __t('Welcome to QuickApps CMS');
+    echo __t('Click here to install in English');
+
     // Management menu
     echo __t("Dashboard");
     echo __t("Structure");

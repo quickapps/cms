@@ -7,33 +7,36 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
     vertical-align: baseline;
 }
 body {
-
     background:#303030;
     color:#999;
     text-align:left; 
     font:12px/18px 'Lucida Grande', 'Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;
-
 }
-ol, ul {list-style: none}
-blockquote, q {quotes: none}
-:focus {outline: 0}
-ins {text-decoration: none}
-del {text-decoration: line-through}
-table {border-collapse: collapse; border-spacing: 0}
-a {text-decoration:none; cursor:pointer}
-a:focus {-moz-outline:0; outline:0; outline-offset:0}
-a:hover, h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {text-decoration:none}
-h1 {font-weight:normal; font-family:'Lucida Grande', 'Trebuchet MS','Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif; font-size:24px}
-h2 {font-weight:bold; font-family:'Lucida Grande', 'Trebuchet MS','Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif; font-size:15px}
-h3 {font-weight:bold; font-family:'Lucida Grande', 'Trebuchet MS','Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif; font-size:10px; text-shadow:none; text-transform:uppercase}
-h4 {font-weight:bold; font-family:'Lucida Grande', 'Trebuchet MS','Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif; font-size:13px}
+ol, ul { list-style: none; }
+blockquote, q { quotes: none; }
+:focus { outline: 0; }
+ins { text-decoration: none; }
+del { text-decoration: line-through; }
+table { border-collapse: collapse; border-spacing: 0; }
+a { text-decoration: none; cursor: pointer; }
+a:focus { -moz-outline: 0; outline: 0; outline-offset: 0; }
+a:hover, h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {text-decoration:none; }
+h1 {font-weight:normal; font-family:'Lucida Grande', 'Trebuchet MS','Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif; font-size:24px; }
+h2 {font-weight:bold; font-family:'Lucida Grande', 'Trebuchet MS','Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif; font-size:15px; }
+h3 {font-weight:bold; font-family:'Lucida Grande', 'Trebuchet MS','Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif; font-size:10px; text-shadow:none; text-transform:uppercase; }
+h4 {font-weight:bold; font-family:'Lucida Grande', 'Trebuchet MS','Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif; font-size:13px; }
 h5 {font-weight:bold; font-family:'Lucida Grande', 'Trebuchet MS','Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif}
-h6 {font-weight:bold; font-family:'Lucida Grande', 'Trebuchet MS','Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif; font-size:12px}
+h6 {font-weight:bold; font-family:'Lucida Grande', 'Trebuchet MS','Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif; font-size:12px; }
 p {margin:0 0 14px 0}
-strong, b {font-weight:bold}
+strong, b { font-weight:bold; }
+div.input-wrap { padding-right:4px;margin-right:6px}
+#title_wrap { position:relative;margin-bottom:15px; }
+#title_wrap h1 { position:absolute; }
 
-div.input-wrap {padding-right:4px;margin-right:6px}
-
+#install-lang ul { margin-bottom:20px; }
+#install-lang ul li { display:block; margin-bottom:10px; }
+#install-lang ul li a { color:#999; display:block; background:#303030; border-radius:4px; -webkit-border-radius:4px; -moz-border-radius:4px; padding:4px 8px; }
+#install-lang ul li a:hover { background:#333; }
 
 #content {
     padding:15px;
@@ -42,22 +45,41 @@ div.input-wrap {padding-right:4px;margin-right:6px}
     margin-top:50px;
     width: 600px;
     overflow: auto;
-    /* mozilla goodness */
+    -webkit-border-radius: 1em;
     -moz-border-radius: 1em;
+    border-radius: 1em;
 }
 
-/********************************************/
 h1 { font-size:22px; color:#fff; }
-input {vertical-align:middle; font-family:'Lucida Grande', 'Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif; font-size:11px; margin:0; padding:2px 4px}
-fieldset {border:0; margin:0; padding:2px 0 14px 0; display:block; position:relative}
+input { vertical-align:middle; font-family:'Lucida Grande', 'Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif; font-size:11px; margin:0; padding:2px 4px; }
+fieldset {border:0; margin:0; padding:2px 0 14px 0; display:block; position:relative; }
 
 textarea { width:580px; background:#111; color:#999; border:0px; padding:10px; }
 input.submit {
-    cursor:pointer;
-    font-size:11px; margin-top:8px;
-    padding:3px 8px;
-    border:1px solid #111; 
-    color:#fff;
+    text-shadow: #000 1px -1px 1px;
+    cursor: pointer;
+    font-size: 11px;
+    margin-top: 8px;
+    padding: 5px 10px;
+    border: 1px solid #101010; 
+    color: #fff;
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.29, #2D2D2D),
+        color-stop(0.65, #5D5D5D)
+    );
+    background-image: -moz-linear-gradient(
+        center bottom,
+        #2D2D2D 29%,
+        #5D5D5D 65%
+    );
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+input.submit:hover {
     background-image: -webkit-gradient(
         linear,
         left bottom,
@@ -72,15 +94,13 @@ input.submit {
     );
 }
 
-label {font-weight:bold; display:block; margin:0; padding:0 0 6px 0; font-family:'Lucida Grande', 'Trebuchet MS','Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif}
+label { font-weight:bold; display:block; margin:0; padding:0 0 6px 0; font-family:'Lucida Grande', 'Trebuchet MS','Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif; }
 label.sub { color:#777; }  
 label span.info { color:#777; }
-label.twin-top {padding-bottom:2px}
-label.sub {font-weight:normal; font-size:10px}
+label.twin-top { padding-bottom:2px; }
+label.sub { font-weight:normal; font-size:10px; }
 
 .form-error { border:1px solid #AD3F30; background:#EFCEC9; }
-
-/* ThemeDefault-Box */
 .content-box {
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
@@ -92,18 +112,15 @@ label.sub {font-weight:normal; font-size:10px}
 	margin-bottom: 30px;
 	padding: 8px 8px 8px 50px;
 	position: relative;
-	/*width: 100%;*/
     -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
     -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
 }
-
 .content-box-success {
     border: 1px solid #679C19;
     background:#76B41C !important;
     color: #596C26;
 }
-
 .content-box-error {
     border: 1px solid #620513;
     background:url(../img/bg_alert_error.gif) no-repeat 10px 50% #B4001C !important;
