@@ -843,8 +843,8 @@ class LayoutHelper extends AppHelper {
  * @return integer Number of blocks
  */
     public function blocksInRegion($region) {
-        if (isset($this->_tmp['blocksInRegion'][$region])) {
-            return count($this->_tmp['blocksInRegion'][$region]);
+        if (isset($this->_tmp['blocksInRegion'][$region]['blocks_ids'])) {
+            return count($this->_tmp['blocksInRegion'][$region]['blocks_ids']);
         }
 
         $blocks_in_theme = Set::extract("/BlockRegion[theme=" . $this->themeName() . "]/..", $this->_View->viewVars['Layout']['blocks']);
@@ -905,7 +905,7 @@ class LayoutHelper extends AppHelper {
                 !in_array($block['Block']['id'], $this->_tmp['blocksInRegion'][$region]['blocks_ids'])
             ) {
                 // Cache improve
-                $this->_tmp['blocksInRegion'][$region][] = $block;
+                $this->_tmp['blocksInRegion'][$region]['blocks'][] = $block;
                 $this->_tmp['blocksInRegion'][$region]['blocks_ids'][] = $block['Block']['id'];
             }
 
@@ -925,8 +925,8 @@ class LayoutHelper extends AppHelper {
         if (!$this->emptyRegion($region)) {
             $output = '';
 
-            if (isset($this->_tmp['blocksInRegion'][$region])) {
-                $blocks = $this->_tmp['blocksInRegion'][$region];
+            if (isset($this->_tmp['blocksInRegion'][$region]['blocks'])) {
+                $blocks = $this->_tmp['blocksInRegion'][$region]['blocks'];
             } else {
                 $blocks = Set::extract("/BlockRegion[region={$region}]/..",
                     Set::extract("/BlockRegion[theme=" . $this->themeName() . "]/..", $this->_View->viewVars['Layout']['blocks'])
