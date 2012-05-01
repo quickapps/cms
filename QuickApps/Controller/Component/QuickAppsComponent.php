@@ -285,7 +285,7 @@ class QuickAppsComponent extends Component {
                 exit;
             }
         } else {
-            $lang = $this->Controller->Session->read('language');
+            $lang = CakeSession::read('Config.language');
         }
 
         $lang = isset($this->Controller->request->params['named']['lang']) ? $this->Controller->request->params['named']['lang'] : $lang;
@@ -308,8 +308,7 @@ class QuickAppsComponent extends Component {
         Configure::write('Variable.language', $lang[0]['Language']);
         Configure::write('Variable.languages', $langs);
         Configure::write('Config.language', Configure::read('Variable.language.code'));
-
-        $this->Controller->Session->write('language', Configure::read('Variable.language.code'));
+        CakeSession::write('Config.language', Configure::read('Variable.language.code'));
     }
 
 /**
