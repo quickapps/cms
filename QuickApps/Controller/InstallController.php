@@ -322,6 +322,7 @@ class InstallController extends Controller {
         if ($file->write(time())) {
             $this->__stepSuccess('finish');
             $this->Session->delete('QaInstall');
+            CakeSession::write('Config.language', 'eng');
             $this->redirect('/admin');
         } else {
             $this->Session->setFlash(__t("Could not write 'install' file. Check file/folder permissions and refresh this page."), 'default', 'error');
