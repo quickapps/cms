@@ -46,6 +46,7 @@
         </div>
 
         <div id="page">
+            <div id="top-shadow"></div>
             <?php if (!$this->Layout->emptyRegion('slider')): ?>
             <div class="slider">
                 <div class="container clearfix">
@@ -70,20 +71,21 @@
                     <div id="services">
                         <div class="container clearfix">
                             <div class="service">
-                                <?php echo $this->Html->image('pen.png', array('class' => 'icon')); ?>
-                                <?php echo $this->Layout->blocks('services-left'); ?>
-
+                                <div class="service-container">
+                                    <?php echo $this->Layout->blocks('services-left'); ?>
+                                </div>
                             </div> <!-- end .service -->
 
                             <div class="service">
-                                <?php echo $this->Html->image('gear.png', array('class' => 'icon')); ?>
-                                <?php echo $this->Layout->blocks('services-center'); ?>
-
+                                <div class="service-container">
+                                    <?php echo $this->Layout->blocks('services-center'); ?>
+                                </div>
                             </div> <!-- end .service -->
 
                             <div class="service last">
-                                <?php echo $this->Html->image('bubble.png', array('class' => 'icon')); ?>
-                                <?php echo $this->Layout->blocks('services-right'); ?>
+                                <div class="service-container">
+                                    <?php echo $this->Layout->blocks('services-right'); ?>
+                                </div>
                             </div> <!-- end .service -->
                         </div>
                     </div>
@@ -101,7 +103,11 @@
                     <?php endif; ?>
 
                     <div id="sidebar-left">
-                        <?php echo $this->Layout->blocks('sidebar-left'); ?>&nbsp;
+                        <div id="sidebar-bottom">
+                            <div id="sidebar-content">
+                                <?php echo $this->Layout->blocks('sidebar-left'); ?>
+                            </div>
+                        </div>
                     </div>
 
                     <div id="content" class="clearfix">
@@ -113,6 +119,7 @@
 
         <div id="footer">
             <div class="container">
+                <?php echo $this->Layout->blocks('footer'); ?>
                 <?php
                     if ($Layout['feed']) {
                         echo $this->Html->link(
@@ -124,8 +131,7 @@
                             )
                         );
                     }
-                ?>
-                <?php echo $this->Layout->blocks('footer'); ?>
+                ?>                
                 &nbsp;
             </div>
         </div>
@@ -137,7 +143,6 @@
             Cufon.replace('h3', { fontFamily: 'Colaborate-Thin', fontSize: '30px' });
             Cufon.replace('.node-full h2.node-title', { fontFamily: 'Colaborate-Thin', fontSize: '40px' });
             Cufon.replace('.node-list h2.node-title', { fontFamily: 'Colaborate-Thin', fontSize: '30px' });
-            Cufon.replace('#services h2', { fontFamily: 'Colaborate-Thin', fontSize: '20px' });
         </script>
         <?php echo $this->Layout->footer(); ?>
     </body>

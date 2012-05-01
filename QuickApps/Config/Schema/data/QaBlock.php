@@ -147,7 +147,7 @@ class QaBlock {
 			'status' => '1',
 			'visibility' => '0',
 			'pages' => '',
-			'title' => 'WHAT WE DO',
+			'title' => 'What we do',
 			'locale' => 'a:0:{}',
 			'settings' => '',
 			'params' => 'a:1:{s:5:"class";s:0:"";}'
@@ -162,7 +162,7 @@ class QaBlock {
 			'status' => '1',
 			'visibility' => '0',
 			'pages' => '',
-			'title' => 'OUR MISSION',
+			'title' => 'Our mission',
 			'locale' => 'a:0:{}',
 			'settings' => '',
 			'params' => 'a:1:{s:5:"class";s:0:"";}'
@@ -177,7 +177,7 @@ class QaBlock {
 			'status' => '1',
 			'visibility' => '0',
 			'pages' => '',
-			'title' => 'WHO WE ARE',
+			'title' => 'Who we are',
 			'locale' => 'a:0:{}',
 			'settings' => '',
 			'params' => 'a:1:{s:5:"class";s:0:"";}'
