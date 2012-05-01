@@ -475,7 +475,10 @@ class NodeController extends NodeAppController {
                 )
             );
             $this->Layout['node'] = $this->paginate('Node', $scope);
-            $this->Layout['feed'] = "/{$this->request->url}/feed";
+
+            if (!empty($this->Layout['node'])) {
+                $this->Layout['feed'] = "/{$this->request->url}/feed";
+            }
         } else {
             $this->Layout['node'] = array();
         }
