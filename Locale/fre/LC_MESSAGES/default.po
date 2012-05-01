@@ -6314,7 +6314,7 @@ msgstr "Bienvenue à QuickApps CMS"
 
 #: Vendor\DummyLocale.php:9
 msgid "Click here to install in English"
-msgstr "Cliquez ici pour installer en Français"
+msgstr "Cliquez ici pour débuter l'installation en Français"
 
 #: Vendor\DummyLocale.php:12
 msgid "Dashboard"
