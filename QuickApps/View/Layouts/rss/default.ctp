@@ -10,8 +10,6 @@
         <generator>QuickApps v<?php echo Configure::read('Variable.qa_version'); ?></generator>
 
         <?php
-            App::uses('Sanitize', 'Utility');
-
             foreach ($Layout['node'] as $node):
                 $nodeTime = $node['Node']['created'];
                 $nodeLink = "/{$node['Node']['node_type_id']}/{$node['Node']['slug']}.html";
@@ -19,7 +17,7 @@
 
                 echo $this->Rss->item(array(),
                     array(
-                        'title' => $node['Node']['title'],
+                        'title' => $this->Layout->hooktags($node['Node']['title']),
                         'link' => $nodeLink,
                         'guid' => array('url' => $nodeLink, 'isPermaLink' => 'true'),
                         'description' => $nodeBody,
