@@ -969,7 +969,14 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
- * Render single block
+ * Render single block.
+ * By default the following CSS classes may be applied
+ * to the block wrapper DIV element:
+ *  - `qa-block`: always applied.
+ *  - `qa-block-first`: only to the first element of the region.
+ *  - `qa-block-last`: only to the last element of the region.
+ *  - `qa-block-unique`: to the block number 1/1 of the region
+ *                       (first & last at the same time).
  *
  * @param array $block Well formated block array.
  * @param array $options Array of options:
@@ -977,6 +984,7 @@ class LayoutHelper extends AppHelper {
  *  - boolean body: Render body. default true.
  *  - string region: Region where block belongs to.
  *  - array params: extra options used by block.
+ *  - array class: list of extra CSS classes for block wrapper.
  * @return string Html
  */
     public function block($block, $options = array()) {
@@ -985,13 +993,24 @@ class LayoutHelper extends AppHelper {
                 'title' => true,
                 'body' => true,
                 'region' => true,
-                'params' => array()
+                'params' => array(),
+                'class' => array('qa-block')
             ),
             $options
         );
 
         $block['Block']['__region'] = !isset($block['Block']['__region']) ? '' : $block['Block']['__region'];
         $block['Block']['__weight'] = !isset($block['Block']['__weight']) ? array(0, 0) : $block['Block']['__weight'];
+
+        if (is_array($block['Block']['__weight']) && $block['Block']['__weight'] != array(0, 0)) {
+            if ($block['Block']['__weight'][1] == 1) {
+                $options['class'][] = 'qa-block-unique';
+            } elseif ($block['Block']['__weight'][0] === 1) {
+                $options['class'][] = 'qa-block-first';
+            } elseif ($block['Block']['__weight'][0] == $block['Block']['__weight'][1]) {
+                $options['class'][] = 'qa-block-last';
+            }
+        }
 
         if (isset($block['Block']['locale']) &&
             !empty($block['Block']['locale']) &&
@@ -1061,13 +1080,13 @@ class LayoutHelper extends AppHelper {
             $Block['title'] = empty($Block['title']) ? $block['Menu']['title'] : $Block['title'];
             $Block['body'] = $this->_View->element('theme_menu', array('menu' => $block['Menu']));
             $Block['description'] = $block['Menu']['description'];
-            $wrapperClass = 'qa-block-menu';
+            $options['class'][] = 'qa-block-menu';
         } elseif (!empty($block['BlockCustom']['body'])) {
             // custom block
             $Block['body'] = @$block['BlockCustom']['body'];
             $Block['format'] = @$block['BlockCustom']['format'];
             $Block['description'] = @$block['BlockCustom']['description'];
-            $wrapperClass = 'qa-block-custom';
+            $options['class'][] = 'qa-block-custom';
         } else {
             // module block
             // module hook must return formated array block
@@ -1086,7 +1105,7 @@ class LayoutHelper extends AppHelper {
             $Block['delta'] = $block['Block']['delta'];
             $Block['region'] = $region;
             $Block['title'] = !isset($Block['title']) ? $block['Block']['title'] : $Block['title'];
-            $wrapperClass = 'qa-block-module';
+            $options['class'][] = 'qa-block-module';
         }
 
         $Block['weight'] = $block['Block']['__weight']; // X of total
@@ -1123,6 +1142,6 @@ class LayoutHelper extends AppHelper {
         $this->hook('after_render_block', $data, array('collectReturn' => false));
         extract($data);
 
-        return "<div id=\"qa-block-{$Block['id']}\" class=\"qa-block {$wrapperClass}\">{$html}</div>";
+        return "<div id=\"qa-block-{$Block['id']}\" class=\"" . implode(' ', $options['class']) . "\">{$html}</div>";
     }
 }
