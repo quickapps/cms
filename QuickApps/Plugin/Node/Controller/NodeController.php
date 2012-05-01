@@ -335,7 +335,8 @@ class NodeController extends NodeAppController {
                         continue;
                     }
 
-                    $scope['OR'][] = array('Node.terms_cache LIKE' => "%:{$term}%");
+                    $scope['OR'][] = array('Node.terms_cache LIKE' => "%:{$term}|%");
+                    $scope['OR'][] = array('Node.terms_cache LIKE' => "%:{$term}");
                 }
             }
 
