@@ -22,7 +22,7 @@
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 
     <?php echo $this->Html->useTag('fieldsetstart', __t('Front page')); ?>
-        <?php echo $this->Form->input('Variable.default_nodes_main', array('type' => 'select', 'options' => Set::combine(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), '{n}', '{n}'), 'label' => __t('Number of posts on front page'))); ?>
+        <?php echo $this->Form->input('Variable.default_nodes_main', array('type' => 'select', 'options' => Hash::combine(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), '{n}', '{n}'), 'label' => __t('Number of posts on front page'))); ?>
         <em><?php echo __t("The maximum number of posts displayed on overview pages such as the front page."); ?></em>
 
         <?php echo $this->Form->input('Variable.site_frontpage', array('between' => Router::url('/', true), 'type' => 'text', 'label' => __t('Default front page'))); ?>

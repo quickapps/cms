@@ -48,8 +48,8 @@ class ManageController extends BlockAppController {
             )
         );
 
-        $site_ids = (array)Set::extract('/Block/id', $site_theme);
-        $admin_ids = (array)Set::extract('/Block/id', $admin_theme);
+        $site_ids = (array)Hash::extract($site_theme, '{n}.Block.id');
+        $admin_ids = (array)Hash::extract($admin_theme, '{n}.Block.id');
 
         $unassigned = $this->Block->find('all',
             array(
@@ -88,7 +88,7 @@ class ManageController extends BlockAppController {
 
     public function admin_clone($bid) {
         $block = $this->Block->findById($bid) or $this->redirect($this->referer());
-        $block = Set::filter($block);
+        $block = Hash::filter($block);
         $block['Block']['themes_cache'] = '';
         $block['Block']['title'] .= ' (' . __t('Clone') . ')';
         $block['Block']['clone_of'] = $block['Block']['id'];

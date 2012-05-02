@@ -155,7 +155,7 @@ class FieldableBehavior extends ModelBehavior {
     public function setup(Model $Model, $settings = array()) {
         // keep a setings array for each model
         $this->__settings[$Model->alias] = array();
-        $this->__settings[$Model->alias] = Set::merge($this->__settings[$Model->alias], $settings);
+        $this->__settings[$Model->alias] = Hash::merge($this->__settings[$Model->alias], $settings);
 
         if (empty($this->__settings[$Model->alias]['belongsTo'])) {
             $this->__settings[$Model->alias]['belongsTo'] = $Model->alias;
@@ -191,7 +191,7 @@ class FieldableBehavior extends ModelBehavior {
                     'recursive' => -1
                 )
             );
-            $result['Field'] = Set::extract('/Field/.', $modelFields);
+            $result['Field'] = Hash::extract($modelFields, '{n}.Field');
 
             foreach ($result['Field'] as $key => &$field) {
                 $data['entity'] =& $Model;
@@ -247,7 +247,7 @@ class FieldableBehavior extends ModelBehavior {
                     )
                 )
             );
-            $result['Field'] = Set::extract('/Field/.', $modelFields);
+            $result['Field'] = Hash::extract($modelFields, '{n}.Field');
 
             foreach ($result['Field'] as $key => &$field) {
                 if (!in_array($field['field_module'], $fieldsList[$Model->alias])) {
@@ -754,7 +754,11 @@ class FieldableBehavior extends ModelBehavior {
         preg_match_all('/\{([\{\}0-9a-zA-Z_\.]+)\}/iUs', $belongsTo, $matches);
         if (isset($matches[1]) && !empty($matches[1])) {
             foreach ($matches[0] as $i => $m) {
-                $belongsTo = str_replace($m, Set::extract(trim($matches[1][$i]), $result), $belongsTo);
+                $belongsTo = str_replace(
+                    $m, 
+                    array_pop(Hash::extract($result, trim($matches[1][$i]))),
+                    $belongsTo
+                );
             }
         }
 

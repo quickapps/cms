@@ -138,7 +138,7 @@ class SluggableBehavior extends ModelBehavior
 
                 if (!empty($result))
                 {
-                    $sameUrls = Set::extract($result, '{n}.' . $Model->alias . '.' . $this->__settings[$Model->alias]['slug']);
+                    $sameUrls = Hash::extract($result, '{n}.' . $Model->alias . '.' . $this->__settings[$Model->alias]['slug']);
                 }
 
                 // If we have collissions

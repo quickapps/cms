@@ -48,7 +48,7 @@ class MenuLink extends MenuAppModel {
             );
 
             $children = $this->children($this->data['MenuLink']['id']);
-            $children = Set::extract('/MenuLink/id', $children);
+            $children = Hash::extract($children, '{n}.MenuLink.id');
 
             $this->Behaviors->detach('Tree');
             $this->updateAll(

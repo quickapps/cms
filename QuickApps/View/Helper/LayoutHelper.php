@@ -35,7 +35,7 @@ class LayoutHelper extends AppHelper {
  */
     public function stylesheets($stylesheets = array()) {
         $output = $inline = $import = '';
-        $stylesheets = Set::merge($this->_View->viewVars['Layout']['stylesheets'], $stylesheets);
+        $stylesheets = Hash::merge($this->_View->viewVars['Layout']['stylesheets'], $stylesheets);
         $themePath = App::themePath(Configure::read('Theme.info.folder'));
 
         // pass css list array to modules
@@ -113,7 +113,7 @@ class LayoutHelper extends AppHelper {
  */
     public function javascripts($javascripts = array()) {
         $output = '';
-        $javascripts = Set::merge($this->_View->viewVars['Layout']['javascripts'], $javascripts);
+        $javascripts = Hash::merge($this->_View->viewVars['Layout']['javascripts'], $javascripts);
 
         // pass javascripts list to modules if they need to alter them
         $this->hook('javascripts_alter', $javascripts);
@@ -251,7 +251,7 @@ class LayoutHelper extends AppHelper {
  */
     public function meta($metaForLayout = array()) {
         if (!is_array($metaForLayout) || empty($metaForLayout)) {
-            $metaForLayout = Set::merge($this->_View->viewVars['Layout']['meta'], $metaForLayout);
+            $metaForLayout = Hash::merge($this->_View->viewVars['Layout']['meta'], $metaForLayout);
         }
 
         $out = '';
@@ -351,7 +351,7 @@ class LayoutHelper extends AppHelper {
             }
         }
 
-        $node['Field'] = Set::sort($node['Field'], "{n}.settings.display.{$view_mode}.ordering", 'asc');
+        $node['Field'] = Hash::sort($node['Field'], "{n}.settings.display.{$view_mode}.ordering", 'asc');
         $sufix = $node['NodeType']['module'] == 'Node' ? 'render' : $node['NodeType']['id'];
         $callback = "{$node['NodeType']['base']}_{$sufix}";
         $beforeRender = (array)$this->hook('before_render_node', $node, array('collectReturn' => true));
@@ -559,7 +559,7 @@ class LayoutHelper extends AppHelper {
 
         if (!empty($here)) {
             $subs = $MenuLink->children($here['MenuLink']['id']);
-            $_subs['MenuLink'] = Set::extract('{n}.MenuLink', $subs);
+            $_subs['MenuLink'] = Hash::extract($subs, '{n}.MenuLink');
 
             if (empty($_subs['MenuLink'])) {
                 return '';
@@ -734,7 +734,8 @@ class LayoutHelper extends AppHelper {
         );
 
         $this->_View->viewVars['Layout']['blocks'][] = $Block;
-        $this->_tmp['blocksInRegion'][$region][] = $Block;
+        $this->_tmp['blocksInRegion'][$region]['blocks'][] = $Block;
+        $this->_tmp['blocksInRegion'][$region]['blocks_ids'][] = $Block['Block']['id'];
 
         return true;
     }
@@ -847,32 +848,19 @@ class LayoutHelper extends AppHelper {
             return count($this->_tmp['blocksInRegion'][$region]['blocks_ids']);
         }
 
-        $blocks_in_theme = Set::extract("/BlockRegion[theme=" . $this->themeName() . "]/..", $this->_View->viewVars['Layout']['blocks']);
-        $blocks_in_region = Set::extract("/BlockRegion[region={$region}]/..", $blocks_in_theme);
+        $blocks = $this->_View->viewVars['Layout']['blocks'];
+        $blocks_in_theme = @Hash::extract((array)$blocks, '{n}.BlockRegion.{n}[theme=' . $this->themeName() . '].block_id');
+        $blocks_in_region = @Hash::extract((array)$blocks, "{n}.BlockRegion.{n}[region={$region}].block_id");
+        $block_ids = array_intersect($blocks_in_region, $blocks_in_theme);
         $t = 0;
 
-        foreach ($blocks_in_region as $key => $block) {
-            $themes = Set::extract('/BlockRegion/theme', $block);
-
-            if (!in_array($this->themeName(), $themes)) {
+        foreach ($blocks as $block) {
+            if (!in_array($block['Block']['id'], $block_ids)) {
                 continue;
             }
 
-            $found = false;
-
-            foreach ($block['BlockRegion'] as $br) {
-                if ($br['region'] == $region && $br['theme'] == $this->themeName()) {
-                    $found = true;
-                    break;
-                }
-            }
-
-            if (!$found) {
-                continue;
-            }
-
-            if (!empty($block['UserRole'])) {
-                $roles_id = Set::extract('/UserRole/id', $block);
+            if (!empty($block['Role'])) {
+                $roles_id = Hash::extract($block, '{n}.Role.id');
                 $allowed = false;
 
                 foreach ($this->userRoles() as $role) {
@@ -928,9 +916,16 @@ class LayoutHelper extends AppHelper {
             if (isset($this->_tmp['blocksInRegion'][$region]['blocks'])) {
                 $blocks = $this->_tmp['blocksInRegion'][$region]['blocks'];
             } else {
-                $blocks = Set::extract("/BlockRegion[region={$region}]/..",
-                    Set::extract("/BlockRegion[theme=" . $this->themeName() . "]/..", $this->_View->viewVars['Layout']['blocks'])
-                );
+                $blocks = $this->_View->viewVars['Layout']['blocks'];
+                $blocks_in_theme = @Hash::extract((array)$blocks, '{n}.BlockRegion.{n}[theme=' . $this->themeName() . '].block_id');
+                $blocks_in_region = @Hash::extract((array)$blocks, "{n}.BlockRegion.{n}[region={$region}].block_id");
+                $block_ids = array_intersect($blocks_in_region, $blocks_in_theme);
+
+                foreach ($blocks as $key => $block) {
+                    if (!in_array($block['Block']['id'], $block_ids)) {
+                        unset($blocks[$key]);
+                    }
+                }
             }
 
             foreach ($blocks as &$block) {
@@ -943,7 +938,7 @@ class LayoutHelper extends AppHelper {
                 }
             }
 
-            $blocks = Set::sort($blocks, '{n}.BlockRegion.{n}.ordering', 'asc');
+            $blocks = Hash::sort($blocks, '{n}.BlockRegion.{n}.ordering', 'asc');
             $i = 1;
             $total = count($blocks);
 
@@ -1020,7 +1015,7 @@ class LayoutHelper extends AppHelper {
         }
 
         if (!empty($block['Role'])) {
-            $roles_id = Set::extract('/Role/id', $block);
+            $roles_id = Hash::extract($block, '{n}.Role.id');
             $allowed = false;
 
             foreach ($this->userRoles() as $role) {

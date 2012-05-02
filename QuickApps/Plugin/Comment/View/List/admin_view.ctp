@@ -11,7 +11,7 @@
                 echo $this->data['Comment']['name'];
             }
         ?>
-        <?php echo __t('on %s', $this->Time->format(__t('M d, Y H:i'), $this->data['Comment']['created'], null, Configure::read('Variable.timezone'))); ?>
+        <?php echo __t('on %s', $this->Time->format(__t('M d, Y H:i'), $this->data['Comment']['created'])); ?>
         <label><?php echo __t('Hostname'); ?>: </label><?php echo $this->data['Comment']['hostname']; ?>
         <label><?php echo __t('Web page'); ?>: </label><?php echo $this->data['Comment']['homepage']; ?>
         <label><?php echo __t('Subject'); ?>: </label><?php echo $this->data['Comment']['subject']; ?>

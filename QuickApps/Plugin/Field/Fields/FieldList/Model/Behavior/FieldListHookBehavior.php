@@ -35,7 +35,7 @@ class FieldListHookBehavior extends ModelBehavior {
             )
         );
 
-        $data['field']['FieldData'] = Set::extract('/FieldData/.', $data['field']['FieldData']);
+        $data['field']['FieldData'] = Hash::extract((array)$data['field']['FieldData'], 'FieldData');
         $data['field']['FieldData'] = isset($data['field']['FieldData'][0]) ? $data['field']['FieldData'][0] : $data['field']['FieldData'];
 
         return;

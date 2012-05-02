@@ -96,7 +96,7 @@ class AppModel extends Model {
 		}
 
         // QuickApps Mod.
-		$this->validationErrors = Set::insert($this->validationErrors, $field, $value);
+		$this->validationErrors = Hash::insert($this->validationErrors, $field, $value);
 	}
 
     private function __loadHookObjects() {

@@ -139,7 +139,7 @@ class TableHelper extends AppHelper {
             $this->__defaults['paginate'] = !isset($options['paginate']) ? false : $this->__defaults['paginate'];
         }
 
-        $options = Set::merge($this->__defaults, $options);
+        $options = Hash::merge($this->__defaults, $options);
         $this->__colsCount = count($options['columns']);
         $out = sprintf('<table%s>', $this->Html->_parseAttributes($options['tableOptions'])) . "\n";
 
@@ -247,7 +247,7 @@ class TableHelper extends AppHelper {
                     continue;
                 }
 
-                $value = str_replace($m, addslashes(Set::extract(trim($path[1][$i]), $row_data)), $value);
+                $value = str_replace($m, addslashes(array_pop(Hash::extract($row_data, trim($path[1][$i])))), $value);
             }
         }
 

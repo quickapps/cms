@@ -37,7 +37,7 @@ class Field extends FieldAppModel {
         if (isset($this->data['Field']['id']) && isset($this->data['Field']['settings'])) {
             $this->validate = false;
             $settings = $this->field('settings', array('Field.id' => $this->data['Field']['id']));
-            $this->data['Field']['settings'] = Set::merge($settings, $this->data['Field']['settings']);
+            $this->data['Field']['settings'] = Hash::merge($settings, $this->data['Field']['settings']);
 
             if (!isset($this->data['Field']['field_module']) || empty($this->data['Field']['field_module'])) {
                 $this->data['Field']['field_module'] = $this->field('field_module', array('Field.id' => $this->data['Field']['id']));
@@ -55,7 +55,7 @@ class Field extends FieldAppModel {
                 )
             );
 
-            $this->data['Field']['settings'] = isset($this->data['Field']['settings']) ? Set::merge($this->data['Field']['settings'], $default_settings) : $default_settings;
+            $this->data['Field']['settings'] = isset($this->data['Field']['settings']) ? Hash::merge($this->data['Field']['settings'], $default_settings) : $default_settings;
         }
 
         if ($this->hookDefined("{$this->data['Field']['field_module']}_before_validate_instance")) {
@@ -222,10 +222,10 @@ class Field extends FieldAppModel {
                 }
             }
 
-            $nodes = Set::sort($nodes, "{n}.Field.settings.display.{$view_mode}.ordering", 'asc');
+            $nodes = Hash::sort($nodes, "{n}.Field.settings.display.{$view_mode}.ordering", 'asc');
         }
 
-        $ids = Set::extract('/Field/id', $nodes);
+        $ids = Hash::extract($nodes, '{n}.Field.id');
 
         if (($dir == 'down' && $ids[count($ids)-1] == $record['Field']['id']) ||
             ($dir == 'up' && $ids[0] == $record['Field']['id'])
@@ -246,7 +246,7 @@ class Field extends FieldAppModel {
             $this->id = $id;
 
             if (is_string($view_mode)) {
-                $node = Set::extract("/Field[id={$id}]", $nodes);
+                $node = Hash::extract($nodes, "{n}.Field[id={$id}]");
 
                 if (isset($node[0]['Field']['settings']['display'][$view_mode])) {
                     $node[0]['Field']['settings']['display'][$view_mode]['ordering'] = $i;

@@ -154,7 +154,7 @@ class InstallController extends Controller {
             )
         );
 
-        $results = array_unique(Set::extract('{s}.test', $tests));
+        $results = array_unique(Hash::extract($tests, '{s}.test'));
 
         if (!(count($results) === 1 && $results[0] === true)) {
             $this->set('success', false);
@@ -180,7 +180,7 @@ class InstallController extends Controller {
             $data = $this->data;
             $data['datasource'] = 'Database/Mysql';
             $data['persistent'] = false;
-            $data = Set::merge($this->__defaultDbConfig, $data);
+            $data = Hash::merge($this->__defaultDbConfig, $data);
 
             if ($this->__writeDatabaseFile($data)) {
                 if (!$this->__checkDatabaseConnection($data)) {

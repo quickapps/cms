@@ -1,5 +1,5 @@
 <?php
-    $t = Set::extract('/Node/language', $translations);
+    $t = Hash::extract($translations, '{n}.Node.language');
 
     foreach ($languages as $code => $name) {
         if ($code == $this->data['Node']['language'] || in_array($code, $t)) {

@@ -99,7 +99,7 @@ class Language extends LocaleAppModel {
             )
         );
 
-        $ids = Set::extract('/Language/id', $nodes);
+        $ids = Hash::extract($nodes, '/Language/id');
 
         if (($dir == 'down' && $ids[count($ids)-1] == $record['Language']['id']) ||
             ($dir == 'up' && $ids[0] == $record['Language']['id'])
@@ -130,10 +130,10 @@ class Language extends LocaleAppModel {
 
     private function __languageIdByCode($code) {
         $l = Configure::read('Variable.languages');
-        $l = Set::extract("/Language[code={$code}]/..", $l);
+        $l = Hash::extract($l, "{n}.Language[code={$code}]");
 
-        if (isset($l[0]['Language']['id'])) {
-            return $l[0]['Language']['id'];
+        if (isset($l[0]['id'])) {
+            return $l[0]['id'];
         }
 
         return false;

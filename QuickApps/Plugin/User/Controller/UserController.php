@@ -101,7 +101,7 @@ class UserController extends UserAppController {
                     'fields' => array('role_id', 'user_id')
                 )
             );
-            $session['role_id'] = Set::extract('/UsersRoles/role_id', $session['role_id']);
+            $session['role_id'] = Hash::extract($session['role_id'], '{n}.UsersRoles.role_id');
             $session['role_id'][] = 2; // authenticated user
 
             $this->Auth->login($session);
@@ -180,7 +180,7 @@ class UserController extends UserAppController {
                         'fields' => array('role_id', 'user_id')
                     )
                 );
-                $session['role_id'] = Set::extract('/UsersRoles/role_id', $session['role_id']);
+                $session['role_id'] = Hash::extract($session['role_id'], '{n}.UsersRoles.role_id');
                 $session['role_id'][] = 2; // authenticated user
                 $this->User->id = $session['id'];
 

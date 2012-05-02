@@ -37,7 +37,7 @@ class FieldTextHookBehavior extends ModelBehavior {
             )
         );
 
-        $data['field']['FieldData'] = Set::extract('/FieldData/.', $data['field']['FieldData']);
+        $data['field']['FieldData'] = Hash::extract((array)$data['field']['FieldData'], 'FieldData');
         $data['field']['FieldData'] = isset($data['field']['FieldData'][0]) ? $data['field']['FieldData'][0] : $data['field']['FieldData'];
 
         return;
@@ -122,7 +122,7 @@ class FieldTextHookBehavior extends ModelBehavior {
                 'text_processing' => 'plain'
             );
 
-            $Model->data['Field']['settings'] = Set::merge($__default, $Model->data['Field']['settings']);
+            $Model->data['Field']['settings'] = Hash::merge($__default, $Model->data['Field']['settings']);
         }
 
         return true;

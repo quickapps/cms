@@ -156,7 +156,7 @@ class ThemesController extends SystemAppController {
             $yaml = App::themePath($folder) ."{$folder}.yaml";
 
             if (file_exists($yaml)) {
-                $themes[$folder] = Set::merge($themes[$folder], Spyc::YAMLLoad($yaml));
+                $themes[$folder] = Hash::merge($themes[$folder], Spyc::YAMLLoad($yaml));
             }
         }
 

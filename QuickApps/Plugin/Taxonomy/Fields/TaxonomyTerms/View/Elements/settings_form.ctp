@@ -30,7 +30,7 @@
     echo $this->Form->input("Field.settings.max_values",
         array(
             'type' => 'select',
-            'options' => array_merge(array(0 => __t('Unlimited')), Set::combine(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), '{n}', '{n}')),
+            'options' => array_merge(array(0 => __t('Unlimited')), Hash::combine(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), '{n}', '{n}')),
             'empty' => false,
             'label' => __t('Number of values')
         )

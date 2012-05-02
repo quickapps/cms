@@ -331,7 +331,7 @@ class HooktagsCollectionHelper extends AppHelper {
         //[Layout.PATH]
         preg_match_all('/\[Layout.(.+)\]/iUs', $text, $layoutPaths);
         foreach ($layoutPaths[1] as $path) {
-            $extract = Set::extract("{$path}", $this->_View->viewVars['Layout']);
+            $extract = Hash::extract($this->_View->viewVars['Layout'], $path);
             $text = str_replace("[Layout.{$path}]", $extract, $text);
         }
 

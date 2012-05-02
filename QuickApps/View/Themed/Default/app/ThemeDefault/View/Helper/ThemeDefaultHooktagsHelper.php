@@ -22,7 +22,7 @@ class ThemeDefaultHooktagsHelper extends AppHelper {
     }
 
     public function button($atts, $content = null, $code = "") {
-        $atts = Set::merge(
+        $atts = Hash::merge(
             array(
             'link' => '#',
             'target' => '',

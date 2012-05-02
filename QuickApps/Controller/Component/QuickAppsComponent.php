@@ -124,7 +124,6 @@ class QuickAppsComponent extends Component {
         }
 
         $this->Controller->layout ='default';
-        $this->Controller->viewClass = 'Theme';
         $theme_path = App::themePath($this->Controller->theme);
 
         if (file_exists($theme_path . "{$this->Controller->theme}.yaml")) {
@@ -185,7 +184,7 @@ class QuickAppsComponent extends Component {
     }
 
 /**
- * Prepare blocks, js, css, metas & basic data for rendering.
+ * Prepare blocks, metas and basic data for rendering.
  *
  * @return void
  */
@@ -264,7 +263,7 @@ class QuickAppsComponent extends Component {
  */
     public function fieldsList() {
         $fields = $this->Controller->Layout['fields'];
-        $fields = Set::merge($fields, Configure::read('Fieldable.fieldsList'));
+        $fields = Hash::merge($fields, Configure::read('Fieldable.fieldsList'));
         $this->Controller->Layout['fields'] = $fields;
     }
 
@@ -275,7 +274,7 @@ class QuickAppsComponent extends Component {
  */
     public function setLanguage() {
         $langs = $this->Controller->Language->find('all', array('conditions' => array('status' => 1), 'order' => array('ordering' => 'ASC')));
-        $installed_codes = Set::extract('/Language/code', $langs);
+        $installed_codes = Hash::extract($langs, '{n}.Language.code');
 
         if (isset($this->Controller->request->params['language'])) {
             if (in_array($this->Controller->request->params['language'], $installed_codes)) {
@@ -293,19 +292,21 @@ class QuickAppsComponent extends Component {
         $lang = empty($lang) && $this->is('user.logged') ? CakeSession::read('Auth.User.language') : $lang;
         $lang = empty($lang) ? Configure::read('Variable.default_language') : $lang;
         $lang = empty($lang) || strlen($lang) != 3 || !in_array($lang, $installed_codes) ? 'eng' : $lang;
-        $lang = Set::extract("/Language[code={$lang}]/..", $langs);
+        $lang = Hash::extract($langs, "{n}.Language[code={$lang}]");
 
-        if (!isset($lang[0]['Language'])) {
+        if (!isset($lang[0])) {
             // undefined => default = english
-            $lang[0]['Language'] = array(
+            $lang = array(
                 'code' => 'eng',
                 'name' => 'English',
                 'native' => 'English',
                 'direction' => 'ltr'
             );
+        } else {
+            $lang = $lang[0];
         }
 
-        Configure::write('Variable.language', $lang[0]['Language']);
+        Configure::write('Variable.language', $lang);
         Configure::write('Variable.languages', $langs);
         Configure::write('Config.language', Configure::read('Variable.language.code'));
         CakeSession::write('Config.language', Configure::read('Variable.language.code'));
@@ -388,7 +389,7 @@ class QuickAppsComponent extends Component {
                     )
                 );
 
-                $session['role_id'] = Set::extract('/UsersRole/role_id', $session['role_id']);
+                $session['role_id'] = Hash::extract($session['role_id'], '{n}.UsersRole.role_id');
                 $session['role_id'][] = 2; // authenticated user
 
                 $this->Controller->Auth->login($session);
@@ -411,7 +412,7 @@ class QuickAppsComponent extends Component {
                     'recursive' => -1,
                 )
             );
-            $aroId = Set::extract('/Aro/id', $aro);
+            $aroId = Hash::extract($aro, '{n}.Aro.id');
 
             // get current plugin ACO
             $pluginNode = $this->Controller->Acl->Aco->find('first',
@@ -485,26 +486,19 @@ class QuickAppsComponent extends Component {
  * @return void
  */
     public function setTimeZone() {
-        if ($dfz = Configure::read('Variable.date_default_timezone')) {
-            date_default_timezone_set($dfz);
+        if ($dtz = Configure::read('Variable.date_default_timezone')) {
+            date_default_timezone_set($dtz);
         }
 
-        $offset = 0;
-        $tz = $this->is('user.logged') ? $this->Controller->Session->read('Auth.User.timezone') : Configure::read('Variable.date_default_timezone');
-        $tz = empty($tz) ? 'GMT' : $tz;
+        $timeZone = $this->is('user.logged') ? CakeSession::read('Auth.User.timezone') : Configure::read('Variable.date_default_timezone');
+        $timeZone = empty($timeZone) ? 'GMT' : $timeZone;
 
-        try {
-            $timezone = new DateTimeZone($tz);
-            $offset = $timezone->getOffset(new DateTime);
-        } catch(Exception $error) {
-            LogError($error->getMessage());
-        }
-
-        Configure::write('Variable.timezone', $offset / 60 / 60);
+        Configure::write('Config.timezone', $timeZone);
     }
 
 /**
  * Performs a cache of all environment variables stored in `variables` table.
+ *
  * ### Usage
  *  {{{
  *   Configure::read('Variable.varible_key');
@@ -740,7 +734,7 @@ class QuickAppsComponent extends Component {
                     'recursive' => -1
                 )
             );
-            $load_order = Set::extract('/Module/name', $order);
+            $load_order = Hash::extract((array)$order, '{n}.Module.name');
 
             Cache::write('modules_load_order', $load_order);
         }

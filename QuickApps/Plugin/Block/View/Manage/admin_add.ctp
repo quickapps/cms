@@ -18,7 +18,7 @@
                 $langs = array();
                 foreach (Configure::read('Variable.languages') as $lang) $langs[$lang['Language']['code']] = $lang['Language']['name'];
             ?>
-            <?php echo $this->Form->input('locale', array('options' => $langs, 'type' => 'select', 'selected' => Set::extract('/Block/locale', $this->data), 'multiple' => true, 'label' => __t('Show this block for these languages'))); ?>
+            <?php echo $this->Form->input('locale', array('options' => $langs, 'type' => 'select', 'selected' => Hash::extract($this->data, '{n}.Block.locale'), 'multiple' => true, 'label' => __t('Show this block for these languages'))); ?>
             <em><?php echo __t('If no language is selected, block will show regardless of language.'); ?></em>
         <?php echo $this->Html->useTag('fieldsetend'); ?>
     <?php echo $this->Html->useTag('fieldsetend'); ?>

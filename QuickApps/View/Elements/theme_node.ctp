@@ -30,7 +30,7 @@
         <div class="meta submitter">
             <span>
                 <?php echo $node['NodeType']['node_show_author'] ? __t('published by <a href="%s">%s</a>', $this->Html->url("/user/profile/{$node['CreatedBy']['username']}"), $node['CreatedBy']['username']) : ''; ?>
-                <?php echo $node['NodeType']['node_show_date'] ? ' ' . __t('on %s',  $this->Time->format(__t('M d, Y H:i'), $node['Node']['created'], null, Configure::read('Variable.timezone'))) : ''; ?>
+                <?php echo $node['NodeType']['node_show_date'] ? ' ' . __t('on %s',  $this->Time->format(__t('M d, Y H:i'), $node['Node']['created'])) : ''; ?>
                 <?php echo $node['Node']['comment'] && ($node['NodeType']['node_show_author'] || $node['NodeType']['node_show_date']) ? ' | ' : ''; ?>
                 <?php echo $node['Node']['comment'] ? __t('%d comments',  $node['Node']['comment_count']) : ''; ?>
             </span>

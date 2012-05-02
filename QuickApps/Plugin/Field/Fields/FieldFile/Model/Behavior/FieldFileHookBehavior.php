@@ -14,7 +14,7 @@ class FieldFileHookBehavior extends ModelBehavior {
                 'description' => 0
             );
 
-            $Model->data['Field']['settings'] = Set::merge($__default, $Model->data['Field']['settings']);
+            $Model->data['Field']['settings'] = Hash::merge($__default, $Model->data['Field']['settings']);
         }
 
         $_ext = explode(',', str_replace(' ', '', $Model->data['Field']['settings']['extensions']));
@@ -58,7 +58,7 @@ class FieldFileHookBehavior extends ModelBehavior {
         $_searchIndex = '';
         $__defaultData = array('files' => array());
         $info['id'] =  empty($info['id']) || !isset($info['id']) ? null : $info['id'];
-        $info['data'] = Set::merge($__defaultData, @$info['data']);
+        $info['data'] = Hash::merge($__defaultData, @$info['data']);
         $instance = ClassRegistry::init('Field.Field')->findById($info['field_id']);
         $files = array();
         $i = 0;
@@ -84,10 +84,10 @@ class FieldFileHookBehavior extends ModelBehavior {
         if (is_numeric($info['id'])) {
             $data = ClassRegistry::init('Field.FieldData')->field('data', array('FieldData.id' => $info['id']));
             $data = !is_array($data) ? @unserialize($data) : $data;
-            $data = Set::merge($__defaultData, $data);
+            $data = Hash::merge($__defaultData, $data);
 
-            $new_files = Set::extract('files.{n}.file_name', $info['data']);
-            $old_files = Set::extract('files.{n}.file_name', $data);
+            $new_files = Hash::extract($info['data'], 'files.{n}.file_name');
+            $old_files = Hash::extract($data, 'files.{n}.file_name');
 
             foreach ($old_files as $file_name) {
                 if (!in_array($file_name, $new_files)) {
@@ -126,7 +126,7 @@ class FieldFileHookBehavior extends ModelBehavior {
             )
         );
 
-        $data['field']['FieldData'] = Set::extract('/FieldData/.', $data['field']['FieldData']);
+        $data['field']['FieldData'] = Hash::extract((array)$data['field']['FieldData'], 'FieldData');
         $data['field']['FieldData'] = isset($data['field']['FieldData'][0]) ? $data['field']['FieldData'][0] : $data['field']['FieldData'];
 
         if (isset($data['field']['FieldData']['data'])) {
@@ -141,7 +141,7 @@ class FieldFileHookBehavior extends ModelBehavior {
 
         if ($FieldInstance['Field']['required'] == 1) {
             $info['data']['files'] = !isset($info['data']['files']) ? array() : $info['data']['files'];
-            $info['data']['files'] = Set::filter($info['data']['files']);
+            $info['data']['files'] = Hash::filter($info['data']['files']);
 
             if (!count($info['data']['files'])) { // at leats one field required
                 ClassRegistry::init('Field.FieldData')->invalidate(

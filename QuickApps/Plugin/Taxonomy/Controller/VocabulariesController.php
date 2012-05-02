@@ -121,7 +121,7 @@ class VocabulariesController extends TaxonomyAppController {
                     'lft' => $item->left,
                     'rght' => $item->right
                 );
-                $data = Set::filter($data);
+                $data = Hash::filter($data);
 
                 if (!empty($data)) {
                     $this->Vocabulary->Term->save($data, false);

@@ -291,7 +291,7 @@ class NodeController extends NodeAppController {
             if ($vocabulary = $this->__search_expression_extract($criteria, 'vocabulary')) {
                 $criteria = str_replace("vocabulary:{$vocabulary}", '', $criteria);
                 $vSlugs = explode(',', $vocabulary);
-                $vSlugs = Set::filter($vSlugs);
+                $vSlugs = Hash::filter($vSlugs);
 
                 if (!empty($vSlugs)) {
                     $Vocabulary = ClassRegistry::init('Taxonomy.Vocabulary');
@@ -316,7 +316,7 @@ class NodeController extends NodeAppController {
                         )
                     );
 
-                    $vocabulary_terms = Set::extract('/Term/slug', $vocabularies);
+                    $vocabulary_terms = Hash::extract($vocabularies, '{n}.Term.slug');
                 }
             }
 
@@ -430,7 +430,7 @@ class NodeController extends NodeAppController {
                 $keys['limit'] = intval($this->data['Search']['limit']);
             }
 
-            $keys = Set::filter($keys);
+            $keys = Hash::filter($keys);
             // pass search keys to modules
             $this->hook('node_search_keys_alter', $keys);
 

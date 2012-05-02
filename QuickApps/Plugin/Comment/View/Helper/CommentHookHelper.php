@@ -65,7 +65,7 @@ class CommentHookHelper extends AppHelper {
                 App::import('Lib', 'Comment.Recaptcha');
             }
 
-            $settings = Set::merge(
+            $settings = Hash::merge(
                 array(
                     'custom_translations' => array(
                         'instructions_visual' => '',

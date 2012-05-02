@@ -70,8 +70,8 @@ class TaxonomyTermsHookBehavior extends ModelBehavior {
 
             $terms_cache = array();
             $terms_ids = $_terms_ids = array();
-            $_terms_ids = (array)Set::extract('FieldData.TaxonomyTerms.{n}.data', $info['entity']->data);
-            $_terms_ids = (array)Set::filter($_terms_ids);
+            $_terms_ids = (array)Hash::extract($info['entity']->data, 'FieldData.TaxonomyTerms.{n}.data');
+            $_terms_ids = (array)Hash::filter($_terms_ids);
 
             if (!empty($_terms_ids)) {
                 foreach ($_terms_ids as $key => $ids) {
@@ -136,7 +136,7 @@ class TaxonomyTermsHookBehavior extends ModelBehavior {
             )
         );
 
-        $data['field']['FieldData'] = Set::extract('/FieldData/.', $data['field']['FieldData']);
+        $data['field']['FieldData'] = Hash::extract((array)$data['field']['FieldData'], 'FieldData');
         $data['field']['FieldData'] = isset($data['field']['FieldData'][0]) ? $data['field']['FieldData'][0] : $data['field']['FieldData'];
 
         return;

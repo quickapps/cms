@@ -92,8 +92,8 @@ class TypesController extends NodeAppController {
             )
         );
 
-        $fields = @Set::sort((array)$fields, '{n}.Field.settings.display.' . $view_mode . '.ordering', 'asc');
-        $__viewModes = (array)Set::extract('{n}.Field.settings.display', $fields);
+        $fields = @Hash::sort((array)$fields, '{n}.Field.settings.display.' . $view_mode . '.ordering', 'asc');
+        $__viewModes = (array)Hash::extract($fields, '{n}.Field.settings.display');
         $viewModes = array();
 
         foreach ($__viewModes as $key => $vm) {

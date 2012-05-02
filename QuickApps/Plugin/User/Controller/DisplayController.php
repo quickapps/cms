@@ -30,7 +30,7 @@ class DisplayController extends UserAppController {
         }
 
         $fields = $this->Field->find('all',  array('conditions' => array('Field.belongsTo' => 'User')));
-        $fields = @Set::sort((array)$fields, '{n}.Field.settings.display.' . $viewMode . '.ordering', 'asc');
+        $fields = @Hash::sort((array)$fields, '{n}.Field.settings.display.' . $viewMode . '.ordering', 'asc');
         $data['User']['viewModes'] = isset($fields[0]['Field']['settings']['display']) ? array_keys($fields[0]['Field']['settings']['display']) : array();
         $this->data = $data;
 

@@ -16,7 +16,7 @@
 
     <?php echo $this->Html->useTag('fieldsetstart', __t('Comments')); ?>
         <?php echo $this->Form->input('NodeType.comments_approve', array('type' => 'checkbox', 'label' => __t('Auto approve comments'))); ?>
-        <?php echo $this->Form->input('NodeType.comments_per_page', array('type' => 'select', 'options' => Set::combine(array(10, 30, 50, 70, 90, 150, 200, 250, 300), '{n}', '{n}'), 'label' => __t('Comments per page'))); ?>
+        <?php echo $this->Form->input('NodeType.comments_per_page', array('type' => 'select', 'options' => Hash::combine(array(10, 30, 50, 70, 90, 150, 200, 250, 300), '{n}', '{n}'), 'label' => __t('Comments per page'))); ?>
         <?php echo $this->Form->input('NodeType.comments_anonymous',
                 array('type' => 'select',
                     'options' => array(

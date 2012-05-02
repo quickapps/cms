@@ -12,8 +12,8 @@
             $i = 0;
 
             foreach (Configure::read('Variable.languages') as $lang):
-                $t = Set::extract("/I18n[locale={$lang['Language']['code']}]", $this->data);
-                $t = Set::merge(array('I18n' => array('content' => '', 'id' => null)), @$t[0]);
+                $t = Hash::extract($this->data, "{n}.I18n[locale={$lang['Language']['code']}]");
+                $t = Hash::merge(array('I18n' => array('content' => '', 'id' => null)), @$t[0]);
 
                 echo $this->Form->input("I18n.{$i}.content",
                     array(

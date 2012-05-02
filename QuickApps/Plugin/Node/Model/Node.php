@@ -75,7 +75,7 @@ class Node extends NodeAppModel {
     }
 
     public function beforeSave($options = array()) {
-        $roles = implode("|", Set::extract('/Role/Role', $this->data));
+        $roles = implode("|", Hash::extract($this->data, '{n}.Role.Role'));
         $this->data['Node']['roles_cache'] = !empty($roles) ? "|" . $roles . "|" : '';
 
         if (isset($this->data['Node']['node_type_base'])) {
@@ -284,7 +284,7 @@ class Node extends NodeAppModel {
     public function createTranslation($slug, $language, $new_title = false) {
         $languages = Configure::read('Variable.languages');
 
-        if (!in_array($language, Set::extract('/Language/code', $languages))) {
+        if (!in_array($language, Hash::extract($languages, '{n}.Language.code'))) {
             return false;
         }
 

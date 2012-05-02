@@ -31,7 +31,7 @@
                 $langs = array();
                 foreach (Configure::read('Variable.languages') as $lang) $langs[$lang['Language']['code']] = $lang['Language']['name'];
             ?>
-            <?php echo $this->Form->input('locale', array('options' => $langs, 'type' => 'select', 'selected' => Set::extract('/Block/locale', $this->data), 'multiple' => true, 'label' => __t('Show this block for these languages'))); ?>
+            <?php echo $this->Form->input('locale', array('options' => $langs, 'type' => 'select', 'selected' => Hash::extract($this->data, '{n}.Block.locale'), 'multiple' => true, 'label' => __t('Show this block for these languages'))); ?>
             <em><?php echo __t('If no language is selected, block will show regardless of language.'); ?></em>
         <?php echo $this->Html->useTag('fieldsetend'); ?>
     <?php echo $this->Html->useTag('fieldsetend'); ?>
@@ -45,7 +45,7 @@
                 <?php $theme = explode('@|@', $theme); // name, folder ?>
                 <label><?php echo $theme[0]; ?></label>
                 <?php
-                    $selected = Set::extract("/BlockRegion[theme={$theme[1]}]/region", $this->data);
+                    $selected = Hash::extract($this->data, "{n}.BlockRegion[theme={$theme[1]}].region");
                     $selected = !empty($selected) && isset($selected[0]) ? $selected[0] : null;
                 ?>
 
@@ -54,7 +54,7 @@
                 <?php echo $this->Form->hidden("BlockRegion.{$i}.block_id", array('value' => $this->data['Block']['id'])) . "\n"; ?>
 
                 <?php if ($selected !== null) { ?>
-                    <?php $brId = Set::extract("/BlockRegion[theme={$theme[1]}]/id", $this->data); ?>
+                    <?php $brId = Hash::extract($this->data, "{n}.BlockRegion[theme={$theme[1]}].id"); ?>
                     <?php echo $this->Form->hidden("BlockRegion.{$i}.id", array('value' => $brId[0]))  . "\n"; ?>
                 <?php } ?>
                 <?php $i++; ?>
@@ -85,7 +85,7 @@
         <?php echo $this->Html->useTag('fieldsetend'); ?>
 
         <?php echo $this->Html->useTag('fieldsetstart', __t('Roles')); ?>
-            <?php echo $this->Form->input('Role', array('options' => $roles, 'type' => 'select', 'selected' => Set::extract('/Role/id', $this->data), 'multiple' => true, 'label' => __t('Show block for specific roles'))); ?>
+            <?php echo $this->Form->input('Role', array('options' => $roles, 'type' => 'select', 'selected' => Hash::extract($this->data, '{n}.Role.id'), 'multiple' => true, 'label' => __t('Show block for specific roles'))); ?>
             <em><?php echo __t("Show this block only for the selected role(s). If you select no roles, the block will be visible to all users."); ?></em>
         <?php echo $this->Html->useTag('fieldsetend'); ?>
 

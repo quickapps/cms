@@ -4,7 +4,7 @@
         <?php
             $theme = Configure::read('Variable.site_theme');
             $blocks_in_theme = $site_theme;
-            $regions = (array)Set::extract('{n}.BlockRegion', $blocks_in_theme);
+            $regions = (array)Hash::extract($blocks_in_theme, '{n}.BlockRegion');
             $region_stack = array();
 
             foreach ($regions as $key => $region_arrays) {
@@ -12,8 +12,7 @@
             }
 
             $regions = $region_stack;
-            $regions = (array)Set::extract("{n}.region/..[theme={$theme}]", $regions);
-            $regions = (array)Set::extract("{n}.region", $regions);
+            $regions = (array)Hash::extract($regions, "{n}[theme={$theme}].region");
             $regions = array_unique($regions);
 
             sort($regions);
@@ -23,29 +22,39 @@
                     continue; // unasisgned
                 }
 
-                $blocks_in_region = Set::extract("/BlockRegion[region={$region}]/..", $blocks_in_theme);
+                $blocks_in_region = Hash::extract($blocks_in_theme, "{n}.BlockRegion.{n}[region={$region}].block_id");
 
                 if (empty($blocks_in_region)) {
                     continue;
                 }
 
-                $blocks_in_region = QuickApps::array_unique_assoc($blocks_in_region);
+                $blocks_in_region = array_unique($blocks_in_region);
 
-                foreach ($blocks_in_region as $bkey => $block) {
+                foreach ($blocks_in_theme as $bkey => $block) {
+                    if (!in_array($block['Block']['id'], $blocks_in_region)) {
+                        continue;
+                    }
+
                     foreach ($block['BlockRegion'] as $rkey => $BlockRegion) {
                         if ($BlockRegion['theme'] != $theme && $BlockRegion['region'] != $region) {
-                            unset($blocks_in_region[$bkey]['BlockRegion'][$rkey]);
+                            unset($blocks_in_theme[$bkey]['BlockRegion'][$rkey]);
                         }
                     }
                 }
 
-                $blocks_in_region = Set::sort($blocks_in_region, '{n}.BlockRegion.{n}.ordering', 'asc');
+                $blocks_in_region = @Hash::sort($blocks_in_theme, '{n}.BlockRegion.{n}.ordering', 'asc');
 
                 if (empty($blocks_in_region)) {
                     continue;
                 }
 
                 foreach ($blocks_in_region as $key => &$b) {
+                    if (empty($b)) {
+                        unset($blocks_in_region[$key]);
+
+                        continue;
+                    }
+
                     foreach ($b['BlockRegion'] as $key => $br) {
                         if ($br['region'] == $region && $br['theme'] == $theme) {
                             $b['Block']['__block_region_id'] = $br['id'];
@@ -116,7 +125,7 @@
         <?php
             $theme = Configure::read('Variable.admin_theme');
             $blocks_in_theme = $admin_theme;
-            $regions = (array)Set::extract('{n}.BlockRegion', $blocks_in_theme);
+            $regions = (array)Hash::extract($blocks_in_theme, '{n}.BlockRegion');
             $region_stack = array();
 
             foreach ($regions as $key => $region_arrays) {
@@ -124,8 +133,7 @@
             }
 
             $regions = $region_stack;
-            $regions = (array)Set::extract("{n}.region/..[theme={$theme}]", $regions);
-            $regions = (array)Set::extract("{n}.region", $regions);
+            $regions = (array)Hash::extract($regions, "{n}[theme={$theme}].region");
             $regions = array_unique($regions);
 
             sort($regions);
@@ -135,29 +143,39 @@
                     continue; // unasisgned
                 }
 
-                $blocks_in_region = Set::extract("/BlockRegion[region={$region}]/..", $blocks_in_theme);
+                $blocks_in_region = Hash::extract($blocks_in_theme, "{n}.BlockRegion.{n}[region={$region}].block_id");
 
                 if (empty($blocks_in_region)) {
                     continue;
                 }
 
-                $blocks_in_region = QuickApps::array_unique_assoc($blocks_in_region);
+                $blocks_in_region = array_unique($blocks_in_region);
 
-                foreach ($blocks_in_region as $bkey => $block) {
+                foreach ($blocks_in_theme as $bkey => $block) {
+                    if (!in_array($block['Block']['id'], $blocks_in_region)) {
+                        continue;
+                    }
+
                     foreach ($block['BlockRegion'] as $rkey => $BlockRegion) {
                         if ($BlockRegion['theme'] != $theme && $BlockRegion['region'] != $region) {
-                            unset($blocks_in_region[$bkey]['BlockRegion'][$rkey]);
+                            unset($blocks_in_theme[$bkey]['BlockRegion'][$rkey]);
                         }
                     }
                 }
 
-                $blocks_in_region = Set::sort($blocks_in_region, '{n}.BlockRegion.{n}.ordering', 'asc');
+                $blocks_in_region = @Hash::sort($blocks_in_theme, '{n}.BlockRegion.{n}.ordering', 'asc');
 
                 if (empty($blocks_in_region)) {
                     continue;
                 }
 
                 foreach ($blocks_in_region as $key => &$b) {
+                    if (empty($b)) {
+                        unset($blocks_in_region[$key]);
+
+                        continue;
+                    }
+
                     foreach ($b['BlockRegion'] as $key => $br) {
                         if ($br['region'] == $region && $br['theme'] == $theme) {
                             $b['Block']['__block_region_id'] = $br['id'];

@@ -21,7 +21,7 @@ class UserHookBehavior extends ModelBehavior {
  */
     public function beforeFind(Model $Model, $query) {
         if ($Model->name == 'Variable' && empty($query['conditions'])) {
-            $query['conditions'] = Set::merge($query['conditions'],
+            $query['conditions'] = Hash::merge((array)$query['conditions'],
                 array(
                     'NOT' => array(
                         'Variable.name LIKE' => "user_mail_%"

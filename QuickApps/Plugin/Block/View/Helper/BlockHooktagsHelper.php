@@ -10,6 +10,7 @@
  * @link     http://www.quickappscms.org
  */
 class BlockHooktagsHelper extends AppHelper {
+    private $__tmp = array();
 /**
  * Renders out single block by ID.
  * ### Usage:
@@ -24,13 +25,21 @@ class BlockHooktagsHelper extends AppHelper {
             return;
         }
 
-        if ($_block = Set::extract("/Block[id={$id}]/..", $this->_View->viewVars['Layout']['blocks'])) {
-            $block = $_block[0];
+        if (!isset($this->__tmp['block_ids'])) {
+            $this->__tmp['block_ids'] = Hash::extract($this->_View->viewVars['Layout']['blocks'], "{n}.Block.id");
+        }
+
+        if (in_array($id, $this->__tmp['block_ids'])) {
+            foreach ($this->_View->viewVars['Layout']['blocks'] as $block) {
+                if ($block['Block']['id'] == $id) {
+                    break;
+                }
+            }
         } else {
             $block = ClassRegistry::init('Block.Block')->findById($id);
         }
 
-        if (!$block) {
+        if (!isset($block)) {
             return;
         }
 

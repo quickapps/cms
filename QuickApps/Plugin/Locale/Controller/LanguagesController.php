@@ -139,10 +139,10 @@ class LanguagesController extends LocaleAppController {
 
     private function __languageCodeById($id) {
         $l = Configure::read('Variable.languages');
-        $l = Set::extract("/Language[id={$id}]/..", $l);
+        $l = @Hash::extract($l, "{n}.Language[id={$id}]");
 
-        if (isset($l[0]['Language']['code'])) {
-            return $l[0]['Language']['code'];
+        if (isset($l[0]['code'])) {
+            return $l[0]['code'];
         }
 
         return false;
@@ -150,10 +150,10 @@ class LanguagesController extends LocaleAppController {
 
     private function __languageIdByCode($code) {
         $l = Configure::read('Variable.languages');
-        $l = Set::extract("/Language[code={$code}]/..", $l);
+        $l = Hash::extract($l, "/Language[code={$code}]");
 
-        if (isset($l[0]['Language']['id'])) {
-            return $l[0]['Language']['id'];
+        if (isset($l[0]['id'])) {
+            return $l[0]['id'];
         }
 
         return false;

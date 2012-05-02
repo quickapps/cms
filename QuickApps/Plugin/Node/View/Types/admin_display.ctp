@@ -30,7 +30,7 @@ $tSettings = array(
 <p><?php echo __t('Content items can be displayed using different view modes: Full, List, RSS, Print, etc. List is a short format that is typically used in lists of multiple content items. Full content is typically used when the content is displayed on its own page.'); ?></p>
 <p><?php echo __t("Here, you can define which fields are shown and hidden when <em>%s</em> content is displayed in each view mode, and define how the fields are displayed in each view mode.", $this->data['NodeType']['name']); ?></p>
 
-<?php echo $this->Html->table(@Set::sort((array)$result, "{n}.Field.settings.display.{$viewMode}.ordering", 'asc'), $tSettings); ?>
+<?php echo $this->Html->table(@Hash::sort((array)$result, "{n}.Field.settings.display.{$viewMode}.ordering", 'asc'), $tSettings); ?>
 
 <?php if ($viewMode === 'default' && count($result)): ?>
     <p>

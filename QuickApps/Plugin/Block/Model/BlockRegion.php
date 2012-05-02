@@ -42,7 +42,7 @@ class BlockRegion extends BlockAppModel {
                 'recursive' => -1
             )
         );
-        $ids = Set::extract('/BlockRegion/id', $nodes);
+        $ids = Hash::extract($nodes, '{n}.BlockRegion.id');
 
         if (($dir == 'down' && $ids[count($ids)-1] == $record['BlockRegion']['id']) ||
             ($dir == 'up' && $ids[0] == $record['BlockRegion']['id'])

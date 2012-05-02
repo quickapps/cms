@@ -593,7 +593,7 @@ class InstallerComponent extends Component {
         $dep = $this->checkReverseDependency($Name);
 
         if (count($dep)) {
-            $this->errors[] = __t('This module can not be uninstalled, because it is required by: %s', implode('<br />', Set::extract('{n}.name', $dep)));
+            $this->errors[] = __t('This module can not be uninstalled, because it is required by: %s', implode('<br />', Hash::extract($dep, '{n}.name')));
 
             return false;
         }
@@ -916,7 +916,7 @@ class InstallerComponent extends Component {
                     $dependencies[] = $this->parseDependency($d);
                 }
 
-                $dependencies = Set::extract('{n}.name', $dependencies);
+                $dependencies = Hash::extract($dependencies, '{n}.name');
                 $dependencies = array_map(array('Inflector', 'camelize'), $dependencies);
 
                 if (in_array($module, $dependencies, true) && $returnList) {
@@ -1027,7 +1027,7 @@ class InstallerComponent extends Component {
                 }
             }
 
-            $_controllersNames = Set::extract('/Aco/alias', $_controllers);
+            $_controllersNames = Hash::extract($_controllers, '{n}.Aco.alias');
         }
 
         if (!$acoExists) {
@@ -1057,7 +1057,7 @@ class InstallerComponent extends Component {
             }
 
             if ($acoExists && in_array($alias, $_controllersNames)) {
-                $controller = Set::extract("/Aco[alias={$alias}]", $_controllers);
+                $controller = Hash::extract($_controllers, "{n}.Aco[alias={$alias}]");
                 $controller = $controller[0];
                 $_methods = $this->Controller->Acl->Aco->children($controller['Aco']['id'], true);
 
@@ -1068,7 +1068,7 @@ class InstallerComponent extends Component {
                     }
                 }
 
-                $_methods = Set::extract('/Aco/alias', $_methods);
+                $_methods = Hash::extract('{n}.Aco.alias', $_methods);
 
                 // add new methods
                 foreach ($methods as $m) {
@@ -1317,7 +1317,7 @@ class InstallerComponent extends Component {
             'status' => 1
         );
 
-        $link = Set::merge($__link, $link);
+        $link = Hash::merge($__link, $link);
         $link['menu_id'] = $menu_id;
 
         $MenuLink->Behaviors->detach('Tree');
@@ -1578,7 +1578,7 @@ class InstallerComponent extends Component {
             $dep = $this->checkReverseDependency($module);
 
             if (count($dep)) {
-                $this->errors[] = __t('This module can not be disabled, because it is required by: %s', implode('<br />', Set::extract('{n}.name', $dep)));
+                $this->errors[] = __t('This module can not be disabled, because it is required by: %s', implode('<br />', Hash::extract($dep, '{n}.name')));
 
                 return false;
             }

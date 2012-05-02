@@ -34,7 +34,7 @@ class BBCodeBehavior extends ModelBehavior {
             $config['fields'] = array($config['fields']);
         }
 
-        $this->settings[$Model->alias] = Set::merge($__settings, $config);
+        $this->settings[$Model->alias] = Hash::merge($__settings, $config);
         $this->settings[$Model->alias]['fields'] = array_unique($this->settings[$Model->alias]['fields']);
     }
 

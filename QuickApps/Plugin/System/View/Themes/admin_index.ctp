@@ -55,7 +55,7 @@
             )
         );
 
-        $data = Set::merge($data, $_data);
+        $data = Hash::merge($data, $_data);
 
         if (isset($data['info']['admin']) && $data['info']['admin']) {
             continue;
@@ -110,7 +110,7 @@
             )
         );
 
-        $data = Set::merge($data, $_data);
+        $data = Hash::merge($data, $_data);
 
         if (!isset($data['info']['admin']) || !$data['info']['admin']) {
             continue;

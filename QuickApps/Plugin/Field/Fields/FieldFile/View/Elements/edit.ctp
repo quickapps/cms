@@ -10,7 +10,7 @@
         $options['required'] = 'required';
     }
 
-    $field['FieldData'] = Set::merge(
+    $field['FieldData'] = Hash::merge(
         array(
             'id' => null,
             'field_id' => null,
@@ -24,7 +24,7 @@
         ), @$field['FieldData']
     );
 
-    $field['FieldData']['data'] = Set::merge(
+    $field['FieldData']['data'] = Hash::merge(
         array(
             'files' => array(),
             'description' => ''
@@ -43,7 +43,7 @@
     echo '<ul class="files-list">';
 
     foreach ($field['FieldData']['data']['files'] as $key => $file) {
-        $file = Set::merge(
+        $file = Hash::merge(
             array(
                 'mime_icon' => '',
                 'file_path' => '',

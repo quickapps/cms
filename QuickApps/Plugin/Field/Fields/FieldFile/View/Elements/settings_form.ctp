@@ -12,7 +12,7 @@
     echo $this->Form->input('Field.settings.multi',
         array(
             'type' => 'select',
-            'options' => Set::combine(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), '{n}', '{n}'),
+            'options' => Hash::combine(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), '{n}', '{n}'),
             'label' => __t('Number of files')
         )
     );

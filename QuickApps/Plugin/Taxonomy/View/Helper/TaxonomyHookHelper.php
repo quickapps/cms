@@ -37,7 +37,7 @@ class TaxonomyHookHelper extends AppHelper {
 
         Cache::config('terms_cache', array('engine' => 'File', 'duration' => $cd));
 
-        $block['Block']['settings'] = Set::merge(
+        $block['Block']['settings'] = Hash::merge(
             array(
                 'vocabularies' => array(),
                 'content_counter' => 0,

@@ -113,7 +113,7 @@ class JqueryUI {
         }
 
         $files = array_diff($files, self::$_loadedUI);
-        self::$_loadedUI = Set::merge(self::$_loadedUI, $files);
+        self::$_loadedUI = Hash::merge(self::$_loadedUI, $files);
         $rootJS = ROOT . DS . 'webroot' . DS . 'js' . DS;
 
         if (!empty($files)) {
@@ -223,7 +223,7 @@ class JqueryUI {
 
         if (file_exists($path)) {
             $stack[] = "{$plugin}/css/ui/{$theme}/{$cssName}";
-            self::$_loadedThemes = Set::merge(self::$_loadedThemes, array($theme));
+            self::$_loadedThemes = Hash::merge(self::$_loadedThemes, array($theme));
 
             return '<link rel="stylesheet" type="text/css" href="' . Router::url("{$plugin}/css/ui/{$theme}/{$cssName}") . '" media="all" />';
         }

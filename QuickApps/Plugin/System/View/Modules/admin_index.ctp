@@ -1,6 +1,6 @@
 <?php
     $modules = Configure::read('Modules');
-    $categories = array_unique(Set::extract('{s}.yaml.category', $modules));
+    $categories = array_unique(Hash::extract($modules, '{s}.yaml.category'));
 ?>
 
 <div>

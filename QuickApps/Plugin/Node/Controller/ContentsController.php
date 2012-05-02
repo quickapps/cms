@@ -176,7 +176,7 @@ class ContentsController extends NodeAppController {
 
             $_data['MenuLink'] = array();
             $this->Node->recursive = 2;
-            $data = Set::merge((array)$this->Node->findBySlug($slug), $_data);
+            $data = Hash::merge((array)$this->Node->findBySlug($slug), $_data);
             $menu_link = ClassRegistry::init('Menu.MenuLink')->find('first',
                 array(
                     'conditions' => array(
@@ -282,7 +282,7 @@ class ContentsController extends NodeAppController {
             'promote' => $type['NodeType']['default_promote'],
             'sticky' => $type['NodeType']['default_sticky']
         );
-        $this->data = Set::merge($type, $_data);
+        $this->data = Hash::merge($type, $_data);
 
         $this->__setMenus();
         $this->__setLangVar();

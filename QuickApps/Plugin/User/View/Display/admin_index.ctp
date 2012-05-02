@@ -27,7 +27,7 @@ $tSettings = array(
 );
 ?>
 
-<?php echo $this->Html->table(@Set::sort((array)$result, "{n}.Field.settings.display.{$viewMode}.ordering", 'asc'), $tSettings); ?>
+<?php echo $this->Html->table(@Hash::sort((array)$result, "{n}.Field.settings.display.{$viewMode}.ordering", 'asc'), $tSettings); ?>
 
 <?php if ($viewMode === 'default' && count($result)): ?>
     <p>

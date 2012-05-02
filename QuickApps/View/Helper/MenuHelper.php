@@ -122,7 +122,7 @@ class MenuHelper extends AppHelper {
         }
 
         if (!isset($this->__tmp['crumb_urls']) || empty($this->__tmp['crumb_urls'])) {
-            $this->__tmp['crumb_urls'] = (array)Set::extract("{n}.{$this->settings['model']}.router_path", $this->_View->viewVars['breadCrumb']);
+            $this->__tmp['crumb_urls'] = (array)Hash::extract($this->_View->viewVars['breadCrumb'], "{n}.{$this->settings['model']}.router_path");
 
             if (Configure::read('Variable.url_language_prefix')) {
                 foreach ($this->__tmp['crumb_urls'] as $crumb) {
@@ -436,7 +436,7 @@ class MenuHelper extends AppHelper {
 
         if (isset($path[1]) && !empty($path[1])) {
             foreach ($path[0] as $i => $m) {
-                $string = str_replace($m, Set::extract(trim($path[1][$i]), $item), $string);
+                $string = str_replace($m, array_pop(Hash::extract($item, trim($path[1][$i]))), $string);
             }
         }
 

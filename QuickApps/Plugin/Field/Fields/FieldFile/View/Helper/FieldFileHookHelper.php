@@ -43,7 +43,7 @@ class FieldFileHookHelper extends AppHelper {
                 'type' => ''
             )
         );
-        $data = Set::merge($__default, $data);
+        $data = Hash::merge($__default, $data);
         $content = '';
         $base_url = '/files/' . $data['settings']['upload_folder'];
 

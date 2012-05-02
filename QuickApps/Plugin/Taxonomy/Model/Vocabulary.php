@@ -37,7 +37,7 @@ class Vocabulary extends TaxonomyAppModel {
             )
         );
 
-        $ids = Set::extract('/Vocabulary/id', $nodes);
+        $ids = Hash::extract($nodes, '{n}.Vocabulary.id');
 
         if (($dir == 'down' && $ids[count($ids)-1] == $record['Vocabulary']['id']) ||
             ($dir == 'up' && $ids[0] == $record['Vocabulary']['id'])
