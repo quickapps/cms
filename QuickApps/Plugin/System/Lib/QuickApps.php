@@ -256,6 +256,15 @@ class QuickApps {
     }
 
 /**
+ * Returns current theme's machine name (CamelCased).
+ *
+ * @return string Theme name in CamelCase
+ */
+    public static function themeName() {
+        return Configure::read('Theme.info.folder');
+    }
+
+/**
  * Return only the methods for the indicated object.
  * It will strip out the inherited methods.
  *

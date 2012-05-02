@@ -708,7 +708,7 @@ class LayoutHelper extends AppHelper {
         }
 
         if (is_null($block['theme'])) {
-            $block['theme'] =  $this->themeName();
+            $block['theme'] =  QuickApps::themeName();
         }
 
         if (empty($block['region']) || empty($block['body'])) {
@@ -727,7 +727,7 @@ class LayoutHelper extends AppHelper {
             ),
             'BlockRegion' => array(
                 0 => array(
-                    'theme' => $this->themeName(),
+                    'theme' => QuickApps::themeName(),
                     'region' => $block['region']
                 )
             )
@@ -819,15 +819,6 @@ class LayoutHelper extends AppHelper {
     }
 
 /**
- * Returns current theme's machine name (CamelCased).
- *
- * @return string Theme name in CamelCase
- */
-    public function themeName() {
-        return Configure::read('Theme.info.folder');
-    }
-
-/**
  * Checks if the given theme region is empty or not.
  *
  * @param string $region Region alias
@@ -849,7 +840,7 @@ class LayoutHelper extends AppHelper {
         }
 
         $blocks = $this->_View->viewVars['Layout']['blocks'];
-        $blocks_in_theme = @Hash::extract((array)$blocks, '{n}.BlockRegion.{n}[theme=' . $this->themeName() . '].block_id');
+        $blocks_in_theme = @Hash::extract((array)$blocks, '{n}.BlockRegion.{n}[theme=' . QuickApps::themeName() . '].block_id');
         $blocks_in_region = @Hash::extract((array)$blocks, "{n}.BlockRegion.{n}[region={$region}].block_id");
         $block_ids = array_intersect($blocks_in_region, $blocks_in_theme);
         $t = 0;
@@ -917,7 +908,7 @@ class LayoutHelper extends AppHelper {
                 $blocks = $this->_tmp['blocksInRegion'][$region]['blocks'];
             } else {
                 $blocks = $this->_View->viewVars['Layout']['blocks'];
-                $blocks_in_theme = @Hash::extract((array)$blocks, '{n}.BlockRegion.{n}[theme=' . $this->themeName() . '].block_id');
+                $blocks_in_theme = @Hash::extract((array)$blocks, '{n}.BlockRegion.{n}[theme=' . QuickApps::themeName() . '].block_id');
                 $blocks_in_region = @Hash::extract((array)$blocks, "{n}.BlockRegion.{n}[region={$region}].block_id");
                 $block_ids = array_intersect($blocks_in_region, $blocks_in_theme);
 
@@ -931,7 +922,7 @@ class LayoutHelper extends AppHelper {
             foreach ($blocks as &$block) {
                 if (isset($block['BlockRegion'])) {
                     foreach ($block['BlockRegion'] as $key => $br) {
-                        if (!($br['theme'] == $this->themeName() && $br['region'] == $region)) {
+                        if (!($br['theme'] == QuickApps::themeName() && $br['region'] == $region)) {
                             unset($block['BlockRegion'][$key]);
                         }
                     }
