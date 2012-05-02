@@ -27,7 +27,7 @@ $tSettings = array(
             'sort' => 'Node.status'
         ),
         __t('Updated') => array(
-            'value' => '{php} return $this->_View->Time->format("' . __t('Y/m/d - H:i') . '", {Node.modified}, null, "' . $this->Session->read('Auth.User.timezone') . '"); {/php} {php} return ({Node.modified} != {Node.created} ? "<span style=\\"color:red;\\">' . __t('updated') . '</span>" : ""); {/php}',
+            'value' => '{php} return CakeTime::format("' . __t('Y/m/d - H:i') . '", {Node.modified}); {/php} {php} return ({Node.modified} != {Node.created} ? "<span style=\\"color:red;\\">' . __t('updated') . '</span>" : ""); {/php}',
             'sort' => 'Node.modified'
         ),
         __t('Language') => array(
