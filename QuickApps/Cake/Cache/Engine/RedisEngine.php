@@ -1,8 +1,7 @@
 <?php
 /**
- * Wincache storage engine for cache.
+ * Redis storage engine for cache
  *
- * Supports wincache 1.1.0 and higher.
  *
  * PHP 5
  *
@@ -15,24 +14,32 @@
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Cache.Engine
- * @since         CakePHP(tm) v 1.2.0.4933
+ * @since         CakePHP(tm) v 2.2
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
 /**
- * Wincache storage engine for cache
+ * Redis storage engine for cache.
  *
  * @package       Cake.Cache.Engine
  */
-class WincacheEngine extends CacheEngine {
+class RedisEngine extends CacheEngine {
 
 /**
- * Contains the compiled group names
- * (prefixed witht the global configuration prefix)
+ * Redis wrapper.
+ *
+ * @var Redis
+ */
+	protected $_Redis = null;
+
+/**
+ * Settings
+ *
+ *  - server = string url or ip to the Redis server host
  *
  * @var array
- **/
-	protected $_compiledGroupNames = array();
+ */
+	public $settings = array();
 
 /**
  * Initialize the Cache Engine
@@ -42,19 +49,46 @@ class WincacheEngine extends CacheEngine {
  *
  * @param array $settings array of setting for the engine
  * @return boolean True if the engine has been successfully initialized, false if not
- * @see CacheEngine::__defaults
  */
 	public function init($settings = array()) {
-		if (!isset($settings['prefix'])) {
-			$settings['prefix'] = Inflector::slug(APP_DIR) . '_';
+		if (!class_exists('Redis')) {
+			return false;
 		}
-		$settings += array('engine' => 'Wincache');
-		parent::init($settings);
-		return function_exists('wincache_ucache_info');
+		parent::init(array_merge(array(
+			'engine' => 'Redis',
+			'prefix' => null,
+			'server' => '127.0.0.1',
+			'port' => null,
+			'persistent' => true,
+			'serialize' => true
+			), $settings)
+		);
+
+		return $this->_connect();
 	}
 
 /**
- * Write data for key into cache
+ * Connects to a Redis server
+ *
+ * @return boolean True if Redis server was connected
+ */
+	protected function _connect() {
+		$return = false;
+		try {
+			$this->_Redis = new Redis();
+			if (empty($this->settings['persistent'])) {
+				$return = $this->_Redis->connect($this->settings['server']);
+			} else {
+				$return = $this->_Redis->pconnect($this->settings['server']);
+			}
+		} catch (RedisException $e) {
+			return false;
+		}
+		return $return;
+	}
+
+/**
+ * Write data for key into cache.
  *
  * @param string $key Identifier for the data
  * @param mixed $value Data to be cached
@@ -62,30 +96,31 @@ class WincacheEngine extends CacheEngine {
  * @return boolean True if the data was successfully cached, false on failure
  */
 	public function write($key, $value, $duration) {
-		$expires = time() + $duration;
+		if (!is_int($value)) {
+			$value = serialize($value);
+		}
+		if ($duration === 0) {
+			return $this->_Redis->set($key, $value);
+		}
 
-		$data = array(
-			$key . '_expires' => $expires,
-			$key => $value
-		);
-		$result = wincache_ucache_set($data, null, $duration);
-		return empty($result);
+		return $this->_Redis->setex($key, $duration, $value);
 	}
 
 /**
  * Read a key from the cache
  *
  * @param string $key Identifier for the data
- * @return mixed The cached data, or false if the data doesn't exist, has expired, or if
- *     there was an error fetching it
+ * @return mixed The cached data, or false if the data doesn't exist, has expired, or if there was an error fetching it
  */
 	public function read($key) {
-		$time = time();
-		$cachetime = intval(wincache_ucache_get($key . '_expires'));
-		if ($cachetime < $time || ($time + $this->settings['duration']) < $cachetime) {
-			return false;
+		$value = $this->_Redis->get($key);
+		if (ctype_digit($value)) {
+			$value = (int)$value;
 		}
-		return wincache_ucache_get($key);
+		if ($value !== false && is_string($value)) {
+			$value = unserialize($value);
+		}
+		return $value;
 	}
 
 /**
@@ -94,9 +129,10 @@ class WincacheEngine extends CacheEngine {
  * @param string $key Identifier for the data
  * @param integer $offset How much to increment
  * @return New incremented value, false otherwise
+ * @throws CacheException when you try to increment with compress = true
  */
 	public function increment($key, $offset = 1) {
-		return wincache_ucache_inc($key, $offset);
+		return (int)$this->_Redis->incrBy($key, $offset);
 	}
 
 /**
@@ -105,9 +141,10 @@ class WincacheEngine extends CacheEngine {
  * @param string $key Identifier for the data
  * @param integer $offset How much to subtract
  * @return New decremented value, false otherwise
+ * @throws CacheException when you try to decrement with compress = true
  */
 	public function decrement($key, $offset = 1) {
-		return wincache_ucache_dec($key, $offset);
+		return (int)$this->_Redis->decrBy($key, $offset);
 	}
 
 /**
@@ -117,29 +154,22 @@ class WincacheEngine extends CacheEngine {
  * @return boolean True if the value was successfully deleted, false if it didn't exist or couldn't be removed
  */
 	public function delete($key) {
-		return wincache_ucache_delete($key);
+		return $this->_Redis->delete($key) > 0;
 	}
 
 /**
- * Delete all keys from the cache.  This will clear every
- * item in the cache matching the cache config prefix.
+ * Delete all keys from the cache
  *
- * @param boolean $check If true, nothing will be cleared, as entries will
- *   naturally expire in wincache..
- * @return boolean True Returns true.
+ * @param boolean $check
+ * @return boolean True if the cache was successfully cleared, false otherwise
  */
 	public function clear($check) {
 		if ($check) {
 			return true;
 		}
-		$info = wincache_ucache_info();
-		$cacheKeys = $info['ucache_entries'];
-		unset($info);
-		foreach ($cacheKeys as $key) {
-			if (strpos($key['key_name'], $this->settings['prefix']) === 0) {
-				wincache_ucache_delete($key['key_name']);
-			}
-		}
+		$keys = $this->_Redis->getKeys($this->settings['prefix'] . '*');
+		$this->_Redis->del($keys);
+
 		return true;
 	}
 
@@ -151,27 +181,14 @@ class WincacheEngine extends CacheEngine {
  * @return array
  **/
 	public function groups() {
-		if (empty($this->_compiledGroupNames)) {
-			foreach ($this->settings['groups'] as $group) {
-				$this->_compiledGroupNames[] = $this->settings['prefix'] . $group;
-			}
-		}
-
-		$groups = wincache_ucache_get($this->_compiledGroupNames);
-		if (count($groups) !== count($this->settings['groups'])) {
-			foreach ($this->_compiledGroupNames as $group) {
-				if (!isset($groups[$group])) {
-					wincache_ucache_set($group, 1);
-					$groups[$group] = 1;
-				}
-			}
-			ksort($groups);
-		}
-
 		$result = array();
-		$groups = array_values($groups);
-		foreach ($this->settings['groups'] as $i => $group) {
-			$result[] = $group . $groups[$i];
+		foreach ($this->settings['groups'] as $group) {
+			$value = $this->_Redis->get($this->settings['prefix'] . $group);
+			if (!$value) {
+				$value = 1;
+				$this->_Redis->set($this->settings['prefix'] . $group, $value);
+			}
+			$result[] = $group . $value;
 		}
 		return $result;
 	}
@@ -183,8 +200,17 @@ class WincacheEngine extends CacheEngine {
  * @return boolean success
  **/
 	public function clearGroup($group) {
-		wincache_ucache_inc($this->settings['prefix'] . $group, 1, $success);
-		return $success;
+		return (bool)$this->_Redis->incr($this->settings['prefix'] . $group);
 	}
 
+/**
+ * Disconnects from the redis server
+ *
+ * @return voind
+ **/
+	public function __destruct() {
+		if (!$this->settings['persistent']) {
+			$this->_Redis->close();
+		}
+	}
 }
