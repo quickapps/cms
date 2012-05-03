@@ -38,6 +38,6 @@ Free open source content management system for PHP, released under GPL License a
  * [GitHub Repo](https://github.com/QuickAppsCMS/QuickApps-CMS)
  * [Downloads](https://github.com/QuickAppsCMS/QuickApps-CMS/tags)
  * [Issue Tracker](https://github.com/QuickAppsCMS/QuickApps-CMS/issues)
- * [Wiki](https://github.com/QuickAppsCMS/QuickApps-CMS/wiki)
+ * [Documentation](https://github.com/QuickAppsCMS/QuickApps-CMS-Docs)
  * [Google Group](https://groups.google.com/group/quickapps-cms)
  * [Twitter](https://twitter.com/#!/quickapps_cms)
