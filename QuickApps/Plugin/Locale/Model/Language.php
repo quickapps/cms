@@ -99,7 +99,7 @@ class Language extends LocaleAppModel {
             )
         );
 
-        $ids = Hash::extract($nodes, '/Language/id');
+        $ids = Hash::extract($nodes, '{n}.Language.id');
 
         if (($dir == 'down' && $ids[count($ids)-1] == $record['Language']['id']) ||
             ($dir == 'up' && $ids[0] == $record['Language']['id'])
