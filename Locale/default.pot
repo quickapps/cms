@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2012-04-30 23:19+0000\n"
+"POT-Creation-Date: 2012-05-05 11:50+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -78,7 +78,7 @@ msgstr ""
 msgid "Could not create new user, please try again."
 msgstr ""
 
-#: Controller\InstallController.php:327
+#: Controller\InstallController.php:328
 msgid "Could not write 'install' file. Check file/folder permissions and refresh this page."
 msgstr ""
 
@@ -532,25 +532,25 @@ msgstr ""
 msgid "Active"
 msgstr ""
 
-#: Plugin\Block\View\Manage\admin_index.ctp:99;211;274
+#: Plugin\Block\View\Manage\admin_index.ctp:108;229;292
 msgid "Duplicate this block?"
 msgstr ""
 
-#: Plugin\Block\View\Manage\admin_index.ctp:99;211;274
+#: Plugin\Block\View\Manage\admin_index.ctp:108;229;292
 msgid "clone"
 msgstr ""
 
-#: Plugin\Block\View\Manage\admin_index.ctp:100;212;275
+#: Plugin\Block\View\Manage\admin_index.ctp:109;230;293
 #: Plugin\Node\View\Types\admin_fields.ctp:21
 #: Plugin\User\View\Fields\admin_index.ctp:21
 msgid "configure"
 msgstr ""
 
-#: Plugin\Block\View\Manage\admin_index.ctp:102;214;277
+#: Plugin\Block\View\Manage\admin_index.ctp:111;232;295
 msgid "Delete selected block ?"
 msgstr ""
 
-#: Plugin\Block\View\Manage\admin_index.ctp:102;214;277
+#: Plugin\Block\View\Manage\admin_index.ctp:111;232;295
 #: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:19
 #: Plugin\Locale\View\Translations\admin_list.ctp:12
 #: Plugin\Menu\View\Elements\menu_link_node.ctp:4
@@ -566,12 +566,12 @@ msgstr ""
 msgid "delete"
 msgstr ""
 
-#: Plugin\Block\View\Manage\admin_index.ctp:225
+#: Plugin\Block\View\Manage\admin_index.ctp:243
 msgid "Unassigned or Disabled"
 msgstr ""
 
-#: Plugin\Block\View\Manage\admin_index.ctp:286
-#: Plugin\System\View\Configuration\admin_index.ctp:130
+#: Plugin\Block\View\Manage\admin_index.ctp:304
+#: Plugin\System\View\Configuration\admin_index.ctp:177
 #: Plugin\System\View\Modules\admin_settings.ctp:6
 msgid "Save all"
 msgstr ""
@@ -1191,7 +1191,7 @@ msgstr ""
 #: Plugin\Field\View\Elements\display_settings.ctp:39
 #: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:70
 #: Plugin\Node\View\Types\admin_fields.ctp:17
-#: Plugin\System\View\Configuration\admin_index.ctp:18;38;71
+#: Plugin\System\View\Configuration\admin_index.ctp:18;38;117
 #: Plugin\Taxonomy\View\Elements\taxonomy_vocabularies_settings.ctp:20;28
 #: Plugin\User\View\Fields\admin_index.ctp:17
 msgid "Yes"
@@ -1200,7 +1200,7 @@ msgstr ""
 #: Plugin\Field\View\Elements\display_settings.ctp:39
 #: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:71
 #: Plugin\Node\View\Types\admin_fields.ctp:17
-#: Plugin\System\View\Configuration\admin_index.ctp:18;38;70
+#: Plugin\System\View\Configuration\admin_index.ctp:18;38;116
 #: Plugin\Taxonomy\View\Elements\taxonomy_vocabularies_settings.ctp:20;28
 #: Plugin\User\View\Fields\admin_index.ctp:17
 msgid "No"
@@ -1432,7 +1432,7 @@ msgid "Flag icon"
 msgstr ""
 
 #: Plugin\Locale\View\Languages\admin_edit.ctp:42
-#: Plugin\System\View\Configuration\admin_index.ctp:89
+#: Plugin\System\View\Configuration\admin_index.ctp:135
 #: Plugin\Taxonomy\View\Vocabularies\admin_terms.ctp:8
 msgid "-- None --"
 msgstr ""
@@ -2929,67 +2929,95 @@ msgstr ""
 msgid "Users settings"
 msgstr ""
 
-#: Plugin\System\View\Configuration\admin_index.ctp:47
-msgid "Use <a href='http://www.gravatar.com'>Gravatar</a>"
+#: Plugin\System\View\Configuration\admin_index.ctp:43
+msgid "User Login"
 msgstr ""
 
-#: Plugin\System\View\Configuration\admin_index.ctp:58
-msgid "Avatar width"
+#: Plugin\System\View\Configuration\admin_index.ctp:56
+msgid "After"
 msgstr ""
 
-#: Plugin\System\View\Configuration\admin_index.ctp:59
-msgid "By default, images are presented at 80px by 80px if no size parameter is supplied."
+#: Plugin\System\View\Configuration\admin_index.ctp:57
+msgid "failed login attempts"
 msgstr ""
 
-#: Plugin\System\View\Configuration\admin_index.ctp:61
-msgid "Default avatar URL"
+#: Plugin\System\View\Configuration\admin_index.ctp:79
+msgid "Block visitor for"
 msgstr ""
 
-#: Plugin\System\View\Configuration\admin_index.ctp:62
-msgid "URL of picture to display for users with an email not matching a Gravatar image."
+#: Plugin\System\View\Configuration\admin_index.ctp:80
+msgid "minutes"
 msgstr ""
 
-#: Plugin\System\View\Configuration\admin_index.ctp:68
-msgid "Force default"
+#: Plugin\System\View\Configuration\admin_index.ctp:85
+msgid "Leave empty any of the parameters for no login-blocking feature."
 msgstr ""
 
-#: Plugin\System\View\Configuration\admin_index.ctp:76
-msgid "Force the default image to always load."
-msgstr ""
-
-#: Plugin\System\View\Configuration\admin_index.ctp:82
-msgid "Rating"
+#: Plugin\System\View\Configuration\admin_index.ctp:88
+msgid "User Avatar"
 msgstr ""
 
 #: Plugin\System\View\Configuration\admin_index.ctp:93
-msgid "If the user's email does not have an image meeting the requested rating level, then the default image is returned (or the specified default)"
+msgid "Use <a href='http://www.gravatar.com'>Gravatar</a>"
 msgstr ""
 
-#: Plugin\System\View\Configuration\admin_index.ctp:96
-msgid "suitable for display on all websites with any audience type."
-msgstr ""
-
-#: Plugin\System\View\Configuration\admin_index.ctp:97
-msgid "may contain rude gestures, provocatively dressed individuals, the lesser swear words, or mild violence."
-msgstr ""
-
-#: Plugin\System\View\Configuration\admin_index.ctp:98
-msgid "may contain such things as harsh profanity, intense violence, nudity, or hard drug use."
-msgstr ""
-
-#: Plugin\System\View\Configuration\admin_index.ctp:99
-msgid "may contain hardcore sexual imagery or extremely disturbing violence."
+#: Plugin\System\View\Configuration\admin_index.ctp:104
+msgid "Avatar width"
 msgstr ""
 
 #: Plugin\System\View\Configuration\admin_index.ctp:105
+msgid "By default, images are presented at 80px by 80px if no size parameter is supplied."
+msgstr ""
+
+#: Plugin\System\View\Configuration\admin_index.ctp:107
+msgid "Default avatar URL"
+msgstr ""
+
+#: Plugin\System\View\Configuration\admin_index.ctp:108
+msgid "URL of picture to display for users with an email not matching a Gravatar image."
+msgstr ""
+
+#: Plugin\System\View\Configuration\admin_index.ctp:114
+msgid "Force default"
+msgstr ""
+
+#: Plugin\System\View\Configuration\admin_index.ctp:122
+msgid "Force the default image to always load."
+msgstr ""
+
+#: Plugin\System\View\Configuration\admin_index.ctp:128
+msgid "Rating"
+msgstr ""
+
+#: Plugin\System\View\Configuration\admin_index.ctp:139
+msgid "If the user's email does not have an image meeting the requested rating level, then the default image is returned (or the specified default)"
+msgstr ""
+
+#: Plugin\System\View\Configuration\admin_index.ctp:142
+msgid "suitable for display on all websites with any audience type."
+msgstr ""
+
+#: Plugin\System\View\Configuration\admin_index.ctp:143
+msgid "may contain rude gestures, provocatively dressed individuals, the lesser swear words, or mild violence."
+msgstr ""
+
+#: Plugin\System\View\Configuration\admin_index.ctp:144
+msgid "may contain such things as harsh profanity, intense violence, nudity, or hard drug use."
+msgstr ""
+
+#: Plugin\System\View\Configuration\admin_index.ctp:145
+msgid "may contain hardcore sexual imagery or extremely disturbing violence."
+msgstr ""
+
+#: Plugin\System\View\Configuration\admin_index.ctp:151
 msgid "Default avatar"
 msgstr ""
 
-#: Plugin\System\View\Configuration\admin_index.ctp:106
+#: Plugin\System\View\Configuration\admin_index.ctp:152
 msgid "URL of picture to display for users with no custom picture selected or anonymous users."
 msgstr ""
 
-#: Plugin\System\View\Configuration\admin_index.ctp:124
+#: Plugin\System\View\Configuration\admin_index.ctp:171
 msgid "Other module settings"
 msgstr ""
 
@@ -3509,11 +3537,19 @@ msgstr ""
 msgid "%s profile"
 msgstr ""
 
-#: Plugin\User\Controller\UserController.php:206
+#: Plugin\User\Controller\UserController.php:189
+msgid "You have reached the maximum number of login attempts. Try again in %d minutes."
+msgstr ""
+
+#: Plugin\User\Controller\UserController.php:230
+msgid "Logged in successfully."
+msgstr ""
+
+#: Plugin\User\Controller\UserController.php:234
 msgid "Invalid username or password"
 msgstr ""
 
-#: Plugin\User\Controller\UserController.php:218
+#: Plugin\User\Controller\UserController.php:260
 msgid "Logout successful."
 msgstr ""
 

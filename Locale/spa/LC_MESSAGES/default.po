@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2012-04-30 23:19+0000\n"
+"POT-Creation-Date: 2012-05-05 11:50+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christopher Castro <chris@quickapps.es>\n"
 "Language-Team: \n"
@@ -73,7 +73,7 @@ msgstr "No se pudo escribir en el fichero database.php."
 msgid "Could not create new user, please try again."
 msgstr "No se pudo crear el usuario, por favor intente nuevamente."
 
-#: Controller\InstallController.php:327
+#: Controller\InstallController.php:328
 msgid "Could not write 'install' file. Check file/folder permissions and refresh this page."
 msgstr "No pudo escribir en el fichero 'install'. Por favor verifique los permisos y actualice esta página."
 
@@ -527,25 +527,25 @@ msgstr "Guardar bloque"
 msgid "Active"
 msgstr "Activo"
 
-#: Plugin\Block\View\Manage\admin_index.ctp:99;211;274
+#: Plugin\Block\View\Manage\admin_index.ctp:108;229;292
 msgid "Duplicate this block?"
 msgstr "Duplicar este bloque?"
 
-#: Plugin\Block\View\Manage\admin_index.ctp:99;211;274
+#: Plugin\Block\View\Manage\admin_index.ctp:108;229;292
 msgid "clone"
 msgstr "clonar"
 
-#: Plugin\Block\View\Manage\admin_index.ctp:100;212;275
+#: Plugin\Block\View\Manage\admin_index.ctp:109;230;293
 #: Plugin\Node\View\Types\admin_fields.ctp:21
 #: Plugin\User\View\Fields\admin_index.ctp:21
 msgid "configure"
 msgstr "configurar"
 
-#: Plugin\Block\View\Manage\admin_index.ctp:102;214;277
+#: Plugin\Block\View\Manage\admin_index.ctp:111;232;295
 msgid "Delete selected block ?"
 msgstr "¿Eliminar el bloque seleccionado?"
 
-#: Plugin\Block\View\Manage\admin_index.ctp:102;214;277
+#: Plugin\Block\View\Manage\admin_index.ctp:111;232;295
 #: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:19
 #: Plugin\Locale\View\Translations\admin_list.ctp:12
 #: Plugin\Menu\View\Elements\menu_link_node.ctp:4
@@ -561,12 +561,12 @@ msgstr "¿Eliminar el bloque seleccionado?"
 msgid "delete"
 msgstr "eliminar"
 
-#: Plugin\Block\View\Manage\admin_index.ctp:225
+#: Plugin\Block\View\Manage\admin_index.ctp:243
 msgid "Unassigned or Disabled"
 msgstr "No Asignados o Desactivados"
 
-#: Plugin\Block\View\Manage\admin_index.ctp:286
-#: Plugin\System\View\Configuration\admin_index.ctp:130
+#: Plugin\Block\View\Manage\admin_index.ctp:304
+#: Plugin\System\View\Configuration\admin_index.ctp:177
 #: Plugin\System\View\Modules\admin_settings.ctp:6
 msgid "Save all"
 msgstr "Guardar todo"
@@ -1186,7 +1186,7 @@ msgstr "Permitir hooktags"
 #: Plugin\Field\View\Elements\display_settings.ctp:39
 #: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:70
 #: Plugin\Node\View\Types\admin_fields.ctp:17
-#: Plugin\System\View\Configuration\admin_index.ctp:18;38;71
+#: Plugin\System\View\Configuration\admin_index.ctp:18;38;117
 #: Plugin\Taxonomy\View\Elements\taxonomy_vocabularies_settings.ctp:20;28
 #: Plugin\User\View\Fields\admin_index.ctp:17
 msgid "Yes"
@@ -1195,7 +1195,7 @@ msgstr "Si"
 #: Plugin\Field\View\Elements\display_settings.ctp:39
 #: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:71
 #: Plugin\Node\View\Types\admin_fields.ctp:17
-#: Plugin\System\View\Configuration\admin_index.ctp:18;38;70
+#: Plugin\System\View\Configuration\admin_index.ctp:18;38;116
 #: Plugin\Taxonomy\View\Elements\taxonomy_vocabularies_settings.ctp:20;28
 #: Plugin\User\View\Fields\admin_index.ctp:17
 msgid "No"
@@ -1427,7 +1427,7 @@ msgid "Flag icon"
 msgstr "Icono de bandera"
 
 #: Plugin\Locale\View\Languages\admin_edit.ctp:42
-#: Plugin\System\View\Configuration\admin_index.ctp:89
+#: Plugin\System\View\Configuration\admin_index.ctp:135
 #: Plugin\Taxonomy\View\Vocabularies\admin_terms.ctp:8
 msgid "-- None --"
 msgstr "-- Ninguno --"
@@ -2924,67 +2924,95 @@ msgstr "URLs como http://dominio.com/fre/about se mostrarán en Francés (fre). 
 msgid "Users settings"
 msgstr "Parámetros de usuarios"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:47
+#: Plugin\System\View\Configuration\admin_index.ctp:43
+msgid "User Login"
+msgstr "Identificación"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:56
+msgid "After"
+msgstr "Después de"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:57
+msgid "failed login attempts"
+msgstr "identificaciones fallidas"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:79
+msgid "Block visitor for"
+msgstr "Bloquear visitante por"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:80
+msgid "minutes"
+msgstr "minutos"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:85
+msgid "Leave empty any of the parameters for no login-blocking feature."
+msgstr "Dejar en blanco cualquiera de los parametros para desactivar esta característica."
+
+#: Plugin\System\View\Configuration\admin_index.ctp:88
+msgid "User Avatar"
+msgstr "Avatar"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:93
 msgid "Use <a href='http://www.gravatar.com'>Gravatar</a>"
 msgstr "Utilizar <a href='http://www.gravatar.com'>Gravatar</a>"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:58
+#: Plugin\System\View\Configuration\admin_index.ctp:104
 msgid "Avatar width"
 msgstr "Anchura de avatar"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:59
+#: Plugin\System\View\Configuration\admin_index.ctp:105
 msgid "By default, images are presented at 80px by 80px if no size parameter is supplied."
 msgstr "Por defecto, las imagenes se muestran a 80px por 80px si no se proporciona ningún parámetro."
 
-#: Plugin\System\View\Configuration\admin_index.ctp:61
+#: Plugin\System\View\Configuration\admin_index.ctp:107
 msgid "Default avatar URL"
 msgstr "URL del avatar por defecto"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:62
+#: Plugin\System\View\Configuration\admin_index.ctp:108
 msgid "URL of picture to display for users with an email not matching a Gravatar image."
 msgstr "URL de la imágen a mostrar para usuarios sin un email registrado en Gravatar."
 
-#: Plugin\System\View\Configuration\admin_index.ctp:68
+#: Plugin\System\View\Configuration\admin_index.ctp:114
 msgid "Force default"
 msgstr "Forzar imágen por defecto"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:76
+#: Plugin\System\View\Configuration\admin_index.ctp:122
 msgid "Force the default image to always load."
 msgstr "Mostrar siempre la imágen por defecto."
 
-#: Plugin\System\View\Configuration\admin_index.ctp:82
+#: Plugin\System\View\Configuration\admin_index.ctp:128
 msgid "Rating"
 msgstr "Clasificación"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:93
+#: Plugin\System\View\Configuration\admin_index.ctp:139
 msgid "If the user's email does not have an image meeting the requested rating level, then the default image is returned (or the specified default)"
 msgstr "Si el email de suaurio no cumple el nivel de clasificación necesario, entonces se muestra la imágen por defacto (o la especificada por defecto)"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:96
+#: Plugin\System\View\Configuration\admin_index.ctp:142
 msgid "suitable for display on all websites with any audience type."
 msgstr "adecuado para websites con cualquier tipo de audiencia."
 
-#: Plugin\System\View\Configuration\admin_index.ctp:97
+#: Plugin\System\View\Configuration\admin_index.ctp:143
 msgid "may contain rude gestures, provocatively dressed individuals, the lesser swear words, or mild violence."
 msgstr "puede contener gestos groseros, personas vestidas de forma provocativa, la malas palabras menores, o violencia moderada."
 
-#: Plugin\System\View\Configuration\admin_index.ctp:98
+#: Plugin\System\View\Configuration\admin_index.ctp:144
 msgid "may contain such things as harsh profanity, intense violence, nudity, or hard drug use."
 msgstr "pueden contener cosas como malas palabras fuertes, violencia intensa, desnudos o abuso de drogas."
 
-#: Plugin\System\View\Configuration\admin_index.ctp:99
+#: Plugin\System\View\Configuration\admin_index.ctp:145
 msgid "may contain hardcore sexual imagery or extremely disturbing violence."
 msgstr "pueden contener imágenes de sexo o violencia explícitas."
 
-#: Plugin\System\View\Configuration\admin_index.ctp:105
+#: Plugin\System\View\Configuration\admin_index.ctp:151
 msgid "Default avatar"
 msgstr "Avatar por defecto"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:106
+#: Plugin\System\View\Configuration\admin_index.ctp:152
 msgid "URL of picture to display for users with no custom picture selected or anonymous users."
 msgstr "URL de la imágen a mostrar para usuarios sin avatar personalizado o usuarios anónimos."
 
-#: Plugin\System\View\Configuration\admin_index.ctp:124
+#: Plugin\System\View\Configuration\admin_index.ctp:171
 msgid "Other module settings"
 msgstr "Otros parámetros de módulos"
 
@@ -3508,11 +3536,19 @@ msgstr "Solicitar nueva contraseña"
 msgid "%s profile"
 msgstr "%s perfil"
 
-#: Plugin\User\Controller\UserController.php:206
+#: Plugin\User\Controller\UserController.php:189
+msgid "You have reached the maximum number of login attempts. Try again in %d minutes."
+msgstr "Ha alcanzado el número máximo de intentos. Intente dentro de %d minutos."
+
+#: Plugin\User\Controller\UserController.php:230
+msgid "Logged in successfully."
+msgstr "Identificación exitosa."
+
+#: Plugin\User\Controller\UserController.php:234
 msgid "Invalid username or password"
 msgstr "Nombre de usuario o contraseña inválidos"
 
-#: Plugin\User\Controller\UserController.php:218
+#: Plugin\User\Controller\UserController.php:260
 msgid "Logout successful."
 msgstr "Desidentificación exitosa."
 
