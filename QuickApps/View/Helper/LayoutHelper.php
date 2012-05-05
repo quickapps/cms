@@ -56,7 +56,7 @@ class LayoutHelper extends AppHelper {
                         if ($matches[1] &&
                             file_exists(TMP . 'cache' . DS . 'persistent' . DS . Inflector::underscore('cake_theme_' . Configure::read('Theme.info.folder') . '_' . $matches[1] . '_css'))
                         ) {
-                            $c = preg_replace('/\/theme\/' . Configure::read('Theme.info.folder') . '\/css\/(.*).css/', '/theme/' . Configure::read('Theme.info.folder') . '/css/\1.css@@custom', $c);
+                            $c = preg_replace('/\/theme\/' . Configure::read('Theme.info.folder') . '\/css\/(.*).css/', '/theme/' . Configure::read('Theme.info.folder') . '/custom_css/\1.css', $c);
                         }
                     }
                 }
