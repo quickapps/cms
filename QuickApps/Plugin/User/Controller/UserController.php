@@ -164,6 +164,34 @@ class UserController extends UserAppController {
     }
 
     private function __login() {
+        $return = false;
+        $loginBlocking = Configure::read('Variable.user_login_attempts') && Configure::read('Variable.user_login_attempts_time');
+
+        if ($loginBlocking) {
+            Cache::config('users_login',
+                array(
+                    'engine' => 'File',
+                    'duration' => '+' . Configure::read('Variable.user_login_attempts_time') . ' seconds',
+                    'path' => CACHE
+                )
+            );
+
+            $attemptStruct = array(
+                'attempts' => 0,
+                'last_attempt' => 0,
+                'ip' => '',
+                'login_stack' => array()
+            );
+            $cacheName = 'login_failed_' . env('REMOTE_ADDR');
+            $cache = Cache::read($cacheName, 'users_login');
+
+            if ($cache && $cache['attempts'] >= Configure::read('Variable.user_login_attempts')) {
+                $this->flashMsg(__t('You have reached the maximum number of login attempts. Try again in %d minutes.', Configure::read('Variable.user_login_attempts_time') / 60));
+
+                return false;
+            }
+        }
+
         $this->User->unbindFields();
 
         if (isset($this->data['User'])) {
@@ -199,16 +227,30 @@ class UserController extends UserAppController {
 
                 $this->User->saveField('last_login', time());
                 $this->Auth->login($session);
+                $this->flashMsg(__t('Logged in successfully.'), 'success');
 
-                return true;
+                $return = true;
+            } else {
+                $this->flashMsg(__t('Invalid username or password'), 'error');
             }
 
-            $this->flashMsg(__t('Invalid username or password'), 'error');
+            if (!$return && $loginBlocking) {
+                $cache = array_merge($attemptStruct, (array)$cache);
+                $cache['attempts'] += 1;
+                $cache['last_attempt'] = time();
+                $cache['ip'] = env('REMOTE_ADDR');
+                $cache['login_stack'][] = array(
+                    'username' => $this->data['User']['username'],
+                    'password' => $this->data['User']['password'],
+                    'time' => time()
+                );
 
-            return false;
+                $this->hook('login_failed', $cache);
+                Cache::write($cacheName, $cache, 'users_login');
+            }
         }
 
-        return false;
+        return $return;
     }
 
     private function __logout() {
