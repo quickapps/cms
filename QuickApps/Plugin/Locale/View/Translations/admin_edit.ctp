@@ -10,13 +10,16 @@
         <p>
             <?php
                 $i = 0;
-                foreach (Configure::read('Variable.languages') as $lang):
-                    $t = Hash::extract($this->data, "{n}.I18n[locale={$lang['Language']['code']}]");
-                    $t = Hash::merge(array('I18n' => array('content' => '', 'id' => null)), @$t[0]);
+
+                foreach (Configure::read('Variable.languages') as $lang) {
+                    $t = (array)Hash::extract($this->data, "I18n.{n}[locale={$lang['Language']['code']}]");
+                    $t = isset($t[0]) ? $t[0] : array();
+                    $t = Hash::merge(array('content' => '', 'id' => null), $t);
+
                     echo $this->Form->input("I18n.{$i}.content",
                         array(
                             'type' => 'textarea',
-                            'value' => $t['I18n']['content'],
+                            'value' => $t['content'],
                             'label' => $lang['Language']['native']
                         )
                     );
@@ -24,7 +27,7 @@
                     echo $this->Form->input("I18n.{$i}.id",
                         array(
                             'type' => 'hidden',
-                            'value' => $t['I18n']['id']
+                            'value' => $t['id']
                         )
                     );
 
@@ -36,7 +39,7 @@
                     );
 
                     $i++;
-                endforeach;
+                }
             ?>
         </p>
 
@@ -50,5 +53,5 @@
     <?php echo $this->Html->useTag('fieldsetend'); ?>
 
     <!-- Submit -->
-    <?php echo $this->Form->input(__t('Translate'), array('type' => 'submit')); ?>
+    <?php echo $this->Form->input(__t('Save'), array('type' => 'submit')); ?>
 <?php echo $this->Form->end(); ?>
