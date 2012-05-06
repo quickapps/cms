@@ -381,8 +381,8 @@ class InstallerComponent extends Component {
             }
 
             if (
-                ($this->options['type'] == 'theme' && isset($yaml['info']['dependencies']) && !$this->checkDependency($yaml['info'])) ||
-                ($this->options['type'] == 'module' && isset($yaml['dependencies']) && !$this->checkDependency($yaml))
+                ($this->options['type'] == 'theme' && isset($yaml['info']['dependencies']) && !$this->checkDependency($yaml['info']['dependencies'])) ||
+                ($this->options['type'] == 'module' && isset($yaml['dependencies']) && !$this->checkDependency($yaml['dependencies']))
             ) {
                 if ($this->options['type'] == 'module') {
                     $this->errors[] = __t("This module depends on other modules that you do not have or doesn't meet the version required: %s", implode(', ', $yaml['dependencies']));
@@ -856,20 +856,24 @@ class InstallerComponent extends Component {
     }
 
 /**
- * Verify if all the modules that $module depends on are available and match the required version.
+ * Verify if the given list of modules & version are installed and actives.
+ * Example of dependencies list:
  *
- * @param  string $module Module alias
+ * {{{
+ *  array(
+ *      'ModuleOne (1.0)',
+ *      'ModuleTwo (>= 1.0)',
+ *      'ModuleThree (1.x)',
+ *      'ModuleFour'
+ *  )
+ * }}}
+ *
+ * @param array $module List of dependencies to check.
  * @return boolean TRUE if all modules are available.
- *                 FALSE if any of the required modules is not present/version-compatible
+ *                 FALSE if any of the required modules is not installed/version-compatible
  */
-    public function checkDependency($module = null) {
-        $dependencies = false;
-
-        if (is_array($module) && isset($module['dependencies'])) {
-            $dependencies = $module['dependencies'];
-        } elseif (is_string($module)) {
-            $dependencies = Configure::read('Modules.' . Inflector::camelize($module) . '.yaml');
-        } else {
+    public function checkDependency($dependencies = array()) {
+        if (empty($dependencies)) {
             return true;
         }
 
@@ -897,10 +901,10 @@ class InstallerComponent extends Component {
  *
  * @param  string $module Module alias
  * @param  boolean $returnList Set to true to return an array list of all modules that uses $module.
- *                             The array list contains all the module information Configure::read('Modules.{module}')
- * @return mixed Boolean (if $returnList = false), false return means that there are no module that uses $module.
- *                       Or an array list of all modules that uses $module ($returnList = true), empty arrray is returned
- *                       if there are no module that uses $module.
+ *                             This list contains all the information of each module: Configure::read('Modules.{module}')
+ * @return mixed Boolean If $returnList is set to false, a FALSE return means that there are no module that uses $module.
+ *                       Or an array list of all modules that uses $module when $returnList is set to true, an empty array is
+ *                       returned if there are no module that uses $module.
  */
     function checkReverseDependency($module, $returnList = true) {
         $list = array();
@@ -966,6 +970,7 @@ class InstallerComponent extends Component {
 /**
  * Creates acos for specified module by parsing its Controller folder. (Module's fields are also analyzed).
  * If module is already installed then an Aco update will be performed.
+ *
  * ### Usage:
  * {{{
  *  $this->Installer->buildAcos('User', APP . 'Plugin' . DS);
@@ -1598,8 +1603,8 @@ class InstallerComponent extends Component {
             }
 
             if (
-                ($isTheme && isset($yaml['info']['dependencies']) && !$this->checkDependency($yaml['info'])) ||
-                (!$isTheme && isset($yaml['dependencies']) && !$this->checkDependency($yaml))
+                ($isTheme && isset($yaml['info']['dependencies']) && !$this->checkDependency($yaml['info']['dependencies'])) ||
+                (!$isTheme && isset($yaml['dependencies']) && !$this->checkDependency($yaml['dependencies']))
             ) {
                 if ($this->options['type'] == 'module') {
                     $this->errors[] = __t("This module depends on other modules that you do not have or doesn't meet the version required: %s", implode('<br/>', $yaml['dependencies']));
