@@ -13,7 +13,7 @@ foreach ($blocks_in_theme as &$block) {
     $block['BlockRegion'] = array_merge(array(), $block['BlockRegion']);
 }
 
-$regions = array_unique($regions);
+$regions = Hash::filter(array_unique($regions));
 sort($regions);
 
 foreach ($regions as $region) {
@@ -24,24 +24,28 @@ foreach ($regions as $region) {
         continue;
     }
 
-    foreach ($blocks_in_theme as $_block) {
-        if (in_array($_block['Block']['id'], $blocks_in_region_ids)) {
-            $blocks_in_region[] = $_block;
+    foreach ($blocks_in_theme as $b) {
+        if (
+            in_array($b['Block']['id'], $blocks_in_region_ids) &&
+            isset($b['BlockRegion'][0]['id'])
+        ) {
+            $blocks_in_region[] = $b;
         }
     }
 
-    $blocks_in_region = Hash::sort($blocks_in_region, '{n}.BlockRegion.{n}.ordering', 'asc', 'numeric');
+    $blocks_in_region = Hash::sort((array)$blocks_in_region, '{n}.BlockRegion.0.ordering', 'asc', 'numeric');
 
-    foreach ($blocks_in_region as $key => &$_block) {
-        $block_region_id = Hash::extract($_block['BlockRegion'], '{n}.id');
-        $_block['Block']['__block_region_id'] = array_pop($block_region_id);
+    foreach ($blocks_in_region as $key => $_block) {
+        $blocks_in_region[$key]['Block']['__block_region_id'] = $_block['BlockRegion'][0]['id'];
     }
 
     if (empty($blocks_in_region)) {
         continue;
     }
 ?>
+
 <h4><?php echo $themes[$theme]['regions'][$region]; ?></h4>
+
 <ul class="sortable">
     <?php foreach ($blocks_in_region as $__block): ?>
     <li class="ui-state-default">
@@ -81,4 +85,5 @@ foreach ($regions as $region) {
     </li>
     <?php endforeach; ?>
 </ul>
+
 <?php } ?>
