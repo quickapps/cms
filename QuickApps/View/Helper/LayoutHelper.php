@@ -929,7 +929,7 @@ class LayoutHelper extends AppHelper {
                 }
             }
 
-            $blocks = Hash::sort($blocks, '{n}.BlockRegion.{n}.ordering', 'asc');
+            $blocks = @Hash::sort((array)$blocks, '{n}.BlockRegion.{n}.ordering', 'asc');
             $i = 1;
             $total = count($blocks);
 
@@ -985,6 +985,16 @@ class LayoutHelper extends AppHelper {
             $options
         );
 
+        $__block = array(
+            'id' => null,
+            'visibility' => 0,
+            'pages' => '',
+            'module' => '',
+            'delta' => '',
+            'title' => ''            
+        );
+
+        $block['Block'] = array_merge($__block, $block['Block']);
         $block['Block']['__region'] = !isset($block['Block']['__region']) ? '' : $block['Block']['__region'];
         $block['Block']['__weight'] = !isset($block['Block']['__weight']) ? array(0, 0) : $block['Block']['__weight'];
 
