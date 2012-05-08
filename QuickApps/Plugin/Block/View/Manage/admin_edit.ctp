@@ -41,24 +41,27 @@
         <?php echo $this->Html->useTag('fieldsetstart', __t('Theme Region')); ?>
             <em><?php echo __t('Specify in which themes and regions this block is displayed.'); ?></em><br/>
             <?php $i = 0; ?>
-            <?php foreach ($regions as $theme => $_regions) { ?>
-                <?php $theme = explode('@|@', $theme); // name, folder ?>
-                <label><?php echo $theme[0]; ?></label>
+            <?php foreach ($regions as $theme => $_regions): ?>
+                <?php list($theme_name, $theme_app) = explode('::', $theme); ?>
+
+                <label><?php echo $theme_name; ?></label>
                 <?php
-                    $selected = Hash::extract($this->data, "{n}.BlockRegion[theme={$theme[1]}].region");
-                    $selected = !empty($selected) && isset($selected[0]) ? $selected[0] : null;
+                    $_selected = Hash::extract($this->data, "BlockRegion.{n}[theme={$theme_app}]");
+                    $selected = isset($_selected[0]['region']) && !empty($_selected[0]['region']) ? $_selected[0]['region'] : null;
                 ?>
 
                 <?php echo $this->Form->select("BlockRegion.{$i}.region", $_regions, array('value' => $selected, 'empty' => __t('--None--'))) . "\n"; ?>
-                <?php echo $this->Form->hidden("BlockRegion.{$i}.theme", array('value' => $theme[1])) . "\n"; ?>
+                <?php echo $this->Form->hidden("BlockRegion.{$i}.theme", array('value' => $theme_app)) . "\n"; ?>
                 <?php echo $this->Form->hidden("BlockRegion.{$i}.block_id", array('value' => $this->data['Block']['id'])) . "\n"; ?>
 
-                <?php if ($selected !== null) { ?>
-                    <?php $brId = Hash::extract($this->data, "{n}.BlockRegion[theme={$theme[1]}].id"); ?>
-                    <?php echo $this->Form->hidden("BlockRegion.{$i}.id", array('value' => $brId[0]))  . "\n"; ?>
-                <?php } ?>
-                <?php $i++; ?>
-            <?php }; ?>
+                <?php
+                    if (isset($_selected[0]['id'])) {
+                        echo $this->Form->hidden("BlockRegion.{$i}.id", array('value' => $_selected[0]['id'])) . "\n";
+                    }
+
+                    $i++;
+                ?>
+            <?php endforeach; ?>
         <?php echo $this->Html->useTag('fieldsetend'); ?>
 
         <?php echo $this->Html->useTag('fieldsetstart', __t('Pages')); ?>

@@ -137,10 +137,10 @@ class ManageController extends BlockAppController {
         $themes = $this->__themesYaml();
 
         foreach ($themes as $theme => $yaml) {
-            $_regions["{$yaml['info']['name']}@|@{$theme}"] = array();
+            $_regions["{$yaml['info']['name']}::{$theme}"] = array();
 
             foreach ($yaml['regions'] as $name => $title) {
-                $_regions["{$yaml['info']['name']}@|@{$theme}"]["{$name}"] = $title;
+                $_regions["{$yaml['info']['name']}::{$theme}"]["{$name}"] = $title;
             }
         }
 
