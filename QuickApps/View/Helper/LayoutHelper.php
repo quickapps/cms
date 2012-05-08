@@ -839,44 +839,15 @@ class LayoutHelper extends AppHelper {
             return count($this->_tmp['blocksInRegion'][$region]['blocks_ids']);
         }
 
-        $blocks = $this->_View->viewVars['Layout']['blocks'];
-        $blocks_in_theme = @Hash::extract((array)$blocks, '{n}.BlockRegion.{n}[theme=' . QuickApps::themeName() . '].block_id');
-        $blocks_in_region = @Hash::extract((array)$blocks, "{n}.BlockRegion.{n}[region={$region}].block_id");
-        $block_ids = array_intersect($blocks_in_region, $blocks_in_theme);
+        $__blocks = $this->_View->viewVars['Layout']['blocks'];
+        $block_ids = @Hash::extract((array)$__blocks, "{n}.BlockRegion.{n}[theme=" . QuickApps::themeName() . "][region={$region}].block_id");
         $t = 0;
 
-        foreach ($blocks as $block) {
-            if (!in_array($block['Block']['id'], $block_ids)) {
-                continue;
-            }
-
-            if (!empty($block['Role'])) {
-                $roles_id = Hash::extract($block, '{n}.Role.id');
-                $allowed = false;
-
-                foreach ($this->userRoles() as $role) {
-                    if (in_array($role, $roles_id)) {
-                        $allowed = true;
-                        break;
-                    }
-                }
-            }
-
-            switch ($block['Block']['visibility']) {
-                case 0:
-                    $allowed = $this->urlMatch($block['Block']['pages']) ? false : true;
-                break;
-
-                case 1:
-                    $allowed = $this->urlMatch($block['Block']['pages']) ? true : false;
-                break;
-
-                case 2:
-                    $allowed = $this->php_eval($block['Block']['pages']);
-                break;
-            }
-
-            if (!$allowed) {
+        foreach ($__blocks as $block) {
+            if (
+                !in_array($block['Block']['id'], $block_ids) ||
+                !$this->__blockAllowed($block)
+            ) {
                 continue;
             }
 
@@ -884,6 +855,7 @@ class LayoutHelper extends AppHelper {
                 !in_array($block['Block']['id'], $this->_tmp['blocksInRegion'][$region]['blocks_ids'])
             ) {
                 // Cache improve
+                $block['__allowed'] = true;
                 $this->_tmp['blocksInRegion'][$region]['blocks'][] = $block;
                 $this->_tmp['blocksInRegion'][$region]['blocks_ids'][] = $block['Block']['id'];
             }
@@ -907,14 +879,13 @@ class LayoutHelper extends AppHelper {
             if (isset($this->_tmp['blocksInRegion'][$region]['blocks'])) {
                 $blocks = $this->_tmp['blocksInRegion'][$region]['blocks'];
             } else {
-                $blocks = $this->_View->viewVars['Layout']['blocks'];
-                $blocks_in_theme = @Hash::extract((array)$blocks, '{n}.BlockRegion.{n}[theme=' . QuickApps::themeName() . '].block_id');
-                $blocks_in_region = @Hash::extract((array)$blocks, "{n}.BlockRegion.{n}[region={$region}].block_id");
-                $block_ids = array_intersect($blocks_in_region, $blocks_in_theme);
+                $blocks = array();
+                $__blocks = $this->_View->viewVars['Layout']['blocks'];
+                $block_ids = @Hash::extract((array)$__blocks, "{n}.BlockRegion.{n}[theme=" . QuickApps::themeName() . "][region={$region}].block_id");
 
-                foreach ($blocks as $key => $block) {
-                    if (!in_array($block['Block']['id'], $block_ids)) {
-                        unset($blocks[$key]);
+                foreach ($__blocks as $key => $block) {
+                    if (in_array($block['Block']['id'], $block_ids)) {
+                        $blocks[] = $block;
                     }
                 }
             }
@@ -930,6 +901,13 @@ class LayoutHelper extends AppHelper {
             }
 
             $blocks = @Hash::sort((array)$blocks, '{n}.BlockRegion.{n}.ordering', 'asc');
+
+            foreach ($blocks as $k => $b) {
+                if (empty($block) || !is_array($b)) {
+                    unset($blocks[$k]);
+                }
+            }
+
             $i = 1;
             $total = count($blocks);
 
@@ -939,7 +917,7 @@ class LayoutHelper extends AppHelper {
 
                 if ($o = $this->block($block)) {
                     $output .= $o;
-                    $i++;
+                    $i += 1;
                 }
             }
 
@@ -985,18 +963,12 @@ class LayoutHelper extends AppHelper {
             $options
         );
 
-        $__block = array(
-            'id' => null,
-            'visibility' => 0,
-            'pages' => '',
-            'module' => '',
-            'delta' => '',
-            'title' => ''            
-        );
-
-        $block['Block'] = array_merge($__block, $block['Block']);
         $block['Block']['__region'] = !isset($block['Block']['__region']) ? '' : $block['Block']['__region'];
         $block['Block']['__weight'] = !isset($block['Block']['__weight']) ? array(0, 0) : $block['Block']['__weight'];
+
+        if (!$this->__blockAllowed($block)) {
+            return false;
+        }
 
         if (is_array($block['Block']['__weight']) && $block['Block']['__weight'] != array(0, 0)) {
             if ($block['Block']['__weight'][1] == 1) {
@@ -1008,56 +980,7 @@ class LayoutHelper extends AppHelper {
             }
         }
 
-        if (isset($block['Block']['locale']) &&
-            !empty($block['Block']['locale']) &&
-            !in_array(Configure::read('Variable.language.code'), $block['Block']['locale'])
-        ) {
-            return;
-        }
-
-        if (!empty($block['Role'])) {
-            $roles_id = Hash::extract($block, '{n}.Role.id');
-            $allowed = false;
-
-            foreach ($this->userRoles() as $role) {
-                if (in_array($role, $roles_id)) {
-                    $allowed = true;
-                    break;
-                }
-            }
-
-            if (!$allowed) {
-                return;
-            }
-        }
-
         $region = $block['Block']['__region'];
-
-        /**
-         * Check visibility
-         * 0 = Show on all pages except listed pages
-         * 1 = Show only on listed pages
-         * 2 = Use custom PHP code to determine visibility
-         */
-        switch ($block['Block']['visibility']) {
-            case 0:
-                $allowed = $this->urlMatch($block['Block']['pages']) ? false : true;
-            break;
-
-            case 1:
-                $allowed = $this->urlMatch($block['Block']['pages']) ? true : false;
-            break;
-
-            case 2:
-                $allowed = $this->php_eval($block['Block']['pages']);
-            break;
-        }
-
-        if (!$allowed) {
-            // skip if not allowed
-            return; 
-        }
-
         $Block = array(
             'id' => $block['Block']['id'],
             'module' => $block['Block']['module'],
@@ -1139,5 +1062,67 @@ class LayoutHelper extends AppHelper {
         extract($data);
 
         return "<div id=\"qa-block-{$Block['id']}\" class=\"" . implode(' ', $options['class']) . "\">{$html}</div>";
+    }
+
+/**
+ * Checks if the given block can be rendered.
+ *
+ * @param array $block Block structure
+ * @return boolean
+ */
+    private function __blockAllowed($block) {
+        if (!isset($block['__allowed'])) {
+            if (isset($block['Block']['locale']) &&
+                !empty($block['Block']['locale']) &&
+                !in_array(Configure::read('Variable.language.code'), $block['Block']['locale'])
+            ) {
+                return false;
+            }
+
+            if (!empty($block['Role'])) {
+                $roles_id = Hash::extract($block, '{n}.Role.id');
+                $allowed = false;
+
+                foreach ($this->userRoles() as $role) {
+                    if (in_array($role, $roles_id)) {
+                        $allowed = true;
+
+                        break;
+                    }
+                }
+
+                if (!$allowed) {
+                    return false;
+                }
+            }
+
+            /**
+             * Check visibility
+             * 0 = Show on all pages except listed pages
+             * 1 = Show only on listed pages
+             * 2 = Use custom PHP code to determine visibility
+             */
+            switch ($block['Block']['visibility']) {
+                case 0:
+                    $allowed = $this->urlMatch($block['Block']['pages']) ? false : true;
+                break;
+
+                case 1:
+                    $allowed = $this->urlMatch($block['Block']['pages']) ? true : false;
+                break;
+
+                case 2:
+                    $allowed = $this->php_eval($block['Block']['pages']);
+                break;
+            }
+
+            if (!$allowed) {
+                return false;
+            }
+        } elseif (!$block['__allowed']) {
+            return false;
+        }
+
+        return true;
     }
 }
