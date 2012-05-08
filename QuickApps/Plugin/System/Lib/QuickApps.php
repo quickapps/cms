@@ -35,6 +35,7 @@ class QuickApps {
  * - is('user.admin'): has user admin privileges ?
  * - is('user.authorized', 'AcoPath'): is user allowed to use AcoPath ?
  * - is('theme.core', 'ThemeName'): is `ThemeName` a core theme ?
+ * - is('theme.admin', 'ThemeName'): is `ThemeName` a backend theme ?
  * - is('module.core', 'ModuleName'): is `ModuleName` a core module ?
  * - is('module.field', 'ModuleName'): is `ModuleName` a field app ?
  * - is('module.theme', 'ModuleName'): is `ModuleName` a theme app ?
@@ -60,7 +61,8 @@ class QuickApps {
             'authorized' => array('self', '__userIsAuthorized')
         ),
         'theme' => array(
-            'core' => array('self', '__themeIsCore')
+            'core' => array('self', '__themeIsCore'),
+            'admin' => array('self', '__themeIsAdmin')
         ),
         'module' => array(
             'core' => array('self', '__moduleIsCore'),
@@ -385,7 +387,7 @@ class QuickApps {
  * Check if the given module name belongs to QA's Core.
  *
  * @param string $module Module name to check.
- * @return bool TRUE if module is a core module, FALSE otherwise.
+ * @return boolean TRUE if module is a core module, FALSE otherwise.
  */
     private static function __moduleIsCore($module) {
         $module = Inflector::camelize($module);
@@ -405,7 +407,7 @@ class QuickApps {
  * Check if the given `plugin` name is a QA Field.
  *
  * @param string $module Module name to check.
- * @return bool TRUE if module is a field, FALSE otherwise.
+ * @return boolean TRUE if module is a field, FALSE otherwise.
  */
     private static function __moduleIsField($module) {
         $module = Inflector::camelize($module);
@@ -425,7 +427,7 @@ class QuickApps {
  * Check if the given module name belongs to some theme.
  *
  * @param string $module Module name to check.
- * @return bool TRUE if module is a field, FALSE otherwise.
+ * @return boolean TRUE if module is a field, FALSE otherwise.
  */
     private static function __moduleIsTheme($module) {
         $module = Inflector::camelize($module);
@@ -445,7 +447,7 @@ class QuickApps {
  * Check if the given theme name belongs to QA Core installation.
  *
  * @param string $theme Theme name to check.
- * @return bool TRUE if theme is a core theme, FALSE otherwise.
+ * @return boolean TRUE if theme is a core theme, FALSE otherwise.
  */
     private static function __themeIsCore($theme) {
         $theme = Inflector::camelize($theme);
@@ -455,6 +457,27 @@ class QuickApps {
             $app_path = CakePlugin::path($theme);
 
             if (strpos($app_path, APP . 'View' . DS . 'Themed' . DS) !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+/**
+ * Check if the given theme name is a backend theme.
+ * If no theme name is given current theme is checked.
+ *
+ * @param string $theme Optional theme name to check
+ * @return boolean
+ */
+    private static function __themeIsAdmin($theme = false) {
+        $theme = !$theme ? self::themeName() : $theme;
+        $theme = Inflector::camelize($theme);
+        $theme = strpos($theme, 'Theme') !== 0 ? "Theme{$theme}" : $theme;
+
+        if ($info = Configure::read('Modules.' . $theme)) {
+            if (isset($info['yaml']['info']['admin']) && $info['yaml']['info']['admin'] === true) {
                 return true;
             }
         }
