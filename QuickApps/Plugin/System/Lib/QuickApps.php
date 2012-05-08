@@ -151,6 +151,24 @@ class QuickApps {
     }
 
 /**
+ * Checks if the given detector has been defined.
+ *
+ * ### Usage
+ * {{{
+ *  QuickApps::detectorDefined('group_name.detector');
+ * }}}
+ *
+ * @param string $detector Detector name and group in dot syntax.
+ * @return boolean
+ */ 
+    public static function detectorDefined($detector) {
+        $detector = strtolower($detector);
+        list($group, $check) = pluginSplit($detector);
+
+        return ($group && $check && isset(self::$_detectors[$group][$check]));
+    }
+
+/**
  * Translation function, domain search order:
  * 1- Current plugin
  * 2- Default
