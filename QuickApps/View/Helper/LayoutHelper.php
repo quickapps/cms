@@ -283,7 +283,7 @@ class LayoutHelper extends AppHelper {
  * Returns specified node's field.
  * Valid only when rendering a single node (viewMode = full).
  *
- * @param string $field Node field name to retrieve
+ * @param string $field Field name to retrieve
  * @return mixed Array of the field if exists. FALSE otherwise
  */
 	public function nodeField($field = false) {
@@ -303,8 +303,8 @@ class LayoutHelper extends AppHelper {
 	}
 
 /**
- * Render a specified Node or `current` Node, render based on NodeType.
- * Node rendering hook is called based on NodeType, but if is there is no response
+ * Render the specified Node or `current` Node.
+ * Node rendering hook is invoked based on NodeType, but if is there is no response
  * then default rendering proccess is fired.
  *
  * @param mixed $node Optional:
@@ -399,7 +399,8 @@ class LayoutHelper extends AppHelper {
 	}
 
 /**
- * Wrapper for field rendering hook.
+ * Renders the given field.
+ * Field's `view.ctp` nor `edit.ctp` element is rendered.
  *
  * @param array $field Field information array
  * @param boolean $edit Set to TRUE for edit form. FALSE for view mode
@@ -684,7 +685,7 @@ class LayoutHelper extends AppHelper {
  *  - region
  *  - theme
  *  - format
- * @param string $region Theme region
+ * @param string $region Theme region where to push
  * @return boolean TRUE on success. FALSE otherwise
  */
 	public function blockPush($block = array(), $region = '') {
@@ -744,20 +745,26 @@ class LayoutHelper extends AppHelper {
  * Creates a simple plain (deph 0) menu list.
  * Useful when creating backend submenu buttons.
  *
- * @param array $links Array of links:
+ * ### Usage:
  * {{{
- *   array(
- *	  array('title', '/your/url/', 'options' => array(), 'pattern' => '/url/to/match'),
- *	  ...
- *   );
+ *	$links = array(
+ *		array('title link 1', '/your/url_1/', 'options' => array(), 'pattern' => '/url/to/match'),
+ *		array('title link 2', '/your/url_2/', 'options' => array('class' => 'css-class')),
+ *		...
+ *	);
+ *
+ *	$this->Layout->toolbar($links);
  * }}}
+ *
  *  - `options` array (optional): array of options for HtmlHelper::link()
  *  - `pattern` string (optional): show link as selected on pattern match (asterisk allowed)
+ *
+ * @param array $links List of links
  * @param array $options Array of options:
- *  - type: type of list, ol, ul. default: ul
- *  - id: id attribute for the container (ul, ol)
- *  - itemType: type of child node. default: li
- *  - activeClass: class attribute for selected itemType. default: `selected`
+ *  - `id`: id attribute for the container (ul, ol)
+ *  - `type`: type of list, ol, ul. default: ul
+ *  - `itemType`: type of child node. default: li
+ *  - `activeClass`: class attribute for selected itemType. default: `selected`
  * @return string HTML
  */
 	public function toolbar($links, $options = array()) {
@@ -940,7 +947,7 @@ class LayoutHelper extends AppHelper {
  *  - `qa-block-first`: only to the first element of the region.
  *  - `qa-block-last`: only to the last element of the region.
  *  - `qa-block-unique`: to the block number 1/1 of the region
- *					   (first & last at the same time).
+ *						(first & last at the same time).
  *
  * @param array $block Well formated block array.
  * @param array $options Array of options:
@@ -1098,6 +1105,7 @@ class LayoutHelper extends AppHelper {
 
 			/**
 			 * Check visibility
+			 *
 			 * 0 = Show on all pages except listed pages
 			 * 1 = Show only on listed pages
 			 * 2 = Use custom PHP code to determine visibility
