@@ -4,7 +4,7 @@
  *
  * PHP version 5
  *
- * @package  QuickApps.User.View.Helper
+ * @package  QuickApps.Plugin.User.View.Helper
  * @version  1.0
  * @author   Christopher Castro <chris@qucikapps.es>
  * @link	 http://www.quickappscms.org

@@ -1,16 +1,4 @@
 <?php
-/**
- * Spyc -- A Simple PHP YAML Class
- *
- * @version		0.4.5
- * @author		Vlad Andersen <vlad.andersen@gmail.com>
- * @author		Chris Wanstrath <chris@ozmm.org>
- * @link		http://code.google.com/p/spyc/
- * @copyright	Copyright 2005-2006 Chris Wanstrath, 2006-2009 Vlad Andersen
- * @license		http://www.opensource.org/licenses/mit-license.php MIT License
- * @package		QuickApps.Vendor
- */
-
 if (!function_exists('spyc_load')) {
   /**
    * Parses YAML to array.
@@ -23,38 +11,38 @@ if (!function_exists('spyc_load')) {
 }
 
 if (!function_exists('spyc_load_file')) {
-  /**
-   * Parses YAML to array.
-   * @param string $file Path to YAML file.
-   * @return array
-   */
+/**
+* Parses YAML to array.
+* @param string $file Path to YAML file.
+* @return array
+*/
   function spyc_load_file ($file) {
     return Spyc::YAMLLoad($file);
   }
 }
 
 /**
-   * The Simple PHP YAML Class.
-   *
-   * This class can be used to read a YAML file and convert its contents
-   * into a PHP array.  It currently supports a very limited subsection of
-   * the YAML spec.
-   *
-   * Usage:
-   * <code>
-   *   $Spyc  = new Spyc;
-   *   $array = $Spyc->load($file);
-   * </code>
-   * or:
-   * <code>
-   *   $array = Spyc::YAMLLoad($file);
-   * </code>
-   * or:
-   * <code>
-   *   $array = spyc_load_file($file);
-   * </code>
-   * @package Spyc
-   */
+ * The Simple PHP YAML Class.
+ *
+ * This class can be used to read a YAML file and convert its contents
+ * into a PHP array.  It currently supports a very limited subsection of
+ * the YAML spec.
+ *
+ * Usage:
+ * <code>
+ *   $Spyc  = new Spyc;
+ *   $array = $Spyc->load($file);
+ * </code>
+ * or:
+ * <code>
+ *   $array = Spyc::YAMLLoad($file);
+ * </code>
+ * or:
+ * <code>
+ *   $array = spyc_load_file($file);
+ * </code>
+ * @package QuickApps.Vendor
+ */
 class Spyc {
 
   // SETTINGS

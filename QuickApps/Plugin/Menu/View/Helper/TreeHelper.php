@@ -13,15 +13,14 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @filesource
- * @copyright			Copyright (c) 2008, Andy Dawson
- * @link				 www.ad7six.com
- * @package			  cake-base
- * @subpackage		   cake-base.app.views.helpers
- * @since				v 1.0
- * @version			  $Revision: 205 $
- * @modifiedBy		   $LastChangedBy: ad7six $
- * @lastModified		 $Date: 2008-08-13 16:13:32 +0200 (Wed, 13 Aug 2008) $
- * @license			  http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @copyright		Copyright (c) 2008, Andy Dawson
+ * @link			www.ad7six.com
+ * @package			QuickApps.Plugin.Menu.View.Helper
+ * @since			v 1.0
+ * @version			$Revision: 205 $
+ * @modifiedBy		$LastChangedBy: ad7six $
+ * @lastModified	$Date: 2008-08-13 16:13:32 +0200 (Wed, 13 Aug 2008) $
+ * @license			http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 /**
  * Tree helper

@@ -4,7 +4,7 @@
  *
  * PHP version 5
  *
- * @package  QuickApps.Controller.Plugin.Comment
+ * @package  QuickApps.Plugin.Comment.Controller.Component
  * @version  1.0
  * @author   Christopher Castro <chris@quickapps.es>
  * @link	 http://www.quickappscms.org

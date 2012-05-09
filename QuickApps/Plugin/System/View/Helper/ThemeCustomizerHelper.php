@@ -1,4 +1,14 @@
 <?php
+/**
+ * Theme Customizer class.
+ *
+ * PHP version 5
+ *
+ * @package  QuickApps.Plugin.System.View.Helper
+ * @version  1.0
+ * @author   Christopher Castro <chris@quickapps.es>
+ * @link	 http://www.quickappscms.org
+ */
 class ThemeCustomizerHelper extends AppHelper {
 	public function beforeRender($viewFile) {
 		$this->_View->viewVars['Layout']['stylesheets']['all'][] = '/system/js/colorpicker/colorpicker.css';

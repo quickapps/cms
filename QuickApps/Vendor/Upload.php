@@ -570,8 +570,7 @@
  *   - update for GD2 (changed imageresized() into imagecopyresampled() and imagecreate() into imagecreatetruecolor())</li>
  * </ul>
  *
- * @package   cmf
- * @subpackage external
+ * @package	QuickApps.Vendor
  */
 class Upload {
 
