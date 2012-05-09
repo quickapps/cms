@@ -232,7 +232,7 @@ class NodeController extends NodeAppController {
  * @param string $criteria Well formatted filter criteria. If no criteria is pass POST criteria is spected.
  * @param mixed $rss set to any value (except bool FALSE) to render all results as RSS feed layout.
  */
-    public function search($criteria = false, $rss = false) {
+    public function search($criteria = false) {
         $scope = array();
         $keys = array(
             'type' => null,
@@ -478,7 +478,7 @@ class NodeController extends NodeAppController {
             $this->Layout['node'] = $this->paginate('Node', $scope);
 
             if (!empty($this->Layout['node'])) {
-                $this->Layout['feed'] = "/{$this->request->url}/feed";
+                $this->Layout['feed'] = "/{$this->request->url}/feed:rss";
             }
         } else {
             $this->Layout['node'] = array();
@@ -488,11 +488,34 @@ class NodeController extends NodeAppController {
             return $this->Layout['node'];
         }
 
-        if ($rss) {
-            $this->layoutPath = 'rss';
-            $this->helpers[] = 'Rss';
-            $this->helpers[] = 'Text';
-            $this->Layout['viewMode'] = 'rss';
+        if (isset($this->request->params['named']['feed'])) {
+            switch ($this->request->params['named']['feed']) {
+                case 'rss':
+                    $this->layoutPath = 'rss';
+                    $this->helpers[] = 'Rss';
+                    $this->helpers[] = 'Text';
+                    $this->Layout['viewMode'] = 'rss';
+
+                    $this->response->type('xml');
+                break;
+
+                case 'ajax':
+                    case 'xml':
+                        $this->viewClass = $this->request->params['named']['feed'] == 'ajax' ? 'Json' : 'Xml';
+                        $this->Layout['viewMode'] = $this->request->params['named']['feed'];
+
+                        if ($this->request->params['named']['feed'] == 'xml') {
+                            foreach ($this->Layout['node'] as $key => $node) {
+                                $this->Layout['node']["node-{$node['Node']['id']}"] = $node;
+
+                                unset($this->Layout['node'][$key]);
+                            }
+                        }
+
+                        $this->set('nodes', array('nodes' => $this->Layout['node']));
+                        $this->set('_serialize', 'nodes');
+                break;
+            }
         } else {
             $this->Layout['viewMode'] = 'list';
         }
