@@ -10,11 +10,11 @@
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       Cake.Routing
- * @since         CakePHP(tm) v 0.2.9
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @copyright	 Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link		  http://cakephp.org CakePHP(tm) Project
+ * @package	   Cake.Routing
+ * @since		 CakePHP(tm) v 0.2.9
+ * @license	   MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
 App::uses('CakeRequest', 'Network');
@@ -37,7 +37,7 @@ App::uses('CakeRoute', 'Routing/Route');
  * Named parameters allow you to embed key:value pairs into path segments.  This allows you create hash
  * structures using urls.  You can define how named parameters work in your application using Router::connectNamed()
  *
- * @package       Cake.Routing
+ * @package	   Cake.Routing
  */
 class Router {
 
@@ -377,8 +377,8 @@ class Router {
  *
  * {{{
  * Router::connectNamed(
- *    array('page' => array('action' => 'index')),
- *    array('default' => false, 'greedy' => false)
+ *	array('page' => array('action' => 'index')),
+ *	array('default' => false, 'greedy' => false)
  * );
  * }}}
  *
@@ -386,21 +386,21 @@ class Router {
  *
  * {{{
  * Router::connectNamed(
- *    array('page' => array('action' => 'index', 'controller' => 'pages')),
- *    array('default' => false, 'greedy' => false)
+ *	array('page' => array('action' => 'index', 'controller' => 'pages')),
+ *	array('default' => false, 'greedy' => false)
  * );
  * }}}
  *
  * ### Options
  *
  * - `greedy` Setting this to true will make Router parse all named params.  Setting it to false will
- *    parse only the connected named params.
+ *	parse only the connected named params.
  * - `default` Set this to true to merge in the default set of named parameters.
  * - `reset` Set to true to clear existing rules and start fresh.
  * - `separator` Change the string used to separate the key & value in a named parameter.  Defaults to `:`
  *
  * @param array $named A list of named parameters. Key value pairs are accepted where values are
- *    either regex strings to match, or arrays as seen above.
+ *	either regex strings to match, or arrays as seen above.
  * @param array $options Allows to control all settings: separator, greedy, reset, default
  * @return array
  */
@@ -454,7 +454,7 @@ class Router {
  * ### Options:
  *
  * - 'id' - The regular expression fragment to use when matching IDs.  By default, matches
- *    integer values and UUIDs.
+ *	integer values and UUIDs.
  * - 'prefix' - URL prefix to use for the generated routes.  Defaults to '/'.
  *
  * @param mixed $controller A controller name or array of controller names (i.e. "Posts" or "ListItems")
@@ -694,7 +694,7 @@ class Router {
  * Promote a route (by default, the last one added) to the beginning of the list
  *
  * @param integer $which A zero-based array index representing the route to move. For example,
- *    if 3 routes have been added, the last route would be 2.
+ *	if 3 routes have been added, the last route would be 2.
  * @return boolean Returns false if no route exists at the position specified by $which.
  */
 	public static function promote($which = null) {
@@ -735,8 +735,8 @@ class Router {
  *   and standard URL arguments (indexed array elements)
  * @param mixed $full If (bool) true, the full base URL will be prepended to the result.
  *   If an array accepts the following keys
- *    - escape - used when making urls embedded in html escapes query string '&'
- *    - full - if true the full base URL will be prepended.
+ *	- escape - used when making urls embedded in html escapes query string '&'
+ *	- full - if true the full base URL will be prepended.
  * @return string Full translated URL with base path.
  */
 	public static function url($url = null, $full = false) {
@@ -851,36 +851,36 @@ class Router {
 		}
 		$protocol = preg_match('#^[a-z][a-z0-9+-.]*\://#i', $output);
 
-        if (Configure::read('Variable.url_language_prefix')) {
-            $output = $output[0] !== '/' ? "/{$output}" : $output;
+		if (Configure::read('Variable.url_language_prefix')) {
+			$output = $output[0] !== '/' ? "/{$output}" : $output;
 
-            if (!preg_match('/^\/theme\/(.*)/i', $output)) {
-                if (!preg_match('/\/(.*)\.([a-z0-9]{1,})$/i', $output) ||
-                    !file_exists(ROOT . DS . 'webroot' . str_replace('/', DS, $output))
-                ) {
-                    $pname = false;
+			if (!preg_match('/^\/theme\/(.*)/i', $output)) {
+				if (!preg_match('/\/(.*)\.([a-z0-9]{1,})$/i', $output) ||
+					!file_exists(ROOT . DS . 'webroot' . str_replace('/', DS, $output))
+				) {
+					$pname = false;
 
-                    if (!Configure::read('_implode_plugins_match_')) {
-                        $plugins = implode('|', array_map('Inflector::underscore', CakePlugin::loaded()));
+					if (!Configure::read('_implode_plugins_match_')) {
+						$plugins = implode('|', array_map('Inflector::underscore', CakePlugin::loaded()));
 
-                        Configure::write('_implode_plugins_match_', $plugins);
-                    }
+						Configure::write('_implode_plugins_match_', $plugins);
+					}
 
-                    preg_match('/\/(' . Configure::read('_implode_plugins_match_') . ')\/(.*)$/s', $output, $p);
+					preg_match('/\/(' . Configure::read('_implode_plugins_match_') . ')\/(.*)$/s', $output, $p);
 
-                    $pname = isset($p[1]) ? Inflector::camelize($p[1]) : false;
+					$pname = isset($p[1]) ? Inflector::camelize($p[1]) : false;
 
-                    if (!$pname ||
-                        !CakePlugin::loaded($pname) ||
-                        !file_exists(CakePlugin::path($pname) . 'webroot/' . str_replace('/', DS, str_replace("/{$p[1]}/", '', $output)))
-                    ) {
-                        if (!preg_match('/^\/[a-z]{3}\//', $output)) {
-                            $output = '/' . Configure::read('Config.language') . $output;
-                        }
-                    }
-                }
-            }
-        }
+					if (!$pname ||
+						!CakePlugin::loaded($pname) ||
+						!file_exists(CakePlugin::path($pname) . 'webroot/' . str_replace('/', DS, str_replace("/{$p[1]}/", '', $output)))
+					) {
+						if (!preg_match('/^\/[a-z]{3}\//', $output)) {
+							$output = '/' . Configure::read('Config.language') . $output;
+						}
+					}
+				}
+			}
+		}
 
 		if ($protocol === 0) {
 			$output = str_replace('//', '/', $base . '/' . $output);
@@ -973,7 +973,7 @@ class Router {
  * Generates a well-formed querystring from $q
  *
  * @param string|array $q Query string Either a string of already compiled query string arguments or
- *    an array of arguments to convert into a query string.
+ *	an array of arguments to convert into a query string.
  * @param array $extra Extra querystring parameters.
  * @param boolean $escape Whether or not to use escaped &
  * @return array
@@ -1011,7 +1011,7 @@ class Router {
  *
  * @param CakeRequest|array $params The params array or CakeRequest object that needs to be reversed.
  * @param boolean $full Set to true to include the full url including the protocol when reversing
- *     the url.
+ *	 the url.
  * @return string The string that is the reversed result of the array
  */
 	public static function reverse($params, $full = false) {

@@ -82,7 +82,7 @@
 						.addClass(CLASSES.collapsable)
 						.replaceClass(CLASSES.last, CLASSES.lastCollapsable);
 						
-	            // create hitarea if not present
+				// create hitarea if not present
 				var hitarea = this.find("div." + CLASSES.hitarea);
 				if (!hitarea.length)
 					hitarea = this.prepend("<div class=\"" + CLASSES.hitarea + "\"/>").find("div." + CLASSES.hitarea);

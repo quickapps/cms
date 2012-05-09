@@ -16,7 +16,7 @@ MerkeItUpBbcodeSettings = {
 		{name:QuickApps.__t('Italic'), key:'I', openWith:'[i]', closeWith:'[/i]'},
 		{name:QuickApps.__t('Underline'), key:'U', openWith:'[u]', closeWith:'[/u]'},
 		{separator:'---------------' },
-        {name:QuickApps.__t('Video'), key:'Y', replaceWith:'[video][![Youtube/Google URL]!][/video]'},
+		{name:QuickApps.__t('Video'), key:'Y', replaceWith:'[video][![Youtube/Google URL]!][/video]'},
 		{name:QuickApps.__t('Picture'), key:'P', replaceWith:'[img][![URL]!][/img]'},
 		{name:QuickApps.__t('Link'), key:'L', openWith:'[url=[![Url]!]]', closeWith:'[/url]', placeHolder: QuickApps.__t('Your text to link here...')},
 		{separator:'---------------' },
@@ -40,9 +40,9 @@ MerkeItUpBbcodeSettings = {
 }
 
 function quoteComment(id){
-    var username = $('#comment-'+id+' a.username').html();
-    var comment = $('#raw-comment-'+id).html();
-    $('textarea#CommentBody').val( $('textarea#CommentBody').val() + '[quote username=' + jQuery.trim(username) + ']' + jQuery.trim(comment) + '[/quote]' );
-    $.scrollTo('#CommentBody');
-    return true;
+	var username = $('#comment-'+id+' a.username').html();
+	var comment = $('#raw-comment-'+id).html();
+	$('textarea#CommentBody').val( $('textarea#CommentBody').val() + '[quote username=' + jQuery.trim(username) + ']' + jQuery.trim(comment) + '[/quote]' );
+	$.scrollTo('#CommentBody');
+	return true;
 }

@@ -7,16 +7,16 @@
  * @package  QuickApps.Plugin.Field.Model
  * @version  1.0
  * @author   Christopher Castro <chris@quickapps.es>
- * @link     http://www.quickappscms.org
+ * @link	 http://www.quickappscms.org
  */
 class FieldData extends FieldAppModel {
-    public $name = 'FieldData';
-    public $useTable = 'field_data';
+	public $name = 'FieldData';
+	public $useTable = 'field_data';
 
-    public $belongsTo = array(
-        'Field' => array(
-            'className' => 'Field.Field',
-            'dependent' => false
-        )
-    );
+	public $belongsTo = array(
+		'Field' => array(
+			'className' => 'Field.Field',
+			'dependent' => false
+		)
+	);
 }

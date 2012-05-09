@@ -36,13 +36,13 @@
  * SOFTWARE.
  * --
  *
- * @package JSMin
- * @author Ryan Grove <ryan@wonko.com>
- * @copyright 2002 Douglas Crockford <douglas@crockford.com> (jsmin.c)
- * @copyright 2008 Ryan Grove <ryan@wonko.com> (PHP port)
- * @license http://opensource.org/licenses/mit-license.php MIT License
- * @version 1.1.1 (2008-03-02)
- * @link https://github.com/rgrove/jsmin-php/
+ * @package		QuickApps.Vendor
+ * @author		Ryan Grove <ryan@wonko.com>
+ * @copyright	2002 Douglas Crockford <douglas@crockford.com> (jsmin.c)
+ * @copyright	2008 Ryan Grove <ryan@wonko.com> (PHP port)
+ * @license		http://opensource.org/licenses/mit-license.php MIT License
+ * @version		1.1.1 (2008-03-02)
+ * @link		https://github.com/rgrove/jsmin-php/
  */
 
 class JSMin {
@@ -370,5 +370,4 @@ class JSMin {
   }
 }
 
-// -- Exceptions ---------------------------------------------------------------
 class JSMinException extends Exception {}

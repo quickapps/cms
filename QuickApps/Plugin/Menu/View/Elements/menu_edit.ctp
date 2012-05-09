@@ -4,40 +4,40 @@
 <?php $this->Layout->script('/system/js/json.js'); ?>
 
 <div id="menu-sortContainer">
-    <?php echo $this->Tree->generate($links, array('class' => 'sortable', 'plugin' => 'menu', 'element' => 'menu_link_node', 'id' => 'menuLinks', 'model' => 'MenuLink', 'alias' => 'link_title')); ?>
+	<?php echo $this->Tree->generate($links, array('class' => 'sortable', 'plugin' => 'menu', 'element' => 'menu_link_node', 'id' => 'menuLinks', 'model' => 'MenuLink', 'alias' => 'link_title')); ?>
 </div>
 
 <?php echo $this->Form->submit(__t('Save changes'), array('id' => 'saveChanges')); ?>
 <span id="saveStatus">&nbsp;</span>
 
 <script>
-    $(document).ready(function() {
-        $('ul.sortable').nestedSortable({
-            listType: 'ul',
-            disableNesting: 'no-nest',
-            forcePlaceholderSize: true,
-            handle: 'div',
-            helper:    'clone',
-            items: 'li',
-            opacity: .6,
-            placeholder: 'placeholder',
-            revert: 250,
-            tabSize: 25,
-            tolerance: 'pointer',
-            toleranceElement: '> div'
-        });
+	$(document).ready(function() {
+		$('ul.sortable').nestedSortable({
+			listType: 'ul',
+			disableNesting: 'no-nest',
+			forcePlaceholderSize: true,
+			handle: 'div',
+			helper:	'clone',
+			items: 'li',
+			opacity: .6,
+			placeholder: 'placeholder',
+			revert: 250,
+			tabSize: 25,
+			tolerance: 'pointer',
+			toleranceElement: '> div'
+		});
 
-        $('#saveChanges').click(function(e) {
-            $('#saveStatus').text('<?php echo __t('Saving...'); ?>');
-            arraied = $('ul.sortable').nestedSortable('toArray', {startDepthCount: 0});
-            $.ajax({
-                type: 'POST',
-                url: QuickApps.settings.url,
-                data: 'data[MenuLink]=' + $.toJSON(arraied),
-                success: function() {
-                    $('#saveStatus').text('<?php echo __t('Saved!'); ?>');
-                }
-            });
-        });
-    });
+		$('#saveChanges').click(function(e) {
+			$('#saveStatus').text('<?php echo __t('Saving...'); ?>');
+			arraied = $('ul.sortable').nestedSortable('toArray', {startDepthCount: 0});
+			$.ajax({
+				type: 'POST',
+				url: QuickApps.settings.url,
+				data: 'data[MenuLink]=' + $.toJSON(arraied),
+				success: function() {
+					$('#saveStatus').text('<?php echo __t('Saved!'); ?>');
+				}
+			});
+		});
+	});
 </script>

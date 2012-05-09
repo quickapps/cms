@@ -1,11 +1,11 @@
 <?php
-    $out = array();
+	$out = array();
 
-    foreach ($breadcrumb as $node) {
-        $selected = $node['MenuLink']['router_path'] == str_replace($this->base, '', $this->here) ? 'text-decoration:underline;' : '';
-        $out[] = $this->Html->link($node['MenuLink']['link_title'], $node['MenuLink']['router_path'], array('style' => $selected));
-    }
+	foreach ($breadcrumb as $node) {
+		$selected = $node['MenuLink']['router_path'] == str_replace($this->base, '', $this->here) ? 'text-decoration:underline;' : '';
+		$out[] = $this->Html->link($node['MenuLink']['link_title'], $node['MenuLink']['router_path'], array('style' => $selected));
+	}
 
-    if (!empty($out)) {
-        echo implode(' » ', $out) . ' » ';
-    }
+	if (!empty($out)) {
+		echo implode(' » ', $out) . ' » ';
+	}

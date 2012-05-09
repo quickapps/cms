@@ -7,7 +7,7 @@
  * @package  QuickApps.Plugin.Node.View.Helper
  * @version  1.0
  * @author   Christopher Castro <chris@quickapps.es>
- * @link     http://www.quickappscms.org
+ * @link	 http://www.quickappscms.org
  */
 class NodeHookHelper extends AppHelper {
 /**
@@ -18,104 +18,104 @@ class NodeHookHelper extends AppHelper {
  *
  * @return void
  */
-    public function beforeLayout($layoutFile) {
-        if (!isset($this->request->params['admin'])) {
-            return true;
-        }
+	public function beforeLayout($layoutFile) {
+		if (!isset($this->request->params['admin'])) {
+			return true;
+		}
 
-        // contents
-        if (isset($this->request->params['admin']) &&
-            $this->request->params['plugin'] == 'node' &&
-            $this->request->params['controller'] == 'contents' &&
-            $this->request->params['action'] == 'admin_index'
-        ) {
-            $this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar-index') . '<!-- NodeHookHelper -->'), 'toolbar');
-        }
+		// contents
+		if (isset($this->request->params['admin']) &&
+			$this->request->params['plugin'] == 'node' &&
+			$this->request->params['controller'] == 'contents' &&
+			$this->request->params['action'] == 'admin_index'
+		) {
+			$this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar-index') . '<!-- NodeHookHelper -->'), 'toolbar');
+		}
 
-        // content types
-        if (isset($this->request->params['admin']) &&
-            $this->request->params['plugin'] == 'node' &&
-            $this->request->params['controller'] == 'types' &&
-            $this->request->params['action'] == 'admin_index'
-        ) {
-            $this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar-types') . '<!-- NodeHookHelper -->'), 'toolbar');
-        }
+		// content types
+		if (isset($this->request->params['admin']) &&
+			$this->request->params['plugin'] == 'node' &&
+			$this->request->params['controller'] == 'types' &&
+			$this->request->params['action'] == 'admin_index'
+		) {
+			$this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar-types') . '<!-- NodeHookHelper -->'), 'toolbar');
+		}
 
-        // display
-        if (isset($this->request->params['admin']) &&
-            $this->request->params['plugin'] == 'node' &&
-            $this->request->params['controller'] == 'types' &&
-            $this->request->params['action'] == 'admin_display'
-        ) {
-            $this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar-display') . '<!-- NodeHookHelper -->'), 'toolbar');
-        }
+		// display
+		if (isset($this->request->params['admin']) &&
+			$this->request->params['plugin'] == 'node' &&
+			$this->request->params['controller'] == 'types' &&
+			$this->request->params['action'] == 'admin_display'
+		) {
+			$this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar-display') . '<!-- NodeHookHelper -->'), 'toolbar');
+		}
 
-        return true;
-    }
+		return true;
+	}
 
 /**
  * Block: Search form.
  *
  * @return array formatted block array
  */
-    public function node_search($data) {
-        return array(
-            'title' => __t('Search'),
-            'body' => $this->_View->element('Node.search_block', array('data' => $data))
-        );
-    }
+	public function node_search($data) {
+		return array(
+			'title' => __t('Search'),
+			'body' => $this->_View->element('Node.search_block', array('data' => $data))
+		);
+	}
 
 /**
  * Block settings: Search form.
  *
  * @return string HTML element
  */
-    public function node_search_settings($data) {
-        return $this->_View->element('Node.search_block_settings', array('data' => $data));
-    }
+	public function node_search_settings($data) {
+		return $this->_View->element('Node.search_block_settings', array('data' => $data));
+	}
 
 /**
  * Add/edit form for custom node types.
  *
  * @return string HTML element
  */
-    public function node_form($data) {
-        return $this->_View->element('theme_node_edit', array('data' => $data));
-    }
+	public function node_form($data) {
+		return $this->_View->element('theme_node_edit', array('data' => $data));
+	}
 
 /**
  * Rendering for custom node types.
  *
  * @return string HTML element
  */
-    public function node_render($node) {
-        $tp = App::themePath(Configure::read('Theme.info.folder'));
-        $nodeType = false;
+	public function node_render($node) {
+		$tp = App::themePath(Configure::read('Theme.info.folder'));
+		$nodeType = false;
 
-        if (!$this->_View->request->is('requested') &&
-            isset($node['NodeType']['id'])
-        ) {
-            $nodeType = $node['NodeType']['id'];
-        } elseif (
-            strtolower(Router::getParam('plugin')) == 'node' &&
-            Router::getParam('controller') == 'node' &&
-            Router::getParam('action') == 'index' &&
-            $siteFrontPage = Configure::read('Variable.site_frontpage')
-        ) {
-            $params = Router::parse($siteFrontPage);
+		if (!$this->_View->request->is('requested') &&
+			isset($node['NodeType']['id'])
+		) {
+			$nodeType = $node['NodeType']['id'];
+		} elseif (
+			strtolower(Router::getParam('plugin')) == 'node' &&
+			Router::getParam('controller') == 'node' &&
+			Router::getParam('action') == 'index' &&
+			$siteFrontPage = Configure::read('Variable.site_frontpage')
+		) {
+			$params = Router::parse($siteFrontPage);
 
-            if (isset($params['pass'][0])) {
-                $nodeType = $params['pass'][0];
-            }
-        }
+			if (isset($params['pass'][0])) {
+				$nodeType = $params['pass'][0];
+			}
+		}
 
-        if (
-            $nodeType &&
-            file_exists($tp . 'Elements' . DS . 'theme_node_' . $nodeType . '.ctp')
-        ) {
-            return $this->_View->element('theme_node_' . $nodeType, array('node' => $node));
-        } else {
-            return $this->_View->element('theme_node', array('node' => $node));
-        }
-    }
+		if (
+			$nodeType &&
+			file_exists($tp . 'Elements' . DS . 'theme_node_' . $nodeType . '.ctp')
+		) {
+			return $this->_View->element('theme_node_' . $nodeType, array('node' => $node));
+		} else {
+			return $this->_View->element('theme_node', array('node' => $node));
+		}
+	}
 }

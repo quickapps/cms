@@ -1,19 +1,19 @@
 Controller:
-    Manage:
-        hidden:true
-    Menu:
-        hidden:true
+	Manage:
+		hidden:true
+	Menu:
+		hidden:true
 Preset:
-    manage_menu:
-        name: "Administer menus"
-        description: "Allow user to administer menus and menu items"
-        acos:
-            Menu.admin_index
-            Manage.admin_index
-            Manage.admin_delete
-            Manage.admin_add
-            Manage.admin_edit
-            Manage.admin_delete_link
-            Manage.admin_add_link
-            Manage.admin_edit_link
-            Manage.admin_links
+	manage_menu:
+		name: "Administer menus"
+		description: "Allow user to administer menus and menu items"
+		acos:
+			Menu.admin_index
+			Manage.admin_index
+			Manage.admin_delete
+			Manage.admin_add
+			Manage.admin_edit
+			Manage.admin_delete_link
+			Manage.admin_add_link
+			Manage.admin_edit_link
+			Manage.admin_links

@@ -229,7 +229,7 @@
 					return item;
 				}
 			}
-        },
+		},
 
 		toArray: function(o) {
 
@@ -318,8 +318,8 @@
 
 		_getChildLevels: function(parent, depth) {
 			var self = this,
-			    o = this.options,
-			    result = 0;
+				o = this.options,
+				result = 0;
 			depth = depth || 0;
 
 			$(parent).children(o.listType).children(o.items).each(function (index, child) {

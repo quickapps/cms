@@ -1,18 +1,18 @@
 Controller:
-    Taxonomy:
-        hidden:true
-    Vocabularies:
-        hidden:true
+	Taxonomy:
+		hidden:true
+	Vocabularies:
+		hidden:true
 Preset:
-    manage_taxonomy:
-        name: "Administer vocabularies and terms"
-        acos:
-            Taxonomy.admin_index
-            Vocabularies.admin_index
-            Vocabularies.admin_add
-            Vocabularies.admin_move
-            Vocabularies.admin_edit
-            Vocabularies.admin_delete
-            Vocabularies.admin_terms
-            Vocabularies.admin_delete_term
-            Vocabularies.admin_edit_term
+	manage_taxonomy:
+		name: "Administer vocabularies and terms"
+		acos:
+			Taxonomy.admin_index
+			Vocabularies.admin_index
+			Vocabularies.admin_add
+			Vocabularies.admin_move
+			Vocabularies.admin_edit
+			Vocabularies.admin_delete
+			Vocabularies.admin_terms
+			Vocabularies.admin_delete_term
+			Vocabularies.admin_edit_term

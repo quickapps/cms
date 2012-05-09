@@ -1,43 +1,43 @@
 Controller:
-    Languages:
-        hidden:true
-    Locale:
-        hidden:true
-    Packages:
-        hidden:true
-    Translations:
-        hidden:true
+	Languages:
+		hidden:true
+	Locale:
+		hidden:true
+	Packages:
+		hidden:true
+	Translations:
+		hidden:true
 Preset:
-    manage_languages:
-        name: "Administer languages"
-        description: "Allow user to add, edit and delete languages"
-        acos:
-            Locale.admin_index
-            Languages.admin_index
-            Languages.admin_set_default
-            Languages.admin_add
-            Languages.admin_edit
-            Languages.admin_move
-            Languages.admin_delete
-    translatable_entries:
-        name: "Translate interface texts"
-        description: "Allow user to administer translatable entries"
-        acos:
-            Translations.admin_index
-            Translations.admin_list 
-            Translations.admin_fuzzy_list
-            Translations.admin_fuzzy_delete
-            Translations.admin_edit
-            Translations.admin_add
-            Translations.admin_regenerate
-            Translations.admin_delete
-            Translations.admin_import
-            Translations.admin_export
-    packages:
-        name: "Administer language packages"
-        description: "Allow user to install and modify existing language packages (.po)"
-        acos:
-            Packages.admin_index
-            Packages.admin_download_package 
-            Packages.admin_uninstall
-            Packages.admin_install
+	manage_languages:
+		name: "Administer languages"
+		description: "Allow user to add, edit and delete languages"
+		acos:
+			Locale.admin_index
+			Languages.admin_index
+			Languages.admin_set_default
+			Languages.admin_add
+			Languages.admin_edit
+			Languages.admin_move
+			Languages.admin_delete
+	translatable_entries:
+		name: "Translate interface texts"
+		description: "Allow user to administer translatable entries"
+		acos:
+			Translations.admin_index
+			Translations.admin_list 
+			Translations.admin_fuzzy_list
+			Translations.admin_fuzzy_delete
+			Translations.admin_edit
+			Translations.admin_add
+			Translations.admin_regenerate
+			Translations.admin_delete
+			Translations.admin_import
+			Translations.admin_export
+	packages:
+		name: "Administer language packages"
+		description: "Allow user to install and modify existing language packages (.po)"
+		acos:
+			Packages.admin_index
+			Packages.admin_download_package 
+			Packages.admin_uninstall
+			Packages.admin_install

@@ -7,7 +7,7 @@
  * @package  QuickApps.Plugin.Locale.Model
  * @version  1.0
  * @author   Christopher Castro <chris@quickapps.es>
- * @link     http://www.quickappscms.org
+ * @link	 http://www.quickappscms.org
  */
 
 App::uses('ArraySource', 'Locale.Model/Datasource');
@@ -19,21 +19,21 @@ class Fuzzy extends LocaleAppModel {
  *
  * @var string
  */
-    public $useDbConfig = 'fuzzy_entries';
+	public $useDbConfig = 'fuzzy_entries';
 
 /**
  * Set recursive
  *
  * @var integer
  */
-    public $recursive = -1;
+	public $recursive = -1;
 
 /**
  * List of records to emulate.
  *
  * @var array
  */
-    public $records = null;
+	public $records = null;
 
 /**
  * Loads all fuzzy entries from cache to be emulated by
@@ -42,19 +42,19 @@ class Fuzzy extends LocaleAppModel {
  * @param boolean $show_hidden Load hidden entries as well
  * @return void
  */
-    public function __construct($id = false, $table = null, $ds = null) {
-        $Folder = new Folder(CACHE . 'i18n' . DS);
-        $language = Configure::read('Config.language');
-        $files = $Folder->find(".*_fuzzy_[a-z0-9]{1,}_{$language}");
+	public function __construct($id = false, $table = null, $ds = null) {
+		$Folder = new Folder(CACHE . 'i18n' . DS);
+		$language = Configure::read('Config.language');
+		$files = $Folder->find(".*_fuzzy_[a-z0-9]{1,}_{$language}");
 
-        foreach($files as $file) {
-            preg_match('/^.*_fuzzy_(.*)$/i', $file, $matches);
+		foreach($files as $file) {
+			preg_match('/^.*_fuzzy_(.*)$/i', $file, $matches);
 
-            $this->records[] = Cache::read("fuzzy_{$matches[1]}", 'i18n');
-        }
+			$this->records[] = Cache::read("fuzzy_{$matches[1]}", 'i18n');
+		}
 
-        parent::__construct();
-    }
+		parent::__construct();
+	}
 
 /**
  * Hide/Unhide the given fuzzy entry.
@@ -63,27 +63,27 @@ class Fuzzy extends LocaleAppModel {
  * @param integer $to New status. 1 = Hidden, 0 = Not hidden
  * @return boolean TRUE on success, FALSE otherwise
  */
-    public function toggle($id, $to = 1) {
-        $data = Cache::read("fuzzy_{$id}", 'i18n');
+	public function toggle($id, $to = 1) {
+		$data = Cache::read("fuzzy_{$id}", 'i18n');
 
-        if (!empty($data)) {
-            $data['hidden'] = $to;
+		if (!empty($data)) {
+			$data['hidden'] = $to;
 
-            Cache::write("fuzzy_{$id}", $data, 'i18n');
+			Cache::write("fuzzy_{$id}", $data, 'i18n');
 
-            return true;
-        }
+			return true;
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    public function delete($id) {
-        $cache = Cache::read("fuzzy_{$id}", 'i18n');
+	public function delete($id) {
+		$cache = Cache::read("fuzzy_{$id}", 'i18n');
 
-        if ($cache) {
-            return Cache::delete("fuzzy_{$id}", 'i18n');
-        }
+		if ($cache) {
+			return Cache::delete("fuzzy_{$id}", 'i18n');
+		}
 
-        return false;
-    }
+		return false;
+	}
 }

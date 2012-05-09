@@ -7,7 +7,7 @@
  * @package  QuickApps.Controller.Plugin.System
  * @version  1.0
  * @author   Christopher Castro <chris@quickapps.es>
- * @link     http://www.quickappscms.org
+ * @link	 http://www.quickappscms.org
  */
 class JqueryUIHelper extends AppHelper {
 /**
@@ -48,11 +48,11 @@ class JqueryUIHelper extends AppHelper {
  *  String HTML <script> tags on success.
  * @see JqueryUI::add()
  */
-    public function add() {
-        $files = func_get_args();
+	public function add() {
+		$files = func_get_args();
 
-        return JqueryUI::add($files, $this->_View->viewVars['Layout']['javascripts']['file']);
-    }
+		return JqueryUI::add($files, $this->_View->viewVars['Layout']['javascripts']['file']);
+	}
 
 /**
  * Loads in stack the CSS styles for the specified Jquery UI theme.
@@ -84,7 +84,7 @@ class JqueryUIHelper extends AppHelper {
  *  String HTML <style> tags on success.
  * @see JqueryUI::theme()
  */
-    public function theme($theme = false) {
-        return JqueryUI::theme($theme, $this->_View->viewVars['Layout']['stylesheets']['all']);
-    }
+	public function theme($theme = false) {
+		return JqueryUI::theme($theme, $this->_View->viewVars['Layout']['stylesheets']['all']);
+	}
 }

@@ -7,7 +7,7 @@
  * @package  QuickApps.View.Helper
  * @version  1.0
  * @author   Christopher Castro <chris@quickapps.es>
- * @link     http://www.quickappscms.org
+ * @link	 http://www.quickappscms.org
  */
 class QaJsHelper extends AppHelper {
 /**
@@ -16,7 +16,7 @@ class QaJsHelper extends AppHelper {
  * @var array
  * @access public
  */
-    public $helpers = array('CoreJs' => array('className' => 'Js'));
+	public $helpers = array('CoreJs' => array('className' => 'Js'));
 
 /**
  * call__ Allows for dispatching of methods to the Engine Helper.
@@ -38,7 +38,7 @@ class QaJsHelper extends AppHelper {
  * @return mixed Depends on the return of the dispatched method, or it could be an instance of the EngineHelper
  */
 	public function __call($method, $params) {
-       return $this->CoreJs->__call($method, $params);
+	   return $this->CoreJs->__call($method, $params);
 	}
 
 /**
@@ -51,10 +51,10 @@ class QaJsHelper extends AppHelper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/js.html#JsHelper::value
  **/
 	public function value($val = array(), $quoteString = null, $key = 'value') {
-        $data = compact('var', 'quoteString', 'key');
+		$data = compact('var', 'quoteString', 'key');
 
-        $this->hook('js_value_alter', $data);
-        extract($data);
+		$this->hook('js_value_alter', $data);
+		extract($data);
 
 		return $this->CoreJs->value($val, $quoteString, $key);
 	}
@@ -80,9 +80,9 @@ class QaJsHelper extends AppHelper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/js.html#JsHelper::writeBuffer
  */
 	public function writeBuffer($options = array()) {
-        $this->hook('js_write_buffer_alter', $options);
+		$this->hook('js_write_buffer_alter', $options);
 
-        $this->CoreJs->writeBuffer($options);
+		$this->CoreJs->writeBuffer($options);
 	}
 
 /**
@@ -95,10 +95,10 @@ class QaJsHelper extends AppHelper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/js.html#JsHelper::buffer
  */
 	public function buffer($script, $top = false) {
-        $data = compact('script', 'top');
+		$data = compact('script', 'top');
 
-        $this->hook('js_buffer_alter', $data);
-        extract($data);
+		$this->hook('js_buffer_alter', $data);
+		extract($data);
 
 		return $this->CoreJs->buffer($script, $top);
 	}
@@ -111,7 +111,7 @@ class QaJsHelper extends AppHelper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/js.html#JsHelper::getBuffer
  */
 	public function getBuffer($clear = true) {
-        $this->hook('js_get_buffer_alter', $clear);
+		$this->hook('js_get_buffer_alter', $clear);
 
 		return $this->CoreJs->getBuffer($clear);
 	}
@@ -126,7 +126,7 @@ class QaJsHelper extends AppHelper {
  * - `confirm` - Generate a confirm() dialog before sending the event.
  * - `id` - use a custom id.
  * - `htmlAttributes` - additional non-standard htmlAttributes.  Standard attributes are class, id,
- *    rel, title, escape, onblur and onfocus.
+ *	rel, title, escape, onblur and onfocus.
  * - `buffer` - Disable the buffering and return a script tag in addition to the link.
  *
  * @param string $title Title for the link.
@@ -136,10 +136,10 @@ class QaJsHelper extends AppHelper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/js.html#JsHelper::link
  */
 	public function link($title, $url = null, $options = array()) {
-        $data = compact('title', 'url', 'options');
+		$data = compact('title', 'url', 'options');
 
-        $this->hook('js_link_alter', $data);
-        extract($data);
+		$this->hook('js_link_alter', $data);
+		extract($data);
 
 		return $this->CoreJs->link($title, $url, $options);
 	}
@@ -155,10 +155,10 @@ class QaJsHelper extends AppHelper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/js.html#JsHelper::set
  */
 	public function set($one, $two = null) {
-        $data = compact('one', 'two');
+		$data = compact('one', 'two');
 
-        $this->hook('js_set_alter', $data);
-        extract($data);
+		$this->hook('js_set_alter', $data);
+		extract($data);
 
 		return $this->CoreJs->set($one, $two);
 	}
@@ -185,10 +185,10 @@ class QaJsHelper extends AppHelper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/js.html#JsHelper::submit
  */
 	public function submit($caption = null, $options = array()) {
-        $data = compact('caption', 'options');
+		$data = compact('caption', 'options');
 
-        $this->hook('js_submit_alter', $data);
-        extract($data);
+		$this->hook('js_submit_alter', $data);
+		extract($data);
 
 		return $this->CoreJs->set($caption, $options);
 	}

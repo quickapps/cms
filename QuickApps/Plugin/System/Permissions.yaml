@@ -1,50 +1,50 @@
 Controller:
-    Configuration:
-        hidden:true
-    Types:
-        hidden:true
-    Contents:
-        hidden:true
-    System:
-        hidden:true
-    Dashboard:
-        hidden:true
+	Configuration:
+		hidden:true
+	Types:
+		hidden:true
+	Contents:
+		hidden:true
+	System:
+		hidden:true
+	Dashboard:
+		hidden:true
 Preset:
-    dashboard:
-        name: "Access to dashboard"
-        acos:
-            Dashboard.admin_index
-            System.admin_index
-    manage_config:
-        name: "Administer site configuration"
-        description: "Warning: Give to trusted roles only; this permission has security implications."
-        acos:
-            Configuration.admin_index
-    structure:
-        name: "Structure Menu"
-        description: "Allow user to access the `structure` menu item."
-        acos:
-            Structure.admin_index
-    help:
-        name: "Help Topics"
-        description: "Allow user to consult help topics."
-        acos:
-            Help.admin_index
-            Help.admin_module
-    manage_modules:
-        name: "Administer modules"
-        acos:
-            Modules.admin_index
-            Modules.admin_settings
-            Modules.admin_toggle
-            Modules.admin_uninstall
-            Modules.admin_install
-    manage_themes:
-        name: "Administer themes"
-        acos:
-            Themes.admin_index
-            Themes.admin_set_theme
-            Themes.admin_settings
-            Themes.admin_uninstall
-            Themes.admin_install
-            Themes.admin_theme_tn
+	dashboard:
+		name: "Access to dashboard"
+		acos:
+			Dashboard.admin_index
+			System.admin_index
+	manage_config:
+		name: "Administer site configuration"
+		description: "Warning: Give to trusted roles only; this permission has security implications."
+		acos:
+			Configuration.admin_index
+	structure:
+		name: "Structure Menu"
+		description: "Allow user to access the `structure` menu item."
+		acos:
+			Structure.admin_index
+	help:
+		name: "Help Topics"
+		description: "Allow user to consult help topics."
+		acos:
+			Help.admin_index
+			Help.admin_module
+	manage_modules:
+		name: "Administer modules"
+		acos:
+			Modules.admin_index
+			Modules.admin_settings
+			Modules.admin_toggle
+			Modules.admin_uninstall
+			Modules.admin_install
+	manage_themes:
+		name: "Administer themes"
+		acos:
+			Themes.admin_index
+			Themes.admin_set_theme
+			Themes.admin_settings
+			Themes.admin_uninstall
+			Themes.admin_install
+			Themes.admin_theme_tn

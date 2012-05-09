@@ -1,21 +1,21 @@
 info:
-    admin: true
-    name: Admin Default
-    description: Default backend theme for QuickApps
-    core: 1.x
-    version: 1.0
-    author: Christopher Castro <chris@quickapps.es>
+	admin: true
+	name: Admin Default
+	description: Default backend theme for QuickApps
+	core: 1.x
+	version: 1.0
+	author: Christopher Castro <chris@quickapps.es>
 
 stylesheets:
-    all: [reset.css, styles.css]
+	all: [reset.css, styles.css]
 
 regions:
-    management-menu: Management menu
-    toolbar: Toolbar
-    help: Help
-    footer: Footer
-    dashboard_sidebar: Dashboard Sidebar
-    dashboard_main: Dashboard Main
+	management-menu: Management menu
+	toolbar: Toolbar
+	help: Help
+	footer: Footer
+	dashboard_sidebar: Dashboard Sidebar
+	dashboard_main: Dashboard Main
 
 layout: default
 login_layout: login

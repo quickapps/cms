@@ -9,10 +9,10 @@ App::uses('JqueryUI', 'System.Lib');
  * @package  QuickApps.Controller.Plugin.System
  * @version  1.0
  * @author   Christopher Castro <chris@quickapps.es>
- * @link     http://www.quickappscms.org
+ * @link	 http://www.quickappscms.org
  */
 class JqueryUIComponent extends Component {
-    public $Controller;
+	public $Controller;
 
 /**
  * Called before the Controller::beforeFilter().
@@ -20,10 +20,10 @@ class JqueryUIComponent extends Component {
  * @param object $controller Controller with components to initialize
  * @return void
  */
-    public function initialize(Controller $Controller) {
-        $this->Controller = $Controller;
-        $this->Controller->helpers[] = 'System.JqueryUI';
-    }
+	public function initialize(Controller $Controller) {
+		$this->Controller = $Controller;
+		$this->Controller->helpers[] = 'System.JqueryUI';
+	}
 
 /**
  * Loads in stack all the specified Jquery UI JS files.
@@ -63,11 +63,11 @@ class JqueryUIComponent extends Component {
  *  String HTML <script> tags on success.
  * @see JqueryUI::add()
  */
-    public function add() {
-        $files = func_get_args();
+	public function add() {
+		$files = func_get_args();
 
-        return JqueryUI::add($files, $this->Controller->Layout['javascripts']['file']);
-    }
+		return JqueryUI::add($files, $this->Controller->Layout['javascripts']['file']);
+	}
 
 /**
  * Loads in stack the CSS styles for the specified Jquery UI theme.
@@ -99,7 +99,7 @@ class JqueryUIComponent extends Component {
  *  String HTML <style> tags on success.
  * @see JqueryUI::theme()
  */
-    public function theme($theme = false) {
-        return JqueryUI::theme($theme, $this->Controller->Layout['stylesheets']['all']);
-    }
+	public function theme($theme = false) {
+		return JqueryUI::theme($theme, $this->Controller->Layout['stylesheets']['all']);
+	}
 }

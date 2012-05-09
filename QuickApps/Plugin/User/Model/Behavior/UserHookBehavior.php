@@ -7,7 +7,7 @@
  * @package  QuickApps.Plugin.User.Model.Behavior
  * @version  1.0
  * @author   Christopher Castro <chris@qucikapps.es>
- * @link     http://www.quickappscms.org
+ * @link	 http://www.quickappscms.org
  */
 class UserHookBehavior extends ModelBehavior {
 /**
@@ -19,17 +19,17 @@ class UserHookBehavior extends ModelBehavior {
  * @return array Modified query array
  * @see QuickAppsComponent::loadVariables()
  */
-    public function beforeFind(Model $Model, $query) {
-        if ($Model->name == 'Variable' && empty($query['conditions'])) {
-            $query['conditions'] = Hash::merge((array)$query['conditions'],
-                array(
-                    'NOT' => array(
-                        'Variable.name LIKE' => "user_mail_%"
-                    )
-                )
-            );
-        }
+	public function beforeFind(Model $Model, $query) {
+		if ($Model->name == 'Variable' && empty($query['conditions'])) {
+			$query['conditions'] = Hash::merge((array)$query['conditions'],
+				array(
+					'NOT' => array(
+						'Variable.name LIKE' => "user_mail_%"
+					)
+				)
+			);
+		}
 
-        return $query;
-    }
+		return $query;
+	}
 }

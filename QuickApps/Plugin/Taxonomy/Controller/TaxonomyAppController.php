@@ -7,7 +7,7 @@
  * @package  QuickApps.Plugin.Taxonomy.Controller
  * @version  1.0
  * @author   Christopher Castro <chris@quickapps.es>
- * @link     http://www.quickappscms.org
+ * @link	 http://www.quickappscms.org
  */
 class TaxonomyAppController extends AppController {
 }

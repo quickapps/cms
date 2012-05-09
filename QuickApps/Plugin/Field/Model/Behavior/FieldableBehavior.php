@@ -7,7 +7,7 @@
  * @package  QuickApps.Plugin.Field.Model.Behavior
  * @version  1.0
  * @author   Christopher Castro <chris@quickapps.es>
- * @link     http://www.quickappscms.org
+ * @link	 http://www.quickappscms.org
  */
 
 /**
@@ -132,18 +132,18 @@ class FieldableBehavior extends ModelBehavior {
  *
  * @var array
  */
-    private $__settings = array(
-        'belongsTo' => false
-    );
+	private $__settings = array(
+		'belongsTo' => false
+	);
 
 /**
  * Temp holder.
  *
  * @var array
  */
-    private $__tmp = array(
-        'fieldData' => array()
-    );
+	private $__tmp = array(
+		'fieldData' => array()
+	);
 
 /**
  * Initiate Fieldable behavior.
@@ -152,15 +152,15 @@ class FieldableBehavior extends ModelBehavior {
  * @param array $settings array of configuration settings
  * @return void
  */
-    public function setup(Model $Model, $settings = array()) {
-        // keep a setings array for each model
-        $this->__settings[$Model->alias] = array();
-        $this->__settings[$Model->alias] = Hash::merge($this->__settings[$Model->alias], $settings);
+	public function setup(Model $Model, $settings = array()) {
+		// keep a setings array for each model
+		$this->__settings[$Model->alias] = array();
+		$this->__settings[$Model->alias] = Hash::merge($this->__settings[$Model->alias], $settings);
 
-        if (empty($this->__settings[$Model->alias]['belongsTo'])) {
-            $this->__settings[$Model->alias]['belongsTo'] = $Model->alias;
-        }
-    }
+		if (empty($this->__settings[$Model->alias]['belongsTo'])) {
+			$this->__settings[$Model->alias]['belongsTo'] = $Model->alias;
+		}
+	}
 
 /**
  * Check if field instances should be fetched or not to entity.
@@ -170,43 +170,43 @@ class FieldableBehavior extends ModelBehavior {
  * @param object $Model Instance of model
  * @return array Modified query parameters
  */
-    public function beforeFind(Model $Model, $query) {
-        if ((isset($Model->fieldsNoFetch) && $Model->fieldsNoFetch) ||
-            (isset($query['recursive']) && $query['recursive'] <= 0)
-        ) {
-            $Model->fieldsNoFetch = true;
+	public function beforeFind(Model $Model, $query) {
+		if ((isset($Model->fieldsNoFetch) && $Model->fieldsNoFetch) ||
+			(isset($query['recursive']) && $query['recursive'] <= 0)
+		) {
+			$Model->fieldsNoFetch = true;
 
-            $Model->unbindModel(
-                array(
-                    'hasMany' => array('Field')
-                )
-            );
-        } else {
-            $modelFields = ClassRegistry::init('Field.Field')->find('all',
-                array(
-                    'order' => array('Field.ordering' => 'ASC'),
-                    'conditions' => array(
-                        'Field.belongsTo' => $this->__settings[$Model->alias]['belongsTo']
-                    ),
-                    'recursive' => -1
-                )
-            );
-            $result['Field'] = Hash::extract($modelFields, '{n}.Field');
+			$Model->unbindModel(
+				array(
+					'hasMany' => array('Field')
+				)
+			);
+		} else {
+			$modelFields = ClassRegistry::init('Field.Field')->find('all',
+				array(
+					'order' => array('Field.ordering' => 'ASC'),
+					'conditions' => array(
+						'Field.belongsTo' => $this->__settings[$Model->alias]['belongsTo']
+					),
+					'recursive' => -1
+				)
+			);
+			$result['Field'] = Hash::extract($modelFields, '{n}.Field');
 
-            foreach ($result['Field'] as $key => &$field) {
-                $data['entity'] =& $Model;
-                $data['query'] =& $query;
-                $data['field'] = $field;
-                $data['settings'] = $this->__settings[$Model->alias];
+			foreach ($result['Field'] as $key => &$field) {
+				$data['entity'] =& $Model;
+				$data['query'] =& $query;
+				$data['field'] = $field;
+				$data['settings'] = $this->__settings[$Model->alias];
 
-                if ($Model->hookDefined("{$field['field_module']}_before_find")) {
-                    $Model->hook("{$field['field_module']}_before_find", $data);
-                }
-            }
-        }
+				if ($Model->hookDefined("{$field['field_module']}_before_find")) {
+					$Model->hook("{$field['field_module']}_before_find", $data);
+				}
+			}
+		}
 
-        return $query;
-    }
+		return $query;
+	}
 
 /**
  * Fetch fields to Model results.
@@ -216,58 +216,58 @@ class FieldableBehavior extends ModelBehavior {
  * @param boolean $primary Whether Model is being queried directly (vs. being queried as an association)
  * @return array Modified results array
  */
-    public function afterFind(Model $Model, $results, $primary) {
-        if (empty($results) ||
-            !$primary ||
-            (isset($Model->fieldsNoFetch) && $Model->fieldsNoFetch)
-        ) {
-            return $results;
-        }
+	public function afterFind(Model $Model, $results, $primary) {
+		if (empty($results) ||
+			!$primary ||
+			(isset($Model->fieldsNoFetch) && $Model->fieldsNoFetch)
+		) {
+			return $results;
+		}
 
-        // holds a list of fields attached to this model.
-        $fieldsList = Configure::read('Fieldable.fieldsList');
+		// holds a list of fields attached to this model.
+		$fieldsList = Configure::read('Fieldable.fieldsList');
 
-        if (!isset($fieldsList[$Model->alias])) {
-            $fieldsList[$Model->alias] = array();
-        }
+		if (!isset($fieldsList[$Model->alias])) {
+			$fieldsList[$Model->alias] = array();
+		}
 
-        // fetch model instance Fields
-        foreach ($results as &$result) {
-            if (!isset($result[$Model->alias])) {
-                continue;
-            }
+		// fetch model instance Fields
+		foreach ($results as &$result) {
+			if (!isset($result[$Model->alias])) {
+				continue;
+			}
 
-            $belongsTo = $this->__parseBelongsTo($this->__settings[$Model->alias]['belongsTo'], $result);
-            $result['Field'] = array();
-            $modelFields = ClassRegistry::init('Field.Field')->find('all',
-                array(
-                    'order' => array('Field.ordering' => 'ASC'),
-                    'conditions' => array(
-                        'Field.belongsTo' => $belongsTo
-                    )
-                )
-            );
-            $result['Field'] = Hash::extract($modelFields, '{n}.Field');
+			$belongsTo = $this->__parseBelongsTo($this->__settings[$Model->alias]['belongsTo'], $result);
+			$result['Field'] = array();
+			$modelFields = ClassRegistry::init('Field.Field')->find('all',
+				array(
+					'order' => array('Field.ordering' => 'ASC'),
+					'conditions' => array(
+						'Field.belongsTo' => $belongsTo
+					)
+				)
+			);
+			$result['Field'] = Hash::extract($modelFields, '{n}.Field');
 
-            foreach ($result['Field'] as $key => &$field) {
-                if (!in_array($field['field_module'], $fieldsList[$Model->alias])) {
-                    $fieldsList[$Model->alias][] = $field['field_module'];
-                }
+			foreach ($result['Field'] as $key => &$field) {
+				if (!in_array($field['field_module'], $fieldsList[$Model->alias])) {
+					$fieldsList[$Model->alias][] = $field['field_module'];
+				}
 
-                $field['FieldData'] = array();  // Field storage data must be set here
-                $data['entity'] =& $Model; // Entity instance
-                $data['field'] =& $field; // Field information
-                $data['result'] =& $result; // Instance of current Entity record being fetched
-                $data['settings'] = $this->__settings[$Model->alias]; // fieldable settings
+				$field['FieldData'] = array();  // Field storage data must be set here
+				$data['entity'] =& $Model; // Entity instance
+				$data['field'] =& $field; // Field information
+				$data['result'] =& $result; // Instance of current Entity record being fetched
+				$data['settings'] = $this->__settings[$Model->alias]; // fieldable settings
 
-                $Model->hook("{$field['field_module']}_after_find", $data);
-            }
-        }
+				$Model->hook("{$field['field_module']}_after_find", $data);
+			}
+		}
 
-        Configure::write('Fieldable.fieldsList', $fieldsList);
+		Configure::write('Fieldable.fieldsList', $fieldsList);
 
-        return $results;
-    }
+		return $results;
+	}
 
 /**
  * Invokes each field's `before_save()` hook.
@@ -280,31 +280,31 @@ class FieldableBehavior extends ModelBehavior {
  * @param object $Model Instance of model
  * @return boolean FALSE if any of the fields has returned FALSE. TRUE otherwise
  */
-    public function beforeSave(Model $Model) {
-        $r = array();
+	public function beforeSave(Model $Model) {
+		$r = array();
 
-        if (isset($Model->data['FieldData'])) {
-            foreach ($Model->data['FieldData'] as $field_module => $fields) {
-                foreach ($fields as $field_id => $info) {
-                    $info['entity'] =& $Model;
-                    $info['field_id'] = $field_id;
-                    $info['settings'] = $this->__settings[$Model->alias];
+		if (isset($Model->data['FieldData'])) {
+			foreach ($Model->data['FieldData'] as $field_module => $fields) {
+				foreach ($fields as $field_id => $info) {
+					$info['entity'] =& $Model;
+					$info['field_id'] = $field_id;
+					$info['settings'] = $this->__settings[$Model->alias];
 
-                    if ($Model->hookDefined("{$field_module}_before_save")) {
-                        $r[] = $Model->hook("{$field_module}_before_save", $info, array('collectReturn' => false));
-                    }
-                }
-            }
-        }
+					if ($Model->hookDefined("{$field_module}_before_save")) {
+						$r[] = $Model->hook("{$field_module}_before_save", $info, array('collectReturn' => false));
+					}
+				}
+			}
+		}
 
-        if (isset($Model->data['FieldData'])) {
-            $this->__tmp['fieldData'] = $Model->data['FieldData'];
-        }
+		if (isset($Model->data['FieldData'])) {
+			$this->__tmp['fieldData'] = $Model->data['FieldData'];
+		}
 
-        $r = array_unique($r);
+		$r = array_unique($r);
 
-        return empty($r) || (count($r) === 1 && $r[0] === true);
-    }
+		return empty($r) || (count($r) === 1 && $r[0] === true);
+	}
 
 /**
  * Save field data after Model record has been saved.
@@ -314,22 +314,22 @@ class FieldableBehavior extends ModelBehavior {
  * @see $this::beforeSave()
  * @return void
  */
-    public function afterSave(Model $Model, $created) {
-        if (!empty($this->__tmp['fieldData'])) {
-            foreach ($this->__tmp['fieldData'] as $field_module => $fields) {
-                foreach ($fields as $field_id => $info) {
-                    $info['entity'] =& $Model;
-                    $info['field_id'] = $field_id;
-                    $info['created'] = $created;
-                    $info['settings'] = $this->__settings[$Model->alias];
+	public function afterSave(Model $Model, $created) {
+		if (!empty($this->__tmp['fieldData'])) {
+			foreach ($this->__tmp['fieldData'] as $field_module => $fields) {
+				foreach ($fields as $field_id => $info) {
+					$info['entity'] =& $Model;
+					$info['field_id'] = $field_id;
+					$info['created'] = $created;
+					$info['settings'] = $this->__settings[$Model->alias];
 
-                    $Model->hook("{$field_module}_after_save", $info);
-                }
-            }
-        }
+					$Model->hook("{$field_module}_after_save", $info);
+				}
+			}
+		}
 
-        $this->__processSearchIndex($Model);
-    }
+		$this->__processSearchIndex($Model);
+	}
 
 /**
  * Call each Model's field instances callback
@@ -337,9 +337,9 @@ class FieldableBehavior extends ModelBehavior {
  * @param object $Model Instance of model
  * @return boolean FALSE if any of the fields has returned a non-true value. TRUE otherwise.
  */
-    public function beforeDelete(Model $Model, $cascade = true) {
-       return $this->__beforeAfterDelete($Model, 'before');
-    }
+	public function beforeDelete(Model $Model, $cascade = true) {
+	   return $this->__beforeAfterDelete($Model, 'before');
+	}
 
 /**
  * Call each Model's field instances callback
@@ -347,9 +347,9 @@ class FieldableBehavior extends ModelBehavior {
  * @param object $Model Instance of model
  * @return void
  */
-    public function afterDelete(Model $Model) {
-        $this->__beforeAfterDelete($Model, 'after');
-    }
+	public function afterDelete(Model $Model) {
+		$this->__beforeAfterDelete($Model, 'after');
+	}
 
 /**
  * Invoke each field's beforeValidate()
@@ -363,29 +363,29 @@ class FieldableBehavior extends ModelBehavior {
  * @param object $Model Instance of model
  * @return boolean TRUE if all the fields are valid, FALSE otherwise
  */
-    public function beforeValidate(Model $Model) {
-        if (!isset($Model->data['FieldData'])) {
-            return true;
-        }
+	public function beforeValidate(Model $Model) {
+		if (!isset($Model->data['FieldData'])) {
+			return true;
+		}
 
-        $r = array();
+		$r = array();
 
-        foreach ($Model->data['FieldData'] as $field_module => $fields) {
-            foreach ($fields as $field_id => $info) {
-                $info['entity'] =& $Model;
-                $info['field_id'] = $field_id;
-                $info['settings'] = $this->__settings[$Model->alias];
+		foreach ($Model->data['FieldData'] as $field_module => $fields) {
+			foreach ($fields as $field_id => $info) {
+				$info['entity'] =& $Model;
+				$info['field_id'] = $field_id;
+				$info['settings'] = $this->__settings[$Model->alias];
 
-                if ($Model->hookDefined("{$field_module}_before_validate")) {
-                    $r[] = $Model->hook("{$field_module}_before_validate", $info, array('collectReturn' => false));
-                }
-            }
-        }
+				if ($Model->hookDefined("{$field_module}_before_validate")) {
+					$r[] = $Model->hook("{$field_module}_before_validate", $info, array('collectReturn' => false));
+				}
+			}
+		}
 
-        $r = array_unique($r);
+		$r = array_unique($r);
 
-        return empty($r) || (count($r) === 1 && $r[0] === true);
-    }
+		return empty($r) || (count($r) === 1 && $r[0] === true);
+	}
 
 /**
  * Attach a new field instance to entity.
@@ -398,80 +398,80 @@ class FieldableBehavior extends ModelBehavior {
  *  - field_module: Name of the module that handle this instance. e.g.: `filed_text` or `FieldText`
  * @return mixed Return (int) Field instance ID if it was added correctly. FALSE otherwise.
  */
-    public function attachFieldInstance(Model $Model, $data) {
-        $data = isset($data['Field']) ? $data['Field'] : $data;
-        $data = array_merge(
-            array(
-                'label' => '',
-                'name' => '',
-                'field_module' => '',
-                'description' => '',
-                'required' => 0,
-                'settings' => array(),
-                'locked' => 0
-            ),
-            $data
-        );
+	public function attachFieldInstance(Model $Model, $data) {
+		$data = isset($data['Field']) ? $data['Field'] : $data;
+		$data = array_merge(
+			array(
+				'label' => '',
+				'name' => '',
+				'field_module' => '',
+				'description' => '',
+				'required' => 0,
+				'settings' => array(),
+				'locked' => 0
+			),
+			$data
+		);
 
-        extract($data);
+		extract($data);
 
-        $field_info = QuickApps::field_info($field_module);
+		$field_info = QuickApps::field_info($field_module);
 
-        if (isset($field_info['max_instances']) &&
-            $field_info['max_instances'] === 0
-        ) {
-            return false;
-        }
+		if (isset($field_info['max_instances']) &&
+			$field_info['max_instances'] === 0
+		) {
+			return false;
+		}
 
-        if (isset($field_info['entity_types']) &&
-            !empty($field_info['entity_types']) &&
-            !in_array(
-                Inflector::underscore($Model->alias),
-                array_map('Inflector::underscore', (array)$field_info['entity_types'])
-            )
-        ) {
-            return false;
-        }
+		if (isset($field_info['entity_types']) &&
+			!empty($field_info['entity_types']) &&
+			!in_array(
+				Inflector::underscore($Model->alias),
+				array_map('Inflector::underscore', (array)$field_info['entity_types'])
+			)
+		) {
+			return false;
+		}
 
-        if (isset($field_info[$field_module])) {
-            if (isset($field_info[$field_module]['max_instances']) &&
-                is_numeric($field_info[$field_module]['max_instances']) &&
-                $field_info[$field_module]['max_instances'] > 0
-            ) {
-                $count = ClassRegistry::init('Field.Field')->find('count',
-                    array(
-                        'Field.belongsTo' => $this->__settings[$Model->alias]['belongsTo'],
-                        'Field.field_module' => $field_module
-                    )
-                );
+		if (isset($field_info[$field_module])) {
+			if (isset($field_info[$field_module]['max_instances']) &&
+				is_numeric($field_info[$field_module]['max_instances']) &&
+				$field_info[$field_module]['max_instances'] > 0
+			) {
+				$count = ClassRegistry::init('Field.Field')->find('count',
+					array(
+						'Field.belongsTo' => $this->__settings[$Model->alias]['belongsTo'],
+						'Field.field_module' => $field_module
+					)
+				);
 
-                if ($count > $field_info[$field_module]['max_instances']) {
-                    return false;
-                }
-            }
-        }
+				if ($count > $field_info[$field_module]['max_instances']) {
+					return false;
+				}
+			}
+		}
 
-        $data['belongsTo'] = $this->__settings[$Model->alias]['belongsTo'];
-        $Field = ClassRegistry::init('Field.Field');
+		$data['belongsTo'] = $this->__settings[$Model->alias]['belongsTo'];
+		$Field = ClassRegistry::init('Field.Field');
 
-        if ($Model->hookDefined("{$field_module}_before_attach_field_instance")) {
-            $before = $Model->hook("{$field_module}_before_attach_field_instance", $data, array('collectReturn' => false));
+		if ($Model->hookDefined("{$field_module}_before_attach_field_instance")) {
+			$before = $Model->hook("{$field_module}_before_attach_field_instance", $data, array('collectReturn' => false));
 
-            if ($before !== true) {
-                return false;
-            }
-        }
+			if ($before !== true) {
+				return false;
+			}
+		}
 
-        if ($Field->save($data)) {
-            $field = $Field->read();
+		if ($Field->save($data)) {
+			$field = $Field->read();
 
-            $Model->hook("{$field_module}_after_attach_field_instance", $field);
+			$Model->hook("{$field_module}_after_attach_field_instance", $field);
 
-            return $Field->id;
-        }
+			return $Field->id;
+		}
 
-        return false;
-    }
+		return false;
+	}
 
 /**
  * Delete a field instance by instance ID.
@@ -483,9 +483,9 @@ class FieldableBehavior extends ModelBehavior {
  * @param integer $field_id Field instance ID (in `fields` table)
  * @return boolean TRUE on success
  */
-    public function detachFieldInstance(Model $Model, $field_id) {
-        return ClassRegistry::init('Field.Field')->delete($field_id);
-    }
+	public function detachFieldInstance(Model $Model, $field_id) {
+		return ClassRegistry::init('Field.Field')->delete($field_id);
+	}
 
 /**
  * Return all fields instantces attached to Model.
@@ -494,18 +494,18 @@ class FieldableBehavior extends ModelBehavior {
  * @param object $Model Instance of model
  * @return array List array of all attached fields
  */
-    public function fieldInstances(Model $Model) {
-        $results = ClassRegistry::init('Field.Field')->find('all',
-            array(
-                'conditions' => array(
-                    'Field.belongsTo' => $this->__settings[$Model->alias]['belongsTo']
-                ),
-                'order' => array('Field.ordering' => 'ASC')
-            )
-        );
+	public function fieldInstances(Model $Model) {
+		$results = ClassRegistry::init('Field.Field')->find('all',
+			array(
+				'conditions' => array(
+					'Field.belongsTo' => $this->__settings[$Model->alias]['belongsTo']
+				),
+				'order' => array('Field.ordering' => 'ASC')
+			)
+		);
 
-        return $results;
-    }
+		return $results;
+	}
 
 /**
  * For `Node` entity only.
@@ -519,19 +519,19 @@ class FieldableBehavior extends ModelBehavior {
  * @return boolean TRUE on sucess, FALSE otherwise
  * @see FieldableBehavior::__processSearchIndex()
  */
-    public function indexField(Model $Model, $field_content) {
-        if ($Model->alias != 'Node' || !$Model->id || !is_string($field_content)) {
-            return false;
-        }
+	public function indexField(Model $Model, $field_content) {
+		if ($Model->alias != 'Node' || !$Model->id || !is_string($field_content)) {
+			return false;
+		}
 
-        if (!isset($this->__tmp['NodeSearchData'])) {
-            $this->__tmp['NodeSearchData'] = array();
-        }
+		if (!isset($this->__tmp['NodeSearchData'])) {
+			$this->__tmp['NodeSearchData'] = array();
+		}
 
-        $this->__tmp['NodeSearchData'][] = $field_content;
+		$this->__tmp['NodeSearchData'][] = $field_content;
 
-        return true;
-    }
+		return true;
+	}
 
 /**
  * Do not fetch fields instances on Model->find()
@@ -539,9 +539,9 @@ class FieldableBehavior extends ModelBehavior {
  * @param object $Model Instance of model
  * @return void
  */
-    public function unbindFields(Model $Model) {
-        $Model->fieldsNoFetch = true;
-    }
+	public function unbindFields(Model $Model) {
+		$Model->fieldsNoFetch = true;
+	}
 
 /**
  * Fetch all field instances on Model->find()
@@ -549,9 +549,9 @@ class FieldableBehavior extends ModelBehavior {
  * @param object $Model Instance of model
  * @return void
  */
-    public function bindFields(Model $Model) {
-        $Model->fieldsNoFetch = false;
-    }
+	public function bindFields(Model $Model) {
+		$Model->fieldsNoFetch = false;
+	}
 
 /**
  * Lock the specified field, so users can't modify its settings.
@@ -560,9 +560,9 @@ class FieldableBehavior extends ModelBehavior {
  * @return boolean TRUE on success, FALSE on failure
  * @see Field::lockField()
  */
-    public function lockField(Model $Model, $instance_id) {
-        return ClassRegistry::init('Field.Field')->lockField($instance_id);
-    }
+	public function lockField(Model $Model, $instance_id) {
+		return ClassRegistry::init('Field.Field')->lockField($instance_id);
+	}
 
 /**
  * Lock the specified field, so users can't modify its settings.
@@ -571,9 +571,9 @@ class FieldableBehavior extends ModelBehavior {
  * @return boolean TRUE on success, FALSE on failure
  * @see Field::unlockField()
  */
-    public function unlockField(Model $Model, $instance_id) {
-        return ClassRegistry::init('Field.Field')->unlockField($instance_id);
-    }
+	public function unlockField(Model $Model, $instance_id) {
+		return ClassRegistry::init('Field.Field')->unlockField($instance_id);
+	}
 
 /**
  * Allows to modify the `belongsTo` parameter on the fly.
@@ -592,9 +592,9 @@ class FieldableBehavior extends ModelBehavior {
  * @return boolean TRUE on success, FALSE on failure
  * @see Field::unlockField()
  */
-    public function fieldsBelongsTo(Model $Model, $belongs_to) {
-        $this->__settings[$Model->alias]['belongsTo'] = $belongs_to;
-    }
+	public function fieldsBelongsTo(Model $Model, $belongs_to) {
+		$this->__settings[$Model->alias]['belongsTo'] = $belongs_to;
+	}
 
 /**
  * Save all the texts added to the stack by FieldableBehavior::indexField()
@@ -602,76 +602,76 @@ class FieldableBehavior extends ModelBehavior {
  * @return boolean TRUE on sucess, FALSE otherwise.
  * @see FieldableBehavior::indexField()
  */
-    private function __processSearchIndex(Model $Model) {
-        if (!isset($this->__tmp['NodeSearchData'])) {
-            return false;
-        }
+	private function __processSearchIndex(Model $Model) {
+		if (!isset($this->__tmp['NodeSearchData'])) {
+			return false;
+		}
 
-        App::uses('String', 'Utility');
+		App::uses('String', 'Utility');
 
-        $node = $Model->read();
-        $this->__tmp['NodeSearchData'][] = $node['Node']['slug'];
-        $this->__tmp['NodeSearchData'][] = $node['Node']['title'];
-        $this->__tmp['NodeSearchData'][] = $node['Node']['description'];
-        $text = implode(' ', $this->__tmp['NodeSearchData']);
-        $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
-        $text = mb_strtolower($text);
+		$node = $Model->read();
+		$this->__tmp['NodeSearchData'][] = $node['Node']['slug'];
+		$this->__tmp['NodeSearchData'][] = $node['Node']['title'];
+		$this->__tmp['NodeSearchData'][] = $node['Node']['description'];
+		$text = implode(' ', $this->__tmp['NodeSearchData']);
+		$text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
+		$text = mb_strtolower($text);
 
-        // To improve searching for numerical data such as dates, IP addresses
-        // or version numbers, we consider a group of numerical characters
-        // separated only by punctuation characters to be one piece.
-        // This also means that searching for e.g. '20/03/1984' also returns
-        // results with '20-03-1984' in them.
-        // Readable regexp: ([number]+)[punctuation]+(?=[number])
-        $text = preg_replace('/([' . PREG_CLASS_NUMBERS . ']+)[' . PREG_CLASS_PUNCTUATION . ']+(?=[' . PREG_CLASS_NUMBERS . '])/u', '\1', $text);
+		// To improve searching for numerical data such as dates, IP addresses
+		// or version numbers, we consider a group of numerical characters
+		// separated only by punctuation characters to be one piece.
+		// This also means that searching for e.g. '20/03/1984' also returns
+		// results with '20-03-1984' in them.
+		// Readable regexp: ([number]+)[punctuation]+(?=[number])
+		$text = preg_replace('/([' . PREG_CLASS_NUMBERS . ']+)[' . PREG_CLASS_PUNCTUATION . ']+(?=[' . PREG_CLASS_NUMBERS . '])/u', '\1', $text);
 
-        // Multiple dot and dash groups are word boundaries and replaced with space.
-        // No need to use the unicode modifer here because 0-127 ASCII characters
-        // can't match higher UTF-8 characters as the leftmost bit of those are 1.
-        $text = preg_replace('/[.-]{2,}/', ' ', $text);
+		// Multiple dot and dash groups are word boundaries and replaced with space.
+		// No need to use the unicode modifer here because 0-127 ASCII characters
+		// can't match higher UTF-8 characters as the leftmost bit of those are 1.
+		$text = preg_replace('/[.-]{2,}/', ' ', $text);
 
-        // The dot, underscore and dash are simply removed. This allows meaningful
-        // search behavior with acronyms and URLs. See unicode note directly above.
-        $text = preg_replace('/[._-]+/', '', $text);
+		// The dot, underscore and dash are simply removed. This allows meaningful
+		// search behavior with acronyms and URLs. See unicode note directly above.
+		$text = preg_replace('/[._-]+/', '', $text);
 
-        // With the exception of the rules above, we consider all punctuation,
-        // marks, spacers, etc, to be a word boundary.
-        $text = preg_replace('/[' . PREG_CLASS_UNICODE_WORD_BOUNDARY . ']+/u', ' ', $text);
+		// With the exception of the rules above, we consider all punctuation,
+		// marks, spacers, etc, to be a word boundary.
+		$text = preg_replace('/[' . PREG_CLASS_UNICODE_WORD_BOUNDARY . ']+/u', ' ', $text);
 
-        // Truncate everything to 50 characters.
-        $words = explode(' ', $text);
+		// Truncate everything to 50 characters.
+		$words = explode(' ', $text);
 
-        foreach ($words as $i => $word) {
-            if (strlen($word) < 2) {
-                unset($words[$i]);
-            } else {
-                $words[$i] = String::truncate($word, 50);
-            }
-        }
+		foreach ($words as $i => $word) {
+			if (strlen($word) < 2) {
+				unset($words[$i]);
+			} else {
+				$words[$i] = String::truncate($word, 50);
+			}
+		}
 
-        $text = implode(' ', $words);
+		$text = implode(' ', $words);
 
-        if (empty($text)) {
-            return false;
-        }
+		if (empty($text)) {
+			return false;
+		}
 
-        $text = ' ' . $text . ' ';
-        $NodeSearch = ClassRegistry::init('Node.NodeSearch');
-        $save = $NodeSearch->findByNodeId($Model->id);
+		$text = ' ' . $text . ' ';
+		$NodeSearch = ClassRegistry::init('Node.NodeSearch');
+		$save = $NodeSearch->findByNodeId($Model->id);
 
-        if (!$save) {
-            $save = array(
-                'NodeSearch' => array(
-                    'node_id' => $Model->id,
-                    'data' => $text
-                )
-            );
-        } else {
-            $save['NodeSearch']['data'] = $text;
-        }
+		if (!$save) {
+			$save = array(
+				'NodeSearch' => array(
+					'node_id' => $Model->id,
+					'data' => $text
+				)
+			);
+		} else {
+			$save['NodeSearch']['data'] = $text;
+		}
 
-        return $NodeSearch->save($save);
-    }
+		return $NodeSearch->save($save);
+	}
 
 /**
  * Makes a beforeDelete() or afterDelete().
@@ -683,53 +683,53 @@ class FieldableBehavior extends ModelBehavior {
  *  `before_delete`: FALSE if any of the fields has returned a non-true value. TRUE otherwise
  *  `after_delete`: void
  */
-    private function __beforeAfterDelete(Model $Model, $type = 'before') {
-        $Model->id = $Model->id ? $Model->id : $Model->tmpData[$Model->alias][$Model->primaryKey];
+	private function __beforeAfterDelete(Model $Model, $type = 'before') {
+		$Model->id = $Model->id ? $Model->id : $Model->tmpData[$Model->alias][$Model->primaryKey];
 
-        if ($type == 'before') {
-            $result = $Model->find('first',
-                array(
-                    'conditions' => array(
-                        "{$Model->alias}.{$Model->primaryKey}" => $Model->id
-                    ),
-                    'recursive' => -1
-                )
-            );
+		if ($type == 'before') {
+			$result = $Model->find('first',
+				array(
+					'conditions' => array(
+						"{$Model->alias}.{$Model->primaryKey}" => $Model->id
+					),
+					'recursive' => -1
+				)
+			);
 
-            $Model->tmpBelongsTo = $belongsTo = $this->__parseBelongsTo($this->__settings[$Model->alias]['belongsTo'], $result);
-            $Model->tmpData = $result;
-        } else {
-            $belongsTo = $Model->tmpBelongsTo;
-        }
+			$Model->tmpBelongsTo = $belongsTo = $this->__parseBelongsTo($this->__settings[$Model->alias]['belongsTo'], $result);
+			$Model->tmpData = $result;
+		} else {
+			$belongsTo = $Model->tmpBelongsTo;
+		}
 
-        $fields = ClassRegistry::init('Field.Field')->find('all',
-            array(
-                'conditions' => array(
-                    'belongsTo' => $belongsTo
-                )
-            )
-        );
+		$fields = ClassRegistry::init('Field.Field')->find('all',
+			array(
+				'conditions' => array(
+					'belongsTo' => $belongsTo
+				)
+			)
+		);
 
-        $r = array();
+		$r = array();
 
-        foreach ($fields as $field) {
-            $info['field_id'] = $field['Field']['id'];
-            $info['entity'] =& $Model;
-            $info['settings'] = $this->__settings[$Model->alias];
+		foreach ($fields as $field) {
+			$info['field_id'] = $field['Field']['id'];
+			$info['entity'] =& $Model;
+			$info['settings'] = $this->__settings[$Model->alias];
 
-            if ($Model->hookDefined("{$field['Field']['field_module']}_{$type}_delete")) {
-                $r[] = $Model->hook("{$field['Field']['field_module']}_{$type}_delete", $info, array('collectReturn' => false));
-            }
-        }
+			if ($Model->hookDefined("{$field['Field']['field_module']}_{$type}_delete")) {
+				$r[] = $Model->hook("{$field['Field']['field_module']}_{$type}_delete", $info, array('collectReturn' => false));
+			}
+		}
 
-        if ($type == 'before') {
-            $r = array_unique($r);
+		if ($type == 'before') {
+			$r = array_unique($r);
 
-            return empty($r) || (count($r) === 1 && $r[0] === true);
-        }
+			return empty($r) || (count($r) === 1 && $r[0] === true);
+		}
 
-        return;
-    }
+		return;
+	}
 
 /**
  * Parses `belongsTo` setting parameter looking for array paths.
@@ -739,9 +739,9 @@ class FieldableBehavior extends ModelBehavior {
  * ### Usage
  * {{{
  *  $actsAs = array(
- *      'Fieldable' => array(
- *          'belongsTo' => 'NodeType-{Node.node_type_id}'
- *      )
+ *	  'Fieldable' => array(
+ *		  'belongsTo' => 'NodeType-{Node.node_type_id}'
+ *	  )
  *  );
  * }}}
  *
@@ -749,19 +749,19 @@ class FieldableBehavior extends ModelBehavior {
  * @param array $result Model record where to get array paths
  * @return string
  */
-    private function __parseBelongsTo($belongsTo, $result = array()) {
-        // look for dynamic belongsTo
-        preg_match_all('/\{([\{\}0-9a-zA-Z_\.]+)\}/iUs', $belongsTo, $matches);
-        if (isset($matches[1]) && !empty($matches[1])) {
-            foreach ($matches[0] as $i => $m) {
-                $belongsTo = str_replace(
-                    $m, 
-                    array_pop(Hash::extract($result, trim($matches[1][$i]))),
-                    $belongsTo
-                );
-            }
-        }
+	private function __parseBelongsTo($belongsTo, $result = array()) {
+		// look for dynamic belongsTo
+		preg_match_all('/\{([\{\}0-9a-zA-Z_\.]+)\}/iUs', $belongsTo, $matches);
+		if (isset($matches[1]) && !empty($matches[1])) {
+			foreach ($matches[0] as $i => $m) {
+				$belongsTo = str_replace(
+					$m, 
+					array_pop(Hash::extract($result, trim($matches[1][$i]))),
+					$belongsTo
+				);
+			}
+		}
 
-        return $belongsTo;
-    }
+		return $belongsTo;
+	}
 }

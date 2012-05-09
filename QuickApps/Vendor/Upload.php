@@ -31,12 +31,11 @@
 /**
  * Class upload
  *
- * @version   0.31
- * @author    Colin Verot <colin@verot.net>
- * @license   http://opensource.org/licenses/gpl-license.php GNU Public License
- * @copyright Colin Verot
- * @package   cmf
- * @subpackage external
+ * @version		0.31
+ * @author		Colin Verot <colin@verot.net>
+ * @license		http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright	Colin Verot
+ * @package		QuickApps.Vendor
  */
 
 /**

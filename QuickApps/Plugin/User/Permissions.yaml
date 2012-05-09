@@ -1,71 +1,71 @@
 Controller:
-    Permissions:
-        hidden:true
-    Roles:
-        hidden:true
-    List:
-        hidden:true
-    Display:
-        hidden:true
-    Fields:
-        hidden:true
-    User:
-        name: "User Basics"
-        actions:
-            admin_index:
-                name: "Backend main module access"
-                description: "Grant access to (/admin/user)"
-            login:
-                name: "Frontpage login form"
-            admin_login:
-                name: "Backend login"
-                description: "Backend login form"
-            logout:
-                name: "Frontpage logout"
-                description: "After logout user gets redirected to site frontpage"
-            admin_logout:
-                name: "Backend logout"
-                description: "After logout user gets redirected to backend login screen"
-            register:
-                name: "Registration page"
-            activate:
-                name: "Activate account"
-            password_recovery:
-                name: "Password recovery"
-            profile:
-                name: "View users profile"
-            my_account:
-                name: "My account section"
+	Permissions:
+		hidden:true
+	Roles:
+		hidden:true
+	List:
+		hidden:true
+	Display:
+		hidden:true
+	Fields:
+		hidden:true
+	User:
+		name: "User Basics"
+		actions:
+			admin_index:
+				name: "Backend main module access"
+				description: "Grant access to (/admin/user)"
+			login:
+				name: "Frontpage login form"
+			admin_login:
+				name: "Backend login"
+				description: "Backend login form"
+			logout:
+				name: "Frontpage logout"
+				description: "After logout user gets redirected to site frontpage"
+			admin_logout:
+				name: "Backend logout"
+				description: "After logout user gets redirected to backend login screen"
+			register:
+				name: "Registration page"
+			activate:
+				name: "Activate account"
+			password_recovery:
+				name: "Password recovery"
+			profile:
+				name: "View users profile"
+			my_account:
+				name: "My account section"
 Preset:
-    manage_permissions:
-        name: "Administer permissions"
-        description: "Warning: Give to trusted roles only; this permission has security implications."
-        acos:
-            Permissions.admin_index
-            Permissions.admin_edit
-            Permissions.admin_toggle
-    manage_users:
-        name: "Administer users"
-        description: "Warning: Give to trusted roles only; this permission has security implications."
-        acos:
-            List.admin_index
-            List.admin_delete
-            List.admin_block
-            List.admin_activate
-            List.admin_add
-            List.admin_edit
-    manage_users:
-        name: "Administer user roles"
-        description: "Warning: Give to trusted roles only; this permission has security implications."
-        acos:
-            Roles.admin_index
-            Roles.admin_edit
-            Roles.admin_delete
-    manage_users:
-        name: "Administer user CCK fields"
-        description: "Warning: Give to trusted roles only; this permission has security implications."
-        acos:
-            Display.admin_index
-            Fields.admin_index
-            Display.admin_field_formatter
-            Fields.admin_field_settings
+	manage_permissions:
+		name: "Administer permissions"
+		description: "Warning: Give to trusted roles only; this permission has security implications."
+		acos:
+			Permissions.admin_index
+			Permissions.admin_edit
+			Permissions.admin_toggle
+	manage_users:
+		name: "Administer users"
+		description: "Warning: Give to trusted roles only; this permission has security implications."
+		acos:
+			List.admin_index
+			List.admin_delete
+			List.admin_block
+			List.admin_activate
+			List.admin_add
+			List.admin_edit
+	manage_users:
+		name: "Administer user roles"
+		description: "Warning: Give to trusted roles only; this permission has security implications."
+		acos:
+			Roles.admin_index
+			Roles.admin_edit
+			Roles.admin_delete
+	manage_users:
+		name: "Administer user CCK fields"
+		description: "Warning: Give to trusted roles only; this permission has security implications."
+		acos:
+			Display.admin_index
+			Fields.admin_index
+			Display.admin_field_formatter
+			Fields.admin_field_settings

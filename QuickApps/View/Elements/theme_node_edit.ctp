@@ -9,7 +9,7 @@
 ?>
 
 <?php echo $this->Html->useTag('fieldsetstart', __t('Content')); ?>
-    <?php foreach ($data['Field'] as $field): ?>
-        <?php echo $this->Layout->renderField($field, true); ?>
-    <?php endforeach; ?>
+	<?php foreach ($data['Field'] as $field): ?>
+		<?php echo $this->Layout->renderField($field, true); ?>
+	<?php endforeach; ?>
 <?php echo $this->Html->useTag('fieldsetend'); ?>

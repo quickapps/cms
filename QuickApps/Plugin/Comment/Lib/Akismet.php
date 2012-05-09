@@ -55,7 +55,7 @@
  *   }
  * </code>
  *
- *	@package	akismet
+ *	@package	QuickApps.Plugin.Comment.Lib.Akismet
  *	@name		Akismet
  *	@version	0.4
  *  @author		Alex Potsides
@@ -302,7 +302,7 @@ class Akismet
  *
  *	N.B. It is not necessary to call this class directly to use the Akismet class.  This is included here mainly out of a sense of completeness.
  *
- *	@package	akismet
+ *	@package	QuickApps.Plugin.Comment.Lib.Akismet
  *	@name		SocketWriteRead
  *	@version	0.1
  *  @author		Alex Potsides

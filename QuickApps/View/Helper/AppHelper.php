@@ -9,175 +9,175 @@ App::uses('Helper', 'View');
  * @package  QuickApps.View/Helper
  * @version  1.0
  * @author   Christopher Castro <chris@quickapps.es>
- * @link     http://www.quickappscms.org
+ * @link	 http://www.quickappscms.org
  */
 class AppHelper extends Helper {
-    public $helpers = array(
-        'Layout',
-        'Menu',
-        'Form' => array('className' => 'QaForm'),
-        'Html' => array('className' => 'QaHtml'),
-        'Session',
-        'Js'
-    );
+	public $helpers = array(
+		'Layout',
+		'Menu',
+		'Form' => array('className' => 'QaForm'),
+		'Html' => array('className' => 'QaHtml'),
+		'Session',
+		'Js'
+	);
 
-    public $Options = array(
-        'break' => false,
-        'breakOn' => false,
-        'collectReturn' => false
-    );
+	public $Options = array(
+		'break' => false,
+		'breakOn' => false,
+		'collectReturn' => false
+	);
 
-    private $__Options = array(
-        'break' => false,
-        'breakOn' => false,
-        'collectReturn' => false
-    );
+	private $__Options = array(
+		'break' => false,
+		'breakOn' => false,
+		'collectReturn' => false
+	);
 
 /**
  * Wrapper method to HookCollectionHelper::attachModuleHooks()
  *
  * @see HookCollectionHelper::attachModuleHooks()
  */
-    public function attachModuleHooks($module) {
-        return $this->_View->HookCollection->attachModuleHooks($module);
-    }
+	public function attachModuleHooks($module) {
+		return $this->_View->HookCollection->attachModuleHooks($module);
+	}
 
 /**
  * Wrapper method to HooktagsCollectionHelper::attachModuleHooktags()
  *
  * @see HooktagsCollectionHelper::attachModuleHooktags()
  */
-    public function attachModuleHooktags($module) {
-        return $this->_View->HooktagsCollection->attachModuleHooktags($module);
-    }
+	public function attachModuleHooktags($module) {
+		return $this->_View->HooktagsCollection->attachModuleHooktags($module);
+	}
 
 /**
  * Wrapper method to HookCollectionHelper::detachModuleHooks()
  *
  * @see HookCollectionHelper::detachModuleHooks()
  */
-    public function detachModuleHooks($module) {
-        return $this->_View->HookCollection->detachModuleHooks($module);
-    }
+	public function detachModuleHooks($module) {
+		return $this->_View->HookCollection->detachModuleHooks($module);
+	}
 
 /**
  * Wrapper method to HooktagsCollectionHelper::detachModuleHooktags()
  *
  * @see HooktagsCollectionHelper::detachModuleHooktags()
  */
-    public function detachModuleHooktags($module) {
-        return $this->_View->HooktagsCollection->detachModuleHooktags($module);
-    }
+	public function detachModuleHooktags($module) {
+		return $this->_View->HooktagsCollection->detachModuleHooktags($module);
+	}
 
 /**
  * Wrapper method to QuickApps::is()
  *
  * @see QuickApps::is()
  */
-    public function is($detect) {
-        $params = func_get_args();
+	public function is($detect) {
+		$params = func_get_args();
 
-        return call_user_func_array('QuickApps::is', $params);
-    }
+		return call_user_func_array('QuickApps::is', $params);
+	}
 
 /**
  * Wrapper method to HookCollectionHelper::hook()
  *
  * @see HookCollectionHelper::hook()
  */
-    public function hook($hook, &$data = array(), $options = array()) {
-        return $this->_View->HookCollection->hook($hook, $data, $options);
-    }
+	public function hook($hook, &$data = array(), $options = array()) {
+		return $this->_View->HookCollection->hook($hook, $data, $options);
+	}
 
 /**
  * Wrapper method to HooktagsCollectionHelper::hooktags()
  *
  * @see HooktagsCollectionHelper::hooktags()
  */
-    public function hooktags($text) {
-        return $this->_View->HooktagsCollection->hooktags($text);
-    }
+	public function hooktags($text) {
+		return $this->_View->HooktagsCollection->hooktags($text);
+	}
 
 /**
  * Wrapper method to HookCollectionHelper::hookDefined()
  *
  * @see HookCollectionHelper::hookDefined()
  */
-    public function hookDefined($hook) {
-        return $this->_View->HookCollection->hookDefined($hook);
-    }
+	public function hookDefined($hook) {
+		return $this->_View->HookCollection->hookDefined($hook);
+	}
 
 /**
  * Wrapper method to HookCollectionHelper::hooktagDefined()
  *
  * @see HookCollectionHelper::hooktagDefined()
  */
-    public function hooktagDefined($hooktag) {
-        return $this->_View->HooktagsCollection->hooktagDefined($hooktag);
-    }
+	public function hooktagDefined($hooktag) {
+		return $this->_View->HooktagsCollection->hooktagDefined($hooktag);
+	}
 
 /**
  * Wrapper method to HookCollectionHelper::hookEnable()
  *
  * @see HookCollectionHelper::hookEnable()
  */
-    public function hookEnable($hook) {
-        return $this->_View->HookCollection->hookEnable($hook);
-    }
+	public function hookEnable($hook) {
+		return $this->_View->HookCollection->hookEnable($hook);
+	}
 
 /**
  * Wrapper method to HooktagsCollectionHelper::hooktagEnable()
  *
  * @see HooktagsCollectionHelper::hooktagEnable()
  */
-    public function hooktagEnable($hooktag) {
-        return $this->_View->HooktagsCollection->hooktagEnable($hooktag);
-    }
+	public function hooktagEnable($hooktag) {
+		return $this->_View->HooktagsCollection->hooktagEnable($hooktag);
+	}
 
 /**
  * Wrapper method to HookCollectionHelper::hookDisable()
  *
  * @see HookCollectionHelper::hookDisable()
  */
-    public function hookDisable($hook) {
-        return $this->_View->HookCollection->hookDisable($hook);
-    }
+	public function hookDisable($hook) {
+		return $this->_View->HookCollection->hookDisable($hook);
+	}
 
 /**
  * Wrapper method to HookCollectionHelper::hooktagsList()
  *
  * @see HookCollectionHelper::hooktagsList()
  */
-    public function hooktagsList() {
-        return $this->_View->HookCollection->hooktagsList();
-    }
+	public function hooktagsList() {
+		return $this->_View->HookCollection->hooktagsList();
+	}
 
 /**
  * Wrapper method to HooktagsCollectionHelper::hooktagDisable()
  *
  * @see HooktagsCollectionHelper::hooktagDisable()
  */
-    public function hooktagDisable($hooktag) {
-        return $this->_View->HooktagsCollection->hooktagDisable($hooktag);
-    }
+	public function hooktagDisable($hooktag) {
+		return $this->_View->HooktagsCollection->hooktagDisable($hooktag);
+	}
 
 /**
  * Wrapper method to HooktagsCollectionHelper::stripHooktags()
  *
  * @see HooktagsCollectionHelper::stripHooktags()
  */
-    public function stripHooktags($text) {
-        return $this->_View->HooktagsCollection->stripHooktags($text);
-    }
+	public function stripHooktags($text) {
+		return $this->_View->HooktagsCollection->stripHooktags($text);
+	}
 
 /**
  * Wrapper method to HooktagsCollectionHelper::specialTags()
  *
  * @see HooktagsCollectionHelper::specialTags()
  */
-    public function specialTags($text) {
-        return $this->_View->HooktagsCollection->specialTags($text);
-    }
+	public function specialTags($text) {
+		return $this->_View->HooktagsCollection->specialTags($text);
+	}
 
 /**
  * Evaluate a string of PHP code.
@@ -196,20 +196,20 @@ class AppHelper extends Helper {
  *   output of the code.
  *
  */
-    protected function php_eval($code) {
-        ob_start();
+	protected function php_eval($code) {
+		ob_start();
 
-        $Layout =& $this->_View->viewVars['Layout'];
-        $View =& $this->_View;
+		$Layout =& $this->_View->viewVars['Layout'];
+		$View =& $this->_View;
 
-        print eval('?>' . $code);
+		print eval('?>' . $code);
 
-        $output = ob_get_contents();
+		$output = ob_get_contents();
 
-        ob_end_clean();
+		ob_end_clean();
 
-        return (bool)$output;
-    }
+		return (bool)$output;
+	}
 
 /**
  * Check if a path matches any pattern in a set of patterns.
@@ -218,45 +218,45 @@ class AppHelper extends Helper {
  * @param mixed $path String as path to match. Or boolean FALSE to use actual page url.
  * @return boolean TRUE if the path matches a pattern, FALSE otherwise.
  */
-    protected function urlMatch($patterns, $path = false) {
-        if (empty($patterns)) {
-            return false;
-        }
+	protected function urlMatch($patterns, $path = false) {
+		if (empty($patterns)) {
+			return false;
+		}
 
-        $path = !$path ? '/' . $this->_View->request->url : $path;
-        $patterns = explode("\n", $patterns);
+		$path = !$path ? '/' . $this->_View->request->url : $path;
+		$patterns = explode("\n", $patterns);
 
-        if (Configure::read('Variable.url_language_prefix')) {
-            if (!preg_match('/^\/([a-z]{3})\//', $path, $matches)) {
-                $path = "/" . Configure::read('Config.language'). $path;
-            }
-        }
+		if (Configure::read('Variable.url_language_prefix')) {
+			if (!preg_match('/^\/([a-z]{3})\//', $path, $matches)) {
+				$path = "/" . Configure::read('Config.language'). $path;
+			}
+		}
 
-        foreach ($patterns as &$p) {
-            $p = Router::url('/') . $p;
-            $p = str_replace('//', '/', $p);
-            $p = str_replace($this->_View->base, '', $p);
-        }
+		foreach ($patterns as &$p) {
+			$p = Router::url('/') . $p;
+			$p = str_replace('//', '/', $p);
+			$p = str_replace($this->_View->base, '', $p);
+		}
 
-        $patterns = implode("\n", $patterns);
+		$patterns = implode("\n", $patterns);
 
-        // Convert path settings to a regular expression.
-        // Therefore replace newlines with a logical or, /* with asterisks and the <front> with the frontpage.
-        $to_replace = array(
-            '/(\r\n?|\n)/', // newlines
-            '/\\\\\*/',     // asterisks
-            '/(^|\|)\/($|\|)/' // front '/'
-        );
+		// Convert path settings to a regular expression.
+		// Therefore replace newlines with a logical or, /* with asterisks and the <front> with the frontpage.
+		$to_replace = array(
+			'/(\r\n?|\n)/', // newlines
+			'/\\\\\*/',	 // asterisks
+			'/(^|\|)\/($|\|)/' // front '/'
+		);
 
-        $replacements = array(
-            '|',
-            '.*',
-            '\1' . preg_quote(Router::url('/'), '/') . '\2'
-        );
+		$replacements = array(
+			'|',
+			'.*',
+			'\1' . preg_quote(Router::url('/'), '/') . '\2'
+		);
 
-        $patterns_quoted = preg_quote($patterns, '/');
-        $regexps[$patterns] = '/^(' . preg_replace($to_replace, $replacements, $patterns_quoted) . ')$/';
+		$patterns_quoted = preg_quote($patterns, '/');
+		$regexps[$patterns] = '/^(' . preg_replace($to_replace, $replacements, $patterns_quoted) . ')$/';
 
-        return (bool) preg_match($regexps[$patterns], $path);
-    }
+		return (bool) preg_match($regexps[$patterns], $path);
+	}
 }

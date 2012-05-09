@@ -7,7 +7,7 @@
  * @package  QuickApps.View.Helper
  * @version  1.0
  * @author   Christopher Castro <chris@quickapps.es>
- * @link     http://www.quickappscms.org
+ * @link	 http://www.quickappscms.org
  */
 class QaFormHelper extends AppHelper {
 /**
@@ -16,7 +16,7 @@ class QaFormHelper extends AppHelper {
  * @var array
  * @access public
  */
-    public $helpers = array('CoreForm' => array('className' => 'Form'));
+	public $helpers = array('CoreForm' => array('className' => 'Form'));
 
 /**
  * Copies the validationErrors variable from the View object into this instance
@@ -35,9 +35,9 @@ class QaFormHelper extends AppHelper {
  *
  * @return boolean True on errors.
  */
-    public function tagIsInvalid() {
-        return $this->CoreForm->tagIsInvalid();
-    }
+	public function tagIsInvalid() {
+		return $this->CoreForm->tagIsInvalid();
+	}
 
 /**
  * Returns an HTML FORM element.
@@ -50,8 +50,8 @@ class QaFormHelper extends AppHelper {
  * - `default`  Allows for the creation of Ajax forms.
  * - `onsubmit` Used in conjunction with 'default' to create ajax forms.
  * - `inputDefaults` set the default $options for FormHelper::input(). Any options that would
- *    be set when using FormHelper::input() can be set here.  Options set with `inputDefaults`
- *    can be overridden when calling input()
+ *	be set when using FormHelper::input() can be set here.  Options set with `inputDefaults`
+ *	can be overridden when calling input()
  * - `encoding` Set the accept-charset encoding for the form.  Defaults to `Configure::read('App.encoding')`
  *
  * @access public
@@ -60,14 +60,14 @@ class QaFormHelper extends AppHelper {
  * @return string An formatted opening FORM tag.
  * @link http://book.cakephp.org/view/1384/Creating-Forms
  */
-    public function create($model = null, $options = array()) {
-        $data = compact('model', 'options');
-        $this->hook('form_create_alter', $data);
+	public function create($model = null, $options = array()) {
+		$data = compact('model', 'options');
+		$this->hook('form_create_alter', $data);
 
-        extract($data);
+		extract($data);
 
-        return $this->CoreForm->create($model, $options);
-    }
+		return $this->CoreForm->create($model, $options);
+	}
 
 /**
  * Closes an HTML form, cleans up values set by FormHelper::create(), and writes hidden
@@ -90,11 +90,11 @@ class QaFormHelper extends AppHelper {
  * @access public
  * @link http://book.cakephp.org/view/1389/Closing-the-Form
  */
-    public function end($options = null) {
-        $this->hook('form_end_alter', $options);
+	public function end($options = null) {
+		$this->hook('form_end_alter', $options);
 
-        return $this->CoreForm->end($options);
-    }
+		return $this->CoreForm->end($options);
+	}
 
 /**
  * Generates a hidden field with a security hash based on the fields used in the form.
@@ -102,11 +102,11 @@ class QaFormHelper extends AppHelper {
  * @param array $fields The list of fields to use when generating the hash
  * @return string A hidden input field with a security hash
  */
-    public function secure($fields = array()) {
-        $this->hook('form_secure_alter', $fields);
+	public function secure($fields = array()) {
+		$this->hook('form_secure_alter', $fields);
 
-        return $this->CoreForm->secure($fields);
-    }
+		return $this->CoreForm->secure($fields);
+	}
 
 /**
  * Add to or get the list of fields that are currently unlocked.
@@ -117,11 +117,11 @@ class QaFormHelper extends AppHelper {
  * @param string $name The dot separated name for the field.
  * @return mixed Either null, or the list of fields.
  */
-    public function unlockField($name = null) {
-        $this->hook('form_unlock_field_alter', $name);
+	public function unlockField($name = null) {
+		$this->hook('form_unlock_field_alter', $name);
 
-        return $this->CoreForm->unlockField($name);
-    }
+		return $this->CoreForm->unlockField($name);
+	}
 
 /**
  * Returns true if there is an error for the given field, otherwise false
@@ -131,11 +131,11 @@ class QaFormHelper extends AppHelper {
  * @access public
  * @link http://book.cakephp.org/view/1426/isFieldError
  */
-    public function isFieldError($field) {
-        $this->hook('form_is_field_error_alter', $field);
+	public function isFieldError($field) {
+		$this->hook('form_is_field_error_alter', $field);
 
-        return $this->CoreForm->isFieldError($field);
-    }
+		return $this->CoreForm->isFieldError($field);
+	}
 
 /**
  * Returns a formatted error message for given FORM field, NULL if no errors.
@@ -155,14 +155,14 @@ class QaFormHelper extends AppHelper {
  * @access public
  * @link http://book.cakephp.org/view/1423/error
  */
-    public function error($field, $text = null, $options = array()) {
-        $data = compact('field', 'text', 'options');
+	public function error($field, $text = null, $options = array()) {
+		$data = compact('field', 'text', 'options');
 
-        $this->hook('form_error_alter', $data);
-        extract($data);
+		$this->hook('form_error_alter', $data);
+		extract($data);
 
-        return $this->CoreForm->error($field, $text, $options);
-    }
+		return $this->CoreForm->error($field, $text, $options);
+	}
 
 /**
  * Returns a formatted LABEL element for HTML FORMs. Will automatically generate
@@ -174,14 +174,14 @@ class QaFormHelper extends AppHelper {
  * @return string The formatted LABEL element
  * @link http://book.cakephp.org/view/1427/label
  */
-    public function label($fieldName = null, $text = null, $options = array()) {
-        $data = compact('fieldName', 'text', 'options');
+	public function label($fieldName = null, $text = null, $options = array()) {
+		$data = compact('fieldName', 'text', 'options');
 
-        $this->hook('form_label_alter', $data);
-        extract($data);
+		$this->hook('form_label_alter', $data);
+		extract($data);
 
-        return $this->CoreForm->label($fieldName, $text, $options);
-    }
+		return $this->CoreForm->label($fieldName, $text, $options);
+	}
 
 /**
  * Generate a set of inputs for `$fields`.  If $fields is null the current model
@@ -193,30 +193,30 @@ class QaFormHelper extends AppHelper {
  * a custom legend.  You can customize individual inputs through `$fields` as well.
  *
  * {{{
- *    $form->inputs(array(
- *        'name' => array('label' => 'custom label')
- *    ));
+ *	$form->inputs(array(
+ *		'name' => array('label' => 'custom label')
+ *	));
  * }}}
  *
  * In addition to fields control, inputs() allows you to use a few additional options.
  *
  * - `fieldset` Set to false to disable the fieldset. If a string is supplied it will be used as
- *    the classname for the fieldset element.
+ *	the classname for the fieldset element.
  * - `legend` Set to false to disable the legend for the generated input set. Or supply a string
- *    to customize the legend text.
+ *	to customize the legend text.
  *
  * @param mixed $fields An array of fields to generate inputs for, or null.
  * @param array $blacklist a simple array of fields to not create inputs for.
  * @return string Completed form inputs.
  */
-    public function inputs($fields = null, $blacklist = null) {
-        $data = compact('fields', 'blacklist');
+	public function inputs($fields = null, $blacklist = null) {
+		$data = compact('fields', 'blacklist');
 
-        $this->hook('form_inputs_alter', $data);
-        extract($data);
+		$this->hook('form_inputs_alter', $data);
+		extract($data);
 
-        return $this->CoreForm->inputs($fields, $blacklist);
-    }
+		return $this->CoreForm->inputs($fields, $blacklist);
+	}
 
 /**
  * Generates a form input element complete with label and wrapper div
@@ -229,7 +229,7 @@ class QaFormHelper extends AppHelper {
  * - `type` - Force the type of widget you want. e.g. `type => 'select'`
  * - `label` - Either a string label, or an array of options for the label. See FormHelper::label()
  * - `div` - Either `false` to disable the div, or an array of options for the div.
- *    See HtmlHelper::div() for more options.
+ *	See HtmlHelper::div() for more options.
  * - `options` - for widgets that take options e.g. radio, select
  * - `error` - control the error message that is produced
  * - `empty` - String or boolean to enable empty select box options.
@@ -237,10 +237,10 @@ class QaFormHelper extends AppHelper {
  * - `after` - Content to place after the label + input.
  * - `between` - Content to place between the label + input.
  * - `format` - format template for element order. Any element that is not in the array, will not be in the output.
- *    - Default input format order: array('before', 'label', 'between', 'input', 'after', 'error')
- *    - Default checkbox format order: array('before', 'input', 'between', 'label', 'after', 'error')
- *    - Hidden input will not be formatted
- *    - Radio buttons cannot have the order of input and label elements controlled with these settings.
+ *	- Default input format order: array('before', 'label', 'between', 'input', 'after', 'error')
+ *	- Default checkbox format order: array('before', 'input', 'between', 'label', 'after', 'error')
+ *	- Hidden input will not be formatted
+ *	- Radio buttons cannot have the order of input and label elements controlled with these settings.
  *
  * @param string $fieldName This should be "Modelname.fieldname"
  * @param array $options Each type of input takes different options.
@@ -248,19 +248,19 @@ class QaFormHelper extends AppHelper {
  * @access public
  * @link http://book.cakephp.org/view/1390/Automagic-Form-Elements
  */
-    public function input($fieldName, $options = array()) {
-        $data = compact('fieldName', 'options');
+	public function input($fieldName, $options = array()) {
+		$data = compact('fieldName', 'options');
 
-        $this->hook('form_input_alter', $data);
+		$this->hook('form_input_alter', $data);
 
-        if (isset($options['type'])) {
-            $this->hook("form_{$options['type']}_alter", $data);
-        }
+		if (isset($options['type'])) {
+			$this->hook("form_{$options['type']}_alter", $data);
+		}
 
-        extract($data);
+		extract($data);
 
-        return $this->CoreForm->input($fieldName, $options);
-    }
+		return $this->CoreForm->input($fieldName, $options);
+	}
 
 
 /**
@@ -271,7 +271,7 @@ class QaFormHelper extends AppHelper {
  * - `value` - the value of the checkbox
  * - `checked` - boolean indicate that this checkbox is checked.
  * - `hiddenField` - boolean to indicate if you want the results of checkbox() to include
- *    a hidden input with a value of ''.
+ *	a hidden input with a value of ''.
  * - `disabled` - create a disabled input.
  *
  * @param string $fieldName Name of a field, like this "Modelname.fieldname"
@@ -280,14 +280,14 @@ class QaFormHelper extends AppHelper {
  * @access public
  * @link http://book.cakephp.org/view/1414/checkbox
  */
-    public function checkbox($fieldName, $options = array()) {
-        $data = compact('fieldName', 'options');
+	public function checkbox($fieldName, $options = array()) {
+		$data = compact('fieldName', 'options');
 
-        $this->hook('form_checkbox_alter', $data);
-        extract($data);
+		$this->hook('form_checkbox_alter', $data);
+		extract($data);
 
-        return $this->CoreForm->checkbox($fieldName, $options);
-    }
+		return $this->CoreForm->checkbox($fieldName, $options);
+	}
 
 /**
  * Creates a set of radio widgets. Will create a legend and fieldset
@@ -300,7 +300,7 @@ class QaFormHelper extends AppHelper {
  * - `value` - indicate a value that is should be checked
  * - `label` - boolean to indicate whether or not labels for widgets show be displayed
  * - `hiddenField` - boolean to indicate if you want the results of radio() to include
- *    a hidden input with a value of ''. This is useful for creating radio sets that non-continuous
+ *	a hidden input with a value of ''. This is useful for creating radio sets that non-continuous
  *
  * @param string $fieldName Name of a field, like this "Modelname.fieldname"
  * @param array $options Radio button options array.
@@ -309,14 +309,14 @@ class QaFormHelper extends AppHelper {
  * @access public
  * @link http://book.cakephp.org/view/1429/radio
  */
-    public function radio($fieldName, $options = array(), $attributes = array()) {
-        $data = compact('fieldName', 'options', 'attributes');
+	public function radio($fieldName, $options = array(), $attributes = array()) {
+		$data = compact('fieldName', 'options', 'attributes');
 
-        $this->hook('form_radio_alter', $data);
-        extract($data);
+		$this->hook('form_radio_alter', $data);
+		extract($data);
 
-        return $this->CoreForm->radio($fieldName, $options, $attributes);
-    }
+		return $this->CoreForm->radio($fieldName, $options, $attributes);
+	}
 
 /**
  * Creates a textarea widget.
@@ -331,14 +331,14 @@ class QaFormHelper extends AppHelper {
  * @access public
  * @link http://book.cakephp.org/view/1433/textarea
  */
-    public function textarea($fieldName, $options = array()) {
-        $data = compact('fieldName', 'options');
+	public function textarea($fieldName, $options = array()) {
+		$data = compact('fieldName', 'options');
 
-        $this->hook('form_textarea_alter', $data);
-        extract($data);
+		$this->hook('form_textarea_alter', $data);
+		extract($data);
 
-        return $this->CoreForm->textarea($fieldName, $options);
-    }
+		return $this->CoreForm->textarea($fieldName, $options);
+	}
 
 /**
  * Creates a hidden input field.
@@ -349,14 +349,14 @@ class QaFormHelper extends AppHelper {
  * @access public
  * @link http://book.cakephp.org/view/1425/hidden
  */
-    public function hidden($fieldName, $options = array()) {
-        $data = compact('fieldName', 'options');
+	public function hidden($fieldName, $options = array()) {
+		$data = compact('fieldName', 'options');
 
-        $this->hook('form_hidden_alter', $data);
-        extract($data);
+		$this->hook('form_hidden_alter', $data);
+		extract($data);
 
-        return $this->CoreForm->hidden($fieldName, $options);
-    }
+		return $this->CoreForm->hidden($fieldName, $options);
+	}
 
 /**
  * Creates file input widget.
@@ -367,14 +367,14 @@ class QaFormHelper extends AppHelper {
  * @access public
  * @link http://book.cakephp.org/view/1424/file
  */
-    public function file($fieldName, $options = array()) {
-        $data = compact('fieldName', 'options');
+	public function file($fieldName, $options = array()) {
+		$data = compact('fieldName', 'options');
 
-        $this->hook('form_file_alter', $data);
-        extract($data);
+		$this->hook('form_file_alter', $data);
+		extract($data);
 
-        return $this->CoreForm->file($fieldName, $options);
-    }
+		return $this->CoreForm->file($fieldName, $options);
+	}
 
 /**
  * Creates a `<button>` tag.  The type attribute defaults to `type="submit"`
@@ -390,14 +390,14 @@ class QaFormHelper extends AppHelper {
  * @access public
  * @link http://book.cakephp.org/view/1415/button
  */
-    public function button($title, $options = array()) {
-        $data = compact('title', 'options');
+	public function button($title, $options = array()) {
+		$data = compact('title', 'options');
 
-        $this->hook('form_button_alter', $data);
-        extract($data);
+		$this->hook('form_button_alter', $data);
+		extract($data);
 
-        return $this->CoreForm->file($title, $options);
-    }
+		return $this->CoreForm->file($title, $options);
+	}
 
 /**
  * Create a `<button>` tag with `<form>` using POST method.
@@ -414,14 +414,14 @@ class QaFormHelper extends AppHelper {
  * @param array $options Array of options and HTML attributes.
  * @return string A HTML button tag.
  */
-    public function postButton($title, $url, $options = array()) {
-        $data = compact('title', 'url', 'options');
+	public function postButton($title, $url, $options = array()) {
+		$data = compact('title', 'url', 'options');
 
-        $this->hook('form_post_button_alter', $data);
-        extract($data);
+		$this->hook('form_post_button_alter', $data);
+		extract($data);
 
-        return $this->CoreForm->postButton($title, $url, $options);
-    }
+		return $this->CoreForm->postButton($title, $url, $options);
+	}
 
 /**
  * Creates an HTML link, but access the url using method POST. Requires javascript enabled in browser.
@@ -440,14 +440,14 @@ class QaFormHelper extends AppHelper {
  * @param string $confirmMessage JavaScript confirmation message.
  * @return string An `<a />` element.
  */
-    public function postLink($title, $url = null, $options = array(), $confirmMessage = false) {
-        $data = compact('title', 'url', 'options', 'confirmMessage');
+	public function postLink($title, $url = null, $options = array(), $confirmMessage = false) {
+		$data = compact('title', 'url', 'options', 'confirmMessage');
 
-        $this->hook('form_post_link_alter', $data);
-        extract($data);
+		$this->hook('form_post_link_alter', $data);
+		extract($data);
 
-        return $this->CoreForm->postLink($title, $url, $options, $confirmMessage);
-    }
+		return $this->CoreForm->postLink($title, $url, $options, $confirmMessage);
+	}
 
 /**
  * Creates a submit button element.  This method will generate `<input />` elements that
@@ -478,14 +478,14 @@ class QaFormHelper extends AppHelper {
  * @access public
  * @link http://book.cakephp.org/view/1431/submit
  */
-    public function submit($caption = null, $options = array()) {
-        $data = compact('caption', 'options');
+	public function submit($caption = null, $options = array()) {
+		$data = compact('caption', 'options');
 
-        $this->hook('form_submit_alter', $data);
-        extract($data);
+		$this->hook('form_submit_alter', $data);
+		extract($data);
 
-        return $this->CoreForm->submit($caption, $options);
-    }
+		return $this->CoreForm->submit($caption, $options);
+	}
 
 /**
  * Returns a formatted SELECT element.
@@ -515,11 +515,11 @@ class QaFormHelper extends AppHelper {
  * While a nested options array will create optgroups with options inside them.
  * {{{
  * $options = array(
- *    1 => 'bill',
- *    'fred' => array(
- *        2 => 'fred',
- *        3 => 'fred jr.'
- *     )
+ *	1 => 'bill',
+ *	'fred' => array(
+ *		2 => 'fred',
+ *		3 => 'fred jr.'
+ *	 )
  * );
  * $this->CoreForm->select('Model.field', $options);
  * }}}
@@ -529,20 +529,20 @@ class QaFormHelper extends AppHelper {
  *
  * @param string $fieldName Name attribute of the SELECT
  * @param array $options Array of the OPTION elements (as 'value'=>'Text' pairs) to be used in the
- *    SELECT element
+ *	SELECT element
  * @param array $attributes The HTML attributes of the select element.
  * @return string Formatted SELECT element
  * @access public
  * @link http://book.cakephp.org/view/1430/select
  */
-    public function select($fieldName, $options = array(), $attributes = array()) {
-        $data = compact('fieldName', 'options', 'attributes');
+	public function select($fieldName, $options = array(), $attributes = array()) {
+		$data = compact('fieldName', 'options', 'attributes');
 
-        $this->hook('form_select_alter', $data);
-        extract($data);
+		$this->hook('form_select_alter', $data);
+		extract($data);
 
-        return $this->CoreForm->select($fieldName, $options, $attributes);
-    }
+		return $this->CoreForm->select($fieldName, $options, $attributes);
+	}
 
 /**
  * Returns a SELECT element for days.
@@ -559,14 +559,14 @@ class QaFormHelper extends AppHelper {
  * @access public
  * @link http://book.cakephp.org/view/1419/day
  */
-    public function day($fieldName = null, $attributes = array()) {
-        $data = compact('fieldName', 'attributes');
+	public function day($fieldName = null, $attributes = array()) {
+		$data = compact('fieldName', 'attributes');
 
-        $this->hook('form_day_alter', $data);
-        extract($data);
+		$this->hook('form_day_alter', $data);
+		extract($data);
 
-        return $this->CoreForm->day($fieldName, $attributes);
-    }
+		return $this->CoreForm->day($fieldName, $attributes);
+	}
 
 /**
  * Returns a SELECT element for years
@@ -587,14 +587,14 @@ class QaFormHelper extends AppHelper {
  * @access public
  * @link http://book.cakephp.org/view/1416/year
  */
-    public function year($fieldName, $minYear = null, $maxYear = null, $attributes = array()) {
-        $data = compact('fieldName', 'minYear', 'maxYear', 'attributes');
+	public function year($fieldName, $minYear = null, $maxYear = null, $attributes = array()) {
+		$data = compact('fieldName', 'minYear', 'maxYear', 'attributes');
 
-        $this->hook('form_year_alter', $data);
-        extract($data);
+		$this->hook('form_year_alter', $data);
+		extract($data);
 
-        return $this->CoreForm->year($fieldName, $minYear, $maxYear, $attributes);
-    }
+		return $this->CoreForm->year($fieldName, $minYear, $maxYear, $attributes);
+	}
 
 /**
  * Returns a SELECT element for months.
@@ -613,14 +613,14 @@ class QaFormHelper extends AppHelper {
  * @access public
  * @link http://book.cakephp.org/view/1417/month
  */
-    public function month($fieldName, $attributes = array()) {
-        $data = compact('fieldName', 'attributes');
+	public function month($fieldName, $attributes = array()) {
+		$data = compact('fieldName', 'attributes');
 
-        $this->hook('form_month_alter', $data);
-        extract($data);
+		$this->hook('form_month_alter', $data);
+		extract($data);
 
-        return $this->CoreForm->month($fieldName, $attributes);
-    }
+		return $this->CoreForm->month($fieldName, $attributes);
+	}
 
 /**
  * Returns a SELECT element for hours.
@@ -638,14 +638,14 @@ class QaFormHelper extends AppHelper {
  * @access public
  * @link http://book.cakephp.org/view/1420/hour
  */
-    public function hour($fieldName, $format24Hours = false, $attributes = array()) {
-        $data = compact('fieldName', 'format24Hours', 'attributes');
+	public function hour($fieldName, $format24Hours = false, $attributes = array()) {
+		$data = compact('fieldName', 'format24Hours', 'attributes');
 
-        $this->hook('form_hour_alter', $data);
-        extract($data);
+		$this->hook('form_hour_alter', $data);
+		extract($data);
 
-        return $this->CoreForm->hour($fieldName, $format24Hours, $attributes);
-    }
+		return $this->CoreForm->hour($fieldName, $format24Hours, $attributes);
+	}
 
 /**
  * Returns a SELECT element for minutes.
@@ -662,14 +662,14 @@ class QaFormHelper extends AppHelper {
  * @access public
  * @link http://book.cakephp.org/view/1421/minute
  */
-    public function minute($fieldName, $attributes = array()) {
-        $data = compact('fieldName', 'attributes');
+	public function minute($fieldName, $attributes = array()) {
+		$data = compact('fieldName', 'attributes');
 
-        $this->hook('form_minute_alter', $data);
-        extract($data);
+		$this->hook('form_minute_alter', $data);
+		extract($data);
 
-        return $this->CoreForm->minute($fieldName, $attributes);
-    }
+		return $this->CoreForm->minute($fieldName, $attributes);
+	}
 
 /**
  * Returns a SELECT element for AM or PM.
@@ -687,14 +687,14 @@ class QaFormHelper extends AppHelper {
  * @access public
  * @link http://book.cakephp.org/view/1422/meridian
  */
-    public function meridian($fieldName, $attributes = array()) {
-        $data = compact('fieldName', 'attributes');
+	public function meridian($fieldName, $attributes = array()) {
+		$data = compact('fieldName', 'attributes');
 
-        $this->hook('form_meridian_alter', $data);
-        extract($data);
+		$this->hook('form_meridian_alter', $data);
+		extract($data);
 
-        return $this->CoreForm->meridian($fieldName, $attributes);
-    }
+		return $this->CoreForm->meridian($fieldName, $attributes);
+	}
 
 /**
  * Returns a set of SELECT elements for a full datetime setup: day, month and year, and then time.
@@ -720,14 +720,14 @@ class QaFormHelper extends AppHelper {
  * @access public
  * @link http://book.cakephp.org/view/1418/dateTime
  */
-    public function dateTime($fieldName, $dateFormat = 'DMY', $timeFormat = '12', $attributes = array()) {
-        $data = compact('fieldName', 'dateFormat', 'timeFormat', 'attributes');
+	public function dateTime($fieldName, $dateFormat = 'DMY', $timeFormat = '12', $attributes = array()) {
+		$data = compact('fieldName', 'dateFormat', 'timeFormat', 'attributes');
 
-        $this->hook('form_date_time_alter', $data);
-        extract($data);
+		$this->hook('form_date_time_alter', $data);
+		extract($data);
 
-        return $this->CoreForm->dateTime($fieldName, $dateFormat, $timeFormat, $attributes);
-    }
+		return $this->CoreForm->dateTime($fieldName, $dateFormat, $timeFormat, $attributes);
+	}
 
 /**
  * Add support for special HABTM syntax.
@@ -738,14 +738,14 @@ class QaFormHelper extends AppHelper {
  * @param boolean $setScope Sets the view scope to the model specified in $tagValue
  * @return void
  */
-    public function setEntity($entity, $setScope = false) {
-        $data = compact('entity', 'setScope');
+	public function setEntity($entity, $setScope = false) {
+		$data = compact('entity', 'setScope');
 
-        $this->hook('form_set_entity_alter', $data);
-        extract($data);
+		$this->hook('form_set_entity_alter', $data);
+		extract($data);
 
-        return $this->CoreForm->setEntity($entity, $setScope);
-    }
+		return $this->CoreForm->setEntity($entity, $setScope);
+	}
 
 /**
  * Missing method handler - implements various simple input types. Is used to create inputs
@@ -769,6 +769,6 @@ class QaFormHelper extends AppHelper {
  * @throws CakeException When there are no params for the method call.
  */
 	public function __call($method, $params) {
-        return $this->CoreForm->__call($method, $params);
+		return $this->CoreForm->__call($method, $params);
 	}
 }

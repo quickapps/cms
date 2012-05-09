@@ -9,11 +9,11 @@
 ?>
 
 <?php
-    if (Configure::read('Variable.site_frontpage')) {
-        echo $front_page;
-    } elseif (!empty($Layout['node'])) {
-        foreach ($Layout['node'] as $node) {
-            echo $this->Layout->renderNode($node);
-        }
-    }
+	if (Configure::read('Variable.site_frontpage')) {
+		echo $front_page;
+	} elseif (!empty($Layout['node'])) {
+		foreach ($Layout['node'] as $node) {
+			echo $this->Layout->renderNode($node);
+		}
+	}
 ?>

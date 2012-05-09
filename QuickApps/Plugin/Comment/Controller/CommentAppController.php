@@ -7,22 +7,22 @@
  * @package  QuickApps.Plugin.Comment.Controller
  * @version  1.0
  * @author   Christopher Castro <chris@quickapps.es>
- * @link     http://www.quickappscms.org
+ * @link	 http://www.quickappscms.org
  */
 class CommentAppController extends AppController {
-    public $uses = array('Comment.Comment');
+	public $uses = array('Comment.Comment');
 
-    public function countUnpublished() {
-        $count = $this->Comment->find('count',
-            array(
-                'conditions' => array(
-                    'Comment.status' => 0
-                )
-            )
-        );
+	public function countUnpublished() {
+		$count = $this->Comment->find('count',
+			array(
+				'conditions' => array(
+					'Comment.status' => 0
+				)
+			)
+		);
 
-        $this->set('countUnpublished', $count);
+		$this->set('countUnpublished', $count);
 
-        return $count;
-    }
+		return $count;
+	}
 }

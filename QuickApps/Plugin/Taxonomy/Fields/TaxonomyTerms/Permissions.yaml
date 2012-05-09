@@ -1,7 +1,7 @@
 Controller:
-    Tokeninput:
-        name: "Keywords suggestions handler"
-        actions:
-            admin_suggest:
-                name: "Suggest keyword"
-                description: "Allow user to use the `Autocomplete term`"
+	Tokeninput:
+		name: "Keywords suggestions handler"
+		actions:
+			admin_suggest:
+				name: "Suggest keyword"
+				description: "Allow user to use the `Autocomplete term`"

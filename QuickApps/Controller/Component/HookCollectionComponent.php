@@ -8,7 +8,7 @@
  * @package  QuickApps.Controller.Component
  * @version  1.0
  * @author   Christopher Castro <chris@quickapps.es>
- * @link     http://www.quickappscms.org
+ * @link	 http://www.quickappscms.org
  */
 class HookCollectionComponent extends Component {
 /**
@@ -16,7 +16,7 @@ class HookCollectionComponent extends Component {
  *
  * @var HookCollection
  */
-    public $HookCollection;
+	public $HookCollection;
 
 /**
  * Called before the Controller::beforeFilter().
@@ -24,27 +24,27 @@ class HookCollectionComponent extends Component {
  * @param object $controller Controller with components to initialize
  * @return void
  */
-    public function initialize(Controller $Controller) {
-        $this->HookCollection = new HookCollection($Controller, 'Component');
-    }
+	public function initialize(Controller $Controller) {
+		$this->HookCollection = new HookCollection($Controller, 'Component');
+	}
 
 /**
  * Load all hooks of specified Module.
  *
  * @see HookCollection::attachModuleHooks()
  */
-    public function attachModuleHooks($module) {
-        return $this->HookCollection->attachModuleHooks($module);
-    }
+	public function attachModuleHooks($module) {
+		return $this->HookCollection->attachModuleHooks($module);
+	}
 
 /**
  * Unload all hooks of specified Module.
  *
  * @see HookCollection::detachModuleHooks()
  */
-    public function detachModuleHooks($module) {
-        return $this->HookCollection->detachModuleHooks($module);
-    }
+	public function detachModuleHooks($module) {
+		return $this->HookCollection->detachModuleHooks($module);
+	}
 
 /**
  * Trigger a callback method on every HookHelper.
@@ -52,34 +52,34 @@ class HookCollectionComponent extends Component {
  *
  * @see HookCollection::hook()
  */
-    public function hook($hook, &$data = array(), $options = array()) {
-        return $this->HookCollection->hook($hook, $data, $options);
-    }
+	public function hook($hook, &$data = array(), $options = array()) {
+		return $this->HookCollection->hook($hook, $data, $options);
+	}
 
 /**
  * Chech if hook method exists.
  *
  * @see HookCollection::hookDefined()
  */
-    public function hookDefined($hook) {
-        return $this->HookCollection->hookDefined($hook);
-    }
+	public function hookDefined($hook) {
+		return $this->HookCollection->hookDefined($hook);
+	}
 
 /**
  * Turn on hook method if is turned off.
  *
  * @see HookCollection::hookEnable()
  */
-    public function hookEnable($hook) {
-        return $this->HookCollection->hookEnable($hook);
-    }
+	public function hookEnable($hook) {
+		return $this->HookCollection->hookEnable($hook);
+	}
 
 /**
  * Turns off hook method.
  *
  * @see HookCollection::hookDisable()
  */
-    public function hookDisable($hook) {
-        return $this->HookCollection->hookDisable($hook);
-    }
+	public function hookDisable($hook) {
+		return $this->HookCollection->hookDisable($hook);
+	}
 }

@@ -1,25 +1,25 @@
 info:
-    name: Default
-    description: Default frontend theme for QuickApps
-    core: 1.x
-    version: 1.0
-    author: Christopher Castro <chris@quickapps.es>
+	name: Default
+	description: Default frontend theme for QuickApps
+	core: 1.x
+	version: 1.0
+	author: Christopher Castro <chris@quickapps.es>
 
 stylesheets:
-    all: [reset.css, styles.css]
+	all: [reset.css, styles.css]
 
 regions:
-    language-switcher: Language Switcher
-    search: Search form
-    main-menu: Main menu
-    user-menu: User menu
-    
-    slider: Slider
-    footer: Footer
-    
-    services-left: Services Left
-    services-center: Services Center
-    services-right: Services Right
-    
-    sidebar-left: Sidebar Left
+	language-switcher: Language Switcher
+	search: Search form
+	main-menu: Main menu
+	user-menu: User menu
+	
+	slider: Slider
+	footer: Footer
+	
+	services-left: Services Left
+	services-center: Services Center
+	services-right: Services Right
+	
+	sidebar-left: Sidebar Left
 layout: default

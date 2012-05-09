@@ -164,7 +164,7 @@
 						}).click(function() {
 							return false;
 						}).bind("focusin", function(){
-                            $$.focus();
+							$$.focus();
 						}).mouseup(function() {
 							if (button.call) {
 								eval(button.call)();
