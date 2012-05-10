@@ -38,7 +38,7 @@
 
 	<dt>Configuring a multilingual site</dt>
 	<dd>
-		Language negotiation allows your site to automatically change language based on the domain or path used for each request.
+		Language negotiation allows your site to automatically change language based on path used for each request.
 		Users may (optionally) select their preferred language on their <em>My account</em> page, and your site can be configured to
 		honor a web browser's preferred language settings.
 	</dd>
