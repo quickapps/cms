@@ -26,14 +26,14 @@ class HooktagsCollectionHelper extends AppHelper {
 	private $__view;
 
 /**
- * Associtive array of methods and Hooktag classes
+ * Associtive array of methods and Hooktag classes.
  *
  * @var array
  */
 	private $__map = array();
 
 /**
- * List of all available hooktag methods
+ * List of all available hooktag methods.
  *
  * @var array
  */
@@ -56,11 +56,11 @@ class HooktagsCollectionHelper extends AppHelper {
 /**
  * Parse string for special hooktags placeholders and replace
  * them with the corresponding hooktag method return.
- * Hooktag example:
- * {{{
- *  [self_closing_hooktag param1=text param=2 param3=0 /]
- *  [other_hook_hooktag]only content & no params[/other_hook_hooktag]
- * }}}
+ *
+ * ### Hooktag example
+ *
+ *    [self_closing_hooktag param1=text param=2 param3=0 /]
+ *    [other_hook_hooktag]only content & no params[/other_hook_hooktag]
  *
  * @param string $text Text to replace.
  * @return string HTML with all hooktags replaced.
@@ -242,10 +242,11 @@ class HooktagsCollectionHelper extends AppHelper {
 	}
 
 /**
- * Special hooktags that are not managed by any modules:
+ * Special hooktags that are not managed by any modules.
+ *
  *  `[date=FORMAT]` Return current date(FORMAT).
  *  `[rand={values,by,comma}]` Returns a radom value from the specified group.
- *							 If only two numeric values are given as group, then rand(num1, num2) is returned.
+ *							   If only two numeric values are given as group, then rand(num1, num2) is returned.
  *  `[language.OPTION]` Current language option (code, name, native, direction).
  *  `[language]` Shortcut to [language.code] which return current language code.
  *  `[url]YourURL[/url]` or `[url=YourURL]` Formatted url.
@@ -253,7 +254,7 @@ class HooktagsCollectionHelper extends AppHelper {
  *  `[t=stringToTranslate]` or `[t]stringToTranslate[/t]` text translation: __t(stringToTranslate)
  *  `[t=domain@@stringToTranslate]` Translation by domain __d(domain, stringToTranslate)
  *  `[Layout.PATH]` Get any value from `Layout` variable. i.e.: [Layout.viewMode] gets current view mode
- *				  if path does not exists then '' (empty) is rendered instead the hooktag code.
+ *				    if path does not exists then '' (empty) is rendered instead the hooktag code.
  *
  * @param string $text Original text where to replace tags.
  * @return string.
@@ -342,7 +343,7 @@ class HooktagsCollectionHelper extends AppHelper {
 	}
 
 /**
- * Callback function
+ * Callback function.
  *
  * @return mixed Hook response or false in case of no response.
  */
@@ -379,7 +380,7 @@ class HooktagsCollectionHelper extends AppHelper {
 	}
 
 /**
- * Parse hooktags attributes
+ * Parse hooktags attributes.
  *
  * @param string $text Tag string to parse
  * @return array Array of attributes

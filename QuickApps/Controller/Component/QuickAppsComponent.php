@@ -251,12 +251,11 @@ class QuickAppsComponent extends Component {
 /**
  * Prepares the list of fields for the view.
  * Fields are grouped by models as below:
- * {{{
- *  array(
- *	  'MyModel' => array('FieldModule1', 'FieldModule2', ...),
- *	  ...
- *  )
- * }}}
+ *
+ *    array(
+ *        'MyModel' => array('FieldModule1', 'FieldModule2', ...),
+ *        ...
+ *    )
  *
  * @return void
  * @see AppController::$Layout['fields']
@@ -500,9 +499,8 @@ class QuickAppsComponent extends Component {
  * Performs a cache of all environment variables stored in `variables` table.
  *
  * ### Usage
- *  {{{
- *   Configure::read('Variable.varible_key');
- *  }}}
+ *
+ *    Configure::read('Variable.varible_key');
  *
  * @return void
  */
@@ -689,10 +687,10 @@ class QuickAppsComponent extends Component {
 
 /**
  * Collect and cache information about all modules.
+ *
  * ### Usage
- *  {{{
- *   Configure::read('Modules.YourModuleName');
- *  }}}
+ *
+ *    Configure::read('Modules.YourModuleName');
  *
  * @return void
  */

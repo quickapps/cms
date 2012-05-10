@@ -22,14 +22,14 @@ class LayoutHelper extends AppHelper {
  * Render css files links.
  *
  * @param array $stylesheets Asociative array of extra css elements to merge
- * {{{
- * array(
-	   'inline' => array("css code1", "css code2", ...)
- *	 'print' => array("file1", "file2", ...),
- *	 'all' => array("file3", "file4", ...),
- *	  ....
- * );
- * }}}
+ *
+ *    array(
+ *        'inline' => array("css code1", "css code2", ...)
+ *        'print' => array("file1", "file2", ...),
+ *        'all' => array("file3", "file4", ...),
+ *        ....
+ *    );
+ *
  * @return string HTML css link-tags and inline-styles
  * @see AppController::$Layout
  */
@@ -101,13 +101,14 @@ class LayoutHelper extends AppHelper {
 /**
  * Render js files links.
  *
+ * ### Usage
+ *
+ *    array(
+ *        'inline' => array("code1", "code2", ...),
+ *        'file' => array("path_to_file1", "path_to_file2", ...)
+ *    );
+ *
  * @param array $javascripts Asociative array of extra js elements to merge:
- * {{{
- * array(
- *	 'inline' => array("code1", "code2", ...),
- *	 'file' => array("path_to_file1", "path_to_file2", ...)
- * );
- * }}}
  * @return string HTML javascript link-tags and inline-code
  * @see AppController::$Layout
  */
@@ -745,16 +746,17 @@ class LayoutHelper extends AppHelper {
  * Creates a simple plain (deph 0) menu list.
  * Useful when creating backend submenu buttons.
  *
- * ### Usage:
- * {{{
- *	$links = array(
- *		array('title link 1', '/your/url_1/', 'options' => array(), 'pattern' => '/url/to/match'),
- *		array('title link 2', '/your/url_2/', 'options' => array('class' => 'css-class')),
- *		...
- *	);
+ * ### Usage
  *
- *	$this->Layout->toolbar($links);
- * }}}
+ *    $links = array(
+ *        array('title link 1', '/your/url_1/', 'options' => array(), 'pattern' => '/url/to/match'),
+ *        array('title link 2', '/your/url_2/', 'options' => array('class' => 'css-class')),
+ *        ...
+ *    );
+ *
+ *    $this->Layout->toolbar($links);
+ *
+ * ### Link Parameters
  *
  *  - `options` array (optional): array of options for HtmlHelper::link()
  *  - `pattern` string (optional): show link as selected on pattern match (asterisk allowed)

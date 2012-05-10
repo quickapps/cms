@@ -37,14 +37,13 @@ class MailerComponent extends Component {
  *  - `welcome` (4): WELCOME message, after user registration but before activation.
  *
  * Or an associative array with keys `body` and `subject`
- *  {{{
- *	  array(
- *		  'body' => "Your message's body",
- *		  'subject' => "your message's subject",
- *		  'layout' => 'layout_to_use',
- *		  'params' => array('param1' => 'value', ...)
- *	  )
- *  }}}
+ *
+ *    array(
+ *        'body' => "Your message's body",
+ *        'subject' => "your message's subject",
+ *        'layout' => 'layout_to_use',
+ *        'params' => array('param1' => 'value', ...)
+ *    )
  *
  * Optionally you can indicate a layout to use to enclose email body,
  * as well a list of parameters to be passed to it.

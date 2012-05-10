@@ -582,11 +582,10 @@ class FieldableBehavior extends ModelBehavior {
  * quickly change the `belongsTo` value whithout detaching and attaching again
  * the `Fielable` behavior.
  *
- * ### Example of usage:
- * {{{
- *  $node = $this->Node->findById(1);
- *  $this->Node->fieldsBelongsTo('NodeType-' . $node['Node']['node_type_id']);
- * }}}
+ * ### Example of usage
+ *
+ *    $node = $this->Node->findById(1);
+ *    $this->Node->fieldsBelongsTo('NodeType-' . $node['Node']['node_type_id']);
  *
  * @param integer $instance_id Instance ID of the field to unlock
  * @return boolean TRUE on success, FALSE on failure
@@ -737,13 +736,12 @@ class FieldableBehavior extends ModelBehavior {
  * e.g.: Node objects may have different fields attached depending on its `NodeType`.
  *
  * ### Usage
- * {{{
- *  $actsAs = array(
- *	  'Fieldable' => array(
- *		  'belongsTo' => 'NodeType-{Node.node_type_id}'
- *	  )
- *  );
- * }}}
+ *
+ *    $actsAs = array(
+ *        'Fieldable' => array(
+ *            'belongsTo' => 'NodeType-{Node.node_type_id}'
+ *        )
+ *    );
  *
  * @param string $belongsTo String to parse
  * @param array $result Model record where to get array paths

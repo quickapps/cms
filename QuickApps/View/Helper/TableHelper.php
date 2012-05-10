@@ -11,33 +11,35 @@
  */
 
 /**
- * ## Expected data's structure
- * $data MUST be a numeric array. (Any list result of `Model::find()` or paginated result)
+ * ### Expected data's structure
  *
- * {{{
- *  $data = array(
- *	  0 => array(
- *		  'Model' => array('field1' => 'data', ...),
- *		  'Model2' => ...
- *	  ),
- *	   ....
- *  );
- * }}}
+ * `$data` MUST be a numeric array. For example, any list result of `Model::find()` or paginated result:
  *
- * ## Options:
- * `columns` (array): Information about each of the columns of your table.
- * {{{
- *  ...
- *  'Column Title' => array(
- *	  'value' => ,		(string) Values to display when filling this column.
- *						You can specify array paths to find in the $data array. e.g.: `{Model.field}`
- *						See TableHelper::_renderCell() for more tags.
- *	  'thOptions' => ,	(array) <th> tag options for this column. This will affect table header only.
- *	  'tdOptions' => ,	(array) <td> tag options for this column. This will affect table body (result rows) only.
- *	  'sort' =>			Optional (string) `Model.field`
- *  )
- *  ...
- * }}}
+ *    $data = array(
+ *        0 => array(
+ *            'Model' => array('field1' => 'data', ...),
+ *            'Model2' => ...
+ *        ),
+ *        ....
+ *    );
+ *
+ * ### Options
+ *
+ * `columns` (array): Information about each of the columns of your table:
+ *
+ *    array(
+ *        'columns' => array(
+ *            'Column Title' => array(
+ *                'value' => , (string) Values to display when filling this column.
+ *						       You can specify array paths to find in the $data array. e.g.: `{Model.field}`
+ *						       See TableHelper::_renderCell() for more tags.
+ *	              'thOptions' => , (array) <th> tag options for this column. This will affect table header only.
+ *	              'tdOptions' => , (array) <td> tag options for this column. This will affect table body (result rows) only.
+ *	              'sort' => Optional (string) `Model.field`
+ *            ),
+ *            'Other Column' => array( ... ),
+ *            ...
+ *    );
  *
  */
 class TableHelper extends AppHelper {

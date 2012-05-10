@@ -49,30 +49,27 @@ class HookCollectionHelper extends AppHelper {
  * Plugin-Dot-Syntax is allowed.
  *
  * ### Example
- * {{{
- *  $this->hook('Block.blocks_list');
- * }}}
+ *
+ *    $this->hook('Block.blocks_list');
  *
  * The above will trigger the `blocks_list` callback for the `Block` module only.
  *
- * {{{
- *  $this->hook('block_list');
- * }}}
+ *    $this->hook('block_list');
  *
  * The above will trigger the `block_list` callback on every Hook class.
  *
  * ### Options
  *
  * - `breakOn` Set to the value or values you want the callback propagation to stop on.
- *	Can either be a scalar value, or an array of values to break on.
- *	Defaults to `false`.
+ * Can either be a scalar value, or an array of values to break on.
+ * Defaults to `false`.
  *
  * - `break` Set to true to enabled breaking. When a trigger is broken, the last returned value
- *	will be returned.  If used in combination with `collectReturn` the collected results will be returned.
- *	Defaults to `false`.
+ * will be returned.  If used in combination with `collectReturn` the collected results will be returned.
+ * Defaults to `false`.
  *
  * - `collectReturn` Set to true to collect the return of each object into an array.
- *	This array of return values will be returned from the hook() call. Defaults to `false`.
+ * This array of return values will be returned from the hook() call. Defaults to `false`.
  *
  * @param string $hook Name of the hook to call.
  * @param mixed $data Data for the triggered callback.

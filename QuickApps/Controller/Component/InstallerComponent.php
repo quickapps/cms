@@ -859,14 +859,12 @@ class InstallerComponent extends Component {
  * Verify if the given list of modules & version are installed and actives.
  * Example of dependencies list:
  *
- * {{{
- *  array(
- *	  'ModuleOne (1.0)',
- *	  'ModuleTwo (>= 1.0)',
- *	  'ModuleThree (1.x)',
- *	  'ModuleFour'
- *  )
- * }}}
+ *    array(
+ *        'ModuleOne (1.0)',
+ *        'ModuleTwo (>= 1.0)',
+ *        'ModuleThree (1.x)',
+ *        'ModuleFour'
+ *    );
  *
  * @param array $module List of dependencies to check.
  * @return boolean TRUE if all modules are available.
@@ -972,9 +970,8 @@ class InstallerComponent extends Component {
  * If module is already installed then an Aco update will be performed.
  *
  * ### Usage:
- * {{{
- *  $this->Installer->buildAcos('User', APP . 'Plugin' . DS);
- * }}}
+ *
+ *    $this->Installer->buildAcos('User', APP . 'Plugin' . DS);
  *
  * The above would generate all the permissions tree for the Core module User.
  *
@@ -1212,15 +1209,14 @@ class InstallerComponent extends Component {
  *
  * Example of use on module install, the following code will insert a new link
  * to the backend menu (`management`):
- * {{{
- *  $this->Installer->menuLink(
- *	  array(
- *		  'link' => '/my_new_module/dashboard',
- *		 'description' => 'This is a link to my new awesome module',
- *		 'label' => 'My Awesome Module'
- *	  ), 1
- *  );
- * }}}
+ *
+ *    $this->Installer->menuLink(
+ *        array(
+ *            'link' => '/my_new_module/dashboard',
+ *            description' => 'This is a link to my new awesome module',
+ *            'label' => 'My Awesome Module'
+ *        ), 1
+ *    );
  *
  * Notice that this example uses `1` as menu ID instead of `management`.
  *
@@ -1356,21 +1352,19 @@ class InstallerComponent extends Component {
  * ### Example
  * Example of usage on `afterInstall`:
  *
- * {{{
- *  $this->Installer->createContentType(
- *	  array(
- *		  'module' => 'Blog',  (OPTIONAL)
- *		  'name' => 'Blog Entry',
- *		  'label' => 'Entry Title'
- *	  ),
- *	  array(
- *		  'FieldText' => array(
- *			  'name' => 'blog_body',
- *			  'label' => 'Entry Body'
- *		  )
- *	  )
- *  );
- * }}}
+ *    $this->Installer->createContentType(
+ *        array(
+ *            'module' => 'Blog',  (OPTIONAL)
+ *            'name' => 'Blog Entry',
+ *            'label' => 'Entry Title'
+ *        ),
+ *        array(
+ *            'FieldText' => array(
+ *                'name' => 'blog_body',
+ *                'label' => 'Entry Body'
+ *            )
+ *        )
+ *    );
  *
  * Note that `module` key is OPTIONAL when the method is invoked
  * from an installation session. If `module` key is not set and this method is invoked
@@ -1385,21 +1379,20 @@ class InstallerComponent extends Component {
  * @param array $type Content Type information. see $__type
  * @param array $fields Optional Associative array of fields to attach to the new content type:
  * Keys `label` and `name` are REQUIRED!
- * {{{
- *  $fields = array(
- *	  'FieldText' => array(
- *		  'label' => 'Title',  [required]
- *		  'name' => 'underscored_unique_name', [required]
- *		  'required' => true, [optional]
- *		  'description' => 'Help text, instructions.', [optional]
- *		  'settings' => array(
-				[optional array of specific settings for this field.]
- *			  'extensions' => 'jpg,gif,png',
- *			  ...
- *		  )
- *	  ),
+ *
+ *    $fields = array(
+ *        'FieldText' => array(
+ *            'label' => 'Title',  [required]
+ *            'name' => 'underscored_unique_name', [required]
+ *            'required' => true, [optional]
+ *            'description' => 'Help text, instructions.', [optional]
+ *            'settings' => array(  [optional array of specific settings for this field.]
+ *			      'extensions' => 'jpg,gif,png',
+ *			      ...
+ *            )
+ *        ),
  *	  ...
- * }}}
+ *
  * @return mixed boolean FALSE on failure. NodeType array on success
  * @link https://github.com/QuickAppsCMS/QuickApps-CMS/wiki/Field-API
  */
@@ -1485,9 +1478,8 @@ class InstallerComponent extends Component {
  * Execute an SQL statement.
  *
  * Example of use on module install/uninstall:
- * {{{
- *  $this->Installer->sql('DROP TABLE `#__table_to_remove`');
- * }}}
+ *
+ *    $this->Installer->sql('DROP TABLE `#__table_to_remove`');
  *
  * NOTE: Remember to include the table prefix pattern (`#__` by default) on each query string.
  *
@@ -1507,9 +1499,8 @@ class InstallerComponent extends Component {
  * Messages must be passed as arguments.
  *
  * Example of use on module install/uninstall:
- * {{{
- *  $this->Installer->error('error 1', 'error 2');
- * }}}
+ *
+ *    $this->Installer->error('error 1', 'error 2');
  *
  * @return void
  */

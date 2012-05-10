@@ -77,15 +77,13 @@ class QuickApps {
  * Any detector can be called as `is($detector)`.
  * Multiple parameters can be passed to detectors.
  *
- * ## Simple usage
- * {{{
- *  QuickApps::is('view.frontpage');
- * }}}
+ * ### Simple usage
  *
- * ## Passing multiple parameters
- * {{{
- *  QuickApps::is('group.detector', 'param 1', 'param 2', ...);
- * }}}
+ *    QuickApps::is('view.frontpage');
+ *
+ * ### Passing multiple parameters
+ *
+ *    QuickApps::is('group.detector', 'param 1', 'param 2', ...);
  *
  * @param string $detect Dot-Syntax unsersored_detector_name and group name. e.g.: `group.detector_name`
  * @return boolean
@@ -120,22 +118,20 @@ class QuickApps {
  * detectors by module name and avoid collisions between each other.
  *
  * ### Example
- * {{{
- *  QuickApps::addDetector('my_module.detector_name', array('MyModuleHookHelper', 'detector_handler'));
- * }}}
+ *
+ *    QuickApps::addDetector('my_module.detector_name', array('MyModuleHookHelper', 'detector_handler'));
  *
  * The above will register `detector_name` on `my_module` category.
  * Also, we are using MyModule's Hook Helper class to register the callback method.
  * This last should looks:
  *
- * # MyModuleHookHelper.php
- * {{{
- *  class MyModuleHookHelper extends AppHelper {
- *	  public static function detector_handler() {
- *		  return (detector login here);
- *	  }
- *  }
- * }}}
+ * ### MyModuleHookHelper.php
+ *
+ *    class MyModuleHookHelper extends AppHelper {
+ *        public static function detector_handler() {
+ *            return (detector login here);
+ *        }
+ *    }
  *
  * @param string $detect Dot-Syntax detector name
  * @param array $callback Array with ClassName and Method Name
@@ -154,9 +150,8 @@ class QuickApps {
  * Checks if the given detector has been defined.
  *
  * ### Usage
- * {{{
- *  QuickApps::detectorDefined('group_name.detector');
- * }}}
+ *
+ *    QuickApps::detectorDefined('group_name.detector');
  *
  * @param string $detector Detector name and group in dot syntax.
  * @return boolean

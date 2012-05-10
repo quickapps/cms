@@ -153,15 +153,12 @@ class HookCollection {
  * Plugin-Dot-Syntax is allowed.
  *
  * ### Example
- * {{{
- *  $this->hook('Block.blocks_list');
- * }}}
+ *
+ *    $this->hook('Block.blocks_list');
  *
  * The above will trigger the `blocks_list` callback for the `Block` module only.
  *
- * {{{
- *  $this->hook('block_list');
- * }}}
+ *    $this->hook('block_list');
  *
  * The above will trigger the `block_list` callback on every Hook class.
  *
