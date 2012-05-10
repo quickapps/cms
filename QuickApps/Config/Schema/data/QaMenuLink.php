@@ -333,7 +333,7 @@ class QaMenuLink {
 			'rght' => '8',
 			'parent_id' => '0',
 			'link_path' => '',
-			'router_path' => '/s/type:article',
+			'router_path' => '/search/type:article',
 			'description' => '',
 			'link_title' => 'Blog',
 			'options' => '',
@@ -341,7 +341,7 @@ class QaMenuLink {
 			'target' => '_self',
 			'expanded' => '0',
 			'selected_on' => '/article/*.html
-/s/type:article*',
+/search/type:article*',
 			'selected_on_type' => 'reg',
 			'status' => '1'
 		),
@@ -351,7 +351,7 @@ class QaMenuLink {
 			'lft' => '1',
 			'rght' => '2',
 			'parent_id' => '0',
-			'link_path' => 'http://cms.quickapps.es',
+			'link_path' => 'http://www.quickappscms.org',
 			'router_path' => '',
 			'description' => '',
 			'link_title' => 'QuickApps Site',
