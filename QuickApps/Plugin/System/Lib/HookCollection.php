@@ -48,7 +48,7 @@ class HookCollection {
  *
  * @var array
  */
-    public $_hookObjects = array();
+    protected $_hookObjects = array();
 
 /**
  * Initializes hook objects and methods.
@@ -153,15 +153,13 @@ class HookCollection {
  * Plugin-Dot-Syntax is allowed.
  *
  * ### Example
- * {{{
- *  $this->hook('Block.blocks_list');
- * }}}
+ *
+ *    $this->hook('Block.blocks_list');
+ *
  *
  * The above will trigger the `blocks_list` callback for the `Block` module only.
  *
- * {{{
- *  $this->hook('block_list');
- * }}}
+ *    $this->hook('block_list');
  *
  * The above will trigger the `block_list` callback on every Hook class.
  *
@@ -393,8 +391,8 @@ class HookCollection {
 /**
  * Dispatch hook.
  *
- * @see HookCollection::hook()
  * @return mixed Either the last result or all results if collectReturn is on. Or NULL in case of no response
+ * @see HookCollection::hook()
  */
     private function __dispatchHook($hook, &$data = array(), $options = array()) {
         list($plugin, $hook) = pluginSplit((string)$hook);

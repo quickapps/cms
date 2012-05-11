@@ -1,6 +1,8 @@
 <?php
 /**
- * QuickApps class
+ * QuickApps class.
+ *
+ * Static class which provides basic functionalities.
  *
  * PHP version 5
  *
@@ -53,7 +55,7 @@ class QuickApps {
  * as well as additional rules defined with QuickApps::addDetector()
  * Any detector can be called as `is($detect)`.
  *
- * # Built-in detectors:
+ * ### Built-in detectors:
  * - is('view.frontpage'): is frontpage ?
  * - is('view.login'): is login screen ?
  * - is('view.admin'): is admin prefix ?
@@ -71,10 +73,10 @@ class QuickApps {
  * - is('module.theme', 'ModuleName'): is `ModuleName` a theme app ?
  *
  * ## Example
- * Is actual request site's frontpage ?
- * {{{
- *  $this->Layout->is('view.frontpage');
- * }}}
+ *
+ *    $this->Layout->is('view.frontpage');
+ *
+ * The above checks if the current request is the site's frontpage.
  *
  * @param string $detect Dot-Syntax unsersored_detector_name and group name. e.g.: `group.detector_name`
  * @param mixed $p Optional parameter for callback methods
