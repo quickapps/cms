@@ -20,7 +20,7 @@ class QuickApps {
 /**
  * The built in detectors used with `is()`. Can be modified with `addDetector()`.
  *
- * # Built-in detectors:
+ * ### Built-in detectors:
  * - is('view.frontpage'): is frontpage ?
  * - is('view.login'): is login screen ?
  * - is('view.admin'): is admin prefix ?
@@ -254,7 +254,7 @@ class QuickApps {
 	}
 
 /**
- * Returns the roles to which user belongs.
+ * Returns the roles IDs to which user belongs to.
  *
  * @return array List of user's roles.
  */

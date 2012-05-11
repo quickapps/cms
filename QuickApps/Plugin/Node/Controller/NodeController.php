@@ -464,7 +464,7 @@ class NodeController extends NodeAppController {
 			$scope['AND']['AND']['OR'][] = array('Node.roles_cache LIKE' => null);
 			$scope['AND']['AND']['OR'][] = array('Node.roles_cache LIKE' => '');
 
-			foreach ($this->QuickApps->userRoles() as $role) {
+			foreach (QuickApps::userRoles() as $role) {
 				$scope['AND']['AND']['OR'][] =  array('Node.roles_cache LIKE' => "%|{$role}|%");
 			}
 

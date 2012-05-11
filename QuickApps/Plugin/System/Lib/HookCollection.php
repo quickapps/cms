@@ -48,7 +48,7 @@ class HookCollection {
  *
  * @var array
  */
-	public $_hookObjects = array();
+	protected $_hookObjects = array();
 
 /**
  * Initializes hook objects and methods.
@@ -406,8 +406,8 @@ class HookCollection {
 /**
  * Dispatch hook.
  *
- * @see HookCollection::hook()
  * @return mixed Either the last result or all results if collectReturn is on. Or NULL in case of no response
+ * @see HookCollection::hook()
  */
 	private function __dispatchHook($hook, &$data = array(), $options = array()) {
 		list($plugin, $hook) = pluginSplit((string)$hook);
