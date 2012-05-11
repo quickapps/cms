@@ -4,20 +4,19 @@
  *
  * PHP version 5
  *
- * @package  QuickApps.Model.Behavior
- * @author   Mariano Iglesias
- * @link http://cake-syrup.sourceforge.net/ingredients/sluggable-behavior/
- * @version	$Revision: 36 $
- * @license	http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @package		QuickApps.Model.Behavior
+ * @author		Mariano Iglesias
+ * @link		http://cake-syrup.sourceforge.net/ingredients/sluggable-behavior/
+ * @version		$Revision: 36 $
+ * @license		http://www.opensource.org/licenses/mit-license.php The MIT License
  */ 
 class SluggableBehavior extends ModelBehavior {
 /**
  * Contain settings indexed by model name.
  *
  * @var array
- * @access private
  */
-private $__settings = array();
+	private $__settings = array();
 
 /**
  * Initiate behavior for the model using specified settings. Available settings:
@@ -38,9 +37,8 @@ private $__settings = array();
  * - overwrite: (boolean, optional) set to true if slugs should be re-generated when
  *				 updating an existing record. DEFAULTS TO: true
  *
- * @param object $Model Model using the behaviour
+ * @param Model $Model Model using the behaviour
  * @param array $settings Settings to override for model.
- * @access public
  */
 	public function setup(Model $Model, $settings = array()) {
 		$default = array('label' => array('title'), 'slug' => 'slug', 'separator' => '-', 'length' => 200, 'overwrite' => true, 'translation' => null);
@@ -55,9 +53,8 @@ private $__settings = array();
 /**
  * Run before a model is saved, used to set up slug for model.
  *
- * @param object $Model Model about to be saved.
+ * @param Model $Model Model about to be saved.
  * @return boolean true if save should proceed, false otherwise
- * @access public
  */
 	public function beforeSave(Model $Model) {
 		$return = parent::beforeSave($Model);
@@ -130,7 +127,6 @@ private $__settings = array();
  * @param string $string String from where to generate slug
  * @param array $settings Settings to use (looks for 'separator' and 'length')
  * @return string Slug for given string
- * @access private
  */
 	private function __slug($string, $settings) {
 		$string = Inflector::slug($string, $settings['separator']);

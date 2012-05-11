@@ -33,7 +33,7 @@ class TaxonomyTermsHookHelper extends AppHelper {
 						$prefix = '';
 					}
 
-					$data['content'][] = $this->_View->Html->link(__t($term['Term']['name']), "/s/{$prefix}term:{$term['Term']['slug']}");
+					$data['content'][] = $this->_View->Html->link(__t($term['Term']['name']), "/search/{$prefix}term:{$term['Term']['slug']}");
 				break;
 
 				case 'plain-localized':
