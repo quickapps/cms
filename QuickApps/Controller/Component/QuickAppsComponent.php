@@ -739,16 +739,6 @@ class QuickAppsComponent extends Component {
 	}
 
 /**
- * Retuns current user roles.
- *
- * @return array Associative array with id and names of the roles: array(id:integer => name:string, ...)
- * @see QuickApps::userRoles()
- */
-	public function userRoles() {
-		return QuickApps::userRoles();
-	}
-
-/**
  * Wrapper method to QuickApps::is()
  *
  * @see QuickApps::is()

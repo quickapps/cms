@@ -604,16 +604,6 @@ class LayoutHelper extends AppHelper {
 	}
 
 /**
- * Retuns current user roles.
- *
- * @return array associative array with id and names of the roles: array(id:integer => name:string, ...)
- * @see QuickApps::userRoles()
- */
-	public function userRoles() {
-		return QuickApps::userRoles();
-	}
-
-/**
  * Generates user's avatar image.
  *
  * @param array $user Optional user data, current logged user data will be used otherwise
@@ -1092,7 +1082,7 @@ class LayoutHelper extends AppHelper {
 				$roles_id = Hash::extract($block, '{n}.Role.id');
 				$allowed = false;
 
-				foreach ($this->userRoles() as $role) {
+				foreach (QuickApps::userRoles() as $role) {
 					if (in_array($role, $roles_id)) {
 						$allowed = true;
 
