@@ -124,8 +124,9 @@ class ThemesController extends SystemAppController {
 	}
 
 /**
- * Render theme thumbnail
+ * Render theme thumbnail.
  *
+ * @return void
  */
 	public function admin_theme_tn($theme_name) {
 		$this->viewClass  = 'Media';
@@ -142,8 +143,9 @@ class ThemesController extends SystemAppController {
 	}
 
 /**
- * Return all available (installed) themes
+ * Return all available (installed) themes.
  *
+ * @return array List of themes
  */
 	private function __availableThemes() {
 		$_themes = $this->Module->find('all', array('conditions' => array('Module.type' => 'theme')));

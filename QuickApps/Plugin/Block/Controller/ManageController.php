@@ -50,7 +50,6 @@ class ManageController extends BlockAppController {
 
 		$site_ids = (array)Hash::extract($site_theme, '{n}.Block.id');
 		$admin_ids = (array)Hash::extract($admin_theme, '{n}.Block.id');
-
 		$unassigned = $this->Block->find('all',
 			array(
 				'conditions' => array(

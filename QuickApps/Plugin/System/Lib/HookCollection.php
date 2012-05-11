@@ -29,22 +29,23 @@ class HookCollection {
 	private $__object;
 
 /**
- * Holds an associtive list of available hook methods
- * and hook objects.
+ * Associative list of available hook methods and its hook classes.
+ *
+ *    ['hook_name'] => array('HookClass1', 'HookClass2', ...);
  *
  * @var array
  */
 	private $__map = array();
 
 /**
- * Holds a list of available hook methods.
+ * List of available hook methods.
  *
  * @var array
  */
 	public $_methods = array();
 
 /**
- * Holds a list with the names of loaded hook objects.
+ * List of loaded hook classes.
  *
  * @var array
  */
@@ -192,8 +193,9 @@ class HookCollection {
  * Note that hooks disabled using `hookDisable()` won't be considered
  * and they will be detected as undefined/nonexistent by this method.
  *
- * ## Example:
- *  hookDefined('ModuleName.hook_to_check')
+ * ### Example
+ *
+ *    hookDefined('ModuleName.hook_to_check')
  *
  * The above will check if `ModuleName` module has
  * defined the `hook_to_check` hook method.
@@ -476,6 +478,12 @@ class HookCollection {
 		return $options['collectReturn'] ? $collected : $result;
 	}
 
+/**
+ * Loads the given hook class.
+ *
+ * @param string $class Hook class to load
+ * @return void
+ */
 	private function __loadHookClass($class) {
 		list($plugin, $class) = pluginSplit($class);
 
@@ -494,6 +502,12 @@ class HookCollection {
 		}
 	}
 
+/**
+ * Unloads the given hook class.
+ *
+ * @param string $class Hook class to unload
+ * @return void
+ */
 	private function __unloadHookClass($class) {
 		list($plugin, $object) = pluginSplit($class);
 
@@ -516,6 +530,12 @@ class HookCollection {
 		}
 	}
 
+/**
+ * Gets and instance of the given hook class.
+ *
+ * @param string $class Hook class to get
+ * @return object Instance of hook object
+ */
 	private function __getHookClass($class) {
 		list($plugin, $object) = pluginSplit($class);
 
@@ -534,6 +554,12 @@ class HookCollection {
 		}
 	}
 
+/**
+ * Loads and analyzes all hook objects preloaded using
+ * HookCollection::preloadHook().
+ *
+ * @return void
+ */
 	private function __loadHooks() {
 		if (!empty($this->__map)) {
 			return;

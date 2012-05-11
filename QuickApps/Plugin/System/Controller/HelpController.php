@@ -14,7 +14,6 @@ class HelpController extends SystemAppController {
 	public $uses = array();
 
 	public function admin_index() {
-
 	}
 
 	public function admin_module($name) {

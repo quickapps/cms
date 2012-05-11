@@ -13,27 +13,6 @@ class JqueryUIHelper extends AppHelper {
 /**
  * Loads in stack all the specified Jquery UI JS files.
  *
- * ### Loading presets
- *
- *    $this->JqueryUI->add('sortable');
- *
- * The above will load all the JS libraries required for a `sortable` interaction.
- * You can only load one preset per call.
- * The code below is NOT ALLOWED:
- *
- *    $this->JqueryUI->add('sortable', 'draggable');
- *
- * You must use one call per preset instead:
- *
- *    $this->JqueryUI->add('sortable');
- *    $this->JqueryUI->add('draggable');
- *
- * ### Loading individual libraries
- *
- *    $this->JqueryUI->add('effects.blind', 'effects.fade');
- *
- * The above will load both `blind` & `fade` effects.
- *
  * @return mixed
  *  TRUE if `all` was included.
  *  FALSE if no files were included because they are already included or were not found.
@@ -48,23 +27,7 @@ class JqueryUIHelper extends AppHelper {
 
 /**
  * Loads in stack the CSS styles for the specified Jquery UI theme.
- *
- * ### Theme auto-detect:
- * If no theme is given ($theme = FALSE) the function will try:
- *  - To use global parametter `JqueryUI.default_theme`.
- *  - To use `System.ui-lightness` otherwise.
- *
- * ### Usage
- *
- *    $this->JqueryUI->theme('MyModule.flick');
- *
- * The above will load `flick` theme.
- * Theme should be located in `ROOT/Modules/MyModule/webroot/css/ui/flick/`
- *
- *    $this->JqueryUI->theme('flick');
- *
- * The above will load `flick` theme. But, now it should be located in
- * `ROOT/webroot/css/ui/flick/`
+ * Plugin-Dot-Syntax allowed.
  *
  * @param mixed $theme String name of the theme to load (Plugin-dot-syntax allowed)
  * @return mixed

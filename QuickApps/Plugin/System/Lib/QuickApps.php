@@ -21,6 +21,7 @@ class QuickApps {
  * The built in detectors used with `is()`. Can be modified with `addDetector()`.
  *
  * ### Built-in detectors:
+ *
  * - is('view.frontpage'): is frontpage ?
  * - is('view.login'): is login screen ?
  * - is('view.admin'): is admin prefix ?
@@ -254,7 +255,7 @@ class QuickApps {
 	}
 
 /**
- * Returns the roles IDs to which user belongs to.
+ * Returns roles IDs to which user belongs to.
  *
  * @return array List of user's roles.
  */
@@ -281,7 +282,7 @@ class QuickApps {
 
 /**
  * Return only the methods for the indicated object.
- * It will strip out the inherited methods.
+ * It will strip out inherited methods.
  *
  * @return array List of methods.
  */
@@ -300,7 +301,7 @@ class QuickApps {
 	}
 
 /**
- * Create Unique Arrays using an md5 hash
+ * Creates unique arrays using an md5 hash.
  *
  * @param array $array
  * @return array
@@ -328,7 +329,7 @@ class QuickApps {
 
 /**
  * Strip language prefix from the given URL.
- * e.g.: `http://site.com/eng/some-url` becomes http://site.com/some-url`
+ * e.g.: `http://site.com/eng/some-url` becomes `http://site.com/some-url`
  *
  * @param string $url URL to replace.
  * @return string URL with no language prefix.
@@ -361,7 +362,7 @@ class QuickApps {
  * Return an associative array with field(s) information.
  *
  * @param mixed $field Optional string will return only information for the specified field.
- *					 FALSE will return all fields information.
+ *					   FALSE will return all fields information.
  * @return array Associative array.
  */
 	public static function field_info($field = false) {
@@ -685,7 +686,7 @@ class QuickApps {
 			$c = $Aco->find('first', array('conditions' => array('Aco.parent_id' => $p['Aco']['id']), 'recursive' => -1));
 			$a = $Aco->find('first', array('conditions' => array('Aco.parent_id' => $c['Aco']['id']), 'recursive' => -1));
 
-			foreach($roles as $role) {
+			foreach ($roles as $role) {
 				$conditions['OR'][] = array(
 					'AND' => array(
 						'Permission.aro_id' => $role,

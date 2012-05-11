@@ -52,23 +52,32 @@ class JqueryUI {
 /**
  * Loads in stack all the specified Jquery UI JS files.
  *
- * If site's `js` folder (ROOT/webroot/js/) is writable all the files will be
- * combined and mergered using JSMin.
- * See the contents of the `System/webroot/js/ui` sub-directory for a list of available
- * files that may be included.
+ * ### Loading presets
  *
- * The required ui.core file is automatically included,
- * as is effects.core if you include any effects files.
+ *    $this->JqueryUI->add('sortable');
  *
- * You can load a preset, which include all the required js files for that preset.
+ * The above will load all the JS libraries required for a `sortable` interaction.
+ * You can only load one preset per call.
+ * The code below is **NOT ALLOWED**:
  *
- * @param mixed $files Array list of UI files to include. Or string as preset name to load.
- * @param array $stack Reference to AppController::$Layout['javascripts']['file']
+ *    $this->JqueryUI->add('sortable', 'draggable');
+ *
+ * You must use one call per preset instead:
+ *
+ *    $this->JqueryUI->add('sortable');
+ *    $this->JqueryUI->add('draggable');
+ *
+ * ### Loading individual libraries
+ *
+ *    $this->JqueryUI->add('effects.blind', 'effects.fade');
+ *
+ * The above will load both `blind` & `fade` effects.
+ *
  * @return mixed
  *  TRUE if `all` was included.
  *  FALSE if no files were included because they are already included or were not found.
  *  String HTML <script> tags on success.
- * @see JqueryUI::$__presets
+ * @see JqueryUI::$__presets 
  */
 	public static function add($files = array(), &$stack) {
 		if (in_array('all', self::$_loadedUI)) {
@@ -160,35 +169,37 @@ class JqueryUI {
 
 /**
  * Loads in stack the CSS styles for the specified Jquery UI theme.
+ * Plugin-Dot-Syntax allowed.
  *
- * If no theme name is given (false) then `Configure::read('JqueryUI.default_theme')`
- * will be used by default if its set. You can define this value in your site's
- * `bootstrap.php` file.
- * `System.ui-lightness` will be used otherwise.
+ * ### Usage
  *
- * Themes must be located under `/webroot/css/ui/` folder of you Module or Site.
- * Example, some valid routes are:
- *  - Core module webroot: ROOT/QuickApps/Plugin/System/webroot/css/ui/theme-name/
- *  - Site webroot: ROOT/webroot/css/ui/theme-name/
- *  - Module webroot: ROOT/Modules/MyModule/webroot/css/ui/theme-name/
+ *    $this->JqueryUI->theme('MyModule.flick');
  *
- * A theme folder must contain at least one .css file to be included. e.g.:
- *  ROOT/webroot/css/ui/theme-name/
- *	  images/
- *	  theme-name.css
+ * The above will load `flick` theme.
+ * Theme should be located in `ROOT/Modules/MyModule/webroot/css/ui/flick/`
  *
- * Plugin-dot-syntax is allowed, for themes located in Module's css folder.
- * `Site Css` folder will be used otherwise.
+ *    $this->JqueryUI->theme('flick');
  *
- * ## Example:
- *  `MyModule.theme_name`:
- *	  This will load **the .css file** located in `ROOT/Modules/MyModule/webroot/css/ui/theme_name/`
- *  `theme_name`:
- *	  This will load **the .css file** located in `ROOT/webroot/css/ui/theme_name/`
+ * The above will load `flick` theme. But now it should be located in your site's webroot,
+ * `ROOT/webroot/css/ui/flick/`
+ *
+ * ### Theme auto-detect
+ *
+ * If no theme is given ($theme = FALSE) this method will try:
+ *
+ *  - To use global parameter `JqueryUI.default_theme`.
+ *  - To use `System.ui-lightness` otherwise.
+ *
+ * ### Default theme
+ *
+ * You can define the global parameter `JqueryUI.default_theme` in your site's bootstrap.php
+ * to indicate the default theme to use.
+ *
+ *    Configure::write('JqueryUI.default_theme', 'flick');
+ *
+ * The `flick` theme will be used by default if no arguments is passed.
  *
  * @param mixed $theme String name of the theme to load (Plugin-dot-syntax allowed)
- *					 or leave empty for auto-detect.
- * @param array $stack Reference to AppController::$Layout['stylesheets']['file']
  * @return mixed
  *  TRUE if theme has been already included.
  *  FALSE theme was not found.
@@ -243,6 +254,12 @@ class JqueryUI {
 		self::$__presets[$name] = $libs;
 	}
 
+/**
+ * Gets the full path of the first .css file located under the given path.
+ *
+ * @param string $folder Folder to read
+ * @return string Full path to the first .css file in $path
+ */
 	private static function __themeCssFile($folder) {
 		$f = new Folder($folder);
 		$files = $f->read();
@@ -250,5 +267,7 @@ class JqueryUI {
 		if (isset($files[1][0])) {
 			return $files[1][0];
 		}
+
+		return '';
 	}
 }
