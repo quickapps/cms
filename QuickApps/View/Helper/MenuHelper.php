@@ -192,8 +192,9 @@ class MenuHelper extends AppHelper {
 		}
 
 		$this->settings['wrapperAttributes'] = $this->__tmp['wrapperAttributes'];
+		$tabs = $this->settings['__depth__'] > 0 ? str_repeat("\t", $this->settings['__depth__'] + 1) : '';
 
-		return sprintf($this->settings['wrapperFormat'], implode(' ', $wrapperAttributes), $out);
+		return sprintf("\n" . $tabs . $this->settings['wrapperFormat'] . "\n", implode(' ', $wrapperAttributes), "\n" . $out . $tabs);
 	}
 
 	protected function _buildItem($item, $pos = 0, $depth = 0) {
@@ -352,11 +353,12 @@ class MenuHelper extends AppHelper {
 			}
 		}
 
-		$return = sprintf('%s' . $this->settings['itemFormat'], str_repeat("\t", $depth), implode(' ', $itemAttributes), $content);
+		$tabs = str_repeat("\t", $this->settings['__depth__'] + 1);
+		$return = sprintf('%s' . $this->settings['itemFormat'], str_repeat("\t", $depth), implode(' ', $itemAttributes), $content . $tabs);
 		$this->settings['itemAttributes'] = $this->__tmp['itemAttributes'];
 		$this->settings['__pos__']++;
 
-		return $this->__parseAtts($return, $item);
+		return $tabs . $this->__parseAtts($return, $item) . "\n";
 	}
 
 	private function __isSelected($item) {
