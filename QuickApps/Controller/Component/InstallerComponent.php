@@ -26,8 +26,9 @@ class InstallerComponent extends Component {
 
 /**
  * Array of defaults options used by install process.
- * `type`: type of package to install (`module` or `theme`, default `module`)
- * `status`: install and activate `status=1` (by default), install and do not activate `status=0`
+ *
+ * `type`: type of package to install, 'module' or 'theme'. (default 'module')
+ * `status`: set to 1 for "install and activate", set to zero (0) otherwise. (default 1)
  *
  * @var array
  */
@@ -51,13 +52,14 @@ class InstallerComponent extends Component {
 
 /**
  * Begins install process for the specified package.
- * And update will be performed if:
- *  - Module/theme is already installed.
- *  - The module/theme being installed is newer than the installed (higher version number).
- *  - The module/theme has the `beforeUpdate` callback on its `InstallComponent` class.
+ * An update will be performed if the three conditions below are met:
+ *	- Module/theme is already installed.
+ *	- The module/theme being installed is newer than the installed (higher version number).
+ *	- The module/theme has the `beforeUpdate` callback on its `InstallComponent` class.
  *
- * #### Expected module package estructure:
- * ZIP:
+ * #### Expected module package estructure
+ *
+ * - ZIP/
  *	  - ModuleFolderName/
  *		  - Config/
  *			  - bootstrap.php
@@ -67,16 +69,17 @@ class InstallerComponent extends Component {
  *				  - InstallComponent.php
  *		  - ModuleFolderName.yaml
  *
- * #### Expected theme package estructure:
- * ZIP:
- *	  - CamelCaseThemeName/
- *		  - Layouts/
- *		  - app/
- *			  - ThemeCamelCaseThemeName/  (Note `Theme` prefix)
- *				  .... (same as modules)
- *		  - webroot/
- *		  - CamelCaseThemeName.yaml
- *		  - thumbnail.png  (206x150px recommended)
+ * #### Expected theme package estructure
+ *
+ * - ZIP/
+ *    - CamelCaseThemeName/
+ *        - Layouts/
+ *        - app/
+ *            - ThemeCamelCaseThemeName/  (Note `Theme` prefix)
+ *                ... (same as modules)
+ *        - webroot/
+ *        - CamelCaseThemeName.yaml
+ *        - thumbnail.png  (206x150px recommended)
  *
  * @param array $data Data form POST submit of the .app package ($this->data)
  * @param array $options Optional settings, see InstallerComponent::$options
@@ -306,7 +309,7 @@ class InstallerComponent extends Component {
 				unset($tests['notAlreadyInstalled']);
 			}
 
-			if (!$this->__processTests($tests)) {
+			if (!$this->checkTests($tests)) {
 				return false;
 			}
 
@@ -360,7 +363,7 @@ class InstallerComponent extends Component {
 				break;
 			}
 
-			if (!$this->__processTests($tests)) {
+			if (!$this->checkTests($tests)) {
 				$this->errors[] = __t('Invalid information file (.yaml)');
 
 				return false;
@@ -561,11 +564,11 @@ class InstallerComponent extends Component {
 	}
 
 /**
- * Uninstall plugin by name.
+ * Uninstall module by name.
  *
- * @param string $pluginName Name of the plugin to uninstall, it could be a theme plugin
- *						   (ThemeMyThemeName or theme_my_theme_name) or module plugin
- *						   (MyModuleName or my_module_name).
+ * @param string $pluginName
+ *	Name of the plugin to uninstall, it may be either a theme-associated-module or module.
+ *	Both formats are allowed CamelCase and under_scored. e.g.: `ModuleName` or `module_name`
  * @return boolean TRUE on success or FALSE otherwise
  */
 	public function uninstall($pluginName = false) {
@@ -784,26 +787,26 @@ class InstallerComponent extends Component {
 /**
  * Parse a dependency for comparison by InstallerComponent::checkIncompatibility().
  *
- * @param string $dependency A dependency string, for example 'foo (>=7.x-4.5-beta5, 3.x)'.
+ * ### Usage
+ *
+ *    parseDependency('foo (>=7.x-4.5-beta5, 3.x)');
+ *
+ * @param string $dependency A dependency string as example above
  * @return mixed
- *   An associative array with three keys:
- *	  - 'name' includes the name of the thing to depend on (e.g. 'foo').
- *	  - 'original_version' contains the original version string (which can be
- *		 used in the UI for reporting incompatibilities).
- *	  - 'versions' is a list of associative arrays, each containing the keys
- *		 'op' and 'version'. 'op' can be one of: '=', '==', '!=', '<>', '<',
- *		 '<=', '>', or '>='. 'version' is one piece like '4.5-beta3'.
- *   Callers should pass this structure to checkIncompatibility().
+ *	An associative array with three keys as below, callers should pass this
+ *	structure to `checkIncompatibility()`:
+ *		-	`name`: includes the name of the thing to depend on (e.g. 'foo').
+ *		-	`original_version`: contains the original version string (which can be
+ *			used in the UI for reporting incompatibilities).
+ *		-	`versions`: is a list of associative arrays, each containing the keys
+ *			'op' and 'version'. 'op' can be one of: '=', '==', '!=', '<>', '<',
+ *			'<=', '>', or '>='. 'version' is one piece like '4.5-beta3'.
  * @see InstallerComponent::checkIncompatibility()
  */
 	public function parseDependency($dependency) {
-		// We use named subpatterns and support every op that version_compare
-		// supports. Also, op is optional and defaults to equals.
 		$p_op = '(?P<operation>!=|==|=|<|<=|>|>=|<>)?';
-		// Core version is always optional: 7.x-2.x and 2.x is treated the same.
 		$p_core = '(?:' . preg_quote(Configure::read('Variable.qa_version')) . '-)?';
 		$p_major = '(?P<major>\d+)';
-		// By setting the minor version to x, branches can be matched.
 		$p_minor = '(?P<minor>(?:\d+|x)(?:-[A-Za-z]+\d+)?)';
 		$value = array();
 		$parts = explode('(', $dependency, 2);
@@ -838,7 +841,7 @@ class InstallerComponent extends Component {
 /**
  * Check whether a version is compatible with a given dependency.
  *
- * @param array $v The parsed dependency structure from InstallerComponent::parseDependency()
+ * @param array $v The parsed dependency structure from `parseDependency()`
  * @param string $current_version The version to check against (e.g.: 4.2)
  * @return mixed NULL if compatible, otherwise the original dependency version string that caused the incompatibility
  * @see InstallerComponent::parseDependency()
@@ -857,18 +860,22 @@ class InstallerComponent extends Component {
 
 /**
  * Verify if the given list of modules & version are installed and actives.
- * Example of dependencies list:
  *
- *    array(
+ * ### Usage
+ *
+ *    $dependencies = array(
  *        'ModuleOne (1.0)',
  *        'ModuleTwo (>= 1.0)',
  *        'ModuleThree (1.x)',
  *        'ModuleFour'
  *    );
  *
+ *    checkDependency($dependencies);
+ *
  * @param array $module List of dependencies to check.
- * @return boolean TRUE if all modules are available.
- *				 FALSE if any of the required modules is not installed/version-compatible
+ * @return boolean
+ *	TRUE if all modules are available.
+ *	FALSE if any of the required modules is not installed/version-compatible
  */
 	public function checkDependency($dependencies = array()) {
 		if (empty($dependencies)) {
@@ -897,12 +904,14 @@ class InstallerComponent extends Component {
 /**
  * Verify if there is any module that depends of `$module`.
  *
- * @param  string $module Module alias
- * @param  boolean $returnList Set to true to return an array list of all modules that uses $module.
- *							 This list contains all the information of each module: Configure::read('Modules.{module}')
- * @return mixed Boolean If $returnList is set to false, a FALSE return means that there are no module that uses $module.
- *					   Or an array list of all modules that uses $module when $returnList is set to true, an empty array is
- *					   returned if there are no module that uses $module.
+ * @param string $module Module alias
+ * @param boolean $returnList
+ *	Set to true to return an array list of all modules that uses $module.
+ *	This list contains all the information of each module: Configure::read('Modules.{module}')
+ * @return mixed
+ *	Boolean If $returnList is set to false, a FALSE return means that there are no module that uses $module.
+ *	Or an array list of all modules that uses $module when $returnList is set to true, an empty array is
+ *	returned if there are no module that uses $module.
  */
 	function checkReverseDependency($module, $returnList = true) {
 		$list = array();
@@ -1206,7 +1215,9 @@ class InstallerComponent extends Component {
 /**
  * Insert a new link to specified menu.
  *
- * Example of use on module install, the following code will insert a new link
+ * ### Usage
+ *
+ * Example of use on module install, the code below will insert a new link
  * to the backend menu (`management`):
  *
  *    $this->Installer->menuLink(
@@ -1219,23 +1230,25 @@ class InstallerComponent extends Component {
  *
  * Notice that this example uses `1` as menu ID instead of `management`.
  *
- * @param array $link Associative array information of the link to add:
- *  - [parent|parent_id]: Parent link ID.
- *  - [url|link|path|router_path]: Link url (href).
- *  - [description]: Link description used as `title` attribute.
- *  - [title|label|link_title]: Link text to show between tags: <a href="">TEXT</a>
- *  - [module]: Name of the module that link belongs to,
- *			  by default it is set to the name of module being installed or
- *			  to `System` if method is called on non-install process.
- * @param mixed $menu_id Set to string value to indicate the menu id slug, e.g.: `management`.
- *					   Or set to one of the following integer values:
- *						  - 0: Main menu of the site.
- *						  - 1: Backend menu (by default).
- *						  - 2: Navigation menu.
- *						  - 3: User menu.
- * @param integer $move Number of positions to move the link after add.
- *					  Negative values will move down, positive values will move up.
- *					  Zero value (0) wont move.
+ * @param array $link
+ *	Associative array information of the link to add:
+ *		-	[parent|parent_id]: Parent link ID.
+ *		-	[url|link|path|router_path]: Link url (href).
+ *		-	[description]: Link description used as `title` attribute.
+ *		-	[title|label|link_title]: Link text to show between tags: <a href="">TEXT</a>
+ *		-	[module]: Name of the module that link belongs to,
+ *			by default it is set to the name of module being installed or
+ *			to `System` if method is called on non-install process.
+ * @param mixed $menu_id
+ *	Set to string value to indicate the menu id slug, e.g.: `management`.
+ *	Or set to one of the following integer values:
+ *		- 0: Main menu of the site.
+ *		- 1: Backend menu (by default).
+ *		- 2: Navigation menu.
+ *		- 3: User menu.
+ * @param integer $move
+ *	Number of positions to move the link after add.
+ *	Negative values will move down, positive values will move up, zero value (0) wont move.
  * @return mixed Array information of the new inserted link. FALSE on failure
  */
 	public function menuLink($link, $menu_id = 1, $move = 0) {
@@ -1348,10 +1361,9 @@ class InstallerComponent extends Component {
 /**
  * Defines a new content type and optionally attaches a list of fields to it.
  *
- * ### Example
- * Example of usage on `afterInstall`:
+ * ### Usage
  *
- *    $this->Installer->createContentType(
+ *    createContentType(
  *        array(
  *            'module' => 'Blog',  (OPTIONAL)
  *            'name' => 'Blog Entry',
@@ -1367,17 +1379,17 @@ class InstallerComponent extends Component {
  *
  * Note that `module` key is OPTIONAL when the method is invoked
  * from an installation session. If `module` key is not set and this method is invoked
- * during an install process (e.g.: `afterInstall`) it wil use the name of the module
+ * during an install process (e.g.: called from `afterInstall`) it wil use the name of the module
  * being installed.
  *
- * Although this methods just be used on `afterInstall` callback only:
+ * Although this method should be used on `afterInstall` callback only:
  * If you are adding fields that belongs to the module being installed
  * MAKE SURE to use this method on `afterInstall` callback, this is after
  * module has been installed and its fields has been REGISTERED on the system.
  *
  * @param array $type Content Type information. see $__type
- * @param array $fields Optional Associative array of fields to attach to the new content type:
- * Keys `label` and `name` are REQUIRED!
+ * @param array $fields
+ *	Optional Associative array of fields to attach to the new content type:
  *
  *    $fields = array(
  *        'FieldText' => array(
@@ -1390,7 +1402,10 @@ class InstallerComponent extends Component {
  *			      ...
  *            )
  *        ),
- *	  ...
+ *	      ...
+ *    );
+ *
+ *	Keys `label` and `name` are REQUIRED!
  *
  * @return mixed boolean FALSE on failure. NodeType array on success
  * @link https://github.com/QuickAppsCMS/QuickApps-CMS/wiki/Field-API
@@ -1476,11 +1491,11 @@ class InstallerComponent extends Component {
 /**
  * Execute an SQL statement.
  *
- * Example of use on module install/uninstall:
+ * ### Usage
  *
- *    $this->Installer->sql('DROP TABLE `#__table_to_remove`');
+ *    sql('DROP TABLE `#__table_to_remove`');
  *
- * NOTE: Remember to include the table prefix pattern (`#__` by default) on each query string.
+ * NOTE: Remember to include the table prefix pattern on each query string. (`#__` by default)
  *
  * @param string $query SQL to execute
  * @param string $prefix_pattern Pattern to replace for database prefix. default to `#__`
@@ -1494,12 +1509,11 @@ class InstallerComponent extends Component {
 	}
 
 /**
- * Insert an error message(s).
- * Messages must be passed as arguments.
+ * Insert a single or multiple messages passed as arguments.
  *
- * Example of use on module install/uninstall:
+ * ### Usage
  *
- *    $this->Installer->error('error 1', 'error 2');
+ *    error('Error 1', 'Error 2');
  *
  * @return void
  */
@@ -1512,8 +1526,46 @@ class InstallerComponent extends Component {
 	}
 
 /**
- * Removes all ACOs of the specified module, and ACOs of all its
- * `Field`.
+ * Checks the given test list.
+ *
+ * ### Usage
+ *
+ *    $tests = array(
+ *        array('test' => true, 'header' => 'Test 1', 'msg' => 'Test 1 has failed'),
+ *        array('test' => false, 'header' => 'Test 2', 'msg' => 'Test 2 has failed'),
+ *        ...
+ *    );
+ *
+ *    checkTests($tests);
+ *
+ * In the example above 'Test 1' is passed, but 'Test 2' will fail.  
+ * The `test` key must be any valid boolean expression which will determinate
+ * the success or failure of the test. For example:
+ *
+ *    [test] => (isset($variable_1) && isset($variable))
+ *
+ * Above, the test will pass the validation only if both variables are defined.
+ *
+ * @param array $tests Formatted list of tests to check
+ * @param boolean $header Include title on message error on test failure.
+ * @return boolean TRUE on success all tests, FALSE otherwise
+ */
+	public function checkTests($tests, $header = false) {
+		$e = 0;
+
+		foreach ($tests as $key => $test) {
+			if (!$test['test']) {
+				$e++;
+				$errorMsg = $header ? "<b>{$test['header']}</b>: {$test['msg']}" : $test['msg'];
+				$this->error($errorMsg);
+			}
+		}
+
+		return ($e == 0);
+	}
+
+/**
+ * Removes all ACOs of the specified module, and ACOs of all its `Field`.
  *
  * @param string $module_name Name of the module in CamelCase
  * @return void
@@ -1655,30 +1707,18 @@ class InstallerComponent extends Component {
 		return true;
 	}
 
-	private function __processTests($tests, $header = false) {
-		$e = 0;
-
-		foreach ($tests as $key => $test) {
-			if (!$test['test']) {
-				$e++;
-				$this->errors[] = $header ? "<b>{$test['header']}</b>: {$test['msg']}" : $test['msg'];
-			}
-		}
-
-		return ($e == 0);
-	}
-
 /**
  * Get a list of methods for the spcified controller class.
  *
  * @param string $path Full path to the Controller class .php file
- * @param mixed $includeBefore (Optional) Indicate classes to load (include) before Controller class, use this to load
- *							 classes which the Controller depends.
- *							  - Array list of full paths for classes to include before Controller class is loaded.
- *							  - String value to load a single class file before Controller class is loaded.
- *							  - FALSE for load nothing.
+ * @param mixed $includeBefore
+ *	Optional classes to load (include) before Controller class,
+ *	use this to load classes which the Controller depends.
+ *		- Array list of full paths for classes to include before Controller class is loaded.
+ *		- String value to load a single class file before Controller class is loaded.
+ *		- FALSE for load nothing.
  * @return array List of all controller's method names
- * @see Installer::buildAcos()
+ * @see InstallerComponent::buildAcos()
  */
 	private function __getControllerMethods($path, $includeBefore = false) {
 		$methods = array();
@@ -1707,7 +1747,8 @@ class InstallerComponent extends Component {
 	}
 
 /**
- * Regenerate cache of:
+ * Regenerate caches:
+ *
  *  - Modules
  *  - Variables
  *  - Hook-Objects mapping
