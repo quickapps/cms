@@ -933,21 +933,20 @@ class LayoutHelper extends AppHelper {
 
 /**
  * Render single block.
- * By default the following CSS classes may be applied
- * to the block wrapper DIV element:
- *  - `qa-block`: always applied.
- *  - `qa-block-first`: only to the first element of the region.
- *  - `qa-block-last`: only to the last element of the region.
- *  - `qa-block-unique`: to the block number 1/1 of the region
- *						(first & last at the same time).
+ * By default the following CSS classes may be applied to the block wrapper DIV element:
+ *  -	`qa-block`: always applied.
+ *  -	`qa-block-first`: only to the first element of the region.
+ *  -	`qa-block-last`: only to the last element of the region.
+ *  -	`qa-block-unique`: to the block number 1/1 of the region, in other words,
+ *		the first & last at the same time.
  *
  * @param array $block Well formated block array.
  * @param array $options Array of options:
- *  - boolean title: Render title. default true.
- *  - boolean body: Render body. default true.
- *  - string region: Region where block belongs to.
- *  - array params: extra options used by block.
- *  - array class: list of extra CSS classes for block wrapper.
+ *	- boolean title: Render title. default true.
+ *	- boolean body: Render body. default true.
+ *	- string region: Region where block belongs to.
+ *	- array params: extra options used by block.
+ *	- array class: list of extra CSS classes for block wrapper.
  * @return string Html
  */
 	public function block($block, $options = array()) {
@@ -1098,9 +1097,9 @@ class LayoutHelper extends AppHelper {
 			/**
 			 * Check visibility
 			 *
-			 * 0 = Show on all pages except listed pages
-			 * 1 = Show only on listed pages
-			 * 2 = Use custom PHP code to determine visibility
+			 * - 0: Show on all pages except listed pages
+			 * - 1: Show only on listed pages
+			 * - 2: Use custom PHP code to determine visibility
 			 */
 			switch ($block['Block']['visibility']) {
 				case 0:

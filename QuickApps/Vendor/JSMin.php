@@ -36,7 +36,7 @@
  * SOFTWARE.
  * --
  *
- * @package		QuickApps.Vendor.JSMin
+ * @package		QuickApps.Vendor
  * @author		Ryan Grove <ryan@wonko.com>
  * @copyright	2002 Douglas Crockford <douglas@crockford.com> (jsmin.c)
  * @copyright	2008 Ryan Grove <ryan@wonko.com> (PHP port)
@@ -373,6 +373,6 @@ class JSMin {
 /**
  * JSMinException Class.
  *
- * @package QuickApps.Vendor.JSMin
+ * @package QuickApps.Vendor
  */
 class JSMinException extends Exception {}
