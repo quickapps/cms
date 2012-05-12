@@ -12,7 +12,7 @@
 class ManageController extends MenuAppController {
 	public $name = 'Manage';
 	public $uses = array('Menu.Menu');
-	public $helpers = array('Menu.Tree');
+	public $helpers = array('Menu');
 
 	public function admin_index() {
 		$this->Menu->recursive = -1;
@@ -185,7 +185,6 @@ class ManageController extends MenuAppController {
 		$this->title(__t('Editing Link'));
 	}
 
-	// edit order menu links list
 	public function admin_links($menu_id) {
 		$this->Menu->recursive = -1;
 
@@ -216,10 +215,9 @@ class ManageController extends MenuAppController {
 			die('ok');
 		}
 
-		$links = $this->MenuLink->find('all',
+		$links = $this->MenuLink->find('threaded',
 			array(
-				'conditions' => array('MenuLink.menu_id' => $menu_id),
-				'order' => 'lft ASC'
+				'conditions' => array('MenuLink.menu_id' => $menu_id)
 			)
 		);
 

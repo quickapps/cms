@@ -4,7 +4,17 @@
 <?php $this->Layout->script('/system/js/json.js'); ?>
 
 <div id="menu-sortContainer">
-	<?php echo $this->Tree->generate($links, array('class' => 'sortable', 'plugin' => 'menu', 'element' => 'menu_link_node', 'id' => 'menuLinks', 'model' => 'MenuLink', 'alias' => 'link_title')); ?>
+	<?php
+		echo $this->Menu->generate($links,
+			array(
+				'class' => 'sortable',
+				'id' => 'menuLinks',
+				'element' => 'Menu.menu_link_node',
+				'model' => 'MenuLink',
+				'force' => true
+			)
+		);
+	?>
 </div>
 
 <?php echo $this->Form->submit(__t('Save changes'), array('id' => 'saveChanges')); ?>
