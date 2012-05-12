@@ -1060,8 +1060,7 @@ class InstallerComponent extends Component {
 
 			if ($acoExists && in_array($alias, $_controllersNames)) {
 				$controller = Hash::extract($_controllers, "{n}.Aco[alias={$alias}]");
-				$controller = $controller[0];
-				$_methods = $this->Controller->Acl->Aco->children($controller['Aco']['id'], true);
+				$_methods = $this->Controller->Acl->Aco->children($controller[0]['id'], true);
 
 				// delete removed methods
 				foreach ($_methods as $m) {
@@ -1070,7 +1069,7 @@ class InstallerComponent extends Component {
 					}
 				}
 
-				$_methods = Hash::extract('{n}.Aco.alias', $_methods);
+				$_methods = Hash::extract((array)$_methods, '{n}.Aco.alias');
 
 				// add new methods
 				foreach ($methods as $m) {
@@ -1078,7 +1077,7 @@ class InstallerComponent extends Component {
 						$this->Controller->Acl->Aco->create();
 						$this->Controller->Acl->Aco->save(
 							array(
-								'parent_id' => $controller['Aco']['id'],
+								'parent_id' => $controller[0]['id'],
 								'alias' => $m
 							)
 						);
