@@ -46,6 +46,7 @@ class MenuHelper extends AppHelper {
 		'activeClass' => 'selected',
 		'firstClass' => 'first-item',
 		'lastClass' => 'last-item',
+		'force' => false,
 		'childrenClass' => 'hasChildren',
 		'evenOdd' => false,
 		'itemFormat' => '<li %s>%s</li>',
@@ -71,41 +72,43 @@ class MenuHelper extends AppHelper {
 /**
  * Tree menu generation method.
  *
- * Accepts the results of `find('threaded')`.
+ * It accepts only results of `Model::find('threaded')`.
  *
  * ## Settings:
- *  - `model`: Name of the model (key) to look for in the data array. (default - 'MenuLink')
- *  - `id`: Optional string for the id attribute of top level tag. (default - none)
- *  - `class`: Optional string of CSS classes for top level tag. (default - none)
- *  - `partialMatch`: Normally url matching are strict.
- *	  e.g.: Suppose you are in /items/details and your menu contains an entry for `/item` then by
- *	  default it'll not set active. But if you set `partialMatch` to true then it'll set active. (default - false)
- *  - `activeClass`: Classname for the selected/current item. (default - 'selected')
- *  - `firstClass`: Classname for the first item. (default - 'first-item')
- *  - `lastClass`: Classname for the first item. (default - 'last-item')
- *  - `childrenClass`: Classname for an item containing sub menu. (default - 'hasChildren')
- *  - `evenOdd`: If it is set to true then even/odd classname will be provided with each item. (default - false)
- *  - `itemFormat`: If you want to use other tag than li for menu items. (default - '<li %s>%s</li>')
- *	  Array-path-patterns are allowed. e.g.: The pattern `{title}` will be replaced by `$item['title']`.
- *  - `itemAttributes`: Mixed array list of html attributes for the item tag. (default - none)
- *	  It accept: associative array, plain array or mixed structure.
- *	  e.g.: array('id' => 'item-id', 'class' => 'item-class', 'rare-attr="attr-value"')
- *  - `wrapperFormat`: if you want to use other tag than ul for menu items container. (default - '<ul %s>%s</ul>')
- *	  Array-path-patterns are allowed.
- *  - `wrapperAttributes`: Mixed array list of html attributes for the top level tag. Same as `itemAttributes` (default - none)
- *  - `element`: Path to an element to render to get node contents, Plugin-Dot-Syntax allowed.
- *	  e.g.: 'MyPlugin.node_element'. (default - false)
- *  - `callback`: Callback to use to get node contents.
- *	  e.g. array(&$anObject, 'methodName') or 'floatingMethod'. (default - false)
- *  - `urlPath`: The array key where to get the `url` parameter. It can be a single value as string, or
- *	  a list of possible keys to try.
- *	  e.g.: `array('url', 'link_url')` will try to get the URL from `$item['title']` or `$item['link_url']`
- *	  if first fail.
- *  - `titlePath`: The array key where to get the `title` parameter. Work same as `urlPath`.
- *  - `descriptionPath`: The array key where to get the `description` parameter. Work same as `urlPath`.
- *	  This value is used as `title` attrbute for the <a> tag. e.g.: `<a href="" title="DESCRIPTION">...`
- *  - `__pos__`: Used internally when running recursively.
- *  - `__depth__`: Used internally when running recursively.
+ *	-	`model`: Name of the model (key) to look for in the data array. (default - 'MenuLink')
+ *	-	`id`: Optional string for the id attribute of top level tag. (default - none)
+ *	-	`class`: Optional string of CSS classes for top level tag. (default - none)
+ *	-	`partialMatch`: Normally url matching are strict.
+ *		e.g.: Suppose you are in /items/details and your menu contains an entry for `/item` then by
+ *	  	default it'll not set active. But if you set `partialMatch` to true then it'll set active. (default - false)
+ *	-	`activeClass`: Classname for the selected/current item. (default - 'selected')
+ *	-	`firstClass`: Classname for the first item. (default - 'first-item')
+ *	-	`lastClass`: Classname for the first item. (default - 'last-item')
+ *	-	`lastClass`: Classname for the first item. (default - 'last-item')
+ *	-	`force`: Forced rendering. Items with `status` = 0 will be rendered, as well childs of parents with `expanded` = false.
+ *		It basically ignores both `status` and `expanded` attributes for each item.
+ *	-	`childrenClass`: Classname for an item containing sub menu. (default - 'hasChildren')
+ *	-	`evenOdd`: If it is set to true then even/odd classname will be provided with each item. (default - false)
+ *	-	`itemFormat`: If you want to use other tag than li for menu items. (default - '<li %s>%s</li>')
+ *		Array-path-patterns are allowed. e.g.: The pattern `{title}` will be replaced by `$item['title']`.
+ *	-	`itemAttributes`: Mixed array list of html attributes for the item tag. (default - none)
+ *		It accept: associative array, plain array or mixed structure.
+ *		e.g.: array('id' => 'item-id', 'class' => 'item-class', 'rare-attr="attr-value"')
+ *	-	`wrapperFormat`: if you want to use other tag than ul for menu items container. (default - '<ul %s>%s</ul>')
+ *		Array-path-patterns are allowed.
+ *	-	`wrapperAttributes`: Mixed array list of html attributes for the top level tag. Same as `itemAttributes` (default - none)
+ *	-	`element`: Path to an element to render to get node contents, Plugin-Dot-Syntax allowed.
+ *		e.g.: 'MyModule.node_element'. (default - false)
+ *	-	`callback`: Callback to use to get node contents.
+ *		e.g. array(&$anObject, 'methodName') or 'floatingMethod'. (default - false)
+ *	-	`urlPath`: The array key where to get the `url` parameter. It can be a single value as string, or
+ *		a list of possible keys to try.
+ *		e.g.: `array('url', 'link_url')` will try to get the URL from `$item['title']` or `$item['link_url']` if first fail.
+ *	-	`titlePath`: The array key where to get the `title` parameter. Work same as `urlPath`.
+ *	-	`descriptionPath`: The array key where to get the `description` parameter. Work same as `urlPath`.
+ *		This value is used as `title` attrbute for the <a> tag. e.g.: `<a href="" title="DESCRIPTION">...`
+ *	-	`__pos__`: Used internally when running recursively. Should never be modified.
+ *	-	`__depth__`: Used internally when running recursively. Should never be modified.
  *
  * @param array $data data to loop on
  * @param array $settings
@@ -206,7 +209,7 @@ class MenuHelper extends AppHelper {
 			$item = array_merge($this->__itemDefaults, $item);
 		}
 
-		if (!$item['status']) {
+		if (!$item['status'] && !$this->settings['force']) {
 			return '';
 		}
 
@@ -238,7 +241,10 @@ class MenuHelper extends AppHelper {
 			}
 		}
 
-		if (!empty($item['children']) && $item['expanded']) {
+		if (
+			(!empty($item['children']) && $item['expanded']) ||
+			(!empty($item['children']) && $this->settings['force'])
+		) {
 			$depth = $this->settings['__depth__'];
 			$this->settings['__depth__']++;
 			$children = $this->generate($item['children'], $this->settings);
