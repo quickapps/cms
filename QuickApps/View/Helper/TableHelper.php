@@ -258,7 +258,7 @@ class TableHelper extends AppHelper {
 		preg_match_all('/\{img(.*?)\}(.+)\{\/img\}/i', $value, $img);
 		if (isset($img[1]) && !empty($img[1])) {
 			foreach ($img[0] as $i => $m) {
-				$opts = isset($img[1][$i]) ? $this->__parseAtts(trim($img[1][$i])) : array();
+				$opts = isset($img[1][$i]) ? QuickApps::parseHooktagAttributes(trim($img[1][$i])) : array();
 				$opts = empty($opts) ? array(): $opts;
 				$value = str_replace($m, $this->Html->image($img[2][$i], $opts), $value);
 			}
@@ -268,7 +268,7 @@ class TableHelper extends AppHelper {
 		preg_match_all('/\{link(.*?)\}(.*)\|(.*)\{\/link\}/i', $value, $link);
 		if (isset($link[1]) && !empty($link[1])) {
 			foreach ($link[0] as $i => $m) {
-				$opts = isset($link[1][$i]) ? $this->__parseAtts(trim($link[1][$i])) : array();
+				$opts = isset($link[1][$i]) ? QuickApps::parseHooktagAttributes(trim($link[1][$i])) : array();
 				$opts = empty($opts) ? array(): $opts;
 
 				if (isset($opts['escape'])) {
@@ -304,38 +304,6 @@ class TableHelper extends AppHelper {
 		}
 
 		return $value;
-	}
-
-/**
- * Parse tag attributes.
- *
- * @param string $text Tag string to parse
- * @return array Array of attributes
- */
-	private function __parseAtts($text) {
-		$atts = array();
-		$pattern = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
-		$text = preg_replace("/[\x{00a0}\x{200b}]+/u", " ", $text);
-
-		if (preg_match_all($pattern, $text, $match, PREG_SET_ORDER)) {
-			foreach ($match as $m) {
-				if (!empty($m[1])) {
-					$atts[strtolower($m[1])] = stripcslashes($m[2]);
-				} elseif (!empty($m[3])) {
-					$atts[strtolower($m[3])] = stripcslashes($m[4]);
-				} elseif (!empty($m[5])) {
-					$atts[strtolower($m[5])] = stripcslashes($m[6]);
-				} elseif (isset($m[7]) and strlen($m[7])) {
-					$atts[] = stripcslashes($m[7]);
-				} elseif (isset($m[8])) {
-					$atts[] = stripcslashes($m[8]);
-				}
-			}
-		} else {
-			$atts = ltrim($text);
-		}
-
-		return $atts;
 	}
 
 /**

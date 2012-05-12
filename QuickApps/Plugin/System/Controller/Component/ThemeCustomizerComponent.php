@@ -22,6 +22,11 @@ class ThemeCustomizerComponent extends Component {
 		$this->Controller = $Controller;
 	}
 
+/**
+ * Generates a customized version of CSS file based on user choices submitted via POST.
+ *
+ * @return boolean TRUE on success, FALSE otherwise
+ */
 	public function savePost() {
 		if (!isset($this->Controller->data['ThemeCustomizer'])) {
 			return false;
@@ -51,7 +56,7 @@ class ThemeCustomizerComponent extends Component {
 							foreach ($matches[0] as $i => $match) {
 								if (isset($values[$i]) && isset($matches[6][$i])) {
 									$map[$match] = $values[$i];
-									$attrs = $this->__parseAtts($matches[3][$i]);
+									$attrs = QuickApps::parseHooktagAttributes($matches[3][$i]);
 									$new = str_replace($matches[6][$i], $values[$i], $match);
 									$cssContent = str_replace($match, $new, $cssContent);
 
@@ -73,30 +78,4 @@ class ThemeCustomizerComponent extends Component {
 			}
 		}
 	}
-
-	private function __parseAtts($text) {
-		$atts = array();
-		$pattern = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
-		$text = preg_replace("/[\x{00a0}\x{200b}]+/u", " ", $text);
-
-		if (preg_match_all($pattern, $text, $match, PREG_SET_ORDER)) {
-			foreach ($match as $m) {
-				if (!empty($m[1])) {
-					$atts[strtolower($m[1])] = stripcslashes($m[2]);
-				} elseif (!empty($m[3])) {
-					$atts[strtolower($m[3])] = stripcslashes($m[4]);
-				} elseif (!empty($m[5])) {
-					$atts[strtolower($m[5])] = stripcslashes($m[6]);
-				} elseif (isset($m[7]) and strlen($m[7])) {
-					$atts[] = stripcslashes($m[7]);
-				} elseif (isset($m[8])) {
-					$atts[] = stripcslashes($m[8]);
-				}
-			}
-		} else {
-			$atts = ltrim($text);
-		}
-
-		return $atts;
-	}	
 }

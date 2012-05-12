@@ -14,9 +14,9 @@ class JqueryUIHelper extends AppHelper {
  * Loads in stack all the specified Jquery UI JS files.
  *
  * @return mixed
- *  TRUE if `all` was included.
- *  FALSE if no files were included because they are already included or were not found.
- *  String HTML <script> tags on success.
+ *	TRUE if `all` was included.
+ *	FALSE if no files were included because they are already included or were not found.
+ *	String HTML <script> tags on success.
  * @see JqueryUI::add()
  */
 	public function add() {
@@ -29,11 +29,11 @@ class JqueryUIHelper extends AppHelper {
  * Loads in stack the CSS styles for the specified Jquery UI theme.
  * Plugin-Dot-Syntax allowed.
  *
- * @param mixed $theme String name of the theme to load (Plugin-dot-syntax allowed)
+ * @param mixed $theme String name of the theme to load
  * @return mixed
- *  TRUE if theme has been already included.
- *  FALSE theme was not found.
- *  String HTML <style> tags on success.
+ *	TRUE if theme has been already included.
+ *	FALSE theme was not found.
+ *	String HTML <style> tags on success.
  * @see JqueryUI::theme()
  */
 	public function theme($theme = false) {

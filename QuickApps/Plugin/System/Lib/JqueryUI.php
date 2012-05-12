@@ -74,9 +74,9 @@ class JqueryUI {
  * The above will load both `blind` & `fade` effects.
  *
  * @return mixed
- *  TRUE if `all` was included.
- *  FALSE if no files were included because they are already included or were not found.
- *  String HTML <script> tags on success.
+ *	TRUE if `all` was included.
+ *	FALSE if no files were included because they are already included or were not found.
+ *	String HTML <script> tags on success.
  * @see JqueryUI::$__presets 
  */
 	public static function add($files = array(), &$stack) {
@@ -201,9 +201,9 @@ class JqueryUI {
  *
  * @param mixed $theme String name of the theme to load (Plugin-dot-syntax allowed)
  * @return mixed
- *  TRUE if theme has been already included.
- *  FALSE theme was not found.
- *  String HTML <style> tags on success.
+ *	TRUE if theme has been already included.
+ *	FALSE theme was not found.
+ *	String HTML <style> tags on success.
  */
 	public static function theme($theme = false, &$stack) {
 		if (!$theme) {

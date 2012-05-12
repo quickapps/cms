@@ -165,6 +165,64 @@ class QuickApps {
 	}
 
 /**
+ * Returns roles IDs to which user belongs to.
+ *
+ * @return array List of user's roles
+ */
+	public static function userRoles() {
+		$roles = array();
+
+		if (!self::__userIsLogged()) {
+			$roles[] = 3;
+		} else {
+			$roles = CakeSession::read('Auth.User.role_id');
+		}
+
+		return $roles;
+	}
+
+/**
+ * Returns current theme's machine name (CamelCased).
+ *
+ * @return string Theme name in CamelCase
+ */
+	public static function themeName() {
+		return Configure::read('Theme.info.folder');
+	}
+
+/**
+ * Parse hooktags attributes.
+ *
+ * @param string $text Tag string to parse
+ * @return array List of attributes
+ */
+	public static function parseHooktagAttributes($text) {
+		$atts = array();
+		$pattern = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
+		$text = preg_replace("/[\x{00a0}\x{200b}]+/u", " ", $text);
+
+		if (preg_match_all($pattern, $text, $match, PREG_SET_ORDER)) {
+			foreach ($match as $m) {
+				if (!empty($m[1])) {
+					$atts[strtolower($m[1])] = stripcslashes($m[2]);
+				} elseif (!empty($m[3])) {
+					$atts[strtolower($m[3])] = stripcslashes($m[4]);
+				} elseif (!empty($m[5])) {
+					$atts[strtolower($m[5])] = stripcslashes($m[6]);
+				} elseif (isset($m[7]) and strlen($m[7])) {
+					$atts[] = stripcslashes($m[7]);
+				} elseif (isset($m[8])) {
+					$atts[] = stripcslashes($m[8]);
+				}
+			}
+		} else {
+			$atts = ltrim($text);
+		}
+
+		return $atts;
+	}
+
+/**
  * Translation function, domain search order:
  * 1- Current plugin
  * 2- Default
@@ -252,32 +310,6 @@ class QuickApps {
 		}
 
 		return vsprintf($translated, $args);
-	}
-
-/**
- * Returns roles IDs to which user belongs to.
- *
- * @return array List of user's roles
- */
-	public static function userRoles() {
-		$roles = array();
-
-		if (!self::__userIsLogged()) {
-			$roles[] = 3;
-		} else {
-			$roles = CakeSession::read('Auth.User.role_id');
-		}
-
-		return $roles;
-	}
-
-/**
- * Returns current theme's machine name (CamelCased).
- *
- * @return string Theme name in CamelCase
- */
-	public static function themeName() {
-		return Configure::read('Theme.info.folder');
 	}
 
 /**
