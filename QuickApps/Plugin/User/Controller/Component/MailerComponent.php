@@ -21,20 +21,19 @@ class MailerComponent extends Component {
 	}
 
 /**
- * Send email notification to user.
- * It can send a preset message by indicating the preset type,
- * or send custom message by giving an associtive array with
- * body and subject of the message.
+ * Send email notification to user. It can send a preset message by indicating the preset type,
+ * or send custom message by giving an associtive array with body and subject of the message.
  *
- * @param mixed $user_id Integer ID of the user to send the message.
- *					   Or User array information result of Model::find().
+ * @param mixed $user_id
+ *	Integer ID of the user to send the message.
+ *	Or User array information result of Model::find().
  * @param mixed $type
- *  It may be a string or integer indicating one of the preset messages:
- *  - `blocked` (0): Message notifying that the account has been BLOCKED.
- *  - `activation` (1): Message notifying that account has been UNBLOCKED.
- *  - `canceled` (2): Message notifying that account has been DELETED.
- *  - `password_recovery` (3): Message notifying PASSWORD RECOVERY proccess.
- *  - `welcome` (4): WELCOME message, after user registration but before activation.
+ *	It may be a string or integer indicating one of the preset messages:
+ *	- `blocked` (0): Message notifying that the account has been BLOCKED.
+ *	- `activation` (1): Message notifying that account has been UNBLOCKED.
+ *	- `canceled` (2): Message notifying that account has been DELETED.
+ *	- `password_recovery` (3): Message notifying PASSWORD RECOVERY proccess.
+ *	- `welcome` (4): WELCOME message, after user registration but before activation.
  *
  * Or an associative array with keys `body` and `subject`
  *
@@ -45,14 +44,15 @@ class MailerComponent extends Component {
  *        'params' => array('param1' => 'value', ...)
  *    )
  *
- * Optionally you can indicate a layout to use to enclose email body,
- * as well a list of parameters to be passed to it.
+ * Optionally you can indicate a layout to use to enclose email body, as well a list of parameters
+ * to be passed to it.
  *
- * If you want to send email using layouts in a plugin you can use the familiar plugin syntax.
+ * If you want to send email using layouts in a plugin you can use the familiar plugin syntax.  
  * e.g.: `User.email_message` This would use layout from the `User` module.
  *
- * @return boolean TRUE on send success. FALSE otherwise.
- *				 All error messages are stored in self::$errors.
+ * @return boolean
+ *	TRUE on send success. FALSE otherwise.
+ *	All error messages are stored in self::$errors.
  */
 	public function send($user_id, $type) {
 		$user = is_numeric($user_id) ? ClassRegistry::init('User.User')->findById($user_id) : $user_id;
@@ -135,7 +135,7 @@ class MailerComponent extends Component {
 /**
  * Get all email template messages from DB.
  *
- * @return array Associative array `email_variable_name => text`
+ * @return array Associative array `email_variable_name` => `text`
  */
 	public function mailVariables() {
 		$v = array();
@@ -155,7 +155,7 @@ class MailerComponent extends Component {
 	}
 
 /**
- * Find and replace User's special tags for the given string.
+ * Find and replace User's special tags in the given string.
  *
  * @param array $user User's associative Array Model::find() structure
  * @param string $text Text where to find and replace

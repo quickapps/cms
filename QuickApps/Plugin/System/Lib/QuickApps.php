@@ -114,7 +114,7 @@ class QuickApps {
 	}
 
 /**
- * Add a new detector to the list of detectors.
+ * Add a new detector to the list of detectors.  
  * All detector callbacks are grouped by category, this allows to group all
  * detectors by module name and avoid collisions between each other.
  *
@@ -154,7 +154,7 @@ class QuickApps {
  *
  *    QuickApps::detectorDefined('group_name.detector');
  *
- * @param string $detector Detector name and group in dot syntax.
+ * @param string $detector Detector name and group in dot syntax
  * @return boolean
  */ 
 	public static function detectorDefined($detector) {
@@ -174,8 +174,8 @@ class QuickApps {
  * domains above, then it gets marked as `fuzzy`.
  * To manage all `fuzzy` entries go to: `/admin/locale/translations/fuzzy_list`
  *
- * @param string $singular String to translate.
- * @return string The translated string.
+ * @param string $singular String to translate
+ * @return string The translated string
  */
 	public static function __t($singular = false, $args = null) {
 		if (!$singular) {
@@ -257,7 +257,7 @@ class QuickApps {
 /**
  * Returns roles IDs to which user belongs to.
  *
- * @return array List of user's roles.
+ * @return array List of user's roles
  */
 	public static function userRoles() {
 		$roles = array();
@@ -281,10 +281,10 @@ class QuickApps {
 	}
 
 /**
- * Return only the methods for the indicated object.
+ * Return only the methods for the indicated object.  
  * It will strip out inherited methods.
  *
- * @return array List of methods.
+ * @return array List of methods
  */
 	public static function get_this_class_methods($class) {
 		$methods = array();
@@ -331,8 +331,8 @@ class QuickApps {
  * Strip language prefix from the given URL.
  * e.g.: `http://site.com/eng/some-url` becomes `http://site.com/some-url`
  *
- * @param string $url URL to replace.
- * @return string URL with no language prefix.
+ * @param string $url URL to replace
+ * @return string URL with no language prefix
  */
 	public static function strip_language_prefix($url) {
 		$url = preg_replace('/\/[a-z]{3}\//', '/', $url);
@@ -343,9 +343,9 @@ class QuickApps {
 /**
  * Replace the first ocurrence only.
  *
- * @param string $str_pattern What to find for.
- * @param string $str_replacement The replacement for $str_pattern.
- * @param string $string The original to find and replace.
+ * @param string $str_pattern What to find for
+ * @param string $str_replacement The replacement for $str_pattern
+ * @param string $string The original to find and replace
  * @return string
  */
 	public static function str_replace_once($str_pattern, $str_replacement, $string) {
@@ -361,9 +361,22 @@ class QuickApps {
 /**
  * Return an associative array with field(s) information.
  *
- * @param mixed $field Optional string will return only information for the specified field.
- *					   FALSE will return all fields information.
- * @return array Associative array.
+ * ### Usage
+ *
+ *    QuickApps::field_info('FieldText');
+ *
+ * The above will return an array of all information for `FieldText`.
+ * You can use both formats CamelCase or under_scored.  
+ * e.g.: `FieldText` or `field_text` are valid inputs.
+ *
+ *    QuickApps::field();
+ *
+ * This will return a list of fields and its information.
+ *
+ * @param mixed $field
+ *	Field name as string will return information these field only,
+ *	FALSE will return all fields information. (default false)
+ * @return array Associative array
  */
 	public static function field_info($field = false) {
 		if (!isset(self::$__tmp['field_modules'])) {
@@ -398,10 +411,10 @@ class QuickApps {
 	}
 
 /**
- * Check if the given module name belongs to QA's Core.
+ * Check if the given module name belongs to QuickApps CMS core.
  *
- * @param string $module Module name to check.
- * @return boolean TRUE if module is a core module, FALSE otherwise.
+ * @param string $module Module name to check
+ * @return boolean TRUE if module is a core module, FALSE otherwise
  */
 	private static function __moduleIsCore($module) {
 		$module = Inflector::camelize($module);
@@ -418,10 +431,10 @@ class QuickApps {
 	}
 
 /**
- * Check if the given `plugin` name is a QA Field.
+ * Check if the given module name is a Field handler.
  *
- * @param string $module Module name to check.
- * @return boolean TRUE if module is a field, FALSE otherwise.
+ * @param string $module Module name to check
+ * @return boolean TRUE if module is a field, FALSE otherwise
  */
 	private static function __moduleIsField($module) {
 		$module = Inflector::camelize($module);
@@ -438,10 +451,10 @@ class QuickApps {
 	}
 
 /**
- * Check if the given module name belongs to some theme.
+ * Check if the given module name is a theme-associated-module.
  *
- * @param string $module Module name to check.
- * @return boolean TRUE if module is a field, FALSE otherwise.
+ * @param string $module Module name to check
+ * @return boolean TRUE if module is a field, FALSE otherwise
  */
 	private static function __moduleIsTheme($module) {
 		$module = Inflector::camelize($module);
@@ -458,10 +471,10 @@ class QuickApps {
 	}
 
 /**
- * Check if the given theme name belongs to QA Core installation.
+ * Check if the given theme name is a QuickApps CMS core-theme.
  *
- * @param string $theme Theme name to check.
- * @return boolean TRUE if theme is a core theme, FALSE otherwise.
+ * @param string $theme Theme name to check
+ * @return boolean TRUE if theme is a core theme, FALSE otherwise
  */
 	private static function __themeIsCore($theme) {
 		$theme = Inflector::camelize($theme);
@@ -479,10 +492,10 @@ class QuickApps {
 	}
 
 /**
- * Check if the given theme name is a backend theme.
+ * Check if the given theme name is a backend theme.  
  * If no theme name is given current theme is checked.
  *
- * @param string $theme Optional theme name to check
+ * @param string $theme Optional theme name to check, FALSE will check actual theme. (defaul false)
  * @return boolean
  */
 	private static function __themeIsAdmin($theme = false) {
@@ -500,7 +513,7 @@ class QuickApps {
 	}
 
 /**
- * Checks if current view site's front page.
+ * Checks if current view is site's front page.
  *
  * @return boolean
  */
@@ -530,7 +543,7 @@ class QuickApps {
 	}
 
 /**
- * Checks if current view is a `backend` view.
+ * Checks if current view IS a backend view.
  *
  * @return boolean
  */
@@ -541,7 +554,7 @@ class QuickApps {
 	}
 
 /**
- * Checks if current view is not a `backend` view.
+ * Checks if current view IS NOT a backend view.
  *
  * @return boolean
  */
@@ -550,18 +563,17 @@ class QuickApps {
 	}
 
 /**
- * Checks if current view is a `backend` view.
  * Alias for QuickApps::is('view.admin').
  *
  * @return boolean
+ * @see QuickApps::__viewIsAdmin()
  */
 	private static function __viewIsBackend() {
 		return self::__viewIsAdmin();
 	}
 
 /**
- * Checks if current view is a `backend` view.
- * Alias for QuickApps::is('view.admin').
+ * Checks if current view is search result.  
  *
  * @return boolean
  */
@@ -569,15 +581,15 @@ class QuickApps {
 		$params = Router::getParams();
 
 		return (
-			$params['plugin'] == 'node' &&
+			strtolower($params['plugin']) == 'node' &&
 			$params['controller'] == 'node' &&
 			$params['action'] == 'search'
 		);
 	}
 
 /**
- * Checks if current view is a `backend` view.
- * Alias for QuickApps::is('view.admin').
+ * Checks if current view is a search result feed.  
+ * Feed may be an RSS, Ajax or XML result.
  *
  * @return boolean
  */
@@ -588,13 +600,12 @@ class QuickApps {
 			$params['plugin'] == 'node' &&
 			$params['controller'] == 'node' &&
 			$params['action'] == 'search' &&
-			isset($params['pass'][1])
+			isset($params['named']['feed'])
 		);
 	}
 
 /**
- * Checks if current view is a `backend` view.
- * Alias for QuickApps::is('view.admin').
+ * Checks if current view is a node details page.  
  *
  * @return boolean
  */
@@ -609,7 +620,7 @@ class QuickApps {
 	}
 
 /**
- * Checks if current view is a user's profile view.
+ * Checks if current view is an user's profile view.  
  *
  * @return boolean
  */
@@ -624,7 +635,7 @@ class QuickApps {
 	}
 
 /**
- * Checks if current view is a user's "my account" view.
+ * Checks if current view is an user's "my account" view.
  *
  * @return boolean
  */
@@ -657,10 +668,10 @@ class QuickApps {
 	}
 
 /**
- * Checks if user is allowed to access the specified ACO.
+ * Checks if user is allowed to access the specified ACO.  
  * ACO path syntax: `Module.Controller.action`
  *
- * @param string $acoPath DotSyntax path to aco. e.g.: `Block.Manage.admin_index`
+ * @param string $acoPath Dot-Syntax path to aco. e.g.: `Block.Manage.admin_index`
  * @return boolean
  */
 	private static function __userIsAuthorized($acoPath) {
