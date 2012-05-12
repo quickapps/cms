@@ -82,8 +82,7 @@ class QuickAppsComponent extends Component {
 	}
 
 /**
- * Check for maintenance status,
- * 'Site Offline' screen is rendered if site is offline.
+ * Check for maintenance status, 'Site Offline' screen is rendered if site is offline.
  *
  * @return void
  */
@@ -184,7 +183,7 @@ class QuickAppsComponent extends Component {
 	}
 
 /**
- * Prepare blocks, metas and basic data for rendering.
+ * Prepare blocks, metas and basic information to be rendering.
  *
  * @return void
  */
@@ -249,7 +248,7 @@ class QuickAppsComponent extends Component {
 	}
 
 /**
- * Prepares the list of fields for the view.
+ * Prepares the list of fields used in current request.
  * Fields are grouped by models as below:
  *
  *    array(
@@ -518,21 +517,21 @@ class QuickAppsComponent extends Component {
 	}
 
 /**
- * Shortcut for $this->set(`title_for_layout`...).
+ * Shortcut for `$this->set(`title_for_layout`, ...)`.
  *
- * @param string $str Title for layout
+ * @param string $title Title for layout
  * @return void
  */
-	public function title($str) {
-		$this->Controller->set('title_for_layout', $str);
+	public function title($title) {
+		$this->Controller->set('title_for_layout', $title);
 	}
 
 /**
- * Shortcut for Session setFlash.
+ * Shortcut for Session setFlash().
  *
  * @param string $msg Mesagge to display
- * @param string $class Type of message: error, success, alert, bubble
- * @param string $id Message id, default is 'flash'
+ * @param string $class Type of message: 'error', 'success', 'alert', 'bubble'. (default 'success')
+ * @param string $id Message id. (default 'flash')
  * @return void
  */
 	public function flashMsg($msg, $class = 'success', $id = 'flash') {
@@ -544,9 +543,60 @@ class QuickAppsComponent extends Component {
 	}
 
 /**
- * Set crumb from url parse or add url(s) to the links list.
+ * Set crumb based on the given menu link or based on the given links list.
  *
- * @param mixed $url Array of links to push to the crumbs list. Or String url
+ * ### Basic usage
+ *
+ *    setCrumb(
+ *        array('Link title 1', '/link_1/url.html'),
+ *        array('Link title 2', '/link_2/url.html', 'dec. for title attribute'),
+ *        array('Link title 3', '', 'No url'),
+ *        ...
+ *    );
+ *
+ * The above list of links will be pushed to crumbs stack, and will produce the
+ * path below:
+ *
+ *    Link title 1 » Link title 2 » Link title 3
+ *
+ * ### Based on menu link
+ *
+ *    setCrumb('/url/of/menu/link.html');
+ *
+ * The above example will try to find if there is any link with the given url registered on
+ * ``any menu`` and will generate the corresponding path.
+ *
+ * #### Example
+ *
+ * Lets suppose the following "Main Menu" (id: main-menu):
+ *
+ *    - Home [/]
+ *    - Documentation [/page/documentation.html]
+ *        - API [/page/api.html]
+ *        - Books [/page/books.html]
+ *            - Book 1.0 [/page/book-1-0.html]
+ *            - Book 2.0 [/page/book-2-0.html]
+ *
+ * Now if you want to generate the breadcrumb for the 'Book 2.0' link you could do this:
+ *
+ *    setCrumb('/page/book-2-0.html');
+ *
+ * The above will produce the following breadcrumb:
+ *
+ *    Documentation » Books » Book 2.0
+ *
+ * ***
+ *
+ * In some cases you may have the same link on different menus. In that case the first matching link
+ * will be processed. To avoid confusions you can use a Dot-Syntax to indicate to which menu your link
+ * belongs to:
+ *
+ *    setCrumb('main-menu./page/book-2-0.html');
+ *
+ * The above will generate the path for the link `/page/book-2-0.html` that belongs to menu
+ * with and ID equals to `main-menu`.
+ *
+ * @param mixed $url List of links to push to the crumbs list. Or url as string (dot-syntax allowed)
  * @return void
  */
 	public function setCrumb($url = false) {
@@ -584,10 +634,13 @@ class QuickAppsComponent extends Component {
 				$this->Controller->viewVars['breadCrumb'][] = $push;
 			}
 
+			// done
 			return;
 		} else {
 			$url = !is_string($url) ? $this->__urlChunk() : $url;
 		}
+
+		$this->Controller->set('breadCrumb', array());
 
 		if (is_array($url)) {
 			foreach ($url as $k => $u) {
@@ -601,15 +654,21 @@ class QuickAppsComponent extends Component {
 			$url = preg_replace('/\/{2,}/', '',  "{$url}//");
 		}
 
-		$this->Controller->set('breadCrumb', array());
+		$conditions = array();
 
-		$current = $this->Controller->MenuLink->find('first',
-			array(
-				'conditions' => array(
-					'MenuLink.router_path' => (empty($url) ? '': $url)
-				)
-			)
-		);
+		if (is_string($url)) {
+			list($menuId, $linkPath) = pluginSplit($url);
+
+			if ($menuId) {
+				$conditions['MenuLink.menu_id'] = $menuId;
+			}
+
+			$conditions['MenuLink.router_path'] = $linkPath;
+		} else {
+			$conditions['MenuLink.router_path'] = empty($url) ? '' : $url;
+		}
+
+		$current = $this->Controller->MenuLink->find('first', array('conditions' => $conditions));
 
 		if (!empty($current)) {
 			$this->Controller->MenuLink->Behaviors->detach('Tree');
@@ -637,7 +696,7 @@ class QuickAppsComponent extends Component {
 /**
  * Insert custom block in stack.
  *
- * @param array $data Formatted block array
+ * @param array $data Well formatted block array
  * @param string $region Theme region where to push
  * @return boolean TRUE on sucess, FALSE otherwise
  */
