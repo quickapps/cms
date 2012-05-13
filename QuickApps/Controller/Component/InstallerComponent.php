@@ -1223,7 +1223,7 @@ class InstallerComponent extends Component {
  *    $this->Installer->menuLink(
  *        array(
  *            'link' => '/my_new_module/dashboard',
- *            description' => 'This is a link to my new awesome module',
+ *            'description' => 'This is a link to my new awesome module',
  *            'label' => 'My Awesome Module'
  *        ), 1
  *    );
@@ -1761,13 +1761,16 @@ class InstallerComponent extends Component {
 		Cache::delete('Modules');
 		Cache::delete('Variable');
 
-		// clear blocks cache
+		// clear custom styles cache
 		if ($this->options['type'] == 'theme') {
 			$theme_name = preg_replace('/^theme_/', '', Inflector::underscore($this->options['name']));
 
 			ClassRegistry::init('Block.Block')->clearCache();
 			clearCache("theme__{$theme_name}", 'persistent', '');
 		}
+
+		// clear blocks cache
+		clearCache('blocks', '', '');
 
 		// clear objects map
 		Cache::delete('hook_objects_admin_theme');
