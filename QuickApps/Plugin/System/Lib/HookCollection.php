@@ -65,7 +65,7 @@ class HookCollection {
 	}
 
 /**
- * Load all hooks of specified Module.
+ * Load all hooks of specified module.
  *
  * @param string $module Name of the module.
  * @return boolean TRUE on success. FALSE otherwise.
@@ -122,7 +122,7 @@ class HookCollection {
 	}
 
 /**
- * Unload all hooks of specified Module.
+ * Unload all hooks of specified module.
  *
  * @param string $module Name of the module
  * @return boolean TRUE on success. FALSE otherwise.
@@ -165,16 +165,16 @@ class HookCollection {
  *
  * ### Options
  *
- * - `breakOn` Set to the value or values you want the callback propagation to stop on.
- *	Can either be a scalar value, or an array of values to break on.
- *	Defaults to `false`.
+ *	-	`breakOn` Set to the value or values you want the callback propagation to stop on.
+ *		Can either be a scalar value, or an array of values to break on.
+ *		Defaults to `false`.
  *
- * - `break` Set to true to enabled breaking. When a trigger is broken, the last returned value
- *	will be returned.  If used in combination with `collectReturn` the collected results will be returned.
- *	Defaults to `false`.
+ *	-	`break` Set to true to enabled breaking. When a trigger is broken, the last returned value
+ *		will be returned.  If used in combination with `collectReturn` the collected results will be returned.
+ *		Defaults to `false`.
  *
- * - `collectReturn` Set to true to collect the return of each object into an array.
- *	This array of return values will be returned from the hook() call. Defaults to `false`.
+ *	-	`collectReturn` Set to true to collect the return of each object into an array.
+ *		This array of return values will be returned from the hook() call. Defaults to `false`.
  *
  * @param string $hook Name of the hook to call.
  * @param mixed $data Data for the triggered callback.
@@ -187,18 +187,17 @@ class HookCollection {
 
 /**
  * Chech if hook exists and is enabled.
- * Plugin-dot-syntax is allowed iif you need to check if an specific module
- * has defined a certain hook method.
+ * Plugin-dot-syntax is allowed if you need to check if an specific module has defined 
+ * certain hook method.
  *
  * Note that hooks disabled using `hookDisable()` won't be considered
- * and they will be detected as undefined/nonexistent by this method.
+ * and they will be detected as undefined/nonexistent by `hookDefined()`.
  *
  * ### Example
  *
  *    hookDefined('ModuleName.hook_to_check')
  *
- * The above will check if `ModuleName` module has
- * defined the `hook_to_check` hook method.
+ * The above will check if `ModuleName` module has defined the `hook_to_check` hook method.
  *
  * @param string $hook Name of the hook to check
  * @return boolean

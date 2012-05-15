@@ -75,8 +75,8 @@ class QuickApps {
 /**
  * Detector method. Uses the built in detection rules
  * as well as additional rules defined with QuickApps::addDetector()
- * Any detector can be called as `is($detector)`.
- * Multiple parameters can be passed to detectors.
+ * Any detector can be called as `is($detector)` and multiple parameters
+ * can be passed to detectors.
  *
  * ### Simple usage
  *

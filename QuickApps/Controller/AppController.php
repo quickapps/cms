@@ -147,9 +147,9 @@ class AppController extends Controller {
 	}
 
 /**
- * Wrapper method to QuickAppsComponent::is()
+ * Wrapper method to QuickApps::is()
  *
- * @see QuickAppsComponent::is()
+ * @see QuickApps::is()
  */
 	public function is($detect) {
 		$params = func_get_args();

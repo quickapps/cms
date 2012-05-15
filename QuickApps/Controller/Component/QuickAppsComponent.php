@@ -252,7 +252,7 @@ class QuickAppsComponent extends Component {
  * Fields are grouped by models as below:
  *
  *    array(
- *        'MyModel' => array('FieldModule1', 'FieldModule2', ...),
+ *        'MyModel' => array('FieldHandler1', 'FieldHandler2', ...),
  *        ...
  *    )
  *
@@ -543,7 +543,7 @@ class QuickAppsComponent extends Component {
 	}
 
 /**
- * Set crumb based on the given menu link or based on the given links list.
+ * Set crumb based on the given menu-link or based on the given links list.
  *
  * ### Basic usage
  *
@@ -564,7 +564,7 @@ class QuickAppsComponent extends Component {
  *    setCrumb('/url/of/menu/link.html');
  *
  * The above example will try to find if there is any link with the given url registered on
- * ``any menu`` and will generate the corresponding path.
+ * _any menu_ and will generate the corresponding path.
  *
  * #### Example
  *
@@ -803,7 +803,9 @@ class QuickAppsComponent extends Component {
  * @see QuickApps::is()
  */
 	public function is($detect, $p = null) {
-		return QuickApps::is($detect, $p);
+		$params = func_get_args();
+
+		return call_user_func_array('QuickApps::is', $params);
 	}
 
 /**
@@ -825,9 +827,29 @@ class QuickAppsComponent extends Component {
 		$this->Controller->Security->validatePost = true;
 		$this->Controller->Security->csrfCheck = true;
 	}
-
-	private function __urlChunk() {
-		$url = '/' . $this->Controller->request->url;
+/**
+ * Chunks an URL into smaller url chunks.
+ *
+ * ### Example
+ *
+ * For the URL below:
+ *
+ *    /long/url/to/something.html
+ *
+ * The following array is returned:
+ *
+ *    array(
+ *        '/long/url/to/something.html',
+ *        '/long/url/to/',
+ *        '/long/url/',
+ *        '/long/',
+ *        '/'
+ *    );
+ *
+ * @return array
+ */
+	private function __urlChunk($url = false) {
+		$url = !$url ? '/' . $this->Controller->request->url : $url;
 		$out = array($url);
 
 		if (isset($this->Controller->request->params['named'])) {
