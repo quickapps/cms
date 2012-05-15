@@ -15,7 +15,10 @@ class NodeController extends NodeAppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->QuickApps->enableSecurity();
+
+		if (!QuickApps::is('view.node_details') && !isset($this->data['Comment'])) {
+			$this->QuickApps->enableSecurity();
+		}
 	}
 
 /**
