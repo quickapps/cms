@@ -22,7 +22,7 @@ class HookCollection {
 	private $__type;
 
 /**
- * Instance of `Helper`, `Controller` or `Model`
+ * Instance of `Model`, `View` or `Controller`
  *
  * @var object
  */
@@ -54,13 +54,22 @@ class HookCollection {
 /**
  * Initializes hook objects and methods.
  *
- * @param object $object Instance of `Helper`, `Controller` or `Model`
- * @param string $type Type of hook objects to handle `Behavior`, `Helper` or `Component`
+ * @param object $object Instance of `Model`, `View` or `Controller`
  * @param return void
- */ 
-	public function __construct(&$object, $type) {
+ */
+	public function __construct(&$object) {
+		if ($object instanceof Model) {
+			$this->__type = 'Behavior';
+		} elseif ($object instanceof View) {
+			$this->__type = 'Helper';
+		} elseif ($object instanceof Controller) {
+			$this->__type = 'Component';
+		} else {
+			throw new InvalidArgumentException(__t('$object must be an instance of Model, View or Controller'));
+		}
+
 		$this->__object = $object;
-		$this->__type = Inflector::camelize($type);
+
 		$this->__loadHooks();
 	}
 
@@ -347,12 +356,12 @@ class HookCollection {
 
 			$paths = array_merge(
 				array(
-					APP . 'Controller' . DS . 'Component' . DS,	 // core components
-					APP . 'View' . DS . 'Helper' . DS,			  // core helpers
-					APP . 'Model' . DS . 'Behavior' . DS,		   // core behaviors
-					ROOT . DS . 'Hooks' . DS . 'Behavior' . DS,	 // custom MH
-					ROOT . DS . 'Hooks' . DS . 'Helper' . DS,	   // custom VH
-					ROOT . DS . 'Hooks' . DS . 'Component' . DS	 // custom CH
+					APP . 'Controller' . DS . 'Component' . DS,	// core components
+					APP . 'View' . DS . 'Helper' . DS,			// core helpers
+					APP . 'Model' . DS . 'Behavior' . DS,		// core behaviors
+					ROOT . DS . 'Hooks' . DS . 'Behavior' . DS,	// custom MH
+					ROOT . DS . 'Hooks' . DS . 'Helper' . DS,	// custom VH
+					ROOT . DS . 'Hooks' . DS . 'Component' . DS	// custom CH
 				),
 				(array)$paths
 			);
@@ -530,7 +539,7 @@ class HookCollection {
 	}
 
 /**
- * Gets and instance of the given hook class.
+ * Gets an instance of the given hook class.
  *
  * @param string $class Hook class to get
  * @return object Instance of hook object

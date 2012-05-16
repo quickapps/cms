@@ -19,7 +19,7 @@ class HookCollectionHelper extends AppHelper {
 	public $HookCollection;
 
 	public function beforeRender($viewFile) {
-		$this->HookCollection = new HookCollection($this->_View, 'Helper');
+		$this->HookCollection = new HookCollection($this->_View);
 
 		return true;
 	}

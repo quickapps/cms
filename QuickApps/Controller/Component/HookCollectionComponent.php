@@ -25,7 +25,7 @@ class HookCollectionComponent extends Component {
  * @return void
  */
 	public function initialize(Controller $Controller) {
-		$this->HookCollection = new HookCollection($Controller, 'Component');
+		$this->HookCollection = new HookCollection($Controller);
 	}
 
 /**
