@@ -1,7 +1,7 @@
 "Project-Id-Version: QuickApps CMS\n"
 "POT-Creation-Date: 2012-04-30 23:19+0000\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Christopher Castro <chris@quickapps.es>\n"
+"Last-Translator: Ricardo Negri <riconegri@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
