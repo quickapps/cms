@@ -230,10 +230,28 @@ class NodeController extends NodeAppController {
  * Search engine.
  * Process search form-POST criteria and convert it to a nice-well-formatted url query.
  * If no form-POST criteria is given then query criteria is spected.
- * Optionally it can render results as RSS feed.
+ * Optionally it can render results as formatted feed (ajax, xml or rss).
+ *
+ * ### Example
+ *
+ *    `term:jazz limit:10 order:Node.created,asc`
+ *
+ * The above criteria will return the first ten nodes tagged as ´jazz´, results are ordered ascending
+ * by creation date.
+ *
+ * ### Default expressions
+ *
+ *	-	limit (int): Limit result. e.g.: `limit:5`
+ *	-	order (string): Field to order by and direction, multiple orders must by separated by `|`.
+ *		e.g.: `Node.field,asc|Node.field2,desc`
+ *	-	term (string): terms ID separed by comma. e.g.: `term:my-term1,my-term2`
+ *	-	vocabulary (string): vocabularies ID separed by comma. e.g.: `vocabulary:voc-1,voc2`
+ *	-	promote (boolean): Set to 1 to display promoted nodes only. 0 or unset otherwise. e.g.: `promote:1`
+ *	-	language (string): Languages codes separed by comma. The wildcard `*` means any language.
+ *		e.g.: `language:eng,fre,spa` or `language:*`
+ *	-	type (string): Node type ID separated by comma. e.g.: `type:article,page`
  *
  * @param string $criteria Well formatted filter criteria. If no criteria is pass POST criteria is spected.
- * @param mixed $rss set to any value (except bool FALSE) to render all results as RSS feed layout.
  */
 	public function search($criteria = false) {
 		$scope = array();
@@ -279,6 +297,36 @@ class NodeController extends NodeAppController {
 				$limit = $limit <= 0 ? Configure::read('Variable.default_nodes_main') : $limit;
 			} else {
 				$limit = Configure::read('Variable.default_nodes_main');
+			}
+
+			if ($orders = $this->__search_expression_extract($criteria, 'order')) {
+				$criteria = str_replace("order:{$orders}", '', $criteria);
+				$orders = trim($orders);
+				$orders = explode('|', $orders);
+				$order = array();
+
+				foreach ($orders as $o) {
+					list($field, $direction) = explode(',', $o);
+					$field = trim($field);
+					$direction = strtoupper(trim($direction));
+
+					if (!empty($field)) {
+						$direction = !in_array($direction, array('ASC', 'DESC')) ? 'ASC' : $direction;
+						$order[$field] = $direction;
+					}
+				}
+
+				if (empty($order)) {
+					$order = array(
+						'Node.sticky' => 'DESC',
+						'Node.created' => 'DESC'
+					);
+				}
+			} else {
+				$order = array(
+					'Node.sticky' => 'DESC',
+					'Node.created' => 'DESC'
+				);
 			}
 
 			if ($promote = $this->__search_expression_extract($criteria, 'promote')) {
@@ -347,9 +395,9 @@ class NodeController extends NodeAppController {
 				$criteria = str_replace("language:{$language}", '', $criteria);
 				$scope['Node.language'] = explode(',', strtolower($language));
 
-				if (in_array('any', $scope['Node.language'])) {
+				if (in_array('*', $scope['Node.language'])) {
 					$scope['Node.language'][] = '';
-					unset($scope['Node.language'][array_search('any', $scope['Node.language'])]);
+					unset($scope['Node.language'][array_search('*', $scope['Node.language'])]);
 				}
 			} else {
 				$scope['Node.language'] = array(null, '', Configure::read('Variable.language.code'));
@@ -392,8 +440,8 @@ class NodeController extends NodeAppController {
 			}
 
 			// pass scoping params to modules
-			$this->hook('node_search_scope_alter', $scope);
-
+			$this->hook('node_search_criteria_alter', $d = array('scope' => $scope, 'criteria' => $criteria));
+			extract($d);
 		} elseif (isset($this->data['Search'])) {
 			// node types
 			if (isset($this->data['Search']['type']) && !empty($this->data['Search']['type'])) {
@@ -434,8 +482,10 @@ class NodeController extends NodeAppController {
 			}
 
 			$keys = Hash::filter($keys);
+
 			// pass search keys to modules
-			$this->hook('node_search_keys_alter', $keys);
+			$this->hook('node_search_post_alter', $d = array('keys' => $keys, 'post' => $this->data));
+			extract($d);
 
 			if (!empty($keys)) {
 				$keys = preg_replace('/ {2,}/', ' ',  implode(' ', $keys));
@@ -473,10 +523,7 @@ class NodeController extends NodeAppController {
 
 			$this->paginate = array(
 				'limit' => $limit,
-				'order' => array(
-					'Node.sticky' => 'DESC',
-					'Node.created' => 'DESC'
-				)
+				'order' => $order
 			);
 			$this->Layout['node'] = $this->paginate('Node', $scope);
 
@@ -528,27 +575,24 @@ class NodeController extends NodeAppController {
 	}
 
 /**
- * By: Drupal
  * Adds a search option to a search expression.
  *
  * They take the form option:value, and are added to the ordinary
  * keywords in the search expression.
  *
- * @param $expression
- *   The search expression to add to.
- * @param $option
- *   The name of the option to add to the search expression.
+ * @param $expression The search expression to add to.
+ * @param $option The name of the option to add to the search expression.
  * @param $value
- *   The value to add for the option. If present, it will replace any previous
- *   value added for the option. Cannot contain any spaces or | characters, as
- *   these are used as delimiters. If you want to add a blank value $option: to
- *   the search expression, pass in an empty string or a string that is composed
- *   of only spaces. To clear a previously-stored option without adding a
- *   replacement, pass in NULL for $value or omit.
+ *	The value to add for the option. If present, it will replace any previous
+ *	value added for the option. Cannot contain any spaces or | characters, as
+ *	these are used as delimiters. If you want to add a blank value $option: to
+ *	the search expression, pass in an empty string or a string that is composed
+ *	of only spaces. To clear a previously-stored option without adding a
+ *	replacement, pass in NULL for $value or omit.
  *
  * @return
- *   $expression, with any previous value for this option removed, and a new
- *   $option:$value pair added if $value was provided.
+ *	$expression, with any previous value for this option removed, and a new
+ *	$option:$value pair added if $value was provided.
  */
 	private function __search_expression($expression, $option, $value = null) {
 		$expression = trim(preg_replace('/(^| )' . $option . ':[^ ]*/i', '', $expression));
@@ -561,20 +605,16 @@ class NodeController extends NodeAppController {
 	}
 
 /**
- * By: Drupal
  * Extracts a search option from a search expression.
  *
  * They take the form option:value, and
  * are added to the ordinary keywords in the search expression.
  *
- * @param $expression
- *   The search expression to extract from.
- * @param $option
- *   The name of the option to retrieve from the search expression.
- *
+ * @param $expression The search expression to extract from.
+ * @param $option The name of the option to retrieve from the search expression.
  * @return
- *   The value previously stored in the search expression for option $option,
- *   if any. Trailing spaces in values will not be included.
+ *	The value previously stored in the search expression for option $option,
+ *	if any. Trailing spaces in values will not be included.
  */
 	private function __search_expression_extract($expression, $option) {
 		if (preg_match('/(^| )' . $option . ':([^ ]*)( |$)/i', $expression, $matches)) {
