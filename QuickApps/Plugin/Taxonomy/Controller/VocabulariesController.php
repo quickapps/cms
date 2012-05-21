@@ -12,7 +12,7 @@
 class VocabulariesController extends TaxonomyAppController {
 	public $name = 'Vocabularies';
 	public $uses = array('Taxonomy.Vocabulary');
-	public $helpers = array('Menu.Tree');
+	public $helpers = array('Menu');
 
 	public function admin_index() {
 		$this->setCrumb('/admin/taxonomy/');
@@ -145,7 +145,7 @@ class VocabulariesController extends TaxonomyAppController {
 			}
 		}
 
-		$results = $this->Vocabulary->Term->find('all',
+		$results = $this->Vocabulary->Term->find('threaded',
 			array(
 				'conditions' => array('Term.vocabulary_id' => $vocabulary['Vocabulary']['id']),
 				'order' => 'lft ASC'

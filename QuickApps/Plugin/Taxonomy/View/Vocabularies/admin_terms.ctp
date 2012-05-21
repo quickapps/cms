@@ -1,5 +1,3 @@
-<?php $this->Layout->css('/menu/css/sortable-menu.css'); ?>
-
 <?php echo $this->Form->create(); ?>
 	<!-- New Term -->
 	<?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Add New Term') . '</span>'); ?>
@@ -12,12 +10,23 @@
 <?php echo $this->Form->end(); ?>
 
 <?php if (!empty($results)): ?>
+	<?php $this->Layout->css('/menu/css/sortable-menu.css'); ?>
 	<?php $this->Layout->script('/menu/js/nestedSortable/jquery-ui-1.8.11.custom.min.js'); ?>
 	<?php $this->Layout->script('/menu/js/nestedSortable/jquery.ui.nestedSortable'); ?>
 	<?php $this->Layout->script('/system/js/json.js'); ?>
 
 	<div id="menu-sortContainer">
-		<?php echo $this->Tree->generate($results, array('class' => 'sortable', 'plugin' => 'taxonomy', 'element' => 'term_node', 'id' => 'termsList', 'model' => 'Term', 'alias' => 'title')); ?>
+		<?php
+			echo $this->Menu->generate($results,
+				array(
+					'id' => 'termsList',
+					'class' => 'sortable',
+					'element' => 'Taxonomy.term_node', 
+					'model' => 'Term',
+					'force' => true
+				)
+			);
+		?>
 	</div>
 
 	<?php echo $this->Form->submit(__t('Save changes'), array('id' => 'saveChanges')); ?>

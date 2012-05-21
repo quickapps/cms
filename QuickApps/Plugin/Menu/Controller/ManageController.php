@@ -193,9 +193,9 @@ class ManageController extends MenuAppController {
 		$menu = $this->Menu->findById($menu_id) or $this->redirect('/admin/menu/manage');
 
 		if (isset($this->data['MenuLink'])) {
-			$this->MenuLink->Behaviors->detach('Tree');
 			$items = json_decode($this->data['MenuLink']);
 
+			$this->MenuLink->Behaviors->detach('Tree');
 			unset($items[0]);
 
 			foreach ($items as $key => &$item) {
@@ -217,7 +217,8 @@ class ManageController extends MenuAppController {
 
 		$links = $this->MenuLink->find('threaded',
 			array(
-				'conditions' => array('MenuLink.menu_id' => $menu_id)
+				'conditions' => array('MenuLink.menu_id' => $menu_id),
+				'order' => 'lft ASC'
 			)
 		);
 
@@ -228,7 +229,6 @@ class ManageController extends MenuAppController {
 			array($menu['Menu']['title'], '/admin/menu/manage/edit/' . $menu['Menu']['id']),
 			array(__t('Editing menu links'))
 		);
-
 		$this->set('links', $links);
 
 		if (empty($links)) {

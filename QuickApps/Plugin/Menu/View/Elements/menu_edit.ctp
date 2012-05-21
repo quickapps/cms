@@ -7,8 +7,8 @@
 	<?php
 		echo $this->Menu->generate($links,
 			array(
-				'class' => 'sortable',
 				'id' => 'menuLinks',
+				'class' => 'sortable',
 				'element' => 'Menu.menu_link_node',
 				'model' => 'MenuLink',
 				'force' => true
