@@ -1007,10 +1007,26 @@ class LayoutHelper extends AppHelper {
 		} else {
 			// module block
 			// module hook must return formated array block
-			$Block = $this->hook("{$block['Block']['module']}_{$block['Block']['delta']}", $block, array('collectReturn' => false));
+			$debug = Configure::read('debug');
+
+			Configure::write('debug', 0);
+
+			$Block = $this->_View->element("{$block['Block']['module']}.block_{$block['Block']['delta']}");
+
+			Configure::write('debug', $debug);
+
+			if (!$Block) {
+				$Block = $this->hook("{$block['Block']['module']}_{$block['Block']['delta']}", $block, array('collectReturn' => false));
+			}
 
 			if (empty($Block)) {
 				return false;
+			}
+
+			if (is_string($Block)) {
+				$Block = array(
+					'body' => $Block
+				);
 			}
 
 			if (!isset($Block['params'])) {
