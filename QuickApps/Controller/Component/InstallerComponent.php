@@ -1180,6 +1180,148 @@ class InstallerComponent extends Component {
 	}
 
 /**
+ * Creates a new block and optianilly assign it to
+ * the specified theme and region.
+ *
+ * ### Block options
+ *
+ *	-	module (string) [required]: CamelCased module name which is creating the block.
+ *		default: name of the module being installed/uninstalled, "Block" otherwise.
+ *	-	delta (string) [optional]: under_scored unique ID for block within a module.
+ *		If not specfied, an auto-increment ID is automatically calculated for the given module. default: null
+ *	-	title (string) [optional]: custom title for the block. default: null
+ *	-	body (string) [optional]: block's content body, VALID ONLY WHEN `module` = "Block". default: null
+ *	-	description (string) [required]: brief description of your block, VALID ONLY WHEN `module` = "Block".
+ *		default: same as module.
+ *	-	status (int) [optional]: block enabled status. 1 for enabled or 0 disabled. default: 1
+ *	-	visibility (int) [optional]: flag to indicate how to show blocks on pages. default: 0
+ *			- 0: Show on all pages except listed pages
+ *			- 1: Show only on listed pages
+ *			- 2: Use custom PHP code to determine visibility
+ *	-	pages (string) [optional]: list of paths (one path per line) on which to include/exclude the block or PHP code
+ *		depending on "visibility" setting. default: null
+ *	-	locale (array) [optional]: list of language codes. default: none
+ *	-	settings (array) [optional]: extra information used by the block. default: none
+ *
+ * ### Usage
+ *
+ *    $block = array(
+ *        'title' => 'My block title',
+ *        'body' => 'My block content',
+ *        'module' => 'Block'
+ *    );
+ *
+ *    createBlock($block, 'ThemeName.sidebar_left');
+ *
+ * The above will create a new Custom Block, and then assigned to the `sidebar_left` region of the `ThemeName` theme.
+ *
+ *    $block = array(
+ *        'title' => 'Widget Title',
+ *        'module' => 'CustomModule',
+ *        'delta' => 'my_widget' // required!
+ *    );
+ *
+ *    createBlock($block, 'ThemeName.sidebar_left');
+ *
+ * Similar as before, but this time it will create a Widget Block. In this case the 'delta' option is require and must
+ * be unique within the `CustomModule` module.
+ *
+ * @param array $block Block information
+ * @param string $theme Optional "Theme.region" where to assign the block
+ * @return bool TRUE on success, FALSE otherwise
+ */
+	public function createBlock($block, $_theme = '') {
+		$defaultModule = isset($this->options['__appName']) ? $this->options['__appName'] : 'Block';
+		$Block = ClassRegistry::init('Block.Block');
+		$block = array_merge(
+			array(
+				'title' => null,
+				'body' => null,
+				'description' => $defaultModule,
+				'delta' => null,
+				'module' => $defaultModule,
+				'status' => 1,
+				'visibility' => 0,
+				'pages' => '',
+				'locale' => array(),
+				'settings' => array()
+			), $block
+		);
+
+		$block['module'] = Inflector::camelize($block['module']);
+
+		if (isset($block['id'])) {
+			$block['delta'] = $block['id'];
+			unset($block['id']);
+		}
+
+		if (isset($block['themes_cache'])) {
+			unset($block['themes_cache']);
+		}
+
+		if (!$block['module']) {
+			return false;
+		}
+
+		if ($block['module'] == 'Block') {
+			unset($block['delta']);
+		} else {
+			$block['delta'] = Inflector::underscore($block['delta']);
+
+			if (!$block['delta']) {
+				$max_delta = $Block->find('first',
+					array(
+						'conditions' => array('Block.module' => $block['module']),
+						'fields' => array('delta'),
+						'order' => array('delta' => 'DESC')
+					)
+				);
+				$max_delta = !empty($max_delta) ? (int)$max_delta['Block']['delta'] + 1 : 1;
+				$block['delta'] = $max_delta;
+			}
+		}
+
+		list($theme, $region) = pluginSplit($_theme);
+
+		if (!empty($_theme)) {
+			$block['themes_cache'] = $theme;
+		}
+
+		$Block->create($block);
+
+		if ($save = $Block->save()) {
+			if (!empty($_theme)) {
+				$BlockRegion = ClassRegistry::init('Block.BlockRegion');
+				$data = array(
+					'region' => $region,
+					'block_id' => $save['Block']['id'],
+					'theme' => $theme
+				);
+
+				$BlockRegion->create($data);
+				$BlockRegion->save();
+			}
+
+			if ($block['body'] && $block['module'] == 'Block') {
+				$BlockCustom = ClassRegistry::init('Block.BlockCustom');
+
+				$BlockCustom->create(
+					array(
+						'block_id' => $save['Block']['id'],
+						'body' => $block['body'],
+						'description' => $block['description']
+					)
+				);
+				$BlockCustom->save();
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+/**
  * Recursively copy `source` to `destination`
  *
  * @param string $src Path content to copy
