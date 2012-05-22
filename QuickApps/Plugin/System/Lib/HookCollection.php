@@ -251,9 +251,10 @@ class HookCollection {
 
 /**
  * Turns off hook method.
+ * Can be used to stop hook propagation.
  *
- * @param string $hook Hook name to turn off.
- * @return boolean TRUE on success. FALSE hook does not exists.
+ * @param string $hook Hook name to turn off
+ * @return boolean TRUE on success. FALSE hook does not exists
  */
 	public function hookDisable($hook) {
 		$hook = Inflector::underscore($hook);

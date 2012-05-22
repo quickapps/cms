@@ -1184,7 +1184,7 @@ class InstallerComponent extends Component {
  *
  * @param string $src Path content to copy
  * @param string $dst Destination path that $source should be copied to
- * @return bool True on success. False otherwise
+ * @return bool TRUE on success. FALSE otherwise
  */
 	public function rcopy($src, $dst) {
 		if (!$this->packageIsWritable($src, $dst)) {
