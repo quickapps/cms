@@ -25,7 +25,7 @@
 						<?php echo isset($comment['User']['username']) ? $comment['User']['username'] : $comment['Comment']['name']; ?>
 					</a>
 				</p>
-				<p class="comment-time"><span><?php echo __t('said on %s', $this->Time->format(__t('M d, Y H:i'), $comment['Comment']['created'], null, $comment_time_zone)); ?></span></p>
+				<p class="comment-time"><span><?php echo __t('said on %s', $this->Time->format(__t('M d, Y H:i'), $comment['Comment']['created'])); ?></span></p>
 				<p class="comment-permalink"><?php echo $this->Html->link(__t('Permalink'), "/{$Layout['node']['Node']['node_type_id']}/{$Layout['node']['Node']['slug']}.html#comment-{$comment['Comment']['id']}", array('id' => "comment-{$comment['Comment']['id']}", 'class' => 'permalink')); ?></p>
 			</div>
 		</div>
