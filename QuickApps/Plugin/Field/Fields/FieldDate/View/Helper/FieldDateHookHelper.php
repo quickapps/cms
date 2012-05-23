@@ -23,10 +23,55 @@ class FieldDateHookHelper extends AppHelper {
 			$this->_View->Layout->script("/field_date/js/i18n/jquery.ui.datepicker-{$settings['locale']}.js");
 		}
 
+		$time_picker = isset($settings['timepicker']) && !empty($settings['timepicker']);
+		$date_picker = isset($settings['datepicker']) && !empty($settings['datepicker']);
+
+		if ($time_picker && $date_picker) {
+			$picker = 'datetimepicker';
+		} elseif ($time_picker) {
+			$picker = 'timepicker';
+		} else {
+			$picker = 'datepicker';
+		}
+
+		if ($time_picker) {
+			$this->_View->Layout->script("/field_date/js/timepicker.js");
+			$this->_View->Layout->css("/field_date/css/timepicker.css");
+		}
+
 		$out .= "<script>";
 		$out .= "$(document).ready(function() {";
-		$out .= "$(function() { $('#FieldDataFieldDate{$id}Data').datepicker({";
+		$out .= "$(function() { $('#FieldDataFieldDate{$id}Data').{$picker}({";
 		$opts = array("showAnim: 'drop'");
+
+		if ($time_picker) {
+			$opts[] = "timeOnlyTitle: '" . __t('Choose Time') . "'";
+			$opts[] = "timeText: '" . __t('Time') . "'";
+			$opts[] = "hourText: '" . __t('Hour') . "'";
+			$opts[] = "minuteText: '" . __t('Minute') . "'";
+			$opts[] = "secondText: '" . __t('Second') . "'";
+			$opts[] = "millisecText: '" . __t('Milliecond') . "'";
+
+			if (isset($settings['time_format']) && !empty($settings['time_format'])) {
+				$opts[] = "timeFormat: '{$settings['time_format']}'";
+			}
+
+			if (isset($settings['time_milliseconds']) && $settings['time_milliseconds']) {
+				$opts[] = "showMillisec: true";
+			}
+
+			if (isset($settings['time_seconds']) && $settings['time_seconds']) {
+				$opts[] = "showSecond: true";
+			}
+
+			if (isset($settings['time_ampm']) && $settings['time_ampm']) {
+				$opts[] = "ampm: true";
+			}
+
+			if (isset($settings['time_separator']) && !empty($settings['time_separator'])) {
+				$opts[] = "separator: '{$settings['time_separator']}'";
+			}
+		}
 
 		if (isset($settings['format']) && !empty($settings['format'])) {
 			$opts[] = "dateFormat: '{$settings['format']}'";

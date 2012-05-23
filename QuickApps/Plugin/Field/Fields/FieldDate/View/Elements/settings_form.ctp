@@ -1,47 +1,126 @@
 <?php
-	echo $this->Form->input("Field.settings.format",
-		array(
-			'type' => 'text',
-			'label' => __t('Date format')
-		)
-	);
+	$toggle_time_options = 'display:none;';
 
-	echo $this->Form->input("Field.settings.button_bar",
-		array(
-			'type' => 'checkbox',
-			'label' => __t('Display button bar')
-		)
-	);
+	if (isset($this->data['Field']['settings']['timepicker']) && $this->data['Field']['settings']['timepicker']) {
+		$toggle_time_options = '';
+	}
 
-	echo $this->Form->input("Field.settings.month_year_menu",
+	$toggle_date_options = 'display:none;';
+
+	if (isset($this->data['Field']['settings']['datepicker']) && $this->data['Field']['settings']['datepicker']) {
+		$toggle_date_options = '';
+	}
+
+	echo $this->Form->input("Field.settings.timepicker",
 		array(
 			'type' => 'checkbox',
-			'label' => __t('Display month & year menu')
+			'label' => __t('Add a Timepicker'),
+			'onclick' => "$('#TimeOptions').toggle();"
 		)
 	);
 
-	echo $this->Form->input("Field.settings.show_weeks",
+	echo $this->Form->input("Field.settings.datepicker",
 		array(
 			'type' => 'checkbox',
-			'label' => __t('Show week of the year')
+			'label' => __t('Add a Date Picker'),
+			'onclick' => "$('#DateOptions').toggle();"
 		)
 	);
+?>
+<div id="TimeOptions" style="<?php echo $toggle_time_options; ?>">
+	<?php echo $this->Html->useTag('fieldsetstart', __t('Time Options')); ?>
 
-	echo $this->Form->input("Field.settings.multiple_months",
-		array(
-			'type' => 'select',
-			'options' => array(
-				1 => 1,
-				2 => 2,
-				3 => 3,
-				4 => 4,
-				5 => 5
-			),
-			'empty' => false,
-			'label' => __t('Display multiple months')
-		)
-	);
+		<?php
+			echo $this->Form->input("Field.settings.time_format",
+				array(
+					'type' => 'text',
+					'label' => __t('Time format'),
+					'after' => '&nbsp;' . __t('e.g.: hh:mm:ss:l')
+				)
+			);
 
+			echo $this->Form->input("Field.settings.time_separator",
+				array(
+					'type' => 'text',
+					'label' => __t('Separator')
+				)
+			);
+
+			echo $this->Form->input("Field.settings.time_ampm",
+				array(
+					'type' => 'checkbox',
+					'label' => __t('Use AM/PM')
+				)
+			);
+
+			echo $this->Form->input("Field.settings.time_seconds",
+				array(
+					'type' => 'checkbox',
+					'label' => __t('Show seconds')
+				)
+			);
+
+			echo $this->Form->input("Field.settings.time_milliseconds",
+				array(
+					'type' => 'checkbox',
+					'label' => __t('Show milliseconds')
+				)
+			);
+		?>
+	<?php echo $this->Html->useTag('fieldsetend'); ?>
+</div>
+
+<div id="DateOptions" style="<?php echo $toggle_date_options; ?>">
+	<?php echo $this->Html->useTag('fieldsetstart', __t('Date Options')); ?>
+		<?php
+			echo $this->Form->input("Field.settings.format",
+				array(
+					'type' => 'text',
+					'label' => __t('Date format'),
+					'after' => '&nbsp;' . __t('e.g.: yy-mm-dd')
+				)
+			);
+
+			echo $this->Form->input("Field.settings.button_bar",
+				array(
+					'type' => 'checkbox',
+					'label' => __t('Display button bar')
+				)
+			);
+
+			echo $this->Form->input("Field.settings.month_year_menu",
+				array(
+					'type' => 'checkbox',
+					'label' => __t('Display month & year menu')
+				)
+			);
+
+			echo $this->Form->input("Field.settings.show_weeks",
+				array(
+					'type' => 'checkbox',
+					'label' => __t('Show week of the year')
+				)
+			);
+
+			echo $this->Form->input("Field.settings.multiple_months",
+				array(
+					'type' => 'select',
+					'options' => array(
+						1 => 1,
+						2 => 2,
+						3 => 3,
+						4 => 4,
+						5 => 5
+					),
+					'empty' => false,
+					'label' => __t('Display multiple months')
+				)
+			);	
+		?>
+	<?php echo $this->Html->useTag('fieldsetend'); ?>
+</div>
+
+<?php
 	echo $this->Form->input("Field.settings.locale",
 		array(
 			'type' => 'select',
