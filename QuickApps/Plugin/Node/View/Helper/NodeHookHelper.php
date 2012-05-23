@@ -54,27 +54,6 @@ class NodeHookHelper extends AppHelper {
 	}
 
 /**
- * Block: Search form.
- *
- * @return array formatted block array
- */
-	public function node_search($data) {
-		return array(
-			'title' => __t('Search'),
-			'body' => $this->_View->element('Node.search_block', array('data' => $data))
-		);
-	}
-
-/**
- * Block settings: Search form.
- *
- * @return string HTML element
- */
-	public function node_search_settings($data) {
-		return $this->_View->element('Node.search_block_settings', array('data' => $data));
-	}
-
-/**
  * Add/edit form for custom node types.
  *
  * @return string HTML element

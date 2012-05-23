@@ -15,10 +15,17 @@
 
 	<?php if ($this->data['Block']['module'] !== 'Block'): ?>
 		<?php $this->Layout->attachModuleHooks($this->data['Block']['module']); ?>
-		<?php $data = $this->data; ?>
-		<?php if ($wg = $this->Layout->hook("{$this->data['Block']['module']}_{$this->data['Block']['delta']}_settings", $data, array('collectReturn' => false))): // widget ?>
+		<?php
+			if ($this->Layout->elementExists("{$this->data['Block']['module']}.{$this->data['Block']['delta']}_block_settings")) {
+				$settings = $this->element("{$this->data['Block']['module']}.{$this->data['Block']['delta']}_block_settings", array('block' => $this->data));
+			} else {
+				$data = $this->data;
+				$settings = $this->Layout->hook("{$this->data['Block']['module']}_{$this->data['Block']['delta']}_settings", $data, array('collectReturn' => false));
+			}
+		?>
+		<?php if ($settings): ?>
 			<?php echo $this->Html->useTag('fieldsetstart', 'Widget settings'); ?>
-				<?php echo $wg; ?>
+				<?php echo $settings; ?>
 			<?php echo $this->Html->useTag('fieldsetend'); ?>
 		<?php endif; ?>
 		<?php $this->Layout->detachModuleHooks($this->data['Block']['module']); ?>

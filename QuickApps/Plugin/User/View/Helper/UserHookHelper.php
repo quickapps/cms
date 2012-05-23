@@ -25,37 +25,4 @@ class UserHookHelper extends AppHelper {
 
 		return true;
 	}
-
-/**
- * Block: `Who is new`.
- *
- * @return array formatted block array
- */
-	public function user_new($block) {
-		return array(
-			'title' => __t("Who's New"),
-			'body' => $this->_View->element('User.user_new_block', array('block' => $block))
-		);
-	}
-
-/**
- * Block settings: `Who is new`.
- *
- * @return string HTML element
- */
-	public function user_new_settings() {
-		return $this->_View->element('User.user_new_block_settings');
-	}
-
-/**
- * Block: Login form.
- *
- * @return array formatted block array
- */
-	public function user_login() {
-		return array(
-			'title' => __t('Login'),
-			'body' => $this->_View->element('User.user_login_block')
-		);
-	}
 }

@@ -33,20 +33,7 @@ class SystemHookHelper extends AppHelper {
  * @return array formatted block array
  */
 	public function system_powered_by() {
-		return array(
-			'body' => __t('Powered by &copy; <a href="http://www.quickappscms.org/">QuickApps CMS</a> v%s', Configure::read('Variable.qa_version'))
-		);
-	}
-
-/**
- * Block: Language selector.
- *
- * @return array formatted block array
- */
-	public function system_language_selector($block = array()) {
-		return array(
-			'body' => $this->_View->element('system_language_selector', array('block' => $block))
-		);
+		return __t('Powered by &copy; <a href="http://www.quickappscms.org/">QuickApps CMS</a> v%s', Configure::read('Variable.qa_version'));
 	}
 
 /**

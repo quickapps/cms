@@ -1,6 +1,6 @@
 <?php
 /**
- * This element is rendered by NodeHookHelper::node_search().
+ * Block
  *
  * @package QuickApps.Plugin.Node.View.Elements
  * @author Christopher Castro
@@ -10,8 +10,8 @@
 <?php
 	$prefix = '';
 
-	if (isset($data['Block']['settings']['url_prefix']) && !empty($data['Block']['settings']['url_prefix'])) {
-		$prefix = trim($data['Block']['settings']['url_prefix']) . ' ';
+	if (isset($block['Block']['settings']['url_prefix']) && !empty($block['Block']['settings']['url_prefix'])) {
+		$prefix = trim($block['Block']['settings']['url_prefix']) . ' ';
 	}
 
 	echo $this->Form->create('Search',
@@ -19,7 +19,6 @@
 			'url' => '/search/',
 			'onSubmit' => "QuickApps.doSearch(); return false;"
 		)
-
 	);
 ?>
 	<?php echo $this->Form->input('criteria', array('required' => 'required', 'type' => 'text', 'label' => __t('Keywords'))); ?>

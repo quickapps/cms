@@ -97,20 +97,8 @@ class TaxonomyHookHelper extends AppHelper {
 		}
 
 		$body .= '</ul>';
-		$Block = array(
-			'body' => $body
-		);
 
-		return $Block;
-	}
-
-/**
- * Block settings: Vocabularies.
- *
- * @return string HTML element
- */
-	public function taxonomy_vocabularies_settings($data) {
-		return $this->_View->element('Taxonomy.taxonomy_vocabularies_settings', array('block' => $data));
+		return $body;
 	}
 
 	private function __proccessTerm(&$term, &$block, &$count) {

@@ -43,22 +43,4 @@ class ThemeDefaultHookHelper extends AppHelper {
 				';
 		}
 	}
-
-/**
- * Block
- *
- */
-	public function theme_default_slider($block) {
-		return array(
-			'body' => $this->_View->element('ThemeDefault.theme_default_slider', array('block' => $block))
-		);
-	}
-
-/**
- * Block Settings
- *
- */
-	public function theme_default_slider_settings($data) {
-		return $this->_View->element('ThemeDefault.theme_default_slider_settings', array('block' => $data));
-	}
 }

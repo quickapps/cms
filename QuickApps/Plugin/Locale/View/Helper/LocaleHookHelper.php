@@ -22,25 +22,4 @@ class LocaleHookHelper extends AppHelper {
 
 		return true;
 	}
-
-/**
- * Block: Language selector.
- *
- * @return array formatted block array
- */
-	public function locale_language_switcher($block) {
-		return array(
-			'title' => false,
-			'body' => $this->_View->element('Locale.locale_language_switcher', array('block' => $block))
-		);
-	}
-
-/**
- * Block settings: Language selector.
- *
- * @return string HTML element
- */
-	public function locale_language_switcher_settings($data) {
-		return $this->_View->element('Locale.locale_language_switcher_settings', array('block' => $data));
-	}
 }

@@ -932,6 +932,66 @@ class LayoutHelper extends AppHelper {
 	}
 
 /**
+ * Checks if an element exists and return its full path.
+ *
+ * @param string $name The name of the element to find
+ * @return mixed Either a string to the element filename or false when one can't be found
+ */
+	public function elementExists($name) {
+		list($plugin, $name) = $this->_View->pluginSplit($name);
+		$exts = array($this->_View->ext);
+
+		if ($this->_View->ext !== '.ctp') {
+			array_push($exts, '.ctp');
+		}
+
+		$viewPaths = App::path('View');
+		$corePaths = array_merge(App::core('View'), App::core('Console/Templates/skel/View'));
+
+		if (!empty($plugin)) {
+			$count = count($viewPaths);
+
+			for ($i = 0; $i < $count; $i++) {
+				if (!in_array($viewPaths[$i], $corePaths)) {
+					$paths[] = $viewPaths[$i] . 'Plugin' . DS . $plugin . DS;
+				}
+			}
+
+			$paths = array_merge($paths, App::path('View', $plugin));
+		}
+
+		$paths = array_unique(array_merge($paths, $viewPaths));
+
+		if (!empty($this->theme)) {
+			$themePaths = array();
+
+			foreach ($paths as $path) {
+				if (strpos($path, DS . 'Plugin' . DS) === false) {
+					if ($plugin) {
+						$themePaths[] = $path . 'Themed' . DS . $this->theme . DS . 'Plugin' . DS . $plugin . DS;
+					}
+
+					$themePaths[] = $path . 'Themed' . DS . $this->theme . DS;
+				}
+			}
+
+			$paths = array_merge($themePaths, $paths);
+		}
+
+		$paths = array_merge($paths, $corePaths);
+
+		foreach ($exts as $ext) {
+			foreach ($paths as $path) {
+				if (file_exists($path . 'Elements' . DS . $name . $ext)) {
+					return $path . 'Elements' . DS . $name . $ext;
+				}
+			}
+		}
+
+		return false;
+	}
+
+/**
  * Render single block.
  * By default the following CSS classes may be applied to the block wrapper DIV element:
  *  -	`qa-block`: always applied.
@@ -1006,16 +1066,9 @@ class LayoutHelper extends AppHelper {
 			$options['class'][] = 'qa-block-custom';
 		} else {
 			// module block
-			// module hook must return formated array block
-			$debug = Configure::read('debug');
-
-			Configure::write('debug', 0);
-
-			$Block = $this->_View->element("{$block['Block']['module']}.block_{$block['Block']['delta']}");
-
-			Configure::write('debug', $debug);
-
-			if (!$Block) {
+			if ($this->elementExists("{$block['Block']['module']}.{$block['Block']['delta']}_block")) {
+				$Block = $Block = $this->_View->element("{$block['Block']['module']}.{$block['Block']['delta']}_block", array('block' => $block));
+			} else {
 				$Block = $this->hook("{$block['Block']['module']}_{$block['Block']['delta']}", $block, array('collectReturn' => false));
 			}
 
