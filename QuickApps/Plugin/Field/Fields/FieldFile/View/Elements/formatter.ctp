@@ -1,6 +1,5 @@
 <!-- File Formatter Form -->
 <?php
-	$viewMode = $this->data['Field']['viewMode'];
 	$formats = array(
 		'link' => __t('Link to file'),
 		'table' => __t('Table of Files'),
@@ -9,7 +8,7 @@
 
 	$formatOptions = (array)$this->Layout->hook('field_file_formats_alter', $formats, array('collectReturn' => true));
 
-	echo $this->Form->input("Field.settings.display.{$viewMode}.type",
+	echo $this->Form->input("Field.settings.display.{$display}.type",
 		array(
 			'label' => false,
 			'type' => 'select',
@@ -23,7 +22,7 @@
 	}
 
 	$script = "
-		$('#" . Inflector::camelize("Field_settings_display_{$viewMode}_type") . "').change(function () {
+		$('#" . Inflector::camelize("Field_settings_display_{$display}_type") . "').change(function () {
 			$('.format-options').hide();
 
 			try {
@@ -33,11 +32,11 @@
 		});
 	";
 
-	if (!empty($this->data['Field']['settings']['display'][$viewMode]['type'])) {
+	if (!empty($this->data['Field']['settings']['display'][$display]['type'])) {
 		$script .= "
 			try {
-				$('.format-options ." . $this->data['Field']['settings']['display'][$viewMode]['type'] . "').show();
-				$('.format-options ." . $this->data['Field']['settings']['display'][$viewMode]['type'] . "').parent().show();
+				$('.format-options ." . $this->data['Field']['settings']['display'][$display]['type'] . "').show();
+				$('.format-options ." . $this->data['Field']['settings']['display'][$display]['type'] . "').parent().show();
 			} catch(e) { }
 		";
 	}

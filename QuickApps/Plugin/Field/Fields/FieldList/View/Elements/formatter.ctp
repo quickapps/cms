@@ -1,8 +1,6 @@
 <!-- List Formatter Form -->
 <?php
-	$viewMode = $this->data['Field']['viewMode'];
-
-	echo $this->Form->input("Field.settings.display.{$viewMode}.type",
+	echo $this->Form->input("Field.settings.display.{$display}.type",
 		array(
 			'label' => false,
 			'type' => 'select',

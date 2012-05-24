@@ -1,32 +1,33 @@
 <?php
-	$field['settings']['type'] = isset($field['settings']['type']) ? $field['settings']['type'] : 'text';
+	$data['field']['settings']['type'] = isset($data['field']['settings']['type']) ? $data['field']['settings']['type'] : 'text';
 	$options = array(
-		'type' => $field['settings']['type'],
-		'label' => $field['label'],
-		'class' => $field['settings']['text_processing']
+		'type' => $data['field']['settings']['type'],
+		'label' => $data['field']['label'],
+		'class' => $data['field']['settings']['text_processing']
 	);
 
-	if ($field['required']) {
+	if ($data['field']['required']) {
 		$options['required'] = 'required';
 	}
 
-	if (!isset($field['FieldData'])) {
-		echo $this->Form->input("FieldData.FieldText.{$field['id']}.data", $options);
-		echo $this->Form->hidden("FieldData.FieldText.{$field['id']}.id", array('value' => null));
+	if (!isset($data['field']['FieldData'])) {
+		echo $this->Form->input("FieldData.FieldText.{$data['field']['id']}.data", $options);
+		echo $this->Form->hidden("FieldData.FieldText.{$data['field']['id']}.id", array('value' => null));
 	} else {
-		if (isset($this->data['FieldData']['FieldText'][$field['id']]['data'])) {
-			$value = $this->data['FieldData']['FieldText'][$field['id']]['data'];
+		if (isset($this->data['FieldData']['FieldText'][$data['field']['id']]['data'])) {
+			$value = $this->data['FieldData']['FieldText'][$data['field']['id']]['data'];
 		} else {
-			$value = @$field['FieldData']['data'];
+			$value = @$data['field']['FieldData']['data'];
 		}
 
-		$options['value'] = @$value;
-		$field['FieldData'] = array_merge(array('id' => null, 'field_id' => null, 'foreignKey' => null, 'belongsTo' => null, 'data' => ''), $field['FieldData']);
-		echo $this->Form->input("FieldData.FieldText.{$field['id']}.data", $options);
-		echo $this->Form->hidden("FieldData.FieldText.{$field['id']}.id", array('value' => $field['FieldData']['id']));
+		$options['value'] = $value;
+		$data['field']['FieldData'] = array_merge(array('id' => null, 'field_id' => null, 'foreignKey' => null, 'belongsTo' => null, 'data' => ''), $data['field']['FieldData']);
+
+		echo $this->Form->input("FieldData.FieldText.{$data['field']['id']}.data", $options);
+		echo $this->Form->hidden("FieldData.FieldText.{$data['field']['id']}.id", array('value' => $data['field']['FieldData']['id']));
 	}
 ?>
 
-<?php if (!empty($field['description'])): ?>
-	<em><?php echo $field['description']; ?></em>
+<?php if (!empty($data['field']['description'])): ?>
+	<em><?php echo $data['field']['description']; ?></em>
 <?php endif; ?>

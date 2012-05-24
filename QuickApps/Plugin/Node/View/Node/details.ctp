@@ -1,6 +1,6 @@
 <?php
 /**
- * Render Node details based on viewMode
+ * Render Node details based on display type
  *
  * @package QuickApps.Plugin.Node.View
  * @author Christopher Castro <chris@quickapps.es>

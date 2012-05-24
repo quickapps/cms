@@ -1,9 +1,8 @@
 <!-- Text Formatter Form -->
 <?php
-	$viewMode = $this->data['Field']['viewMode'];
-	$actualType = @$this->data['Field']['settings']['display'][$viewMode]['type'];
+	$actualType = @$this->data['Field']['settings']['display'][$display]['type'];
 
-	echo $this->Form->input("Field.settings.display.{$viewMode}.type",
+	echo $this->Form->input("Field.settings.display.{$display}.type",
 		array(
 			'label' => false,
 			'type' => 'select',
@@ -14,14 +13,14 @@
 			),
 			'empty' => false,
 			'escape' => false,
-			'onChange' => "if (this.value == 'trimmed') { $('#trimmed').show(); }else{ $('#trimmed').hide(); };"
+			'onchange' => "if (this.value == 'trimmed') { $('#trimmed').show(); } else { $('#trimmed').hide(); };"
 		)
 	);
 ?>
 
 <div id="trimmed" style="<?php echo $actualType !== 'trimmed' ? 'display:none;' : ''; ?>">
 	<?php
-		echo $this->Form->input("Field.settings.display.{$viewMode}.trim_length",
+		echo $this->Form->input("Field.settings.display.{$display}.trim_length",
 			array(
 				'type' => 'text',
 				'label' => __t('Trim length or read-more-cutter')
