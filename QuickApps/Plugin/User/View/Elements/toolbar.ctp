@@ -10,10 +10,10 @@
 
 	echo $this->Layout->toolbar($links);
 
-	if ($this->request->params['controller'] == 'display' && isset($this->data['User']['viewModes'])) {
+	if ($this->request->params['controller'] == 'display' && isset($this->data['User']['displayModes'])) {
 		$links = array();
 
-		foreach ($this->data['User']['viewModes'] as $vm) {
+		foreach ($this->data['User']['displayModes'] as $vm) {
 			$links[] = array(__t($vm), "/admin/user/display/index/{$vm}");
 		}
 

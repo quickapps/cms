@@ -18,24 +18,24 @@ class DisplayController extends UserAppController {
 		$this->QuickApps->enableSecurity();
 	}
 
-	public function admin_index($viewMode = false) {
-		if (!$viewMode && !isset($this->data['User']['viewModes'])) {
+	public function admin_index($display = false) {
+		if (!$display && !isset($this->data['User']['displayModes'])) {
 			$this->redirect("/admin/user/display/index/default");
 		}
 
-		if (isset($this->data['User']['viewModes'])) {
+		if (isset($this->data['User']['displayModes'])) {
 			// set available view modes
-			$this->Field->setViewModes($this->data['User']['viewModes'], array('Field.belongsTo' => 'User'));
+			$this->Field->setViewModes($this->data['User']['displayModes'], array('Field.belongsTo' => 'User'));
 			$this->redirect($this->referer());
 		}
 
 		$fields = $this->Field->find('all',  array('conditions' => array('Field.belongsTo' => 'User')));
-		$fields = @Hash::sort((array)$fields, '{n}.Field.settings.display.' . $viewMode . '.ordering', 'asc');
-		$data['User']['viewModes'] = isset($fields[0]['Field']['settings']['display']) ? array_keys($fields[0]['Field']['settings']['display']) : array();
+		$fields = @Hash::sort((array)$fields, '{n}.Field.settings.display.' . $display . '.ordering', 'asc');
+		$data['User']['displayModes'] = isset($fields[0]['Field']['settings']['display']) ? array_keys($fields[0]['Field']['settings']['display']) : array();
 		$this->data = $data;
 
 		$this->set('result', $fields);
-		$this->set('viewMode', $viewMode);
+		$this->set('display', $display);
 		$this->setCrumb(
 			'/admin/user',
 			array(__t('Manage Display'))
@@ -43,7 +43,7 @@ class DisplayController extends UserAppController {
 		$this->title(__t('User Display Settings'));
 	}
 
-	public function admin_field_formatter($id, $viewMode = 'default') {
+	public function admin_field_formatter($id, $display = 'default') {
 		$field = $this->Field->findById($id) or $this->redirect($this->referer());
 
 		if (isset($this->data['Field'])) {
@@ -54,7 +54,6 @@ class DisplayController extends UserAppController {
 				$this->flashMsg(__t('Field could not be saved. Please, try again.'), 'error');
 			}
 		} else {
-			$field['Field']['viewMode'] = $viewMode;
 			$this->data = $field;
 		}
 
@@ -64,5 +63,6 @@ class DisplayController extends UserAppController {
 			array(__t('Field display settings'))
 		);
 		$this->title(__t('Field Display Settings'));
+		$this->set('display', $display);
 	}
 }

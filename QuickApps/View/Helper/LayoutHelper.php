@@ -268,7 +268,7 @@ class LayoutHelper extends AppHelper {
 
 /**
  * Returns node type of the current node's being renderend.
- * (Valid only when rendering a single node [viewMode = full])
+ * (Valid only when rendering a single node [display = full])
  *
  * @return mixed String ID of the NodeType or FALSE if could not be found
  */
@@ -282,7 +282,7 @@ class LayoutHelper extends AppHelper {
 
 /**
  * Returns specified node's field.
- * Valid only when rendering a single node (viewMode = full).
+ * Valid only when rendering a single node (display = full).
  *
  * @param string $field Field name to retrieve
  * @return mixed Array of the field if exists. FALSE otherwise
@@ -314,7 +314,7 @@ class LayoutHelper extends AppHelper {
  *				  - array : asociative Node's array to render.
  * @param array $options Node rendering options:
  *				  - mixed class: array or string, extra CSS class(es) for node DIV container
- *				  - mixed viewMode: set to string value to force rendering viewMode. set to boolean false for automatic.
+ *				  - mixed display: set to string value to force rendering display mode. set to boolean false for automatic.
  * @return string HTML formatted node.
  *				Empty string ('') will be returned if node could not be rendered.
  */
@@ -322,7 +322,7 @@ class LayoutHelper extends AppHelper {
 		$options = array_merge(
 			array(
 				'class' => array(),
-				'viewMode' => false
+				'display' => false
 			)
 		, $options);
 
@@ -343,10 +343,10 @@ class LayoutHelper extends AppHelper {
 		}
 
 		$content = '';
-		$view_mode = $viewMode !== false ? $viewMode : $this->_View->viewVars['Layout']['viewMode'];
+		$view_mode = $display !== false ? $display : $this->_View->viewVars['Layout']['display'];
 
 		foreach ($node['Field'] as $key => &$data) {
-			// undefined viewMode -> use default
+			// undefined display -> use default
 			if (!isset($data['settings']['display'][$view_mode]) && isset($data['settings']['display']['default'])) {
 				$data['settings']['display'][$view_mode] = $data['settings']['display']['default'];
 			}
@@ -387,7 +387,7 @@ class LayoutHelper extends AppHelper {
 			array(
 				'node',
 				"node-{$node['NodeType']['id']}",
-				"node-{$this->_View->viewVars['Layout']['viewMode']}",
+				"node-{$this->_View->viewVars['Layout']['display']}",
 				"node-" . ($node['Node']['promote'] ? "promoted" : "demote"),
 				"node-" . ($node['Node']['sticky'] ? "sticky" : "nosticky"),
 				"node-" . ($this->_tmp['renderedNodes']%2 ? "odd" : "even")
@@ -405,37 +405,37 @@ class LayoutHelper extends AppHelper {
  *
  * @param array $field Field information array
  * @param boolean $edit Set to TRUE for edit form. FALSE for view mode
+ * @param string $display Force rendering for that view-mode
  * @return string HTML formatted field
  */
-	public function renderField($field, $edit = false) {
-		$__viewMode = $this->_View->viewVars['Layout']['viewMode'];
+	public function renderField($field, $edit = false, $display = null) {
+		$__display = $display ? $display : $this->_View->viewVars['Layout']['display'];
 
-		if (isset($field['settings']['display'][$__viewMode]['type']) &&
-			$field['settings']['display'][$__viewMode]['type'] == 'hidden'
+		if (isset($field['settings']['display'][$__display]['type']) &&
+			$field['settings']['display'][$__display]['type'] == 'hidden'
 		) {
 			return '';
 		}
 
 		$field['label'] = $this->hooktags($field['label']);
-		$viewVars = array();
+		$elementVars = array();
 
 		if ($edit) {
 			$view = 'edit';
 			$field['label'] .= $field['required'] ? ' *' : '';
 			$field['description'] = !empty($field['description']) ? $this->hooktags($field['description']) : '';
 		} else {
-			$viewMode = isset($field['settings']['display'][$__viewMode]) ? $__viewMode: 'default';
+			$display = isset($field['settings']['display'][$__display]) ? $__display: 'default';
 
-			if (isset($field['settings']['display'][$viewMode]['type']) && $field['settings']['display'][$viewMode]['type'] != 'hidden') {
+			if (isset($field['settings']['display'][$display]['type']) && $field['settings']['display'][$display]['type'] != 'hidden') {
 				$view = 'view';
-				$viewVars['viewMode'] = $viewMode;
-				$viewVars['display'] = $field['settings']['display'][$viewMode];
+				$elementVars['display'] = $field['settings']['display'][$display];
 			} else {
 				return '';
 			}
 		}
 
-		$viewVars['field'] = $field;
+		$elementVars['field'] = $field;
 		$data = array('field' => $field, 'edit' => $edit);
 		$beforeRender = (array)$this->hook('before_render_field', $data, array('collectReturn' => true));
 
@@ -445,13 +445,13 @@ class LayoutHelper extends AppHelper {
 
 		extract($data);
 
-		$result = $this->_View->element(Inflector::camelize($field['field_module']) . '.' . $view, $viewVars);
+		$result = $this->_View->element(Inflector::camelize($field['field_module']) . '.' . $view, array('data' => $elementVars));
 
 		if (!empty($result)) {
 			$result .= implode('', (array)$this->hook('after_render_field', $data, array('collectReturn' => true)));
 
 			if (!$edit &&
-				(!isset($field['settings']['display'][$__viewMode]['hooktags']) || $field['settings']['display'][$__viewMode]['hooktags'])
+				(!isset($field['settings']['display'][$__display]['hooktags']) || $field['settings']['display'][$__display]['hooktags'])
 			) {
 				$result = $this->hooktags($result);
 			}

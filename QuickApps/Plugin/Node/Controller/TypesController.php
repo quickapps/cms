@@ -69,16 +69,16 @@ class TypesController extends NodeAppController {
 	}
 
 	// node type display settings
-	public function admin_display($typeId, $view_mode = false) {
-		if (!$view_mode && !isset($this->data['NodeType']['viewModes'])) {
+	public function admin_display($typeId, $display = false) {
+		if (!$display && !isset($this->data['NodeType']['displayModes'])) {
 			$this->redirect("/admin/node/types/display/{$typeId}/default");
 		}
 
 		$this->loadModel('Field.Field');
 
-		if (isset($this->data['NodeType']['viewModes'])) {
+		if (isset($this->data['NodeType']['displayModes'])) {
 			// set view mode available
-			$this->Field->setViewModes($this->data['NodeType']['viewModes'], array('Field.belongsTo' => "NodeType-{$typeId}"));
+			$this->Field->setViewModes($this->data['NodeType']['displayModes'], array('Field.belongsTo' => "NodeType-{$typeId}"));
 			$this->redirect($this->referer());
 		}
 
@@ -92,19 +92,19 @@ class TypesController extends NodeAppController {
 			)
 		);
 
-		$fields = @Hash::sort((array)$fields, '{n}.Field.settings.display.' . $view_mode . '.ordering', 'asc');
-		$__viewModes = (array)Hash::extract($fields, '{n}.Field.settings.display');
-		$viewModes = array();
+		$fields = @Hash::sort((array)$fields, '{n}.Field.settings.display.' . $display . '.ordering', 'asc');
+		$__displayModes = (array)Hash::extract($fields, '{n}.Field.settings.display');
+		$displayModes = array();
 
-		foreach ($__viewModes as $key => $vm) {
-			$viewModes = array_merge($viewModes, array_keys($vm));
+		foreach ($__displayModes as $key => $vm) {
+			$displayModes = array_merge($displayModes, array_keys($vm));
 		}
 
-		$nodeType['NodeType']['viewModes'] = array_unique($viewModes);
+		$nodeType['NodeType']['displayModes'] = array_unique($displayModes);
 		$this->data = $nodeType;
 
 		$this->set('result', $fields);
-		$this->set('viewMode', $view_mode);
+		$this->set('display', $display);
 		$this->set('typeId', $typeId);
 		$this->setCrumb(
 			'/admin/node/types',
@@ -149,7 +149,7 @@ class TypesController extends NodeAppController {
 		$this->set('result', $this->data);
 	}
 
-	public function admin_field_formatter($id, $viewMode = 'default') {
+	public function admin_field_formatter($id, $display = 'default') {
 		$this->loadModel('Field.Field');
 
 		$field = $this->Field->findById($id) or $this->redirect($this->referer());
@@ -164,7 +164,6 @@ class TypesController extends NodeAppController {
 				$this->flashMsg(__t('Field could not be saved. Please, try again.'), 'error');
 			}
 		} else {
-			$field['Field']['viewMode'] = $viewMode;
 			$this->data = $field;
 		}
 
@@ -175,6 +174,7 @@ class TypesController extends NodeAppController {
 			array(__t('Field display settings'))
 		);
 		$this->title(__t('Field Display Settings'));
+		$this->set('display', $display);
 	}
 
 	public function admin_fields($typeId = false) {

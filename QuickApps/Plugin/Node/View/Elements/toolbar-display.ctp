@@ -1,7 +1,7 @@
 <?php
 	$links = array();
 
-	foreach ($this->data['NodeType']['viewModes'] as $vm) {
+	foreach ($this->data['NodeType']['displayModes'] as $vm) {
 		$links[] = array(__t($vm), "/admin/node/types/display/{$this->data['NodeType']['id']}/{$vm}");
 	}
 

@@ -107,15 +107,15 @@ class Field extends FieldAppModel {
 		}
 
 		// field formatter
-		if (isset($this->data['Field']['viewMode'])) {
-			$viewMode = $this->data['Field']['viewMode'];
+		if (isset($this->data['Field']['display'])) {
+			$display = $this->data['Field']['display'];
 			$this->data['Field']['settings'] = @unserialize($this->data['Field']['settings']);
 
 			if ($this->data['Field']['display_hidden']) {
-				$this->data['Field']['settings']['display'][$viewMode]['type'] = 'hidden';
+				$this->data['Field']['settings']['display'][$display]['type'] = 'hidden';
 			} else {
-				if (!isset($this->data['Field']['settings']['display'][$viewMode]['type'])) {
-					$this->data['Field']['settings']['display'][$viewMode]['type'] = false;
+				if (!isset($this->data['Field']['settings']['display'][$display]['type'])) {
+					$this->data['Field']['settings']['display'][$display]['type'] = false;
 				}
 			}
 

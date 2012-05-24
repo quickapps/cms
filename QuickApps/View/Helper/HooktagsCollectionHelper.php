@@ -253,7 +253,7 @@ class HooktagsCollectionHelper extends AppHelper {
  *  `[url=LINK]LABEL[/url]` Returns link tag <href="LINK">LABEL</a>
  *  `[t=stringToTranslate]` or `[t]stringToTranslate[/t]` text translation: __t(stringToTranslate)
  *  `[t=domain@@stringToTranslate]` Translation by domain __d(domain, stringToTranslate)
- *  `[Layout.PATH]` Get any value from `Layout` variable. i.e.: [Layout.viewMode] gets current view mode
+ *  `[Layout.PATH]` Get any value from `Layout` variable. i.e.: [Layout.display] gets current display mode
  *				    if path does not exists then '' (empty) is rendered instead the hooktag code.
  *
  * @param string $text Original text where to replace tags.

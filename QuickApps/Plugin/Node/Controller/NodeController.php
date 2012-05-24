@@ -85,7 +85,7 @@ class NodeController extends NodeAppController {
 			$this->Layout['feed'] .= '/feed';
 		}
 
-		$this->Layout['viewMode'] = 'list';
+		$this->Layout['display'] = 'list';
 
 		$this->set('front_page', $front_page);
 	}
@@ -222,7 +222,7 @@ class NodeController extends NodeAppController {
 			)
 		);
 		$result['Comment'] = $comments;
-		$this->Layout['viewMode'] = 'full';
+		$this->Layout['display'] = 'full';
 		$this->Layout['node'] = $result;
 	}
 
@@ -544,7 +544,7 @@ class NodeController extends NodeAppController {
 					$this->layoutPath = 'rss';
 					$this->helpers[] = 'Rss';
 					$this->helpers[] = 'Text';
-					$this->Layout['viewMode'] = 'rss';
+					$this->Layout['display'] = 'rss';
 
 					$this->response->type('xml');
 				break;
@@ -567,7 +567,7 @@ class NodeController extends NodeAppController {
 				break;
 			}
 		} else {
-			$this->Layout['viewMode'] = 'list';
+			$this->Layout['display'] = 'list';
 		}
 
 		$this->set('languages', $languages);

@@ -21,7 +21,7 @@ class AppController extends Controller {
 		'feed' => null,
 		'blocks' => array(),
 		'node' => array(),
-		'viewMode' => '',
+		'display' => '',
 		'header' => array(),
 		'footer' => array(),
 		'stylesheets' => array(

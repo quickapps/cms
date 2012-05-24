@@ -1,24 +1,24 @@
 <?php
-	$viewMode = isset($this->data['Field']['viewMode']) ? $this->data['Field']['viewMode'] : 'default';
+	$display = isset($this->data['Field']['display']) ? $this->data['Field']['display'] : 'default';
 
 	$hidden = (
-		isset($this->data['Field']['settings']['display'][$viewMode]['type']) &&
-		$this->data['Field']['settings']['display'][$viewMode]['type'] == 'hidden'
+		isset($this->data['Field']['settings']['display'][$display]['type']) &&
+		$this->data['Field']['settings']['display'][$display]['type'] == 'hidden'
 	);
 
 	$hooktags = (
-		!isset($this->data['Field']['settings']['display'][$viewMode]['hooktags']) ||
-		$this->data['Field']['settings']['display'][$viewMode]['hooktags']
+		!isset($this->data['Field']['settings']['display'][$display]['hooktags']) ||
+		$this->data['Field']['settings']['display'][$display]['hooktags']
 	);
 ?>
 <?php echo $this->Form->create('Field'); ?>
-	<?php echo $this->Html->useTag('fieldsetstart', __t('Field display format (view mode: %s)', Inflector::camelize($viewMode))); ?>
+	<?php echo $this->Html->useTag('fieldsetstart', __t('Field display format (view mode: %s)', Inflector::camelize($display))); ?>
 		<?php echo $this->Form->hidden('Field.id'); ?>
-		<?php echo $this->Form->hidden('Field.viewMode'); ?>
+		<?php echo $this->Form->hidden('Field.display'); ?>
 
 		<?php echo $this->Html->useTag('fieldsetstart', __t('Label')); ?>
 			<?php
-				echo $this->Form->input("Field.settings.display.{$viewMode}.label",
+				echo $this->Form->input("Field.settings.display.{$display}.label",
 					array(
 						'type' => 'select',
 						'label' => false,
@@ -31,7 +31,7 @@
 
 		<?php echo $this->Html->useTag('fieldsetstart', 'Hooktags'); ?>
 			<?php
-				echo $this->Form->input("Field.settings.display.{$viewMode}.hooktags",
+				echo $this->Form->input("Field.settings.display.{$display}.hooktags",
 					array(
 						'type' => 'checkbox',
 						'checked' => $hooktags,
@@ -56,7 +56,7 @@
 			?>
 			<div id="field-formatter-form" style="<?php echo $hidden ? 'display:none;' : ''; ?>">
 			<?php
-				echo $this->element(Inflector::camelize($this->data['Field']['field_module']) . '.formatter_form');
+				echo $this->element(Inflector::camelize($this->data['Field']['field_module']) . '.formatter');
 			?>
 			</div>
 		<?php echo $this->Html->useTag('fieldsetend'); ?>

@@ -136,7 +136,7 @@ class UserController extends UserAppController {
 	public function profile($username = null) {
 		$user = $this->User->findByUsername($username) or $this->redirect('/');
 		$this->data = $user;
-		$this->Layout['viewMode'] = 'user_profile';
+		$this->Layout['display'] = 'user_profile';
 
 		unset($user['User']['password'], $user['User']['key']);
 		$this->title(__t('%s profile', $user['User']['username']));
