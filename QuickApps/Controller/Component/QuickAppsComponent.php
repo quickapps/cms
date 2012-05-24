@@ -69,6 +69,7 @@ class QuickAppsComponent extends Component {
 				}
 			}
 
+			// different layout for individual content types
 			if ($nodeType) {
 				$tp = App::themePath(Configure::read('Theme.info.folder'));
 

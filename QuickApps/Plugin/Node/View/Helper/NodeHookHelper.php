@@ -63,12 +63,11 @@ class NodeHookHelper extends AppHelper {
 	}
 
 /**
- * Rendering for custom node types.
+ * Theme individual content types.
  *
  * @return string HTML element
  */
 	public function node_render($node) {
-		$tp = App::themePath(Configure::read('Theme.info.folder'));
 		$nodeType = false;
 
 		if (!$this->_View->request->is('requested') &&
@@ -88,13 +87,16 @@ class NodeHookHelper extends AppHelper {
 			}
 		}
 
-		if (
-			$nodeType &&
-			file_exists($tp . 'Elements' . DS . 'theme_node_' . $nodeType . '.ctp')
-		) {
-			return $this->_View->element('theme_node_' . $nodeType, array('node' => $node));
-		} else {
-			return $this->_View->element('theme_node', array('node' => $node));
+		if ($nodeType) {
+			$display = $this->_View->viewVars['display'];
+
+			if ($this->_View->Layout->elementExists("theme_node_{$nodeType}_{$display}")) {
+				return $this->_View->element("theme_node_{$nodeType}_{$display}", array('node' => $node));
+			} elseif ($this->_View->Layout->elementExists("theme_node_{$nodeType}")) {
+				return $this->_View->element("theme_node_{$nodeType}", array('node' => $node));
+			}
 		}
+
+		return $this->_View->element('theme_node', array('node' => $node));
 	}
 }
