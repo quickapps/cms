@@ -68,7 +68,7 @@
 	<?php if (strpos($name, 'Theme') === 0) continue; ?>
 	<?php if (empty($data['yaml']) || $data['yaml']['category'] !== $category) continue; ?>
 	<tr id="module-<?php echo $name; ?>" class="<?php echo $data['status'] ? 'module-enabled' : 'module-disabled'; ?>">
-		<td width="80%" align="left">
+		<td width="100%" align="left">
 			<b><?php echo $data['yaml']['name']; ?></b> <?php echo $data['yaml']['version']; ?><br />
 			<em>
 				<?php
@@ -82,21 +82,23 @@
 			<br />
 			<em><?php echo isset($data['yaml']['author']) ? __t('author: %s', htmlspecialchars($data['yaml']['author'])) : ''; ?></em><br />
 			<?php echo isset($data['yaml']['dependencies']) ?  __t('Dependencies') . ': ' . implode(', ', $data['yaml']['dependencies']) : ''; ?>
-		</td>
 
-		<td align="right">
-			<?php if (file_exists($data['path'] . 'View' . DS . 'Elements' . DS . 'help.ctp')): ?>
-			<a class="help-btn" href="<?php echo $this->Html->url("/admin/system/help/module/" . $name); ?>"><?php echo __t('Help'); ?></a>
-			<?php endif; ?>
+			<div align="right">
+				<a class="help-btn" href="<?php echo $this->Html->url("/admin/user/permissions/?expand=" . $name); ?>"><?php echo __t('Permissions'); ?></a>
 
-			<?php if (file_exists($data['path'] . 'View' . DS . 'Elements' . DS . 'settings.ctp') && Configure::read('Modules.' . $name)): ?>
-			<a class="settings-btn" href="<?php echo $this->Html->url('/admin/system/modules/settings/' . $name); ?>"><?php echo __t('Settings'); ?></a>
-			<?php endif; ?>
+				<?php if ($this->Layout->elementExists("{$name}.help")): ?>
+				<a class="help-btn" href="<?php echo $this->Html->url("/admin/system/help/module/" . $name); ?>"><?php echo __t('Help'); ?></a>
+				<?php endif; ?>
 
-			<?php if (!in_array(Inflector::camelize($name), Configure::read('coreModules'))) : ?>
-			<a class="toggle-btn" href="<?php echo $this->Html->url('/admin/system/modules/toggle/' . $name); ?>"><?php echo $data['status'] == 1 ? __t('Disable') : __t('Enable'); ?></a>
-			<a class="delete-btn" href="<?php echo $this->Html->url('/admin/system/modules/uninstall/' . $name); ?>" onclick="return confirm('<?php echo __t("Delete selected module ? This change cannot be undone!"); ?>');"><?php echo __t('Uninstall'); ?></a>
-			<?php endif; ?>
+				<?php if ($this->Layout->elementExists("{$name}.settings") && Configure::read('Modules.' . $name)): ?>
+				<a class="settings-btn" href="<?php echo $this->Html->url('/admin/system/modules/settings/' . $name); ?>"><?php echo __t('Settings'); ?></a>
+				<?php endif; ?>
+
+				<?php if (!in_array(Inflector::camelize($name), Configure::read('coreModules'))) : ?>
+				<a class="toggle-btn" href="<?php echo $this->Html->url('/admin/system/modules/toggle/' . $name); ?>"><?php echo $data['status'] == 1 ? __t('Disable') : __t('Enable'); ?></a>
+				<a class="delete-btn" href="<?php echo $this->Html->url('/admin/system/modules/uninstall/' . $name); ?>" onclick="return confirm('<?php echo __t("Delete selected module ? This change cannot be undone!"); ?>');"><?php echo __t('Uninstall'); ?></a>
+				<?php endif; ?>
+			</div>
 		</td>
 	</tr>
 	<?php endforeach; ?>
