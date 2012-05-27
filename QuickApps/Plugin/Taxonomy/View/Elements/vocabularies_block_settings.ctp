@@ -55,7 +55,7 @@
 
 	echo $this->Form->input('Block.settings.url_prefix',
 		array(
-			'between' => $this->Html->url('/', true) . 's/',
+			'between' => $this->Html->url('/', true) . 'search/',
 			'after' => ' term:my-term-slug',
 			'type' => 'text',
 			'label' => __t('URL prefix')

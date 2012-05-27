@@ -224,7 +224,7 @@ class QaBlock {
 			'status' => '1',
 			'visibility' => '1',
 			'pages' => '/article/*.html
-/s/type:article*',
+/search/type:article*',
 			'title' => 'Categories',
 			'locale' => 'a:0:{}',
 			'settings' => 'a:5:{s:12:"vocabularies";a:1:{i:0;s:1:"1";}s:15:"content_counter";s:1:"1";s:15:"show_vocabulary";s:1:"0";s:20:"terms_cache_duration";s:11:"+10 minutes";s:10:"url_prefix";s:12:"type:article";}',

@@ -62,7 +62,7 @@ class TaxonomyHookHelper extends AppHelper {
 		if ($block['Block']['settings']['show_vocabulary']) {
 			foreach ($vocabularies as $vocabulary) {
 				$prefix = isset($block['Block']['settings']['url_prefix']) && !empty($block['Block']['settings']['url_prefix']) ? trim($block['Block']['settings']['url_prefix']) . ' ' : '';
-				$url = "/s/{$prefix}vocabulary:{$vocabulary['Vocabulary']['slug']}";
+				$url = "/search/{$prefix}vocabulary:{$vocabulary['Vocabulary']['slug']}";
 				$body .= '<li>' . $this->_View->Html->link($vocabulary['Vocabulary']['title'], $url);
 				$terms = ClassRegistry::init('Taxonomy.Term')->find('threaded',
 					array(
@@ -104,7 +104,7 @@ class TaxonomyHookHelper extends AppHelper {
 	private function __proccessTerm(&$term, &$block, &$count) {
 		$lc = Configure::read('Variable.language.code');
 		$prefix = isset($block['Block']['settings']['url_prefix']) && !empty($block['Block']['settings']['url_prefix']) ? trim($block['Block']['settings']['url_prefix']) . ' ' : '';
-		$term['Term']['router_path'] = "/s/{$prefix}term:{$term['Term']['slug']}";
+		$term['Term']['router_path'] = "/search/{$prefix}term:{$term['Term']['slug']}";
 
 		if ($block['Block']['settings']['content_counter']) {
 			$count = Cache::read("count_term_{$term['Term']['id']}_{$lc}", 'terms_cache');
