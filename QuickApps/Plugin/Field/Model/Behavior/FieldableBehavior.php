@@ -254,8 +254,9 @@ class FieldableBehavior extends ModelBehavior {
 					$fieldsList[$Model->alias][] = $field['field_module'];
 				}
 
-				$field['FieldData'] = array();  // Field storage data must be set here
+				$field['FieldData'] = array(); // Field storage data must be set here
 				$data['entity'] =& $Model; // Entity instance
+				$data['entity_id'] = $result[$Model->alias][$Model->primaryKey];
 				$data['field'] =& $field; // Field information
 				$data['result'] =& $result; // Instance of current Entity record being fetched
 				$data['settings'] = $this->__settings[$Model->alias]; // fieldable settings
@@ -416,6 +417,10 @@ class FieldableBehavior extends ModelBehavior {
 		extract($data);
 
 		$field_info = QuickApps::field_info($field_module);
+
+		if (empty($field_info)) {
+			return false;
+		}
 
 		if (isset($field_info['max_instances']) &&
 			$field_info['max_instances'] === 0

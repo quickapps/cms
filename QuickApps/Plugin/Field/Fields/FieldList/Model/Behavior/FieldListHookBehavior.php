@@ -30,7 +30,7 @@ class FieldListHookBehavior extends ModelBehavior {
 				'conditions' => array(
 					'FieldData.field_id' => $data['field']['id'],
 					'FieldData.belongsTo' => $data['entity']->alias,
-					'FieldData.foreignKey' => $data['result'][$data['entity']->alias][$data['entity']->primaryKey]
+					'FieldData.foreignKey' => $data['entity_id']
 				)
 			)
 		);

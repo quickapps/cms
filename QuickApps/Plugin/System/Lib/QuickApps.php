@@ -406,9 +406,9 @@ class QuickApps {
  * This will return a list of fields and its information.
  *
  * @param mixed $field
- *	Field name as string will return information these field only,
+ *	Field name as string will return information for these field only,
  *	FALSE will return all fields information. (default false)
- * @return array Associative array
+ * @return array Associative array index by Field name. Empty array if Field does not exists
  */
 	public static function field_info($field = false) {
 		if (!isset(self::$__tmp['field_modules'])) {
