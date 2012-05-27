@@ -54,6 +54,6 @@
 				</td>
 			</tr>
 		</table>
-		<input type="submit" value="Continue" class="submit" />
+		<input type="submit" value="<?php echo __t('Continue'); ?>" class="submit" />
 	</form>
 </p>
