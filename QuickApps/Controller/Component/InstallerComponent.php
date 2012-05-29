@@ -795,9 +795,8 @@ class InstallerComponent extends Component {
  * @return mixed
  *	An associative array with three keys as below, callers should pass this
  *	structure to `checkIncompatibility()`:
- *		-	`name`: includes the name of the thing to depend on (e.g. 'foo').
- *		-	`original_version`: contains the original version string (which can be
- *			used in the UI for reporting incompatibilities).
+ *		-	`name`: includes the name of the thing to depend on (e.g. 'foo')
+ *		-	`original_version`: contains the original version string
  *		-	`versions`: is a list of associative arrays, each containing the keys
  *			'op' and 'version'. 'op' can be one of: '=', '==', '!=', '<>', '<',
  *			'<=', '>', or '>='. 'version' is one piece like '4.5-beta3'.
@@ -872,7 +871,7 @@ class InstallerComponent extends Component {
  *
  *    checkDependency($dependencies);
  *
- * @param array $module List of dependencies to check.
+ * @param array $dependencies List of dependencies to check.
  * @return boolean
  *	TRUE if all modules are available.
  *	FALSE if any of the required modules is not installed/version-compatible
