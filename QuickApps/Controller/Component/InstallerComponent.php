@@ -806,7 +806,7 @@ class InstallerComponent extends Component {
 		$p_op = '(?P<operation>!=|==|=|<|<=|>|>=|<>)?';
 		$p_core = '(?:' . preg_quote(Configure::read('Variable.qa_version')) . '-)?';
 		$p_major = '(?P<major>\d+)';
-		$p_minor = '(?P<minor>(?:\d+|x)(?:-[A-Za-z]+\d+)?)';
+		$p_minor = '(?P<minor>(?:\d+|x)(?:-[A-Za-z]+\d*)?)';
 		$value = array();
 		$parts = explode('(', $dependency, 2);
 		$value['name'] = trim($parts[0]);
