@@ -88,7 +88,7 @@ class NodeHookHelper extends AppHelper {
 		}
 
 		if ($nodeType) {
-			$display = $this->_View->viewVars['display'];
+			$display = $this->_View->viewVars['Layout']['display'];
 
 			if ($this->_View->Layout->elementExists("theme_node_{$nodeType}_{$display}")) {
 				return $this->_View->element("theme_node_{$nodeType}_{$display}", array('node' => $node));
