@@ -80,9 +80,9 @@ class NodeController extends NodeAppController {
 			}
 
 			$this->Layout['node'] = $this->paginate('Node', $conditions);
-			$this->Layout['feed'] = '/search/promote:1 language:any';
-			$this->Layout['feed'] .= Configure::read('Variable.language.code') ? ',' . Configure::read('Variable.language.code')  : '';
-			$this->Layout['feed'] .= '/feed';
+			$this->Layout['feed'] = '/search/promote:1%20language:*';
+			$this->Layout['feed'] .= Configure::read('Variable.language.code') ? ',' . Configure::read('Variable.language.code') : '';
+			$this->Layout['feed'] .= '/feed:rss';
 		}
 
 		$this->Layout['display'] = 'list';
@@ -230,14 +230,19 @@ class NodeController extends NodeAppController {
  * Search engine.
  * Process search form-POST criteria and convert it to a nice-well-formatted url query.
  * If no form-POST criteria is given then query criteria is spected.
- * Optionally it can render results as formatted feed (ajax, xml or rss).
+ * Optionally it can render results as formatted feed (ajax, xml or rss) by passing the `feed`
+ * named parameter.
  *
  * ### Example
  *
- *    `term:jazz limit:10 order:Node.created,asc`
+ *    http://www.domain.com/search/term:jazz limit:10 order:Node.created,asc
  *
  * The above criteria will return the first ten nodes tagged as ´jazz´, results are ordered ascending
  * by creation date.
+ *
+ *    http://www.domain.com/search/term:jazz limit:10 order:Node.created,asc/feed:rss
+ *
+ * Same as before, but serving as RSS. You may also use `xml` or `ajax`.
  *
  * ### Default expressions
  *
@@ -285,7 +290,7 @@ class NodeController extends NodeAppController {
 		, false);
 
 		if ($criteria) {
-			$criteria = urldecode($criteria);
+			$criteria = rawurldecode($criteria);
 			$data['Search']['criteria'] = $criteria; // hold untouch criteria query
 			$this->data = $data;
 
@@ -489,7 +494,7 @@ class NodeController extends NodeAppController {
 
 			if (!empty($keys)) {
 				$keys = preg_replace('/ {2,}/', ' ',  implode(' ', $keys));
-				$this->redirect('/search/' . urldecode(trim($keys)));
+				$this->redirect('/search/' . rawurlencode(trim($keys)));
 			}
 		} else {
 			$this->redirect('/');
