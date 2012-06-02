@@ -77,7 +77,7 @@ class NodeController extends NodeAppController {
             }
 
             $this->Layout['node'] = $this->paginate('Node', $conditions);
-            $this->Layout['feed'] = '/s/promote:1 language:any';
+            $this->Layout['feed'] = '/s/promote:1%20language:any';
             $this->Layout['feed'] .= Configure::read('Variable.language.code') ? ',' . Configure::read('Variable.language.code')  : '';
             $this->Layout['feed'] .= '/feed';
         }
