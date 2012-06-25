@@ -158,7 +158,7 @@ class ListController extends UserAppController {
 	}
 
 	public function admin_edit($id) {
-		$user = $this->User->findById($id) or $this->reirect('/admin/user/list');
+		$user = $this->User->findById($id) or $this->redirect('/admin/user/list');
 
 		if (isset($this->data['User']['id']) && $this->data['User']['id'] == $id) {
 			if ($this->User->save($this->data)) {
