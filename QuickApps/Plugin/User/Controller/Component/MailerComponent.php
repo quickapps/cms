@@ -4,9 +4,9 @@
  *
  * PHP version 5
  *
- * @package  QuickApps.Plugin.User.Controller.Component
- * @version  1.0
- * @author   Christopher Castro <chris@qucikapps.es>
+ * @package	 QuickApps.Plugin.User.Controller.Component
+ * @version	 1.0
+ * @author	 Christopher Castro <chris@qucikapps.es>
  * @link	 http://www.quickappscms.org
  */
 class MailerComponent extends Component {
