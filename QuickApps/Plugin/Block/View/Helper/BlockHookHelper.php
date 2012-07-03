@@ -4,9 +4,9 @@
  *
  * PHP version 5
  *
- * @package  QuickApps.Plugin.Block.View.Helper
- * @version  1.0
- * @author   Christopher Castro <chris@qucikapps.es>
+ * @package	 QuickApps.Plugin.Block.View.Helper
+ * @version	 1.0
+ * @author	 Christopher Castro <chris@qucikapps.es>
  * @link	 http://www.quickappscms.org
  */
 class BlockHookHelper extends AppHelper {
