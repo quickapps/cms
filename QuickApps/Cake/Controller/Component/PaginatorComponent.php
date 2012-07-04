@@ -101,8 +101,8 @@ class PaginatorComponent extends Component {
 /**
  * Handles automatic pagination of model records.
  *
- * @param mixed $object Model to paginate (e.g: model instance, or 'Model', or 'Model.InnerModel')
- * @param mixed $scope Additional find conditions to use while paginating
+ * @param Model|string $object Model to paginate (e.g: model instance, or 'Model', or 'Model.InnerModel')
+ * @param string|array $scope Additional find conditions to use while paginating
  * @param array $whitelist List of allowed fields for ordering.  This allows you to prevent ordering
  *   on non-indexed, or undesirable columns.
  * @return array Model query results
@@ -185,6 +185,7 @@ class PaginatorComponent extends Component {
 			$count = $object->find('count', array_merge($parameters, $extra));
 		}
 		$pageCount = intval(ceil($count / $limit));
+		$page = max(min($page, $pageCount), 1);
 
 		$paging = array(
 			'page' => $page,
@@ -218,7 +219,7 @@ class PaginatorComponent extends Component {
 /**
  * Get the object pagination will occur on.
  *
- * @param mixed $object The object you are looking for.
+ * @param string|Model $object The object you are looking for.
  * @return mixed The model object to paginate on.
  */
 	protected function _getObject($object) {
@@ -375,7 +376,7 @@ class PaginatorComponent extends Component {
 		if (empty($options['limit']) || $options['limit'] < 1) {
 			$options['limit'] = 1;
 		}
-		$options['limit'] = min((int)$options['limit'], $options['maxLimit']);
+		$options['limit'] = min($options['limit'], $options['maxLimit']);
 		return $options;
 	}
 

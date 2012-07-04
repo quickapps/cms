@@ -376,12 +376,12 @@ class QaHtmlHelper extends AppHelper {
 /**
  * Returns a row of formatted and named TABLE headers.
  *
- * @param array $names Array of tablenames.
+ * @param array $names Array of tablenames. Each tablename also can be a key that points to an array with a set
+ *     of attributes to its specific tag
  * @param array $trOptions HTML options for TR elements.
  * @param array $thOptions HTML options for TH elements.
  * @return string Completed table headers
- * @access public
- * @link http://book.cakephp.org/view/1446/tableHeaders
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/html.html#HtmlHelper::tableHeaders
  */
 	public function tableHeaders($names, $trOptions = null, $thOptions = null) {
 		$data = compact('names', 'trOptions', 'thOptions');

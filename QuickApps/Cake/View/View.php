@@ -290,6 +290,11 @@ class View extends Object {
 	protected $_eventManager = null;
 
 /**
+ * The view file to be rendered, only used inside _execute()
+ */
+	private $__viewFileName = null;
+
+/**
  * Whether the event manager was already configured for this object
  *
  * @var boolean
@@ -314,6 +319,11 @@ class View extends Object {
 			}
 			$this->_eventManager = $controller->getEventManager();
 		}
+		if (empty($this->request) && !($this->request = Router::getRequest(true))) {
+			$this->request = new CakeRequest(null, false);
+			$this->request->base = '';
+			$this->request->here = $this->request->webroot = '/';
+		}
 		if (is_object($controller) && isset($controller->response)) {
 			$this->response = $controller->response;
 		} else {
@@ -332,8 +342,10 @@ class View extends Object {
  * @return CakeEventManager
  */
 	public function getEventManager() {
-		if (empty($this->_eventManager) || !$this->_eventManagerConfigured) {
+		if (empty($this->_eventManager)) {
 			$this->_eventManager = new CakeEventManager();
+		}
+		if (!$this->_eventManagerConfigured) {
 			$this->_eventManager->attach($this->Helpers);
 			$this->_eventManagerConfigured = true;
 		}
@@ -755,8 +767,8 @@ class View extends Object {
  * Allows a template or element to set a variable that will be available in
  * a layout or other element. Analogous to Controller::set().
  *
- * @param mixed $one A string or an array of data.
- * @param mixed $two Value in case $one is a string (which then works as the key).
+ * @param string|array $one A string or an array of data.
+ * @param string|array $two Value in case $one is a string (which then works as the key).
  *    Unused if $one is an associative array, otherwise serves as the values to $one's keys.
  * @return void
  */
@@ -895,17 +907,19 @@ class View extends Object {
 /**
  * Sandbox method to evaluate a template / view script in.
  *
- * @param string $___viewFn Filename of the view
+ * @param string $viewFn Filename of the view
  * @param array $___dataForView Data to include in rendered view.
  *    If empty the current View::$viewVars will be used.
  * @return string Rendered output
  */
-	protected function _evaluate($___viewFn, $___dataForView) {
-		extract($___dataForView, EXTR_SKIP);
+	protected function _evaluate($viewFile, $dataForView) {
+		$this->__viewFile = $viewFile;
+		extract($dataForView);
 		ob_start();
 
-		include $___viewFn;
+		include $this->__viewFile;
 
+		unset($this->_viewFile);
 		return ob_get_clean();
 	}
 

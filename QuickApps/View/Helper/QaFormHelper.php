@@ -296,18 +296,21 @@ class QaFormHelper extends AppHelper {
  * ### Attributes:
  *
  * - `separator` - define the string in between the radio buttons
+ * - `between` - the string between legend and input set
  * - `legend` - control whether or not the widget set has a fieldset & legend
  * - `value` - indicate a value that is should be checked
  * - `label` - boolean to indicate whether or not labels for widgets show be displayed
  * - `hiddenField` - boolean to indicate if you want the results of radio() to include
- *	a hidden input with a value of ''. This is useful for creating radio sets that non-continuous
+ *    a hidden input with a value of ''. This is useful for creating radio sets that non-continuous
+ * - `disabled` - Set to `true` or `disabled` to disable all the radio buttons.
+ * - `empty` - Set to `true` to create a input with the value '' as the first option.  When `true`
+ *   the radio label will be 'empty'.  Set this option to a string to control the label value.
  *
  * @param string $fieldName Name of a field, like this "Modelname.fieldname"
  * @param array $options Radio button options array.
  * @param array $attributes Array of HTML attributes, and special attributes above.
  * @return string Completed radio widget set.
- * @access public
- * @link http://book.cakephp.org/view/1429/radio
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#options-for-select-checkbox-and-radio-inputs
  */
 	public function radio($fieldName, $options = array(), $attributes = array()) {
 		$data = compact('fieldName', 'options', 'attributes');
@@ -770,5 +773,21 @@ class QaFormHelper extends AppHelper {
  */
 	public function __call($method, $params) {
 		return $this->CoreForm->__call($method, $params);
+	}
+
+/**
+ * Set/Get inputDefaults for form elements
+ *
+ * @param array $defaults New default values
+ * @param boolean Merge with current defaults
+ * @return array inputDefaults
+ */
+	public function inputDefaults($defaults = null, $merge = false) {
+		$data = compact('defaults', 'merge');
+
+		$this->hook('form_inpu_defaults_alter', $data);
+		extract($data);
+
+		return $this->CoreForm->inputDefaults($defaults, $merge);
 	}
 }

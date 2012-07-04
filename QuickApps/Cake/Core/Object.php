@@ -56,7 +56,7 @@ class Object {
  * POST and GET data can be simulated in requestAction.  Use `$extra['url']` for
  * GET data.  The `$extra['data']` parameter allows POST data simulation.
  *
- * @param mixed $url String or array-based url.  Unlike other url arrays in CakePHP, this
+ * @param string|array $url String or array-based url.  Unlike other url arrays in CakePHP, this
  *    url will not automatically handle passed and named arguments in the $url parameter.
  * @param array $extra if array includes the key "return" it sets the AutoRender to true.  Can
  *    also be used to submit GET/POST data, and named/passed arguments.
@@ -146,7 +146,7 @@ class Object {
  * @param integer $type Error type constant. Defined in app/Config/core.php.
  * @return boolean Success of log write
  */
-	public function log($msg, $type = LOG_ERROR) {
+	public function log($msg, $type = LOG_ERR) {
 		App::uses('CakeLog', 'Log');
 		if (!is_string($msg)) {
 			$msg = print_r($msg, true);

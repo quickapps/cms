@@ -86,7 +86,7 @@ class DatabaseSession implements CakeSessionHandlerInterface {
 /**
  * Method used to read from a database session.
  *
- * @param mixed $id The key of the value to read
+ * @param integer|string $id The key of the value to read
  * @return mixed The value of the key or false if it does not exist
  */
 	public function read($id) {
@@ -139,24 +139,6 @@ class DatabaseSession implements CakeSessionHandlerInterface {
 			$expires = time();
 		}
 		return $this->_model->deleteAll(array($this->_model->alias . ".expires <" => $expires), false, false);
-	}
-
-/**
- * Writes and closes a session
- * 
- * @return void 
- */
-	protected function _writeSession() {
-		session_write_close();
-	}
-
-/**
- * Closes the session before the objects handling it become unavailable
- *
- * @return void
- */
-	public function __destruct() {
-		$this->_writeSession();
 	}
 
 }

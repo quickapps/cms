@@ -457,7 +457,7 @@ class Router {
  *    integer values and UUIDs.
  * - 'prefix' - URL prefix to use for the generated routes.  Defaults to '/'.
  *
- * @param mixed $controller A controller name or array of controller names (i.e. "Posts" or "ListItems")
+ * @param string|array $controller A controller name or array of controller names (i.e. "Posts" or "ListItems")
  * @param array $options Options to use when generating REST routes
  * @return array Array of mapped resources
  */
@@ -729,11 +729,11 @@ class Router {
  * - `#` - Allows you to set url hash fragments.
  * - `full_base` - If true the `FULL_BASE_URL` constant will be prepended to generated urls.
  *
- * @param mixed $url Cake-relative URL, like "/products/edit/92" or "/presidents/elect/4"
+ * @param string|array $url Cake-relative URL, like "/products/edit/92" or "/presidents/elect/4"
  *   or an array specifying any of the following: 'controller', 'action',
  *   and/or 'plugin', in addition to named arguments (keyed array elements),
  *   and standard URL arguments (indexed array elements)
- * @param mixed $full If (bool) true, the full base URL will be prepended to the result.
+ * @param bool|array $full If (bool) true, the full base URL will be prepended to the result.
  *   If an array accepts the following keys
  *    - escape - used when making urls embedded in html escapes query string '&'
  *    - full - if true the full base URL will be prepended.
@@ -957,12 +957,19 @@ class Router {
 		$out = '';
 
 		if (is_array($q)) {
-			$q = array_merge($extra, $q);
+			$q = array_merge($q, $extra);
 		} else {
 			$out = $q;
 			$q = $extra;
 		}
-		$out .= http_build_query($q, null, $join);
+		$addition = http_build_query($q, null, $join);
+
+		if ($out && $addition && substr($out, strlen($join) * -1, strlen($join)) != $join) {
+			$out .= $join;
+		}
+
+		$out .= $addition;
+
 		if (isset($out[0]) && $out[0] != '?') {
 			$out = '?' . $out;
 		}
@@ -1009,7 +1016,7 @@ class Router {
  * and replace any double /'s.  It will not unify the casing and underscoring
  * of the input value.
  *
- * @param mixed $url URL to normalize Either an array or a string url.
+ * @param array|string $url URL to normalize Either an array or a string url.
  * @return string Normalized URL
  */
 	public static function normalize($url = '/') {
@@ -1095,18 +1102,37 @@ class Router {
 	public static function parseExtensions() {
 		self::$_parseExtensions = true;
 		if (func_num_args() > 0) {
-			self::$_validExtensions = func_get_args();
+			self::setExtensions(func_get_args(), false);
 		}
 	}
 
 /**
- * Get the list of extensions that can be parsed by Router.  To add more
- * extensions use Router::parseExtensions()
+ * Get the list of extensions that can be parsed by Router.
+ * To initially set extensions use `Router::parseExtensions()`
+ * To add more see `setExtensions()`
  *
  * @return array Array of extensions Router is configured to parse.
  */
 	public static function extensions() {
 		return self::$_validExtensions;
+	}
+
+/**
+ * Set/add valid extensions.
+ * To have the extensions parsed you still need to call `Router::parseExtensions()`
+ *
+ * @param array $extensions List of extensions to be added as valid extension
+ * @param boolean $merge Default true will merge extensions. Set to false to override current extensions
+ * @return array
+ */
+	public static function setExtensions($extensions, $merge = true) {
+		if (!is_array($extensions)) {
+			return self::$_validExtensions;
+		}
+		if (!$merge) {
+			return self::$_validExtensions = $extensions;
+		}
+		return self::$_validExtensions = array_merge(self::$_validExtensions, $extensions);
 	}
 
 }

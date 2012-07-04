@@ -34,7 +34,7 @@ class Hash {
  * but is faster for simple read operations.
  *
  * @param array $data Array of data to operate on.
- * @param mixed $path The path being searched for. Either a dot
+ * @param string|array $path The path being searched for. Either a dot
  *   separated string, or an array of path segments.
  * @return mixed The value fetched from the array, or null.
  */
@@ -47,7 +47,7 @@ class Hash {
 		} else {
 			$parts = $path;
 		}
-		while (($key = array_shift($parts)) !== null) {
+		foreach ($parts as $key) {
 			if (is_array($data) && isset($data[$key])) {
 				$data =& $data[$key];
 			} else {
@@ -106,8 +106,7 @@ class Hash {
 
 		$context = array($_key => array($data));
 
-		do {
-			$token = array_shift($tokens);
+		foreach ($tokens as $token) {
 			$next = array();
 
 			$conditions = false;
@@ -137,7 +136,7 @@ class Hash {
 			}
 			$context = array($_key => $next);
 
-		} while (!empty($tokens));
+		}
 		return $context[$_key];
 	}
 
@@ -176,12 +175,7 @@ class Hash {
 			PREG_SET_ORDER
 		);
 
-		$ok = true;
-		while ($ok) {
-			if (empty($conditions)) {
-				break;
-			}
-			$cond = array_shift($conditions);
+		foreach ($conditions as $cond) {
 			$attr = $cond['attr'];
 			$op = isset($cond['op']) ? $cond['op'] : null;
 			$val = isset($cond['val']) ? $cond['val'] : null;
@@ -192,7 +186,7 @@ class Hash {
 			}
 
 			// Empty attribute = fail.
-			if (!isset($data[$attr])) {
+			if (!(isset($data[$attr]) || array_key_exists($attr, $data))) {
 				return false;
 			}
 
@@ -224,7 +218,7 @@ class Hash {
  *
  * @param array $data The data to insert into.
  * @param string $path The path to insert at.
- * @param mixed $values The values to insert.
+ * @param array $values The values to insert.
  * @return array The data with $values inserted.
  */
 	public static function insert(array $data, $path, $values = null) {
@@ -821,8 +815,8 @@ class Hash {
  * This method differs from the built-in array_diff() in that it will preserve keys
  * and work on multi-dimensional arrays.
  *
- * @param mixed $data First value
- * @param mixed $compare Second value
+ * @param array $data First value
+ * @param array $compare Second value
  * @return array Returns the key => value pairs that are not common in $data and $compare
  *    The expression for this function is ($data - $compare) + ($compare - ($data - $compare))
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/hash.html#Hash::diff
@@ -872,7 +866,7 @@ class Hash {
 /**
  * Normalizes an array, and converts it to a standard format.
  *
- * @param mixed $data List to normalize
+ * @param array $data List to normalize
  * @param boolean $assoc If true, $data will be converted to an associative array.
  * @return array
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/hash.html#Hash::normalize
@@ -916,7 +910,7 @@ class Hash {
  *   Should be compatible with Hash::extract(). Defaults to `{n}.$alias.parent_id`
  * - `root` The id of the desired top-most result.
  *
- * @param mixed $data The data to nest.
+ * @param array $data The data to nest.
  * @param array $options Options are:
  * @return array of results, nested
  * @see Hash::extract()

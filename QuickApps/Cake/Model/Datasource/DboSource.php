@@ -53,9 +53,8 @@ class DboSource extends DataSource {
 
 /**
  * Caches result from query parsing operations.  Cached results for both DboSource::name() and
- * DboSource::conditions() will be stored here.  Method caching uses `crc32()` which is
- * fast but can collisions more easily than other hashing algorithms.  If you have problems
- * with collisions, set DboSource::$cacheMethods to false.
+ * DboSource::conditions() will be stored here.  Method caching uses `md5()`. If you have
+ * problems with collisions, set DboSource::$cacheMethods to false.
  *
  * @var array
  */
@@ -253,7 +252,8 @@ class DboSource extends DataSource {
 		$this->fullDebug = Configure::read('debug') > 1;
 		if (!$this->enabled()) {
 			throw new MissingConnectionException(array(
-				'class' => get_class($this)
+				'class' => get_class($this),
+				'enabled' => false
 			));
 		}
 		if ($autoConnect) {
@@ -791,7 +791,7 @@ class DboSource extends DataSource {
  * Strips fields out of SQL functions before quoting.
  *
  * Results of this method are stored in a memory cache.  This improves performance, but
- * because the method uses a simple hashing algorithm it can infrequently have collisions.
+ * because the method uses a hashing algorithm it can have collisions.
  * Setting DboSource::$cacheMethods to false will disable the memory cache.
  *
  * @param mixed $data Either a string with a column to quote. An array of columns to quote or an
@@ -811,7 +811,7 @@ class DboSource extends DataSource {
 			}
 			return $data;
 		}
-		$cacheKey = crc32($this->startQuote . $data . $this->endQuote);
+		$cacheKey = md5($this->startQuote . $data . $this->endQuote);
 		if ($return = $this->cacheMethod(__FUNCTION__, $cacheKey)) {
 			return $return;
 		}
@@ -937,7 +937,7 @@ class DboSource extends DataSource {
 /**
  * Gets full table name including prefix
  *
- * @param mixed $model Either a Model object or a string table name.
+ * @param Model|string $model Either a Model object or a string table name.
  * @param boolean $quote Whether you want the table name quoted.
  * @param boolean $schema Whether you want the schema name included.
  * @return string Full quoted table name
@@ -1080,6 +1080,7 @@ class DboSource extends DataSource {
 		$query = trim($this->generateAssociationQuery($model, null, null, null, null, $queryData, false, $null));
 
 		$resultSet = $this->fetchAll($query, $model->cacheQueries);
+
 		if ($resultSet === false) {
 			$model->onError();
 			return false;
@@ -1092,6 +1093,10 @@ class DboSource extends DataSource {
 		}
 
 		if ($model->recursive > -1) {
+			$joined = array();
+			if (isset($queryData['joins'][0]['alias'])) {
+				$joined[$model->alias] = (array)Hash::extract($queryData['joins'], '{n}.alias');
+			}
 			foreach ($_associations as $type) {
 				foreach ($model->{$type} as $assoc => $assocData) {
 					$linkModel = $model->{$assoc};
@@ -1108,6 +1113,7 @@ class DboSource extends DataSource {
 
 					if (isset($db) && method_exists($db, 'queryAssociation')) {
 						$stack = array($assoc);
+						$stack['_joined'] = $joined;
 						$db->queryAssociation($model, $linkModel, $type, $assoc, $assocData, $array, true, $resultSet, $model->recursive - 1, $stack);
 						unset($db);
 
@@ -1176,6 +1182,11 @@ class DboSource extends DataSource {
  * @throws CakeException when results cannot be created.
  */
 	public function queryAssociation(Model $model, &$linkModel, $type, $association, $assocData, &$queryData, $external, &$resultSet, $recursive, $stack) {
+		if (isset($stack['_joined'])) {
+			$joined = $stack['_joined'];
+			unset($stack['_joined']);
+		}
+
 		if ($query = $this->generateAssociationQuery($model, $linkModel, $type, $association, $assocData, $queryData, $external, $resultSet)) {
 			if (!is_array($resultSet)) {
 				throw new CakeException(__d('cake_dev', 'Error in Model %s', get_class($model)));
@@ -1251,10 +1262,17 @@ class DboSource extends DataSource {
 			foreach ($resultSet as &$row) {
 				if ($type !== 'hasAndBelongsToMany') {
 					$q = $this->insertQueryData($query, $row, $association, $assocData, $model, $linkModel, $stack);
+					$fetch = null;
 					if ($q !== false) {
-						$fetch = $this->fetchAll($q, $model->cacheQueries);
-					} else {
-						$fetch = null;
+						$joinedData = array();
+						if (($type === 'belongsTo' || $type === 'hasOne') && isset($row[$linkModel->alias], $joined[$model->alias]) && in_array($linkModel->alias, $joined[$model->alias])) {
+							$joinedData = Hash::filter($row[$linkModel->alias]);
+							if (!empty($joinedData)) {
+								$fetch[0] = array($linkModel->alias => $row[$linkModel->alias]);
+							}
+						} else {
+							$fetch = $this->fetchAll($q, $model->cacheQueries);
+						}
 					}
 				}
 				$selfJoin = $linkModel->name === $model->name;
@@ -2019,7 +2037,7 @@ class DboSource extends DataSource {
  * Deletes all the records in a table and resets the count of the auto-incrementing
  * primary key, where applicable.
  *
- * @param mixed $table A string or model class representing the table to be truncated
+ * @param Model|string $table A string or model class representing the table to be truncated
  * @return boolean	SQL TRUNCATE TABLE statement, false if not applicable.
  */
 	public function truncate($table) {
@@ -2172,7 +2190,7 @@ class DboSource extends DataSource {
  * were provided either null or false will be returned based on what was input.
  *
  * @param Model $model
- * @param mixed $conditions Array of conditions, conditions string, null or false. If an array of conditions,
+ * @param string|array|boolean $conditions Array of conditions, conditions string, null or false. If an array of conditions,
  *   or string conditions those conditions will be returned.  With other values the model's existence will be checked.
  *   If the model doesn't exist a null or false will be returned depending on the input value.
  * @param boolean $useAlias Use model aliases rather than table names when generating conditions
@@ -2233,7 +2251,7 @@ class DboSource extends DataSource {
  *
  * @param Model $model
  * @param string $alias Alias table name
- * @param mixed $fields virtual fields to be used on query
+ * @param array $fields virtual fields to be used on query
  * @return array
  */
 	protected function _constructVirtualFields(Model $model, $alias, $fields) {
@@ -2266,7 +2284,8 @@ class DboSource extends DataSource {
 			$model->alias,
 			$virtualFields,
 			$fields,
-			$quote
+			$quote,
+			ConnectionManager::getSourceName($this)
 		);
 		$cacheKey = md5(serialize($cacheKey));
 		if ($return = $this->cacheMethod(__FUNCTION__, $cacheKey)) {
@@ -2366,7 +2385,7 @@ class DboSource extends DataSource {
  * is given it will be integer cast as condition.  Null will return 1 = 1.
  *
  * Results of this method are stored in a memory cache.  This improves performance, but
- * because the method uses a simple hashing algorithm it can infrequently have collisions.
+ * because the method uses a hashing algorithm it can have collisions.
  * Setting DboSource::$cacheMethods to false will disable the memory cache.
  *
  * @param mixed $conditions Array or string of conditions, or any value.

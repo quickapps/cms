@@ -191,7 +191,7 @@ class CakeException extends RuntimeException {
  * Allows you to create exceptions that are treated as framework errors and disabled
  * when debug = 0.
  *
- * @param mixed $message Either the string of the error message, or an array of attributes
+ * @param string|array $message Either the string of the error message, or an array of attributes
  *   that are made available in the view, and sprintf()'d into CakeException::$_messageTemplate
  * @param string $code The code of the error, is also the HTTP status code for the error.
  */
@@ -337,6 +337,13 @@ class MissingConnectionException extends CakeException {
 
 	protected $_messageTemplate = 'Database connection "%s" is missing, or could not be created.';
 
+	public function __construct($message, $code = 500) {
+		if (is_array($message)) {
+			$message += array('enabled' => true);
+		}
+		parent::__construct($message, $code);
+	}
+
 }
 
 /**
@@ -450,7 +457,7 @@ class MissingDispatcherFilterException extends CakeException {
 }
 
 /**
- * Exception class for AclComponent and Interface implementations. 
+ * Exception class for AclComponent and Interface implementations.
  *
  * @package       Cake.Error
  */

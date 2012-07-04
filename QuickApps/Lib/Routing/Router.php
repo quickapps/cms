@@ -10,11 +10,11 @@
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright	 Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link		  http://cakephp.org CakePHP(tm) Project
- * @package	   Cake.Routing
- * @since		 CakePHP(tm) v 0.2.9
- * @license	   MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org CakePHP(tm) Project
+ * @package       Cake.Routing
+ * @since         CakePHP(tm) v 0.2.9
+ * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
 App::uses('CakeRequest', 'Network');
@@ -37,7 +37,7 @@ App::uses('CakeRoute', 'Routing/Route');
  * Named parameters allow you to embed key:value pairs into path segments.  This allows you create hash
  * structures using urls.  You can define how named parameters work in your application using Router::connectNamed()
  *
- * @package	   Cake.Routing
+ * @package       Cake.Routing
  */
 class Router {
 
@@ -377,8 +377,8 @@ class Router {
  *
  * {{{
  * Router::connectNamed(
- *	array('page' => array('action' => 'index')),
- *	array('default' => false, 'greedy' => false)
+ *    array('page' => array('action' => 'index')),
+ *    array('default' => false, 'greedy' => false)
  * );
  * }}}
  *
@@ -386,21 +386,21 @@ class Router {
  *
  * {{{
  * Router::connectNamed(
- *	array('page' => array('action' => 'index', 'controller' => 'pages')),
- *	array('default' => false, 'greedy' => false)
+ *    array('page' => array('action' => 'index', 'controller' => 'pages')),
+ *    array('default' => false, 'greedy' => false)
  * );
  * }}}
  *
  * ### Options
  *
  * - `greedy` Setting this to true will make Router parse all named params.  Setting it to false will
- *	parse only the connected named params.
+ *    parse only the connected named params.
  * - `default` Set this to true to merge in the default set of named parameters.
  * - `reset` Set to true to clear existing rules and start fresh.
  * - `separator` Change the string used to separate the key & value in a named parameter.  Defaults to `:`
  *
  * @param array $named A list of named parameters. Key value pairs are accepted where values are
- *	either regex strings to match, or arrays as seen above.
+ *    either regex strings to match, or arrays as seen above.
  * @param array $options Allows to control all settings: separator, greedy, reset, default
  * @return array
  */
@@ -454,10 +454,10 @@ class Router {
  * ### Options:
  *
  * - 'id' - The regular expression fragment to use when matching IDs.  By default, matches
- *	integer values and UUIDs.
+ *    integer values and UUIDs.
  * - 'prefix' - URL prefix to use for the generated routes.  Defaults to '/'.
  *
- * @param mixed $controller A controller name or array of controller names (i.e. "Posts" or "ListItems")
+ * @param string|array $controller A controller name or array of controller names (i.e. "Posts" or "ListItems")
  * @param array $options Options to use when generating REST routes
  * @return array Array of mapped resources
  */
@@ -694,7 +694,7 @@ class Router {
  * Promote a route (by default, the last one added) to the beginning of the list
  *
  * @param integer $which A zero-based array index representing the route to move. For example,
- *	if 3 routes have been added, the last route would be 2.
+ *    if 3 routes have been added, the last route would be 2.
  * @return boolean Returns false if no route exists at the position specified by $which.
  */
 	public static function promote($which = null) {
@@ -729,14 +729,14 @@ class Router {
  * - `#` - Allows you to set url hash fragments.
  * - `full_base` - If true the `FULL_BASE_URL` constant will be prepended to generated urls.
  *
- * @param mixed $url Cake-relative URL, like "/products/edit/92" or "/presidents/elect/4"
+ * @param string|array $url Cake-relative URL, like "/products/edit/92" or "/presidents/elect/4"
  *   or an array specifying any of the following: 'controller', 'action',
  *   and/or 'plugin', in addition to named arguments (keyed array elements),
  *   and standard URL arguments (indexed array elements)
- * @param mixed $full If (bool) true, the full base URL will be prepended to the result.
+ * @param bool|array $full If (bool) true, the full base URL will be prepended to the result.
  *   If an array accepts the following keys
- *	- escape - used when making urls embedded in html escapes query string '&'
- *	- full - if true the full base URL will be prepended.
+ *    - escape - used when making urls embedded in html escapes query string '&'
+ *    - full - if true the full base URL will be prepended.
  * @return string Full translated URL with base path.
  */
 	public static function url($url = null, $full = false) {
@@ -973,7 +973,7 @@ class Router {
  * Generates a well-formed querystring from $q
  *
  * @param string|array $q Query string Either a string of already compiled query string arguments or
- *	an array of arguments to convert into a query string.
+ *    an array of arguments to convert into a query string.
  * @param array $extra Extra querystring parameters.
  * @param boolean $escape Whether or not to use escaped &
  * @return array
@@ -989,12 +989,19 @@ class Router {
 		$out = '';
 
 		if (is_array($q)) {
-			$q = array_merge($extra, $q);
+			$q = array_merge($q, $extra);
 		} else {
 			$out = $q;
 			$q = $extra;
 		}
-		$out .= http_build_query($q, null, $join);
+		$addition = http_build_query($q, null, $join);
+
+		if ($out && $addition && substr($out, strlen($join) * -1, strlen($join)) != $join) {
+			$out .= $join;
+		}
+
+		$out .= $addition;
+
 		if (isset($out[0]) && $out[0] != '?') {
 			$out = '?' . $out;
 		}
@@ -1011,7 +1018,7 @@ class Router {
  *
  * @param CakeRequest|array $params The params array or CakeRequest object that needs to be reversed.
  * @param boolean $full Set to true to include the full url including the protocol when reversing
- *	 the url.
+ *     the url.
  * @return string The string that is the reversed result of the array
  */
 	public static function reverse($params, $full = false) {
@@ -1041,7 +1048,7 @@ class Router {
  * and replace any double /'s.  It will not unify the casing and underscoring
  * of the input value.
  *
- * @param mixed $url URL to normalize Either an array or a string url.
+ * @param array|string $url URL to normalize Either an array or a string url.
  * @return string Normalized URL
  */
 	public static function normalize($url = '/') {
@@ -1127,18 +1134,37 @@ class Router {
 	public static function parseExtensions() {
 		self::$_parseExtensions = true;
 		if (func_num_args() > 0) {
-			self::$_validExtensions = func_get_args();
+			self::setExtensions(func_get_args(), false);
 		}
 	}
 
 /**
- * Get the list of extensions that can be parsed by Router.  To add more
- * extensions use Router::parseExtensions()
+ * Get the list of extensions that can be parsed by Router.
+ * To initially set extensions use `Router::parseExtensions()`
+ * To add more see `setExtensions()`
  *
  * @return array Array of extensions Router is configured to parse.
  */
 	public static function extensions() {
 		return self::$_validExtensions;
+	}
+
+/**
+ * Set/add valid extensions.
+ * To have the extensions parsed you still need to call `Router::parseExtensions()`
+ *
+ * @param array $extensions List of extensions to be added as valid extension
+ * @param boolean $merge Default true will merge extensions. Set to false to override current extensions
+ * @return array
+ */
+	public static function setExtensions($extensions, $merge = true) {
+		if (!is_array($extensions)) {
+			return self::$_validExtensions;
+		}
+		if (!$merge) {
+			return self::$_validExtensions = $extensions;
+		}
+		return self::$_validExtensions = array_merge(self::$_validExtensions, $extensions);
 	}
 
 }
