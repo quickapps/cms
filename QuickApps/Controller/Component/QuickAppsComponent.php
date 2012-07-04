@@ -803,7 +803,7 @@ class QuickAppsComponent extends Component {
  *
  * @see QuickApps::is()
  */
-	public function is($detect, $p = null) {
+	public function is() {
 		$params = func_get_args();
 
 		return call_user_func_array('QuickApps::is', $params);

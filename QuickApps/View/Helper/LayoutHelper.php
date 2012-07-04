@@ -309,14 +309,13 @@ class LayoutHelper extends AppHelper {
  * then default rendering proccess is fired.
  *
  * @param mixed $node Optional:
- *				  - boolean FALSE: current node will be rendered. (by default)
- *				  - string SLUG: render node by node's slug.
- *				  - array : asociative Node's array to render.
+ *	- boolean FALSE: current node will be rendered. (by default)
+ *	- string SLUG: render node by node's slug.
+ *	- array : asociative Node's array to render.
  * @param array $options Node rendering options:
- *				  - mixed class: array or string, extra CSS class(es) for node DIV container
- *				  - mixed display: set to string value to force rendering display mode. set to boolean false for automatic.
- * @return string HTML formatted node.
- *				Empty string ('') will be returned if node could not be rendered.
+ *	- mixed class: array or string, extra CSS class(es) for node DIV container
+ *	- mixed display: set to string value to force rendering display mode. set to boolean false for automatic.
+ * @return string HTML formatted node. Empty string will be returned if node could not be rendered.
  */
 	public function renderNode($node = false, $options = array()) {
 		$options = array_merge(
