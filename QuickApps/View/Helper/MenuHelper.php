@@ -2,8 +2,8 @@
 /**
  * Menu Helper
  *
- * @author Christopher Castro <chris@quickapps.es>
- * @package QuickApps.View.Helper
+ * @author	 Christopher Castro <chris@quickapps.es>
+ * @package	 QuickApps.View.Helper
  */
 class MenuHelper extends AppHelper {
 /**

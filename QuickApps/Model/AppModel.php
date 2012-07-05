@@ -6,9 +6,9 @@ App::uses('Model', 'Model');
  *
  * PHP version 5
  *
- * @package  QuickApps.Model
- * @version  1.0
- * @author   Christopher Castro <chris@quickapps.es>
+ * @package	 QuickApps.Model
+ * @version	 1.0
+ * @author	 Christopher Castro <chris@quickapps.es>
  * @link	 http://www.quickappscms.org
  */
 class AppModel extends Model {

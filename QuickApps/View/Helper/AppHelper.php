@@ -6,9 +6,9 @@ App::uses('Helper', 'View');
  *
  * PHP version 5
  *
- * @package  QuickApps.View/Helper
- * @version  1.0
- * @author   Christopher Castro <chris@quickapps.es>
+ * @package	 QuickApps.View/Helper
+ * @version	 1.0
+ * @author	 Christopher Castro <chris@quickapps.es>
  * @link	 http://www.quickappscms.org
  */
 class AppHelper extends Helper {

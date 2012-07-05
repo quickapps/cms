@@ -2,8 +2,8 @@
 /**
  * Default breadcrumbs rendering.
  *
- * @package QuickApps.View.Elements
- * @author Christopher Castro <chris@quickapps.es>
+ * @package	 QuickApps.View.Elements
+ * @author	 Christopher Castro <chris@quickapps.es>
  */
 ?>
 

@@ -4,11 +4,11 @@
  *
  * PHP version 5
  *
- * @package		QuickApps.Model.Behavior
- * @author		Mariano Iglesias
- * @link		http://cake-syrup.sourceforge.net/ingredients/sluggable-behavior/
- * @version		$Revision: 36 $
- * @license		http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @package	 QuickApps.Model.Behavior
+ * @author	 Mariano Iglesias
+ * @link	 http://cake-syrup.sourceforge.net/ingredients/sluggable-behavior/
+ * @version	 $Revision: 36 $
+ * @license	 http://www.opensource.org/licenses/mit-license.php The MIT License
  */ 
 class SluggableBehavior extends ModelBehavior {
 /**

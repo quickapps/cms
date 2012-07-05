@@ -4,9 +4,9 @@
  *
  * PHP version 5
  *
- * @package  QuickApps.Controller.Component
- * @version  1.0
- * @author   Christopher Castro <chris@quickapps.es>
+ * @package	 QuickApps.Controller.Component
+ * @version	 1.0
+ * @author	 Christopher Castro <chris@quickapps.es>
  * @link	 http://www.quickappscms.org
  */
 class QuickAppsComponent extends Component {

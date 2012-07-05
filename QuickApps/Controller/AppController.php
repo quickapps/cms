@@ -6,9 +6,9 @@ App::uses('Controller', 'Controller');
  *
  * PHP version 5
  *
- * @package QuickApps.Controller
- * @author Christopher Castro <chris@quickapps.es>
- * @link http://www.quickappscms.org
+ * @package	 QuickApps.Controller
+ * @author	 Christopher Castro <chris@quickapps.es>
+ * @link	 http://www.quickappscms.org
  */
 class AppController extends Controller {
 /**
@@ -151,7 +151,7 @@ class AppController extends Controller {
  *
  * @see QuickApps::is()
  */
-	public function is($detect) {
+	public function is() {
 		$params = func_get_args();
 
 		return call_user_func_array('QuickApps::is', $params);

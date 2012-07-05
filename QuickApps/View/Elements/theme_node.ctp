@@ -3,8 +3,8 @@
  * Default Node rendering.
  * This element is rendered by NodeHookHelper::node_render().
  *
- * @package QuickApps.View.Elements
- * @author Christopher Castro <chris@quickapps.es>
+ * @package	 QuickApps.View.Elements
+ * @author	 Christopher Castro <chris@quickapps.es>
  */
 ?>
 

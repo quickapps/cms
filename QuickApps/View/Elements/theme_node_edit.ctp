@@ -3,8 +3,8 @@
  * Edit form for NodeType.
  * This element is rendered by NodeHookHelper::node_form().
  *
- * @package QuickApps.View.Elements
- * @author Christopher Castro <chris@quickapps.es>
+ * @package	 QuickApps.View.Elements
+ * @author	 Christopher Castro <chris@quickapps.es>
  */
 ?>
 

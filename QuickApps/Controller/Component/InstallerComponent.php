@@ -795,11 +795,11 @@ class InstallerComponent extends Component {
  * @return mixed
  *	An associative array with three keys as below, callers should pass this
  *	structure to `checkIncompatibility()`:
- *		-	`name`: includes the name of the thing to depend on (e.g. 'foo')
- *		-	`original_version`: contains the original version string
- *		-	`versions`: is a list of associative arrays, each containing the keys
- *			'op' and 'version'. 'op' can be one of: '=', '==', '!=', '<>', '<',
- *			'<=', '>', or '>='. 'version' is one piece like '4.5-beta3'.
+ *	-	`name`: includes the name of the thing to depend on (e.g. 'foo')
+ *	-	`original_version`: contains the original version string
+ *	-	`versions`: is a list of associative arrays, each containing the keys
+ *		'op' and 'version'. 'op' can be one of: '=', '==', '!=', '<>', '<',
+ *		'<=', '>', or '>='. 'version' is one piece like '4.5-beta3'.
  * @see InstallerComponent::checkIncompatibility()
  */
 	public function parseDependency($dependency) {
@@ -979,7 +979,7 @@ class InstallerComponent extends Component {
  *
  * ### Usage:
  *
- *    $this->Installer->buildAcos('User', APP . 'Plugin' . DS);
+ *     buildAcos('User', APP . 'Plugin' . DS);
  *
  * The above would generate all the permissions tree for the Core module User.
  *
@@ -1361,7 +1361,7 @@ class InstallerComponent extends Component {
  * Example of use on module install, the code below will insert a new link
  * to the backend menu (`management`):
  *
- *    $this->Installer->menuLink(
+ *    menuLink(
  *        array(
  *            'link' => '/my_new_module/dashboard',
  *            'description' => 'This is a link to my new awesome module',
@@ -1855,9 +1855,9 @@ class InstallerComponent extends Component {
  * @param mixed $includeBefore
  *	Optional classes to load (include) before Controller class,
  *	use this to load classes which the Controller depends.
- *		- Array list of full paths for classes to include before Controller class is loaded.
- *		- String value to load a single class file before Controller class is loaded.
- *		- FALSE for load nothing.
+ *	- Array list of full paths for classes to include before Controller class is loaded.
+ *	- String value to load a single class file before Controller class is loaded.
+ *	- FALSE for load nothing.
  * @return array List of all controller's method names
  * @see InstallerComponent::buildAcos()
  */
