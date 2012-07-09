@@ -223,13 +223,17 @@ class QuickAppsComponent extends Component {
 		Configure::write('Variable.qa_version', Configure::read('Modules.System.yaml.version'));
 
 		// Basic js files/inline
+		$lang = Configure::read('Variable.language');
+
+		unset($lang['id'], $lang['status'], $lang['ordering']);
+
 		$this->Controller->Layout['javascripts']['inline'][] = '
 			jQuery.extend(QuickApps.settings, {
 				"version": "' . Configure::read('Variable.qa_version'). '",
 				"url": "' . (defined('FULL_BASE_URL') ? FULL_BASE_URL . $this->Controller->here : $this->Controller->here) . '",
 				"base_url": "' . QuickApps::strip_language_prefix(Router::url('/', true)) . '",
 				"domain": "' . env('HTTP_HOST') . '",
-				"locale": {"code": "' . Configure::read('Variable.language.code') . '"}
+				"locale": ' . json_encode($lang) . '
 			});';
 
 		// pass js to modules
