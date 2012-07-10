@@ -13,6 +13,7 @@
 			array(
 				'id' => 'acos-ul',
 				'model' => 'Aco',
+				'titlePath' => array('name', 'alias'),
 				'element' => 'User.permission-node'
 			)
 		);

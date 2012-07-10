@@ -299,8 +299,17 @@ class PermissionsController extends UserAppController {
 		return false;
 	}
 
+/**
+ * Prepares permissions tree. Looks for name/descriptions entries on YAML.
+ * Sets view variable `acos_details` used by admin_edit()
+ *
+ * @param array $results Result from Model::find
+ * @param array $list Holds the output result. Used internally by recursive calls
+ * @param array $acosYaml Holds a list of YAML array of each app. Used internally by recursive calls
+ * @return void
+ */
 	private function __acosDetails(&$results, &$list = array(), &$acosYaml = array()) {
-		foreach ($results as $key => $aco) {
+		foreach ($results as $key => &$aco) {
 			$list[$aco['Aco']['id']] = $aco['Aco'];
 
 			if (!$aco['Aco']['parent_id']) {
@@ -319,14 +328,14 @@ class PermissionsController extends UserAppController {
 					}
 
 					if ($isField) {
-						$list[$aco['Aco']['id']]['name'] = __t('Field: %s', $m['yaml']['name']);
+						$aco['Aco']['name'] = __t('Field: %s', $m['yaml']['name']);
 					} elseif ($isTheme) {
-						$list[$aco['Aco']['id']]['name'] = __t('Theme: %s', $m['yaml']['name']);
+						$aco['Aco']['name'] = __t('Theme: %s', $m['yaml']['name']);
 					} else {
-						$list[$aco['Aco']['id']]['name'] = __t('Module: %s', $m['yaml']['name']);
+						$aco['Aco']['name'] = __t('Module: %s', $m['yaml']['name']);
 					}
 
-					$list[$aco['Aco']['id']]['description'] = $m['yaml']['description'];
+					$aco['Aco']['description'] = $m['yaml']['description'];
 
 					if (file_exists("{$ppath}Permissions.yaml")) {
 						$acosYaml[$aco['Aco']['id']] = $yaml = Spyc::YAMLLoad("{$ppath}Permissions.yaml");
@@ -334,9 +343,7 @@ class PermissionsController extends UserAppController {
 
 					if (isset($yaml['Preset'])) {
 						foreach ($yaml['Preset'] as $pname => $pdata) {
-							if (isset($pdata['name']) &&
-								isset($pdata['acos'])
-							) {
+							if (isset($pdata['name']) && isset($pdata['acos'])) {
 								$results[$key]['children'][] = array(
 									'Aco' => array(
 										'id' => "{$aco['Aco']['alias']}.{$pname}",
@@ -348,8 +355,8 @@ class PermissionsController extends UserAppController {
 						}
 					}
 				} else {
-					$list[$aco['Aco']['id']]['name'] = $aco['Aco']['alias'];
-					$list[$aco['Aco']['id']]['description'] = '';
+					$aco['Aco']['name'] = $aco['Aco']['alias'];
+					$aco['Aco']['description'] = '';
 				}
 			} else {
 				if (isset($acosYaml[$aco['Aco']['parent_id']])) {
@@ -363,9 +370,9 @@ class PermissionsController extends UserAppController {
 						continue;
 					}
 
-					$list[$aco['Aco']['id']]['name'] = isset($yaml['Controller'][$aco['Aco']['alias']]['name']) ? $yaml['Controller'][$aco['Aco']['alias']]['name'] : $aco['Aco']['alias'];
-					$list[$aco['Aco']['id']]['description'] = isset($yaml['Controller'][$aco['Aco']['alias']]['description']) ? $yaml['Controller'][$aco['Aco']['alias']]['description'] : '';
-				} elseif (isset($list[$aco['Aco']['parent_id']])) {
+					$aco['Aco']['name'] = isset($yaml['Controller'][$aco['Aco']['alias']]['name']) ? $yaml['Controller'][$aco['Aco']['alias']]['name'] : $aco['Aco']['alias'];
+					$aco['Aco']['description'] = isset($yaml['Controller'][$aco['Aco']['alias']]['description']) ? $yaml['Controller'][$aco['Aco']['alias']]['description'] : '';
+				} else {
 					// method
 					$controller = $list[$aco['Aco']['parent_id']];
 					$yaml = isset($acosYaml[$controller['parent_id']]) ? $acosYaml[$controller['parent_id']] : array();
@@ -377,10 +384,12 @@ class PermissionsController extends UserAppController {
 						continue;
 					}
 
-					$list[$aco['Aco']['id']]['name'] = isset($yaml['Controller'][$controller['alias']]['actions'][$aco['Aco']['alias']]['name']) ? $yaml['Controller'][$controller['alias']]['actions'][$aco['Aco']['alias']]['name']: $aco['Aco']['alias'];
-					$list[$aco['Aco']['id']]['description'] = isset($yaml['Controller'][$controller['alias']]['actions'][$aco['Aco']['alias']]['description']) ? $yaml['Controller'][$controller['alias']]['actions'][$aco['Aco']['alias']]['description'] : '';
+					$aco['Aco']['name'] = isset($yaml['Controller'][$controller['alias']]['actions'][$aco['Aco']['alias']]['name']) ? $yaml['Controller'][$controller['alias']]['actions'][$aco['Aco']['alias']]['name']: $aco['Aco']['alias'];
+					$aco['Aco']['description'] = isset($yaml['Controller'][$controller['alias']]['actions'][$aco['Aco']['alias']]['description']) ? $yaml['Controller'][$controller['alias']]['actions'][$aco['Aco']['alias']]['description'] : '';
 				}
 			}
+
+			$list[$aco['Aco']['id']] = $aco['Aco'];
 
 			if (isset($aco['children']) && !empty($aco['children'])) {
 				$this->__acosDetails($results[$key]['children'], $list, $acosYaml);

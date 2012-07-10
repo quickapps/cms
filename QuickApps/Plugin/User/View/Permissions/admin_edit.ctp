@@ -2,7 +2,7 @@
 	<p>
 		<?php
 			foreach ($acoPath as $node) {
-				echo ' » ' . $acos_details[$node['Aco']['id']]['name'];
+				echo ' » ' . __t($acos_details[$node['Aco']['id']]['name']);
 			}
 		?>
 	</p>
@@ -10,7 +10,7 @@
 	<em>
 		<?php
 			$method = end($acoPath);
-			echo $acos_details[$method['Aco']['id']]['description'];
+			echo __t($acos_details[$method['Aco']['id']]['description']);
 		?>
 	</em>
 
@@ -38,9 +38,7 @@
 		?>
 	</p>
 
-	<em>
-		<?php echo @$preset['description']; ?>
-	</em> 
+	<em><?php echo @__t($preset['description']); ?></em> 
 
 	<p>
 		<table width="100%">

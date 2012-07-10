@@ -1,6 +1,6 @@
 <?php
 	$class = !$depth ? "class=\"app-{$data['title']}\"" : '';
-	$return = "<span title=\"{$data['description']}\" {$class}>{$data['title']}</span>";
+	$return = "<span title=\"" . addslashes(__t($data['description'])) . "\" {$class}>" . __t($data['title']) . "</span>";
 
 	if (!$hasChildren && $depth == 2) {
 		$return .= " <a href=\"\" onclick=\"edit_aco({$data['id']}); return false;\">" . $this->Html->image('/user/img/key.png') . "</a>";
