@@ -84,7 +84,6 @@ class MenuHelper extends AppHelper {
  *	-	`activeClass`: Classname for the selected/current item. (default - 'selected')
  *	-	`firstClass`: Classname for the first item. (default - 'first-item')
  *	-	`lastClass`: Classname for the first item. (default - 'last-item')
- *	-	`lastClass`: Classname for the first item. (default - 'last-item')
  *	-	`force`: Forced rendering. Items with `status` = 0 will be rendered, as well childs of parents with `expanded` = false.
  *		It basically ignores both `status` and `expanded` attributes for each item.
  *	-	`childrenClass`: Classname for an item containing sub menu. (default - 'hasChildren')
