@@ -101,3 +101,84 @@
 
 	// Site offline message
 	echo __t("We sincerely apologize for the inconvenience.<br/>Our site is currently undergoing scheduled maintenance and upgrades, but will return shortly.<br/>Thanks you for your patience.");
+
+	// Permissions yaml: Block
+	echo __t('Administer blocks');
+	echo __t('Grant full access to administer blocks');
+
+	// Permissions yaml: Comment
+	echo __t('Administer comments');
+	echo __t('Administer comments and comment settings');
+
+	// Permissions yaml: Field
+	echo __t('Delete fields');
+	echo __t('Allow user to delete CCK fields');
+
+	// Permissions yaml: Field.FieldFile
+	echo __t('Upload & Delete files');
+	echo __t('Allow user to upload new files and delete existing ones.');
+
+	// Permissions yaml: Locale
+	echo __t('Administer languages');
+	echo __t('Allow user to add, edit and delete languages');
+	echo __t('Translate interface texts');
+	echo __t('Allow user to administer translatable entries');
+	echo __t('Administer language packages');
+	echo __t('Allow user to install and modify existing language packages (.po)');
+
+	// Permissions yaml: Menu
+	echo __t('Administer menus');
+	echo __t('Allow user to administer menus and menu items');
+
+	// Permissions yaml: Node
+	echo __t('Administer content types');
+	echo __t('Warning: Give to trusted roles only; this permission has security implications.');
+	echo __t('Administer content');
+	echo __t('Warning: Give to trusted roles only; this permission has security implications.');
+	echo __t("Access the site's front page");
+	echo __t('View published content');
+	echo __t('Search content and RSS feeds');
+
+	// Permissions yaml: System
+	echo __t('Access to dashboard');
+	echo __t('Administer site configuration');
+	echo __t('Warning: Give to trusted roles only; this permission has security implications.');
+	echo __t('Structure Menu');
+	echo __t('Allow user to access the `structure` menu item.');
+	echo __t('Help Topics');
+	echo __t('Allow user to consult help topics.');
+	echo __t('Administer modules');
+	echo __t('Administer themes');
+
+	// Permissions yaml: Taxonomy
+	echo __t('Administer vocabularies and terms');
+
+	// Permissions yaml: Taxonomy.TaxonomyTerms
+	echo __t('Keywords suggestions handler');
+	echo __t('Suggest keyword');
+	echo __t('Allow user to use the `Autocomplete term`');
+
+	// Permissions yaml: User
+	echo __t('User Basics');
+	echo __t('Backend main module access');
+	echo __t('Grant access to (/admin/user)');
+	echo __t('Frontpage login form');
+	echo __t('Backend login');
+	echo __t('Backend login form');
+	echo __t('Frontpage logout');
+	echo __t('After logout user gets redirected to site frontpage');
+	echo __t('Backend logout');
+	echo __t('After logout user gets redirected to backend login screen');
+	echo __t('Registration page');
+	echo __t('Activate account');
+	echo __t('Password recovery');
+	echo __t('View users profile');
+	echo __t('My account section');
+	echo __t('Administer permissions');
+	echo __t('Warning: Give to trusted roles only; this permission has security implications.');
+	echo __t('Administer users');
+	echo __t('Warning: Give to trusted roles only; this permission has security implications.');
+	echo __t('Administer user roles');
+	echo __t('Warning: Give to trusted roles only; this permission has security implications.');
+	echo __t('Administer user CCK fields');
+	echo __t('Warning: Give to trusted roles only; this permission has security implications.');
