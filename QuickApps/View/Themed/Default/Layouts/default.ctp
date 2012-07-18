@@ -101,14 +101,15 @@
 						<?php echo $sessionFlash; ?>
 					</div>
 					<?php endif; ?>
-
-					<div id="sidebar-left">
-						<div id="sidebar-bottom">
-							<div id="sidebar-content">
-								<?php echo $this->Layout->blocks('sidebar-left'); ?>
+					<?php if (!$this->Layout->emptyRegion('sidebar-left')): ?>
+						<div id="sidebar-left">
+							<div id="sidebar-bottom">
+								<div id="sidebar-content">
+									<?php echo $this->Layout->blocks('sidebar-left'); ?>
+								</div>
 							</div>
 						</div>
-					</div>
+					<?php endif; ?>
 
 					<div id="content" class="clearfix">
 						<?php echo $this->Layout->content(); ?>
