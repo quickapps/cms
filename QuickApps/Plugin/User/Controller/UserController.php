@@ -189,6 +189,7 @@ class UserController extends UserAppController {
                 if (isset($this->data['User']['remember']) && $this->data['User']['remember'] == 1) {
                     $user = $this->User->read();
 
+                    $this->Cookie->httpOnly = true;
                     $this->Cookie->write('UserLogin',
                         array(
                             'id' => $session['id'],
