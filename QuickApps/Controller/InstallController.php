@@ -293,8 +293,8 @@ class InstallController extends Controller {
 			} else {
 				$errors = '';
 
-				foreach ($this->User->invalidFields() as $field => $error) {
-					$errors .= "<b>{$field}:</b> {$error}<br/>";
+				foreach ($this->User->validationErrors as $field => $error) {
+					$errors .= "<b>{$field}:</b> {$error[0]}<br/>";
 				}
 
 				$this->Session->setFlash(
