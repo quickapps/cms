@@ -817,21 +817,51 @@ class QuickAppsComponent extends Component {
  * Disables security component.
  *
  * @return void
- */ 
+ */
 	public function disableSecurity() {
 		$this->Controller->Security->validatePost = false;
 		$this->Controller->Security->csrfCheck = false;
 	}
 
 /**
+ * Handles black-holed request.
+ * Moules may implement their custom handler methods `black_hole_handler`.
+ * If no hook handler is defined, user gets redirected back by default.
+ *
+ * @param string $error Error method (auth, csrf, get, post, put, delete)
+ * @return mixed If specified, module hook black_hole_handler's response, or no return otherwise
+ */
+	public function blackHoleHandler($error = '') {
+		if ($this->Controller->HookCollection->hookDefined('black_hole_handler')) {
+			return $this->Controller->hook('black_hole_handler', $error);
+		} else {
+			$this->Controller->layout = 'error';
+			$this->Controller->viewPath = 'Errors';
+
+			@$this->Controller->response->header(
+				array(
+					'HTTP/1.1 405 Method Not Allowed',
+					'Status: 405 Method Not Allowed',
+					'Retry-After: 60'
+				)
+			);
+
+			$this->Controller->set('title', __t('Duplicated content'));
+			$this->Controller->set('message', __t("Duplicate content detected!; it looks as though you've already sent that!"));
+			die($this->Controller->render('default'));
+		}
+	}
+
+/**
  * Enables security component.
  *
  * @return void
- */	 
+ */
 	public function enableSecurity() {
 		$this->Controller->Security->validatePost = true;
 		$this->Controller->Security->csrfCheck = true;
 		$this->Controller->Security->csrfUseOnce = true;
+		$this->Controller->Security->blackHoleCallback = 'blackHolehandler';
 	}
 /**
  * Chunks an URL into smaller url chunks.

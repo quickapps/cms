@@ -117,6 +117,15 @@ class AppController extends Controller {
 	}
 
 /**
+ * Wrapper method to QuickAppsComponent::blackHoleHandler()
+ *
+ * @see QuickAppsComponent::blackHoleHandler()
+ */
+	public function blackHoleHandler($error) {
+		$this->QuickApps->blackHoleHandler($error);
+	}
+
+/**
  * Called after the controller action is run, but before the view is rendered. You can use this method
  * to perform logic or set view variables that are required on every request.
  *
