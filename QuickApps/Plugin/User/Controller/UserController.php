@@ -117,6 +117,8 @@ class UserController extends UserAppController {
 	public function password_recovery() {
 		if (isset($this->data['User'])) {
 			if ($user = $this->User->findByEmail($this->data['User']['email'])) {
+				$this->User->saveField('key', String::uuid());
+
 				if ($this->Mailer->send($user['User']['id'], 'password_recovery')) {
 					$this->flashMsg(__t('Further instructions have been sent to your e-mail address.'), 'success');
 				} else {
@@ -212,6 +214,7 @@ class UserController extends UserAppController {
 				$session['role_id'][] = 2; // authenticated user
 				$this->User->id = $session['id'];
 
+				$this->User->saveField('key', String::uuid()); // generate new key
 				$this->hook('after_login', $session);
 
 				if (isset($this->data['User']['remember']) && $this->data['User']['remember'] == 1) {
@@ -221,12 +224,12 @@ class UserController extends UserAppController {
 					$this->Cookie->write('UserLogin',
 						array(
 							'id' => $session['id'],
-							'password' => $user['User']['password']
+							'key' => $user['User']['key']
 						), true, '+999 Days'
 					);
 				}
 
-				$this->User->saveField('last_login', time());
+				$this->User->saveField('last_login', time()); // last login stamp
 				$this->Auth->login($session);
 				$this->flashMsg(__t('Logged in successfully.'), 'success');
 
@@ -242,7 +245,7 @@ class UserController extends UserAppController {
 				$cache['ip'] = env('REMOTE_ADDR');
 				$cache['login_stack'][] = array(
 					'username' => $this->data['User']['username'],
-					'password' => $this->data['User']['password'],
+					'key' => $this->data['User']['key'],
 					'time' => time()
 				);
 
