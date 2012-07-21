@@ -359,22 +359,23 @@ class QuickAppsComponent extends Component {
 		$this->Controller->Auth->logoutRedirect = Router::getParam('admin') ? '/admin' : '/';
 		$this->Controller->Auth->allowedActions = array('login', 'logout');
 		$cookie = $this->Controller->Cookie->read('UserLogin');
+		$User = ClassRegistry::init('User.User');
 
+		$User->unbindFields();
+
+		// remember-me based login
 		if (!$this->Controller->Auth->user() &&
 			isset($cookie['id']) &&
 			!empty($cookie['id']) &&
 			isset($cookie['key']) &&
 			!empty($cookie['key'])
 		) {
-			$User = ClassRegistry::init('User.User');
-
-			$User->unbindFields();
-
 			$user = $User->find('first',
 				array(
 					'conditions' => array(
 						'User.id' => @$cookie['id'],
-						'User.key' => @$cookie['key']
+						'User.key' => @$cookie['key'],
+						'User.status' => 1
 					)
 				)
 			);
@@ -398,13 +399,36 @@ class QuickAppsComponent extends Component {
 				$this->Controller->Auth->login($session);
 				$this->setLanguage();
 			}
+		} elseif ($logged = $this->Controller->Auth->user()) {
+			$user = $User->find('first',
+				array(
+					'conditions' => array(
+						'User.id' => $logged['id'],
+						'User.email' => $logged['email'],
+						'User.status' => 1
+					)
+				)
+			);
+
+			if (!$user) {
+				CakeSession::delete('Auth');
+			} else {
+				$verifiedRoles = Hash::extract($user, 'Role.{n}.id');
+				$verifiedRoles[] = 2; // 2: authenticated user
+
+				CakeSession::write('Auth.User.role_id', $verifiedRoles);
+			}
 		}
 
 		if ($this->is('user.admin')) {
 			$this->Controller->Auth->allow();
 		} else {
-			// 3 = anonymous user (public)
-			$roleId = $this->Controller->Auth->user() ? $this->Controller->Auth->user('role_id') : 3;
+			if ($this->Controller->Auth->user()) {
+				$roleId = $this->Controller->Auth->user('role_id');
+			} else {
+				$roleId = 3; // 3: anonymous user (public)
+			}
+
 			$aro = $this->Controller->Acl->Aro->find('all',
 				array(
 					'conditions' => array(

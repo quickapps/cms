@@ -211,7 +211,7 @@ class UserController extends UserAppController {
 					)
 				);
 				$session['role_id'] = Hash::extract($session['role_id'], '{n}.UsersRoles.role_id');
-				$session['role_id'][] = 2; // authenticated user
+				$session['role_id'][] = 2; // 2: authenticated user
 				$this->User->id = $session['id'];
 
 				$this->User->saveField('key', String::uuid()); // generate new key
