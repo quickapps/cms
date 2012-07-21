@@ -35,7 +35,7 @@ class QuickAppsComponent extends Component {
 		$this->prepareContent();
 		$this->siteStatus();
 		$this->setCrumb();
-		$this->disableSecurity();
+		$this->enableSecurity();
 	}
 
 /**
@@ -363,8 +363,8 @@ class QuickAppsComponent extends Component {
 		if (!$this->Controller->Auth->user() &&
 			isset($cookie['id']) &&
 			!empty($cookie['id']) &&
-			isset($cookie['password']) &&
-			!empty($cookie['password'])
+			isset($cookie['key']) &&
+			!empty($cookie['key'])
 		) {
 			$User = ClassRegistry::init('User.User');
 
@@ -374,7 +374,7 @@ class QuickAppsComponent extends Component {
 				array(
 					'conditions' => array(
 						'User.id' => @$cookie['id'],
-						'User.password' => @$cookie['password']
+						'User.key' => @$cookie['key']
 					)
 				)
 			);
@@ -831,6 +831,7 @@ class QuickAppsComponent extends Component {
 	public function enableSecurity() {
 		$this->Controller->Security->validatePost = true;
 		$this->Controller->Security->csrfCheck = true;
+		$this->Controller->Security->csrfUseOnce = true;
 	}
 /**
  * Chunks an URL into smaller url chunks.

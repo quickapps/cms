@@ -11,4 +11,10 @@
  */
 class UserAppController extends AppController {
 	public $components = array('User.Mailer');
+
+	public function beforeFilter() {
+		$this->Security->unlockedFields[] = 'Items.id';
+
+		parent::beforeFilter();
+	}
 }

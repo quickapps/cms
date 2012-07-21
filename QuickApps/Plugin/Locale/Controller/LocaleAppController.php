@@ -10,6 +10,12 @@
  * @link	 http://www.quickappscms.org
  */
 class LocaleAppController extends AppController {
+	public function beforeFilter() {
+		$this->Security->unlockedFields[] = 'Items.id';
+
+		parent::beforeFilter();
+	}
+
 	protected function _languageList() {
 		$list = array();
 		$_languages = Configure::read('Variable.languages');

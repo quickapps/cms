@@ -1,4 +1,3 @@
-<?php $c = $this->ThemeCustomizer->generate($theme_name); ?>
 <?php echo $this->Form->create('Module', array('url' => "/admin/system/themes/settings/{$theme_name}")); ?>
 	<?php echo $this->Form->input('Module.name', array('type' => 'hidden', 'value' => 'Theme' . $theme_name)); ?>
 
@@ -8,9 +7,9 @@
 		<?php echo $this->Html->useTag('fieldsetend'); ?>
 	<?php endif; ?>
 
-	<?php if ($c): ?>
+	<?php if ($ThemeCustomizer = $this->ThemeCustomizer->generate($theme_name)): ?>
 		<?php echo $this->Html->useTag('fieldsetstart', __t('Customize Appearance')); ?>
-			<?php echo $c; ?>
+			<?php echo $ThemeCustomizer; ?>
 		<?php echo $this->Html->useTag('fieldsetend'); ?>
 	<?php endif; ?>
 

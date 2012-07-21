@@ -13,6 +13,14 @@ class ManageController extends BlockAppController {
 	public $name = 'Manage';
 	public $uses = array('Block.Block', 'User.Role');
 
+	public function beforeFilter() {
+		if ($this->action == 'admin_index') {
+			$this->Security->unlockedFields[] = 'BlockRegion';
+		}
+
+		parent::beforeFilter();
+	}
+
 	public function admin_index() {
 		if (isset($this->data['BlockRegion'])) {
 			foreach ($this->data['BlockRegion'] as $theme => $regions) {

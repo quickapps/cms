@@ -14,6 +14,14 @@ class ManageController extends MenuAppController {
 	public $uses = array('Menu.Menu');
 	public $helpers = array('Menu');
 
+	public function beforeFilter() {
+		if ($this->action == 'admin_links') {
+			$this->QuickApps->disableSecurity();
+		}
+
+		parent::beforeFilter();
+	}
+
 	public function admin_index() {
 		$this->Menu->recursive = -1;
 

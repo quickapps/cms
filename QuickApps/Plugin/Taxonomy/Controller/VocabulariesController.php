@@ -14,6 +14,14 @@ class VocabulariesController extends TaxonomyAppController {
 	public $uses = array('Taxonomy.Vocabulary');
 	public $helpers = array('Menu');
 
+	public function beforeFilter() {
+		if ($this->action == 'admin_terms') {
+			$this->QuickApps->disableSecurity();
+		}
+
+		parent::beforeFilter();
+	}
+
 	public function admin_index() {
 		$this->setCrumb('/admin/taxonomy/');
 		$this->set('results', $this->paginate('Vocabulary'));

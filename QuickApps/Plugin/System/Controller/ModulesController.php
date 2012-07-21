@@ -14,6 +14,14 @@ class ModulesController extends SystemAppController {
 	public $uses = array('System.Module');
 	public $components = array('Installer');
 
+	public function beforeFilter() {
+		if ($this->action == 'admin_load_order') {
+			$this->Security->unlockedFields[] = 'Module';
+		}
+
+		parent::beforeFilter();
+	}
+
 	public function admin_index() {
 		if (!is_writable(ROOT . DS . 'Modules' . DS)) {
 			$this->flashMsg(__t('Your modules folder is not writable. %s', ROOT . DS . 'Modules' . DS), 'alert');

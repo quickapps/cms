@@ -13,6 +13,12 @@ class PermissionsController extends UserAppController {
 	public $name = 'Permissions';
 	public $uses = array('User.User');
 
+	public function beforeFilter() {
+		$this->QuickApps->disableSecurity();
+
+		parent::beforeFilter();
+	}
+
 	public function admin_index() {
 		$this->Layout['stylesheets']['all'][] = '/user/css/treeview.css';
 		$this->Layout['javascripts']['file'][] = '/user/js/jquery.cookie.js';

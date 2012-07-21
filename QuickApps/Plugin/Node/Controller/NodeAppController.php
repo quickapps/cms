@@ -10,4 +10,9 @@
  * @link	 http://www.quickappscms.org
  */
 class NodeAppController extends AppController {
+	public function beforeFilter() {
+		$this->Security->unlockedFields[] = 'Items.id';
+
+		parent::beforeFilter();
+	}
 }

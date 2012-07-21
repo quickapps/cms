@@ -18,6 +18,7 @@ class UploadifyController extends FieldFileAppController {
 		$this->autoRender = false;
 
 		parent::beforeFilter();
+		$this->QuickApps->disableSecurity();
 	}
 
 	public function delete($file, $field_id) {
