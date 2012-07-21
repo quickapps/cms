@@ -105,7 +105,7 @@ var QuickApps = QuickApps || {'settings': {}, 'behaviors': {}, 'locale': {'strin
 	};
 
 /**
- * Creates a cookie
+ * Creates a cookie.
  *
  */
 	QuickApps.setCookie = function (name, value, expires, path) {
@@ -121,7 +121,7 @@ var QuickApps = QuickApps || {'settings': {}, 'behaviors': {}, 'locale': {'strin
 	};
 
 /**
- * Check all checkbox in page
+ * Check all checkbox in page.
  * 
  */
 	QuickApps.checkAll = function (el) {
@@ -129,14 +129,28 @@ var QuickApps = QuickApps || {'settings': {}, 'behaviors': {}, 'locale': {'strin
 	};	
 
 /**
- * Check all checkbox in page with className
+ * Check all checkbox in page matching the given className.
  * 
  */
 	QuickApps.checkAllByClassName = function (el, className) {
 		var className = className.length > 0 ? '.' + className : '' ;
 		if (el.checked == true){ c = true; } else { c = false; }
 		$('input[type="checkbox"]').attr('checked', c);
-	};	
+	};
+
+/**
+ * Silently discard extra submits for the given form element.
+ *
+ */
+	QuickApps.preventDoubleSubmit = function (el) {
+		jQuery(el).submit(function () {
+		if (el.submitted) {
+			  return false;
+			} else {
+			  el.submitted = true;
+			}
+		});
+	};
 
 /**
  * Class indicating that JS is enabled; used for styling purpose.
@@ -165,10 +179,16 @@ var QuickApps = QuickApps || {'settings': {}, 'behaviors': {}, 'locale': {'strin
 })(jQuery);
 
 $(document).ready(function() {
+	// auto-toggleable fieldsets
 	$("span.fieldset-toggle").each(function () {
 		$(this).css('cursor', 'pointer');
 		$(this).click(function () {
 			$(this).parent("legend").next(".fieldset-toggle-container").toggle("fast", "linear");
 		});
+	});
+
+	// prevent double submit on every form in page
+	$('form').each(function() {
+		QuickApps.preventDoubleSubmit(this);
 	});
 });
