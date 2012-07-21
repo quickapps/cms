@@ -28,7 +28,7 @@ class QuickApps {
  * - is('view.frontend'): is front site ?
  * - is('view.backend'): same as `view.admin`
  * - is('view.search'): is search results page ?
- * - is('view.rss'): is rss feed page ?
+ * - is('view.feed', 'Optional feed type. e.g: rss'): is actual request a feed result (rss, ajax, xml) ?
  * - is('view.node'): is node details page ?
  * - is('view.user_profile'): is user profile page ?
  * - is('view.my_account'): is user's "my account" form page ?
@@ -620,20 +620,30 @@ class QuickApps {
 	}
 
 /**
- * Checks if current view is a search result feed.  
+ * Checks if current view is a search result feed.
  * Feed may be an RSS, Ajax or XML result.
  *
+ * @param string $type Type of feed to detect (rss, ajax, xml). FALSE (default) means any
  * @return boolean
  */
-	private static function __viewIsRss() {
+	private static function __viewIsFeed($type = false) {
 		$params = Router::getParams();
-
-		return (
+		$c1 = true;
+		$c2 = (
 			$params['plugin'] == 'node' &&
 			$params['controller'] == 'node' &&
 			$params['action'] == 'search' &&
 			isset($params['named']['feed'])
 		);
+
+		if ($type) {
+			$c1 = (
+				isset($params['named']['feed']) &&
+				$params['named']['feed'] == $type
+			);
+		}
+
+		return $c1 && $c2;
 	}
 
 /**
