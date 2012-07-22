@@ -255,6 +255,9 @@ class NodeController extends NodeAppController {
  *	-	language (string): Languages codes separed by comma. The wildcard `*` means any language.
  *		e.g.: `language:eng,fre,spa` or `language:*`
  *	-	type (string): Node type ID separated by comma. e.g.: `type:article,page`
+ *	-	created (string): Filter by creation date range. e.g.: `created:[1976-03-06T23:59:59.999Z TO *]`
+ *	-	modified (string): Filter by modified date range. e.g.: `modified:[1976-03-06T23:59:59.999Z TO NOW]`
+ *	-	author: The author of the nodes. e.g.: author:1,demo@mail.com,26
  *
  * @param string $criteria Well formatted filter criteria. If no criteria is pass POST criteria is spected.
  */
@@ -267,7 +270,9 @@ class NodeController extends NodeAppController {
 			'or' => null,
 			'negative' => null,
 			'phrase' => null,
-			'limit' => null
+			'limit' => null,
+			'created' => null,
+			'modified' => null
 		);
 
 		$this->Node->unbindModel(
@@ -296,6 +301,7 @@ class NodeController extends NodeAppController {
 
 			$this->set('criteria', $data['Search']['criteria']);
 
+			// limit
 			if ($limit = $this->__search_expression_extract($criteria, 'limit')) {
 				$criteria = str_replace("limit:{$limit}", '', $criteria);
 				$limit = intval($limit);
@@ -304,6 +310,7 @@ class NodeController extends NodeAppController {
 				$limit = Configure::read('Variable.default_nodes_main');
 			}
 
+			// order
 			if ($orders = $this->__search_expression_extract($criteria, 'order')) {
 				$criteria = str_replace("order:{$orders}", '', $criteria);
 				$orders = trim($orders);
@@ -334,16 +341,19 @@ class NodeController extends NodeAppController {
 				);
 			}
 
+			// promote
 			if ($promote = $this->__search_expression_extract($criteria, 'promote')) {
 				$criteria = str_replace("promote:{$promote}", '', $criteria);
 				$scope['Node.promote'] = intval($promote);
 			}
 
+			// type
 			if ($type = $this->__search_expression_extract($criteria, 'type')) {
 				$criteria = str_replace("type:{$type}", '', $criteria);
 				$scope['Node.node_type_id'] = explode(',', $type);
 			}
 
+			// vocabulary
 			if ($vocabulary = $this->__search_expression_extract($criteria, 'vocabulary')) {
 				$criteria = str_replace("vocabulary:{$vocabulary}", '', $criteria);
 				$vSlugs = explode(',', $vocabulary);
@@ -376,6 +386,7 @@ class NodeController extends NodeAppController {
 				}
 			}
 
+			// term
 			if (($terms = $this->__search_expression_extract($criteria, 'term')) || isset($vocabulary_terms)) {
 				$criteria = str_replace("term:{$terms}", '', $criteria);
 				$terms = explode(',', $terms);
@@ -396,6 +407,7 @@ class NodeController extends NodeAppController {
 				}
 			}
 
+			// language
 			if ($language = $this->__search_expression_extract($criteria, 'language')) {
 				$criteria = str_replace("language:{$language}", '', $criteria);
 				$scope['Node.language'] = explode(',', strtolower($language));
@@ -406,6 +418,60 @@ class NodeController extends NodeAppController {
 				}
 			} else {
 				$scope['Node.language'] = array(null, '', Configure::read('Variable.language.code'));
+			}
+
+			// created && modified
+			foreach (array('created', 'modified') as $type) {
+				if ($key = $this->__search_expression_extract($criteria, $type)) {
+					App::uses('CakeTime', 'Utility');
+
+					$criteria = str_replace("{$type}:{$key}", '', $criteria);
+					$from = $to = false;
+
+					if (preg_match('/^\[(.*)\]/i', $key)) {
+						$key = trim($key);
+						$key = preg_replace('/\[|\]/', '', $key);
+
+						if (strpos($key, 'TO') !== false) {
+							list($from, $to) = array_map('trim', explode('TO', $key));
+							$from = $from == '*' ? false : CakeTime::fromString($from);
+							$to = $to == '*' ? false : CakeTime::fromString($to);
+						} else {
+							$equals = $key;
+						}
+
+						if (isset($equals) && is_numeric($equals)) {
+							$scope["Node.{$type}"] = $equals;
+						} elseif ($from && !$to) {
+							$scope["Node.{$type} >="] = $from;
+						} elseif (!$from && $to) {
+							$scope["Node.{$type} <="] = $to;
+						} elseif ($from && $to) {
+							$scope["Node.{$type} BETWEEN ? AND ?"] = array($from, $to);
+						}
+					}
+				}
+			}
+
+			// author
+			if ($author = $this->__search_expression_extract($criteria, 'author')) {
+				$criteria = str_replace("author:{$author}", '', $criteria);
+				$author = array_map('trim', explode(',', $author));
+
+				for ($i = 0; $i < count($author); $i++) {
+					if (intval($author[$i]) <= 0) {
+						if ($user_id = ClassRegistry::init('User.User')->findByEmail($author[$i], array('id'))) {
+							$author[$i] = $user_id['User']['id'];
+						} else {
+							unset($author[$i]);
+						}
+					}
+				}
+
+				if (!empty($author)) {
+					$author = array_unique($author);
+					$scope['AND']['OR'][] = array('Node.created_by' => $author);
+				}
 			}
 
 			preg_match_all('/(^| )\-[a-z0-9]+/i', $criteria, $negative);
@@ -622,7 +688,7 @@ class NodeController extends NodeAppController {
  *	if any. Trailing spaces in values will not be included.
  */
 	private function __search_expression_extract($expression, $option) {
-		if (preg_match('/(^| )' . $option . ':([^ ]*)( |$)/i', $expression, $matches)) {
+		if (preg_match('/(^| )' . $option . ':([^ ].*)( |$)/i', $expression, $matches)) {
 			return $matches[2];
 		}
 	}
