@@ -99,7 +99,15 @@
 		<p class="code-block">
 			<code>[rand={values,by,comma}]</code>
 			<br/><br/>
-			Returns a radom value from the specified group. If only two numeric values are given as group, then php function <a href="http://www.php.net/manual/function.rand.php" target="_blank">rand</a>(num1, num2) is returned.
+			Returns a radom value from the specified group. e.g.: [rand=one,two,three].<br />
+			If only two numeric values are given as group, then PHP function <a href="http://www.php.net/manual/function.rand.php" target="_blank">rand</a>(num1, num2) is returned. e.g.: [rand=3,10]
+		</p>
+
+		<p class="code-block">
+			<code>[Layout.PATH]</code>
+			<br/><br/>
+			Get any value from <em>Layout</em> variable. e.g.: [Layout.display] gets current display mode.<br />
+			If path does not exists then '' (empty) is rendered instead the hooktag code.
 		</p>
 	</dd>
 
