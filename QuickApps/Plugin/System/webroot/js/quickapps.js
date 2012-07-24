@@ -189,6 +189,8 @@ $(document).ready(function() {
 
 	// prevent double submit on every form in page
 	$('form').each(function() {
+		$(this).submitted = false;
+
 		QuickApps.preventDoubleSubmit(this);
 	});
 });
