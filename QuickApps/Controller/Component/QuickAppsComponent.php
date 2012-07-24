@@ -848,6 +848,19 @@ class QuickAppsComponent extends Component {
 	}
 
 /**
+ * Enables security component.
+ *
+ * @return void
+ */
+	public function enableSecurity() {
+		$this->Controller->Security->validatePost = true;
+		$this->Controller->Security->csrfCheck = true;
+		$this->Controller->Security->csrfUseOnce = false;
+		$this->Controller->Security->csrfExpires = '+1 hour';
+		$this->Controller->Security->blackHoleCallback = 'blackHolehandler';
+	}
+
+/**
  * Handles black-holed request.
  * Moules may implement their custom handler methods `black_hole_handler`.
  * If no hook handler is defined, user gets redirected back by default.
@@ -874,19 +887,8 @@ class QuickAppsComponent extends Component {
 			$this->Controller->set('message', __t("Duplicate content detected!; it looks as though you've already sent that!"));
 			die($this->Controller->render('default'));
 		}
-	}
+	}	
 
-/**
- * Enables security component.
- *
- * @return void
- */
-	public function enableSecurity() {
-		$this->Controller->Security->validatePost = true;
-		$this->Controller->Security->csrfCheck = true;
-		$this->Controller->Security->csrfUseOnce = true;
-		$this->Controller->Security->blackHoleCallback = 'blackHolehandler';
-	}
 /**
  * Chunks an URL into smaller url chunks.
  *
