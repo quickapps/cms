@@ -862,8 +862,8 @@ class QuickAppsComponent extends Component {
 
 /**
  * Handles black-holed request.
- * Moules may implement their custom handler methods `black_hole_handler`.
- * If no hook handler is defined, user gets redirected back by default.
+ * Moules may implement their custom handler methods by defining the hook `black_hole_handler`.
+ * If no hook handler is defined, HTTP 405 error message is rendered by default.
  *
  * @param string $error Error method (auth, csrf, get, post, put, delete)
  * @return mixed If specified, module hook black_hole_handler's response, or no return otherwise
