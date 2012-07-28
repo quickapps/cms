@@ -76,7 +76,7 @@ class Comment extends CommentAppModel {
 				App::import('Lib', 'Comment.Recaptcha');
 			}
 
-			$recaptcha = recaptcha_check_answer (
+			$recaptcha = recaptcha_check_answer(
 				Configure::read('Modules.Comment.settings.recaptcha.private_key'),
 				env('REMOTE_ADDR'),
 				$this->data['Comment']['recaptcha_challenge_field'],

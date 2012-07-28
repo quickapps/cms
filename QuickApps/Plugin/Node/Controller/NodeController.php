@@ -16,8 +16,9 @@ class NodeController extends NodeAppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 
-		if (!QuickApps::is('view.node_details') && !isset($this->data['Comment'])) {
-			$this->QuickApps->enableSecurity();
+		if (QuickApps::is('view.node')) {
+			$this->Security->disabledFields[] = 'recaptcha_challenge_field';
+			$this->Security->disabledFields[] = 'recaptcha_response_field';
 		}
 	}
 
