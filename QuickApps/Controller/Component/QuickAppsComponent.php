@@ -858,6 +858,8 @@ class QuickAppsComponent extends Component {
 		$this->Controller->Security->csrfUseOnce = false;
 		$this->Controller->Security->csrfExpires = '+1 hour';
 		$this->Controller->Security->blackHoleCallback = 'blackHolehandler';
+
+		$this->Controller->Security->disabledFields[] = 'Items';
 	}
 
 /**
