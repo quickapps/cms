@@ -1,6 +1,12 @@
 <!-- Field File -->
 <?php echo $this->Layout->hook('field_file_libs'); ?>
-<?php  $multi = (isset($data['field']['settings']['multi']) && $data['field']['settings']['multi'] > 1); ?>
+<?php
+	if (isset($data['field']['settings']['multi']) && $data['field']['settings']['multi'] == 'custom') {
+		$data['field']['settings']['multi'] = $data['field']['settings']['multi_custom'];
+	}
+
+	$multi = (isset($data['field']['settings']['multi']) && $data['field']['settings']['multi'] > 1);
+?>
 
 <div id="FieldDataFieldFile<?php echo $data['field']['id']; ?>">
 <?php

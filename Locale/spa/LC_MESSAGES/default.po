@@ -1032,9 +1032,17 @@ msgstr "Extensiones admitidas"
 msgid "Comma separated. e.g.: jpg,gif,png"
 msgstr "Separados por coma. ej.: jpg,gif,png"
 
-#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:16
+#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:13
+msgid "Custom"
+msgstr "Personalizado"
+
+#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:19
 msgid "Number of files"
 msgstr "Número de ficheros"
+
+#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:27
+msgid "Customized number of files"
+msgstr "Número de ficheros personalizado"
 
 #: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:20
 msgid "Maximum number of files users can upload for this field."
