@@ -112,13 +112,13 @@ class ModulesController extends SystemAppController {
 			if ($this->Installer->enableModule($plugin)) {
 				$this->flashMsg(__t("Module '%s' has been enabled", $plugin), 'success');
 			} else {
-				$this->flashMsg(implode('<br />', $this->Installer->errors), 'alert');
+				$this->flashMsg(implode('<br />', $this->Installer->errors()), 'alert');
 			}
 		} else {
 			if ($this->Installer->disableModule($plugin)) {
 				$this->flashMsg(__t("Module '%s' has been disabled", $plugin), 'success');
 			} else {
-				$this->flashMsg(implode('<br />', $this->Installer->errors), 'alert');
+				$this->flashMsg(implode('<br />', $this->Installer->errors()), 'alert');
 			}
 		}
 
@@ -131,7 +131,7 @@ class ModulesController extends SystemAppController {
 		} elseif ($this->Installer->uninstall($plugin)) {
 			$this->flashMsg(__t("Module '%s' has been uninstalled", $plugin), 'success');
 		} else {
-			$this->flashMsg(implode('<br />', $this->Installer->errors), 'error');
+			$this->flashMsg(implode('<br />', $this->Installer->errors()), 'error');
 		}
 
 		$this->redirect('/admin/system/modules');
@@ -143,7 +143,7 @@ class ModulesController extends SystemAppController {
 		}
 
 		if (!$this->Installer->install($this->data, array('type' => 'module', 'status' => $this->data['Package']['activate']))) {
-			$errors = implode('<br />', $this->Installer->errors);
+			$errors = implode('<br />', $this->Installer->errors());
 			$this->flashMsg("<b>" . __t('Module could not been installed') . ":</b><br/>{$errors}", 'error');
 			$this->redirect('/admin/system/modules');
 		} else {

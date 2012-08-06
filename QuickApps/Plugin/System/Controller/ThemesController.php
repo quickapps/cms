@@ -96,10 +96,14 @@ class ThemesController extends SystemAppController {
 		if (!in_array($theme, Configure::read('coreThemes'))) {
 			if ($this->Installer->uninstall($Theme)) {
 				$this->flashMsg(__t("Theme '%s' has been uninstalled", $theme), 'success');
-
-				Cache::delete("theme_{$theme}_yaml");
 			} else {
-				$this->flashMsg(__t("Error uninstalling theme '%s'", $theme), 'error');
+				$message = __t("Error uninstalling theme '%s'", $theme);
+
+				foreach ($this->Installer->errors() as $e) {
+					$message .= "<br />- {$e}";
+				}
+
+				$this->flashMsg($message, 'error');
 			}
 		}
 
@@ -112,7 +116,7 @@ class ThemesController extends SystemAppController {
 		}
 
 		if (!$this->Installer->install($this->data, array('type' => 'theme'))) {
-			$errors = implode('<br />', $this->Installer->errors);
+			$errors = implode('<br />', $this->Installer->errors());
 			$this->flashMsg("<b>" . __t('Theme could not been installed') . ":</b><br/>{$errors}", 'error');
 		} else {
 			$this->flashMsg(__t('Theme has been installed'), 'success');

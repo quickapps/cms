@@ -15,7 +15,7 @@ class InstallerComponent extends Component {
  *
  * @var array
  */
-	public $errors = array();
+	private $__errors = array();
 
 /**
  * Controller reference.
@@ -101,7 +101,7 @@ class InstallerComponent extends Component {
 
 			// download from remote url
 			if (!$this->__downloadPackage($data['Package']['data'], $workingDir . 'package' . DS)) {
-				$this->errors[] = __t('Could not download package file.');
+				$this->logError(__t('Could not download package file.'));
 
 				return false;
 			} else {
@@ -121,7 +121,8 @@ class InstallerComponent extends Component {
 			$Upload->Process($workingDir . 'package' . DS);
 
 			if (!$Upload->processed) {
-				$this->errors[] = __t('Package upload error.') . ": {$Upload->error}";
+				$this->logError(__t('Package upload error.') . ": {$Upload->error}");
+
 				return false;
 			}
 
@@ -134,7 +135,7 @@ class InstallerComponent extends Component {
 		$PclZip = new PclZip($file_dst_pathname);
 
 		if (!$v_result_list = $PclZip->extract(PCLZIP_OPT_PATH, $workingDir . 'unzip')) {
-			$this->errors[] = __t('Unzip error.') . ": " . $PclZip->errorInfo(true);
+			$this->logError(__t('Unzip error.') . ": " . $PclZip->errorInfo(true));
 
 			return false;
 		} else {
@@ -154,7 +155,7 @@ class InstallerComponent extends Component {
 			$this->options['__appName'] = $appName;
 
 			if (!$packagePath) {
-				$this->errors[] = __t('Invalid package structure after unzip.');
+				$this->logError(__t('Invalid package structure after unzip.'));
 
 				return false;
 			}
@@ -364,7 +365,7 @@ class InstallerComponent extends Component {
 			}
 
 			if (!$this->checkTests($tests)) {
-				$this->errors[] = __t('Invalid information file (.yaml)');
+				$this->logError(__t('Invalid information file (.yaml)'));
 
 				return false;
 			}
@@ -375,9 +376,9 @@ class InstallerComponent extends Component {
 
 			if ($r !== null) {
 				if ($this->options['type'] == 'module') {
-					$this->errors[] = __t('This module is incompatible with your QuickApps version.');
+					$this->logError(__t('This module is incompatible with your QuickApps version.'));
 				} else {
-				   $this->errors[] = __t('This theme is incompatible with your QuickApps version.');
+				   $this->logError(__t('This theme is incompatible with your QuickApps version.'));
 				}
 
 				return false;
@@ -388,9 +389,9 @@ class InstallerComponent extends Component {
 				($this->options['type'] == 'module' && isset($yaml['dependencies']) && !$this->checkDependency($yaml['dependencies']))
 			) {
 				if ($this->options['type'] == 'module') {
-					$this->errors[] = __t("This module depends on other modules that you do not have or doesn't meet the version required: %s", implode(', ', $yaml['dependencies']));
+					$this->logError(_t("This module depends on other modules that you do not have or doesn't meet the version required: %s", implode(', ', $yaml['dependencies'])));
 				} else {
-					$this->errors[] = __t("This theme depends on other modules that you do not have or doesn't meet the version required: %s", implode(', ', $yaml['info']['dependencies']));
+					$this->logError(__t("This theme depends on other modules that you do not have or doesn't meet the version required: %s", implode(', ', $yaml['info']['dependencies'])));
 				}
 
 				return false;
@@ -414,15 +415,15 @@ class InstallerComponent extends Component {
 
 								if (!isset($yaml['name']) || !isset($yaml['description'])) {
 									$fieldErrors = true;
-									$this->errors[] = __t('invalid information file (.yaml). Field "%s"', $field);
+									$this->logError(__t('invalid information file (.yaml). Field "%s"', $field));
 								}
 							} else {
 								$fieldErrors = true;
-								$this->errors[] = __t('Invalid field "%s". Information file (.yaml) not found.', $field);
+								$this->logError(__t('Invalid field "%s". Information file (.yaml) not found.', $field));
 							}
 						} else {
 							$fieldErrors = true;
-							$this->errors[] = __t('Invalid field name "%s".', $field);
+							$this->logError(__t('Invalid field name "%s".', $field));
 						}
 					}
 				}
@@ -584,11 +585,11 @@ class InstallerComponent extends Component {
 		$pData = $this->Controller->Module->findByName($Name);
 
 		if (!$pData) {
-			$this->errors[] = __t('Module does not exist.');
+			$this->logError(__t('Module does not exist.'));
 
 			return false;
 		} elseif (in_array($Name, Configure::read('coreModules'))) {
-			$this->errors[] = __t('Core modules can not be uninstalled.');
+			$this->logError(__t('Core modules can not be uninstalled.'));
 
 			return false;
 		}
@@ -596,7 +597,7 @@ class InstallerComponent extends Component {
 		$dep = $this->checkReverseDependency($Name);
 
 		if (count($dep)) {
-			$this->errors[] = __t('This module can not be uninstalled, because it is required by: %s', implode('<br />', Hash::extract($dep, '{n}.name')));
+			$this->logError(__t('This module can not be uninstalled, because it is required by: %s', implode('<br />', Hash::extract($dep, '{n}.name'))));
 
 			return false;
 		}
@@ -611,7 +612,7 @@ class InstallerComponent extends Component {
 		$folderpath = ($this->options['type'] == 'module') ? $this->options['__path'] : dirname(dirname($this->options['__path']));
 
 		if (!$this->isRemoveable($folderpath)) {
-			$this->errors[] = __t('This module can not be uninstalled because some files/folder can not be deleted, please check the permissions.');
+			$this->logError(__t('This module can not be uninstalled because some files/folder can not be deleted, please check the permissions.'));
 
 			return false;
 		}
@@ -761,9 +762,7 @@ class InstallerComponent extends Component {
 			);
 
 			foreach ($regions as $region) {
-				if ($BlockRegion->delete($region['BlockRegion']['id']) &&
-					$region['Block']['id']
-				) {
+				if ($BlockRegion->delete($region['BlockRegion']['id']) && $region['Block']['id']) {
 					$region['Block']['themes_cache'] = str_replace(":{$themeName}:", ':', $region['Block']['themes_cache']);
 					$region['Block']['themes_cache'] = str_replace('::', ':', $region['Block']['themes_cache']);
 
@@ -775,10 +774,12 @@ class InstallerComponent extends Component {
 					);
 				}
 			}
+
+			Cache::delete("theme_{$themeName}_yaml");
 		}
 
 		// delete app folder
-		$folderpath = ($this->options['type'] == 'module') ? $this->options['__path'] : dirname(dirname($this->options['__path']));
+		$folderpath = $this->options['type'] == 'module' ? $this->options['__path'] : dirname(dirname($this->options['__path']));
 		$Folder = new Folder($folderpath);
 
 		$Folder->delete();
@@ -1162,7 +1163,7 @@ class InstallerComponent extends Component {
 
 		if (!is_writable($dst)) {
 			$e++;
-			$this->errors[] = __t('path: %s, not writable', $dst);
+			$this->logError(__t('path: %s, not writable', $dst));
 		}
 
 		foreach ($files as $file) {
@@ -1171,7 +1172,7 @@ class InstallerComponent extends Component {
 
 			if (file_exists($file_dst) && !is_writable($file_dst)) {
 				$e++;
-				$this->errors[] = __t('path: %s, not writable', $file_dst);
+				$this->logError(__t('path: %s, not writable', $file_dst));
 			}
 		}
 
@@ -1650,20 +1651,31 @@ class InstallerComponent extends Component {
 	}
 
 /**
- * Insert a single or multiple messages passed as arguments.
+ * Log a single or multiple messages passed as arguments.
  *
  * ### Usage
  *
- *    error('Error 1', 'Error 2');
+ *    logError('Error 1', 'Error 2');
  *
  * @return void
  */
-	public function error() {
+	public function logError() {
 		$messages = func_get_args();
 
 		foreach ($messages as $m) {
-			$this->errors[] = $m;
+			$this->__errors[] = $m;
+
+			LogError($m);
 		}
+	}
+
+/**
+ * Return all errors logged using logError.
+ *
+ * @return array List of error messages
+ */	
+	public function errors() {
+		return $this->__errors;
 	}
 
 /**
@@ -1698,7 +1710,7 @@ class InstallerComponent extends Component {
 			if (!$test['test']) {
 				$e++;
 				$errorMsg = $header ? "<b>{$test['header']}</b>: {$test['msg']}" : $test['msg'];
-				$this->error($errorMsg);
+				$this->logError($errorMsg);
 			}
 		}
 
@@ -1757,7 +1769,7 @@ class InstallerComponent extends Component {
 		);
 
 		if (!$Install) {
-			$this->errors[] = __t('Module does not exist.');
+			$this->logError(__t('Module does not exist.'));
 
 			return false;
 		}
@@ -1766,7 +1778,7 @@ class InstallerComponent extends Component {
 			$dep = $this->checkReverseDependency($module);
 
 			if (count($dep)) {
-				$this->errors[] = __t('This module can not be disabled, because it is required by: %s', implode('<br />', Hash::extract($dep, '{n}.name')));
+				$this->logError(__t('This module can not be disabled, because it is required by: %s', implode('<br />', Hash::extract($dep, '{n}.name'))));
 
 				return false;
 			}
@@ -1777,9 +1789,9 @@ class InstallerComponent extends Component {
 
 			if ($r !== null) {
 				if (!$isTheme) {
-					$this->errors[] = __t('This module is incompatible with your QuickApps version.');
+					$this->logError(__t('This module is incompatible with your QuickApps version.'));
 				} else {
-				   $this->errors[] = __t('This theme is incompatible with your QuickApps version.');
+				   $this->logError(__t('This theme is incompatible with your QuickApps version.'));
 				}
 
 				return false;
@@ -1790,9 +1802,9 @@ class InstallerComponent extends Component {
 				(!$isTheme && isset($yaml['dependencies']) && !$this->checkDependency($yaml['dependencies']))
 			) {
 				if ($this->options['type'] == 'module') {
-					$this->errors[] = __t("This module depends on other modules that you do not have or doesn't meet the version required: %s", implode('<br/>', $yaml['dependencies']));
+					$this->logError(__t("This module depends on other modules that you do not have or doesn't meet the version required: %s", implode('<br/>', $yaml['dependencies'])));
 				} else {
-					$this->errors[] = __t("This theme depends on other modules that you do not have or doesn't meet the version required: %s", implode('<br/>', $yaml['info']['dependencies']));
+					$this->logError(__t("This theme depends on other modules that you do not have or doesn't meet the version required: %s", implode('<br/>', $yaml['info']['dependencies'])));
 				}
 
 				return false;
