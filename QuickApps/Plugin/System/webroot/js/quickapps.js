@@ -143,6 +143,8 @@ var QuickApps = QuickApps || {'settings': {}, 'behaviors': {}, 'locale': {'strin
  *
  */
 	QuickApps.preventDoubleSubmit = function (el) {
+		el.submitted = false;
+
 		jQuery(el).submit(function () {
 		if (el.submitted) {
 			  return false;
@@ -179,6 +181,8 @@ var QuickApps = QuickApps || {'settings': {}, 'behaviors': {}, 'locale': {'strin
 })(jQuery);
 
 $(document).ready(function() {
+	$.ajaxSetup({cache: false});
+
 	// auto-toggleable fieldsets
 	$("span.fieldset-toggle").each(function () {
 		$(this).css('cursor', 'pointer');
@@ -189,8 +193,16 @@ $(document).ready(function() {
 
 	// prevent double submit on every form in page
 	$('form').each(function() {
-		$(this).submitted = false;
-
-		QuickApps.preventDoubleSubmit(this);
+		QuickApps.preventDoubleSubmit($(this));
 	});
+
+	// FF fix
+	if ($.browser.mozilla) {
+		window.addEventListener('pageshow', function(e) {
+			$('form').each(function() {
+				$(this).unbind('submit');
+				QuickApps.preventDoubleSubmit($(this));
+			});
+		}, false);
+	}
 });
