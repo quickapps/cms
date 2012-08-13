@@ -19,6 +19,10 @@ class ThemesController extends SystemAppController {
 		parent::beforeFilter();
 
 		$this->Auth->allow('serve_css');
+
+		if ($this->action == 'admin_settings') {
+			$this->Security->disabledFields[] = '__reset';
+		}
 	}
 
 	public function serve_css($theme_name, $css) {
