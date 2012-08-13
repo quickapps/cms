@@ -629,11 +629,21 @@ class QuickAppsComponent extends Component {
  * @return void
  */
 	public function setCrumb($url = false) {
+		// Breadcrumb item structure
+		$__item = array(
+			'title' => null,		// TITLE for Html::link()
+			'url' => null,			// URL for Html::link()
+			'active' => false,		// TRUE if active
+			'options' => array()	// Extra options for Html::link()
+		);
+
 		if (func_num_args() > 1) {
 			foreach (func_get_args() as $arg) {
 				$this->setCrumb($arg);
 			}
 		}
+
+		$here = str_replace($this->Controller->request->base, '', $this->Controller->request->here);
 
 		if (is_array($url) && !empty($url)) {
 			if (is_array($url[0])) {
@@ -642,28 +652,36 @@ class QuickAppsComponent extends Component {
 						continue;
 					}
 
-					$push = array(
-						'MenuLink' => array(
-							'link_title' => $link[0],
-							'router_path' => (empty($link[1]) ? 'javascript:return false;': $link[1]),
-							'description' => (isset($link[2]) ? $link[2] : ''),
+					$push = array_merge($__item,
+						array(
+							'title' => $link[0],
+							'url' => (empty($link[1]) ? 'javascript:return false;' : $link[1]),
+							'active' => ($link[1] == $here)
 						)
 					);
+
+					if (isset($link[2])) {
+						$push['options']['title'] = $link[2];
+					}
 
 					$this->Controller->viewVars['breadCrumb'][] = $push;
 				}
 			} else {
-				$push = array(
-					'MenuLink' => array(
-						'link_title' => $url[0],
-						'router_path' => (empty($url[1]) ? 'javascript:return false;': $url[1]),
-						'description' => (isset($url[2]) ? $url[2] : ''),
+				$push = array_merge($__item,
+					array(
+						'title' => $url[0],
+						'url' => (empty($url[1]) ? 'javascript:return false;' : $url[1]),
+						'active' => ($url[1] == $here)
 					)
 				);
+
+				if (isset($url[2])) {
+					$push['options']['title'] = $url[2];
+				}
+
 				$this->Controller->viewVars['breadCrumb'][] = $push;
 			}
 
-			// done
 			return;
 		} else {
 			$url = !is_string($url) ? $this->__urlChunk() : $url;
@@ -711,12 +729,30 @@ class QuickAppsComponent extends Component {
 			);
 
 			$path = $this->Controller->MenuLink->getPath($current['MenuLink']['id']);
+			$push = array();
 
 			if (isset($path[0]['MenuLink']['link_title'])) {
 				$path[0]['MenuLink']['link_title'] = __t($path[0]['MenuLink']['link_title']);
 			}
+			
+			foreach ($path as $l) {
+				$p = array();
+				$p = array_merge($__item,
+					array(
+						'title' => $l['MenuLink']['link_title'],
+						'url' => $l['MenuLink']['router_path'],
+						'active' => ($l['MenuLink']['router_path'] == $here)
+					)
+				);
 
-			$this->Controller->set('breadCrumb', $path);
+				if (isset($l['MenuLink']['description']) && !empty($l['MenuLink']['description'])) {
+					$p['options']['title'] = $l['MenuLink']['description'];
+				}
+
+				$push[] = $p;
+			}
+
+			$this->Controller->set('breadCrumb', $push);
 		}
 
 		return;

@@ -124,7 +124,7 @@ class MenuHelper extends AppHelper {
 		}
 
 		if (!isset($this->__tmp['crumb_urls']) || empty($this->__tmp['crumb_urls'])) {
-			$this->__tmp['crumb_urls'] = (array)Hash::extract($this->_View->viewVars['breadCrumb'], "{n}.{$this->settings['model']}.router_path");
+			$this->__tmp['crumb_urls'] = (array)Hash::extract($this->_View->viewVars['breadCrumb'], "{n}.url");
 
 			if (Configure::read('Variable.url_language_prefix')) {
 				foreach ($this->__tmp['crumb_urls'] as $crumb) {

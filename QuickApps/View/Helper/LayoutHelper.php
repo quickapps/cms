@@ -518,15 +518,9 @@ class LayoutHelper extends AppHelper {
  */
 	public function breadCrumb() {
 		$b = $this->_View->viewVars['breadCrumb'];
-		$beforeRender = (array)$this->hook('before_render_breadcrumb', $b, array('collectReturn' => true));
-
-		if (in_array(false, $beforeRender, true)) {
-			return '';
-		}
+		$this->hook('breadcrumb_alter', $b);
 
 		$crumbs = $this->_View->element('theme_breadcrumb', array('breadcrumb' => $b));
-		$crumbs .= implode('', (array)$this->hook('after_render_breadcrumb', $b, array('collectReturn' => true)));
-		$crumbs = $this->hooktags($crumbs);
 
 		return $crumbs;
 	}
