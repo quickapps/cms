@@ -404,7 +404,7 @@ class LayoutHelper extends AppHelper {
  *
  * @param array $field Field information array
  * @param boolean $edit Set to TRUE for edit form. FALSE for view mode
- * @param string $display Force rendering for that view-mode
+ * @param string $display Force rendering for the given display-mode
  * @return string HTML formatted field
  */
 	public function renderField($field, $edit = false, $display = null) {
@@ -435,7 +435,7 @@ class LayoutHelper extends AppHelper {
 		}
 
 		$elementVars['field'] = $field;
-		$data = array('field' => $field, 'edit' => $edit);
+		$data = array('field' => $field, 'edit' => $edit, 'display' => $display);
 		$beforeRender = (array)$this->hook('before_render_field', $data, array('collectReturn' => true));
 
 		if (in_array(false, $beforeRender, true)) {
