@@ -64,6 +64,10 @@ class MenuLink extends MenuAppModel {
 		ClassRegistry::init('Block.Block')->clearCache();
 	}
 
+	public function afterDelete() {
+		ClassRegistry::init('Block.Block')->clearCache();
+	}
+
 	public function validatePath($check) {
 		$value = array_values($check);
 		$value = $value[0];
