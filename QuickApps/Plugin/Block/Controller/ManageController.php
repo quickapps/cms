@@ -39,9 +39,8 @@ class ManageController extends BlockAppController {
 		$site_theme = $this->Block->find('all',
 			array(
 				'conditions' => array(
-					'OR' => array(
-						'Block.themes_cache LIKE' => '%:' . Configure::read('Variable.site_theme') . ":%"
-					)
+					'Block.themes_cache LIKE' => '%:' . Configure::read('Variable.site_theme') . ":%",
+					'Block.status' => 1
 				)
 			)
 		);
@@ -49,9 +48,8 @@ class ManageController extends BlockAppController {
 		$admin_theme = $this->Block->find('all',
 			array(
 				'conditions' => array(
-					'OR' => array(
-						'Block.themes_cache LIKE' => '%:' . Configure::read('Variable.admin_theme') . ":%",
-					)
+					'Block.themes_cache LIKE' => '%:' . Configure::read('Variable.admin_theme') . ":%",
+					'Block.status' => 1
 				)
 			)
 		);
@@ -61,8 +59,11 @@ class ManageController extends BlockAppController {
 		$unassigned = $this->Block->find('all',
 			array(
 				'conditions' => array(
-					'NOT' => array(
-						'Block.id' => array_merge($site_ids, $admin_ids)
+					'OR' => array(
+						'NOT' => array(
+							'Block.id' => array_merge($site_ids, $admin_ids)
+						),
+						'Block.status' => 0
 					)
 				)
 			)
