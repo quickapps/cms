@@ -212,51 +212,11 @@ class AppHelper extends Helper {
 	}
 
 /**
- * Check if a path matches any pattern in a set of patterns.
+ * Wrapper method to QuickApps::urlMatch()
  *
- * @param string $patterns String containing a set of patterns separated by \n, \r or \r\n.
- * @param mixed $path String as path to match. Or boolean FALSE to use actual page url.
- * @return boolean TRUE if the path matches a pattern, FALSE otherwise.
+ * @see QuickApps::urlMatch()
  */
-	protected function urlMatch($patterns, $path = false) {
-		if (empty($patterns)) {
-			return false;
-		}
-
-		$path = !$path ? '/' . $this->_View->request->url : $path;
-		$patterns = explode("\n", $patterns);
-
-		if (Configure::read('Variable.url_language_prefix')) {
-			if (!preg_match('/^\/([a-z]{3})\//', $path, $matches)) {
-				$path = "/" . Configure::read('Config.language'). $path;
-			}
-		}
-
-		foreach ($patterns as &$p) {
-			$p = Router::url('/') . $p;
-			$p = str_replace('//', '/', $p);
-			$p = str_replace($this->_View->base, '', $p);
-		}
-
-		$patterns = implode("\n", $patterns);
-
-		// Convert path settings to a regular expression.
-		// Therefore replace newlines with a logical or, /* with asterisks and the <front> with the frontpage.
-		$to_replace = array(
-			'/(\r\n?|\n)/', // newlines
-			'/\\\\\*/',	 // asterisks
-			'/(^|\|)\/($|\|)/' // front '/'
-		);
-
-		$replacements = array(
-			'|',
-			'.*',
-			'\1' . preg_quote(Router::url('/'), '/') . '\2'
-		);
-
-		$patterns_quoted = preg_quote($patterns, '/');
-		$regexps[$patterns] = '/^(' . preg_replace($to_replace, $replacements, $patterns_quoted) . ')$/';
-
-		return (bool) preg_match($regexps[$patterns], $path);
+	public function urlMatch($patterns, $path = false) {
+		return QuickApps::urlMatch($patterns, $path, $this->_View->request);
 	}
 }

@@ -156,7 +156,7 @@ class ManageController extends BlockAppController {
 		$this->title(__t('Editing Block'));
 		$this->setCrumb(
 			'/admin/block',
-			array(__t('Editing block'))
+			array(__t('Editing block'), null, null, 'pattern' => '*/block/manage/edit/*')
 		);
 		$this->set('regions', $_regions);
 		$this->set('roles', $this->Role->find('list'));

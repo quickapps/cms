@@ -579,7 +579,7 @@ class QuickAppsComponent extends Component {
  *    setCrumb(
  *        array('Link title 1', '/link_1/url.html'),
  *        array('Link title 2', '/link_2/url.html', 'dec. for title attribute'),
- *        array('Link title 3', '', 'No url'),
+ *        array('Link title 3', '', 'No url', 'pattern' => '/content/edit/*'),
  *        ...
  *    );
  *
@@ -587,6 +587,10 @@ class QuickAppsComponent extends Component {
  * path below:
  *
  *    Link title 1 » Link title 2 » Link title 3
+ *
+ * **NOTE**:
+ * The special keyword `pattern` will mark as active the given element when the current URL match
+ * the given pattern.
  *
  * ### Based on menu link
  *
@@ -643,8 +647,6 @@ class QuickAppsComponent extends Component {
 			}
 		}
 
-		$here = str_replace($this->Controller->request->base, '', $this->Controller->request->here);
-
 		if (is_array($url) && !empty($url)) {
 			if (is_array($url[0])) {
 				foreach ($url as $link) {
@@ -656,7 +658,7 @@ class QuickAppsComponent extends Component {
 						array(
 							'title' => $link[0],
 							'url' => (empty($link[1]) ? 'javascript:return false;' : $link[1]),
-							'active' => ($link[1] == $here)
+							'active' => $this->__isCrumbActive($link)
 						)
 					);
 
@@ -671,7 +673,7 @@ class QuickAppsComponent extends Component {
 					array(
 						'title' => $url[0],
 						'url' => (empty($url[1]) ? 'javascript:return false;' : $url[1]),
-						'active' => ($url[1] == $here)
+						'active' => $this->__isCrumbActive($url)
 					)
 				);
 
@@ -741,7 +743,7 @@ class QuickAppsComponent extends Component {
 					array(
 						'title' => $l['MenuLink']['link_title'],
 						'url' => $l['MenuLink']['router_path'],
-						'active' => ($l['MenuLink']['router_path'] == $here)
+						'active' => $this->__isCrumbActive($l['MenuLink']['router_path'])
 					)
 				);
 
@@ -756,6 +758,22 @@ class QuickAppsComponent extends Component {
 		}
 
 		return;
+	}
+
+/**
+ * Checks whether or not a Crumb element should be active.
+ *
+ * @param mixed Array crumb element or URL as String
+ * @param boolean
+ */
+	private function __isCrumbActive($c) {
+		$here = str_replace($this->Controller->request->base, '', $this->Controller->request->here);
+		$c = is_string($c) ? array(null, $c) : $c;
+		$active =
+			(isset($c[1]) && $c[1] == $here) || 
+			(isset($c['pattern']) && $this->urlMatch($c['pattern'], $here));
+
+		return $active;
 	}
 
 /**
@@ -925,7 +943,16 @@ class QuickAppsComponent extends Component {
 			$this->Controller->set('message', __t("Duplicate content detected!; it looks as though you've already sent that!"));
 			die($this->Controller->render('default'));
 		}
-	}	
+	}
+
+/**
+ * Wrapper method to QuickApps::urlMatch()
+ *
+ * @see QuickApps::urlMatch()
+ */
+	public function urlMatch($patterns, $path = false) {
+		return QuickApps::urlMatch($patterns, $path, $this->Controller->request);
+	}
 
 /**
  * Chunks an URL into smaller url chunks.
