@@ -18,6 +18,19 @@ class QuickApps {
 	private static $__tmp = array();
 
 /**
+ * Holds a list of registered display modes.
+ *
+ * @var array
+ */
+	private static $__displayModes = array(
+		'default' => array('label' => 'Default'),
+		'full' => array('label' => 'Full'),
+		'list' => array('label' => 'List'),
+		'rss' => array('label' => 'RSS'),
+		'print' => array('label' => 'Print')
+	);
+
+/**
  * The built in detectors used with `is()`. Can be modified with `addDetector()`.
  *
  * ### Built-in detectors:
@@ -270,6 +283,72 @@ class QuickApps {
 		$regexps[$patterns] = '/^(' . preg_replace($to_replace, $replacements, $patterns_quoted) . ')$/';
 
 		return (bool) preg_match($regexps[$patterns], $path);
+	}
+
+/**
+ * This method can do two things:
+ * - Retun an array list of all regisreted display-modes.
+ * - Return information for the specified display-mode (if exists).
+ *
+ * @param string $id Optional underscored machine-name, gets info for the given display-mode
+ * @return mixed Array list of all registered display-modes whe $id is not given.
+ * Or array of info for the given $id. FALSE if the specified display-mode does not exists.
+ */
+	public static function displayModes($id = null) {
+		if (!empty($id) && is_string($id)) {
+			if (isset(self::$__displayModes[$id])) {
+				return self::$__displayModes[$id];
+			} else {
+				return false;
+			}
+		} else {
+			return self::$__displayModes;
+		}
+	}
+
+/**
+ * Registers a new display-mode in the system, or overwrite existing ones.
+ *
+ * @param string $id Machine-name, must be an underscored string. e.g.: my_display_mode
+ * @param string $label Human-readable name. e.g.: My Display Mode
+ * @param array $options Additional options.
+ * @param return boolean TRUE on success. FALSE otherwise
+ */
+	public static function registerDisplayMode($id, $label, $options = array()) {
+		if (!empty($id) && !empty($label)) {
+			self::$__displayModes[$id] = array('label' => $label);
+
+			if (is_array($options) && !empty($options)) {
+				if (isset($options['label'])) {
+					unset($options['label']);
+				}
+
+				self::$__displayModes[$id] = array_merge(self::$__displayModes[$id], $options);
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+/**
+ * Unregister the given display-mode by machine-name.
+ * The `default` display-mode is locked and can not be removed.
+ *
+ * @param string $id Machine-name of the display-mode to remove, should be underscored
+ * @return boolean TRUE on success. FALSE otherwise
+ */
+	public static function removeDisplayMode($id) {
+		$id = strtolower($id);
+
+		if (isset(self::$__displayModes[$id]) && $id != 'default') {
+			unset(self::$__displayModes[$id]);
+
+			return true;
+		}
+
+		return false;
 	}
 
 /**

@@ -32,9 +32,9 @@ $tSettings = array(
 <?php if ($display === 'default' && count($result)): ?>
 	<p>
 	<?php echo $this->Form->create('User', array('url' => "/admin/user/display/")); ?>
-		<?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('View Modes') . '</span>'); ?>
+		<?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Display Modes') . '</span>'); ?>
 			<div class="fieldset-toggle-container horizontalLayout" style="display:none;">
-				<em><?php echo __t('Use custom display settings for the following view modes'); ?></em>
+				<em><?php echo __t('Use custom display settings for the following dispay-modes'); ?></em>
 				<?php echo $this->Form->input('User.displayModes', array('type' => 'select', 'multiple' => 'checkbox', 'options' => array('user_profile' => __t('User profile')), 'label' => false)); ?>
 			</div>
 		<?php echo $this->Html->useTag('fieldsetend'); ?>

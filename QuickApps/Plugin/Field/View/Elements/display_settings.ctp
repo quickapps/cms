@@ -12,7 +12,7 @@
 	);
 ?>
 <?php echo $this->Form->create('Field'); ?>
-	<?php echo $this->Html->useTag('fieldsetstart', __t('Field display format (view mode: %s)', Inflector::camelize($display))); ?>
+	<?php echo $this->Html->useTag('fieldsetstart', __t('Field display format (display mode: %s)', Inflector::camelize($display))); ?>
 		<?php echo $this->Form->hidden('Field.id'); ?>
 		<?php echo $this->Form->hidden('Field.display'); ?>
 

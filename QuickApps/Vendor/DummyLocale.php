@@ -182,3 +182,10 @@
 	echo __t('Warning: Give to trusted roles only; this permission has security implications.');
 	echo __t('Administer user CCK fields');
 	echo __t('Warning: Give to trusted roles only; this permission has security implications.');
+
+	// display modes
+	echo __t('Default');
+	echo __t('Full');
+	echo __t('List');
+	echo __t('RSS');
+	echo __t('Print');
