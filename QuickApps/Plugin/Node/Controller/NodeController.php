@@ -689,8 +689,14 @@ class NodeController extends NodeAppController {
  *	if any. Trailing spaces in values will not be included.
  */
 	private function __search_expression_extract($expression, $option) {
-		if (preg_match('/(^| )' . $option . ':([^ ].*)( |$)/i', $expression, $matches)) {
-			return $matches[2];
+		// look for date ranges: "[xxxx< TO yyyy>]"
+		if (preg_match('/(^| )' . $option . ':\[(.*)\]( |$)/i', $expression, $matches)) {
+			return '[' . trim($matches[2]) . ']';
+		}
+
+		// look for basic expressions: "exp:value". Where value is any char except white spaces " "
+		if (preg_match('/(^| )' . $option . ':([^ ]*)( |$)/i', $expression, $matches)) {
+			return trim($matches[2]);
 		}
 	}
 }
