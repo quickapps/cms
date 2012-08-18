@@ -230,7 +230,7 @@ class QuickAppsComponent extends Component {
 		$this->Controller->Layout['javascripts']['inline'][] = '
 			jQuery.extend(QuickApps.settings, {
 				"version": "' . Configure::read('Variable.qa_version'). '",
-				"url": "' . (defined('FULL_BASE_URL') ? FULL_BASE_URL . $this->Controller->here : $this->Controller->here) . '",
+				"url": "' . (defined('FULL_BASE_URL') ? FULL_BASE_URL . $this->Controller->request->here : $this->Controller->request->here) . '",
 				"base_url": "' . QuickApps::strip_language_prefix(Router::url('/', true)) . '",
 				"domain": "' . env('HTTP_HOST') . '",
 				"locale": ' . json_encode($lang) . '

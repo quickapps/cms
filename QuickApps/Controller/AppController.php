@@ -102,6 +102,9 @@ class AppController extends Controller {
 	public function __construct($request = null, $response = null) {
 		HookCollection::preloadHooks($this);
 		parent::__construct($request, $response);
+
+		// make access to CakeRequest instance from anywhere
+		Configure::write('CakeRequest', &$this->request);
 	}
 
 /**

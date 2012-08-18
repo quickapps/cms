@@ -496,9 +496,24 @@ class QuickApps {
  * @return string URL with no language prefix
  */
 	public static function strip_language_prefix($url) {
-		$url = preg_replace('/\/[a-z]{3}\//', '/', $url);
+		$request = Configure::read('CakeRequest');
+		$base = env('HTTP_HOST') . $request->base . '/';
 
-		return $url;
+		if (strpos($url, $base) !== false) {
+			$url = str_replace($base, '', $url);
+		} else {
+			// external url: do not process
+			return $url;
+		}
+
+		$protocol = env('HTTPS') ? 'https://' : 'http://';
+		$url = str_replace($protocol, '', $url);
+		$url = preg_replace('/\/{2,}/', '/', '/' . $url);
+		$url = preg_replace('/^\/[a-z]{3}\//', '/', $url);
+		$url = $base . $url;
+		$url = preg_replace('/\/{2,}/', '/', $url);
+
+		return $protocol . $url;
 	}
 
 /**
