@@ -17,7 +17,7 @@
 			'type' => 'select',
 			'options' => $ranges,
 			'label' => __t('Number of files'),
-			'onchange' => "$('.custom-multi').toggle();"
+			'onchange' => "if (isNaN(this.value)) { $('.custom-multi').show(); } else { $('.custom-multi').hide(); }"
 		)
 	);
 
