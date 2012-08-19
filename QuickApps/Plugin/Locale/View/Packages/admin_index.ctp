@@ -42,17 +42,14 @@
 	<?php foreach ($packages as $plugin => $langs): ?>
 	<?php
 		if ($plugin != 'Default') {
-			$ppath = CakePlugin::path($plugin);
-
 			if (strpos($plugin, 'Theme') !== false) {
 				$Name = __t('Theme: %s', Configure::read('Modules.' . $plugin . '.yaml.info.name'));
-			} elseif (strpos($ppath, DS . 'Fields' . DS)) {
+			} elseif (QuickApps::is('module.field', $plugin)) {
 				$Name = __t('Field: %s', $field_modules[$plugin]['name']);
 			} else {
 				$Name = __t('Module: %s', Configure::read('Modules.' . $plugin . '.yaml.name'));
 			}
 		} else {
-			$ppath = APP;
 			$Name = '<b>' . __t('ALL') . '</b>';
 		}
 	?>

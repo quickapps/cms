@@ -19,11 +19,9 @@ class PackagesController extends LocaleAppController {
 		$field_modules = QuickApps::field_info();
 
 		foreach (App::objects('plugin') as $plugin) {
-			$ppath = CakePlugin::path($plugin);
-
 			if (strpos($plugin, 'Theme') === 0) {
 				$modules[$plugin] = __t('Theme: %s', Configure::read("Modules.{$plugin}.yaml.info.name"));
-			} elseif (strpos($ppath, DS . 'Fields' . DS) !== false) {
+			} elseif (QuickApps::is('module.field', $plugin)) {
 				$modules[$plugin] = __t('Field: %s', $field_modules[$plugin]['name']);
 			} else {
 				$modules[$plugin] = __t('Module: %s', Configure::read("Modules.{$plugin}.yaml.name"));

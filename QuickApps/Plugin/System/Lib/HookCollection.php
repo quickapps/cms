@@ -285,7 +285,7 @@ class HookCollection {
  * @param object $Controller Instance of AppController
  * @return void
  */
-	public static function preloadHooks(&$Controller) {
+	public static function preloadHooks(Controller $Controller) {
 		$_variable = Cache::read('Variable');
 		$_modules = Cache::read('Modules');
 		$_themeType = Router::getParam('admin') ? 'admin_theme' : 'site_theme';
@@ -336,7 +336,7 @@ class HookCollection {
 				}
 
 				// inactive module. (except fields because they are not registered as plugin in DB)
-				if (!in_array($plugin, $_modules) && strpos($ppath, DS . 'Fields' . DS) === false) {
+				if (!in_array($plugin, $_modules) && !QuickApps::is('module.field', $plugin)) {
 					continue;
 				}
 
@@ -564,8 +564,7 @@ class HookCollection {
 	}
 
 /**
- * Loads and analyzes all hook objects preloaded using
- * HookCollection::preloadHook().
+ * Loads and analyzes all hook objects preloaded using HookCollection::preloadHook().
  *
  * @return void
  */

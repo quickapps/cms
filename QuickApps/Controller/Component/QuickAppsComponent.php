@@ -325,9 +325,8 @@ class QuickAppsComponent extends Component {
 		// inactive modules cannot be accessed
 		if ($plugin = $this->Controller->request->params['plugin']) {
 			$plugin = Inflector::camelize($plugin);
-			$ppath = CakePlugin::path($plugin);
 
-			if (strpos($ppath, DS . 'Fields' . DS) === false && !Configure::read('Modules.' . $plugin . '.status')) {
+			if (!QuickApps::is('module.field', $plugin) && !Configure::read('Modules.' . $plugin . '.status')) {
 				if ($this->Controller->request->params['admin']) {
 					$this->Controller->redirect('/admin');
 				}

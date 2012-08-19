@@ -576,7 +576,7 @@ class QuickApps {
 			foreach ($plugins as $plugin) {
 				$ppath = App::pluginPath($plugin);
 
-				if (strpos($ppath, DS . 'Fields' . DS . $plugin . DS) !== false) {
+				if (self::is('module.field', $plugin)) {
 					$yaml = Spyc::YAMLLoad($ppath . "{$plugin}.yaml");
 					$yaml['path'] = $ppath;
 					$field_modules[$plugin] = $yaml;
