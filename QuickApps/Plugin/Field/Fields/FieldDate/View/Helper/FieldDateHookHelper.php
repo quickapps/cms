@@ -9,8 +9,8 @@ class FieldDateHookHelper extends AppHelper {
 		$out = '';
 
 		if (!$this->__instancesCount) {
-			$this->_View->JqueryUI->add('all');
-			$this->_View->JqueryUI->theme();
+			$this->_View->jQueryUI->add('all');
+			$this->_View->jQueryUI->theme();
 		}
 
 		if (isset($settings['locale']) &&

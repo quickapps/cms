@@ -89,7 +89,7 @@ class AppController extends Controller {
 		'Acl',
 		'Auth',
 		'QuickApps',
-		'System.JqueryUI'
+		'System.jQueryUI'
 	);
 
 /**

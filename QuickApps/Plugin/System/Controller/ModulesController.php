@@ -55,8 +55,8 @@ class ModulesController extends SystemAppController {
 			)
 		);
 
-		$this->JqueryUI->add('sortable');
-		$this->JqueryUI->theme();
+		$this->jQueryUI->add('sortable');
+		$this->jQueryUI->theme();
 
 		$this->Layout['stylesheets']['all'][] = '/block/css/sortable.css';
 
