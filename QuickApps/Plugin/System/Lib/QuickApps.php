@@ -489,14 +489,29 @@ class QuickApps {
 	}
 
 /**
- * Strip language prefix from the given URL.
- * e.g.: `http://site.com/eng/some-url` becomes `http://site.com/some-url`
+ * Strip language prefix from the given internal URL.
  *
- * @param string $url URL to replace
+ * ### Usage:
+ *
+ *    QuickApps::strip_language_prefix('http://www.your-site.com/eng/some-url');
+ *    // returns: http://www.your-site.com/some-url
+ *
+ * The URL must be internal to the site. If not, the original URL be will returned
+ * without modifications:
+ *
+ *    QuickApps::strip_language_prefix('http://www.external-site.com/eng/external-page.html');
+ *    // returns: http://www.external-site.com/eng/external-page.html
+ *
+ * @param string $url Internal URL where to replace language prefix
  * @return string URL with no language prefix
  */
 	public static function strip_language_prefix($url) {
 		$request = Configure::read('CakeRequest');
+
+		if (!($request instanceof CakeRequest)) {
+			return $url;
+		}
+
 		$base = env('HTTP_HOST') . $request->base . '/';
 
 		if (strpos($url, $base) !== false) {
