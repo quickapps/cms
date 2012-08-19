@@ -54,7 +54,7 @@ class UploadifyController extends FieldFileAppController {
 		}
 
 		$Upload->file_overwrite = false;
-		$Upload->file_force_extension = false;
+		$Upload->no_script = false;
 		$folder = WWW_ROOT . 'files' . DS;
 		$folder .= isset($field['Field']['settings']['upload_folder']) ? str_replace('/', DS, $field['Field']['settings']['upload_folder']) : '';
 		$url = '/files/';
