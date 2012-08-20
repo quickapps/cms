@@ -104,7 +104,7 @@ class AppController extends Controller {
 		parent::__construct($request, $response);
 
 		// make access to CakeRequest instance from anywhere
-		Configure::write('CakeRequest', &$this->request);
+		Configure::write('CakeRequest', $this->request);
 	}
 
 /**
