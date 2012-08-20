@@ -379,8 +379,6 @@ class QuickAppsComponent extends Component {
 				)
 			);
 
-			$User->bindFields();
-
 			if ($user) {
 				$this->Controller->loadModel('UsersRole');
 				$session = $user['User'];
@@ -418,6 +416,8 @@ class QuickAppsComponent extends Component {
 				CakeSession::write('Auth.User.role_id', $verifiedRoles);
 			}
 		}
+
+		$User->bindFields();
 
 		if ($this->is('user.admin')) {
 			$this->Controller->Auth->allow();
