@@ -50,8 +50,8 @@ class PermissionsController extends UserAppController {
 
 			if (CakePlugin::loaded($module)) {
 				$ppath = CakePlugin::path($module);
-				$isField = QuickApps::is('module.field', $plugin);
-				$isTheme = QuickApps::is('module.theme', $plugin);
+				$isField = QuickApps::is('module.field', $module);
+				$isTheme = QuickApps::is('module.theme', $module);
 
 				if ($isField) {
 					$m = array();
