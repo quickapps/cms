@@ -210,13 +210,4 @@ class AppHelper extends Helper {
 
 		return (bool)$output;
 	}
-
-/**
- * Wrapper method to QuickApps::urlMatch()
- *
- * @see QuickApps::urlMatch()
- */
-	public function urlMatch($patterns, $path = false) {
-		return QuickApps::urlMatch($patterns, $path, $this->_View->request);
-	}
 }

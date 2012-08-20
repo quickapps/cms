@@ -272,13 +272,4 @@ class AppController extends Controller {
 			return $this->QuickApps->setCrumb($url);
 		}
 	}
-
-/**
- * Wrapper method to QuickAppsComponent::urlMatch()
- *
- * @see QuickAppsComponent::urlMatch()
- */
-	public function urlMatch($patterns, $path = false) {
-		return $this->QuickApps->urlMatch($patterns, $path);
-	}
 }

@@ -798,7 +798,7 @@ class LayoutHelper extends AppHelper {
 					$link['pattern'] = "*{$__l}*";
 				}
 
-				$selected = $this->urlMatch($link['pattern'], $here) ? " class=\"{$activeClass}\" " : '';
+				$selected = QuickApps::urlMatch($link['pattern'], $here) ? " class=\"{$activeClass}\" " : '';
 			}
 
 			$link = isset($link['options']) && is_array($link['options']) ? $this->_View->Html->link($link[0], $link[1], $link['options']) : $this->_View->Html->link($link[0], $link[1]);
@@ -1165,11 +1165,11 @@ class LayoutHelper extends AppHelper {
 			 */
 			switch ($block['Block']['visibility']) {
 				case 0:
-					$allowed = $this->urlMatch($block['Block']['pages']) ? false : true;
+					$allowed = QuickApps::urlMatch($block['Block']['pages']) ? false : true;
 				break;
 
 				case 1:
-					$allowed = $this->urlMatch($block['Block']['pages']) ? true : false;
+					$allowed = QuickApps::urlMatch($block['Block']['pages']) ? true : false;
 				break;
 
 				case 2:

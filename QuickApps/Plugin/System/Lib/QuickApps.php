@@ -240,13 +240,14 @@ class QuickApps {
  *
  * @param string $patterns String containing a set of patterns separated by \n, \r or \r\n
  * @param mixed $path String as path to match. Or boolean FALSE to use actual page url
- * @param CakeRequest $request Request object
  * @return boolean TRUE if the path matches a pattern, FALSE otherwise
  */
-	public static function urlMatch($patterns, $path = false, CakeRequest $request) {
+	public static function urlMatch($patterns, $path = false) {
 		if (empty($patterns)) {
 			return false;
 		}
+
+		$request = self::__getRequestObject();
 
 		$path = !$path ? '/' . $request->url : $path;
 		$patterns = explode("\n", $patterns);
@@ -506,11 +507,7 @@ class QuickApps {
  * @return string URL with no language prefix
  */
 	public static function strip_language_prefix($url) {
-		$request = Configure::read('CakeRequest');
-
-		if (!($request instanceof CakeRequest)) {
-			return $url;
-		}
+		$request = self::__getRequestObject();
 
 		$base = env('HTTP_HOST') . $request->base . '/';
 
@@ -619,6 +616,21 @@ class QuickApps {
 		}
 
 		return false;
+	}
+
+/**
+ * Get CakeRequest instance.
+ *
+ * return CakeRequest
+ */
+	private static function __getRequestObject() {
+		$request = Configure::read('CakeRequest');
+
+		if (!($request instanceof CakeRequest)) {
+			$request = new CakeRequest();
+		}
+
+		return $request;
 	}
 
 /**

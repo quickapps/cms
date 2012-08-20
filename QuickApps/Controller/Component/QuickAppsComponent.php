@@ -770,7 +770,7 @@ class QuickAppsComponent extends Component {
 		$c = is_string($c) ? array(null, $c) : $c;
 		$active =
 			(isset($c[1]) && $c[1] == $here) || 
-			(isset($c['pattern']) && $this->urlMatch($c['pattern'], $here));
+			(isset($c['pattern']) && QuickApps::urlMatch($c['pattern'], $here));
 
 		return $active;
 	}
@@ -942,15 +942,6 @@ class QuickAppsComponent extends Component {
 			$this->Controller->set('message', __t("Duplicate content detected!; it looks as though you've already sent that!"));
 			die($this->Controller->render('default'));
 		}
-	}
-
-/**
- * Wrapper method to QuickApps::urlMatch()
- *
- * @see QuickApps::urlMatch()
- */
-	public function urlMatch($patterns, $path = false) {
-		return QuickApps::urlMatch($patterns, $path, $this->Controller->request);
 	}
 
 /**

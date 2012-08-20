@@ -373,11 +373,11 @@ class MenuHelper extends AppHelper {
 		) {
 			switch ($item['selected_on_type']) {
 				case 'php':
-					$isSelected = $this->php_eval($item['selected_on']) === true;
+					$isSelected = QuickApps::php_eval($item['selected_on']) === true;
 				break;
 
 				case 'reg':
-					$isSelected = $this->urlMatch($item['selected_on'], '/' . $this->_View->request->url);
+					$isSelected = QuickApps::urlMatch($item['selected_on'], '/' . $this->_View->request->url);
 				break;
 			}
 		} elseif (
