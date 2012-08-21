@@ -91,7 +91,8 @@ class QuickAppsComponent extends Component {
 		if (Configure::read('Variable.site_online') != 1 && !$this->is('user.admin')) {
 			if ($this->Controller->plugin != 'User' &&
 				$this->Controller->request->params['controller'] != 'log' &&
-				!in_array($this->Controller->request->params['controller'], array('login', 'logout'))
+				!in_array($this->Controller->request->params['controller'], array('login', 'logout')) &&
+				!in_array(env('REMOTE_ADDR'), (array)Configure::read('Variable.site_maintenance_ip'))
 			) {
 				$this->Controller->layout = 'error';
 				$this->Controller->viewPath = 'Errors';

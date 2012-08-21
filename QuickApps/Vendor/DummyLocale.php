@@ -189,3 +189,4 @@
 	echo __t('List');
 	echo __t('RSS');
 	echo __t('Print');
+	echo __t('User profile');

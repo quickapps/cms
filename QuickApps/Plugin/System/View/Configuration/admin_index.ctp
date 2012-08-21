@@ -1,9 +1,21 @@
+<?php
+	$this->Layout->script("
+		function addRemoteAddr() {
+				var ips = $.grep($('#VariableSiteMaintenanceIp').attr('value').split(','), function(n, i) { return (n != ''); });
+				var remote_ip = '" . env('REMOTE_ADDR') . "';
+
+				if ($.inArray(remote_ip, ips) < 0) {
+					ips.push(remote_ip);
+					$('#VariableSiteMaintenanceIp').attr('value', ips.join(','));
+				}
+		}
+	", 'inline');
+?>
+
 <?php echo $this->Form->create('Variable', array('url' => '/admin/system/configuration')); ?>
 	<!-- Settings -->
 	<?php echo $this->Html->useTag('fieldsetstart', __t('Site information')); ?>
 		<?php echo $this->Html->useTag('fieldsetstart', __t('Site details')); ?>
-			<!--<?php echo $this->Form->input('Variable.site_online', array('type' => 'checkbox', 'label' => __t('Site online'))); ?>
-			-->
 			<?php echo $this->Form->input('Variable.site_name', array('required' => 'required', 'type' => 'text', 'label' => __t('Site name *'))); ?>
 
 			<?php echo $this->Form->input('Variable.site_slogan', array('type' => 'text', 'label' => __t('Slogan'))); ?>
@@ -16,6 +28,16 @@
 			<em><?php echo __t("The From address in automated e-mails sent during registration and new password requests, and other notifications. (Use an address ending in your site's domain to help prevent this e-mail being flagged as spam.)"); ?></em>
 
 			<?php echo $this->Form->input('Variable.site_online', array('type' => 'select', 'options' => array(1 => __t('No'), 0 => __t('Yes')), 'label' => __t('Site under maintenance'))); ?>
+
+			<?php
+				echo $this->Form->input('Variable.site_maintenance_ip',
+					array(
+						'type' => 'text',
+						'label' => __t('Maintenance IP'), 
+						'after' => '&nbsp;' . $this->Html->link(__t('Add my IP'), '#', array('onclick' => 'addRemoteAddr(); return false;'))
+				));
+			?>
+			<em><?php echo __t('IP addresses allowed to access the Front Office even if the site is disabled. Use a comma to separate them (e.g., 42.24.4.2,127.0.0.1,99.98.97.96)'); ?></em>
 
 			<?php echo $this->Form->input('Variable.site_maintenance_message', array('type' => 'textarea', 'label' => __t('Maintenance message'))); ?>
 		<?php echo $this->Html->useTag('fieldsetend'); ?>

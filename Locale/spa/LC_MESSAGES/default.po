@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2012-08-18 21:56+0000\n"
+"POT-Creation-Date: 2012-08-21 23:40+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christopher Castro <chris@quickapps.es>\n"
 "Language-Team: \n"
@@ -301,7 +301,7 @@ msgstr "Este módulo no se puede deshabilitar, porque es requerido por: %s"
 msgid "This module depends on other modules that you do not have or doesn't meet the version required: %s"
 msgstr "Este módulo depende de otros módulos que no han sido instalados o bien no cumplen con los requerimientos de versión: %s"
 
-#: Controller\Component\QuickAppsComponent.php:107
+#: Controller\Component\QuickAppsComponent.php:108
 msgid "Site offline"
 msgstr "Sitio fuera de línea"
 
@@ -579,7 +579,7 @@ msgid "Unassigned or Disabled"
 msgstr "No Asignados o Desactivados"
 
 #: Plugin\Block\View\Manage\admin_index.ctp:92
-#: Plugin\System\View\Configuration\admin_index.ctp:177
+#: Plugin\System\View\Configuration\admin_index.ctp:199
 #: Plugin\System\View\Modules\admin_settings.ctp:6
 msgid "Save all"
 msgstr "Guardar todo"
@@ -998,7 +998,7 @@ msgstr "Milisegundo"
 msgid "Invalid file extension."
 msgstr "Extensión de fichero inválida."
 
-#: Plugin\Field\Fields\FieldFile\Controller\UploadifyController.php:76
+#: Plugin\Field\Fields\FieldFile\Controller\UploadifyController.php:77
 msgid "Error: %s"
 msgstr "Error: %s"
 
@@ -1277,7 +1277,7 @@ msgstr "Permitir hooktags"
 #: Plugin\Field\View\Elements\display_settings.ctp:39
 #: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:70
 #: Plugin\Node\View\Types\admin_fields.ctp:17
-#: Plugin\System\View\Configuration\admin_index.ctp:18;38;117
+#: Plugin\System\View\Configuration\admin_index.ctp:30;60;139
 #: Plugin\Taxonomy\View\Elements\vocabularies_block_settings.ctp:20;28
 #: Plugin\User\View\Fields\admin_index.ctp:17
 msgid "Yes"
@@ -1286,7 +1286,7 @@ msgstr "Si"
 #: Plugin\Field\View\Elements\display_settings.ctp:39
 #: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:71
 #: Plugin\Node\View\Types\admin_fields.ctp:17
-#: Plugin\System\View\Configuration\admin_index.ctp:18;38;116
+#: Plugin\System\View\Configuration\admin_index.ctp:30;60;138
 #: Plugin\Taxonomy\View\Elements\vocabularies_block_settings.ctp:20;28
 #: Plugin\User\View\Fields\admin_index.ctp:17
 msgid "No"
@@ -1322,54 +1322,54 @@ msgid "Editing language"
 msgstr "Editando idioma"
 
 #: Plugin\Locale\Controller\PackagesController.php:18
-#: Plugin\Locale\View\Packages\admin_index.ctp:56
+#: Plugin\Locale\View\Packages\admin_index.ctp:53
 msgid "ALL"
 msgstr "TODO"
 
-#: Plugin\Locale\Controller\PackagesController.php:25
-#: Plugin\Locale\View\Packages\admin_index.ctp:48
+#: Plugin\Locale\Controller\PackagesController.php:23
+#: Plugin\Locale\View\Packages\admin_index.ctp:46
 #: Plugin\User\Controller\PermissionsController.php:66;339
 msgid "Theme: %s"
 msgstr "Tema: %s"
 
-#: Plugin\Locale\Controller\PackagesController.php:27
-#: Plugin\Locale\View\Packages\admin_index.ctp:50
+#: Plugin\Locale\Controller\PackagesController.php:25
+#: Plugin\Locale\View\Packages\admin_index.ctp:48
 #: Plugin\User\Controller\PermissionsController.php:64;337
 msgid "Field: %s"
 msgstr "Campo: %s"
 
-#: Plugin\Locale\Controller\PackagesController.php:29
-#: Plugin\Locale\View\Packages\admin_index.ctp:52
+#: Plugin\Locale\Controller\PackagesController.php:27
+#: Plugin\Locale\View\Packages\admin_index.ctp:50
 #: Plugin\User\Controller\PermissionsController.php:68;341
 msgid "Module: %s"
 msgstr "Módulo: %s"
 
-#: Plugin\Locale\Controller\PackagesController.php:39
+#: Plugin\Locale\Controller\PackagesController.php:37
 #: Plugin\Locale\View\Elements\toolbar.ctp:5
 msgid "Translation packages"
 msgstr "Paquetes de traducción"
 
-#: Plugin\Locale\Controller\PackagesController.php:41
+#: Plugin\Locale\Controller\PackagesController.php:39
 msgid "Translation Packages"
 msgstr "Paquetes de Traducción"
 
-#: Plugin\Locale\Controller\PackagesController.php:71
+#: Plugin\Locale\Controller\PackagesController.php:69
 msgid "Package not found"
 msgstr "Paquete no encontrado"
 
-#: Plugin\Locale\Controller\PackagesController.php:87
+#: Plugin\Locale\Controller\PackagesController.php:85
 msgid "Could not delete package folder. Please check folder permissions for '%s'."
 msgstr "No se puedo eliminar la carpeta del paquete. Por favor verifique los permisos del directorio '%s'"
 
-#: Plugin\Locale\Controller\PackagesController.php:89
+#: Plugin\Locale\Controller\PackagesController.php:87
 msgid "Language package removed!"
 msgstr "Paquete de idioma eliminado!"
 
-#: Plugin\Locale\Controller\PackagesController.php:92
+#: Plugin\Locale\Controller\PackagesController.php:90
 msgid "Invalid module or language "
 msgstr "Módulo o idioma inválido"
 
-#: Plugin\Locale\Controller\PackagesController.php:118
+#: Plugin\Locale\Controller\PackagesController.php:116
 msgid "Language package upload success"
 msgstr "Paquete de idioma cargado correctamente"
 
@@ -1518,7 +1518,7 @@ msgid "Flag icon"
 msgstr "Icono de bandera"
 
 #: Plugin\Locale\View\Languages\admin_edit.ctp:42
-#: Plugin\System\View\Configuration\admin_index.ctp:135
+#: Plugin\System\View\Configuration\admin_index.ctp:157
 #: Plugin\Taxonomy\View\Vocabularies\admin_terms.ctp:6
 msgid "-- None --"
 msgstr "-- Ninguno --"
@@ -1560,7 +1560,7 @@ msgid "English name"
 msgstr "Nombre en inglés"
 
 #: Plugin\Locale\View\Languages\admin_index.ctp:16
-#: Plugin\System\View\Configuration\admin_index.ctp:34
+#: Plugin\System\View\Configuration\admin_index.ctp:56
 msgid "Default language"
 msgstr "Idioma por defecto"
 
@@ -1724,19 +1724,19 @@ msgstr "¿Cuál es el idioma de este paquete? Puede registrar más idiomas en la
 msgid "Upload"
 msgstr "Cargar"
 
-#: Plugin\Locale\View\Packages\admin_index.ctp:72
+#: Plugin\Locale\View\Packages\admin_index.ctp:69
 msgid "download"
 msgstr "descargar"
 
-#: Plugin\Locale\View\Packages\admin_index.ctp:73
+#: Plugin\Locale\View\Packages\admin_index.ctp:70
 msgid "uninstall"
 msgstr "desinstalar"
 
-#: Plugin\Locale\View\Packages\admin_index.ctp:73
+#: Plugin\Locale\View\Packages\admin_index.ctp:70
 msgid "Delete the selected package ?"
 msgstr "¿Eliminar el paquete seleccionado?"
 
-#: Plugin\Locale\View\Packages\admin_index.ctp:89
+#: Plugin\Locale\View\Packages\admin_index.ctp:86
 msgid "Invalid package"
 msgstr "Paquete inválido"
 
@@ -1768,11 +1768,11 @@ msgstr "Modo de uso"
 #: Plugin\Menu\View\Manage\admin_add_link.ctp:45
 #: Plugin\Menu\View\Manage\admin_edit.ctp:6
 #: Plugin\Menu\View\Manage\admin_edit_link.ctp:56
-#: Plugin\Node\View\Types\admin_display.ctp:59
+#: Plugin\Node\View\Types\admin_display.ctp:61
 #: Plugin\Node\View\Types\admin_edit.ctp:56
 #: Plugin\System\View\Themes\admin_settings.ctp:33
 #: Plugin\Taxonomy\View\Vocabularies\admin_terms.ctp:7
-#: Plugin\User\View\Display\admin_index.ctp:41
+#: Plugin\User\View\Display\admin_index.ctp:58
 #: View\Elements\theme_node_comments_form.ctp:60
 msgid "Save"
 msgstr "Guardar"
@@ -1979,7 +1979,7 @@ msgstr "Título *"
 #: Plugin\Node\View\Contents\admin_edit.ctp:21;91
 #: Plugin\Node\View\Types\admin_add.ctp:5
 #: Plugin\Node\View\Types\admin_edit.ctp:10
-#: Plugin\System\View\Configuration\admin_index.ctp:12
+#: Plugin\System\View\Configuration\admin_index.ctp:24
 #: Plugin\Taxonomy\View\Vocabularies\admin_add.ctp:5
 #: Plugin\Taxonomy\View\Vocabularies\admin_edit.ctp:6
 #: Plugin\Taxonomy\View\Vocabularies\admin_edit_term.ctp:6
@@ -2169,79 +2169,79 @@ msgstr "Tu comentario ha sido publicado."
 msgid "Comment could not be saved. Please try again."
 msgstr "No se ha podido procesar el comentario. Por favor intenta otra vez."
 
-#: Plugin\Node\Controller\TypesController.php:23
+#: Plugin\Node\Controller\TypesController.php:18
 msgid "Content Types"
 msgstr "Tipos de Contenidos"
 
-#: Plugin\Node\Controller\TypesController.php:29
+#: Plugin\Node\Controller\TypesController.php:24
 msgid "Content type has been saved!"
 msgstr "Tipo de contenido ha sido guardado!"
 
-#: Plugin\Node\Controller\TypesController.php:32
+#: Plugin\Node\Controller\TypesController.php:27
 msgid "Content type could not be saved"
 msgstr "No se puedo guardar el tipo de contenido"
 
-#: Plugin\Node\Controller\TypesController.php:42
+#: Plugin\Node\Controller\TypesController.php:37
 msgid "Editing Type"
 msgstr "Editando Tipo"
 
-#: Plugin\Node\Controller\TypesController.php:58
+#: Plugin\Node\Controller\TypesController.php:53
 msgid "Add Content Type"
 msgstr "Agregar Tipo de Contenido"
 
-#: Plugin\Node\Controller\TypesController.php:65
+#: Plugin\Node\Controller\TypesController.php:60
 msgid "Content type has been deleted"
 msgstr "Tipo de contenido eliminado"
 
-#: Plugin\Node\Controller\TypesController.php:112;173
+#: Plugin\Node\Controller\TypesController.php:107;175
 msgid "Display"
 msgstr "Visualización"
 
-#: Plugin\Node\Controller\TypesController.php:114
+#: Plugin\Node\Controller\TypesController.php:109
 msgid "Display Settings"
 msgstr "Opciones de Visualización"
 
-#: Plugin\Node\Controller\TypesController.php:132
+#: Plugin\Node\Controller\TypesController.php:127
 #: Plugin\User\Controller\FieldsController.php:44
 msgid "Field has been saved"
 msgstr "El campo ha sido guardado"
 
-#: Plugin\Node\Controller\TypesController.php:135
+#: Plugin\Node\Controller\TypesController.php:130
 #: Plugin\User\Controller\FieldsController.php:47
 msgid "Field could not be saved"
 msgstr "El campo no pudo ser guardado"
 
-#: Plugin\Node\Controller\TypesController.php:146;221;223
+#: Plugin\Node\Controller\TypesController.php:141;223;225
 #: Plugin\User\Controller\FieldsController.php:55
 msgid "Fields"
 msgstr "Campos"
 
-#: Plugin\Node\Controller\TypesController.php:148
+#: Plugin\Node\Controller\TypesController.php:143
 #: Plugin\User\Controller\FieldsController.php:58
 msgid "Field Settings"
 msgstr "Configuración de Campo"
 
-#: Plugin\Node\Controller\TypesController.php:161
-#: Plugin\User\Controller\DisplayController.php:51
+#: Plugin\Node\Controller\TypesController.php:163
+#: Plugin\User\Controller\DisplayController.php:58
 msgid "Field has been saved."
 msgstr "El campo ha sido guardado."
 
-#: Plugin\Node\Controller\TypesController.php:164
-#: Plugin\User\Controller\DisplayController.php:54
+#: Plugin\Node\Controller\TypesController.php:166
+#: Plugin\User\Controller\DisplayController.php:61
 msgid "Field could not be saved. Please, try again."
 msgstr "El campo no pudo ser guardado. Por favor, intente otra vez."
 
-#: Plugin\Node\Controller\TypesController.php:174
-#: Plugin\User\Controller\DisplayController.php:63
+#: Plugin\Node\Controller\TypesController.php:176
+#: Plugin\User\Controller\DisplayController.php:70
 msgid "Field display settings"
 msgstr "Parámetros de visualización de campo"
 
-#: Plugin\Node\Controller\TypesController.php:176
-#: Plugin\User\Controller\DisplayController.php:65
+#: Plugin\Node\Controller\TypesController.php:178
+#: Plugin\User\Controller\DisplayController.php:72
 msgid "Field Display Settings"
 msgstr "Parámetros de Visualización de Campo"
 
-#: Plugin\Node\Controller\TypesController.php:203
+#: Plugin\Node\Controller\TypesController.php:205
 #: Plugin\User\Controller\FieldsController.php:27
 msgid "Field could not be created. Please, try again."
 msgstr "El campo no pudo ser creado. Por favor, intente otra vez."
@@ -2917,179 +2917,187 @@ msgstr "El theme ha sido instalado"
 msgid "$object must be an instance of Model, View or Controller"
 msgstr "$object debe ser una instancia de Model, View o Controller"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:3
+#: Plugin\System\View\Configuration\admin_index.ctp:17
 msgid "Site information"
 msgstr "Información del sitio"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:4
+#: Plugin\System\View\Configuration\admin_index.ctp:18
 msgid "Site details"
 msgstr "Detalles del sitio"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:5
-msgid "Site online"
-msgstr "Sitio en línea"
-
-#: Plugin\System\View\Configuration\admin_index.ctp:7
+#: Plugin\System\View\Configuration\admin_index.ctp:19
 msgid "Site name *"
 msgstr "Nombre del sitio *"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:9
+#: Plugin\System\View\Configuration\admin_index.ctp:21
 msgid "Slogan"
 msgstr "Eslogan"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:10
+#: Plugin\System\View\Configuration\admin_index.ctp:22
 msgid "How this is used depends on your site's theme."
 msgstr "Su utilización depende del theme de su sitio."
 
-#: Plugin\System\View\Configuration\admin_index.ctp:13
+#: Plugin\System\View\Configuration\admin_index.ctp:25
 msgid "A brief description about your site, this will be used as default meta-description in layout."
 msgstr "Una breve descripción sobre su sitio, será utilizado como meta-description por defecto."
 
-#: Plugin\System\View\Configuration\admin_index.ctp:15
+#: Plugin\System\View\Configuration\admin_index.ctp:27
 msgid "E-mail address *"
 msgstr "Dirección E-mail *"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:16
+#: Plugin\System\View\Configuration\admin_index.ctp:28
 msgid "The From address in automated e-mails sent during registration and new password requests, and other notifications. (Use an address ending in your site's domain to help prevent this e-mail being flagged as spam.)"
 msgstr "La dirección 'DE' en los envios de e-mails automatizados como solicitudes de registro, recuperación de contraseñas y otras notificaciones. (Utilice una dirección acabada en el dominio de su sitio para evitar que los e-mails sean marcados como SPAM)"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:18
+#: Plugin\System\View\Configuration\admin_index.ctp:30
 msgid "Site under maintenance"
 msgstr "Sitio bajo mantenimiento"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:20
+#: Plugin\System\View\Configuration\admin_index.ctp:36
+msgid "Maintenance IP"
+msgstr "IP de mantenimiento"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:37
+msgid "Add my IP"
+msgstr "Añadir mi IP"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:40
+msgid "IP addresses allowed to access the Front Office even if the site is disabled. Use a comma to separate them (e.g., 42.24.4.2,127.0.0.1,99.98.97.96)"
+msgstr "Dirreciones IP autorizadas para el acceso  al sitio cuando está desactivado. Utilizar comas para separarlos (e.j., 42.24.4.2,127.0.0.1,99.98.97.96)"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:42
 msgid "Maintenance message"
 msgstr "Mensaje de mantenimiento"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:24
+#: Plugin\System\View\Configuration\admin_index.ctp:46
 msgid "Front page"
 msgstr "Portada"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:25
+#: Plugin\System\View\Configuration\admin_index.ctp:47
 msgid "Number of posts on front page"
 msgstr "Número de publicaciones en portada"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:26
+#: Plugin\System\View\Configuration\admin_index.ctp:48
 msgid "The maximum number of posts displayed on overview pages such as the front page."
 msgstr "El número máximo de nodos mostrado en listados como por ejemplo la portada."
 
-#: Plugin\System\View\Configuration\admin_index.ctp:28
+#: Plugin\System\View\Configuration\admin_index.ctp:50
 msgid "Default front page"
 msgstr "Portada por defecto"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:29
+#: Plugin\System\View\Configuration\admin_index.ctp:51
 msgid "Optionally, specify a relative URL to display as the front page. Leave blank to display the default content feed"
 msgstr "Opcional, indique una URL relativa al sitio para mostrar como portada. Déjelo en blanco para mostrar los nodos destacados en portada"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:32
+#: Plugin\System\View\Configuration\admin_index.ctp:54
 msgid "Regional settings"
 msgstr "Opciones Regionales"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:36
+#: Plugin\System\View\Configuration\admin_index.ctp:58
 msgid "Default time zone"
 msgstr "Zona horaria por defecto"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:38
+#: Plugin\System\View\Configuration\admin_index.ctp:60
 msgid "URL path prefix"
 msgstr "Prefijo en URL"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:39
+#: Plugin\System\View\Configuration\admin_index.ctp:61
 msgid "URLs like http://domain.com/fre/about set language to French (fre). <b>Warning: Changing this setting may break incoming URLs. Use with caution on a production site.</b>"
 msgstr "URLs como http://dominio.com/fre/about se mostrarán en Francés (fre). <b>Advertencia: Modificar este parámetro puede romper URLs entrantes. Utilizar con precaución en entornos de producción.</b>"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:42
+#: Plugin\System\View\Configuration\admin_index.ctp:64
 msgid "Users settings"
 msgstr "Parámetros de usuarios"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:43
+#: Plugin\System\View\Configuration\admin_index.ctp:65
 msgid "User Login"
 msgstr "Identificación"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:56
+#: Plugin\System\View\Configuration\admin_index.ctp:78
 msgid "After"
 msgstr "Después de"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:57
+#: Plugin\System\View\Configuration\admin_index.ctp:79
 msgid "failed login attempts"
 msgstr "identificaciones fallidas"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:79
+#: Plugin\System\View\Configuration\admin_index.ctp:101
 msgid "Block visitor for"
 msgstr "Bloquear visitante por"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:80
+#: Plugin\System\View\Configuration\admin_index.ctp:102
 msgid "minutes"
 msgstr "minutos"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:85
+#: Plugin\System\View\Configuration\admin_index.ctp:107
 msgid "Leave empty any of the parameters for no login-blocking feature."
 msgstr "Dejar en blanco cualquiera de los parametros para desactivar esta característica."
 
-#: Plugin\System\View\Configuration\admin_index.ctp:88
+#: Plugin\System\View\Configuration\admin_index.ctp:110
 msgid "User Avatar"
 msgstr "Avatar"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:93
+#: Plugin\System\View\Configuration\admin_index.ctp:115
 msgid "Use <a href='http://www.gravatar.com'>Gravatar</a>"
 msgstr "Utilizar <a href='http://www.gravatar.com'>Gravatar</a>"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:104
+#: Plugin\System\View\Configuration\admin_index.ctp:126
 msgid "Avatar width"
 msgstr "Anchura de avatar"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:105
+#: Plugin\System\View\Configuration\admin_index.ctp:127
 msgid "By default, images are presented at 80px by 80px if no size parameter is supplied."
 msgstr "Por defecto, las imagenes se muestran a 80px por 80px si no se proporciona ningún parámetro."
 
-#: Plugin\System\View\Configuration\admin_index.ctp:107
+#: Plugin\System\View\Configuration\admin_index.ctp:129
 msgid "Default avatar URL"
 msgstr "URL del avatar por defecto"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:108
+#: Plugin\System\View\Configuration\admin_index.ctp:130
 msgid "URL of picture to display for users with an email not matching a Gravatar image."
 msgstr "URL de la imágen a mostrar para usuarios sin un email registrado en Gravatar."
 
-#: Plugin\System\View\Configuration\admin_index.ctp:114
+#: Plugin\System\View\Configuration\admin_index.ctp:136
 msgid "Force default"
 msgstr "Forzar imágen por defecto"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:122
+#: Plugin\System\View\Configuration\admin_index.ctp:144
 msgid "Force the default image to always load."
 msgstr "Mostrar siempre la imágen por defecto."
 
-#: Plugin\System\View\Configuration\admin_index.ctp:128
+#: Plugin\System\View\Configuration\admin_index.ctp:150
 msgid "Rating"
 msgstr "Clasificación"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:139
+#: Plugin\System\View\Configuration\admin_index.ctp:161
 msgid "If the user's email does not have an image meeting the requested rating level, then the default image is returned (or the specified default)"
 msgstr "Si el email de suaurio no cumple el nivel de clasificación necesario, entonces se muestra la imágen por defacto (o la especificada por defecto)"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:142
+#: Plugin\System\View\Configuration\admin_index.ctp:164
 msgid "suitable for display on all websites with any audience type."
 msgstr "adecuado para websites con cualquier tipo de audiencia."
 
-#: Plugin\System\View\Configuration\admin_index.ctp:143
+#: Plugin\System\View\Configuration\admin_index.ctp:165
 msgid "may contain rude gestures, provocatively dressed individuals, the lesser swear words, or mild violence."
 msgstr "puede contener gestos groseros, personas vestidas de forma provocativa, la malas palabras menores, o violencia moderada."
 
-#: Plugin\System\View\Configuration\admin_index.ctp:144
+#: Plugin\System\View\Configuration\admin_index.ctp:166
 msgid "may contain such things as harsh profanity, intense violence, nudity, or hard drug use."
 msgstr "pueden contener cosas como malas palabras fuertes, violencia intensa, desnudos o abuso de drogas."
 
-#: Plugin\System\View\Configuration\admin_index.ctp:145
+#: Plugin\System\View\Configuration\admin_index.ctp:167
 msgid "may contain hardcore sexual imagery or extremely disturbing violence."
 msgstr "pueden contener imágenes de sexo o violencia explícitas."
 
-#: Plugin\System\View\Configuration\admin_index.ctp:151
+#: Plugin\System\View\Configuration\admin_index.ctp:173
 msgid "Default avatar"
 msgstr "Avatar por defecto"
 
-#: Plugin\System\View\Configuration\admin_index.ctp:152
+#: Plugin\System\View\Configuration\admin_index.ctp:174
 msgid "URL of picture to display for users with no custom picture selected or anonymous users."
 msgstr "URL de la imágen a mostrar para usuarios sin avatar personalizado o usuarios anónimos."
 
-#: Plugin\System\View\Configuration\admin_index.ctp:171
+#: Plugin\System\View\Configuration\admin_index.ctp:193
 msgid "Other module settings"
 msgstr "Otros parámetros de módulos"
 
@@ -3492,7 +3500,7 @@ msgstr "Término padre"
 msgid "Manage Display"
 msgstr "Gestionar Visualización"
 
-#: Plugin\User\Controller\DisplayController.php:43;62
+#: Plugin\User\Controller\DisplayController.php:43;69
 msgid "User Display Settings"
 msgstr "Configuración de Visualización de Usuarios"
 
@@ -3656,10 +3664,6 @@ msgstr "Contraseñas distintas."
 #: Plugin\User\View\Display\admin_index.ctp:37
 msgid "Use custom display settings for the following dispay-modes"
 msgstr "Utilizar opciones de visualización personalizadas para los siguientes tipos de vistas"
-
-#: Plugin\User\View\Display\admin_index.ctp:38
-msgid "User profile"
-msgstr "Perfil de usuario"
 
 #: Plugin\User\View\Elements\login_block.ctp:5
 #: View\Elements\theme_user_profile.ctp:15
@@ -4345,6 +4349,10 @@ msgstr "RSS"
 msgid "Print"
 msgstr "Impresión"
 
+#: Vendor\DummyLocale.php:192
+msgid "User profile"
+msgstr "Perfil de usuario"
+
 #: View\Elements\theme_comment.ctp:37
 msgid "said on %s"
 msgstr "dijo el %s"
@@ -4810,6 +4818,9 @@ msgstr "Contraseñas distintas o con menos de 6 caracteres."
 #: Lib\Routing\Router.php:186
 msgid "Route classes must extend CakeRoute"
 msgstr "Route classes must extend CakeRoute"
+
+#~ msgid "Site online"
+#~ msgstr "Sitio en línea"
 
 #~ msgid "View Modes"
 #~ msgstr "Modos de Visualización"
