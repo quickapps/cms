@@ -13,8 +13,10 @@
 	if ($this->request->params['controller'] == 'display' && isset($this->data['User']['displayModes'])) {
 		$links = array();
 
-		foreach ($this->data['User']['displayModes'] as $vm) {
-			$links[] = array(__t($vm), "/admin/user/display/index/{$vm}");
+		foreach ($this->data['User']['displayModes'] as $dm) {
+			if ($info = QuickApps::displayModes("User.{$dm}")) {
+				$links[] = array(__t($info['label']), "/admin/user/display/index/{$dm}");
+			}
 		}
 
 		if (!empty($links)) {

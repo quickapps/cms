@@ -23,11 +23,13 @@ class QuickApps {
  * @var array
  */
 	private static $__displayModes = array(
-		'default' => array('label' => 'Default'),
-		'full' => array('label' => 'Full'),
-		'list' => array('label' => 'List'),
-		'rss' => array('label' => 'RSS'),
-		'print' => array('label' => 'Print')
+		'Node.default' => array('label' => 'Default', 'locked' => true),
+		'Node.full' => array('label' => 'Full'),
+		'Node.list' => array('label' => 'List'),
+		'Node.rss' => array('label' => 'RSS'),
+		'Node.print' => array('label' => 'Print'),
+		'User.default' => array('label' => 'Default', 'locked' => true),
+		'User.user_profile' => array('label' => 'User profile')
 	);
 
 /**
@@ -288,43 +290,109 @@ class QuickApps {
 
 /**
  * This method can do two things:
- * - Retun an array list of all regisreted display-modes.
- * - Return information for the specified display-mode (if exists).
+ * - Retun an array list of all regisreted display-modes for the given Model.
+ * - Return information for the specified display-mode (if exists), given as Dot-Syntax (Model.display_mode).
  *
- * @param string $id Optional underscored machine-name, gets info for the given display-mode
- * @return mixed Array list of all registered display-modes whe $id is not given.
- * Or array of info for the given $id. FALSE if the specified display-mode does not exists.
+ * ### Usage:
+ *
+ * The example below will returns information for all display modes related to the `Node` model:
+ *
+ *     QuickApps::displayModes('Node');
+ *     // output:
+ *     array(
+ *         'default' => array('label' => 'Default'),
+ *         'full' => array('label' => 'Full'),
+ *         'list' => array('label' => 'List'),
+ *         'rss' => array('label' => 'RSS'),
+ *         'print' => array('label' => 'Print')
+ *     );
+ *
+ * Note: If the specified Model does not exists an empty array will be returned.
+ *
+ *
+ * This example will return information for the `full` display-mode under the `Node` model:
+ *
+ *     QuickApps::displayModes('Node.full');
+ *     // output:
+ *     array('label' => 'Full');
+ *
+ * Note: If the the given path does not exists FALSE will be returned.
+ *
+ * @param string $path Model name or Mode.display_mode path
+ * @return mixed Array list or FALSE on failure.
  */
-	public static function displayModes($id = null) {
-		if (!empty($id) && is_string($id)) {
-			if (isset(self::$__displayModes[$id])) {
-				return self::$__displayModes[$id];
+	public static function displayModes($path) {
+		list($model, $display) = pluginSplit($path);
+		$model = Inflector::camelize($model);
+		$display = Inflector::underscore($display);
+
+		if ($model && $display) {
+			if (isset(self::$__displayModes["{$model}.{$display}"])) {
+				return self::$__displayModes["{$model}.{$display}"];
 			} else {
 				return false;
 			}
-		} else {
-			return self::$__displayModes;
+		} elseif (strpos($path, '.') === false) {
+			$model = $path;
+			$output = array();
+
+			foreach (self::$__displayModes as $key => $data) {
+				list($m, $d) = pluginSplit($key);
+
+				if ($m === $model) {
+					$output[$d] = $data;
+				}
+			}
+
+			return $output;
 		}
+
+		return false;
 	}
 
 /**
- * Registers a new display-mode in the system, or overwrite existing ones.
+ * Registers a new display-mode under the given Model group (overwrite if already exists).
+ * Notes:
  *
- * @param string $id Machine-name, must be an underscored string. e.g.: my_display_mode
+ *  - When registering a new display-mode the arguments: `label` is REQUIRED and `options` is OPTIONAL.
+ *  - When overwriting an existing display-mode the arguments: `label` is OPTIONAL and `options` is REQUIRED. 
+ *
+ * ### Usage:
+ *
+ *     // register new display-mode under `Node`
+ *     QuickApps::registerDisplayMode('Node.new_mode', 'New Mode');
+ *
+ *     // overwriting the `Full` display-mode (label renaming)
+ *     QuickApps::registerDisplayMode('Node.full', 'New Label');
+ *
+ *     // unlock of `Node.default`
+ *     QuickApps::registerDisplayMode('Node.default', null, array('locked' => false));
+ *
+ * @param string $path Mode.display_mode syntax
  * @param string $label Human-readable name. e.g.: My Display Mode
  * @param array $options Additional options.
  * @param return boolean TRUE on success. FALSE otherwise
  */
-	public static function registerDisplayMode($id, $label, $options = array()) {
-		if (!empty($id) && !empty($label)) {
-			self::$__displayModes[$id] = array('label' => $label);
+	public static function registerDisplayMode($path, $label, $options = array()) {
+		list($model, $display) = pluginSplit($path);
+		$model = Inflector::camelize($model);
+		$display = Inflector::camelize($display);
+
+		if ($model && $display) {
+			if (empty($label) && (empty($options) || !is_array($options))) {
+				return false;
+			}
+
+			if (!empty($label)) {
+				self::$__displayModes["{$model}.{$display}"] = array('label' => $label);
+			}
 
 			if (is_array($options) && !empty($options)) {
 				if (isset($options['label'])) {
 					unset($options['label']);
 				}
 
-				self::$__displayModes[$id] = array_merge(self::$__displayModes[$id], $options);
+				self::$__displayModes["{$model}.{$display}"] = array_merge(self::$__displayModes["{$model}.{$display}"], $options);
 			}
 
 			return true;
@@ -334,19 +402,26 @@ class QuickApps {
 	}
 
 /**
- * Unregister the given display-mode by machine-name.
- * The `default` display-mode is locked and can not be removed.
+ * Unregister the given display-mode.
+ * Display-modes marked as `locked` can not be removed.
  *
- * @param string $id Machine-name of the display-mode to remove, should be underscored
+ * @param string $path Model.display_mode syntax
  * @return boolean TRUE on success. FALSE otherwise
  */
-	public static function removeDisplayMode($id) {
-		$id = strtolower($id);
+	public static function removeDisplayMode($path) {
+		list($model, $display) = pluginSplit($path);
+		$model = Inflector::camelize($model);
+		$display = Inflector::camelize($display);
 
-		if (isset(self::$__displayModes[$id]) && $id != 'default') {
-			unset(self::$__displayModes[$id]);
+		if (isset(self::$__displayModes["{$model}.{$display}"])) {
+			if (
+				!isset(self::$__displayModes["{$model}.{$display}"]['locked']) ||
+				!self::$__displayModes["{$model}.{$display}"]['locked']
+			) {
+				unset(self::$__displayModes[$id]);
 
-			return true;
+				return true;
+			}
 		}
 
 		return false;

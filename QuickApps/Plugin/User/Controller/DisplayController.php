@@ -43,7 +43,14 @@ class DisplayController extends UserAppController {
 		$this->title(__t('User Display Settings'));
 	}
 
-	public function admin_field_formatter($id, $display = 'default') {
+	public function admin_field_formatter($id) {
+		$display = isset($this->request->params['named']['display']) ? $this->request->params['named']['display'] : false;
+		$displayModes = array_keys(QuickApps::displayModes('Node'));
+
+		if (!in_array($display, $displayModes)) {
+			$this->redirect($this->referer());
+		}
+
 		$field = $this->Field->findById($id) or $this->redirect($this->referer());
 
 		if (isset($this->data['Field'])) {

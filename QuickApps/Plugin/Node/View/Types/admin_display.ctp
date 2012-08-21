@@ -13,7 +13,7 @@ $tSettings = array(
 		),
 		__t('Actions') => array(
 			'value' => "
-				<a href='{url}/admin/node/types/field_formatter/{Field.id}/" . $display . "{/url}'>" . __t('edit format') . "</a> |
+				<a href='{url}/admin/node/types/field_formatter/{Field.id}/display:" . $display . "{/url}'>" . __t('edit format') . "</a> |
 				<a href='{url}/admin/field/handler/move/{Field.id}/up/" . $display . "{/url}'>" . __t('move up') . "</a> |
 				<a href='{url}/admin/field/handler/move/{Field.id}/down/" . $display . "{/url}'>" . __t('move down') . "</a>",
 			'thOptions' => array('align' => 'right'),
@@ -41,8 +41,10 @@ $tSettings = array(
 					<?php
 						$options = array();
 
-						foreach (QuickApps::displayModes() as $mn => $info) {
-							$options[$mn] = $info['label'];
+						foreach (QuickApps::displayModes('Node') as $mn => $info) {
+							if (!isset($info['locked']) || !$info['locked']) {
+								$options[$mn] = $info['label'];
+							}
 						}
 
 						echo $this->Form->input('NodeType.displayModes',

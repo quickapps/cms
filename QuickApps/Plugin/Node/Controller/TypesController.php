@@ -13,11 +13,6 @@ class TypesController extends NodeAppController {
 	public $name = 'Types';
 	public $uses = array('Node.NodeType');
 
-	public function beforeFilter() {
-		parent::beforeFilter();
-		$this->QuickApps->enableSecurity();
-	}
-
 	public function admin_index() {
 		$this->set('results', $this->paginate('NodeType'));
 		$this->title(__t('Content Types'));
@@ -149,8 +144,15 @@ class TypesController extends NodeAppController {
 		$this->set('result', $this->data);
 	}
 
-	public function admin_field_formatter($id, $display = 'default') {
+	public function admin_field_formatter($id) {
 		$this->loadModel('Field.Field');
+
+		$display = isset($this->request->params['named']['display']) ? $this->request->params['named']['display'] : false;
+		$displayModes = array_keys(QuickApps::displayModes('Node'));
+
+		if (!in_array($display, $displayModes)) {
+			$this->redirect($this->referer());
+		}
 
 		$field = $this->Field->findById($id) or $this->redirect($this->referer());
 		$ntID = substr($field['Field']['belongsTo'], strpos($field['Field']['belongsTo'], '-')+1);

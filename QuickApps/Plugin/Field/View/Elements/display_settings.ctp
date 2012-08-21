@@ -1,5 +1,5 @@
 <?php
-	$display = isset($this->data['Field']['display']) ? $this->data['Field']['display'] : 'default';
+	$display = isset($this->request->params['named']['display']) ? $this->request->params['named']['display'] : 'default';
 
 	$hidden = (
 		isset($this->data['Field']['settings']['display'][$display]['type']) &&
@@ -14,7 +14,7 @@
 <?php echo $this->Form->create('Field'); ?>
 	<?php echo $this->Html->useTag('fieldsetstart', __t('Field display format (display mode: %s)', Inflector::camelize($display))); ?>
 		<?php echo $this->Form->hidden('Field.id'); ?>
-		<?php echo $this->Form->hidden('Field.display'); ?>
+		<?php echo $this->Form->hidden('Field.display', array('value' => $display)); ?>
 
 		<?php echo $this->Html->useTag('fieldsetstart', __t('Label')); ?>
 			<?php

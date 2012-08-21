@@ -13,7 +13,7 @@ $tSettings = array(
 		),
 		__t('Actions') => array(
 			'value' => "
-				<a href='{url}/admin/user/display/field_formatter/{Field.id}/" . $display . "{/url}'>" . __t('edit format') . "</a> |
+				<a href='{url}/admin/user/display/field_formatter/{Field.id}/display:" . $display . "{/url}'>" . __t('edit format') . "</a> |
 				<a href='{url}/admin/field/handler/move/{Field.id}/up/" . $display . "{/url}'>" . __t('move up') . "</a> |
 				<a href='{url}/admin/field/handler/move/{Field.id}/down/" . $display . "{/url}'>" . __t('move down') . "</a>",
 			'thOptions' => array('align' => 'right'),
@@ -35,7 +35,24 @@ $tSettings = array(
 		<?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Display Modes') . '</span>'); ?>
 			<div class="fieldset-toggle-container horizontalLayout" style="display:none;">
 				<em><?php echo __t('Use custom display settings for the following dispay-modes'); ?></em>
-				<?php echo $this->Form->input('User.displayModes', array('type' => 'select', 'multiple' => 'checkbox', 'options' => array('user_profile' => __t('User profile')), 'label' => false)); ?>
+					<?php
+						$options = array();
+
+						foreach (QuickApps::displayModes('User') as $mn => $info) {
+							if (!isset($info['locked']) || !$info['locked']) {
+								$options[$mn] = $info['label'];
+							}
+						}
+
+						echo $this->Form->input('User.displayModes',
+							array(
+								'type' => 'select',
+								'multiple' => 'checkbox',
+								'options' => $options,
+								'label' => false
+							)
+						);
+					?>				
 			</div>
 		<?php echo $this->Html->useTag('fieldsetend'); ?>
 		<?php echo $this->Form->input(__t('Save'), array('type' => 'submit')); ?>
