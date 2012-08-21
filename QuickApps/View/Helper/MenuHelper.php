@@ -373,7 +373,7 @@ class MenuHelper extends AppHelper {
 		) {
 			switch ($item['selected_on_type']) {
 				case 'php':
-					$isSelected = QuickApps::php_eval($item['selected_on']) === true;
+					$isSelected = $this->php_eval($item['selected_on']) === true;
 				break;
 
 				case 'reg':
