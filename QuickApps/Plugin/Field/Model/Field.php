@@ -193,12 +193,12 @@ class Field extends FieldAppModel {
 		) === 0;
 	}
 
-	public function move($id, $dir = 'up', $view_mode = false) {
+	public function move($id, $dir = 'up', $display_mode = false) {
 		if (!($record = $this->findById($id))) {
 			return false;
 		}
 
-		$_data = array('id' => $id, 'dir' => $dir, 'view_mode' => $view_mode);
+		$_data = array('id' => $id, 'dir' => $dir, 'display_mode' => $display_mode);
 
 		$this->hook("{$record['Field']['field_module']}_before_move_instance", $_data);
 		extract($_data);
@@ -215,14 +215,14 @@ class Field extends FieldAppModel {
 			)
 		);
 
-		if (is_string($view_mode)) {
+		if (is_string($display_mode)) {
 			foreach ($nodes as &$node) {
-				if (!isset($node['Field']['settings']['display'][$view_mode])) {
-					$node['Field']['settings']['display'][$view_mode]['ordering'] = 0;
+				if (!isset($node['Field']['settings']['display'][$display_mode])) {
+					$node['Field']['settings']['display'][$display_mode]['ordering'] = 0;
 				}
 			}
 
-			$nodes = Hash::sort($nodes, "{n}.Field.settings.display.{$view_mode}.ordering", 'asc');
+			$nodes = Hash::sort($nodes, "{n}.Field.settings.display.{$display_mode}.ordering", 'asc');
 		}
 
 		$ids = Hash::extract($nodes, '{n}.Field.id');
@@ -245,13 +245,13 @@ class Field extends FieldAppModel {
 		foreach ($ids as $id) {
 			$this->id = $id;
 
-			if (is_string($view_mode)) {
+			if (is_string($display_mode)) {
 				$node = Hash::extract($nodes, "{n}.Field[id={$id}]");
 
-				if (isset($node[0]['Field']['settings']['display'][$view_mode])) {
-					$node[0]['Field']['settings']['display'][$view_mode]['ordering'] = $i;
+				if (isset($node[0]['settings']['display'][$display_mode])) {
+					$node[0]['settings']['display'][$display_mode]['ordering'] = $i;
 
-					$this->saveField('settings', $node[0]['Field']['settings'], false);
+					$this->saveField('settings', $node[0]['settings'], false);
 				}
 			} else {
 				$this->saveField('ordering', $i, false);
@@ -276,7 +276,7 @@ class Field extends FieldAppModel {
 		$fields = $this->find('all', array('conditions' => $conditions));
 
 		foreach ($fields as &$field) {
-			$this->hook("{$field['Field']['field_module']}_before_set_view_modes", $field);
+			$this->hook("{$field['Field']['field_module']}_before_set_display_modes", $field);
 
 			$actual = array_keys($field['Field']['settings']['display']);
 
@@ -302,7 +302,7 @@ class Field extends FieldAppModel {
 			}
 
 			$this->save($field, false);
-			$this->hook("{$field['Field']['field_module']}_after_set_view_modes", $field);
+			$this->hook("{$field['Field']['field_module']}_after_set_display_modes", $field);
 		}
 	}
 
