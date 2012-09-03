@@ -245,8 +245,9 @@ class LayoutHelper extends AppHelper {
  * Return all meta-tags for the current page.
  * This function should be used by themes between <head> and </head> tags.
  *
- * @param array $metaForLayout Optional asociative array of aditional meta-tags to
- *							 merge with Layout metas `meta_name => content`.
+ * @param array $metaForLayout
+ *	Optional asociative array of aditional meta-tags to
+ *	merge with Layout metas `meta_name => content`.
  * @return string HTML formatted meta tags
  * @see AppController::$Layout
  */
@@ -268,23 +269,21 @@ class LayoutHelper extends AppHelper {
 
 /**
  * Returns node type of the current node's being renderend.
- * (Valid only when rendering a single node [display = full])
+ * Valid only when rendering a single node (display = full) or
+ * after LayoutHelper::renderNode() is invoked.
  *
  * @return mixed String ID of the NodeType or FALSE if could not be found
  */
 	public function getNodeType() {
-		if (!isset($this->_View->viewVars['Layout']['node']['NodeType']['id'])) {
-			return false;
-		}
-
-		return $this->_View->viewVars['Layout']['node']['NodeType']['id'];
+		return $this->nodeField('node_type_id');
 	}
 
 /**
- * Returns specified node's field.
- * Valid only when rendering a single node (display = full).
+ * Returns specified node's field (from `node` table).
+ * Valid only when rendering a single node (display = full) or
+ * after LayoutHelper::renderNode() is invoked.
  *
- * @param string $field Field name to retrieve
+ * @param string $field Field name to retrieve. e.g.: `id` for Node's ID
  * @return mixed Array of the field if exists. FALSE otherwise
  */
 	public function nodeField($field = false) {
@@ -292,12 +291,10 @@ class LayoutHelper extends AppHelper {
 			return false;
 		}
 
-		if ($field == 'node_type_id') {
-			return $this->getNodeType();
-		}
-
 		if (isset($this->_View->viewVars['Layout']['node']['Node'][$field])) {
 			return $this->_View->viewVars['Layout']['node']['Node'][$field];
+		} elseif (isset($this->_tmp['render_node']['Node'][$field])) {
+			return $this->_tmp['render_node']['Node'][$field];
 		}
 
 		return false;
@@ -340,6 +337,8 @@ class LayoutHelper extends AppHelper {
 		if (empty($node)) {
 			return '';
 		}
+
+		$this->_tmp['render_node'] = $node;
 
 		$content = '';
 		$view_mode = $display !== false ? $display : $this->_View->viewVars['Layout']['display'];
@@ -512,7 +511,7 @@ class LayoutHelper extends AppHelper {
 
 /**
  * Return rendered breadcrumb. Data is passed to themes for formatting the crumbs.
- * Default formatting is fired in case of no theme format-response.
+ * Default formatting is fired in case of no theme-format response.
  *
  * @return string HTML formatted breadcrumb
  */
@@ -732,7 +731,7 @@ class LayoutHelper extends AppHelper {
  * ### Usage
  *
  *    $links = array(
- *        array('title link 1', '/your/url_1/', 'options' => array(), 'pattern' => '/url/to/match'),
+ *        array('title link 1', '/your/url_1/', 'options' => array(), 'pattern' => '*url/to/match*'),
  *        array('title link 2', '/your/url_2/', 'options' => array('class' => 'css-class')),
  *        ...
  *    );
@@ -925,13 +924,17 @@ class LayoutHelper extends AppHelper {
 	}
 
 /**
- * Checks if an element exists and return its full path.
+ * Checks if an view-element exists and return its full path.
  *
- * @param string $name The name of the element to find
+ * @param string $_name The name of the element to find
  * @return mixed Either a string to the element filename or false when one can't be found
  */
-	public function elementExists($name) {
-		list($plugin, $name) = $this->_View->pluginSplit($name);
+	public function elementExists($_name) {
+		if (isset($this->_tmp['elementExists'][$_name])) {
+			return $this->_tmp['elementExists'][$_name];
+		}
+
+		list($plugin, $name) = $this->_View->pluginSplit($_name);
 		$exts = array($this->_View->ext);
 
 		if ($this->_View->ext !== '.ctp') {
@@ -976,10 +979,14 @@ class LayoutHelper extends AppHelper {
 		foreach ($exts as $ext) {
 			foreach ($paths as $path) {
 				if (file_exists($path . 'Elements' . DS . $name . $ext)) {
-					return $path . 'Elements' . DS . $name . $ext;
+					$this->_tmp['elementExists'][$_name] = $path . 'Elements' . DS . $name . $ext;
+
+					return $this->_tmp['elementExists'][$_name];
 				}
 			}
 		}
+
+		$this->_tmp['elementExists'][$_name] = false;
 
 		return false;
 	}
