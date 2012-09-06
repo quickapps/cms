@@ -19,6 +19,7 @@
 
 						echo $this->Form->input('Package.activate',
 							array(
+								'id' => 'activate_from_zip',
 								'type' => 'checkbox',
 								'label' => __t('Activate after install')
 							)
@@ -44,6 +45,7 @@
 
 						echo $this->Form->input('Package.activate',
 							array(
+								'id' => 'activate_from_url',
 								'type' => 'checkbox',
 								'label' => __t('Activate after install')
 							)
