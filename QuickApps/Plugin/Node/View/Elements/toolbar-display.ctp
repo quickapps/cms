@@ -8,5 +8,5 @@
 	}
 
 	if (!empty($links)) {
-		echo $this->Layout->toolbar($links);
+		echo $this->Menu->toolbar($links);
 	}

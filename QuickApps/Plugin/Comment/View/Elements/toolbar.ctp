@@ -4,4 +4,4 @@
 		array(__t('Unpublished (%s)', $countUnpublished), '/admin/comment/unpublished', 'pattern' => '*admin/comment/list/show/unpublished*')
 	);
 
-	echo $this->Layout->toolbar($links);
+	echo $this->Menu->toolbar($links);

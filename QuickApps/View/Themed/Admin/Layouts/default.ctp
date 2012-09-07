@@ -12,7 +12,7 @@
 	<body>
 		<div id="wrapper">
 			<div id="toolbar-menu" class="clearfix" >
-				<?php echo $this->Layout->blocks('management-menu'); ?>
+				<?php echo $this->Block->region('management-menu'); ?>
 				<div id="right-btns">
 					<?php echo $this->Html->link(__t('Logout'), '/user/logout'); ?>
 					<?php echo $this->Html->link(__t('View site'), '/',  array('target' => '_blank')); ?>
@@ -27,15 +27,15 @@
 			</div>
 
 			<div id="page">
-				<?php if (!$this->Layout->emptyRegion('toolbar')): ?>
+				<?php if (!$this->Block->regionIsEmpty('toolbar')): ?>
 				<div class="toolbar">
-					<?php echo $this->Layout->blocks('toolbar'); ?>
+					<?php echo $this->Block->region('toolbar'); ?>
 				</div>
 				<?php endif; ?>
 
-				<?php if (!$this->Layout->emptyRegion('help')): ?>
+				<?php if (!$this->Block->regionIsEmpty('help')): ?>
 				<div class="help">
-					<?php echo $this->Layout->blocks('help'); ?>
+					<?php echo $this->Block->region('help'); ?>
 				</div>
 				<?php endif; ?>
 
@@ -51,7 +51,7 @@
 			</div>
 
 			<div id="footer">
-				<?php echo $this->Layout->blocks('footer'); ?>
+				<?php echo $this->Block->region('footer'); ?>
 			</div>
 
 		</div>

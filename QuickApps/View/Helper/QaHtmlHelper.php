@@ -16,7 +16,10 @@ class QaHtmlHelper extends AppHelper {
  * @var array
  * @access public
  */
-	var $helpers = array('CoreHtml' => array('className' => 'Html'), 'Table');
+	var $helpers = array(
+		'CoreHtml' => array('className' => 'Html'),
+		'Table'
+	);
 
 /**
  * Constructor
@@ -46,13 +49,13 @@ class QaHtmlHelper extends AppHelper {
  * @var array
  * @access public
  */
-	function table($data , $options) {
+	public function table($data , $options) {
 		$_data = compact('data', 'options');
 
 		$this->hook('html_table_alter', $_data);
 		extract($_data);
 
-		return $this->Table->create($data, $options);
+		return $this->Table->render($data, $options);
 	}
 
 /**

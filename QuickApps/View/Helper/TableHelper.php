@@ -131,8 +131,22 @@ class TableHelper extends AppHelper {
  * @param array $options Table options.
  * @return string HTML table element
  * @see TableHelper::$__defaults
+ * @deprecated
  */
 	public function create($data, $options) {
+		trigger_error(__t('TableHelper::create() is deprecated, use render() instead'), E_USER_WARNING);
+		return $this->render($data, $options);
+	}
+
+/**
+ * Renders out HTML table.
+ *
+ * @param array $data Data to fill table rows
+ * @param array $options Table options.
+ * @return string HTML table element
+ * @see TableHelper::$__defaults
+ */
+	public function render($data, $options) {
 		$this->__defaults['paginate']['prev']['title'] = __t('« Previous ');
 		$this->__defaults['paginate']['next']['title'] = __t(' Next »');
 

@@ -17,7 +17,7 @@ class LocaleHookHelper extends AppHelper {
  */
 	public function beforeLayout($layoutFile) {
 		if (Router::getParam('admin') && $this->request->params['plugin'] == 'locale') {
-			$this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar') . '<!-- LocaleHookHelper -->'), 'toolbar');
+			$this->_View->Block->push(array('body' => $this->_View->element('toolbar') . '<!-- LocaleHookHelper -->'), 'toolbar');
 		}
 
 		return true;

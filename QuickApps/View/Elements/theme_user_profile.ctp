@@ -8,7 +8,7 @@
 		?>
 
 		<div class="avatar">
-			<?php echo $this->Layout->userAvatar($this->data, array('width' => '80', 'border' => 0)); ?>
+			<?php echo $this->User->avatar($this->data, array('width' => '80', 'border' => 0)); ?>
 		</div>
 
 		<div class="information">

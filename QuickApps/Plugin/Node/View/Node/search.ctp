@@ -11,7 +11,7 @@
 
 <?php
 	foreach ($Layout['node'] as $node) {
-		echo $this->Layout->renderNode($node);
+		echo $this->Node->render($node);
 	}
 
 	if (count($Layout['node'])):

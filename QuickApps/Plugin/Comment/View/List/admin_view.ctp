@@ -4,10 +4,10 @@
 		<label><?php echo __t('Published by'); ?>: </label>
 		<?php
 			if (isset($this->data['User'])) {
-				echo '<p>' . $this->Layout->userAvatar($this->data) . '</p>';
+				echo '<p>' . $this->User->avatar($this->data) . '</p>';
 				echo $this->Html->link($this->data['User']['username'], '/admin/user/list/edit/' . $this->data['User']['id']);
 			} else {
-				echo $this->Layout->userAvatar(array('User' => array('email' => $this->data['Comment']['mail'])));
+				echo $this->User->avatar(array('User' => array('email' => $this->data['Comment']['mail'])));
 				echo $this->data['Comment']['name'];
 			}
 		?>

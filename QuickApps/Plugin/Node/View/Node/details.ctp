@@ -8,7 +8,7 @@
 ?>
 
 <?php
-	echo $this->Layout->renderNode();
+	echo $this->Node->render();
 
 	if ($Layout['node']['Node']['comment'] > 0) {
 		$collect = $this->Layout->hook('before_render_node_comments', $this, array('collectReturn' => true));

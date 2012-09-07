@@ -17,7 +17,7 @@
 		<em><?php echo __t('If you would like to change the password type a new one. Otherwise leave this blank.'); ?></em>
 
 		<?php foreach ($this->data['Field'] as $field): ?>
-			<?php echo $this->Layout->renderField($field, true); ?>
+			<?php echo $this->Node->renderField($field, true); ?>
 		<?php endforeach; ?>
 
 	<?php echo $this->Html->useTag('fieldsetend'); ?>

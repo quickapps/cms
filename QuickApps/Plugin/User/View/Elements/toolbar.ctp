@@ -8,7 +8,7 @@
 		array(__t('Manage Display'), '/admin/user/display', 'pattern' => '*/user/display/*', 'options' => array('title' => __t('Configure how fields should be displayed when rendering a user profile page.')))
 	);
 
-	echo $this->Layout->toolbar($links);
+	echo $this->Menu->toolbar($links);
 
 	if ($this->request->params['controller'] == 'display' && isset($this->data['User']['displayModes'])) {
 		$links = array();
@@ -20,6 +20,6 @@
 		}
 
 		if (!empty($links)) {
-			echo "<p>&nbsp;</p><p>&nbsp;</p><p>" . $this->Layout->toolbar($links) . "</p>";
+			echo "<p>&nbsp;</p><p>&nbsp;</p><p>" . $this->Menu->toolbar($links) . "</p>";
 		}
 	}

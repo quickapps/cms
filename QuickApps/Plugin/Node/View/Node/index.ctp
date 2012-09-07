@@ -13,7 +13,7 @@
 		echo $front_page;
 	} elseif (!empty($Layout['node'])) {
 		foreach ($Layout['node'] as $node) {
-			echo $this->Layout->renderNode($node);
+			echo $this->Node->render($node);
 		}
 	}
 ?>

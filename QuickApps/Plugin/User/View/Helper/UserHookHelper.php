@@ -20,7 +20,7 @@ class UserHookHelper extends AppHelper {
 			$this->request->params['plugin'] == 'user' &&
 			$this->request->params['action'] == 'admin_index'
 		) {
-			$this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar') . '<!-- NodeHookHelper -->'), 'toolbar');
+			$this->_View->Block->push(array('body' => $this->_View->element('toolbar') . '<!-- NodeHookHelper -->'), 'toolbar');
 		}
 
 		return true;

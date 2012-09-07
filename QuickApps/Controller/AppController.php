@@ -54,12 +54,16 @@ class AppController extends Controller {
 	public $helpers = array(
 		'HookCollection',
 		'HooktagsCollection',
+		'Node.Node',
+		'Block.Block',
+		'Menu.Menu',
+		'User.User',
 		'Layout',
 		'Form' => array('className' => 'QaForm'),
 		'Html' => array('className' => 'QaHtml'),
+		'Js' => array('Jquery', 'className' => 'QaJs'),
 		'Session',
 		'Cache',
-		'Js' => array('Jquery', 'className' => 'QaJs'),
 		'Time'
 	);
 

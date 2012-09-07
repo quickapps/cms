@@ -9,7 +9,7 @@
 
 <div id="acos">
 	<?php
-		echo $this->Layout->menu($results,
+		echo $this->Menu->render($results,
 			array(
 				'id' => 'acos-ul',
 				'model' => 'Aco',

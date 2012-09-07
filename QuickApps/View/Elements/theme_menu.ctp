@@ -7,4 +7,4 @@
  */
 ?>
 
-<?php echo $this->Layout->menu($menu); ?>
+<?php echo $this->Menu->render($menu); ?>

@@ -20,7 +20,7 @@ class BlockHookHelper extends AppHelper {
 			$this->request->params['plugin'] == 'block' &&
 			$this->request->params['action'] != 'admin_add'
 		) {
-			$this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar')), 'toolbar');
+			$this->_View->Block->push(array('body' => $this->_View->element('toolbar')), 'toolbar');
 		}
 
 		return true;

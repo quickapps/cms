@@ -18,21 +18,21 @@
 					</a>
 				<?php endif; ?>
 
-				<?php if (!$this->Layout->emptyRegion('user-menu')): ?>
+				<?php if (!$this->Block->regionIsEmpty('user-menu')): ?>
 				<div id="user-menu">
-					<?php echo $this->Layout->blocks('user-menu'); ?>
+					<?php echo $this->Block->region('user-menu'); ?>
 				</div>
 				<?php endif; ?>
 
-				<?php if (!$this->Layout->emptyRegion('language-switcher')): ?>
+				<?php if (!$this->Block->regionIsEmpty('language-switcher')): ?>
 				<div id="language-switcher">
-					<?php echo $this->Layout->blocks('language-switcher'); ?>
+					<?php echo $this->Block->region('language-switcher'); ?>
 				</div>
 				<?php endif; ?>
 
-				<?php if (!$this->Layout->emptyRegion('search')): ?>
+				<?php if (!$this->Block->regionIsEmpty('search')): ?>
 				<div id="search-block">
-					<?php echo $this->Layout->blocks('search'); ?>
+					<?php echo $this->Block->region('search'); ?>
 				</div>
 				<?php endif; ?>
 
@@ -41,16 +41,16 @@
 
 		<div id="header-bottom">
 			<div class="container">
-				<?php echo $this->Layout->blocks('main-menu'); ?>
+				<?php echo $this->Block->region('main-menu'); ?>
 			</div>
 		</div>
 
 		<div id="page">
 			<div id="top-shadow"></div>
-			<?php if (!$this->Layout->emptyRegion('slider')): ?>
+			<?php if (!$this->Block->regionIsEmpty('slider')): ?>
 			<div class="slider">
 				<div class="container clearfix">
-					<?php echo $this->Layout->blocks('slider'); ?>
+					<?php echo $this->Block->region('slider'); ?>
 				</div>
 			</div>
 			<?php endif; ?>
@@ -72,19 +72,19 @@
 						<div class="container clearfix">
 							<div class="service">
 								<div class="service-container">
-									<?php echo $this->Layout->blocks('services-left'); ?>
+									<?php echo $this->Block->region('services-left'); ?>
 								</div>
 							</div> <!-- end .service -->
 
 							<div class="service">
 								<div class="service-container">
-									<?php echo $this->Layout->blocks('services-center'); ?>
+									<?php echo $this->Block->region('services-center'); ?>
 								</div>
 							</div> <!-- end .service -->
 
 							<div class="service last">
 								<div class="service-container">
-									<?php echo $this->Layout->blocks('services-right'); ?>
+									<?php echo $this->Block->region('services-right'); ?>
 								</div>
 							</div> <!-- end .service -->
 						</div>
@@ -93,7 +93,7 @@
 			<?php else: ?>
 				<div class="container">
 					<div id="help-blocks">
-						<?php echo $this->Layout->blocks('help'); ?>
+						<?php echo $this->Block->region('help'); ?>
 					</div>
 
 					<?php if ($sessionFlash = $this->Layout->sessionFlash()): ?>
@@ -101,11 +101,11 @@
 						<?php echo $sessionFlash; ?>
 					</div>
 					<?php endif; ?>
-					<?php if (!$this->Layout->emptyRegion('sidebar-left')): ?>
+					<?php if (!$this->Block->regionIsEmpty('sidebar-left')): ?>
 						<div id="sidebar-left">
 							<div id="sidebar-bottom">
 								<div id="sidebar-content">
-									<?php echo $this->Layout->blocks('sidebar-left'); ?>
+									<?php echo $this->Block->region('sidebar-left'); ?>
 								</div>
 							</div>
 						</div>
@@ -120,7 +120,7 @@
 
 		<div id="footer">
 			<div class="container">
-				<?php echo $this->Layout->blocks('footer'); ?>
+				<?php echo $this->Block->region('footer'); ?>
 				<?php
 					if ($Layout['feed']) {
 						echo $this->Html->link(

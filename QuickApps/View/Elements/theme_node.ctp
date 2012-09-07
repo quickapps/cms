@@ -39,7 +39,7 @@
 <?php endif; ?>
 
 <?php foreach ($node['Field'] as $field): ?>
-	<?php echo $this->Layout->renderField($field); ?>
+	<?php echo $this->Node->renderField($field); ?>
 <?php endforeach; ?>
 
 <?php if (!in_array($Layout['display'], array('full', 'print', 'rss'))): ?>

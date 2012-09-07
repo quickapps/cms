@@ -309,8 +309,7 @@ class QuickApps {
  *
  * Note: If the specified Model does not exists an empty array will be returned.
  *
- *
- * This example will return information for the `full` display-mode under the `Node` model:
+ * The example below will return information for the `full` display-mode under the `Node` model:
  *
  *     QuickApps::displayModes('Node.full');
  *     // output:

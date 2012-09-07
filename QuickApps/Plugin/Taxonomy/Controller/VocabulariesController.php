@@ -12,7 +12,7 @@
 class VocabulariesController extends TaxonomyAppController {
 	public $name = 'Vocabularies';
 	public $uses = array('Taxonomy.Vocabulary');
-	public $helpers = array('Menu');
+	public $helpers = array('Menu.Menu');
 
 	public function beforeFilter() {
 		if ($this->action == 'admin_terms') {

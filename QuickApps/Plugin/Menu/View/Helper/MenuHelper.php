@@ -3,7 +3,7 @@
  * Menu Helper
  *
  * @author	 Christopher Castro <chris@quickapps.es>
- * @package	 QuickApps.View.Helper
+ * @package	 QuickApps.Plugin.Menu.View.Helper
  */
 class MenuHelper extends AppHelper {
 /**
@@ -113,7 +113,15 @@ class MenuHelper extends AppHelper {
  * @param array $settings
  * @return string HTML representation of the passed data
  */
-	public function generate($data, $settings = array()) {
+	public function render($data, $settings = array()) {
+		$_data = array(
+			'menu' => $data,
+			'settings' => $settings
+		);
+
+		$this->hook('menu_render_alter', $_data);
+		extract($_data);
+
 		$this->settings = array_merge($this->__defaultSettings, $settings);
 		$out = '';
 		$__attrs = $wrapperAttributes = array();
@@ -196,6 +204,143 @@ class MenuHelper extends AppHelper {
 		return sprintf("\n" . $tabs . $this->settings['wrapperFormat'] . "\n", implode(' ', $wrapperAttributes), "\n" . $out . $tabs);
 	}
 
+/**
+ * Render child nodes of the given menu node (father).
+ *
+ * @param mixed $path String path of the father node or boolen false to use current path
+ * @param string $region Theme region where the child nodes will be rendered, 'content' by default
+ * @return string Html rendered menu
+ */
+	public function menuNodeChildren($path = false, $region = 'content') {
+		$output = '';
+
+		if (!$path) {
+			$base = Router::url('/');
+			$path = '/';
+			$path .= $base !== '/' ? str_replace($base, '', $this->_View->here) : $this->_View->here;
+			$path = preg_replace("/\/{2,}/i", '/', $path);
+		}
+
+		$MenuLink = Classregistry::init('Menu.MenuLink');
+		$here = $MenuLink->find('first',
+			array(
+				'conditions' => array(
+					'MenuLink.router_path' => $path,
+					'MenuLink.status' => 1
+				)
+			)
+		);
+
+		if (!empty($here)) {
+			$subs = $MenuLink->children($here['MenuLink']['id']);
+			$_subs['MenuLink'] = Hash::extract($subs, '{n}.MenuLink');
+
+			if (empty($_subs['MenuLink'])) {
+				return '';
+			}
+
+			$_subs['region'] = $region;
+			$_subs['id'] = 'no-id';
+
+			foreach ($_subs['MenuLink'] as &$node) {
+				$tt = __t($node['link_title']);
+				$dt = __t($node['description']);
+				$node['link_title'] = $tt != $node['link_title'] ? $tt : __d(Inflector::underscore($node['module']), $node['link_title']);
+				$node['description'] = $dt != $node['description'] ? $dt : __d(Inflector::underscore($node['module']), $node['description']);
+			}
+
+			$output = $this->_View->element('theme_menu', array('menu' => $_subs));
+		}
+
+		return $output;
+	}
+
+/**
+ * Creates a simple plain (deph 0) menu list.
+ * Useful when creating backend submenu buttons.
+ *
+ * ### Usage
+ *
+ *    $links = array(
+ *        array('title link 1', '/your/url_1/', 'options' => array(), 'pattern' => '*url/to/match*'),
+ *        array('title link 2', '/your/url_2/', 'options' => array('class' => 'css-class')),
+ *        ...
+ *    );
+ *
+ *    $this->Menu->toolbar($links);
+ *
+ * ### Link Parameters
+ *
+ *  - `options` array (optional): array of options for HtmlHelper::link()
+ *  - `pattern` string (optional): show link as selected on pattern match (asterisk allowed)
+ *
+ * @param array $links List of links
+ * @param array $options Array of options:
+ *  - `id`: id attribute for the container (ul, ol)
+ *  - `type`: type of list, ol, ul. default: ul
+ *  - `itemType`: type of child node. default: li
+ *  - `activeClass`: class attribute for selected itemType. default: `selected`
+ * @return string HTML
+ * @deprecated  
+ */
+	public function toolbar($links, $options = array()) {
+		$data = array('links' => $links, 'options' => $options);
+		$this->hook('menu_toolbar_alter', $data);
+
+		extract($data);
+
+		$_options = array(
+			'id' => null,
+			'type' => 'ul',
+			'itemType' => 'li',
+			'activeClass' => 'selected'
+		);
+
+		$options = array_merge($_options, $options);
+
+		extract($options);
+
+		$id = !is_null($id) ? " id=\"{$id}\" " : '';
+		$o = "<{$type}{$id}>\n";
+		$here = preg_replace("/\/{2,}/", '/', "/" . str_replace($this->_View->base, '', $this->_View->here) . "/");
+		$here = preg_replace(array('/^\/[a-z]{3}\//', '/\/{1,}$/'), array('/', ''), $here);
+		$path = parse_url($here);
+		$path = $path['path'];
+
+		foreach ($this->_View->request->named as $key => $val) {
+			$path = str_replace("{$key}:{$val}", '', $path);
+		}
+
+		$path = preg_replace('/\/{2,}/', '/', "/{$path}/");
+		$path = preg_replace(array('/^\/[a-z]{3}\//', '/\/{1,}$/'), array('/', ''), $path);
+
+		foreach ($links as $link) {
+			$link[1] = preg_replace(array('/\/{2,}/', '/^\/[a-z]{3}\//', '/\/{1,}$/'), array('/', '', ''), "{$link[1]}/");
+			$selected = '';
+
+			if ($here == $link[1] || $path == $link[1]) {
+				$selected = " class=\"{$activeClass}\" ";
+			} elseif (isset($link['pattern']) && $link['pattern'] !== false) {
+				if ($link['pattern'] === true) {
+					if ($link[1][0] === '/') {
+						$__l = substr($link[1], 1);
+					}
+
+					$link['pattern'] = "*{$__l}*";
+				}
+
+				$selected = QuickApps::urlMatch($link['pattern'], $here) ? " class=\"{$activeClass}\" " : '';
+			}
+
+			$link = isset($link['options']) && is_array($link['options']) ? $this->_View->Html->link($link[0], $link[1], $link['options']) : $this->_View->Html->link($link[0], $link[1]);
+			$o .= "\t<{$itemType}{$selected}><span>" . $link . "</span></{$itemType}>\n";
+		}
+
+		$o .= "\n</{$type}>";
+
+		return $o;
+	}
+
 	protected function _buildItem($item, $pos = 0, $depth = 0) {
 		if (!empty($item[$this->settings['model']])) {
 			$__item = array_merge($this->__itemDefaults, $item[$this->settings['model']]);
@@ -247,7 +392,7 @@ class MenuHelper extends AppHelper {
 		) {
 			$depth = $this->settings['__depth__'];
 			$this->settings['__depth__']++;
-			$children = $this->generate($item['children'], $this->settings);
+			$children = $this->render($item['children'], $this->settings);
 			$this->settings['__depth__'] = $depth;
 			$hasChildren = true;
 		}

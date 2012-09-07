@@ -21,7 +21,7 @@ class TaxonomyHookHelper extends AppHelper {
 			$this->request->params['controller'] == 'vocabularies' &&
 			$this->request->params['action'] == 'admin_index'
 		) {
-			$this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar') . '<!-- TaxonomyHookHelper -->'), 'toolbar');
+			$this->_View->Block->push(array('body' => $this->_View->element('toolbar') . '<!-- TaxonomyHookHelper -->'), 'toolbar');
 		}
 
 		return true;
@@ -76,7 +76,7 @@ class TaxonomyHookHelper extends AppHelper {
 				}
 
 				if ($terms) {
-					$body .= $this->Menu->generate($terms, array('model' => 'Term', 'id' => "{$vocabulary['Vocabulary']['slug']}-terms"));
+					$body .= $this->Menu->render($terms, array('model' => 'Term', 'id' => "{$vocabulary['Vocabulary']['slug']}-terms"));
 				}
 
 				$body .= '</li>';
@@ -93,7 +93,7 @@ class TaxonomyHookHelper extends AppHelper {
 				$this->__proccessTerm($term, $block, $count);
 			}
 
-			$body .= $this->Menu->generate($terms, array('model' => 'Term'));
+			$body .= $this->Menu->render($terms, array('model' => 'Term'));
 		}
 
 		$body .= '</ul>';

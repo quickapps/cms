@@ -1,1 +1,1 @@
-<?php echo $this->Layout->menuNodeChildren(); ?>
+<?php echo $this->Menu->menuNodeChildren(); ?>

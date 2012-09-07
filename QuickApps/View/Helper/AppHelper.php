@@ -13,12 +13,15 @@ App::uses('Helper', 'View');
  */
 class AppHelper extends Helper {
 	public $helpers = array(
-		'Layout',
-		'Menu',
+		'Node.Node',
+		'Block.Block',
+		'System.Layout',
+		'Menu.Menu',
+		'User.User',
 		'Form' => array('className' => 'QaForm'),
 		'Html' => array('className' => 'QaHtml'),
-		'Session',
-		'Js'
+		'Js' => array('className' => 'QaJs'),
+		'Session'
 	);
 
 	public $Options = array(

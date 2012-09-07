@@ -21,7 +21,7 @@ class SystemHookHelper extends AppHelper {
 			$this->request->params['plugin'] == 'system' &&
 			$this->request->params['controller'] == 'modules'
 		) {
-			$this->_View->Layout->blockPush(array('body' => $this->_View->element('toolbar-modules')), 'toolbar');
+			$this->_View->Block->push(array('body' => $this->_View->element('toolbar-modules')), 'toolbar');
 		}
 
 		return true;

@@ -15,9 +15,9 @@
 				<div class="avatar">
 					<?php
 						if (isset($comment['User']) && !empty($comment['User']['id'])) {
-							echo $this->Layout->userAvatar($comment);
+							echo $this->User->avatar($comment);
 						} else {
-							echo $this->Layout->userAvatar(
+							echo $this->User->avatar(
 								array(
 									'User' => array(
 										'email' => $comment['Comment']['mail']

@@ -13,7 +13,7 @@
 			foreach ($Layout['node'] as $node):
 				$nodeTime = $node['Node']['created'];
 				$nodeLink = "/{$node['Node']['node_type_id']}/{$node['Node']['slug']}.html";
-				$nodeBody = $this->Layout->renderNode($node);
+				$nodeBody = $this->Node->render($node);
 
 				echo $this->Rss->item(array(),
 					array(

@@ -4,4 +4,4 @@
 		array(__t('Load Order'), '/admin/system/modules/load_order')
 	);
 
-	echo $this->Layout->toolbar($links);
+	echo $this->Menu->toolbar($links);
