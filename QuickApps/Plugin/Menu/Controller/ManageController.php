@@ -12,7 +12,7 @@
 class ManageController extends MenuAppController {
 	public $name = 'Manage';
 	public $uses = array('Menu.Menu');
-	public $helpers = array('Menu');
+	public $helpers = array('Menu.Menu');
 
 	public function beforeFilter() {
 		if ($this->action == 'admin_links') {

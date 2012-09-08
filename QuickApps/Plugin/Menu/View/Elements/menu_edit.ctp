@@ -5,7 +5,7 @@
 
 <div id="menu-sortContainer">
 	<?php
-		echo $this->Menu->generate($links,
+		echo $this->Menu->render($links,
 			array(
 				'id' => 'menuLinks',
 				'class' => 'sortable',
