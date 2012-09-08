@@ -80,16 +80,16 @@ class NodeHelper extends AppHelper {
 		$this->_tmp['render_node'] = $node;
 
 		$content = '';
-		$view_mode = $display !== false ? $display : $this->_View->viewVars['Layout']['display'];
+		$display_mode = $display !== false ? $display : $this->_View->viewVars['Layout']['display'];
 
 		foreach ($node['Field'] as $key => &$data) {
 			// undefined display -> use default
-			if (!isset($data['settings']['display'][$view_mode]) && isset($data['settings']['display']['default'])) {
-				$data['settings']['display'][$view_mode] = $data['settings']['display']['default'];
+			if (!isset($data['settings']['display'][$display_mode]) && isset($data['settings']['display']['default'])) {
+				$data['settings']['display'][$display_mode] = $data['settings']['display']['default'];
 			}
 		}
 
-		$node['Field'] = Hash::sort($node['Field'], "{n}.settings.display.{$view_mode}.ordering", 'asc');
+		$node['Field'] = Hash::sort($node['Field'], "{n}.settings.display.{$display_mode}.ordering", 'asc');
 		$sufix = $node['NodeType']['module'] == 'Node' ? 'render' : $node['NodeType']['id'];
 		$callback = "{$node['NodeType']['base']}_{$sufix}";
 		$beforeRender = (array)$this->hook('before_render_node', $node, array('collectReturn' => true));

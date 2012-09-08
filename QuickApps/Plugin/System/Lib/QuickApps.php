@@ -354,7 +354,7 @@ class QuickApps {
  * Notes:
  *
  *  - When registering a new display-mode the arguments: `label` is REQUIRED and `options` is OPTIONAL.
- *  - When overwriting an existing display-mode the arguments: `label` is OPTIONAL and `options` is REQUIRED. 
+ *  - When overwriting an existing display-mode the arguments: `label` is OPTIONAL and `options` is REQUIRED.
  *
  * ### Usage:
  *
