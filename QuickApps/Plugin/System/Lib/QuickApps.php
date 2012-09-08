@@ -577,12 +577,11 @@ class QuickApps {
  *    QuickApps::strip_language_prefix('http://www.external-site.com/eng/external-page.html');
  *    // returns: http://www.external-site.com/eng/external-page.html
  *
- * @param string $url Internal URL where to replace language prefix
+ * @param string $url Internal FULL-URL where to replace language prefix
  * @return string URL with no language prefix
  */
 	public static function strip_language_prefix($url) {
 		$request = self::__getRequestObject();
-
 		$base = env('HTTP_HOST') . $request->base . '/';
 
 		if (strpos($url, $base) !== false) {
