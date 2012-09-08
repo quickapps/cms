@@ -545,7 +545,7 @@ class MenuHelper extends AppHelper {
 		} else {
 			$getURL = $this->__getUrl();
 
-			if (isset($getURL[0]) && $getURL[0] == __t($item['url'])) {
+			if (isset($getURL[0]) && $getURL[0] == $item['url']) {
 				$isSelected = true;
 			}
 		}
@@ -627,7 +627,9 @@ class MenuHelper extends AppHelper {
 		$out = array_unique($out);
 
 		foreach ($out as &$u) {
-			$u = urldecode(QuickApps::strip_language_prefix($u));
+			$u = preg_replace('/^\/[a-z]{3}\//', '/', $u);
+			$u = preg_replace('/\/{2,}/', '/', $u);
+			$u = urldecode($u);
 		}
 
 		$this->__tmp['__getUrl'] = $out;
