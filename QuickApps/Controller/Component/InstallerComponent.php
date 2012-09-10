@@ -1328,15 +1328,11 @@ class InstallerComponent extends Component {
  * @return bool TRUE on success. FALSE otherwise
  */
 	public function rcopy($src, $dst) {
-		if (!$this->packageIsWritable($src, $dst)) {
-			return false;
-		}
-
 		$dir = opendir($src);
 
-		@mkdir($dst);
+		$this->rmkdir($dst);
 
-		while(false !== ($file = readdir($dir))) {
+		while (false !== ($file = readdir($dir))) {
 			if (($file != '.') && ($file != '..')) {
 				if (is_dir($src . DS . $file)) {
 					$this->rcopy($src . DS . $file, $dst . DS . $file);
@@ -1351,6 +1347,25 @@ class InstallerComponent extends Component {
 		closedir($dir);
 
 		return true;
+	}
+
+/**
+ * Recursive make dir.
+ *
+ * @param string $pathname Folder path
+ * @param mixed $mode (default 0777)
+ * @return boolean
+ */
+	public function rmkdir($pathname, $mode = 0777) {
+		if (is_array($pathname)) {
+			foreach ($pathname as $path) {
+				$this->rmkdir($path, $mode);
+			}
+		} else {
+			is_dir(dirname($pathname)) || $this->rmkdir(dirname($pathname), $mode);
+
+			return is_dir($pathname) || @mkdir($pathname, $mode);
+		}
 	}
 
 /**
