@@ -137,6 +137,19 @@ class NodeHelper extends AppHelper {
 	}
 
 /**
+ * Returns node that is being rendered using NodeHelper::render().
+ *
+ * @return mixed array information of the Node. Or FALSE on failure
+ */
+	public function workingNode() {
+		if (isset($this->_tmp['render_node'])) {
+			return $this->_tmp['render_node'];
+		}
+
+		return false;
+	}
+
+/**
  * Renders the given field.
  * Field's `view.ctp` nor `edit.ctp` element is rendered.
  *
