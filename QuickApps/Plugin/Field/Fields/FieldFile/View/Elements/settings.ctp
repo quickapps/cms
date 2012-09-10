@@ -6,7 +6,7 @@
 		)
 	);
 ?>
-<em><?php echo __t('Comma separated. e.g.: jpg,gif,png'); ?></em>
+<em><?php echo __t('Comma separated. e.g. jpg,gif,png'); ?></em>
 
 <?php
 	$ranges = Hash::combine(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), '{n}', '{n}');
@@ -21,13 +21,14 @@
 		)
 	);
 
-	echo '<div class="custom-multi" style="' . ($this->data['Field']['settings']['multi'] == 'custom' ? '' : 'display:none') . '">' . $this->Form->input('Field.settings.multi_custom',
-		array(
-			'type' => 'text',
-			'label' => __t('Customized number of files'),
-			'onkeyup' => "if (/\D/g.test(this.value)) { this.value = this.value.replace(/\D/g,'') }"
-		)
-	) . '</div>';
+	echo '<div class="custom-multi" style="' . ($this->data['Field']['settings']['multi'] == 'custom' ? '' : 'display:none') . '">' . 
+		$this->Form->input('Field.settings.multi_custom',
+			array(
+				'type' => 'text',
+				'label' => __t('Customized number of files'),
+				'onkeyup' => "if (/\D/g.test(this.value)) { this.value = this.value.replace(/\D/g,'') }"
+			)
+		) . '</div>';
 ?>
 <em><?php echo __t('Maximum number of files users can upload for this field.'); ?></em>
 

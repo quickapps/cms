@@ -67,7 +67,7 @@ class UploadifyController extends FieldFileAppController {
 			$return = array(
 				'file_url' => Router::url($url . $Upload->file_dst_name, true),
 				'file_size' => FieldFile::bytesToSize($Upload->file_src_size),
-				'mime_icon' => FieldFile::file_icon($Upload->file_src_mime),
+				'mime_icon' => FieldFile::fileIcon($Upload->file_src_mime),
 				'file_name' => $Upload->file_dst_name
 			);
 

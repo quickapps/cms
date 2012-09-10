@@ -6,12 +6,14 @@
  * @link http://www.quickappscms.org
  */
 class FieldFile {
-
 /**
- * Convert bytes to human readable format
+ * Defines a new preview configuration, or overwrite if exists.
  *
- * @param integer bytes Size in bytes to convert
- * @return string
+ * @param string $id unique ID. e.g.: `new_preview_mode`
+ * @param string $label Human-readable name. e.g.: `New preview mode`
+ * @param integer $width Width for images that would use this preview mode
+ * @param integer $height Height for images that would use this preview mode
+ * @return void
  */
 	public function bytesToSize($bytes, $precision = 2) {
 		$kilobyte = 1024;
@@ -35,15 +37,12 @@ class FieldFile {
 	}
 
 /**
- * By: Drupal
  * Given a file mime, create a path to a matching icon.
  *
  * @param string $mime file mime type
- * @return
- *   A string to the icon as a local path, or FALSE if an appropriate icon could
- *   not be found.
+ * @return A string to the icon as a local path, or FALSE if an appropriate icon could not be found
  */
-	public function file_icon($mime) {
+	public function fileIcon($mime) {
 		// Use the default set of icons if none specified.
 		if (!isset($icon_directory)) {
 			$icon_directory = CakePlugin::path('FieldFile') . 'webroot' . DS . 'img' . DS . 'icons' . DS;
@@ -58,7 +57,7 @@ class FieldFile {
 		}
 
 		// For a few mimetypes, we can "manually" map to a generic icon.
-		$generic_mime = (string) FieldFile::file_icon_map($mime);
+		$generic_mime = (string) FieldFile::fileIconMap($mime);
 		$icon_path = $icon_directory . $generic_mime . '.png';
 
 		if ($generic_mime && file_exists($icon_path)) {
@@ -88,13 +87,12 @@ class FieldFile {
 	}
 
 /**
- * By: Drupal
  * Determine the generic icon MIME package based on a file's MIME type.
  *
- * @param string $mime File mime type.
- * @return The generic icon MIME package expected for this file.
+ * @param string $mime File mime type
+ * @return The generic icon MIME package expected for this file
  */
-	public function file_icon_map($mime) {
+	public function fileIconMap($mime) {
 		switch ($mime) {
 			// Word document types.
 			case 'application/msword':
@@ -113,7 +111,7 @@ class FieldFile {
 			case 'application/x-applix-word':
 			case 'application/x-kword':
 			case 'application/x-kword-crypt':
-			  return 'x-office-document';
+				return 'x-office-document';
 
 			// Spreadsheet document types.
 			case 'application/vnd.ms-excel':
@@ -129,7 +127,7 @@ class FieldFile {
 			case 'application/x-gnumeric':
 			case 'application/x-kspread':
 			case 'application/x-kspread-crypt':
-			  return 'x-office-spreadsheet';
+				return 'x-office-spreadsheet';
 
 			// Presentation document types.
 			case 'application/vnd.ms-powerpoint':
@@ -141,7 +139,7 @@ class FieldFile {
 			case 'application/vnd.sun.xml.impress':
 			case 'application/vnd.sun.xml.impress.template':
 			case 'application/x-kpresenter':
-			  return 'x-office-presentation';
+				return 'x-office-presentation';
 
 			// Compressed archive types.
 			case 'application/zip':
@@ -168,7 +166,7 @@ class FieldFile {
 			case 'application/x-tar':
 			case 'application/x-tarz':
 			case 'application/x-tgz':
-			  return 'package-x-generic';
+				return 'package-x-generic';
 
 			// Script file types.
 			case 'application/ecmascript':
@@ -194,20 +192,32 @@ class FieldFile {
 			case 'text/x-python':
 			case 'text/x-sql':
 			case 'text/x-tcl':
-			  return 'text-x-script';
+				return 'text-x-script';
 
 			// HTML aliases.
 			case 'application/xhtml+xml':
-			  return 'text-html';
+				return 'text-html';
 
 			// Executable types.
 			case 'application/x-macbinary':
 			case 'application/x-ms-dos-executable':
 			case 'application/x-pef-executable':
-			  return 'application-x-executable';
+				return 'application-x-executable';
 
 			default:
-			  return false;
+				return false;
 		}
+	}
+
+/**
+ * Get file extension.
+ *
+ * @param string $filename Name of the file. e.g.: `my-file.docx`
+ * @return string
+ */
+	public static function findExts($file) {
+		$pos = strrpos($file, '.');
+
+		return strtolower(substr($file, $pos+1, strlen($file)));
 	}
 }
