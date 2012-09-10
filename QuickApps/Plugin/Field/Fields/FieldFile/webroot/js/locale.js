@@ -1,3 +1,3 @@
-QuickApps.locale.strings['Remove'] = '<?php echo __d('field_file', 'Remove'); ?>';
-QuickApps.locale.strings['Description'] = '<?php echo __d('field_file', 'Description'); ?>';
-QuickApps.locale.strings['Upload'] = '<?php echo __d('field_file', 'Upload'); ?>';
+QuickApps.locale.strings['Remove'] = '<?php echo __t('Remove'); ?>';
+QuickApps.locale.strings['Description'] = '<?php echo __t('Description'); ?>';
+QuickApps.locale.strings['Upload'] = '<?php echo __t('Upload'); ?>';
