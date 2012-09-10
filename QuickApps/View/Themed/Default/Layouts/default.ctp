@@ -18,19 +18,19 @@
 					</a>
 				<?php endif; ?>
 
-				<?php if (!$this->Block->regionIsEmpty('user-menu')): ?>
+				<?php if ($this->Block->regionCount('user-menu')): ?>
 				<div id="user-menu">
 					<?php echo $this->Block->region('user-menu'); ?>
 				</div>
 				<?php endif; ?>
 
-				<?php if (!$this->Block->regionIsEmpty('language-switcher')): ?>
+				<?php if ($this->Block->regionCount('language-switcher')): ?>
 				<div id="language-switcher">
 					<?php echo $this->Block->region('language-switcher'); ?>
 				</div>
 				<?php endif; ?>
 
-				<?php if (!$this->Block->regionIsEmpty('search')): ?>
+				<?php if ($this->Block->regionCount('search')): ?>
 				<div id="search-block">
 					<?php echo $this->Block->region('search'); ?>
 				</div>
@@ -47,7 +47,7 @@
 
 		<div id="page">
 			<div id="top-shadow"></div>
-			<?php if (!$this->Block->regionIsEmpty('slider')): ?>
+			<?php if ($this->Block->regionCount('slider')): ?>
 			<div class="slider">
 				<div class="container clearfix">
 					<?php echo $this->Block->region('slider'); ?>
@@ -101,7 +101,7 @@
 						<?php echo $sessionFlash; ?>
 					</div>
 					<?php endif; ?>
-					<?php if (!$this->Block->regionIsEmpty('sidebar-left')): ?>
+					<?php if ($this->Block->regionCount('sidebar-left')): ?>
 						<div id="sidebar-left">
 							<div id="sidebar-bottom">
 								<div id="sidebar-content">

@@ -27,13 +27,13 @@
 			</div>
 
 			<div id="page">
-				<?php if (!$this->Block->regionIsEmpty('toolbar')): ?>
+				<?php if ($this->Block->regionCount('toolbar')): ?>
 				<div class="toolbar">
 					<?php echo $this->Block->region('toolbar'); ?>
 				</div>
 				<?php endif; ?>
 
-				<?php if (!$this->Block->regionIsEmpty('help')): ?>
+				<?php if ($this->Block->regionCount('help')): ?>
 				<div class="help">
 					<?php echo $this->Block->region('help'); ?>
 				</div>

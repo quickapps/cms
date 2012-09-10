@@ -4641,7 +4641,7 @@ msgid "LayoutHelper::blockPush() is deprecated, use BlockHelper::push() instead"
 msgstr ""
 
 #: View\Helper\LayoutHelper.php:501
-msgid "LayoutHelper::emptyRegion() is deprecated, use BlockHelper::regionIsEmpty() instead"
+msgid "LayoutHelper::emptyRegion() is deprecated, use BlockHelper::regionCount() instead"
 msgstr ""
 
 #: View\Helper\LayoutHelper.php:513

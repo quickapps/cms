@@ -83,17 +83,6 @@ class BlockHelper extends AppHelper {
 
 		return true;
 	}
-	
-/**
- * Checks if the given theme region is empty or not.
- *
- * @param string $region Region alias
- * @return boolean TRUE no blocks in region, FALSE otherwise
- */
-	public function regionIsEmpty($region) {
-		return ($this->regionCount($region) == 0);
-	}
-	
 
 /**
  * Returns the number of blocks in the specified region.
@@ -140,7 +129,7 @@ class BlockHelper extends AppHelper {
  * @return string Html blocks
  */
 	public function region($region) {
-		if (!$this->regionIsEmpty($region)) {
+		if ($this->regionCount($region)) {
 			$output = '';
 
 			if (isset($this->_tmp['blocksInRegion'][$region]['blocks'])) {

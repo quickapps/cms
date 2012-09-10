@@ -498,8 +498,8 @@ class LayoutHelper extends AppHelper {
  * @deprecated 
  */
 	public function emptyRegion($region) {
-		trigger_error(__t('LayoutHelper::emptyRegion() is deprecated, use BlockHelper::regionIsEmpty() instead'), E_USER_WARNING);
-		return $this->Block->regionIsEmpty($region);
+		trigger_error(__t('LayoutHelper::emptyRegion() is deprecated, use BlockHelper::regionCount() instead'), E_USER_WARNING);
+		return ($this->Block->regionCount($region) == 0);
 	}
 
 /**
