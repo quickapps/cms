@@ -1283,7 +1283,7 @@ class InstallerComponent extends Component {
 		list($theme, $region) = pluginSplit($_theme);
 
 		if (!empty($_theme)) {
-			$block['themes_cache'] = $theme;
+			$block['themes_cache'] = ":{$theme}:";
 		}
 
 		$Block->create($block);
