@@ -1442,6 +1442,51 @@ class QaAco {
 			'lft' => '103',
 			'rght' => '104'
 		),
+		array(
+			'id' => '161',
+			'parent_id' => '',
+			'model' => '',
+			'foreign_key' => '',
+			'alias' => 'FieldImage',
+			'lft' => '321',
+			'rght' => '330'
+		),
+		array(
+			'id' => '162',
+			'parent_id' => '161',
+			'model' => '',
+			'foreign_key' => '',
+			'alias' => 'Uploadify',
+			'lft' => '322',
+			'rght' => '329'
+		),
+		array(
+			'id' => '163',
+			'parent_id' => '162',
+			'model' => '',
+			'foreign_key' => '',
+			'alias' => 'delete',
+			'lft' => '323',
+			'rght' => '324'
+		),
+		array(
+			'id' => '164',
+			'parent_id' => '162',
+			'model' => '',
+			'foreign_key' => '',
+			'alias' => 'upload',
+			'lft' => '325',
+			'rght' => '326'
+		),
+		array(
+			'id' => '165',
+			'parent_id' => '162',
+			'model' => '',
+			'foreign_key' => '',
+			'alias' => 'preview',
+			'lft' => '327',
+			'rght' => '328'
+		),
 	);
 
 }

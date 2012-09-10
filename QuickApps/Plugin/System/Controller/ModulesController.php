@@ -151,4 +151,21 @@ class ModulesController extends SystemAppController {
 			$this->redirect('/admin/system/modules#module-' . $this->Installer->options['__appName']);
 		}
 	}
+
+/**
+ * Regenerates permissions tree for the given module.
+ * ADMIN ROLES ONLY can access this action.
+ *
+ * ### Usage:
+ *
+ *     http://www.your-domain.com/admin/system/modules/rebuild_acos/ModuleName
+ *
+ * @param string $module Module name, both are allowed Camelized or under_scored
+ */
+	public function admin_build_acos($module) {
+		$module = Inflector::camelize($module);
+
+		$this->Installer->buildAcos($module);
+		die("{$module}: Permissions tree regenerated!");
+	}
 }

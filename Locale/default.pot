@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2012-08-21 23:40+0000\n"
+"POT-Creation-Date: 2012-09-10 15:44+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -254,15 +254,15 @@ msgstr ""
 msgid "Invalid information file (.yaml)"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:379;1792
+#: Controller\Component\InstallerComponent.php:379;1791
 msgid "This module is incompatible with your QuickApps version."
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:381;1794
+#: Controller\Component\InstallerComponent.php:381;1793
 msgid "This theme is incompatible with your QuickApps version."
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:394;1807
+#: Controller\Component\InstallerComponent.php:394;1806
 msgid "This theme depends on other modules that you do not have or doesn't meet the version required: %s"
 msgstr ""
 
@@ -278,7 +278,7 @@ msgstr ""
 msgid "Invalid field name \"%s\"."
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:588;1772
+#: Controller\Component\InstallerComponent.php:588;1771
 msgid "Module does not exist."
 msgstr ""
 
@@ -294,15 +294,15 @@ msgstr ""
 msgid "This module can not be uninstalled because some files/folder can not be deleted, please check the permissions."
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:1166;1175
+#: Controller\Component\InstallerComponent.php:1165;1174
 msgid "path: %s, not writable"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:1781
+#: Controller\Component\InstallerComponent.php:1780
 msgid "This module can not be disabled, because it is required by: %s"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:1805
+#: Controller\Component\InstallerComponent.php:1804
 msgid "This module depends on other modules that you do not have or doesn't meet the version required: %s"
 msgstr ""
 
@@ -415,6 +415,7 @@ msgstr ""
 
 #: Plugin\Block\View\Manage\admin_add.ctp:3
 #: Plugin\Block\View\Manage\admin_edit.ctp:3
+#: Plugin\Field\Fields\FieldImage\View\Elements\formatter.ctp:13
 #: Vendor\DummyLocale.php:20
 #: View\Elements\theme_node_edit.ctp:11
 msgid "Content"
@@ -1000,28 +1001,34 @@ msgid "Milliecond"
 msgstr ""
 
 #: Plugin\Field\Fields\FieldFile\Controller\UploadifyController.php:53
+#: Plugin\Field\Fields\FieldImage\Controller\UploadifyController.php:55
 msgid "Invalid file extension."
 msgstr ""
 
 #: Plugin\Field\Fields\FieldFile\Controller\UploadifyController.php:77
+#: Plugin\Field\Fields\FieldImage\Controller\UploadifyController.php:117
 msgid "Error: %s"
 msgstr ""
 
 #: Plugin\Field\Fields\FieldFile\Model\Behavior\FieldFileHookBehavior.php:149
+#: Plugin\Field\Fields\FieldImage\Model\Behavior\FieldImageHookBehavior.php:162
 msgid "You must upload at least one file."
 msgstr ""
 
 #: Plugin\Field\Fields\FieldFile\View\Elements\edit.ctp:74
+#: Plugin\Field\Fields\FieldImage\View\Elements\edit.ctp:88
 msgid "Remove"
 msgstr ""
 
 #: Plugin\Field\Fields\FieldFile\View\Elements\edit.ctp:105
-#: Plugin\System\View\Modules\admin_index.ctp:27
+#: Plugin\Field\Fields\FieldImage\View\Elements\edit.ctp:129
+#: Plugin\System\View\Modules\admin_index.ctp:28
 #: Plugin\System\View\Themes\admin_index.ctp:14
 msgid "Files must be less than <b>%sB</b>."
 msgstr ""
 
 #: Plugin\Field\Fields\FieldFile\View\Elements\edit.ctp:107
+#: Plugin\Field\Fields\FieldImage\View\Elements\edit.ctp:131
 msgid "Allowed file types: <b>%s</b>."
 msgstr ""
 
@@ -1038,42 +1045,50 @@ msgid "File URL"
 msgstr ""
 
 #: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:5
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:8
 msgid "Allowed extensions"
 msgstr ""
 
 #: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:9
-msgid "Comma separated. e.g.: jpg,gif,png"
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:12
+msgid "Comma separated. e.g. jpg,gif,png"
 msgstr ""
 
 #: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:13
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:16
 msgid "Custom"
 msgstr ""
 
 #: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:19
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:22
 msgid "Number of files"
 msgstr ""
 
-#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:27
+#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:28
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:31
 msgid "Customized number of files"
 msgstr ""
 
-#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:32
+#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:33
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:36
 msgid "Maximum number of files users can upload for this field."
 msgstr ""
 
-#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:38
+#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:39
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:42
 msgid "Upload folder"
 msgstr ""
 
-#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:42
+#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:43
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:46
 msgid "Optional subdirectory within the upload destination where files will be stored. Do not include preceding or trailing slashes."
 msgstr ""
 
-#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:48
+#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:49
 msgid "Enable Description field"
 msgstr ""
 
-#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:52
+#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:53
 msgid "The description field allows users to enter a description about the uploaded file."
 msgstr ""
 
@@ -1083,6 +1098,128 @@ msgstr ""
 
 #: Plugin\Field\Fields\FieldFile\View\Helper\FieldFileHookHelper.php:88
 msgid "Size"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\edit.ctp:97
+#: Plugin\Menu\View\Manage\admin_index.ctp:4
+#: Plugin\Node\View\Contents\admin_index.ctp:9;60
+msgid "Title"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\edit.ctp:98
+msgid "The title is used as a tool tip when the user hovers the mouse over the image."
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\edit.ctp:102
+msgid "Alternate text"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\edit.ctp:103
+msgid "This text will be used by screen readers, search engines, or when the image cannot be loaded."
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\formatter.ctp:5
+msgid "Image style"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\formatter.ctp:8
+msgid "None (original image)"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\formatter.ctp:14
+msgid "File"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\formatter.ctp:21
+msgid "Link image to"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\formatter.ctp:24
+msgid "Nothing"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:52
+msgid "Enable <em>Title</em> field"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:56
+msgid "The title attribute is used as a tooltip when the mouse hovers over the image."
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:62
+msgid "Enable <em>Alt</em> field"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:66
+msgid "The alt attribute may be used by search engines, screen readers, and when the image cannot be loaded."
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:73
+msgid "-- No preview --"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:74
+msgid "Preview image style"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:78
+msgid "The preview image will be shown while editing the content."
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:81
+msgid "Image resolution"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:83
+msgid "Minimum image resolution"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:85;92
+msgid "pixels"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:87
+msgid "The minimum allowed image size expressed as WIDTHxHEIGHT (e.g. 640x480). Leave blank for no restriction. If a smaller image is uploaded, it will be rejected."
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:90
+msgid "Maximum image resolution"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:94
+msgid "The maximum allowed image size expressed as WIDTHxHEIGHT (e.g. 640x480). Leave blank for no restriction. If a larger image is uploaded, it will be rejected."
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:96
+msgid "Minimum image ratio"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:97
+msgid "The upload will be invalid if the image apect ratio (e.g. 1.6) is lower. Leave blank for no restriction."
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:99
+msgid "Maximum image ratio"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:100
+msgid "The upload will be invalid if the image apect ratio (e.g. 1.6) is greater. Leave blank for no restriction."
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:102
+msgid "Minimum image pixels"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:103
+msgid "The upload will be invalid if the image number of pixels is lower. Leave blank for no restriction."
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:105
+msgid "Maximum image pixels"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:106
+msgid "The upload will be invalid if the image number of pixels is greater. Leave blank for no restriction."
 msgstr ""
 
 #: Plugin\Field\Fields\FieldList\Model\Behavior\FieldListHookBehavior.php:54
@@ -2095,11 +2232,6 @@ msgstr ""
 msgid "Go to <a href=\"%s\">menu links</a> list to reparent this link."
 msgstr ""
 
-#: Plugin\Menu\View\Manage\admin_index.ctp:4
-#: Plugin\Node\View\Contents\admin_index.ctp:9;60
-msgid "Title"
-msgstr ""
-
 #: Plugin\Menu\View\Manage\admin_index.ctp:11
 msgid "links"
 msgstr ""
@@ -2263,7 +2395,7 @@ msgstr ""
 #: Plugin\Node\View\Contents\admin_add.ctp:18
 #: Plugin\Node\View\Contents\admin_edit.ctp:30
 #: Plugin\System\Controller\ModulesController.php:98
-#: Plugin\System\View\Modules\admin_index.ctp:94
+#: Plugin\System\View\Modules\admin_index.ctp:96
 msgid "Settings"
 msgstr ""
 
@@ -2599,6 +2731,10 @@ msgstr ""
 msgid "Add Type"
 msgstr ""
 
+#: Plugin\Node\View\Helper\NodeHelper.php:105
+msgid "The node could not be rendered"
+msgstr ""
+
 #: Plugin\Node\View\Node\search.ctp:21
 #: View\Elements\theme_node_comments.ctp:20;37
 msgid "«"
@@ -2844,7 +2980,7 @@ msgid "The file `%s` could not be written."
 msgstr ""
 
 #: Plugin\System\Controller\HelpController.php:30
-#: Plugin\System\View\Modules\admin_index.ctp:90
+#: Plugin\System\View\Modules\admin_index.ctp:92
 #: Vendor\DummyLocale.php:25
 msgid "Help"
 msgstr ""
@@ -3163,52 +3299,52 @@ msgstr ""
 msgid "Upload Package File"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:16;41
+#: Plugin\System\View\Modules\admin_index.ctp:16;42
 #: Plugin\System\View\Themes\admin_index.ctp:10;27
 msgid "Package"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:23;48
+#: Plugin\System\View\Modules\admin_index.ctp:24;50
 msgid "Activate after install"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:29;53
+#: Plugin\System\View\Modules\admin_index.ctp:30;55
 #: Plugin\System\View\Themes\admin_index.ctp:16;32
 msgid "Install"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:36
+#: Plugin\System\View\Modules\admin_index.ctp:37
 #: Plugin\System\View\Themes\admin_index.ctp:23
 msgid "Install From URL"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:83
+#: Plugin\System\View\Modules\admin_index.ctp:85
 #: Plugin\System\View\Themes\admin_index.ctp:77;131
 msgid "author: %s"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:84
+#: Plugin\System\View\Modules\admin_index.ctp:86
 msgid "Dependencies"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:87
+#: Plugin\System\View\Modules\admin_index.ctp:89
 #: Plugin\User\View\Elements\toolbar.ctp:6
 msgid "Permissions"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:98
+#: Plugin\System\View\Modules\admin_index.ctp:100
 msgid "Disable"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:98
+#: Plugin\System\View\Modules\admin_index.ctp:100
 msgid "Enable"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:99
+#: Plugin\System\View\Modules\admin_index.ctp:101
 msgid "Delete selected module ? This change cannot be undone!"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:99
+#: Plugin\System\View\Modules\admin_index.ctp:101
 #: Plugin\System\View\Themes\admin_index.ctp:83;137
 msgid "Uninstall"
 msgstr ""
@@ -3953,12 +4089,12 @@ msgid "My account"
 msgstr ""
 
 #: Vendor\DummyLocale.php:34
-#: View\Helper\TableHelper.php:136
+#: View\Helper\TableHelper.php:150
 msgid "« Previous "
 msgstr ""
 
 #: Vendor\DummyLocale.php:35
-#: View\Helper\TableHelper.php:137
+#: View\Helper\TableHelper.php:151
 msgid " Next »"
 msgstr ""
 
@@ -4354,6 +4490,18 @@ msgstr ""
 msgid "User profile"
 msgstr ""
 
+#: Vendor\DummyLocale.php:195
+msgid "Thumbnail"
+msgstr ""
+
+#: Vendor\DummyLocale.php:196
+msgid "Medium"
+msgstr ""
+
+#: Vendor\DummyLocale.php:197
+msgid "Large"
+msgstr ""
+
 #: View\Elements\theme_comment.ctp:37
 msgid "said on %s"
 msgstr ""
@@ -4472,8 +4620,60 @@ msgstr ""
 msgid "If you want to customize this error message, create %s"
 msgstr ""
 
-#: View\Helper\LayoutHelper.php:367
-msgid "The node could not be rendered"
+#: View\Helper\LayoutHelper.php:409
+msgid "LayoutHelper::userAvatar() is deprecated, use UserHelper::avatar() instead"
+msgstr ""
+
+#: View\Helper\LayoutHelper.php:422
+msgid "LayoutHelper::menuNodeChildren() is deprecated, use MenuHelper::menuNodeChildren() instead"
+msgstr ""
+
+#: View\Helper\LayoutHelper.php:436
+msgid "LayoutHelper::menu() is deprecated, use MenuHelper::render() instead"
+msgstr ""
+
+#: View\Helper\LayoutHelper.php:469
+msgid "LayoutHelper::toolbar() is deprecated, use MenuHelper::toolbar() instead"
+msgstr ""
+
+#: View\Helper\LayoutHelper.php:489
+msgid "LayoutHelper::blockPush() is deprecated, use BlockHelper::push() instead"
+msgstr ""
+
+#: View\Helper\LayoutHelper.php:501
+msgid "LayoutHelper::emptyRegion() is deprecated, use BlockHelper::regionIsEmpty() instead"
+msgstr ""
+
+#: View\Helper\LayoutHelper.php:513
+msgid "LayoutHelper::blocksInRegion() is deprecated, use BlockHelper::regionCount() instead"
+msgstr ""
+
+#: View\Helper\LayoutHelper.php:525
+msgid "LayoutHelper::blocks() is deprecated, use BlockHelper::region() instead"
+msgstr ""
+
+#: View\Helper\LayoutHelper.php:549
+msgid "LayoutHelper::block() is deprecated, use BlockHelper::render() instead"
+msgstr ""
+
+#: View\Helper\LayoutHelper.php:562
+msgid "LayoutHelper::getNodeType() is deprecated, use NodeHelper::getAttr(\"node_type_id\") instead"
+msgstr ""
+
+#: View\Helper\LayoutHelper.php:576
+msgid "LayoutHelper::nodeField() is deprecated, use NodeHelper::getAttr() instead"
+msgstr ""
+
+#: View\Helper\LayoutHelper.php:596
+msgid "LayoutHelper::renderNode() is deprecated, use NodeHelper::render() instead"
+msgstr ""
+
+#: View\Helper\LayoutHelper.php:611
+msgid "LayoutHelper::renderField() is deprecated, use NodeHelper::renderField() instead"
+msgstr ""
+
+#: View\Helper\TableHelper.php:137
+msgid "TableHelper::create() is deprecated, use render() instead"
 msgstr ""
 
 #: View\Install\database.ctp:1

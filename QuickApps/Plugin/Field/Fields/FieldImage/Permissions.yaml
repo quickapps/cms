@@ -1,0 +1,15 @@
+Controller:
+	Uploadify:
+		hidden:true
+Preset:
+	upload_delete:
+		name: "Upload & Delete images"
+		description: "Allow user to upload new images and delete existing ones."
+		acos:
+			Uploadify.upload
+			Uploadify.delete
+	preview:
+		name: "Preview uploaded images"
+		description: "Allow user to preview images."
+		acos:
+			Uploadify.preview

@@ -190,3 +190,8 @@
 	echo __t('RSS');
 	echo __t('Print');
 	echo __t('User profile');
+
+	// FieldImage
+	echo __t('Thumbnail');
+	echo __t('Medium');
+	echo __t('Large');

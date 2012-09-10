@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2012-08-21 23:40+0000\n"
+"POT-Creation-Date: 2012-09-10 15:44+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christopher Castro <chris@quickapps.es>\n"
 "Language-Team: \n"
@@ -249,15 +249,15 @@ msgstr "No se encontraron las regiones \"toolbar\" y/o \"help\". Son obligatoria
 msgid "Invalid information file (.yaml)"
 msgstr "Fichero de información inválido (.yaml)"
 
-#: Controller\Component\InstallerComponent.php:379;1792
+#: Controller\Component\InstallerComponent.php:379;1791
 msgid "This module is incompatible with your QuickApps version."
 msgstr "Este módulo es incompatible con su versión de QuickApps."
 
-#: Controller\Component\InstallerComponent.php:381;1794
+#: Controller\Component\InstallerComponent.php:381;1793
 msgid "This theme is incompatible with your QuickApps version."
 msgstr "Este theme es incompatible con su versión de QuickApps."
 
-#: Controller\Component\InstallerComponent.php:394;1807
+#: Controller\Component\InstallerComponent.php:394;1806
 msgid "This theme depends on other modules that you do not have or doesn't meet the version required: %s"
 msgstr "Este theme depende de otros módulos que no han sido instalados o bien no cumplen con los requerimientos de versión: %s"
 
@@ -273,7 +273,7 @@ msgstr "Camp inválido \"%s\". Fichero de informacion (.yaml) no encontrado."
 msgid "Invalid field name \"%s\"."
 msgstr "Nombre de Campo inválido \"%s\"."
 
-#: Controller\Component\InstallerComponent.php:588;1772
+#: Controller\Component\InstallerComponent.php:588;1771
 msgid "Module does not exist."
 msgstr "El módulo no existe."
 
@@ -289,15 +289,15 @@ msgstr "Este módulo no puede ser desinstalado, porque es requerido por: %s"
 msgid "This module can not be uninstalled because some files/folder can not be deleted, please check the permissions."
 msgstr "Este módulo no puede ser desinstalado porque algunos ficheros/directorios no pueden ser eliminados, por favor verifique los permisos."
 
-#: Controller\Component\InstallerComponent.php:1166;1175
+#: Controller\Component\InstallerComponent.php:1165;1174
 msgid "path: %s, not writable"
 msgstr "ruta: %s, no se puede escribir."
 
-#: Controller\Component\InstallerComponent.php:1781
+#: Controller\Component\InstallerComponent.php:1780
 msgid "This module can not be disabled, because it is required by: %s"
 msgstr "Este módulo no se puede deshabilitar, porque es requerido por: %s"
 
-#: Controller\Component\InstallerComponent.php:1805
+#: Controller\Component\InstallerComponent.php:1804
 msgid "This module depends on other modules that you do not have or doesn't meet the version required: %s"
 msgstr "Este módulo depende de otros módulos que no han sido instalados o bien no cumplen con los requerimientos de versión: %s"
 
@@ -410,6 +410,7 @@ msgstr "Nuevo Bloque"
 
 #: Plugin\Block\View\Manage\admin_add.ctp:3
 #: Plugin\Block\View\Manage\admin_edit.ctp:3
+#: Plugin\Field\Fields\FieldImage\View\Elements\formatter.ctp:13
 #: Vendor\DummyLocale.php:20
 #: View\Elements\theme_node_edit.ctp:11
 msgid "Content"
@@ -995,28 +996,34 @@ msgid "Milliecond"
 msgstr "Milisegundo"
 
 #: Plugin\Field\Fields\FieldFile\Controller\UploadifyController.php:53
+#: Plugin\Field\Fields\FieldImage\Controller\UploadifyController.php:55
 msgid "Invalid file extension."
 msgstr "Extensión de fichero inválida."
 
 #: Plugin\Field\Fields\FieldFile\Controller\UploadifyController.php:77
+#: Plugin\Field\Fields\FieldImage\Controller\UploadifyController.php:117
 msgid "Error: %s"
 msgstr "Error: %s"
 
 #: Plugin\Field\Fields\FieldFile\Model\Behavior\FieldFileHookBehavior.php:149
+#: Plugin\Field\Fields\FieldImage\Model\Behavior\FieldImageHookBehavior.php:162
 msgid "You must upload at least one file."
 msgstr "Debe subir al menos un fichero."
 
 #: Plugin\Field\Fields\FieldFile\View\Elements\edit.ctp:74
+#: Plugin\Field\Fields\FieldImage\View\Elements\edit.ctp:88
 msgid "Remove"
 msgstr "Eliminar"
 
 #: Plugin\Field\Fields\FieldFile\View\Elements\edit.ctp:105
-#: Plugin\System\View\Modules\admin_index.ctp:27
+#: Plugin\Field\Fields\FieldImage\View\Elements\edit.ctp:129
+#: Plugin\System\View\Modules\admin_index.ctp:28
 #: Plugin\System\View\Themes\admin_index.ctp:14
 msgid "Files must be less than <b>%sB</b>."
 msgstr "Archivos deben ser menores que <b>%sB</b>."
 
 #: Plugin\Field\Fields\FieldFile\View\Elements\edit.ctp:107
+#: Plugin\Field\Fields\FieldImage\View\Elements\edit.ctp:131
 msgid "Allowed file types: <b>%s</b>."
 msgstr "Extensiones admitidas: <b>%s</b>."
 
@@ -1033,42 +1040,50 @@ msgid "File URL"
 msgstr "URL de Fichero"
 
 #: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:5
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:8
 msgid "Allowed extensions"
 msgstr "Extensiones admitidas"
 
 #: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:9
-msgid "Comma separated. e.g.: jpg,gif,png"
-msgstr "Separados por coma. ej.: jpg,gif,png"
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:12
+msgid "Comma separated. e.g. jpg,gif,png"
+msgstr "Separados por coma. por ejemplo: jpg,gif,png"
 
 #: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:13
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:16
 msgid "Custom"
 msgstr "Personalizado"
 
 #: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:19
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:22
 msgid "Number of files"
 msgstr "Número de ficheros"
 
-#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:27
+#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:28
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:31
 msgid "Customized number of files"
 msgstr "Número de ficheros personalizado"
 
-#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:32
+#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:33
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:36
 msgid "Maximum number of files users can upload for this field."
 msgstr "Número máximo de ficheros que los usuarios pueden subir para este campo."
 
-#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:38
+#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:39
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:42
 msgid "Upload folder"
 msgstr "Carpeta de subida"
 
-#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:42
+#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:43
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:46
 msgid "Optional subdirectory within the upload destination where files will be stored. Do not include preceding or trailing slashes."
 msgstr "Subdirectorio opcional en donde los ficheros se almacenarán. No incluya barras (/) iniciales ni finales."
 
-#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:48
+#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:49
 msgid "Enable Description field"
 msgstr "Habilitar campo de Descripción"
 
-#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:52
+#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:53
 msgid "The description field allows users to enter a description about the uploaded file."
 msgstr "El campo de descripción permite a los usuarios ingresar una breve descripción sobre el fichero cargado."
 
@@ -1079,6 +1094,128 @@ msgstr "Adjuntos"
 #: Plugin\Field\Fields\FieldFile\View\Helper\FieldFileHookHelper.php:88
 msgid "Size"
 msgstr "Tamaño"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\edit.ctp:97
+#: Plugin\Menu\View\Manage\admin_index.ctp:4
+#: Plugin\Node\View\Contents\admin_index.ctp:9;60
+msgid "Title"
+msgstr "Título"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\edit.ctp:98
+msgid "The title is used as a tool tip when the user hovers the mouse over the image."
+msgstr "El título es utilizado como tooltip cuando el usuario pasa el ratón sobre la imagen."
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\edit.ctp:102
+msgid "Alternate text"
+msgstr "Texto alternativo"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\edit.ctp:103
+msgid "This text will be used by screen readers, search engines, or when the image cannot be loaded."
+msgstr "Este texto será utilizado por los lectores de pantalla, motores de búsqueda, o cuando la imagen no se puede cargar."
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\formatter.ctp:5
+msgid "Image style"
+msgstr "Estilo de imagen"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\formatter.ctp:8
+msgid "None (original image)"
+msgstr "Ninguno (imagen original)"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\formatter.ctp:14
+msgid "File"
+msgstr "Fichero"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\formatter.ctp:21
+msgid "Link image to"
+msgstr "Enlazar imagen a"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\formatter.ctp:24
+msgid "Nothing"
+msgstr "Nada"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:52
+msgid "Enable <em>Title</em> field"
+msgstr "Habilitar campo <em>Título</em>"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:56
+msgid "The title attribute is used as a tooltip when the mouse hovers over the image."
+msgstr "El atributo título se utiliza como tooltip al pasar el ratón sobre la imagen."
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:62
+msgid "Enable <em>Alt</em> field"
+msgstr "Habilitar campo <em>Alt</em>"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:66
+msgid "The alt attribute may be used by search engines, screen readers, and when the image cannot be loaded."
+msgstr "El atributo alt puede ser utilizado por motores de búsqueda, lectores de pantalla, y cuando la imagen no se puede cargar."
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:73
+msgid "-- No preview --"
+msgstr "-- Sin vista previa --"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:74
+msgid "Preview image style"
+msgstr "Estilo de vista previa"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:78
+msgid "The preview image will be shown while editing the content."
+msgstr "La vista previa se mostrará al editar los contenidos."
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:81
+msgid "Image resolution"
+msgstr "Resolución de imagen"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:83
+msgid "Minimum image resolution"
+msgstr "Resolución de imagen mínima"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:85;92
+msgid "pixels"
+msgstr "pixeles"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:87
+msgid "The minimum allowed image size expressed as WIDTHxHEIGHT (e.g. 640x480). Leave blank for no restriction. If a smaller image is uploaded, it will be rejected."
+msgstr "El tamaño mínimo permitido para la imagen expresada como ANCHOxALTO (por ejemplo, 640x480). Dejar en blanco para ninguna restricción. Si una imagen más pequeña se carga, ésta será rechazada."
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:90
+msgid "Maximum image resolution"
+msgstr "Máxima resolución de imagen"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:94
+msgid "The maximum allowed image size expressed as WIDTHxHEIGHT (e.g. 640x480). Leave blank for no restriction. If a larger image is uploaded, it will be rejected."
+msgstr "El tamaño mínimo permitido para la imagen expresada como ANCHOxALTO (por ejemplo, 640x480). Dejar en blanco para ninguna restricción. Si una imagen más grande se carga, ésta será rechazada."
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:96
+msgid "Minimum image ratio"
+msgstr "Relación de aspecto mínima"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:97
+msgid "The upload will be invalid if the image apect ratio (e.g. 1.6) is lower. Leave blank for no restriction."
+msgstr "La imagen será rechazada si la relación de aspecto (por ejemplo, 1.6) is menor. Dejar en blanco para ninguna restricción."
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:99
+msgid "Maximum image ratio"
+msgstr "Relación de aspecto máxima"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:100
+msgid "The upload will be invalid if the image apect ratio (e.g. 1.6) is greater. Leave blank for no restriction."
+msgstr "La imagen será rechazada si la relación de aspecto (por ejemplo, 1.6) is mayor. Dejar en blanco para ninguna restricción."
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:102
+msgid "Minimum image pixels"
+msgstr "Número de píxeles mínimo"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:103
+msgid "The upload will be invalid if the image number of pixels is lower. Leave blank for no restriction."
+msgstr "La imagen será rechazada si el número total de piexeles es menor. Dejar en blanco para ninguna restricción."
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:105
+msgid "Maximum image pixels"
+msgstr "Número de píxeles máximo"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:106
+msgid "The upload will be invalid if the image number of pixels is greater. Leave blank for no restriction."
+msgstr "La imagen será rechazada si el número total de piexeles es mayor. Dejar en blanco para ninguna restricción."
 
 #: Plugin\Field\Fields\FieldList\Model\Behavior\FieldListHookBehavior.php:54
 #: Plugin\Taxonomy\Fields\TaxonomyTerms\Model\Behavior\TaxonomyTermsHookBehavior.php:165
@@ -2090,11 +2227,6 @@ msgstr "Enlaces de menú que no estén disponibles no serán listados en ningún
 msgid "Go to <a href=\"%s\">menu links</a> list to reparent this link."
 msgstr "Vaya al listado de <a href=\"%s\">enlaces de menú</a> para emparentar este enlace."
 
-#: Plugin\Menu\View\Manage\admin_index.ctp:4
-#: Plugin\Node\View\Contents\admin_index.ctp:9;60
-msgid "Title"
-msgstr "Título"
-
 #: Plugin\Menu\View\Manage\admin_index.ctp:11
 msgid "links"
 msgstr "enlaces"
@@ -2258,7 +2390,7 @@ msgstr "Una breve descripción (255 car. máx.) sobre este contenido. Será util
 #: Plugin\Node\View\Contents\admin_add.ctp:18
 #: Plugin\Node\View\Contents\admin_edit.ctp:30
 #: Plugin\System\Controller\ModulesController.php:98
-#: Plugin\System\View\Modules\admin_index.ctp:94
+#: Plugin\System\View\Modules\admin_index.ctp:96
 msgid "Settings"
 msgstr "Configuración"
 
@@ -2594,6 +2726,10 @@ msgstr "Nuevo Contenido"
 msgid "Add Type"
 msgstr "Nuevo Tipo"
 
+#: Plugin\Node\View\Helper\NodeHelper.php:105
+msgid "The node could not be rendered"
+msgstr "El nodo no pudo ser renderizado"
+
 #: Plugin\Node\View\Node\search.ctp:21
 #: View\Elements\theme_node_comments.ctp:20;37
 msgid "«"
@@ -2839,7 +2975,7 @@ msgid "The file `%s` could not be written."
 msgstr "El fichero `%s` no pudo ser escrito."
 
 #: Plugin\System\Controller\HelpController.php:30
-#: Plugin\System\View\Modules\admin_index.ctp:90
+#: Plugin\System\View\Modules\admin_index.ctp:92
 #: Vendor\DummyLocale.php:25
 msgid "Help"
 msgstr "Ayuda"
@@ -3158,52 +3294,52 @@ msgstr "Instalar Nuevo Módulo"
 msgid "Upload Package File"
 msgstr "Cargar Paquete"
 
-#: Plugin\System\View\Modules\admin_index.ctp:16;41
+#: Plugin\System\View\Modules\admin_index.ctp:16;42
 #: Plugin\System\View\Themes\admin_index.ctp:10;27
 msgid "Package"
 msgstr "Paquete"
 
-#: Plugin\System\View\Modules\admin_index.ctp:23;48
+#: Plugin\System\View\Modules\admin_index.ctp:24;50
 msgid "Activate after install"
 msgstr "Activar tras instalar"
 
-#: Plugin\System\View\Modules\admin_index.ctp:29;53
+#: Plugin\System\View\Modules\admin_index.ctp:30;55
 #: Plugin\System\View\Themes\admin_index.ctp:16;32
 msgid "Install"
 msgstr "Instalar"
 
-#: Plugin\System\View\Modules\admin_index.ctp:36
+#: Plugin\System\View\Modules\admin_index.ctp:37
 #: Plugin\System\View\Themes\admin_index.ctp:23
 msgid "Install From URL"
 msgstr "Instalar Desde URL"
 
-#: Plugin\System\View\Modules\admin_index.ctp:83
+#: Plugin\System\View\Modules\admin_index.ctp:85
 #: Plugin\System\View\Themes\admin_index.ctp:77;131
 msgid "author: %s"
 msgstr "autor: %s"
 
-#: Plugin\System\View\Modules\admin_index.ctp:84
+#: Plugin\System\View\Modules\admin_index.ctp:86
 msgid "Dependencies"
 msgstr "Dependencias"
 
-#: Plugin\System\View\Modules\admin_index.ctp:87
+#: Plugin\System\View\Modules\admin_index.ctp:89
 #: Plugin\User\View\Elements\toolbar.ctp:6
 msgid "Permissions"
 msgstr "Permisos"
 
-#: Plugin\System\View\Modules\admin_index.ctp:98
+#: Plugin\System\View\Modules\admin_index.ctp:100
 msgid "Disable"
 msgstr "Desactivar"
 
-#: Plugin\System\View\Modules\admin_index.ctp:98
+#: Plugin\System\View\Modules\admin_index.ctp:100
 msgid "Enable"
 msgstr "Activar"
 
-#: Plugin\System\View\Modules\admin_index.ctp:99
+#: Plugin\System\View\Modules\admin_index.ctp:101
 msgid "Delete selected module ? This change cannot be undone!"
 msgstr "Eliminar el módulo seleccionado ? Esta operación no puede ser revertida!"
 
-#: Plugin\System\View\Modules\admin_index.ctp:99
+#: Plugin\System\View\Modules\admin_index.ctp:101
 #: Plugin\System\View\Themes\admin_index.ctp:83;137
 msgid "Uninstall"
 msgstr "Desinstalar"
@@ -3952,12 +4088,12 @@ msgid "My account"
 msgstr "Mi cuenta"
 
 #: Vendor\DummyLocale.php:34
-#: View\Helper\TableHelper.php:136
+#: View\Helper\TableHelper.php:150
 msgid "« Previous "
 msgstr "« Anterior "
 
 #: Vendor\DummyLocale.php:35
-#: View\Helper\TableHelper.php:137
+#: View\Helper\TableHelper.php:151
 msgid " Next »"
 msgstr " Siguiente »"
 
@@ -4353,6 +4489,18 @@ msgstr "Impresión"
 msgid "User profile"
 msgstr "Perfil de usuario"
 
+#: Vendor\DummyLocale.php:195
+msgid "Thumbnail"
+msgstr "Miniatura"
+
+#: Vendor\DummyLocale.php:196
+msgid "Medium"
+msgstr "Mediano"
+
+#: Vendor\DummyLocale.php:197
+msgid "Large"
+msgstr "Largo"
+
 #: View\Elements\theme_comment.ctp:37
 msgid "said on %s"
 msgstr "dijo el %s"
@@ -4471,9 +4619,61 @@ msgstr "Aviso"
 msgid "If you want to customize this error message, create %s"
 msgstr "Si desea personalizar este mensaje de error, cree %s"
 
-#: View\Helper\LayoutHelper.php:367
-msgid "The node could not be rendered"
-msgstr "El nodo no pudo ser renderizado"
+#: View\Helper\LayoutHelper.php:409
+msgid "LayoutHelper::userAvatar() is deprecated, use UserHelper::avatar() instead"
+msgstr "LayoutHelper::userAvatar() obsoleto, usar UserHelper::avatar() en su lugar"
+
+#: View\Helper\LayoutHelper.php:422
+msgid "LayoutHelper::menuNodeChildren() is deprecated, use MenuHelper::menuNodeChildren() instead"
+msgstr "LayoutHelper::menuNodeChildren() obsoleto, usar MenuHelper::menuNodeChildren() en su lugar"
+
+#: View\Helper\LayoutHelper.php:436
+msgid "LayoutHelper::menu() is deprecated, use MenuHelper::render() instead"
+msgstr "LayoutHelper::menu() obsoleto, usar MenuHelper::render() en su lugar"
+
+#: View\Helper\LayoutHelper.php:469
+msgid "LayoutHelper::toolbar() is deprecated, use MenuHelper::toolbar() instead"
+msgstr "LayoutHelper::toolbar() obsoleto, usar MenuHelper::toolbar() en su lugar"
+
+#: View\Helper\LayoutHelper.php:489
+msgid "LayoutHelper::blockPush() is deprecated, use BlockHelper::push() instead"
+msgstr "LayoutHelper::blockPush() obsoleto, usar BlockHelper::push() en su lugar"
+
+#: View\Helper\LayoutHelper.php:501
+msgid "LayoutHelper::emptyRegion() is deprecated, use BlockHelper::regionIsEmpty() instead"
+msgstr "LayoutHelper::emptyRegion() obsoleto, usar BlockHelper::regionIsEmpty() en su lugar"
+
+#: View\Helper\LayoutHelper.php:513
+msgid "LayoutHelper::blocksInRegion() is deprecated, use BlockHelper::regionCount() instead"
+msgstr "LayoutHelper::blocksInRegion() obsoleto, usar BlockHelper::regionCount() en su lugar"
+
+#: View\Helper\LayoutHelper.php:525
+msgid "LayoutHelper::blocks() is deprecated, use BlockHelper::region() instead"
+msgstr "LayoutHelper::blocks() obsoleto, usar BlockHelper::region() en su lugar"
+
+#: View\Helper\LayoutHelper.php:549
+msgid "LayoutHelper::block() is deprecated, use BlockHelper::render() instead"
+msgstr "LayoutHelper::block() obsoleto, usar BlockHelper::render() en su lugar"
+
+#: View\Helper\LayoutHelper.php:562
+msgid "LayoutHelper::getNodeType() is deprecated, use NodeHelper::getAttr(\"node_type_id\") instead"
+msgstr "LayoutHelper::getNodeType() obsoleto, usar NodeHelper::getAttr(\"node_type_id\") en su lugar"
+
+#: View\Helper\LayoutHelper.php:576
+msgid "LayoutHelper::nodeField() is deprecated, use NodeHelper::getAttr() instead"
+msgstr "LayoutHelper::nodeField() obsoleto, usar NodeHelper::getAttr() en su lugar"
+
+#: View\Helper\LayoutHelper.php:596
+msgid "LayoutHelper::renderNode() is deprecated, use NodeHelper::render() instead"
+msgstr "LayoutHelper::renderNode() obsoleto, usar NodeHelper::render() en su lugar"
+
+#: View\Helper\LayoutHelper.php:611
+msgid "LayoutHelper::renderField() is deprecated, use NodeHelper::renderField() instead"
+msgstr "LayoutHelper::renderField() obsoleto, usar NodeHelper::renderField() en su lugar"
+
+#: View\Helper\TableHelper.php:137
+msgid "TableHelper::create() is deprecated, use render() instead"
+msgstr "TableHelper::create() obsoleto, usar render() en su lugar"
 
 #: View\Install\database.ctp:1
 #: View\Install\license.ctp:1
@@ -4819,23 +5019,3 @@ msgstr "Contraseñas distintas o con menos de 6 caracteres."
 msgid "Route classes must extend CakeRoute"
 msgstr "Route classes must extend CakeRoute"
 
-#~ msgid "Site online"
-#~ msgstr "Sitio en línea"
-
-#~ msgid "View Modes"
-#~ msgstr "Modos de Visualización"
-
-#~ msgid "full"
-#~ msgstr "Full"
-
-#~ msgid "rss"
-#~ msgstr "RSS"
-
-#~ msgid "Who's New"
-#~ msgstr "Nuevos Usuarios"
-
-#~ msgid "Show hidden entries"
-#~ msgstr "Mostrar entradas ocultas"
-
-#~ msgid "Do not show hidden entries"
-#~ msgstr "No mostrar entradas ocultas"

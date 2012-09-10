@@ -137,6 +137,24 @@ class QaArosAco {
 			'_update' => '1',
 			'_delete' => '1'
 		),
+		array(
+			'id' => '16',
+			'aro_id' => '2',
+			'aco_id' => '165',
+			'_create' => '1',
+			'_read' => '1',
+			'_update' => '1',
+			'_delete' => '1'
+		),
+		array(
+			'id' => '17',
+			'aro_id' => '3',
+			'aco_id' => '165',
+			'_create' => '1',
+			'_read' => '1',
+			'_update' => '1',
+			'_delete' => '1'
+		),
 	);
 
 }
