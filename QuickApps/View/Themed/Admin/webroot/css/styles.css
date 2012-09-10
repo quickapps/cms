@@ -246,6 +246,7 @@ div.toolbar ul li.selected a, div.toolbar ul li a:hover { color:#666; border:1px
 /* forms */
 form label { display:block; font-weight: bold; margin-top:15px; padding:0;}
 form fieldset { margin-bottom:25px; padding:15px; background:#fff; }
+form fieldset  fieldset { margin-top:20px; margin-bottom:20px; }
 form div.error-message { display:inline; font-size:8px; color:red; padding-left:15px; }
 div.text input { width:390px; }
 div.text input.form-error { border:1px solid red; }
