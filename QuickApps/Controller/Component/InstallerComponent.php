@@ -985,31 +985,30 @@ class InstallerComponent extends Component {
  * The above would generate all the permissions tree for the Core module User.
  *
  * @param string $plugin Plugin name to analyze (CamelCase or underscored)
- * @param mixed $pluginPath Optional plugin full base path. Set to FALSE to use site modules path `ROOT/Modules`.
  * @return void
  */
-	public function buildAcos($plugin, $pluginPath = false) {
+	public function buildAcos($plugin) {
 		$plugin = Inflector::camelize($plugin);
-		$pluginPath = !$pluginPath ? ROOT . DS . 'Modules' . DS : str_replace(DS . DS, DS, $pluginPath . DS);
 
-		if (!file_exists($pluginPath . $plugin)) {
+		if (!CakePlugin::loaded($plugin)) {
 			return false;
 		}
 
+		$pluginPath = CakePlugin::path($plugin);
 		$__folder = new Folder;
 
 		// Fields
-		if (file_exists($pluginPath . $plugin . DS . 'Fields')) {
-			$__folder->path = $pluginPath . $plugin . DS . 'Fields' . DS;
+		if (file_exists($pluginPath . DS . 'Fields')) {
+			$__folder->path = $pluginPath . DS . 'Fields' . DS;
 			$fieldsFolders = $__folder->read();
 			$fieldsFolders = $fieldsFolders[0];
 
 			foreach ($fieldsFolders as $field) {
-				$this->buildAcos(basename($field), $pluginPath . $plugin . DS . 'Fields' . DS);
+				$this->buildAcos(basename($field));
 			}
 		}
 
-		$cPath = $pluginPath . $plugin . DS . 'Controller' . DS;
+		$cPath = $pluginPath . DS . 'Controller' . DS;
 		$__folder->path = $cPath;
 		$controllers = $__folder->read();
 		$controllers = $controllers[1];
