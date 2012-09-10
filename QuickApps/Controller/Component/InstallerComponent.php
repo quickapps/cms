@@ -83,7 +83,7 @@ class InstallerComponent extends Component {
  *
  * @param array $data Data form POST submit of the .app package ($this->data)
  * @param array $options Optional settings, see InstallerComponent::$options
- * @return bool TRUE on success or FALSE otherwise
+ * @return boolean TRUE on success or FALSE otherwise
  */
 	public function install($data = false, $options = array()) {
 		if (!$data) {
@@ -1119,7 +1119,7 @@ class InstallerComponent extends Component {
  * Check if all files & folders contained in `dir` can be removed.
  *
  * @param string $dir Path content to check
- * @return bool TRUE if all files & folder can be removed. FALSE otherwise
+ * @return boolean TRUE if all files & folder can be removed. FALSE otherwise
  */
 	public function isRemoveable($dir) {
 		if (!is_writable($dir)) {
@@ -1149,7 +1149,7 @@ class InstallerComponent extends Component {
  *
  * @param string $src Path content to check
  * @param string $dst Destination path that $source should be copied to
- * @return bool TRUE if all files & folder can be copied to `destination`. FALSE otherwise
+ * @return boolean TRUE if all files & folder can be copied to `destination`. FALSE otherwise
  */
 	public function packageIsWritable($src, $dst) {
 		if (!file_exists($dst)) {
@@ -1179,8 +1179,7 @@ class InstallerComponent extends Component {
 	}
 
 /**
- * Creates a new block and optianilly assign it to
- * the specified theme and region.
+ * Creates a new block and optianilly assign it to the specified theme and region.
  *
  * ### Block options
  *
@@ -1226,8 +1225,8 @@ class InstallerComponent extends Component {
  * be unique within the `CustomModule` module.
  *
  * @param array $block Block information
- * @param string $theme Optional "Theme.region" where to assign the block
- * @return bool TRUE on success, FALSE otherwise
+ * @param string $_theme Optional "Theme.region" where to assign the block
+ * @return boolean TRUE on success, FALSE otherwise
  */
 	public function createBlock($block, $_theme = '') {
 		$defaultModule = isset($this->options['__appName']) ? $this->options['__appName'] : 'Block';
@@ -1321,11 +1320,11 @@ class InstallerComponent extends Component {
 	}
 
 /**
- * Recursively copy `source` to `destination`
+ * Recursively copy `source` to `destination`.
  *
  * @param string $src Path content to copy
  * @param string $dst Destination path that $source should be copied to
- * @return bool TRUE on success. FALSE otherwise
+ * @return boolean TRUE on success. FALSE otherwise
  */
 	public function rcopy($src, $dst) {
 		$dir = opendir($src);
