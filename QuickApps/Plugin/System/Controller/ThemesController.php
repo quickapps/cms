@@ -22,6 +22,7 @@ class ThemesController extends SystemAppController {
 
 		if ($this->action == 'admin_settings') {
 			$this->Security->disabledFields[] = '__reset';
+			$this->Security->disabledFields[] = '__save_css';
 		}
 	}
 

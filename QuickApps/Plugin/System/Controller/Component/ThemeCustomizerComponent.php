@@ -49,6 +49,10 @@ class ThemeCustomizerComponent extends Component {
 				foreach ($files as $css => $values) {
 					$css = base64_decode($css);
 
+					if ($css != $this->Controller->data['ThemeCustomizer'][$theme_name]['__save_css']) {
+						continue;
+					}
+
 					if (file_exists($cssPath . $css)) {
 						$cssContent = file_get_contents($cssPath . $css);
 

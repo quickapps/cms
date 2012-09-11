@@ -184,7 +184,7 @@ class ThemeCustomizerHelper extends AppHelper {
 							}
 						}
 					}
-					
+
 					$__g = '';
 
 					foreach ($__groups as $title => $content) {
@@ -203,7 +203,8 @@ class ThemeCustomizerHelper extends AppHelper {
 							$this->_View->Html->useTag('fieldsetstart', '<span class="fieldset-toggle"><em>' . $css . '</em></span>')
 							. "<div class=\"fieldset-toggle-container\" style=\"display:none;\" id=\"{$css}\">"
 								. '<div style="overflow:hidden;">'
-									. $this->_View->Form->submit(__t('Reset'), array('style' => 'float:right; display:block;', 'onclick' => 'return reset_styles("' . $theme_name . '", "' . $css . '");'))
+									. $this->_View->Form->submit(__t('Save'), array('style' => 'float:right; display:block; margin-left:10px;', 'onclick' => '$("#ThemeCustomizer' . $theme_name . 'SaveCss").val("' . $css . '");'))
+									. $this->_View->Form->submit(__t('Reset'), array('style' => 'float:right; display:block; margin-left:10px;', 'onclick' => 'return reset_styles("' . $theme_name . '", "' . $css . '");'))
 								. '</div>'
 								. $__css
 							. "</div>"
@@ -267,6 +268,7 @@ class ThemeCustomizerHelper extends AppHelper {
 		}
 
 		$out = "<div style=\"width:48%; float:left; margin-right:15px;\">{$out}</div>{$scripts}";
+		$out .= $this->_View->Form->hidden("ThemeCustomizer.{$theme_name}.__save_css", array('value' => ''));
 
 		return $out;
 	}
