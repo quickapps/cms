@@ -118,6 +118,12 @@
 	echo __t('Upload & Delete files');
 	echo __t('Allow user to upload new files and delete existing ones.');
 
+	// Permissions yaml: Field.FieldImage
+	echo __t('Upload & Delete images');
+	echo __t('Allow user to upload new images and delete existing ones.');
+	echo __t('Preview uploaded images');
+	echo __t('Allow user to preview images.');
+
 	// Permissions yaml: Locale
 	echo __t('Administer languages');
 	echo __t('Allow user to add, edit and delete languages');

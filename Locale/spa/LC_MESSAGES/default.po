@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2012-09-10 15:44+0000\n"
+"POT-Creation-Date: 2012-09-11 10:17+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christopher Castro <chris@quickapps.es>\n"
 "Language-Team: \n"
@@ -249,15 +249,15 @@ msgstr "No se encontraron las regiones \"toolbar\" y/o \"help\". Son obligatoria
 msgid "Invalid information file (.yaml)"
 msgstr "Fichero de información inválido (.yaml)"
 
-#: Controller\Component\InstallerComponent.php:379;1791
+#: Controller\Component\InstallerComponent.php:379;1805
 msgid "This module is incompatible with your QuickApps version."
 msgstr "Este módulo es incompatible con su versión de QuickApps."
 
-#: Controller\Component\InstallerComponent.php:381;1793
+#: Controller\Component\InstallerComponent.php:381;1807
 msgid "This theme is incompatible with your QuickApps version."
 msgstr "Este theme es incompatible con su versión de QuickApps."
 
-#: Controller\Component\InstallerComponent.php:394;1806
+#: Controller\Component\InstallerComponent.php:394;1820
 msgid "This theme depends on other modules that you do not have or doesn't meet the version required: %s"
 msgstr "Este theme depende de otros módulos que no han sido instalados o bien no cumplen con los requerimientos de versión: %s"
 
@@ -273,7 +273,7 @@ msgstr "Camp inválido \"%s\". Fichero de informacion (.yaml) no encontrado."
 msgid "Invalid field name \"%s\"."
 msgstr "Nombre de Campo inválido \"%s\"."
 
-#: Controller\Component\InstallerComponent.php:588;1771
+#: Controller\Component\InstallerComponent.php:588;1785
 msgid "Module does not exist."
 msgstr "El módulo no existe."
 
@@ -293,11 +293,11 @@ msgstr "Este módulo no puede ser desinstalado porque algunos ficheros/directori
 msgid "path: %s, not writable"
 msgstr "ruta: %s, no se puede escribir."
 
-#: Controller\Component\InstallerComponent.php:1780
+#: Controller\Component\InstallerComponent.php:1794
 msgid "This module can not be disabled, because it is required by: %s"
 msgstr "Este módulo no se puede deshabilitar, porque es requerido por: %s"
 
-#: Controller\Component\InstallerComponent.php:1804
+#: Controller\Component\InstallerComponent.php:1818
 msgid "This module depends on other modules that you do not have or doesn't meet the version required: %s"
 msgstr "Este módulo depende de otros módulos que no han sido instalados o bien no cumplen con los requerimientos de versión: %s"
 
@@ -1223,7 +1223,7 @@ msgid "You must select at least one option."
 msgstr "Debe seleccionar al menos una opción."
 
 #: Plugin\Field\Fields\FieldList\View\Elements\formatter.ctp:8
-#: Vendor\DummyLocale.php:187
+#: Vendor\DummyLocale.php:193
 msgid "Default"
 msgstr "Descripción"
 
@@ -1272,7 +1272,7 @@ msgid "Invalid field."
 msgstr "Campo inválido."
 
 #: Plugin\Field\Fields\FieldText\View\Elements\formatter.ctp:10
-#: Vendor\DummyLocale.php:188
+#: Vendor\DummyLocale.php:194
 msgid "Full"
 msgstr "Detalle"
 
@@ -3848,7 +3848,7 @@ msgid "Notify user when account is blocked."
 msgstr "Notificar cuando la cuenta es bloqueada."
 
 #: Plugin\User\View\Elements\settings.ctp:86
-#: Vendor\DummyLocale.php:174
+#: Vendor\DummyLocale.php:180
 msgid "Password recovery"
 msgstr "Recuperación de contraseña"
 
@@ -4298,206 +4298,222 @@ msgid "Allow user to upload new files and delete existing ones."
 msgstr "Permite al usuario subir nuevos ficheros y eliminar los ya existentes."
 
 #: Vendor\DummyLocale.php:122
+msgid "Upload & Delete images"
+msgstr "Subir y Eliminar imágenes"
+
+#: Vendor\DummyLocale.php:123
+msgid "Allow user to upload new images and delete existing ones."
+msgstr "Permite al usuario subir nuevas imágenes y eliminar las ya existentes."
+
+#: Vendor\DummyLocale.php:124
+msgid "Preview uploaded images"
+msgstr "Visualizar imágenes cargadas"
+
+#: Vendor\DummyLocale.php:125
+msgid "Allow user to preview images."
+msgstr "Permitir al usuario ver las imágenes subidas."
+
+#: Vendor\DummyLocale.php:128
 msgid "Administer languages"
 msgstr "Administrar idiomas"
 
-#: Vendor\DummyLocale.php:123
+#: Vendor\DummyLocale.php:129
 msgid "Allow user to add, edit and delete languages"
 msgstr "Permitir al usuario agregar, editar y eliminar idiomas"
 
-#: Vendor\DummyLocale.php:124
+#: Vendor\DummyLocale.php:130
 msgid "Translate interface texts"
 msgstr "Traducir textos de interfaz"
 
-#: Vendor\DummyLocale.php:125
+#: Vendor\DummyLocale.php:131
 msgid "Allow user to administer translatable entries"
 msgstr "Permitir al usuario gestionar entradas traducibles"
 
-#: Vendor\DummyLocale.php:126
+#: Vendor\DummyLocale.php:132
 msgid "Administer language packages"
 msgstr "Administrar paquetes de idiomas"
 
-#: Vendor\DummyLocale.php:127
+#: Vendor\DummyLocale.php:133
 msgid "Allow user to install and modify existing language packages (.po)"
 msgstr "Permitir al usuario instalar and modificar paquetes de idiomas existentes (.po)"
 
-#: Vendor\DummyLocale.php:130
+#: Vendor\DummyLocale.php:136
 msgid "Administer menus"
 msgstr "Administrar menús"
 
-#: Vendor\DummyLocale.php:131
+#: Vendor\DummyLocale.php:137
 msgid "Allow user to administer menus and menu items"
 msgstr "Permitir al usuario administrar menús e items"
 
-#: Vendor\DummyLocale.php:134
+#: Vendor\DummyLocale.php:140
 msgid "Administer content types"
 msgstr "Administrar tipos de contenidos"
 
-#: Vendor\DummyLocale.php:135;137;145;178;180;182;184
+#: Vendor\DummyLocale.php:141;143;151;184;186;188;190
 msgid "Warning: Give to trusted roles only; this permission has security implications."
 msgstr "Advertencia: Conceder solo a roles de confianza; este permiso tiene implicaciones sobre la seguridad"
 
-#: Vendor\DummyLocale.php:136
+#: Vendor\DummyLocale.php:142
 msgid "Administer content"
 msgstr "Administrar contenidos"
 
-#: Vendor\DummyLocale.php:138
+#: Vendor\DummyLocale.php:144
 msgid "Access the site's front page"
 msgstr "Acceder al portada del sitio web"
 
-#: Vendor\DummyLocale.php:139
+#: Vendor\DummyLocale.php:145
 msgid "View published content"
 msgstr "Ver contenido publicado"
 
-#: Vendor\DummyLocale.php:140
+#: Vendor\DummyLocale.php:146
 msgid "Search content and RSS feeds"
 msgstr "Buscar contenidos y feeds RSS"
 
-#: Vendor\DummyLocale.php:143
+#: Vendor\DummyLocale.php:149
 msgid "Access to dashboard"
 msgstr "Acceso al panel de resumen"
 
-#: Vendor\DummyLocale.php:144
+#: Vendor\DummyLocale.php:150
 msgid "Administer site configuration"
 msgstr "Administrar configuración del sitio web"
 
-#: Vendor\DummyLocale.php:146
+#: Vendor\DummyLocale.php:152
 msgid "Structure Menu"
 msgstr "Estructura de Menus"
 
-#: Vendor\DummyLocale.php:147
+#: Vendor\DummyLocale.php:153
 msgid "Allow user to access the `structure` menu item."
 msgstr "Permite al usuario acceder a la sección \"Estructura\" del menu"
 
-#: Vendor\DummyLocale.php:148
+#: Vendor\DummyLocale.php:154
 msgid "Help Topics"
 msgstr "Temas de Ayuda"
 
-#: Vendor\DummyLocale.php:149
+#: Vendor\DummyLocale.php:155
 msgid "Allow user to consult help topics."
 msgstr "Permite al usuario consultar temas de ayuda"
 
-#: Vendor\DummyLocale.php:150
+#: Vendor\DummyLocale.php:156
 msgid "Administer modules"
 msgstr "Administrar módulos"
 
-#: Vendor\DummyLocale.php:151
+#: Vendor\DummyLocale.php:157
 msgid "Administer themes"
 msgstr "Administrar temas visuales"
 
-#: Vendor\DummyLocale.php:154
+#: Vendor\DummyLocale.php:160
 msgid "Administer vocabularies and terms"
 msgstr "Administrar vocabularios y términos"
 
-#: Vendor\DummyLocale.php:157
+#: Vendor\DummyLocale.php:163
 msgid "Keywords suggestions handler"
 msgstr "Controlador de sugerencias de keywords"
 
-#: Vendor\DummyLocale.php:158
+#: Vendor\DummyLocale.php:164
 msgid "Suggest keyword"
 msgstr "Sugerir keywords"
 
-#: Vendor\DummyLocale.php:159
+#: Vendor\DummyLocale.php:165
 msgid "Allow user to use the `Autocomplete term`"
 msgstr "Permite al usuario utilizar `Autocompletar término`"
 
-#: Vendor\DummyLocale.php:162
+#: Vendor\DummyLocale.php:168
 msgid "User Basics"
 msgstr "Controles Basicos de Usuario"
 
-#: Vendor\DummyLocale.php:163
+#: Vendor\DummyLocale.php:169
 msgid "Backend main module access"
 msgstr "Acceso al modulo principal de backend"
 
-#: Vendor\DummyLocale.php:164
+#: Vendor\DummyLocale.php:170
 msgid "Grant access to (/admin/user)"
 msgstr "Concede acceso a (/admin/user)"
 
-#: Vendor\DummyLocale.php:165
+#: Vendor\DummyLocale.php:171
 msgid "Frontpage login form"
 msgstr "Inicio de sesión frontend"
 
-#: Vendor\DummyLocale.php:166
+#: Vendor\DummyLocale.php:172
 msgid "Backend login"
 msgstr "Iniciar sesión en backend"
 
-#: Vendor\DummyLocale.php:167
+#: Vendor\DummyLocale.php:173
 msgid "Backend login form"
 msgstr "Formulario de inicio de sesión backend"
 
-#: Vendor\DummyLocale.php:168
+#: Vendor\DummyLocale.php:174
 msgid "Frontpage logout"
 msgstr "Cerrar sesión frontend"
 
-#: Vendor\DummyLocale.php:169
+#: Vendor\DummyLocale.php:175
 msgid "After logout user gets redirected to site frontpage"
 msgstr "Tras finalizar sesión el usuario es redireccionado al frontend"
 
-#: Vendor\DummyLocale.php:170
+#: Vendor\DummyLocale.php:176
 msgid "Backend logout"
 msgstr "Cerrar sesión backend"
 
-#: Vendor\DummyLocale.php:171
+#: Vendor\DummyLocale.php:177
 msgid "After logout user gets redirected to backend login screen"
 msgstr "Tras cerrar sesión el usuario es redireccionado al formulario de inicio de sesión de backend"
 
-#: Vendor\DummyLocale.php:172
+#: Vendor\DummyLocale.php:178
 msgid "Registration page"
 msgstr "Página de registro"
 
-#: Vendor\DummyLocale.php:173
+#: Vendor\DummyLocale.php:179
 msgid "Activate account"
 msgstr "Activar cuenta"
 
-#: Vendor\DummyLocale.php:175
+#: Vendor\DummyLocale.php:181
 msgid "View users profile"
 msgstr "Ver perfil de usuarios"
 
-#: Vendor\DummyLocale.php:176
+#: Vendor\DummyLocale.php:182
 msgid "My account section"
 msgstr "Sección Mi Cuenta"
 
-#: Vendor\DummyLocale.php:177
+#: Vendor\DummyLocale.php:183
 msgid "Administer permissions"
 msgstr "Administrar permisos"
 
-#: Vendor\DummyLocale.php:179
+#: Vendor\DummyLocale.php:185
 msgid "Administer users"
 msgstr "Administrar usuarios"
 
-#: Vendor\DummyLocale.php:181
+#: Vendor\DummyLocale.php:187
 msgid "Administer user roles"
 msgstr "Administrar roles de usuario"
 
-#: Vendor\DummyLocale.php:183
+#: Vendor\DummyLocale.php:189
 msgid "Administer user CCK fields"
 msgstr "Administrar campos de usuario"
 
-#: Vendor\DummyLocale.php:189
+#: Vendor\DummyLocale.php:195
 msgid "List"
 msgstr "Lista"
 
-#: Vendor\DummyLocale.php:190
+#: Vendor\DummyLocale.php:196
 msgid "RSS"
 msgstr "RSS"
 
-#: Vendor\DummyLocale.php:191
+#: Vendor\DummyLocale.php:197
 msgid "Print"
 msgstr "Impresión"
 
-#: Vendor\DummyLocale.php:192
+#: Vendor\DummyLocale.php:198
 msgid "User profile"
 msgstr "Perfil de usuario"
 
-#: Vendor\DummyLocale.php:195
+#: Vendor\DummyLocale.php:201
 msgid "Thumbnail"
 msgstr "Miniatura"
 
-#: Vendor\DummyLocale.php:196
+#: Vendor\DummyLocale.php:202
 msgid "Medium"
 msgstr "Mediano"
 
-#: Vendor\DummyLocale.php:197
+#: Vendor\DummyLocale.php:203
 msgid "Large"
 msgstr "Largo"
 
