@@ -27,8 +27,8 @@ class InstallerComponent extends Component {
 /**
  * Array of defaults options used by install process.
  *
- * `type`: type of package to install, 'module' or 'theme'. (default 'module')
- * `status`: set to 1 for "install and activate", set to zero (0) otherwise. (default 1)
+ * - type: type of package to install, 'module' or 'theme'. (default 'module')
+ * - status: set to 1 for "install and activate", set to zero (0) otherwise. (default 1)
  *
  * @var array
  */
@@ -53,9 +53,10 @@ class InstallerComponent extends Component {
 /**
  * Begins install process for the specified package.
  * An update will be performed if the three conditions below are met:
- *	- Module/theme is already installed.
- *	- The module/theme being installed is newer than the installed (higher version number).
- *	- The module/theme has the `beforeUpdate` callback on its `InstallComponent` class.
+ *
+ * - Module/theme is already installed.
+ * - The module/theme being installed is newer than the installed (higher version number).
+ * - The module/theme has the `beforeUpdate` callback on its `InstallComponent` class.
  *
  * #### Expected module package estructure
  *
@@ -568,8 +569,8 @@ class InstallerComponent extends Component {
  * Uninstall module by name.
  *
  * @param string $pluginName
- *	Name of the plugin to uninstall, it may be either a theme-associated-module or module.
- *	Both formats are allowed CamelCase and under_scored. e.g.: `ModuleName` or `module_name`
+ *  Name of the plugin to uninstall, it may be either a theme-associated-module or module.
+ *  Both formats are allowed CamelCase and under_scored. e.g.: `ModuleName` or `module_name`
  * @return boolean TRUE on success or FALSE otherwise
  */
 	public function uninstall($pluginName = false) {
@@ -790,7 +791,7 @@ class InstallerComponent extends Component {
  *
  * ### Usage
  *
- *    parseDependency('foo (>=7.x-4.5-beta5, 3.x)');
+ *     parseDependency('foo (>=7.x-4.5-beta5, 3.x)');
  *
  * @param string $dependency A dependency string as example above
  * @return mixed
@@ -863,14 +864,14 @@ class InstallerComponent extends Component {
  *
  * ### Usage
  *
- *    $dependencies = array(
- *        'ModuleOne (1.0)',
- *        'ModuleTwo (>= 1.0)',
- *        'ModuleThree (1.x)',
- *        'ModuleFour'
- *    );
+ *     $dependencies = array(
+ *         'ModuleOne (1.0)',
+ *         'ModuleTwo (>= 1.0)',
+ *         'ModuleThree (1.x)',
+ *         'ModuleFour'
+ *     );
  *
- *    checkDependency($dependencies);
+ *     checkDependency($dependencies);
  *
  * @param array $dependencies List of dependencies to check.
  * @return boolean
@@ -978,7 +979,7 @@ class InstallerComponent extends Component {
  * Creates acos for specified module by parsing its Controller folder. (Module's fields are also analyzed).
  * If module is already installed then an Aco update will be performed.
  *
- * ### Usage:
+ * ### Usage
  *
  *     buildAcos('User', APP . 'Plugin' . DS);
  *
@@ -1183,43 +1184,43 @@ class InstallerComponent extends Component {
  *
  * ### Block options
  *
- *	-	module (string) [required]: CamelCased module name which is creating the block.
+ * -	module (string) [required]: CamelCased module name which is creating the block.
  *		default: name of the module being installed/uninstalled, "Block" otherwise.
- *	-	delta (string) [optional]: under_scored unique ID for block within a module.
+ * -	delta (string) [optional]: under_scored unique ID for block within a module.
  *		If not specfied, an auto-increment ID is automatically calculated for the given module. default: null
- *	-	title (string) [optional]: custom title for the block. default: null
- *	-	body (string) [optional]: block's content body, VALID ONLY WHEN `module` = "Block". default: null
- *	-	description (string) [required]: brief description of your block, VALID ONLY WHEN `module` = "Block".
+ * -	title (string) [optional]: custom title for the block. default: null
+ * -	body (string) [optional]: block's content body, VALID ONLY WHEN `module` = "Block". default: null
+ * -	description (string) [required]: brief description of your block, VALID ONLY WHEN `module` = "Block".
  *		default: same as module.
- *	-	status (int) [optional]: block enabled status. 1 for enabled or 0 disabled. default: 1
- *	-	visibility (int) [optional]: flag to indicate how to show blocks on pages. default: 0
+ * -	status (int) [optional]: block enabled status. 1 for enabled or 0 disabled. default: 1
+ * -	visibility (int) [optional]: flag to indicate how to show blocks on pages. default: 0
  *			- 0: Show on all pages except listed pages
  *			- 1: Show only on listed pages
  *			- 2: Use custom PHP code to determine visibility
- *	-	pages (string) [optional]: list of paths (one path per line) on which to include/exclude the block or PHP code
+ * -	pages (string) [optional]: list of paths (one path per line) on which to include/exclude the block or PHP code
  *		depending on "visibility" setting. default: null
- *	-	locale (array) [optional]: list of language codes. default: none
- *	-	settings (array) [optional]: extra information used by the block. default: none
+ * -	locale (array) [optional]: list of language codes. default: none
+ * -	settings (array) [optional]: extra information used by the block. default: none
  *
  * ### Usage
  *
- *    $block = array(
- *        'title' => 'My block title',
- *        'body' => 'My block content',
- *        'module' => 'Block'
- *    );
+ *     $block = array(
+ *         'title' => 'My block title',
+ *         'body' => 'My block content',
+ *         'module' => 'Block'
+ *     );
  *
- *    createBlock($block, 'ThemeName.sidebar_left');
+ *     createBlock($block, 'ThemeName.sidebar_left');
  *
  * The above will create a new Custom Block, and then assigned to the `sidebar_left` region of the `ThemeName` theme.
  *
- *    $block = array(
- *        'title' => 'Widget Title',
- *        'module' => 'CustomModule',
- *        'delta' => 'my_widget' // required!
- *    );
+ *     $block = array(
+ *         'title' => 'Widget Title',
+ *         'module' => 'CustomModule',
+ *         'delta' => 'my_widget' // required!
+ *     );
  *
- *    createBlock($block, 'ThemeName.sidebar_left');
+ *     createBlock($block, 'ThemeName.sidebar_left');
  *
  * Similar as before, but this time it will create a Widget Block. In this case the 'delta' option is require and must
  * be unique within the `CustomModule` module.
@@ -1375,32 +1376,36 @@ class InstallerComponent extends Component {
  * Example of use on module install, the code below will insert a new link
  * to the backend menu (`management`):
  *
- *    menuLink(
- *        array(
- *            'link' => '/my_new_module/dashboard',
- *            'description' => 'This is a link to my new awesome module',
- *            'label' => 'My Awesome Module'
- *        ), 1
- *    );
+ *     menuLink(
+ *         array(
+ *             'link' => '/my_new_module/dashboard',
+ *             'description' => 'This is a link to my new awesome module',
+ *             'label' => 'My Awesome Module'
+ *         ), 1
+ *     );
  *
  * Notice that this example uses `1` as menu ID instead of `management`.
  *
  * @param array $link
  *	Associative array information of the link to add:
- *		-	[parent|parent_id]: Parent link ID.
- *		-	[url|link|path|router_path]: Link url (href).
- *		-	[description]: Link description used as `title` attribute.
- *		-	[title|label|link_title]: Link text to show between tags: <a href="">TEXT</a>
- *		-	[module]: Name of the module that link belongs to,
+ *
+ *  -	[parent|parent_id]: Parent link ID.
+ *  -	[url|link|path|router_path]: Link url (href).
+ *  -	[description]: Link description used as `title` attribute.
+ *  -	[title|label|link_title]: Link text to show between tags: <a href="">TEXT</a>
+ *  -	[module]: Name of the module that link belongs to,
  *			by default it is set to the name of module being installed or
  *			to `System` if method is called on non-install process.
+ *
  * @param mixed $menu_id
  *	Set to string value to indicate the menu id slug, e.g.: `management`.
  *	Or set to one of the following integer values:
- *		- 0: Main menu of the site.
- *		- 1: Backend menu (by default).
- *		- 2: Navigation menu.
- *		- 3: User menu.
+ *
+ *  -	0: Main menu of the site.
+ *  -	1: Backend menu (by default).
+ *  -	2: Navigation menu.
+ *  -	3: User menu.
+ *
  * @param integer $move
  *	Number of positions to move the link after add.
  *	Negative values will move down, positive values will move up, zero value (0) wont move.
@@ -1518,19 +1523,19 @@ class InstallerComponent extends Component {
  *
  * ### Usage
  *
- *    createContentType(
- *        array(
- *            'module' => 'Blog',  (OPTIONAL)
- *            'name' => 'Blog Entry',
- *            'label' => 'Entry Title'
- *        ),
- *        array(
- *            'FieldText' => array(
- *                'name' => 'blog_body',
- *                'label' => 'Entry Body'
- *            )
- *        )
- *    );
+ *     createContentType(
+ *         array(
+ *             'module' => 'Blog',  (OPTIONAL)
+ *             'name' => 'Blog Entry',
+ *             'label' => 'Entry Title'
+ *         ),
+ *         array(
+ *             'FieldText' => array(
+ *                 'name' => 'blog_body',
+ *                 'label' => 'Entry Body'
+ *             )
+ *         )
+ *     );
  *
  * Note that `module` key is OPTIONAL when the method is invoked
  * from an installation session. If `module` key is not set and this method is invoked
@@ -1546,21 +1551,21 @@ class InstallerComponent extends Component {
  * @param array $fields
  *	Optional Associative array of fields to attach to the new content type:
  *
- *    $fields = array(
- *        'FieldText' => array(
- *            'label' => 'Title',  [required]
- *            'name' => 'underscored_unique_name', [required]
- *            'required' => true, [optional]
- *            'description' => 'Help text, instructions.', [optional]
- *            'settings' => array(  [optional array of specific settings for this field.]
- *			      'extensions' => 'jpg,gif,png',
- *			      ...
- *            )
- *        ),
- *	      ...
- *    );
+ *     $fields = array(
+ *         'FieldText' => array(
+ *             'label' => 'Title',  [required]
+ *             'name' => 'underscored_unique_name', [required]
+ *             'required' => true, [optional]
+ *             'description' => 'Help text, instructions.', [optional]
+ *             'settings' => array(  [optional array of specific settings for this field.]
+ *			       'extensions' => 'jpg,gif,png',
+ *			       ...
+ *             )
+ *         ),
+ *	       ...
+ *     );
  *
- *	Keys `label` and `name` are REQUIRED!
+ * Keys `label` and `name` are REQUIRED!
  *
  * @return mixed boolean FALSE on failure. NodeType array on success
  * @link https://github.com/QuickAppsCMS/QuickApps-CMS/wiki/Field-API
@@ -1648,7 +1653,7 @@ class InstallerComponent extends Component {
  *
  * ### Usage
  *
- *    sql('DROP TABLE `#__table_to_remove`');
+ *     sql('DROP TABLE `#__table_to_remove`');
  *
  * NOTE: Remember to include the table prefix pattern on each query string. (`#__` by default)
  *
@@ -1668,7 +1673,7 @@ class InstallerComponent extends Component {
  *
  * ### Usage
  *
- *    logError('Error 1', 'Error 2');
+ *     logError('Error 1', 'Error 2');
  *
  * @return void
  */
@@ -1696,19 +1701,19 @@ class InstallerComponent extends Component {
  *
  * ### Usage
  *
- *    $tests = array(
- *        array('test' => true, 'header' => 'Test 1', 'msg' => 'Test 1 has failed'),
- *        array('test' => false, 'header' => 'Test 2', 'msg' => 'Test 2 has failed'),
- *        ...
- *    );
+ *     $tests = array(
+ *         array('test' => true, 'header' => 'Test 1', 'msg' => 'Test 1 has failed'),
+ *         array('test' => false, 'header' => 'Test 2', 'msg' => 'Test 2 has failed'),
+ *         ...
+ *     );
  *
- *    checkTests($tests);
+ *     checkTests($tests);
  *
  * In the example above 'Test 1' is passed, but 'Test 2' will fail.  
  * The `test` key must be any valid boolean expression which will determinate
  * the success or failure of the test. For example:
  *
- *    [test] => (isset($variable_1) && isset($variable))
+ *     [test] => (isset($variable_1) && isset($variable))
  *
  * Above, the test will pass the validation only if both variables are defined.
  *
@@ -1915,10 +1920,10 @@ class InstallerComponent extends Component {
 /**
  * Regenerate caches:
  *
- *  - Modules
- *  - Variables
- *  - Hook-Objects mapping
- *  - Modules loading order
+ * - Modules
+ * - Variables
+ * - Hook-Objects mapping
+ * - Modules loading order
  *
  * @return void
  */

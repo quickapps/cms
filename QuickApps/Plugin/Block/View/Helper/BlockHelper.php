@@ -20,14 +20,20 @@ class BlockHelper extends AppHelper {
 /**
  * Manually insert a custom block to stack.
  *
- * @param array $block Formatted block array:
- *  - title
- *  - pages
- *  - visibility
- *  - body
- *  - region
- *  - theme
- *  - format
+ * @param array $block Formatted block array, possible keys:
+ *
+ * -	title: Block's title.
+ * -	pages: List of paths on which to include/exclude the block or PHP code, 
+ *		depending on `visibility` setting.
+ * -	visibility: Flag to indicate how to show blocks on pages;
+ *		- 0: Show on all pages except listed pages.
+ *		- 1: Show only on listed pages.
+ *		- 2: Use custom PHP code to determine visibility.
+ * -	body: Block contents.
+ * -	region: Theme region machine-name where to assign the block. e.g. 'sidebar-left'
+ * -	theme: There machine-name where block belongs to. e.g. 'MyThemeName'
+ * -	format: Not used.
+ *
  * @param string $region Theme region where to push
  * @return boolean TRUE on success. FALSE otherwise
  */
@@ -191,19 +197,21 @@ class BlockHelper extends AppHelper {
 /**
  * Render single block.
  * By default the following CSS classes may be applied to the block wrapper DIV element:
- *  -	`qa-block`: always applied.
- *  -	`qa-block-first`: only to the first element of the region.
- *  -	`qa-block-last`: only to the last element of the region.
- *  -	`qa-block-unique`: to the block number 1/1 of the region, in other words,
- *		the first & last at the same time.
+ *
+ * -	qa-block: always applied.
+ * -	qa-block-first: only to the first element of the region.
+ * -	qa-block-last: only to the last element of the region.
+ * -	qa-block-unique: to the block number 1/1 (unique) of the region.
  *
  * @param array $block Well formated block array.
  * @param array $options Array of options:
+ *
  *	- boolean title: Render title. default true.
  *	- boolean body: Render body. default true.
  *	- string region: Region where block belongs to.
  *	- array params: extra options used by block.
  *	- array class: list of extra CSS classes for block wrapper.
+ *
  * @return string Html
  */
 	public function block($block, $options = array()) {

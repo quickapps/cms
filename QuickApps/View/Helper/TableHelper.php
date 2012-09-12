@@ -15,31 +15,31 @@
  *
  * `$data` MUST be a numeric array. For example, any list result of `Model::find()` or paginated result:
  *
- *    $data = array(
- *        0 => array(
- *            'Model' => array('field1' => 'data', ...),
- *            'Model2' => ...
- *        ),
- *        ....
- *    );
+ *     $data = array(
+ *         0 => array(
+ *             'Model' => array('field1' => 'data', ...),
+ *             'Model2' => ...
+ *         ),
+ *         ....
+ *     );
  *
  * ### Options
  *
- * `columns` (array): Information about each of the columns of your table:
+ * (array) `columns`: Information about each of the columns of your table:
  *
- *    array(
- *        'columns' => array(
- *            'Column Title' => array(
- *                'value' => , (string) Values to display when filling this column.
- *						       You can specify array paths to find in the $data array. e.g.: `{Model.field}`
- *						       See TableHelper::_renderCell() for more tags.
- *	              'thOptions' => , (array) <th> tag options for this column. This will affect table header only.
- *	              'tdOptions' => , (array) <td> tag options for this column. This will affect table body (result rows) only.
- *	              'sort' => Optional (string) `Model.field`
- *            ),
- *            'Other Column' => array( ... ),
- *            ...
- *    );
+ *     array(
+ *         'columns' => array(
+ *             'Column Title' => array(
+ *                 'value' => , (string) Values to display when filling this column.
+ *				                You can specify array paths to find in the $data array. e.g.: `{Model.field}`
+ *					            See TableHelper::_renderCell() for more tags.
+ *	               'thOptions' => , (array) <th> tag options for this column. This will affect table header only.
+ *	               'tdOptions' => , (array) <td> tag options for this column. This will affect table body (result rows) only.
+ *	               'sort' => Optional (string) `Model.field`
+ *             ),
+ *             'Other Column' => array( ... ),
+ *             ...
+ *     );
  *
  */
 class TableHelper extends AppHelper {
@@ -52,14 +52,15 @@ class TableHelper extends AppHelper {
 
 /**
  * Default table rendering options.
- * `columns` (array): Settings for each table's column. (see TableHelper::$__columnDefaults).
- * `headerPosition` (mixed): Column titles position. 'top', 'top&bottom', bottom'. Or (boolean) FALSE for no titles.
- * `noItemsMessage` (string): Message to show if there are no rows to display.
- * `tableOptions` (array): <table> tag attributes.
- * `trOptions` (array): <tr> tag attributes for every row of content (between <tbody></tbody>).
- * `paginate.position` (string): Pagination row position, 'top' or 'top&bottom' or 'bottom'.
- * `paginate.trOptions` (array): <tr> tags attributes.
- * `paginate.tdOptions` (array): <td> tags attributes.
+ *
+ * - (array) columns: Settings for each table's column. (see TableHelper::$__columnDefaults).
+ * - (mixed) headerPosition: Column titles position. 'top', 'top&bottom', bottom'. Or (boolean) FALSE for no titles.
+ * - (string) noItemsMessage: Message to show if there are no rows to display.
+ * - (array) tableOptions: <table> tag attributes.
+ * - (array) trOptions: <tr> tag attributes for every row of content (between <tbody></tbody>).
+ * - (string) paginate.position: Pagination row position, 'top' or 'top&bottom' or 'bottom'.
+ * - (array) paginate.trOptions: <tr> tags attributes.
+ * - (array) paginate.tdOptions: <td> tags attributes.
  *
  * @var array
  */
@@ -103,10 +104,11 @@ class TableHelper extends AppHelper {
 
 /**
  * Column default options.
- * `value` (string): Cell's content. You can use special tags, see TableHelper::_renderCell().
- * `thOptions` (array): <th> tag attributes for header cells (between <thead></thead>).
- * `tdOptions` (array): <td> tag attributes for body cells (for each row of content between <tbody></tbody>).
- * `sort` (mixed): Set to a string indicating the column name (`Model.column`). Set to (boolean) FALSE for do not sort this column.
+ *
+ * - (string) value: Cell's content. You can use special tags, see TableHelper::_renderCell().
+ * - (array) thOptions: <th> tag attributes for header cells (between <thead></thead>).
+ * - (array) tdOptions: <td> tag attributes for body cells (for each row of content between <tbody></tbody>).
+ * - (mixed) sort: Set to a string indicating the column name (`Model.column`). Set to (boolean) FALSE for do not sort this column.
  *
  * @var array
  */
@@ -233,6 +235,7 @@ class TableHelper extends AppHelper {
 /**
  * Render the given cell.
  * Looks for special tags to be replaced, valid tags are:
+ *
  *  - URL. e.g.: {url}/my/url.html{url}
  *  - Array path. e.g.: {Node.slug}
  *  - Image. e.g.: {img class='width' border=0}/url/to/image.jpg{/img}
@@ -333,9 +336,8 @@ class TableHelper extends AppHelper {
  *
  * @param string $code The code to evaluate.
  * @return
- *   A string containing the printed output of the code, followed by the returned
- *   output of the code.
- *
+ *  A string containing the printed output of the code, followed by the returned
+ *  output of the code.
  */
 	private function __php_eval($code, $row_data = array()) {
 		ob_start();

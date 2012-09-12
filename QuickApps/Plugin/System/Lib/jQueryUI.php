@@ -173,12 +173,12 @@ class jQueryUI {
  *
  * ### Usage
  *
- *    $this->jQueryUI->theme('MyModule.flick');
+ *     $this->jQueryUI->theme('MyModule.flick');
  *
  * The above will load `flick` theme.
  * Theme should be located in `ROOT/Modules/MyModule/webroot/css/ui/flick/`
  *
- *    $this->jQueryUI->theme('flick');
+ *     $this->jQueryUI->theme('flick');
  *
  * The above will load `flick` theme. But now it should be located in your site's webroot,
  * `ROOT/webroot/css/ui/flick/`
@@ -187,15 +187,15 @@ class jQueryUI {
  *
  * If no theme is given ($theme = FALSE) this method will try:
  *
- *  - To use global parameter `jQueryUI.default_theme`.
- *  - To use `System.ui-lightness` otherwise.
+ * - To use global parameter `jQueryUI.default_theme`.
+ * - To use `System.ui-lightness` otherwise.
  *
  * ### Default theme
  *
  * You can define the global parameter `jQueryUI.default_theme` in your site's bootstrap.php
  * to indicate the default theme to use.
  *
- *    Configure::write('jQueryUI.default_theme', 'flick');
+ *     Configure::write('jQueryUI.default_theme', 'flick');
  *
  * The `flick` theme will be used by default if no arguments is passed.
  *

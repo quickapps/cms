@@ -18,9 +18,8 @@ class NodeHelper extends AppHelper {
 	protected $_tmp = array();
 
 /**
- * Returns specified node's field (from `node` table).
- * Valid only when rendering a single node (display = full) or
- * after LayoutHelper::renderNode() is invoked.
+ * Returns specified node's field (from `node` table). Valid only when rendering a
+ * single node (display = full) or after LayoutHelper::renderNode() is invoked.
  *
  * @param string $field Field name to retrieve. e.g.: `id` for Node's ID
  * @return mixed Array of the field if exists. FALSE otherwise
@@ -45,12 +44,16 @@ class NodeHelper extends AppHelper {
  * then default rendering proccess is fired.
  *
  * @param mixed $node Optional:
- *	- boolean FALSE: current node will be rendered. (by default)
- *	- string SLUG: render node by node's slug.
- *	- array : asociative Node's array to render.
+ *
+ * - boolean FALSE: current node will be rendered. (by default)
+ * - string SLUG: render node by node's slug.
+ * - array : asociative Node's array to render.
+ *
  * @param array $options Node rendering options:
- *	- mixed class: array or string, extra CSS class(es) for node DIV container
- *	- mixed display: set to string value to force rendering display mode. set to boolean false for automatic.
+ *
+ * - mixed class: array or string, extra CSS class(es) for node DIV container
+ * - mixed display: set to string value to force rendering display mode. set to boolean false for automatic.
+ *
  * @return string HTML formatted node. Empty string will be returned if node could not be rendered.
  */	
 	public function render($node = false, $options = array()) {

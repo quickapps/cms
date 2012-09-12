@@ -742,11 +742,11 @@ class FieldableBehavior extends ModelBehavior {
  *
  * ### Usage
  *
- *    $actsAs = array(
- *        'Fieldable' => array(
- *            'belongsTo' => 'NodeType-{Node.node_type_id}'
- *        )
- *    );
+ *     $actsAs = array(
+ *         'Fieldable' => array(
+ *             'belongsTo' => 'NodeType-{Node.node_type_id}'
+ *         )
+ *     );
  *
  * @param string $belongsTo String to parse
  * @param array $result Model record where to get array paths

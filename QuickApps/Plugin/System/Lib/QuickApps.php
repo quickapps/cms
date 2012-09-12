@@ -95,11 +95,11 @@ class QuickApps {
  *
  * ### Simple usage
  *
- *    QuickApps::is('view.frontpage');
+ *     QuickApps::is('view.frontpage');
  *
  * ### Passing multiple parameters
  *
- *    QuickApps::is('group.detector', 'param 1', 'param 2', ...);
+ *     QuickApps::is('group.detector', 'param 1', 'param 2', ...);
  *
  * @param string $detect Dot-Syntax unsersored_detector_name and group name. e.g.: `group.detector_name`
  * @return boolean
@@ -133,9 +133,9 @@ class QuickApps {
  * All detector callbacks are grouped by category, this allows to group all
  * detectors by module name and avoid collisions between each other.
  *
- * ### Example
+ * ### Usage
  *
- *    QuickApps::addDetector('my_module.detector_name', array('MyModuleHookHelper', 'detector_handler'));
+ *     QuickApps::addDetector('my_module.detector_name', array('MyModuleHookHelper', 'detector_handler'));
  *
  * The above will register `detector_name` on `my_module` category.
  * Also, we are using MyModule's Hook Helper class to register the callback method.
@@ -143,11 +143,11 @@ class QuickApps {
  *
  * ### MyModuleHookHelper.php
  *
- *    class MyModuleHookHelper extends AppHelper {
- *        public static function detector_handler() {
- *            return (detector login here);
- *        }
- *    }
+ *     class MyModuleHookHelper extends AppHelper {
+ *         public static function detector_handler() {
+ *             return (detector login here);
+ *         }
+ *     }
  *
  * @param string $detect Dot-Syntax detector name
  * @param array $callback Array with ClassName and Method Name
@@ -167,7 +167,7 @@ class QuickApps {
  *
  * ### Usage
  *
- *    QuickApps::detectorDefined('group_name.detector');
+ *     QuickApps::detectorDefined('group_name.detector');
  *
  * @param string $detector Detector name and group in dot syntax
  * @return boolean
@@ -293,7 +293,7 @@ class QuickApps {
  * - Retun an array list of all regisreted display-modes for the given Model.
  * - Return information for the specified display-mode (if exists), given as Dot-Syntax (Model.display_mode).
  *
- * ### Usage:
+ * ### Usage
  *
  * The example below will returns information for all display modes related to the `Node` model:
  *
@@ -356,7 +356,7 @@ class QuickApps {
  *  - When registering a new display-mode the arguments: `label` is REQUIRED and `options` is OPTIONAL.
  *  - When overwriting an existing display-mode the arguments: `label` is OPTIONAL and `options` is REQUIRED.
  *
- * ### Usage:
+ * ### Usage
  *
  *     // register new display-mode under `Node`
  *     QuickApps::registerDisplayMode('Node.new_mode', 'New Mode');
@@ -428,9 +428,10 @@ class QuickApps {
 
 /**
  * Translation function, domain search order:
- * 1- Current plugin
- * 2- Default
- * 3- Translatable entries cache
+ *
+ * 1.  Current plugin
+ * 2.  Default
+ * 3.  Translatable entries cache
  *
  * If no translation is found for the given string in any of the
  * domains above, then it gets marked as `fuzzy`.
@@ -566,16 +567,16 @@ class QuickApps {
 /**
  * Strip language prefix from the given internal URL.
  *
- * ### Usage:
+ * ### Usage
  *
- *    QuickApps::strip_language_prefix('http://www.your-site.com/eng/some-url');
- *    // returns: http://www.your-site.com/some-url
+ *     QuickApps::strip_language_prefix('http://www.your-site.com/eng/some-url');
+ *     // returns: http://www.your-site.com/some-url
  *
  * The URL must be internal to the site. If not, the original URL be will returned
  * without modifications:
  *
- *    QuickApps::strip_language_prefix('http://www.external-site.com/eng/external-page.html');
- *    // returns: http://www.external-site.com/eng/external-page.html
+ *     QuickApps::strip_language_prefix('http://www.external-site.com/eng/external-page.html');
+ *     // returns: http://www.external-site.com/eng/external-page.html
  *
  * @param string $url Internal FULL-URL where to replace language prefix
  * @return string URL with no language prefix
@@ -624,13 +625,13 @@ class QuickApps {
  *
  * ### Usage
  *
- *    QuickApps::field_info('FieldText');
+ *     QuickApps::field_info('FieldText');
  *
  * The above will return an array of all information for `FieldText`.
  * You can use both formats CamelCase or under_scored.  
  * e.g.: `FieldText` or `field_text` are valid inputs.
  *
- *    QuickApps::field();
+ *     QuickApps::field();
  *
  * This will return a list of fields and its information.
  *
@@ -840,6 +841,7 @@ class QuickApps {
 
 /**
  * Alias for QuickApps::is('view.admin').
+ * Checks if current view IS NOT a backend view.
  *
  * @return boolean
  * @see QuickApps::__viewIsAdmin()

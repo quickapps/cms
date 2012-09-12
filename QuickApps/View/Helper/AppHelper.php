@@ -6,7 +6,7 @@ App::uses('Helper', 'View');
  *
  * PHP version 5
  *
- * @package	 QuickApps.View/Helper
+ * @package	 QuickApps.View.Helper
  * @version	 1.0
  * @author	 Christopher Castro <chris@quickapps.es>
  * @link	 http://www.quickappscms.org
@@ -195,9 +195,8 @@ class AppHelper extends Helper {
  *
  * @param string $code The code to evaluate.
  * @return
- *   A string containing the printed output of the code, followed by the returned
- *   output of the code.
- *
+ *  A string containing the printed output of the code, followed by the returned
+ *  output of the code.
  */
 	protected function php_eval($code) {
 		ob_start();

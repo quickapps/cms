@@ -261,25 +261,25 @@ class MenuHelper extends AppHelper {
  *
  * ### Usage
  *
- *    $links = array(
- *        array('title link 1', '/your/url_1/', 'options' => array(), 'pattern' => '*url/to/match*'),
- *        array('title link 2', '/your/url_2/', 'options' => array('class' => 'css-class')),
- *        ...
- *    );
+ *     $links = array(
+ *         array('title link 1', '/your/url_1/', 'options' => array(), 'pattern' => '*url/to/match*'),
+ *         array('title link 2', '/your/url_2/', 'options' => array('class' => 'css-class')),
+ *         ...
+ *     );
  *
- *    $this->Menu->toolbar($links);
+ *     $this->Menu->toolbar($links);
  *
  * ### Link Parameters
  *
- *  - `options` array (optional): array of options for HtmlHelper::link()
- *  - `pattern` string (optional): show link as selected on pattern match (asterisk allowed)
+ * - `options` array (optional): array of options for HtmlHelper::link()
+ * - `pattern` string (optional): show link as selected on pattern match (asterisk allowed)
  *
  * @param array $links List of links
  * @param array $options Array of options:
- *  - `id`: id attribute for the container (ul, ol)
- *  - `type`: type of list, ol, ul. default: ul
- *  - `itemType`: type of child node. default: li
- *  - `activeClass`: class attribute for selected itemType. default: `selected`
+ * - `id`: id attribute for the container (ul, ol)
+ * - `type`: type of list, ol, ul. default: ul
+ * - `itemType`: type of child node. default: li
+ * - `activeClass`: class attribute for selected itemType. default: `selected`
  * @return string HTML
  * @deprecated  
  */
@@ -359,7 +359,7 @@ class MenuHelper extends AppHelper {
 		}
 
 		$out = $children = '';
-		$isSelected = $hasChildren = false;
+		$isActive = $hasChildren = false;
 		$itemClass = array('$__last-class__$');
 		$itemAttributes = array();
 		$item['title'] = $this->__title($item);
@@ -423,14 +423,14 @@ class MenuHelper extends AppHelper {
 				$options
 			);
 
-			$isSelected = $this->__isSelected($item);
+			$isActive = $this->__isActive($item);
 		}
 
 		if ($pos === 0) {
 			$itemClass[] = $this->settings['firstClass'];
 		}
 
-		if ($isSelected) {
+		if ($isActive) {
 			$itemClass[] = $this->settings['activeClass'];
 		}
 
@@ -505,8 +505,9 @@ class MenuHelper extends AppHelper {
 		return $tabs . $this->__parseAtts($return, $item) . "\n";
 	}
 
-	private function __isSelected($item) {
-		$isSelected = false;
+	private function __isActive($item) {
+		$isActive = false;
+		$this->__tmp['here_full'] = !isset($this->__tmp['here_full']) ? Router::url(null, true) : $this->__tmp['here_full'];
 
 		if (isset($item['link_path']) && !empty($item['link_path'])) {
 			return false;
@@ -518,11 +519,11 @@ class MenuHelper extends AppHelper {
 		) {
 			switch ($item['selected_on_type']) {
 				case 'php':
-					$isSelected = $this->php_eval($item['selected_on']) === true;
+					$isActive = $this->php_eval($item['selected_on']) === true;
 				break;
 
 				case 'reg':
-					$isSelected = QuickApps::urlMatch($item['selected_on'], '/' . $this->_View->request->url);
+					$isActive = QuickApps::urlMatch($item['selected_on'], '/' . $this->_View->request->url);
 				break;
 			}
 		} elseif (
@@ -531,26 +532,28 @@ class MenuHelper extends AppHelper {
 			preg_match('/\/(.*)\.html$/', $item['url']) &&
 			strpos($item['url'], "/{$this->_View->viewVars['Layout']['node']['Node']['translation_of']}.html") !== false
 		) {
-			$isSelected = true;
+			$isActive = true;
 		} elseif (
 			$this->settings['partialMatch'] &&
 			in_array($item['url'], $this->__tmp['crumb_urls'])
 		) {
-			$isSelected = true;
+			$isActive = true;
 		} elseif (
 			QuickApps::is('view.frontpage') &&
 			QuickApps::strip_language_prefix($item['url']) == '/'
 		) {
-			$isSelected = true;
+			$isActive = true;
+		} elseif ($item['url'] == $this->__tmp['here_full']) {
+			$isActive = true;
 		} else {
 			$getURL = $this->__getUrl();
 
 			if (isset($getURL[0]) && $getURL[0] == $item['url']) {
-				$isSelected = true;
+				$isActive = true;
 			}
 		}
 
-		return $isSelected;
+		return $isActive;
 	}
 
 	private function __title($item) {

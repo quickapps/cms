@@ -156,7 +156,7 @@ class ModulesController extends SystemAppController {
  * Regenerates permissions tree for the given module.
  * ADMIN ROLES ONLY can access this action.
  *
- * ### Usage:
+ * ### Usage
  *
  *     http://www.your-domain.com/admin/system/modules/rebuild_acos/ModuleName
  *

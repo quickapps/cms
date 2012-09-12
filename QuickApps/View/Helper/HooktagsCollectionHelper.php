@@ -1,7 +1,7 @@
 <?php
 /**
- * Hooktagss collection is used as a registry for loaded hooktags helpers and handles dispatching
- * and loading hooktags methods.
+ * Hooktagss collection is used as a registry for loaded hooktags helpers
+ * and handles dispatching and loading hooktags methods.
  *
  * PHP version 5
  *
@@ -59,8 +59,8 @@ class HooktagsCollectionHelper extends AppHelper {
  *
  * ### Hooktag example
  *
- *    [self_closing_hooktag param1=text param=2 param3=0 /]
- *    [other_hook_hooktag]only content & no params[/other_hook_hooktag]
+ *     [self_closing_hooktag param1=text param=2 param3=0 /]
+ *     [other_hook_hooktag]only content & no params[/other_hook_hooktag]
  *
  * @param string $text Text to replace.
  * @return string HTML with all hooktags replaced.
@@ -244,17 +244,19 @@ class HooktagsCollectionHelper extends AppHelper {
 /**
  * Special hooktags that are not managed by any modules.
  *
- *  `[date=FORMAT]` Return current date(FORMAT).
- *  `[rand={values,by,comma}]` Returns a radom value from the specified group.
- *							   If only two numeric values are given as group, then rand(num1, num2) is returned.
- *  `[language.OPTION]` Current language option (code, name, native, direction).
- *  `[language]` Shortcut to [language.code] which return current language code.
- *  `[url]YourURL[/url]` or `[url=YourURL]` Formatted url.
- *  `[url=LINK]LABEL[/url]` Returns link tag <href="LINK">LABEL</a>
- *  `[t=stringToTranslate]` or `[t]stringToTranslate[/t]` text translation: __t(stringToTranslate)
- *  `[t=domain@@stringToTranslate]` Translation by domain __d(domain, stringToTranslate)
- *  `[Layout.PATH]` Get any value from `Layout` variable. i.e.: [Layout.display] gets current display mode
- *				    if path does not exists then '' (empty) is rendered instead the hooktag code.
+ * -	[date=FORMAT]: Return current date(FORMAT).
+ * -	[rand={values,by,comma}]:
+ *			Returns a radom value from the specified group.
+ *			If only two numeric values are given as group, then rand(num1, num2) is returned.
+ * -	[language.OPTION]: Current language option (code, name, native, direction).
+ * -	[language]: Shortcut to [language.code] which return current language code.
+ * -	[url]YourURL[/url] or [url=YourURL]: Formatted url.
+ * -	[url=LINK]LABEL[/url]: Returns link tag <href="LINK">LABEL</a>
+ * -	[t=stringToTranslate] or [t]stringToTranslate[/t]: text translation: __t(stringToTranslate)
+ * -	[t=domain@@stringToTranslate]: Translation by domain __d(domain, stringToTranslate)
+ * -	[Layout.PATH]:
+ *			Get any value from `Layout` variable. i.e.: [Layout.display] gets current display mode
+ *			if path does not exists then '' (empty) is rendered instead the hooktag code.
  *
  * @param string $text Original text where to replace tags.
  * @return string.

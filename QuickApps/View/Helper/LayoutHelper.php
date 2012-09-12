@@ -19,16 +19,16 @@ class LayoutHelper extends AppHelper {
 	protected $_tmp = array();
 
 /**
- * Render css files links.
+ * Render CSS files links.
  *
  * @param array $stylesheets Asociative array of extra css elements to merge
  *
- *    array(
- *        'inline' => array("css code1", "css code2", ...)
- *        'print' => array("file1", "file2", ...),
- *        'all' => array("file3", "file4", ...),
- *        ....
- *    );
+ *     array(
+ *         'inline' => array("css code1", "css code2", ...)
+ *         'print' => array("file1", "file2", ...),
+ *         'all' => array("file3", "file4", ...),
+ *         ....
+ *     );
  *
  * @return string HTML css link-tags and inline-styles
  * @see AppController::$Layout
@@ -103,10 +103,10 @@ class LayoutHelper extends AppHelper {
  *
  * ### Usage
  *
- *    array(
- *        'inline' => array("code1", "code2", ...),
- *        'file' => array("path_to_file1", "path_to_file2", ...)
- *    );
+ *     array(
+ *         'inline' => array("code1", "code2", ...),
+ *         'file' => array("path_to_file1", "path_to_file2", ...)
+ *     );
  *
  * @param array $javascripts Asociative array of extra js elements to merge:
  * @return string HTML javascript link-tags and inline-code
@@ -403,7 +403,7 @@ class LayoutHelper extends AppHelper {
  * @param array $user Optional user data, current logged user data will be used otherwise
  * @param array $options extra Options for Html->image()
  * @return HTML <img>
- * @deprecated 
+ * @deprecated Since v1.1. Use UserHelper::avatar() instead
  */
 	public function userAvatar($user = false, $options = array()) {
 		trigger_error(__t('LayoutHelper::userAvatar() is deprecated, use UserHelper::avatar() instead'), E_USER_WARNING);
@@ -416,7 +416,7 @@ class LayoutHelper extends AppHelper {
  * @param mixed $path String path of the father node or boolen false to use current path
  * @param string $region Theme region where the child nodes will be rendered, 'content' by default
  * @return string Html rendered menu
- * @deprecated 
+ * @deprecated Since v1.1. Use MenuHelper::menuNodeChildren() instead
  */
 	public function menuNodeChildren($path = false, $region = 'content') {
 		trigger_error(__t('LayoutHelper::menuNodeChildren() is deprecated, use MenuHelper::menuNodeChildren() instead'), E_USER_WARNING);
@@ -430,7 +430,7 @@ class LayoutHelper extends AppHelper {
  * @param array $settings Optional, customization options for menu rendering process
  * @return string HTML rendered menu
  * @see MenuHelper::generate
- * @deprecated  
+ * @deprecated Since v1.1. Use MenuHelper::render() instead
  */
 	public function menu($menu, $settings = array()) {
 		trigger_error(__t('LayoutHelper::menu() is deprecated, use MenuHelper::render() instead'), E_USER_WARNING);
@@ -443,27 +443,29 @@ class LayoutHelper extends AppHelper {
  *
  * ### Usage
  *
- *    $links = array(
- *        array('title link 1', '/your/url_1/', 'options' => array(), 'pattern' => '*url/to/match*'),
- *        array('title link 2', '/your/url_2/', 'options' => array('class' => 'css-class')),
- *        ...
- *    );
+ *     $links = array(
+ *         array('title link 1', '/your/url_1/', 'options' => array(), 'pattern' => '*url/to/match*'),
+ *         array('title link 2', '/your/url_2/', 'options' => array('class' => 'css-class')),
+ *         ...
+ *     );
  *
- *    $this->Menu->toolbar($links);
+ *     $this->Menu->toolbar($links);
  *
  * ### Link Parameters
  *
- *  - `options` array (optional): array of options for HtmlHelper::link()
- *  - `pattern` string (optional): show link as selected on pattern match (asterisk allowed)
+ * - options: array (optional): array of options for HtmlHelper::link()
+ * - pattern: string (optional): show link as selected on pattern match (asterisk allowed)
  *
  * @param array $links List of links
  * @param array $options Array of options:
- *  - `id`: id attribute for the container (ul, ol)
- *  - `type`: type of list, ol, ul. default: ul
- *  - `itemType`: type of child node. default: li
- *  - `activeClass`: class attribute for selected itemType. default: `selected`
+ *
+ *  - id: id attribute for the container (ul, ol)
+ *  - type: type of list, ol, ul. default: ul
+ *  - itemType: type of child node. default: li
+ *  - activeClass: class attribute for selected itemType. default: `selected`
+ *
  * @return string HTML
- * @deprecated  
+ * @deprecated Since v1.1. Use MenuHelper::toolbar() instead
  */
 	public function toolbar($links, $options = array()) {
 		trigger_error(__t('LayoutHelper::toolbar() is deprecated, use MenuHelper::toolbar() instead'), E_USER_WARNING);
@@ -474,6 +476,7 @@ class LayoutHelper extends AppHelper {
  * Manually insert a custom block to stack.
  *
  * @param array $block Formatted block array:
+ *
  *  - title
  *  - pages
  *  - visibility
@@ -481,9 +484,10 @@ class LayoutHelper extends AppHelper {
  *  - region
  *  - theme
  *  - format
+ *
  * @param string $region Theme region where to push
  * @return boolean TRUE on success. FALSE otherwise
- * @deprecated 
+ * @deprecated Since v1.1. Use BlockHelper::push() instead
  */
 	public function blockPush($block = array(), $region = '') {
 		trigger_error(__t('LayoutHelper::blockPush() is deprecated, use BlockHelper::push() instead'), E_USER_WARNING);
@@ -495,7 +499,7 @@ class LayoutHelper extends AppHelper {
  *
  * @param string $region Region alias
  * @return boolean TRUE no blocks in region, FALSE otherwise
- * @deprecated 
+ * @deprecated Since v1.1. Use BlockHelper::regionCount() instead
  */
 	public function emptyRegion($region) {
 		trigger_error(__t('LayoutHelper::emptyRegion() is deprecated, use BlockHelper::regionCount() instead'), E_USER_WARNING);
@@ -507,7 +511,7 @@ class LayoutHelper extends AppHelper {
  *
  * @param string $region Region alias to count
  * @return integer Number of blocks
- * @deprecated 
+ * @deprecated Since v1.1. Use BlockHelper::regionCount() instead
  */
 	public function blocksInRegion($region) {
 		trigger_error(__t('LayoutHelper::blocksInRegion() is deprecated, use BlockHelper::regionCount() instead'), E_USER_WARNING);
@@ -519,7 +523,7 @@ class LayoutHelper extends AppHelper {
  *
  * @param string $region Region alias to render
  * @return string Html blocks
- * @deprecated 
+ * @deprecated Since v1.1. Use BlockHelper::region() instead
  */
 	public function blocks($region) {
 		trigger_error(__t('LayoutHelper::blocks() is deprecated, use BlockHelper::region() instead'), E_USER_WARNING);
@@ -529,6 +533,7 @@ class LayoutHelper extends AppHelper {
 /**
  * Render single block.
  * By default the following CSS classes may be applied to the block wrapper DIV element:
+ *
  *  -	`qa-block`: always applied.
  *  -	`qa-block-first`: only to the first element of the region.
  *  -	`qa-block-last`: only to the last element of the region.
@@ -537,13 +542,15 @@ class LayoutHelper extends AppHelper {
  *
  * @param array $block Well formated block array.
  * @param array $options Array of options:
- *	- boolean title: Render title. default true.
+ *
+ *  - boolean title: Render title. default true.
  *	- boolean body: Render body. default true.
  *	- string region: Region where block belongs to.
  *	- array params: extra options used by block.
  *	- array class: list of extra CSS classes for block wrapper.
+ *
  * @return string Html
- * @deprecated 
+ * @deprecated Since v1.1. Use BlockHelper::render() instead
  */
 	public function block($block, $options = array()) {
 		trigger_error(__t('LayoutHelper::block() is deprecated, use BlockHelper::render() instead'), E_USER_WARNING);
@@ -556,7 +563,7 @@ class LayoutHelper extends AppHelper {
  * after LayoutHelper::renderNode() is invoked.
  *
  * @return mixed String ID of the NodeType or FALSE if could not be found
- * @deprecated
+ * @deprecated Since v1.1. Use NodeHelper::getAttr() instead
  */
 	public function getNodeType() {
 		trigger_error(__t('LayoutHelper::getNodeType() is deprecated, use NodeHelper::getAttr("node_type_id") instead'), E_USER_WARNING);
@@ -570,7 +577,7 @@ class LayoutHelper extends AppHelper {
  *
  * @param string $field Field name to retrieve. e.g.: `id` for Node's ID
  * @return mixed Array of the field if exists. FALSE otherwise
- * @deprecated
+ * @deprecated Since v1.1. Use NodeHelper::getAttr() instead
  */
 	public function nodeField($field = false) {
 		trigger_error(__t('LayoutHelper::nodeField() is deprecated, use NodeHelper::getAttr() instead'), E_USER_WARNING);
@@ -583,14 +590,18 @@ class LayoutHelper extends AppHelper {
  * then default rendering proccess is fired.
  *
  * @param mixed $node Optional:
- *	- boolean FALSE: current node will be rendered. (by default)
- *	- string SLUG: render node by node's slug.
- *	- array : asociative Node's array to render.
+ *
+ *  - (boolean) FALSE: current node will be rendered. (by default)
+ *  - (string) SLUG: render node by node's slug.
+ *  - (array): asociative Node's array to render.
+ *
  * @param array $options Node rendering options:
- *	- mixed class: array or string, extra CSS class(es) for node DIV container
- *	- mixed display: set to string value to force rendering display mode. set to boolean false for automatic.
+ *
+ *  - (mixed) class: array or string, extra CSS class(es) for node DIV container
+ *  - (mixed) display: set to string value to force rendering display mode. set to boolean false for automatic.
+ *
  * @return string HTML formatted node. Empty string will be returned if node could not be rendered.
- * @deprecated
+ * @deprecated Since v1.1. Use NodeHelper::render() instead
  */
 	public function renderNode($node = false, $options = array()) {
 		trigger_error(__t('LayoutHelper::renderNode() is deprecated, use NodeHelper::render() instead'), E_USER_WARNING);
@@ -605,7 +616,7 @@ class LayoutHelper extends AppHelper {
  * @param boolean $edit Set to TRUE for edit form. FALSE for view mode
  * @param string $display Force rendering for the given display-mode
  * @return string HTML formatted field
- * @deprecated
+ * @deprecated Since v1.1. Use NodeHelper::renderField() instead
  */
 	public function renderField($field, $edit = false, $display = null) {
 		trigger_error(__t('LayoutHelper::renderField() is deprecated, use NodeHelper::renderField() instead'), E_USER_WARNING);

@@ -528,7 +528,7 @@ class QuickAppsComponent extends Component {
  *
  * ### Usage
  *
- *    Configure::read('Variable.varible_key');
+ *     Configure::read('Variable.varible_key');
  *
  * @return void
  */
@@ -603,12 +603,12 @@ class QuickAppsComponent extends Component {
  *
  * Lets suppose the following "Main Menu" (id: main-menu):
  *
- *    - Home [/]
- *    - Documentation [/page/documentation.html]
- *        - API [/page/api.html]
- *        - Books [/page/books.html]
- *            - Book 1.0 [/page/book-1-0.html]
- *            - Book 2.0 [/page/book-2-0.html]
+ * - Home [/]
+ *   - Documentation [/page/documentation.html]
+ *     - API [/page/api.html]
+ *       - Books [/page/books.html]
+ *         - Book 1.0 [/page/book-1-0.html]
+ *         - Book 2.0 [/page/book-2-0.html]
  *
  * Now if you want to generate the breadcrumb for the 'Book 2.0' link you could do this:
  *
@@ -832,7 +832,7 @@ class QuickAppsComponent extends Component {
  *
  * ### Usage
  *
- *    Configure::read('Modules.YourModuleName');
+ *     Configure::read('Modules.YourModuleName');
  *
  * @return void
  */
@@ -952,17 +952,17 @@ class QuickAppsComponent extends Component {
  *
  * For the URL below:
  *
- *    /long/url/to/something.html
+ *     /long/url/to/something.html
  *
  * The following array is returned:
  *
- *    array(
- *        '/long/url/to/something.html',
- *        '/long/url/to/',
- *        '/long/url/',
- *        '/long/',
- *        '/'
- *    );
+ *     array(
+ *         '/long/url/to/something.html',
+ *         '/long/url/to/',
+ *         '/long/url/',
+ *         '/long/',
+ *         '/'
+ *     );
  *
  * @return array
  */
