@@ -539,6 +539,10 @@ class App {
 
 		$parts = explode('.', self::$_classMap[$className], 2);
 		list($plugin, $package) = count($parts) > 1 ? $parts : array(null, current($parts));
+
+
+
+
 		$paths = self::path($package, $plugin);
 
 		if (empty($plugin)) {
@@ -551,6 +555,8 @@ class App {
 			$paths[] = $pluginPath . 'Lib' . DS . $package . DS;
 			$paths[] = $pluginPath . $package . DS;
 		}
+
+
 		foreach ($paths as $path) {
 			$file = $path . $className . '.php';
 			if (file_exists($file)) {
@@ -778,11 +784,19 @@ class App {
  * @return void
  */
 	protected static function _map($file, $name, $plugin = null) {
+
 		if ($plugin) {
 			self::$_map['Plugin'][$plugin][$name] = $file;
 		} else {
 			self::$_map[$name] = $file;
+
 		}
+
+
+
+
+
+
 		if (!self::$bootstrapping) {
 			self::$_cacheChange = true;
 		}
@@ -796,6 +810,7 @@ class App {
  * @return mixed file path if found, false otherwise
  */
 	protected static function _mapped($name, $plugin = null) {
+
 		if ($plugin) {
 			if (isset(self::$_map['Plugin'][$plugin][$name])) {
 				return self::$_map['Plugin'][$plugin][$name];
@@ -805,6 +820,7 @@ class App {
 
 		if (isset(self::$_map[$name])) {
 			return self::$_map[$name];
+
 		}
 		return false;
 	}

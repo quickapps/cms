@@ -1745,7 +1745,6 @@ class Model extends Object implements CakeEventListener {
 
 		if ($success && $count > 0) {
 			if (!empty($this->data)) {
-				$success = $this->data;
 				if ($created) {
 					$this->data[$this->alias][$this->primaryKey] = $this->id;
 				}
@@ -1755,7 +1754,7 @@ class Model extends Object implements CakeEventListener {
 				$this->getEventManager()->dispatch($event);
 			}
 			if (!empty($this->data)) {
-				$success = Hash::merge($success, $this->data);
+				$success = $this->data;
 			}
 			$this->data = false;
 			$this->_clearCache();
@@ -2863,7 +2862,7 @@ class Model extends Object implements CakeEventListener {
 			$query['order'] = $field . ' ASC';
 			$neighbors = $this->find('all', $query);
 			if (!array_key_exists('prev', $return)) {
-				$return['prev'] = $neighbors[0];
+				$return['prev'] = isset($neighbors[0]) ? $neighbors[0] : null;
 			}
 			if (count($neighbors) === 2) {
 				$return['next'] = $neighbors[1];

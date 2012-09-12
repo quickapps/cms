@@ -88,14 +88,14 @@ class CakeLog {
  * @var array
  */
 	protected static $_defaultLevels = array(
-		LOG_EMERG => 'emergency',
-		LOG_ALERT => 'alert',
-		LOG_CRIT => 'critical',
-		LOG_ERR => 'error',
-		LOG_WARNING => 'warning',
-		LOG_NOTICE => 'notice',
-		LOG_INFO => 'info',
-		LOG_DEBUG => 'debug',
+		'emergency' => LOG_EMERG,
+		'alert' => LOG_ALERT,
+		'critical' => LOG_CRIT,
+		'error' => LOG_ERR,
+		'warning' => LOG_WARNING,
+		'notice' => LOG_NOTICE,
+		'info' => LOG_INFO,
+		'debug' => LOG_DEBUG,
 	);
 
 /**
@@ -276,8 +276,8 @@ class CakeLog {
  * @return array default log levels
  */
 	public static function defaultLevels() {
-		self::$_levels = self::$_defaultLevels;
-		self::$_levelMap = array_flip(self::$_levels);
+		self::$_levelMap = self::$_defaultLevels;
+		self::$_levels = array_flip(self::$_levelMap);
 		return self::$_levels;
 	}
 
@@ -404,7 +404,7 @@ class CakeLog {
  *    or a string matching the recognized levels, then it will
  *    be treated log levels. Otherwise it's treated as scope.
  * @param string $message Message content to log
- * @param string|array $scope The scope(s) a log messge is being created in.
+ * @param string|array $scope The scope(s) a log message is being created in.
  *    See CakeLog::config() for more information on logging scopes.
  * @return boolean Success
  */
@@ -455,7 +455,7 @@ class CakeLog {
  * Convenience method to log emergency messages
  *
  * @param string $message log message
- * @param string|array $scope The scope(s) a log messge is being created in.
+ * @param string|array $scope The scope(s) a log message is being created in.
  *    See CakeLog::config() for more information on logging scopes.
  * @return boolean Success
  */
@@ -467,7 +467,7 @@ class CakeLog {
  * Convenience method to log alert messages
  *
  * @param string $message log message
- * @param string|array $scope The scope(s) a log messge is being created in.
+ * @param string|array $scope The scope(s) a log message is being created in.
  *    See CakeLog::config() for more information on logging scopes.
  * @return boolean Success
  */
@@ -479,7 +479,7 @@ class CakeLog {
  * Convenience method to log critical messages
  *
  * @param string $message log message
- * @param string|array $scope The scope(s) a log messge is being created in.
+ * @param string|array $scope The scope(s) a log message is being created in.
  *    See CakeLog::config() for more information on logging scopes.
  * @return boolean Success
  */
@@ -491,7 +491,7 @@ class CakeLog {
  * Convenience method to log error messages
  *
  * @param string $message log message
- * @param string|array $scope The scope(s) a log messge is being created in.
+ * @param string|array $scope The scope(s) a log message is being created in.
  *    See CakeLog::config() for more information on logging scopes.
  * @return boolean Success
  */
@@ -503,7 +503,7 @@ class CakeLog {
  * Convenience method to log warning messages
  *
  * @param string $message log message
- * @param string|array $scope The scope(s) a log messge is being created in.
+ * @param string|array $scope The scope(s) a log message is being created in.
  *    See CakeLog::config() for more information on logging scopes.
  * @return boolean Success
  */
@@ -515,7 +515,7 @@ class CakeLog {
  * Convenience method to log notice messages
  *
  * @param string $message log message
- * @param string|array $scope The scope(s) a log messge is being created in.
+ * @param string|array $scope The scope(s) a log message is being created in.
  *    See CakeLog::config() for more information on logging scopes.
  * @return boolean Success
  */
@@ -527,7 +527,7 @@ class CakeLog {
  * Convenience method to log debug messages
  *
  * @param string $message log message
- * @param string|array $scope The scope(s) a log messge is being created in.
+ * @param string|array $scope The scope(s) a log message is being created in.
  *    See CakeLog::config() for more information on logging scopes.
  * @return boolean Success
  */
@@ -539,7 +539,7 @@ class CakeLog {
  * Convenience method to log info messages
  *
  * @param string $message log message
- * @param string|array $scope The scope(s) a log messge is being created in.
+ * @param string|array $scope The scope(s) a log message is being created in.
  *    See CakeLog::config() for more information on logging scopes.
  * @return boolean Success
  */

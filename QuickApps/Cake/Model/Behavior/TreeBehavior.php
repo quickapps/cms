@@ -70,8 +70,8 @@ class TreeBehavior extends ModelBehavior {
 
 		if (in_array($settings['scope'], $Model->getAssociated('belongsTo'))) {
 			$data = $Model->getAssociated($settings['scope']);
-			$parent = $Model->{$settings['scope']};
-			$settings['scope'] = $Model->alias . '.' . $data['foreignKey'] . ' = ' . $parent->alias . '.' . $parent->primaryKey;
+			$Parent = $Model->{$settings['scope']};
+			$settings['scope'] = $Model->escapeField($data['foreignKey']) . ' = ' . $Parent->escapeField();
 			$settings['recursive'] = 0;
 		}
 		$this->settings[$Model->alias] = $settings;
@@ -124,11 +124,13 @@ class TreeBehavior extends ModelBehavior {
  */
 	public function beforeDelete(Model $Model, $cascade = true) {
 		extract($this->settings[$Model->alias]);
-		$data = current($Model->find('first', array(
-			'conditions' => array($Model->alias . '.' . $Model->primaryKey => $Model->id),
-			'fields' => array($Model->alias . '.' . $left, $Model->alias . '.' . $right),
-			'recursive' => -1)));
-		$this->_deletedRow = $data;
+		$data = $Model->find('first', array(
+			'conditions' => array($Model->escapeField($Model->primaryKey) => $Model->id),
+			'fields' => array($Model->escapeField($left), $Model->escapeField($right)),
+			'recursive' => -1));
+		if ($data) {
+			$this->_deletedRow = current($data);
+		}
 		return true;
 	}
 
@@ -154,7 +156,7 @@ class TreeBehavior extends ModelBehavior {
 			if (is_string($scope)) {
 				$scope = array($scope);
 			}
-			$scope[]["{$Model->alias}.{$left} BETWEEN ? AND ?"] = array($data[$left] + 1, $data[$right] - 1);
+			$scope[][$Model->escapeField($left) . " BETWEEN ? AND ?"] = array($data[$left] + 1, $data[$right] - 1);
 			$Model->deleteAll($scope);
 		}
 		$this->_sync($Model, $diff, '-', '> ' . $data[$right]);
@@ -306,7 +308,7 @@ class TreeBehavior extends ModelBehavior {
 			$recursive = $overrideRecursive;
 		}
 		if (!$order) {
-			$order = $Model->alias . '.' . $left . ' asc';
+			$order = $Model->escapeField($left) . " asc";
 		}
 		if ($direct) {
 			$conditions = array($scope, $Model->escapeField($parent) => $id);
@@ -369,10 +371,9 @@ class TreeBehavior extends ModelBehavior {
 			$valuePath = array('%s%s', '{n}.tree_prefix', $valuePath);
 
 		} else {
-			$valuePath[0] = '{' . (count($valuePath) - 1) . '}' . $valuePath[0];
-			$valuePath[] = '{n}.tree_prefix';
+			array_unshift($valuePath, '%s' . $valuePath[0], '{n}.tree_prefix');
 		}
-		$order = $Model->alias . '.' . $left . ' asc';
+		$order = $Model->escapeField($left) . " asc";
 		$results = $Model->find('all', compact('conditions', 'fields', 'order', 'recursive'));
 		$stack = array();
 
@@ -932,13 +933,13 @@ class TreeBehavior extends ModelBehavior {
 		$db = ConnectionManager::getDataSource($Model->useDbConfig);
 		if ($created) {
 			if (is_string($scope)) {
-				$scope .= " AND {$Model->alias}.{$Model->primaryKey} <> ";
+				$scope .= " AND " . $Model->escapeField() . " <> ";
 				$scope .= $db->value($Model->id, $Model->getColumnType($Model->primaryKey));
 			} else {
 				$scope['NOT'][$Model->alias . '.' . $Model->primaryKey] = $Model->id;
 			}
 		}
-		$name = $Model->alias . '.' . $right;
+		$name = $Model->escapeField($right);
 		list($edge) = array_values($Model->find('first', array(
 			'conditions' => $scope,
 			'fields' => $db->calculate($Model, 'max', array($name, $right)),
@@ -958,7 +959,7 @@ class TreeBehavior extends ModelBehavior {
  */
 	protected function _getMin(Model $Model, $scope, $left, $recursive = -1) {
 		$db = ConnectionManager::getDataSource($Model->useDbConfig);
-		$name = $Model->alias . '.' . $left;
+		$name = $Model->escapeField($left);
 		list($edge) = array_values($Model->find('first', array(
 			'conditions' => $scope,
 			'fields' => $db->calculate($Model, 'min', array($name, $left)),
@@ -990,15 +991,15 @@ class TreeBehavior extends ModelBehavior {
 			$field = $right;
 		}
 		if (is_string($conditions)) {
-			$conditions = array("{$Model->alias}.{$field} {$conditions}");
+			$conditions = array($Model->escapeField($field) . " {$conditions}");
 		}
 		if (($scope != '1 = 1' && $scope !== true) && $scope) {
 			$conditions[] = $scope;
 		}
 		if ($created) {
-			$conditions['NOT'][$Model->alias . '.' . $Model->primaryKey] = $Model->id;
+			$conditions['NOT'][$Model->escapeField()] = $Model->id;
 		}
-		$Model->updateAll(array($Model->alias . '.' . $field => $Model->escapeField($field) . ' ' . $dir . ' ' . $shift), $conditions);
+		$Model->updateAll(array($Model->escapeField($field) => $Model->escapeField($field) . ' ' . $dir . ' ' . $shift), $conditions);
 		$Model->recursive = $ModelRecursive;
 	}
 
