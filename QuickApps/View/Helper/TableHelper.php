@@ -267,7 +267,7 @@ class TableHelper extends AppHelper {
 					continue;
 				}
 
-				$value = str_replace($m, addslashes(array_pop(Hash::extract($row_data, trim($path[1][$i])))), $value);
+				$value = str_replace($m, array_pop(Hash::extract($row_data, trim($path[1][$i]))), $value);
 			}
 		}
 
