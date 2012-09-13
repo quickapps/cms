@@ -114,6 +114,16 @@ class MenuHelper extends AppHelper {
  * @return string HTML representation of the passed data
  */
 	public function render($data, $settings = array()) {
+		$out = $this->__render($data, $settings);
+		$out = substr_replace($out, $this->settings['lastClass'], strrpos($out, '$__last-class__$'), strlen('$__last-class__$'));;
+		$out = str_replace('$__last-class__$', '', $out);
+		$out = str_replace('<ul >', '<ul>', $out);
+		$out = str_replace('class=" ', 'class="', $out);
+
+		return $out;
+	}
+
+	private function __render($data, $settings) {
 		$_data = array(
 			'menu' => $data,
 			'settings' => $settings
@@ -168,34 +178,26 @@ class MenuHelper extends AppHelper {
 			}
 		}
 
-		if ($this->settings['id']) {
-			$this->settings['wrapperAttributes']['id'] = $this->settings['id'];
-		}
+		if ($this->settings['__depth__'] == 0) {
+			if ($this->settings['id']) {
+				$wrapperAttributes[] = "id=\"{$this->settings['id']}\"";
+			}
 
-		if ($this->settings['class']) {
-			if (
-				isset($this->settings['wrapperAttributes']['class']) &&
-				is_string($this->settings['wrapperAttributes']['class'])
-			) {
-				$this->settings['wrapperAttributes']['class'] .= ' ' . $this->settings['class'];
-			} else {
-				$this->settings['wrapperAttributes']['class'] = $this->settings['class'];
+			if ($this->settings['class']) {
+				$wrapperAttributes[] = "class=\"{$this->settings['class']}\"";
+			}
+		} else {
+			foreach ($this->settings['wrapperAttributes'] as $name => $value) {
+				if (is_integer($name) && $name === 0) {
+					$wrapperAttributes[] = $value;
+				} else {
+					$wrapperAttributes[] = "{$name}=\"{$value}\"";
+				}
 			}
 		}
-
-		$out = preg_replace('~(.*)' . preg_quote('$__last-class__$', '~') . '~', '$1' . $this->settings['lastClass'], $out, 1);
-		$out = str_replace('$__last-class__$', '', $out);
 
 		if (isset($this->__tmp['regenerateCrumbs'])) {
 			$this->__tmp['crumb_urls'] = null;
-		}
-
-		foreach ($this->settings['wrapperAttributes'] as $name => $value) {
-			if (is_integer($name) && $name === 0) {
-				$wrapperAttributes[] = $value;
-			} else {
-				$wrapperAttributes[] = "{$name}=\"{$value}\"";
-			}
 		}
 
 		$this->settings['wrapperAttributes'] = $this->__tmp['wrapperAttributes'];
@@ -392,7 +394,7 @@ class MenuHelper extends AppHelper {
 		) {
 			$depth = $this->settings['__depth__'];
 			$this->settings['__depth__']++;
-			$children = $this->render($item['children'], $this->settings);
+			$children = $this->__render($item['children'], $this->settings);
 			$this->settings['__depth__'] = $depth;
 			$hasChildren = true;
 		}
