@@ -6,7 +6,7 @@ info:
 	author: Christopher Castro <chris@quickapps.es>
 
 stylesheets:
-	all: [reset.css, styles.css]
+	all: [reset.css, styles.css, menu.css]
 
 regions:
 	language-switcher: Language Switcher

@@ -3,7 +3,7 @@
 
 	switch ($menu['region']) {
 		case 'main-menu':
-			echo $this->Menu->render($menu, array('id' => 'top-menu'));
+			echo $this->Menu->render($menu, array('id' => 'menu'));
 		break;
 
 		default:

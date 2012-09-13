@@ -10,12 +10,10 @@
 	</head>
 
 	<body>
-		<div id="header-top">
-			<div class="container">
+		<div class="container">
+			<div class="header-top">
 				<?php if (Configure::read('Theme.settings.site_logo')): ?>
-					<a href="<?php echo $this->Html->url('/'); ?>" id="logo">
-						<?php echo $this->Html->image(Configure::read('Theme.settings.site_logo_url')); ?>
-					</a>
+					<?php echo $this->Html->image(Configure::read('Theme.settings.site_logo_url'), array('url' => '/', 'class' => 'site-logo')); ?>
 				<?php endif; ?>
 
 				<?php if ($this->Block->regionCount('user-menu')): ?>
@@ -35,59 +33,39 @@
 					<?php echo $this->Block->region('search'); ?>
 				</div>
 				<?php endif; ?>
-
-			 </div>
-		</div>
-
-		<div id="header-bottom">
-			<div class="container">
-				<?php echo $this->Block->region('main-menu'); ?>
 			</div>
-		</div>
+		 </div>
+
+		<?php echo $this->Block->region('main-menu'); ?>
 
 		<div id="page">
-			<div id="top-shadow"></div>
-			<?php if ($this->Block->regionCount('slider')): ?>
-			<div class="slider">
-				<div class="container clearfix">
-					<?php echo $this->Block->region('slider'); ?>
-				</div>
-			</div>
-			<?php endif; ?>
-
 			<?php if ($this->Layout->is('view.frontpage')): ?>
-				<?php if (Configure::read('Theme.settings.site_slogan')): ?>
-				<div id="quote">
-					<div id="quote-inner">
-						<div class="container">
-							<span id="quote-icon"></span>
-							<p id="slogan"><?php echo __t(Configure::read('Variable.site_slogan')); ?></p>
-						</div> <!-- end .container -->
-					</div> <!-- end #quote-inner -->
-				</div> <!-- end #quote -->
-				<?php endif; ?>
-
 				<div class="container">
+					<?php if ($this->Block->regionCount('slider')): ?>
+					<div class="slider">
+						<?php echo $this->Block->region('slider'); ?>
+					</div>
+					<?php endif; ?>
+
+					<?php if (Configure::read('Theme.settings.site_slogan')): ?>
+					<div id="quote">
+						<a href="#" onclick="return false;" class="slogan"><?php echo __t(Configure::read('Variable.site_slogan')); ?></a>
+					</div> <!-- end #quote -->
+					<?php endif; ?>
+
+				
 					<div id="services">
-						<div class="container clearfix">
-							<div class="service">
-								<div class="service-container">
-									<?php echo $this->Block->region('services-left'); ?>
-								</div>
-							</div> <!-- end .service -->
+						<div class="service">
+							<?php echo $this->Block->region('services-left'); ?>
+						</div> <!-- end .service -->
 
-							<div class="service">
-								<div class="service-container">
-									<?php echo $this->Block->region('services-center'); ?>
-								</div>
-							</div> <!-- end .service -->
+						<div class="service">
+							<?php echo $this->Block->region('services-center'); ?>
+						</div> <!-- end .service -->
 
-							<div class="service last">
-								<div class="service-container">
-									<?php echo $this->Block->region('services-right'); ?>
-								</div>
-							</div> <!-- end .service -->
-						</div>
+						<div class="service last">
+							<?php echo $this->Block->region('services-right'); ?>
+						</div> <!-- end .service -->
 					</div>
 				</div>
 			<?php else: ?>
@@ -103,11 +81,7 @@
 					<?php endif; ?>
 					<?php if ($this->Block->regionCount('sidebar-left')): ?>
 						<div id="sidebar-left">
-							<div id="sidebar-bottom">
-								<div id="sidebar-content">
-									<?php echo $this->Block->region('sidebar-left'); ?>
-								</div>
-							</div>
+							<?php echo $this->Block->region('sidebar-left'); ?>
 						</div>
 					<?php endif; ?>
 
@@ -137,14 +111,28 @@
 			</div>
 		</div>
 
-		<?php echo $this->Html->script('cufon-yui.js'); ?>
-		<?php echo $this->Html->script('Colaborate-Thin_400.font.js'); ?>
-		<script type="text/javascript">
-			Cufon.replace('p#slogan', { fontFamily: 'Colaborate-Thin', fontSize: '30px' });
-			Cufon.replace('h3', { fontFamily: 'Colaborate-Thin', fontSize: '30px' });
-			Cufon.replace('.node-full h2.node-title', { fontFamily: 'Colaborate-Thin', fontSize: '40px' });
-			Cufon.replace('.node-list h2.node-title', { fontFamily: 'Colaborate-Thin', fontSize: '30px' });
-		</script>
 		<?php echo $this->Layout->footer(); ?>
+
+		<script type="text/javascript">
+			$(function() {
+				if ($.browser.msie && $.browser.version.substr(0,1) < 7) {
+					$('li').has('ul').mouseover(function(){
+					$(this).children('ul').css('visibility','visible');
+					}).mouseout(function(){
+					$(this).children('ul').css('visibility','hidden');
+					})
+				}
+
+				/* Mobile */
+				$('#menu-wrap').prepend('<div id="menu-trigger">Menu</div>');		
+				$("#menu-trigger").on("click", function(){
+					$("#menu").slideToggle();
+				});
+
+				// iPad
+				var isiPad = navigator.userAgent.match(/iPad/i) != null;
+				if (isiPad) $('#menu ul').addClass('no-transition');      
+			});
+		</script>
 	</body>
 </html>
