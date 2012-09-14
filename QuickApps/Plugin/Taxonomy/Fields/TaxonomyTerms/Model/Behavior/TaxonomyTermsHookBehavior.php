@@ -8,7 +8,8 @@ class TaxonomyTermsHookBehavior extends ModelBehavior {
  *
  * Only Nodes (contents) are alowed to appear in search results with tag filter option,
  * Means that only Nodes will be listed in search queries like:
- *	  http://www.domain.com/s/term:my-tag,other-tag
+ *
+ *     http://www.example.com/s/term:my-tag,other-tag
  *
  * @param array $info Fieldable array data
  * @return boolean true always

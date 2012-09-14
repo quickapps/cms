@@ -158,7 +158,7 @@ class ModulesController extends SystemAppController {
  *
  * ### Usage
  *
- *     http://www.your-domain.com/admin/system/modules/rebuild_acos/ModuleName
+ *     http://www.example.com/admin/system/modules/rebuild_acos/ModuleName
  *
  * @param string $module Module name, both are allowed Camelized or under_scored
  */

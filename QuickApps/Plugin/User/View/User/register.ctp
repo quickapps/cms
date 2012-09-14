@@ -6,7 +6,7 @@
 		<?php echo $this->Form->input('username', array('required' => true, 'type' => 'text', 'label' => __t('User name *'))); ?>
 		<em><?php echo __t('Nick used to login. Must be unique and alphanumeric.'); ?></em>
 		<?php echo $this->Form->input('avatar', array('type' => 'text', 'label' => __t('Avatar'))); ?>
-		<em><?php echo __t('Full url to avatar image file. i.e: http://www.some-domain.com/my-avatar.jpg'); ?></em>
+		<em><?php echo __t('Full url to avatar image file. i.e: http://www.example.com/my-avatar.jpg'); ?></em>
 		<?php echo $this->Form->input('email', array('required' => true, 'type' => 'text', 'label' => __t('E-mail *'))); ?>
 		<?php echo $this->Form->input('language', array('type' => 'select', 'options' => $languages, 'label' => __t('Language'))); ?>
 		<?php App::import('Lib', 'Locale.QALocale'); ?>

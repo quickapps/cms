@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2012-09-11 10:17+0000\n"
+"POT-Creation-Date: 2012-09-14 21:16+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -82,227 +82,227 @@ msgstr ""
 msgid "Could not write 'install' file. Check file/folder permissions and refresh this page."
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:104
+#: Controller\Component\InstallerComponent.php:105
 msgid "Could not download package file."
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:124
+#: Controller\Component\InstallerComponent.php:125
 msgid "Package upload error."
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:138
+#: Controller\Component\InstallerComponent.php:139
 msgid "Unzip error."
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:158
+#: Controller\Component\InstallerComponent.php:159
 msgid "Invalid package structure after unzip."
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:174
+#: Controller\Component\InstallerComponent.php:175
 msgid "Forbidden Names"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:175
+#: Controller\Component\InstallerComponent.php:176
 msgid "Forbidden module name \"%s\""
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:179;232
+#: Controller\Component\InstallerComponent.php:180;233
 msgid "Theme name"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:180
+#: Controller\Component\InstallerComponent.php:181
 msgid "Invalid module name (got \"%s\", expected: \"%s\")"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:187
+#: Controller\Component\InstallerComponent.php:188
 msgid "Already installed"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:188
+#: Controller\Component\InstallerComponent.php:189
 msgid "This module is already installed"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:192;260
+#: Controller\Component\InstallerComponent.php:193;261
 msgid "Config Folder"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:193;261
+#: Controller\Component\InstallerComponent.php:194;262
 msgid "\"Config\" folder not found"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:197;265
+#: Controller\Component\InstallerComponent.php:198;266
 msgid "Bootstrap File"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:198;266
+#: Controller\Component\InstallerComponent.php:199;267
 msgid "\"Config/bootstrap.php\" file not found"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:202;270
+#: Controller\Component\InstallerComponent.php:203;271
 msgid "Routes File"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:203;271
+#: Controller\Component\InstallerComponent.php:204;272
 msgid "\"Config/routes.php\" file not found"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:207
+#: Controller\Component\InstallerComponent.php:208
 msgid "Controller Folder"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:208
+#: Controller\Component\InstallerComponent.php:209
 msgid "\"Controller\" folder not found"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:212
+#: Controller\Component\InstallerComponent.php:213
 msgid "Component Folder"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:213
+#: Controller\Component\InstallerComponent.php:214
 msgid "\"Component\" folder not found"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:217;275
+#: Controller\Component\InstallerComponent.php:218;276
 msgid "Installer File"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:218;276
+#: Controller\Component\InstallerComponent.php:219;277
 msgid "Installer file (InstallComponent.php) not found"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:222;285
+#: Controller\Component\InstallerComponent.php:223;286
 msgid "YAML File"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:223;286
+#: Controller\Component\InstallerComponent.php:224;287
 msgid "YAML File (%s) not found"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:233
+#: Controller\Component\InstallerComponent.php:234
 msgid "Invalid theme name (got \"%s\", expected: \"%s\")"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:240
+#: Controller\Component\InstallerComponent.php:241
 msgid "Already Installed"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:241
+#: Controller\Component\InstallerComponent.php:242
 msgid "This theme is already installed"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:245
+#: Controller\Component\InstallerComponent.php:246
 msgid "Layouts Folder"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:246
+#: Controller\Component\InstallerComponent.php:247
 msgid "\"Layouts\" folder not found"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:250
+#: Controller\Component\InstallerComponent.php:251
 msgid "app Folder"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:251
+#: Controller\Component\InstallerComponent.php:252
 msgid "\"app\" folder not found"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:255
+#: Controller\Component\InstallerComponent.php:256
 msgid "Plugin app"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:256
+#: Controller\Component\InstallerComponent.php:257
 msgid "Module app (\"%s\") folder not found"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:280
+#: Controller\Component\InstallerComponent.php:281
 msgid "webroot Folder"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:281
+#: Controller\Component\InstallerComponent.php:282
 msgid "\"webroot\" folder not found"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:290
+#: Controller\Component\InstallerComponent.php:291
 msgid "Theme thumbnail"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:291
+#: Controller\Component\InstallerComponent.php:292
 msgid "Thumbnail image (\"%s\") not found"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:330;346
+#: Controller\Component\InstallerComponent.php:331;347
 msgid "YAML Validation"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:331
+#: Controller\Component\InstallerComponent.php:332
 msgid "Module configuration file (%s) appears to be invalid."
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:347
+#: Controller\Component\InstallerComponent.php:348
 msgid "Theme configuration file (%s) appears to be invalid."
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:360
+#: Controller\Component\InstallerComponent.php:361
 msgid "Required regions"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:361
+#: Controller\Component\InstallerComponent.php:362
 msgid "Missing theme region(s) \"toolbar\" and/or \"help\". Are required for backend themes."
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:368
+#: Controller\Component\InstallerComponent.php:369
 msgid "Invalid information file (.yaml)"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:379;1805
+#: Controller\Component\InstallerComponent.php:380;1810
 msgid "This module is incompatible with your QuickApps version."
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:381;1807
+#: Controller\Component\InstallerComponent.php:382;1812
 msgid "This theme is incompatible with your QuickApps version."
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:394;1820
+#: Controller\Component\InstallerComponent.php:395;1825
 msgid "This theme depends on other modules that you do not have or doesn't meet the version required: %s"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:418
+#: Controller\Component\InstallerComponent.php:419
 msgid "invalid information file (.yaml). Field \"%s\""
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:422
+#: Controller\Component\InstallerComponent.php:423
 msgid "Invalid field \"%s\". Information file (.yaml) not found."
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:426
+#: Controller\Component\InstallerComponent.php:427
 msgid "Invalid field name \"%s\"."
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:588;1785
+#: Controller\Component\InstallerComponent.php:589;1790
 msgid "Module does not exist."
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:592
+#: Controller\Component\InstallerComponent.php:593
 msgid "Core modules can not be uninstalled."
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:600
+#: Controller\Component\InstallerComponent.php:601
 msgid "This module can not be uninstalled, because it is required by: %s"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:615
+#: Controller\Component\InstallerComponent.php:616
 msgid "This module can not be uninstalled because some files/folder can not be deleted, please check the permissions."
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:1165;1174
+#: Controller\Component\InstallerComponent.php:1166;1175
 msgid "path: %s, not writable"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:1794
+#: Controller\Component\InstallerComponent.php:1799
 msgid "This module can not be disabled, because it is required by: %s"
 msgstr ""
 
-#: Controller\Component\InstallerComponent.php:1818
+#: Controller\Component\InstallerComponent.php:1823
 msgid "This module depends on other modules that you do not have or doesn't meet the version required: %s"
 msgstr ""
 
@@ -1223,7 +1223,7 @@ msgid "The upload will be invalid if the image number of pixels is greater. Leav
 msgstr ""
 
 #: Plugin\Field\Fields\FieldList\Model\Behavior\FieldListHookBehavior.php:54
-#: Plugin\Taxonomy\Fields\TaxonomyTerms\Model\Behavior\TaxonomyTermsHookBehavior.php:165
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\Model\Behavior\TaxonomyTermsHookBehavior.php:166
 msgid "You must select at least one option."
 msgstr ""
 
@@ -1912,6 +1912,7 @@ msgstr ""
 #: Plugin\Menu\View\Manage\admin_edit_link.ctp:56
 #: Plugin\Node\View\Types\admin_display.ctp:61
 #: Plugin\Node\View\Types\admin_edit.ctp:56
+#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:206
 #: Plugin\System\View\Themes\admin_settings.ctp:33
 #: Plugin\Taxonomy\View\Vocabularies\admin_terms.ctp:7
 #: Plugin\User\View\Display\admin_index.ctp:58
@@ -2731,7 +2732,7 @@ msgstr ""
 msgid "Add Type"
 msgstr ""
 
-#: Plugin\Node\View\Helper\NodeHelper.php:105
+#: Plugin\Node\View\Helper\NodeHelper.php:108
 msgid "The node could not be rendered"
 msgstr ""
 
@@ -3026,31 +3027,31 @@ msgstr ""
 msgid "Module has been installed"
 msgstr ""
 
-#: Plugin\System\Controller\ThemesController.php:41
+#: Plugin\System\Controller\ThemesController.php:42
 msgid "Your themes folder is not writable. %s"
 msgstr ""
 
-#: Plugin\System\Controller\ThemesController.php:91
+#: Plugin\System\Controller\ThemesController.php:92
 msgid "Theme settings"
 msgstr ""
 
-#: Plugin\System\Controller\ThemesController.php:93
+#: Plugin\System\Controller\ThemesController.php:94
 msgid "Configure Theme"
 msgstr ""
 
-#: Plugin\System\Controller\ThemesController.php:102
+#: Plugin\System\Controller\ThemesController.php:103
 msgid "Theme '%s' has been uninstalled"
 msgstr ""
 
-#: Plugin\System\Controller\ThemesController.php:104
+#: Plugin\System\Controller\ThemesController.php:105
 msgid "Error uninstalling theme '%s'"
 msgstr ""
 
-#: Plugin\System\Controller\ThemesController.php:124
+#: Plugin\System\Controller\ThemesController.php:125
 msgid "Theme could not been installed"
 msgstr ""
 
-#: Plugin\System\Controller\ThemesController.php:126
+#: Plugin\System\Controller\ThemesController.php:127
 msgid "Theme has been installed"
 msgstr ""
 
@@ -3143,7 +3144,7 @@ msgid "URL path prefix"
 msgstr ""
 
 #: Plugin\System\View\Configuration\admin_index.ctp:61
-msgid "URLs like http://domain.com/fre/about set language to French (fre). <b>Warning: Changing this setting may break incoming URLs. Use with caution on a production site.</b>"
+msgid "URLs like http://www.example.com/fre/about set language to French (fre). <b>Warning: Changing this setting may break incoming URLs. Use with caution on a production site.</b>"
 msgstr ""
 
 #: Plugin\System\View\Configuration\admin_index.ctp:64
@@ -3282,11 +3283,11 @@ msgstr ""
 msgid "Unknown property %d"
 msgstr ""
 
-#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:206
+#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:207
 msgid "Reset"
 msgstr ""
 
-#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:224
+#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:225
 msgid "Reset selected style sheet ?"
 msgstr ""
 
@@ -3487,7 +3488,7 @@ msgstr ""
 msgid "Editing term \"%s\""
 msgstr ""
 
-#: Plugin\Taxonomy\Fields\TaxonomyTerms\Model\Behavior\TaxonomyTermsHookBehavior.php:152
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\Model\Behavior\TaxonomyTermsHookBehavior.php:153
 msgid "This field cannot hold more than 2 values."
 msgstr ""
 
@@ -3922,7 +3923,7 @@ msgstr ""
 #: Plugin\User\View\List\admin_edit.ctp:12
 #: Plugin\User\View\User\my_account.ctp:9
 #: Plugin\User\View\User\register.ctp:9
-msgid "Full url to avatar image file. i.e: http://www.some-domain.com/my-avatar.jpg"
+msgid "Full url to avatar image file. i.e: http://www.example.com/my-avatar.jpg"
 msgstr ""
 
 #: Plugin\User\View\List\admin_add.ctp:12
@@ -4089,12 +4090,12 @@ msgid "My account"
 msgstr ""
 
 #: Vendor\DummyLocale.php:34
-#: View\Helper\TableHelper.php:150
+#: View\Helper\TableHelper.php:152
 msgid "« Previous "
 msgstr ""
 
 #: Vendor\DummyLocale.php:35
-#: View\Helper\TableHelper.php:151
+#: View\Helper\TableHelper.php:153
 msgid " Next »"
 msgstr ""
 
@@ -4648,47 +4649,47 @@ msgstr ""
 msgid "LayoutHelper::menu() is deprecated, use MenuHelper::render() instead"
 msgstr ""
 
-#: View\Helper\LayoutHelper.php:469
+#: View\Helper\LayoutHelper.php:471
 msgid "LayoutHelper::toolbar() is deprecated, use MenuHelper::toolbar() instead"
 msgstr ""
 
-#: View\Helper\LayoutHelper.php:489
+#: View\Helper\LayoutHelper.php:493
 msgid "LayoutHelper::blockPush() is deprecated, use BlockHelper::push() instead"
 msgstr ""
 
-#: View\Helper\LayoutHelper.php:501
+#: View\Helper\LayoutHelper.php:505
 msgid "LayoutHelper::emptyRegion() is deprecated, use BlockHelper::regionCount() instead"
 msgstr ""
 
-#: View\Helper\LayoutHelper.php:513
+#: View\Helper\LayoutHelper.php:517
 msgid "LayoutHelper::blocksInRegion() is deprecated, use BlockHelper::regionCount() instead"
 msgstr ""
 
-#: View\Helper\LayoutHelper.php:525
+#: View\Helper\LayoutHelper.php:529
 msgid "LayoutHelper::blocks() is deprecated, use BlockHelper::region() instead"
 msgstr ""
 
-#: View\Helper\LayoutHelper.php:549
+#: View\Helper\LayoutHelper.php:556
 msgid "LayoutHelper::block() is deprecated, use BlockHelper::render() instead"
 msgstr ""
 
-#: View\Helper\LayoutHelper.php:562
+#: View\Helper\LayoutHelper.php:569
 msgid "LayoutHelper::getNodeType() is deprecated, use NodeHelper::getAttr(\"node_type_id\") instead"
 msgstr ""
 
-#: View\Helper\LayoutHelper.php:576
+#: View\Helper\LayoutHelper.php:583
 msgid "LayoutHelper::nodeField() is deprecated, use NodeHelper::getAttr() instead"
 msgstr ""
 
-#: View\Helper\LayoutHelper.php:596
+#: View\Helper\LayoutHelper.php:607
 msgid "LayoutHelper::renderNode() is deprecated, use NodeHelper::render() instead"
 msgstr ""
 
-#: View\Helper\LayoutHelper.php:611
+#: View\Helper\LayoutHelper.php:622
 msgid "LayoutHelper::renderField() is deprecated, use NodeHelper::renderField() instead"
 msgstr ""
 
-#: View\Helper\TableHelper.php:137
+#: View\Helper\TableHelper.php:139
 msgid "TableHelper::create() is deprecated, use render() instead"
 msgstr ""
 
@@ -4997,7 +4998,7 @@ msgstr ""
 msgid "Password mismatch or less than 6 characters."
 msgstr ""
 
-#: Lib\Routing\Router.php:186
+#: Lib\Routing\Router.php:189
 msgid "Route classes must extend CakeRoute"
 msgstr ""
 

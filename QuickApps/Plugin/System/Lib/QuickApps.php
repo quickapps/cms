@@ -569,14 +569,14 @@ class QuickApps {
  *
  * ### Usage
  *
- *     QuickApps::strip_language_prefix('http://www.your-site.com/eng/some-url');
- *     // returns: http://www.your-site.com/some-url
+ *     QuickApps::strip_language_prefix('http://www.example.com/eng/some-url');
+ *     // returns: http://www.example.com/some-url
  *
  * The URL must be internal to the site. If not, the original URL be will returned
  * without modifications:
  *
- *     QuickApps::strip_language_prefix('http://www.external-site.com/eng/external-page.html');
- *     // returns: http://www.external-site.com/eng/external-page.html
+ *     QuickApps::strip_language_prefix('http://www.example.com/eng/external-page.html');
+ *     // returns: http://www.example.com/eng/external-page.html
  *
  * @param string $url Internal FULL-URL where to replace language prefix
  * @return string URL with no language prefix

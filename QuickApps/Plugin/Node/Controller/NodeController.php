@@ -236,12 +236,12 @@ class NodeController extends NodeAppController {
  *
  * ### Example
  *
- *    http://www.domain.com/search/term:jazz limit:10 order:Node.created,asc
+ *    http://www.example.com/search/term:jazz limit:10 order:Node.created,asc
  *
  * The above criteria will return the first ten nodes tagged as ´jazz´, results are ordered ascending
  * by creation date.
  *
- *    http://www.domain.com/search/term:jazz limit:10 order:Node.created,asc/feed:rss
+ *    http://www.example.com/search/term:jazz limit:10 order:Node.created,asc/feed:rss
  *
  * Same as before, but serving as RSS. You may also use `xml` or `ajax`.
  *
