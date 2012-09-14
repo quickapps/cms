@@ -3,7 +3,7 @@ body {
     line-height: 18px;
     font:/*[font title='Main font']*/normal normal 13px Arial/*[/font]*/;
     color:/*[color title='Text']*/#4C4B4B/*[/color]*/;
-    background:/*[color title='Footer']*/#1D1D1D/*[/color]*/;
+    background:/*[color title='Page background']*/#1D1D1D/*[/color]*/;
 }
 
 div.paginator .disabled { display: none; }
@@ -265,7 +265,7 @@ div.session-flash .bubble {
 		box-sizing: border-box;	
 		width:100%;
 		padding:5%;
-		background:/*[main-background]*/ !important;
+		background:/*[main-background]*/#4A4A4A/*[/main-background]*/ !important;
 		-webkit-border-radius:10px;
 		-moz-border-radius:10px;
 		border-radius:10px;
@@ -338,7 +338,9 @@ div.block div.content ul, div.block div.content ol { padding:0; margin:0; }
 	border-radius:10px;
 	-moz-border-radius:10px;
 	-webkit-border-radius:10px;
+	word-wrap:break-word;
 }
+#content img { max-width:100%; height:auto; }
 
 @media screen and (max-width: 650px) {
 	#content { width:90%; padding:5%; float:none; margin:0; overflow:hidden; }
@@ -400,6 +402,7 @@ a.rss-feed-icon { padding:0 10px 0 0; display: block; float: right; }
 @media screen and (max-width: 650px) {
 	 .service { width:95%; margin:0 0 15px 0; }
 }
+
 
 /*---------------[NODE-RENDERING]------------------*/
 h2.node-title { border-bottom:1px solid #DADADA !important; }
@@ -486,6 +489,7 @@ div.node-comments > h2 { border-top:1px solid #fff; padding-top:15px; }
 @media screen and (max-width: 650px) {
 	div.node-comments { width:100%; border-top:1px solid #ccc; overflow:hidden; margin-top:15px; }
 	#comments-list { width:100%; overflow:hidden; }
+	#comment-form form div.input.text input { width:50%; min-width:200px; }
 	#comment-form form div.input.textarea textarea {
 		width:90% !important;
 		-webkit-box-sizing: border-box;
