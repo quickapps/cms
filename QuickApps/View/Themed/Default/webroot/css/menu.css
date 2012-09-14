@@ -57,8 +57,8 @@
 	text-shadow: 0 1px 0 #000;
 }
 
-#menu li:hover > a {
-	color: #fafafa;
+#menu li:hover > a, #menu li.selected > a span {
+	color:#fafafa;
 }
 
 *html #menu li a:hover { /* IE6 only */
@@ -192,7 +192,7 @@
 	display: none;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 650px) {
 
 	/* nav-wrap */
 	#menu-wrap {
@@ -261,7 +261,8 @@
 		background: none;
 		-moz-box-shadow: none;
 		-webkit-box-shadow: none;
-		box-shadow: none;				
+		box-shadow: none;	
+		z-index:999999;
 	}
 
 	#menu ul ul {
@@ -282,30 +283,30 @@
 		box-shadow: none;			
 	}
 
-	#menu ul li{
+	#menu ul li {
 		margin-left: 20px;
 		-moz-box-shadow: none;
 		-webkit-box-shadow: none;
 		box-shadow: none;		
 	}
 
-	#menu a{
+	#menu a {
 		display: block;
 		float: none;
 		padding: 0;
 		color: #999;
 	}
 
-	#menu a:hover{
+	#menu a:hover {
 		color: #fafafa;
 	}	
 
-	#menu ul a{
+	#menu ul a {
 		padding: 0;
 		width: auto;		
 	}
 
-	#menu ul a:hover{
+	#menu ul a:hover {
 		background: none;	
 	}
 
@@ -313,10 +314,9 @@
 	#menu ul ul li:first-child a:after {
 		border: 0;
 	}		
-
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 650px) {
 	#menu {
 		display: block !important;
 	}

@@ -1,5 +1,5 @@
 /*---- BUTTONS ---- */
-a.small-button {
+a.small-button, div.node-list .link-wrapper a.read-more {
 	padding:8px 17px;
 	float:left;
 	display:block;
@@ -161,7 +161,7 @@ a.smallsilver {
 	color:#000 !important;
 }
 a.smallsilver:hover { color:#4A4A4A !important; }
-a.smallblack {
+a.smallblack, div.node-list .link-wrapper a.read-more {
 	background: -moz-linear-gradient(
 		top,
 		#535353 0%,

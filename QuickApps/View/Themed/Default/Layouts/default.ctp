@@ -3,6 +3,7 @@
 	<head>
 		<title><?php echo $this->Layout->title(); ?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width; initial-scale=1.0">
 		<?php echo $this->Layout->meta(); ?>
 		<?php echo $this->Layout->stylesheets(); ?>
 		<?php echo $this->Layout->javascripts(); ?>
@@ -36,7 +37,9 @@
 			</div>
 		 </div>
 
-		<?php echo $this->Block->region('main-menu'); ?>
+		<div id="main-menu-wrap">
+			<?php echo $this->Block->region('main-menu'); ?>
+		</div>
 
 		<div id="page">
 			<?php if ($this->Layout->is('view.frontpage')): ?>
@@ -124,7 +127,7 @@
 				}
 
 				/* Mobile */
-				$('#menu-wrap').prepend('<div id="menu-trigger">Menu</div>');		
+				$('#main-menu-wrap').prepend('<div id="menu-trigger"><?php echo __t('Menu'); ?></div>');		
 				$("#menu-trigger").on("click", function(){
 					$("#menu").slideToggle();
 				});

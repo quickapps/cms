@@ -1,6 +1,6 @@
 info:
 	name: Default
-	description: Default CSS3 frontend theme for QuickApps
+	description: Default frontend theme for QuickApps. Responsive CSS3
 	core: 1.x
 	version: 2.0
 	author: Christopher Castro <chris@quickapps.es>
