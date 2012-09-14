@@ -1,12 +1,12 @@
 info:
 	name: Default
-	description: Default frontend theme for QuickApps
+	description: Default CSS3 frontend theme for QuickApps
 	core: 1.x
-	version: 1.0
+	version: 2.0
 	author: Christopher Castro <chris@quickapps.es>
 
 stylesheets:
-	all: [reset.css, styles.css, menu.css]
+	all: [reset.css, styles.css, menu.css, hooktags.css]
 
 regions:
 	language-switcher: Language Switcher
