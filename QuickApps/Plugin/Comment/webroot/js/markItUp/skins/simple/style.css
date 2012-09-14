@@ -11,18 +11,16 @@
 	color:#000;
 	text-decoration:none;
 }
-.markItUp  {
-	width:700px;
-	margin:5px 0 5px 0;
+.markItUp {
+	width:100%;
 }
 .markItUpContainer  {
 	font:11px Verdana, Arial, Helvetica, sans-serif;
 }
 .markItUpEditor {
 	font:12px 'Courier New', Courier, monospace;
-	padding:5px;
-	width:690px;
-	height:320px;
+	padding:2%;
+	width:100%;
 	clear:both;
 	line-height:18px;
 	overflow:auto;
@@ -39,7 +37,8 @@
 }
 .markItUpResizeHandle {
 	overflow:hidden;
-	width:22px; height:5px;
+	width:22px;
+	height:5px;
 	margin-left:auto;
 	margin-right:auto;
 	background-image:url(images/handle.png);
