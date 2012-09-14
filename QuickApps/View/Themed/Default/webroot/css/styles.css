@@ -19,7 +19,7 @@ h4 { font-size: 16px; }
 h5 { font-size: 14px; }
 h6 { font-size: 12px; }
 p { padding-bottom: 10px; line-height: 18px; }
-strong, b { font-weight: bold; color: #1c1c1c; }
+strong, b { font-weight: bold; color:#000; }
 cite, em, i { font-style: italic; }
 pre, code { font-family: Courier New, monospace; margin-bottom: 10px; }
 ins { text-decoration: none; }
@@ -276,7 +276,7 @@ div.session-flash .bubble {
 
 /*---------------[SIDEBAR LEFT]------------------*/
 #sidebar-left * { color:#ADADAD; }
-#sidebar-left b, strong { color:#fff; }
+#sidebar-left b, #sidebar-left strong { color:#fff; }
 #sidebar-left {
 	width:250px;
 	float:left;
@@ -420,12 +420,22 @@ div.node-comments > h2 { border-top:1px solid #fff; padding-top:15px; }
 #comments-list div.comment { overflow:hidden; border-bottom:1px solid #D3D4D6; border-top:1px solid #fff; padding:10px 0 20px 10px; }
 #comments-list div.comment-first { border-top:none; }
 #comments-list div.comment-last { border-bottom:none; }
-#comments-list div.attribution { width:100px; float:left; }
+
+/* submited */
+#comments-list div.attribution div.submited { width:80px; float:left; }
 #comments-list div.attribution div.submited div.avatar { border:2px solid #ccc; margin:0 auto; width:64px; height:64px; overflow:hidden; }
 #comments-list div.attribution .submited div.avatar img { width:100%; }
 #comments-list div.attribution .submited a.username { text-align:center; display:block; }
-#comments-list div.attribution .submited p.comment-time span{ font-style:italic; }
-#comments-list div.comment-text  { background:#fff; border:1px solid #ccc; width:560px; float:left; padding:10px; }
+#comments-list div.attribution .submited p.comment-time span { font-style:italic; }
+@media screen and (max-width: 650px) {
+	 #comments-list div.attribution { width:98%; overflow:hidden; }
+	 #comments-list div.attribution div.submited { width:100%; }
+	 #comments-list div.attribution div.submited div.avatar { float:left; margin-right:10px; }
+	 #comments-list div.attribution .submited a.username { text-align:left; }
+}
+
+/* comment content box */
+#comments-list div.comment-text  { background:#fff; border:1px solid #ccc; width:475px; float:left; padding:10px; }
 #comments-list div.comment-text h3 { font-size:16px; }
 #comments-list div.comment-text blockquote { background:#F9F8F8;  }
 #comments-list div.comment-text blockquote cite { background:url(../img/comment-quote.gif) center left no-repeat; padding-left:20px;  display:block; font-weight:bold; }
