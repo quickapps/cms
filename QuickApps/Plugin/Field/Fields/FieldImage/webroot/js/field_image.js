@@ -75,7 +75,7 @@ QuickApps.field_image.afterUpload = function (_field_id, response) {
 	uploaded[upCount] = response.file_name;
 
 	var node_id = _field_id + '_' + response.ID;
-	var mime_icon = QuickApps.settings.base_url + 'field_image/img/icons/' + response.mime_icon;
+	var mime_icon = QuickApps.settings.base_url + 'field_file/img/icons/' + response.mime_icon;
 	mime_icon = mime_icon.replace('/' + QuickApps.settings.locale.code + '/', '/');
 
 	// html
