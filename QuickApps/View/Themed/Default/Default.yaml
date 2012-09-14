@@ -8,6 +8,9 @@ info:
 stylesheets:
 	all: [reset.css, styles.css, menu.css, hooktags.css]
 
+javascripts:
+	file: [responsive.js]
+
 regions:
 	language-switcher: Language Switcher
 	search: Search form
