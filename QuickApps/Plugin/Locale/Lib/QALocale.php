@@ -45,7 +45,7 @@ class QALocale {
 
 		foreach ($zonelist as $zone) {
 			if (preg_match('!^((Africa|America|Antarctica|Arctic|Asia|Atlantic|Australia|Europe|Indian|Pacific)/|UTC$)!', $zone)) {
-				$zones[$zone] = __t('%s: %s', __t(str_replace('_', ' ', $zone)), self::format_date(env('REQUEST_TIME'), 'custom', __t('l, F j, Y - H:i') . ' O', $zone));
+				$zones[$zone] = __t('%s: %s', __t(str_replace('_', ' ', $zone)), self::formatDate(env('REQUEST_TIME'), 'custom', __t('l, F j, Y - H:i') . ' O', $zone));
 			}
 		}
 
