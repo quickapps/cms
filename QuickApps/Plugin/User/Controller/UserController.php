@@ -166,6 +166,10 @@ class UserController extends UserAppController {
 	}
 
 	private function __login() {
+		if (!isset($this->data['User'])) {
+			return false;
+		}
+
 		$return = false;
 		$loginBlocking = Configure::read('Variable.user_login_attempts') && Configure::read('Variable.user_login_attempts_time');
 
@@ -214,7 +218,7 @@ class UserController extends UserAppController {
 				$session['role_id'][] = 2; // 2: authenticated user
 				$this->User->id = $session['id'];
 
-				$this->User->saveField('key', String::uuid()); // generate new key
+				$this->User->saveField('key', String::uuid(), array('callbacks' => false)); // generate new key, no bacllbaks: prevent key regeneration
 				$this->hook('after_login', $session);
 
 				if (isset($this->data['User']['remember']) && $this->data['User']['remember'] == 1) {
@@ -223,13 +227,13 @@ class UserController extends UserAppController {
 					$this->Cookie->httpOnly = true;
 					$this->Cookie->write('UserLogin',
 						array(
-							'id' => $session['id'],
+							'id' => $user['User']['id'],
 							'key' => $user['User']['key']
-						), true, '+999 Days'
+						), true, '+10 Years'
 					);
 				}
 
-				$this->User->saveField('last_login', time()); // last login stamp
+				$this->User->saveField('last_login', time(), array('callbacks' => false)); // last login stamp, no bacllbaks: prevent key regeneration
 				$this->Auth->login($session);
 				$this->flashMsg(__t('Logged in successfully.'), 'success');
 

@@ -342,8 +342,8 @@ class QuickAppsComponent extends Component {
 			$user = $User->find('first',
 				array(
 					'conditions' => array(
-						'User.id' => @$cookie['id'],
-						'User.key' => @$cookie['key'],
+						'User.id' => $cookie['id'],
+						'User.key' => $cookie['key'],
 						'User.status' => 1
 					)
 				)
