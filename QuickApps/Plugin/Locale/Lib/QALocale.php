@@ -20,7 +20,7 @@ class QALocale {
 		return $r;
 	}
 
-	static function language_direction($code = false) {
+	static function languageDirection($code = false) {
 		if (!$code) {
 			$code = Configure::read('Config.language');
 		}
@@ -35,11 +35,11 @@ class QALocale {
 		return $l['direction'];
 	}
 
-	static function countries_list() {
+	static function countriesList() {
 		return $L10n->catalog();
 	}
 
-	static function time_zones($blank = NULL) {
+	static function timeZones($blank = NULL) {
 		$zonelist = timezone_identifiers_list();
 		$zones = $blank ? array('' => __t('- None selected -')) : array();
 
@@ -54,7 +54,7 @@ class QALocale {
 		return $zones;
 	}
 
-	static function format_date($timestamp, $type = 'medium', $format = '', $timezone = null, $langcode = null) {
+	static function formatDate($timestamp, $type = 'medium', $format = '', $timezone = null, $langcode = null) {
 		if (!isset($timezone)) {
 			$timezone = date_default_timezone_get();
 		}
@@ -99,17 +99,17 @@ class QALocale {
 		// Call date_format().
 		$format = date_format($date_time, $format);
 
-		// Pass the langcode to format_date_callback().
-		self::format_date_callback(NULL, $langcode);
+		// Pass the langcode to formatDateCallback().
+		self::formatDateCallback(NULL, $langcode);
 
 		// Translate the marked sequences.
-		return preg_replace_callback('/\xEF([AaeDlMTF]?)(.*?)\xFF/', array('QALocale', 'format_date_callback') , $format);
+		return preg_replace_callback('/\xEF([AaeDlMTF]?)(.*?)\xFF/', array('QALocale', 'formatDateCallback') , $format);
 	}
 
 /**
  * Callback function for preg_replace_callback().
  */
-	static function format_date_callback(array $matches = null, $new_langcode = null) {
+	static function formatDateCallback(array $matches = null, $new_langcode = null) {
 		static $cache, $langcode;
 
 		if (!isset($matches)) {

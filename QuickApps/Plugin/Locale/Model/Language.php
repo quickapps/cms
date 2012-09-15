@@ -31,16 +31,16 @@ class Language extends LocaleAppModel {
 				App::import('Lib', 'Locale.QALocale');
 				$l = QALocale::languages();
 
-				if (!isset($this->data['Language']['name'])) {
-					$this->data['Language']['name'] = @$l[$this->data['Language']['code']];
+				if (!isset($this->data['Language']['name']) && isset($l[$this->data['Language']['code']])) {
+					$this->data['Language']['name'] = $l[$this->data['Language']['code']];
 				}
 
-				if (!isset($this->data['Language']['native'])) {
-					$this->data['Language']['native'] = @$l[$this->data['Language']['code']];
+				if (!isset($this->data['Language']['native']) && isset($l[$this->data['Language']['code']])) {
+					$this->data['Language']['native'] = $l[$this->data['Language']['code']];
 				}
 
 				if (!isset($this->data['Language']['direction'])) {
-					$this->data['Language']['direction'] = QALocale::language_direction();
+					$this->data['Language']['direction'] = QALocale::languageDirection();
 				}
 			}
 		}
@@ -101,7 +101,7 @@ class Language extends LocaleAppModel {
 
 		$ids = Hash::extract($nodes, '{n}.Language.id');
 
-		if (($dir == 'down' && $ids[count($ids)-1] == $record['Language']['id']) ||
+		if (($dir == 'down' && $ids[count($ids) - 1] == $record['Language']['id']) ||
 			($dir == 'up' && $ids[0] == $record['Language']['id'])
 		) {
 			// edge => cant go down/up
@@ -109,7 +109,7 @@ class Language extends LocaleAppModel {
 		}
 
 		$position = array_search($record['Language']['id'], $ids);
-		$key = ($dir == 'up') ? $position-1 : $position+1;
+		$key = ($dir == 'up') ? $position - 1 : $position + 1;
 		$tmp = $ids[$key];
 		$ids[$key] = $ids[$position];
 		$ids[$position] = $tmp;

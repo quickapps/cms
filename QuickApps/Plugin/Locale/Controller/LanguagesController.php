@@ -162,6 +162,6 @@ class LanguagesController extends LocaleAppController {
 	private function __setLangs() {
 		App::import('Lib', 'Locale.QALocale');
 		$this->set('languages', QALocale::languages());
-		QALocale::language_direction('eng');
+		QALocale::languageDirection('eng');
 	}
 }

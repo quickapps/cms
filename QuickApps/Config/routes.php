@@ -30,19 +30,19 @@
  * Installer
  *
  */
-	if (!file_exists(ROOT . DS . 'Config' . DS . 'database.php') || !file_exists(ROOT . DS . 'Config' . DS . 'install')) {
-		Router::connect('/', array('controller' => 'install'));
-		Router::connect('/:anything', array('controller' => 'install'), array('anything' => '(?!install).*'));
-	} else {
-		Router::connect('/', array('plugin' => 'Node', 'controller' => 'node', 'action' => 'index'));
-		Router::connect('/admin', array('plugin' => 'System', 'controller' => 'system', 'action' => 'index', 'admin' => true));
-   }
+if (!file_exists(ROOT . DS . 'Config' . DS . 'database.php') || !file_exists(ROOT . DS . 'Config' . DS . 'install')) {
+	Router::connect('/', array('controller' => 'install'));
+	Router::connect('/:anything', array('controller' => 'install'), array('anything' => '(?!install).*'));
+} else {
+	Router::connect('/', array('plugin' => 'Node', 'controller' => 'node', 'action' => 'index'));
+	Router::connect('/admin', array('plugin' => 'System', 'controller' => 'system', 'action' => 'index', 'admin' => true));
+}
 
 /**
  * Load site routes.
  *
  */
-	include_once ROOT . DS . 'Config' . DS . 'routes.php';
+include_once ROOT . DS . 'Config' . DS . 'routes.php';
 
 /**
  * Load all plugin routes.
@@ -55,17 +55,17 @@
  * the built-in default routes.
  *
  */
-	require CAKE . 'Config' . DS . 'routes.php';
+require CAKE . 'Config' . DS . 'routes.php';
 
 /**
  * Add language prefix to each url.
  *
  */
-	if (Configure::read('Variable.url_language_prefix')) {
-		foreach (Router::$routes as $key => $_route) {
-			$route = clone $_route;
-			$route->options['language'] = '[a-z]{3}';
-			$route->template = "/:language{$route->template}";
-			array_splice(Router::$routes, $key, 0, array($route));
-		}
+if (Configure::read('Variable.url_language_prefix')) {
+	foreach (Router::$routes as $key => $_route) {
+		$route = clone $_route;
+		$route->options['language'] = '[a-z]{3}';
+		$route->template = "/:language{$route->template}";
+		array_splice(Router::$routes, $key, 0, array($route));
 	}
+}

@@ -20,7 +20,7 @@ class BlockRegion extends BlockAppModel {
 			$r = $this->data['BlockRegion']['region'];
 			$t = $this->data['BlockRegion']['theme'];
 			$c = $this->find('count', array('conditions' => array('BlockRegion.theme' => $t, 'BlockRegion.region' => $r)));
-			$this->data['BlockRegion']['ordering'] = $c+1;
+			$this->data['BlockRegion']['ordering'] = $c + 1;
 		}
 
 		return true;
@@ -44,14 +44,14 @@ class BlockRegion extends BlockAppModel {
 		);
 		$ids = Hash::extract($nodes, '{n}.BlockRegion.id');
 
-		if (($dir == 'down' && $ids[count($ids)-1] == $record['BlockRegion']['id']) ||
+		if (($dir == 'down' && $ids[count($ids) - 1] == $record['BlockRegion']['id']) ||
 			($dir == 'up' && $ids[0] == $record['BlockRegion']['id'])
 		) { // edge => cant go down/up
 			return false;
 		}
 
 		$position = array_search($record['BlockRegion']['id'], $ids);
-		$key = $dir == 'up' ? $position-1 : $position+1;
+		$key = $dir == 'up' ? $position - 1 : $position + 1;
 		$tmp = $ids[$key];
 		$ids[$key] = $ids[$position];
 		$ids[$position] = $tmp;

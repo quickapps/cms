@@ -86,7 +86,7 @@ class Comment extends CommentAppModel {
 			if (!$recaptcha->is_valid) {
 				CakeSession::write('invalid_recaptcha', true);
 
-			   return false;
+				return false;
 			}
 		}
 
@@ -117,7 +117,7 @@ class Comment extends CommentAppModel {
 				// name, email, host
 				// mail optional, can be empty, if it is not -> must be validated | name optional
 				case 1:
-				   $this->validate['mail']['allowEmpty'] = true;
+					$this->validate['mail']['allowEmpty'] = true;
 
 					if (empty($this->data['Comment']['name'])) {
 						$this->data['Comment']['name'] = __t('Anonymous');
@@ -137,7 +137,7 @@ class Comment extends CommentAppModel {
 			unset($this->validate['name'], $this->validate['mail'], $this->validate['homepage']);
 
 			if (in_array(1, (array)CakeSession::read('Auth.User.role_id'))) {
-			   $this->data['Comment']['status'] = 1;
+				$this->data['Comment']['status'] = 1;
 			} else {
 				$this->data['Comment']['status'] = intval($this->__tmp['nodeData']['NodeType']['comments_approve']);
 			}

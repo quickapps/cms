@@ -95,7 +95,7 @@ class ManageController extends BlockAppController {
 	}
 
 	public function admin_clone($bid) {
-		$block = $this->Block->findById($bid) or $this->redirect($this->referer());
+		$block = $this->Block->findById($bid) || $this->redirect($this->referer());
 		$block = Hash::filter($block);
 		$block['Block']['themes_cache'] = '';
 		$block['Block']['title'] .= ' (' . __t('Clone') . ')';
@@ -115,7 +115,7 @@ class ManageController extends BlockAppController {
 
 	public function admin_edit($bid) {
 		if (isset($this->data['Block'])) {
-			$data =  $this->data;
+			$data = $this->data;
 			$data['Block']['locale'] = !empty($data['Block']['locale']) ? array_values($data['Block']['locale']) : array();
 			$data['Block']['themes_cache'] = $this->__themesCache($data['BlockRegion']);
 
@@ -152,7 +152,7 @@ class ManageController extends BlockAppController {
 			}
 		}
 
-		$this->data = $this->Block->findById($bid) or $this->redirect('/admin/block/manage');
+		$this->data = $this->Block->findById($bid) || $this->redirect('/admin/block/manage');
 
 		$this->title(__t('Editing Block'));
 		$this->setCrumb(

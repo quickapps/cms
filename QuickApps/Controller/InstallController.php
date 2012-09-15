@@ -18,14 +18,14 @@ class InstallController extends Controller {
 	public $helpers = array('HookCollection', 'Layout', 'Html', 'Form');
 	private $__defaultDbConfig = array(
 		'name' => 'default',
-		'datasource'=> 'Database/Mysql',
-		'persistent'=> false,
-		'host'=> 'localhost',
-		'login'=> 'root',
-		'password'=> '',
-		'database'=> 'quickapps',
-		'schema'=> null,
-		'prefix'=> 'qa_',
+		'datasource' => 'Database/Mysql',
+		'persistent' => false,
+		'host' => 'localhost',
+		'login' => 'root',
+		'password' => '',
+		'database' => 'quickapps',
+		'schema' => null,
+		'prefix' => 'qa_',
 		'encoding' => 'UTF8',
 		'port' => '3306'
 	);
@@ -199,7 +199,7 @@ class InstallController extends Controller {
 				$schema = $schema->load();
 				$execute = array();
 
-				foreach(array_keys($schema->tables) as $table) {
+				foreach (array_keys($schema->tables) as $table) {
 					$tableExists = $db->query("SHOW TABLES LIKE \"{$data['prefix']}{$table}\";");
 
 					if (!empty($tableExists)) {
@@ -209,7 +209,7 @@ class InstallController extends Controller {
 					}
 				}
 
-				foreach($schema->tables as $table => $fields) {
+				foreach ($schema->tables as $table => $fields) {
 					$create = $db->createSchema($schema, $table);
 					$execute[] = $db->execute($create);
 
@@ -233,7 +233,7 @@ class InstallController extends Controller {
 					$Model->cacheSources = false;
 
 					if (isset($model->records) && !empty($model->records)) {
-						foreach($model->records as $record) {
+						foreach ($model->records as $record) {
 							$Model->create($record);
 							$execute[] = $Model->save();
 						}
