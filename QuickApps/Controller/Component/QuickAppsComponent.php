@@ -143,7 +143,7 @@ class QuickAppsComponent extends Component {
 			$yaml['settings']['site_logo_url'] = isset($yaml['settings']['site_logo_url']) && !empty($yaml['settings']['site_logo_url']) ? $yaml['settings']['site_logo_url'] : '/system/img/logo.png';
 
 			// set custom or default favicon
-			$yaml['settings']['site_favicon_url'] = isset($yaml['settings']['site_favicon_url']) && !empty($yaml['settings']['site_favicon_url']) ? $yaml['settings']['site_favicon_url'] : '/system/favicon.ico';
+			$yaml['settings']['site_favicon_url'] = isset($yaml['settings']['site_favicon_url']) && !empty($yaml['settings']['site_favicon_url']) ? $yaml['settings']['site_favicon_url'] : Router::url('/system/favicon.ico');
 
 			Configure::write('Theme', $yaml);
 
