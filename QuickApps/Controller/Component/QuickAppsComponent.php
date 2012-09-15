@@ -119,12 +119,12 @@ class QuickAppsComponent extends Component {
  */
 	public function setTheme() {
 		if (isset($this->Controller->request->params['admin']) && $this->Controller->request->params['admin'] == 1) {
-			$this->Controller->theme =  Configure::read('Variable.admin_theme') ? Configure::read('Variable.admin_theme') : 'admin_default';
+			$this->Controller->theme = Configure::read('Variable.admin_theme') ? Configure::read('Variable.admin_theme') : 'admin_default';
 		} else {
-			$this->Controller->theme =  Configure::read('Variable.site_theme') ? Configure::read('Variable.site_theme') : 'default';
+			$this->Controller->theme = Configure::read('Variable.site_theme') ? Configure::read('Variable.site_theme') : 'default';
 		}
 
-		$this->Controller->layout ='default';
+		$this->Controller->layout = 'default';
 		$theme_path = App::themePath($this->Controller->theme);
 
 		if (file_exists($theme_path . "{$this->Controller->theme}.yaml")) {
@@ -190,37 +190,6 @@ class QuickAppsComponent extends Component {
  * @return void
  */
 	public function prepareContent() {
-		$theme = Router::getParam('admin') ? Configure::read('Variable.admin_theme') : Configure::read('Variable.site_theme');
-		$options = array(
-			'conditions' => array(
-				// only blocks assigned to current theme
-				'Block.themes_cache LIKE' => "%:{$theme}:%",
-				'Block.status' => 1,
-				'OR' => array(
-					// only blocks assigned to any/current language
-					'Block.locale =' => null,
-					'Block.locale =' => '',
-					'Block.locale LIKE' => '%s:3:"' . Configure::read('Variable.language.code') . '"%',
-					'Block.locale' => 'a:0:{}'
-				)
-			),
-			'recursive' => 2
-		);
-		$blocks = Cache::read('blocks_' . md5(serialize($options)));
-
-		if (!$blocks) {
-			$Block = ClassRegistry::init('Block.Block');
-
-			$Block->Menu->unbindModel(array('hasMany' => array('Block')));
-
-			$blocks = $Block->find('all', $options);
-
-			Cache::write('blocks_' . md5(serialize($options)), $blocks);
-		}
-
-		$this->Controller->Layout['blocks'] = $blocks;
-
-		$this->Controller->hook('blocks_alter', $this->Controller->Layout['blocks']);
 		Configure::write('Variable.qa_version', Configure::read('Modules.System.yaml.version'));
 
 		// Basic js files/inline
@@ -230,7 +199,7 @@ class QuickAppsComponent extends Component {
 
 		$this->Controller->Layout['javascripts']['inline'][] = '
 			jQuery.extend(QuickApps.settings, {
-				"version": "' . Configure::read('Variable.qa_version'). '",
+				"version": "' . Configure::read('Variable.qa_version') . '",
 				"url": "' . (defined('FULL_BASE_URL') ? FULL_BASE_URL . $this->Controller->request->here : $this->Controller->request->here) . '",
 				"base_url": "' . QuickApps::strip_language_prefix(Router::url('/', true)) . '",
 				"domain": "' . env('HTTP_HOST') . '",
@@ -284,7 +253,7 @@ class QuickAppsComponent extends Component {
 			if (in_array($this->Controller->request->params['language'], $installed_codes)) {
 				$lang = $this->Controller->request->params['language'];
 			} else {
-				header('Location: '. $this->Controller->request->base);
+				header('Location: ' . $this->Controller->request->base);
 				exit;
 			}
 		} else {
@@ -756,8 +725,6 @@ class QuickAppsComponent extends Component {
 
 			$this->Controller->set('breadCrumb', $push);
 		}
-
-		return;
 	}
 
 /**
@@ -770,7 +737,7 @@ class QuickAppsComponent extends Component {
 		$here = str_replace($this->Controller->request->base, '', $this->Controller->request->here);
 		$c = is_string($c) ? array(null, $c) : $c;
 		$active =
-			(isset($c[1]) && $c[1] == $here) || 
+			(isset($c[1]) && $c[1] == $here) ||
 			(isset($c['pattern']) && QuickApps::urlMatch($c['pattern'], $here));
 
 		return $active;

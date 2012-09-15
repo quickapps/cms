@@ -58,7 +58,7 @@ class BlockHelper extends AppHelper {
 		}
 
 		if (is_null($block['theme'])) {
-			$block['theme'] =  QuickApps::themeName();
+			$block['theme'] = QuickApps::themeName();
 		}
 
 		if (empty($block['region']) || empty($block['body'])) {
@@ -101,15 +101,55 @@ class BlockHelper extends AppHelper {
 			return count($this->_tmp['blocksInRegion'][$region]['blocks_ids']);
 		}
 
-		$__blocks = $this->_View->viewVars['Layout']['blocks'];
-		$block_ids = @Hash::extract((array)$__blocks, "{n}.BlockRegion.{n}[theme=" . QuickApps::themeName() . "][region={$region}].block_id");
-		$t = 0;
+		$theme = QuickApps::themeName();
+		$cache_key = Inflector::underscore("{$theme}_{$region}_") . Configure::read('Variable.language.code');
+		$blocks = Cache::read('blocks_' . $cache_key);
 
-		foreach ($__blocks as $block) {
-			if (
-				!in_array($block['Block']['id'], $block_ids) ||
-				!$this->__allowed($block)
-			) {
+		if (!$blocks) {
+			$Block = ClassRegistry::init('Block.Block');
+			$block_ids = $Block->BlockRegion->find('all',
+				array(
+					'conditions' => array(
+						'BlockRegion.theme' => $theme,
+						'BlockRegion.region' => $region
+					),
+					'fields' => array('id', 'block_id'),
+					'recursive' => -1
+				)
+			);
+
+			$options = array(
+				'conditions' => array(
+					// only blocks assigned to current theme
+					'Block.id' => Hash::extract($block_ids, '{n}.BlockRegion.block_id'),
+					'Block.themes_cache LIKE' => "%:{$theme}:%",
+					'Block.status' => 1,
+					'OR' => array(
+						// only blocks assigned to any/current language
+						'Block.locale =' => null,
+						'Block.locale =' => '',
+						'Block.locale LIKE' => '%s:3:"' . Configure::read('Variable.language.code') . '"%',
+						'Block.locale' => 'a:0:{}'
+					)
+				),
+				'recursive' => 2
+			);
+
+			$Block->Menu->unbindModel(array('hasMany' => array('Block')));
+			$blocks = $Block->find('all', $options);
+
+			Cache::write("blocks_{$cache_key}", $blocks);
+		}
+
+		if (!empty($this->_View->viewVars['Layout']['blocks'])) {
+			$blocks = array_merge($blocks, $this->_View->viewVars['Layout']['blocks']);
+		}
+
+		$t = 0;
+		$block_ids = @Hash::extract((array)$blocks, "{n}.BlockRegion.{n}[theme=" . QuickApps::themeName() . "][region={$region}].block_id"); // filter mergered
+
+		foreach ($blocks as $block) {
+			if (!in_array($block['Block']['id'], $block_ids) || !$this->__allowed($block)) {
 				continue;
 			}
 
@@ -143,7 +183,7 @@ class BlockHelper extends AppHelper {
 			} else {
 				$blocks = array();
 				$__blocks = $this->_View->viewVars['Layout']['blocks'];
-				$block_ids = @Hash::extract((array)$__blocks, "{n}.BlockRegion.{n}[theme=" . QuickApps::themeName() . "][region={$region}].block_id");
+				$block_ids = Hash::extract((array)$__blocks, "{n}.BlockRegion.{n}[theme=" . QuickApps::themeName() . "][region={$region}].block_id");
 
 				foreach ($__blocks as $key => $block) {
 					if (in_array($block['Block']['id'], $block_ids)) {
@@ -397,5 +437,5 @@ class BlockHelper extends AppHelper {
 		}
 
 		return true;
-	}	
+	}
 }
