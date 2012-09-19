@@ -47,7 +47,7 @@ class HookCollectionBehavior extends ModelBehavior {
 	}
 
 /**
- * Trigger a callback method on every HookHelper.
+ * Trigger a callback method on every HookBehavior.
  * Plugin-Dot-Syntax is allowed.
  *
  * @see HookCollection::hook()

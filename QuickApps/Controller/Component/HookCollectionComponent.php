@@ -47,7 +47,7 @@ class HookCollectionComponent extends Component {
 	}
 
 /**
- * Trigger a callback method on every HookHelper.
+ * Trigger a callback method on every HookComponent.
  * Plugin-Dot-Syntax is allowed.
  *
  * @see HookCollection::hook()
