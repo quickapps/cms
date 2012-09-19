@@ -17,7 +17,7 @@
 
 	<div id="menu-sortContainer">
 		<?php
-			echo $this->Menu->generate($results,
+			echo $this->Menu->render($results,
 				array(
 					'id' => 'termsList',
 					'class' => 'sortable',
