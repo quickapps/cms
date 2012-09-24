@@ -229,7 +229,7 @@ class UserController extends UserAppController {
 						array(
 							'id' => $user['User']['id'],
 							'key' => $user['User']['key']
-						), true, '+10 Years'
+						), true, '1 year'
 					);
 				}
 
