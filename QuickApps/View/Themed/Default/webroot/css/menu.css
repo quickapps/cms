@@ -226,7 +226,7 @@
 		border-radius: 6px;
 		-moz-box-shadow: 0 1px 1px #777, 0 1px 0 #666 inset;
 		-webkit-box-shadow: 0 1px 1px #777, 0 1px 0 #666 inset;
-		box-shadow: 0 1px 1px #777, 0 1px 0 #666 inset;
+		box-shadow: 0 1px 1px #222121, 0 1px 0 #666 inset;
 	}
 	
 	/* main nav */
