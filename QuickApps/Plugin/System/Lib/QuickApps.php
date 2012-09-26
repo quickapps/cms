@@ -66,6 +66,7 @@ class QuickApps {
 			'frontend' => array('self', '__viewIsFrontend'),
 			'backend' => array('self', '__viewIsBackend'),
 			'search' => array('self', '__viewIsSearch'),
+			'feed' => array('self', '__viewIsFeed'),
 			'rss' => array('self', '__viewIsRss'),
 			'node' => array('self', '__viewIsNode'),
 			'user_profile' => array('self', '__viewIsUserProfile'),
