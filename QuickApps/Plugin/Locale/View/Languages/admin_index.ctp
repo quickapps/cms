@@ -47,20 +47,20 @@ $tSettings = array(
 );
 ?>
 <!-- Add form -->
-	<?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Add New Language') . '</span>'); ?>
-		<div class="fieldset-toggle-container horizontalLayout" style="display:none;">
-			<?php echo $this->Form->create('Language', array('url' => '/admin/locale/languages/add')); ?>
+	<?php echo $this->Form->create('Language', array('class' => 'form-inline', 'url' => '/admin/locale/languages/add')); ?>
+		<?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Add New Language') . '</span>'); ?>
+			<div class="fieldset-toggle-container" style="display:none;">
 				<div id="predefinedList">
 					<?php echo $this->Form->input('code', array('type' => 'select', 'options' => $languages, 'label' => __t('Language name'))); ?>
 					<p>
-						<?php echo $this->Form->input(__t('Add'), array('type' => 'submit', 'label' => false)); ?>
+						<?php echo $this->Form->submit(__t('Add')); ?>
 					</p>
 				</div>
 			<?php echo $this->Form->end(); ?>
 
-			<?php echo $this->Form->create('Language', array('url' => '/admin/locale/languages/add')); ?>
+			<?php echo $this->Form->create('Language', array('class' => 'form-vertical', 'url' => '/admin/locale/languages/add')); ?>
 				<?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle" onclick="$(\'#predefinedList\').toggle(\'fast\', \'linear\');">' . __t('Custom Language') . '</span>'); ?>
-					<div class="fieldset-toggle-container verticalLayout" style="display:none;">
+					<div class="fieldset-toggle-container" style="display:none;">
 						<?php echo $this->Form->input('status', array('type' => 'hidden', 'value' => 1)); ?>
 
 						<?php echo $this->Form->input('custom_code', array('required' => 'required', 'maxlength' => 3, 'style' => 'width:50px;', 'type' => 'text', 'label' => __t('Language code *'))); ?>
@@ -92,14 +92,15 @@ $tSettings = array(
 						</p>
 					</div>
 				<?php echo $this->Html->useTag('fieldsetend'); ?>
-			<?php echo $this->Form->end(); ?>
-		</div>
-	<?php echo $this->Html->useTag('fieldsetend'); ?>
+			</div>
+		<?php echo $this->Html->useTag('fieldsetend'); ?>
+	<?php echo $this->Form->end(); ?>
+	
 
-<?php echo $this->Form->create('Language', array('onsubmit' => 'return confirm("' . __t('Are you sure ?') . '");')); ?>
+<?php echo $this->Form->create('Language', array('class' => 'form-inline', 'onsubmit' => 'return confirm("' . __t('Are you sure ?') . '");')); ?>
 	<!-- Update -->
 	<?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Update Options') . '</span>'); ?>
-		<div class="fieldset-toggle-container horizontalLayout" style="<?php echo isset($this->data['Comment']['update']) ? '' : 'display:none;'; ?>">
+		<div class="fieldset-toggle-container" style="<?php echo isset($this->data['Comment']['update']) ? '' : 'display:none;'; ?>">
 			<?php echo $this->Form->input('Language.update',
 					array(
 						'type' => 'select',
@@ -112,7 +113,7 @@ $tSettings = array(
 					)
 				);
 			?>
-			<?php echo $this->Form->input(__t('Update'), array('type' => 'submit', 'label' => false)); ?>
+			<?php echo $this->Form->submit(__t('Update')); ?>
 		</div>
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 	<?php echo $this->Html->table($results, $tSettings); ?>

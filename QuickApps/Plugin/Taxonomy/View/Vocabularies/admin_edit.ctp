@@ -7,5 +7,5 @@
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 
 	<!-- Submit -->
-	<?php echo $this->Form->input(__t('Save vocabulary'), array('type' => 'submit')); ?>
+	<?php echo $this->Form->submit(__t('Save vocabulary')); ?>
 <?php echo $this->Form->end(); ?>

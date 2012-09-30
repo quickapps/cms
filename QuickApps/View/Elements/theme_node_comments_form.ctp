@@ -57,7 +57,7 @@
 		<p><?php echo $this->Layout->hook('comment_captcha'); ?></p>
 
 		<div class="form-actions">
-			<?php echo $this->Form->input(__t('Save'), array('type' => 'submit', 'label' => false)); ?>
+			<?php echo $this->Form->submit(__t('Save')); ?>
 		</div>
 	<?php echo $this->Form->end(); ?>
 </div>

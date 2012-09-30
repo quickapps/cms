@@ -1,7 +1,7 @@
-<?php echo $this->Form->create(false, array('url' => '/admin/locale/packages/install', 'enctype' => 'multipart/form-data', 'onsubmit' => 'return checkPackage();')); ?>
+<?php echo $this->Form->create(false, array('class' => 'form-inline', 'url' => '/admin/locale/packages/install', 'enctype' => 'multipart/form-data', 'onsubmit' => 'return checkPackage();')); ?>
 	<!-- Filter -->
 	<?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Upload Translation Package') . '</span>'); ?>
-		<div class="fieldset-toggle-container horizontalLayout" style="display:none;">
+		<div class="fieldset-toggle-container" style="display:none;">
 			<?php echo $this->Form->input('po',
 					array(
 						'type' => 'file',
@@ -32,7 +32,7 @@
 			<em><?php echo __t('What is the language of this package? You can register more languages on the <a href="%s">Languages</a> section.', $this->Html->url('/admin/locale/languages')); ?></em>
 
 			<p>
-				<?php echo $this->Form->input(__t('Upload'), array('type' => 'submit', 'label' => false)); ?>
+				<?php echo $this->Form->submit(__t('Upload')); ?>
 			</p>
 		</div>
 	<?php echo $this->Html->useTag('fieldsetend'); ?>

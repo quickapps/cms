@@ -19,5 +19,5 @@
 		?>
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 
-	<?php echo $this->Form->input(__t('Import entries'), array('type' => 'submit')); ?>
+	<?php echo $this->Form->submit(__t('Import entries')); ?>
 <?php echo $this->Form->end(); ?>

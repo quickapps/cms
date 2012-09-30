@@ -30,10 +30,10 @@ $tSettings = array(
 );
 ?>
 
-<?php echo $this->Form->create(); ?>
+<?php echo $this->Form->create(null, array('class' => 'form-inline')); ?>
 	<!-- Filter -->
 	<?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Filter Options') . '</span>'); ?>
-		<div class="fieldset-toggle-container horizontalLayout" style="<?php echo isset($this->data['Comment']['filter']) ? '' : 'display:none;'; ?>">
+		<div class="fieldset-toggle-container" style="<?php echo isset($this->data['Comment']['filter']) ? '' : 'display:none;'; ?>">
 			<?php echo $this->Html->useTag('fieldsetstart', __t('Author')); ?>
 				<?php echo $this->Form->input('Comment.filter.Comment|name',
 						array(
@@ -112,15 +112,15 @@ $tSettings = array(
 				?>
 			<?php echo $this->Html->useTag('fieldsetend'); ?>
 
-			<?php echo $this->Form->input(__t('Filter'), array('type' => 'submit', 'label' => false)); ?>
+			<?php echo $this->Form->submit(__t('Filter')); ?>
 		</div>
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 <?php echo $this->Form->end(); ?>
 
-<?php echo $this->Form->create(null, array('onsubmit' => 'return confirm("' . __t('Are you sure ?') . '");')); ?>
+<?php echo $this->Form->create(null, array('class' => 'form-inline', 'onsubmit' => 'return confirm("' . __t('Are you sure ?') . '");')); ?>
 	<!-- Update -->
 	<?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Update Options') . '</span>'); ?>
-		<div class="fieldset-toggle-container horizontalLayout" style="<?php echo isset($this->data['Comment']['update']) ? '' : 'display:none;'; ?>">
+		<div class="fieldset-toggle-container" style="<?php echo isset($this->data['Comment']['update']) ? '' : 'display:none;'; ?>">
 			<?php
 				$options = array(
 					'approve' => __t('Approve selected comments'),
@@ -142,7 +142,7 @@ $tSettings = array(
 					)
 				);
 			?>
-			<?php echo $this->Form->input(__t('Update'), array('type' => 'submit', 'label' => false)); ?>
+			<?php echo $this->Form->submit(__t('Update')); ?>
 		</div>
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 	<?php echo $this->Html->table($results, $tSettings); ?>

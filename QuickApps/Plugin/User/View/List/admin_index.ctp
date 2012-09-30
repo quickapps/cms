@@ -32,10 +32,10 @@ $tSettings = array(
 );
 ?>
 
-<?php echo $this->Form->create(); ?>
+<?php echo $this->Form->create(null, array('class' => 'form-inline')); ?>
 	<!-- Filter -->
 	<?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Filter Options') . '</span>'); ?>
-		<div class="fieldset-toggle-container horizontalLayout" style="<?php echo isset($this->data['User']['filter']) ? '' : 'display:none;'; ?>">
+		<div class="fieldset-toggle-container" style="<?php echo isset($this->data['User']['filter']) ? '' : 'display:none;'; ?>">
 			<?php echo $this->Form->input('User.filter.User|status',
 					array(
 						'type' => 'select',
@@ -63,15 +63,15 @@ $tSettings = array(
 					)
 				);
 			?>
-			<?php echo $this->Form->input(__t('Filter'), array('type' => 'submit', 'label' => false)); ?>
+			<?php echo $this->Form->submit(__t('Filter')); ?>
 		</div>
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 <?php echo $this->Form->end(); ?>
 
-<?php echo $this->Form->create('User', array('onsubmit' => 'return confirm("' . __t('Are you sure about this changes ?') . '");')); ?>
+<?php echo $this->Form->create('User', array('class' => 'form-inline', 'onsubmit' => 'return confirm("' . __t('Are you sure about this changes ?') . '");')); ?>
 	<!-- Update -->
 	<?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Update Options') . '</span>'); ?>
-		<div class="fieldset-toggle-container horizontalLayout" style="<?php echo isset($this->data['User']['update']) ? '' : 'display:none;'; ?>">
+		<div class="fieldset-toggle-container" style="<?php echo isset($this->data['User']['update']) ? '' : 'display:none;'; ?>">
 			<?php echo $this->Form->input('User.update',
 					array(
 						'type' => 'select',
@@ -84,7 +84,7 @@ $tSettings = array(
 					)
 				);
 			?>
-			<?php echo $this->Form->input(__t('Update'), array('type' => 'submit', 'label' => false)); ?>
+			<?php echo $this->Form->submit(__t('Update')); ?>
 		</div>
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 	<?php echo $this->Html->table($results, $tSettings);?>

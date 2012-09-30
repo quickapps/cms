@@ -31,9 +31,9 @@ $tSettings = array(
 
 <?php if ($display === 'default' && count($result)): ?>
 	<p>
-	<?php echo $this->Form->create('User', array('url' => "/admin/user/display/")); ?>
+	<?php echo $this->Form->create('User', array('class' => 'form-inline', 'url' => "/admin/user/display/")); ?>
 		<?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Display Modes') . '</span>'); ?>
-			<div class="fieldset-toggle-container horizontalLayout" style="display:none;">
+			<div class="fieldset-toggle-container" style="display:none;">
 				<em><?php echo __t('Use custom display settings for the following dispay-modes'); ?></em>
 					<?php
 						$options = array();
@@ -55,7 +55,7 @@ $tSettings = array(
 					?>				
 			</div>
 		<?php echo $this->Html->useTag('fieldsetend'); ?>
-		<?php echo $this->Form->input(__t('Save'), array('type' => 'submit')); ?>
+		<?php echo $this->Form->submit(__t('Save')); ?>
 	<?php echo $this->Form->end(); ?>
 	</p>
 <?php endif; ?>

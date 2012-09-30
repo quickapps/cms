@@ -33,10 +33,10 @@ $tSettings = array(
 );
 ?>
 
-<?php echo $this->Form->create(); ?>
+<?php echo $this->Form->create(null, array('class' => 'form-inline')); ?>
 	<!-- Add -->
 	<?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Add field') . '</span>'); ?>
-		<div class="fieldset-toggle-container horizontalLayout" style="<?php echo isset($this->data['Field']) ? '' : 'display:none;'; ?>">
+		<div class="fieldset-toggle-container" style="<?php echo isset($this->data['Field']) ? '' : 'display:none;'; ?>">
 			<?php echo $this->Form->input('Field.label',
 					array(
 						'type' => 'text',
@@ -82,7 +82,7 @@ $tSettings = array(
 				<em id="field_description"></em>
 			</p>
 
-			<?php echo $this->Form->input(__t('Add'), array('type' => 'submit', 'label' => false)); ?>
+			<?php echo $this->Form->submit(__t('Add')); ?>
 		</div>
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 <?php echo $this->Form->end(); ?>

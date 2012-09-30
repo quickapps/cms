@@ -196,5 +196,5 @@
 	<?php endif; ?>
 
 	<!-- Submit -->
-	<?php echo $this->Form->input(__t('Save all'), array('type' => 'submit')); ?>
+	<?php echo $this->Form->submit(__t('Save all')); ?>
 <?php echo $this->Form->end(); ?>

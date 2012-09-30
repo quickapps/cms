@@ -9,5 +9,5 @@
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 
 	<!-- Submit -->
-	<?php echo $this->Form->input(__t('Save term'), array('type' => 'submit')); ?>
+	<?php echo $this->Form->submit(__t('Save term')); ?>
 <?php echo $this->Form->end(); ?>

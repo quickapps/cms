@@ -29,10 +29,10 @@ $tSettings = array(
 );
 ?>
 
-<?php echo $this->Form->create('Fuzzy'); ?>
+<?php echo $this->Form->create('Fuzzy', array('class' => 'form-inline')); ?>
 	<!-- Filter -->
 	<?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Filter Options') . '</span>'); ?>
-		<div class="fieldset-toggle-container horizontalLayout" style="<?php echo isset($this->data['Fuzzy']['filter']) ? '' : 'display:none;'; ?>">
+		<div class="fieldset-toggle-container" style="<?php echo isset($this->data['Fuzzy']['filter']) ? '' : 'display:none;'; ?>">
 			<?php
 				echo $this->Form->input('Fuzzy.filter.original',
 					array(
@@ -74,15 +74,15 @@ $tSettings = array(
 					)
 				);
 			?>
-			<?php echo $this->Form->input(__t('Filter'), array('type' => 'submit', 'label' => false)); ?>
+			<?php echo $this->Form->submit(__t('Filter')); ?>
 		</div>
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 <?php echo $this->Form->end(); ?>
 
-<?php echo $this->Form->create(null, array('onsubmit' => 'return confirm("' . __t('Are you sure about this changes ?') . '");')); ?>
+<?php echo $this->Form->create(null, array('class' => 'form-inline', 'onsubmit' => 'return confirm("' . __t('Are you sure about this changes ?') . '");')); ?>
 	<!-- Update -->
 	<?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Update Options') . '</span>'); ?>
-		<div class="fieldset-toggle-container horizontalLayout" style="<?php echo isset($this->data['Fuzzy']['update']) ? '' : 'display:none;'; ?>">
+		<div class="fieldset-toggle-container" style="<?php echo isset($this->data['Fuzzy']['update']) ? '' : 'display:none;'; ?>">
 			<?php echo $this->Form->input('Fuzzy.update',
 					array(
 						'type' => 'select',
@@ -96,7 +96,7 @@ $tSettings = array(
 					)
 				);
 			?>
-			<?php echo $this->Form->input(__t('Update'), array('type' => 'submit', 'label' => false)); ?>
+			<?php echo $this->Form->submit(__t('Update')); ?>
 		</div>
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 

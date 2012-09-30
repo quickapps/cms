@@ -94,5 +94,5 @@
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 
 	<!-- Submit -->
-	<?php echo $this->Form->input(__t('Add content'), array('type' => 'submit')); ?>
+	<?php echo $this->Form->submit(__t('Add content')); ?>
 <?php echo $this->Form->end(); ?>

@@ -1,10 +1,10 @@
-<?php echo $this->Form->create(); ?>
+<?php echo $this->Form->create(null, array('class' => 'form-inline')); ?>
 	<!-- New Term -->
 	<?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Add New Term') . '</span>'); ?>
-		<div class="fieldset-toggle-container horizontalLayout" style="display:none;">
+		<div class="fieldset-toggle-container" style="display:none;">
 			<?php echo $this->Form->input('Term.name', array('required' => 'required', 'type' => 'text', 'label' => __t('Name *'))); ?>
 			<?php echo $this->Form->input('Term.parent_id', array('type' => 'select', 'label' => __t('Parent term'), 'options' => $parents, 'escape' => false, 'empty' => __t('-- None --'))); ?>
-			<?php echo $this->Form->input(__t('Save'), array('type' => 'submit', 'label' => false)); ?>
+			<?php echo $this->Form->submit(__t('Save')); ?>
 		</div>
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 <?php echo $this->Form->end(); ?>

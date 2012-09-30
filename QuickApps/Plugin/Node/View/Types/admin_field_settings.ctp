@@ -13,5 +13,5 @@
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 
 	<!-- Submit -->
-	<?php echo $this->Form->input(__t('Save field'), array('type' => 'submit')); ?>
+	<?php echo $this->Form->submit(__t('Save field')); ?>
 <?php echo $this->Form->end(); ?>

@@ -25,5 +25,5 @@
 		?>
 		<?php echo $this->Html->useTag('fieldsetend'); ?>
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
-	<?php echo $this->Form->input(__t('Translate'), array('type' => 'submit')); ?>
+	<?php echo $this->Form->submit(__t('Translate')); ?>
 <?php echo $this->Form->end(); ?>

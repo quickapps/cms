@@ -27,7 +27,7 @@ $tSettings = array(
 	<?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Search') . '</span>'); ?>
 		<div class="fieldset-toggle-container" style="display:none;">
 			<?php echo $this->Form->input('Translation.filter.original', array('type' => 'text', 'label' => __t('Original text'))); ?>
-			<?php echo $this->Form->input(__t('Search'), array('type' => 'submit', 'label' => false)); ?>
+			<?php echo $this->Form->submit(__t('Search')); ?>
 		</div>
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 <?php echo $this->Form->end(); ?>

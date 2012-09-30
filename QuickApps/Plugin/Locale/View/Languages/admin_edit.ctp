@@ -80,5 +80,5 @@
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 
 	<!-- Submit -->
-	<?php echo $this->Form->input(__t('Save language'), array('type' => 'submit')); ?>
+	<?php echo $this->Form->submit(__t('Save language')); ?>
 <?php echo $this->Form->end(); ?>

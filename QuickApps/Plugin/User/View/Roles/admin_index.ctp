@@ -1,7 +1,7 @@
-<?php echo $this->Form->create('Role'); ?>
+<?php echo $this->Form->create('Role',array('class' => 'form-inline')); ?>
 	<!-- Filter -->
 	<?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Add New Role') . '</span>'); ?>
-		<div class="fieldset-toggle-container horizontalLayout" style="<?php echo isset($this->data['Role']['name']) ? '' : 'display:none;'; ?>">
+		<div class="fieldset-toggle-container" style="<?php echo isset($this->data['Role']['name']) ? '' : 'display:none;'; ?>">
 			<?php echo $this->Form->input('name',
 					array(
 						'type' => 'text',
@@ -9,7 +9,7 @@
 					)
 				);
 			?>
-			<?php echo $this->Form->input(__t('Add'), array('type' => 'submit', 'label' => false)); ?>
+			<?php echo $this->Form->submit(__t('Add')); ?>
 		</div>
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 <?php echo $this->Form->end(); ?>

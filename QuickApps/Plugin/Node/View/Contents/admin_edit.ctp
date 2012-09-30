@@ -124,7 +124,7 @@
 		<?php endif; ?>
 
 		<!-- Submit -->
-		<?php echo $this->Form->input(__t('Save content'), array('type' => 'submit')); ?>
+		<?php echo $this->Form->submit(__t('Save content')); ?>
 	<?php echo $this->Form->end(); ?>
 <?php else: ?>
 <!-- NodeType not found -->

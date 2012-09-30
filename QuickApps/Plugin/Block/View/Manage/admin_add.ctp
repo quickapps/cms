@@ -77,5 +77,5 @@
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 
 	<!-- Submit -->
-	<?php echo $this->Form->input(__t('Save block'), array('type' => 'submit')); ?>
+	<?php echo $this->Form->submit(__t('Save block')); ?>
 <?php echo $this->Form->end(); ?>

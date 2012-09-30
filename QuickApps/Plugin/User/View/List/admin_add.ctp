@@ -25,5 +25,5 @@
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 
 	<!-- Submit -->
-	<?php echo $this->Form->input(__t('Create user'), array('type' => 'submit')); ?>
+	<?php echo $this->Form->submit(__t('Create user')); ?>
 <?php echo $this->Form->end(); ?>

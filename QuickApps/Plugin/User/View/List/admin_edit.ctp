@@ -27,5 +27,5 @@
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 
 	<!-- Submit -->
-	<?php echo $this->Form->input(__t('Update user'), array('type' => 'submit')); ?>
+	<?php echo $this->Form->submit(__t('Update user')); ?>
 <?php echo $this->Form->end(); ?>

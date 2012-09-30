@@ -202,7 +202,7 @@ class ThemeCustomizerHelper extends AppHelper {
 						$out .=
 							$this->_View->Html->useTag('fieldsetstart', '<span class="fieldset-toggle"><em>' . $css . '</em></span>')
 							. "<div class=\"fieldset-toggle-container\" style=\"display:none;\" id=\"{$css}\">"
-								. '<div style="overflow:hidden;">'
+								. '<div class="form-controls">'
 									. $this->_View->Form->submit(__t('Save'), array('style' => 'float:right; display:block; margin-left:10px;', 'onclick' => '$("#ThemeCustomizer' . $theme_name . 'SaveCss").val("' . $css . '");'))
 									. $this->_View->Form->submit(__t('Reset'), array('style' => 'float:right; display:block; margin-left:10px;', 'onclick' => 'return reset_styles("' . $theme_name . '", "' . $css . '");'))
 								. '</div>'

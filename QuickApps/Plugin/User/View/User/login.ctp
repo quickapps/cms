@@ -6,7 +6,8 @@
 				echo $this->Form->input('username');
 				echo $this->Form->input('password');
 				echo $this->Form->input('remember', array('type' => 'checkbox', 'label' => __t('Remember')));
+				echo $this->Form->submit(__t('Login'));
 			?>
 		<?php echo $this->Html->useTag('fieldsetend'); ?>
-	<?php echo $this->Form->end('Submit');?>
+	<?php echo $this->Form->end();?>
 </div>

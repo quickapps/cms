@@ -30,5 +30,5 @@
 		<em><?php echo __t('Leave blank to use default favicon.'); ?></em>
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 
-	<?php echo $this->Form->input(__t('Save'), array('type' => 'submit')); ?>
+	<?php echo $this->Form->submit(__t('Save')); ?>
 <?php echo $this->Form->end(); ?>

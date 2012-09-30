@@ -43,7 +43,7 @@ class MenuHelper extends AppHelper {
 		'id' => null,
 		'class' => null,
 		'partialMatch' => false,
-		'activeClass' => 'selected',
+		'activeClass' => 'active',
 		'firstClass' => 'first-item',
 		'lastClass' => 'last-item',
 		'force' => false,
@@ -81,7 +81,7 @@ class MenuHelper extends AppHelper {
  *	-	`partialMatch`: Normally url matching are strict.
  *		e.g.: Suppose you are in /items/details and your menu contains an entry for `/item` then by
  *	  	default it'll not set active. But if you set `partialMatch` to true then it'll set active. (default - false)
- *	-	`activeClass`: Classname for the selected/current item. (default - 'selected')
+ *	-	`activeClass`: Classname for the selected/current item. (default - 'active')
  *	-	`firstClass`: Classname for the first item. (default - 'first-item')
  *	-	`lastClass`: Classname for the first item. (default - 'last-item')
  *	-	`force`: Forced rendering. Items with `status` = 0 will be rendered, as well childs of parents with `expanded` = false.
@@ -281,7 +281,8 @@ class MenuHelper extends AppHelper {
  * - `id`: id attribute for the container (ul, ol)
  * - `type`: type of list, ol, ul. default: ul
  * - `itemType`: type of child node. default: li
- * - `activeClass`: class attribute for selected itemType. default: `selected`
+ * - `class`: class attribute for the top level element (ul)
+ * - `activeClass`: class attribute for selected itemType. default: `active`
  * @return string HTML
  * @deprecated  
  */
@@ -295,15 +296,18 @@ class MenuHelper extends AppHelper {
 			'id' => null,
 			'type' => 'ul',
 			'itemType' => 'li',
-			'activeClass' => 'selected'
+			'activeClass' => 'active',
+			'class' => ''
 		);
 
 		$options = array_merge($_options, $options);
 
 		extract($options);
 
+		$class = is_array($class) ? implode(' ', $class) : $class;
+		$class = !empty($class) ? " class=\"{$class}\"" : '';
 		$id = !is_null($id) ? " id=\"{$id}\" " : '';
-		$o = "<{$type}{$id}>\n";
+		$o = "<{$type}{$id}{$class}>\n";
 		$here = preg_replace("/\/{2,}/", '/', "/" . str_replace($this->_View->base, '', $this->_View->here) . "/");
 		$here = preg_replace(array('/^\/[a-z]{3}\//', '/\/{1,}$/'), array('/', ''), $here);
 		$path = parse_url($here);
@@ -334,8 +338,13 @@ class MenuHelper extends AppHelper {
 				$selected = QuickApps::urlMatch($link['pattern'], $here) ? " class=\"{$activeClass}\" " : '';
 			}
 
-			$link = isset($link['options']) && is_array($link['options']) ? $this->_View->Html->link($link[0], $link[1], $link['options']) : $this->_View->Html->link($link[0], $link[1]);
-			$o .= "\t<{$itemType}{$selected}><span>" . $link . "</span></{$itemType}>\n";
+			if (isset($link['options']) && is_array($link['options'])) {
+				$link = $this->_View->Html->link($link[0], $link[1], $link['options']);
+			} else {
+				$link = $this->_View->Html->link($link[0], $link[1]);
+			}
+
+			$o .= "\t<{$itemType}{$selected}>" . $link . "</{$itemType}>\n";
 		}
 
 		$o .= "\n</{$type}>";
