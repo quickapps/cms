@@ -325,6 +325,21 @@ class TableHelper extends AppHelper {
 			}
 		}
 
+		// look for truncate command. {truncate length=80}Long text to truncate{/truncate}
+		preg_match_all('/\{truncate(.*?)\}(.+)\{\/truncate\}/i', $value, $truncate);
+		if (isset($truncate[1]) && !empty($truncate[1])) {
+			foreach ($truncate[0] as $i => $m) {
+				$opts = isset($truncate[1][$i]) ? QuickApps::parseHooktagAttributes(trim($truncate[1][$i])) : array();
+				$opts = empty($opts) ? array(): $opts;
+
+				if (isset($opts['length'])) {
+					$value = str_replace($m, String::truncate($truncate[2][$i], $opts['length']), $value);
+				} else {
+					$value = str_replace($m, String::truncate($truncate[2][$i]), $value);
+				}
+			}
+		}
+
 		return $value;
 	}
 
