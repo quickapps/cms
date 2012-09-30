@@ -1,9 +1,9 @@
 info:
 	admin: true
 	name: Admin Default
-	description: Default backend theme for QuickApps
+	description: Default back office theme for QuickApps CMS. Fully responsive.
 	core: 1.x
-	version: 1.0
+	version: 1.1
 	author: Christopher Castro <chris@quickapps.es>
 
 stylesheets:

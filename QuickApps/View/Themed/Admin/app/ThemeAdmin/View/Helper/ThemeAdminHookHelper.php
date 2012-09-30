@@ -39,11 +39,14 @@ class ThemeAdminHookHelper extends AppHelper {
 				<li><a href='{url}/admin/node/contents/delete/{Node.slug}{/url}' onclick=\"return confirm('" . __t('Delete selected content ?') . "');\">" . __t('delete') . "</a></li>
 			";
 			$label = '
-				{truncate length=50}{Node.title}{/truncate}
+				<span class="visible-phone">[{NodeType.name}]</span>
+				<span class="hidden-phone">{truncate length=50}{Node.title}{/truncate}</span>
+				<span class="visible-phone">{truncate length=25}{Node.title}{/truncate}</span>
 				{php} return ({Node.sticky}) ? \'<i class="icon-star" title="' . __t("Sticky at top") . '"></i>\' : ""; {/php}
 				{php} return ({Node.promote}) ? \'<i class="icon-home" title="' . __t("Promoted in front page") . '"></i>\' : ""; {/php}
 				{php} return (trim("{Node.cache}") != "") ? \'<i class="icon-hdd" title="' . __t("Cache activated") . ': ' . '{Node.cache}"></i>\' : ""; {/php}
 				{php} return (trim("{Node.translation_of}") != "") ? \'<i class="icon-flag" title="' . __t("This node is a translation of other") . '"></i>\' : ""; {/php}
+				{php} return (trim("{Node.modified}") != trim("{Node.created}")) ? \'<i class="icon-refresh visible-phone" title="' . __t('updated') . '"></i>\' : ""; {/php}
 			';
 			$info['options']['columns'][__t('Title')]['value'] = "
 				<div class=\"btn-group\">
@@ -60,6 +63,30 @@ class ThemeAdminHookHelper extends AppHelper {
 			";
 
 			unset($info['options']['columns'][__t('Actions')], $info['options']['columns'][__t('Status')]);
+
+			// hide columns to prevent overflow
+			$info['options']['columns']['<input type="checkbox" onclick="QuickApps.checkAll(this);">']['thOptions']['width'] = '';
+			$info['options']['columns']['<input type="checkbox" onclick="QuickApps.checkAll(this);">']['tdOptions']['width'] = '';
+			$info['options']['columns'][__t('Title')]['thOptions']['width'] = '';
+			$info['options']['columns'][__t('Title')]['tdOptions']['width'] = '';
+			$info['options']['columns'][__t('Type')]['thOptions']['class'] = 'hidden-tablet hidden-phone';
+			$info['options']['columns'][__t('Type')]['tdOptions']['class'] = 'hidden-tablet hidden-phone';
+			$info['options']['columns'][__t('Author')]['thOptions']['class'] = 'hidden-phone hidden-tablet';
+			$info['options']['columns'][__t('Author')]['tdOptions']['class'] = 'hidden-phone hidden-tablet';
+			$info['options']['columns'][__t('Updated')]['thOptions']['class'] = 'hidden-phone';
+			$info['options']['columns'][__t('Updated')]['tdOptions']['class'] = 'hidden-phone';
+			$info['options']['columns'][__t('Language')]['thOptions']['class'] = 'hidden-phone';
+			$info['options']['columns'][__t('Language')]['tdOptions']['class'] = 'hidden-phone';
+
+			//insert icons meaning at bottom for mobile devices
+			$info['options']['append'] = '
+				<ul class="visible-phone visible-tablet">
+					<li><i class="icon-home"></i> ' . __t("Promoted in front page") . '</li>
+					<li><i class="icon-star"></i> ' . __t("Sticky at top") . '</li>
+					<li><i class="icon-hdd"></i> ' . __t("Cache activated") . '</li>
+					<li><i class="icon-refresh"></i> ' . __t('Updated') . '</li>
+				</ul>
+			';
 		}
 
 		// styles for users table list
@@ -81,6 +108,10 @@ class ThemeAdminHookHelper extends AppHelper {
 				</div>
 			";
 			unset($info['options']['columns'][__t('Actions')], $info['options']['columns'][__t('Email')]);
+
+			// hide columns to prevent overflow
+			$info['options']['columns'][__t('Roles')]['thOptions']['class'] = 'hidden-phone';
+			$info['options']['columns'][__t('Roles')]['tdOptions']['class'] = 'hidden-phone';
 		}
 
 		// styles for languages table list
@@ -97,8 +128,11 @@ class ThemeAdminHookHelper extends AppHelper {
 					$icon = strpos("{Language.icon}", "://") !== false ? "{Language.icon}" : "/locale/img/flags/{Language.icon}";
 					return ("{Language.icon}" != "" ? $this->_View->Html->image($icon, array("width" => 16, "class" => "flag-icon")) : "");
 				{/php}
+				<span class="visible-phone">[{Language.code}]</span>
 				{Language.name}
+				<span class="visible-phone"> ~ {Language.native}</span>
 				{php} return ("{Language.code}" == "' . Configure::read('Variable.default_language') . '" ? \'<i class="icon-star" title="' . __t('Default language') . '"></i>\' : ""); {/php}
+				{php} return ("{Language.direction}" == "ltr" ? \'<i class="icon-arrow-right visible-phone" title="' . __t('Left to right') . '"></i>\' : \'<i class="icon-arrow-left visible-phone" title="' . __t('Right to left') . '"></i>\'); {/php}
 			';
 
 			$info['options']['columns'][__t('English name')]['value'] = "
@@ -116,6 +150,14 @@ class ThemeAdminHookHelper extends AppHelper {
 			";
 
 			unset($info['options']['columns'][__t('Actions')], $info['options']['columns'][__t('Status')]);
+
+			// hide columns to prevent overflow
+			$info['options']['columns'][__t('Native name')]['thOptions']['class'] = 'hidden-phone';
+			$info['options']['columns'][__t('Native name')]['tdOptions']['class'] = 'hidden-phone';
+			$info['options']['columns'][__t('Code')]['thOptions']['class'] = 'hidden-phone';
+			$info['options']['columns'][__t('Code')]['tdOptions']['class'] = 'hidden-phone';
+			$info['options']['columns'][__t('Direction')]['thOptions']['class'] = 'hidden-phone';
+			$info['options']['columns'][__t('Direction')]['tdOptions']['class'] = 'hidden-phone';
 		}
 
 		// styles for translatable entries table list
