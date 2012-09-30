@@ -160,17 +160,18 @@ class TableHelper extends AppHelper {
 
 		$options = Hash::merge($this->__defaults, $options);
 		$this->__colsCount = count($options['columns']);
-		$out = sprintf('<table%s>', $this->Html->_parseAttributes($options['tableOptions'])) . "\n";
+		$out = '';
 
-		if (count($data) > 0) {
-
+		if (count($data)) {
 			$print_header_top = ($options['headerPosition'] !== false && in_array($options['headerPosition'], array('top', 'top&bottom')));
 			$print_paginator_top = ($options['paginate'] !== false && in_array($options['paginate']['position'], array('top', 'top&bottom')));
 
-			if ($print_header_top ||  $print_paginator_top) {
+			$out .= $print_paginator_top ? $this->_renderPaginator($options) : '';
+			$out .= sprintf('<table%s>', $this->Html->_parseAttributes($options['tableOptions'])) . "\n";
+
+			if ($print_header_top) {
 				$out .= "\t<thead>\n";
 				$out .= $print_header_top ? $this->_renderHeader($options) : '';
-				$out .= $print_paginator_top ? $this->_renderPaginator($options) : '';
 				$out .= "\n\t</thead>\n";
 			}
 
@@ -215,19 +216,23 @@ class TableHelper extends AppHelper {
 			$print_header_bottom = ($options['headerPosition'] !== false && in_array($options['headerPosition'], array('bottom', 'top&bottom')));
 			$print_paginator_bottom = ($options['paginate'] != false && in_array($options['paginate']['position'], array('bottom', 'top&bottom')));
 
-			if ($print_header_bottom || $print_paginator_bottom) {
+			if ($print_header_bottom) {
 				$out .= "\t<tfoot>\n";
 				$out .= $print_header_bottom ? $this->_renderHeader($options) : '';
-				$out .= $print_paginator_bottom ? $this->_renderPaginator($options) : '';
 				$out .= "\n\t</tfoot>\n";
 			}
-		} else {
-			$options['noItemsMessage'] = $options['noItemsMessage'] != 'There are no items to display' ? $options['noItemsMessage'] : __t($options['noItemsMessage']);
-			$td = $this->Html->useTag('tablecell', $this->Html->_parseAttributes(array('colspan' => $this->__colsCount)), $options['noItemsMessage']);
-			$out .= $this->Html->useTag('tablerow', $this->Html->_parseAttributes(array('class' => 'even')), $td);
-		}
 
-		$out .= "</table>\n";
+			$out .= "</table>\n";
+			$out .= $print_paginator_bottom ? $this->_renderPaginator($options) : '';
+		} else {
+			if ($options['noItemsMessage'] != 'There are no items to display') {
+				$options['noItemsMessage'] = $options['noItemsMessage'];
+			} else {
+				$options['noItemsMessage'] = __t($options['noItemsMessage']);
+			}
+
+			$out .= $this->_View->element('theme_flash_message', array('class' => 'error', 'message' => $options['noItemsMessage']));
+		}
 
 		return $out;
 	}
@@ -383,17 +388,25 @@ class TableHelper extends AppHelper {
  * @return string HTML
  */
 	protected function _renderPaginator($array) {
-		$out = $paginator = '';
-		$array = $array['paginate'];
-		$array['numbers']['options']['first'] = $array['numbers']['options']['first'] != 'First ' ? __t($array['numbers']['options']['first']) : $array['numbers']['options']['first'];
-		$array['numbers']['options']['last'] = $array['numbers']['options']['last'] != ' Last' ? __t($array['numbers']['options']['last']) : $array['numbers']['options']['last'];
-		$paginator .= $this->Paginator->options($array['options']);
-		$paginator .= $this->Paginator->prev($array['prev']['title'], $array['prev']['options'], $array['prev']['disabledTitle'], $array['prev']['disabledOptions']);
-		$paginator .= $this->Paginator->numbers($array['numbers']['options']);
-		$paginator .= $this->Paginator->next($array['next']['title'], $array['next']['options'], $array['next']['disabledTitle'], $array['next']['disabledOptions']);
-		$td = $this->Html->useTag('tablecell', $this->Html->_parseAttributes(array_merge(array('colspan' => $this->__colsCount), $array['tdOptions'])), $paginator);
-		$out .= $this->Html->useTag('tablerow', $this->Html->_parseAttributes($array['trOptions']), $td);
+		if ($this->_View->Layout->hookDefined('pagination')) {
+			$response = $this->_View->Layout->hook('pagination', $array);
 
-		return $out;
+			if ($response) {
+				return $response;
+			}
+		} else {
+			$out = $paginator = '';
+			$array = $array['paginate'];
+			$array['numbers']['options']['first'] = $array['numbers']['options']['first'] != 'First ' ? __t($array['numbers']['options']['first']) : $array['numbers']['options']['first'];
+			$array['numbers']['options']['last'] = $array['numbers']['options']['last'] != ' Last' ? __t($array['numbers']['options']['last']) : $array['numbers']['options']['last'];
+			$paginator .= $this->Paginator->options($array['options']);
+			$paginator .= $this->Paginator->prev($array['prev']['title'], $array['prev']['options'], $array['prev']['disabledTitle'], $array['prev']['disabledOptions']);
+			$paginator .= $this->Paginator->numbers($array['numbers']['options']);
+			$paginator .= $this->Paginator->next($array['next']['title'], $array['next']['options'], $array['next']['disabledTitle'], $array['next']['disabledOptions']);
+			$td = $this->Html->useTag('tablecell', $this->Html->_parseAttributes(array_merge(array('colspan' => $this->__colsCount), $array['tdOptions'])), $paginator);
+			$out .= $this->Html->useTag('tablerow', $this->Html->_parseAttributes($array['trOptions']), $td);
+
+			return $out;
+		}
 	}
 }
