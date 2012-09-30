@@ -71,7 +71,9 @@ class TaxonomyTermsHookHelper extends AppHelper {
 					)
 				);
 
-				$prePopulate[] = "{id: {$term['Term']['id']}, name: \"{$term['Term']['name']}\"}";
+				if (!empty($term['Term']['id']) && !empty($term['Term']['name'])) {
+					$prePopulate[] = "{id: {$term['Term']['id']}, name: \"{$term['Term']['name']}\"}";
+				}
 			}
 		}
 
