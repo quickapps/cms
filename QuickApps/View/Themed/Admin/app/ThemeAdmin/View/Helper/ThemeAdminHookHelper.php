@@ -45,7 +45,7 @@ class ThemeAdminHookHelper extends AppHelper {
 				{php} return ({Node.sticky}) ? \'<i class="icon-star" title="' . __t("Sticky at top") . '"></i>\' : ""; {/php}
 				{php} return ({Node.promote}) ? \'<i class="icon-home" title="' . __t("Promoted in front page") . '"></i>\' : ""; {/php}
 				{php} return (trim("{Node.cache}") != "") ? \'<i class="icon-hdd" title="' . __t("Cache activated") . ': ' . '{Node.cache}"></i>\' : ""; {/php}
-				{php} return (trim("{Node.translation_of}") != "") ? \'<i class="icon-flag" title="' . __t("This node is a translation of other") . '"></i>\' : ""; {/php}
+				{php} return (trim("{Node.translation_of}") != "") ? \'<i class="icon-flag" title="' . __t('This node is a translation of other') . '"></i>\' : ""; {/php}
 				{php} return (trim("{Node.modified}") != trim("{Node.created}")) ? \'<i class="icon-refresh visible-phone" title="' . __t('updated') . '"></i>\' : ""; {/php}
 			';
 			$info['options']['columns'][__t('Title')]['value'] = "
@@ -81,9 +81,10 @@ class ThemeAdminHookHelper extends AppHelper {
 			//insert icons meaning at bottom for mobile devices
 			$info['options']['append'] = '
 				<ul class="visible-phone visible-tablet">
-					<li><i class="icon-home"></i> ' . __t("Promoted in front page") . '</li>
-					<li><i class="icon-star"></i> ' . __t("Sticky at top") . '</li>
-					<li><i class="icon-hdd"></i> ' . __t("Cache activated") . '</li>
+					<li><i class="icon-home"></i> ' . __t('Promoted in front page') . '</li>
+					<li><i class="icon-star"></i> ' . __t('Sticky at top') . '</li>
+					<li><i class="icon-hdd"></i> ' . __t('Cache activated') . '</li>
+					<li><i class="icon-flag"></i> ' . __t('This node is a translation of other') . '</li>
 					<li><i class="icon-refresh"></i> ' . __t('Updated') . '</li>
 				</ul>
 			';
@@ -158,6 +159,15 @@ class ThemeAdminHookHelper extends AppHelper {
 			$info['options']['columns'][__t('Code')]['tdOptions']['class'] = 'hidden-phone';
 			$info['options']['columns'][__t('Direction')]['thOptions']['class'] = 'hidden-phone';
 			$info['options']['columns'][__t('Direction')]['tdOptions']['class'] = 'hidden-phone';
+
+			//insert icons meaning at bottom for mobile devices
+			$info['options']['append'] = '
+				<ul class="visible-phone visible-tablet">
+					<li><i class="icon-star"></i> ' . __t('Default language') . '</li>
+					<li><i class="icon-arrow-left"></i> ' . __t('Right to left') . '</li>
+					<li><i class="icon-arrow-right"></i> ' . __t('Left to right') . '</li>
+				</ul>
+			';
 		}
 
 		// styles for translatable entries table list
