@@ -9,23 +9,25 @@
 		<?php echo $this->Layout->header(); ?>
 	</head>
 
-	<body>
-		<div id="content" class="clearfix">
-			<div class="left-block">
-				<a href="http://www.quickappscms.org/" target="_blank"><?php echo $this->Html->image('/system/img/logo.png', array('border' => 0, 'width' => 128)); ?></a>
-			</div>
-
-			<div class="right-block">
-				<div class="container">
-					<div class="sessionFlash">
-					<?php if ($sessionFlash = $this->Layout->sessionFlash()): ?>
+	<body class="login">		
+		<div class="container">
+			<div class="content clearfix">
+				<?php if ($sessionFlash = $this->Layout->sessionFlash()): ?>
+					<div class="clearfix">
 						<?php echo $sessionFlash; ?>
-					<?php endif; ?>
+					</div>
+				<?php endif; ?>
+
+				<div class="clearfix">
+					<div class="logo pull-left">
+						<a href="http://www.quickappscms.org/" target="_blank"><?php echo $this->Html->image('/system/img/logo.png', array('border' => 0, 'width' => 128)); ?></a>
 					</div>
 
-					<?php echo $this->Layout->content(); ?>
+					<div class="login-from pull-right">
+						<?php echo $this->Layout->content(); ?>
+					</div>
 				</div>
 			</div>
-		</div>
+		</div>		
 	</body>
 </html>

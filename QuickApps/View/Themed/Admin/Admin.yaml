@@ -7,7 +7,10 @@ info:
 	author: Christopher Castro <chris@quickapps.es>
 
 stylesheets:
-	all: [reset.css, styles.css]
+	all: [bootstrap.min.css, bootstrap-responsive.min.css, layout.css]
+
+javascripts:
+	file: [bootstrap.min.js]
 
 regions:
 	management-menu: Management menu

@@ -3,7 +3,7 @@
 
 	switch ($menu['region']) {
 		case 'management-menu':
-			echo $this->Menu->render($menu, array('id' => 'top-menu', 'partialMatch' => true));
+			echo $this->Menu->render($menu, array('class' => 'nav', 'partialMatch' => true));
 		break;
 
 		case 'content':
@@ -11,6 +11,6 @@
 		break;
 
 		default:
-			echo $this->Menu->render($menu);
+			echo $this->Menu->render($menu, array('class' => 'nav'));
 		break;
 	}

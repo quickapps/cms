@@ -1,0 +1,61 @@
+body { background:#484848; }
+table { background:#fff; }
+fieldset {
+	overflow:hidden;
+	background:#fff;
+	padding:20px;
+	border:1px solid #ccc;
+	margin-bottom:20px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+}
+legend { width:100%; display:block; float:right; clear:both; margin-bottom:20px; }
+.paginator .disabled { display:none; }
+ul.breadcrumb { margin:0; 	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	background:#fff;
+}
+textarea { width:99%; }
+em { font-size:85%; font-style:italic; }
+form.form-inline .input { padding:10px; }
+form.form-inline label { padding-right:10px; }
+.radio fieldset { display:block; }
+.site-footer { color:#C7C4C4; text-align:center; }
+.nav-pills li a { background:#0088CC; color:#fff; margin-right:15px; }
+.nav-pills li a:hover, .nav-pills li.active a { background:#EDE8E8; color:#727171; }
+div.radio legend { padding:5px; overflow:hidden; }
+table th a.asc { padding-right:20px; background:url(../img/up.gif) no-repeat right center; }
+table th a.desc { padding-right:20px; background:url(../img/down.gif) no-repeat right center; }
+#menu-sortContainer { display:block; width:100%;  overflow:hidden; float:left; }
+div.dashboard div.block h2 { font-size:16px; margin:0; }
+div.dashboard div.block {
+	background:#fff;
+	padding:10px;
+	margin-bottom:20px;
+	margin-bottom:20px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;	
+}
+div.main-title { border-bottom:1px solid #F9F9F9; margin:15px 0 30px 0; }
+div.main-title h2 { border-bottom:1px solid #ddd; margin:0; }
+
+/* LOGIN */
+body.login { background:#eee !important; }
+body.login .container .logo { width:130px; margin-top:60px; }
+body.login .login-from { width:240px; padding-left:30px; border-left:1px solid #eee; }
+body.login .container { width:450px; margin-top:50px; }
+body.login .container > .content {
+	background-color: #fff;
+	padding: 20px;
+	margin: 0 -20px; 
+	-webkit-border-radius: 10px 10px 10px 10px;
+	-moz-border-radius: 10px 10px 10px 10px;
+	border-radius: 10px 10px 10px 10px;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+	box-shadow: 0 1px 2px rgba(0,0,0,.15);
+}
+body.login legend { display:none; }
