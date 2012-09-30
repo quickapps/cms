@@ -18,7 +18,7 @@
 					<span class="icon-bar"></span>
 				</a>
 
-				<a href="#" class="brand"><?php echo $this->Layout->title();?></a>
+				<a href="http://www.quickappscms.org/" class="brand" target="_blank">QuickApps CMS</a>
 
 				<div class="nav-collapse">
 					<?php echo $this->Block->region('management-menu'); ?>

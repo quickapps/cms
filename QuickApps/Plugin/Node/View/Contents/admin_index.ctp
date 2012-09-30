@@ -10,7 +10,8 @@ $tSettings = array(
 			'value' => '{Node.title}
 				{php} return ({Node.sticky}) ? \'{img title="' . __t("Sticky at top") . '"}/node/img/sticky.png{/img}\' : ""; {/php}
 				{php} return ({Node.promote}) ? \'{img title="' . __t("Promoted in front page") . '"}/node/img/promote.png{/img}\' : ""; {/php}
-				{php} return (trim("{Node.cache}") != "") ? \'{img title="' . __t("Cache activated") . ': ' . '{Node.cache}"}/node/img/cache.png{/img}\' : ""; {/php}',
+				{php} return (trim("{Node.cache}") != "") ? \'{img title="' . __t("Cache activated") . ': ' . '{Node.cache}"}/node/img/cache.png{/img}\' : ""; {/php}
+				{php} return (trim("{Node.translation_of}") != "") ? \'{img title="' . __t("This node is a translation of other") . '"}/node/img/translation.png{/img}\' : ""; {/php}',
 			'sort' => 'Node.title',
 			'tdOptions' => array('width' => '40%', 'align' => 'left')
 		),

@@ -32,9 +32,10 @@ class ThemeAdminHookHelper extends AppHelper {
 
 		// styles for nodes table list
 		if ($this->request->controller == 'contents' && $this->action == 'admin_index' && strtolower($this->plugin) == 'node') {
+			$statusClass = '{php} return ({Node.status} == 0 ? "btn-danger" : "btn-primary"); {/php}';
 			$actions = "
-				{php} return (!'{Node.translation_of}' && '{Node.language}') ? \"<li><a href='{url}/admin/node/contents/translate/{Node.slug}{/url}'>" . __t('translate') . "</a></li>\" : ''; {/php}
 				<li><a href='{url}/admin/node/contents/edit/{Node.slug}{/url}'>" . __t('edit') . "</a></li>
+				{php} return (!'{Node.translation_of}' && '{Node.language}') ? \"<li><a href='{url}/admin/node/contents/translate/{Node.slug}{/url}'>" . __t('translate') . "</a></li>\" : ''; {/php}
 				<li><a href='{url}/admin/node/contents/delete/{Node.slug}{/url}' onclick=\"return confirm('" . __t('Delete selected content ?') . "');\">" . __t('delete') . "</a></li>
 			";
 			$label = '
@@ -42,13 +43,14 @@ class ThemeAdminHookHelper extends AppHelper {
 				{php} return ({Node.sticky}) ? \'<i class="icon-star" title="' . __t("Sticky at top") . '"></i>\' : ""; {/php}
 				{php} return ({Node.promote}) ? \'<i class="icon-home" title="' . __t("Promoted in front page") . '"></i>\' : ""; {/php}
 				{php} return (trim("{Node.cache}") != "") ? \'<i class="icon-hdd" title="' . __t("Cache activated") . ': ' . '{Node.cache}"></i>\' : ""; {/php}
+				{php} return (trim("{Node.translation_of}") != "") ? \'<i class="icon-flag" title="' . __t("This node is a translation of other") . '"></i>\' : ""; {/php}
 			';
 			$info['options']['columns'][__t('Title')]['value'] = "
 				<div class=\"btn-group\">
-					<button class=\"btn btn-primary\">
+					<a href=\"{url}/admin/node/contents/edit/{Node.slug}{/url}\" class=\"btn {$statusClass}\">
 						{$label}
-					</button>
-					<button class=\"btn dropdown-toggle btn-primary\" data-toggle=\"dropdown\">
+					</a>
+					<button class=\"btn dropdown-toggle {$statusClass}\" data-toggle=\"dropdown\">
 						<span class=\"caret\"></span>
 					</button>
 					<ul class=\"dropdown-menu\">
@@ -57,19 +59,20 @@ class ThemeAdminHookHelper extends AppHelper {
 				</div>
 			";
 
-			unset($info['options']['columns'][__t('Actions')]);
+			unset($info['options']['columns'][__t('Actions')], $info['options']['columns'][__t('Status')]);
 		}
 
 		// styles for users table list
 		if ($this->request->controller == 'list' && $this->action == 'admin_index' && strtolower($this->plugin) == 'user') {
+			$statusClass = '{php} return {User.status} == 1 ? "btn-primary" : "btn-warning"; {/php}';
 			$label = '{User.username} ({User.email})';
 			$actions = "<li><a href='{url}/admin/user/list/edit/{User.id}{/url}'>" . __t('edit') . "</a></li>";
 			$info['options']['columns'][__t('User Name')]['value'] = "
 				<div class=\"btn-group\">
-					<button class=\"btn btn-primary\">
+					<a href=\"{url}/admin/user/list/edit/{User.id}{/url}\" class=\"btn {$statusClass}\">
 						{$label}
-					</button>
-					<button class=\"btn dropdown-toggle btn-primary\" data-toggle=\"dropdown\">
+					</a>
+					<button class=\"btn dropdown-toggle {$statusClass}\" data-toggle=\"dropdown\">
 						<span class=\"caret\"></span>
 					</button>
 					<ul class=\"dropdown-menu\">
@@ -82,10 +85,11 @@ class ThemeAdminHookHelper extends AppHelper {
 
 		// styles for languages table list
 		if ($this->request->controller == 'languages' && $this->action == 'admin_index' && strtolower($this->plugin) == 'locale') {
+			$statusClass = '{php} return {Language.status} == 1 ? "btn-primary" : "btn-danger"; {/php}';
 			$actions = '
 				<li><a href="{url}/admin/locale/languages/move/{Language.id}/up{/url}">' . __t('move up') . '</a></li>
 				<li><a href="{url}/admin/locale/languages/move/{Language.id}/down{/url}">' . __t('move down') . '</a></li>
-				{php} return {Language.status} == 1 ? \'<li><a href="{url}/admin/locale/languages/set_default/{Language.id}{/url}">' . __t('set as default') . '</a></li>\' : \'\'; {/php}
+				{php} return "{Language.code}" != "' . Configure::read('Variable.default_language') . '" ? \'<li><a href="{url}/admin/locale/languages/set_default/{Language.id}{/url}">' . __t('set as default') . '</a></li>\' : \'\'; {/php}
 				<li><a href="{url}/admin/locale/languages/edit/{Language.id}{/url}">' . __t('edit') . '</a></li>
 			';
 			$label = '
@@ -99,10 +103,10 @@ class ThemeAdminHookHelper extends AppHelper {
 
 			$info['options']['columns'][__t('English name')]['value'] = "
 				<div class=\"btn-group\">
-					<button class=\"btn btn-primary\">
+					<a href=\"{url}/admin/locale/languages/edit/{Language.id}{/url}\" class=\"btn {$statusClass}\">
 						{$label}
-					</button>
-					<button class=\"btn dropdown-toggle btn-primary\" data-toggle=\"dropdown\">
+					</a>
+					<button class=\"btn dropdown-toggle {$statusClass}\" data-toggle=\"dropdown\">
 						<span class=\"caret\"></span>
 					</button>
 					<ul class=\"dropdown-menu\">
@@ -111,7 +115,7 @@ class ThemeAdminHookHelper extends AppHelper {
 				</div>
 			";
 
-			unset($info['options']['columns'][__t('Actions')]);
+			unset($info['options']['columns'][__t('Actions')], $info['options']['columns'][__t('Status')]);
 		}
 
 		// styles for translatable entries table list
@@ -125,9 +129,9 @@ class ThemeAdminHookHelper extends AppHelper {
 
 			$info['options']['columns'][__t('Text')]['value'] = "
 				<div class=\"btn-group\">
-					<button class=\"btn btn-primary\">
+					<a href=\"{url}/admin/locale/translations/edit/{Translation.id}{/url}\" class=\"btn btn-primary\">
 						{$label}
-					</button>
+					</a>
 					<button class=\"btn dropdown-toggle btn-primary\" data-toggle=\"dropdown\">
 						<span class=\"caret\"></span>
 					</button>
