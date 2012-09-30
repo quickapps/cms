@@ -53,6 +53,8 @@ class TableHelper extends AppHelper {
 /**
  * Default table rendering options.
  *
+ * - (string) prepend: Additional HTML code to insert before the <table> tag.
+ * - (string) append: Additional HTML code to insert after the <table> tag.
  * - (array) columns: Settings for each table's column. (see TableHelper::$__columnDefaults).
  * - (mixed) headerPosition: Column titles position. 'top', 'top&bottom', bottom'. Or (boolean) FALSE for no titles.
  * - (string) noItemsMessage: Message to show if there are no rows to display.
@@ -65,6 +67,8 @@ class TableHelper extends AppHelper {
  * @var array
  */
 	private $__defaults = array(
+		'prepend' => '',
+		'append' => '',
 		'columns' => array(),
 		'headerPosition' => 'top',
 		'noItemsMessage' => 'There are no items to display',
@@ -234,7 +238,7 @@ class TableHelper extends AppHelper {
 			$out .= $this->_View->element('theme_flash_message', array('class' => 'error', 'message' => $options['noItemsMessage']));
 		}
 
-		return $out;
+		return $options['prepend'] . $out . $options['append'];
 	}
 
 /**
