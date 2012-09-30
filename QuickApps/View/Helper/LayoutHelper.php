@@ -253,7 +253,7 @@ class LayoutHelper extends AppHelper {
  */
 	public function meta($metaForLayout = array()) {
 		$metaForLayout = Hash::merge($metaForLayout, $this->_View->viewVars['Layout']['meta']);
-		$out = '';
+		$out = $this->_View->Html->charset() . "\n";
 
 		foreach ($metaForLayout as $name => $content) {
 			if (empty($name) || empty($content)) {
