@@ -30,6 +30,8 @@ class MenuHelper extends AppHelper {
 		'permissions' => array(),
 		'children' => array(),
 		'expanded' => true,
+		'element' => false,
+		'callback' => false,
 		'status' => 1
 	);
 
@@ -489,10 +491,12 @@ class MenuHelper extends AppHelper {
 			'hasChildren' => $hasChildren
 		);
 
-		if ($this->settings['element']) {
-			$content = $this->_View->element($this->settings['element'], $elementData);
+		if ($this->settings['element'] || $__item['element']) {
+			$element = $__item['element'] ? $__item['element'] : $this->settings['element'];
+			$content = $this->_View->element($element, $elementData);
 			$this->__tmp['regenerateCrumbs'] = true;
-		} elseif ($this->settings['callback']) {
+		} elseif ($this->settings['callback'] || $__item['callback']) {
+			$callback = $__item['callback'] ? $__item['callback'] : $this->settings['callback'];
 			list($content) = array_map($callback, array($elementData));
 		} else {
 			$content = $url;
