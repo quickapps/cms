@@ -41,7 +41,7 @@ if (!QuickApps::is('view.feed')) {
 	<!-- Fields -->
 	<?php
 		foreach ($node['Field'] as $field) {
-			echo $this->Layout->renderField($field);
+			echo $this->Node->renderField($field);
 		}
 	?>
 	<!-- /Fields -->
