@@ -46,7 +46,8 @@ $tSettings = array(
 				<?php echo $this->Form->input('Comment.filter.Comment|mail',
 						array(
 							'type' => 'text',
-							'label' => __t('Author’s e-mail')
+							'label' => __t('Author’s e-mail'),
+							'placeholder' => 'demo@example.com'
 						)
 					);
 				?>
@@ -54,7 +55,8 @@ $tSettings = array(
 				<?php echo $this->Form->input('Comment.filter.Comment|hostname',
 						array(
 							'type' => 'text',
-							'label' => __t('Author’s host name (IP)')
+							'label' => __t('Author’s host name (IP)'),
+							'placeholder' => env('REMOTE_ADDR')
 						)
 					);
 				?>
@@ -62,7 +64,8 @@ $tSettings = array(
 				<?php echo $this->Form->input('Comment.filter.Comment|homepage',
 						array(
 							'type' => 'text',
-							'label' => __t('Author’s web site')
+							'label' => __t('Author’s web site'),
+							'placeholder' => 'http://www.example.com/'
 						)
 					);
 				?>

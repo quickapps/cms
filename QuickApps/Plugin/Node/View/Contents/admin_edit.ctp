@@ -2,7 +2,7 @@
 	<?php echo $this->Form->create('Node', array('url' => "/admin/node/contents/edit/{$this->data['Node']['slug']}")); ?>
 		<!-- Content -->
 		<?php echo $this->Html->useTag('fieldsetstart', __t('Editing') . " \"{$this->data['Node']['title']}\" ({$this->data['NodeType']['name']})"); ?>
-			<?php echo !empty($this->data['NodeType']['description']) ? __t($this->data['NodeType']['description']) : ''; ?>
+			<p class="muted"><?php echo !empty($this->data['NodeType']['description']) ? __t($this->data['NodeType']['description']) : ''; ?></p>
 			<?php echo $this->Form->hidden('node_type_id'); ?>
 			<?php echo $this->Form->hidden('node_type_base'); ?>
 			<?php echo $this->Form->hidden('id'); ?>
