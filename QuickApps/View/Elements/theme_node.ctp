@@ -49,7 +49,7 @@ if (!QuickApps::is('view.feed')) {
 	<!-- Readmore -->
 	<?php if (!in_array($Layout['display'], array('full', 'print', 'rss'))) { ?>
 		<div class="link-wrapper display-mode-<?php echo $Layout['display']; ?>">
-			<?php echo $this->Html->link('<span>' . __d('node', 'Read More') . ' »</span>', "/{$node['Node']['node_type_id']}/{$node['Node']['slug']}.html", array('class' => 'read-more', 'escape' => false)); ?>
+			<?php echo $this->Html->link('<span>' . __t('Read More') . ' »</span>', "/{$node['Node']['node_type_id']}/{$node['Node']['slug']}.html", array('class' => 'read-more', 'escape' => false)); ?>
 		</div>
 	<?php } ?>
 	<!-- /Readmore -->

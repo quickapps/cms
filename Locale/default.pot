@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2012-09-14 21:16+0000\n"
+"POT-Creation-Date: 2012-09-30 15:09+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -310,15 +310,15 @@ msgstr ""
 msgid "Site offline"
 msgstr ""
 
-#: Controller\Component\QuickAppsComponent.php:355
+#: Controller\Component\QuickAppsComponent.php:324
 msgid "You are not authorized to access that location."
 msgstr ""
 
-#: Controller\Component\QuickAppsComponent.php:942
+#: Controller\Component\QuickAppsComponent.php:909
 msgid "Duplicated content"
 msgstr ""
 
-#: Controller\Component\QuickAppsComponent.php:943
+#: Controller\Component\QuickAppsComponent.php:910
 msgid "Duplicate content detected!; it looks as though you've already sent that!"
 msgstr ""
 
@@ -398,7 +398,7 @@ msgstr ""
 #: Plugin\Locale\View\Translations\admin_list.ctp:12
 #: Plugin\Menu\View\Elements\menu_link_node.ctp:4
 #: Plugin\Node\View\Contents\admin_edit.ctp:118
-#: Plugin\Node\View\Contents\admin_index.ctp:41
+#: Plugin\Node\View\Contents\admin_index.ctp:42
 #: Plugin\Node\View\Contents\admin_translate.ctp:21
 #: Plugin\Node\View\Types\admin_fields.ctp:24
 #: Plugin\Node\View\Types\admin_index.ctp:13
@@ -406,6 +406,7 @@ msgstr ""
 #: Plugin\Taxonomy\View\Vocabularies\admin_index.ctp:16
 #: Plugin\User\View\Fields\admin_index.ctp:24
 #: Plugin\User\View\Roles\admin_index.ctp:27
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:39;127
 msgid "delete"
 msgstr ""
 
@@ -454,7 +455,7 @@ msgstr ""
 #: Plugin\Locale\View\Translations\admin_import.ctp:16
 #: Plugin\Node\View\Contents\admin_add.ctp:23;24
 #: Plugin\Node\View\Contents\admin_edit.ctp:36;37
-#: Plugin\Node\View\Contents\admin_index.ctp:33;117
+#: Plugin\Node\View\Contents\admin_index.ctp:34;118
 #: Plugin\Node\View\Types\admin_add.ctp:39;40
 #: Plugin\Node\View\Types\admin_edit.ctp:45;46
 #: Plugin\User\View\List\admin_add.ctp:14
@@ -759,7 +760,7 @@ msgstr ""
 msgid "Delete selected comment ?"
 msgstr ""
 
-#: Plugin\Comment\View\List\admin_show.ctp:9;75
+#: Plugin\Comment\View\List\admin_show.ctp:9;78
 #: Plugin\Comment\View\List\admin_view.ctp:17
 #: Plugin\User\View\Elements\settings.ctp:24;47;92;115
 #: View\Elements\theme_node_comments_form.ctp:53
@@ -767,11 +768,11 @@ msgid "Subject"
 msgstr ""
 
 #: Plugin\Comment\View\List\admin_show.ctp:13;37
-#: Plugin\Node\View\Contents\admin_index.ctp:21
+#: Plugin\Node\View\Contents\admin_index.ctp:22
 msgid "Author"
 msgstr ""
 
-#: Plugin\Comment\View\List\admin_show.ctp:17;89
+#: Plugin\Comment\View\List\admin_show.ctp:17;92
 msgid "Posted in"
 msgstr ""
 
@@ -780,7 +781,7 @@ msgid "Posted on"
 msgstr ""
 
 #: Plugin\Comment\View\List\admin_show.ctp:22
-#: Plugin\Node\View\Contents\admin_index.ctp:30
+#: Plugin\Node\View\Contents\admin_index.ctp:31
 msgid "Y/m/d - H:i"
 msgstr ""
 
@@ -790,7 +791,7 @@ msgstr ""
 
 #: Plugin\Comment\View\List\admin_show.ctp:35
 #: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:34
-#: Plugin\Node\View\Contents\admin_index.ctp:55
+#: Plugin\Node\View\Contents\admin_index.ctp:56
 #: Plugin\User\View\List\admin_index.ctp:37
 msgid "Filter Options"
 msgstr ""
@@ -803,70 +804,70 @@ msgstr ""
 msgid "Author’s e-mail"
 msgstr ""
 
-#: Plugin\Comment\View\List\admin_show.ctp:57
+#: Plugin\Comment\View\List\admin_show.ctp:58
 msgid "Author’s host name (IP)"
 msgstr ""
 
-#: Plugin\Comment\View\List\admin_show.ctp:65
+#: Plugin\Comment\View\List\admin_show.ctp:67
 msgid "Author’s web site"
 msgstr ""
 
-#: Plugin\Comment\View\List\admin_show.ctp:71
+#: Plugin\Comment\View\List\admin_show.ctp:74
 msgid "Comment"
 msgstr ""
 
-#: Plugin\Comment\View\List\admin_show.ctp:83
+#: Plugin\Comment\View\List\admin_show.ctp:86
 msgid "Comment’s body"
 msgstr ""
 
-#: Plugin\Comment\View\List\admin_show.ctp:93
+#: Plugin\Comment\View\List\admin_show.ctp:96
 msgid "Content’s title"
 msgstr ""
 
-#: Plugin\Comment\View\List\admin_show.ctp:101
+#: Plugin\Comment\View\List\admin_show.ctp:104
 msgid "Content’s slug"
 msgstr ""
 
-#: Plugin\Comment\View\List\admin_show.ctp:109
+#: Plugin\Comment\View\List\admin_show.ctp:112
 msgid "Content’s id"
 msgstr ""
 
-#: Plugin\Comment\View\List\admin_show.ctp:115
+#: Plugin\Comment\View\List\admin_show.ctp:118
 #: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:77
-#: Plugin\Node\View\Contents\admin_index.ctp:124
+#: Plugin\Node\View\Contents\admin_index.ctp:125
 #: Plugin\User\View\List\admin_index.ctp:66
 msgid "Filter"
 msgstr ""
 
-#: Plugin\Comment\View\List\admin_show.ctp:120
-#: Plugin\Locale\View\Languages\admin_index.ctp:99
+#: Plugin\Comment\View\List\admin_show.ctp:123
+#: Plugin\Locale\View\Languages\admin_index.ctp:100
 msgid "Are you sure ?"
 msgstr ""
 
-#: Plugin\Comment\View\List\admin_show.ctp:122
-#: Plugin\Locale\View\Languages\admin_index.ctp:101
+#: Plugin\Comment\View\List\admin_show.ctp:125
+#: Plugin\Locale\View\Languages\admin_index.ctp:102
 #: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:84
-#: Plugin\Node\View\Contents\admin_index.ctp:131
+#: Plugin\Node\View\Contents\admin_index.ctp:132
 #: Plugin\User\View\List\admin_index.ctp:73
 msgid "Update Options"
 msgstr ""
 
-#: Plugin\Comment\View\List\admin_show.ctp:126
+#: Plugin\Comment\View\List\admin_show.ctp:129
 msgid "Approve selected comments"
 msgstr ""
 
-#: Plugin\Comment\View\List\admin_show.ctp:127
+#: Plugin\Comment\View\List\admin_show.ctp:130
 msgid "Unapprove selected comments"
 msgstr ""
 
-#: Plugin\Comment\View\List\admin_show.ctp:128
+#: Plugin\Comment\View\List\admin_show.ctp:131
 msgid "Delete selected comments"
 msgstr ""
 
-#: Plugin\Comment\View\List\admin_show.ctp:145
-#: Plugin\Locale\View\Languages\admin_index.ctp:115
+#: Plugin\Comment\View\List\admin_show.ctp:148
+#: Plugin\Locale\View\Languages\admin_index.ctp:116
 #: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:99
-#: Plugin\Node\View\Contents\admin_index.ctp:150
+#: Plugin\Node\View\Contents\admin_index.ctp:151
 #: Plugin\User\View\List\admin_index.ctp:87
 #: Plugin\User\View\User\my_account.ctp:26
 msgid "Update"
@@ -1102,7 +1103,8 @@ msgstr ""
 
 #: Plugin\Field\Fields\FieldImage\View\Elements\edit.ctp:97
 #: Plugin\Menu\View\Manage\admin_index.ctp:4
-#: Plugin\Node\View\Contents\admin_index.ctp:9;60
+#: Plugin\Node\View\Contents\admin_index.ctp:9;61
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:48
 msgid "Title"
 msgstr ""
 
@@ -1698,11 +1700,13 @@ msgid "Save language"
 msgstr ""
 
 #: Plugin\Locale\View\Languages\admin_index.ctp:9
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:104
 msgid "English name"
 msgstr ""
 
 #: Plugin\Locale\View\Languages\admin_index.ctp:16
 #: Plugin\System\View\Configuration\admin_index.ctp:56
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:101
 msgid "Default language"
 msgstr ""
 
@@ -1727,8 +1731,9 @@ msgid "Right to left"
 msgstr ""
 
 #: Plugin\Locale\View\Languages\admin_index.ctp:29
-#: Plugin\Node\View\Contents\admin_index.ctp:25;68
+#: Plugin\Node\View\Contents\admin_index.ctp:26;69
 #: Plugin\User\View\List\admin_index.ctp:42
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:62;118
 msgid "Status"
 msgstr ""
 
@@ -1746,7 +1751,7 @@ msgstr ""
 #: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:15
 #: Plugin\Locale\View\Translations\admin_list.ctp:8
 #: Plugin\Menu\View\Manage\admin_index.ctp:8
-#: Plugin\Node\View\Contents\admin_index.ctp:37
+#: Plugin\Node\View\Contents\admin_index.ctp:38
 #: Plugin\Node\View\Types\admin_display.ctp:14
 #: Plugin\Node\View\Types\admin_fields.ctp:19
 #: Plugin\Node\View\Types\admin_index.ctp:8
@@ -1755,6 +1760,7 @@ msgstr ""
 #: Plugin\User\View\Fields\admin_index.ctp:19
 #: Plugin\User\View\List\admin_index.ctp:22
 #: Plugin\User\View\Roles\admin_index.ctp:24
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:62;83;118;144
 msgid "Actions"
 msgstr ""
 
@@ -1764,6 +1770,7 @@ msgstr ""
 #: Plugin\Taxonomy\View\Vocabularies\admin_index.ctp:17
 #: Plugin\User\View\Display\admin_index.ctp:17
 #: Plugin\User\View\Fields\admin_index.ctp:22
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:90
 msgid "move up"
 msgstr ""
 
@@ -1773,10 +1780,12 @@ msgstr ""
 #: Plugin\Taxonomy\View\Vocabularies\admin_index.ctp:18
 #: Plugin\User\View\Display\admin_index.ctp:18
 #: Plugin\User\View\Fields\admin_index.ctp:23
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:91
 msgid "move down"
 msgstr ""
 
 #: Plugin\Locale\View\Languages\admin_index.ctp:36
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:92
 msgid "set as default"
 msgstr ""
 
@@ -1784,13 +1793,14 @@ msgstr ""
 #: Plugin\Locale\View\Translations\admin_list.ctp:10
 #: Plugin\Menu\View\Elements\menu_link_node.ctp:3
 #: Plugin\Menu\View\Manage\admin_index.ctp:10
-#: Plugin\Node\View\Contents\admin_index.ctp:40
+#: Plugin\Node\View\Contents\admin_index.ctp:41
 #: Plugin\Node\View\Types\admin_index.ctp:11
-#: Plugin\System\View\Elements\system_recent_content.ctp:5
+#: Plugin\System\View\Elements\system_recent_content.ctp:6
 #: Plugin\Taxonomy\View\Elements\term_node.ctp:6
 #: Plugin\Taxonomy\View\Vocabularies\admin_index.ctp:14
 #: Plugin\User\View\List\admin_index.ctp:23
 #: Plugin\User\View\Roles\admin_index.ctp:26
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:37;69;93;125
 msgid "edit"
 msgstr ""
 
@@ -1798,7 +1808,7 @@ msgstr ""
 msgid "There are no languages to display. Critical error"
 msgstr ""
 
-#: Plugin\Locale\View\Languages\admin_index.ctp:50
+#: Plugin\Locale\View\Languages\admin_index.ctp:51
 msgid "Add New Language"
 msgstr ""
 
@@ -1826,15 +1836,15 @@ msgstr ""
 msgid "<a href=\"%s\" target=\"_blank\">ISO 639-3</a> compliant language identifier."
 msgstr ""
 
-#: Plugin\Locale\View\Languages\admin_index.ctp:108
+#: Plugin\Locale\View\Languages\admin_index.ctp:109
 msgid "Enable selected languages"
 msgstr ""
 
-#: Plugin\Locale\View\Languages\admin_index.ctp:109
+#: Plugin\Locale\View\Languages\admin_index.ctp:110
 msgid "Disable selected languages"
 msgstr ""
 
-#: Plugin\Locale\View\Languages\admin_index.ctp:110
+#: Plugin\Locale\View\Languages\admin_index.ctp:111
 msgid "Delete selected languages"
 msgstr ""
 
@@ -1923,11 +1933,13 @@ msgstr ""
 #: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:9
 #: Plugin\Locale\View\Translations\admin_list.ctp:4
 #: Vendor\DummyLocale.php:77;87
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:130
 msgid "Text"
 msgstr ""
 
 #: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:17
-#: Plugin\Node\View\Contents\admin_index.ctp:39
+#: Plugin\Node\View\Contents\admin_index.ctp:40
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:38
 msgid "translate"
 msgstr ""
 
@@ -1941,6 +1953,7 @@ msgstr ""
 
 #: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:19
 #: Plugin\Locale\View\Translations\admin_list.ctp:12
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:127
 msgid "Delete this entry ?"
 msgstr ""
 
@@ -1961,7 +1974,7 @@ msgid "Both"
 msgstr ""
 
 #: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:82
-#: Plugin\Node\View\Contents\admin_index.ctp:129
+#: Plugin\Node\View\Contents\admin_index.ctp:130
 #: Plugin\User\View\List\admin_index.ctp:71
 msgid "Are you sure about this changes ?"
 msgstr ""
@@ -1992,10 +2005,12 @@ msgid "Package (.pot)"
 msgstr ""
 
 #: Plugin\Locale\View\Translations\admin_list.ctp:11
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:126
 msgid "Regenerate translation cache"
 msgstr ""
 
 #: Plugin\Locale\View\Translations\admin_list.ctp:11
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:126
 msgid "regenerate"
 msgstr ""
 
@@ -2396,7 +2411,7 @@ msgstr ""
 #: Plugin\Node\View\Contents\admin_add.ctp:18
 #: Plugin\Node\View\Contents\admin_edit.ctp:30
 #: Plugin\System\Controller\ModulesController.php:98
-#: Plugin\System\View\Modules\admin_index.ctp:96
+#: Plugin\System\View\Modules\admin_index.ctp:98
 msgid "Settings"
 msgstr ""
 
@@ -2423,7 +2438,7 @@ msgstr ""
 
 #: Plugin\Node\View\Contents\admin_add.ctp:24
 #: Plugin\Node\View\Contents\admin_edit.ctp:37
-#: Plugin\Node\View\Contents\admin_index.ctp:34
+#: Plugin\Node\View\Contents\admin_index.ctp:35
 #: Plugin\Node\View\Types\admin_add.ctp:40
 #: Plugin\Node\View\Types\admin_edit.ctp:46
 msgid "-- Any --"
@@ -2601,8 +2616,9 @@ msgid "Available Translations"
 msgstr ""
 
 #: Plugin\Node\View\Contents\admin_edit.ctp:118
-#: Plugin\Node\View\Contents\admin_index.ctp:41
+#: Plugin\Node\View\Contents\admin_index.ctp:42
 #: Plugin\Node\View\Contents\admin_translate.ctp:21
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:39
 msgid "Delete selected content ?"
 msgstr ""
 
@@ -2611,18 +2627,26 @@ msgid "Save content"
 msgstr ""
 
 #: Plugin\Node\View\Contents\admin_index.ctp:11
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:43
 msgid "Sticky at top"
 msgstr ""
 
 #: Plugin\Node\View\Contents\admin_index.ctp:12
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:44
 msgid "Promoted in front page"
 msgstr ""
 
 #: Plugin\Node\View\Contents\admin_index.ctp:13
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:45
 msgid "Cache activated"
 msgstr ""
 
-#: Plugin\Node\View\Contents\admin_index.ctp:17;107
+#: Plugin\Node\View\Contents\admin_index.ctp:14
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:46
+msgid "This node is a translation of other"
+msgstr ""
+
+#: Plugin\Node\View\Contents\admin_index.ctp:18;108
 #: Plugin\Node\View\Types\admin_add.ctp:2
 #: Plugin\Node\View\Types\admin_edit.ctp:2
 #: Plugin\Node\View\Types\admin_fields.ctp:12;75
@@ -2630,79 +2654,79 @@ msgstr ""
 msgid "Type"
 msgstr ""
 
-#: Plugin\Node\View\Contents\admin_index.ctp:26;72
+#: Plugin\Node\View\Contents\admin_index.ctp:27;73
 msgid "not published"
 msgstr ""
 
-#: Plugin\Node\View\Contents\admin_index.ctp:26;71
+#: Plugin\Node\View\Contents\admin_index.ctp:27;72
 msgid "published"
 msgstr ""
 
-#: Plugin\Node\View\Contents\admin_index.ctp:29
+#: Plugin\Node\View\Contents\admin_index.ctp:30
 msgid "Updated"
 msgstr ""
 
-#: Plugin\Node\View\Contents\admin_index.ctp:30
+#: Plugin\Node\View\Contents\admin_index.ctp:31
 msgid "updated"
 msgstr ""
 
-#: Plugin\Node\View\Contents\admin_index.ctp:46
+#: Plugin\Node\View\Contents\admin_index.ctp:47
 msgid "There are no nodes to display"
 msgstr ""
 
-#: Plugin\Node\View\Contents\admin_index.ctp:81
+#: Plugin\Node\View\Contents\admin_index.ctp:82
 msgid "Front Page"
 msgstr ""
 
-#: Plugin\Node\View\Contents\admin_index.ctp:84
+#: Plugin\Node\View\Contents\admin_index.ctp:85
 msgid "promoted to front page"
 msgstr ""
 
-#: Plugin\Node\View\Contents\admin_index.ctp:85
+#: Plugin\Node\View\Contents\admin_index.ctp:86
 msgid "not promoted to front page"
 msgstr ""
 
-#: Plugin\Node\View\Contents\admin_index.ctp:94
+#: Plugin\Node\View\Contents\admin_index.ctp:95
 msgid "Sticky"
 msgstr ""
 
-#: Plugin\Node\View\Contents\admin_index.ctp:97
+#: Plugin\Node\View\Contents\admin_index.ctp:98
 msgid "sticky at top"
 msgstr ""
 
-#: Plugin\Node\View\Contents\admin_index.ctp:98
+#: Plugin\Node\View\Contents\admin_index.ctp:99
 msgid "not sticky at top"
 msgstr ""
 
-#: Plugin\Node\View\Contents\admin_index.ctp:138
+#: Plugin\Node\View\Contents\admin_index.ctp:139
 msgid "Publish selected content"
 msgstr ""
 
-#: Plugin\Node\View\Contents\admin_index.ctp:139
+#: Plugin\Node\View\Contents\admin_index.ctp:140
 msgid "Unpublish selected content"
 msgstr ""
 
-#: Plugin\Node\View\Contents\admin_index.ctp:140
+#: Plugin\Node\View\Contents\admin_index.ctp:141
 msgid "Promote selected content to front page"
 msgstr ""
 
-#: Plugin\Node\View\Contents\admin_index.ctp:141
+#: Plugin\Node\View\Contents\admin_index.ctp:142
 msgid "Demote selected content from front page"
 msgstr ""
 
-#: Plugin\Node\View\Contents\admin_index.ctp:142
+#: Plugin\Node\View\Contents\admin_index.ctp:143
 msgid "Make selected content sticky"
 msgstr ""
 
-#: Plugin\Node\View\Contents\admin_index.ctp:143
+#: Plugin\Node\View\Contents\admin_index.ctp:144
 msgid "Make selected content not sticky"
 msgstr ""
 
-#: Plugin\Node\View\Contents\admin_index.ctp:144
+#: Plugin\Node\View\Contents\admin_index.ctp:145
 msgid "Delete selected content"
 msgstr ""
 
-#: Plugin\Node\View\Contents\admin_index.ctp:145
+#: Plugin\Node\View\Contents\admin_index.ctp:146
 msgid "Clear cache"
 msgstr ""
 
@@ -2981,7 +3005,7 @@ msgid "The file `%s` could not be written."
 msgstr ""
 
 #: Plugin\System\Controller\HelpController.php:30
-#: Plugin\System\View\Modules\admin_index.ctp:92
+#: Plugin\System\View\Modules\admin_index.ctp:94
 #: Vendor\DummyLocale.php:25
 msgid "Help"
 msgstr ""
@@ -3243,6 +3267,40 @@ msgstr ""
 msgid "Other module settings"
 msgstr ""
 
+#: Plugin\System\View\Elements\themes_table_list.ctp:40
+msgid "<b>version:</b> %s"
+msgstr ""
+
+#: Plugin\System\View\Elements\themes_table_list.ctp:41
+#: Plugin\System\View\Modules\admin_index.ctp:87
+msgid "author: %s"
+msgstr ""
+
+#: Plugin\System\View\Elements\themes_table_list.ctp:45
+msgid "<b>regions:</b> <em>%s</em>"
+msgstr ""
+
+#: Plugin\System\View\Elements\themes_table_list.ctp:49
+msgid "Change administrator theme, are you sure ?\\n"
+msgstr ""
+
+#: Plugin\System\View\Elements\themes_table_list.ctp:49
+msgid "Set as default"
+msgstr ""
+
+#: Plugin\System\View\Elements\themes_table_list.ctp:51
+msgid "Delete selected theme ?\\nThis operation cannot be undone!"
+msgstr ""
+
+#: Plugin\System\View\Elements\themes_table_list.ctp:51
+#: Plugin\System\View\Modules\admin_index.ctp:103
+msgid "Uninstall"
+msgstr ""
+
+#: Plugin\System\View\Elements\themes_table_list.ctp:54
+msgid "Configure"
+msgstr ""
+
 #: Plugin\System\View\Elements\toolbar-modules.ctp:3
 msgid "Manage"
 msgstr ""
@@ -3291,7 +3349,7 @@ msgstr ""
 msgid "Reset selected style sheet ?"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:7
+#: Plugin\System\View\Modules\admin_index.ctp:9
 msgid "Install New Module"
 msgstr ""
 
@@ -3305,12 +3363,12 @@ msgstr ""
 msgid "Package"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:24;50
+#: Plugin\System\View\Modules\admin_index.ctp:24;51
 msgid "Activate after install"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:30;55
-#: Plugin\System\View\Themes\admin_index.ctp:16;32
+#: Plugin\System\View\Modules\admin_index.ctp:30;56
+#: Plugin\System\View\Themes\admin_index.ctp:16;33
 msgid "Install"
 msgstr ""
 
@@ -3319,75 +3377,41 @@ msgstr ""
 msgid "Install From URL"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:85
-#: Plugin\System\View\Themes\admin_index.ctp:77;131
-msgid "author: %s"
-msgstr ""
-
-#: Plugin\System\View\Modules\admin_index.ctp:86
+#: Plugin\System\View\Modules\admin_index.ctp:88
 msgid "Dependencies"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:89
+#: Plugin\System\View\Modules\admin_index.ctp:91
 #: Plugin\User\View\Elements\toolbar.ctp:6
 msgid "Permissions"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:100
+#: Plugin\System\View\Modules\admin_index.ctp:102
 msgid "Disable"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:100
+#: Plugin\System\View\Modules\admin_index.ctp:102
 msgid "Enable"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:101
+#: Plugin\System\View\Modules\admin_index.ctp:103
 msgid "Delete selected module ? This change cannot be undone!"
-msgstr ""
-
-#: Plugin\System\View\Modules\admin_index.ctp:101
-#: Plugin\System\View\Themes\admin_index.ctp:83;137
-msgid "Uninstall"
 msgstr ""
 
 #: Plugin\System\View\Modules\admin_load_order.ctp:20
 msgid "Update orders"
 msgstr ""
 
-#: Plugin\System\View\Themes\admin_index.ctp:2
+#: Plugin\System\View\Themes\admin_index.ctp:4
 msgid "Install New Theme"
 msgstr ""
 
-#: Plugin\System\View\Themes\admin_index.ctp:42
+#: Plugin\System\View\Themes\admin_index.ctp:43
 msgid "Frontend themes"
 msgstr ""
 
-#: Plugin\System\View\Themes\admin_index.ctp:76;130
-msgid "<b>version:</b> %s"
-msgstr ""
-
-#: Plugin\System\View\Themes\admin_index.ctp:81
-msgid "Change site theme, are you sure ?"
-msgstr ""
-
-#: Plugin\System\View\Themes\admin_index.ctp:81;135
-msgid "Set as default"
-msgstr ""
-
-#: Plugin\System\View\Themes\admin_index.ctp:83;137
-msgid "Delete selected theme ?\\nThis operation cannot be undone!"
-msgstr ""
-
-#: Plugin\System\View\Themes\admin_index.ctp:86;140
-msgid "Configure"
-msgstr ""
-
-#: Plugin\System\View\Themes\admin_index.ctp:97
+#: Plugin\System\View\Themes\admin_index.ctp:49
 msgid "Backend themes"
-msgstr ""
-
-#: Plugin\System\View\Themes\admin_index.ctp:135
-msgid "Change administrator theme, are you sure ?\\n"
 msgstr ""
 
 #: Plugin\System\View\Themes\admin_settings.ctp:5
@@ -3722,8 +3746,8 @@ msgstr ""
 
 #: Plugin\User\Controller\UserController.php:25;38
 #: Plugin\User\View\Elements\login_block.ctp:9
-#: Plugin\User\View\User\admin_login.ctp:2;11
-#: Plugin\User\View\User\login.ctp:2
+#: Plugin\User\View\User\admin_login.ctp:1;8
+#: Plugin\User\View\User\login.ctp:2;9
 msgid "Login"
 msgstr ""
 
@@ -3763,19 +3787,19 @@ msgstr ""
 msgid "%s profile"
 msgstr ""
 
-#: Plugin\User\Controller\UserController.php:191
+#: Plugin\User\Controller\UserController.php:195
 msgid "You have reached the maximum number of login attempts. Try again in %d minutes."
 msgstr ""
 
-#: Plugin\User\Controller\UserController.php:234
+#: Plugin\User\Controller\UserController.php:238
 msgid "Logged in successfully."
 msgstr ""
 
-#: Plugin\User\Controller\UserController.php:238
+#: Plugin\User\Controller\UserController.php:242
 msgid "Invalid username or password"
 msgstr ""
 
-#: Plugin\User\Controller\UserController.php:264
+#: Plugin\User\Controller\UserController.php:268
 msgid "Logout successful."
 msgstr ""
 
@@ -3981,6 +4005,7 @@ msgid "Update user"
 msgstr ""
 
 #: Plugin\User\View\List\admin_index.ctp:9
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:70
 msgid "User Name"
 msgstr ""
 
@@ -3988,6 +4013,7 @@ msgstr ""
 #: View\Elements\theme_node_comments_form.ctp:37
 #: View\Elements\theme_user_profile.ctp:20
 #: View\Install\user_account.ctp:35
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:83
 msgid "Email"
 msgstr ""
 
@@ -4031,7 +4057,15 @@ msgstr ""
 msgid "There are no roles to display"
 msgstr ""
 
-#: Plugin\User\View\User\admin_login.ctp:8
+#: Plugin\User\View\User\admin_login.ctp:5
+msgid "Username..."
+msgstr ""
+
+#: Plugin\User\View\User\admin_login.ctp:6
+msgid "Password..."
+msgstr ""
+
+#: Plugin\User\View\User\admin_login.ctp:7
 #: Plugin\User\View\User\login.ctp:8
 msgid "Remember"
 msgstr ""
@@ -4081,11 +4115,12 @@ msgid "Log out"
 msgstr ""
 
 #: Vendor\DummyLocale.php:32
-#: View\Themed\Admin\Layouts\default.ctp:17
+#: View\Themed\Admin\Layouts\default.ctp:33
 msgid "Logout"
 msgstr ""
 
 #: Vendor\DummyLocale.php:33
+#: View\Themed\Admin\Layouts\default.ctp:31
 msgid "My account"
 msgstr ""
 
@@ -4539,7 +4574,7 @@ msgstr ""
 msgid "%d comments"
 msgstr ""
 
-#: View\Elements\theme_node.ctp:47
+#: View\Elements\theme_node.ctp:52
 msgid "Read More"
 msgstr ""
 
@@ -4637,55 +4672,55 @@ msgstr ""
 msgid "If you want to customize this error message, create %s"
 msgstr ""
 
-#: View\Helper\LayoutHelper.php:409
+#: View\Helper\LayoutHelper.php:410
 msgid "LayoutHelper::userAvatar() is deprecated, use UserHelper::avatar() instead"
 msgstr ""
 
-#: View\Helper\LayoutHelper.php:422
+#: View\Helper\LayoutHelper.php:423
 msgid "LayoutHelper::menuNodeChildren() is deprecated, use MenuHelper::menuNodeChildren() instead"
 msgstr ""
 
-#: View\Helper\LayoutHelper.php:436
+#: View\Helper\LayoutHelper.php:437
 msgid "LayoutHelper::menu() is deprecated, use MenuHelper::render() instead"
 msgstr ""
 
-#: View\Helper\LayoutHelper.php:471
+#: View\Helper\LayoutHelper.php:472
 msgid "LayoutHelper::toolbar() is deprecated, use MenuHelper::toolbar() instead"
 msgstr ""
 
-#: View\Helper\LayoutHelper.php:493
+#: View\Helper\LayoutHelper.php:494
 msgid "LayoutHelper::blockPush() is deprecated, use BlockHelper::push() instead"
 msgstr ""
 
-#: View\Helper\LayoutHelper.php:505
+#: View\Helper\LayoutHelper.php:506
 msgid "LayoutHelper::emptyRegion() is deprecated, use BlockHelper::regionCount() instead"
 msgstr ""
 
-#: View\Helper\LayoutHelper.php:517
+#: View\Helper\LayoutHelper.php:518
 msgid "LayoutHelper::blocksInRegion() is deprecated, use BlockHelper::regionCount() instead"
 msgstr ""
 
-#: View\Helper\LayoutHelper.php:529
+#: View\Helper\LayoutHelper.php:530
 msgid "LayoutHelper::blocks() is deprecated, use BlockHelper::region() instead"
 msgstr ""
 
-#: View\Helper\LayoutHelper.php:556
+#: View\Helper\LayoutHelper.php:557
 msgid "LayoutHelper::block() is deprecated, use BlockHelper::render() instead"
 msgstr ""
 
-#: View\Helper\LayoutHelper.php:569
+#: View\Helper\LayoutHelper.php:570
 msgid "LayoutHelper::getNodeType() is deprecated, use NodeHelper::getAttr(\"node_type_id\") instead"
 msgstr ""
 
-#: View\Helper\LayoutHelper.php:583
+#: View\Helper\LayoutHelper.php:584
 msgid "LayoutHelper::nodeField() is deprecated, use NodeHelper::getAttr() instead"
 msgstr ""
 
-#: View\Helper\LayoutHelper.php:607
+#: View\Helper\LayoutHelper.php:608
 msgid "LayoutHelper::renderNode() is deprecated, use NodeHelper::render() instead"
 msgstr ""
 
-#: View\Helper\LayoutHelper.php:622
+#: View\Helper\LayoutHelper.php:623
 msgid "LayoutHelper::renderField() is deprecated, use NodeHelper::renderField() instead"
 msgstr ""
 
@@ -4833,7 +4868,7 @@ msgstr ""
 msgid "This email was sent using QuickApps CMS v%s [http://www.quickappscms.org/]"
 msgstr ""
 
-#: View\Themed\Admin\Layouts\default.ctp:18
+#: View\Themed\Admin\Layouts\default.ctp:32
 msgid "View site"
 msgstr ""
 
