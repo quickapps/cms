@@ -33,7 +33,7 @@ $tSettings = array(
 			'value' => '
 				<a href="{url}/admin/locale/languages/move/{Language.id}/up{/url}">' . __t('move up') . '</a> |
 				<a href="{url}/admin/locale/languages/move/{Language.id}/down{/url}">' . __t('move down') . '</a> |
-				{php} return {Language.status} == 1 ? \'<a href="{url}/admin/locale/languages/set_default/{Language.id}{/url}">' . __t('set as default') . '</a> |\' : \'\'; {/php}
+				{php} return "{Language.code}" != "' . Configure::read('Variable.default_language') . '" ? \'<a href="{url}/admin/locale/languages/set_default/{Language.id}{/url}">' . __t('set as default') . '</a> |\' : \'\'; {/php}
 				<a href="{url}/admin/locale/languages/edit/{Language.id}{/url}">' . __t('edit') . '</a>
 			',
 			'thOptions' => array('align' => 'center'),
