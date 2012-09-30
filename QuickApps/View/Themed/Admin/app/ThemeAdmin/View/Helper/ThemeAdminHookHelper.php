@@ -130,8 +130,9 @@ class ThemeAdminHookHelper extends AppHelper {
 					return ("{Language.icon}" != "" ? $this->_View->Html->image($icon, array("width" => 16, "class" => "flag-icon")) : "");
 				{/php}
 				<span class="visible-phone">[{Language.code}]</span>
-				{Language.name}
-				<span class="visible-phone"> ~ {Language.native}</span>
+				<span class="visible-phone">{truncate length=15}{Language.name}{/truncate}</span>
+				<span class="hidden-phone">{Language.name}</span>
+				<span class="visible-tablet"> ~ {Language.native}</span>
 				{php} return ("{Language.code}" == "' . Configure::read('Variable.default_language') . '" ? \'<i class="icon-star" title="' . __t('Default language') . '"></i>\' : ""); {/php}
 				{php} return ("{Language.direction}" == "ltr" ? \'<i class="icon-arrow-right visible-phone" title="' . __t('Left to right') . '"></i>\' : \'<i class="icon-arrow-left visible-phone" title="' . __t('Right to left') . '"></i>\'); {/php}
 			';
