@@ -12,7 +12,9 @@ fieldset {
 }
 legend { width:100%; display:block; float:right; clear:both; margin-bottom:20px; }
 .paginator .disabled { display:none; }
-ul.breadcrumb { margin:0; 	-webkit-border-radius: 8px;
+ul.breadcrumb {
+	margin-bottom:20px;
+	-webkit-border-radius: 8px;
 	-moz-border-radius: 8px;
 	border-radius: 8px;
 	background:#fff;
@@ -39,8 +41,8 @@ div.dashboard div.block {
 	-moz-border-radius: 8px;
 	border-radius: 8px;	
 }
-div.main-title { border-bottom:1px solid #F9F9F9; margin:15px 0 30px 0; }
-div.main-title h2 { border-bottom:1px solid #ddd; margin:0; }
+.navbar-inner .brand { margin-left:10px; }
+#primary-content { margin-top:70px; }
 
 /* LOGIN */
 body.login { background:#eee !important; }

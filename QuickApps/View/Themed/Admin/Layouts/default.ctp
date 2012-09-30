@@ -10,32 +10,38 @@
 	</head>
 
 	<body>
-
 		<div class="navbar navbar-fixed-top navbar-inverse">
 			<div class="navbar-inner">
-				<?php echo $this->Block->region('management-menu'); ?>
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
 
-				<ul class="nav pull-right">
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo CakeSession::read('Auth.User.email'); ?> <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-						  <li><?php echo $this->Html->link(__t('My account'), '/admin/user/list/edit/' . CakeSession::read('Auth.User.id')); ?></li>
-						  <li><?php echo $this->Html->link(__t('View site'), '/', array('target' => '_blank')); ?></li>
-						  <li><?php echo $this->Html->link(__t('Logout'), '/user/logout'); ?></li>
-						</ul>
-					</li>
-				</ul>
+				<a href="#" class="brand"><?php echo $this->Layout->title();?></a>
+
+				<div class="nav-collapse">
+					<?php echo $this->Block->region('management-menu'); ?>
+
+					<ul class="nav pull-right">
+						<li class="divider-vertical"></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo CakeSession::read('Auth.User.email'); ?> <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+							  <li><?php echo $this->Html->link(__t('My account'), '/admin/user/list/edit/' . CakeSession::read('Auth.User.id')); ?></li>
+							  <li><?php echo $this->Html->link(__t('View site'), '/', array('target' => '_blank')); ?></li>
+							  <li><?php echo $this->Html->link(__t('Logout'), '/user/logout'); ?></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-
-		<div class="container-fluid">
+		<div id="primary-content" class="container-fluid">
 			<div class="row-fluid">
 				<div class="span12 well clearfix">
 					<?php echo $this->Layout->breadCrumb(); ?>
-					<div class="main-title"><h2><?php echo $this->Layout->title();?></h2></div>
 
 					<?php if ($this->Block->regionCount('toolbar')): ?>
 					<div class="toolbar">
