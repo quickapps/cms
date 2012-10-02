@@ -39,7 +39,7 @@ class ThemeAdminHookHelper extends AppHelper {
 				<li><a href='{url}/admin/node/contents/delete/{Node.slug}{/url}' onclick=\"return confirm('" . __t('Delete selected content ?') . "');\">" . __t('delete') . "</a></li>
 			";
 			$label = '
-				<span class="visible-phone">[{NodeType.name}]</span>
+				<span class="visible-phone visible-tablet">[{NodeType.name}]</span>
 				<span class="hidden-phone">{truncate length=50}{Node.title}{/truncate}</span>
 				<span class="visible-phone">{truncate length=25}{Node.title}{/truncate}</span>
 				{php} return ({Node.sticky}) ? \'<i class="icon-star" title="' . __t("Sticky at top") . '"></i>\' : ""; {/php}
