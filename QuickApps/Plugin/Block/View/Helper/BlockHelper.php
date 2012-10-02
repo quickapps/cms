@@ -328,7 +328,7 @@ class BlockHelper extends AppHelper {
 			}
 
 			if (!isset($Block['params'])) {
-				$Block['params'] = (isset($block['Block']['params']) ? $block['Block']['params'] : array());
+				$Block['params'] = isset($block['Block']['params']) ? $block['Block']['params'] : array();
 			}
 
 			$Block['id'] = $block['Block']['id'];
@@ -359,7 +359,8 @@ class BlockHelper extends AppHelper {
 
 		if ($options['params']) {
 			$options['params'] = !is_array($options['params']) ? array($options['params']) : $options['params'];
-			$Block['params'] = $options['params'];
+			$params = Hash::merge($Block['params'], $options['params']);
+			$Block['params'] = $options['params'] = $params;
 		}
 
 		$this->hook('block_alter', $Block, array('collectReturn' => false)); // pass block array to modules
