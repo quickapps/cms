@@ -14,8 +14,8 @@ $tSettings = array(
 					return (in_array('{Menu.id}', array('main-menu', 'management', 'navigation', 'user-menu'))) ?
 						'' :
 						\"| <a href='{url}/admin/menu/manage/delete/{Menu.id}{/url}' onclick='return confirm(\\\" " . __t('Delete selected menu ?') . " \\\");'>\" . __t('delete') . \"</a>\";
-				{/php}"
-				,
+				{/php}
+				",
 			'thOptions' => array('align' => 'right'),
 			'tdOptions' => array('align' => 'right')
 		),

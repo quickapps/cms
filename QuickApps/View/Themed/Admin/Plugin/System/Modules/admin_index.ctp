@@ -1,3 +1,4 @@
+<!-- View overwriting by Admin Theme-->
 <?php
 	$modules = Configure::read('Modules');
 	$categories = array_unique(Hash::extract($modules, '{s}.yaml.category'));
@@ -73,7 +74,31 @@
 		<?php if (empty($data['yaml']) || $data['yaml']['category'] !== $category) continue; ?>
 		<tr id="module-<?php echo $name; ?>" class="<?php echo $data['status'] ? 'module-enabled' : 'module-disabled'; ?>">
 			<td width="100%" align="left">
-				<b><?php echo $data['yaml']['name']; ?></b> <?php echo $data['yaml']['version']; ?><br />
+				<div class="btn-group">
+					<a href="<?php echo Router::url("/admin/user/permissions/?expand=" . $name); ?>" class="btn btn-primary">
+						<?php echo $data['yaml']['name']; ?> (<?php echo $data['yaml']['version']; ?>)
+					</a>
+					<button class="btn dropdown-toggle btn-primary" data-toggle="dropdown">
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu">
+						<li><a class="help-btn" href="<?php echo $this->Html->url("/admin/user/permissions/?expand=" . $name); ?>"><?php echo __t('Permissions'); ?></a></li>
+
+						<?php if ($this->Layout->elementExists("{$name}.help")): ?>
+						<li><a class="help-btn" href="<?php echo $this->Html->url("/admin/system/help/module/" . $name); ?>"><?php echo __t('Help'); ?></a></li>
+						<?php endif; ?>
+
+						<?php if ($this->Layout->elementExists("{$name}.settings") && Configure::read('Modules.' . $name)): ?>
+						<li><a class="settings-btn" href="<?php echo $this->Html->url('/admin/system/modules/settings/' . $name); ?>"><?php echo __t('Settings'); ?></a></li>
+						<?php endif; ?>
+
+						<?php if (!in_array(Inflector::camelize($name), Configure::read('coreModules'))) : ?>
+						<li><a class="toggle-btn" href="<?php echo $this->Html->url('/admin/system/modules/toggle/' . $name); ?>"><?php echo $data['status'] == 1 ? __t('Disable') : __t('Enable'); ?></a></li>
+						<li><a class="delete-btn" href="<?php echo $this->Html->url('/admin/system/modules/uninstall/' . $name); ?>" onclick="return confirm('<?php echo __t("Delete selected module ? This change cannot be undone!"); ?>');"><?php echo __t('Uninstall'); ?></a></li>
+						<?php endif; ?>
+					</ul>
+				</div>				
+
 				<em>
 					<?php
 						if (!QuickApps::is('module.core', $name)) {
@@ -84,27 +109,8 @@
 					?>
 				</em>
 
-				<br />
-
-				<?php if (isset($data['yaml']['author'])): ?><b><?php echo __t('author')?>:</b> <?php echo htmlspecialchars($data['yaml']['author']); ?><br /><?php endif; ?>
-				<?php if (isset($data['yaml']['dependencies'])): ?><b><?php echo __t('Dependencies')?>:</b> <?php echo implode(', ', $data['yaml']['dependencies']); ?><?php endif; ?>
-
-				<div align="right">
-					<a class="help-btn" href="<?php echo $this->Html->url("/admin/user/permissions/?expand=" . $name); ?>"><?php echo __t('Permissions'); ?></a>
-
-					<?php if ($this->Layout->elementExists("{$name}.help")): ?>
-					<a class="help-btn" href="<?php echo $this->Html->url("/admin/system/help/module/" . $name); ?>"><?php echo __t('Help'); ?></a>
-					<?php endif; ?>
-
-					<?php if ($this->Layout->elementExists("{$name}.settings") && Configure::read('Modules.' . $name)): ?>
-					<a class="settings-btn" href="<?php echo $this->Html->url('/admin/system/modules/settings/' . $name); ?>"><?php echo __t('Settings'); ?></a>
-					<?php endif; ?>
-
-					<?php if (!in_array(Inflector::camelize($name), Configure::read('coreModules'))) : ?>
-					<a class="toggle-btn" href="<?php echo $this->Html->url('/admin/system/modules/toggle/' . $name); ?>"><?php echo $data['status'] == 1 ? __t('Disable') : __t('Enable'); ?></a>
-					<a class="delete-btn" href="<?php echo $this->Html->url('/admin/system/modules/uninstall/' . $name); ?>" onclick="return confirm('<?php echo __t("Delete selected module ? This change cannot be undone!"); ?>');"><?php echo __t('Uninstall'); ?></a>
-					<?php endif; ?>
-				</div>
+				<?php if (isset($data['yaml']['author'])): ?><div><b><?php echo __t('author')?>:</b> <?php echo htmlspecialchars($data['yaml']['author']); ?></div><?php endif; ?>
+				<?php if (isset($data['yaml']['dependencies'])): ?><div><b><?php echo __t('Dependencies')?>:</b> <?php echo implode(', ', $data['yaml']['dependencies']); ?></div><?php endif; ?>
 			</td>
 		</tr>
 		<?php endforeach; ?>
@@ -112,5 +118,4 @@
 </table>
 
 <p>&nbsp;</p>
-
 <?php endforeach; ?>

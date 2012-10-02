@@ -17,6 +17,7 @@
 
 			$data = Hash::merge($data, $_data);
 			$currentTheme = $doAdmin ? Configure::read('Variable.admin_theme') : Configure::read('Variable.site_theme');
+			$confirmMsg = $doAdmin ? __t('Change administrator theme, are you sure ?\n') : __t('Change site theme, are you sure ?');
 
 			if ($doAdmin && (!isset($data['info']['admin']) || !$data['info']['admin'])) {
 				continue;
@@ -37,8 +38,8 @@
 					</p>
 
 					<p>
-						<?php echo __t('<b>version:</b> %s', $data['info']['version']); ?><br/>
-						<em><?php echo __t('author: %s', htmlspecialchars($data['info']['author'])); ?></em>
+						<b><?php echo __t('version'); ?>:</b> <?php echo $data['info']['version']; ?><br />
+						<b><?php echo __t('author'); ?>:</b> <?php echo htmlspecialchars($data['info']['author']); ?>
 					</p>
 
 					<p>
@@ -46,7 +47,7 @@
 					</p>
 
 					<?php if ($currentTheme != $name): ?>
-						<a href="<?php echo $this->Html->url('/admin/system/themes/set_theme/' . $name); ?>" style="float:right;" onclick="return confirm('<?php echo __t('Change administrator theme, are you sure ?\n'); ?>');"><?php echo __t('Set as default'); ?></a>
+						<a href="<?php echo $this->Html->url('/admin/system/themes/set_theme/' . $name); ?>" style="float:right;" onclick="return confirm('<?php echo $confirmMsg; ?>');"><?php echo __t('Set as default'); ?></a>
 						<?php if (!in_array($name, Configure::read('coreThemes'))): ?>
 						<a href="<?php echo $this->Html->url('/admin/system/themes/uninstall/' . $name); ?>" style="float:right;" onclick="return confirm('<?php echo __t('Delete selected theme ?\nThis operation cannot be undone!'); ?>');"><?php echo __t('Uninstall'); ?>&nbsp;</a>
 						<?php endif; ?>

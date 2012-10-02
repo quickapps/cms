@@ -40,7 +40,7 @@
 
 		<div id="primary-content" class="container-fluid">
 			<div class="row-fluid">
-				<div class="span12 well clearfix">
+				<div class="span12 well well-white clearfix">
 					<?php echo $this->Layout->breadCrumb(); ?>
 
 					<?php if ($this->Block->regionCount('toolbar')): ?>

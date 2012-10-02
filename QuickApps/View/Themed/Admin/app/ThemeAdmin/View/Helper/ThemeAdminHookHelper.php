@@ -40,8 +40,8 @@ class ThemeAdminHookHelper extends AppHelper {
 			";
 			$label = '
 				<span class="visible-phone visible-tablet">[{NodeType.name}]</span>
-				<span class="hidden-phone">{truncate length=50}{Node.title}{/truncate}</span>
-				<span class="visible-phone">{truncate length=25}{Node.title}{/truncate}</span>
+				<span class="hidden-phone">{truncate length=50} {Node.title} {/truncate}</span>
+				<span class="visible-phone">{truncate length=25} {Node.title} {/truncate}</span>
 				{php} return ({Node.sticky}) ? \'<i class="icon-star" title="' . __t("Sticky at top") . '"></i>\' : ""; {/php}
 				{php} return ({Node.promote}) ? \'<i class="icon-home" title="' . __t("Promoted in front page") . '"></i>\' : ""; {/php}
 				{php} return (trim("{Node.cache}") != "") ? \'<i class="icon-hdd" title="' . __t("Cache activated") . ': ' . '{Node.cache}"></i>\' : ""; {/php}
@@ -130,7 +130,7 @@ class ThemeAdminHookHelper extends AppHelper {
 					return ("{Language.icon}" != "" ? $this->_View->Html->image($icon, array("width" => 16, "class" => "flag-icon")) : "");
 				{/php}
 				<span class="visible-phone">[{Language.code}]</span>
-				<span class="visible-phone">{truncate length=15}{Language.name}{/truncate}</span>
+				<span class="visible-phone">{truncate length=15} {Language.name} {/truncate}</span>
 				<span class="hidden-phone">{Language.name}</span>
 				<span class="visible-tablet"> ~ {Language.native}</span>
 				{php} return ("{Language.code}" == "' . Configure::read('Variable.default_language') . '" ? \'<i class="icon-star" title="' . __t('Default language') . '"></i>\' : ""); {/php}
@@ -173,7 +173,7 @@ class ThemeAdminHookHelper extends AppHelper {
 
 		// styles for translatable entries table list
 		if ($this->request->controller == 'translations' && $this->action == 'admin_list' && strtolower($this->plugin) == 'locale') {
-			$label = '{truncate length=80}{php} return htmlentities("{Translation.original}", ENT_QUOTES, "UTF-8"); {/php}{/truncate}';
+			$label = '{truncate length=80} {php} return htmlentities("{Translation.original}", ENT_QUOTES, "UTF-8"); {/php} {/truncate}';
 			$actions = "
 				<li><a href='{url}/admin/locale/translations/edit/{Translation.id}{/url}'>" . __t('edit') . "</a></li>
 				<li><a href='{url}/admin/locale/translations/regenerate/{Translation.id}{/url}' title='" . __t('Regenerate translation cache') . "'>" . __t('regenerate') . "</a></li>
@@ -195,6 +195,130 @@ class ThemeAdminHookHelper extends AppHelper {
 			";
 
 			unset($info['options']['columns'][__t('Actions')]);
+		}
+
+		// styles for menu table list
+		if ($this->request->controller == 'manage' && $this->action == 'admin_index' && strtolower($this->plugin) == 'menu') {
+			$label = '{truncate length=80} {Menu.title} {/truncate}';
+			$actions = "
+				<li><a href='{url}/admin/menu/manage/edit/{Menu.id}{/url}'>" . __t('edit') . "</a></li>
+				<li><a href='{url}/admin/menu/manage/links/{Menu.id}{/url}'>" . __t('links') . "</a></li>
+				<li><a href='{url}/admin/menu/manage/add_link/{Menu.id}{/url}'>" . __t('add link') . "</a></li>
+				{php}
+					return (in_array('{Menu.id}', array('main-menu', 'management', 'navigation', 'user-menu'))) ?
+						'' :
+						\"<li><a href='{url}/admin/menu/manage/delete/{Menu.id}{/url}' onclick='return confirm(\\\" " . __t('Delete selected menu ?') . " \\\");'>\" . __t('delete') . \"</a></li>\";
+				{/php}
+			";
+			$info['options']['columns'][__t('Title')]['value'] = "
+				<div class=\"btn-group\">
+					<a href=\"{url}/admin/menu/manage/edit/{Menu.id}{/url}\" class=\"btn btn-primary\">
+						{$label}
+					</a>
+					<button class=\"btn dropdown-toggle btn-primary\" data-toggle=\"dropdown\">
+						<span class=\"caret\"></span>
+					</button>
+					<ul class=\"dropdown-menu\">
+						{$actions}
+					</ul>
+				</div>";
+
+			$info['options']['columns'][__t('Description')]['value'] = '
+				<span class="visible-desktop">{php} return __t("{Menu.description}"); {/php}</span>
+				<span class="visible-tablet">{truncate length=80} {php} return __t("{Menu.description}"); {/php} {/truncate}</span>
+			';
+			$info['options']['columns'][__t('Description')]['thOptions'] = array('class' => 'hidden-phone');
+			$info['options']['columns'][__t('Description')]['tdOptions'] = array('class' => 'hidden-phone');
+
+			unset($info['options']['columns'][__t('Actions')]);
+		}
+
+		// styles for vocabularies table list
+		if ($this->request->controller == 'vocabularies' && $this->action == 'admin_index' && strtolower($this->plugin) == 'taxonomy') {
+			$label = '{truncate length=80} {Vocabulary.title} {/truncate}';
+			$actions = "
+				<li><a href='{url}/admin/taxonomy/vocabularies/edit/{Vocabulary.slug}{/url}'>" . __t('edit') . "</a></li>
+				<li><a href='{url}/admin/taxonomy/vocabularies/terms/{Vocabulary.slug}{/url}'>" . __t('terms') . "</a></li>
+				<li><a href='{url}/admin/taxonomy/vocabularies/delete/{Vocabulary.id}{/url}' onclick=\"return confirm('" . __t('Delete selected vocabulary and all its terms ?') . "'); \">" . __t('delete') . "</a></li>
+				<li><a href='{url}/admin/taxonomy/vocabularies/move/{Vocabulary.id}/up{/url}'>" . __t('move up') . "</a></li>
+				<li><a href='{url}/admin/taxonomy/vocabularies/move/{Vocabulary.id}/down{/url}'>" . __t('move down') . "</a></li>
+			";
+			$info['options']['columns'][__t('Vocabulary name')]['value'] = "
+				<div class=\"btn-group\">
+					<a href=\"{url}/admin/menu/manage/edit/{Menu.id}{/url}\" class=\"btn btn-primary\">
+						{$label}
+					</a>
+					<button class=\"btn dropdown-toggle btn-primary\" data-toggle=\"dropdown\">
+						<span class=\"caret\"></span>
+					</button>
+					<ul class=\"dropdown-menu\">
+						{$actions}
+					</ul>
+				</div>";
+
+			$info['options']['columns'][__t('Description')]['value'] = '
+				<span class="visible-desktop">{php} return __t("{Vocabulary.description}"); {/php}</span>
+				<span class="visible-tablet">{truncate length=80} {php} return __t("{Vocabulary.description}"); {/php} {/truncate}</span>
+			';
+			$info['options']['columns'][__t('Description')]['thOptions'] = array('class' => 'hidden-phone');
+			$info['options']['columns'][__t('Description')]['tdOptions'] = array('class' => 'hidden-phone');
+
+			unset($info['options']['columns'][__t('Actions')]);
+		}
+
+		// styles for content-types table list
+		if ($this->request->controller == 'types' && $this->action == 'admin_index' && strtolower($this->plugin) == 'node') {
+			$label = '{truncate length=80} {NodeType.name} [{NodeType.id}] {/truncate}';
+			$actions = "
+				<li><a href='{url}/admin/node/types/display/{NodeType.id}{/url}'>" . __t('display') . "</a></li>
+				<li><a href='{url}/admin/node/types/edit/{NodeType.id}{/url}'>" . __t('edit') . "</a></li>
+				<li><a href='{url}/admin/node/types/fields/{NodeType.id}{/url}'>" . __t('fields') . "</a></li>
+				{php} return ('{NodeType.module}' == 'Node') ? \"<li><a href='{url}/admin/node/types/delete/{NodeType.id}{/url}' onClick=\\\"return confirm('" . __t("Are you sure that you want to delete this type of content. ? This action cannot be undone.") . "'); \\\">" . __t('delete') . "</a></li>\" : '';{/php}
+			";
+			$info['options']['columns'][__t('Name')]['value'] = "
+				<div class=\"btn-group\">
+					<a href=\"{url}/admin/menu/manage/edit/{Menu.id}{/url}\" class=\"btn btn-primary\">
+						{$label}
+					</a>
+					<button class=\"btn dropdown-toggle btn-primary\" data-toggle=\"dropdown\">
+						<span class=\"caret\"></span>
+					</button>
+					<ul class=\"dropdown-menu\">
+						{$actions}
+					</ul>
+				</div>";
+			$info['options']['headerPosition'] = 'top';
+
+			unset($info['options']['columns'][__t('Actions')]);
+		}
+
+		// styles for node-type-display table list
+		if ($this->request->controller == 'types' && $this->action == 'admin_display' && strtolower($this->plugin) == 'node') {
+			$label = '{truncate length=80} {Field.label} {/truncate}';
+			$actions = "
+				<li><a href='{url}/admin/node/types/field_formatter/{Field.id}/display:" . $this->_View->viewVars['display'] . "{/url}'>" . __t('edit format') . "</a></li>
+				<li><a href='{url}/admin/field/handler/move/{Field.id}/up/" . $this->_View->viewVars['display'] . "{/url}'>" . __t('move up') . "</a></li>
+				<li><a href='{url}/admin/field/handler/move/{Field.id}/down/" . $this->_View->viewVars['display'] . "{/url}'>" . __t('move down') . "</a></li>
+			";
+			$info['options']['columns'][__t('Name')]['value'] = "
+				<div class=\"btn-group\">
+					<a href=\"{url}/admin/node/types/field_formatter/{Field.id}/display:" . $this->_View->viewVars['display'] . "{/url}\" class=\"btn btn-primary\">
+						{$label}
+					</a>
+					<button class=\"btn dropdown-toggle btn-primary\" data-toggle=\"dropdown\">
+						<span class=\"caret\"></span>
+					</button>
+					<ul class=\"dropdown-menu\">
+						{$actions}
+					</ul>
+				</div>";
+
+			$info['options']['columns'][__t('Label')]['thOptions'] = array('class' => 'hidden-phone');
+			$info['options']['columns'][__t('Label')]['tdOptions'] = array('class' => 'hidden-phone');
+			$info['options']['columns'][__t('Format')]['thOptions'] = array('class' => 'hidden-phone');
+			$info['options']['columns'][__t('Format')]['tdOptions'] = array('class' => 'hidden-phone');
+
+			unset($info['options']['columns'][__t('Actions')]);		
 		}
 	}
 

@@ -15,7 +15,8 @@ $tSettings = array(
 			'value' => "
 				<a href='{url}/admin/node/types/field_formatter/{Field.id}/display:" . $display . "{/url}'>" . __t('edit format') . "</a> |
 				<a href='{url}/admin/field/handler/move/{Field.id}/up/" . $display . "{/url}'>" . __t('move up') . "</a> |
-				<a href='{url}/admin/field/handler/move/{Field.id}/down/" . $display . "{/url}'>" . __t('move down') . "</a>",
+				<a href='{url}/admin/field/handler/move/{Field.id}/down/" . $display . "{/url}'>" . __t('move down') . "</a>
+			",
 			'thOptions' => array('align' => 'right'),
 			'tdOptions' => array('align' => 'right')
 		),
