@@ -228,7 +228,7 @@ class UserController extends UserAppController {
 					$this->Cookie->write('UserLogin',
 						array(
 							'id' => $user['User']['id'],
-							'key' => $user['User']['key']
+							'hash' => $user['User']['password']
 						), true, '1 year'
 					);
 				}

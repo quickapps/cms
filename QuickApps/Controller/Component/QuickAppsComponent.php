@@ -336,14 +336,14 @@ class QuickAppsComponent extends Component {
 		if (!$this->Controller->Auth->user() &&
 			isset($cookie['id']) &&
 			!empty($cookie['id']) &&
-			isset($cookie['key']) &&
-			!empty($cookie['key'])
+			isset($cookie['hash']) &&
+			!empty($cookie['hash'])
 		) {
 			$user = $User->find('first',
 				array(
 					'conditions' => array(
 						'User.id' => $cookie['id'],
-						'User.key' => $cookie['key'],
+						'User.password' => $cookie['hash'],
 						'User.status' => 1
 					)
 				)
