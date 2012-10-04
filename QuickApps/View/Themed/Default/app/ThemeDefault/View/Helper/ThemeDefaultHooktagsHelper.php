@@ -33,9 +33,9 @@ class ThemeDefaultHooktagsHelper extends AppHelper {
 
 		extract($atts);
 
-		$size = strtolower($size) != 'big' ? ' small' : 'big';
+		$size = strtolower($size) != 'big' ? 'small' : 'big';
 		$target = !empty($target) ? "target=\"{$target}\" " : "";
-		$out = "<a href=\"{$link}\" class=\"{$size}-button {$size}{$color}\" {$target}><span>{$content}</span></a>";
+		$out = "<a href=\"{$link}\" class=\"btn btn-{$size} btn-{$color}\" {$target}><span>{$content}</span></a>";
 
 		return $out;
 	}

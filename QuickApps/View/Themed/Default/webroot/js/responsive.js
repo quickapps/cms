@@ -1,15 +1,15 @@
 $(function() {
 	if ($.browser.msie && $.browser.version.substr(0,1) < 7) {
 		$('li').has('ul').mouseover(function(){
-			$(this).children('ul').css('visibility','visible');
+			$(this).children('ul').css('visibility', 'visible');
 		}).mouseout(function(){
-			$(this).children('ul').css('visibility','hidden');
+			$(this).children('ul').css('visibility', 'hidden');
 		});
 	}
 
 	/* Mobile */
-	$('#main-menu-wrap').prepend('<div id="menu-trigger"><?php echo __t('Menu'); ?></div>');		
-	$("#menu-trigger").on("click", function () {
+	$('#main-menu-wrap').prepend('<div id="menu-trigger"></div>');
+	$("#menu-trigger").on('click', function () {
 		$("#menu").slideToggle();
 	});
 
