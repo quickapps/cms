@@ -18,7 +18,6 @@
 </div>
 
 <?php echo $this->Form->submit(__t('Save changes'), array('id' => 'saveChanges')); ?>
-<span id="saveStatus">&nbsp;</span>
 
 <script>
 	$(document).ready(function() {
@@ -38,14 +37,19 @@
 		});
 
 		$('#saveChanges').click(function(e) {
-			$('#saveStatus').text('<?php echo __t('Saving...'); ?>');
+			$('#saveChanges').val('<?php echo __t('Saving...'); ?>');
 			arraied = $('ul.sortable').nestedSortable('toArray', {startDepthCount: 0});
 			$.ajax({
 				type: 'POST',
 				url: QuickApps.settings.url,
 				data: 'data[MenuLink]=' + $.toJSON(arraied),
 				success: function() {
-					$('#saveStatus').text('<?php echo __t('Saved!'); ?>');
+					$('#saveChanges')
+					.val('<?php echo __t('Saved!'); ?>')
+					.delay(6000)
+					.queue(function () {
+						$('#saveChanges').val("<?php echo __t('Save changes'); ?>");
+					});
 				}
 			});
 		});

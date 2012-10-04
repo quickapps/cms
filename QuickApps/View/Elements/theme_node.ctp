@@ -13,10 +13,9 @@ if (!QuickApps::is('view.feed')) {
 	if (in_array($Layout['display'], array('full', 'print'))) {
 		echo $this->Html->tag('h2', $node['Node']['title'], array('class' => 'node-title'));
 	} else {
-		echo $this->Html->link(
-			$this->Html->tag('h2', $node['Node']['title'], array('class' => 'node-title')),
+		echo $this->Html->link($node['Node']['title'],
 			"/{$node['Node']['node_type_id']}/{$node['Node']['slug']}.html",
-			array('escape' => false)
+			array('class' => 'node-title', 'escape' => false)
 		);
 	}
 ?>
