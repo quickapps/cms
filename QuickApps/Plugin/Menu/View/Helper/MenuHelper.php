@@ -98,7 +98,7 @@ class MenuHelper extends AppHelper {
  *	-	`wrapperFormat`: if you want to use other tag than ul for menu items container. (default - '<ul %s>%s</ul>')
  *		Array-path-patterns are allowed.
  *	-	`wrapperAttributes`: Mixed array list of html attributes for the top level tag. Same as `itemAttributes` (default - none)
- *	-	`element`: Path to an element to render to get node contents, Plugin-Dot-Syntax allowed.
+ *	-	`element`: Path to a rendering element, Plugin-Dot-Syntax allowed.
  *		e.g.: 'MyModule.node_element'. (default - false)
  *	-	`callback`: Callback to use to get node contents.
  *		e.g. array(&$anObject, 'methodName') or 'floatingMethod'. (default - false)
@@ -128,13 +128,13 @@ class MenuHelper extends AppHelper {
 	private function __render($data, $settings) {
 		$_data = array(
 			'menu' => $data,
-			'settings' => $settings
+			'settings' => array_merge($this->__defaultSettings, $settings)
 		);
 
 		$this->hook('menu_render_alter', $_data);
 		extract($_data);
 
-		$this->settings = array_merge($this->__defaultSettings, $settings);
+		$this->settings = $settings;
 		$out = '';
 		$__attrs = $wrapperAttributes = array();
 		$this->__tmp['wrapperAttributes'] = $this->settings['wrapperAttributes'];
@@ -167,7 +167,8 @@ class MenuHelper extends AppHelper {
 		}
 
 		foreach ($this->settings['itemAttributes'] as $attr => $values) {
-			$__attrs[] = "{$attr}=\"" . implode(' ', $values) . "\"";
+			$values = is_array($values) ? implode(' ', $values) : $values;
+			$__attrs[$attr] = $values;
 		}
 
 		if (!empty($__attrs)) {
@@ -403,10 +404,10 @@ class MenuHelper extends AppHelper {
 			(!empty($item['children']) && $item['expanded']) ||
 			(!empty($item['children']) && $this->settings['force'])
 		) {
-			$depth = $this->settings['__depth__'];
-			$this->settings['__depth__']++;
-			$children = $this->__render($item['children'], $this->settings);
-			$this->settings['__depth__'] = $depth;
+			$_settings = $__settings = $this->settings;
+			$__settings['__depth__']++;
+			$children = $this->__render($item['children'], $__settings);
+			$this->settings = $_settings;
 			$hasChildren = true;
 		}
 
