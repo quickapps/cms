@@ -171,16 +171,6 @@ class Node extends NodeAppModel {
 				$parent_id = 0;
 			}
 
-			$MenuLink->Behaviors->detach('Tree');
-			$MenuLink->Behaviors->attach('Tree',
-				array(
-					'parent' => 'parent_id',
-					'left' => 'lft',
-					'right' => 'rght',
-					'scope' => "MenuLink.menu_id = '{$menu_id}'"
-				)
-			);
-
 			if ($link_exists) {
 				if ($link_exists['MenuLink']['id'] == $parent_id) {
 					return;
@@ -189,6 +179,16 @@ class Node extends NodeAppModel {
 				if ($link_exists['MenuLink']['menu_id'] != $menu_id ||
 					$link_exists['MenuLink']['parent_id'] != $parent_id
 				) {
+					$MenuLink->Behaviors->detach('Tree');
+					$MenuLink->Behaviors->attach('Tree',
+						array(
+							'parent' => 'parent_id',
+							'left' => 'lft',
+							'right' => 'rght',
+							'scope' => "MenuLink.menu_id = '{$link_exists['MenuLink']['menu_id']}'"
+						)
+					);
+
 					$MenuLink->removeFromTree($link_exists['MenuLink']['id'], true);
 				} elseif (
 					$link_exists['MenuLink']['link_title'] != $this->__tmp['data']['MenuLink']['link_title'] ||
@@ -212,6 +212,16 @@ class Node extends NodeAppModel {
 					return;
 				}
 			}
+
+			$MenuLink->Behaviors->detach('Tree');
+			$MenuLink->Behaviors->attach('Tree',
+				array(
+					'parent' => 'parent_id',
+					'left' => 'lft',
+					'right' => 'rght',
+					'scope' => "MenuLink.menu_id = '{$menu_id}'"
+				)
+			);
 
 			$data = array(
 				'MenuLink' => array(
