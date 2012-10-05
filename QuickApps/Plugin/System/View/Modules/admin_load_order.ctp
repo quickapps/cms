@@ -6,11 +6,11 @@
 			<li class="ui-state-default">
 				<input type="hidden" name="data[Module][]" value="<?php echo $module['Module']['name']; ?>" />
 
-				<div class="fl">
+				<div class="pull-left">
 					<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
 				</div>
 
-				<div class="fl" style="width:60%;">
+				<div class="pull-left" style="width:60%;">
 					<?php echo $_modules[$module['Module']['name']]['yaml']['name']; ?> (<?php echo strtolower($module['Module']['name']); ?>)
 				</div>
 			</li>

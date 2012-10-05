@@ -9,7 +9,6 @@
 				)
 			);
 		?>
-
 	</div>
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 
@@ -52,11 +51,11 @@
 		<ul class="not-sortable">
 			<?php foreach ($notAssigned as $block): ?>
 			<li class="ui-state-default">
-				<div class="fl">
+				<div class="pull-left">
 					<span class="ui-icon"></span>
 				</div>
 
-				<div class="fl" style="width:60%;">
+				<div class="pull-left" style="width:60%;">
 				<?php
 					if ($block['Block']['title'] == '') {
 						if ($block['Menu']['title'] != '') {
@@ -72,11 +71,11 @@
 				?>
 				</div>
 
-				<div class="fl">
+				<div class="pull-left">
 					---
 				</div>
 
-				<div class="fr">
+				<div class="pull-right">
 					<a href="<?php echo $this->Html->url("/admin/block/manage/clone/{$block['Block']['id']}"); ?>" onClick="return confirm('<?php echo __t('Duplicate this block?'); ?>');"><?php echo __t('clone') ?></a> |
 					<a href="<?php echo $this->Html->url("/admin/block/manage/edit/{$block['Block']['id']}"); ?>"><?php echo __t('configure'); ?></a> |
 					<?php if ($block['Block']['module'] == 'Block' || $block['Block']['clone_of'] != 0) { ?>

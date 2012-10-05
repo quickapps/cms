@@ -19,7 +19,7 @@
 
 <?php echo $this->Form->submit(__t('Save changes'), array('id' => 'saveChanges')); ?>
 
-<script>
+<script type="text/javascript">
 	$(document).ready(function() {
 		$('ul.sortable').nestedSortable({
 			listType: 'ul',

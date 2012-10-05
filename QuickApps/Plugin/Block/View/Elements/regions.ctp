@@ -51,11 +51,11 @@ foreach ($regions as $region) {
 	<li class="ui-state-default">
 		<input type="hidden" name="data[BlockRegion][<?php echo $theme; ?>][<?php echo $region; ?>][]" value="<?php echo $__block['Block']['__block_region_id']; ?>" />
 
-		<div class="fl">
+		<div class="pull-left">
 			<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
 		</div>
 
-		<div class="fl" style="width:60%;">
+		<div class="pull-left" style="width:60%;">
 		<?php
 			if ($__block['Block']['title'] == '') {
 				if ($__block['Menu']['title'] != '') {
@@ -71,11 +71,11 @@ foreach ($regions as $region) {
 		?>
 		</div>
 
-		<div class="fl">
+		<div class="pull-left">
 			<?php echo $region; ?>
 		</div>
 
-		<div class="fr">
+		<div class="pull-right">
 			<a href="<?php echo $this->Html->url("/admin/block/manage/clone/{$__block['Block']['id']}"); ?>" onClick="return confirm('<?php echo __t('Duplicate this block?'); ?>');"><?php echo __t('clone') ?></a> |
 			<a href="<?php echo $this->Html->url("/admin/block/manage/edit/{$__block['Block']['id']}"); ?>"><?php echo __t('configure'); ?></a> |
 			<?php if ($__block['Block']['module'] == 'Block' || $__block['Block']['clone_of'] != 0) { ?>
