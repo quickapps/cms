@@ -38,49 +38,51 @@
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 <?php echo $this->Form->end(); ?>
 
-<table width="100%">
-	<?php foreach ($packages as $plugin => $langs): ?>
-	<?php
-		if ($plugin != 'Default') {
-			if (strpos($plugin, 'Theme') !== false) {
-				$Name = __t('Theme: %s', Configure::read('Modules.' . $plugin . '.yaml.info.name'));
-			} elseif (QuickApps::is('module.field', $plugin)) {
-				$Name = __t('Field: %s', $field_modules[$plugin]['name']);
+<?php if (!empty($packages)): ?>
+	<table class="table table-bordered" width="100%">
+		<?php foreach ($packages as $plugin => $langs): ?>
+		<?php
+			if ($plugin != 'Default') {
+				if (strpos($plugin, 'Theme') !== false) {
+					$Name = __t('Theme: %s', Configure::read('Modules.' . $plugin . '.yaml.info.name'));
+				} elseif (QuickApps::is('module.field', $plugin)) {
+					$Name = __t('Field: %s', $field_modules[$plugin]['name']);
+				} else {
+					$Name = __t('Module: %s', Configure::read('Modules.' . $plugin . '.yaml.name'));
+				}
 			} else {
-				$Name = __t('Module: %s', Configure::read('Modules.' . $plugin . '.yaml.name'));
+				$Name = '<b>' . __t('ALL') . '</b>';
 			}
-		} else {
-			$Name = '<b>' . __t('ALL') . '</b>';
-		}
-	?>
-	<tr>
-		<td>
-			<?php echo $Name; ?><br/>
-			<?php
-				$li = array();
+		?>
+		<tr>
+			<td>
+				<h5><?php echo $Name; ?></h5>
+				<?php
+					$li = array();
 
-				foreach ($langs as $code => $po) {
-					if (!isset($languages[$code])) {
-						continue;
+					foreach ($langs as $code => $po) {
+						if (!isset($languages[$code])) {
+							continue;
+						}
+
+						$li[] =
+							$languages[$code] .
+							' ' .
+							' ' . $this->Html->link(__t('download'), "/admin/locale/packages/download_package/{$plugin}/{$code}", array('target' => '_blank')) .
+							' ' . $this->Html->link(__t('uninstall'), "/admin/locale/packages/uninstall/{$plugin}/{$code}", array('target' => '_blank', 'onclick' => "return confirm('" . __t('Delete the selected package ?') . "');")); 
 					}
 
-					$li[] =
-						$languages[$code] . '&nbsp;' .
-						'&nbsp;' . $this->Html->link(__t('download'), "/admin/locale/packages/download_package/{$plugin}/{$code}", array('target' => '_blank')) .
-						'&nbsp;' . $this->Html->link(__t('uninstall'), "/admin/locale/packages/uninstall/{$plugin}/{$code}", array('target' => '_blank', 'onclick' => "return confirm('" . __t('Delete the selected package ?') . "');")); 
-				}
+					echo $this->Html->nestedList($li, array('id' => 'translation-packages-list'));
+				?>
+			</td>
+		</tr>
+		<?php endforeach; ?>
+	</table>
+<?php endif; ?>
 
-				echo $this->Html->nestedList($li, array('id' => 'translation-packages-list'));
-			?>
-		</td>
-		<td></td>
-	</tr>
-	<?php endforeach; ?>
-</table>
-
-<script>
+<script type="text/javascript">
 	function checkPackage() {
-		var ext = $('#PackageData').val().substr(($('#PackageData').val().lastIndexOf('.') +1));
+		var ext = $('#po').val().substr(($('#po').val().lastIndexOf('.') +1));
 
 		if (ext != 'po') {
 			alert('<?php echo __t('Invalid package'); ?>');

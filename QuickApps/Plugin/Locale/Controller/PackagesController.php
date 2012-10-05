@@ -120,12 +120,18 @@ class PackagesController extends LocaleAppController {
 		$this->redirect('/admin/locale/packages');
 	}
 
-	private function __packagesList() {
+	private function __packagesList($force = false) {
 		$poFolders = array();
 		$Locale = new Folder(ROOT . DS . 'Locale' . DS);
-		$f = $Locale->read(); $f = $f[0];
+		$f = $Locale->read();
+		$f = $f[0];
+		$languages = $this->_languageList();
 
 		foreach ($f as $langF) {
+			if (!$force && !isset($languages[$langF])) {
+				continue;
+			}
+
 			if (file_exists(ROOT . DS . 'Locale' . DS . $langF . DS . 'LC_MESSAGES' . DS . 'default.po')) {
 				$poFolders['Default'][$langF] = ROOT . DS . 'Locale' . DS . $langF . DS . 'LC_MESSAGES' . DS . 'default.po';
 			}
@@ -137,17 +143,13 @@ class PackagesController extends LocaleAppController {
 				continue;
 			}
 
-			$ppath = CakePlugin::path($plugin);
-			$Locale = new Folder($ppath . 'Locale' . DS);
-			$f = $Locale->read(); $f = $f[0];
-
 			foreach ($f as $langF) {
+				if (!$force && !isset($languages[$langF])) {
+					continue;
+				}
+
 				if (file_exists(ROOT . DS . 'Locale' . DS . $langF . DS . 'LC_MESSAGES' . DS . Inflector::underscore($plugin) . '.po')) {
 					$poFolders[$plugin][$langF] = ROOT . DS . 'Locale' . DS . $langF . DS . 'LC_MESSAGES' . DS . Inflector::underscore($plugin) . '.po';
-				} else {
-					if (file_exists($ppath . 'Locale' . DS . $langF . DS . 'LC_MESSAGES' . DS . 'core.po')) {
-						$poFolders[$plugin][$langF] = $ppath . 'Locale' . DS . $langF . DS . 'LC_MESSAGES' . DS . 'core.po';
-					}
 				}
 			}
 		}

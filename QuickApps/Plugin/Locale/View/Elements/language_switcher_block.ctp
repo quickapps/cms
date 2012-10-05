@@ -11,7 +11,7 @@
 <?php if ($render_type == 'html'): ?>
 <ul id="lang-selector">
 	<?php foreach (Configure::read('Variable.languages') as $key => $lang): ?>
-	<?php $selected = Configure::read('Variable.language.code') == $lang['Language']['code'] ? 'selected' : ''; ?>
+	<?php $isActive = Configure::read('Variable.language.code') == $lang['Language']['code'] ? 'active' : ''; ?>
 	<?php
 		$flag = '';
 
@@ -27,7 +27,7 @@
 
 		$name = $block['Block']['settings']['name'] ? "<span>{$lang['Language']['native']}</span>" : '';
 	?>
-	<li class="<?php echo "{$lang['Language']['code']} {$selected}"; ?>">
+	<li class="<?php echo "{$lang['Language']['code']} {$isActive}"; ?>">
 		<?php
 			if (Configure::read('Variable.url_language_prefix')) {
 				$switch_url = $this->request->base . QuickApps::str_replace_once(Configure::read('Config.language') . '/' , "{$lang['Language']['code']}/", $url);
