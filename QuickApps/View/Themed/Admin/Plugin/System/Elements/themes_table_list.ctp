@@ -34,7 +34,7 @@
 				<td valign="top">
 					<div class="btn-group">
 						<a href="" class="btn btn-primary" onclick="return false;">
-							<?php echo $data['info']['name']; ?>
+							<?php echo $data['info']['name']; ?> <?php echo $currentTheme == $name ? '<i class="icon-star" title="' . __t('Theme in use') . '"></i>' : ''; ?>
 						</a>
 						<button class="btn dropdown-toggle btn-primary" data-toggle="dropdown">
 							<span class="caret"></span>

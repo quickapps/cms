@@ -56,6 +56,7 @@
 	// Theme descriptions
 	echo __t("Default frontend theme for QuickApps");
 	echo __t("Default backend theme for QuickApps");
+	echo __t("Theme in use");
 
 	// Basic content-type titles
 	echo __t("Article");

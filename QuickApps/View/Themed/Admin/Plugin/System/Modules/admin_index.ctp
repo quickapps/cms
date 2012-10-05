@@ -72,29 +72,30 @@
 		<?php foreach ($modules as $name => $data): ?>
 		<?php if (strpos($name, 'Theme') === 0) continue; ?>
 		<?php if (empty($data['yaml']) || $data['yaml']['category'] !== $category) continue; ?>
+		<?php $class = $data['status'] ? 'btn-primary' : 'btn-danger'; ?>
 		<tr id="module-<?php echo $name; ?>" class="<?php echo $data['status'] ? 'module-enabled' : 'module-disabled'; ?>">
 			<td width="100%" align="left">
 				<div class="btn-group">
-					<a href="<?php echo Router::url("/admin/user/permissions/?expand=" . $name); ?>" class="btn btn-primary">
+					<a href="<?php echo Router::url("/admin/user/permissions/?expand=" . $name); ?>" class="btn <?php echo $class; ?>">
 						<?php echo $data['yaml']['name']; ?> (<?php echo $data['yaml']['version']; ?>)
 					</a>
-					<button class="btn dropdown-toggle btn-primary" data-toggle="dropdown">
+					<button class="btn dropdown-toggle <?php echo $class; ?>" data-toggle="dropdown">
 						<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu">
 						<li><a class="help-btn" href="<?php echo $this->Html->url("/admin/user/permissions/?expand=" . $name); ?>"><?php echo __t('Permissions'); ?></a></li>
 
 						<?php if ($this->Layout->elementExists("{$name}.help")): ?>
-						<li><a class="help-btn" href="<?php echo $this->Html->url("/admin/system/help/module/" . $name); ?>"><?php echo __t('Help'); ?></a></li>
+						<li><a href="<?php echo $this->Html->url("/admin/system/help/module/" . $name); ?>"><?php echo __t('Help'); ?></a></li>
 						<?php endif; ?>
 
 						<?php if ($this->Layout->elementExists("{$name}.settings") && Configure::read('Modules.' . $name)): ?>
-						<li><a class="settings-btn" href="<?php echo $this->Html->url('/admin/system/modules/settings/' . $name); ?>"><?php echo __t('Settings'); ?></a></li>
+						<li><a href="<?php echo $this->Html->url('/admin/system/modules/settings/' . $name); ?>"><?php echo __t('Settings'); ?></a></li>
 						<?php endif; ?>
 
 						<?php if (!in_array(Inflector::camelize($name), Configure::read('coreModules'))) : ?>
-						<li><a class="toggle-btn" href="<?php echo $this->Html->url('/admin/system/modules/toggle/' . $name); ?>"><?php echo $data['status'] == 1 ? __t('Disable') : __t('Enable'); ?></a></li>
-						<li><a class="delete-btn" href="<?php echo $this->Html->url('/admin/system/modules/uninstall/' . $name); ?>" onclick="return confirm('<?php echo __t("Delete selected module ? This change cannot be undone!"); ?>');"><?php echo __t('Uninstall'); ?></a></li>
+						<li><a href="<?php echo $this->Html->url('/admin/system/modules/toggle/' . $name); ?>"><?php echo $data['status'] == 1 ? __t('Disable') : __t('Enable'); ?></a></li>
+						<li><a href="<?php echo $this->Html->url('/admin/system/modules/uninstall/' . $name); ?>" onclick="return confirm('<?php echo __t("Delete selected module ? This change cannot be undone!"); ?>');"><?php echo __t('Uninstall'); ?></a></li>
 						<?php endif; ?>
 					</ul>
 				</div>				
