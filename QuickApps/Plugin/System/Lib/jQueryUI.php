@@ -54,22 +54,22 @@ class jQueryUI {
  *
  * ### Loading presets
  *
- *    $this->jQueryUI->add('sortable');
+ *     $this->jQueryUI->add('sortable');
  *
  * The above will load all the JS libraries required for a `sortable` interaction.
  * You can only load one preset per call.
  * The code below is **NOT ALLOWED**:
  *
- *    $this->jQueryUI->add('sortable', 'draggable');
+ *     $this->jQueryUI->add('sortable', 'draggable');
  *
  * You must use one call per preset instead:
  *
- *    $this->jQueryUI->add('sortable');
- *    $this->jQueryUI->add('draggable');
+ *     $this->jQueryUI->add('sortable');
+ *     $this->jQueryUI->add('draggable');
  *
  * ### Loading individual libraries
  *
- *    $this->jQueryUI->add('effects.blind', 'effects.fade');
+ *     $this->jQueryUI->add('effects.blind', 'effects.fade');
  *
  * The above will load both `blind` & `fade` effects.
  *

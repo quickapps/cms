@@ -291,6 +291,7 @@ class QuickApps {
 
 /**
  * This method can do two things:
+ *
  * - Retun an array list of all regisreted display-modes for the given Model.
  * - Return information for the specified display-mode (if exists), given as Dot-Syntax (Model.display_mode).
  *

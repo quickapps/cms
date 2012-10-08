@@ -199,12 +199,12 @@ class HookCollection {
  * Plugin-dot-syntax is allowed if you need to check if an specific module has defined 
  * certain hook method.
  *
- * Note that hooks disabled using `hookDisable()` won't be considered
+ * Note that disabled hooks using `hookDisable()` won't be considered
  * and they will be detected as undefined/nonexistent by `hookDefined()`.
  *
  * ### Example
  *
- *    hookDefined('ModuleName.hook_to_check')
+ *     hookDefined('ModuleName.hook_to_check')
  *
  * The above will check if `ModuleName` module has defined the `hook_to_check` hook method.
  *
@@ -278,6 +278,7 @@ class HookCollection {
 
 /**
  * Load and attach hooks to AppController.
+ *
  *  - Preload helpers hooks.
  *  - Preload behaviors hooks.
  *  - Preload components hooks.

@@ -1180,7 +1180,7 @@ class InstallerComponent extends Component {
 	}
 
 /**
- * Creates a new block and optianilly assign it to the specified theme and region.
+ * Creates a new block and optionally assign it to the specified theme and region.
  *
  * ### Block options
  *
@@ -1539,7 +1539,7 @@ class InstallerComponent extends Component {
  *
  * Note that `module` key is OPTIONAL when the method is invoked
  * from an installation session. If `module` key is not set and this method is invoked
- * during an install process (e.g.: called from `afterInstall`) it wil use the name of the module
+ * during an install process (e.g.: called from `afterInstall`) it will use the name of the module
  * being installed.
  *
  * Although this method should be used on `afterInstall` callback only:
