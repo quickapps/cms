@@ -269,7 +269,16 @@ class TableHelper extends AppHelper {
 		// look for array paths. e.g.: {Node.slug}
 		preg_match_all('/\{([\{\}0-9a-zA-Z_\.]+)\}/iUs', $value, $path);
 		if (isset($path[1]) && !empty($path[1])) {
-			$exclude = array('{d}', '{/d}', '{t}', '{/t}', '{php}', '{/php}', '{img}', '{/img}', '{link}', '{/link}');
+			$exclude = array(
+				'{n}', '{s}', //Hash extract paths syntax
+				'{d}', '{/d}',
+				'{t}', '{/t}',
+				'{url}', '{/url}',
+				'{php}', '{/php}',
+				'{img}', '{/img}',
+				'{link}', '{/link}',
+				'{trucate}', '{/truncate}'
+			);
 
 			foreach ($path[0] as $i => $m) {
 				if (in_array($m, $exclude)) {

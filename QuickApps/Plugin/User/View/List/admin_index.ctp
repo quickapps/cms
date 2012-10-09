@@ -16,7 +16,7 @@ $tSettings = array(
 			'sort' => 'User.email'
 		),
 		__t('Roles') => array(
-			'value' => '{php} return implode(", ", Hash::extract($row_data, "{n}.Role.name")); {/php}',
+			'value' => "{php} return implode(', ', Hash::extract(\$row_data, 'Role.{n}.name')); {/php}",
 			'sort' => false
 		),
 		__t('Actions') => array(
