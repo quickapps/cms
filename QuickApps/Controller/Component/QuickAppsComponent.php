@@ -220,6 +220,11 @@ class QuickAppsComponent extends Component {
 		if (Configure::read('Theme.settings.site_favicon')) {
 			$this->Controller->Layout['meta']['icon'] = Router::url(Configure::read('Theme.settings.site_favicon_url'));
 		}
+
+		$this->Controller->Layout['meta']['generator'] = array(
+			'name' => 'generator',
+			'content' => sprintf('QuickApps CMS v%s - Open Source Content Management', Configure::read('Variable.qa_version'))
+		);
 	}
 
 /**
