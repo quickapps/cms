@@ -260,7 +260,11 @@ class LayoutHelper extends AppHelper {
 				continue;
 			}
 
-			$out .= $this->_View->Html->meta($name, $content) . "\n";
+			if (is_array($content)) {
+				$out .= $this->_View->Html->meta($content) . "\n";
+			} else {
+				$out .= $this->_View->Html->meta($name, $content) . "\n";
+			}
 		}
 
 		$this->hook('layout_meta_alter', $out);
