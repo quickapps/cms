@@ -21,6 +21,11 @@ class ThemeAdminHookHelper extends AppHelper {
 		) {
 			$this->_View->Layout->script('login.js');
 		}
+
+		$this->_View->viewVars['Layout']['meta']['viewport'] = array(
+			'name' => 'viewport',
+			'content' => 'width=device-width; initial-scale=1.0'
+		);
 	}
 
 	public function pagination() {

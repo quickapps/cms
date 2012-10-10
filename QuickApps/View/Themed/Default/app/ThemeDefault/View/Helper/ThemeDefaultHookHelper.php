@@ -11,6 +11,13 @@
  * @link	 http://www.quickappscms.org
  */
 class ThemeDefaultHookHelper extends AppHelper {
+	public function beforeRender($viewFile) {
+		$this->_View->viewVars['Layout']['meta']['viewport'] = array(
+			'name' => 'viewport',
+			'content' => 'width=device-width; initial-scale=1.0'
+		);
+	}
+
 /**
  * Display search form only on zero (0) results.
  *
