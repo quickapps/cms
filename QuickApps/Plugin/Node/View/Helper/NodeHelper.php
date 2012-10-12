@@ -164,6 +164,10 @@ class NodeHelper extends AppHelper {
 	public function renderField($field, $edit = false, $display = null) {
 		$__display = $display ? $display : $this->_View->viewVars['Layout']['display'];
 
+		if (isset($field['Field']) && is_array($field['Field'])) {
+			$field = $field['Field'];
+		}
+
 		if (isset($field['settings']['display'][$__display]['type']) &&
 			$field['settings']['display'][$__display]['type'] == 'hidden'
 		) {

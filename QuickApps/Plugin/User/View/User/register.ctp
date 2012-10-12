@@ -15,7 +15,7 @@
 		<?php echo $this->Form->input('password2', array('required' => true, 'type' => 'password', 'label' => __t('Confirm password') . ' *')); ?>
 
 		<?php foreach ($fields as $field): ?>
-			<?php echo $this->Layout->hook("{$field['Field']['field_module']}_edit", $field['Field'], array('collectReturn' => false)); ?>
+			<?php echo $this->Node->renderField($field, true); ?>
 		<?php endforeach; ?>
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 
