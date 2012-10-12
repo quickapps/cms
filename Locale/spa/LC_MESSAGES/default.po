@@ -1,13 +1,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2012-09-30 15:09+0000\n"
+"POT-Creation-Date: 2012-10-12 16:34+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christopher Castro <chris@quickapps.es>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
 #: Controller\InstallController.php:113
 msgid "Your php version is not supported. check that your version is 5.2.8 or newer."
@@ -53,27 +54,27 @@ msgstr "El directorio Config no se puede escribir."
 msgid "Config/core.php file is not writable."
 msgstr "El fichero Config/core.php no se puede escribir."
 
-#: Controller\InstallController.php:187
+#: Controller\InstallController.php:199
 msgid "Could not connect to database."
 msgstr "No se pudo conectar con la Base de Datos."
 
-#: Controller\InstallController.php:206
-msgid "A QuickApps CMS database already exists, please drop it or change the prefix."
-msgstr "Ya existe una base de datos QuickApps CMS, vacíela o cambie el prefijo."
+#: Controller\InstallController.php:218
+msgid "A previous installation of QuickApps CMS already exists, please drop your database or change the prefix."
+msgstr "Ya existe una instalación anterior de QuickApps CMS, por favor elija un prefijo distinto para la base de datos o límpiela."
 
-#: Controller\InstallController.php:258
+#: Controller\InstallController.php:270
 msgid "Could not dump database."
 msgstr "No se pudo volcar la información de la Base de Datos."
 
-#: Controller\InstallController.php:261
+#: Controller\InstallController.php:273
 msgid "Could not write database.php file."
 msgstr "No se pudo escribir en el fichero database.php."
 
-#: Controller\InstallController.php:301
+#: Controller\InstallController.php:313
 msgid "Could not create new user, please try again."
 msgstr "No se pudo crear el usuario, por favor intente nuevamente."
 
-#: Controller\InstallController.php:328
+#: Controller\InstallController.php:340
 msgid "Could not write 'install' file. Check file/folder permissions and refresh this page."
 msgstr "No pudo escribir en el fichero 'install'. Por favor verifique los permisos y actualice esta página."
 
@@ -305,15 +306,15 @@ msgstr "Este módulo depende de otros módulos que no han sido instalados o bien
 msgid "Site offline"
 msgstr "Sitio fuera de línea"
 
-#: Controller\Component\QuickAppsComponent.php:324
+#: Controller\Component\QuickAppsComponent.php:329
 msgid "You are not authorized to access that location."
 msgstr "No está autorizado para acceder a esa área."
 
-#: Controller\Component\QuickAppsComponent.php:909
+#: Controller\Component\QuickAppsComponent.php:914
 msgid "Duplicated content"
 msgstr "Contenido Duplicado"
 
-#: Controller\Component\QuickAppsComponent.php:910
+#: Controller\Component\QuickAppsComponent.php:915
 msgid "Duplicate content detected!; it looks as though you've already sent that!"
 msgstr "Contenido duplicado detectado! Al parecer ya has enviado eso!"
 
@@ -366,29 +367,29 @@ msgid "Block could not be deleted"
 msgstr "No se pudo eliminar el bloque"
 
 #: Plugin\Block\View\Elements\regions.ctp:79
-#: Plugin\Block\View\Manage\admin_index.ctp:80
+#: Plugin\Block\View\Manage\admin_index.ctp:79
 msgid "Duplicate this block?"
 msgstr "Duplicar este bloque?"
 
 #: Plugin\Block\View\Elements\regions.ctp:79
-#: Plugin\Block\View\Manage\admin_index.ctp:80
+#: Plugin\Block\View\Manage\admin_index.ctp:79
 msgid "clone"
 msgstr "clonar"
 
 #: Plugin\Block\View\Elements\regions.ctp:80
-#: Plugin\Block\View\Manage\admin_index.ctp:81
+#: Plugin\Block\View\Manage\admin_index.ctp:80
 #: Plugin\Node\View\Types\admin_fields.ctp:21
 #: Plugin\User\View\Fields\admin_index.ctp:21
 msgid "configure"
 msgstr "configurar"
 
 #: Plugin\Block\View\Elements\regions.ctp:82
-#: Plugin\Block\View\Manage\admin_index.ctp:83
+#: Plugin\Block\View\Manage\admin_index.ctp:82
 msgid "Delete selected block ?"
 msgstr "¿Eliminar el bloque seleccionado?"
 
 #: Plugin\Block\View\Elements\regions.ctp:82
-#: Plugin\Block\View\Manage\admin_index.ctp:83
+#: Plugin\Block\View\Manage\admin_index.ctp:82
 #: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:19
 #: Plugin\Locale\View\Translations\admin_list.ctp:12
 #: Plugin\Menu\View\Elements\menu_link_node.ctp:4
@@ -401,7 +402,7 @@ msgstr "¿Eliminar el bloque seleccionado?"
 #: Plugin\Taxonomy\View\Vocabularies\admin_index.ctp:16
 #: Plugin\User\View\Fields\admin_index.ctp:24
 #: Plugin\User\View\Roles\admin_index.ctp:27
-#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:39;127
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:44;185;247;281
 msgid "delete"
 msgstr "eliminar"
 
@@ -457,6 +458,7 @@ msgstr "Cuerpo de bloque *"
 #: Plugin\User\View\List\admin_edit.ctp:15
 #: Plugin\User\View\User\my_account.ctp:12
 #: Plugin\User\View\User\register.ctp:11
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:83;84
 msgid "Language"
 msgstr "Idioma"
 
@@ -534,6 +536,7 @@ msgstr "Si se elige la opcion PHP, ingrese el código PHP entre &lt;?php ?&gt;. 
 #: Plugin\Node\View\Contents\admin_edit.ctp:80
 #: Plugin\User\View\Elements\toolbar.ctp:5
 #: Plugin\User\View\List\admin_index.ctp:18
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:119;120
 msgid "Roles"
 msgstr "Roles"
 
@@ -576,13 +579,13 @@ msgstr "Guardar bloque"
 msgid "Active"
 msgstr "Activo"
 
-#: Plugin\Block\View\Manage\admin_index.ctp:31
+#: Plugin\Block\View\Manage\admin_index.ctp:30
 msgid "Unassigned or Disabled"
 msgstr "No Asignados o Desactivados"
 
-#: Plugin\Block\View\Manage\admin_index.ctp:92
+#: Plugin\Block\View\Manage\admin_index.ctp:91
 #: Plugin\System\View\Configuration\admin_index.ctp:199
-#: Plugin\System\View\Modules\admin_settings.ctp:6
+#: Plugin\System\View\Modules\admin_settings.ctp:4
 msgid "Save all"
 msgstr "Guardar todo"
 
@@ -764,6 +767,7 @@ msgstr "Asunto"
 
 #: Plugin\Comment\View\List\admin_show.ctp:13;37
 #: Plugin\Node\View\Contents\admin_index.ctp:22
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:79;80
 msgid "Author"
 msgstr "Autor"
 
@@ -877,13 +881,15 @@ msgid "Published by"
 msgstr "Publicado por"
 
 #: Plugin\Comment\View\List\admin_view.ctp:14
-#: View\Elements\theme_node.ctp:33
+#: View\Elements\theme_node.ctp:32
+#: View\Themed\Default\Elements\theme_node.ctp:32
 msgid "on %s"
 msgstr "el %s"
 
 #: Plugin\Comment\View\List\admin_view.ctp:14
 #: View\Elements\theme_comment.ctp:37
-#: View\Elements\theme_node.ctp:33
+#: View\Elements\theme_node.ctp:32
+#: View\Themed\Default\Elements\theme_node.ctp:32
 msgid "M d, Y H:i"
 msgstr "d \\d\\e M, Y H:i"
 
@@ -1020,6 +1026,7 @@ msgstr "Eliminar"
 #: Plugin\Field\Fields\FieldImage\View\Elements\edit.ctp:129
 #: Plugin\System\View\Modules\admin_index.ctp:28
 #: Plugin\System\View\Themes\admin_index.ctp:14
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:29
 msgid "Files must be less than <b>%sB</b>."
 msgstr "Archivos deben ser menores que <b>%sB</b>."
 
@@ -1099,7 +1106,7 @@ msgstr "Tamaño"
 #: Plugin\Field\Fields\FieldImage\View\Elements\edit.ctp:97
 #: Plugin\Menu\View\Manage\admin_index.ctp:4
 #: Plugin\Node\View\Contents\admin_index.ctp:9;61
-#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:48
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:56;75;76;218
 msgid "Title"
 msgstr "Título"
 
@@ -1225,7 +1232,7 @@ msgid "You must select at least one option."
 msgstr "Debe seleccionar al menos una opción."
 
 #: Plugin\Field\Fields\FieldList\View\Elements\formatter.ctp:8
-#: Vendor\DummyLocale.php:193
+#: Vendor\DummyLocale.php:194
 msgid "Default"
 msgstr "Descripción"
 
@@ -1274,7 +1281,7 @@ msgid "Invalid field."
 msgstr "Campo inválido."
 
 #: Plugin\Field\Fields\FieldText\View\Elements\formatter.ctp:10
-#: Vendor\DummyLocale.php:194
+#: Vendor\DummyLocale.php:195
 msgid "Full"
 msgstr "Detalle"
 
@@ -1392,6 +1399,7 @@ msgstr "Formato de visualización de campo (tipo vista: %s)"
 #: Plugin\Node\View\Types\admin_fields.ctp:4
 #: Plugin\User\View\Display\admin_index.ctp:8
 #: Plugin\User\View\Fields\admin_index.ctp:4;45
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:321;322
 msgid "Label"
 msgstr "Etiqueta"
 
@@ -1434,6 +1442,7 @@ msgstr "No"
 #: Plugin\Field\View\Elements\display_settings.ctp:45
 #: Plugin\Node\View\Types\admin_display.ctp:11
 #: Plugin\User\View\Display\admin_index.ctp:11
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:323;324
 msgid "Format"
 msgstr "Formato"
 
@@ -1461,54 +1470,54 @@ msgid "Editing language"
 msgstr "Editando idioma"
 
 #: Plugin\Locale\Controller\PackagesController.php:18
-#: Plugin\Locale\View\Packages\admin_index.ctp:53
+#: Plugin\Locale\View\Packages\admin_index.ctp:54
 msgid "ALL"
 msgstr "TODO"
 
-#: Plugin\Locale\Controller\PackagesController.php:23
-#: Plugin\Locale\View\Packages\admin_index.ctp:46
+#: Plugin\Locale\Controller\PackagesController.php:24
+#: Plugin\Locale\View\Packages\admin_index.ctp:47
 #: Plugin\User\Controller\PermissionsController.php:66;339
 msgid "Theme: %s"
 msgstr "Tema: %s"
 
-#: Plugin\Locale\Controller\PackagesController.php:25
-#: Plugin\Locale\View\Packages\admin_index.ctp:48
+#: Plugin\Locale\Controller\PackagesController.php:27
+#: Plugin\Locale\View\Packages\admin_index.ctp:49
 #: Plugin\User\Controller\PermissionsController.php:64;337
 msgid "Field: %s"
 msgstr "Campo: %s"
 
-#: Plugin\Locale\Controller\PackagesController.php:27
-#: Plugin\Locale\View\Packages\admin_index.ctp:50
+#: Plugin\Locale\Controller\PackagesController.php:30
+#: Plugin\Locale\View\Packages\admin_index.ctp:51
 #: Plugin\User\Controller\PermissionsController.php:68;341
 msgid "Module: %s"
 msgstr "Módulo: %s"
 
-#: Plugin\Locale\Controller\PackagesController.php:37
+#: Plugin\Locale\Controller\PackagesController.php:41
 #: Plugin\Locale\View\Elements\toolbar.ctp:5
 msgid "Translation packages"
 msgstr "Paquetes de traducción"
 
-#: Plugin\Locale\Controller\PackagesController.php:39
+#: Plugin\Locale\Controller\PackagesController.php:43
 msgid "Translation Packages"
 msgstr "Paquetes de Traducción"
 
-#: Plugin\Locale\Controller\PackagesController.php:69
+#: Plugin\Locale\Controller\PackagesController.php:73
 msgid "Package not found"
 msgstr "Paquete no encontrado"
 
-#: Plugin\Locale\Controller\PackagesController.php:85
+#: Plugin\Locale\Controller\PackagesController.php:89
 msgid "Could not delete package folder. Please check folder permissions for '%s'."
 msgstr "No se puedo eliminar la carpeta del paquete. Por favor verifique los permisos del directorio '%s'"
 
-#: Plugin\Locale\Controller\PackagesController.php:87
+#: Plugin\Locale\Controller\PackagesController.php:91
 msgid "Language package removed!"
 msgstr "Paquete de idioma eliminado!"
 
-#: Plugin\Locale\Controller\PackagesController.php:90
+#: Plugin\Locale\Controller\PackagesController.php:94
 msgid "Invalid module or language "
 msgstr "Módulo o idioma inválido"
 
-#: Plugin\Locale\Controller\PackagesController.php:116
+#: Plugin\Locale\Controller\PackagesController.php:120
 msgid "Language package upload success"
 msgstr "Paquete de idioma cargado correctamente"
 
@@ -1695,40 +1704,45 @@ msgid "Save language"
 msgstr "Guardar idioma"
 
 #: Plugin\Locale\View\Languages\admin_index.ctp:9
-#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:104
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:145
 msgid "English name"
 msgstr "Nombre en inglés"
 
 #: Plugin\Locale\View\Languages\admin_index.ctp:16
 #: Plugin\System\View\Configuration\admin_index.ctp:56
-#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:101
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:141;172
 msgid "Default language"
 msgstr "Idioma por defecto"
 
 #: Plugin\Locale\View\Languages\admin_index.ctp:19
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:162;163
 msgid "Native name"
 msgstr "Nombre nativo"
 
 #: Plugin\Locale\View\Languages\admin_index.ctp:23
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:164;165
 msgid "Code"
 msgstr "Código"
 
 #: Plugin\Locale\View\Languages\admin_index.ctp:26
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:166;167
 msgid "Direction"
 msgstr "Dirección"
 
 #: Plugin\Locale\View\Languages\admin_index.ctp:27
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:142;174
 msgid "Left to right"
 msgstr "Izquierda a derecha"
 
 #: Plugin\Locale\View\Languages\admin_index.ctp:27
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:142;173
 msgid "Right to left"
 msgstr "Derecha a izquierda"
 
 #: Plugin\Locale\View\Languages\admin_index.ctp:29
 #: Plugin\Node\View\Contents\admin_index.ctp:26;69
 #: Plugin\User\View\List\admin_index.ctp:42
-#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:62;118
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:70;159
 msgid "Status"
 msgstr "Estado"
 
@@ -1755,7 +1769,7 @@ msgstr "desactivado"
 #: Plugin\User\View\Fields\admin_index.ctp:19
 #: Plugin\User\View\List\admin_index.ctp:22
 #: Plugin\User\View\Roles\admin_index.ctp:24
-#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:62;83;118;144
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:70;116;159;202;238;271;297;326
 msgid "Actions"
 msgstr "Acciones"
 
@@ -1765,7 +1779,7 @@ msgstr "Acciones"
 #: Plugin\Taxonomy\View\Vocabularies\admin_index.ctp:17
 #: Plugin\User\View\Display\admin_index.ctp:17
 #: Plugin\User\View\Fields\admin_index.ctp:22
-#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:90
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:127;248;305
 msgid "move up"
 msgstr "mover arriba"
 
@@ -1775,12 +1789,12 @@ msgstr "mover arriba"
 #: Plugin\Taxonomy\View\Vocabularies\admin_index.ctp:18
 #: Plugin\User\View\Display\admin_index.ctp:18
 #: Plugin\User\View\Fields\admin_index.ctp:23
-#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:91
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:128;249;306
 msgid "move down"
 msgstr "mover abajo"
 
 #: Plugin\Locale\View\Languages\admin_index.ctp:36
-#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:92
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:129
 msgid "set as default"
 msgstr "predeterminado"
 
@@ -1795,7 +1809,7 @@ msgstr "predeterminado"
 #: Plugin\Taxonomy\View\Vocabularies\admin_index.ctp:14
 #: Plugin\User\View\List\admin_index.ctp:23
 #: Plugin\User\View\Roles\admin_index.ctp:26
-#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:37;69;93;125
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:42;102;130;183;209;245;279
 msgid "edit"
 msgstr "editar"
 
@@ -1871,19 +1885,19 @@ msgstr "¿Cuál es el idioma de este paquete? Puede registrar más idiomas en la
 msgid "Upload"
 msgstr "Cargar"
 
-#: Plugin\Locale\View\Packages\admin_index.ctp:69
+#: Plugin\Locale\View\Packages\admin_index.ctp:71
 msgid "download"
 msgstr "descargar"
 
-#: Plugin\Locale\View\Packages\admin_index.ctp:70
+#: Plugin\Locale\View\Packages\admin_index.ctp:72
 msgid "uninstall"
 msgstr "desinstalar"
 
-#: Plugin\Locale\View\Packages\admin_index.ctp:70
+#: Plugin\Locale\View\Packages\admin_index.ctp:72
 msgid "Delete the selected package ?"
 msgstr "¿Eliminar el paquete seleccionado?"
 
-#: Plugin\Locale\View\Packages\admin_index.ctp:86
+#: Plugin\Locale\View\Packages\admin_index.ctp:88
 msgid "Invalid package"
 msgstr "Paquete inválido"
 
@@ -1915,7 +1929,7 @@ msgstr "Modo de uso"
 #: Plugin\Menu\View\Manage\admin_add_link.ctp:45
 #: Plugin\Menu\View\Manage\admin_edit.ctp:6
 #: Plugin\Menu\View\Manage\admin_edit_link.ctp:56
-#: Plugin\Node\View\Types\admin_display.ctp:61
+#: Plugin\Node\View\Types\admin_display.ctp:62
 #: Plugin\Node\View\Types\admin_edit.ctp:56
 #: Plugin\System\View\Helper\ThemeCustomizerHelper.php:206
 #: Plugin\System\View\Themes\admin_settings.ctp:33
@@ -1927,14 +1941,14 @@ msgstr "Guardar"
 
 #: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:9
 #: Plugin\Locale\View\Translations\admin_list.ctp:4
-#: Vendor\DummyLocale.php:77;87
-#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:130
+#: Vendor\DummyLocale.php:78;88
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:188
 msgid "Text"
 msgstr "Texto"
 
 #: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:17
 #: Plugin\Node\View\Contents\admin_index.ctp:40
-#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:38
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:43
 msgid "translate"
 msgstr "traducir"
 
@@ -1948,7 +1962,7 @@ msgstr "ocultar"
 
 #: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:19
 #: Plugin\Locale\View\Translations\admin_list.ctp:12
-#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:127
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:185
 msgid "Delete this entry ?"
 msgstr "Eliminar esta entrada ?"
 
@@ -2000,12 +2014,12 @@ msgid "Package (.pot)"
 msgstr "Paquete (.po)"
 
 #: Plugin\Locale\View\Translations\admin_list.ctp:11
-#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:126
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:184
 msgid "Regenerate translation cache"
 msgstr "Regenerar cache de traducciones"
 
 #: Plugin\Locale\View\Translations\admin_list.ctp:11
-#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:126
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:184
 msgid "regenerate"
 msgstr "regenerar"
 
@@ -2094,13 +2108,13 @@ msgstr "Editando Enlaces de Menú"
 msgid "There are no menu links yet. <a href=\"%s\">Add link.</a>"
 msgstr "Aún no hay links para este menú. <a href=\"%s\">Agregar un link.</a>"
 
-#: Plugin\Menu\View\Elements\menu_edit.ctp:20
-#: Plugin\Taxonomy\View\Vocabularies\admin_terms.ctp:32
+#: Plugin\Menu\View\Elements\menu_edit.ctp:20;51
+#: Plugin\Taxonomy\View\Vocabularies\admin_terms.ctp:32;63
 msgid "Save changes"
 msgstr "Guardar cambios"
 
-#: Plugin\Menu\View\Elements\menu_edit.ctp:41
-#: Plugin\Taxonomy\View\Vocabularies\admin_terms.ctp:53
+#: Plugin\Menu\View\Elements\menu_edit.ctp:40
+#: Plugin\Taxonomy\View\Vocabularies\admin_terms.ctp:52
 msgid "Saving..."
 msgstr "Guardando..."
 
@@ -2137,6 +2151,7 @@ msgstr "Título *"
 #: Plugin\Taxonomy\View\Vocabularies\admin_edit.ctp:6
 #: Plugin\Taxonomy\View\Vocabularies\admin_edit_term.ctp:6
 #: Plugin\Taxonomy\View\Vocabularies\admin_index.ctp:8
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:231;235;236;264;268;269
 msgid "Description"
 msgstr "Descripción"
 
@@ -2244,19 +2259,22 @@ msgid "Go to <a href=\"%s\">menu links</a> list to reparent this link."
 msgstr "Vaya al listado de <a href=\"%s\">enlaces de menú</a> para emparentar este enlace."
 
 #: Plugin\Menu\View\Manage\admin_index.ctp:11
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:210
 msgid "links"
 msgstr "enlaces"
 
 #: Plugin\Menu\View\Manage\admin_index.ctp:12
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:211
 msgid "add link"
 msgstr "agregar enlace"
 
 #: Plugin\Menu\View\Manage\admin_index.ctp:16
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:215
 msgid "Delete selected menu ?"
 msgstr "¿Eliminar el menú seleccionado?"
 
 #: Plugin\Menu\View\Manage\admin_links.ctp:2;4
-#: Vendor\DummyLocale.php:79;89
+#: Vendor\DummyLocale.php:80;90
 msgid "Links"
 msgstr "Enlaces"
 
@@ -2406,7 +2424,8 @@ msgstr "Una breve descripción (255 car. máx.) sobre este contenido. Será util
 #: Plugin\Node\View\Contents\admin_add.ctp:18
 #: Plugin\Node\View\Contents\admin_edit.ctp:30
 #: Plugin\System\Controller\ModulesController.php:98
-#: Plugin\System\View\Modules\admin_index.ctp:98
+#: Plugin\System\View\Modules\admin_index.ctp:100
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:93
 msgid "Settings"
 msgstr "Configuración"
 
@@ -2613,7 +2632,7 @@ msgstr "Traducciones Disponibles"
 #: Plugin\Node\View\Contents\admin_edit.ctp:118
 #: Plugin\Node\View\Contents\admin_index.ctp:42
 #: Plugin\Node\View\Contents\admin_translate.ctp:21
-#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:39
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:44
 msgid "Delete selected content ?"
 msgstr "Eliminar el contenido seleccionado ?"
 
@@ -2622,22 +2641,22 @@ msgid "Save content"
 msgstr "Guardar contenido"
 
 #: Plugin\Node\View\Contents\admin_index.ctp:11
-#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:43
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:50;90
 msgid "Sticky at top"
 msgstr "Destacado en listas"
 
 #: Plugin\Node\View\Contents\admin_index.ctp:12
-#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:44
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:51;89
 msgid "Promoted in front page"
 msgstr "Destacado en portada"
 
 #: Plugin\Node\View\Contents\admin_index.ctp:13
-#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:45
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:52;91
 msgid "Cache activated"
 msgstr "Caché activado"
 
 #: Plugin\Node\View\Contents\admin_index.ctp:14
-#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:46
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:53;92
 msgid "This node is a translation of other"
 msgstr "Este nodo es la traducción de algún otro"
 
@@ -2646,6 +2665,7 @@ msgstr "Este nodo es la traducción de algún otro"
 #: Plugin\Node\View\Types\admin_edit.ctp:2
 #: Plugin\Node\View\Types\admin_fields.ctp:12;75
 #: Plugin\User\View\Fields\admin_index.ctp:12;73
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:77;78
 msgid "Type"
 msgstr "Tipo"
 
@@ -2658,10 +2678,12 @@ msgid "published"
 msgstr "publicado"
 
 #: Plugin\Node\View\Contents\admin_index.ctp:30
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:81;82;93
 msgid "Updated"
 msgstr "Modificado"
 
 #: Plugin\Node\View\Contents\admin_index.ctp:31
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:54
 msgid "updated"
 msgstr "modificado"
 
@@ -2885,35 +2907,37 @@ msgstr "Crear y agregar campos"
 #: Plugin\User\View\Fields\admin_index.ctp:8;53
 #: Plugin\User\View\List\admin_index.ctp:54
 #: Plugin\User\View\Roles\admin_index.ctp:8;20
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:283;308
 msgid "Name"
 msgstr "Nombre"
 
 #: Plugin\Node\View\Types\admin_display.ctp:16
 #: Plugin\User\View\Display\admin_index.ctp:16
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:304
 msgid "edit format"
 msgstr "editar formato"
 
-#: Plugin\Node\View\Types\admin_display.ctp:23
+#: Plugin\Node\View\Types\admin_display.ctp:24
 #: Plugin\Node\View\Types\admin_fields.ctp:29
 #: Plugin\User\View\Display\admin_index.ctp:23
 #: Plugin\User\View\Fields\admin_index.ctp:29
 msgid "There are no fields to display"
 msgstr "No hay campos para mostar"
 
-#: Plugin\Node\View\Types\admin_display.ctp:30
+#: Plugin\Node\View\Types\admin_display.ctp:31
 msgid "Content items can be displayed using different display-modes: Full, List, RSS, Print, etc. List is a short format that is typically used in lists of multiple content items. Full content is typically used when the content is displayed on its own page."
 msgstr "Los contenidos pueden ser mostrados en diferentes tipos de vistas: Detalle, Lista, RSS, Impresión, etc. Lista es un formato resumido que comúnmente se utiliza para mostrar listas de multiples contenidos. Detalle se utiliza comúnmente cuando el contenido se muestra en su propia página."
 
-#: Plugin\Node\View\Types\admin_display.ctp:31
+#: Plugin\Node\View\Types\admin_display.ctp:32
 msgid "Here, you can define which fields are shown and hidden when <em>%s</em> content is displayed in each display-mode, and define how the fields are displayed in each display-mode."
 msgstr "Aquí puede definir cuales campos se deben mostrar u ocultar cuando el tipo de contenido <em>%s</em> es mostrado en cada uno de los modos de vista, así como también definir la forma en que los campos son mostrados en cada tipo  de vista."
 
-#: Plugin\Node\View\Types\admin_display.ctp:38
+#: Plugin\Node\View\Types\admin_display.ctp:39
 #: Plugin\User\View\Display\admin_index.ctp:35
 msgid "Display Modes"
 msgstr "Tipos de Vista"
 
-#: Plugin\Node\View\Types\admin_display.ctp:40
+#: Plugin\Node\View\Types\admin_display.ctp:41
 msgid "Use custom display settings for the following display-modes"
 msgstr "Utilizar opciones de visualización personalizadas para los siguientes tipos de vistas"
 
@@ -2972,14 +2996,17 @@ msgid "Add field"
 msgstr "Nuevo campo"
 
 #: Plugin\Node\View\Types\admin_index.ctp:10
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:278
 msgid "display"
 msgstr "visualización"
 
 #: Plugin\Node\View\Types\admin_index.ctp:12
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:280
 msgid "fields"
 msgstr "campos"
 
 #: Plugin\Node\View\Types\admin_index.ctp:13
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:281
 msgid "Are you sure that you want to delete this type of content. ? This action cannot be undone."
 msgstr "¿ Está seguro que desea eliminar este tipo de contenido ? Esta operación no se puede deshacer."
 
@@ -3000,8 +3027,9 @@ msgid "The file `%s` could not be written."
 msgstr "El fichero `%s` no pudo ser escrito."
 
 #: Plugin\System\Controller\HelpController.php:30
-#: Plugin\System\View\Modules\admin_index.ctp:94
+#: Plugin\System\View\Modules\admin_index.ctp:96
 #: Vendor\DummyLocale.php:25
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:89
 msgid "Help"
 msgstr "Ayuda"
 
@@ -3262,28 +3290,40 @@ msgstr "URL de la imágen a mostrar para usuarios sin avatar personalizado o usu
 msgid "Other module settings"
 msgstr "Otros parámetros de módulos"
 
-#: Plugin\System\View\Elements\themes_table_list.ctp:40
-msgid "<b>version:</b> %s"
-msgstr "<b>versión:</b> %s"
-
-#: Plugin\System\View\Elements\themes_table_list.ctp:41
-#: Plugin\System\View\Modules\admin_index.ctp:87
-msgid "author: %s"
-msgstr "autor: %s"
-
-#: Plugin\System\View\Elements\themes_table_list.ctp:45
-msgid "<b>regions:</b> <em>%s</em>"
-msgstr "<b>regiones:</b> <em>%s</em>"
-
-#: Plugin\System\View\Elements\themes_table_list.ctp:49
+#: Plugin\System\View\Elements\themes_table_list.ctp:20
+#: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:20
 msgid "Change administrator theme, are you sure ?\\n"
 msgstr "¿Cambiar el theme de administración, seguro?\\n"
 
-#: Plugin\System\View\Elements\themes_table_list.ctp:49
+#: Plugin\System\View\Elements\themes_table_list.ctp:20
+#: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:20
+msgid "Change site theme, are you sure ?"
+msgstr "¿Cambiar el theme del sitio, seguro?"
+
+#: Plugin\System\View\Elements\themes_table_list.ctp:41
+#: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:59
+msgid "version"
+msgstr "versión"
+
+#: Plugin\System\View\Elements\themes_table_list.ctp:42
+#: Plugin\System\View\Modules\admin_index.ctp:89
+#: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:60
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:113
+msgid "author"
+msgstr "autor"
+
+#: Plugin\System\View\Elements\themes_table_list.ctp:46
+#: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:64
+msgid "<b>regions:</b> <em>%s</em>"
+msgstr "<b>regiones:</b> <em>%s</em>"
+
+#: Plugin\System\View\Elements\themes_table_list.ctp:50
+#: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:44
 msgid "Set as default"
 msgstr "Utilizar"
 
-#: Plugin\System\View\Elements\themes_table_list.ctp:51
+#: Plugin\System\View\Elements\themes_table_list.ctp:52
+#: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:46
 msgid ""
 "Delete selected theme ?\\n"
 "This operation cannot be undone!"
@@ -3291,12 +3331,15 @@ msgstr ""
 "¿Eliminar el theme seleccionado?\\n"
 "Esta operación no se puede revertir!"
 
-#: Plugin\System\View\Elements\themes_table_list.ctp:51
-#: Plugin\System\View\Modules\admin_index.ctp:103
+#: Plugin\System\View\Elements\themes_table_list.ctp:52
+#: Plugin\System\View\Modules\admin_index.ctp:105
+#: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:46
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:98
 msgid "Uninstall"
 msgstr "Desinstalar"
 
-#: Plugin\System\View\Elements\themes_table_list.ctp:54
+#: Plugin\System\View\Elements\themes_table_list.ctp:55
+#: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:49
 msgid "Configure"
 msgstr "Configurar"
 
@@ -3349,51 +3392,62 @@ msgid "Reset selected style sheet ?"
 msgstr "¿Reestablecer la hoja de estilos seleccionada?"
 
 #: Plugin\System\View\Modules\admin_index.ctp:9
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:10
 msgid "Install New Module"
 msgstr "Instalar Nuevo Módulo"
 
 #: Plugin\System\View\Modules\admin_index.ctp:11
 #: Plugin\System\View\Themes\admin_index.ctp:6
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:12
 msgid "Upload Package File"
 msgstr "Cargar Paquete"
 
 #: Plugin\System\View\Modules\admin_index.ctp:16;42
 #: Plugin\System\View\Themes\admin_index.ctp:10;27
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:17;43
 msgid "Package"
 msgstr "Paquete"
 
 #: Plugin\System\View\Modules\admin_index.ctp:24;51
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:25;52
 msgid "Activate after install"
 msgstr "Activar tras instalar"
 
 #: Plugin\System\View\Modules\admin_index.ctp:30;56
 #: Plugin\System\View\Themes\admin_index.ctp:16;33
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:31;57
 msgid "Install"
 msgstr "Instalar"
 
 #: Plugin\System\View\Modules\admin_index.ctp:37
 #: Plugin\System\View\Themes\admin_index.ctp:23
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:38
 msgid "Install From URL"
 msgstr "Instalar Desde URL"
 
-#: Plugin\System\View\Modules\admin_index.ctp:88
+#: Plugin\System\View\Modules\admin_index.ctp:90
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:114
 msgid "Dependencies"
 msgstr "Dependencias"
 
-#: Plugin\System\View\Modules\admin_index.ctp:91
+#: Plugin\System\View\Modules\admin_index.ctp:93
 #: Plugin\User\View\Elements\toolbar.ctp:6
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:86
 msgid "Permissions"
 msgstr "Permisos"
 
-#: Plugin\System\View\Modules\admin_index.ctp:102
+#: Plugin\System\View\Modules\admin_index.ctp:104
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:97
 msgid "Disable"
 msgstr "Desactivar"
 
-#: Plugin\System\View\Modules\admin_index.ctp:102
+#: Plugin\System\View\Modules\admin_index.ctp:104
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:97
 msgid "Enable"
 msgstr "Activar"
 
-#: Plugin\System\View\Modules\admin_index.ctp:103
+#: Plugin\System\View\Modules\admin_index.ctp:105
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:98
 msgid "Delete selected module ? This change cannot be undone!"
 msgstr "Eliminar el módulo seleccionado ? Esta operación no puede ser revertida!"
 
@@ -3571,19 +3625,19 @@ msgstr "Número de Valores"
 msgid "Maximum number of values users can enter for this field."
 msgstr "Número máximo de valores que el usaurio puede ingresar para este campo."
 
-#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Helper\TaxonomyTermsHookHelper.php:85
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Helper\TaxonomyTermsHookHelper.php:87
 msgid "Type in a search term"
 msgstr "Escriba término a buscar"
 
-#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Helper\TaxonomyTermsHookHelper.php:86
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Helper\TaxonomyTermsHookHelper.php:88
 msgid "No results"
 msgstr "Sin resultados"
 
-#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Helper\TaxonomyTermsHookHelper.php:87
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Helper\TaxonomyTermsHookHelper.php:89
 msgid "Searching..."
 msgstr "Buscando..."
 
-#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Helper\TaxonomyTermsHookHelper.php:88
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Helper\TaxonomyTermsHookHelper.php:90
 msgid "x"
 msgstr "x"
 
@@ -3633,14 +3687,17 @@ msgid "Save term"
 msgstr "Guardar término"
 
 #: Plugin\Taxonomy\View\Vocabularies\admin_index.ctp:5
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:251
 msgid "Vocabulary name"
 msgstr "Nombre vocabulario"
 
 #: Plugin\Taxonomy\View\Vocabularies\admin_index.ctp:15
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:246
 msgid "terms"
 msgstr "términos"
 
 #: Plugin\Taxonomy\View\Vocabularies\admin_index.ctp:16
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:247
 msgid "Delete selected vocabulary and all its terms ?"
 msgstr "Eliminar el vocabulario seleccionado y todos sus términos ?"
 
@@ -3852,7 +3909,7 @@ msgid "Welcome"
 msgstr "Bienvenida"
 
 #: Plugin\User\View\Elements\settings.ctp:32;55;71;78;100;123
-#: Vendor\DummyLocale.php:85
+#: Vendor\DummyLocale.php:86
 msgid "Body"
 msgstr "Cuerpo"
 
@@ -3873,7 +3930,7 @@ msgid "Notify user when account is blocked."
 msgstr "Notificar cuando la cuenta es bloqueada."
 
 #: Plugin\User\View\Elements\settings.ctp:86
-#: Vendor\DummyLocale.php:180
+#: Vendor\DummyLocale.php:181
 msgid "Password recovery"
 msgstr "Recuperación de contraseña"
 
@@ -4004,7 +4061,7 @@ msgid "Update user"
 msgstr "Actualizar usuario"
 
 #: Plugin\User\View\List\admin_index.ctp:9
-#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:70
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:103
 msgid "User Name"
 msgstr "Nombre de usuario"
 
@@ -4012,7 +4069,7 @@ msgstr "Nombre de usuario"
 #: View\Elements\theme_node_comments_form.ctp:37
 #: View\Elements\theme_user_profile.ctp:20
 #: View\Install\user_account.ctp:35
-#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:83
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:116
 msgid "Email"
 msgstr "Email"
 
@@ -4114,22 +4171,22 @@ msgid "Log out"
 msgstr "Cerrar sesión"
 
 #: Vendor\DummyLocale.php:32
-#: View\Themed\Admin\Layouts\default.ctp:33
+#: View\Themed\Admin\Layouts\default.ctp:32
 msgid "Logout"
 msgstr "Cerrar Sesión"
 
 #: Vendor\DummyLocale.php:33
-#: View\Themed\Admin\Layouts\default.ctp:31
+#: View\Themed\Admin\Layouts\default.ctp:30
 msgid "My account"
 msgstr "Mi cuenta"
 
 #: Vendor\DummyLocale.php:34
-#: View\Helper\TableHelper.php:152
+#: View\Helper\TableHelper.php:156
 msgid "« Previous "
 msgstr "« Anterior "
 
 #: Vendor\DummyLocale.php:35
-#: View\Helper\TableHelper.php:153
+#: View\Helper\TableHelper.php:157
 msgid " Next »"
 msgstr " Siguiente »"
 
@@ -4201,355 +4258,360 @@ msgstr "Tema principal por defecto para QuickApps"
 msgid "Default backend theme for QuickApps"
 msgstr "Tema administrativo por defecto para QuickApps"
 
-#: Vendor\DummyLocale.php:61
+#: Vendor\DummyLocale.php:59
+#: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:37
+msgid "Theme in use"
+msgstr "Tema en uso"
+
+#: Vendor\DummyLocale.php:62
 msgid "Article"
 msgstr "Artículo"
 
-#: Vendor\DummyLocale.php:62
+#: Vendor\DummyLocale.php:63
 msgid "Basic page"
 msgstr "Página básica"
 
-#: Vendor\DummyLocale.php:65
+#: Vendor\DummyLocale.php:66
 msgid "Use articles for time-sensitive content like news, press releases or blog posts."
 msgstr "Utilice artículos para contenidos variables en el tiempo como noticias, notas de prensa o entradas de blog."
 
-#: Vendor\DummyLocale.php:66
+#: Vendor\DummyLocale.php:67
 msgid "Use basic pages for your static content, such as an 'About us' page."
 msgstr "Utilice páginas básicas para contenido estático, como por ejemplo una página \"Quiénes somos\"."
 
-#: Vendor\DummyLocale.php:69
+#: Vendor\DummyLocale.php:70
 msgid "Date picker field."
 msgstr "Selector de fechas."
 
-#: Vendor\DummyLocale.php:70
+#: Vendor\DummyLocale.php:71
 msgid "Define file uploader."
 msgstr "Permite la carga de ficheros."
 
-#: Vendor\DummyLocale.php:71
+#: Vendor\DummyLocale.php:72
 msgid "Defines list field types. Use with Options to create selection lists."
 msgstr "Define un campo de tipo lista. Permite la creacion de listas de selección."
 
-#: Vendor\DummyLocale.php:72
+#: Vendor\DummyLocale.php:73
 msgid "Defines simple text field types."
 msgstr "Incorpora campos de tipo texto."
 
-#: Vendor\DummyLocale.php:73
+#: Vendor\DummyLocale.php:74
 msgid "Defines terms list."
 msgstr "Incorpora un listado de términos."
 
-#: Vendor\DummyLocale.php:76;86
+#: Vendor\DummyLocale.php:77;87
 msgid "Main font"
 msgstr "Fuente principal"
 
-#: Vendor\DummyLocale.php:78
+#: Vendor\DummyLocale.php:79
 msgid "Footer"
 msgstr "Pie de página"
 
-#: Vendor\DummyLocale.php:80
+#: Vendor\DummyLocale.php:81
 msgid "Header top"
 msgstr "Cabecera superior"
 
-#: Vendor\DummyLocale.php:81
+#: Vendor\DummyLocale.php:82
 msgid "Header bottom"
 msgstr "Cabecera inferior"
 
-#: Vendor\DummyLocale.php:82
+#: Vendor\DummyLocale.php:83
 msgid "Main background"
 msgstr "Fondo principal"
 
-#: Vendor\DummyLocale.php:88
+#: Vendor\DummyLocale.php:89
 msgid "Background"
 msgstr "Fondo"
 
-#: Vendor\DummyLocale.php:90
+#: Vendor\DummyLocale.php:91
 msgid "Links hover"
 msgstr "Sobre enlaces"
 
-#: Vendor\DummyLocale.php:91
+#: Vendor\DummyLocale.php:92
 msgid "Header"
 msgstr "Cabecera"
 
-#: Vendor\DummyLocale.php:92
+#: Vendor\DummyLocale.php:93
 msgid "Main menu background"
 msgstr "Fondo de menú principal"
 
-#: Vendor\DummyLocale.php:93
+#: Vendor\DummyLocale.php:94
 msgid "Main menu text"
 msgstr "Texto menú principal"
 
-#: Vendor\DummyLocale.php:94
+#: Vendor\DummyLocale.php:95
 msgid "Branding background"
 msgstr "Fondo barra de navegación"
 
-#: Vendor\DummyLocale.php:97
+#: Vendor\DummyLocale.php:98
 msgid "The <em>Main</em> menu is used on many sites to show the major sections of the site, often in a top navigation bar."
 msgstr "Se utiliza en muchos sitios para mostrar las secciones pricipales del sitio web, comunmente en una barra de navegación superior."
 
-#: Vendor\DummyLocale.php:98
+#: Vendor\DummyLocale.php:99
 msgid "The <em>Management</em> menu contains links for administrative tasks."
 msgstr "Contiene enlaces relacionados a tereas administrativas."
 
-#: Vendor\DummyLocale.php:99
+#: Vendor\DummyLocale.php:100
 msgid "The <em>Navigation</em> menu contains links intended for site visitors. Links are added to the <em>Navigation</em> menu automatically by some modules."
 msgstr "Contiene enlaces orientados a los visitantes. Algunos módulos agregan enalces a este menú de forma automática."
 
-#: Vendor\DummyLocale.php:100
+#: Vendor\DummyLocale.php:101
 msgid "The <em>User</em> menu contains links related to the user's account, as well as the 'Log out' link."
 msgstr "Contiene enlaces relacionados con las cuentas de usuarios, como por ejemplo el enlace \"cerrar sesión\"."
 
-#: Vendor\DummyLocale.php:103
+#: Vendor\DummyLocale.php:104
 msgid "We sincerely apologize for the inconvenience.<br/>Our site is currently undergoing scheduled maintenance and upgrades, but will return shortly.<br/>Thanks you for your patience."
 msgstr "Le pedimos disculpas por las molestias. <br/> Nuestro sitio se encuentra actualmente bajo mantenimiento y actualizaciones, pero volverá en breve. <br/> Gracias por su paciencia."
 
-#: Vendor\DummyLocale.php:106
+#: Vendor\DummyLocale.php:107
 msgid "Administer blocks"
 msgstr "Administrar bloques"
 
-#: Vendor\DummyLocale.php:107
+#: Vendor\DummyLocale.php:108
 msgid "Grant full access to administer blocks"
 msgstr "Concede acceso total a la gestión de bloques"
 
-#: Vendor\DummyLocale.php:110
+#: Vendor\DummyLocale.php:111
 msgid "Administer comments"
 msgstr "Administrar comentarios"
 
-#: Vendor\DummyLocale.php:111
+#: Vendor\DummyLocale.php:112
 msgid "Administer comments and comment settings"
 msgstr "Administrar comentarios"
 
-#: Vendor\DummyLocale.php:114
+#: Vendor\DummyLocale.php:115
 msgid "Delete fields"
 msgstr "Eliminar campos"
 
-#: Vendor\DummyLocale.php:115
+#: Vendor\DummyLocale.php:116
 msgid "Allow user to delete CCK fields"
 msgstr "Permitir al usuario eliminar campos CCK"
 
-#: Vendor\DummyLocale.php:118
+#: Vendor\DummyLocale.php:119
 msgid "Upload & Delete files"
 msgstr "Subir y Eliminar ficheros"
 
-#: Vendor\DummyLocale.php:119
+#: Vendor\DummyLocale.php:120
 msgid "Allow user to upload new files and delete existing ones."
 msgstr "Permite al usuario subir nuevos ficheros y eliminar los ya existentes."
 
-#: Vendor\DummyLocale.php:122
+#: Vendor\DummyLocale.php:123
 msgid "Upload & Delete images"
 msgstr "Subir y Eliminar imágenes"
 
-#: Vendor\DummyLocale.php:123
+#: Vendor\DummyLocale.php:124
 msgid "Allow user to upload new images and delete existing ones."
 msgstr "Permite al usuario subir nuevas imágenes y eliminar las ya existentes."
 
-#: Vendor\DummyLocale.php:124
+#: Vendor\DummyLocale.php:125
 msgid "Preview uploaded images"
 msgstr "Visualizar imágenes cargadas"
 
-#: Vendor\DummyLocale.php:125
+#: Vendor\DummyLocale.php:126
 msgid "Allow user to preview images."
 msgstr "Permitir al usuario ver las imágenes subidas."
 
-#: Vendor\DummyLocale.php:128
+#: Vendor\DummyLocale.php:129
 msgid "Administer languages"
 msgstr "Administrar idiomas"
 
-#: Vendor\DummyLocale.php:129
+#: Vendor\DummyLocale.php:130
 msgid "Allow user to add, edit and delete languages"
 msgstr "Permitir al usuario agregar, editar y eliminar idiomas"
 
-#: Vendor\DummyLocale.php:130
+#: Vendor\DummyLocale.php:131
 msgid "Translate interface texts"
 msgstr "Traducir textos de interfaz"
 
-#: Vendor\DummyLocale.php:131
+#: Vendor\DummyLocale.php:132
 msgid "Allow user to administer translatable entries"
 msgstr "Permitir al usuario gestionar entradas traducibles"
 
-#: Vendor\DummyLocale.php:132
+#: Vendor\DummyLocale.php:133
 msgid "Administer language packages"
 msgstr "Administrar paquetes de idiomas"
 
-#: Vendor\DummyLocale.php:133
+#: Vendor\DummyLocale.php:134
 msgid "Allow user to install and modify existing language packages (.po)"
 msgstr "Permitir al usuario instalar and modificar paquetes de idiomas existentes (.po)"
 
-#: Vendor\DummyLocale.php:136
+#: Vendor\DummyLocale.php:137
 msgid "Administer menus"
 msgstr "Administrar menús"
 
-#: Vendor\DummyLocale.php:137
+#: Vendor\DummyLocale.php:138
 msgid "Allow user to administer menus and menu items"
 msgstr "Permitir al usuario administrar menús e items"
 
-#: Vendor\DummyLocale.php:140
+#: Vendor\DummyLocale.php:141
 msgid "Administer content types"
 msgstr "Administrar tipos de contenidos"
 
-#: Vendor\DummyLocale.php:141;143;151;184;186;188;190
+#: Vendor\DummyLocale.php:142;144;152;185;187;189;191
 msgid "Warning: Give to trusted roles only; this permission has security implications."
 msgstr "Advertencia: Conceder solo a roles de confianza; este permiso tiene implicaciones sobre la seguridad"
 
-#: Vendor\DummyLocale.php:142
+#: Vendor\DummyLocale.php:143
 msgid "Administer content"
 msgstr "Administrar contenidos"
 
-#: Vendor\DummyLocale.php:144
+#: Vendor\DummyLocale.php:145
 msgid "Access the site's front page"
 msgstr "Acceder al portada del sitio web"
 
-#: Vendor\DummyLocale.php:145
+#: Vendor\DummyLocale.php:146
 msgid "View published content"
 msgstr "Ver contenido publicado"
 
-#: Vendor\DummyLocale.php:146
+#: Vendor\DummyLocale.php:147
 msgid "Search content and RSS feeds"
 msgstr "Buscar contenidos y feeds RSS"
 
-#: Vendor\DummyLocale.php:149
+#: Vendor\DummyLocale.php:150
 msgid "Access to dashboard"
 msgstr "Acceso al panel de resumen"
 
-#: Vendor\DummyLocale.php:150
+#: Vendor\DummyLocale.php:151
 msgid "Administer site configuration"
 msgstr "Administrar configuración del sitio web"
 
-#: Vendor\DummyLocale.php:152
+#: Vendor\DummyLocale.php:153
 msgid "Structure Menu"
 msgstr "Estructura de Menus"
 
-#: Vendor\DummyLocale.php:153
+#: Vendor\DummyLocale.php:154
 msgid "Allow user to access the `structure` menu item."
 msgstr "Permite al usuario acceder a la sección \"Estructura\" del menu"
 
-#: Vendor\DummyLocale.php:154
+#: Vendor\DummyLocale.php:155
 msgid "Help Topics"
 msgstr "Temas de Ayuda"
 
-#: Vendor\DummyLocale.php:155
+#: Vendor\DummyLocale.php:156
 msgid "Allow user to consult help topics."
 msgstr "Permite al usuario consultar temas de ayuda"
 
-#: Vendor\DummyLocale.php:156
+#: Vendor\DummyLocale.php:157
 msgid "Administer modules"
 msgstr "Administrar módulos"
 
-#: Vendor\DummyLocale.php:157
+#: Vendor\DummyLocale.php:158
 msgid "Administer themes"
 msgstr "Administrar temas visuales"
 
-#: Vendor\DummyLocale.php:160
+#: Vendor\DummyLocale.php:161
 msgid "Administer vocabularies and terms"
 msgstr "Administrar vocabularios y términos"
 
-#: Vendor\DummyLocale.php:163
+#: Vendor\DummyLocale.php:164
 msgid "Keywords suggestions handler"
 msgstr "Controlador de sugerencias de keywords"
 
-#: Vendor\DummyLocale.php:164
+#: Vendor\DummyLocale.php:165
 msgid "Suggest keyword"
 msgstr "Sugerir keywords"
 
-#: Vendor\DummyLocale.php:165
+#: Vendor\DummyLocale.php:166
 msgid "Allow user to use the `Autocomplete term`"
 msgstr "Permite al usuario utilizar `Autocompletar término`"
 
-#: Vendor\DummyLocale.php:168
+#: Vendor\DummyLocale.php:169
 msgid "User Basics"
 msgstr "Controles Basicos de Usuario"
 
-#: Vendor\DummyLocale.php:169
+#: Vendor\DummyLocale.php:170
 msgid "Backend main module access"
 msgstr "Acceso al modulo principal de backend"
 
-#: Vendor\DummyLocale.php:170
+#: Vendor\DummyLocale.php:171
 msgid "Grant access to (/admin/user)"
 msgstr "Concede acceso a (/admin/user)"
 
-#: Vendor\DummyLocale.php:171
+#: Vendor\DummyLocale.php:172
 msgid "Frontpage login form"
 msgstr "Inicio de sesión frontend"
 
-#: Vendor\DummyLocale.php:172
+#: Vendor\DummyLocale.php:173
 msgid "Backend login"
 msgstr "Iniciar sesión en backend"
 
-#: Vendor\DummyLocale.php:173
+#: Vendor\DummyLocale.php:174
 msgid "Backend login form"
 msgstr "Formulario de inicio de sesión backend"
 
-#: Vendor\DummyLocale.php:174
+#: Vendor\DummyLocale.php:175
 msgid "Frontpage logout"
 msgstr "Cerrar sesión frontend"
 
-#: Vendor\DummyLocale.php:175
+#: Vendor\DummyLocale.php:176
 msgid "After logout user gets redirected to site frontpage"
 msgstr "Tras finalizar sesión el usuario es redireccionado al frontend"
 
-#: Vendor\DummyLocale.php:176
+#: Vendor\DummyLocale.php:177
 msgid "Backend logout"
 msgstr "Cerrar sesión backend"
 
-#: Vendor\DummyLocale.php:177
+#: Vendor\DummyLocale.php:178
 msgid "After logout user gets redirected to backend login screen"
 msgstr "Tras cerrar sesión el usuario es redireccionado al formulario de inicio de sesión de backend"
 
-#: Vendor\DummyLocale.php:178
+#: Vendor\DummyLocale.php:179
 msgid "Registration page"
 msgstr "Página de registro"
 
-#: Vendor\DummyLocale.php:179
+#: Vendor\DummyLocale.php:180
 msgid "Activate account"
 msgstr "Activar cuenta"
 
-#: Vendor\DummyLocale.php:181
+#: Vendor\DummyLocale.php:182
 msgid "View users profile"
 msgstr "Ver perfil de usuarios"
 
-#: Vendor\DummyLocale.php:182
+#: Vendor\DummyLocale.php:183
 msgid "My account section"
 msgstr "Sección Mi Cuenta"
 
-#: Vendor\DummyLocale.php:183
+#: Vendor\DummyLocale.php:184
 msgid "Administer permissions"
 msgstr "Administrar permisos"
 
-#: Vendor\DummyLocale.php:185
+#: Vendor\DummyLocale.php:186
 msgid "Administer users"
 msgstr "Administrar usuarios"
 
-#: Vendor\DummyLocale.php:187
+#: Vendor\DummyLocale.php:188
 msgid "Administer user roles"
 msgstr "Administrar roles de usuario"
 
-#: Vendor\DummyLocale.php:189
+#: Vendor\DummyLocale.php:190
 msgid "Administer user CCK fields"
 msgstr "Administrar campos de usuario"
 
-#: Vendor\DummyLocale.php:195
+#: Vendor\DummyLocale.php:196
 msgid "List"
 msgstr "Lista"
 
-#: Vendor\DummyLocale.php:196
+#: Vendor\DummyLocale.php:197
 msgid "RSS"
 msgstr "RSS"
 
-#: Vendor\DummyLocale.php:197
+#: Vendor\DummyLocale.php:198
 msgid "Print"
 msgstr "Impresión"
 
-#: Vendor\DummyLocale.php:198
+#: Vendor\DummyLocale.php:199
 msgid "User profile"
 msgstr "Perfil de usuario"
 
-#: Vendor\DummyLocale.php:201
+#: Vendor\DummyLocale.php:202
 msgid "Thumbnail"
 msgstr "Miniatura"
 
-#: Vendor\DummyLocale.php:202
+#: Vendor\DummyLocale.php:203
 msgid "Medium"
 msgstr "Mediano"
 
-#: Vendor\DummyLocale.php:203
+#: Vendor\DummyLocale.php:204
 msgid "Large"
 msgstr "Largo"
 
@@ -4565,15 +4627,18 @@ msgstr "Permalink"
 msgid "Quote"
 msgstr "Citar"
 
-#: View\Elements\theme_node.ctp:32
+#: View\Elements\theme_node.ctp:31
+#: View\Themed\Default\Elements\theme_node.ctp:31
 msgid "published by <a href=\"%s\">%s</a>"
 msgstr "publicado por <a href=\"%s\">%s</a>"
 
-#: View\Elements\theme_node.ctp:35
+#: View\Elements\theme_node.ctp:34
+#: View\Themed\Default\Elements\theme_node.ctp:34
 msgid "%d comments"
 msgstr "%d comentarios"
 
-#: View\Elements\theme_node.ctp:52
+#: View\Elements\theme_node.ctp:51
+#: View\Themed\Default\Elements\theme_node.ctp:51
 msgid "Read More"
 msgstr "Leer Más"
 
@@ -4671,59 +4736,59 @@ msgstr "Aviso"
 msgid "If you want to customize this error message, create %s"
 msgstr "Si desea personalizar este mensaje de error, cree %s"
 
-#: View\Helper\LayoutHelper.php:410
+#: View\Helper\LayoutHelper.php:414
 msgid "LayoutHelper::userAvatar() is deprecated, use UserHelper::avatar() instead"
 msgstr "LayoutHelper::userAvatar() obsoleto, usar UserHelper::avatar() en su lugar"
 
-#: View\Helper\LayoutHelper.php:423
+#: View\Helper\LayoutHelper.php:427
 msgid "LayoutHelper::menuNodeChildren() is deprecated, use MenuHelper::menuNodeChildren() instead"
 msgstr "LayoutHelper::menuNodeChildren() obsoleto, usar MenuHelper::menuNodeChildren() en su lugar"
 
-#: View\Helper\LayoutHelper.php:437
+#: View\Helper\LayoutHelper.php:441
 msgid "LayoutHelper::menu() is deprecated, use MenuHelper::render() instead"
 msgstr "LayoutHelper::menu() obsoleto, usar MenuHelper::render() en su lugar"
 
-#: View\Helper\LayoutHelper.php:472
+#: View\Helper\LayoutHelper.php:476
 msgid "LayoutHelper::toolbar() is deprecated, use MenuHelper::toolbar() instead"
 msgstr "LayoutHelper::toolbar() obsoleto, usar MenuHelper::toolbar() en su lugar"
 
-#: View\Helper\LayoutHelper.php:494
+#: View\Helper\LayoutHelper.php:498
 msgid "LayoutHelper::blockPush() is deprecated, use BlockHelper::push() instead"
 msgstr "LayoutHelper::blockPush() obsoleto, usar BlockHelper::push() en su lugar"
 
-#: View\Helper\LayoutHelper.php:506
+#: View\Helper\LayoutHelper.php:510
 msgid "LayoutHelper::emptyRegion() is deprecated, use BlockHelper::regionCount() instead"
 msgstr "LayoutHelper::emptyRegion() obsoleto, usar BlockHelper::regionCount() en su lugar"
 
-#: View\Helper\LayoutHelper.php:518
+#: View\Helper\LayoutHelper.php:522
 msgid "LayoutHelper::blocksInRegion() is deprecated, use BlockHelper::regionCount() instead"
 msgstr "LayoutHelper::blocksInRegion() obsoleto, usar BlockHelper::regionCount() en su lugar"
 
-#: View\Helper\LayoutHelper.php:530
+#: View\Helper\LayoutHelper.php:534
 msgid "LayoutHelper::blocks() is deprecated, use BlockHelper::region() instead"
 msgstr "LayoutHelper::blocks() obsoleto, usar BlockHelper::region() en su lugar"
 
-#: View\Helper\LayoutHelper.php:557
+#: View\Helper\LayoutHelper.php:561
 msgid "LayoutHelper::block() is deprecated, use BlockHelper::render() instead"
 msgstr "LayoutHelper::block() obsoleto, usar BlockHelper::render() en su lugar"
 
-#: View\Helper\LayoutHelper.php:570
+#: View\Helper\LayoutHelper.php:574
 msgid "LayoutHelper::getNodeType() is deprecated, use NodeHelper::getAttr(\"node_type_id\") instead"
 msgstr "LayoutHelper::getNodeType() obsoleto, usar NodeHelper::getAttr(\"node_type_id\") en su lugar"
 
-#: View\Helper\LayoutHelper.php:584
+#: View\Helper\LayoutHelper.php:588
 msgid "LayoutHelper::nodeField() is deprecated, use NodeHelper::getAttr() instead"
 msgstr "LayoutHelper::nodeField() obsoleto, usar NodeHelper::getAttr() en su lugar"
 
-#: View\Helper\LayoutHelper.php:608
+#: View\Helper\LayoutHelper.php:612
 msgid "LayoutHelper::renderNode() is deprecated, use NodeHelper::render() instead"
 msgstr "LayoutHelper::renderNode() obsoleto, usar NodeHelper::render() en su lugar"
 
-#: View\Helper\LayoutHelper.php:623
+#: View\Helper\LayoutHelper.php:627
 msgid "LayoutHelper::renderField() is deprecated, use NodeHelper::renderField() instead"
 msgstr "LayoutHelper::renderField() obsoleto, usar NodeHelper::renderField() en su lugar"
 
-#: View\Helper\TableHelper.php:139
+#: View\Helper\TableHelper.php:143
 msgid "TableHelper::create() is deprecated, use render() instead"
 msgstr "TableHelper::create() obsoleto, usar render() en su lugar"
 
@@ -4738,47 +4803,59 @@ msgstr "Instalación"
 msgid "Data Base"
 msgstr "Base de Datos"
 
+#: View\Install\database.ctp:10
+msgid "Configuration exists"
+msgstr "Fichero de configuración ya existe"
+
+#: View\Install\database.ctp:11
+msgid "Your configuration file already exists. If it contains the right values, you may <a href=\"%s\">continue with installation</a>. If you would like to use this part of the installer to recreate the file, please delete it first."
+msgstr "Ya existe un fichero de configuración. Si la conformaciñon que contiene es correcta, puede <a href=\"%s\">continuar con la instalación</a>. Pero si desea que el instalador cree un fichero nuevo, por favor elimine el existente primero."
+
 #: View\Install\database.ctp:14
+msgid "Enter connection data for your MySQL database. Note: your database must already exist before completing this step."
+msgstr "Ingrese los datos de conexión a su base de datos MySQL. Nota: la base de datos debe haber sido creada previamente para completar este paso."
+
+#: View\Install\database.ctp:26
 msgid "MySQL server hostname"
 msgstr "Nombre servidor MySQL"
 
-#: View\Install\database.ctp:15
+#: View\Install\database.ctp:27
 msgid "ex. mysql.server.com or localhost"
 msgstr "ej. mysql.server.com o localhost"
 
-#: View\Install\database.ctp:22
+#: View\Install\database.ctp:32
 msgid "Database name"
 msgstr "Nombre Base de Datos"
 
-#: View\Install\database.ctp:23
+#: View\Install\database.ctp:33
 msgid "Database must already exist!"
 msgstr "La Base de Datos debe existir!"
 
-#: View\Install\database.ctp:32
+#: View\Install\database.ctp:40
 msgid "Database username"
 msgstr "Nombre de usuario de la Base de Datos"
 
-#: View\Install\database.ctp:33
+#: View\Install\database.ctp:41
 msgid "Username used to log into this database."
 msgstr "Nombre de usuario utilizado para utilizar esta Base de Datos."
 
-#: View\Install\database.ctp:40
+#: View\Install\database.ctp:46
 msgid "Database password"
 msgstr "Contraseña Base de Datos"
 
-#: View\Install\database.ctp:41
+#: View\Install\database.ctp:47
 msgid "Password used to log into this database."
 msgstr "Contraseña utilizada para acceder a  esta Base de Datos."
 
-#: View\Install\database.ctp:50
+#: View\Install\database.ctp:54
 msgid "Database table prefix"
 msgstr "Prefijo de tablas"
 
-#: View\Install\database.ctp:51
+#: View\Install\database.ctp:55
 msgid "Only change if \"qa_\" conflicts with existing tables. Otherwise, leave this alone."
 msgstr "Modificar únicamente si \"qa_\" entra en conflicto con tablas existentes. En otro caso, dejelo como está."
 
-#: View\Install\database.ctp:57
+#: View\Install\database.ctp:62
 #: View\Install\server_test.ctp:8
 msgid "Continue"
 msgstr "Continuar"
@@ -4867,7 +4944,7 @@ msgstr "Este email fue enviado usando <a href=\"http://www.quickappscms.org/\">Q
 msgid "This email was sent using QuickApps CMS v%s [http://www.quickappscms.org/]"
 msgstr "Este email fue enviado usando QuickApps CMS v%s [http://www.quickappscms.org/]"
 
-#: View\Themed\Admin\Layouts\default.ctp:32
+#: View\Themed\Admin\Layouts\default.ctp:31
 msgid "View site"
 msgstr "Ver sitio"
 
@@ -5070,6 +5147,3 @@ msgstr "Contraseñas distintas o con menos de 6 caracteres."
 #: Lib\Routing\Router.php:189
 msgid "Route classes must extend CakeRoute"
 msgstr "Route classes must extend CakeRoute"
-
-#~ msgid "Change site theme, are you sure ?"
-#~ msgstr "¿Cambiar el theme del sitio, seguro?"
