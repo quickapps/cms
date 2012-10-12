@@ -66,6 +66,7 @@ class DATABASE_CONFIG {
 		'password' => '{db_password}',
 		'database' => '{db_database}',
 		'prefix' => '{db_prefix}',
-		'encoding' => 'UTF8'
+		'encoding' => 'UTF8',
+		'port' => 3306
 	);
 }

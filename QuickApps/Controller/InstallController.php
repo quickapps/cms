@@ -169,28 +169,41 @@ class InstallController extends Controller {
  *
  * @return void
  */
-	public function database() {
+	public function database($skip = false) {
 		if (!$this->__stepSuccess(array('license', 'server_test'), true)) {
 			$this->redirect('/install/license');
 		}
 
-		if (!empty($this->data)) {
+		$config_exists = file_exists(ROOT . DS . 'Config' . DS . 'database.php');
+
+		$this->set('config_exists', $config_exists);
+
+		if (!empty($this->data) || ($config_exists && $skip)) {
 			App::uses('ConnectionManager', 'Model');
 
-			$data = $this->data;
-			$data['datasource'] = 'Database/Mysql';
-			$data['persistent'] = false;
-			$data = Hash::merge($this->__defaultDbConfig, $data);
+			$continue = true;
 
-			if ($this->__writeDatabaseFile($data)) {
-				if (!$this->__checkDatabaseConnection($data)) {
+			if (!$config_exists) {
+				$data = $this->data;
+				$data['datasource'] = 'Database/Mysql';
+				$data['persistent'] = false;
+				$data = Hash::merge($this->__defaultDbConfig, $data);
+				$continue = $this->__writeDatabaseFile($data);
+			}
+
+			if ($continue) {
+				try {
+					$db = ConnectionManager::getDataSource('default');
+					$data = $db->config;
+				} catch (Exception $e) {
 					$this->Session->setFlash(__t('Could not connect to database.'), 'default', 'error');
-					$this->__removeDatabaseFile();
+
+					if (!$config_exists) {
+						$this->__removeDatabaseFile();
+					}
 
 					return;
 				}
-
-				$db = ConnectionManager::getDataSource('default');
 
 				App::uses('Model', 'Model');
 				App::uses('CakeSchema', 'Model');
@@ -198,12 +211,11 @@ class InstallController extends Controller {
 				$schema = new CakeSchema(array('name' => 'QuickApps', 'file' => 'QuickApps.php'));
 				$schema = $schema->load();
 				$execute = array();
+				$sources = $db->listSources();
 
 				foreach (array_keys($schema->tables) as $table) {
-					$tableExists = $db->query("SHOW TABLES LIKE \"{$data['prefix']}{$table}\";");
-
-					if (!empty($tableExists)) {
-						$this->Session->setFlash(__t('A QuickApps CMS database already exists, please drop it or change the prefix.'), 'default', 'error');
+					if (in_array($data['prefix'] . $table, $sources)) {
+						$this->Session->setFlash(__t('A previous installation of QuickApps CMS already exists, please drop your database or change the prefix.'), 'default', 'error');
 
 						return;
 					}
@@ -368,17 +380,6 @@ class InstallController extends Controller {
 
 	private function __removeDatabaseFile() {
 		@unlink(ROOT . DS . 'Config' . DS . 'database.php');
-	}
-
-	private function __checkDatabaseConnection($data) {
-		$MySQLConn = @mysql_connect(
-			$data['host'] . ':' . $data['port'],
-			$data['login'],
-			$data['password'],
-			true
-		);
-
-		return @mysql_select_db($data['database'], $MySQLConn);
 	}
 
 	private function __stepSuccess($step, $check = false) {
