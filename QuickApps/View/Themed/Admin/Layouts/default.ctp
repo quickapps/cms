@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<title><?php echo $this->Layout->title(); ?></title>
-		<?php echo $this->Layout->meta();?>
-		<?php echo $this->Layout->stylesheets();?>
-		<?php echo $this->Layout->javascripts();?>
-		<?php echo $this->Layout->header();?>
+		<?php echo $this->Layout->meta(); ?>
+		<?php echo $this->Layout->stylesheets(); ?>
+		<?php echo $this->Layout->javascripts(); ?>
+		<?php echo $this->Layout->header(); ?>
 	</head>
 
 	<body>
@@ -17,7 +17,7 @@
 					<span class="icon-bar"></span>
 				</a>
 
-				<a href="http://www.quickappscms.org/" class="brand" target="_blank">QuickApps CMS</a>
+				<a href="http://www.quickappscms.org/" class="brand hidden-desktop" target="_blank">QuickApps CMS</a>
 
 				<div class="nav-collapse">
 					<?php echo $this->Block->region('management-menu'); ?>
@@ -66,12 +66,12 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="span12 site-footer">
 			<?php echo $this->Block->region('footer'); ?>
 			<br/>
 		</div>
-		
+
 		<?php echo $this->Layout->footer(); ?>
 	</body>
 </html>
