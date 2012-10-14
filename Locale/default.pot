@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2012-10-12 16:34+0000\n"
+"POT-Creation-Date: 2012-10-14 21:44+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -66,19 +66,19 @@ msgstr ""
 msgid "A previous installation of QuickApps CMS already exists, please drop your database or change the prefix."
 msgstr ""
 
-#: Controller\InstallController.php:270
+#: Controller\InstallController.php:274
 msgid "Could not dump database."
 msgstr ""
 
-#: Controller\InstallController.php:273
+#: Controller\InstallController.php:277
 msgid "Could not write database.php file."
 msgstr ""
 
-#: Controller\InstallController.php:313
+#: Controller\InstallController.php:317
 msgid "Could not create new user, please try again."
 msgstr ""
 
-#: Controller\InstallController.php:340
+#: Controller\InstallController.php:345
 msgid "Could not write 'install' file. Check file/folder permissions and refresh this page."
 msgstr ""
 
@@ -755,6 +755,8 @@ msgid "Invalid security code."
 msgstr ""
 
 #: Plugin\Comment\View\Helper\CommentHookHelper.php:158
+#: Plugin\System\View\Directory\admin_modules.ctp:36
+#: Plugin\System\View\Directory\admin_themes.ctp:37
 msgid "Details"
 msgstr ""
 
@@ -1890,6 +1892,8 @@ msgid "Upload"
 msgstr ""
 
 #: Plugin\Locale\View\Packages\admin_index.ctp:71
+#: Plugin\System\View\Directory\admin_module_details.ctp:58
+#: Plugin\System\View\Directory\admin_theme_details.ctp:61
 msgid "download"
 msgstr ""
 
@@ -2033,6 +2037,8 @@ msgstr ""
 
 #: Plugin\Locale\View\Translations\admin_list.ctp:27;30
 #: Plugin\Node\View\Elements\search_block.ctp:25
+#: Plugin\System\View\Directory\admin_modules.ctp:3
+#: Plugin\System\View\Directory\admin_themes.ctp:3
 #: View\Elements\theme_search_form.ctp:15;50
 msgid "Search"
 msgstr ""
@@ -2151,6 +2157,8 @@ msgstr ""
 #: Plugin\Node\View\Types\admin_add.ctp:5
 #: Plugin\Node\View\Types\admin_edit.ctp:10
 #: Plugin\System\View\Configuration\admin_index.ctp:24
+#: Plugin\System\View\Directory\admin_modules.ctp:27
+#: Plugin\System\View\Directory\admin_themes.ctp:27
 #: Plugin\Taxonomy\View\Vocabularies\admin_add.ctp:5
 #: Plugin\Taxonomy\View\Vocabularies\admin_edit.ctp:6
 #: Plugin\Taxonomy\View\Vocabularies\admin_edit_term.ctp:6
@@ -2428,7 +2436,7 @@ msgstr ""
 #: Plugin\Node\View\Contents\admin_add.ctp:18
 #: Plugin\Node\View\Contents\admin_edit.ctp:30
 #: Plugin\System\Controller\ModulesController.php:98
-#: Plugin\System\View\Modules\admin_index.ctp:100
+#: Plugin\System\View\Modules\admin_index.ctp:98
 #: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:93
 msgid "Settings"
 msgstr ""
@@ -2756,6 +2764,8 @@ msgid "Translate to"
 msgstr ""
 
 #: Plugin\Node\View\Elements\search_block.ctp:24
+#: Plugin\System\View\Directory\admin_modules.ctp:14
+#: Plugin\System\View\Directory\admin_themes.ctp:14
 msgid "Keywords"
 msgstr ""
 
@@ -2907,6 +2917,8 @@ msgstr ""
 #: Plugin\Node\View\Types\admin_display.ctp:4
 #: Plugin\Node\View\Types\admin_fields.ctp:8
 #: Plugin\Node\View\Types\admin_index.ctp:4
+#: Plugin\System\View\Directory\admin_modules.ctp:26
+#: Plugin\System\View\Directory\admin_themes.ctp:26
 #: Plugin\User\View\Display\admin_index.ctp:4
 #: Plugin\User\View\Fields\admin_index.ctp:8;53
 #: Plugin\User\View\List\admin_index.ctp:54
@@ -3030,8 +3042,38 @@ msgstr ""
 msgid "The file `%s` could not be written."
 msgstr ""
 
+#: Plugin\System\Controller\DirectoryController.php:18
+msgid "Apps Directory"
+msgstr ""
+
+#: Plugin\System\Controller\DirectoryController.php:38
+msgid "No themes match your request."
+msgstr ""
+
+#: Plugin\System\Controller\DirectoryController.php:49;94
+#: Plugin\System\View\Elements\toolbar-themes.ctp:4
+msgid "Themes Directory"
+msgstr ""
+
+#: Plugin\System\Controller\DirectoryController.php:69
+msgid "No modules match your request."
+msgstr ""
+
+#: Plugin\System\Controller\DirectoryController.php:80;105
+#: Plugin\System\View\Elements\toolbar-modules.ctp:5
+msgid "Modules Directory"
+msgstr ""
+
+#: Plugin\System\Controller\DirectoryController.php:95
+msgid "Theme Details: %s"
+msgstr ""
+
+#: Plugin\System\Controller\DirectoryController.php:106
+msgid "Module Details: %s"
+msgstr ""
+
 #: Plugin\System\Controller\HelpController.php:30
-#: Plugin\System\View\Modules\admin_index.ctp:96
+#: Plugin\System\View\Modules\admin_index.ctp:94
 #: Vendor\DummyLocale.php:25
 #: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:89
 msgid "Help"
@@ -3070,11 +3112,11 @@ msgstr ""
 msgid "Module '%s' has been uninstalled"
 msgstr ""
 
-#: Plugin\System\Controller\ModulesController.php:147
+#: Plugin\System\Controller\ModulesController.php:157
 msgid "Module could not been installed"
 msgstr ""
 
-#: Plugin\System\Controller\ModulesController.php:150
+#: Plugin\System\Controller\ModulesController.php:160
 msgid "Module has been installed"
 msgstr ""
 
@@ -3098,11 +3140,11 @@ msgstr ""
 msgid "Error uninstalling theme '%s'"
 msgstr ""
 
-#: Plugin\System\Controller\ThemesController.php:125
+#: Plugin\System\Controller\ThemesController.php:135
 msgid "Theme could not been installed"
 msgstr ""
 
-#: Plugin\System\Controller\ThemesController.php:127
+#: Plugin\System\Controller\ThemesController.php:137
 msgid "Theme has been installed"
 msgstr ""
 
@@ -3294,6 +3336,146 @@ msgstr ""
 msgid "Other module settings"
 msgstr ""
 
+#: Plugin\System\View\Directory\admin_module_details.ctp:8
+#: Plugin\System\View\Directory\admin_theme_details.ctp:8
+#: Plugin\System\View\Modules\admin_index.ctp:29;54
+#: Plugin\System\View\Themes\admin_index.ctp:16;33
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:31;57
+msgid "Install"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_module_details.ctp:8
+msgid "Install this module ?"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_module_details.ctp:9
+#: Plugin\System\View\Directory\admin_theme_details.ctp:9
+msgid "Download"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_module_details.ctp:19
+msgid "project repository"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_module_details.ctp:19
+msgid "Visit"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_module_details.ctp:22
+#: Plugin\System\View\Directory\admin_theme_details.ctp:33
+#: Plugin\System\View\Elements\themes_table_list.ctp:42
+#: Plugin\System\View\Modules\admin_index.ctp:87
+#: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:60
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:113
+msgid "author"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_module_details.ctp:26
+msgid "category"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_module_details.ctp:30
+#: Plugin\System\View\Directory\admin_theme_details.ctp:37
+#: Plugin\System\View\Elements\themes_table_list.ctp:41
+#: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:59
+msgid "version"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_module_details.ctp:34
+#: Plugin\System\View\Directory\admin_theme_details.ctp:41
+msgid "compatibility"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_module_details.ctp:38
+msgid "home page"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_module_details.ctp:41
+#: Plugin\System\View\Directory\admin_theme_details.ctp:44
+msgid "watchers"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_module_details.ctp:42
+#: Plugin\System\View\Directory\admin_theme_details.ctp:45
+msgid "branches"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_module_details.ctp:45
+#: Plugin\System\View\Directory\admin_theme_details.ctp:48
+msgid "wiki"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_module_details.ctp:45
+#: Plugin\System\View\Directory\admin_theme_details.ctp:48
+msgid "Link"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_module_details.ctp:49
+#: Plugin\System\View\Directory\admin_theme_details.ctp:52
+msgid "issue tracker"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_module_details.ctp:49
+#: Plugin\System\View\Directory\admin_theme_details.ctp:52
+msgid "Link (%d)"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_module_details.ctp:53
+msgid "Available downloads"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_module_details.ctp:59
+#: Plugin\System\View\Directory\admin_theme_details.ctp:62
+msgid "install"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_module_details.ctp:69
+#: Plugin\System\View\Directory\admin_theme_details.ctp:72
+msgid "Readme"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_modules.ctp:4
+#: Plugin\System\View\Directory\admin_themes.ctp:4
+msgid "Newest"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_modules.ctp:5
+#: Plugin\System\View\Directory\admin_themes.ctp:5
+msgid "Recently Updated"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_modules.ctp:13;17
+msgid "Search Modules"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_modules.ctp:15
+msgid "Search for modules by keyword."
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_theme_details.ctp:8
+msgid "Install this theme ?"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_theme_details.ctp:20
+msgid "type"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_theme_details.ctp:25
+msgid "Public theme (front office)"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_theme_details.ctp:27
+msgid "Private theme (back office)"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_themes.ctp:13;17
+msgid "Search Themes"
+msgstr ""
+
+#: Plugin\System\View\Directory\admin_themes.ctp:15
+msgid "Search for themes by keyword."
+msgstr ""
+
 #: Plugin\System\View\Elements\themes_table_list.ctp:20
 #: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:20
 msgid "Change administrator theme, are you sure ?\\n"
@@ -3302,18 +3484,6 @@ msgstr ""
 #: Plugin\System\View\Elements\themes_table_list.ctp:20
 #: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:20
 msgid "Change site theme, are you sure ?"
-msgstr ""
-
-#: Plugin\System\View\Elements\themes_table_list.ctp:41
-#: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:59
-msgid "version"
-msgstr ""
-
-#: Plugin\System\View\Elements\themes_table_list.ctp:42
-#: Plugin\System\View\Modules\admin_index.ctp:89
-#: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:60
-#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:113
-msgid "author"
 msgstr ""
 
 #: Plugin\System\View\Elements\themes_table_list.ctp:46
@@ -3332,7 +3502,7 @@ msgid "Delete selected theme ?\\nThis operation cannot be undone!"
 msgstr ""
 
 #: Plugin\System\View\Elements\themes_table_list.ctp:52
-#: Plugin\System\View\Modules\admin_index.ctp:105
+#: Plugin\System\View\Modules\admin_index.ctp:103
 #: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:46
 #: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:98
 msgid "Uninstall"
@@ -3347,6 +3517,10 @@ msgstr ""
 msgid "Manage"
 msgstr ""
 
+#: Plugin\System\View\Elements\toolbar-themes.ctp:3
+msgid "Installed Themes"
+msgstr ""
+
 #: Plugin\System\View\Help\admin_index.ctp:1
 msgid "Help topics"
 msgstr ""
@@ -3355,11 +3529,11 @@ msgstr ""
 msgid "Help is available on the following items"
 msgstr ""
 
-#: Plugin\System\View\Helper\SystemHookHelper.php:36
+#: Plugin\System\View\Helper\SystemHookHelper.php:44
 msgid "Powered by &copy; <a href=\"http://www.quickappscms.org/\">QuickApps CMS</a> v%s"
 msgstr ""
 
-#: Plugin\System\View\Helper\SystemHookHelper.php:48
+#: Plugin\System\View\Helper\SystemHookHelper.php:56
 msgid "Recent Content"
 msgstr ""
 
@@ -3402,51 +3576,45 @@ msgstr ""
 msgid "Upload Package File"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:16;42
+#: Plugin\System\View\Modules\admin_index.ctp:16;40
 #: Plugin\System\View\Themes\admin_index.ctp:10;27
 #: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:17;43
 msgid "Package"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:24;51
+#: Plugin\System\View\Modules\admin_index.ctp:24;49
 #: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:25;52
 msgid "Activate after install"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:30;56
-#: Plugin\System\View\Themes\admin_index.ctp:16;33
-#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:31;57
-msgid "Install"
-msgstr ""
-
-#: Plugin\System\View\Modules\admin_index.ctp:37
+#: Plugin\System\View\Modules\admin_index.ctp:35
 #: Plugin\System\View\Themes\admin_index.ctp:23
 #: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:38
 msgid "Install From URL"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:90
+#: Plugin\System\View\Modules\admin_index.ctp:88
 #: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:114
 msgid "Dependencies"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:93
+#: Plugin\System\View\Modules\admin_index.ctp:91
 #: Plugin\User\View\Elements\toolbar.ctp:6
 #: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:86
 msgid "Permissions"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:104
+#: Plugin\System\View\Modules\admin_index.ctp:102
 #: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:97
 msgid "Disable"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:104
+#: Plugin\System\View\Modules\admin_index.ctp:102
 #: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:97
 msgid "Enable"
 msgstr ""
 
-#: Plugin\System\View\Modules\admin_index.ctp:105
+#: Plugin\System\View\Modules\admin_index.ctp:103
 #: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:98
 msgid "Delete selected module ? This change cannot be undone!"
 msgstr ""

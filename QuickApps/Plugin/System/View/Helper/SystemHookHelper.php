@@ -18,10 +18,18 @@ class SystemHookHelper extends AppHelper {
 	public function beforeLayout($layoutFile) {
 		if ($this->is('view.admin') &&
 			isset($this->request->params['plugin']) &&
-			$this->request->params['plugin'] == 'system' &&
+			strtolower($this->request->params['plugin']) == 'system' &&
 			$this->request->params['controller'] == 'modules'
 		) {
 			$this->_View->Block->push(array('body' => $this->_View->element('toolbar-modules')), 'toolbar');
+		}
+
+		if ($this->is('view.admin') &&
+			isset($this->request->params['plugin']) &&
+			strtolower($this->request->params['plugin']) == 'system' &&
+			$this->request->params['controller'] == 'themes'
+		) {
+			$this->_View->Block->push(array('body' => $this->_View->element('toolbar-themes')), 'toolbar');
 		}
 
 		return true;

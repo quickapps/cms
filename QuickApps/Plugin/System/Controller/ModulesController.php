@@ -137,9 +137,19 @@ class ModulesController extends SystemAppController {
 		$this->redirect('/admin/system/modules');
 	}
 
-	public function admin_install() {
-		if (!isset($this->data['Package']['data'])) {
+	public function admin_install($zipball = null) {
+		if (!isset($this->data['Package']['data']) && !$zipball) {
 			$this->redirect('/admin/system/modules');
+		}
+
+		if ($zipball) {
+			$data = array(
+				'Package' => array(
+					'data' => base64_decode($zipball),
+					'activate' => true
+				)
+			);
+			$this->data = $data;
 		}
 
 		if (!$this->Installer->install($this->data, array('type' => 'module', 'status' => $this->data['Package']['activate']))) {

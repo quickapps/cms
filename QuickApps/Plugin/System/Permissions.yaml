@@ -31,6 +31,14 @@ Preset:
 		acos:
 			Help.admin_index
 			Help.admin_module
+	github_directory:
+		name: "Apps Directory"
+		description: "Allow users to seach, download and install new themes or modules from online directory"
+		acos:
+			Directory.admin_themes
+			Directory.admin_modules
+			Directory.admin_theme_details
+			Directory.admin_module_details
 	manage_modules:
 		name: "Administer modules"
 		acos:
