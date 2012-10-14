@@ -324,21 +324,24 @@ class MenuHelper extends AppHelper {
 		$path = preg_replace(array('/^\/[a-z]{3}\//', '/\/{1,}$/'), array('/', ''), $path);
 
 		foreach ($links as $link) {
-			$link[1] = preg_replace(array('/\/{2,}/', '/^\/[a-z]{3}\//', '/\/{1,}$/'), array('/', '', ''), "{$link[1]}/");
 			$selected = '';
 
-			if ($here == $link[1] || $path == $link[1]) {
-				$selected = " class=\"{$activeClass}\" ";
-			} elseif (isset($link['pattern']) && $link['pattern'] !== false) {
-				if ($link['pattern'] === true) {
-					if ($link[1][0] === '/') {
-						$__l = substr($link[1], 1);
+			if (strpos($link[1], '://') === false) {
+				$link[1] = preg_replace(array('/\/{2,}/', '/^\/[a-z]{3}\//', '/\/{1,}$/'), array('/', '', ''), "{$link[1]}/");
+
+				if ($here == $link[1] || $path == $link[1]) {
+					$selected = " class=\"{$activeClass}\" ";
+				} elseif (isset($link['pattern']) && $link['pattern'] !== false) {
+					if ($link['pattern'] === true) {
+						if ($link[1][0] === '/') {
+							$__l = substr($link[1], 1);
+						}
+
+						$link['pattern'] = "*{$__l}*";
 					}
 
-					$link['pattern'] = "*{$__l}*";
+					$selected = QuickApps::urlMatch($link['pattern'], $here) ? " class=\"{$activeClass}\" " : '';
 				}
-
-				$selected = QuickApps::urlMatch($link['pattern'], $here) ? " class=\"{$activeClass}\" " : '';
 			}
 
 			if (isset($link['options']) && is_array($link['options'])) {
