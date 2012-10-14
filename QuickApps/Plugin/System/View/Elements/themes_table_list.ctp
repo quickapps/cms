@@ -29,7 +29,7 @@
 		?>
 			<tr class="<?php echo $i%2 ? 'odd' : 'even'; ?>">
 				<td width="210">
-					<img src=" <?php echo $this->Html->url('/admin/system/themes/theme_tn/' . $name) ?> " class="theme_tn" />
+					<img src=" <?php echo $this->Html->url('/admin/system/themes/theme_tn/' . $name) ?> " class="theme_tn img-rounded" />
 				</td>
 				<td valign="top">
 					<p>
