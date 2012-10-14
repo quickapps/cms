@@ -47,7 +47,7 @@ class FieldableBehavior extends ModelBehavior {
 	public $settings = array(
 		'belongsTo' => false,
 		'indexFields' => array(),
-		'minimumWordSize' => 3,
+		'minimumWordSize' => 2,
 		'binded' => true
 	);
 
