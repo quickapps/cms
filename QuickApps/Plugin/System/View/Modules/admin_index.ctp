@@ -26,9 +26,7 @@
 						);
 					?>
 					<em><?php echo __t('Files must be less than <b>%sB</b>.', ini_get('upload_max_filesize')) ; ?></em>
-					<p>
-						<?php echo $this->Form->submit(__t('Install')); ?>
-					</p>
+					<p><?php echo $this->Form->submit(__t('Install')); ?></p>
 				<?php echo $this->Html->useTag('fieldsetend'); ?>
 			<?php echo $this->Form->end(); ?>
 
