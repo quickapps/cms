@@ -19,7 +19,7 @@
 		<?php echo $this->Form->input('Role.Role', array('type' => 'select', 'multiple' => true, 'label' => __t('User roles'), 'options' => $roles)); ?>
 
 		<?php foreach ($fields as $field): ?>
-			<?php echo $this->Layout->hook("{$field['Field']['field_module']}_edit", $field['Field'], array('collectReturn' => false)); ?>
+			<?php echo $this->Node->renderField($field, true); ?>
 		<?php endforeach; ?>
 
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
