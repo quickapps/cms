@@ -335,7 +335,7 @@ class QuickAppsComponent extends Component {
 		$cookie = $this->Controller->Cookie->read('UserLogin');
 		$User = ClassRegistry::init('User.User');
 
-		$User->unbindFields();
+		$User->unbindFieldable();
 
 		// remember-me based login
 		if (!$this->Controller->Auth->user() &&
@@ -392,7 +392,7 @@ class QuickAppsComponent extends Component {
 			}
 		}
 
-		$User->bindFields();
+		$User->bindFieldable();
 
 		if ($this->is('user.admin')) {
 			$this->Controller->Auth->allow();

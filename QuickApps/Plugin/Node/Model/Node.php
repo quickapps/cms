@@ -17,7 +17,10 @@ class Node extends NodeAppModel {
 
 	public $actsAs = array(
 		'Sluggable',
-		'Field.Fieldable' => array('belongsTo' => 'NodeType-{Node.node_type_id}'),
+		'Field.Fieldable' => array(
+			'belongsTo' => 'NodeType-{Node.node_type_id}',
+			'indexFields' => array('slug', 'title', 'description')
+		),
 		'Serialized' => array('params')
 	);
 

@@ -19,7 +19,7 @@ class FieldListHookBehavior extends ModelBehavior {
 		);
 
 		ClassRegistry::init('Field.FieldData')->save($data);
-		$info['entity']->indexField(implode(' ', (array)$info['data']));
+		$info['entity']->indexField(implode(' ', (array)$info['data']), $info['field_id']);
 
 		return true;
 	}

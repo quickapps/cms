@@ -217,6 +217,10 @@ class InstallController extends Controller {
 					if (in_array($data['prefix'] . $table, $sources)) {
 						$this->Session->setFlash(__t('A previous installation of QuickApps CMS already exists, please drop your database or change the prefix.'), 'default', 'error');
 
+						if (!$config_exists) {
+							$this->__removeDatabaseFile();
+						}
+
 						return;
 					}
 				}
@@ -335,6 +339,7 @@ class InstallController extends Controller {
 			$this->__stepSuccess('finish');
 			$this->Session->delete('QaInstall');
 			CakeSession::write('Config.language', 'eng');
+			clearCache('', '');
 			$this->redirect('/admin');
 		} else {
 			$this->Session->setFlash(__t("Could not write 'install' file. Check file/folder permissions and refresh this page."), 'default', 'error');

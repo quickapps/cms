@@ -11,101 +11,6 @@
  */
 
 /**
- * Matches all 'N' Unicode character classes (numbers)
- */
-define('PREG_CLASS_NUMBERS',
-'\x{30}-\x{39}\x{b2}\x{b3}\x{b9}\x{bc}-\x{be}\x{660}-\x{669}\x{6f0}-\x{6f9}' .
-'\x{966}-\x{96f}\x{9e6}-\x{9ef}\x{9f4}-\x{9f9}\x{a66}-\x{a6f}\x{ae6}-\x{aef}' .
-'\x{b66}-\x{b6f}\x{be7}-\x{bf2}\x{c66}-\x{c6f}\x{ce6}-\x{cef}\x{d66}-\x{d6f}' .
-'\x{e50}-\x{e59}\x{ed0}-\x{ed9}\x{f20}-\x{f33}\x{1040}-\x{1049}\x{1369}-' .
-'\x{137c}\x{16ee}-\x{16f0}\x{17e0}-\x{17e9}\x{17f0}-\x{17f9}\x{1810}-\x{1819}' .
-'\x{1946}-\x{194f}\x{2070}\x{2074}-\x{2079}\x{2080}-\x{2089}\x{2153}-\x{2183}' .
-'\x{2460}-\x{249b}\x{24ea}-\x{24ff}\x{2776}-\x{2793}\x{3007}\x{3021}-\x{3029}' .
-'\x{3038}-\x{303a}\x{3192}-\x{3195}\x{3220}-\x{3229}\x{3251}-\x{325f}\x{3280}-' .
-'\x{3289}\x{32b1}-\x{32bf}\x{ff10}-\x{ff19}');
-
-/**
- * Matches all 'P' Unicode character classes (punctuation)
- */
-define('PREG_CLASS_PUNCTUATION',
-'\x{21}-\x{23}\x{25}-\x{2a}\x{2c}-\x{2f}\x{3a}\x{3b}\x{3f}\x{40}\x{5b}-\x{5d}' .
-'\x{5f}\x{7b}\x{7d}\x{a1}\x{ab}\x{b7}\x{bb}\x{bf}\x{37e}\x{387}\x{55a}-\x{55f}' .
-'\x{589}\x{58a}\x{5be}\x{5c0}\x{5c3}\x{5f3}\x{5f4}\x{60c}\x{60d}\x{61b}\x{61f}' .
-'\x{66a}-\x{66d}\x{6d4}\x{700}-\x{70d}\x{964}\x{965}\x{970}\x{df4}\x{e4f}' .
-'\x{e5a}\x{e5b}\x{f04}-\x{f12}\x{f3a}-\x{f3d}\x{f85}\x{104a}-\x{104f}\x{10fb}' .
-'\x{1361}-\x{1368}\x{166d}\x{166e}\x{169b}\x{169c}\x{16eb}-\x{16ed}\x{1735}' .
-'\x{1736}\x{17d4}-\x{17d6}\x{17d8}-\x{17da}\x{1800}-\x{180a}\x{1944}\x{1945}' .
-'\x{2010}-\x{2027}\x{2030}-\x{2043}\x{2045}-\x{2051}\x{2053}\x{2054}\x{2057}' .
-'\x{207d}\x{207e}\x{208d}\x{208e}\x{2329}\x{232a}\x{23b4}-\x{23b6}\x{2768}-' .
-'\x{2775}\x{27e6}-\x{27eb}\x{2983}-\x{2998}\x{29d8}-\x{29db}\x{29fc}\x{29fd}' .
-'\x{3001}-\x{3003}\x{3008}-\x{3011}\x{3014}-\x{301f}\x{3030}\x{303d}\x{30a0}' .
-'\x{30fb}\x{fd3e}\x{fd3f}\x{fe30}-\x{fe52}\x{fe54}-\x{fe61}\x{fe63}\x{fe68}' .
-'\x{fe6a}\x{fe6b}\x{ff01}-\x{ff03}\x{ff05}-\x{ff0a}\x{ff0c}-\x{ff0f}\x{ff1a}' .
-'\x{ff1b}\x{ff1f}\x{ff20}\x{ff3b}-\x{ff3d}\x{ff3f}\x{ff5b}\x{ff5d}\x{ff5f}-' .
-'\x{ff65}');
-
-/**
- * Matches Unicode characters that are word boundaries.
- *
- * @see http://unicode.org/glossary
- *
- * Characters with the following General_category (gc) property values are used
- * as word boundaries. While this does not fully conform to the Word Boundaries
- * algorithm described in http://unicode.org/reports/tr29, as PCRE does not
- * contain the Word_Break property table, this simpler algorithm has to do.
- * - Cc, Cf, Cn, Co, Cs: Other.
- * - Pc, Pd, Pe, Pf, Pi, Po, Ps: Punctuation.
- * - Sc, Sk, Sm, So: Symbols.
- * - Zl, Zp, Zs: Separators.
- *
- * Non-boundary characters include the following General_category (gc) property
- * values:
- * - Ll, Lm, Lo, Lt, Lu: Letters.
- * - Mc, Me, Mn: Combining Marks.
- * - Nd, Nl, No: Numbers.
- *
- * Note that the PCRE property matcher is not used because we wanted to be
- * compatible with Unicode 5.2.0 regardless of the PCRE version used (and any
- * bugs in PCRE property tables).
- */
-define('PREG_CLASS_UNICODE_WORD_BOUNDARY',
-  '\x{0}-\x{2F}\x{3A}-\x{40}\x{5B}-\x{60}\x{7B}-\x{A9}\x{AB}-\x{B1}\x{B4}' .
-  '\x{B6}-\x{B8}\x{BB}\x{BF}\x{D7}\x{F7}\x{2C2}-\x{2C5}\x{2D2}-\x{2DF}' .
-  '\x{2E5}-\x{2EB}\x{2ED}\x{2EF}-\x{2FF}\x{375}\x{37E}-\x{385}\x{387}\x{3F6}' .
-  '\x{482}\x{55A}-\x{55F}\x{589}-\x{58A}\x{5BE}\x{5C0}\x{5C3}\x{5C6}' .
-  '\x{5F3}-\x{60F}\x{61B}-\x{61F}\x{66A}-\x{66D}\x{6D4}\x{6DD}\x{6E9}' .
-  '\x{6FD}-\x{6FE}\x{700}-\x{70F}\x{7F6}-\x{7F9}\x{830}-\x{83E}' .
-  '\x{964}-\x{965}\x{970}\x{9F2}-\x{9F3}\x{9FA}-\x{9FB}\x{AF1}\x{B70}' .
-  '\x{BF3}-\x{BFA}\x{C7F}\x{CF1}-\x{CF2}\x{D79}\x{DF4}\x{E3F}\x{E4F}' .
-  '\x{E5A}-\x{E5B}\x{F01}-\x{F17}\x{F1A}-\x{F1F}\x{F34}\x{F36}\x{F38}' .
-  '\x{F3A}-\x{F3D}\x{F85}\x{FBE}-\x{FC5}\x{FC7}-\x{FD8}\x{104A}-\x{104F}' .
-  '\x{109E}-\x{109F}\x{10FB}\x{1360}-\x{1368}\x{1390}-\x{1399}\x{1400}' .
-  '\x{166D}-\x{166E}\x{1680}\x{169B}-\x{169C}\x{16EB}-\x{16ED}' .
-  '\x{1735}-\x{1736}\x{17B4}-\x{17B5}\x{17D4}-\x{17D6}\x{17D8}-\x{17DB}' .
-  '\x{1800}-\x{180A}\x{180E}\x{1940}-\x{1945}\x{19DE}-\x{19FF}' .
-  '\x{1A1E}-\x{1A1F}\x{1AA0}-\x{1AA6}\x{1AA8}-\x{1AAD}\x{1B5A}-\x{1B6A}' .
-  '\x{1B74}-\x{1B7C}\x{1C3B}-\x{1C3F}\x{1C7E}-\x{1C7F}\x{1CD3}\x{1FBD}' .
-  '\x{1FBF}-\x{1FC1}\x{1FCD}-\x{1FCF}\x{1FDD}-\x{1FDF}\x{1FED}-\x{1FEF}' .
-  '\x{1FFD}-\x{206F}\x{207A}-\x{207E}\x{208A}-\x{208E}\x{20A0}-\x{20B8}' .
-  '\x{2100}-\x{2101}\x{2103}-\x{2106}\x{2108}-\x{2109}\x{2114}' .
-  '\x{2116}-\x{2118}\x{211E}-\x{2123}\x{2125}\x{2127}\x{2129}\x{212E}' .
-  '\x{213A}-\x{213B}\x{2140}-\x{2144}\x{214A}-\x{214D}\x{214F}' .
-  '\x{2190}-\x{244A}\x{249C}-\x{24E9}\x{2500}-\x{2775}\x{2794}-\x{2B59}' .
-  '\x{2CE5}-\x{2CEA}\x{2CF9}-\x{2CFC}\x{2CFE}-\x{2CFF}\x{2E00}-\x{2E2E}' .
-  '\x{2E30}-\x{3004}\x{3008}-\x{3020}\x{3030}\x{3036}-\x{3037}' .
-  '\x{303D}-\x{303F}\x{309B}-\x{309C}\x{30A0}\x{30FB}\x{3190}-\x{3191}' .
-  '\x{3196}-\x{319F}\x{31C0}-\x{31E3}\x{3200}-\x{321E}\x{322A}-\x{3250}' .
-  '\x{3260}-\x{327F}\x{328A}-\x{32B0}\x{32C0}-\x{33FF}\x{4DC0}-\x{4DFF}' .
-  '\x{A490}-\x{A4C6}\x{A4FE}-\x{A4FF}\x{A60D}-\x{A60F}\x{A673}\x{A67E}' .
-  '\x{A6F2}-\x{A716}\x{A720}-\x{A721}\x{A789}-\x{A78A}\x{A828}-\x{A82B}' .
-  '\x{A836}-\x{A839}\x{A874}-\x{A877}\x{A8CE}-\x{A8CF}\x{A8F8}-\x{A8FA}' .
-  '\x{A92E}-\x{A92F}\x{A95F}\x{A9C1}-\x{A9CD}\x{A9DE}-\x{A9DF}' .
-  '\x{AA5C}-\x{AA5F}\x{AA77}-\x{AA79}\x{AADE}-\x{AADF}\x{ABEB}' .
-  '\x{D800}-\x{F8FF}\x{FB29}\x{FD3E}-\x{FD3F}\x{FDFC}-\x{FDFD}' .
-  '\x{FE10}-\x{FE19}\x{FE30}-\x{FE6B}\x{FEFF}-\x{FF0F}\x{FF1A}-\x{FF20}' .
-  '\x{FF3B}-\x{FF40}\x{FF5B}-\x{FF65}\x{FFE0}-\x{FFFD}');
-
- /**
  * Fieldable behavior allows to custom data fields to be attached to Models and takes care of storing,
  * loading, editing, and rendering field data.
  * Any Model type (Node, User, etc.) can use this behavior to make itself `fieldable` and thus allow
@@ -128,13 +33,30 @@ define('PREG_CLASS_UNICODE_WORD_BOUNDARY',
  */
 class FieldableBehavior extends ModelBehavior {
 /**
- * Settings for this behavior.
+ * Settings structure for this behavior.
+ *
+ * -	belongsTo (mixed): Used by polymorphic binding such as Nodes.
+ * -	indexField (array): List of fields to add to the search index stack.
+ *		e.g. `title`, `description` for `Node` entity. So Node entities can be located
+ *		(search engine) by any of the words in their titles or description.
+ * -	minimumWordSize: minimum word size to tokenize for search engine.
+ * -	binded (boolean): Indicates if CCK fetching is enabled or not.
  *
  * @var array
  */
-	private $__settings = array(
-		'belongsTo' => false
+	public $settings = array(
+		'belongsTo' => false,
+		'indexFields' => array(),
+		'minimumWordSize' => 3,
+		'binded' => true
 	);
+
+/**
+ * Holds specifict settings for each model.
+ *
+ * @var array
+ */
+	private $__settings = array();
 
 /**
  * Temp holder.
@@ -154,7 +76,7 @@ class FieldableBehavior extends ModelBehavior {
  */
 	public function setup(Model $Model, $settings = array()) {
 		// keep a setings array for each model
-		$this->__settings[$Model->alias] = array();
+		$this->__settings[$Model->alias] = $this->settings;
 		$this->__settings[$Model->alias] = Hash::merge($this->__settings[$Model->alias], $settings);
 
 		if (empty($this->__settings[$Model->alias]['belongsTo'])) {
@@ -171,11 +93,9 @@ class FieldableBehavior extends ModelBehavior {
  * @return array Modified query parameters
  */
 	public function beforeFind(Model $Model, $query) {
-		if ((isset($Model->fieldsNoFetch) && $Model->fieldsNoFetch) ||
+		if (!$this->__settings[$Model->alias]['binded'] ||
 			(isset($query['recursive']) && $query['recursive'] <= 0)
 		) {
-			$Model->fieldsNoFetch = true;
-
 			$Model->unbindModel(
 				array(
 					'hasMany' => array('Field')
@@ -205,6 +125,28 @@ class FieldableBehavior extends ModelBehavior {
 			}
 		}
 
+		// build cck conditions
+		if ($this->__settings[$Model->alias]['binded'] && isset($query['conditions']) && is_array($query['conditions'])) {
+			$fields = $this->__buildCckConditions($Model, $query['conditions']);
+
+			if (!empty($fields)) {
+				$Model->bindModel(
+					array(
+						'hasMany' => array(
+							'SearchData' => array(
+								'className' => 'Field.SearchData',
+								'foreignKey' => 'foreignKey',
+								'fields' => array('id', 'field_name', 'data'),
+								'conditions' => array(
+									'SearchData.entity' => $Model->alias
+								)
+							)
+						)
+					)
+				, true);
+			}
+		}
+
 		return $query;
 	}
 
@@ -219,7 +161,7 @@ class FieldableBehavior extends ModelBehavior {
 	public function afterFind(Model $Model, $results, $primary) {
 		if (empty($results) ||
 			!$primary ||
-			(isset($Model->fieldsNoFetch) && $Model->fieldsNoFetch)
+			!$this->__settings[$Model->alias]['binded']
 		) {
 			return $results;
 		}
@@ -520,20 +462,34 @@ class FieldableBehavior extends ModelBehavior {
  * later by `FieldableBehavior::__processSearchIndex()`.
  *
  * @param object $Model Instance of model
- * @param string $field_content Field's text (content) to index
- * @return boolean TRUE on sucess, FALSE otherwise
+ * @param string $search_data Field's text (content) to index
+ * @param integer $instance_id Field instance ID within the `fields` table.
+ * @return boolean TRUE on sucess or FALSE otherwise
  * @see FieldableBehavior::__processSearchIndex()
  */
-	public function indexField(Model $Model, $field_content) {
-		if ($Model->alias != 'Node' || !$Model->id || !is_string($field_content)) {
+	public function indexField(Model $Model, $search_data, $instance_id) {
+		if (empty($search_data)) {
 			return false;
 		}
 
-		if (!isset($this->__tmp['NodeSearchData'])) {
-			$this->__tmp['NodeSearchData'] = array();
+		$Field = ClassRegistry::init('Field.Field')->find('first',
+			array(
+				'conditions' => array('Field.id' => $instance_id),
+				'recursive' => -1,
+				'fields' => array('id', 'name')
+			)
+		);
+
+		if (!$Field) {
+			return false;
 		}
 
-		$this->__tmp['NodeSearchData'][] = $field_content;
+		if (!isset($this->__tmp['SearchData'])) {
+			$this->__tmp['SearchData'] = array();
+		}
+
+		$search_data = (string)$search_data;
+		$this->__tmp['SearchData'][$Field['Field']['name']] = $search_data;
 
 		return true;
 	}
@@ -544,8 +500,8 @@ class FieldableBehavior extends ModelBehavior {
  * @param object $Model Instance of model
  * @return void
  */
-	public function unbindFields(Model $Model) {
-		$Model->fieldsNoFetch = true;
+	public function unbindFieldable(Model $Model) {
+		$this->__settings[$Model->alias]['binded'] = false;
 	}
 
 /**
@@ -554,8 +510,8 @@ class FieldableBehavior extends ModelBehavior {
  * @param object $Model Instance of model
  * @return void
  */
-	public function bindFields(Model $Model) {
-		$Model->fieldsNoFetch = false;
+	public function bindFieldable(Model $Model) {
+		$this->__settings[$Model->alias]['binded'] = true;
 	}
 
 /**
@@ -601,23 +557,194 @@ class FieldableBehavior extends ModelBehavior {
 	}
 
 /**
+ * Look for CCK Field conditions for beforeFind().
+ *
+ *     ...
+ *     'conditions' => array(
+ *         ':cck_field_name1' => 'Exact Match',
+ *         'Entity.:cck_field_name2 LIKE' => '%Containts this phrase%',
+ *         'Entity.:FieldText LIKE' => '%where any of its FieldText instances contains this words%',
+ *         'Entity.: LIKE' => '%look on any CCK Field%'
+ *     )
+ *     ... 
+ *
+ * @param $conditions array Original conditions from find() to alter
+ * @return array List of all CCK fields found
+ */
+	private function __buildCckConditions(Model $Model, &$conditions) {
+		$bool = array('and', 'or', 'not', 'and not', 'or not', 'xor', '||', '&&');
+		$fields = array();
+
+		foreach ($conditions as $key => $value) {
+			if ((is_numeric($key) && is_array($value)) || in_array(strtolower(trim($key)), $bool)) {
+				$fields = array_merge($fields, $this->__buildCckConditions($Model, $conditions[$key]));
+			} else {
+				list($entity, $field_name) = pluginSplit($key);
+
+				if (!$field_name) {
+					$field_name = $entity;
+				}
+
+				$field_name = preg_replace('/ {2,}/', ' ', $field_name);
+				$parts = explode(' ', $field_name);
+				$field_name = $_fName = trim($parts[0]);
+
+				if ($Model->hasField($field_name)) {
+					continue;
+				}
+
+				if (count($parts) > 1) {
+					array_shift($parts);
+
+					$parts = ' ' . strtoupper(implode(' ', $parts));
+				} else {
+					$parts = ' = ';
+				}
+
+				unset($conditions[$key]);
+
+				if ($d = substr_count($field_name, ':')) {
+					if ($d === 2) {
+						$field_name = null;
+					} else {
+						$field_name = str_replace(':', '', $field_name);
+					}
+				}
+
+				$db = $Model->getDataSource();
+				$alias = 'a' . substr(md5(uniqid(rand(), true)), 0, 8);
+				$subQuery = $db->buildStatement(
+					array(
+						'limit' => 1,
+						'alias' => $alias,
+						'fields' => array("{$alias}.foreignKey"),
+						'table' => $db->fullTableName('search_data'),
+						'conditions' => array(
+							"{$alias}.foreignKey" => $db->identifier("{$Model->alias}.{$Model->primaryKey}"),
+							"{$alias}.field_name" => $field_name,
+							"{$alias}.entity" => "{$Model->alias}",
+							"{$alias}.data{$parts}" => $value
+						)
+					), $Model
+				);
+
+				$subQuery = $db->expression($subQuery);
+				$conditions["{$Model->alias}.{$Model->primaryKey}"] = array($subQuery);
+				$fields[] = $_fName;
+			}
+		}
+
+		return $fields;
+	}
+
+/**
  * Save all the texts added to the stack by FieldableBehavior::indexField()
  *
  * @return boolean TRUE on sucess, FALSE otherwise.
  * @see FieldableBehavior::indexField()
  */
 	private function __processSearchIndex(Model $Model) {
-		if (!isset($this->__tmp['NodeSearchData'])) {
+		if (!isset($this->__tmp['SearchData']) || !$Model->id) {
 			return false;
 		}
 
+		$ALL = array();
+
+		if (!empty($this->__settings[$Model->alias]['indexFields']) && $Model->id) {
+			if (is_string($this->__settings[$Model->alias]['indexFields'])) {
+				$this->__settings[$Model->alias]['indexFields'] = array($this->__settings[$Model->alias]['indexFields']);
+			}
+
+			$entity = $Model->read();
+
+			if ($entity) {
+				foreach ($this->__settings[$Model->alias]['indexFields'] as $f) {
+					if (isset($entity[$Model->alias][$f]) && !empty($entity[$Model->alias][$f])) {
+						$ALL[] = $this->__processSearchText($entity[$Model->alias][$f], $this->__settings[$Model->alias]['minimumWordSize']);
+					}
+				}
+			}
+		}
+
+		$SearchData = ClassRegistry::init('Field.SearchData');
+
+		foreach ($this->__tmp['SearchData'] as $field_name => $content) {
+			$content = $this->__processSearchText($content, $this->__settings[$Model->alias]['minimumWordSize']);
+			$ALL[] = $content;
+			$exists = $SearchData->find('first',
+				array(
+					'conditions' => array(
+						'SearchData.field_name' => $field_name,
+						'SearchData.entity' => $Model->alias,
+						'SearchData.foreignKey' => $Model->id
+					)
+				)
+			);
+
+			if ($exists) {
+				$exists['SearchData']['data'] = $content;
+			} else {
+				$exists = array(
+					'SearchData' => array(
+						'field_name' => $field_name,
+						'foreignKey' => $Model->id,
+						'entity' => $Model->alias,
+						'data' => $content
+					)
+				);
+
+				$SearchData->create();
+			}
+
+			$SearchData->save($exists);
+		}
+
+		$ALL = implode(' ', $ALL); // merge all
+		$ALL = explode(' ', $ALL); // split in words
+		$ALL = array_unique($ALL); // remove duplicated words
+
+		if (!empty($ALL)) {
+			$ALL = ' ' . implode(' ', $ALL) . ' ';
+			$exists = $SearchData->find('first',
+				array(
+					'conditions' => array(
+						'SearchData.field_name' => null,
+						'SearchData.entity' => $Model->alias,
+						'SearchData.foreignKey' => $Model->id
+					)
+				)
+			);
+			
+			if ($exists) {
+				$exists['SearchData']['data'] = $ALL;
+			} else {
+				$exists = array(
+					'SearchData' => array(
+						'field_name' => null,
+						'foreignKey' => $Model->id,
+						'entity' => $Model->alias,
+						'data' => $ALL
+					)
+				);
+
+				$SearchData->create();
+			}
+
+			$SearchData->save($exists);
+		}
+
+		return true;
+	}
+
+/**
+ * Process the given text to be stored in `search_data` table.
+ *
+ * @param $text string Text to sanitize
+ * @return string Sanitized text
+ */
+	private function __processSearchText($text, $minimumWordSize = 3) {
 		App::uses('String', 'Utility');
 
-		$node = $Model->read();
-		$this->__tmp['NodeSearchData'][] = $node['Node']['slug'];
-		$this->__tmp['NodeSearchData'][] = $node['Node']['title'];
-		$this->__tmp['NodeSearchData'][] = $node['Node']['description'];
-		$text = implode(' ', $this->__tmp['NodeSearchData']);
 		$text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
 		$text = mb_strtolower($text);
 
@@ -646,35 +773,17 @@ class FieldableBehavior extends ModelBehavior {
 		$words = explode(' ', $text);
 
 		foreach ($words as $i => $word) {
-			if (strlen($word) < 2) {
+			if (strlen($word) < $minimumWordSize) {
 				unset($words[$i]);
 			} else {
 				$words[$i] = String::truncate($word, 50);
 			}
 		}
 
+		$words = array_unique($words);
 		$text = implode(' ', $words);
 
-		if (empty($text)) {
-			return false;
-		}
-
-		$text = ' ' . $text . ' ';
-		$NodeSearch = ClassRegistry::init('Node.NodeSearch');
-		$save = $NodeSearch->findByNodeId($Model->id);
-
-		if (!$save) {
-			$save = array(
-				'NodeSearch' => array(
-					'node_id' => $Model->id,
-					'data' => $text
-				)
-			);
-		} else {
-			$save['NodeSearch']['data'] = $text;
-		}
-
-		return $NodeSearch->save($save);
+		return trim($text);
 	}
 
 /**
@@ -688,6 +797,7 @@ class FieldableBehavior extends ModelBehavior {
  *  `after_delete`: void
  */
 	private function __beforeAfterDelete(Model $Model, $type = 'before') {
+		// make Model->id available even after deletion
 		$Model->id = $Model->id ? $Model->id : $Model->tmpData[$Model->alias][$Model->primaryKey];
 
 		if ($type == 'before') {
@@ -700,10 +810,17 @@ class FieldableBehavior extends ModelBehavior {
 				)
 			);
 
+			// useful data to be passed to hooks handlers
 			$Model->tmpBelongsTo = $belongsTo = $this->__parseBelongsTo($this->__settings[$Model->alias]['belongsTo'], $result);
 			$Model->tmpData = $result;
 		} else {
 			$belongsTo = $Model->tmpBelongsTo;
+
+			// delete search information
+			ClassRegistry::init('Field.SearchData')->deleteAll(array(
+				'SearchData.entity' => $Model->alias,
+				'SearchData.foreignKey' => $Model->id
+			), false);
 		}
 
 		$fields = ClassRegistry::init('Field.Field')->find('all',

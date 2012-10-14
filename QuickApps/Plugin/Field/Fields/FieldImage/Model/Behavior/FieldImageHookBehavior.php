@@ -122,7 +122,7 @@ class FieldImageHookBehavior extends ModelBehavior {
 		);
 
 		ClassRegistry::init('Field.FieldData')->save($_data);
-		$info['entity']->indexField($_searchIndex);
+		$info['entity']->indexField($_searchIndex, $info['field_id']);
 
 		return true;
 	}

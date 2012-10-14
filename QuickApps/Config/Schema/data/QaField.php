@@ -4,7 +4,7 @@ class QaField {
 	public $records = array(
 		array(
 			'id' => '1',
-			'name' => 'body',
+			'name' => 'field_page_body',
 			'label' => 'Body',
 			'belongsTo' => 'NodeType-page',
 			'field_module' => 'FieldText',

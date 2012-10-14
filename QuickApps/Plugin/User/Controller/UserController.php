@@ -198,7 +198,7 @@ class UserController extends UserAppController {
 			}
 		}
 
-		$this->User->unbindFields();
+		$this->User->unbindFieldable();
 
 		if (isset($this->data['User'])) {
 			$data = $this->data;

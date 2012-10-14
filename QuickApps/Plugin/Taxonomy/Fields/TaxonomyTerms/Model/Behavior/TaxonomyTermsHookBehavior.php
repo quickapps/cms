@@ -101,7 +101,7 @@ class TaxonomyTermsHookBehavior extends ModelBehavior {
 			$this->__tmp['before_save_' . $info['entity']->alias] = true;
 		}
 
-		$info['entity']->indexField($_searchIndex);
+		$info['entity']->indexField($_searchIndex, $info['field_id']);
 
 		return true;
 	}
