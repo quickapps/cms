@@ -15,7 +15,7 @@ class FieldFile {
  * @param integer $height Height for images that would use this preview mode
  * @return void
  */
-	public function bytesToSize($bytes, $precision = 2) {
+	public static function bytesToSize($bytes, $precision = 2) {
 		$kilobyte = 1024;
 		$megabyte = $kilobyte * 1024;
 		$gigabyte = $megabyte * 1024;
@@ -42,7 +42,7 @@ class FieldFile {
  * @param string $mime file mime type
  * @return A string to the icon as a local path, or FALSE if an appropriate icon could not be found
  */
-	public function fileIcon($mime) {
+	public static function fileIcon($mime) {
 		// Use the default set of icons if none specified.
 		if (!isset($icon_directory)) {
 			$icon_directory = CakePlugin::path('FieldFile') . 'webroot' . DS . 'img' . DS . 'icons' . DS;
@@ -92,7 +92,7 @@ class FieldFile {
  * @param string $mime File mime type
  * @return The generic icon MIME package expected for this file
  */
-	public function fileIconMap($mime) {
+	public static function fileIconMap($mime) {
 		switch ($mime) {
 			// Word document types.
 			case 'application/msword':
