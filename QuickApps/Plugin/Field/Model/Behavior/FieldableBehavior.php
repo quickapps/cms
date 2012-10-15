@@ -93,9 +93,9 @@ class FieldableBehavior extends ModelBehavior {
  * @return array Modified query parameters
  */
 	public function beforeFind(Model $Model, $query) {
-		if (!$this->__settings[$Model->alias]['binded'] ||
-			(isset($query['recursive']) && $query['recursive'] <= 0)
-		) {
+		$recursive = isset($query['recursive']) ? $query['recursive'] : $Model->recursive;
+
+		if (!$this->__settings[$Model->alias]['binded'] || $recursive <= 0) {
 			$Model->unbindModel(
 				array(
 					'hasMany' => array('Field')
@@ -126,7 +126,13 @@ class FieldableBehavior extends ModelBehavior {
 		}
 
 		// build cck conditions
-		if ($this->__settings[$Model->alias]['binded'] && isset($query['conditions']) && is_array($query['conditions'])) {
+		// disable CCK searching for recursive < -1
+		if (
+			$recursive >= -1 &&
+			$this->__settings[$Model->alias]['binded'] &&
+			isset($query['conditions']) &&
+			is_array($query['conditions'])
+		) {
 			$fields = $this->__buildCckConditions($Model, $query['conditions']);
 
 			if (!empty($fields)) {
