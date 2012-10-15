@@ -4,8 +4,7 @@
 		<?php echo $this->Form->hidden('id'); ?>
 		<?php echo $this->Form->input('name', array('type' => 'text', 'label' => __t('Name *'))); ?>
 		<?php echo $this->Form->input('description', array('type' => 'textarea', 'label' => __t('Description'))); ?>
-		<em><?php echo __t('Go to <a href="%s">terms list</a> to reparent this term', $this->Html->url("/admin/taxonomy/vocabularies/terms/{$this->data['Vocabulary']['slug']}")); ?></em>
-
+		<?php echo $this->Form->helpBlock(__t('Go to <a href="%s">terms list</a> to reparent this term', $this->Html->url("/admin/taxonomy/vocabularies/terms/{$this->data['Vocabulary']['slug']}"))); ?>
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 
 	<!-- Submit -->

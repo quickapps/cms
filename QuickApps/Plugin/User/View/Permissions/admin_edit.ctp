@@ -38,7 +38,7 @@
 		?>
 	</p>
 
-	<em><?php echo @__t($preset['description']); ?></em> 
+	<?php echo $this->Form->helpBlock(@__t($preset['description'])); ?>
 
 	<p>
 		<table width="100%">

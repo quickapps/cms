@@ -331,6 +331,14 @@ class ThemeAdminHookHelper extends AppHelper {
 		if (isset($info['options']['type']) && $info['options']['type'] == 'submit') {
 			$this->__button($info);
 		}
+
+		$type = isset($info['options']['type']) ? $info['options']['type'] : '';
+		$info['options']['div'] = "input {$type} control-group";
+	}
+
+	public function form_help_block_alter(&$info) {
+		$info['options']['tag'] = 'span';
+		$info['options']['class'] = 'help-block';
 	}
 
 	public function menu_toolbar_alter(&$info) {
@@ -339,6 +347,10 @@ class ThemeAdminHookHelper extends AppHelper {
 
 	public function form_submit_alter(&$info) {
 		$this->__button($info);
+	}
+
+	public function form_error_alter(&$info) {
+		$info['options']['class'] = 'help-inline';
 	}
 
 	public function form_button_alter(&$info) {

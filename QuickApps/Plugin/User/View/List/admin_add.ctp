@@ -3,12 +3,33 @@
 	<?php echo $this->Html->useTag('fieldsetstart', __t('Add new user')); ?>
 		<?php echo $this->Form->input('status', array('type' => 'checkbox', 'label' => __t('Active'))); ?>
 
-		<?php echo $this->Form->input('name', array('required' => 'required', 'type' => 'text', 'label' => __t('Real name *'))); ?>
-		<em><?php echo __t('Your real name, it is used only for identification purposes. i.e: John Locke'); ?></em>
-		<?php echo $this->Form->input('username', array('required' => 'required', 'type' => 'text', 'label' => __t('User name *'))); ?>
-		<em><?php echo __t('Nick used to login. Must be unique and alphanumeric.'); ?></em>
-		<?php echo $this->Form->input('avatar', array('type' => 'text', 'label' => __t('Avatar'))); ?>
-		<em><?php echo __t('Full url to avatar image file. i.e: http://www.example.com/my-avatar.jpg'); ?></em>
+		<?php
+			echo $this->Form->input('name', 
+				array(
+					'required' => 'required',
+					'type' => 'text',
+					'label' => __t('Real name *'),
+					'helpBlock' => __t('Your real name, it is used only for identification purposes. i.e: John Locke')
+				)
+			);
+
+			echo $this->Form->input('username',
+				array(
+					'required' => 'required',
+					'type' => 'text',
+					'label' => __t('User name *'),
+					'helpBlock' => __t('Nick used to login. Must be unique and alphanumeric.')
+				)
+			);
+
+			echo $this->Form->input('avatar',
+				array(
+					'type' => 'text',
+					'label' => __t('Avatar'),
+					'helpBlock' => __t('Full url to avatar image file. i.e: http://www.example.com/my-avatar.jpg')
+				)
+			);
+		?>
 		<?php echo $this->Form->input('email', array('required' => 'required', 'type' => 'email', 'label' => __t('E-mail *'))); ?>
 		<?php echo $this->Form->input('public_email', array('type' => 'checkbox', 'label' => __t('Public email'))); ?>
 		<?php echo $this->Form->input('language', array('type' => 'select', 'options' => $languages, 'label' => __t('Language'))); ?>

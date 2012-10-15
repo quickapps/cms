@@ -13,8 +13,8 @@
 			'between' => $this->Html->url('/', true) . 's/',
 			'after' => ' my-search-criteria',
 			'type' => 'text',
-			'label' => __t('URL prefix')
+			'label' => __t('URL prefix'),
+			'helpBlock' => __t('Adds a prefix to each search URL query.')
 		)
 	);
 ?>
-<em><?php echo __t('Adds a prefix to each search URL query.'); ?></em>

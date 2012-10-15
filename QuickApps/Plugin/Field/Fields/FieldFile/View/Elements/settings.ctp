@@ -2,11 +2,11 @@
 	echo $this->Form->input('Field.settings.extensions',
 		array(
 			'type' => 'text',
-			'label' => __t('Allowed extensions')
+			'label' => __t('Allowed extensions'),
+			'helpBlock' => __t('Comma separated. e.g. jpg,gif,png')
 		)
 	);
 ?>
-<em><?php echo __t('Comma separated. e.g. jpg,gif,png'); ?></em>
 
 <?php
 	$ranges = Hash::combine(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), '{n}', '{n}');
@@ -26,28 +26,28 @@
 			array(
 				'type' => 'text',
 				'label' => __t('Customized number of files'),
-				'onkeyup' => "if (/\D/g.test(this.value)) { this.value = this.value.replace(/\D/g,'') }"
+				'onkeyup' => "if (/\D/g.test(this.value)) { this.value = this.value.replace(/\D/g,'') }",
+				'helpBlock' => __t('Maximum number of files users can upload for this field.')
 			)
 		) . '</div>';
 ?>
-<em><?php echo __t('Maximum number of files users can upload for this field.'); ?></em>
 
 <?php
 	echo $this->Form->input('Field.settings.upload_folder',
 		array(
 			'type' => 'text',
-			'label' => __t('Upload folder')
+			'label' => __t('Upload folder'),
+			'helpBlock' => __t('Optional subdirectory within the upload destination where files will be stored. Do not include preceding or trailing slashes.')
 		)
 	);
 ?>
-<em><?php echo __t('Optional subdirectory within the upload destination where files will be stored. Do not include preceding or trailing slashes.'); ?></em>
 
 <?php
 	echo $this->Form->input('Field.settings.description',
 		array(
 			'type' => 'checkbox',
-			'label' => __t('Enable Description field')
+			'label' => __t('Enable Description field'),
+			'helpBlock' => __t('The description field allows users to enter a description about the uploaded file.')
 		)
 	);
 ?>
-<em><?php echo __t('The description field allows users to enter a description about the uploaded file.'); ?></em>

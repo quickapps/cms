@@ -94,13 +94,11 @@
 			?>
 			
 			<?php if (isset($data['field']['settings']['title']) && $data['field']['settings']['title']): ?>
-				<?php echo "\t" . $this->Form->input("FieldData.FieldImage.{$data['field']['id']}.data.files.{$key}.image_title", array('label' => __t('Title'), 'type' => 'text', 'class' => 'image_title', 'value' => $file['image_title'])) . "\n"; ?>
-				<em><?php echo __t('The title is used as a tool tip when the user hovers the mouse over the image.'); ?></em>
+				<?php echo "\t" . $this->Form->input("FieldData.FieldImage.{$data['field']['id']}.data.files.{$key}.image_title", array('label' => __t('Title'), 'type' => 'text', 'class' => 'image_title', 'value' => $file['image_title'], 'helpBlock' => __t('The title is used as a tool tip when the user hovers the mouse over the image.'))) . "\n"; ?>
 			<?php endif; ?>
 
 			<?php if (isset($data['field']['settings']['alt']) && $data['field']['settings']['alt']): ?>
-				<?php echo "\t" . $this->Form->input("FieldData.FieldImage.{$data['field']['id']}.data.files.{$key}.image_alt", array('label' => __t('Alternate text'), 'type' => 'text', 'class' => 'image_alt', 'value' => $file['image_alt'])) . "\n"; ?>
-				<em><?php echo __t('This text will be used by screen readers, search engines, or when the image cannot be loaded.'); ?></em>
+				<?php echo "\t" . $this->Form->input("FieldData.FieldImage.{$data['field']['id']}.data.files.{$key}.image_alt", array('label' => __t('Alternate text'), 'type' => 'text', 'class' => 'image_alt', 'value' => $file['image_alt'], 'helpBlock' => __t('This text will be used by screen readers, search engines, or when the image cannot be loaded.'))) . "\n"; ?>
 			<?php endif; ?>
 		</div>
 	</div>
@@ -125,16 +123,24 @@
 ?>
 
 	<div class="uploader <?php echo $multi ? 'multi-upload' : 'single-upload'; ?>" style="<?php echo $show_uploader ? '' : 'display:none;'; ?>">
-		<?php echo $this->Form->input("FieldData.FieldImage.{$data['field']['id']}.uploader", array('type' => 'file', 'label' => false)); ?>
-		<em><?php echo __t('Files must be less than <b>%sB</b>.', ini_get('upload_max_filesize')) ; ?></em>
-		<br />
-		<em><?php echo __t('Allowed file types: <b>%s</b>.', str_replace(',', ', ', $data['field']['settings']['extensions'])); ?></em>
+		<?php
+			echo $this->Form->input("FieldData.FieldImage.{$data['field']['id']}.uploader",
+				array(
+					'type' => 'file',
+					'label' => false,
+					'helpBlock' =>
+						__t('Files must be less than <b>%sB</b>.', ini_get('upload_max_filesize')) .
+						'<br />' .
+						__t('Allowed file types: <b>%s</b>.', str_replace(',', ', ', $data['field']['settings']['extensions']))
+				)
+			);
+		?>
 
 		<div id="FieldQueue<?php echo $data['field']['id']; ?>" class="field-queue"></div>
 	</div>
 
 <?php if (!empty($data['field']['description'])): ?>
-	<em><?php echo $data['field']['description']; ?></em>
+	<?php echo $this->Form->helpBlock($data['field']['description']); ?>
 <?php endif; ?>
 
 <?php echo $this->Html->useTag('fieldsetend'); ?>

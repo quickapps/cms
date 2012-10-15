@@ -2,34 +2,33 @@
 	<!-- Filter -->
 	<?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Upload Translation Package') . '</span>'); ?>
 		<div class="fieldset-toggle-container" style="display:none;">
-			<?php echo $this->Form->input('po',
+			<?php
+				echo $this->Form->input('po',
 					array(
 						'type' => 'file',
-						'label' => __t('Package (.po)')
+						'label' => __t('Package (.po)'),
+						'helpBlock' => __t('Select a translation package.')
 					)
 				);
-			?>
-			<em><?php echo __t('Select a translation package.'); ?></em>
 
-			<?php echo $this->Form->input('module',
+				echo $this->Form->input('module',
 					array(
 						'type' => 'select',
 						'options' => $modules,
-						'label' => __t('Translation for')
+						'label' => __t('Translation for'),
+						'helpBlock' => __t('What would you like to translate?')
 					)
 				);
-			?>
-			<em><?php echo __t('What would you like to translate?'); ?></em>
 
-			<?php echo $this->Form->input('language',
+				echo $this->Form->input('language',
 					array(
 						'type' => 'select',
 						'options' => $languages,
-						'label' => __t('Language')
+						'label' => __t('Language'),
+						'helpBlock' => __t('What is the language of this package? You can register more languages on the <a href="%s">Languages</a> section.', $this->Html->url('/admin/locale/languages'))
 					)
 				);
 			?>
-			<em><?php echo __t('What is the language of this package? You can register more languages on the <a href="%s">Languages</a> section.', $this->Html->url('/admin/locale/languages')); ?></em>
 
 			<p>
 				<?php echo $this->Form->submit(__t('Upload')); ?>

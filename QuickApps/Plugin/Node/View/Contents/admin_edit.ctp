@@ -7,19 +7,15 @@
 			<?php echo $this->Form->hidden('node_type_base'); ?>
 			<?php echo $this->Form->hidden('id'); ?>
 			<?php echo $this->Form->input('Node.title', array('required' => 'required', 'label' => __t($this->data['NodeType']['title_label']) . ' *')); ?>
-			<em><?php echo __t('Slug: %s', $this->data['Node']['slug']); ?></em><br />
-			<em><?php echo __t('URL: %s', $this->Html->link("/{$this->data['Node']['node_type_id']}/{$this->data['Node']['slug']}.html", "/{$this->data['Node']['node_type_id']}/{$this->data['Node']['slug']}.html", array('target' => '_blank'))); ?></em>
+			<?php echo $this->Form->helpBlock(__t('Slug: %s', $this->data['Node']['slug'])); ?>
+			<?php echo $this->Form->helpBlock(__t('URL: %s', $this->Html->link("/{$this->data['Node']['node_type_id']}/{$this->data['Node']['slug']}.html", "/{$this->data['Node']['node_type_id']}/{$this->data['Node']['slug']}.html", array('target' => '_blank')))); ?>
 
 			<?php if (!empty($this->data['Node']['translation_of'])): ?>
-			<br /><em><?php echo __t('Translation for: %s [%s]', $this->Html->link($this->data['Node']['translation_of'], "/admin/node/contents/edit/{$this->data['Node']['translation_of']}"), $this->data['Node']['language']); ?></em>
+				<?php echo $this->Form->helpBlock(__t('Translation for: %s [%s]', $this->Html->link($this->data['Node']['translation_of'], "/admin/node/contents/edit/{$this->data['Node']['translation_of']}"), $this->data['Node']['language'])); ?>
 			<?php endif; ?>
 
-			<p>
-				<?php echo $this->Form->input('regenerate_slug', array('type' => 'checkbox', 'label' => __t('Regenerate slug'))); ?>
-				<em><?php echo __t('If this option is checked and title has changed then a new slug is generated.'); ?></em>
-			</p>
-			<?php echo $this->Form->input('Node.description', array('type' => 'textarea', 'label' => __t('Description'), 'rows' => 2)); ?>
-			<em><?php echo __t('A short description (255 chars. max.) about this content. Will be used as page meta-description when rendering this content node.'); ?></em>
+			<?php echo $this->Form->input('regenerate_slug', array('type' => 'checkbox', 'label' => __t('Regenerate slug'), 'helpBlock' => __t('If this option is checked and title has changed then a new slug is generated.'))); ?>
+			<?php echo $this->Form->input('Node.description', array('type' => 'textarea', 'rows' => 2, 'label' => __t('Description'), 'helpBlock' => __t('A short description (255 chars. max.) about this content. Will be used as page meta-description when rendering this content node.'))); ?>
 		<?php echo $this->Html->useTag('fieldsetend'); ?>
 
 		<!-- NodeType Form -->
@@ -34,8 +30,7 @@
 
 			<?php if (empty($this->data['Node']['translation_of'])): ?>
 				<?php echo $this->Html->useTag('fieldsetstart', __t('Language')); ?>
-					<?php echo $this->Form->input('language', array('empty' => __t('-- Any --'), 'type' => 'select', 'label' => __t('Language'), 'options' => $languages)); ?>
-					<em><?php echo __t('If no language is selected (-- Any --), node will show regardless of language'); ?></em>
+					<?php echo $this->Form->input('language', array('empty' => __t('-- Any --'), 'type' => 'select', 'options' => $languages, 'label' => __t('Language'), 'helpBlock' => __t('If no language is selected (-- Any --), node will show regardless of language'))); ?>
 				<?php echo $this->Html->useTag('fieldsetend'); ?>
 			<?php endif; ?>
 
@@ -78,8 +73,7 @@
 			<?php echo $this->Html->useTag('fieldsetend'); ?>
 
 			<?php echo $this->Html->useTag('fieldsetstart', __t('Roles')); ?>
-				<?php echo $this->Form->input('Role', array('options' => $roles, 'type' => 'select', 'selected' => Hash::extract($this->data, '{n}.Role.id'), 'multiple' => true, 'label' => __t('Show content for specific roles'))); ?>
-				<em><?php echo __t("Show this content only for the selected role(s). If you select no roles, the content will be visible to all users."); ?></em>
+				<?php echo $this->Form->input('Role', array('options' => $roles, 'type' => 'select', 'selected' => Hash::extract($this->data, '{n}.Role.id'), 'multiple' => true, 'label' => __t('Show content for specific roles'), 'helpBlock' => __t('Show this content only for the selected role(s). If you select no roles, the content will be visible to all users.'))); ?>
 			<?php echo $this->Html->useTag('fieldsetend'); ?>
 
 			<?php echo $this->Html->useTag('fieldsetstart', __t('Menu Link')); ?>
@@ -88,16 +82,13 @@
 
 				<div id="node_menu_link" style="<?php echo !$checked ? 'display:none;' : ''; ?>">
 					<?php echo $this->Form->input('MenuLink.link_title', array('label' => __t('Menu link title'))); ?>
-					<?php echo $this->Form->input('MenuLink.description', array('type' => 'textarea', 'label' => __t('Description'))); ?>
-					<em><?php echo __t('Shown when hovering over the menu link.'); ?></em>
+					<?php echo $this->Form->input('MenuLink.description', array('type' => 'textarea', 'label' => __t('Description'), 'helpBlock' => __t('Shown when hovering over the menu link.'))); ?>
 					<?php echo $this->Form->input('MenuLink.parent_id', array('type' => 'select', 'options' => $menus, 'escape' => false, 'label' => __t('Parent item'))); ?>
 				</div>
 			<?php echo $this->Html->useTag('fieldsetend'); ?>
 
 			<?php echo $this->Html->useTag('fieldsetstart', __t('Advanced Options')); ?>
-				<?php echo $this->Form->input('Node.params.class', array('value' => (isset($this->data['Node']['params']['class']) ? $this->data['Node']['params']['class'] : ''), 'label' => __t('Node container class suffix'))); ?>
-				<em><?php echo __t('A suffix to be applied to the CSS class of the node container. This allows for individual node styling.'); ?></em>
-
+				<?php echo $this->Form->input('Node.params.class', array('value' => (isset($this->data['Node']['params']['class']) ? $this->data['Node']['params']['class'] : ''), 'label' => __t('Node container class suffix'), 'helpBlock' => __t('A suffix to be applied to the CSS class of the node container. This allows for individual node styling.'))); ?>
 				<?php
 					$data = $this->data;
 					$params =  $this->Layout->hook('node_form_params', $data, array('collectReturn' => true));

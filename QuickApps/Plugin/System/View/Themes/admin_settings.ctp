@@ -21,13 +21,11 @@
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 
 	<?php echo $this->Html->useTag('fieldsetstart', __t('Logo')); ?>
-		<?php echo $this->Form->input('Module.settings.site_logo_url', array('type' => 'text', 'label' => __t('Logo image URL'))); ?>
-		<em><?php echo __t('Leave blank to use default logo.'); ?></em>
+		<?php echo $this->Form->input('Module.settings.site_logo_url', array('type' => 'text', 'label' => __t('Logo image URL'), 'helpBlock' => __t('Leave blank to use default logo.'))); ?>
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 
 	<?php echo $this->Html->useTag('fieldsetstart', __t('Shortcut icon')); ?>
-		<?php echo $this->Form->input('Module.settings.site_favicon_url', array('type' => 'text', 'label' => __t('Shortcut icon URL'))); ?>
-		<em><?php echo __t('Leave blank to use default favicon.'); ?></em>
+		<?php echo $this->Form->input('Module.settings.site_favicon_url', array('type' => 'text', 'label' => __t('Shortcut icon URL'), 'helpBlock' => __t('Leave blank to use default favicon.'))); ?>
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 
 	<?php echo $this->Form->submit(__t('Save')); ?>

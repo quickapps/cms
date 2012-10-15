@@ -1,5 +1,5 @@
+<?php if (!empty($types)): ?>
 <?php
-	if (!empty($types)):
 		$links = array();
 
 		foreach ($types as $type) {
@@ -15,10 +15,8 @@
 		$menu['id'] = 'nodeTypesMenu';
 
 		echo $this->element('theme_menu', array('menu' => $menu));
-	else:
 ?>
-
-<h3><?php echo __t('There are no content types availables'); ?></h3>
-<em><?php echo __t('Go to <a href="%s">Content Types</a> section for create a new content type', $this->Html->url('/admin/node/types')); ?></em>
-
+<?php else: ?>
+	<h3><?php echo __t('There are no content types availables'); ?></h3>
+	<?php echo $this->Form->helpBlock(__t('Go to <a href="%s">Content Types</a> section for create a new content type', $this->Html->url('/admin/node/types'))); ?>
 <?php endif; ?>

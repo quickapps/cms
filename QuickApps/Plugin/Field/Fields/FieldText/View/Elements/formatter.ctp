@@ -29,7 +29,7 @@
 	?>
 
 	<ul>
-		<li><em><?php echo __t('Numeric value will convert content to plain text and then trim it to the specified number of chars. e.g.: 400'); ?></em></li>
-		<li><em><?php echo __t('String value will cut the content in two by the specified string, the first part will be displayed. e.g.: &lt;!-- readmore --&gt;'); ?></em></li>
+		<li><?php echo $this->Form->helpBlock(__t('Numeric value will convert content to plain text and then trim it to the specified number of chars. e.g.: 400')); ?></li>
+		<li><?php echo $this->Form->helpBlock(__t('String value will cut the content in two by the specified string, the first part will be displayed. e.g.: &lt;!-- readmore --&gt;')); ?></li>
 	</ul>
 </div>

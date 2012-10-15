@@ -22,11 +22,8 @@
 		<?php endif; ?>
 		<?php echo $this->Form->input('id', array('type' => 'hidden')); ?>
 		<?php echo $this->Form->input('code', array('type' => 'hidden')); ?>
-
 		<?php echo $this->Form->input('name', array('required' => 'required', 'type' => 'text', 'label' => __t('Language name in English *'))); ?>
-
-		<?php echo $this->Form->input('native', array('required' => 'required', 'type' => 'text', 'label' => __t('Native language name *'))); ?>
-		<em><?php echo __t('Name of the language in the language being added.'); ?></em>
+		<?php echo $this->Form->input('native', array('required' => 'required', 'type' => 'text', 'label' => __t('Native language name *'), 'helpBlock' => __t('Name of the language in the language being added.'))); ?>
 		<?php
 			if (strpos($this->data['Language']['icon'], '://') !== false) {
 				$icon = $this->data['Language']['icon'];
@@ -55,11 +52,11 @@
 				array(
 					'type' => 'text',
 					'label' => __t('Custom flag icon'),
-					'value' => (!in_array($this->data['Language']['icon'], array_keys($flags)) ? $this->data['Language']['icon'] : '')
+					'value' => (!in_array($this->data['Language']['icon'], array_keys($flags)) ? $this->data['Language']['icon'] : ''),
+					'helpBlock' => __t("Optional URL of your language flag icon, if your language flag isn't in the above list.")
 				)
 			);
 		?>
-		<em><?php echo __t("Optional URL of your language flag icon, if your language flag isn't in the above list."); ?></em>
 
 		<?php
 			echo $this->Form->input('direction',

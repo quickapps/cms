@@ -62,15 +62,9 @@ $tSettings = array(
 				<?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle" onclick="$(\'#predefinedList\').toggle(\'fast\', \'linear\');">' . __t('Custom Language') . '</span>'); ?>
 					<div class="fieldset-toggle-container" style="display:none;">
 						<?php echo $this->Form->input('status', array('type' => 'hidden', 'value' => 1)); ?>
-
-						<?php echo $this->Form->input('custom_code', array('required' => 'required', 'maxlength' => 3, 'style' => 'width:50px;', 'type' => 'text', 'label' => __t('Language code *'))); ?>
-						<em><?php echo __t('<a href="%s" target="_blank">ISO 639-3</a> compliant language identifier.', 'http://www.sil.org/iso639-3/codes.asp'); ?></em>
-
+						<?php echo $this->Form->input('custom_code', array('required' => 'required', 'maxlength' => 3, 'style' => 'width:50px;', 'type' => 'text', 'label' => __t('Language code *'), 'helpBlock' => __t('<a href="%s" target="_blank">ISO 639-3</a> compliant language identifier.', 'http://www.sil.org/iso639-3/codes.asp'))); ?>
 						<?php echo $this->Form->input('name', array('required' => 'required', 'type' => 'text', 'label' => __t('Language name in English *'))); ?>
-
-						<?php echo $this->Form->input('native', array('required' => 'required', 'type' => 'text', 'label' => __t('Native language name *'))); ?>
-						<em><?php echo __t('Name of the language in the language being added.'); ?></em>
-
+						<?php echo $this->Form->input('native', array('required' => 'required', 'type' => 'text', 'label' => __t('Native language name *'), 'helpBlock' => __t('Name of the language in the language being added.'))); ?>
 						<?php
 							echo $this->Form->input('direction',
 								array(

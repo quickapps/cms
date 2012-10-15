@@ -1,17 +1,13 @@
 <?php echo $this->Form->create('NodeType', array('url' => '/admin/node/types/add/')); ?>
 	<?php echo $this->Html->useTag('fieldsetstart', __t('Type')); ?>
-		<?php echo $this->Form->input('NodeType.name', array('required' => 'required', 'type' => 'text', 'label' => __t('Name *'))); ?>
-		<em><?php echo __t('This text will be displayed as part of the list on the Add new content page'); ?></em>
-		<?php echo $this->Form->input('NodeType.description', array('type' => 'textarea', 'label' => __t('Description'))); ?>
-		<em><?php echo __t('Describe this content type. The text will be displayed on the Add new content page.'); ?></em>
+		<?php echo $this->Form->input('NodeType.name', array('required' => 'required', 'type' => 'text', 'label' => __t('Name *'), 'helpBlock' => __t('This text will be displayed as part of the list on the Add new content page'))); ?>
+		<?php echo $this->Form->input('NodeType.description', array('type' => 'textarea', 'label' => __t('Description'), 'helpBlock' => __t('Describe this content type. The text will be displayed on the Add new content page.'))); ?>
 		<?php echo $this->Form->input('NodeType.title_label', array('required' => 'required', 'type' => 'text', 'label' => __t('Title field label *'))); ?>
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 
 	<?php echo $this->Html->useTag('fieldsetstart', __t('Display format')); ?>
-		<?php echo $this->Form->input('NodeType.node_show_author', array('type' => 'checkbox', 'label' => __t("Show author's name"))); ?>
-		<em><?php echo __t('Author username will be displayed'); ?></em>
-		<?php echo $this->Form->input('NodeType.node_show_date', array('type' => 'checkbox', 'label' => __t('Show date'))); ?>
-		<em><?php echo __t('Publish date will be displayed'); ?></em>
+		<?php echo $this->Form->input('NodeType.node_show_author', array('type' => 'checkbox', 'label' => __t("Show author's name"), 'helpBlock' => __t('Author username will be displayed'))); ?>
+		<?php echo $this->Form->input('NodeType.node_show_date', array('type' => 'checkbox', 'label' => __t('Show date'), 'helpBlock' => __t('Publish date will be displayed'))); ?>
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 
 	<?php echo $this->Html->useTag('fieldsetstart', __t('Comments')); ?>
@@ -32,8 +28,7 @@
 
 	<?php echo $this->Html->useTag('fieldsetstart', __t('Default options')); ?>
 		<?php echo $this->Html->useTag('fieldsetstart', __t('Comments')); ?>
-			<?php echo $this->Form->input('default_comment', array('value' => 0, 'type' => 'radio', 'legend' => false, 'separator' => '<br>', 'options' => array(2 => __t('Open'), 0 => __t('Closed'), 1 => __t('Read Only')))); ?>
-			<em><?php echo __t('Default comment setting for new content'); ?></em>
+			<?php echo $this->Form->input('default_comment', array('value' => 0, 'type' => 'radio', 'legend' => false, 'separator' => '<br>', 'options' => array(2 => __t('Open'), 0 => __t('Closed'), 1 => __t('Read Only')), 'helpBlock' => __t('Default comment setting for new content'))); ?>
 		<?php echo $this->Html->useTag('fieldsetend'); ?>
 
 		<?php echo $this->Html->useTag('fieldsetstart', __t('Language')); ?>
@@ -46,5 +41,4 @@
 			<?php echo $this->Form->input('default_sticky', array('type' => 'checkbox', 'label' => __t('Sticky at top of lists'), 'value' => 1)); ?>
 		<?php echo $this->Html->useTag('fieldsetend'); ?>
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
-
 <?php echo $this->Form->end(__t('Save and add fields')); ?>

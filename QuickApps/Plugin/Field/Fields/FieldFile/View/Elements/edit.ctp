@@ -101,16 +101,24 @@
 ?>
 
 	<div class="uploader <?php echo $multi ? 'multi-upload' : 'single-upload'; ?>" style="<?php echo $show_uploader ? '' : 'display:none;'; ?>">
-		<?php echo $this->Form->input("FieldData.FieldFile.{$data['field']['id']}.uploader", array('type' => 'file', 'label' => false)); ?>
-		<em><?php echo __t('Files must be less than <b>%sB</b>.', ini_get('upload_max_filesize')) ; ?></em>
-		<br />
-		<em><?php echo __t('Allowed file types: <b>%s</b>.', str_replace(',', ', ', $data['field']['settings']['extensions'])); ?></em>
+		<?php
+			echo $this->Form->input("FieldData.FieldFile.{$data['field']['id']}.uploader",
+				array(
+					'type' => 'file',
+					'label' => false,
+					'helpBlock' =>
+						__t('Files must be less than <b>%sB</b>.', ini_get('upload_max_filesize')) .
+						'<br />' .
+						__t('Allowed file types: <b>%s</b>.', str_replace(',', ', ', $data['field']['settings']['extensions']))
+				)
+			);
+		?>
 
 		<div id="FieldQueue<?php echo $data['field']['id']; ?>" class="field-queue"></div>
 	</div>
 
 <?php if (!empty($data['field']['description'])): ?>
-	<em><?php echo $data['field']['description']; ?></em>
+	<?php echo $this->Form->helpBlock($data['field']['description']); ?>
 <?php endif; ?>
 
 <?php echo $this->Html->useTag('fieldsetend'); ?>

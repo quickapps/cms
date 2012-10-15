@@ -62,8 +62,7 @@
 
 	echo $this->Form->input("FieldData.TaxonomyTerms.{$data['field']['id']}.data", $Options);
 	echo $this->Form->hidden("FieldData.TaxonomyTerms.{$data['field']['id']}.id", array('value' => $data['field']['FieldData']['id']));
-?>
 
-<?php if (!empty($data['field']['description'])): ?>
-	<em><?php echo $data['field']['description']; ?></em>
-<?php endif; ?>
+	if (!empty($data['field']['description'])) {
+		echo $this->Form->helpBlock($data['field']['description']);
+	}

@@ -29,33 +29,33 @@ $tSettings = array(
 
 <?php echo $this->Html->table(@Hash::sort((array)$result, "{n}.Field.settings.display.{$display}.ordering", 'asc'), $tSettings); ?>
 
+<p>&nbsp;</p>
+
 <?php if ($display === 'default' && count($result)): ?>
-	<p>
 	<?php echo $this->Form->create('User', array('class' => 'form-inline', 'url' => "/admin/user/display/")); ?>
 		<?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Display Modes') . '</span>'); ?>
 			<div class="fieldset-toggle-container" style="display:none;">
-				<em><?php echo __t('Use custom display settings for the following dispay-modes'); ?></em>
-					<?php
-						$options = array();
+				<?php echo $this->Form->helpBlock(__t('Use custom display settings for the following dispay-modes')); ?>
+				<?php
+					$options = array();
 
-						foreach (QuickApps::displayModes('User') as $mn => $info) {
-							if (!isset($info['locked']) || !$info['locked']) {
-								$options[$mn] = $info['label'];
-							}
+					foreach (QuickApps::displayModes('User') as $mn => $info) {
+						if (!isset($info['locked']) || !$info['locked']) {
+							$options[$mn] = $info['label'];
 						}
+					}
 
-						echo $this->Form->input('User.displayModes',
-							array(
-								'type' => 'select',
-								'multiple' => 'checkbox',
-								'options' => $options,
-								'label' => false
-							)
-						);
-					?>				
+					echo $this->Form->input('User.displayModes',
+						array(
+							'type' => 'select',
+							'multiple' => 'checkbox',
+							'options' => $options,
+							'label' => false
+						)
+					);
+				?>				
 			</div>
 		<?php echo $this->Html->useTag('fieldsetend'); ?>
 		<?php echo $this->Form->submit(__t('Save')); ?>
 	<?php echo $this->Form->end(); ?>
-	</p>
 <?php endif; ?>

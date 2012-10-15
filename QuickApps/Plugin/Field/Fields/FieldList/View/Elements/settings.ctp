@@ -17,7 +17,7 @@
 ?>
 
 <ul>
-	<li><em><?php echo __t('The possible values this field can contain. Enter one value per line, in the format <b>key|label</b>.'); ?></em></li>
-	<li><em><?php echo __t('The key is the stored value. The label will be used in displayed values and edit forms.'); ?></em></li>
-	<li><em><?php echo __t('The label is optional: if a line contains a single string, it will be used as key and label.'); ?></em></li>
+	<li><?php echo $this->Form->helpBlock(__t('The possible values this field can contain. Enter one value per line, in the format <b>key|label</b>.')); ?></li>
+	<li><?php echo $this->Form->helpBlock(__t('The key is the stored value. The label will be used in displayed values and edit forms.')); ?></span>
+	<li><?php echo $this->Form->helpBlock(__t('The label is optional: if a line contains a single string, it will be used as key and label.')); ?></span>
 </ul>

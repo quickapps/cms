@@ -11,10 +11,8 @@
 <?php if (!$listing): ?>
 	<?php echo $this->Form->create('Search'); ?>
 		<?php echo $this->Html->useTag('fieldsetstart', __t('Search Modules')); ?>	
-			<?php echo $this->Form->input('Search.keywords', array('label' => __t('Keywords'))); ?>
-			<em><?php echo __t('Search for modules by keyword.'); ?></em>
-
-			<p><?php echo $this->Form->submit(__t('Search Modules')); ?></p>
+			<?php echo $this->Form->input('Search.keywords', array('label' => __t('Keywords'), 'helpBlock' => __t('Search for modules by keyword.'))); ?>
+			<?php echo $this->Form->submit(__t('Search Modules')); ?>
 		<?php echo $this->Html->useTag('fieldsetend'); ?>
 	<?php echo $this->Form->end(); ?>
 <?php endif; ?>
@@ -37,7 +35,7 @@
 			</td>
 
 			<td width="65%">
-				<em><?php echo strip_tags($repo->description); ?></em><br />
+				<?php echo $this->Form->helpBlock(strip_tags($repo->description)); ?>
 			</td>
 		</tr>
 		<?php endforeach; ?>

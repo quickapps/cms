@@ -72,28 +72,23 @@
 	echo $this->Form->input("Field.settings.max_len",
 		array(
 			'type' => 'text',
-			'label' => __t('Max length')
+			'label' => __t('Max length'),
+			'helpBlock' =>  __t("This is only used if your Type of content is a `Text field`. This will limit the subscriber to typing X number of characters in your textbox.")
 		)
 	);
-?>
-<em><?php echo __t("This is only used if your Type of content is a `Text field`. This will limit the subscriber to typing X number of characters in your textbox."); ?></em>
 
-<?php
 	echo $this->Form->input("Field.settings.validation_rule",
 		array(
 			'type' => 'text',
-			'label' => __t('Validation rule')
+			'label' => __t('Validation rule'),
+			'helpBlock' => __t('Enter your custom regular expression. e.g.: "/^[a-z0-9]{3,}$/i" (Only letters and integers, min 3 characters)')
 		)
 	);
-?>
-<em><?php echo __t('Enter your custom regular expression. e.g.: "/^[a-z0-9]{3,}$/i" (Only letters and integers, min 3 characters)'); ?></em>
 
-<?php
 	echo $this->Form->input("Field.settings.validation_message",
 		array(
 			'type' => 'text',
-			'label' => __t('Validation message')
+			'label' => __t('Validation message'),
+			'helpBlock' => __t('This is only used if `Validation rule` has been set.')
 		)
 	);
-?>
-<em><?php echo __t('This is only used if `Validation rule` has been set.'); ?></em>

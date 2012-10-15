@@ -11,9 +11,7 @@
 <?php if (!$listing): ?>
 	<?php echo $this->Form->create('Search'); ?>
 		<?php echo $this->Html->useTag('fieldsetstart', __t('Search Themes')); ?>	
-			<?php echo $this->Form->input('Search.keywords', array('label' => __t('Keywords'))); ?>
-			<em><?php echo __t('Search for themes by keyword.'); ?></em>
-
+			<?php echo $this->Form->input('Search.keywords', array('label' => __t('Keywords'), 'helpBlock' => __t('Search for themes by keyword.'))); ?>
 			<p><?php echo $this->Form->submit(__t('Search Themes')); ?></p>
 		<?php echo $this->Html->useTag('fieldsetend'); ?>
 	<?php echo $this->Form->end(); ?>

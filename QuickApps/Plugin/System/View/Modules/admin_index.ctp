@@ -25,8 +25,8 @@
 							)
 						);
 					?>
-					<em><?php echo __t('Files must be less than <b>%sB</b>.', ini_get('upload_max_filesize')) ; ?></em>
-					<p><?php echo $this->Form->submit(__t('Install')); ?></p>
+					<?php echo $this->Form->helpBlock(__t('Files must be less than <b>%sB</b>.', ini_get('upload_max_filesize'))); ?>
+					<?php echo $this->Form->submit(__t('Install')); ?>
 				<?php echo $this->Html->useTag('fieldsetend'); ?>
 			<?php echo $this->Form->end(); ?>
 
@@ -49,10 +49,9 @@
 								'label' => __t('Activate after install')
 							)
 						);
+
+						echo $this->Form->submit(__t('Install'));
 					?>
-					<p>
-						<?php echo $this->Form->submit(__t('Install')); ?>
-					</p>
 				<?php echo $this->Html->useTag('fieldsetend'); ?>
 			</div>
 		<?php echo $this->Html->useTag('fieldsetend'); ?>
@@ -108,7 +107,5 @@
 		<?php endforeach; ?>
 	</tbody>
 </table>
-
 <p>&nbsp;</p>
-
 <?php endforeach; ?>

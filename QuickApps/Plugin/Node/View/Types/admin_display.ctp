@@ -38,7 +38,7 @@ $tSettings = array(
 		<?php echo $this->Form->create('NodeType', array('class' => 'form-inline', 'url' => "/admin/node/types/display/{$typeId}")); ?>
 			<?php echo $this->Html->useTag('fieldsetstart', '<span class="fieldset-toggle">' . __t('Display Modes') . '</span>'); ?>
 				<div class="fieldset-toggle-container" style="display:none;">
-					<em><?php echo __t('Use custom display settings for the following display-modes'); ?></em>
+					<?php echo $this->Form->helpBlock(__t('Use custom display settings for the following display-modes')); ?>
 					<?php
 						$options = array();
 

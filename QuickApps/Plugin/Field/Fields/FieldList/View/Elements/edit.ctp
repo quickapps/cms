@@ -32,5 +32,5 @@
 ?>
 
 <?php if (!empty($data['field']['description'])): ?>
-	<em><?php echo $data['field']['description']; ?></em>
+	<?php echo $this->Form->helpBlock($data['field']['description']); ?>
 <?php endif; ?>

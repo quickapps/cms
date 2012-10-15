@@ -16,8 +16,7 @@
 	echo $this->Form->input("Field.settings.display.{$display}.url_prefix",
 		array(
 			'label' => __t('URL prefix'),
-			'type' => 'text'
+			'type' => 'text',
+			'helpBlock' => __t('Valid only when format is "Link (localized)". Adds a prefix to each term link url.')
 		)
 	);
-?>
-<em><?php echo __t('Valid only when format is "Link (localized)". Adds a prefix to each term link url.'); ?></em>
