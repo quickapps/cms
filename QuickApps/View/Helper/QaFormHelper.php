@@ -1,4 +1,6 @@
 <?php
+App::uses('FormHelper', 'View/Helper');
+
 /**
  * Form Helper
  *
@@ -9,26 +11,7 @@
  * @author	 Christopher Castro <chris@quickapps.es>
  * @link	 http://www.quickappscms.org
  */
-class QaFormHelper extends AppHelper {
-/**
- * Other helpers used by QaFormHelper
- *
- * @var array
- * @access public
- */
-	public $helpers = array('CoreForm' => array('className' => 'Form'));
-
-/**
- * Copies the validationErrors variable from the View object into this instance
- *
- * @param View $View The View this helper is being attached to.
- * @param array $settings Configuration settings for the helper.
- */
-	public function __construct(View $View, $settings = array()) {
-		parent::__construct($View, $settings);
-		$this->CoreForm->validationErrors =& $View->validationErrors;
-	}
-
+class QaFormHelper extends FormHelper {
 /**
  * Returns false if given form field described by the current entity has no errors.
  * Otherwise it returns the validation message
@@ -36,7 +19,7 @@ class QaFormHelper extends AppHelper {
  * @return boolean True on errors.
  */
 	public function tagIsInvalid() {
-		return $this->CoreForm->tagIsInvalid();
+		return parent::tagIsInvalid();
 	}
 
 /**
@@ -66,7 +49,7 @@ class QaFormHelper extends AppHelper {
 
 		extract($data);
 
-		return $this->CoreForm->create($model, $options);
+		return parent::create($model, $options);
 	}
 
 /**
@@ -93,7 +76,7 @@ class QaFormHelper extends AppHelper {
 	public function end($options = null) {
 		$this->hook('form_end_alter', $options);
 
-		return $this->CoreForm->end($options);
+		return parent::end($options);
 	}
 
 /**
@@ -105,7 +88,7 @@ class QaFormHelper extends AppHelper {
 	public function secure($fields = array()) {
 		$this->hook('form_secure_alter', $fields);
 
-		return $this->CoreForm->secure($fields);
+		return parent::secure($fields);
 	}
 
 /**
@@ -120,7 +103,7 @@ class QaFormHelper extends AppHelper {
 	public function unlockField($name = null) {
 		$this->hook('form_unlock_field_alter', $name);
 
-		return $this->CoreForm->unlockField($name);
+		return parent::unlockField($name);
 	}
 
 /**
@@ -134,7 +117,7 @@ class QaFormHelper extends AppHelper {
 	public function isFieldError($field) {
 		$this->hook('form_is_field_error_alter', $field);
 
-		return $this->CoreForm->isFieldError($field);
+		return parent::isFieldError($field);
 	}
 
 /**
@@ -161,7 +144,7 @@ class QaFormHelper extends AppHelper {
 		$this->hook('form_error_alter', $data);
 		extract($data);
 
-		return $this->CoreForm->error($field, $text, $options);
+		return parent::error($field, $text, $options);
 	}
 
 /**
@@ -180,7 +163,7 @@ class QaFormHelper extends AppHelper {
 		$this->hook('form_label_alter', $data);
 		extract($data);
 
-		return $this->CoreForm->label($fieldName, $text, $options);
+		return parent::label($fieldName, $text, $options);
 	}
 
 /**
@@ -215,7 +198,7 @@ class QaFormHelper extends AppHelper {
 		$this->hook('form_inputs_alter', $data);
 		extract($data);
 
-		return $this->CoreForm->inputs($fields, $blacklist);
+		return parent::inputs($fields, $blacklist);
 	}
 
 /**
@@ -259,7 +242,19 @@ class QaFormHelper extends AppHelper {
 
 		extract($data);
 
-		return $this->CoreForm->input($fieldName, $options);
+		if (isset($options['helpBlock']) && !empty($options['helpBlock'])) {
+			$this->hook('form_help_block_alter', $options['helpBlock']);
+
+			if (isset($options['after'])) {
+				$options['after'] = $options['helpBlock'] . $options['after'];
+			} else {
+				$options['after'] = $options['helpBlock'];
+			}
+
+			unset($options['helpBlock']);
+		}
+
+		return parent::input($fieldName, $options);
 	}
 
 
@@ -286,7 +281,7 @@ class QaFormHelper extends AppHelper {
 		$this->hook('form_checkbox_alter', $data);
 		extract($data);
 
-		return $this->CoreForm->checkbox($fieldName, $options);
+		return parent::checkbox($fieldName, $options);
 	}
 
 /**
@@ -318,7 +313,7 @@ class QaFormHelper extends AppHelper {
 		$this->hook('form_radio_alter', $data);
 		extract($data);
 
-		return $this->CoreForm->radio($fieldName, $options, $attributes);
+		return parent::radio($fieldName, $options, $attributes);
 	}
 
 /**
@@ -340,7 +335,7 @@ class QaFormHelper extends AppHelper {
 		$this->hook('form_textarea_alter', $data);
 		extract($data);
 
-		return $this->CoreForm->textarea($fieldName, $options);
+		return parent::textarea($fieldName, $options);
 	}
 
 /**
@@ -358,7 +353,7 @@ class QaFormHelper extends AppHelper {
 		$this->hook('form_hidden_alter', $data);
 		extract($data);
 
-		return $this->CoreForm->hidden($fieldName, $options);
+		return parent::hidden($fieldName, $options);
 	}
 
 /**
@@ -376,7 +371,7 @@ class QaFormHelper extends AppHelper {
 		$this->hook('form_file_alter', $data);
 		extract($data);
 
-		return $this->CoreForm->file($fieldName, $options);
+		return parent::file($fieldName, $options);
 	}
 
 /**
@@ -399,7 +394,7 @@ class QaFormHelper extends AppHelper {
 		$this->hook('form_button_alter', $data);
 		extract($data);
 
-		return $this->CoreForm->file($title, $options);
+		return parent::file($title, $options);
 	}
 
 /**
@@ -423,7 +418,7 @@ class QaFormHelper extends AppHelper {
 		$this->hook('form_post_button_alter', $data);
 		extract($data);
 
-		return $this->CoreForm->postButton($title, $url, $options);
+		return parent::postButton($title, $url, $options);
 	}
 
 /**
@@ -449,7 +444,7 @@ class QaFormHelper extends AppHelper {
 		$this->hook('form_post_link_alter', $data);
 		extract($data);
 
-		return $this->CoreForm->postLink($title, $url, $options, $confirmMessage);
+		return parent::postLink($title, $url, $options, $confirmMessage);
 	}
 
 /**
@@ -487,7 +482,7 @@ class QaFormHelper extends AppHelper {
 		$this->hook('form_submit_alter', $data);
 		extract($data);
 
-		return $this->CoreForm->submit($caption, $options);
+		return parent::submit($caption, $options);
 	}
 
 /**
@@ -512,7 +507,7 @@ class QaFormHelper extends AppHelper {
  *
  * {{{
  * $options = array(1 => 'one', 2 => 'two);
- * $this->CoreForm->select('Model.field', $options));
+ * parent::select('Model.field', $options));
  * }}}
  *
  * While a nested options array will create optgroups with options inside them.
@@ -524,7 +519,7 @@ class QaFormHelper extends AppHelper {
  *		3 => 'fred jr.'
  *	 )
  * );
- * $this->CoreForm->select('Model.field', $options);
+ * parent::select('Model.field', $options);
  * }}}
  *
  * In the above `2 => 'fred'` will not generate an option element.  You should enable the `showParents`
@@ -544,7 +539,7 @@ class QaFormHelper extends AppHelper {
 		$this->hook('form_select_alter', $data);
 		extract($data);
 
-		return $this->CoreForm->select($fieldName, $options, $attributes);
+		return parent::select($fieldName, $options, $attributes);
 	}
 
 /**
@@ -568,7 +563,7 @@ class QaFormHelper extends AppHelper {
 		$this->hook('form_day_alter', $data);
 		extract($data);
 
-		return $this->CoreForm->day($fieldName, $attributes);
+		return parent::day($fieldName, $attributes);
 	}
 
 /**
@@ -596,7 +591,7 @@ class QaFormHelper extends AppHelper {
 		$this->hook('form_year_alter', $data);
 		extract($data);
 
-		return $this->CoreForm->year($fieldName, $minYear, $maxYear, $attributes);
+		return parent::year($fieldName, $minYear, $maxYear, $attributes);
 	}
 
 /**
@@ -622,7 +617,7 @@ class QaFormHelper extends AppHelper {
 		$this->hook('form_month_alter', $data);
 		extract($data);
 
-		return $this->CoreForm->month($fieldName, $attributes);
+		return parent::month($fieldName, $attributes);
 	}
 
 /**
@@ -647,7 +642,7 @@ class QaFormHelper extends AppHelper {
 		$this->hook('form_hour_alter', $data);
 		extract($data);
 
-		return $this->CoreForm->hour($fieldName, $format24Hours, $attributes);
+		return parent::hour($fieldName, $format24Hours, $attributes);
 	}
 
 /**
@@ -671,7 +666,7 @@ class QaFormHelper extends AppHelper {
 		$this->hook('form_minute_alter', $data);
 		extract($data);
 
-		return $this->CoreForm->minute($fieldName, $attributes);
+		return parent::minute($fieldName, $attributes);
 	}
 
 /**
@@ -696,7 +691,7 @@ class QaFormHelper extends AppHelper {
 		$this->hook('form_meridian_alter', $data);
 		extract($data);
 
-		return $this->CoreForm->meridian($fieldName, $attributes);
+		return parent::meridian($fieldName, $attributes);
 	}
 
 /**
@@ -729,7 +724,7 @@ class QaFormHelper extends AppHelper {
 		$this->hook('form_date_time_alter', $data);
 		extract($data);
 
-		return $this->CoreForm->dateTime($fieldName, $dateFormat, $timeFormat, $attributes);
+		return parent::dateTime($fieldName, $dateFormat, $timeFormat, $attributes);
 	}
 
 /**
@@ -747,7 +742,7 @@ class QaFormHelper extends AppHelper {
 		$this->hook('form_set_entity_alter', $data);
 		extract($data);
 
-		return $this->CoreForm->setEntity($entity, $setScope);
+		return parent::setEntity($entity, $setScope);
 	}
 
 /**
@@ -772,7 +767,7 @@ class QaFormHelper extends AppHelper {
  * @throws CakeException When there are no params for the method call.
  */
 	public function __call($method, $params) {
-		return $this->CoreForm->__call($method, $params);
+		return parent::__call($method, $params);
 	}
 
 /**
@@ -788,6 +783,6 @@ class QaFormHelper extends AppHelper {
 		$this->hook('form_inpu_defaults_alter', $data);
 		extract($data);
 
-		return $this->CoreForm->inputDefaults($defaults, $merge);
+		return parent::inputDefaults($defaults, $merge);
 	}
 }

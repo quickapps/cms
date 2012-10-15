@@ -1,4 +1,6 @@
 <?php
+App::uses('HtmlHelper', 'View/Helper');
+
 /**
  * Html Helper
  *
@@ -9,39 +11,14 @@
  * @author	 Christopher Castro <chris@quickapps.es>
  * @link	 http://www.quickappscms.org
  */
-class QaHtmlHelper extends AppHelper {
+class QaHtmlHelper extends HtmlHelper {
 /**
  * Other helpers used by QaHtmlHelper
  *
  * @var array
  * @access public
  */
-	var $helpers = array(
-		'CoreHtml' => array('className' => 'Html'),
-		'Table'
-	);
-
-/**
- * Constructor
- *
- * ### Settings
- *
- * - `configFile` A file containing an array of tags you wish to redefine.
- *
- * ### Customizing tag sets
- *
- * Using the `configFile` option you can redefine the tag HtmlHelper will use.
- * The file named should be compatible with HtmlHelper::loadConfig().
- *
- * @param View $View The View this helper is being attached to.
- * @param array $settings Configuration settings for the helper.
- */
-	public function __construct(View $View, $settings = array()) {
-		parent::__construct($View, $settings);
-		if (!empty($settings['configFile'])) {
-			$this->CoreHtml->loadConfig($settings['configFile']);
-		}
-	}
+	var $helpers = array('Table');
 
 /**
  * QuickApps implementation of TableHelper
@@ -73,7 +50,7 @@ class QaHtmlHelper extends AppHelper {
 		$this->hook('html_add_crumb_alter', $data);
 		extract($data);
 
-		return $this->CoreHtml->addCrumb($name, $link, $options);
+		return parent::addCrumb($name, $link, $options);
 	}
 
 /**
@@ -98,7 +75,7 @@ class QaHtmlHelper extends AppHelper {
 	public function docType($type = 'xhtml-strict') {
 		$this->hook('html_doc_type_alter', $type);
 
-		return $this->CoreHtml->docType($type);
+		return parent::docType($type);
 	}
 
 /**
@@ -122,7 +99,7 @@ class QaHtmlHelper extends AppHelper {
 		$this->hook('html_meta_alter', $data);
 		extract($data);
 
-		return $this->CoreHtml->meta($type, $url, $options);
+		return parent::meta($type, $url, $options);
 	}
 
 /**
@@ -137,7 +114,7 @@ class QaHtmlHelper extends AppHelper {
 	public function charset($charset = null) {
 		$this->hook('html_charset_alter', $charset);
 
-		return $this->CoreHtml->charset($charset);
+		return parent::charset($charset);
 	}
 
 /**
@@ -167,7 +144,7 @@ class QaHtmlHelper extends AppHelper {
 		$this->hook('html_link_alter', $data);
 		extract($data);
 
-		return $this->CoreHtml->link($title, $url, $options, $confirmMessage);
+		return parent::link($title, $url, $options, $confirmMessage);
 	}
 
 /**
@@ -192,7 +169,7 @@ class QaHtmlHelper extends AppHelper {
 		$this->hook('html_css_alter', $data);
 		extract($data);
 
-		return $this->CoreHtml->css($path, $rel, $options);
+		return parent::css($path, $rel, $options);
 	}
 
 /**
@@ -222,7 +199,7 @@ class QaHtmlHelper extends AppHelper {
 		$this->hook('html_script_alter', $data);
 		extract($data);
 
-		return $this->CoreHtml->script($url, $options);
+		return parent::script($url, $options);
 	}
 
 /**
@@ -245,7 +222,7 @@ class QaHtmlHelper extends AppHelper {
 		$this->hook('html_script_block_alter', $data);
 		extract($data);
 
-		return $this->CoreHtml->scriptBlock($script, $options);
+		return parent::scriptBlock($script, $options);
 	}
 
 /**
@@ -266,7 +243,7 @@ class QaHtmlHelper extends AppHelper {
 	public function scriptStart($options = array()) {
 		$this->hook('html_script_start_alter', $options);
 
-		return $this->CoreHtml->scriptStart($options);
+		return parent::scriptStart($options);
 	}
 
 /**
@@ -279,7 +256,7 @@ class QaHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/view/1606/scriptEnd
  */
 	public function scriptEnd() {
-		$r = $this->CoreHtml->scriptEnd();
+		$r = parent::scriptEnd();
 
 		$this->hook('html_script_end_alter', $r);
 
@@ -310,7 +287,7 @@ class QaHtmlHelper extends AppHelper {
 		$this->hook('html_style_alter', $data);
 		extract($data);
 
-		return $this->CoreHtml->style($data, $oneline);
+		return parent::style($data, $oneline);
 	}
 
 /**
@@ -326,7 +303,7 @@ class QaHtmlHelper extends AppHelper {
 		$this->hook('html_get_crumbs_alter', $data);
 		extract($data);
 
-		return $this->CoreHtml->getCrumbs($separator, $startText);
+		return parent::getCrumbs($separator, $startText);
 	}
 
 /**
@@ -343,7 +320,7 @@ class QaHtmlHelper extends AppHelper {
 	function getCrumbList($options = array()) {
 		$this->hook('html_get_crumb_list_alter', $options);
 
-		return $this->CoreHtml->getCrumbList($options);
+		return parent::getCrumbList($options);
 	}
 
 /**
@@ -373,7 +350,7 @@ class QaHtmlHelper extends AppHelper {
 		$this->hook('html_image_alter', $data);
 		extract($data);
 
-		return $this->CoreHtml->image($path, $options);
+		return parent::image($path, $options);
 	}
 
 /**
@@ -392,7 +369,7 @@ class QaHtmlHelper extends AppHelper {
 		$this->hook('html_table_headers_alter', $data);
 		extract($data);
 
-		return $this->CoreHtml->tableHeaders($names, $trOptions, $thOptions);
+		return parent::tableHeaders($names, $trOptions, $thOptions);
 	}
 
 /**
@@ -414,7 +391,7 @@ class QaHtmlHelper extends AppHelper {
 		$this->hook('html_table_cells_alter', $data);
 		extract($data);
 
-		return $this->CoreHtml->tableCells($data, $oddTrOptions, $evenTrOptions, $useCount, $continueOddEven);
+		return parent::tableCells($data, $oddTrOptions, $evenTrOptions, $useCount, $continueOddEven);
 	}
 
 /**
@@ -438,7 +415,7 @@ class QaHtmlHelper extends AppHelper {
 		$this->hook('html_tag_alter', $data);
 		extract($data);
 
-		return $this->CoreHtml->tag($name, $text, $options);
+		return parent::tag($name, $text, $options);
 	}
 
 /**
@@ -459,14 +436,14 @@ class QaHtmlHelper extends AppHelper {
 
 		foreach ($args as &$arg) {
 			if (is_array($arg)) {
-				$arg = $this->CoreHtml->_parseAttributes($arg, null, ' ', '');
+				$arg = parent::_parseAttributes($arg, null, ' ', '');
 			}
 		}
 
 		$before = $this->hook('html_before_use_tag', $data, array('collectReturn' => true));
 		$after = $this->hook('html_after_use_tag', $data, array('collectReturn' => true));
 
-		return implode(' ', (array)$before) . vsprintf($this->CoreHtml->_tags[$tag], $args) . implode(' ', (array)$after);
+		return implode(' ', (array)$before) . vsprintf($this->_tags[$tag], $args) . implode(' ', (array)$after);
 	}
 
 /**
@@ -490,7 +467,7 @@ class QaHtmlHelper extends AppHelper {
 		$this->hook('html_div_alter', $data);
 		extract($data);
 
-		return $this->CoreHtml->div($class, $text, $options);
+		return parent::div($class, $text, $options);
 	}
 
 /**
@@ -513,7 +490,7 @@ class QaHtmlHelper extends AppHelper {
 		$this->hook('html_para_alter', $data);
 		extract($data);
 
-		return $this->CoreHtml->para($class, $text, $options);
+		return parent::para($class, $text, $options);
 	}
 
 /**
@@ -574,7 +551,7 @@ class QaHtmlHelper extends AppHelper {
 		$this->hook('html_media_alter', $data);
 		extract($data);
 
-		return $this->CoreHtml->media($path, $options);
+		return parent::media($path, $options);
 	}
 
 /**
@@ -592,7 +569,7 @@ class QaHtmlHelper extends AppHelper {
 		$this->hook('html_nested_list_alter', $data);
 		extract($data);
 
-		return $this->CoreHtml->nestedList($list, $options, $itemOptions, $tag);
+		return parent::nestedList($list, $options, $itemOptions, $tag);
 	}
 
 /**
@@ -608,7 +585,7 @@ class QaHtmlHelper extends AppHelper {
 		$this->hook('html_load_config_alter', $data);
 		extract($data);
 
-		return $this->CoreHtml->loadConfig($configFile, $path);
+		return parent::loadConfig($configFile, $path);
 	}
 
 /**
@@ -651,6 +628,6 @@ class QaHtmlHelper extends AppHelper {
  * @return string Composed attributes.
  */
 	public function _parseAttributes($options, $exclude = null, $insertBefore = ' ', $insertAfter = null) {
-		return $this->CoreHtml->_parseAttributes($options, $exclude, $insertBefore, $insertAfter);
+		return parent::_parseAttributes($options, $exclude, $insertBefore, $insertAfter);
 	}
 }
