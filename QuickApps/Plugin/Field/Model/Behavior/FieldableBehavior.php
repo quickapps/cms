@@ -126,9 +126,7 @@ class FieldableBehavior extends ModelBehavior {
 		}
 
 		// build cck conditions
-		// disable CCK searching for recursive < -1
 		if (
-			$recursive >= -1 &&
 			$this->__settings[$Model->alias]['binded'] &&
 			isset($query['conditions']) &&
 			is_array($query['conditions'])
@@ -595,7 +593,7 @@ class FieldableBehavior extends ModelBehavior {
 				$parts = explode(' ', $field_name);
 				$field_name = $_fName = trim($parts[0]);
 
-				if ($Model->hasField($field_name)) {
+				if ($Model->hasField($field_name) || $Model->isVirtualField($field_name)) {
 					continue;
 				}
 
