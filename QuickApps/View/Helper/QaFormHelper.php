@@ -23,6 +23,32 @@ class QaFormHelper extends FormHelper {
 	}
 
 /**
+ * Returns a formatted text element for FORM INPUTS.
+ *
+ * ### Options
+ *
+ * - `tag` Tag name. default `span`.
+ * - `escape` Whether or not the contents should be html_entity escaped.
+ *
+ * @param string $text The text for the help block element
+ * @param string $options Additional HTML attributes of the tag, see above.
+ * @return string The formatted tag element.
+ */
+	public function helpBlock($text, $options = array('tag' => 'span')) {
+		$data = compact('text', 'options');
+		$this->hook('form_help_block_alter', $data);
+
+		extract($data);
+
+		$options['tag'] = !isset($options['tag']) ? 'span' : $options['tag'];
+		$tag = $options['tag'];
+
+		unset($options['tag']);
+
+		return $this->_View->Html->tag($tag, $text, $options);
+	}
+
+/**
  * Returns an HTML FORM element.
  *
  * ### Options:
@@ -242,13 +268,15 @@ class QaFormHelper extends FormHelper {
 
 		extract($data);
 
-		if (isset($options['helpBlock']) && !empty($options['helpBlock'])) {
-			$this->hook('form_help_block_alter', $options['helpBlock']);
+		if (isset($options['helpBlock'])) {
+			if (!empty($options['helpBlock'])) {
+				$options['helpBlock'] = $this->helpBlock($options['helpBlock']);
 
-			if (isset($options['after'])) {
-				$options['after'] = $options['helpBlock'] . $options['after'];
-			} else {
-				$options['after'] = $options['helpBlock'];
+				if (isset($options['after'])) {
+					$options['after'] = $options['after'] . $options['helpBlock'];
+				} else {
+					$options['after'] = $options['helpBlock'];
+				}
 			}
 
 			unset($options['helpBlock']);
