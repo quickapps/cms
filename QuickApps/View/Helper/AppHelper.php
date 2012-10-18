@@ -37,6 +37,26 @@ class AppHelper extends Helper {
 	);
 
 /**
+ * Look for hooktags in basic site's layout-variables:
+ *
+ * - meta-description.
+ * - site slogan.
+ * - maintenance message.
+ *
+ * @param string $viewFile The view file that is going to be rendered
+ * @return void
+ */
+	public function beforeRender($viewFile) {
+		$site_description = $this->hooktags(Configure::read('Variable.site_description'));
+		$site_maintenance_message = $this->hooktags(Configure::read('Variable.site_maintenance_message'));
+		$site_slogan = $this->hooktags(Configure::read('Variable.site_slogan'));
+
+		Configure::write('Variable.site_description', $site_description);
+		Configure::write('Variable.site_maintenance_message', $site_maintenance_message);
+		Configure::write('Variable.site_slogan', $site_slogan);
+	}
+
+/**
  * Wrapper method to HookCollectionHelper::attachModuleHooks()
  *
  * @see HookCollectionHelper::attachModuleHooks()
