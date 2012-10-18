@@ -21,8 +21,8 @@
 <table class="table table-bordered">
 	<thead>
 		<tr>
-			<td><?php echo __t('Name'); ?></td>
-			<td><?php echo __t('Description'); ?></td>
+			<th><?php echo __t('Name'); ?></th>
+			<th><?php echo __t('Description'); ?></th>
 		</tr>
 	</thead>
 
