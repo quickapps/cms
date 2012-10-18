@@ -282,7 +282,7 @@ class ThemeAdminHookHelper extends AppHelper {
 			";
 			$info['options']['columns'][__t('Name')]['value'] = "
 				<div class=\"btn-group\">
-					<a href=\"{url}/admin/menu/manage/edit/{Menu.id}{/url}\" class=\"btn btn-primary\">
+					<a href=\"{url}/admin/node/types/edit/{NodeType.id}{/url}\" class=\"btn btn-primary\">
 						{$label}
 					</a>
 					<button class=\"btn dropdown-toggle btn-primary\" data-toggle=\"dropdown\">

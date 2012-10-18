@@ -33,9 +33,13 @@
 				</td>
 				<td valign="top">
 					<div class="btn-group">
-						<a href="" class="btn btn-primary" onclick="return false;">
-							<?php echo $data['info']['name']; ?> <?php echo $currentTheme == $name ? '<i class="icon-star" title="' . __t('Theme in use') . '"></i>' : ''; ?>
-						</a>
+						<?php
+							$linkLabel = $data['info']['name'];
+							$linkLabel .= $currentTheme == $name ? ' <i class="icon-star" title="' . __t('Theme in use') . '"></i>' : '';
+							$linkUrl = $currentTheme == $name ? '/admin/system/themes/settings/' . $name : '';
+
+							echo $this->Html->link($linkLabel, $linkUrl, array('class' => 'btn btn-primary', 'escape' => false, 'onclick' => (!$linkUrl ? 'return false;' : '')));
+						?>
 						<button class="btn dropdown-toggle btn-primary" data-toggle="dropdown">
 							<span class="caret"></span>
 						</button>
