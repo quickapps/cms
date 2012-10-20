@@ -40,7 +40,7 @@
 			</td>
 
 			<td>
-				<em><?php echo strip_tags($repo->description); ?></em><br />
+				<?php echo $this->Form->helpBlock(strip_tags($repo->description)); ?>
 			</td>
 		</tr>
 		<?php endforeach; ?>
