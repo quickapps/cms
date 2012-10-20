@@ -5,7 +5,7 @@
 	<?php
 		$zip_url = "https://github.com/{$repo->full_name}/zipball/{$repo->master_branch}";
 		$links = array(
-			array(__t('Install'), '/admin/system/modules/install/' . base64_encode($zip_url), 'options' => array('confirm' => __t('Install this theme ?'))),
+			array(__t('Install'), '/admin/system/themes/install/' . base64_encode($zip_url), 'options' => array('confirm' => __t('Install this theme ?'))),
 			array(__t('Download'), $zip_url)
 		);
 
