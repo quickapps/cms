@@ -74,12 +74,21 @@ App::build(
 if (file_exists(ROOT . DS . 'SiteApp' . DS)) {
 	App::build(
 		array(
-			'Controller' => ROOT . DS . 'SiteApp' . DS . 'Controller' . DS,
-			'Controller/Component' => ROOT . DS . 'SiteApp' . DS . 'Controller' . DS . 'Component' . DS,
 			'Model' => ROOT . DS . 'SiteApp' . DS . 'Model' . DS,
 			'Model/Behavior' => ROOT . DS . 'SiteApp' . DS . 'Model' . DS . 'Behavior' . DS,
+			'Model/Datasource' => ROOT . DS . 'SiteApp' . DS . 'Model' . DS . 'Datasource' . DS,
+			'Model/Datasource/Database' => ROOT . DS . 'SiteApp' . DS . 'Model' . DS . 'Datasource' . DS . 'Database',
+			'Model/Datasource/Session' => ROOT . DS . 'SiteApp' . DS . 'Model' . DS . 'Datasource' . DS . 'Session',
+			'Controller' => ROOT . DS . 'SiteApp' . DS . 'Controller' . DS,
+			'Controller/Component' => ROOT . DS . 'SiteApp' . DS . 'Controller' . DS . 'Component' . DS,
+			'Controller/Component/Auth' => ROOT . DS . 'SiteApp' . DS . 'Controller' . DS . 'Component' . DS . 'Auth' . DS,
+			'Controller/Component/Auth' => ROOT . DS . 'SiteApp' . DS . 'Controller' . DS . 'Component' . DS . 'Acl' . DS,
 			'View' => ROOT . DS . 'SiteApp' . DS . 'View' . DS,
-			'View/Helper' => ROOT . DS . 'SiteApp' . DS . 'View' . DS . 'Helper' . DS
+			'View/Helper' => ROOT . DS . 'SiteApp' . DS . 'View' . DS . 'Helper' . DS,
+			'Lib' => ROOT . DS . 'SiteApp' . DS . 'Lib' . DS,
+			'Locale' => ROOT . DS . 'SiteApp' . DS . 'Locale' . DS,
+			'Vendor' => ROOT . DS . 'SiteApp' . DS . 'Vendor' . DS,
+			'Plugin' => ROOT . DS . 'SiteApp' . DS . 'Plugin' . DS
 		),
 	App::APPEND);
 }
@@ -92,7 +101,7 @@ if ($load_order = Cache::read('modules_load_order')) {
 	$plugins = array_merge($load_order, $tail);
 }
 
-foreach($plugins as $plugin) {
+foreach ($plugins as $plugin) {
 	if (!CakePlugin::loaded($plugin)) {
 		CakePlugin::load($plugin, array('bootstrap' => true, 'routes' => true));
 	}
@@ -105,7 +114,7 @@ if (!$__coreModulesCache || !$__coreThemesCache) {
 	$plugins = App::objects('plugins', null, false);
 	$__coreThemes = $__coreModules = array();
 
-	foreach($plugins as $plugin) {
+	foreach ($plugins as $plugin) {
 		$__ppath = CakePlugin::path($plugin);
 
 		if (strpos($__ppath, DS . 'Fields' . DS) !== false) {
