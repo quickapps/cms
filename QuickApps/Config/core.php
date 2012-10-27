@@ -253,7 +253,8 @@ if (Configure::read('debug') >= 1) {
 }
 
 // Prefix each application on the same server with a different string, to avoid Memcache and APC conflicts.
-$prefix = 'qa_';
+App::uses('Inflector', 'Utility');
+$prefix = Inflector::slug(ROOT) . '_';
 
 /**
  * Configure the cache used for general framework caching.  Path information,
