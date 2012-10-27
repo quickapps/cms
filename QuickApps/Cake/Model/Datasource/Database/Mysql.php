@@ -149,7 +149,10 @@ class Mysql extends DboSource {
 			);
 			$this->connected = true;
 		} catch (PDOException $e) {
-			throw new MissingConnectionException(array('class' => $e->getMessage()));
+			throw new MissingConnectionException(array(
+				'class' => get_class($this),
+				'message' => $e->getMessage()
+			));
 		}
 
 		$this->_useAlias = (bool)version_compare($this->getVersion(), "4.1", ">=");
@@ -532,7 +535,6 @@ class Mysql extends DboSource {
  * @param string $table Table to alter parameters for.
  * @param array $parameters Parameters to add & drop.
  * @return array Array of table property alteration statements.
- * @todo Implement this method.
  */
 	protected function _alterTableParameters($table, $parameters) {
 		if (isset($parameters['change'])) {

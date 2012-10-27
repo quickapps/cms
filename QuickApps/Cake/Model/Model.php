@@ -2363,7 +2363,7 @@ class Model extends Object implements CakeEventListener {
 
 			$updateCounterCache = false;
 			if (!empty($this->belongsTo)) {
-				foreach ($this->belongsTo as $parent => $assoc) {
+				foreach ($this->belongsTo as $assoc) {
 					if (!empty($assoc['counterCache'])) {
 						$updateCounterCache = true;
 						break;
@@ -2449,7 +2449,7 @@ class Model extends Object implements CakeEventListener {
  * @return void
  */
 	protected function _deleteLinks($id) {
-		foreach ($this->hasAndBelongsToMany as $assoc => $data) {
+		foreach ($this->hasAndBelongsToMany as $data) {
 			list($plugin, $joinModel) = pluginSplit($data['with']);
 			$records = $this->{$joinModel}->find('all', array(
 				'conditions' => array($this->{$joinModel}->escapeField($data['foreignKey']) => $id),
@@ -3042,7 +3042,7 @@ class Model extends Object implements CakeEventListener {
 	public function isForeignKey($field) {
 		$foreignKeys = array();
 		if (!empty($this->belongsTo)) {
-			foreach ($this->belongsTo as $assoc => $data) {
+			foreach ($this->belongsTo as $data) {
 				$foreignKeys[] = $data['foreignKey'];
 			}
 		}
@@ -3250,7 +3250,7 @@ class Model extends Object implements CakeEventListener {
 			return array($with, array_unique(array_merge($assoc[$with], $keys)));
 		}
 		trigger_error(
-			__d('cake_dev', 'Invalid join model settings in %s', $model->alias),
+			__d('cake_dev', 'Invalid join model settings in %s. The association parameter has the wrong type, expecting a string or array, but was passed type: %s', $this->alias, gettype($assoc)),
 			E_USER_WARNING
 		);
 	}

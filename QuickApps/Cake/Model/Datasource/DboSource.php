@@ -253,6 +253,7 @@ class DboSource extends DataSource {
 		if (!$this->enabled()) {
 			throw new MissingConnectionException(array(
 				'class' => get_class($this),
+				'message' => __d('cake_dev', 'Selected driver is not enabled'),
 				'enabled' => false
 			));
 		}
@@ -341,10 +342,8 @@ class DboSource extends DataSource {
 		switch ($column) {
 			case 'binary':
 				return $this->_connection->quote($data, PDO::PARAM_LOB);
-			break;
 			case 'boolean':
 				return $this->_connection->quote($this->boolean($data, true), PDO::PARAM_BOOL);
-			break;
 			case 'string':
 			case 'text':
 				return $this->_connection->quote($data, PDO::PARAM_STR);
@@ -362,7 +361,6 @@ class DboSource extends DataSource {
 					return $data;
 				}
 				return $this->_connection->quote($data);
-			break;
 		}
 	}
 
@@ -1297,9 +1295,9 @@ class DboSource extends DataSource {
 						}
 					}
 					if ($type === 'hasAndBelongsToMany') {
-						$uniqueIds = $merge = array();
+						$merge = array();
 
-						foreach ($fetch as $j => $data) {
+						foreach ($fetch as $data) {
 							if (isset($data[$with]) && $data[$with][$foreignKey] === $row[$modelAlias][$modelPK]) {
 								if ($habtmFieldsCount <= 2) {
 									unset($data[$with]);
@@ -1448,7 +1446,7 @@ class DboSource extends DataSource {
 					$data[$association] = array();
 				}
 			} else {
-				foreach ($merge as $i => $row) {
+				foreach ($merge as $row) {
 					$insert = array();
 					if (count($row) === 1) {
 						$insert = $row[$association];
@@ -2029,7 +2027,6 @@ class DboSource extends DataSource {
 					$arg = $this->name($params[0]);
 				}
 				return strtoupper($func) . '(' . $arg . ') AS ' . $this->name($params[1]);
-			break;
 		}
 	}
 
@@ -2417,7 +2414,7 @@ class DboSource extends DataSource {
 		}
 		$clauses = '/^WHERE\\x20|^GROUP\\x20BY\\x20|^HAVING\\x20|^ORDER\\x20BY\\x20/i';
 
-		if (preg_match($clauses, $conditions, $match)) {
+		if (preg_match($clauses, $conditions)) {
 			$clause = '';
 		}
 		$conditions = $this->_quoteFields($conditions);
@@ -2633,7 +2630,7 @@ class DboSource extends DataSource {
 		}
 		$conditions = str_replace(array($start, $end), '', $conditions);
 		$conditions = preg_replace_callback(
-			'/(?:[\'\"][^\'\"\\\]*(?:\\\.[^\'\"\\\]*)*[\'\"])|([a-z0-9\\-_' . $start . $end . ']*\\.[a-z0-9_\\-' . $start . $end . ']*)/i',
+			'/(?:[\'\"][^\'\"\\\]*(?:\\\.[^\'\"\\\]*)*[\'\"])|([a-z0-9_][a-z0-9\\-_]*\\.[a-z0-9_][a-z0-9_\\-]*)/i',
 			array(&$this, '_quoteMatchedField'),
 			$conditions
 		);
@@ -2912,7 +2909,7 @@ class DboSource extends DataSource {
 			$columnMap[$key] = $pdoMap[$type];
 		}
 
-		foreach ($values as $row => $value) {
+		foreach ($values as $value) {
 			$i = 1;
 			foreach ($value as $col => $val) {
 				$statement->bindValue($i, $val, $columnMap[$col]);
@@ -3209,7 +3206,7 @@ class DboSource extends DataSource {
 
 		$isAllFloat = $isAllInt = true;
 		$containsFloat = $containsInt = $containsString = false;
-		foreach ($value as $key => $valElement) {
+		foreach ($value as $valElement) {
 			$valElement = trim($valElement);
 			if (!is_float($valElement) && !preg_match('/^[\d]+\.[\d]+$/', $valElement)) {
 				$isAllFloat = false;

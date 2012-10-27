@@ -213,7 +213,6 @@ class Debugger {
 		if (empty($line)) {
 			$line = '??';
 		}
-		$path = self::trimPath($file);
 
 		$info = compact('code', 'description', 'file', 'line');
 		if (!in_array($info, $self->errors)) {
@@ -250,7 +249,6 @@ class Debugger {
 			break;
 			default:
 				return;
-			break;
 		}
 
 		$data = compact(
@@ -370,9 +368,6 @@ class Debugger {
 			return str_replace(ROOT, 'ROOT', $path);
 		}
 
-		if (strpos($path, CAKE) === 0) {
-			return str_replace($corePath, 'CORE' . DS, $path);
-		}
 		return $path;
 	}
 
@@ -474,29 +469,23 @@ class Debugger {
 		switch (self::getType($var)) {
 			case 'boolean':
 				return ($var) ? 'true' : 'false';
-			break;
 			case 'integer':
 				return '(int) ' . $var;
 			case 'float':
 				return '(float) ' . $var;
-			break;
 			case 'string':
 				if (trim($var) == '') {
 					return "''";
 				}
 				return "'" . $var . "'";
-			break;
 			case 'array':
 				return self::_array($var, $depth - 1, $indent + 1);
-			break;
 			case 'resource':
 				return strtolower(gettype($var));
-			break;
 			case 'null':
 				return 'null';
 			default:
 				return self::_object($var, $depth - 1, $indent + 1);
-			break;
 		}
 	}
 
