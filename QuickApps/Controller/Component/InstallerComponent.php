@@ -480,15 +480,12 @@ class InstallerComponent extends Component {
 				// Build ACOS && Register module in core
 				switch ($this->options['type']) {
 					case 'module':
+						CakePlugin::load($appName);
 						$this->buildAcos($appName);
 					break;
 
 					case 'theme':
-						$this->buildAcos(
-							'Theme' . $appName,
-							THEMES . $appName . DS . 'app' . DS
-						);
-
+						$this->buildAcos('Theme' . $appName);
 						App::build(array('plugins' => array(THEMES . $appName . DS . 'app' . DS)));
 					break;
 				}
@@ -981,7 +978,7 @@ class InstallerComponent extends Component {
  *
  * ### Usage
  *
- *     buildAcos('User', APP . 'Plugin' . DS);
+ *     buildAcos('User');
  *
  * The above would generate all the permissions tree for the Core module User.
  *
