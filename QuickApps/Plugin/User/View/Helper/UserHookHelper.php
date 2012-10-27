@@ -16,11 +16,11 @@ class UserHookHelper extends AppHelper {
  * @return void
  */
 	public function beforeLayout($layoutFile) {
-		if (Router::getParam('admin') &&
+		if (QuickApps::is('view.admin') &&
 			$this->request->params['plugin'] == 'user' &&
 			$this->request->params['action'] == 'admin_index'
 		) {
-			$this->_View->Block->push(array('body' => $this->_View->element('toolbar') . '<!-- NodeHookHelper -->'), 'toolbar');
+			$this->_View->Block->push(array('body' => $this->_View->element('toolbar') . '<!-- UserHookHelper -->'), 'toolbar');
 		}
 
 		return true;
