@@ -1,5 +1,5 @@
 <?php
-	$class = !$depth ? "class=\"app-{$data['title']}\"" : '';
+	$class = !$depth ? "class=\"app-{$data['alias']}\"" : '';
 	$return = "<span title=\"" . addslashes(__t($data['description'])) . "\" {$class}>" . __t($data['title']) . "</span>";
 
 	if (!$hasChildren && $depth == 2) {
