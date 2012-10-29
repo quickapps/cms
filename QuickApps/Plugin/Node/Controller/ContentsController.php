@@ -150,9 +150,18 @@ class ContentsController extends NodeAppController {
 	}
 
 	public function admin_edit($slug = null) {
-		$this->Node->recursive = 1;
+		$this->Node->unbindFieldable();
 
-		$data = $this->Node->findBySlug($slug) or $this->redirect('/admin/node/contents');
+		$data = $this->Node->find('first',
+			array(
+				'conditions' => array(
+					'slug' => $slug
+				),
+				'fields' => array('Node.id', 'Node.slug', 'NodeType.id'),
+				'recursive' => 0
+			)
+		)
+		or $this->redirect('/admin/node/contents');
 		$_data = array();
 
 		if (!empty($this->data)) {
@@ -171,6 +180,7 @@ class ContentsController extends NodeAppController {
 		if (empty($data['NodeType']['id'])) {
 			$this->flashMsg(__t("<b>Content type not found.</b><br/>You can't edit this undefined type of content."), 'alert');
 		} else {
+			$this->Node->bindFieldable();
 			$this->loadModel('User.Role');
 			$this->__setLangVar();
 
@@ -201,6 +211,8 @@ class ContentsController extends NodeAppController {
 		}
 
 		if ($this->data['Node']['translation_of']) {
+			$this->Node->unbindFieldable();
+
 			$parent = $this->Node->find('count',
 				array(
 					'conditions' => array('Node.slug' => $this->data['Node']['translation_of'])
@@ -211,6 +223,8 @@ class ContentsController extends NodeAppController {
 				$this->flashMsg(__t('Missing parent content. This is a translated content, and reference a missing parent content.'), 'alert');
 			}
 		}
+
+		$this->Node->bindFieldable();
 
 		$translations = $this->Node->find('all',
 			array(
