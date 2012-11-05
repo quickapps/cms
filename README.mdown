@@ -28,7 +28,7 @@ Free open source content management system for PHP, released under GPL License a
  
  * Create a new MySQL database ('utf8_unicode_ci' collation)
  * Use the SQL dump file QuickApps/Config/Schema/manual/quickapps.install.sql
- * Rename ./Config/database.php.install to database.php and set your database information (use 'qa_' as prefix).
+ * Copy and raname the file _QuickApps/Config/database.php.install_ to ./Config/database.php and set your database information (use 'qa_' as prefix).
  * Copy the file _QuickApps/Config/Schema/manual/install_ (no extension) to _./Config/_
  * The default username and password are: **admin/admin**
  
