@@ -86,8 +86,4 @@ class FieldImageHookHelper extends AppHelper {
 
 		return $content;
 	}
-
-	private function __image_style() {
-	
-	}
 }
