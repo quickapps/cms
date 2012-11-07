@@ -147,9 +147,12 @@ class InstallerComponent extends Component {
 			$appName = (string)basename($packagePath);
 
 			// Look for GitHub Package:
-			// username-QACMS-ModuleNameInCamelCase-last_commit_id
-			if (preg_match('/(.*)\-QACMS\-(.*)\-([a-z0-9]*)/', $appName, $matches)) {
-				$appName = $matches[2];
+			// QACMS-ModuleNameInCamelCase-branch_id. e.g. QACMS-ModuleName-1.0
+			// parts = array(0 => 'QACMS', 1 => 'ModuleName', 2 => '1.0');
+			$parts = explode('-', $appName);
+
+			if (in_array('QACMS', $parts) && count($parts) > 1) {
+				$appName = $parts[array_search('QACMS', $parts) + 1];
 			}
 
 			$this->options['__packagePath'] = $packagePath;
