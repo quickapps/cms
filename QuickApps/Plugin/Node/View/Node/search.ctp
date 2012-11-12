@@ -17,7 +17,6 @@
 	if (count($Layout['node'])):
 ?>
 	<div class="nodes-pagination paginator">
-		<?php $this->Paginator->options(array('url' => array('criteria' => $criteria))); ?>
 		<?php echo $this->Paginator->prev(__t('«'), null, null, array('class' => 'disabled')); ?>
 		<?php echo $this->Paginator->numbers(array('separator' => ' ')); ?>
 		<?php echo $this->Paginator->next(__t('»'), null, null, array('class' => 'disabled')); ?>
