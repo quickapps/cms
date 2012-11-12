@@ -134,7 +134,13 @@ class LanguagesController extends LocaleAppController {
 	}
 
 	public function admin_delete($id) {
-		return $this->Language->delete($id);
+		if ($this->Language->delete($id)) {
+			$this->flashMsg(__t('Language has been deleted!'), 'success');
+		} else {
+			$this->flashMsg(__t('Language could not be deleted'), 'error');
+		}
+
+		$this->redirect($this->referer());
 	}
 
 	private function __languageCodeById($id) {

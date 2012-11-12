@@ -128,6 +128,7 @@ class ThemeAdminHookHelper extends AppHelper {
 				<li><a href="{url}/admin/locale/languages/move/{Language.id}/down{/url}">' . __t('move down') . '</a></li>
 				{php} return "{Language.code}" != "' . Configure::read('Variable.default_language') . '" ? \'<li><a href="{url}/admin/locale/languages/set_default/{Language.id}{/url}">' . __t('set as default') . '</a></li>\' : \'\'; {/php}
 				<li><a href="{url}/admin/locale/languages/edit/{Language.id}{/url}">' . __t('edit') . '</a></li>
+				<li><a href="{url}/admin/locale/languages/delete/{Language.id}{/url}" onclick=\'return confirm("' . __t('Delete this language ?') . '");\'>' . __t('delete') . '</a></li>
 			';
 			$label = '
 				{php}
