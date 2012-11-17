@@ -19,7 +19,10 @@ class UserController extends UserAppController {
 
 	public function login() {
 		if ($this->__login()) {
+			$this->hook('login_successful');
 			$this->redirect($this->Auth->loginRedirect);
+		} else {
+			$this->hook('login_failed');
 		}
 
 		$this->title(__t('Login'));
@@ -253,7 +256,7 @@ class UserController extends UserAppController {
 					'time' => time()
 				);
 
-				$this->hook('login_failed', $cache);
+				$this->hook('login_failed_cache_alter', $cache);
 				Cache::write($cacheName, $cache, 'users_login');
 			}
 		}
