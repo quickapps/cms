@@ -393,7 +393,7 @@ class BlockHelper extends AppHelper {
 			}
 
 			if (!empty($block['Role'])) {
-				$roles_id = Hash::extract($block, '{n}.Role.id');
+				$roles_id = Hash::extract($block, 'Role.{n}.id');
 				$allowed = false;
 
 				foreach (QuickApps::userRoles() as $role) {
