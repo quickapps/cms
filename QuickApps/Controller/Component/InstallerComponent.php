@@ -152,7 +152,24 @@ class InstallerComponent extends Component {
 			$parts = explode('-', $appName);
 
 			if (in_array('QACMS', $parts) && count($parts) > 1) {
-				$appName = $parts[array_search('QACMS', $parts) + 1];
+				$i = count($parts) - 1;
+				$appName = null;
+
+				// last occurrence of `QACMS`
+				while ($i >= 0) {
+					if ($parts[$i] == 'QACMS') {
+						$appName = $parts[$i + 1];
+						break;
+					}
+
+					$i--;
+				}
+
+				if (empty($appName)) {
+					$this->logError(__t('Invalid package structure after unzip.'));
+
+					return false;
+				}
 			}
 
 			$this->options['__packagePath'] = $packagePath;
