@@ -129,7 +129,7 @@ class SluggableBehavior extends ModelBehavior {
  * @return string Slug for given string
  */
 	private function __slug($string, $settings) {
-		$string = Inflector::slug($string, $settings['separator']);
+		$string = Inflector::slug(strtolower($string), $settings['separator']);
 
 		if (strlen($string) > $settings['length']) {
 			$string = substr($string, 0, $settings['length']);
