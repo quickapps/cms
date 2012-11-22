@@ -179,7 +179,7 @@ class FieldableBehavior extends ModelBehavior {
 
 		// fetch model instance Fields
 		foreach ($results as &$result) {
-			if (!isset($result[$Model->alias])) {
+			if (!isset($result[$Model->alias]) || !isset($result[$Model->alias][$Model->primaryKey])) {
 				continue;
 			}
 
