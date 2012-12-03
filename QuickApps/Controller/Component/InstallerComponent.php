@@ -135,6 +135,10 @@ class InstallerComponent extends Component {
 
 		$PclZip = new PclZip($file_dst_pathname);
 
+		$PclZip->delete(PCLZIP_OPT_BY_EREG, '/__MACOSX/');
+		$PclZip->delete(PCLZIP_OPT_BY_EREG, '/\.DS_Store$/');
+		
+		
 		if (!$v_result_list = $PclZip->extract(PCLZIP_OPT_PATH, $workingDir . 'unzip')) {
 			$this->logError(__t('Unzip error.') . ": " . $PclZip->errorInfo(true));
 
