@@ -73,7 +73,7 @@
 			<?php echo $this->Html->useTag('fieldsetend'); ?>
 
 			<?php echo $this->Html->useTag('fieldsetstart', __t('Roles')); ?>
-				<?php echo $this->Form->input('Role', array('options' => $roles, 'type' => 'select', 'selected' => Hash::extract($this->data, '{n}.Role.id'), 'multiple' => true, 'label' => __t('Show content for specific roles'), 'helpBlock' => __t('Show this content only for the selected role(s). If you select no roles, the content will be visible to all users.'))); ?>
+				<?php echo $this->Form->input('Role', array('options' => $roles, 'type' => 'select', 'multiple' => true, 'label' => __t('Show content for specific roles'), 'helpBlock' => __t('Show this content only for the selected role(s). If you select no roles, the content will be visible to all users.'))); ?>
 			<?php echo $this->Html->useTag('fieldsetend'); ?>
 
 			<?php echo $this->Html->useTag('fieldsetstart', __t('Menu Link')); ?>

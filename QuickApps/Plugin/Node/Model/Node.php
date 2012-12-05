@@ -78,8 +78,8 @@ class Node extends NodeAppModel {
 	}
 
 	public function beforeSave($options = array()) {
-		$roles = implode("|", Hash::extract($this->data, '{n}.Role.Role'));
-		$this->data['Node']['roles_cache'] = !empty($roles) ? "|" . $roles . "|" : '';
+		$roles = implode('|', Hash::extract($this->data, 'Role.Role.{n}'));
+		$this->data['Node']['roles_cache'] = !empty($roles) ? "|{$roles}|" : '';
 
 		if (isset($this->data['Node']['node_type_base'])) {
 			$this->data['Node']['node_type_base'] = Inflector::underscore($this->data['Node']['node_type_base']);
