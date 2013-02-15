@@ -110,8 +110,8 @@ class ContentsController extends NodeAppController {
 					'Node.slug' => $slug,
 					'Node.language LIKE' => '___',
 					'OR' => array(
-						'Node.translation_of' => '',
-						'Node.translation_of IS NULL'
+						array('Node.translation_of' => ''),
+						array('Node.translation_of' => null)
 					)
 				)
 			)
