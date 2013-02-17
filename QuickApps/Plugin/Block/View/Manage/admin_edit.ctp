@@ -39,7 +39,7 @@
 					$langs[$lang['Language']['code']] = $lang['Language']['name'];
 				}
 			?>
-			<?php echo $this->Form->input('locale', array('options' => $langs, 'type' => 'select', 'selected' => Hash::extract($this->data, '{n}.Block.locale'), 'multiple' => true, 'label' => __t('Show this block for these languages'), 'helpBlock' => __t('If no language is selected, block will show regardless of language.'))); ?>
+			<?php echo $this->Form->input('locale', array('options' => $langs, 'type' => 'select', 'selected' => Hash::extract($this->data, 'Block.locale'), 'multiple' => true, 'label' => __t('Show this block for these languages'), 'helpBlock' => __t('If no language is selected, block will show regardless of language.'))); ?>
 		<?php echo $this->Html->useTag('fieldsetend'); ?>
 	<?php echo $this->Html->useTag('fieldsetend'); ?>
 
