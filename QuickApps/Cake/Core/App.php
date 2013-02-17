@@ -540,9 +540,6 @@ class App {
 		$parts = explode('.', self::$_classMap[$className], 2);
 		list($plugin, $package) = count($parts) > 1 ? $parts : array(null, current($parts));
 
-
-
-
 		$paths = self::path($package, $plugin);
 
 		if (empty($plugin)) {
@@ -792,11 +789,6 @@ class App {
 
 		}
 
-
-
-
-
-
 		if (!self::$bootstrapping) {
 			self::$_cacheChange = true;
 		}
@@ -810,7 +802,6 @@ class App {
  * @return mixed file path if found, false otherwise
  */
 	protected static function _mapped($name, $plugin = null) {
-
 		if ($plugin) {
 			if (isset(self::$_map['Plugin'][$plugin][$name])) {
 				return self::$_map['Plugin'][$plugin][$name];
