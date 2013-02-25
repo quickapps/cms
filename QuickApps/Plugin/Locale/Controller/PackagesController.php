@@ -117,6 +117,7 @@ class PackagesController extends LocaleAppController {
 			if (!$Upload->processed) {
 				$this->flashMsg($Upload->error, 'error');
 			} else {
+				clearCache(null, 'persistent');
 				$this->flashMsg(__t('Language package upload success'), 'success');
 			}
 		}
