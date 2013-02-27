@@ -251,6 +251,8 @@ class QuickAppsComponent extends Component {
  * @return void
  */
 	public function setLanguage() {
+		App::uses('QALocale', 'Locale.Lib');
+
 		$langs = $this->Controller->Language->find('all', array('conditions' => array('status' => 1), 'order' => array('ordering' => 'ASC')));
 		$installed_codes = Hash::extract($langs, '{n}.Language.code');
 
@@ -284,10 +286,13 @@ class QuickAppsComponent extends Component {
 			$lang = $lang[0];
 		}
 
+		$lang['code_1'] = QALocale::map($lang['code']); // ISO 639-1
+		$lang['code_3'] = $lang['code']; // ISO 639-3 (default)
+
 		Configure::write('Variable.language', $lang);
 		Configure::write('Variable.languages', $langs);
-		Configure::write('Config.language', Configure::read('Variable.language.code'));
-		CakeSession::write('Config.language', Configure::read('Variable.language.code'));
+		Configure::write('Config.language', $lang['code_1']);
+		CakeSession::write('Config.language', $lang['code_1']);
 	}
 
 /**
