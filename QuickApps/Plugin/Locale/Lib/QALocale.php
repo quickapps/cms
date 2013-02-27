@@ -4,13 +4,26 @@ if (!class_exists('L10n')) {
 }
 
 class QALocale {
-	static function languages() {
-		$L10n = new L10n;
-		$catalog = $L10n->catalog();
+	private static $L10n = null;
+
+	public static function L10n() {
+		if (self::$L10n == null) {
+			self::$L10n = new L10n();
+		} 
+
+		return self::$L10n;
+	}
+
+	public static function map($mixed = null) {
+		return self::L10n()->map($mixed);
+	}
+
+	public static function languages() {
+		$catalog = self::L10n()->catalog();
 		$r = array();
 
 		foreach ($catalog as $language => $info) {
-			$code = $L10n->map($language);
+			$code = self::L10n()->map($language);
 
 			if ($code) {
 				$r[$code] = $info['language'];
@@ -20,13 +33,12 @@ class QALocale {
 		return $r;
 	}
 
-	static function languageDirection($code = false) {
+	public static function languageDirection($code = false) {
 		if (!$code) {
 			$code = Configure::read('Config.language');
 		}
 
-		$L10n = new L10n;
-		$l = $L10n->catalog($L10n->map($code));
+		$l = self::L10n()->catalog(self::L10n()->map($code));
 
 		if (!$l) {
 			return 'ltr';
@@ -35,11 +47,11 @@ class QALocale {
 		return $l['direction'];
 	}
 
-	static function countriesList() {
-		return $L10n->catalog();
+	public static function countriesList() {
+		return self::L10n()->catalog();
 	}
 
-	static function timeZones($blank = NULL) {
+	public static function timeZones($blank = NULL) {
 		$zonelist = timezone_identifiers_list();
 		$zones = $blank ? array('' => __t('- None selected -')) : array();
 
@@ -54,7 +66,7 @@ class QALocale {
 		return $zones;
 	}
 
-	static function formatDate($timestamp, $type = 'medium', $format = '', $timezone = null, $langcode = null) {
+	public static function formatDate($timestamp, $type = 'medium', $format = '', $timezone = null, $langcode = null) {
 		if (!isset($timezone)) {
 			$timezone = date_default_timezone_get();
 		}
@@ -108,8 +120,9 @@ class QALocale {
 
 /**
  * Callback function for preg_replace_callback().
+ *
  */
-	static function formatDateCallback(array $matches = null, $new_langcode = null) {
+	public static function formatDateCallback(array $matches = null, $new_langcode = null) {
 		static $cache, $langcode;
 
 		if (!isset($matches)) {
