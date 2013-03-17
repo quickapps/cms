@@ -114,15 +114,17 @@ class FieldTextHookHelper extends AppHelper {
 	}
 
 	// Convert url to <a> HTML tag, also ignore URLs in existing <a> tags
-	public static function __url2Link($text) {
+	public function __url2Link($text) {
 		$pattern = array(
-			'/(?<!http:\/\/|https:\/\/|\"|=|\'|\'>|\">)(www\..*?)(\s|\Z|\.\Z|\.\s|\<|\>|,)/i',
-			'/(?<!\"|=|\'|\'>|\">|site:)(https?:\/\/(www){0,1}.*?)(\s|\Z|\.\Z|\.\s|\<|\>|,)/i'
+			'/[^\\\](?<!http:\/\/|https:\/\/|\"|=|\'|\'>|\">)(www\..*?)(\s|\Z|\.\Z|\.\s|\<|\>|,)/i',
+			'/[^\\\](?<!\"|=|\'|\'>|\">|site:)(https?:\/\/(www){0,1}.*?)(\s|\Z|\.\Z|\.\s|\<|\>|,)/i',
+			'/[\\\](?<!\"|=|\'|\'>|\">|site:)(https?:\/\/(www){0,1}.*?)(\s|\Z|\.\Z|\.\s|\<|\>|,)/i' // escaped url. e.g. `\http://www.example.com/`
 		);
 
 		$replacement = array(
 			"<a href=\"http://$1\">$1</a>$2",
-			"<a href=\"$1\" target=\"_blank\">$1</a>$3"
+			"<a href=\"$1\" target=\"_blank\">$1</a>$3",
+			"$1$3"
 		);
 
 		return preg_replace($pattern, $replacement, $text);
