@@ -8,7 +8,7 @@
 	<dt>Default and custom settings</dt>
 	<dd>
 		Each <a href='<?php echo $this->Html->url('/admin/node/types'); ?>'>content type</a> can have its own default comment settings configured as:
-		<em>Open</em> to allow new comments, <em>Hidden</em> to hide existing comments and prevent new comments, or <em>Closed</em> but prevent new comments and do not show existing ones.
+		<em>Open</em> to allow new comments and show existing ones, <em>Closed</em> to prevent new comments and do not show existing ones, or <em>Read only</em> to show existing comments but prevent new ones.
 		These defaults will apply to all new content created (changes to the settings on existing content must be done manually).
 		Other comment settings can also be customized per content type, and can be overridden for any given item of content.
 	</dd>
