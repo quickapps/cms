@@ -174,9 +174,7 @@ require ROOT . DS . 'Config' . DS . 'core.php';
  * the cake shell command: cake schema create Sessions
  *
  */
-	Configure::write('Session', array(
-		'defaults' => 'php'
-	));
+	Configure::write('Session.defaults', 'php');
 
 /**
  * The level of CakePHP security.
