@@ -1,5 +1,15 @@
 <?php
 /**
+ * Site core configuration file.
+ * 
+ * You can use this file to overwrite some QuickApps CMS core settings,
+ * warning: This is for advanced users only, those with a
+ * proper understanding of PHP and its syntax.
+ *
+ * NOTE: This file is included before QuickApps CMS core.php file.
+ */
+
+/**
  * Debug Level:
  *
  * Production Mode:
@@ -18,19 +28,16 @@ Configure::write('debug', 0);
  * The level of security.
  *
  * Valid values: 'high', 'medium', 'low'
- *
  */
 Configure::write('Security.level', 'medium');
 
 /**
  * A random string used in security hashing methods.
- *
  */
 Configure::write('Security.salt', 'alknLsnÑQUCMdnweuNsd83P390dm');
 
 /**
  * A random numeric string (digits only) used to encrypt/decrypt strings.
- *
  */
 Configure::write('Security.cipherSeed', '8701467490498213157498310');
 
