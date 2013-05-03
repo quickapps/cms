@@ -291,8 +291,8 @@ class QuickAppsComponent extends Component {
 
 		Configure::write('Variable.language', $lang);
 		Configure::write('Variable.languages', $langs);
-		Configure::write('Config.language', $lang['code_1']);
-		CakeSession::write('Config.language', $lang['code_1']);
+		Configure::write('Config.language', $lang['code_3']);
+		CakeSession::write('Config.language', $lang['code_3']);
 	}
 
 /**
