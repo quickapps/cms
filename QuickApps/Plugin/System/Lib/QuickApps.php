@@ -797,16 +797,13 @@ class QuickApps {
  * @return boolean
  */
 	private static function __viewIsFrontpage() {
-		if (!Configure::read('Variable.site_frontpage')) {
-			$params = Router::getParams();
-			$check = ($params['plugin'] == 'Node' && $params['action'] == 'index');
-		} else {
-			$base_url = Router::url('/', true);
-			$here = Router::url(null, true);
-			$check = ($here == $base_url);
-		}
+		$params = Router::getParams();
 
-		return $check;
+		return (
+			$params['plugin'] == 'Node' &&
+			$params['action'] == 'index' &&
+			!Configure::read('Variable.site_frontpage')
+		);
 	}
 
 /**
