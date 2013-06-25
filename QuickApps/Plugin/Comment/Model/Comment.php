@@ -177,17 +177,28 @@ class Comment extends CommentAppModel {
 			}
 
 			$akismet = new Akismet(Router::url('/'), Configure::read('Modules.Comment.settings.akismet.key'));
-			$akismet->setCommentAuthor(@$this->data['Comment']['name']);
-			$akismet->setCommentAuthorEmail(@$this->data['Comment']['mail']);
-			$akismet->setCommentAuthorURL(@$this->data['Comment']['homepage']);
-			$akismet->setCommentContent(@$this->data['Comment']['body']);
-			$akismet->setPermalink(Router::url("/{$this->__tmp['nodeData']['Node']['node_type_id']}/{$this->__tmp['nodeData']['Node']['slug']}.html"));
+			
+			if (isset($this->data['Comment']['name']) && !empty($this->data['Comment']['name'])) {
+				$akismet->setCommentAuthor($this->data['Comment']['name']);
+			}
+
+			if (isset($this->data['Comment']['mail']) && !empty($this->data['Comment']['mail'])) {
+				$akismet->setCommentAuthorEmail($this->data['Comment']['mail']);
+			}
+
+			if (isset($this->data['Comment']['homepage']) && !empty($this->data['Comment']['homepage'])) {
+				$akismet->setCommentAuthorURL($this->data['Comment']['homepage']);
+			}
+
+			if (isset($this->data['Comment']['body']) && !empty($this->data['Comment']['body'])) {
+				$akismet->setCommentContent($this->data['Comment']['body']);
+			}
 
 			if ($akismet->isCommentSpam()) {
 				$this->data['Comment']['status'] = 0;
 
 				if (Configure::read('Modules.Comment.settings.akismet.action') == 'mark') {
-					$this->data['Comment']['subject'] = '-- SPAM -- ' . $this->data['Comment']['subject'];
+					$this->data['Comment']['subject'] = '[SPAM]' . $this->data['Comment']['subject'];
 				} else {
 					$this->__tmp['deleteSpam'] = true;
 				}
