@@ -42,6 +42,8 @@ class InstallController extends Controller {
 		if (!CakeSession::read('Config.language')) {
 			Configure::write('Config.language', 'eng');
 		}
+
+		@set_time_limit(0);
 	}
 
 /**
