@@ -81,7 +81,7 @@
 				<?php echo $this->Form->input('Node.menu_link', array('onClick' => "$('#node_menu_link').toggle();", 'type' => 'checkbox', 'checked' => $checked,'label' => __t('Provide a menu link'))); ?>
 
 				<div id="node_menu_link" style="<?php echo !$checked ? 'display:none;' : ''; ?>">
-					<?php echo $this->Form->input('MenuLink.link_title', array('label' => __t('Menu link title'))); ?>
+					<?php echo $this->Form->input('MenuLink.link_title', array('label' => __t('Menu link title'), 'required' => false)); ?>
 					<?php echo $this->Form->input('MenuLink.description', array('type' => 'textarea', 'label' => __t('Description'), 'helpBlock' => __t('Shown when hovering over the menu link.'))); ?>
 					<?php echo $this->Form->input('MenuLink.parent_id', array('type' => 'select', 'options' => $menus, 'escape' => false, 'label' => __t('Parent item'))); ?>
 				</div>
