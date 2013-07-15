@@ -87,7 +87,7 @@ class BBCodeBehavior extends ModelBehavior {
 			array(
 				'mode' => BBCODE_MODE_ENHANCED,
 				'template' => '<blockquote><cite>{$username} ' . __t('wrote') . ':</cite>{$_content}</blockquote>',
-				'allow_in' => array('listitem', 'block', 'columns')
+				'allow_in' => Array('listitem', 'block', 'columns')
 			)
 		);
 
@@ -95,24 +95,13 @@ class BBCodeBehavior extends ModelBehavior {
 			array(
 				'mode' => BBCODE_MODE_CALLBACK,
 				'method' => 'BBCodeBehavior::videoTag',
-				'allow_in' => array('listitem', 'block', 'columns')
+				'allow_in' => Array('listitem', 'block', 'columns')
 			)
 		);
 
 		$Model->hook('before_parse_comment_bbcode', $string);
 
 		$string = $bbcode->Parse($string);
-		$string = preg_replace(
-			array(
-				'/(^|\s)\#(\d+)/',
-				'/(^|\s)\@(\w+)/i',
-			),
-			array(
-				'<a href="#comment-\2" class="comment-reference"><span>#\2</span></a>',
-				'<a href="' . Router::url('/user/profile/', true) . '\2" class="user-reference"><span>@\2</span></a>'
-			),
-			$string
-		);
 
 		$Model->hook('after_parse_comment_bbcode', $string);
 
@@ -138,7 +127,6 @@ class BBCodeBehavior extends ModelBehavior {
 			if (strpos($videourl['host'], 'google.com') !== false) {
 				$replacement = '<embed src="http://video.google.com/googleplayer.swf?docid=' . $videoquery['docid'] . '" width="400" height="326" type="application/x-shockwave-flash"></embed>';
 			}
-
 			return $replacement;
 		}
 	}
