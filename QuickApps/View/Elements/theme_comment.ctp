@@ -52,9 +52,13 @@
 					echo $this->Html->nestedList($comment_actions, array('class' => 'comment-actions-list', 'id' => "comment-actions-{$comment['Comment']['id']}"));
 				?>
 			</div>
+
+			<p class="comment-number">#<?php echo $comment['Comment']['id']; ?></p>
+
 			<?php if ($Layout['node']['NodeType']['comments_subject_field']): ?>
 				<h3><?php echo $this->Html->link($comment['Comment']['subject'], "/{$Layout['node']['Node']['node_type_id']}/{$Layout['node']['Node']['slug']}.html#comment-{$comment['Comment']['id']}", array('class' => 'permalink')); ?></h3>
 			<?php endif; ?>
+
 			<p><?php echo $comment['Comment']['body']; ?></p>
 			<p id="raw-comment-<?php echo $comment['Comment']['id']; ?>" style="display:none;"><?php echo $comment['Comment']['raw_body']; ?></p>
 		</div>

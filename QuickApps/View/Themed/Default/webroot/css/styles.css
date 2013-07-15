@@ -517,23 +517,29 @@ div.node-comments { border-top:1px solid #333; overflow:hidden; margin-top:15px;
 
 /* submited */
 #comments-list div.attribution div.submited { width:80px; float:left; }
+#comments-list div.attribution div.submited p { padding:0; }
 #comments-list div.attribution div.submited div.avatar { border:2px solid #303030; margin:0 auto; width:64px; height:64px; overflow:hidden; }
 #comments-list div.attribution .submited div.avatar img { width:100%; }
 #comments-list div.attribution .submited a.username { text-align:center; display:block; }
-#comments-list div.attribution .submited p.comment-time span { font-style:italic; }
+#comments-list div.attribution .submited p.comment-time, 
+#comments-list div.attribution .submited p.comment-permalink { display:block; text-align:center; }
+#comments-list div.attribution .submited p.comment-time { font-style:italic; font-size:9px; }
 
 @media screen and (max-width: 650px) {
 	#comments-list div.attribution { width:98%; overflow:hidden; }
 	#comments-list div.attribution div.submited { width:100%; }
 	#comments-list div.attribution div.submited div.avatar { float:left; margin-right:10px; }
 	#comments-list div.attribution .submited a.username { text-align:left; }
+	#comments-list div.attribution .submited p.comment-time,
+	#comments-list div.attribution .submited p.comment-permalink { text-align:left; }
 }
 
 /* comment content box */
-#comments-list div.comment-text  { background:#303030; border:1px solid #333; width:475px; float:left; padding:10px; }
+#comments-list div.comment-text { background:#303030; border:1px solid #333; width:475px; float:left; padding:10px; }
 #comments-list div.comment-text h3 { font-size:16px; }
 #comments-list div.comment-text blockquote { background:#F9F8F8;  }
 #comments-list div.comment-text blockquote cite { background:url(../img/comment-quote.gif) center left no-repeat; padding-left:20px;  display:block; font-weight:bold; }
+#comments-list div.comment-text p.comment-number { text-align:right; font-size:14px; font-weight:bold; }
 #comments-list .comment-actions ul { display:block; }
 #comments-list .comment-actions ul li { display:inline; }
 #comments-list .comment-actions { text-align:right; }
