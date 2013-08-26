@@ -201,7 +201,7 @@ class LayoutHelper extends AppHelper {
 
 		$this->hook('layout_title_alter', $title);
 
-		return $this->hooktags(__t($title));
+		return strip_tags($this->hooktags(__t($title)));
 	}
 
 /**
