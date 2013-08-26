@@ -334,7 +334,7 @@ class ThemeAdminHookHelper extends AppHelper {
 		}
 
 		$type = isset($info['options']['type']) ? $info['options']['type'] : '';
-		$info['options']['div'] = "input {$type} control-group";
+		$info['options']['div'] = isset($info['options']['div']) ? "input {$type} control-group {$info['options']['div']}" : "input {$type} control-group";
 	}
 
 	public function form_help_block_alter(&$info) {
