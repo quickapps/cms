@@ -101,7 +101,7 @@ class FieldImage {
 
 		// seven days cache duration
 		if ((time()-604800) > $ThumOld) {
-			switch(true) {
+			switch (true) {
 				case preg_match("/jpg|jpeg|JPG|JPEG/", $ext):
 					if (imagetypes() & IMG_JPG) {
 						$src_img = imagecreatefromjpeg($name);
