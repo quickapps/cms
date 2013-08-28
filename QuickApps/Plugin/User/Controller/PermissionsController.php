@@ -75,9 +75,10 @@ class PermissionsController extends UserAppController {
 						$yaml['Preset'][$preset]['id'] = $acoId;
 
 						foreach ($this->User->Role->find('all') as $role) {
+							$aroId = $this->__getRoleAro($role['Role']['id']);
 							$aros[$role['Role']['name']] = array(
-								'id' => $role['Role']['id'],
-								'allowed' => $this->__presetStatus("{$module}.{$preset}", $role['Role']['id'])
+								'id' => $aroId,
+								'allowed' => $this->__presetStatus("{$module}.{$preset}", $aroId)
 							);
 						}
 
@@ -90,26 +91,26 @@ class PermissionsController extends UserAppController {
 		} else {
 			// normal aco id
 			$acoPath = $this->Acl->Aco->getPath($acoId);
+			$aros = array();
 
 			if (!$acoPath) {
 				return;
 			}
 
-			$aros = array();
-
 			$this->loadModel('Permission');
 
 			foreach ($this->User->Role->find('all') as $role) {
+				$aroId = $this->__getRoleAro($role['Role']['id']);
 				$hasAny = array(
 					'aco_id' => $acoId,
-					'aro_id' => $role['Role']['id'],
+					'aro_id' => $aroId,
 					'_create' => 1,
 					'_read' => 1,
 					'_update' => 1,
 					'_delete' => 1
 				);
 				$aros[$role['Role']['name']] = array(
-					'id' => $role['Role']['id'],
+					'id' => $aroId,
 					'allowed' => (int)$this->Permission->hasAny($hasAny)
 				);
 			}
@@ -132,7 +133,7 @@ class PermissionsController extends UserAppController {
 	public function admin_toggle($acoId, $aroId) {
 		if (is_string($acoId) && strpos($acoId, '.') !== false) {
 			// preset
-			$allowed = intval($this->__presetStatus($acoId, $aroId));
+			$allowed = $this->__presetStatus($acoId, $aroId);
 			$allowed = $allowed ? 0 : 1;
 
 			$this->loadModel('Permission');
@@ -168,7 +169,7 @@ class PermissionsController extends UserAppController {
 			}
 
 			$this->set('allowed', $allowed);
-		} elseif ($aroId != 1) {
+		} elseif ($this->__getRoleAro($aroId, true) != 1) {
 			$this->loadModel('Permission');
 
 			$conditions = array(
@@ -218,6 +219,38 @@ class PermissionsController extends UserAppController {
 	}
 
 /**
+ * Gets the Aro ID related to the given role_id.
+ * Or its opposite: Get Role ID related to the given Aro ID.
+ *
+ * @param boolean $reverse Set to TRUE for the opposite behavior.
+ * @param integer $role_id Role ID in the `roles` table.
+ * @return integer Aro ID
+ */
+	private function __getRoleAro($role_id, $reverse = false) {
+		if ($reverse) {
+			$aroRole = $this->Acl->Aro->find('first',
+				array(
+					'conditions' => array('model' => 'User.Role', 'id' => $role_id),
+					'fields' => array('id', 'foreign_key'),
+					'recursive' => -1
+				)
+			);
+
+			return $aroRole['Aro']['foreign_key'];
+		} else {
+			$roleAro = $this->Acl->Aro->find('first',
+				array(
+					'conditions' => array('model' => 'User.Role', 'foreign_key' => $role_id),
+					'fields' => array('id'),
+					'recursive' => -1
+				)
+			);
+
+			return $roleAro['Aro']['id'];
+		}
+	}
+
+/**
  * Returns all ID of the acos that belongs to the specified preset.
  *
  * @param string $preset Dot-Syntax `module.preset_name`
@@ -259,12 +292,12 @@ class PermissionsController extends UserAppController {
 	}
 
 /**
- * Checks if all preset's acos are allowed to the specified role.
+ * Checks if all preset's ACOs are allowed to the specified ARO.
  * A preset is considered allowed only if all its acos are allowed.
  *
  * @param string $preset Dot-Syntax `module.preset_name`
  */ 
-	private function __presetStatus($preset, $role_id) {
+	private function __presetStatus($preset, $aroId) {
 		$acos = $this->__presetAcosId($preset);
 		$allowed = false;
 
@@ -273,7 +306,7 @@ class PermissionsController extends UserAppController {
 		foreach ($acos as $aco) {
 			$hasAny = array(
 				'aco_id' => $aco,
-				'aro_id' => $role_id,
+				'aro_id' => $aroId,
 				'_create' => 1,
 				'_read' => 1,
 				'_update' => 1,
