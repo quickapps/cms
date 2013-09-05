@@ -935,7 +935,7 @@ class InstallerComponent extends Component {
  *	Or an array list of all modules that uses $module when $returnList is set to true, an empty array is
  *	returned if there are no module that uses $module.
  */
-	function checkReverseDependency($module, $returnList = true) {
+	public function checkReverseDependency($module, $returnList = true) {
 		$list = array();
 		$module = Inflector::camelize($module);
 
