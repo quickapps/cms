@@ -23,4 +23,8 @@ class Module extends SystemAppModel {
 
 		return true;
 	}
+
+	public function afterSave($created) {
+		Cache::delete('modules');
+	}
 }
