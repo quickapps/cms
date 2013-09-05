@@ -1,16 +1,15 @@
 body { background:url(../img/bg.jpg) repeat-x #F5F6F7; }
 table { background:#fff; }
 fieldset {
-	overflow:hidden;
 	background:#fff;
-	padding:20px;
+	padding:0 20px 20px 20px;
 	border:1px solid #ccc;
-	margin-bottom:20px;
-	-webkit-border-radius: 8px;
-	-moz-border-radius: 8px;
-	border-radius: 8px;
+	margin-bottom:10px;
+	-webkit-border-radius:8px;
+	-moz-border-radius:8px;
+	border-radius:8px;
 }
-legend { width:100%; display:block; float:right; clear:both; margin-bottom:20px; }
+fieldset legend { border:0; margin-top:20px; padding:0 5px; display:block; background:none; width:auto; }
 .paginator .disabled { display:none; }
 ul.breadcrumb {
 	margin-bottom:20px;
@@ -23,10 +22,8 @@ textarea { width:99%; }
 em { font-size:85%; font-style:italic; }
 form.form-inline .input { padding:10px; }
 form.form-inline label { padding-right:10px; }
-.radio fieldset { display:block; }
 .nav-pills li a { background:#0088CC; color:#fff; margin-right:15px; }
 .nav-pills li a:hover, .nav-pills li.active a { background:#EDE8E8; color:#727171; }
-div.radio legend { padding:5px; overflow:hidden; }
 table th a.asc { padding-right:20px; background:url(../img/up.gif) no-repeat right center; }
 table th a.desc { padding-right:20px; background:url(../img/down.gif) no-repeat right center; }
 #menu-sortContainer { display:block; width:100%; overflow:hidden; float:left; }
