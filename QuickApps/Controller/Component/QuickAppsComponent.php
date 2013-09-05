@@ -815,45 +815,14 @@ class QuickAppsComponent extends Component {
  */
 	public function loadModules() {
 		$modules = Cache::read('Modules');
+		$load_order = Cache::read('modules_load_order');
 
-		if ($modules === false) {
-			$Modules = (array)$this->Controller->Module->find('all', array('recursive' => -1));
-
-			foreach ($Modules as $module) {
-				if (!CakePlugin::loaded($module['Module']['name'])) {
-					CakePlugin::load($module['Module']['name']);
-				}
-
-				$module['Module']['path'] = App::pluginPath($module['Module']['name']);
-
-				if (strpos($module['Module']['name'], 'Theme') === 0) {
-					$yamlFile = dirname(dirname($module['Module']['path'])) . DS . basename(dirname(dirname($module['Module']['path']))) . '.yaml';
-				} else {
-					$yamlFile = $module['Module']['path'] . "{$module['Module']['name']}.yaml";
-				}
-
-				$module['Module']['yaml'] = file_exists($yamlFile) ? Spyc::YAMLLoad($yamlFile) : array();
-				$modules[$module['Module']['name']] = $module['Module'];
-			}
-
-			Configure::write('Modules', $modules);
-			Cache::write('Modules', $modules);
-		} else {
-			Configure::write('Modules', $modules);
+		if ($modules === false || $load_order === false) {
+			$this->Controller->Module->writeCache();
 		}
 
-		if (!Cache::read('modules_load_order')) {
-			$order = ClassRegistry::init('System.Module')->find('all',
-				array(
-					'conditions' => array('Module.status' => 1, 'Module.type' => 'module'),
-					'fields' => array('Module.name', 'Module.type', 'Module.ordering'),
-					'order' => array('Module.ordering' => 'ASC'),
-					'recursive' => -1
-				)
-			);
-			$load_order = Hash::extract((array)$order, '{n}.Module.name');
-
-			Cache::write('modules_load_order', $load_order);
+		if ($modules !== false) {
+			Configure::write('Modules', $modules);
 		}
 	}
 
