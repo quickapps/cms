@@ -22,7 +22,9 @@ if (!$__plugin_paths) {
 	$folder = new Folder;
 	$folder->path = THEMES;
 
-	// site themes
+	/**
+	 * Look for site's theme-apps
+	 */
 	$__themes = $folder->read();
 	$__themes = $__themes[0];
 
@@ -30,7 +32,9 @@ if (!$__plugin_paths) {
 		$__plugin_paths[] = THEMES . $__tname . DS . 'app' . DS;
 	}
 
-	// core themes
+	/**
+	 * Look for core's theme-apps
+	 */
 	$folder->path = APP . 'View' . DS . 'Themed' . DS;
 	$__themes = $folder->read();
 	$__themes = $__themes[0];
@@ -39,13 +43,17 @@ if (!$__plugin_paths) {
 		$__plugin_paths[] =  APP . 'View' . DS . 'Themed' . DS . $__tname . DS . 'app' . DS;
 	}
 
+	/**
+	 * Add site's modules path
+	 */
 	$__plugin_paths[] = ROOT . DS . 'Modules' . DS;
 
+	/**
+	 * Look for field-apps on every installed (active or not) plugin
+	 */
 	App::build(array('plugins' => $__plugin_paths));
 
-	$plugins = App::objects('plugins', null, false);
-
-	foreach ($plugins as $plugin) {
+	foreach (App::objects('plugins', null, false) as $plugin) {
 		CakePlugin::load($plugin, array('bootstrap' => true, 'routes' => true));
 
 		$__ppath = CakePlugin::path($plugin);
