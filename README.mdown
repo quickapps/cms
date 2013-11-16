@@ -16,22 +16,22 @@ Free open source content management system for PHP, released under GPL License a
  * Download from github the latest version as zip.
  * Extract the archive. Upload the content to your server.
  * Visit http://your-site.com/ from your browser and follow the instructions.
-  
+
 #### Quick-Installer
 
  * Download the one-file installer from [here](http://www.quickappscms.org/files/installer/index.install)
  * Rename from 'index.install' to 'index.php'
  * Upload the new 'index.php' to your server
  * Visit http://your-site.com/ from your browser and follow the instructions.
-  
+
 #### Manual installation
  
  * Create a new MySQL database ('utf8_unicode_ci' collation)
  * Use the SQL dump file QuickApps/Config/Schema/manual/quickapps.install.sql
- * Copy and raname the file _QuickApps/Config/database.php.install_ to ./Config/database.php and set your database information (use 'qa_' as prefix).
+ * Copy and rename the file _QuickApps/Config/database.php.install_ to ./Config/database.php and set your database information (use 'qa_' as prefix).
  * Copy the file _QuickApps/Config/Schema/manual/install_ (no extension) to _./Config/_
  * The default username and password are: **admin/admin**
- 
+
 ## Links
 
  * [Official Site](http://www.quickappscms.org)
