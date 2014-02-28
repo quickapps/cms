@@ -318,7 +318,7 @@ class QuickAppsSchema extends CakeSchema {
 		'description' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'modified' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'created' => array('type' => 'integer', 'null' => false, 'default' => null),
-		'parent_id' => array('type' => 'integer', 'null' => true, 'default' => '0'),
+		'parent_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'lft' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'rght' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'indexes' => array(

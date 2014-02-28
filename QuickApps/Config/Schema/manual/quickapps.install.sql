@@ -667,7 +667,7 @@ CREATE TABLE `qa_terms` (
   `description` text COLLATE utf8_unicode_ci,
   `modified` int(11) NOT NULL,
   `created` int(11) NOT NULL,
-  `parent_id` int(11) DEFAULT '0',
+  `parent_id` int(11) NOT NULL DEFAULT '0',
   `lft` int(11) NOT NULL,
   `rght` int(11) NOT NULL,
   PRIMARY KEY (`id`),
