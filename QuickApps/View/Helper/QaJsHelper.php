@@ -1,4 +1,6 @@
 <?php
+App::uses('JsHelper', 'View/Helper');
+
 /**
  * Js Helper
  *
@@ -9,15 +11,7 @@
  * @author	 Christopher Castro <chris@quickapps.es>
  * @link	 http://www.quickappscms.org
  */
-class QaJsHelper extends AppHelper {
-/**
- * Other helpers used by QaFormHelper
- *
- * @var array
- * @access public
- */
-	public $helpers = array('CoreJs' => array('className' => 'Js'));
-
+class QaJsHelper extends JsHelper {
 /**
  * call__ Allows for dispatching of methods to the Engine Helper.
  * methods in the Engines bufferedMethods list will be automatically buffered.
@@ -38,7 +32,7 @@ class QaJsHelper extends AppHelper {
  * @return mixed Depends on the return of the dispatched method, or it could be an instance of the EngineHelper
  */
 	public function __call($method, $params) {
-	   return $this->CoreJs->__call($method, $params);
+		return parent::__call($method, $params);
 	}
 
 /**
@@ -56,7 +50,7 @@ class QaJsHelper extends AppHelper {
 		$this->hook('js_value_alter', $data);
 		extract($data);
 
-		return $this->CoreJs->value($val, $quoteString, $key);
+		return parent::value($val, $quoteString, $key);
 	}
 
 /**
@@ -82,7 +76,7 @@ class QaJsHelper extends AppHelper {
 	public function writeBuffer($options = array()) {
 		$this->hook('js_write_buffer_alter', $options);
 
-		$this->CoreJs->writeBuffer($options);
+		parent::writeBuffer($options);
 	}
 
 /**
@@ -100,7 +94,7 @@ class QaJsHelper extends AppHelper {
 		$this->hook('js_buffer_alter', $data);
 		extract($data);
 
-		return $this->CoreJs->buffer($script, $top);
+		return parent::buffer($script, $top);
 	}
 
 /**
@@ -113,7 +107,7 @@ class QaJsHelper extends AppHelper {
 	public function getBuffer($clear = true) {
 		$this->hook('js_get_buffer_alter', $clear);
 
-		return $this->CoreJs->getBuffer($clear);
+		return parent::getBuffer($clear);
 	}
 
 /**
@@ -141,7 +135,7 @@ class QaJsHelper extends AppHelper {
 		$this->hook('js_link_alter', $data);
 		extract($data);
 
-		return $this->CoreJs->link($title, $url, $options);
+		return parent::link($title, $url, $options);
 	}
 
 /**
@@ -160,7 +154,7 @@ class QaJsHelper extends AppHelper {
 		$this->hook('js_set_alter', $data);
 		extract($data);
 
-		return $this->CoreJs->set($one, $two);
+		return parent::set($one, $two);
 	}
 
 /**
@@ -190,6 +184,6 @@ class QaJsHelper extends AppHelper {
 		$this->hook('js_submit_alter', $data);
 		extract($data);
 
-		return $this->CoreJs->set($caption, $options);
+		return parent::set($caption, $options);
 	}
 }
