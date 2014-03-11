@@ -10,7 +10,7 @@ class QaTerm {
 			'description' => '',
 			'modified' => '1319979841',
 			'created' => '1319979841',
-			'parent_id' => '',
+			'parent_id' => '0',
 			'lft' => '1',
 			'rght' => '6'
 		),
@@ -22,7 +22,7 @@ class QaTerm {
 			'description' => '',
 			'modified' => '1319979888',
 			'created' => '1319979888',
-			'parent_id' => '',
+			'parent_id' => '0',
 			'lft' => '7',
 			'rght' => '8'
 		),
@@ -34,7 +34,7 @@ class QaTerm {
 			'description' => '',
 			'modified' => '1319979899',
 			'created' => '1319979899',
-			'parent_id' => '',
+			'parent_id' => '0',
 			'lft' => '9',
 			'rght' => '10'
 		),
