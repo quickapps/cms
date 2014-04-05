@@ -12,12 +12,12 @@
 namespace QuickApps\Utility;
 
 /**
- * DetectorRegistry is used as a registry for detector methods, also provides a few
+ * Detector Registry is used as a registry for detector methods, also provides a few
  * utility methods such as is() or addDetector().
  *
- * Detectors are simple methods aimed to answer `is X?` questions about
- * current request. For example, `is current page site's front?`, to answer this
- * you should use `page.frontpage` or `page.index` detector.
+ * Detectors are small methods aimed to answer `is X?` questions about
+ * current request. For example, the question `is current page site's front?` is handled by
+ * the `page.frontpage` (or `page.index`) detector:
  *
  *     is('page.frontpage');
  *

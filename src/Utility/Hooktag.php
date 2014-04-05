@@ -16,10 +16,11 @@ use Cake\Event\EventManager;
 use QuickApps\Utility\HookTrait;
 
 /**
- * Hooktag Registry.
+ * Provides methods for hooktag parsing.
  *
+ * Hooktags are WordPress's shorcodes equivalent for QuickAppsCMS.
  */
-class HooktagRegistry {
+class Hooktag {
 
 	use HookTrait;
 
@@ -45,7 +46,7 @@ class HooktagRegistry {
  *
  * @param string $content The content to parse
  * @param object $context The context for \Cake\Event\Event::$subject
- * @return string Orginal string modified with no hooktags [..]
+ * @return string Original string modified with no hooktags [..]
  */
 	public static function hooktags($content, $context) {
 		if (strpos($content, '[') === false) {

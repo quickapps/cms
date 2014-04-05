@@ -103,7 +103,12 @@ trait HookTrait {
  *
  *     $this->hook('MyHook', arg_0, arg_1, ..., arg_14);
  *
- * In your `Hook Listener`, you must implement the Hook name as below:
+ * Note that passing arguments as values will produce `Fatal Error`:
+ *
+ *     $this->hook('MyHook', 'data 0', 'data 1', ..., 'data 14');
+ *     // Fatal Error
+ *
+ * In your `Hook Listener` you must implement the Hook name as below:
  *
  *     // implementedEvents() should return:
  *     ['MyHook' => 'handlerMethod']
@@ -161,7 +166,7 @@ trait HookTrait {
  * @param mixed $p12 Optional argument by reference
  * @param mixed $p13 Optional argument by reference
  * @param mixed $p14 Optional argument by reference
- * @return \Cake\Event\Event
+ * @return \Cake\Event\Event The event object used
  */
 	public function event($eventName, $subject, &$p0 = null, &$p1 = null, &$p2 = null, &$p3 = null, &$p4 = null, &$p5 = null, &$p6 = null, &$p7 = null, &$p8 = null, &$p9 = null, &$p10 = null, &$p11 = null, &$p12 = null, &$p13 = null, &$p14 = null) {
 		$event = new Event($eventName, $subject);

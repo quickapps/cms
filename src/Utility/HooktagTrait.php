@@ -11,7 +11,7 @@
  */
 namespace QuickApps\Utility;
 
-use QuickApps\Utility\HooktagRegistry;
+use QuickApps\Utility\Hooktag;
 
 /**
  * Adds hooktags parsing functionality to any object.
@@ -51,7 +51,7 @@ trait HooktagTrait {
  *
  *     [some_hooktag Foo="bAr"]
  *
- * produces:
+ * Produces:
  *
  *     $atts = ['foo' => 'bAr'];
  *
@@ -69,11 +69,11 @@ trait HooktagTrait {
  *
  * The hooktag name. i.e.: `some_hooktag`
  *
- * @param string $content The the to parse
+ * @param string $content The the text to parse
  * @return string Orginal string modified with no hooktags [..]
  */
 	public function hooktags($content) {
-		return HooktagRegistry::hooktags($content, $this);
+		return Hooktag::hooktags($content, $this);
 	}
 
 }

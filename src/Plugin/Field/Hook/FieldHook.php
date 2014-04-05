@@ -63,7 +63,8 @@ class FieldHook implements EventListener {
 			'ObjectRender.Field\Model\Entity\Field' => [
 				'callable' => 'renderField',
 				'priority' => -1
-			]
+			],
+			'Field.info' => 'listFields',
 		];
 	}
 
@@ -82,6 +83,58 @@ class FieldHook implements EventListener {
 		$event->stopPropagation(); // We don't want other plugins to catch this
 
 		return (string)$renderFieldHook->result;
+	}
+
+/**
+ * Gets a list of information for every registered field in the system.
+ *
+ * **Example:**
+ *
+ * Using `$this->hook('Field.info', true)` may produce something like:
+ *
+ *     array(
+ *         [0] => array(
+ *             'name' => 'Textarea',
+ *             'description' => 'Allows to store long texts',
+ *             'hidden' => false
+ *         ),
+ *         [1] => array(
+ *             'name' => 'Secret Field',
+ *             'description' => 'This field should only be used internally by plugins',
+ *             'hidden' => true
+ *         )
+ *     )
+ *
+ * Some fields may register themselves as hidden when they are intended to be used
+ * exclusively by plugins. So users can not `attach` them to entities using Field UI.
+ *
+ * @param \Cake\Event\Event $event The hook event
+ * @param boolean $includeHidden Set to true t include fields marked as hidden
+ * @return array List of fields
+ */
+	public function listFields(Event $event, $includeHidden = false) {
+		$fields = [];
+		$EventManager = EventManager::instance();
+
+		foreach (\Cake\Core\Configure::read('QuickApps._snapshot.fields') as $plugin => $fields) {
+			foreach ($fields as $field) {
+				$event = new \Cake\Event\Event("{$field['className']}.Instance.info", null, null);
+				$EventManager->dispatch($event);
+				$response = (array)$event->result;
+				$response += ['name' => null, 'description' => null, 'hidden' => false];
+
+				if ($response['name'] && $response['description']) {
+					if (
+						!$response['hidden'] ||
+						($response['hidden'] && $includeHidden)
+					) {
+						$fields[] = $response;
+					}
+				}
+			}
+		}
+
+		return $fields;
 	}
 
 }

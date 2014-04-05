@@ -11,8 +11,8 @@
  */
 namespace Field;
 
-use \Cake\Event\Event;
-use \Cake\Event\EventListener;
+use Cake\Event\Event;
+use Cake\Event\EventListener;
 
 /**
  * Text Field Handler.

@@ -41,6 +41,9 @@ use Cake\Network\Session;
  *    flash.danger
  *        - even more
  *        - and more
+ *    ...
+ *    <group>.<class>
+ *        - message ...
  *
  * As we mention, `flash` is the default group, but you are able to define your own.
  * For example, in your controller:
@@ -72,12 +75,6 @@ trait AlertTrait {
 
 /**
  * Sets a notification message.
- *
- * Alert messages can be grouped, so for example, you can define
- * a few messages that would be rendered (using `View::alerts()`) only
- * by a specific plugin.
- *
- * By default all alert messages are created under the `flash` group.
  *
  * @param string $message Your notification message
  * @param string $class Type of message (success, info, warning or danger), `success` by default
@@ -157,31 +154,27 @@ trait AlertTrait {
  * When using this method as part of the view-rendering cycle (view, layouts, etc),
  * each messages is rendered using the `render_alert.ctp` view element.
  *
- * You are able to render:
- *
- * - All the alerts of a single class.
- * - All the available alerts of a group.
- * - All alerts of a given list of classes.
- *
  * Example:
  *
- *     // this will render all defined alerts (danger, success, etc)
+ *     // this will render all defined alerts (danger, success, etc), for group 'flash' *
  *     echo $this->alerts();
  *
- *     // this will render success alerts only
+ *     // this will render success alerts only, for group 'flash'
  *     echo $this->alerts('success');
  *     // or:
  *     echo $this->alerts(['success']);
  *
- *     // this will render success and info alerts (in order)
+ *     // this will render success and info alerts (in order), for group 'flash'
  *     echo $this->alerts(['success', 'info']);
+ *
+ * * The second argument (group name) value is `flash` by default.
  *
  * ## Using this method in non-View Classes
  *
  * Similar to the "in-view class usage" described above but for class that are not View classes such
  * as Controllers, Components, Models, etc.
  * In this case, instead of returning an HTML of each rendered message, you will get an array list of messages.
- * Note that **after array list is returned messages are automatically destroyed**.
+ * Note that **after this array list is returned messages are automatically destroyed**.
  *
  * Example:
  *
@@ -199,7 +192,7 @@ trait AlertTrait {
  *     ]
  *
  * Following this example. Using this method right after the first call,
- * you'll get an empty array as messages are destroyed on the first call:
+ * will return an empty array as messages are destroyed at the first call:
  *
  *     $this->alerts(['success', 'info']);
  *     // returns: []

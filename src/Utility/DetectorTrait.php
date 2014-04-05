@@ -53,7 +53,7 @@ trait DetectorTrait {
  * @param string $name Name of the checker. e.g. `theme.core` (checks if in use theme is a core theme)
  * @param object $callable Callable function for handling your checker.
  * @return void
- * @see QuickApps\Utility\DetectorRegistry::addDetector()
+ * @see \QuickApps\Utility\DetectorRegistry::addDetector()
  */
 	public function addDetector($name, $callable) {
 		return DetectorRegistry::addDetector($name, $callable);
@@ -63,7 +63,7 @@ trait DetectorTrait {
  * Returns a list of all defined detectors.
  *
  * @return array
- * @see QuickApps\Utility\DetectorRegistry::detectors()
+ * @see \QuickApps\Utility\DetectorRegistry::detectors()
  */
 	public function detectors() {
 		return DetectorRegistry::detectors();

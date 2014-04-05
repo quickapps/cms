@@ -14,7 +14,7 @@ namespace QuickApps\Utility;
 use QuickApps\Utility\ViewModeRegistry;
 
 /**
- * Provides methods for handling ViewModeRegistry.
+ * Provides methods for handling switching view mode.
  *
  */
 trait ViewModeTrait {

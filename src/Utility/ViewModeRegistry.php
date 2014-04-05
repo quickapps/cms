@@ -41,6 +41,8 @@ class ViewModeRegistry {
  * Marks as "in use" the given view mode.
  *
  * The given view mode must be registered first using `registerViewMode`.
+ * If you try to switch to an unexisting (unregistered) view mode this
+ * method will throw an error.
  *
  * @param string $slug
  * @return void
