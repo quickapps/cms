@@ -15,7 +15,6 @@ use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\View\View as CakeView;
-use QuickApps\Utility\AlertTrait;
 use QuickApps\Utility\DetectorTrait;
 use QuickApps\Utility\HooktagTrait;
 use QuickApps\Utility\HookTrait;
@@ -29,7 +28,6 @@ use QuickApps\Utility\ViewModeTrait;
  */
 class View extends CakeView {
 
-	use AlertTrait;
 	use DetectorTrait;
 	use HooktagTrait;
 	use HookTrait;
