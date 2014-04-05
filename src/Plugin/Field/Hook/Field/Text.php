@@ -80,7 +80,7 @@ class Text implements EventListener {
  * @param array $options Additional array of options
  * @return string HTML representation of this field
  */
-	public function display(Event $event, &$field, &$options = []) {
+	public function display(Event $event, $field, $options = []) {
 		$View = $event->subject;
 		return $View->element('Field.text_field_display', compact('field', 'options'));
 	}
@@ -93,7 +93,7 @@ class Text implements EventListener {
  * @param array $options
  * @return string HTML containing from elements
  */
-	public function edit(Event $event, &$field, &$options = []) {
+	public function edit(Event $event, $field, $options = []) {
 		$View = $event->subject;
 		return $View->element('Field.text_field_edit', compact('field', 'options'));
 	}
@@ -109,7 +109,7 @@ class Text implements EventListener {
  * @param array $options
  * @return string HTML
  */
-    public function formatter(Event $event, &$field, &$options = []) {
+    public function formatter(Event $event, $field, $options = []) {
 		$View = $event->subject;
         return $View->element('Field.text_field_formatter', compact('field', 'options'));
     }
@@ -124,7 +124,7 @@ class Text implements EventListener {
  * @param array $options
  * @return string HTML form elements for the settings page
  */
-	public function settings(Event $event, &$field, &$options = []) {
+	public function settings(Event $event, $field, $options = []) {
 		$View = $event->subject;
 		return $View->element('Field.text_field_settings', compact('field', 'options'));
 	}
@@ -142,7 +142,7 @@ class Text implements EventListener {
  * @param array $options
  * @return void
  */
-	public function beforeSave(Event $event, &$field, &$options) {
+	public function beforeSave(Event $event, $field, $options) {
 		$field->set('value', $options['post']);
 	}
 
@@ -155,7 +155,7 @@ class Text implements EventListener {
  * @param Validator $validator [description]
  * @return boolean False will halt the save process
  */
-	public function beforeValidate(Event $event, &$field, &$options, &$validator) {
+	public function beforeValidate(Event $event, $field, $options, $validator) {
 		return true;
 	}
 
@@ -168,7 +168,7 @@ class Text implements EventListener {
  * @param Validator $validator [description]
  * @return boolean False will halt the save process
  */
-	public function afterValidate(Event $event, &$field, &$options, &$validator) {
+	public function afterValidate(Event $event, $field, $options, $validator) {
 		return true;
 	}
 
@@ -180,7 +180,7 @@ class Text implements EventListener {
  * @param array $options
  * @return boolean False will halt the delete process
  */
-	public function beforeDelete(Event $event, &$field, &$options) {
+	public function beforeDelete(Event $event, $field, $options) {
 		return true;
 	}
 
@@ -192,7 +192,7 @@ class Text implements EventListener {
  * @param array $options
  * @return void
  */
-	public function afterDelete(Event $event, &$field, &$options) {
+	public function afterDelete(Event $event, $field, $options) {
 		return;
 	}
 
@@ -204,7 +204,7 @@ class Text implements EventListener {
  * @param \Cake\ORM\Table $table The table which $field is being attached to
  * @return boolean False will halt the attach process
  */
-	public function beforeAttach(Event $event, &$field, &$table) {
+	public function beforeAttach(Event $event, $field, $table) {
 		return true;
 	}
 

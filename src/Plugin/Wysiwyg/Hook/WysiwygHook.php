@@ -35,14 +35,14 @@ class WysiwygHook implements EventListener {
  */
 	public function implementedEvents() {
 		return [
-			'FormHelper.textarea' => 'alterTextarea',
+			'Alter.FormHelper.textarea' => 'alterTextarea',
 		];
 	}
 
 /**
  * Converts the given text area into a wysiwyg editor.
  *
- * @param Event  $event
+ * @param \Cake\Event\Event $event
  * @param string $fieldName
  * @param array $options
  * @return void

@@ -48,12 +48,12 @@ class TwitterBootstrapHook implements EventListener {
  */
 	public function implementedEvents() {
 		return [
-			'FormHelper.create' => 'alterFormCreate',
-			'FormHelper.input' => 'alterFormInput',
-			'FormHelper.textarea' => 'alterFormTextarea',
-			'FormHelper.select' => 'alterFormSelect',
-			'FormHelper.button' => 'alterFormButton',
-			'FormHelper.submit' => 'alterFormSubmit',
+			'Alter.FormHelper.create' => 'alterFormCreate',
+			'Alter.FormHelper.input' => 'alterFormInput',
+			'Alter.FormHelper.textarea' => 'alterFormTextarea',
+			'Alter.FormHelper.select' => 'alterFormSelect',
+			'Alter.FormHelper.button' => 'alterFormButton',
+			'Alter.FormHelper.submit' => 'alterFormSubmit',
 		];
 	}
 

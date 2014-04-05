@@ -64,7 +64,7 @@ class FieldHook implements EventListener {
 				'callable' => 'renderField',
 				'priority' => -1
 			],
-			'Field.info' => 'listFields',
+			'Hook.Field.info' => 'listFields',
 		];
 	}
 
@@ -77,9 +77,9 @@ class FieldHook implements EventListener {
  * @param array $options Additional array of options
  * @return string The rendered field
  */
-	public function renderField(Event $event, &$field, &$options = []) {
+	public function renderField(Event $event, $field, $options = []) {
 		$options = array_merge(['edit' => false], $options);
-		$renderFieldHook = $this->event("Field.{$field->metadata['handler']}.Entity.display", $event->subject, $field, $options);
+		$renderFieldHook = $this->invoke("Field.{$field->metadata['handler']}.Entity.display", $event->subject, $field, $options);
 		$event->stopPropagation(); // We don't want other plugins to catch this
 
 		return (string)$renderFieldHook->result;

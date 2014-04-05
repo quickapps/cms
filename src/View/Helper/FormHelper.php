@@ -38,7 +38,7 @@ class FormHelper extends CakeFormHelper {
  * @return \Cake\View\Widget\WidgetRegistry
  */
 	public function widgetRegistry(WidgetRegistry $instance = null, $widgets = []) {
-		$this->hook('FormHelper.widgetRegistry', $instance, $widgets);
+		$this->alter('FormHelper.widgetRegistry', $instance, $widgets);
 
 		return parent::widgetRegistry($instance, $widgets);
 	}
@@ -53,7 +53,7 @@ class FormHelper extends CakeFormHelper {
  * @return string An formatted opening FORM tag.
  */
 	public function create($model = null, $options = []) {
-		$this->hook('FormHelper.create', $model, $options);
+		$this->alter('FormHelper.create', $model, $options);
 
 		return parent::create($model, $options);
 	}
@@ -66,7 +66,7 @@ class FormHelper extends CakeFormHelper {
  * @return string A closing FORM tag.
  */
 	public function end($secureAttributes = []) {
-		$this->hook('FormHelper.end', $secureAttributes);
+		$this->alter('FormHelper.end', $secureAttributes);
 
 		return parent::end($secureAttributes);
 	}
@@ -81,7 +81,7 @@ class FormHelper extends CakeFormHelper {
  * @return string A hidden input field with a security hash
  */
 	public function secure($fields = array(), $secureAttributes = array()) {
-		$this->hook('FormHelper.secure', $fields, $secureAttributes);
+		$this->alter('FormHelper.secure', $fields, $secureAttributes);
 
 		return parent::secure($fields, $secureAttributes);
 	}
@@ -93,7 +93,7 @@ class FormHelper extends CakeFormHelper {
  * @return mixed Either null, or the list of fields.
  */
 	public function unlockField($name = null) {
-		$this->hook('FormHelper.unlockField', $name);
+		$this->alter('FormHelper.unlockField', $name);
 
 		return parent::unlockField($name);
 	}
@@ -105,7 +105,7 @@ class FormHelper extends CakeFormHelper {
  * @return boolean If there are errors this method returns true, else false.
  */
 	public function isFieldError($field) {
-		$this->hook('FormHelper.isFieldError', $field);
+		$this->alter('FormHelper.isFieldError', $field);
 
 		return parent::isFieldError($field);
 	}
@@ -120,7 +120,7 @@ class FormHelper extends CakeFormHelper {
  * @return string Formatted errors or ''.
  */
 	public function error($field, $text = null, $options = []) {
-		$this->hook('FormHelper.error', $field, $text, $options);
+		$this->alter('FormHelper.error', $field, $text, $options);
 
 		return parent::error($field, $text, $options);
 	}
@@ -136,7 +136,7 @@ class FormHelper extends CakeFormHelper {
  * @return string The formatted LABEL element
  */
 	public function label($fieldName, $text = null, $options = array()) {
-		$this->hook('FormHelper.label', $fieldName, $text, $options);
+		$this->alter('FormHelper.label', $fieldName, $text, $options);
 
 		return parent::label($fieldName, $text, $options);
 	}
@@ -154,7 +154,7 @@ class FormHelper extends CakeFormHelper {
  * @return string Completed form inputs.
  */
 	public function inputs($fields = null, $blacklist = null, $options = array()) {
-		$this->hook('FormHelper.inputs', $fields, $blacklist, $options);
+		$this->alter('FormHelper.inputs', $fields, $blacklist, $options);
 
 		return parent::inputs($fields, $blacklist, $options);
 	}
@@ -183,7 +183,7 @@ class FormHelper extends CakeFormHelper {
 			}
 		}
 
-		$this->hook('FormHelper.input', $fieldName, $options);
+		$this->alter('FormHelper.input', $fieldName, $options);
 		return parent::input($fieldName, $options);
 	}
 
@@ -195,7 +195,7 @@ class FormHelper extends CakeFormHelper {
  * @return string An HTML text input element.
  */
 	public function checkbox($fieldName, $options = []) {
-		$this->hook('FormHelper.checkbox', $fieldName, $options);
+		$this->alter('FormHelper.checkbox', $fieldName, $options);
 
 		return parent::checkbox($fieldName, $options);
 	}
@@ -209,7 +209,7 @@ class FormHelper extends CakeFormHelper {
  * @return string Completed radio widget set.
  */
 	public function radio($fieldName, $options = [], $attributes = []) {
-		$this->hook('FormHelper.radio', $fieldName, $options, $attributes);
+		$this->alter('FormHelper.radio', $fieldName, $options, $attributes);
 
 		return parent::radio($fieldName, $options, $attributes);
 	}
@@ -234,7 +234,7 @@ class FormHelper extends CakeFormHelper {
  * @return string A generated HTML text input element
  */
 	public function textarea($fieldName, $options = array()) {
-		$this->hook('FormHelper.textarea', $fieldName, $options);
+		$this->alter('FormHelper.textarea', $fieldName, $options);
 
 		return parent::textarea($fieldName, $options);
 	}
@@ -247,7 +247,7 @@ class FormHelper extends CakeFormHelper {
  * @return string A generated hidden input
  */
 	public function hidden($fieldName, $options = array()) {
-		$this->hook('FormHelper.hidden', $fieldName, $options);
+		$this->alter('FormHelper.hidden', $fieldName, $options);
 
 		return parent::hidden($fieldName, $options);
 	}
@@ -260,7 +260,7 @@ class FormHelper extends CakeFormHelper {
  * @return string A generated file input.
  */
 	public function file($fieldName, $options = array()) {
-		$this->hook('FormHelper.file', $fieldName, $options);
+		$this->alter('FormHelper.file', $fieldName, $options);
 
 		return parent::file($fieldName, $options);
 	}
@@ -273,7 +273,7 @@ class FormHelper extends CakeFormHelper {
  * @return string A HTML button tag.
  */
 	public function button($title, $options = array()) {
-		$this->hook('FormHelper.button', $title, $options);
+		$this->alter('FormHelper.button', $title, $options);
 
 		return parent::button($title, $options);
 	}
@@ -287,7 +287,7 @@ class FormHelper extends CakeFormHelper {
  * @return string A HTML button tag.
  */
 	public function postButton($title, $url, $options = array()) {
-		$this->hook('FormHelper.postButton', $title, $url, $options);
+		$this->alter('FormHelper.postButton', $title, $url, $options);
 
 		return parent::postButton($title, $url, $options);
 	}
@@ -302,7 +302,7 @@ class FormHelper extends CakeFormHelper {
  * @return string An `<a />` element.
  */
 	public function postLink($title, $url = null, $options = array(), $confirmMessage = false) {
-		$this->hook('FormHelper.postLink', $title, $url, $options, $confirmMessage);
+		$this->alter('FormHelper.postLink', $title, $url, $options, $confirmMessage);
 
 		return parent::postLink($title, $url, $options, $confirmMessage);
 	}
@@ -318,7 +318,7 @@ class FormHelper extends CakeFormHelper {
  * @return string A HTML submit button
  */
 	public function submit($caption = null, $options = []) {
-		$this->hook('FormHelper.submit', $caption, $options);
+		$this->alter('FormHelper.submit', $caption, $options);
 
 		return parent::submit($caption, $options);
 	}
@@ -333,7 +333,7 @@ class FormHelper extends CakeFormHelper {
  * @return string Formatted SELECT element
  */
 	public function select($fieldName, $options = [], $attributes = []) {
-		$this->hook('FormHelper.select', $fieldName, $options, $attributes);
+		$this->alter('FormHelper.select', $fieldName, $options, $attributes);
 
 		return parent::select($fieldName, $options, $attributes);
 	}
@@ -348,7 +348,7 @@ class FormHelper extends CakeFormHelper {
  * @return string Formatted SELECT element
  */
 	public function multiCheckbox($fieldName, $options, $attributes = []) {
-		$this->hook('FormHelper.multiCheckbox', $fieldName, $options, $attributes);
+		$this->alter('FormHelper.multiCheckbox', $fieldName, $options, $attributes);
 
 		return parent::multiCheckbox($fieldName, $options, $attributes);
 	}
@@ -361,7 +361,7 @@ class FormHelper extends CakeFormHelper {
  * @return string A generated day select box.
  */
 	public function day($fieldName = null, $options = []) {
-		$this->hook('FormHelper.day', $fieldName, $options);
+		$this->alter('FormHelper.day', $fieldName, $options);
 
 		return parent::day($fieldName, $options);
 	}
@@ -374,7 +374,7 @@ class FormHelper extends CakeFormHelper {
  * @return string Completed year select input
  */
 	public function year($fieldName, $options = []) {
-		$this->hook('FormHelper.widgetRegistry', $fieldName, $options);
+		$this->alter('FormHelper.widgetRegistry', $fieldName, $options);
 
 		return parent::widgetRegistry($instance, $widgets);
 	}
@@ -387,7 +387,7 @@ class FormHelper extends CakeFormHelper {
  * @return string A generated month select dropdown.
  */
 	public function month($fieldName, $options = array()) {
-		$this->hook('FormHelper.month', $fieldName, $options);
+		$this->alter('FormHelper.month', $fieldName, $options);
 
 		return parent::month($fieldName, $options);
 	}
@@ -400,7 +400,7 @@ class FormHelper extends CakeFormHelper {
  * @return string Completed hour select input
  */
 	public function hour($fieldName, $options = []) {
-		$this->hook('FormHelper.hour', $fieldName, $options);
+		$this->alter('FormHelper.hour', $fieldName, $options);
 
 		return parent::hour($fieldName, $options);
 	}
@@ -413,7 +413,7 @@ class FormHelper extends CakeFormHelper {
  * @return string Completed minute select input.
  */
 	public function minute($fieldName, $options = []) {
-		$this->hook('FormHelper.minute', $fieldName, $options);
+		$this->alter('FormHelper.minute', $fieldName, $options);
 
 		return parent::minute($fieldName, $options);
 	}
@@ -426,7 +426,7 @@ class FormHelper extends CakeFormHelper {
  * @return string Completed meridian select input
  */
 	public function meridian($fieldName, $options = array()) {
-		$this->hook('FormHelper.meridian', $fieldName, $options);
+		$this->alter('FormHelper.meridian', $fieldName, $options);
 
 		return parent::meridian($fieldName, $options);
 	}
@@ -440,7 +440,7 @@ class FormHelper extends CakeFormHelper {
  * @return string Generated set of select boxes for the date and time formats chosen.
  */
 	public function dateTime($fieldName, $options = array()) {
-		$this->hook('FormHelper.dateTime', $fieldName, $options);
+		$this->alter('FormHelper.dateTime', $fieldName, $options);
 
 		return parent::dateTime($fieldName, $options);
 	}
@@ -453,7 +453,7 @@ class FormHelper extends CakeFormHelper {
  * @return string A generated day select box.
  */
 	public function time($fieldName, $options = []) {
-		$this->hook('FormHelper.time', $fieldName, $options);
+		$this->alter('FormHelper.time', $fieldName, $options);
 
 		return parent::time($fieldName, $options);
 	}
@@ -466,7 +466,7 @@ class FormHelper extends CakeFormHelper {
  * @return string Generated set of select boxes for time formats chosen.
  */
 	public function date($fieldName, $options = []) {
-		$this->hook('FormHelper.date', $fieldName, $options);
+		$this->alter('FormHelper.date', $fieldName, $options);
 
 		return parent::date($fieldName, $options);
 	}
@@ -481,7 +481,7 @@ class FormHelper extends CakeFormHelper {
  * @return void
  */
 	public function addContextProvider($type, callable $check) {
-		$this->hook('FormHelper.addContextProvider', $name, $check);
+		$this->alter('FormHelper.addContextProvider', $name, $check);
 
 		return parent::addContextProvider($name, $check);
 	}
@@ -492,7 +492,7 @@ class FormHelper extends CakeFormHelper {
  * @return null|\Cake\View\Form\ContextInterface The context for the form.
  */
 	public function context() {
-		$this->hook('FormHelper.context');
+		$this->alter('FormHelper.context');
 
 		return parent::context();
 	}
@@ -506,7 +506,7 @@ class FormHelper extends CakeFormHelper {
  * @return void
  */
 	public function addWidget($name, $spec) {
-		$this->hook('FormHelper.addWidget', $name, $spec);
+		$this->alter('FormHelper.addWidget', $name, $spec);
 
 		return parent::addWidget($name, $spec);
 	}
@@ -519,7 +519,7 @@ class FormHelper extends CakeFormHelper {
  * @return void
  */
 	public function widget($name, array $data = []) {
-		$this->hook('FormHelper.widget', $name, $data);
+		$this->alter('FormHelper.widget', $name, $data);
 
 		return parent::widget($name, $data);
 	}
@@ -530,7 +530,7 @@ class FormHelper extends CakeFormHelper {
  * @return void
  */
 	public function resetTemplates() {
-		$this->hook('FormHelper.resetTemplates');
+		$this->alter('FormHelper.resetTemplates');
 
 		return parent::resetTemplates();
 	}
