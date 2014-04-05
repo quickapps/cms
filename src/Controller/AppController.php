@@ -58,6 +58,7 @@ class AppController extends \Cake\Controller\Controller {
 	public $helpers = [
 		'Html' => ['className' => 'QuickApps\View\Helper\HtmlHelper'],
 		'Form' => ['className' => 'QuickApps\View\Helper\FormHelper'],
+		'Menu' => ['className' => 'Menu\View\Helper\MenuHelper'],
 	];
 
 /**
