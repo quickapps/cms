@@ -1,0 +1,162 @@
+<?php
+/**
+ * Licensed under The GPL-3.0 License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @since	 2.0.0
+ * @author	 Christopher Castro <chris@quickapps.es>
+ * @link	 http://www.quickappscms.org
+ * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
+ */
+namespace Hook;
+
+use Cake\Event\Event;
+use Cake\Event\EventListener;
+
+/**
+ * Main Hook Listener for System plugin.
+ *
+ */
+class SystemHook implements EventListener {
+
+/**
+ * Returns a list of hooks this Hook Listener is implementing. When the class is registered
+ * in an event manager, each individual method will be associated with the respective event.
+ *
+ * @return void
+ */
+	public function implementedEvents() {
+		return [
+			'Hooktag.random' => 'hooktagRandom',
+			'Hooktag.t' => 'hooktagTranslate',
+			'Hooktag.url' => 'hooktagURL',
+			'Hooktag.date' => 'hooktagDate',
+			'Hooktag.locale' => 'hooktagLocale',
+		];
+	}
+
+/**
+ * Implements the "random" hooktag.
+ *
+ *     [random]1,2,3[/random]
+ *
+ * @param \Cake\Event\Event $event The event that was fired
+ * @param array $atts An associative array of attributes, or an empty string if no attributes are given
+ * @param string $content The enclosed content (if the hooktag is used in its enclosing form)
+ * @param string $tag The hooktag tag
+ * @return string
+ */
+	public function hooktagRandom(Event $event, $atts, $content, $tag) {
+		$elements = explode(',', $event->data['content']);
+
+		if ($elements) {
+		return $elements[array_rand($elements)];
+		}
+
+		return '';
+	}
+
+/**
+ * Implements the "t" hooktag.
+ *
+ *     [t]Text for translate[/t]
+ *
+ * @param \Cake\Event\Event $event The event that was fired
+ * @param array $atts An associative array of attributes, or an empty string if no attributes are given
+ * @param string $content The enclosed content (if the hooktag is used in its enclosing form)
+ * @param string $tag The hooktag tag
+ * @return string
+ */
+	public function hooktagTranslate(Event $event, $atts, $content, $tag) {
+		if (!empty($atts['domain'])) {
+			return __d($atts['domain'], $content);
+		} else {
+			return __d('default', $content);
+		}
+	}
+
+/**
+ * Implements the "url" hooktag.
+ *
+ *     [url]/some/url/on/my/site[/url]
+ *
+ * @param \Cake\Event\Event $event The event that was fired
+ * @param array $atts An associative array of attributes, or an empty string if no attributes are given
+ * @param string $content The enclosed content (if the hooktag is used in its enclosing form)
+ * @param string $tag The hooktag tag
+ * @return string
+ */
+	public function hooktagURL(Event $event, $atts, $content, $tag) {
+		return \Cake\Routing\Router::url($content, true);
+	}
+
+/**
+ * Implements the "date" hooktag.
+ *
+ *     [date format=d-m-Y]2014-05-06[/date]
+ *
+ * @param \Cake\Event\Event $event The event that was fired
+ * @param array $atts An associative array of attributes, or an empty string if no attributes are given
+ * @param string $content The enclosed content (if the hooktag is used in its enclosing form)
+ * @param string $tag The hooktag tag
+ * @return string
+ */
+	public function hooktagDate(Event $event, $atts, $content, $tag) {
+		if (!empty($atts['format']) && !empty($content)) {
+			if (is_numeric($content)) {
+				return date($atts['format'], $content);
+			} else {
+				return date($atts['format'], strtotime($content));
+			}
+		}
+
+		return '';
+	}
+
+/**
+ * Implements the "locale" hooktag.
+ *
+ *     [locale code /]
+ *     [locale name /]
+ *     [locale native /]
+ *     [locale direction /]
+ *
+ * @param \Cake\Event\Event $event The event that was fired
+ * @param array $atts An associative array of attributes, or an empty string if no attributes are given
+ * @param string $content The enclosed content (if the hooktag is used in its enclosing form)
+ * @param string $tag The hooktag tag
+ * @return string
+ */
+	public function hooktagLocale(Event $event, $atts, $content, $tag) {
+		$option = array_keys((array)$atts);
+
+		if (empty($option)) {
+			$option = 'code';
+		} else {
+			$option = $option[0];
+		}
+
+		// TODO: locale hooktag
+		switch ($option) {
+			case 'code':
+				return '';
+			break;
+
+			case 'name':
+				return '';
+			break;
+
+			case 'native':
+				return '';
+			break;
+
+			case 'direction':
+				return '';
+			break;
+		}
+
+		return '';
+	}
+
+}

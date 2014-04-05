@@ -1,0 +1,19 @@
+{
+	"Datasources": {
+		"default": {
+			"className": "Cake\\Database\\Connection",
+			"driver": "Cake\\Database\\Driver\\MySQL",
+			"persistent": false,
+			"host": "localhost",
+			"login": "root",
+			"password": "",
+			"database": "quickappscms",
+			"prefix": false,
+			"encoding": "utf8"
+		}
+	},
+	"Security": {
+		"salt": "MyRandomString"
+	},
+	"debug": 2
+}

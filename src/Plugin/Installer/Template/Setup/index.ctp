@@ -1,0 +1,1 @@
+<?php echo $this->Html->link('LINK TEST', ['plugin' => 'node', 'controller' => 'main']); ?>

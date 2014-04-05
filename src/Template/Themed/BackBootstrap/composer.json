@@ -1,0 +1,23 @@
+{
+	"name": "quickapps/back-bootstrap",
+	"description": "QuickApps CMS backend default theme based on Twitter Bootstrap.",
+	"type": "library",
+	"keywords": ["framework", "cms", "cmf", "quickapps"],
+	"homepage": "http://quickappscms.org",
+	"license": "GPL-3.0",
+	"authors": [
+		{"name": "Christopher Castro", "email": "chris@quickapps.es"}
+	],
+	"minimum-stability": "dev",
+	"require": {
+        "php": ">=5.4",
+        "quickapps/cms": "2.0.*-dev"
+    },
+	"extra": {
+		"admin": true,
+		"regions": {
+			"help": "Help",
+			"main-menu": "Main Menu"
+		}
+	}
+}

@@ -1,0 +1,5232 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2012-04-30 23:19+0000\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Gabri <sheepinside@yahoo.com>\n"
+"Language-Team: Italian QACMS team <sheepinside@yahoo.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: Controller\InstallController.php:113
+msgid "Your php version is not supported. check that your version is 5.2.8 or newer."
+msgstr "La tua versione di php non è supportata. Controlla che sia la 5.2.8 o successiva."
+
+#: Controller\InstallController.php:117
+msgid "MySQL extension is not loaded on your server."
+msgstr "L'estensione MySql non è caricata sul tuo server."
+
+#: Controller\InstallController.php:121
+msgid "Your server has SafeMode on, please turn it off before continuing."
+msgstr "Il tuo server ha il SafeMode attivo, disattivalo prima di continuare."
+
+#: Controller\InstallController.php:125
+msgid "tmp folder is not writable."
+msgstr "La cartella tmp non è scrivibile."
+
+#: Controller\InstallController.php:129
+msgid "tmp/cache folder is not writable."
+msgstr "La cartella tmp/cache non è scrivibile."
+
+#: Controller\InstallController.php:133
+msgid "tmp/cache/installer folder is not writable."
+msgstr "La cartella tmp/cache/installer non è scrivibile."
+
+#: Controller\InstallController.php:137
+msgid "tmp/cache/models folder is not writable."
+msgstr "La cartella tmp/cache/models non è scrivibile."
+
+#: Controller\InstallController.php:141
+msgid "tmp/cache/persistent folder is not writable."
+msgstr "La cartella tmp/cache/persistent non è scrivibile."
+
+#: Controller\InstallController.php:145
+msgid "tmp/cache/i18n folder is not writable."
+msgstr "La cartella tmp/cache/i18n non è scrivibile."
+
+#: Controller\InstallController.php:149
+msgid "Config folder is not writable."
+msgstr "La cartella Config non è scrivibile."
+
+#: Controller\InstallController.php:153
+msgid "Config/core.php file is not writable."
+msgstr "File \"Config/core.php\" non è scrivibile"
+
+#: Controller\InstallController.php:199
+msgid "Could not connect to database."
+msgstr "Impossibile connettersi al database."
+
+#: Controller\InstallController.php:218
+#, fuzzy
+msgid "A previous installation of QuickApps CMS already exists, please drop your database or change the prefix."
+msgstr "Un database QuickApps CMS esiste già, cancellalo or cambia il prefisso."
+
+#: Controller\InstallController.php:270
+msgid "Could not dump database."
+msgstr "Impossibile fare il dump del database."
+
+#: Controller\InstallController.php:273
+msgid "Could not write database.php file."
+msgstr "Impossibile scrivere il file database.php"
+
+#: Controller\InstallController.php:313
+msgid "Could not create new user, please try again."
+msgstr "Impossibile creare un nuovo utente, ritenta."
+
+#: Controller\InstallController.php:340
+msgid "Could not write 'install' file. Check file/folder permissions and refresh this page."
+msgstr "Impossibile scrivere il file 'install'. Controlla i permessi dei file/cartelle e ricarica questa pagina."
+
+#: Controller\Component\InstallerComponent.php:105
+msgid "Could not download package file."
+msgstr "Impossibile scaricare il package file."
+
+#: Controller\Component\InstallerComponent.php:125
+msgid "Package upload error."
+msgstr "Errore nel caricamento del pacchetto"
+
+#: Controller\Component\InstallerComponent.php:139
+msgid "Unzip error."
+msgstr "Errore nel decomprimere."
+
+#: Controller\Component\InstallerComponent.php:159
+msgid "Invalid package structure after unzip."
+msgstr "Struttura del pacchetto non valida dopo aver decompresso."
+
+#: Controller\Component\InstallerComponent.php:175
+msgid "Forbidden Names"
+msgstr "Nomi proibiti"
+
+#: Controller\Component\InstallerComponent.php:176
+msgid "Forbidden module name \"%s\""
+msgstr "Nome modulo \"%s\" non ammesso"
+
+#: Controller\Component\InstallerComponent.php:180;233
+msgid "Theme name"
+msgstr "Nome tema"
+
+#: Controller\Component\InstallerComponent.php:181
+msgid "Invalid module name (got \"%s\", expected: \"%s\")"
+msgstr "Nome modulo non valido (ottenuto \"%s\", atteso: \"%s\")"
+
+#: Controller\Component\InstallerComponent.php:188
+msgid "Already installed"
+msgstr "Già Installato"
+
+#: Controller\Component\InstallerComponent.php:189
+msgid "This module is already installed"
+msgstr "Questo modulo è già installato"
+
+#: Controller\Component\InstallerComponent.php:193;261
+msgid "Config Folder"
+msgstr "Cartella Config"
+
+#: Controller\Component\InstallerComponent.php:194;262
+msgid "\"Config\" folder not found"
+msgstr "Cartella \"Config\" non trovata"
+
+#: Controller\Component\InstallerComponent.php:198;266
+msgid "Bootstrap File"
+msgstr "File di Bootstrap"
+
+#: Controller\Component\InstallerComponent.php:199;267
+msgid "\"Config/bootstrap.php\" file not found"
+msgstr "File \"Config/bootstrap.php\" non trovato"
+
+#: Controller\Component\InstallerComponent.php:203;271
+msgid "Routes File"
+msgstr "File Routes"
+
+#: Controller\Component\InstallerComponent.php:204;272
+msgid "\"Config/routes.php\" file not found"
+msgstr "File \"Config/routes.php\" non trovato"
+
+#: Controller\Component\InstallerComponent.php:208
+msgid "Controller Folder"
+msgstr "Cartella Controller"
+
+#: Controller\Component\InstallerComponent.php:209
+msgid "\"Controller\" folder not found"
+msgstr "Cartella \"Controller\" non trovata"
+
+#: Controller\Component\InstallerComponent.php:213
+msgid "Component Folder"
+msgstr "Cartella Component"
+
+#: Controller\Component\InstallerComponent.php:214
+msgid "\"Component\" folder not found"
+msgstr "Cartella \"Component\" non trovata"
+
+#: Controller\Component\InstallerComponent.php:218;276
+msgid "Installer File"
+msgstr "File Installer"
+
+#: Controller\Component\InstallerComponent.php:219;277
+msgid "Installer file (InstallComponent.php) not found"
+msgstr "File di installazione (InstallComponent.php) non trovato"
+
+#: Controller\Component\InstallerComponent.php:223;286
+msgid "YAML File"
+msgstr "File YAML"
+
+#: Controller\Component\InstallerComponent.php:224;287
+msgid "YAML File (%s) not found"
+msgstr "File YAML (%s) non trovato"
+
+#: Controller\Component\InstallerComponent.php:234
+msgid "Invalid theme name (got \"%s\", expected: \"%s\")"
+msgstr "Nome tema non valido (ottenuto \"%s\", atteso: \"%s\")"
+
+#: Controller\Component\InstallerComponent.php:241
+msgid "Already Installed"
+msgstr "Già installato"
+
+#: Controller\Component\InstallerComponent.php:242
+msgid "This theme is already installed"
+msgstr "Questo tema è già installato"
+
+#: Controller\Component\InstallerComponent.php:246
+msgid "Layouts Folder"
+msgstr "Cartella Layouts"
+
+#: Controller\Component\InstallerComponent.php:247
+msgid "\"Layouts\" folder not found"
+msgstr "Cartella \"Layouts\" non trovata"
+
+#: Controller\Component\InstallerComponent.php:251
+msgid "app Folder"
+msgstr "Cartella app"
+
+#: Controller\Component\InstallerComponent.php:252
+msgid "\"app\" folder not found"
+msgstr "Cartella \"app\" non trovata"
+
+#: Controller\Component\InstallerComponent.php:256
+msgid "Plugin app"
+msgstr "Plugin app"
+
+#: Controller\Component\InstallerComponent.php:257
+msgid "Module app (\"%s\") folder not found"
+msgstr "Cartella del modulo (\"%s\") non trovata"
+
+#: Controller\Component\InstallerComponent.php:281
+msgid "webroot Folder"
+msgstr "Cartella webroot"
+
+#: Controller\Component\InstallerComponent.php:282
+msgid "\"webroot\" folder not found"
+msgstr "Cartella \"webroot\" non trovata"
+
+#: Controller\Component\InstallerComponent.php:291
+msgid "Theme thumbnail"
+msgstr "Icona Tema"
+
+#: Controller\Component\InstallerComponent.php:292
+msgid "Thumbnail image (\"%s\") not found"
+msgstr "Immagine icona (\"%s\") non trovata"
+
+#: Controller\Component\InstallerComponent.php:331;347
+msgid "YAML Validation"
+msgstr "Validazione YAML"
+
+#: Controller\Component\InstallerComponent.php:332
+msgid "Module configuration file (%s) appears to be invalid."
+msgstr "Il file della configurazione Modulo (%s) pare non valido."
+
+#: Controller\Component\InstallerComponent.php:348
+msgid "Theme configuration file (%s) appears to be invalid."
+msgstr "Il file della configurazione Tema (%s) pare essere non valido."
+
+#: Controller\Component\InstallerComponent.php:361
+msgid "Required regions"
+msgstr "Regioni tema:"
+
+#: Controller\Component\InstallerComponent.php:362
+msgid "Missing theme region(s) \"toolbar\" and/or \"help\". Are required for backend themes."
+msgstr "Regione(i) \"toolbar\" e \"help\" mancanti. Sono riechiesti per i temi di backoffice."
+
+#: Controller\Component\InstallerComponent.php:369
+msgid "Invalid information file (.yaml)"
+msgstr "File informazioni non valido (.yaml)"
+
+#: Controller\Component\InstallerComponent.php:380;1810
+msgid "This module is incompatible with your QuickApps version."
+msgstr "Questo modulo non è compatibile con la tua versione di QuickApps."
+
+#: Controller\Component\InstallerComponent.php:382;1812
+msgid "This theme is incompatible with your QuickApps version."
+msgstr "Questo tema non è compatibile con la tua versione di QuickApps."
+
+#: Controller\Component\InstallerComponent.php:395;1825
+msgid "This theme depends on other modules that you do not have or doesn't meet the version required: %s"
+msgstr "Questo tema dipende da altri moduli che non hai oppure non è della versione richiesta: %S"
+
+#: Controller\Component\InstallerComponent.php:419
+msgid "invalid information file (.yaml). Field \"%s\""
+msgstr "File informazione non valido (.yaml). Campo \"%s\""
+
+#: Controller\Component\InstallerComponent.php:423
+msgid "Invalid field \"%s\". Information file (.yaml) not found."
+msgstr "Campo \"%s\" non valido. File informazione (.yaml) non trovato."
+
+#: Controller\Component\InstallerComponent.php:427
+msgid "Invalid field name \"%s\"."
+msgstr "Campo \"%s\" non valido."
+
+#: Controller\Component\InstallerComponent.php:589;1790
+msgid "Module does not exist."
+msgstr "Il modulo non può essere installato"
+
+#: Controller\Component\InstallerComponent.php:593
+msgid "Core modules can not be uninstalled."
+msgstr "Il modulo non può essere installato"
+
+#: Controller\Component\InstallerComponent.php:601
+msgid "This module can not be uninstalled, because it is required by: %s"
+msgstr "Questo modulo non può essere disinstallato perchè è richiesto da: %s"
+
+#: Controller\Component\InstallerComponent.php:616
+msgid "This module can not be uninstalled because some files/folder can not be deleted, please check the permissions."
+msgstr "Questo modulo non può essere disinstallato perché alcuni file/cartelle non possono essere eliminati, controlla i permessi."
+
+#: Controller\Component\InstallerComponent.php:1166;1175
+msgid "path: %s, not writable"
+msgstr "path: %s, non scrivibile"
+
+#: Controller\Component\InstallerComponent.php:1799
+msgid "This module can not be disabled, because it is required by: %s"
+msgstr "Questo modulo non può essere disabilitato perché è richiesto da: %s"
+
+#: Controller\Component\InstallerComponent.php:1823
+msgid "This module depends on other modules that you do not have or doesn't meet the version required: %s"
+msgstr "Questo modulo dipende da altri moduli che tu non hai oppure non è della versione richiesta: %s"
+
+#: Controller\Component\QuickAppsComponent.php:108
+msgid "Site offline"
+msgstr "Sito offline"
+
+#: Controller\Component\QuickAppsComponent.php:329
+msgid "You are not authorized to access that location."
+msgstr "Non sei autorizzato ad accedere a questo indirizzo."
+
+#: Controller\Component\QuickAppsComponent.php:914
+#, fuzzy
+msgid "Duplicated content"
+msgstr "Pubblica il contenuto selezionato"
+
+#: Controller\Component\QuickAppsComponent.php:915
+msgid "Duplicate content detected!; it looks as though you've already sent that!"
+msgstr ""
+
+#: Plugin\Block\Controller\ManageController.php:80
+msgid "Blocks"
+msgstr "Blocchi"
+
+#: Plugin\Block\Controller\ManageController.php:101
+msgid "Clone"
+msgstr "Clona"
+
+#: Plugin\Block\Controller\ManageController.php:107
+msgid "Block has been cloned"
+msgstr "il Blocco è stato clonato"
+
+#: Plugin\Block\Controller\ManageController.php:110
+msgid "Block could not be cloned"
+msgstr "Il Blocco non può essere clonato"
+
+#: Plugin\Block\Controller\ManageController.php:137;188
+msgid "Block has been saved"
+msgstr "il Blocco è stato salvato"
+
+#: Plugin\Block\Controller\ManageController.php:139;191
+msgid "Block could not be saved. Please, try again."
+msgstr "il Blocco non può essere salvato. Ritenta."
+
+#: Plugin\Block\Controller\ManageController.php:157
+msgid "Editing Block"
+msgstr "Modifica Blocco"
+
+#: Plugin\Block\Controller\ManageController.php:160
+msgid "Editing block"
+msgstr "Modifica blocco"
+
+#: Plugin\Block\Controller\ManageController.php:167
+msgid "Add new block"
+msgstr "Aggiungi nuovo blocco"
+
+#: Plugin\Block\Controller\ManageController.php:170
+msgid "New block"
+msgstr "Nuovo blocco"
+
+#: Plugin\Block\Controller\ManageController.php:216
+msgid "Block has been deleted"
+msgstr "Il Blocco è stato eliminato"
+
+#: Plugin\Block\Controller\ManageController.php:218
+msgid "Block could not be deleted"
+msgstr "Il Blocco non può essere eliminato"
+
+#: Plugin\Block\View\Elements\regions.ctp:79
+#: Plugin\Block\View\Manage\admin_index.ctp:79
+msgid "Duplicate this block?"
+msgstr "Duplicare questo blocco?"
+
+#: Plugin\Block\View\Elements\regions.ctp:79
+#: Plugin\Block\View\Manage\admin_index.ctp:79
+msgid "clone"
+msgstr "clona"
+
+#: Plugin\Block\View\Elements\regions.ctp:80
+#: Plugin\Block\View\Manage\admin_index.ctp:80
+#: Plugin\Node\View\Types\admin_fields.ctp:21
+#: Plugin\User\View\Fields\admin_index.ctp:21
+msgid "configure"
+msgstr "configura"
+
+#: Plugin\Block\View\Elements\regions.ctp:82
+#: Plugin\Block\View\Manage\admin_index.ctp:82
+msgid "Delete selected block ?"
+msgstr "Eliminare il blocco selezionato?"
+
+#: Plugin\Block\View\Elements\regions.ctp:82
+#: Plugin\Block\View\Manage\admin_index.ctp:82
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:19
+#: Plugin\Locale\View\Translations\admin_list.ctp:12
+#: Plugin\Menu\View\Elements\menu_link_node.ctp:4
+#: Plugin\Node\View\Contents\admin_edit.ctp:118
+#: Plugin\Node\View\Contents\admin_index.ctp:42
+#: Plugin\Node\View\Contents\admin_translate.ctp:21
+#: Plugin\Node\View\Types\admin_fields.ctp:24
+#: Plugin\Node\View\Types\admin_index.ctp:13
+#: Plugin\Taxonomy\View\Elements\term_node.ctp:7
+#: Plugin\Taxonomy\View\Vocabularies\admin_index.ctp:16
+#: Plugin\User\View\Fields\admin_index.ctp:24
+#: Plugin\User\View\Roles\admin_index.ctp:27
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:44;185;247;281
+msgid "delete"
+msgstr "elimina"
+
+#: Plugin\Block\View\Elements\toolbar.ctp:3
+msgid "New Block"
+msgstr "Nuovo Blocco"
+
+#: Plugin\Block\View\Manage\admin_add.ctp:3
+#: Plugin\Block\View\Manage\admin_edit.ctp:3
+#: Plugin\Field\Fields\FieldImage\View\Elements\formatter.ctp:13
+#: Vendor\DummyLocale.php:20
+#: View\Elements\theme_node_edit.ctp:11
+msgid "Content"
+msgstr "Contenuto"
+
+#: Plugin\Block\View\Manage\admin_add.ctp:5
+#: Plugin\Block\View\Manage\admin_edit.ctp:6
+msgid "Block title"
+msgstr "Titolo del blocco"
+
+#: Plugin\Block\View\Manage\admin_add.ctp:6
+#: Plugin\Block\View\Manage\admin_edit.ctp:7
+msgid "The title of the block as shown to the user."
+msgstr "Il titolo del blocco mostrato all'utente."
+
+#: Plugin\Block\View\Manage\admin_add.ctp:8
+#: Plugin\Block\View\Manage\admin_edit.ctp:10
+msgid "Block description *"
+msgstr "Descrizione del blocco *"
+
+#: Plugin\Block\View\Manage\admin_add.ctp:9
+#: Plugin\Block\View\Manage\admin_edit.ctp:11
+msgid "A brief description of your block. Used on the Blocks administration page."
+msgstr "Breve descrizione del tuo blocco. Usato nella pagina di amministrazione del Blocco."
+
+#: Plugin\Block\View\Manage\admin_add.ctp:11
+#: Plugin\Block\View\Manage\admin_edit.ctp:12
+msgid "Block body *"
+msgstr "Corpo del blocco *"
+
+#: Plugin\Block\View\Manage\admin_add.ctp:15
+#: Plugin\Block\View\Manage\admin_edit.ctp:35
+#: Plugin\Comment\View\Elements\settings.ctp:33
+#: Plugin\Locale\View\Elements\language_switcher_block.ctp:58
+#: Plugin\Locale\View\Packages\admin_index.ctp:28
+#: Plugin\Locale\View\Translations\admin_import.ctp:16
+#: Plugin\Node\View\Contents\admin_add.ctp:23;24
+#: Plugin\Node\View\Contents\admin_edit.ctp:36;37
+#: Plugin\Node\View\Contents\admin_index.ctp:34;118
+#: Plugin\Node\View\Types\admin_add.ctp:39;40
+#: Plugin\Node\View\Types\admin_edit.ctp:45;46
+#: Plugin\User\View\List\admin_add.ctp:14
+#: Plugin\User\View\List\admin_edit.ctp:15
+#: Plugin\User\View\User\my_account.ctp:12
+#: Plugin\User\View\User\register.ctp:11
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:83;84
+msgid "Language"
+msgstr "Lingua"
+
+#: Plugin\Block\View\Manage\admin_add.ctp:16
+#: Plugin\Block\View\Manage\admin_edit.ctp:36
+msgid "Translations"
+msgstr "Traduzioni"
+
+#: Plugin\Block\View\Manage\admin_add.ctp:21
+#: Plugin\Block\View\Manage\admin_edit.ctp:44
+msgid "Show this block for these languages"
+msgstr "Mostra il blocco per le seguenti lingue"
+
+#: Plugin\Block\View\Manage\admin_add.ctp:22
+#: Plugin\Block\View\Manage\admin_edit.ctp:45
+msgid "If no language is selected, block will show regardless of language."
+msgstr "Se non indicata alcuna lingua, il blocco verrà mostrato indipendentemente dalla lingua."
+
+#: Plugin\Block\View\Manage\admin_add.ctp:27
+#: Plugin\Block\View\Manage\admin_edit.ctp:50
+msgid "Visibility settings"
+msgstr "Impostazioni di visualizzazione"
+
+#: Plugin\Block\View\Manage\admin_add.ctp:28
+#: Plugin\Block\View\Manage\admin_edit.ctp:51
+msgid "Theme Region"
+msgstr "Regione del Tema"
+
+#: Plugin\Block\View\Manage\admin_add.ctp:29
+#: Plugin\Block\View\Manage\admin_edit.ctp:52
+msgid "Specify in which themes and regions this block is displayed."
+msgstr "Specificare in quale tema e regioni questo blocco è mostrato."
+
+#: Plugin\Block\View\Manage\admin_add.ctp:33
+#: Plugin\Block\View\Manage\admin_edit.ctp:63
+msgid "--None--"
+msgstr "--Niente--"
+
+#: Plugin\Block\View\Manage\admin_add.ctp:38
+#: Plugin\Block\View\Manage\admin_edit.ctp:77
+msgid "Pages"
+msgstr "Pagine"
+
+#: Plugin\Block\View\Manage\admin_add.ctp:47
+#: Plugin\Block\View\Manage\admin_edit.ctp:85
+msgid "All pages except those listed"
+msgstr "Tutte le pagine tranne quelle indicate"
+
+#: Plugin\Block\View\Manage\admin_add.ctp:48
+#: Plugin\Block\View\Manage\admin_edit.ctp:86
+msgid "Only the listed pages"
+msgstr "Solo le pagine listate"
+
+#: Plugin\Block\View\Manage\admin_add.ctp:49
+#: Plugin\Block\View\Manage\admin_edit.ctp:87
+msgid "Pages on which this PHP code returns TRUE (experts only)"
+msgstr "Pagine in cui il codice PHP ritorna TRUE (solo esperti)"
+
+#: Plugin\Block\View\Manage\admin_add.ctp:57
+#: Plugin\Block\View\Manage\admin_edit.ctp:95
+#: Plugin\Menu\View\Manage\admin_edit_link.ctp:42
+msgid "Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are blog for the blog page and blog/* for every blog entry. '/' is the front page."
+msgstr "Specificare le pagine indicando i loro indirizzi. Inserisci un indirizzo per linea. '*' è un carattere speciale. Indirizzi di esempio sono 'blog' per la pagina del blog e 'blog/*' per ogni indirizzo con base 'blog/'. '/' è la home page."
+
+#: Plugin\Block\View\Manage\admin_add.ctp:58
+#: Plugin\Block\View\Manage\admin_edit.ctp:96
+#: Plugin\Menu\View\Manage\admin_add_link.ctp:36
+#: Plugin\Menu\View\Manage\admin_edit_link.ctp:43
+msgid "If the PHP option is chosen, enter PHP code between &lt;?php ?&gt;. Note that executing incorrect PHP code can break your QuickApps site."
+msgstr "Se l'opzione PHP è selezionata, inserisci il codice PHP tra &lt;?php ?&gt;. L'esecuzione di codice PHP non corretto può rompere il sito QuickApps."
+
+#: Plugin\Block\View\Manage\admin_add.ctp:62
+#: Plugin\Block\View\Manage\admin_edit.ctp:100
+#: Plugin\Node\View\Contents\admin_add.ctp:66
+#: Plugin\Node\View\Contents\admin_edit.ctp:80
+#: Plugin\User\View\Elements\toolbar.ctp:5
+#: Plugin\User\View\List\admin_index.ctp:18
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:119;120
+msgid "Roles"
+msgstr "Ruoli"
+
+#: Plugin\Block\View\Manage\admin_add.ctp:63
+#: Plugin\Block\View\Manage\admin_edit.ctp:101
+msgid "Show block for specific roles"
+msgstr "Mostra il blocco per ruoli specifici"
+
+#: Plugin\Block\View\Manage\admin_add.ctp:64
+#: Plugin\Block\View\Manage\admin_edit.ctp:102
+msgid "Show this block only for the selected role(s). If you select no roles, the block will be visible to all users."
+msgstr "Mostra questo blocco solo per i ruoli selezionati. Se non selezioni alcun ruolo, il blocco sarà visibile da tutti gli utenti."
+
+#: Plugin\Block\View\Manage\admin_add.ctp:67
+#: Plugin\Block\View\Manage\admin_edit.ctp:105
+#: Plugin\Node\View\Contents\admin_add.ctp:83
+#: Plugin\Node\View\Contents\admin_edit.ctp:97
+msgid "Advanced Options"
+msgstr "Opzioni Avanzate"
+
+#: Plugin\Block\View\Manage\admin_add.ctp:68
+#: Plugin\Block\View\Manage\admin_edit.ctp:106
+msgid "Block class suffix"
+msgstr "Suffisso della classe Blocco"
+
+#: Plugin\Block\View\Manage\admin_add.ctp:69
+#: Plugin\Block\View\Manage\admin_edit.ctp:107
+msgid "A suffix to be applied to the CSS class of the block. This allows for individual block styling."
+msgstr "Un suffisso da applicare alla classe CSS del blocco. Questo consente di applicare stili specifici per blocco."
+
+#: Plugin\Block\View\Manage\admin_add.ctp:80
+#: Plugin\Block\View\Manage\admin_edit.ctp:119
+msgid "Save block"
+msgstr "Salva blocco"
+
+#: Plugin\Block\View\Manage\admin_edit.ctp:5
+#: Plugin\Locale\View\Languages\admin_edit.ctp:21
+#: Plugin\User\View\List\admin_add.ctp:4
+#: Plugin\User\View\List\admin_edit.ctp:4
+msgid "Active"
+msgstr "Attivo"
+
+#: Plugin\Block\View\Manage\admin_index.ctp:30
+msgid "Unassigned or Disabled"
+msgstr "Non assegnato o Disabilitato"
+
+#: Plugin\Block\View\Manage\admin_index.ctp:91
+#: Plugin\System\View\Configuration\admin_index.ctp:199
+#: Plugin\System\View\Modules\admin_settings.ctp:4
+msgid "Save all"
+msgstr "Salva tutto"
+
+#: Plugin\Comment\Controller\ListController.php:20
+msgid "Unpublished comments"
+msgstr "Commenti non pubblicati"
+
+#: Plugin\Comment\Controller\ListController.php:24
+msgid "Published comments"
+msgstr "Commenti pubblicati"
+
+#: Plugin\Comment\Controller\ListController.php:96;107
+#: Plugin\Node\View\Contents\admin_add.ctp:19
+#: Plugin\Node\View\Contents\admin_edit.ctp:31
+#: Plugin\Node\View\Elements\toolbar-index.ctp:4
+#: Plugin\Node\View\Types\admin_add.ctp:17;34
+#: Plugin\Node\View\Types\admin_edit.ctp:23;40
+#: View\Elements\theme_node_comments.ctp:16
+msgid "Comments"
+msgstr "Commenti"
+
+#: Plugin\Comment\Controller\ListController.php:108
+msgid "Comment details"
+msgstr "Dettagli dei commenti"
+
+#: Plugin\Comment\Controller\ListController.php:110
+#: Plugin\Comment\View\List\admin_view.ctp:1
+msgid "Comment Details"
+msgstr "Dettagli Commenti"
+
+#: Plugin\Comment\Controller\ListController.php:126
+msgid "Comment has been deleted."
+msgstr "Il commento è stato eliminato."
+
+#: Plugin\Comment\Controller\ListController.php:128
+msgid "Comment could not be deleted."
+msgstr "Il commento non può essere eliminanto."
+
+#: Plugin\Comment\Model\Comment.php:113;123
+msgid "Anonymous"
+msgstr "Anonimo"
+
+#: Plugin\Comment\Model\Comment.php:251;267
+msgid "No subject"
+msgstr "Nessun oggetto"
+
+#: Plugin\Comment\Model\Behavior\BBCodeBehavior.php:89
+msgid "wrote"
+msgstr "scritto"
+
+#: Plugin\Comment\View\Elements\settings.ctp:1
+msgid "Anti-Spam Protection"
+msgstr "Protezione Anti-Spam"
+
+#: Plugin\Comment\View\Elements\settings.ctp:7
+msgid "Use ReCaptcha"
+msgstr "Usa ReCaptcha"
+
+#: Plugin\Comment\View\Elements\settings.ctp:13
+msgid "ReCaptcha Public Key"
+msgstr "ReCaptcha Public Key"
+
+#: Plugin\Comment\View\Elements\settings.ctp:14
+msgid "ReCaptcha Private Key"
+msgstr "Chiave Privata ReCaptcha"
+
+#: Plugin\Comment\View\Elements\settings.ctp:19
+msgid "Theme"
+msgstr "Tema"
+
+#: Plugin\Comment\View\Elements\settings.ctp:21
+msgid "Red"
+msgstr "Rosso"
+
+#: Plugin\Comment\View\Elements\settings.ctp:22
+msgid "White"
+msgstr "Bianco"
+
+#: Plugin\Comment\View\Elements\settings.ctp:23
+msgid "Black Glass"
+msgstr "Vetro Nero"
+
+#: Plugin\Comment\View\Elements\settings.ctp:24
+msgid "Clean"
+msgstr "Pulito"
+
+#: Plugin\Comment\View\Elements\settings.ctp:35
+msgid "Auto-Detect"
+msgstr "Auto-Rileva"
+
+#: Plugin\Comment\View\Elements\settings.ctp:36
+msgid "English"
+msgstr "Inglese"
+
+#: Plugin\Comment\View\Elements\settings.ctp:37
+msgid "Dutch"
+msgstr "Olandese"
+
+#: Plugin\Comment\View\Elements\settings.ctp:38
+msgid "French"
+msgstr "Francese"
+
+#: Plugin\Comment\View\Elements\settings.ctp:39
+msgid "German"
+msgstr "Tedesco"
+
+#: Plugin\Comment\View\Elements\settings.ctp:40
+msgid "Portuguese"
+msgstr "Portoghese"
+
+#: Plugin\Comment\View\Elements\settings.ctp:41
+msgid "Russian"
+msgstr "Russo"
+
+#: Plugin\Comment\View\Elements\settings.ctp:42
+msgid "Spanish"
+msgstr "Spagnolo"
+
+#: Plugin\Comment\View\Elements\settings.ctp:43
+msgid "Turkish"
+msgstr "Turco"
+
+#: Plugin\Comment\View\Elements\settings.ctp:44;51
+msgid "Custom Translation"
+msgstr "Traduzione personalizzata"
+
+#: Plugin\Comment\View\Elements\settings.ctp:73
+msgid "Use Akismet"
+msgstr "Usa Akismet"
+
+#: Plugin\Comment\View\Elements\settings.ctp:80
+msgid "Akismet API Key"
+msgstr "Chiave Akismet API"
+
+#: Plugin\Comment\View\Elements\settings.ctp:85
+msgid "On SPAM detected"
+msgstr "Al rilevamento di SPAM"
+
+#: Plugin\Comment\View\Elements\settings.ctp:88
+msgid "Mark as SPAM"
+msgstr "Marca come SPAM"
+
+#: Plugin\Comment\View\Elements\settings.ctp:89
+#: Plugin\Comment\View\Helper\CommentHookHelper.php:162
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:93
+msgid "Delete"
+msgstr "Elimina"
+
+#: Plugin\Comment\View\Elements\toolbar.ctp:3
+#: Plugin\Node\View\Contents\admin_add.ctp:29
+#: Plugin\Node\View\Contents\admin_edit.ctp:43
+#: Plugin\Node\View\Types\admin_add.ctp:44
+#: Plugin\Node\View\Types\admin_edit.ctp:50
+msgid "Published"
+msgstr "Pubblicato"
+
+#: Plugin\Comment\View\Elements\toolbar.ctp:4
+msgid "Unpublished (%s)"
+msgstr "Non pubblicato (%s)"
+
+#: Plugin\Comment\View\Helper\CommentHookHelper.php:131
+msgid "Invalid security code."
+msgstr "Codice di sicurezza non valido."
+
+#: Plugin\Comment\View\Helper\CommentHookHelper.php:158
+msgid "Details"
+msgstr "Dettagli"
+
+#: Plugin\Comment\View\Helper\CommentHookHelper.php:162
+msgid "Delete selected comment ?"
+msgstr "Eliminare il commento selezionato?"
+
+#: Plugin\Comment\View\List\admin_show.ctp:9;78
+#: Plugin\Comment\View\List\admin_view.ctp:17
+#: Plugin\User\View\Elements\settings.ctp:24;47;92;115
+#: View\Elements\theme_node_comments_form.ctp:53
+msgid "Subject"
+msgstr "Oggetto"
+
+#: Plugin\Comment\View\List\admin_show.ctp:13;37
+#: Plugin\Node\View\Contents\admin_index.ctp:22
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:79;80
+msgid "Author"
+msgstr "Autore"
+
+#: Plugin\Comment\View\List\admin_show.ctp:17;92
+msgid "Posted in"
+msgstr "Pubblicato in"
+
+#: Plugin\Comment\View\List\admin_show.ctp:21
+msgid "Posted on"
+msgstr "Pubblicato il"
+
+#: Plugin\Comment\View\List\admin_show.ctp:22
+#: Plugin\Node\View\Contents\admin_index.ctp:31
+msgid "Y/m/d - H:i"
+msgstr "d/m/Y - H:i"
+
+#: Plugin\Comment\View\List\admin_show.ctp:26
+msgid "There are no comments to display"
+msgstr "Nessun commento da mostrare"
+
+#: Plugin\Comment\View\List\admin_show.ctp:35
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:34
+#: Plugin\Node\View\Contents\admin_index.ctp:56
+#: Plugin\User\View\List\admin_index.ctp:37
+msgid "Filter Options"
+msgstr "Opzioni di filtro"
+
+#: Plugin\Comment\View\List\admin_show.ctp:41
+msgid "Author’s name"
+msgstr "Nome dell'autore"
+
+#: Plugin\Comment\View\List\admin_show.ctp:49
+msgid "Author’s e-mail"
+msgstr "Email dell'autore"
+
+#: Plugin\Comment\View\List\admin_show.ctp:58
+msgid "Author’s host name (IP)"
+msgstr "Host name (IP) dell'autore"
+
+#: Plugin\Comment\View\List\admin_show.ctp:67
+msgid "Author’s web site"
+msgstr "Sito web dell'autore"
+
+#: Plugin\Comment\View\List\admin_show.ctp:74
+msgid "Comment"
+msgstr "Commento"
+
+#: Plugin\Comment\View\List\admin_show.ctp:86
+msgid "Comment’s body"
+msgstr "Corpo del commento"
+
+#: Plugin\Comment\View\List\admin_show.ctp:96
+msgid "Content’s title"
+msgstr "Titolo del commento"
+
+#: Plugin\Comment\View\List\admin_show.ctp:104
+msgid "Content’s slug"
+msgstr "slug del contenuto"
+
+#: Plugin\Comment\View\List\admin_show.ctp:112
+msgid "Content’s id"
+msgstr "ID del contenuto"
+
+#: Plugin\Comment\View\List\admin_show.ctp:118
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:77
+#: Plugin\Node\View\Contents\admin_index.ctp:125
+#: Plugin\User\View\List\admin_index.ctp:66
+msgid "Filter"
+msgstr "Filtro"
+
+#: Plugin\Comment\View\List\admin_show.ctp:123
+#: Plugin\Locale\View\Languages\admin_index.ctp:100
+msgid "Are you sure ?"
+msgstr "Sei sicuro ?"
+
+#: Plugin\Comment\View\List\admin_show.ctp:125
+#: Plugin\Locale\View\Languages\admin_index.ctp:102
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:84
+#: Plugin\Node\View\Contents\admin_index.ctp:132
+#: Plugin\User\View\List\admin_index.ctp:73
+msgid "Update Options"
+msgstr "Opzioni di Modifica"
+
+#: Plugin\Comment\View\List\admin_show.ctp:129
+msgid "Approve selected comments"
+msgstr "Approva i commenti selezionati"
+
+#: Plugin\Comment\View\List\admin_show.ctp:130
+msgid "Unapprove selected comments"
+msgstr "Non approvare i commenti selezionati"
+
+#: Plugin\Comment\View\List\admin_show.ctp:131
+msgid "Delete selected comments"
+msgstr "Elimina i commenti selezionati"
+
+#: Plugin\Comment\View\List\admin_show.ctp:148
+#: Plugin\Locale\View\Languages\admin_index.ctp:116
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:99
+#: Plugin\Node\View\Contents\admin_index.ctp:151
+#: Plugin\User\View\List\admin_index.ctp:87
+#: Plugin\User\View\User\my_account.ctp:26
+msgid "Update"
+msgstr "Modifica"
+
+#: Plugin\Comment\View\List\admin_view.ctp:3
+msgid "Published in content"
+msgstr "Pubblicato in contenuto"
+
+#: Plugin\Comment\View\List\admin_view.ctp:4
+msgid "Published by"
+msgstr "Pubblicato da"
+
+#: Plugin\Comment\View\List\admin_view.ctp:14
+#: View\Elements\theme_node.ctp:32
+#: View\Themed\Default\Elements\theme_node.ctp:32
+msgid "on %s"
+msgstr "il %s"
+
+#: Plugin\Comment\View\List\admin_view.ctp:14
+#: View\Elements\theme_comment.ctp:37
+#: View\Elements\theme_node.ctp:32
+#: View\Themed\Default\Elements\theme_node.ctp:32
+msgid "M d, Y H:i"
+msgstr "d/m/Y H:i"
+
+#: Plugin\Comment\View\List\admin_view.ctp:15
+msgid "Hostname"
+msgstr "Nome host"
+
+#: Plugin\Comment\View\List\admin_view.ctp:16
+#: View\Elements\theme_node_comments_form.ctp:38;47
+msgid "Web page"
+msgstr "Pagina web"
+
+#: Plugin\Comment\View\List\admin_view.ctp:18
+msgid "Message"
+msgstr "Messaggio"
+
+#: Plugin\Field\Fields\FieldDate\Model\Behavior\FieldDateHookBehavior.php:51
+msgid "Date cannot be empty."
+msgstr "La data non può essere vuota."
+
+#: Plugin\Field\Fields\FieldDate\View\Elements\settings.ctp:17
+msgid "Add a Timepicker"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldDate\View\Elements\settings.ctp:25
+msgid "Add a Date Picker"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldDate\View\Elements\settings.ctp:31
+#, fuzzy
+msgid "Time Options"
+msgstr "Opzioni di filtro"
+
+#: Plugin\Field\Fields\FieldDate\View\Elements\settings.ctp:37
+#, fuzzy
+msgid "Time format"
+msgstr "Formato data"
+
+#: Plugin\Field\Fields\FieldDate\View\Elements\settings.ctp:38
+msgid "e.g.: hh:mm:ss:l"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldDate\View\Elements\settings.ctp:45
+msgid "Separator"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldDate\View\Elements\settings.ctp:52
+msgid "Use AM/PM"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldDate\View\Elements\settings.ctp:59
+#, fuzzy
+msgid "Show seconds"
+msgstr "Mostra espanso"
+
+#: Plugin\Field\Fields\FieldDate\View\Elements\settings.ctp:66
+msgid "Show milliseconds"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldDate\View\Elements\settings.ctp:74
+#, fuzzy
+msgid "Date Options"
+msgstr "Opzioni di Modifica"
+
+#: Plugin\Field\Fields\FieldDate\View\Elements\settings.ctp:79
+msgid "Date format"
+msgstr "Formato data"
+
+#: Plugin\Field\Fields\FieldDate\View\Elements\settings.ctp:80
+msgid "e.g.: yy-mm-dd"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldDate\View\Elements\settings.ctp:87
+msgid "Display button bar"
+msgstr "Mostra barra dei bottoni"
+
+#: Plugin\Field\Fields\FieldDate\View\Elements\settings.ctp:94
+msgid "Display month & year menu"
+msgstr "Mostra menu del mese e anno"
+
+#: Plugin\Field\Fields\FieldDate\View\Elements\settings.ctp:101
+msgid "Show week of the year"
+msgstr "Mostra settimana dell'anno"
+
+#: Plugin\Field\Fields\FieldDate\View\Elements\settings.ctp:116
+msgid "Display multiple months"
+msgstr "Mostra mesi multipli"
+
+#: Plugin\Field\Fields\FieldDate\View\Elements\settings.ctp:194
+msgid "Localize"
+msgstr "Localizza"
+
+#: Plugin\Field\Fields\FieldDate\View\Helper\FieldDateHookHelper.php:48
+msgid "Choose Time"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldDate\View\Helper\FieldDateHookHelper.php:49
+#, fuzzy
+msgid "Time"
+msgstr "Trimmed"
+
+#: Plugin\Field\Fields\FieldDate\View\Helper\FieldDateHookHelper.php:50
+#, fuzzy
+msgid "Hour"
+msgstr "%s Ora"
+
+#: Plugin\Field\Fields\FieldDate\View\Helper\FieldDateHookHelper.php:51
+#, fuzzy
+msgid "Minute"
+msgstr "%s Minuti"
+
+#: Plugin\Field\Fields\FieldDate\View\Helper\FieldDateHookHelper.php:52
+msgid "Second"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldDate\View\Helper\FieldDateHookHelper.php:53
+msgid "Milliecond"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldFile\Controller\UploadifyController.php:53
+#: Plugin\Field\Fields\FieldImage\Controller\UploadifyController.php:55
+msgid "Invalid file extension."
+msgstr "Estensione del file non valida."
+
+#: Plugin\Field\Fields\FieldFile\Controller\UploadifyController.php:77
+#: Plugin\Field\Fields\FieldImage\Controller\UploadifyController.php:117
+msgid "Error: %s"
+msgstr "Errore: %s"
+
+#: Plugin\Field\Fields\FieldFile\Model\Behavior\FieldFileHookBehavior.php:149
+#: Plugin\Field\Fields\FieldImage\Model\Behavior\FieldImageHookBehavior.php:162
+msgid "You must upload at least one file."
+msgstr "Devi caricare almeno un file."
+
+#: Plugin\Field\Fields\FieldFile\View\Elements\edit.ctp:74
+#: Plugin\Field\Fields\FieldImage\View\Elements\edit.ctp:88
+msgid "Remove"
+msgstr "Elimina"
+
+#: Plugin\Field\Fields\FieldFile\View\Elements\edit.ctp:105
+#: Plugin\Field\Fields\FieldImage\View\Elements\edit.ctp:129
+#: Plugin\System\View\Modules\admin_index.ctp:28
+#: Plugin\System\View\Themes\admin_index.ctp:14
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:29
+msgid "Files must be less than <b>%sB</b>."
+msgstr "Il file deve essere più piccolo di <b>%sB</b>."
+
+#: Plugin\Field\Fields\FieldFile\View\Elements\edit.ctp:107
+#: Plugin\Field\Fields\FieldImage\View\Elements\edit.ctp:131
+msgid "Allowed file types: <b>%s</b>."
+msgstr "Tipi di file permessi: <b>%s</b>."
+
+#: Plugin\Field\Fields\FieldFile\View\Elements\formatter.ctp:4
+msgid "Link to file"
+msgstr "Link a file"
+
+#: Plugin\Field\Fields\FieldFile\View\Elements\formatter.ctp:5
+msgid "Table of Files"
+msgstr "Tabella dei file"
+
+#: Plugin\Field\Fields\FieldFile\View\Elements\formatter.ctp:6
+msgid "File URL"
+msgstr "URL del file"
+
+#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:5
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:8
+msgid "Allowed extensions"
+msgstr "Estensioni permesse"
+
+#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:9
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:12
+#, fuzzy
+msgid "Comma separated. e.g. jpg,gif,png"
+msgstr "Separati da virgola. es.: jpg,gif,png"
+
+#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:13
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:16
+msgid "Custom"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:19
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:22
+msgid "Number of files"
+msgstr "Numero di file"
+
+#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:28
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:31
+#, fuzzy
+msgid "Customized number of files"
+msgstr "Numero di file"
+
+#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:33
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:36
+msgid "Maximum number of files users can upload for this field."
+msgstr "Numero massimo di file che gli utenti possono caricare per questo campo."
+
+#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:39
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:42
+msgid "Upload folder"
+msgstr "Carica cartella"
+
+#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:43
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:46
+msgid "Optional subdirectory within the upload destination where files will be stored. Do not include preceding or trailing slashes."
+msgstr "Sottocartella opzionale dove verranno salvati i file caricati. Non mettere slash (/) all'inizio e alla fine."
+
+#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:49
+msgid "Enable Description field"
+msgstr "Attiva descrizione del campo"
+
+#: Plugin\Field\Fields\FieldFile\View\Elements\settings.ctp:53
+msgid "The description field allows users to enter a description about the uploaded file."
+msgstr "La descrizione del campo permette agli utenti di inserire una descrizione relativa al file caricato."
+
+#: Plugin\Field\Fields\FieldFile\View\Helper\FieldFileHookHelper.php:87
+msgid "Attachment"
+msgstr "Allegato"
+
+#: Plugin\Field\Fields\FieldFile\View\Helper\FieldFileHookHelper.php:88
+msgid "Size"
+msgstr "Taglia"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\edit.ctp:97
+#: Plugin\Menu\View\Manage\admin_index.ctp:4
+#: Plugin\Node\View\Contents\admin_index.ctp:9;61
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:56;75;76;218
+msgid "Title"
+msgstr "Titolo"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\edit.ctp:98
+msgid "The title is used as a tool tip when the user hovers the mouse over the image."
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\edit.ctp:102
+msgid "Alternate text"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\edit.ctp:103
+msgid "This text will be used by screen readers, search engines, or when the image cannot be loaded."
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\formatter.ctp:5
+#, fuzzy
+msgid "Image style"
+msgstr "Cartella image slider"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\formatter.ctp:8
+msgid "None (original image)"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\formatter.ctp:14
+#, fuzzy
+msgid "File"
+msgstr "Filtro"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\formatter.ctp:21
+msgid "Link image to"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\formatter.ctp:24
+#, fuzzy
+msgid "Nothing"
+msgstr "Valutazione"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:52
+#, fuzzy
+msgid "Enable <em>Title</em> field"
+msgstr "Attiva descrizione del campo"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:56
+msgid "The title attribute is used as a tooltip when the mouse hovers over the image."
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:62
+#, fuzzy
+msgid "Enable <em>Alt</em> field"
+msgstr "Attiva descrizione del campo"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:66
+msgid "The alt attribute may be used by search engines, screen readers, and when the image cannot be loaded."
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:73
+#, fuzzy
+msgid "-- No preview --"
+msgstr "-- Niente --"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:74
+msgid "Preview image style"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:78
+msgid "The preview image will be shown while editing the content."
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:81
+msgid "Image resolution"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:83
+msgid "Minimum image resolution"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:85;92
+#, fuzzy
+msgid "pixels"
+msgstr "Campi"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:87
+msgid "The minimum allowed image size expressed as WIDTHxHEIGHT (e.g. 640x480). Leave blank for no restriction. If a smaller image is uploaded, it will be rejected."
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:90
+msgid "Maximum image resolution"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:94
+msgid "The maximum allowed image size expressed as WIDTHxHEIGHT (e.g. 640x480). Leave blank for no restriction. If a larger image is uploaded, it will be rejected."
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:96
+msgid "Minimum image ratio"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:97
+msgid "The upload will be invalid if the image apect ratio (e.g. 1.6) is lower. Leave blank for no restriction."
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:99
+msgid "Maximum image ratio"
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:100
+msgid "The upload will be invalid if the image apect ratio (e.g. 1.6) is greater. Leave blank for no restriction."
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:102
+#, fuzzy
+msgid "Minimum image pixels"
+msgstr "Gestisci Campi"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:103
+msgid "The upload will be invalid if the image number of pixels is lower. Leave blank for no restriction."
+msgstr ""
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:105
+#, fuzzy
+msgid "Maximum image pixels"
+msgstr "Gestisci Campi"
+
+#: Plugin\Field\Fields\FieldImage\View\Elements\settings.ctp:106
+msgid "The upload will be invalid if the image number of pixels is greater. Leave blank for no restriction."
+msgstr ""
+
+#: Plugin\Field\Fields\FieldList\Model\Behavior\FieldListHookBehavior.php:54
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\Model\Behavior\TaxonomyTermsHookBehavior.php:166
+msgid "You must select at least one option."
+msgstr "Devi selezionare almeno un'opzione."
+
+#: Plugin\Field\Fields\FieldList\View\Elements\formatter.ctp:8
+#: Vendor\DummyLocale.php:194
+msgid "Default"
+msgstr "Default"
+
+#: Plugin\Field\Fields\FieldList\View\Elements\formatter.ctp:9
+msgid "Key"
+msgstr "Chiave"
+
+#: Plugin\Field\Fields\FieldList\View\Elements\settings.ctp:5
+msgid "Radio buttons"
+msgstr "Radio buttons"
+
+#: Plugin\Field\Fields\FieldList\View\Elements\settings.ctp:5
+msgid "Checkboxes"
+msgstr "Checkboxes"
+
+#: Plugin\Field\Fields\FieldList\View\Elements\settings.ctp:7
+msgid "List Type"
+msgstr "Tipo di Lista"
+
+#: Plugin\Field\Fields\FieldList\View\Elements\settings.ctp:14
+msgid "Options"
+msgstr "Opzioni"
+
+#: Plugin\Field\Fields\FieldList\View\Elements\settings.ctp:20
+msgid "The possible values this field can contain. Enter one value per line, in the format <b>key|label</b>."
+msgstr "I possibili valori che il campo può contenere. Inserisci un valore per linea, nel formato <b>chiave|etichetta</b>"
+
+#: Plugin\Field\Fields\FieldList\View\Elements\settings.ctp:21
+msgid "The key is the stored value. The label will be used in displayed values and edit forms."
+msgstr "La chiave è il valore salvato. L'etichetta sarà usata per visualizzare i valori e nei form."
+
+#: Plugin\Field\Fields\FieldList\View\Elements\settings.ctp:22
+msgid "The label is optional: if a line contains a single string, it will be used as key and label."
+msgstr "L'etichetta è opzionale: se una linea contiene una stringa singola, sarà usata come chiave ed etichetta."
+
+#: Plugin\Field\Fields\FieldText\Model\Behavior\FieldTextHookBehavior.php:57
+msgid "Max. %s characters length."
+msgstr "Massimo %s caratteri di lunghezza."
+
+#: Plugin\Field\Fields\FieldText\Model\Behavior\FieldTextHookBehavior.php:68
+msgid "Field required."
+msgstr "Campo richiesto."
+
+#: Plugin\Field\Fields\FieldText\Model\Behavior\FieldTextHookBehavior.php:77
+msgid "Invalid field."
+msgstr "Campo non valido."
+
+#: Plugin\Field\Fields\FieldText\View\Elements\formatter.ctp:10
+#: Vendor\DummyLocale.php:195
+msgid "Full"
+msgstr "Completo"
+
+#: Plugin\Field\Fields\FieldText\View\Elements\formatter.ctp:11
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Elements\formatter.ctp:8
+msgid "Plain"
+msgstr "Non formattato"
+
+#: Plugin\Field\Fields\FieldText\View\Elements\formatter.ctp:12
+msgid "Trimmed"
+msgstr "Trimmed"
+
+#: Plugin\Field\Fields\FieldText\View\Elements\formatter.ctp:26
+msgid "Trim length or read-more-cutter"
+msgstr "Trim length or read-more-cutter"
+
+#: Plugin\Field\Fields\FieldText\View\Elements\formatter.ctp:32
+msgid "Numeric value will convert content to plain text and then trim it to the specified number of chars. e.g.: 400"
+msgstr "Valori numerici saranno convertiti in testo e poi formattati col numero di caratteri specificato. Es.: 400"
+
+#: Plugin\Field\Fields\FieldText\View\Elements\formatter.ctp:33
+msgid "String value will cut the content in two by the specified string, the first part will be displayed. e.g.: &lt;!-- readmore --&gt;"
+msgstr "Il valore testuale separerà il contenuto in due, la prima parte sarà mostrata. Es.: : &lt;!-- continua --&gt;"
+
+#: Plugin\Field\Fields\FieldText\View\Elements\settings.ctp:7
+msgid "Text field"
+msgstr "Campo di testo"
+
+#: Plugin\Field\Fields\FieldText\View\Elements\settings.ctp:8
+msgid "Long text"
+msgstr "Testo lungo"
+
+#: Plugin\Field\Fields\FieldText\View\Elements\settings.ctp:10
+msgid "Type of content"
+msgstr "Tipo di contenuto"
+
+#: Plugin\Field\Fields\FieldText\View\Elements\settings.ctp:20;32
+msgid "Plain text"
+msgstr "Testo non formattato"
+
+#: Plugin\Field\Fields\FieldText\View\Elements\settings.ctp:21;41
+msgid "Full HTML"
+msgstr "HTML completo"
+
+#: Plugin\Field\Fields\FieldText\View\Elements\settings.ctp:22;48
+msgid "Filtered HTML"
+msgstr "HTML filtrato"
+
+#: Plugin\Field\Fields\FieldText\View\Elements\settings.ctp:23;57
+msgid "Markdown"
+msgstr "Markdown"
+
+#: Plugin\Field\Fields\FieldText\View\Elements\settings.ctp:25
+msgid "Text processing"
+msgstr "Text processing"
+
+#: Plugin\Field\Fields\FieldText\View\Elements\settings.ctp:34
+msgid "No HTML tags allowed."
+msgstr "Nessun tag HTML permesso."
+
+#: Plugin\Field\Fields\FieldText\View\Elements\settings.ctp:35;43;50
+msgid "Web page addresses and e-mail addresses turn into links automatically."
+msgstr "Indirizzi di pagine web e email verrànno tradotti in link automaticamente."
+
+#: Plugin\Field\Fields\FieldText\View\Elements\settings.ctp:36;52
+msgid "Lines and paragraphs break automatically."
+msgstr "Interruzioni automatiche di linee e paragrafi."
+
+#: Plugin\Field\Fields\FieldText\View\Elements\settings.ctp:51
+msgid "Allowed HTML tags: &lt;a&gt; &lt;em&gt; &lt;strong&gt; &lt;cite&gt; &lt;blockquote&gt; &lt;code&gt; &lt;ul&gt; &lt;ol&gt; &lt;li&gt; &lt;dl&gt; &lt;dt&gt; &lt;dd&gt;"
+msgstr "Tag HTML permessi:  &lt;a&gt; &lt;em&gt; &lt;strong&gt; &lt;cite&gt; &lt;blockquote&gt; &lt;code&gt; &lt;ul&gt; &lt;ol&gt; &lt;li&gt; &lt;dl&gt; &lt;dt&gt; &lt;dd&gt;"
+
+#: Plugin\Field\Fields\FieldText\View\Elements\settings.ctp:59
+msgid "<a href=\"%s\" target=\"_blank\">Markdown</a> text format allowed only."
+msgstr "Testo formattato solo come <a href=\"%s\" target=\"_blank\">Markdown</a>."
+
+#: Plugin\Field\Fields\FieldText\View\Elements\settings.ctp:75
+msgid "Max length"
+msgstr "Massima lunghezza"
+
+#: Plugin\Field\Fields\FieldText\View\Elements\settings.ctp:79
+msgid "This is only used if your Type of content is a `Text field`. This will limit the subscriber to typing X number of characters in your textbox."
+msgstr "Questo è utilizzato solo se il tuo Tipo di contenuto è un `Campo di testo`. Questo limiterà l'utente a scrivere X caratteri nel tuo campo testo."
+
+#: Plugin\Field\Fields\FieldText\View\Elements\settings.ctp:85
+msgid "Validation rule"
+msgstr "Regola di validazione"
+
+#: Plugin\Field\Fields\FieldText\View\Elements\settings.ctp:89
+msgid "Enter your custom regular expression. e.g.: \"/^[a-z0-9]{3,}$/i\" (Only letters and integers, min 3 characters)"
+msgstr "Inserisci la tua regular expression personalizzata. Es.: \"/^[a-z0-9]{3,}$/i\" (Solo lettere e numeri, minimo 3 caratteri)"
+
+#: Plugin\Field\Fields\FieldText\View\Elements\settings.ctp:95
+msgid "Validation message"
+msgstr "Messaggio di validazione"
+
+#: Plugin\Field\Fields\FieldText\View\Elements\settings.ctp:99
+msgid "This is only used if `Validation rule` has been set."
+msgstr "Questo è solo usato se la `Regola di validazione` è stata inserita."
+
+#: Plugin\Field\Fields\FieldText\View\Helper\FieldTextHookHelper.php:174
+msgid "Turn on JavaScript to see the email address."
+msgstr "Attiva JavaScript per vedere l'indirizzo email."
+
+#: Plugin\Field\Model\Field.php:89
+msgid "This field is locked and cannot be modified"
+msgstr "Questo campo è bloccato e non può essere modificato"
+
+#: Plugin\Field\View\Elements\display_settings.ctp:15
+#, fuzzy
+msgid "Field display format (display mode: %s)"
+msgstr "Formato vista campo (modo vista: %s)"
+
+#: Plugin\Field\View\Elements\display_settings.ctp:19
+#: Plugin\Node\View\Types\admin_display.ctp:8
+#: Plugin\Node\View\Types\admin_fields.ctp:4
+#: Plugin\User\View\Display\admin_index.ctp:8
+#: Plugin\User\View\Fields\admin_index.ctp:4;45
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:321;322
+msgid "Label"
+msgstr "Etichetta"
+
+#: Plugin\Field\View\Elements\display_settings.ctp:25;50
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:67
+#: Vendor\DummyLocale.php:28
+msgid "Hidden"
+msgstr "Nascosto"
+
+#: Plugin\Field\View\Elements\display_settings.ctp:25
+msgid "Above"
+msgstr "Sopra"
+
+#: Plugin\Field\View\Elements\display_settings.ctp:25
+msgid "Inline"
+msgstr "In linea"
+
+#: Plugin\Field\View\Elements\display_settings.ctp:38
+msgid "Allow hooktags"
+msgstr "Concedi hooktags"
+
+#: Plugin\Field\View\Elements\display_settings.ctp:39
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:70
+#: Plugin\Node\View\Types\admin_fields.ctp:17
+#: Plugin\System\View\Configuration\admin_index.ctp:30;60;139
+#: Plugin\Taxonomy\View\Elements\vocabularies_block_settings.ctp:20;28
+#: Plugin\User\View\Fields\admin_index.ctp:17
+msgid "Yes"
+msgstr "Sì"
+
+#: Plugin\Field\View\Elements\display_settings.ctp:39
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:71
+#: Plugin\Node\View\Types\admin_fields.ctp:17
+#: Plugin\System\View\Configuration\admin_index.ctp:30;60;138
+#: Plugin\Taxonomy\View\Elements\vocabularies_block_settings.ctp:20;28
+#: Plugin\User\View\Fields\admin_index.ctp:17
+msgid "No"
+msgstr "No"
+
+#: Plugin\Field\View\Elements\display_settings.ctp:45
+#: Plugin\Node\View\Types\admin_display.ctp:11
+#: Plugin\User\View\Display\admin_index.ctp:11
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:323;324
+msgid "Format"
+msgstr "Formato"
+
+#: Plugin\Field\View\Elements\display_settings.ctp:64
+#: Plugin\Node\View\Types\admin_field_settings.ctp:16
+#: Plugin\User\View\Fields\admin_field_settings.ctp:16
+msgid "Save field"
+msgstr "Salva campo"
+
+#: Plugin\Locale\Controller\LanguagesController.php:88;95
+msgid "New language has been saved"
+msgstr "La nuova lingua è stata salvata"
+
+#: Plugin\Locale\Controller\LanguagesController.php:91;98;111
+msgid "Language could not be saved. Please, try again."
+msgstr "La lingua non può essere salvata. Ritenta."
+
+#: Plugin\Locale\Controller\LanguagesController.php:108
+msgid "Language has been saved"
+msgstr "La lingua è stata salvata"
+
+#: Plugin\Locale\Controller\LanguagesController.php:126;128
+#: Plugin\Locale\View\Languages\admin_edit.ctp:19
+msgid "Editing language"
+msgstr "Modifica lingua"
+
+#: Plugin\Locale\Controller\PackagesController.php:18
+#: Plugin\Locale\View\Packages\admin_index.ctp:54
+msgid "ALL"
+msgstr "TUTTI"
+
+#: Plugin\Locale\Controller\PackagesController.php:24
+#: Plugin\Locale\View\Packages\admin_index.ctp:47
+#: Plugin\User\Controller\PermissionsController.php:66;339
+msgid "Theme: %s"
+msgstr "Tema: %s"
+
+#: Plugin\Locale\Controller\PackagesController.php:27
+#: Plugin\Locale\View\Packages\admin_index.ctp:49
+#: Plugin\User\Controller\PermissionsController.php:64;337
+msgid "Field: %s"
+msgstr "Campo: %s"
+
+#: Plugin\Locale\Controller\PackagesController.php:30
+#: Plugin\Locale\View\Packages\admin_index.ctp:51
+#: Plugin\User\Controller\PermissionsController.php:68;341
+msgid "Module: %s"
+msgstr "Modulo: %s"
+
+#: Plugin\Locale\Controller\PackagesController.php:41
+#: Plugin\Locale\View\Elements\toolbar.ctp:5
+msgid "Translation packages"
+msgstr "Pacchetti traduzione"
+
+#: Plugin\Locale\Controller\PackagesController.php:43
+msgid "Translation Packages"
+msgstr "Pacchetti Traduzione"
+
+#: Plugin\Locale\Controller\PackagesController.php:73
+msgid "Package not found"
+msgstr "Pacchetto non trovato"
+
+#: Plugin\Locale\Controller\PackagesController.php:89
+msgid "Could not delete package folder. Please check folder permissions for '%s'."
+msgstr "Non è stato possibile eliminare la cartella del pacchetto. Controlla i permessi della cartella '%s'"
+
+#: Plugin\Locale\Controller\PackagesController.php:91
+msgid "Language package removed!"
+msgstr "Pacchetto lingua rimosso!"
+
+#: Plugin\Locale\Controller\PackagesController.php:94
+msgid "Invalid module or language "
+msgstr "Modulo o lingua non validi "
+
+#: Plugin\Locale\Controller\PackagesController.php:120
+msgid "Language package upload success"
+msgstr "Pacchetto lingua caricato correttamente"
+
+#: Plugin\Locale\Controller\TranslationsController.php:49;141;171;201;312
+#: Plugin\Locale\View\Elements\toolbar.ctp:4
+msgid "Translatable entries"
+msgstr "Record traducibili"
+
+#: Plugin\Locale\Controller\TranslationsController.php:51
+msgid "Translatable Entries"
+msgstr "Record Traducibili"
+
+#: Plugin\Locale\Controller\TranslationsController.php:142
+#: Plugin\Locale\View\Elements\toolbar.ctp:22
+msgid "Fuzzy entries"
+msgstr "Voci Fuzzy"
+
+#: Plugin\Locale\Controller\TranslationsController.php:149
+msgid "Fuzzy entry has been deleted."
+msgstr "La voce Fuzzy è stato eliminata."
+
+#: Plugin\Locale\Controller\TranslationsController.php:151
+msgid "Fuzzy entry was not found."
+msgstr "La voce Fuzzy non è stata trovata."
+
+#: Plugin\Locale\Controller\TranslationsController.php:161;179
+msgid "Entry has been saved"
+msgstr "Il record è stato salvato"
+
+#: Plugin\Locale\Controller\TranslationsController.php:164;187
+msgid "Entry could not be saved. Please, try again."
+msgstr "Il record non può essere salvato. Ritenta."
+
+#: Plugin\Locale\Controller\TranslationsController.php:173
+msgid "Editing entry"
+msgstr "Modifica record"
+
+#: Plugin\Locale\Controller\TranslationsController.php:203
+msgid "Add new entry"
+msgstr "Nuovo record"
+
+#: Plugin\Locale\Controller\TranslationsController.php:304
+msgid "%s entries has been imported."
+msgstr "%s voci sono state importate."
+
+#: Plugin\Locale\Controller\TranslationsController.php:313
+#: Plugin\Locale\View\Translations\admin_import.ctp:2;22
+msgid "Import entries"
+msgstr "Importa voci"
+
+#: Plugin\Locale\Controller\TranslationsController.php:315
+msgid "Import Entries"
+msgstr "Importa Voci"
+
+#: Plugin\Locale\Lib\QALocale.php:44
+msgid "- None selected -"
+msgstr "- Nessuna selezione -"
+
+#: Plugin\Locale\Lib\QALocale.php:48
+msgid "%s: %s"
+msgstr "%s: %s"
+
+#: Plugin\Locale\Lib\QALocale.php:48;74
+msgid "l, F j, Y - H:i"
+msgstr "l j, F, Y - H:i"
+
+#: Plugin\Locale\Lib\QALocale.php:70
+msgid "m/d/Y - H:i"
+msgstr "d/m/Y - H:i"
+
+#: Plugin\Locale\Lib\QALocale.php:83
+msgid "D, m/d/Y - H:i"
+msgstr "D, d/m/Y - H:i"
+
+#: Plugin\Locale\Model\Datasource\ArraySource.php:96
+msgid "No records found in model."
+msgstr ""
+
+#: Plugin\Locale\View\Elements\language_switcher_block_settings.ctp:7
+msgid "Display language as"
+msgstr "Mostra il nome della lingua"
+
+#: Plugin\Locale\View\Elements\language_switcher_block_settings.ctp:8
+msgid "HTML List"
+msgstr "Lista"
+
+#: Plugin\Locale\View\Elements\language_switcher_block_settings.ctp:8
+msgid "Selectbox"
+msgstr "Lista di selezione"
+
+#: Plugin\Locale\View\Elements\language_switcher_block_settings.ctp:16
+msgid "Display language flag icon"
+msgstr "Mostra l'icona della bandiera della lingua"
+
+#: Plugin\Locale\View\Elements\language_switcher_block_settings.ctp:17
+msgid "Display language name"
+msgstr "Mostra il nome della lingua"
+
+#: Plugin\Locale\View\Elements\toolbar.ctp:3
+#: Vendor\DummyLocale.php:29
+#: View\Elements\theme_search_form.ctp:41
+msgid "Languages"
+msgstr "Lingue"
+
+#: Plugin\Locale\View\Elements\toolbar.ctp:3
+msgid "Configure languages for content and the user interface."
+msgstr "Configura lingue per contenuto e interfaccia utente."
+
+#: Plugin\Locale\View\Elements\toolbar.ctp:4
+msgid "Translate interface"
+msgstr "Traduci interfaccia"
+
+#: Plugin\Locale\View\Elements\toolbar.ctp:5
+msgid "Manage translation files packages"
+msgstr "Gestisci file di pacchetti traduzione"
+
+#: Plugin\Locale\View\Elements\toolbar.ctp:12
+msgid "Add translatable entry"
+msgstr "Aggiungi record traducibile"
+
+#: Plugin\Locale\View\Elements\toolbar.ctp:14
+msgid "Add new translatable entry."
+msgstr "Aggiungi una nuovo record traducibile."
+
+#: Plugin\Locale\View\Elements\toolbar.ctp:24
+msgid "Fuzzy entries."
+msgstr "Voci Fuzzy."
+
+#: Plugin\Locale\View\Languages\admin_edit.ctp:26
+#: Plugin\Locale\View\Languages\admin_index.ctp:69
+msgid "Language name in English *"
+msgstr "Nome lingua in Inglese *"
+
+#: Plugin\Locale\View\Languages\admin_edit.ctp:28
+#: Plugin\Locale\View\Languages\admin_index.ctp:71
+msgid "Native language name *"
+msgstr "Nome lingua originale *"
+
+#: Plugin\Locale\View\Languages\admin_edit.ctp:29
+#: Plugin\Locale\View\Languages\admin_index.ctp:72
+msgid "Name of the language in the language being added."
+msgstr "Nome lingua nel linguaggio che è stato aggiungo."
+
+#: Plugin\Locale\View\Languages\admin_edit.ctp:40
+msgid "Flag icon"
+msgstr "Icona bandiera"
+
+#: Plugin\Locale\View\Languages\admin_edit.ctp:42
+#: Plugin\System\View\Configuration\admin_index.ctp:157
+#: Plugin\Taxonomy\View\Vocabularies\admin_terms.ctp:6
+msgid "-- None --"
+msgstr "-- Niente --"
+
+#: Plugin\Locale\View\Languages\admin_edit.ctp:57
+msgid "Custom flag icon"
+msgstr "Icona bandiera personalizzata"
+
+#: Plugin\Locale\View\Languages\admin_edit.ctp:62
+msgid "Optional URL of your language flag icon, if your language flag isn't in the above list."
+msgstr "URL opzionale dell'icona della bandiera della tua lingua, se la bandiera della tua lingua non è nella lista qui sopra."
+
+#: Plugin\Locale\View\Languages\admin_edit.ctp:71
+#: Plugin\Locale\View\Languages\admin_index.ctp:81
+msgid "Left to Right"
+msgstr "Da Sinistra a Destra"
+
+#: Plugin\Locale\View\Languages\admin_edit.ctp:72
+#: Plugin\Locale\View\Languages\admin_index.ctp:82
+msgid "Right to Left"
+msgstr "Da Destra a Sinistra"
+
+#: Plugin\Locale\View\Languages\admin_edit.ctp:75
+#: Plugin\Locale\View\Languages\admin_index.ctp:85
+msgid "Direction *"
+msgstr "Direzione *"
+
+#: Plugin\Locale\View\Languages\admin_edit.ctp:76
+#: Plugin\Locale\View\Languages\admin_index.ctp:86
+msgid "Direction that text in this language is presented."
+msgstr "Direzione del testo di questa lingua."
+
+#: Plugin\Locale\View\Languages\admin_edit.ctp:83
+msgid "Save language"
+msgstr "Salva lingua"
+
+#: Plugin\Locale\View\Languages\admin_index.ctp:9
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:145
+msgid "English name"
+msgstr "Nome in inglese"
+
+#: Plugin\Locale\View\Languages\admin_index.ctp:16
+#: Plugin\System\View\Configuration\admin_index.ctp:56
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:141;172
+msgid "Default language"
+msgstr "Lingua di default"
+
+#: Plugin\Locale\View\Languages\admin_index.ctp:19
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:162;163
+msgid "Native name"
+msgstr "Nome originale"
+
+#: Plugin\Locale\View\Languages\admin_index.ctp:23
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:164;165
+msgid "Code"
+msgstr "Codice"
+
+#: Plugin\Locale\View\Languages\admin_index.ctp:26
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:166;167
+msgid "Direction"
+msgstr "Direzione"
+
+#: Plugin\Locale\View\Languages\admin_index.ctp:27
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:142;174
+msgid "Left to right"
+msgstr "Da sinistra a destra"
+
+#: Plugin\Locale\View\Languages\admin_index.ctp:27
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:142;173
+msgid "Right to left"
+msgstr "Da destra a sinistra"
+
+#: Plugin\Locale\View\Languages\admin_index.ctp:29
+#: Plugin\Node\View\Contents\admin_index.ctp:26;69
+#: Plugin\User\View\List\admin_index.ctp:42
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:70;159
+msgid "Status"
+msgstr "Stato"
+
+#: Plugin\Locale\View\Languages\admin_index.ctp:30
+#: Plugin\User\View\List\admin_index.ctp:45
+msgid "active"
+msgstr "attivo"
+
+#: Plugin\Locale\View\Languages\admin_index.ctp:30
+#: Plugin\Menu\View\Elements\menu_link_node.ctp:5
+msgid "disabled"
+msgstr "disabilitato"
+
+#: Plugin\Locale\View\Languages\admin_index.ctp:32
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:15
+#: Plugin\Locale\View\Translations\admin_list.ctp:8
+#: Plugin\Menu\View\Manage\admin_index.ctp:8
+#: Plugin\Node\View\Contents\admin_index.ctp:38
+#: Plugin\Node\View\Types\admin_display.ctp:14
+#: Plugin\Node\View\Types\admin_fields.ctp:19
+#: Plugin\Node\View\Types\admin_index.ctp:8
+#: Plugin\Taxonomy\View\Vocabularies\admin_index.ctp:12
+#: Plugin\User\View\Display\admin_index.ctp:14
+#: Plugin\User\View\Fields\admin_index.ctp:19
+#: Plugin\User\View\List\admin_index.ctp:22
+#: Plugin\User\View\Roles\admin_index.ctp:24
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:70;116;159;202;238;271;297;326
+msgid "Actions"
+msgstr "Azioni"
+
+#: Plugin\Locale\View\Languages\admin_index.ctp:34
+#: Plugin\Node\View\Types\admin_display.ctp:17
+#: Plugin\Node\View\Types\admin_fields.ctp:22
+#: Plugin\Taxonomy\View\Vocabularies\admin_index.ctp:17
+#: Plugin\User\View\Display\admin_index.ctp:17
+#: Plugin\User\View\Fields\admin_index.ctp:22
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:127;248;305
+msgid "move up"
+msgstr "muovi su"
+
+#: Plugin\Locale\View\Languages\admin_index.ctp:35
+#: Plugin\Node\View\Types\admin_display.ctp:18
+#: Plugin\Node\View\Types\admin_fields.ctp:23
+#: Plugin\Taxonomy\View\Vocabularies\admin_index.ctp:18
+#: Plugin\User\View\Display\admin_index.ctp:18
+#: Plugin\User\View\Fields\admin_index.ctp:23
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:128;249;306
+msgid "move down"
+msgstr "muovi giù"
+
+#: Plugin\Locale\View\Languages\admin_index.ctp:36
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:129
+msgid "set as default"
+msgstr "imposta come default"
+
+#: Plugin\Locale\View\Languages\admin_index.ctp:37
+#: Plugin\Locale\View\Translations\admin_list.ctp:10
+#: Plugin\Menu\View\Elements\menu_link_node.ctp:3
+#: Plugin\Menu\View\Manage\admin_index.ctp:10
+#: Plugin\Node\View\Contents\admin_index.ctp:41
+#: Plugin\Node\View\Types\admin_index.ctp:11
+#: Plugin\System\View\Elements\system_recent_content.ctp:6
+#: Plugin\Taxonomy\View\Elements\term_node.ctp:6
+#: Plugin\Taxonomy\View\Vocabularies\admin_index.ctp:14
+#: Plugin\User\View\List\admin_index.ctp:23
+#: Plugin\User\View\Roles\admin_index.ctp:26
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:42;102;130;183;209;245;279
+msgid "edit"
+msgstr "modifica"
+
+#: Plugin\Locale\View\Languages\admin_index.ctp:43
+msgid "There are no languages to display. Critical error"
+msgstr "Non ci sono lingue da mostrare. Errore critico"
+
+#: Plugin\Locale\View\Languages\admin_index.ctp:51
+msgid "Add New Language"
+msgstr "Nuova lingua"
+
+#: Plugin\Locale\View\Languages\admin_index.ctp:54
+msgid "Language name"
+msgstr "Nome lingua"
+
+#: Plugin\Locale\View\Languages\admin_index.ctp:56;91
+#: Plugin\Node\View\Contents\admin_add.ctp:3
+#: Plugin\Node\View\Types\admin_fields.ctp:87
+#: Plugin\User\View\Fields\admin_index.ctp:85
+#: Plugin\User\View\Roles\admin_index.ctp:12
+msgid "Add"
+msgstr "Aggiungi"
+
+#: Plugin\Locale\View\Languages\admin_index.ctp:62
+msgid "Custom Language"
+msgstr "Lingua personalizzata"
+
+#: Plugin\Locale\View\Languages\admin_index.ctp:66
+msgid "Language code *"
+msgstr "Codice lingua *"
+
+#: Plugin\Locale\View\Languages\admin_index.ctp:67
+msgid "<a href=\"%s\" target=\"_blank\">ISO 639-3</a> compliant language identifier."
+msgstr "Identificatore lingua compatibile <a href=\"%s\" target=\"_blank\">ISO 639-3</a>."
+
+#: Plugin\Locale\View\Languages\admin_index.ctp:109
+msgid "Enable selected languages"
+msgstr "Attiva lingue selezionate"
+
+#: Plugin\Locale\View\Languages\admin_index.ctp:110
+msgid "Disable selected languages"
+msgstr "Disattiva lingue selezionate"
+
+#: Plugin\Locale\View\Languages\admin_index.ctp:111
+msgid "Delete selected languages"
+msgstr "Elimina lingue selezionate"
+
+#: Plugin\Locale\View\Packages\admin_index.ctp:3
+msgid "Upload Translation Package"
+msgstr "Carica Pacchetto Traduzione"
+
+#: Plugin\Locale\View\Packages\admin_index.ctp:8
+msgid "Package (.po)"
+msgstr "Paccheto (.po)"
+
+#: Plugin\Locale\View\Packages\admin_index.ctp:12
+msgid "Select a translation package."
+msgstr "Pacchetti traduzione"
+
+#: Plugin\Locale\View\Packages\admin_index.ctp:18
+msgid "Translation for"
+msgstr "Traduzioni"
+
+#: Plugin\Locale\View\Packages\admin_index.ctp:22
+msgid "What would you like to translate?"
+msgstr "Cosa desideri fare"
+
+#: Plugin\Locale\View\Packages\admin_index.ctp:32
+msgid "What is the language of this package? You can register more languages on the <a href=\"%s\">Languages</a> section."
+msgstr "Qual è il linguaggio di questo package? Puoi registrare più lingue nella sezione <a href=\"%s\">Lingue</a>."
+
+#: Plugin\Locale\View\Packages\admin_index.ctp:35
+msgid "Upload"
+msgstr "Carica"
+
+#: Plugin\Locale\View\Packages\admin_index.ctp:71
+msgid "download"
+msgstr "download"
+
+#: Plugin\Locale\View\Packages\admin_index.ctp:72
+msgid "uninstall"
+msgstr "disinstalla"
+
+#: Plugin\Locale\View\Packages\admin_index.ctp:72
+msgid "Delete the selected package ?"
+msgstr "Eliminare il pacchetto selezionato ?"
+
+#: Plugin\Locale\View\Packages\admin_index.ctp:88
+msgid "Invalid package"
+msgstr "Pacchetto non valido"
+
+#: Plugin\Locale\View\Translations\admin_add.ctp:2
+msgid "Adding translatable entry"
+msgstr "Aggiungi voce traducibile"
+
+#: Plugin\Locale\View\Translations\admin_add.ctp:8
+#: Plugin\Locale\View\Translations\admin_edit.ctp:5
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:40
+#: Plugin\Locale\View\Translations\admin_list.ctp:29
+msgid "Original text"
+msgstr "Testo originale"
+
+#: Plugin\Locale\View\Translations\admin_add.ctp:53
+#: Plugin\Node\View\Contents\admin_translate.ctp:28
+msgid "Translate"
+msgstr "Traduci"
+
+#: Plugin\Locale\View\Translations\admin_edit.ctp:3
+msgid "Editing translation entry"
+msgstr "Modifica voce traduzione"
+
+#: Plugin\Locale\View\Translations\admin_edit.ctp:46
+msgid "Usage"
+msgstr "Utilizzo"
+
+#: Plugin\Locale\View\Translations\admin_edit.ctp:56
+#: Plugin\Menu\View\Manage\admin_add_link.ctp:45
+#: Plugin\Menu\View\Manage\admin_edit.ctp:6
+#: Plugin\Menu\View\Manage\admin_edit_link.ctp:56
+#: Plugin\Node\View\Types\admin_display.ctp:62
+#: Plugin\Node\View\Types\admin_edit.ctp:56
+#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:206
+#: Plugin\System\View\Themes\admin_settings.ctp:33
+#: Plugin\Taxonomy\View\Vocabularies\admin_terms.ctp:7
+#: Plugin\User\View\Display\admin_index.ctp:58
+#: View\Elements\theme_node_comments_form.ctp:60
+msgid "Save"
+msgstr "Salva"
+
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:9
+#: Plugin\Locale\View\Translations\admin_list.ctp:4
+#: Vendor\DummyLocale.php:78;88
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:188
+msgid "Text"
+msgstr "Testo"
+
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:17
+#: Plugin\Node\View\Contents\admin_index.ctp:40
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:43
+msgid "translate"
+msgstr "traduci"
+
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:18
+msgid "unhide"
+msgstr "mostra"
+
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:18
+msgid "hide"
+msgstr "nascondi"
+
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:19
+#: Plugin\Locale\View\Translations\admin_list.ctp:12
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:185
+msgid "Delete this entry ?"
+msgstr "Eliminare questa voce?"
+
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:25
+msgid "There are no fuzzy entries to display"
+msgstr "Non ci sono voci fuzzy da mostrare"
+
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:49
+#, fuzzy
+msgid "In file"
+msgstr "Link a file"
+
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:58
+#, fuzzy
+msgid "Line number"
+msgstr "Nome del sito"
+
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:73
+msgid "Both"
+msgstr ""
+
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:82
+#: Plugin\Node\View\Contents\admin_index.ctp:130
+#: Plugin\User\View\List\admin_index.ctp:71
+msgid "Are you sure about this changes ?"
+msgstr "Sei sicuro di questi cambiamenti ?"
+
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:91
+#, fuzzy
+msgid "Hide"
+msgstr "Nascosto"
+
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:92
+#, fuzzy
+msgid "Unhide"
+msgstr "mostra"
+
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:94
+msgid "Export"
+msgstr "Esporta"
+
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:104
+#: Plugin\Locale\View\Translations\admin_list.ctp:36
+#, fuzzy
+msgid "Export all"
+msgstr "Esporta"
+
+#: Plugin\Locale\View\Translations\admin_fuzzy_list.ctp:106
+#, fuzzy
+msgid "Clear all"
+msgstr "Pulisci la cache"
+
+#: Plugin\Locale\View\Translations\admin_import.ctp:7
+msgid "Package (.pot)"
+msgstr "Pacchetto (.pot)"
+
+#: Plugin\Locale\View\Translations\admin_list.ctp:11
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:184
+msgid "Regenerate translation cache"
+msgstr "Rigenera cache traduzione"
+
+#: Plugin\Locale\View\Translations\admin_list.ctp:11
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:184
+msgid "regenerate"
+msgstr "rigenera"
+
+#: Plugin\Locale\View\Translations\admin_list.ctp:18
+msgid "There are no translations to display"
+msgstr "Non ci sono traduzioni da mostrate"
+
+#: Plugin\Locale\View\Translations\admin_list.ctp:27;30
+#: Plugin\Node\View\Elements\search_block.ctp:25
+#: View\Elements\theme_search_form.ctp:15;50
+msgid "Search"
+msgstr "Cerca"
+
+#: Plugin\Locale\View\Translations\admin_list.ctp:38
+msgid "Import"
+msgstr "Importa"
+
+#: Plugin\Menu\Controller\ManageController.php:31;61;89;146;187;236
+msgid "Menu"
+msgstr "Menu"
+
+#: Plugin\Menu\Controller\ManageController.php:33;64
+msgid "Menus"
+msgstr "Menu"
+
+#: Plugin\Menu\Controller\ManageController.php:52;74
+msgid "Menu has been saved"
+msgstr "Il menu è stato salvato"
+
+#: Plugin\Menu\Controller\ManageController.php:55;76
+msgid "Menu could not be saved. Please, try again."
+msgstr "Il menu non può essere salvato. Ritenta."
+
+#: Plugin\Menu\Controller\ManageController.php:62
+#: Plugin\Menu\View\Manage\admin_add.ctp:2
+msgid "Add menu"
+msgstr "Aggiungi menu"
+
+#: Plugin\Menu\Controller\ManageController.php:90
+#: Plugin\Menu\View\Manage\admin_edit.ctp:2
+msgid "Editing menu"
+msgstr "Modifica menu"
+
+#: Plugin\Menu\Controller\ManageController.php:92
+msgid "Editing Menu"
+msgstr "Modifica Menu"
+
+#: Plugin\Menu\Controller\ManageController.php:137;163
+msgid "Menu link has been saved"
+msgstr "Il link di menu è stato salvato"
+
+#: Plugin\Menu\Controller\ManageController.php:140;166
+msgid "Menu link could not be saved. Please, try again."
+msgstr "Il link di menu non può essere salvato. Ritenta."
+
+#: Plugin\Menu\Controller\ManageController.php:147
+msgid "Menu links list"
+msgstr "Lista menu link"
+
+#: Plugin\Menu\Controller\ManageController.php:148
+#: Plugin\Menu\View\Manage\admin_add_link.ctp:2
+msgid "Add menu link"
+msgstr "Aggiungi un link di menu"
+
+#: Plugin\Menu\Controller\ManageController.php:150
+msgid "Add Menu Link"
+msgstr "Aggiungi un Link di Menu"
+
+#: Plugin\Menu\Controller\ManageController.php:189;238
+msgid "Editing menu links"
+msgstr "Modifica link di menu"
+
+#: Plugin\Menu\Controller\ManageController.php:190
+msgid "Editing link"
+msgstr "Modifica link"
+
+#: Plugin\Menu\Controller\ManageController.php:193
+msgid "Editing Link"
+msgstr "Modifica Link"
+
+#: Plugin\Menu\Controller\ManageController.php:233
+msgid "Editing Menu Links"
+msgstr "Modifica Link di Menu"
+
+#: Plugin\Menu\Controller\ManageController.php:243
+msgid "There are no menu links yet. <a href=\"%s\">Add link.</a>"
+msgstr "Non ci sono ancora link di menu. <a href=\"%s\">Aggiungi un link.</a>"
+
+#: Plugin\Menu\View\Elements\menu_edit.ctp:20;51
+#: Plugin\Taxonomy\View\Vocabularies\admin_terms.ctp:32;63
+msgid "Save changes"
+msgstr "Salva i cambiamenti"
+
+#: Plugin\Menu\View\Elements\menu_edit.ctp:40
+#: Plugin\Taxonomy\View\Vocabularies\admin_terms.ctp:52
+msgid "Saving..."
+msgstr "Salvataggio..."
+
+#: Plugin\Menu\View\Elements\menu_edit.ctp:48
+#: Plugin\Taxonomy\View\Vocabularies\admin_terms.ctp:60
+msgid "Saved!"
+msgstr "Salvato!"
+
+#: Plugin\Menu\View\Elements\menu_link_node.ctp:4
+msgid "Delete selected link ?"
+msgstr "Elimina il link selezionato ?"
+
+#: Plugin\Menu\View\Elements\toolbar.ctp:3
+msgid "New Menu"
+msgstr "Nuovo Menu"
+
+#: Plugin\Menu\View\Manage\admin_add.ctp:3
+#: Plugin\Menu\View\Manage\admin_edit.ctp:3
+#: Plugin\Taxonomy\View\Vocabularies\admin_add.ctp:4
+#: Plugin\Taxonomy\View\Vocabularies\admin_edit.ctp:5
+msgid "Title *"
+msgstr "Titolo *"
+
+#: Plugin\Menu\View\Manage\admin_add.ctp:4
+#: Plugin\Menu\View\Manage\admin_add_link.ctp:11
+#: Plugin\Menu\View\Manage\admin_edit.ctp:4
+#: Plugin\Menu\View\Manage\admin_edit_link.ctp:17
+#: Plugin\Node\View\Contents\admin_add.ctp:9;77
+#: Plugin\Node\View\Contents\admin_edit.ctp:21;91
+#: Plugin\Node\View\Types\admin_add.ctp:5
+#: Plugin\Node\View\Types\admin_edit.ctp:10
+#: Plugin\System\View\Configuration\admin_index.ctp:24
+#: Plugin\Taxonomy\View\Vocabularies\admin_add.ctp:5
+#: Plugin\Taxonomy\View\Vocabularies\admin_edit.ctp:6
+#: Plugin\Taxonomy\View\Vocabularies\admin_edit_term.ctp:6
+#: Plugin\Taxonomy\View\Vocabularies\admin_index.ctp:8
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:231;235;236;264;268;269
+msgid "Description"
+msgstr "Descrizione"
+
+#: Plugin\Menu\View\Manage\admin_add.ctp:6
+msgid "Save & add links"
+msgstr "Salva e aggiungi link"
+
+#: Plugin\Menu\View\Manage\admin_add_link.ctp:5
+#: Plugin\Menu\View\Manage\admin_edit_link.ctp:3
+msgid "Menu link title *"
+msgstr "Titolo del menu link *"
+
+#: Plugin\Menu\View\Manage\admin_add_link.ctp:6
+#: Plugin\Menu\View\Manage\admin_edit_link.ctp:4
+msgid "The text to be used for this link in the menu."
+msgstr "Il testo da usare per questo link nel menu."
+
+#: Plugin\Menu\View\Manage\admin_add_link.ctp:8
+#: Plugin\Menu\View\Manage\admin_edit_link.ctp:6
+msgid "Path *"
+msgstr "Indirizzo *"
+
+#: Plugin\Menu\View\Manage\admin_add_link.ctp:9
+#: Plugin\Menu\View\Manage\admin_edit_link.ctp:7
+msgid "The path for this menu link. This can be an internal QuickApps path such as /type-of-content/my-post.html or an external URL such as http://quickapps.es. Enter '/' to link to the front page."
+msgstr "L'indirizzo per il link di menu. Può essere un indirizzo interno a QuickApps come /tipo-conenuto/mio-post.html o una URL esterna come http://quickapps.es. Inserisci '/' per linkare alla home page."
+
+#: Plugin\Menu\View\Manage\admin_add_link.ctp:12
+#: Plugin\Menu\View\Manage\admin_edit_link.ctp:18
+#: Plugin\Node\View\Contents\admin_add.ctp:78
+#: Plugin\Node\View\Contents\admin_edit.ctp:92
+msgid "Shown when hovering over the menu link."
+msgstr "Mostrato passando sopra il link."
+
+#: Plugin\Menu\View\Manage\admin_add_link.ctp:14
+#: Plugin\Menu\View\Manage\admin_edit_link.ctp:20
+msgid "Target window"
+msgstr "Apri in"
+
+#: Plugin\Menu\View\Manage\admin_add_link.ctp:14
+#: Plugin\Menu\View\Manage\admin_edit_link.ctp:20
+msgid "Same window"
+msgstr "Stessa finestra"
+
+#: Plugin\Menu\View\Manage\admin_add_link.ctp:14
+#: Plugin\Menu\View\Manage\admin_edit_link.ctp:20
+msgid "New window"
+msgstr "Nuova finestra"
+
+#: Plugin\Menu\View\Manage\admin_add_link.ctp:15
+#: Plugin\Menu\View\Manage\admin_edit_link.ctp:21
+msgid "Target browser window when the link is clicked."
+msgstr "Finestra del browser destinazione quando il link è cliccato."
+
+#: Plugin\Menu\View\Manage\admin_add_link.ctp:19
+#: Plugin\Menu\View\Manage\admin_edit_link.ctp:25
+msgid "Show as selected:"
+msgstr "Mostra come selezionato:"
+
+#: Plugin\Menu\View\Manage\admin_add_link.ctp:26
+#: Plugin\Menu\View\Manage\admin_edit_link.ctp:33
+msgid "When following PHP code returns TRUE (experts only)"
+msgstr "Quando il seguente codice PHP ritorna TRUE (solo esperti)"
+
+#: Plugin\Menu\View\Manage\admin_add_link.ctp:27
+msgid "On URL matching (regular expression)"
+msgstr "Alla corrispondenza della URL (espressioni regolari)"
+
+#: Plugin\Menu\View\Manage\admin_add_link.ctp:40
+msgid "Parent link"
+msgstr "Link padre"
+
+#: Plugin\Menu\View\Manage\admin_add_link.ctp:42
+#: Plugin\Menu\View\Manage\admin_edit_link.ctp:47
+msgid "Show as expanded"
+msgstr "Mostra espanso"
+
+#: Plugin\Menu\View\Manage\admin_add_link.ctp:43
+#: Plugin\Menu\View\Manage\admin_edit_link.ctp:48
+msgid "If selected and this menu link has children, the menu will always appear expanded."
+msgstr "Se selezionato e il link di menu ha figli, il menu sarà sempre visualizzato espanso."
+
+#: Plugin\Menu\View\Manage\admin_edit_link.ctp:2
+msgid "Edit menu link"
+msgstr "Modifica link di menu"
+
+#: Plugin\Menu\View\Manage\admin_edit_link.ctp:9
+msgid "Path"
+msgstr "Indirizzo"
+
+#: Plugin\Menu\View\Manage\admin_edit_link.ctp:32
+msgid "When URL match any those listed"
+msgstr "Quando la URL corrisponde ad alcune di quelle listate"
+
+#: Plugin\Menu\View\Manage\admin_edit_link.ctp:50
+msgid "Enabled"
+msgstr "Attivato"
+
+#: Plugin\Menu\View\Manage\admin_edit_link.ctp:51
+msgid "Menu links that are not enabled will not be listed in any menu."
+msgstr "Link di menu non abilitati non saranno visualizzati in alcun menu."
+
+#: Plugin\Menu\View\Manage\admin_edit_link.ctp:54
+msgid "Go to <a href=\"%s\">menu links</a> list to reparent this link."
+msgstr "Vai alla lista dei <a href=\"%s\">link di menu</a> per riassociare questo link."
+
+#: Plugin\Menu\View\Manage\admin_index.ctp:11
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:210
+msgid "links"
+msgstr "link"
+
+#: Plugin\Menu\View\Manage\admin_index.ctp:12
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:211
+msgid "add link"
+msgstr "aggiungi link"
+
+#: Plugin\Menu\View\Manage\admin_index.ctp:16
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:215
+msgid "Delete selected menu ?"
+msgstr "Eliminare il menu selezionato?"
+
+#: Plugin\Menu\View\Manage\admin_links.ctp:2;4
+#: Vendor\DummyLocale.php:80;90
+msgid "Links"
+msgstr "Link"
+
+#: Plugin\Node\Controller\ContentsController.php:101
+msgid "Contents"
+msgstr "Contenuti"
+
+#: Plugin\Node\Controller\ContentsController.php:147
+msgid "Translate Content"
+msgstr "Traduci interfaccia"
+
+#: Plugin\Node\Controller\ContentsController.php:149
+#: Plugin\Node\View\Contents\admin_translate.ctp:11
+msgid "Translating Content"
+msgstr "Traduzioni"
+
+#: Plugin\Node\Controller\ContentsController.php:164;250
+msgid "Content has been saved"
+msgstr "Il contenuto è stato salvato"
+
+#: Plugin\Node\Controller\ContentsController.php:167;253
+msgid "Content could not be saved. Please, try again."
+msgstr "Il contenuto non può essere salvato. Ritenta."
+
+#: Plugin\Node\Controller\ContentsController.php:172
+msgid "<b>Content type not found.</b><br/>You can't edit this undefined type of content."
+msgstr "<b>Tipo di contenuto non trovato</b><br/>Non puoi modificare questo tipo di contenuto non definito."
+
+#: Plugin\Node\Controller\ContentsController.php:211
+msgid "Missing parent content. This is a translated content, and reference a missing parent content."
+msgstr "Contenuto padre mancante. Questo è un contenuto tradotto, e si riferisce a un contenuto padre mancante."
+
+#: Plugin\Node\Controller\ContentsController.php:225
+msgid "Editing Content"
+msgstr "Modifica Contenuto"
+
+#: Plugin\Node\Controller\ContentsController.php:231;292
+msgid "Add Content"
+msgstr "Aggiungi Contenuto"
+
+#: Plugin\Node\Controller\ContentsController.php:234
+msgid "Select content type"
+msgstr "Seleziona tipo di contenuto"
+
+#: Plugin\Node\Controller\NodeController.php:186
+msgid "Page not found"
+msgstr "Pagina non trovata"
+
+#: Plugin\Node\Controller\NodeController.php:202
+msgid "Your comment has been queued for review by site administrators and will be published after approval."
+msgstr "Il tuo commento è in coda per per essere visionato dagli amminstratori e sarà pubblicato previa approvazione."
+
+#: Plugin\Node\Controller\NodeController.php:204
+msgid "Your comment has been posted."
+msgstr "Il tuo commento è stato aggiunto."
+
+#: Plugin\Node\Controller\NodeController.php:209
+msgid "Comment could not be saved. Please try again."
+msgstr "Il commento non può essere salvato. Ritenta."
+
+#: Plugin\Node\Controller\TypesController.php:18
+msgid "Content Types"
+msgstr "Tipi di Contenuto"
+
+#: Plugin\Node\Controller\TypesController.php:24
+msgid "Content type has been saved!"
+msgstr "Il tipo di contenuto è stato salvato!"
+
+#: Plugin\Node\Controller\TypesController.php:27
+msgid "Content type could not be saved"
+msgstr "Il tipo di contenuto non può essere salvato"
+
+#: Plugin\Node\Controller\TypesController.php:37
+msgid "Editing Type"
+msgstr "Modifica Tipo"
+
+#: Plugin\Node\Controller\TypesController.php:53
+msgid "Add Content Type"
+msgstr "Aggiungi Tipo di Contenuto"
+
+#: Plugin\Node\Controller\TypesController.php:60
+msgid "Content type has been deleted"
+msgstr "Il tipo di contenuto è stato eliminato"
+
+#: Plugin\Node\Controller\TypesController.php:107;175
+msgid "Display"
+msgstr "Vista"
+
+#: Plugin\Node\Controller\TypesController.php:109
+msgid "Display Settings"
+msgstr "Impostazioni Vista"
+
+#: Plugin\Node\Controller\TypesController.php:127
+#: Plugin\User\Controller\FieldsController.php:44
+msgid "Field has been saved"
+msgstr "Il campo è stato salvato."
+
+#: Plugin\Node\Controller\TypesController.php:130
+#: Plugin\User\Controller\FieldsController.php:47
+msgid "Field could not be saved"
+msgstr "L'email non può essere spedita."
+
+#: Plugin\Node\Controller\TypesController.php:141;223;225
+#: Plugin\User\Controller\FieldsController.php:55
+msgid "Fields"
+msgstr "Campi"
+
+#: Plugin\Node\Controller\TypesController.php:143
+#: Plugin\User\Controller\FieldsController.php:58
+msgid "Field Settings"
+msgstr "Impostazioni Campo"
+
+#: Plugin\Node\Controller\TypesController.php:163
+#: Plugin\User\Controller\DisplayController.php:58
+msgid "Field has been saved."
+msgstr "Il campo è stato salvato."
+
+#: Plugin\Node\Controller\TypesController.php:166
+#: Plugin\User\Controller\DisplayController.php:61
+msgid "Field could not be saved. Please, try again."
+msgstr "Il campo non può essere salvato. Ritenta."
+
+#: Plugin\Node\Controller\TypesController.php:176
+#: Plugin\User\Controller\DisplayController.php:70
+msgid "Field display settings"
+msgstr "Impostazioni vista del campo"
+
+#: Plugin\Node\Controller\TypesController.php:178
+#: Plugin\User\Controller\DisplayController.php:72
+msgid "Field Display Settings"
+msgstr "Impostazioni Vista del Campo"
+
+#: Plugin\Node\Controller\TypesController.php:205
+#: Plugin\User\Controller\FieldsController.php:27
+msgid "Field could not be created. Please, try again."
+msgstr "Il campo non può essere creato. Ritenta."
+
+#: Plugin\Node\View\Contents\admin_add.ctp:7
+msgid "%s *"
+msgstr "%s *"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:10
+#: Plugin\Node\View\Contents\admin_edit.ctp:22
+msgid "A short description (255 chars. max.) about this content. Will be used as page meta-description when rendering this content node."
+msgstr "Una descrizione breve (max 255 car.) relativa al contenuto. Sarà usata come meta-description di pagina quando verrà visualizzato questo contenuto."
+
+#: Plugin\Node\View\Contents\admin_add.ctp:18
+#: Plugin\Node\View\Contents\admin_edit.ctp:30
+#: Plugin\System\Controller\ModulesController.php:98
+#: Plugin\System\View\Modules\admin_index.ctp:100
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:93
+msgid "Settings"
+msgstr "Impostazioni"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:20
+#: Plugin\Node\View\Contents\admin_edit.ctp:32
+#: Plugin\Node\View\Types\admin_add.ctp:35
+#: Plugin\Node\View\Types\admin_edit.ctp:41
+msgid "Open"
+msgstr "Aperto"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:20
+#: Plugin\Node\View\Contents\admin_edit.ctp:32
+#: Plugin\Node\View\Types\admin_add.ctp:35
+#: Plugin\Node\View\Types\admin_edit.ctp:41
+msgid "Closed"
+msgstr "Chiuso"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:20
+#: Plugin\Node\View\Contents\admin_edit.ctp:32
+#: Plugin\Node\View\Types\admin_add.ctp:35
+#: Plugin\Node\View\Types\admin_edit.ctp:41
+msgid "Read Only"
+msgstr "Sola Lettura"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:24
+#: Plugin\Node\View\Contents\admin_edit.ctp:37
+#: Plugin\Node\View\Contents\admin_index.ctp:35
+#: Plugin\Node\View\Types\admin_add.ctp:40
+#: Plugin\Node\View\Types\admin_edit.ctp:46
+msgid "-- Any --"
+msgstr "-- Qualsiasi --"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:25
+#: Plugin\Node\View\Contents\admin_edit.ctp:38
+msgid "If no language is selected (-- Any --), node will show regardless of language"
+msgstr "Se nessuna lingua è selezionata (-- Qualsiasi --), sarà mostrato senza riguardo della lingua"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:28
+#: Plugin\Node\View\Contents\admin_edit.ctp:42
+#: Plugin\Node\View\Types\admin_add.ctp:43
+#: Plugin\Node\View\Types\admin_edit.ctp:49
+msgid "Publishing"
+msgstr "Pubblicazione"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:30
+#: Plugin\Node\View\Contents\admin_edit.ctp:44
+#: Plugin\Node\View\Types\admin_add.ctp:45
+#: Plugin\Node\View\Types\admin_edit.ctp:51
+msgid "Promoted to front page"
+msgstr "Promosso alla home page"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:31
+#: Plugin\Node\View\Contents\admin_edit.ctp:45
+#: Plugin\Node\View\Types\admin_add.ctp:46
+#: Plugin\Node\View\Types\admin_edit.ctp:52
+msgid "Sticky at top of lists"
+msgstr "Fissa in cima alla lista"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:34
+#: Plugin\Node\View\Contents\admin_edit.ctp:48
+msgid "Cache this node for"
+msgstr "Cache del nodo per"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:39
+#: Plugin\Node\View\Contents\admin_edit.ctp:53
+msgid "Cache"
+msgstr "Cache"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:41
+#: Plugin\Node\View\Contents\admin_edit.ctp:55
+msgid "-- No Cache --"
+msgstr "-- No Cache --"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:42
+#: Plugin\Node\View\Contents\admin_edit.ctp:56
+#: Plugin\Taxonomy\View\Elements\vocabularies_block_settings.ctp:41
+msgid "%s Hour"
+msgstr "%s Ora"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:43;44;45;46;47;48
+#: Plugin\Node\View\Contents\admin_edit.ctp:57;58;59;60;61;62
+#: Plugin\Taxonomy\View\Elements\vocabularies_block_settings.ctp:42;43;44;45;46;47
+msgid "%s Hours"
+msgstr "%s Ore"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:49
+#: Plugin\Node\View\Contents\admin_edit.ctp:63
+msgid "%s Day"
+msgstr "%s Giorno"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:50;51
+#: Plugin\Node\View\Contents\admin_edit.ctp:64;65
+#: Plugin\Taxonomy\View\Elements\vocabularies_block_settings.ctp:48;49;50
+msgid "%s Days"
+msgstr "%s Giorni"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:52
+#: Plugin\Node\View\Contents\admin_edit.ctp:66
+msgid "%s Week"
+msgstr "%s Settimana"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:53;54
+#: Plugin\Node\View\Contents\admin_edit.ctp:67;68
+#: Plugin\Taxonomy\View\Elements\vocabularies_block_settings.ctp:51
+msgid "%s Weeks"
+msgstr "%s Settimane"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:55
+#: Plugin\Node\View\Contents\admin_edit.ctp:69
+msgid "%s Month"
+msgstr "%s Mese"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:56;57;58
+#: Plugin\Node\View\Contents\admin_edit.ctp:70;71;72
+msgid "%s Months"
+msgstr "%s Mesi"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:59
+#: Plugin\Node\View\Contents\admin_edit.ctp:73
+msgid "%s Year"
+msgstr "%s Anno"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:67
+#: Plugin\Node\View\Contents\admin_edit.ctp:81
+msgid "Show content for specific roles"
+msgstr "Mostra contenuto per ruoli specifici"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:68
+#: Plugin\Node\View\Contents\admin_edit.ctp:82
+msgid "Show this content only for the selected role(s). If you select no roles, the content will be visible to all users."
+msgstr "Mostra questo contenuto solo per i ruoli selezionati. Se non selezioni alcun ruolo, il contenuto sarà visibile da tutti gli utenti."
+
+#: Plugin\Node\View\Contents\admin_add.ctp:71
+#: Plugin\Node\View\Contents\admin_edit.ctp:85
+msgid "Menu Link"
+msgstr "Link di menu"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:73
+#: Plugin\Node\View\Contents\admin_edit.ctp:87
+msgid "Provide a menu link"
+msgstr "Inserisci un link di menu"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:76
+#: Plugin\Node\View\Contents\admin_edit.ctp:90
+msgid "Menu link title"
+msgstr "Titolo link di menu"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:79
+#: Plugin\Node\View\Contents\admin_edit.ctp:93
+msgid "Parent item"
+msgstr "Padre"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:84
+#: Plugin\Node\View\Contents\admin_edit.ctp:98
+msgid "Node container class suffix"
+msgstr "Suffisso di classe del contenitore del nodo"
+
+#: Plugin\Node\View\Contents\admin_add.ctp:85
+#: Plugin\Node\View\Contents\admin_edit.ctp:99
+msgid "A suffix to be applied to the CSS class of the node container. This allows for individual node styling."
+msgstr "Un suffisso da applicare alla classe CSS del contenitore del nodo. Questo permette di personalizzare graficamente ogni singolo nodo."
+
+#: Plugin\Node\View\Contents\admin_add.ctp:97
+msgid "Add content"
+msgstr "Aggiungi contenuto"
+
+#: Plugin\Node\View\Contents\admin_create.ctp:21
+msgid "There are no content types availables"
+msgstr "Non ci sono tipi di contenuto disponibili."
+
+#: Plugin\Node\View\Contents\admin_create.ctp:22
+msgid "Go to <a href=\"%s\">Content Types</a> section for create a new content type"
+msgstr "Vai alla sezione <a href=\"%s\">Tipi di Contenuto</a> per creare un nuovo tipo di contenuto"
+
+#: Plugin\Node\View\Contents\admin_edit.ctp:4
+msgid "Editing"
+msgstr "Modifica"
+
+#: Plugin\Node\View\Contents\admin_edit.ctp:10
+msgid "Slug: %s"
+msgstr "Slug: %s"
+
+#: Plugin\Node\View\Contents\admin_edit.ctp:11
+msgid "URL: %s"
+msgstr "URL: %s"
+
+#: Plugin\Node\View\Contents\admin_edit.ctp:14
+msgid "Translation for: %s [%s]"
+msgstr "Traduzioni"
+
+#: Plugin\Node\View\Contents\admin_edit.ctp:18
+msgid "Regenerate slug"
+msgstr "Rigenera slug"
+
+#: Plugin\Node\View\Contents\admin_edit.ctp:19
+msgid "If this option is checked and title has changed then a new slug is generated."
+msgstr "Se questa opzione è selezionata e il titolo è cambiato allora un nuovo slug sarà generato."
+
+#: Plugin\Node\View\Contents\admin_edit.ctp:111
+#: Plugin\Node\View\Contents\admin_translate.ctp:14
+msgid "Available Translations"
+msgstr "Traduzioni"
+
+#: Plugin\Node\View\Contents\admin_edit.ctp:118
+#: Plugin\Node\View\Contents\admin_index.ctp:42
+#: Plugin\Node\View\Contents\admin_translate.ctp:21
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:44
+msgid "Delete selected content ?"
+msgstr "Eliminare il contenuto selezionato ?"
+
+#: Plugin\Node\View\Contents\admin_edit.ctp:127
+msgid "Save content"
+msgstr "Salva contenuto"
+
+#: Plugin\Node\View\Contents\admin_index.ctp:11
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:50;90
+msgid "Sticky at top"
+msgstr "Fissa in alto"
+
+#: Plugin\Node\View\Contents\admin_index.ctp:12
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:51;89
+msgid "Promoted in front page"
+msgstr "Promuovi in home page"
+
+#: Plugin\Node\View\Contents\admin_index.ctp:13
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:52;91
+msgid "Cache activated"
+msgstr "Cache attivata"
+
+#: Plugin\Node\View\Contents\admin_index.ctp:14
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:53;92
+#, fuzzy
+msgid "This node is a translation of other"
+msgstr "Traduzioni"
+
+#: Plugin\Node\View\Contents\admin_index.ctp:18;108
+#: Plugin\Node\View\Types\admin_add.ctp:2
+#: Plugin\Node\View\Types\admin_edit.ctp:2
+#: Plugin\Node\View\Types\admin_fields.ctp:12;75
+#: Plugin\User\View\Fields\admin_index.ctp:12;73
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:77;78
+msgid "Type"
+msgstr "Tipo"
+
+#: Plugin\Node\View\Contents\admin_index.ctp:27;73
+msgid "not published"
+msgstr "Non pubblicato"
+
+#: Plugin\Node\View\Contents\admin_index.ctp:27;72
+msgid "published"
+msgstr "pubblicato"
+
+#: Plugin\Node\View\Contents\admin_index.ctp:30
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:81;82;93
+msgid "Updated"
+msgstr "Modificato"
+
+#: Plugin\Node\View\Contents\admin_index.ctp:31
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:54
+msgid "updated"
+msgstr "modificato"
+
+#: Plugin\Node\View\Contents\admin_index.ctp:47
+msgid "There are no nodes to display"
+msgstr "Non ci sono nodi da mostrare"
+
+#: Plugin\Node\View\Contents\admin_index.ctp:82
+msgid "Front Page"
+msgstr "Home Page"
+
+#: Plugin\Node\View\Contents\admin_index.ctp:85
+msgid "promoted to front page"
+msgstr "promosso alla home page"
+
+#: Plugin\Node\View\Contents\admin_index.ctp:86
+msgid "not promoted to front page"
+msgstr "non promosso alla home page"
+
+#: Plugin\Node\View\Contents\admin_index.ctp:95
+msgid "Sticky"
+msgstr "Fisso"
+
+#: Plugin\Node\View\Contents\admin_index.ctp:98
+msgid "sticky at top"
+msgstr "fissa in alto"
+
+#: Plugin\Node\View\Contents\admin_index.ctp:99
+msgid "not sticky at top"
+msgstr "non fissare in alto"
+
+#: Plugin\Node\View\Contents\admin_index.ctp:139
+msgid "Publish selected content"
+msgstr "Pubblica il contenuto selezionato"
+
+#: Plugin\Node\View\Contents\admin_index.ctp:140
+msgid "Unpublish selected content"
+msgstr "Non pubblicare il contenuto selezionato"
+
+#: Plugin\Node\View\Contents\admin_index.ctp:141
+msgid "Promote selected content to front page"
+msgstr "Promuovi il contenuto selezionato alla home page"
+
+#: Plugin\Node\View\Contents\admin_index.ctp:142
+msgid "Demote selected content from front page"
+msgstr "Togli il contenuto selezionato dalla home page"
+
+#: Plugin\Node\View\Contents\admin_index.ctp:143
+msgid "Make selected content sticky"
+msgstr "Rendi `sticky` il contenuto selezionato"
+
+#: Plugin\Node\View\Contents\admin_index.ctp:144
+msgid "Make selected content not sticky"
+msgstr "Rimuovi `sticky` dal contenuto selezionato"
+
+#: Plugin\Node\View\Contents\admin_index.ctp:145
+msgid "Delete selected content"
+msgstr "Elmina il contenuto selezionato"
+
+#: Plugin\Node\View\Contents\admin_index.ctp:146
+msgid "Clear cache"
+msgstr "Pulisci la cache"
+
+#: Plugin\Node\View\Contents\admin_translate.ctp:13
+msgid "Translate to"
+msgstr "Traduci"
+
+#: Plugin\Node\View\Elements\search_block.ctp:24
+msgid "Keywords"
+msgstr "Chiavi"
+
+#: Plugin\Node\View\Elements\search_block_settings.ctp:16
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Elements\formatter.ctp:18
+#: Plugin\Taxonomy\View\Elements\vocabularies_block_settings.ctp:61
+msgid "URL prefix"
+msgstr "Prefisso di URL"
+
+#: Plugin\Node\View\Elements\search_block_settings.ctp:20
+msgid "Adds a prefix to each search URL query."
+msgstr "Aggiungi un prefisso ad ogni URL di ricerca."
+
+#: Plugin\Node\View\Elements\toolbar-index.ctp:3
+msgid "New Content"
+msgstr "Nuovo Contenuto"
+
+#: Plugin\Node\View\Elements\toolbar-types.ctp:2
+msgid "Add Type"
+msgstr "Nuovo Tipo"
+
+#: Plugin\Node\View\Helper\NodeHelper.php:108
+msgid "The node could not be rendered"
+msgstr "Il nodo non può esser renderizzato"
+
+#: Plugin\Node\View\Node\search.ctp:21
+#: View\Elements\theme_node_comments.ctp:20;37
+msgid "«"
+msgstr "«"
+
+#: Plugin\Node\View\Node\search.ctp:23
+#: View\Elements\theme_node_comments.ctp:22;39
+msgid "»"
+msgstr "»"
+
+#: Plugin\Node\View\Node\search.ctp:27
+msgid "Your search yielded no results"
+msgstr "La tua ricerca non ha prodotto alcun risultato"
+
+#: Plugin\Node\View\Node\search.ctp:32
+msgid "Check if your spelling is correct."
+msgstr "Controlla che l'ortografia sia corretta."
+
+#: Plugin\Node\View\Node\search.ctp:33
+msgid "Remove quotes around phrases to search for each word individually. white cat will often show more results than \"white cat\"."
+msgstr "Rimuovi virgolette dalla frase per cercare ogni parola individualmente. gatto bianco produrrà più risultati di \"gatto bianco\"."
+
+#: Plugin\Node\View\Node\search.ctp:34
+msgid "Consider loosening your query with OR. white OR cat will often show more results than white cat."
+msgstr "Considera di debilitare i tuoi criteri usando OR. gatto OR bianco produce più risultati di gatto bianco."
+
+#: Plugin\Node\View\Types\admin_add.ctp:3
+#: Plugin\Node\View\Types\admin_edit.ctp:4
+#: Plugin\Node\View\Types\admin_fields.ctp:55
+#: Plugin\Taxonomy\View\Vocabularies\admin_edit_term.ctp:5
+#: Plugin\Taxonomy\View\Vocabularies\admin_terms.ctp:5
+msgid "Name *"
+msgstr "Nome *"
+
+#: Plugin\Node\View\Types\admin_add.ctp:4
+#: Plugin\Node\View\Types\admin_edit.ctp:5
+msgid "This text will be displayed as part of the list on the Add new content page"
+msgstr "Questo testo verrà mostrato come parte della lista nel Aggiungi nuovo contenuto di pagina"
+
+#: Plugin\Node\View\Types\admin_add.ctp:6
+#: Plugin\Node\View\Types\admin_edit.ctp:11
+msgid "Describe this content type. The text will be displayed on the Add new content page."
+msgstr "Descrivi il tipo di contenuto. Il testo verrà visualizzato nel Aggiungi nuovo contenuto di pagina."
+
+#: Plugin\Node\View\Types\admin_add.ctp:7
+#: Plugin\Node\View\Types\admin_edit.ctp:13
+msgid "Title field label *"
+msgstr "Etichetta campo titolo *"
+
+#: Plugin\Node\View\Types\admin_add.ctp:10
+#: Plugin\Node\View\Types\admin_edit.ctp:16
+msgid "Display format"
+msgstr "Formato di visualizzazione"
+
+#: Plugin\Node\View\Types\admin_add.ctp:11
+#: Plugin\Node\View\Types\admin_edit.ctp:17
+msgid "Show author's name"
+msgstr "Mostra il nome dell'autore"
+
+#: Plugin\Node\View\Types\admin_add.ctp:12
+#: Plugin\Node\View\Types\admin_edit.ctp:18
+msgid "Author username will be displayed"
+msgstr "Lo username dell'autore sarà mostrato"
+
+#: Plugin\Node\View\Types\admin_add.ctp:13
+#: Plugin\Node\View\Types\admin_edit.ctp:19
+msgid "Show date"
+msgstr "Mostra la data"
+
+#: Plugin\Node\View\Types\admin_add.ctp:14
+#: Plugin\Node\View\Types\admin_edit.ctp:20
+msgid "Publish date will be displayed"
+msgstr "La data di pubblicazione verrà mostrata"
+
+#: Plugin\Node\View\Types\admin_add.ctp:18
+#: Plugin\Node\View\Types\admin_edit.ctp:24
+msgid "Auto approve comments"
+msgstr "Approva automaticamente i commenti"
+
+#: Plugin\Node\View\Types\admin_add.ctp:19
+#: Plugin\Node\View\Types\admin_edit.ctp:25
+msgid "Comments per page"
+msgstr "Commenti per pagina"
+
+#: Plugin\Node\View\Types\admin_add.ctp:23
+#: Plugin\Node\View\Types\admin_edit.ctp:29
+msgid "Anonymous posters may not enter their contact information"
+msgstr "Utenti anonimi possono non inserire i loro dati di contatto"
+
+#: Plugin\Node\View\Types\admin_add.ctp:24
+#: Plugin\Node\View\Types\admin_edit.ctp:30
+msgid "Anonymous posters may leave their contact information"
+msgstr "Utenti anonimi possono lasciare i loro dati di contatto"
+
+#: Plugin\Node\View\Types\admin_add.ctp:25
+#: Plugin\Node\View\Types\admin_edit.ctp:31
+msgid "Anonymous posters must leave their contact information"
+msgstr "Utenti anonimi devono lasciare i loro dati di contatto"
+
+#: Plugin\Node\View\Types\admin_add.ctp:26
+#: Plugin\Node\View\Types\admin_edit.ctp:32
+msgid "Anonymous commenting"
+msgstr "Commenti anonimi"
+
+#: Plugin\Node\View\Types\admin_add.ctp:30
+#: Plugin\Node\View\Types\admin_edit.ctp:36
+msgid "Allow comment title"
+msgstr "Permetti titolo di commento"
+
+#: Plugin\Node\View\Types\admin_add.ctp:33
+#: Plugin\Node\View\Types\admin_edit.ctp:39
+msgid "Default options"
+msgstr "Opzioni di default"
+
+#: Plugin\Node\View\Types\admin_add.ctp:36
+#: Plugin\Node\View\Types\admin_edit.ctp:42
+msgid "Default comment setting for new content"
+msgstr "Impostazioni di default dei commenti per nuovi contenuti"
+
+#: Plugin\Node\View\Types\admin_add.ctp:50
+msgid "Save and add fields"
+msgstr "Salva e aggiungi campi"
+
+#: Plugin\Node\View\Types\admin_display.ctp:4
+#: Plugin\Node\View\Types\admin_fields.ctp:8
+#: Plugin\Node\View\Types\admin_index.ctp:4
+#: Plugin\User\View\Display\admin_index.ctp:4
+#: Plugin\User\View\Fields\admin_index.ctp:8;53
+#: Plugin\User\View\List\admin_index.ctp:54
+#: Plugin\User\View\Roles\admin_index.ctp:8;20
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:283;308
+msgid "Name"
+msgstr "Nome"
+
+#: Plugin\Node\View\Types\admin_display.ctp:16
+#: Plugin\User\View\Display\admin_index.ctp:16
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:304
+msgid "edit format"
+msgstr "modifica formato"
+
+#: Plugin\Node\View\Types\admin_display.ctp:24
+#: Plugin\Node\View\Types\admin_fields.ctp:29
+#: Plugin\User\View\Display\admin_index.ctp:23
+#: Plugin\User\View\Fields\admin_index.ctp:29
+msgid "There are no fields to display"
+msgstr "Non ci sono campi da mostrare"
+
+#: Plugin\Node\View\Types\admin_display.ctp:31
+#, fuzzy
+msgid "Content items can be displayed using different display-modes: Full, List, RSS, Print, etc. List is a short format that is typically used in lists of multiple content items. Full content is typically used when the content is displayed on its own page."
+msgstr "I contenuti possono essere mostrati usando modalità differenti: Full, List, RSS, Print, etc. List è un formato compatto che è tipicamente usato per elencare contenuti multipli. Full è usato tipicamente quando il contenuto è mosratto nella sua pagina specifica."
+
+#: Plugin\Node\View\Types\admin_display.ctp:32
+#, fuzzy
+msgid "Here, you can define which fields are shown and hidden when <em>%s</em> content is displayed in each display-mode, and define how the fields are displayed in each display-mode."
+msgstr "Qui puoi definire quali campi sono mostrati e nascosti quando il tipo di conteuto <em>%s</em> è mostrato in ogni modo di visualizzazione, e definire anche come i campi sono mostrati in ogni modo di visualizzazione."
+
+#: Plugin\Node\View\Types\admin_display.ctp:39
+#: Plugin\User\View\Display\admin_index.ctp:35
+#, fuzzy
+msgid "Display Modes"
+msgstr "Vista"
+
+#: Plugin\Node\View\Types\admin_display.ctp:41
+#, fuzzy
+msgid "Use custom display settings for the following display-modes"
+msgstr "Usa impostazioni vista personalizzate per i seguenti modi vista"
+
+#: Plugin\Node\View\Types\admin_edit.ctp:7
+msgid "New ID *"
+msgstr "Nuovo ID *"
+
+#: Plugin\Node\View\Types\admin_edit.ctp:8
+msgid "A unique name for this content type. It must only contain lowercase letters, numbers, and underscores."
+msgstr "Un nome unico per il tipo di contenuto. Deve contenere solo caratteri minuscoli, numeri, e underscore (_)."
+
+#: Plugin\Node\View\Types\admin_field_settings.ctp:3
+#: Plugin\User\View\Fields\admin_field_settings.ctp:3
+msgid "Basic settings"
+msgstr "Impostazioni base"
+
+#: Plugin\Node\View\Types\admin_field_settings.ctp:5
+#: Plugin\Node\View\Types\admin_fields.ctp:46
+#: Plugin\User\View\Fields\admin_field_settings.ctp:5
+msgid "Label *"
+msgstr "Etichetta *"
+
+#: Plugin\Node\View\Types\admin_field_settings.ctp:6
+#: Plugin\User\View\Fields\admin_field_settings.ctp:6
+msgid "Required field"
+msgstr "Campo richiesto"
+
+#: Plugin\Node\View\Types\admin_field_settings.ctp:7
+#: Plugin\User\View\Fields\admin_field_settings.ctp:7
+msgid "Instructions to present to the user below this field on the editing form. (hooktags are allowed)"
+msgstr "Istruzioni da mostrare all'utente, sotto questo campo, nel form di modifica. (hooktags permessi)"
+
+#: Plugin\Node\View\Types\admin_field_settings.ctp:7
+#: Plugin\User\View\Fields\admin_field_settings.ctp:7
+msgid "Help text"
+msgstr "Testo d'aiuto"
+
+#: Plugin\Node\View\Types\admin_field_settings.ctp:11
+#: Plugin\User\View\Fields\admin_field_settings.ctp:11
+msgid "%s field settings"
+msgstr "Impostazioni campo %s"
+
+#: Plugin\Node\View\Types\admin_fields.ctp:16
+#: Plugin\User\View\Fields\admin_index.ctp:16
+msgid "Required"
+msgstr "Richiesto"
+
+#: Plugin\Node\View\Types\admin_fields.ctp:24
+#: Plugin\User\View\Fields\admin_index.ctp:24
+msgid "Delete selected field and all related data, this can not be undone ?"
+msgstr "Eliminare il campo selezionato e tutti i suoi dati associati? L'operazione non può essere annullata"
+
+#: Plugin\Node\View\Types\admin_fields.ctp:38
+#: Plugin\User\View\Fields\admin_index.ctp:38
+msgid "Add field"
+msgstr "Aggiungi campo"
+
+#: Plugin\Node\View\Types\admin_index.ctp:10
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:278
+msgid "display"
+msgstr "vista"
+
+#: Plugin\Node\View\Types\admin_index.ctp:12
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:280
+msgid "fields"
+msgstr "campi"
+
+#: Plugin\Node\View\Types\admin_index.ctp:13
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:281
+msgid "Are you sure that you want to delete this type of content. ? This action cannot be undone."
+msgstr "Sei sicuro di volere eliminare questo tipo di contenuto? Questa operazione non può essere annullata."
+
+#: Plugin\System\Controller\ConfigurationController.php:41
+msgid "Configuration has been saved."
+msgstr "La configurazione è stata salvata."
+
+#: Plugin\System\Controller\ConfigurationController.php:44
+msgid "Configuration could not be saved. Please, try again."
+msgstr "La configurazione non può essere salvata. Ritenta."
+
+#: Plugin\System\Controller\ConfigurationController.php:73
+msgid "The file `%s` appears to be invalid, `Variable.url_language_prefix` parameter not found."
+msgstr "Il file `%s` pare non valido, non trovato il parametro `Variable.url_language_prefix`."
+
+#: Plugin\System\Controller\ConfigurationController.php:76
+msgid "The file `%s` could not be written."
+msgstr "Il file `%s` non può essere scritto."
+
+#: Plugin\System\Controller\HelpController.php:30
+#: Plugin\System\View\Modules\admin_index.ctp:96
+#: Vendor\DummyLocale.php:25
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:89
+msgid "Help"
+msgstr "Aiuto"
+
+#: Plugin\System\Controller\ModulesController.php:27
+msgid "Your modules folder is not writable. %s"
+msgstr "La cartella del tuo modulo non è scrivibile. %s"
+
+#: Plugin\System\Controller\ModulesController.php:66
+msgid "Load order"
+msgstr "Ordine di caricamento"
+
+#: Plugin\System\Controller\ModulesController.php:68
+#: Plugin\System\View\Elements\toolbar-modules.ctp:4
+msgid "Load Order"
+msgstr "Ordine di caricamento"
+
+#: Plugin\System\Controller\ModulesController.php:87
+msgid "Module changes has been saved!"
+msgstr "Modulo aggiornato correttamente!"
+
+#: Plugin\System\Controller\ModulesController.php:100
+msgid "Configure Module"
+msgstr "Configura Modulo"
+
+#: Plugin\System\Controller\ModulesController.php:113
+msgid "Module '%s' has been enabled"
+msgstr "Il modulo '%s' è stato abilitato"
+
+#: Plugin\System\Controller\ModulesController.php:119
+msgid "Module '%s' has been disabled"
+msgstr "Il modulo '%s' è stato disabilitato"
+
+#: Plugin\System\Controller\ModulesController.php:132
+msgid "Module '%s' has been uninstalled"
+msgstr "Il modulo '%s' è stato disinstallato"
+
+#: Plugin\System\Controller\ModulesController.php:147
+msgid "Module could not been installed"
+msgstr "Il modulo non può essere installato"
+
+#: Plugin\System\Controller\ModulesController.php:150
+msgid "Module has been installed"
+msgstr "Il modulo è stato installato"
+
+#: Plugin\System\Controller\ThemesController.php:42
+msgid "Your themes folder is not writable. %s"
+msgstr "La cartella del tuo tema non è scrivibile. %s"
+
+#: Plugin\System\Controller\ThemesController.php:92
+msgid "Theme settings"
+msgstr "Impostazioni Tema"
+
+#: Plugin\System\Controller\ThemesController.php:94
+msgid "Configure Theme"
+msgstr "Configura Tema"
+
+#: Plugin\System\Controller\ThemesController.php:103
+msgid "Theme '%s' has been uninstalled"
+msgstr "Il tema '%s' è stato disinstallato"
+
+#: Plugin\System\Controller\ThemesController.php:105
+msgid "Error uninstalling theme '%s'"
+msgstr "Errore disinstallando il tema '%s'"
+
+#: Plugin\System\Controller\ThemesController.php:125
+msgid "Theme could not been installed"
+msgstr "Il tema non può essere installato"
+
+#: Plugin\System\Controller\ThemesController.php:127
+msgid "Theme has been installed"
+msgstr "Il tema è stato installato"
+
+#: Plugin\System\Lib\HookCollection.php:68
+msgid "$object must be an instance of Model, View or Controller"
+msgstr ""
+
+#: Plugin\System\View\Configuration\admin_index.ctp:17
+msgid "Site information"
+msgstr "Informazioni sito"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:18
+msgid "Site details"
+msgstr "Dettagli sito"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:19
+msgid "Site name *"
+msgstr "Nome sito *"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:21
+msgid "Slogan"
+msgstr "Slogan"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:22
+msgid "How this is used depends on your site's theme."
+msgstr "Come questo è usato dipende dal tema del tuo sito."
+
+#: Plugin\System\View\Configuration\admin_index.ctp:25
+msgid "A brief description about your site, this will be used as default meta-description in layout."
+msgstr "Una breve descrizione del tuo sito, sarà usata come meta-description di default nel layout."
+
+#: Plugin\System\View\Configuration\admin_index.ctp:27
+msgid "E-mail address *"
+msgstr "Indirizzo E-mail *"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:28
+msgid "The From address in automated e-mails sent during registration and new password requests, and other notifications. (Use an address ending in your site's domain to help prevent this e-mail being flagged as spam.)"
+msgstr "L'indirizzo mittente (Da) nelle mail automatiche spedite durante la registrazione, nuove richieste di password e altre notifiche. (Usare un indirizzo che termina col dominio del tuo sito aiuta a prevenire che questa mail venga marcata come spam.)"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:30
+msgid "Site under maintenance"
+msgstr "Sito in manutenzione"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:36
+#, fuzzy
+msgid "Maintenance IP"
+msgstr "Messaggio di manutenzione"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:37
+msgid "Add my IP"
+msgstr ""
+
+#: Plugin\System\View\Configuration\admin_index.ctp:40
+msgid "IP addresses allowed to access the Front Office even if the site is disabled. Use a comma to separate them (e.g., 42.24.4.2,127.0.0.1,99.98.97.96)"
+msgstr ""
+
+#: Plugin\System\View\Configuration\admin_index.ctp:42
+msgid "Maintenance message"
+msgstr "Messaggio di manutenzione"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:46
+msgid "Front page"
+msgstr "Home page"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:47
+msgid "Number of posts on front page"
+msgstr "Numero di post nella home page"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:48
+msgid "The maximum number of posts displayed on overview pages such as the front page."
+msgstr "Il massimo numero di post mostrati nella pagine riassuntive, come la home page."
+
+#: Plugin\System\View\Configuration\admin_index.ctp:50
+msgid "Default front page"
+msgstr "Default home page"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:51
+msgid "Optionally, specify a relative URL to display as the front page. Leave blank to display the default content feed"
+msgstr "Opsionalmente, specificare una URL relativa da mostrare come home page. Lasciare bianco per mostrare il feed di contenuto di default"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:54
+msgid "Regional settings"
+msgstr "Impostazioni regionali"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:58
+msgid "Default time zone"
+msgstr "Zona oraria di default"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:60
+msgid "URL path prefix"
+msgstr "Prefisso di URL"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:61
+#, fuzzy
+msgid "URLs like http://www.example.com/fre/about set language to French (fre). <b>Warning: Changing this setting may break incoming URLs. Use with caution on a production site.</b>"
+msgstr "URL come http://dominio.com/fre/about impostano la lingua in Francése (fre). <b>Attenzione: Modificando queste impostazioni si possono compromettere URL entranti. Usa con cautela nei siti di produzione.</b>"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:64
+msgid "Users settings"
+msgstr "Impostazioni Utenti"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:65
+#, fuzzy
+msgid "User Login"
+msgstr "Utente dal"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:78
+#, fuzzy
+msgid "After"
+msgstr "termini"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:79
+msgid "failed login attempts"
+msgstr ""
+
+#: Plugin\System\View\Configuration\admin_index.ctp:101
+#, fuzzy
+msgid "Block visitor for"
+msgstr "Descrizione del blocco *"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:102
+#, fuzzy
+msgid "minutes"
+msgstr "%s Minuti"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:107
+msgid "Leave empty any of the parameters for no login-blocking feature."
+msgstr ""
+
+#: Plugin\System\View\Configuration\admin_index.ctp:110
+#, fuzzy
+msgid "User Avatar"
+msgstr "Avatar"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:115
+msgid "Use <a href='http://www.gravatar.com'>Gravatar</a>"
+msgstr "Usa <a href='http://www.gravatar.com'>Gravatar</a>"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:126
+msgid "Avatar width"
+msgstr "Larghezza Avatar"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:127
+msgid "By default, images are presented at 80px by 80px if no size parameter is supplied."
+msgstr "Di default le immagini sono mostrate a 80x80 pixel se non indicato il parametro dimensione. "
+
+#: Plugin\System\View\Configuration\admin_index.ctp:129
+msgid "Default avatar URL"
+msgstr "Url avatar di default"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:130
+msgid "URL of picture to display for users with an email not matching a Gravatar image."
+msgstr "Url dell'immagine da mostrare per gli utenti con email che non corrispondono a una immagine Gravatar"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:136
+msgid "Force default"
+msgstr "Forza il default"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:144
+msgid "Force the default image to always load."
+msgstr "Forza che l'immagine di default sia sempre caricata."
+
+#: Plugin\System\View\Configuration\admin_index.ctp:150
+msgid "Rating"
+msgstr "Valutazione"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:161
+msgid "If the user's email does not have an image meeting the requested rating level, then the default image is returned (or the specified default)"
+msgstr "Se l'email dell'utente non ha un'immagine che corrisponda al livello di valutazione richiesto, allora l'immagine di default è mostrata (o il default specificato)"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:164
+msgid "suitable for display on all websites with any audience type."
+msgstr "adatto per la visualizzazione su tutti i siti web con qualsiasi tipo di pubblico."
+
+#: Plugin\System\View\Configuration\admin_index.ctp:165
+msgid "may contain rude gestures, provocatively dressed individuals, the lesser swear words, or mild violence."
+msgstr "può contenere gestacci, individui vestiti provocatoriamente, parolacce o violenza in genere."
+
+#: Plugin\System\View\Configuration\admin_index.ctp:166
+msgid "may contain such things as harsh profanity, intense violence, nudity, or hard drug use."
+msgstr "può contenere cose blasfeme, violenza estrema, nudità, o l'uso di droghe pesanti."
+
+#: Plugin\System\View\Configuration\admin_index.ctp:167
+msgid "may contain hardcore sexual imagery or extremely disturbing violence."
+msgstr "può contenere immagini sessuali hard o di violenza estremamente inquietante."
+
+#: Plugin\System\View\Configuration\admin_index.ctp:173
+msgid "Default avatar"
+msgstr "Avatar di default"
+
+#: Plugin\System\View\Configuration\admin_index.ctp:174
+msgid "URL of picture to display for users with no custom picture selected or anonymous users."
+msgstr "URL dell'immagine da mostrare per gli utenti senza immagine specifica o utenti anonimi."
+
+#: Plugin\System\View\Configuration\admin_index.ctp:193
+msgid "Other module settings"
+msgstr "Altre impostazioni modulo"
+
+#: Plugin\System\View\Elements\themes_table_list.ctp:20
+#: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:20
+msgid "Change administrator theme, are you sure ?\\n"
+msgstr "Cambio tema d'amministrazione, sei sicuro?\\n"
+
+#: Plugin\System\View\Elements\themes_table_list.ctp:20
+#: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:20
+msgid "Change site theme, are you sure ?"
+msgstr "Cambio del tema del sito, sei sicuro?"
+
+#: Plugin\System\View\Elements\themes_table_list.ctp:41
+#: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:59
+#, fuzzy
+msgid "version"
+msgstr "Permessi"
+
+#: Plugin\System\View\Elements\themes_table_list.ctp:42
+#: Plugin\System\View\Modules\admin_index.ctp:89
+#: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:60
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:113
+#, fuzzy
+msgid "author"
+msgstr "Autore"
+
+#: Plugin\System\View\Elements\themes_table_list.ctp:46
+#: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:64
+#, fuzzy
+msgid "<b>regions:</b> <em>%s</em>"
+msgstr "<b>versione:</b> %s"
+
+#: Plugin\System\View\Elements\themes_table_list.ctp:50
+#: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:44
+msgid "Set as default"
+msgstr "Imposta come default"
+
+#: Plugin\System\View\Elements\themes_table_list.ctp:52
+#: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:46
+msgid ""
+"Delete selected theme ?\\n"
+"This operation cannot be undone!"
+msgstr ""
+"Eliminare il tema selezionato?\\n"
+"Questa operazione non può essere annullata!"
+
+#: Plugin\System\View\Elements\themes_table_list.ctp:52
+#: Plugin\System\View\Modules\admin_index.ctp:105
+#: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:46
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:98
+msgid "Uninstall"
+msgstr "Disinstalla"
+
+#: Plugin\System\View\Elements\themes_table_list.ctp:55
+#: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:49
+msgid "Configure"
+msgstr "Configura"
+
+#: Plugin\System\View\Elements\toolbar-modules.ctp:3
+msgid "Manage"
+msgstr "Gestisci"
+
+#: Plugin\System\View\Help\admin_index.ctp:1
+msgid "Help topics"
+msgstr "Voci d'aiuto"
+
+#: Plugin\System\View\Help\admin_index.ctp:2
+msgid "Help is available on the following items"
+msgstr "L'aiuto è disponibile nelle seguenti voci"
+
+#: Plugin\System\View\Helper\SystemHookHelper.php:36
+msgid "Powered by &copy; <a href=\"http://www.quickappscms.org/\">QuickApps CMS</a> v%s"
+msgstr "Powered by &copy; <a href=\"http://www.quickappscms.org/\">QuickApps CMS</a> v%s"
+
+#: Plugin\System\View\Helper\SystemHookHelper.php:48
+msgid "Recent Content"
+msgstr "Contenuto Recente"
+
+#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:66
+msgid "Color %d"
+msgstr "Colore %d"
+
+#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:70
+msgid "Font %d"
+msgstr "Font %d"
+
+#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:74
+msgid "Size %d"
+msgstr "Taglia %d"
+
+#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:78
+msgid "Add Your CSS"
+msgstr "Aggiungi il tuo CSS"
+
+#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:83
+msgid "Unknown property %d"
+msgstr "Proprietà %d sconosciuta"
+
+#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:207
+msgid "Reset"
+msgstr ""
+
+#: Plugin\System\View\Helper\ThemeCustomizerHelper.php:225
+msgid "Reset selected style sheet ?"
+msgstr "Resettare il foglio di stile selezionato ?"
+
+#: Plugin\System\View\Modules\admin_index.ctp:9
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:10
+msgid "Install New Module"
+msgstr "Installa un Nuovo Modulo"
+
+#: Plugin\System\View\Modules\admin_index.ctp:11
+#: Plugin\System\View\Themes\admin_index.ctp:6
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:12
+msgid "Upload Package File"
+msgstr "Carica Pacchetto File"
+
+#: Plugin\System\View\Modules\admin_index.ctp:16;42
+#: Plugin\System\View\Themes\admin_index.ctp:10;27
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:17;43
+msgid "Package"
+msgstr "Pacchetto"
+
+#: Plugin\System\View\Modules\admin_index.ctp:24;51
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:25;52
+msgid "Activate after install"
+msgstr "Attiva dopo l'installazione"
+
+#: Plugin\System\View\Modules\admin_index.ctp:30;56
+#: Plugin\System\View\Themes\admin_index.ctp:16;33
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:31;57
+msgid "Install"
+msgstr "Installa"
+
+#: Plugin\System\View\Modules\admin_index.ctp:37
+#: Plugin\System\View\Themes\admin_index.ctp:23
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:38
+msgid "Install From URL"
+msgstr "Installa"
+
+#: Plugin\System\View\Modules\admin_index.ctp:90
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:114
+msgid "Dependencies"
+msgstr "Dipendenze"
+
+#: Plugin\System\View\Modules\admin_index.ctp:93
+#: Plugin\User\View\Elements\toolbar.ctp:6
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:86
+msgid "Permissions"
+msgstr "Permessi"
+
+#: Plugin\System\View\Modules\admin_index.ctp:104
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:97
+msgid "Disable"
+msgstr "Disabilita"
+
+#: Plugin\System\View\Modules\admin_index.ctp:104
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:97
+msgid "Enable"
+msgstr "Abilita"
+
+#: Plugin\System\View\Modules\admin_index.ctp:105
+#: View\Themed\Admin\Plugin\System\Modules\admin_index.ctp:98
+msgid "Delete selected module ? This change cannot be undone!"
+msgstr "Eliminare il modulo selezionato ? Questa operazione non può essere annullata!"
+
+#: Plugin\System\View\Modules\admin_load_order.ctp:20
+msgid "Update orders"
+msgstr "Modifica utente"
+
+#: Plugin\System\View\Themes\admin_index.ctp:4
+msgid "Install New Theme"
+msgstr "Installa un Nuovo Tema"
+
+#: Plugin\System\View\Themes\admin_index.ctp:43
+msgid "Frontend themes"
+msgstr "Temi di frontend"
+
+#: Plugin\System\View\Themes\admin_index.ctp:49
+msgid "Backend themes"
+msgstr "Temi di backoffice"
+
+#: Plugin\System\View\Themes\admin_settings.ctp:5
+msgid "\"%s\" Theme"
+msgstr "Tema \"%s\""
+
+#: Plugin\System\View\Themes\admin_settings.ctp:11
+msgid "Customize Appearance"
+msgstr "Personalizza Aspetto"
+
+#: Plugin\System\View\Themes\admin_settings.ctp:16
+msgid "Toggle display"
+msgstr "Opzioni di visualizzazione"
+
+#: Plugin\System\View\Themes\admin_settings.ctp:17;23
+msgid "Logo"
+msgstr "Logo"
+
+#: Plugin\System\View\Themes\admin_settings.ctp:18
+msgid "Site name"
+msgstr "Nome del sito"
+
+#: Plugin\System\View\Themes\admin_settings.ctp:19
+msgid "Site slogan"
+msgstr "Slogan del sito"
+
+#: Plugin\System\View\Themes\admin_settings.ctp:20;28
+msgid "Shortcut icon"
+msgstr "Favicon"
+
+#: Plugin\System\View\Themes\admin_settings.ctp:24
+msgid "Logo image URL"
+msgstr "URL immagine logo"
+
+#: Plugin\System\View\Themes\admin_settings.ctp:25
+msgid "Leave blank to use default logo."
+msgstr "Lasciare vuoto per usare il logo di default."
+
+#: Plugin\System\View\Themes\admin_settings.ctp:29
+msgid "Shortcut icon URL"
+msgstr "URL della favicon"
+
+#: Plugin\System\View\Themes\admin_settings.ctp:30
+msgid "Leave blank to use default favicon."
+msgstr "Lasciare vuoto per usare la favicon di default."
+
+#: Plugin\Taxonomy\Controller\VocabulariesController.php:35
+msgid "Vocabulary has been saved. Now you can add terms."
+msgstr "Il vocabolario è stato salvato. Ora puoi aggiungere termini."
+
+#: Plugin\Taxonomy\Controller\VocabulariesController.php:38;68
+msgid "Vocabulary could not be saved. Please, try again."
+msgstr "Il vocabolario non può essere salvato. Ritenta."
+
+#: Plugin\Taxonomy\Controller\VocabulariesController.php:46
+msgid "Add vocabulary"
+msgstr "Aggiungi vocabolario"
+
+#: Plugin\Taxonomy\Controller\VocabulariesController.php:48
+#: Plugin\Taxonomy\View\Vocabularies\admin_add.ctp:3
+#: Plugin\Taxonomy\View\Vocabularies\admin_edit.ctp:3
+msgid "Add Vocabulary"
+msgstr "Aggiungi Vocabolario"
+
+#: Plugin\Taxonomy\Controller\VocabulariesController.php:65
+msgid "Vocabulary has been saved"
+msgstr "Il vocabolario è stato salvato"
+
+#: Plugin\Taxonomy\Controller\VocabulariesController.php:79
+msgid "Editing Vocabulary \"%s\""
+msgstr "Modifica vocabolario \"%s\""
+
+#: Plugin\Taxonomy\Controller\VocabulariesController.php:149
+msgid "Term has been created."
+msgstr "Il termine è stato creato."
+
+#: Plugin\Taxonomy\Controller\VocabulariesController.php:152;203
+msgid "Term could not be saved. Please, try again."
+msgstr "Il termine non può essere salvato. Ritenta."
+
+#: Plugin\Taxonomy\Controller\VocabulariesController.php:169;214
+msgid "Terms"
+msgstr "Termini"
+
+#: Plugin\Taxonomy\Controller\VocabulariesController.php:171
+msgid "%s Terms"
+msgstr "Termine %s"
+
+#: Plugin\Taxonomy\Controller\VocabulariesController.php:199
+msgid "Term has been saved."
+msgstr "Il termine è stato salvato."
+
+#: Plugin\Taxonomy\Controller\VocabulariesController.php:215
+msgid "Editing term"
+msgstr "Modifica termine"
+
+#: Plugin\Taxonomy\Controller\VocabulariesController.php:217
+msgid "Editing term \"%s\""
+msgstr "Modifica termine \"%s\""
+
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\Model\Behavior\TaxonomyTermsHookBehavior.php:153
+msgid "This field cannot hold more than 2 values."
+msgstr "Questo campo non può tenere più di 2 valori."
+
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Elements\edit.ctp:23
+msgid "You must <a href=\"%s\">select a vocabulary</a> for this field!"
+msgstr "Devi <a href=\"%s\">selezionare un vocabolario</a> per questo campo!"
+
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Elements\formatter.ctp:9
+msgid "Link (localized)"
+msgstr "Link (tradotto)"
+
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Elements\formatter.ctp:10
+msgid "Plain (localized)"
+msgstr "Non formattato (tradotto)"
+
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Elements\formatter.ctp:23
+msgid "Valid only when format is \"Link (localized)\". Adds a prefix to each term link url."
+msgstr "Valido solo quando il formato è \"Link (tradotto)\". Aggiungi un prefisso ad ogni link url."
+
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Elements\settings.ctp:7
+msgid "Vocabulary *"
+msgstr "Vocabolario *"
+
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Elements\settings.ctp:11
+msgid "The vocabulary which supplies the options for this field."
+msgstr "Il vocabolario che fornisce le opzioni per questo campo."
+
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Elements\settings.ctp:18
+msgid "Check boxes/radio buttons"
+msgstr "Check boxes/radio buttons"
+
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Elements\settings.ctp:19
+msgid "Select list"
+msgstr "Lista di selezione"
+
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Elements\settings.ctp:20
+msgid "Autocomplete term (tagging)"
+msgstr "Termine autocompletamento (tagging)"
+
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Elements\settings.ctp:23
+msgid "Element Type"
+msgstr "Tipo di Elemento"
+
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Elements\settings.ctp:27
+msgid "The type of form element you would like to present to the user when creating this field."
+msgstr "Il tipo di elemento form che tu vorresti mostrare all'utente quando creerà questo campo."
+
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Elements\settings.ctp:33
+msgid "Unlimited"
+msgstr "Non limitato"
+
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Elements\settings.ctp:35
+msgid "Number of values"
+msgstr "Numero di valori"
+
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Elements\settings.ctp:39
+msgid "Maximum number of values users can enter for this field."
+msgstr "Massimo numero di valori che gli utenti possono inserire per questo campo."
+
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Helper\TaxonomyTermsHookHelper.php:87
+msgid "Type in a search term"
+msgstr "Tipo in termine di ricerca"
+
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Helper\TaxonomyTermsHookHelper.php:88
+msgid "No results"
+msgstr "Nessun risultato"
+
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Helper\TaxonomyTermsHookHelper.php:89
+msgid "Searching..."
+msgstr "Sto cercando..."
+
+#: Plugin\Taxonomy\Fields\TaxonomyTerms\View\Helper\TaxonomyTermsHookHelper.php:90
+msgid "x"
+msgstr "x"
+
+#: Plugin\Taxonomy\View\Elements\term_node.ctp:7
+msgid "Delete selected term ?"
+msgstr "Eliminare il termine selezionato?"
+
+#: Plugin\Taxonomy\View\Elements\toolbar.ctp:3
+msgid "New Vocabulary"
+msgstr "Nuovo Vocabolario"
+
+#: Plugin\Taxonomy\View\Elements\vocabularies_block_settings.ctp:9
+msgid "Vocabularies"
+msgstr "Vocabolari"
+
+#: Plugin\Taxonomy\View\Elements\vocabularies_block_settings.ctp:21
+msgid "Show content count"
+msgstr "Mostra numero contenuto"
+
+#: Plugin\Taxonomy\View\Elements\vocabularies_block_settings.ctp:29
+msgid "Show vocabulary and its terms as tree"
+msgstr "Mostra vocabolario a i suoi termini come albero."
+
+#: Plugin\Taxonomy\View\Elements\vocabularies_block_settings.ctp:36
+msgid "Cache terms counters for"
+msgstr "Caching dei contatori dei termini"
+
+#: Plugin\Taxonomy\View\Elements\vocabularies_block_settings.ctp:38;39;40
+msgid "%s Minutes"
+msgstr "%s Minuti"
+
+#: Plugin\Taxonomy\View\Vocabularies\admin_add.ctp:9
+#: Plugin\Taxonomy\View\Vocabularies\admin_edit.ctp:10
+msgid "Save vocabulary"
+msgstr "Salva vocabolario"
+
+#: Plugin\Taxonomy\View\Vocabularies\admin_edit_term.ctp:3
+msgid "Term"
+msgstr "Termine"
+
+#: Plugin\Taxonomy\View\Vocabularies\admin_edit_term.ctp:7
+msgid "Go to <a href=\"%s\">terms list</a> to reparent this term"
+msgstr "Vai alla <a href=\"%s\">lista dei termini</a> per risistemare la gerarchia dei termini."
+
+#: Plugin\Taxonomy\View\Vocabularies\admin_edit_term.ctp:12
+msgid "Save term"
+msgstr "Salva termine"
+
+#: Plugin\Taxonomy\View\Vocabularies\admin_index.ctp:5
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:251
+msgid "Vocabulary name"
+msgstr "Nome vocabolario"
+
+#: Plugin\Taxonomy\View\Vocabularies\admin_index.ctp:15
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:246
+msgid "terms"
+msgstr "termini"
+
+#: Plugin\Taxonomy\View\Vocabularies\admin_index.ctp:16
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:247
+msgid "Delete selected vocabulary and all its terms ?"
+msgstr "Eliminare il vocabolario selezionato e tutti i suoi termini ?"
+
+#: Plugin\Taxonomy\View\Vocabularies\admin_index.ctp:24
+msgid "There are no vocabularies to display"
+msgstr "Non ci sono vocabolari da mostrare"
+
+#: Plugin\Taxonomy\View\Vocabularies\admin_terms.ctp:3
+msgid "Add New Term"
+msgstr "Aggiungi Nuovo Termine"
+
+#: Plugin\Taxonomy\View\Vocabularies\admin_terms.ctp:6
+msgid "Parent term"
+msgstr "Termine padre"
+
+#: Plugin\User\Controller\DisplayController.php:41
+#: Plugin\User\View\Elements\toolbar.ctp:8
+msgid "Manage Display"
+msgstr "Gestisci Visualizzazione"
+
+#: Plugin\User\Controller\DisplayController.php:43;69
+msgid "User Display Settings"
+msgstr "Impostazioni Vista Utente"
+
+#: Plugin\User\Controller\FieldsController.php:36
+#: Plugin\User\View\Elements\toolbar.ctp:7
+msgid "Manage Fields"
+msgstr "Gestisci Campi"
+
+#: Plugin\User\Controller\FieldsController.php:38
+msgid "Manage User Fields"
+msgstr "Gestisci Campi Utente"
+
+#: Plugin\User\Controller\FieldsController.php:56
+msgid "Field settings"
+msgstr "Impostazioni Campo"
+
+#: Plugin\User\Controller\ListController.php:69
+#: Plugin\User\View\Elements\toolbar.ctp:3
+#: Vendor\DummyLocale.php:23
+msgid "Users"
+msgstr "Utenti"
+
+#: Plugin\User\Controller\ListController.php:136;187
+#: Plugin\User\Controller\UserController.php:156
+msgid "User has been saved"
+msgstr "L'utente è stato salvato"
+
+#: Plugin\User\Controller\ListController.php:139;190
+#: Plugin\User\Controller\UserController.php:57;159
+msgid "User could not be saved. Please, try again."
+msgstr "L'utente non può essere salvato. Ritenta."
+
+#: Plugin\User\Controller\ListController.php:153
+msgid "Add User"
+msgstr "Aggiungi Utente"
+
+#: Plugin\User\Controller\ListController.php:156
+#: Plugin\User\View\Elements\toolbar.ctp:4
+#: Plugin\User\View\List\admin_add.ctp:3
+msgid "Add new user"
+msgstr "Aggiungi nuovo utente"
+
+#: Plugin\User\Controller\ListController.php:208
+msgid "Editing User"
+msgstr "Modfica Utente"
+
+#: Plugin\User\Controller\ListController.php:211
+msgid "Editing user"
+msgstr "Modifica utente"
+
+#: Plugin\User\Controller\PermissionsController.php:41;43
+msgid "User Permissions"
+msgstr "Permessi Utente"
+
+#: Plugin\User\Controller\RolesController.php:19;39
+msgid "Role has been saved"
+msgstr "Il ruolo è stato salvato"
+
+#: Plugin\User\Controller\RolesController.php:22;42
+msgid "Role could not be saved. Please, try again."
+msgstr "Il ruolo non può essere salvato. Ritenta."
+
+#: Plugin\User\Controller\RolesController.php:31;50
+#: Plugin\User\View\List\admin_add.ctp:19
+#: Plugin\User\View\List\admin_edit.ctp:21
+msgid "User roles"
+msgstr "Ruoli utente"
+
+#: Plugin\User\Controller\RolesController.php:33
+msgid "User Roles"
+msgstr "Ruoli Utente"
+
+#: Plugin\User\Controller\RolesController.php:51
+#: Plugin\User\View\Roles\admin_edit.ctp:3
+msgid "Editing role"
+msgstr "Modifica ruolo"
+
+#: Plugin\User\Controller\RolesController.php:53
+msgid "Editing Role"
+msgstr "Modifica Ruolo"
+
+#: Plugin\User\Controller\UserController.php:25;38
+#: Plugin\User\View\Elements\login_block.ctp:9
+#: Plugin\User\View\User\admin_login.ctp:1;8
+#: Plugin\User\View\User\login.ctp:2;9
+msgid "Login"
+msgstr "Login"
+
+#: Plugin\User\Controller\UserController.php:50
+msgid "Registration complete. A welcome message has been sent to your e-mail address with instructions on how to active your account."
+msgstr "Registrazione completata. Un messaggio di benvenuto è stato spedito all'indirizzo email con le istruzioni per attivare il tuo account."
+
+#: Plugin\User\Controller\UserController.php:63
+#: Plugin\User\View\Elements\login_block.ctp:14
+#: Plugin\User\View\User\register.ctp:3
+msgid "Create new account"
+msgstr "Crea nuovo account"
+
+#: Plugin\User\Controller\UserController.php:66
+msgid "Create new user account"
+msgstr "Crea nuovo account utente"
+
+#: Plugin\User\Controller\UserController.php:123
+msgid "Further instructions have been sent to your e-mail address."
+msgstr "Ulteriori istruzioni sono state spedite al tuo indirizzo email."
+
+#: Plugin\User\Controller\UserController.php:128
+msgid "invalid email"
+msgstr "email non valida"
+
+#: Plugin\User\Controller\UserController.php:129
+msgid "Sorry, %s is not recognized as e-mail address."
+msgstr "Ci dispiace, %s non è una email valida."
+
+#: Plugin\User\Controller\UserController.php:135
+#: Plugin\User\View\Elements\login_block.ctp:15
+#: Plugin\User\View\User\password_recovery.ctp:3
+msgid "Request new password"
+msgstr "Richista nuova password"
+
+#: Plugin\User\Controller\UserController.php:144
+msgid "%s profile"
+msgstr "%s profilo"
+
+#: Plugin\User\Controller\UserController.php:195
+msgid "You have reached the maximum number of login attempts. Try again in %d minutes."
+msgstr ""
+
+#: Plugin\User\Controller\UserController.php:238
+#, fuzzy
+msgid "Logged in successfully."
+msgstr "Logout avvenuto con successo."
+
+#: Plugin\User\Controller\UserController.php:242
+msgid "Invalid username or password"
+msgstr "Username o password non valide"
+
+#: Plugin\User\Controller\UserController.php:268
+msgid "Logout successful."
+msgstr "Logout avvenuto con successo."
+
+#: Plugin\User\Controller\Component\MailerComponent.php:61
+msgid "User not found."
+msgstr "Utente non trovato."
+
+#: Plugin\User\Controller\Component\MailerComponent.php:85
+msgid "This message has been marked as \"do not notify\"."
+msgstr "Il messaggio è stato marcato come \"non notificare\""
+
+#: Plugin\User\Controller\Component\MailerComponent.php:99;123
+msgid "Email could not be sent."
+msgstr "L'email non può essere spedita."
+
+#: Plugin\User\Controller\Component\MailerComponent.php:104;126
+msgid "Invalid message preset."
+msgstr "Messaggio prestabilito non valido."
+
+#: Plugin\User\Model\User.php:119
+msgid "Password mismatch."
+msgstr "La password non corrisponde."
+
+#: Plugin\User\View\Display\admin_index.ctp:37
+#, fuzzy
+msgid "Use custom display settings for the following dispay-modes"
+msgstr "Usa impostazioni vista personalizzate per i seguenti modi vista"
+
+#: Plugin\User\View\Elements\login_block.ctp:5
+#: View\Elements\theme_user_profile.ctp:15
+#: View\Install\user_account.ctp:27
+msgid "Username"
+msgstr "Username"
+
+#: Plugin\User\View\Elements\login_block.ctp:6
+#: Plugin\User\View\List\admin_add.ctp:17
+#: Plugin\User\View\User\register.ctp:14
+#: View\Install\user_account.ctp:45
+msgid "Password"
+msgstr "Password"
+
+#: Plugin\User\View\Elements\new_block_settings.ctp:5
+msgid "Number of users"
+msgstr "Numero di utenti"
+
+#: Plugin\User\View\Elements\settings.ctp:16
+msgid "Mailing notifications"
+msgstr "Notifiche via email"
+
+#: Plugin\User\View\Elements\settings.ctp:18
+msgid "Welcome"
+msgstr "Benvenuto"
+
+#: Plugin\User\View\Elements\settings.ctp:32;55;71;78;100;123
+#: Vendor\DummyLocale.php:86
+msgid "Body"
+msgstr "Corpo"
+
+#: Plugin\User\View\Elements\settings.ctp:40
+msgid "User activation"
+msgstr "Attivazione utente"
+
+#: Plugin\User\View\Elements\settings.ctp:43
+msgid "Notify user when account is activated."
+msgstr "Notifica l'utente quando l'account è attivato."
+
+#: Plugin\User\View\Elements\settings.ctp:63
+msgid "Account blocked"
+msgstr "Account bloccato"
+
+#: Plugin\User\View\Elements\settings.ctp:66
+msgid "Notify user when account is blocked."
+msgstr "Notififca l'utente quando l'account è bloccato."
+
+#: Plugin\User\View\Elements\settings.ctp:86
+#: Vendor\DummyLocale.php:181
+msgid "Password recovery"
+msgstr "Recupero password"
+
+#: Plugin\User\View\Elements\settings.ctp:108
+msgid "Account canceled"
+msgstr "Account eliminato"
+
+#: Plugin\User\View\Elements\settings.ctp:111
+msgid "Notify user when account is canceled."
+msgstr "Notifica l'utente quando l'account è eliminato."
+
+#: Plugin\User\View\Elements\toolbar.ctp:3
+msgid "List all users"
+msgstr "Lista tutti gli utenti"
+
+#: Plugin\User\View\Elements\toolbar.ctp:4
+msgid "Add New User"
+msgstr "Aggiungi nuovo utente"
+
+#: Plugin\User\View\Elements\toolbar.ctp:5
+msgid "Allow you to fine tune the security and administration of QuickApps."
+msgstr "Ti permette di ottimizzare la sicurezza e l'amministrazione di QuickApps."
+
+#: Plugin\User\View\Elements\toolbar.ctp:6
+msgid "Manage permissions by role"
+msgstr "Gestisci permessi per ruolo"
+
+#: Plugin\User\View\Elements\toolbar.ctp:7
+msgid "Add, edit, and arrange fields for storing user data."
+msgstr "Aggiungi, modifica e sistema i campi per il salvataggio dei dati utente."
+
+#: Plugin\User\View\Elements\toolbar.ctp:8
+msgid "Configure how fields should be displayed when rendering a user profile page."
+msgstr "Configura come i campi devono essere mostrati quando renderizzano un pagina di un profilo utente."
+
+#: Plugin\User\View\List\admin_add.ctp:6
+#: Plugin\User\View\List\admin_edit.ctp:7
+#: Plugin\User\View\User\my_account.ctp:4
+#: Plugin\User\View\User\register.ctp:4
+msgid "Real name *"
+msgstr "Nome reale *"
+
+#: Plugin\User\View\List\admin_add.ctp:7
+#: Plugin\User\View\List\admin_edit.ctp:8
+#: Plugin\User\View\User\my_account.ctp:5
+#: Plugin\User\View\User\register.ctp:5
+msgid "Your real name, it is used only for identification purposes. i.e: John Locke"
+msgstr "Il tuo nome reale, è usato solo per motivi di identificazione. es.: John Locke"
+
+#: Plugin\User\View\List\admin_add.ctp:8
+#: Plugin\User\View\List\admin_edit.ctp:9
+#: Plugin\User\View\User\my_account.ctp:6
+#: Plugin\User\View\User\register.ctp:6
+msgid "User name *"
+msgstr "Nome utente *"
+
+#: Plugin\User\View\List\admin_add.ctp:9
+#: Plugin\User\View\User\register.ctp:7
+msgid "Nick used to login. Must be unique and alphanumeric."
+msgstr "Alias usato per il login. Deve essere unico e alfanumerico."
+
+#: Plugin\User\View\List\admin_add.ctp:10
+#: Plugin\User\View\List\admin_edit.ctp:11
+#: Plugin\User\View\User\my_account.ctp:8
+#: Plugin\User\View\User\register.ctp:8
+msgid "Avatar"
+msgstr "Avatar"
+
+#: Plugin\User\View\List\admin_add.ctp:11
+#: Plugin\User\View\List\admin_edit.ctp:12
+#: Plugin\User\View\User\my_account.ctp:9
+#: Plugin\User\View\User\register.ctp:9
+#, fuzzy
+msgid "Full url to avatar image file. i.e: http://www.example.com/my-avatar.jpg"
+msgstr "URL completa del file immagine avatar. es.: http://www.domain.com/my-avatar.jpg"
+
+#: Plugin\User\View\List\admin_add.ctp:12
+#: Plugin\User\View\List\admin_edit.ctp:13
+#: Plugin\User\View\User\my_account.ctp:10
+#: Plugin\User\View\User\register.ctp:10
+msgid "E-mail *"
+msgstr "E-mail *"
+
+#: Plugin\User\View\List\admin_add.ctp:13
+#: Plugin\User\View\List\admin_edit.ctp:14
+#: Plugin\User\View\User\my_account.ctp:11
+msgid "Public email"
+msgstr "E-mail pubblica"
+
+#: Plugin\User\View\List\admin_add.ctp:16
+#: Plugin\User\View\List\admin_edit.ctp:17
+#: Plugin\User\View\User\my_account.ctp:14
+#: Plugin\User\View\User\register.ctp:13
+msgid "Time zone"
+msgstr "Zona oraria"
+
+#: Plugin\User\View\List\admin_add.ctp:18
+#: Plugin\User\View\List\admin_edit.ctp:19
+#: Plugin\User\View\User\my_account.ctp:16
+#: Plugin\User\View\User\register.ctp:15
+msgid "Confirm password"
+msgstr "Conferma password"
+
+#: Plugin\User\View\List\admin_add.ctp:28
+msgid "Create user"
+msgstr "Crea utente"
+
+#: Plugin\User\View\List\admin_edit.ctp:3
+msgid "Editing user: %s"
+msgstr "Modifica utente: %s"
+
+#: Plugin\User\View\List\admin_edit.ctp:10
+#: Plugin\User\View\User\my_account.ctp:7
+msgid "Usernames cannot be changed"
+msgstr "Gli username non possono essere cambiati"
+
+#: Plugin\User\View\List\admin_edit.ctp:18
+#: Plugin\User\View\User\my_account.ctp:15
+msgid "New password"
+msgstr "Nuova password"
+
+#: Plugin\User\View\List\admin_edit.ctp:20
+#: Plugin\User\View\User\my_account.ctp:17
+msgid "If you would like to change the password type a new one. Otherwise leave this blank."
+msgstr "Se vuoi cambiare la password digitane una nuova. Altrimenti lascia vuoto il campo."
+
+#: Plugin\User\View\List\admin_edit.ctp:30
+msgid "Update user"
+msgstr "Modifica utente"
+
+#: Plugin\User\View\List\admin_index.ctp:9
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:103
+msgid "User Name"
+msgstr "Nome Utente"
+
+#: Plugin\User\View\List\admin_index.ctp:13;62
+#: View\Elements\theme_node_comments_form.ctp:37
+#: View\Elements\theme_user_profile.ctp:20
+#: View\Install\user_account.ctp:35
+#: View\Themed\Admin\app\ThemeAdmin\View\Helper\ThemeAdminHookHelper.php:116
+msgid "Email"
+msgstr "Email"
+
+#: Plugin\User\View\List\admin_index.ctp:28
+msgid "There are no users to display"
+msgstr "Non ci sono utenti da mostrare"
+
+#: Plugin\User\View\List\admin_index.ctp:46
+msgid "blocked"
+msgstr "bloccato"
+
+#: Plugin\User\View\List\admin_index.ctp:80
+msgid "Block selected users"
+msgstr "Blocca utenti selezionati"
+
+#: Plugin\User\View\List\admin_index.ctp:81
+msgid "Unblock selected users"
+msgstr "Sblocca utenti selezionati"
+
+#: Plugin\User\View\List\admin_index.ctp:82
+msgid "Delete selected users"
+msgstr "Elimina utenti selezionati"
+
+#: Plugin\User\View\Roles\admin_edit.ctp:4
+msgid "Role name"
+msgstr "Nome ruolo"
+
+#: Plugin\User\View\Roles\admin_edit.ctp:9
+msgid "Update Role"
+msgstr "Modifica ruolo"
+
+#: Plugin\User\View\Roles\admin_index.ctp:3
+msgid "Add New Role"
+msgstr "Aggiungi Nuovo Ruolo"
+
+#: Plugin\User\View\Roles\admin_index.ctp:27
+msgid "Are you sure?"
+msgstr "Sei sicuro?"
+
+#: Plugin\User\View\Roles\admin_index.ctp:32
+msgid "There are no roles to display"
+msgstr "Non ci sono ruoli da mostrare"
+
+#: Plugin\User\View\User\admin_login.ctp:5
+#, fuzzy
+msgid "Username..."
+msgstr "Username"
+
+#: Plugin\User\View\User\admin_login.ctp:6
+#, fuzzy
+msgid "Password..."
+msgstr "Password"
+
+#: Plugin\User\View\User\admin_login.ctp:7
+#: Plugin\User\View\User\login.ctp:8
+msgid "Remember"
+msgstr "Ricorda"
+
+#: Plugin\User\View\User\password_recovery.ctp:6
+msgid "E-mail new password"
+msgstr "Invia nuova password via email"
+
+#: Plugin\User\View\User\register.ctp:23
+msgid "Register"
+msgstr "Registra"
+
+#: Vendor\DummyLocale.php:14
+msgid "Welcome to QuickApps CMS"
+msgstr "Benvenuti a QuickApps CMS"
+
+#: Vendor\DummyLocale.php:15
+msgid "Click here to install in English"
+msgstr "Clicca qui per iniziare l'installazione in Italiano"
+
+#: Vendor\DummyLocale.php:18
+msgid "Dashboard"
+msgstr "Scrivania"
+
+#: Vendor\DummyLocale.php:19
+msgid "Structure"
+msgstr "Struttura"
+
+#: Vendor\DummyLocale.php:21
+msgid "Appearance"
+msgstr "Aspetto"
+
+#: Vendor\DummyLocale.php:22
+msgid "Modules"
+msgstr "Moduli"
+
+#: Vendor\DummyLocale.php:24
+msgid "Configuration"
+msgstr "Configurazione"
+
+#: Vendor\DummyLocale.php:30
+msgid "View Site"
+msgstr "Vedi Sito"
+
+#: Vendor\DummyLocale.php:31
+msgid "Log out"
+msgstr "Esci"
+
+#: Vendor\DummyLocale.php:32
+#: View\Themed\Admin\Layouts\default.ctp:32
+msgid "Logout"
+msgstr "Esci"
+
+#: Vendor\DummyLocale.php:33
+#: View\Themed\Admin\Layouts\default.ctp:30
+msgid "My account"
+msgstr "Mio account"
+
+#: Vendor\DummyLocale.php:34
+#: View\Helper\TableHelper.php:156
+msgid "« Previous "
+msgstr "« Precedente "
+
+#: Vendor\DummyLocale.php:35
+#: View\Helper\TableHelper.php:157
+msgid " Next »"
+msgstr " Seguente »"
+
+#: Vendor\DummyLocale.php:36
+msgid " Last"
+msgstr ""
+
+#: Vendor\DummyLocale.php:37
+#, fuzzy
+msgid "First "
+msgstr "List"
+
+#: Vendor\DummyLocale.php:40
+msgid "Configure what block content appears in your site's sidebars and other regions."
+msgstr "Configura quale blocco contenuto appaia nelle sidebar del tuo sito e nelle altre regioni."
+
+#: Vendor\DummyLocale.php:41
+msgid "Manage content types."
+msgstr "Gestisci i tipi di contenuto."
+
+#: Vendor\DummyLocale.php:42
+msgid "Add new menus to your site, edit existing menus, and rename and reorganize menu links."
+msgstr "Aggiungi nuovi menu al tuo sito, modifica menu esistenti, rinomina e riorganizza i link dei menu."
+
+#: Vendor\DummyLocale.php:43
+msgid "Manage tagging, categorization, and classification of your content."
+msgstr "Gestisci i tag, categorie e la classificazione del tuo contenuto."
+
+#: Vendor\DummyLocale.php:46
+msgid "Controls the visual building blocks a page is constructed with. Blocks are boxes of content rendered into an area, or region, of a web page."
+msgstr "Controlla visivamente come i blocci si dispongono nella pagina. Blocchi e box di contenuto sono visualizzati in un'area, o regione o una pagina web."
+
+#: Vendor\DummyLocale.php:47
+msgid "Allows users to comment on and discuss published content."
+msgstr "Concede agli utenti di commentare e discutere contenuto pubblicato."
+
+#: Vendor\DummyLocale.php:48
+msgid "Field API to add fields to entities like nodes and users."
+msgstr "Field API per aggiungere campi alle entità come nodi e utenti."
+
+#: Vendor\DummyLocale.php:49
+msgid "Adds language handling functionality and enables the translation of the user interface to languages other than English"
+msgstr "Aggiugne la funzionalità di gestione della lingua e abilita la traduizone dell'interfaccia utente a lingue diverse dall'inglese"
+
+#: Vendor\DummyLocale.php:50
+msgid "Allows administrators to customize the site navigation menu."
+msgstr "Permette agli amministratori di personalizzare il menuto di navigazione del sito."
+
+#: Vendor\DummyLocale.php:51
+msgid "Allows content to be submitted to the site and displayed on pages."
+msgstr "Permette al contenuto di essere spedito al sito e mostrato in pagine."
+
+#: Vendor\DummyLocale.php:52
+msgid "System Kernel."
+msgstr ""
+
+#: Vendor\DummyLocale.php:53
+msgid "Enables the categorization of content."
+msgstr "Abilita la categorizzazione del contenuto."
+
+#: Vendor\DummyLocale.php:54
+msgid "Manages the user registration and login system."
+msgstr "Gestisce la registrazione utente e il sistema di login."
+
+#: Vendor\DummyLocale.php:57
+msgid "Default frontend theme for QuickApps"
+msgstr "Tema di frontend di default per QuickApps"
+
+#: Vendor\DummyLocale.php:58
+msgid "Default backend theme for QuickApps"
+msgstr "Tema di backoffice di default per QuickApps"
+
+#: Vendor\DummyLocale.php:59
+#: View\Themed\Admin\Plugin\System\Elements\themes_table_list.ctp:37
+#, fuzzy
+msgid "Theme in use"
+msgstr "Nome tema"
+
+#: Vendor\DummyLocale.php:62
+msgid "Article"
+msgstr "Articolo"
+
+#: Vendor\DummyLocale.php:63
+msgid "Basic page"
+msgstr "Pagina base"
+
+#: Vendor\DummyLocale.php:66
+msgid "Use articles for time-sensitive content like news, press releases or blog posts."
+msgstr "Usa articoli per contenuti sensibili al tempo come news, press releases o blog post."
+
+#: Vendor\DummyLocale.php:67
+msgid "Use basic pages for your static content, such as an 'About us' page."
+msgstr "Usa pagine base per i contenuti statici, come la pagina 'About us' (Chi siamo)."
+
+#: Vendor\DummyLocale.php:70
+msgid "Date picker field."
+msgstr "Campo Date picker."
+
+#: Vendor\DummyLocale.php:71
+msgid "Define file uploader."
+msgstr "Definisce file uploader."
+
+#: Vendor\DummyLocale.php:72
+msgid "Defines list field types. Use with Options to create selection lists."
+msgstr "Definisce lista tipi di campo. Usa con Options per creare liste di selezione."
+
+#: Vendor\DummyLocale.php:73
+msgid "Defines simple text field types."
+msgstr "Definisce tipi semplici di campo testo."
+
+#: Vendor\DummyLocale.php:74
+msgid "Defines terms list."
+msgstr "Definisce lista dei termini."
+
+#: Vendor\DummyLocale.php:77;87
+msgid "Main font"
+msgstr "Font principale"
+
+#: Vendor\DummyLocale.php:79
+msgid "Footer"
+msgstr ""
+
+#: Vendor\DummyLocale.php:81
+msgid "Header top"
+msgstr "Testata top"
+
+#: Vendor\DummyLocale.php:82
+msgid "Header bottom"
+msgstr "Testata bottom"
+
+#: Vendor\DummyLocale.php:83
+msgid "Main background"
+msgstr "Background principale"
+
+#: Vendor\DummyLocale.php:89
+msgid "Background"
+msgstr ""
+
+#: Vendor\DummyLocale.php:91
+msgid "Links hover"
+msgstr ""
+
+#: Vendor\DummyLocale.php:92
+msgid "Header"
+msgstr ""
+
+#: Vendor\DummyLocale.php:93
+msgid "Main menu background"
+msgstr "Background menu principale"
+
+#: Vendor\DummyLocale.php:94
+msgid "Main menu text"
+msgstr "Testo menu principale"
+
+#: Vendor\DummyLocale.php:95
+msgid "Branding background"
+msgstr ""
+
+#: Vendor\DummyLocale.php:98
+msgid "The <em>Main</em> menu is used on many sites to show the major sections of the site, often in a top navigation bar."
+msgstr "Il menu <em>Main</em> (Principale) è usato in molti siti per mostrare le sezioni principali del sito, spesso in una barra di navigazione in alto."
+
+#: Vendor\DummyLocale.php:99
+msgid "The <em>Management</em> menu contains links for administrative tasks."
+msgstr "Il menu <em>Management</em> (Gestione) contiene link per attività amministrative."
+
+#: Vendor\DummyLocale.php:100
+msgid "The <em>Navigation</em> menu contains links intended for site visitors. Links are added to the <em>Navigation</em> menu automatically by some modules."
+msgstr "Il menu <em>Navigation</em> (Navigazione) contiene link speicifici per i visitatori. Link al menu di <em>Navigation</em> sono aggiunti in automatico da alcuni moduli."
+
+#: Vendor\DummyLocale.php:101
+msgid "The <em>User</em> menu contains links related to the user's account, as well as the 'Log out' link."
+msgstr "Il menu <em>User</em> (Utente) contiene link relativi algli account utente, come il link di 'Log out'."
+
+#: Vendor\DummyLocale.php:104
+msgid "We sincerely apologize for the inconvenience.<br/>Our site is currently undergoing scheduled maintenance and upgrades, but will return shortly.<br/>Thanks you for your patience."
+msgstr "Ci dispiace per l'iconveniente.<br/>Il sito è al momento in fase di manutenzione e aggiornamento, ma tornerà attivo in breve.<br/>Ringraziamo per la pazienza."
+
+#: Vendor\DummyLocale.php:107
+#, fuzzy
+msgid "Administer blocks"
+msgstr "Aggiungi nuovo blocco"
+
+#: Vendor\DummyLocale.php:108
+msgid "Grant full access to administer blocks"
+msgstr ""
+
+#: Vendor\DummyLocale.php:111
+#, fuzzy
+msgid "Administer comments"
+msgstr "Aggiungi un commento"
+
+#: Vendor\DummyLocale.php:112
+msgid "Administer comments and comment settings"
+msgstr ""
+
+#: Vendor\DummyLocale.php:115
+#, fuzzy
+msgid "Delete fields"
+msgstr "Campo di testo"
+
+#: Vendor\DummyLocale.php:116
+msgid "Allow user to delete CCK fields"
+msgstr ""
+
+#: Vendor\DummyLocale.php:119
+#, fuzzy
+msgid "Upload & Delete files"
+msgstr "Carica Pacchetto File"
+
+#: Vendor\DummyLocale.php:120
+msgid "Allow user to upload new files and delete existing ones."
+msgstr ""
+
+#: Vendor\DummyLocale.php:123
+msgid "Upload & Delete images"
+msgstr ""
+
+#: Vendor\DummyLocale.php:124
+msgid "Allow user to upload new images and delete existing ones."
+msgstr ""
+
+#: Vendor\DummyLocale.php:125
+msgid "Preview uploaded images"
+msgstr ""
+
+#: Vendor\DummyLocale.php:126
+msgid "Allow user to preview images."
+msgstr ""
+
+#: Vendor\DummyLocale.php:129
+#, fuzzy
+msgid "Administer languages"
+msgstr "Modifica lingua"
+
+#: Vendor\DummyLocale.php:130
+msgid "Allow user to add, edit and delete languages"
+msgstr ""
+
+#: Vendor\DummyLocale.php:131
+#, fuzzy
+msgid "Translate interface texts"
+msgstr "Traduci interfaccia"
+
+#: Vendor\DummyLocale.php:132
+#, fuzzy
+msgid "Allow user to administer translatable entries"
+msgstr "Aggiungi voce traducibile"
+
+#: Vendor\DummyLocale.php:133
+msgid "Administer language packages"
+msgstr ""
+
+#: Vendor\DummyLocale.php:134
+msgid "Allow user to install and modify existing language packages (.po)"
+msgstr ""
+
+#: Vendor\DummyLocale.php:137
+msgid "Administer menus"
+msgstr ""
+
+#: Vendor\DummyLocale.php:138
+msgid "Allow user to administer menus and menu items"
+msgstr ""
+
+#: Vendor\DummyLocale.php:141
+#, fuzzy
+msgid "Administer content types"
+msgstr "Gestisci i tipi di contenuto."
+
+#: Vendor\DummyLocale.php:142;144;152;185;187;189;191
+msgid "Warning: Give to trusted roles only; this permission has security implications."
+msgstr ""
+
+#: Vendor\DummyLocale.php:143
+#, fuzzy
+msgid "Administer content"
+msgstr "Aggiungi contenuto"
+
+#: Vendor\DummyLocale.php:145
+#, fuzzy
+msgid "Access the site's front page"
+msgstr "Promosso alla home page"
+
+#: Vendor\DummyLocale.php:146
+#, fuzzy
+msgid "View published content"
+msgstr "Pubblicato in contenuto"
+
+#: Vendor\DummyLocale.php:147
+msgid "Search content and RSS feeds"
+msgstr ""
+
+#: Vendor\DummyLocale.php:150
+msgid "Access to dashboard"
+msgstr ""
+
+#: Vendor\DummyLocale.php:151
+msgid "Administer site configuration"
+msgstr ""
+
+#: Vendor\DummyLocale.php:153
+#, fuzzy
+msgid "Structure Menu"
+msgstr "Struttura"
+
+#: Vendor\DummyLocale.php:154
+msgid "Allow user to access the `structure` menu item."
+msgstr ""
+
+#: Vendor\DummyLocale.php:155
+#, fuzzy
+msgid "Help Topics"
+msgstr "Voci d'aiuto"
+
+#: Vendor\DummyLocale.php:156
+msgid "Allow user to consult help topics."
+msgstr ""
+
+#: Vendor\DummyLocale.php:157
+msgid "Administer modules"
+msgstr ""
+
+#: Vendor\DummyLocale.php:158
+#, fuzzy
+msgid "Administer themes"
+msgstr "Temi di frontend"
+
+#: Vendor\DummyLocale.php:161
+msgid "Administer vocabularies and terms"
+msgstr ""
+
+#: Vendor\DummyLocale.php:164
+msgid "Keywords suggestions handler"
+msgstr ""
+
+#: Vendor\DummyLocale.php:165
+msgid "Suggest keyword"
+msgstr ""
+
+#: Vendor\DummyLocale.php:166
+msgid "Allow user to use the `Autocomplete term`"
+msgstr ""
+
+#: Vendor\DummyLocale.php:169
+#, fuzzy
+msgid "User Basics"
+msgstr "Utente dal"
+
+#: Vendor\DummyLocale.php:170
+msgid "Backend main module access"
+msgstr ""
+
+#: Vendor\DummyLocale.php:171
+msgid "Grant access to (/admin/user)"
+msgstr ""
+
+#: Vendor\DummyLocale.php:172
+#, fuzzy
+msgid "Frontpage login form"
+msgstr "Home page"
+
+#: Vendor\DummyLocale.php:173
+msgid "Backend login"
+msgstr ""
+
+#: Vendor\DummyLocale.php:174
+msgid "Backend login form"
+msgstr ""
+
+#: Vendor\DummyLocale.php:175
+#, fuzzy
+msgid "Frontpage logout"
+msgstr "Home page"
+
+#: Vendor\DummyLocale.php:176
+#, fuzzy
+msgid "After logout user gets redirected to site frontpage"
+msgstr "Promuovi il contenuto selezionato alla home page"
+
+#: Vendor\DummyLocale.php:177
+#, fuzzy
+msgid "Backend logout"
+msgstr "Temi di backoffice"
+
+#: Vendor\DummyLocale.php:178
+msgid "After logout user gets redirected to backend login screen"
+msgstr ""
+
+#: Vendor\DummyLocale.php:179
+msgid "Registration page"
+msgstr ""
+
+#: Vendor\DummyLocale.php:180
+#, fuzzy
+msgid "Activate account"
+msgstr "Crea nuovo account"
+
+#: Vendor\DummyLocale.php:182
+#, fuzzy
+msgid "View users profile"
+msgstr "Ruoli utente"
+
+#: Vendor\DummyLocale.php:183
+#, fuzzy
+msgid "My account section"
+msgstr "Mio account"
+
+#: Vendor\DummyLocale.php:184
+#, fuzzy
+msgid "Administer permissions"
+msgstr "Permessi Utente"
+
+#: Vendor\DummyLocale.php:186
+#, fuzzy
+msgid "Administer users"
+msgstr "Aggiungi nuovo utente"
+
+#: Vendor\DummyLocale.php:188
+msgid "Administer user roles"
+msgstr ""
+
+#: Vendor\DummyLocale.php:190
+msgid "Administer user CCK fields"
+msgstr ""
+
+#: Vendor\DummyLocale.php:196
+#, fuzzy
+msgid "List"
+msgstr "List"
+
+#: Vendor\DummyLocale.php:197
+msgid "RSS"
+msgstr ""
+
+#: Vendor\DummyLocale.php:198
+#, fuzzy
+msgid "Print"
+msgstr "Print"
+
+#: Vendor\DummyLocale.php:199
+msgid "User profile"
+msgstr "Ruoli utente"
+
+#: Vendor\DummyLocale.php:202
+#, fuzzy
+msgid "Thumbnail"
+msgstr "Icona Tema"
+
+#: Vendor\DummyLocale.php:203
+#, fuzzy
+msgid "Medium"
+msgstr "modifica"
+
+#: Vendor\DummyLocale.php:204
+#, fuzzy
+msgid "Large"
+msgstr "Lingua"
+
+#: View\Elements\theme_comment.ctp:37
+msgid "said on %s"
+msgstr "detto il %s"
+
+#: View\Elements\theme_comment.ctp:38
+msgid "Permalink"
+msgstr "Permalink"
+
+#: View\Elements\theme_comment.ctp:49
+msgid "Quote"
+msgstr "Cita"
+
+#: View\Elements\theme_node.ctp:31
+#: View\Themed\Default\Elements\theme_node.ctp:31
+msgid "published by <a href=\"%s\">%s</a>"
+msgstr "pubblicato da <a href=\"%s\">%s</a>"
+
+#: View\Elements\theme_node.ctp:34
+#: View\Themed\Default\Elements\theme_node.ctp:34
+msgid "%d comments"
+msgstr "%d commenti"
+
+#: View\Elements\theme_node.ctp:51
+#: View\Themed\Default\Elements\theme_node.ctp:51
+msgid "Read More"
+msgstr "Leggi oltre"
+
+#: View\Elements\theme_node_comments_form.ctp:16
+msgid "Add new comment"
+msgstr "Aggiungi un commento"
+
+#: View\Elements\theme_node_comments_form.ctp:21;29;36
+msgid "Your name"
+msgstr "Tuo nome"
+
+#: View\Elements\theme_node_comments_form.ctp:45
+msgid "Your name *"
+msgstr "Tuo nome *"
+
+#: View\Elements\theme_node_comments_form.ctp:46
+msgid "Email *"
+msgstr "Email *"
+
+#: View\Elements\theme_node_comments_form.ctp:56
+msgid "Comment *"
+msgstr "Commento *"
+
+#: View\Elements\theme_search_form.ctp:19
+msgid "Containing any of the words"
+msgstr "Contiene tutte le parole"
+
+#: View\Elements\theme_search_form.ctp:20
+msgid "Containing the phrase"
+msgstr "Contiene la frase"
+
+#: View\Elements\theme_search_form.ctp:21
+msgid "Containing none of the words"
+msgstr "Contiene nessuna delle parole"
+
+#: View\Elements\theme_search_form.ctp:28
+msgid "Only of the type(s)"
+msgstr "Solo del tipo(i)"
+
+#: View\Elements\theme_user_profile.ctp:2
+msgid "Profile"
+msgstr "Profilo"
+
+#: View\Elements\theme_user_profile.ctp:16
+msgid "Real name"
+msgstr "Nome reale"
+
+#: View\Elements\theme_user_profile.ctp:25
+msgid "User since"
+msgstr "Utente dal"
+
+#: View\Elements\theme_user_profile.ctp:25;26
+msgid "M d, Y"
+msgstr "d/m/Y"
+
+#: View\Elements\theme_user_profile.ctp:26
+msgid "Last connection"
+msgstr "Ultimo collegamento"
+
+#: View\Errors\default.ctp:2
+#: View\Errors\error400.ctp:4
+#: View\Errors\error500.ctp:4
+#: View\Errors\private_action.ctp:4
+#: View\Layouts\default.ctp:3
+msgid "Error"
+msgstr "Errore"
+
+#: View\Errors\error400.ctp:5
+msgid "The requested address %s was not found. <br/> There are no translations available or you don't have sufficient permissions."
+msgstr "L'indirizzo richiesto %s non è stato trovato. <br/> Non ci sono traduzioni disponibili o non hai i sufficienti permessi."
+
+#: View\Errors\error400.ctp:6
+#: View\Errors\error500.ctp:6
+#: View\Errors\private_action.ctp:13
+msgid "<a href=\"%s\">Go to home page</a>"
+msgstr "<a href=\"%s\">Vai alla home page</a>"
+
+#: View\Errors\error500.ctp:5
+msgid "An Internal Error Has Occurred."
+msgstr "An Internal Error Has Occurred."
+
+#: View\Errors\private_action.ctp:2
+msgid "Private Method in %s"
+msgstr "Metodo Privato in %s"
+
+#: View\Errors\private_action.ctp:5
+msgid "%s%s cannot be accessed directly."
+msgstr "%s%s non possono essere acceduti direttamente."
+
+#: View\Errors\private_action.ctp:9
+msgid "Notice"
+msgstr "Notice"
+
+#: View\Errors\private_action.ctp:10
+msgid "If you want to customize this error message, create %s"
+msgstr "Se vuoi personalizzare questo messaggio di errore, crea %s"
+
+#: View\Helper\LayoutHelper.php:414
+msgid "LayoutHelper::userAvatar() is deprecated, use UserHelper::avatar() instead"
+msgstr ""
+
+#: View\Helper\LayoutHelper.php:427
+msgid "LayoutHelper::menuNodeChildren() is deprecated, use MenuHelper::menuNodeChildren() instead"
+msgstr ""
+
+#: View\Helper\LayoutHelper.php:441
+msgid "LayoutHelper::menu() is deprecated, use MenuHelper::render() instead"
+msgstr ""
+
+#: View\Helper\LayoutHelper.php:476
+msgid "LayoutHelper::toolbar() is deprecated, use MenuHelper::toolbar() instead"
+msgstr ""
+
+#: View\Helper\LayoutHelper.php:498
+msgid "LayoutHelper::blockPush() is deprecated, use BlockHelper::push() instead"
+msgstr ""
+
+#: View\Helper\LayoutHelper.php:510
+msgid "LayoutHelper::emptyRegion() is deprecated, use BlockHelper::regionCount() instead"
+msgstr ""
+
+#: View\Helper\LayoutHelper.php:522
+msgid "LayoutHelper::blocksInRegion() is deprecated, use BlockHelper::regionCount() instead"
+msgstr ""
+
+#: View\Helper\LayoutHelper.php:534
+msgid "LayoutHelper::blocks() is deprecated, use BlockHelper::region() instead"
+msgstr ""
+
+#: View\Helper\LayoutHelper.php:561
+msgid "LayoutHelper::block() is deprecated, use BlockHelper::render() instead"
+msgstr ""
+
+#: View\Helper\LayoutHelper.php:574
+msgid "LayoutHelper::getNodeType() is deprecated, use NodeHelper::getAttr(\"node_type_id\") instead"
+msgstr ""
+
+#: View\Helper\LayoutHelper.php:588
+msgid "LayoutHelper::nodeField() is deprecated, use NodeHelper::getAttr() instead"
+msgstr ""
+
+#: View\Helper\LayoutHelper.php:612
+msgid "LayoutHelper::renderNode() is deprecated, use NodeHelper::render() instead"
+msgstr ""
+
+#: View\Helper\LayoutHelper.php:627
+msgid "LayoutHelper::renderField() is deprecated, use NodeHelper::renderField() instead"
+msgstr ""
+
+#: View\Helper\TableHelper.php:143
+msgid "TableHelper::create() is deprecated, use render() instead"
+msgstr ""
+
+#: View\Install\database.ctp:1
+#: View\Install\license.ctp:1
+#: View\Install\server_test.ctp:1
+#: View\Install\user_account.ctp:1
+msgid "Installation"
+msgstr "Installa"
+
+#: View\Install\database.ctp:1
+msgid "Data Base"
+msgstr "Data Base"
+
+#: View\Install\database.ctp:10
+#, fuzzy
+msgid "Configuration exists"
+msgstr "Configurazione"
+
+#: View\Install\database.ctp:11
+msgid "Your configuration file already exists. If it contains the right values, you may <a href=\"%s\">continue with installation</a>. If you would like to use this part of the installer to recreate the file, please delete it first."
+msgstr ""
+
+#: View\Install\database.ctp:14
+msgid "Enter connection data for your MySQL database. Note: your database must already exist before completing this step."
+msgstr ""
+
+#: View\Install\database.ctp:26
+msgid "MySQL server hostname"
+msgstr "MySQL server hostname"
+
+#: View\Install\database.ctp:27
+msgid "ex. mysql.server.com or localhost"
+msgstr "es: mysql.server.com o localhost"
+
+#: View\Install\database.ctp:32
+msgid "Database name"
+msgstr "Nome originale"
+
+#: View\Install\database.ctp:33
+msgid "Database must already exist!"
+msgstr "Codice lingua già presente."
+
+#: View\Install\database.ctp:40
+msgid "Database username"
+msgstr "Utente database"
+
+#: View\Install\database.ctp:41
+msgid "Username used to log into this database."
+msgstr "Username usato per loggarsi al database."
+
+#: View\Install\database.ctp:46
+msgid "Database password"
+msgstr "Nuova password"
+
+#: View\Install\database.ctp:47
+msgid "Password used to log into this database."
+msgstr "Password usata per loggarsi al database."
+
+#: View\Install\database.ctp:54
+msgid "Database table prefix"
+msgstr "Prefisso per la tabella del database"
+
+#: View\Install\database.ctp:55
+msgid "Only change if \"qa_\" conflicts with existing tables. Otherwise, leave this alone."
+msgstr "Cambia solo se \"qa_\" va in conflitto con tabelle esistenti. Altrimenti lascialo così."
+
+#: View\Install\database.ctp:62
+#: View\Install\server_test.ctp:8
+msgid "Continue"
+msgstr "Configura"
+
+#: View\Install\finish.ctp:1
+msgid "Finish"
+msgstr "Fine"
+
+#: View\Install\finish.ctp:1
+msgid "Finishing Installation"
+msgstr "L'installazione sta per finire"
+
+#: View\Install\license.ctp:1
+msgid "License Agreement"
+msgstr "Contratto di licenza"
+
+#: View\Install\license.ctp:2
+msgid "Please read and agree to the following license agreement before installing."
+msgstr "Leggi e accetta la seguente licenza prima di procedere all'installazione. "
+
+#: View\Install\license.ctp:628
+msgid "I Agree"
+msgstr "Accetto"
+
+#: View\Install\server_test.ctp:1
+msgid "Running server test..."
+msgstr "Test del server in esecuzione..."
+
+#: View\Install\server_test.ctp:4
+msgid "Congratulations! Your server meets the basic software requirements."
+msgstr "Congratulazioni! Il tuo server incontra tutti i requisiti base richiesti."
+
+#: View\Install\server_test.ctp:12
+msgid "Uh oh. There's a server compatibility issue. See below."
+msgstr "Attenzione. C'è un problema di compatibilità. Vedi sotto."
+
+#: View\Install\user_account.ctp:1
+msgid "User Account"
+msgstr "Account utente"
+
+#: View\Install\user_account.ctp:3
+msgid "Please enter the administrative username and password to use when signing into this installation."
+msgstr "Inserisci lo username e la password amministrativa da usare quando ci si registra a questa installazione."
+
+#: View\Install\user_account.ctp:15
+msgid "Real Name"
+msgstr "Nome reale"
+
+#: View\Install\user_account.ctp:16
+msgid "Your real name."
+msgstr "Tuo nome"
+
+#: View\Install\user_account.ctp:28
+msgid "The username you will use to login to QuickApps CMS."
+msgstr "Lo username che userai per entrare nel CMS QuickApps."
+
+#: View\Install\user_account.ctp:36
+msgid "In case you forget your login details."
+msgstr "Nel caso si dimentichi i dettagli del tuo login."
+
+#: View\Install\user_account.ctp:46
+msgid "The password you will use to login to QuickApps CMS."
+msgstr "La password che userai per entrare nel CMS QuickApps."
+
+#: View\Install\user_account.ctp:53
+msgid "Password again"
+msgstr "Password"
+
+#: View\Install\user_account.ctp:54
+msgid "Confirm your password."
+msgstr "Conferma password"
+
+#: View\Install\user_account.ctp:61
+msgid "Install QuickApps CMS"
+msgstr "Installa QuickApps CMS"
+
+#: View\Layouts\install.ctp:4
+msgid "QuickApps Installation"
+msgstr "Installazione QuickApps"
+
+#: View\Layouts\Emails\html\default.ctp:16
+msgid "This email was sent using <a href=\"http://www.quickappscms.org/\">QuickApps CMS v%s</a>"
+msgstr "Questa email è stata spedita tramite <a href=\"http://www.quickappscms.org/\">QuickApps CMS v%s</a>"
+
+#: View\Layouts\Emails\text\default.ctp:9
+msgid "This email was sent using QuickApps CMS v%s [http://www.quickappscms.org/]"
+msgstr "Questa email è stata spedita tramite QuickApps CMS v%s [http://www.quickappscms.org/]"
+
+#: View\Themed\Admin\Layouts\default.ctp:31
+msgid "View site"
+msgstr "Vedi sito"
+
+#: View\Themed\Default\Elements\theme_breadcrumb.ctp:4
+#, fuzzy
+msgid "Home"
+msgstr "Nome host"
+
+#: View\Themed\Default\app\ThemeDefault\View\Elements\settings.ctp:1
+msgid "Image slider folder"
+msgstr "Cartella image slider"
+
+#: View\Themed\Default\app\ThemeDefault\View\Elements\settings.ctp:3
+msgid "Recommended images size:"
+msgstr "Taglia raccomandata immagini:"
+
+#: View\Themed\Default\app\ThemeDefault\View\Elements\slider_block_settings.ctp:2
+msgid "Enter one image per line, in the format <b>file name|url|caption</b>. e.g.:"
+msgstr "Inserisci una immagine per linea, nel formato <b>nome file|url|didascalia</b>. Es.:"
+
+#: View\Themed\Default\app\ThemeDefault\View\Elements\slider_block_settings.ctp:9
+msgid "Image files should be stored in /files/<b>%s</b>, you can change this folder in the <a href=\"%s\">theme settings panel</a>"
+msgstr "I file Immagine dovrebbero essere memorizzati in /files/<b>%s</b>, puoi cambiare questa cartella nel <a href=\"%s\">pannello impostazioni tema</a>"
+
+#: View\Themed\Default\app\ThemeDefault\View\Elements\slider_block_settings.ctp:10
+msgid "Special tags are allowed"
+msgstr "Tag speciali sono concessi"
+
+#: Plugin\Block\Model\BlockCustom.php:validation
+#: for field description
+msgid "Invalid description."
+msgstr "Descrizione non valida."
+
+#: Plugin\Block\Model\BlockCustom.php:validation
+#: for field body
+msgid "Invalid block body."
+msgstr "Corpo del blocco non valido."
+
+#: Plugin\Comment\Model\Comment.php:validation
+#: for field name
+msgid "Commenter name required."
+msgstr "Nome richiesto."
+
+#: Plugin\Comment\Model\Comment.php:validation
+#: for field mail
+#: Plugin\User\Model\User.php:validation
+#: email
+msgid "Invalid email."
+msgstr "Email non valida."
+
+#: Plugin\Comment\Model\Comment.php:validation
+#: for field homepage
+msgid "Invalid homepage URL."
+msgstr "URL web non valida."
+
+#: Plugin\Comment\Model\Comment.php:validation
+#: for field body
+msgid "Comment body can not be empty."
+msgstr "Il Corpo del commento non può essere vuoto."
+
+#: Plugin\Field\Model\Field.php:validation
+#: for field label
+msgid "Invalid field label."
+msgstr "Etichetta del campo non valida."
+
+#: Plugin\Field\Model\Field.php:validation
+#: for field name
+msgid "Field name must only contain letters and numbers. Between 3-32 characters are required (character '_' is allowed)."
+msgstr "Il nome di campo deve solo contenere lettere e numeri. Sono richiesti tra 3 e 32 caratteri (il carattere '_' è permesso)."
+
+#: Plugin\Field\Model\Field.php:validation
+#: for field name
+msgid "Field name already in use."
+msgstr "Username già utilizzato."
+
+#: Plugin\Field\Model\Field.php:validation
+#: for field field_module
+msgid "Select a field type."
+msgstr "Seleziona un tipo di campo."
+
+#: Plugin\Locale\Model\Language.php:validation
+#: for field code
+msgid "Code must be 3 letters (lowercase) long."
+msgstr "Il codice deve essere lungo 3 caratteri (minuscoli)."
+
+#: Plugin\Locale\Model\Language.php:validation
+#: for field code
+msgid "Language code already exists."
+msgstr "Codice lingua già presente."
+
+#: Plugin\Locale\Model\Language.php:validation
+#: for field name
+msgid "English name can not be empty."
+msgstr "Nome inglese non può essere lasciato vuoto."
+
+#: Plugin\Locale\Model\Language.php:validation
+#: for field native
+msgid "Native name can not be empty."
+msgstr "Nome originale non può essere lasciato vuoto."
+
+#: Plugin\Locale\Model\Language.php:validation
+#: for field direction
+msgid "Invalid language direction."
+msgstr "Direzione lingua non valida."
+
+#: Plugin\Locale\Model\Translation.php:validation
+#: for field original
+msgid "Original text can not be empty."
+msgstr "Testo originale non può essere lasciato vuoto."
+
+#: Plugin\Locale\Model\Translation.php:validation
+#: for field original
+msgid "Original text already exists."
+msgstr "Testo originale già presente."
+
+#: Plugin\Menu\Model\Menu.php:validation
+#: for field title
+msgid "Menu title can not be empty."
+msgstr "Il titolo di menu non può essere vuoto."
+
+#: Plugin\Menu\Model\MenuLink.php:validation
+#: for field link_title
+msgid "Menu link title can not be empty."
+msgstr "Il link di menu non può essere vuoto."
+
+#: Plugin\Menu\Model\MenuLink.php:validation
+#: for field router_path
+msgid "Invalid link path."
+msgstr "Indirizzo link non valido."
+
+#: Plugin\Node\Model\Node.php:validation
+#: for field title
+msgid "Node title can not be empty."
+msgstr "Titolo del nodo non può essere vuoto."
+
+#: Plugin\Node\Model\NodeType.php:validation
+#: for field name
+msgid "Type name can not be empty."
+msgstr "Il nome del tipo non può essere vuoto."
+
+#: Plugin\Node\Model\NodeType.php:validation
+#: for field title_label
+msgid "Title field label can not be empty."
+msgstr "L'etichetta del titolo del campo non può essere vuota."
+
+#: Plugin\Taxonomy\Model\Term.php:validation
+#: for field name
+msgid "Term name can not be empty."
+msgstr "Nome del termine non può essere vuoto."
+
+#: Plugin\Taxonomy\Model\Vocabulary.php:validation
+#: for field title
+msgid "Vocabulary title can not be empty."
+msgstr "Il titolo del vocabolario non può essere vuoto."
+
+#: Plugin\User\Model\Role.php:validation
+#: for field name
+msgid "Role name can not be empty."
+msgstr "Nome ruolo non può essere vuoto."
+
+#: Plugin\User\Model\Role.php:validation
+#: for field name
+msgid "Role name already in use."
+msgstr "Username già utilizzato."
+
+#: Plugin\User\Model\User.php:validation
+#: for field username
+msgid "Only letters and numbers allowed."
+msgstr "Sono concesse solo lettere e numeri."
+
+#: Plugin\User\Model\User.php:validation
+#: for field username
+msgid "Minimum length of 3 characters."
+msgstr "Minimo 3 caratteri."
+
+#: Plugin\User\Model\User.php:validation
+#: for field username
+msgid "Maximum length of 32 characters."
+msgstr "Massimo 32 caratteri."
+
+#: Plugin\User\Model\User.php:validation
+#: for field username
+msgid "Username already in use."
+msgstr "Username già utilizzato."
+
+#: Plugin\User\Model\User.php:validation
+#: for field name
+msgid "You must enter your real name."
+msgstr "Devi inserire il tuo nome reale."
+
+#: Plugin\User\Model\User.php:validation
+#: for field email
+msgid "Email already in use."
+msgstr "e-mail già utilizzata."
+
+#: Plugin\User\Model\User.php:validation
+#: for field password
+msgid "Password mismatch or less than 6 characters."
+msgstr "La password non corrisponde o meno di 6 caratteri."
+
+#: Lib\Routing\Router.php:189
+msgid "Route classes must extend CakeRoute"
+msgstr "Classi Route devono estendere CakeRoute"

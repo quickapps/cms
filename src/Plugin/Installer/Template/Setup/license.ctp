@@ -1,0 +1,1 @@
+<?php echo $this->Html->url(['plugin' => 'installer', 'controller' => 'setup', 'action' => 'index'], true); ?>

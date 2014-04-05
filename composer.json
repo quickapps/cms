@@ -1,0 +1,24 @@
+{
+    "name": "quickapps/cms",
+    "description": "QuickAppsCMS, open source content management system for PHP",
+    "type": "library",
+    "keywords": ["framework", "cms", "cmf"],
+    "homepage": "http://quickappscms.org",
+    "license": "GPL-3.0",
+    "authors": [
+        {"name": "Christopher Castro", "email": "chris@quickapps.es"}
+    ],
+    "support": {
+        "issues": "https://github.com/QuickAppsCMS/QuickApps-CMS/issues",
+        "source": "https://github.com/QuickAppsCMS/QuickApps-CMS"
+    },
+    "require": {
+        "php": ">=5.4",
+        "ext-mcrypt": "*",
+        "ext-mbstring": "*",
+        "cakephp/cakephp": "3.0.*-dev"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    }
+}

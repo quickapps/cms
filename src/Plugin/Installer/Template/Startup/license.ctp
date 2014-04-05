@@ -1,0 +1,2 @@
+<?php echo $this->Form->textarea('license', ['readonly', 'rows' => 10, 'value' => file_get_contents(ROOT . DS . 'LICENSE.txt')]); ?>
+<p><?php echo $this->Html->link(__('I Agree'), ['plugin' => 'installer', 'controller' => 'startup', 'action' => 'database'], ['class' => 'btn btn-primary pull-right']); ?></p>
