@@ -26,7 +26,6 @@ class MenuHelper extends Helper {
 /**
  * Default config for this class.
  *
- * - id: ID for the root UL element.
  * - itemCallable: Callable method used when formating each item.
  * - activeClass: CSS class to use when an item is active (its url matches current url).
  * - firstItemClass: CSS class for the first item.
@@ -37,7 +36,6 @@ class MenuHelper extends Helper {
  * @var array
  */
 	protected $_defaultConfig = [
-		'id' => null,
 		'itemCallable' => null,
 		'activeClass' => 'active',
 		'firstClass' => 'first-item',
@@ -76,23 +74,44 @@ class MenuHelper extends Helper {
  *     // In view:
  *     echo $this->Menu->render('links');
  *
- * @param \Cake\ORM\Query $items Nested items to render as menu.
- * @param array $templates The templates you want to use for this menu. Any templates will be merged on top of
- *   the already loaded templates. This option can either be a filename in App/Config that contains
- *   the templates you want to load, or an array of templates to use. You can use
- *   resetTemplates() to restore the original templates.
+ * ### Options:
+ *
+ * You can pass an associative array `key => value`.
+ * Any `key` not in `$_defaultConfig` will be treated as an additional attribute for the top level UL (root).
+ * If `key` is in `$_defaultConfig` it will overwrite default configuration parameters:
+ *
+ * - `itemCallable`: Callable method used when formating each item.
+ * - `activeClass`: CSS class to use when an item is active (its url matches current url).
+ * - `firstItemClass`: CSS class for the first item.
+ * - `lastItemClass`: CSS class for the last item.
+ * - `hasChildrenClass`: CSS class to use when an item has children.
+ * - `templates`: The templates you want to use for this menu. Any templates will be merged on top of
+ *    the already loaded templates. This option can either be a filename in App/Config that contains
+ *    the templates you want to load, or an array of templates to use. You can use
+ *    resetTemplates() to restore the original templates.
+ *
+ * @param \Cake\ORM\Query $items Nested items to render as menu
+ * @param array $options An array of html attributes and options
  * @return string HTML
  */
-	public function render($items, $templates = []) {
-		if (!empty($templates) && is_array($templates)) {
-			$templater->add($templates);
+	public function render($items, $options = []) {
+		if (!empty($options['templates']) && is_array($options['templates'])) {
+			$templater->add($options['templates']);
+			unset($options['templates']);
+		}
+
+		$attrs = [];
+
+		foreach ($options as $key => $value) {
+			if (isset($this->_defaultConfig[$key])) {
+				$this->config($key, $value);
+			} else {
+				$attrs[$key] = $value;
+			}
 		}
 
 		$config = $this->config();
-		$attrs = [];
 		$this->countItems($items);
-
-		$attrs = ['id' => $config['id']];
 		$out = $this->formatTemplate('parent', [
 			'attrs' => $this->templater()->formatAttributes($attrs),
 			'content' => $this->_render($items, $config['itemCallable'])
