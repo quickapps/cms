@@ -19,7 +19,7 @@
 		</style>
 	</head>
 	<body>
-		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -31,14 +31,10 @@
 					<a class="navbar-brand" href="#">QuickApps CMS</a>
 				</div>
 				<div class="collapse navbar-collapse">
-					<ul class="nav navbar-nav">
-						<li><?php echo $this->Html->link(__d('back_bootstrap', 'Home'), '/'); ?></li>
-						<li><?php echo $this->Html->link(__d('back_bootstrap', 'Structure'), '/admin/system/structure'); ?></li>
-						<li><?php echo $this->Html->link(__d('back_bootstrap', 'Content'), '/admin/node/manage'); ?></li>
-					</ul>
+					<?php echo $this->Menu->render(\Cake\ORM\TableRegistry::get('Menu.MenuLinks')->find('threaded')->where(['menu_id' => 'management']), ['class' => 'nav navbar-nav']); ?>
 				</div>
 			</div>
-		</div>
+		</nav>
 		<div class="container">
 			<?php echo $this->Html->alerts(); ?>
 			<?php echo $this->fetch('content'); ?>
