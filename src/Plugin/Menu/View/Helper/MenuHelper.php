@@ -131,45 +131,57 @@ class MenuHelper extends Helper {
  */
 	public function formatItem($item, $info, $childContent) {
 		$config = $this->config();
-		$liClasses = [];
+		$liAttrs = [];
+		$linkAttrs = [];
+		$labelAttrs = [];
 
 		if ($info['index'] === 1) {
-			$liClasses[] = $config['firstClass'];
+			$liAttrs['class'][] = $config['firstClass'];
 		}
 
 		if ($info['index'] === $info['total']) {
-			$liClasses[] = $config['lastClass'];
+			$liAttrs['class'][] = $config['lastClass'];
 		}
 
 		if (!empty($childContent)) {
-			$liClasses[] = $config['hasChildrenClass'];
+			$liAttrs['class'][] = $config['hasChildrenClass'];
 		}
 
 		switch ($item->selected_on_type) {
 			case 'reg':
 				if ($this->_urlMatch($item->selected_on)) {
-					$liClasses[] = $config['activeClass'];
+					$liAttrs['class'][] = $config['activeClass'];
+					$linkAttrs['class'] = $config['activeClass'];
+					$labelAttrs['class'] = $config['activeClass'];
 				}
 			break;
 
 			case 'php':
 				if ($this->_phpEval($item->selected_on)) {
-					$liClasses[] = $config['activeClass'];
+					$liAttrs['class'][] = $config['activeClass'];
+					$linkAttrs['class'] = $config['activeClass'];
+					$labelAttrs['class'] = $config['activeClass'];
 				}
 			break;
 
 			default:
-				if (
+				$isInternal =
+					$item->url !== '/' &&
 					$item->url[0] === '/' &&
-					strpos($item->url, $this->_View->request->url) !== false
-				) {
-					$liClasses[] = $config['activeClass'];
+					strpos($item->url, $this->_View->request->url) !== false;
+				$isIndex =
+					$item->url === '/' &&
+					$this->_View->is('page.index');
+				$isExact =
+					$item->url === $this->_View->request->url;
+
+				if ($isInternal || $isIndex || $isExact) {
+					$liAttrs['class'][] = $config['activeClass'];
+					$linkAttrs['class'] = $config['activeClass'];
+					$labelAttrs['class'] = $config['activeClass'];
 				}
 			break;
 		}
-
-		$liAttrs = ['class' => $liClasses];
-		$linkAttrs = [];
 
 		if (!empty($item->description)) {
 			$linkAttrs['title'] = $item->description;
@@ -181,6 +193,7 @@ class MenuHelper extends Helper {
 
 		$liAttrs = $this->templater()->formatAttributes($liAttrs);
 		$linkAttrs = $this->templater()->formatAttributes($linkAttrs);
+		$labelAttrs = $this->templater()->formatAttributes($labelAttrs);
 
 		return
 			$this->formatTemplate('child', [
@@ -189,7 +202,7 @@ class MenuHelper extends Helper {
 					'url' => $this->_View->Html->url($item->url, true),
 					'attrs' => $linkAttrs,
 					'content' => $this->formatTemplate('link_label', [
-						'attrs' => '',
+						'attrs' => $labelAttrs,
 						'content' => $item->title,
 					])
 				]) . $childContent
@@ -286,7 +299,7 @@ class MenuHelper extends Helper {
  * @param mixed $path String as path to match. Or boolean FALSE to use actual page url
  * @return boolean TRUE if the path matches a pattern, FALSE otherwise
  */
-	protected static function _urlMatch($patterns, $path = false) {
+	protected function _urlMatch($patterns, $path = false) {
 		if (empty($patterns)) {
 			return false;
 		}
@@ -295,7 +308,7 @@ class MenuHelper extends Helper {
 		$path = !$path ? '/' . $request->url : $path;
 		$patterns = explode("\n", $patterns);
 
-		if (Configure::read('QuickApps.variables.url_language_prefix')) {
+		if (\Cake\Core\Configure::read('QuickApps.variables.url_language_prefix')) {
 			if (!preg_match('/^\/([a-z]{3})\//', $path, $matches)) {
 				$path = "/" . Configure::read('Config.language'). $path;
 			}
