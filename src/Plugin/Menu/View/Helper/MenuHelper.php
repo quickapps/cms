@@ -157,16 +157,37 @@ class MenuHelper extends Helper {
 					$liClasses[] = $config['activeClass'];
 				}
 			break;
+
+			default:
+				if (
+					$item->url[0] === '/' &&
+					strpos($item->url, $this->_View->request->url) !== false
+				) {
+					$liClasses[] = $config['activeClass'];
+				}
+			break;
 		}
 
-		$attrs = $this->templater()->formatAttributes(['class' => $liClasses]);
+		$liAttrs = ['class' => $liClasses];
+		$linkAttrs = [];
+
+		if (!empty($item->description)) {
+			$linkAttrs['title'] = $item->description;
+		}
+
+		if (!empty($item->target)) {
+			$linkAttrs['target'] = $item->target;
+		}
+
+		$liAttrs = $this->templater()->formatAttributes($liAttrs);
+		$linkAttrs = $this->templater()->formatAttributes($linkAttrs);
 
 		return
 			$this->formatTemplate('child', [
-				'attrs' => $attrs,
+				'attrs' => $liAttrs,
 				'content' => $this->formatTemplate('link', [
 					'url' => $this->_View->Html->url($item->url, true),
-					'attrs' => '',
+					'attrs' => $linkAttrs,
 					'content' => $this->formatTemplate('link_label', [
 						'attrs' => '',
 						'content' => $item->title,
@@ -274,7 +295,7 @@ class MenuHelper extends Helper {
 		$path = !$path ? '/' . $request->url : $path;
 		$patterns = explode("\n", $patterns);
 
-		if (Configure::read('QuickApps._snapshot.variables.url_language_prefix')) {
+		if (Configure::read('QuickApps.variables.url_language_prefix')) {
 			if (!preg_match('/^\/([a-z]{3})\//', $path, $matches)) {
 				$path = "/" . Configure::read('Config.language'). $path;
 			}
