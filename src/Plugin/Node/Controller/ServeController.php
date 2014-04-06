@@ -94,7 +94,7 @@ class ServeController extends NodeAppController {
 		}
 
 		// Post new comment logic
-		if ($node->comment > 0) {
+		if ($node->comment_status > 0) {
 			$commentOptions = [
 				'data' => ['status' => 1],
 				'validate' => 'default',
