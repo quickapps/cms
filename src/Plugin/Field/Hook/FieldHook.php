@@ -23,9 +23,9 @@ use QuickApps\Utility\HookTrait;
  * rendering-request from View to their corresponding
  * FieldHandlers.
  *
- * Field Handlers should implement the `<FieldHandler>.Entity.display` hook. i.e.:
+ * Field Handlers should implement the `<FieldHandler>.Entity.display` hook. e.g.:
  *
- *     Field\TextField.Entity.display
+ *     Field.Text.Entity.display
  *
  * Its callable method should expect two parameters, `$field` and `$options`,
  * and it should return a HTML string representation of your field. i.e.:

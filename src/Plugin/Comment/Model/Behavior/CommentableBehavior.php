@@ -79,10 +79,10 @@ class CommentableBehavior extends Behavior {
 /**
  * Attaches comments to each entity on find operation.
  *
- * @param Event  $event
- * @param Query $query
+ * @param \Cake\Event\Event $event
+ * @param \Cake\ORM\Query $query
  * @param array $options
- * @param boolean  $primary
+ * @param boolean $primary
  * @return void
  */
 	public function beforeFind(Event $event, $query, $options, $primary) {
