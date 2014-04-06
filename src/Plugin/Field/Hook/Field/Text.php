@@ -41,7 +41,7 @@ class Text implements EventListener {
 			'Field.Text.Entity.edit' => 'edit',
 			'Field.Text.Entity.formatter' => 'formatter',
 			'Field.Text.Entity.beforeFind' => 'beforeFind',
-			'Field.Text.Entity.beforeSave' => 'beforeSave',
+			'Field.Text.Entity.afterSave' => 'afterSave',
 			'Field.Text.Entity.beforeValidate' => 'beforeValidate',
 			'Field.Text.Entity.afterValidate' => 'afterValidate',
 			'Field.Text.Entity.beforeDelete' => 'beforeDelete',
@@ -130,7 +130,7 @@ class Text implements EventListener {
 	}
 
 /**
- * Before each entity is saved.
+ * After each entity is saved.
  *
  * The options array contains the `post` key, which holds
  * all the information you need to update you field.
@@ -142,7 +142,7 @@ class Text implements EventListener {
  * @param array $options
  * @return void
  */
-	public function beforeSave(Event $event, $field, $options) {
+	public function afterSave(Event $event, $field, $options) {
 		$field->set('value', $options['post']);
 	}
 

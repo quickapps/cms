@@ -324,16 +324,40 @@ class FieldableBehavior extends Behavior {
 	}
 
 /**
+ * Before an entity is saved.
+ *
+ * @param \Cake\Event\Event $event
+ * @param \Cake\ORM\Entity $entity
+ * @param array $options
+ * @return void
+ */
+	public function beforeSave(Event $event, $entity, $options) {
+		$config = $this->config();
+
+		if (!$config['enabled']) {
+			return;
+		}
+
+		$instances = $this->_getTableFieldInstances($entity);
+		$EventManager = $this->_getEventManager();
+
+		foreach ($instances as $instance) {
+			$field = $this->_getMockField($entity, $instance);
+			$fieldEvent = $this->invoke("Field.{$instance->handler}.Entity.beforeSave", $event->subject, $field, $options);
+		}
+	}
+
+/**
  * Callback fired before saving each Table's Entity.
  * We dispatch each custom field's $_POST information to its corresponding Field Handler, so
  * they can operate over values before Entity is saved.
  *
- * Fields Handler's `Field.<FieldHandler>.Entity.beforeSave` hook is fired, so you should have a listener like so:
+ * Fields Handler's `Field.<FieldHandler>.Entity.afterSave` hook is fired, so you should have a listener like so:
  *
  *     class TextField implements EventListener {
  *         public function implementedEvents() {
  *             return [
- *                 'Field\TextField.Entity.beforeSave' => 'entityBeforeSave',
+ *                 'Field\TextField.Entity.afterSave' => 'entityBeforeSave',
  *             ];
  *         }
  *
@@ -470,7 +494,7 @@ class FieldableBehavior extends Behavior {
  * @param array $options
  * @return boolean True if save operation should continue
  */
-	public function beforeSave(Event $event, $entity, $options) {
+	public function afterSave(Event $event, $entity, $options) {
 		$config = $this->config();
 
 		if (!$config['enabled']) {
@@ -493,12 +517,12 @@ class FieldableBehavior extends Behavior {
 			if ($postValuesForField) {
 				$field = $this->_getMockField($entity, $instance);
 				$options['post'] = $postValuesForField;
-				$fieldEvent = $this->invoke("Field.{$instance->handler}.Entity.beforeSave", $event->subject, $field, $options);
+				$fieldEvent = $this->invoke("Field.{$instance->handler}.Entity.afterSave", $event->subject, $field, $options);
 
 				if ($fieldEvent->isStopped() || $fieldEvent->result === false) {
-					$entity = $this->_attachEntityFields($entity);
+					$entity = $this->attachEntityFields($entity);
 					$event->stopPropagation();
-					return false; // stop Table's beforeSave event
+					return false; // stop Table's afterSave event
 				}
 
 				$field->extra = (array)$field->extra;
@@ -513,7 +537,7 @@ class FieldableBehavior extends Behavior {
 				]);
 
 				if (!$FieldValues->save($valueEntity)) {
-					$entity = $this->_attachEntityFields($entity);
+					$entity = $this->attachEntityFields($entity);
 					$event->stopPropagation();
 					return false;
 				}
@@ -522,32 +546,8 @@ class FieldableBehavior extends Behavior {
 			}
 		}
 
-		$entity = $this->_attachEntityFields($entity);
+		$entity = $this->attachEntityFields($entity);
 		return true;
-	}
-
-/**
- * After an entity is saved.
- *
- * @param \Cake\Event\Event $event
- * @param \Cake\ORM\Entity $entity
- * @param array $options
- * @return void
- */
-	public function afterSave(Event $event, $entity, $options) {
-		$config = $this->config();
-
-		if (!$config['enabled']) {
-			return;
-		}
-
-		$instances = $this->_getTableFieldInstances($entity);
-		$EventManager = $this->_getEventManager();
-
-		foreach ($instances as $instance) {
-			$field = $this->_getMockField($entity, $instance);
-			$fieldEvent = $this->invoke("Field.{$instance->handler}.Entity.afterSave", $event->subject, $field, $options);
-		}
 	}
 
 /**
@@ -574,7 +574,7 @@ class FieldableBehavior extends Behavior {
 			$fieldEvent = $this->invoke("{$field->metadata['handler']}.Entity.beforeValidate", $event->subject, $field, $options, $validator);
 
 			if ($fieldEvent->result === false || $fieldEvent->isStopped()) {
-				$entity = $this->_attachEntityFields($entity);
+				$entity = $this->attachEntityFields($entity);
 				$event->stopPropagation();
 				return false;
 			}
@@ -605,7 +605,7 @@ class FieldableBehavior extends Behavior {
 			$fieldEvent = $this->invoke("{$field->metadata['handler']}.Entity.afterValidate", $event->subject, $field, $options, $validator);
 
 			if ($fieldEvent->result === false || $fieldEvent->isStopped()) {
-				$entity = $this->_attachEntityFields($entity);
+				$entity = $this->attachEntityFields($entity);
 				$event->stopPropagation();
 				return false;
 			}
@@ -717,7 +717,7 @@ class FieldableBehavior extends Behavior {
  * @return void
  */
 	public function fieldableMapper($entity, $key, $mapReduce) {
-		$entity = $this->_attachEntityFields($entity);
+		$entity = $this->attachEntityFields($entity);
 		$mapReduce->emit($entity, $key);
 	}
 
@@ -752,6 +752,66 @@ class FieldableBehavior extends Behavior {
  */
 	public function unbindFieldable() {
 		$this->_config['enabled'] = false;
+	}
+
+/**
+ * The method which actually fetches custom fields.
+ *
+ * Fetches all Entity's fields under the `_fields` property.
+ * It also sorts custom-fields if `fields_order` configuration parameter
+ * was set.
+ *
+ * @param \Cake\ORM\Entity $entity The entity where to fetch fields
+ * @return \Cake\ORM\Entity Modified $entity
+ */
+	public function attachEntityFields($entity) {
+		$config = $this->config();
+
+		if (!($entity instanceof \Cake\ORM\Entity)) {
+			return $entity;
+		}
+
+		$entity->accessible('*', true);
+		$_fields = [];
+
+		foreach ($this->_getTableFieldInstances($entity) as $instance) {
+			$mock = $this->_getMockField($entity, $instance);
+
+			// restore from _POST
+			if ($entity->has(":{$instance->slug}")) {
+				$value = $entity->get(":{$instance->slug}");
+
+				if (is_string($value)) {
+					$mock->set('value', $value);
+				} else {
+					$mock->set('extra', (array)$value);
+				}
+			}
+
+			$_fields[] = $mock;
+		}
+
+		if (!empty($config['fields_order']) && is_array($config['fields_order'])) {
+			$_aux = [];
+
+			foreach ($config['fields_order'] as $slug) {
+				foreach ($_fields as $k => $v) {
+					if ($v->name == $slug) {
+						$_aux[] = $v;
+						unset($_fields[$k]);
+					}
+				}
+			}
+
+			if (!empty($_fields)) {
+				$_aux = array_merge($_aux, $_fields);
+			}
+
+			$_fields = $_aux;
+		}
+
+		$entity->set('_fields', $_fields);
+		return $entity;
 	}
 
 /**
@@ -820,66 +880,6 @@ class FieldableBehavior extends Behavior {
 	}
 
 /**
- * The method which actually fetches custom fields.
- *
- * Fetches all Entity's fields under the `_fields` property.
- * It also sorts custom-fields if `fields_order` configuration parameter
- * was set.
- *
- * @param \Cake\ORM\Entity $entity The entity where to fetch fields
- * @return \Cake\ORM\Entity Modified $entity
- */
-	protected function _attachEntityFields($entity) {
-		$config = $this->config();
-
-		if (!($entity instanceof \Cake\ORM\Entity)) {
-			return $entity;
-		}
-
-		$entity->accessible('*', true);
-		$_fields = [];
-
-		foreach ($this->_getTableFieldInstances($entity) as $instance) {
-			$mock = $this->_getMockField($entity, $instance);
-
-			// restore from _POST
-			if ($entity->has(":{$instance->slug}")) {
-				$value = $entity->get(":{$instance->slug}");
-
-				if (is_string($value)) {
-					$mock->set('value', $value);
-				} else {
-					$mock->set('extra', (array)$value);
-				}
-			}
-
-			$_fields[] = $mock;
-		}
-
-		if (!empty($config['fields_order']) && is_array($config['fields_order'])) {
-			$_aux = [];
-
-			foreach ($config['fields_order'] as $slug) {
-				foreach ($_fields as $k => $v) {
-					if ($v->name == $slug) {
-						$_aux[] = $v;
-						unset($_fields[$k]);
-					}
-				}
-			}
-
-			if (!empty($_fields)) {
-				$_aux = array_merge($_aux, $_fields);
-			}
-
-			$_fields = $_aux;
-		}
-
-		$entity->set('_fields', $_fields);
-		return $entity;
-	}
-
-/**
  * Creates a new "Field" for each entity.
  *
  * This mock Field represents a new property (table column) in
@@ -940,7 +940,7 @@ class FieldableBehavior extends Behavior {
 /**
  * Gets table alias this behavior is attached to.
  *
- * This method requires an entity, so we can properly take care of 
+ * This method requires an entity, so we can properly take care of
  * the `polymorphic_table_alias` option.
  * If this option is not used, then `Table::alias()` is returned.
  *
