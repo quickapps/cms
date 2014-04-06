@@ -129,8 +129,8 @@ function snapshot() {
 		}
 	}
 
-	Configure::write('QuickApps._snapshot', $snapshot);
-	Configure::dump('snapshot.php', 'snapshot', ['QuickApps']);
+	Configure::write('QuickApps', $snapshot);
+	Configure::dump('snapshot.php', 'QuickApps', ['QuickApps']);
 }
 
 /**

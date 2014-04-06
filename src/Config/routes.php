@@ -60,7 +60,7 @@ require CAKE . 'Config/routes.php';
  *
  */
 if (
-	Configure::read('QuickApps._snapshot.variables.url_locale_prefix') &&
+	Configure::read('QuickApps.variables.url_locale_prefix') &&
 	!empty(Router::getRequest()->params['locale'])
 ) {
 	Configure::write('Config.language', Router::getRequest()->params['locale']);
@@ -85,8 +85,8 @@ if (
  * This will create a locale-prefixed version of all registered
  * routes at this point.
  */
-if (Configure::read('QuickApps._snapshot.variables.url_locale_prefix')) {
-	$langs = implode('|', Configure::read('QuickApps._snapshot.active_languages'));
+if (Configure::read('QuickApps.variables.url_locale_prefix')) {
+	$langs = implode('|', Configure::read('QuickApps.active_languages'));
 	$routes_count = Router::$_routes->count();
 
 	for ($i = 0; $i < $routes_count; $i++) {

@@ -100,7 +100,7 @@ class ManageController extends NodeAppController {
 	protected function _setLanguages() {
 		$languages = [];
 
-		foreach (\Cake\Core\Configure::read('QuickApps._snapshot.languages') as $code => $data) {
+		foreach (\Cake\Core\Configure::read('QuickApps.languages') as $code => $data) {
 			$languages[$code] = $data['native'];
 		}
 

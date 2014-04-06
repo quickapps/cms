@@ -116,7 +116,7 @@ class FieldHook implements EventListener {
 		$fields = [];
 		$EventManager = EventManager::instance();
 
-		foreach (\Cake\Core\Configure::read('QuickApps._snapshot.fields') as $plugin => $fields) {
+		foreach (\Cake\Core\Configure::read('QuickApps.fields') as $plugin => $fields) {
 			foreach ($fields as $field) {
 				$event = new \Cake\Event\Event("{$field['className']}.Instance.info", null, null);
 				$EventManager->dispatch($event);

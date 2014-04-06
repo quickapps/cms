@@ -152,7 +152,7 @@ class View extends CakeView {
 				$description = $node->description;
 			}
 
-			$description = empty($description) ? Configure::read('QuickApps._snapshot.site_description') : $description;
+			$description = empty($description) ? Configure::read('QuickApps.site_description') : $description;
 			$this->set('description_for_layout', $description);
 			$this->append('meta', $this->Html->meta('description', $description));
 		}
@@ -176,7 +176,7 @@ class View extends CakeView {
 				$title = $node->title;
 			}
 
-			$title = empty($title) ? Configure::read('QuickApps._snapshot.site_title') : $title;
+			$title = empty($title) ? Configure::read('QuickApps.site_title') : $title;
 			$this->assign('title_for_layout', $title);
 			$this->set('title_for_layout', $title);
 		}

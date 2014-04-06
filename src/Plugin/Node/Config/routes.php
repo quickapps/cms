@@ -14,7 +14,7 @@ namespace Node\Config;
 use Cake\Core\Configure;
 use Cake\Routing\Router;
 
-$node_types = implode('|', (array)Configure::read('QuickApps._snapshot.node_types'));
+$node_types = implode('|', (array)Configure::read('QuickApps.node_types'));
 
 if (!empty($node_types)) {
 	Router::connect(

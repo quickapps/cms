@@ -113,13 +113,13 @@ Log::config(Configure::consume('Log'));
 /**
  * Load some bootstrap-handy information.
  */
-Configure::config('snapshot', new PhpConfig(TMP));
+Configure::config('QuickApps', new PhpConfig(TMP));
 
 if (!file_exists(TMP . 'snapshot.php') && file_exists(SITE_ROOT . '/Config/settings.json')) {
 	snapshot();
 } else {
 	try {
-		Configure::load('snapshot.php', 'snapshot', false);
+		Configure::load('snapshot.php', 'QuickApps', false);
 	} catch (Exception $e) {
 		die('No snapshot found. check write permissions on tmp/ directory');
 	}
@@ -132,10 +132,10 @@ foreach (App::objects('Plugin') as $plugin) {
 	$EventManager = EventManager::instance();
 
 	if (
-		in_array($plugin, Configure::read('QuickApps._snapshot.plugins.core')) ||
-		in_array($plugin, Configure::read('QuickApps._snapshot.plugins.enabled')) ||
-		$plugin === Configure::read('QuickApps._snapshot.variables.site_theme') ||
-		$plugin === Configure::read('QuickApps._snapshot.variables.admin_theme')
+		in_array($plugin, Configure::read('QuickApps.plugins.core')) ||
+		in_array($plugin, Configure::read('QuickApps.plugins.enabled')) ||
+		$plugin === Configure::read('QuickApps.variables.site_theme') ||
+		$plugin === Configure::read('QuickApps.variables.admin_theme')
 	) {
 		Plugin::load(
 			$plugin,
@@ -148,7 +148,7 @@ foreach (App::objects('Plugin') as $plugin) {
 			]
 		);
 
-		foreach ((array)Configure::read("QuickApps._snapshot.hooks.{$plugin}") as $hookListener) {
+		foreach ((array)Configure::read("QuickApps.hooks.{$plugin}") as $hookListener) {
 			$loader->addNamespace($hookListener['namespace'], $hookListener['path']);
 
 			if (class_exists($hookListener['className'])) {
@@ -156,7 +156,7 @@ foreach (App::objects('Plugin') as $plugin) {
 			}
 		}
 
-		foreach ((array)Configure::read("QuickApps._snapshot.fields.{$plugin}") as $fieldHandler) {
+		foreach ((array)Configure::read("QuickApps.fields.{$plugin}") as $fieldHandler) {
 			$loader->addNamespace($fieldHandler['namespace'], $fieldHandler['path']);
 
 			if (class_exists($fieldHandler['className'])) {
