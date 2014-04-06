@@ -47,8 +47,7 @@ class MenuHelper extends Helper {
 			'div' => '<div{{attrs}}>{{content}}</div>',
 			'parent' => '<ul{{attrs}}>{{content}}</ul>',
 			'child' => '<li{{attrs}}>{{content}}</li>',
-			'link_label' => '<span{{attrs}}>{{content}}</span>',
-			'link' => '<a href="{{url}}"{{attrs}}>{{content}}</a>',
+			'link' => '<a href="{{url}}"{{attrs}}><span>{{content}}</span></a>',
 		]
 	];
 
@@ -159,7 +158,6 @@ class MenuHelper extends Helper {
 		$config = $this->config();
 		$liAttrs = [];
 		$linkAttrs = [];
-		$labelAttrs = [];
 
 		if ($info['index'] === 1) {
 			$liAttrs['class'][] = $config['firstClass'];
@@ -178,7 +176,6 @@ class MenuHelper extends Helper {
 				if ($this->_urlMatch($item->selected_on)) {
 					$liAttrs['class'][] = $config['activeClass'];
 					$linkAttrs['class'] = $config['activeClass'];
-					$labelAttrs['class'] = $config['activeClass'];
 				}
 			break;
 
@@ -186,7 +183,6 @@ class MenuHelper extends Helper {
 				if ($this->_phpEval($item->selected_on)) {
 					$liAttrs['class'][] = $config['activeClass'];
 					$linkAttrs['class'] = $config['activeClass'];
-					$labelAttrs['class'] = $config['activeClass'];
 				}
 			break;
 
@@ -204,7 +200,6 @@ class MenuHelper extends Helper {
 				if ($isInternal || $isIndex || $isExact) {
 					$liAttrs['class'][] = $config['activeClass'];
 					$linkAttrs['class'] = $config['activeClass'];
-					$labelAttrs['class'] = $config['activeClass'];
 				}
 			break;
 		}
@@ -219,7 +214,6 @@ class MenuHelper extends Helper {
 
 		$liAttrs = $this->templater()->formatAttributes($liAttrs);
 		$linkAttrs = $this->templater()->formatAttributes($linkAttrs);
-		$labelAttrs = $this->templater()->formatAttributes($labelAttrs);
 
 		return
 			$this->formatTemplate('child', [
@@ -227,10 +221,7 @@ class MenuHelper extends Helper {
 				'content' => $this->formatTemplate('link', [
 					'url' => $this->_View->Html->url($item->url, true),
 					'attrs' => $linkAttrs,
-					'content' => $this->formatTemplate('link_label', [
-						'attrs' => $labelAttrs,
-						'content' => $item->title,
-					])
+					'content' => $item->title,
 				]) . $childContent
 			]);
 	}
