@@ -90,8 +90,7 @@ class MenuHelper extends Helper {
  * - `hasChildrenClass`: CSS class to use when an item has children.
  * - `templates`: The templates you want to use for this menu. Any templates will be merged on top of
  *    the already loaded templates. This option can either be a filename in App/Config that contains
- *    the templates you want to load, or an array of templates to use. You can use
- *    resetTemplates() to restore the original templates.
+ *    the templates you want to load, or an array of templates to use.
  *
  * @param \Cake\ORM\Query $items Nested items to render as menu
  * @param array $options An array of html attributes and options
@@ -99,7 +98,7 @@ class MenuHelper extends Helper {
  */
 	public function render($items, $options = []) {
 		if (!empty($options['templates']) && is_array($options['templates'])) {
-			$templater->add($options['templates']);
+			$this->templater()->add($options['templates']);
 			unset($options['templates']);
 		}
 
@@ -396,6 +395,8 @@ class MenuHelper extends Helper {
 	protected function _clear() {
 		$this->_index = 0;
 		$this->_count = 0;
+		$this->config($this->_defaultConfig);
+		$this->resetTemplates();
 	}
 
 }
