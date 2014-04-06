@@ -82,24 +82,22 @@ class SluggableBehavior extends Behavior {
 			}
 		}
 
-		if ($entity->has($config['slug'])) {
-			$isNew = $entity->isNew();
+		$isNew = $entity->isNew();
 
-			if (
-				($isNew && in_array($config['on'], ['insert', 'both'])) ||
-				(!$isNew && in_array($config['on'], ['update', 'both']))
-			) {
-				$label = '';
+		if (
+			($isNew && in_array($config['on'], ['insert', 'both'])) ||
+			(!$isNew && in_array($config['on'], ['update', 'both']))
+		) {
+			$label = '';
 
-				foreach ($config['label'] as $field) {
-					$val = $entity->get($field);
-					$label .= !empty($val) ?  ' ' : '';
-					$label .= $val;
-				}
+			foreach ($config['label'] as $field) {
+				$val = $entity->get($field);
+				$label .= !empty($val) ?  " {$val}" : '';
+			}
 
-				if (!empty($label)) {
-					$entity->{$config['slug']} = $this->_slug($label, $entity);
-				}
+			if (!empty($label)) {
+				$slug = $this->_slug($label, $entity);
+				$entity->set($config['slug'], $slug);
 			}
 		}
 
