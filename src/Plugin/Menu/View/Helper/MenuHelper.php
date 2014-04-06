@@ -31,6 +31,7 @@ class MenuHelper extends Helper {
  * - firstItemClass: CSS class for the first item.
  * - lastItemClass: CSS class for the last item.
  * - hasChildrenClass: CSS class to use when an item has children.
+ * - split: Split menu into multiple root menus (multiple UL's)
  * - templates: HTML templates used when formating items.
  *
  * @var array
@@ -41,7 +42,9 @@ class MenuHelper extends Helper {
 		'firstClass' => 'first-item',
 		'lastClass' => 'last-item',
 		'hasChildrenClass' => 'has-children',
+		'split' => false,
 		'templates' => [
+			'div' => '<div{{attrs}}>{{content}}</div>',
 			'parent' => '<ul{{attrs}}>{{content}}</ul>',
 			'child' => '<li{{attrs}}>{{content}}</li>',
 			'link_label' => '<span{{attrs}}>{{content}}</span>',
@@ -100,6 +103,7 @@ class MenuHelper extends Helper {
 			unset($options['templates']);
 		}
 
+		$out = '';
 		$attrs = [];
 
 		foreach ($options as $key => $value) {
@@ -112,10 +116,33 @@ class MenuHelper extends Helper {
 
 		$config = $this->config();
 		$this->countItems($items);
-		$out = $this->formatTemplate('parent', [
-			'attrs' => $this->templater()->formatAttributes($attrs),
-			'content' => $this->_render($items, $config['itemCallable'])
-		]);
+
+		if ($config['split'] > 1) {
+			$arrayItems = $items->toArray();
+			$count = count($arrayItems);
+			$size = round($count / $config['split']);
+			$chunk = array_chunk($arrayItems, $size);
+			$i = 0;
+
+			foreach ($chunk as $menu) {
+				$i++;
+				$out .=	$this->formatTemplate('parent', [
+					'attrs' => $this->templater()->formatAttributes(['class' => 'menu-part part-' . $i]),
+					'content' => $this->_render($menu, $config['itemCallable'])
+				]);
+			}
+
+			$out = $this->formatTemplate('div', [
+				'attrs' => $this->templater()->formatAttributes($attrs),
+				'content' => $out,
+			]);
+		} else {
+			$out .= $this->formatTemplate('parent', [
+				'attrs' => $this->templater()->formatAttributes($attrs),
+				'content' => $this->_render($items, $config['itemCallable'])
+			]);
+		}
+
 		$this->_clear();
 
 		return $out;
