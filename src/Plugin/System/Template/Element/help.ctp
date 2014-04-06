@@ -77,7 +77,7 @@
 			<code>[random]values,by,comma[/random]</code>
 			<p>
 				Returns a radom value from the specified group. e.g.: [random]one,two,three[/random].<br />
-				If only two numeric values are given as group, then PHP function <a href="http://www.php.net/manual/function.rand.php" target="_blank">rand(num1, num2)</a> is returned. e.g.: [random]3,10[/random]
+				If only two numeric values are given as group, then PHP function <a href="http://www.php.net/manual/function.rand.php" target="_blank">rand(min, max)</a> is returned. e.g.: [random]3,10[/random]
 			</p>
 		</p>
 	</dd>

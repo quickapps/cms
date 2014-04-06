@@ -140,9 +140,13 @@ class ServeController extends NodeAppController {
 		$this->layout = 'rss';
 		$this->loadModel('Node.Nodes');
 
-		$nodes = $this->Nodes
-			->scopeQuery($this->Nodes->find(), $criteria)
-			->all();
+		try {
+			$nodes = $this->Nodes
+				->scopeQuery($criteria)
+				->all();
+		} catch (\Exception $e) {
+			$nodes = [];
+		}
 
 		$this->set('nodes', $nodes);
 		$this->switchViewMode('rss');
