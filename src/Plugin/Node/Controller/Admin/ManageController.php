@@ -27,12 +27,65 @@ class ManageController extends NodeAppController {
  */
 	public function index() {
 		$this->loadModel('Node.Nodes');
-
-		// TODO: find threaded
 		$nodes = $this->Nodes->find('threaded')
 			->contain(['NodeTypes', 'Author'])
 			->all();
 		$this->set('nodes', $nodes);
+	}
+
+/**
+ * Node type selection screen.
+ *
+ * User must select which content type wish to create.
+ *
+ * @return void
+ */
+	public function create() {
+		$this->loadModel('Node.NodeTypes');
+		$types = $this->NodeTypes->find()
+			->select(['id', 'slug', 'name', 'description'])
+			->where(['status' => 1])
+			->all();
+		$this->set('types', $types);
+	}
+
+/**
+ * Shows the "new node" form.
+ *
+ * @param string $type Node type slug. e.g.: "article"
+ * @return void
+ */
+	public function add($type) {
+		$this->loadModel('Node.NodeTypes');
+		$this->loadModel('Node.Nodes');
+		$this->Nodes->unbindComments();
+
+		$type = $this->NodeTypes->find()
+			->where(['slug' => $type])
+			->first();
+
+		if (!$type) {
+			throw new \Cake\Error\NotFoundException(__('The requested page was not found.'));
+		}
+
+		$node = $this->Nodes->newEntity(['node_type_slug' => $type->slug]);
+
+		if ($this->request->data) {
+			$node = $this->Nodes->newEntity($this->request->data);
+			$node->set('node_type_slug', $type->slug);
+			$node->set('node_type_id', $type->id);
+
+			if ($this->Nodes->save($node)) {
+				$this->alert(__d('node', 'Content created!.'), 'success');
+				$this->redirect(['plugin' => 'node', 'controller' => 'manage', 'action' => 'edit', 'prefix' => 'admin', $node->id]);
+			} else {
+				$this->alert(__d('node', 'Something went wrong, please check your information.'), 'danger');
+			}
+		}
+
+		$this->_setLanguages();
+		$this->set('node', $this->Nodes->attachEntityFields($node));
+		$this->set('type', $type);
 	}
 
 /**
