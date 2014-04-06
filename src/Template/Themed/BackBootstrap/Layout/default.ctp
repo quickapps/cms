@@ -23,15 +23,22 @@
 			<div class="container">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-					<span class="sr-only"><?php echo __d('back_bootstrap', 'Toggle navigation'); ?></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
+						<span class="sr-only"><?php echo __d('back_bootstrap', 'Toggle navigation'); ?></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
 					</button>
 					<a class="navbar-brand" href="#">QuickApps CMS</a>
 				</div>
 				<div class="collapse navbar-collapse">
-					<?php echo $this->Menu->render(\Cake\ORM\TableRegistry::get('Menu.MenuLinks')->find('threaded')->where(['menu_id' => 'management']), ['class' => 'nav navbar-nav']); ?>
+					<?php
+						echo $this->Menu->render(
+							\Cake\ORM\TableRegistry::get('Menu.MenuLinks')
+								->find('threaded')
+								->where(['menu_id' => 'management']),
+							['class' => 'nav navbar-nav']
+						);
+					?>
 				</div>
 			</div>
 		</nav>

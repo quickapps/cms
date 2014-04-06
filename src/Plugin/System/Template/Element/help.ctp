@@ -5,7 +5,7 @@
 </p>
 
 <h2>Uses</h2>
-<dl class="dl-inline">
+<dl>
 	<dt>Hooktags</dt>
 	<dd>
 		<p>

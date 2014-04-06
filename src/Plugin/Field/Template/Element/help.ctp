@@ -1,4 +1,4 @@
-<h3>About</h3>
+<h2>About</h2>
 <p>
 	The Field plugin allows custom data fields to be defined for <em>entity</em> types
 	(entities include content items, comments, user accounts or any <b>table entity</b> in general).
@@ -7,7 +7,7 @@
 	Plugin developers can use the Field API to make new entities "fieldable" and thus allow fields to be attached to them.
 </p>
 
-<h3>Uses</h3>
+<h2>Uses</h2>
 <dl>
 	<dt>Enabling field types</dt>
 	<dd>

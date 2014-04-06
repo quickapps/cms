@@ -1,4 +1,4 @@
-<h3>About</h3>
+<h2>About</h2>
 <p>
 	The Menu plugin provides an interface for managing menus. A menu is a hierarchical collection of links, which can be within or
 	external to the site, generally used for navigation. Each menu is rendered in a block that can be enabled and positioned through
@@ -6,7 +6,7 @@
 	You can view and manage menus on the <?php echo $this->Html->link('Menus administration page', ['plugin' => 'menu', 'controller' => 'manage', 'prefix' => 'admin']); ?>
 </p>
 
-<h3>Uses</h3>
+<h2>Uses</h2>
 <dl>
 	<dt>Managing menus</dt>
 	<dd>
@@ -22,5 +22,4 @@
 		After you have created a menu, you must enable and position the associated block on the
 		<?php echo $this->Html->link('Blocks administration page', ['plugin' => 'block', 'controller' => 'manage', 'prefix' => 'admin']); ?>.
 	</dd>
-
 </dl>

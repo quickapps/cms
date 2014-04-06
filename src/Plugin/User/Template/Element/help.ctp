@@ -1,10 +1,10 @@
-<h3>About</h3>
+<h2>About</h2>
 <p>
 	The User plugin allows users to register, log in, and log out.
 	It also allows users with proper permissions to manage user roles (used to classify users) and permissions associated with those roles.
 </p>
 
-<h3>Uses</h3>
+<h2>Uses</h2>
 <dl>
 	<dt>User roles and permissions</dt>
 	<dd>

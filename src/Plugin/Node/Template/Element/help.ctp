@@ -1,4 +1,4 @@
-<h3>About</h3>
+<h2>About</h2>
 <p>
 	The Node plugin manages the creation, editing, deletion, settings, and display of the main site content.
 	Content items managed by the Node plugin are typically displayed as pages on your site, and include a title,
@@ -6,7 +6,7 @@
 	(fields are managed by the <?php echo $this->Html->link('Field plugin', ['plugin' => 'system', 'controller' => 'help', 'action' => 'about', 'prefix' => 'admin', 'Field']); ?>).
 </p>
 
-<h3>Uses</h3>
+<h2>Uses</h2>
 <dl>
 	<dt>Creating content</dt>
 	<dd>

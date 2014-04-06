@@ -1,9 +1,9 @@
-<h3>About</h3>
+<h2>About</h2>
 <p>
 	The Comment plugin allows users to comment on site content, set commenting defaults and permissions, and moderate comments.
 </p>
 
-<h3>Uses</h3>
+<h2>Uses</h2>
 <dl>
 	<dt>Default and custom settings</dt>
 	<dd>
