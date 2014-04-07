@@ -182,6 +182,7 @@ class FormHelper extends CakeFormHelper {
 
 				if ($fieldName->metadata->required) {
 					$options['label'] .= ' *';
+					$options['required'] = true;
 				}
 
 				return $this->input(":{$fieldName->name}", $options);
