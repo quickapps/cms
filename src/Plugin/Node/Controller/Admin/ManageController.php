@@ -55,7 +55,11 @@ class ManageController extends NodeAppController {
  * @param string $type Node type slug. e.g.: "article"
  * @return void
  */
-	public function add($type) {
+	public function add($type = false) {
+		if (!$type) {
+			$this->redirect(['plugin' => 'node', 'controller' => 'manage', 'action' => 'create', 'prefix' => 'admin']);
+		}
+
 		$this->loadModel('Node.NodeTypes');
 		$this->loadModel('Node.Nodes');
 		$this->Nodes->unbindComments();
@@ -68,12 +72,11 @@ class ManageController extends NodeAppController {
 			throw new \Cake\Error\NotFoundException(__('The requested page was not found.'));
 		}
 
-		$node = $this->Nodes->newEntity(['node_type_slug' => $type->slug]);
-
 		if ($this->request->data) {
-			$node = $this->Nodes->newEntity($this->request->data);
-			$node->set('node_type_slug', $type->slug);
-			$node->set('node_type_id', $type->id);
+			$data = $this->request->data;
+			$data['node_type_slug'] = $type->slug;
+			$data['node_type_id'] = $type->id;
+			$node = $this->Nodes->newEntity($data);
 
 			if ($this->Nodes->save($node)) {
 				$this->alert(__d('node', 'Content created!.'), 'success');
@@ -81,10 +84,13 @@ class ManageController extends NodeAppController {
 			} else {
 				$this->alert(__d('node', 'Something went wrong, please check your information.'), 'danger');
 			}
+		} else {
+			$node = $this->Nodes->newEntity(['node_type_slug' => $type->slug]);
 		}
 
+		$node =  $this->Nodes->attachEntityFields($node);
 		$this->_setLanguages();
-		$this->set('node', $this->Nodes->attachEntityFields($node));
+		$this->set('node', $node);
 		$this->set('type', $type);
 	}
 
@@ -114,7 +120,7 @@ class ManageController extends NodeAppController {
 			throw new \Cake\Error\NotFoundException(__('The requested page was not found.'));
 		}
 
-		if ($this->request->data) {
+		if (!empty($this->request->data)) {
 			if (!$this->request->data['regenerate_slug']) {
 				$this->Nodes->slugOn('insert');
 			}

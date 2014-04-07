@@ -1,13 +1,18 @@
-<ul>
-	<?php foreach ($plugins as $plugin): ?>
-	<li class="col-md-3">
-	<?php
-		echo $this->Html->link($plugin, [
-			'plugin' => 'system',
-			'controller' => 'help',
-			'action' => 'about', $plugin
-		]);
-	?>
-	</li>
-	<?php endforeach; ?>
-</ul>
+<?php
+$menu = [];
+
+foreach ($plugins as $plugin) {
+	$menu[] = [
+		'title' => $plugin,
+		'url' => "/admin/system/help/about/{$plugin}",
+	];
+}
+
+echo $this->Menu->render($menu,
+	[
+		'split' => 3,
+		'templates' => [
+			'parent' => '<ul class="col-md-4">{{content}}</ul>',
+		]
+	]
+);
