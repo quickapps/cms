@@ -35,12 +35,12 @@ use Cake\Event\EventManager;
  *
  *     $this->hook('User.beforeLogin', ...);
  *
- * QuickAppsCMS has divided hook into two groups or "event spaces":
+ * QuickAppsCMS has divided hooks into two groups or "event spaces":
  *
  * - `Alter`: Hooks aimed to alter the given arguments. Triggered trough `alter()` method.
  * - `Hook`: Just a normal hook event which may may return some values. Triggered trough `hook()` method.
  *
- * Alter hooks must prefix their names with the `Alter.` word. For example, `Alter.FormHelper.textarea`
+ * Alter hooks must prefix their names with the `Alter.` word. For example, the hook name `Alter.FormHelper.textarea`
  * will respond to:
  *
  *     $this->alter('FormHelper.textarea', $arg_0, $arg_1, ..., $arg_14);
@@ -50,9 +50,9 @@ use Cake\Event\EventManager;
  * ---
  *
  * In the other hand, hooks which belongs to the `Hook` event space must prefix their names with the
- * `Hook.` word, so for example, `Hook.HelloWorld` will respond to:
+ * `Hook.` word, so for example, the hook name `Hook.Say.HelloWorld` will respond to:
  *
- *     $this->hook('HelloWorld', $arg_0, $arg_1, ..., $arg_n);
+ *     $this->hook('Say.HelloWorld', $arg_0, $arg_1, ..., $arg_n);
  *
  * You can provide an unlimited number of arguments which are treated by value, and NOT by reference as `alter()` does.
  *

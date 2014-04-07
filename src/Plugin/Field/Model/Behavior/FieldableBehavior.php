@@ -777,7 +777,7 @@ class FieldableBehavior extends Behavior {
 		foreach ($this->_getTableFieldInstances($entity) as $instance) {
 			$mock = $this->_getMockField($entity, $instance);
 
-			// restore from _POST
+			// restore from $_POST
 			if ($entity->has(":{$instance->slug}")) {
 				$value = $entity->get(":{$instance->slug}");
 
