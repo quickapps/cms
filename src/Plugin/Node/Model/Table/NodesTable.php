@@ -50,6 +50,7 @@ class NodesTable extends Table {
 		]);
 		$this->hasMany('NodeRevisions', [
 			'className' => 'Node\\Model\\Table\\NodeRevisionsTable',
+			'dependent' => true,
 		]);
 		$this->belongsTo('Author', [
 			'className' => 'User\\Model\\Table\\UsersTable',

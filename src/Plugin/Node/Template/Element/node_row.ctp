@@ -17,7 +17,7 @@
 				<ul class="dropdown-menu" role="menu">
 				<li role="presentation"><?php echo $this->Html->link(__('Edit'), '/admin/node/manage/edit/' . $node->id, ['tabindex' => -1]); ?></li>
 				<li role="presentation"><?php echo $this->Html->link(__('Translate'), '/admin/node/manage/translate/' . $node->id, ['tabindex' => -1]); ?></li>
-				<li role="presentation"><?php echo $this->Html->link(__('Append New Content'), '/admin/node/manage/add/' . $node->node_type_slug, ['tabindex' => -1]); ?></li>
+				<li role="presentation"><?php echo $this->Html->link(__('Append New Content'), '/admin/node/manage/add/' . $node->node_type_slug . '/?parent_id=' . $node->id, ['tabindex' => -1]); ?></li>
 				<li role="presentation" class="divider"></li>
 				<li role="presentation"><?php echo $this->Html->link(__('Delete'), '/admin/node/manage/delete/' . $node->id, ['tabindex' => -1, 'confirm' => __('You are about to delete: "%s". Are you sure ?', $node->title)]); ?></li>
 			</ul>
