@@ -179,6 +179,11 @@ class FormHelper extends CakeFormHelper {
 				return $event->result;
 			} else {
 				$options += ['value' => $fieldName->value, 'label' => $fieldName->label];
+
+				if ($fieldName->metadata->required) {
+					$options['label'] .= ' *';
+				}
+
 				return $this->input(":{$fieldName->name}", $options);
 			}
 		}
