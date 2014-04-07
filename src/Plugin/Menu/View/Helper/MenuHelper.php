@@ -27,7 +27,7 @@ class MenuHelper extends Helper {
  * Default config for this class.
  *
  * - itemCallable: Callable method used when formating each item.
- * - activeClass: CSS class to use when an item is active (its url matches current url).
+ * - activeClass: CSS class to use when an item is active (its URL matches current URL).
  * - firstItemClass: CSS class for the first item.
  * - lastItemClass: CSS class for the last item.
  * - hasChildrenClass: CSS class to use when an item has children.
@@ -83,7 +83,7 @@ class MenuHelper extends Helper {
  * If `key` is in `$_defaultConfig` it will overwrite default configuration parameters:
  *
  * - `itemCallable`: Callable method used when formating each item.
- * - `activeClass`: CSS class to use when an item is active (its url matches current url).
+ * - `activeClass`: CSS class to use when an item is active (its URL matches current URL).
  * - `firstItemClass`: CSS class for the first item.
  * - `lastItemClass`: CSS class for the last item.
  * - `hasChildrenClass`: CSS class to use when an item has children.
@@ -91,8 +91,8 @@ class MenuHelper extends Helper {
  *    the already loaded templates. This option can either be a filename in App/Config that contains
  *    the templates you want to load, or an array of templates to use.
  *
- * @param \Cake\ORM\Query $items Nested items to render as menu
- * @param array $options An array of html attributes and options
+ * @param array|\Cake\ORM\Query $items Nested items to render as menu given as a query result set, or as an array list
+ * @param array $options An array of HTML attributes and options
  * @return string HTML
  */
 	public function render($items, $options = []) {
@@ -116,7 +116,7 @@ class MenuHelper extends Helper {
 		$this->countItems($items);
 
 		if ($config['split'] > 1) {
-			$arrayItems = $items->toArray();
+			$arrayItems = is_object($items) ? $items->toArray() : $items;
 			$count = count($arrayItems);
 			$size = round($count / $config['split']);
 			$chunk = array_chunk($arrayItems, $size);
@@ -142,7 +142,6 @@ class MenuHelper extends Helper {
 		}
 
 		$this->_clear();
-
 		return $out;
 	}
 
@@ -171,45 +170,17 @@ class MenuHelper extends Helper {
 			$liAttrs['class'][] = $config['hasChildrenClass'];
 		}
 
-		switch ($item->selected_on_type) {
-			case 'reg':
-				if ($this->_urlMatch($item->selected_on)) {
-					$liAttrs['class'][] = $config['activeClass'];
-					$linkAttrs['class'] = $config['activeClass'];
-				}
-			break;
-
-			case 'php':
-				if ($this->_phpEval($item->selected_on)) {
-					$liAttrs['class'][] = $config['activeClass'];
-					$linkAttrs['class'] = $config['activeClass'];
-				}
-			break;
-
-			default:
-				$isInternal =
-					$item->url !== '/' &&
-					$item->url[0] === '/' &&
-					strpos($item->url, $this->_View->request->url) !== false;
-				$isIndex =
-					$item->url === '/' &&
-					$this->_View->is('page.index');
-				$isExact =
-					$item->url === $this->_View->request->url;
-
-				if ($isInternal || $isIndex || $isExact) {
-					$liAttrs['class'][] = $config['activeClass'];
-					$linkAttrs['class'] = $config['activeClass'];
-				}
-			break;
-		}
-
 		if (!empty($item->description)) {
 			$linkAttrs['title'] = $item->description;
 		}
 
 		if (!empty($item->target)) {
 			$linkAttrs['target'] = $item->target;
+		}
+
+		if ($info['active']) {
+			$liAttrs['class'][] = $config['activeClass'];
+			$linkAttrs['class'] = $config['activeClass'];
 		}
 
 		$liAttrs = $this->templater()->formatAttributes($liAttrs);
@@ -251,6 +222,33 @@ class MenuHelper extends Helper {
 	}
 
 /**
+ * Checks if the given item should be marked as active.
+ *
+ * @param \Cake\ORM\Entity $item
+ * @return boolean
+ */
+	protected function _isActive($item) {
+		switch ($item->selected_on_type) {
+			case 'reg':
+				return $this->_urlMatch($item->selected_on);
+			case 'php':
+				return $this->_phpEval($item->selected_on);
+			default:
+				$isInternal =
+					$item->url !== '/' &&
+					$item->url[0] === '/' &&
+					str_ends_with($item->url, $this->_View->request->url) !== false;
+				$isIndex =
+					$item->url === '/' &&
+					$this->_View->is('page.index');
+				$isExact =
+					$item->url === $this->_View->request->url;
+
+				return ($isInternal || $isIndex || $isExact);
+		}
+	}
+
+/**
  * Internal method to recursively generate the menu.
  *
  * @param \Cake\ORM\Query $items
@@ -263,6 +261,7 @@ class MenuHelper extends Helper {
 
 		foreach ($items as $item) {
 			$childContent = '';
+			$item = is_array($item) ? new \Cake\ORM\Entity($item) : $item;
 
 			if ($item->has('children') && !empty($item->children) && $item->expanded) {
 				$childContent = $this->formatTemplate('parent', [
@@ -275,6 +274,7 @@ class MenuHelper extends Helper {
 			$info = [
 				'index' => $this->_index,
 				'total' => $this->_count,
+				'active' => $this->_isActive($item),
 				'depth' => $depth,
 			];
 			$content .= $itemCallable($item, $info, $childContent);
@@ -370,6 +370,7 @@ class MenuHelper extends Helper {
 	protected function _count($items) {
 		foreach ($items as $item) {
 			$this->_count++;
+			$item = is_array($item) ? new \Cake\ORM\Entity($item) : $item;
 
 			if ($item->has('children') && !empty($item->children) && $item->expanded) {
 				$this->_count($item->children);
