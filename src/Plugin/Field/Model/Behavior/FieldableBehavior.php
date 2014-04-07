@@ -492,6 +492,7 @@ class FieldableBehavior extends Behavior {
  * @param \Cake\Event\Event $event
  * @param \Cake\ORM\Entity $entity
  * @param array $options
+ * @throws \Cake\Error\FatalErrorException When using this behavior in non-atomic mode
  * @return boolean True if save operation should continue
  */
 	public function afterSave(Event $event, $entity, $options) {
@@ -502,7 +503,7 @@ class FieldableBehavior extends Behavior {
 		}
 
 		if (!$options['atomic']) {
-			throw new MethodNotAllowedException(__('Entities in fieldable tables can only be saved using transaction. Set [atomic = true]'));
+			throw new FatalErrorException(__('Entities in fieldable tables can only be saved using transaction. Set [atomic = true]'));
 		}
 
 		$pk = $this->_table->primaryKey();
@@ -615,11 +616,14 @@ class FieldableBehavior extends Behavior {
 /**
  * Deletes an entity from a fieldable table.
  *
+ * This method automatically removes all field values
+ * from `field_values` database table for each entity.
+ *
  * @param \Cake\Event\Event $event
  * @param \Cake\ORM\Entity $entity
  * @param array $options
  * @return boolean
- * @throws \Cake\Error\MethodNotAllowedException When trying to delete in non-atomic mode
+ * @throws \Cake\Error\FatalErrorException When using this behavior in non-atomic mode
  */
 	public function beforeDelete(Event $event, $entity, $options) {
 		$config = $this->config();
@@ -630,7 +634,7 @@ class FieldableBehavior extends Behavior {
 		}
 
 		if (!$options['atomic']) {
-			throw new MethodNotAllowedException(__('Entities in fieldable tables can only be deleted using transaction. Set [atomic = true]'));
+			throw new FatalErrorException(__('Entities in fieldable tables can only be deleted using transaction. Set [atomic = true]'));
 		}
 
 		$instances = $this->_getTableFieldInstances($entity);
@@ -670,11 +674,12 @@ class FieldableBehavior extends Behavior {
 	}
 
 /**
- * After an entity is removed from database.
+ * After an entity was removed from database.
  *
  * @param \Cake\Event\Event $event
  * @param \Cake\ORM\Entity $entity
  * @param array $options
+ * @throws \Cake\Error\FatalErrorException When using this behavior in non-atomic mode
  * @return void
  */
 	public function afterDelete(Event $event, $entity, $options) {
@@ -685,14 +690,14 @@ class FieldableBehavior extends Behavior {
 		}
 
 		if (!$options['atomic']) {
-			throw new MethodNotAllowedException(__('Entities in fieldable tables can only be deleted using transactions. Set [atomic = true]'));
+			throw new FatalErrorException(__('Entities in fieldable tables can only be deleted using transactions. Set [atomic = true]'));
 		}
 
 		$EventManager = $this->_getEventManager();
 
 		if (isset($this->_cache['fields.beforeDelete']) && is_array($this->_cache['fields.beforeDelete'])) {
 			foreach ($this->_cache['fields.beforeDelete'] as $field) {
-				$fieldEvent = $this->invoke("Field.{$instance->handler}.Entity.afterDelete", $event->subject, $field, $options);
+				$fieldEvent = $this->invoke("Field.{$field->handler}.Entity.afterDelete", $event->subject, $field, $options);
 
 				if ($fieldEvent->result === false || $fieldEvent->isStopped()) {
 					$event->stopPropagation();
