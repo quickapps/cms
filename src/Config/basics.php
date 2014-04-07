@@ -167,3 +167,27 @@ function __($singular, $args = null) {
 
 	return vsprintf($translated, $args);
 }
+
+/**
+ * Check if $haystack string starts with $needle string.
+ *
+ * @param string $haystack
+ * @param string $needle
+ * @return boolean
+ */
+function str_starts_with($haystack, $needle) {
+    return strpos($haystack, $needle) === 0;
+}
+
+/**
+ * Check if $haystack string ends with $needle string.
+ *
+ * @param string $haystack
+ * @param string $needle
+ * @return boolean
+ */
+function str_ends_with($haystack, $needle) {
+	return
+		strpos($haystack, $needle) +
+		strlen($needle) === strlen($haystack);
+}
