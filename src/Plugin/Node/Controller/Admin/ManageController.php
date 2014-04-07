@@ -34,7 +34,7 @@ class ManageController extends NodeAppController {
 	}
 
 /**
- * Node type selection screen.
+ * Node-type selection screen.
  *
  * User must select which content type wish to create.
  *
@@ -141,7 +141,27 @@ class ManageController extends NodeAppController {
 	}
 
 /**
- * Removes the given revision of the given node.
+ * Deletes the given node by ID.
+ *
+ * @param integer $node_id
+ * @return void
+ */
+	public function delete($node_id) {
+		$this->loadModel('Node.Nodes');
+
+		$node = $this->Nodes->get($node_id);
+
+		if ($this->Nodes->delete($node, ['atomic' => true])) {
+			$this->alert(__('Content was successfully removed!'), 'success');
+		} else {
+			$this->alert(__('Unable to remove this content, please try again.'), 'danger');
+		}
+
+		$this->redirect($this->referer());
+	}
+
+/**
+ * Removes the given revision for the given node.
  *
  * @param string $node_slug
  * @param integer $revision_id
