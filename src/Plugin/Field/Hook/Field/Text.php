@@ -170,6 +170,22 @@ class Text implements EventListener {
  * @return boolean False will halt the save process
  */
 	public function beforeValidate(Event $event, $field, $entity, $options, $validator) {
+		if ($field->metadata->required) {
+			$validator->allowEmpty(":{$field->name}", false, __d('field', 'Field required.'))
+				->add(":{$field->name}", 'validateRequired', [
+					'rule' => function ($value, $context) use ($field) {
+						if ($field->metadata->settings->type === 'textarea') {
+							return !empty(html_entity_decode(trim(strip_tags($value))));
+						} else {
+							return !empty(trim(strip_tags($value)));
+						}
+					},
+					'message' => __d('field', 'Field required.'),
+				]);
+		} else {
+			$validator->allowEmpty(":{$field->name}", true);
+		}
+
 		if (
 			$field->metadata->settings->type === 'text' &&
 			!empty($field->metadata->settings->max_len) &&
@@ -180,19 +196,6 @@ class Text implements EventListener {
 					return strlen(trim($value)) <= $field->metadata->settings->max_len;
 				},
 				'message' => __d('field', 'Max. %s characters length.', $field->metadata->settings->max_len),
-			]);
-		}
-
-		if ($field->metadata->required) {
-			$validator->add(":{$field->name}", 'validateRequired', [
-				'rule' => function ($value, $context) use ($field) {
-					if ($field->metadata->settings->type === 'textarea') {
-						return !empty(html_entity_decode(trim(strip_tags($value))));
-					} else {
-						return !empty(trim(strip_tags($value)));
-					}
-				},
-				'message' => __d('field', 'Field required.'),
 			]);
 		}
 
