@@ -33,7 +33,7 @@ if (!empty($node_types)) {
 }
 
 Router::connect(
-	'/search/:criteria/*',
+	'/find/:criteria/*',
 	[
 		'plugin' => 'node',
 		'controller' => 'serve',
