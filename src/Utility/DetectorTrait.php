@@ -14,7 +14,7 @@ namespace QuickApps\Utility;
 use QuickApps\Utility\DetectorRegistry;
 
 /**
- * Adds detector methods to any object.
+ * Adds "is()" detector methods to any object.
  *
  */
 trait DetectorTrait {

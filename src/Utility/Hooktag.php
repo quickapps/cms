@@ -148,6 +148,7 @@ class Hooktag {
 /**
  * Invokes hooktag lister for the given hooktag.
  *
+ * @author WordPress
  * @param array $m Hooktag as preg array
  * @return string
  */
@@ -184,16 +185,30 @@ class Hooktag {
 	}
 
 /**
- * Looks for attributes.
+ * Looks for hooktag attributes.
+ *
+ * Attribute names are always converted to lowercase. Values are untouched.
+ *
+ * Example:
+ *
+ *     [hook_tag_name attr1="value1" aTTr2=value2 CamelAttr=Val1 /]
+ *
+ * Produces:
+ *
+ *     [
+ *         'attr1' => 'value1',
+ *         'attr2' => 'value2',
+ *         'camelattr' => 'Val1',
+ *     ]
  *
  * @author WordPress
  * @param string $text
- * @return array Associative array of `tag_name` => `value`
+ * @return array Associative array of attributes as `tag_name` => `value`
  */
 	protected static function _parseHooktagAttributes($text) {
 		$atts = array();
 		$pattern = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
-		$text = preg_replace("/[\x{00a0}\x{200b}]+/u", " ", $text);
+		$text = preg_replace("/[\x{00a0}\x{200b}]+/u", ' ', $text);
 
 		if (preg_match_all($pattern, $text, $match, PREG_SET_ORDER)) {
 			foreach ($match as $m) {

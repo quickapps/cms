@@ -16,7 +16,7 @@ use QuickApps\Utility\AlertTrait;
 use QuickApps\Utility\HookTrait;
 
 /**
- * Html Helper class for easy use of HTML widgets.
+ * Html helper class for easy use of HTML widgets.
  *
  */
 class HtmlHelper extends CakeHtmlHelper {

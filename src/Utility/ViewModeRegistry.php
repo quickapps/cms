@@ -42,7 +42,7 @@ class ViewModeRegistry {
  *
  * The given view mode must be registered first using `registerViewMode`.
  * If you try to switch to an unexisting (unregistered) view mode this
- * method will throw an error.
+ * method will throw.
  *
  * @param string $slug
  * @return void
@@ -60,7 +60,7 @@ class ViewModeRegistry {
  * Registers a new view mode. Or overwrite if already exists.
  *
  * You can register more than one view mode at once by passing
- * an array as first argument (you can ignore the other two):
+ * an array as first argument and ignore the others two:
  *
  *     ViewModeRegistry::registerViewMode([
  *         'slug_1' => [
@@ -130,9 +130,38 @@ class ViewModeRegistry {
 /**
  * Gets the full list of all registered view modes.
  *
+ * You can get either a full list of every registered view mode,
+ * or a plain list of slugs of every registered view mode.
+ *
+ * Example:
+ *
+ *     ViewModeRegistry::viewModes();
+ *     // output:
+ *     ['teaser', 'full', ...]
+ *
+ *     ViewModeRegistry::viewModes();
+ *     // output:
+ *     [
+ *         'teaser' => [
+ *             'name' => 'Human readable for teaser mode',
+ *             'description' => 'Brief description for teaser mode'
+ *         ],
+ *         'full' => [
+ *             'name' => 'Human readable for full mode',
+ *             'description' => 'Brief description for full ode'
+ *         ],
+ *         ...
+ *     ]
+ *
+ * @param boolean $full Set to true to get full list. Or false (by default) to get
+ * only the slug of all registered view modes.
  * @return array
  */
-	public static function viewModes() {
+	public static function viewModes($full = false) {
+		if (!$full) {
+			return array_keys(static::$_viewModes);
+		}
+
 		return static::$_viewModes;
 	}
 

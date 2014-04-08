@@ -71,7 +71,12 @@ class AppController extends \Cake\Controller\Controller {
 	public function __construct($request = null, $response = null) {
 		parent::__construct($request, $response);
 		// TODO: set default languages and other stuff
-		// TODO: change AppController::theme according to site settings.
+		// TODO: change AppController::theme according to site settings.4
+		if (!empty($this->request->params['prefix']) && $this->request->params['prefix'] === 'admin') {
+			$this->theme = 'BackBootstrap';
+		} else {
+			$this->theme = 'FrontBootstrap';
+		}
 	}
 
 }

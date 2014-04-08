@@ -24,7 +24,7 @@ class FormHelper extends CakeFormHelper {
 	use HookTrait;
 
 /**
- * {@inheritdoc}
+ * Used by input() method.
  *
  * @var boolean
  */
