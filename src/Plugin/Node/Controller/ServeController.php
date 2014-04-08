@@ -23,14 +23,31 @@ class ServeController extends NodeAppController {
  *
  * @var array
  */
-	public $components = ['Comment.CommentForm'];
+	public $components = ['Comment.CommentForm', 'Paginator'];
 
 /**
  * An array containing the names of helpers controllers uses.
  *
  * @var array
  */
-	public $helpers = ['Time'];
+	public $helpers = [
+		'Time',
+		'Paginator' => [
+			'className' => 'QuickApps\View\Helper\PaginatorHelper',
+			'templates' => 'Node.paginator-templates.php',
+		],
+	];
+
+/**
+ * Paginator settings.
+ *
+ * Used by `search()` and `rss()`.
+ *
+ * @var array
+ */
+    public $paginate = [
+        'limit' => 10,
+    ];
 
 /**
  * Redirects to ServeController::frontpage()
@@ -117,8 +134,8 @@ class ServeController extends NodeAppController {
 
 		try {
 			$nodes = $this->Nodes
-				->scopeQuery($criteria)
-				->all();
+				->scopeQuery($criteria);
+			$nodes = $this->paginate($nodes);
 		} catch (\Exception $e) {
 			$nodes = [];
 		}

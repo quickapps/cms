@@ -7,11 +7,22 @@
 ?>
 <article class="node node-<?php echo $node->node_type_slug; ?> viewmode-<?php echo $this->getViewMode(); ?>">
 	<header>
-		<?php if ($this->getViewMode() !== 'full'): ?>
-		<h2><?php echo $this->hooktags($node->title); ?></h2>
-		<?php else: ?>
-		<h1><?php echo $this->hooktags($node->title); ?></h1>
-		<?php endif; ?>
+		<?php
+			switch($this->getViewMode()):
+			case 'full':
+		?>
+			<h1><?php echo $this->hooktags($node->title); ?></h1>
+		<?php
+			break;
+			case 'search-result':
+			default:
+		?>
+			<h2><?php echo $this->Html->link($this->hooktags($node->title), "/{$node->node_type_slug}/{$node->slug}.html"); ?></h2>
+		<?php
+			break;
+			endswitch;
+		?>
+
 		<p><?php echo __d('node', 'Published'); ?>: <time pubdate="pubdate"><?php echo $this->Time->format(__d('node', 'F jS, Y h:i A'), $node->created); ?></time></p>
 	</header>
 
