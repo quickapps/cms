@@ -1,13 +1,37 @@
+<script>
+		function toggleMaxLen() {
+			if ($('.type-select').val() === 'text') {
+				$('div.max-len').show();
+			} else {
+				$('div.max-len').hide();
+			}
+		}
+
+		function toggleValMsg() {
+			if ($('.reg-input').val().length > 0) {
+				$('div.validation-message').show();
+			} else {
+				$('div.validation-message').hide();
+			}
+		}
+
+	$(document).ready(function () {
+		toggleMaxLen();
+		toggleValMsg();
+	});
+</script>
 <div class="form-group">
 	<?php
 		echo $this->Form->input('settings.type',
 			array(
 				'type' => 'select',
 				'options' => array(
-					'text' => __('Short field [textbox]'),
-					'textarea' => __('Long text [textarea]')
+					'text' => __('Short field [text box]'),
+					'textarea' => __('Long text [text area]')
 				),
-				'label' => __('Type of content')
+				'label' => __('Type of content'),
+				'onchange' => 'toggleMaxLen()',
+				'class' => 'type-select',
 			)
 		);
 	?>
@@ -62,7 +86,7 @@
 		</ul>
 	</blockquote>
 </div>
-<div class="form-group">
+<div class="form-group max-len">
 	<?php
 		echo $this->Form->input('settings.max_len',
 			array(
@@ -71,20 +95,22 @@
 			)
 		);
 	?>
-	<p class="help-block"><?php echo __("This is only used if your Type of content is a `Text field`. This will limit the subscriber to typing X number of characters in your textbox."); ?></p>
+	<p class="help-block"><?php echo __('This is only used if your type of content is "Short text [text box]". This will limit the subscriber to typing X number of characters in your textbox.'); ?></p>
 </div>
 <div class="form-group">
 	<?php
 		echo $this->Form->input('settings.validation_rule',
 			array(
 				'type' => 'text',
-				'label' => __('Validation rule')
+				'label' => __('Validation rule'),
+				'onchange' => 'toggleValMsg()',
+				'class' => 'reg-input',
 			)
 		);
 	?>
 	<p class="help-block"><?php echo __('Enter your custom regular expression. e.g.: "/^[a-z0-9]{3,}$/i" (Only letters and integers, min 3 characters)'); ?></p>
 </div>
-<div class="form-group">
+<div class="form-group validation-message">
 	<?php
 		echo $this->Form->input('settings.validation_message',
 			array(
@@ -93,5 +119,5 @@
 			)
 		);
 	?>
-	<p class="help-block"><?php echo __('This is only used if `Validation rule` has been set.'); ?></p>
+	<p class="help-block"><?php echo __('This is only used if "Validation rule" has been set.'); ?></p>
 </div>

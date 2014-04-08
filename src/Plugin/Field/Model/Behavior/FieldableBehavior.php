@@ -343,7 +343,7 @@ class FieldableBehavior extends Behavior {
 
 		foreach ($instances as $instance) {
 			$field = $this->_getMockField($entity, $instance);
-			$fieldEvent = $this->invoke("Field.{$instance->handler}.Entity.beforeSave", $event->subject, $field, $options);
+			$fieldEvent = $this->invoke("Field.{$instance->handler}.Entity.beforeSave", $event->subject, $field, $entity, $options);
 		}
 	}
 
@@ -518,7 +518,7 @@ class FieldableBehavior extends Behavior {
 			if ($postValuesForField) {
 				$field = $this->_getMockField($entity, $instance);
 				$options['post'] = $postValuesForField;
-				$fieldEvent = $this->invoke("Field.{$instance->handler}.Entity.afterSave", $event->subject, $field, $options);
+				$fieldEvent = $this->invoke("Field.{$instance->handler}.Entity.afterSave", $event->subject, $field, $entity, $options);
 
 				if ($fieldEvent->isStopped() || $fieldEvent->result === false) {
 					$entity = $this->attachEntityFields($entity);
@@ -572,14 +572,17 @@ class FieldableBehavior extends Behavior {
 
 		foreach ($instances as $instance) {
 			$field = $this->_getMockField($entity, $instance);
-			$fieldEvent = $this->invoke("{$field->metadata['handler']}.Entity.beforeValidate", $event->subject, $field, $options, $validator);
+			$fieldEvent = $this->invoke("Field.{$field->metadata['handler']}.Entity.beforeValidate", $event->subject, $field, $entity, $options, $validator);
 
 			if ($fieldEvent->result === false || $fieldEvent->isStopped()) {
 				$entity = $this->attachEntityFields($entity);
 				$event->stopPropagation();
+				$this->attachEntityFields($entity);
 				return false;
 			}
 		}
+
+		$this->attachEntityFields($entity);
 	}
 
 /**
@@ -603,14 +606,17 @@ class FieldableBehavior extends Behavior {
 
 		foreach ($instances as $instance) {
 			$field = $this->_getMockField($entity, $instance);
-			$fieldEvent = $this->invoke("{$field->metadata['handler']}.Entity.afterValidate", $event->subject, $field, $options, $validator);
+			$fieldEvent = $this->invoke("Field.{$field->metadata['handler']}.Entity.afterValidate", $event->subject, $field, $entity, $options, $validator);
 
 			if ($fieldEvent->result === false || $fieldEvent->isStopped()) {
 				$entity = $this->attachEntityFields($entity);
 				$event->stopPropagation();
+				$this->attachEntityFields($entity);
 				return false;
 			}
 		}
+
+		$this->attachEntityFields($entity);
 	}
 
 /**
@@ -645,7 +651,7 @@ class FieldableBehavior extends Behavior {
 			// invoke field beforeDelete so they can do its stuff
 			// i.e.: Delete entity information from another table.
 			$field = $this->_getMockField($entity, $instance);
-			$fieldEvent = $this->invoke("Field.{$instance->handler}.Entity.beforeDelete", $event->subject, $field, $options);
+			$fieldEvent = $this->invoke("Field.{$instance->handler}.Entity.beforeDelete", $event->subject, $field, $entity, $options);
 
 			if ($fieldEvent->result === false || $fieldEvent->isStopped()) {
 				$event->stopPropagation();
@@ -697,7 +703,7 @@ class FieldableBehavior extends Behavior {
 
 		if (isset($this->_cache['fields.beforeDelete']) && is_array($this->_cache['fields.beforeDelete'])) {
 			foreach ($this->_cache['fields.beforeDelete'] as $field) {
-				$fieldEvent = $this->invoke("Field.{$field->handler}.Entity.afterDelete", $event->subject, $field, $options);
+				$fieldEvent = $this->invoke("Field.{$field->handler}.Entity.afterDelete", $event->subject, $field, $entity, $options);
 
 				if ($fieldEvent->result === false || $fieldEvent->isStopped()) {
 					$event->stopPropagation();
@@ -796,6 +802,7 @@ class FieldableBehavior extends Behavior {
 			$_fields[] = $mock;
 		}
 
+		// reorder
 		if (!empty($config['fields_order']) && is_array($config['fields_order'])) {
 			$_aux = [];
 

@@ -9,7 +9,7 @@
 	</div>
 </fieldset>
 <hr />
-<?php if ($advanced = $this->hook("Field.{$instance->handler}.Instance.settings", $instance)->result): ?>
+<?php if ($advanced = $this->hook("Field.{$instance->handler}.Instance.settings", $instance)): ?>
 <fieldset>
 	<legend><?php echo __('Advanced'); ?></legend>
 	<?php echo $advanced; ?>
