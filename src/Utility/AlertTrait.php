@@ -31,19 +31,19 @@ use Cake\Network\Session;
  * Each groups has one `subgroup` per class. Each subgroups may contain an unlimited
  * number of messages. For example, in certain moment you might have:
  *
- *    flash.success
- *        - message 1
- *        - message 2
- *    flash.info
- *        - message 3
- *    flash.warning
- *        - more messages
- *    flash.danger
- *        - even more
- *        - and more
- *    ...
- *    <group>.<class>
- *        - message ...
+ * - flash.success
+ *   - message 1
+ *   - message 2
+ * - flash.info
+ *   - message 3
+ * - flash.warning
+ *   - more messages
+ * - flash.danger
+ *   - even more
+ *   - and more messages
+ * - ...
+ * - `<group>`.`<class>`
+ *   - message ...
  *
  * As we mention, `flash` is the default group, but you are able to define your own.
  * For example, in your controller:
@@ -53,20 +53,20 @@ use Cake\Network\Session;
  *
  * Added to previous alerts will result on:
  *
- *    flash.success
- *        - message 1
- *        - message 2
- *    flash.info
- *        - message 3
- *    flash.warning
- *        - more messages
- *    flash.danger
- *        - even more
- *        - and more
- *    dummy.success
- *        - My success alert for group "dummy"
- *    dummy.danger
- *        - My danger alert for group "dummy"
+ * - flash.success
+ *   - message 1
+ *   - message 2
+ * - flash.info
+ *   - message 3
+ * - flash.warning
+ *   - more messages
+ * - flash.danger
+ *   - even more
+ *   - and more
+ * - dummy.success
+ *   - My success alert for group "dummy"
+ * - dummy.danger
+ *   - My danger alert for group "dummy"
  *
  * This is extremely useful when having to render multiple messages in different parts
  * of your page (simultaneously or not).
