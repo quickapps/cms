@@ -35,7 +35,8 @@
 						echo $this->Menu->render(
 							\Cake\ORM\TableRegistry::get('Menu.MenuLinks')
 								->find('threaded')
-								->where(['menu_slug' => 'main-menu']),
+								->where(['menu_slug' => 'main-menu'])
+								->order(['lft' => 'ASC']),
 							['class' => 'nav navbar-nav']
 						);
 					?>
