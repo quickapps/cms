@@ -559,7 +559,7 @@ class LayoutHelper extends AppHelper {
  */
 	public function block($block, $options = array()) {
 		trigger_error(__t('LayoutHelper::block() is deprecated, use BlockHelper::render() instead'), E_USER_WARNING);
-		return $this->Block->render($block, $options);
+		return $this->Block->block($block, $options);
 	}
 
 /**
