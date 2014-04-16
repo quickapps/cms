@@ -99,7 +99,8 @@ class View extends CakeView {
 				$this->_setDescription();
 				$this->hook('View.beforeRender', $view, $layout);
 				$html = parent::render($view, $layout);
-				$this->hook('View.afterRender', $view, $layout, $html);
+				$this->alter('View.render', $html);
+				$this->hook('View.afterRender', $view, $layout);
 			}
 		}
 
@@ -129,7 +130,8 @@ class View extends CakeView {
 	public function element($name, $data = array(), $options = array()) {
 		$this->hook('View.beforeElement', $name, $data, $options);
 		$html = parent::element($name, $data, $options);
-		$this->hook('View.afterElement', $name, $data, $options, $html);
+		$this->alter('View.element', $html);
+		$this->hook('View.afterElement', $name, $data, $options);
 
 		return $html;
 	}

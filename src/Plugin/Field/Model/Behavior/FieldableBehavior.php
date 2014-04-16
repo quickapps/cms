@@ -44,7 +44,7 @@ use QuickApps\Utility\HookTrait;
  * ## Entity Example:
  *
  *     // $user = $this->Users->get(1);
- *     // User' properties may looks:
+ *     // User's properties might look as follows:
  *     [id] => 1,
  *     [password] => e10adc3949ba59abbe56e057f20f883e,
  *     ...
@@ -115,7 +115,7 @@ use QuickApps\Utility\HookTrait;
  *         ->all();
  *
  * `Users` table has a custom field attached (first_name), and we are looking
- * for all the users whose `first_name` starts with `John`.
+ * for all the users whose `first-name` starts with `John`.
  *
  * ## Value vs Extra
  *
@@ -138,7 +138,7 @@ use QuickApps\Utility\HookTrait;
  *         ['title' => 'Fuuuu', 'file' => 'fuuuu-meme.png'],
  *     ]
  *
- *     // value
+ *     // value:
  *     OMG! Look at this lol Fuuuu
  *
  * As information stored in `value` property will not be used when rendering
@@ -148,15 +148,15 @@ use QuickApps\Utility\HookTrait;
  * **Important: FieldableBehavior automatically serializes/unserializes the `extra` property for you**,
  * so you should always treat `extra` as an array of information.
  *
- * `Search over fields` feature described above uses `value`, so in this way
- * your entities can be found when using Field's machine-name on where-conditions.
+ * `Search over fields` feature described above uses the `value` property when looking for matches. So in this way
+ * your entities can be found when using Field's machine-name in where-conditions.
  *
- * Using `extra` is not mandatory, your Field Handler could use an additional
+ * Using `extra` is not mandatory, for instance your Field Handler could use an additional
  * table schema to store entities information and leave `extra` as NULL. In that
  * case, your Field Handler must take care of joining entities with that external table
  * of information.
  *
- * So basically, `value` is intended to store `plain text` information, while
+ * Basically: `value` is intended to store `plain text` information suitable for searches, while
  * `extra` is intended to store arrays of information.
  *
  * ***

@@ -13,17 +13,18 @@ namespace QuickApps\Utility;
 
 /**
  * Detector Registry is used as a registry for detector methods, also provides a few
- * utility methods such as is() or addDetector().
+ * utility methods such as "is() or "addDetector()".
  *
- * Detectors are small methods aimed to answer `is X?` questions about
+ * Detectors are small boolean-methods aimed to answer `is X?` questions about
  * current request. For example, the question `is current page site's front?` is handled by
  * the `page.frontpage` (or `page.index`) detector:
  *
+ *     // true | false
  *     is('page.frontpage');
  *
  * You can define your own detectors methods by using `DetectorRegistry::addDetector` method.
  *
- *     addDetector('theme.core', function ($givenTheme) {
+ *     addDetector('theme.core', function ($givenThemeName) {
  *         // stuff here
  *     });
  *
@@ -31,10 +32,10 @@ namespace QuickApps\Utility;
  * and a callable function.
  *
  * Callable function may accept an unlimited number of arguments. In the example above, `theme.core`
- * should answer if the **given theme-name** is a core theme or not.
+ * should return true or false depending on the **given theme-name**. Our "question" looks like
+ * `is <theme_name> a core theme?`, where `<theme_name>` is the theme-name you are asking for.
  * So when invoking your detector, you must pass a theme-name as first argument:
  *
- *     // this will ask to your callable function
  *     is('theme.core', 'MyThemeName');
  */
 class DetectorRegistry {
@@ -120,7 +121,7 @@ class DetectorRegistry {
  * Registers a new detector method. Or overwrite if already exists.
  *
  * @param string $name Name of the detector. e.g. `theme.core` (checks if in use theme is a core theme)
- * @param object $callable Callable function for handling your detector.
+ * @param object $callable Callable function for handling your detector
  * @return void
  */
 	public static function addDetector($name, $callable) {
