@@ -30,11 +30,11 @@ class Text implements EventListener {
  *
  * Events names must be named as follow:
  *
- *     PluginName\FieldHandlerName.<Entity|Instance>.actionName
+ *     Field.<FieldHandlerName>.<Entity|Instance>.<eventName>
  *
  * Example:
  *
- *     Taxonomy\CategoriesField.Entity.edit
+ *     Field.Text.Entity.edit
  *
  * @return array
  */

@@ -16,8 +16,10 @@ use Cake\View\Helper\StringTemplateTrait;
 use Cake\View\View;
 
 /**
- * Menu factory.
+ * Menu helper.
  *
+ * Renders nested database records into a well formated `UL` menus
+ * suitable for HTML pages.
  */
 class MenuHelper extends Helper {
 
@@ -26,13 +28,13 @@ class MenuHelper extends Helper {
 /**
  * Default config for this class.
  *
- * - itemCallable: Callable method used when formating each item.
- * - activeClass: CSS class to use when an item is active (its URL matches current URL).
- * - firstItemClass: CSS class for the first item.
- * - lastItemClass: CSS class for the last item.
- * - hasChildrenClass: CSS class to use when an item has children.
- * - split: Split menu into multiple root menus (multiple UL's)
- * - templates: HTML templates used when formating items.
+ * - `itemCallable`: Callable method used when formating each item.
+ * - `activeClass`: CSS class to use when an item is active (its URL matches current URL).
+ * - `firstItemClass`: CSS class for the first item.
+ * - `lastItemClass`: CSS class for the last item.
+ * - `hasChildrenClass`: CSS class to use when an item has children.
+ * - `split`: Split menu into multiple root menus (multiple UL's)
+ * - `templates`: HTML templates used when formating items.
  *
  * @var array
  */
@@ -58,9 +60,11 @@ class MenuHelper extends Helper {
  * @param array $config Configuration settings for the helper.
  */
 	public function __construct(View $View, $config = array()) {
-		$this->_defaultConfig['itemCallable'] = function ($entity, $info, $childContent) {
-			return $this->formatItem($entity, $info, $childContent);
-		};
+		if (empty($config['itemCallable'])) {
+			$this->_defaultConfig['itemCallable'] = function ($entity, $info, $childContent) {
+				return $this->formatItem($entity, $info, $childContent);
+			};
+		}
 
 		parent::__construct($View, $config);
 	}
@@ -87,11 +91,12 @@ class MenuHelper extends Helper {
  * - `firstItemClass`: CSS class for the first item.
  * - `lastItemClass`: CSS class for the last item.
  * - `hasChildrenClass`: CSS class to use when an item has children.
+ * - `split`: Split menu into multiple root menus (multiple UL's)
  * - `templates`: The templates you want to use for this menu. Any templates will be merged on top of
  *    the already loaded templates. This option can either be a filename in App/Config that contains
  *    the templates you want to load, or an array of templates to use.
  *
- * @param array|\Cake\ORM\Query $items Nested items to render as menu given as a query result set, or as an array list
+ * @param array|\Cake\ORM\Query $items Nested items to render, given as a query result set or as an array list
  * @param array $options An array of HTML attributes and options
  * @return string HTML
  */
@@ -326,8 +331,14 @@ class MenuHelper extends Helper {
 		$patterns = explode("\n", $patterns);
 
 		if (\Cake\Core\Configure::read('QuickApps.variables.url_language_prefix')) {
-			if (!preg_match('/^\/([a-z]{3})\//', $path, $matches)) {
-				$path = "/" . Configure::read('Config.language'). $path;
+			static $langCodesExp;
+
+			if (empty($langCodesExp)) {
+				$langCodesExp = implode('|', array_keys(\Cake\Core\Configure::read('QuickApps.languages')));
+			}
+
+			if (!preg_match('/^\/(' . $langCodesExp . ')\//', $path, $matches)) {
+				$path = '/' . Configure::read('Config.language'). $path;
 			}
 		}
 
@@ -343,7 +354,7 @@ class MenuHelper extends Helper {
 		// Therefore replace newlines with a logical or, /* with asterisks and the <front> with the frontpage.
 		$to_replace = array(
 			'/(\r\n?|\n)/', // newlines
-			'/\\\\\*/',	 // asterisks
+			'/\\\\\*/', // asterisks
 			'/(^|\|)\/($|\|)/' // front '/'
 		);
 

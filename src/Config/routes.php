@@ -22,7 +22,7 @@ use Cake\Routing\RouteCollection;
 Configure::write('Routing.prefixes', ['admin']);
 
 /**
- * Redirect everything to installer plugin if it is a new quickapps package.
+ * Redirect everything to installer plugin if it's a new QuickApps CMS package.
  */
 if (!file_exists(SITE_ROOT . '/Config/settings.json')) {
 	Router::redirect('/', '/installer/setup', ['status' => 302]);
@@ -34,7 +34,7 @@ if (!file_exists(SITE_ROOT . '/Config/settings.json')) {
 }
 
 /**
- * Load site routes.
+ * Load site's routes.
  */
 if (file_exists(SITE_ROOT . '/Config/routes.php')) {
 	include_once SITE_ROOT . '/Config/routes.php';
@@ -82,6 +82,7 @@ if (
 
 /**
  * Set language prefix (if enabled) on every route.
+ *
  * This will create a locale-prefixed version of all registered
  * routes at this point.
  */
