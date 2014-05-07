@@ -1,7 +1,4 @@
-<ul class="nav nav-pills">
-	<li class="active"><a href="#">Attach Field</a></li>
-	<li class=""><a href="#">View Modes</a></li>
-</ul>
+<p><?php echo $this->element('Field.FieldUI/field_ui_submenu'); ?></p>
 
 <table class="table table-hover table-bordered table-responsive">
 	<thead>

@@ -41,8 +41,8 @@ use Cake\Utility\Inflector;
  *
  * In order to avoid trait collision you should always `extend`
  * Field UI using this trait over a `clean` controller.
- * For instance, create a `MyPlugin\Controller\MyTableFieldManagerController`
- * and use this trait to handle MyTable's custom fields.
+ * For instance, create a new controller class `MyPlugin\Controller\MyTableFieldManagerController`
+ * and use this trait to handle custom fields for "MyTable" database table.
  *
  * # Requirements
  *
@@ -69,13 +69,9 @@ trait FieldUIControllerTrait {
 
 		if (!isset($this->_manageTable) || empty($this->_manageTable)) {
 			throw new Error\ForbiddenException('FieldUIControllerTrait: The property $_manageTable was not found or is empty.');
-		}
-
-		if (!($this instanceof \Cake\Controller\Controller)) {
+		} elseif (!($this instanceof \Cake\Controller\Controller)) {
 			throw new Error\ForbiddenException('FieldUIControllerTrait: This trait must be used on instances of Cake\Controller\Controller.');
-		}
-
-		if (!isset($requestParams['prefix']) || $requestParams['prefix'] !== 'admin') {
+		} elseif (!isset($requestParams['prefix']) || $requestParams['prefix'] !== 'admin') {
 			throw new Error\ForbiddenException('FieldUIControllerTrait: This trait must be used on backend-controllers only.');
 		}
 
@@ -91,18 +87,18 @@ trait FieldUIControllerTrait {
  *
  * Example:
  *
- * Suppose you are using this trait to manage fields attached
- * `Persons` entities. So you probably have a `Person` plugin and
+ * Suppose you are using this trait to manage fields attached to
+ * `Persons` entities. You would probably have a `Person` plugin and
  * a `clean` controller as follow:
  *
  *     // http://example.com/admin/user/field_manager
  *     User\FieldsManagerController::index()
  *
- * The above will try to render `Person/Template/FieldsManager/index.ctp`.
- * But if does not exists `Field/Template/FieldUI/index.ctp`
+ * The above controller action will try to render `/Plugin/User/Template/FieldsManager/index.ctp`.
+ * But if does not exists then `<QuickAppsCorePath>/Plugin/Field/Template/FieldUI/index.ctp`
  * will be used instead.
  *
- * Of course you may create your own template.
+ * Of course you may create your own template and skip this fallback functionality.
  *
  * @param \Cake\Event\Event $event the event instance.
  * @return void
@@ -111,8 +107,7 @@ trait FieldUIControllerTrait {
 		$plugin = Inflector::camelize($event->subject->request->params['plugin']);
 		$controller = Inflector::camelize($event->subject->request->params['controller']);
 		$action = $event->subject->request->params['action'];
-		$pluginPath = Plugin::path($plugin);
-		$templatePath = $pluginPath . 'Template' . DS . $controller . DS . "{$action}.ctp";
+		$templatePath = Plugin::path($plugin) . implode(DS, ['Template', $controller, "{$action}.ctp"]);
 
 		if (!file_exists($templatePath)) {
 			$alternativeTemplatePath = Plugin::path('Field') . 'Template' . DS . 'FieldUI';
@@ -181,6 +176,8 @@ trait FieldUIControllerTrait {
  * @return void
  */
 	public function attach() {
+		if (!empty($this->data)) {
+		}
 	}
 
 /**
@@ -188,9 +185,25 @@ trait FieldUIControllerTrait {
  *
  * Detaches a Field from table being managed.
  *
+ * @param integer $id ID of the instance to detach
  * @return void
  */
-	public function detach() {
+	public function detach($id) {
+		$instance = $this->__getOrThrow($id);
+	}
+
+/**
+ * Detach action.
+ *
+ * Detaches a Field from table being managed.
+ *
+ * @param integer $id ID of the instance to detach
+ * @return void
+ */
+	public function view_modes($id = null) {
+		if (!empty($id)) {
+			$instance = $this->__getOrThrow($id);
+		}
 	}
 
 /**
@@ -279,7 +292,7 @@ trait FieldUIControllerTrait {
  *
  * @param integer $id Field instance ID
  * @return \Field\Model\Entity\FieldInstance The instance
- * @throws \Cake\Error\NotFoundException When instance not found
+ * @throws \Cake\Error\NotFoundException When instance was not found
  */
 	private function __getOrThrow($id) {
 		$this->loadModel('Field.FieldInstances');

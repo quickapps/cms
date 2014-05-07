@@ -1,3 +1,5 @@
+<p><?php echo $this->element('Field.FieldUI/field_ui_submenu'); ?></p>
+
 <?php echo $this->Form->create($instance, ['role' => 'form']); ?>
 <fieldset>
 	<legend><?php echo __('Basic Information'); ?></legend>
