@@ -20,9 +20,9 @@ use Cake\Utility\Inflector;
 /**
  * Allow entities to be commented.
  *
- * @author Christopher Castro <chris@quickapps.es>
  */
 class CommentableBehavior extends Behavior {
+
 /**
  * The table this behavior is attached to.
  *
@@ -57,7 +57,7 @@ class CommentableBehavior extends Behavior {
  * Here we associate `Comments` table to the
  * table this behavior is attached to.
  *
- * @param Table $table The table this behavior is attached to.
+ * @param \Cake\ORM\Table $table The table this behavior is attached to.
  * @param array $config The config for this behavior.
  */
 	public function __construct(Table $table, array $config = []) {
@@ -115,7 +115,12 @@ class CommentableBehavior extends Behavior {
 /**
  * Get comments for the given entity.
  *
- * @param Query $query
+ * ## Usage:
+ *
+ *     // in your controller, look for comments for user whose id equals 2
+ *     $userComments = $this->Users->find('comments', ['for' => 2]);
+ *
+ * @param \Cake\ORM\Query $query
  * @param array $options
  * @return \Cake\ORM\Query
  * @throws \InvalidArgumentException When the 'for' key is not passed in $options

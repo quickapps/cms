@@ -48,8 +48,8 @@ class CommentFormComponent extends Component {
 /**
  * Adds a new comment to the given entity.
  *
- * On validation failure, this method sets a `_newComment`
- * view-variable with the `invalid entity`. This entity is used to properly fills the
+ * On validation failure this method sets a `_newComment`
+ * view-variable with the "invalidated entity". This entity is used to properly fills the
  * `post new comment` form and show all error messages.
  *
  * Available options are:
@@ -60,8 +60,8 @@ class CommentFormComponent extends Component {
  * - `successMessage`: Custom success alert-message. Or a callable method which must return a customized message.
  * - `errorMessage`: Custom error alert-message. Or a callable method which must return a customized message.
  * - `data`: Array of additional properties values to merge with those coming
- * from form submit action. e.g.: `['status' => 0]` will set the new comment as `unapproved`.
- * - `validate`: Specify which validation set to use when saving new comment.
+ * from the form's submit. e.g.: `['status' => 0]` will set the new comment as `unapproved`.
+ * - `validate`: Specify which validation-set to use when saving new comment.
  *
  * When defining `successMessage` or `errorMessage` as callable functions you should expect two arguments.
  * A comment entity as first argument and the controller instance this component is attached to as second argument:
@@ -74,7 +74,7 @@ class CommentFormComponent extends Component {
  *         return 'My customized error message';
  *     }
  *
- * @param Entity $entity
+ * @param \Cake\ORM\Entity $entity
  * @param array $options Options this this method as described above
  * @return boolean TRUE on success, FALSE otherwise
  * @see \Cake\Controller\Controller::redirect()
@@ -115,7 +115,7 @@ class CommentFormComponent extends Component {
 						$this->_controller->alert($successMessage, 'success');
 
 						if ($options['redirectOnSuccess']) {
-							$redirectTo = is_bool($options['redirectOnSuccess']) ? $this->_controller->referer() : $options['redirectOnSuccess'];
+							$redirectTo = $options['redirectOnSuccess'] === true ? $this->_controller->referer() : $options['redirectOnSuccess'];
 							$this->_controller->redirect($redirectTo);
 						}
 
@@ -137,4 +137,5 @@ class CommentFormComponent extends Component {
 			return false;
 		}
 	}
+
 }

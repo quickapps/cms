@@ -19,18 +19,18 @@ use Cake\ORM\Entity;
  * This entity represents a Table column.
  * It holds the following attributes:
  *
- * - name: Machine name of this field. ex. `user_age`. (Schema equivalent: column name)
+ * - name: Machine name of this field. ex. `user-age`. (Schema equivalent: column name)
  * - label: Human readable name of this field e.g.: `User Last name`.
  * - value: Value for this [FieldInstance, Entity] tuple. (Schema equivalent: cell value).
  * - extra: Extra information related to `value` or raw information.
  * - metadata
- *     - field_data_id: ID of the data stored in `field_data` table.
+ *     - field_data_id: ID of the data stored in `field_data` table (from where `value` comes from).
  *     - field_instance_id: ID of field instance (`field_instances` table) attached to Table.
  *     - table_alias: Name of the table this field is attached to. e.g: `users`.
  *     - description: Something about this field: e.g.: `Please enter your name`.
  *     - required: 1|0
  *     - settings: Array of additional information handled by this particular field. ex: `max_len`, `min_len`, etc
- *     - handler: Name of the `Listener Class` a.k.a. `Field Handler`. ex: `Field\TextField`
+ *     - handler: Name of the `Listener Class` a.k.a. `Field Handler`. ex: `Field\Text`
  */
 class Field extends Entity {
 /**

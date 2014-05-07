@@ -68,7 +68,6 @@ class ServeController extends NodeAppController {
  */
 	public function frontpage() {
 		$this->loadModel('Node.Nodes');
-
 		$nodes = $this->Nodes->find()
 			->where(['promote' => 1, 'status >' => 0])
 			->order(['sticky' => 'DESC', 'created' => 'DESC'])

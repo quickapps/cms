@@ -18,7 +18,7 @@ use Cake\View\View;
 /**
  * Menu helper.
  *
- * Renders nested database records into a well formated `UL` menus
+ * Renders nested database records into a well formated `<ul>` menus
  * suitable for HTML pages.
  */
 class MenuHelper extends Helper {
@@ -26,15 +26,52 @@ class MenuHelper extends Helper {
 	use StringTemplateTrait;
 
 /**
- * Default config for this class.
+ * Default configuration for this class.
  *
  * - `itemCallable`: Callable method used when formating each item.
  * - `activeClass`: CSS class to use when an item is active (its URL matches current URL).
  * - `firstItemClass`: CSS class for the first item.
  * - `lastItemClass`: CSS class for the last item.
  * - `hasChildrenClass`: CSS class to use when an item has children.
- * - `split`: Split menu into multiple root menus (multiple UL's)
+ * - `split`: Split menu into multiple root menus (multiple UL's).
+ * Must be an integer, or false for do not split (by default).
  * - `templates`: HTML templates used when formating items.
+ *   - `div`: Template of the wrapper element which holds all menus when using `split`.
+ *   - `root`: Top UL menu template.
+ *   - `parent`: Wrapper which holds children of a parent node.
+ *   - `child`: Template for child nodes (leafs).
+ *   - `link`: Template for link elements.
+ *
+ * ## Example:
+ *
+ * This example shows where each template is used when rendering a menu.
+ *
+ *     <div> // div template (only if split > 1)
+ *         <ul> // root template (first part of split menu)
+ *             <li> // child template
+ *                 <a href="">Link 1</a> // link template
+ *             </li>
+ *             <li> // child template
+ *                 <a href="">Link 2</a> // link template
+ *                 <ul> // parent template
+ *                     <li> // child template
+ *                         <a href="">Link 2.1</a> // link template
+ *                     </li>
+ *                     <li> // child template
+ *                         <a href="">Link 2.2</a> // link template
+ *                     </li>
+ *                     ...
+ *                 </ul>
+ *             </li>
+ *             ...
+ *         </ul>
+ *
+ *         <ul> // root template (second part of split menu)
+ *             ...
+ *         </ul>
+ *
+ *         ...
+ *     </div>
  *
  * @var array
  */
@@ -47,6 +84,7 @@ class MenuHelper extends Helper {
 		'split' => false,
 		'templates' => [
 			'div' => '<div{{attrs}}>{{content}}</div>',
+			'root' => '<ul{{attrs}}>{{content}}</ul>',
 			'parent' => '<ul{{attrs}}>{{content}}</ul>',
 			'child' => '<li{{attrs}}>{{content}}</li>',
 			'link' => '<a href="{{url}}"{{attrs}}><span>{{content}}</span></a>',
@@ -54,10 +92,10 @@ class MenuHelper extends Helper {
 	];
 
 /**
- * Constructor
+ * Constructor.
  *
- * @param View $View The View this helper is being attached to.
- * @param array $config Configuration settings for the helper.
+ * @param View $View The View this helper is being attached to
+ * @param array $config Configuration settings for the helper
  */
 	public function __construct(View $View, $config = array()) {
 		if (empty($config['itemCallable'])) {
@@ -140,7 +178,7 @@ class MenuHelper extends Helper {
 				'content' => $out,
 			]);
 		} else {
-			$out .= $this->formatTemplate('parent', [
+			$out .= $this->formatTemplate('root', [
 				'attrs' => $this->templater()->formatAttributes($attrs),
 				'content' => $this->_render($items, $config['itemCallable'])
 			]);
@@ -153,26 +191,38 @@ class MenuHelper extends Helper {
 /**
  * Default callable method (see itemCallable option).
  *
+ * Valid options are:
+ *
+ * - `template`: Name of a template to use when rendering an item. (`child` by default)
+ * - `childAttrs`: Array of attributes for `child` template.
+ * - `linkAttrs`: Array of attributes for the `link` template.
+ *
  * @param \Cake\ORM\Entity $item The item to render
  * @param array $info Array of useful information such as `index`, `total` and `depth`
  * @param string $childContent Inner HTML content for this item
+ * @param array $options Additional options
  * @return string
  */
-	public function formatItem($item, $info, $childContent) {
+	public function formatItem($item, $info, $childContent, $options = []) {
+		$options += [
+			'template' => 'child',
+			'childAttrs' => [],
+			'linkAttrs' => [],
+		];
 		$config = $this->config();
-		$liAttrs = [];
-		$linkAttrs = [];
+		$childAttrs = ['class' => []];
+		$linkAttrs = ['class' => []];
 
 		if ($info['index'] === 1) {
-			$liAttrs['class'][] = $config['firstClass'];
+			$childAttrs['class'][] = $config['firstClass'];
 		}
 
 		if ($info['index'] === $info['total']) {
-			$liAttrs['class'][] = $config['lastClass'];
+			$childAttrs['class'][] = $config['lastClass'];
 		}
 
 		if (!empty($childContent)) {
-			$liAttrs['class'][] = $config['hasChildrenClass'];
+			$childAttrs['class'][] = $config['hasChildrenClass'];
 		}
 
 		if (!empty($item->description)) {
@@ -184,16 +234,24 @@ class MenuHelper extends Helper {
 		}
 
 		if ($info['active']) {
-			$liAttrs['class'][] = $config['activeClass'];
-			$linkAttrs['class'] = $config['activeClass'];
+			$childAttrs['class'][] = $config['activeClass'];
+			$linkAttrs['class'][] = $config['activeClass'];
 		}
 
-		$liAttrs = $this->templater()->formatAttributes($liAttrs);
+		if (!empty($options['childAttrs'])) {
+			$childAttrs = \Cake\Utility\Hash::merge($childAttrs, $options['childAttrs']);
+		}
+
+		if (!empty($options['linkAttrs'])) {
+			$linkAttrs = \Cake\Utility\Hash::merge($linkAttrs, $options['linkAttrs']);
+		}
+
+		$childAttrs = $this->templater()->formatAttributes($childAttrs);
 		$linkAttrs = $this->templater()->formatAttributes($linkAttrs);
 
 		return
-			$this->formatTemplate('child', [
-				'attrs' => $liAttrs,
+			$this->formatTemplate($options['template'], [
+				'attrs' => $childAttrs,
 				'content' => $this->formatTemplate('link', [
 					'url' => $this->_View->Html->url($item->url, true),
 					'attrs' => $linkAttrs,
@@ -224,33 +282,6 @@ class MenuHelper extends Helper {
  */
 	public function resetTemplates() {
 		$this->templates($this->_defaultConfig['templates']);
-	}
-
-/**
- * Checks if the given item should be marked as active.
- *
- * @param \Cake\ORM\Entity $item
- * @return boolean
- */
-	protected function _isActive($item) {
-		switch ($item->selected_on_type) {
-			case 'reg':
-				return $this->_urlMatch($item->selected_on);
-			case 'php':
-				return $this->_phpEval($item->selected_on);
-			default:
-				$isInternal =
-					$item->url !== '/' &&
-					$item->url[0] === '/' &&
-					str_ends_with($item->url, $this->_View->request->url) !== false;
-				$isIndex =
-					$item->url === '/' &&
-					$this->_View->is('page.index');
-				$isExact =
-					$item->url === $this->_View->request->url;
-
-				return ($isInternal || $isIndex || $isExact);
-		}
 	}
 
 /**
@@ -289,6 +320,41 @@ class MenuHelper extends Helper {
 	}
 
 /**
+ * Checks if the given item should be marked as active.
+ *
+ * `$item->url` property must exists, and can be either:
+ *
+ * - A string representing an external or internal URL. e.g. `/user/login`
+ * - An array compatible with \Cake\Routing\Router::url(). e.g. `['controller' => 'user', 'action' => 'login']`
+ *
+ * Both examples are equivalent.
+ *
+ * @param \Cake\ORM\Entity $item
+ * @return boolean
+ */
+	protected function _isActive($item) {
+		switch ($item->active_on_type) {
+			case 'reg':
+				return $this->_urlMatch($item->active_on);
+			case 'php':
+				return $this->_phpEval($item->active_on);
+			default:
+				$itemUrl = (string)\Cake\Routing\Router::url($item->url);
+				$isInternal =
+					$itemUrl !== '/' &&
+					$itemUrl[0] === '/' &&
+					str_ends_with($itemUrl, env('REQUEST_URI')) !== false;
+				$isIndex =
+					$itemUrl === '/' &&
+					$this->_View->is('page.index');
+				$isExact =
+					$itemUrl === $this->_View->request->url;
+
+				return ($isInternal || $isIndex || $isExact);
+		}
+	}
+
+/**
  * Evaluate a string of PHP code.
  *
  * This is a wrapper around PHP's eval(). It uses output buffering to capture both
@@ -318,7 +384,7 @@ class MenuHelper extends Helper {
  * Check if a path matches any pattern in a set of patterns.
  *
  * @param string $patterns String containing a set of patterns separated by \n, \r or \r\n
- * @param mixed $path String as path to match. Or boolean FALSE to use actual page url
+ * @param mixed $path String as path to match. Or boolean FALSE to use actual page URL
  * @return boolean TRUE if the path matches a pattern, FALSE otherwise
  */
 	protected function _urlMatch($patterns, $path = false) {
@@ -351,7 +417,7 @@ class MenuHelper extends Helper {
 		$patterns = implode("\n", $patterns);
 
 		// Convert path settings to a regular expression.
-		// Therefore replace newlines with a logical or, /* with asterisks and the <front> with the frontpage.
+		// Therefore replace newlines with a logical or, /* with asterisks and "/" with the frontpage.
 		$to_replace = array(
 			'/(\r\n?|\n)/', // newlines
 			'/\\\\\*/', // asterisks

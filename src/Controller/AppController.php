@@ -62,6 +62,15 @@ class AppController extends \Cake\Controller\Controller {
 	];
 
 /**
+ * An array containing the names of components controllers uses.
+ *
+ * @var array
+ */
+	public $components = [
+		'Menu.Breadcrumb',
+	];
+
+/**
  * Constructor.
  *
  * @param \Cake\Network\Request $request Request object for this controller. Can be null for testing,
