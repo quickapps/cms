@@ -63,7 +63,6 @@ class ManageController extends NodeAppController {
 		$this->loadModel('Node.NodeTypes');
 		$this->loadModel('Node.Nodes');
 		$this->Nodes->unbindComments();
-
 		$type = $this->NodeTypes->find()
 			->where(['slug' => $type])
 			->first();
@@ -79,16 +78,16 @@ class ManageController extends NodeAppController {
 			$node = $this->Nodes->newEntity($data);
 
 			if ($this->Nodes->save($node)) {
-				$this->alert(__d('node', 'Content created!.'), 'success');
+				$this->alert(__('Content created!.'), 'success');
 				$this->redirect(['plugin' => 'node', 'controller' => 'manage', 'action' => 'edit', 'prefix' => 'admin', $node->id]);
 			} else {
-				$this->alert(__d('node', 'Something went wrong, please check your information.'), 'danger');
+				$this->alert(__('Something went wrong, please check your information.'), 'danger');
 			}
 		} else {
 			$node = $this->Nodes->newEntity(['node_type_slug' => $type->slug]);
 		}
 
-		$node =  $this->Nodes->attachEntityFields($node);
+		$node = $this->Nodes->attachEntityFields($node);
 		$this->_setLanguages();
 		$this->set('node', $node);
 		$this->set('type', $type);
@@ -122,17 +121,17 @@ class ManageController extends NodeAppController {
 
 		if (!empty($this->request->data)) {
 			if (!$this->request->data['regenerate_slug']) {
-				$this->Nodes->slugOn('insert');
+				$this->Nodes->slugConfig(['on' => 'insert']);
 			}
 
 			unset($this->request->data['regenerate_slug']);
 			$node->set($this->request->data);
 
 			if ($this->Nodes->save($node, ['atomic' => true])) {
-				$this->alert('Information was saved!', 'success');
+				$this->alert(__('Information was saved!'), 'success');
 				$this->redirect(['plugin' => 'node', 'controller' => 'manage', 'action' => 'edit', 'prefix' => 'admin', $id]);
 			} else {
-				$this->alert('Something went wrong, please check your information.', 'danger');
+				$this->alert(__('Something went wrong, please check your information.'), 'danger');
 			}
 		}
 
@@ -148,7 +147,6 @@ class ManageController extends NodeAppController {
  */
 	public function delete($node_id) {
 		$this->loadModel('Node.Nodes');
-
 		$node = $this->Nodes->get($node_id);
 
 		if ($this->Nodes->delete($node, ['atomic' => true])) {
@@ -172,6 +170,7 @@ class ManageController extends NodeAppController {
 
 /**
  * Sets a view variable holding a list of available languages.
+ *
  * Useful when rendering select boxes in node's edit forms.
  *
  * @return void

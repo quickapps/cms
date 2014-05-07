@@ -534,7 +534,7 @@ class FieldableBehavior extends Behavior {
 					'entity_id' => $entity->{$pk},
 					'table_alias' => $table_alias,
 					'value' => $field->value,
-					'extra' => @serialize($field->extra)
+					'extra' => serialize((array)$field->extra)
 				]);
 
 				if (!$FieldValues->save($valueEntity)) {
@@ -733,18 +733,16 @@ class FieldableBehavior extends Behavior {
 	}
 
 /**
- * Changes behavior's configuration parameters.
+ * Changes behavior's configuration parameters on the fly.
  *
- * Useful when using callable mapper, so you
- * may change configuration parameters on every mapper's iteration
- * depending on your needs.
+ * Useful when using customized `find_interator` callable, allows to change
+ * FieldableBehavior's configuration parameters on each mapper's iteration depending on your needs.
  *
- * @param array $config Configuration assoc-array
+ * @param array $config Configuration parameters as `key` => `value`
  * @return void
  */
 	public function configureFieldable($config) {
-		$this->_config = array_merge($this->_config, $config);
-		$this->_config['table_alias'] = strtolower($this->_config['table_alias']);
+		$this->config($config);
 	}
 
 /**
@@ -753,7 +751,7 @@ class FieldableBehavior extends Behavior {
  * @return void
  */
 	public function bindFieldable() {
-		$this->_config['enabled'] = true;
+		$this->config('enabled', true);
 	}
 
 /**
@@ -762,7 +760,7 @@ class FieldableBehavior extends Behavior {
  * @return void
  */
 	public function unbindFieldable() {
-		$this->_config['enabled'] = false;
+		$this->config('enabled', false);
 	}
 
 /**
@@ -894,7 +892,7 @@ class FieldableBehavior extends Behavior {
 /**
  * Creates a new "Field" for each entity.
  *
- * This mock Field represents a new property (table column) in
+ * This mock Field represents a new property (table column) for
  * your entity.
  *
  * @param \Cake\ORM\Entity $entity The entity where to attach fields
@@ -936,7 +934,7 @@ class FieldableBehavior extends Behavior {
 		if ($storedValue) {
 			$mockField->metadata->accessible('*', true);
 			$mockField->set('value', $storedValue->value);
-			$mockField->set('extra', @unserialize((string)$storedValue->extra));
+			$mockField->set('extra', unserialize((string)$storedValue->extra));
 			$mockField->metadata->set('field_value_id', $storedValue->id);
 			$mockField->metadata->accessible('*', false);
 		}

@@ -176,7 +176,9 @@ function __($singular, $args = null) {
  * @return boolean
  */
 function str_starts_with($haystack, $needle) {
-    return strpos($haystack, $needle) === 0;
+    return
+    	$needle === '' ||
+    	strpos($haystack, $needle) === 0;
 }
 
 /**
@@ -188,6 +190,6 @@ function str_starts_with($haystack, $needle) {
  */
 function str_ends_with($haystack, $needle) {
 	return
-		strpos($haystack, $needle) +
-		strlen($needle) === strlen($haystack);
+		$needle === '' ||
+		substr($haystack, - strlen($needle)) === $needle;
 }

@@ -33,12 +33,12 @@ class SluggableBehavior extends Behavior {
 /**
  * Default configuration.
  *
- * - label:	Set to the field name that contains the string from where to generate the slug,
+ * - `label`: Set to the field name that contains the string from where to generate the slug,
  * or a set of field names to concatenate for generating the slug. `title` by default.
- * - slug: Name of the field name that holds generated slugs. `slug` by default.
- * - separator: Separator char. `-` by default. e.g.: `one-two-three`
- * - on: When to generate new slugs. `insert`, `update` or `both` (by default).
- * - length: Maximum length the generated slug can have. default to 200.
+ * - `slug`: Name of the field name that holds generated slugs. `slug` by default.
+ * - `separator`: Separator char. `-` by default. e.g.: `one-two-three`
+ * - `on`: When to generate new slugs. `insert`, `update` or `both` (by default).
+ * - `length`: Maximum length the generated slug can have. default to 200.
  *
  * @var array
  */
@@ -105,18 +105,13 @@ class SluggableBehavior extends Behavior {
 	}
 
 /**
- * Utility method for changing the 'on' option on the fly.
+ * Utility method for changing the behavior configuration on the fly.
  *
- * @param string $on 'update', 'insert', 'both'
- * @return boolean True on success, false otherwise
+ * @param array $config Array of options as `key` => `value`
+ * @return void
  */
-	public function slugOn($on) {
-		if (in_array($on, ['update', 'insert', 'both'])) {
-			$this->config('on', $on);
-			return true;
-		}
-
-		return false;
+	public function slugConfig($config) {
+		$this->config($config);
 	}
 
 /**

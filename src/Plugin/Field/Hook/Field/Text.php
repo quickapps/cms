@@ -41,41 +41,23 @@ class Text implements EventListener {
 	public function implementedEvents() {
 		return [
 			// Related to Entity:
-			'Field.Text.Entity.display' => 'display',
-			'Field.Text.Entity.edit' => 'edit',
-			'Field.Text.Entity.formatter' => 'formatter',
-			'Field.Text.Entity.beforeFind' => 'beforeFind',
-			'Field.Text.Entity.afterSave' => 'afterSave',
-			'Field.Text.Entity.beforeValidate' => 'beforeValidate',
-			'Field.Text.Entity.afterValidate' => 'afterValidate',
-			'Field.Text.Entity.beforeDelete' => 'beforeDelete',
-			'Field.Text.Entity.afterDelete' => 'afterDelete',
+			'Field.Text.Entity.display' => 'entityDisplay',
+			'Field.Text.Entity.edit' => 'entityEdit',
+			'Field.Text.Entity.formatter' => 'entityFormatter',
+			'Field.Text.Entity.beforeFind' => 'entityBeforeFind',
+			'Field.Text.Entity.afterSave' => 'entityAfterSave',
+			'Field.Text.Entity.beforeValidate' => 'entityBeforeValidate',
+			'Field.Text.Entity.afterValidate' => 'entityAfterValidate',
+			'Field.Text.Entity.beforeDelete' => 'entityBeforeDelete',
+			'Field.Text.Entity.afterDelete' => 'entityAfterDelete',
 
 			// Related to Instance:
-			'Field.Text.Instance.info' => 'info',
-			'Field.Text.Instance.settings' => 'settings',
-			'Field.Text.Instance.beforeAttach' => 'beforeAttach',
-			'Field.Text.Instance.afterAttach' => 'afterAttach',
-			'Field.Text.Instance.beforeDetach' => 'beforeDetach',
-			'Field.Text.Instance.afterDetach' => 'afterDetach',
-		];
-	}
-
-/**
- * Returns an array of information of this field.
- *
- * - `name`: string, Human readable name of this field. ex. `Selectbox`
- * - `description`: string, Something about what this field does or allows to do.
- * - `hidden`: true|false, If set to false users can not use this field via `Field UI`
- *
- * @param \Cake\Event\Event $event
- * @return array
- */
-	public function info(Event $event) {
-		return [
-			'name' => __d('field', 'Text'),
-			'description' => __d('field', 'Allow to store text data in database.'),
-			'hidden' => false
+			'Field.Text.Instance.info' => 'instanceInfo',
+			'Field.Text.Instance.settings' => 'instanceSettings',
+			'Field.Text.Instance.beforeAttach' => 'instanceBeforeAttach',
+			'Field.Text.Instance.afterAttach' => 'instanceAfterAttach',
+			'Field.Text.Instance.beforeDetach' => 'instanceBeforeDetach',
+			'Field.Text.Instance.afterDetach' => 'instanceAfterDetach',
 		];
 	}
 
@@ -88,7 +70,7 @@ class Text implements EventListener {
  * @param array $options Additional array of options
  * @return string HTML representation of this field
  */
-	public function display(Event $event, $field, $options = []) {
+	public function entityDisplay(Event $event, $field, $options = []) {
 		$View = $event->subject;
 		$value = $field->value;
 		$value = TextToolbox::process($value, $field->metadata->settings->text_processing);
@@ -104,13 +86,14 @@ class Text implements EventListener {
  * @param array $options
  * @return string HTML containing from elements
  */
-	public function edit(Event $event, $field, $options = []) {
+	public function entityEdit(Event $event, $field, $options = []) {
 		$View = $event->subject;
 		return $View->element('Field.text_field_edit', compact('field', 'options'));
 	}
 
 /**
  * All fields should have a 'default' formatter.
+ *
  * Any number of other formatters can be defined as well.
  * It's nice for there always to be a 'plain' option
  * for the `value` value, but that is not required.
@@ -120,25 +103,10 @@ class Text implements EventListener {
  * @param array $options
  * @return string HTML
  */
-    public function formatter(Event $event, $field, $options = []) {
+    public function entityFormatter(Event $event, $field, $options = []) {
 		$View = $event->subject;
         return $View->element('Field.text_field_formatter', compact('field', 'options'));
     }
-
-/**
- * Renders all the form elements to be used on the field settings form.
- * Field settings will be the same for all shared instances of the same field and should
- * define the way the value will be stored in the database.
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\Field $field Field information
- * @param array $options
- * @return string HTML form elements for the settings page
- */
-	public function settings(Event $event, $field, $options = []) {
-		$View = $event->subject;
-		return $View->element('Field.text_field_settings', compact('field', 'options'));
-	}
 
 /**
  * After each entity is saved.
@@ -154,7 +122,7 @@ class Text implements EventListener {
  * @param array $options
  * @return void
  */
-	public function afterSave(Event $event, $field, $entity, $options) {
+	public function entityAfterSave(Event $event, $field, $entity, $options) {
 		$value = $options['post'];
 		$field->set('value', $value);
 	}
@@ -169,7 +137,7 @@ class Text implements EventListener {
  * @param \Cake\Validation\Validator $validator
  * @return boolean False will halt the save process
  */
-	public function beforeValidate(Event $event, $field, $entity, $options, $validator) {
+	public function entityBeforeValidate(Event $event, $field, $entity, $options, $validator) {
 		if ($field->metadata->required) {
 			$validator->allowEmpty(":{$field->name}", false, __d('field', 'Field required.'))
 				->add(":{$field->name}", 'validateRequired', [
@@ -227,7 +195,7 @@ class Text implements EventListener {
  * @param \Cake\Validation\Validator $validator [description]
  * @return boolean False will halt the save process
  */
-	public function afterValidate(Event $event, $field, $entity, $options, $validator) {
+	public function entityAfterValidate(Event $event, $field, $entity, $options, $validator) {
 		return true;
 	}
 
@@ -240,7 +208,7 @@ class Text implements EventListener {
  * @param array $options
  * @return boolean False will halt the delete process
  */
-	public function beforeDelete(Event $event, $field, $entity, $options) {
+	public function entityBeforeDelete(Event $event, $field, $entity, $options) {
 		return true;
 	}
 
@@ -252,8 +220,42 @@ class Text implements EventListener {
  * @param array $options
  * @return void
  */
-	public function afterDelete(Event $event, $field, $options) {
+	public function entityAfterDelete(Event $event, $field, $options) {
 		return;
+	}
+
+/**
+ * Returns an array of information of this field.
+ *
+ * - `name`: string, Human readable name of this field. ex. `Selectbox`
+ * - `description`: string, Something about what this field does or allows to do.
+ * - `hidden`: true|false, If set to false users can not use this field via `Field UI`
+ *
+ * @param \Cake\Event\Event $event
+ * @return array
+ */
+	public function instanceInfo(Event $event) {
+		return [
+			'name' => __d('field', 'Text'),
+			'description' => __d('field', 'Allow to store text data in database.'),
+			'hidden' => false
+		];
+	}
+
+/**
+ * Renders all the form elements to be used on the field settings form.
+ *
+ * Field settings will be the same for all shared instances of the same field and should
+ * define the way the value will be stored in the database.
+ *
+ * @param \Cake\Event\Event $event The event that was fired
+ * @param \Field\Model\Entity\Field $field Field information
+ * @param array $options
+ * @return string HTML form elements for the settings page
+ */
+	public function instanceSettings(Event $event, $field, $options = []) {
+		$View = $event->subject;
+		return $View->element('Field.text_field_settings', compact('field', 'options'));
 	}
 
 /**
@@ -264,7 +266,7 @@ class Text implements EventListener {
  * @param \Cake\ORM\Table $table The table which $field is being attached to
  * @return boolean False will halt the attach process
  */
-	public function beforeAttach(Event $event, $field, $table) {
+	public function instanceBeforeAttach(Event $event, $field, $table) {
 		return true;
 	}
 
@@ -276,7 +278,7 @@ class Text implements EventListener {
  * @param \Cake\ORM\Table $table The table which $field is attached to
  * @return void
  */
-	public function afterAttach(Event $event, $field, $table) {
+	public function instanceAfterAttach(Event $event, $field, $table) {
 		return;
 	}
 
@@ -288,7 +290,7 @@ class Text implements EventListener {
  * @param \Cake\ORM\Table $table The table which $field is attached to
  * @return boolean False will halt the detach process
  */
-	public function beforeDetach(Event $event, $field, $table) {
+	public function instanceBeforeDetach(Event $event, $field, $table) {
 		return;
 	}
 
@@ -300,7 +302,7 @@ class Text implements EventListener {
  * @param \Cake\ORM\Table $table The table which $field was attached to
  * @return void
  */
-	public function afterDetach(Event $event, $field, $table) {
+	public function instanceAfterDetach(Event $event, $field, $table) {
 		return;
 	}
 
