@@ -1,22 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+		<title><?php echo $this->fetch('title'); ?></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<?php echo $this->Html->meta('icon'); ?>
 		<?php echo $this->Html->charset(); ?>
 		<?php echo $this->fetch('meta'); ?>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title><?php echo $this->fetch('title'); ?></title>
 		<?php echo $this->fetch('css'); ?>
 		<?php echo $this->fetch('script'); ?>
 		<?php echo $this->Html->css('bootstrap.min.css'); ?>
 		<?php echo $this->Html->css('bootstrap-theme.min.css'); ?>
+		<?php echo $this->Html->css('backbootstrap.css'); ?>
 		<?php echo $this->Html->script('bootstrap.min.js'); ?>
-		<style>
-			body { padding-top: 100px; }
-			.message article.comment {
-				margin-left: 35px;
-			}
-		</style>
 	</head>
 	<body>
 		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -37,7 +32,21 @@
 								->find('threaded')
 								->where(['menu_slug' => 'main-menu'])
 								->order(['lft' => 'ASC']),
-							['class' => 'nav navbar-nav']
+							[
+								'class' => 'nav navbar-nav',
+								'formatter' => function ($item, $info) {
+									$options = [];
+									if ($info['hasChildren'] && $info['depth'] === 0) {
+										$item->title .= ' <span class="caret"></span>';
+									}
+
+									if ($info['depth'] > 0) {
+										$options['childAttrs']['class'] = ['dropdown-submenu'];
+									}
+
+									return $this->Menu->formatter($item, $info, $options);
+								},
+							]
 						);
 					?>
 				</div>

@@ -23,27 +23,47 @@ use Menu\Utility\Breadcrumb;
 class BreadcrumbComponent extends Component {
 
 /**
+ * The controller this component is attached to.
+ *
+ * @var \Cake\Controller\Controller
+ */
+	protected $_controller;
+
+/**
  * Initializes BreadcrumbComponent for use in the controller.
  *
  * @param Event $event The initialize even.
  * @return void
  */
 	public function initialize(Event $event) {
-		$controller = $event->subject();
-		$controller->helpers['Breadcrumb'] = ['className' => 'Menu\View\Helper\BreadcrumbHelper'];
+		$this->_controller = $event->subject();
+		$this->_controller->helpers['Breadcrumb'] = ['className' => 'Menu\View\Helper\BreadcrumbHelper'];
 	}
 
 /**
  * Adds a new crumb to the stack.
  *
+ * You can use this method without any argument, if you do it will automatically
+ * try to guess the full breadcrumb path based on current URL (if current URL matches any URL
+ * in any of your menus links).
+ *
  * @param array|string $crumbs Single crumb or an array of multiple crumbs to push at once
- * @param string $url If both $crumbs and $url are string values they will be used as `title` and `url` respectively
- * @return boolean True on success, False otherwise
+ * @param string|null $url If both $crumbs and $url are string values they will be used as `title` and `URL` respectively
+ * @return boolean True on success, false otherwise
  * @see \Menu\Utility\Breadcrumb::push()
  */
 	public function push($crumbs = [], $url = null) {
 		if (empty($crumbs) && empty($url)) {
-			// TODO: look for current URL in menu_links table and auto-generate the crumb if exists
+			$MenuLinks = TableRegistry::get('Menu.MenuLinks')->addBehavior('Tree');
+			// TODO: find possible matches for auto-breadcrumb
+			$possibleMatches = [];
+
+			$found = $MenuLinks->find('first')
+				->where(['MenuLinks.url IN' => $possibleMatches]);
+
+			if ($found) {
+				$crumbs = $MenuLinks->find('path', ['for' => $found->id]);
+			}
 		}
 
 		return Breadcrumb::push($crumbs, $url);

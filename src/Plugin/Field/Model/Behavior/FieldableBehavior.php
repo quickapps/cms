@@ -70,15 +70,15 @@ use QuickApps\Utility\HookTrait;
  * In the example above, User entity has a custom field named `user_age` and its current value is 22.
  * In the other hand, it also has a `user_phone` field but no information was given (Schema equivalent: NULL cell).
  *
- * As you might see, the `_field` key contains an array list of all fields attached to your entity.
- * Each field is an object (Field Entity), and it have a number of properties
+ * As you might see, the `_field` key contains an array list of all fields attached to every entity.
+ * Each field (each element under the `_field` key) is an object (Field Entity), and it have a number of properties
  * such as `label`, `value`, etc. All properties are described below:
  *
  * - `name`: Machine-name of this field. ex. `article_body` (Schema equivalent: column name).
  * -  `label`: Human readable name of this field e.g.: `User Last name`.
  * -  `value`: Value for this [field, entity] tuple. (Schema equivalent: cell value)
  * -  `extra`: Extra data for Field Handler.
- * -  `metadata`: Metadata (an entity object).
+ * -  `metadata`: Metadata (an Entity Object).
  *     - `field_value_id`: ID of the value stored in `field_values` table.
  *     - `field_instance_id`: ID of field instance (`field_instances` table) attached to the table.
  *     - `entity_id`: ID of the Entity this field is attached to.
@@ -106,7 +106,7 @@ use QuickApps\Utility\HookTrait;
  * ## Searching over custom fields
  *
  * This behavior allows you to perform WHERE conditions using
- * any of the fields attached to your table. Every attached field has a "machine-name" (a.k.a field slug),
+ * any of the fields attached to your table. Every attached field has a "machine-name" (a.k.a. field slug),
  * you should use this "machine-name" prefixed with `:`, for example:
  *
  *     TableRegistry::get('Users')
@@ -114,7 +114,7 @@ use QuickApps\Utility\HookTrait;
  *         ->where(['Users.:first-name LIKE' => 'John%'])
  *         ->all();
  *
- * `Users` table has a custom field attached (first_name), and we are looking
+ * `Users` table has a custom field attached (first-name), and we are looking
  * for all the users whose `first-name` starts with `John`.
  *
  * ## Value vs Extra
@@ -123,7 +123,7 @@ use QuickApps\Utility\HookTrait;
  * pretty similar, `value` and `extra`, as both are intended to store information. Here we explain the "why" of this.
  *
  * Field Handlers may store complex information or structures.
- * For example, `AlbumField` may store a list of photos for each entity. In those cases
+ * For example, `AlbumField` handler may store a list of photos for each entity. In those cases
  * you should use the `extra` property to store your array list of photos,
  * while `value` property should always store a Human-Readable representation of your field's value.
  *
@@ -141,22 +141,22 @@ use QuickApps\Utility\HookTrait;
  *     // value:
  *     OMG! Look at this lol Fuuuu
  *
- * As information stored in `value` property will not be used when rendering
- * nodes (we'll actually render photos using `extra` information) you can safely store
- * a list of words that would acts like some kind of `words index`.
+ * In our example, when rendering your entity, `AlbumField` should use `extra` information to create a representation
+ * of your entity when rendering it, while `value` information would acts like some kind of `words index`
+ * when using `Searching over custom fields` feature described above.
  *
- * **Important: FieldableBehavior automatically serializes/unserializes the `extra` property for you**,
- * so you should always treat `extra` as an array of information.
+ * **Important:**
  *
- * `Search over fields` feature described above uses the `value` property when looking for matches. So in this way
- * your entities can be found when using Field's machine-name in where-conditions.
+ * -    FieldableBehavior automatically serializes/unserializes the `extra` property for you,
+ *      so you should always treat `extra` as an array of information.
+ * -    `Search over fields` feature described above uses the `value` property when looking for matches.
+ *      So in this way your entities can be found when using Field's machine-name in where-conditions.
+ * -    Using `extra` is not mandatory, for instance your Field Handler could use an additional
+ *      table schema to store entities information and leave `extra` as NULL. In that
+ *      case, your Field Handler must take care of joining entities with that external table
+ *      of information.
  *
- * Using `extra` is not mandatory, for instance your Field Handler could use an additional
- * table schema to store entities information and leave `extra` as NULL. In that
- * case, your Field Handler must take care of joining entities with that external table
- * of information.
- *
- * Basically: `value` is intended to store `plain text` information suitable for searches, while
+ * **Summarizing:** `value` is intended to store `plain text` information suitable for searches, while
  * `extra` is intended to store arrays of information.
  *
  * ***
@@ -176,18 +176,18 @@ use QuickApps\Utility\HookTrait;
  *     $this->User->unbindFieldable();
  *     $this->Users->get($id);
  *
- * ## Field-Handler & Hooks
+ * ## About Field-Handlers & Hooks
  *
- * Field Handler are "Listeners" classes which must take care of storing, organizing and retrieving information for each entity
- * in your table. This is archived using Hook callbacks.
+ * Field Handler are "Listeners" classes which must take care of storing, organizing and retrieving information for each entity's field.
+ * This is archived using Hook callbacks.
  *
- * Similar to Hooks and Hooktags, Field Handlers must define a series of hook event. This hook events
+ * Similar to Hooks and Hooktags, Field-Handlers must define a series of hook event. This hook events
  * has been organized in two groups or "event subspaces":
  *
- * - `Field.<FieldHandler>.Entity`: For handling Entity's related events such
- * as `entity save`, `entity delete`, etc.
- * - `Field.<FieldHandler>.Instance`: Related to Field Instances events, such as
- * "instance being detached from table", "new instance attached to table", etc.
+ * -    `Field.<FieldHandler>.Entity`: For handling Entity's related events such
+ *      as `entity save`, `entity delete`, etc.
+ * -    `Field.<FieldHandler>.Instance`: Related to Field Instances events, such as
+ *      "instance being detached from table", "new instance attached to table", etc.
  *
  * Below, a list of available hook events:
  *

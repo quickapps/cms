@@ -33,20 +33,20 @@ class NodeHook implements EventListener {
 	}
 
 /**
- * Renders a single Node.
+ * Renders a single Content Node.
  *
  * You can define `specialized-renders` according to your needs as follow.
  * This method looks for specialized renders in the order described below,
  * if one is not found we look the next one, etc.
  *
- * ### render_node_[node_type]_[viewMode]
+ * ### render_node_[node-type]_[view-mode]
  *
- * Renders the given node per node-type + viewMode combination. example:
+ * Renders the given node per `node-type` + `view-mode` combination. example:
  *
  *     // render for `article` nodes in `full` view-mode
  *     `render_node_article_full.ctp`
  *
- *     // render for `article` nodes in `search_result` view-mode
+ *     // render for `article` nodes in `search-result` view-mode
  *     `render_node_article_search_result.ctp`
  *
  * ### render_node_[node_type]

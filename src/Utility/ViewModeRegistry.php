@@ -17,9 +17,9 @@ namespace QuickApps\Utility;
  *
  * View modes tells nodes how they should be rendered.
  *
- * Plugins are allowed to registers their own view modes at any time.
+ * Plugins are allowed to register their own view modes at any time.
  * But it is recommended to do this at bootstrap so all plugins will be aware
- * of this new view mode.
+ * of this new view mode soon as possible.
  */
 class ViewModeRegistry {
 
@@ -50,7 +50,7 @@ class ViewModeRegistry {
  */
 	public static function switchViewMode($slug) {
 		if (empty(static::$_viewModes[$slug])) {
-			throw new \Cake\Error\InternalErrorException(__('Illegal usage of ViewModeRegistry::switchViewMode.'));
+			throw new \Cake\Error\InternalErrorException(__('Illegal usage of ViewModeRegistry::switchViewMode(), view mode "%s" was not found.', $slug));
 		}
 
 		static::$_inUse = $slug;
@@ -73,11 +73,11 @@ class ViewModeRegistry {
  *         	],
  *     ]);
  *
- * Or you can register a single view mode by passing slug, name and description
+ * Or you can register a single view mode by passing its "slug", "name" and "description"
  * as three separated arguments:
  *
- *     ViewModeRegistry::registerViewMode('slug_1', 'View Mode 1', 'Lorem ipsum');
- *     ViewModeRegistry::registerViewMode('slug_2', 'View Mode 2', 'Dolor sit amet');
+ *     ViewModeRegistry::registerViewMode('slug-1', 'View Mode 1', 'Lorem ipsum');
+ *     ViewModeRegistry::registerViewMode('slug-2', 'View Mode 2', 'Dolor sit amet');
  *
  * @param string|array $slug Slug name of your view mode. e.g.: `my-view mode`. Or
  * an array of view modes to register indexed by slug name
@@ -106,14 +106,14 @@ class ViewModeRegistry {
 	}
 
 /**
- * Gets the in use view mode information.
+ * Gets the in use view-mode information.
  *
  * You can get either, slug only or full information as an array.
  *
- * @param boolean $full Set to true to get full information as an array.
- * Or set to false (by default) to get slug name only.
+ * @param boolean $full Set to true to get full information as an array. Or set to
+ * false (by default) to get slug name only
  * @return array|string
- * @throws \Cake\Error\InternalErrorException When there is not "in use" view mode yet
+ * @throws \Cake\Error\InternalErrorException When there is not "in use" view-mode yet
  */
 	public static function inUse($full = false) {
 		if (empty(static::$_inUse)) {
@@ -144,11 +144,11 @@ class ViewModeRegistry {
  *     [
  *         'teaser' => [
  *             'name' => 'Human readable for teaser mode',
- *             'description' => 'Brief description for teaser mode'
+ *             'description' => 'Brief description for teaser view-mode'
  *         ],
  *         'full' => [
  *             'name' => 'Human readable for full mode',
- *             'description' => 'Brief description for full ode'
+ *             'description' => 'Brief description for full view-mode'
  *         ],
  *         ...
  *     ]

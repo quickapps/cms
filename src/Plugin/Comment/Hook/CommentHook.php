@@ -46,4 +46,5 @@ class CommentHook implements EventListener {
 
 		return $html;
 	}
+
 }

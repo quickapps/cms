@@ -25,13 +25,17 @@ class User extends Entity {
  * Powered by Gravatar, it uses user's email to
  * get avatar image URL from Gravatar service.
  *
- * @param array $options Array of options fr Gravatar
+ * @param array $options Array of options for Gravatar API
  * @return string URL to user's avatar
  * @link http://www.gravatar.com
  */
 	public function getAvatar($options = []) {
 		$options = (array)$options;
-		$options += ['s' => 80, 'd' => 'mm', 'r' => 'g'];
+		$options += [
+			's' => 80,
+			'd' => 'mm',
+			'r' => 'g'
+		];
 
 		$url = 'http://www.gravatar.com/avatar/';
 		$url .= md5(strtolower(trim($this->get('email'))));
@@ -39,4 +43,5 @@ class User extends Entity {
 
 		return $url;
 	}
+
 }

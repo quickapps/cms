@@ -28,7 +28,7 @@ ViewModeRegistry::registerViewMode([
 	],
 	'rss' => [
 		'name' => __d('node', 'Search Result'),
-		'description' => __d('node', 'RSS is similar to "search result" but intended to be used when rendering content as part of a RSS feed list.'),
+		'description' => __d('node', 'RSS is similar to "Search Result" but intended to be used when rendering content as part of a RSS feed list.'),
 	],
 	'full' => [
 		'name' => __d('node', 'Full'),

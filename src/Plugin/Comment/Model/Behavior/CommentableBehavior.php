@@ -13,6 +13,7 @@ namespace Comment\Model\Behavior;
 
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
+use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
@@ -38,7 +39,7 @@ class CommentableBehavior extends Behavior {
 	protected $_enabled = true;
 
 /**
- * Default config
+ * Default configuration.
  *
  * These are merged with user-provided configuration when the behavior is used.
  *
@@ -115,9 +116,9 @@ class CommentableBehavior extends Behavior {
 /**
  * Get comments for the given entity.
  *
- * ## Usage:
+ * ### Usage:
  *
- *     // in your controller, look for comments for user whose id equals 2
+ *     // in your controller, gets comments for user whose id equals 2
  *     $userComments = $this->Users->find('comments', ['for' => 2]);
  *
  * @param \Cake\ORM\Query $query

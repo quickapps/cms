@@ -15,12 +15,12 @@ namespace Menu\Utility;
  * Breadcrumb class.
  *
  * Breadcrumb indicate the current page's location within a navigational hierarchy.
- * This class is used as a registry and provides several methods for manage crumbs stack.
+ * This class is used as a registry and provides several methods for manage the crumbs stack.
  */
 class Breadcrumb {
 
 /**
- * Holds the breadcrumb list.
+ * Crumbs stack.
  *
  * @var array
  */
@@ -29,15 +29,19 @@ class Breadcrumb {
 /**
  * Adds a new crumb to the stack.
  *
- * ### Usage:
+ * You can use this method without any argument, if you do it will automatically
+ * try to guess the full breadcrumb path based on current URL (if current URL matches any URL
+ * in any of your menus links).
  *
- * #### Single crumb push
+ * ### Usage
+ *
+ * #### Single crumb push as an array:
  *
  *     Breadcrumb::push(['title' => 'Crumb 1', 'url' => 'URL for crumb 1']);
  *     Breadcrumb::push(['title' => 'Crumb 2', 'url' => 'URL for crumb 2']);
  *     Breadcrumb::push(['title' => 'Crumb 3', 'url' => 'URL for crumb 3']);
  *
- * #### Multiple crumbs at once
+ * #### Multiple crumbs at once:
  *
  *     Breadcrumb::push([
  *         ['title' => 'Crumb 1', 'url' => 'URL for crumb 1'],
@@ -45,7 +49,7 @@ class Breadcrumb {
  *         ['title' => 'Crumb 3', 'url' => 'URL for crumb 3'],
  *     ]);
  *
- * #### "title" and "url" as arguments
+ * #### "title" and "URL" as arguments:
  *
  *     Breadcrumb::push('Crumb 1', 'URL for crumb 1');
  *     Breadcrumb::push('Crumb 2', 'URL for crumb 2');
@@ -62,7 +66,7 @@ class Breadcrumb {
  * @param array|string $crumbs Single crumb or an array of multiple crumbs to push at once
  * @param string $url If both $crumbs and $url are string values they will be used as `title` and `url` respectively
  * @return boolean True on success, False otherwise
- * @see \System\View\Helper\BreadcrumbHelper::render()
+ * @see \Menu\View\Helper\BreadcrumbHelper::render()
  */
 	public static function push($crumbs = [], $url = null) {
 		if (empty($crumbs)) {
