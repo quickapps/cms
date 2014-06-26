@@ -29,7 +29,7 @@ class User extends Entity {
  * @return string URL to user's avatar
  * @link http://www.gravatar.com
  */
-	public function getAvatar($options = []) {
+	public function _getAvatar($options = []) {
 		$options = (array)$options;
 		$options += [
 			's' => 80,

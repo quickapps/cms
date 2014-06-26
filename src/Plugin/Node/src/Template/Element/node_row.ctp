@@ -1,7 +1,7 @@
 <tr class="<?php echo $node->status == 0 ? 'warning' : ''; ?> ">
 	<td>
 		<?php echo str_repeat('&nbsp;&nbsp;', 2 * $deph); ?>
-		<?php echo $this->Html->link($node->title, $node->getUrl(), ['target' => '_blank']); ?>
+		<?php echo $this->Html->link($node->title, $node->url, ['target' => '_blank']); ?>
 
 		<?php if ($node->promote): ?>
 		<span class="glyphicon glyphicon-home" title="<?php echo __('Promote to front page'); ?>"></span>

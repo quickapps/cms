@@ -29,7 +29,7 @@ class Node extends Entity {
  *
  * @return string
  */
-	public function getType() {
+	public function _getType() {
 		$name = $this->node_type->has('name') ? $this->node_type->get('name') : __('--unknow--');
 		$name = empty($name) ? __('--unknow--') : $name;
 		return $name;
@@ -48,7 +48,7 @@ class Node extends Entity {
  *
  * @return string
  */
-	public function getUrl() {
+	public function _getUrl() {
 		return \Cake\Routing\Router::url("/{$this->node_type_slug}/{$this->slug}.html", true);
 	}
 
@@ -60,7 +60,7 @@ class Node extends Entity {
  *
  * @return string
  */
-	public function getAuthorName() {
+	public function _getAuthorName() {
 		$name = $this->author->has('name') ? $this->author->get('name') : __('--unknow--');
 		$name = empty($name) ?  __('--unknow--') : $name;
 		return $name;

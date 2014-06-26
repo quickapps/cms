@@ -167,7 +167,7 @@ class FormHelper extends CakeFormHelper {
  * @return string Completed form widget.
  */
 	public function input($fieldName, array $options = []) {
-		if ($fieldName instanceof \Field\Model\Entity\Field) {
+		if (!is_string($fieldName) && $fieldName instanceof \Field\Model\Entity\Field) {
 			if (!$this->_isRendering) {
 				$EventManager = \Cake\Event\EventManager::instance();
 				$event = new \Cake\Event\Event("Field.{$fieldName->metadata->handler}.Entity.edit", $this->_View, [$fieldName, $options]);

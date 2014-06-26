@@ -36,9 +36,9 @@ class TwitterBootstrapHook implements EventListener {
 	protected $_templates = [
 		'groupContainer' => '<div class="input {{type}}{{required}} form-group">{{content}}</div>',
 		'groupContainerError' => '<div class="input {{type}}{{required}} has-error">{{content}}{{error}}</div>',
-		'checkboxContainer' => '<div class="checkbox">{{input}}{{label}}</div>',
 		'radioContainer' => '<div class="radio">{{input}}{{label}}</div>',
 		'error' => '<p class="text-danger">{{content}}</p>',
+		'errorList' => '<p class="text-danger"><ul>{{content}}</ul></p>',
 	];
 
 /**

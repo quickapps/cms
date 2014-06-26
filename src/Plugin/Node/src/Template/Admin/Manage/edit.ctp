@@ -4,7 +4,7 @@
 			<?php echo $this->Form->input('title'); ?>
 			<em class="help-block">
 				<?php echo __('Slug'); ?>: <?php echo __($node->slug); ?>,
-				<?php echo __('URL'); ?>: <?php echo $this->Html->link("/{$node->node_type_slug}/{$node->slug}.html", "/{$node->node_type_slug}/{$node->slug}.html", ['target' => '_blank']); ?>
+				<?php echo __('URL'); ?>: <?php echo $this->Html->link("/{$node->node_type_slug}/{$node->slug}.html", $node->url, ['target' => '_blank']); ?>
 			</em>
 
 			<?php echo $this->Form->input('regenerate_slug', ['type' => 'checkbox', 'label' => __('Regenerate Slug')]); ?>
