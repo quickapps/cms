@@ -11,8 +11,6 @@
  */
 namespace QuickApps\Utility;
 
-use Cake\Network\Session;
-
 /**
  * Adds methods for handling alert messages.
  *
@@ -88,10 +86,10 @@ trait AlertTrait {
 
 		$class = !in_array($class, ['success', 'info', 'warning', 'danger']) ? 'success' : $class;
 		$key = "Alert.{$group}.{$class}";
-		$messages = (array)Session::read($key);
+		$messages = (array)$this->request->session()->read($key);
 		$messages[] = $message;
 
-		Session::write($key, $messages);
+		$this->request->session()->write($key, $messages);
 	}
 
 /**
@@ -122,23 +120,23 @@ trait AlertTrait {
  */
 	public function clearAlerts($class = null, $group = 'flash') {
 		if ($class === null && $group === null) {
-			Session::delete('Alert');
+			$this->request->session()->delete('Alert');
 		} elseif ($class === null && $group !== null) {
-			Session::delete("Alert.{$group}");
+			$this->request->session()->delete("Alert.{$group}");
 		} elseif ($class !== null && $group === null) {
-			$groups = (array)Session::read('Alert');
+			$groups = (array)$this->request->session()->read('Alert');
 
 			foreach ($groups as $groupName => $span) {
-				$messages = (array)Session::read("Alert.{$groupName}");
+				$messages = (array)$this->request->session()->read("Alert.{$groupName}");
 
 				foreach ((array)$span as $c => $m) {
 					if ($class == $c) {
-						Session::read("Alert.{$groupName}.{$c}");
+						$this->request->session()->read("Alert.{$groupName}.{$c}");
 					}
 				}
 			}
 		} elseif ($class !== null && $group !== null) {
-			Session::delete("Alert.{$group}.{$class}");
+			$this->request->session()->delete("Alert.{$group}.{$class}");
 		}
 	}
 
@@ -225,7 +223,7 @@ trait AlertTrait {
 				}
 			}
 		} elseif (is_null($class)) {
-			$_messages = Session::read("Alert.{$group}");
+			$_messages = $this->request->session()->read("Alert.{$group}");
 
 			if (!empty($_messages)) {
 				foreach ($_messages as $_class => $messages) {
@@ -239,7 +237,7 @@ trait AlertTrait {
 				}
 			}
 		} elseif (is_string($class) && !empty($class)) {
-			$messages = (array)Session::read("Alert.{$group}.{$class}");
+			$messages = (array)$this->request->session()->read("Alert.{$group}.{$class}");
 
 			foreach ($messages as $k => $message) {
 				if (!empty($message) && in_array($class, ['success', 'info', 'warning', 'danger'])) {
@@ -252,7 +250,7 @@ trait AlertTrait {
 				}
 			}
 
-			Session::delete("Alert.{$group}.{$class}");
+			$this->request->session()->delete("Alert.{$group}.{$class}");
 		}
 
 		return $out;

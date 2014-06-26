@@ -71,7 +71,7 @@ trait FieldUIControllerTrait {
 			throw new Error\ForbiddenException('FieldUIControllerTrait: The property $_manageTable was not found or is empty.');
 		} elseif (!($this instanceof \Cake\Controller\Controller)) {
 			throw new Error\ForbiddenException('FieldUIControllerTrait: This trait must be used on instances of Cake\Controller\Controller.');
-		} elseif (!isset($requestParams['prefix']) || $requestParams['prefix'] !== 'admin') {
+		} elseif (!isset($requestParams['prefix']) || strtolower($requestParams['prefix']) !== 'admin') {
 			throw new Error\ForbiddenException('FieldUIControllerTrait: This trait must be used on backend-controllers only.');
 		}
 
@@ -107,10 +107,10 @@ trait FieldUIControllerTrait {
 		$plugin = Inflector::camelize($event->subject->request->params['plugin']);
 		$controller = Inflector::camelize($event->subject->request->params['controller']);
 		$action = $event->subject->request->params['action'];
-		$templatePath = Plugin::path($plugin) . implode(DS, ['Template', $controller, "{$action}.ctp"]);
+		$templatePath = Plugin::classPath($plugin) . implode(DS, ['Template', $controller, "{$action}.ctp"]);
 
 		if (!file_exists($templatePath)) {
-			$alternativeTemplatePath = Plugin::path('Field') . 'Template' . DS . 'FieldUI';
+			$alternativeTemplatePath = Plugin::classPath('Field') . 'Template' . DS . 'FieldUI';
 
 			if (file_exists($alternativeTemplatePath . DS . "{$action}.ctp")) {
 				$this->view = $alternativeTemplatePath . DS . "{$action}.ctp";

@@ -33,8 +33,8 @@
 			break;
 			endswitch;
 		?>
-
-		<p><?php echo __d('node', 'Published'); ?>: <time pubdate="pubdate"><?php echo $this->Time->format(__d('node', 'F jS, Y h:i A'), $node->created); ?></time></p>
+		<?php //TODO: set timezone to user's timezone (read from session) ?>
+		<p><?php echo __d('node', 'Published'); ?>: <time pubdate="pubdate"><?php echo $this->Time->format($node->created, \IntlDateFormatter::FULL, null); ?></time></p>
 	</header>
 
 	<?php foreach ($node->_fields as $field): ?>

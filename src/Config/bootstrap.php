@@ -22,9 +22,17 @@ require __DIR__ . '/paths.php';
 require __DIR__ . '/basics.php';
 
 /**
- * Use composer to load the autoloader.
+ * Merge Composer's autoloader with Cake's autoloader.
  */
-require VENDOR_INCLUDE_PATH . '/autoload.php';
+$composerLoader = require VENDOR_INCLUDE_PATH . '/autoload.php';
+require CAKE . 'Core/ClassLoader.php';
+$loader = new \Cake\Core\ClassLoader;
+$loader->register();
+$loader->addNamespace('Cake', CAKE);
+$loader->addNamespace('QuickApps', APP);
+foreach ($composerLoader as $name => $path) {
+	$loader->addNamespace($name, $path);
+}
 
 /**
  * Bootstrap CakePHP.

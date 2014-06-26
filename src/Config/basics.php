@@ -100,7 +100,8 @@ function snapshot() {
 
 		foreach($Folder->read(false, false, true)[0] as $pluginPath) {
 			$pluginName = basename($pluginPath);
-			$fieldPath = $pluginPath . DS . 'Hook' . DS . 'Field' . DS;
+			$basePath = $pluginPath . DS . 'src' . DS;
+			$fieldPath =  $basePath . 'Hook' . DS . 'Field' . DS;
 
 			if (is_dir($fieldPath)) {
 				$Folder = new Folder($fieldPath);
@@ -114,7 +115,7 @@ function snapshot() {
 				}
 			}
 
-			$hookPath = $pluginPath . DS . 'Hook' . DS;
+			$hookPath = $basePath . 'Hook' . DS;
 			if (is_dir($hookPath)) {
 				$Folder = new Folder($hookPath);
 

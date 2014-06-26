@@ -29,7 +29,7 @@ class PaginatorHelper extends CakePaginatorHelper {
  * @param string $viewFile
  * @return void
  */
-	public function beforeRender($event, $viewFile) {
+	public function beforeRender(\Cake\Event\Event $event, $viewFile) {
 		$this->alter('PaginatorHelper.beforeRender', $viewFile);
 		return parent::beforeRender($event, $viewFile);
 	}
@@ -64,7 +64,7 @@ class PaginatorHelper extends CakePaginatorHelper {
  *   See PaginatorHelper::$options for list of keys.
  * @return void
  */
-	public function options($options = array()) {
+	public function options(array $options = []) {
 		$this->alter('PaginatorHelper.options', $options);
 		return parent::options($options);
 	}
@@ -88,7 +88,7 @@ class PaginatorHelper extends CakePaginatorHelper {
  * @return string The name of the key by which the recordset is being sorted, or
  *  null if the results are not currently sorted.
  */
-	public function sortKey($model = null, $options = array()) {
+	public function sortKey($model = null, array $options = []) {
 		$this->alter('PaginatorHelper.sortKey', $model, $options);
 		return parent::sortKey($model, $options);
 	}
@@ -101,7 +101,7 @@ class PaginatorHelper extends CakePaginatorHelper {
  * @return string The direction by which the recordset is being sorted, or
  *  null if the results are not currently sorted.
  */
-	public function sortDir($model = null, $options = array()) {
+	public function sortDir($model = null, array $options = []) {
 		$this->alter('PaginatorHelper.sortDir', $model, $options);
 		return parent::sortDir($model, $options);
 	}
@@ -113,7 +113,7 @@ class PaginatorHelper extends CakePaginatorHelper {
  * @param array $options Options for pagination link. See above for list of keys.
  * @return string A "previous" link or a disabled link.
  */
-	public function prev($title = '<< Previous', $options = []) {
+	public function prev($title = '<< Previous', array $options = []) {
 		$this->alter('PaginatorHelper.prev', $title, $options);
 		return parent::prev($title, $options);
 	}
@@ -125,7 +125,7 @@ class PaginatorHelper extends CakePaginatorHelper {
  * @param array $options Options for pagination link. See above for list of keys.
  * @return string A "next" link or $disabledTitle text if the link is disabled.
  */
-	public function next($title = 'Next >>', $options = []) {
+	public function next($title = 'Next >>', array $options = []) {
 		$this->alter('PaginatorHelper.next', $title, $options);
 		return parent::next($title, $options);
 	}
@@ -140,7 +140,7 @@ class PaginatorHelper extends CakePaginatorHelper {
  * @return string A link sorting default by 'asc'. If the resultset is sorted 'asc' by the specified
  *  key the returned link will sort by 'desc'.
  */
-	public function sort($key, $title = null, $options = []) {
+	public function sort($key, $title = null, array $options = []) {
 		$this->alter('PaginatorHelper.sort', $key, $title, $options);
 		return parent::sort($key, $title, $options);
 	}
@@ -152,7 +152,7 @@ class PaginatorHelper extends CakePaginatorHelper {
  * @param string $model Which model to paginate on
  * @return mixed By default, returns a full pagination URL string for use in non-standard contexts (i.e. JavaScript)
  */
-	public function url($options = array(), $model = null) {
+	public function url($options = [], $model = null) {
 		$this->alter('PaginatorHelper.url', $options, $model);
 		return parent::url($options, $model);
 	}
@@ -208,7 +208,7 @@ class PaginatorHelper extends CakePaginatorHelper {
  * @param array $options Options for the numbers, (before, after, model, modulus)
  * @return string numbers string.
  */
-	public function numbers($options = array()) {
+	public function numbers(array $options = []) {
 		$this->alter('PaginatorHelper.numbers', $options);
 		return parent::numbers($options);
 	}
@@ -221,7 +221,7 @@ class PaginatorHelper extends CakePaginatorHelper {
  * @param array $options An array of options.
  * @return string numbers string.
  */
-	public function first($first = '<< first', $options = []) {
+	public function first($first = '<< first', array $options = []) {
 		$this->alter('PaginatorHelper.first', $first, $options);
 		return parent::first($first, $options);
 	}
@@ -233,7 +233,7 @@ class PaginatorHelper extends CakePaginatorHelper {
  * @param array $options Array of options
  * @return string numbers string.
  */
-	public function last($last = 'last >>', $options = array()) {
+	public function last($last = 'last >>', array $options = array()) {
 		$this->alter('PaginatorHelper.last', $last, $options);
 		return parent::last($last, $options);
 	}

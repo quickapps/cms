@@ -38,7 +38,7 @@ if (!file_exists(SITE_ROOT . '/Config/settings.json')) {
 if (file_exists(SITE_ROOT . '/Config/routes.php')) {
 	include_once SITE_ROOT . '/Config/routes.php';
 }
-Router::connect('/', array('controller' => 'Pages', 'action' => 'display', 'home'));
+
 /**
  * Load all plugin routes.
  */

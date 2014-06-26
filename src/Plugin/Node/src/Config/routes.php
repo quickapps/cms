@@ -20,8 +20,8 @@ if (!empty($node_types)) {
 	Router::connect(
 		'/:node_type_slug/:node_slug.html',
 		[
-			'plugin' => 'node',
-			'controller' => 'serve',
+			'plugin' => 'Node',
+			'controller' => 'Serve',
 			'action' => 'details'
 		],
 		[
@@ -35,8 +35,8 @@ if (!empty($node_types)) {
 Router::connect(
 	'/find/:criteria/*',
 	[
-		'plugin' => 'node',
-		'controller' => 'serve',
+		'plugin' => 'Node',
+		'controller' => 'Serve',
 		'action' => 'search'
 	],
 	[
@@ -47,8 +47,8 @@ Router::connect(
 Router::connect(
 	'/rss/:criteria/*',
 	[
-		'plugin' => 'node',
-		'controller' => 'serve',
+		'plugin' => 'Node',
+		'controller' => 'Serve',
 		'action' => 'search'
 	],
 	[
@@ -57,10 +57,10 @@ Router::connect(
 );
 
 Router::connect(
-	'/',
+	'',
 	[
-		'plugin' => 'node',
-		'controller' => 'serve',
+		'plugin' => 'Node',
+		'controller' => 'Serve',
 		'action' => 'frontpage'
 	]
 );
