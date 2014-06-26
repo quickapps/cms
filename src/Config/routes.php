@@ -14,7 +14,6 @@ namespace QuickApps\Config;
 use QuickApps\Utility\Plugin;
 use Cake\Core\Configure;
 use Cake\Routing\Router;
-use Cake\Routing\RouteCollection;
 
 /**
  * Admin prefix for backend access.
@@ -39,7 +38,7 @@ if (!file_exists(SITE_ROOT . '/Config/settings.json')) {
 if (file_exists(SITE_ROOT . '/Config/routes.php')) {
 	include_once SITE_ROOT . '/Config/routes.php';
 }
-
+Router::connect('/', array('controller' => 'Pages', 'action' => 'display', 'home'));
 /**
  * Load all plugin routes.
  */

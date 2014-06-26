@@ -11,6 +11,7 @@
  */
 namespace QuickApps\Controller;
 
+use Cake\Controller\Controller;
 use QuickApps\Utility\AlertTrait;
 use QuickApps\Utility\DetectorTrait;
 use QuickApps\Utility\HookTrait;
@@ -22,7 +23,7 @@ use QuickApps\Utility\ViewModeTrait;
  * Provides basic QuickAppsCMS functionality, such as themes handling,
  * user authorization, and more.
  */
-class AppController extends \Cake\Controller\Controller {
+class AppController extends Controller {
 
 	use AlertTrait;
 	use DetectorTrait;

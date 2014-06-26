@@ -21,13 +21,10 @@ require __DIR__ . '/paths.php';
  */
 require __DIR__ . '/basics.php';
 
-if (!class_exists('Cake\Core\Configure')) {
-	require CAKE . 'Core/ClassLoader.php';
-	$loader = new \Cake\Core\ClassLoader;
-	$loader->register();
-	$loader->addNamespace('Cake', CAKE);
-	$loader->addNamespace('QuickApps', APP);
-}
+/**
+ * Use composer to load the autoloader.
+ */
+require VENDOR_INCLUDE_PATH . '/autoload.php';
 
 /**
  * Bootstrap CakePHP.
@@ -41,18 +38,19 @@ if (!class_exists('Cake\Core\Configure')) {
 require CAKE . 'bootstrap.php';
 
 use Cake\Cache\Cache;
-use Cake\Configure\Engine\IniConfig;
 use Cake\Configure\Engine\PhpConfig;
 use Cake\Console\ConsoleErrorHandler;
 use Cake\Core\App;
 use Cake\Core\Configure;
-use QuickApps\Utility\Plugin;
+use Cake\Core\Plugin;
 use Cake\Datasource\ConnectionManager;
 use Cake\Error\ErrorHandler;
+use Cake\Event\EventManager;
 use Cake\Log\Log;
 use Cake\Network\Email\Email;
+use Cake\Network\Request;
+use Cake\Routing\DispatcherFactory;
 use Cake\Utility\Inflector;
-use Cake\Event\EventManager;
 
 /**
  * Read configuration file and inject configuration into various
@@ -64,6 +62,24 @@ use Cake\Event\EventManager;
  */
 Configure::config('default', new PhpConfig());
 Configure::load('app.php', 'default', false);
+
+/**
+ * Load an environment local configuration file.
+ *
+ * You can use this file to provide local overrides to your
+ * shared configuration.
+ */
+//Configure::load('app_local.php', 'default');
+
+/**
+ * When debug = false the metadata cache should last
+ * for a very very long time, as we don't want
+ * to refresh the cache while users are doing requests
+ */
+if (!Configure::read('debug')) {
+	Configure::write('Cache._cake_model_.duration', '+99 years');
+	Configure::write('Cache._cake_core_.duration', '+99 years');
+}
 
 /**
  * Uncomment this line and correct your server timezone to fix
@@ -79,10 +95,18 @@ mb_internal_encoding(Configure::read('App.encoding'));
 /**
  * Register application error and exception handlers.
  */
-if (php_sapi_name() === 'cli') {
+$isCli = php_sapi_name() === 'cli';
+if ($isCli === 'cli') {
 	(new ConsoleErrorHandler(Configure::consume('Error')))->register();
 } else {
 	(new ErrorHandler(Configure::consume('Error')))->register();
+}
+
+/**
+ * Include the CLI bootstrap overrides.
+ */
+if ($isCli) {
+	require __DIR__ . '/bootstrap_cli.php';
 }
 
 /**
@@ -109,6 +133,18 @@ ConnectionManager::config(Configure::consume('Datasources'));
 Email::configTransport(Configure::consume('EmailTransport'));
 Email::config(Configure::consume('Email'));
 Log::config(Configure::consume('Log'));
+
+/**
+ * Setup detectors for mobile and tablet.
+ */
+Request::addDetector('mobile', function($request) {
+	$detector = new \Detection\MobileDetect();
+	return $detector->isMobile();
+});
+Request::addDetector('tablet', function($request) {
+	$detector = new \Detection\MobileDetect();
+	return $detector->isTablet();
+});
 
 /**
  * Load some bootstrap-handy information.
@@ -169,6 +205,14 @@ foreach (App::objects('Plugin') as $plugin) {
 /**
  * Load site's bootstrap.php
  */
-if (file_exists(SITE_ROOT . '/Config/bootstrap.php')) {
-	include_once SITE_ROOT . '/Config/bootstrap.php';
+if (file_exists(SITE_ROOT . DS . 'Config' . DS .  ' bootstrap.php')) {
+	include_once SITE_ROOT . DS . 'Config' . DS .  ' bootstrap.php';
 }
+
+/**
+ * Connect middleware/dispatcher filters.
+ */
+DispatcherFactory::add('Asset');
+DispatcherFactory::add('Cache');
+DispatcherFactory::add('Routing');
+DispatcherFactory::add('ControllerFactory');

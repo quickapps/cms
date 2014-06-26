@@ -61,12 +61,11 @@ $config = [
 		'paths' => [
 			'plugins' => [
 				SITE_ROOT . DS . 'Plugin' . DS,
+				SITE_ROOT . DS . 'Themes' . DS,
 				APP . 'Plugin' . DS,
-				APP . 'Template' . DS . 'Themed' . DS
 			],
 			'templates' => [
 				APP . 'Template' . DS,
-				SITE_ROOT . DS . 'Theme' . DS
 			],
 		],
 	],
@@ -79,7 +78,7 @@ $config = [
  *   You should treat it as extremely sensitive data.
  */
 	'Security' => [
-		'salt' => '',
+		'salt' => '701ec37fa460af0a40b9fd75ad6d08b74f034306c6f051206e',
 	],
 
 /**
@@ -92,15 +91,6 @@ $config = [
  */
 	'Asset' => [
 		// 'timestamp' => true,
-	],
-
-/**
- * The classname and database used in CakePHP's
- * access control lists.
- */
-	'Acl' => [
-		'database' => 'default',
-		'classname' => 'DbAcl',
 	],
 
 /**
@@ -120,7 +110,7 @@ $config = [
 			'prefix' => 'qa_core_',
 			'path' => CACHE . 'persistent/',
 			'serialize' => true,
-			'duration' => '+10 seconds',
+			'duration' => '+2 minutes',
 		],
 
 	/**
@@ -132,7 +122,7 @@ $config = [
 			'prefix' => 'qa_model_',
 			'path' => CACHE . 'models/',
 			'serialize' => true,
-			'duration' => '+10 seconds',
+			'duration' => '+2 minutes',
 		]
 	],
 
@@ -313,26 +303,6 @@ $config = [
 	'Session' => [
 		'defaults' => 'php',
 	],
-
-/**
- * You can attach event listeners to the request lifecycle as Dispatcher Filter. By Default CakePHP bundles two filters:
- *
- * - AssetDispatcher filter will serve your asset files (css, images, js, etc) from your themes and plugins
- * - CacheDispatcher filter will read the Cache.check configure variable and try to serve cached content generated from controllers
- *
- * Feel free to remove or add filters as you see fit for your application. A few examples:
- *
- * Configure::write('Dispatcher.filters', [
- *   'MyCacheFilter', //  will use MyCacheFilter class from the Routing/Filter package in your app.
- *   'MyPlugin.MyFilter', // will use MyFilter class from the Routing/Filter package in MyPlugin plugin.
- *   ['callable' => $aFunction, 'on' => 'before', 'priority' => 9], // A valid PHP callback type to be called on beforeDispatch
- *   ['callable' => $anotherMethod, 'on' => 'after'], // A valid PHP callback type to be called on afterDispatch
- * ]);
- */
-	'Dispatcher' => [
-		'filters' => ['AssetDispatcher', 'CacheDispatcher'],
-	],
-
 ];
 
 /**

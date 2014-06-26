@@ -31,7 +31,6 @@
 	<body>
 		<div class="container">
 			<?php echo $this->fetch('content'); ?>
-			<?php $this->element('sql_dump'); ?>
 		</div>
 	</body>
 </html>

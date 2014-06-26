@@ -127,13 +127,39 @@ class View extends CakeView {
  * - `ignoreMissing` - Used to allow missing elements. Set to true to not trigger notices.
  * @return string Rendered Element
  */
-	public function element($name, $data = array(), $options = array()) {
+	public function element($name, array $data = [], array $options = []) {
 		$this->hook('View.beforeElement', $name, $data, $options);
 		$html = parent::element($name, $data, $options);
 		$this->alter('View.element', $html);
 		$this->hook('View.afterElement', $name, $data, $options);
 
 		return $html;
+	}
+
+/**
+ * Gets current logged in user as an entity.
+ *
+ * This method will throw when user is not logged in.
+ * So you must make sure user is logged in before using this method:
+ *
+ *     if ($this->is('user.logged')) {
+ *         $this->user()->get('name');
+ *     }
+ *
+ * @return \User\Model\Entity\User
+ * @throws \User\Error\UserNotLoggedInException
+ */
+	public function user() {
+		if (!$this->is('user.logged')) {
+			throw new \User\Error\UserNotLoggedInException(__d('user', 'View::user(), requires User to be logged in.'));
+		}
+		// TODO: store an user entity as part of user's session
+		return $user = new \User\Model\Entity\User([
+			'id' => 1,
+			'name' => 'Chris',
+			'username' => 'admin',
+			'email' => 'chris@quickapps.es'
+		]);
 	}
 
 /**
@@ -182,32 +208,6 @@ class View extends CakeView {
 			$this->assign('title_for_layout', $title);
 			$this->set('title_for_layout', $title);
 		}
-	}
-
-/**
- * Gets current logged in user as an entity.
- *
- * This method will throw when user is not logged in.
- * So you must make sure user is logged in before using this method:
- *
- *     if ($this->is('user.logged')) {
- *         $this->user()->get('name');
- *     }
- *
- * @return \User\Model\Entity\User
- * @throws \User\Error\UserNotLoggedInException
- */
-	public function user() {
-		if (!$this->is('user.logged')) {
-			throw new \User\Error\UserNotLoggedInException(__d('user', 'View::user(), requires User to be logged in.'));
-		}
-		// TODO: store an user entity as part of user's session
-		return $user = new \User\Model\Entity\User([
-			'id' => 1,
-			'name' => 'Chris',
-			'username' => 'admin',
-			'email' => 'chris@quickapps.es'
-		]);
 	}
 
 }
