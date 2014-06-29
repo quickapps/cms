@@ -21,11 +21,11 @@ use Cake\Event\EventListener;
 class WysiwygHook implements EventListener {
 
 /**
- * Indicates if CKEditor's js files were already included.
+ * Indicates if CKEditor's JS files were already included.
  *
  * @var boolean
  */
-	protected static $jsLoaded = false;
+	protected static $_jsLoaded = false;
 
 /**
  * Returns a list of hooks this Hook Listener is implementing. When the class is registered
@@ -51,7 +51,7 @@ class WysiwygHook implements EventListener {
 		if (
 			!empty($options['class']) &&
 			strpos($options['class'], 'ckeditor') !== false &&
-			!static::$jsLoaded
+			!static::$_jsLoaded
 		) {
 			$View = $event->subject->_View;
 			$View->Html->script('Wysiwyg.ckeditor/ckeditor.js', ['block' => true]);
@@ -59,11 +59,11 @@ class WysiwygHook implements EventListener {
 			$View->Html->scriptBlock('
 			$(document).ready(function () {
 				CKEDITOR.editorConfig = function(config) {
-					config.filebrowserBrowseUrl = "' . $View->Html->url(['plugin' => 'wysiwyg', 'controller' => 'el_finder', 'prefix' => 'admin']) . '";
+					config.filebrowserBrowseUrl = "' . $View->Html->url(['plugin' => 'wysiwyg', 'controller' => 'el_finder']) . '";
 				};
 			});
 			', ['block' => true]);
-			static::$jsLoaded = true;
+			static::$_jsLoaded = true;
 		}
 	}
 

@@ -12,16 +12,16 @@
 ?>
 
 <?php
-use Cake\Core\App;
 use Cake\Core\Configure;
+use Cake\Core\Plugin;
 use Cake\Routing\Router;
 
 error_reporting(0);
-$pp = App::pluginPath('Wysiwyg');
-require $pp . DS . 'Lib' . DS . 'elFinderConnector.class.php';
-require $pp . DS . 'Lib' . DS . 'elFinder.class.php';
-require $pp . DS . 'Lib' . DS . 'elFinderVolumeDriver.class.php';
-require $pp . DS . 'Lib' . DS . 'elFinderVolumeLocalFileSystem.class.php';
+$pp = PLugin::classPath('Wysiwyg');
+require $pp . 'Lib/elFinderConnector.class.php';
+require $pp . 'Lib/elFinder.class.php';
+require $pp . 'Lib/elFinderVolumeDriver.class.php';
+require $pp . 'Lib/elFinderVolumeLocalFileSystem.class.php';
 
 
 /**
