@@ -13,6 +13,9 @@ namespace Menu\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Event\Event;
+use Cake\Utility\Inflector;
+use Cake\ORM\TableRegistry;
+use Cake\Routing\Router;
 use Menu\Utility\Breadcrumb;
 
 /**
@@ -47,6 +50,13 @@ class BreadcrumbComponent extends Component {
  * try to guess the full breadcrumb path based on current URL (if current URL matches any URL
  * in any of your menus links).
  *
+ *     $this->Breadcrumb->push();
+ *
+ * Also, you can can pass a string as first argument representing an URL, if you do it will try to
+ * find that URL in in any of your menus, and then generate its corresponding breadcrumb.
+ *
+ *     $this->Breadcrumb->push('/admin/some/url');
+ *
  * @param array|string $crumbs Single crumb or an array of multiple crumbs to push at once
  * @param string|null $url If both $crumbs and $url are string values they will be used as `title` and `URL` respectively
  * @return boolean True on success, false otherwise
@@ -54,15 +64,29 @@ class BreadcrumbComponent extends Component {
  */
 	public function push($crumbs = [], $url = null) {
 		if (empty($crumbs) && empty($url)) {
-			$MenuLinks = TableRegistry::get('Menu.MenuLinks')->addBehavior('Tree');
-			// TODO: find possible matches for auto-breadcrumb
-			$possibleMatches = [];
+			$MenuLinks = TableRegistry::get('Menu.MenuLinks');
+			$MenuLinks->addBehavior('Tree');
+			$possibleMatches = $this->_possibleURL();
+			$found = $MenuLinks
+				->find()
+				->where(['MenuLinks.url IN' => $possibleMatches])
+				->first();
 
-			$found = $MenuLinks->find('first')
-				->where(['MenuLinks.url IN' => $possibleMatches]);
-
+			$crumbs = [];
 			if ($found) {
-				$crumbs = $MenuLinks->find('path', ['for' => $found->id]);
+				$crumbs = $MenuLinks->find('path', ['for' => $found->id])->toArray();
+			}
+		} elseif (is_string($crumbs) && $url === null) {
+			$MenuLinks = TableRegistry::get('Menu.MenuLinks');
+			$MenuLinks->addBehavior('Tree');
+			$found = $MenuLinks
+				->find()
+				->where(['MenuLinks.url IN' => $crumbs])
+				->first();
+
+			$crumbs = [];
+			if ($found) {
+				$crumbs = $MenuLinks->find('path', ['for' => $found->id])->toArray();
 			}
 		}
 
@@ -85,6 +109,82 @@ class BreadcrumbComponent extends Component {
 		}
 
 		throw new \Cake\Error\Exception(__d('menu', 'Method "%s" was not found.', $method));
+	}
+
+/**
+ * Returns possible URL combination for the given URL or current request.
+ *
+ * ### Example:
+ *
+ * For the given URL, `/admin/node/node/index/arg1/arg2?get1=v1&get2=v2` where:
+ *
+ * - `/admin`: Prefix.
+ * - `/node`: Plugin name.
+ * - `/node`: Controller name.
+ * - `/index`: Controller's action.
+ * - `/arg1` and `/arg2`: Action's arguments.
+ * - `get1` and `get2`: GET arguments.
+ *
+ * The following array will be returned by this method:
+ *
+ *     [
+ *         "/admin/node/node/index/arg1/arg2?get1=v1&get2=v2",
+ *         "/admin/node/node/arg1/arg2",
+ *         "/admin/node/arg1/arg2",
+ *         "/admin/node/arg1",
+ *         "/admin/node",
+ *     ]
+ *
+ * @param string|boolean $url The URL to chunk as string value, set
+ * to false will use current request URL.
+ * @return array
+ */
+	protected function _possibleURL($url = false) {
+		$request = $this->_controller->request;
+		$url = $url === false ? '/' . $request->url : $url;
+		$parsedURL = Router::parse($url);
+		$out = [$url];
+		$passArguments = [];
+
+		if (!empty($parsedURL['?'])) {
+			unset($parsedURL['?']);
+		}
+
+		if (!empty($parsedURL['pass'])) {
+			$passArguments = $parsedURL['pass'];
+			$parsedURL['pass'] = null;
+			$parsedURL = array_merge($parsedURL, $passArguments);
+		}
+
+		// "/controller_name/index" -> "/controller"
+		if ($parsedURL['action'] === 'index') {
+			$parsedURL['action'] = null;
+			$out[] = Router::url($parsedURL);
+		}
+
+		// "/plugin_name/plugin_name/action_name" -> "/plugin_name/action_name"
+		if (!empty($parsedURL['plugin']) && strtolower($parsedURL['controller']) === strtolower($parsedURL['plugin'])) {
+			$parsedURL['plugin'] = null;
+			$out[] = Router::url($parsedURL);
+		}
+
+		if (!empty($passArguments)) {
+			$passArguments = array_reverse($passArguments);
+			foreach ($passArguments as $pass) {
+				unset($parsedURL[array_search($pass, $parsedURL)]);
+				$out[] = Router::url($parsedURL);
+			}
+		}
+
+		$out = array_map(function ($value) use ($request) {
+			if (str_starts_with($value, $request->base)) {
+				return str_replace_once($request->base, '', $value);
+			}
+
+			return $value;
+		}, $out);
+
+		return array_unique($out);
 	}
 
 }

@@ -92,9 +92,9 @@ use QuickApps\Utility\HookTrait;
  * **Notes:**
  *
  * -    The `metadata` key on every field is actually an entity object.
- * -    The `_field` key which holds all the fields is actually an instance of `Field/Utility/FieldCollection`,
- *      it adds some utility methods for handling fields, for instance it allows you to access an specific field by
- *      its corresponding numeric index or by its machine-name.
+ * -    The `_field` key which holds all the fields is actually an instance of `Field/Utility/FieldCollection`, which
+ *      behaves as an array (so you can iterate over it). It adds some utility methods for handling fields, for instance
+ *      it allows you to access an specific field by its corresponding numeric index or by its machine-name.
  *
  * ### Accessing Field Properties
  *
@@ -239,12 +239,13 @@ class FieldableBehavior extends Behavior {
  * These are merged with user-provided configuration when the behavior is used.
  * Available options are:
  *
- * - table_alias: Name of the table being managed. Default null (auto-detect).
- * - polymorphic_table_alias: An entity's property name to use as `table_alias` whenever possible. Default null (use `table_alias` always).
- * - find_iterator:	Callable function to iterate over find result-set.
- * - fields_order: A list of field machine-names in which you want the `_fields` key
- * to be ordered. ex. `[article-intro, article-body]`. Ordered by `field_instances.ordering` key default
- * - enabled: True enables this behavior or false for disable. Default to true.
+ * -    `table_alias`: Name of the table being managed. Default null (auto-detect).
+ * -    `polymorphic_table_alias`: An entity's property value to use as `table_alias` whenever possible.
+ *       Default null (use `table_alias` option always).
+ * -    `find_iterator`: Callable function to iterate over find result-set.
+ * -    `fields_order`: A list of field machine-names in which you want the `_fields` key
+ *       to be ordered. ex. `[article-intro, article-body]`. Ordered by default by `field_instances.ordering` value.
+ * -    `enabled`: True enables this behavior or false for disable. Default to true.
  *
  * When using `polymorphic_table_alias` feature, `table_alias` becomes:
  *

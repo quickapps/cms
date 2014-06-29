@@ -24,18 +24,45 @@ trait ViewModeTrait {
  *
  * @param string|null $slug Slug name of the view mode
  * @return void
+ * @see QuickApps\Utility\ViewModeRegistry
  */
 	public function switchViewMode($slug) {
 		return ViewModeRegistry::switchViewMode($slug);
 	}
 
 /**
+ * Registers a new view mode. Or overwrite if already exists.
+ *
+ * @param string|array $slug Slug name of your view mode. e.g.: `my-view mode`. Or
+ * an array of view modes to register indexed by slug name
+ * @param string|null $name Human readable name. e.g.: `My View Mode`
+ * @param string|null $description A brief description about for what is this view mode
+ * @return void
+ * @see QuickApps\Utility\ViewModeRegistry
+ */
+	public static function registerViewMode($slug, $name = null, $description = null) {
+		return ViewModeRegistry::registerViewMode($slug, $name, $description);
+	}
+
+/**
  * Gets the slug name of in use view mode.
  *
  * @return string
+ * @see QuickApps\Utility\ViewModeRegistry
  */
-	public function getViewMode() {
-		return ViewModeRegistry::inUse();
+	public function inUseViewMode() {
+		return ViewModeRegistry::inUseViewMode();
+	}
+
+/**
+ * Gets all registered view modes.
+ *
+ * @param boolean $full
+ * @return array
+ * @see QuickApps\Utility\ViewModeRegistry
+ */
+	public function viewModes($full = false) {
+		return ViewModeRegistry::viewModes($full);
 	}
 
 }

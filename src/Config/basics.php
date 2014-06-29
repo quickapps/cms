@@ -26,24 +26,17 @@ use Cake\ORM\TableRegistry;
  */
 function snapshot() {
 	$snapshot = [
-		'active_languages' => ['en'],
 		'node_types' => [],
-		'plugins' => [
-			'enabled' => [],
-			'disabled' => [],
-			'core' => []
-		],
-		'themes' => [],
+		'plugins' => [],
 		'variables' => [
 			'url_locale_prefix' => 0,
 			'site_theme' => null,
 			'admin_theme' => null,
 			'default_language' => 'eng'
 		],
-		'fields' => [],
-		'hooks' => [],
 		'languages' => [
-			'eng' => [
+			'en' => [
+				'status' => 1,
 				'name' => 'English',
 				'native' => 'English',
 				'direction' => 'ltr',
@@ -67,11 +60,13 @@ function snapshot() {
 			]
 		])->all();
 
+	$enabledPlugins = [];
+	$disabledPlugins = [];
 	foreach ($Plugins as $plugin) {
 		if ($plugin->status) {
-			$snapshot['plugins']['enabled'][] = $plugin->name;
+			$enabledPlugins[] = $plugin->name;
 		} else {
-			$snapshot['plugins']['disabled'][] = $plugin->name;
+			$disabledPlugins[] = $plugin->name;
 		}
 	}
 
@@ -83,50 +78,64 @@ function snapshot() {
 		$snapshot['variables'][$variable->name] = $variable->value;
 	}
 
-	$Folder = new Folder(APP . 'Plugin');
-
-	foreach ($Folder->read(false, false, false)[0] as $plugin) {
-		$snapshot['plugins']['core'][] = $plugin;
-	}
-
-	$Folder = new Folder(APP . 'Template' . DS . 'Themed');
-
-	foreach ($Folder->read(false, false, false)[0] as $theme) {
-		$snapshot['themes']['core'][] = $theme;
-	}
-
 	foreach (App::path('Plugin') as $path) {
 		$Folder = new Folder($path);
 
 		foreach($Folder->read(false, false, true)[0] as $pluginPath) {
 			$pluginName = basename($pluginPath);
 			$basePath = $pluginPath . DS . 'src' . DS;
-			$fieldPath =  $basePath . 'Hook' . DS . 'Field' . DS;
+			$eventsPath =  $basePath . 'Event' . DS;
 
-			if (is_dir($fieldPath)) {
-				$Folder = new Folder($fieldPath);
+			// core plugins are always enabled
+			if (strpos($pluginPath, APP) !== false) {
+				$status = 1;
+			} else {
+				$status = -1;
+				$status = in_array($pluginName, $enabledPlugins) ? 1 : $status;
+				$status = in_array($pluginName, $disabledPlugins) ? 0 : $status;
+			}
 
-				foreach ($Folder->read(false, false, true)[1] as $fieldHandler) {
-					$snapshot['fields'][$pluginName][] = [
-						'namespace' => 'Field\\',
-						'path' => dirname($fieldHandler),
-						'className' => 'Field\\' . basename(preg_replace('/\.php$/', '', $fieldHandler))
-					];
+			$events = [
+				'hooks' => [],
+				'hooktags' => [],
+				'fields' => [],
+			];
+
+			if (is_dir($eventsPath)) {
+				$Folder = new Folder($eventsPath);
+
+				foreach ($Folder->read(false, false, true)[1] as $classFile) {
+					$className = basename(preg_replace('/\.php$/', '', $classFile));
+
+					if (str_ends_with($className, 'Field')) {
+						$events['fields']['Field\\' . $className] = [
+							'namespace' => 'Field\\',
+							'path' => dirname($classFile),
+						];
+					} elseif (str_ends_with($className, 'Hook')) {
+						$events['hooks']['Hook\\' . $className] = [
+							'namespace' => 'Hook\\',
+							'path' => dirname($classFile),
+						];
+					} elseif (str_ends_with($className, 'Hooktag')) {
+						$events['hooktags']['Hooktag\\' . $className] = [
+							'namespace' => 'Hooktag\\',
+							'path' => dirname($classFile),
+						];
+					}
 				}
 			}
 
-			$hookPath = $basePath . 'Hook' . DS;
-			if (is_dir($hookPath)) {
-				$Folder = new Folder($hookPath);
-
-				foreach ($Folder->read(false, false, true)[1] as $hookListener) {
-					$snapshot['hooks'][$pluginName][] = [
-						'namespace' => 'Hook\\',
-						'path' => dirname($hookListener),
-						'className' => 'Hook\\' . basename(preg_replace('/\.php$/', '', $hookListener))
-					];
-				}
-			}
+			$snapshot['plugins'][$pluginName] = [
+				'name' => $pluginName,
+				'isTheme' => str_ends_with($pluginName, 'Theme'),
+				'isCore' => (strpos($pluginPath, APP) !== false),
+				'hasHelp' => file_exists($pluginPath . '/src/Template/Element/help.ctp'),
+				'hasSettings' => file_exists($pluginPath . '/src/Template/Element/settings.ctp'),
+				'events' => $events,
+				'status' => $status,
+				'path' => $pluginPath,
+			];
 		}
 	}
 
@@ -167,6 +176,23 @@ function __($singular, $args = null) {
 	}
 
 	return vsprintf($translated, $args);
+}
+
+/**
+ * Replace the first occurrence only.
+ *
+ * @param string $search The value being searched for
+ * @param string $replace The replacement value that replaces found search value
+ * @param string $subject The string being searched and replaced on
+ * @return string A string with the replaced value
+ */
+function str_replace_once($search, $replace, $subject) {
+	if (strpos($subject, $search) !== false) {
+		$occurrence = strpos($subject, $search);
+		return substr_replace($subject, $replace, strpos($subject, $search), strlen($search));
+	}
+
+	return $subject;
 }
 
 /**

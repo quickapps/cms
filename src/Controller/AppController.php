@@ -35,7 +35,7 @@ class AppController extends Controller {
  *
  * @var string
  */
-	public $theme = 'BackBootstrap';
+	public $theme = 'FrontendTheme';
 
 /**
  * Name of the layout that should be used by current theme.
@@ -82,10 +82,10 @@ class AppController extends Controller {
 		parent::__construct($request, $response);
 		// TODO: set default languages and other stuff
 		// TODO: change AppController::theme according to site settings.
-		if (!empty($this->request->params['prefix']) && $this->request->params['prefix'] === 'admin') {
-			$this->theme = 'BackBootstrap';
+		if (!empty($this->request->params['prefix']) && strtolower($this->request->params['prefix']) === 'admin') {
+			$this->theme = 'BackendTheme';
 		} else {
-			$this->theme = 'FrontBootstrap';
+			$this->theme = 'FrontendTheme';
 		}
 	}
 

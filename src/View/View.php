@@ -21,7 +21,7 @@ use QuickApps\Utility\HookTrait;
 use QuickApps\Utility\ViewModeTrait;
 
 /**
- * Custom View class.
+ * QuickApps View class.
  *
  * Extends Cake's View class to adds some QuickAppsCMS's specific
  * functionalities such as alerts rendering, objects rendering, and more.
@@ -48,11 +48,11 @@ class View extends CakeView {
  *
  * **Example:**
  *
- *     \\ $node, instance of: Node\Model\Entity\Node
+ *     // $node, instance of: Node\Model\Entity\Node
  *     $this->render($node);
- *     \\ $block, instance of: Block\Model\Entity\Block
+ *     // $block, instance of: Block\Model\Entity\Block
  *     $this->render($block);
- *     \\ $field, instance of: Field\Model\Entity\Field
+ *     // $field, instance of: Field\Model\Entity\Field
  *     $this->render($field);
  *
  * When rendering objects the `ObjectRender.<ClassName>` hook-callback is automatically fired.
@@ -140,10 +140,11 @@ class View extends CakeView {
  * Gets current logged in user as an entity.
  *
  * This method will throw when user is not logged in.
- * So you must make sure user is logged in before using this method:
+ * You must make sure user is logged in before using this method:
  *
+ *     // in any view:
  *     if ($this->is('user.logged')) {
- *         $this->user()->get('name');
+ *         $userName = $this->user()->name;
  *     }
  *
  * @return \User\Model\Entity\User
@@ -165,19 +166,27 @@ class View extends CakeView {
 /**
  * Sets meta-description for layout.
  *
- * It sets `description_for_layout` view variable, and appends meta-description tag to `meta` block.
- * If `node` view variable exists it will try to extract meta-description from
- * Node being rendered (if not empty). Otherwise, site's description will be used.
+ * It sets `description_for_layout` view-variable, and appends meta-description tag to `meta` block.
+ * It will try to extract meta-description from the Node being rendered (if not empty). Otherwise, site's
+ * description will be used.
  *
  * @return void
  */
 	protected function _setDescription() {
 		if (empty($this->viewVars['description_for_layout'])) {
 			$description = '';
-			$node = !empty($this->viewVars['node']) ? $this->viewVars['node'] : false;
 
-			if ($node && ($node instanceof \Node\Model\Entity\Node) && !empty($node->description)) {
-				$description = $node->description;
+			if (!empty($this->viewVars['node'])) {
+				if (($this->viewVars['node'] instanceof \Node\Model\Entity\Node) && !empty($this->viewVars['node']->description)) {
+					$title = $this->viewVars['node']->description;
+				}
+			} else {
+				foreach ($this->viewVars as $var) {
+					if (is_object($var) && ($var instanceof \Node\Model\Entity\Node) && !empty($var->title)) {
+						$title = $var->description;
+						break;
+					}
+				}
 			}
 
 			$description = empty($description) ? Configure::read('QuickApps.site_description') : $description;
@@ -190,18 +199,26 @@ class View extends CakeView {
  * Sets title for layout.
  *
  * It sets `title_for_layout` view-variable, if no previous title was set on controller.
- * If `node` view-variable exists it will try to extract title from
- * Node being rendered (if not empty). Otherwise, site's title will be used.
+ * It will try to extract title from the Node being rendered (if not empty). Otherwise, site's
+ * title will be used.
  *
  * @return void
  */
 	protected function _setTitle() {
 		if (empty($this->viewVars['title_for_layout'])) {
 			$title = '';
-			$node = !empty($this->viewVars['node']) ? $this->viewVars['node'] : false;
 
-			if ($node && ($node instanceof \Node\Model\Entity\Node) && !empty($node->title)) {
-				$title = $node->title;
+			if (!empty($this->viewVars['node'])) {
+				if (($this->viewVars['node'] instanceof \Node\Model\Entity\Node) && !empty($this->viewVars['node']->title)) {
+					$title = $this->viewVars['node']->title;
+				}
+			} else {
+				foreach ($this->viewVars as $var) {
+					if (is_object($var) && ($var instanceof \Node\Model\Entity\Node) && !empty($var->title)) {
+						$title = $var->title;
+						break;
+					}
+				}
 			}
 
 			$title = empty($title) ? Configure::read('QuickApps.site_title') : $title;

@@ -304,11 +304,3 @@ $config = [
 		'defaults' => 'php',
 	],
 ];
-
-/**
- * Load site's settings information and merge with QuickAppsCMS core.
- */
-if (file_exists(SITE_ROOT . '/Config/settings.json')) {
-	$settings = json_decode(file_get_contents(SITE_ROOT . '/Config/settings.json'), true);
-	$config = array_merge($config, $settings);
-}

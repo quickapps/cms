@@ -26,7 +26,7 @@ use Cake\Event\EventManager;
  * - `Hook Handler`: A method in your your listener class which take care of a single hook.
  * - `Hook`: Name of the hook event. e.g.: `FormHelper.input`.
  *
- * A Hook Listener, may listen to many Hook events. But a Hook Handler can only responds
+ * A Hook Listener class, may listen to many Hook events. But a Hook Handler can only responds
  * to a single Hook event.
  *
  * Your `Hook Listener` class must implement `\Cake\Event\EventListener` interface and provide the `implementedEvents()` method.
@@ -35,10 +35,10 @@ use Cake\Event\EventManager;
  *
  *     $this->hook('User.beforeLogin', ...);
  *
- * QuickAppsCMS has divided hooks into two groups or "event spaces":
+ * QuickAppsCMS has divided hooks into two groups or "events sub-spaces":
  *
  * - `Alter`: Hooks aimed to alter the given arguments. Triggered trough `alter()` method.
- * - `Hook`: Just a normal hook event which may may return some values. Triggered trough `hook()` method.
+ * - `Hook`: Just a normal hook event which may return some values. Triggered trough `hook()` method.
  *
  * Alter hooks must prefix their names with the `Alter.` word. For example, the hook name `Alter.FormHelper.textarea`
  * will respond to:

@@ -1,0 +1,18 @@
+{
+	"name": "quickapps/menu",
+	"description": "Allows administrators to customize the site navigation menu.",
+	"type": "library",
+	"keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],
+	"homepage": "http://quickappscms.org",
+	"license": "GPL-3.0",
+	"authors": [
+		{"name": "Christopher Castro", "email": "chris@quickapps.es"}
+	],
+	"minimum-stability": "dev",
+	"require": {
+        "quickapps/cms": "2.0.*-dev"
+    },
+	"version": "1.0",
+	"extra": {
+	}
+}

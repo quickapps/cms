@@ -115,7 +115,7 @@ class ViewModeRegistry {
  * @return array|string
  * @throws \Cake\Error\InternalErrorException When there is not "in use" view-mode yet
  */
-	public static function inUse($full = false) {
+	public static function inUseViewMode($full = false) {
 		if (empty(static::$_inUse)) {
 			throw new \Cake\Error\InternalErrorException(__('Illegal usage of ViewModeRegistry::getViewMode.'));
 		}

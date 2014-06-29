@@ -43,7 +43,9 @@
 				</div>
 			</div>
 		</nav>
+
 		<div class="container">
+			<?php echo $this->Breadcrumb->renderIfNotEmpty(); ?>
 			<?php echo $this->Html->alerts(); ?>
 			<?php echo $this->fetch('content'); ?>
 		</div>

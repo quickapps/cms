@@ -27,7 +27,7 @@ ViewModeRegistry::registerViewMode([
 		'description' => __d('node', 'Search Result is a short format that is typically used in lists of multiple content items such as search results.'),
 	],
 	'rss' => [
-		'name' => __d('node', 'Search Result'),
+		'name' => __d('node', 'RSS'),
 		'description' => __d('node', 'RSS is similar to "Search Result" but intended to be used when rendering content as part of a RSS feed list.'),
 	],
 	'full' => [

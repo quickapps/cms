@@ -74,10 +74,12 @@ class Breadcrumb {
 		}
 
 		if ($url !== null && is_string($crumbs) && is_string($url)) {
-			$crumbs = ['title' => $crumbs, 'url' => $url];
-		}
-
-		if (static::_isAssoc($crumbs)) {
+			// "title" and "URL" as arguments"
+			$crumbs = [
+				['title' => $crumbs, 'url' => $url]
+			];
+		} elseif (is_array($crumbs) && !empty($crumbs['title']) && !empty($crumbs['url'])) {
+			// Single crumb push as an array
 			$crumbs = [$crumbs];
 		}
 
@@ -121,18 +123,27 @@ class Breadcrumb {
  *
  * @return array
  */
-	public static function get() {
+	public static function getStack() {
 		return static::$_crumbs;
 	}
 
 /**
- * Checks if the given array is associative indexed array or not.
+ * Gets a list of all URLs.
  *
- * @param array $array
- * @return boolean
+ * @return array
  */
-	protected static function _isAssoc($array) {
-		return array_keys($array) !== range(0, count($array) - 1);
+	public static function getUrls() {
+		$urls = [];
+
+		foreach (static::$_crumbs as $crumb) {
+			if (!empty($crumb['url']) ) {
+				$urls[] = $crumb['url'];
+			} elseif (is_object($crumb)) {
+				$urls[] = $crumb->url;
+			}
+		}
+
+		return $urls;
 	}
 
 }

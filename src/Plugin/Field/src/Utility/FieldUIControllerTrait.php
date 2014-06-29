@@ -193,17 +193,12 @@ trait FieldUIControllerTrait {
 	}
 
 /**
- * Detach action.
+ * View modes.
  *
- * Detaches a Field from table being managed.
- *
- * @param integer $id ID of the instance to detach
+ * @param string $viewMode View mode slug. e.g. `rss` or `default`
  * @return void
  */
-	public function view_modes($id = null) {
-		if (!empty($id)) {
-			$instance = $this->__getOrThrow($id);
-		}
+	public function view_modes($viewMode) {
 	}
 
 /**

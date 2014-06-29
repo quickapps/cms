@@ -1,32 +1,46 @@
+<?php
+/**
+ * Licensed under The GPL-3.0 License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @since	 2.0.0
+ * @author	 Christopher Castro <chris@quickapps.es>
+ * @link	 http://www.quickappscms.org
+ * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
+ */
+?>
+
 <p><?php echo $this->element('Field.FieldUI/field_ui_submenu'); ?></p>
 
 <table class="table table-hover table-bordered table-responsive">
 	<thead>
 		<tr>
-			<th><?php echo __('Label'); ?></th>
-			<th><?php echo __('Machine name'); ?></th>
-			<th><?php echo __('Handler'); ?></th>
+			<th><?php echo __d('field', 'Label'); ?></th>
+			<th><?php echo __d('field', 'Machine name'); ?></th>
+			<th><?php echo __d('field', 'Handler'); ?></th>
+			<th><?php echo __d('field', 'Actions'); ?></th>
 		</tr>
 	</thead>
 	<tbody>
-		<?php foreach ($instances as $instance): ?>
+		<?php $count = count($instances); ?>
+		<?php foreach ($instances as $k => $instance): ?>
 		<tr>
-			<td>
-				<div class="btn-group">
-					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-					<?php echo $instance->label; ?> <span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu" role="menu">
-						<li><?php echo $this->Html->link(__('Configure'), ['plugin' => 'node', 'controller' => 'fields', 'action' => 'configure', $instance->id]); ?></li>
-						<li><?php echo $this->Html->link(__('Move Up'), ['plugin' => 'node', 'controller' => 'fields', 'action' => 'move', $instance->id, 'up']); ?></li>
-						<li><?php echo $this->Html->link(__('Move Down'), ['plugin' => 'node', 'controller' => 'fields', 'action' => 'move', $instance->id, 'down']); ?></li>
-						<li class="divider"></li>
-						<li><?php echo $this->Html->link(__('Delete'), ['plugin' => 'node', 'controller' => 'fields', 'action' => 'delete', $instance->id]); ?></li>
-					</ul>
-				</div>
-			</td>
+			<td><?php echo $instance->label; ?></td>
 			<td><?php echo $instance->slug; ?></td>
 			<td><?php echo $instance->handler; ?></td>
+			<td>
+				<?php if ($k > 0): ?>
+				<?php echo $this->Html->link('', ['plugin' => $this->request->params['plugin'], 'controller' => $this->request->params['controller'], 'action' => 'move', $instance->id, 'up'], ['title' => __d('field', 'Move Up'), 'class' => 'btn btn-default glyphicon glyphicon-arrow-up']); ?>
+				<?php endif; ?>
+
+				<?php if ($k < $count - 1): ?>
+				<?php echo $this->Html->link('', ['plugin' => $this->request->params['plugin'], 'controller' => $this->request->params['controller'], 'action' => 'move', $instance->id, 'down'], ['title' => __d('field', 'Move down'), 'class' => 'btn btn-default glyphicon glyphicon-arrow-down']); ?>
+				<?php endif; ?>
+
+				<?php echo $this->Html->link('', ['plugin' => $this->request->params['plugin'], 'controller' => $this->request->params['controller'], 'action' => 'configure', $instance->id], ['title' => __d('field', 'Configure'), 'class' => 'btn btn-default glyphicon glyphicon-cog']); ?>
+				<?php echo $this->Html->link('', ['plugin' => $this->request->params['plugin'], 'controller' => $this->request->params['controller'], 'action' => 'delete', $instance->id], ['title' => __d('field', 'Delete'), 'class' => 'btn btn-default glyphicon glyphicon-trash', 'confirm' => __d('field', 'Delete this field? This can not be undone, all information stored will be lost.')]); ?>
+			</td>
 		</tr>
 		<?php endforeach; ?>
 	</tbody>

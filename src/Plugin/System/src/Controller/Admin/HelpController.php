@@ -12,6 +12,7 @@
 namespace System\Controller\Admin;
 
 use Cake\Core\App;
+use Cake\Core\Configure;
 use Cake\Error;
 use QuickApps\Utility\Plugin;
 use System\Controller\SystemAppController;
@@ -71,13 +72,20 @@ class HelpController extends SystemAppController {
  * @throws \Cake\Error\NotFoundException When no help document was found
  */
 	public function about($pluginName) {
-		$locale = \Cake\Core\Configure::read('Config.lnaguage');
-		$templatePath = App::path('Template', $pluginName)[0] . 'Element' . DS;
 		$about = false;
-		$lookFor = ["help_{$locale}", 'help'];
 
-		foreach ($lookFor as $name) {
-			$about = file_exists($templatePath . "{$name}.ctp") ? "{$pluginName}.{$name}" : false;
+		if (Plugin::loaded($pluginName)) {
+			$locale = Configure::read('Config.language');
+			$templatePath = App::path('Template', $pluginName)[0] . 'Element' . DS;
+			$about = false;
+			$lookFor = ["help_{$locale}", 'help'];
+
+			foreach ($lookFor as $name) {
+				if (file_exists($templatePath . "{$name}.ctp")) {
+					$about = "{$pluginName}.{$name}";
+					break;
+				}
+			}
 		}
 
 		if ($about) {

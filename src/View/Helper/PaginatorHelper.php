@@ -144,17 +144,19 @@ class PaginatorHelper extends CakePaginatorHelper {
 		$this->alter('PaginatorHelper.sort', $key, $title, $options);
 		return parent::sort($key, $title, $options);
 	}
-
+	
 /**
  * {@inheritdoc}
  *
  * @param array $options Pagination/URL options array
  * @param string $model Which model to paginate on
+ * @param bool $full If true, the full base URL will be prepended to the result
  * @return mixed By default, returns a full pagination URL string for use in non-standard contexts (i.e. JavaScript)
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/paginator.html#PaginatorHelper::url
  */
-	public function url($options = [], $model = null) {
-		$this->alter('PaginatorHelper.url', $options, $model);
-		return parent::url($options, $model);
+	public function generateUrl(array $options = array(), $model = null, $full = false) {
+		$this->alter('PaginatorHelper.generateUrl', $options, $model, $full);
+		return parent::url($options, $model, $full);
 	}
 
 /**

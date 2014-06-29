@@ -16,6 +16,7 @@
  * take a look to `NodeHook::renderNode()` method.
  */
 ?>
+
 <article class="node node-<?php echo $node->node_type_slug; ?> viewmode-<?php echo $this->getViewMode(); ?>">
 	<header>
 		<?php
@@ -34,7 +35,7 @@
 			endswitch;
 		?>
 		<?php //TODO: set timezone to user's timezone (read from session) ?>
-		<p><?php echo __d('node', 'Published'); ?>: <time pubdate="pubdate"><?php echo $this->Time->format($node->created, \IntlDateFormatter::FULL, null); ?></time></p>
+		<p><?php echo __d('node', 'Published'); ?>: <time pubdate="pubdate"><?php echo $node->created->timeAgoInWords(); ?></time></p>
 	</header>
 
 	<?php foreach ($node->_fields as $field): ?>

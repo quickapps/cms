@@ -90,7 +90,7 @@ class Hooktag {
  * @return string The hooktag search regular expression
  */
 	protected static function _hooktagRegex() {
-		$tagregexp = implode('|', static::_hooktags());
+		$tagregexp = implode('|', static::_hooktagsList());
 
 		return
 			'\\['                                // Opening bracket
@@ -128,7 +128,7 @@ class Hooktag {
  *
  * @return array
  */
-	protected static function _hooktags() {
+	protected static function _hooktagsList() {
 		if (empty(static::$_hooktags)) {
 			$class = new \ReflectionClass(EventManager::instance());
 			$property = $class->getProperty('_listeners');
@@ -166,7 +166,7 @@ class Hooktag {
 
 		if ($hook) {
 			$options = [
-				'atts' => $atts,
+				'atts' => (array)$atts,
 				'content' => null,
 				'tag' => $tag
 			];
@@ -189,11 +189,11 @@ class Hooktag {
  *
  * Attribute names are always converted to lowercase. Values are untouched.
  *
- * Example:
+ * ### Example:
  *
  *     [hook_tag_name attr1="value1" aTTr2=value2 CamelAttr=Val1 /]
  *
- * Produces:
+ * ### Produces:
  *
  *     [
  *         'attr1' => 'value1',
@@ -206,7 +206,7 @@ class Hooktag {
  * @return array Associative array of attributes as `tag_name` => `value`
  */
 	protected static function _parseHooktagAttributes($text) {
-		$atts = array();
+		$atts = [];
 		$pattern = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
 		$text = preg_replace("/[\x{00a0}\x{200b}]+/u", ' ', $text);
 

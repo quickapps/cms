@@ -9,7 +9,7 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Hook;
+namespace Hooktag;
 
 use Cake\Event\Event;
 use Cake\Event\EventListener;
@@ -18,7 +18,7 @@ use Cake\Event\EventListener;
  * Main Hook Listener for System plugin.
  *
  */
-class SystemHook implements EventListener {
+class SystemHooktag implements EventListener {
 
 /**
  * Returns a list of hooks this Hook Listener is implementing. When the class is registered
@@ -47,11 +47,11 @@ class SystemHook implements EventListener {
  * @param string $tag The hooktag tag
  * @return string
  */
-	public function hooktagRandom(Event $event, $atts, $content, $tag) {
+	public function hooktagRandom(Event $event, array $atts = [], $content, $tag) {
 		$elements = explode(',', $event->data['content']);
 
 		if ($elements) {
-		return $elements[array_rand($elements)];
+			return $elements[array_rand($elements)];
 		}
 
 		return '';
@@ -68,7 +68,7 @@ class SystemHook implements EventListener {
  * @param string $tag The hooktag tag
  * @return string
  */
-	public function hooktagTranslate(Event $event, $atts, $content, $tag) {
+	public function hooktagTranslate(Event $event, array $atts, $content, $tag) {
 		if (!empty($atts['domain'])) {
 			return __d($atts['domain'], $content);
 		} else {
@@ -87,7 +87,7 @@ class SystemHook implements EventListener {
  * @param string $tag The hooktag tag
  * @return string
  */
-	public function hooktagURL(Event $event, $atts, $content, $tag) {
+	public function hooktagURL(Event $event, array $atts = [], $content, $tag) {
 		return \Cake\Routing\Router::url($content, true);
 	}
 
@@ -102,7 +102,7 @@ class SystemHook implements EventListener {
  * @param string $tag The hooktag tag
  * @return string
  */
-	public function hooktagDate(Event $event, $atts, $content, $tag) {
+	public function hooktagDate(Event $event, array $atts = [], $content, $tag) {
 		if (!empty($atts['format']) && !empty($content)) {
 			if (is_numeric($content)) {
 				return date($atts['format'], $content);
@@ -128,7 +128,7 @@ class SystemHook implements EventListener {
  * @param string $tag The hooktag tag
  * @return string
  */
-	public function hooktagLocale(Event $event, $atts, $content, $tag) {
+	public function hooktagLocale(Event $event, array $atts = [], $content, $tag) {
 		$option = array_keys((array)$atts);
 
 		if (empty($option)) {

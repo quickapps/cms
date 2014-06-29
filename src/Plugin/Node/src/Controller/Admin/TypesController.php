@@ -31,6 +31,7 @@ class TypesController extends NodeAppController {
 			->where(['status' => 1])
 			->all();
 		$this->set('types', $types);
+		$this->Breadcrumb->push();
 	}
 
 }

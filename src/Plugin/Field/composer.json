@@ -1,21 +1,18 @@
 {
-    "name": "quickapps/field",
-    "description": "QuickAppsCMS, open source content management system for PHP",
-    "type": "library",
-    "keywords": ["framework", "cms", "cmf", "plugin"],
-    "homepage": "http://quickappscms.org",
-    "license": "GPL-3.0",
-    "authors": [
-        {"name": "Christopher Castro", "email": "chris@quickapps.es"}
-    ],
-    "support": {
-        "issues": "https://github.com/QuickAppsCMS/QuickApps-CMS/issues",
-        "source": "https://github.com/QuickAppsCMS/QuickApps-CMS"
+	"name": "quickapps/field",
+	"description": "Field API to add fields to entities like nodes and users.",
+	"type": "library",
+	"keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],
+	"homepage": "http://quickappscms.org",
+	"license": "GPL-3.0",
+	"authors": [
+		{"name": "Christopher Castro", "email": "chris@quickapps.es"}
+	],
+	"minimum-stability": "dev",
+	"require": {
+        "quickapps/cms": "2.0.*-dev"
     },
-    "require": {
-        "php": ">=5.4",
-        "ext-mcrypt": "*",
-        "ext-mbstring": "*"
-    },
-    "extra": {}
+	"version": "1.0",
+	"extra": {
+	}
 }

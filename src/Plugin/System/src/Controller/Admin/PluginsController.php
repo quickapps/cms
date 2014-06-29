@@ -12,6 +12,7 @@
 namespace System\Controller\Admin;
 
 use System\Controller\SystemAppController;
+use QuickApps\Utility\Plugin;
 
 /**
  * Controller for handling plugin tasks.
@@ -26,5 +27,7 @@ class PluginsController extends SystemAppController {
  * @return void
  */
 	public function index() {
+		$plugins = Plugin::matching(['isTheme' => false], false);
+		$this->set('plugins', $plugins);
 	}
 }

@@ -1,5 +1,5 @@
 {
-	"name": "quickapps/back-bootstrap",
+	"name": "quickapps/backend-theme",
 	"description": "QuickApps CMS backend default theme based on Twitter Bootstrap.",
 	"type": "library",
 	"keywords": ["framework", "cms", "cmf", "quickapps"],
@@ -10,9 +10,9 @@
 	],
 	"minimum-stability": "dev",
 	"require": {
-        "php": ">=5.4",
         "quickapps/cms": "2.0.*-dev"
     },
+	"version": "1.0",
 	"extra": {
 		"admin": true,
 		"regions": {

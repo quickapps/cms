@@ -65,4 +65,8 @@ class FieldsController extends NodeAppController {
 		});
 	}
 
+	public function beforeFilter(\Cake\Event\Event $event) {
+		$this->Breadcrumb->push('/admin/node/types');
+	}
+
 }

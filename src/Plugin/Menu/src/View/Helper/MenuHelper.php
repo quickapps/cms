@@ -11,6 +11,8 @@
  */
 namespace Menu\View\Helper;
 
+use Cake\Routing\Router;
+use Menu\Utility\Breadcrumb;
 use Cake\Utility\Hash;
 use Cake\View\Helper;
 use Cake\View\Helper\StringTemplateTrait;
@@ -35,7 +37,8 @@ class MenuHelper extends Helper {
  * - `lastItemClass`: CSS class for the last item.
  * - `hasChildrenClass`: CSS class to use when an item has children.
  * - `split`: Split menu into multiple root menus (multiple UL's). Must be an integer,
- * or false for no split (by default).
+ *    or false for no split (by default).
+ * - `breadcrumbGuessing`: Mark an item as "active" if its URL is on the breadcrumb stack. Default to true.
  * - `templates`: HTML templates used when formating items.
  *   - `div`: Template of the wrapper element which holds all menus when using `split`.
  *   - `root`: Top UL menu template.
@@ -83,6 +86,7 @@ class MenuHelper extends Helper {
 		'lastClass' => 'last-item',
 		'hasChildrenClass' => 'has-children',
 		'split' => false,
+		'breadcrumbGuessing' => true,
 		'templates' => [
 			'div' => '<div{{attrs}}>{{content}}</div>',
 			'root' => '<ul{{attrs}}>{{content}}</ul>',
@@ -194,37 +198,56 @@ class MenuHelper extends Helper {
  *
  * ### Valid options are:
  *
- * - `template`: Name of a template to use when rendering an item. (`child` by default)
+ * - `templates`: Array of templates indexed as `templateName` => `templatePattern`. Temporally overwrites
+ * templates when rendering this item, after item is rendered templates are restored to previous values.
  * - `childAttrs`: Array of attributes for `child` template.
+ *     - `css`: Array list of multiple CSS classes or a single string (will be merged with auto-generated CSS).
  * - `linkAttrs`: Array of attributes for the `link` template.
+ *     - `css`: Same as childAttrs.
  *
  * ### Information argument
  *
  * The second argument `$info` holds a series of useful values when rendering
  * each item of the menu. This values are stored as `key` => `value` array.
  *
- * - `index`: Position of current item.
- * - `total`: Total number of items in the menu being rendered.
- * - `depth`: Item depth within the tree structure.
- * - `hasChildren`: true|false
- * - `children`: HTML content of rendered children this this item. Empty if has no children.
+ * - `index` (integer): Position of current item.
+ * - `total` (integer): Total number of items in the menu being rendered.
+ * - `depth` (integer): Item depth within the tree structure.
+ * - `hasChildren` (boolean): true|false
+ * - `children` (string): HTML content of rendered children for this item. Empty if has no children.
  *
  * @param \Cake\ORM\Entity $item The item to render
  * @param array $info Array of useful information such as described above
  * @param array $options Additional options
  * @return string
  */
-	public function formatter($item, $info, $options = []) {
+	public function formatter($item, array $info, array $options = []) {
 		$options = Hash::merge([
-			'template' => 'child',
+			'templates' => [],
 			'childAttrs' => ['class' => []],
 			'linkAttrs' => ['class' => []],
 		], $options);
 		$config = $this->config();
+
+		if (!empty($options['templates']) && is_array($options['templates'])) {
+			$this->templater()->add($options['templates']);
+			unset($options['templates']);
+		}
+
+		if (!empty($options['childAttrs']['class'])) {
+			if (is_string($options['childAttrs']['class'])) {
+				$options['childAttrs']['class'] = [$options['childAttrs']['class']];
+			}
+		}
+
+		if (!empty($options['linkAttrs']['class'])) {
+			if (is_string($options['linkAttrs']['class'])) {
+				$options['class']['class'] = [$options['linkAttrs']['class']];
+			}
+		}
+
 		$childAttrs = $options['childAttrs'];
 		$linkAttrs = $options['linkAttrs'];
-		$childAttrs['class'] = !empty($childAttrs['class']) && is_string($childAttrs['class']) ? [$childAttrs['class']] : $childAttrs['class'];
-		$linkAttrs['class'] = !empty($linkAttrs['class']) && is_string($linkAttrs['class']) ? [$linkAttrs['class']] : $linkAttrs['class'];
 
 		if ($info['index'] === 1) {
 			$childAttrs['class'][] = $config['firstClass'];
@@ -263,16 +286,17 @@ class MenuHelper extends Helper {
 
 		$childAttrs = $this->templater()->formatAttributes($childAttrs);
 		$linkAttrs = $this->templater()->formatAttributes($linkAttrs);
+		$return = $this->formatTemplate('child', [
+			'attrs' => $childAttrs,
+			'content' => $this->formatTemplate('link', [
+				'url' => $this->_View->Html->url($item->url, true),
+				'attrs' => $linkAttrs,
+				'content' => $item->title,
+			]) . $info['children']
+		]);
 
-		return
-			$this->formatTemplate($options['template'], [
-				'attrs' => $childAttrs,
-				'content' => $this->formatTemplate('link', [
-					'url' => $this->_View->Html->url($item->url, true),
-					'attrs' => $linkAttrs,
-					'content' => $item->title,
-				]) . $info['children']
-			]);
+		$this->templater()->add($config['templates']);
+		return $return;
 	}
 
 /**
@@ -360,20 +384,7 @@ class MenuHelper extends Helper {
 				return $this->_phpEval($item->active_on);
 			default:
 				// TODO: consider the case when `Language Prefix` is enabled
-				$itemUrl = (string)\Cake\Routing\Router::url($item->url);
-				$cumbsUrl = Hash::extract(\Menu\Utility\Breadcrumb::get(), '{n}.url');
-				static $possibleCrumbMatches = null;
-
-				if ($possibleCrumbMatches === null) {
-					// - full URL, including GET variables & base URL
-					// - similar as full, but excluding base URL
-					// - request URL, no GET variables nor base URL
-					$possibleCrumbMatches = array_unique([
-						env('REQUEST_URI'),
-						str_replace($this->_View->request->base, '', env('REQUEST_URI')),
-						($this->_View->is('page.index') ? '/' : preg_replace('/^\/{2,}/', '/', "/{$this->_View->request->url}")),
-					]);
-				}
+				$itemUrl = (string)Router::url($item->url);
 
 				$isInternal =
 					$itemUrl !== '/' &&
@@ -384,9 +395,14 @@ class MenuHelper extends Helper {
 					$this->_View->is('page.index');
 				$isExact =
 					$itemUrl === $this->_View->request->url;
-				$isInBreadcrumb = count(array_intersect($possibleCrumbMatches, $cumbsUrl));
 
-				return ($isInternal || $isIndex || $isExact || $isInBreadcrumb);
+				if ($this->config('breadcrumbGuessing')) {
+					$cumbsUrl = Breadcrumb::getUrls();
+					$isInBreadcrumb = in_array($item->url, $cumbsUrl);
+					return ($isInternal || $isIndex || $isExact || $isInBreadcrumb);
+				}
+
+				return ($isInternal || $isIndex || $isExact); 
 		}
 	}
 

@@ -17,22 +17,16 @@ namespace QuickApps\Config;
 require __DIR__ . '/paths.php';
 
 /**
+ * Use composer to load the autoloader.
+ */
+$classLoader = require VENDOR_INCLUDE_PATH . '/autoload.php';
+$classLoader->addPsr4('Cake\\', CAKE);
+$classLoader->addPsr4('QuickApps\\', APP);
+
+/**
  * Load QuickApps basic functionality.
  */
 require __DIR__ . '/basics.php';
-
-/**
- * Merge Composer's autoloader with Cake's autoloader.
- */
-$composerLoader = require VENDOR_INCLUDE_PATH . '/autoload.php';
-require CAKE . 'Core/ClassLoader.php';
-$loader = new \Cake\Core\ClassLoader;
-$loader->register();
-$loader->addNamespace('Cake', CAKE);
-$loader->addNamespace('QuickApps', APP);
-foreach ($composerLoader as $name => $path) {
-	$loader->addNamespace($name, $path);
-}
 
 /**
  * Bootstrap CakePHP.
@@ -50,7 +44,6 @@ use Cake\Configure\Engine\PhpConfig;
 use Cake\Console\ConsoleErrorHandler;
 use Cake\Core\App;
 use Cake\Core\Configure;
-use Cake\Core\Plugin;
 use Cake\Datasource\ConnectionManager;
 use Cake\Error\ErrorHandler;
 use Cake\Event\EventManager;
@@ -59,6 +52,7 @@ use Cake\Network\Email\Email;
 use Cake\Network\Request;
 use Cake\Routing\DispatcherFactory;
 use Cake\Utility\Inflector;
+use QuickApps\Utility\Plugin;
 
 /**
  * Read configuration file and inject configuration into various
@@ -77,7 +71,7 @@ Configure::load('app.php', 'default', false);
  * You can use this file to provide local overrides to your
  * shared configuration.
  */
-//Configure::load('app_local.php', 'default');
+Configure::load('app_local.php', 'default');
 
 /**
  * When debug = false the metadata cache should last
@@ -158,8 +152,7 @@ Request::addDetector('tablet', function($request) {
  * Load some bootstrap-handy information.
  */
 Configure::config('QuickApps', new PhpConfig(TMP));
-
-if (!file_exists(TMP . 'snapshot.php') && file_exists(SITE_ROOT . '/Config/settings.json')) {
+if (!file_exists(TMP . 'snapshot.php') && file_exists(SITE_ROOT . '/Config/settings.php')) {
 	snapshot();
 } else {
 	try {
@@ -176,8 +169,8 @@ foreach (App::objects('Plugin') as $plugin) {
 	$EventManager = EventManager::instance();
 
 	if (
-		in_array($plugin, Configure::read('QuickApps.plugins.core')) ||
-		in_array($plugin, Configure::read('QuickApps.plugins.enabled')) ||
+		in_array($plugin, Plugin::matching(['isCore' => true])) ||
+		in_array($plugin, Plugin::matching(['status' => 1])) ||
 		$plugin === Configure::read('QuickApps.variables.site_theme') ||
 		$plugin === Configure::read('QuickApps.variables.admin_theme')
 	) {
@@ -192,19 +185,27 @@ foreach (App::objects('Plugin') as $plugin) {
 			]
 		);
 
-		foreach ((array)Configure::read("QuickApps.hooks.{$plugin}") as $hookListener) {
-			$loader->addNamespace($hookListener['namespace'], $hookListener['path']);
+		foreach (Plugin::getInfo($plugin, false)['events']['hooks'] as $className => $eventInfo) {
+			$classLoader->addPsr4($eventInfo['namespace'], $eventInfo['path'], true);
 
-			if (class_exists($hookListener['className'])) {
-				$EventManager->attach(new $hookListener['className']);
+			if (class_exists($className)) {
+				$EventManager->attach(new $className);
 			}
 		}
 
-		foreach ((array)Configure::read("QuickApps.fields.{$plugin}") as $fieldHandler) {
-			$loader->addNamespace($fieldHandler['namespace'], $fieldHandler['path']);
+		foreach (Plugin::getInfo($plugin, false)['events']['hooktags'] as $className => $eventInfo) {
+			$classLoader->addPsr4($eventInfo['namespace'], $eventInfo['path'], true);
 
-			if (class_exists($fieldHandler['className'])) {
-				$EventManager->attach(new $fieldHandler['className']);
+			if (class_exists($className)) {
+				$EventManager->attach(new $className);
+			}
+		}
+
+		foreach (Plugin::getInfo($plugin, false)['events']['fields'] as $className => $eventInfo) {
+			$classLoader->addPsr4($eventInfo['namespace'], $eventInfo['path'], true);
+
+			if (class_exists($className)) {
+				$EventManager->attach(new $className);
 			}
 		}
 	}

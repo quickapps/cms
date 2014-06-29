@@ -1,3 +1,16 @@
+<?php
+/**
+ * Licensed under The GPL-3.0 License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @since	 2.0.0
+ * @author	 Christopher Castro <chris@quickapps.es>
+ * @link	 http://www.quickappscms.org
+ * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
+ */
+?>
+
 <h2>About</h2>
 <p>
 	The System plugin is integral to the site, and provides basic but extensible functionality for use by other plugins and themes.
@@ -85,15 +98,15 @@
 	<dt>Managing plugins</dt>
 	<dd>
 		The System plugin allows users with the appropriate permissions to enable and disable plugins on the
-		<?php echo $this->Html->link('Plugins administration page', '/admin/system/plugins'); ?>.
+		<?php echo $this->Html->link('Plugins administration page', ['plugin' => 'System', 'controller' => 'plugins', 'prefix' => 'admin']); ?>.
 		QuickAppsCMS comes with a number of core plugins, and each plugin provides a discrete set of features and may be enabled or disabled depending on the needs of the site.
 	</dd>
 
 	<dt>Managing themes</dt>
 	<dd>
-		The System plugin allows users with the appropriate permissions to enable and disable themes on the <a href="<?php echo $this->Html->url('/admin/system/themes'); ?>">Appearance administration page</a>.
+		The System plugin allows users with the appropriate permissions to enable and disable themes on the <?php echo $this->Html->link('Appearance administration page', ['plugin' => 'System', 'controller' => 'themes', 'prefix' => 'admin']); ?>.
 		Themes determine the design and presentation of your site.
-		QuickAppsCMS comes packaged with one core theme (Default).
+		QuickAppsCMS comes packaged with two core themes (FrontendTheme and BackendTheme)
 	</dd>
 
 	<dt>Configuring basic site settings</dt>

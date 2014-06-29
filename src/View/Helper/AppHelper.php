@@ -15,7 +15,7 @@ use Cake\View\Helper;
 use Quickapps\Utility\HookTrait;
 
 /**
- * Application helper
+ * Application Helper
  *
  * Add your application-wide methods in the class below, your helpers
  * will inherit them.
@@ -23,4 +23,5 @@ use Quickapps\Utility\HookTrait;
 class AppHelper extends Helper {
 
 	use HookTrait;
+
 }

@@ -21,7 +21,7 @@ use Field\Utility\TextToolbox;
  *
  * This field allows to store text information, such as textboxes, textareas, etc.
  */
-class Text implements EventListener {
+class TextField implements EventListener {
 
 	use HooktagTrait;
 
@@ -34,30 +34,30 @@ class Text implements EventListener {
  *
  * Example:
  *
- *     Field.Text.Entity.edit
+ *     Field.TextField.Entity.edit
  *
  * @return array
  */
 	public function implementedEvents() {
 		return [
 			// Related to Entity:
-			'Field.Text.Entity.display' => 'entityDisplay',
-			'Field.Text.Entity.edit' => 'entityEdit',
-			'Field.Text.Entity.formatter' => 'entityFormatter',
-			'Field.Text.Entity.beforeFind' => 'entityBeforeFind',
-			'Field.Text.Entity.afterSave' => 'entityAfterSave',
-			'Field.Text.Entity.beforeValidate' => 'entityBeforeValidate',
-			'Field.Text.Entity.afterValidate' => 'entityAfterValidate',
-			'Field.Text.Entity.beforeDelete' => 'entityBeforeDelete',
-			'Field.Text.Entity.afterDelete' => 'entityAfterDelete',
+			'Field.TextField.Entity.display' => 'entityDisplay',
+			'Field.TextField.Entity.edit' => 'entityEdit',
+			'Field.TextField.Entity.formatter' => 'entityFormatter',
+			'Field.TextField.Entity.beforeFind' => 'entityBeforeFind',
+			'Field.TextField.Entity.afterSave' => 'entityAfterSave',
+			'Field.TextField.Entity.beforeValidate' => 'entityBeforeValidate',
+			'Field.TextField.Entity.afterValidate' => 'entityAfterValidate',
+			'Field.TextField.Entity.beforeDelete' => 'entityBeforeDelete',
+			'Field.TextField.Entity.afterDelete' => 'entityAfterDelete',
 
 			// Related to Instance:
-			'Field.Text.Instance.info' => 'instanceInfo',
-			'Field.Text.Instance.settings' => 'instanceSettings',
-			'Field.Text.Instance.beforeAttach' => 'instanceBeforeAttach',
-			'Field.Text.Instance.afterAttach' => 'instanceAfterAttach',
-			'Field.Text.Instance.beforeDetach' => 'instanceBeforeDetach',
-			'Field.Text.Instance.afterDetach' => 'instanceAfterDetach',
+			'Field.TextField.Instance.info' => 'instanceInfo',
+			'Field.TextField.Instance.settings' => 'instanceSettings',
+			'Field.TextField.Instance.beforeAttach' => 'instanceBeforeAttach',
+			'Field.TextField.Instance.afterAttach' => 'instanceAfterAttach',
+			'Field.TextField.Instance.beforeDetach' => 'instanceBeforeDetach',
+			'Field.TextField.Instance.afterDetach' => 'instanceAfterDetach',
 		];
 	}
 

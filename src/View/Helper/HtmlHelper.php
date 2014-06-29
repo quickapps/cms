@@ -18,6 +18,8 @@ use QuickApps\Utility\HookTrait;
 /**
  * Html helper class for easy use of HTML widgets.
  *
+ * Overwrites CakePHP's Html Helper and adds alter hooks to every method,
+ * so plugins may alter html elements rendering cycle.
  */
 class HtmlHelper extends CakeHtmlHelper {
 
@@ -34,7 +36,6 @@ class HtmlHelper extends CakeHtmlHelper {
  */
 	public function addCrumb($name, $link = null, array $options = []) {
 		$event = $this->alter('HtmlHelper.addCrumb', $name, $link, $options);
-
 		return parent::addCrumb($name, $link, $options);
 	}
 
@@ -46,7 +47,6 @@ class HtmlHelper extends CakeHtmlHelper {
  */
 	public function docType($type = 'html5') {
 		$event = $this->alter('HtmlHelper.docType', $type);
-
 		return parent::docType($type);
 	}
 
@@ -61,7 +61,6 @@ class HtmlHelper extends CakeHtmlHelper {
  */
 	public function meta($type, $content = null, array $options = []) {
 		$event = $this->alter('HtmlHelper.meta', $type, $url, $options);
-
 		return parent::meta($type, $url, $options);
 	}
 
@@ -74,7 +73,6 @@ class HtmlHelper extends CakeHtmlHelper {
  */
 	public function charset($charset = null) {
 		$event = $this->alter('HtmlHelper.charset', $charset);
-
 		return parent::charset($charset);
 	}
 
@@ -89,7 +87,6 @@ class HtmlHelper extends CakeHtmlHelper {
  */
 	public function link($title, $url = null, array $options = [], $confirmMessage = false) {
 		$event = $this->alter('HtmlHelper.link', $title, $url, $options, $confirmMessage);
-
 		return parent::link($title, $url, $options, $confirmMessage);
 	}
 
@@ -104,7 +101,6 @@ class HtmlHelper extends CakeHtmlHelper {
  */
 	public function css($path, array $options = array()) {
 		$event = $this->alter('HtmlHelper.css', $path, $options);
-
 		return parent::css($path, $options);
 	}
 
@@ -118,7 +114,6 @@ class HtmlHelper extends CakeHtmlHelper {
  */
 	public function script($url, array $options = array()) {
 		$event = $this->alter('HtmlHelper.script', $url, $options);
-
 		return parent::script($url, $options);
 	}
 
@@ -132,7 +127,6 @@ class HtmlHelper extends CakeHtmlHelper {
  */
 	public function scriptBlock($script, array $options = array()) {
 		$event = $this->alter('HtmlHelper.scriptBlock', $script, $options);
-
 		return parent::scriptBlock($script, $options);
 	}
 
@@ -144,7 +138,6 @@ class HtmlHelper extends CakeHtmlHelper {
  */
 	public function scriptStart(array $options = array()) {
 		$event = $this->alter('HtmlHelper.scriptStart', $options);
-
 		return parent::scriptStart($options);
 	}
 
@@ -155,7 +148,6 @@ class HtmlHelper extends CakeHtmlHelper {
  */
 	public function scriptEnd() {
 		$event = $this->alter('HtmlHelper.scriptEnd');
-
 		return parent::scriptEnd();
 	}
 
@@ -168,7 +160,6 @@ class HtmlHelper extends CakeHtmlHelper {
  */
 	public function style(array $data, $oneline = true) {
 		$event = $this->alter('HtmlHelper.style', $data, $oneline);
-
 		return parent::style($data, $oneline);
 	}
 
@@ -182,7 +173,6 @@ class HtmlHelper extends CakeHtmlHelper {
  */
 	public function getCrumbs($separator = '&raquo;', $startText = false) {
 		$event = $this->alter('HtmlHelper.getCrumbs', $separator, $startText);
-
 		return parent::getCrumbs($separator, $startText);
 	}
 
@@ -196,7 +186,6 @@ class HtmlHelper extends CakeHtmlHelper {
  */
 	public function getCrumbList(array $options = [], $startText = false) {
 		$event = $this->alter('HtmlHelper.getCrumbList', $options, $startText);
-
 		return parent::getCrumbList($options, $startText);
 	}
 
@@ -209,7 +198,6 @@ class HtmlHelper extends CakeHtmlHelper {
  */
 	public function image($path, array $options = array()) {
 		$event = $this->alter('HtmlHelper.image', $path, $options);
-
 		return parent::image($path, $options);
 	}
 
@@ -224,7 +212,6 @@ class HtmlHelper extends CakeHtmlHelper {
  */
 	public function tableHeaders(array $names, array $trOptions = null, array $thOptions = null) {
 		$event = $this->alter('HtmlHelper.tableHeaders', $names, $trOptions, $thOptions);
-
 		return parent::tableHeaders($names, $trOptions, $thOptions);
 	}
 
@@ -241,7 +228,6 @@ class HtmlHelper extends CakeHtmlHelper {
  */
 	public function tableCells($data, $oddTrOptions = null, $evenTrOptions = null, $useCount = false, $continueOddEven = true) {
 		$event = $this->alter('HtmlHelper.tableCells', $data, $oddTrOptions, $evenTrOptions, $useCount, $continueOddEven);
-
 		return parent::tableCells($data, $oddTrOptions, $evenTrOptions, $useCount, $continueOddEven);
 	}
 
@@ -256,7 +242,6 @@ class HtmlHelper extends CakeHtmlHelper {
  */
 	public function tag($name, $text = null, array $options = []) {
 		$event = $this->alter('HtmlHelper.tableHeaders', $name, $text, $options);
-
 		return parent::tag($name, $text, $options);
 	}
 
@@ -271,7 +256,6 @@ class HtmlHelper extends CakeHtmlHelper {
  */
 	public function div($class = null, $text = null, array $options = []) {
 		$event = $this->alter('HtmlHelper.div', $class, $text, $options);
-
 		return parent::div($class, $text, $options);
 	}
 
@@ -285,7 +269,6 @@ class HtmlHelper extends CakeHtmlHelper {
  */
 	public function para($class, $text, array $options = []) {
 		$event = $this->alter('HtmlHelper.para', $class, $text, $option);
-
 		return parent::para($class, $text, $options);
 	}
 
@@ -299,7 +282,6 @@ class HtmlHelper extends CakeHtmlHelper {
  */
 	public function media($path, array $options = []) {
 		$event = $this->alter('HtmlHelper.meta', $path, $options);
-
 		return parent::media($path, $options);
 	}
 
@@ -313,7 +295,6 @@ class HtmlHelper extends CakeHtmlHelper {
  */
 	public function nestedList(array $list, array $options = [], array $itemOptions = []) {
 		$event = $this->alter('HtmlHelper.nestedList', $list, $options, $itemOptions);
-
 		return parent::nestedList($list, $options, $itemOptions);
 	}
 
