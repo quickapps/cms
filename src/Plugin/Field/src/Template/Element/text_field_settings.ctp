@@ -17,10 +17,10 @@
 			array(
 				'type' => 'select',
 				'options' => array(
-					'text' => __('Short field [text box]'),
-					'textarea' => __('Long text [text area]')
+					'text' => __d('field', 'Short field [text box]'),
+					'textarea' => __d('field', 'Long text [text area]')
 				),
-				'label' => __('Type of content'),
+				'label' => __d('field', 'Type of content'),
 				'onchange' => 'toggleMaxLen()',
 				'class' => 'type-select',
 			)
@@ -34,12 +34,12 @@
 			array(
 				'type' => 'select',
 				'options' => array(
-					'plain' => __('Plain text'),
-					'full' => __('Full HTML'),
-					'filtered' => __('Filtered HTML'),
-					'markdown' => __('Markdown')
+					'plain' => __d('field', 'Plain text'),
+					'full' => __d('field', 'Full HTML'),
+					'filtered' => __d('field', 'Filtered HTML'),
+					'markdown' => __d('field', 'Markdown')
 				),
-				'label' => __('Text processing')
+				'label' => __d('field', 'Text processing')
 			)
 		);
 	?>
@@ -49,31 +49,31 @@
 	<blockquote>
 		<ul>
 			<li>
-				<b><?php echo __('Plain text'); ?>:</b>
+				<b><?php echo __d('field', 'Plain text'); ?>:</b>
 				<ul>
-					<li><?php echo __('No HTML tags allowed.'); ?></li>
-					<li><?php echo __('Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
-					<li><?php echo __('Lines and paragraphs break automatically.'); ?></li>
+					<li><?php echo __d('field', 'No HTML tags allowed.'); ?></li>
+					<li><?php echo __d('field', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
+					<li><?php echo __d('field', 'Lines and paragraphs break automatically.'); ?></li>
 				</ul>
 			</li>
 			<li>
-				<b><?php echo __('Full HTML'); ?>:</b>
+				<b><?php echo __d('field', 'Full HTML'); ?>:</b>
 				<ul>
-					<li><?php echo __('Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
+					<li><?php echo __d('field', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
 				</ul>
 			</li>
 			<li>
-				<b><?php echo __('Filtered HTML'); ?>:</b>
+				<b><?php echo __d('field', 'Filtered HTML'); ?>:</b>
 				<ul>
-					<li><?php echo __('Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
-					<li><?php echo __('Allowed HTML tags: &lt;a&gt; &lt;em&gt; &lt;strong&gt; &lt;cite&gt; &lt;blockquote&gt; &lt;code&gt; &lt;ul&gt; &lt;ol&gt; &lt;li&gt; &lt;dl&gt; &lt;dt&gt; &lt;dd&gt;'); ?></li>
-					<li><?php echo __('Lines and paragraphs break automatically.'); ?></li>
+					<li><?php echo __d('field', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
+					<li><?php echo __d('field', 'Allowed HTML tags: &lt;a&gt; &lt;em&gt; &lt;strong&gt; &lt;cite&gt; &lt;blockquote&gt; &lt;code&gt; &lt;ul&gt; &lt;ol&gt; &lt;li&gt; &lt;dl&gt; &lt;dt&gt; &lt;dd&gt;'); ?></li>
+					<li><?php echo __d('field', 'Lines and paragraphs break automatically.'); ?></li>
 				</ul>
 			</li>
 			<li>
-				<b><?php echo __('Markdown'); ?>:</b>
+				<b><?php echo __d('field', 'Markdown'); ?>:</b>
 				<ul>
-					<li><?php echo __('<a href="%s" target="_blank">Markdown</a> text format allowed only.', 'http://wikipedia.org/wiki/Markdown'); ?></li>
+					<li><?php echo __d('field', '<a href="%s" target="_blank">Markdown</a> text format allowed only.', 'http://wikipedia.org/wiki/Markdown'); ?></li>
 				</ul>
 			</li>
 		</ul>
@@ -85,11 +85,11 @@
 		echo $this->Form->input('settings.max_len',
 			array(
 				'type' => 'text',
-				'label' => __('Max length')
+				'label' => __d('field', 'Max length')
 			)
 		);
 	?>
-	<p class="help-block"><?php echo __('This is only used if your type of content is "Short text [text box]". This will limit the subscriber to typing X number of characters in your textbox.'); ?></p>
+	<p class="help-block"><?php echo __d('field', 'This is only used if your type of content is "Short text [text box]". This will limit the subscriber to typing X number of characters in your textbox.'); ?></p>
 </div>
 
 <div class="form-group">
@@ -97,13 +97,13 @@
 		echo $this->Form->input('settings.validation_rule',
 			array(
 				'type' => 'text',
-				'label' => __('Validation rule'),
+				'label' => __d('field', 'Validation rule'),
 				'onchange' => 'toggleValMsg()',
 				'class' => 'reg-input',
 			)
 		);
 	?>
-	<p class="help-block"><?php echo __('Enter your custom regular expression. e.g.: "/^[a-z0-9]{3,}$/i" (Only letters and integers, min 3 characters)'); ?></p>
+	<p class="help-block"><?php echo __d('field', 'Enter your custom regular expression. e.g.: "/^[a-z0-9]{3,}$/i" (Only letters and integers, min 3 characters)'); ?></p>
 </div>
 
 <div class="form-group validation-message">
@@ -111,11 +111,11 @@
 		echo $this->Form->input('settings.validation_message',
 			array(
 				'type' => 'text',
-				'label' => __('Validation message')
+				'label' => __d('field', 'Validation message')
 			)
 		);
 	?>
-	<p class="help-block"><?php echo __('This is only used if "Validation rule" has been set.'); ?></p>
+	<p class="help-block"><?php echo __d('field', 'This is only used if "Validation rule" has been set.'); ?></p>
 </div>
 
 <script>

@@ -35,16 +35,15 @@ class HelpController extends SystemAppController {
  *
  * Album plugin may create its own `help document` by creating this file:
  *
- *     Album/Template/Element/help.ctp
+ *     /Plugin/Album/src/Template/Element/help.ctp
  *
  * Optionally, plugins are able to define translated versions of
- * help document. They have to create a view-element as `help_[code].ctp`,
- * where `[code]` is a three-character locale code conform to the ISO 639-2 standard.
- * For example:
+ * help documents. To do this, you must simply define a view element as `help_[code].ctp`,
+ * where `[code]` is a two-character language code. For example:
  *
- *     help_eng.ctp
- *     help_spa.ctp
- *     help_fre.ctp
+ *     help_en.ctp
+ *     help_es.ctp
+ *     help_fr.ctp
  *
  * @return void
  */
@@ -62,6 +61,7 @@ class HelpController extends SystemAppController {
 		}
 
 		$this->set('plugins', $plugins);
+		$this->Breadcrumb->push('/admin/system/help');
 	}
 
 /**
@@ -93,6 +93,9 @@ class HelpController extends SystemAppController {
 		} else {
 			throw new Error\NotFoundException(__('No help was found.'));
 		}
+
+		$this->Breadcrumb->push('/admin/system/help');
+		$this->Breadcrumb->push(__d('system', 'About %s', $pluginName), '#');
 	}
 
 }

@@ -20,7 +20,7 @@ use Cake\Collection\CollectionTrait;
  * Used for manage fields attached to every entity using `Fieldable` behavior.
  *
  * Allows to handle fields as an array list, but it adds a few useful functionalities such as `sortAs()` method,
- * or access a fields by its numeric index or its machine-name (as an associative array).
+ * or access a fields by its numeric index or its machine-name (like an associative array).
  */
 class FieldCollection extends ArrayObject {
 
@@ -38,7 +38,7 @@ class FieldCollection extends ArrayObject {
 /**
  * Allows access to fields by its numeric index or by its machine-name.
  *
- * ###Example:
+ * ### Example:
  *
  *     $fields => [
  *         [0] => [
@@ -51,8 +51,8 @@ class FieldCollection extends ArrayObject {
  *         [1] => [
  *             [name] => user-phone,
  *             [label] => User Phone,
- *             [value] => null,  // no data stored,
- *             [extra] => null, // no data stored
+ *             [value] => null,
+ *             [extra] => null,
  *             [metadata] => [ ... ]
  *         ]
  *    ];
@@ -65,7 +65,7 @@ class FieldCollection extends ArrayObject {
  *    // OUT: SUCCESS
  *
  * @param integer|string $index Numeric index or machine-name
- * @return mixed Field\Model\Entity\Field on success or NULL on failure
+ * @return mixed \Field\Model\Entity\Field on success or NULL on failure
  */
 	public function offsetGet($index) {
 		if (is_string($index)) {
@@ -84,7 +84,7 @@ class FieldCollection extends ArrayObject {
  *
  * @return array List of machine names
  */
-	public function getMachineNames() {
+	public function machineNames() {
 		$mn = [];
 
 		foreach ($this as $f) {
@@ -95,29 +95,29 @@ class FieldCollection extends ArrayObject {
 	}
 
 /**
- * Sorts the list of fields by a given list of machine-names.
+ * Sorts the list of fields by view mode ordering.
  *
- * @param array $machineNames The desire order given as a machine-names list
- * @return void
+ * Fields might have different orderings for each view mode.
+ *
+ * @param string $viewMode View mode slug to use for sorting
+ * @param int $dir either SORT_DESC or SORT_ASC
+ * @return \Cake\Collection\Collection
  */
-	public function sortAs($machineNames) {
-		$new = [];
-		$fields = $this->getArrayCopy();
-
-		foreach ($machineNames as $slug) {
-			foreach ($fields as $k => $v) {
-				if ($v->name == $slug) {
-					$new[] = $v;
-					unset($fields[$k]);
-				}
+	public function sortByViewMode($viewMode, $dir = SORT_ASC) {
+		$items = [];
+		$sorted = $this->sortBy(function ($field) use($viewMode) {
+			if (isset($field->metadata->view_modes[$viewMode]['ordering'])) {
+				return $field->metadata->view_modes[$viewMode]['ordering'];
 			}
+
+			return 0;
+		}, $dir);
+
+		foreach ($sorted as $item) {
+			$items[] = $item;
 		}
 
-		if (!empty($fields)) {
-			$new = array_merge($new, $fields);
-		}
-
-		$this->exchangeArray($new);
+		return new FieldCollection($items);
 	}
 
 }

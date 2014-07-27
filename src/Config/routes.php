@@ -56,7 +56,6 @@ require CAKE . 'Config/routes.php';
  *
  * 1. http://example.com/eng/my/url When `url_locale_prefix` is TRUE
  * 2. http://example.com/my/url?locale=eng When `url_locale_prefix` is FALSE
- *
  */
 if (
 	Configure::read('QuickApps.variables.url_locale_prefix') &&
@@ -81,23 +80,16 @@ if (
 
 /**
  * Set language prefix (if enabled) on every route.
- *
- * This will create a locale-prefixed version of all registered
- * routes at this point.
  */
 if (Configure::read('QuickApps.variables.url_locale_prefix')) {
 	$langs = implode('|', Configure::read('QuickApps.active_languages'));
-	$routes_count = Router::$_routes->count();
 
-	for ($i = 0; $i < $routes_count; $i++) {
-		$route = clone Router::$_routes->get($i);
+	foreach (Router::$_routes->all() as &$route) {
 		$route->options['locale'] = "{$langs}";
 		$route->template = "/:locale{$route->template}";
-
-		Router::$_routes->add($route);
 	}
 
-	for ($i = 0; $i < intval($routes_count / 2); $i++) {
+	foreach (Router::$_routes->all() as $route) {
 		Router::promote(null);
 	}
 
@@ -111,5 +103,5 @@ if (Configure::read('QuickApps.variables.url_locale_prefix')) {
 		}
 	);
 
-	unset($langs, $i, $routes_count);
+	unset($langs);
 }

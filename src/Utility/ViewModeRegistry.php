@@ -13,7 +13,7 @@ namespace QuickApps\Utility;
 
 /**
  * ViewModeRegistry is used as a registry for handling view modes, also provides a few
- * utility methods such as getViewMode().
+ * utility methods such as inUseViewMode().
  *
  * View modes tells nodes how they should be rendered.
  *
@@ -96,12 +96,10 @@ class ViewModeRegistry {
 				}
 			}
 		} else {
-			static::registerViewMode([
-				$slug => [
-					'name' => $name,
-					'description' => $description,
-				],
-			]);
+			static::$_viewModes[$slug] = [
+				'name' => $name,
+				'description' => $description,
+			];
 		}
 	}
 
@@ -113,14 +111,11 @@ class ViewModeRegistry {
  * @param boolean $full Set to true to get full information as an array. Or set to
  * false (by default) to get slug name only
  * @return array|string
- * @throws \Cake\Error\InternalErrorException When there is not "in use" view-mode yet
  */
 	public static function inUseViewMode($full = false) {
 		if (empty(static::$_inUse)) {
-			throw new \Cake\Error\InternalErrorException(__('Illegal usage of ViewModeRegistry::getViewMode.'));
-		}
-
-		if ($full === false) {
+			return '';
+		} elseif ($full === false) {
 			return static::$_inUse;
 		}
 

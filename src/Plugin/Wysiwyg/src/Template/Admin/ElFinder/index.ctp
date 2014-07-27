@@ -11,7 +11,7 @@
  */
 ?>
 
-<div id="finder">finder</div>
+<div class="elfinder"><?php echo __d('wysiwyg', 'Please enable Javascript to use ElFinder plugin.'); ?></div>
 
 <script type="text/javascript" charset="utf-8">
 	var funcNum = window.location.search.replace(/^.*CKEditorFuncNum=(\d+).*$/, "$1");
@@ -40,7 +40,7 @@
 	}
 
 	$(document).ready(function() {
-		$('#finder').elfinder({
+		$('div.elfinder').elfinder({
 			url : '<?php echo $this->Html->url(['plugin' => 'wysiwyg', 'controller' => 'el_finder', 'action' => 'connector', 'prefix' => 'admin']); ?>',
 			dateFormat: '<?php echo __d('wysiwyg', 'M d, Y h:i A'); ?>',
 			fancyDateFormat: '<?php echo __d('wysiwyg', '$1 H:m:i'); ?>',

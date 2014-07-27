@@ -27,7 +27,10 @@ class PluginsController extends SystemAppController {
  * @return void
  */
 	public function index() {
-		$plugins = Plugin::matching(['isTheme' => false], false);
+		$plugins = Plugin::getCollection(true)
+			->match(['isTheme' => false])
+			->toArray();
 		$this->set('plugins', $plugins);
+		$this->Breadcrumb->push('/admin/system/plugins');
 	}
 }

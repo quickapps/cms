@@ -48,6 +48,9 @@ class SluggableBehavior extends Behavior {
 		'separator' => '-',
 		'on' => 'both',
 		'length' => 200,
+		'implementedMethods' => [
+			'slugConfig' => 'slugConfig',
+		],
 	];
 
 /**

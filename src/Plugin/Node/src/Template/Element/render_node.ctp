@@ -17,10 +17,10 @@
  */
 ?>
 
-<article class="node node-<?php echo $node->node_type_slug; ?> viewmode-<?php echo $this->getViewMode(); ?>">
+<article class="node node-<?php echo $node->node_type_slug; ?> viewmode-<?php echo $this->inUseViewMode(); ?>">
 	<header>
 		<?php
-			switch($this->getViewMode()):
+			switch($this->inUseViewMode()):
 			case 'full':
 		?>
 			<h1><?php echo $this->hooktags($node->title); ?></h1>
@@ -38,11 +38,11 @@
 		<p><?php echo __d('node', 'Published'); ?>: <time pubdate="pubdate"><?php echo $node->created->timeAgoInWords(); ?></time></p>
 	</header>
 
-	<?php foreach ($node->_fields as $field): ?>
+	<?php foreach ($node->_fields->sortByViewMode($this->inUseViewMode()) as $field): ?>
 		<?php echo $this->hooktags($this->render($field)); ?>
 	<?php endforeach; ?>
 
-	<?php if ($this->getViewMode() === 'full'): ?>
+	<?php if ($this->inUseViewMode() === 'full'): ?>
 		<?php
 			echo $this->element('Comment.render_comments', [
 				'options' => [

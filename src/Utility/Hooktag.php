@@ -67,7 +67,6 @@ class Hooktag {
  */
 	public function stripHooktags($text) {
 		$tagregexp = implode('|', static::_hooktags());
-
 		return preg_replace('/(.?)\[(' . $tagregexp . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', '$1$6', $text);
 	}
 
@@ -189,11 +188,11 @@ class Hooktag {
  *
  * Attribute names are always converted to lowercase. Values are untouched.
  *
- * ### Example:
+ * ## Example:
  *
  *     [hook_tag_name attr1="value1" aTTr2=value2 CamelAttr=Val1 /]
  *
- * ### Produces:
+ * Produces:
  *
  *     [
  *         'attr1' => 'value1',

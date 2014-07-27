@@ -17,6 +17,7 @@ use Cake\Utility\Hash;
 use Cake\View\Helper;
 use Cake\View\Helper\StringTemplateTrait;
 use Cake\View\View;
+use QuickApps\View\Helper\AppHelper;
 
 /**
  * Menu helper.
@@ -24,7 +25,7 @@ use Cake\View\View;
  * Renders nested database records into a well formated `<ul>` menus
  * suitable for HTML pages.
  */
-class MenuHelper extends Helper {
+class MenuHelper extends AppHelper {
 
 	use StringTemplateTrait;
 
@@ -144,6 +145,8 @@ class MenuHelper extends Helper {
  * @return string HTML
  */
 	public function render($items, $options = []) {
+		$this->alter('MenuHelper.render', $items, $options);
+
 		if (!empty($options['templates']) && is_array($options['templates'])) {
 			$this->templater()->add($options['templates']);
 			unset($options['templates']);
@@ -222,6 +225,8 @@ class MenuHelper extends Helper {
  * @return string
  */
 	public function formatter($item, array $info, array $options = []) {
+		$this->alter('MenuHelper.formatter', $item, $info, $options);
+
 		$options = Hash::merge([
 			'templates' => [],
 			'childAttrs' => ['class' => []],

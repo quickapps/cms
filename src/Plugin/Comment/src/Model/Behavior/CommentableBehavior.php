@@ -49,7 +49,11 @@ class CommentableBehavior extends Behavior {
 		'implementedFinders' => [
 			'comments' => 'findComments',
 		],
-		'post_validator' => 'default'
+		'post_validator' => 'default',
+		'implementedMethods' => [
+			'bindComments' => 'bindComments',
+			'unbindComments' => 'unbindComments',
+		],
 	];
 
 /**

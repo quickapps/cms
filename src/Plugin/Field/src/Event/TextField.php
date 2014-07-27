@@ -12,58 +12,18 @@
 namespace Field;
 
 use Cake\Event\Event;
-use Cake\Event\EventListener;
-use QuickApps\Utility\HooktagTrait;
 use Field\Utility\TextToolbox;
+use Field\Utility\FieldHandler;
 
 /**
  * Text Field Handler.
  *
  * This field allows to store text information, such as textboxes, textareas, etc.
  */
-class TextField implements EventListener {
-
-	use HooktagTrait;
+class TextField extends FieldHandler {
 
 /**
- * Return a list of implemented events.
- *
- * Events names must be named as follow:
- *
- *     Field.<FieldHandlerName>.<Entity|Instance>.<eventName>
- *
- * Example:
- *
- *     Field.TextField.Entity.edit
- *
- * @return array
- */
-	public function implementedEvents() {
-		return [
-			// Related to Entity:
-			'Field.TextField.Entity.display' => 'entityDisplay',
-			'Field.TextField.Entity.edit' => 'entityEdit',
-			'Field.TextField.Entity.formatter' => 'entityFormatter',
-			'Field.TextField.Entity.beforeFind' => 'entityBeforeFind',
-			'Field.TextField.Entity.afterSave' => 'entityAfterSave',
-			'Field.TextField.Entity.beforeValidate' => 'entityBeforeValidate',
-			'Field.TextField.Entity.afterValidate' => 'entityAfterValidate',
-			'Field.TextField.Entity.beforeDelete' => 'entityBeforeDelete',
-			'Field.TextField.Entity.afterDelete' => 'entityAfterDelete',
-
-			// Related to Instance:
-			'Field.TextField.Instance.info' => 'instanceInfo',
-			'Field.TextField.Instance.settings' => 'instanceSettings',
-			'Field.TextField.Instance.beforeAttach' => 'instanceBeforeAttach',
-			'Field.TextField.Instance.afterAttach' => 'instanceAfterAttach',
-			'Field.TextField.Instance.beforeDetach' => 'instanceBeforeDetach',
-			'Field.TextField.Instance.afterDetach' => 'instanceAfterDetach',
-		];
-	}
-
-/**
- * Defines how the field will actually display its contents
- * when rendering entities.
+ * {@inheritdoc}
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\Field $field Field information
@@ -72,14 +32,13 @@ class TextField implements EventListener {
  */
 	public function entityDisplay(Event $event, $field, $options = []) {
 		$View = $event->subject;
-		$value = $field->value;
-		$value = TextToolbox::process($value, $field->metadata->settings->text_processing);
+		$value = TextToolbox::process($field->value, $field->metadata->settings['text_processing']);
 		$field->set('value', $value);
 		return $View->element('Field.text_field_display', compact('field', 'options'));
 	}
 
 /**
- * Renders field in edit mode.
+ * {@inheritdoc}
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\Field $field Field information
@@ -92,11 +51,7 @@ class TextField implements EventListener {
 	}
 
 /**
- * All fields should have a 'default' formatter.
- *
- * Any number of other formatters can be defined as well.
- * It's nice for there always to be a 'plain' option
- * for the `value` value, but that is not required.
+ * {@inheritdoc}
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\Field $field Field information
@@ -109,12 +64,7 @@ class TextField implements EventListener {
     }
 
 /**
- * After each entity is saved.
- *
- * The options array contains the `post` key, which holds
- * all the information you need to update you field.
- *
- *     $options['post']
+ * {@inheritdoc}
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\Field $field Field information
@@ -128,7 +78,7 @@ class TextField implements EventListener {
 	}
 
 /**
- * Before an entity is validated as part of save process.
+ * {@inheritdoc}
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\Field $field Field information
@@ -186,7 +136,7 @@ class TextField implements EventListener {
 	}
 
 /**
- * After an entity is validated as part of save process.
+ * {@inheritdoc}
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\Field $field Field information
@@ -200,7 +150,7 @@ class TextField implements EventListener {
 	}
 
 /**
- * Before an entity is deleted from database.
+ * {@inheritdoc}
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\Field $field Field information
@@ -213,7 +163,7 @@ class TextField implements EventListener {
 	}
 
 /**
- * After an entity is deleted from database.
+ * {@inheritdoc}
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\Field $field Field information
@@ -225,11 +175,7 @@ class TextField implements EventListener {
 	}
 
 /**
- * Returns an array of information of this field.
- *
- * - `name`: string, Human readable name of this field. ex. `Selectbox`
- * - `description`: string, Something about what this field does or allows to do.
- * - `hidden`: true|false, If set to false users can not use this field via `Field UI`
+ * {@inheritdoc}
  *
  * @param \Cake\Event\Event $event
  * @return array
@@ -243,10 +189,7 @@ class TextField implements EventListener {
 	}
 
 /**
- * Renders all the form elements to be used on the field settings form.
- *
- * Field settings will be the same for all shared instances of the same field and should
- * define the way the value will be stored in the database.
+ * {@inheritdoc}
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\Field $field Field information
@@ -259,51 +202,48 @@ class TextField implements EventListener {
 	}
 
 /**
- * Before an new instance of this field is attached to a database table.
+ * {@inheritdoc}
  *
  * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\Field $field Field information
- * @param \Cake\ORM\Table $table The table which $field is being attached to
+ * @param \Field\Model\Entity\FieldInstance $instance Instance information
+ * @param array $options
  * @return boolean False will halt the attach process
  */
-	public function instanceBeforeAttach(Event $event, $field, $table) {
+	public function instanceBeforeAttach(Event $event, $instance, $options = []) {
 		return true;
 	}
 
 /**
- * After an new instance of this field is attached to a database table.
+ * {@inheritdoc}
  *
  * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\Field $field Field information
- * @param \Cake\ORM\Table $table The table which $field is attached to
+ * @param \Field\Model\Entity\FieldInstance $instance Instance information
  * @return void
  */
-	public function instanceAfterAttach(Event $event, $field, $table) {
-		return;
+	public function instanceAfterAttach(Event $event, $instance, $options = []) {
 	}
 
 /**
- * Before an instance of this field is detached from a database table.
+ * {@inheritdoc}
  *
  * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\Field $field Field information
- * @param \Cake\ORM\Table $table The table which $field is attached to
+ * @param \Field\Model\Entity\FieldInstance $instance Instance information
+ * @param array $options
  * @return boolean False will halt the detach process
  */
-	public function instanceBeforeDetach(Event $event, $field, $table) {
-		return;
+	public function instanceBeforeDetach(Event $event, $instance, $options = []) {
+		return true;
 	}
 
 /**
- * After an instance of this field was detached from a database table.
+ * {@inheritdoc}
  *
  * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\Field $field Field information
- * @param \Cake\ORM\Table $table The table which $field was attached to
+ * @param \Field\Model\Entity\FieldInstance $instance Instance information
+ * @param array $options
  * @return void
  */
-	public function instanceAfterDetach(Event $event, $field, $table) {
-		return;
+	public function instanceAfterDetach(Event $event, $instance, $options = []) {
 	}
 
 }

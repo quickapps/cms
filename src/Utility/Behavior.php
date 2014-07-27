@@ -9,6 +9,13 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-?>
+namespace QuickApps\Utility;
 
-<p><?php echo $this->element('Field.FieldUI/field_ui_submenu'); ?></p>
+use Cake\ORM\Behavior as CakeBehavior;
+use QuickApps\Utility\HookTrait;
+
+class Behavior extends CakeBehavior {
+
+	use HookTrait;
+
+}

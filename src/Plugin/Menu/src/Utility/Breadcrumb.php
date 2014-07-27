@@ -68,23 +68,25 @@ class Breadcrumb {
  * @return boolean True on success, False otherwise
  * @see \Menu\View\Helper\BreadcrumbHelper::render()
  */
-	public static function push($crumbs = [], $url = null) {
+	public static function push($crumbs = [], $url = '') {
 		if (empty($crumbs)) {
 			return false;
 		}
 
-		if ($url !== null && is_string($crumbs) && is_string($url)) {
+		if (is_string($crumbs) && is_string($url)) {
 			// "title" and "URL" as arguments"
 			$crumbs = [
-				['title' => $crumbs, 'url' => $url]
+				['title' => $crumbs, 'url' => $url],
 			];
-		} elseif (is_array($crumbs) && !empty($crumbs['title']) && !empty($crumbs['url'])) {
+		} elseif (is_array($crumbs) && isset($crumbs['title']) && isset($crumbs['url'])) {
 			// Single crumb push as an array
 			$crumbs = [$crumbs];
 		}
 
 		foreach ($crumbs as $crumb) {
-			static::$_crumbs[] = $crumb;
+			if (isset($crumb['title']) && isset($crumb['url'])) {
+				static::$_crumbs[] = $crumb;
+			}
 		}
 
 		return true;

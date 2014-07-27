@@ -22,17 +22,42 @@
 <table class="table table-hover">
 	<thead>
 		<tr>
-			<th><?php echo __('Title'); ?></th>
-			<th><?php echo __('Type'); ?></th>
-			<th><?php echo __('Author'); ?></th>
-			<th><?php echo __('Language'); ?></th>
-			<th><?php echo __('Created on'); ?></th>
-			<th>&nbsp;</th>
+			<th><?php echo __d('node', 'Title'); ?></th>
+			<th><?php echo __d('node', 'Type'); ?></th>
+			<th><?php echo __d('node', 'Author'); ?></th>
+			<th><?php echo __d('node', 'Language'); ?></th>
+			<th><?php echo __d('node', 'Created on'); ?></th>
+			<th><?php echo __d('node', 'Actions'); ?></th>
 		</tr>
 	</thead>
 	<tbody>
 		<?php foreach ($nodes as $node): ?>
-			<?php echo renderNodeRow($this, $node); ?>
+			<tr class="<?php echo $node->status == 0 ? 'warning' : ''; ?> ">
+				<td>
+					<?php echo $this->Html->link($node->title, $node->url, ['target' => '_blank']); ?>
+
+					<?php if ($node->promote): ?>
+					<span class="glyphicon glyphicon-home" title="<?php echo __d('node', 'Promote to front page'); ?>"></span>
+					<?php endif; ?>
+
+					<?php if ($node->sticky): ?>
+					<span class="glyphicon glyphicon-pushpin" title="<?php echo __d('node', 'Sticky at top of lists'); ?>"></span>
+					<?php endif; ?>
+
+					<?php if ((int)$node->comment_status === 1): ?>
+					<span class="glyphicon glyphicon-comment" title="<?php echo __d('node', 'Comments open'); ?>"></span>
+					<?php endif; ?>
+				</td>
+				<td><?php echo $node->type; ?></td>
+				<td><?php echo $node->author_name; ?></td>
+				<td><?php echo $node->language ? $node->language : __d('node', '--any--'); ?></td>
+				<td><?php echo $node->created->format(__d('node', 'Y-m-d H:i:s')); ?></td>
+				<td>
+					<?php echo $this->Html->link('', "/admin/node/manage/edit/{$node->id}", ['class' => 'btn btn-default glyphicon glyphicon-pencil', 'title' => __d('node', 'Edit')]); ?>
+					<?php echo $this->Html->link('', "/admin/node/manage/translate/{$node->id}", ['class' => 'btn btn-default glyphicon glyphicon-globe', 'title' => __d('node', 'Translate')]); ?>
+					<?php echo $this->Html->link('', "/admin/node/manage/delete/{$node->id}", ['class' => 'btn btn-default glyphicon glyphicon-trash', 'title' => __d('node', 'Delete'), 'confirm' => __d('node', 'You are about to delete: "%s". Are you sure ?', $node->title)]); ?>
+				</td>
+			</tr>
 		<?php endforeach; ?>
 	</tbody>
 </table>

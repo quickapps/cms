@@ -14,12 +14,11 @@ namespace Field\Model\Behavior;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\Error\MethodNotAllowedException;
-use Cake\ORM\Behavior;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\ORM\Query;
 use Field\Utility\FieldCollection;
-use QuickApps\Utility\HookTrait;
+use QuickApps\Utility\Behavior;
 
 /**
  * Fieldable Behavior
@@ -60,7 +59,7 @@ use QuickApps\Utility\HookTrait;
  *         [1] => [
  *             [name] => user-phone,
  *             [label] => User Phone,
- *             [value] => null, // no data stored,
+ *             [value] => null, // no data stored
  *             [extra] => null, // no data stored
  *             [metadata] => [ ... ]
  *         ],
@@ -216,8 +215,6 @@ use QuickApps\Utility\HookTrait;
  */
 class FieldableBehavior extends Behavior {
 
-	use HookTrait;
-
 /**
  * Table which this behavior is attached to.
  *
@@ -267,6 +264,12 @@ class FieldableBehavior extends Behavior {
 		'find_iterator' => null,
 		'fields_order' => [],
 		'enabled' => true,
+		'implementedMethods' => [
+			'configureFieldable' => 'configureFieldable',
+			'attachEntityFields' => 'attachEntityFields',
+			'unbindFieldable' => 'unbindFieldable',
+			'bindFieldable' => 'bindFieldable',
+		],
 	];
 
 /**
@@ -322,12 +325,10 @@ class FieldableBehavior extends Behavior {
 	public function beforeFind(Event $event, $query, $options, $primary) {
 		$config = $this->config();
 
-		if (!$config['enabled']) {
-			return true;
+		if ($config['enabled']) {
+			$query = $this->_parseQuery($query, $options);
+			$query->mapReduce($config['find_iterator']);
 		}
-
-		$query = $this->_parseQuery($query, $options);
-		$query->mapReduce($config['find_iterator']);
 	}
 
 /**
@@ -510,7 +511,7 @@ class FieldableBehavior extends Behavior {
 		}
 
 		if (!$options['atomic']) {
-			throw new FatalErrorException(__('Entities in fieldable tables can only be saved using transaction. Set [atomic = true]'));
+			throw new FatalErrorException(__d('field', 'Entities in fieldable tables can only be saved using transaction. Set [atomic = true]'));
 		}
 
 		$pk = $this->_table->primaryKey();
@@ -647,7 +648,7 @@ class FieldableBehavior extends Behavior {
 		}
 
 		if (!$options['atomic']) {
-			throw new FatalErrorException(__('Entities in fieldable tables can only be deleted using transaction. Set [atomic = true]'));
+			throw new FatalErrorException(__d('field', 'Entities in fieldable tables can only be deleted using transaction. Set [atomic = true]'));
 		}
 
 		$instances = $this->_getTableFieldInstances($entity);
@@ -703,7 +704,7 @@ class FieldableBehavior extends Behavior {
 		}
 
 		if (!$options['atomic']) {
-			throw new FatalErrorException(__('Entities in fieldable tables can only be deleted using transactions. Set [atomic = true]'));
+			throw new FatalErrorException(__d('field', 'Entities in fieldable tables can only be deleted using transactions. Set [atomic = true]'));
 		}
 
 		$EventManager = $this->_getEventManager();
@@ -919,6 +920,7 @@ class FieldableBehavior extends Behavior {
 					'description' => $instance->description,
 					'required' => $instance->required,
 					'settings' => $instance->settings,
+					'view_modes' => $instance->view_modes,
 					'handler' => $instance->handler,
 				])
 		]);

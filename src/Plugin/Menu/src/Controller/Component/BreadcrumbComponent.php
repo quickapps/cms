@@ -63,7 +63,7 @@ class BreadcrumbComponent extends Component {
  * @see \Menu\Utility\Breadcrumb::push()
  */
 	public function push($crumbs = [], $url = null) {
-		if (empty($crumbs) && empty($url)) {
+		if ($crumbs === [] && $url === null) {
 			$MenuLinks = TableRegistry::get('Menu.MenuLinks');
 			$MenuLinks->addBehavior('Tree');
 			$possibleMatches = $this->_possibleURL();
@@ -76,7 +76,7 @@ class BreadcrumbComponent extends Component {
 			if ($found) {
 				$crumbs = $MenuLinks->find('path', ['for' => $found->id])->toArray();
 			}
-		} elseif (is_string($crumbs) && $url === null) {
+		} elseif (is_string($crumbs) && strpos($crumbs, '/') !== false) {
 			$MenuLinks = TableRegistry::get('Menu.MenuLinks');
 			$MenuLinks->addBehavior('Tree');
 			$found = $MenuLinks

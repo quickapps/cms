@@ -21,12 +21,14 @@ use Cake\ORM\Table;
  *
  * Allow entities to store arrays of information under a single table column.
  *
- * Usage:
+ * ## Usage
  *
- *     // single field
+ * ### Single field
+ * 
  *     TableRegistry('TableName')->addBehavior('System.Serialized', 'column_1');
  *
- *     // multiple fields
+ * ### Multiple fields
+ * 
  *     TableRegistry('TableName')->addBehavior(
  *        'System.Serialized',
  *        [
@@ -101,7 +103,7 @@ class SerializedBehavior extends Behavior {
 						$row->has($field)
 					) {
 						$value = $row->get($field);
-						$data = $this->__unserialize($value);
+						$data = $this->_unserialize($value);
 						$row->set($field, $data, ['guard' => false]);
 					}
 				}
@@ -126,7 +128,7 @@ class SerializedBehavior extends Behavior {
 				$value = $entity->get($field);
 
 				$entity->accessible($field, true);
-				$entity->set($field, $this->__serialize($value));
+				$entity->set($field, $this->_serialize($value));
 			}
 		}
 	}
@@ -144,7 +146,7 @@ class SerializedBehavior extends Behavior {
 		foreach ((array)$config['fields'] as $field) {
 			if ($entity->has($field)) {
 				$value = $entity->get($field);
-				$entity->set($field, $this->__unserialize($value));
+				$entity->set($field, $this->_unserialize($value));
 			}
 		}
 	}
@@ -153,27 +155,32 @@ class SerializedBehavior extends Behavior {
  * Unserializes the given string.
  *
  * @param string $serialized Serialized string to unserialize
- * @return array The unserialized string
+ * @return \Cake\ORM\Entity The unserialized string as an Entity object suitable for FormHelper
  */
-	private function __unserialize($serialized) {
+	protected function _unserialize($serialized) {
 		//@codingStandardsIgnoreStart
 		$value = @unserialize($serialized);
 		//@codingStandardsIgnoreEnd
-		$value = is_array($value) && !empty($value) ? $value : [];
 
+		$value = is_array($value) && !empty($value) ? $value : [];
 		return new \Cake\ORM\Entity($value);
 	}
 
 /**
  * Serializes the given array.
  *
- * @param array $data Array to serialize
+ * You can provide both, an Array or an Entity object which will be converted to an array.
+ *
+ * @param array|\Cake\ORM\Entity $data Array to serialize or an Entity object
  * @return string The serialized array
  */
-	private function __serialize($data) {
-		if (!is_array($data)) {
+	protected function _serialize($data) {
+		if ($data instanceof \Cake\ORM\Entity) {
+			$data = $data->toArray();
+		} elseif (!is_array($data)) {
 			$data = [];
 		}
+
 		//@codingStandardsIgnoreStart
 		$value = @serialize($data);
 		//@codingStandardsIgnoreEnd

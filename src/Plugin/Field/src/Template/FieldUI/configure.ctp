@@ -26,10 +26,10 @@
 
 	<hr />
 
-	<?php if ($advanced = $this->hook("Field.{$instance->handler}.Instance.settings", $instance)): ?>
+	<?php if ($advanced = $this->invoke("Field.{$instance->handler}.Instance.settings", $this, $instance)): ?>
 		<fieldset>
 			<legend><?php echo __d('field', 'Advanced'); ?></legend>
-			<?php echo $advanced; ?>
+			<?php echo $advanced->result; ?>
 		</fieldset>
 	<?php endif; ?>
 

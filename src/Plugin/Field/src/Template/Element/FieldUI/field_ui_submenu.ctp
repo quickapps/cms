@@ -20,7 +20,7 @@ foreach ($this->viewModes(true) as $slug => $viewMode) {
 		'url' => [
 			'plugin' => $this->request->params['plugin'],
 			'controller' => $this->request->params['controller'],
-			'action' => 'view_modes',
+			'action' => 'view_mode_list',
 			'prefix' => 'admin',
 			$slug,
 		]
@@ -29,14 +29,14 @@ foreach ($this->viewModes(true) as $slug => $viewMode) {
 
 echo $this->Menu->render(
 	[
-		['title' => __d('field', 'Fields List'), 'url' => ['plugin' => $this->request->params['plugin'], 'controller' => 'fields', 'action' => 'index', 'prefix' => 'admin']],
-		['title' => __d('field', 'Attach New Field'), 'url' => ['plugin' => $this->request->params['plugin'], 'controller' => 'fields', 'action' => 'attach', 'prefix' => 'admin']],
+		['title' => '<span class="glyphicon glyphicon-list"></span> ' . __d('field', 'Fields List'), 'url' => ['plugin' => $this->request->params['plugin'], 'controller' => 'fields', 'action' => 'index', 'prefix' => 'admin']],
+		['title' => '<span class="glyphicon glyphicon-plus"></span> ' . __d('field', 'Attach New Field'), 'url' => ['plugin' => $this->request->params['plugin'], 'controller' => 'fields', 'action' => 'attach', 'prefix' => 'admin']],
 		[
-			'title' => __d('field', 'View Modes'),
+			'title' => '<span class="glyphicon glyphicon-eye-open"></span> ' . __d('field', 'View Modes'),
 			'url' => '#',
 			'expanded' => true,
 			'active_on_type' => 'reg',
-			'active_on' => '*/fields/view_modes*',
+			'active_on' => '*/fields/view_mode*',
 			'children' => $children,
 		],
 	],

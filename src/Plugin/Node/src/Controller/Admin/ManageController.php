@@ -31,6 +31,7 @@ class ManageController extends NodeAppController {
 			->contain(['NodeTypes', 'Author'])
 			->all();
 		$this->set('nodes', $nodes);
+		$this->Breadcrumb->push('/admin/node/manage');
 	}
 
 /**
@@ -47,6 +48,10 @@ class ManageController extends NodeAppController {
 			->where(['status' => 1])
 			->all();
 		$this->set('types', $types);
+		$this->Breadcrumb->push('/admin/node/manage');
+		$this->Breadcrumb->push([
+			['title' => __d('node', 'Create new content'), 'url' => '#']
+		]);
 	}
 
 /**
@@ -68,7 +73,7 @@ class ManageController extends NodeAppController {
 			->first();
 
 		if (!$type) {
-			throw new \Cake\Error\NotFoundException(__('The requested page was not found.'));
+			throw new \Cake\Error\NotFoundException(__d('node', 'The requested page was not found.'));
 		}
 
 		if ($this->request->data) {
@@ -78,10 +83,10 @@ class ManageController extends NodeAppController {
 			$node = $this->Nodes->newEntity($data);
 
 			if ($this->Nodes->save($node)) {
-				$this->alert(__('Content created!.'), 'success');
+				$this->alert(__d('node', 'Content created!.'), 'success');
 				$this->redirect(['plugin' => 'node', 'controller' => 'manage', 'action' => 'edit', 'prefix' => 'admin', $node->id]);
 			} else {
-				$this->alert(__('Something went wrong, please check your information.'), 'danger');
+				$this->alert(__d('node', 'Something went wrong, please check your information.'), 'danger');
 			}
 		} else {
 			$node = $this->Nodes->newEntity(['node_type_slug' => $type->slug]);
@@ -91,6 +96,11 @@ class ManageController extends NodeAppController {
 		$this->_setLanguages();
 		$this->set('node', $node);
 		$this->set('type', $type);
+		$this->Breadcrumb->push('/admin/node/manage');
+		$this->Breadcrumb->push([
+			['title' => __d('node', 'Create new content'), 'url' => ['plugin' => 'Node', 'controller' => 'manage', 'action' => 'create']],
+			['title' => $type->name, 'url' => '#'],
+		]);
 	}
 
 /**
@@ -102,21 +112,34 @@ class ManageController extends NodeAppController {
  */
 	public function edit($id, $revision_id = false) {
 		$this->loadModel('Node.Nodes');
+		$this->Nodes->unbindComments();
 
 		if ($revision_id && !$this->request->data) {
 			$this->loadModel('Node.NodeRevisions');
 			$node = $this->NodeRevisions->find()
 				->where(['id' => $revision_id, 'node_id' => $id])
 				->first();
-			$node = $node ? unserialize($node->data) : false;
+			$node = $node ? @unserialize($node->data) : false;
 		} else {
 			$node = $this->Nodes->find()
 				->where(['id' => $id])
+				->contain([
+					'NodeRevisions' => [
+						'queryBuilder' => function($q) {
+							return $q->formatResults(function($results) {
+								return $results->map(function($row) {
+									$row->set('data', @unserialize($row->data));
+									return $row;
+								});								
+							});
+						}
+					]
+				])
 				->first();
 		}
 
 		if (!$node) {
-			throw new \Cake\Error\NotFoundException(__('The requested page was not found.'));
+			throw new \Cake\Error\NotFoundException(__d('node', 'The requested page was not found.'));
 		}
 
 		if (!empty($this->request->data)) {
@@ -128,15 +151,19 @@ class ManageController extends NodeAppController {
 			$node->set($this->request->data);
 
 			if ($this->Nodes->save($node, ['atomic' => true])) {
-				$this->alert(__('Information was saved!'), 'success');
+				$this->alert(__d('node', 'Information was saved!'), 'success');
 				$this->redirect(['plugin' => 'node', 'controller' => 'manage', 'action' => 'edit', 'prefix' => 'admin', $id]);
 			} else {
-				$this->alert(__('Something went wrong, please check your information.'), 'danger');
+				$this->alert(__d('node', 'Something went wrong, please check your information.'), 'danger');
 			}
 		}
 
 		$this->_setLanguages();
 		$this->set('node', $node);
+		$this->Breadcrumb->push('/admin/node/manage');
+		$this->Breadcrumb->push([
+			['title' => __d('node', 'Editing content'), 'url' => '#']
+		]);
 	}
 
 /**
@@ -150,22 +177,34 @@ class ManageController extends NodeAppController {
 		$node = $this->Nodes->get($node_id);
 
 		if ($this->Nodes->delete($node, ['atomic' => true])) {
-			$this->alert(__('Content was successfully removed!'), 'success');
+			$this->alert(__d('node', 'Content was successfully removed!'), 'success');
 		} else {
-			$this->alert(__('Unable to remove this content, please try again.'), 'danger');
+			$this->alert(__d('node', 'Unable to remove this content, please try again.'), 'danger');
 		}
 
 		$this->redirect($this->referer());
 	}
 
 /**
- * Removes the given revision for the given node.
+ * Removes the given revision of the given node.
  *
- * @param string $node_slug
+ * @param integer $node_id
  * @param integer $revision_id
- * @return void
+ * @return void Redirects to previous page
  */
-	public function delete_revision($node_slug, $revision_id) {
+	public function delete_revision($node_id, $revision_id) {
+		$this->loadModel('Node.NodeRevisions');
+		$revision = $this->NodeRevisions->find()
+			->where(['id' => $revision_id, 'node_id' => $node_id])
+			->first();
+
+		if ($this->NodeRevisions->delete($revision, ['atomic' => true])) {
+			$this->alert(__d('node', 'Revision was successfully removed!'), 'success');
+		} else {
+			$this->alert(__d('node', 'Unable to remove this revision, please try again.'), 'danger');
+		}
+
+		$this->redirect($this->referer());
 	}
 
 /**

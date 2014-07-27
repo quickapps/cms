@@ -11,6 +11,7 @@
  */
 namespace QuickApps\Utility;
 
+use Cake\Collection\Collection;
 use Cake\Core\Configure;
 use Cake\Core\Plugin as CakePlugin;
 use Cake\Error\FatalErrorException;
@@ -24,6 +25,11 @@ use Cake\Utility\Inflector;
  */
 class Plugin extends CakePlugin {
 
+/**
+ * Default options for composer's json file.
+ *
+ * @var array
+ */
 	private static $_defaultComposerJson = [
 		'name' => null,
 		'description' => null,
@@ -72,36 +78,21 @@ class Plugin extends CakePlugin {
 	];
 
 /**
- * Gets all plugins matching the given conditions.
+ * Gets all plugin information as a collection object.
  *
- * ### Usage:
- *
- *     Plugin::matching(['isCore' => true]);
- *     // Outputs: ['Node', 'User', 'Comment', ...]
- *
- *     Plugin::matching(['isCore' => true], true);
- *     // Outputs:
- *     ['Node' => [ ... ], 'User' => [ ... ], 'Comment' => [ ... ], ...]
- *
- * @param array $conditions Conditions
- * @param boolean $namesOnly Set to true will return a plain list of plugin, set to false
- * will return an associative array of plugins with all the information.
- * @return array
+ * @param boolean $extendedInfo Set to true to get extended information for each plugin
+ * @return \Cake\Collection\Collection
  */
-	public static function matching($conditions = [], $namesOnly = true) {
-		$plugins = [];
+	public static function getCollection($extendedInfo = false) {
+		$collection = new Collection((array)Configure::read('QuickApps.plugins'));
 
-		foreach ((array)Configure::read('QuickApps.plugins') as $name => $info) {
-			if (Hash::contains($info, $conditions)) {
-				if ($namesOnly) {
-					$plugins[] = $name;
-				} else {
-					$plugins[$name] = static::getInfo($name);
-				}
-			}
+		if ($extendedInfo) {
+			$collection = $collection->map(function ($plugin, $key) {
+				return Plugin::getInfo($key);
+			});
 		}
 
-		return $plugins;
+		return $collection;
 	}
 
 /**

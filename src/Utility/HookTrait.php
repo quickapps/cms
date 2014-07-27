@@ -120,7 +120,7 @@ trait HookTrait {
 	public function hook($hookName) {
 		$args = func_get_args();
 		array_shift($args);
-		$event = new Event($hookName, $this, $args);
+		$event = new Event("Hook.{$hookName}", $this, $args);
 		EventManager::instance()->dispatch($event);
 
 		return $event->result;
@@ -132,6 +132,10 @@ trait HookTrait {
  * You can provide **up to 15 arguments**, which are automatically
  * passed to you hook handler method by reference. For example:
  *
+ *     $arg_0 = 'data 0';
+ *     $arg_1 = 'data 1';
+ *     ...
+ *     $arg_14 = 'data 14';
  *     $this->alter('MyHook', $arg_0, $arg_1, ..., $arg_14);
  *
  * Note that passing arguments as values will produce `Fatal Error`:
@@ -168,8 +172,7 @@ trait HookTrait {
  * @return \Cake\Event\Event
  */
 	public function alter($hookName, &$p0 = null, &$p1 = null, &$p2 = null, &$p3 = null, &$p4 = null, &$p5 = null, &$p6 = null, &$p7 = null, &$p8 = null, &$p9 = null, &$p10 = null, &$p11 = null, &$p12 = null, &$p13 = null, &$p14 = null) {
-		$eventName = "Alter.{$hookName}";
-		$event = new Event($eventName, $this);
+		$event = new Event("Alter.{$hookName}", $this);
 		$listeners = EventManager::instance()->listeners($event->name());
 
 		foreach ($listeners as $listener) {

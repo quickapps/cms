@@ -61,7 +61,6 @@ $config = [
 		'paths' => [
 			'plugins' => [
 				SITE_ROOT . DS . 'Plugin' . DS,
-				SITE_ROOT . DS . 'Themes' . DS,
 				APP . 'Plugin' . DS,
 			],
 			'templates' => [
@@ -78,7 +77,7 @@ $config = [
  *   You should treat it as extremely sensitive data.
  */
 	'Security' => [
-		'salt' => '701ec37fa460af0a40b9fd75ad6d08b74f034306c6f051206e',
+		'salt' => '',
 	],
 
 /**
@@ -90,7 +89,7 @@ $config = [
  * timestamping regardless of debug value.
  */
 	'Asset' => [
-		// 'timestamp' => true,
+		'timestamp' => true,
 	],
 
 /**

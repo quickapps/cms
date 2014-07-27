@@ -24,7 +24,7 @@ trait ViewModeTrait {
  *
  * @param string|null $slug Slug name of the view mode
  * @return void
- * @see QuickApps\Utility\ViewModeRegistry
+ * @see \QuickApps\Utility\ViewModeRegistry::switchViewMode()
  */
 	public function switchViewMode($slug) {
 		return ViewModeRegistry::switchViewMode($slug);
@@ -38,7 +38,7 @@ trait ViewModeTrait {
  * @param string|null $name Human readable name. e.g.: `My View Mode`
  * @param string|null $description A brief description about for what is this view mode
  * @return void
- * @see QuickApps\Utility\ViewModeRegistry
+ * @see \QuickApps\Utility\ViewModeRegistry::registerViewMode()
  */
 	public static function registerViewMode($slug, $name = null, $description = null) {
 		return ViewModeRegistry::registerViewMode($slug, $name, $description);
@@ -47,10 +47,12 @@ trait ViewModeTrait {
 /**
  * Gets the slug name of in use view mode.
  *
+ * @param boolean $full Set to true to get full information as an array. Or set to
+ * false (by default) to get slug name only
  * @return string
- * @see QuickApps\Utility\ViewModeRegistry
+ * @see \QuickApps\Utility\ViewModeRegistry::inUseViewMode()
  */
-	public function inUseViewMode() {
+	public function inUseViewMode($full = false) {
 		return ViewModeRegistry::inUseViewMode();
 	}
 
@@ -59,7 +61,7 @@ trait ViewModeTrait {
  *
  * @param boolean $full
  * @return array
- * @see QuickApps\Utility\ViewModeRegistry
+ * @see \QuickApps\Utility\ViewModeRegistry::viewModes
  */
 	public function viewModes($full = false) {
 		return ViewModeRegistry::viewModes($full);

@@ -14,6 +14,7 @@ namespace Search\Model\Behavior;
 use Cake\ORM\Behavior;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
+use QuickApps\Utility\HookTrait;
 
 /**
  * This behavior allows entities to be searchable through
@@ -48,7 +49,8 @@ use Cake\ORM\TableRegistry;
  * you, for example, create user-friendly search-forms, or create some RSS feed just by creating a
  * nice-well formated URL using a search-criteria. e.g.: `http://example.com/rss/category:art date:>2014-01-01`
  *
- * You must use the `scopeQuery()` method to scope any query using a search-criteria. For example:
+ * You must use the `scopeQuery()` method to scope any query using a search-criteria.
+ * For example, in some controller using `Users` table:
  *
  *     $criteria = '"this phrase" OR -"and not this one" AND "this"';
  *     $query = $this->Users->find();
@@ -69,7 +71,7 @@ use Cake\ORM\TableRegistry;
  * Both parts must be separated using the `:` symbol e.g.:
  *
  *     // scope-tag name is: "author"
- *     // scope-tag arguments are: "">2014-03-01"
+ *     // scope-tag arguments are: ">2014-03-01"
  *     date:>2014-03-01
  *
  * You can create custom scope-tags using the `SearchableBehavior::addScopeTag()` method.
@@ -92,7 +94,7 @@ use Cake\ORM\TableRegistry;
  *         }
  *         public function scopeAuthor($query, $value, $negate, $orAnd) {
  *             // $query:
- *             //     The query to alter
+ *             //     The query object to alter
  *             // $value:
  *             //     The value after `author:`. e.g.: `JohnLocke`
  *             // $negate:
@@ -107,6 +109,9 @@ use Cake\ORM\TableRegistry;
  *     }
  */
 class SearchableBehavior extends Behavior {
+
+	use HookTrait;
+
 /**
  * The table this behavior is attached to.
  *
@@ -129,7 +134,13 @@ class SearchableBehavior extends Behavior {
 		'scopes' => [],
 		'fields' => [],
 		'ignore_words' => [],
-		'on' => 'both'
+		'on' => 'both',
+		'implementedMethods' => [
+			'scopeQuery' => 'scopeQuery',
+			'addScopeTag' => 'addScopeTag',
+			'enableScopeTag' => 'enableScopeTag',
+			'disableScopeTag' => 'disableScopeTag',
+		],
 	];
 
 /**
@@ -258,12 +269,18 @@ class SearchableBehavior extends Behavior {
 			$orAnd = in_array($previousToken, ['or', 'and']) ? strtolower($previousToken) : null;
 
 			if (preg_match('/(-?)(\w+)\:(.+)$/', $token, $custom)) {
-				list($negate, $method, $value) = [$custom[1], $custom[2], $custom[3]];
+				list($negate, $tokenName, $value) = [$custom[1], $custom[2], $custom[3]];
 				$negate = !empty($negate);
-				$callable = $this->_getScopeCallable($method);
+				$callable = $this->_getScopeCallable($tokenName);
 
 				if ($callable) {
 					$query = $callable($query, $value, $negate, $orAnd);
+
+					if (!($query instanceof \Cake\ORM\Query)) {
+						throw new FatalErrorException(__d('search', 'Error while processing the "%" token in the search criteria.', $tokenName));
+					}
+				} else {
+					$this->alter("SearchableBehavior.scopeToken.{$tokenName}", $query, $value, $negate, $orAnd);
 				}
 			} else {
 				if (strpos($token, '-') === 0) {
@@ -290,7 +307,8 @@ class SearchableBehavior extends Behavior {
  * Registers a new scope method.
  *
  * @param string $name scope name. e.g. `author`
- * @param string $methodName The Table's method which will take care of this scope method
+ * @param string|array $methodName A string indicating the Table's method name which will take
+ * care of this scope method. Or an array compatible with call_user_func_array
  */
 	public function addScopeTag($name, $methodName) {
 		$this->_config['scopes'][$name] = $methodName;
@@ -325,7 +343,7 @@ class SearchableBehavior extends Behavior {
 /**
  * Gets the callable method for a given scope method.
  *
- * @param string $name Get the callable object for the given scope method
+ * @param string $name Name of the method to get
  * @return callable
  */
 	protected function _getScopeCallable($name) {
@@ -335,7 +353,11 @@ class SearchableBehavior extends Behavior {
 		if (isset($scopes[$name])) {
 			$callableName = $scopes[$name];
 
-			if (method_exists($this->_table, $callableName)) {
+			if (is_array($callableName)) {
+				return function ($query, $value, $negate, $orAnd) use($callableName) {
+					return call_user_func_array($callableName, [$query, $value, $negate, $orAnd]);
+				};
+			} elseif (method_exists($this->_table, $callableName)) {
 				return function ($query, $value, $negate, $orAnd) use($callableName) {
 					return $this->_table->$callableName($query, $value, $negate, $orAnd);
 				};
@@ -352,10 +374,11 @@ class SearchableBehavior extends Behavior {
  * @return array List of extracted tokens
  */
 	protected function _getTokens($criteria) {
+		$criteria = trim(urldecode($criteria));
 		$regex = '/-?"[\pL\d\s]+"|-?[\pL\:\<\>\_\-\w\d\,\[\]]+/';
 		preg_match_all($regex, $criteria, $tokens, PREG_SET_ORDER);
 
-		foreach ($tokens as & $token) {
+		foreach ($tokens as &$token) {
 			$token = array_shift($token);
 			$modifier = null;
 

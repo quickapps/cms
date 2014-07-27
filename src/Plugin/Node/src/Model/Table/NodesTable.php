@@ -48,10 +48,12 @@ class NodesTable extends Table {
 			'className' => 'Node\\Model\\Table\\NodeTypesTable',
 			'fields' => ['slug', 'name', 'description'],
 		]);
+
 		$this->hasMany('NodeRevisions', [
-			'className' => 'Node\\Model\\Table\\NodeRevisionsTable',
+			'className' => 'Node.NodeRevisionsTable',
 			'dependent' => true,
 		]);
+
 		$this->belongsTo('Author', [
 			'className' => 'User\\Model\\Table\\UsersTable',
 			'foreignKey' => 'created_by',
@@ -59,7 +61,6 @@ class NodesTable extends Table {
 		]);
 
 		$this->addBehavior('Timestamp');
-		$this->addBehavior('Tree');
 		$this->addBehavior('Comment.Commentable');
 		$this->addBehavior('System.Sluggable');
 		$this->addBehavior('Field.Fieldable', ['polymorphic_table_alias' => 'node_type_slug']);
@@ -70,6 +71,9 @@ class NodesTable extends Table {
 
 		// CRITERIA: promote:true
 		$this->addScopeTag('promote', 'scopePromote');
+
+		// CRITERIA: type:node-type-slug
+		$this->addScopeTag('type', 'scopeType');
 	}
 
 /**
@@ -83,11 +87,11 @@ class NodesTable extends Table {
 			->add('title', [
 				'notEmpty' => [
 					'rule' => 'notEmpty',
-					'message' => __('You need to provide a title'),
+					'message' => __d('node', 'You need to provide a title.'),
 				],
 				'length' => [
 					'rule' => ['minLength', 3],
-					'message' => 'Title need to be at least 3 characters long',
+					'message' => __d('node', 'Title need to be at least 3 characters long.'),
 				],
 			]);
 
@@ -105,7 +109,7 @@ class NodesTable extends Table {
 		if (!$entity->isNew()) {
 			$serialized = @serialize(TableRegistry::get('Node.Nodes')->get($entity->id));
 			$hash = md5($serialized);
-			$exists = TableRegistry::get('Node.NodeRevisions')->find()
+			$exists = $this->NodeRevisions->find()
 				->select(['id'])
 				->where([
 					'NodeRevisions.node_id' => $entity->id,
@@ -114,12 +118,13 @@ class NodesTable extends Table {
 				->first();
 
 			if (!$exists) {
-				$revision = new \Node\Model\Entity\NodeRevision([
+				$revision = $this->NodeRevisions->newEntity([
 					'node_id' => $entity->id,
 					'data' => $serialized,
-					'hash' => $hash
+					'hash' => $hash,
 				]);
-				TableRegistry::get('Node.NodeRevisions')->save($revision);
+				$this->NodeRevisions->addBehavior('Timestamp');
+				$this->NodeRevisions->save($revision);
 			}
 		}
 	}
@@ -146,7 +151,33 @@ class NodesTable extends Table {
 	}
 
 /**
+ * Applies "type:" criteria scope the given query.
+ *
+ * @param \Cake\ORM\Query $query
+ * @param string $value
+ * @param boolean $negate
+ * @param string $orAnd and|or
+ * @return void
+ */
+	public function scopeType($query, $value, $negate, $orAnd) {
+		$value = explode(',', strtolower($value));
+		$conjunction = $negate ? 'NOT IN' : 'IN';
+
+		if ($orAnd === 'or') {
+			$query->orWhere(["Nodes.node_type_slug {$conjunction}" => $value]);
+		} elseif ($orAnd === 'and') {
+			$query->andWhere(["Nodes.node_type_slug {$conjunction}" => $value]);
+		} else {
+			$query->where(["Nodes.node_type_slug {$conjunction}" => $value]);
+		}
+
+		return $query;
+	}
+
+/**
  * Applies "author:" criteria scope the given query.
+ *
+ * Filter nodes by author's username.
  *
  * @param \Cake\ORM\Query $query
  * @param string $value

@@ -165,12 +165,16 @@ if (!file_exists(TMP . 'snapshot.php') && file_exists(SITE_ROOT . '/Config/setti
 /**
  * Load all registered plugins.
  */
+$pluginCollection = Plugin::getCollection();
+$corePlugins = array_keys($pluginCollection->match(['isCore' => true])->toArray());
+$activePlugins = array_keys($pluginCollection->match(['status' => 1])->toArray());
+
 foreach (App::objects('Plugin') as $plugin) {
 	$EventManager = EventManager::instance();
 
 	if (
-		in_array($plugin, Plugin::matching(['isCore' => true])) ||
-		in_array($plugin, Plugin::matching(['status' => 1])) ||
+		in_array($plugin, $corePlugins) ||
+		in_array($plugin, $activePlugins) ||
 		$plugin === Configure::read('QuickApps.variables.site_theme') ||
 		$plugin === Configure::read('QuickApps.variables.admin_theme')
 	) {

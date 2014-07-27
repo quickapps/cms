@@ -11,6 +11,7 @@
  */
 namespace Node\Controller\Admin;
 
+use Cake\Error\NotFoundException;
 use Node\Controller\NodeAppController;
 
 /**
@@ -31,6 +32,24 @@ class TypesController extends NodeAppController {
 			->where(['status' => 1])
 			->all();
 		$this->set('types', $types);
+		$this->Breadcrumb->push();
+	}
+
+	public function edit($slug) {
+		$this->loadModel('Node.NodeTypes');
+		$type = $this->NodeTypes->find()
+			->where(['slug' => $slug, 'status' => 1])
+			->first();
+
+		if (!$type) {
+			throw new NotFoundException(__d('node', 'Content type was not found!'));
+		}
+
+		if ($this->request->data) {
+
+		}
+
+		$this->set('type', $type);
 		$this->Breadcrumb->push();
 	}
 

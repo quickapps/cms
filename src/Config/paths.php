@@ -16,14 +16,14 @@
 define('DS', DIRECTORY_SEPARATOR);
 
 /**
- * The full path to the directory which holds "App", WITHOUT a trailing DS.
+ * The full path to the directory which holds quickapps core's "src", WITHOUT a trailing DS.
  */
-define('ROOT', dirname(dirname(__DIR__)));
+define('ROOT', QUICKAPPS_CORE_INCLUDE_PATH);
 
 /**
- * The actual directory name for the "App".
+ * The actual directory name for quickapps core's "src".
  */
-define('APP_DIR', basename(dirname(__DIR__)));
+define('APP_DIR', 'src');
 
 /**
  * The name of the webroot dir.  Defaults to 'webroot'
@@ -65,7 +65,7 @@ define('CACHE', TMP . 'cache' . DS);
  *
  * CakePHP should always be installed with composer, so look there.
  */
-define('CAKE_CORE_INCLUDE_PATH', VENDOR_INCLUDE_PATH . '/cakephp/cakephp');
+define('CAKE_CORE_INCLUDE_PATH', VENDOR_INCLUDE_PATH . 'cakephp/cakephp');
 
 /**
  * Path to the cake directory.

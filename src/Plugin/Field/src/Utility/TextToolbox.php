@@ -17,6 +17,7 @@ use QuickApps\Utility\Hooktag;
 /**
  * Toolbox utility.
  *
+ * Utility methods used by Text Field Handler.
  */
 class TextToolbox {
 
@@ -76,7 +77,8 @@ class TextToolbox {
 /**
  * Process text in full HTML mode.
  *
- * - Web page addresses and e-mail addresses turn into links automatically.
+ * - Web page addresses turn into links automatically.
+ * - E-mail addresses turn into links automatically.
  *
  * @param string $text
  * @return string
@@ -90,7 +92,8 @@ class TextToolbox {
 /**
  * Process text in filtered HTML mode.
  *
- * - Web page addresses and e-mail addresses turn into links automatically.
+ * - Web page addresses turn into links automatically.
+ * - E-mail addresses turn into links automatically.
  * - Allowed HTML tags: `<a> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd>`
  * - Lines and paragraphs break automatically.
  *
@@ -154,6 +157,9 @@ class TextToolbox {
 /**
  * Protects email address so bots can not read it.
  *
+ * Replaces emails address with an encoded JS script, so there is no way bots can
+ * read an email address from the generated HTML source code.
+ *
  * @param string $email The email to obfuscate
  * @return string
  */
@@ -178,7 +184,7 @@ class TextToolbox {
  */
 	protected static function _stripHtmlTags($html) {
 		$html = preg_replace(
-			array(
+			[
 				'@<head[^>]*?>.*?</head>@siu',
 				'@<style[^>]*?>.*?</style>@siu',
 				'@<object[^>]*?.*?</object>@siu',
@@ -194,8 +200,8 @@ class TextToolbox {
 				'@</?((form)|(button)|(fieldset)|(legend)|(input))@iu',
 				'@</?((label)|(select)|(optgroup)|(option)|(textarea))@iu',
 				'@</?((frameset)|(frame)|(iframe))@iu',
-			),
-			array(' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',"$0", "$0", "$0", "$0", "$0", "$0","$0", "$0"),
+			],
+			[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',"$0", "$0", "$0", "$0", "$0", "$0","$0", "$0"],
 			$html
 		);
 
@@ -211,17 +217,17 @@ class TextToolbox {
  * @return string
  */
 	protected static function _urlToLink($text) {
-		$pattern = array(
+		$pattern = [
 			'/[^\\\](?<!http:\/\/|https:\/\/|\"|=|\'|\'>|\">)(www\..*?)(\s|\Z|\.\Z|\.\s|\<|\>|,)/i',
 			'/[^\\\](?<!\"|=|\'|\'>|\">|site:)(https?:\/\/(www){0,1}.*?)(\s|\Z|\.\Z|\.\s|\<|\>|,)/i',
 			'/[\\\\](?<!\"|=|\'|\'>|\">|site:)(https?:\/\/(www){0,1}.*?)(\s|\Z|\.\Z|\.\s|\<|\>|,)/i',
-		);
+		];
 
-		$replacement = array(
+		$replacement = [
 			"<a href=\"http://$1\">$1</a>$2",
 			"<a href=\"$1\" target=\"_blank\">$1</a>$3",
 			"$1$3"
-		);
+		];
 
 		return preg_replace($pattern, $replacement, $text);
 	}
@@ -268,7 +274,7 @@ class TextToolbox {
  * You can trim the text to a given number of characters, or you can give a string
  * as second argument which will be used to cut the given text and return the first part.
  *
- * Example:
+ * ## Examples:
  *
  *     $text = '
  *     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -277,30 +283,34 @@ class TextToolbox {
  *     Ut volutpat nisl enim, quic sit amet quam ut lacus condimentum volutpat in eu magna.
  *     Phasellus a dolor cursus, aliquam felis sit amet, feugiat orci. Donec vel consec.';
  *
+ *     echo $this->_trimmer($text, '<!-- readmore -->');
  *
- * Using `_trimmer($text, '<!-- readmore -->');` will returns:
- *
+ *     // outputs:
  *     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
  *     Fusce augue nulla, iaculis adipiscing risus sed, pharetra tempor risus.
  *
+ *     echo $this->_trimmer('Lorem ipsum dolor sit amet, consectetur adipiscing elit', 10);
+ *     // out: "Lorem ipsu ..."
+ *
  * @param string $text
  * @param string|integer|false $len Either a string indicating where to cut the text,
- *    or a integer to trim text to that number of characters. If not given (false by default)
- *    text will be trimmed to 600 characters length.
+ * or a integer to trim text to that number of characters. If not given (false by default)
+ * text will be trimmed to 600 characters length.
+ * @param string $ellipsis Will be used as ending and appended to the trimmed string
  * @return string
  */
-	protected static function _trimmer($text, $len = false) {
+	protected static function _trimmer($text, $len = false, $ellipsis = ' ...') {
 		if (!preg_match('/[0-9]+/i', $len)) {
-			$read_more = explode($len, $text);
-			return static::closeOpenTags($read_more[0]);
+			$parts = explode($len, $text);
+			return static::closeOpenTags($parts[0]);			
 		}
 
-		$len = !$len || !is_numeric($len) || $len === 0 ? 600 : $len;
+		$len = $len === false || !is_numeric($len) || $len <= 0 ? 600 : $len;
 		$text = static::_filterText($text);
 		$textLen = strlen($text);
 
 		if ($textLen > $len) {
-			return substr($text, 0, $len) . ' ...';
+			return substr($text, 0, $len) . $ellipsis;
 		}
 
 		return $text;

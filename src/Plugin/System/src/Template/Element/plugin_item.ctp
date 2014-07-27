@@ -71,12 +71,7 @@
 		<?php endif; ?>
 	</div>
 
-	<h2>
-		<?php echo $plugin; ?>
-		<?php if (!empty($info['version'])): ?>
-		(<?php echo $info['version']; ?>)
-		<?php endif; ?>
-	</h2>
+	<h2><?php echo $plugin; ?> (<?php echo $info['version']; ?>)</h2>
 	<em class="description"><?php echo $info['description']; ?></em>
 
 	<div class="extended-info" style="display:none;">

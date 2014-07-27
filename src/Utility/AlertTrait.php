@@ -11,6 +11,8 @@
  */
 namespace QuickApps\Utility;
 
+use Cake\Routing\Router;
+
 /**
  * Adds methods for handling alert messages.
  *
@@ -41,7 +43,9 @@ namespace QuickApps\Utility;
  *   - and more messages
  * - ...
  * - `<group>`.`<class>`
- *   - message ...
+ *   - message 1
+ *   - ...
+ *   - message n
  *
  * As we mention, `flash` is the default group, but you are able to define your own.
  * For example, in your controller:
@@ -86,10 +90,10 @@ trait AlertTrait {
 
 		$class = !in_array($class, ['success', 'info', 'warning', 'danger']) ? 'success' : $class;
 		$key = "Alert.{$group}.{$class}";
-		$messages = (array)$this->request->session()->read($key);
+		$messages = (array)Router::getRequest()->session()->read($key);
 		$messages[] = $message;
 
-		$this->request->session()->write($key, $messages);
+		Router::getRequest()->session()->write($key, $messages);
 	}
 
 /**
@@ -120,23 +124,23 @@ trait AlertTrait {
  */
 	public function clearAlerts($class = null, $group = 'flash') {
 		if ($class === null && $group === null) {
-			$this->request->session()->delete('Alert');
+			Router::getRequest()->session()->delete('Alert');
 		} elseif ($class === null && $group !== null) {
-			$this->request->session()->delete("Alert.{$group}");
+			Router::getRequest()->session()->delete("Alert.{$group}");
 		} elseif ($class !== null && $group === null) {
-			$groups = (array)$this->request->session()->read('Alert');
+			$groups = (array)Router::getRequest()->session()->read('Alert');
 
 			foreach ($groups as $groupName => $span) {
-				$messages = (array)$this->request->session()->read("Alert.{$groupName}");
+				$messages = (array)Router::getRequest()->session()->read("Alert.{$groupName}");
 
 				foreach ((array)$span as $c => $m) {
 					if ($class == $c) {
-						$this->request->session()->read("Alert.{$groupName}.{$c}");
+						Router::getRequest()->session()->read("Alert.{$groupName}.{$c}");
 					}
 				}
 			}
 		} elseif ($class !== null && $group !== null) {
-			$this->request->session()->delete("Alert.{$group}.{$class}");
+			Router::getRequest()->session()->delete("Alert.{$group}.{$class}");
 		}
 	}
 
@@ -223,7 +227,7 @@ trait AlertTrait {
 				}
 			}
 		} elseif (is_null($class)) {
-			$_messages = $this->request->session()->read("Alert.{$group}");
+			$_messages = Router::getRequest()->session()->read("Alert.{$group}");
 
 			if (!empty($_messages)) {
 				foreach ($_messages as $_class => $messages) {
@@ -237,7 +241,7 @@ trait AlertTrait {
 				}
 			}
 		} elseif (is_string($class) && !empty($class)) {
-			$messages = (array)$this->request->session()->read("Alert.{$group}.{$class}");
+			$messages = (array)Router::getRequest()->session()->read("Alert.{$group}.{$class}");
 
 			foreach ($messages as $k => $message) {
 				if (!empty($message) && in_array($class, ['success', 'info', 'warning', 'danger'])) {
@@ -250,7 +254,7 @@ trait AlertTrait {
 				}
 			}
 
-			$this->request->session()->delete("Alert.{$group}.{$class}");
+			Router::getRequest()->session()->delete("Alert.{$group}.{$class}");
 		}
 
 		return $out;

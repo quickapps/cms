@@ -16,7 +16,7 @@
 <table class="table table-hover table-bordered table-responsive">
 	<thead>
 		<tr>
-			<th><?php echo __d('field', 'Label'); ?></th>
+			<th><?php echo __d('field', 'Field label'); ?></th>
 			<th><?php echo __d('field', 'Machine name'); ?></th>
 			<th><?php echo __d('field', 'Handler'); ?></th>
 			<th><?php echo __d('field', 'Actions'); ?></th>
@@ -24,9 +24,15 @@
 	</thead>
 	<tbody>
 		<?php $count = count($instances); ?>
-		<?php foreach ($instances as $k => $instance): ?>
+		<?php $k = 0; ?>
+		<?php foreach ($instances as $instance): ?>
 		<tr>
-			<td><?php echo $instance->label; ?></td>
+			<td>
+				<?php if ($instance->locked): ?>
+					<span class="glyphicon glyphicon-lock" title="<?php echo __d('field', 'This field is locked and you can not edit it.'); ?>"></span>
+				<?php endif; ?>
+				<?php echo $instance->label; ?>
+			</td>
 			<td><?php echo $instance->slug; ?></td>
 			<td><?php echo $instance->handler; ?></td>
 			<td>
@@ -38,10 +44,13 @@
 				<?php echo $this->Html->link('', ['plugin' => $this->request->params['plugin'], 'controller' => $this->request->params['controller'], 'action' => 'move', $instance->id, 'down'], ['title' => __d('field', 'Move down'), 'class' => 'btn btn-default glyphicon glyphicon-arrow-down']); ?>
 				<?php endif; ?>
 
-				<?php echo $this->Html->link('', ['plugin' => $this->request->params['plugin'], 'controller' => $this->request->params['controller'], 'action' => 'configure', $instance->id], ['title' => __d('field', 'Configure'), 'class' => 'btn btn-default glyphicon glyphicon-cog']); ?>
-				<?php echo $this->Html->link('', ['plugin' => $this->request->params['plugin'], 'controller' => $this->request->params['controller'], 'action' => 'delete', $instance->id], ['title' => __d('field', 'Delete'), 'class' => 'btn btn-default glyphicon glyphicon-trash', 'confirm' => __d('field', 'Delete this field? This can not be undone, all information stored will be lost.')]); ?>
+				<?php if (!$instance->locked): ?>
+					<?php echo $this->Html->link('', ['plugin' => $this->request->params['plugin'], 'controller' => $this->request->params['controller'], 'action' => 'configure', $instance->id], ['title' => __d('field', 'Configure'), 'class' => 'btn btn-default glyphicon glyphicon-cog']); ?>
+					<?php echo $this->Html->link('', ['plugin' => $this->request->params['plugin'], 'controller' => $this->request->params['controller'], 'action' => 'detach', $instance->id], ['title' => __d('field', 'Delete'), 'class' => 'btn btn-default glyphicon glyphicon-trash', 'confirm' => __d('field', 'Delete this field? This can not be undone, all information stored will be lost.')]); ?>
+				<?php endif; ?>
 			</td>
 		</tr>
+		<?php $k++; ?>
 		<?php endforeach; ?>
 	</tbody>
 </table>

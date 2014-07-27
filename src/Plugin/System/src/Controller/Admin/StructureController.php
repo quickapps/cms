@@ -39,6 +39,7 @@ class StructureController extends SystemAppController {
 			->all();
 
 		$this->set('links', $links);
+		$this->Breadcrumb->push('/admin/system/structure');
 	}
 
 }

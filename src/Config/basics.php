@@ -24,7 +24,7 @@ use Cake\ORM\TableRegistry;
  *
  * @return void
  */
-function snapshot() {
+function snapshot($force = false) {
 	$snapshot = [
 		'node_types' => [],
 		'plugins' => [],
@@ -81,13 +81,14 @@ function snapshot() {
 	foreach (App::path('Plugin') as $path) {
 		$Folder = new Folder($path);
 
-		foreach($Folder->read(false, false, true)[0] as $pluginPath) {
+		foreach($Folder->read(false, true, true)[0] as $pluginPath) {
 			$pluginName = basename($pluginPath);
 			$basePath = $pluginPath . DS . 'src' . DS;
 			$eventsPath =  $basePath . 'Event' . DS;
+			$isCore = (strpos(str_replace(['/', DS], '/', $pluginPath), str_replace(['/', DS], '/', APP)) !== false);
 
 			// core plugins are always enabled
-			if (strpos($pluginPath, APP) !== false) {
+			if ($isCore) {
 				$status = 1;
 			} else {
 				$status = -1;
@@ -129,7 +130,7 @@ function snapshot() {
 			$snapshot['plugins'][$pluginName] = [
 				'name' => $pluginName,
 				'isTheme' => str_ends_with($pluginName, 'Theme'),
-				'isCore' => (strpos($pluginPath, APP) !== false),
+				'isCore' => $isCore,
 				'hasHelp' => file_exists($pluginPath . '/src/Template/Element/help.ctp'),
 				'hasSettings' => file_exists($pluginPath . '/src/Template/Element/settings.ctp'),
 				'events' => $events,
@@ -141,41 +142,6 @@ function snapshot() {
 
 	Configure::write('QuickApps', $snapshot);
 	Configure::dump('snapshot.php', 'QuickApps', ['QuickApps']);
-}
-
-/**
- * Translation function, domain search order:
- *
- * 1.  In use plugin.
- * 2.  Default.
- *
- * @param string $singular String to translate
- * @param mixed $args Array with arguments or multiple arguments in function
- * @return string The translated string
- */
-function __($singular, $args = null) {
-	$plugin = false;
-	$translated = $singular;
-
-	if (!empty(Router::getRequest()->params['plugin'])) {
-		$plugin = Inflector::underscore(Router::getRequest()->params['plugin']);
-	}
-
-	if ($plugin) {
-		$translated = __d($plugin, $singular);
-	}
-
-	if ($translated === $singular) {
-		$translated = I18n::translate($singular);
-	}
-
-	if ($args === null) {
-		return $translated;
-	} elseif (!is_array($args)) {
-		$args = array_slice(func_get_args(), 1);
-	}
-
-	return vsprintf($translated, $args);
 }
 
 /**
