@@ -13,6 +13,7 @@ namespace Comment\Model\Table;
 
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
+use Cake\Validation\Validator;
 
 /**
  * Represents "comments" database table.
@@ -29,7 +30,10 @@ class CommentsTable extends Table {
  * @return void
  */
 	public function initialize(array $config) {
-		$this->belongsTo('Users');
+		$this->addBehavior('Timestamp');
+		$this->belongsTo('Users', [
+			'className' => 'User.Users',
+		]);
 	}
 
 /**
@@ -38,12 +42,12 @@ class CommentsTable extends Table {
  * @param \Cake\Validation\Validator $validator
  * @return \Cake\Validation\Validator
  */
-	public function validationBasic(\Cake\Validation\Validator $validator) {
+	public function validationBasic(Validator $validator) {
 		$validator
 			->add('subject', [
 				'notEmpty' => [
 					'rule' => 'notEmpty',
-					'message' => __d('comment', 'You need to provide a title'),
+					'message' => __d('comment', 'You need to provide a comment subject.'),
 				],
 				'length' => [
 					'rule' => ['minLength', 5],
@@ -80,8 +84,29 @@ class CommentsTable extends Table {
 					return true;
 				},
 				'message' => __d('comment', 'Invalid parent comment!.')
-			])
-			->allowEmpty('user_id')
+			]);
+
+		return $validator;
+	}
+
+/**
+ * Wrapper to validationBasic.
+ *
+ * @param \Cake\Validation\Validator $validator
+ * @return \Cake\Validation\Validator
+ */
+	public function validationDefault(Validator $validator) {
+		return $this->validationBasic($validator);
+	}
+
+/**
+ * Validation rules applied to logged-in users.
+ *
+ * @param \Cake\Validation\Validator $validator
+ * @return \Cake\Validation\Validator
+ */
+	public function validationLoggedIn(Validator $validator) {
+		$validator = $this->validationBasic($validator)
 			->add('user_id', 'checkUserId', [
 				'rule' => function ($value, $context) {
 					if (!empty($value)) {
@@ -102,32 +127,6 @@ class CommentsTable extends Table {
 				},
 				'message' => __d('comment', 'Invalid author.')
 			]);
-
-		return $validator;
-	}
-
-/**
- * Wrapper to validationBasic.
- *
- * As CakePHP's uses `default` validator. We wrap around `Basic` validator
- * when no validation set is specified.
- *
- * @param  \Cake\Validation\Validator $validator
- * @return \Cake\Validation\Validator
- */
-	public function validationDefault(\Cake\Validation\Validator $validator) {
-		return $this->validationBasic($validator);
-	}
-
-/**
- * Validation rules applied to anonymous users.
- *
- * @param  \Cake\Validation\Validator $validator
- * @return \Cake\Validation\Validator
- */
-	public function validationAnonymous(\Cake\Validation\Validator $validator) {
-		$validator = $this->validationBasic($validator);
-
 		return $validator;
 	}
 }

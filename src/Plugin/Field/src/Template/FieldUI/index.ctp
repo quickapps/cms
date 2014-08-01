@@ -23,7 +23,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<?php $count = count($instances); ?>
+		<?php $count = count($instances->countBy('id')->toArray()); ?>
 		<?php $k = 0; ?>
 		<?php foreach ($instances as $instance): ?>
 		<tr>
@@ -34,7 +34,7 @@
 				<?php echo $instance->label; ?>
 			</td>
 			<td><?php echo $instance->slug; ?></td>
-			<td><?php echo $instance->handler; ?></td>
+			<td><?php echo $instance->handlerName; ?></td>
 			<td>
 				<?php if ($k > 0): ?>
 				<?php echo $this->Html->link('', ['plugin' => $this->request->params['plugin'], 'controller' => $this->request->params['controller'], 'action' => 'move', $instance->id, 'up'], ['title' => __d('field', 'Move Up'), 'class' => 'btn btn-default glyphicon glyphicon-arrow-up']); ?>

@@ -13,8 +13,8 @@
 
 <?php if ($success): ?>
 	<div class="alert alert-success clearfix">
-		<p><?php echo __("<strong>Congratulations!</strong> Your server meets the basic software requirements."); ?></p>
-		<p><?php echo $this->Html->link(__('Continue'), ['plugin' => 'installer', 'controller' => 'startup', 'action' => 'license'], ['class' => 'btn btn-primary pull-right']); ?></p>
+		<p><?php echo __d('installer', '<strong>Congratulations!</strong> Your server meets the basic software requirements.'); ?></p>
+		<p><?php echo $this->Html->link(__d('installer', 'Continue'), ['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'license'], ['class' => 'btn btn-primary pull-right']); ?></p>
 	</div>
 <?php else: ?>
 	<div class="alert alert-danger">

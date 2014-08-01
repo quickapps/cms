@@ -4,18 +4,18 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @since	 2.0.0
+ * @since	 1.0.0
  * @author	 Christopher Castro <chris@quickapps.es>
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Installer\Controller;
+namespace Block\Controller;
 
-use QuickApps\Controller\AppController;
+use QuickApps\Controller\AppController as BaseController;
 
 /**
- * Main controller for Installer plugin.
+ * Main controller for Block plugin.
  *
  */
-class InstallerAppController extends AppController {
+class AppController extends BaseController {
 }

@@ -11,13 +11,13 @@
  */
 namespace Wysiwyg\Controller\Admin;
 
-use Wysiwyg\Controller\WysiwygAppController;
+use Wysiwyg\Controller\AppController;
 
 /**
  * File manager for elFinder CKeditor Add-on.
  *
  */
-class ElFinderController extends WysiwygAppController {
+class ElFinderController extends AppController {
 
 /**
  * Renders elFinder's UI.

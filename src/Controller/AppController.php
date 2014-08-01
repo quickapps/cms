@@ -80,6 +80,8 @@ class AppController extends Controller {
  */
 	public function __construct($request = null, $response = null) {
 		parent::__construct($request, $response);
+		$this->switchViewMode('default');
+
 		// TODO: set default languages and other stuff
 		// TODO: change AppController::theme according to site settings.
 		if (!empty($this->request->params['prefix']) && strtolower($this->request->params['prefix']) === 'admin') {

@@ -34,12 +34,11 @@ $config = [
  * - dir - Name of app directory.
  * - webroot - The webroot directory.
  * - www_root - The file path to webroot.
- * - baseUrl - To configure CakePHP *not* to use mod_rewrite and to
+ * - baseUrl - To configure CakePHP to *not* use mod_rewrite and to
  *   use CakePHP pretty URLs, remove these .htaccess
  *   files:
  *      /.htaccess
- *      /app/.htaccess
- *      /app/webroot/.htaccess
+ *      /webroot/.htaccess
  *   And uncomment the baseUrl key below.
  * - imageBaseUrl - Web path to the public images directory under webroot.
  * - cssBaseUrl - Web path to the public css directory under webroot.
@@ -54,18 +53,14 @@ $config = [
 		'dir' => 'src',
 		'webroot' => 'webroot',
 		'www_root' => WWW_ROOT,
+		//'baseUrl' => env('SCRIPT_NAME'),
 		'fullBaseUrl' => false,
 		'imageBaseUrl' => 'img/',
 		'cssBaseUrl' => 'css/',
 		'jsBaseUrl' => 'js/',
 		'paths' => [
-			'plugins' => [
-				SITE_ROOT . DS . 'Plugin' . DS,
-				APP . 'Plugin' . DS,
-			],
-			'templates' => [
-				APP . 'Template' . DS,
-			],
+			'plugins' => [SITE_ROOT . '/Plugin/', APP . 'Plugin/'],
+			'templates' => [APP . 'Template/'],
 		],
 	],
 
@@ -77,7 +72,7 @@ $config = [
  *   You should treat it as extremely sensitive data.
  */
 	'Security' => [
-		'salt' => '',
+		'salt' => '__SALT__',
 	],
 
 /**
@@ -85,11 +80,11 @@ $config = [
  * Will append a querystring parameter containing the time the file was modified. This is
  * useful for invalidating browser caches.
  *
- * Set to `true` to apply timestamps when debug > 0. Set to 'force' to always enable
+ * Set to true to apply timestamps when debug is true. Set to 'force' to always enable
  * timestamping regardless of debug value.
  */
 	'Asset' => [
-		'timestamp' => true,
+		'timestamp' => false,
 	],
 
 /**
@@ -128,13 +123,13 @@ $config = [
 /**
  * Configure the Error and Exception handlers used by your application.
  *
- * By default errors are displayed using Debugger, when debug > 0 and logged by
- * Cake\Log\Log when debug = 0.
+ * By default errors are displayed using Debugger, when debug is true and logged by
+ * Cake\Log\Log when debug is false.
  *
  * In CLI environments exceptions will be printed to stderr with a backtrace.
  * In web environments an HTML page will be displayed for the exception.
- * While debug > 0, framework errors like Missing Controller will be displayed.
- * When debug = 0, framework errors will be coerced into generic HTTP errors.
+ * With debug true, framework errors like Missing Controller will be displayed.
+ * When debug is false, framework errors will be coerced into generic HTTP errors.
  *
  * Options:
  *
@@ -144,7 +139,7 @@ $config = [
  * - `log` - boolean - Whether or not you want exceptions logged.
  * - `exceptionRenderer` - string - The class responsible for rendering
  *   uncaught exceptions.  If you choose a custom class you should place
- *   the file for that class in app/Lib/Error. This class needs to implement a render method.
+ *   the file for that class in src/Lib/Error. This class needs to implement a render method.
  * - `skipLog` - array - List of exceptions to skip for logging. Exceptions that
  *   extend one of the listed exceptions will also be skipped for logging.
  *   Example: `'skipLog' => array('Cake\Error\NotFoundException', 'Cake\Error\UnauthorizedException')`
@@ -162,7 +157,7 @@ $config = [
  *
  * You can configure email transports and email delivery profiles here.
  *
- * By defining transports separately from delivery profiles you can eaisly re-use transport
+ * By defining transports separately from delivery profiles you can easily re-use transport
  * configuration across multiple profiles.
  *
  * You can specify multiple configurations for production, development and testing.
@@ -176,7 +171,7 @@ $config = [
  *  Debug  - Do not send the email, just return the result
  *
  * You can add custom transports (or override existing transports) by adding the
- * appropriate file to app/Network/Email.  Transports should be named 'YourTransport.php',
+ * appropriate file to src/Network/Email.  Transports should be named 'YourTransport.php',
  * where 'Your' is the name of the transport.
  *
  * ### Configuring delivery profiles
@@ -224,21 +219,8 @@ $config = [
 			'database' => '',
 			'prefix' => false,
 			'encoding' => 'utf8',
-		],
-
-		/**
-		 * The test connection is used during the test suite.
-		 */
-		'test' => [
-			'className' => 'Cake\Database\Connection',
-			'driver' => 'Cake\Database\Driver\Mysql',
-			'persistent' => false,
-			'host' => 'localhost',
-			'login' => 'root',
-			'password' => '',
-			'database' => 'qa2test',
-			'prefix' => false,
-			'encoding' => 'utf8',
+			'timezone' => 'UTC',
+			'cacheMetadata' => true,
 		],
 	],
 
@@ -270,19 +252,12 @@ $config = [
  *
  * - `cookie` - The name of the cookie to use. Defaults to 'CAKEPHP'
  * - `timeout` - The number of minutes you want sessions to live for. This timeout is handled by CakePHP
- * - `cookieTimeout` - The number of minutes you want session cookies to live for.
- * - `checkAgent` - Do you want the user agent to be checked when starting sessions? You might want to set the
  *    value to false, when dealing with older versions of IE, Chrome Frame or certain web-browsing devices and AJAX
  * - `defaults` - The default configuration set to use as a basis for your session.
  *    There are four builtins: php, cake, cache, database.
- * - `handler` - Can be used to enable a custom session handler.  Expects an array of of callables,
- *    that can be used with `session_save_handler`.  Using this option will automatically add `session.save_handler`
- *    to the ini array.
- * - `autoRegenerate` - Enabling this setting, turns on automatic renewal of sessions, and
- *    sessionids that change frequently.
- * - `requestCountdown` - Number of requests that can occur during a session time
- *    without the session being renewed. Only used when config value `autoRegenerate`
- *    is set to true. Default to 10.
+ * - `handler` - Can be used to enable a custom session handler. Expects an array with at least the `engine` key,
+ *    being the name of the Session engine class to use for managing the session. CakePHP bundles the `CacheSession`
+ *    and `DatabaseSession` engines.
  * - `ini` - An associative array of additional ini values to set.
  *
  * The built in defaults are:
@@ -292,12 +267,11 @@ $config = [
  * - 'database' - Uses CakePHP's database sessions.
  * - 'cache' - Use the Cache class to save sessions.
  *
- * To define a custom session handler, save it at /app/Network/Session/<name>.php.
- * Make sure the class implements PHP's `SessionHandlerInterface` and se
+ * To define a custom session handler, save it at src/Network/Session/<name>.php.
+ * Make sure the class implements PHP's `SessionHandlerInterface` and set
  * Session.handler to <name>
  *
- * To use database sessions, run the app/Config/Schema/sessions.php schema using
- * the cake shell command: cake schema create Sessions
+ * To use database sessions, load the SQL file located at src/Config/Schema/sessions.sql
  */
 	'Session' => [
 		'defaults' => 'php',

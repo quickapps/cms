@@ -27,12 +27,14 @@
 		<?php echo $this->Form->input('sticky', ['type' => 'checkbox', 'label' => __d('node', 'Sticky at top of lists')]); ?>
 	</fieldset>
 
+	<?php if (isset($node->_fields)): ?>
 	<fieldset>
 		<legend><?php echo __d('node', 'Content'); ?></legend>
 		<?php foreach ($node->_fields as $field): ?>
 			<?php echo $this->Form->input($field); ?>
 		<?php endforeach; ?>
 	</fieldset>
+	<?php endif; ?>
 
 	<fieldset>
 		<legend><?php echo __d('node', 'Settings'); ?></legend>

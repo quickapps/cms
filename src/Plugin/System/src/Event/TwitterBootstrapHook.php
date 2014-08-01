@@ -29,16 +29,52 @@ use Cake\Event\EventListener;
 class TwitterBootstrapHook implements EventListener {
 
 /**
- * List of custom form templates.
- *
+ * Custom templates for FormHelper.
+ * 
  * @var array
  */
 	protected $_templates = [
+		'button' => '<button{{attrs}}>{{text}}</button>',
+		'checkbox' => '<input type="checkbox" name="{{name}}" value="{{value}}"{{attrs}}>',
+		'checkboxFormGroup' => '{{input}}{{label}}',
+		'checkboxWrapper' => '<div class="checkbox">{{input}}{{label}}</div>',
+		'errorList' => '<ul>{{content}}</ul>',
+		'errorItem' => '<li>{{text}}</li>',
+		'file' => '<input type="file" name="{{name}}"{{attrs}}>',
+		'fieldset' => '<fieldset>{{content}}</fieldset>',
+		'formstart' => '<form{{attrs}}>',
+		'formend' => '</form>',
+		'formGroup' => '{{label}}{{input}}',
+		'hiddenblock' => '<div style="display:none;">{{content}}</div>',
+		'input' => '<input type="{{type}}" name="{{name}}"{{attrs}}>',
+		'inputsubmit' => '<input type="{{type}}"{{attrs}}>',
+		'label' => '<label{{attrs}}>{{text}}</label>',
+		'legend' => '<legend>{{text}}</legend>',
+		'option' => '<option value="{{value}}"{{attrs}}>{{text}}</option>',
+		'optgroup' => '<optgroup label="{{label}}"{{attrs}}>{{content}}</optgroup>',
+		'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',
+		'selectMultiple' => '<select name="{{name}}[]" multiple="multiple"{{attrs}}>{{content}}</select>',
+		'radio' => '<input type="radio" name="{{name}}" value="{{value}}"{{attrs}}>',
+		'radioWrapper' => '{{input}}{{label}}',
+		'textarea' => '<textarea name="{{name}}"{{attrs}}>{{value}}</textarea>',
+		'dateWidget' => '<div class="row">
+			<div class="col-sm-3">{{year}}</div>
+			<div class="col-sm-3">{{month}}</div>
+			<div class="col-sm-3">{{day}}</div>
+			<div class="col-sm-3">{{hour}}</div>
+			<div class="col-sm-3">{{minute}}</div>
+			<div class="col-sm-3">{{second}}</div>
+			<div class="col-sm-3">{{meridian}}</div>
+		</div>',
+		'error' => '<div class="help-block">{{content}}</div>',
+		'submitContainer' => '{{content}}',
+		'inputContainer' => '<div class="form-group {{type}}{{required}}">{{content}}</div>',
+		'inputContainerError' => '<div class="form-group has-error has-feedback {{type}}{{required}}">{{content}}<span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>{{error}}</div>',
 		'groupContainer' => '<div class="input {{type}}{{required}} form-group">{{content}}</div>',
 		'groupContainerError' => '<div class="input {{type}}{{required}} has-error">{{content}}{{error}}</div>',
 		'radioContainer' => '<div class="radio">{{input}}{{label}}</div>',
 		'error' => '<p class="text-danger">{{content}}</p>',
-		'errorList' => '<p class="text-danger"><ul>{{content}}</ul></p>',
+		'errorList' => '<ul class="text-danger">{{content}}</ul>',
 	];
 
 /**
@@ -66,9 +102,7 @@ class TwitterBootstrapHook implements EventListener {
  * @return array
  */
 	public function alterFormCreate(Event $event, &$model, &$options) {
-		if (empty($options['templates'])) {
-			$options['templates'] = $this->_templates;
-		}
+		$this->_addTemplates($event->subject);
 	}
 
 /**
@@ -77,24 +111,15 @@ class TwitterBootstrapHook implements EventListener {
  * @param \Cake\Event\Event $event The event that was fired
  * @param string $fieldName
  * @param array $options
- * @return array
+ * @return void
  */
 	public function alterFormInput(Event $event, &$fieldName, &$options) {
+		$this->_addTemplates($event->subject);
 		if (
-			!empty($options['type']) &&
-			!in_array($options['type'], ['text', 'textarea', 'select'])
+			empty($options['type']) ||
+			in_array($options['type'], ['text', 'textarea', 'select'])
 		) {
-			return;
-		}
-
-		$prefix = '';
-
-		if (!empty($options['class'])) {
-			$prefix = $options['class'] . ' ';
-		}
-
-		if (strpos($prefix, 'form-control') === false) {
-			$options['class'] = $prefix . 'form-control';
+			$options = $event->subject->addClass($options, 'form-control');
 		}
 	}
 
@@ -104,18 +129,11 @@ class TwitterBootstrapHook implements EventListener {
  * @param \Cake\Event\Event $event The event that was fired
  * @param string $fieldName
  * @param array $options
- * @return array
+ * @return void
  */
 	public function alterFormTextarea(Event $event, &$fieldName, &$options) {
-		$prefix = '';
-
-		if (!empty($options['class'])) {
-			$prefix = $options['class'] . ' ';
-		}
-
-		if (strpos($prefix, 'form-control') === false) {
-			$options['class'] = $prefix . 'form-control';
-		}
+		$this->_addTemplates($event->subject);
+		$options = $event->subject->addClass($options, 'form-control');
 	}
 
 /**
@@ -125,18 +143,12 @@ class TwitterBootstrapHook implements EventListener {
  * @param string $fieldName
  * @param array $options
  * @param array $attributes
- * @return array
+ * @return void
  */
 	public function alterFormSelect(Event $event, &$fieldName, &$options, &$attributes) {
-		$prefix = '';
-
-		if (!empty($attributes['class'])) {
-			$prefix = $attributes['class'] . ' ';
-		}
-
-		if (strpos($prefix, 'form-control') === false) {
-			$attributes['class'] = $prefix . 'form-control';
-		}
+		$this->_addTemplates($event->subject);
+		$attributes['class'] = is_string($attributes['class']) ? [$attributes['class']] : $attributes['class'];
+		$attributes['class'] = $event->subject->addClass($attributes['class'], 'form-control');
 	}
 
 /**
@@ -145,18 +157,11 @@ class TwitterBootstrapHook implements EventListener {
  * @param \Cake\Event\Event $event The event that was fired
  * @param string $title
  * @param array $options
- * @return array
+ * @return void
  */
 	public function alterFormButton(Event $event, &$title, &$options) {
-		$prefix = '';
-
-		if (!empty($options['class'])) {
-			$prefix = $options['class'] . ' ';
-		}
-
-		if (strpos($prefix, 'btn') === false) {
-			$options['class'] = $prefix . 'btn btn-default';
-		}
+		$this->_addTemplates($event->subject);
+		$options = $event->subject->addClass($options, 'btn btn-default');
 	}
 
 /**
@@ -165,17 +170,23 @@ class TwitterBootstrapHook implements EventListener {
  * @param \Cake\Event\Event $event The event that was fired
  * @param string $caption
  * @param array $options
- * @return array
+ * @return void
  */
 	public function alterFormSubmit(Event $event, &$caption, &$options) {
-		$prefix = '';
+		$this->_addTemplates($event->subject);
+		$options = $event->subject->addClass($options, 'btn btn-primary');
+	}
 
-		if (!empty($options['class'])) {
-			$prefix = $options['class'] . ' ';
-		}
-
-		if (strpos($prefix, 'btn') === false) {
-			$options['class'] = $prefix . 'btn btn-primary';
+/**
+ * Add custom set of templates to FormHelper.
+ * 
+ * @param \Cake\View\Helper\FormHelper $formHelper Instance of FormHelper
+ * @return void
+ */
+	protected function _addTemplates($formHelper) {
+		if (empty($formHelper->_bootstrapTemplates)) {
+			$formHelper->templates($this->_templates);
+			$formHelper->_bootstrapTemplates = true;
 		}
 	}
 

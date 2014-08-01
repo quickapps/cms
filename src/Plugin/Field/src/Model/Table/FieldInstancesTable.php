@@ -11,6 +11,7 @@
  */
 namespace Field\Model\Table;
 
+use Cake\Database\Schema\Table as Schema;
 use Cake\Event\Event;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
@@ -19,7 +20,6 @@ use Cake\Validation\Validator;
 use Field\Model\Entity\FieldInstance;
 use QuickApps\Utility\HookTrait;
 use QuickApps\Utility\ViewModeTrait;
-
 
 /**
  * Represents "field_instances" database table.
@@ -32,20 +32,15 @@ class FieldInstancesTable extends Table {
 	use ViewModeTrait;
 
 /**
- * Initialize a table instance. Called after the constructor.
+ * Alter the schema used by this table.
  *
- * {@inheritdoc}
- *
- * @param array $config Configuration options passed to the constructor
- * @return void
+ * @param \Cake\Database\Schema\Table $table The table definition fetched from database
+ * @return \Cake\Database\Schema\Table the altered schema
  */
-	public function initialize(array $config) {
-		$this->addBehavior('System.Serialized', [
-			'fields' => [
-				'settings',
-				'view_modes',
-			]
-		]);
+	protected function _initializeSchema(Schema $table) {
+		$table->columnType('settings', 'serialized');
+		$table->columnType('view_modes', 'serialized');
+		return $table;
 	}
 
 /**
@@ -106,44 +101,94 @@ class FieldInstancesTable extends Table {
 	public function beforeFind(Event $event, Query $query, array $options, $primary) {
 		$viewModes = $this->viewModes();
 		$query->formatResults(function ($results) use ($viewModes) {
-			return $results->map(function($row) use ($viewModes){
+			return $results->map(function($instance) use ($viewModes) {
 				foreach ($viewModes as $viewMode) {
-					$view_modes = $row->view_modes;
+					$view_modes = $instance->view_modes;
+					$viewModeDefaults = array_merge([
+						'label_visibility' => 'above',
+						'hooktags' => false,
+						'hidden' => false,
+						'ordering' => 0,
+					], (array)$this->invoke("Field.{$instance->handler}.Instance.viewModeDefaults", $this, $instance, ['viewMode' => $viewMode])->result);
+
 					if (!isset($view_modes[$viewMode])) {
-						$view_modes[$viewMode]= [];
+						$view_modes[$viewMode] = [];
 					}
 
-					$view_modes[$viewMode] = array_merge(
-						['label_visibility' => 'hidden', 'formatter' => 'none', 'ordering' => 0],
-						$view_modes[$viewMode]
-					);
-
-					$row->set('view_modes', $view_modes);
+					$view_modes[$viewMode] = array_merge($viewModeDefaults, $view_modes[$viewMode]);
+					$instance->set('view_modes', $view_modes);
 				}
 
-				return $row;
+				$settingsDefaults = (array)$this->invoke("Field.{$instance->handler}.Instance.settingsDefaults", $this, $instance, [])->result;
+
+				if (!empty($settingsDefaults)) {
+					foreach ($settingsDefaults as $k => $v) {
+						if (!$instance->settings->has($k)) {
+							$instance->settings->set($k, $v);
+						}
+					}
+				}
+
+				return $instance;
 			});
 		});
 	}
 
+/**
+ * Starts the "Field.<FieldHandler>.Instance.beforeAttach" hook so Field Handlers can
+ * do any logic their require.
+ *
+ * @param \Cake\Event\Event $event The beforeSave event that was fired
+ * @param \Field\Model\Entity\FieldInstance $instance The Field Instance that is going to be saved
+ * @param array $options the options passed to the save method
+ * @return boolean False if save operation should not continue, true otherwise
+ */
 	public function beforeSave(Event $event, FieldInstance $instance, $options = []) {
 		$instanceEvent = $this->invoke("Field.{$instance->handler}.Instance.beforeAttach", $event->subject, $instance, $options);
-
 		if ($instanceEvent->isStopped() || $instanceEvent->result === false) {
 			return false;
 		}
-
 		return true;
 	}
 
+/**
+ * Starts the "Field.<FieldHandler>.Instance.afterAttach" hook so Field Handlers can
+ * do any logic their require.
+ * 
+ * @param \Cake\Event\Event $event The beforeSave event that was fired
+ * @param \Field\Model\Entity\FieldInstance $instance The Field Instance that is going to be saved
+ * @return void
+ */
 	public function afterSave(Event $event, FieldInstance $instance, $options = []) {
 		$this->invoke("Field.{$instance->handler}.Instance.afterAttach", $event->subject, $instance, $options);
 	}
 
+/**
+ * Starts the "Field.<FieldHandler>.Instance.beforeDetach" hook so Field Handlers can
+ * do any logic their require.
+ *
+ * @param \Cake\Event\Event $event The beforeSave event that was fired
+ * @param \Field\Model\Entity\FieldInstance $instance The Field Instance that is going to be deleted
+ * @param array $options the options passed to the save method
+ * @return boolean False if delete operation should not continue, true otherwise
+ */
 	public function beforeDelete(Event $event, FieldInstance $instance, $options = []) {
-		$this->invoke("Field.{$instance->handler}.Instance.beforeDetach", $event->subject, $instance, $options);
+		$instanceEvent = $this->invoke("Field.{$instance->handler}.Instance.beforeDetach", $event->subject, $instance, $options);
+		if ($instanceEvent->isStopped() || $instanceEvent->result === false) {
+			return false;
+		}
+		return true;
 	}
 
+/**
+ * Starts the "Field.<FieldHandler>.Instance.afterDetach" hook so Field Handlers can
+ * do any logic their require. Also, automatically deletes all associated records in the `field_values` tables.
+ *
+ * @param \Cake\Event\Event $event The beforeSave event that was fired
+ * @param \Field\Model\Entity\FieldInstance $instance The Field Instance that is going to be deleted
+ * @param array $options the options passed to the save method
+ * @return void
+ */
 	public function afterDelete(Event $event, FieldInstance $instance, $options = []) {
 		$FieldValues = TableRegistry::get('Field.FieldValues');
 		$FieldValues->deleteAll(['field_instance_id' => $instance->id]);

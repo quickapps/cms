@@ -36,7 +36,7 @@ class CommentableBehavior extends Behavior {
  *
  * @var boolean
  */
-	protected $_enabled = true;
+	protected $_enabled = false;
 
 /**
  * Default configuration.
@@ -49,11 +49,11 @@ class CommentableBehavior extends Behavior {
 		'implementedFinders' => [
 			'comments' => 'findComments',
 		],
-		'post_validator' => 'default',
 		'implementedMethods' => [
 			'bindComments' => 'bindComments',
 			'unbindComments' => 'unbindComments',
 		],
+		'order' => ['created' => 'DESC'],
 	];
 
 /**
@@ -68,7 +68,7 @@ class CommentableBehavior extends Behavior {
 	public function __construct(Table $table, array $config = []) {
 		$this->_table = $table;
 		$this->_table->hasMany('Comments', [
-			'className' => 'Comment\\Model\\Table\\CommentsTable',
+			'className' => 'Comment.Comments',
 			'foreignKey' => 'entity_id',
 			'conditions' => [
 				'table_alias' => strtolower($this->_table->alias()),
@@ -94,12 +94,11 @@ class CommentableBehavior extends Behavior {
 		if ($this->_enabled) {
 			if ($query->count() > 0) {
 				$pk = $this->_table->primaryKey();
-				$tableAlias = $this->_table->alias();
+				$tableAlias = Inflector::underscore($this->_table->alias());
 
 				$query->contain([
 					'Comments' => function ($query) {
-						return $query->find('threaded')
-							->order(['created' => 'DESC']);
+						return $query->find('threaded')->order($this->config('order'));
 					}
 				]);
 
@@ -127,22 +126,33 @@ class CommentableBehavior extends Behavior {
  *
  * @param \Cake\ORM\Query $query
  * @param array $options
- * @return \Cake\ORM\Query
+ * @return array Threaded list of comments
  * @throws \InvalidArgumentException When the 'for' key is not passed in $options
  */
 	public function findComments(Query $query, $options) {
-		if ($this->_enabled) {
-			$table_alias = strtolower($this->_table->alias());
-			$options += ['for' => null];
+		$config = $this->config();
+		$pk = $this->_table->primaryKey();
+		$tableAlias = $this->_table->alias();
 
-			if (empty($options['for'])) {
-				throw new \InvalidArgumentException("The 'for' key is required for find('children')");
-			}
-
-			$query->contain(['Comments.Users']);
+		if (empty($options['for'])) {
+			throw new \InvalidArgumentException("The 'for' key is required for find('children')");
 		}
 
-		return $query;
+		$comments = $query
+			->select(["{$tableAlias}.{$pk}"])
+			->where(["{$tableAlias}.{$pk}" => $options['for']])
+			->contain([
+				'Comments' => function ($q) use ($config) {
+					return $q->find('threaded')->order($config['order']);
+				}
+			])
+			->first();
+
+		if ($comments) {
+			return $comments->comments;
+		}
+
+		return [];
 	}
 
 /**

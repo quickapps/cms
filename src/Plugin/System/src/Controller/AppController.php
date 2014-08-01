@@ -11,11 +11,11 @@
  */
 namespace System\Controller;
 
-use QuickApps\Controller\AppController;
+use QuickApps\Controller\AppController as BaseController;
 
 /**
  * Main controller for System plugin.
  *
  */
-class SystemAppController extends AppController {
+class AppController extends BaseController {
 }

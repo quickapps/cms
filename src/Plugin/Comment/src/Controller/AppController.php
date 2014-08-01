@@ -9,13 +9,13 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Block\Controller;
+namespace Comment\Controller;
 
-use QuickApps\Controller\AppController;
+use QuickApps\Controller\AppController as BaseController;
 
 /**
- * Main controller for Block plugin.
+ * Main controller for Comment plugin.
  *
  */
-class BlockAppController extends AppController {
+class AppController extends BaseController {
 }

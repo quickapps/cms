@@ -23,7 +23,7 @@ echo $this->Menu->render($types,
 				$this->Html->link(
 					$content,
 					[
-						'plugin' => 'node',
+						'plugin' => 'Node',
 						'controller' => 'manage',
 						'action' => 'add',
 						'prefix' => 'admin',

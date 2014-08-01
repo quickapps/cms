@@ -9,13 +9,13 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace QuickApps\Utility;
+namespace Installer\Controller;
 
-use Cake\ORM\Behavior as CakeBehavior;
-use QuickApps\Utility\HookTrait;
+use QuickApps\Controller\AppController as BaseController;
 
-class Behavior extends CakeBehavior {
-
-	use HookTrait;
-
+/**
+ * Main controller for Installer plugin.
+ *
+ */
+class AppController extends BaseController {
 }

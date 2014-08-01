@@ -14,16 +14,18 @@ namespace Node\Controller\Admin;
 use Cake\Core\Configure;
 use Cake\Routing\Router;
 use Field\Utility\FieldUIControllerTrait;
-use Node\Controller\NodeAppController;
+use Node\Controller\AppController;
 
 /**
  * Controller for Field UI Manager.
  *
  * Allows to attach, detach and configure Fields to `Node Types`.
  */
-class FieldsController extends NodeAppController {
+class FieldsController extends AppController {
 
-	use FieldUIControllerTrait;
+	use FieldUIControllerTrait {
+		beforeRender as protected _beforeRender;
+	}
 
 /**
  * Name of the table managed by Field UI API.
@@ -50,7 +52,7 @@ class FieldsController extends NodeAppController {
 			!isset($request->query['type']) ||
 			!in_array($request->query['type'], $validTypes)
 		) {
-			$this->redirect(['plugin' => 'system', 'controller' => 'dashboard', 'prefix' => 'admin']);
+			$this->redirect(['plugin' => 'System', 'controller' => 'dashboard', 'prefix' => 'admin']);
 		}
 
 		$this->_manageTable .= $request->query['type'];
@@ -68,12 +70,47 @@ class FieldsController extends NodeAppController {
 /**
  * Before every action of this controller.
  *
+ * We sets appropriate breadcrumbs based on current action being requested.
+ *
  * @param Cake\Event\Event $event
  * @return void
  */
-	public function beforeFilter(\Cake\Event\Event $event) {
-		parent::beforeFilter($event);
+	public function beforeRender(\Cake\Event\Event $event) {
+		$this->_beforeRender($event);
+		$this->loadModel('Node.NodeTypes');
 		$this->Breadcrumb->push('/admin/node/types');
+		$nodeType = $this->NodeTypes->find()
+			->where(['slug' => $this->request->query['type']])
+			->first();
+
+		switch ($this->request->action) {
+			case 'index':
+				$this->Breadcrumb->push($nodeType->name, '#');
+				$this->Breadcrumb->push(__d('node', 'Fields'), ['plugin' => 'Node', 'controller' => 'fields', 'action' => 'index', 'prefix' => 'admin']);
+			break;
+
+			case 'configure':
+				$this->Breadcrumb->push($nodeType->name, '#');
+				$this->Breadcrumb->push(__d('node', 'Fields'), ['plugin' => 'Node', 'controller' => 'fields', 'action' => 'index', 'prefix' => 'admin']);
+				$this->Breadcrumb->push(__d('node', 'Configure Field %s',  $this->viewVars['instance']->label), '#');
+			break;
+
+			case 'attach':
+				$this->Breadcrumb->push($nodeType->name, '#');
+				$this->Breadcrumb->push(__d('node', 'Attach New Field'), '');
+			break;
+
+			case 'view_mode_list':
+				$this->Breadcrumb->push($nodeType->name, '#');
+				$this->Breadcrumb->push(__d('node', '%s View Mode', $this->viewVars['viewModeInfo']['name']), '');
+			break;
+
+			case 'view_mode_edit':
+				$this->Breadcrumb->push($nodeType->name, '#');
+				$this->Breadcrumb->push(__d('node', '%s View Mode', $this->viewVars['viewModeInfo']['name']), ['plugin' => 'Node', 'controller' => 'fields', 'action' => 'view_mode_list', 'prefix' => 'admin', $this->viewVars['viewMode']]);
+				$this->Breadcrumb->push(__d('node', 'Field: %s', $this->viewVars['instance']->label), '');
+			break;
+		}
 	}
 
 }

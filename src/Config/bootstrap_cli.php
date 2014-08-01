@@ -4,18 +4,20 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @since	 1.0.0
+ * @since	 2.0.0
  * @author	 Christopher Castro <chris@quickapps.es>
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Node\Controller;
-
-use QuickApps\Controller\AppController;
+use Cake\Core\Configure;
 
 /**
- * Main controller for Node plugin.
- *
+ * Additional bootstrapping and configuration for CLI environments should
+ * be put here.
  */
-class NodeAppController extends AppController {
-}
+
+/**
+ * Set logs to different files so they don't have permission conflicts.
+ */
+Configure::write('Log.debug.file', 'cli-debug');
+Configure::write('Log.error.file', 'cli-error');

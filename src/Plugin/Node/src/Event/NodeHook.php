@@ -47,7 +47,10 @@ class NodeHook implements EventListener {
  *     `render_node_article_full.ctp`
  *
  *     // render for `article` nodes in `search-result` view-mode
- *     `render_node_article_search_result.ctp`
+ *     `render_node_article_search-result.ctp`
+ *
+ *     // render for `basic-page` nodes in `search-result` view-mode
+ *     `render_node_basic-page_search-result.ctp`
  *
  * ### render_node_[node_type]
  *
@@ -56,12 +59,14 @@ class NodeHook implements EventListener {
  *     // render for `article` nodes
  *     `render_node_article.ctp`
  *
- *     // render for `page` nodes
- *     `render_node_page.ctp`
+ *     // render for `basic-page` nodes
+ *     `render_node_basic-page.ctp`
  *
  * ### render_node
  *
  * This is the global render, if none of the above is found we try to use this last.
+ *
+ * NOTE: Please note the difference between "_" and "-"
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Node\Model\Entity\Node $node

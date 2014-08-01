@@ -32,6 +32,6 @@ ViewModeRegistry::registerViewMode([
 	],
 	'full' => [
 		'name' => __d('node', 'Full'),
-		'description' => __d('node', 'Full content is typically used when the content is displayed on its own page'),
+		'description' => __d('node', 'Full content is typically used when the content is displayed on its own page.'),
 	],
 ]);

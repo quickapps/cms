@@ -11,7 +11,7 @@
  */
 namespace System\Controller\Admin;
 
-use System\Controller\SystemAppController;
+use System\Controller\AppController;
 
 /**
  * Dashboard controller.
@@ -19,7 +19,7 @@ use System\Controller\SystemAppController;
  * Represents backend's dashboard panel, here is users are redirected to
  * after login in backend.
  */
-class DashboardController extends SystemAppController {
+class DashboardController extends AppController {
 
 /**
  * Main action for dashboard.

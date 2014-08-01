@@ -11,14 +11,17 @@
  */
 namespace Node\Controller\Admin;
 
-use Node\Controller\NodeAppController;
+use Cake\Core\Configure;
+use Cake\Error\NotFoundException;
+use Locale\Utility\LocaleToolbox;
+use Node\Controller\AppController;
 
 /**
  * Node manager controller.
  *
- * Allow CRUD for nodes.
+ * Provides full CRUD for nodes.
  */
-class ManageController extends NodeAppController {
+class ManageController extends AppController {
 
 /**
  * Shows a list of all the nodes.
@@ -45,7 +48,6 @@ class ManageController extends NodeAppController {
 		$this->loadModel('Node.NodeTypes');
 		$types = $this->NodeTypes->find()
 			->select(['id', 'slug', 'name', 'description'])
-			->where(['status' => 1])
 			->all();
 		$this->set('types', $types);
 		$this->Breadcrumb->push('/admin/node/manage');
@@ -57,7 +59,7 @@ class ManageController extends NodeAppController {
 /**
  * Shows the "new node" form.
  *
- * @param string $type Node type slug. e.g.: "article"
+ * @param string $type Node type slug. e.g.: "article", "product-info"
  * @return void
  */
 	public function add($type = false) {
@@ -73,7 +75,7 @@ class ManageController extends NodeAppController {
 			->first();
 
 		if (!$type) {
-			throw new \Cake\Error\NotFoundException(__d('node', 'The requested page was not found.'));
+			throw new NotFoundException(__d('node', 'The specified content type does not exists.'));
 		}
 
 		if ($this->request->data) {
@@ -90,12 +92,13 @@ class ManageController extends NodeAppController {
 			}
 		} else {
 			$node = $this->Nodes->newEntity(['node_type_slug' => $type->slug]);
+			$node->setDefaults($type);
 		}
 
 		$node = $this->Nodes->attachEntityFields($node);
-		$this->_setLanguages();
 		$this->set('node', $node);
 		$this->set('type', $type);
+		$this->set('languages', LocaleToolbox::languagesList());
 		$this->Breadcrumb->push('/admin/node/manage');
 		$this->Breadcrumb->push([
 			['title' => __d('node', 'Create new content'), 'url' => ['plugin' => 'Node', 'controller' => 'manage', 'action' => 'create']],
@@ -107,7 +110,7 @@ class ManageController extends NodeAppController {
  * Edit form for the given node.
  *
  * @param integer $id Node ID
- * @param false|integer $revision_id Fill form with revision information
+ * @param false|integer $revision_id Fill form with node's revision information
  * @return void
  */
 	public function edit($id, $revision_id = false) {
@@ -116,30 +119,36 @@ class ManageController extends NodeAppController {
 
 		if ($revision_id && !$this->request->data) {
 			$this->loadModel('Node.NodeRevisions');
-			$node = $this->NodeRevisions->find()
+			$revision = $this->NodeRevisions->find()
 				->where(['id' => $revision_id, 'node_id' => $id])
 				->first();
-			$node = $node ? @unserialize($node->data) : false;
+			$node = $revision->data;
+
+			if (!empty($node->_fields)) {
+				// Merge previous data for each field, we just load the data (metadata keeps to the latests configured)
+				$_fieldsRevision = $node->_fields;
+				$node = $this->Nodes->attachEntityFields($node);
+				$node->_fields = $node->_fields->map(function ($field, $key) use ($_fieldsRevision) {
+					$fieldRevision = $_fieldsRevision[$field->name];
+					if ($fieldRevision) {
+						$field->set('value', $fieldRevision->value);
+						$field->set('extra', $fieldRevision->extra);
+					}
+					return $field;
+				});
+			}
 		} else {
 			$node = $this->Nodes->find()
 				->where(['id' => $id])
 				->contain([
-					'NodeRevisions' => [
-						'queryBuilder' => function($q) {
-							return $q->formatResults(function($results) {
-								return $results->map(function($row) {
-									$row->set('data', @unserialize($row->data));
-									return $row;
-								});								
-							});
-						}
-					]
+					'Translations',
+					'NodeRevisions',
 				])
 				->first();
 		}
 
 		if (!$node) {
-			throw new \Cake\Error\NotFoundException(__d('node', 'The requested page was not found.'));
+			throw new NotFoundException(__d('node', 'The requested page was not found.'));
 		}
 
 		if (!empty($this->request->data)) {
@@ -152,18 +161,16 @@ class ManageController extends NodeAppController {
 
 			if ($this->Nodes->save($node, ['atomic' => true])) {
 				$this->alert(__d('node', 'Information was saved!'), 'success');
-				$this->redirect(['plugin' => 'node', 'controller' => 'manage', 'action' => 'edit', 'prefix' => 'admin', $id]);
+				$this->redirect("/admin/node/manage/edit/{$id}");
 			} else {
 				$this->alert(__d('node', 'Something went wrong, please check your information.'), 'danger');
 			}
 		}
 
-		$this->_setLanguages();
 		$this->set('node', $node);
+		$this->set('languages', LocaleToolbox::languagesList());
 		$this->Breadcrumb->push('/admin/node/manage');
-		$this->Breadcrumb->push([
-			['title' => __d('node', 'Editing content'), 'url' => '#']
-		]);
+		$this->Breadcrumb->push(__d('node', 'Editing content'), '#');
 	}
 
 /**
@@ -205,23 +212,6 @@ class ManageController extends NodeAppController {
 		}
 
 		$this->redirect($this->referer());
-	}
-
-/**
- * Sets a view variable holding a list of available languages.
- *
- * Useful when rendering select boxes in node's edit forms.
- *
- * @return void
- */
-	protected function _setLanguages() {
-		$languages = [];
-
-		foreach (\Cake\Core\Configure::read('QuickApps.languages') as $code => $data) {
-			$languages[$code] = $data['native'];
-		}
-
-		$this->set('languages', $languages);
 	}
 
 }

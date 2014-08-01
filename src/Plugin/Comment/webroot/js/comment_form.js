@@ -12,7 +12,7 @@ var CommentForm = {
 		$target = $('#comment-' + id);
 
 		if ($target.length > 0) {
-			$('form.comment-form #comment-parent-id').val(id);
+			$('#comment-parent-id').val(id);
 			$('section.comments-form').appendTo($target);
 			$('section.comments-form header .cancel-reply').show();
 		}

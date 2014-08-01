@@ -20,13 +20,13 @@
 		<?php echo $this->Form->input('label', ['label' => __d('field', 'Label *'), 'placeholder' => 'e.g. User Age', 'required']); ?>
 		<em class="help-block"><?php echo __d('field', 'Human readable name for this field.'); ?></em>
 
-		<?php echo $this->Form->input('slug', ['label' => __d('field', 'Machine Name *'), 'placeholder' => 'e.g. user_age', 'required']); ?>
+		<?php echo $this->Form->input('slug', ['label' => __d('field', 'Machine Name *'), 'placeholder' => 'e.g. user-age', 'required']); ?>
 		<em class="help-block"><?php echo __d('field', 'Lowercase letters, numbers and "-" symbol (a-z, 0-9, -).'); ?></em>
 
 		<?php echo $this->Form->input('handler', ['label' => __d('field', 'Field Type *'), 'type' => 'select', 'options' => $fieldsList, 'empty' => true, 'onchange' => 'showFieldInfo();', 'required']); ?>
 		<em class="help-block">
-			<?php foreach ($fieldsInfo as $handler => $info): ?>
-				<span style="display:none;" class="field-info" data-handler="<?php echo $handler; ?>">
+			<?php foreach ($fieldsInfo as $info): ?>
+				<span style="display:none;" class="field-info" data-handler="<?php echo $info['handler']; ?>">
 					<?php echo $info['description']; ?>
 				</span>
 			<?php endforeach; ?>

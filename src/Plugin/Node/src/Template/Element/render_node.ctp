@@ -19,37 +19,22 @@
 
 <article class="node node-<?php echo $node->node_type_slug; ?> viewmode-<?php echo $this->inUseViewMode(); ?>">
 	<header>
-		<?php
-			switch($this->inUseViewMode()):
-			case 'full':
-		?>
+		<?php if ($this->inUseViewMode() === 'full'): ?>
 			<h1><?php echo $this->hooktags($node->title); ?></h1>
-		<?php
-			break;
-			case 'search-result':
-			default:
-		?>
+		<?php else: ?>
 			<h2><?php echo $this->Html->link($this->hooktags($node->title), "/{$node->node_type_slug}/{$node->slug}.html"); ?></h2>
-		<?php
-			break;
-			endswitch;
-		?>
+		<?php endif; ?>
 		<?php //TODO: set timezone to user's timezone (read from session) ?>
 		<p><?php echo __d('node', 'Published'); ?>: <time pubdate="pubdate"><?php echo $node->created->timeAgoInWords(); ?></time></p>
 	</header>
 
-	<?php foreach ($node->_fields->sortByViewMode($this->inUseViewMode()) as $field): ?>
-		<?php echo $this->hooktags($this->render($field)); ?>
-	<?php endforeach; ?>
+	<?php if (!empty($node->_fields)): ?>
+		<?php foreach ($node->_fields->sortByViewMode($this->inUseViewMode()) as $field): ?>
+			<?php echo $this->render($field); ?>
+		<?php endforeach; ?>
+	<?php endif; ?>
 
 	<?php if ($this->inUseViewMode() === 'full'): ?>
-		<?php
-			echo $this->element('Comment.render_comments', [
-				'options' => [
-					'entity' => $node,
-					'visibility' => $node->comment,
-				]
-			]);
-		?>
+		<?php echo $this->CommentForm->create($node, ['visibility' => $node->comment_status]); ?>
 	<?php endif; ?>
 </article>

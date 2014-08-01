@@ -17,7 +17,7 @@
 		<?php
 			echo $this->Html->link(
 				'<span class="glyphicon glyphicon-lock"></span>',
-				['plugin' => 'Users', 'controller' => 'Permissions', 'action' => 'index', 'prefix' => 'admin', 'expand' => $plugin],
+				['plugin' => 'User', 'controller' => 'permissions', 'action' => 'index', 'prefix' => 'admin', 'expand' => $plugin],
 				['class' => 'btn btn-default', 'title' => __d('system', 'Permissons'), 'escape' => false]
 			);
 		?>

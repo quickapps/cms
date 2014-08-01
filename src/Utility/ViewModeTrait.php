@@ -67,4 +67,33 @@ trait ViewModeTrait {
 		return ViewModeRegistry::viewModes($full);
 	}
 
+/**
+ * Runs the given callable logic when in use view mode matches.
+ *
+ * You can provide multiple view modes, in that case callable method will be
+ * executed if current view mode matches any in the given array.
+ *
+ * ### Usage
+ *
+ *     // run this only on `teaser` view mode
+ *     echo $this->onViewMode('teaser', function ($context) use ($someVar) {
+ *         return $context->element('teaser_element', compact('someVar'));
+ *     });
+ *
+ *     // run this on "teaser" view mode, or "search-result" view mode
+ *     echo $this->onViewMode(['teaser', 'search-result'], function ($context) use ($someVar) {
+ *         return $context->element('teaser_or_search_result', compact('someVar'));
+ *     });
+ * 
+ * @param string|array $viewMode View Mode slug, or an array of slugs
+ * @param callable $method A callable function to run, it receives `$this` as only argument
+ * @return mixed Callable return
+ */
+	public function onViewMode($viewMode, callable $method) {
+		$viewMode = !is_array($viewMode) ? [$viewMode] : $viewMode;
+		if (in_array($this->inUseViewMode(), $viewMode)) {
+			return $method($this);
+		}
+	}
+
 }

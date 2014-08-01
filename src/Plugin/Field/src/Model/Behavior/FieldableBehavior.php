@@ -11,14 +11,19 @@
  */
 namespace Field\Model\Behavior;
 
+use Cake\Database\Expression\Comparison;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\Error\MethodNotAllowedException;
+use Cake\ORM\Behavior;
+use Cake\ORM\Entity;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\ORM\Query;
+use Field\Model\Entity\Field;
+use Field\Model\Entity\FieldValue;
 use Field\Utility\FieldCollection;
-use QuickApps\Utility\Behavior;
+use QuickApps\Utility\HookTrait;
 
 /**
  * Fieldable Behavior
@@ -86,7 +91,7 @@ use QuickApps\Utility\Behavior;
  *     - `description`: Something about this field: e.g.: `Please enter your last name`.
  *     - `required`: 0|1.
  *     - `settings`: Any extra information array handled by this particular field.
- *     - `handler`: class name of the Field Handler under `Field` namespace. e.g.: `Text` (Field\Text)
+ *     - `handler`: class name of the Field Handler under `Field` namespace. e.g.: `TextField` (namespaced name: `Field\TextField`)
  *
  * **Notes:**
  *
@@ -100,13 +105,13 @@ use QuickApps\Utility\Behavior;
  * Once you have your Entity (e.g. User Entity), you would probably need to get its attached fields
  * and do fancy thing with them. Following with our User entity example:
  *
- *     // In your controller: get an user entity
+ *     // In your controller
  *     $user = $this->Users->get($id);
  *     echo $user->_fields[0]->label . ': ' . $user->_fields[0]->value;
- *     // out: "User Age: 22"
+ *     // out: User Age: 22
  *
  *     echo "This field is attached to '" . $user->_fields[0]->metadata->table_alias . "' table";
- *     // out: "This field is attached to 'users' table";
+ *     // out: This field is attached to 'users' table;
  *
  * ## Searching over custom fields
  *
@@ -162,7 +167,7 @@ use QuickApps\Utility\Behavior;
  *      of information.
  *
  * **Summarizing:** `value` is intended to store `plain text` information suitable for searches, while
- * `extra` is intended to store arrays of information.
+ * `extra` is intended to store sets of information.
  *
  * ***
  *
@@ -206,14 +211,18 @@ use QuickApps\Utility\Behavior;
  * - `Field.<FieldHandler>.Entity.afterDelete`: After entity was deleted
  *
  * - `Field.<FieldHandler>.Instance.info`: When QuickAppsCMS asks for information about each registered Field
- * - `Field.<FieldHandler>.Instance.settings`: Additional settings for this field. Should define the way the values will be stored in the database.
- * - `Field.<FieldHandler>.Instance.formatter`: Additional formatter options.
+ * - `Field.<FieldHandler>.Instance.settingsForm`: Additional settings for this field. Should define the way the values will be stored in the database.
+ * - `Field.<FieldHandler>.Instance.settingsDefaults`: Default values for field settings form's inputs
+ * - `Field.<FieldHandler>.Instance.viewModeForm`: Additional formatter options. Show define the way the values will be rendered for a particular view mode.
+ * - `Field.<FieldHandler>.Instance.viewModeDefaults`: Default values for view mode settings form's inputs
  * - `Field.<FieldHandler>.Instance.beforeAttach`: Before field is attached to Tables
  * - `Field.<FieldHandler>.Instance.afterAttach`: After field is attached to Tables
  * - `Field.<FieldHandler>.Instance.beforeDetach`: Before field is detached from Tables
  * - `Field.<FieldHandler>.Instance.afterDetach`: After field is detached from Tables
  */
 class FieldableBehavior extends Behavior {
+
+	use HookTrait;
 
 /**
  * Table which this behavior is attached to.
@@ -247,6 +256,9 @@ class FieldableBehavior extends Behavior {
  * When using `polymorphic_table_alias` feature, `table_alias` becomes:
  *
  *     <real_table_name>_<polymorphic_table_alias>
+ *
+ * Where `<real_table_name>` is the real name of your table, and `<polymorphic_table_alias>` is the
+ * value of each entity's column in that table.
  *
  * For example, if you set `polymorphic_table_alias` to "type", and your table name is `users`,
  * `table_alias` will be
@@ -535,14 +547,14 @@ class FieldableBehavior extends Behavior {
 				}
 
 				$field->extra = (array)$field->extra;
-				$valueEntity = new \Field\Model\Entity\FieldValue([
+				$valueEntity = new FieldValue([
 					'id' => $field->metadata['field_value_id'],
 					'field_instance_id' => $field->metadata['field_instance_id'],
 					'field_instance_slug' => $field->name,
 					'entity_id' => $entity->{$pk},
 					'table_alias' => $table_alias,
 					'value' => $field->value,
-					'extra' => serialize((array)$field->extra)
+					'extra' => $field->extra,
 				]);
 
 				if (!$FieldValues->save($valueEntity)) {
@@ -784,7 +796,7 @@ class FieldableBehavior extends Behavior {
 	public function attachEntityFields($entity) {
 		$config = $this->config();
 
-		if (!($entity instanceof \Cake\ORM\Entity)) {
+		if (!($entity instanceof Entity)) {
 			return $entity;
 		}
 
@@ -834,7 +846,7 @@ class FieldableBehavior extends Behavior {
 		if ($whereClause) {
 			$table_alias = !empty($options['table_alias']) ? $options['table_alias'] : $table_alias;
 			$whereClause->traverse(function ($expression) use($table_alias) {
-				if (!($expression instanceof \Cake\Database\Expression\Comparison)) {
+				if (!($expression instanceof Comparison)) {
 					return;
 				}
 
@@ -889,8 +901,8 @@ class FieldableBehavior extends Behavior {
  * your entity.
  *
  * @param \Cake\ORM\Entity $entity The entity where to attach fields
- * @param \Field\Model\Entity\FieldInstance $instance The instance
- * where to get the information when creating the mock field.
+ * @param \Field\Model\Entity\FieldInstance $instance The instance where to get the
+ * information when creating the mock field.
  * @return \Field\Model\Entity\Field
  */
 	protected function _getMockField($entity, $instance) {
@@ -907,12 +919,12 @@ class FieldableBehavior extends Behavior {
 			)
 			->first();
 
-		$mockField = new \Field\Model\Entity\Field([
+		$mockField = new Field([
 				'name' => $instance->slug,
 				'label' => $instance->label,
 				'value' => null,
 				'extra' => null,
-				'metadata' => new \Cake\ORM\Entity([
+				'metadata' => new Entity([
 					'field_value_id' => null,
 					'field_instance_id' => $instance->id,
 					'entity_id' => $entity->{$pk},
@@ -928,7 +940,7 @@ class FieldableBehavior extends Behavior {
 		if ($storedValue) {
 			$mockField->metadata->accessible('*', true);
 			$mockField->set('value', $storedValue->value);
-			$mockField->set('extra', unserialize((string)$storedValue->extra));
+			$mockField->set('extra', $storedValue->extra);
 			$mockField->metadata->set('field_value_id', $storedValue->id);
 			$mockField->metadata->accessible('*', false);
 		}
@@ -994,8 +1006,7 @@ class FieldableBehavior extends Behavior {
 			return $this->_cache['TableFieldInstances'][$table_alias];
 		} else {
 			$FieldInstances = $this->_getTable('Field.FieldInstances');
-			$this->_cache['TableFieldInstances'][$table_alias] =
-				$FieldInstances->find()
+			$this->_cache['TableFieldInstances'][$table_alias] = $FieldInstances->find()
 				->where(['FieldInstances.table_alias' => $table_alias])
 				->order(['ordering' => 'ASC'])
 				->all();

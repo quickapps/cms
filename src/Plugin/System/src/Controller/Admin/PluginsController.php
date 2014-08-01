@@ -11,7 +11,7 @@
  */
 namespace System\Controller\Admin;
 
-use System\Controller\SystemAppController;
+use System\Controller\AppController;
 use QuickApps\Utility\Plugin;
 
 /**
@@ -19,7 +19,7 @@ use QuickApps\Utility\Plugin;
  *
  * Here is where can install new plugin or remove existing ones.
  */
-class PluginsController extends SystemAppController {
+class PluginsController extends AppController {
 
 /**
  * Main action.

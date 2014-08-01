@@ -15,6 +15,7 @@ use Cake\Core\Configure;
 use Cake\I18n\I18n;
 use Cake\Routing\Router;
 use Cake\Utility\Folder;
+use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use Cake\ORM\TableRegistry;
 
@@ -22,9 +23,10 @@ use Cake\ORM\TableRegistry;
  * Stores some bootstrap-handy information
  * into a persistent file `SITE/tmp/snapshot.php`.
  *
+ * @param array $mergeWith Array to merge with snapshot array
  * @return void
  */
-function snapshot($force = false) {
+function snapshot($mergeWith = []) {
 	$snapshot = [
 		'node_types' => [],
 		'plugins' => [],
@@ -32,10 +34,10 @@ function snapshot($force = false) {
 			'url_locale_prefix' => 0,
 			'site_theme' => null,
 			'admin_theme' => null,
-			'default_language' => 'eng'
+			'default_language' => 'en-us'
 		],
 		'languages' => [
-			'en' => [
+			'en-us' => [
 				'status' => 1,
 				'name' => 'English',
 				'native' => 'English',
@@ -138,6 +140,10 @@ function snapshot($force = false) {
 				'path' => $pluginPath,
 			];
 		}
+	}
+
+	if (!empty($mergeWith)) {
+		$snapshot = Hash::merge($snapshot, $mergeWith);
 	}
 
 	Configure::write('QuickApps', $snapshot);

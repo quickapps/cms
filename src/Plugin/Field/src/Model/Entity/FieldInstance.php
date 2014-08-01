@@ -12,10 +12,28 @@
 namespace Field\Model\Entity;
 
 use Cake\ORM\Entity;
+use QuickApps\Utility\HookTrait;
 
 /**
  * Represents an "instance" from the "field_instances" database table.
  *
  */
 class FieldInstance extends Entity {
+
+	use HookTrait;
+
+/**
+ * Gets a human-readable name of the field handler class.
+ * 
+ * @return string
+ */
+	public function _getHandlerName() {
+		$info = $this->invoke("Field.{$this->handler}.Instance.info");
+
+		if (!empty($info->result['name'])) {
+			return $info->result['name'];
+		}
+
+		return $this->handler;
+	}
 }

@@ -11,14 +11,14 @@
  */
 namespace Block\Controller\Admin;
 
-use Block\Controller\BlockAppController;
+use Block\Controller\AppController;
 
 /**
  * Block manager controller.
  *
  * Allow CRUD for blocks.
  */
-class ManageController extends BlockAppController {
+class ManageController extends AppController {
 
 /**
  * Shows a list of all the nodes.

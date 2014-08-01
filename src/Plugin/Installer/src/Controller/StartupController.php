@@ -14,10 +14,11 @@ namespace Installer\Controller;
 use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
-use Cake\I18n\I18n;
+use Cake\Event\Event;
 use Cake\Routing\Router;
 use Cake\Utility\Folder;
 use Cake\Utility\Hash;
+use QuickApps\Utility\Plugin;
 
 /**
  * Controller for handling new QuickAppsCMS installations.
@@ -25,7 +26,7 @@ use Cake\Utility\Hash;
  * This controller starts the installation process for
  * a new QuickAppsCMS setup.
  */
-class StartupController extends InstallerAppController {
+class StartupController extends AppController {
 
 /**
  * {@inheritdoc}
@@ -51,25 +52,26 @@ class StartupController extends InstallerAppController {
 /**
  * {@inheritdoc}
  *
- * @param \Cake\Network\Request $request Request object for this controller. Can be null for testing,
- *  but expect that features that use the request parameters will not work.
- * @param \Cake\Network\Response $response Response object for this controller.
+ * @param \Cake\Event\Event $event
+ * @return void
  */
-	public function __construct($request = null, $response = null) {
-		parent::__construct($request, $response);
+	public function beforeFilter(Event $event) {
+		if (file_exists(SITE_ROOT . '/Config/settings.php')) {
+			$this->redirect('/');
+		}
+
 		$this->_prepareLayout();
 
+		if (!empty($this->request->query['locale']) && !in_array($this->request->params['action'], ['language', 'index'])) {
+			Configure::write('Config.language', $this->request->query['locale']);
+			$this->Session->write('installation.language', Configure::read('Config.language'));
+		} elseif ($this->Session->read('installation.language')) {
+			Configure::write('Config.language', $this->Session->read('installation.language'));
+		}
+
 		Router::addUrlFilter(function ($params, $request) {
-			if (
-				isset($request->query['locale']) &&
-				$request->params['action'] !== 'language'
-			) {
-				$params['locale'] = $request->query['locale'];
-			} elseif (
-				!$request->params['action'] !== 'language' &&
-				!isset($request->query['locale'])
-			) {
-				$params['locale'] = 'eng';
+			if (!in_array($request->params['action'], ['language', 'index'])) {
+				$params['locale'] = Configure::read('Config.language');
 			}
 
 			return $params;
@@ -84,7 +86,11 @@ class StartupController extends InstallerAppController {
  * @return void
  */
 	public function index() {
-		$this->redirect(['plugin' => 'installer', 'controller' => 'startup', 'action' => 'language']);
+		$this->redirect([
+			'plugin' => 'Installer',
+			'controller' => 'startup',
+			'action' => 'language'
+		]);
 	}
 
 /**
@@ -95,28 +101,30 @@ class StartupController extends InstallerAppController {
  * @return void
  */
 	public function language() {
-		$Folder = new Folder(App::pluginPath('Installer') . 'Locale');
+		$Folder = new Folder(Plugin::classPath('Installer') . 'Locale');
 		$languages = [
-			'eng' => [
-				'url' => ['plugin' => 'installer', 'controller' => 'startup', 'action' => 'requirements', 'locale' => 'eng'],
+			'en' => [
+				'url' => '/installer/startup/requirements?locale=en',
 				'welcome' => 'Welcome to QuickApps CMS',
 				'action' => 'Click here to install in English'
 			]
 		];
 
-		foreach ($Folder->read(false, false, true)[0] as $path) {
+		foreach ($Folder->read(false, true, true)[0] as $path) {
 			$code = basename($path);
 			$file = $path . DS . 'LC_MESSAGES' . DS . 'installer.po';
 
 			if (file_exists($file)) {
+				Configure::write('Config.language', $code); // trick for __d()
 				$languages[$code] = array(
-					'url' => ['plugin' => 'installer', 'controller' => 'startup', 'action' => 'requirements', 'locale' => $code],
-					'welcome' => I18n::translate('Welcome to QuickApps CMS', null, 'installer', 6, null, $code),
-					'action' => I18n::translate('Click here to install in English', null, 'installer', 6, null, $code)
+					'url' => "/installer/startup/requirements?locale={$code}",
+					'welcome' => __d('installer', 'Welcome to QuickApps CMS'),
+					'action' => __d('installer', 'Click here to install in English')
 				);
 			}
 		}
 
+		Configure::write('Config.language', false);
 		$this->set('title_for_layout', 'Welcome to QuickApps CMS');
 		$this->set('languages', $languages);
 		$this->_step();
@@ -131,37 +139,37 @@ class StartupController extends InstallerAppController {
  */
 	public function requirements() {
 		if (!$this->_step('language')) {
-			$this->redirect(['plugin' => 'installer', 'controller' => 'startup', 'action' => 'index']);
+			$this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'index']);
 		}
 
 		$tests = array(
 			'php' => array(
 				'test' => version_compare(PHP_VERSION, '5.4', '>='),
-				'msg' => __('Your php version is not supported. check that your version is 5.4 or newer.')
+				'msg' => __d('installer', 'Your php version is not supported. check that your version is 5.4 or newer.')
 			),
 			'no_safe_mode' => array(
 				'test' => (ini_get('safe_mode') == false || ini_get('safe_mode') == '' || strtolower(ini_get('safe_mode')) == 'off'),
-				'msg' => __('Your server has SafeMode on, please turn it off before continuing.')
+				'msg' => __d('installer', 'Your server has SafeMode on, please turn it off before continuing.')
 			),
 			'tmp_writable' => array(
 				'test' => is_writable(TMP),
-				'msg' => __('tmp folder is not writable.')
+				'msg' => __d('installer', 'tmp folder is not writable.')
 			),
 			'cache_writable' => array(
 				'test' => is_writable(TMP . 'cache'),
-				'msg' => __('tmp/cache folder is not writable.')
+				'msg' => __d('installer', 'tmp/cache folder is not writable.')
 			),
 			'models_writable' => array(
 				'test' => is_writable(TMP . 'cache' . DS . 'models'),
-				'msg' => __('tmp/cache/models folder is not writable.')
+				'msg' => __d('installer', 'tmp/cache/models folder is not writable.')
 			),
 			'persistent_writable' => array(
 				'test' => is_writable(TMP . 'cache' . DS . 'persistent'),
-				'msg' => __('tmp/cache/persistent folder is not writable.')
+				'msg' => __d('installer', 'tmp/cache/persistent folder is not writable.')
 			),
 			'Config_writable' => array(
 				'test' => is_writable(SITE_ROOT . DS . 'Config'),
-				'msg' => __('Config folder is not writable.')
+				'msg' => __d('installer', 'Config folder is not writable.')
 			)
 		);
 
@@ -175,7 +183,7 @@ class StartupController extends InstallerAppController {
 			$this->_step();
 		}
 
-		$this->set('title_for_layout', __('Server Requirements'));
+		$this->set('title_for_layout', __d('installer', 'Server Requirements'));
 	}
 
 /**
@@ -187,10 +195,10 @@ class StartupController extends InstallerAppController {
  */
 	public function license() {
 		if (!$this->_step('requirements')) {
-			$this->redirect(['plugin' => 'installer', 'controller' => 'startup', 'action' => 'index']);
+			$this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'index']);
 		}
 
-		$this->set('title_for_layout', __('License Agreement'));
+		$this->set('title_for_layout', __d('installer', 'License Agreement'));
 		$this->_step();
 	}
 
@@ -203,7 +211,7 @@ class StartupController extends InstallerAppController {
  */
 	public function database() {
 		if (!$this->_step('license')) {
-			$this->redirect(['plugin' => 'installer', 'controller' => 'startup', 'action' => 'index']);
+			$this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'index']);
 		}
 
 		if (!empty($this->request->data)) {
@@ -218,24 +226,25 @@ class StartupController extends InstallerAppController {
 				'encoding' => 'utf8',
 				'timezone' => 'UTC'
 			];
-
-			$connected = false;
+			$dumpComplete = false;
 
 			try {
 				// TODO: upload database
-				$conn = ConnectionManager::create('startup', $config);
-				$conn->connect();
-				$schema = $conn->schemaCollection();
-				$tables = $schema->listTables();
-
-				$connected = true;
+				ConnectionManager::config('installation', $config);
+				$db = ConnectionManager::get('installation');
+				$db->connect();
+				$schemaCollection = $db->schemaCollection();
+				$tables = $schemaCollection->listTables();
+				debug($tables);
+				$dumpComplete = true;
+				die;
 			} catch (\Exception $e) {
-				$this->alert(__('Unable to connect to database, please check your information. Details: %s', '<p>' . $e->getMessage(). '</p>'), 'danger');
+				$this->alert(__d('installer', 'Unable to connect to database, please check your information. Details: %s', '<p>' . $e->getMessage(). '</p>'), 'danger');
 			}
 
-			if ($connected) {
+			if ($dumpComplete) {
 				$this->_step();
-				$this->redirect(['plugin' => 'installer', 'controller' => 'startup', 'action' => 'account']);
+				$this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'account']);
 			}
 		}
 	}
@@ -292,28 +301,28 @@ class StartupController extends InstallerAppController {
  */
 	protected function _prepareLayout() {
 		$menu = [
-			__('Welcome') => [
-				'url' => ['plugin' => 'installer', 'controller' => 'startup', 'action' => 'language'],
+			__d('installer', 'Welcome') => [
+				'url' => ['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'language'],
 				'active' => ($this->request->action === 'language')
 			],
-			__('System Requirements') => [
-				'url' => ['plugin' => 'installer', 'controller' => 'startup', 'action' => 'requirements'],
+			__d('installer', 'System Requirements') => [
+				'url' => ['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'requirements'],
 				'active' => ($this->request->action === 'requirements')
 			],
-			__('License Agreement') => [
-				'url' => ['plugin' => 'installer', 'controller' => 'startup', 'action' => 'license'],
+			__d('installer', 'License Agreement') => [
+				'url' => ['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'license'],
 				'active' => ($this->request->action === 'license')
 			],
-			__('Database Setup') => [
-				'url' => ['plugin' => 'installer', 'controller' => 'startup', 'action' => 'database'],
+			__d('installer', 'Database Setup') => [
+				'url' => ['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'database'],
 				'active' => ($this->request->action === 'database')
 			],
-			__('Your Account') => [
-				'url' => ['plugin' => 'installer', 'controller' => 'startup', 'action' => 'account'],
+			__d('installer', 'Your Account') => [
+				'url' => ['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'account'],
 				'active' => ($this->request->action === 'account')
 			],
-			__('Finish') => [
-				'url' => ['plugin' => 'installer', 'controller' => 'startup', 'action' => 'finish'],
+			__d('installer', 'Finish') => [
+				'url' => ['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'finish'],
 				'active' => ($this->request->action === 'finish')
 			],
 		];

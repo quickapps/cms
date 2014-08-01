@@ -11,6 +11,8 @@
  */
 namespace QuickApps\Utility;
 
+use Cake\Error\InternalErrorException;
+
 /**
  * ViewModeRegistry is used as a registry for handling view modes, also provides a few
  * utility methods such as inUseViewMode().
@@ -50,7 +52,7 @@ class ViewModeRegistry {
  */
 	public static function switchViewMode($slug) {
 		if (empty(static::$_viewModes[$slug])) {
-			throw new \Cake\Error\InternalErrorException(__('Illegal usage of ViewModeRegistry::switchViewMode(), view mode "%s" was not found.', $slug));
+			throw new InternalErrorException(__('Illegal usage of ViewModeRegistry::switchViewMode(), view mode "%s" was not found.', $slug));
 		}
 
 		static::$_inUse = $slug;
@@ -125,16 +127,20 @@ class ViewModeRegistry {
 /**
  * Gets the full list of all registered view modes.
  *
- * You can get either a full list of every registered view mode,
- * or a plain list of slugs of every registered view mode.
+ * You can get either a full list of every registered view mode, or a plain list of slugs of every registered view mode.
+ * Or you can get all information for a particular view mode by passing its slug as first argument.
  *
- * Example:
+ * ## Usage:
  *
+ * ### Get a list of View Modes slugs:
+ * 
  *     ViewModeRegistry::viewModes();
  *     // output:
  *     ['teaser', 'full', ...]
  *
- *     ViewModeRegistry::viewModes();
+ * ### Get a full list of every View Mode:
+ * 
+ *     ViewModeRegistry::viewModes(true);
  *     // output:
  *     [
  *         'teaser' => [
@@ -148,12 +154,29 @@ class ViewModeRegistry {
  *         ...
  *     ]
  *
+ * ### Get full information for a particular View Mode:
+ *
+ *     ViewModeRegistry::viewModes('teaser');
+ *     // output:
+ *     [
+ *         'name' => 'Human readable for teaser mode',
+ *          'description' => 'Brief description for teaser view-mode'
+ *     ]
+ *
  * @param boolean $full Set to true to get full list. Or false (by default) to get
  * only the slug of all registered view modes.
  * @return array
+ * @throws \Cake\Error\InternalErrorException When you try to get information
+ * for a particular View Mode that does not exists
  */
 	public static function viewModes($full = false) {
-		if (!$full) {
+		if (is_string($full)) {
+			if (!isset(static::$_viewModes[$full])) {
+				throw new InternalErrorException(__('Illegal usage of ViewModeRegistry::switchViewMode(), view mode "%s" was not found.', $slug));
+			}
+
+			return static::$_viewModes[$full];
+		} elseif (!$full) {
 			return array_keys(static::$_viewModes);
 		}
 

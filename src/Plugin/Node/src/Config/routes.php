@@ -27,13 +27,14 @@ if (!empty($node_types)) {
 		[
 			'node_type_slug' => $node_types,
 			'node_slug' => '[a-z0-9\-]+',
-			'pass' => ['node_type_slug', 'node_slug']
+			'pass' => ['node_type_slug', 'node_slug'],
+			'_name' => 'node_details',
 		]
 	);
 }
 
 Router::connect(
-	'/find/:criteria/*',
+	'/find/:criteria',
 	[
 		'plugin' => 'Node',
 		'controller' => 'Serve',
@@ -45,19 +46,7 @@ Router::connect(
 );
 
 Router::connect(
-	'/rss/:criteria/*',
-	[
-		'plugin' => 'Node',
-		'controller' => 'Serve',
-		'action' => 'search'
-	],
-	[
-		'pass' => ['criteria']
-	]
-);
-
-Router::connect(
-	'',
+	'/',
 	[
 		'plugin' => 'Node',
 		'controller' => 'Serve',

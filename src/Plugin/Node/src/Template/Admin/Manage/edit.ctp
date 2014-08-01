@@ -34,12 +34,14 @@
 		<?php echo $this->Form->input('sticky', ['type' => 'checkbox', 'label' => __d('node', 'Sticky at top of lists')]); ?>
 	</fieldset>
 
+	<?php if (isset($node->_fields)): ?>
 	<fieldset>
 		<legend><?php echo __d('node', 'Content'); ?></legend>
 		<?php foreach ($node->_fields as $field): ?>
 			<?php echo $this->Form->input($field); ?>
 		<?php endforeach; ?>
 	</fieldset>
+	<?php endif; ?>
 
 	<fieldset>
 		<legend><?php echo __d('node', 'Settings'); ?></legend>
@@ -69,8 +71,8 @@
 					<td><?php echo $revision->data->language ? $revision->data->language : __d('node', '--any--'); ?></td>
 					<td><?php echo $revision->created->format(__d('node', 'Y-m-d H:i:s')); ?></td>
 					<td>
-						<?php echo $this->Html->link('', "/admin/node/manage/edit/{$node->id}/{$revision->id}", ['class' => 'btn btn-default glyphicon glyphicon-edit', 'title' => __d('node', 'Load revision')]); ?>
-						<?php echo $this->Html->link('', "/admin/node/manage/delete_revision/{$node->id}/{$revision->id}", ['class' => 'btn btn-default glyphicon glyphicon-trash', 'title' => __d('node', 'Delete revision'), 'confirm' => __d('node', 'You are about to delete: "%s". Are you sure ?', $revision->data->title)]); ?>
+						<?php echo $this->Html->link('', ['plugin' => 'Node', 'controller' => 'manage', 'action' => 'edit', $node->id, $revision->id], ['class' => 'btn btn-default glyphicon glyphicon-edit', 'title' => __d('node', 'Load revision')]); ?>
+						<?php echo $this->Html->link('', ['plugin' => 'Node', 'controller' => 'manage', 'action' => 'delete_revision', $node->id, $revision->id], ['class' => 'btn btn-default glyphicon glyphicon-trash', 'title' => __d('node', 'Delete revision'), 'confirm' => __d('node', 'You are about to delete: "%s". Are you sure ?', $revision->data->title)]); ?>
 					</td>
 				</tr>
 			<?php endforeach; ?>

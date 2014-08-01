@@ -24,7 +24,7 @@
 <article id="comment-<?php echo $comment->id; ?>" class="comment">
 	<header>
 		<h3><?php echo $comment->subject; ?></h3>
-		<p class="date"><?php echo $options['date'] ? __d('comment', 'Published at <time pubdate="pubdate">%s</time>', $this->Time->format(__d('node', 'F jS, Y h:i A'), $comment->created)) : ''; ?></p>
+		<p class="date"><?php echo $options['date'] ? __d('comment', 'Published at <time pubdate="pubdate">%s</time>', $comment->created->format(__d('comment', 'F jS, Y h:i A'))) : ''; ?></p>
 		<address class="author">
 			<?php echo $options['author'] ? $this->Html->image($comment->get('author')->avatar) : ''; ?>
 			<?php echo $options['author'] ? __d('comment', 'By %s', $comment->get('author')->name) : ''; ?>

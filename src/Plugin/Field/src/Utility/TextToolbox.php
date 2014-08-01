@@ -12,14 +12,26 @@
 namespace Field\Utility;
 
 use Field\Lib\Parsedown;
-use QuickApps\Utility\Hooktag;
+use Field\Model\Entity\Field;
+use QuickApps\Utility\HooktagTrait;
+use QuickApps\Utility\ViewModeTrait;
 
 /**
- * Toolbox utility.
+ * Text utility class.
  *
- * Utility methods used by Text Field Handler.
+ * Utility methods used by TextField Handler.
  */
 class TextToolbox {
+
+	use HooktagTrait;
+	use ViewModeTrait;
+
+/**
+ * Holds an instance of this class.
+ *
+ * @var \Field\Utility\TextToolbox
+ */
+	protected static $_instance;	
 
 /**
  * Instance of markdown parser class.
@@ -27,6 +39,52 @@ class TextToolbox {
  * @var \Field\Lib\Parsedown
  */
 	protected static $_MarkdownParser;
+
+/**
+ * Returns an instance of this class.
+ *
+ * Useful when we need to use some of the trait methods.
+ * 
+ * @return \Field\Utility\TextToolbox
+ */
+	public static function getInstance() {
+		if (!static::$_instance) {
+			static::$_instance = new TextToolBox();
+		}
+
+		return static::$_instance;
+	}
+
+/**
+ * Formats the given field.
+ *
+ * @param \Field\Model\Entity\Field The field being rendered
+ * @return string
+ */
+	public static function formatter(Field $field) {
+		$viewModeSettings = $field->metadata->view_modes->get(static::getInstance()->inUseViewMode());
+		$content = $viewModeSettings['hooktags'] ? static::getInstance()->hooktags($field->value) : static::getInstance()->stripHooktags($field->value);
+		$processing = $field->metadata->settings['text_processing'];
+		$formatter = $viewModeSettings['formatter'];
+		$content = static::process($field->value, $processing);
+
+		switch ($formatter) {
+			case 'full':
+				return $content;
+			break;
+
+			case 'plain':
+				return static::_filterText($content);
+			break;
+
+			case 'trimmed':
+				$len = $viewModeSettings['trim_length'];
+				return static::_trimmer($content, $len);
+			break;
+		}
+
+		return $content;
+	}
 
 /**
  * Process the given text to its corresponding format.
@@ -264,7 +322,7 @@ class TextToolbox {
  * @return string
  */
 	protected static function _filterText($text) {
-		return Hooktag::stripHooktags(static::_stripHtmlTags($text));
+		return static::getInstance()->stripHooktags(static::_stripHtmlTags($text));
 	}
 
 /**

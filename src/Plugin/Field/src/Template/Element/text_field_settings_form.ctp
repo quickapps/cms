@@ -13,7 +13,7 @@
 
 <div class="form-group">
 	<?php
-		echo $this->Form->input('settings.type',
+		echo $this->Form->input('type',
 			array(
 				'type' => 'select',
 				'options' => array(
@@ -30,7 +30,7 @@
 
 <div class="form-group">
 	<?php
-		echo $this->Form->input('settings.text_processing',
+		echo $this->Form->input('text_processing',
 			array(
 				'type' => 'select',
 				'options' => array(
@@ -82,7 +82,7 @@
 
 <div class="form-group max-len">
 	<?php
-		echo $this->Form->input('settings.max_len',
+		echo $this->Form->input('max_len',
 			array(
 				'type' => 'text',
 				'label' => __d('field', 'Max length')
@@ -94,7 +94,7 @@
 
 <div class="form-group">
 	<?php
-		echo $this->Form->input('settings.validation_rule',
+		echo $this->Form->input('validation_rule',
 			array(
 				'type' => 'text',
 				'label' => __d('field', 'Validation rule'),
@@ -108,7 +108,7 @@
 
 <div class="form-group validation-message">
 	<?php
-		echo $this->Form->input('settings.validation_message',
+		echo $this->Form->input('validation_message',
 			array(
 				'type' => 'text',
 				'label' => __d('field', 'Validation message')
@@ -127,16 +127,7 @@
 		}
 	}
 
-	function toggleValMsg() {
-		if ($('.reg-input').val().length > 0) {
-			$('div.validation-message').show();
-		} else {
-			$('div.validation-message').hide();
-		}
-	}
-
 	$(document).ready(function () {
 		toggleMaxLen();
-		toggleValMsg();
 	});
 </script>

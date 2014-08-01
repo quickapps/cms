@@ -495,18 +495,8 @@ class FormHelper extends CakeFormHelper {
  * @return void
  */
 	public function addContextProvider($type, callable $check) {
-		$this->alter('FormHelper.addContextProvider', $name, $check);
-		return parent::addContextProvider($name, $check);
-	}
-
-/**
- * {@inheritdoc}
- *
- * @return null|\Cake\View\Form\ContextInterface The context for the form.
- */
-	public function context() {
-		$this->alter('FormHelper.context');
-		return parent::context();
+		$this->alter('FormHelper.addContextProvider', $type, $check);
+		return parent::addContextProvider($type, $check);
 	}
 
 /**
@@ -532,16 +522,6 @@ class FormHelper extends CakeFormHelper {
 	public function widget($name, array $data = []) {
 		$this->alter('FormHelper.widget', $name, $data);
 		return parent::widget($name, $data);
-	}
-
-/**
- * {@inheritdoc}
- *
- * @return void
- */
-	public function resetTemplates() {
-		$this->alter('FormHelper.resetTemplates');
-		return parent::resetTemplates();
 	}
 
 }

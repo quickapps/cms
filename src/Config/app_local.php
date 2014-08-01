@@ -13,4 +13,8 @@
 /**
  * Includes application's settings (database info, etc).
  */
-require SITE_ROOT . '/Config/settings.php';
+if (file_exists(SITE_ROOT . '/Config/settings.php')) {
+	require SITE_ROOT . '/Config/settings.php';
+} else {
+	$config = [];
+}

@@ -11,13 +11,13 @@
  */
 namespace System\Controller\Admin;
 
-use System\Controller\SystemAppController;
+use System\Controller\AppController;
 
 /**
  * Structure controller.
  *
  */
-class StructureController extends SystemAppController {
+class StructureController extends AppController {
 
 /**
  * Main action for dashboard.
@@ -26,7 +26,6 @@ class StructureController extends SystemAppController {
  */
 	public function index() {
 		$this->loadModel('Menu.MenuLinks');
-
 		$links = $this->MenuLinks->find('threaded')
 			->where([
 					'parent_id IN' => \Cake\ORM\TableRegistry::get('Menu.MenuLinks')

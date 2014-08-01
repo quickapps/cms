@@ -12,6 +12,7 @@
 namespace Comment\Model\Entity;
 
 use Cake\ORM\Entity;
+use User\Model\Entity\User;
 
 /**
  * Represents a single "comment" from "comments" database table.
@@ -30,7 +31,7 @@ class Comment extends Entity {
  *
  * @return \User\Model\Entity\User
  */
-	public function getAuthor() {
+	public function _getAuthor() {
 		$author = [
 			'username' => null,
 			'name' => $this->get('author_name'),
@@ -50,6 +51,6 @@ class Comment extends Entity {
 
 		$author['name'] = empty($author['name']) ? __d('comment', 'Anonymous') : $author['name'];
 
-		return new \User\Model\Entity\User($author);
+		return new User($author);
 	}
 }

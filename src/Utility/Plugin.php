@@ -78,7 +78,7 @@ class Plugin extends CakePlugin {
 	];
 
 /**
- * Gets all plugin information as a collection object.
+ * Gets plugins information as a collection object.
  *
  * @param boolean $extendedInfo Set to true to get extended information for each plugin
  * @return \Cake\Collection\Collection
@@ -96,7 +96,7 @@ class Plugin extends CakePlugin {
 	}
 
 /**
- * Gets plugin information.
+ * Gets information for a single plugin.
  *
  * @param string $plugin Plugin name. e.g. `Node`
  * @param boolean $includeJson Merge info with plugin's `composer.json` file

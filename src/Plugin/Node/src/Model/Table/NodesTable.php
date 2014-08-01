@@ -45,17 +45,23 @@ class NodesTable extends Table {
  */
 	public function initialize(array $config) {
 		$this->belongsTo('NodeTypes', [
-			'className' => 'Node\\Model\\Table\\NodeTypesTable',
+			'className' => 'Node.NodeTypes',
 			'fields' => ['slug', 'name', 'description'],
 		]);
 
 		$this->hasMany('NodeRevisions', [
-			'className' => 'Node.NodeRevisionsTable',
+			'className' => 'Node.NodeRevisions',
+			'dependent' => true,
+		]);
+
+		$this->hasMany('Translations', [
+			'className' => 'Node.Nodes',
+			'foreignKey' => 'translation_for',
 			'dependent' => true,
 		]);
 
 		$this->belongsTo('Author', [
-			'className' => 'User\\Model\\Table\\UsersTable',
+			'className' => 'User.Users',
 			'foreignKey' => 'created_by',
 			'fields' => ['id', 'name', 'username']
 		]);

@@ -101,13 +101,13 @@ class FieldCollection extends ArrayObject {
  *
  * @param string $viewMode View mode slug to use for sorting
  * @param int $dir either SORT_DESC or SORT_ASC
- * @return \Cake\Collection\Collection
+ * @return \Field\Utility\FieldCollection
  */
 	public function sortByViewMode($viewMode, $dir = SORT_ASC) {
 		$items = [];
 		$sorted = $this->sortBy(function ($field) use($viewMode) {
-			if (isset($field->metadata->view_modes[$viewMode]['ordering'])) {
-				return $field->metadata->view_modes[$viewMode]['ordering'];
+			if ($field->metadata->view_modes->has($viewMode)) {
+				return $field->metadata->view_modes->get($viewMode)['ordering'];
 			}
 
 			return 0;
@@ -118,6 +118,22 @@ class FieldCollection extends ArrayObject {
 		}
 
 		return new FieldCollection($items);
+	}
+
+/**
+ * Returns an array that can be used to describe the internal state of this
+ * object.
+ *
+ * @return array
+ */
+	public function __debugInfo() {
+		$out = [];
+
+		foreach ($this as $f) {
+			$out[] = $f;
+		}
+
+		return $out;
 	}
 
 }

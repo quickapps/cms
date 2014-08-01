@@ -76,4 +76,14 @@ trait HooktagTrait {
 		return Hooktag::hooktags($content, $this);
 	}
 
+/**
+ * Removes all hooktags from the given content.
+ *
+ * @param string $content Text from which to remove hooktags
+ * @return string Content without hooktags
+ */
+	public function stripHooktags($content) {
+		return Hooktag::stripHooktags($content);
+	}
+
 }

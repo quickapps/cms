@@ -11,12 +11,14 @@
  */
 namespace Menu\View\Helper;
 
+use Cake\Core\Configure;
+use Cake\ORM\Entity;
 use Cake\Routing\Router;
-use Menu\Utility\Breadcrumb;
 use Cake\Utility\Hash;
 use Cake\View\Helper;
 use Cake\View\Helper\StringTemplateTrait;
 use Cake\View\View;
+use Menu\Utility\Breadcrumb;
 use QuickApps\View\Helper\AppHelper;
 
 /**
@@ -128,7 +130,7 @@ class MenuHelper extends AppHelper {
  *
  * You can pass an associative array `key => value`.
  * Any `key` not in `$_defaultConfig` will be treated as an additional attribute for the top level UL (root).
- * If `key` is in `$_defaultConfig` it will overwrite default configuration parameters:
+ * If `key` is in `$_defaultConfig` it will temporally overwrite default configuration parameters:
  *
  * - `formatter`: Callable method used when formating each item.
  * - `activeClass`: CSS class to use when an item is active (its URL matches current URL).
@@ -140,7 +142,7 @@ class MenuHelper extends AppHelper {
  *    the already loaded templates. This option can either be a filename in App/Config that contains
  *    the templates you want to load, or an array of templates to use.
  *
- * @param array|\Cake\ORM\Query $items Nested items to render, given as a query result set or as an array list
+ * @param array|\Cake\Collection\Collection $items Nested items to render, given as a query result set or as an array list
  * @param array $options An array of HTML attributes and options
  * @return string HTML
  */
@@ -288,13 +290,13 @@ class MenuHelper extends AppHelper {
 		if (!empty($options['linkAttrs'])) {
 			$linkAttrs = Hash::merge($linkAttrs, $options['linkAttrs']);
 		}
-
+	
 		$childAttrs = $this->templater()->formatAttributes($childAttrs);
 		$linkAttrs = $this->templater()->formatAttributes($linkAttrs);
 		$return = $this->formatTemplate('child', [
 			'attrs' => $childAttrs,
 			'content' => $this->formatTemplate('link', [
-				'url' => $this->_View->Html->url($item->url, true),
+				'url' => $this->_url($item->url),
 				'attrs' => $linkAttrs,
 				'content' => $item->title,
 			]) . $info['children']
@@ -341,7 +343,7 @@ class MenuHelper extends AppHelper {
 
 		foreach ($items as $item) {
 			$children = '';
-			$item = is_array($item) ? new \Cake\ORM\Entity($item) : $item;
+			$item = is_array($item) ? new Entity($item) : $item;
 
 			if ($item->has('children') && !empty($item->children) && $item->expanded) {
 				$children = $this->formatTemplate('parent', [
@@ -366,6 +368,38 @@ class MenuHelper extends AppHelper {
 		}
 
 		return $content;
+	}
+
+/**
+ * Returns a safe URL string for later use on HtmlHelper.
+ * 
+ * @param string|array $url URL given as string or an array compatible with `Router::url()`
+ * @return string
+ */
+	protected function _url($url) {
+		static $locales = null;
+
+		if (empty($locales)) {
+			$locales = implode('|', 
+				array_map('preg_quote', 
+					array_keys(
+						Configure::read('QuickApps.languages')
+					)
+				)
+			);
+		}
+
+		if (
+			Configure::read('QuickApps.variables.url_locale_prefix') &&
+			is_string($url) &&
+			str_starts_with($url, '/') &&
+			!preg_match('/^\\/[' . $locales . ']/', $url)
+		) {
+			$locale = Configure::read('Config.language');
+			return Router::url("/{$locale}{$url}", true);
+		} else {
+			return Router::url($url);
+		}
 	}
 
 /**
@@ -441,7 +475,7 @@ class MenuHelper extends AppHelper {
  * Check if a path matches any pattern in a set of patterns.
  *
  * @param string $patterns String containing a set of patterns separated by \n, \r or \r\n
- * @param mixed $path String as path to match. Or boolean FALSE to use actual page URL
+ * @param mixed $path String as path to match. Or false to use current page URL
  * @return boolean TRUE if the path matches a pattern, FALSE otherwise
  */
 	protected function _urlMatch($patterns, $path = false) {
@@ -453,15 +487,17 @@ class MenuHelper extends AppHelper {
 		$path = !$path ? '/' . $request->url : $path;
 		$patterns = explode("\n", $patterns);
 
-		if (\Cake\Core\Configure::read('QuickApps.variables.url_language_prefix')) {
-			static $langCodesExp;
+		if (Configure::read('QuickApps.variables.url_locale_prefix')) {
+			static $locales = null;
 
-			if (empty($langCodesExp)) {
-				$langCodesExp = implode('|', array_keys(\Cake\Core\Configure::read('QuickApps.languages')));
-			}
-
-			if (!preg_match('/^\/(' . $langCodesExp . ')\//', $path, $matches)) {
-				$path = '/' . Configure::read('Config.language'). $path;
+			if (empty($locales)) {
+				$locales = implode('|', 
+					array_map('preg_quote', 
+						array_keys(
+							Configure::read('QuickApps.languages')
+						)
+					)
+				);
 			}
 		}
 
@@ -469,6 +505,13 @@ class MenuHelper extends AppHelper {
 			$p = $this->_View->Html->url('/') . $p;
 			$p = str_replace('//', '/', $p);
 			$p = str_replace($request->base, '', $p);
+
+			if (
+				Configure::read('QuickApps.variables.url_locale_prefix') &&
+				!preg_match('/^\/(' . $locales . ')\//', $p, $matches)
+			) {
+				$p = '/' . Configure::read('Config.language') . $p;
+			}
 		}
 
 		$patterns = implode("\n", $patterns);
@@ -490,7 +533,7 @@ class MenuHelper extends AppHelper {
 		$patterns_quoted = preg_quote($patterns, '/');
 		$regexps[$patterns] = '/^(' . preg_replace($to_replace, $replacements, $patterns_quoted) . ')$/';
 
-		return (bool) preg_match($regexps[$patterns], $path);
+		return (bool)preg_match($regexps[$patterns], $path);
 	}
 
 /**
@@ -504,7 +547,7 @@ class MenuHelper extends AppHelper {
 	protected function _count($items) {
 		foreach ($items as $item) {
 			$this->_count++;
-			$item = is_array($item) ? new \Cake\ORM\Entity($item) : $item;
+			$item = is_array($item) ? new Entity($item) : $item;
 
 			if ($item->has('children') && !empty($item->children) && $item->expanded) {
 				$this->_count($item->children);

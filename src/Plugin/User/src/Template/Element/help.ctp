@@ -23,7 +23,7 @@
 	<dd>
 		Roles are used to group and classify users; each user can be assigned one or more roles.
 		By default there are three roles: anonymous user (users that are not logged in), authenticated user (users that are registered and logged in) and administrator (which has unrestricted access to whole the system).
-		After creating roles, you can set permissions for each role on the <?php echo $this->Html->link('Permissions page', ['plugin' => 'user', 'controller' => 'permissions', 'prefix' => 'admin']); ?>.
+		After creating roles, you can set permissions for each role on the <?php echo $this->Html->link('Permissions page', ['plugin' => 'User', 'controller' => 'permissions', 'prefix' => 'admin']); ?>.
 		Granting a permission allows users who have been assigned a particular role to perform an action on the site, such as editing or creating content, administering settings for a particular module,
 		or using a particular function of the site (such as search).
 	</dd>

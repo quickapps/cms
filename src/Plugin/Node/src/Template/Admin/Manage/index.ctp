@@ -53,9 +53,9 @@
 				<td><?php echo $node->language ? $node->language : __d('node', '--any--'); ?></td>
 				<td><?php echo $node->created->format(__d('node', 'Y-m-d H:i:s')); ?></td>
 				<td>
-					<?php echo $this->Html->link('', "/admin/node/manage/edit/{$node->id}", ['class' => 'btn btn-default glyphicon glyphicon-pencil', 'title' => __d('node', 'Edit')]); ?>
-					<?php echo $this->Html->link('', "/admin/node/manage/translate/{$node->id}", ['class' => 'btn btn-default glyphicon glyphicon-globe', 'title' => __d('node', 'Translate')]); ?>
-					<?php echo $this->Html->link('', "/admin/node/manage/delete/{$node->id}", ['class' => 'btn btn-default glyphicon glyphicon-trash', 'title' => __d('node', 'Delete'), 'confirm' => __d('node', 'You are about to delete: "%s". Are you sure ?', $node->title)]); ?>
+					<?php echo $this->Html->link('', ['prefix' => 'admin', 'plugin' => 'Node', 'controller' => 'manage', 'action' => 'edit', $node->id], ['class' => 'btn btn-default glyphicon glyphicon-pencil', 'title' => __d('node', 'Edit')]); ?>
+					<?php echo $this->Html->link('', ['prefix' => 'admin', 'plugin' => 'Node', 'controller' => 'translate', 'action' => 'edit', $node->id], ['class' => 'btn btn-default glyphicon glyphicon-globe', 'title' => __d('node', 'Translate')]); ?>
+					<?php echo $this->Html->link('', ['prefix' => 'admin', 'plugin' => 'Node', 'controller' => 'manage', 'action' => 'delete', $node->id], ['class' => 'btn btn-default glyphicon glyphicon-trash', 'title' => __d('node', 'Delete'), 'confirm' => __d('node', 'You are about to delete: "%s". Are you sure ?', $node->title)]); ?>
 				</td>
 			</tr>
 		<?php endforeach; ?>

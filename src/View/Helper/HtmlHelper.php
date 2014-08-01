@@ -86,7 +86,7 @@ class HtmlHelper extends CakeHtmlHelper {
  * @return string An `<a />` element.
  */
 	public function link($title, $url = null, array $options = [], $confirmMessage = false) {
-		$event = $this->alter('HtmlHelper.link', $title, $url, $options, $confirmMessage);
+		//$event = $this->alter('HtmlHelper.link', $title, $url, $options, $confirmMessage);
 		return parent::link($title, $url, $options, $confirmMessage);
 	}
 

@@ -61,7 +61,6 @@ class FieldHandler implements EventListener {
 			// Related to Entity:
 			"Field.{$handlerName}.Entity.display" => 'entityDisplay',
 			"Field.{$handlerName}.Entity.edit" => 'entityEdit',
-			"Field.{$handlerName}.Entity.formatter" => 'entityFormatter',
 			"Field.{$handlerName}.Entity.beforeFind" => 'entityBeforeFind',
 			"Field.{$handlerName}.Entity.afterSave" => 'entityAfterSave',
 			"Field.{$handlerName}.Entity.beforeValidate" => 'entityBeforeValidate',
@@ -71,7 +70,10 @@ class FieldHandler implements EventListener {
 
 			// Related to Instance:
 			"Field.{$handlerName}.Instance.info" => 'instanceInfo',
-			"Field.{$handlerName}.Instance.settings" => 'instanceSettings',
+			"Field.{$handlerName}.Instance.settingsForm" => 'instanceSettingsForm',
+			"Field.{$handlerName}.Instance.settingsDefaults" => 'instanceSettingsDefaults',
+			"Field.{$handlerName}.Instance.viewModeForm" => 'instanceViewModeForm',
+			"Field.{$handlerName}.Instance.viewModeDefaults" => 'instanceViewModeDefaults',
 			"Field.{$handlerName}.Instance.beforeAttach" => 'instanceBeforeAttach',
 			"Field.{$handlerName}.Instance.afterAttach" => 'instanceAfterAttach',
 			"Field.{$handlerName}.Instance.beforeDetach" => 'instanceBeforeDetach',
@@ -101,22 +103,6 @@ class FieldHandler implements EventListener {
  * @return string HTML containing from elements
  */
 	public function entityEdit(Event $event, $field, $options = []) {
-		return '';
-	}
-
-/**
- * All fields should have a 'default' formatter.
- *
- * Any number of other formatters can be defined as well.
- * It's nice for there always to be a 'plain' option
- * for the `value` value, but that is not required.
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\Field $field Field information
- * @param array $options
- * @return string HTML
- */
-	public function entityFormatter(Event $event, $field, $options = []) {
 		return '';
 	}
 
@@ -210,12 +196,54 @@ class FieldHandler implements EventListener {
  * define the way the value will be stored in the database.
  *
  * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\Field $field Field information
+ * @param \Field\Model\Entity\FieldInstance $instance Instance information
  * @param array $options
  * @return string HTML form elements for the settings page
  */
-	public function instanceSettings(Event $event, $field, $options = []) {
+	public function instanceSettingsForm(Event $event, $instance, $options = []) {
 		return '';
+	}
+
+/**
+ * Returns an array of default values for field settings form's inputs.
+ *
+ * @param \Cake\Event\Event $event The event that was fired
+ * @param \Field\Model\Entity\FieldInstance $instance Instance information
+ * @param array $options
+ * @return array
+ */
+	public function instanceSettingsDefaults(Event $event, $instance, $options = []) {
+		return [];
+	}
+
+/**
+ * Renders all the form elements to be used on the field view mode form.
+ *
+ * Here is where you should render form elements to hold settings about how
+ * Nodes should be rendered for a particular View Mode.
+ *
+ * @param \Cake\Event\Event $event The event that was fired
+ * @param \\Field\Model\Entity\FieldInstance $instance Instance information
+ * @param array $options
+ * @return string HTML form elements for the settings page
+ */
+	public function instanceViewModeForm(Event $event, $instance, $options = []) {
+		return '';
+	}
+
+/**
+ * Returns an array of defaults values for each input in the view modes form.
+ *
+ * You can provide different default values depending on the view mode,
+ * you can use `$option['viewMode']` to distinct between view modes.
+ *
+ * @param \Cake\Event\Event $event The event that was fired
+ * @param \Field\Model\Entity\FieldInstance $instance Instance information
+ * @param array $options
+ * @return array
+ */
+	public function instanceViewModeDefaults(Event $event, $instance, $options = []) {
+		return [];
 	}
 
 /**

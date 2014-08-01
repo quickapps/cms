@@ -29,42 +29,41 @@ class Breadcrumb {
 /**
  * Adds a new crumb to the stack.
  *
- * You can use this method without any argument, if you do it will automatically
- * try to guess the full breadcrumb path based on current URL (if current URL matches any URL
- * in any of your menus links).
- *
  * ### Usage
  *
  * #### Single crumb push as an array:
  *
  *     Breadcrumb::push(['title' => 'Crumb 1', 'url' => 'URL for crumb 1']);
- *     Breadcrumb::push(['title' => 'Crumb 2', 'url' => 'URL for crumb 2']);
+ *     Breadcrumb::push(['title' => 'Crumb 2', 'url' => '/MyPlugin/my_controller/action_name']);
  *     Breadcrumb::push(['title' => 'Crumb 3', 'url' => 'URL for crumb 3']);
  *
  * #### Multiple crumbs at once:
  *
  *     Breadcrumb::push([
  *         ['title' => 'Crumb 1', 'url' => 'URL for crumb 1'],
- *         ['title' => 'Crumb 2', 'url' => 'URL for crumb 2'],
+ *         ['title' => 'Crumb 2', 'url' => '/MyPlugin/my_controller/action_name'],
  *         ['title' => 'Crumb 3', 'url' => 'URL for crumb 3'],
  *     ]);
  *
  * #### "title" and "URL" as arguments:
  *
  *     Breadcrumb::push('Crumb 1', 'URL for crumb 1');
- *     Breadcrumb::push('Crumb 2', 'URL for crumb 2');
+ *     Breadcrumb::push('Crumb 2', ['plugin' => 'MyPlugin', 'controller' => 'my_controller', 'action' => 'action_name']);
  *     Breadcrumb::push('Crumb 3', 'URL for crumb 3');
  *
  * All three examples above produces the same HTML output when using `BreadcrumbHelper::render()`:
  *
  *     <ol>
  *         <li class="first-item"><a href="URL for crumb 1"><span>Crumb 1</span></a></li>
- *         <li class="active"><a href="URL for crumb 2"><span>Crumb 2</span></a></li>
+ *         <li class="active"><a href="/MyPlugin/my_controller/action_name"><span>Crumb 2</span></a></li>
  *         <li class="last-item"><a href="URL for crumb 3"><span>Crumb 3</span></a></li>
  *     </ol>
  *
+ * As you might notice, you can provide URLs as string values as an array compatible with `Router::url()`.
+ *
  * @param array|string $crumbs Single crumb or an array of multiple crumbs to push at once
- * @param string $url If both $crumbs and $url are string values they will be used as `title` and `url` respectively
+ * @param mixed $url If both $crumbs is a string value and $url is a string (or an array) value
+ * they will be used as `title` and `url` respectively
  * @return boolean True on success, False otherwise
  * @see \Menu\View\Helper\BreadcrumbHelper::render()
  */
@@ -73,7 +72,7 @@ class Breadcrumb {
 			return false;
 		}
 
-		if (is_string($crumbs) && is_string($url)) {
+		if (is_string($crumbs) && (is_string($url) || is_array($url))) {
 			// "title" and "URL" as arguments"
 			$crumbs = [
 				['title' => $crumbs, 'url' => $url],

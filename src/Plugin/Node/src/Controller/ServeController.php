@@ -11,19 +11,25 @@
  */
 namespace Node\Controller;
 
+use Cake\Core\Configure;
+use Cake\Error\NotFoundException;
+
 /**
  * Node serve controller.
  *
  * For handling all public node-rendering requests.
  */
-class ServeController extends NodeAppController {
+class ServeController extends AppController {
 
 /**
  * Components used by this controller.
  *
  * @var array
  */
-	public $components = ['Comment.CommentForm', 'Paginator'];
+	public $components = [
+		'Comment.CommentForm',
+		'Paginator'
+	];
 
 /**
  * An array containing the names of helpers controllers uses.
@@ -62,19 +68,23 @@ class ServeController extends NodeAppController {
  * Site font page.
  *
  * Gets a list of all promoted nodes, so themes may render them in their
- * front-page layout.
+ * front-page layout. The view-variable `nodes` holds all promoted contents,
+ * themes might render this nodes using this variable.
  *
  * @return void
  */
 	public function frontpage() {
 		$this->loadModel('Node.Nodes');
 		$nodes = $this->Nodes->find()
-			->where(['promote' => 1, 'status >' => 0])
-			->order(['sticky' => 'DESC', 'created' => 'DESC'])
+			->where([
+				'Nodes.promote' => 1,
+				'Nodes.status >' => 0,
+				'Nodes.language IN' => ['', Configure::read('Config.language'), null],
+			])
+			->order(['Nodes.sticky' => 'DESC', 'Nodes.created' => 'DESC'])
 			->all();
 
 		$this->set('nodes', $nodes);
-		$this->switchViewMode('teaser');
 	}
 
 /**
@@ -97,24 +107,23 @@ class ServeController extends NodeAppController {
 				'Nodes.slug' => $node_slug,
 				'Nodes.node_type_slug' => $node_type_slug,
 				'Nodes.status >' => 0,
-				'Nodes.language IN' => ['', \Cake\Core\Configure::read('Config.language'), null]
+				'Nodes.language IN' => ['', Configure::read('Config.language'), null]
 			];
 		}
 
 		$node = $this->Nodes->find()
 			->where($conditions)
+			->contain(['NodeTypes'])
 			->first();
 
 		if (!$node) {
-			throw new \Cake\Error\NotFoundException(__('The requested page was not found.'));
+			throw new NotFoundException(__d('node', 'The requested page was not found.'));
 		}
 
 		// Post new comment logic
 		if ($node->comment_status > 0) {
-			$commentOptions = [
-				'data' => ['status' => 1],
-				'validate' => 'default',
-			];
+			$node->set('comments', $this->Nodes->find('comments', ['for' => $node->id]));
+			$commentOptions = ['data' => ['status' => 1], 'validate' => 'default'];
 			$this->CommentForm->post($node, $commentOptions);
 		}
 

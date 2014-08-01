@@ -58,7 +58,7 @@ class BreadcrumbComponent extends Component {
  *     $this->Breadcrumb->push('/admin/some/url');
  *
  * @param array|string $crumbs Single crumb or an array of multiple crumbs to push at once
- * @param string|null $url If both $crumbs and $url are string values they will be used as `title` and `URL` respectively
+ * @param mixed $url If both $crumbs and $url are string values they will be used as `title` and `URL` respectively
  * @return boolean True on success, false otherwise
  * @see \Menu\Utility\Breadcrumb::push()
  */
@@ -76,7 +76,7 @@ class BreadcrumbComponent extends Component {
 			if ($found) {
 				$crumbs = $MenuLinks->find('path', ['for' => $found->id])->toArray();
 			}
-		} elseif (is_string($crumbs) && strpos($crumbs, '/') !== false) {
+		} elseif (is_string($crumbs) && strpos($crumbs, '/') !== false && $url === null) {
 			$MenuLinks = TableRegistry::get('Menu.MenuLinks');
 			$MenuLinks->addBehavior('Tree');
 			$found = $MenuLinks

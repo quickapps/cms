@@ -13,20 +13,20 @@
 
 <p><?php echo $this->element('Field.FieldUI/field_ui_submenu'); ?></p>
 
-<?php echo $this->Form->create($instance, ['role' => 'form']); ?>
+<?php echo $this->Form->create(null, ['role' => 'form']); ?>
 	<fieldset>
 		<legend><?php echo __d('field', 'Basic Information'); ?></legend>
-		<div class="form-group"><?php echo $this->Form->input('label'); ?></div>
-		<div class="form-group"><?php echo $this->Form->input('required', ['type' => 'checkbox']); ?></div>
+		<div class="form-group"><?php echo $this->Form->input('_label', ['value' => $instance->label]); ?></div>
+		<div class="form-group"><?php echo $this->Form->input('_required', ['checked' => $instance->required, 'type' => 'checkbox']); ?></div>
 		<div class="form-group">
-			<?php echo $this->Form->textarea('description'); ?>
+			<?php echo $this->Form->textarea('_description', ['value' => $instance->description]); ?>
 			<span class="help-block"><?php echo __d('field', 'Instructions to present to the user below this field on the editing form.'); ?></span>
 		</div>
 	</fieldset>
 
 	<hr />
 
-	<?php if ($advanced = $this->invoke("Field.{$instance->handler}.Instance.settings", $this, $instance)): ?>
+	<?php if ($advanced = $this->invoke("Field.{$instance->handler}.Instance.settingsForm", $this, $instance)): ?>
 		<fieldset>
 			<legend><?php echo __d('field', 'Advanced'); ?></legend>
 			<?php echo $advanced->result; ?>

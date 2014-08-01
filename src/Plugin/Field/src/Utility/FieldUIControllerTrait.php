@@ -20,6 +20,7 @@ use Cake\ORM\Error\RecordNotFoundException;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
+use Field\Model\Entity\FieldViewMode;
 use QuickApps\Utility\ViewModeTrait;
 
 /**
@@ -151,6 +152,13 @@ trait FieldUIControllerTrait {
 /**
  * Handles a single field instance configuration parameters.
  *
+ * In FormHelper, all fields prefixed with `_` will be considered as columns values
+ * of the instance being edited. Any other input element will be considered as part of the
+ * `settings` column.
+ * 
+ * For example: `_label`, `_required` and `description` maps to `label`, `required` and `description`.
+ * And `some_input`, `another_input` maps to `settings.some_input`, `settings.another_input`
+ *
  * @param integer $id The field instance ID to manage
  * @return void
  * @throws \Cake\ORM\Error\RecordNotFoundException When no field instance was found
@@ -159,19 +167,25 @@ trait FieldUIControllerTrait {
 		$instance = $this->_getOrThrow($id, ['locked' => false]);
 
 		if ($this->request->data) {
-			$instance->accessible('*', true);
-			$instance->set($this->request->data);
+			foreach ($this->request->data as $k => $v) {
+				if (str_starts_with($k, '_')) {
+					$instance->set(str_replace_once('_', '', $k), $v);
+					unset($this->request->data[$k]);
+				}
+			}
 
+			$instance->set('settings', $this->request->data);
 			$save = $this->FieldInstances->save($instance);
 
 			if ($save) {
 				$this->alert(__d('field', 'Field information was saved.'));
+				$this->redirect($this->referer());
 			} else {
 				$this->alert(__d('field', 'Your information could not be saved.'), 'danger');
 			}
 		}
 
-		$instance->accessible('settings', true);
+		$this->request->data = method_exists($instance->settings, 'toArray') ? $instance->settings->toArray() : $instance->settings;
 		$this->set('instance', $instance);
 	}
 
@@ -200,26 +214,9 @@ trait FieldUIControllerTrait {
 			$fieldInstance = $this->FieldInstances->newEntity();
 		}
 
-		$fieldsList = []; // for form select
-		$fieldsInfo = []; // for help-blocks
-		$fieldsHolder = []; // tmp array
-		foreach ((array)Hash::extract(Configure::read('QuickApps.plugins'), '{s}.events.fields') 
-			as $pluginIndex => $pluginFields) {
-			if (!empty($pluginFields)) {
-				$fieldsHolder = array_merge($fieldsHolder, array_keys($pluginFields));
-			}
-		}
-
-		foreach ($fieldsHolder as $k => $f) {
-			$parts = explode('\\', $f);
-			$fieldHandler = array_pop($parts);
-			$invoke = $this->invoke("Field.{$fieldHandler}.Instance.info")->result;
-
-			if (!empty($invoke['name']) && (empty($f['hidden']) || $f['hidden'] === false)) {
-				$fieldsInfo[$fieldHandler] = $invoke;
-				$fieldsList[$fieldHandler] = $invoke['name'];
-			}
-		}
+		$fieldsInfoCollection = $this->hook('Field.info');
+		$fieldsList = $fieldsInfoCollection->combine('handler', 'name')->toArray(); // for form select
+		$fieldsInfo = $fieldsInfoCollection->toArray(); // for help-blocks
 
 		$this->set('fieldsList', $fieldsList);
 		$this->set('fieldsInfo', $fieldsInfo);
@@ -279,6 +276,7 @@ trait FieldUIControllerTrait {
 
 		$this->set('instances', $instances);
 		$this->set('viewMode', $viewMode);
+		$this->set('viewModeInfo', $this->viewModes($viewMode));
 	}
 
 /**
@@ -293,23 +291,47 @@ trait FieldUIControllerTrait {
 	public function view_mode_edit($viewMode, $id) {
 		$this->_validateViewMode($viewMode);
 		$instance = $this->_getOrThrow($id);
+		$arrayContext = [
+			'schema' => [
+				'label_visibility' => ['type' => 'string'],
+				'hooktags' => ['type' => 'boolean'],
+				'hidden' => ['type' => 'boolean'],
+			],
+			'defaults' => [
+				'label_visibility' => 'hidden',
+				'hooktags' => false,
+				'hidden' => false,
+			],
+		];
 
 		if ($this->request->data) {
 			$instance->accessible('*', true);
-			$instance->set($this->request->data);
-
+			$currentValues = $instance->view_modes->get($viewMode);
+			$instance->view_modes->set($viewMode, array_merge($currentValues, $this->request->data));
 			$save = $this->FieldInstances->save($instance);
 
 			if ($save) {
 				$this->alert(__d('field', 'Field information was saved.'));
+				$this->redirect($this->referer());
 			} else {
 				$this->alert(__d('field', 'Your information could not be saved.'), 'danger');
+				$errors = $instance->errors();
+
+				if (!empty($errors)) {
+					foreach ($errors as $field => $value) {
+						$arrayContext['errors'][$field] = $value;
+					}
+				}
 			}
+		} else {
+			$this->request->data = $instance->view_modes->get($viewMode);
 		}
 
 		$instance->accessible('settings', true);
 		$this->set('viewMode', $viewMode);
+		$this->set('viewModeInfo', $this->viewModes($viewMode));
 		$this->set('instance', $instance);
+		$this->set('arrayContext', $arrayContext);
 	}
 
 /**

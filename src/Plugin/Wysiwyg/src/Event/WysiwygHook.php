@@ -59,7 +59,7 @@ class WysiwygHook implements EventListener {
 			$View->Html->scriptBlock('
 			$(document).ready(function () {
 				CKEDITOR.editorConfig = function(config) {
-					config.filebrowserBrowseUrl = "' . $View->Html->url(['plugin' => 'wysiwyg', 'controller' => 'el_finder']) . '";
+					config.filebrowserBrowseUrl = "' . $View->Html->url(['plugin' => 'Wysiwyg', 'controller' => 'el_finder']) . '";
 				};
 			});
 			', ['block' => true]);

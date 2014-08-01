@@ -16,9 +16,16 @@
 define('DS', DIRECTORY_SEPARATOR);
 
 /**
- * The full path to the directory which holds quickapps core's "src", WITHOUT a trailing DS.
+ * The full path to the directory which holds QuickApps CMS core's "src", WITHOUT a trailing DS.
  */
-define('ROOT', QUICKAPPS_CORE_INCLUDE_PATH);
+define('ROOT', dirname(dirname(__DIR__)));
+
+/**
+ * Path to composer's vendor directory.
+ *
+ * There is where quickapps & cakephp must be located.
+ */
+define('VENDOR_INCLUDE_PATH', dirname(dirname(ROOT)) . '/');
 
 /**
  * The actual directory name for quickapps core's "src".

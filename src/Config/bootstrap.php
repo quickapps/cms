@@ -19,7 +19,7 @@ require __DIR__ . '/paths.php';
 /**
  * Use composer to load the autoloader.
  */
-$classLoader = require VENDOR_INCLUDE_PATH . '/autoload.php';
+$classLoader = require VENDOR_INCLUDE_PATH . 'autoload.php';
 $classLoader->addPsr4('Cake\\', CAKE);
 $classLoader->addPsr4('QuickApps\\', APP);
 
@@ -44,6 +44,7 @@ use Cake\Configure\Engine\PhpConfig;
 use Cake\Console\ConsoleErrorHandler;
 use Cake\Core\App;
 use Cake\Core\Configure;
+use Cake\Database\Type;
 use Cake\Datasource\ConnectionManager;
 use Cake\Error\ErrorHandler;
 use Cake\Event\EventManager;
@@ -98,7 +99,7 @@ mb_internal_encoding(Configure::read('App.encoding'));
  * Register application error and exception handlers.
  */
 $isCli = php_sapi_name() === 'cli';
-if ($isCli === 'cli') {
+if ($isCli) {
 	(new ConsoleErrorHandler(Configure::consume('Error')))->register();
 } else {
 	(new ErrorHandler(Configure::consume('Error')))->register();
@@ -161,6 +162,11 @@ if (!file_exists(TMP . 'snapshot.php') && file_exists(SITE_ROOT . '/Config/setti
 		die('No snapshot found. check write permissions on tmp/ directory');
 	}
 }
+
+/**
+ * Registers custom types.
+ */
+Type::map('serialized', 'QuickApps\Utility\SerializedType');
 
 /**
  * Load all registered plugins.
@@ -226,6 +232,7 @@ if (file_exists(SITE_ROOT . DS . 'Config' . DS .  ' bootstrap.php')) {
  * Connect middleware/dispatcher filters.
  */
 DispatcherFactory::add('Asset');
-DispatcherFactory::add('Cache');
 DispatcherFactory::add('Routing');
 DispatcherFactory::add('ControllerFactory');
+
+Plugin::load('Locale', ['autoload' => true, 'bootstrap' => false, 'routes' => true]);

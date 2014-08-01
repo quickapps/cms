@@ -55,19 +55,6 @@ class TextField extends FieldHandler {
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\Field $field Field information
- * @param array $options
- * @return string HTML
- */
-    public function entityFormatter(Event $event, $field, $options = []) {
-		$View = $event->subject;
-        return $View->element('Field.text_field_formatter', compact('field', 'options'));
-    }
-
-/**
- * {@inheritdoc}
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\Field $field Field information
  * @param \Cake\ORM\Entity $entity The entity which started the event
  * @param array $options
  * @return void
@@ -89,7 +76,8 @@ class TextField extends FieldHandler {
  */
 	public function entityBeforeValidate(Event $event, $field, $entity, $options, $validator) {
 		if ($field->metadata->required) {
-			$validator->allowEmpty(":{$field->name}", false, __d('field', 'Field required.'))
+			$validator
+				->allowEmpty(":{$field->name}", false, __d('field', 'Field required.'))
 				->add(":{$field->name}", 'validateRequired', [
 					'rule' => function ($value, $context) use ($field) {
 						if ($field->metadata->settings->type === 'textarea') {
@@ -101,7 +89,8 @@ class TextField extends FieldHandler {
 					'message' => __d('field', 'Field required.'),
 				]);
 		} else {
-			$validator->allowEmpty(":{$field->name}", true);
+			$validator
+				->allowEmpty(":{$field->name}", true);
 		}
 
 		if (
@@ -109,12 +98,13 @@ class TextField extends FieldHandler {
 			!empty($field->metadata->settings->max_len) &&
 			$field->metadata->settings->max_len > 0
 		) {
-			$validator->add(":{$field->name}", 'validateLen', [
-				'rule' => function ($value, $context) use ($field) {
-					return strlen(trim($value)) <= $field->metadata->settings->max_len;
-				},
-				'message' => __d('field', 'Max. %s characters length.', $field->metadata->settings->max_len),
-			]);
+			$validator
+				->add(":{$field->name}", 'validateLen', [
+					'rule' => function ($value, $context) use ($field) {
+						return strlen(trim($value)) <= $field->metadata->settings->max_len;
+					},
+					'message' => __d('field', 'Max. %s characters length.', $field->metadata->settings->max_len),
+				]);
 		}
 
 		if (!empty($field->metadata->settings->validation_rule)) {
@@ -124,12 +114,13 @@ class TextField extends FieldHandler {
 				$message = __d('field', 'Invalid field.', $field->label);
 			}
 
-			$validator->add(":{$field->name}", 'validateReg', [
-				'rule' => function ($value, $context) use ($field) {
-					return preg_match($field->metadata->settings->validation_rule, $value);
-				},
-				'message' => $message,
-			]);
+			$validator
+				->add(":{$field->name}", 'validateReg', [
+					'rule' => function ($value, $context) use ($field) {
+						return preg_match($field->metadata->settings->validation_rule, $value);
+					},
+					'message' => $message,
+				]);
 		}
 
 		return true;
@@ -192,13 +183,65 @@ class TextField extends FieldHandler {
  * {@inheritdoc}
  *
  * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\Field $field Field information
+ * @param \Field\Model\Entity\FieldInstance $instance Instance information
  * @param array $options
  * @return string HTML form elements for the settings page
  */
-	public function instanceSettings(Event $event, $field, $options = []) {
+	public function instanceSettingsForm(Event $event, $instance, $options = []) {
 		$View = $event->subject;
-		return $View->element('Field.text_field_settings', compact('field', 'options'));
+		return $View->element('Field.text_field_settings_form', compact('instance', 'options'));
+	}
+
+/**
+ * {@inheritdoc}
+ *
+ * @param \Cake\Event\Event $event The event that was fired
+ * @param \Field\Model\Entity\FieldInstance $instance Instance information
+ * @param array $options
+ * @return array
+ */
+	public function instanceSettingsDefaults(Event $event, $instance, $options = []) {
+		return [
+			'type' => 'textarea',
+			'text_processing' => 'full',
+			'max_len' => '',
+			'validation_rule' => '',
+			'validation_message' => '',
+		];
+	}	
+
+/**
+ * {@inheritdoc}
+ *
+ * @param \Cake\Event\Event $event The event that was fired
+ * @param \Field\Model\Entity\FieldInstance $instance Instance information
+ * @param array $options
+ * @return string HTML form elements for the settings page
+ */
+	public function instanceViewModeForm(Event $event, $instance, $options = []) {
+		$View = $event->subject;
+		return $View->element('Field.text_field_view_mode_form', compact('instance', 'options'));
+	}
+
+/**
+ * {@inheritdoc}
+ *
+ * @param \Cake\Event\Event $event The event that was fired
+ * @param \Field\Model\Entity\FieldInstance $instance Instance information
+ * @param array $options
+ * @return array
+ */
+	public function instanceViewModeDefaults(Event $event, $instance, $options = []) {
+		switch ($options['viewMode']) {
+			default:
+				return [
+					'label_visibility' => 'above',
+					'hooktags' => true,
+					'hidden' => false,
+					'formatter' => 'full',
+					'trim_length' => '',
+				];
+		}
 	}
 
 /**

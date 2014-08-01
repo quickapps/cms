@@ -11,97 +11,83 @@
  */
 namespace QuickApps\Config;
 
-use QuickApps\Utility\Plugin;
 use Cake\Core\Configure;
 use Cake\Routing\Router;
+use Cake\Utility\Inflector;
+use QuickApps\Utility\Plugin;
 
-/**
- * Admin prefix for backend access.
- */
-Configure::write('Routing.prefixes', ['admin']);
-
+if (!file_exists(SITE_ROOT . '/Config/settings.php')) {
 /**
  * Redirect everything to installer plugin if it's a new QuickApps CMS package.
  */
-if (!file_exists(SITE_ROOT . '/Config/settings.php')) {
-	Router::redirect('/', '/installer/setup', ['status' => 302]);
 	Router::redirect(
 		'/:anything_but_installer',
-		['plugin' => 'installer', 'controller' => 'startup'],
+		['plugin' => 'Installer', 'controller' => 'startup'],
 		['anything_but_installer' => '(?!installer).*', 'status' => 302]
 	);
-}
+
+	Router::plugin('Installer', function($routes) {
+		$routes->connect('/:controller', ['action' => 'index']);
+		$routes->connect('/:controller/:action/*', []);
+	});
+} else {
+/**
+ * Generate basic routes.
+ */
+	$localePrefix = Configure::read('QuickApps.variables.url_locale_prefix');
+	$locales = array_keys(Configure::read('QuickApps.languages'));
+	$localesPattern = '[' . implode('|', array_map('preg_quote', $locales)) . ']';
+	Router::prefix('admin', function($routes) {
+		foreach (Plugin::loaded() as $plugin) {
+			$routes->plugin($plugin, function($routes) {
+				$routes->connect('', ['controller' => 'manage', 'action' => 'index']);
+				$routes->connect('/:controller', ['action' => 'index']);
+				$routes->connect('/:controller/:action/*', []);
+			});
+		}
+	});
+
+	foreach (Plugin::loaded() as $plugin) {
+		Router::plugin($plugin, function($routes) {
+			$routes->connect('', ['controller' => 'main', 'action' => 'index']);
+			$routes->connect('/:controller', ['action' => 'index']);
+			$routes->connect('/:controller/:action/*', []);
+		});
+	}
+
+/**
+ * Load plugin routes.
+ */
+	Plugin::routes();
 
 /**
  * Load site's routes.
  */
-if (file_exists(SITE_ROOT . '/Config/routes.php')) {
-	include_once SITE_ROOT . '/Config/routes.php';
-}
-
-/**
- * Load all plugin routes.
- */
-Plugin::routes();
-
-/**
- * Load the CakePHP default routes.
- */
-require CAKE . 'Config/routes.php';
-
-/**
- * Try to detect language from URL.
- *
- * We accept either format:
- *
- * 1. http://example.com/eng/my/url When `url_locale_prefix` is TRUE
- * 2. http://example.com/my/url?locale=eng When `url_locale_prefix` is FALSE
- */
-if (
-	Configure::read('QuickApps.variables.url_locale_prefix') &&
-	!empty(Router::getRequest()->params['locale'])
-) {
-	Configure::write('Config.language', Router::getRequest()->params['locale']);
-} elseif (
-	!empty(Router::getRequest()->query['locale']) &&
-	empty(Router::getRequest()->params['locale'])
-) {
-	Configure::write('Config.language', Router::getRequest()->query['locale']);
-	Router::addUrlFilter(
-		function ($params, $request) {
-			if (isset($request->query['locale']) && !isset($params['locale'])) {
-				$params['locale'] = $request->query['locale'];
-			}
-
-			return $params;
-		}
-	);
-}
+	if (file_exists(SITE_ROOT . '/Config/routes.php')) {
+		include_once SITE_ROOT . '/Config/routes.php';
+	}
 
 /**
  * Set language prefix (if enabled) on every route.
  */
-if (Configure::read('QuickApps.variables.url_locale_prefix')) {
-	$langs = implode('|', Configure::read('QuickApps.active_languages'));
-
-	foreach (Router::$_routes->all() as &$route) {
-		$route->options['locale'] = "{$langs}";
-		$route->template = "/:locale{$route->template}";
-	}
-
-	foreach (Router::$_routes->all() as $route) {
-		Router::promote(null);
-	}
-
-	Router::addUrlFilter(
-		function ($params, $request) {
-			if (isset($request->params['locale']) && !isset($params['locale'])) {
-				$params['locale'] = $request->params['locale'];
+	if ($localePrefix) {
+		foreach (Router::routes() as $router) {
+			foreach ($locales as $code) {
+				Router::connect("/{$code}{$router->template}", $router->defaults, $router->options);
 			}
-
-			return $params;
 		}
-	);
 
-	unset($langs);
+		Router::addUrlFilter(
+			function ($params, $request) use ($localesPattern) {
+				if (
+					empty($params['_name']) &&
+					(empty($params['_base']) || !preg_match("/\/{$localesPattern}\//", $params['_base']))
+				) {
+					$params['_base'] = $request->base . '/' . Configure::read('Config.language') . '/';
+				}
+				return $params;
+			}
+		);
+	}
+
 }

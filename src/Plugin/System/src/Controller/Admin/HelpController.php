@@ -15,14 +15,14 @@ use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Error;
 use QuickApps\Utility\Plugin;
-use System\Controller\SystemAppController;
+use System\Controller\AppController;
 
 /**
  * Help Controller.
  *
  * For handling plugin's help documents.
  */
-class HelpController extends SystemAppController {
+class HelpController extends AppController {
 
 /**
  * Main action.

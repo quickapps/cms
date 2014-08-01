@@ -65,8 +65,8 @@ class Hooktag {
  * @param string $text Text from which to remove hooktags
  * @return string Content without hooktags
  */
-	public function stripHooktags($text) {
-		$tagregexp = implode('|', static::_hooktags());
+	public static function stripHooktags($text) {
+		$tagregexp = implode('|', static::_hooktagsList());
 		return preg_replace('/(.?)\[(' . $tagregexp . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', '$1$6', $text);
 	}
 

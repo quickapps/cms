@@ -11,11 +11,11 @@
  */
 namespace Field\Controller;
 
-use QuickApps\Controller\AppController;
+use QuickApps\Controller\AppController as BaseController;
 
 /**
  * Main controller for Field plugin.
  *
  */
-class FieldAppController extends AppController {
+class AppController extends BaseController {
 }

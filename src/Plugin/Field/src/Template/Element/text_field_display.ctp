@@ -11,5 +11,12 @@
  */
 ?>
 
-<h2><?php echo $field->label; ?></h2>
-<p><?php echo $field->value; ?></p>
+<?php use Field\Utility\TextToolBox; ?>
+<?php $viewModeSettings = $field->metadata->view_modes->get($this->inUseViewMode()); ?>
+
+<?php if ($viewModeSettings['label_visibility'] == 'above'): ?>
+	<h2 class="field-label"><?php echo $field->label; ?></h2>
+	<p><?php echo TextToolBox::formatter($field); ?></p>
+<?php elseif ($viewModeSettings['label_visibility'] == 'inline'): ?>
+	<p><strong class="field-label"><?php echo $field->label; ?>:</strong> <?php echo TextToolBox::formatter($field); ?></p>
+<?php endif; ?>
