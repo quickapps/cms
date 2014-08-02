@@ -16,6 +16,7 @@ use Cake\Controller\ComponentRegistry;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
+use Cake\Validation\Validator;
 use Comment\Model\Entity\Comment;
 
 /**
@@ -37,14 +38,23 @@ class CommentFormComponent extends Component {
  * Default configuration.
  *
  * - `redirectOnSuccess`: Set to true to redirect to `referer` page
- * on success. Set to false for no redirection, or set to an array|string compatible
- * with `Controller::redirect()` method.
+ *    on success. Set to false for no redirection, or set to an array|string compatible
+ *    with `Controller::redirect()` method.
  * - `successMessage`: Custom success alert-message. Or a callable method which must return a customized message.
  * - `errorMessage`: Custom error alert-message. Or a callable method which must return a customized message.
  * - `data`: Array of additional properties values to merge with those coming
- * from the form's submit. e.g.: `['status' => 0]` will set the new comment as `unapproved`.
- * - `validate`: Specify which validation-set to use when saving new comment.
+ *    from the form's submit. e.g.: `['status' => 0]` will set the new comment as `unapproved`.
  * - `arrayContext`: Information for the ArrayContext provider used by FormHelper when rendering comments form.
+ * - `autoapprove`: Auto approve comments, true will mark new comments as approved.
+ * - `validator`: A custom validator object, if not provided it automatically creates one for you
+ *    using the information below:
+ * - `allow_anonymous`: Set to true to allow anonymous users to create new comments.
+ * - `anonymous_name`: Set to true to create a form input where anonymous users must/may enter their name.
+ * - `anonymous_name_required`: Set to true or false to make author's name input required or optional.
+ * - `anonymous_email`: Set to true to create a form input where anonymous users must/may enter their email.
+ * - `anonymous_email_required`: Set to true or false to make author's email input required or optional.
+ * - `anonymous_web`: Set to true to create a form input where anonymous users must/may enter their website URL.
+ * - `anonymous_web_required`: Set to true or false to make author's website input required or optional.
  *
  * @var array
  */
@@ -53,7 +63,6 @@ class CommentFormComponent extends Component {
 		'successMessage' => 'Comment saved!',
 		'errorMessage' => 'Your comment could not be saved, please check your information.',
 		'data' => [],
-		'validate' => 'default',
 		'arrayContext' => [
 			'schema' => [
 				'_comment_parent_id' => ['type' => 'integer'],
@@ -73,7 +82,16 @@ class CommentFormComponent extends Component {
 				'_comment_subject' => null,
 				'_comment_body' => null,
 			]
-		]
+		],
+		'validator' => false,
+		'autoapprove' => false,
+		'allow_anonymous' => false,
+		'anonymous_name' => false,
+		'anonymous_name_required' => true,
+		'anonymous_email' => false,
+		'anonymous_email_required' => true,
+		'anonymous_web' => false,
+		'anonymous_web_required' => true,
 	];
 
 /**
@@ -108,17 +126,6 @@ class CommentFormComponent extends Component {
 /**
  * Adds a new comment to the given entity.
  *
- * Available options are:
- *
- * - `redirectOnSuccess`: Set to true to redirect to `referer` page
- * on success. Set to false for no redirection, or set to an array|string compatible
- * with `Controller::redirect()` method.
- * - `successMessage`: Custom success alert-message. Or a callable method which must return a customized message.
- * - `errorMessage`: Custom error alert-message. Or a callable method which must return a customized message.
- * - `data`: Array of additional properties values to merge with those coming
- * from the form's submit. e.g.: `['status' => 0]` will set the new comment as `unapproved`.
- * - `validate`: Specify which validation-set to use when saving new comment.
- *
  * When defining `successMessage` or `errorMessage` as callable functions you should expect two arguments.
  * A comment entity as first argument and the controller instance this component is attached to as second argument:
  *
@@ -134,7 +141,7 @@ class CommentFormComponent extends Component {
  * @param array $options Options this this method as described above
  * @return boolean TRUE on success, FALSE otherwise
  */
-	public function post($entity, $options = []) {
+	public function post($entity, array $options = []) {
 		if (!empty($options)) {
 			$this->config($options);
 		}
@@ -150,7 +157,8 @@ class CommentFormComponent extends Component {
 			$pk = TableRegistry::get($entity->source())->primaryKey();
 
 			if ($entity->has($pk)) {
-				if ($Comments->validate($comment, ['validate' => $this->config('validate')])) {
+				$Comment->validator('commentValidation', $this->_createValidator());
+				if ($Comments->validate($comment, ['validate' => 'commentValidation'])) {
 					$Comments->addBehavior('Tree', [
 						'scope' => [
 							'entity_id' => $data['entity_id'],
@@ -216,6 +224,46 @@ class CommentFormComponent extends Component {
 			}
 		}
 		return $data;
+	}
+
+/**
+ * Creates a validation object on the fly.
+ *
+ * @return Cake\Validation\Validator
+ */
+	protected function _createValidator() {
+		$config = $this->config();
+		if ($config['validator'] instanceof Validator) {
+			return $config['validator'];
+		}
+
+		$this->_controller->loadModel('Comment.Comments');
+		$Comments = $this->_controller->Comments;
+		$validator = $Comments->validationDefault(new Validator());
+		$validator
+			->add('user_id', 'checkUserId', [
+				'rule' => function ($value, $context) {
+					if (!empty($value)) {
+						$valid = TableRegistry::get('User.Users')->find()
+							->where(['id' => $value])
+							->count() === 1;
+
+						if ($valid) {
+							$context['providers']['entity']->set('author_name', null);
+							$context['providers']['entity']->set('author_email', null);
+							$context['providers']['entity']->set('author_web', null);
+						}
+
+						return $valid;
+					}
+
+					return true;
+				},
+				'message' => __d('comment', 'Invalid author.'),
+				'provider' => 'table',
+			]);
+
+		return $validator;
 	}
 
 }

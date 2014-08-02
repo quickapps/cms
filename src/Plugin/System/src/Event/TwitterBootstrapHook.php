@@ -23,8 +23,12 @@ use Cake\Event\EventListener;
  * Anyway you are able to define your own "Stylizer" by creating a Hook Listener
  * with higher priority and stopping hook propagation. This listener has a priory of 10 by default.
  *
- * See [CakePHP's event system](http://book.cakephp.org/3.0/en/core-libraries/events.html)
- * for more information.
+ * If you need disable Twitter Bootstrap's CSS classes to be applied, you can set the special `bootstrap`
+ * key as FALSE in your array of options. For example:
+ *
+ *     echo $this->Form->create($userEntity, ['bootstrap' => false]);
+ *         echo $this->Form->input('user_name', ['bootstrap' => false]);
+ *     echo $this->Form->end();
  */
 class TwitterBootstrapHook implements EventListener {
 
@@ -102,7 +106,15 @@ class TwitterBootstrapHook implements EventListener {
  * @return array
  */
 	public function alterFormCreate(Event $event, &$model, &$options) {
-		$this->_addTemplates($event->subject);
+		$bootstrap = isset($options['bootstrap']) ? (bool)$options['bootstrap'] : true;
+
+		if ($bootstrap) {
+			$this->_addTemplates($event->subject);
+		}
+
+		if (isset($options['bootstrap'])) {
+			unset($options['bootstrap']);
+		}
 	}
 
 /**
@@ -117,9 +129,9 @@ class TwitterBootstrapHook implements EventListener {
 		$this->_addTemplates($event->subject);
 		if (
 			empty($options['type']) ||
-			in_array($options['type'], ['text', 'textarea', 'select'])
+			!in_array($options['type'], ['textarea', 'select', 'button', 'submit', 'checkbox'])
 		) {
-			$options = $event->subject->addClass($options, 'form-control');
+			$options = $this->_addClass($event->subject, $options, 'form-control');
 		}
 	}
 
@@ -133,7 +145,7 @@ class TwitterBootstrapHook implements EventListener {
  */
 	public function alterFormTextarea(Event $event, &$fieldName, &$options) {
 		$this->_addTemplates($event->subject);
-		$options = $event->subject->addClass($options, 'form-control');
+		$options = $this->_addClass($event->subject, $options, 'form-control');
 	}
 
 /**
@@ -147,8 +159,7 @@ class TwitterBootstrapHook implements EventListener {
  */
 	public function alterFormSelect(Event $event, &$fieldName, &$options, &$attributes) {
 		$this->_addTemplates($event->subject);
-		$attributes['class'] = is_string($attributes['class']) ? [$attributes['class']] : $attributes['class'];
-		$attributes['class'] = $event->subject->addClass($attributes['class'], 'form-control');
+		$attributes = $this->_addClass($event->subject, $attributes, 'form-control');
 	}
 
 /**
@@ -161,7 +172,7 @@ class TwitterBootstrapHook implements EventListener {
  */
 	public function alterFormButton(Event $event, &$title, &$options) {
 		$this->_addTemplates($event->subject);
-		$options = $event->subject->addClass($options, 'btn btn-default');
+		$options = $this->_addClass($event->subject, $options, 'btn btn-default');
 	}
 
 /**
@@ -174,7 +185,28 @@ class TwitterBootstrapHook implements EventListener {
  */
 	public function alterFormSubmit(Event $event, &$caption, &$options) {
 		$this->_addTemplates($event->subject);
-		$options = $event->subject->addClass($options, 'btn btn-primary');
+		$options = $this->_addClass($event->subject, $options, 'btn btn-primary');
+	}
+
+/**
+ * Add custom CSS classes to array of options.
+ * 
+ * @param \Cake\View\Helper\FormHelper $formHelper Instance of FormHelper
+ * @param array $options
+ * @return array
+ */
+	protected function _addClass($formHelper, $options, $class) {
+		$bootstrap = isset($options['bootstrap']) ? (bool)$options['bootstrap'] : true;
+
+		if ($bootstrap) {
+			$options = $formHelper->addClass($options, $class);
+		}
+
+		if (isset($options['bootstrap'])) {
+			unset($options['bootstrap']);
+		}
+
+		return $options;
 	}
 
 /**

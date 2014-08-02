@@ -18,7 +18,7 @@ use QuickApps\Utility\Plugin;
 
 if (!file_exists(SITE_ROOT . '/Config/settings.php')) {
 /**
- * Redirect everything to installer plugin if it's a new QuickApps CMS package.
+ * Redirect everything to installer plugin if we are on a new QuickApps CMS package.
  */
 	Router::redirect(
 		'/:anything_but_installer',

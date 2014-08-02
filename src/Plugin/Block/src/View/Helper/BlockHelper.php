@@ -13,6 +13,11 @@ namespace Block\View\Helper;
 
 use QuickApps\View\Helper\AppHelper;
 
+/**
+ * Block Helper.
+ *
+ * For handling block rendering.
+ */
 class BlockHelper extends AppHelper {
 
 /**

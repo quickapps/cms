@@ -42,7 +42,7 @@ class CommentsTable extends Table {
  * @param \Cake\Validation\Validator $validator
  * @return \Cake\Validation\Validator
  */
-	public function validationBasic(Validator $validator) {
+	public function validationDefault(Validator $validator) {
 		$validator
 			->add('subject', [
 				'notEmpty' => [
@@ -64,6 +64,7 @@ class CommentsTable extends Table {
 					'message' => 'Comment message need to be at least 5 characters long',
 				]
 			])
+			->allowEmpty('user_id')
 			->allowEmpty('parent_id')
 			->add('parent_id', 'checkParentId', [
 				'rule' => function ($value, $context) {
@@ -83,50 +84,11 @@ class CommentsTable extends Table {
 
 					return true;
 				},
-				'message' => __d('comment', 'Invalid parent comment!.')
+				'message' => __d('comment', 'Invalid parent comment!.'),
+				'provider' => 'table',
 			]);
 
 		return $validator;
 	}
 
-/**
- * Wrapper to validationBasic.
- *
- * @param \Cake\Validation\Validator $validator
- * @return \Cake\Validation\Validator
- */
-	public function validationDefault(Validator $validator) {
-		return $this->validationBasic($validator);
-	}
-
-/**
- * Validation rules applied to logged-in users.
- *
- * @param \Cake\Validation\Validator $validator
- * @return \Cake\Validation\Validator
- */
-	public function validationLoggedIn(Validator $validator) {
-		$validator = $this->validationBasic($validator)
-			->add('user_id', 'checkUserId', [
-				'rule' => function ($value, $context) {
-					if (!empty($value)) {
-						$valid = TableRegistry::get('User.Users')->find()
-							->where(['id' => $value])
-							->count() === 1;
-
-						if ($valid) {
-							$context['providers']['entity']->set('author_name', null);
-							$context['providers']['entity']->set('author_email', null);
-							$context['providers']['entity']->set('author_web', null);
-						}
-
-						return $valid;
-					}
-
-					return true;
-				},
-				'message' => __d('comment', 'Invalid author.')
-			]);
-		return $validator;
-	}
 }

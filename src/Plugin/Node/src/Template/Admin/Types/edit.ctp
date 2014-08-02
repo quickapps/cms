@@ -42,7 +42,7 @@
 					1 => __d('node', 'Open'),
 					2 => __d('node', 'Read only'),
 				],
-				'onchange' => 'toggleCommentOptions()',
+				'onchange' => 'toggleCommentOptions();',
 			]);
 		?>
 		<em class="help-block"><?php echo __d('node', 'Default comment setting for new content.'); ?></em>
@@ -51,8 +51,67 @@
 			<?php echo $this->Form->input('defaults.comment_autoapprove', ['type' => 'checkbox', 'label' => __d('node', 'Auto approve comments')]); ?>
 			<em class="help-block"><?php echo __d('node', 'Comments will automatically approved an published.'); ?></em>
 
-			<?php echo $this->Form->input('defaults.comment_anonymous', ['type' => 'checkbox', 'label' => __d('node', 'Anonymous commenting')]); ?>
+			<?php echo $this->Form->input('defaults.comment_allow_anonymous', ['type' => 'checkbox', 'label' => __d('node', 'Anonymous commenting'), 'id' => 'allow-anonymous-comments', 'onclick' => 'toggleAnonymousCommentOptions();']); ?>
 			<em class="help-block"><?php echo __d('node', 'Anonymous users can comment.'); ?></em>
+
+			<div class="anonymous-comments-options">
+				<?php echo $this->Form->input('defaults.comment_anonymous_name', ['type' => 'checkbox', 'label' => __d('node', "Anonymous's name")]); ?>
+				<em class="help-block">
+					<?php
+						echo __d(
+							'node',
+							'Anonymous users %s leave their name.', 
+							$this->Form->input('defaults.comment_anonymous_name_required', [
+								'type' => 'select',
+								'label' => false,
+								'bootstrap' => false,
+								'options' => [
+									1 => __d('node', 'Must'),
+									0 => __d('node', 'May'),
+								],
+							])
+						);
+					?>
+				</em>
+
+				<?php echo $this->Form->input('defaults.comment_anonymous_email', ['type' => 'checkbox', 'label' => __d('node', "Anonymous's email")]); ?>
+				<em class="help-block">
+					<?php
+						echo __d(
+							'node',
+							'Anonymous users %s leave an email address.', 
+							$this->Form->input('defaults.comment_anonymous_email_required', [
+								'type' => 'select',
+								'label' => false,
+								'bootstrap' => false,
+								'options' => [
+									1 => __d('node', 'Must'),
+									0 => __d('node', 'May'),
+								]
+							])
+						);
+					?>
+				</em>
+
+				<?php echo $this->Form->input('defaults.comment_anonymous_web', ['type' => 'checkbox', 'label' => __d('node', "Anonymous's website")]); ?>
+				<em class="help-block">
+					<?php
+						echo __d(
+							'node',
+							'Anonymous users %s leave a website URL.', 
+							$this->Form->input('defaults.comment_anonymous_web_required', [
+								'type' => 'select',
+								'label' => false,
+								'bootstrap' => false,
+								'options' => [
+									1 => __d('node', 'Must'),
+									0 => __d('node', 'May'),
+								]
+							])
+						);
+					?>
+				</em>
+			</div>
 		</div>
 	</fieldset>
 
@@ -83,15 +142,27 @@
 
 <script>
 	function toggleCommentOptions() {
-		var v = $('#defaults-comment-status').val();
-		if (parseInt(v) > 0) {
+		if (parseInt($('#defaults-comment-status').val()) > 0) {
 			$('.comment-options').show();
 		} else {
 			$('.comment-options').hide();
 		}
 	}
 
+	function toggleAnonymousCommentOptions() {
+		if ($('#allow-anonymous-comments').is(':checked')) {
+			$('.anonymous-comments-options').show();
+		} else {
+			$('.anonymous-comments-options').hide();
+		}
+	}
+
 	$(document).ready(function () {
 		toggleCommentOptions();
+		toggleAnonymousCommentOptions();
 	});
 </script>
+
+<style>
+	.anonymous-comments-options div.select { display:inline; }
+</style>

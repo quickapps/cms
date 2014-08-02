@@ -20,8 +20,10 @@ use Cake\Utility\Inflector;
 use Cake\ORM\TableRegistry;
 
 /**
- * Stores some bootstrap-handy information
- * into a persistent file `SITE/tmp/snapshot.php`.
+ * Stores some bootstrap-handy information into a persistent file.
+ *
+ * Information is stored in `SITE/tmp/snapshot.php` file, it contains
+ * useful information such as installed languages, content types slugs, etc.
  *
  * @param array $mergeWith Array to merge with snapshot array
  * @return void
@@ -47,20 +49,21 @@ function snapshot($mergeWith = []) {
 	];
 
 	$Plugins = TableRegistry::get('Plugins')->find()
-		->select(['name', 'status'])
+		->select(['Plugins.name', 'Plugins.status'])
 		->all();
 	$NodeTypes = TableRegistry::get('NodeTypes')->find()
-		->select(['slug'])
+		->select(['NodeTypes.slug'])
 		->all();
 	$Variables = TableRegistry::get('Variables')->find()
 		->where([
-			'name IN' => [
+			'Variables.name IN' => [
 				'site_theme',
 				'admin_theme',
 				'url_locale_prefix',
 				'default_language',
 			]
-		])->all();
+		])
+		->all();
 
 	$enabledPlugins = [];
 	$disabledPlugins = [];
@@ -153,6 +156,11 @@ function snapshot($mergeWith = []) {
 /**
  * Replace the first occurrence only.
  *
+ * ### Example:
+ *
+ *     echo str_replace_once('A', 'a', 'AAABBBCCC');
+ *     // out: aAABBCCCC
+ *
  * @param string $search The value being searched for
  * @param string $replace The replacement value that replaces found search value
  * @param string $subject The string being searched and replaced on
@@ -170,6 +178,11 @@ function str_replace_once($search, $replace, $subject) {
 /**
  * Check if $haystack string starts with $needle string.
  *
+ * ### Example:
+ *
+ *     str_starts_with('lorem ipsum', 'lo'); // true
+ *     str_starts_with('lorem ipsum', 'ipsum'); // false
+ *
  * @param string $haystack
  * @param string $needle
  * @return boolean
@@ -182,6 +195,11 @@ function str_starts_with($haystack, $needle) {
 
 /**
  * Check if $haystack string ends with $needle string.
+ *
+ * ### Example:
+ *
+ *     str_ends_with('lorem ipsum', 'm'); // true
+ *     str_ends_with('dolorem sit amet', 'at'); // false
  *
  * @param string $haystack
  * @param string $needle

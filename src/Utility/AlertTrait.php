@@ -147,57 +147,63 @@ trait AlertTrait {
 /**
  * Renders/Gets alert messages.
  *
- * When using this method in helper classes alert messages are automatically rendered as HTML.
- * But when using this method in non-helper classes, a list array with all requested messages
+ * When using this method in View context (e.g. Helper classes) alert messages are automatically rendered as HTML.
+ * But when using this method in a non-View context (e.g. Controllers, Tables, etc), an array list with all requested messages
  * will be returned.
  *
- * ## Using this trait method in helpers
+ * ## Using this trait in View context
  *
- * Each messages is rendered using the `render_alert.ctp` view element.
+ * When using this trait over classes having a `_View` property (such as Helpers) or classes extending `\Cake\View\View`,
+ * each messages will be rendered using the `render_alert.ctp` view element.
  *
- * Example:
+ * **Example:**
  *
+ * Trait attached to `MyHelper` class:
+ * 
  *     // this will render all defined alerts (danger, success, etc), for group 'flash' *
- *     echo $this->alerts();
+ *     echo $this->MyHelper->alerts();
  *
  *     // this will render success alerts only, for group 'flash'
- *     echo $this->alerts('success');
+ *     echo $this->MyHelper->alerts('success');
  *     // or:
- *     echo $this->alerts(['success']);
+ *     echo $this->MyHelper->alerts(['success']);
  *
  *     // this will render success and info alerts (in order), for group 'flash'
- *     echo $this->alerts(['success', 'info']);
+ *     echo $this->MyHelper->alerts(['success', 'info']);
  *
- * * The second argument (group name) value is `flash` by default.
+ * By default this trait is attached to the View class used by Controllers (QuickApps\View\View), that means you can do as follow:
  *
- * ## Using this method in non-helper classes
+ *     // my_view.ctp
+ *     $this->alerts('success');
  *
- * Similar to the in-helper usage described above but for class that are not helpers classes such
- * as Controllers, Components, Models, etc.
- * In this case, instead of returning an HTML of each rendered message, you will get an array list of messages.
- * Note that **after this array list is returned messages are automatically destroyed**.
+ * ## Using this method in non-View context
  *
- * Example:
+ * Similar to the View context usage described above but for classes that have no relation with View class such as Controllers,
+ * Components, Models, etc. In these cases, instead of returning a HTML for each rendered message, you will get an array list of
+ * messages. Note that **after this array list is returned messages are automatically destroyed**.
  *
- * Trait attached to HtmlHelper, in your views:
+ * **Example:**
  *
- *     $this->Html->alerts(['success', 'info']);
+ * Trait attached to Controller class:
+ *
+ *     $this->alerts(['success', 'info']);
  *     // returns:
- *
- *     [success] => [
- *         'Success message 1',
- *         'Success message 2',
- *         'Success message 3',
- *     ],
- *     [info] => [
- *         'Info message 1',
- *         'Info message 2',
+ *     [
+ *         [success] => [
+ *             'Success message 1',
+ *             'Success message 2',
+ *             'Success message 3',
+ *         ],
+ *         [info] => [
+ *             'Info message 1',
+ *             'Info message 2',
+ *         ]
  *     ]
  *
  * Following this example. Using this method right after the first call,
  * will return an empty array as messages are destroyed at the first call:
  *
- *     $this->Html->alerts(['success', 'info']);
+ *     $this->alerts(['success', 'info']);
  *     // returns: []
  *
  * @param string|array|null $class Type of messages to render. Or an array of classes to render.
@@ -206,13 +212,18 @@ trait AlertTrait {
  * @return string|array HTML of rendered message elements. Or an array list of messages.
  */
 	public function alerts($class = null, $group = 'flash') {
-		$isHelper = true;
+		$viewInstance = false;
 
-		if (!($this instanceof \Cake\View\Helper)) {
-			$isHelper = false;
+		if (
+			isset($this->_View) &&
+			($this->_View instanceof \Cake\View\View)
+		) {
+			$viewInstance = $this->_View;
+		} elseif ($this instanceof \Cake\View\View) {
+			$viewInstance = $this;
 		}
 
-		$out = $isHelper ? '' : [];
+		$out = $viewInstance ? '' : [];
 
 		if (empty($group)) {
 			return $out;
@@ -220,7 +231,7 @@ trait AlertTrait {
 
 		if (is_array($class)) {
 			foreach ($class as $c) {
-				if ($isHelper) {
+				if ($viewInstance) {
 					$out .= $this->alerts($c, $group);
 				} else {
 					$out = array_merge($out, $this->alerts($c, $group));
@@ -232,7 +243,7 @@ trait AlertTrait {
 			if (!empty($_messages)) {
 				foreach ($_messages as $_class => $messages) {
 					if (!empty($messages)) {
-						if ($isHelper) {
+						if ($viewInstance) {
 							$out .= $this->alerts($_class, $group);
 						} else {
 							$out = array_merge($out, $this->alerts($_class, $group));
@@ -245,8 +256,8 @@ trait AlertTrait {
 
 			foreach ($messages as $k => $message) {
 				if (!empty($message) && in_array($class, ['success', 'info', 'warning', 'danger'])) {
-					if ($isHelper) {
-						$alert = $this->_View->element('render_alert', compact('class', 'message'));
+					if ($viewInstance) {
+						$alert = $viewInstance->element('render_alert', compact('class', 'message'));
 						$out .= "{$alert}\n";
 					} else {
 						$out[$class][] = $message;
