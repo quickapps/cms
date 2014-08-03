@@ -211,7 +211,7 @@ trait HookTrait {
  *     $this->invoke('Hello', new SomeClass());
  *
  * @param string $hookName The name of the hook to trigger
- * @param null|object $context Optional context for \Cake\Event\Event::$subject
+ * @param mixed $context Optional context for \Cake\Event\Event::$subject, defaults to `$this`
  * @return \Cake\Event\Event The event used to trigger the hook
  */
 	public function invoke($hookName, $context = null) {

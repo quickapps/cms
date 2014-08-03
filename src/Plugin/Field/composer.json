@@ -1,5 +1,5 @@
 {
-	"name": "quickapps/field",
+	"name": "quickapps-plugin/field",
 	"description": "Field API to add fields to entities like nodes and users.",
 	"type": "library",
 	"keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],

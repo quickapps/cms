@@ -73,7 +73,6 @@ class StartupController extends AppController {
 			if (!in_array($request->params['action'], ['language', 'index'])) {
 				$params['locale'] = Configure::read('Config.language');
 			}
-
 			return $params;
 		});
 	}

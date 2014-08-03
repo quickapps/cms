@@ -1,5 +1,5 @@
 {
-	"name": "quickapps/block",
+	"name": "quickapps-plugin/block",
 	"description": "Allows users to create boxes of content, which are rendered into an area, or region, of one or more pages of a website.",
 	"type": "library",
 	"keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],

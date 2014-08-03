@@ -1,5 +1,5 @@
 {
-	"name": "quickapps/search",
+	"name": "quickapps-plugin/search",
 	"description": "Search API for QuickApps CMS.",
 	"type": "library",
 	"keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],

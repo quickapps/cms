@@ -1,5 +1,5 @@
 {
-	"name": "quickapps/installer",
+	"name": "quickapps-plugin/installer",
 	"description": "Handles new installations of QuickApps CMS.",
 	"type": "library",
 	"keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],

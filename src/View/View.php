@@ -81,39 +81,30 @@ class View extends CakeView {
  * @return string HTML output of object-rendering or view file
  */
 	public function render($view = null, $layout = null) {
-		$html = '';
-		$EventManager = EventManager::instance();
-
 		if (is_object($view)) {
 			$className = get_class($view);
 			$args = func_get_args();
 			array_shift($args);
 			$args = array_merge([$view], (array)$args); // [entity, options]
 			$event = new Event("ObjectRender.{$className}", $this, $args);
-			$EventManager->dispatch($event);
+			EventManager::instance()->dispatch($event);
 			$html = $event->result;
 		} else {
 			$this->Html->script('System.jquery.js', ['block' => true]);
-
 			if (!$this->_hasRendered) {
 				$this->_hasRendered = true;
 				$this->_setTitle();
 				$this->_setDescription();
-				$this->hook('View.beforeRender', $view, $layout);
 				$html = parent::render($view, $layout);
-				$this->alter('View.render', $html);
-				$this->hook('View.afterRender', $view, $layout);
 			}
 		}
 
+		$this->alter('View.render', $html);
 		return $html;
 	}
 
 /**
  * Overrides Cake's `View::element()` method.
- *
- * Fires `View.beforeElement` and `View.afterElement` hooks so plugins
- * may alter element rendering cycle.
  *
  * @param string $name Name of template file in the/app/Template/Element/ folder,
  *   or `MyPlugin.template` to use the template element from MyPlugin. If the element
@@ -130,11 +121,8 @@ class View extends CakeView {
  * @return string Rendered Element
  */
 	public function element($name, array $data = [], array $options = []) {
-		$this->hook('View.beforeElement', $name, $data, $options);
 		$html = parent::element($name, $data, $options);
 		$this->alter('View.element', $html);
-		$this->hook('View.afterElement', $name, $data, $options);
-
 		return $html;
 	}
 
@@ -178,29 +166,38 @@ class View extends CakeView {
 		if (empty($this->viewVars['description_for_layout'])) {
 			$description = '';
 
-			if (!empty($this->viewVars['node'])) {
-				if (($this->viewVars['node'] instanceof \Node\Model\Entity\Node) && !empty($this->viewVars['node']->description)) {
-					$title = $this->viewVars['node']->description;
-				}
+			if (
+				!empty($this->viewVars['node']) &&
+				($this->viewVars['node'] instanceof \Node\Model\Entity\Node) &&
+				!empty($this->viewVars['node']->description)
+			) {
+				$title = $this->viewVars['node']->description;
 			} else {
 				foreach ($this->viewVars as $var) {
-					if (is_object($var) && ($var instanceof \Node\Model\Entity\Node) && !empty($var->title)) {
+					if (
+						is_object($var) &&
+						($var instanceof \Node\Model\Entity\Node) &&
+						!empty($var->title)
+					) {
 						$title = $var->description;
 						break;
 					}
 				}
 			}
 
-			$description = empty($description) ? Configure::read('QuickApps.site_description') : $description;
+			$description = empty($description) ? Configure::read('QuickApps.variables.site_description') : $description;
+			$this->assign('description', $description);
 			$this->set('description_for_layout', $description);
 			$this->append('meta', $this->Html->meta('description', $description));
+		} else {
+			$this->assign('description', $this->viewVars['description_for_layout']);
 		}
 	}
 
 /**
  * Sets title for layout.
  *
- * It sets `title_for_layout` view-variable, if no previous title was set on controller.
+ * It sets `title_for_layout` view variable, if no previous title was set on controller.
  * It will try to extract title from the Node being rendered (if not empty). Otherwise, site's
  * title will be used.
  *
@@ -210,22 +207,30 @@ class View extends CakeView {
 		if (empty($this->viewVars['title_for_layout'])) {
 			$title = '';
 
-			if (!empty($this->viewVars['node'])) {
-				if (($this->viewVars['node'] instanceof \Node\Model\Entity\Node) && !empty($this->viewVars['node']->title)) {
-					$title = $this->viewVars['node']->title;
-				}
+			if (
+				!empty($this->viewVars['node']) &&
+				($this->viewVars['node'] instanceof \Node\Model\Entity\Node) &&
+				!empty($this->viewVars['node']->title)
+			) {
+				$title = $this->viewVars['node']->title;
 			} else {
 				foreach ($this->viewVars as $var) {
-					if (is_object($var) && ($var instanceof \Node\Model\Entity\Node) && !empty($var->title)) {
+					if (
+						is_object($var) &&
+						($var instanceof \Node\Model\Entity\Node) &&
+						!empty($var->title)
+					) {
 						$title = $var->title;
 						break;
 					}
 				}
 			}
 
-			$title = empty($title) ? Configure::read('QuickApps.site_title') : $title;
-			$this->assign('title_for_layout', $title);
+			$title = empty($title) ? Configure::read('QuickApps.variables.site_title') : $title;
+			$this->assign('title', $title);
 			$this->set('title_for_layout', $title);
+		} else {
+			$this->assign('title', $this->viewVars['title_for_layout']);
 		}
 	}
 

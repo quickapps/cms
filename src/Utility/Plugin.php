@@ -15,13 +15,14 @@ use Cake\Collection\Collection;
 use Cake\Core\Configure;
 use Cake\Core\Plugin as CakePlugin;
 use Cake\Error\FatalErrorException;
+use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 
 /**
  * Plugin is used to load and locate plugins.
  *
- * Wrapper for Cake\Core\Plugin, it adds some QuickAppsCMS specifics methods.
+ * Wrapper for `Cake\Core\Plugin`, it adds some QuickAppsCMS specifics methods.
  */
 class Plugin extends CakePlugin {
 
@@ -83,12 +84,12 @@ class Plugin extends CakePlugin {
  * @param boolean $extendedInfo Set to true to get extended information for each plugin
  * @return \Cake\Collection\Collection
  */
-	public static function getCollection($extendedInfo = false) {
+	public static function collection($extendedInfo = false) {
 		$collection = new Collection((array)Configure::read('QuickApps.plugins'));
 
 		if ($extendedInfo) {
-			$collection = $collection->map(function ($plugin, $key) {
-				return Plugin::getInfo($key);
+			$collection = $collection->map(function ($info, $key) {
+				return Plugin::info($key, true);
 			});
 		}
 
@@ -98,12 +99,32 @@ class Plugin extends CakePlugin {
 /**
  * Gets information for a single plugin.
  *
+ * When `$full` is set to true composer info is merged into the `composer` key,
+ * and DB settings under `settings` key.
+ *
+ * ### Example:
+ *
+ *     $pluginInfo = Plugin::info('User', true);
+ *     // out:
+ *     [
+ *         'name' => 'User,
+ *         'isTheme' => false,
+ *         'isCore' => true,
+ *         'hasHelp' => true,
+ *         'hasSettings' => false,
+ *         'events' => [ ... ],
+ *         'status' => 1,
+ *         'path' => '/path/to/plugin',
+ *         'composer' => [ ... ], // only when $full = true
+ *         'settings' => [ ... ], // only when $full = true
+ *     ]
+ *
  * @param string $plugin Plugin name. e.g. `Node`
- * @param boolean $includeJson Merge info with plugin's `composer.json` file
+ * @param boolean $full Merge info with plugin's `composer.json` file and settings stored in DB
  * @return array Plugin information
- * @throws Cake\Error\FatalErrorException When plugin is not found
+ * @throws Cake\Error\FatalErrorException When plugin is not found, or when JSON file is not found
  */
-	public static function getInfo($plugin, $includeJson = true) {
+	public static function info($plugin, $full = false) {
 		$plugin = Inflector::camelize($plugin);
 		$info = (array)Configure::read('QuickApps.plugins.' . $plugin);
 
@@ -111,9 +132,22 @@ class Plugin extends CakePlugin {
 			throw new FatalErrorException(__('system', 'Plugin "%s" was not found', $plugin));
 		}
 
-		if ($includeJson) {
+		if ($full) {
+			if (!file_exists($info['path'] . '/composer.json')) {
+				throw new FatalErrorException(__('system', 'Missing composer.json for plugin "%s"', $plugin));
+			}
 			$json = Hash::merge(static::$_defaultComposerJson, json_decode(file_get_contents($info['path'] . '/composer.json'), true));
-			$info = Hash::merge($info, $json);
+			$info['composer'] = $json;
+			$info['settings'] = [];
+			$dbInfo = TableRegistry::get('System.Plugins')
+				->find()
+				->select(['Plugins.settings'])
+				->where(['name' => $plugin])
+				->first();
+
+			if ($dbInfo) {
+				$info['settings'] = (array)$dbInfo->settings->toArray();
+			}
 		}
 
 		return (array)$info;

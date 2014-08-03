@@ -12,6 +12,7 @@
 use Cake\Cache\Cache;
 use Cake\Core\App;
 use Cake\Core\Configure;
+use Cake\Datasource\ConnectionManager;
 use Cake\I18n\I18n;
 use Cake\Routing\Router;
 use Cake\Utility\Folder;
@@ -25,6 +26,22 @@ use Cake\ORM\TableRegistry;
  * Information is stored in `SITE/tmp/snapshot.php` file, it contains
  * useful information such as installed languages, content types slugs, etc.
  *
+ * You can read this information using `Configure::read()` as follow:
+ *
+ *     Configure::read('QuickApps.<option>');
+ *
+ * Available options are:
+ *
+ * - `node_types`: List of available content type slugs. e.g. ['article', 'page', ...]
+ * - `plugins`: Array of plugin information indexed by Plugin Name
+ * - `variables`: A set of useful environment variables
+ *   - `url_locale_prefix`: 1 to enable language prefix in URL, 0 otherwise
+ *   - `site_theme`: Frontend's theme name
+ *   - `admin_theme`: Backend's theme name
+ *   - `site_title`: Default title for every rendered page of your site
+ *   - `site_description`: Default description for every rendered page of your site
+ *   - `default_language`: Default site's language
+ *
  * @param array $mergeWith Array to merge with snapshot array
  * @return void
  */
@@ -36,6 +53,8 @@ function snapshot($mergeWith = []) {
 			'url_locale_prefix' => 0,
 			'site_theme' => null,
 			'admin_theme' => null,
+			'site_title' => null,
+			'site_description' => null,
 			'default_language' => 'en-us'
 		],
 		'languages' => [
@@ -48,32 +67,27 @@ function snapshot($mergeWith = []) {
 		]
 	];
 
-	$Plugins = TableRegistry::get('Plugins')->find()
+	$Plugins = TableRegistry::get('Plugins')
+		->find()
 		->select(['Plugins.name', 'Plugins.status'])
 		->all();
-	$NodeTypes = TableRegistry::get('NodeTypes')->find()
+	$NodeTypes = TableRegistry::get('NodeTypes')
+		->find()
 		->select(['NodeTypes.slug'])
 		->all();
-	$Variables = TableRegistry::get('Variables')->find()
+	$Variables = TableRegistry::get('Variables')
+		->find()
 		->where([
 			'Variables.name IN' => [
+				'url_locale_prefix',
 				'site_theme',
 				'admin_theme',
-				'url_locale_prefix',
+				'site_title',
+				'site_description',
 				'default_language',
 			]
 		])
 		->all();
-
-	$enabledPlugins = [];
-	$disabledPlugins = [];
-	foreach ($Plugins as $plugin) {
-		if ($plugin->status) {
-			$enabledPlugins[] = $plugin->name;
-		} else {
-			$disabledPlugins[] = $plugin->name;
-		}
-	}
 
 	foreach ($NodeTypes as $nodeType) {
 		$snapshot['node_types'][] = $nodeType->slug;
@@ -83,24 +97,23 @@ function snapshot($mergeWith = []) {
 		$snapshot['variables'][$variable->name] = $variable->value;
 	}
 
-	foreach (App::path('Plugin') as $path) {
-		$Folder = new Folder($path);
+	foreach ($Plugins as $plugin) {
+		if ($plugin->status) {
+			$pluginPath = false;
 
-		foreach($Folder->read(false, true, true)[0] as $pluginPath) {
-			$pluginName = basename($pluginPath);
-			$basePath = $pluginPath . DS . 'src' . DS;
-			$eventsPath =  $basePath . 'Event' . DS;
-			$isCore = (strpos(str_replace(['/', DS], '/', $pluginPath), str_replace(['/', DS], '/', APP)) !== false);
-
-			// core plugins are always enabled
-			if ($isCore) {
-				$status = 1;
-			} else {
-				$status = -1;
-				$status = in_array($pluginName, $enabledPlugins) ? 1 : $status;
-				$status = in_array($pluginName, $disabledPlugins) ? 0 : $status;
+			foreach (App::path('Plugin') as $path) {
+				if (is_dir($path . $plugin->name)) {
+					$pluginPath = $path . $plugin->name;
+					break;
+				}
 			}
 
+			if (!$pluginPath) {
+				continue;
+			}
+
+			$eventsPath =  $pluginPath . '/src/Event/';
+			$isCore = (strpos(str_replace(['/', DS], '/', $pluginPath), str_replace(['/', DS], '/', APP)) !== false);
 			$events = [
 				'hooks' => [],
 				'hooktags' => [],
@@ -109,10 +122,8 @@ function snapshot($mergeWith = []) {
 
 			if (is_dir($eventsPath)) {
 				$Folder = new Folder($eventsPath);
-
 				foreach ($Folder->read(false, false, true)[1] as $classFile) {
 					$className = basename(preg_replace('/\.php$/', '', $classFile));
-
 					if (str_ends_with($className, 'Field')) {
 						$events['fields']['Field\\' . $className] = [
 							'namespace' => 'Field\\',
@@ -132,15 +143,15 @@ function snapshot($mergeWith = []) {
 				}
 			}
 
-			$snapshot['plugins'][$pluginName] = [
-				'name' => $pluginName,
-				'isTheme' => str_ends_with($pluginName, 'Theme'),
+			$snapshot['plugins'][$plugin->name] = [
+				'name' => $plugin->name,
+				'isTheme' => str_ends_with($plugin->name, 'Theme'),
 				'isCore' => $isCore,
 				'hasHelp' => file_exists($pluginPath . '/src/Template/Element/help.ctp'),
 				'hasSettings' => file_exists($pluginPath . '/src/Template/Element/settings.ctp'),
 				'events' => $events,
-				'status' => $status,
-				'path' => $pluginPath,
+				'status' => $plugin->status,
+				'path' => str_replace(['/', DS], '/', $pluginPath),
 			];
 		}
 	}

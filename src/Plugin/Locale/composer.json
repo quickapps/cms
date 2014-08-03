@@ -1,5 +1,5 @@
 {
-	"name": "quickapps/locale",
+	"name": "quickapps-plugin/locale",
 	"description": "Adds language handling functionality and enables the translation of the user interface to languages other than English.",
 	"type": "library",
 	"keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],

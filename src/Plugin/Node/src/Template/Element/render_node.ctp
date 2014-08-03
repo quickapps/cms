@@ -35,6 +35,6 @@
 	<?php endif; ?>
 
 	<?php if ($this->inUseViewMode() === 'full'): ?>
-		<?php echo $this->CommentForm->create($node, ['visibility' => $node->comment_status]); ?>
+		<?php echo $this->Comment->render($node); ?>
 	<?php endif; ?>
 </article>

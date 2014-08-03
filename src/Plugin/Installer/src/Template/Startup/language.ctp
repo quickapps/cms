@@ -12,7 +12,7 @@
 ?>
 
 <style>.startup-menu { display:none; }</style>
-<p><h1>Welcome to QuickApps CMS</h1></p>
+<p><h1 class="welcome">Welcome to QuickApps CMS</h1></p>
 <p>&nbsp;</p>
 
 <ul class="nav nav-pills nav-stacked languages">
@@ -32,9 +32,11 @@
 		}
 		$(active).toggleClass('active');
 		$(next).toggleClass('active');
-		$('.well h1').fadeOut(300, function() {
-			$('.well h1').html($(next).children('a').attr('data-welcome'));
-			$('.well h1').fadeIn(300);
+		$('h1.welcome').fadeOut(300, function() {
+			var welcome = $(next).children('a').attr('data-welcome');
+			$('title').html(welcome);
+			$('h1.welcome').html(welcome);
+			$('h1.welcome').fadeIn(300);
 		});
 		window.setTimeout(changeHeader, 3000);
 	}

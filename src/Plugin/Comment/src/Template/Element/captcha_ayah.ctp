@@ -9,6 +9,10 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
+
+/**
+ * Renders the `post new comment` form.
+ */
 ?>
 
-<?php echo $this->Html->link('LINK TEST', ['plugin' => 'node', 'controller' => 'main']); ?>
+<?php echo $ayah->getPublisherHTML();

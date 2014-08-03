@@ -11,6 +11,7 @@
  */
 namespace System\Controller\Admin;
 
+use Cake\Error\NotFoundException;
 use System\Controller\AppController;
 use QuickApps\Utility\Plugin;
 
@@ -27,10 +28,59 @@ class PluginsController extends AppController {
  * @return void
  */
 	public function index() {
-		$plugins = Plugin::getCollection(true)
+		$plugins = Plugin::collection(true)
 			->match(['isTheme' => false])
 			->toArray();
 		$this->set('plugins', $plugins);
 		$this->Breadcrumb->push('/admin/system/plugins');
 	}
+
+/**
+ * Handles plugin's specifics settings.
+ *
+ * @return void
+ */
+	public function settings($pluginName) {
+		$plugin = Plugin::info($pluginName, true);
+		$arrayContext = [
+			'schema' => [],
+			'defaults' => [],
+			'errors' => [],
+		];
+
+		if (!$plugin['hasSettings']) {
+			throw new NotFoundException(__d('system', 'The requested page was not found.'));
+		}
+
+		if (!empty($this->request->data)) {
+			$this->loadModel('System.Plugins');
+			$pluginEntity = $this->Plugins->find()
+				->where(['Plugins.name' => $pluginName])
+				->first();
+				debug($this->request->data);
+			$pluginEntity->set('settings', $this->request->data);
+
+			if ($this->Plugins->save($pluginEntity)) {
+				$this->alert(__d('system', 'Plugin settings saved!'), 'success');
+				$this->redirect($this->referer());
+			} else {
+				$this->alert(__d('system', 'Plugin settings could not be saved'), 'danger');
+				$errors = $pluginEntity->errors();
+
+				if (!empty($errors)) {
+					foreach ($errors as $field => $message) {
+						$arrayContext['errors'][$field] = $message;
+					}
+				}
+			}
+		} else {
+			$this->request->data = $plugin['settings'];
+		}
+
+		$this->set('arrayContext', $arrayContext);
+		$this->set('plugin', $plugin);
+		$this->Breadcrumb->push('/admin/system/plugins');
+		$this->Breadcrumb->push(__d('system', 'Settings for %s plugin', $plugin['name']), '#');
+	}
+
 }

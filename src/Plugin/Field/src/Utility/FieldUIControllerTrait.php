@@ -318,8 +318,8 @@ trait FieldUIControllerTrait {
 				$errors = $instance->errors();
 
 				if (!empty($errors)) {
-					foreach ($errors as $field => $value) {
-						$arrayContext['errors'][$field] = $value;
+					foreach ($errors as $field => $message) {
+						$arrayContext['errors'][$field] = $message;
 					}
 				}
 			}

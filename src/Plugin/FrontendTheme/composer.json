@@ -1,5 +1,5 @@
 {
-	"name": "quickapps/frontend-theme",
+	"name": "quickapps-theme/frontend-theme",
 	"description": "QuickApps CMS frontend default theme based on Twitter Bootstrap.",
 	"type": "library",
 	"keywords": ["framework", "cms", "cmf", "quickapps"],
@@ -14,9 +14,8 @@
 	},
 	"version": "1.0",
 	"extra": {
-		"admin": true,
+		"admin": false,
 		"regions": {
-			"help": "Help",
 			"main-menu": "Main Menu"
 		}
 	}

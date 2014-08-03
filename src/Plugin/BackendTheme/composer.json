@@ -1,5 +1,5 @@
 {
-	"name": "quickapps/backend-theme",
+	"name": "quickapps-theme/backend-theme",
 	"description": "QuickApps CMS backend default theme based on Twitter Bootstrap.",
 	"type": "library",
 	"keywords": ["framework", "cms", "cmf", "quickapps"],

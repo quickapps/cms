@@ -59,7 +59,7 @@ class TwitterBootstrapHook implements EventListener {
 		'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',
 		'selectMultiple' => '<select name="{{name}}[]" multiple="multiple"{{attrs}}>{{content}}</select>',
 		'radio' => '<input type="radio" name="{{name}}" value="{{value}}"{{attrs}}>',
-		'radioWrapper' => '{{input}}{{label}}',
+		'radioWrapper' => '{{input}} {{label}}<br />',
 		'textarea' => '<textarea name="{{name}}"{{attrs}}>{{value}}</textarea>',
 		'dateWidget' => '<div class="row">
 			<div class="col-sm-3">{{year}}</div>

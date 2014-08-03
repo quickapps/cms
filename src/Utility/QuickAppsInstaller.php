@@ -25,7 +25,6 @@ class QuickAppsInstaller extends BaseInstaller {
  */
 	protected $locations = array(
 		'plugin' => 'Plugin/{$name}/',
-		'theme' => 'Theme/Themed/{$name}/',
 	);
 
 /**

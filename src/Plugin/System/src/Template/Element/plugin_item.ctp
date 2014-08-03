@@ -26,28 +26,28 @@
 			<?php
 				echo $this->Html->link(
 					'<span class="glyphicon glyphicon-question-sign"></span>',
-					['plugin' => 'System', 'controller' => 'Help', 'action' => 'about', 'prefix' => 'admin', $plugin],
+					['plugin' => 'System', 'controller' => 'help', 'action' => 'about', 'prefix' => 'admin', $plugin],
 					['class' => 'btn btn-default', 'title' => __d('system', 'Help'), 'escape' => false]
 				);
 			?>
 		<?php endif; ?>
 
-		<?php if (!$info['isCore']): ?>
-			<?php if ($info['hasSettings']): ?>
-				<?php
-					echo $this->Html->link(
-						'<span class="glyphicon glyphicon-cog"></span>',
-						['plugin' => 'System', 'controller' => 'Plugins', 'action' => 'settings', 'prefix' => 'admin', $plugin],
-						['class' => 'btn btn-default', 'title' => __d('system', 'Settings'), 'escape' => false]
-					);
-				?>
-			<?php endif; ?>
+		<?php if ($info['hasSettings']): ?>
+			<?php
+				echo $this->Html->link(
+					'<span class="glyphicon glyphicon-cog"></span>',
+					['plugin' => 'System', 'controller' => 'plugins', 'action' => 'settings', 'prefix' => 'admin', $plugin],
+					['class' => 'btn btn-default', 'title' => __d('system', 'Settings'), 'escape' => false]
+				);
+			?>
+		<?php endif; ?>
 
+		<?php if (!$info['isCore']): ?>
 			<?php if ($info['status'] === 0): ?>
 				<?php
 					echo $this->Html->link(
 						'<span class="glyphicon glyphicon-ok-circle"></span>',
-						['plugin' => 'System', 'controller' => 'Plugins', 'action' => 'enable', 'prefix' => 'admin', $plugin],
+						['plugin' => 'System', 'controller' => 'plugins', 'action' => 'enable', 'prefix' => 'admin', $plugin],
 						['class' => 'btn btn-default', 'title' => __d('system', 'Enable'), 'escape' => false]
 					);
 				?>
@@ -55,7 +55,7 @@
 				<?php
 					echo $this->Html->link(
 						'<span class="glyphicon glyphicon-remove-circle"></span>',
-						['plugin' => 'System', 'controller' => 'Plugins', 'action' => 'disable', 'prefix' => 'admin', $plugin],
+						['plugin' => 'System', 'controller' => 'plugins', 'action' => 'disable', 'prefix' => 'admin', $plugin],
 						['class' => 'btn btn-default', 'title' => __d('system', 'Disable'), 'escape' => false]
 					);
 				?>
@@ -64,51 +64,51 @@
 			<?php
 				echo $this->Html->link(
 					'<span class="glyphicon glyphicon-trash"></span>',
-					['plugin' => 'System', 'controller' => 'Plugins', 'action' => 'delete', 'prefix' => 'admin', $plugin],
+					['plugin' => 'System', 'controller' => 'plugins', 'action' => 'delete', 'prefix' => 'admin', $plugin],
 					['class' => 'btn btn-default', 'title' => __d('system', 'Delete'), 'escape' => false]
 				);
 			?>
 		<?php endif; ?>
 	</div>
 
-	<h2><?php echo $plugin; ?> (<?php echo $info['version']; ?>)</h2>
-	<em class="description"><?php echo $info['description']; ?></em>
+	<h2><?php echo $plugin; ?> (<?php echo $info['composer']['version']; ?>)</h2>
+	<em class="description"><?php echo $info['composer']['description']; ?></em>
 
 	<div class="extended-info" style="display:none;">
 		<p class="details">
 			<ul>
-				<?php if (!empty($info['homepage'])): ?>
-				<li><strong><?php echo __d('system', 'Homepage'); ?>:</strong> <?php echo $this->Html->link($info['homepage'], $info['homepage']); ?></li>
+				<?php if (!empty($info['composer']['homepage'])): ?>
+				<li><strong><?php echo __d('system', 'Homepage'); ?>:</strong> <?php echo $this->Html->link($info['composer']['homepage'], $info['composer']['homepage']); ?></li>
 				<?php endif; ?>
 
-				<?php if (!empty($info['support']['issues'])): ?>
-				<li><strong><?php echo __d('system', 'Issues'); ?>:</strong> <?php echo $this->Html->link($info['support']['issues'], $info['support']['issues']); ?></li>
+				<?php if (!empty($info['composer']['support']['issues'])): ?>
+				<li><strong><?php echo __d('system', 'Issues'); ?>:</strong> <?php echo $this->Html->link($info['composer']['support']['issues'], $info['composer']['support']['issues']); ?></li>
 				<?php endif; ?>
 
-				<?php if (!empty($info['support']['forum'])): ?>
-				<li><strong><?php echo __d('system', 'Forum'); ?>:</strong> <?php echo $this->Html->link($info['support']['forum'], $info['support']['forum']); ?></li>
+				<?php if (!empty($info['composer']['support']['forum'])): ?>
+				<li><strong><?php echo __d('system', 'Forum'); ?>:</strong> <?php echo $this->Html->link($info['composer']['support']['forum'], $info['composer']['support']['forum']); ?></li>
 				<?php endif; ?>
 
-				<?php if (!empty($info['support']['wiki'])): ?>
-				<li><strong><?php echo __d('system', 'Wiki'); ?>:</strong> <?php echo $this->Html->link($info['support']['wiki'], $info['support']['wiki']); ?></li>
+				<?php if (!empty($info['composer']['support']['wiki'])): ?>
+				<li><strong><?php echo __d('system', 'Wiki'); ?>:</strong> <?php echo $this->Html->link($info['composer']['support']['wiki'], $info['composer']['support']['wiki']); ?></li>
 				<?php endif; ?>
 
-				<?php if (!empty($info['support']['irc'])): ?>
-				<li><strong><?php echo __d('system', 'IRC'); ?>:</strong> <?php echo $this->Html->link($info['support']['irc'], $info['support']['irc']); ?></li>
+				<?php if (!empty($info['composer']['support']['irc'])): ?>
+				<li><strong><?php echo __d('system', 'IRC'); ?>:</strong> <?php echo $this->Html->link($info['composer']['support']['irc'], $info['composer']['support']['irc']); ?></li>
 				<?php endif; ?>
 
-				<?php if (!empty($info['support']['source'])): ?>
-				<li><strong><?php echo __d('system', 'Source'); ?>:</strong> <?php echo $this->Html->link($info['support']['source'], $info['support']['source']); ?></li>
+				<?php if (!empty($info['composer']['support']['source'])): ?>
+				<li><strong><?php echo __d('system', 'Source'); ?>:</strong> <?php echo $this->Html->link($info['composer']['support']['source'], $info['composer']['support']['source']); ?></li>
 				<?php endif; ?>
 			</ul>
 		</p>
 
 		<hr />
 
-		<?php if (!empty($info['authors'])): ?>
+		<?php if (!empty($info['composer']['authors'])): ?>
 			<h3><?php echo __d('system', 'Authors'); ?></h3>
 			<ul>
-			<?php foreach ($info['authors'] as $author): ?>
+			<?php foreach ($info['composer']['authors'] as $author): ?>
 				<li>
 					<?php if (!empty($author['homepage'])): ?>
 						<?php echo $this->Html->link($author['name'], $author['homepage']); ?>
@@ -142,9 +142,9 @@
 			<div class="<?php echo $type; ?>">
 				<h4><?php echo $trans[$type]; ?></h4>
 
-				<?php if (!empty($info[$type])): ?>
+				<?php if (!empty($info['composer'][$type])): ?>
 				<ul>
-					<?php foreach ($info[$type] as $package => $version): ?>
+					<?php foreach ($info['composer'][$type] as $package => $version): ?>
 						<li><?php echo $package; ?>: <?php echo $version; ?></li>
 					<?php endforeach; ?>
 				</ul>
@@ -158,9 +158,9 @@
 
 		<hr />
 
-		<?php if (!empty($info['keywords'])): ?>
+		<?php if (!empty($info['composer']['keywords'])): ?>
 			<div class="clearfix text-left">
-				<?php foreach($info['keywords'] as $tag): ?>
+				<?php foreach($info['composer']['keywords'] as $tag): ?>
 					<?php echo $this->Html->link($tag, 'https://packagist.org/search/?q=' . $tag, ['class' => 'label label-default', 'target' => '_blank']); ?>
 				<?php endforeach; ?>
 			</div>

@@ -37,6 +37,7 @@ class NodeTypesTable extends Table {
  * @return \Cake\Database\Schema\Table the altered schema
  */
 	protected function _initializeSchema(Schema $table) {
+		$table->columnType('settings', 'serialized');
 		$table->columnType('defaults', 'serialized');
 		return $table;
 	}

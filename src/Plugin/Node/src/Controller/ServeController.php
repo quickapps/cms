@@ -27,7 +27,7 @@ class ServeController extends AppController {
  * @var array
  */
 	public $components = [
-		'Comment.CommentForm',
+		'Comment.Comment',
 		'Paginator'
 	];
 
@@ -123,8 +123,8 @@ class ServeController extends AppController {
 		// Post new comment logic
 		if ($node->comment_status > 0) {
 			$node->set('comments', $this->Nodes->find('comments', ['for' => $node->id]));
-			$commentOptions = ['data' => ['status' => 1], 'validate' => 'default'];
-			$this->CommentForm->post($node, $commentOptions);
+			$this->Comment->config('settings.visibility', $node->comment_status);
+			$this->Comment->post($node);
 		}
 
 		$this->set('node', $node);

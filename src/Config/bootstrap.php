@@ -171,15 +171,13 @@ Type::map('serialized', 'QuickApps\Utility\SerializedType');
 /**
  * Load all registered plugins.
  */
-$pluginCollection = Plugin::getCollection();
-$corePlugins = array_keys($pluginCollection->match(['isCore' => true])->toArray());
-$activePlugins = array_keys($pluginCollection->match(['status' => 1])->toArray());
+$pluginCollection = Plugin::collection();
+$activePlugins = array_keys($pluginCollection->match(['status' => 1, 'isTheme' => false])->toArray());
 
 foreach (App::objects('Plugin') as $plugin) {
 	$EventManager = EventManager::instance();
 
 	if (
-		in_array($plugin, $corePlugins) ||
 		in_array($plugin, $activePlugins) ||
 		$plugin === Configure::read('QuickApps.variables.site_theme') ||
 		$plugin === Configure::read('QuickApps.variables.admin_theme')
@@ -192,21 +190,21 @@ foreach (App::objects('Plugin') as $plugin) {
 			'ignoreMissing' => true,
 		]);
 
-		foreach (Plugin::getInfo($plugin, false)['events']['hooks'] as $className => $eventInfo) {
+		foreach (Plugin::info($plugin)['events']['hooks'] as $className => $eventInfo) {
 			$classLoader->addPsr4($eventInfo['namespace'], $eventInfo['path'], true);
 			if (class_exists($className)) {
 				$EventManager->attach(new $className);
 			}
 		}
 
-		foreach (Plugin::getInfo($plugin, false)['events']['hooktags'] as $className => $eventInfo) {
+		foreach (Plugin::info($plugin)['events']['hooktags'] as $className => $eventInfo) {
 			$classLoader->addPsr4($eventInfo['namespace'], $eventInfo['path'], true);
 			if (class_exists($className)) {
 				$EventManager->attach(new $className);
 			}
 		}
 
-		foreach (Plugin::getInfo($plugin, false)['events']['fields'] as $className => $eventInfo) {
+		foreach (Plugin::info($plugin)['events']['fields'] as $className => $eventInfo) {
 			$classLoader->addPsr4($eventInfo['namespace'], $eventInfo['path'], true);
 			if (class_exists($className)) {
 				$EventManager->attach(new $className);

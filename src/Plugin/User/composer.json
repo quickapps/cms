@@ -1,5 +1,5 @@
 {
-	"name": "quickapps/user",
+	"name": "quickapps-plugin/user",
 	"description": "Manages the user registration and login system.",
 	"type": "library",
 	"keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],
