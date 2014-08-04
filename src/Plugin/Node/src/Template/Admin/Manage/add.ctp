@@ -11,7 +11,7 @@
  */
 ?>
 
-<?php echo $this->Form->create($node, ['type' => 'file']); ?>
+<?php echo $this->Form->create($node, ['id' => 'node-form']); ?>
 	<fieldset>
 		<legend><?php echo __d('node', 'Basic Information'); ?></legend>
 			<?php echo $this->Form->input('title'); ?>

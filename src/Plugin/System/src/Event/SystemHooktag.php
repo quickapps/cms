@@ -48,9 +48,9 @@ class SystemHooktag implements EventListener {
  * @return string
  */
 	public function hooktagRandom(Event $event, array $atts = [], $content, $tag) {
-		$elements = explode(',', $event->data['content']);
+		$elements = explode(',', trim($content));
 
-		if ($elements) {
+		if (is_array($elements)) {
 			return $elements[array_rand($elements)];
 		}
 

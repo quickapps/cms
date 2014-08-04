@@ -57,26 +57,21 @@ function snapshot($mergeWith = []) {
 			'site_description' => null,
 			'default_language' => 'en-us'
 		],
-		'languages' => [
-			'en-us' => [
-				'status' => 1,
-				'name' => 'English',
-				'native' => 'English',
-				'direction' => 'ltr',
-			]
-		]
+		'languages' => []
 	];
 
-	$Plugins = TableRegistry::get('Plugins')
-		->find()
-		->select(['Plugins.name', 'Plugins.status'])
+	$plugins = TableRegistry::get('Plugins')->find()
+		->select(['name'])
+		->where(['status' => 1])
 		->all();
-	$NodeTypes = TableRegistry::get('NodeTypes')
-		->find()
-		->select(['NodeTypes.slug'])
+	$nodeTypes = TableRegistry::get('NodeTypes')->find()
+		->select(['slug'])
 		->all();
-	$Variables = TableRegistry::get('Variables')
-		->find()
+	$languages = TableRegistry::get('Languages')->find()
+		->where(['status' => 1])
+		->order(['ordering' => 'ASC'])
+		->all();
+	$variables = TableRegistry::get('Variables')->find()
 		->where([
 			'Variables.name IN' => [
 				'url_locale_prefix',
@@ -89,71 +84,78 @@ function snapshot($mergeWith = []) {
 		])
 		->all();
 
-	foreach ($NodeTypes as $nodeType) {
+	foreach ($nodeTypes as $nodeType) {
 		$snapshot['node_types'][] = $nodeType->slug;
 	}
 
-	foreach ($Variables as $variable) {
+	foreach ($variables as $variable) {
 		$snapshot['variables'][$variable->name] = $variable->value;
 	}
 
-	foreach ($Plugins as $plugin) {
-		if ($plugin->status) {
-			$pluginPath = false;
+	foreach ($$languages as $language) {
+		$snapshot['languages'][$language->code] = [
+			'name' => $language->name,
+			'native' => $language->native,
+			'direction' => $language->direction,
+			'icon' => $language->icon,
+		];
+	}
 
-			foreach (App::path('Plugin') as $path) {
-				if (is_dir($path . $plugin->name)) {
-					$pluginPath = $path . $plugin->name;
-					break;
-				}
+	foreach ($plugins as $plugin) {
+		$pluginPath = false;
+
+		foreach (App::path('Plugin') as $path) {
+			if (is_dir($path . $plugin->name)) {
+				$pluginPath = $path . $plugin->name;
+				break;
 			}
-
-			if (!$pluginPath) {
-				continue;
-			}
-
-			$eventsPath =  $pluginPath . '/src/Event/';
-			$isCore = (strpos(str_replace(['/', DS], '/', $pluginPath), str_replace(['/', DS], '/', APP)) !== false);
-			$events = [
-				'hooks' => [],
-				'hooktags' => [],
-				'fields' => [],
-			];
-
-			if (is_dir($eventsPath)) {
-				$Folder = new Folder($eventsPath);
-				foreach ($Folder->read(false, false, true)[1] as $classFile) {
-					$className = basename(preg_replace('/\.php$/', '', $classFile));
-					if (str_ends_with($className, 'Field')) {
-						$events['fields']['Field\\' . $className] = [
-							'namespace' => 'Field\\',
-							'path' => dirname($classFile),
-						];
-					} elseif (str_ends_with($className, 'Hook')) {
-						$events['hooks']['Hook\\' . $className] = [
-							'namespace' => 'Hook\\',
-							'path' => dirname($classFile),
-						];
-					} elseif (str_ends_with($className, 'Hooktag')) {
-						$events['hooktags']['Hooktag\\' . $className] = [
-							'namespace' => 'Hooktag\\',
-							'path' => dirname($classFile),
-						];
-					}
-				}
-			}
-
-			$snapshot['plugins'][$plugin->name] = [
-				'name' => $plugin->name,
-				'isTheme' => str_ends_with($plugin->name, 'Theme'),
-				'isCore' => $isCore,
-				'hasHelp' => file_exists($pluginPath . '/src/Template/Element/help.ctp'),
-				'hasSettings' => file_exists($pluginPath . '/src/Template/Element/settings.ctp'),
-				'events' => $events,
-				'status' => $plugin->status,
-				'path' => str_replace(['/', DS], '/', $pluginPath),
-			];
 		}
+
+		if (!$pluginPath) {
+			continue;
+		}
+
+		$eventsPath =  $pluginPath . '/src/Event/';
+		$isCore = (strpos(str_replace(['/', DS], '/', $pluginPath), str_replace(['/', DS], '/', APP)) !== false);
+		$events = [
+			'hooks' => [],
+			'hooktags' => [],
+			'fields' => [],
+		];
+
+		if (is_dir($eventsPath)) {
+			$Folder = new Folder($eventsPath);
+			foreach ($Folder->read(false, false, true)[1] as $classFile) {
+				$className = basename(preg_replace('/\.php$/', '', $classFile));
+				if (str_ends_with($className, 'Field')) {
+					$events['fields']['Field\\' . $className] = [
+						'namespace' => 'Field\\',
+						'path' => dirname($classFile),
+					];
+				} elseif (str_ends_with($className, 'Hook')) {
+					$events['hooks']['Hook\\' . $className] = [
+						'namespace' => 'Hook\\',
+						'path' => dirname($classFile),
+					];
+				} elseif (str_ends_with($className, 'Hooktag')) {
+					$events['hooktags']['Hooktag\\' . $className] = [
+						'namespace' => 'Hooktag\\',
+						'path' => dirname($classFile),
+					];
+				}
+			}
+		}
+
+		$snapshot['plugins'][$plugin->name] = [
+			'name' => $plugin->name,
+			'isTheme' => str_ends_with($plugin->name, 'Theme'),
+			'isCore' => $isCore,
+			'hasHelp' => file_exists($pluginPath . '/src/Template/Element/help.ctp'),
+			'hasSettings' => file_exists($pluginPath . '/src/Template/Element/settings.ctp'),
+			'events' => $events,
+			'status' => $plugin->status,
+			'path' => str_replace(['/', DS], '/', $pluginPath),
+		];
 	}
 
 	if (!empty($mergeWith)) {
@@ -163,6 +165,26 @@ function snapshot($mergeWith = []) {
 	Configure::write('QuickApps', $snapshot);
 	Configure::dump('snapshot.php', 'QuickApps', ['QuickApps']);
 }
+
+/**
+ * Return only the methods for the indicated object.  
+ * It will strip out inherited methods.
+ *
+ * @return array List of methods
+ */
+	function get_this_class_methods($class) {
+		$methods = array();
+		$primary = get_class_methods($class);
+
+		if ($parent = get_parent_class($class)) {
+			$secondary = get_class_methods($parent);
+			$methods = array_diff($primary, $secondary);
+		} else {
+			$methods = $primary;
+		}
+
+		return $methods;
+	}
 
 /**
  * Replace the first occurrence only.

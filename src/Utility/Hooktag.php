@@ -66,7 +66,7 @@ class Hooktag {
  * @return string Content without hooktags
  */
 	public static function stripHooktags($text) {
-		$tagregexp = implode('|', static::_hooktagsList());
+		$tagregexp = implode('|', array_map('preg_quote', static::_hooktagsList()));
 		return preg_replace('/(.?)\[(' . $tagregexp . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', '$1$6', $text);
 	}
 
@@ -89,7 +89,7 @@ class Hooktag {
  * @return string The hooktag search regular expression
  */
 	protected static function _hooktagRegex() {
-		$tagregexp = implode('|', static::_hooktagsList());
+		$tagregexp = implode('|', array_map('preg_quote', static::_hooktagsList()));
 
 		return
 			'\\['                                // Opening bracket

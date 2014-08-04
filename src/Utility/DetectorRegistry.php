@@ -11,6 +11,9 @@
  */
 namespace QuickApps\Utility;
 
+use Cake\Network\Session;
+use Cake\Routing\Router;
+
 /**
  * Detector Registry is used as a registry for detector methods, also provides a few
  * utility methods such as "is() or "addDetector()".
@@ -50,6 +53,7 @@ class DetectorRegistry {
  *
  * - `user.logged`: is user logged in?
  * - `user.admin`: is user an administrator of the site?
+ * - `user.role`: does users belongs to [given] role?
  * - `page.frontpage`: is current request site's front page?
  * - `page.index`: alias for "page.frontpage"
  * - `detector.defined`: is [given] detector defined?
@@ -59,6 +63,7 @@ class DetectorRegistry {
 	protected static $_detectors = [
 		'user.logged' => '_isUserLogged',
 		'user.admin' => '_isUserAdmin',
+		'user.role' => '_isUserRole',
 		'page.frontpage' => '_isPageFrontpage',
 		'page.index' => '_isPageFrontpage',
 		'detector.defined' => '_isDetectorDefined',
@@ -162,28 +167,98 @@ class DetectorRegistry {
 /**
  * Checks if visitor user is logged in.
  *
- * @return boolean True if logged in. False other wise
+ * @return boolean True if logged in. False otherwise
  */
 	protected function _isUserLogged() {
-		// TODO: DetectorRegistry::_isUserLogged()
-		return true;
+		$session = new Session();
+		return $session->check('user');
+	}
+
+/**
+ * Checks if user belongs to given role.
+ *
+ * @return boolean True if belongs. False otherwise
+ */
+	protected function _isUserRole($role) {
+		$session = new Session();
+		if ($session->check('user')) {
+			return in_array($role, (array)$session->read('user.roles'));
+		}
+		return false;
 	}
 
 /**
  * Checks if visitor user is logged in and has administrator privileges.
  *
- * @return boolean True if administrator. False other wise.
+ * @return boolean True if administrator. False otherwise
  */
 	protected function _isUserAdmin() {
-		// TODO: DetectorRegistry::_isUserAdmin()
-		return true;
+		$session = new Session();
+		if ($session->check('user')) {
+			return in_array(1, (array)$session->read('user.roles'));
+		}
+		return false;
+	}
+
+/**
+ * Checks if user is allowed to access the specified ACO.  
+ * ACO path syntax: `Module.Controller.action`
+ *
+ * @param string $acoPath Dot-Syntax path to aco. e.g.: `Block.Manage.admin_index`
+ * @return boolean
+ */
+	protected function _userIsAuthorized($acoPath) {
+		if (isset(static::$_cache['authorized'][$acoPath])) {
+			return static::$_cache['authorized'][$acoPath];
+		}
+
+		$roles = static::userRoles();
+
+		if ($this->_isUserAdmin()) {
+			static::$_cache['authorized'][$acoPath] = true;
+			return true;
+		}
+
+		list($plugin, $controller, $action) = explode('.', $acoPath);
+		// TODO: DetectorRegistry::_userIsAuthorized()
+		
+		if ($plugin && $controller && $action) {
+			/*
+			$Aco = TableRegistry::get('User.Acos');
+			$Permission = TableRegistry::init('User.Permissions');
+			$conditions = array();
+			$p = $Aco->find('first', array('conditions' => array('Aco.parent_id' => null, 'Aco.alias' => $plugin), 'recursive' => -1));
+			$c = $Aco->find('first', array('conditions' => array('Aco.parent_id' => $p['Aco']['id']), 'recursive' => -1));
+			$a = $Aco->find('first', array('conditions' => array('Aco.parent_id' => $c['Aco']['id']), 'recursive' => -1));
+
+			foreach ($roles as $role) {
+				$conditions['OR'][] = array(
+					'AND' => array(
+						'Permission.aro_id' => $role,
+						'Permission.aco_id ' => $a['Aco']['id'],
+						'Permission._create' => 1,
+						'Permission._read' => 1,
+						'Permission._update' => 1,
+						'Permission._delete' => 1
+					)
+				);
+			}
+
+			$authorized = $Permission->find('count', array('conditions' => $conditions)) > 0;
+			static::$_cache['authorized'][$acoPath] = $authorized;
+
+			return $authorized;
+			*/
+		}
+
+		return false;
 	}
 
 /**
  * Checks if the given detector exists.
  *
  * @param string $name Detector name to check
- * @return boolean True if exists. False other wise.
+ * @return boolean True if exists. False otherwise
  */
 	protected function _isDetectorDefined($name) {
 		return !empty(static::$_detectors[$name]);
@@ -200,8 +275,8 @@ class DetectorRegistry {
 			return static::$_cache['_isPageFrontpage'];
 		}
 
-		$request = \Cake\Routing\Router::getRequest();
-		$is = (
+		$request = Router::getRequest();
+		static::$_cache['_isPageFrontpage'] = (
 			!empty($request->params['plugin']) &&
 			$request->params['plugin'] === 'node' &&
 			!empty($request->params['controller']) &&
@@ -209,9 +284,7 @@ class DetectorRegistry {
 			!empty($request->params['action']) &&
 			$request->params['action'] === 'frontpage'
 		);
-
-		static::$_cache['_isPageFrontpage'] = $is;
-		return $is;
+		return static::$_cache['_isPageFrontpage'];
 	}
 
 }

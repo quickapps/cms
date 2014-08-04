@@ -422,7 +422,6 @@ class MenuHelper extends AppHelper {
 			case 'php':
 				return $this->_phpEval($item->active_on);
 			default:
-				// TODO: consider the case when `Language Prefix` is enabled
 				$itemUrl = (string)Router::url($item->url);
 
 				$isInternal =
@@ -433,7 +432,7 @@ class MenuHelper extends AppHelper {
 					$itemUrl === '/' &&
 					$this->_View->is('page.index');
 				$isExact =
-					$itemUrl === $this->_View->request->url;
+					$itemUrl === ($this->_View->request->base . '/' . $this->_View->request->url);
 
 				if ($this->config('breadcrumbGuessing')) {
 					$cumbsUrl = Breadcrumb::getUrls();

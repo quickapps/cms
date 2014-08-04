@@ -13,29 +13,38 @@ namespace Comment\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Controller\ComponentRegistry;
+use Cake\Network\Session;
 use Cake\ORM\TableRegistry;
+use Cake\Routing\Router;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use Cake\Validation\Validator;
 use Comment\Model\Entity\Comment;
+use Field\Utility\TextToolbox;
 use QuickApps\Utility\Plugin;
 use QuickApps\Utility\DetectorTrait;
+use User\Error\UserNotLoggedInException;
+use User\Model\Entity\User;
 
 /**
- * Manages entity's comment form.
+ * Manages entity's comments.
  *
  * You must use this Component in combination with `Commentable` behavior and `CommentHelper`.
  * CommentHelper is automatically attached to your controller when this component is attached.
  *
  * When this component is attached you can render entity's comments using the CommentHelper:
  *
+ *     // in any view:
  *     $this->Comment->config('visibility', 1);
  *     $this->Comment->render($entity);
+ *
+ *     // in any controller
+ *     $this->Comment->config('settings.visibility', 1);
  *
  * You can set `visibility` using this component at controller side, 
  * or using CommentHelper as example above, accepted values are:
  *
- * - 0: Closed; can't post new comments nor read existing ones.
+ * - 0: Closed; can't post new comments nor read existing ones. (by default)
  * - 1: Read & Write; can post new comments and read existing ones.
  * - 2: Read Only; can't post new comments but can read existing ones.
  */
@@ -58,6 +67,7 @@ class CommentComponent extends Component {
 		'anonymous_email_required' => true,
 		'anonymous_web' => false,
 		'anonymous_web_required' => true,
+		'text_processing' => 'plain',
 		'use_ayah' => false,
 		'ayah_publisher_key' => '',
 		'ayah_scoring_key' => '',
@@ -115,24 +125,27 @@ class CommentComponent extends Component {
 		'errorMessage' => 'Your comment could not be saved, please check your information.',
 		'arrayContext' => [
 			'schema' => [
-				'_comment_parent_id' => ['type' => 'integer'],
-				'_comment_user_id' => ['type' => 'integer'],
-				'_comment_author_name' => ['type' => 'string'],
-				'_comment_author_email' => ['type' => 'string'],
-				'_comment_author_web' => ['type' => 'string'],
-				'_comment_subject' => ['type' => 'string'],
-				'_comment_body' => ['type' => 'string'],
-				'_comment_captcha' => ['type' => 'string'],
+				'comment' => [
+					'parent_id' => ['type' => 'integer'],
+					'author_name' => ['type' => 'string'],
+					'author_email' => ['type' => 'string'],
+					'author_web' => ['type' => 'string'],
+					'subject' => ['type' => 'string'],
+					'body' => ['type' => 'string'],
+				]
 			],
 			'defaults' => [
-				'_comment_parent_id' => null,
-				'_comment_user_id' => null,
-				'_comment_author_name' => null,
-				'_comment_author_email' => null,
-				'_comment_author_web' => null,
-				'_comment_subject' => null,
-				'_comment_body' => null,
-				'_comment_captcha' => null,
+				'comment' => [
+					'parent_id' => null,
+					'author_name' => null,
+					'author_email' => null,
+					'author_web' => null,
+					'subject' => null,
+					'body' => null,
+				]
+			],
+			'errors' => [
+				'comment' => []
 			]
 		],
 		'validator' => false,
@@ -147,7 +160,13 @@ class CommentComponent extends Component {
  * @return void
  */
 	public function __construct(ComponentRegistry $collection, array $config = array()) {
-		$this->_defaultConfig['successMessage'] = __d('comment', 'Comment saved!');
+		$this->_defaultConfig['successMessage'] = function () {
+			if ($this->config('settings.auto_approve') || $this->is('user.admin')) {
+				return __d('comment', 'Comment saved!');			
+			}
+
+			return __d('comment', 'Your comment is awaiting moderation.');
+		};
 		$this->_defaultConfig['errorMessage'] = __d('comment', 'Your comment could not be saved, please check your information.');
 		parent::__construct($collection, $config);
 		$this->_loadSettings();
@@ -188,34 +207,72 @@ class CommentComponent extends Component {
 	}
 
 /**
- * Adds a new comment to the given entity.
+ * Adds a new comment for the given entity.
  *
  * @param \Cake\ORM\Entity $entity
- * @return boolean TRUE on success, FALSE otherwise
+ * @return boolean True on success, false otherwise
  */
 	public function post($entity) {
-		if (!empty($this->_controller->request->data['_comment_body'])) {
+		if (
+			!empty($this->_controller->request->data['comment']) &&
+			$this->config('settings.visibility') === 1
+		) {
 			$pk = TableRegistry::get($entity->source())->primaryKey();
 
 			if ($entity->has($pk)) {
 				$this->_controller->loadModel('Comment.Comments');
-				$Comments = $this->_controller->Comments;
-				$data = $this->_getRequestData();
-				$data['entity_id'] = $entity->id;
-				$data['table_alias'] = Inflector::underscore($entity->source());
-				$data['status'] = $this->config('settings.auto_approve') ? 1 : 0;
-				$comment = $Comments->newEntity($data);
-				$Comments->validator('commentValidation', $this->_createValidator());
+				$data = $this->_getRequestData($entity);
+				$this->_controller->Comments->validator('commentValidation', $this->_createValidator());
+				$comment = $this->_controller->Comments->newEntity($data);
 
-				if ($Comments->validate($comment, ['validate' => 'commentValidation'])) {
-					$Comments->addBehavior('Tree', [
+				if ($this->_controller->Comments->validate($comment, ['validate' => 'commentValidation'])) {
+					$save = false;
+					$this->_controller->Comments->addBehavior('Tree', [
 						'scope' => [
 							'entity_id' => $data['entity_id'],
 							'table_alias' => $data['table_alias'],
 						]
 					]);
 
-					if ($Comments->save($comment)) {
+					if ($this->config('settings.use_akismet') && !empty($this->config('settings.akismet_key'))) {
+						require_once Plugin::classPath('Comment') . 'Vendor/Akismet.php';
+
+						try {
+							$akismet = new \Akismet(Router::url('/'), $this->config('settings.akismet_key'));
+
+							if (!empty($data['author_name'])) {
+								$akismet->setCommentAuthor($data['author_name']);
+							}
+
+							if (!empty($data['author_email'])) {
+								$akismet->setCommentAuthorEmail($data['author_email']);
+							}
+
+							if (!empty($data['author_web'])) {
+								$akismet->setCommentAuthorURL($data['author_web']);
+							}
+
+							if (!empty($data['body'])) {
+								$akismet->setCommentContent($data['body']);
+							}
+
+							if ($akismet->isCommentSpam()) {
+								if ($this->config('settings.akismet_action') === 'mark') {
+									$comment->set('status', -1);
+								} else {
+									$save = true; // delete: we never save it
+								}
+							}
+						} catch (\Exception $e) {
+							// something went wrong with akismet, save comment as unpublished
+							$comment->set('status', 0);
+							$save = $this->_controller->Comments->save($comment);
+						}
+					} else {
+						$save = $this->_controller->Comments->save($comment);
+					}
+
+					if ($save) {
 						$successMessage = $this->config('successMessage');
 						if (is_callable($successMessage)) {
 							$successMessage = $successMessage($comment, $this->_controller);
@@ -239,8 +296,9 @@ class CommentComponent extends Component {
 				$errorMessage = $errorMessage($comment, $this->_controller);
 			}
 			$this->_controller->alert($errorMessage, 'danger');
-			return false;
 		}
+
+		return false;
 	}
 
 /**
@@ -252,39 +310,56 @@ class CommentComponent extends Component {
 	protected function _setErrors(Comment $comment) {
 		$arrayContext = $this->config('arrayContext');
 		foreach ($comment->errors() as $field => $msg) {
-			$arrayContext['errors']["_comment_{$field}"] = $msg;
+			$arrayContext['errors']['comment'][$field] = $msg;
 		}
 		$this->config('arrayContext', $arrayContext);
 		$this->_controller->set('_commentFormContext', $this->config('arrayContext'));
 	}
 
 /**
- * Extract comment-form's data.
+ * Extract data from request and prepares for inserting
+ * a new comment for the given entity.
  *
+ * @param \Cake\ORM\Entity $entity
  * @return array
  */
-	protected function _getRequestData() {
+	protected function _getRequestData($entity) {
 		$data = [];
-		if (!empty($this->_controller->request->data)) {
-			foreach ($this->_controller->request->data as $field => $value) {
-				if (str_starts_with($field, '_comment_')) {
-					$data[str_replace_once('_comment_', '', $field)] = $value;
-				}
-			}
+		$pk = TableRegistry::get($entity->source())->primaryKey();
+
+		if (!empty($this->_controller->request->data['comment'])) {
+			$data = $this->_controller->request->data['comment'];
 		}
 
-		if (
-			$this->config('settings.use_recaptcha') &&
-			!empty($this->config('settings.recaptcha_private_key')) &&
-			!empty($this->config('settings.recaptcha_public_key')) &&
-			isset($this->_controller->request->data['recaptcha_challenge_field']) &&
-			isset($this->_controller->request->data['recaptcha_response_field'])
-		) {
-			$data['recaptcha_challenge_field'] = $this->_controller->request->data['recaptcha_challenge_field'];
-			$data['recaptcha_response_field'] = $this->_controller->request->data['recaptcha_response_field'];
+		if ($this->is('user.logged')) {
+			$data['user_id'] = $this->_user()->id;
+			$data['author_name'] = null;
+			$data['author_email'] = null;
+			$data['author_web'] = null;
 		}
 
+		$data['subject'] = !empty($data['subject']) ? TextToolbox::process($data['subject'], $this->config('settings.text_processing')) : '';
+		$data['body'] = !empty($data['body']) ? TextToolbox::process($data['body'], $this->config('settings.text_processing')) : '';
+		$data['status'] = $this->config('settings.auto_approve') || $this->is('user.admin') ? 1 : 0;
+		$data['entity_id'] = $entity->get($pk);
+		$data['table_alias'] = Inflector::underscore($entity->source());
 		return $data;
+	}
+
+/**
+ * Gets current logged in user as an entity.
+ *
+ * This method will throw when user is not logged in.
+ *
+ * @return \User\Model\Entity\User
+ * @throws \User\Error\UserNotLoggedInException
+ */
+	protected function _user() {
+		if (!$this->is('user.logged')) {
+			throw new UserNotLoggedInException(__d('user', 'CommentComponent::_user(), requires User to be logged in.'));
+		}
+
+		return new User((new Session())->read('user'));
 	}
 
 /**
@@ -313,32 +388,26 @@ class CommentComponent extends Component {
 		}
 
 		$this->_controller->loadModel('Comment.Comments');
-		$Comments = $this->_controller->Comments;
-		$validator = $Comments->validationDefault(new Validator());
+		$validator = $this->_controller->Comments->validationDefault(new Validator());
 
 		if ($this->is('user.logged')) {
 			// logged user posting
 			$validator
-				->notEmpty('user_id', __d('comment', 'Invalid author.'))
+				->validatePresence('user_id')
+				->notEmpty('user_id', __d('comment', 'Invalid user.'))
 				->add('user_id', 'checkUserId', [
 					'rule' => function ($value, $context) {
 						if (!empty($value)) {
 							$valid = TableRegistry::get('User.Users')->find()
-								->where(['id' => $value])
+								->where(['Users.id' => $value, 'Users.status' => 1])
 								->count() === 1;
-
-							if ($valid) {
-								$context['providers']['entity']->set('author_name', null);
-								$context['providers']['entity']->set('author_email', null);
-								$context['providers']['entity']->set('author_web', null);
-							}
 
 							return $valid;
 						}
 
-						return true;
+						return false;
 					},
-					'message' => __d('comment', 'Invalid author.'),
+					'message' => __d('comment', 'Invalid user, please try again.'),
 					'provider' => 'table',
 				]);
 		} elseif ($this->config('settings.allow_anonymous')) {

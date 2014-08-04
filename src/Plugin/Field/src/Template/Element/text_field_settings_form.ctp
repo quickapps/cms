@@ -46,38 +46,36 @@
 </div>
 
 <div class="form-group">
-	<blockquote>
-		<ul>
-			<li>
-				<b><?php echo __d('field', 'Plain text'); ?>:</b>
-				<ul>
-					<li><?php echo __d('field', 'No HTML tags allowed.'); ?></li>
-					<li><?php echo __d('field', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
-					<li><?php echo __d('field', 'Lines and paragraphs break automatically.'); ?></li>
-				</ul>
-			</li>
-			<li>
-				<b><?php echo __d('field', 'Full HTML'); ?>:</b>
-				<ul>
-					<li><?php echo __d('field', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
-				</ul>
-			</li>
-			<li>
-				<b><?php echo __d('field', 'Filtered HTML'); ?>:</b>
-				<ul>
-					<li><?php echo __d('field', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
-					<li><?php echo __d('field', 'Allowed HTML tags: &lt;a&gt; &lt;em&gt; &lt;strong&gt; &lt;cite&gt; &lt;blockquote&gt; &lt;code&gt; &lt;ul&gt; &lt;ol&gt; &lt;li&gt; &lt;dl&gt; &lt;dt&gt; &lt;dd&gt;'); ?></li>
-					<li><?php echo __d('field', 'Lines and paragraphs break automatically.'); ?></li>
-				</ul>
-			</li>
-			<li>
-				<b><?php echo __d('field', 'Markdown'); ?>:</b>
-				<ul>
-					<li><?php echo __d('field', '<a href="%s" target="_blank">Markdown</a> text format allowed only.', 'http://wikipedia.org/wiki/Markdown'); ?></li>
-				</ul>
-			</li>
-		</ul>
-	</blockquote>
+	<ul>
+		<li>
+			<b><?php echo __d('field', 'Plain text'); ?>:</b>
+			<ul>
+				<li><?php echo __d('field', 'No HTML tags allowed.'); ?></li>
+				<li><?php echo __d('field', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
+				<li><?php echo __d('field', 'Lines and paragraphs break automatically.'); ?></li>
+			</ul>
+		</li>
+		<li>
+			<b><?php echo __d('field', 'Full HTML'); ?>:</b>
+			<ul>
+				<li><?php echo __d('field', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
+			</ul>
+		</li>
+		<li>
+			<b><?php echo __d('field', 'Filtered HTML'); ?>:</b>
+			<ul>
+				<li><?php echo __d('field', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
+				<li><?php echo __d('field', 'Allowed HTML tags: &lt;a&gt; &lt;em&gt; &lt;strong&gt; &lt;cite&gt; &lt;blockquote&gt; &lt;code&gt; &lt;ul&gt; &lt;ol&gt; &lt;li&gt; &lt;dl&gt; &lt;dt&gt; &lt;dd&gt;'); ?></li>
+				<li><?php echo __d('field', 'Lines and paragraphs break automatically.'); ?></li>
+			</ul>
+		</li>
+		<li>
+			<b><?php echo __d('field', 'Markdown'); ?>:</b>
+			<ul>
+				<li><?php echo __d('field', '<a href="%s" target="_blank">Markdown</a> text format allowed only.', 'http://wikipedia.org/wiki/Markdown'); ?></li>
+			</ul>
+		</li>
+	</ul>
 </div>
 
 <div class="form-group max-len">

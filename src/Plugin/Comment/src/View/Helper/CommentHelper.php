@@ -68,21 +68,21 @@ class CommentHelper extends Helper {
 	public function optionsForInput($input) {
 		$options = [
 			'author_name' => [
-				'label' => ($this->config('anonymous_name_required') ? __d('comment', 'Name *') : __d('comment', 'Name'))
+				'label' => ($this->config('anonymous_name_required') ? __d('comment', 'Name (required)') : __d('comment', 'Name'))
 			],
 			'author_email' => [
-				'label' => ($this->config('anonymous_email_required') ? __d('comment', 'e-Mail *') : __d('comment', 'e-Mail'))
+				'label' => ($this->config('anonymous_email_required') ? __d('comment', 'e-Mail (required)') : __d('comment', 'e-Mail'))
 			],
 			'author_web' => [
-				'label' => ($this->config('anonymous_web_required') ? __d('comment', 'Website *') : __d('comment', 'Website'))
+				'label' => ($this->config('anonymous_web_required') ? __d('comment', 'Website (required)') : __d('comment', 'Website'))
 			],
 			'subject' => [
-				'label' => __d('comment', 'Subject *'),
+				'label' => __d('comment', 'Subject (required)'),
 				'required',
 			],
 			'body' => [
 				'type' => 'textarea',
-				'label' => __d('comment', 'Message *'),
+				'label' => __d('comment', 'Message (required)'),
 				'required',
 			],
 		];

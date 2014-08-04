@@ -197,20 +197,16 @@ class FormHelper extends CakeFormHelper {
 	public function input($fieldName, array $options = []) {
 		if (!is_string($fieldName) && $fieldName instanceof \Field\Model\Entity\Field) {
 			if (!$this->_isRendering) {
-				$EventManager = \Cake\Event\EventManager::instance();
-				$event = new \Cake\Event\Event("Field.{$fieldName->metadata->handler}.Entity.edit", $this->_View, [$fieldName, $options]);
-
 				$this->_isRendering = true;
-				$EventManager->dispatch($event);
+				$event = $this->invoke("Field.{$fieldName->metadata->handler}.Entity.edit", $this->_View, $fieldName, $options);
 				$this->_isRendering = false;
-
 				return $event->result;
 			} else {
 				$options += ['value' => $fieldName->value, 'label' => $fieldName->label];
 
 				if ($fieldName->metadata->required) {
 					$options['label'] .= ' *';
-					$options['required'] = true;
+					$options['required'] = 'required';
 				}
 
 				return $this->input(":{$fieldName->name}", $options);

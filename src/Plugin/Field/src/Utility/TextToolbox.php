@@ -31,7 +31,7 @@ class TextToolbox {
  *
  * @var \Field\Utility\TextToolbox
  */
-	protected static $_instance;	
+	protected static $_instance = null;	
 
 /**
  * Instance of markdown parser class.
@@ -66,7 +66,7 @@ class TextToolbox {
 		$content = $viewModeSettings['hooktags'] ? static::getInstance()->hooktags($field->value) : static::getInstance()->stripHooktags($field->value);
 		$processing = $field->metadata->settings['text_processing'];
 		$formatter = $viewModeSettings['formatter'];
-		$content = static::process($field->value, $processing);
+		$content = static::process($content, $processing);
 
 		switch ($formatter) {
 			case 'full':
@@ -385,6 +385,17 @@ class TextToolbox {
 		}
 
 		return static::$_MarkdownParser;
+	}
+
+/**
+ * Debug friendly object properties.
+ *
+ * @return array
+ */
+	public function __debugInfo() {
+		$properties = get_object_vars($this);
+		$properties['_instance'] = '(object) TextToolbox';
+		return $properties;
 	}
 
 }

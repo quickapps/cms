@@ -14,12 +14,15 @@ namespace QuickApps\View;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
+use Cake\Network\Session;
 use Cake\View\View as CakeView;
 use QuickApps\Utility\AlertTrait;
 use QuickApps\Utility\DetectorTrait;
 use QuickApps\Utility\HooktagTrait;
 use QuickApps\Utility\HookTrait;
 use QuickApps\Utility\ViewModeTrait;
+use User\Error\UserNotLoggedInException;
+use User\Model\Entity\User;
 
 /**
  * QuickApps View class.
@@ -142,15 +145,10 @@ class View extends CakeView {
  */
 	public function user() {
 		if (!$this->is('user.logged')) {
-			throw new \User\Error\UserNotLoggedInException(__d('user', 'View::user(), requires User to be logged in.'));
+			throw new UserNotLoggedInException(__d('user', 'View::user(), requires User to be logged in.'));
 		}
-		// TODO: store an user entity as part of user's session
-		return $user = new \User\Model\Entity\User([
-			'id' => 1,
-			'name' => 'Chris',
-			'username' => 'admin',
-			'email' => 'chris@quickapps.es'
-		]);
+
+		return new User((new Session())->read('user'));
 	}
 
 /**

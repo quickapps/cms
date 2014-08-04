@@ -31,12 +31,14 @@ if (!file_exists(SITE_ROOT . '/Config/settings.php')) {
 		$routes->connect('/:controller/:action/*', []);
 	});
 } else {
+
 /**
  * Generate basic routes.
  */
 	$localePrefix = Configure::read('QuickApps.variables.url_locale_prefix');
 	$locales = array_keys(Configure::read('QuickApps.languages'));
 	$localesPattern = '[' . implode('|', array_map('preg_quote', $locales)) . ']';
+
 	Router::prefix('admin', function($routes) {
 		foreach (Plugin::loaded() as $plugin) {
 			$routes->plugin($plugin, function($routes) {

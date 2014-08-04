@@ -65,12 +65,64 @@
 			?>
 		</em>
 	</div>
+
+	<hr />
+
+	<?php
+		echo $this->Form->input('text_processing',
+			array(
+				'type' => 'select',
+				'options' => array(
+					'plain' => __d('field', 'Plain text'),
+					'full' => __d('field', 'Full HTML'),
+					'filtered' => __d('field', 'Filtered HTML'),
+					'markdown' => __d('field', 'Markdown')
+				),
+				'label' => __d('field', 'Text processing')
+			)
+		);
+	?>
+	<ul>
+		<li>
+			<b><?php echo __d('field', 'Plain text'); ?>:</b>
+			<ul>
+				<li><?php echo __d('field', 'No HTML tags allowed.'); ?></li>
+				<li><?php echo __d('field', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
+				<li><?php echo __d('field', 'Lines and paragraphs break automatically.'); ?></li>
+			</ul>
+		</li>
+
+		<li>
+			<b><?php echo __d('field', 'Full HTML'); ?>:</b>
+			<ul>
+				<li><?php echo __d('field', 'All HTML tags allowed.'); ?></li>
+				<li><?php echo __d('field', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
+			</ul>
+		</li>
+
+		<li>
+			<b><?php echo __d('field', 'Filtered HTML'); ?>:</b>
+			<ul>
+				<li><?php echo __d('field', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
+				<li><?php echo __d('field', 'Allowed HTML tags: &lt;a&gt; &lt;em&gt; &lt;strong&gt; &lt;cite&gt; &lt;blockquote&gt; &lt;code&gt; &lt;ul&gt; &lt;ol&gt; &lt;li&gt; &lt;dl&gt; &lt;dt&gt; &lt;dd&gt;'); ?></li>
+				<li><?php echo __d('field', 'Lines and paragraphs break automatically.'); ?></li>
+			</ul>
+		</li>
+
+		<li>
+			<b><?php echo __d('field', 'Markdown'); ?>:</b>
+			<ul>
+				<li><?php echo __d('field', '<a href="%s" target="_blank">Markdown</a> text format allowed only.', 'http://wikipedia.org/wiki/Markdown'); ?></li>
+			</ul>
+		</li>
+	</ul>
+
 </fieldset>
 
 <hr />
 
 <fieldset>
-	<legend><?php echo __d('comment', 'Human Verification'); ?></legend>
+	<legend><?php echo __d('comment', 'CAPTCHA Protection'); ?></legend>
 
 	<?php echo $this->Form->input('use_ayah', ['id' => 'use-ayah', 'type' => 'checkbox', 'label' => __d('comment', 'Enable Human Verification'), 'onclick' => 'toggleAyahOptions();']); ?>
 	<em class="help-block"><?php echo __d('comment', 'Service provided by "Are You A Human", <a href="%s" target="_blank">register</a> and get your keys', 'http://areyouahuman.com/'); ?></em>
@@ -92,7 +144,7 @@
 
 	<div class="akismet-options">
 		<?php echo $this->Form->input('akismet_key', ['type' => 'text', 'label' => __d('comment', 'Akismet API Key *')]); ?>
-		<em class="help-block"><?php echo __d('comment', 'Sign up for an Akismet <a href="" target="_blank">API key here</a>.', 'http://akismet.com/wordpress/'); ?></em>
+		<em class="help-block"><?php echo __d('comment', 'Sign up for an Akismet <a href="%s" target="_blank">API key here</a>.', 'http://akismet.com/'); ?></em>
 
 		<?php echo $this->Form->label(__d('comment', 'On Spam detected')); ?><br />
 		<?php

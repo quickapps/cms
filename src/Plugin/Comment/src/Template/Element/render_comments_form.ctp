@@ -28,28 +28,52 @@
 			<h3><?php echo __d('comment', 'You must be logged in to post comments.'); ?></h3>
 		<?php else: ?>
 			<?php echo $this->Form->create($_commentFormContext, ['role' => 'form']); ?>
-				<?php echo $this->Form->hidden('_comment_parent_id', ['id' => 'comment-parent-id']); ?>
+				<?php echo $this->Form->hidden('comment.parent_id', ['id' => 'comment-parent-id']); ?>
 
 				<?php if ($this->is('user.logged')): ?>
 					<?php echo $this->Html->image($this->user()->avatar); ?>
 					@<?php echo $this->user()->username; ?> (<?php echo $this->user()->name; ?>) &lt;<?php echo $this->user()->email; ?>&gt;
-					<?php echo $this->Form->hidden('_comment_user_id', ['value' => $this->user()->id]); ?>
 				<?php elseif ($this->Comment->config('allow_anonymous')): ?>
 					<?php if ($this->Comment->config('anonymous_name')): ?>
-						<?php echo $this->Form->input('_comment_author_name', $this->Comment->optionsForInput('author_name')); ?>
+						<?php echo $this->Form->input('comment.author_name', $this->Comment->optionsForInput('author_name')); ?>
 					<?php endif; ?>
 
 					<?php if ($this->Comment->config('anonymous_email')): ?>
-						<?php echo $this->Form->input('_comment_author_email', $this->Comment->optionsForInput('author_email')); ?>
+						<?php echo $this->Form->input('comment.author_email', $this->Comment->optionsForInput('author_email')); ?>
+						<em class="help-block"><?php echo __d('comment', 'Will not be published.'); ?></em>
 					<?php endif; ?>
 
 					<?php if ($this->Comment->config('anonymous_web')): ?>
-						<?php echo $this->Form->input('_comment_author_web', $this->Comment->optionsForInput('author_web')); ?>
+						<?php echo $this->Form->input('comment.author_web', $this->Comment->optionsForInput('author_web')); ?>
 					<?php endif; ?>
 				<?php endif; ?>
 
-				<?php echo $this->Form->input('_comment_subject', $this->Comment->optionsForInput('subject')); ?>
-				<?php echo $this->Form->input('_comment_body', $this->Comment->optionsForInput('body')); ?>
+				<?php echo $this->Form->input('comment.subject', $this->Comment->optionsForInput('subject')); ?>
+				<?php echo $this->Form->input('comment.body', $this->Comment->optionsForInput('body')); ?>
+
+				<?php if ($this->Comment->config('text_processing') === 'plain'): ?>
+					<ul>
+						<li><?php echo __d('field', 'No HTML tags allowed.'); ?></li>
+						<li><?php echo __d('field', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
+						<li><?php echo __d('field', 'Lines and paragraphs break automatically.'); ?></li>
+					</ul>
+				<?php elseif ($this->Comment->config('text_processing') === 'full'): ?>
+					<ul>
+						<li><?php echo __d('field', 'All HTML tags allowed.'); ?></li>
+						<li><?php echo __d('field', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
+					</ul>
+				<?php elseif ($this->Comment->config('text_processing') === 'filtered'): ?>
+					<ul>
+						<li><?php echo __d('field', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
+						<li><?php echo __d('field', 'Allowed HTML tags: &lt;a&gt; &lt;em&gt; &lt;strong&gt; &lt;cite&gt; &lt;blockquote&gt; &lt;code&gt; &lt;ul&gt; &lt;ol&gt; &lt;li&gt; &lt;dl&gt; &lt;dt&gt; &lt;dd&gt;'); ?></li>
+						<li><?php echo __d('field', 'Lines and paragraphs break automatically.'); ?></li>
+					</ul>
+				<?php elseif ($this->Comment->config('text_processing') === 'markdown'): ?>
+					<ul>
+						<li><?php echo __d('field', '<a href="%s" target="_blank">Markdown</a> text format allowed only.', 'http://wikipedia.org/wiki/Markdown'); ?></li>
+					</ul>
+				<?php endif; ?>
+
 				<?php echo $this->Comment->captcha(); ?>
 				<?php echo $this->Form->submit(__d('comment', 'Publish')); ?>
 			<?php echo $this->Form->end(); ?>

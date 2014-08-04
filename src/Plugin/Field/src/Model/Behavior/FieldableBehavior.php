@@ -151,14 +151,14 @@ use QuickApps\Utility\HookTrait;
  *     // value:
  *     OMG! Look at this lol Fuuuu
  *
- * In our example, when rendering your entity, `AlbumField` should use `extra` information to create a representation
- * of your entity when rendering it, while `value` information would acts like some kind of `words index`
- * when using `Searching over custom fields` feature described above.
+ * In our example when rendering an entity with `AlbumField` attached to it, `AlbumField` should use `extra` information 
+ * to create a representation of itself, while `value` information would acts like some kind of `words index` when
+ * using `Searching over custom fields` feature described above.
  *
  * **Important:**
  *
- * -    FieldableBehavior automatically serializes/unserializes the `extra` property for you,
- *      so you should always treat `extra` as an array of information.
+ * -    FieldableBehavior automatically serializes & unserializes the `extra` property for you,
+ *      so you should always treat `extra` as an instance of **\Cake\ORM\Entity**.
  * -    `Search over fields` feature described above uses the `value` property when looking for matches.
  *      So in this way your entities can be found when using Field's machine-name in where-conditions.
  * -    Using `extra` is not mandatory, for instance your Field Handler could use an additional
@@ -167,7 +167,7 @@ use QuickApps\Utility\HookTrait;
  *      of information.
  *
  * **Summarizing:** `value` is intended to store `plain text` information suitable for searches, while
- * `extra` is intended to store sets of information.
+ * `extra` is intended to store sets of complex information.
  *
  * ***
  *
@@ -179,8 +179,8 @@ use QuickApps\Utility\HookTrait;
  *
  * ## Enable/Disable Field Attachment
  *
- * If for some reason you don't need custom fields to be fetched you should use the
- * unbindFieldable(). Or bindFieldable() enable it again.
+ * If for some reason you don't need custom fields to be fetched under the `_field` of your entities you should use the
+ * unbindFieldable(). Or bindFieldable() to enable it again.
  *
  *     // there wont be a "_field" key on your User entity
  *     $this->User->unbindFieldable();
@@ -205,6 +205,7 @@ use QuickApps\Utility\HookTrait;
  * - `Field.<FieldHandler>.Entity.edit`: When an entity is being rendered in `edit` mode. (backend usually)
  * - `Field.<FieldHandler>.Entity.beforeFind`: Before an entity is retrieved from DB
  * - `Field.<FieldHandler>.Entity.beforeSave`: Before entity is saved
+ * - `Field.<FieldHandler>.Entity.afterSave`: After entity was saved
  * - `Field.<FieldHandler>.Entity.beforeValidate`: Before entity is validated as part of save operation
  * - `Field.<FieldHandler>.Entity.afterValidate`: After entity is validated as part of save operation
  * - `Field.<FieldHandler>.Entity.beforeDelete`: Before entity is deleted
@@ -249,8 +250,6 @@ class FieldableBehavior extends Behavior {
  * -    `polymorphic_table_alias`: An entity's property value to use as `table_alias` whenever possible.
  *       Default null (use `table_alias` option always).
  * -    `find_iterator`: Callable function to iterate over find result-set.
- * -    `fields_order`: A list of field machine-names in which you want the `_fields` key
- *       to be ordered. ex. `[article-intro, article-body]`. Ordered by default by `field_instances.ordering` value.
  * -    `enabled`: True enables this behavior or false for disable. Default to true.
  *
  * When using `polymorphic_table_alias` feature, `table_alias` becomes:
@@ -274,7 +273,6 @@ class FieldableBehavior extends Behavior {
 		'table_alias' => null,
 		'polymorphic_table_alias' => null,
 		'find_iterator' => null,
-		'fields_order' => [],
 		'enabled' => true,
 		'implementedMethods' => [
 			'configureFieldable' => 'configureFieldable',
@@ -533,20 +531,17 @@ class FieldableBehavior extends Behavior {
 		$FieldValues = $this->_getTable('Field.FieldValues');
 
 		foreach ($instances as $instance) {
-			$postValuesForField = $entity->has(":{$instance->slug}") ? $entity->get(":{$instance->slug}") : false;
-
-			if ($postValuesForField) {
+			if ($entity->has(":{$instance->slug}")) {
 				$field = $this->_getMockField($entity, $instance);
-				$options['post'] = $postValuesForField;
-				$fieldEvent = $this->invoke("Field.{$instance->handler}.Entity.afterSave", $event->subject, $field, $entity, $options);
+				$options['post'] = $entity->get(":{$instance->slug}");
+				$fieldEvent = $this->invoke("Field.{$instance->handler}.Entity.afterSave", $event->subject, $field, $options);
 
 				if ($fieldEvent->isStopped() || $fieldEvent->result === false) {
 					$entity = $this->attachEntityFields($entity);
 					$event->stopPropagation();
 					return false; // stop Table's afterSave event
 				}
-
-				$field->extra = (array)$field->extra;
+				
 				$valueEntity = new FieldValue([
 					'id' => $field->metadata['field_value_id'],
 					'field_instance_id' => $field->metadata['field_instance_id'],
@@ -592,7 +587,7 @@ class FieldableBehavior extends Behavior {
 
 		foreach ($instances as $instance) {
 			$field = $this->_getMockField($entity, $instance);
-			$fieldEvent = $this->invoke("Field.{$field->metadata['handler']}.Entity.beforeValidate", $event->subject, $field, $entity, $options, $validator);
+			$fieldEvent = $this->invoke("Field.{$field->metadata['handler']}.Entity.beforeValidate", $event->subject, $field, $options, $validator);
 
 			if ($fieldEvent->result === false || $fieldEvent->isStopped()) {
 				$entity = $this->attachEntityFields($entity);
@@ -626,7 +621,7 @@ class FieldableBehavior extends Behavior {
 
 		foreach ($instances as $instance) {
 			$field = $this->_getMockField($entity, $instance);
-			$fieldEvent = $this->invoke("Field.{$field->metadata['handler']}.Entity.afterValidate", $event->subject, $field, $entity, $options, $validator);
+			$fieldEvent = $this->invoke("Field.{$field->metadata['handler']}.Entity.afterValidate", $event->subject, $field, $options, $validator);
 
 			if ($fieldEvent->result === false || $fieldEvent->isStopped()) {
 				$entity = $this->attachEntityFields($entity);
@@ -671,7 +666,7 @@ class FieldableBehavior extends Behavior {
 			// invoke field beforeDelete so they can do its stuff
 			// i.e.: Delete entity information from another table.
 			$field = $this->_getMockField($entity, $instance);
-			$fieldEvent = $this->invoke("Field.{$instance->handler}.Entity.beforeDelete", $event->subject, $field, $entity, $options);
+			$fieldEvent = $this->invoke("Field.{$instance->handler}.Entity.beforeDelete", $event->subject, $field, $options);
 
 			if ($fieldEvent->result === false || $fieldEvent->isStopped()) {
 				$event->stopPropagation();
@@ -723,7 +718,7 @@ class FieldableBehavior extends Behavior {
 
 		if (isset($this->_cache['fields.beforeDelete']) && is_array($this->_cache['fields.beforeDelete'])) {
 			foreach ($this->_cache['fields.beforeDelete'] as $field) {
-				$fieldEvent = $this->invoke("Field.{$field->handler}.Entity.afterDelete", $event->subject, $field, $entity, $options);
+				$fieldEvent = $this->invoke("Field.{$field->handler}.Entity.afterDelete", $event->subject, $field, $options);
 
 				if ($fieldEvent->result === false || $fieldEvent->isStopped()) {
 					$event->stopPropagation();
@@ -787,8 +782,6 @@ class FieldableBehavior extends Behavior {
  * The method which actually fetches custom fields.
  *
  * Fetches all Entity's fields under the `_fields` property.
- * It also sorts custom-fields if `fields_order` configuration parameter
- * was set.
  *
  * @param \Cake\ORM\Entity $entity The entity where to fetch fields
  * @return \Cake\ORM\Entity Modified $entity
@@ -820,12 +813,7 @@ class FieldableBehavior extends Behavior {
 			$_fields[] = $mock;
 		}
 
-		$collection = new FieldCollection($_fields);
-		if (!empty($config['fields_order']) && is_array($config['fields_order'])) {
-			$collection->sortAs($config['fields_order']);
-		}
-
-		$entity->set('_fields', $collection);
+		$entity->set('_fields', new FieldCollection($_fields));
 		return $entity;
 	}
 

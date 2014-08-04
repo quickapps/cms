@@ -12,6 +12,7 @@
 namespace QuickApps\Controller;
 
 use Cake\Controller\Controller;
+use Cake\Core\Configure;
 use QuickApps\Utility\AlertTrait;
 use QuickApps\Utility\DetectorTrait;
 use QuickApps\Utility\HookTrait;
@@ -69,6 +70,7 @@ class AppController extends Controller {
  */
 	public $components = [
 		'Menu.Breadcrumb',
+		'Session',
 	];
 
 /**
@@ -81,14 +83,19 @@ class AppController extends Controller {
 	public function __construct($request = null, $response = null) {
 		parent::__construct($request, $response);
 		$this->switchViewMode('default');
-
-		// TODO: set default languages and other stuff
-		// TODO: change AppController::theme according to site settings.
-		if (!empty($this->request->params['prefix']) && strtolower($this->request->params['prefix']) === 'admin') {
-			$this->theme = 'BackendTheme';
-		} else {
-			$this->theme = 'FrontendTheme';
-		}
+		$this->_prepareLanguage();
+		$this->_prepareTheme();
+		
+		// TODO: remove this lines
+		$this->request->session()->write('user', [
+			'id' => 1,
+			'name' => 'Chris',
+			'username' => 'admin',
+			'email' => 'chris@quickapps.es',
+			'locale' => 'es',
+			// TODO: stores in session "user.roles" both role ID and role Slugs. e.g. [1 => 'administrator', 2 => 'manager']
+			'roles' => [1, 2],
+		]);
 	}
 
 /**
@@ -109,6 +116,62 @@ class AppController extends Controller {
  */
 	public function description($description_for_layout) {
 		$this->set('description_for_layout', $description_for_layout);
+	}
+
+/**
+ * Prepares the default language to use.
+ *
+ * If use is logged in and has selected a preferred language, we will use it.
+ * Default site's language will be used otherwise.
+ *
+ * If `url_locale_prefix` option is enabled, and current request's URL has not
+ * language prefix on it, user will be redirected to a locale-prefixed version
+ * of the requested URL.
+ *
+ * @return void
+ */
+	protected function _prepareLanguage() {
+		$session = $this->request->session();
+		if (
+			$session->check('user.locale') &&
+			in_array(
+				$session->read('user.locale'),
+				array_keys(Configure::read('QuickApps.languages'))
+			)
+		) {
+			Configure::write('Config.language', $session->read('user.locale'));
+		} elseif (
+			in_array(
+				Configure::read('QuickApps.variables.default_language'),
+				array_keys(Configure::read('QuickApps.languages'))
+			)
+		) {
+			Configure::write('Config.language', Configure::read('QuickApps.variables.default_language'));
+		} else {
+			Configure::write('Config.language', 'en-us');
+		}
+
+		if (
+			$this->request->url !== false &&
+			Configure::read('QuickApps.variables.url_locale_prefix') &&
+			!str_starts_with($this->request->url, Configure::read('Config.language'))
+		) {
+			$this->redirect('/' . Configure::read('Config.language') . '/' . $this->request->url);
+		}
+	}
+
+/**
+ * Sets the theme to use.
+ * 
+ * @return void
+ */
+	protected function _prepareTheme() {
+		// TODO: change AppController::theme according to site settings.
+		if (!empty($this->request->params['prefix']) && strtolower($this->request->params['prefix']) === 'admin') {
+			$this->theme = 'BackendTheme';
+		} else {
+			$this->theme = 'FrontendTheme';
+		}
 	}
 
 }
