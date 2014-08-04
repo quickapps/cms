@@ -226,4 +226,3 @@ if (file_exists(SITE_ROOT . DS . 'Config' . DS .  ' bootstrap.php')) {
 DispatcherFactory::add('Asset');
 DispatcherFactory::add('Routing');
 DispatcherFactory::add('ControllerFactory');
-

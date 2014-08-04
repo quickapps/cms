@@ -14,44 +14,30 @@ namespace Node\Config;
 use Cake\Core\Configure;
 use Cake\Routing\Router;
 
-$node_types = implode('|', (array)Configure::read('QuickApps.node_types'));
-
-if (!empty($node_types)) {
-	Router::connect(
-		'/:node_type_slug/:node_slug.html',
-		[
-			'plugin' => 'Node',
-			'controller' => 'Serve',
-			'action' => 'details'
-		],
-		[
-			'node_type_slug' => $node_types,
-			'node_slug' => '[a-z0-9\-]+',
-			'pass' => ['node_type_slug', 'node_slug'],
-			'_name' => 'node_details',
-		]
-	);
+if (!empty(Configure::read('QuickApps.node_types'))) {
+	$nodeTypesPattern = implode('|', array_map('preg_quote', (array)Configure::read('QuickApps.node_types')));
+	Router::connect('/:node_type_slug/:node_slug.html', [
+		'plugin' => 'Node',
+		'controller' => 'Serve',
+		'action' => 'details'
+	], [
+		'node_type_slug' => $nodeTypesPattern,
+		'node_slug' => '[a-z0-9\-]+',
+		'pass' => ['node_type_slug', 'node_slug'],
+		'_name' => 'node_details',
+	]);
 }
 
-Router::connect(
-	'/find/:criteria',
-	[
-		'plugin' => 'Node',
-		'controller' => 'Serve',
-		'action' => 'search'
-	],
-	[
-		'pass' => ['criteria']
-	]
-);
+Router::connect('/find/:criteria', [
+	'plugin' => 'Node',
+	'controller' => 'Serve',
+	'action' => 'search',
+], [
+	'pass' => ['criteria']
+]);
 
-Router::connect(
-	'/',
-	[
-		'plugin' => 'Node',
-		'controller' => 'Serve',
-		'action' => 'frontpage'
-	]
-);
-
-unset($node_types);
+Router::connect('/', [
+	'plugin' => 'Node',
+	'controller' => 'Serve',
+	'action' => 'frontpage'
+]);

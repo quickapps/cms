@@ -13,6 +13,8 @@ namespace Hook;
 
 use Cake\Event\Event;
 use Cake\Event\EventListener;
+use QuickApps\Utility\ViewModeRegistry;
+use QuickApps\Utility\ViewModeTrait;
 
 /**
  * Main Hook Listener for Node plugin.
@@ -28,8 +30,44 @@ class NodeHook implements EventListener {
  */
 	public function implementedEvents() {
 		return [
-			'ObjectRender.Node\Model\Entity\Node' => 'renderNode'
+			'ObjectRender.Node\Model\Entity\Node' => 'renderNode',
+			'Dispatcher.beforeDispatch' => 'dispatcherBeforeDispatch',
 		];
+	}
+
+/**
+ * Fired before any controller instance is created.
+ *
+ * Here we register some basic view modes, for later use in controllers.
+ * 
+ * @param \Cake\Event\Event $event
+ * @param \Cake\Network\Request $request Request object to dispatch
+ * @param \Cake\Network\Response $response Response object to put the results of the dispatch into
+ * @return void
+ */
+	public function dispatcherBeforeDispatch(Event $event, $request, $response) {
+		ViewModeRegistry::registerViewMode([
+			'default' => [
+				'name' => __d('node', 'Default'),
+				'description' => __d('node', 'Default is used as a generic view mode if no other view mode has been defined for your content.'),
+			],
+			'teaser' => [
+				'name' => __d('node', 'Teaser'),
+				'description' => __d('node', 'Teaser is a really short format that is typically used in main the main page, such as "last news", etc.'),
+			],
+			'search-result' => [
+				'name' => __d('node', 'Search Result'),
+				'description' => __d('node', 'Search Result is a short format that is typically used in lists of multiple content items such as search results.'),
+			],
+			'rss' => [
+				'name' => __d('node', 'RSS'),
+				'description' => __d('node', 'RSS is similar to "Search Result" but intended to be used when rendering content as part of a RSS feed list.'),
+			],
+			'full' => [
+				'name' => __d('node', 'Full'),
+				'description' => __d('node', 'Full content is typically used when the content is displayed on its own page.'),
+			],
+		]);
 	}
 
 /**
