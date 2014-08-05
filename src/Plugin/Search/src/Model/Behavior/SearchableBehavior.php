@@ -11,10 +11,15 @@
  */
 namespace Search\Model\Behavior;
 
+use Cake\Event\Event;
 use Cake\ORM\Behavior;
+use Cake\ORM\Entity;
+use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
+use Cake\Utility\Inflector;
 use QuickApps\Utility\HookTrait;
+use Search\Model\Entity\SearchDataset;
 
 /**
  * This behavior allows entities to be searchable through
@@ -29,13 +34,52 @@ use QuickApps\Utility\HookTrait;
  *         'fields' => ['username', 'email']
  *     ]);
  *
- * You can use this behavior in combination with `Fieldable` behavior,
- * so you can also add virtual fields to entity's indexed words. To do this,
- * simply add the `_fields` keyword to the list of fields to be indexed:
+ * Also, if you need a really special selection of words for each entity is being indexed, then you can
+ * set the `fields` option as a callable which should return a list of words for the given entity. For example:
  *
  *     $this->addBehavior('Search.Searchable', [
- *         'fields' => ['username', 'email', '_fields']
+ *         'fields' => function ($user) {
+ *             return "{$user->name} {$user->email}";
+ *         }
  *     ]);
+ *
+ * You can return either, a plain text of space-separated words, or an array list of words:
+ *
+ *     $this->addBehavior('Search.Searchable', [
+ *         'fields' => function ($user) {
+ *             return [
+ *                 'word 1',
+ *                 'word 2',
+ *                 'word 3',
+ *             ];
+ *         }
+ *     ]);
+ *
+ * This behaviors will apply a series of filters (look for duplicated words, convert to lowercase, remove line breaks, etc) to the resulting word list,
+ * so you should simply return a RAW string of words and let this behavior do the rest of the job.
+ *
+ * ### Banned Words
+ *
+ * You can use the `bannedWords` to tell which words should not be indexed by this behavior. For example:
+ *
+ *     $this->addBehavior('Search.Searchable', [
+ *         'bannedWords' => ['of', 'the', 'and']
+ *     ]);
+ *
+ * If you need to ban a really specific list of words you can set `bannedWords` option as a callable method
+ * that should return true or false to tell if a words should be indexed or not. For example:
+ *
+ *     $this->addBehavior('Search.Searchable', [
+ *         'bannedWords' => function ($word) {
+ *             return strlen($word) > 3;
+ *         }
+ *     ]);
+ *
+ * - Returning TRUE indicates that the word is not banned and it is safe for indexing.
+ * - Returning FALSE indicates that the word is not a valid words and should NOT be indexed.
+ *
+ * In the example, above any word of 4 or more characters will be indexed (e.g. "home", "name", "quickapps", etc). Any word of
+ * 3 or less characters will be banned (e.g. "and", "or", "the").
  *
  * ## Searching Entities
  *
@@ -43,54 +87,59 @@ use QuickApps\Utility\HookTrait;
  * is you can use this list of words to locate any entity based on a customized search-criteria.
  * A search-criteria looks as follow:
  *
- *     "this phrase" OR -"and not this one" AND "this"
+ *     "this phrase" OR -"not this one" AND this
  *
- * And allows you to perform complex search conditions in a human-readable way. Allows
+ * Use wildcard searches to broaden results; asterisk (`*`) matches any one or more
+ * characters, exclamation mark (`!`) matches any single character:
+ *
+ *     "this *rase" OR -"not th!! one" AND thi!
+ *
+ * Search criteria allows you to perform complex search conditions in a human-readable way. Allows
  * you, for example, create user-friendly search-forms, or create some RSS feed just by creating a
  * nice-well formated URL using a search-criteria. e.g.: `http://example.com/rss/category:art date:>2014-01-01`
  *
- * You must use the `scopeQuery()` method to scope any query using a search-criteria.
- * For example, in some controller using `Users` table:
+ * You must use the `search()` method to scope any query using a search-criteria.
+ * For example, in one controller using `Users` model:
  *
- *     $criteria = '"this phrase" OR -"and not this one" AND "this"';
+ *     $criteria = '"this phrase" OR -"not this one" AND this';
  *     $query = $this->Users->find();
- *     $query = $this->Users->scopeQuery($criteria, $query);
+ *     $query = $this->Users->search($criteria, $query);
  *
  * The above will alter the given $query object according to the given criteria.
- * The second argument is optional (query object), if not provided this Behavior automatically generates
+ * The second argument (query object) is optional, if not provided this Behavior automatically generates
  * a find-query for you. Previous example and the one below are equivalent:
  *
- *     $criteria = '"this phrase" OR -"and not this one" AND "this"';
- *     $query = $this->Users->scopeQuery($criteria);
+ *     $criteria = '"this phrase" OR -"not this one" AND this';
+ *     $query = $this->Users->search($criteria);
  *
- * ### Creating Scope Tags
+ * ### Creating Operators
  *
- * A `Scope Tag` is a search-criteria command which allows you to perform
- * very specific filter conditions over your queries. A scope-tag has two parts,
- * a `name` (underscored-lowercase) and `arguments` (letters, numbers, `<`, `>`, `[`, `]`, `,`, `-` and `_`).
+ * An `Operator` is a search-criteria command which allows you to perform
+ * very specific filter conditions over your queries. An operator **has two parts**, a `name` (underscored_and_lowercase)
+ * and `arguments` (letters, numbers, `<`, `>`, `[`, `]`, `,`, `-`, `.` and `_`).
  * Both parts must be separated using the `:` symbol e.g.:
  *
- *     // scope-tag name is: "author"
- *     // scope-tag arguments are: ">2014-03-01"
+ *     // operator name is: "author"
+ *     // operator arguments are: ">2014-03-01"
  *     date:>2014-03-01
  *
- * You can create custom scope-tags using the `SearchableBehavior::addScopeTag()` method.
+ * You can define custom operators for your table by using the `addSearchOperator()` method.
  * For example, you might need create a custom criteria `author` which allows
- * you to search a `Node` entity by `author name`. A search-criteria using this scope-tag may
+ * you to search a `Node` entity by `author name`. A search-criteria using this operator may
  * looks as follow:
  *
  *     // get all nodes containing `this phrase` and created by `JohnLocke`
  *     "this phrase" author:JohnLocke
  *
- * You must define in your Table a scope-method and register it into this behavior,
+ * You must define in your Table an operator method and register it into this behavior under the `author` name,
  * a full working example may look as follow:
  *
  *     class Nodes extends Table {
  *         public function initialize(array $config) {
  *             // attach the behavior
  *             $this->addBehavior('Search.Searchable');
- *             // register a new scope-method for handling `author:<author_name>` expressions
- *             $this->addScopeTag('author', 'scopeAuthor');
+ *             // register a new operator for handling `author:<author_name>` expressions
+ *             $this->addSearchOperator('author', 'scopeAuthor');
  *         }
  *         public function scopeAuthor($query, $value, $negate, $orAnd) {
  *             // $query:
@@ -104,9 +153,33 @@ use QuickApps\Utility\HookTrait;
  *             //     or|and|false Indicates the type of condition. e.g.: `OR author:JohnLocke`
  *             //     will set $orAnd to `or`. But, `AND author:JohnLocke` will set $orAnd to `and`.
  *             //     By default is set to FALSE. This allows you to use
- *             //     Query::andWhere() && Query::orWhere() methods.
+ *             //     Query::andWhere() and Query::orWhere() methods.
  *         }
  *     }
+ *
+ * ### Fallback Operator
+ *
+ * When an operator is detected in the given search criteria but no operator callable was defined using `addSearchOperator()`,
+ * then the `SearchableBehavior.operator<OperatorName>` will be fired, so other plugins may respond to any undefined operator. For example,
+ * given the search criteria below, lets suppose `date` operator **was not defined** early:
+ *
+ *     "this phrase" author:JohnLocke date:[2013-06-06..2014-06-06]
+ *
+ * The `SearchableBehavior.operatorDate` event will be fired. A plugin may respond to this call by implementing this event:
+ *
+ *     // ...
+ *     public function implementedEvents() {
+ *         return [
+ *             'SearchableBehavior.operatorDate' => 'operatorDate',
+ *         ];
+ *     }
+ *     // ...
+ *     public function operatorDate($event, $query, $value, $negate, $orAnd) {
+ *         // alter $query object and return it
+ *         return $query;
+ *     }
+ *     
+ * Event handler method should always return the modified $query object.
  */
 class SearchableBehavior extends Behavior {
 
@@ -122,24 +195,25 @@ class SearchableBehavior extends Behavior {
 /**
  * Behavior configuration array.
  *
- * - scopes: A list of registered scopes methods as `name` => `methodName`
- * - fields: List of entity fields where to look for words
- * - ignore_words: List of banned words
+ * - operators: A list of registered operators methods as `name` => `methodName`
+ * - fields: List of entity fields where to look for words. Or a callable method, it receives and entity
+ * as first argument, and it must return a list of words for that entity (as an array list, or a string space-separated words).
+ * - bannedWords: List of banned words.
  * - on: Indicates when to extract words, `update` when entity is being updated,
  * `insert` when a new entity is inserted into table. Or `both` (by default)
  *
  * @var array
  */
 	protected $_defaultConfig = [
-		'scopes' => [],
+		'operators' => [],
 		'fields' => [],
-		'ignore_words' => [],
+		'bannedWords' => [],
 		'on' => 'both',
 		'implementedMethods' => [
-			'scopeQuery' => 'scopeQuery',
-			'addScopeTag' => 'addScopeTag',
-			'enableScopeTag' => 'enableScopeTag',
-			'disableScopeTag' => 'disableScopeTag',
+			'search' => 'search',
+			'addSearchOperator' => 'addSearchOperator',
+			'enableSearchOperator' => 'enableSearchOperator',
+			'disableSearchOperator' => 'disableSearchOperator',
 		],
 	];
 
@@ -153,7 +227,7 @@ class SearchableBehavior extends Behavior {
 		$this->_table = $table;
 		$this->_table->hasOne('Search.SearchDatasets', [
 			'foreignKey' => 'entity_id',
-			'conditions' => ['table_alias' => strtolower($this->_table->alias())],
+			'conditions' => ['table_alias' => Inflector::underscore($this->_table->alias())],
 			'dependent' => true
 		]);
 		parent::__construct($table, $config);
@@ -162,51 +236,60 @@ class SearchableBehavior extends Behavior {
 /**
  * Generates a list of words after each entity is saved.
  *
- * @param \Cake\ORM\Query $query The query object
- * @param \Cake\ORM\Entity $entity Entity from where extract words
+ * @param \Cake\Event\Event $event
+ * @param \Cake\ORM\Entity $entity
  * @return void
  */
-	public function afterSave($query, $entity) {
-		$config = $this->config();
+	public function afterSave(Event $event, Entity $entity) {
 		$isNew = $entity->isNew();
 		$pk = $this->_table->primaryKey();
-		$table_alias = strtolower($this->_table->alias());
-		$Datasets = TableRegistry::get('Search.SearchDatasets');
-		$words = [];
+		$table_alias = Inflector::underscore($this->_table->alias());
+		$words = '';
 
 		if (
-			($config['on'] === 'update' && $isNew) ||
-			($config['on'] === 'insert' && !$isNew) ||
-			($config['on'] !== 'both')
+			($this->config('on') === 'update' && $isNew) ||
+			($this->config('on') === 'insert' && !$isNew) ||
+			($this->config('on') !== 'both')
 		) {
 			continue;
 		}
 
-		if (in_array('_fields', $config['fields'])) {
-			$vFields = $entity->_fields;
+		if (is_callable($this->config('fields'))) {
+			$callable = $this->config('fields');
+			$words = $callable($entity);
 
-			if ($vFields) {
-				foreach ($vFields as $vf) {
-					$newWords = explode(' ', trim(strtolower($vf->value)));
-					$words = array_merge($words, $newWords);
+			if (is_array($words)) {
+				$words = implode(' ', (string)$words);
+			}
+		} else {
+			foreach ($this->config('fields') as $f) {
+				if ($entity->has($f)) {
+					$newWords = trim($entity->get($f));
+					$words .= ' ' . $newWords;
 				}
 			}
 		}
 
-		foreach ($config['fields'] as $f) {
-			if ($entity->has($f) && $f !== '_fields') {
-				$newWords = explode(' ', trim(strtolower($entity->get($f))));
-				$words = array_merge($words, $newWords);
+		$words = str_replace(["\n", "\r"], '', $words);
+		$words = preg_replace('/[^a-z\s]/i', ' ', $words);
+		$words = trim(preg_replace('/\s{2,}/i', ' ', $words));
+		$words = strtolower($words);
+		$words = array_unique(explode(' ', $words));
+		$bannedCallable = is_callable($this->config('bannedWords')) ? $this->config('bannedWords') : false;
+
+		foreach ($words as $i => $w) {
+			if ($bannedCallable) {
+				if (!$bannedCallable($w)) { // false means it's banned
+					unset($words[$i]);
+				}
+			} else {
+				if (in_array($w, $this->config('bannedWords')) || empty($w)) {
+					unset($words[$i]);
+				}
 			}
 		}
 
-		foreach ($words as $k => $v) {
-			if (in_array($v, $config['ignore_words']) || empty($v)) {
-				unset($words[$k]);
-			}
-		}
-
-		$words = ' ' . trim(strtolower(implode(' ', $words))) . ' ';
+		$Datasets = TableRegistry::get('Search.SearchDatasets');
 		$dataset = $Datasets->find()
 			->where([
 				'entity_id' => $entity->get($pk),
@@ -215,21 +298,36 @@ class SearchableBehavior extends Behavior {
 			->first();
 
 		if (!$dataset) {
-			$dataset = new \Search\Model\Entity\SearchDataset([
+			$dataset = new SearchDataset([
 				'entity_id' => $entity->get($pk),
 				'table_alias' => $table_alias
 			]);
 		}
 
-		$dataset->set('words', $words);
+		$dataset->set('words', ' ' . implode(' ', $words) . ' ');
 		$Datasets->save($dataset);
+	}
+
+/**
+ * Prepares entity to delete its words-index.
+ * 
+ * @param \Cake\Event\Event $event
+ * @param \Cake\ORM\Entity $entity
+ * @return void
+ */
+	public function beforeDelete(Event $event, Entity $entity) {
+		$this->_table->hasMany('SearchDatasets', [
+			'className' => 'Search.SearchDatasets',
+			'dependent' => true,
+		]);
+		return true;
 	}
 
 /**
  * Scopes the given query object.
  *
- * It looks for search-criteria and applies them
- * over the query object. For example, given the criteria below:
+ * It looks for search-criteria and applies them over the query object.
+ * For example, given the criteria below:
  *
  *     "this phrase" -"and not this one"
  *
@@ -255,7 +353,7 @@ class SearchableBehavior extends Behavior {
  * @param null|\Cake\ORM\Query $query The query to scope, or null to create one
  * @return \Cake\ORM\Query Scoped query
  */
-	public function scopeQuery($criteria, $query = null) {
+	public function search($criteria, $query = null) {
 		$query = is_null($query) ? $this->_table->find() : $query;
 		$tokens = $this->_getTokens($criteria);
 		$query->contain('SearchDatasets');
@@ -265,30 +363,41 @@ class SearchableBehavior extends Behavior {
 				continue;
 			}
 
-			$previousToken = $k > 0 ? $tokens[$k - 1] : null;
-			$orAnd = in_array($previousToken, ['or', 'and']) ? strtolower($previousToken) : null;
+			$previousToken = $k > 0 && isset($tokens[$k - 1]) ? $tokens[$k - 1] : null;
+			$orAnd = in_array(strtolower($previousToken), ['or', 'and']) ? strtolower($previousToken) : null;
 
-			if (preg_match('/(-?)(\w+)\:(.+)$/', $token, $custom)) {
-				list($negate, $tokenName, $value) = [$custom[1], $custom[2], $custom[3]];
-				$negate = !empty($negate);
-				$callable = $this->_getScopeCallable($tokenName);
+			if (strpos($token, ':') !== false) {
+				$parts = explode(':', $token);
+				$operator = array_shift($parts);
+				$negate = str_starts_with($operator, '-');
+				$operator = Inflector::underscore(preg_replace('/\PL/u', '', $operator));
+				$callable = $this->_operatorCallable($operator);
+				$value = implode('', $parts);
 
 				if ($callable) {
 					$query = $callable($query, $value, $negate, $orAnd);
 
-					if (!($query instanceof \Cake\ORM\Query)) {
-						throw new FatalErrorException(__d('search', 'Error while processing the "%" token in the search criteria.', $tokenName));
+					if (!($query instanceof Query)) {
+						throw new FatalErrorException(__d('search', 'Error while processing the "%" token in the search criteria.', $operator));
 					}
 				} else {
-					$this->alter("SearchableBehavior.scopeToken.{$tokenName}", $query, $value, $negate, $orAnd);
+					$hookName = Inflector::variable("operator_{$operator}");
+					$result = $this->invoke("SearchableBehavior.{$hookName}", $this, $query, $value, $negate, $orAnd)->result;
+
+					if ($result instanceof Query) {
+						$query = $result;
+					}					
 				}
 			} else {
 				if (strpos($token, '-') === 0) {
-					$token = preg_replace('/^\-/', '', $token);
-					$LIKE = "NOT LIKE";
+					$token = str_replace_once('-', '', $token);
+					$LIKE = 'NOT LIKE';
 				} else {
 					$LIKE = 'LIKE';
 				}
+
+				$token = str_replace('*', '%', $token); // * Matches any one or more characters.
+				$token = str_replace('!', '_', $token); // ! Matches any single character.
 
 				if ($orAnd === 'or') {
 					$query->orWhere(["SearchDatasets.words {$LIKE}"  => "%{$token}%"]);
@@ -310,8 +419,8 @@ class SearchableBehavior extends Behavior {
  * @param string|array $methodName A string indicating the Table's method name which will take
  * care of this scope method. Or an array compatible with call_user_func_array
  */
-	public function addScopeTag($name, $methodName) {
-		$this->_config['scopes'][$name] = $methodName;
+	public function addSearchOperator($name, $methodName) {
+		$this->config("operators.{$name}", $methodName);
 	}
 
 /**
@@ -320,10 +429,10 @@ class SearchableBehavior extends Behavior {
  * @param string $name Name of the scope to be enabled
  * @return void
  */
-	public function enableScopeTag($name) {
-		if (isset($this->_config['scopes'][":{$name}"])) {
-			$this->_config['scopes'][$name] = $this->_config['scopes'][":{$name}"];
-			unset($this->_config['scopes'][":{$name}"]);
+	public function enableSearchOperator($name) {
+		if (isset($this->_config['operators'][":{$name}"])) {
+			$this->_config['operators'][$name] = $this->_config['operators'][":{$name}"];
+			unset($this->_config['operators'][":{$name}"]);
 		}
 	}
 
@@ -333,10 +442,10 @@ class SearchableBehavior extends Behavior {
  * @param string $name Name of the scope to be disabled
  * @return void
  */
-	public function disableScopeTag($name) {
-		if (isset($this->_config['scopes'][$name])) {
-			$this->_config['scopes'][":{$name}"] = $this->_config['scopes'][$name];
-			unset($this->_config['scopes'][$name]);
+	public function disableSearchOperator($name) {
+		if (isset($this->_config['operators'][$name])) {
+			$this->_config['operators'][":{$name}"] = $this->_config['operators'][$name];
+			unset($this->_config['operators'][$name]);
 		}
 	}
 
@@ -346,12 +455,11 @@ class SearchableBehavior extends Behavior {
  * @param string $name Name of the method to get
  * @return callable
  */
-	protected function _getScopeCallable($name) {
-		$config = $this->config();
-		$scopes = $config['scopes'];
+	protected function _operatorCallable($name) {
+		$operators = $this->config('operators');
 
-		if (isset($scopes[$name])) {
-			$callableName = $scopes[$name];
+		if (isset($operators[$name])) {
+			$callableName = $operators[$name];
 
 			if (is_array($callableName)) {
 				return function ($query, $value, $negate, $orAnd) use($callableName) {
@@ -375,26 +483,10 @@ class SearchableBehavior extends Behavior {
  */
 	protected function _getTokens($criteria) {
 		$criteria = trim(urldecode($criteria));
-		$regex = '/-?"[\pL\d\s]+"|-?[\pL\:\<\>\_\-\w\d\,\[\]]+/';
-		preg_match_all($regex, $criteria, $tokens, PREG_SET_ORDER);
-
-		foreach ($tokens as &$token) {
-			$token = array_shift($token);
-			$modifier = null;
-
-			if ($token[0] === '-') {
-				$modifier = $token[0];
-				$token = substr($token, 1);
-			}
-
-			if ($token[0] === '"') {
-				$token = trim($token, '"');
-			}
-
-			$token = $modifier . $token;
-		}
-
-		return array_unique($tokens);
+		$criteria = preg_replace('/(-?[\w]+)\:"([\w]+)/', '"${1}:${2}', $criteria);
+		$criteria = str_replace(['-"', '+"'], ['"-', '"+'], $criteria);
+		$tokens = str_getcsv($criteria, ' ');
+		return $tokens;
 	}
 
 }

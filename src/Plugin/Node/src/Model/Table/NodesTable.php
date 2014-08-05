@@ -70,16 +70,27 @@ class NodesTable extends Table {
 		$this->addBehavior('Comment.Commentable');
 		$this->addBehavior('System.Sluggable');
 		$this->addBehavior('Field.Fieldable', ['polymorphic_table_alias' => 'node_type_slug']);
-		$this->addBehavior('Search.Searchable', ['fields' => ['title', '_fields']]);
+		$this->addBehavior('Search.Searchable', [
+			'fields' => function ($node) {
+				$words = "{$node->title} {$node->description}";
+				if (!empty($node->_fields)) {
+					foreach ($node->_fields as $vf) {
+						$words .= ' ' . trim($vf->value);
+					}
+				}
+
+				return $words;
+			}
+		]);
 
 		// CRITERIA: author:<john,peter,...,username>
-		$this->addScopeTag('author', 'scopeAuthor');
+		$this->addSearchOperator('author', 'scopeAuthor');
 
 		// CRITERIA: promote:true
-		$this->addScopeTag('promote', 'scopePromote');
+		$this->addSearchOperator('promote', 'scopePromote');
 
 		// CRITERIA: type:node-type-slug
-		$this->addScopeTag('type', 'scopeType');
+		$this->addSearchOperator('type', 'scopeType');
 	}
 
 /**

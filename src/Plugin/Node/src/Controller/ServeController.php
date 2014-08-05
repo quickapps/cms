@@ -141,7 +141,7 @@ class ServeController extends AppController {
 		$this->loadModel('Node.Nodes');
 
 		try {
-			$nodes = $this->Nodes->scopeQuery($criteria);
+			$nodes = $this->Nodes->search($criteria);
 			$nodes = $this->paginate($nodes);
 		} catch (\Exception $e) {
 			$nodes = [];
@@ -166,7 +166,7 @@ class ServeController extends AppController {
 
 		try {
 			$nodes = $this->Nodes
-				->scopeQuery($criteria)
+				->search($criteria)
 				->all();
 		} catch (\Exception $e) {
 			$nodes = [];
