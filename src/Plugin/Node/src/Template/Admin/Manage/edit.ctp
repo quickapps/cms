@@ -49,7 +49,7 @@
 			<?php echo $this->Form->input('language', ['label' => __d('node', 'Language'), 'options' => $languages, 'empty' => __d('node', '-- ANY --')]); ?>
 	</fieldset>
 
-	<?php if (isset($node->node_revisions)): ?>
+	<?php if ($node->has('node_revisions') && count($node->node_revisions)): ?>
 	<fieldset>
 		<legend><?php echo __d('node', 'Revisions'); ?></legend>
 		
@@ -78,6 +78,13 @@
 			<?php endforeach; ?>
 			<tbody>
 		</table>
+	</fieldset>
+	<?php endif; ?>
+
+	<?php if ($node->has('translations') && count($node->translations)): ?>
+	<fieldset>
+		<legend><?php echo __d('node', 'Translations'); ?></legend>
+		<?php // TODO: render node's translations table ?>
 	</fieldset>
 	<?php endif; ?>
 
