@@ -167,6 +167,9 @@ trait FieldUIControllerTrait {
 		$instance = $this->_getOrThrow($id, ['locked' => false]);
 
 		if ($this->request->data) {
+			$instance->accessible('*', true);
+			$instance->accessible(['id', 'table_alias', 'handler', 'ordering'], false);
+
 			foreach ($this->request->data as $k => $v) {
 				if (str_starts_with($k, '_')) {
 					$instance->set(str_replace_once('_', '', $k), $v);

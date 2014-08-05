@@ -28,7 +28,8 @@ class ServeController extends AppController {
  */
 	public $components = [
 		'Comment.Comment',
-		'Paginator'
+		'Paginator',
+		'RequestHandler',
 	];
 
 /**
@@ -161,19 +162,19 @@ class ServeController extends AppController {
  * @return void
  */
 	public function rss($criteria) {
-		$this->layout = 'rss';
 		$this->loadModel('Node.Nodes');
 
 		try {
 			$nodes = $this->Nodes
 				->search($criteria)
-				->all();
+				->limit(10);
 		} catch (\Exception $e) {
 			$nodes = [];
 		}
 
 		$this->set('nodes', $nodes);
 		$this->switchViewMode('rss');
+		$this->RequestHandler->renderAs($this, 'rss');
 	}
 
 }

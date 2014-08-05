@@ -11,6 +11,7 @@
  */
 namespace Menu\View\Helper;
 
+use Cake\Error\Exception;
 use Cake\Utility\Hash;
 use Cake\View\Helper;
 use Menu\Utility\Breadcrumb;
@@ -44,7 +45,7 @@ class BreadcrumbHelper extends Helper {
 			return call_user_func_array(['\Menu\Utility\Breadcrumb', $method], $args);
 		}
 
-		throw new \Cake\Error\Exception(__d('menu', 'Method "%s" was not found.', $method));
+		throw new Exception(__d('menu', 'Method "%s" was not found.', $method));
 	}
 
 /**

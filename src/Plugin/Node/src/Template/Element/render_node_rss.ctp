@@ -10,17 +10,14 @@
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
 
-if (!isset($documentData)) {
-	$documentData = [];
-}
+/**
+ * Renders the given node in RSS format.
+ * 
+ */
+?>
 
-if (!isset($channelData)) {
-	$channelData = [];
-}
-
-if (!isset($channelData['title'])) {
-	$channelData['title'] = $this->fetch('title');
-}
-
-$channel = $this->Rss->channel([], $channelData, $this->fetch('content'));
-echo $this->Rss->document($documentData, $channel);
+<?php if (!empty($node->_fields)): ?>
+	<?php foreach ($node->_fields->sortByViewMode($this->inUseViewMode()) as $field): ?>
+		<?php echo $this->render($field); ?>
+	<?php endforeach; ?>
+<?php endif; ?>

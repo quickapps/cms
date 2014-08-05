@@ -77,7 +77,9 @@ class NodeHook implements EventListener {
  * This method looks for specialized renders in the order described below,
  * if one is not found we look the next one, etc.
  *
- * ### render_node_[node-type]_[view-mode]
+ * ### Render node per node-type & view-mode
+ * 
+ *      render_node_[node-type]_[view-mode]
  *
  * Renders the given node per `node-type` + `view-mode` combination. example:
  *
@@ -90,7 +92,9 @@ class NodeHook implements EventListener {
  *     // render for `basic-page` nodes in `search-result` view-mode
  *     `render_node_basic-page_search-result.ctp`
  *
- * ### render_node_[node_type]
+ * ### Render node per node-type
+ *
+ *     render_node_[node-type]
  *
  * Similar as before, but just per `node-type` and any view-mode
  *
@@ -100,10 +104,30 @@ class NodeHook implements EventListener {
  *     // render for `basic-page` nodes
  *     `render_node_basic-page.ctp`
  *
- * ### render_node
+ * ### Render node per view-mode
+ *
+ *     render_node_[view-mode]"
+ *
+ * Similar as before, but just per `view-mode` and any `node-type`
+ *
+ *     // render any node (article, page, etc) in `rss` view-mode
+ *     `render_node_rss.ctp`
+ *
+ *     // render any node (article, page, etc) in `full` view-mode
+ *     `render_node_full.ctp`
+ *
+ * NOTE: To avoid collisions between `view-mode` names and `node-type` names, you should alway use
+ * unique and descriptive names as possible when defining new content types. By default, Node plugin defines
+ * the following view-modes: `default`, `teaser`, `search-result`, `rss`, `full`.
+ *
+ * ### Default
+ * 
+ *     render_node
  *
  * This is the global render, if none of the above is found we try to use this last.
  *
+ * ---
+ *  
  * NOTE: Please note the difference between "_" and "-"
  *
  * @param \Cake\Event\Event $event The event that was fired
@@ -118,6 +142,7 @@ class NodeHook implements EventListener {
 		$try = [
 			"render_node_{$node->node_type_slug}_{$viewMode}",
 			"render_node_{$node->node_type_slug}",
+			"render_node_{$viewMode}",
 			'render_node'
 		];
 

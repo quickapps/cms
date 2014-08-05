@@ -53,6 +53,8 @@ class TypesController extends AppController {
 		}
 
 		if ($this->request->data) {
+			$type->accessible('*', true);
+			$type->accessible(['id', 'slug'], false);
 			$type->set($this->request->data);
 
 			if ($this->NodeTypes->save($type)) {

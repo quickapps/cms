@@ -60,7 +60,7 @@ use Search\Model\Entity\SearchDataset;
  *
  * ### Banned Words
  *
- * You can use the `bannedWords` to tell which words should not be indexed by this behavior. For example:
+ * You can use the `bannedWords` option to tell which words should not be indexed by this behavior. For example:
  *
  *     $this->addBehavior('Search.Searchable', [
  *         'bannedWords' => ['of', 'the', 'and']
@@ -75,8 +75,8 @@ use Search\Model\Entity\SearchDataset;
  *         }
  *     ]);
  *
- * - Returning TRUE indicates that the word is not banned and it is safe for indexing.
- * - Returning FALSE indicates that the word is not a valid words and should NOT be indexed.
+ * - Returning TRUE indicates that the word is safe for indexing (not banned).
+ * - Returning FALSE indicates that the word should NOT be indexed (banned).
  *
  * In the example, above any word of 4 or more characters will be indexed (e.g. "home", "name", "quickapps", etc). Any word of
  * 3 or less characters will be banned (e.g. "and", "or", "the").
@@ -89,14 +89,33 @@ use Search\Model\Entity\SearchDataset;
  *
  *     "this phrase" OR -"not this one" AND this
  *
+ * ---
+ * 
  * Use wildcard searches to broaden results; asterisk (`*`) matches any one or more
  * characters, exclamation mark (`!`) matches any single character:
  *
  *     "this *rase" OR -"not th!! one" AND thi!
  *
+ * Anything containing space (" ") characters must be wrapper between quotation marks:
+ *
+ *     "this phrase" special_operator:"[100 to 500]" -word -"more words" -word_1 word_2
+ *
+ * The search criteria above will be treated as it were composed by the following parts:
+ *
+ *     [
+ *         this phrase,
+ *         special_operator:[100 to 500],
+ *         -word,
+ *         -more words,
+ *         -word_1,
+ *         word_2,
+ *     ]
+ *
+ * ---
+ * 
  * Search criteria allows you to perform complex search conditions in a human-readable way. Allows
  * you, for example, create user-friendly search-forms, or create some RSS feed just by creating a
- * nice-well formated URL using a search-criteria. e.g.: `http://example.com/rss/category:art date:>2014-01-01`
+ * friendly URL using a search-criteria. e.g.: `http://example.com/rss/category:art date:>2014-01-01`
  *
  * You must use the `search()` method to scope any query using a search-criteria.
  * For example, in one controller using `Users` model:
@@ -115,18 +134,19 @@ use Search\Model\Entity\SearchDataset;
  * ### Creating Operators
  *
  * An `Operator` is a search-criteria command which allows you to perform
- * very specific filter conditions over your queries. An operator **has two parts**, a `name` (underscored_and_lowercase)
- * and `arguments` (letters, numbers, `<`, `>`, `[`, `]`, `,`, `-`, `.` and `_`).
- * Both parts must be separated using the `:` symbol e.g.:
+ * very specific filter conditions over your queries. An operator **has two parts**, a `name` and its `arguments`, both parts 
+ * must be separated using the `:` symbol e.g.:
  *
  *     // operator name is: "author"
  *     // operator arguments are: ">2014-03-01"
  *     date:>2014-03-01
  *
+ * NOTE: Operators names are treated as **lowercase_and_underscored**, 
+ * so `AuthorName`, `AUTHOR_NAME` or `AuThoR_naMe` are all treated as: `author_name`.
+ *
  * You can define custom operators for your table by using the `addSearchOperator()` method.
- * For example, you might need create a custom criteria `author` which allows
- * you to search a `Node` entity by `author name`. A search-criteria using this operator may
- * looks as follow:
+ * For example, you might need create a custom criteria `author` which allows you to search a 
+ * `Node` entity by `author name`. A search-criteria using this operator may looks as follow:
  *
  *     // get all nodes containing `this phrase` and created by `JohnLocke`
  *     "this phrase" author:JohnLocke
@@ -157,10 +177,10 @@ use Search\Model\Entity\SearchDataset;
  *         }
  *     }
  *
- * ### Fallback Operator
+ * ### Fallback Operators
  *
  * When an operator is detected in the given search criteria but no operator callable was defined using `addSearchOperator()`,
- * then the `SearchableBehavior.operator<OperatorName>` will be fired, so other plugins may respond to any undefined operator. For example,
+ * then `SearchableBehavior.operator<OperatorName>` will be fired, so other plugins may respond to any undefined operator. For example,
  * given the search criteria below, lets suppose `date` operator **was not defined** early:
  *
  *     "this phrase" author:JohnLocke date:[2013-06-06..2014-06-06]
@@ -178,8 +198,11 @@ use Search\Model\Entity\SearchDataset;
  *         // alter $query object and return it
  *         return $query;
  *     }
- *     
- * Event handler method should always return the modified $query object.
+ *
+ * IMPORTANT:
+ * 
+ * - Event handler method should always return the modified $query object.
+ * - The event's context, that is `$event->subject`, is the table instance which fired the event.
  */
 class SearchableBehavior extends Behavior {
 
@@ -382,7 +405,7 @@ class SearchableBehavior extends Behavior {
 					}
 				} else {
 					$hookName = Inflector::variable("operator_{$operator}");
-					$result = $this->invoke("SearchableBehavior.{$hookName}", $this, $query, $value, $negate, $orAnd)->result;
+					$result = $this->invoke("SearchableBehavior.{$hookName}", $this->_table, $query, $value, $negate, $orAnd)->result;
 
 					if ($result instanceof Query) {
 						$query = $result;
@@ -483,7 +506,7 @@ class SearchableBehavior extends Behavior {
  */
 	protected function _getTokens($criteria) {
 		$criteria = trim(urldecode($criteria));
-		$criteria = preg_replace('/(-?[\w]+)\:"([\w]+)/', '"${1}:${2}', $criteria);
+		$criteria = preg_replace('/(-?[\w]+)\:"([\]\[\w\s]+)/', '"${1}:${2}', $criteria);
 		$criteria = str_replace(['-"', '+"'], ['"-', '"+'], $criteria);
 		$tokens = str_getcsv($criteria, ' ');
 		return $tokens;

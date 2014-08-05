@@ -686,8 +686,9 @@ class FieldableBehavior extends Behavior {
 			$valueToDelete = $FieldValues->find()
 				->where([
 					'entity_id' => $entity->get($this->_table->primaryKey()),
-					'table_alias' => $table_alias
-				])->first();
+					'table_alias' => $table_alias,
+				])
+				->first();
 
 			if ($valueToDelete) {
 				$success = $FieldValues->delete($valueToDelete);
@@ -795,7 +796,7 @@ class FieldableBehavior extends Behavior {
 			return $entity;
 		}
 
-		$entity->accessible('*', true);
+		$entity->accessible('*', false);
 		$_fields = [];
 
 		foreach ($this->_getTableFieldInstances($entity) as $instance) {

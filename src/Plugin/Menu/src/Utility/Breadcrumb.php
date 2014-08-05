@@ -59,7 +59,7 @@ class Breadcrumb {
  *         <li class="last-item"><a href="URL for crumb 3"><span>Crumb 3</span></a></li>
  *     </ol>
  *
- * As you might notice, you can provide URLs as string values as an array compatible with `Router::url()`.
+ * NOTE: you can provide URLs as both, string values or as an array compatible with `Router::url()`.
  *
  * @param array|string $crumbs Single crumb or an array of multiple crumbs to push at once
  * @param mixed $url If both $crumbs is a string value and $url is a string (or an array) value
@@ -74,9 +74,7 @@ class Breadcrumb {
 
 		if (is_string($crumbs) && (is_string($url) || is_array($url))) {
 			// "title" and "URL" as arguments"
-			$crumbs = [
-				['title' => $crumbs, 'url' => $url],
-			];
+			$crumbs = [['title' => $crumbs, 'url' => $url]];
 		} elseif (is_array($crumbs) && isset($crumbs['title']) && isset($crumbs['url'])) {
 			// Single crumb push as an array
 			$crumbs = [$crumbs];

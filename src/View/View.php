@@ -151,6 +151,46 @@ class View extends CakeView {
 	}
 
 /**
+ * Sets title for layout.
+ *
+ * It sets `title_for_layout` view variable, if no previous title was set on controller.
+ * It will try to extract title from the Node being rendered (if not empty). Otherwise, site's
+ * title will be used.
+ *
+ * @return void
+ */
+	protected function _setTitle() {
+		if (empty($this->viewVars['title_for_layout'])) {
+			$title = '';
+
+			if (
+				!empty($this->viewVars['node']) &&
+				($this->viewVars['node'] instanceof \Node\Model\Entity\Node) &&
+				!empty($this->viewVars['node']->title)
+			) {
+				$title = $this->viewVars['node']->title;
+			} else {
+				foreach ($this->viewVars as $var) {
+					if (
+						is_object($var) &&
+						($var instanceof \Node\Model\Entity\Node) &&
+						!empty($var->title)
+					) {
+						$title = $var->title;
+						break;
+					}
+				}
+			}
+
+			$title = empty($title) ? Configure::read('QuickApps.variables.site_title') : $title;
+			$this->assign('title', $title);
+			$this->set('title_for_layout', $title);
+		} else {
+			$this->assign('title', $this->viewVars['title_for_layout']);
+		}
+	}
+
+/**
  * Sets meta-description for layout.
  *
  * It sets `description_for_layout` view-variable, and appends meta-description tag to `meta` block.
@@ -188,46 +228,6 @@ class View extends CakeView {
 			$this->append('meta', $this->Html->meta('description', $description));
 		} else {
 			$this->assign('description', $this->viewVars['description_for_layout']);
-		}
-	}
-
-/**
- * Sets title for layout.
- *
- * It sets `title_for_layout` view variable, if no previous title was set on controller.
- * It will try to extract title from the Node being rendered (if not empty). Otherwise, site's
- * title will be used.
- *
- * @return void
- */
-	protected function _setTitle() {
-		if (empty($this->viewVars['title_for_layout'])) {
-			$title = '';
-
-			if (
-				!empty($this->viewVars['node']) &&
-				($this->viewVars['node'] instanceof \Node\Model\Entity\Node) &&
-				!empty($this->viewVars['node']->title)
-			) {
-				$title = $this->viewVars['node']->title;
-			} else {
-				foreach ($this->viewVars as $var) {
-					if (
-						is_object($var) &&
-						($var instanceof \Node\Model\Entity\Node) &&
-						!empty($var->title)
-					) {
-						$title = $var->title;
-						break;
-					}
-				}
-			}
-
-			$title = empty($title) ? Configure::read('QuickApps.variables.site_title') : $title;
-			$this->assign('title', $title);
-			$this->set('title_for_layout', $title);
-		} else {
-			$this->assign('title', $this->viewVars['title_for_layout']);
 		}
 	}
 

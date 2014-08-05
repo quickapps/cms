@@ -112,6 +112,7 @@ class MenuHelper extends AppHelper {
 			};
 		}
 
+		$this->_defaultConfig = Hash::merge($this->_defaultConfig, $config);
 		parent::__construct($View, $config);
 	}
 

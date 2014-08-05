@@ -122,7 +122,6 @@ trait HookTrait {
 		array_shift($args);
 		$event = new Event("Hook.{$hookName}", $this, $args);
 		EventManager::instance()->dispatch($event);
-
 		return $event->result;
 	}
 
@@ -200,6 +199,11 @@ trait HookTrait {
  * Similar to `hook()` but no prefix will be added to the hook name.
  * Also, optionally you can provide a custom `context` for \Cake\Event\Event::$subject.
  *
+ *
+ * ### Usage:
+ *
+ *     $this->invoke('EventName', new ContextClass(), $arg1, $arg2, $arg3, ...);
+ *
  * ---
  *
  * **Comparison, `hook()` vs `invoke()`:**
@@ -221,7 +225,6 @@ trait HookTrait {
 		array_shift($args);
 		$event = new Event($hookName, $context, $args);
 		EventManager::instance()->dispatch($event);
-
 		return $event;
 	}
 

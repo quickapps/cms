@@ -24,13 +24,6 @@ use Cake\ORM\TableRegistry;
 class NodeTypesTable extends Table {
 
 /**
- * Used to update all existing contents when content type changes its slug.
- *
- * @var boolean
- */
-	protected $_oldSlug = false;
-
-/**
  * Alter the schema used by this table.
  *
  * @param \Cake\Database\Schema\Table $table The table definition fetched from database
@@ -54,53 +47,6 @@ class NodeTypesTable extends Table {
 			'slug' => 'slug',
 			'on' => 'insert',
 		]);
-	}
-
-	public function beforeSave(Event $event, Entity $entity, $options) {
-		if (!$entity->isNew() && $entity->has('slug') && $entity->has('id')) {
-			$oldSlug = $this->find()
-				->select(['NodeTypes.slug'])
-				->where(['NodeTypes.id' => $entity->id])
-				->first();
-
-			if ($oldSlug && $oldSlug->slug != $entity->slug) {
-				$this->_oldSlug = $oldSlug->slug;
-			}
-		}
-	}
-
-	public function afterSave(Event $event, Entity $entity, $options) {
-		if ($this->_oldSlug && !$entity->isNew() && $entity->has('slug')) {
-			// update existing contents
-			TableRegistry::get('Node.Nodes')->updateAll(
-				['node_type_slug' => $entity->slug],
-				['node_type_slug' => $this->_oldSlug]
-			);
-
-			// fix field instances references
-			TableRegistry::get('Field.FieldInstances')->updateAll(
-				['table_alias' => "nodes_{$entity->slug}"],
-				['table_alias' => "nodes_{$this->_oldSlug}"]
-			);
-
-			// fix stored values for each field instance
-			TableRegistry::get('Field.FieldValues')->updateAll(
-				['table_alias' => "nodes_{$entity->slug}"],
-				['table_alias' => "nodes_{$this->_oldSlug}"]
-			);
-
-			// try to fix existing urls
-			$links = TableRegistry::get('Menu.MenuLinks')->find('all')->where(['MenuLinks.url LIKE' => "/{$this->_oldSlug}/%"]);
-			foreach ($links as $link) {
-				$link->set('url', str_replace_once("/{$this->_oldSlug}/", "/{$entity->slug}/", $link->url));
-				TableRegistry::get('Menu.MenuLinks')->save($link, ['validate' => false]);
-			}
-
-			// regenerate snapshot cache
-			snapshot();
-		}
-
-		$this->_oldSlug = false;
 	}
 
 }
