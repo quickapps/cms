@@ -164,6 +164,7 @@ trait CommentUIControllerTrait {
 	public function index($status = 'all') {
 		$this->loadModel('Comment.Comments');
 		$this->_setCounters();
+		$search = ''; // fills form's input
 		$conditions = ['table_alias' => $this->_manageTable];
 
 		if (in_array($status , ['pending', 'approved', 'spam', 'trash'])) {
@@ -171,6 +172,14 @@ trait CommentUIControllerTrait {
 		} else {
 			$status = 'all';
 			$conditions['Comments.status IN'] = ['pending', 'approved'];
+		}
+
+		if (!empty($this->request->query['search'])) {
+			$search = $this->request->query['search'];
+			$conditions['OR'] = [
+				'Comments.subject LIKE' => "%{$this->request->query['search']}%",
+				'Comments.body LIKE' => "%{$this->request->query['search']}%",
+			];
 		}
 
 		$comments = $this->Comments
@@ -193,6 +202,7 @@ trait CommentUIControllerTrait {
 				});
 			});
 
+		$this->set('search', $search);
 		$this->set('filterBy', $status);
 		$this->set('comments', $this->paginate($comments));
 	}

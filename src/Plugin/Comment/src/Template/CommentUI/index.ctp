@@ -13,6 +13,13 @@
 
 <?php echo $this->element('Comment.CommentUI/index_submenu'); ?>
 
+<p>
+<?php echo $this->Form->create(null, ['type' => 'get', 'class' => 'form-inline pull-right']); ?>
+	<?php echo $this->Form->input('search', ['type' => 'text', 'label' => false, 'value' => $search]); ?>
+	<?php echo $this->Form->submit(__d('comment', 'Search Comments')); ?>
+<?php echo $this->Form->end(); ?>
+</p>
+
 <table class="table table-hover">
 	<thead>
 		<tr>

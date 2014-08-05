@@ -41,6 +41,7 @@ class CommentsController extends AppController {
  */
 	protected function _inResponseTo(Comment $comment) {
 		$this->loadModel('Node.Nodes');
+		$this->Nodes->unbindFieldable();
 		$node = $this->Nodes->get($comment->entity_id);
 
 		if ($node) {
