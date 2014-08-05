@@ -44,7 +44,7 @@ class MenuHelper extends AppHelper {
  * - `breadcrumbGuessing`: Mark an item as "active" if its URL is on the breadcrumb stack. Default to true.
  * - `templates`: HTML templates used when formating items.
  *   - `div`: Template of the wrapper element which holds all menus when using `split`.
- *   - `root`: Top UL menu template.
+ *   - `root`: Top UL/OL menu template.
  *   - `parent`: Wrapper which holds children of a parent node.
  *   - `child`: Template for child nodes (leafs).
  *   - `link`: Template for link elements.
@@ -150,7 +150,7 @@ class MenuHelper extends AppHelper {
 		$this->alter('MenuHelper.render', $items, $options);
 
 		if (!empty($options['templates']) && is_array($options['templates'])) {
-			$this->templater()->add($options['templates']);
+			$this->templates($options['templates']);
 			unset($options['templates']);
 		}
 
@@ -165,21 +165,20 @@ class MenuHelper extends AppHelper {
 			}
 		}
 
-		$config = $this->config();
 		$this->countItems($items);
 
-		if ($config['split'] > 1) {
-			$arrayItems = is_object($items) ? $items->toArray() : $items;
+		if (intval($this->config('split')) > 1) {
+			$arrayItems = ($items instanceof \Cake\ORM\Entity) ? $items->toArray() : (array)$items;
 			$count = count($arrayItems);
-			$size = round($count / $config['split']);
+			$size = round($count / intval($this->config('split')));
 			$chunk = array_chunk($arrayItems, $size);
 			$i = 0;
 
 			foreach ($chunk as $menu) {
 				$i++;
 				$out .=	$this->formatTemplate('parent', [
-					'attrs' => $this->templater()->formatAttributes(['class' => 'menu-part part-' . $i]),
-					'content' => $this->_render($menu, $config['formatter'])
+					'attrs' => $this->templater()->formatAttributes(['class' => "menu-part part-{$i}"]),
+					'content' => $this->_render($menu, $this->config('formatter'))
 				]);
 			}
 
@@ -237,7 +236,8 @@ class MenuHelper extends AppHelper {
 		$config = $this->config();
 
 		if (!empty($options['templates']) && is_array($options['templates'])) {
-			$this->templater()->add($options['templates']);
+			$templatesBefore = $this->templates();
+			$this->templates($options['templates']);
 			unset($options['templates']);
 		}
 
@@ -302,7 +302,10 @@ class MenuHelper extends AppHelper {
 			]) . $info['children']
 		]);
 
-		$this->templater()->add($config['templates']);
+		if (isset($templatesBefore)) {
+			$this->templates($templatesBefore);
+		}
+
 		return $return;
 	}
 
