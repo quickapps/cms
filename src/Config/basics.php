@@ -32,15 +32,9 @@ use Cake\ORM\TableRegistry;
  *
  * Available options are:
  *
- * - `node_types`: List of available content type slugs. e.g. ['article', 'page', ...]
- * - `plugins`: Array of plugin information indexed by Plugin Name
- * - `variables`: A set of useful environment variables
- *   - `url_locale_prefix`: 1 to enable language prefix in URL, 0 otherwise
- *   - `site_theme`: Frontend's theme name
- *   - `admin_theme`: Backend's theme name
- *   - `site_title`: Default title for every rendered page of your site
- *   - `site_description`: Default description for every rendered page of your site
- *   - `default_language`: Default site's language
+ * - `node_types`: List of available content type slugs. e.g. ['article', 'page', ...].
+ * - `plugins`: Array of plugin information indexed by Plugin Name.
+ * - `variables`: A set of useful environment variables stored in `variables` DB table.
  *
  * @param array $mergeWith Array to merge with snapshot array
  * @return void
@@ -49,20 +43,13 @@ function snapshot($mergeWith = []) {
 	$snapshot = [
 		'node_types' => [],
 		'plugins' => [],
-		'variables' => [
-			'url_locale_prefix' => 0,
-			'site_theme' => null,
-			'admin_theme' => null,
-			'site_title' => null,
-			'site_description' => null,
-			'default_language' => 'en-us'
-		],
+		'variables' => [],
 		'languages' => []
 	];
 
 	$plugins = TableRegistry::get('Plugins')->find()
-		->select(['name'])
-		->where(['status' => 1])
+		->select(['name', 'package', 'status'])
+		->order(['ordering' => 'ASC'])
 		->all();
 	$nodeTypes = TableRegistry::get('NodeTypes')->find()
 		->select(['slug'])
@@ -72,16 +59,6 @@ function snapshot($mergeWith = []) {
 		->order(['ordering' => 'ASC'])
 		->all();
 	$variables = TableRegistry::get('Variables')->find()
-		->where([
-			'Variables.name IN' => [
-				'url_locale_prefix',
-				'site_theme',
-				'admin_theme',
-				'site_title',
-				'site_description',
-				'default_language',
-			]
-		])
 		->all();
 
 	foreach ($nodeTypes as $nodeType) {
@@ -92,7 +69,7 @@ function snapshot($mergeWith = []) {
 		$snapshot['variables'][$variable->name] = $variable->value;
 	}
 
-	foreach ($$languages as $language) {
+	foreach ($languages as $language) {
 		$snapshot['languages'][$language->code] = [
 			'name' => $language->name,
 			'native' => $language->native,
@@ -148,6 +125,7 @@ function snapshot($mergeWith = []) {
 
 		$snapshot['plugins'][$plugin->name] = [
 			'name' => $plugin->name,
+			'package' => $plugin->package,
 			'isTheme' => str_ends_with($plugin->name, 'Theme'),
 			'isCore' => $isCore,
 			'hasHelp' => file_exists($pluginPath . '/src/Template/Element/help.ctp'),
