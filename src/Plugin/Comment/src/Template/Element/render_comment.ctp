@@ -13,6 +13,7 @@
 /**
  * Renders a single comment.
  *
+ * It will renders its children if it has.
  */
 ?>
 
@@ -30,12 +31,13 @@
 
 		<address class="author">
 			<?php echo $this->Html->image($comment->get('author')->avatar); ?>
-			<?php echo __d('comment', 'By %s', $comment->get('author')->name); ?>
+			<?php echo __d('comment', 'By @%s', $comment->get('author')->name); ?>
 		</address>
 	</header>
 
 	<div class="message">
 		<?php echo $comment->body; ?>
+
 		<?php if ($comment->has('children') && !empty($comment->children)): ?>
 			<?php foreach($comment->children as $child): ?>
 				<?php echo $this->render($child); ?>

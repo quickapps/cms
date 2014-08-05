@@ -36,15 +36,20 @@ class Comment extends Entity {
 			'username' => null,
 			'name' => $this->get('author_name'),
 			'web' => $this->get('author_web'),
-			'email' => $this->get('author_email')
+			'email' => $this->get('author_email'),
+			'ip' => $this->get('author_ip'),
 		];
+
+		$author['name'] = empty($author['name']) ? __d('comment', 'Anonymous') : $author['name'];
+		$author['web'] = empty($author['web']) ? __d('comment', '(no website)') : $author['web'];
+		$author['email'] = empty($author['email']) ? __d('comment', '(no email given)') : $author['email'];
 
 		if ($this->has('user')) {
 			$user = $this->get('user');
 
 			if ($user->id) {
-				$author['username'] = $user->username;
-				$author['name'] = $user->name;
+				$author['name'] = $user->username;
+				$author['web'] = empty($user->web) ? $author['web'] : $user->web;
 				$author['email'] = $user->email;
 			}
 		}

@@ -91,7 +91,7 @@ class HelpController extends AppController {
 		if ($about) {
 			$this->set('about', $about);
 		} else {
-			throw new Error\NotFoundException(__('No help was found.'));
+			throw new Error\NotFoundException(__d('system', 'No help was found.'));
 		}
 
 		$this->Breadcrumb->push('/admin/system/help');

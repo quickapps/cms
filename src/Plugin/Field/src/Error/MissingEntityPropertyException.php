@@ -9,21 +9,21 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace User\Error;
+namespace Field\Error;
 
 use Cake\Error\Exception;
 
 /**
- * Exception raised when a user is required to be logged in, but he/she is not.
+ * Exception raised when an entity's property is required to be present.
  *
  */
-class UserNotLoggedInException extends Exception {
+class MissingEntityPropertyException extends Exception {
 
 /**
  * Template string that has attributes sprintf()'ed into it.
  *
  * @var string
  */
-	protected $_messageTemplate = 'User not logged in.';
+	protected $_messageTemplate = 'Missing entity property.';
 
 }

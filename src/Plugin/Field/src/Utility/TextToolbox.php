@@ -74,12 +74,12 @@ class TextToolbox {
 			break;
 
 			case 'plain':
-				return static::_filterText($content);
+				return static::filterText($content);
 			break;
 
 			case 'trimmed':
 				$len = $viewModeSettings['trim_length'];
-				return static::_trimmer($content, $len);
+				return static::trimmer($content, $len);
 			break;
 		}
 
@@ -126,8 +126,8 @@ class TextToolbox {
  * @return string
  */
 	public static function plainProcessor($text) {
-		$text = static::_emailToLink($text);
-		$text = static::_urlToLink($text);
+		$text = static::emailToLink($text);
+		$text = static::urlToLink($text);
 		$text = nl2br($text);
 		return $text;
 	}
@@ -142,8 +142,8 @@ class TextToolbox {
  * @return string
  */
 	public static function fullProcessor($text) {
-		$text = static::_emailToLink($text);
-		$text = static::_urlToLink($text);
+		$text = static::emailToLink($text);
+		$text = static::urlToLink($text);
 		return $text;
 	}
 
@@ -159,8 +159,8 @@ class TextToolbox {
  * @return string
  */
 	public static function filteredProcessor($text) {
-		$text = static::_emailToLink($text);
-		$text = static::_urlToLink($text);
+		$text = static::emailToLink($text);
+		$text = static::urlToLink($text);
 		$text = strip_tags($text, '<a><em><strong><cite><blockquote><code><ul><ol><li><dl><dt><dd>');
 		return $text;
 	}
@@ -174,11 +174,11 @@ class TextToolbox {
  * @return string
  */
 	public static function markdownProcessor($text) {
-		$MarkdownParser = static::_getMarkdownParser();
+		$MarkdownParser = static::getMarkdownParser();
 		$text = $MarkdownParser->parse($text);
-		$text = static::_emailToLink($text);
+		$text = static::emailToLink($text);
 		$text = str_replace('<p>h', '<p> h', $text);
-		$text = static::_urlToLink($text);
+		$text = static::urlToLink($text);
 		return $text;
 	}
 
@@ -240,7 +240,7 @@ class TextToolbox {
  * @param string $html
  * @return string
  */
-	protected static function _stripHtmlTags($html) {
+	public static function stripHtmlTags($html) {
 		$html = preg_replace(
 			[
 				'@<head[^>]*?>.*?</head>@siu',
@@ -274,7 +274,7 @@ class TextToolbox {
  * @param string $text
  * @return string
  */
-	protected static function _urlToLink($text) {
+	public static function urlToLink($text) {
 		$pattern = [
 			'/[^\\\](?<!http:\/\/|https:\/\/|\"|=|\'|\'>|\">)(www\..*?)(\s|\Z|\.\Z|\.\s|\<|\>|,)/i',
 			'/[^\\\](?<!\"|=|\'|\'>|\">|site:)(https?:\/\/(www){0,1}.*?)(\s|\Z|\.\Z|\.\s|\<|\>|,)/i',
@@ -299,7 +299,7 @@ class TextToolbox {
  * @param string $text
  * @return string
  */
-	protected static function _emailToLink($text) {
+	public static function emailToLink($text) {
 		preg_match_all("/([\\\a-z0-9_\-\.]+)@([a-z0-9-]{1,64})\.([a-z]{2,10})/i", $text, $emails);
 
 		foreach ($emails[0] as $email) {
@@ -321,8 +321,8 @@ class TextToolbox {
  * @param string $text
  * @return string
  */
-	protected static function _filterText($text) {
-		return static::getInstance()->stripHooktags(static::_stripHtmlTags($text));
+	public static function filterText($text) {
+		return static::getInstance()->stripHooktags(static::stripHtmlTags($text));
 	}
 
 /**
@@ -341,13 +341,13 @@ class TextToolbox {
  *     Ut volutpat nisl enim, quic sit amet quam ut lacus condimentum volutpat in eu magna.
  *     Phasellus a dolor cursus, aliquam felis sit amet, feugiat orci. Donec vel consec.';
  *
- *     echo $this->_trimmer($text, '<!-- readmore -->');
+ *     echo $this->trimmer($text, '<!-- readmore -->');
  *
  *     // outputs:
  *     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
  *     Fusce augue nulla, iaculis adipiscing risus sed, pharetra tempor risus.
  *
- *     echo $this->_trimmer('Lorem ipsum dolor sit amet, consectetur adipiscing elit', 10);
+ *     echo $this->trimmer('Lorem ipsum dolor sit amet, consectetur adipiscing elit', 10);
  *     // out: "Lorem ipsu ..."
  *
  * @param string $text
@@ -357,14 +357,14 @@ class TextToolbox {
  * @param string $ellipsis Will be used as ending and appended to the trimmed string
  * @return string
  */
-	protected static function _trimmer($text, $len = false, $ellipsis = ' ...') {
+	public static function trimmer($text, $len = false, $ellipsis = ' ...') {
 		if (!preg_match('/[0-9]+/i', $len)) {
 			$parts = explode($len, $text);
 			return static::closeOpenTags($parts[0]);			
 		}
 
 		$len = $len === false || !is_numeric($len) || $len <= 0 ? 600 : $len;
-		$text = static::_filterText($text);
+		$text = static::filterText($text);
 		$textLen = strlen($text);
 
 		if ($textLen > $len) {
@@ -379,7 +379,7 @@ class TextToolbox {
  *
  * @return \Field\Lib\Parsedown
  */
-	protected static function _getMarkdownParser() {
+	public static function getMarkdownParser() {
 		if (empty(static::$_MarkdownParser)) {
 			static::$_MarkdownParser = new Parsedown();
 		}

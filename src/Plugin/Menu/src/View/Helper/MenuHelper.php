@@ -432,7 +432,7 @@ class MenuHelper extends AppHelper {
 					$itemUrl === '/' &&
 					$this->_View->is('page.index');
 				$isExact =
-					$itemUrl === ($this->_View->request->base . '/' . $this->_View->request->url);
+					str_replace('//', '/', "{$itemUrl}/") === str_replace('//', '/', "{$this->_View->request->base}/{$this->_View->request->url}/");
 
 				if ($this->config('breadcrumbGuessing')) {
 					$cumbsUrl = Breadcrumb::getUrls();

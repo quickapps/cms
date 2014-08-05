@@ -11,13 +11,7 @@
  */
 ?>
 
-<?php
-	function renderNodeRow($view, $node, $deph = 0) {
-		return $view->element('node_row', ['node' => $node, 'deph' => $deph]);
-	}
-
-	echo $this->element('Node.index_pills');
-?>
+<?php echo $this->element('Node.index_submenu'); ?>
 
 <table class="table table-hover">
 	<thead>

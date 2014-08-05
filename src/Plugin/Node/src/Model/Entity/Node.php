@@ -70,7 +70,7 @@ class Node extends Entity {
  * @return string
  */
 	public function _getAuthorName() {
-		$name = $this->author->has('name') ? $this->author->get('name') : __('--unknow--');
+		$name = $this->author->has('name') ? $this->author->get('name') : __d('node', '--unknow--');
 		$name = empty($name) ?  __d('node', '--unknow--') : $name;
 		return $name;
 	}

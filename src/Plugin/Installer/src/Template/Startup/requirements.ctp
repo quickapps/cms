@@ -18,7 +18,7 @@
 	</div>
 <?php else: ?>
 	<div class="alert alert-danger">
-		<p><?php echo __("<strong>Uh oh.</strong> There's a server compatibility issue. See below."); ?></p>
+		<p><?php echo __d('installer', "<strong>Uh oh.</strong> There's a server compatibility issue. See below."); ?></p>
 		<p>
 			<ul>
 				<?php foreach ($tests as $name => $testNode): ?>

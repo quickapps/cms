@@ -12,6 +12,7 @@
 
 /**
  * This view elements is capable of handling multiple view-modes.
+ * 
  * If you want to create a separated view element for each view mode
  * take a look to `NodeHook::renderNode()` method.
  */
@@ -22,7 +23,7 @@
 		<?php if ($this->inUseViewMode() === 'full'): ?>
 			<h1><?php echo $this->hooktags($node->title); ?></h1>
 		<?php else: ?>
-			<h2><?php echo $this->Html->link($this->hooktags($node->title), "/{$node->node_type_slug}/{$node->slug}.html"); ?></h2>
+			<h2><?php echo $this->Html->link($this->hooktags($node->title), $node->url); ?></h2>
 		<?php endif; ?>
 		<?php //TODO: set timezone to user's timezone (read from session) ?>
 		<p><?php echo __d('node', 'Published'); ?>: <time pubdate="pubdate"><?php echo $node->created->timeAgoInWords(); ?></time></p>

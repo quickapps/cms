@@ -57,7 +57,7 @@ class CommentComponent extends Component {
  *
  * @var array
  */
-	protected $_defaultSettings = [
+	public static $defaultSettings = [
 		'visibility' => 0,
 		'auto_approve' => false,
 		'allow_anonymous' => false,
@@ -91,18 +91,10 @@ class CommentComponent extends Component {
  *    with `Controller::redirect()` method.
  * - `successMessage`: Custom success alert-message. Or a callable method which must return a customized message.
  * - `errorMessage`: Custom error alert-message. Or a callable method which must return a customized message.
- *    from the form's submit. e.g.: `['status' => 0]` will set the new comment as `unapproved`.
+ *    from the form's submit. e.g.: `['status' => 'pending']` will set the new comment as `pending`.
  * - `arrayContext`: Information for the ArrayContext provider used by FormHelper when rendering comments form.
- * - `autoapprove`: Auto approve comments, true will mark new comments as approved.
  * - `validator`: A custom validator object, if not provided it automatically creates one for you
  *    using the information below:
- * - `allow_anonymous`: Set to true to allow anonymous users to create new comments.
- * - `anonymous_name`: Set to true to create a form input where anonymous users must/may enter their name.
- * - `anonymous_name_required`: Set to true or false to make author's name input required or optional.
- * - `anonymous_email`: Set to true to create a form input where anonymous users must/may enter their email.
- * - `anonymous_email_required`: Set to true or false to make author's email input required or optional.
- * - `anonymous_web`: Set to true to create a form input where anonymous users must/may enter their website URL.
- * - `anonymous_web_required`: Set to true or false to make author's website input required or optional.
  * - `settings`: Array of additional settings parameters, will be merged with those coming from Comment Plugin's 
  *    configuration panel (at backend).
  *
@@ -258,14 +250,14 @@ class CommentComponent extends Component {
 
 							if ($akismet->isCommentSpam()) {
 								if ($this->config('settings.akismet_action') === 'mark') {
-									$comment->set('status', -1);
+									$comment->set('status', 'spam'); // mark as spam
 								} else {
 									$save = true; // delete: we never save it
 								}
 							}
 						} catch (\Exception $e) {
-							// something went wrong with akismet, save comment as unpublished
-							$comment->set('status', 0);
+							// something went wrong with Akismet, save comment as "pending"
+							$comment->set('status', 'pending');
 							$save = $this->_controller->Comments->save($comment);
 						}
 					} else {
@@ -277,7 +269,7 @@ class CommentComponent extends Component {
 						if (is_callable($successMessage)) {
 							$successMessage = $successMessage($comment, $this->_controller);
 						}
-						$this->_controller->alert($successMessage, 'success');
+						$this->_controller->alert($successMessage, 'success', 'commentsForm');
 						if ($this->config('redirectOnSuccess')) {
 							$redirectTo = $this->config('redirectOnSuccess') === true ? $this->_controller->referer() : $this->config('redirectOnSuccess');
 							$this->_controller->redirect($redirectTo);
@@ -295,25 +287,10 @@ class CommentComponent extends Component {
 			if (is_callable($errorMessage)) {
 				$errorMessage = $errorMessage($comment, $this->_controller);
 			}
-			$this->_controller->alert($errorMessage, 'danger');
+			$this->_controller->alert($errorMessage, 'danger', 'commentsForm');
 		}
 
 		return false;
-	}
-
-/**
- * Prepares error messages for FormHelper.
- * 
- * @param \Comment\Model\Entity\Comment $comment The invalidated comment entity to extract error messages
- * @return void
- */
-	protected function _setErrors(Comment $comment) {
-		$arrayContext = $this->config('arrayContext');
-		foreach ($comment->errors() as $field => $msg) {
-			$arrayContext['errors']['comment'][$field] = $msg;
-		}
-		$this->config('arrayContext', $arrayContext);
-		$this->_controller->set('_commentFormContext', $this->config('arrayContext'));
 	}
 
 /**
@@ -340,10 +317,26 @@ class CommentComponent extends Component {
 
 		$data['subject'] = !empty($data['subject']) ? TextToolbox::process($data['subject'], $this->config('settings.text_processing')) : '';
 		$data['body'] = !empty($data['body']) ? TextToolbox::process($data['body'], $this->config('settings.text_processing')) : '';
-		$data['status'] = $this->config('settings.auto_approve') || $this->is('user.admin') ? 1 : 0;
+		$data['status'] = $this->config('settings.auto_approve') || $this->is('user.admin') ? 'approved' : 'pending';
+		$data['author_ip'] = $this->_controller->request->clientIp();
 		$data['entity_id'] = $entity->get($pk);
 		$data['table_alias'] = Inflector::underscore($entity->source());
 		return $data;
+	}
+
+/**
+ * Prepares error messages for FormHelper.
+ * 
+ * @param \Comment\Model\Entity\Comment $comment The invalidated comment entity to extract error messages
+ * @return void
+ */
+	protected function _setErrors(Comment $comment) {
+		$arrayContext = $this->config('arrayContext');
+		foreach ($comment->errors() as $field => $msg) {
+			$arrayContext['errors']['comment'][$field] = $msg;
+		}
+		$this->config('arrayContext', $arrayContext);
+		$this->_controller->set('_commentFormContext', $this->config('arrayContext'));
 	}
 
 /**
@@ -369,7 +362,7 @@ class CommentComponent extends Component {
  * @return array
  */
 	protected function _loadSettings() {
-		$settings = Hash::merge($this->_defaultSettings, Plugin::info('Comment', true)['settings']);
+		$settings = Hash::merge(static::$defaultSettings, Plugin::info('Comment', true)['settings']);
 
 		foreach ($settings as $k => $v) {
 			$this->config("settings.{$k}", $v);
@@ -388,10 +381,9 @@ class CommentComponent extends Component {
 		}
 
 		$this->_controller->loadModel('Comment.Comments');
-		$validator = $this->_controller->Comments->validationDefault(new Validator());
-
 		if ($this->is('user.logged')) {
 			// logged user posting
+			$validator = $this->_controller->Comments->validationDefault(new Validator());
 			$validator
 				->validatePresence('user_id')
 				->notEmpty('user_id', __d('comment', 'Invalid user.'))
@@ -412,53 +404,7 @@ class CommentComponent extends Component {
 				]);
 		} elseif ($this->config('settings.allow_anonymous')) {
 			// anonymous user posting
-			if ($this->config('settings.anonymous_name')) {
-				$validator
-					->validatePresence('author_name')
-					->add('author_name', [
-						'rule' => ['minLength', 3],
-						'message' => __d('comment', 'Your name need to be at least 3 characters long.'),
-						'provider' => 'table',
-					]);
-
-				if ($this->config('settings.anonymous_name_required')) {
-					$validator->notEmpty('author_name', __d('comment', 'You must provide your name.'));
-				} else {
-					$validator->allowEmpty('author_name');
-				}
-			}
-
-			if ($this->config('settings.anonymous_email')) {
-				$validator
-					->validatePresence('author_email')
-					->add('author_email', [
-						'rule' => 'email',
-						'message' => __d('comment', 'e-Mail must be valid.'),
-						'provider' => 'table',
-					]);
-
-				if ($this->config('settings.anonymous_email_required')) {
-					$validator->notEmpty('author_email', __d('comment', 'You must provide an email.'));
-				} else {
-					$validator->allowEmpty('anonymous_email');
-				}
-			}
-
-			if ($this->config('settings.anonymous_web')) {
-				$validator
-					->validatePresence('author_web')
-					->add('author_web', [
-						'rule' => 'url',
-						'message' => __d('comment', 'Website must be a valid URL.'),
-						'provider' => 'table',
-					]);
-
-				if ($this->config('settings.anonymous_web_required')) {
-					$validator->notEmpty('author_web', __d('comment', 'You must provide a website URL.'));
-				} else {
-					$validator->allowEmpty('author_web');
-				}
-			}
+			$validator = $this->_controller->Comments->validationUpdate(new Validator());
 		}
 
 		if ($this->config('settings.use_ayah') &&

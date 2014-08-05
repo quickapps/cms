@@ -13,7 +13,10 @@ namespace Comment\Model\Table;
 
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
+use Cake\Utility\Hash;
 use Cake\Validation\Validator;
+use Comment\Controller\Component\CommentComponent;
+use QuickApps\Utility\Plugin;
 
 /**
  * Represents "comments" database table.
@@ -33,6 +36,7 @@ class CommentsTable extends Table {
 		$this->addBehavior('Timestamp');
 		$this->belongsTo('Users', [
 			'className' => 'User.Users',
+			'foreignKey' => 'user_id',
 		]);
 	}
 
@@ -87,6 +91,66 @@ class CommentsTable extends Table {
 				'message' => __d('comment', 'Invalid parent comment!.'),
 				'provider' => 'table',
 			]);
+
+		return $validator;
+	}
+
+/**
+ * Validation rules when editing a comment in backend.
+ * 
+ * @param \Cake\Validation\Validator $validator
+ * @return \Cake\Validation\Validator
+ */
+	public function validationUpdate(Validator $validator) {
+		$settings = Hash::merge(CommentComponent::$defaultSettings, Plugin::info('Comment', true)['settings']);
+		$validator = $this->validationDefault($validator);
+
+		if ($settings['allow_anonymous']) {
+			if ($settings['anonymous_name']) {
+				$validator
+					->validatePresence('author_name')
+					->add('author_name', 'nameLength', [
+						'rule' => ['minLength', 3],
+						'message' => __d('comment', 'Your name need to be at least 3 characters long.'),
+					]);
+
+				if ($settings['anonymous_name_required']) {
+					$validator->notEmpty('author_name', __d('comment', 'You must provide your name.'));
+				} else {
+					$validator->allowEmpty('author_name');
+				}
+			}
+
+			if ($settings['anonymous_email']) {
+				$validator
+					->validatePresence('author_email')
+					->add('author_email', 'validEmail', [
+						'rule' => 'email',
+						'message' => __d('comment', 'e-Mail must be valid.'),
+					]);
+
+				if ($settings['anonymous_email_required']) {
+					$validator->notEmpty('author_email', __d('comment', 'You must provide an email.'));
+				} else {
+					$validator->allowEmpty('anonymous_email');
+				}
+			}
+
+			if ($settings['anonymous_web']) {
+				$validator
+					->validatePresence('author_web')
+					->add('author_web', 'validURL', [
+						'rule' => 'url',
+						'message' => __d('comment', 'Website must be a valid URL.'),
+					]);
+
+				if ($settings['anonymous_web_required']) {
+					$validator->notEmpty('author_web', __d('comment', 'You must provide a website URL.'));
+				} else {
+					$validator->allowEmpty('author_web');
+				}
+			}
+		}
 
 		return $validator;
 	}

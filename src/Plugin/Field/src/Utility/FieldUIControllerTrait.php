@@ -15,6 +15,7 @@ use Cake\Collection\Collection;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Error\NotFoundException;
+use Cake\Error\ForbiddenException;
 use Cake\Event\Event;
 use Cake\ORM\Error\RecordNotFoundException;
 use Cake\ORM\TableRegistry;
@@ -38,17 +39,16 @@ use QuickApps\Utility\ViewModeTrait;
  * Beside adding `use FieldUIControllerTrait;` to your controller
  * you MUST also indicate the name of the Table being managed. Example:
  *
- *     uses Field\Controller\FieldUIControllerTrait;
+ *     uses Field\Utility\FieldUIControllerTrait;
  *
  *     class MyCleanController extends <Plugin>AppController {
  *         use FieldUIControllerTrait;
  *         protected $_manageTable = 'nodes'; // <- underscored table alias. e.g.: "user_photos"
  *     }
  *
- * In order to avoid trait collision you should always `extend`
- * Field UI using this trait over a `clean` controller. This is, a empty controller class
- * with no methods defined. For instance, create a new controller class `MyPlugin\Controller\MyTableFieldManagerController`
- * and use this trait to handle custom fields for "MyTable" database table.
+ * In order to avoid trait collision you should always `extend` Field UI using this trait over a `clean` controller.
+ * This is, a empty controller class with no methods defined. For instance, create a new controller 
+ * class `MyPlugin\Controller\MyTableFieldManagerController` and use this trait to handle custom fields for "MyTable" database table.
  *
  * # Requirements
  *
@@ -69,18 +69,18 @@ trait FieldUIControllerTrait {
  * @return void
  * @throws \Cake\Error\ForbiddenException When
  * - $_manageTable is not defined.
- * - trait is used in non-controller classes
+ * - trait is used in non-controller classes.
  * - the controller is not a backend controller.
  */
 	public function beforeFilter(Event $event) {
 		$requestParams = $event->subject->request->params;
 
 		if (!isset($this->_manageTable) || empty($this->_manageTable)) {
-			throw new Error\ForbiddenException(__d('field', 'FieldUIControllerTrait: The property $_manageTable was not found or is empty.'));
+			throw new ForbiddenException(__d('field', 'FieldUIControllerTrait: The property $_manageTable was not found or is empty.'));
 		} elseif (!($this instanceof \Cake\Controller\Controller)) {
-			throw new Error\ForbiddenException(__d('field', 'FieldUIControllerTrait: This trait must be used on instances of Cake\Controller\Controller.'));
+			throw new ForbiddenException(__d('field', 'FieldUIControllerTrait: This trait must be used on instances of Cake\Controller\Controller.'));
 		} elseif (!isset($requestParams['prefix']) || strtolower($requestParams['prefix']) !== 'admin') {
-			throw new Error\ForbiddenException(__d('field', 'FieldUIControllerTrait: This trait must be used on backend-controllers only.'));
+			throw new ForbiddenException(__d('field', 'FieldUIControllerTrait: This trait must be used on backend-controllers only.'));
 		}
 
 		$this->_manageTable = Inflector::underscore($this->_manageTable);
@@ -98,11 +98,11 @@ trait FieldUIControllerTrait {
  * `Persons` entities. You would probably have a `Person` plugin and
  * a `clean` controller as follow:
  *
- *     // http://example.com/admin/user/field_manager
- *     User\FieldsManagerController::index()
+ *     // http://example.com/admin/person/fields_manager
+ *     Person\Controller\FieldsManagerController::index()
  *
- * The above controller action will try to render `/Plugin/User/Template/FieldsManager/index.ctp`.
- * But if does not exists then `<QuickAppsCorePath>/Plugin/Field/Template/FieldUI/index.ctp`
+ * The above controller action will try to render `/Plugin/Person/Template/CommentsManager/index.ctp`.
+ * But if does not exists then `<QuickAppsCorePath>/Plugin/Comment/Template/CommentUI/index.ctp`
  * will be used instead.
  *
  * Of course you may create your own template and skip this fallback functionality.
@@ -114,13 +114,13 @@ trait FieldUIControllerTrait {
 		$plugin = Inflector::camelize($event->subject->request->params['plugin']);
 		$controller = Inflector::camelize($event->subject->request->params['controller']);
 		$action = $event->subject->request->params['action'];
-		$templatePath = Plugin::classPath($plugin) . implode(DS, ['Template', $controller, "{$action}.ctp"]);
+		$templatePath = Plugin::classPath($plugin) . "Template/{$controller}/{$action}.ctp";
 
 		if (!file_exists($templatePath)) {
-			$alternativeTemplatePath = Plugin::classPath('Field') . 'Template' . DS . 'FieldUI';
+			$alternativeTemplatePath = Plugin::classPath('Field') . 'Template/FieldUI';
 
-			if (file_exists($alternativeTemplatePath . DS . "{$action}.ctp")) {
-				$this->view = $alternativeTemplatePath . DS . "{$action}.ctp";
+			if (file_exists("{$alternativeTemplatePath}/{$action}.ctp")) {
+				$this->view = "{$alternativeTemplatePath}/{$action}.ctp";
 			}
 		}
 
@@ -128,7 +128,7 @@ trait FieldUIControllerTrait {
 	}
 
 /**
- * FieldUI main action.
+ * Field UI main action.
  *
  * Shows all the fields attached to the Table being managed.
  *
@@ -351,7 +351,6 @@ trait FieldUIControllerTrait {
 		$this->_validateViewMode($viewMode);
 		$instance = $this->_getOrThrow($id);
 		$unordered = [];
-		$direction = !in_array($direction, ['up', 'down']) ? 'up' : $direction;
 		$position = false;
 		$k = 0;
 		$list = $this->FieldInstances->find()

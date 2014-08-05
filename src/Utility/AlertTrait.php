@@ -171,6 +171,12 @@ trait AlertTrait {
  *     // this will render success and info alerts (in order), for group 'flash'
  *     echo $this->MyHelper->alerts(['success', 'info']);
  *
+ *     // this will render success and info alerts (in order), for group 'my-group'
+ *     echo $this->MyHelper->alerts(['success', 'info'], 'my-group'); 
+ *
+ *     // this will render all defined alerts (danger, success, etc), for group 'my-group'
+ *     echo $this->MyHelper->alerts(null, 'my-group');
+ *
  * By default this trait is attached to the View class used by Controllers (QuickApps\View\View), that means you can do as follow:
  *
  *     // my_view.ctp

@@ -93,6 +93,7 @@ class View extends CakeView {
 			EventManager::instance()->dispatch($event);
 			$html = $event->result;
 		} else {
+			$this->alter('View.render', $view, $layout);
 			$this->Html->script('System.jquery.js', ['block' => true]);
 			if (!$this->_hasRendered) {
 				$this->_hasRendered = true;
@@ -102,7 +103,6 @@ class View extends CakeView {
 			}
 		}
 
-		$this->alter('View.render', $html);
 		return $html;
 	}
 
@@ -124,8 +124,8 @@ class View extends CakeView {
  * @return string Rendered Element
  */
 	public function element($name, array $data = [], array $options = []) {
+		$this->alter('View.element', $name, $data, $options);
 		$html = parent::element($name, $data, $options);
-		$this->alter('View.element', $html);
 		return $html;
 	}
 
@@ -147,7 +147,6 @@ class View extends CakeView {
 		if (!$this->is('user.logged')) {
 			throw new UserNotLoggedInException(__d('user', 'View::user(), requires User to be logged in.'));
 		}
-
 		return new User((new Session())->read('user'));
 	}
 

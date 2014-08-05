@@ -1,5 +1,6 @@
 <?php if (count($nodes)): ?>
-	<h1><?php echo __('Search Results'); ?></h1>
+	<h1><?php echo __d('node', 'Search Results'); ?></h1>
+
 	<?php foreach ($nodes as $node): ?>
 		<?php echo $this->render($node); ?>
 	<?php endforeach; ?>
@@ -11,17 +12,17 @@
 	</ul>
 
 	<p class="text-center help-block">
-	<?php
-		echo $this->Paginator->counter(
-			__('Page {{page}} of {{pages}}, showing {{current}} records out of {{count}} total.')
-		);
-	?>
+		<?php
+			echo $this->Paginator->counter(
+				__d('node', 'Page {{page}} of {{pages}}, showing {{current}} records out of {{count}} total.')
+			);
+		?>
 	</p>
 <?php else: ?>
-	<h2><?php echo __('Your search yielded no results'); ?></h2>
+	<h2><?php echo __d('node', 'Your search yielded no results'); ?></h2>
 	<ul>
-		<li><?php echo __('Check if your spelling is correct.'); ?></li>
-		<li><?php echo __('Remove quotes around phrases to search for each word individually. white cat will often show more results than "white cat".'); ?></li>
-		<li><?php echo __('Consider loosening your query with OR. white OR cat will often show more results than white cat.'); ?></li>
+		<li><?php echo __d('node', 'Check if your spelling is correct.'); ?></li>
+		<li><?php echo __d('node', 'Remove quotes around phrases to search for each word individually. white cat will often show more results than "white cat".'); ?></li>
+		<li><?php echo __d('node', 'Consider loosening your query with OR. white OR cat will often show more results than white cat.'); ?></li>
 	</ul>
 <?php endif; ?>

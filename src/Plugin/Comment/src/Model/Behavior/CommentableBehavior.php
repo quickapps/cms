@@ -53,7 +53,7 @@ class CommentableBehavior extends Behavior {
 			'bindComments' => 'bindComments',
 			'unbindComments' => 'unbindComments',
 		],
-		'order' => ['created' => 'DESC'],
+		'order' => ['Comments.created' => 'DESC'],
 	];
 
 /**
@@ -71,11 +71,11 @@ class CommentableBehavior extends Behavior {
 			'className' => 'Comment.Comments',
 			'foreignKey' => 'entity_id',
 			'conditions' => [
-				'table_alias' => strtolower($this->_table->alias()),
-				'status >' => 0
+				'Comments.table_alias' => Inflector::underscore($this->_table->alias()),
+				'Comments.status' => 'approved',
 			],
 			'joinType' => 'LEFT',
-			'dependent' => true
+			'dependent' => true,
 		]);
 
 		parent::__construct($table, $config);
@@ -98,19 +98,21 @@ class CommentableBehavior extends Behavior {
 
 				$query->contain([
 					'Comments' => function ($query) {
-						return $query->find('threaded')->order($this->config('order'));
-					}
+						return $query->find('threaded')
+							->contain(['Users'])
+							->order($this->config('order'));
+					},
 				]);
 
-				// TODO: try to move this to CounterCacheBehavior to reduce DB queries
-				$query->mapReduce(function ($entity, $key, $mapReduce) use ($pk, $tableAlias) {
-					$entityId = $entity->{$pk};
-					$entity->set('comment_count',
-						TableRegistry::get('Comment.Comments')->find()
+				$query->formatResults(function ($results) use ($pk, $tableAlias) {
+					return $results->map(function ($entity) use ($pk, $tableAlias) {
+						$entityId = $entity->{$pk};
+						$count = TableRegistry::get('Comment.Comments')->find()
 							->where(['entity_id' => $entityId, 'table_alias' => $tableAlias])
-							->count()
-					);
-					$mapReduce->emit($entity, $key);
+							->count();
+						$entity->set('comment_count', $count);
+						return $entity;
+					});
 				});
 			}
 		}
@@ -119,6 +121,8 @@ class CommentableBehavior extends Behavior {
 /**
  * Get comments for the given entity.
  *
+ * Allows you to get all comments even when this behavior was disabled using `unbindComments()`.
+ *
  * ### Usage:
  *
  *     // in your controller, gets comments for user whose id equals 2
@@ -126,33 +130,24 @@ class CommentableBehavior extends Behavior {
  *
  * @param \Cake\ORM\Query $query
  * @param array $options
- * @return array Threaded list of comments
+ * @return \Cake\Datasource\ResultSetDecorator Comments collection
  * @throws \InvalidArgumentException When the 'for' key is not passed in $options
  */
 	public function findComments(Query $query, $options) {
-		$config = $this->config();
 		$pk = $this->_table->primaryKey();
-		$tableAlias = $this->_table->alias();
+		$tableAlias = Inflector::underscore($this->_table->alias());
 
 		if (empty($options['for'])) {
 			throw new \InvalidArgumentException("The 'for' key is required for find('children')");
 		}
 
-		$comments = $query
-			->select(["{$tableAlias}.{$pk}"])
-			->where(["{$tableAlias}.{$pk}" => $options['for']])
-			->contain([
-				'Comments' => function ($q) use ($config) {
-					return $q->find('threaded')->order($config['order']);
-				}
-			])
-			->first();
+		$comments = $this->_table->Comments
+			->find('threaded')
+			->where(['table_alias' => $tableAlias, 'entity_id' => $options['for']])
+			->order($this->config('order'))
+			->all();
 
-		if ($comments) {
-			return $comments->comments;
-		}
-
-		return [];
+		return $comments;
 	}
 
 /**

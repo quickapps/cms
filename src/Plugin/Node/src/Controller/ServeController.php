@@ -40,7 +40,7 @@ class ServeController extends AppController {
 		'Time',
 		'Paginator' => [
 			'className' => 'QuickApps\View\Helper\PaginatorHelper',
-			'templates' => 'Node.paginator-templates.php',
+			'templates' => 'System.paginator-templates.php',
 		],
 	];
 
@@ -51,9 +51,9 @@ class ServeController extends AppController {
  *
  * @var array
  */
-    public $paginate = [
-        'limit' => 10,
-    ];
+	public $paginate = [
+		'limit' => 10,
+	];
 
 /**
  * Redirects to ServeController::frontpage()
@@ -141,8 +141,7 @@ class ServeController extends AppController {
 		$this->loadModel('Node.Nodes');
 
 		try {
-			$nodes = $this->Nodes
-				->scopeQuery($criteria);
+			$nodes = $this->Nodes->scopeQuery($criteria);
 			$nodes = $this->paginate($nodes);
 		} catch (\Exception $e) {
 			$nodes = [];

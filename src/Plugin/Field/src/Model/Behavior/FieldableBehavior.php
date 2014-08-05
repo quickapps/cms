@@ -20,6 +20,8 @@ use Cake\ORM\Entity;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\ORM\Query;
+use Cake\Utility\Inflector;
+use Field\Error\MissingEntityPropertyException;
 use Field\Model\Entity\Field;
 use Field\Model\Entity\FieldValue;
 use Field\Utility\FieldCollection;
@@ -115,9 +117,8 @@ use QuickApps\Utility\HookTrait;
  *
  * ## Searching over custom fields
  *
- * This behavior allows you to perform WHERE conditions using
- * any of the fields attached to your table. Every attached field has a "machine-name" (a.k.a. field slug),
- * you should use this "machine-name" prefixed with `:`, for example:
+ * This behavior allows you to perform WHERE clauses using any of the fields attached to your table.
+ * Every attached field has a "machine-name" (a.k.a. field slug),  you should use this "machine-name" prefixed with `:`, for example:
  *
  *     TableRegistry::get('Users')
  *         ->find()
@@ -160,7 +161,7 @@ use QuickApps\Utility\HookTrait;
  * -    FieldableBehavior automatically serializes & unserializes the `extra` property for you,
  *      so you should always treat `extra` as an instance of **\Cake\ORM\Entity**.
  * -    `Search over fields` feature described above uses the `value` property when looking for matches.
- *      So in this way your entities can be found when using Field's machine-name in where-conditions.
+ *      So in this way your entities can be found when using Field's machine-name in WHERE clause.
  * -    Using `extra` is not mandatory, for instance your Field Handler could use an additional
  *      table schema to store entities information and leave `extra` as NULL. In that
  *      case, your Field Handler must take care of joining entities with that external table
@@ -246,7 +247,7 @@ class FieldableBehavior extends Behavior {
  * These are merged with user-provided configuration when the behavior is used.
  * Available options are:
  *
- * -    `table_alias`: Name of the table being managed. Default null (auto-detect).
+ * -    `table_alias`: Name of the table being managed. Defaults to null (auto-detect).
  * -    `polymorphic_table_alias`: An entity's property value to use as `table_alias` whenever possible.
  *       Default null (use `table_alias` option always).
  * -    `find_iterator`: Callable function to iterate over find result-set.
@@ -290,13 +291,12 @@ class FieldableBehavior extends Behavior {
  */
 	public function __construct(Table $table, array $config = []) {
 		$this->_table = $table;
-		$config['table_alias'] = empty($config['table_alias']) ? strtolower($table->alias()) : $config['table_alias'];
+		$config['table_alias'] = empty($config['table_alias']) ? Inflector::underscore($table->alias()) : $config['table_alias'];
 		parent::__construct($table, $config);
-
-		if (!is_callable($this->_config['find_iterator'])) {
-			$this->_config['find_iterator'] = function ($entity, $key, $mapReduce) {
+		if (!is_callable($this->config('find_iterator'))) {
+			$this->config('find_iterator', function ($entity, $key, $mapReduce) {
 				$this->fieldableMapper($entity, $key, $mapReduce);
-			};
+			});
 		}
 	}
 
@@ -324,7 +324,12 @@ class FieldableBehavior extends Behavior {
  * Modifies the query object in order to merge custom fields records
  * into each entity under the `_fields` property.
  *
- * It also looks for custom fields in where-conditions.
+ * You can enable or disable this behavior for a single `find()` operation by
+ * setting `fieldable` to false in the options array for find method. e.g.:
+ *
+ *     ->find('all', ['fieldable' => false]);
+ *
+ * It also looks for custom fields in WHERE clause.
  *
  * @param \Cake\Event\Event $event The beforeFind event that was fired
  * @param \Cake\ORM\Query $query The original query to modify
@@ -333,11 +338,25 @@ class FieldableBehavior extends Behavior {
  * @return void
  */
 	public function beforeFind(Event $event, $query, $options, $primary) {
-		$config = $this->config();
+		if (
+			$this->config('enabled') ||
+			(isset($options['fieldable']) && $options['fieldable'] === true)
+		) {
+			if ($this->config('polymorphic_table_alias')) {
+				$select = $query->clause('select');
+				$requiredColumn = $this->_table->alias() . '.' . $this->config('polymorphic_table_alias');
 
-		if ($config['enabled']) {
+				if (
+					!empty($select) && 
+					(!in_array($requiredColumn, $select) || !in_array($this->config('polymorphic_table_alias'), $select))
+				) {
+					$select[] = $requiredColumn;
+					$query->select(array_unique($select));
+				}
+			}
+
 			$query = $this->_parseQuery($query, $options);
-			$query->mapReduce($config['find_iterator']);
+			$query->mapReduce($this->config('find_iterator'));
 		}
 	}
 
@@ -350,9 +369,7 @@ class FieldableBehavior extends Behavior {
  * @return void
  */
 	public function beforeSave(Event $event, $entity, $options) {
-		$config = $this->config();
-
-		if (!$config['enabled']) {
+		if (!$this->config('enabled')) {
 			return;
 		}
 
@@ -514,9 +531,7 @@ class FieldableBehavior extends Behavior {
  * @return boolean True if save operation should continue
  */
 	public function afterSave(Event $event, $entity, $options) {
-		$config = $this->config();
-
-		if (!$config['enabled']) {
+		if (!$this->config('enabled')) {
 			return true;
 		}
 
@@ -576,9 +591,7 @@ class FieldableBehavior extends Behavior {
  * @return boolean True on success
  */
 	public function beforeValidate(Event $event, $entity, $options, $validator) {
-		$config = $this->config();
-
-		if (!$config['enabled']) {
+		if (!$this->config('enabled')) {
 			return true;
 		}
 
@@ -610,9 +623,7 @@ class FieldableBehavior extends Behavior {
  * @return boolean True on success
  */
 	public function afterValidate(Event $event, $entity, $options, $validator) {
-		$config = $this->config();
-
-		if (!$config['enabled']) {
+		if (!$this->config('enabled')) {
 			return true;
 		}
 
@@ -647,10 +658,9 @@ class FieldableBehavior extends Behavior {
  * @throws \Cake\Error\FatalErrorException When using this behavior in non-atomic mode
  */
 	public function beforeDelete(Event $event, $entity, $options) {
-		$config = $this->config();
 		$table_alias = $this->_guessTableAlias($entity);
 
-		if (!$config['enabled']) {
+		if (!$this->config('enabled')) {
 			return true;
 		}
 
@@ -704,9 +714,7 @@ class FieldableBehavior extends Behavior {
  * @return void
  */
 	public function afterDelete(Event $event, $entity, $options) {
-		$config = $this->config();
-
-		if (!$config['enabled']) {
+		if (!$this->config('enabled')) {
 			return;
 		}
 
@@ -715,7 +723,6 @@ class FieldableBehavior extends Behavior {
 		}
 
 		$EventManager = $this->_getEventManager();
-
 		if (isset($this->_cache['fields.beforeDelete']) && is_array($this->_cache['fields.beforeDelete'])) {
 			foreach ($this->_cache['fields.beforeDelete'] as $field) {
 				$fieldEvent = $this->invoke("Field.{$field->handler}.Entity.afterDelete", $event->subject, $field, $options);
@@ -726,11 +733,8 @@ class FieldableBehavior extends Behavior {
 					return false;
 				}
 			}
-
 			$this->_cache['fields.beforeDelete'] = [];
 		}
-
-		return true;
 	}
 
 /**
@@ -787,8 +791,6 @@ class FieldableBehavior extends Behavior {
  * @return \Cake\ORM\Entity Modified $entity
  */
 	public function attachEntityFields($entity) {
-		$config = $this->config();
-
 		if (!($entity instanceof Entity)) {
 			return $entity;
 		}
@@ -818,17 +820,16 @@ class FieldableBehavior extends Behavior {
 	}
 
 /**
- * Look for `:<machine-name>` patterns in query conditions.
+ * Look for `:<machine-name>` patterns in query's WHERE clause.
  *
- * Allows to search entities using custom fields as conditions.
+ * Allows to search entities using custom fields as conditions in WHERE clause.
  *
  * @param \Cake\ORM\Query $query
  * @param array $options
  * @return \Cake\ORM\Query The modified query object
  */
 	public function _parseQuery($query, $options) {
-		$config = $this->config();
-		list($table_alias, $find_iterator, $enabled) = [$config['table_alias'], $config['find_iterator'], $config['enabled']];
+		list($table_alias, $find_iterator, $enabled) = [$this->config('table_alias'), $this->config('find_iterator'), $this->config('enabled')];
 		$whereClause = $query->clause('where');
 
 		if ($whereClause) {
@@ -950,13 +951,24 @@ class FieldableBehavior extends Behavior {
  *
  * @param \Cake\ORM\Entity $entity From where try to guess `polymorphic_table_alias`
  * @return string Table alias
+ * @throws \Field\Error\MissingEntityPropertyException When `polymorphic_table_alias` is used but the required property is not present in the entity
  */
 	protected function _guessTableAlias($entity) {
-		$config = $this->config();
-		$table_alias = $this->_config['table_alias'];
+		$table_alias = $this->config('table_alias');
 
-		if ($config['polymorphic_table_alias']) {
-			$table_alias .= '_' . $entity->{$config['polymorphic_table_alias']};
+		if ($this->config('polymorphic_table_alias')) {
+			if (!$entity->has($this->config('polymorphic_table_alias'))) {
+				throw new MissingEntityPropertyException(
+					__d('field',
+						'FieldableBehavior: The "polymorphic_table_alias" was set to "%s", but this property could not be found on entities being fetched. Make sure to include "%s" in in your query as follow: $this->TableModel->find()->select(["%s", ...])',
+						$this->config('polymorphic_table_alias'),
+						$this->config('polymorphic_table_alias'),
+						$this->config('polymorphic_table_alias')
+					)
+				);
+			}
+
+			$table_alias .= '_' . $entity->get($this->config('polymorphic_table_alias'));
 		}
 
 		return $table_alias;
