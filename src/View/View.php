@@ -20,7 +20,7 @@ use QuickApps\Utility\AlertTrait;
 use QuickApps\Utility\DetectorTrait;
 use QuickApps\Utility\HooktagTrait;
 use QuickApps\Utility\HookTrait;
-use QuickApps\Utility\ViewModeTrait;
+use QuickApps\View\ViewModeTrait;
 use User\Error\UserNotLoggedInException;
 use User\Model\Entity\User;
 
@@ -182,7 +182,7 @@ class View extends CakeView {
 				}
 			}
 
-			$title = empty($title) ? Configure::read('QuickApps.variables.site_title') : $title;
+			$title = empty($title) ? getOption('site_title') : $title;
 			$this->assign('title', $title);
 			$this->set('title_for_layout', $title);
 		} else {
@@ -222,7 +222,7 @@ class View extends CakeView {
 				}
 			}
 
-			$description = empty($description) ? Configure::read('QuickApps.variables.site_description') : $description;
+			$description = empty($description) ? getOption('site_description') : $description;
 			$this->assign('description', $description);
 			$this->set('description_for_layout', $description);
 			$this->append('meta', $this->Html->meta('description', $description));

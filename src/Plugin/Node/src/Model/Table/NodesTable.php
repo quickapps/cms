@@ -47,6 +47,7 @@ class NodesTable extends Table {
 		$this->belongsTo('NodeTypes', [
 			'className' => 'Node.NodeTypes',
 			'fields' => ['slug', 'name', 'description'],
+			'conditions' => ['Nodes.node_type_slug = NodeTypes.slug']
 		]);
 
 		$this->hasMany('NodeRevisions', [
@@ -83,14 +84,12 @@ class NodesTable extends Table {
 			}
 		]);
 
-		// CRITERIA: author:<john,peter,...,username>
-		$this->addSearchOperator('author', 'scopeAuthor');
-
-		// CRITERIA: promote:true
-		$this->addSearchOperator('promote', 'scopePromote');
-
-		// CRITERIA: type:node-type-slug
-		$this->addSearchOperator('type', 'scopeType');
+		$this->addSearchOperator('created', 'operatorCreated');
+		$this->addSearchOperator('limit', 'operatorLimit');
+		$this->addSearchOperator('order', 'operatorOrder');
+		$this->addSearchOperator('author', 'operatorAuthor');
+		$this->addSearchOperator('promote', 'operatorPromote');
+		$this->addSearchOperator('type', 'operatorType');
 	}
 
 /**
@@ -147,7 +146,12 @@ class NodesTable extends Table {
 	}
 
 /**
- * Applies "promote:" criteria scope the given query.
+ * Handles "created" search operator.
+ *
+ *     created:<date>
+ *     created:<date1>..<date2>
+ *
+ * Dates must be in day, month, and year format. e.g. `2014-12-30`
  *
  * @param \Cake\ORM\Query $query
  * @param string $value
@@ -155,46 +159,45 @@ class NodesTable extends Table {
  * @param string $orAnd and|or
  * @return void
  */
-	public function scopePromote($query, $value, $negate, $orAnd) {
-		$value = strtolower($value);
-
-		if ($value === 'true') {
-			$query->where(['Nodes.promote' => 1]);
-		} elseif ($value === 'false') {
-			$query->where(['Nodes.promote' => 0]);
+	public function operatorCreated($query, $value, $negate, $orAnd) {
+		if (strpos($value, '..') !== false) {
+			list($dateLeft, $dateRight) = explode('..', $value);
+		} else {
+			$dateLeft = $dateRight = $value;
 		}
 
-		return $query;
-	}
+		$dl = strtotime($dateLeft);
+		$dr = strtotime($dateRight);
 
-/**
- * Applies "type:" criteria scope the given query.
- *
- * @param \Cake\ORM\Query $query
- * @param string $value
- * @param boolean $negate
- * @param string $orAnd and|or
- * @return void
- */
-	public function scopeType($query, $value, $negate, $orAnd) {
-		$value = explode(',', strtolower($value));
-		$conjunction = $negate ? 'NOT IN' : 'IN';
+		if ($dl > $dr) {
+			$tmp = $dateLeft;
+			$dateLeft = $dateRight;
+			$dateRight = $tmp;
+		}
+
+		$not = $negate ? ' NOT' : '';
+		$conditions = [
+			"AND{$not}" => [
+				'Nodes.created >=' => $dateLeft, 
+				'Nodes.created <=' => $dateRight, 
+			]
+		];
 
 		if ($orAnd === 'or') {
-			$query->orWhere(["Nodes.node_type_slug {$conjunction}" => $value]);
+			$query->orWhere($conditions);
 		} elseif ($orAnd === 'and') {
-			$query->andWhere(["Nodes.node_type_slug {$conjunction}" => $value]);
+			$query->andWhere($conditions);
 		} else {
-			$query->where(["Nodes.node_type_slug {$conjunction}" => $value]);
+			$query->where($conditions);
 		}
 
 		return $query;
 	}
 
 /**
- * Applies "author:" criteria scope the given query.
+ * Handles "limit" search operator.
  *
- * Filter nodes by author's username.
+ *     limit:<number>
  *
  * @param \Cake\ORM\Query $query
  * @param string $value
@@ -202,7 +205,129 @@ class NodesTable extends Table {
  * @param string $orAnd and|or
  * @return void
  */
-	public function scopeAuthor($query, $value, $negate, $orAnd) {
+	public function operatorLimit($query, $value, $negate, $orAnd) {
+		if ($negate) {
+			return $query;
+		}
+
+		$value = intval($value);
+
+		if ($value > 0) {
+			$query->limit($value);
+		}
+
+		return $query;
+	}
+
+/**
+ * Handles "order" search operator.
+ *
+ *     order:<field1>,<asc|desc>;<field2>,<asc,desc>; ...
+ *
+ * @param \Cake\ORM\Query $query
+ * @param string $value
+ * @param boolean $negate
+ * @param string $orAnd and|or
+ * @return void
+ */
+	public function operatorOrder($query, $value, $negate, $orAnd) {
+		if ($negate) {
+			return $query;
+		}
+
+		$value = strtolower($value);
+		$split = explode(';', $value);
+
+		foreach ($split as $segment) {
+			$parts = explode(',', $segment);
+			if (
+				count($parts) === 2 &&
+				in_array($parts[1], ['asc', 'desc']) &&
+				in_array($parts[0], ['slug', 'title', 'description', 'sticky', 'created', 'modified'])
+			) {
+				$field = $parts[0];
+				$dir = $parts[1];
+				$query->order(["Nodes.{$field}" => $dir]);
+			}
+		}
+
+		return $query;
+	}
+
+/**
+ * Handles "promote" search operator.
+ *
+ *     promote:<true|false>
+ *
+ * @param \Cake\ORM\Query $query
+ * @param string $value
+ * @param boolean $negate
+ * @param string $orAnd and|or
+ * @return void
+ */
+	public function operatorPromote($query, $value, $negate, $orAnd) {
+		$value = strtolower($value);
+		$conjunction = $negate ? '<>' : '';
+		$conditions = [];
+
+		if ($value === 'true') {
+			$conditions = ["Nodes.promote {$conjunction}" => 1];
+		} elseif ($value === 'false') {
+			$conditions = ['Nodes.promote {$conjunction}' => 0];
+		}
+
+		if (!empty($conditions)) {
+			if ($orAnd === 'or') {
+				$query->orWhere($conditions);
+			} elseif ($orAnd === 'and') {
+				$query->andWhere($conditions);
+			} else {
+				$query->where($conditions);
+			}
+		}
+
+		return $query;
+	}
+
+/**
+ * Handles "type" search operator.
+ *
+ *     type:<slug1>,<slug2>, ...
+ *
+ * @param \Cake\ORM\Query $query
+ * @param string $value
+ * @param boolean $negate
+ * @param string $orAnd and|or
+ * @return void
+ */
+	public function operatorType($query, $value, $negate, $orAnd) {
+		$value = explode(',', strtolower($value));
+		$conjunction = $negate ? 'NOT IN' : 'IN';
+		$conditions = ["Nodes.node_type_slug {$conjunction}" => $value];
+
+		if ($orAnd === 'or') {
+			$query->orWhere($conditions);
+		} elseif ($orAnd === 'and') {
+			$query->andWhere($conditions);
+		} else {
+			$query->where($conditions);
+		}
+
+		return $query;
+	}
+
+/**
+ * Handles "author" search operator.
+ *
+ *     author:<username1>,<username2>, ...
+ *
+ * @param \Cake\ORM\Query $query
+ * @param string $value
+ * @param boolean $negate
+ * @param string $orAnd and|or
+ * @return void
+ */
+	public function operatorAuthor($query, $value, $negate, $orAnd) {
 		$value = explode(',', $value);
 
 		if (!empty($value)) {

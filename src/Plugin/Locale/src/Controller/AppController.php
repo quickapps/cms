@@ -11,11 +11,11 @@
  */
 namespace Locale\Controller;
 
-use QuickApps\Controller\AppController as BaseController;
+use QuickApps\Controller\Controller;
 
 /**
  * Main controller for Locale plugin.
  *
  */
-class AppController extends BaseController {
+class AppController extends Controller {
 }

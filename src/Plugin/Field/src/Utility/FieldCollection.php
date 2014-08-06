@@ -106,8 +106,8 @@ class FieldCollection extends ArrayObject {
 	public function sortByViewMode($viewMode, $dir = SORT_ASC) {
 		$items = [];
 		$sorted = $this->sortBy(function ($field) use($viewMode) {
-			if ($field->metadata->view_modes->has($viewMode)) {
-				return $field->metadata->view_modes->get($viewMode)['ordering'];
+			if (isset($field->metadata->view_modes[$viewMode])) {
+				return $field->metadata->view_modes[$viewMode]['ordering'];
 			}
 
 			return 0;

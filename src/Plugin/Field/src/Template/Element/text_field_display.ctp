@@ -12,7 +12,7 @@
 ?>
 
 <?php use Field\Utility\TextToolBox; ?>
-<?php $viewModeSettings = $field->metadata->view_modes->get($this->inUseViewMode()); ?>
+<?php $viewModeSettings = $field->metadata->view_modes[$this->inUseViewMode()]; ?>
 
 <?php if ($viewModeSettings['label_visibility'] == 'above'): ?>
 	<h2 class="field-label"><?php echo $field->label; ?></h2>

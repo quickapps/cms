@@ -18,7 +18,7 @@ use Cake\Event\EventListener;
 use Cake\Event\EventManager;
 use Cake\Utility\Hash;
 use QuickApps\Utility\HookTrait;
-use QuickApps\Utility\ViewModeTrait;
+use QuickApps\View\ViewModeTrait;
 
 /**
  * Field rendering dispatcher.
@@ -87,8 +87,8 @@ class FieldHook implements EventListener {
 		$viewMode = $this->inUseViewMode();
 
 		if (
-			$field->metadata->view_modes->has($viewMode) && 
-			!$field->metadata->view_modes->get($viewMode)['hidden']
+			isset($field->metadata->view_modes[$viewMode]) && 
+			!$field->metadata->view_modes[$viewMode]['hidden']
 		) {
 			$options = array_merge(['edit' => false], $options);
 			$renderFieldHook = $this->invoke("Field.{$field->metadata['handler']}.Entity.display", $event->subject, $field, $options);

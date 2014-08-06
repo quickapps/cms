@@ -11,11 +11,11 @@
  */
 namespace Comment\Controller;
 
-use QuickApps\Controller\AppController as BaseController;
+use QuickApps\Controller\Controller;
 
 /**
  * Main controller for Comment plugin.
  *
  */
-class AppController extends BaseController {
+class AppController extends Controller {
 }

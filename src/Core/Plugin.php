@@ -9,7 +9,7 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace QuickApps\Utility;
+namespace QuickApps\Core;
 
 use Cake\Collection\Collection;
 use Cake\Core\Configure;
@@ -146,7 +146,7 @@ class Plugin extends CakePlugin {
 				->first();
 
 			if ($dbInfo) {
-				$info['settings'] = (array)$dbInfo->settings->toArray();
+				$info['settings'] = (array)$dbInfo->settings;
 			}
 		}
 

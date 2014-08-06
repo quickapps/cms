@@ -64,7 +64,7 @@ class ManageController extends AppController {
  */
 	public function add($type = false) {
 		if (!$type) {
-			$this->redirect(['plugin' => 'node', 'controller' => 'manage', 'action' => 'create', 'prefix' => 'admin']);
+			$this->redirect(['plugin' => 'Node', 'controller' => 'manage', 'action' => 'create', 'prefix' => 'admin']);
 		}
 
 		$this->loadModel('Node.NodeTypes');
@@ -86,7 +86,7 @@ class ManageController extends AppController {
 
 			if ($this->Nodes->save($node)) {
 				$this->alert(__d('node', 'Content created!.'), 'success');
-				$this->redirect(['plugin' => 'node', 'controller' => 'manage', 'action' => 'edit', 'prefix' => 'admin', $node->id]);
+				$this->redirect(['plugin' => 'Node', 'controller' => 'manage', 'action' => 'edit', 'prefix' => 'admin', $node->id]);
 			} else {
 				$this->alert(__d('node', 'Something went wrong, please check your information.'), 'danger');
 			}

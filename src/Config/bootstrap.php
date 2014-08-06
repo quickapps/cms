@@ -53,7 +53,12 @@ use Cake\Network\Email\Email;
 use Cake\Network\Request;
 use Cake\Routing\DispatcherFactory;
 use Cake\Utility\Inflector;
-use QuickApps\Utility\Plugin;
+use QuickApps\Core\Plugin;
+
+/**
+ * Registers custom types.
+ */
+Type::map('serialized', 'QuickApps\Database\Type\SerializedType');
 
 /**
  * Read configuration file and inject configuration into various
@@ -164,11 +169,6 @@ if (!file_exists(TMP . 'snapshot.php') && file_exists(SITE_ROOT . '/Config/setti
 }
 
 /**
- * Registers custom types.
- */
-Type::map('serialized', 'QuickApps\Utility\SerializedType');
-
-/**
  * Load all registered plugins.
  */
 $pluginCollection = Plugin::collection();
@@ -179,8 +179,8 @@ foreach (App::objects('Plugin') as $plugin) {
 
 	if (
 		in_array($plugin, $activePlugins) ||
-		$plugin === Configure::read('QuickApps.variables.site_theme') ||
-		$plugin === Configure::read('QuickApps.variables.admin_theme')
+		$plugin === getOption('site_theme') ||
+		$plugin === getOption('admin_theme')
 	) {
 		Plugin::load($plugin, [
 			'namespace' => $plugin,

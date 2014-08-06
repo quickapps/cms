@@ -53,6 +53,7 @@ class CommentableBehavior extends Behavior {
 			'bindComments' => 'bindComments',
 			'unbindComments' => 'unbindComments',
 		],
+		'count' => false,
 		'order' => ['Comments.created' => 'DESC'],
 	];
 
@@ -71,8 +72,8 @@ class CommentableBehavior extends Behavior {
 			'className' => 'Comment.Comments',
 			'foreignKey' => 'entity_id',
 			'conditions' => [
-				'Comments.table_alias' => Inflector::underscore($this->_table->alias()),
-				'Comments.status' => 'approved',
+				'table_alias' => Inflector::underscore($this->_table->alias()),
+				'status' => 'approved',
 			],
 			'joinType' => 'LEFT',
 			'dependent' => true,
@@ -104,16 +105,21 @@ class CommentableBehavior extends Behavior {
 					},
 				]);
 
-				$query->formatResults(function ($results) use ($pk, $tableAlias) {
-					return $results->map(function ($entity) use ($pk, $tableAlias) {
-						$entityId = $entity->{$pk};
-						$count = TableRegistry::get('Comment.Comments')->find()
-							->where(['entity_id' => $entityId, 'table_alias' => $tableAlias])
-							->count();
-						$entity->set('comment_count', $count);
-						return $entity;
+				if (
+					$this->config('count') ||
+					(isset($options['comments_count']) && $options['comments_count'] === true)
+				) {
+					$query->formatResults(function ($results) use ($pk, $tableAlias) {
+						return $results->map(function ($entity) use ($pk, $tableAlias) {
+							$entityId = $entity->{$pk};
+							$count = TableRegistry::get('Comment.Comments')->find()
+								->where(['entity_id' => $entityId, 'table_alias' => $tableAlias])
+								->count();
+							$entity->set('comments_count', $count);
+							return $entity;
+						});
 					});
-				});
+				}
 			}
 		}
 	}

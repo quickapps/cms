@@ -18,7 +18,7 @@ use Cake\Event\Event;
 use Cake\Routing\Router;
 use Cake\Utility\Folder;
 use Cake\Utility\Hash;
-use QuickApps\Utility\Plugin;
+use QuickApps\Core\Plugin;
 
 /**
  * Controller for handling new QuickAppsCMS installations.

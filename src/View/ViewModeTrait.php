@@ -9,9 +9,9 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace QuickApps\Utility;
+namespace QuickApps\View;
 
-use QuickApps\Utility\ViewModeRegistry;
+use QuickApps\View\ViewModeRegistry;
 
 /**
  * Provides methods for handling switching view mode.
@@ -24,7 +24,7 @@ trait ViewModeTrait {
  *
  * @param string|null $slug Slug name of the view mode
  * @return void
- * @see \QuickApps\Utility\ViewModeRegistry::switchViewMode()
+ * @see \QuickApps\View\ViewModeRegistry::switchViewMode()
  */
 	public function switchViewMode($slug) {
 		return ViewModeRegistry::switchViewMode($slug);
@@ -38,7 +38,7 @@ trait ViewModeTrait {
  * @param string|null $name Human readable name. e.g.: `My View Mode`
  * @param string|null $description A brief description about for what is this view mode
  * @return void
- * @see \QuickApps\Utility\ViewModeRegistry::registerViewMode()
+ * @see \QuickApps\View\ViewModeRegistry::registerViewMode()
  */
 	public static function registerViewMode($slug, $name = null, $description = null) {
 		return ViewModeRegistry::registerViewMode($slug, $name, $description);
@@ -50,7 +50,7 @@ trait ViewModeTrait {
  * @param boolean $full Set to true to get full information as an array. Or set to
  * false (by default) to get slug name only
  * @return string
- * @see \QuickApps\Utility\ViewModeRegistry::inUseViewMode()
+ * @see \QuickApps\View\ViewModeRegistry::inUseViewMode()
  */
 	public function inUseViewMode($full = false) {
 		return ViewModeRegistry::inUseViewMode();
@@ -61,7 +61,7 @@ trait ViewModeTrait {
  *
  * @param boolean $full
  * @return array
- * @see \QuickApps\Utility\ViewModeRegistry::viewModes
+ * @see \QuickApps\View\ViewModeRegistry::viewModes
  */
 	public function viewModes($full = false) {
 		return ViewModeRegistry::viewModes($full);

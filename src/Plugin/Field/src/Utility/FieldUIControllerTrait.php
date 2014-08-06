@@ -22,7 +22,7 @@ use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use Field\Model\Entity\FieldViewMode;
-use QuickApps\Utility\ViewModeTrait;
+use QuickApps\View\ViewModeTrait;
 
 /**
  * Field UI Trait.
@@ -188,7 +188,7 @@ trait FieldUIControllerTrait {
 			}
 		}
 
-		$this->request->data = method_exists($instance->settings, 'toArray') ? $instance->settings->toArray() : $instance->settings;
+		$this->request->data = (array)$instance->settings;
 		$this->set('instance', $instance);
 	}
 
@@ -309,8 +309,8 @@ trait FieldUIControllerTrait {
 
 		if ($this->request->data) {
 			$instance->accessible('*', true);
-			$currentValues = $instance->view_modes->get($viewMode);
-			$instance->view_modes->set($viewMode, array_merge($currentValues, $this->request->data));
+			$currentValues = $instance->view_modes[$viewMode];
+			$instance->view_modes[$viewMode] = array_merge($currentValues, $this->request->data);
 			$save = $this->FieldInstances->save($instance);
 
 			if ($save) {
@@ -327,7 +327,7 @@ trait FieldUIControllerTrait {
 				}
 			}
 		} else {
-			$this->request->data = $instance->view_modes->get($viewMode);
+			$this->request->data = $instance->view_modes[$viewMode];
 		}
 
 		$instance->accessible('settings', true);
@@ -362,8 +362,8 @@ trait FieldUIControllerTrait {
 			->order(['ordering' => 'ASC'])
 			->all()
 			->sortBy(function ($fieldInstance) use($viewMode) {
-				if (isset($fieldInstance->view_modes->{$viewMode}['ordering'])) {
-					return $fieldInstance->view_modes->{$viewMode}['ordering'];
+				if (isset($fieldInstance->view_modes[$viewMode]['ordering'])) {
+					return $fieldInstance->view_modes[$viewMode]['ordering'];
 				}
 
 				return 0;
@@ -488,7 +488,10 @@ trait FieldUIControllerTrait {
 	protected function _getOrThrow($id, $conditions = []) {
 		$this->loadModel('Field.FieldInstances');
 		$conditions = array_merge(['id' => $id], $conditions);
-		$instance = $this->FieldInstances->find('all')->where($conditions)->first();
+		$instance = $this->FieldInstances
+			->find('all')
+			->where($conditions)
+			->first();
 
 		if (!$instance) {
 			throw new RecordNotFoundException(__d('field', 'The requested field does not exists.'));

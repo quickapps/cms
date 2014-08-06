@@ -13,8 +13,8 @@ namespace System\Controller\Admin;
 
 use Cake\Core\App;
 use Cake\Core\Configure;
-use Cake\Error;
-use QuickApps\Utility\Plugin;
+use Cake\Error\NotFoundException;
+use QuickApps\Core\Plugin;
 use System\Controller\AppController;
 
 /**
@@ -91,7 +91,7 @@ class HelpController extends AppController {
 		if ($about) {
 			$this->set('about', $about);
 		} else {
-			throw new Error\NotFoundException(__d('system', 'No help was found.'));
+			throw new NotFoundException(__d('system', 'No help was found.'));
 		}
 
 		$this->Breadcrumb->push('/admin/system/help');

@@ -13,8 +13,8 @@ namespace Hook;
 
 use Cake\Event\Event;
 use Cake\Event\EventListener;
-use QuickApps\Utility\ViewModeRegistry;
-use QuickApps\Utility\ViewModeTrait;
+use QuickApps\View\ViewModeRegistry;
+use QuickApps\View\ViewModeTrait;
 
 /**
  * Main Hook Listener for Node plugin.

@@ -19,7 +19,7 @@ use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 use Field\Model\Entity\FieldInstance;
 use QuickApps\Utility\HookTrait;
-use QuickApps\Utility\ViewModeTrait;
+use QuickApps\View\ViewModeTrait;
 
 /**
  * Represents "field_instances" database table.
@@ -123,8 +123,8 @@ class FieldInstancesTable extends Table {
 
 				if (!empty($settingsDefaults)) {
 					foreach ($settingsDefaults as $k => $v) {
-						if (!$instance->settings->has($k)) {
-							$instance->settings->set($k, $v);
+						if (!isset($instance->settings[$k])) {
+							$instance->settings[$k] = $v;
 						}
 					}
 				}

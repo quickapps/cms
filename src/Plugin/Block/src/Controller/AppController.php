@@ -11,11 +11,11 @@
  */
 namespace Block\Controller;
 
-use QuickApps\Controller\AppController as BaseController;
+use QuickApps\Controller\Controller;
 
 /**
  * Main controller for Block plugin.
  *
  */
-class AppController extends BaseController {
+class AppController extends Controller {
 }

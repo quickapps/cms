@@ -16,7 +16,7 @@ use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Cake\Validation\Validator;
 use Comment\Controller\Component\CommentComponent;
-use QuickApps\Utility\Plugin;
+use QuickApps\Core\Plugin;
 
 /**
  * Represents "comments" database table.

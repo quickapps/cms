@@ -78,7 +78,7 @@ class TextField extends FieldHandler {
 				->allowEmpty(":{$field->name}", false, __d('field', 'Field required.'))
 				->add(":{$field->name}", 'validateRequired', [
 					'rule' => function ($value, $context) use ($field) {
-						if ($field->metadata->settings->type === 'textarea') {
+						if ($field->metadata->settings['type'] === 'textarea') {
 							return !empty(html_entity_decode(trim(strip_tags($value))));
 						} else {
 							return !empty(trim(strip_tags($value)));
@@ -92,22 +92,22 @@ class TextField extends FieldHandler {
 		}
 
 		if (
-			$field->metadata->settings->type === 'text' &&
-			!empty($field->metadata->settings->max_len) &&
-			$field->metadata->settings->max_len > 0
+			$field->metadata->settings['type'] === 'text' &&
+			!empty($field->metadata->settings['max_len']) &&
+			$field->metadata->settings['max_len'] > 0
 		) {
 			$validator
 				->add(":{$field->name}", 'validateLen', [
 					'rule' => function ($value, $context) use ($field) {
-						return strlen(trim($value)) <= $field->metadata->settings->max_len;
+						return strlen(trim($value)) <= $field->metadata->settings['max_len'];
 					},
-					'message' => __d('field', 'Max. %s characters length.', $field->metadata->settings->max_len),
+					'message' => __d('field', 'Max. %s characters length.', $field->metadata->settings['max_len']),
 				]);
 		}
 
-		if (!empty($field->metadata->settings->validation_rule)) {
-			if (!empty($field->metadata->settings->validation_message)) {
-				$message = $this->hooktags($field->metadata->settings->validation_message);
+		if (!empty($field->metadata->settings['validation_rule'])) {
+			if (!empty($field->metadata->settings['validation_message'])) {
+				$message = $this->hooktags($field->metadata->settings['validation_message']);
 			} else {
 				$message = __d('field', 'Invalid field.', $field->label);
 			}
@@ -115,7 +115,7 @@ class TextField extends FieldHandler {
 			$validator
 				->add(":{$field->name}", 'validateReg', [
 					'rule' => function ($value, $context) use ($field) {
-						return preg_match($field->metadata->settings->validation_rule, $value);
+						return preg_match($field->metadata->settings['validation_rule'], $value);
 					},
 					'message' => $message,
 				]);

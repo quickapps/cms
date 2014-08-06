@@ -11,7 +11,7 @@
  */
 namespace Field\Utility;
 
-use QuickApps\Utility\Plugin;
+use QuickApps\Core\Plugin;
 
 /**
  * FileToolbox class for handling files related tasks.

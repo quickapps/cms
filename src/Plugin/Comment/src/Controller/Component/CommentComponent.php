@@ -21,7 +21,7 @@ use Cake\Utility\Inflector;
 use Cake\Validation\Validator;
 use Comment\Model\Entity\Comment;
 use Field\Utility\TextToolbox;
-use QuickApps\Utility\Plugin;
+use QuickApps\Core\Plugin;
 use QuickApps\Utility\DetectorTrait;
 use User\Error\UserNotLoggedInException;
 use User\Model\Entity\User;

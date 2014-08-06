@@ -34,7 +34,9 @@ use Search\Model\Entity\SearchDataset;
  *         'fields' => ['username', 'email']
  *     ]);
  *
- * Also, if you need a really special selection of words for each entity is being indexed, then you can
+ * In the example above, this behavior will look for words to index in user's "username" and user's "email" properties.
+ * 
+ * If you need a really special selection of words for each entity is being indexed, then you can
  * set the `fields` option as a callable which should return a list of words for the given entity. For example:
  *
  *     $this->addBehavior('Search.Searchable', [
@@ -55,7 +57,7 @@ use Search\Model\Entity\SearchDataset;
  *         }
  *     ]);
  *
- * This behaviors will apply a series of filters (look for duplicated words, convert to lowercase, remove line breaks, etc) to the resulting word list,
+ * This behaviors will apply a series of filters (converts to lowercase, remove line breaks, etc) to the resulting word list,
  * so you should simply return a RAW string of words and let this behavior do the rest of the job.
  *
  * ### Banned Words
@@ -267,7 +269,7 @@ class SearchableBehavior extends Behavior {
 		$isNew = $entity->isNew();
 		$pk = $this->_table->primaryKey();
 		$table_alias = Inflector::underscore($this->_table->alias());
-		$words = '';
+		$text = '';
 
 		if (
 			($this->config('on') === 'update' && $isNew) ||
@@ -279,25 +281,21 @@ class SearchableBehavior extends Behavior {
 
 		if (is_callable($this->config('fields'))) {
 			$callable = $this->config('fields');
-			$words = $callable($entity);
+			$text = $callable($entity);
 
-			if (is_array($words)) {
-				$words = implode(' ', (string)$words);
+			if (is_array($text)) {
+				$text = implode(' ', (string)$text);
 			}
 		} else {
 			foreach ($this->config('fields') as $f) {
 				if ($entity->has($f)) {
 					$newWords = trim($entity->get($f));
-					$words .= ' ' . $newWords;
+					$text .= ' ' . $newWords;
 				}
 			}
 		}
 
-		$words = str_replace(["\n", "\r"], '', $words);
-		$words = preg_replace('/[^a-z\s]/i', ' ', $words);
-		$words = trim(preg_replace('/\s{2,}/i', ' ', $words));
-		$words = strtolower($words);
-		$words = array_unique(explode(' ', $words));
+		$words = $this->_extractWords($text);
 		$bannedCallable = is_callable($this->config('bannedWords')) ? $this->config('bannedWords') : false;
 
 		foreach ($words as $i => $w) {
@@ -341,6 +339,7 @@ class SearchableBehavior extends Behavior {
 	public function beforeDelete(Event $event, Entity $entity) {
 		$this->_table->hasMany('SearchDatasets', [
 			'className' => 'Search.SearchDatasets',
+			'foreignKey' => 'entity_id',
 			'dependent' => true,
 		]);
 		return true;
@@ -470,6 +469,21 @@ class SearchableBehavior extends Behavior {
 			$this->_config['operators'][":{$name}"] = $this->_config['operators'][$name];
 			unset($this->_config['operators'][$name]);
 		}
+	}
+
+/**
+ * Extracts words from given text.
+ * 
+ * @param string $text [description]
+ * @return array List of words
+ */
+	protected function _extractWords($text) {
+		$text = str_replace(["\n", "\r"], '', $text);
+		$text = preg_replace('/[^a-z\s]/i', ' ', $text);
+		$text = trim(preg_replace('/\s{2,}/i', ' ', $text));
+		$text = strtolower($text);
+		$words = explode(' ', $text);
+		return $words;
 	}
 
 /**

@@ -32,16 +32,24 @@ Router::connect('/find/:criteria', [
 	'plugin' => 'Node',
 	'controller' => 'Serve',
 	'action' => 'search',
-], ['pass' => ['criteria']]);
+], [
+	'pass' => ['criteria'],
+	'_name' => 'node_search',
+]);
 
 Router::connect('/rss/:criteria', [
 	'plugin' => 'Node',
 	'controller' => 'Serve',
 	'action' => 'rss',
-], ['pass' => ['criteria']]);
+], [
+	'pass' => ['criteria'],
+	'_name' => 'node_search_rss',
+]);
 
 Router::connect('/', [
 	'plugin' => 'Node',
 	'controller' => 'Serve',
 	'action' => 'frontpage'
+], [
+	'_name' => 'frontpage'
 ]);

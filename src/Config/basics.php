@@ -34,7 +34,7 @@ use Cake\ORM\TableRegistry;
  *
  * - `node_types`: List of available content type slugs. e.g. ['article', 'page', ...].
  * - `plugins`: Array of plugin information indexed by Plugin Name.
- * - `variables`: A set of useful environment variables stored in `variables` DB table.
+ * - `options`: A set of useful environment variables stored in `options` DB table.
  *
  * @param array $mergeWith Array to merge with snapshot array
  * @return void
@@ -43,7 +43,7 @@ function snapshot($mergeWith = []) {
 	$snapshot = [
 		'node_types' => [],
 		'plugins' => [],
-		'variables' => [],
+		'options' => [],
 		'languages' => []
 	];
 
@@ -58,15 +58,19 @@ function snapshot($mergeWith = []) {
 		->where(['status' => 1])
 		->order(['ordering' => 'ASC'])
 		->all();
-	$variables = TableRegistry::get('Variables')->find()
+	$OptionsTable = TableRegistry::get('Options');
+	$OptionsTable->schema(['value' => 'serialized']);
+	$options = $OptionsTable->find()
+		->select(['name', 'value'])
+		->where(['autoload' => 1])
 		->all();
 
 	foreach ($nodeTypes as $nodeType) {
 		$snapshot['node_types'][] = $nodeType->slug;
 	}
 
-	foreach ($variables as $variable) {
-		$snapshot['variables'][$variable->name] = $variable->value;
+	foreach ($options as $option) {
+		$snapshot['options'][$option->name] = $option->value;
 	}
 
 	foreach ($languages as $language) {
@@ -143,6 +147,30 @@ function snapshot($mergeWith = []) {
 	Configure::write('QuickApps', $snapshot);
 	Configure::dump('snapshot.php', 'QuickApps', ['QuickApps']);
 }
+
+/**
+ * Shortcut for getting an option value from "options" DB table.
+ * 
+ * @param string $name Name of the option to retrieve. e.g. `site_theme`, ``default_language`
+ * @param mixed $default The default value to return if no value is found
+ * @return mixed Current value for the specified option. If the specified option does not exist, returns boolean FALSE
+ */
+	function getOption($name, $default = false) {
+		if (Configure::check("QuickApps.options.{$name}")) {
+			return Configure::read("QuickApps.options.{$name}");
+		}
+
+		$option = TableRegistry::get('Options')
+			->find()
+			->where(['Options.name' => $name])
+			->first();
+
+		if ($option) {
+			return $option->value;
+		}
+
+		return $default;
+	}
 
 /**
  * Return only the methods for the indicated object.  

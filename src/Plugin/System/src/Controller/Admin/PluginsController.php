@@ -13,7 +13,7 @@ namespace System\Controller\Admin;
 
 use Cake\Error\NotFoundException;
 use System\Controller\AppController;
-use QuickApps\Utility\Plugin;
+use QuickApps\Core\Plugin;
 
 /**
  * Controller for handling plugin tasks.

@@ -15,7 +15,7 @@ use Cake\Error\InternalErrorException;
 use Cake\ORM\Entity;
 use Cake\View\Helper;
 use QuickApps\Utility\HookTrait;
-use QuickApps\Utility\Plugin;
+use QuickApps\Core\Plugin;
 
 /**
  * CommentForm helper library.

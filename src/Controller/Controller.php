@@ -11,12 +11,12 @@
  */
 namespace QuickApps\Controller;
 
-use Cake\Controller\Controller;
+use Cake\Controller\Controller as CakeCotroller;
 use Cake\Core\Configure;
 use QuickApps\Utility\AlertTrait;
 use QuickApps\Utility\DetectorTrait;
 use QuickApps\Utility\HookTrait;
-use QuickApps\Utility\ViewModeTrait;
+use QuickApps\View\ViewModeTrait;
 
 /**
  * Main controller class for organization of business logic.
@@ -24,7 +24,7 @@ use QuickApps\Utility\ViewModeTrait;
  * Provides basic QuickAppsCMS functionality, such as themes handling,
  * user authorization, and more.
  */
-class AppController extends Controller {
+class Controller extends CakeCotroller {
 
 	use AlertTrait;
 	use DetectorTrait;
@@ -94,7 +94,7 @@ class AppController extends Controller {
 			'email' => 'chris@quickapps.es',
 			'locale' => 'es',
 			// TODO: stores in session "user.roles" both role ID and role Slugs. e.g. [1 => 'administrator', 2 => 'manager']
-			'roles' => [1, 2],
+			'roles' => [1 => 'administrator', 2 => 'manager'],
 		]);
 	}
 
@@ -132,31 +132,25 @@ class AppController extends Controller {
  */
 	protected function _prepareLanguage() {
 		$session = $this->request->session();
-		if (
-			$session->check('user.locale') &&
-			in_array(
-				$session->read('user.locale'),
-				array_keys(Configure::read('QuickApps.languages'))
-			)
-		) {
+		$locales = array_keys(Configure::read('QuickApps.languages'));
+
+		if ($session->check('user.locale') && in_array($session->read('user.locale'), $locales)) {
 			Configure::write('Config.language', $session->read('user.locale'));
-		} elseif (
-			in_array(
-				Configure::read('QuickApps.variables.default_language'),
-				array_keys(Configure::read('QuickApps.languages'))
-			)
-		) {
-			Configure::write('Config.language', Configure::read('QuickApps.variables.default_language'));
+		} elseif (in_array(getOption('default_language'), $locales)) {
+			Configure::write('Config.language', getOption('default_language'));
 		} else {
 			Configure::write('Config.language', 'en-us');
 		}
 
 		if (
 			$this->request->url !== false &&
-			Configure::read('QuickApps.variables.url_locale_prefix') &&
+			getOption('url_locale_prefix') &&
 			!str_starts_with($this->request->url, Configure::read('Config.language'))
 		) {
-			$this->redirect('/' . Configure::read('Config.language') . '/' . $this->request->url);
+			$url = $this->request->url;
+			$localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
+			$url = preg_replace("/^{$localesPattern}\//", '', $url);
+			$this->redirect('/' . Configure::read('Config.language') . '/' . $url);
 		}
 	}
 

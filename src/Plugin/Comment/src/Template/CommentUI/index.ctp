@@ -47,6 +47,7 @@
 					<h4><?php echo $this->Html->link($comment->subject, ['plugin' => $this->request->plugin, 'controller' => $this->request->controller, 'action' => 'edit', $comment->id]); ?></h4>
 					<p><?php echo $comment->body; ?></p>
 					<em class="help-block"><?php echo __d('comment', 'Submitted on %s', $comment->created->format('Y/m/d \a\t H:i a')); ?></em>
+					<span><?php echo __d('comment', 'Move to'); ?>: </span>
 					<div class="btn-group btn-group-xs">
 						<?php if ($comment->status !== 'approved'): ?>
 							<?php echo $this->Html->link(__d('comment', 'Approved'), ['plugin' => $this->request->plugin, 'controller' => $this->request->controller, 'action' => 'status', $comment->id, 'approved'], ['class' => 'btn btn-success']); ?>
@@ -84,7 +85,7 @@
 
 <ul class="pagination">
 	<?php echo $this->Paginator->prev(); ?>
-	<?php echo $this->Paginator->numbers(['first' => 'First page']); ?>
+	<?php echo $this->Paginator->numbers(); ?>
 	<?php echo $this->Paginator->next(); ?>
 </ul>
 

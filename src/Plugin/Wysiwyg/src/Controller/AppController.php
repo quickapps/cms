@@ -11,11 +11,11 @@
  */
 namespace Wysiwyg\Controller;
 
-use QuickApps\Controller\AppController as BaseController;
+use QuickApps\Controller\Controller;
 
 /**
  * Main controller for Wysiwyg plugin.
  *
  */
-class AppController extends BaseController {
+class AppController extends Controller {
 }

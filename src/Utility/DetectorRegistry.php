@@ -22,13 +22,13 @@ use Cake\Routing\Router;
  * current request. For example, the question `is current page site's front?` is handled by
  * the `page.frontpage` (or `page.index`) detector:
  *
- *     // true | false
- *     is('page.frontpage');
+ *     // returns true or false
+ *     $this->is('page.frontpage');
  *
  * You can define your own detectors methods by using `DetectorRegistry::addDetector` method.
  *
  *     addDetector('theme.core', function ($givenThemeName) {
- *         // stuff here
+ *         // boolean logic
  *     });
  *
  * When defining new detectors you must provide both, a `detector name` (e.g. "theme.core")
@@ -39,7 +39,9 @@ use Cake\Routing\Router;
  * `is <theme_name> a core theme?`, where `<theme_name>` is the theme-name you are asking for.
  * So when invoking your detector, you must pass a theme-name as first argument:
  *
- *     is('theme.core', 'MyThemeName');
+ *     $this->is('theme.core', 'MyThemeName');
+ *
+ * Where `MyThemeName` will be mapped to `$givenThemeName` argument of detector's callable.
  */
 class DetectorRegistry {
 

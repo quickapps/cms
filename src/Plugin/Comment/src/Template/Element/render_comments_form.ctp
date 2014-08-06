@@ -18,13 +18,11 @@
 <?php echo $this->Html->script('Comment.comment_form.js'); ?>
 
 <div class="comments-form-container">
-
-	<span class="comments-form-alerts"><?php echo $this->alerts(null, 'commentsForm'); ?></span>
-
 	<section class="comments-form">
 		<header>
 			<h2><?php echo __d('comment', 'Post New Comment'); ?></h2>
 			<?php echo $this->Form->button(__d('comment', 'Cancel Reply'), ['class' => 'cancel-reply btn btn-default', 'onclick' => 'CommentForm.cancelReply();', 'style' => 'display:none;']); ?>
+			<span class="comments-form-alerts"><?php echo $this->alerts(null, 'commentsForm'); ?></span>
 		</header>
 
 		<div class="comment-form">

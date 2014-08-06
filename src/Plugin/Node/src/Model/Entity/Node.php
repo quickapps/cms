@@ -11,11 +11,13 @@
  */
 namespace Node\Model\Entity;
 
+use Cake\Core\Configure;
 use Cake\Error\InternalErrorException;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Node\Model\Entity\NodeType;
+use User\Model\Entity\User;
 
 /**
  * Represents a single "node" from "nodes" database table.
@@ -34,8 +36,10 @@ class Node extends Entity {
  * @return string
  */
 	public function _getType() {
-		$name = $this->node_type->has('name') ? $this->node_type->get('name') : __d('node', '--unknow--');
-		$name = empty($name) ? __d('node', '--unknow--') : $name;
+		$name = __d('node', '(unknown)');
+		if ($this->has('node_type') && $this->node_type->has('name')) {
+			$name = $this->node_type->get('name');
+		}
 		return $name;
 	}
 
@@ -53,26 +57,42 @@ class Node extends Entity {
  * @return string
  */
 	public function _getUrl() {
-		$url = Router::url('node_details', [
-			'node_type_slug' => $this->node_type_slug,
-			'node_slug' => $this->slug,
-		]);
+		$url = Router::getRequest()->base;
+
+		if (getOption('url_locale_prefix')) {
+			$url .= '/' . Configure::read('Config.language');
+		}
+
+		$url .= "/{$this->node_type_slug}/{$this->slug}.html";
 
 		return Router::normalize($url);
 	}
 
 /**
- * Gets node's author name.
+ * Gets node's author as an User entity.
  *
- * If user is not found (because he/she was removed from the system after content was created)
- * `--unknow--` will be returned.
- *
- * @return string
+ * @return \User\Model\Entity\User
  */
-	public function _getAuthorName() {
-		$name = $this->author->has('name') ? $this->author->get('name') : __d('node', '--unknow--');
-		$name = empty($name) ?  __d('node', '--unknow--') : $name;
-		return $name;
+	public function _getAuthor() {
+		if ($this->has('user')) {
+			return $this->get('user');
+		} elseif (!empty($this->created_by)) {
+			$user = TableRegistry::get('User.Users')
+				->find()
+				->where(['id' => $this->created_by])
+				->first();
+
+			if ($user) {
+				return $user;
+			}
+		}
+
+		return new User([
+			'username' => __d('node', 'unknown'),
+			'name' => __d('node', 'Unknown'),
+			'web' => __d('node', '(no website)'),
+			'email' => __d('node', 'Unknown'),
+		]);
 	}
 
 /**
@@ -82,7 +102,7 @@ class Node extends Entity {
  * By default if none is provided it automatically fetches the information from
  * the corresponding Content Type.
  * 
- * @param mixed $type False for auto fetch, or a \Node\Model\Entity\NodeType entity to extract information from
+ * @param boolean|\Node\Model\Entity\NodeType $type False for auto fetch or a NodeType entity to extract information from
  */
 	public function setDefaults($type = false) {
 		if (!$type) {
@@ -109,11 +129,11 @@ class Node extends Entity {
 			throw new InternalErrorException(__d('node', "Node::setDefaults() was unable to get Content Type defaults values."));
 		}
 
-		$this->set('language', $type->defaults->language);
-		$this->set('comment_status', $type->defaults->comment_status);
-		$this->set('status', $type->defaults->promote);
-		$this->set('promote', $type->defaults->promote);
-		$this->set('sticky', $type->defaults->sticky);
+		$this->set('language', $type->defaults['language']);
+		$this->set('comment_status', $type->defaults['comment_status']);
+		$this->set('status', $type->defaults['promote']);
+		$this->set('promote', $type->defaults['promote']);
+		$this->set('sticky', $type->defaults['sticky']);
 	}
 
 }

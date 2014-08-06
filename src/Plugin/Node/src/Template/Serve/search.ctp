@@ -6,8 +6,9 @@
 	<?php endforeach; ?>
 
 	<ul class="pagination">
+		<?php echo $this->Paginator->options(['url' => ['_name' => 'node_search', 'criteria' => $criteria]]); ?>
 		<?php echo $this->Paginator->prev(); ?>
-		<?php echo $this->Paginator->numbers(['first' => 'First page']); ?>
+		<?php echo $this->Paginator->numbers(); ?>
 		<?php echo $this->Paginator->next(); ?>
 	</ul>
 

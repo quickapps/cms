@@ -21,7 +21,7 @@ use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use Comment\Controller\Component\CommentComponent;
 use Field\Utility\TextToolbox;
-use QuickApps\Utility\Plugin;
+use QuickApps\Core\Plugin;
 
 /**
  * Comment UI Trait.

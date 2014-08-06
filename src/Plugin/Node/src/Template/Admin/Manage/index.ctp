@@ -43,8 +43,8 @@
 					<?php endif; ?>
 				</td>
 				<td><?php echo $node->type; ?></td>
-				<td><?php echo $node->author_name; ?></td>
-				<td><?php echo $node->language ? $node->language : __d('node', '--any--'); ?></td>
+				<td><?php echo $node->author->name; ?></td>
+				<td><?php echo $node->language ? $node->language : __d('node', '---'); ?></td>
 				<td><?php echo $node->created->format(__d('node', 'Y-m-d H:i:s')); ?></td>
 				<td>
 					<?php echo $this->Html->link('', ['prefix' => 'admin', 'plugin' => 'Node', 'controller' => 'manage', 'action' => 'edit', $node->id], ['class' => 'btn btn-default glyphicon glyphicon-pencil', 'title' => __d('node', 'Edit')]); ?>

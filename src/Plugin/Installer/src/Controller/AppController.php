@@ -11,11 +11,11 @@
  */
 namespace Installer\Controller;
 
-use QuickApps\Controller\AppController as BaseController;
+use QuickApps\Controller\Controller;
 
 /**
  * Main controller for Installer plugin.
  *
  */
-class AppController extends BaseController {
+class AppController extends Controller {
 }

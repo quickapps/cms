@@ -143,11 +143,17 @@ class ServeController extends AppController {
 
 		try {
 			$nodes = $this->Nodes->search($criteria);
+
+			if ($nodes->clause('limit')) {
+				$this->paginate['limit'] = $nodes->clause('limit');
+			}
+
 			$nodes = $this->paginate($nodes);
 		} catch (\Exception $e) {
 			$nodes = [];
 		}
 
+		$this->set('criteria', $criteria);
 		$this->set('nodes', $nodes);
 		$this->switchViewMode('search-result');
 	}
@@ -172,6 +178,7 @@ class ServeController extends AppController {
 			$nodes = [];
 		}
 
+		$this->set('criteria', $criteria);
 		$this->set('nodes', $nodes);
 		$this->switchViewMode('rss');
 		$this->RequestHandler->renderAs($this, 'rss');

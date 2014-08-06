@@ -19,7 +19,7 @@
 		<?php echo $this->Form->input('hidden', ['type' => 'checkbox', 'label' => __d('field', 'Hidden Field'), 'onclick' => '$("div.field-view-mode-form").toggle();']); ?>
 		<em class="help-block"><?php echo __d('field', 'Whether to render this field or not on "%s" view mode.', $viewModeInfo['name']); ?></em>
 
-		<div class="field-view-mode-form" style="<?php echo $instance->view_modes->{$viewMode}['hidden'] ? 'display:none;' : ''; ?>">
+		<div class="field-view-mode-form" style="<?php echo $instance->view_modes[$viewMode]['hidden'] ? 'display:none;' : ''; ?>">
 			<?php echo $this->invoke("Field.{$instance->handler}.Instance.viewModeForm", $this, $instance, [])->result; ?>
 		</div>
 

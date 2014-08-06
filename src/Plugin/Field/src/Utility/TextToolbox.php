@@ -14,7 +14,7 @@ namespace Field\Utility;
 use Field\Lib\Parsedown;
 use Field\Model\Entity\Field;
 use QuickApps\Utility\HooktagTrait;
-use QuickApps\Utility\ViewModeTrait;
+use QuickApps\View\ViewModeTrait;
 
 /**
  * Text utility class.
@@ -62,7 +62,7 @@ class TextToolbox {
  * @return string
  */
 	public static function formatter(Field $field) {
-		$viewModeSettings = $field->metadata->view_modes->get(static::getInstance()->inUseViewMode());
+		$viewModeSettings = $field->metadata->view_modes[static::getInstance()->inUseViewMode()];
 		$content = $viewModeSettings['hooktags'] ? static::getInstance()->hooktags($field->value) : static::getInstance()->stripHooktags($field->value);
 		$processing = $field->metadata->settings['text_processing'];
 		$formatter = $viewModeSettings['formatter'];

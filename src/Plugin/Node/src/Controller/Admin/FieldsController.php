@@ -53,18 +53,19 @@ class FieldsController extends AppController {
 			!in_array($request->query['type'], $validTypes)
 		) {
 			$this->redirect(['plugin' => 'System', 'controller' => 'dashboard', 'prefix' => 'admin']);
+		} else {
+			// allows to manage polymorphic entities
+			$this->_manageTable .= $request->query['type'];
+
+			// Make $_GET['type'] persistent
+			Router::addUrlFilter(function ($params, $request) {
+				if (isset($request->query['type'])) {
+					$params['type'] = $request->query['type'];
+				}
+
+				return $params;
+			});
 		}
-
-		$this->_manageTable .= $request->query['type'];
-
-		// Make $_GET['type'] persistent
-		Router::addUrlFilter(function ($params, $request) {
-			if (isset($request->query['type'])) {
-				$params['type'] = $request->query['type'];
-			}
-
-			return $params;
-		});
 	}
 
 /**

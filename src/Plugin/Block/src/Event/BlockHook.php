@@ -18,7 +18,7 @@ use Cake\Event\EventListener;
 use Cake\Event\EventManager;
 use Cake\Utility\Hash;
 use QuickApps\Utility\HookTrait;
-use QuickApps\Utility\ViewModeTrait;
+use QuickApps\View\ViewModeTrait;
 
 /**
  * Block rendering dispatcher.
