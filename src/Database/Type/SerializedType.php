@@ -24,26 +24,24 @@ use Cake\ORM\Entity;
 class SerializedType extends Type {
 
 /**
- * Deserialize the stored information.
+ * Deserialize the stored information if it was serialized before.
  * 
  * @param string $value The serialized element to deserialize
  * @param \Cake\Database\Driver $driver
  * @return mixed
  */
 	public function toPHP($value, Driver $driver) {
-		//@codingStandardsIgnoreStart
-		$unserialized = @unserialize($value);
-		//@codingStandardsIgnoreEnd
-
-		if (!$unserialized) {
-			return $value;
+		if ($this->_isSerialized($value)) {
+			return unserialize($value);
 		}
 
-		return $unserialized;
+		return $value;
 	}
 
 /**
- * Serializes the information to be stored in DB.
+ * Serializes (if it can) the information to be stored in DB.
+ *
+ * Arrays and object are serialized, any other type of information will be stored as plain text. 
  * 
  * @param mixed $value Array or object to be serialized, any other type will not be serialized
  * @param \Cake\Database\Driver $driver
@@ -55,6 +53,53 @@ class SerializedType extends Type {
 		}
 
 		return (string)$value;
+	}
+
+/**
+ * Check value to find if it was serialized.
+ *
+ * If $data is not an string, then returned value will always be false.
+ * Serialized data is always a string.
+ *
+ * @param mixed $data Value to check to see if was serialized
+ * @return bool False if not serialized and true if it was
+ * @author WordPress
+ */
+	protected function _isSerialized($data) {
+		if (!is_string($data)) {
+			return false;
+		}
+		$data = trim($data);
+	 	if ('N;' == $data) {
+			return true;
+		}
+		if (strlen($data) < 4) {
+			return false;
+		}
+		if (':' !== $data[1]) {
+			return false;
+		}
+		$lastc = substr($data, -1);
+		if (';' !== $lastc && '}' !== $lastc) {
+			return false;
+		}
+
+		$token = $data[0];
+		switch ($token) {
+			case 's' :
+				if ('"' !== substr($data, -2, 1)) {
+					return false;
+				}
+			case 'a' :
+			case 'O' :
+				return (bool) preg_match("/^{$token}:[0-9]+:/s", $data);
+			case 'b' :
+			case 'i' :
+			case 'd' :
+				return (bool) preg_match("/^{$token}:[0-9.E-]+;$/", $data);
+		}
+
+		return false;
 	}
 
 }

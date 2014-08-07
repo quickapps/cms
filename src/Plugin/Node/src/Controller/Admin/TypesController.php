@@ -11,6 +11,7 @@
  */
 namespace Node\Controller\Admin;
 
+use Cake\Routing\Router;
 use Cake\Core\Configure;
 use Cake\Error\NotFoundException;
 use Locale\Utility\LocaleToolbox;
@@ -35,6 +36,33 @@ class TypesController extends AppController {
 			->all();
 		$this->set('types', $types);
 		$this->Breadcrumb->push('/admin/node/types');
+	}
+
+/**
+ * Create new content type.
+ *
+ * @return void
+ */
+	public function add() {
+		$this->loadModel('Node.NodeTypes');
+
+		if ($this->request->data) {
+			$type = $this->NodeTypes->newEntity($this->request->data);
+
+			if ($this->NodeTypes->save($type)) {
+				$this->alert(__d('node', 'Content type created, now attach some fields.'));
+				$this->redirect(['plugin' => 'Node', 'controller' => 'fields', 'type' => $type->slug]);
+			} else {
+				$this->alert(__d('node', 'Content type could not be created, check your information.'), 'danger');
+			}
+		} else {
+			$type = $this->NodeTypes->newEntity();
+		}
+
+		$this->set('type', $type);
+		$this->set('languages', LocaleToolbox::languagesList());
+		$this->Breadcrumb->push('/admin/node/types');
+		$this->Breadcrumb->push(__d('node', 'Creating Content Type'), '#');
 	}
 
 /**

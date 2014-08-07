@@ -11,13 +11,17 @@
  */
 ?>
 
-<?php
-	$view = $this;
-	echo $this->Menu->render($types,
-		[
+<div class="text-right">
+	<?php echo $this->Html->link(__d('node', 'Define new content type'), ['plugin' => 'Node', 'controller' => 'types', 'action' => 'add'], ['class' => 'btn btn-primary']); ?>
+</div>
+
+<p>
+	<?php
+		echo $this->Menu->render($types, [
 			'class' => 'list-group',
-			'formatter' => function ($item, $info) use ($view) {
-				return $view->element('types_list_item', ['item' => $item, 'info' => $info]);
+			'formatter' => function ($item, $info) {
+				return $this->element('Node.types_list_item', ['item' => $item, 'info' => $info]);
 			}
-		]
-	);
+		]);
+	?>
+</p>

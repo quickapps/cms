@@ -28,7 +28,7 @@ class CommentHook implements EventListener {
  */
 	public function implementedEvents() {
 		return [
-			'ObjectRender.Comment\Model\Entity\Comment' => 'renderComment'
+			'Render.Comment\Model\Entity\Comment' => 'renderComment'
 		];
 	}
 

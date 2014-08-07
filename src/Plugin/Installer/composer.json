@@ -1,7 +1,7 @@
 {
 	"name": "quickapps-plugin/installer",
 	"description": "Handles new installations of QuickApps CMS.",
-	"type": "library",
+	"type": "quickapps-plugin",
 	"keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],
 	"homepage": "http://quickappscms.org",
 	"license": "GPL-3.0",

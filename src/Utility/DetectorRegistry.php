@@ -13,6 +13,7 @@ namespace QuickApps\Utility;
 
 use Cake\Network\Session;
 use Cake\Routing\Router;
+use QuickApps\Utility\CacheTrait;
 
 /**
  * Detector Registry is used as a registry for detector methods, also provides a few
@@ -45,6 +46,8 @@ use Cake\Routing\Router;
  */
 class DetectorRegistry {
 
+	use CacheTrait;
+
 /**
  * Built-in detectors.
  *
@@ -70,16 +73,6 @@ class DetectorRegistry {
 		'page.index' => '_isPageFrontpage',
 		'detector.defined' => '_isDetectorDefined',
 	];
-
-/**
- * General propose cache for built-in detectors.
- *
- * Detectors may to store information in cache, to speed up
- * their performance.
- *
- * @var array
- */
-	protected static $_cache = [];
 
 /**
  * Runs the given detector.
@@ -173,7 +166,7 @@ class DetectorRegistry {
  */
 	protected function _isUserLogged() {
 		$session = new Session();
-		return $session->check('user');
+		return ($session->check('user.id') && !empty($session->check('user.id')));
 	}
 
 /**
@@ -183,7 +176,7 @@ class DetectorRegistry {
  */
 	protected function _isUserRole($role) {
 		$session = new Session();
-		if ($session->check('user')) {
+		if ($session->check('user.id') && !empty($session->read('user.id'))) {
 			return in_array($role, (array)$session->read('user.roles'));
 		}
 		return false;
@@ -269,24 +262,18 @@ class DetectorRegistry {
 /**
  * Checks if page being rendered is site's front page.
  *
- * @param boolean $force Set to true to ignore reading from cache
  * @return boolean
  */
-	protected function _isPageFrontpage($force = false) {
-		if (!empty(static::$_cache['_isPageFrontpage']) && !$force) {
-			return static::$_cache['_isPageFrontpage'];
-		}
-
+	protected function _isPageFrontpage() {
 		$request = Router::getRequest();
-		static::$_cache['_isPageFrontpage'] = (
+		return (
 			!empty($request->params['plugin']) &&
-			$request->params['plugin'] === 'node' &&
+			strtolower($request->params['plugin']) === 'node' &&
 			!empty($request->params['controller']) &&
-			$request->params['controller'] === 'serve' &&
+			strtolower($request->params['controller']) === 'serve' &&
 			!empty($request->params['action']) &&
-			$request->params['action'] === 'frontpage'
+			strtolower($request->params['action']) === 'frontpage'
 		);
-		return static::$_cache['_isPageFrontpage'];
 	}
 
 }

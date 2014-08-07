@@ -11,18 +11,12 @@
  */
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 	<head>
-		<?php echo $this->Html->meta('icon'); ?>
-		<?php echo $this->Html->charset(); ?>
-		<?php echo $this->fetch('meta'); ?>
+		<?php echo $this->element('System.theme_header'); ?>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title><?php echo $this->fetch('title'); ?></title>
-		<?php echo $this->fetch('css'); ?>
-		<?php echo $this->fetch('script'); ?>
-		<?php echo $this->Html->css('bootstrap.min.css'); ?>
-		<?php echo $this->Html->css('bootstrap-theme.min.css'); ?>
-		<?php echo $this->Html->script('bootstrap.min.js'); ?>
+		<?php echo $this->Html->css(['System.bootstrap.css', 'System.bootstrap-theme.css']); ?>
+		<?php echo $this->Html->script('System.bootstrap.js'); ?>
 		<style>
 			body { padding-top: 100px; }
 			.message article.comment { margin-left: 35px; }
@@ -33,7 +27,7 @@
 			<div class="container">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="sr-only"><?php echo __d('back_bootstrap', 'Toggle navigation'); ?></span>
+						<span class="sr-only"><?php echo __d('backend_theme', 'Toggle navigation'); ?></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>

@@ -23,7 +23,17 @@ use QuickApps\View\ViewModeTrait;
 /**
  * Block rendering dispatcher.
  *
- * Dispatches `ObjectRender.Block\Model\Entity\Block` rendering-request from View.
+ * Dispatches `Render.Block\Model\Entity\Block` rendering-request from View.
+ *
+ *     $block = new \Block\Model\Entity\Block();
+ *     $this->render($block);
+ *     // triggers: `Render.Block\Model\Entity\Block`
+ *
+ * It also dispatches BlockHelper::block():
+ *
+ *     $block = new \Block\Model\Entity\Block();
+ *     $this->Block->render($block);
+ *     // triggers: `Block.Block.display`
  */
 class BlockHook implements EventListener {
 
@@ -38,23 +48,31 @@ class BlockHook implements EventListener {
  */
 	public function implementedEvents() {
 		return [
-			'ObjectRender.Block\Model\Entity\Block' => [
-				'callable' => 'renderBlock',
-				'priority' => -1
-			],
+			'Render.Block\Model\Entity\Block' => 'renderBlock',
+			'Block.Block.display' => 'displayBlock',
 		];
 	}
 
 /**
  * Renders the given block entity.
  *
- * @param Cake\Event\Event $event
- * @param Block\Model\Entity\Block $block Block entity to be rendered
- * @param array $options Additional array of options
+ * @param \Cake\Event\Event $event
+ * @param \Block\Model\Entity\Block $block Block entity to be rendered
  * @return string The rendered block
  */
 	public function renderBlock(Event $event, $block, $options = []) {
-		return '';
+		return $event->subject->Block->render($block, $options);
+	}
+
+/**
+ * Renders the given block entity.
+ *
+ * @param \Cake\Event\Event $event
+ * @param \Block\Model\Entity\Block $block Block entity to be rendered
+ * @return string The rendered block
+ */
+	public function displayBlock(Event $event, $block, $options = []) {
+		return $event->subject->_View->element('Block.render_block', ['block' => $block, 'options' => $options]);
 	}
 
 }

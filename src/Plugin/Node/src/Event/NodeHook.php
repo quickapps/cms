@@ -30,7 +30,7 @@ class NodeHook implements EventListener {
  */
 	public function implementedEvents() {
 		return [
-			'ObjectRender.Node\Model\Entity\Node' => 'renderNode',
+			'Render.Node\Model\Entity\Node' => 'renderNode',
 			'Dispatcher.beforeDispatch' => 'dispatcherBeforeDispatch',
 		];
 	}
@@ -143,7 +143,7 @@ class NodeHook implements EventListener {
 			"render_node_{$node->node_type_slug}_{$viewMode}",
 			"render_node_{$node->node_type_slug}",
 			"render_node_{$viewMode}",
-			'render_node'
+			'Node.render_node'
 		];
 
 		foreach ($try as $element) {

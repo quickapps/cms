@@ -394,7 +394,7 @@ class MenuHelper extends AppHelper {
 		}
 
 		if (
-			getOption('url_locale_prefix') &&
+			option('url_locale_prefix') &&
 			is_string($url) &&
 			str_starts_with($url, '/') &&
 			!preg_match('/^\\/[' . $locales . ']/', $url)
@@ -490,7 +490,7 @@ class MenuHelper extends AppHelper {
 		$path = !$path ? '/' . $request->url : $path;
 		$patterns = explode("\n", $patterns);
 
-		if (getOption('url_locale_prefix')) {
+		if (option('url_locale_prefix')) {
 			static $locales = null;
 
 			if (empty($locales)) {
@@ -510,7 +510,7 @@ class MenuHelper extends AppHelper {
 			$p = str_replace($request->base, '', $p);
 
 			if (
-				getOption('url_locale_prefix') &&
+				option('url_locale_prefix') &&
 				!preg_match('/^\/(' . $locales . ')\//', $p, $matches)
 			) {
 				$p = '/' . Configure::read('Config.language') . $p;

@@ -12,7 +12,9 @@
 namespace QuickApps\View\Helper;
 
 use Cake\View\Helper;
+use QuickApps\Utility\DetectorTrait;
 use Quickapps\Utility\HookTrait;
+use Quickapps\Utility\CacheTrait;
 
 /**
  * Application Helper
@@ -22,6 +24,8 @@ use Quickapps\Utility\HookTrait;
  */
 class AppHelper extends Helper {
 
+	use DetectorTrait;
 	use HookTrait;
+	use CacheTrait;
 
 }

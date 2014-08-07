@@ -30,6 +30,8 @@ class SluggableBehavior extends Behavior {
  */
 	protected $_table;
 
+	protected $_enabled = true;
+
 /**
  * Default configuration.
  *
@@ -49,7 +51,8 @@ class SluggableBehavior extends Behavior {
 		'on' => 'both',
 		'length' => 200,
 		'implementedMethods' => [
-			'slugConfig' => 'slugConfig',
+			'bindSluggable' => 'bindSluggable',
+			'unbindSluggable' => 'unbindSluggable',
 		],
 	];
 
@@ -73,6 +76,10 @@ class SluggableBehavior extends Behavior {
  * @return boolean True if save should proceed, false otherwise
  */
 	public function beforeSave(Event $event, $entity, $options) {
+		if (!$this->_enabled) {
+			return true;
+		}
+
 		$config = $this->config();
 
 		if (!is_array($config['label'])) {
@@ -81,7 +88,7 @@ class SluggableBehavior extends Behavior {
 
 		foreach ($config['label'] as $field) {
 			if (!$entity->has($field)) {
-				return true;
+				return false;
 			}
 		}
 
@@ -107,14 +114,12 @@ class SluggableBehavior extends Behavior {
 		return true;
 	}
 
-/**
- * Utility method for changing the behavior configuration on the fly.
- *
- * @param array $config Array of options as `key` => `value`
- * @return void
- */
-	public function slugConfig($config) {
-		$this->config($config);
+	public function bindSluggable() {
+		$this->_enabled = true;
+	}
+
+	public function unbindSluggable() {
+		$this->_enabled = false;
 	}
 
 /**

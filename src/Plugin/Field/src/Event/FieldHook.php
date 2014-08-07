@@ -23,7 +23,7 @@ use QuickApps\View\ViewModeTrait;
 /**
  * Field rendering dispatcher.
  *
- * Dispatches `ObjectRender.Field\Model\Entity\Field` rendering-request
+ * Dispatches `Render.Field\Model\Entity\Field` rendering-request
  * from View to their corresponding FieldHandlers.
  *
  * Field Handlers should implement the `<FieldHandler>.Entity.display` hook. e.g.:
@@ -63,7 +63,7 @@ class FieldHook implements EventListener {
  */
 	public function implementedEvents() {
 		return [
-			'ObjectRender.Field\Model\Entity\Field' => [
+			'Render.Field\Model\Entity\Field' => [
 				'callable' => 'renderField',
 				'priority' => -1
 			],

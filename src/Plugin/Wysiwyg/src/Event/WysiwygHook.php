@@ -28,6 +28,20 @@ class WysiwygHook implements EventListener {
 	protected static $_jsLoaded = false;
 
 /**
+ * Counts how many CK instances has been created.
+ *
+ * @var boolean
+ */
+	protected static $_counter = 0;
+
+/**
+ * Holds the original template used by FormHelper.
+ * 
+ * @var string
+ */
+	protected static $_textareaOriginalTemplate = null;
+
+/**
  * Returns a list of hooks this Hook Listener is implementing. When the class is registered
  * in an event manager, each individual method will be associated with the respective event.
  *
@@ -48,22 +62,31 @@ class WysiwygHook implements EventListener {
  * @return void
  */
 	public function alterTextarea(Event $event, $fieldName, &$options) {
+		if (!static::$_textareaOriginalTemplate) {
+			static::$_textareaOriginalTemplate = $event->subject->templates('textarea');
+		}
+
 		if (
 			!empty($options['class']) &&
 			strpos($options['class'], 'ckeditor') !== false &&
 			!static::$_jsLoaded
 		) {
-			$View = $event->subject->_View;
-			$View->Html->script('Wysiwyg.ckeditor/ckeditor.js', ['block' => true]);
-			$View->Html->script('Wysiwyg.ckeditor/adapters/jquery.js', ['block' => true]);
-			$View->Html->scriptBlock('
-			$(document).ready(function () {
-				CKEDITOR.editorConfig = function(config) {
-					config.filebrowserBrowseUrl = "' . $View->Html->url(['plugin' => 'Wysiwyg', 'controller' => 'el_finder']) . '";
-				};
-			});
-			', ['block' => true]);
+			static::$_counter++;
 			static::$_jsLoaded = true;
+			$editorId = 'ck-editor-' . static::$_counter;
+			$options['class'] .= ' ' . $editorId;
+			$extra = '';
+			$filebrowserBrowseUrl = $event->subject->_View->Html->url(['plugin' => 'Wysiwyg', 'controller' => 'el_finder']);
+			$event->subject->_View->Html->script('Wysiwyg.ckeditor/ckeditor.js', ['block' => true]);
+			$event->subject->_View->Html->script('Wysiwyg.ckeditor/adapters/jquery.js', ['block' => true]);
+			$event->subject->_View->Html->scriptBlock('$(document).ready(function () {
+				CKEDITOR.editorConfig = function(config) {
+					config.filebrowserBrowseUrl = "' . $filebrowserBrowseUrl . '";
+				};
+			});', ['block' => true]);
+			$event->subject->templater()->add(['textarea' => static::$_textareaOriginalTemplate . $extra]);
+		} else {
+			$event->subject->templater()->add(['textarea' => static::$_textareaOriginalTemplate]);
 		}
 	}
 

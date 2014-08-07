@@ -16,7 +16,7 @@ use Cake\ORM\TableRegistry;
 use User\Model\Entity\User;
 
 /**
- * Represents a single "comment" from "comments" database table.
+ * Represents a single "comment" within "comments" table.
  *
  */
 class Comment extends Entity {
@@ -25,7 +25,7 @@ class Comment extends Entity {
  * Returns comment's author as a mock user entity. With the properties below:
  *
  * - `username`: QuickAppsCMS's `username` (the one used for login) if 
- *    comment's author was a logged in user. NULL otherwise
+ *    comment's author was a logged in user. "anonymous" otherwise.
  * - `name`: Real name of the author. `Anonymous` if not provided.
  * - `web`: Author's website (if provided).
  * - `email`: Author's email (if provided).
@@ -65,4 +65,5 @@ class Comment extends Entity {
 
 		return new User($author);
 	}
+
 }

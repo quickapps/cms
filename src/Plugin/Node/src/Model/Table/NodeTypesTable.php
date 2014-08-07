@@ -16,6 +16,7 @@ use Cake\Event\Event;
 use Cake\ORM\Entity;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
+use Cake\Validation\Validator;
 
 /**
  * Represents "node_types" database table.
@@ -47,6 +48,62 @@ class NodeTypesTable extends Table {
 			'slug' => 'slug',
 			'on' => 'insert',
 		]);
+	}
+
+/**
+ * Default validation rules set.
+ *
+ * @param \Cake\Validation\Validator $validator
+ * @return \Cake\Validation\Validator
+ */
+	public function validationDefault(Validator $validator) {
+		$validator
+			->validatePresence('name')
+			->add('name', [
+				'notEmpty' => [
+					'rule' => 'notEmpty',
+					'message' => __d('node', 'You need to provide a content type name.'),
+				],
+				'length' => [
+					'rule' => ['minLength', 3],
+					'message' => __d('node', 'Name need to be at least 3 characters long.'),
+				],
+			])
+			->allowEmpty('slug')
+			->add('slug', 'checkSlug', [
+				'rule' => function ($value, $context) {
+					$this->unbindSluggable();
+					return preg_match('/[a-z0-9\-]{3,}/', $value) === 1;
+				},
+				'message' => __d('node', 'Invalid machine-name.'),
+				'provider' => 'table',
+			])
+			->validatePresence('title_label')
+			->add('title_label', [
+				'notEmpty' => [
+					'rule' => 'notEmpty',
+					'message' => __d('node', 'You need to provide a "Title Label".'),
+				],
+				'length' => [
+					'rule' => ['minLength', 3],
+					'message' => __d('node', '"Title Label" need to be at least 3 characters long.'),
+				],
+			]);
+
+		return $validator;
+	}
+
+/**
+ * Regenerates snapshot after new content type is created.
+ * 
+ * @param \Cake\Event\Event $event
+ * @param \Cake\ORM\Entity $entity
+ * @return void
+ */
+	public function afterSave(Event $event, Entity $entity) {
+		if ($entity->isNew()) {
+			snapshot();
+		}
 	}
 
 }

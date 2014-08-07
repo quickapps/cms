@@ -35,7 +35,7 @@ if (!file_exists(SITE_ROOT . '/Config/settings.php')) {
 /**
  * Generate basic routes.
  */
-	$localePrefix = getOption('url_locale_prefix');
+	$localePrefix = option('url_locale_prefix');
 	$locales = array_keys(Configure::read('QuickApps.languages'));
 	$localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
 

@@ -18,4 +18,5 @@ use Cake\ORM\Table;
  *
  */
 class UsersTable extends Table {
+
 }

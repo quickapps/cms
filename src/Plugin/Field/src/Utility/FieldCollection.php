@@ -36,7 +36,7 @@ class FieldCollection extends ArrayObject {
 	}
 
 /**
- * Allows access to fields by its numeric index or by its machine-name.
+ * Allows access fields by numeric index or by machine-name.
  *
  * ### Example:
  *
@@ -86,11 +86,9 @@ class FieldCollection extends ArrayObject {
  */
 	public function machineNames() {
 		$mn = [];
-
 		foreach ($this as $f) {
 			$mn[] = $f->name;
 		}
-
 		return $mn;
 	}
 
@@ -109,7 +107,6 @@ class FieldCollection extends ArrayObject {
 			if (isset($field->metadata->view_modes[$viewMode])) {
 				return $field->metadata->view_modes[$viewMode]['ordering'];
 			}
-
 			return 0;
 		}, $dir);
 
@@ -128,11 +125,9 @@ class FieldCollection extends ArrayObject {
  */
 	public function __debugInfo() {
 		$out = [];
-
 		foreach ($this as $f) {
 			$out[] = $f;
 		}
-
 		return $out;
 	}
 

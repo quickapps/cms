@@ -1,7 +1,7 @@
 {
 	"name": "quickapps-plugin/comment",
 	"description": "Allows users to comment on and discuss published content.",
-	"type": "library",
+	"type": "quickapps-plugin",
 	"keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],
 	"homepage": "http://quickappscms.org",
 	"license": "GPL-3.0",

@@ -1,7 +1,7 @@
 {
 	"name": "quickapps-theme/backend-theme",
 	"description": "QuickApps CMS backend default theme based on Twitter Bootstrap.",
-	"type": "library",
+	"type": "quickapps-plugin",
 	"keywords": ["framework", "cms", "cmf", "quickapps"],
 	"homepage": "http://quickappscms.org",
 	"license": "GPL-3.0",

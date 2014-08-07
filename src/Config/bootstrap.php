@@ -179,8 +179,8 @@ foreach (App::objects('Plugin') as $plugin) {
 
 	if (
 		in_array($plugin, $activePlugins) ||
-		$plugin === getOption('site_theme') ||
-		$plugin === getOption('admin_theme')
+		$plugin === option('site_theme') ||
+		$plugin === option('admin_theme')
 	) {
 		Plugin::load($plugin, [
 			'namespace' => $plugin,

@@ -61,6 +61,8 @@ class Controller extends CakeCotroller {
 		'Html' => ['className' => 'QuickApps\View\Helper\HtmlHelper'],
 		'Form' => ['className' => 'QuickApps\View\Helper\FormHelper'],
 		'Menu' => ['className' => 'Menu\View\Helper\MenuHelper'],
+		'Block.Region',
+		'Block.Block',
 	];
 
 /**
@@ -136,15 +138,15 @@ class Controller extends CakeCotroller {
 
 		if ($session->check('user.locale') && in_array($session->read('user.locale'), $locales)) {
 			Configure::write('Config.language', $session->read('user.locale'));
-		} elseif (in_array(getOption('default_language'), $locales)) {
-			Configure::write('Config.language', getOption('default_language'));
+		} elseif (in_array(option('default_language'), $locales)) {
+			Configure::write('Config.language', option('default_language'));
 		} else {
 			Configure::write('Config.language', 'en-us');
 		}
 
 		if (
 			$this->request->url !== false &&
-			getOption('url_locale_prefix') &&
+			option('url_locale_prefix') &&
 			!str_starts_with($this->request->url, Configure::read('Config.language'))
 		) {
 			$url = $this->request->url;
@@ -162,9 +164,9 @@ class Controller extends CakeCotroller {
 	protected function _prepareTheme() {
 		// TODO: change AppController::theme according to site settings.
 		if (!empty($this->request->params['prefix']) && strtolower($this->request->params['prefix']) === 'admin') {
-			$this->theme = 'BackendTheme';
+			$this->theme = option('back_theme');
 		} else {
-			$this->theme = 'FrontendTheme';
+			$this->theme = option('front_theme');
 		}
 	}
 

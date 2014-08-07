@@ -18,6 +18,7 @@ use Cake\Error\FatalErrorException;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
+use QuickApps\Utility\CacheTrait;
 
 /**
  * Plugin is used to load and locate plugins.
@@ -26,15 +27,17 @@ use Cake\Utility\Inflector;
  */
 class Plugin extends CakePlugin {
 
+	use CacheTrait;
+
 /**
  * Default options for composer's json file.
  *
  * @var array
  */
-	private static $_defaultComposerJson = [
+	protected static $_defaultComposerJson = [
 		'name' => null,
 		'description' => null,
-		'version' => null,
+		'version' => 'dev',
 		'type' => null,
 		'keywords' => [],
 		'homepage' => null,
@@ -79,17 +82,35 @@ class Plugin extends CakePlugin {
 	];
 
 /**
- * Gets plugins information as a collection object.
+ * Gets all plugins information as a collection object.
+ *
+ * When $ignoreError is set to true and a corrupt plugin is found, it will
+ * be removed from the resulting collection.
  *
  * @param boolean $extendedInfo Set to true to get extended information for each plugin
+ * @param boolean $ignoreError Set to true to ignore error messages when a corrupt plugin is found. Defaults to true
  * @return \Cake\Collection\Collection
  */
-	public static function collection($extendedInfo = false) {
+	public static function collection($extendedInfo = false, $ignoreError = true) {
 		$collection = new Collection((array)Configure::read('QuickApps.plugins'));
 
 		if ($extendedInfo) {
-			$collection = $collection->map(function ($info, $key) {
-				return Plugin::info($key, true);
+			$collection = $collection->map(function ($info, $key) use($ignoreError) {
+				try {
+					$out = Plugin::info($key, true);
+				} catch (FatalErrorException $e) {
+					if (!$ignoreError) {
+						throw $e;
+					} else {
+						return false;
+					}
+				}
+
+				return $out;
+			});
+
+			$collection = $collection->filter(function($value, $key) {
+				return $value !== false;
 			});
 		}
 
@@ -126,17 +147,25 @@ class Plugin extends CakePlugin {
  */
 	public static function info($plugin, $full = false) {
 		$plugin = Inflector::camelize($plugin);
-		$info = (array)Configure::read('QuickApps.plugins.' . $plugin);
+		$cacheKey = "info({$plugin},{$full})";
 
+		if ($cache = static::_cache($cacheKey)) {
+			return $cache;
+		}
+
+		$info = (array)Configure::read('QuickApps.plugins.' . $plugin);
 		if (!$info) {
-			throw new FatalErrorException(__('system', 'Plugin "%s" was not found', $plugin));
+			throw new FatalErrorException(__('Plugin "%s" was not found', $plugin));
 		}
 
 		if ($full) {
-			if (!file_exists($info['path'] . '/composer.json')) {
-				throw new FatalErrorException(__('system', 'Missing composer.json for plugin "%s"', $plugin));
+			$json = static::composer($plugin);
+
+			if (!$json) {
+				throw new FatalErrorException(__('Missing or corrupt "composer.json" file for plugin "%s"', $plugin));
 			}
-			$json = Hash::merge(static::$_defaultComposerJson, json_decode(file_get_contents($info['path'] . '/composer.json'), true));
+
+			$json = Hash::merge(static::$_defaultComposerJson, $json);
 			$info['composer'] = $json;
 			$info['settings'] = [];
 			$dbInfo = TableRegistry::get('System.Plugins')
@@ -150,7 +179,171 @@ class Plugin extends CakePlugin {
 			}
 		}
 
+		static::_cache($cacheKey, $info);
 		return (array)$info;
+	}
+
+/**
+ * Gets composer json information for the given plugin.
+ * 
+ * @param string $plugin Plugin alias, e.g. `UserManager` or `user_manager`
+ * @return mixed False if composer.json is missing or corrupt, or composer info as an array if valid composer.json is found
+ */
+	public static function composer($plugin) {
+		$plugin = Inflector::camelize($plugin);
+		$cacheKey = "composer({$plugin})";
+
+		if ($cache = static::_cache($cacheKey)) {
+			return $cache;
+		}
+
+		$info = static::info($plugin, false);
+
+		if (!file_exists($info['path'] . '/composer.json')) {
+			return false;
+		}
+
+		$json = json_decode(file_get_contents($info['path'] . '/composer.json'), true);
+
+		if (!static::validateJson($json)) {
+			return false;
+		}
+
+		static::_cache($cacheKey, $json);
+		return $json;
+	}
+
+/**
+ * Validates a composer.json file.
+ *
+ * Below a list of validation rules that are applied:
+ *
+ * - must be a valid JSON file.
+ * - key `version` must be present.
+ * - key `type` must be present and be "quickapps-plugin".
+ * - key `name` must be present.
+ * - key `description` must be present.
+ * - key `extra.regions` must be present if it's a theme (its name ends with `-theme`, e.g. `quickapps/blue-sky-theme`)
+ *
+ * ### Usage:
+ *
+ *     $json = json_decode(file_gets_content('/path/to/composer.json'), true);
+ *     Plugin::validateJson($json);
+ *     // OR:
+ *     Plugin::validateJson('/path/to/composer.json');
+ * 
+ * @param array|string $json JSON given as an array result of `json_decode(..., true)`, or a string as path to where .json file can be found
+ * @return boolean
+ */
+	public static function validateJson($json) {
+		if (is_string($json)) {
+			$json = json_decode($json, true);
+		}
+
+		if (!is_array($json) || empty($json)) {
+			return false;
+		}
+
+		$ok =
+			isset($json['version']) &&
+			isset($json['type']) &&
+			$json['type'] === 'quickapps-plugin' &&
+			isset($json['name']) &&
+			isset($json['description']);
+
+		if (isset($json['name']) && str_ends_with(strtolower($json['name']), 'theme')) {
+			$ok = $ok && isset($json['extra']['regions']);
+			if (!isset($json['extra']['admin'])) {
+				$json['extra']['admin'] = false;
+			}
+		}
+
+		return $ok;
+	}
+
+/**
+ * Gets settings from DB for given plugin.
+ * 
+ * @param string $plugin Plugin alias, e.g. `UserManager` or `user_manager`
+ * @return array
+ */
+	public static function settings($plugin) {
+		$plugin = Inflector::camelize($plugin);
+		$cacheKey = "settings({$plugin})";
+
+		if ($cache = static::_cache($cacheKey)) {
+			return $cache;
+		}
+
+		$settings = [];
+		$PluginsTable = TableRegistry::get('Plugins');
+		$PluginsTable->schema(['settings' => 'serialized']);
+		$dbInfo = $PluginsTable
+			->find()
+			->select(['settings'])
+			->where(['name' => $plugin])
+			->first();
+
+		if ($dbInfo) {
+			$settings = (array)$dbInfo->settings;
+		}
+
+		static::_cache($cacheKey, $settings);
+		return $settings;
+	}
+
+/**
+ * Gets plugin's dependencies.
+ *
+ * ### Example:
+ *
+ *     Plugin::dependencies('UserManager');
+ *     // may returns:
+ *     [
+ *         'UserWork' => '1.0',
+ *         'Calentar' => '1.0.*',
+ *     ]
+ *
+ * @param string $plugin Plugin alias, e.g. `UserManager` or `user_manager`
+ * @return array List of plugin & version that $plugin depends on
+ * @throws \Cake\Eror\FatalErrorException When $plugin is not found, or when composer.json is missing/corrupt
+ */
+	public static function dependencies($plugin) {
+		$info = static::info($plugin, true);debug($info);
+		$dependencies = [];
+		if (!empty($info['composer']['require'])) {
+			foreach ($info['composer']['require'] as $name => $version) {
+				if ($name == 'quickapps/cms') {
+					continue;
+				}
+				$parts = explode('/', $name);
+				$dependencies[Inflector::camelize(end($parts))] = $version;
+			}
+		}
+
+		return $dependencies;
+	}
+
+/**
+ * Check if plugin is dependent on any other plugin.
+ * If yes, check if that plugin is available (installed and enabled).
+ *
+ * @param string $plugin plugin alias
+ * @return boolean True if everything is OK, false otherwise
+ */
+	public static function checkDependency($plugin) {
+		$dependencies = static::dependencies($plugin);
+		foreach ($dependencies as $p => $v) {
+			try {
+				$info = static::info($p, true);
+			} catch (FatalErrorException $e) {
+				return false;
+			}
+
+			// TODO: Plugin::checkDependency(), do some version compare
+		}
+
+		return true;
 	}
 
 }

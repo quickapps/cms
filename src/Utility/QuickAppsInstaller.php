@@ -30,12 +30,19 @@ class QuickAppsInstaller extends BaseInstaller {
 /**
  * Format package name to CamelCase.
  *
+ * For example, "user-manager-plugin" becomes "UserManagerPlugin",
+ *
  * @param array $vars
  * @return array Modified $vars
  */
 	public function inflectPackageVars($vars) {
-		$vars['name'] = strtolower(str_replace(array('-', '_'), ' ', $vars['name']));
-		$vars['name'] = str_replace(' ', '', ucwords($vars['name']));
+		$vars['name'] = str_replace(' ', '', 
+			ucwords(
+				strtolower(
+					str_replace(array('-', '_'), ' ', $vars['name'])
+				)
+			)
+		);
 
 		return $vars;
 	}

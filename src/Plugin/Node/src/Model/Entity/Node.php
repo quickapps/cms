@@ -20,7 +20,7 @@ use Node\Model\Entity\NodeType;
 use User\Model\Entity\User;
 
 /**
- * Represents a single "node" from "nodes" database table.
+ * Represents a single "node" within "nodes" table.
  *
  */
 class Node extends Entity {
@@ -59,7 +59,7 @@ class Node extends Entity {
 	public function _getUrl() {
 		$url = Router::getRequest()->base;
 
-		if (getOption('url_locale_prefix')) {
+		if (option('url_locale_prefix')) {
 			$url .= '/' . Configure::read('Config.language');
 		}
 

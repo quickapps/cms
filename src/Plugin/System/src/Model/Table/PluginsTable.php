@@ -13,9 +13,7 @@ namespace System\Model\Table;
 
 use Cake\Database\Schema\Table as Schema;
 use Cake\Event\Event;
-use Cake\ORM\Entity;
 use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
 
 /**
  * Represents "plugins" database table.
@@ -32,6 +30,18 @@ class PluginsTable extends Table {
 	protected function _initializeSchema(Schema $table) {
 		$table->columnType('settings', 'serialized');
 		return $table;
+	}
+
+/**
+ * Regenerate snapshot after table changes.
+ *
+ * @param \Cake\Event\Event $table The table definition fetched from database
+ * @param \Cake\ORM\Entity $entity
+ * @param array $options
+ * @return void
+ */
+	protected function afterSave(Event $event, Entity $entity, $options) {
+		snapshot();
 	}
 
 }

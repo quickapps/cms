@@ -14,7 +14,7 @@ namespace Node\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Represents a single "node_revision" from "node_revisions" database table.
+ * Represents a single "node_revision" within "node_revisions" table.
  *
  */
 class NodeRevision extends Entity {

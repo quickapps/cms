@@ -22,7 +22,7 @@
 			);
 		?>
 
-		<?php if ($info['hasHelp']): ?>
+		<?php if ($info['status'] && $info['hasHelp']): ?>
 			<?php
 				echo $this->Html->link(
 					'<span class="glyphicon glyphicon-question-sign"></span>',
@@ -32,7 +32,7 @@
 			?>
 		<?php endif; ?>
 
-		<?php if ($info['hasSettings']): ?>
+		<?php if ($info['status'] && $info['hasSettings']): ?>
 			<?php
 				echo $this->Html->link(
 					'<span class="glyphicon glyphicon-cog"></span>',
@@ -156,9 +156,8 @@
 		<?php endforeach; ?>
 		</div>
 
-		<hr />
-
 		<?php if (!empty($info['composer']['keywords'])): ?>
+			<hr />
 			<div class="clearfix text-left">
 				<?php foreach($info['composer']['keywords'] as $tag): ?>
 					<?php echo $this->Html->link($tag, 'https://packagist.org/search/?q=' . $tag, ['class' => 'label label-default', 'target' => '_blank']); ?>

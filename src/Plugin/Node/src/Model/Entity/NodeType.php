@@ -14,7 +14,7 @@ namespace Node\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Represents a single "node_type" from "node_types" database table.
+ * Represents a single "node_type" within "node_types" table.
  *
  */
 class NodeType extends Entity {

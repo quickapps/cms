@@ -1,7 +1,7 @@
 {
 	"name": "quickapps-theme/frontend-theme",
 	"description": "QuickApps CMS frontend default theme based on Twitter Bootstrap.",
-	"type": "library",
+	"type": "quickapps-plugin",
 	"keywords": ["framework", "cms", "cmf", "quickapps"],
 	"homepage": "http://quickappscms.org",
 	"license": "GPL-3.0",
@@ -16,7 +16,9 @@
 	"extra": {
 		"admin": false,
 		"regions": {
-			"main-menu": "Main Menu"
+			"main-menu": "Main Menu",
+			"left-sidebar": "Left Sidebar",
+			"right-sidebar": "Right Sidebar"
 		}
 	}
 }

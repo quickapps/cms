@@ -809,7 +809,7 @@ class FieldableBehavior extends Behavior {
 				if (is_string($value)) {
 					$mock->set('value', $value);
 				} else {
-					$mock->set('extra', (array)$value);
+					$mock->set('extra', $value);
 				}
 			}
 

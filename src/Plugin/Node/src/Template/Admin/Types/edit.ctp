@@ -19,7 +19,6 @@
 
 	<hr />
 
-
 	<fieldset>
 		<legend><?php echo __d('node', 'Content Type Settings'); ?></legend>
 
@@ -59,5 +58,5 @@
 		<em class="help-block"><?php echo __d('node', 'Default language for new contents.'); ?></em>
 	</fieldset>
 
-	<?php echo $this->Form->submit(__d('node', 'Seve changes')); ?>
+	<?php echo $this->Form->submit(__d('node', 'Save changes')); ?>
 <?php echo $this->Form->end(); ?>

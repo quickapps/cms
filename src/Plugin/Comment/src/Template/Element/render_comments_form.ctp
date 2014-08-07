@@ -33,8 +33,8 @@
 					<?php echo $this->Form->hidden('comment.parent_id', ['id' => 'comment-parent-id']); ?>
 
 					<?php if ($this->is('user.logged')): ?>
-						<?php echo $this->Html->image($this->user()->avatar); ?>
-						@<?php echo $this->user()->username; ?> (<?php echo $this->user()->name; ?>) &lt;<?php echo $this->user()->email; ?>&gt;
+						<?php echo $this->Html->image(user()->avatar); ?>
+						@<?php echo user()->username; ?> (<?php echo user()->name; ?>) &lt;<?php echo user()->email; ?>&gt;
 					<?php elseif ($this->Comment->config('allow_anonymous')): ?>
 						<?php if ($this->Comment->config('anonymous_name')): ?>
 							<?php echo $this->Form->input('comment.author_name', $this->Comment->optionsForInput('author_name')); ?>

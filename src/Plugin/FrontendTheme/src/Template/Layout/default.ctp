@@ -11,19 +11,10 @@
  */
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 	<head>
-		<title><?php echo $this->fetch('title'); ?></title>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<?php echo $this->Html->meta('icon'); ?>
-		<?php echo $this->Html->charset(); ?>
-		<?php echo $this->fetch('meta'); ?>
-		<?php echo $this->fetch('css'); ?>
-		<?php echo $this->fetch('script'); ?>
-		<?php echo $this->Html->css('bootstrap.min.css'); ?>
-		<?php echo $this->Html->css('bootstrap-theme.min.css'); ?>
-		<?php echo $this->Html->css('backbootstrap.css'); ?>
-		<?php echo $this->Html->script('bootstrap.min.js'); ?>
+		<?php echo $this->element('System.theme_header'); ?>
+		<?php echo $this->Html->css(['System.bootstrap.css', 'System.bootstrap-theme.css', 'backbootstrap.css']); ?>
 	</head>
 	<body>
 		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">

@@ -14,15 +14,12 @@ namespace QuickApps\View;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
-use Cake\Network\Session;
 use Cake\View\View as CakeView;
 use QuickApps\Utility\AlertTrait;
 use QuickApps\Utility\DetectorTrait;
 use QuickApps\Utility\HooktagTrait;
 use QuickApps\Utility\HookTrait;
 use QuickApps\View\ViewModeTrait;
-use User\Error\UserNotLoggedInException;
-use User\Model\Entity\User;
 
 /**
  * QuickApps View class.
@@ -60,21 +57,20 @@ class View extends CakeView {
  *     // $field, instance of: Field\Model\Entity\Field
  *     $this->render($field);
  *
- * When rendering objects the `ObjectRender.<ClassName>` hook-callback is automatically fired.
- * For example, when rendering a node entity the following hook is fired asking for its HTML rendering:
+ * When rendering objects the `Render.<ClassName>` event is automatically fired.
+ * For example, when rendering a node entity the following event is fired asking for its HTML rendering:
  *
- *     // Will trigger: ObjectRender.QuickaApps\Node\Model\Entity\Node
+ *     // Will trigger: Render.QuickaApps\Node\Model\Entity\Node
  *     $someNode = TableRegistry::get('Nodes')->get(1);
  *     $this->render($someNode);
  *
- * It is not limited to Entity instances only, you can virtually define an `ObjectRender` for
- * any class name.
+ * It is not limited to Entity instances only, you can virtually define a `Render` for any class name.
  *
- * You can pass an unlimited number of arguments to your `ObjectRender` as follow:
+ * You can pass an unlimited number of arguments to your `Render` as follow:
  *
  *     $this->render($someObject, arg_1, arg_2, ...., arg_n);
  *
- * Your ObjectRender may look as below:
+ * Your Render event-handler may look as below:
  *
  *     public function renderMyObject(Event $event, $theObject, $arg_1, $arg_2, ..., $arg_n);
  *
@@ -89,7 +85,7 @@ class View extends CakeView {
 			$args = func_get_args();
 			array_shift($args);
 			$args = array_merge([$view], (array)$args); // [entity, options]
-			$event = new Event("ObjectRender.{$className}", $this, $args);
+			$event = new Event("Render.{$className}", $this, $args);
 			EventManager::instance()->dispatch($event);
 			$html = $event->result;
 		} else {
@@ -130,27 +126,6 @@ class View extends CakeView {
 	}
 
 /**
- * Gets current logged in user as an entity.
- *
- * This method will throw when user is not logged in.
- * You must make sure user is logged in before using this method:
- *
- *     // in any view:
- *     if ($this->is('user.logged')) {
- *         $userName = $this->user()->name;
- *     }
- *
- * @return \User\Model\Entity\User
- * @throws \User\Error\UserNotLoggedInException
- */
-	public function user() {
-		if (!$this->is('user.logged')) {
-			throw new UserNotLoggedInException(__d('user', 'View::user(), requires User to be logged in.'));
-		}
-		return new User((new Session())->read('user'));
-	}
-
-/**
  * Sets title for layout.
  *
  * It sets `title_for_layout` view variable, if no previous title was set on controller.
@@ -182,7 +157,7 @@ class View extends CakeView {
 				}
 			}
 
-			$title = empty($title) ? getOption('site_title') : $title;
+			$title = empty($title) ? option('site_title') : $title;
 			$this->assign('title', $title);
 			$this->set('title_for_layout', $title);
 		} else {
@@ -222,7 +197,7 @@ class View extends CakeView {
 				}
 			}
 
-			$description = empty($description) ? getOption('site_description') : $description;
+			$description = empty($description) ? option('site_description') : $description;
 			$this->assign('description', $description);
 			$this->set('description_for_layout', $description);
 			$this->append('meta', $this->Html->meta('description', $description));

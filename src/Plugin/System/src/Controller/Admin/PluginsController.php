@@ -48,7 +48,7 @@ class PluginsController extends AppController {
 			'errors' => [],
 		];
 
-		if (!$plugin['hasSettings']) {
+		if (!$plugin['hasSettings'] || $plugin['isTheme']) {
 			throw new NotFoundException(__d('system', 'The requested page was not found.'));
 		}
 

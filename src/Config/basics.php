@@ -13,12 +13,18 @@ use Cake\Cache\Cache;
 use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
+use Cake\Event\EventManager;
 use Cake\I18n\I18n;
+use Cake\Network\Session;
 use Cake\Routing\Router;
+use Cake\Utility\Debugger;
 use Cake\Utility\Folder;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use Cake\ORM\TableRegistry;
+use User\Error\UserNotLoggedInException;
+use User\Model\Entity\User;
+use QuickApps\Utility\DetectorRegistry;
 
 /**
  * Stores some bootstrap-handy information into a persistent file.
@@ -92,12 +98,13 @@ function snapshot($mergeWith = []) {
 			}
 		}
 
-		if (!$pluginPath) {
+		if ($pluginPath === false || !file_exists($pluginPath . '/composer.json')) {
+			Debugger::log(sprintf('Plugin "%s" was found in DB but QuickApps CMS was unable to locate its directory in the file system or its "composer.json" file.', $plugin->name));
 			continue;
 		}
 
 		$eventsPath =  $pluginPath . '/src/Event/';
-		$isCore = (strpos(str_replace(['/', DS], '/', $pluginPath), str_replace(['/', DS], '/', APP)) !== false);
+		$isCore = strpos(str_replace(['/', DS], '/', $pluginPath), str_replace(['/', DS], '/', APP)) !== false;
 		$events = [
 			'hooks' => [],
 			'hooktags' => [],
@@ -149,13 +156,54 @@ function snapshot($mergeWith = []) {
 }
 
 /**
+ * Gets current logged in user as an entity.
+ *
+ * This function will throw when user is not logged in.
+ * You must make sure user is logged in before using this function:
+ *
+ *     // in any view:
+ *     if ($this->is('user.logged')) {
+ *         $userName = user()->name;
+ *     }
+ *
+ * @return \User\Model\Entity\User
+ * @throws \User\Error\UserNotLoggedInException
+ */
+	function user() {
+		if (!DetectorRegistry::is('user.logged')) {
+			throw new UserNotLoggedInException(__d('user', 'View::user(), requires User to be logged in.'));
+		}
+		static $user = null;
+		if ($user === null) {
+			$user = new User((new Session())->read('user'));
+		}
+		return $user;
+	}
+
+/**
+ * Gets roles ID of the current user.
+ *
+ * Constants "ROLE_ID_ADMINISTRATOR", "ROLE_ID_AUTHENTICATED" and "ROLE_ID_ANONYMOUS"
+ * are hard-coded values defined by the User plugin.
+ * 
+ * @return array
+ */
+	function userRoles() {
+		if (DetectorRegistry::is('user.logged')) {
+			return array_unique(array_merge(user()->roles, [ROLE_ID_AUTHENTICATED]));
+		}
+
+		return [ROLE_ID_ANONYMOUS];
+	}
+
+/**
  * Shortcut for getting an option value from "options" DB table.
  * 
- * @param string $name Name of the option to retrieve. e.g. `site_theme`, ``default_language`
+ * @param string $name Name of the option to retrieve. e.g. `site_theme`, `default_language`
  * @param mixed $default The default value to return if no value is found
  * @return mixed Current value for the specified option. If the specified option does not exist, returns boolean FALSE
  */
-	function getOption($name, $default = false) {
+	function option($name, $default = false) {
 		if (Configure::check("QuickApps.options.{$name}")) {
 			return Configure::read("QuickApps.options.{$name}");
 		}
@@ -170,6 +218,20 @@ function snapshot($mergeWith = []) {
 		}
 
 		return $default;
+	}
+
+/**
+ * Returns a list of all registered event listeners.
+ * 
+ * @return array
+ */
+	function listeners() {
+		$class = new \ReflectionClass(EventManager::instance());
+		$property = $class->getProperty('_listeners');
+		$property->setAccessible(true);
+		$listeners = array_keys($property->getValue(EventManager::instance()));
+		debug(EventManager::instance()->listeners('Hook.Field.info'));
+		return $listeners;
 	}
 
 /**
