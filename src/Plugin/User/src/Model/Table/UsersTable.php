@@ -11,12 +11,36 @@
  */
 namespace User\Model\Table;
 
+use Cake\Database\Schema\Table as Schema;
 use Cake\ORM\Table;
+use Cake\Validation\Validator;
 
 /**
  * Represents "users" database table.
  *
  */
 class UsersTable extends Table {
+
+/**
+ * Default validation rules.
+ *
+ * @param \Cake\Validation\Validator $validator
+ * @return \Cake\Validation\Validator
+ */
+	public function validationDefault(Validator $validator) {
+		return $validator
+			->add('email', [
+				'unique' => [
+					'rule' => ['rule' => 'validateUnique', 'provider' => 'table'],
+					'message' => __d('block', 'e-Mail already in use.'),
+				]
+			])
+			->add('username', [
+				'unique' => [
+					'rule' => ['rule' => 'validateUnique', 'provider' => 'table'],
+					'message' => __d('block', 'Username already in use.'),
+				]
+			]);
+	}
 
 }
