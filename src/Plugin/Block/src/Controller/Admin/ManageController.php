@@ -135,6 +135,7 @@ class ManageController extends AppController {
 			$data['handler'] = 'Block';
 			$data['status'] = 1;
 			$block = $this->Blocks->patchEntity($block, $data);
+			$block->calculateDelta();
 
 			if ($this->Blocks->save($block, ['validate' => 'custom'])) {
 				$this->alert(__d('block', 'Block created.'), 'success');

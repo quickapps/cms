@@ -23,6 +23,7 @@
 				<div class="panel-body">
 					<?php echo $this->Form->create(); ?>
 						<?php foreach ($front as $region => $blocks): ?>
+							<hr />
 							<h3><?php echo $region; ?></h3>
 
 							<?php if (count($blocks->toArray())): ?>
@@ -45,13 +46,13 @@
 									<?php endforeach; ?>
 								</ul>
 							<?php else: ?>
-								<strong><?php echo __d('block', 'There are no blocks in this region yet.'); ?></strong>
+								<div class="alert alert-warning"><?php echo __d('block', 'There are no blocks in this region yet.'); ?></div>
 							<?php endif; ?>
 						<?php endforeach; ?>
 
 						<hr />
 
-						<em class="help-block">(<?php echo __d('block', 'Drag and drop blocks to reorder within a region.'); ?>)</em>
+						<em class="help-block">(<?php echo __d('block', 'Drag and drop blocks to reorder within a region. To move a block to a different region use block editing form by clicking in the "Edit" button.'); ?>)</em>
 						<?php echo $this->Form->submit(__d('block', 'Save Order')); ?>
 					<?php echo $this->Form->end(); ?>
 				</div>
@@ -66,6 +67,7 @@
 				<div class="panel-body">
 					<?php echo $this->Form->create(); ?>
 						<?php foreach ($back as $region => $blocks): ?>
+							<hr />
 							<h3><?php echo $region; ?></h3>
 
 							<?php if (count($blocks->toArray())): ?>
@@ -88,13 +90,13 @@
 									<?php endforeach; ?>
 								</ul>
 							<?php else: ?>
-								<strong><?php echo __d('block', 'There are no blocks in this region yet.'); ?></strong>
+								<div class="alert alert-warning"><?php echo __d('block', 'There are no blocks in this region yet.'); ?></div>
 							<?php endif; ?>
 						<?php endforeach; ?>
 
 						<hr />
 
-						<em class="help-block">(<?php echo __d('block', 'Drag and drop blocks to reorder within a region.'); ?>)</em>
+						<em class="help-block">(<?php echo __d('block', 'Drag and drop blocks to reorder within a region. To move a block to a different region use block editing form by clicking in the "Edit" button.'); ?>)</em>
 						<?php echo $this->Form->submit(__d('block', 'Save Order')); ?>
 					<?php echo $this->Form->end(); ?>
 				</div>

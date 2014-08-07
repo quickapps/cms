@@ -83,6 +83,13 @@ class BlocksTable extends Table {
 					return in_array($value, ['except', 'only', 'php']);
 				},
 				'message' => __d('block', 'Invalid visibility.'),
+			])
+			->add('delta', [
+				'unique' => [
+					'rule' => ['validateUnique', ['scope' => 'handler']],
+					'message' => __d('block', 'Invalid delta, there is already a block with the same <delta, handler> combination.'),
+					'provider' => 'table',
+				]
 			]);
 	}
 
@@ -108,25 +115,6 @@ class BlocksTable extends Table {
 					'message' => __d('block', "Block's body need to be at least 3 characters long."),
 				],
 			]);
-	}
-
-/**
- * Automatically calculates "delta" for new custom blocks.
- * 
- * @param \Cake\Event\Event $event
- * @param \Block\Model\Entity\BLock $entity
- * @return void
- */
-	public function beforeSave(Event $event, $entity) {
-		if ($entity->isNew() && $entity->handler === 'Block') {
-			$latest = $this->find()
-				->select('id')
-				->where(['handler' => 'Block'])
-				->order(['id' => 'DESC'])
-				->first();
-			$lastId = $latest ? $latest->id : 0;
-			$entity->set('delta', $lastId + 1);
-		}
 	}
 
 }
