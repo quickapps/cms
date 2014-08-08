@@ -173,14 +173,12 @@ if (!file_exists(TMP . 'snapshot.php') && file_exists(SITE_ROOT . '/Config/setti
  */
 $pluginCollection = Plugin::collection();
 $activePlugins = array_keys($pluginCollection->match(['status' => 1, 'isTheme' => false])->toArray());
-
+$EventManager = EventManager::instance();
 foreach (App::objects('Plugin') as $plugin) {
-	$EventManager = EventManager::instance();
-
 	if (
 		in_array($plugin, $activePlugins) ||
-		$plugin === option('site_theme') ||
-		$plugin === option('admin_theme')
+		$plugin === option('front_theme') ||
+		$plugin === option('back_theme')
 	) {
 		Plugin::load($plugin, [
 			'namespace' => $plugin,

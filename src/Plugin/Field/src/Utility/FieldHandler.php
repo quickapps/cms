@@ -61,6 +61,7 @@ class FieldHandler implements EventListener {
 			// Related to Entity:
 			"Field.{$handlerName}.Entity.display" => 'entityDisplay',
 			"Field.{$handlerName}.Entity.edit" => 'entityEdit',
+			"Field.{$handlerName}.Entity.beforeSave" => 'entityBeforeSave',
 			"Field.{$handlerName}.Entity.afterSave" => 'entityAfterSave',
 			"Field.{$handlerName}.Entity.beforeValidate" => 'entityBeforeValidate',
 			"Field.{$handlerName}.Entity.afterValidate" => 'entityAfterValidate',
@@ -106,7 +107,10 @@ class FieldHandler implements EventListener {
 	}
 
 /**
- * After each entity is saved.
+ * Before each entity is saved.
+ *
+ * Returning a non-true value will halt the save operation, as stopping
+ * the event as well.
  *
  * The options array contains the `post` key, which holds
  * all the information you need to update you field:
@@ -114,23 +118,38 @@ class FieldHandler implements EventListener {
  *     $options['post']
  *
  * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\ORM\Entity $entity The entity to which field is attached to
+ * @param \Field\Model\Entity\Field $field Field information
+ * @param array $options
+ * @return boolean
+ */
+	public function entityBeforeSave(Event $event, $entity, $field, $options) {
+		return true;
+	}
+
+/**
+ * After each entity is saved.
+ *
+ * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options
  * @return void
  */
-	public function entityAfterSave(Event $event, $field, $options) {
+	public function entityAfterSave(Event $event, $entity, $field, $options) {
 	}
 
 /**
  * Before an entity is validated as part of save process.
  *
  * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options
  * @param \Cake\Validation\Validator $validator
  * @return boolean False will halt the save process
  */
-	public function entityBeforeValidate(Event $event, $field, $options, $validator) {
+	public function entityBeforeValidate(Event $event, $entity, $field, $options, $validator) {
 		return false;
 	}
 
@@ -138,12 +157,13 @@ class FieldHandler implements EventListener {
  * After an entity is validated as part of save process.
  *
  * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options
  * @param \Cake\Validation\Validator $validator
  * @return boolean False will halt the save process
  */
-	public function entityAfterValidate(Event $event, $field, $options, $validator) {
+	public function entityAfterValidate(Event $event, $entity, $field, $options, $validator) {
 		return false;
 	}
 
@@ -151,11 +171,12 @@ class FieldHandler implements EventListener {
  * Before an entity is deleted from database.
  *
  * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options
  * @return boolean False will halt the delete process
  */
-	public function entityBeforeDelete(Event $event, $field, $options) {
+	public function entityBeforeDelete(Event $event, $entity, $field, $options) {
 		return true;
 	}
 
@@ -163,11 +184,12 @@ class FieldHandler implements EventListener {
  * After an entity is deleted from database.
  *
  * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options
  * @return void
  */
-	public function entityAfterDelete(Event $event, $field, $options) {
+	public function entityAfterDelete(Event $event, $entity, $field, $options) {
 	}
 
 /**

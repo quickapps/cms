@@ -199,7 +199,7 @@ function snapshot($mergeWith = []) {
 /**
  * Shortcut for getting an option value from "options" DB table.
  * 
- * @param string $name Name of the option to retrieve. e.g. `site_theme`, `default_language`
+ * @param string $name Name of the option to retrieve. e.g. `front_theme`, `default_language`
  * @param mixed $default The default value to return if no value is found
  * @return mixed Current value for the specified option. If the specified option does not exist, returns boolean FALSE
  */

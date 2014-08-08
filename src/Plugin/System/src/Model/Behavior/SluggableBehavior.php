@@ -11,6 +11,7 @@
  */
 namespace System\Model\Behavior;
 
+use Cake\Error\FatalErrorException;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Table;
@@ -30,6 +31,11 @@ class SluggableBehavior extends Behavior {
  */
 	protected $_table;
 
+/**
+ * Flag.
+ * 
+ * @var boolean
+ */
 	protected $_enabled = true;
 
 /**
@@ -74,6 +80,7 @@ class SluggableBehavior extends Behavior {
  * @param \Cake\ORM\Entity $entity
  * @param array $options
  * @return boolean True if save should proceed, false otherwise
+ * @throws \Cake\Error\FatalErrorException When some of the specified columns in config's "label" is not present in the entity being saved
  */
 	public function beforeSave(Event $event, $entity, $options) {
 		if (!$this->_enabled) {
@@ -88,7 +95,7 @@ class SluggableBehavior extends Behavior {
 
 		foreach ($config['label'] as $field) {
 			if (!$entity->has($field)) {
-				return false;
+				throw new FatalErrorException(__d('system', 'SluggableBehavior was not able to generate a slug reason: entity\'s property "%s" not found', $field));
 			}
 		}
 
@@ -114,10 +121,20 @@ class SluggableBehavior extends Behavior {
 		return true;
 	}
 
+/**
+ * Enables this behavior.
+ * 
+ * @return void
+ */
 	public function bindSluggable() {
 		$this->_enabled = true;
 	}
 
+/**
+ * Disables this behavior.
+ * 
+ * @return void
+ */
 	public function unbindSluggable() {
 		$this->_enabled = false;
 	}

@@ -4,25 +4,18 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @since	 2.0.0
+ * @since	 1.0.0
  * @author	 Christopher Castro <chris@quickapps.es>
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace User\Config;
+namespace Taxonomy\Controller;
+
+use QuickApps\Controller\Controller;
 
 /**
- * These are hard-coded values for user roles and must match values
- * stored in "roles" DB table.
+ * Main controller for Locale plugin.
+ *
  */
-if (!defined('ROLE_ID_ADMINISTRATOR')) {
-	define('ROLE_ID_ADMINISTRATOR', 1);
-}
-
-if (!defined('ROLE_ID_AUTHENTICATED')) {
-	define('ROLE_ID_AUTHENTICATED', 2);
-}
-
-if (!defined('ROLE_ID_ANONYMOUS')) {
-	define('ROLE_ID_ANONYMOUS', 3);
+class AppController extends Controller {
 }

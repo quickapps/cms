@@ -11,6 +11,7 @@
  */
 namespace Node\Model\Table;
 
+use Cake\Database\Schema\Table as Schema;
 use Cake\Event\Event;
 use Cake\ORM\Table;
 use Cake\ORM\Query;
@@ -23,6 +24,17 @@ use Node\Model\Entity\Node;
 class NodeRevisionsTable extends Table {
 
 /**
+ * Alter the schema used by this table.
+ *
+ * @param \Cake\Database\Schema\Table $table The table definition fetched from database
+ * @return \Cake\Database\Schema\Table the altered schema
+ */
+	protected function _initializeSchema(Schema $table) {
+		$table->columnType('data', 'serialized');
+		return $table;
+	}
+
+/**
  * Initialize a table instance. Called after the constructor.
  *
  * @param array $config Configuration options passed to the constructor
@@ -30,35 +42,6 @@ class NodeRevisionsTable extends Table {
  */
 	public function initialize(array $config) {
 		$this->addBehavior('Timestamp');
-	}
-
-/**
- * Unserializes the stored node for each revision.
- *
- * Each revision's "data" property stores a serialized version of a Node
- * entity. If for some reason this information can not be unserialized "data"
- * property will be set to FALSE.
- * 
- * @param \Cake\Event\Event $event
- * @param \Cake\ORM\Query $query
- * @param array $options
- * @param boolean $primary
- * @return void
- */
-	public function beforeFind(Event $event, Query $query, array $options, $primary) {
-		return $query->formatResults(function($results) {
-			return $results->map(function($row) {
-				//@codingStandardsIgnoreStart
-				$node = @unserialize($row->data);
-				//@codingStandardsIgnoreEnd
-				if ($node instanceof Node) {
-					$row->set('data', $node);
-				} else {
-					$row->set('data', false);
-				}
-				return $row;
-			});
-		});
 	}
 
 }

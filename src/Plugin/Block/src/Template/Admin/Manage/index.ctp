@@ -19,7 +19,7 @@
 			<div class="panel-heading">
 				<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#front-theme"><?php echo __d('block', 'Frontend Theme: %s', $frontThemeName); ?></a></h4>
 			</div>
-			<div id="front-theme" class="panel-collapse collapse in">
+			<div id="front-theme" class="panel-collapse collapse">
 				<div class="panel-body">
 					<?php echo $this->Form->create(); ?>
 						<?php foreach ($front as $region => $blocks): ?>
@@ -132,8 +132,4 @@
 	</div>
 </p>
 
-<?php echo $this->Html->script('System.bootstrap.js'); ?>
-<?php echo $this->Html->script('System.jquery-ui.js'); ?>
-<script>
-	$(".sortable").sortable().disableSelection();
-</script>
+<?php echo $this->Html->script(['System.bootstrap.js', 'System.jquery-ui.js', 'System.jquery.cookie.js', 'Block.collapse-ui.js']); ?>

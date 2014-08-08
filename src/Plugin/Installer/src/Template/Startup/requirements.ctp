@@ -23,7 +23,7 @@
 			<ul>
 				<?php foreach ($tests as $name => $testNode): ?>
 					<?php if (!$testNode['test']): ?>
-						<li><em><?php echo $testNode['msg']; ?></em></li>
+						<li><em><?php echo $testNode['message']; ?></em></li>
 					<?php endif; ?>
 				<?php endforeach; ?>
 			</ul>

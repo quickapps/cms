@@ -33,23 +33,25 @@ class ManageController extends AppController {
 		$front = $back = $unused = $frontIds = $backIds = [];
 		$frontThemeName = $backThemeName = null;
 
-		if (!empty($this->request->data['regions'])) {
-			foreach ($this->request->data['regions'] as $theme => $regions) {
-				foreach ($regions as $region => $ids) {
-					$ordering = 0;
-					foreach ($ids as $id) {
-						$blockRegion =  $this
-							->Blocks
-							->BlockRegions
-							->newEntity(['id' => $id, 'theme' => $theme, 'region' => $region, 'ordering' => $ordering]);
-						$this->Blocks->BlockRegions->save($blockRegion);
-						debug($blockRegion);
-						$ordering++;
+		if ($this->request->isPost()) {
+			if (!empty($this->request->data['regions'])) {
+				foreach ($this->request->data['regions'] as $theme => $regions) {
+					foreach ($regions as $region => $ids) {
+						$ordering = 0;
+						foreach ($ids as $id) {
+							$blockRegion =  $this
+								->Blocks
+								->BlockRegions
+								->newEntity(['id' => $id, 'theme' => $theme, 'region' => $region, 'ordering' => $ordering]);
+							$this->Blocks->BlockRegions->save($blockRegion);
+							debug($blockRegion);
+							$ordering++;
+						}
 					}
 				}
-			}
 
-			$this->alert(__d('block', 'Blocks ordering updated!'), 'success');
+				$this->alert(__d('block', 'Blocks ordering updated!'), 'success');
+			}
 			$this->redirect(['plugin' => 'Block', 'controller' => 'manage', 'action' => 'index']);
 		}
 
@@ -188,8 +190,7 @@ class ManageController extends AppController {
  * 
  * @param string $id Block ID
  * @return void
- * @throws \Cake\ORM\Error\RecordNotFoundException if no record can be found given a primary key value
- * @throws \InvalidArgumentException When $primaryKey has an incorrect number of elements
+ * @throws \Cake\ORM\Error\RecordNotFoundException if no block is not found
  */
 	public function edit($id) {
 		$this->loadModel('Block.Blocks');
@@ -216,6 +217,29 @@ class ManageController extends AppController {
 		$this->Breadcrumb->push('/admin/system/structure');
 		$this->Breadcrumb->push(__d('block', 'Manage Blocks'), ['plugin' => 'Block', 'controller' => 'manage', 'action' => 'index']);
 		$this->Breadcrumb->push(__d('block', 'Editing Block'), '#');
+	}
+
+/**
+ * Edits the given block by ID.
+ * 
+ * @param string $id Block ID
+ * @return void Redirects to previous page
+ * @throws \Cake\ORM\Error\RecordNotFoundException if no block is not found
+ */
+	public function duplicate($id) {
+		$this->loadModel('Block.Blocks');
+		$original = $this->Blocks->get($id);
+		$new = $this->Blocks->newEntity($original->toArray());
+		$new->set(['id' => null, 'delta' => null]);
+		$new->calculateDelta();
+
+		if ($this->Blocks->save($new)) {
+			$this->alert(__d('block', 'Block has been duplicated, it can be found under the "Unused or Unassigned" section.'), 'success');
+		} else {
+			$this->alert(__d('block', 'Block could not be duplicated, please try again.'), 'danger');
+		}
+
+		$this->redirect($this->referer() . '#unused-blocks');
 	}
 
 /**

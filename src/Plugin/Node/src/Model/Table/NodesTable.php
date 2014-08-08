@@ -11,6 +11,8 @@
  */
 namespace Node\Model\Table;
 
+use Cake\Event\Event;
+use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
@@ -115,16 +117,16 @@ class NodesTable extends Table {
 	}
 
 /**
- * Saves a revision version of each node being saved.
+ * Saves a revision version of each node being saved if it has changed.
  *
- * @param \Cake\ORM\Query $query
+ * @param \Cake\Event\Event $query
  * @param \Node\Model\Entity\Node $entity
  * @return void
  */
-	public function beforeSave($query, $entity) {
+	public function beforeSave(Event $event, $entity) {
 		if (!$entity->isNew()) {
-			$serialized = @serialize(TableRegistry::get('Node.Nodes')->get($entity->id));
-			$hash = md5($serialized);
+			$prev = TableRegistry::get('Node.Nodes')->get($entity->id);
+			$hash = $this->_calculateHash($prev);
 			$exists = $this->NodeRevisions->find()
 				->select(['id'])
 				->where([
@@ -135,8 +137,8 @@ class NodesTable extends Table {
 
 			if (!$exists) {
 				$revision = $this->NodeRevisions->newEntity([
-					'node_id' => $entity->id,
-					'data' => $serialized,
+					'node_id' => $prev->id,
+					'data' => $prev,
 					'hash' => $hash,
 				]);
 				$this->NodeRevisions->addBehavior('Timestamp');
@@ -159,7 +161,7 @@ class NodesTable extends Table {
  * @param string $orAnd and|or
  * @return void
  */
-	public function operatorCreated($query, $value, $negate, $orAnd) {
+	public function operatorCreated(Query $query, $value, $negate, $orAnd) {
 		if (strpos($value, '..') !== false) {
 			list($dateLeft, $dateRight) = explode('..', $value);
 		} else {
@@ -205,7 +207,7 @@ class NodesTable extends Table {
  * @param string $orAnd and|or
  * @return void
  */
-	public function operatorLimit($query, $value, $negate, $orAnd) {
+	public function operatorLimit(Query$query, $value, $negate, $orAnd) {
 		if ($negate) {
 			return $query;
 		}
@@ -230,7 +232,7 @@ class NodesTable extends Table {
  * @param string $orAnd and|or
  * @return void
  */
-	public function operatorOrder($query, $value, $negate, $orAnd) {
+	public function operatorOrder(Query$query, $value, $negate, $orAnd) {
 		if ($negate) {
 			return $query;
 		}
@@ -265,7 +267,7 @@ class NodesTable extends Table {
  * @param string $orAnd and|or
  * @return void
  */
-	public function operatorPromote($query, $value, $negate, $orAnd) {
+	public function operatorPromote(Query $query, $value, $negate, $orAnd) {
 		$value = strtolower($value);
 		$conjunction = $negate ? '<>' : '';
 		$conditions = [];
@@ -300,7 +302,7 @@ class NodesTable extends Table {
  * @param string $orAnd and|or
  * @return void
  */
-	public function operatorType($query, $value, $negate, $orAnd) {
+	public function operatorType(Query $query, $value, $negate, $orAnd) {
 		$value = explode(',', strtolower($value));
 		$conjunction = $negate ? 'NOT IN' : 'IN';
 		$conditions = ["Nodes.node_type_slug {$conjunction}" => $value];
@@ -327,7 +329,7 @@ class NodesTable extends Table {
  * @param string $orAnd and|or
  * @return void
  */
-	public function operatorAuthor($query, $value, $negate, $orAnd) {
+	public function operatorAuthor(Query $query, $value, $negate, $orAnd) {
 		$value = explode(',', $value);
 
 		if (!empty($value)) {
@@ -346,6 +348,34 @@ class NodesTable extends Table {
 		}
 
 		return $query;
+	}
+
+/**
+ * Generates a unique hash for the given entity.
+ *
+ * Used by revision system to detect if an entity has changed or not.
+ * 
+ * @param \Cake\ORM\Entity $entity
+ * @return string MD5 hash
+ */
+	protected function _calculateHash($entity) {
+		$hash = [];
+		foreach ($entity->visibleProperties() as $property) {
+			if (strpos($property, 'created') === false && strpos($property, 'modified') === false) {
+				if ($property == '_fields') {
+					foreach ($entity->get('_fields') as $field) {
+						if ($field instanceof \Field\Model\Entity\Field) {
+							$extra = is_object($field->extra) || is_array($field->extra) ? serialize($field->extra) : $field->extra;
+							$hash[] = $field->value . $extra;
+						}
+					}
+				} else {
+					$hash[] = $entity->get($property);
+				}
+			}
+		}
+
+		return md5(serialize($hash));
 	}
 
 }

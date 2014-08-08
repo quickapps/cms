@@ -474,15 +474,15 @@ class SearchableBehavior extends Behavior {
 /**
  * Extracts words from given text.
  * 
- * @param string $text [description]
+ * @param string $text The text from where extract words
  * @return array List of words
  */
 	protected function _extractWords($text) {
-		$text = str_replace(["\n", "\r"], '', $text);
-		$text = preg_replace('/[^a-z\s]/i', ' ', $text);
-		$text = trim(preg_replace('/\s{2,}/i', ' ', $text));
-		$text = strtolower($text);
-		$words = explode(' ', $text);
+		$text = str_replace(["\n", "\r"], '', $text); // 
+		$text = preg_replace('/[^a-z\s]/i', ' ', $text); // letters ands withe spaces only
+		$text = trim(preg_replace('/\s{2,}/i', ' ', $text)); // remove double spaces
+		$text = strtolower($text); // all to lowercase
+		$words = explode(' ', $text); // convert to array
 		return $words;
 	}
 

@@ -29,7 +29,7 @@ class Block extends Entity {
  * @return void
  */
 	public function calculateDelta() {
-		if ($this->isNew() && $this->has('handler')) {
+		if ($this->isNew() && $this->has('handler') && !$this->get('delta')) {
 			$latest = TableRegistry::get('Block.Blocks')->find()
 				->select('id')
 				->where(['handler' => $this->handler])

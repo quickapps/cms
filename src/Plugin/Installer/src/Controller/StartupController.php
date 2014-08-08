@@ -18,6 +18,7 @@ use Cake\Event\Event;
 use Cake\Routing\Router;
 use Cake\Utility\Folder;
 use Cake\Utility\Hash;
+use Installer\Controller\AppController;
 use QuickApps\Core\Plugin;
 
 /**
@@ -102,8 +103,8 @@ class StartupController extends AppController {
 	public function language() {
 		$Folder = new Folder(Plugin::classPath('Installer') . 'Locale');
 		$languages = [
-			'en' => [
-				'url' => '/installer/startup/requirements?locale=en',
+			'en-us' => [
+				'url' => '/installer/startup/requirements?locale=en-us',
 				'welcome' => 'Welcome to QuickApps CMS',
 				'action' => 'Click here to install in English'
 			]
@@ -124,7 +125,7 @@ class StartupController extends AppController {
 		}
 
 		Configure::write('Config.language', false);
-		$this->set('title_for_layout', 'Welcome to QuickApps CMS');
+		$this->title('Welcome to QuickApps CMS');
 		$this->set('languages', $languages);
 		$this->_step();
 	}
@@ -143,38 +144,50 @@ class StartupController extends AppController {
 
 		$tests = array(
 			'php' => array(
-				'test' => version_compare(PHP_VERSION, '5.4', '>='),
-				'msg' => __d('installer', 'Your php version is not supported. check that your version is 5.4 or newer.')
+				'test' => version_compare(PHP_VERSION, '5.4.19', '>='),
+				'message' => __d('installer', 'Your php version is not supported. check that your version is 5.4.19 or newer.')
+			),
+			'mbstring' => array(
+				'test' => extension_loaded('mbstring'),
+				'message' => __d('installer', 'Missing extension: %s', 'mbstring')
+			),
+			'mcrypt' => array(
+				'test' => extension_loaded('mcrypt'),
+				'message' => __d('installer', 'Missing extension: %s', 'mcrypt')
+			),
+			'intl' => array(
+				'test' => extension_loaded('intl'),
+				'message' => __d('installer', 'Missing extension: %s', 'intl')
 			),
 			'no_safe_mode' => array(
 				'test' => (ini_get('safe_mode') == false || ini_get('safe_mode') == '' || strtolower(ini_get('safe_mode')) == 'off'),
-				'msg' => __d('installer', 'Your server has SafeMode on, please turn it off before continuing.')
+				'message' => __d('installer', 'Your server has SafeMode on, please turn it off before continuing.')
 			),
 			'tmp_writable' => array(
 				'test' => is_writable(TMP),
-				'msg' => __d('installer', 'tmp folder is not writable.')
+				'message' => __d('installer', 'tmp folder is not writable.')
 			),
 			'cache_writable' => array(
 				'test' => is_writable(TMP . 'cache'),
-				'msg' => __d('installer', 'tmp/cache folder is not writable.')
+				'message' => __d('installer', 'tmp/cache folder is not writable.')
 			),
 			'models_writable' => array(
-				'test' => is_writable(TMP . 'cache' . DS . 'models'),
-				'msg' => __d('installer', 'tmp/cache/models folder is not writable.')
+				'test' => is_writable(TMP . 'cache/models'),
+				'message' => __d('installer', 'tmp/cache/models folder is not writable.')
 			),
 			'persistent_writable' => array(
-				'test' => is_writable(TMP . 'cache' . DS . 'persistent'),
-				'msg' => __d('installer', 'tmp/cache/persistent folder is not writable.')
+				'test' => is_writable(TMP . 'cache/persistent'),
+				'message' => __d('installer', 'tmp/cache/persistent folder is not writable.')
 			),
 			'Config_writable' => array(
-				'test' => is_writable(SITE_ROOT . DS . 'Config'),
-				'msg' => __d('installer', 'Config folder is not writable.')
+				'test' => is_writable(SITE_ROOT . '/Config'),
+				'message' => __d('installer', 'Config folder is not writable.')
 			)
 		);
 
 		$results = array_unique(Hash::extract($tests, '{s}.test'));
 
-		if (!(count($results) === 1 && $results[0] === true)) {
+		if (count($results) !== 1 || $results[0] !== true) {
 			$this->set('success', false);
 			$this->set('tests', $tests);
 		} else {
@@ -182,7 +195,7 @@ class StartupController extends AppController {
 			$this->_step();
 		}
 
-		$this->set('title_for_layout', __d('installer', 'Server Requirements'));
+		$this->title(__d('installer', 'Server Requirements'));
 	}
 
 /**
@@ -197,7 +210,7 @@ class StartupController extends AppController {
 			$this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'index']);
 		}
 
-		$this->set('title_for_layout', __d('installer', 'License Agreement'));
+		$this->title(__d('installer', 'License Agreement'));
 		$this->_step();
 	}
 

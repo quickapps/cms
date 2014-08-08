@@ -1,0 +1,1 @@
+<?php debug($menus->toArray()); ?>

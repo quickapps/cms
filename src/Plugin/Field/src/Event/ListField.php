@@ -56,7 +56,7 @@ class ListField extends FieldHandler {
  * @param array $options
  * @return void
  */
-	public function entityAfterSave(Event $event, $field, $options) {
+	public function entityAfterSave(Event $event, $entity, $field, $options) {
 		$value = $options['post'];
 		$field->set('value', $value);
 	}
@@ -65,12 +65,13 @@ class ListField extends FieldHandler {
  * {@inheritdoc}
  *
  * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options
  * @param \Cake\Validation\Validator $validator
  * @return boolean False will halt the save process
  */
-	public function entityBeforeValidate(Event $event, $field, $options, $validator) {
+	public function entityBeforeValidate(Event $event, $entity, $field, $options, $validator) {
 		if ($field->metadata->required) {
 			$validator
 				->allowEmpty(":{$field->name}", false, __d('field', 'Field required.'))
@@ -92,12 +93,13 @@ class ListField extends FieldHandler {
  * {@inheritdoc}
  *
  * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options
  * @param \Cake\Validation\Validator $validator
  * @return boolean False will halt the save process
  */
-	public function entityAfterValidate(Event $event, $field, $options, $validator) {
+	public function entityAfterValidate(Event $event, $entity, $field, $options, $validator) {
 		return true;
 	}
 
@@ -105,11 +107,12 @@ class ListField extends FieldHandler {
  * {@inheritdoc}
  *
  * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options
  * @return boolean False will halt the delete process
  */
-	public function entityBeforeDelete(Event $event, $field, $options) {
+	public function entityBeforeDelete(Event $event, $entity, $field, $options) {
 		return true;
 	}
 
@@ -117,11 +120,12 @@ class ListField extends FieldHandler {
  * {@inheritdoc}
  *
  * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options
  * @return void
  */
-	public function entityAfterDelete(Event $event, $field, $options) {
+	public function entityAfterDelete(Event $event, $entity, $field, $options) {
 		return;
 	}
 

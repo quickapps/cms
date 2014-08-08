@@ -47,7 +47,7 @@ class BlockHelper extends AppHelper {
  *
  * @param string $region
  * @param boolean $all True will return the whole list, that is including blocks that will never
- * be rendered because of its visibility, language or role settings. Set to false (by default) will return
+ * be rendered because of its visibility (language or role settings, etc). Set to false (by default) will return
  * only blocks that we are sure will be rendered.
  * @return \Cake\Collection\Iterator\FilterIterator
  */
@@ -179,7 +179,7 @@ class BlockHelper extends AppHelper {
 	}
 
 /**
- * Returns all eventKeys that starts with `Block.`
+ * Returns all listeners that starts with `Block.`
  * 
  * @return array
  */
@@ -201,7 +201,7 @@ class BlockHelper extends AppHelper {
 	}
 
 /**
- * Check if a path matches any pattern in a set of patterns.
+ * Check if a current URL matches any pattern in a set of patterns.
  *
  * @param string $patterns String containing a set of patterns separated by \n, \r or \r\n
  * @return boolean TRUE if the path matches a pattern, FALSE otherwise

@@ -363,57 +363,44 @@ class FieldableBehavior extends Behavior {
 /**
  * Before an entity is saved.
  *
- * @param \Cake\Event\Event $event
- * @param \Cake\ORM\Entity $entity
- * @param array $options
- * @return void
- */
-	public function beforeSave(Event $event, $entity, $options) {
-		if (!$this->config('enabled')) {
-			return;
-		}
-
-		$instances = $this->_getTableFieldInstances($entity);
-		$EventManager = $this->_getEventManager();
-
-		foreach ($instances as $instance) {
-			$field = $this->_getMockField($entity, $instance);
-			$fieldEvent = $this->invoke("Field.{$instance->handler}.Entity.beforeSave", $event->subject, $field, $entity, $options);
-		}
-	}
-
-/**
- * Callback fired before saving each Table's Entity.
- * We dispatch each custom field's $_POST information to its corresponding Field Handler, so
- * they can operate over values before Entity is saved.
+ * ### Events Triggered:
  *
- * Fields Handler's `Field.<FieldHandler>.Entity.afterSave` hook is fired, so you should have a listener like so:
+ * - `Field.<FieldHandler>.Entity.beforeSave`: It receives three arguments, the entity is being saved,
+ * a field entity representing the field being saved and options array.
+ * The options array is passed as an ArrayObject, so any changes in it will be reflected in every listener and remembered
+ * at the end of the event so it can be used for the rest of the save operation. Returning false in any of the Field Handler
+ * will abort the saving process. If the Field event is stopped using the event API, the Field event object's `result` property will be returned.
+ * 
+ * Here is where we dispatch each custom field's `$_POST` information to its corresponding Field Handler, so
+ * they can operate over their values.
+ *
+ * Fields Handler's `Field.<FieldHandler>.Entity.beforeSave` event is fired over each attached field for this entity, 
+ * so you should have a listener like:
  *
  *     class TextField implements EventListener {
  *         public function implementedEvents() {
  *             return [
- *                 'Field\TextField.Entity.afterSave' => 'entityBeforeSave',
+ *                 'Field\TextField.Entity.beforeSave' => 'entityBeforeSave',
  *             ];
  *         }
  *
- *         public function entityBeforeSave(Event $event, &$field, &$options) {
- *              // alter $field, and do nifty things with $options[post]
- *              // return false; will halt the save operation
-  *         }
+ *         public function entityBeforeSave(Event $event, $entity, $field, $options) {
+ *              // alter $field, and do nifty things with $options['_post']
+ *              // return FALSE; will halt the operation
+ *         }
  *     }
  *
- * Note that returning boolean FALSE will halt the Table Entity's save operation.
- *
- * Also, you will see `$options` array contains the post information user just sent when
+ * You will see `$options` array contains the POST information user just sent when
  * pressing form submit button.
  *
- *     $options[post]: $_POST information for this [entity, field_instance] tuple.
+ *     $options['_post']: $_POST information for this [entity, field_instance] tuple.
  *
  * Field Handlers should **alter** `$field->value` and `$field->extra`
- * according to its needs **using $options[post]**. Remember that returning FALSE will halt the
- * whole save operation.
+ * according to its needs **using $options['_post']**.
  *
- * ## Rendering Field Form Elements
+ * **NOTE:** Returning boolean FALSE will halt the whole Entity's save operation.
+ *
+ * ## Preparing Field Inputs
  *
  * Your Field Handler should somehow render some form elements (inputs, selects, textareas, etc)
  * when rendering Table Entities in `edit mode`. For this we have the ``Field.<FieldHandler>.Entity.edit` hook,
@@ -530,7 +517,7 @@ class FieldableBehavior extends Behavior {
  * @throws \Cake\Error\FatalErrorException When using this behavior in non-atomic mode
  * @return boolean True if save operation should continue
  */
-	public function afterSave(Event $event, $entity, $options) {
+	public function beforeSave(Event $event, $entity, $options) {
 		if (!$this->config('enabled')) {
 			return true;
 		}
@@ -548,15 +535,18 @@ class FieldableBehavior extends Behavior {
 		foreach ($instances as $instance) {
 			if ($entity->has(":{$instance->slug}")) {
 				$field = $this->_getMockField($entity, $instance);
-				$options['post'] = $entity->get(":{$instance->slug}");
-				$fieldEvent = $this->invoke("Field.{$instance->handler}.Entity.afterSave", $event->subject, $field, $options);
+				$options['_post'] = $entity->get(":{$instance->slug}");
+				$fieldEvent = $this->invoke("Field.{$instance->handler}.Entity.beforeSave", $event->subject, $entity, $field, $options);
 
-				if ($fieldEvent->isStopped() || $fieldEvent->result === false) {
+				if ($fieldEvent->result === false) {
+					$entity = $this->attachEntityFields($entity);
+					return false;
+				} elseif ($fieldEvent->isStopped()) {
 					$entity = $this->attachEntityFields($entity);
 					$event->stopPropagation();
-					return false; // stop Table's afterSave event
+					return $fieldEvent->result;
 				}
-				
+
 				$valueEntity = new FieldValue([
 					'id' => $field->metadata['field_value_id'],
 					'field_instance_id' => $field->metadata['field_instance_id'],
@@ -582,7 +572,46 @@ class FieldableBehavior extends Behavior {
 	}
 
 /**
+ * After an entity is saved.
+ *
+ * ### Events Triggered:
+ *
+ * - `Field.<FieldHandler>.Entity.afterSave`: Will be triggered after a successful insert or save,
+ * listeners will receive the entity, the field entity and the options array as arguments. The type
+ * of operation performed (insert or update) can be determined by checking the
+ * entity's method `isNew`, true meaning an insert and false an update.
+ * 
+ * @param \Cake\Event\Event $event
+ * @param \Cake\ORM\Entity $entity
+ * @param array $options
+ * @return boolean True always
+ */
+	public function afterSave(Event $event, $entity, $options) {
+		if (!$this->config('enabled')) {
+			return true;
+		}
+
+		$instances = $this->_getTableFieldInstances($entity);
+		$EventManager = $this->_getEventManager();
+
+		foreach ($instances as $instance) {
+			$field = $this->_getMockField($entity, $instance);
+			$fieldEvent = $this->invoke("Field.{$instance->handler}.Entity.afterSave", $event->subject, $entity, $field, $options);
+		}
+
+		return true;
+	}
+
+/**
  * Before entity validation process.
+ *
+ * ### Events Triggered:
+ *
+ * - `Field.<FieldHandler>.Entity.beforeValidate`: Will be triggered right before any validation is done
+ * for the passed entity if the validate key in $options is not set to false.
+ * Listeners will receive as arguments the entity, the field entity and the options array and the
+ * validation object to be used for validating the entity. If the event is
+ * stopped the validation result will be set to the result of the event itself.
  *
  * @param \Cake\Event\Event $event
  * @param \Cake\ORM\Entity $entity
@@ -600,13 +629,13 @@ class FieldableBehavior extends Behavior {
 
 		foreach ($instances as $instance) {
 			$field = $this->_getMockField($entity, $instance);
-			$fieldEvent = $this->invoke("Field.{$field->metadata['handler']}.Entity.beforeValidate", $event->subject, $field, $options, $validator);
+			$fieldEvent = $this->invoke("Field.{$field->metadata['handler']}.Entity.beforeValidate", $event->subject, $entity, $field, $options, $validator);
 
-			if ($fieldEvent->result === false || $fieldEvent->isStopped()) {
+			if ($fieldEvent->isStopped()) {
 				$entity = $this->attachEntityFields($entity);
 				$event->stopPropagation();
 				$this->attachEntityFields($entity);
-				return false;
+				return $fieldEvent->result;
 			}
 		}
 
@@ -615,6 +644,14 @@ class FieldableBehavior extends Behavior {
 
 /**
  * After entity validation process.
+ *
+ * ### Events Triggered:
+ * 
+ * - `Field.<FieldHandler>.Entity.afterValidate`: Will be triggered right after the `validate()` method is
+ * called in the entity. Listeners will receive as arguments the entity, the field entity and the
+ * options array and the validation object to be used for validating the entity.
+ * If the event is stopped the validation result will be set to the result of
+ * the event itself.
  *
  * @param \Cake\Event\Event $event
  * @param \Cake\ORM\Entity $entity
@@ -632,13 +669,13 @@ class FieldableBehavior extends Behavior {
 
 		foreach ($instances as $instance) {
 			$field = $this->_getMockField($entity, $instance);
-			$fieldEvent = $this->invoke("Field.{$field->metadata['handler']}.Entity.afterValidate", $event->subject, $field, $options, $validator);
+			$fieldEvent = $this->invoke("Field.{$field->metadata['handler']}.Entity.afterValidate", $event->subject, $entity, $field, $options, $validator);
 
-			if ($fieldEvent->result === false || $fieldEvent->isStopped()) {
+			if ($fieldEvent->isStopped()) {
 				$entity = $this->attachEntityFields($entity);
 				$event->stopPropagation();
 				$this->attachEntityFields($entity);
-				return false;
+				return $fieldEvent->result;
 			}
 		}
 
@@ -648,7 +685,12 @@ class FieldableBehavior extends Behavior {
 /**
  * Deletes an entity from a fieldable table.
  *
- * This method automatically removes all field values
+ * ### Events Triggered:
+ *
+ * - `Field.<FieldHandler>.Entity.beforeDelete`: Fired before the delete occurs. If stopped the delete
+ * will be aborted. Receives the event, entity, and options.
+ *
+ * **NOTE:** This method automatically removes all field values
  * from `field_values` database table for each entity.
  *
  * @param \Cake\Event\Event $event
@@ -673,12 +715,12 @@ class FieldableBehavior extends Behavior {
 		$FieldValues = $this->_getTable('Field.FieldValues');
 
 		foreach ($instances as $instance) {
-			// invoke field beforeDelete so they can do its stuff
-			// i.e.: Delete entity information from another table.
+			// invoke fields beforeDelete so they can do its stuff
+			// e.g.: Delete entity information from another table.
 			$field = $this->_getMockField($entity, $instance);
-			$fieldEvent = $this->invoke("Field.{$instance->handler}.Entity.beforeDelete", $event->subject, $field, $options);
+			$fieldEvent = $this->invoke("Field.{$instance->handler}.Entity.beforeDelete", $event->subject, $entity, $field, $options);
 
-			if ($fieldEvent->result === false || $fieldEvent->isStopped()) {
+			if ($fieldEvent->result == false || $fieldEvent->isStopped()) {
 				$event->stopPropagation();
 				return false;
 			}
@@ -707,6 +749,11 @@ class FieldableBehavior extends Behavior {
 
 /**
  * After an entity was removed from database.
+ * 
+ * ### Events Triggered:
+ *
+ * - `Field.<FieldHandler>.Entity.afterDelete`: Fired after the delete has been successful. Receives
+ * the event, entity, field and options.
  *
  * @param \Cake\Event\Event $event
  * @param \Cake\ORM\Entity $entity
@@ -726,13 +773,7 @@ class FieldableBehavior extends Behavior {
 		$EventManager = $this->_getEventManager();
 		if (isset($this->_cache['fields.beforeDelete']) && is_array($this->_cache['fields.beforeDelete'])) {
 			foreach ($this->_cache['fields.beforeDelete'] as $field) {
-				$fieldEvent = $this->invoke("Field.{$field->handler}.Entity.afterDelete", $event->subject, $field, $options);
-
-				if ($fieldEvent->result === false || $fieldEvent->isStopped()) {
-					$event->stopPropagation();
-					$this->_cache['fields.beforeDelete'] = [];
-					return false;
-				}
+				$fieldEvent = $this->invoke("Field.{$field->handler}.Entity.afterDelete", $event->subject, $entity, $field, $options);
 			}
 			$this->_cache['fields.beforeDelete'] = [];
 		}
@@ -796,13 +837,18 @@ class FieldableBehavior extends Behavior {
 			return $entity;
 		}
 
-		$entity->accessible('*', false);
-		$_fields = [];
+		foreach ($entity->visibleProperties() as $property) {
+			$_accessible[$property] = $entity->accessible($property);
+		}
+		$entity->accessible('*', true);
+		foreach ($_accessible as $property => $access) {
+			$entity->accessible($property, $access);
+		}
 
+		$_fields = [];
 		foreach ($this->_getTableFieldInstances($entity) as $instance) {
 			$mock = $this->_getMockField($entity, $instance);
-
-			// restore from $_POST
+			// restore from $_POST:
 			if ($entity->has(":{$instance->slug}")) {
 				$value = $entity->get(":{$instance->slug}");
 
@@ -812,7 +858,6 @@ class FieldableBehavior extends Behavior {
 					$mock->set('extra', $value);
 				}
 			}
-
 			$_fields[] = $mock;
 		}
 

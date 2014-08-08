@@ -9,20 +9,16 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace User\Config;
+namespace Menu\Model\Table;
+
+use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
+use Cake\Validation\Validator;
 
 /**
- * These are hard-coded values for user roles and must match values
- * stored in "roles" DB table.
+ * Represents "menus" database table.
+ *
  */
-if (!defined('ROLE_ID_ADMINISTRATOR')) {
-	define('ROLE_ID_ADMINISTRATOR', 1);
-}
+class MenusTable extends Table {
 
-if (!defined('ROLE_ID_AUTHENTICATED')) {
-	define('ROLE_ID_AUTHENTICATED', 2);
-}
-
-if (!defined('ROLE_ID_ANONYMOUS')) {
-	define('ROLE_ID_ANONYMOUS', 3);
 }

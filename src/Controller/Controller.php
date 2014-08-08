@@ -62,7 +62,6 @@ class Controller extends CakeCotroller {
 		'Form' => ['className' => 'QuickApps\View\Helper\FormHelper'],
 		'Menu' => ['className' => 'Menu\View\Helper\MenuHelper'],
 		'Block.Region',
-		'Block.Block',
 	];
 
 /**
@@ -84,6 +83,15 @@ class Controller extends CakeCotroller {
  */
 	public function __construct($request = null, $response = null) {
 		parent::__construct($request, $response);
+
+		// disable QuickApps auto-magic on new installations.
+		if (
+			strtolower($this->request->params['plugin']) === 'installer' &&
+			strtolower($this->request->params['controller']) === 'startup'
+		) {
+			return;
+		}
+
 		$this->switchViewMode('default');
 		$this->_prepareLanguage();
 		$this->_prepareTheme();
@@ -123,12 +131,13 @@ class Controller extends CakeCotroller {
 /**
  * Prepares the default language to use.
  *
- * If use is logged in and has selected a preferred language, we will use it.
+ * If user is logged in and has selected a preferred language, we will use it.
  * Default site's language will be used otherwise.
  *
  * If `url_locale_prefix` option is enabled, and current request's URL has not
  * language prefix on it, user will be redirected to a locale-prefixed version
- * of the requested URL.
+ * of the requested URL. For example: `/article/demo-article.html` might
+ * redirects to `/en-us/article/demo-article.html`
  *
  * @return void
  */
@@ -162,7 +171,6 @@ class Controller extends CakeCotroller {
  * @return void
  */
 	protected function _prepareTheme() {
-		// TODO: change AppController::theme according to site settings.
 		if (!empty($this->request->params['prefix']) && strtolower($this->request->params['prefix']) === 'admin') {
 			$this->theme = option('back_theme');
 		} else {
