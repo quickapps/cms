@@ -153,7 +153,7 @@ class BreadcrumbComponent extends Component {
 		if (!empty($parsedURL['pass'])) {
 			$passArguments = $parsedURL['pass'];
 			$parsedURL['pass'] = null;
-			$parsedURL = array_merge($parsedURL, $passArguments);
+			$parsedURL = am($parsedURL, $passArguments);
 		}
 
 		// "/controller_name/index" -> "/controller"

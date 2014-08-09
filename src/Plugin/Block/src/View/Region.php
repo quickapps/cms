@@ -37,13 +37,6 @@ class Region {
 	protected $_blocks = null;
 
 /**
- * View instance.
- * 
- * @var \Cake\View\View
- */
-	protected $_View = null;
-
-/**
  * Maximum number of blocks in this region.
  *
  * @var null|integer
@@ -58,13 +51,20 @@ class Region {
 	protected $_theme;
 
 /**
+ * View instance.
+ * 
+ * @var \Cake\View\View
+ */
+	protected $_View = null;
+
+/**
  * Constructor.
  *
  * ### Valid options are:
  *
  * - `fixMissing`: If set to TRUE when creating a region that is not defined by the theme,
- * it will try to fix it by adding it to theme's regions. Defaults to TRUE. This option
- * will alter theme's `composer.json` file.
+ *    it will try to fix it by adding it to theme's regions. Defaults to TRUE. This option
+ *    will alter theme's `composer.json` file.
  * - `theme`: Name of the theme this regions belongs to. Defaults to auto-detect.
  *
  * @param \Cake\View\View $view Instance of View class to use
@@ -221,6 +221,7 @@ class Region {
 			'_name' => $this->_name,
 			'_blocks' => $this->_blocks->toArray(),
 			'_blockLimit' => $this->_blockLimit,
+			'_theme' => $this->_theme,
 			'_View' => '(object) \QuickApps\View\View',
 		];
 	}

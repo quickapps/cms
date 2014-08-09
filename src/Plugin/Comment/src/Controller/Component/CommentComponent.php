@@ -13,6 +13,7 @@ namespace Comment\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Controller\ComponentRegistry;
+use Cake\Event\Event;
 use Cake\Network\Session;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
@@ -22,7 +23,6 @@ use Cake\Validation\Validator;
 use Comment\Model\Entity\Comment;
 use Field\Utility\TextToolbox;
 use QuickApps\Core\Plugin;
-use QuickApps\Utility\DetectorTrait;
 use User\Error\UserNotLoggedInException;
 use User\Model\Entity\User;
 
@@ -49,8 +49,6 @@ use User\Model\Entity\User;
  * - 2: Read Only; can't post new comments but can read existing ones.
  */
 class CommentComponent extends Component {
-
-	use DetectorTrait;
 
 /**
  * Default settings.
@@ -153,7 +151,10 @@ class CommentComponent extends Component {
  */
 	public function __construct(ComponentRegistry $collection, array $config = array()) {
 		$this->_defaultConfig['successMessage'] = function () {
-			if ($this->config('settings.auto_approve') || $this->is('user.admin')) {
+			if (
+				$this->config('settings.auto_approve') ||
+				$this->_controller->request->is('userAdmin')
+			) {
 				return __d('comment', 'Comment saved!');			
 			}
 
@@ -170,7 +171,7 @@ class CommentComponent extends Component {
  * @param Event $event
  * @return void
  */
-	public function initialize($event) {
+	public function initialize(Event $event) {
 		$this->_controller = $event->subject;
 		$this->_controller->set('__commentComponentLoaded__', true);
 		$this->_controller->set('_commentFormContext', $this->config('arrayContext'));
@@ -194,7 +195,7 @@ class CommentComponent extends Component {
  * @param Event $event
  * @return void
  */
-	public function beforeRender($event) {
+	public function beforeRender(Event $event) {
 		$this->_controller->helpers['Comment.Comment'] = $this->config('settings');
 	}
 
@@ -308,8 +309,8 @@ class CommentComponent extends Component {
 			$data = $this->_controller->request->data['comment'];
 		}
 
-		if ($this->is('user.logged')) {
-			$data['user_id'] = $this->_user()->id;
+		if ($this->_controller->request->is('userLoggedIn')) {
+			$data['user_id'] = user()->id;
 			$data['author_name'] = null;
 			$data['author_email'] = null;
 			$data['author_web'] = null;
@@ -317,7 +318,7 @@ class CommentComponent extends Component {
 
 		$data['subject'] = !empty($data['subject']) ? TextToolbox::process($data['subject'], $this->config('settings.text_processing')) : '';
 		$data['body'] = !empty($data['body']) ? TextToolbox::process($data['body'], $this->config('settings.text_processing')) : '';
-		$data['status'] = $this->config('settings.auto_approve') || $this->is('user.admin') ? 'approved' : 'pending';
+		$data['status'] = $this->config('settings.auto_approve') || $this->_controller->request->is('userAdmin') ? 'approved' : 'pending';
 		$data['author_ip'] = $this->_controller->request->clientIp();
 		$data['entity_id'] = $entity->get($pk);
 		$data['table_alias'] = Inflector::underscore($entity->source());
@@ -337,22 +338,6 @@ class CommentComponent extends Component {
 		}
 		$this->config('arrayContext', $arrayContext);
 		$this->_controller->set('_commentFormContext', $this->config('arrayContext'));
-	}
-
-/**
- * Gets current logged in user as an entity.
- *
- * This method will throw when user is not logged in.
- *
- * @return \User\Model\Entity\User
- * @throws \User\Error\UserNotLoggedInException
- */
-	protected function _user() {
-		if (!$this->is('user.logged')) {
-			throw new UserNotLoggedInException(__d('user', 'CommentComponent::_user(), requires User to be logged in.'));
-		}
-
-		return new User((new Session())->read('user'));
 	}
 
 /**
@@ -381,7 +366,7 @@ class CommentComponent extends Component {
 		}
 
 		$this->_controller->loadModel('Comment.Comments');
-		if ($this->is('user.logged')) {
+		if ($this->_controller->request->is('userLoggedIn')) {
 			// logged user posting
 			$validator = $this->_controller->Comments->validationDefault(new Validator());
 			$validator

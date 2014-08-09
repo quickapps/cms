@@ -92,7 +92,7 @@ class ManageController extends AppController {
 			}
 		}
 
-		$notIn = array_unique(array_merge($frontIds, $backIds));
+		$notIn = array_unique(am($frontIds, $backIds));
 		$notIn = empty($notIn) ? ['0'] : $notIn;
 
 		$unused = $this->Blocks->find()
@@ -312,9 +312,9 @@ class ManageController extends AppController {
  */
 	protected function _prepareData($block = null, $ignore = []) {
 		$this->loadModel('Block.Blocks');
-		$ignore = array_merge($ignore, ['block_regions', 'roles']);
+		$ignore = am($ignore, ['block_regions', 'roles']);
 		$data = ['block_regions' => []];
-		$columns = array_merge($this->Blocks->schema()->columns(), $ignore);
+		$columns = am($this->Blocks->schema()->columns(), $ignore);
 
 		foreach ($this->request->data as $coulumn => $value) {
 			if (in_array($coulumn, $columns)) {

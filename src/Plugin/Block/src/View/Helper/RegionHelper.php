@@ -16,7 +16,6 @@ use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use QuickApps\View\Helper\AppHelper;
-use QuickApps\Utility\DetectorTrait;
 
 /**
  * Region Factory Helper.

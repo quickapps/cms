@@ -104,7 +104,7 @@ class FieldInstancesTable extends Table {
 			return $results->map(function($instance) use ($viewModes) {
 				foreach ($viewModes as $viewMode) {
 					$view_modes = $instance->view_modes;
-					$viewModeDefaults = array_merge([
+					$viewModeDefaults = am([
 						'label_visibility' => 'above',
 						'hooktags' => false,
 						'hidden' => false,
@@ -115,7 +115,7 @@ class FieldInstancesTable extends Table {
 						$view_modes[$viewMode] = [];
 					}
 
-					$view_modes[$viewMode] = array_merge($viewModeDefaults, $view_modes[$viewMode]);
+					$view_modes[$viewMode] = am($viewModeDefaults, $view_modes[$viewMode]);
 					$instance->set('view_modes', $view_modes);
 				}
 

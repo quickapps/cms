@@ -16,7 +16,6 @@ use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\View\View as CakeView;
 use QuickApps\Utility\AlertTrait;
-use QuickApps\Utility\DetectorTrait;
 use QuickApps\Utility\HooktagTrait;
 use QuickApps\Utility\HookTrait;
 use QuickApps\View\ViewModeTrait;
@@ -30,7 +29,6 @@ use QuickApps\View\ViewModeTrait;
 class View extends CakeView {
 
 	use AlertTrait;
-	use DetectorTrait;
 	use HooktagTrait;
 	use HookTrait;
 	use ViewModeTrait;
@@ -84,7 +82,7 @@ class View extends CakeView {
 			$className = get_class($view);
 			$args = func_get_args();
 			array_shift($args);
-			$args = array_merge([$view], (array)$args); // [entity, options]
+			$args = am([$view], (array)$args); // [entity, options]
 			$event = new Event("Render.{$className}", $this, $args);
 			EventManager::instance()->dispatch($event);
 			$html = $event->result;

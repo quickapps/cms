@@ -310,7 +310,7 @@ trait FieldUIControllerTrait {
 		if ($this->request->data) {
 			$instance->accessible('*', true);
 			$currentValues = $instance->view_modes[$viewMode];
-			$instance->view_modes[$viewMode] = array_merge($currentValues, $this->request->data);
+			$instance->view_modes[$viewMode] = am($currentValues, $this->request->data);
 			$save = $this->FieldInstances->save($instance);
 
 			if ($save) {
@@ -487,7 +487,7 @@ trait FieldUIControllerTrait {
  */
 	protected function _getOrThrow($id, $conditions = []) {
 		$this->loadModel('Field.FieldInstances');
-		$conditions = array_merge(['id' => $id], $conditions);
+		$conditions = am(['id' => $id], $conditions);
 		$instance = $this->FieldInstances
 			->find('all')
 			->where($conditions)

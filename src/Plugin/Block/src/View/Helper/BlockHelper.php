@@ -15,7 +15,6 @@ use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use QuickApps\View\Helper\AppHelper;
-use QuickApps\Utility\DetectorTrait;
 
 /**
  * Block Helper.
@@ -138,7 +137,7 @@ class BlockHelper extends AppHelper {
 
 		if ($block->has('roles') && !empty($block->roles)) {
 			$rolesIds = [];
-			$userRoles = userRoles();
+			$userRoles = user()->roles;
 			$allowed = false;
 			foreach ($block->roles as $role) {
 				$rolesIds[] = $role->id;

@@ -14,7 +14,6 @@ namespace Hook;
 use Cake\Event\Event;
 use Cake\Event\EventListener;
 use QuickApps\View\ViewModeRegistry;
-use QuickApps\View\ViewModeTrait;
 
 /**
  * Main Hook Listener for Node plugin.
@@ -81,7 +80,7 @@ class NodeHook implements EventListener {
  * 
  *      render_node_[node-type]_[view-mode]
  *
- * Renders the given node per `node-type` + `view-mode` combination. example:
+ * Renders the given node per `node-type` + `view-mode` combination:
  *
  *     // render for `article` nodes in `full` view-mode
  *     `render_node_article_full.ctp`
@@ -96,7 +95,7 @@ class NodeHook implements EventListener {
  *
  *     render_node_[node-type]
  *
- * Similar as before, but just per `node-type` and any view-mode
+ * Similar as before, but just per `node-type` and any view-mode:
  *
  *     // render for `article` nodes
  *     `render_node_article.ctp`
@@ -108,7 +107,7 @@ class NodeHook implements EventListener {
  *
  *     render_node_[view-mode]"
  *
- * Similar as before, but just per `view-mode` and any `node-type`
+ * Similar as before, but just per `view-mode` and any `node-type`:
  *
  *     // render any node (article, page, etc) in `rss` view-mode
  *     `render_node_rss.ctp`
@@ -148,7 +147,7 @@ class NodeHook implements EventListener {
 
 		foreach ($try as $element) {
 			if ($View->elementExists($element)) {
-				$html = $View->element($element, ['node' => $node, 'options' => $options]);
+				$html = $View->element($element, compact('node', 'options'));
 				break;
 			}
 		}

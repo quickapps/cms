@@ -9,6 +9,12 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
+
+/**
+ * General block render.
+ *
+ * This is the default render element used by \Hook\BlockHook::displayBlock().
+ */
 ?>
 
 <div class="qa-block" data-block-id="<?php echo $block->id; ?>" data-block-region="<?php echo $block->block_regions->region; ?>">

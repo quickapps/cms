@@ -204,11 +204,11 @@ class MenuHelper extends AppHelper {
  * ### Valid options are:
  *
  * - `templates`: Array of templates indexed as `templateName` => `templatePattern`. Temporally overwrites
- * templates when rendering this item, after item is rendered templates are restored to previous values.
+ *    templates when rendering this item, after item is rendered templates are restored to previous values.
  * - `childAttrs`: Array of attributes for `child` template.
- *     - `css`: Array list of multiple CSS classes or a single string (will be merged with auto-generated CSS).
+ *   - `css`: Array list of multiple CSS classes or a single string (will be merged with auto-generated CSS).
  * - `linkAttrs`: Array of attributes for the `link` template.
- *     - `css`: Same as childAttrs.
+ *   - `css`: Same as childAttrs.
  *
  * ### Information argument
  *
@@ -434,7 +434,7 @@ class MenuHelper extends AppHelper {
 					str_ends_with($itemUrl, env('REQUEST_URI')) !== false;
 				$isIndex =
 					$itemUrl === '/' &&
-					$this->_View->is('page.index');
+					$this->_View->request->is('homePage');
 				$isExact =
 					str_replace('//', '/', "{$itemUrl}/") === str_replace('//', '/', "{$this->_View->request->base}/{$this->_View->request->url}/");
 

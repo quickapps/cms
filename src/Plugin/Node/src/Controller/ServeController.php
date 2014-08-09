@@ -98,7 +98,7 @@ class ServeController extends AppController {
 	public function details($node_type_slug, $node_slug) {
 		$this->loadModel('Node.Nodes');
 
-		if ($this->is('user.admin')) {
+		if ($this->request->is('userAdmin')) {
 			$conditions = [
 				'Nodes.slug' => $node_slug,
 				'Nodes.node_type_slug' => $node_type_slug,

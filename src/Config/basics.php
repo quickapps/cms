@@ -24,7 +24,6 @@ use Cake\Utility\Inflector;
 use Cake\ORM\TableRegistry;
 use User\Error\UserNotLoggedInException;
 use User\Model\Entity\User;
-use QuickApps\Utility\DetectorRegistry;
 
 /**
  * Stores some bootstrap-handy information into a persistent file.
@@ -156,44 +155,42 @@ function snapshot($mergeWith = []) {
 }
 
 /**
- * Gets current logged in user as an entity.
+ * Shortcut for reading QuickApps's snapshot configuration.
  *
- * This function will throw when user is not logged in.
- * You must make sure user is logged in before using this function:
+ * For example, `quickapps('variables');` maps to  `Configure::read('QuickApps.variables');`
  *
- *     // in any view:
- *     if ($this->is('user.logged')) {
- *         $userName = user()->name;
- *     }
- *
- * @return \User\Model\Entity\User
- * @throws \User\Error\UserNotLoggedInException
+ * @param string $key
+ * @return mixed
  */
-	function user() {
-		if (!DetectorRegistry::is('user.logged')) {
-			throw new UserNotLoggedInException(__d('user', 'View::user(), requires User to be logged in.'));
-		}
-		static $user = null;
-		if ($user === null) {
-			$user = new User((new Session())->read('user'));
-		}
-		return $user;
+	function quickapps($key) {
+		return Cofigure::read("QuickApps.{$key}");
 	}
 
 /**
- * Gets roles ID of the current user.
+ * Gets current user (logged in or not) as an entity.
  *
- * Constants "ROLE_ID_ADMINISTRATOR", "ROLE_ID_AUTHENTICATED" and "ROLE_ID_ANONYMOUS"
- * are hard-coded values defined by the User plugin.
- * 
- * @return array
+ * @return \User\Model\Entity\User
  */
-	function userRoles() {
-		if (DetectorRegistry::is('user.logged')) {
-			return array_unique(array_merge(user()->roles, [ROLE_ID_AUTHENTICATED]));
+	function user() {
+		if (Router::getRequest()->is('user.logged')) {
+			$properties = (new Session())->read('user');
+			$properties['roles'] = array_unique(am($properties['roles'], ROLE_ID_AUTHENTICATED));
+		} else {
+			$properties = [
+				'id' => null,
+				'name' => __d('user', 'Anonymous'),
+				'username' => __d('user', 'anonymous'),
+				'email' => null,
+				'locale' => null,
+				'roles' => [ROLE_ID_ANONYMOUS],
+			];
 		}
 
-		return [ROLE_ID_ANONYMOUS];
+		static $user = null;
+		if ($user === null) {
+			$user = new User($properties);
+		}
+		return $user;
 	}
 
 /**

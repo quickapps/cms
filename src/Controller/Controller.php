@@ -14,7 +14,6 @@ namespace QuickApps\Controller;
 use Cake\Controller\Controller as CakeCotroller;
 use Cake\Core\Configure;
 use QuickApps\Utility\AlertTrait;
-use QuickApps\Utility\DetectorTrait;
 use QuickApps\Utility\HookTrait;
 use QuickApps\View\ViewModeTrait;
 
@@ -27,7 +26,6 @@ use QuickApps\View\ViewModeTrait;
 class Controller extends CakeCotroller {
 
 	use AlertTrait;
-	use DetectorTrait;
 	use HookTrait;
 	use ViewModeTrait;
 
@@ -36,14 +34,14 @@ class Controller extends CakeCotroller {
  *
  * @var string
  */
-	public $theme = 'FrontendTheme';
+	public $theme;
 
 /**
  * Name of the layout that should be used by current theme.
  *
  * @var string
  */
-	public $layout = 'default';
+	public $layout;
 
 /**
  * The name of the View class controllers sends output to.
@@ -70,6 +68,7 @@ class Controller extends CakeCotroller {
  * @var array
  */
 	public $components = [
+		'System.Detector',
 		'Menu.Breadcrumb',
 		'Session',
 	];

@@ -26,13 +26,13 @@
 		</header>
 
 		<div class="comment-form">
-			<?php if (!$this->is('user.logged') && !$this->Comment->config('allow_anonymous')): ?>
+			<?php if (!$this->request->is('userLoggedIn') && !$this->Comment->config('allow_anonymous')): ?>
 				<h3><?php echo __d('comment', 'You must be logged in to post comments.'); ?></h3>
 			<?php else: ?>
 				<?php echo $this->Form->create($_commentFormContext, ['id' => 'comments-form', 'role' => 'form']); ?>
 					<?php echo $this->Form->hidden('comment.parent_id', ['id' => 'comment-parent-id']); ?>
 
-					<?php if ($this->is('user.logged')): ?>
+					<?php if ($this->request->is('userLoggedIn')): ?>
 						<?php echo $this->Html->image(user()->avatar); ?>
 						@<?php echo user()->username; ?> (<?php echo user()->name; ?>) &lt;<?php echo user()->email; ?>&gt;
 					<?php elseif ($this->Comment->config('allow_anonymous')): ?>
