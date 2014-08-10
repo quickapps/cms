@@ -22,6 +22,7 @@ use Cake\Event\Event;
  * - `isUserLoggedIn`: True if user has logged in.
  * - `isUserAdmin`: True if user has logged in and belongs to the "Administrator" group.
  * - `homePage`: True current request is site's front page.
+ * - `localized`: True current request's URL is language prefixed.
  *
  * ### Usage:
  *
@@ -49,6 +50,7 @@ class DetectorComponent extends Component {
 		$this->_controller->request->addDetector('homePage', [$this, 'homePage']);
 		$this->_controller->request->addDetector('userLoggedIn', [$this, 'userLoggedIn']);
 		$this->_controller->request->addDetector('userAdmin', [$this, 'userAdmin']);
+		$this->_controller->request->addDetector('localized', [$this, 'localized']);
 	}
 
 /**
@@ -86,6 +88,18 @@ class DetectorComponent extends Component {
 			!empty($request->params['action']) &&
 			strtolower($request->params['action']) === 'frontpage'
 		);
+	}
+
+/**
+ * Checks if current URL is language prefixed.
+ *
+ * @return boolean
+ */
+	public function localized($request) {
+		$locales = array_keys(quickapps('languages'));
+		$localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
+		$url = str_starts_with($request->url, '/') ? str_replace_once('/', '', $request->url) : $request->url;
+		return preg_match("/^{$localesPattern}\//", $url);
 	}
 
 }

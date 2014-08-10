@@ -12,17 +12,13 @@
 use Cake\Cache\Cache;
 use Cake\Core\App;
 use Cake\Core\Configure;
-use Cake\Datasource\ConnectionManager;
 use Cake\Event\EventManager;
-use Cake\I18n\I18n;
 use Cake\Network\Session;
 use Cake\Routing\Router;
 use Cake\Utility\Debugger;
 use Cake\Utility\Folder;
 use Cake\Utility\Hash;
-use Cake\Utility\Inflector;
 use Cake\ORM\TableRegistry;
-use User\Error\UserNotLoggedInException;
 use User\Model\Entity\User;
 
 /**
@@ -163,7 +159,7 @@ function snapshot($mergeWith = []) {
  * @return mixed
  */
 	function quickapps($key) {
-		return Cofigure::read("QuickApps.{$key}");
+		return Configure::read("QuickApps.{$key}");
 	}
 
 /**
@@ -227,12 +223,11 @@ function snapshot($mergeWith = []) {
 		$property = $class->getProperty('_listeners');
 		$property->setAccessible(true);
 		$listeners = array_keys($property->getValue(EventManager::instance()));
-		debug(EventManager::instance()->listeners('Hook.Field.info'));
 		return $listeners;
 	}
 
 /**
- * Return only the methods for the indicated object.  
+ * Return only the methods for the given object.  
  * It will strip out inherited methods.
  *
  * @return array List of methods
@@ -270,6 +265,27 @@ function str_replace_once($search, $replace, $subject) {
 		return substr_replace($subject, $replace, strpos($subject, $search), strlen($search));
 	}
 
+	return $subject;
+}
+
+/**
+ * Replace the last occurrence only.
+ *
+ * ### Example:
+ *
+ *     echo str_replace_once('A', 'a', 'AAABBBCCC');
+ *     // out: AAaBBCCCC
+ *
+ * @param string $search The value being searched for
+ * @param string $replace The replacement value that replaces found search value
+ * @param string $subject The string being searched and replaced on
+ * @return string A string with the replaced value
+ */
+function str_replace_last($search, $replace, $subject) {
+	$pos = strrpos($subject, $search);
+	if($pos !== false) {
+		$subject = substr_replace($subject, $replace, $pos, strlen($search));
+	}
 	return $subject;
 }
 

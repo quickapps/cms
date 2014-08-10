@@ -205,10 +205,10 @@ use QuickApps\Utility\HookTrait;
  * - `Field.<FieldHandler>.Entity.display`: When an entity is being rendered
  * - `Field.<FieldHandler>.Entity.edit`: When an entity is being rendered in `edit` mode. (backend usually)
  * - `Field.<FieldHandler>.Entity.beforeFind`: Before an entity is retrieved from DB
- * - `Field.<FieldHandler>.Entity.beforeSave`: Before entity is saved
- * - `Field.<FieldHandler>.Entity.afterSave`: After entity was saved
  * - `Field.<FieldHandler>.Entity.beforeValidate`: Before entity is validated as part of save operation
  * - `Field.<FieldHandler>.Entity.afterValidate`: After entity is validated as part of save operation
+ * - `Field.<FieldHandler>.Entity.beforeSave`: Before entity is saved
+ * - `Field.<FieldHandler>.Entity.afterSave`: After entity was saved
  * - `Field.<FieldHandler>.Entity.beforeDelete`: Before entity is deleted
  * - `Field.<FieldHandler>.Entity.afterDelete`: After entity was deleted
  *
@@ -217,6 +217,8 @@ use QuickApps\Utility\HookTrait;
  * - `Field.<FieldHandler>.Instance.settingsDefaults`: Default values for field settings form's inputs
  * - `Field.<FieldHandler>.Instance.viewModeForm`: Additional formatter options. Show define the way the values will be rendered for a particular view mode.
  * - `Field.<FieldHandler>.Instance.viewModeDefaults`: Default values for view mode settings form's inputs
+ * - `Field.<FieldHandler>.Instance.beforeValidate`: Before field is validated as part of attach operation
+ * - `Field.<FieldHandler>.Instance.afterValidate`: After field is validated as part of attach operation
  * - `Field.<FieldHandler>.Instance.beforeAttach`: Before field is attached to Tables
  * - `Field.<FieldHandler>.Instance.afterAttach`: After field is attached to Tables
  * - `Field.<FieldHandler>.Instance.beforeDetach`: Before field is detached from Tables

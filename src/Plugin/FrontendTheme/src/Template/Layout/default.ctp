@@ -29,29 +29,7 @@
 					<a class="navbar-brand" href="#">QuickApps CMS</a>
 				</div>
 				<div class="collapse navbar-collapse">
-					<?php
-						echo $this->Menu->render(
-							\Cake\ORM\TableRegistry::get('Menu.MenuLinks')
-								->find('threaded')
-								->where(['menu_id' => 2])
-								->order(['lft' => 'ASC']),
-							[
-								'class' => 'nav navbar-nav',
-								'formatter' => function ($item, $info) {
-									$options = [];
-									if ($info['hasChildren'] && $info['depth'] === 0) {
-										$item->title .= ' <span class="caret"></span>';
-									}
-
-									if ($info['depth'] > 0) {
-										$options['childAttrs']['class'] = ['dropdown-submenu'];
-									}
-
-									return $this->Menu->formatter($item, $info, $options);
-								},
-							]
-						);
-					?>
+					<?php echo $this->Region->create('main-menu')->render(); ?>
 				</div>
 			</div>
 		</nav>

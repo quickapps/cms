@@ -1,0 +1,1 @@
+<?php echo $this->Menu->render($menu->links, ['class' => 'nav navbar-nav']); ?>

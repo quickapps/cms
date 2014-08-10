@@ -23,17 +23,42 @@ use QuickApps\Utility\HookTrait;
 /**
  * Block rendering dispatcher.
  *
- * Dispatches `Render.Block\Model\Entity\Block` rendering-request from View.
+ * Handles the `Block.<handler>.display` event.
+ * 
+ * Each block has a `handler` property which identifies the plugin that created that Block,
+ * by default all blocks created using backend's administration page defines `Block` has their handler.
  *
- *     $block = new \Block\Model\Entity\Block();
- *     $this->render($block);
- *     // triggers: `Render.Block\Model\Entity\Block`
+ * An external plugin may register a custom block by inserting its information directly in the "blocks"
+ * table and setting an appropriate `handler` name.
+ * 
+ * For example, `Taxonomy` plugin may create a new `Categories` block by inserting its information in
+ * the "blocks" table, this new block should may have `Taxonomy` has handler name.
  *
- * It also dispatches BlockHelper::block():
+ * Block's handler property is used to compose the event' name that is triggered when block is being rendered (or edited).
+ * Event's name follows the pattern below:
  *
- *     $block = new \Block\Model\Entity\Block();
- *     $this->Block->render($block);
- *     // triggers: `Block.Block.display`
+ *     Block.<handler>.<display|settings>
+ *
+ * So all blocks with `Block` as handler will trigger the event below when being rendered:
+ *
+ *     Block.Block.display
+ *
+ * Event which is handled by this class. In the other hand, for the taxonomy example above the following event will
+ * be triggered when rendering the `Categories` block:
+ *
+ *     Block.Taxonomy.display
+ *
+ * Taxonomy plugin should catch this event and return a STRING.
+ *
+ * ---
+ * 
+ * **NOTES:**
+ * 
+ * - Event's subject is always the View instance being used.
+ * - Plugins are allowed to define any `handler` name when registering blocks in the "blocks" table,
+ *   the only constraint is that it must be unique in the entire "blocks" table. Use plugin's name itself
+ *   is always a good practice as it's already unique in the whole system. Anyway, handler names such as
+ *   `random-letters`, or `i-like-trains` are valid as well.
  */
 class BlockHook implements EventListener {
 
@@ -48,20 +73,8 @@ class BlockHook implements EventListener {
  */
 	public function implementedEvents() {
 		return [
-			'Render.Block\Model\Entity\Block' => 'renderBlock',
 			'Block.Block.display' => 'displayBlock',
 		];
-	}
-
-/**
- * Renders the given block entity.
- *
- * @param \Cake\Event\Event $event
- * @param \Block\Model\Entity\Block $block Block entity to be rendered
- * @return string The rendered block
- */
-	public function renderBlock(Event $event, $block, $options = []) {
-		return $event->subject->Block->render($block, $options);
 	}
 
 /**
@@ -71,7 +84,7 @@ class BlockHook implements EventListener {
  * This method looks for specialized renders in the order described below,
  * if one is not found we look the next one, etc.
  *
- * ### Render blocks per theme's region & view-mode
+ * ### Render block per theme's region & view-mode
  * 
  *      render_block_[region-name]_[view-mode]
  *
@@ -86,7 +99,7 @@ class BlockHook implements EventListener {
  *     // render for blocks in `footer` region when view-mode is `search-result`
  *     `render_block_footer_search-result.ctp`
  *
- * ### Render blocks per theme's region
+ * ### Render block per theme's region
  *
  *     render_block_[region-name]
  *
@@ -100,7 +113,7 @@ class BlockHook implements EventListener {
  *
  * ### Default
  * 
- *     render_block
+ *     render_block.ctp
  *
  * This is the global render, if none of the above is found we try to use this last.
  *
@@ -113,20 +126,17 @@ class BlockHook implements EventListener {
  * @return string The rendered block
  */
 	public function displayBlock(Event $event, $block, $options = []) {
-		if (!($event->subject instanceof \Block\View\Helper\BlockHelper)) {
-			return '';
-		}
-
-		$View = $event->subject->_View;
+		$View = $event->subject;
+		$viewMode = $View->inUseViewMode();
 		// avoid scanning file system every time a block is being rendered
-		$cacheKey = "displayBlock_{$block->block_regions->region}";
+		$cacheKey = "displayBlock_{$block->region->region}_{$viewMode}";
 		$cache = static::_cache($cacheKey);
 		if ($cache !== null) {
 			$element = $cache;
 		} else {
 			$try = [
-				"render_block_{$block->block_regions->region}",
-				"render_block_{$block->block_regions->region}",
+				"Block.render_block_{$block->region->region}_{$viewMode}",
+				"Block.render_block_{$block->region->region}",
 				'Block.render_block'
 			];
 

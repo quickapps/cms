@@ -14,13 +14,15 @@ namespace QuickApps\Utility;
 use QuickApps\Utility\CacheTrait;
 
 /**
- * Adds "_cache()" static method for reading and writing simple cache.
- *
+ * Provides simple cache functionality.
+ * 
+ * Allows classes to optimize their methods by
+ * providing a simple `_cache()` static method for reading and writing values.
  */
 trait CacheTrait {
 
 /**
- * Used internally to optimize some methods.
+ * Used internally.
  *
  * @var array
  */
@@ -67,6 +69,15 @@ trait CacheTrait {
 			}
 			return null;
 		}
+	}
+
+/**
+ * Clears the entire cache.
+ *
+ * @return void
+ */
+	protected static function _clearCache() {
+		static::$_cache = [];
 	}
 
 }

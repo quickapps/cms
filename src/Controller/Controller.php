@@ -142,7 +142,7 @@ class Controller extends CakeCotroller {
  */
 	protected function _prepareLanguage() {
 		$session = $this->request->session();
-		$locales = array_keys(Configure::read('QuickApps.languages'));
+		$locales = array_keys(quickapps('languages'));
 
 		if ($session->check('user.locale') && in_array($session->read('user.locale'), $locales)) {
 			Configure::write('Config.language', $session->read('user.locale'));
@@ -170,6 +170,7 @@ class Controller extends CakeCotroller {
  * @return void
  */
 	protected function _prepareTheme() {
+		$this->layout = 'default';
 		if (!empty($this->request->params['prefix']) && strtolower($this->request->params['prefix']) === 'admin') {
 			$this->theme = option('back_theme');
 		} else {

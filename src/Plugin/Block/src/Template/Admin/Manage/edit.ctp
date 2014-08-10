@@ -15,7 +15,7 @@
 				<em class="help-block"><?php echo __d('block', 'The content of the block as shown to the user.'); ?></em>
 			<?php else: ?>
 				<!-- handler: <?php echo $block->handler; ?> -->
-				<?php $response = $this->invoke("Block.{$block->handler}.edit", $this, $block)->result; ?>
+				<?php $response = $this->invoke("Block.{$block->handler}.settings", $this, $block)->result; ?>
 				<?php if ($response): ?>
 					<hr />
 						<?php echo $response; ?>
@@ -31,7 +31,7 @@
 				<em class="help-block"><?php echo __d('block', 'Specify in which themes and regions this block is displayed.'); ?></em>
 
 				<?php foreach ($regions as $info): ?>
-					<?php echo $this->Form->input("block_regions.{$info['theme']}", ['type' => 'select', 'value' => $info['value'], 'label' => $info['theme'], 'options' => $info['regions'], 'empty' => __d('block', '- NONE -')]); ?>
+					<?php echo $this->Form->input("region.{$info['theme']}", ['type' => 'select', 'value' => $info['value'], 'label' => $info['theme'], 'options' => $info['regions'], 'empty' => __d('block', '- NONE -')]); ?>
 					<em class="help-block">(<?php echo __d($info['theme'], $info['description']); ?>)</em>
 				<?php endforeach; ?>
 

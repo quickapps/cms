@@ -92,7 +92,7 @@ class Plugin extends CakePlugin {
  * @return \Cake\Collection\Collection
  */
 	public static function collection($extendedInfo = false, $ignoreError = true) {
-		$collection = new Collection((array)Configure::read('QuickApps.plugins'));
+		$collection = new Collection(quickapps('plugins'));
 
 		if ($extendedInfo) {
 			$collection = $collection->map(function ($info, $key) use($ignoreError) {
@@ -153,7 +153,7 @@ class Plugin extends CakePlugin {
 			return $cache;
 		}
 
-		$info = (array)Configure::read('QuickApps.plugins.' . $plugin);
+		$info = quickapps("plugins.{$plugin}");
 		if (!$info) {
 			throw new FatalErrorException(__('Plugin "%s" was not found', $plugin));
 		}

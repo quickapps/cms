@@ -42,12 +42,27 @@ class BlockHelper extends AppHelper {
 	}
 
 /**
+ * Renders a single block.
+ *
+ * @param \Block\Model\Entity\Block $block Block entity to render
+ * @param array $options Array of options
+ * @return string HTML
+ */
+	public function render($block, $options = []) {
+		$this->alter('BlockHelper.render', $block, $options);
+		if ($this->allowed($block)) {
+			return $this->invoke("Block.{$block->handler}.display", $this->_View, $block, $options)->result;
+		}
+		return '';
+	}
+
+/**
  * Returns a list of block entities within the given region.
  *
  * @param string $region
  * @param boolean $all True will return the whole list, that is including blocks that will never
- * be rendered because of its visibility (language or role settings, etc). Set to false (by default) will return
- * only blocks that we are sure will be rendered.
+ * be rendered because of its visibility (language or role restrictions, etc). Set to false (by default) will return
+ * only blocks that can be rendered.
  * @return \Cake\Collection\Iterator\FilterIterator
  */
 	public function blocksIn($region, $all = false) {
@@ -89,28 +104,12 @@ class BlockHelper extends AppHelper {
 
 			$blocks
 				->sortBy(function ($block) {
-					return $block->block_regions->ordering;
+					return $block->region->ordering;
 				}, SORT_ASC);
 			$this->_cache($cacheKey, $blocks);
 		}
 
 		return $blocks;
-	}
-
-/**
- * Renders a single block.
- *
- * @param \Block\Model\Entity\Block $block Block entity to render
- * @param array $options Array of options
- * @return string HTML
- */
-	public function render($block, $options = []) {
-		$this->alter('BlockHelper.render', $block, $options);
-		$html = '';
-		if ($this->allowed($block)) {
-			$html = $this->invoke("Block.{$block->handler}.display", $this, $block, $options)->result;
-		}
-		return $html;
 	}
 
 /**
@@ -183,7 +182,7 @@ class BlockHelper extends AppHelper {
  * @return array
  */
 	protected function _listeners() {
-		$cackeKey = '_listeners';
+		$cacheKey = '_listeners';
 		$cache = static::_cache($cacheKey);
 
 		if (!$cache) {
@@ -215,7 +214,7 @@ class BlockHelper extends AppHelper {
 
 		if (option('url_locale_prefix')) {
 			$patterns = explode("\n", $patterns);
-			$locales = array_keys(Configure::read('QuickApps.languages'));
+			$locales = array_keys(quickapps('languages'));
 			$localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
 
 			foreach ($patterns as &$p) {

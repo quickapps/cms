@@ -65,27 +65,31 @@ class BreadcrumbComponent extends Component {
 	public function push($crumbs = [], $url = null) {
 		if ($crumbs === [] && $url === null) {
 			$MenuLinks = TableRegistry::get('Menu.MenuLinks');
-			$MenuLinks->addBehavior('Tree');
+			$MenuLinks->removeBehavior('Tree');
 			$possibleMatches = $this->_possibleURL();
 			$found = $MenuLinks
 				->find()
+				->select(['id', 'menu_id'])
 				->where(['MenuLinks.url IN' => $possibleMatches])
 				->first();
 
 			$crumbs = [];
 			if ($found) {
+				$MenuLinks->addBehavior('Tree', ['scope' => ['menu_id' => $found->menu_id]]);
 				$crumbs = $MenuLinks->find('path', ['for' => $found->id])->toArray();
 			}
 		} elseif (is_string($crumbs) && strpos($crumbs, '/') !== false && $url === null) {
 			$MenuLinks = TableRegistry::get('Menu.MenuLinks');
-			$MenuLinks->addBehavior('Tree');
+			$MenuLinks->removeBehavior('Tree');
 			$found = $MenuLinks
 				->find()
+				->select(['id', 'menu_id'])
 				->where(['MenuLinks.url IN' => $crumbs])
 				->first();
 
 			$crumbs = [];
 			if ($found) {
+				$MenuLinks->addBehavior('Tree', ['scope' => ['menu_id' => $found->menu_id]]);
 				$crumbs = $MenuLinks->find('path', ['for' => $found->id])->toArray();
 			}
 		}
@@ -112,7 +116,7 @@ class BreadcrumbComponent extends Component {
 	}
 
 /**
- * Returns possible URL combination for the given URL or current request.
+ * Returns possible URL combinations for the given URL or current request.
  *
  * ### Example:
  *

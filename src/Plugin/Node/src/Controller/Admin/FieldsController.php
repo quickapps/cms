@@ -46,7 +46,7 @@ class FieldsController extends AppController {
  */
 	public function __construct($request = null, $response = null) {
 		parent::__construct($request, $response);
-		$validTypes = Configure::read('QuickApps.node_types');
+		$validTypes = quickapps('node_types');
 
 		if (
 			!isset($request->query['type']) ||

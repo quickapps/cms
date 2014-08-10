@@ -139,9 +139,9 @@ class NodeHook implements EventListener {
 		$viewMode = $View->inUseViewMode();
 		$html = '';
 		$try = [
-			"render_node_{$node->node_type_slug}_{$viewMode}",
-			"render_node_{$node->node_type_slug}",
-			"render_node_{$viewMode}",
+			"Node.render_node_{$node->node_type_slug}_{$viewMode}",
+			"Node.render_node_{$node->node_type_slug}",
+			"Node.render_node_{$viewMode}",
 			'Node.render_node'
 		];
 

@@ -1,10 +1,77 @@
+--
+-- Table structure for table `blocks`
+--
+
+CREATE TABLE IF NOT EXISTS `blocks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key - Unique block ID.',
+  `delta` varchar(30) COLLATE utf8_unicode_ci NOT NULL COMMENT 'unique ID within a handler',
+  `handler` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Block' COMMENT 'Name of the plugin that created this block. Used to generate event name, e.g. "Menu" triggers "Block.Menu.display" when rendering the block',
+  `title` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `description` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `body` longtext COLLATE utf8_unicode_ci,
+  `visibility` varchar(8) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'except' COMMENT 'indicate how to show blocks on pages. (except = show on all pages except listed pages; only = show only on listed pages; php = use custom PHP code to determine visibility)',
+  `pages` text COLLATE utf8_unicode_ci COMMENT 'Contents of the "Pages" block contains either a list of paths on which to include/exclude the block or PHP code, depending on "visibility" setting.',
+  `locale` text COLLATE utf8_unicode_ci,
+  `settings` longtext COLLATE utf8_unicode_ci COMMENT 'additional information used by this block, used by blocks handlers <> `Block`',
+  `status` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `delta` (`delta`,`handler`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `blocks`
+--
+
+INSERT INTO `blocks` (`id`, `delta`, `handler`, `title`, `description`, `body`, `visibility`, `pages`, `locale`, `settings`, `status`) VALUES
+(1, '1', 'QuickAppsMenu', 'Management [menu:1]', 'Associated block for "Management" menu.', NULL, 'except', NULL, NULL, NULL, 1),
+(2, '2', 'QuickAppsMenu', 'Site Main Menu [menu:2]', 'Associated block for "Site Main Menu" menu.', NULL, 'except', NULL, NULL, NULL, 1);
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qa_comments`
+-- Table structure for table `blocks_roles`
 --
 
-CREATE TABLE IF NOT EXISTS `qa_comments` (
+CREATE TABLE IF NOT EXISTS `blocks_roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `block_id` int(11) NOT NULL,
+  `role_id` int(10) NOT NULL COMMENT 'The user’s role ID from roles table',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `block_regions`
+--
+
+CREATE TABLE IF NOT EXISTS `block_regions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `block_id` int(11) NOT NULL,
+  `theme` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `region` varchar(200) COLLATE utf8_unicode_ci DEFAULT '',
+  `ordering` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `block_id` (`block_id`,`theme`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `block_regions`
+--
+
+INSERT INTO `block_regions` (`id`, `block_id`, `theme`, `region`, `ordering`) VALUES
+(1, 2, 'BackendTheme', '', 0),
+(2, 2, 'FrontendTheme', 'main-menu', 0),
+(3, 1, 'BackendTheme', 'main-menu', 0),
+(4, 1, 'FrontendTheme', '', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comments`
+--
+
+CREATE TABLE IF NOT EXISTS `comments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `entity_id` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `user_id` int(11) DEFAULT NULL,
@@ -24,20 +91,20 @@ CREATE TABLE IF NOT EXISTS `qa_comments` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `qa_comments`
+-- Dumping data for table `comments`
 --
 
-INSERT INTO `qa_comments` (`id`, `entity_id`, `user_id`, `table_alias`, `subject`, `body`, `author_name`, `author_email`, `author_web`, `author_ip`, `parent_id`, `rght`, `lft`, `status`, `created`) VALUES
-(1, '1', NULL, 'nodes', 'This is an unstable repository', 'This is an unstable repository and should be treated as an alpha.', NULL, NULL, NULL, '192.168.1.1', 0, 2, 2, 'approved', '2014-08-03 05:14:42'),
+INSERT INTO `comments` (`id`, `entity_id`, `user_id`, `table_alias`, `subject`, `body`, `author_name`, `author_email`, `author_web`, `author_ip`, `parent_id`, `rght`, `lft`, `status`, `created`) VALUES
+(1, '1', NULL, 'nodes', 'This is an unstable repository', 'This is an unstable repository and should be treated as an alpha.', NULL, NULL, NULL, '192.168.1.1', NULL, 2, 2, 'approved', '2014-08-03 05:14:42'),
 (4, '1', 1, 'nodes', 'asd ad asd', 'Lorem Ipsum', '', '', '', '192.168.1.1', 1, 1, 0, 'approved', '2014-08-03 08:01:29');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qa_field_instances`
+-- Table structure for table `field_instances`
 --
 
-CREATE TABLE IF NOT EXISTS `qa_field_instances` (
+CREATE TABLE IF NOT EXISTS `field_instances` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `slug` varchar(200) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Machine name, must be unique',
   `table_alias` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Name of the table to which this field belongs to. eg: comment, node_article. Must be unique',
@@ -56,20 +123,20 @@ CREATE TABLE IF NOT EXISTS `qa_field_instances` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `qa_field_instances`
+-- Dumping data for table `field_instances`
 --
 
-INSERT INTO `qa_field_instances` (`id`, `slug`, `table_alias`, `handler`, `label`, `description`, `required`, `settings`, `view_modes`, `locked`, `ordering`) VALUES
-(1, 'article-introduction', 'nodes_article', 'TextField', 'Introduction', 'Brief description', 1, 'a:5:{s:4:"type";s:8:"textarea";s:15:"text_processing";s:5:"plain";s:7:"max_len";s:0:"";s:15:"validation_rule";s:0:"";s:18:"validation_message";s:0:"";}', 'a:5:{s:7:"default";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";s:1:"0";s:6:"hidden";s:1:"0";s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:6:"teaser";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:13:"search-result";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:3:"rss";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:4:"full";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";s:1:"1";s:6:"hidden";s:1:"0";s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}}', 0, 0),
-(3, 'article-body', 'nodes_article', 'TextField', 'Body', '', 1, 'a:5:{s:4:"type";s:8:"textarea";s:15:"text_processing";s:8:"markdown";s:7:"max_len";s:0:"";s:15:"validation_rule";s:0:"";s:18:"validation_message";s:0:"";}', 'a:5:{s:7:"default";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:6:"teaser";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:13:"search-result";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:1;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:3:"rss";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:4:"full";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}}', 0, 1);
+INSERT INTO `field_instances` (`id`, `slug`, `table_alias`, `handler`, `label`, `description`, `required`, `settings`, `view_modes`, `locked`, `ordering`) VALUES
+(1, 'article-introduction', 'nodes_article', 'TextField', 'Introduction', 'Brief description', 1, 'a:5:{s:4:"type";s:8:"textarea";s:15:"text_processing";s:5:"plain";s:7:"max_len";s:0:"";s:15:"validation_rule";s:0:"";s:18:"validation_message";s:0:"";}', 'a:5:{s:7:"default";a:4:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;}s:6:"teaser";a:4:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;}s:13:"search-result";a:4:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;}s:3:"rss";a:4:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;}s:4:"full";a:4:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;}}', 0, 0),
+(3, 'article-body', 'nodes_article', 'TextField', 'Body', '', 1, 'a:5:{s:4:"type";s:8:"textarea";s:15:"text_processing";s:8:"markdown";s:7:"max_len";s:0:"";s:15:"validation_rule";s:0:"";s:18:"validation_message";s:0:"";}', 'a:5:{s:7:"default";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:6:"teaser";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:13:"search-result";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:3:"rss";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:4:"full";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}}', 0, 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qa_field_values`
+-- Table structure for table `field_values`
 --
 
-CREATE TABLE IF NOT EXISTS `qa_field_values` (
+CREATE TABLE IF NOT EXISTS `field_values` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `field_instance_id` int(10) NOT NULL,
   `field_instance_slug` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
@@ -78,23 +145,25 @@ CREATE TABLE IF NOT EXISTS `qa_field_values` (
   `value` text COLLATE utf8_unicode_ci,
   `extra` text COLLATE utf8_unicode_ci COMMENT 'Extra information required by this field hadnler',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=14 ;
 
 --
--- Dumping data for table `qa_field_values`
+-- Dumping data for table `field_values`
 --
 
-INSERT INTO `qa_field_values` (`id`, `field_instance_id`, `field_instance_slug`, `entity_id`, `table_alias`, `value`, `extra`) VALUES
+INSERT INTO `field_values` (`id`, `field_instance_id`, `field_instance_slug`, `entity_id`, `table_alias`, `value`, `extra`) VALUES
 (1, 1, 'article-introduction', '1', 'nodes_article', 'Lorem ipsum.[random]1,2,3,4,5[/random]', 'a:0:{}'),
-(9, 3, 'article-body', '1', 'nodes_article', '# QuickApps CMS Site Skeleton\r\n\r\nA skeleton for creating web sites with [QuickAppsCMS](http://quickappscms.org) 2.0. This is an unstable repository and should be treated as an alpha.\r\n\r\n## Installation\r\n\r\n### Install with composer \r\n\r\n1. Download [Composer](http://getcomposer.org/doc/00-intro.md) or update `composer self-update`. \r\n2. Run `php composer.phar create-project -s dev quickapps/website [website_name]`. \r\n\r\nIf Composer is installed globally, run `composer create-project -s dev quickapps/website [website_name]` After composer is done visit `http://example.com/` and start QuickAppsCMS installation.\r\n', 'a:0:{}');
+(9, 3, 'article-body', '1', 'nodes_article', '# QuickApps CMS Site Skeleton\r\n\r\nA skeleton for creating web sites with [QuickAppsCMS](http://quickappscms.org) 2.0. This is an unstable repository and should be treated as an alpha.\r\n\r\n## Installation\r\n\r\n### Install with composer \r\n\r\n1. Download [Composer](http://getcomposer.org/doc/00-intro.md) or update `composer self-update`. \r\n2. Run `php composer.phar create-project -s dev quickapps/website [website_name]`. \r\n\r\nIf Composer is installed globally, run `composer create-project -s dev quickapps/website [website_name]` After composer is done visit `http://example.com/` and start QuickAppsCMS installation.\r\n', 'a:0:{}'),
+(10, 3, 'article-body', '2', 'nodes_article', 'Curabitur quis ultricies nisl. Donec eget rutrum nunc. Quisque accumsan, justo sit amet suscipit ullamcorper, nisl lacus dictum arcu, at vehicula enim velit et libero. Vivamus venenatis lacinia eros, et ultrices erat interdum vitae. Aliquam scelerisque leo in tristique tincidunt. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi iaculis nec quam sit amet viverra. Vestibulum sit amet faucibus elit, et mattis urna. In consequat justo vitae augue venenatis lacinia.', 'a:0:{}'),
+(11, 1, 'article-introduction', '2', 'nodes_article', 'Curabitur quis ultricies nisl. Donec eget rutrum nunc. Quisque accumsan, justo sit amet suscipit ullamcorper, nisl lacus dictum arcu, at vehicula enim velit et libero.', 'a:0:{}');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qa_languages`
+-- Table structure for table `languages`
 --
 
-CREATE TABLE IF NOT EXISTS `qa_languages` (
+CREATE TABLE IF NOT EXISTS `languages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` varchar(12) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Language code, e.g. ’eng’',
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Language name in English.',
@@ -108,74 +177,90 @@ CREATE TABLE IF NOT EXISTS `qa_languages` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `qa_languages`
+-- Dumping data for table `languages`
 --
 
-INSERT INTO `qa_languages` (`id`, `code`, `name`, `native`, `direction`, `icon`, `status`, `ordering`) VALUES
+INSERT INTO `languages` (`id`, `code`, `name`, `native`, `direction`, `icon`, `status`, `ordering`) VALUES
 (1, 'en-us', 'English', 'English', 'ltr', 'us.gif', 1, 0),
 (2, 'es', 'Spanish', 'Español', 'ltr', 'es.gif', 1, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qa_menu_links`
+-- Table structure for table `menus`
 --
 
-CREATE TABLE IF NOT EXISTS `qa_menu_links` (
+CREATE TABLE IF NOT EXISTS `menus` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Menu title, displayed at top of block.',
+  `description` text COLLATE utf8_unicode_ci COMMENT 'Menu description.',
+  `handler` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Name of the plugin that created this menu.',
+  `settings` longtext COLLATE utf8_unicode_ci,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `menus`
+--
+
+INSERT INTO `menus` (`id`, `title`, `description`, `handler`, `settings`) VALUES
+(1, 'Management', 'The Management menu contains links for administrative tasks.', 'QuickAppsMenu', NULL),
+(2, 'Site Main Menu', 'The Site Main Menu is used on many sites to show the major sections of the site, often in a top navigation bar.', 'QuickAppsMenu', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `menu_links`
+--
+
+CREATE TABLE IF NOT EXISTS `menu_links` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `menu_id` int(11) NOT NULL,
-  `menu_slug` varchar(32) COLLATE utf8_unicode_ci NOT NULL COMMENT 'The menu name. All links with the same menu name (such as ’navigation’) are part of the same menu.',
+  `menu_id` int(11) NOT NULL COMMENT 'All links with the same menu ID are part of the same menu.',
   `lft` int(11) NOT NULL,
   `rght` int(11) NOT NULL,
   `parent_id` int(10) NOT NULL DEFAULT '0' COMMENT 'The parent link ID (plid) is the mlid of the link above in the hierarchy, or zero if the link is at the top level in its menu.',
   `url` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'the url',
   `description` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'The text displayed for the link, which may be modified by a title callback stored in menu_router.',
-  `plugin` varchar(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'menu' COMMENT 'The name of the module that generated this link.',
   `target` varchar(15) COLLATE utf8_unicode_ci NOT NULL DEFAULT '_self',
-  `expanded` int(6) NOT NULL DEFAULT '0' COMMENT 'Flag for whether this link should be rendered as expanded in menus - expanded links always have their child links displayed, instead of only when the link is in the active trail (1 = expanded, 0 = not expanded)',
-  `active_on` text COLLATE utf8_unicode_ci COMMENT 'php code, or regular expression. based on active_on_type',
-  `active_on_type` varchar(5) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'php = on php return TRUE. reg = on URL match',
+  `expanded` int(1) NOT NULL DEFAULT '1' COMMENT 'Flag for whether this link should be rendered as expanded in menus - expanded links always have their child links displayed, instead of only when the link is in the active trail (1 = expanded, 0 = not expanded)',
+  `active` text COLLATE utf8_unicode_ci COMMENT 'php code, or regular expression. based on active_on_type',
+  `activation` varchar(5) COLLATE utf8_unicode_ci DEFAULT 'auto' COMMENT 'php: on php return TRUE. auto: auto-detect; any: request''s URL matches any in "active" column; none: request''s URL matches none of listed in "active" column',
   `status` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
-  KEY `router_path` (`url`),
-  KEY `menu_id` (`menu_slug`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=27 ;
+  KEY `router_path` (`url`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=18 ;
 
 --
--- Dumping data for table `qa_menu_links`
+-- Dumping data for table `menu_links`
 --
 
-INSERT INTO `qa_menu_links` (`id`, `menu_id`, `menu_slug`, `lft`, `rght`, `parent_id`, `url`, `description`, `title`, `plugin`, `target`, `expanded`, `active_on`, `active_on_type`, `status`) VALUES
-(1, 0, 'management', 1, 2, 0, '/admin/system/dashboard', NULL, 'Dashboard', 'System', '_self', 0, NULL, NULL, 1),
-(2, 0, 'management', 3, 12, 0, '/admin/system/structure', NULL, 'Structure', 'System', '_self', 0, NULL, NULL, 1),
-(3, 0, 'management', 13, 14, 0, '/admin/node/manage', NULL, 'Content', 'System', '_self', 0, '/admin/node/manage*\r\n/admin/node/comments*', 'reg', 1),
-(4, 0, 'management', 15, 16, 0, '/admin/system/themes', NULL, 'Appearance', 'System', '_self', 0, NULL, NULL, 1),
-(5, 0, 'management', 17, 18, 0, '/admin/system/plugins', NULL, 'Plugins', 'System', '_self', 0, NULL, NULL, 1),
-(6, 0, 'management', 19, 20, 0, '/admin/user/manage', NULL, 'Users', 'System', '_self', 0, NULL, NULL, 1),
-(7, 0, 'management', 23, 24, 0, '/admin/system/configuration', NULL, 'Configuration', 'System', '_self', 0, NULL, NULL, 1),
-(8, 0, 'management', 25, 26, 0, '/admin/system/help', NULL, 'Help', 'System', '_self', 0, NULL, NULL, 1),
-(9, 0, 'management', 4, 5, 2, '/admin/block/manage', 'Configure what block content appears in your site''s sidebars and other regions.', 'Blocks', 'System', '_self', 0, NULL, NULL, 1),
-(10, 0, 'management', 6, 7, 2, '/admin/node/types', 'Manage content types.', 'Content Types', 'System', '_self', 0, NULL, NULL, 1),
-(11, 0, 'management', 8, 9, 2, '/admin/menu/manage', 'Add new menus to your site, edit existing menus, and rename and reorganize menu links.', 'Menus', 'System', '_self', 0, NULL, NULL, 1),
-(12, 0, 'management', 10, 11, 2, '/admin/taxonomy/manage', 'Manage tagging, categorization, and classification of your content.', 'Taxonomy', 'System', '_self', 0, NULL, NULL, 1),
-(13, 0, 'main-menu', 3, 4, 0, '/article/hooktags.html', '', 'Hooktags', 'Menu', '_self', 0, NULL, NULL, 1),
-(17, 0, 'main-menu', 5, 6, 0, '/article/about.html', '', 'About', 'Menu', '_self', 0, NULL, NULL, 1),
-(18, 0, 'management', 21, 22, 0, '/admin/locale', '', 'Languages', 'Locale', '_self', 0, NULL, NULL, 1),
-(21, 0, 'main-menu', 1, 2, 0, '/', '', 'Home', 'Menu', '_self', 0, NULL, NULL, 1),
-(22, 0, 'user-menu', 1, 2, 0, '/user/my_account', '', 'My account', 'Menu', '_self', 0, NULL, NULL, 1),
-(23, 0, 'user-menu', 3, 4, 0, '/user/logout', '', 'Logout', 'Menu', '_self', 0, NULL, NULL, 1),
-(24, 0, 'main-menu', 7, 8, 0, '/find/type:article', '', 'Blog', 'Menu', '_self', 0, '/article/*.html\r\n/search/type:article*', 'reg', 1),
-(25, 0, 'navigation', 1, 2, 0, 'http://www.quickappscms.org', '', 'QuickApps Site', 'Menu', '_blank', 0, '', '', 1),
-(26, 0, 'navigation', 3, 4, 0, 'https://github.com/QuickAppsCMS/QuickApps-CMS-Docs', '', 'Documentation', 'Menu', '_blank', 0, '', '', 1);
+INSERT INTO `menu_links` (`id`, `menu_id`, `lft`, `rght`, `parent_id`, `url`, `description`, `title`, `target`, `expanded`, `active`, `activation`, `status`) VALUES
+(1, 1, 1, 2, 0, '/admin/system/dashboard', NULL, 'Dashboard', '_self', 1, NULL, 'auto', 1),
+(2, 1, 3, 12, 0, '/admin/system/structure', NULL, 'Structure', '_self', 0, NULL, 'auto', 1),
+(3, 1, 13, 14, 0, '/admin/node/manage', NULL, 'Content', '_self', 0, '/admin/node/manage*\r\n/admin/node/comments*', 'any', 1),
+(4, 1, 15, 16, 0, '/admin/system/themes', NULL, 'Themes', '_self', 0, NULL, NULL, 1),
+(5, 1, 17, 18, 0, '/admin/system/plugins', NULL, 'Plugins', '_self', 0, NULL, NULL, 1),
+(6, 1, 19, 20, 0, '/admin/user/manage', NULL, 'Users', '_self', 0, NULL, NULL, 1),
+(7, 1, 23, 24, 0, '/admin/system/configuration', NULL, 'Configuration', '_self', 0, NULL, NULL, 1),
+(8, 1, 25, 26, 0, '/admin/system/help', NULL, 'Help', '_self', 0, NULL, NULL, 1),
+(9, 1, 4, 5, 2, '/admin/block/manage', 'Configure what block content appears in your site''s sidebars and other regions.', 'Blocks', '_self', 0, NULL, NULL, 1),
+(10, 1, 6, 7, 2, '/admin/node/types', 'Manage content types.', 'Content Types', '_self', 0, NULL, NULL, 1),
+(11, 1, 8, 9, 2, '/admin/menu/manage', 'Add new menus to your site, edit existing menus, and rename and reorganize menu links.', 'Menus', '_self', 0, NULL, NULL, 1),
+(12, 1, 10, 11, 2, '/admin/taxonomy/manage', 'Manage tagging, categorization, and classification of your content.', 'Taxonomy', '_self', 0, NULL, NULL, 1),
+(13, 1, 21, 22, 0, '/admin/locale', '', 'Languages', '_self', 0, NULL, NULL, 1),
+(14, 2, 5, 6, 0, '/article/about.html', '', 'About', '_self', 0, NULL, NULL, 1),
+(15, 2, 3, 4, 0, '/article/hooktags.html', '', 'Hooktags', '_self', 0, NULL, NULL, 1),
+(16, 2, 1, 2, 0, '/', '', 'Home', '_self', 0, NULL, NULL, 1),
+(17, 2, 7, 8, 0, '/find/type:article', '', 'Blog', '_self', 0, '/article/*.html\r\n/search/type:article*', 'any', 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qa_nodes`
+-- Table structure for table `nodes`
 --
 
-CREATE TABLE IF NOT EXISTS `qa_nodes` (
+CREATE TABLE IF NOT EXISTS `nodes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `node_type_id` int(11) NOT NULL,
   `node_type_slug` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
@@ -193,46 +278,38 @@ CREATE TABLE IF NOT EXISTS `qa_nodes` (
   `created_by` int(11) NOT NULL,
   `modified_by` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `qa_nodes`
+-- Dumping data for table `nodes`
 --
 
-INSERT INTO `qa_nodes` (`id`, `node_type_id`, `node_type_slug`, `translation_for`, `slug`, `title`, `description`, `promote`, `sticky`, `comment_status`, `language`, `status`, `created`, `modified`, `created_by`, `modified_by`) VALUES
-(1, 1, 'article', NULL, 'my-first-article', 'My First Article!', 'Custom meta description', 1, 0, 1, '', 1, '2014-06-12 07:44:01', '2014-08-05 06:41:17', 1, 0);
+INSERT INTO `nodes` (`id`, `node_type_id`, `node_type_slug`, `translation_for`, `slug`, `title`, `description`, `promote`, `sticky`, `comment_status`, `language`, `status`, `created`, `modified`, `created_by`, `modified_by`) VALUES
+(1, 1, 'article', NULL, 'my-first-article', 'My First Article!', 'Custom meta description', 1, 0, 1, '', 1, '2014-06-12 07:44:01', '2014-08-10 10:26:27', 1, 0),
+(2, 1, 'article', NULL, 'curabitur-quis-ultricies-nisl', 'Curabitur quis ultricies nisl', 'Donec eget rutrum nunc. Vestibulum sit amet faucibus elit.', 1, 1, 0, '', 1, '2014-08-05 22:19:44', '2014-08-05 22:19:44', 1, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qa_node_revisions`
+-- Table structure for table `node_revisions`
 --
 
-CREATE TABLE IF NOT EXISTS `qa_node_revisions` (
+CREATE TABLE IF NOT EXISTS `node_revisions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `node_id` int(11) NOT NULL,
   `data` longtext COLLATE utf8_unicode_ci NOT NULL,
   `hash` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `created` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=42 ;
-
---
--- Dumping data for table `qa_node_revisions`
---
-
-INSERT INTO `qa_node_revisions` (`id`, `node_id`, `data`, `hash`, `created`) VALUES
-(39, 1, 'O:22:"Node\\Model\\Entity\\Node":9:{s:14:"\0*\0_properties";a:17:{s:2:"id";i:1;s:12:"node_type_id";i:1;s:14:"node_type_slug";s:7:"article";s:15:"translation_for";N;s:4:"slug";s:16:"my-first-article";s:5:"title";s:17:"My First Article!";s:11:"description";s:23:"Custom meta description";s:7:"promote";b:1;s:6:"sticky";b:0;s:14:"comment_status";i:1;s:8:"language";s:0:"";s:6:"status";b:1;s:7:"created";O:17:"Cake\\Utility\\Time":3:{s:4:"date";s:19:"2014-06-12 07:44:01";s:13:"timezone_type";i:3;s:8:"timezone";s:3:"UTC";}s:8:"modified";O:17:"Cake\\Utility\\Time":3:{s:4:"date";s:19:"2014-08-03 05:23:59";s:13:"timezone_type";i:3;s:8:"timezone";s:3:"UTC";}s:10:"created_by";i:1;s:11:"modified_by";i:0;s:7:"_fields";C:29:"Field\\Utility\\FieldCollection":7197:{x:i:1;a:2:{i:0;O:24:"Field\\Model\\Entity\\Field":9:{s:14:"\0*\0_properties";a:5:{s:4:"name";s:20:"article-introduction";s:5:"label";s:12:"Introduction";s:5:"value";s:38:"Lorem ipsum.[random]1,2,3,4,5[/random]";s:5:"extra";O:15:"Cake\\ORM\\Entity":9:{s:14:"\0*\0_properties";a:0:{}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:15:"Cake\\ORM\\Entity";s:9:"\0*\0_dirty";a:0:{}s:7:"\0*\0_new";b:1;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:1;}s:19:"\0*\0_repositoryAlias";N;}s:8:"metadata";O:15:"Cake\\ORM\\Entity":9:{s:14:"\0*\0_properties";a:9:{s:14:"field_value_id";i:1;s:17:"field_instance_id";i:1;s:9:"entity_id";i:1;s:11:"table_alias";s:13:"nodes_article";s:11:"description";s:17:"Brief description";s:8:"required";b:1;s:8:"settings";O:15:"Cake\\ORM\\Entity":9:{s:14:"\0*\0_properties";a:5:{s:4:"type";s:8:"textarea";s:15:"text_processing";s:5:"plain";s:7:"max_len";s:0:"";s:15:"validation_rule";s:0:"";s:18:"validation_message";s:0:"";}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:15:"Cake\\ORM\\Entity";s:9:"\0*\0_dirty";a:5:{s:4:"type";b:1;s:15:"text_processing";b:1;s:7:"max_len";b:1;s:15:"validation_rule";b:1;s:18:"validation_message";b:1;}s:7:"\0*\0_new";b:1;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:1;}s:19:"\0*\0_repositoryAlias";N;}s:10:"view_modes";O:15:"Cake\\ORM\\Entity":9:{s:14:"\0*\0_properties";a:5:{s:7:"default";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";s:1:"0";s:6:"hidden";s:1:"0";s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:6:"teaser";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:13:"search-result";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:3:"rss";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:4:"full";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";s:1:"1";s:6:"hidden";s:1:"0";s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:15:"Cake\\ORM\\Entity";s:9:"\0*\0_dirty";a:5:{s:7:"default";b:1;s:6:"teaser";b:1;s:13:"search-result";b:1;s:3:"rss";b:1;s:4:"full";b:1;}s:7:"\0*\0_new";b:1;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:1;}s:19:"\0*\0_repositoryAlias";N;}s:7:"handler";s:9:"TextField";}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:15:"Cake\\ORM\\Entity";s:9:"\0*\0_dirty";a:9:{s:14:"field_value_id";b:1;s:17:"field_instance_id";b:1;s:9:"entity_id";b:1;s:11:"table_alias";b:1;s:11:"description";b:1;s:8:"required";b:1;s:8:"settings";b:1;s:10:"view_modes";b:1;s:7:"handler";b:1;}s:7:"\0*\0_new";b:1;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:0;}s:19:"\0*\0_repositoryAlias";N;}}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:24:"Field\\Model\\Entity\\Field";s:9:"\0*\0_dirty";a:5:{s:4:"name";b:1;s:5:"label";b:1;s:5:"value";b:1;s:5:"extra";b:1;s:8:"metadata";b:1;}s:7:"\0*\0_new";b:0;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:3:{s:1:"*";b:0;s:5:"value";b:1;s:5:"extra";b:1;}s:19:"\0*\0_repositoryAlias";N;}i:1;O:24:"Field\\Model\\Entity\\Field":9:{s:14:"\0*\0_properties";a:5:{s:4:"name";s:12:"article-body";s:5:"label";s:4:"Body";s:5:"value";s:615:"# QuickApps CMS Site Skeleton\r\n\r\nA skeleton for creating web sites with [QuickAppsCMS](http://quickappscms.org) 2.0. This is an unstable repository and should be treated as an alpha.\r\n\r\n## Installation\r\n\r\n### Install with composer \r\n\r\n1. Download [Composer](http://getcomposer.org/doc/00-intro.md) or update `composer self-update`. \r\n2. Run `php composer.phar create-project -s dev quickapps/website [website_name]`. \r\n\r\nIf Composer is installed globally, run `composer create-project -s dev quickapps/website [website_name]` After composer is done visit `http://example.com/` and start QuickAppsCMS installation.\r\n";s:5:"extra";O:15:"Cake\\ORM\\Entity":9:{s:14:"\0*\0_properties";a:0:{}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:15:"Cake\\ORM\\Entity";s:9:"\0*\0_dirty";a:0:{}s:7:"\0*\0_new";b:1;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:1;}s:19:"\0*\0_repositoryAlias";N;}s:8:"metadata";O:15:"Cake\\ORM\\Entity":9:{s:14:"\0*\0_properties";a:9:{s:14:"field_value_id";i:9;s:17:"field_instance_id";i:3;s:9:"entity_id";i:1;s:11:"table_alias";s:13:"nodes_article";s:11:"description";s:0:"";s:8:"required";b:1;s:8:"settings";O:15:"Cake\\ORM\\Entity":9:{s:14:"\0*\0_properties";a:5:{s:4:"type";s:8:"textarea";s:15:"text_processing";s:8:"markdown";s:7:"max_len";s:0:"";s:15:"validation_rule";s:0:"";s:18:"validation_message";s:0:"";}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:15:"Cake\\ORM\\Entity";s:9:"\0*\0_dirty";a:5:{s:4:"type";b:1;s:15:"text_processing";b:1;s:7:"max_len";b:1;s:15:"validation_rule";b:1;s:18:"validation_message";b:1;}s:7:"\0*\0_new";b:1;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:1;}s:19:"\0*\0_repositoryAlias";N;}s:10:"view_modes";O:15:"Cake\\ORM\\Entity":9:{s:14:"\0*\0_properties";a:5:{s:7:"default";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:6:"teaser";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:13:"search-result";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:1;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:3:"rss";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:4:"full";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:15:"Cake\\ORM\\Entity";s:9:"\0*\0_dirty";a:5:{s:7:"default";b:1;s:6:"teaser";b:1;s:13:"search-result";b:1;s:3:"rss";b:1;s:4:"full";b:1;}s:7:"\0*\0_new";b:1;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:1;}s:19:"\0*\0_repositoryAlias";N;}s:7:"handler";s:9:"TextField";}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:15:"Cake\\ORM\\Entity";s:9:"\0*\0_dirty";a:9:{s:14:"field_value_id";b:1;s:17:"field_instance_id";b:1;s:9:"entity_id";b:1;s:11:"table_alias";b:1;s:11:"description";b:1;s:8:"required";b:1;s:8:"settings";b:1;s:10:"view_modes";b:1;s:7:"handler";b:1;}s:7:"\0*\0_new";b:1;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:0;}s:19:"\0*\0_repositoryAlias";N;}}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:24:"Field\\Model\\Entity\\Field";s:9:"\0*\0_dirty";a:5:{s:4:"name";b:1;s:5:"label";b:1;s:5:"value";b:1;s:5:"extra";b:1;s:8:"metadata";b:1;}s:7:"\0*\0_new";b:0;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:3:{s:1:"*";b:0;s:5:"value";b:1;s:5:"extra";b:1;}s:19:"\0*\0_repositoryAlias";N;}};m:a:0:{}}}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:22:"Node\\Model\\Entity\\Node";s:9:"\0*\0_dirty";a:1:{s:7:"_fields";b:1;}s:7:"\0*\0_new";b:0;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:1;}s:19:"\0*\0_repositoryAlias";s:5:"Nodes";}', '49aa359ea9393710d47bd04b1da43170', '2014-08-04 03:50:55'),
-(40, 1, 'O:22:"Node\\Model\\Entity\\Node":9:{s:14:"\0*\0_properties";a:17:{s:2:"id";i:1;s:12:"node_type_id";i:1;s:14:"node_type_slug";s:7:"article";s:15:"translation_for";N;s:4:"slug";s:16:"my-first-article";s:5:"title";s:17:"My First Article!";s:11:"description";s:23:"Custom meta description";s:7:"promote";b:1;s:6:"sticky";b:0;s:14:"comment_status";i:1;s:8:"language";s:0:"";s:6:"status";b:1;s:7:"created";O:17:"Cake\\Utility\\Time":3:{s:4:"date";s:19:"2014-06-12 07:44:01";s:13:"timezone_type";i:3;s:8:"timezone";s:3:"UTC";}s:8:"modified";O:17:"Cake\\Utility\\Time":3:{s:4:"date";s:19:"2014-08-04 03:50:55";s:13:"timezone_type";i:3;s:8:"timezone";s:3:"UTC";}s:10:"created_by";i:1;s:11:"modified_by";i:0;s:7:"_fields";C:29:"Field\\Utility\\FieldCollection":7197:{x:i:1;a:2:{i:0;O:24:"Field\\Model\\Entity\\Field":9:{s:14:"\0*\0_properties";a:5:{s:4:"name";s:20:"article-introduction";s:5:"label";s:12:"Introduction";s:5:"value";s:38:"Lorem ipsum.[random]1,2,3,4,5[/random]";s:5:"extra";O:15:"Cake\\ORM\\Entity":9:{s:14:"\0*\0_properties";a:0:{}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:15:"Cake\\ORM\\Entity";s:9:"\0*\0_dirty";a:0:{}s:7:"\0*\0_new";b:1;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:1;}s:19:"\0*\0_repositoryAlias";N;}s:8:"metadata";O:15:"Cake\\ORM\\Entity":9:{s:14:"\0*\0_properties";a:9:{s:14:"field_value_id";i:1;s:17:"field_instance_id";i:1;s:9:"entity_id";i:1;s:11:"table_alias";s:13:"nodes_article";s:11:"description";s:17:"Brief description";s:8:"required";b:1;s:8:"settings";O:15:"Cake\\ORM\\Entity":9:{s:14:"\0*\0_properties";a:5:{s:4:"type";s:8:"textarea";s:15:"text_processing";s:5:"plain";s:7:"max_len";s:0:"";s:15:"validation_rule";s:0:"";s:18:"validation_message";s:0:"";}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:15:"Cake\\ORM\\Entity";s:9:"\0*\0_dirty";a:5:{s:4:"type";b:1;s:15:"text_processing";b:1;s:7:"max_len";b:1;s:15:"validation_rule";b:1;s:18:"validation_message";b:1;}s:7:"\0*\0_new";b:1;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:1;}s:19:"\0*\0_repositoryAlias";N;}s:10:"view_modes";O:15:"Cake\\ORM\\Entity":9:{s:14:"\0*\0_properties";a:5:{s:7:"default";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";s:1:"0";s:6:"hidden";s:1:"0";s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:6:"teaser";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:13:"search-result";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:3:"rss";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:4:"full";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";s:1:"1";s:6:"hidden";s:1:"0";s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:15:"Cake\\ORM\\Entity";s:9:"\0*\0_dirty";a:5:{s:7:"default";b:1;s:6:"teaser";b:1;s:13:"search-result";b:1;s:3:"rss";b:1;s:4:"full";b:1;}s:7:"\0*\0_new";b:1;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:1;}s:19:"\0*\0_repositoryAlias";N;}s:7:"handler";s:9:"TextField";}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:15:"Cake\\ORM\\Entity";s:9:"\0*\0_dirty";a:9:{s:14:"field_value_id";b:1;s:17:"field_instance_id";b:1;s:9:"entity_id";b:1;s:11:"table_alias";b:1;s:11:"description";b:1;s:8:"required";b:1;s:8:"settings";b:1;s:10:"view_modes";b:1;s:7:"handler";b:1;}s:7:"\0*\0_new";b:1;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:0;}s:19:"\0*\0_repositoryAlias";N;}}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:24:"Field\\Model\\Entity\\Field";s:9:"\0*\0_dirty";a:5:{s:4:"name";b:1;s:5:"label";b:1;s:5:"value";b:1;s:5:"extra";b:1;s:8:"metadata";b:1;}s:7:"\0*\0_new";b:0;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:3:{s:1:"*";b:0;s:5:"value";b:1;s:5:"extra";b:1;}s:19:"\0*\0_repositoryAlias";N;}i:1;O:24:"Field\\Model\\Entity\\Field":9:{s:14:"\0*\0_properties";a:5:{s:4:"name";s:12:"article-body";s:5:"label";s:4:"Body";s:5:"value";s:615:"# QuickApps CMS Site Skeleton\r\n\r\nA skeleton for creating web sites with [QuickAppsCMS](http://quickappscms.org) 2.0. This is an unstable repository and should be treated as an alpha.\r\n\r\n## Installation\r\n\r\n### Install with composer \r\n\r\n1. Download [Composer](http://getcomposer.org/doc/00-intro.md) or update `composer self-update`. \r\n2. Run `php composer.phar create-project -s dev quickapps/website [website_name]`. \r\n\r\nIf Composer is installed globally, run `composer create-project -s dev quickapps/website [website_name]` After composer is done visit `http://example.com/` and start QuickAppsCMS installation.\r\n";s:5:"extra";O:15:"Cake\\ORM\\Entity":9:{s:14:"\0*\0_properties";a:0:{}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:15:"Cake\\ORM\\Entity";s:9:"\0*\0_dirty";a:0:{}s:7:"\0*\0_new";b:1;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:1;}s:19:"\0*\0_repositoryAlias";N;}s:8:"metadata";O:15:"Cake\\ORM\\Entity":9:{s:14:"\0*\0_properties";a:9:{s:14:"field_value_id";i:9;s:17:"field_instance_id";i:3;s:9:"entity_id";i:1;s:11:"table_alias";s:13:"nodes_article";s:11:"description";s:0:"";s:8:"required";b:1;s:8:"settings";O:15:"Cake\\ORM\\Entity":9:{s:14:"\0*\0_properties";a:5:{s:4:"type";s:8:"textarea";s:15:"text_processing";s:8:"markdown";s:7:"max_len";s:0:"";s:15:"validation_rule";s:0:"";s:18:"validation_message";s:0:"";}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:15:"Cake\\ORM\\Entity";s:9:"\0*\0_dirty";a:5:{s:4:"type";b:1;s:15:"text_processing";b:1;s:7:"max_len";b:1;s:15:"validation_rule";b:1;s:18:"validation_message";b:1;}s:7:"\0*\0_new";b:1;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:1;}s:19:"\0*\0_repositoryAlias";N;}s:10:"view_modes";O:15:"Cake\\ORM\\Entity":9:{s:14:"\0*\0_properties";a:5:{s:7:"default";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:6:"teaser";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:13:"search-result";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:1;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:3:"rss";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:4:"full";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:15:"Cake\\ORM\\Entity";s:9:"\0*\0_dirty";a:5:{s:7:"default";b:1;s:6:"teaser";b:1;s:13:"search-result";b:1;s:3:"rss";b:1;s:4:"full";b:1;}s:7:"\0*\0_new";b:1;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:1;}s:19:"\0*\0_repositoryAlias";N;}s:7:"handler";s:9:"TextField";}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:15:"Cake\\ORM\\Entity";s:9:"\0*\0_dirty";a:9:{s:14:"field_value_id";b:1;s:17:"field_instance_id";b:1;s:9:"entity_id";b:1;s:11:"table_alias";b:1;s:11:"description";b:1;s:8:"required";b:1;s:8:"settings";b:1;s:10:"view_modes";b:1;s:7:"handler";b:1;}s:7:"\0*\0_new";b:1;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:0;}s:19:"\0*\0_repositoryAlias";N;}}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:24:"Field\\Model\\Entity\\Field";s:9:"\0*\0_dirty";a:5:{s:4:"name";b:1;s:5:"label";b:1;s:5:"value";b:1;s:5:"extra";b:1;s:8:"metadata";b:1;}s:7:"\0*\0_new";b:0;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:3:{s:1:"*";b:0;s:5:"value";b:1;s:5:"extra";b:1;}s:19:"\0*\0_repositoryAlias";N;}};m:a:0:{}}}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:22:"Node\\Model\\Entity\\Node";s:9:"\0*\0_dirty";a:1:{s:7:"_fields";b:1;}s:7:"\0*\0_new";b:0;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:1;}s:19:"\0*\0_repositoryAlias";s:5:"Nodes";}', '9e180f452f60547704becc30261ecd69', '2014-08-05 06:41:05'),
-(41, 1, 'O:22:"Node\\Model\\Entity\\Node":9:{s:14:"\0*\0_properties";a:17:{s:2:"id";i:1;s:12:"node_type_id";i:1;s:14:"node_type_slug";s:7:"article";s:15:"translation_for";N;s:4:"slug";s:16:"my-first-article";s:5:"title";s:17:"My First Article!";s:11:"description";s:23:"Custom meta description";s:7:"promote";b:1;s:6:"sticky";b:0;s:14:"comment_status";i:0;s:8:"language";s:0:"";s:6:"status";b:1;s:7:"created";O:17:"Cake\\Utility\\Time":3:{s:4:"date";s:19:"2014-06-12 07:44:01";s:13:"timezone_type";i:3;s:8:"timezone";s:3:"UTC";}s:8:"modified";O:17:"Cake\\Utility\\Time":3:{s:4:"date";s:19:"2014-08-05 06:41:05";s:13:"timezone_type";i:3;s:8:"timezone";s:3:"UTC";}s:10:"created_by";i:1;s:11:"modified_by";i:0;s:7:"_fields";C:29:"Field\\Utility\\FieldCollection":7197:{x:i:1;a:2:{i:0;O:24:"Field\\Model\\Entity\\Field":9:{s:14:"\0*\0_properties";a:5:{s:4:"name";s:20:"article-introduction";s:5:"label";s:12:"Introduction";s:5:"value";s:38:"Lorem ipsum.[random]1,2,3,4,5[/random]";s:5:"extra";O:15:"Cake\\ORM\\Entity":9:{s:14:"\0*\0_properties";a:0:{}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:15:"Cake\\ORM\\Entity";s:9:"\0*\0_dirty";a:0:{}s:7:"\0*\0_new";b:1;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:1;}s:19:"\0*\0_repositoryAlias";N;}s:8:"metadata";O:15:"Cake\\ORM\\Entity":9:{s:14:"\0*\0_properties";a:9:{s:14:"field_value_id";i:1;s:17:"field_instance_id";i:1;s:9:"entity_id";i:1;s:11:"table_alias";s:13:"nodes_article";s:11:"description";s:17:"Brief description";s:8:"required";b:1;s:8:"settings";O:15:"Cake\\ORM\\Entity":9:{s:14:"\0*\0_properties";a:5:{s:4:"type";s:8:"textarea";s:15:"text_processing";s:5:"plain";s:7:"max_len";s:0:"";s:15:"validation_rule";s:0:"";s:18:"validation_message";s:0:"";}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:15:"Cake\\ORM\\Entity";s:9:"\0*\0_dirty";a:5:{s:4:"type";b:1;s:15:"text_processing";b:1;s:7:"max_len";b:1;s:15:"validation_rule";b:1;s:18:"validation_message";b:1;}s:7:"\0*\0_new";b:1;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:1;}s:19:"\0*\0_repositoryAlias";N;}s:10:"view_modes";O:15:"Cake\\ORM\\Entity":9:{s:14:"\0*\0_properties";a:5:{s:7:"default";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";s:1:"0";s:6:"hidden";s:1:"0";s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:6:"teaser";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:13:"search-result";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:3:"rss";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:4:"full";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";s:1:"1";s:6:"hidden";s:1:"0";s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:15:"Cake\\ORM\\Entity";s:9:"\0*\0_dirty";a:5:{s:7:"default";b:1;s:6:"teaser";b:1;s:13:"search-result";b:1;s:3:"rss";b:1;s:4:"full";b:1;}s:7:"\0*\0_new";b:1;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:1;}s:19:"\0*\0_repositoryAlias";N;}s:7:"handler";s:9:"TextField";}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:15:"Cake\\ORM\\Entity";s:9:"\0*\0_dirty";a:9:{s:14:"field_value_id";b:1;s:17:"field_instance_id";b:1;s:9:"entity_id";b:1;s:11:"table_alias";b:1;s:11:"description";b:1;s:8:"required";b:1;s:8:"settings";b:1;s:10:"view_modes";b:1;s:7:"handler";b:1;}s:7:"\0*\0_new";b:1;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:0;}s:19:"\0*\0_repositoryAlias";N;}}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:24:"Field\\Model\\Entity\\Field";s:9:"\0*\0_dirty";a:5:{s:4:"name";b:1;s:5:"label";b:1;s:5:"value";b:1;s:5:"extra";b:1;s:8:"metadata";b:1;}s:7:"\0*\0_new";b:0;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:3:{s:1:"*";b:0;s:5:"value";b:1;s:5:"extra";b:1;}s:19:"\0*\0_repositoryAlias";N;}i:1;O:24:"Field\\Model\\Entity\\Field":9:{s:14:"\0*\0_properties";a:5:{s:4:"name";s:12:"article-body";s:5:"label";s:4:"Body";s:5:"value";s:615:"# QuickApps CMS Site Skeleton\r\n\r\nA skeleton for creating web sites with [QuickAppsCMS](http://quickappscms.org) 2.0. This is an unstable repository and should be treated as an alpha.\r\n\r\n## Installation\r\n\r\n### Install with composer \r\n\r\n1. Download [Composer](http://getcomposer.org/doc/00-intro.md) or update `composer self-update`. \r\n2. Run `php composer.phar create-project -s dev quickapps/website [website_name]`. \r\n\r\nIf Composer is installed globally, run `composer create-project -s dev quickapps/website [website_name]` After composer is done visit `http://example.com/` and start QuickAppsCMS installation.\r\n";s:5:"extra";O:15:"Cake\\ORM\\Entity":9:{s:14:"\0*\0_properties";a:0:{}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:15:"Cake\\ORM\\Entity";s:9:"\0*\0_dirty";a:0:{}s:7:"\0*\0_new";b:1;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:1;}s:19:"\0*\0_repositoryAlias";N;}s:8:"metadata";O:15:"Cake\\ORM\\Entity":9:{s:14:"\0*\0_properties";a:9:{s:14:"field_value_id";i:9;s:17:"field_instance_id";i:3;s:9:"entity_id";i:1;s:11:"table_alias";s:13:"nodes_article";s:11:"description";s:0:"";s:8:"required";b:1;s:8:"settings";O:15:"Cake\\ORM\\Entity":9:{s:14:"\0*\0_properties";a:5:{s:4:"type";s:8:"textarea";s:15:"text_processing";s:8:"markdown";s:7:"max_len";s:0:"";s:15:"validation_rule";s:0:"";s:18:"validation_message";s:0:"";}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:15:"Cake\\ORM\\Entity";s:9:"\0*\0_dirty";a:5:{s:4:"type";b:1;s:15:"text_processing";b:1;s:7:"max_len";b:1;s:15:"validation_rule";b:1;s:18:"validation_message";b:1;}s:7:"\0*\0_new";b:1;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:1;}s:19:"\0*\0_repositoryAlias";N;}s:10:"view_modes";O:15:"Cake\\ORM\\Entity":9:{s:14:"\0*\0_properties";a:5:{s:7:"default";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:6:"teaser";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:13:"search-result";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:1;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:3:"rss";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:4:"full";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:15:"Cake\\ORM\\Entity";s:9:"\0*\0_dirty";a:5:{s:7:"default";b:1;s:6:"teaser";b:1;s:13:"search-result";b:1;s:3:"rss";b:1;s:4:"full";b:1;}s:7:"\0*\0_new";b:1;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:1;}s:19:"\0*\0_repositoryAlias";N;}s:7:"handler";s:9:"TextField";}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:15:"Cake\\ORM\\Entity";s:9:"\0*\0_dirty";a:9:{s:14:"field_value_id";b:1;s:17:"field_instance_id";b:1;s:9:"entity_id";b:1;s:11:"table_alias";b:1;s:11:"description";b:1;s:8:"required";b:1;s:8:"settings";b:1;s:10:"view_modes";b:1;s:7:"handler";b:1;}s:7:"\0*\0_new";b:1;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:0;}s:19:"\0*\0_repositoryAlias";N;}}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:24:"Field\\Model\\Entity\\Field";s:9:"\0*\0_dirty";a:5:{s:4:"name";b:1;s:5:"label";b:1;s:5:"value";b:1;s:5:"extra";b:1;s:8:"metadata";b:1;}s:7:"\0*\0_new";b:0;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:3:{s:1:"*";b:0;s:5:"value";b:1;s:5:"extra";b:1;}s:19:"\0*\0_repositoryAlias";N;}};m:a:0:{}}}s:10:"\0*\0_hidden";a:0:{}s:11:"\0*\0_virtual";a:0:{}s:13:"\0*\0_className";s:22:"Node\\Model\\Entity\\Node";s:9:"\0*\0_dirty";a:1:{s:7:"_fields";b:1;}s:7:"\0*\0_new";b:0;s:10:"\0*\0_errors";a:0:{}s:14:"\0*\0_accessible";a:1:{s:1:"*";b:1;}s:19:"\0*\0_repositoryAlias";s:5:"Nodes";}', 'ae94c921b70496d3641995013f13cf30', '2014-08-05 06:41:17');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qa_node_types`
+-- Table structure for table `node_types`
 --
 
-CREATE TABLE IF NOT EXISTS `qa_node_types` (
+CREATE TABLE IF NOT EXISTS `node_types` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `slug` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(200) COLLATE utf8_unicode_ci NOT NULL COMMENT 'human-readable name',
@@ -244,19 +321,47 @@ CREATE TABLE IF NOT EXISTS `qa_node_types` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
 
 --
--- Dumping data for table `qa_node_types`
+-- Dumping data for table `node_types`
 --
 
-INSERT INTO `qa_node_types` (`id`, `slug`, `name`, `description`, `title_label`, `defaults`) VALUES
+INSERT INTO `node_types` (`id`, `slug`, `name`, `description`, `title_label`, `defaults`) VALUES
 (1, 'article', 'Article', 'Use articles for time-sensitive content like news, press releases or blog posts.', 'Title', 'a:7:{s:6:"status";s:1:"1";s:7:"promote";s:1:"1";s:6:"sticky";s:1:"1";s:11:"author_name";s:1:"1";s:9:"show_date";s:1:"1";s:14:"comment_status";s:1:"0";s:8:"language";s:0:"";}');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qa_plugins`
+-- Table structure for table `options`
 --
 
-CREATE TABLE IF NOT EXISTS `qa_plugins` (
+CREATE TABLE IF NOT EXISTS `options` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `value` text COLLATE utf8_unicode_ci,
+  `autoload` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1: true (autoload); 0:false',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=8 ;
+
+--
+-- Dumping data for table `options`
+--
+
+INSERT INTO `options` (`id`, `name`, `value`, `autoload`) VALUES
+(1, 'front_theme', 'FrontendTheme', 1),
+(2, 'default_language', 'en-us', 1),
+(3, 'site_description', 'Open Source CMS built on CakePHP 2.0', 1),
+(4, 'site_slogan', 'Open Source CMS built on CakePHP 2.0', 1),
+(5, 'back_theme', 'BackendTheme', 1),
+(6, 'site_title', 'My QuickApps CMS Site', 1),
+(7, 'url_locale_prefix', '1', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `plugins`
+--
+
+CREATE TABLE IF NOT EXISTS `plugins` (
   `name` varchar(80) COLLATE utf8_unicode_ci NOT NULL,
   `package` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'composer package. e.g. user_name/plugin_name',
   `settings` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'serialized array of options',
@@ -266,10 +371,10 @@ CREATE TABLE IF NOT EXISTS `qa_plugins` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='list of installed plugins (we do not consider core plugins)';
 
 --
--- Dumping data for table `qa_plugins`
+-- Dumping data for table `plugins`
 --
 
-INSERT INTO `qa_plugins` (`name`, `package`, `settings`, `status`, `ordering`) VALUES
+INSERT INTO `plugins` (`name`, `package`, `settings`, `status`, `ordering`) VALUES
 ('BackendTheme', 'quickapps-theme/backend-theme', '', 1, 0),
 ('Block', 'quickapps-plugin/block', '', 1, 0),
 ('Comment', 'quickapps-plugin/comment', 'a:15:{s:12:"auto_approve";s:1:"0";s:15:"allow_anonymous";s:1:"1";s:14:"anonymous_name";s:1:"1";s:23:"anonymous_name_required";s:1:"1";s:15:"anonymous_email";s:1:"1";s:24:"anonymous_email_required";s:1:"1";s:13:"anonymous_web";s:1:"1";s:22:"anonymous_web_required";s:1:"0";s:15:"text_processing";s:5:"plain";s:8:"use_ayah";s:1:"1";s:18:"ayah_publisher_key";s:40:"a5613704624c0c213e3a51a3202dd22c1fc5f652";s:16:"ayah_scoring_key";s:40:"1bfe675e8061d1e83fc56090dbef62d4cc2e4912";s:11:"use_akismet";s:1:"0";s:11:"akismet_key";s:1:"s";s:14:"akismet_action";s:6:"delete";}', 1, 0),
@@ -279,51 +384,65 @@ INSERT INTO `qa_plugins` (`name`, `package`, `settings`, `status`, `ordering`) V
 ('Locale', 'quickapps-plugin/locale', '', 1, 0),
 ('Menu', 'quickapps-plugin/menu', '', 1, 0),
 ('Node', 'quickapps-plugin/node', '', 1, 0),
+('QuickSlider', 'quickapps-plugin/quick-slider', '', 0, 0),
 ('Search', 'quickapps-plugin/search', '', 1, 0),
 ('System', 'quickapps-plugin/system', '', 1, 0),
+('Taxonomy', 'quickapps-plugin/taxonomy', '', 1, 0),
 ('User', 'quickapps-plugin/user', '', 1, 0),
 ('Wysiwyg', 'quickapps-plugin/wysiwyg', '', 1, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qa_search_datasets`
+-- Table structure for table `roles`
 --
 
-CREATE TABLE IF NOT EXISTS `qa_search_datasets` (
+CREATE TABLE IF NOT EXISTS `roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`id`, `name`) VALUES
+(1, 'Administrator'),
+(3, 'Anonymous User'),
+(2, 'Authenticated User');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `search_datasets`
+--
+
+CREATE TABLE IF NOT EXISTS `search_datasets` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `entity_id` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `table_alias` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `words` longtext COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
   UNIQUE KEY `entity_id` (`entity_id`,`table_alias`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=17 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `qa_search_datasets`
+-- Dumping data for table `search_datasets`
 --
 
-INSERT INTO `qa_search_datasets` (`id`, `entity_id`, `table_alias`, `words`) VALUES
-(1, '1', 'nodes', ' lorem ipsum.[random]1,2,3,4,5[/random] # quickapps cms site skeleton\r\n\r\na skeleton for creating web sites with [quickappscms](http://quickappscms.org) 2.0. this is an unstable repository and should be treated as an alpha.\r\n\r\n## installation\r\n\r\n### install with composer \r\n\r\n1. download [composer](http://getcomposer.org/doc/00-intro.md) or update `composer self-update`. \r\n2. run `php composer.phar create-project -s dev quickapps/website [website_name]`. \r\n\r\nif composer is installed globally, run `composer create-project -s dev quickapps/website [website_name]` after composer is done visit `http://example.com/` and start quickappscms installation. my first article! '),
-(6, '6', 'nodes', ' df gdfgsdfgsd gsd g '),
-(7, '7', 'nodes', ' 00000000 '),
-(8, '8', 'nodes', ' 00000000 '),
-(9, '9', 'nodes', ' asd asda sdas d '),
-(10, '10', 'nodes', ' asd asda sdas d '),
-(11, '11', 'nodes', ' asd asda sdas d '),
-(12, '12', 'nodes', ' asd asda sdas d '),
-(13, '13', 'nodes', ' 00000000000 '),
-(14, '14', 'nodes', ' 00000000000 '),
-(15, '15', 'nodes', ' 00000000000 '),
-(16, '16', 'nodes', ' 00000000000 ');
+INSERT INTO `search_datasets` (`id`, `entity_id`, `table_alias`, `words`) VALUES
+(1, '1', 'nodes', ' my first article custom meta description lorem ipsum random random quickapps cms site skeletona skeleton for creating web sites with quickappscms http quickappscms org this is an unstable repository and should be treated as an alpha installation install with composer download composer http getcomposer org doc intro md or update composer self update run php composer phar create project s dev quickapps website website name if composer is installed globally run composer create project s dev quickapps website website name after composer is done visit http example com and start quickappscms installation '),
+(2, '2', 'nodes', ' curabitur quis ultricies nisl donec eget rutrum nunc vestibulum sit amet faucibus elit quisque accumsan justo suscipit ullamcorper lacus dictum arcu at vehicula enim velit et libero vivamus venenatis lacinia eros ultrices erat interdum vitae aliquam scelerisque leo in tristique tincidunt cum sociis natoque penatibus magnis dis parturient montes nascetur ridiculus mus morbi iaculis nec quam viverra mattis urna consequat augue ');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qa_users`
+-- Table structure for table `users`
 --
 
-CREATE TABLE IF NOT EXISTS `qa_users` (
+CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `username` varchar(80) COLLATE utf8_unicode_ci NOT NULL,
@@ -341,30 +460,8 @@ CREATE TABLE IF NOT EXISTS `qa_users` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
 
 --
--- Dumping data for table `qa_users`
+-- Dumping data for table `users`
 --
 
-INSERT INTO `qa_users` (`id`, `name`, `username`, `password`, `email`, `web`, `locale`, `timezone`, `code`, `status`, `last_login`, `created`) VALUES
+INSERT INTO `users` (`id`, `name`, `username`, `password`, `email`, `web`, `locale`, `timezone`, `code`, `status`, `last_login`, `created`) VALUES
 (1, 'Christopher Castro', 'admin', '123456', 'chris@quickapps.es', 'http://quickapps.es', 'es', NULL, '', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `qa_variables`
---
-
-CREATE TABLE IF NOT EXISTS `qa_variables` (
-  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `value` text COLLATE utf8_unicode_ci,
-  PRIMARY KEY (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `qa_variables`
---
-
-INSERT INTO `qa_variables` (`name`, `value`) VALUES
-('admin_theme', 'FrontendTheme'),
-('default_language', 'en-us'),
-('site_theme', 'BackendTheme'),
-('url_locale_prefix', '0');

@@ -14,8 +14,8 @@ namespace Node\Config;
 use Cake\Core\Configure;
 use Cake\Routing\Router;
 
-if (!empty(Configure::read('QuickApps.node_types'))) {
-	$nodeTypesPattern = implode('|', array_map('preg_quote', (array)Configure::read('QuickApps.node_types')));
+if (!empty(quickapps('node_types'))) {
+	$nodeTypesPattern = implode('|', array_map('preg_quote', quickapps('node_types')));
 	Router::connect('/:node_type_slug/:node_slug.html', [
 		'plugin' => 'Node',
 		'controller' => 'Serve',

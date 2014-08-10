@@ -129,7 +129,7 @@ class FieldHook implements EventListener {
 	public function listFields(Event $event, $includeHidden = false) {
 		$tmp = $fields = [];
 
-		foreach ((array)Hash::extract(Configure::read('QuickApps.plugins'), '{s}.events.fields') 
+		foreach ((array)Hash::extract(quickapps('plugins'), '{s}.events.fields') 
 			as $pluginIndex => $pluginFields
 		) {
 			if (!empty($pluginFields)) {

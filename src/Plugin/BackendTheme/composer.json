@@ -1,23 +1,32 @@
 {
-	"name": "quickapps-theme/backend-theme",
-	"description": "QuickApps CMS backend default theme based on Twitter Bootstrap.",
-	"type": "quickapps-plugin",
-	"keywords": ["framework", "cms", "cmf", "quickapps"],
-	"homepage": "http://quickappscms.org",
-	"license": "GPL-3.0",
-	"authors": [
-		{"name": "Christopher Castro", "email": "chris@quickapps.es"}
-	],
-	"minimum-stability": "dev",
-	"require": {
-		"quickapps/cms": "2.0.*-dev"
-	},
-	"version": "1.0",
-	"extra": {
-		"admin": true,
-		"regions": {
-			"help": "Help",
-			"main-menu": "Main Menu"
-		}
-	}
+    "name": "quickapps-theme/backend-theme",
+    "description": "QuickApps CMS backend default theme based on Twitter Bootstrap.",
+    "type": "quickapps-plugin",
+    "keywords": [
+        "framework",
+        "cms",
+        "cmf",
+        "quickapps"
+    ],
+    "homepage": "http://quickappscms.org",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Christopher Castro",
+            "email": "chris@quickapps.es"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "quickapps/cms": "2.0.*-dev"
+    },
+    "version": "1.0",
+    "extra": {
+        "admin": true,
+        "regions": {
+            "main-menu": "Main Menu",
+            "dashboard-left": "Dashboard Left",
+            "dashboard-right": "Dashboard Right"
+        }
+    }
 }

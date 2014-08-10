@@ -61,13 +61,13 @@ class BreadcrumbHelper extends Helper {
 	public function render($options = []) {
 		$items = $this->getStack();
 		$options = Hash::merge([
+			'breadcrumbGuessing' => false,
 			'class' => 'breadcrumb',
 			'templates' => [
 				'root' => '<ol{{attrs}}>{{content}}</ol>',
 			],
 			'formatter' => function ($entity, $info) {
 				$options = [];
-
 				if ($info['index'] === $info['total']) {
 					$options['childAttrs'] = ['class' => 'active'];
 					$options['templates']['link'] = '{{content}}';
@@ -75,7 +75,6 @@ class BreadcrumbHelper extends Helper {
 				return $this->Menu->formatter($entity, $info, $options);
 			}
 		], $options);
-
 		return $this->Menu->render($items, $options);
 	}
 

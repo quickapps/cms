@@ -15,12 +15,16 @@ use Cake\Database\Schema\Table as Schema;
 use Cake\Event\Event;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Block\Model\Entity\Block;
+use QuickApps\Utility\HookTrait;
 
 /**
  * Represents "blocks" database table.
  *
  */
 class BlocksTable extends Table {
+
+	use HookTrait;
 
 /**
  * Initialize method.
@@ -32,8 +36,13 @@ class BlocksTable extends Table {
 		$this->hasMany('BlockRegions', [
 			'className' => 'Block.BlockRegions',
 			'dependent' => true,
+			'propertyName' => 'region',
 		]);
-		$this->belongsToMany('User.Roles');
+		$this->belongsToMany('User.Roles', [
+			'className' => 'User.Roles',
+			'dependent' => false,
+			'propertyName' => 'roles',
+		]);
 	}
 
 /**
@@ -87,9 +96,15 @@ class BlocksTable extends Table {
 			->add('delta', [
 				'unique' => [
 					'rule' => ['validateUnique', ['scope' => 'handler']],
-					'message' => __d('block', 'Invalid delta, there is already a block with the same <delta, handler> combination.'),
+					'message' => __d('block', 'Invalid delta, there is already a block with the same [delta, handler] combination.'),
 					'provider' => 'table',
 				]
+			])
+			->validatePresence('handler', 'create')
+			->add('handler', 'validHandler', [
+				'rule' => 'notEmpty',
+				'on' => 'create',
+				'message' => __d('menu', 'Invalid menu handler'),
 			]);
 	}
 
@@ -115,6 +130,90 @@ class BlocksTable extends Table {
 					'message' => __d('block', "Block's body need to be at least 3 characters long."),
 				],
 			]);
+	}
+
+/**
+ * Triggers the "Block.<handler>.beforeValidate" hook, so plugins may do any logic their require.
+ *
+ * @param \Cake\Event\Event $event
+ * @param \Block\Model\Entity\Block $block
+ * @param array $options
+ * @return boolean False if save operation should not continue, true otherwise
+ */
+	public function beforeValidate(Event $event, Block $block, $options, Validator $validator) {
+		$blockEvent = $this->invoke("Block.{$block->handler}.beforeValidate", $event->subject, $block, $options, $validator);
+		if ($blockEvent->isStopped() || $blockEvent->result === false) {
+			return false;
+		}
+		return true;
+	}
+
+/**
+ * Triggers the "Block.<handler>.afterValidate" hook, so plugins may do any logic their require.
+ *
+ * @param \Cake\Event\Event $event
+ * @param \Block\Model\Entity\Block $block
+ * @param array $options
+ * @return void
+ */
+	public function afterValidate(Event $event, Block $block, $options, Validator $validator) {
+		$this->invoke("Block.{$block->handler}.afterValidate", $event->subject, $block, $options, $validator);
+	}
+
+/**
+ * Triggers the "Block.<handler>.beforeSave" hook, so plugins may do any logic their require.
+ *
+ * @param \Cake\Event\Event $event
+ * @param \Block\Model\Entity\Block $block
+ * @param array $options
+ * @return boolean False if save operation should not continue, true otherwise
+ */
+	public function beforeSave(Event $event, Block $block, $options = []) {
+		$blockEvent = $this->invoke("Block.{$block->handler}.beforeSave", $event->subject, $block, $options);
+		if ($blockEvent->isStopped() || $blockEvent->result === false) {
+			return false;
+		}
+		return true;
+	}
+
+/**
+ * Triggers the "Block.<handler>.afterSave" hook, so plugins may do any logic their require.
+ *
+ * @param \Cake\Event\Event $event
+ * @param \Block\Model\Entity\Block $block
+ * @param array $options
+ * @return void
+ */
+	public function afterSave(Event $event, Block $block, $options = []) {
+		$this->invoke("Block.{$block->handler}.afterSave", $event->subject, $block, $options);
+	}
+
+/**
+ * Triggers the "Block.<handler>.beforeDelete" hook, so plugins may do any logic their require.
+ *
+ * @param \Cake\Event\Event $event
+ * @param \Block\Model\Entity\Block $block
+ * @param array $options
+ * @return boolean False if delete operation should not continue, true otherwise
+ */
+	public function beforeDelete(Event $event, Block $block, $options = []) {
+		$blockEvent = $this->invoke("Block.{$block->handler}.beforeDelete", $event->subject, $block, $options);
+		if ($blockEvent->isStopped() || $blockEvent->result === false) {
+			return false;
+		}
+		return true;
+	}
+
+/**
+ * Triggers the "Block.<handler>.afterDelete" hook, so plugins may do any logic their require.
+ *
+ * @param \Cake\Event\Event $event
+ * @param \Block\Model\Entity\Block $block
+ * @param array $options
+ * @return void
+ */
+	public function afterDelete(Event $event, Block $block, $options = []) {
+		$this->invoke("Block.{$block->handler}.afterDelete", $event->subject, $block, $options);
 	}
 
 }

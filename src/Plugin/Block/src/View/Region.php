@@ -23,11 +23,11 @@ use QuickApps\Core\Plugin;
 class Region {
 
 /**
- * Name of this region.
+ * Name of this region. e.g.: 'left-sidebar'
  * 
  * @var string
  */
-	protected $_name = null;
+	protected $_machineName = null;
 
 /**
  * Collection of blocks for this region.
@@ -37,7 +37,7 @@ class Region {
 	protected $_blocks = null;
 
 /**
- * Maximum number of blocks in this region.
+ * Maximum number of blocks this region can holds.
  *
  * @var null|integer
  */
@@ -62,13 +62,13 @@ class Region {
  *
  * ### Valid options are:
  *
- * - `fixMissing`: If set to TRUE when creating a region that is not defined by the theme,
- *    it will try to fix it by adding it to theme's regions. Defaults to TRUE. This option
- *    will alter theme's `composer.json` file.
+ * - `fixMissing`: When creating a region that is not defined by the theme,
+ *    it will try to fix it by adding it to theme's regions if this option is set to TRUE.
+ *    Defaults to TRUE. This option will alter theme's `composer.json` file.
  * - `theme`: Name of the theme this regions belongs to. Defaults to auto-detect.
  *
  * @param \Cake\View\View $view Instance of View class to use
- * @param string $name
+ * @param string $name Machine name of the region. e.g.: `left-sidebar`
  * @param array $options
  * @return void
  */
@@ -77,24 +77,23 @@ class Region {
 			'fixMissing' => true,
 			'theme' => $view->theme,
 		];
-		$this->_name = $name;
+		$this->_machineName = Inflector::slug($name, '-');
 		$this->_View = $view;
 		$this->_theme = Plugin::info($options['theme'], true);
-		$this->_blocks = $this->_View->Region->Block->blocksIn($this->_name);
+		$this->_blocks = $this->_View->Region->Block->blocksIn($this->_machineName);
 
 		if (isset($this->_theme['composer']['extra']['regions'])) {
 			$validRegions = array_keys($this->_theme['composer']['extra']['regions']);
 			$jsonPath = "{$this->_theme['path']}/composer.json";
 			if (
-				!in_array($this->_name, $validRegions) &&
+				!in_array($this->_machineName, $validRegions) &&
 				$options['fixMissing'] &&
 				is_writable($jsonPath)
 			) {
 				$jsonArray = json_decode(file_get_contents($jsonPath), true);
 				if (is_array($jsonArray)) {
-					$machineName = Inflector::slug($this->_name, '-');
-					$humanName = Inflector::humanize($this->_name);
-					$jsonArray['extra']['regions'][$machineName] = $humanName;
+					$humanName = Inflector::humanize($this->_machineName);
+					$jsonArray['extra']['regions'][$this->_machineName] = $humanName;
 					$encode = json_encode($jsonArray, JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
 					if ($encode) {
 						file_put_contents($jsonPath, $encode);
@@ -111,7 +110,7 @@ class Region {
  * @return string
  */
 	public function getName() {
-		return $this->_name;
+		return $this->_machineName;
 	}
 
 /**
@@ -152,25 +151,25 @@ class Region {
  * @return integer
  */
 	public function countBlocks() {
-		$blocks = $this->_View->Region->Block->blocksIn($this->_name);
+		$blocks = $this->_View->Region->Block->blocksIn($this->_machineName);
 		return count($blocks->toArray());
 	}
 
 /**
  * Appends blocks from another region.
  *
- * You can not merge regions with the same name.
+ * You can not merge regions with the same machine-name.
  *
  * @param boolean $homogenize Set to true to make sure all blocks in the collection
  * are marked as they belongs to this region
  * @return \Block\Utility\Region This region with $region's blocks appended
  */
 	public function append(Region $region, $homogenize = true) {
-		if ($region->getName() != $this->_name) {
+		if ($region->getName() != $this->_machineName) {
 			$this->_blocks = $this->_blocks->append($region->getBlocks());
 			if ($homogenize) {
 				$this->_blocks = $this->_blocks->map(function ($block) {
-					$block->block_regions->set('region', $this->_name);
+					$block->region->set('region', $this->_machineName);
 					return $block;
 				});
 			}
@@ -218,7 +217,7 @@ class Region {
  */
 	public function __debugInfo() {
 		return [
-			'_name' => $this->_name,
+			'_machineName' => $this->_machineName,
 			'_blocks' => $this->_blocks->toArray(),
 			'_blockLimit' => $this->_blockLimit,
 			'_theme' => $this->_theme,

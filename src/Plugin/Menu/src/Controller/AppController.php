@@ -4,19 +4,18 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @since	 2.0.0
+ * @since	 1.0.0
  * @author	 Christopher Castro <chris@quickapps.es>
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Block\Model\Entity;
+namespace Menu\Controller;
 
-use Cake\ORM\Entity;
+use QuickApps\Controller\Controller;
 
 /**
- * Represents a single "block_region" within "region" table.
+ * Main controller for Menu plugin.
  *
  */
-class BlockRegion extends Entity {
-
+class AppController extends Controller {
 }

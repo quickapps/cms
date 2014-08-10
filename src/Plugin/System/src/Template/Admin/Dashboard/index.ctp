@@ -9,4 +9,19 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
+
+/**
+ * Backend themes should always implement both "dashboard-left" and "dashboard-right"
+ * 
+ */
 ?>
+
+<div class="row">
+	<div class="col-md-6">
+		<?php echo $this->Region->create('dashboard-left'); ?>
+	</div>
+
+	<div class="col-md-6">
+		<?php echo $this->Region->create('dashboard-right'); ?>
+	</div>
+</div>

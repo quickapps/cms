@@ -13,14 +13,15 @@ namespace Hook;
 
 use Cake\Event\Event;
 use Cake\Event\EventListener;
-use Cake\Network\Request;
-use Cake\Network\Response;
+use QuickApps\Utility\HookTrait;
 
 /**
  * Main Hook Listener for System plugin.
  *
  */
 class SystemHook implements EventListener {
+
+	use HookTrait;
 
 /**
  * Returns a list of hooks this Hook Listener is implementing. When the class is registered
@@ -29,7 +30,22 @@ class SystemHook implements EventListener {
  * @return void
  */
 	public function implementedEvents() {
-		return [];
+		return [
+			'Block.QuickAppsMenu.display' => 'displayBlock',
+		];
+	}
+
+/**
+ * All blocks registered by "System" plugin are associated blocks
+ * of some core's menus. So we redirect rendering task to Menu plugin's render.
+ * 
+ * @param \Cake\Event\Event $event
+ * @param \Block\Model\Entity\Block $block The block being rendered
+ * @param array $options Array of options for BlockHelper::render() method
+ * @return array
+ */
+	public function displayBlock(Event $event, $block, $options) {
+		return $this->invoke('Block.Menu.display', $event->subject, $block, $options)->result;
 	}
 
 }

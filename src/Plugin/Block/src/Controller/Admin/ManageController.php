@@ -82,7 +82,7 @@ class ManageController extends AppController {
 						return false;
 					})
 					->sortBy(function ($block) {
-						return $block->block_regions->ordering;
+						return $block->region->ordering;
 					}, SORT_ASC);
 				${$type}[$regionName] = $blocks;
 
@@ -281,8 +281,8 @@ class ManageController extends AppController {
 			->map(function($theme, $key) use($block) {
 				$value = '';
 
-				if ($block !== null && $block->has('block_regions')) {
-					foreach($block->block_regions as $blockRegion) {
+				if ($block !== null && $block->has('region')) {
+					foreach($block->region as $blockRegion) {
 						if ($blockRegion->theme == $key) {
 							$value = $blockRegion->region;
 							break;
@@ -312,19 +312,19 @@ class ManageController extends AppController {
  */
 	protected function _prepareData($block = null, $ignore = []) {
 		$this->loadModel('Block.Blocks');
-		$ignore = am($ignore, ['block_regions', 'roles']);
-		$data = ['block_regions' => []];
+		$ignore = am($ignore, ['region', 'roles']);
+		$data = ['region' => []];
 		$columns = am($this->Blocks->schema()->columns(), $ignore);
 
 		foreach ($this->request->data as $coulumn => $value) {
 			if (in_array($coulumn, $columns)) {
-				if ($coulumn == 'block_regions') {
+				if ($coulumn == 'region') {
 					foreach ($value as $theme => $region) {
 						if (!$block) {
 							$data[$coulumn][] = ['theme' => $theme, 'region' => $region];
 						} else {
 							$tmp = ['theme' => $theme, 'region' => $region];
-							foreach ($block->block_regions as $blockRegion) {
+							foreach ($block->region as $blockRegion) {
 								if ($blockRegion->theme == $theme) {
 									$tmp['id'] = $blockRegion->id;
 									break;

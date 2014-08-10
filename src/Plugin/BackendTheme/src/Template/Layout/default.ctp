@@ -35,15 +35,7 @@
 					<a class="navbar-brand" href="#">QuickApps CMS</a>
 				</div>
 				<div class="collapse navbar-collapse">
-					<?php
-						echo $this->Menu->render(
-							\Cake\ORM\TableRegistry::get('Menu.MenuLinks')
-								->find('threaded')
-								->where(['menu_id' => 1])
-								->order(['lft' => 'ASC']),
-							['class' => 'nav navbar-nav']
-						);
-					?>
+					<?php echo $this->Region->create('main-menu')->render(); ?>
 				</div>
 			</div>
 		</nav>

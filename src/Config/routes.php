@@ -36,7 +36,7 @@ if (!file_exists(SITE_ROOT . '/Config/settings.php')) {
  * Generate basic routes.
  */
 	$localePrefix = option('url_locale_prefix');
-	$locales = array_keys(Configure::read('QuickApps.languages'));
+	$locales = array_keys(quickapps('languages'));
 	$localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
 
 	Router::prefix('admin', function($routes) {

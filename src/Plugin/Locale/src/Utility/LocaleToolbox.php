@@ -27,7 +27,7 @@ class LocaleToolbox {
  */
 	public static function languagesList() {
 		$languages = [];
-		foreach (Configure::read('QuickApps.languages') as $code => $data) {
+		foreach (quickapps('languages') as $code => $data) {
 			$languages[$code] = $data['native'];
 		}
 		return $languages;

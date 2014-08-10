@@ -41,7 +41,7 @@
 													<?php echo $this->Html->link('', ['plugin' => 'Block', 'controller' => 'manage', 'action' => 'delete', $block->id], ['title' => __d('block', 'Delete'), 'class' => 'btn btn-default btn-sm glyphicon glyphicon-trash', 'confirm' => __d('block', 'Delete this block, are you sure?')]); ?>
 												<?php endif; ?>
 											</div>
-											<?php echo $this->Form->hidden('regions.' . option('front_theme') . ".{$block->block_regions->region}.", ['value' => $block->block_regions->id]); ?>
+											<?php echo $this->Form->hidden('regions.' . option('front_theme') . ".{$block->region->region}.", ['value' => $block->region->id]); ?>
 										</li>
 									<?php endforeach; ?>
 								</ul>
@@ -85,7 +85,7 @@
 													<?php echo $this->Html->link('', ['plugin' => 'Block', 'controller' => 'manage', 'action' => 'delete', $block->id], ['title' => __d('block', 'Delete'), 'class' => 'btn btn-default btn-sm glyphicon glyphicon-trash', 'confirm' => __d('block', 'Delete this block, are you sure?')]); ?>
 												<?php endif; ?>
 											</div>
-											<?php echo $this->Form->hidden('regions.' . option('back_theme') . ".{$block->block_regions->region}.", ['value' => $block->block_regions->id]); ?>
+											<?php echo $this->Form->hidden('regions.' . option('back_theme') . ".{$block->region->region}.", ['value' => $block->region->id]); ?>
 										</li>
 									<?php endforeach; ?>
 								</ul>

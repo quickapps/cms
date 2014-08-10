@@ -12,6 +12,7 @@
 namespace Menu\View\Helper;
 
 use Cake\Core\Configure;
+use Cake\Core\Plugin;
 use Cake\ORM\Entity;
 use Cake\Routing\Router;
 use Cake\Utility\Hash;
@@ -35,6 +36,12 @@ class MenuHelper extends AppHelper {
  * Default configuration for this class.
  *
  * - `formatter`: Callable method used when formating each item.
+ * - `beautify`: Set to true to "beautify" the resulting HTML, compacted HTMl will be returned if set to FALSE.
+ *    You can set this option to a string compatible with 
+ *    [htmLawed](http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/htmLawed_README.htm) library.
+ *    e.g: `2s0n`. Defaults to FALSE (compact).
+ * - `dropdown`: Set to true to automatically apply a few CSS styles for creating a "Dropdown" menu. Defaults to FALSE.
+ *    This option is useful when rendering Multi-level menus, such as site's "main menu", etc.
  * - `activeClass`: CSS class to use when an item is active (its URL matches current URL).
  * - `firstItemClass`: CSS class for the first item.
  * - `lastItemClass`: CSS class for the last item.
@@ -84,6 +91,8 @@ class MenuHelper extends AppHelper {
  */
 	protected $_defaultConfig = [
 		'formatter' => null,
+		'beautify' => false,
+		'dropdown' => false,
 		'activeClass' => 'active',
 		'firstClass' => 'first-item',
 		'lastClass' => 'last-item',
@@ -94,7 +103,7 @@ class MenuHelper extends AppHelper {
 			'div' => '<div{{attrs}}>{{content}}</div>',
 			'root' => '<ul{{attrs}}>{{content}}</ul>',
 			'parent' => '<ul{{attrs}}>{{content}}</ul>',
-			'child' => '<li{{attrs}}>{{content}}</li>',
+			'child' => '<li{{attrs}}>{{content}}{{children}}</li>',
 			'link' => '<a href="{{url}}"{{attrs}}><span>{{content}}</span></a>',
 		]
 	];
@@ -111,8 +120,6 @@ class MenuHelper extends AppHelper {
 				return $this->formatter($entity, $info);
 			};
 		}
-
-		$this->_defaultConfig = Hash::merge($this->_defaultConfig, $config);
 		parent::__construct($View, $config);
 	}
 
@@ -194,6 +201,12 @@ class MenuHelper extends AppHelper {
 			]);
 		}
 
+		if ($this->config('beautify')) {
+			$tidy = is_bool($this->config('beautify')) ? '1t0n' : $this->config('beautify');
+			include_once Plugin::classPath('Menu') . 'Lib/htmLawed.php';
+			$out = htmLawed($out, compact('tidy'));
+		}
+
 		$this->_clear();
 		return $out;
 	}
@@ -206,9 +219,9 @@ class MenuHelper extends AppHelper {
  * - `templates`: Array of templates indexed as `templateName` => `templatePattern`. Temporally overwrites
  *    templates when rendering this item, after item is rendered templates are restored to previous values.
  * - `childAttrs`: Array of attributes for `child` template.
- *   - `css`: Array list of multiple CSS classes or a single string (will be merged with auto-generated CSS).
+ *   - `class`: Array list of multiple CSS classes or a single string (will be merged with auto-generated CSS).
  * - `linkAttrs`: Array of attributes for the `link` template.
- *   - `css`: Same as childAttrs.
+ *   - `class`: Same as childAttrs.
  *
  * ### Information argument
  *
@@ -267,8 +280,10 @@ class MenuHelper extends AppHelper {
 
 		if ($info['hasChildren']) {
 			$childAttrs['class'][] = $config['hasChildrenClass'];
-			$childAttrs['class'][] = 'dropdown';
-			$linkAttrs['data-toggle'] = 'dropdown';
+			if ($this->config('dropdown')) {
+				$childAttrs['class'][] = 'dropdown';
+				$linkAttrs['data-toggle'] = 'dropdown';
+			}
 		}
 
 		if (!empty($item->description)) {
@@ -292,6 +307,8 @@ class MenuHelper extends AppHelper {
 			$linkAttrs = Hash::merge($linkAttrs, $options['linkAttrs']);
 		}
 	
+		$childAttrs['class'] = array_unique($childAttrs['class']);
+		$linkAttrs['class'] = array_unique($linkAttrs['class']);
 		$childAttrs = $this->templater()->formatAttributes($childAttrs);
 		$linkAttrs = $this->templater()->formatAttributes($linkAttrs);
 		$return = $this->formatTemplate('child', [
@@ -300,7 +317,8 @@ class MenuHelper extends AppHelper {
 				'url' => $this->_url($item->url),
 				'attrs' => $linkAttrs,
 				'content' => $item->title,
-			]) . $info['children']
+			]),
+			'children' => $info['children'],
 		]);
 
 		if (isset($templatesBefore)) {
@@ -352,7 +370,7 @@ class MenuHelper extends AppHelper {
 			if ($item->has('children') && !empty($item->children) && $item->expanded) {
 				$children = $this->formatTemplate('parent', [
 					'attrs' => $this->templater()->formatAttributes([
-						'class' => 'dropdown-menu multi-level',
+						'class' => ($this->config('dropdown') ? 'dropdown-menu multi-level' : ''),
 						'role' => 'menu'
 					]),
 					'content' => $this->_render($item->children, $depth + 1)
@@ -380,14 +398,14 @@ class MenuHelper extends AppHelper {
  * @param string|array $url URL given as string or an array compatible with `Router::url()`
  * @return string
  */
-	protected function _url($url) {
+	public function _url($url) {
 		static $locales = null;
 
 		if (empty($locales)) {
 			$locales = implode('|', 
 				array_map('preg_quote', 
 					array_keys(
-						Configure::read('QuickApps.languages')
+						quickapps('languages')
 					)
 				)
 			);
@@ -397,13 +415,22 @@ class MenuHelper extends AppHelper {
 			option('url_locale_prefix') &&
 			is_string($url) &&
 			str_starts_with($url, '/') &&
-			!preg_match('/^\\/[' . $locales . ']/', $url)
+			!preg_match('/^\/(' . $locales . ')/', $url)
 		) {
 			$locale = Configure::read('Config.language');
-			return Router::url("/{$locale}{$url}", true);
+			$url = "/{$locale}{$url}";
+			$full = true;
 		} else {
-			return Router::url($url);
+			$full = false;
 		}
+
+		try {
+			$url = Router::url($url, $full);
+		} catch (\Exception $e) {
+			$url = '';
+		}
+
+		return $url;
 	}
 
 /**
@@ -411,8 +438,8 @@ class MenuHelper extends AppHelper {
  *
  * `$item->url` property must exists, and can be either:
  *
- * - A string representing an external or internal URL. e.g. `/user/login`
- * - An array compatible with \Cake\Routing\Router::url(). e.g. `['controller' => 'user', 'action' => 'login']`
+ * - A string representing an external or internal URL (all internal links must starts with "/"). e.g. `/user/login`
+ * - An array compatible with \Cake\Routing\Router::url(). e.g. `['controller' => 'users', 'action' => 'login']`
  *
  * Both examples are equivalent.
  *
@@ -420,31 +447,70 @@ class MenuHelper extends AppHelper {
  * @return boolean
  */
 	protected function _isActive($item) {
-		switch ($item->active_on_type) {
-			case 'reg':
-				return $this->_urlMatch($item->active_on);
+		switch ($item->activation) {
+			case 'any':
+				return $this->_urlMatch($item->active);
+			case 'none':
+				return !$this->_urlMatch($item->active);
 			case 'php':
-				return $this->_phpEval($item->active_on);
-			default:
-				$itemUrl = (string)Router::url($item->url);
+				return $this->_phpEval($item->active);
+			case 'auto':
+				default:
+					try {
+						$itemUrl = Router::url($item->url);
+					} catch (\Exception $e) {
+						$itemUrl = false;
+					}
 
-				$isInternal =
-					$itemUrl !== '/' &&
-					$itemUrl[0] === '/' &&
-					str_ends_with($itemUrl, env('REQUEST_URI')) !== false;
-				$isIndex =
-					$itemUrl === '/' &&
-					$this->_View->request->is('homePage');
-				$isExact =
-					str_replace('//', '/', "{$itemUrl}/") === str_replace('//', '/', "{$this->_View->request->base}/{$this->_View->request->url}/");
+					// external link
+					if (empty($itemUrl) || $itemUrl[0] !== '/') {
+						return ($itemUrl == env('REQUEST_URI'));
+					}
 
-				if ($this->config('breadcrumbGuessing')) {
-					$cumbsUrl = Breadcrumb::getUrls();
-					$isInBreadcrumb = in_array($item->url, $cumbsUrl);
-					return ($isInternal || $isIndex || $isExact || $isInBreadcrumb);
-				}
+					$itemUrl = str_replace_once($this->_View->request->base, '', $itemUrl);
+					if (option('url_locale_prefix')) {
+						if (!preg_match('/^\/' . $this->_localesPattern() . '/', $itemUrl)) {
+							$itemUrl = '/' . Configure::read('Config.language') . $itemUrl;
+						}
+					}
 
-				return ($isInternal || $isIndex || $isExact); 
+					$isInternal =
+						$itemUrl !== '/' &&
+						str_ends_with($itemUrl, str_replace_once($this->_View->request->base, '', env('REQUEST_URI')));
+					$isIndex =
+						$itemUrl === '/' &&
+						$this->_View->request->is('homePage');
+					$isExact =
+						str_replace('//', '/', "{$itemUrl}/") === str_replace('//', '/', "/{$this->_View->request->base}/{$this->_View->request->url}/");
+
+					if ($this->config('breadcrumbGuessing')) {
+						static $crumbs = null;
+						if ($crumbs === null) {
+							$crumbs = Breadcrumb::getUrls();
+							foreach ($crumbs as &$crumb) {
+								try {
+									$crumb = Router::url($crumb);
+								} catch (\Exception $e) {
+									$crumb = '';
+								}
+
+								if (str_starts_with($crumb, $this->_View->request->base)) {
+									$crumb = str_replace_once($this->_View->request->base, '', $crumb);
+								}
+
+								if (option('url_locale_prefix')) {
+									if (!preg_match('/^\/' . $this->_localesPattern() . '/', $crumb)) {
+										$crumb = '/' . Configure::read('Config.language') . $crumb;
+									}
+								}
+							}
+						}
+
+						$isInBreadcrumb = in_array($itemUrl, $crumbs);
+						return ($isInternal || $isIndex || $isExact || $isInBreadcrumb);
+					}
+
+					return ($isInternal || $isIndex || $isExact); 
 		}
 	}
 
@@ -460,17 +526,14 @@ class MenuHelper extends AppHelper {
  * overwrite any variables in the calling code, unlike a regular eval() call.
  *
  * @param string $code The code to evaluate
- * @return A string containing the printed output of the code,
- *    followed by the returned output of the code.
+ * @return boolean.
  */
 	protected function _phpEval($code) {
 		ob_start();
-
 		$View =& $this->_View;
 		print eval('?>' . $code);
 		$output = ob_get_contents();
 		ob_end_clean();
-
 		return (bool)$output;
 	}
 
@@ -490,20 +553,6 @@ class MenuHelper extends AppHelper {
 		$path = !$path ? '/' . $request->url : $path;
 		$patterns = explode("\n", $patterns);
 
-		if (option('url_locale_prefix')) {
-			static $locales = null;
-
-			if (empty($locales)) {
-				$locales = implode('|', 
-					array_map('preg_quote', 
-						array_keys(
-							Configure::read('QuickApps.languages')
-						)
-					)
-				);
-			}
-		}
-
 		foreach ($patterns as &$p) {
 			$p = $this->_View->Html->url('/') . $p;
 			$p = str_replace('//', '/', $p);
@@ -511,7 +560,7 @@ class MenuHelper extends AppHelper {
 
 			if (
 				option('url_locale_prefix') &&
-				!preg_match('/^\/(' . $locales . ')\//', $p, $matches)
+				!preg_match('/^\/' . $this->_localesPattern() . '\//', $p, $matches)
 			) {
 				$p = '/' . Configure::read('Config.language') . $p;
 			}
@@ -556,6 +605,23 @@ class MenuHelper extends AppHelper {
 				$this->_count($item->children);
 			}
 		}
+	}
+
+	protected function _localesPattern() {
+		$cacheKey = '_localesPattern';
+		$cache = static::_cache($cacheKey);
+		if ($cache) {
+			return $cache;
+		}
+
+		$pattern = '(' . implode('|', 
+			array_map('preg_quote', 
+				array_keys(
+					quickapps('languages')
+				)
+			)
+		) . ')';
+		return static::_cache($cacheKey, $pattern);
 	}
 
 /**

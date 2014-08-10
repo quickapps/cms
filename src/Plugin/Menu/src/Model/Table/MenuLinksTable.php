@@ -13,6 +13,7 @@ namespace Menu\Model\Table;
 
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
+use Cake\Validation\Validation;
 use Cake\Validation\Validator;
 
 /**
@@ -29,6 +30,64 @@ class MenuLinksTable extends Table {
  */
 	public function initialize(array $config) {
 		$this->addBehavior('Tree');
+		$this->belongsTo('Menus', [
+			'className' => 'Menu.Menus',
+		]);
+	}
+
+/**
+ * Default validation rules set.
+ *
+ * @param \Cake\Validation\Validator $validator
+ * @return \Cake\Validation\Validator
+ */
+	public function validationDefault(Validator $validator) {
+		$validator
+			->allowEmpty('url')
+			->add('url', 'checkUrl', [
+				'rule' => function ($url, $context) {
+					$plainString = (
+						strpos($url, 'javascript:') === 0 ||
+						strpos($url, 'mailto:') === 0 ||
+						strpos($url, 'tel:') === 0 ||
+						strpos($url, 'sms:') === 0 ||
+						strpos($url, '#') === 0 ||
+						strpos($url, '?') === 0 ||
+						strpos($url, '//') === 0 ||
+						strpos($url, '://') !== false
+					);
+
+					if ($plainString) {
+						return true;
+					} else {
+						$full = Validation::url($url);
+						$internal = str_starts_with($url, '/');
+						return $full || $internal;
+					}
+				},
+				'message' => __d('node', 'Invalid URL. Internal links must start with "/", e.g. "/article-my-first-article.html"'),
+				'provider' => 'table',
+			])
+			->validatePresence('title')
+			->add('title', [
+				'notEmpty' => [
+					'rule' => 'notEmpty',
+					'message' => __d('node', 'You need to provide a title.'),
+				],
+				'length' => [
+					'rule' => ['minLength', 3],
+					'message' => __d('node', 'Title need to be at least 3 characters long.'),
+				],
+			])
+			->add('activation', 'validActivation', [
+				'rule' => function ($value, $context) {
+					return in_array($value, ['auto', 'any', 'none', 'php']);
+				},
+				'message' => __d('node', 'Please select an activation method.'),
+				'provider' => 'table',
+			]);
+
+		return $validator;
 	}
 
 }

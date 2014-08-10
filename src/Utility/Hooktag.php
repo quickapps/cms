@@ -18,7 +18,7 @@ use QuickApps\Utility\HookTrait;
 /**
  * Provides methods for hooktag parsing.
  *
- * Hooktags are WordPress's shorcodes equivalent for QuickAppsCMS.
+ * Hooktags are WordPress's shortcodes equivalent for QuickAppsCMS.
  */
 class Hooktag {
 
@@ -129,12 +129,7 @@ class Hooktag {
  */
 	protected static function _hooktagsList() {
 		if (empty(static::$_hooktags)) {
-			$class = new \ReflectionClass(EventManager::instance());
-			$property = $class->getProperty('_listeners');
-			$property->setAccessible(true);
-			$listeners = array_keys($property->getValue(EventManager::instance()));
-
-			foreach ($listeners as $listener) {
+			foreach (listeners() as $listener) {
 				if (strpos($listener, 'Hooktag.') === 0) {
 					static::$_hooktags[] = str_replace('Hooktag.', '', $listener);
 				}
