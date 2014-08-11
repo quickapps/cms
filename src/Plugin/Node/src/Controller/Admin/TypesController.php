@@ -91,6 +91,9 @@ class TypesController extends AppController {
 			} else {
 				$this->alert(__d('node', 'Content type could not be updated, check your information.'), 'danger');
 			}
+		} else {
+			// fix for auto-fill "defaults.*" by FormHelper
+			$this->request->data = $type->toArray();
 		}
 
 		$this->set('type', $type);

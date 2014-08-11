@@ -134,11 +134,13 @@ class FieldInstancesTable extends Table {
 
 				$settingsDefaults = (array)$this->invoke("Field.{$instance->handler}.Instance.settingsDefaults", $this, $instance, [])->result;
 				if (!empty($settingsDefaults)) {
+					$instanceSettings = $instance->get('settings');
 					foreach ($settingsDefaults as $k => $v) {
-						if (!isset($instance->settings[$k])) {
-							$instance->settings[$k] = $v;
+						if (!isset($instanceSettings[$k])) {
+							$instanceSettings[$k] = $v;
 						}
 					}
+					$instance->set('settings', $instanceSettings);
 				}
 
 				return $instance;

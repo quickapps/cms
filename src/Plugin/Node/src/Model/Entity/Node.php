@@ -131,7 +131,7 @@ class Node extends Entity {
 
 		$this->set('language', $type->defaults['language']);
 		$this->set('comment_status', $type->defaults['comment_status']);
-		$this->set('status', $type->defaults['promote']);
+		$this->set('status', $type->defaults['status']);
 		$this->set('promote', $type->defaults['promote']);
 		$this->set('sticky', $type->defaults['sticky']);
 	}
