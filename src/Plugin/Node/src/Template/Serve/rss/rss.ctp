@@ -7,7 +7,6 @@
 	]);
 
 	foreach ($nodes as $node) {
-		$postTime = $node->created->format(__d('node', 'Y-m-d H:i a'));
 		$bodyText = h(strip_tags($this->render($node)));
 		$bodyText = $this->Text->truncate($bodyText, 400, [
 			'ending' => '...',
@@ -20,6 +19,6 @@
 			'link' => $node->url,
 			'guid' => ['url' => $node->url, 'isPermaLink' => 'true'],
 			'description' => $bodyText,
-			'pubDate' => $postTime,
+			'pubDate' => $node->created,
 		]);
 	}
