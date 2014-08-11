@@ -1,5 +1,9 @@
 # QuickAppsCMS
 
+[![Latest Stable Version](https://poser.pugx.org/quickapps/cms/v/stable.svg)](https://packagist.org/packages/quickapps/cms)
+[![Total Downloads](https://poser.pugx.org/quickapps/cms/downloads.svg)](https://packagist.org/packages/quickapps/cms)
+[![Latest Unstable Version](https://poser.pugx.org/quickapps/cms/v/unstable.svg)](https://packagist.org/packages/quickapps/cms)
+[![License](https://poser.pugx.org/quickapps/cms/license.svg)](https://packagist.org/packages/quickapps/cms)
 [![QuickAppsCMS](http://quickappscms.org/system/img/logo.png)](http://www.quickappscms.org)
 
 Free open source content management system for PHP,
