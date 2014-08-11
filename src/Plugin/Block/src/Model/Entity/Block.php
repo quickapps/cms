@@ -40,4 +40,14 @@ class Block extends Entity {
 		}
 	}
 
+/**
+ * Sanitizes block's description. No HTML allowed.
+ * 
+ * @param string $description
+ * @return string
+ */
+	protected function _setDescription($description) {
+		return strip_tags($description);
+	}
+
 }

@@ -28,7 +28,6 @@ class LinksController extends AppController {
 	public function menu($id) {
 		$this->loadModel('Menu.Menus');
 		$menu = $this->Menus->get($id);
-		$this->Menus->MenuLinks->removeBehavior('Tree');
 		$links = $this->Menus->MenuLinks->find()
 			->where(['menu_id' => $menu->id])
 			->order(['lft' => 'ASC'])
@@ -99,7 +98,6 @@ class LinksController extends AppController {
 			'status' => 1,
 			'menu_id' => $menu_id
 		]);
-		$this->Menus->MenuLinks->removeBehavior('Tree');
 		$this->Menus->MenuLinks->addBehavior('Tree', ['scope' => ['menu_id' => $menu->id]]);
 
 		if ($this->request->data) {
@@ -135,7 +133,7 @@ class LinksController extends AppController {
 			->find('treeList', ['spacer' => '--'])
 			->map(function($link) {
 				if (strpos($link, '-') !== false) {
-					$link = '|' . str_replace_last('-', '- ', $link);
+					$link = str_replace_last('-', '- ', $link);
 				}
 				return $link;
 			});
@@ -192,7 +190,6 @@ class LinksController extends AppController {
 	public function delete($id) {
 		$this->loadModel('Menu.MenuLinks');
 		$link = $this->MenuLinks->get($id);
-		$this->MenuLinks->removeBehavior('Tree');
 		$this->MenuLinks->addBehavior('Tree', ['scope' => ['menu_id' => $link->menu_id]]);
 		$this->MenuLinks->removeFromTree($link);
 

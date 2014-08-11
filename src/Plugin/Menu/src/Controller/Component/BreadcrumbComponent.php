@@ -101,15 +101,15 @@ class BreadcrumbComponent extends Component {
 	}
 
 /**
- * Returns possible URL combinations for the given URL or current request.
+ * Returns possible URL combinations for the given URL or current request's URL.
  *
  * ### Example:
  *
- * For the given URL, `/admin/node/node/index/arg1/arg2?get1=v1&get2=v2` where:
+ * For the given URL, `/admin/node/manage/index/arg1/arg2?get1=v1&get2=v2` where:
  *
  * - `/admin`: Prefix.
  * - `/node`: Plugin name.
- * - `/node`: Controller name.
+ * - `/manage`: Controller name.
  * - `/index`: Controller's action.
  * - `/arg1` and `/arg2`: Action's arguments.
  * - `get1` and `get2`: GET arguments.

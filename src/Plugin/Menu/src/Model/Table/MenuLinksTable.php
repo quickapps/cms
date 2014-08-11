@@ -29,10 +29,7 @@ class MenuLinksTable extends Table {
  * @return void
  */
 	public function initialize(array $config) {
-		$this->addBehavior('Tree');
-		$this->belongsTo('Menus', [
-			'className' => 'Menu.Menus',
-		]);
+		$this->belongsTo('Menus', ['className' => 'Menu.Menus']);
 	}
 
 /**

@@ -12,15 +12,14 @@
 namespace Menu\View\Helper;
 
 use Cake\Core\Configure;
-use Cake\Core\Plugin;
 use Cake\ORM\Entity;
 use Cake\Routing\Router;
 use Cake\Utility\Hash;
-use Cake\View\Helper;
 use Cake\View\Helper\StringTemplateTrait;
 use Cake\View\View;
 use Menu\Utility\Breadcrumb;
-use QuickApps\View\Helper\AppHelper;
+use QuickApps\Core\Plugin;
+use QuickApps\View\Helper;
 
 /**
  * Menu helper.
@@ -28,7 +27,7 @@ use QuickApps\View\Helper\AppHelper;
  * Renders nested database records into a well formated `<ul>` menus
  * suitable for HTML pages.
  */
-class MenuHelper extends AppHelper {
+class MenuHelper extends Helper {
 
 	use StringTemplateTrait;
 
@@ -181,7 +180,7 @@ class MenuHelper extends AppHelper {
 		$this->countItems($items);
 
 		if (intval($this->config('split')) > 1) {
-			$arrayItems = ($items instanceof \Cake\ORM\Entity) ? $items->toArray() : (array)$items;
+			$arrayItems = (is_object($items) && method_exists($items, 'toArray')) ? $items->toArray() : (array)$items;
 			$count = count($arrayItems);
 			$size = round($count / intval($this->config('split')));
 			$chunk = array_chunk($arrayItems, $size);
@@ -373,7 +372,9 @@ class MenuHelper extends AppHelper {
 
 		foreach ($items as $item) {
 			$children = '';
-			$item = is_array($item) ? new Entity($item) : $item;
+			if (is_array($item)) {
+				$item = new Entity($item);
+			}
 
 			if ($item->has('children') && !empty($item->children) && $item->expanded) {
 				$children = $this->formatTemplate('parent', [

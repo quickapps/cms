@@ -22,11 +22,38 @@
 			&nbsp;&nbsp;&nbsp;
 		</span>
 		<div class="btn-group">
-			<?php echo $this->Html->link('', ['plugin' => 'Menu', 'controller' => 'links', 'action' => 'edit', $link->id], ['title' => __d('menu', 'Edit link'), 'class' => 'btn btn-default btn-xs glyphicon glyphicon-pencil']); ?>
+			<?php
+				echo $this->Html->link('', [
+					'plugin' => 'Menu',
+					'controller' => 'links',
+					'action' => 'edit',
+					$link->id
+				], [
+					'title' => __d('menu', 'Edit link'),
+					'class' => 'btn btn-default btn-xs glyphicon glyphicon-pencil',
+				]);
+			?>
 			<?php if (!empty($link->url)): ?>
-				<?php echo $this->Html->link('', $link->url, ['title' => __d('menu', 'Visit URL'), 'target' => '_blank', 'class' => 'btn btn-default btn-xs glyphicon glyphicon-link']); ?>
+				<?php
+					echo $this->Html->link('', $link->url, [
+						'title' => __d('menu', 'Visit URL'),
+						'class' => 'btn btn-default btn-xs glyphicon glyphicon-link',
+						'target' => '_blank',
+					]);
+				?>
 			<?php endif; ?>
-			<?php echo $this->Html->link('', ['plugin' => 'Menu', 'controller' => 'links', 'action' => 'delete', $link->id], ['title' => __d('menu', 'Delete this link'), 'confirm' => __d('menu', 'Remove this link? Children links will be re-assigned to the immediately superior parent link.'), 'class' => 'btn btn-default btn-xs glyphicon glyphicon-trash']); ?>
+			<?php
+				echo $this->Html->link('', [
+					'plugin' => 'Menu',
+					'controller' => 'links',
+					'action' => 'delete',
+					$link->id
+				], [
+					'title' => __d('menu', 'Delete this link'),
+					'class' => 'btn btn-default btn-xs glyphicon glyphicon-trash',
+					'confirm' => __d('menu', 'Remove this link? Children links will be re-assigned to the immediately superior parent link.'),
+				]);
+			?>
 		</div>
 	</div>
 

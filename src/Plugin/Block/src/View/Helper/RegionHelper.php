@@ -15,7 +15,7 @@ use Block\View\Region;
 use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
-use QuickApps\View\Helper\AppHelper;
+use QuickApps\View\Helper;
 
 /**
  * Region Factory Helper.
@@ -48,7 +48,7 @@ use QuickApps\View\Helper\AppHelper;
  *             ... 
  *             <footer><?php echo $this->Region->get('site-footer'); ?></footer>
  */
-class RegionHelper extends AppHelper {
+class RegionHelper extends Helper {
 
 /**
  * Holds all region instances created for later access.

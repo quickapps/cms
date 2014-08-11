@@ -22,8 +22,9 @@
 			<th><?php echo __d('field', 'Actions'); ?></th>
 		</tr>
 	</thead>
+
 	<tbody>
-		<?php $count = count($instances->countBy('id')->toArray()); ?>
+		<?php $count = $instances->count(); ?>
 		<?php $k = 0; ?>
 		<?php foreach ($instances as $instance): ?>
 		<tr>
@@ -36,18 +37,64 @@
 			<td><?php echo $instance->slug; ?></td>
 			<td><?php echo $instance->handlerName; ?></td>
 			<td>
-				<?php if ($k > 0): ?>
-				<?php echo $this->Html->link('', ['plugin' => $this->request->params['plugin'], 'controller' => $this->request->params['controller'], 'action' => 'move', $instance->id, 'up'], ['title' => __d('field', 'Move Up'), 'class' => 'btn btn-default glyphicon glyphicon-arrow-up']); ?>
-				<?php endif; ?>
+				<div class="btn-group">
+					<?php if ($k > 0): ?>
+						<?php
+							echo $this->Html->link('', [
+								'plugin' => $this->request->params['plugin'],
+								'controller' => $this->request->params['controller'],
+								'action' => 'move',
+								$instance->id,
+								'up'
+							], [
+								'title' => __d('field', 'Move Up'),
+								'class' => 'btn btn-default glyphicon glyphicon-arrow-up',
+							]);
+						?>
+					<?php endif; ?>
 
-				<?php if ($k < $count - 1): ?>
-				<?php echo $this->Html->link('', ['plugin' => $this->request->params['plugin'], 'controller' => $this->request->params['controller'], 'action' => 'move', $instance->id, 'down'], ['title' => __d('field', 'Move down'), 'class' => 'btn btn-default glyphicon glyphicon-arrow-down']); ?>
-				<?php endif; ?>
+					<?php if ($k < $count - 1): ?>
+						<?php
+							echo $this->Html->link('', [
+								'plugin' => $this->request->params['plugin'],
+								'controller' => $this->request->params['controller'],
+								'action' => 'move',
+								$instance->id,
+								'down'
+							], [
+								'title' => __d('field', 'Move down'),
+								'class' => 'btn btn-default glyphicon glyphicon-arrow-down',
+							]);
+						?>
+					<?php endif; ?>
 
-				<?php if (!$instance->locked): ?>
-					<?php echo $this->Html->link('', ['plugin' => $this->request->params['plugin'], 'controller' => $this->request->params['controller'], 'action' => 'configure', $instance->id], ['title' => __d('field', 'Configure'), 'class' => 'btn btn-default glyphicon glyphicon-cog']); ?>
-					<?php echo $this->Html->link('', ['plugin' => $this->request->params['plugin'], 'controller' => $this->request->params['controller'], 'action' => 'detach', $instance->id], ['title' => __d('field', 'Delete'), 'class' => 'btn btn-default glyphicon glyphicon-trash', 'confirm' => __d('field', 'Delete this field? This can not be undone, all information stored will be lost.')]); ?>
-				<?php endif; ?>
+					<?php if (!$instance->locked): ?>
+						<?php
+							echo $this->Html->link('', [
+								'plugin' => $this->request->params['plugin'],
+								'controller' => $this->request->params['controller'],
+								'action' => 'configure',
+								$instance->id
+							], [
+								'title' => __d('field', 'Configure'),
+								'class' => 'btn btn-default glyphicon glyphicon-cog',
+							]);
+						?>
+
+						<?php
+							echo $this->Html->link('', [
+								'plugin' => $this->request->params['plugin'],
+								'controller' => $this->request->params['controller'],
+								'action' => 'detach',
+								$instance->id
+							], [
+								'title' => __d('field', 'Delete'),
+								'class' => 'btn btn-default glyphicon glyphicon-trash',
+								'confirm' => __d('field', 'Delete this field? This can not be undone, all information stored will be lost.'),
+							]);
+						?>
+					<?php endif; ?>
+				</div>
 			</td>
 		</tr>
 		<?php $k++; ?>

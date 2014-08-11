@@ -791,7 +791,7 @@ class FieldableBehavior extends Behavior {
 		}
 
 		$EventManager = $this->_getEventManager();
-		if (isset($this->_cache['fields.beforeDelete']) && is_array($this->_cache['fields.beforeDelete'])) {
+		if (!empty($this->_cache['fields.beforeDelete']) && is_array($this->_cache['fields.beforeDelete'])) {
 			foreach ($this->_cache['fields.beforeDelete'] as $field) {
 				$fieldEvent = $this->invoke("Field.{$field->handler}.Entity.afterDelete", $event->subject, $entity, $field, $options);
 			}
@@ -924,12 +924,10 @@ class FieldableBehavior extends Behavior {
 				$field_name = str_replace(':', '', $field_name);
 				$subQuery = $this->_getTable('Field.FieldValues')->find()
 					->select('entity_id')
-					->where(
-						[
-							"FieldValues.field_instance_slug" => $field_name,
-							"FieldValues.value {$conjunction}" => $value
-						]
-					);
+					->where([
+						"FieldValues.field_instance_slug" => $field_name,
+						"FieldValues.value {$conjunction}" => $value
+					]);
 
 				if (is_array($table_alias)) {
 					$subQuery->where(['FieldValues.table_alias IN' => $table_alias]);
@@ -965,31 +963,29 @@ class FieldableBehavior extends Behavior {
 		$FieldValues = $this->_getTable('Field.FieldValues');
 		$storedValue = $FieldValues->find()
 			->select(['id', 'value', 'extra'])
-			->where(
-				[
-					'FieldValues.field_instance_id' => $instance->id,
-					'FieldValues.table_alias' => $this->_guessTableAlias($entity),
-					'FieldValues.entity_id' => $entity->get($this->_table->primaryKey())
-				]
-			)
+			->where([
+				'FieldValues.field_instance_id' => $instance->id,
+				'FieldValues.table_alias' => $this->_guessTableAlias($entity),
+				'FieldValues.entity_id' => $entity->get($this->_table->primaryKey())
+			])
 			->first();
 
 		$mockField = new Field([
-				'name' => $instance->slug,
-				'label' => $instance->label,
-				'value' => null,
-				'extra' => null,
-				'metadata' => new Entity([
-					'field_value_id' => null,
-					'field_instance_id' => $instance->id,
-					'entity_id' => $entity->{$pk},
-					'table_alias' => $this->_guessTableAlias($entity),
-					'description' => $instance->description,
-					'required' => $instance->required,
-					'settings' => $instance->settings,
-					'view_modes' => $instance->view_modes,
-					'handler' => $instance->handler,
-				])
+			'name' => $instance->slug,
+			'label' => $instance->label,
+			'value' => null,
+			'extra' => null,
+			'metadata' => new Entity([
+				'field_value_id' => null,
+				'field_instance_id' => $instance->id,
+				'entity_id' => $entity->{$pk},
+				'table_alias' => $this->_guessTableAlias($entity),
+				'description' => $instance->description,
+				'required' => $instance->required,
+				'settings' => $instance->settings,
+				'view_modes' => $instance->view_modes,
+				'handler' => $instance->handler,
+			])
 		]);
 
 		if ($storedValue) {

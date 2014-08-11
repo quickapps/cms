@@ -15,7 +15,19 @@
  *
  * ### Usage:
  *
- *     echo $this->element('System.theme_header');
+ * In your theme's layout (e.g. `default.ctp`) you have to include the following
+ * between `<head>`  & `</head>`, for example:
+ *
+ *     <!DOCTYPE html>
+ *     <html>
+ *	       <head>
+ *             <?php echo $this->element('System.theme_header'); ?>
+ *              <!-- rest of your head code -->
+ *          </head>
+ *          <body>
+ *              <!-- page content -->
+ *          </body>
+ *     </html>
  */
 ?>
 <title><?php echo $this->fetch('title'); ?></title>

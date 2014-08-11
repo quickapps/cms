@@ -21,44 +21,41 @@
 			<p>
 				<div class="btn-group pull-right">
 					<?php
-						echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', [
+						echo $this->Html->link('', [
 							'plugin' => 'Menu',
 							'controller' => 'manage',
 							'action' => 'edit',
 							$menu->id
 						], [
 							'title' => __d('node', 'Edit menu information'),
-							'class' => 'btn btn-default',
-							'escape' => false,
+							'class' => 'btn btn-default glyphicon glyphicon-pencil',
 						]);
 					?>
 					<?php
-						echo $this->Html->link('<span class="glyphicon glyphicon-link"></span>', [
+						echo $this->Html->link('', [
 							'plugin' => 'Menu',
 							'controller' => 'links',
 							'action' => 'menu',
 							$menu->id
 						], [
 							'title' => __d('node', 'Manage links'),
-							'class' => 'btn btn-default',
-							'escape' => false,
+							'class' => 'btn btn-default glyphicon glyphicon-link',
 						]);
 					?>
 					<?php
-						echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span>', [
+						echo $this->Html->link('', [
 							'plugin' => 'Menu',
 							'controller' => 'links',
 							'action' => 'add',
 							$menu->id
 						], [
 							'title' => __d('node', 'Add link'),
-							'class' => 'btn btn-default',
-							'escape' => false,
+							'class' => 'btn btn-default glyphicon glyphicon-plus',
 						]);
 					?>
 					<?php if ($menu->handler === 'Menu'): ?>
 					<?php
-						echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', [
+						echo $this->Html->link('', [
 							'plugin' => 'Menu',
 							'controller' => 'manage',
 							'action' => 'delete',
@@ -66,14 +63,13 @@
 						], [
 							'title' => __d('node', 'Delete this menu'),
 							'confirm' => __d('node', 'Delete this menu ? All links within this menu will be lost.'),
-							'class' => 'btn btn-default',
-							'escape' => false,
+							'class' => 'btn btn-default glyphicon glyphicon-trash',
 						]);
 					?>
 					<?php endif; ?>
 				</div>
 				<h4><?php echo $menu->title; ?></h4>
-				<p class="list-group-item-text"><em><?php echo $menu->description; ?></em></p>
+				<p class="list-group-item-text"><em><?php echo $menu->brief_description; ?></em></p>
 			</p>
 		</div>
 	<?php endforeach; ?>

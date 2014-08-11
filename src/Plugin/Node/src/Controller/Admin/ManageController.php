@@ -153,7 +153,7 @@ class ManageController extends AppController {
 
 		if (!empty($this->request->data)) {
 			if (!$this->request->data['regenerate_slug']) {
-				$this->Nodes->addBehavior('Sluggable', ['on' => 'insert']);
+				$this->Nodes->addBehavior('Sluggable', ['on' => 'create']);
 			}
 
 			unset($this->request->data['regenerate_slug']);

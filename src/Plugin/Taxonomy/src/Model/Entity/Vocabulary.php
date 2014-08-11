@@ -9,16 +9,16 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Menu\Model\Entity;
+namespace Taxonomy\Model\Entity;
 
 use Cake\ORM\Entity;
 use Cake\Utility\String;
 
 /**
- * Represents a single "menu" within "menus" table.
+ * Represents a single "vocabulary" within "vocabularies" table.
  *
  */
-class Menu extends Entity {
+class Vocabulary extends Entity {
 
 /**
  * Gets a brief description of 80 characters long.
@@ -31,6 +31,16 @@ class Menu extends Entity {
 			return '---';
 		}
 		return String::truncate($description, 80);
+	}
+
+/**
+ * Sanitizes vocabulary's description. No HTML allowed.
+ * 
+ * @param string $description
+ * @return string
+ */
+	protected function _setDescription($description) {
+		return strip_tags($description);
 	}
 
 }

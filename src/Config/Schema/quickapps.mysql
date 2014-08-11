@@ -152,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `field_values` (
   `value` text COLLATE utf8_unicode_ci,
   `extra` text COLLATE utf8_unicode_ci COMMENT 'Extra information required by this field hadnler',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `field_values`
@@ -204,7 +204,7 @@ CREATE TABLE IF NOT EXISTS `menus` (
   `handler` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Name of the plugin that created this menu.',
   `settings` longtext COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `menus`
@@ -236,7 +236,7 @@ CREATE TABLE IF NOT EXISTS `menu_links` (
   `status` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `router_path` (`url`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=19 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data for table `menu_links`
@@ -285,7 +285,7 @@ CREATE TABLE IF NOT EXISTS `nodes` (
   `created_by` int(11) NOT NULL,
   `modified_by` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `nodes`
@@ -308,7 +308,7 @@ CREATE TABLE IF NOT EXISTS `node_revisions` (
   `hash` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `created` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -446,6 +446,26 @@ INSERT INTO `search_datasets` (`id`, `entity_id`, `table_alias`, `words`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `terms`
+--
+
+CREATE TABLE IF NOT EXISTS `terms` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `vocabulary_id` int(11) NOT NULL,
+  `lft` int(11) NOT NULL,
+  `rght` int(11) NOT NULL,
+  `parent_id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `slug` (`slug`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -472,3 +492,22 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `users` (`id`, `name`, `username`, `password`, `email`, `web`, `locale`, `timezone`, `code`, `status`, `last_login`, `created`) VALUES
 (1, 'Christopher Castro', 'admin', '123456', 'chris@quickapps.es', 'http://quickapps.es', 'es', NULL, '', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vocabularies`
+--
+
+CREATE TABLE IF NOT EXISTS `vocabularies` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `description` text COLLATE utf8_unicode_ci,
+  `ordering` int(11) DEFAULT '0',
+  `locked` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'if set to 1 users can not delete this vocabulary',
+  `modified` datetime NOT NULL,
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `slug` (`slug`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;

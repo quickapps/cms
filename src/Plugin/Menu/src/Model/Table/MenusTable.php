@@ -161,7 +161,7 @@ class MenusTable extends Table {
  * @return boolean False if delete operation should not continue, true otherwise
  */
 	public function beforeDelete(Event $event, Menu $menu, $options = []) {
-		$this->hasMany('Blocks', [
+		$this->hasOne('Blocks', [
 			'className' => 'Block.Blocks',
 			'dependent' => true,
 			'foreignKey' => 'delta',

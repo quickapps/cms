@@ -14,14 +14,14 @@ namespace Block\View\Helper;
 use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
-use QuickApps\View\Helper\AppHelper;
+use QuickApps\View\Helper;
 
 /**
  * Block Helper.
  *
  * For handling block rendering.
  */
-class BlockHelper extends AppHelper {
+class BlockHelper extends Helper {
 
 /**
  * Render all blocks for a particular region.

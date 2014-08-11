@@ -9,9 +9,9 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace QuickApps\View\Helper;
+namespace QuickApps\View;
 
-use Cake\View\Helper;
+use Cake\View\Helper as CakeHelper;
 use Quickapps\Utility\HookTrait;
 use Quickapps\Utility\CacheTrait;
 
@@ -20,7 +20,7 @@ use Quickapps\Utility\CacheTrait;
  *
  * Add your application-wide methods in the class below, your helpers will inherit them.
  */
-class AppHelper extends Helper {
+class Helper extends CakeHelper {
 
 	use HookTrait;
 	use CacheTrait;

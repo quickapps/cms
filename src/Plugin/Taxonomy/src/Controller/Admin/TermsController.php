@@ -1,0 +1,185 @@
+<?php
+/**
+ * Licensed under The GPL-3.0 License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @since	 2.0.0
+ * @author	 Christopher Castro <chris@quickapps.es>
+ * @link	 http://www.quickappscms.org
+ * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
+ */
+namespace Taxonomy\Controller\Admin;
+
+use Taxonomy\Controller\AppController;
+
+/**
+ * Taxonomy manager controller.
+ *
+ * Allow CRUD for vocabulary's terms.
+ */
+class TermsController extends AppController {
+
+/**
+ * Shows a tree list of all terms within a vocabulary.
+ *
+ * @return void
+ */
+	public function vocabulary($id) {
+		$this->loadModel('Taxonomy.Vocabularies');
+		$vocabulary = $this->Vocabularies->get($id);
+		$terms = $this->Vocabularies->Terms
+			->find()
+			->where(['vocabulary_id' => $id])
+			->order(['lft' => 'ASC'])
+			->all()
+			->map(function ($term) {
+				$term->set('expanded', true);
+				return $term;
+			})
+			->nest('id', 'parent_id');
+
+		if (!empty($this->request->data['tree_order'])) {
+			$items = json_decode($this->request->data['tree_order']);
+
+			if ($items) {
+				unset($items[0]);
+				$entities = [];
+
+				foreach ($items as $key => $item) {
+					$term = $this->Vocabularies->Terms->newEntity([
+						'id' => $item->item_id,
+						'parent_id' => intval($item->parent_id),
+						'lft' => ($item->left - 1),
+						'rght' => ($item->right - 1),
+					]);
+					$term->isNew(false);
+					$term->dirty('id', false);
+					$entities[] = $term;
+				}
+
+				$this->Vocabularies->Terms->unbindSluggable();
+				$this->Vocabularies->Terms->connection()->transactional(function () use ($entities) {
+					foreach ($entities as $entity) {
+						$this->Vocabularies->Terms->save($entity, ['validate' => false, 'atomic' => false]);
+					}
+				});
+				// don't trust "left" and "right" values coming from user's POST
+				$this->Vocabularies->Terms->addBehavior('Tree', ['scope' => ['vocabulary_id' => $vocabulary->id]]);
+				$this->Vocabularies->Terms->recover(); 
+				$this->alert(__d('taxonomy', 'Vocabulary terms tree has been reordered'), 'success');
+			} else {
+				$this->alert(__d('taxonomy', 'Invalid information, check you have JavaScript enabled'), 'danger');
+			}
+
+			$this->redirect($this->referer());
+		}
+
+		$this->set(compact('vocabulary', 'terms'));
+		$this->Breadcrumb->push('/admin/system/structure');
+		$this->Breadcrumb->push(__d('taxonomy', 'Taxonomy'), '/admin/taxonomy/manage');
+		$this->Breadcrumb->push(__d('taxonomy', 'Vocabularies'), ['plugin' => 'Taxonomy', 'controller' => 'vocabularies', 'action' => 'index']);
+		$this->Breadcrumb->push("\"{$vocabulary->name}\"", ['plugin' => 'Taxonomy', 'controller' => 'vocabularies', 'action' => 'edit', $vocabulary->id]);
+		$this->Breadcrumb->push(__d('taxonomy', 'Terms'), '#');
+	}
+
+/**
+ * Adds a new terms within the given vocabulary.
+ *
+ * @return void
+ */
+	public function add($vocabulary_id) {
+		$this->loadModel('Taxonomy.Vocabularies');
+		$vocabulary = $this->Vocabularies->get($vocabulary_id);
+		$term = $this->Vocabularies->Terms->newEntity(['vocabulary_id' => $vocabulary->id]);
+		$this->Vocabularies->Terms->addBehavior('Tree', ['scope' => ['vocabulary_id' => $vocabulary->id]]);
+
+		if ($this->request->data) {
+			$term = $this->Vocabularies->Terms->patchEntity($term, $this->request->data, [
+				'fieldList' => [
+					'parent_id',
+					'name',
+				]
+			]);
+
+			if ($this->Vocabularies->Terms->save($term)) {
+				$this->alert(__d('taxonomy', 'Term has been created.'), 'success');
+				if (!empty($this->request->data['action_vocabulary'])) {
+					$this->redirect(['plugin' => 'Taxonomy', 'controller' => 'terms', 'action' => 'vocabulary', $vocabulary->id]);
+				} elseif (!empty($this->request->data['action_add'])) {
+					$this->redirect(['plugin' => 'Taxonomy', 'controller' => 'terms', 'action' => 'add', $vocabulary->id]);
+				}
+			} else {
+				$this->alert(__d('taxonomy', 'Term could not be created, please check your information.'), 'danger');
+			}
+		}
+
+		$parentsTree = $this->Vocabularies->Terms
+			->find('treeList', ['spacer' => '--'])
+			->map(function($link) {
+				if (strpos($link, '-') !== false) {
+					$link = str_replace_last('-', '- ', $link);
+				}
+				return $link;
+			});
+
+		$this->set(compact('vocabulary', 'term', 'parentsTree'));
+		$this->Breadcrumb->push('/admin/system/structure');
+		$this->Breadcrumb->push(__d('taxonomy', 'Taxonomy'), '/admin/taxonomy/manage');
+		$this->Breadcrumb->push(__d('taxonomy', 'Vocabularies'), ['plugin' => 'Taxonomy', 'controller' => 'vocabularies', 'action' => 'index']);
+		$this->Breadcrumb->push("\"{$vocabulary->name}\"", ['plugin' => 'Taxonomy', 'controller' => 'vocabularies', 'action' => 'edit', $vocabulary->id]);
+		$this->Breadcrumb->push(__d('taxonomy', 'Terms'), ['plugin' => 'Taxonomy', 'controller' => 'terms', 'action' => 'vocabulary', $vocabulary->id]);
+		$this->Breadcrumb->push(__d('taxonomy', 'Add new term'), '#');
+	}
+
+/**
+ * Edits the given vocabulary term by ID.
+ *
+ * @return void
+ */
+	public function edit($id) {
+		$this->loadModel('Taxonomy.Terms');
+		$term = $this->Terms->get($id, ['contain' => ['Vocabularies']]);
+		$vocabulary = $term->vocabulary;
+
+		if (!empty($this->request->data)) {
+			$link = $this->Terms->patchEntity($term, $this->request->data, ['fieldList' => ['name']]);
+
+			if ($this->Terms->save($term, ['associated' => false])) {
+				$this->alert(__d('taxonomy', 'Term has been updated'));
+				$this->redirect($this->referer());
+			} else {
+				$this->alert(__d('taxonomy', 'Term could not be updated, please check your information'), 'danger');
+			}
+		}
+
+		$this->set('term', $term);
+		$this->Breadcrumb->push('/admin/system/structure');
+		$this->Breadcrumb->push(__d('taxonomy', 'Taxonomy'), '/admin/taxonomy/manage');
+		$this->Breadcrumb->push(__d('taxonomy', 'Vocabularies'), ['plugin' => 'Taxonomy', 'controller' => 'vocabularies', 'action' => 'index']);
+		$this->Breadcrumb->push("\"{$vocabulary->name}\"", ['plugin' => 'Taxonomy', 'controller' => 'vocabularies', 'action' => 'edit', $vocabulary->id]);
+		$this->Breadcrumb->push(__d('taxonomy', 'Terms'), ['plugin' => 'Taxonomy', 'controller' => 'terms', 'action' => 'vocabulary', $vocabulary->id]);
+		$this->Breadcrumb->push(__d('taxonomy', 'Editing term'), '#');
+	}
+
+/**
+ * Deletes the given term.
+ *
+ * @return void
+ */
+	public function delete($id) {
+		$this->loadModel('Taxonomy.Terms');
+		$term = $this->Terms->get($id);
+		$this->Terms->addBehavior('Tree', ['scope' => ['vocabulary_id' => $term->vocabulary_id]]);
+		$this->Terms->removeFromTree($term);
+
+		if ($this->Terms->delete($term)) {
+			$this->alert(__d('taxonomy', 'Term successfully removed!'), 'success');
+		} else {
+			$this->alert(__d('taxonomy', 'Term could not be removed, please try again'), 'danger');
+		}
+
+		$this->redirect($this->referer());
+	}
+
+}

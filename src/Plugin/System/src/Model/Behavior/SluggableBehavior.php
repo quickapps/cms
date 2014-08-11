@@ -46,7 +46,7 @@ class SluggableBehavior extends Behavior {
  *    the slug. `title` by default.
  * - `slug`: Name of the field name that holds generated slugs. `slug` by default.
  * - `separator`: Separator char. `-` by default. e.g.: `one-two-three`
- * - `on`: When to generate new slugs. `insert`, `update` or `both` (by default).
+ * - `on`: When to generate new slugs. `create`, `update` or `both` (by default).
  * - `length`: Maximum length the generated slug can have. default to 200.
  *
  * @var array
@@ -90,23 +90,22 @@ class SluggableBehavior extends Behavior {
 		}
 
 		$config = $this->config();
-
-		if (!is_array($config['label'])) {
-			$config['label'] = [$config['label']];
-		}
-
-		foreach ($config['label'] as $field) {
-			if (!$entity->has($field)) {
-				throw new FatalErrorException(__d('system', 'SluggableBehavior was not able to generate a slug reason: entity\'s property "%s" not found', $field));
-			}
-		}
-
 		$isNew = $entity->isNew();
 
 		if (
-			($isNew && in_array($config['on'], ['insert', 'both'])) ||
+			($isNew && in_array($config['on'], ['create', 'both'])) ||
 			(!$isNew && in_array($config['on'], ['update', 'both']))
 		) {
+			if (!is_array($config['label'])) {
+				$config['label'] = [$config['label']];
+			}
+
+			foreach ($config['label'] as $field) {
+				if (!$entity->has($field)) {
+					throw new FatalErrorException(__d('system', 'SluggableBehavior was not able to generate a slug reason: entity\'s property "%s" not found', $field));
+				}
+			}
+
 			$label = '';
 
 			foreach ($config['label'] as $field) {

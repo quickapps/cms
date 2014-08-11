@@ -40,4 +40,11 @@
 		</div>
 	<?php endif; ?>
 <?php echo $this->Form->end(); ?>
-<?php echo $this->Html->script(['System.jquery-ui.js', 'System.jquery.json.js', 'Menu.jquery.mjs.nestedSortable.js', 'Menu.links.tree.js']); ?>
+<?php
+	echo $this->Html->script([
+		'System.jquery-ui.js',
+		'System.jquery.json.js',
+		'System.jquery.mjs.nestedSortable.js',
+		'Menu.links.tree.js'
+	]);
+?>
