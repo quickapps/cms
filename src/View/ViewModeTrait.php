@@ -33,8 +33,8 @@ trait ViewModeTrait {
 /**
  * Registers a new view mode. Or overwrite if already exists.
  *
- * @param string|array $slug Slug name of your view mode. e.g.: `my-view mode`. Or
- * an array of view modes to register indexed by slug name
+ * @param string|array $slug Slug name of your view mode. e.g.: `my-view mode`.
+ * Or an array of view modes to register indexed by slug name
  * @param string|null $name Human readable name. e.g.: `My View Mode`
  * @param string|null $description A brief description about for what is this view mode
  * @return void
@@ -47,8 +47,8 @@ trait ViewModeTrait {
 /**
  * Gets the slug name of in use view mode.
  *
- * @param boolean $full Set to true to get full information as an array. Or set to
- * false (by default) to get slug name only
+ * @param boolean $full Set to true to get full information as an array.
+ * Or set to false (by default) to get slug name only
  * @return string
  * @see \QuickApps\View\ViewModeRegistry::inUseViewMode()
  */

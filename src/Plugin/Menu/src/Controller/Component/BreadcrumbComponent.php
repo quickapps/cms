@@ -47,18 +47,21 @@ class BreadcrumbComponent extends Component {
  * Adds a new crumb to the stack.
  *
  * You can use this method without any argument, if you do it will automatically
- * try to guess the full breadcrumb path based on current URL (if current URL matches any URL
- * in any of your menus links).
+ * try to guess the full breadcrumb path based on current URL (if current URL
+ * matches any URL in any of your menus links).
  *
  *     $this->Breadcrumb->push();
  *
- * Also, you can can pass a string as first argument representing an URL, if you do it will try to
- * find that URL in in any of your menus, and then generate its corresponding breadcrumb.
+ * Also, you can can pass a string as first argument representing an URL, if you
+ * do it will try to find that URL in in any of your menus, and then generate its
+ * corresponding breadcrumb.
  *
  *     $this->Breadcrumb->push('/admin/some/url');
  *
- * @param array|string $crumbs Single crumb or an array of multiple crumbs to push at once
- * @param mixed $url If both $crumbs and $url are string values they will be used as `title` and `URL` respectively
+ * @param array|string $crumbs Single crumb or an array of multiple crumbs
+ * to push at once
+ * @param mixed $url If both $crumbs and $url are string values they will be
+ * used as `title` and `URL` respectively
  * @return boolean True on success, false otherwise
  * @see \Menu\Utility\Breadcrumb::push()
  */
@@ -139,8 +142,8 @@ class BreadcrumbComponent extends Component {
  *         "/admin/node",
  *     ]
  *
- * @param string|boolean $url The URL to chunk as string value, set
- * to false will use current request URL.
+ * @param string|boolean $url The URL to chunk as string value, set to false will
+ * use current request URL.
  * @return array
  */
 	protected function _possibleURL($url = false) {

@@ -99,10 +99,30 @@ class ManageController extends AppController {
 	}
 
 /**
+ * Removes the given menu by ID.
+ *
+ * Only custom menus (those created using administration page) can be removed.
+ *
+ * @return void Redirects to previous page
+ */
+	public function delete($id) {
+		$this->loadModel('Menu.Menus');
+		$menu = $this->Menus->get($id);
+
+		if ($menu->handler === 'Menu' && $this->Menus->delete($menu)) {
+			$this->alert(__d('menu', 'Menu has been successfully deleted!'), 'success');
+		} else {
+			$this->alert(__d('menu', 'Menu could not be deleted, please try again'), 'danger');
+		}
+
+		$this->redirect($this->referer());
+	}
+
+/**
  * Prepares incoming data from Form's POST.
  *
- * Any input field that is not a column in the "menus" table will be moved
- * to the "settings" column. For example, `random_name` becomes `settings.random_name`.
+ * Any input field that is not a column in the "menus" table will be moved to the
+ * "settings" column. For example, `random_name` becomes `settings.random_name`.
  *
  * @return array
  */

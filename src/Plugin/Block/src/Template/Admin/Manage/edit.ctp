@@ -52,7 +52,11 @@
 				?>
 
 				<?php echo $this->Form->input('pages', ['label' => false, 'rows' => 5]); ?>
-				<em class="help-block"><?php echo __d('block', "Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are blog for the blog page and blog/* for every blog entry. '/' is the front page.	If the PHP option is chosen, enter PHP code between <?php ?>. Note that executing incorrect PHP code can break your QuickApps site."); ?></em>
+				<em class="help-block"><?php echo __d('menu', 'Specify pages by using their paths, enter one path per line. The <code>*</code> character is a wildcard. <code>/</code> is the front page.'); ?></em>
+				<em class="help-block"><?php echo __d('menu', 'If the PHP option is chosen, enter PHP code between <code><?php ... ?></code> tags. Examples:'); ?></em>
+				<em class="help-block"><?php echo __d('menu', '<code>/product/*.html</code> Matches any product page.'); ?></em>
+				<em class="help-block"><?php echo __d('menu', '<code>/find/*type:article*</code> Matches any search result containing articles.'); ?></em>
+				<em class="help-block"><?php echo __d('menu', "<code>/</code> Matches site's front page (a.k.a. site's index)."); ?></em>
 
 				<hr />
 

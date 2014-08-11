@@ -22,8 +22,9 @@ use QuickApps\View\ViewModeRegistry;
 class NodeHook implements EventListener {
 
 /**
- * Returns a list of hooks this Hook Listener is implementing. When the class is registered
- * in an event manager, each individual method will be associated with the respective event.
+ * Returns a list of hooks this Hook Listener is implementing. When the class is
+ * registered in an event manager, each individual method will be associated with
+ * the respective event.
  *
  * @return void
  */
@@ -41,7 +42,8 @@ class NodeHook implements EventListener {
  * 
  * @param \Cake\Event\Event $event
  * @param \Cake\Network\Request $request Request object to dispatch
- * @param \Cake\Network\Response $response Response object to put the results of the dispatch into
+ * @param \Cake\Network\Response $response Response object to put the results of
+ * the dispatch into
  * @return void
  */
 	public function dispatcherBeforeDispatch(Event $event, $request, $response) {
@@ -115,9 +117,10 @@ class NodeHook implements EventListener {
  *     // render any node (article, page, etc) in `full` view-mode
  *     `render_node_full.ctp`
  *
- * NOTE: To avoid collisions between `view-mode` names and `node-type` names, you should alway use
- * unique and descriptive names as possible when defining new content types. By default, Node plugin defines
- * the following view-modes: `default`, `teaser`, `search-result`, `rss`, `full`.
+ * NOTE: To avoid collisions between `view-mode` names and `node-type` names, you
+ * should alway use unique and descriptive names as possible when defining new
+ * content types. By default, Node plugin defines the following view-modes:
+ * `default`, `teaser`, `search-result`, `rss`, `full`.
  *
  * ### Default
  * 

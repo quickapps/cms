@@ -24,8 +24,8 @@ class Comment extends Entity {
 /**
  * Returns comment's author as a mock user entity. With the properties below:
  *
- * - `username`: QuickAppsCMS's `username` (the one used for login) if 
- *    comment's author was a logged in user. "anonymous" otherwise.
+ * - `username`: QuickAppsCMS's `username` (the one used for login) if comment's
+ *    author was a logged in user. "anonymous" otherwise.
  * - `name`: Real name of the author. `Anonymous` if not provided.
  * - `web`: Author's website (if provided).
  * - `email`: Author's email (if provided).

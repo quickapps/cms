@@ -26,33 +26,37 @@ use QuickApps\Core\Plugin;
 /**
  * Comment UI Trait.
  *
- * Other plugins may `extends` Comment plugin by using this trait
- * in their controllers.
+ * Other plugins may `extends` Comment plugin by using this trait in their
+ * controllers.
  *
  * With this trait, Comment plugin provides an user friendly UI for manage entity's
- * comments. It provides a comment-manager user interface (UI) by attaching a series of
- * actions over a `clean` controller.
+ * comments. It provides a comment-manager user interface (UI) by attaching a series
+ * of actions over a `clean` controller.
  *
  * # Usage:
  *
- * Beside adding `use CommentUIControllerTrait;` to your controller
- * you MUST also indicate the name of the Table being managed. Example:
+ * Beside adding `use CommentUIControllerTrait;` to your controller you MUST also
+ * indicate the name of the Table being managed. Example:
  *
  *     uses Comment\Utility\CommentUIControllerTrait;
  *
  *     class MyCleanController extends <Plugin>AppController {
  *         use CommentUIControllerTrait;
- *         protected $_manageTable = 'nodes'; // <- underscored table alias. e.g.: "user_photos"
+ *         // underscored table alias. e.g.: "user_photos"
+ *         protected $_manageTable = 'nodes';
  *     }
  *
- * In order to avoid trait collision you should always `extend` Comment UI using this trait over a `clean` controller.
- * This is, a empty controller class with no methods defined. For instance, create a new controller 
- * class `MyPlugin\Controller\MyTableCommentManagerController` and use this trait to handle comments for "MyTable" database table.
+ * In order to avoid trait collision you should always `extend` Comment UI using
+ * this trait over a `clean` controller. This is, a empty controller class with
+ * no methods defined. For instance, create a new controller class
+ * `MyPlugin\Controller\MyTableCommentManagerController` and use this trait to
+ * handle comments for "MyTable" database table.
  *
  * ## _inResponseTo() method
  *
- * Also, your controller must implement the `_inResponseTo()` method. This method must return a string value
- * describing the entity that the comment is attached to. For example:
+ * Also, your controller must implement the `_inResponseTo()` method. This method
+ * must return a string value describing the entity that the comment is attached to.
+ * For example:
  *
  *     protected function _inResponseTo(\Comment\Model\Entity\Comment $comment) {
  *         $this->loadModel('MyPlugin.Persons');
@@ -114,16 +118,17 @@ trait CommentUIControllerTrait {
  *
  * ### Example:
  *
- * Suppose you are using this trait to manage comments attached to
- * `Persons` entities. You would probably have a `Person` plugin and
- * a `clean` controller as follow:
+ * Suppose you are using this trait to manage comments attached to `Persons`
+ * entities. You would probably have a `Person` plugin and a `clean` controller
+ * as follow:
  *
  *     // http://example.com/admin/person/comments_manager
  *     Person\Controller\CommentsManagerController::index()
  *
- * The above controller action will try to render `/Plugin/Person/Template/CommentsManager/index.ctp`.
- * But if does not exists then `<QuickAppsCorePath>/Plugin/Comment/Template/CommentUI/index.ctp`
- * will be used instead.
+ * The above controller action will try to render
+ * `/Plugin/Person/Template/CommentsManager/index.ctp`. But if does not exists then
+ * `<QuickAppsCorePath>/Plugin/Comment/Template/CommentUI/index.ctp` will be
+ * used instead.
  *
  * Of course you may create your own template and skip this fallback functionality.
  *

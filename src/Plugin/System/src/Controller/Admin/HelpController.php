@@ -27,9 +27,8 @@ class HelpController extends AppController {
 /**
  * Main action.
  *
- * Here is where we render all available documents.
- * Plugins are able to define their own `help document` just
- * by creating an view-element named `help.ctp`.
+ * Here is where we render all available documents. Plugins are able to define
+ * their own `help document` just by creating an view-element named `help.ctp`.
  *
  * Example:
  *
@@ -38,10 +37,11 @@ class HelpController extends AppController {
  *     /Plugin/Album/src/Template/Element/help.ctp
  *
  * Optionally, plugins are able to define translated versions of
- * help documents. To do this, you must simply define a view element as `help_[code].ctp`,
- * where `[code]` is a two-character language code. For example:
+ * help documents. To do this, you must simply define a view element as
+ * `help_[code].ctp`, where `[code]` is a two-character language code.
+ * For example:
  *
- *     help_en.ctp
+ *     help_en-us.ctp
  *     help_es.ctp
  *     help_fr.ctp
  *

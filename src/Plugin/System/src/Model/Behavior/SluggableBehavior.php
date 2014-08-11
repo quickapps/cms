@@ -41,8 +41,9 @@ class SluggableBehavior extends Behavior {
 /**
  * Default configuration.
  *
- * - `label`: Set to the field name that contains the string from where to generate the slug,
- * or a set of field names to concatenate for generating the slug. `title` by default.
+ * - `label`: Set to the field name that contains the string from where to
+ *    generate the slug, or a set of field names to concatenate for generating
+ *    the slug. `title` by default.
  * - `slug`: Name of the field name that holds generated slugs. `slug` by default.
  * - `separator`: Separator char. `-` by default. e.g.: `one-two-three`
  * - `on`: When to generate new slugs. `insert`, `update` or `both` (by default).
@@ -80,7 +81,8 @@ class SluggableBehavior extends Behavior {
  * @param \Cake\ORM\Entity $entity
  * @param array $options
  * @return boolean True if save should proceed, false otherwise
- * @throws \Cake\Error\FatalErrorException When some of the specified columns in config's "label" is not present in the entity being saved
+ * @throws \Cake\Error\FatalErrorException When some of the specified columns
+ * in config's "label" is not present in the entity being saved
  */
 	public function beforeSave(Event $event, $entity, $options) {
 		if (!$this->_enabled) {

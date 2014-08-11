@@ -22,22 +22,24 @@ use QuickApps\Utility\HookTrait;
 use Search\Model\Entity\SearchDataset;
 
 /**
- * This behavior allows entities to be searchable through
- * an auto-generated list of words.
+ * This behavior allows entities to be searchable through an auto-generated
+ * list of words.
  *
  * ## Using this Behavior
  *
- * You must indicate which fields can be indexed when attaching this behavior to your tables.
- * For example, when attaching this behavior to `Users` table:
+ * You must indicate which fields can be indexed when attaching this behavior
+ * to your tables. For example, when attaching this behavior to `Users` table:
  *
  *     $this->addBehavior('Search.Searchable', [
  *         'fields' => ['username', 'email']
  *     ]);
  *
- * In the example above, this behavior will look for words to index in user's "username" and user's "email" properties.
+ * In the example above, this behavior will look for words to index in user's
+ * "username" and user's "email" properties.
  * 
- * If you need a really special selection of words for each entity is being indexed, then you can
- * set the `fields` option as a callable which should return a list of words for the given entity. For example:
+ * If you need a really special selection of words for each entity is being indexed,
+ * then you can set the `fields` option as a callable which should return a list of
+ * words for the given entity. For example:
  *
  *     $this->addBehavior('Search.Searchable', [
  *         'fields' => function ($user) {
@@ -45,7 +47,8 @@ use Search\Model\Entity\SearchDataset;
  *         }
  *     ]);
  *
- * You can return either, a plain text of space-separated words, or an array list of words:
+ * You can return either, a plain text of space-separated words, or an array list
+ * of words:
  *
  *     $this->addBehavior('Search.Searchable', [
  *         'fields' => function ($user) {
@@ -57,19 +60,22 @@ use Search\Model\Entity\SearchDataset;
  *         }
  *     ]);
  *
- * This behaviors will apply a series of filters (converts to lowercase, remove line breaks, etc) to the resulting word list,
- * so you should simply return a RAW string of words and let this behavior do the rest of the job.
+ * This behaviors will apply a series of filters (converts to lowercase, remove
+ * line breaks, etc) to the resulting word list, so you should simply return a RAW
+ * string of words and let this behavior do the rest of the job.
  *
  * ### Banned Words
  *
- * You can use the `bannedWords` option to tell which words should not be indexed by this behavior. For example:
+ * You can use the `bannedWords` option to tell which words should not be indexed
+ * by this behavior. For example:
  *
  *     $this->addBehavior('Search.Searchable', [
  *         'bannedWords' => ['of', 'the', 'and']
  *     ]);
  *
- * If you need to ban a really specific list of words you can set `bannedWords` option as a callable method
- * that should return true or false to tell if a words should be indexed or not. For example:
+ * If you need to ban a really specific list of words you can set `bannedWords` option
+ * as a callable method that should return true or false to tell if a words should be
+ * indexed or not. For example:
  *
  *     $this->addBehavior('Search.Searchable', [
  *         'bannedWords' => function ($word) {
@@ -80,29 +86,32 @@ use Search\Model\Entity\SearchDataset;
  * - Returning TRUE indicates that the word is safe for indexing (not banned).
  * - Returning FALSE indicates that the word should NOT be indexed (banned).
  *
- * In the example, above any word of 4 or more characters will be indexed (e.g. "home", "name", "quickapps", etc). Any word of
- * 3 or less characters will be banned (e.g. "and", "or", "the").
+ * In the example, above any word of 4 or more characters will be indexed
+ * (e.g. "home", "name", "quickapps", etc). Any word of 3 or less characters will
+ * be banned (e.g. "and", "or", "the").
  *
  * ## Searching Entities
  *
- * When attaching this behavior, every entity under your table gets a list of indexed words. The idea
- * is you can use this list of words to locate any entity based on a customized search-criteria.
- * A search-criteria looks as follow:
+ * When attaching this behavior, every entity under your table gets a list of
+ * indexed words. The idea is you can use this list of words to locate any entity
+ * based on a customized search-criteria. A search-criteria looks as follow:
  *
  *     "this phrase" OR -"not this one" AND this
  *
  * ---
  * 
- * Use wildcard searches to broaden results; asterisk (`*`) matches any one or more
- * characters, exclamation mark (`!`) matches any single character:
+ * Use wildcard searches to broaden results; asterisk (`*`) matches any one or
+ * more characters, exclamation mark (`!`) matches any single character:
  *
  *     "this *rase" OR -"not th!! one" AND thi!
  *
- * Anything containing space (" ") characters must be wrapper between quotation marks:
+ * Anything containing space (" ") characters must be wrapper between quotation
+ * marks:
  *
  *     "this phrase" special_operator:"[100 to 500]" -word -"more words" -word_1 word_2
  *
- * The search criteria above will be treated as it were composed by the following parts:
+ * The search criteria above will be treated as it were composed by the
+ * following parts:
  *
  *     [
  *         this phrase,
@@ -115,9 +124,10 @@ use Search\Model\Entity\SearchDataset;
  *
  * ---
  * 
- * Search criteria allows you to perform complex search conditions in a human-readable way. Allows
- * you, for example, create user-friendly search-forms, or create some RSS feed just by creating a
- * friendly URL using a search-criteria. e.g.: `http://example.com/rss/category:art date:>2014-01-01`
+ * Search criteria allows you to perform complex search conditions in a human-readable
+ * way. Allows you, for example, create user-friendly search-forms, or create some
+ * RSS feed just by creating a friendly URL using a search-criteria.
+ * e.g.: `http://example.com/rss/category:art date:>2014-01-01`
  *
  * You must use the `search()` method to scope any query using a search-criteria.
  * For example, in one controller using `Users` model:
@@ -127,34 +137,37 @@ use Search\Model\Entity\SearchDataset;
  *     $query = $this->Users->search($criteria, $query);
  *
  * The above will alter the given $query object according to the given criteria.
- * The second argument (query object) is optional, if not provided this Behavior automatically generates
- * a find-query for you. Previous example and the one below are equivalent:
+ * The second argument (query object) is optional, if not provided this Behavior
+ * automatically generates a find-query for you. Previous example and the one
+ * below are equivalent:
  *
  *     $criteria = '"this phrase" OR -"not this one" AND this';
  *     $query = $this->Users->search($criteria);
  *
  * ### Creating Operators
  *
- * An `Operator` is a search-criteria command which allows you to perform
- * very specific filter conditions over your queries. An operator **has two parts**, a `name` and its `arguments`, both parts 
- * must be separated using the `:` symbol e.g.:
+ * An `Operator` is a search-criteria command which allows you to perform very
+ * specific filter conditions over your queries. An operator **has two parts**,
+ * a `name` and its `arguments`, both parts must be separated using the `:`
+ * symbol e.g.:
  *
  *     // operator name is: "author"
  *     // operator arguments are: ">2014-03-01"
  *     date:>2014-03-01
  *
- * NOTE: Operators names are treated as **lowercase_and_underscored**, 
- * so `AuthorName`, `AUTHOR_NAME` or `AuThoR_naMe` are all treated as: `author_name`.
+ * NOTE: Operators names are treated as **lowercase_and_underscored**, so
+ * `AuthorName`, `AUTHOR_NAME` or `AuThoR_naMe` are all treated as: `author_name`.
  *
- * You can define custom operators for your table by using the `addSearchOperator()` method.
- * For example, you might need create a custom criteria `author` which allows you to search a 
- * `Node` entity by `author name`. A search-criteria using this operator may looks as follow:
+ * You can define custom operators for your table by using the
+ * `addSearchOperator()` method. For example, you might need create a custom
+ * criteria `author` which allows you to search a `Node` entity by `author name`.
+ * A search-criteria using this operator may looks as follow:
  *
  *     // get all nodes containing `this phrase` and created by `JohnLocke`
  *     "this phrase" author:JohnLocke
  *
- * You must define in your Table an operator method and register it into this behavior under the `author` name,
- * a full working example may look as follow:
+ * You must define in your Table an operator method and register it into this
+ * behavior under the `author` name, a full working example may look as follow:
  *
  *     class Nodes extends Table {
  *         public function initialize(array $config) {
@@ -181,13 +194,16 @@ use Search\Model\Entity\SearchDataset;
  *
  * ### Fallback Operators
  *
- * When an operator is detected in the given search criteria but no operator callable was defined using `addSearchOperator()`,
- * then `SearchableBehavior.operator<OperatorName>` will be fired, so other plugins may respond to any undefined operator. For example,
- * given the search criteria below, lets suppose `date` operator **was not defined** early:
+ * When an operator is detected in the given search criteria but no operator
+ * callable was defined using `addSearchOperator()`, then
+ * `SearchableBehavior.operator<OperatorName>` will be fired, so other plugins
+ * may respond to any undefined operator. For example, given the search criteria
+ * below, lets suppose `date` operator **was not defined** early:
  *
  *     "this phrase" author:JohnLocke date:[2013-06-06..2014-06-06]
  *
- * The `SearchableBehavior.operatorDate` event will be fired. A plugin may respond to this call by implementing this event:
+ * The `SearchableBehavior.operatorDate` event will be fired. A plugin may
+ * respond to this call by implementing this event:
  *
  *     // ...
  *     public function implementedEvents() {
@@ -204,7 +220,8 @@ use Search\Model\Entity\SearchDataset;
  * IMPORTANT:
  * 
  * - Event handler method should always return the modified $query object.
- * - The event's context, that is `$event->subject`, is the table instance which fired the event.
+ * - The event's context, that is `$event->subject`, is the table instance which
+ *   fired the event.
  */
 class SearchableBehavior extends Behavior {
 
@@ -221,8 +238,9 @@ class SearchableBehavior extends Behavior {
  * Behavior configuration array.
  *
  * - operators: A list of registered operators methods as `name` => `methodName`
- * - fields: List of entity fields where to look for words. Or a callable method, it receives and entity
- * as first argument, and it must return a list of words for that entity (as an array list, or a string space-separated words).
+ * - fields: List of entity fields where to look for words. Or a callable method,
+ *   it receives and entity as first argument, and it must return a list of words
+ *   for that entity (as an array list, or a string space-separated words).
  * - bannedWords: List of banned words.
  * - on: Indicates when to extract words, `update` when entity is being updated,
  * `insert` when a new entity is inserted into table. Or `both` (by default)
@@ -348,8 +366,8 @@ class SearchableBehavior extends Behavior {
 /**
  * Scopes the given query object.
  *
- * It looks for search-criteria and applies them over the query object.
- * For example, given the criteria below:
+ * It looks for search-criteria and applies them over the query object. For example,
+ * given the criteria below:
  *
  *     "this phrase" -"and not this one"
  *
@@ -438,7 +456,8 @@ class SearchableBehavior extends Behavior {
  * Registers a new scope method.
  *
  * @param string $name scope name. e.g. `author`
- * @param string|array $methodName A string indicating the Table's method name which will take
+ * @param string|array $methodName A string indicating the Table's method name
+ * which will take
  * care of this scope method. Or an array compatible with call_user_func_array
  */
 	public function addSearchOperator($name, $methodName) {

@@ -18,10 +18,10 @@ use Cake\Routing\Router;
 
 error_reporting(0);
 $pp = PLugin::classPath('Wysiwyg');
-require $pp . 'Lib/elFinderConnector.class.php';
-require $pp . 'Lib/elFinder.class.php';
-require $pp . 'Lib/elFinderVolumeDriver.class.php';
-require $pp . 'Lib/elFinderVolumeLocalFileSystem.class.php';
+require $pp . 'Vendor/elFinderConnector.class.php';
+require $pp . 'Vendor/elFinder.class.php';
+require $pp . 'Vendor/elFinderVolumeDriver.class.php';
+require $pp . 'Vendor/elFinderVolumeLocalFileSystem.class.php';
 
 
 /**
@@ -33,9 +33,10 @@ require $pp . 'Lib/elFinderVolumeLocalFileSystem.class.php';
  * @return bool|null
  **/
 function access($attr, $path, $data, $volume) {
-	return strpos(basename($path), '.') === 0       // if file/folder begins with '.' (dot)
-		? !($attr == 'read' || $attr == 'write')    // set read+write to false, other (locked+hidden) set to true
-		:  null;                                    // else elFinder decide it itself
+	return
+		strpos(basename($path), '.') === 0        // if file/folder begins with '.' (dot)
+		? !($attr == 'read' || $attr == 'write')  // set read+write to false, other (locked+hidden) set to true
+		:  null;                                  // else elFinder decide it itself
 }
 
 $opts = array(

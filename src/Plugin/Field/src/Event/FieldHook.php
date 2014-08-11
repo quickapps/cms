@@ -23,15 +23,15 @@ use QuickApps\View\ViewModeTrait;
 /**
  * Field rendering dispatcher.
  *
- * Dispatches `Render.Field\Model\Entity\Field` rendering-request
- * from View to their corresponding FieldHandlers.
+ * Dispatches `Render.Field\Model\Entity\Field` rendering-request from View to
+ * their corresponding FieldHandlers.
  *
  * Field Handlers should implement the `<FieldHandler>.Entity.display` hook. e.g.:
  *
  *     Field.TextField.Entity.display
  *
- * Its callable method should expect two parameters, `$field` and `$options`,
- * and it should return a HTML string representation of your field. i.e.:
+ * Its callable method should expect two parameters, `$field` and `$options`, and it
+ * should return a HTML string representation of your field. i.e.:
  *
  *     public function display(Event $event, $field, $options) {
  *         return
@@ -39,16 +39,19 @@ use QuickApps\View\ViewModeTrait;
  *             "<p>{$field->value}</p>";
  *     }
  *
- * Usually you will rely on view elements for HTML rendering, to invoke View::element(...), you should
- * use event's subject which is the view instance in use:
+ * Usually you will rely on view elements for HTML rendering, to invoke
+ * View::element(...), you should use event's subject which is the view instance
+ * in use:
  *
  *     public function display(Event $event, $field, $options) {
- *         return $event->subject->element('MyPlugin.text_field_display', compact('field', 'options'));
+ *         return $event
+ *             ->subject
+ *             ->element('MyPlugin.text_field_display', compact('field', 'options'));
  *     }
  *
- * Remember that view elements can alway be overwritten by themes.
- * So it's a good practice always use view elements as rendering method instead
- * returning hard-coded HTML code in your methods as in the first example above.
+ * Remember that view elements can alway be overwritten by themes. So it's a good
+ * practice always use view elements as rendering method instead returning
+ * hard-coded HTML code in your methods as in the first example above.
  */
 class FieldHook implements EventListener {
 
@@ -56,8 +59,9 @@ class FieldHook implements EventListener {
 	use ViewModeTrait;
 
 /**
- * Returns a list of hooks this Hook Listener is implementing. When the class is registered
- * in an event manager, each individual method will be associated with the respective event.
+ * Returns a list of hooks this Hook Listener is implementing. When the class is
+ * registered in an event manager, each individual method will be associated with
+ * the respective event.
  *
  * @return void
  */
@@ -72,11 +76,11 @@ class FieldHook implements EventListener {
 	}
 
 /**
- * We catch all field rendering request (from QuickApps\View\View) here,
- * then we dispatch to their corresponding FieldHandler.
+ * We catch all field rendering request (from QuickApps\View\View) here, then we
+ * dispatch to their corresponding FieldHandler.
  *
- * If the field object being rendered has been set to "hidden" for the
- * current view mode it will not be rendered.
+ * If the field object being rendered has been set to "hidden" for the current
+ * view mode it will not be rendered.
  *
  * @param Cake\Event\Event $event
  * @param Field\Model\Entity\Field $field Mock entity

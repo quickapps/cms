@@ -18,4 +18,5 @@ use Cake\ORM\Entity;
  *
  */
 class SearchDataset extends Entity {
+
 }

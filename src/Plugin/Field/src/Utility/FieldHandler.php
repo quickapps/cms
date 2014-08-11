@@ -21,8 +21,8 @@ use QuickApps\Utility\HookTrait;
 /**
  * Field Handler base class.
  *
- * All Field Handlers classes should extend this class.
- * It adds some utility methods, and define some default events handlers.
+ * All Field Handlers classes should extend this class. It adds some utility
+ * methods, and define some default events handlers.
  */
 class FieldHandler implements EventListener {
 
@@ -45,8 +45,8 @@ class FieldHandler implements EventListener {
  *
  * - `Field`: Prefix, is the event subspace.
  * - `TextField`: Name of the class for Text Handler in this example.
- * - `Entity` or `Instance`: "Entity" for events related to enties (an User, a Node, etc),
- * or "Instance" for field instances events.
+ * - `Entity` or `Instance`: "Entity" for events related to entities
+ *    (an User, a Node, etc), or "Instance" for field instances events.
  * - `edit`: The name of the event.
  *
  * You can override this method and provide a customized set of event handlers.
@@ -82,8 +82,7 @@ class FieldHandler implements EventListener {
 	}
 
 /**
- * Defines how the field will actually display its contents
- * when rendering entities.
+ * Defines how the field will actually display its contents when rendering entities.
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\Field $field Field information
@@ -112,8 +111,8 @@ class FieldHandler implements EventListener {
  * Returning a non-true value will halt the save operation, as stopping
  * the event as well.
  *
- * The options array contains the `post` key, which holds
- * all the information you need to update you field:
+ * The options array contains the `post` key, which holds all the information
+ * you need to update you field:
  *
  *     $options['post']
  *
@@ -209,8 +208,8 @@ class FieldHandler implements EventListener {
 /**
  * Renders all the form elements to be used on the field settings form.
  *
- * Field settings will be the same for all shared instances of the same field and should
- * define the way the value will be stored in the database.
+ * Field settings will be the same for all shared instances of the same field
+ * and should define the way the value will be stored in the database.
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\FieldInstance $instance Instance information
@@ -236,8 +235,8 @@ class FieldHandler implements EventListener {
 /**
  * Renders all the form elements to be used on the field view mode form.
  *
- * Here is where you should render form elements to hold settings about how
- * Nodes should be rendered for a particular View Mode.
+ * Here is where you should render form elements to hold settings about how Nodes
+ * should be rendered for a particular View Mode.
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \\Field\Model\Entity\FieldInstance $instance Instance information
@@ -251,8 +250,8 @@ class FieldHandler implements EventListener {
 /**
  * Returns an array of defaults values for each input in the view modes form.
  *
- * You can provide different default values depending on the view mode,
- * you can use `$option['viewMode']` to distinct between view modes.
+ * You can provide different default values depending on the view mode, you can
+ * use `$option['viewMode']` to distinct between view modes.
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\FieldInstance $instance Instance information
@@ -303,9 +302,11 @@ class FieldHandler implements EventListener {
  * After an instance of this field was detached from a database table.
  *
  * Here is when you should remove all the stored data for this instance from the DB.
- * For example, if your field stores physical files for every entity, then you should dele those files.
+ * For example, if your field stores physical files for every entity, then you should
+ * delete those files.
  *
- * NOTE: By default QuickApps CMS, automatically removes all related records from the `field_values` table. 
+ * NOTE: By default QuickApps CMS, automatically removes all related records from
+ * the `field_values` table. 
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\FieldInstance $instance Instance entity being detached (deleted from "field_instances" table)

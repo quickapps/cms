@@ -65,6 +65,7 @@
 							$menu->id
 						], [
 							'title' => __d('node', 'Delete this menu'),
+							'confirm' => __d('node', 'Delete this menu ? All links within this menu will be lost.'),
 							'class' => 'btn btn-default',
 							'escape' => false,
 						]);

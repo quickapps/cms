@@ -215,8 +215,8 @@ class TextToolbox {
 /**
  * Protects email address so bots can not read it.
  *
- * Replaces emails address with an encoded JS script, so there is no way bots can
- * read an email address from the generated HTML source code.
+ * Replaces emails address with an encoded JS script, so there is no way bots
+ * can read an email address from the generated HTML source code.
  *
  * @param string $email The email to obfuscate
  * @return string
@@ -328,9 +328,9 @@ class TextToolbox {
 /**
  * Safely trim a text.
  *
- * This method is HTML aware, it will not "destroy" any HTML tag.
- * You can trim the text to a given number of characters, or you can give a string
- * as second argument which will be used to cut the given text and return the first part.
+ * This method is HTML aware, it will not "destroy" any HTML tag. You can trim
+ * the text to a given number of characters, or you can give a string as second
+ * argument which will be used to cut the given text and return the first part.
  *
  * ## Examples:
  *
@@ -351,9 +351,9 @@ class TextToolbox {
  *     // out: "Lorem ipsu ..."
  *
  * @param string $text
- * @param string|integer|false $len Either a string indicating where to cut the text,
- * or a integer to trim text to that number of characters. If not given (false by default)
- * text will be trimmed to 600 characters length.
+ * @param string|integer|false $len Either a string indicating where to cut the
+ * text, or a integer to trim text to that number of characters. If not given
+ * (false by default) text will be trimmed to 600 characters length.
  * @param string $ellipsis Will be used as ending and appended to the trimmed string
  * @return string
  */

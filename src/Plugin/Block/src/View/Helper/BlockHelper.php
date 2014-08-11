@@ -60,9 +60,10 @@ class BlockHelper extends AppHelper {
  * Returns a list of block entities within the given region.
  *
  * @param string $region
- * @param boolean $all True will return the whole list, that is including blocks that will never
- * be rendered because of its visibility (language or role restrictions, etc). Set to false (by default) will return
- * only blocks that can be rendered.
+ * @param boolean $all True will return the whole list, that is including blocks
+ * that will never be rendered because of its visibility; language or role
+ * restrictions, etc. Set to false (by default) will return only blocks
+ * that can be rendered.
  * @return \Cake\Collection\Iterator\FilterIterator
  */
 	public function blocksIn($region, $all = false) {
@@ -163,9 +164,10 @@ class BlockHelper extends AppHelper {
 			break;
 			case 'php':
 				// Use custom PHP code to determine visibility
-				//@codingStandardsIgnoreStart
-				$allowed = @eval($block->pages);
-				//@codingStandardsIgnoreEnd
+				$allowed = php_eval($block->pages, [
+					'view' => &$this->_View,
+					'block' => &$block
+				]) === true;
 			break;
 		}
 
@@ -201,7 +203,8 @@ class BlockHelper extends AppHelper {
 /**
  * Check if a current URL matches any pattern in a set of patterns.
  *
- * @param string $patterns String containing a set of patterns separated by \n, \r or \r\n
+ * @param string $patterns String containing a set of patterns
+ * separated by \n, \r or \r\n
  * @return boolean TRUE if the path matches a pattern, FALSE otherwise
  */
 	protected function _urlMatch($patterns) {

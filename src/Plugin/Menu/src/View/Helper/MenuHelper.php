@@ -36,19 +36,21 @@ class MenuHelper extends AppHelper {
  * Default configuration for this class.
  *
  * - `formatter`: Callable method used when formating each item.
- * - `beautify`: Set to true to "beautify" the resulting HTML, compacted HTMl will be returned if set to FALSE.
- *    You can set this option to a string compatible with 
+ * - `beautify`: Set to true to "beautify" the resulting HTML, compacted HTMl will
+ *    be returned if set to FALSE. You can set this option to a string compatible with 
  *    [htmLawed](http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/htmLawed_README.htm) library.
  *    e.g: `2s0n`. Defaults to FALSE (compact).
- * - `dropdown`: Set to true to automatically apply a few CSS styles for creating a "Dropdown" menu. Defaults to FALSE.
- *    This option is useful when rendering Multi-level menus, such as site's "main menu", etc.
+ * - `dropdown`: Set to true to automatically apply a few CSS styles for creating a
+ *    "Dropdown" menu. Defaults to FALSE. This option is useful when rendering
+ *    Multi-level menus, such as site's "main menu", etc.
  * - `activeClass`: CSS class to use when an item is active (its URL matches current URL).
  * - `firstItemClass`: CSS class for the first item.
  * - `lastItemClass`: CSS class for the last item.
  * - `hasChildrenClass`: CSS class to use when an item has children.
  * - `split`: Split menu into multiple root menus (multiple UL's). Must be an integer,
  *    or false for no split (by default).
- * - `breadcrumbGuessing`: Mark an item as "active" if its URL is on the breadcrumb stack. Default to true.
+ * - `breadcrumbGuessing`: Mark an item as "active" if its URL is on the breadcrumb stack.
+ *    Default to true.
  * - `templates`: HTML templates used when formating items.
  *   - `div`: Template of the wrapper element which holds all menus when using `split`.
  *   - `root`: Top UL/OL menu template.
@@ -137,8 +139,9 @@ class MenuHelper extends AppHelper {
  * ### Options:
  *
  * You can pass an associative array `key => value`.
- * Any `key` not in `$_defaultConfig` will be treated as an additional attribute for the top level UL (root).
- * If `key` is in `$_defaultConfig` it will temporally overwrite default configuration parameters:
+ * Any `key` not in `$_defaultConfig` will be treated as an additional attribute
+ * for the top level UL (root). If `key` is in `$_defaultConfig` it will temporally
+ * overwrite default configuration parameters:
  *
  * - `formatter`: Callable method used when formating each item.
  * - `activeClass`: CSS class to use when an item is active (its URL matches current URL).
@@ -146,11 +149,13 @@ class MenuHelper extends AppHelper {
  * - `lastItemClass`: CSS class for the last item.
  * - `hasChildrenClass`: CSS class to use when an item has children.
  * - `split`: Split menu into multiple root menus (multiple UL's)
- * - `templates`: The templates you want to use for this menu. Any templates will be merged on top of
- *    the already loaded templates. This option can either be a filename in App/Config that contains
- *    the templates you want to load, or an array of templates to use.
+ * - `templates`: The templates you want to use for this menu. Any templates
+ *    will be merged on top of the already loaded templates. This option can
+ *    either be a filename in App/Config that contains the templates you want
+ *    to load, or an array of templates to use.
  *
- * @param array|\Cake\Collection\Collection $items Nested items to render, given as a query result set or as an array list
+ * @param array|\Cake\Collection\Collection $items Nested items to render, given
+ * as a query result set or as an array list
  * @param array $options An array of HTML attributes and options
  * @return string HTML
  */
@@ -216,23 +221,26 @@ class MenuHelper extends AppHelper {
  *
  * ### Valid options are:
  *
- * - `templates`: Array of templates indexed as `templateName` => `templatePattern`. Temporally overwrites
- *    templates when rendering this item, after item is rendered templates are restored to previous values.
+ * - `templates`: Array of templates indexed as `templateName` => `templatePattern`.
+ *    Temporally overwrites templates when rendering this item, after item is rendered
+ *    templates are restored to previous values.
  * - `childAttrs`: Array of attributes for `child` template.
- *   - `class`: Array list of multiple CSS classes or a single string (will be merged with auto-generated CSS).
+ *   - `class`: Array list of multiple CSS classes or a single string (will be merged
+ *      with auto-generated CSS).
  * - `linkAttrs`: Array of attributes for the `link` template.
  *   - `class`: Same as childAttrs.
  *
  * ### Information argument
  *
- * The second argument `$info` holds a series of useful values when rendering
- * each item of the menu. This values are stored as `key` => `value` array.
+ * The second argument `$info` holds a series of useful values when rendering each
+ * item of the menu. This values are stored as `key` => `value` array.
  *
  * - `index` (integer): Position of current item.
  * - `total` (integer): Total number of items in the menu being rendered.
  * - `depth` (integer): Item depth within the tree structure.
  * - `hasChildren` (boolean): true|false
- * - `children` (string): HTML content of rendered children for this item. Empty if has no children.
+ * - `children` (string): HTML content of rendered children for this item.
+ *    Empty if has no children.
  *
  * @param \Cake\ORM\Entity $item The item to render
  * @param array $info Array of useful information such as described above
@@ -395,7 +403,8 @@ class MenuHelper extends AppHelper {
 /**
  * Returns a safe URL string for later use on HtmlHelper.
  * 
- * @param string|array $url URL given as string or an array compatible with `Router::url()`
+ * @param string|array $url URL given as string or an array compatible
+ * with `Router::url()`
  * @return string
  */
 	public function _url($url) {
@@ -438,8 +447,10 @@ class MenuHelper extends AppHelper {
  *
  * `$item->url` property must exists, and can be either:
  *
- * - A string representing an external or internal URL (all internal links must starts with "/"). e.g. `/user/login`
- * - An array compatible with \Cake\Routing\Router::url(). e.g. `['controller' => 'users', 'action' => 'login']`
+ * - A string representing an external or internal URL (all internal links must
+ *   starts with "/"). e.g. `/user/login`
+ * - An array compatible with \Cake\Routing\Router::url().
+ *   e.g. `['controller' => 'users', 'action' => 'login']`
  *
  * Both examples are equivalent.
  *
@@ -453,7 +464,10 @@ class MenuHelper extends AppHelper {
 			case 'none':
 				return !$this->_urlMatch($item->active);
 			case 'php':
-				return $this->_phpEval($item->active);
+				return php_eval($item->active, [
+					'view', &$this->_View,
+					'item', &$item,
+				]) === true;
 			case 'auto':
 				default:
 					try {
@@ -515,32 +529,10 @@ class MenuHelper extends AppHelper {
 	}
 
 /**
- * Evaluate a string of PHP code.
- *
- * This is a wrapper around PHP's eval(). It uses output buffering to capture both
- * returned and printed text. Unlike eval(), we require code to be surrounded by
- * <?php ?> tags; in other words, we evaluate the code as if it were a stand-alone
- * PHP file.
- *
- * Using this wrapper also ensures that the PHP code which is evaluated can not
- * overwrite any variables in the calling code, unlike a regular eval() call.
- *
- * @param string $code The code to evaluate
- * @return boolean.
- */
-	protected function _phpEval($code) {
-		ob_start();
-		$View =& $this->_View;
-		print eval('?>' . $code);
-		$output = ob_get_contents();
-		ob_end_clean();
-		return (bool)$output;
-	}
-
-/**
  * Check if a path matches any pattern in a set of patterns.
  *
- * @param string $patterns String containing a set of patterns separated by \n, \r or \r\n
+ * @param string $patterns String containing a set of patterns separated by \n,
+ * \r or \r\n
  * @param mixed $path String as path to match. Or false to use current page URL
  * @return boolean TRUE if the path matches a pattern, FALSE otherwise
  */
@@ -625,8 +617,8 @@ class MenuHelper extends AppHelper {
 	}
 
 /**
- * Clears all temporary variables used when rendering a menu,
- * so they do not interfere when rendering other menus.
+ * Clears all temporary variables used when rendering a menu, so they do not
+ * interfere when rendering other menus.
  *
  * @return void
  */

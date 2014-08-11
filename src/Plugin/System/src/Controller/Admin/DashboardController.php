@@ -16,8 +16,8 @@ use System\Controller\AppController;
 /**
  * Dashboard controller.
  *
- * Represents backend's dashboard panel, here is users are redirected to
- * after login in backend.
+ * Represents backend's dashboard panel, here is users are redirected to after
+ * login in backend.
  */
 class DashboardController extends AppController {
 

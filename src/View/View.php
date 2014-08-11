@@ -23,8 +23,8 @@ use QuickApps\View\ViewModeTrait;
 /**
  * QuickApps View class.
  *
- * Extends Cake's View class to adds some QuickAppsCMS's specific
- * functionalities such as alerts rendering, objects rendering, and more.
+ * Extends Cake's View class to adds some QuickAppsCMS's specific functionalities
+ * such as alerts rendering, objects rendering, and more.
  */
 class View extends CakeView {
 
@@ -43,8 +43,8 @@ class View extends CakeView {
 	protected $_hasRendered = false;
 
 /**
- * Overrides Cake's view rendering method.
- * Allows the usage of `$this->render($someObject)` in views.
+ * Overrides Cake's view rendering method. Allows the usage of
+ * `$this->render($someObject)` in views.
  *
  * **Example:**
  *
@@ -56,13 +56,15 @@ class View extends CakeView {
  *     $this->render($field);
  *
  * When rendering objects the `Render.<ClassName>` event is automatically fired.
- * For example, when rendering a node entity the following event is fired asking for its HTML rendering:
+ * For example, when rendering a node entity the following event is fired asking
+ * for its HTML rendering:
  *
  *     // Will trigger: Render.QuickaApps\Node\Model\Entity\Node
  *     $someNode = TableRegistry::get('Nodes')->get(1);
  *     $this->render($someNode);
  *
- * It is not limited to Entity instances only, you can virtually define a `Render` for any class name.
+ * It is not limited to Entity instances only, you can virtually define a `Render`
+ * for any class name.
  *
  * You can pass an unlimited number of arguments to your `Render` as follow:
  *
@@ -73,8 +75,8 @@ class View extends CakeView {
  *     public function renderMyObject(Event $event, $theObject, $arg_1, $arg_2, ..., $arg_n);
  *
  * @param mixed $view View file to render. Or an object to be rendered
- * @param mixed $layout Layout file to use when rendering view file. Or extra array of options
- * for object rendering
+ * @param mixed $layout Layout file to use when rendering view file. Or extra
+ * array of options for object rendering
  * @return string HTML output of object-rendering or view file
  */
 	public function render($view = null, $layout = null) {
@@ -127,8 +129,8 @@ class View extends CakeView {
  * Sets title for layout.
  *
  * It sets `title_for_layout` view variable, if no previous title was set on controller.
- * It will try to extract title from the Node being rendered (if not empty). Otherwise, site's
- * title will be used.
+ * It will try to extract title from the Node being rendered (if not empty).
+ * Otherwise, site's title will be used.
  *
  * @return void
  */
@@ -166,9 +168,9 @@ class View extends CakeView {
 /**
  * Sets meta-description for layout.
  *
- * It sets `description_for_layout` view-variable, and appends meta-description tag to `meta` block.
- * It will try to extract meta-description from the Node being rendered (if not empty). Otherwise, site's
- * description will be used.
+ * It sets `description_for_layout` view-variable, and appends meta-description
+ * tag to `meta` block. It will try to extract meta-description from the Node
+ * being rendered (if not empty). Otherwise, site's description will be used.
  *
  * @return void
  */

@@ -24,8 +24,7 @@ use QuickApps\Core\Plugin;
 /**
  * Controller for handling new QuickAppsCMS installations.
  *
- * This controller starts the installation process for
- * a new QuickAppsCMS setup.
+ * This controller starts the installation process for a new QuickAppsCMS setup.
  */
 class StartupController extends AppController {
 
@@ -282,8 +281,7 @@ class StartupController extends AppController {
 	}
 
 /**
- * Check if the given step name was completed.
- * Or marks current step as completed.
+ * Check if the given step name was completed. Or marks current step as completed.
  *
  * If $check is set to false, we mark current step (controller's action name) as completed.
  * If $check is set to a string, we check if that step was completed before.

@@ -23,8 +23,8 @@ class Block extends Entity {
 /**
  * Automatically calculates "delta" for entity's handler.
  *
- * Delta values must be unique within a handler name. That is,
- * there may exists two rows with delta = 1, but with different handler values.
+ * Delta values must be unique within a handler name. That is, there may exists
+ * two rows with delta = 1, but with different handler values.
  *
  * @return void
  */

@@ -18,8 +18,7 @@ use Quickapps\Utility\CacheTrait;
 /**
  * Application Helper
  *
- * Add your application-wide methods in the class below, your helpers
- * will inherit them.
+ * Add your application-wide methods in the class below, your helpers will inherit them.
  */
 class AppHelper extends Helper {
 

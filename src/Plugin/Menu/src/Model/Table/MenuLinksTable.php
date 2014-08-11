@@ -85,6 +85,18 @@ class MenuLinksTable extends Table {
 				},
 				'message' => __d('node', 'Please select an activation method.'),
 				'provider' => 'table',
+			])
+			->allowEmpty('active')
+			->add('active', 'validPHP', [
+				'rule' => function ($value, $context) {
+					if (!empty($context['data']['activation']) && $context['data']['activation'] === 'php') {
+						return 
+							strpos($value, '<?php') !== false &&
+							strpos($value, '?>') !== false;
+					}
+					return true;
+				},
+				'message' => __d('menu', 'Invalid PHP code, make sure that tags "<?php" & "?>" are present.')
 			]);
 
 		return $validator;

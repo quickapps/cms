@@ -227,6 +227,36 @@ function snapshot($mergeWith = []) {
 	}
 
 /**
+ * Evaluate a string of PHP code.
+ *
+ * This is a wrapper around PHP's eval(). It uses output buffering to capture both
+ * returned and printed text. Unlike eval(), we require code to be surrounded by
+ * <?php ?> tags; in other words, we evaluate the code as if it were a stand-alone
+ * PHP file.
+ *
+ * Using this wrapper also ensures that the PHP code which is evaluated can not
+ * overwrite any variables in the calling code, unlike a regular eval() call.
+ *
+ * ### Usage:
+ *
+ *     echo php_eval('<?php return "Hello {$world}!"; ?>', ['world' => 'WORLD']);
+ *     // output: Hello WORLD
+ *
+ * @param string $code The code to evaluate
+ * @param array $args Array of arguments as `key` => `value` pairs, evaluated code 
+ * can access this variables
+ * @return mixed
+ */
+	function php_eval($code, $args = []) {
+		ob_start();
+		extract($args);
+		print eval('?>' . $code);
+		$output = ob_get_contents();
+		ob_end_clean();
+		return $output;
+	}
+
+/**
  * Return only the methods for the given object.  
  * It will strip out inherited methods.
  *

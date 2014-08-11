@@ -60,8 +60,7 @@ class CommentableBehavior extends Behavior {
 /**
  * Constructor.
  *
- * Here we associate `Comments` table to the
- * table this behavior is attached to.
+ * Here we associate `Comments` table to the table this behavior is attached to.
  *
  * @param \Cake\ORM\Table $table The table this behavior is attached to.
  * @param array $config The config for this behavior.
@@ -127,7 +126,8 @@ class CommentableBehavior extends Behavior {
 /**
  * Get comments for the given entity.
  *
- * Allows you to get all comments even when this behavior was disabled using `unbindComments()`.
+ * Allows you to get all comments even when this behavior was disabled
+ * using `unbindComments()`.
  *
  * ### Usage:
  *

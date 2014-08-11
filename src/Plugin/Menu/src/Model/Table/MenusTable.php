@@ -39,13 +39,7 @@ class MenusTable extends Table {
 			'propertyName' => 'links',
 			'sort' => ['MenuLinks.lft' => 'ASC'],
 		]);
-		$this->hasOne('Blocks', [
-			'className' => 'Block.Blocks',
-			'dependent' => true,
-			'foreignKey' => 'delta',
-			'propertyName' => 'block',
-			'conditions' => ['Blocks.handler = Menus.handler']
-		]);
+		$this->_setHasOne();
 	}
 
 /**
@@ -77,7 +71,8 @@ class MenusTable extends Table {
 	}
 
 /**
- * Triggers the "Menu.<handler>.beforeValidate" hook, so plugins may do any logic their require.
+ * Triggers the "Menu.<handler>.beforeValidate" hook, so plugins may do
+ * any logic their require.
  *
  * @param \Cake\Event\Event $event
  * @param \Menu\Model\Entity\Menu $block
@@ -100,7 +95,8 @@ class MenusTable extends Table {
 	}
 
 /**
- * Triggers the "Menu.<handler>.afterValidate" hook, so plugins may do any logic their require.
+ * Triggers the "Menu.<handler>.afterValidate" hook, so plugins may do
+ * any logic their require.
  *
  * @param \Cake\Event\Event $event
  * @param \Menu\Model\Entity\Menu $menu
@@ -112,7 +108,8 @@ class MenusTable extends Table {
 	}
 
 /**
- * Triggers the "Menu.<handler>.beforeSave" hook, so plugins may do any logic their require.
+ * Triggers the "Menu.<handler>.beforeSave" hook, so plugins may do
+ * any logic their require.
  *
  * @param \Cake\Event\Event $event
  * @param \Menu\Model\Entity\Menu $menu
@@ -128,7 +125,8 @@ class MenusTable extends Table {
 	}
 
 /**
- * Triggers the "Menu.<handler>.afterSave" hook, so plugins may do any logic their require.
+ * Triggers the "Menu.<handler>.afterSave" hook, so plugins may do
+ * any logic their require.
  *
  * @param \Cake\Event\Event $event
  * @param \Menu\Model\Entity\Menu $menu
@@ -154,7 +152,8 @@ class MenusTable extends Table {
 	}
 
 /**
- * Triggers the "Menu.<handler>.beforeDelete" hook, so plugins may do any logic their require.
+ * Triggers the "Menu.<handler>.beforeDelete" hook, so plugins may do
+ * any logic their require.
  *
  * @param \Cake\Event\Event $event
  * @param \Menu\Model\Entity\Menu $menu
@@ -162,6 +161,15 @@ class MenusTable extends Table {
  * @return boolean False if delete operation should not continue, true otherwise
  */
 	public function beforeDelete(Event $event, Menu $menu, $options = []) {
+		$this->hasMany('Blocks', [
+			'className' => 'Block.Blocks',
+			'dependent' => true,
+			'foreignKey' => 'delta',
+			'propertyName' => 'block',
+			'conditions' => ['Blocks.handler' => $menu->handler],
+			'cascadeCallbacks' => true,
+		]);
+
 		$menuEvent = $this->invoke("Menu.{$menu->handler}.beforeDelete", $event->subject, $menu, $options);
 		if ($menuEvent->isStopped() || $menuEvent->result === false) {
 			return false;
@@ -170,7 +178,8 @@ class MenusTable extends Table {
 	}
 
 /**
- * Triggers the "Menu.<handler>.afterDelete" hook, so plugins may do any logic their require.
+ * Triggers the "Menu.<handler>.afterDelete" hook, so plugins may do
+ * any logic their require.
  *
  * @param \Cake\Event\Event $event
  * @param \Menu\Model\Entity\Menu $menu
@@ -178,7 +187,26 @@ class MenusTable extends Table {
  * @return void
  */
 	public function afterDelete(Event $event, Menu $menu, $options = []) {
+		$this->_setHasOne();
 		$this->invoke("Menu.{$menu->handler}.afterDelete", $event->subject, $menu, $options);
-	}	
+	}
+
+/**
+ * Creates the default "hasOne" association with Blocks table.
+ *
+ * When menu is being deleted this association is re-built in order to
+ * safely remove menu's associated block (and all copies of that block).
+ *
+ * @return void
+ */
+	protected function _setHasOne() {
+		$this->hasOne('Blocks', [
+			'className' => 'Block.Blocks',
+			'dependent' => false,
+			'foreignKey' => 'delta',
+			'propertyName' => 'block',
+			'conditions' => ['Blocks.handler = Menus.handler']
+		]);
+	}
 
 }

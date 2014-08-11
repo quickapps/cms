@@ -230,7 +230,11 @@ class ManageController extends AppController {
 		$this->loadModel('Block.Blocks');
 		$original = $this->Blocks->get($id);
 		$new = $this->Blocks->newEntity($original->toArray());
-		$new->set(['id' => null, 'delta' => null]);
+		$new->set([
+			'id' => null,
+			'copy_id' => $original->id,
+			'delta' => null,
+		]);
 		$new->calculateDelta();
 
 		if ($this->Blocks->save($new)) {
@@ -270,9 +274,10 @@ class ManageController extends AppController {
  * This variable is used to properly fill inputs in the "Theme Region"
  * section of the add/edit form.
  *
- * @param null|\Block\Model\Entity\Block $block If a block entity is provided it will be used to guess
- * which regions has been already selected in each theme, so we can properly show the selectbox in the form
- * with the corrects options selected.
+ * @param null|\Block\Model\Entity\Block $block If a block entity is provided it
+ * will be used to guess which regions has been already selected in each theme,
+ * so we can properly show the selectbox in the form with the corrects
+ * options selected.
  * @return void
  */
 	protected function _setRegions($block = null) {
@@ -306,7 +311,8 @@ class ManageController extends AppController {
  * Any input field that is not a column in the "blocks" table will be moved
  * to the "settings" column. For example, `random_name` becomes `settings.random_name`.
  *
- * @param null|\Block\Model\Entity\Block $block Optional entity to properly fetch associated data when updating
+ * @param null|\Block\Model\Entity\Block $block Optional entity to properly
+ * fetch associated data when updating
  * @param array $ignore List of key to ignore, will not be moved under `settings`
  * @return array
  */

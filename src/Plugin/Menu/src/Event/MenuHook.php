@@ -26,8 +26,9 @@ class MenuHook implements EventListener {
 	use CacheTrait;
 
 /**
- * Returns a list of hooks this Hook Listener is implementing. When the class is registered
- * in an event manager, each individual method will be associated with the respective event.
+ * Returns a list of hooks this Hook Listener is implementing. When the class
+ * is registered in an event manager, each individual method will be associated with
+ * the respective event.
  *
  * @return void
  */
@@ -41,8 +42,8 @@ class MenuHook implements EventListener {
  * Renders menu's associated block.
  *
  * You can define `specialized-renders` according to your needs as follow.
- * This method looks for specialized renders in the order described below,
- * if one is not found we look the next one, etc.
+ * This method looks for specialized renders in the order described below, if one
+ * is not found we look the next one, etc.
  *
  * ### Render menu per theme's region & view-mode
  * 

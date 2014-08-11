@@ -29,10 +29,12 @@ use User\Model\Entity\User;
 /**
  * Manages entity's comments.
  *
- * You must use this Component in combination with `Commentable` behavior and `CommentHelper`.
- * CommentHelper is automatically attached to your controller when this component is attached.
+ * You must use this Component in combination with `Commentable` behavior and
+ * `CommentHelper`. CommentHelper is automatically attached to your controller
+ * when this component is attached.
  *
- * When this component is attached you can render entity's comments using the CommentHelper:
+ * When this component is attached you can render entity's comments using the
+ * CommentHelper:
  *
  *     // in any view:
  *     $this->Comment->config('visibility', 1);
@@ -41,8 +43,8 @@ use User\Model\Entity\User;
  *     // in any controller
  *     $this->Comment->config('settings.visibility', 1);
  *
- * You can set `visibility` using this component at controller side, 
- * or using CommentHelper as example above, accepted values are:
+ * You can set `visibility` using this component at controller side, or using
+ * CommentHelper as example above, accepted values are:
  *
  * - 0: Closed; can't post new comments nor read existing ones. (by default)
  * - 1: Read & Write; can post new comments and read existing ones.
@@ -84,20 +86,23 @@ class CommentComponent extends Component {
 /**
  * Default configuration.
  *
- * - `redirectOnSuccess`: Set to true to redirect to `referer` page
- *    on success. Set to false for no redirection, or set to an array|string compatible
- *    with `Controller::redirect()` method.
- * - `successMessage`: Custom success alert-message. Or a callable method which must return a customized message.
- * - `errorMessage`: Custom error alert-message. Or a callable method which must return a customized message.
- *    from the form's submit. e.g.: `['status' => 'pending']` will set the new comment as `pending`.
- * - `arrayContext`: Information for the ArrayContext provider used by FormHelper when rendering comments form.
- * - `validator`: A custom validator object, if not provided it automatically creates one for you
- *    using the information below:
- * - `settings`: Array of additional settings parameters, will be merged with those coming from Comment Plugin's 
- *    configuration panel (at backend).
+ * - `redirectOnSuccess`: Set to true to redirect to `referer` page on success.
+ *    Set to false for no redirection, or set to an array|string compatible with
+ *    `Controller::redirect()` method.
+ * - `successMessage`: Custom success alert-message. Or a callable method which
+ *    must return a customized message.
+ * - `errorMessage`: Custom error alert-message. Or a callable method which must
+ *    return a customized message.
+ * - `arrayContext`: Information for the ArrayContext provider used by FormHelper
+ *    when rendering comments form.
+ * - `validator`: A custom validator object, if not provided it automatically
+ *    creates one for you using the information below:
+ * - `settings`: Array of additional settings parameters, will be merged with
+ *    those coming from Comment Plugin's configuration panel (at backend).
  *
- * When defining `successMessage` or `errorMessage` as callable functions you should expect two arguments.
- * A comment entity as first argument and the controller instance this component is attached to as second argument:
+ * When defining `successMessage` or `errorMessage` as callable functions you
+ * should expect two arguments. A comment entity as first argument and the
+ * controller instance this component is attached to as second argument:
  *
  *     $options['successMessage'] = function ($comment, $controller) {
  *         return 'My customized success message';
@@ -145,7 +150,8 @@ class CommentComponent extends Component {
 /**
  * Constructor.
  *
- * @param \Cake\Controller\ComponentRegistry $collection A ComponentRegistry for this component
+ * @param \Cake\Controller\ComponentRegistry $collection A ComponentRegistry
+ * for this component
  * @param array $config
  * @return void
  */
@@ -295,8 +301,8 @@ class CommentComponent extends Component {
 	}
 
 /**
- * Extract data from request and prepares for inserting
- * a new comment for the given entity.
+ * Extract data from request and prepares for inserting a new comment for
+ * the given entity.
  *
  * @param \Cake\ORM\Entity $entity
  * @return array
@@ -328,7 +334,8 @@ class CommentComponent extends Component {
 /**
  * Prepares error messages for FormHelper.
  * 
- * @param \Comment\Model\Entity\Comment $comment The invalidated comment entity to extract error messages
+ * @param \Comment\Model\Entity\Comment $comment The invalidated comment entity
+ * to extract error messages
  * @return void
  */
 	protected function _setErrors(Comment $comment) {

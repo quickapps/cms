@@ -21,8 +21,9 @@ use Cake\Event\EventListener;
 class SystemHooktag implements EventListener {
 
 /**
- * Returns a list of hooks this Hook Listener is implementing. When the class is registered
- * in an event manager, each individual method will be associated with the respective event.
+ * Returns a list of hooks this Hook Listener is implementing. When the class
+ * is registered in an event manager, each individual method will be associated
+ * with the respective event.
  *
  * @return void
  */
@@ -42,8 +43,10 @@ class SystemHooktag implements EventListener {
  *     [random]1,2,3[/random]
  *
  * @param \Cake\Event\Event $event The event that was fired
- * @param array $atts An associative array of attributes, or an empty string if no attributes are given
- * @param string $content The enclosed content (if the hooktag is used in its enclosing form)
+ * @param array $atts An associative array of attributes, or an empty string if
+ * no attributes are given
+ * @param string $content The enclosed content (if the hooktag is used in its
+ * enclosing form)
  * @param string $tag The hooktag tag
  * @return string
  */
@@ -63,8 +66,10 @@ class SystemHooktag implements EventListener {
  *     [t]Text for translate[/t]
  *
  * @param \Cake\Event\Event $event The event that was fired
- * @param array $atts An associative array of attributes, or an empty string if no attributes are given
- * @param string $content The enclosed content (if the hooktag is used in its enclosing form)
+ * @param array $atts An associative array of attributes, or an empty string if
+ * no attributes are given
+ * @param string $content The enclosed content (if the hooktag is used in its
+ * enclosing form)
  * @param string $tag The hooktag tag
  * @return string
  */
@@ -82,8 +87,10 @@ class SystemHooktag implements EventListener {
  *     [url]/some/url/on/my/site[/url]
  *
  * @param \Cake\Event\Event $event The event that was fired
- * @param array $atts An associative array of attributes, or an empty string if no attributes are given
- * @param string $content The enclosed content (if the hooktag is used in its enclosing form)
+ * @param array $atts An associative array of attributes, or an empty string if
+ * no attributes are given
+ * @param string $content The enclosed content (if the hooktag is used in its
+ * enclosing form)
  * @param string $tag The hooktag tag
  * @return string
  */
@@ -97,8 +104,10 @@ class SystemHooktag implements EventListener {
  *     [date format=d-m-Y]2014-05-06[/date]
  *
  * @param \Cake\Event\Event $event The event that was fired
- * @param array $atts An associative array of attributes, or an empty string if no attributes are given
- * @param string $content The enclosed content (if the hooktag is used in its enclosing form)
+ * @param array $atts An associative array of attributes, or an empty string if
+ * no attributes are given
+ * @param string $content The enclosed content (if the hooktag is used in its
+ * enclosing form)
  * @param string $tag The hooktag tag
  * @return string
  */
@@ -123,8 +132,10 @@ class SystemHooktag implements EventListener {
  *     [locale direction /]
  *
  * @param \Cake\Event\Event $event The event that was fired
- * @param array $atts An associative array of attributes, or an empty string if no attributes are given
- * @param string $content The enclosed content (if the hooktag is used in its enclosing form)
+ * @param array $atts An associative array of attributes, or an empty string if
+ * no attributes are given
+ * @param string $content The enclosed content (if the hooktag is used in its
+ * enclosing form)
  * @param string $tag The hooktag tag
  * @return string
  */

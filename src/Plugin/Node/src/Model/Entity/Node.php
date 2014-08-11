@@ -28,10 +28,9 @@ class Node extends Entity {
 /**
  * Gets node type.
  *
- * As Node Types are not dependent of
- * Nodes (deleting a node_type won't remove all nodes of that type).
- * Some types we found nodes without `node_type`, in that cases, if no node_type
- * is found `--unknow--` will be returned.
+ * As Node Types are not dependent of Nodes (deleting a node_type won't remove
+ * all nodes of that type). Some types we found nodes without `node_type`, in
+ * that cases, if no node_type is found `--unknow--` will be returned.
  *
  * @return string
  */
@@ -98,11 +97,12 @@ class Node extends Entity {
 /**
  * Set defaults content settings based on parent content type.
  *
- * You can provide a NodeType entity to fetch defaults values.
- * By default if none is provided it automatically fetches the information from
- * the corresponding Content Type.
+ * You can provide a NodeType entity to fetch defaults values. By default if none
+ * is provided it automatically fetches the information from the corresponding
+ * Content Type.
  * 
- * @param boolean|\Node\Model\Entity\NodeType $type False for auto fetch or a NodeType entity to extract information from
+ * @param boolean|\Node\Model\Entity\NodeType $type False for auto fetch or a NodeType
+ * entity to extract information from
  */
 	public function setDefaults($type = false) {
 		if (!$type) {

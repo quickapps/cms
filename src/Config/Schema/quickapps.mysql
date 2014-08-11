@@ -4,6 +4,7 @@
 
 CREATE TABLE IF NOT EXISTS `blocks` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key - Unique block ID.',
+  `copy_id` int(11) DEFAULT NULL COMMENT 'id of the block this block is a copy of',
   `delta` varchar(30) COLLATE utf8_unicode_ci NOT NULL COMMENT 'unique ID within a handler',
   `handler` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Block' COMMENT 'Name of the plugin that created this block. Used to generate event name, e.g. "Menu" triggers "Block.Menu.display" when rendering the block',
   `title` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
@@ -22,9 +23,9 @@ CREATE TABLE IF NOT EXISTS `blocks` (
 -- Dumping data for table `blocks`
 --
 
-INSERT INTO `blocks` (`id`, `delta`, `handler`, `title`, `description`, `body`, `visibility`, `pages`, `locale`, `settings`, `status`) VALUES
-(1, '1', 'QuickAppsMenu', 'Management [menu:1]', 'Associated block for "Management" menu.', NULL, 'except', NULL, NULL, NULL, 1),
-(2, '2', 'QuickAppsMenu', 'Site Main Menu [menu:2]', 'Associated block for "Site Main Menu" menu.', NULL, 'except', NULL, NULL, NULL, 1);
+INSERT INTO `blocks` (`id`, `copy_id`, `delta`, `handler`, `title`, `description`, `body`, `visibility`, `pages`, `locale`, `settings`, `status`) VALUES
+(1, NULL, '1', 'QuickAppsMenu', 'Management [menu:1]', 'Associated block for "Management" menu.', NULL, 'except', NULL, NULL, NULL, 1),
+(2, NULL, '2', 'QuickAppsMenu', 'Site Main Menu [menu:2]', 'Associated block for "Site Main Menu" menu.', NULL, 'except', NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 

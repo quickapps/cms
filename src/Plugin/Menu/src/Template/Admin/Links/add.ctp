@@ -73,7 +73,7 @@
 				]);
 			?>
 
-			<?php echo $this->Form->textarea('active', ['label' => false]); ?>
+			<?php echo $this->Form->input('active', ['type' => 'textarea', 'label' => false]); ?>
 			<em class="help-block"><?php echo __d('menu', 'Specify pages by using their paths, enter one path per line. The <code>*</code> character is a wildcard. <code>/</code> is the front page.'); ?></em>
 			<em class="help-block"><?php echo __d('menu', 'If the PHP option is chosen, enter PHP code between <code><?php ... ?></code> tags. Examples:'); ?></em>
 			<em class="help-block"><?php echo __d('menu', '<code>/product/*.html</code> Matches any product page.'); ?></em>

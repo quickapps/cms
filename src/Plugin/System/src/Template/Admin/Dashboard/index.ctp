@@ -12,7 +12,7 @@
 
 /**
  * Backend themes should always implement both "dashboard-left" and "dashboard-right"
- * 
+ * in order to properly fill this page. 
  */
 ?>
 

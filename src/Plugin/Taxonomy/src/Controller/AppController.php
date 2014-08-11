@@ -18,4 +18,5 @@ use QuickApps\Controller\Controller;
  *
  */
 class AppController extends Controller {
+
 }

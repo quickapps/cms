@@ -17,14 +17,15 @@ use Cake\Event\EventListener;
 /**
  * Applies some Twitter Bootstrap CSS styles to form/html elements.
  *
- * By default all CSS and HTML code generated automatically by QuickAppsCMS
- * follow Twitter Bootstrap's conventions.
+ * By default all CSS and HTML code generated automatically by QuickAppsCMS follow
+ * Twitter Bootstrap's conventions.
  *
  * Anyway you are able to define your own "Stylizer" by creating a Hook Listener
- * with higher priority and stopping hook propagation. This listener has a priory of 10 by default.
+ * with higher priority and stopping hook propagation. This listener has a priory
+ * of 10 by default.
  *
- * If you need disable Twitter Bootstrap's CSS classes to be applied, you can set the special `bootstrap`
- * key as FALSE in your array of options. For example:
+ * If you need disable Twitter Bootstrap's CSS classes to be applied, you can set
+ * the special `bootstrap` key as FALSE in your array of options. For example:
  *
  *     echo $this->Form->create($userEntity, ['bootstrap' => false]);
  *         echo $this->Form->input('user_name', ['bootstrap' => false]);

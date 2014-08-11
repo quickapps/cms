@@ -11,8 +11,11 @@
  */
 namespace Block\View;
 
+use Cake\Core\Configure;
+use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use Cake\View\View;
+use Block\Model\Entity\Block;
 use QuickApps\Core\Plugin;
 
 /**
@@ -62,9 +65,10 @@ class Region {
  *
  * ### Valid options are:
  *
- * - `fixMissing`: When creating a region that is not defined by the theme,
- *    it will try to fix it by adding it to theme's regions if this option is set to TRUE.
- *    Defaults to TRUE. This option will alter theme's `composer.json` file.
+ * - `fixMissing`: When creating a region that is not defined by the theme, it
+ *    will try to fix it by adding it to theme's regions if this option is set
+ *    to TRUE. Defaults to NULL which automatically enables when `debug` is enabled.
+ *    (NOTE: This option will alter theme's `composer.json` file)
  * - `theme`: Name of the theme this regions belongs to. Defaults to auto-detect.
  *
  * @param \Cake\View\View $view Instance of View class to use
@@ -74,7 +78,7 @@ class Region {
  */
 	public function __construct(View $view, $name, $options = []) {
 		$options += [
-			'fixMissing' => true,
+			'fixMissing' => null,
 			'theme' => $view->theme,
 		];
 		$this->_machineName = Inflector::slug($name, '-');
@@ -85,6 +89,7 @@ class Region {
 		if (isset($this->_theme['composer']['extra']['regions'])) {
 			$validRegions = array_keys($this->_theme['composer']['extra']['regions']);
 			$jsonPath = "{$this->_theme['path']}/composer.json";
+			$options['fixMissing'] = $options['fixMissing'] == null ? Configure::read('debug') : $options['fixMissing'];
 			if (
 				!in_array($this->_machineName, $validRegions) &&
 				$options['fixMissing'] &&
@@ -92,7 +97,7 @@ class Region {
 			) {
 				$jsonArray = json_decode(file_get_contents($jsonPath), true);
 				if (is_array($jsonArray)) {
-					$humanName = Inflector::humanize($this->_machineName);
+					$humanName = Inflector::humanize(str_replace('-', '_', $this->_machineName));
 					$jsonArray['extra']['regions'][$this->_machineName] = $humanName;
 					$encode = json_encode($jsonArray, JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
 					if ($encode) {
@@ -116,10 +121,26 @@ class Region {
 /**
  * Returns information of the theme this regions belongs to.
  *
- * @return array
+ * ### Usage:
+ *
+ *     // full info:
+ *     $theme = $this->Region->create('left-sidebar')->getTheme();
+ *
+ *     // gets theme's "composer.json" info as an array
+ *     $themeAuthor = $this->Region
+ *         ->create('left-sidebar')
+ *         ->getTheme('composer.author');
+ *
+ * @param null|string $path If set to a string value, it will extract
+ * the specified value from the theme's info-array. Null (by default)
+ * returns the whole info-array.
+ * @return mixed
  */
-	public function getTheme() {
-		return $this->_theme;
+	public function getTheme($path = null) {
+		if ($path == null) {
+			return $this->_theme;
+		}
+		return Hash::get($this->_theme, $path);
 	}
 
 /**
@@ -129,6 +150,16 @@ class Region {
  */
 	public function getBlocks() {
 		return $this->_blocks;
+	}
+
+/**
+ * Counts all the blocks within this region.
+ * 
+ * @return integer
+ */
+	public function countBlocks() {
+		$blocks = $this->_View->Region->Block->blocksIn($this->_machineName);
+		return count($blocks->toArray());
 	}
 
 /**
@@ -146,35 +177,38 @@ class Region {
 	}
 
 /**
- * Counts all the blocks within this region.
- * 
- * @return integer
- */
-	public function countBlocks() {
-		$blocks = $this->_View->Region->Block->blocksIn($this->_machineName);
-		return count($blocks->toArray());
-	}
-
-/**
- * Appends blocks from another region.
+ * Merge blocks from another region.
  *
- * You can not merge regions with the same machine-name.
+ * You can not merge regions with the same machine-name, new blocks are appended
+ * to this region.
  *
  * @param boolean $homogenize Set to true to make sure all blocks in the collection
  * are marked as they belongs to this region
  * @return \Block\Utility\Region This region with $region's blocks appended
  */
-	public function append(Region $region, $homogenize = true) {
+	public function merge(Region $region, $homogenize = true) {
 		if ($region->getName() != $this->_machineName) {
 			$this->_blocks = $this->_blocks->append($region->getBlocks());
 			if ($homogenize) {
-				$this->_blocks = $this->_blocks->map(function ($block) {
-					$block->region->set('region', $this->_machineName);
-					return $block;
-				});
+				$this->homogenize();
 			}
 		}
+		return $this;
+	}
 
+/**
+ * Makes sure that every block in this region is actually marked as it belongs to
+ * this region.
+ *
+ * Used when merging blocks from another region.
+ * 
+ * @return \Block\Utility\Region This region with homogenized blocks
+ */
+	public function homogenize() {
+		$this->_blocks = $this->_blocks->map(function ($block) {
+			$block->region->set('region', $this->_machineName);
+			return $block;
+		});
 		return $this;
 	}
 
@@ -186,7 +220,6 @@ class Region {
 	public function render() {
 		$html = '';
 		$i = 0;
-
 		foreach ($this->_blocks as $block) {
 			if ($this->_blockLimit !== null && $i === $this->_blockLimit) {
 				break;
@@ -194,7 +227,6 @@ class Region {
 			$html .= $this->_View->Region->Block->render($block);
 			$i++;
 		}
-
 		return $html;
 	}
 
@@ -210,8 +242,8 @@ class Region {
 	}
 
 /**
- * Returns an array that can be used to describe the internal state of this
- * object.
+ * Returns an array that can be used to describe the internal state of
+ * this object.
  *
  * @return array
  */

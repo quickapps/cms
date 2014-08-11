@@ -27,28 +27,30 @@ use QuickApps\View\ViewModeTrait;
 /**
  * Field UI Trait.
  *
- * Other plugins may `extends` Field plugin by using this trait
- * in their controllers.
+ * Other plugins may `extends` Field plugin by using this trait in their controllers.
  *
  * With this trait, Field plugin provides an user friendly UI for manage entity's
- * custom fields. It provides a field-manager user interface (UI) by attaching a series of
- * actions over a `clean` controller.
+ * custom fields. It provides a field-manager user interface (UI) by attaching a
+ * series of actions over a `clean` controller.
  *
  * # Usage:
  *
- * Beside adding `use FieldUIControllerTrait;` to your controller
- * you MUST also indicate the name of the Table being managed. Example:
+ * Beside adding `use FieldUIControllerTrait;` to your controller you MUST also
+ * indicate the name of the Table being managed. Example:
  *
  *     uses Field\Utility\FieldUIControllerTrait;
  *
  *     class MyCleanController extends <Plugin>AppController {
  *         use FieldUIControllerTrait;
- *         protected $_manageTable = 'nodes'; // <- underscored table alias. e.g.: "user_photos"
+ *         // underscored table alias. e.g.: "user_photos"
+ *         protected $_manageTable = 'nodes';
  *     }
  *
- * In order to avoid trait collision you should always `extend` Field UI using this trait over a `clean` controller.
- * This is, a empty controller class with no methods defined. For instance, create a new controller 
- * class `MyPlugin\Controller\MyTableFieldManagerController` and use this trait to handle custom fields for "MyTable" database table.
+ * In order to avoid trait collision you should always `extend` Field UI using this
+ * trait over a `clean` controller. This is, a empty controller class with no
+ * methods defined. For instance, create a new controller class
+ * `MyPlugin\Controller\MyTableFieldManagerController` and use this trait to handle
+ * custom fields for "MyTable" database table.
  *
  * # Requirements
  *
@@ -89,20 +91,20 @@ trait FieldUIControllerTrait {
 /**
  * Fallback for template location when extending Field UI API.
  *
- * If controller tries to render an unexisting template under its Template directory,
- * then we try to find that view under `Field/Template/FieldUI` directory.
+ * If controller tries to render an unexisting template under its Template
+ * directory, then we try to find that view under `Field/Template/FieldUI` directory.
  *
  * ### Example:
  *
- * Suppose you are using this trait to manage fields attached to
- * `Persons` entities. You would probably have a `Person` plugin and
- * a `clean` controller as follow:
+ * Suppose you are using this trait to manage fields attached to `Persons` entities.
+ * You would probably have a `Person` plugin and a `clean` controller as follow:
  *
  *     // http://example.com/admin/person/fields_manager
  *     Person\Controller\FieldsManagerController::index()
  *
- * The above controller action will try to render `/Plugin/Person/Template/CommentsManager/index.ctp`.
- * But if does not exists then `<QuickAppsCorePath>/Plugin/Comment/Template/CommentUI/index.ctp`
+ * The above controller action will try to render
+ * `/Plugin/Person/Template/CommentsManager/index.ctp`. But if does not exists then
+ * `<QuickAppsCorePath>/Plugin/Comment/Template/CommentUI/index.ctp`
  * will be used instead.
  *
  * Of course you may create your own template and skip this fallback functionality.
@@ -153,11 +155,12 @@ trait FieldUIControllerTrait {
  * Handles a single field instance configuration parameters.
  *
  * In FormHelper, all fields prefixed with `_` will be considered as columns values
- * of the instance being edited. Any other input element will be considered as part of the
- * `settings` column.
+ * of the instance being edited. Any other input element will be considered as part
+ * of the `settings` column.
  * 
- * For example: `_label`, `_required` and `description` maps to `label`, `required` and `description`.
- * And `some_input`, `another_input` maps to `settings.some_input`, `settings.another_input`
+ * For example: `_label`, `_required` and `description` maps to `label`, `required`
+ * and `description`. And `some_input`, `another_input` maps to `settings.some_input`,
+ * `settings.another_input`
  *
  * @param integer $id The field instance ID to manage
  * @return void
@@ -340,8 +343,8 @@ trait FieldUIControllerTrait {
 /**
  * Moves a field up or down within a view mode.
  *
- * The ordering indicates the position they are displayed when
- * entities are rendered in a specific view mode.
+ * The ordering indicates the position they are displayed when entities are rendered
+ * in a specific view mode.
  *
  * @param string $viewMode View mode slug
  * @param integer $id Field instance id
@@ -399,8 +402,7 @@ trait FieldUIControllerTrait {
 /**
  * Moves a field up or down.
  *
- * The ordering indicates the position they are displayed on
- * entity's editing form.
+ * The ordering indicates the position they are displayed on entity's editing form.
  *
  * @param integer $id Field instance id
  * @param string $direction Direction, 'up' or 'down'

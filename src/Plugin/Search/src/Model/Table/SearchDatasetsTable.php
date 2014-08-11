@@ -18,4 +18,5 @@ use Cake\ORM\Table;
  *
  */
 class SearchDatasetsTable extends Table {
+
 }

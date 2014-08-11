@@ -51,8 +51,8 @@ class BreadcrumbHelper extends Helper {
 /**
  * Renders a breadcrumb menu list.
  *
- * This methods renders an `<ol>` HTML menu using `MenuHelper` class,
- * check this class for more information about valid options.
+ * This methods renders an `<ol>` HTML menu using `MenuHelper` class, check this
+ * class for more information about valid options.
  *
  * @param array $options Array of options for `MenuHelper::render()` method
  * @return string HTML

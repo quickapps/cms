@@ -35,11 +35,21 @@ class BlocksTable extends Table {
 	public function initialize(array $config) {
 		$this->hasMany('BlockRegions', [
 			'className' => 'Block.BlockRegions',
+			'foreignKey' => 'block_id',
 			'dependent' => true,
 			'propertyName' => 'region',
 		]);
+		$this->hasMany('Copies', [
+			'className' => 'Block.Blocks',
+			'foreignKey' => 'copy_id',
+			'dependent' => true,
+			'propertyName' => 'copies',
+			'cascadeCallbacks' => true,
+		]);
 		$this->belongsToMany('User.Roles', [
 			'className' => 'User.Roles',
+			'foreignKey' => 'block_id',
+			'joinTable' => 'blocks_roles',
 			'dependent' => false,
 			'propertyName' => 'roles',
 		]);
@@ -93,6 +103,18 @@ class BlocksTable extends Table {
 				},
 				'message' => __d('block', 'Invalid visibility.'),
 			])
+			->allowEmpty('pages')
+			->add('pages', 'validPHP', [
+				'rule' => function ($value, $context) {
+					if (!empty($context['data']['visibility']) && $context['data']['visibility'] === 'php') {
+						return 
+							strpos($value, '<?php') !== false &&
+							strpos($value, '?>') !== false;
+					}
+					return true;
+				},
+				'message' => __d('block', 'Invalid PHP code, make sure that tags "<?php" & "?>" are present.')
+			])
 			->add('delta', [
 				'unique' => [
 					'rule' => ['validateUnique', ['scope' => 'handler']],
@@ -111,8 +133,9 @@ class BlocksTable extends Table {
 /**
  * Validation rules for custom blocks.
  *
- * Plugins may define their own blocks, in these cases the "body" value is optional.
- * But blocks created by users (on the Blocks administration page) are required to have a valid "body".
+ * Plugins may define their own blocks, in these cases the "body" value is
+ * optional. But blocks created by users (on the Blocks administration page)
+ * are required to have a valid "body".
  *
  * @param \Cake\Validation\Validator $validator
  * @return \Cake\Validation\Validator
@@ -133,7 +156,8 @@ class BlocksTable extends Table {
 	}
 
 /**
- * Triggers the "Block.<handler>.beforeValidate" hook, so plugins may do any logic their require.
+ * Triggers the "Block.<handler>.beforeValidate" hook, so plugins may do
+ * any logic their require.
  *
  * @param \Cake\Event\Event $event
  * @param \Block\Model\Entity\Block $block
@@ -149,7 +173,8 @@ class BlocksTable extends Table {
 	}
 
 /**
- * Triggers the "Block.<handler>.afterValidate" hook, so plugins may do any logic their require.
+ * Triggers the "Block.<handler>.afterValidate" hook, so plugins may do
+ * any logic their require.
  *
  * @param \Cake\Event\Event $event
  * @param \Block\Model\Entity\Block $block
@@ -161,7 +186,8 @@ class BlocksTable extends Table {
 	}
 
 /**
- * Triggers the "Block.<handler>.beforeSave" hook, so plugins may do any logic their require.
+ * Triggers the "Block.<handler>.beforeSave" hook, so plugins may do
+ * any logic their require.
  *
  * @param \Cake\Event\Event $event
  * @param \Block\Model\Entity\Block $block
@@ -177,7 +203,8 @@ class BlocksTable extends Table {
 	}
 
 /**
- * Triggers the "Block.<handler>.afterSave" hook, so plugins may do any logic their require.
+ * Triggers the "Block.<handler>.afterSave" hook, so plugins may do
+ * any logic their require.
  *
  * @param \Cake\Event\Event $event
  * @param \Block\Model\Entity\Block $block
@@ -189,7 +216,8 @@ class BlocksTable extends Table {
 	}
 
 /**
- * Triggers the "Block.<handler>.beforeDelete" hook, so plugins may do any logic their require.
+ * Triggers the "Block.<handler>.beforeDelete" hook, so plugins may do
+ * any logic their require.
  *
  * @param \Cake\Event\Event $event
  * @param \Block\Model\Entity\Block $block
@@ -205,7 +233,8 @@ class BlocksTable extends Table {
 	}
 
 /**
- * Triggers the "Block.<handler>.afterDelete" hook, so plugins may do any logic their require.
+ * Triggers the "Block.<handler>.afterDelete" hook, so plugins may do
+ * any logic their require.
  *
  * @param \Cake\Event\Event $event
  * @param \Block\Model\Entity\Block $block

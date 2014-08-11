@@ -12,8 +12,8 @@
 namespace User\Config;
 
 /**
- * These are hard-coded values for user roles and must match values
- * stored in "roles" DB table.
+ * These are hard-coded values for user roles and must match values stored in
+ * "roles" DB table.
  */
 if (!defined('ROLE_ID_ADMINISTRATOR')) {
 	define('ROLE_ID_ADMINISTRATOR', 1);

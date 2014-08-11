@@ -19,8 +19,9 @@ use Cake\Collection\CollectionTrait;
  *
  * Used for manage fields attached to every entity using `Fieldable` behavior.
  *
- * Allows to handle fields as an array list, but it adds a few useful functionalities such as `sortAs()` method,
- * or access a fields by its numeric index or its machine-name (like an associative array).
+ * Allows to handle fields as an array list, but it adds a few useful
+ * functionalities such as `sortAs()` method, or access a fields by its numeric
+ * index or its machine-name (like an associative array).
  */
 class FieldCollection extends ArrayObject {
 

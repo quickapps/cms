@@ -24,8 +24,8 @@ use QuickApps\View\Helper\AppHelper;
  *
  * ### Usage:
  *
- * Merge `left-sidebar` and `right-sidebar` regions together,
- * the resulting region limit the number of blocks it can holds to `3`:
+ * Merge `left-sidebar` and `right-sidebar` regions together, the resulting region
+ * limit the number of blocks it can holds to `3`:
  * 
  *     echo $this->Region
  *         ->create('left-sidebar')
@@ -69,8 +69,8 @@ class RegionHelper extends AppHelper {
  *
  * ### Valid options are:
  *
- * - `fixMissing`: If set to TRUE when creating a region that is not defined in the theme,
- * it will try to fix by adding to theme's regions. Defaults to TRUE.
+ * - `fixMissing`: If set to TRUE when creating a region that is not defined in
+ *    the theme, it will try to fix by adding to theme's regions. Defaults to TRUE.
  * - `theme`: Name of the theme this regions belongs to. Defaults to auto-detect.
  *
  * @param string $region Region name

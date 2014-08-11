@@ -42,8 +42,9 @@ class WysiwygHook implements EventListener {
 	protected static $_textareaOriginalTemplate = null;
 
 /**
- * Returns a list of hooks this Hook Listener is implementing. When the class is registered
- * in an event manager, each individual method will be associated with the respective event.
+ * Returns a list of hooks this Hook Listener is implementing. When the class
+ * is registered in an event manager, each individual method will be associated
+ * with the respective event.
  *
  * @return void
  */

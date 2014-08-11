@@ -25,26 +25,29 @@ use QuickApps\Utility\HookTrait;
  *
  * Handles the `Block.<handler>.display` event.
  * 
- * Each block has a `handler` property which identifies the plugin that created that Block,
- * by default all blocks created using backend's administration page defines `Block` has their handler.
+ * Each block has a `handler` property which identifies the plugin that created
+ * that Block, by default all blocks created using backend's administration page
+ * defines `Block` has their handler.
  *
- * An external plugin may register a custom block by inserting its information directly in the "blocks"
- * table and setting an appropriate `handler` name.
+ * An external plugin may register a custom block by inserting its information
+ * directly in the "blocks" table and setting an appropriate `handler` name.
  * 
- * For example, `Taxonomy` plugin may create a new `Categories` block by inserting its information in
- * the "blocks" table, this new block should may have `Taxonomy` has handler name.
+ * For example, `Taxonomy` plugin may create a new `Categories` block by inserting
+ * its information in the "blocks" table, this new block should may have `Taxonomy`
+ * has handler name.
  *
- * Block's handler property is used to compose the event' name that is triggered when block is being rendered (or edited).
- * Event's name follows the pattern below:
+ * Block's handler property is used to compose the event' name that is triggered
+ * when block is being rendered (or edited). Event's name follows the pattern below:
  *
  *     Block.<handler>.<display|settings>
  *
- * So all blocks with `Block` as handler will trigger the event below when being rendered:
+ * So all blocks with `Block` as handler will trigger the event below when
+ * being rendered:
  *
  *     Block.Block.display
  *
- * Event which is handled by this class. In the other hand, for the taxonomy example above the following event will
- * be triggered when rendering the `Categories` block:
+ * Event which is handled by this class. In the other hand, for the taxonomy example
+ * above the following event will be triggered when rendering the `Categories` block:
  *
  *     Block.Taxonomy.display
  *
@@ -55,9 +58,10 @@ use QuickApps\Utility\HookTrait;
  * **NOTES:**
  * 
  * - Event's subject is always the View instance being used.
- * - Plugins are allowed to define any `handler` name when registering blocks in the "blocks" table,
- *   the only constraint is that it must be unique in the entire "blocks" table. Use plugin's name itself
- *   is always a good practice as it's already unique in the whole system. Anyway, handler names such as
+ * - Plugins are allowed to define any `handler` name when registering blocks in
+ *   the "blocks" table, the only constraint is that it must be unique in the
+ *   entire "blocks" table. Use plugin's name itself is always a good practice
+ *   as it's already unique in the whole system. Anyway, handler names such as
  *   `random-letters`, or `i-like-trains` are valid as well.
  */
 class BlockHook implements EventListener {
@@ -66,8 +70,9 @@ class BlockHook implements EventListener {
 	use HookTrait;
 
 /**
- * Returns a list of hooks this Hook Listener is implementing. When the class is registered
- * in an event manager, each individual method will be associated with the respective event.
+ * Returns a list of hooks this Hook Listener is implementing. When the class
+ * is registered in an event manager, each individual method will be associated
+ * with the respective event.
  *
  * @return void
  */
@@ -81,8 +86,8 @@ class BlockHook implements EventListener {
  * Renders the given block entity.
  *
  * You can define `specialized-renders` according to your needs as follow.
- * This method looks for specialized renders in the order described below,
- * if one is not found we look the next one, etc.
+ * This method looks for specialized renders in the order described below, if one
+ * is not found we look the next one, etc.
  *
  * ### Render block per theme's region & view-mode
  * 

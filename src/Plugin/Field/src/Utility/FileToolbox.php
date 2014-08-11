@@ -16,7 +16,8 @@ use QuickApps\Core\Plugin;
 /**
  * FileToolbox class for handling files related tasks.
  *
- * A set of utility methods related to files, such as `bytesToSize()`, `fileIcon()`, etc.
+ * A set of utility methods related to files, such as `bytesToSize()`,
+ * `fileIcon()`, etc.
  */
 class FileToolbox {
 
@@ -52,9 +53,10 @@ class FileToolbox {
  * Creates a path to the icon for a file mime.
  *
  * @param string $mime file mime type
- * @param mixed $iconsDirectory A path to a directory of icons to be used for files. Defaults to
- * built-in icons directory (Field/webroot/img/file-icons/)
- * @return string A string to the icon as a local path, or false if an appropriate icon could not be found
+ * @param mixed $iconsDirectory A path to a directory of icons to be used for
+ * files. Defaults to built-in icons directory (Field/webroot/img/file-icons/)
+ * @return string A string to the icon as a local path, or false if an appropriate
+ * icon could not be found
  */
 	public static function fileIcon($mime, $iconsDirectory = false) {
 		$iconsDirectory = !$iconsDirectory ? Plugin::path('Field') . 'webroot/img/file-icons/' : $iconsDirectory;

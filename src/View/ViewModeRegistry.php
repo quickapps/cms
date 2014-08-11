@@ -42,9 +42,8 @@ class ViewModeRegistry {
 /**
  * Marks as "in use" the given view mode.
  *
- * The given view mode must be registered first using `registerViewMode`.
- * If you try to switch to an unexisting (unregistered) view mode this
- * method will throw.
+ * The given view mode must be registered first using `registerViewMode`. If you
+ * try to switch to an unexisting (unregistered) view mode this method will throw.
  *
  * @param string $slug
  * @return void
@@ -61,8 +60,8 @@ class ViewModeRegistry {
 /**
  * Registers a new view mode. Or overwrite if already exists.
  *
- * You can register more than one view mode at once by passing
- * an array as first argument and ignore the others two:
+ * You can register more than one view mode at once by passing an array as first
+ * argument and ignore the others two:
  *
  *     ViewModeRegistry::registerViewMode([
  *         'slug_1' => [
@@ -75,14 +74,14 @@ class ViewModeRegistry {
  *         	],
  *     ]);
  *
- * Or you can register a single view mode by passing its "slug", "name" and "description"
- * as three separated arguments:
+ * Or you can register a single view mode by passing its "slug", "name"
+ * and "description" as three separated arguments:
  *
  *     ViewModeRegistry::registerViewMode('slug-1', 'View Mode 1', 'Lorem ipsum');
  *     ViewModeRegistry::registerViewMode('slug-2', 'View Mode 2', 'Dolor sit amet');
  *
- * @param string|array $slug Slug name of your view mode. e.g.: `my-view mode`. Or
- * an array of view modes to register indexed by slug name
+ * @param string|array $slug Slug name of your view mode. e.g.: `my-view mode`.
+ * Or an array of view modes to register indexed by slug name
  * @param string|null $name Human readable name. e.g.: `My View Mode`
  * @param string|null $description A brief description about for what is this view mode
  * @return void
@@ -110,8 +109,8 @@ class ViewModeRegistry {
  *
  * You can get either, slug only or full information as an array.
  *
- * @param boolean $full Set to true to get full information as an array. Or set to
- * false (by default) to get slug name only
+ * @param boolean $full Set to true to get full information as an array.
+ * Or set to false (by default) to get slug name only
  * @return array|string
  */
 	public static function inUseViewMode($full = false) {
@@ -127,8 +126,9 @@ class ViewModeRegistry {
 /**
  * Gets the full list of all registered view modes.
  *
- * You can get either a full list of every registered view mode, or a plain list of slugs of every registered view mode.
- * Or you can get all information for a particular view mode by passing its slug as first argument.
+ * You can get either a full list of every registered view mode, or a plain list
+ * of slugs of every registered view mode. Or you can get all information for a
+ * particular view mode by passing its slug as first argument.
  *
  * ## Usage:
  *

@@ -39,8 +39,8 @@ class ElFinderController extends AppController {
 /**
  * Returns the given file.
  *
- * @param string $path Encoded full base directory to the file
- * file name must be passed as a $_GET parameter
+ * @param string $path Encoded full base directory to the file file name must
+ * be passed as a $_GET parameter
  * @return void
  */
 	public function getFile($path) {
