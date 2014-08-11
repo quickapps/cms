@@ -495,7 +495,7 @@ class MenuHelper extends AppHelper {
 						$itemUrl === '/' &&
 						$this->_View->request->is('homePage');
 					$isExact =
-						str_replace('//', '/', "{$itemUrl}/") === str_replace('//', '/', "/{$this->_View->request->base}/{$this->_View->request->url}/");
+						str_replace('//', '/', "{$itemUrl}/") === str_replace('//', '/', "/{$this->_View->request->url}/");
 
 					if ($this->config('breadcrumbGuessing')) {
 						static $crumbs = null;

@@ -69,7 +69,7 @@ class BreadcrumbComponent extends Component {
 		if ($crumbs === [] && $url === null) {
 			$MenuLinks = TableRegistry::get('Menu.MenuLinks');
 			$MenuLinks->removeBehavior('Tree');
-			$possibleMatches = $this->_possibleURL();
+			$possibleMatches = $this->_urlChunk();
 			$found = $MenuLinks
 				->find()
 				->select(['id', 'menu_id'])
@@ -101,24 +101,6 @@ class BreadcrumbComponent extends Component {
 	}
 
 /**
- * Method delegation.
- *
- * We try to dispatch unexisting method to `\Menu\Utility\Breadcrumb` class.
- *
- * @param string $method Name of the method to be invoked
- * @param array $args List of arguments passed to the function
- * @return mixed
- * @throws \Cake\Error\Exception When the method is unknown
- */
-	public function __call($method, $args) {
-		if (method_exists('\Menu\Utility\Breadcrumb', $method)) {
-			return call_user_func_array(['\Menu\Utility\Breadcrumb', $method], $args);
-		}
-
-		throw new \Cake\Error\Exception(__d('menu', 'Method "%s" was not found.', $method));
-	}
-
-/**
  * Returns possible URL combinations for the given URL or current request.
  *
  * ### Example:
@@ -146,9 +128,16 @@ class BreadcrumbComponent extends Component {
  * use current request URL.
  * @return array
  */
-	protected function _possibleURL($url = false) {
+	protected function _urlChunk($url = false) {
 		$request = $this->_controller->request;
 		$url = $url === false ? '/' . $request->url : $url;
+		$cacheKey = 'urlChunk_' . md5($url);
+		$cache = static::_cache($cacheKey);
+
+		if ($cache !== null) {
+			return $cache;
+		}
+
 		$parsedURL = Router::parse($url);
 		$out = [$url];
 		$passArguments = [];
@@ -187,11 +176,28 @@ class BreadcrumbComponent extends Component {
 			if (str_starts_with($value, $request->base)) {
 				return str_replace_once($request->base, '', $value);
 			}
-
 			return $value;
 		}, $out);
 
-		return array_unique($out);
+		return static::_cache($cacheKey, array_unique($out));
+	}
+
+/**
+ * Method delegation.
+ *
+ * We try to dispatch unexisting method to `\Menu\Utility\Breadcrumb` class.
+ *
+ * @param string $method Name of the method to be invoked
+ * @param array $args List of arguments passed to the function
+ * @return mixed
+ * @throws \Cake\Error\Exception When the method is unknown
+ */
+	public function __call($method, $args) {
+		if (method_exists('\Menu\Utility\Breadcrumb', $method)) {
+			return call_user_func_array(['\Menu\Utility\Breadcrumb', $method], $args);
+		}
+
+		throw new \Cake\Error\Exception(__d('menu', 'Method "%s" was not found.', $method));
 	}
 
 }

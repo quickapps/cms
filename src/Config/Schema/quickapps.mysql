@@ -17,15 +17,17 @@ CREATE TABLE IF NOT EXISTS `blocks` (
   `status` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `delta` (`delta`,`handler`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `blocks`
 --
 
 INSERT INTO `blocks` (`id`, `copy_id`, `delta`, `handler`, `title`, `description`, `body`, `visibility`, `pages`, `locale`, `settings`, `status`) VALUES
-(1, NULL, '1', 'QuickAppsMenu', 'Management [menu:1]', 'Associated block for "Management" menu.', NULL, 'except', NULL, NULL, NULL, 1),
-(2, NULL, '2', 'QuickAppsMenu', 'Site Main Menu [menu:2]', 'Associated block for "Site Main Menu" menu.', NULL, 'except', NULL, NULL, NULL, 1);
+(1, NULL, '1', 'System', 'Management [menu:1]', 'Associated block for "Management" menu.', NULL, 'except', NULL, NULL, NULL, 1),
+(2, NULL, '2', 'System', 'Site Main Menu [menu:2]', 'Associated block for "Site Main Menu" menu.', NULL, 'except', NULL, NULL, NULL, 1),
+(3, NULL, 'dashboard_recent_content', 'Node', 'Recent Content', 'Shows a list of latest created contents.', NULL, 'except', NULL, NULL, NULL, 1),
+(4, NULL, 'dashboard_search', 'Node', 'Search', 'Quick Search Form', NULL, 'except', NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -54,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `block_regions` (
   `ordering` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `block_id` (`block_id`,`theme`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `block_regions`
@@ -64,7 +66,11 @@ INSERT INTO `block_regions` (`id`, `block_id`, `theme`, `region`, `ordering`) VA
 (1, 2, 'BackendTheme', '', 0),
 (2, 2, 'FrontendTheme', 'main-menu', 0),
 (3, 1, 'BackendTheme', 'main-menu', 0),
-(4, 1, 'FrontendTheme', '', 0);
+(4, 1, 'FrontendTheme', '', 0),
+(5, 3, 'BackendTheme', 'dashboard-main', 0),
+(6, 3, 'FrontendTheme', '', 0),
+(7, 4, 'BackendTheme', 'dashboard-sidebar', 0),
+(8, 4, 'FrontendTheme', '', 0);
 
 -- --------------------------------------------------------
 
@@ -198,15 +204,15 @@ CREATE TABLE IF NOT EXISTS `menus` (
   `handler` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Name of the plugin that created this menu.',
   `settings` longtext COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `menus`
 --
 
 INSERT INTO `menus` (`id`, `title`, `description`, `handler`, `settings`) VALUES
-(1, 'Management', 'The Management menu contains links for administrative tasks.', 'QuickAppsMenu', NULL),
-(2, 'Site Main Menu', 'The Site Main Menu is used on many sites to show the major sections of the site, often in a top navigation bar.', 'QuickAppsMenu', NULL);
+(1, 'Management', 'The Management menu contains links for administrative tasks.', 'System', NULL),
+(2, 'Site Main Menu', 'The Site Main Menu is used on many sites to show the major sections of the site, often in a top navigation bar.', 'System', NULL);
 
 -- --------------------------------------------------------
 
@@ -230,7 +236,7 @@ CREATE TABLE IF NOT EXISTS `menu_links` (
   `status` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `router_path` (`url`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=18 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=19 ;
 
 --
 -- Dumping data for table `menu_links`

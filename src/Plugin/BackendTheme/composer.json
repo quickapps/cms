@@ -25,8 +25,8 @@
         "admin": true,
         "regions": {
             "main-menu": "Main Menu",
-            "dashboard-left": "Dashboard Left",
-            "dashboard-right": "Dashboard Right"
+            "dashboard-main": "Dashboard Main",
+            "dashboard-sidebar": "Dashboard Sidebar"
         }
     }
 }

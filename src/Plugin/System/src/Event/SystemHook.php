@@ -32,7 +32,7 @@ class SystemHook implements EventListener {
  */
 	public function implementedEvents() {
 		return [
-			'Block.QuickAppsMenu.display' => 'displayBlock',
+			'Block.System.display' => 'displayBlock',
 		];
 	}
 

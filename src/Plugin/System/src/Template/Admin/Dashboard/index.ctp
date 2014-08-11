@@ -11,17 +11,17 @@
  */
 
 /**
- * Backend themes should always implement both "dashboard-left" and "dashboard-right"
- * in order to properly fill this page. 
+ * Backend themes should always implement both "dashboard-main" and
+ * "dashboard-sidebar" in order to properly fill this page. 
  */
 ?>
 
-<div class="row">
-	<div class="col-md-6">
-		<?php echo $this->Region->create('dashboard-left'); ?>
+<div class="row dashboard-container">
+	<div class="dashboard-main col-md-8">
+		<?php echo $this->Region->create('dashboard-main'); ?>
 	</div>
 
-	<div class="col-md-6">
-		<?php echo $this->Region->create('dashboard-right'); ?>
+	<div class="dashboard-sidebar col-md-4">
+		<?php echo $this->Region->create('dashboard-sidebar'); ?>
 	</div>
 </div>

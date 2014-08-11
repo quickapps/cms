@@ -52,7 +52,7 @@
 
 						<hr />
 
-						<em class="help-block">(<?php echo __d('block', 'Drag and drop blocks to reorder within a region. To move a block to a different region use block editing form by clicking in the "Edit" button.'); ?>)</em>
+						<em class="help-block">(<?php echo __d('block', 'Drag and drop blocks to reorder within a region. To move a block to a different region use block editing form by clicking in the <span class="btn btn-default btn-xs glyphicon glyphicon-pencil"></span> button.'); ?>)</em>
 						<?php echo $this->Form->submit(__d('block', 'Save Order')); ?>
 					<?php echo $this->Form->end(); ?>
 				</div>

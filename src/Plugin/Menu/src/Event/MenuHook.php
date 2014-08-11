@@ -41,6 +41,10 @@ class MenuHook implements EventListener {
 /**
  * Renders menu's associated block.
  *
+ * If menu's handler plugin has defined the `Menu.<handler>.display` listener,
+ * the rendering task will be passed to it. If not, this method will render the
+ * menu using a `specialized-render` view-element as described below.
+ *
  * You can define `specialized-renders` according to your needs as follow.
  * This method looks for specialized renders in the order described below, if one
  * is not found we look the next one, etc.
@@ -90,6 +94,22 @@ class MenuHook implements EventListener {
 	public function displayBlock(Event $event, $block, $options) {
 		$View = $event->subject;
 		$viewMode = $View->inUseViewMode();
+		$menu = TableRegistry::get('Menu.Menus')
+			->find()
+			->contain(['Blocks'])
+			->where(['Menus.id' => $block->delta])
+			->first();
+		$links = TableRegistry::get('Menu.MenuLinks')
+			->find('threaded')
+			->where(['menu_id' => $menu->id])
+			->order(['lft' => 'ASC']);
+		$menu->set('links', $links);
+
+		// plugin should take care of rendering
+		if (in_array("Menu.{$menu->handler}.display", listeners())) {
+			return $this->invoke("Menu.{$menu->handler}.display", $event->subject, $menu, $options);
+		}
+
 		// avoid scanning file system every time a block is being rendered
 		$cacheKey = "displayBlock_{$block->region->region}_{$viewMode}";
 		$cache = static::_cache($cacheKey);
@@ -109,17 +129,6 @@ class MenuHook implements EventListener {
 				}
 			}
 		}
-
-		$menu = TableRegistry::get('Menu.Menus')
-			->find()
-			->contain(['Blocks'])
-			->where(['Menus.id' => $block->delta])
-			->first();
-		$links = TableRegistry::get('Menu.MenuLinks')
-			->find('threaded')
-			->where(['menu_id' => $menu->id])
-			->order(['lft' => 'ASC']);
-		$menu->set('links', $links);
 
 		return $View->element($element, compact('menu', 'options'));
 	}

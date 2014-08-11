@@ -42,6 +42,7 @@ use User\Model\Entity\User;
  */
 function snapshot($mergeWith = []) {
 	$snapshot = [
+		'version' => null,
 		'node_types' => [],
 		'plugins' => [],
 		'options' => [],
@@ -144,6 +145,13 @@ function snapshot($mergeWith = []) {
 
 	if (!empty($mergeWith)) {
 		$snapshot = Hash::merge($snapshot, $mergeWith);
+	}
+
+	if (file_exists(ROOT . '/VERSION.txt')) {
+		$versionFile = file(ROOT . '/VERSION.txt');
+		$snapshot['version'] = trim(array_pop($versionFile));
+	} else {
+		die('Missing file: VERSION.txt');
 	}
 
 	Configure::write('QuickApps', $snapshot);

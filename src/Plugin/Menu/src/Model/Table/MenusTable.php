@@ -139,7 +139,7 @@ class MenusTable extends Table {
 				'title' => $menu->title . ' ' . __d('menu', '[menu:%d]', $menu->id),
 				'delta' => $menu->id,
 				'handler' => $menu->handler,
-				'description' => $menu->description,
+				'description' => (!empty($menu->description) ? $menu->description : __d('menu', 'Associated block for "%s" menu.', $menu->title)),
 				'visibility' => 'except',
 				'pages' => null,
 				'locale' => null,

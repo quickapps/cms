@@ -32,6 +32,7 @@ class NodeHook implements EventListener {
 		return [
 			'Render.Node\Model\Entity\Node' => 'renderNode',
 			'Dispatcher.beforeDispatch' => 'dispatcherBeforeDispatch',
+			'Block.Node.display' => 'renderBlock',
 		];
 	}
 
@@ -156,6 +157,10 @@ class NodeHook implements EventListener {
 		}
 
 		return $html;
+	}
+
+	public function renderBlock(Event $event, $block, $options = []) {
+		return $event->subject->element("Node.{$block->delta}", compact('block', 'options'));
 	}
 
 }
