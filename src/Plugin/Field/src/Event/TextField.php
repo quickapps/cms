@@ -60,7 +60,6 @@ class TextField extends FieldHandler {
  * @return boolean
  */
 	public function entityBeforeSave(Event $event, $entity, $field, $options) {
-		$field->set('value', $options['_post']);
 		return true;
 	}
 

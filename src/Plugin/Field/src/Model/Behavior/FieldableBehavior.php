@@ -556,6 +556,16 @@ class FieldableBehavior extends Behavior {
 			if ($entity->has(":{$instance->slug}")) {
 				$field = $this->_getMockField($entity, $instance);
 				$options['_post'] = $entity->get(":{$instance->slug}");
+
+				// auto-magic; automatically move to "extra" if array was sent, "value" will be imploded
+				if (is_array($options['_post'])) {
+					$field->set('value', implode(' ', $options['_post']));
+					$field->set('extra', $options['_post']);
+				} else {
+					$field->set('value', $options['_post']);
+					$field->set('extra', []);
+				}
+
 				$fieldEvent = $this->invoke("Field.{$instance->handler}.Entity.beforeSave", $event->subject, $entity, $field, $options);
 
 				if ($fieldEvent->result === false) {
