@@ -40,7 +40,7 @@ class PluginsTable extends Table {
  * @param array $options
  * @return void
  */
-	protected function afterSave(Event $event, Entity $entity, $options) {
+	public function afterSave(Event $event, Entity $entity, $options) {
 		snapshot();
 	}
 
