@@ -13,15 +13,11 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<?php echo $this->element('System.theme_header'); ?>
+		<?php echo $this->element('System.theme_head', ['bootstrap' => 'css,js']); ?>
+		<?php echo $this->Html->css('BackendTheme.back-bootstrap.css'); ?>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<?php echo $this->Html->css(['System.bootstrap.css', 'System.bootstrap-theme.css']); ?>
-		<?php echo $this->Html->script('System.bootstrap.js'); ?>
-		<style>
-			body { padding-top: 100px; }
-			.message article.comment { margin-left: 35px; }
-		</style>
 	</head>
+
 	<body>
 		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 			<div class="container">
@@ -32,7 +28,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="#">QuickApps CMS</a>
+					<?php echo $this->Html->link('QuickApps CMS', '/', ['class' => 'navbar-brand']); ?>
 				</div>
 				<div class="collapse navbar-collapse">
 					<?php echo $this->Region->create('main-menu')->render(); ?>

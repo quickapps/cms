@@ -12,6 +12,7 @@
 namespace Field\Model\Entity;
 
 use Cake\ORM\Entity;
+use QuickApps\View\ViewModeTrait;
 
 /**
  * Mock Field.
@@ -32,6 +33,22 @@ use Cake\ORM\Entity;
  *   - handler: Name of the `Listener Class` a.k.a. `Field Handler`. ex: `Field\Text`
  */
 class Field extends Entity {
+
+	use ViewModeTrait;
+
+/**
+ * Gets field's View Mode's settings for the in-use View Mode.
+ *
+ * @return array
+ */
+	public function _getViewModeSettings() {
+		$viewMode = $this->inUseViewMode();
+		$settings = [];
+		if (!empty($this->metadata->view_modes[$viewMode])) {
+			$settings = $this->metadata->view_modes[$viewMode];
+		}
+		return $settings;
+	}
 
 /**
  * String representation of this field.

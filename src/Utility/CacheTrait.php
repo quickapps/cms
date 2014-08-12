@@ -39,6 +39,37 @@ trait CacheTrait {
  * - Set key to null and value to anything to find the first key holding the given value. 
  *   e.g.: `$key = static::_cache(null, 'search key for this value')`, if no key for the given
  *   value is found NULL will be returned.
+ *
+ * ## Examples:
+ *
+ * Writing cache:
+ *
+ *     static::_cache('user_name', 'John'); 
+ *     // returns 'John'
+ *     
+ *     static::_cache('user_last', 'Locke');
+ *     // returns 'Locke'
+ *
+ * Reading cache:
+ *
+ *     static::_cache('user_name');
+ *     // returns: John
+ *     
+ *     static::_cache('unexisting_key');
+ *     // returns: null
+ *     
+ * Reading the entire cache:
+ *
+ *     static::_cache();
+ *     // returns: ['user_name' => 'John', 'user_last' => 'Locke']
+ *     
+ * Searching keys:
+ *
+ *     static::_cache(null, 'Locke');
+ *     // returns: user_last 
+ *     
+ *     static::_cache(null, 'Unexisting');
+ *     // returns: null
  * 
  * @param null|string $key Cache key to read or write, set both $key and $value to get the whole cache information
  * @param mixed $value Values to write into the given $key, or null indicates reading from cache
@@ -72,12 +103,28 @@ trait CacheTrait {
 	}
 
 /**
- * Clears the entire cache.
+ * Clears the entire cache or a specific key.
  *
+ * ## Usage:
+ *
+ *     static::_clearCache('user_cache');
+ *     // removes "user_cache" only
+ *
+ *     static::_clearCache();
+ *     // removes every key
+ *
+ * @param string|null $key Cache key to clear, if NULL the entire cache will be
+ * erased.
  * @return void
  */
-	protected static function _clearCache() {
-		static::$_cache = [];
+	protected static function _clearCache($key = null) {
+		if ($key !== null) {
+			if (isset(static::$_cache[$key])) {
+				unset(static::$_cache);
+			}
+		} else {
+			static::$_cache = [];
+		}
 	}
 
 }

@@ -97,6 +97,8 @@ use QuickApps\Utility\HookTrait;
  *     - `description`: Something about this field: e.g.: `Please enter your last name`.
  *     - `required`: 0|1.
  *     - `settings`: Any extra information array handled by this particular field.
+ *     - `view_modes`: Information about how this field should be rendered on each
+ *        View Mode. Information is stored as `view-mode-name` => `rendering-information`.
  *     - `handler`: class name of the Field Handler under `Field` namespace.
  *        e.g.: `TextField` (namespaced name: `Field\TextField`)
  *
@@ -172,11 +174,10 @@ use QuickApps\Utility\HookTrait;
  * **Important:**
  *
  * - FieldableBehavior automatically serializes & unserializes the `extra`
- *   property for you, so you should always treat `extra` as an instance
- *   of **\Cake\ORM\Entity**.
+ *   property for you, so you should always treat `extra` as an array.
  * - `Search over fields` feature described above uses the `value` property
  *    when looking for matches. So in this way your entities can be found when
- *    using Field's machine-name in WHERE clause.
+ *    using Field's machine-name in WHERE clauses.
  * - Using `extra` is not mandatory, for instance your Field Handler could use
  *   an additional table schema to store entities information and leave `extra`
  *   as NULL. In that case, your Field Handler must take care of joining entities

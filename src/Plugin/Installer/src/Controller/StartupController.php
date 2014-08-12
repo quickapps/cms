@@ -158,6 +158,10 @@ class StartupController extends AppController {
 				'test' => extension_loaded('intl'),
 				'message' => __d('installer', 'Missing extension: %s', 'intl')
 			),
+			'pdo' => array(
+				'test' => (extension_loaded('pdo') && defined('PDO::ATTR_DEFAULT_FETCH_MODE')),
+				'message' => __d('installer', 'Missing extension: %s', 'PDO')
+			),
 			'no_safe_mode' => array(
 				'test' => (ini_get('safe_mode') == false || ini_get('safe_mode') == '' || strtolower(ini_get('safe_mode')) == 'off'),
 				'message' => __d('installer', 'Your server has SafeMode on, please turn it off before continuing.')
@@ -234,8 +238,9 @@ class StartupController extends AppController {
 				'login' => $data['username'],
 				'password' => $data['password'],
 				'host' => $data['host'],
+				'prefix' => $data['prefix'],
 				'encoding' => 'utf8',
-				'timezone' => 'UTC'
+				'timezone' => 'UTC',
 			];
 			$dumpComplete = false;
 
@@ -246,7 +251,6 @@ class StartupController extends AppController {
 				$db->connect();
 				$schemaCollection = $db->schemaCollection();
 				$tables = $schemaCollection->listTables();
-				debug($tables);
 				$dumpComplete = true;
 				die;
 			} catch (\Exception $e) {

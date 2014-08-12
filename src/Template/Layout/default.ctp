@@ -20,14 +20,9 @@
  */
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 	<head>
-		<?php echo $this->Html->charset(); ?>
-		<title><?php echo $this->fetch('title'); ?></title>
-		<?php echo $this->Html->meta('icon'); ?>
-		<?php echo $this->fetch('meta'); ?>
-		<?php echo $this->fetch('css'); ?>
-		<?php echo $this->fetch('script'); ?>
+		<?php echo $this->element('System.theme_head'); ?>
 	</head>
 	<body>
 		<div class="container">

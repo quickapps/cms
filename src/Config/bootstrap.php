@@ -212,10 +212,10 @@ foreach (App::objects('Plugin') as $plugin) {
 }
 
 /**
- * Load site's bootstrap.php
+ * Load site's "bootstrap.php".
  */
-if (file_exists(SITE_ROOT . DS . 'Config' . DS .  ' bootstrap.php')) {
-	include_once SITE_ROOT . DS . 'Config' . DS .  ' bootstrap.php';
+if (file_exists(SITE_ROOT . '/Config/bootstrap.php')) {
+	include_once SITE_ROOT . '/Config/bootstrap.php';
 }
 
 /**

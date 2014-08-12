@@ -20,7 +20,11 @@ This is an unstable repository and should be treated as an alpha.
 * mcrypt extension installed
 * intl extension installed
 * PHP safe mode disabled
-* MySQL 4.1 or higher
+* Supported database storage engines:
+   * MySQL (5.1.10 or greater)
+   * PostgreSQL
+   * Microsoft SQL Server (2008 or higher)
+   * SQLite 3
 * Write permission in your server
 
 ## Installing QuickApps CMS

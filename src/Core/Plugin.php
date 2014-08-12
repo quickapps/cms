@@ -220,7 +220,7 @@ class Plugin extends CakePlugin {
  *
  * - must be a valid JSON file.
  * - key `version` must be present.
- * - key `type` must be present and be "quickapps-plugin".
+ * - key `type` must be present and be "quickapps-plugin" (even if it's a theme).
  * - key `name` must be present.
  * - key `description` must be present.
  * - key `extra.regions` must be present if it's a theme (its name ends with `-theme`, e.g. `quickapps/blue-sky-theme`)

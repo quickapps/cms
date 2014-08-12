@@ -13,26 +13,29 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<?php echo $this->element('System.theme_header'); ?>
-		<?php echo $this->Html->css(['System.bootstrap.css', 'System.bootstrap-theme.css', 'backbootstrap.css']); ?>
+		<?php echo $this->element('System.theme_head', ['bootstrap' => 'css']); ?>
+		<?php echo $this->Html->css(['front-bootstrap.css']); ?>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
+
 	<body>
 		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="sr-only"><?php echo __d('back_bootstrap', 'Toggle navigation'); ?></span>
+						<span class="sr-only"><?php echo __d('frontend_theme', 'Toggle navigation'); ?></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="#">QuickApps CMS</a>
+					<?php echo $this->Html->link('QuickApps CMS', '/', ['class' => 'navbar-brand']); ?>
 				</div>
 				<div class="collapse navbar-collapse">
 					<?php echo $this->Region->create('main-menu')->render(); ?>
 				</div>
 			</div>
 		</nav>
+
 		<div class="container">
 			<?php echo $this->Html->alerts(); ?>
 			<?php echo $this->fetch('content'); ?>
