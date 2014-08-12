@@ -12,6 +12,7 @@
 namespace Menu\View\Helper;
 
 use Cake\Core\Configure;
+use Cake\Error\FatalErrorException;
 use Cake\ORM\Entity;
 use Cake\Routing\Router;
 use Cake\Utility\Hash;
@@ -110,6 +111,15 @@ class MenuHelper extends Helper {
 	];
 
 /**
+ * Flags that indicates this helper is already rendering a menu.
+ *
+ * Used to detect loops when using callable formatters.
+ *
+ * @var boolean
+ */
+	protected $_rendering = false;
+
+/**
  * Constructor.
  *
  * @param View $View The View this helper is being attached to
@@ -157,8 +167,15 @@ class MenuHelper extends Helper {
  * as a query result set or as an array list
  * @param array $options An array of HTML attributes and options
  * @return string HTML
+ * @throws \Cake\Error\FatalErrorException When loop invocation is detected, that is,
+ * when "render()" method is invoked within a callable method when rendering menus.
  */
 	public function render($items, $options = []) {
+		if ($this->_rendering) {
+			throw new FatalErrorException(__d('menu', 'Loop detected, MenuHelper already rendering.'));
+		}
+
+		$this->_rendering = true;
 		$this->alter('MenuHelper.render', $items, $options);
 
 		if (!empty($options['templates']) && is_array($options['templates'])) {
@@ -600,6 +617,16 @@ class MenuHelper extends Helper {
 		}
 	}
 
+/**
+ * Returns a regular expression that is used to verify if an URL starts
+ * or not with a language prefix.
+ *
+ * ## Example:
+ *
+ *     (en\-us|fr|es|it)
+ *
+ * @return string
+ */
 	protected function _localesPattern() {
 		$cacheKey = '_localesPattern';
 		$cache = static::_cache($cacheKey);
@@ -626,6 +653,7 @@ class MenuHelper extends Helper {
 	protected function _clear() {
 		$this->_index = 0;
 		$this->_count = 0;
+		$this->_rendering = false;
 		$this->config($this->_defaultConfig);
 		$this->resetTemplates();
 	}

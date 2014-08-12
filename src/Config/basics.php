@@ -184,7 +184,7 @@ function snapshot($mergeWith = []) {
 				'id' => null,
 				'name' => __d('user', 'Anonymous'),
 				'username' => __d('user', 'anonymous'),
-				'email' => null,
+				'email' => __d('user', '(no email)'),
 				'locale' => null,
 				'roles' => [ROLE_ID_ANONYMOUS],
 			];

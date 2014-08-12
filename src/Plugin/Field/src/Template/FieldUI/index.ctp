@@ -17,8 +17,8 @@
 	<thead>
 		<tr>
 			<th><?php echo __d('field', 'Field label'); ?></th>
-			<th><?php echo __d('field', 'Machine name'); ?></th>
-			<th><?php echo __d('field', 'Handler'); ?></th>
+			<th class="hidden-xs"><?php echo __d('field', 'Machine name'); ?></th>
+			<th class="hidden-xs"><?php echo __d('field', 'Handler'); ?></th>
 			<th><?php echo __d('field', 'Actions'); ?></th>
 		</tr>
 	</thead>
@@ -34,8 +34,8 @@
 				<?php endif; ?>
 				<?php echo $instance->label; ?>
 			</td>
-			<td><?php echo $instance->slug; ?></td>
-			<td><?php echo $instance->handlerName; ?></td>
+			<td class="hidden-xs"><?php echo $instance->slug; ?></td>
+			<td class="hidden-xs"><?php echo $instance->handlerName; ?></td>
 			<td>
 				<div class="btn-group">
 					<?php if ($k > 0): ?>

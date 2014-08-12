@@ -18,9 +18,9 @@
 		<tr>
 			<th><?php echo __d('node', 'Title'); ?></th>
 			<th><?php echo __d('node', 'Type'); ?></th>
-			<th><?php echo __d('node', 'Author'); ?></th>
-			<th><?php echo __d('node', 'Language'); ?></th>
-			<th><?php echo __d('node', 'Created on'); ?></th>
+			<th class="hidden-xs"><?php echo __d('node', 'Author'); ?></th>
+			<th class="hidden-xs hidden-sm"><?php echo __d('node', 'Language'); ?></th>
+			<th class="hidden-xs"><?php echo __d('node', 'Created on'); ?></th>
 			<th><?php echo __d('node', 'Actions'); ?></th>
 		</tr>
 	</thead>
@@ -43,9 +43,9 @@
 					<?php endif; ?>
 				</td>
 				<td><?php echo $node->type; ?></td>
-				<td><?php echo $node->author->name; ?></td>
-				<td><?php echo $node->language ? $node->language : __d('node', '---'); ?></td>
-				<td><?php echo $node->created->format(__d('node', 'Y-m-d H:i:s')); ?></td>
+				<td class="hidden-xs"><?php echo $node->author->name; ?></td>
+				<td class="hidden-xs hidden-sm"><?php echo $node->language ? $node->language : __d('node', '---'); ?></td>
+				<td class="hidden-xs"><?php echo $node->created->format(__d('node', 'Y-m-d H:i:s')); ?></td>
 				<td>
 					<div class="btn-group">
 						<?php
@@ -56,7 +56,7 @@
 								$node->id,
 							], [
 								'title' => __d('node', 'Edit'),
-								'class' => 'btn btn-default glyphicon glyphicon-pencil',
+								'class' => 'btn btn-default btn-sm glyphicon glyphicon-pencil',
 							]);
 						?>
 						<?php
@@ -67,7 +67,7 @@
 								$node->id
 							], [
 								'title' => __d('node', 'Translate'),
-								'class' => 'btn btn-default glyphicon glyphicon-globe',
+								'class' => 'btn btn-default btn-sm glyphicon glyphicon-globe',
 							]);
 						?>
 						<?php
@@ -78,7 +78,7 @@
 								$node->id,
 							], [
 								'title' => __d('node', 'Delete'),
-								'class' => 'btn btn-default glyphicon glyphicon-trash',
+								'class' => 'btn btn-default btn-sm glyphicon glyphicon-trash',
 								'confirm' => __d('node', 'You are about to delete: "%s". Are you sure ?', $node->title),
 							]);
 						?>

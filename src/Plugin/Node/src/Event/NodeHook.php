@@ -159,6 +159,18 @@ class NodeHook implements EventListener {
 		return $html;
 	}
 
+/**
+ * Renders all blocks registered by Node plugin.
+ *
+ * Node plugin has two built-in blocks that comes with every QuickApps CMS
+ * installation: "Recent Content" and "Search", both aimed to be placed on
+ * backend's dashboard regions.
+ *
+ * @param \Cake\Event\Event $event The event that was fired
+ * @param \Block\Model\Entity\Block $block The block being rendered
+ * @param array $options
+ * @return string
+ */
 	public function renderBlock(Event $event, $block, $options = []) {
 		return $event->subject->element("Node.{$block->delta}", compact('block', 'options'));
 	}

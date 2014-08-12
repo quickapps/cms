@@ -62,7 +62,6 @@ class Comment extends Entity {
 			}
 		}
 		$author['name'] = empty($author['name']) ? __d('comment', 'Anonymous') : $author['name'];
-
 		return new User($author);
 	}
 
