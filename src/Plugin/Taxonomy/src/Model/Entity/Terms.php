@@ -19,4 +19,15 @@ use Cake\ORM\Entity;
  */
 class Term extends Entity {
 
+/**
+ * Removes any invalid characters from term's name.
+ * 
+ * @param string $value
+ */
+	public function _setName($value) {
+		$value = strip_tags($value);
+		$value = str_replace(["\n", "\r"], '', $value);
+		return trim($value);
+	}
+
 }

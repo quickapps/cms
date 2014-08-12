@@ -10,10 +10,12 @@
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
 
+use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
 ?>
 
 <?php
+	$count = intval(Configure::read('_taggerWidgetInstancesCount'));
 	$tokenLimit = '';
 	$prePopulate = [];
 	$terms = TableRegistry::get('Taxonomy.Terms')
@@ -30,12 +32,16 @@ use Cake\ORM\TableRegistry;
 		$tokenLimit = "tokenLimit: {$field->metadata->settings['max_values']},";
 	}
 ?>
-<?php echo $this->Html->css('Taxonomy.token-input.css'); ?>
-<?php echo $this->Html->css('Taxonomy.token-input-facebook.css'); ?>
-<?php echo $this->Html->script('Taxonomy.jquery.tokeninput.js'); ?>
+
+<?php if (!$count): ?>
+	<?php echo $this->Html->css('Taxonomy.token-input.css'); ?>
+	<?php echo $this->Html->css('Taxonomy.token-input-facebook.css'); ?>
+	<?php echo $this->Html->script('Taxonomy.jquery.tokeninput.js'); ?>
+<?php endif; ?>
+
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('#<?php echo $fieldId; ?>').tokenInput('', {
+		$('#<?php echo $fieldId; ?>').tokenInput('<?php echo $this->Html->url(['plugin' => 'Taxonomy', 'controller' => 'tagger', 'action' => 'search', $field->metadata->settings['vocabulary']], true); ?>', {
 			allowNewItems: true,
 			hintText: '<?php echo __d('taxonomy', 'Type in a search term'); ?>',
 			noResultsText: '<?php echo __d('taxonomy', 'No results'); ?>',
@@ -48,3 +54,4 @@ use Cake\ORM\TableRegistry;
 		});
 	});
 </script>
+<?php Configure::write('_taggerWidgetInstancesCount', $count); ?>

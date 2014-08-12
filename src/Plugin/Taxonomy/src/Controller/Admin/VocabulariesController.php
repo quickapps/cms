@@ -73,6 +73,7 @@ class VocabulariesController extends AppController {
 /**
  * Edits the given vocabulary by ID.
  *
+ * @param integer $id
  * @return void
  */
 	public function edit($id) {
@@ -105,6 +106,7 @@ class VocabulariesController extends AppController {
 /**
  * Removes the given vocabulary by ID.
  *
+ * @param integer $id
  * @return void Redirects to previous page
  */
 	public function delete($id) {

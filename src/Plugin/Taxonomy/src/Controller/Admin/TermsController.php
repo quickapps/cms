@@ -14,7 +14,7 @@ namespace Taxonomy\Controller\Admin;
 use Taxonomy\Controller\AppController;
 
 /**
- * Taxonomy manager controller.
+ * Taxonomy terms controller.
  *
  * Allow CRUD for vocabulary's terms.
  */
@@ -23,6 +23,7 @@ class TermsController extends AppController {
 /**
  * Shows a tree list of all terms within a vocabulary.
  *
+ * @param integer $id
  * @return void
  */
 	public function vocabulary($id) {
@@ -86,6 +87,7 @@ class TermsController extends AppController {
 /**
  * Adds a new terms within the given vocabulary.
  *
+ * @param integer $id
  * @return void
  */
 	public function add($vocabulary_id) {
@@ -133,8 +135,9 @@ class TermsController extends AppController {
 	}
 
 /**
- * Edits the given vocabulary term by ID.
+ * Edits the given vocabulary's term by ID.
  *
+ * @param integer $id
  * @return void
  */
 	public function edit($id) {
@@ -165,6 +168,7 @@ class TermsController extends AppController {
 /**
  * Deletes the given term.
  *
+ * @param integer $id
  * @return void
  */
 	public function delete($id) {
