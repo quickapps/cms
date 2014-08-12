@@ -322,7 +322,7 @@ class TaxonomyField extends FieldHandler {
 					'hooktags' => false,
 					'hidden' => false,
 					'formatter' => 'plain',
-					'url_prefix' => '',
+					'link_template' => '<a href="{{url}}"{{attrs}}>{{content}}</a>',
 				];
 		}
 	}
