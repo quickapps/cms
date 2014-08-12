@@ -9,12 +9,15 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
+
+use Field\Utility\TextToolbox
 ?>
 
-<?php use Field\Utility\TextToolBox; ?>
 <?php if ($field->view_mode_settings['label_visibility'] == 'above'): ?>
-	<h2 class="field-label"><?php echo $field->label; ?></h2>
-	<p><?php echo TextToolBox::formatter($field); ?></p>
+	<h3 class="field-label"><?php echo $field->label; ?></h3>
+	<p><?php echo TextToolbox::formatter($field); ?></p>
 <?php elseif ($field->view_mode_settings['label_visibility'] == 'inline'): ?>
-	<p><strong class="field-label"><?php echo $field->label; ?>:</strong> <?php echo TextToolBox::formatter($field); ?></p>
+	<p><strong class="field-label"><?php echo $field->label; ?>:</strong> <?php echo TextToolbox::formatter($field); ?></p>
+<?php else: ?>
+	<p><?php echo TextToolbox::formatter($field); ?></p>
 <?php endif; ?>
