@@ -27,7 +27,15 @@ class TermsTable extends Table {
  * @return void
  */
 	public function initialize(array $config) {
-		$this->belongsTo('Vocabularies', ['className' => 'Taxonomy.Vocabularies', 'propertyName' => 'vocabulary']);
+		$this->belongsTo('Vocabularies', [
+			'className' => 'Taxonomy.Vocabularies',
+			'propertyName' => 'vocabulary'
+		]);
+		$this->hasMany('EntitiesTerms', [
+			'className' => 'Taxonomy.EntitiesTerms',
+			'propertyName' => 'entities_cache',
+			'dependent' => true,
+		]);
 		$this->addBehavior('Timestamp');
 		$this->addBehavior('System.Sluggable', ['label' => 'name', 'on' => 'both']);
 	}

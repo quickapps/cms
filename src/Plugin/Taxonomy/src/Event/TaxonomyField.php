@@ -153,7 +153,8 @@ class TaxonomyField extends FieldHandler {
 			$extra = !is_array($field->extra) ? [$field->extra] : $field->extra;
 			$TermsCache->deleteAll([
 				'entity_id' => $entity->get($pk),
-				'table_alias' => $table_alias
+				'table_alias' => $table_alias,
+				'field_instance_id' => $field->metadata->field_instance_id,
 			]);
 
 			foreach ($extra as $term_id) {
@@ -161,6 +162,7 @@ class TaxonomyField extends FieldHandler {
 					'entity_id' => $entity->get($pk),
 					'term_id' => $term_id,
 					'table_alias' => $table_alias,
+					'field_instance_id' => $field->metadata->field_instance_id,
 				]);
 				$TermsCache->save($cacheEntity);
 			}
@@ -399,6 +401,7 @@ class TaxonomyField extends FieldHandler {
 				->all()
 				->extract('id')
 				->toArray();
+			$termsIds = empty($termsIds) ? [0] : $termsIds;
 			$subQuery = TableRegistry::get('Taxonomy.EntitiesTerms')
 					->find()
 					->select(['entity_id'])
