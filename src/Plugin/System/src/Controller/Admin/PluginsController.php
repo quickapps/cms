@@ -28,10 +28,12 @@ class PluginsController extends AppController {
  * @return void
  */
 	public function index() {
-		$plugins = Plugin::collection(true)
-			->match(['isTheme' => false])
-			->toArray();
-		$this->set('plugins', $plugins);
+		$collection = Plugin::collection(true)->match(['isTheme' => false]);
+		$plugins = $collection->match(['status' => true])->toArray();
+		$enabled = count($collection->match(['status' => true])->toArray());
+		$disabled = count($collection->match(['status' => false])->toArray());
+
+		$this->set(compact('plugins', 'all', 'enabled', 'disabled'));
 		$this->Breadcrumb->push('/admin/system/plugins');
 	}
 

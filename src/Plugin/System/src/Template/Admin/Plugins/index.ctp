@@ -11,26 +11,33 @@
  */
 ?>
 
-<?php foreach ($plugins as $plugin => $info): ?>
-	<?php echo $this->element('System.plugin_item', ['plugin' => $plugin, 'info' => $info]); ?>
-<?php endforeach; ?>
+<p>
+	<div class="btn-group filters">
+		<?php
+			echo $this->Html->link(__d('system', 'All') . ' <span class="badge"></span>', '#show-all', [
+				'class' => 'btn btn-info btn-sm active',
+				'escape' => false,
+			]);
+		?>
+		<?php
+			echo $this->Html->link(__d('system', 'Enabled') . ' <span class="badge">' . $enabled . '</span>', '#show-enabled', [
+				'class' => 'btn btn-success btn-sm',
+				'escape' => false,
+			]);
+		?>
+		<?php
+			echo $this->Html->link(__d('system', 'Disabled') . ' <span class="badge">' . $disabled . '</span>', '#show-disabled', [
+				'class' => 'btn btn-warning btn-sm',
+				'escape' => false,
+			]);
+		?>
+	</div>
+</p>
 
-<script>
-	$(document).ready(function () {
+<div class="plugins-list">
+	<?php foreach ($plugins as $plugin => $info): ?>
+		<?php echo $this->element('System.plugin_item', ['plugin' => $plugin, 'info' => $info]); ?>
+	<?php endforeach; ?>
+</div>
 
-		$('a.toggler').click(function () {
-			$a = $(this);
-			$a.closest('div').find('.extended-info').toggle();
-
-			if ($a.hasClass('glyphicon-arrow-up')) {
-				$a.removeClass('glyphicon-arrow-up');
-				$a.addClass('glyphicon-arrow-down');
-			} else {
-				$a.removeClass('glyphicon-arrow-down');
-				$a.addClass('glyphicon-arrow-up');
-			}
-
-			return false;
-		});
-	});
-</script>
+<?php echo $this->Html->script('System.plugins.management.js'); ?>
