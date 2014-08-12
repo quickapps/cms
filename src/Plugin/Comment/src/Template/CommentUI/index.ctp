@@ -13,12 +13,16 @@
 
 <?php echo $this->element('Comment.CommentUI/index_submenu'); ?>
 
-<p>
-<?php echo $this->Form->create(null, ['type' => 'get', 'class' => 'form-inline pull-right']); ?>
-	<?php echo $this->Form->input('search', ['type' => 'text', 'label' => false, 'value' => $search]); ?>
-	<?php echo $this->Form->submit(__d('comment', 'Search Comments')); ?>
-<?php echo $this->Form->end(); ?>
-</p>
+<div class="clearfix">
+	<?php echo $this->Form->create(null, ['type' => 'get', 'class' => 'form-inline pull-right']); ?>
+		<div class="input-group">
+			<?php echo $this->Form->input('search', ['type' => 'text', 'label' => false, 'value' => $search]); ?>
+			<span class="input-group-btn">
+				<?php echo $this->Form->submit(__d('comment', 'Search Comments')); ?>
+			</span>
+		</div>
+	<?php echo $this->Form->end(); ?>
+</div>
 
 <table class="table table-hover">
 	<thead>
@@ -82,6 +86,10 @@
 		<?php endif; ?>
 	</tbody>
 </table>
+
+<?php if ($filterBy === 'trash'): ?>
+	<p><?php echo $this->Html->link(__d('comment', 'Empty Trash'), ['plugin' => $this->request->plugin, 'controller' => $this->request->controller, 'action' => 'empty_trash'], ['class' => 'btn btn-default btn-sm', 'confirm' => __d('comment', 'Delete all comments in the trash? This operation can not be undone.')]); ?></p>
+<?php endif; ?>
 
 <ul class="pagination">
 	<?php echo $this->Paginator->prev(); ?>

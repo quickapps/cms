@@ -40,14 +40,14 @@ use QuickApps\Core\Plugin;
  *
  *     uses Comment\Utility\CommentUIControllerTrait;
  *
- *     class MyCleanController extends <Plugin>AppController {
+ *     class MyCleanController extends AppController {
  *         use CommentUIControllerTrait;
  *         // underscored table alias. e.g.: "user_photos"
  *         protected $_manageTable = 'nodes';
  *     }
  *
  * In order to avoid trait collision you should always `extend` Comment UI using
- * this trait over a `clean` controller. This is, a empty controller class with
+ * this trait over a `clean` controller. This is, an empty controller class with
  * no methods defined. For instance, create a new controller class
  * `MyPlugin\Controller\MyTableCommentManagerController` and use this trait to
  * handle comments for "MyTable" database table.
@@ -55,8 +55,8 @@ use QuickApps\Core\Plugin;
  * ## _inResponseTo() method
  *
  * Also, your controller must implement the `_inResponseTo()` method. This method
- * must return a string value describing the entity that the comment is attached to.
- * For example:
+ * must return a string value describing the entity that the given comment is
+ * attached to. For example:
  *
  *     protected function _inResponseTo(\Comment\Model\Entity\Comment $comment) {
  *         $this->loadModel('MyPlugin.Persons');
@@ -260,7 +260,7 @@ trait CommentUIControllerTrait {
 			$this->loadModel('Comment.Comments');
 			if ($comment = $this->Comments->get($id)) {
 				$comment->set('status', $status);
-				$this->Comments->save($comment);
+				$this->Comments->save($comment, ['validate' => false]);
 			}
 		}
 
@@ -277,11 +277,31 @@ trait CommentUIControllerTrait {
 		$this->loadModel('Comment.Comments');
 		$comment = $this->Comments
 			->find()
-			->where(['Comments.id' => $id, 'Comments.table_alias' => $this->_manageTable]);
+			->where(['Comments.id' => $id, 'Comments.table_alias' => $this->_manageTable])
+			->first();
+
 		if ($comment) {
-			$this->Comments->delete($comment);
+			if ($this->Comments->delete($comment)) {
+				$this->alert(__d('comment', 'Comment was successfully deleted!'), 'success');
+			} else {
+				$this->alert(__d('comment', 'Comment could not be deleted, please try again.'), 'danger');
+			}
+		} else {
+			$this->alert(__d('comment', 'Invalid comment, comment was not found.'), 'danger');
 		}
 
+		$this->redirect($this->referer());
+	}
+
+/**
+ * Permanently deletes all comments marked as "trash".
+ *
+ * @return void Redirects to previous page
+ */
+	public function empty_trash() {
+		$this->loadModel('Comment.Comments');
+		$this->Comments->deleteAll(['Comments.status' => 'trash', 'Comments.table_alias' => $this->_manageTable]);
+		$this->alert(__d('comment', 'All comments in trash were successfully removed!'), 'success');
 		$this->redirect($this->referer());
 	}
 

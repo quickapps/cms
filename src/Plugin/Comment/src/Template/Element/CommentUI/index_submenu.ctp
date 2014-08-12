@@ -34,5 +34,6 @@
 			'url' => ['plugin' => $this->request->plugin, 'controller' => $this->request->controller, 'action' => $this->request->action, 'trash'],
 		],
 	];
+?>
 
-	echo $this->Menu->render($menuItems, ['class' => 'nav nav-pills']);
+<p><?php echo $this->Menu->render($menuItems, ['class' => 'nav nav-pills']); ?></p>
