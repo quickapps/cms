@@ -108,6 +108,20 @@ INSERT INTO `comments` (`id`, `entity_id`, `user_id`, `table_alias`, `subject`, 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `entities_terms`
+--
+
+CREATE TABLE IF NOT EXISTS `entities_terms` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `entity_id` int(20) NOT NULL,
+  `term_id` int(20) NOT NULL,
+  `table_alias` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `field_instances`
 --
 

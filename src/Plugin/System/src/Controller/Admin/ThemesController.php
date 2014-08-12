@@ -20,7 +20,7 @@ use QuickApps\Core\Plugin;
  *
  * Here is where can install new plugin or remove existing ones.
  */
-class PluginsController extends AppController {
+class ThemesController extends AppController {
 
 /**
  * Main action.
@@ -28,41 +28,41 @@ class PluginsController extends AppController {
  * @return void
  */
 	public function index() {
-		$plugins = Plugin::collection(true)
-			->match(['isTheme' => false])
+		$themes = Plugin::collection(true)
+			->match(['isTheme' => true])
 			->toArray();
-		$this->set('plugins', $plugins);
-		$this->Breadcrumb->push('/admin/system/plugins');
+		$this->set('themes', $themes);
+		$this->Breadcrumb->push('/admin/system/themes');
 	}
 
 /**
- * Handles plugin's specifics settings.
+ * Handles theme's specifics settings.
  *
  * @return void
  */
-	public function settings($pluginName) {
-		$plugin = Plugin::info($pluginName, true);
+	public function settings($themeName) {
+		$theme = Plugin::info($themeName, true);
 		$arrayContext = [
 			'schema' => [],
 			'defaults' => [],
 			'errors' => [],
 		];
 
-		if (!$plugin['hasSettings'] || $plugin['isTheme']) {
+		if (!$theme['hasSettings'] || !$theme['isTheme']) {
 			throw new NotFoundException(__d('system', 'The requested page was not found.'));
 		}
 
 		if (!empty($this->request->data)) {
 			$this->loadModel('System.Plugins');
-			$pluginEntity = $this->Plugins->get($pluginName);
-			$pluginEntity->set('settings', $this->request->data);
+			$themeEntity = $this->Plugins->get($themeName);
+			$themeEntity->set('settings', $this->request->data);
 
-			if ($this->Plugins->save($pluginEntity)) {
+			if ($this->Plugins->save($themeEntity)) {
 				$this->alert(__d('system', 'Plugin settings saved!'), 'success');
 				$this->redirect($this->referer());
 			} else {
 				$this->alert(__d('system', 'Plugin settings could not be saved'), 'danger');
-				$errors = $pluginEntity->errors();
+				$errors = $themeEntity->errors();
 
 				if (!empty($errors)) {
 					foreach ($errors as $field => $message) {
@@ -71,13 +71,13 @@ class PluginsController extends AppController {
 				}
 			}
 		} else {
-			$this->request->data = $plugin['settings'];
+			$this->request->data = $theme['settings'];
 		}
 
 		$this->set('arrayContext', $arrayContext);
-		$this->set('plugin', $plugin);
-		$this->Breadcrumb->push('/admin/system/plugins');
-		$this->Breadcrumb->push(__d('system', 'Settings for %s plugin', $plugin['name']), '#');
+		$this->set('theme', $theme);
+		$this->Breadcrumb->push('/admin/system/themes');
+		$this->Breadcrumb->push(__d('system', 'Settings for %s theme', $theme['name']), '#');
 	}
 
 }

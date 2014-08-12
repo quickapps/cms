@@ -34,6 +34,7 @@
 			]);
 		?>
 		<?php echo $this->Form->submit(__d('menu', 'Save Order')); ?>
+		<em class="help-block"><?php echo __d('menu', 'Drag and drop to reorder the links tree, then click on "Save Order".'); ?></em>
 	<?php else: ?>
 		<div class="alert alert-warning">
 			<?php echo __d('menu', 'There are not links yet, use the "add link" button to start adding new links to this menu.'); ?>

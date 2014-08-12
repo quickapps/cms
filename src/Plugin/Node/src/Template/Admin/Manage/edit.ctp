@@ -50,6 +50,9 @@
 	</fieldset>
 
 	<?php if ($node->has('node_revisions') && count($node->node_revisions)): ?>
+
+	<hr />
+
 	<fieldset>
 		<legend><?php echo __d('node', 'Revisions'); ?></legend>
 		
@@ -71,8 +74,32 @@
 					<td><?php echo $revision->data->language ? $revision->data->language : __d('node', '--any--'); ?></td>
 					<td><?php echo $revision->created->format(__d('node', 'Y-m-d H:i:s')); ?></td>
 					<td>
-						<?php echo $this->Html->link('', ['plugin' => 'Node', 'controller' => 'manage', 'action' => 'edit', $node->id, $revision->id], ['class' => 'btn btn-default glyphicon glyphicon-edit', 'title' => __d('node', 'Load revision')]); ?>
-						<?php echo $this->Html->link('', ['plugin' => 'Node', 'controller' => 'manage', 'action' => 'delete_revision', $node->id, $revision->id], ['class' => 'btn btn-default glyphicon glyphicon-trash', 'title' => __d('node', 'Delete revision'), 'confirm' => __d('node', 'You are about to delete: "%s". Are you sure ?', $revision->data->title)]); ?>
+						<div class="btn-group">
+							<?php
+								echo $this->Html->link('', [
+									'plugin' => 'Node',
+									'controller' => 'manage',
+									'action' => 'edit',
+									$node->id, $revision->id
+								], [
+									'title' => __d('node', 'Load revision'),
+									'class' => 'btn btn-default btn-sm glyphicon glyphicon-edit',
+								]);
+							?>
+							<?php
+								echo $this->Html->link('', [
+									'plugin' => 'Node',
+									'controller' => 'manage',
+									'action' => 'delete_revision',
+									$node->id,
+									$revision->id
+								], [
+									'title' => __d('node', 'Delete revision'),
+									'class' => 'btn btn-default btn-sm glyphicon glyphicon-trash',
+									'confirm' => __d('node', 'You are about to delete: "%s". Are you sure ?', $revision->data->title),
+								]);
+							?>
+						</div>
 					</td>
 				</tr>
 			<?php endforeach; ?>

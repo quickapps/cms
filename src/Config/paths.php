@@ -33,7 +33,7 @@ define('VENDOR_INCLUDE_PATH', dirname(dirname(ROOT)) . '/');
 define('APP_DIR', 'src');
 
 /**
- * The name of the webroot dir.  Defaults to 'webroot'
+ * The name of the webroot dir. Defaults to 'webroot'
  */
 define('WEBROOT_DIR', 'webroot');
 

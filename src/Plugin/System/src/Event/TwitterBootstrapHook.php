@@ -39,29 +39,6 @@ class TwitterBootstrapHook implements EventListener {
  * @var array
  */
 	protected $_templates = [
-		'button' => '<button{{attrs}}>{{text}}</button>',
-		'checkbox' => '<input type="checkbox" name="{{name}}" value="{{value}}"{{attrs}}>',
-		'checkboxFormGroup' => '{{input}}{{label}}',
-		'checkboxWrapper' => '<div class="checkbox">{{input}}{{label}}</div>',
-		'errorList' => '<ul>{{content}}</ul>',
-		'errorItem' => '<li>{{text}}</li>',
-		'file' => '<input type="file" name="{{name}}"{{attrs}}>',
-		'fieldset' => '<fieldset>{{content}}</fieldset>',
-		'formstart' => '<form{{attrs}}>',
-		'formend' => '</form>',
-		'formGroup' => '{{label}}{{input}}',
-		'hiddenblock' => '<div style="display:none;">{{content}}</div>',
-		'input' => '<input type="{{type}}" name="{{name}}"{{attrs}}>',
-		'inputsubmit' => '<input type="{{type}}"{{attrs}}>',
-		'label' => '<label{{attrs}}>{{text}}</label>',
-		'legend' => '<legend>{{text}}</legend>',
-		'option' => '<option value="{{value}}"{{attrs}}>{{text}}</option>',
-		'optgroup' => '<optgroup label="{{label}}"{{attrs}}>{{content}}</optgroup>',
-		'select' => '<select name="{{name}}"{{attrs}}>{{content}}</select>',
-		'selectMultiple' => '<select name="{{name}}[]" multiple="multiple"{{attrs}}>{{content}}</select>',
-		'radio' => '<input type="radio" name="{{name}}" value="{{value}}"{{attrs}}>',
-		'radioWrapper' => '{{input}} {{label}}<br />',
-		'textarea' => '<textarea name="{{name}}"{{attrs}}>{{value}}</textarea>',
 		'dateWidget' => '<div class="row">
 			<div class="col-sm-3">{{year}}</div>
 			<div class="col-sm-3">{{month}}</div>
@@ -71,15 +48,12 @@ class TwitterBootstrapHook implements EventListener {
 			<div class="col-sm-3">{{second}}</div>
 			<div class="col-sm-3">{{meridian}}</div>
 		</div>',
-		'error' => '<div class="help-block">{{content}}</div>',
-		'submitContainer' => '{{content}}',
+		'error' => '<em class="help-block text-danger">{{content}}</em>',
+		'errorList' => '<ul class="text-danger">{{content}}</ul>',
 		'inputContainer' => '<div class="form-group {{type}}{{required}}">{{content}}</div>',
 		'inputContainerError' => '<div class="form-group has-error has-feedback {{type}}{{required}}">{{content}}<span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>{{error}}</div>',
-		'groupContainer' => '<div class="input {{type}}{{required}} form-group">{{content}}</div>',
-		'groupContainerError' => '<div class="input {{type}}{{required}} has-error">{{content}}{{error}}</div>',
-		'radioContainer' => '<div class="radio">{{input}}{{label}}</div>',
-		'error' => '<p class="text-danger">{{content}}</p>',
-		'errorList' => '<ul class="text-danger">{{content}}</ul>',
+		'radioWrapper' => '{{input}}{{label}}<br />',
+		'submitContainer' => '{{content}}',
 	];
 
 /**

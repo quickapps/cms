@@ -12,10 +12,19 @@
 ?>
 
 <div class="text-right">
-	<?php echo $this->Html->link(__d('menu', 'Create New Menu'), ['plugin' => 'Menu', 'controller' => 'manage', 'action' => 'add'], ['class' => 'btn btn-primary']); ?>
+	<?php
+		echo $this->Html->link(__d('menu', 'Create new menu'), [
+			'plugin' => 'Menu',
+			'controller' => 'manage',
+			'action' => 'add'
+		], [
+			'class' => 'btn btn-primary'
+		]);
+	?>
 </div>
 
 <p>
+	<?php if ($menus->count() > 0): ?>
 	<?php foreach ($menus as $menu): ?>
 		<div class="clearfix">
 			<p>
@@ -73,4 +82,9 @@
 			</p>
 		</div>
 	<?php endforeach; ?>
+	<?php else: ?>
+		<div class="alert alert-warning">
+			<?php echo __d('taxonomy', 'There are no menus yet, click on "Create new menu" button to add one.'); ?>
+		</div>
+	<?php endif; ?>
 </p>
