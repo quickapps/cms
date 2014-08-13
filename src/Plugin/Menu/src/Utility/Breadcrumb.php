@@ -64,7 +64,7 @@ class Breadcrumb {
  * @param array|string $crumbs Single crumb or an array of multiple crumbs to push at once
  * @param mixed $url If both $crumbs is a string value and $url is a string (or an array) value
  * they will be used as `title` and `url` respectively
- * @return boolean True on success, False otherwise
+ * @return bool True on success, False otherwise
  * @see \Menu\View\Helper\BreadcrumbHelper::render()
  */
 	public static function push($crumbs = [], $url = '') {

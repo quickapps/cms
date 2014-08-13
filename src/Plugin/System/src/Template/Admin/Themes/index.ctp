@@ -11,6 +11,51 @@
  */
 ?>
 
-<?php foreach ($themes as $info): ?>
-	<?php // TODO: themes section ?>
-<?php endforeach; ?>
+<div class="row">
+	<div class="col-md-6">
+		<div class="btn-group filters">
+			<?php
+				echo $this->Html->link(__d('system', 'Front Themes') . ' <span class="badge">' . $front_count . '</span>', '#show-front', [
+					'class' => 'btn btn-info btn-sm',
+					'escape' => false,
+				]);
+			?>
+			<?php
+				echo $this->Html->link(__d('system', 'Back Themes') . ' <span class="badge">' . $back_count . '</span>', '#show-back', [
+					'class' => 'btn btn-warning btn-sm',
+					'escape' => false,
+				]);
+			?>
+		</div>
+	</div>
+
+	<div class="col-md-6 text-right">
+		<?php
+			echo $this->Html->link(__d('system', 'Install theme'), [
+				'plugin' => 'System',
+				'controller' => 'themes',
+				'action' => 'install',
+			], [
+				'class' => 'btn btn-primary'
+			]);
+		?>
+	</div>
+</div>
+
+<hr />
+
+<div class="row themes-container">
+	<div class="col-md-12 front-themes themes-list">
+		<?php foreach ($front_themes as $theme): ?>
+			<?php echo $this->element('System.theme_item', ['theme' => $theme]); ?>
+		<?php endforeach; ?>
+	</div>
+
+	<div class="col-md-12 back-themes themes-list">
+		<?php foreach ($back_themes as $theme): ?>
+			<?php echo $this->element('System.theme_item', ['theme' => $theme]); ?>
+		<?php endforeach; ?>
+	</div>
+</div>
+
+<?php echo $this->Html->script('System.themes.management.js'); ?>

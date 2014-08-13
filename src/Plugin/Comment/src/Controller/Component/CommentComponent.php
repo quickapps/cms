@@ -209,7 +209,7 @@ class CommentComponent extends Component {
  * Adds a new comment for the given entity.
  *
  * @param \Cake\ORM\Entity $entity
- * @return boolean True on success, false otherwise
+ * @return bool True on success, false otherwise
  */
 	public function post($entity) {
 		if (
@@ -234,7 +234,7 @@ class CommentComponent extends Component {
 					]);
 
 					if ($this->config('settings.use_akismet') && !empty($this->config('settings.akismet_key'))) {
-						require_once Plugin::classPath('Comment') . 'Vendor/Akismet.php';
+						require_once Plugin::classPath('Comment') . 'Lib/Akismet.php';
 
 						try {
 							$akismet = new \Akismet(Router::url('/'), $this->config('settings.akismet_key'));
@@ -403,7 +403,7 @@ class CommentComponent extends Component {
 			$this->config('settings.ayah_publisher_key') &&
 			$this->config('settings.ayah_scoring_key')
 		) {
-			require_once Plugin::classPath('Comment') . 'Vendor/ayah.php';
+			require_once Plugin::classPath('Comment') . 'Lib/ayah.php';
 			$ayah = new \AYAH();
 			$validator
 				->add('body', 'humanCheck', [

@@ -12,6 +12,7 @@
 namespace System\Controller\Admin;
 
 use Cake\Error\NotFoundException;
+use Cake\Utility\Hash;
 use System\Controller\AppController;
 use QuickApps\Core\Plugin;
 
@@ -32,7 +33,6 @@ class PluginsController extends AppController {
 		$plugins = $collection->match(['status' => true])->toArray();
 		$enabled = count($collection->match(['status' => true])->toArray());
 		$disabled = count($collection->match(['status' => false])->toArray());
-
 		$this->set(compact('plugins', 'all', 'enabled', 'disabled'));
 		$this->Breadcrumb->push('/admin/system/plugins');
 	}
@@ -40,7 +40,18 @@ class PluginsController extends AppController {
 /**
  * Handles plugin's specifics settings.
  *
+ * When saving plugin's information `PluginsTable` will trigger the following events:
+ *
+ * - `Plugin.<PluginName>.beforeValidate`
+ * - `Plugin.<PluginName>.afterValidate`
+ * - `Plugin.<PluginName>.beforeSave`
+ * - `Plugin.<PluginName>.afterSave`
+ *
+ * Check `PluginsTable` documentation for more details.
+ *
+ * @param string $pluginName
  * @return void
+ * @throws \Cake\Error\NotFoundException When plugin do not exists
  */
 	public function settings($pluginName) {
 		$plugin = Plugin::info($pluginName, true);
@@ -76,8 +87,7 @@ class PluginsController extends AppController {
 			$this->request->data = $plugin['settings'];
 		}
 
-		$this->set('arrayContext', $arrayContext);
-		$this->set('plugin', $plugin);
+		$this->set(compact('arrayContext', 'plugin'));
 		$this->Breadcrumb->push('/admin/system/plugins');
 		$this->Breadcrumb->push(__d('system', 'Settings for %s plugin', $plugin['name']), '#');
 	}

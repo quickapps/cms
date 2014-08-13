@@ -57,12 +57,12 @@ class ServeController extends AppController {
 	];
 
 /**
- * Redirects to ServeController::frontpage()
+ * Redirects to ServeController::front_page()
  *
  * @return void
  */
 	public function index() {
-		$this->redirect(['plugin' => 'node', 'controller' => 'serve', 'action' => 'frontpage']);
+		$this->redirect(['plugin' => 'node', 'controller' => 'serve', 'action' => 'front_page']);
 	}
 
 /**
@@ -74,7 +74,7 @@ class ServeController extends AppController {
  *
  * @return void
  */
-	public function frontpage() {
+	public function front_page() {
 		$this->loadModel('Node.Nodes');
 		$nodes = $this->Nodes->find()
 			->where([

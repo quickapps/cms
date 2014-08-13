@@ -17,7 +17,7 @@
 	<div class="panel-group" id="accordion">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#front-theme"><?php echo __d('block', 'Frontend Theme: %s', $frontThemeName); ?></a></h4>
+				<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#front-theme"><?php echo __d('block', 'Theme: %s', $frontThemeName); ?></a></h4>
 			</div>
 			<div id="front-theme" class="panel-collapse collapse">
 				<div class="panel-body">
@@ -30,15 +30,47 @@
 								<ul class="sortable list-group">
 									<?php foreach ($blocks as $block): ?>
 										<li class="list-group-item clearfix">
-											<div>
+											<div class="pull-left">
 												<strong><?php echo $block->title; ?></strong>
 												<em class="help-block"><?php echo $block->description; ?></em>
 											</div>
 											<div class="btn-group pull-right">
-												<?php echo $this->Html->link('', ['plugin' => 'Block', 'controller' => 'manage', 'action' => 'edit', $block->id], ['title' => __d('block', 'Edit'), 'class' => 'btn btn-default btn-sm glyphicon glyphicon-pencil']); ?>
-												<?php echo $this->Html->link('', ['plugin' => 'Block', 'controller' => 'manage', 'action' => 'duplicate', $block->id], ['title' => __d('block', 'Duplicate'), 'class' => 'btn btn-default btn-sm glyphicon glyphicon-th-large']); ?>
+												<?php
+													echo $this->Html->link('', [
+														'plugin' => 'Block',
+														'controller' => 'manage',
+														'action' => 'edit',
+														$block->id
+													], [
+														'title' => __d('block', 'Edit'),
+														'class' => 'btn btn-default btn-sm glyphicon glyphicon-pencil'
+													]);
+												?>
+												<?php
+													echo $this->Html->link('', [
+														'plugin' => 'Block',
+														'controller' => 'manage',
+														'action' => 'duplicate',
+														$block->id
+													], [
+														'title' => __d('block', 'Duplicate'),
+														'class' => 'btn btn-default btn-sm glyphicon glyphicon-th-large',
+														'confirm' => __d('block', 'Duplicate this block, are you sure?'),
+													]);
+												?>
 												<?php if ($block->handler === 'Block'): ?>
-													<?php echo $this->Html->link('', ['plugin' => 'Block', 'controller' => 'manage', 'action' => 'delete', $block->id], ['title' => __d('block', 'Delete'), 'class' => 'btn btn-default btn-sm glyphicon glyphicon-trash', 'confirm' => __d('block', 'Delete this block, are you sure?')]); ?>
+													<?php
+														echo $this->Html->link('', [
+															'plugin' => 'Block',
+															'controller' => 'manage',
+															'action' => 'delete',
+															$block->id
+														], [
+															'title' => __d('block', 'Delete'),
+															'class' => 'btn btn-default btn-sm glyphicon glyphicon-trash',
+															'confirm' => __d('block', 'Delete this block, are you sure?'),
+														]);
+													?>
 												<?php endif; ?>
 											</div>
 											<?php echo $this->Form->hidden('regions.' . option('front_theme') . ".{$block->region->region}.", ['value' => $block->region->id]); ?>
@@ -61,7 +93,7 @@
 
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#back-theme"><?php echo __d('block', 'Backend Theme: %s', $backThemeName); ?></a></h4>
+				<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#back-theme"><?php echo __d('block', 'Theme: %s', $backThemeName); ?></a></h4>
 			</div>
 			<div id="back-theme" class="panel-collapse collapse">
 				<div class="panel-body">
@@ -74,7 +106,7 @@
 								<ul class="sortable list-group">
 									<?php foreach ($blocks as $block): ?>
 										<li class="list-group-item clearfix">
-											<div>
+											<div class="pull-left">
 												<strong><?php echo $block->title; ?></strong>
 												<em class="help-block"><?php echo $block->description; ?></em>
 											</div>
@@ -112,7 +144,7 @@
 					<ul class="list-group">
 						<?php foreach ($unused as $block): ?>
 							<li class="list-group-item clearfix">
-								<div>
+								<div class="pull-left">
 									<strong><?php echo $block->title; ?></strong>
 									<em class="help-block"><?php echo $block->description; ?></em>
 								</div>

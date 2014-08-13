@@ -11,7 +11,7 @@
  */
 
 /**
- * Default layout for ajax responses.
+ * Default layout for AJAX responses.
  *
  * @author Christopher Castro <chris@quickapps.es>
  */

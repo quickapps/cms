@@ -120,7 +120,7 @@ class FieldHandler implements EventListener {
  * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options
- * @return boolean
+ * @return bool
  */
 	public function entityBeforeSave(Event $event, $entity, $field, $options) {
 		return true;
@@ -146,7 +146,7 @@ class FieldHandler implements EventListener {
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options
  * @param \Cake\Validation\Validator $validator
- * @return boolean False will halt the save process
+ * @return bool False will halt the save process
  */
 	public function entityBeforeValidate(Event $event, $entity, $field, $options, $validator) {
 		return false;
@@ -160,7 +160,7 @@ class FieldHandler implements EventListener {
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options
  * @param \Cake\Validation\Validator $validator
- * @return boolean False will halt the save process
+ * @return bool False will halt the save process
  */
 	public function entityAfterValidate(Event $event, $entity, $field, $options, $validator) {
 		return false;
@@ -173,7 +173,7 @@ class FieldHandler implements EventListener {
  * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options
- * @return boolean False will halt the delete process
+ * @return bool False will halt the delete process
  */
 	public function entityBeforeDelete(Event $event, $entity, $field, $options) {
 		return true;
@@ -270,7 +270,7 @@ class FieldHandler implements EventListener {
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\FieldInstance $instance Instance information
  * @param array $options
- * @return boolean False will halt the attach process
+ * @return bool False will halt the attach process
  */
 	public function instanceBeforeAttach(Event $event, $instance, $options = []) {
 		return false;
@@ -292,7 +292,7 @@ class FieldHandler implements EventListener {
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\FieldInstance $instance Instance information
  * @param array $options
- * @return boolean False will halt the detach process
+ * @return bool False will halt the detach process
  */
 	public function instanceBeforeDetach(Event $event, $instance, $options = []) {
 		return false;

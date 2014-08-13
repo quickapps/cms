@@ -13,24 +13,18 @@
 /**
  * Default layout for site front page.
  *
- * Usually themes may define a complete different page
- * layout for the `index` page. This layout is used exclusively
- * when rendering site's front page (a.k.a index).
+ * Usually themes may define a complete different page layout for the `index`
+ * page. This layout is used exclusively when rendering site's front page (a.k.a index).
  *
  * @author Christopher Castro <chris@quickapps.es>
  */
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 	<head>
-		<?php echo $this->Html->charset(); ?>
-		<title><?php echo $this->fetch('title'); ?></title>
-		<?php echo $this->Html->meta('icon'); ?>
-		<?php echo $this->fetch('meta'); ?>
-		<?php echo $this->fetch('css'); ?>
-		<?php echo $this->fetch('script'); ?>
+		<?php echo $this->element('System.theme_head', ['bootstrap' => 'css,js']); ?>
 	</head>
-	<body class="frontpage">
+	<body class="front-page">
 		<div class="container">
 			<?php echo $this->fetch('content'); ?>
 		</div>

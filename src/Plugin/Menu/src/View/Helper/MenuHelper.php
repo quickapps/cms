@@ -473,7 +473,7 @@ class MenuHelper extends Helper {
  * Both examples are equivalent.
  *
  * @param \Cake\ORM\Entity $item
- * @return boolean
+ * @return bool
  */
 	protected function _isActive($item) {
 		switch ($item->activation) {
@@ -552,7 +552,7 @@ class MenuHelper extends Helper {
  * @param string $patterns String containing a set of patterns separated by \n,
  * \r or \r\n
  * @param mixed $path String as path to match. Or false to use current page URL
- * @return boolean TRUE if the path matches a pattern, FALSE otherwise
+ * @return bool TRUE if the path matches a pattern, FALSE otherwise
  */
 	protected function _urlMatch($patterns, $path = false) {
 		if (empty($patterns)) {
@@ -579,7 +579,7 @@ class MenuHelper extends Helper {
 		$patterns = implode("\n", $patterns);
 
 		// Convert path settings to a regular expression.
-		// Therefore replace newlines with a logical or, /* with asterisks and "/" with the frontpage.
+		// Therefore replace newlines with a logical or, /* with asterisks and "/" with the front page.
 		$to_replace = array(
 			'/(\r\n?|\n)/', // newlines
 			'/\\\\\*/', // asterisks

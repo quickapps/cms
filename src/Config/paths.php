@@ -43,6 +43,11 @@ define('WEBROOT_DIR', 'webroot');
 define('APP', ROOT . DS . APP_DIR . DS);
 
 /**
+ * Path to the config directory.
+ */
+define('CONFIG', ROOT . DS . 'src' . DS . 'Config' . DS);
+
+/**
  * File path to the webroot directory.
  */
 define('WWW_ROOT', SITE_ROOT . DS . WEBROOT_DIR . DS);

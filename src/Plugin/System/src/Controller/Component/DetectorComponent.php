@@ -17,12 +17,13 @@ use Cake\Event\Event;
 /**
  * Attaches a few request-detectors to every controller's request object.
  *
- * Built-in detectors are:
+ * The following built-in detectors returns TRUE:
  *
- * - `isUserLoggedIn`: True if user has logged in.
- * - `isUserAdmin`: True if user has logged in and belongs to the "Administrator" group.
- * - `homePage`: True current request is site's front page.
- * - `localized`: True current request's URL is language prefixed.
+ * - `homePage`: When the front of the site is displayed.
+ * - `adminPage`: When the dashboard or administration section is being displayed.
+ * - `localized`: When current request's URL is language-prefixed. e.g. "/es/..."
+ * - `isUserLoggedIn`: When user has logged in.
+ * - `isUserAdmin`: When user has logged in and belongs to the "Administrator" group.
  *
  * ### Usage:
  *
@@ -48,15 +49,56 @@ class DetectorComponent extends Component {
 	public function initialize(Event $event) {
 		$this->_controller = $event->subject;
 		$this->_controller->request->addDetector('homePage', [$this, 'homePage']);
+		$this->_controller->request->addDetector('adminPage', [$this, 'adminPage']);
+		$this->_controller->request->addDetector('localized', [$this, 'localized']);
 		$this->_controller->request->addDetector('userLoggedIn', [$this, 'userLoggedIn']);
 		$this->_controller->request->addDetector('userAdmin', [$this, 'userAdmin']);
-		$this->_controller->request->addDetector('localized', [$this, 'localized']);
+	}
+
+/**
+ * Checks if page being rendered is site's front page.
+ *
+ * @return bool
+ */
+	public function homePage($request) {
+		return (
+			!empty($request->params['plugin']) &&
+			strtolower($request->params['plugin']) === 'node' &&
+			!empty($request->params['controller']) &&
+			strtolower($request->params['controller']) === 'serve' &&
+			!empty($request->params['action']) &&
+			strtolower($request->params['action']) === 'front_page'
+		);
+	}
+
+/**
+ * Checks if page being rendered is the dashboard or administration section.
+ *
+ * @return bool
+ */
+	public function adminPage($request) {
+		return (
+			!empty($request->params['prefix']) &&
+			$request->params['prefix'] === 'admin'
+		);
+	}
+
+/**
+ * Checks if current URL is language prefixed.
+ *
+ * @return bool
+ */
+	public function localized($request) {
+		$locales = array_keys(quickapps('languages'));
+		$localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
+		$url = str_starts_with($request->url, '/') ? str_replace_once('/', '', $request->url) : $request->url;
+		return preg_match("/^{$localesPattern}\//", $url);
 	}
 
 /**
  * Checks if visitor user is logged in.
  *
- * @return boolean True if logged in. False otherwise
+ * @return bool True if logged in. False otherwise
  */
 	public function userLoggedIn($request) {
 		return (
@@ -68,38 +110,10 @@ class DetectorComponent extends Component {
 /**
  * Checks if visitor user is logged in and has administrator privileges.
  *
- * @return boolean True if administrator. False otherwise
+ * @return bool True if administrator. False otherwise
  */
 	public function userAdmin($request) {
 		return in_array(ROLE_ID_ADMINISTRATOR, user()->roles);
-	}
-
-/**
- * Checks if page being rendered is site's front page.
- *
- * @return boolean
- */
-	public function homePage($request) {
-		return (
-			!empty($request->params['plugin']) &&
-			strtolower($request->params['plugin']) === 'node' &&
-			!empty($request->params['controller']) &&
-			strtolower($request->params['controller']) === 'serve' &&
-			!empty($request->params['action']) &&
-			strtolower($request->params['action']) === 'frontpage'
-		);
-	}
-
-/**
- * Checks if current URL is language prefixed.
- *
- * @return boolean
- */
-	public function localized($request) {
-		$locales = array_keys(quickapps('languages'));
-		$localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
-		$url = str_starts_with($request->url, '/') ? str_replace_once('/', '', $request->url) : $request->url;
-		return preg_match("/^{$localesPattern}\//", $url);
 	}
 
 }

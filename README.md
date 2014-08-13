@@ -19,6 +19,7 @@ This is an unstable repository and should be treated as an alpha.
 * mbstring extension installed
 * mcrypt extension installed
 * intl extension installed
+* fileinfo extension installed
 * PHP safe mode disabled
 * Supported database storage engines:
    * MySQL (5.1.10 or greater)

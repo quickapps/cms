@@ -42,7 +42,7 @@ class UserHook implements EventListener {
  *
  * @param \Cake\Event\Event $event
  * @param \User\Model\Table\User $user
- * @return boolean
+ * @return bool
  */
 	public function beforeLogin(Event $event, $user) {
 		return true;
@@ -53,7 +53,7 @@ class UserHook implements EventListener {
  *
  * @param \Cake\Event\Event $event
  * @param \User\Model\Table\User $user
- * @return boolean
+ * @return bool
  */
 	public function afterLogin(Event $event, $user) {
 		return true;
@@ -64,7 +64,7 @@ class UserHook implements EventListener {
  *
  * @param \Cake\Event\Event $event
  * @param \User\Model\Table\User $user
- * @return boolean
+ * @return bool
  */
 	public function loginFailed(Event $event, $user) {
 		return true;
@@ -75,7 +75,7 @@ class UserHook implements EventListener {
  *
  * @param \Cake\Event\Event $event
  * @param \User\Model\Table\User $user
- * @return boolean
+ * @return bool
  */
 	public function beforeLogout(Event $event, $user) {
 		return true;
@@ -86,7 +86,7 @@ class UserHook implements EventListener {
  *
  * @param \Cake\Event\Event $event
  * @param \User\Model\Table\User $user
- * @return boolean
+ * @return bool
  */
 	public function afterLogout(Event $event, $user) {
 		return true;

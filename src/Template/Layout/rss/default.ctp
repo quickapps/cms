@@ -29,3 +29,4 @@
 	}
 
 	echo $this->Rss->document($this->Rss->channel([], $channel, $this->fetch('content')));
+?>

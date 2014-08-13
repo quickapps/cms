@@ -100,7 +100,7 @@ class FormHelper extends CakeFormHelper {
  * {@inheritdoc}
  *
  * @param string $field This should be "Modelname.fieldname"
- * @return boolean If there are errors this method returns true, else false.
+ * @return bool If there are errors this method returns true, else false.
  */
 	public function isFieldError($field) {
 		$this->alter('FormHelper.isFieldError', $field);

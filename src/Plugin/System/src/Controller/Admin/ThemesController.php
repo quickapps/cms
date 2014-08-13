@@ -12,6 +12,7 @@
 namespace System\Controller\Admin;
 
 use Cake\Error\NotFoundException;
+use Cake\Utility\Inflector;
 use System\Controller\AppController;
 use QuickApps\Core\Plugin;
 
@@ -23,16 +24,84 @@ use QuickApps\Core\Plugin;
 class ThemesController extends AppController {
 
 /**
+ * An array containing the names of components controllers uses.
+ *
+ * @var array
+ */
+	public $components = ['System.Installer'];
+
+/**
  * Main action.
  *
  * @return void
  */
 	public function index() {
-		$themes = Plugin::collection(true)
-			->match(['isTheme' => true])
-			->toArray();
-		$this->set('themes', $themes);
+		$themes = Plugin::collection(true)->match(['isTheme' => true]);
+		$front_themes = $themes
+			->match(['composer.extra.admin' => false])
+			->sortBy(function ($theme) {
+				if ($theme['name'] === option('front_theme')) {
+					return 0;
+				}
+				return 1;
+			});
+		$back_themes = $themes
+			->match(['composer.extra.admin' => true])
+			->sortBy(function ($theme) {
+				if ($theme['name'] === option('back_theme')) {
+					return 0;
+				}
+				return 1;
+			});
+		$front_count = count($front_themes->toArray());
+		$back_count = count($back_themes->toArray());
+
+		$this->set(compact('front_count', 'back_count', 'front_themes', 'back_themes'));
 		$this->Breadcrumb->push('/admin/system/themes');
+	}
+
+/**
+ * Install a new theme.
+ *
+ * @return void
+ */
+	public function install() {
+		$success = $this->Installer
+			->download('http://api.quickappscms.org/DummyPlugin.zip')
+			->install();
+
+		if ($success) {
+			$this->alert(__d('system', 'Theme successfully installed!'));
+		} else {
+			$this->alert(__d('system', 'Theme could not be installed:<br/> %s', implode('<br />', $this->Installer->errors())));
+		}
+
+		$this->redirect($this->referer());
+	}
+
+/**
+ * Detailed theme's information.
+ *
+ * @return void
+ */
+	public function details($themeName) {
+		$theme = Plugin::info($themeName, true);
+		$this->set(compact('theme'));
+		$this->Breadcrumb->push('/admin/system/themes');
+		$this->Breadcrumb->push($theme['human_name'], '#');
+		$this->Breadcrumb->push(__d('system', 'Details'), '#');
+	}
+
+/**
+ * Renders theme's "screenshot.png"
+ *
+ * @param string $themeName
+ * @return Image
+ */
+	public function screenshot($themeName) {
+		$info = Plugin::info($themeName);
+		$this->response->file("{$info['path']}/webroot/screenshot.png");
+		return $this->response;
 	}
 
 /**
@@ -58,10 +127,10 @@ class ThemesController extends AppController {
 			$themeEntity->set('settings', $this->request->data);
 
 			if ($this->Plugins->save($themeEntity)) {
-				$this->alert(__d('system', 'Plugin settings saved!'), 'success');
+				$this->alert(__d('system', 'Theme settings saved!'), 'success');
 				$this->redirect($this->referer());
 			} else {
-				$this->alert(__d('system', 'Plugin settings could not be saved'), 'danger');
+				$this->alert(__d('system', 'Theme settings could not be saved'), 'danger');
 				$errors = $themeEntity->errors();
 
 				if (!empty($errors)) {
@@ -74,8 +143,7 @@ class ThemesController extends AppController {
 			$this->request->data = $theme['settings'];
 		}
 
-		$this->set('arrayContext', $arrayContext);
-		$this->set('theme', $theme);
+		$this->set(compact('arrayContext', 'theme'));
 		$this->Breadcrumb->push('/admin/system/themes');
 		$this->Breadcrumb->push(__d('system', 'Settings for %s theme', $theme['name']), '#');
 	}

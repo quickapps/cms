@@ -13,8 +13,8 @@
 /**
  * Default layout.
  *
- * This layout is used for rendering every page of content
- * but site's front page (a.k.a. index).
+ * This layout is used for rendering every page of content but
+ * site's front page (a.k.a. index).
  *
  * @author Christopher Castro <chris@quickapps.es>
  */
@@ -22,9 +22,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<?php echo $this->element('System.theme_head'); ?>
+		<?php echo $this->element('System.theme_head', ['bootstrap' => 'css,js']); ?>
 	</head>
-	<body>
+	<body class="default">
 		<div class="container">
 			<?php echo $this->fetch('content'); ?>
 		</div>

@@ -117,7 +117,7 @@ class BlockHelper extends Helper {
  * Checks if the given block can be rendered.
  *
  * @param array $block Block structure
- * @return boolean
+ * @return bool
  */
 	public function allowed($block) {
 		$this->alter('BlockHelper.allowed', $block);
@@ -205,7 +205,7 @@ class BlockHelper extends Helper {
  *
  * @param string $patterns String containing a set of patterns
  * separated by \n, \r or \r\n
- * @return boolean TRUE if the path matches a pattern, FALSE otherwise
+ * @return bool TRUE if the path matches a pattern, FALSE otherwise
  */
 	protected function _urlMatch($patterns) {
 		if (empty($patterns)) {
@@ -231,7 +231,7 @@ class BlockHelper extends Helper {
 		}
 
 		// Convert path settings to a regular expression.
-		// Therefore replace newlines with a logical or, /* with asterisks and  "/" with the frontpage.
+		// Therefore replace newlines with a logical or, /* with asterisks and  "/" with the front page.
 		$to_replace = [
 			'/(\r\n?|\n)/', // newlines
 			'/\\\\\*/',	 // asterisks

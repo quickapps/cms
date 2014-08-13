@@ -113,7 +113,7 @@ class CommentHelper extends Helper {
 			$this->config('ayah_publisher_key') &&
 			$this->config('ayah_scoring_key')
 		) {
-			require_once Plugin::classPath('Comment') . 'Vendor/ayah.php';
+			require_once Plugin::classPath('Comment') . 'Lib/ayah.php';
 			$ayah = new \AYAH();
 			$out = $this->_View->element('Comment.captcha_ayah', ['ayah' => $ayah]);
 		}

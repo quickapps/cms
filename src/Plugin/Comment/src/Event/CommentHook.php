@@ -29,7 +29,8 @@ class CommentHook implements EventListener {
  */
 	public function implementedEvents() {
 		return [
-			'Render.Comment\Model\Entity\Comment' => 'renderComment'
+			'Render.Comment\Model\Entity\Comment' => 'renderComment',
+			'Plugin.Comment.defaultSettings' => 'defaultSettings',
 		];
 	}
 
@@ -45,6 +46,27 @@ class CommentHook implements EventListener {
 		$View = $event->subject;
 		$html = $View->element('Comment.render_comment', compact('comment', 'options'));
 		return $html;
+	}
+
+/**
+ * Defaults settings for Comment's settings form.
+ *
+ * @param Event $event
+ * @return array
+ */
+	public function defaultSettings(Event $event) {
+		return [
+			'allow_anonymous' => true,
+			'anonymous_name' => true,
+			'anonymous_name_required' => 1,
+			'anonymous_email' => true,
+			'anonymous_email_required' => 1,
+			'anonymous_web' => false,
+			'anonymous_web_required' => 0,
+			'text_processing' => 'plain',
+			'use_ayah' => false,
+			'use_akismet' => false,
+		];
 	}
 
 }

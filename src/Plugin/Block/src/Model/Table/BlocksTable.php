@@ -162,7 +162,7 @@ class BlocksTable extends Table {
  * @param \Cake\Event\Event $event
  * @param \Block\Model\Entity\Block $block
  * @param array $options
- * @return boolean False if save operation should not continue, true otherwise
+ * @return bool False if save operation should not continue, true otherwise
  */
 	public function beforeValidate(Event $event, Block $block, $options, Validator $validator) {
 		$blockEvent = $this->invoke("Block.{$block->handler}.beforeValidate", $event->subject, $block, $options, $validator);
@@ -192,7 +192,7 @@ class BlocksTable extends Table {
  * @param \Cake\Event\Event $event
  * @param \Block\Model\Entity\Block $block
  * @param array $options
- * @return boolean False if save operation should not continue, true otherwise
+ * @return bool False if save operation should not continue, true otherwise
  */
 	public function beforeSave(Event $event, Block $block, $options = []) {
 		$blockEvent = $this->invoke("Block.{$block->handler}.beforeSave", $event->subject, $block, $options);
@@ -222,7 +222,7 @@ class BlocksTable extends Table {
  * @param \Cake\Event\Event $event
  * @param \Block\Model\Entity\Block $block
  * @param array $options
- * @return boolean False if delete operation should not continue, true otherwise
+ * @return bool False if delete operation should not continue, true otherwise
  */
 	public function beforeDelete(Event $event, Block $block, $options = []) {
 		$blockEvent = $this->invoke("Block.{$block->handler}.beforeDelete", $event->subject, $block, $options);

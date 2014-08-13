@@ -49,7 +49,7 @@ Router::connect('/rss/:criteria', [
 Router::connect('/', [
 	'plugin' => 'Node',
 	'controller' => 'Serve',
-	'action' => 'frontpage'
+	'action' => 'front_page'
 ], [
-	'_name' => 'frontpage'
+	'_name' => 'front_page'
 ]);

@@ -80,7 +80,7 @@ class SluggableBehavior extends Behavior {
  * @param \Cake\Event\Event $event
  * @param \Cake\ORM\Entity $entity
  * @param array $options
- * @return boolean True if save should proceed, false otherwise
+ * @return bool True if save should proceed, false otherwise
  * @throws \Cake\Error\FatalErrorException When some of the specified columns
  * in config's "label" is not present in the entity being saved
  */

@@ -6,7 +6,12 @@
         "framework",
         "cms",
         "cmf",
-        "quickapps"
+        "quickapps",
+        "theme",
+        "frontend",
+        "responsive layout",
+        "full width template",
+        "rtl language"
     ],
     "homepage": "http://quickappscms.org",
     "license": "GPL-3.0",

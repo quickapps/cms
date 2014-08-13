@@ -57,7 +57,7 @@ class ManageController extends AppController {
 
 		foreach (['front', 'back'] as $type) {
 			$theme = option("{$type}_theme");
-			${"{$type}ThemeName"} = $theme;
+			${"{$type}ThemeName"} = Plugin::info($theme)['human_name'];
 			$regions = Plugin::info($theme, true)['composer']['extra']['regions'];
 			foreach ($regions as $regionSlug => $regionName) {
 				$blocks = $this->Blocks->find()

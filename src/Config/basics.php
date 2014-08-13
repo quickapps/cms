@@ -18,6 +18,7 @@ use Cake\Routing\Router;
 use Cake\Utility\Debugger;
 use Cake\Utility\Folder;
 use Cake\Utility\Hash;
+use Cake\Utility\Inflector;
 use Cake\ORM\TableRegistry;
 use User\Model\Entity\User;
 
@@ -49,19 +50,24 @@ function snapshot($mergeWith = []) {
 		'languages' => []
 	];
 
-	$plugins = TableRegistry::get('Plugins')->find()
+	$PluginTable = TableRegistry::get('System.Plugins');
+	$NodeTypesTable = TableRegistry::get('NodeTypes');
+	$LanguagesTable = TableRegistry::get('Languages');
+	$OptionsTable = TableRegistry::get('Options');
+	$PluginTable->schema(['value' => 'serialized']);
+	$OptionsTable->schema(['value' => 'serialized']);
+
+	$plugins = $PluginTable->find()
 		->select(['name', 'package', 'status'])
 		->order(['ordering' => 'ASC'])
 		->all();
-	$nodeTypes = TableRegistry::get('NodeTypes')->find()
+	$nodeTypes = $NodeTypesTable->find()
 		->select(['slug'])
 		->all();
-	$languages = TableRegistry::get('Languages')->find()
+	$languages = $LanguagesTable->find()
 		->where(['status' => 1])
 		->order(['ordering' => 'ASC'])
 		->all();
-	$OptionsTable = TableRegistry::get('Options');
-	$OptionsTable->schema(['value' => 'serialized']);
 	$options = $OptionsTable->find()
 		->select(['name', 'value'])
 		->where(['autoload' => 1])
@@ -84,7 +90,7 @@ function snapshot($mergeWith = []) {
 		];
 	}
 
-	foreach ($plugins as $plugin) {
+	foreach ($plugins->toArray() as $plugin) {
 		$pluginPath = false;
 
 		foreach (App::path('Plugin') as $path) {
@@ -101,6 +107,7 @@ function snapshot($mergeWith = []) {
 
 		$eventsPath =  $pluginPath . '/src/Event/';
 		$isCore = strpos(str_replace(['/', DS], '/', $pluginPath), str_replace(['/', DS], '/', APP)) !== false;
+		$isTheme = str_ends_with($plugin->name, 'Theme');
 		$events = [
 			'hooks' => [],
 			'hooktags' => [],
@@ -130,10 +137,16 @@ function snapshot($mergeWith = []) {
 			}
 		}
 
+		$humanName = Inflector::humanize(Inflector::underscore($plugin->name));
+		if ($isTheme) {
+			$humanName = trim(str_replace_last('Theme', '', $humanName));
+		}
+
 		$snapshot['plugins'][$plugin->name] = [
 			'name' => $plugin->name,
+			'human_name' => $humanName,
 			'package' => $plugin->package,
-			'isTheme' => str_ends_with($plugin->name, 'Theme'),
+			'isTheme' => $isTheme,
 			'isCore' => $isCore,
 			'hasHelp' => file_exists($pluginPath . '/src/Template/Element/help.ctp'),
 			'hasSettings' => file_exists($pluginPath . '/src/Template/Element/settings.ctp'),
@@ -232,6 +245,29 @@ function snapshot($mergeWith = []) {
 		$property->setAccessible(true);
 		$listeners = array_keys($property->getValue(EventManager::instance()));
 		return $listeners;
+	}
+
+/**
+ * Used to convert composer-like names to plugin names.
+ *
+ * ### Example:
+ *
+ *     pluginName('quickapps/my-super-plugin');
+ *     // returns: MySuperPlugin
+ * 
+ * @return string
+ */
+	function pluginName($name) {
+		$name = strtolower($name);
+		if ($name === 'php') {
+			return '__PHP__';
+		} elseif ($name === 'quickapps/cms') {
+			return '__QUICKAPPS__';
+		} elseif (strpos($name, '/') === false) {
+			return ''; // invalid
+		}
+		$parts = explode('/', $name);
+		return Inflector::camelize(str_replace('-', '_', end($parts)));
 	}
 
 /**
@@ -337,7 +373,7 @@ function str_replace_last($search, $replace, $subject) {
  *
  * @param string $haystack
  * @param string $needle
- * @return boolean
+ * @return bool
  */
 function str_starts_with($haystack, $needle) {
     return
@@ -355,7 +391,7 @@ function str_starts_with($haystack, $needle) {
  *
  * @param string $haystack
  * @param string $needle
- * @return boolean
+ * @return bool
  */
 function str_ends_with($haystack, $needle) {
 	return

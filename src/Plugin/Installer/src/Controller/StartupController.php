@@ -158,6 +158,10 @@ class StartupController extends AppController {
 				'test' => extension_loaded('intl'),
 				'message' => __d('installer', 'Missing extension: %s', 'intl')
 			),
+			'fileinfo' => array(
+				'test' => extension_loaded('fileinfo'),
+				'message' => __d('installer', 'Missing extension: %s', 'fileinfo')
+			),
 			'pdo' => array(
 				'test' => (extension_loaded('pdo') && defined('PDO::ATTR_DEFAULT_FETCH_MODE')),
 				'message' => __d('installer', 'Missing extension: %s', 'PDO')
@@ -294,7 +298,7 @@ class StartupController extends AppController {
  * without completing all previous steps.
  *
  * @param boolean|string $check
- * @return boolean
+ * @return bool
  */
 	protected function _step($check = false) {
 		$_steps = (array)$this->Session->read('Startup._steps');

@@ -11,12 +11,12 @@
  */
 
 /**
- * Provides a basic head for theme layouts.
+ * Provides a basic head for theme's layouts.
  *
  * ### Usage:
  *
- * In your theme's layout (e.g. `default.ctp`) you have to include the following
- * between `<head>`  & `</head>`, for example:
+ * In your theme's layout (e.g. `default.ctp`) you have to include this element
+ * between `<head>`  & `</head>` tags, for example:
  *
  *     <!DOCTYPE html>
  *     <html>
@@ -33,10 +33,12 @@
  * set `bootstrap` option as follow:
  *
  * - (bool) false: Nothing will be automatically included.
- * - (bool) true: Will include Twitter Bootstrap's CSS files.
- * - (string) "css": Include CSS files only. Same as bool true. (By default)
+ * - (bool) true: Will include Twitter Bootstrap's CSS & JS files.
+ * - (string) "css": Include CSS files only. (By default)
  * - (string) "js": Include JS files only.
- * - (string) combination of "css" and "js": Will include both, JS and CSS.
+ * - (string) combination of "css" and "js": Equivalent to bool true. will
+ *   include both, JS and CSS files.
+ *   
  *
  * #### Example:
  * 
@@ -46,7 +48,7 @@
  *     // CSS files only 
  *     <?php echo $this->element('System.theme_head', ['bootstrap' => 'css']); ?>
  *     
- *     // CSS files only
+ *     // CSS & JS files
  *     <?php echo $this->element('System.theme_head', ['bootstrap' => true]); ?>
  *     
  *     // JS files only
@@ -56,25 +58,28 @@
  *     <?php echo $this->element('System.theme_head', ['bootstrap' => 'css,js']); ?>
  */
 ?>
+
 <title><?php echo $this->fetch('title'); ?></title>
 <?php echo $this->Html->charset(); ?>
 <?php echo $this->Html->meta('icon'); ?>
 <?php echo $this->fetch('meta'); ?>
 <?php echo $this->fetch('css'); ?>
 <?php echo $this->fetch('script'); ?>
-
 <?php
 	$bootstrap = !isset($bootstrap) ? 'css' : $bootstrap;
 	$bootstrap = is_string($bootstrap) ? strtolower($bootstrap) : $bootstrap;
 	if ($bootstrap !== false) {
 		if (
-			(is_bool($bootstrap) && $bootstrap === false) ||
+			(is_bool($bootstrap) && $bootstrap === true) ||
 			(is_string($bootstrap) && strpos($bootstrap, 'css') !== false)
 		) {
 			echo $this->Html->css(['System.bootstrap.css', 'System.bootstrap-theme.css']);
 		}
 
-		if (is_string($bootstrap) && strpos($bootstrap, 'js') !== false) {
+		if (
+			(is_bool($bootstrap) && $bootstrap === true) ||
+			(is_string($bootstrap) && strpos($bootstrap, 'js') !== false)
+		) {
 			echo $this->Html->script('System.bootstrap.js');
 		}
 	}

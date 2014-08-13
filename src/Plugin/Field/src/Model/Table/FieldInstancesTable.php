@@ -25,7 +25,7 @@ use QuickApps\View\ViewModeTrait;
  * Represents "field_instances" database table.
  *
  * This table holds information about all fields attached to tables.
- * It also triggers Field Instances's hooks:
+ * It also triggers Field Instances's events:
  *
  * - `Field.<FieldHandler>.Instance.info`: When QuickAppsCMS asks for information about each registered Field
  * - `Field.<FieldHandler>.Instance.settingsForm`: Additional settings for this field. Should define the way the values will be stored in the database.
@@ -149,13 +149,13 @@ class FieldInstancesTable extends Table {
 	}
 
 /**
- * Triggers the "Field.<FieldHandler>.Instance.beforeValidate" hook so Field Handlers can
- * do any logic their require.
+ * Triggers the "Field.<FieldHandler>.Instance.beforeValidate" event.
  *
- * @param \Cake\Event\Event $event
- * @param \Block\Model\Entity\Block $block
+ * @param \Cake\Event\Event $event The event that was fired
+ * @param \Field\Model\Entity\FieldInstance $instance The Field Instance that is going to be validated
  * @param array $options
- * @return boolean False if save operation should not continue, true otherwise
+ * @param \Cake\Validation\Validator $validator
+ * @return bool False if save operation should not continue, true otherwise
  */
 	public function beforeValidate(Event $event, FieldInstance $instance, $options, Validator $validator) {
 		$instanceEvent = $this->invoke("Field.{$instance->handler}.Instance.beforeValidate", $event->subject, $instance, $options, $validator);
@@ -166,12 +166,12 @@ class FieldInstancesTable extends Table {
 	}
 
 /**
- * Triggers the "Field.<FieldHandler>.Instance.afterValidate" hook so Field Handlers can
- * do any logic their require.
+ * Triggers the "Field.<FieldHandler>.Instance.afterValidate" event.
  *
- * @param \Cake\Event\Event $event
- * @param \Block\Model\Entity\Block $block
+ * @param \Cake\Event\Event $event The event that was fired
+ * @param \Field\Model\Entity\FieldInstance $instance The Field Instance that was validated
  * @param array $options
+ * @param \Cake\Validation\Validator $validator
  * @return void
  */
 	public function afterValidate(Event $event, FieldInstance $instance, $options, Validator $validator) {
@@ -179,13 +179,12 @@ class FieldInstancesTable extends Table {
 	}
 
 /**
- * Triggers the "Field.<FieldHandler>.Instance.beforeAttach" hook so Field Handlers can
- * do any logic their require.
+ * Triggers the "Field.<FieldHandler>.Instance.beforeAttach" event.
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\FieldInstance $instance The Field Instance that is going to be saved
- * @param array $options the options passed to the save method
- * @return boolean False if save operation should not continue, true otherwise
+ * @param array $options The options passed to the save method
+ * @return bool False if save operation should not continue, true otherwise
  */
 	public function beforeSave(Event $event, FieldInstance $instance, $options = []) {
 		$instanceEvent = $this->invoke("Field.{$instance->handler}.Instance.beforeAttach", $event->subject, $instance, $options);
@@ -196,11 +195,11 @@ class FieldInstancesTable extends Table {
 	}
 
 /**
- * Triggers the "Field.<FieldHandler>.Instance.afterAttach" hook so Field Handlers can
- * do any logic their require.
+ * Triggers the "Field.<FieldHandler>.Instance.afterAttach" event.
  * 
  * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\FieldInstance $instance The Field Instance that is going to be saved
+ * @param \Field\Model\Entity\FieldInstance $instance The Field Instance that was saved
+ * @param array $options the options passed to the save method
  * @return void
  */
 	public function afterSave(Event $event, FieldInstance $instance, $options = []) {
@@ -208,13 +207,12 @@ class FieldInstancesTable extends Table {
 	}
 
 /**
- * Triggers the "Field.<FieldHandler>.Instance.beforeDetach" hook so Field Handlers can
- * do any logic their require.
+ * Triggers the "Field.<FieldHandler>.Instance.beforeDetach" event.
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\FieldInstance $instance The Field Instance that is going to be deleted
- * @param array $options the options passed to the save method
- * @return boolean False if delete operation should not continue, true otherwise
+ * @param array $options the options passed to the delete method
+ * @return bool False if delete operation should not continue, true otherwise
  */
 	public function beforeDelete(Event $event, FieldInstance $instance, $options = []) {
 		$instanceEvent = $this->invoke("Field.{$instance->handler}.Instance.beforeDetach", $event->subject, $instance, $options);
@@ -225,12 +223,12 @@ class FieldInstancesTable extends Table {
 	}
 
 /**
- * Triggers the "Field.<FieldHandler>.Instance.afterDetach" hook so Field Handlers can
- * do any logic their require. Also, automatically deletes all associated records in the `field_values` tables.
+ * Triggers the "Field.<FieldHandler>.Instance.afterDetach" event.
+ * it also deletes all associated records in the `field_values` table.
  *
  * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\FieldInstance $instance The Field Instance that is going to be deleted
- * @param array $options the options passed to the save method
+ * @param \Field\Model\Entity\FieldInstance $instance The Field Instance that was deleted
+ * @param array $options the options passed to the delete method
  * @return void
  */
 	public function afterDelete(Event $event, FieldInstance $instance, $options = []) {

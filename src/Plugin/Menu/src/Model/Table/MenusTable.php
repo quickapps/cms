@@ -77,7 +77,7 @@ class MenusTable extends Table {
  * @param \Cake\Event\Event $event
  * @param \Menu\Model\Entity\Menu $block
  * @param array $options
- * @return boolean False if save operation should not continue, true otherwise
+ * @return bool False if save operation should not continue, true otherwise
  */
 	public function beforeValidate(Event $event, Menu $menu, $options, Validator $validator) {
 		$validator
@@ -114,7 +114,7 @@ class MenusTable extends Table {
  * @param \Cake\Event\Event $event
  * @param \Menu\Model\Entity\Menu $menu
  * @param array $options
- * @return boolean False if save operation should not continue, true otherwise
+ * @return bool False if save operation should not continue, true otherwise
  */
 	public function beforeSave(Event $event, Menu $menu, $options = []) {
 		$menuEvent = $this->invoke("Menu.{$menu->handler}.beforeSave", $event->subject, $menu, $options);
@@ -158,7 +158,7 @@ class MenusTable extends Table {
  * @param \Cake\Event\Event $event
  * @param \Menu\Model\Entity\Menu $menu
  * @param array $options
- * @return boolean False if delete operation should not continue, true otherwise
+ * @return bool False if delete operation should not continue, true otherwise
  */
 	public function beforeDelete(Event $event, Menu $menu, $options = []) {
 		$this->hasOne('Blocks', [

@@ -62,7 +62,7 @@ class BreadcrumbComponent extends Component {
  * to push at once
  * @param mixed $url If both $crumbs and $url are string values they will be
  * used as `title` and `URL` respectively
- * @return boolean True on success, false otherwise
+ * @return bool True on success, false otherwise
  * @see \Menu\Utility\Breadcrumb::push()
  */
 	public function push($crumbs = [], $url = null) {

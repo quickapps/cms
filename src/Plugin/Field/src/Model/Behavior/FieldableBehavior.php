@@ -536,7 +536,7 @@ class FieldableBehavior extends Behavior {
  * @param \Cake\ORM\Entity $entity
  * @param array $options
  * @throws \Cake\Error\FatalErrorException When using this behavior in non-atomic mode
- * @return boolean True if save operation should continue
+ * @return bool True if save operation should continue
  */
 	public function beforeSave(Event $event, $entity, $options) {
 		if (!$this->config('enabled')) {
@@ -615,7 +615,7 @@ class FieldableBehavior extends Behavior {
  * @param \Cake\Event\Event $event
  * @param \Cake\ORM\Entity $entity
  * @param array $options
- * @return boolean True always
+ * @return bool True always
  */
 	public function afterSave(Event $event, $entity, $options) {
 		if (!$this->config('enabled')) {
@@ -648,7 +648,7 @@ class FieldableBehavior extends Behavior {
  * @param \Cake\ORM\Entity $entity
  * @param array $options
  * @param Validator $validator
- * @return boolean True on success
+ * @return bool True on success
  */
 	public function beforeValidate(Event $event, $entity, $options, $validator) {
 		if (!$this->config('enabled')) {
@@ -688,7 +688,7 @@ class FieldableBehavior extends Behavior {
  * @param \Cake\ORM\Entity $entity
  * @param array $options
  * @param Validator $validator
- * @return boolean True on success
+ * @return bool True on success
  */
 	public function afterValidate(Event $event, $entity, $options, $validator) {
 		if (!$this->config('enabled')) {
@@ -727,7 +727,7 @@ class FieldableBehavior extends Behavior {
  * @param \Cake\Event\Event $event
  * @param \Cake\ORM\Entity $entity
  * @param array $options
- * @return boolean
+ * @return bool
  * @throws \Cake\Error\FatalErrorException When using this behavior in non-atomic mode
  */
 	public function beforeDelete(Event $event, $entity, $options) {
