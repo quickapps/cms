@@ -51,7 +51,7 @@ class ViewModeRegistry {
  */
 	public static function switchViewMode($slug) {
 		if (empty(static::$_viewModes[$slug])) {
-			throw new InternalErrorException(__('Illegal usage of ViewModeRegistry::switchViewMode(), view mode "%s" was not found.', $slug));
+			throw new InternalErrorException(__('Illegal usage of ViewModeRegistry::switchViewMode(), view mode "{0}" was not found.', $slug));
 		}
 
 		static::$_inUse = $slug;
@@ -172,7 +172,7 @@ class ViewModeRegistry {
 	public static function viewModes($full = false) {
 		if (is_string($full)) {
 			if (!isset(static::$_viewModes[$full])) {
-				throw new InternalErrorException(__('Illegal usage of ViewModeRegistry::switchViewMode(), view mode "%s" was not found.', $slug));
+				throw new InternalErrorException(__('Illegal usage of ViewModeRegistry::switchViewMode(), view mode "{0}" was not found.', $slug));
 			}
 
 			return static::$_viewModes[$full];

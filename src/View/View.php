@@ -84,7 +84,7 @@ class View extends CakeView {
 			$className = get_class($view);
 			$args = func_get_args();
 			array_shift($args);
-			$args = am([$view], (array)$args); // [entity, options]
+			$args = array_merge([$view], (array)$args); // [entity, options]
 			$event = new Event("Render.{$className}", $this, $args);
 			EventManager::instance()->dispatch($event);
 			$html = $event->result;

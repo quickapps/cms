@@ -23,7 +23,7 @@ use Cake\Core\Configure;
 <div class="alert alert-info">
 	<h3><?php echo __('Error'); ?></h3>
 	<p><?php echo $message; ?></p>
-	<p><?php echo __('The requested address %s was not found on this server.', "<strong>'{$url}'</strong>"); ?></p>
+	<p><?php echo __('The requested address {0} was not found on this server.', "<strong>'{$url}'</strong>"); ?></p>
 	<?php if (Configure::read('debug') > 0): ?>
 		<p>&nbsp;</p>
 		<p><?php echo $this->element('exception_stack_trace'); ?></p>

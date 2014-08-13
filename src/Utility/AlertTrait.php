@@ -240,7 +240,7 @@ trait AlertTrait {
 				if ($viewInstance) {
 					$out .= $this->alerts($c, $group);
 				} else {
-					$out = am($out, $this->alerts($c, $group));
+					$out = array_merge($out, $this->alerts($c, $group));
 				}
 			}
 		} elseif (is_null($class)) {
@@ -252,7 +252,7 @@ trait AlertTrait {
 						if ($viewInstance) {
 							$out .= $this->alerts($_class, $group);
 						} else {
-							$out = am($out, $this->alerts($_class, $group));
+							$out = array_merge($out, $this->alerts($_class, $group));
 						}
 					}
 				}

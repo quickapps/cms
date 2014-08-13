@@ -13,6 +13,7 @@ namespace QuickApps\Controller;
 
 use Cake\Controller\Controller as CakeCotroller;
 use Cake\Core\Configure;
+use Cake\I18n\I18n;
 use QuickApps\Utility\AlertTrait;
 use QuickApps\Utility\HookTrait;
 use QuickApps\View\ViewModeTrait;
@@ -101,7 +102,7 @@ class Controller extends CakeCotroller {
 			'name' => 'Chris',
 			'username' => 'admin',
 			'email' => 'chris@quickapps.es',
-			'locale' => 'es',
+			'locale' => 'en_US',
 			// TODO: stores in session "user.roles" both role ID and role Slugs. e.g. [1 => 'administrator', 2 => 'manager']
 			'roles' => [1 => 'administrator', 2 => 'manager'],
 		]);
@@ -145,22 +146,22 @@ class Controller extends CakeCotroller {
 		$locales = array_keys(quickapps('languages'));
 
 		if ($session->check('user.locale') && in_array($session->read('user.locale'), $locales)) {
-			Configure::write('Config.language', $session->read('user.locale'));
+			I18n::defaultLocale($session->read('user.locale'));
 		} elseif (in_array(option('default_language'), $locales)) {
-			Configure::write('Config.language', option('default_language'));
+			I18n::defaultLocale(option('default_language'));
 		} else {
-			Configure::write('Config.language', 'en-us');
+			I18n::defaultLocale('en_US');
 		}
 
 		if (
 			$this->request->url !== false &&
 			option('url_locale_prefix') &&
-			!str_starts_with($this->request->url, Configure::read('Config.language'))
+			!str_starts_with($this->request->url, I18n::defaultLocale())
 		) {
 			$url = $this->request->url;
 			$localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
 			$url = preg_replace("/^{$localesPattern}\//", '', $url);
-			$this->redirect('/' . Configure::read('Config.language') . '/' . $url);
+			$this->redirect('/' . I18n::defaultLocale() . '/' . $url);
 		}
 	}
 

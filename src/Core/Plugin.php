@@ -157,14 +157,14 @@ class Plugin extends CakePlugin {
 
 		$info = quickapps("plugins.{$plugin}");
 		if (!$info) {
-			throw new FatalErrorException(__('Plugin "%s" was not found', $plugin));
+			throw new FatalErrorException(__('Plugin "{0}" was not found', $plugin));
 		}
 
 		if ($full) {
 			$json = static::composer($plugin);
 
 			if (!$json) {
-				throw new FatalErrorException(__('Missing or corrupt "composer.json" file for plugin "%s"', $plugin));
+				throw new FatalErrorException(__('Missing or corrupt "composer.json" file for plugin "{0}"', $plugin));
 			}
 
 			$json = Hash::merge(static::$_defaultComposerJson, $json);
@@ -254,27 +254,27 @@ class Plugin extends CakePlugin {
 			$errors[] = __('Corrupt JSON information.');
 		} else {
 			if (!isset($json['version'])) {
-				$errors[] = __('Missing field: "%s"', 'version');
+				$errors[] = __('Missing field: "{0}"', 'version');
 			}
 
 			if (!isset($json['type'])) {
-				$errors[] = __('Missing field: "%s"', 'type');
+				$errors[] = __('Missing field: "{0}"', 'type');
 			} elseif ($json['type'] !== 'quickapps-plugin') {
-				$errors[] = __('Invalid field: "%s" (%s). It should be: %s', 'type', $json['type'], 'quickapps-plugin');
+				$errors[] = __('Invalid field: "{0}" ({1}). It should be: {2}', 'type', $json['type'], 'quickapps-plugin');
 			}
 
 			if (!isset($json['name'])) {
-				$errors[] = __('Missing field: "%s"', 'name');
+				$errors[] = __('Missing field: "{0}"', 'name');
 			} elseif (!preg_match('/^(.+)\/(.+)+$/', $json['name'])) {
-				$errors[] = __('Invalid field: "%s" (%s). It should be: %s', 'name', $json['name'], '{author-name}/{package-name}');
+				$errors[] = __('Invalid field: "{0}" ({1}). It should be: {2}', 'name', $json['name'], '{author-name}/{package-name}');
 			} elseif (str_ends_with(strtolower($json['name']), 'theme')) {
 				if (!isset($json['extra']['regions'])) {
-					$errors[] = __('Missing field: "%s"', 'extra.regions');
+					$errors[] = __('Missing field: "{0}"', 'extra.regions');
 				}
 			}
 
 			if (!isset($json['description'])) {
-				$errors[] = __('Missing field: "%s"', 'description');
+				$errors[] = __('Missing field: "{0}"', 'description');
 			}
 		}
 
