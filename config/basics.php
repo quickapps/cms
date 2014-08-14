@@ -42,6 +42,7 @@ use User\Model\Entity\User;
  * @return void
  */
 function snapshot($mergeWith = []) {
+	Cache::clear();
 	$snapshot = [
 		'version' => null,
 		'node_types' => [],
@@ -50,10 +51,30 @@ function snapshot($mergeWith = []) {
 		'languages' => []
 	];
 
-	$PluginTable = !TableRegistry::exists('SnapshotPlugins') ? TableRegistry::get('SnapshotPlugins', ['table' => 'plugins']) : TableRegistry::get('SnapshotPlugins');
-	$NodeTypesTable = !TableRegistry::exists('SnapshotNodeTypes') ? TableRegistry::get('SnapshotNodeTypes', ['table' => 'node_types']) : TableRegistry::get('SnapshotNodeTypes');
-	$LanguagesTable = !TableRegistry::exists('SnapshotLanguages') ? TableRegistry::get('SnapshotLanguages', ['table' => 'languages']) : TableRegistry::get('SnapshotLanguages');
-	$OptionsTable = !TableRegistry::exists('SnapshotOptions') ? TableRegistry::get('SnapshotOptions', ['table' => 'options']) : TableRegistry::get('SnapshotOptions');
+	if (!TableRegistry::exists('SnapshotPlugins')) {
+		$PluginTable = TableRegistry::get('SnapshotPlugins', ['table' => 'plugins']);
+	} else {
+		$PluginTable = TableRegistry::get('SnapshotPlugins');
+	}
+
+	if (!TableRegistry::exists('SnapshotNodeTypes')) {
+		$NodeTypesTable = TableRegistry::get('SnapshotNodeTypes', ['table' => 'node_types']);
+	} else {
+		$NodeTypesTable = TableRegistry::get('SnapshotNodeTypes');
+	}
+
+	if (!TableRegistry::exists('SnapshotLanguages')) {
+		$LanguagesTable = TableRegistry::get('SnapshotLanguages', ['table' => 'languages']);
+	} else {
+		$LanguagesTable = TableRegistry::get('SnapshotLanguages');
+	}
+
+	if (!TableRegistry::exists('SnapshotOptions')) {
+		$OptionsTable = TableRegistry::get('SnapshotOptions', ['table' => 'options']);
+	} else {
+		$OptionsTable = TableRegistry::get('SnapshotOptions');
+	}
+
 	$PluginTable->schema(['value' => 'serialized']);
 	$OptionsTable->schema(['value' => 'serialized']);
 
@@ -90,6 +111,7 @@ function snapshot($mergeWith = []) {
 		];
 	}
 
+	$corePath = str_replace(['/', DS], '/', ROOT);
 	foreach ($plugins as $plugin) {
 		$pluginPath = false;
 
@@ -100,13 +122,14 @@ function snapshot($mergeWith = []) {
 			}
 		}
 
+		$pluginPath = str_replace(['/', DS], '/', $pluginPath);
 		if ($pluginPath === false || !file_exists($pluginPath . '/composer.json')) {
 			Debugger::log(sprintf('Plugin "%s" was found in DB but QuickApps CMS was unable to locate its directory in the file system or its "composer.json" file.', $plugin->name));
 			continue;
 		}
 
-		$eventsPath =  $pluginPath . '/src/Event/';
-		$isCore = strpos(str_replace(['/', DS], '/', $pluginPath), str_replace(['/', DS], '/', APP)) !== false;
+		$eventsPath = "{$pluginPath}/src/Event/";
+		$isCore = strpos($pluginPath, $corePath) !== false;
 		$isTheme = str_ends_with($plugin->name, 'Theme');
 		$events = [
 			'hooks' => [],
@@ -148,7 +171,7 @@ function snapshot($mergeWith = []) {
 			'package' => $plugin->package,
 			'isTheme' => $isTheme,
 			'isCore' => $isCore,
-			'hasHelp' => file_exists($pluginPath . '/src/Template/Element/help.ctp'),
+			'hasHelp' => file_exists($pluginPath . '/src/Template/Element/Help/help.ctp'),
 			'hasSettings' => file_exists($pluginPath . '/src/Template/Element/settings.ctp'),
 			'events' => $events,
 			'status' => $plugin->status,

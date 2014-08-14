@@ -176,6 +176,10 @@ class MenuHelper extends Helper {
 			throw new FatalErrorException(__d('menu', 'Loop detected, MenuHelper already rendering.'));
 		}
 
+		if (empty($items)) {
+			return '';
+		}
+
 		$this->_rendering = true;
 		$this->alter('MenuHelper.render', $items, $options);
 

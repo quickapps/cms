@@ -51,13 +51,9 @@ class HelpController extends AppController {
 	public function index() {
 		$plugins = [];
 
-		foreach (App::objects('Plugin') as $plugin) {
-			if (Plugin::loaded($plugin)) {
-				$helpElement = App::path('Template', $plugin)[0] . 'Element' . DS . 'help.ctp';
-
-				if (file_exists($helpElement)) {
-					$plugins[] = $plugin;
-				}
+		foreach (Plugin::collection() as $plugin) {
+			if ($plugin['status'] && $plugin['hasHelp']) {
+				$plugins[] = $plugin['human_name'];
 			}
 		}
 
@@ -77,13 +73,13 @@ class HelpController extends AppController {
 
 		if (Plugin::loaded($pluginName)) {
 			$locale = I18n::defaultLocale();
-			$templatePath = App::path('Template', $pluginName)[0] . 'Element' . DS;
+			$templatePath = App::path('Template', $pluginName)[0] . 'Element/Help/';
 			$about = false;
 			$lookFor = ["help_{$locale}", 'help'];
 
 			foreach ($lookFor as $name) {
 				if (file_exists($templatePath . "{$name}.ctp")) {
-					$about = "{$pluginName}.{$name}";
+					$about = "{$pluginName}.Help/{$name}";
 					break;
 				}
 			}

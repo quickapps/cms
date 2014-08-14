@@ -11,8 +11,13 @@
  */
 ?>
 
-<?php $status = ['-1' => 'danger', '0' => 'warning', '1' => 'success']; ?>
-<div class="panel panel-<?php echo $status[$plugin['status']]; ?>">
+<?php
+	$classes = [];
+	$classes[] = $plugin['status'] ? 'panel-success' : 'panel-danger';
+	$classes[] = $plugin['status'] ? 'panel-enabled' : 'panel-disabled';
+	$classes[] = $plugin['isCore'] ? 'panel-core' : 'panel-third-party';
+?>
+<div class="panel <?php echo implode(' ', $classes); ?>">
 	<div class="panel-heading">
 		<strong><?php echo $plugin['human_name']; ?></strong> (<?php echo $plugin['composer']['version']; ?>)
 		<div class="btn-group pull-right">

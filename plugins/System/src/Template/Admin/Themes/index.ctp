@@ -16,13 +16,13 @@
 		<div class="btn-group filters">
 			<?php
 				echo $this->Html->link(__d('system', 'Front Themes') . ' <span class="badge">' . $front_count . '</span>', '#show-front', [
-					'class' => 'btn btn-info btn-sm',
+					'class' => 'btn btn-primary btn-sm btn-front',
 					'escape' => false,
 				]);
 			?>
 			<?php
 				echo $this->Html->link(__d('system', 'Back Themes') . ' <span class="badge">' . $back_count . '</span>', '#show-back', [
-					'class' => 'btn btn-warning btn-sm',
+					'class' => 'btn btn-info btn-sm btn-back',
 					'escape' => false,
 				]);
 			?>

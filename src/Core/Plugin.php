@@ -433,9 +433,12 @@ class Plugin extends CakePlugin {
  * means that no other plugins depends on $plugin, so $plugin can be safely deleted
  * or turned off.
  */
-	public function checkReverseDependency($pluginName) {
+	public static function checkReverseDependency($pluginName) {
 		$out = [];
 		foreach (static::collection(true) as $plugin) {
+			if ($plugin['name'] === $pluginName) {
+				continue;
+			}
 			if (isset($plugin['composer']['require'])) {
 				$packages = array_keys($plugin['composer']['require']);
 				$packages = array_map('pluginName', $packages);

@@ -180,6 +180,11 @@ if (!file_exists(TMP . 'snapshot.php') && file_exists(SITE_ROOT . '/config/setti
 $pluginCollection = Plugin::collection();
 $activePlugins = array_keys($pluginCollection->match(['status' => 1, 'isTheme' => false])->toArray());
 $EventManager = EventManager::instance();
+
+if (!count($activePlugins)) {
+	die("Ops, something went wrong. Try to clear your site's snapshot and verify write permissions on /tmp directory.");
+}
+
 foreach (App::objects('Plugin') as $plugin) {
 	if (
 		in_array($plugin, $activePlugins) ||

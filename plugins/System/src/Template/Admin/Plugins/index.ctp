@@ -16,19 +16,19 @@
 		<div class="btn-group filters">
 			<?php
 				echo $this->Html->link(__d('system', 'All') . ' <span class="badge"></span>', '#show-all', [
-					'class' => 'btn btn-info btn-sm active',
+					'class' => 'btn btn-primary btn-sm btn-all',
 					'escape' => false,
 				]);
 			?>
 			<?php
 				echo $this->Html->link(__d('system', 'Enabled') . ' <span class="badge">' . $enabled . '</span>', '#show-enabled', [
-					'class' => 'btn btn-success btn-sm',
+					'class' => 'btn btn-success btn-sm btn-enabled',
 					'escape' => false,
 				]);
 			?>
 			<?php
 				echo $this->Html->link(__d('system', 'Disabled') . ' <span class="badge">' . $disabled . '</span>', '#show-disabled', [
-					'class' => 'btn btn-warning btn-sm',
+					'class' => 'btn btn-danger btn-sm btn-disabled',
 					'escape' => false,
 				]);
 			?>

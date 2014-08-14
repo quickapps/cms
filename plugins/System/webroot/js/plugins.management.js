@@ -29,15 +29,17 @@ $(document).ready(function () {
 		$('.filters a.btn').removeClass('active');
 		if (type === 'show-all') {
 			$('.plugins-list .panel').show();
-			$('.filters a.btn-info').addClass('active');
+			$('.filters a.btn-all').addClass('active');
 		} else if (type === 'show-enabled') {
 			$('.plugins-list .panel').hide();
-			$('.plugins-list .panel-success').show();
-			$('.filters a.btn-success').addClass('active');
+			$('.plugins-list panel-enabled').show();
+			$('.filters a.btn-enabled').addClass('active');
 		} else if (type === 'show-disabled') {
 			$('.plugins-list .panel').hide();
-			$('.plugins-list .panel-warning').show();
-			$('.filters a.btn-warning').addClass('active');
+			$('.plugins-list .panel-disabled').show();
+			$('.filters a.btn-disabled').addClass('active');
 		}
 	}
+
+	filterBy('show-all');
 });

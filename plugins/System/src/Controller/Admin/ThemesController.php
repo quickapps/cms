@@ -68,18 +68,23 @@ class ThemesController extends AppController {
 	public function install() {
 		if ($this->request->data) {
 			if (isset($this->request->data['download'])) {
-				$success = $this->Installer->download($this->request->data['url'])->install();
+				$task = $this->Installer
+					->task('install', ['activate' => true])
+					->download($this->request->data['url']);
 			} else {
-				$success = $this->Installer->upload($this->request->data['file'])->install();
+				$task = $this->Installer
+					->task('install', ['callbacks' => true])
+					->upload($this->request->data['file']);
 			}
 
+			$success = $task->run();
 			if ($success) {
 				$this->Flash->success(__d('system', 'Theme successfully installed!'));
 				$this->redirect($this->referer());
 			} else {
 				$this->Flash->set(__d('system', 'Theme could not be installed'), [
 					'element' => 'System.installer_errors',
-					'params' => ['errors' => $this->Installer->errors()],
+					'params' => ['errors' => $task->errors()],
 				]);
 			}
 		}

@@ -15,11 +15,11 @@ $(document).ready(function () {
 		var type = type.replace('#', '');
 		$('.filters a.btn').removeClass('active');
 		if (type === 'show-front') {
-			$('.filters a.btn-info').addClass('active');
+			$('.filters a.btn-front').addClass('active');
 			$('.themes-list').hide();
 			$('.front-themes').show();
 		} else if (type === 'show-back') {
-			$('.filters a.btn-warning').addClass('active');
+			$('.filters a.btn-back').addClass('active');
 			$('.themes-list').hide();
 			$('.back-themes').show();
 		}
