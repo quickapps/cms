@@ -42,7 +42,9 @@ use User\Model\Entity\User;
  * @return void
  */
 function snapshot($mergeWith = []) {
-	Cache::clear();
+	Cache::clear(false, 'default');
+	Cache::clear(false, '_cake_core_');
+	Cache::clear(false, '_cake_model_');
 	$snapshot = [
 		'version' => null,
 		'node_types' => [],
