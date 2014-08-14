@@ -9,7 +9,6 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-
-echo $this->fetch('content');
-
-echo "This email was sent using the QuickApps CMS, http://quickappscms.org."
+?>
+<?php echo $this->fetch('content'); ?>
+<?php echo "This email was sent using the QuickApps CMS, http://quickappscms.org." ?>
