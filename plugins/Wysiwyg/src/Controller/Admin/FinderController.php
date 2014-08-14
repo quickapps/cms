@@ -17,7 +17,7 @@ use Wysiwyg\Controller\AppController;
  * File manager for elFinder CKeditor Add-on.
  *
  */
-class ElFinderController extends AppController {
+class FinderController extends AppController {
 
 /**
  * Renders elFinder's UI.
@@ -37,19 +37,21 @@ class ElFinderController extends AppController {
 	}
 
 /**
- * Returns the given file.
+ * Returns the given plugin's file within webroot directory.
  *
- * @param string $path Encoded full base directory to the file file name must
- * be passed as a $_GET parameter
  * @return void
  */
-	public function getFile($path) {
-		$path = base64_decode($path) . DS;
-		$file = str_replace('/', DS, $this->request->query['file']);
-		$fullPath = str_replace(DS . DS, DS, $path . $file);
-		$this->response->file($fullPath);
-
-		return $this->response;
+	public function plugin_file() {
+		if (!empty($this->request->query['file'])) {
+			$path = $this->request->query['file'];
+			$path = str_replace_once('#', '', $path);
+			$file = str_replace('//', '/', SITE_ROOT . "/plugins/{$path}");
+			if ((strpos($file, 'webroot') !== false || strpos($file, '.tmb') !== false) && file_exists($file)) {
+				$this->response->file($file);
+				return $this->response;
+			}
+		}
+		die;
 	}
 
 }

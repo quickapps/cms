@@ -25,6 +25,13 @@ class elFinderVolumeLocalFileSystem extends elFinderVolumeDriver {
 	protected $archiveSize = 0;
 	
 	/**
+	 * Canonicalized absolute pathname of $root
+	 * 
+	 * @var strung
+	 */
+	protected $aroot;
+	
+	/**
 	 * Constructor
 	 * Extend options with required fields
 	 *
@@ -230,7 +237,12 @@ class elFinderVolumeLocalFileSystem extends elFinderVolumeDriver {
 	 * @author Dmitry (dio) Levashov
 	 **/
 	protected function _inpath($path, $parent) {
-		return $path == $parent || strpos($path, $parent.DIRECTORY_SEPARATOR) === 0;
+		$real_path = realpath($path);
+		$real_parent = realpath($parent);
+		if ($real_path && $real_parent) {
+			return $real_path === $real_parent || strpos($real_path, $real_parent.DIRECTORY_SEPARATOR) === 0;
+		}
+		return false;
 	}
 	
 	
@@ -260,6 +272,15 @@ class elFinderVolumeLocalFileSystem extends elFinderVolumeDriver {
 		$stat = array();
 
 		if (!file_exists($path)) {
+			return $stat;
+		}
+
+		//Verifies the given path is the root or is inside the root. Prevents directory traveral.
+		if (!$this->aroot) {
+			// for Inheritance class ( not calling parent::configure() )
+			$this->aroot = realpath($this->root);
+		}
+		if (!$this->_inpath($path, $this->aroot)) {
 			return $stat;
 		}
 
@@ -320,7 +341,7 @@ class elFinderVolumeLocalFileSystem extends elFinderVolumeDriver {
 	
 	/**
 	 * Return object width and height
-	 * Ususaly used for images, but can be realize for video etc...
+	 * Usualy used for images, but can be realize for video etc...
 	 *
 	 * @param  string  $path  file path
 	 * @param  string  $mime  file mime type
@@ -351,16 +372,8 @@ class elFinderVolumeLocalFileSystem extends elFinderVolumeDriver {
 			$target = dirname($path).DIRECTORY_SEPARATOR.$target;
 		}
 		
-		$atarget = realpath($target);
-		
-		if (!$atarget) {
-			return false;
-		}
-		
-		$root  = $this->root;
-		$aroot = $this->aroot;
-
-		if ($this->_inpath($atarget, $this->aroot)) {
+		if ($this->_inpath($target, $this->aroot)) {
+			$atarget = realpath($target);
 			return $this->_normpath($this->root.DIRECTORY_SEPARATOR.substr($atarget, strlen($this->aroot)+1));
 		}
 
@@ -518,10 +531,11 @@ class elFinderVolumeLocalFileSystem extends elFinderVolumeDriver {
 	 * @param  resource  $fp   file pointer
 	 * @param  string    $dir  target dir path
 	 * @param  string    $name file name
+	 * @param  array     $stat file stat (required by some virtual fs)
 	 * @return bool|string
 	 * @author Dmitry (dio) Levashov
 	 **/
-	protected function _save($fp, $dir, $name, $mime, $w, $h) {
+	protected function _save($fp, $dir, $name, $stat) {
 		$path = $dir.DIRECTORY_SEPARATOR.$name;
 
 		if (!($target = @fopen($path, 'wb'))) {
@@ -570,96 +584,8 @@ class elFinderVolumeLocalFileSystem extends elFinderVolumeDriver {
 	 * @return void
 	 **/
 	protected function _checkArchivers() {
-		if (!function_exists('exec')) {
-			$this->options['archivers'] = $this->options['archive'] = array();
-			return;
-		}
-		$arcs = array(
-			'create'  => array(),
-			'extract' => array()
-			);
-		
-		//exec('tar --version', $o, $ctar);
-		$this->procExec('tar --version', $o, $ctar);
-
-		if ($ctar == 0) {
-			$arcs['create']['application/x-tar']  = array('cmd' => 'tar', 'argc' => '-cf', 'ext' => 'tar');
-			$arcs['extract']['application/x-tar'] = array('cmd' => 'tar', 'argc' => '-xf', 'ext' => 'tar');
-			//$test = exec('gzip --version', $o, $c);
-			unset($o);
-			$test = $this->procExec('gzip --version', $o, $c);
-
-			if ($c == 0) {
-				$arcs['create']['application/x-gzip']  = array('cmd' => 'tar', 'argc' => '-czf', 'ext' => 'tgz');
-				$arcs['extract']['application/x-gzip'] = array('cmd' => 'tar', 'argc' => '-xzf', 'ext' => 'tgz');
-			}
-			unset($o);
-			//$test = exec('bzip2 --version', $o, $c);
-			$test = $this->procExec('bzip2 --version', $o, $c);
-			if ($c == 0) {
-				$arcs['create']['application/x-bzip2']  = array('cmd' => 'tar', 'argc' => '-cjf', 'ext' => 'tbz');
-				$arcs['extract']['application/x-bzip2'] = array('cmd' => 'tar', 'argc' => '-xjf', 'ext' => 'tbz');
-			}
-		}
-		unset($o);
-		//exec('zip --version', $o, $c);
-		$this->procExec('zip -v', $o, $c);
-		if ($c == 0) {
-			$arcs['create']['application/zip']  = array('cmd' => 'zip', 'argc' => '-r9', 'ext' => 'zip');
-		}
-		unset($o);
-		$this->procExec('unzip --help', $o, $c);
-		if ($c == 0) {
-			$arcs['extract']['application/zip'] = array('cmd' => 'unzip', 'argc' => '',  'ext' => 'zip');
-		} 
-		unset($o);
-		//exec('rar --version', $o, $c);
-		$this->procExec('rar --version', $o, $c);
-		if ($c == 0 || $c == 7) {
-			$arcs['create']['application/x-rar']  = array('cmd' => 'rar', 'argc' => 'a -inul', 'ext' => 'rar');
-			$arcs['extract']['application/x-rar'] = array('cmd' => 'rar', 'argc' => 'x -y',    'ext' => 'rar');
-		} else {
-			unset($o);
-			//$test = exec('unrar', $o, $c);
-			$test = $this->procExec('unrar', $o, $c);
-			if ($c==0 || $c == 7) {
-				$arcs['extract']['application/x-rar'] = array('cmd' => 'unrar', 'argc' => 'x -y', 'ext' => 'rar');
-			}
-		}
-		unset($o);
-		//exec('7za --help', $o, $c);
-		$this->procExec('7za --help', $o, $c);
-		if ($c == 0) {
-			$arcs['create']['application/x-7z-compressed']  = array('cmd' => '7za', 'argc' => 'a', 'ext' => '7z');
-			$arcs['extract']['application/x-7z-compressed'] = array('cmd' => '7za', 'argc' => 'e -y', 'ext' => '7z');
-			
-			if (empty($arcs['create']['application/x-gzip'])) {
-				$arcs['create']['application/x-gzip'] = array('cmd' => '7za', 'argc' => 'a -tgzip', 'ext' => 'tar.gz');
-			}
-			if (empty($arcs['extract']['application/x-gzip'])) {
-				$arcs['extract']['application/x-gzip'] = array('cmd' => '7za', 'argc' => 'e -tgzip -y', 'ext' => 'tar.gz');
-			}
-			if (empty($arcs['create']['application/x-bzip2'])) {
-				$arcs['create']['application/x-bzip2'] = array('cmd' => '7za', 'argc' => 'a -tbzip2', 'ext' => 'tar.bz');
-			}
-			if (empty($arcs['extract']['application/x-bzip2'])) {
-				$arcs['extract']['application/x-bzip2'] = array('cmd' => '7za', 'argc' => 'a -tbzip2 -y', 'ext' => 'tar.bz');
-			}
-			if (empty($arcs['create']['application/zip'])) {
-				$arcs['create']['application/zip'] = array('cmd' => '7za', 'argc' => 'a -tzip -l', 'ext' => 'zip');
-			}
-			if (empty($arcs['extract']['application/zip'])) {
-				$arcs['extract']['application/zip'] = array('cmd' => '7za', 'argc' => 'e -tzip -y', 'ext' => 'zip');
-			}
-			if (empty($arcs['create']['application/x-tar'])) {
-				$arcs['create']['application/x-tar'] = array('cmd' => '7za', 'argc' => 'a -ttar -l', 'ext' => 'tar');
-			}
-			if (empty($arcs['extract']['application/x-tar'])) {
-				$arcs['extract']['application/x-tar'] = array('cmd' => '7za', 'argc' => 'e -ttar -y', 'ext' => 'tar');
-			}
-		}
-		
-		$this->archivers = $arcs;
+		$this->archivers = $this->getArchivers();
+		return;
 	}
 
 	/**
@@ -696,7 +622,7 @@ class elFinderVolumeLocalFileSystem extends elFinderVolumeDriver {
 			foreach (scandir($path) as $name) {
 				if ($name != '.' && $name != '..') {
 					$p = $path.DIRECTORY_SEPARATOR.$name;
-					if (is_link($p)) {
+					if (is_link($p) || !$this->nameAccepted($name)) {
 						return true;
 					}
 					if (is_dir($p) && $this->_findSymlinks($p)) {
@@ -707,6 +633,7 @@ class elFinderVolumeLocalFileSystem extends elFinderVolumeDriver {
 				}
 			}
 		} else {
+			
 			$this->archiveSize += filesize($path);
 		}
 		
@@ -741,7 +668,7 @@ class elFinderVolumeLocalFileSystem extends elFinderVolumeDriver {
 			
 			// extract in quarantine
 			$this->_unpack($archive, $arc);
-			@unlink($archive);
+			unlink($archive);
 			
 			// get files list
 			$ls = array();
