@@ -24,6 +24,22 @@ $(document).ready(function () {
 		filterBy(hash);
 	}
 
+	$('.filter-input').on('keyup', function() {
+		var group = $('.filters a.active');
+		var selector = '.plugin-panel';
+		if (group.hasClass('btn-enabled')) {
+			selector = '.panel-enabled';
+		} else if (group.hasClass('btn-disabled')){
+			selector = '.panel-disabled';
+		}
+		if (this.value.length < 1) {
+			$('.plugin-panel').css('display', '');
+		} else {
+			$(selector + ":not(:contains('"+ this.value + "'))").css('display', 'none');
+			$(selector + ":contains('" + this.value + "')").css('display', '');
+		}
+	});
+
 	function filterBy(type) {
 		var type = type.replace('#', '');
 		$('.filters a.btn').removeClass('active');
@@ -32,7 +48,7 @@ $(document).ready(function () {
 			$('.filters a.btn-all').addClass('active');
 		} else if (type === 'show-enabled') {
 			$('.plugins-list .panel').hide();
-			$('.plugins-list panel-enabled').show();
+			$('.plugins-list .panel-enabled').show();
 			$('.filters a.btn-enabled').addClass('active');
 		} else if (type === 'show-disabled') {
 			$('.plugins-list .panel').hide();

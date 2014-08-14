@@ -72,6 +72,8 @@ class PluginsController extends AppController {
 				]);
 			}
 		}
+		$this->Breadcrumb->push('/admin/system/plugins');
+		$this->Breadcrumb->push(__d('system', 'Install new plugin'), '#');
 	}
 
 /**

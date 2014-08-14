@@ -12,7 +12,7 @@
 ?>
 
 <?php $type = $theme['composer']['extra']['admin'] ? 'back_theme' : 'front_theme'; ?>
-<div class="col-sm-4 col-md-3">
+<div class="theme-box col-sm-4 col-md-3">
 	<div class="thumbnail">
 		<?php
 			echo $this->Html->image([

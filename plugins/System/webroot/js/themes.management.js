@@ -11,6 +11,21 @@ $(document).ready(function () {
 		filterBy(hash);
 	}
 
+	$('.filter-input').on('keyup', function() {
+		var group = $('.filters a.active');
+		var selector = '.front-themes .theme-box';
+		if (group.hasClass('btn-back')) {
+			selector = '.back-themes .theme-box';
+		}
+
+		if (this.value.length < 1) {
+			$('.theme-box').css('display', '');
+		} else {
+			$(selector + ":not(:contains('"+ this.value + "'))").css('display', 'none');
+			$(selector + ":contains('" + this.value + "')").css('display', '');
+		}
+	});
+
 	function filterBy(type) {
 		var type = type.replace('#', '');
 		$('.filters a.btn').removeClass('active');

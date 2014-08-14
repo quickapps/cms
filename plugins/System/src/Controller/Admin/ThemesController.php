@@ -88,6 +88,8 @@ class ThemesController extends AppController {
 				]);
 			}
 		}
+		$this->Breadcrumb->push('/admin/system/themes');
+		$this->Breadcrumb->push(__d('system', 'Install new theme'), '#');
 	}
 
 /**

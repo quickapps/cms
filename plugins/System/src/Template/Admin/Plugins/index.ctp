@@ -48,7 +48,16 @@
 	</div>
 </div>
 
-<hr />
+<div class="row">
+	<div class="col-md-3 pull-right">
+		<p>
+			<div class="input-group">
+				<span class="input-group-addon"><?php echo __d('system', 'Filter by'); ?></span>
+				<?php echo $this->Form->input('filter-input', ['class' => 'filter-input', 'label' => false]) ?>
+			</div>
+		</p>
+	</div>
+</div>
 
 <div class="row">
 	<div class="col-md-12 plugins-list">

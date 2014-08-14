@@ -17,9 +17,9 @@
 	$classes[] = $plugin['status'] ? 'panel-enabled' : 'panel-disabled';
 	$classes[] = $plugin['isCore'] ? 'panel-core' : 'panel-third-party';
 ?>
-<div class="panel <?php echo implode(' ', $classes); ?>">
+<div class="plugin-panel panel <?php echo implode(' ', $classes); ?>">
 	<div class="panel-heading">
-		<strong><?php echo $plugin['human_name']; ?></strong> (<?php echo $plugin['composer']['version']; ?>)
+		<strong class="plugin-name"><?php echo $plugin['human_name']; ?></strong> (<?php echo $plugin['composer']['version']; ?>)
 		<div class="btn-group pull-right">
 			<?php
 				echo $this->Html->link('', [
@@ -102,6 +102,7 @@
 						$plugin['name'],
 					], [
 						'title' => __d('system', 'Delete'),
+						'confirm' => __d('system', 'Delete this plugin? This operation cannot be undone!'),
 						'class' => 'btn btn-default btn-xs glyphicon glyphicon-trash',
 					]);
 				?>
