@@ -1,5 +1,5 @@
 {
-	"name": "quickapps-plugin/system",
+	"name": "quickapps-plugins/system",
 	"description": "QuickApps CMS core plugin.",
 	"type": "quickapps-plugin",
 	"keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],

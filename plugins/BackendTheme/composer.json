@@ -1,5 +1,5 @@
 {
-    "name": "quickapps-theme/backend-theme",
+    "name": "quickapps-themes/backend-theme",
     "description": "QuickApps CMS backend default theme based on Twitter Bootstrap.",
     "type": "quickapps-plugin",
     "keywords": [

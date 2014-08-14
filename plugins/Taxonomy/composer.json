@@ -1,5 +1,5 @@
 {
-	"name": "quickapps-plugin/taxonomy",
+	"name": "quickapps-plugins/taxonomy",
 	"description": "Enables the categorization of content.",
 	"type": "quickapps-plugin",
 	"keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],

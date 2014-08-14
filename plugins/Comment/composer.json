@@ -1,5 +1,5 @@
 {
-	"name": "quickapps-plugin/comment",
+	"name": "quickapps-plugins/comment",
 	"description": "Allows users to comment on and discuss published content.",
 	"type": "quickapps-plugin",
 	"keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],

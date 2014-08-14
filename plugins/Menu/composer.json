@@ -1,5 +1,5 @@
 {
-	"name": "quickapps-plugin/menu",
+	"name": "quickapps-plugins/menu",
 	"description": "Allows administrators to customize the site navigation menu.",
 	"type": "quickapps-plugin",
 	"keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],

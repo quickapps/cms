@@ -1,5 +1,5 @@
 {
-	"name": "quickapps-plugin/node",
+	"name": "quickapps-plugins/node",
 	"description": "Allows content to be submitted to the site and displayed on pages.",
 	"type": "quickapps-plugin",
 	"keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],

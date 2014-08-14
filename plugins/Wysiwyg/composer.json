@@ -1,5 +1,5 @@
 {
-	"name": "quickapps-plugin/wysiwyg",
+	"name": "quickapps-plugins/wysiwyg",
 	"description": "Wysiwyg editor for textareas.",
 	"type": "quickapps-plugin",
 	"keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],
