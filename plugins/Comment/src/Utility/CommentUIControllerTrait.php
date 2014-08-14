@@ -126,8 +126,8 @@ trait CommentUIControllerTrait {
  *     Person\Controller\CommentsManagerController::index()
  *
  * The above controller action will try to render
- * `/Plugin/Person/Template/CommentsManager/index.ctp`. But if does not exists then
- * `<QuickAppsCorePath>/Plugin/Comment/Template/CommentUI/index.ctp` will be
+ * `/plugins/Person/Template/CommentsManager/index.ctp`. But if does not exists then
+ * `<QuickAppsCorePath>/plugins/Comment/Template/CommentUI/index.ctp` will be
  * used instead.
  *
  * Of course you may create your own template and skip this fallback functionality.
@@ -237,10 +237,10 @@ trait CommentUIControllerTrait {
 			$comment->set($this->request->data);
 
 			if ($this->Comments->save($comment, ['validate' => 'update'])) {
-				$this->alert(__d('comment', 'Comment saved!.'), 'success');
+				$this->Flash->success(__d('comment', 'Comment saved!.'));
 				$this->redirect($this->referer());
 			} else {
-				$this->alert(__d('comment', 'Comment could not be saved, please check your information.'), 'danger');
+				$this->Flash->danger(__d('comment', 'Comment could not be saved, please check your information.'));
 			}
 		}
 
@@ -282,12 +282,12 @@ trait CommentUIControllerTrait {
 
 		if ($comment) {
 			if ($this->Comments->delete($comment)) {
-				$this->alert(__d('comment', 'Comment was successfully deleted!'), 'success');
+				$this->Flash->success(__d('comment', 'Comment was successfully deleted!'));
 			} else {
-				$this->alert(__d('comment', 'Comment could not be deleted, please try again.'), 'danger');
+				$this->Flash->danger(__d('comment', 'Comment could not be deleted, please try again.'));
 			}
 		} else {
-			$this->alert(__d('comment', 'Invalid comment, comment was not found.'), 'danger');
+			$this->Flash->danger(__d('comment', 'Invalid comment, comment was not found.'));
 		}
 
 		$this->redirect($this->referer());
@@ -301,7 +301,7 @@ trait CommentUIControllerTrait {
 	public function empty_trash() {
 		$this->loadModel('Comment.Comments');
 		$this->Comments->deleteAll(['Comments.status' => 'trash', 'Comments.table_alias' => $this->_manageTable]);
-		$this->alert(__d('comment', 'All comments in trash were successfully removed!'), 'success');
+		$this->Flash->success(__d('comment', 'All comments in trash were successfully removed!'));
 		$this->redirect($this->referer());
 	}
 

@@ -35,14 +35,14 @@ class HelpController extends AppController {
  *
  * Album plugin may create its own `help document` by creating this file:
  *
- *     /Plugin/Album/src/Template/Element/help.ctp
+ *     /plugins/Album/src/Template/Element/help.ctp
  *
  * Optionally, plugins are able to define translated versions of
  * help documents. To do this, you must simply define a view element as
  * `help_[code].ctp`, where `[code]` is a two-character language code.
  * For example:
  *
- *     help_en-us.ctp
+ *     help_en_US.ctp
  *     help_es.ctp
  *     help_fr.ctp
  *

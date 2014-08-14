@@ -38,7 +38,7 @@
 
 		<div class="container">
 			<?php echo $this->Breadcrumb->renderIfNotEmpty(); ?>
-			<?php echo $this->alerts(); ?>
+			<?php echo $this->Flash->render(); ?>
 			<?php echo $this->fetch('content'); ?>
 		</div>
 	</body>

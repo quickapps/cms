@@ -276,7 +276,7 @@ class CommentComponent extends Component {
 						if (is_callable($successMessage)) {
 							$successMessage = $successMessage($comment, $this->_controller);
 						}
-						$this->_controller->alert($successMessage, 'success', 'commentsForm');
+						$this->_controller->Flash->success($successMessage, ['key' => 'commentsForm']);
 						if ($this->config('redirectOnSuccess')) {
 							$redirectTo = $this->config('redirectOnSuccess') === true ? $this->_controller->referer() : $this->config('redirectOnSuccess');
 							$this->_controller->redirect($redirectTo);
@@ -294,7 +294,7 @@ class CommentComponent extends Component {
 			if (is_callable($errorMessage)) {
 				$errorMessage = $errorMessage($comment, $this->_controller);
 			}
-			$this->_controller->alert($errorMessage, 'danger', 'commentsForm');
+			$this->_controller->Flash->danger($errorMessage, ['key' => 'commentsForm']);
 		}
 
 		return false;

@@ -65,9 +65,9 @@ class LinksController extends AppController {
 				// don't trust "left" and "right" values coming from user's POST
 				$this->Menus->MenuLinks->addBehavior('Tree', ['scope' => ['menu_id' => $menu->id]]);
 				$this->Menus->MenuLinks->recover(); 
-				$this->alert(__d('menu', 'Menu has been reordered'), 'success');
+				$this->Flash->success(__d('menu', 'Menu has been reordered'));
 			} else {
-				$this->alert(__d('menu', 'Invalid information, check you have JavaScript enabled'), 'danger');
+				$this->Flash->danger(__d('menu', 'Invalid information, check you have JavaScript enabled'));
 			}
 
 			$this->redirect($this->referer());
@@ -117,7 +117,7 @@ class LinksController extends AppController {
 
 			if ($this->Menus->MenuLinks->save($link)) {
 				$this->Menus->MenuLinks->recover();
-				$this->alert(__d('menu', 'Link successfully created!'), 'success');
+				$this->Flash->success(__d('menu', 'Link successfully created!'));
 
 				if (!empty($this->request->data['action_add'])) {
 					$this->redirect(['plugin' => 'Menu', 'controller' => 'links', 'action' => 'add', $menu_id]);
@@ -125,7 +125,7 @@ class LinksController extends AppController {
 					$this->redirect(['plugin' => 'Menu', 'controller' => 'links', 'action' => 'menu', $menu_id]);
 				}
 			} else {
-				$this->alert(__d('menu', 'Link could not be saved, please check your information'), 'danger');
+				$this->Flash->danger(__d('menu', 'Link could not be saved, please check your information'));
 			}
 		}
 
@@ -168,10 +168,10 @@ class LinksController extends AppController {
 			]);
 
 			if ($this->MenuLinks->save($link, ['associated' => false])) {
-				$this->alert(__d('menu', 'Link has been updated'));
+				$this->Flash->success(__d('menu', 'Link has been updated'));
 				$this->redirect($this->referer());
 			} else {
-				$this->alert(__d('menu', 'Link could not be updated, please check your information'), 'danger');
+				$this->Flash->danger(__d('menu', 'Link could not be updated, please check your information'));
 			}
 		}
 
@@ -194,9 +194,9 @@ class LinksController extends AppController {
 		$this->MenuLinks->removeFromTree($link);
 
 		if ($this->MenuLinks->delete($link)) {
-			$this->alert(__d('menu', 'Link successfully removed!'), 'success');
+			$this->Flash->success(__d('menu', 'Link successfully removed!'));
 		} else {
-			$this->alert(__d('menu', 'Link could not be removed, please try again'), 'danger');
+			$this->Flash->danger(__d('menu', 'Link could not be removed, please try again'));
 		}
 
 		$this->redirect($this->referer());

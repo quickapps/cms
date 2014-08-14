@@ -50,10 +50,10 @@ class TypesController extends AppController {
 			$type = $this->NodeTypes->newEntity($this->request->data);
 
 			if ($this->NodeTypes->save($type)) {
-				$this->alert(__d('node', 'Content type created, now attach some fields.'));
+				$this->Flash->success(__d('node', 'Content type created, now attach some fields.'));
 				$this->redirect(['plugin' => 'Node', 'controller' => 'fields', 'type' => $type->slug]);
 			} else {
-				$this->alert(__d('node', 'Content type could not be created, check your information.'), 'danger');
+				$this->Flash->danger(__d('node', 'Content type could not be created, check your information.'));
 			}
 		} else {
 			$type = $this->NodeTypes->newEntity();
@@ -86,10 +86,10 @@ class TypesController extends AppController {
 			$type->set($this->request->data);
 
 			if ($this->NodeTypes->save($type)) {
-				$this->alert(__d('node', 'Content type updated!'));
+				$this->Flash->success(__d('node', 'Content type updated!'));
 				$this->redirect(['plugin' => 'Node', 'controller' => 'types', 'action' => 'edit', $type->slug]);
 			} else {
-				$this->alert(__d('node', 'Content type could not be updated, check your information.'), 'danger');
+				$this->Flash->danger(__d('node', 'Content type could not be updated, check your information.'));
 			}
 		} else {
 			// fix for auto-fill "defaults.*" by FormHelper
@@ -120,9 +120,9 @@ class TypesController extends AppController {
 		}
 
 		if ($this->NodeTypes->delete($type)) {
-			$this->alert(__d('node', 'Content was deleted!'));
+			$this->Flash->success(__d('node', 'Content was deleted!'));
 		} else {
-			$this->alert(__d('node', 'Content type could not be deleted, please try again.'), 'danger');
+			$$this->Flash->danger(__d('node', 'Content type could not be deleted, please try again.'));
 		}
 
 		$this->redirect($this->referer());

@@ -259,7 +259,7 @@ class StartupController extends AppController {
 				$dumpComplete = true;
 				die;
 			} catch (\Exception $e) {
-				$this->alert(__d('installer', 'Unable to connect to database, please check your information. Details: {0}', '<p>' . $e->getMessage(). '</p>'), 'danger');
+				$this->Flash->danger(__d('installer', 'Unable to connect to database, please check your information. Details: {0}', '<p>' . $e->getMessage(). '</p>'));
 			}
 
 			if ($dumpComplete) {

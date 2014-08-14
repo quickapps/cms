@@ -54,10 +54,10 @@ class ManageController extends AppController {
 			]);
 
 			if ($this->Menus->save($menu, ['atomic' => true])) {
-				$this->alert(__d('menu', 'Menu has been created, now you can start adding links!'), 'success');
+				$this->Flash->success(__d('menu', 'Menu has been created, now you can start adding links!'));
 				$this->redirect(['plugin' => 'Menu', 'controller' => 'links', 'action' => 'add', $menu->id]);
 			} else {
-				$this->alert(__d('menu', 'Menu could not be created, please check your information'), 'danger');
+				$this->Flash->danger(__d('menu', 'Menu could not be created, please check your information'));
 			}
 		}
 
@@ -86,10 +86,10 @@ class ManageController extends AppController {
 			]);
 
 			if ($this->Menus->save($menu, ['atomic' => true])) {
-				$this->alert(__d('menu', 'Menu has been saved!'), 'success');
+				$this->Flash->success(__d('menu', 'Menu has been saved!'));
 				$this->redirect($this->referer());
 			} else {
-				$this->alert(__d('menu', 'Menu could not be saved, please check your information'), 'danger');
+				$this->Flash->danger(__d('menu', 'Menu could not be saved, please check your information'));
 			}
 		}
 
@@ -110,9 +110,9 @@ class ManageController extends AppController {
 		$menu = $this->Menus->get($id);
 
 		if ($menu->handler === 'Menu' && $this->Menus->delete($menu)) {
-			$this->alert(__d('menu', 'Menu has been successfully deleted!'), 'success');
+			$this->Flash->success(__d('menu', 'Menu has been successfully deleted!'));
 		} else {
-			$this->alert(__d('menu', 'Menu could not be deleted, please try again'), 'danger');
+			$this->Flash->danger(__d('menu', 'Menu could not be deleted, please try again'));
 		}
 
 		$this->redirect($this->referer());

@@ -9,7 +9,7 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace System\Controller\Component;
+namespace Installer\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Controller\ComponentRegistry;
@@ -65,7 +65,7 @@ class InstallerComponent extends Component {
 	protected $_pluginName = null;
 
 /**
- * Full path to plugin's directory: SITE_ROOT . 'Plugin/<PluginName>'.
+ * Full path to plugin's directory: SITE_ROOT . 'plugins/<PluginName>'.
  * 
  * @var string
  */
@@ -117,25 +117,15 @@ class InstallerComponent extends Component {
 	}
 
 /**
- * Gets a package at the given file system path.
+ * Gets a ZIP package at the given file system path.
  * 
  * @param string $filePath A valid path
  * @return \System\Controller\Component\InstallerComponent This instance
  */
 	public function file($filePath) {
 		if (file_exists($filePath) && !is_dir($filePath)) {
-			if (str_ends_with(strtolower($filePath), '.zip')) {
-				$file = new File($filePath);
-				$mime = $file->mime();
-				if (!$mime || !in_array($mime, $this->_validMimes)) {
-					$this->_error(__d('system', 'Invalid file, the given file is not in ZIP format.'));
-					$file->delete();
-				} else {
-					$this->_packagePath = $filePath;
-				}
-				$file->close();
-			} else {
-				$this->_error(__d('system', 'Invalid file extension, package file must be a ZIP file.'));
+			if ($this->_validateZip($filePath)) {
+				$this->_packagePath = $filePath;
 			}
 		} else {
 			$this->_error(__d('system', 'The file <code>{0}</code> was not found.', $filePath));
@@ -175,24 +165,23 @@ class InstallerComponent extends Component {
 		if ($response && $response->isOk()) {
 			$fileName = substr(md5($package), 24) . '.zip';
 			$file = new File(TMP . $fileName);
-			$file->delete();
+
+			if (file_exists($file->pwd())) {
+				$file->delete();
+			}
 
 			if (
 				!empty($response->body()) &&
 				$file->create() &&
 				$file->write($response->body(), 'w+', true)
 			) {
-				$mime = $file->mime();
-				if (!$mime || !in_array($mime, $this->_validMimes)) {
-					$this->_error(__d('system', 'Invalid file, the downloaded file is not in ZIP format.', $mime));
-					$file->delete();
-				} else {
-					$this->_packagePath = TMP . $fileName;
+				$file->close();
+				if ($this->_validateZip($file->pwd())) {
+					$this->_packagePath = $file->pwd();
 				}
 			} else {
 				$this->_error(__d('system', 'Unable to download the file, check write permission on <code>{0}</code> directory.', TMP));
 			}
-			$file->close();
 		} else {
 			$this->_error(__d('system', 'Could not download the package, no .ZIP file was found at the given URL.'));
 		}
@@ -227,7 +216,7 @@ class InstallerComponent extends Component {
 			return false;
 		}
 
-		if (!$this->_validate()) {
+		if (!$this->_validateContent()) {
 			$this->_rollback();
 			return false;
 		}
@@ -352,11 +341,38 @@ class InstallerComponent extends Component {
 	}
 
 /**
+ * Validates ZIP before extracting it.
+ *
+ * @param string Full path to the ZIP file
+ * @return bool TRUE on success, FALSE otherwise
+ */
+	protected function _validateZip($filePath) {
+		$errors = [];
+		if (str_ends_with(strtolower($filePath), '.zip')) {
+			$file = new File($filePath);
+			$mime = $file->mime();
+			if (!$mime || !in_array($mime, $this->_validMimes)) {
+				$errors[] = __d('system', 'Invalid file, the given file is not in ZIP format.');
+				$file->delete();
+			}
+			$file->close();
+		} else {
+			$errors[] = __d('system', 'Invalid file extension, package file must be a ZIP file.');
+		}
+
+		foreach ($errors as $message) {
+			$this->_error($message);
+		}
+
+		return empty($errors);
+	}
+
+/**
  * Validates the content of the extracted ZIP.
  * 
  * @return bool TRUE on success, FALSE otherwise
  */
-	protected function _validate() {
+	protected function _validateContent() {
 		if (!$this->_extractedPath) {
 			return false;
 		}
@@ -380,8 +396,15 @@ class InstallerComponent extends Component {
 				$json = json_decode($json, true);
 				$this->_pluginName = pluginName($json['name']);
 
-				if (str_ends_with($this->_pluginName, 'Theme') && !file_exists("{$this->_extractedPath}webroot/screenshot.png")) {
-					$errors[] = __d('system', 'Missing "screenshot.png" file.');
+				if (str_ends_with($this->_pluginName, 'Theme')) {
+					if (!file_exists("{$this->_extractedPath}webroot/screenshot.png")) {
+						$errors[] = __d('system', 'Missing "screenshot.png" file.');
+					} else {
+						$screenshot = new File("{$this->_extractedPath}webroot/screenshot.png");
+						if ($screenshot->mime() !== 'image/png') {
+							$errors[] = __d('system', 'Invalid "screenshot.png" file, it is not a PNG file.');
+						}
+					}
 				}
 
 				$exists = $this->Plugins
@@ -408,11 +431,11 @@ class InstallerComponent extends Component {
 		}
 
 		if (
-			!file_exists(SITE_ROOT . '/Plugin') ||
-			!is_dir(SITE_ROOT . '/Plugin') ||
-			!is_writable(SITE_ROOT . '/Plugin')
-		) {die("here");
-			$errors[] = __d('system', 'Write permissions required for directory: {0}.', SITE_ROOT . '/Plugin');
+			!file_exists(SITE_ROOT . '/plugins') ||
+			!is_dir(SITE_ROOT . '/plugins') ||
+			!is_writable(SITE_ROOT . '/plugins')
+		) {
+			$errors[] = __d('system', 'Write permissions required for directory: {0}.', SITE_ROOT . '/plugins/');
 		}
 
 		foreach ($errors as $message) {
@@ -429,22 +452,22 @@ class InstallerComponent extends Component {
  */
 	protected function _movePackage() {
 		$source = new Folder($this->_extractedPath);
-		if (file_exists(SITE_ROOT. "/Plugin/{$this->_pluginName}/")) {
-			$this->_error(__d('system', 'Destination directory already exists, please delete manually this directory: {0}', SITE_ROOT. "/Plugin/{$this->_pluginName}/"));
+		if (file_exists(SITE_ROOT. "/plugins/{$this->_pluginName}/")) {
+			$this->_error(__d('system', 'Destination directory already exists, please delete manually this directory: {0}', SITE_ROOT . "/plugins/{$this->_pluginName}/"));
 			return false;
 		}
 
-		if (!$source->move(['to' => SITE_ROOT. "/Plugin/{$this->_pluginName}/"])) {
+		if (!$source->move(['to' => SITE_ROOT. "/plugins/{$this->_pluginName}/"])) {
 			$this->_error(__d('system', 'Error when moving package content.'));
 			return false;
 		}
 
-		$this->_pluginPath = SITE_ROOT. "/Plugin/{$this->_pluginName}/";
+		$this->_pluginPath = SITE_ROOT. "/plugins/{$this->_pluginName}/";
 		return true;
 	}
 
 /**
- * Loads and registers plugin's Hook classes, so plugins may respond
+ * Loads and registers plugin's Hook classes so plugins may respond
  * to `beforeInstall`, `afterInstall`, etc.
  * 
  * @return void

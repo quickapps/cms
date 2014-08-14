@@ -14,7 +14,6 @@ namespace QuickApps\Controller;
 use Cake\Controller\Controller as CakeCotroller;
 use Cake\Core\Configure;
 use Cake\I18n\I18n;
-use QuickApps\Utility\AlertTrait;
 use QuickApps\Utility\HookTrait;
 use QuickApps\View\ViewModeTrait;
 
@@ -26,7 +25,6 @@ use QuickApps\View\ViewModeTrait;
  */
 class Controller extends CakeCotroller {
 
-	use AlertTrait;
 	use HookTrait;
 	use ViewModeTrait;
 
@@ -72,6 +70,7 @@ class Controller extends CakeCotroller {
 		'System.Detector',
 		'Menu.Breadcrumb',
 		'Session',
+		'Flash',
 	];
 
 /**

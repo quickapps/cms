@@ -37,7 +37,7 @@
 		</nav>
 
 		<div class="container">
-			<?php echo $this->Html->alerts(); ?>
+			<?php echo $this->Flash->render(); ?>
 			<?php echo $this->fetch('content'); ?>
 		</div>
 	</body>

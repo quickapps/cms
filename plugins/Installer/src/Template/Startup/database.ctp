@@ -16,7 +16,7 @@
     <legend><?php echo __d('installer', 'Database Connection'); ?></legend>
     <small><em><?php echo __d('installer', 'Enter connection data for your database. Note: your database must already exist before completing this step.'); ?></em></small>
     <hr />
-	<?php echo $this->Html->alerts(); ?>
+	<?php echo $this->Flash->render(); ?>
 	<div class="col-lg-6">
 		<div class="form-group">
 			<?php echo $this->Form->input('host', ['label' => __d('installer', 'Host'), 'value' => 'localhost', 'placeholder' => __d('installer', 'ex. localhost')]); ?>

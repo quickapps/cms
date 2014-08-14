@@ -68,7 +68,7 @@ trait ViewModeTrait {
 	}
 
 /**
- * Runs the given callable logic when in use view mode matches.
+ * Runs the given callable when the in-use view mode matches.
  *
  * You can provide multiple view modes, in that case callable method will be
  * executed if current view mode matches any in the given array.
@@ -94,6 +94,34 @@ trait ViewModeTrait {
 		if (in_array($this->inUseViewMode(), $viewMode)) {
 			return $method($this);
 		}
+	}
+
+/**
+ * Runs the given callable as it were under the given view mode.
+ *
+ * ### Usage
+ *
+ *     $this->switchMode('full');
+ *     echo 'before: ' . $this->inUseViewMode();
+ *     echo $this->asViewMode('teaser', function ($context) use ($someVar) {
+ *         echo 'callable: ' . $this->inUseViewMode();
+ *     });
+ *     echo 'after: ' . $this->inUseViewMode();
+ *     
+ *     // output:
+ *     before: full
+ *     callable: teaser
+ *     after: full
+ * 
+ * @param string|array $viewMode View Mode slug, or an array of slugs
+ * @param callable $method A callable function to run, it receives `$this` as only argument
+ * @return mixed Callable return
+ */
+	public function asViewMode($viewMode, callable $method) {
+		$prevViewMode = $this->inUseViewMode();
+		$this->switchViewMode($viewMode);
+		$method();
+		$this->switchViewMode($prevViewMode);
 	}
 
 }

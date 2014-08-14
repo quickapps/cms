@@ -85,10 +85,10 @@ class ManageController extends AppController {
 			$node = $this->Nodes->newEntity($data);
 
 			if ($this->Nodes->save($node)) {
-				$this->alert(__d('node', 'Content created!.'), 'success');
+				$this->Flash->success(__d('node', 'Content created!.'));
 				$this->redirect(['plugin' => 'Node', 'controller' => 'manage', 'action' => 'edit', 'prefix' => 'admin', $node->id]);
 			} else {
-				$this->alert(__d('node', 'Something went wrong, please check your information.'), 'danger');
+				$this->Flash->danger(__d('node', 'Something went wrong, please check your information.'));
 			}
 		} else {
 			$node = $this->Nodes->newEntity(['node_type_slug' => $type->slug]);
@@ -160,10 +160,10 @@ class ManageController extends AppController {
 			$node->set($this->request->data);
 
 			if ($this->Nodes->save($node, ['atomic' => true])) {
-				$this->alert(__d('node', 'Information was saved!'), 'success');
+				$this->Flash->success(__d('node', 'Information was saved!'));
 				$this->redirect("/admin/node/manage/edit/{$id}");
 			} else {
-				$this->alert(__d('node', 'Something went wrong, please check your information.'), 'danger');
+				$this->Flash->danger(__d('node', 'Something went wrong, please check your information.'));
 			}
 		}
 
@@ -184,9 +184,9 @@ class ManageController extends AppController {
 		$node = $this->Nodes->get($node_id);
 
 		if ($this->Nodes->delete($node, ['atomic' => true])) {
-			$this->alert(__d('node', 'Content was successfully removed!'), 'success');
+			$this->Flash->success(__d('node', 'Content was successfully removed!'));
 		} else {
-			$this->alert(__d('node', 'Unable to remove this content, please try again.'), 'danger');
+			$this->Flash->danger(__d('node', 'Unable to remove this content, please try again.'));
 		}
 
 		$this->redirect($this->referer());
@@ -206,9 +206,9 @@ class ManageController extends AppController {
 			->first();
 
 		if ($this->NodeRevisions->delete($revision, ['atomic' => true])) {
-			$this->alert(__d('node', 'Revision was successfully removed!'), 'success');
+			$this->Flash->success(__d('node', 'Revision was successfully removed!'));
 		} else {
-			$this->alert(__d('node', 'Unable to remove this revision, please try again.'), 'danger');
+			$this->Flash->danger(__d('node', 'Unable to remove this revision, please try again.'));
 		}
 
 		$this->redirect($this->referer());

@@ -56,10 +56,10 @@ class VocabulariesController extends AppController {
 			]);
 
 			if ($this->Vocabularies->save($vocabulary, ['atomic' => true])) {
-				$this->alert(__d('taxonomy', 'Vocabulary has been created, now you can start adding terms!'), 'success');
+				$this->Flash->success(__d('taxonomy', 'Vocabulary has been created, now you can start adding terms!'));
 				$this->redirect(['plugin' => 'Taxonomy', 'controller' => 'terms', 'action' => 'add', $vocabulary->id]);
 			} else {
-				$this->alert(__d('taxonomy', 'Vocabulary could not be created, please check your information'), 'danger');
+				$this->Flash->danger(__d('taxonomy', 'Vocabulary could not be created, please check your information'));
 			}
 		}
 
@@ -89,10 +89,10 @@ class VocabulariesController extends AppController {
 			]);
 
 			if ($this->Vocabularies->save($vocabulary, ['atomic' => true])) {
-				$this->alert(__d('taxonomy', 'Vocabulary has been saved!'), 'success');
+				$this->Flash->success(__d('taxonomy', 'Vocabulary has been saved!'));
 				$this->redirect($this->referer());
 			} else {
-				$this->alert(__d('taxonomy', 'Vocabulary could not be saved, please check your information'), 'danger');
+				$this->Flash->danger(__d('taxonomy', 'Vocabulary could not be saved, please check your information'));
 			}
 		}
 
@@ -118,9 +118,9 @@ class VocabulariesController extends AppController {
 		]);
 
 		if ($this->Vocabularies->delete($vocabulary)) {
-			$this->alert(__d('taxonomy', 'Vocabulary has been successfully deleted!'), 'success');
+			$this->Flash->success(__d('taxonomy', 'Vocabulary has been successfully deleted!'));
 		} else {
-			$this->alert(__d('taxonomy', 'Vocabulary could not be deleted, please try again'), 'danger');
+			$this->Flash->danger(__d('taxonomy', 'Vocabulary could not be deleted, please try again'));
 		}
 
 		$this->redirect($this->referer());

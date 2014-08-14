@@ -68,9 +68,9 @@ class TermsController extends AppController {
 				// don't trust "left" and "right" values coming from user's POST
 				$this->Vocabularies->Terms->addBehavior('Tree', ['scope' => ['vocabulary_id' => $vocabulary->id]]);
 				$this->Vocabularies->Terms->recover(); 
-				$this->alert(__d('taxonomy', 'Vocabulary terms tree has been reordered'), 'success');
+				$this->Flash->success(__d('taxonomy', 'Vocabulary terms tree has been reordered'));
 			} else {
-				$this->alert(__d('taxonomy', 'Invalid information, check you have JavaScript enabled'), 'danger');
+				$this->Flash->danger(__d('taxonomy', 'Invalid information, check you have JavaScript enabled'));
 			}
 
 			$this->redirect($this->referer());
@@ -105,14 +105,14 @@ class TermsController extends AppController {
 			]);
 
 			if ($this->Vocabularies->Terms->save($term)) {
-				$this->alert(__d('taxonomy', 'Term has been created.'), 'success');
+				$this->Flash->success(__d('taxonomy', 'Term has been created.'));
 				if (!empty($this->request->data['action_vocabulary'])) {
 					$this->redirect(['plugin' => 'Taxonomy', 'controller' => 'terms', 'action' => 'vocabulary', $vocabulary->id]);
 				} elseif (!empty($this->request->data['action_add'])) {
 					$this->redirect(['plugin' => 'Taxonomy', 'controller' => 'terms', 'action' => 'add', $vocabulary->id]);
 				}
 			} else {
-				$this->alert(__d('taxonomy', 'Term could not be created, please check your information.'), 'danger');
+				$this->Flash->danger(__d('taxonomy', 'Term could not be created, please check your information.'));
 			}
 		}
 
@@ -149,10 +149,10 @@ class TermsController extends AppController {
 			$link = $this->Terms->patchEntity($term, $this->request->data, ['fieldList' => ['name']]);
 
 			if ($this->Terms->save($term, ['associated' => false])) {
-				$this->alert(__d('taxonomy', 'Term has been updated'));
+				$this->Flash->success(__d('taxonomy', 'Term has been updated'));
 				$this->redirect($this->referer());
 			} else {
-				$this->alert(__d('taxonomy', 'Term could not be updated, please check your information'), 'danger');
+				$this->Flash->danger(__d('taxonomy', 'Term could not be updated, please check your information'));
 			}
 		}
 
@@ -178,9 +178,9 @@ class TermsController extends AppController {
 		$this->Terms->removeFromTree($term);
 
 		if ($this->Terms->delete($term)) {
-			$this->alert(__d('taxonomy', 'Term successfully removed!'), 'success');
+			$this->Flash->success(__d('taxonomy', 'Term successfully removed!'));
 		} else {
-			$this->alert(__d('taxonomy', 'Term could not be removed, please try again'), 'danger');
+			$this->Flash->danger(__d('taxonomy', 'Term could not be removed, please try again'));
 		}
 
 		$this->redirect($this->referer());

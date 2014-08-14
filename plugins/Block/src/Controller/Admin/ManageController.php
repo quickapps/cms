@@ -50,7 +50,7 @@ class ManageController extends AppController {
 					}
 				}
 
-				$this->alert(__d('block', 'Blocks ordering updated!'), 'success');
+				$this->Flash->success(__d('block', 'Blocks ordering updated!'));
 			}
 			$this->redirect(['plugin' => 'Block', 'controller' => 'manage', 'action' => 'index']);
 		}
@@ -140,10 +140,10 @@ class ManageController extends AppController {
 			$block->calculateDelta();
 
 			if ($this->Blocks->save($block, ['validate' => 'custom'])) {
-				$this->alert(__d('block', 'Block created.'), 'success');
+				$this->Flash->success(__d('block', 'Block created.'));
 				$this->redirect(['plugin' => 'Block', 'controller' => 'manage', 'action' => 'edit', $block->id]);
 			} else {
-				$this->alert(__d('block', 'Block could not be created, please check your information.'), 'danger');
+				$this->Flash->danger(__d('block', 'Block could not be created, please check your information.'));
 			}
 		}
 
@@ -174,12 +174,12 @@ class ManageController extends AppController {
 
 		if ($block) {
 			if ($this->Blocks->delete($block)) {
-				$this->alert(__d('block', 'Block was successfully removed!'), 'success');
+				$this->Flash->success(__d('block', 'Block was successfully removed!'));
 			} else {
-				$this->alert(__d('block', 'Block could not be removed'), 'danger');
+				$this->Flash->danger(__d('block', 'Block could not be removed'));
 			}
 		} else {
-			$this->alert(__d('block', 'Block not found!'), 'warning');
+			$this->Flash->warning(__d('block', 'Block not found!'));
 		}
 
 		$this->redirect($this->referer());
@@ -203,10 +203,10 @@ class ManageController extends AppController {
 			$validate = $block->handler != 'Block' ? 'default' : 'custom';
 
 			if ($this->Blocks->save($block, ['validate' => $validate])) {
-				$this->alert(__d('block', 'Block updated!'), 'success');
+				$this->Flash->success(__d('block', 'Block updated!'));
 				$this->redirect(['plugin' => 'Block', 'controller' => 'manage', 'action' => 'edit', $block->id]);
 			} else {
-				$this->alert(__d('block', 'Block could not be updated, please check your information.'), 'danger');
+				$this->Flash->danger(__d('block', 'Block could not be updated, please check your information.'));
 			}
 		}
 
@@ -238,9 +238,9 @@ class ManageController extends AppController {
 		$new->calculateDelta();
 
 		if ($this->Blocks->save($new)) {
-			$this->alert(__d('block', 'Block has been duplicated, it can be found under the "Unused or Unassigned" section.'), 'success');
+			$this->Flash->success(__d('block', 'Block has been duplicated, it can be found under the "Unused or Unassigned" section.'));
 		} else {
-			$this->alert(__d('block', 'Block could not be duplicated, please try again.'), 'danger');
+			$this->Flash->danger(__d('block', 'Block could not be duplicated, please try again.'));
 		}
 
 		$this->redirect($this->referer() . '#unused-blocks');

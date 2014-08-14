@@ -28,7 +28,7 @@ class ThemesController extends AppController {
  *
  * @var array
  */
-	public $components = ['System.Installer'];
+	public $components = ['Installer.Installer'];
 
 /**
  * Main action.
@@ -74,15 +74,13 @@ class ThemesController extends AppController {
 			}
 
 			if ($success) {
-				$this->alert(__d('system', 'Theme successfully installed!'));
+				$this->Flash->success(__d('system', 'Theme successfully installed!'));
 				$this->redirect($this->referer());
 			} else {
-				$messages = $this->Installer->errors();
-				$messages = array_map(function ($v) {
-					return "<li>{$v}</li>";
-				}, $messages);
-				$messages = implode("\n", $messages);
-				$this->alert(__d('system', 'Theme could not be installed:<br/> {0}', "<ul>{$messages}</ul>"), 'danger');
+				$this->Flash->set(__d('system', 'Theme could not be installed'), [
+					'element' => 'System.installer_errors',
+					'params' => ['errors' => $this->Installer->errors()],
+				]);
 			}
 		}
 	}
@@ -135,10 +133,10 @@ class ThemesController extends AppController {
 			$themeEntity->set('settings', $this->request->data);
 
 			if ($this->Plugins->save($themeEntity)) {
-				$this->alert(__d('system', 'Theme settings saved!'), 'success');
+				$this->Flash->success(__d('system', 'Theme settings saved!'));
 				$this->redirect($this->referer());
 			} else {
-				$this->alert(__d('system', 'Theme settings could not be saved'), 'danger');
+				$this->Flash->danger(__d('system', 'Theme settings could not be saved'));
 				$errors = $themeEntity->errors();
 
 				if (!empty($errors)) {

@@ -71,10 +71,10 @@ class PluginsController extends AppController {
 			$pluginEntity->set('settings', $this->request->data);
 
 			if ($this->Plugins->save($pluginEntity)) {
-				$this->alert(__d('system', 'Plugin settings saved!'), 'success');
+				$this->Flash->success(__d('system', 'Plugin settings saved!'));
 				$this->redirect($this->referer());
 			} else {
-				$this->alert(__d('system', 'Plugin settings could not be saved'), 'danger');
+				$this->Flash->danger(__d('system', 'Plugin settings could not be saved'));
 				$errors = $pluginEntity->errors();
 
 				if (!empty($errors)) {

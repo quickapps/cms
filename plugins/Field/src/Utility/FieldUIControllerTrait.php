@@ -103,8 +103,8 @@ trait FieldUIControllerTrait {
  *     Person\Controller\FieldsManagerController::index()
  *
  * The above controller action will try to render
- * `/Plugin/Person/Template/CommentsManager/index.ctp`. But if does not exists then
- * `<QuickAppsCorePath>/Plugin/Comment/Template/CommentUI/index.ctp`
+ * `/plugins/Person/Template/CommentsManager/index.ctp`. But if does not exists then
+ * `<QuickAppsCorePath>/plugins/Comment/Template/CommentUI/index.ctp`
  * will be used instead.
  *
  * Of course you may create your own template and skip this fallback functionality.
@@ -145,7 +145,7 @@ trait FieldUIControllerTrait {
 			->all();
 
 		if (count($instances) == 0) {
-			$this->alert(__d('field', 'There are no field attached yet.'), 'warning');
+			$this->Flash->warning(__d('field', 'There are no field attached yet.'));
 		}
 
 		$this->set('instances', $instances);
@@ -184,10 +184,10 @@ trait FieldUIControllerTrait {
 			$save = $this->FieldInstances->save($instance);
 
 			if ($save) {
-				$this->alert(__d('field', 'Field information was saved.'));
+				$this->Flash->success(__d('field', 'Field information was saved.'));
 				$this->redirect($this->referer());
 			} else {
-				$this->alert(__d('field', 'Your information could not be saved.'), 'danger');
+				$this->Flash->danger(__d('field', 'Your information could not be saved.'));
 			}
 		}
 
@@ -211,10 +211,10 @@ trait FieldUIControllerTrait {
 			$fieldInstance = $this->FieldInstances->newEntity($data);
 
 			if ($this->FieldInstances->save($fieldInstance)) {
-				$this->alert(__d('field', 'Field attached!'), 'success');
+				$this->Flash->success(__d('field', 'Field attached!'));
 				$this->redirect($this->referer());
 			} else {
-				$this->alert(__d('field', 'Field could not be attached'), 'danger');
+				$this->Flash->danger(__d('field', 'Field could not be attached'));
 			}
 		} else {
 			$fieldInstance = $this->FieldInstances->newEntity();
@@ -242,9 +242,9 @@ trait FieldUIControllerTrait {
 		$this->loadModel('Field.FieldInstances');
 
 		if ($this->FieldInstances->delete($instance)) {
-			$this->alert(__d('field', 'Field detached successfully!'), 'success');
+			$this->Flash->success(__d('field', 'Field detached successfully!'));
 		} else {
-			$this->alert(__d('field', 'Field could not be detached'), 'danger');
+			$this->Flash->danger(__d('field', 'Field could not be detached'));
 		}
 
 		$this->redirect($this->referer());
@@ -269,7 +269,7 @@ trait FieldUIControllerTrait {
 			->all();
 
 		if (count($instances) === 0) {
-			$this->alert(__d('field', 'There are no field attached yet.'), 'warning');
+			$this->Flash->warning(__d('field', 'There are no field attached yet.'));
 		} else {
 			$instances = $instances->sortBy(function ($fieldInstance) use($viewMode) {
 				if (isset($fieldInstance->view_modes[$viewMode]['ordering'])) {
@@ -317,10 +317,10 @@ trait FieldUIControllerTrait {
 			$save = $this->FieldInstances->save($instance);
 
 			if ($save) {
-				$this->alert(__d('field', 'Field information was saved.'));
+				$this->Flash->success(__d('field', 'Field information was saved.'));
 				$this->redirect($this->referer());
 			} else {
-				$this->alert(__d('field', 'Your information could not be saved.'), 'danger');
+				$this->Flash->danger(__d('field', 'Your information could not be saved.'));
 				$errors = $instance->errors();
 
 				if (!empty($errors)) {

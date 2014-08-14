@@ -9,11 +9,14 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-
-/**
- * Default alert message rendering.
- *
- * @author Christopher Castro <chris@quickapps.es>
- */
 ?>
-<div class="alert alert-<?php echo $class; ?>"><?php echo $message; ?></div>
+
+<div class="alert alert-danger">
+	<strong><?php echo $message; ?>:</strong>
+	<br />
+	<ol>
+		<?php foreach ($params['errors'] as $error): ?>
+		<li><?php echo $error; ?></li>
+		<?php endforeach; ?>
+	</ol>
+</div>

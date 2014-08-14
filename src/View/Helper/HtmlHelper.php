@@ -12,7 +12,6 @@
 namespace QuickApps\View\Helper;
 
 use Cake\View\Helper\HtmlHelper as CakeHtmlHelper;
-use QuickApps\Utility\AlertTrait;
 use QuickApps\Utility\HookTrait;
 
 /**
@@ -23,7 +22,6 @@ use QuickApps\Utility\HookTrait;
  */
 class HtmlHelper extends CakeHtmlHelper {
 
-	use AlertTrait;
 	use HookTrait;
 
 /**
