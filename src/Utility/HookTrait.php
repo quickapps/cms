@@ -13,90 +13,27 @@ namespace QuickApps\Utility;
 
 use Cake\Event\Event;
 use Cake\Event\EventManager;
+use QuickApps\Utility\Hook;
 
 /**
  * Provides hook() & alter() methods.
  *
- * QuickAppsCMS's event system is built over [cake's event system](http://book.cakephp.org/3.0/en/core-libraries/events.html).
- * And allows plugins to communicate with the entire system or other plugins.
- *
- * QuickAppsCMS's Event system is composed of three primary elements:
- *
- * - `Event Listener`: An event listeners class implementing the EventListener interface.
- * - `Event Handler`: A method in your your listener class which take care of a single event.
- * - `Event`: Name of the event. e.g.: `FormHelper.input`.
- *
- * A Event Listener class, may listen to many Events. But a Event Handler can only
- * responds to a single Event.
- *
- * Your `Event Listener` class must implement `\Cake\Event\EventListener` interface
- * and provide the `implementedEvents()` method. This method must return an
- * associative array with all Event names that the class will handle. For example:
- * `User.beforeLogin` Event name will respond to:
- *
- *     $this->hook('User.beforeLogin', ...);
- *
- * When using the `alert()` method Event names are prefixed with with the `Alter.` word.
- * For example, the Event name `Alter.FormHelper.textarea` will respond to:
- *
- *     $this->alter('FormHelper.textarea', $arg_0, $arg_1, ..., $arg_14);
- *
- * When using `alter()` you can provide **up to 15 arguments by reference**
- *
- * ---
- *
- * In the other hand, when using the `hook()` method no prefixes are added to
- * the Event name so for example, the event name `Say.HelloWorld` will respond to:
- *
- *     $this->hook('Say.HelloWorld', $arg_0, $arg_1, ..., $arg_n);
- *
- * You can provide an unlimited number of arguments which are treated by value, and
- * NOT by reference as `alter()` does.
- *
- * ***
- *
- * ## "Hello World!" Example:
- *
- *     // Event Listener Class
- *
- *     namespace Event;
- *
- *     class EventHandler extends EventListener {
- *         public function implementedEvents() {
- *		       return [
- *		           'Alter.Hello' => 'alterWorld',
- *		           'Hello' => 'world',
- *		       ];
- *         }
- *
- *         public function alterWorld(Event $event, &$byReference) {
- *             // Remember the "&" for referencing
- *             $byReference .= ' World!';
- *         }
- *
- *          public function world(Event $event, $byValue) {
- *             return $byValue . ' world!';
- *         }
- *     }
- *
- * ***
- *
- *     // Wherever you are able to use event() & alter()
- *
- *     $hello = 'Hello';
- *     $this->alter('Hello', $hello);
- *     echo $hello; // out: "Hello World!"
- *     echo $this->hook('Hello', $hello); // out: "Hello World! world!"
- *     echo $this->hook('Hello', 'hellooo'); // out: "hellooo world!"
- *
- * ## Recommended Reading
- *
- * As QuickAppsCMS's hook system is built on top of CakePHP's events system we highly recommend you
- * to take a look at this part of CakePHP's book:
- *
- * [CakePHP's Events System](http://book.cakephp.org/3.0/en/core-libraries/events.html)
+ * @see QuickApps\Utility\Hook
  */
 trait HookTrait {
+
+/**
+ * Retrieve the number of times a hook is fired, or the complete list
+ * of events that were fired.
+ *
+ * @param string $eventName The name of the event, if null returns the entire list
+ * of event that were fired
+ * @return integer|array
+ * @see QuickApps\Utility\Hook::didHook()
+ */
+	public function didHook($eventName = null) {
+		return Hook::didHook($eventName);
+	}
 
 /**
  * Trigger the given event name.
@@ -118,92 +55,67 @@ trait HookTrait {
  *
  *     $this->hook(['GetTime', new ContextObject()], $arg_0, $arg_0, ..., $arg_1);
  *
- * If no context is given `$this` will be used by default
- *
+ * If no context is given "$this" will be used by default.
+ * 
  * @param string|array $eventName The event name to trigger
  * @return \Cake\Event\Event The event object that was fired
+ * @see QuickApps\Utility\Hook::hook()
  */
 	public function hook($eventName) {
-		if (is_array($eventName)) {
-			list($eventName, $context) = $eventName;
-		} else {
-			$context = $this;
+		if (is_string($eventName)) {
+			$eventName = [$eventName, $this];
 		}
 		$args = func_get_args();
 		array_shift($args);
-		$event = new Event($eventName, $context, $args);
-		EventManager::instance()->dispatch($event);
-		return $event;
+		return Hook::hook($eventName, $args);
 	}
 
 /**
  * Similar to "hook()" but aimed to alter the given arguments.
  *
- * You can provide **up to 15 arguments**, which are automatically
- * passed to you event listener method by reference. For example:
+ *  * You can pass up to 15 arguments by reference.
  *
- *     $arg_0 = 'data 0';
- *     $arg_1 = 'data 1';
- *     ...
- *     $arg_14 = 'data 14';
- *     $this->alter('MyHook', $arg_0, $arg_1, ..., $arg_14);
+ * ### Usage:
  *
- * Note that passing arguments as values will produce `Fatal Error`:
+ *     $this->alter('Time', $arg_0, $arg_0, ..., $arg_1);
  *
- *     $this->alter('MyHook', 'data 0', 'data 1', ..., 'data 14');
- *     // Fatal Error
+ * Your `Event Listener` must implement:
  *
- * In your `Event Listener` class you must implement the should do as below:
- *
- *     // note the `Alter.` prefix
  *     public function implementedEvents() {
- *         return ['Alter.MyHook' => 'alterHandler'];
+ *         return ['Alter.Time' => 'handlerForAlterTime'];
  *     }
  *
- *     // now you are able to get arguments by reference
- *     public function alterHandler(Event $event, &$arg_0, &$arg_1, ..., &$arg_14) {
- *         // stuff here
- *     }
+ * You can provide a context to use by passing an array as first arguments where
+ * the first element is the event name and the second one is the context:
+ *
+ *     $this->alter(['Time', new ContextObject()], $arg0, $arg1, ...);
+ *
+ * If no context is given "$this" will be used by default.
  *
  * @param string $eventName The name of the "alter hook" to trigger. e.g.: `FormHelper.input`
- * @param mixed $p0 Optional argument by reference
- * @param mixed $p1 Optional argument by reference
- * @param mixed $p2 Optional argument by reference
- * @param mixed $p3 Optional argument by reference
- * @param mixed $p4 Optional argument by reference
- * @param mixed $p5 Optional argument by reference
- * @param mixed $p6 Optional argument by reference
- * @param mixed $p7 Optional argument by reference
- * @param mixed $p8 Optional argument by reference
- * @param mixed $p9 Optional argument by reference
- * @param mixed $p10 Optional argument by reference
- * @param mixed $p11 Optional argument by reference
- * @param mixed $p12 Optional argument by reference
- * @param mixed $p13 Optional argument by reference
- * @param mixed $p14 Optional argument by reference
- * @return \Cake\Event\Event
+ * @param mixed $p0 Optional Argument by reference
+ * @param mixed $p1 Optional Argument by reference
+ * @param mixed $p2 Optional Argument by reference
+ * @param mixed $p3 Optional Argument by reference
+ * @param mixed $p4 Optional Argument by reference
+ * @param mixed $p5 Optional Argument by reference
+ * @param mixed $p6 Optional Argument by reference
+ * @param mixed $p7 Optional Argument by reference
+ * @param mixed $p8 Optional Argument by reference
+ * @param mixed $p9 Optional Argument by reference
+ * @param mixed $p10 Optional Argument by reference
+ * @param mixed $p11 Optional Argument by reference
+ * @param mixed $p12 Optional Argument by reference
+ * @param mixed $p13 Optional Argument by reference
+ * @param mixed $p14 Optional Argument by reference
+ * @return \Cake\Event\Event The event object that was fired
+ * @see QuickApps\Utility\Hook::alter()
  */
 	public function alter($eventName, &$p0 = null, &$p1 = null, &$p2 = null, &$p3 = null, &$p4 = null, &$p5 = null, &$p6 = null, &$p7 = null, &$p8 = null, &$p9 = null, &$p10 = null, &$p11 = null, &$p12 = null, &$p13 = null, &$p14 = null) {
-		$event = new Event("Alter.{$eventName}", $this);
-		$listeners = EventManager::instance()->listeners($event->name());
-
-		foreach ($listeners as $listener) {
-			if ($event->isStopped()) {
-				break;
-			}
-
-			$result = $listener['callable']($event, $p0, $p1, $p2, $p3, $p4, $p5, $p6, $p7, $p8, $p9, $p10, $p11, $p12, $p13, $p14);
-
-			if ($result === false) {
-				$event->stopPropagation();
-			}
-
-			if ($result !== null) {
-				$event->result = $result;
-			}
+		if (is_string($eventName)) {
+			$eventName = [$eventName, $this];
 		}
-
-		return $event;
+		return Hook::alter($eventName, $p0, $p1, $p2, $p3, $p4, $p5, $p6, $p7, $p8, $p9, $p10, $p11, $p12, $p13, $p14);
 	}
 
 }
