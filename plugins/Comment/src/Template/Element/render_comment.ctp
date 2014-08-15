@@ -23,7 +23,7 @@
 		<p class="date">
 			<?php
 				echo __d('comment',
-					'Published at <time pubdate="pubdate">%s</time>',
+					'Published at <time pubdate="pubdate">{0}</time>',
 					$comment->created->format(__d('comment', 'F jS, Y h:i A'))
 				);
 			?>

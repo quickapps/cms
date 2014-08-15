@@ -13,7 +13,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<?php echo $this->Html->head(true); ?>
+		<?php echo $this->Html->head(['bootstrap' => true]); ?>
 		<?php echo $this->Html->css('BackendTheme.back-bootstrap.css'); ?>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>

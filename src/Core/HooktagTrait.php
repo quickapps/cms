@@ -9,9 +9,9 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace QuickApps\Utility;
+namespace QuickApps\Core;
 
-use QuickApps\Utility\Hooktag;
+use QuickApps\Core\Hooktag;
 
 /**
  * Adds hooktags parsing functionality to any object.
@@ -41,6 +41,8 @@ trait HooktagTrait {
  *         }
  *     }
  *
+ * (Note the `Hooktag.` prefix).
+ * 
  * As you can see hooktags methods will receive three arguments:
  *
  * ### $atts

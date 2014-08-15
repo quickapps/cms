@@ -37,7 +37,7 @@ class PluginsController extends AppController {
  */
 	public function index() {
 		$collection = Plugin::collection(true)->match(['isTheme' => false]);
-		$plugins = $collection->match(['status' => true])->toArray();
+		$plugins = $collection->toArray();
 		$enabled = count($collection->match(['status' => true])->toArray());
 		$disabled = count($collection->match(['status' => false])->toArray());
 		$this->set(compact('plugins', 'all', 'enabled', 'disabled'));
@@ -51,13 +51,20 @@ class PluginsController extends AppController {
  */
 	public function install() {
 		if ($this->request->data) {
+			$activate = false;
+			if (isset($this->request->data['activate'])) {
+				$activate = (bool)$activate;
+			}
+
 			if (isset($this->request->data['download'])) {
 				$task = $this->Installer
-					->task('install', ['active' => true])
+					->task('install')
+					->configure(['activate' => $activate, 'packageType' => 'plugin'])
 					->download($this->request->data['url']);
 			} else {
 				$task = $this->Installer
-					->task('install', ['active' => true])
+					->task('install')
+					->configure(['activate' => $activate, 'packageType' => 'plugin'])
 					->upload($this->request->data['file']);
 			}
 
@@ -77,7 +84,7 @@ class PluginsController extends AppController {
 	}
 
 /**
- * Install a new theme.
+ * Install a new plugin.
  *
  * @return void Redirects to previous page
  */
@@ -89,6 +96,54 @@ class PluginsController extends AppController {
 			$this->Flash->success(__d('system', 'Plugin was successfully removed!'));
 		} else {
 			$this->Flash->set(__d('system', 'Plugins could not be removed'), [
+				'element' => 'System.installer_errors',
+				'params' => ['errors' => $task->errors()],
+			]);
+		}
+
+		$this->redirect($this->referer());
+	}
+
+/**
+ * Enables the given theme.
+ *
+ * @return void Redirects to previous page
+ */
+	public function enable($pluginName) {
+		$plugin = Plugin::info($pluginName, true);
+		$task = $this->Installer
+			->task('toggle')
+			->plugin($pluginName)
+			->enable();
+		$success = $task->run();
+		if ($success) {
+			$this->Flash->success(__d('system', 'Plugin was successfully enabled!'));
+		} else {
+			$this->Flash->set(__d('system', 'Plugins could not be enabled'), [
+				'element' => 'System.installer_errors',
+				'params' => ['errors' => $task->errors()],
+			]);
+		}
+
+		$this->redirect($this->referer());
+	}
+
+/**
+ * Disables the given theme.
+ *
+ * @return void Redirects to previous page
+ */
+	public function disable($pluginName) {
+		$plugin = Plugin::info($pluginName, true);
+		$task = $this->Installer
+			->task('toggle')
+			->plugin($pluginName)
+			->disable();
+		$success = $task->run();
+		if ($success) {
+			$this->Flash->success(__d('system', 'Plugin was successfully disabled!'));
+		} else {
+			$this->Flash->set(__d('system', 'Plugins could not be disabled'), [
 				'element' => 'System.installer_errors',
 				'params' => ['errors' => $task->errors()],
 			]);

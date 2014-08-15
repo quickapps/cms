@@ -14,8 +14,8 @@ namespace Field\Utility;
 use Cake\Event\Event;
 use Cake\Event\EventListener;
 use Cake\ORM\TableRegistry;
-use QuickApps\Utility\HooktagTrait;
-use QuickApps\Utility\HookTrait;
+use QuickApps\Core\HooktagTrait;
+use QuickApps\Core\HookTrait;
 
 /**
  * Field Handler base class.

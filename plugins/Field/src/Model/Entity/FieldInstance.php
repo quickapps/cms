@@ -12,7 +12,7 @@
 namespace Field\Model\Entity;
 
 use Cake\ORM\Entity;
-use QuickApps\Utility\HookTrait;
+use QuickApps\Core\HookTrait;
 
 /**
  * Represents an "instance" from the "field_instances" database table.

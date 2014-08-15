@@ -12,7 +12,7 @@
 namespace QuickApps\View\Helper;
 
 use Cake\View\Helper\HtmlHelper as CakeHtmlHelper;
-use QuickApps\Utility\HookTrait;
+use QuickApps\Core\HookTrait;
 
 /**
  * Html helper class for easy use of HTML widgets.
@@ -47,7 +47,7 @@ class HtmlHelper extends CakeHtmlHelper {
  *     </html>
  *
  * If you want to automatically include some Twitter Bootstrap's files
- * set $bootstrap as follow:
+ * set `bootstrap` key in the $options array as follow:
  *
  * - (bool) false: Nothing will be automatically included.
  * - (bool) true: Will include Twitter Bootstrap's CSS & JS files.
@@ -59,25 +59,37 @@ class HtmlHelper extends CakeHtmlHelper {
  * #### Example:
  * 
  *     // no CSS nor JS
- *     <?php echo $this->element('System.theme_head', ['bootstrap' => false]); ?>
+ *     <?php echo $this->Html->head(['boostrap' => false]); ?>
  *     
- *     // CSS files only 
- *     <?php echo $this->element('System.theme_head', ['bootstrap' => 'css']); ?>
+ *     // CSS files only (default)
+ *     <?php echo $this->Html->head(['boostrap' => 'css']); ?>
  *     
  *     // CSS & JS files
- *     <?php echo $this->element('System.theme_head', ['bootstrap' => true]); ?>
+ *     <?php echo $this->Html->head(['boostrap' => true]); ?>
  *     
  *     // JS files only
- *     <?php echo $this->element('System.theme_head', ['bootstrap' => 'js']); ?>
+ *     <?php echo $this->Html->head(['boostrap' => 'js']); ?>
  *     
  *     // CSS & JS files, it can be either "css,js" or "js,css"
- *     <?php echo $this->element('System.theme_head', ['bootstrap' => 'css,js']); ?>
+ *     <?php echo $this->Html->head(['boostrap' => 'css,js']); ?>
+ *
+ * Other options available are:
+ *
+ * - `icon`: True to include favicon metatag. Defaults to true.
+ * - `prepend`: Any additional HTML code you need to prepend to the result.
+ * - `append`: Any additional HTML code you need to append to the result.
  * 
- * @param mixed $bootstrap
+ * @param mixed $options As described above
  * @return string HTML code
  */
-	public function head($bootstrap = 'css') {
-		return $this->_View->element('layout_head', ['boostrap' => $bootstrap]);
+	public function head($options = []) {
+		$options += [
+			'bootstrap' => 'css',
+			'icon' => true,
+			'prepend' => '',
+			'append' => '',
+		];
+		return $this->_View->element('layout_head', $options);
 	}
 
 /**

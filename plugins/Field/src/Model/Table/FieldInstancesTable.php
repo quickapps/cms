@@ -18,7 +18,7 @@ use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 use Field\Model\Entity\FieldInstance;
-use QuickApps\Utility\HookTrait;
+use QuickApps\Core\HookTrait;
 use QuickApps\View\ViewModeTrait;
 
 /**

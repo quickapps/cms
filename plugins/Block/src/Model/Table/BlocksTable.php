@@ -16,7 +16,7 @@ use Cake\Event\Event;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Block\Model\Entity\Block;
-use QuickApps\Utility\HookTrait;
+use QuickApps\Core\HookTrait;
 
 /**
  * Represents "blocks" database table.

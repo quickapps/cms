@@ -71,7 +71,6 @@ class UninstallTask extends BaseTask {
 				->first();
 		} catch (\Exception $e) {
 			$info = null;
-			return false;
 		}
 
 		if (!$info || !$pluginEntity) {
@@ -94,9 +93,12 @@ class UninstallTask extends BaseTask {
 			return false;
 		}
 
+		$this->_pluginName = $info['name'];
+
 		if ($this->config('callbacks')) {
 			$beforeUninstallEvent = $this->hook("Plugin.{$info['name']}.beforeUninstall");
 			if ($beforeUninstallEvent->isStopped() || $beforeUninstallEvent->result === false) {
+				$this->error(__d('install', 'Task was explicitly rejected by the plugin.'));
 				return false;
 			}
 		}

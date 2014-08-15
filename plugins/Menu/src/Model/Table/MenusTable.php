@@ -16,7 +16,7 @@ use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 use Menu\Model\Entity\Menu;
-use QuickApps\Utility\HookTrait;
+use QuickApps\Core\HookTrait;
 
 /**
  * Represents "menus" database table.

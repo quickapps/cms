@@ -9,11 +9,11 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace QuickApps\Utility;
+namespace QuickApps\Core;
 
 use Cake\Event\Event;
 use Cake\Event\EventManager;
-use QuickApps\Utility\Hook;
+use QuickApps\Core\Hook;
 
 /**
  * Provides hook() & alter() methods.

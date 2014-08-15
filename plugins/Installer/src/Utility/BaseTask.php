@@ -13,12 +13,13 @@ namespace Installer\Utility;
 
 use Cake\Core\InstanceConfigTrait;
 use Cake\Error\FatalErrorException;
+use Cake\Event\EventManager;
 use Cake\Model\ModelAwareTrait;
 use Cake\Utility\Folder;
 use Installer\Utility\InstallTask;
 use Installer\Utility\PackageManager;
 use Installer\Utility\UpdateTask;
-use QuickApps\Utility\HookTrait;
+use QuickApps\Core\HookTrait;
 
 /**
  * Base class for tasks.
@@ -45,6 +46,13 @@ abstract class BaseTask {
 	protected $_errors = [];
 
 /**
+ * Holds the name of the plugin which is running the task.
+ * 
+ * @var string
+ */
+	protected $_pluginName = null;
+
+/**
  * Constructor.
  *
  * @return void
@@ -68,11 +76,23 @@ abstract class BaseTask {
 	abstract public function run();
 
 /**
+ * Sets a configuration value.
+ * 
+ * @param string $key
+ * @param mixed $value
+ * @return \Installer\Utility\BaseTask
+ */
+	public function configure($key, $value = null) {
+		$this->config($key, $value);
+		return $this;
+	}
+
+/**
  * Creates a new instance of this class, so we can chain multiple
  * installation/upgrade tasks.
  *
- * This allow plugins to start a new installation "thread" on `beforeInstall`
- * callbacks:
+ * This allow plugins to start a new installation "thread" on callbacks
+ * (beforeInstall, afterInstall, etc), for instance:
  *
  *     // MyPluginHook.php
  *     public function beforeInstall($event) {
@@ -155,6 +175,35 @@ abstract class BaseTask {
 		}
 
 		return true;
+	}
+
+/**
+ * Loads and registers plugin's Hook classes so plugins may respond
+ * to `beforeInstall`, `afterInstall`, etc.
+ *
+ * @param string $path Where to look for listener classes
+ * @return void
+ */
+	protected function attachListeners($path) {
+		global $classLoader;
+
+		if (file_exists($path) && is_dir($path)) {
+			$EventManager = EventManager::instance();
+			$eventsFolder = new Folder($path);
+
+			foreach ($eventsFolder->read(false, false, true)[1] as $classPath) {
+				$className = preg_replace('/\.php$/i', '', basename($classPath));
+				if (str_ends_with($className, 'Hook')) {
+					$classLoader->addPsr4('Hook\\', dirname($classPath), true);
+					$class = 'Hook\\' . $className;
+
+					if (class_exists($class)) {
+						$this->_listeners[] = new $class;
+						$EventManager->attach(end($this->_listeners));
+					}
+				}
+			}
+		}
 	}
 
 }

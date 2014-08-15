@@ -18,7 +18,7 @@ use Cake\Event\EventListener;
 use Cake\Event\EventManager;
 use Cake\Utility\Hash;
 use QuickApps\Core\StaticCacheTrait;
-use QuickApps\Utility\HookTrait;
+use QuickApps\Core\HookTrait;
 
 /**
  * Block rendering dispatcher.

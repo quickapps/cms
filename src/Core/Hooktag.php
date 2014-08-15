@@ -9,11 +9,12 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace QuickApps\Utility;
+namespace QuickApps\Core;
 
 use Cake\Event\Event;
 use Cake\Event\EventManager;
-use QuickApps\Utility\HookTrait;
+use QuickApps\Core\HookTrait;
+use QuickApps\Core\StaticCacheTrait;
 
 /**
  * Provides methods for hooktag parsing.
@@ -23,23 +24,7 @@ use QuickApps\Utility\HookTrait;
 class Hooktag {
 
 	use HookTrait;
-
-/**
- * Temporally holds the context for hooktags().
- *
- * As we can not pass arguments to `preg_replace_callback()`
- * we have to hold this argument until hooktag cycle is done.
- *
- * @var object
- */
-	protected static $_context = null;
-
-/**
- * List of available hooktags.
- *
- * @var array
- */
-	protected static $_hooktags = [];
+	use StaticCacheTrait;
 
 /**
  * Look for hooktags in the given text.
@@ -53,7 +38,7 @@ class Hooktag {
 			return $content;
 		}
 
-		static::$_context = $context;
+		static::cache('context', $context);
 		$pattern = static::_hooktagRegex();
 		return preg_replace_callback("/{$pattern}/s", 'static::_doHooktag', $content);
 	}
@@ -128,15 +113,17 @@ class Hooktag {
  * @return array
  */
 	protected static function _hooktagsList() {
-		if (empty(static::$_hooktags)) {
+		$hooktags = static::cache('hooktagsList');
+		if ($hooktags === null) {
+			$hooktags = [];
 			foreach (listeners() as $listener) {
 				if (strpos($listener, 'Hooktag.') === 0) {
-					static::$_hooktags[] = str_replace('Hooktag.', '', $listener);
+					$hooktags[] = str_replace('Hooktag.', '', $listener);
 				}
 			}
+			static::cache('hooktagsList', $hooktags);
 		}
-
-		return static::$_hooktags;
+		return $hooktags;
 	}
 
 /**
@@ -169,7 +156,7 @@ class Hooktag {
 				$options['content'] = $m[5];
 			}
 
-			$event = new Event("Hooktag.{$tag}", static::$_context, $options);
+			$event = new Event("Hooktag.{$tag}", static::cache('context'), $options);
 			$EventManager->dispatch($event);
 
 			return $m[1] . $event->result . $m[6];

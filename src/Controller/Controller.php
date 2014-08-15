@@ -14,7 +14,7 @@ namespace QuickApps\Controller;
 use Cake\Controller\Controller as CakeCotroller;
 use Cake\Core\Configure;
 use Cake\I18n\I18n;
-use QuickApps\Utility\HookTrait;
+use QuickApps\Core\HookTrait;
 use QuickApps\View\ViewModeTrait;
 
 /**
@@ -94,7 +94,7 @@ class Controller extends CakeCotroller {
 		$this->switchViewMode('default');
 		$this->_prepareLanguage();
 		$this->_prepareTheme();
-		
+
 		// TODO: remove this lines
 		$this->request->session()->write('user', [
 			'id' => 1,

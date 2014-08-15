@@ -95,10 +95,13 @@ class UpdateTask extends InstallTask {
 			return false;
 		}
 
+		$this->_pluginName = $info['name'];
+
 		if ($this->config('callbacks')) {
-			$this->_attachListeners("{$this->_extractedPath}src/Event");
+			$this->attachListeners("{$this->_extractedPath}src/Event");
 			$beforeUpdateEvent = $this->hook("Plugin.{$this->_pluginName}.beforeUpdate");
 			if ($beforeUpdateEvent->isStopped() || $beforeUpdateEvent->result === false) {
+				$this->error(__d('install', 'Task was explicitly rejected by the plugin.'));
 				$this->_rollback();
 				return false;
 			}

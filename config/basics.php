@@ -141,6 +141,7 @@ function snapshot() {
 		$eventsPath = "{$pluginPath}/src/Event/";
 		$isCore = strpos($pluginPath, $corePath) !== false;
 		$isTheme = str_ends_with($plugin->name, 'Theme');
+		$status = $isCore ? true : $plugin->status;
 		$events = [
 			'hooks' => [],
 			'hooktags' => [],
@@ -184,7 +185,7 @@ function snapshot() {
 			'hasHelp' => file_exists($pluginPath . '/src/Template/Element/Help/help.ctp'),
 			'hasSettings' => file_exists($pluginPath . '/src/Template/Element/settings.ctp'),
 			'events' => $events,
-			'status' => $plugin->status,
+			'status' => $status,
 			'path' => str_replace(['/', DS], '/', $pluginPath),
 		];
 	}

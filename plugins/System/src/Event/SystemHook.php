@@ -13,7 +13,7 @@ namespace Hook;
 
 use Cake\Event\Event;
 use Cake\Event\EventListener;
-use QuickApps\Utility\HookTrait;
+use QuickApps\Core\HookTrait;
 
 /**
  * Main Hook Listener for System plugin.

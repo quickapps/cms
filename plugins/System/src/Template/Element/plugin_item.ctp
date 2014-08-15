@@ -65,7 +65,7 @@
 			<?php endif; ?>
 
 			<?php if (!$plugin['isCore']): ?>
-				<?php if ($plugin['status'] === 0): ?>
+				<?php if (!$plugin['status']): ?>
 					<?php
 						echo $this->Html->link('', [
 							'plugin' => 'System',
@@ -78,7 +78,7 @@
 							'class' => 'btn btn-default btn-xs glyphicon glyphicon-ok-circle',
 						]);
 					?>
-				<?php elseif ($plugin['status'] === 1): ?>
+				<?php else: ?>
 					<?php
 						echo $this->Html->link('', [
 							'plugin' => 'System',

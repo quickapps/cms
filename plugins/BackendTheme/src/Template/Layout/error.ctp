@@ -13,7 +13,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<?php echo $this->Html->head('css'); ?>
+		<?php echo $this->Html->head(['bootstrap' => 'css']); ?>
 		<style>
 			body { padding-top: 50px;}
 			.starter-template { padding: 40px 15px; text-align: center; }

@@ -17,11 +17,21 @@
  */
 ?>
 
+<?php if (isset($prepend)): ?>
+	<?php echo $prepend; ?>
+<?php endif; ?>
+
 <title><?php echo $this->fetch('title'); ?></title>
 <?php echo $this->Html->charset(); ?>
+
+<?php if (isset($icon) && $icon === true): ?>
+<?php echo $this->Html->meta('icon'); ?>
+<?php endif; ?>
+
 <?php echo $this->fetch('meta'); ?>
 <?php echo $this->fetch('css'); ?>
 <?php echo $this->fetch('script'); ?>
+
 <?php
 	$bootstrap = !isset($bootstrap) ? 'css' : $bootstrap;
 	$bootstrap = is_string($bootstrap) ? strtolower($bootstrap) : $bootstrap;
@@ -40,3 +50,8 @@
 			echo $this->Html->script('System.bootstrap.js');
 		}
 	}
+?>
+
+<?php if (isset($append)): ?>
+	<?php echo $append; ?>
+<?php endif; ?>

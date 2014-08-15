@@ -13,7 +13,7 @@ namespace Comment\View\Helper;
 
 use Cake\Error\InternalErrorException;
 use Cake\ORM\Entity;
-use QuickApps\Utility\HookTrait;
+use QuickApps\Core\HookTrait;
 use QuickApps\Core\Plugin;
 use QuickApps\View\Helper;
 

@@ -17,7 +17,7 @@ use Cake\Event\Event;
 use Cake\Event\EventListener;
 use Cake\Event\EventManager;
 use Cake\Utility\Hash;
-use QuickApps\Utility\HookTrait;
+use QuickApps\Core\HookTrait;
 use QuickApps\View\ViewModeTrait;
 
 /**

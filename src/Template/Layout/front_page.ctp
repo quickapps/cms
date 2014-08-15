@@ -22,7 +22,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<?php echo $this->Html->head(true); ?>
+		<?php echo $this->Html->head(['bootstrap' => true]); ?>
 	</head>
 	<body class="front-page">
 		<div class="container">

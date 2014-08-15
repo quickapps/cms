@@ -18,7 +18,7 @@ use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
-use QuickApps\Utility\HookTrait;
+use QuickApps\Core\HookTrait;
 use Search\Model\Entity\SearchDataset;
 
 /**

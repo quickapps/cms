@@ -25,7 +25,7 @@ use Field\Error\MissingEntityPropertyException;
 use Field\Model\Entity\Field;
 use Field\Model\Entity\FieldValue;
 use Field\Utility\FieldCollection;
-use QuickApps\Utility\HookTrait;
+use QuickApps\Core\HookTrait;
 
 /**
  * Fieldable Behavior
@@ -1033,7 +1033,7 @@ class FieldableBehavior extends Behavior {
 			if (!$entity->has($this->config('polymorphic_table_alias'))) {
 				throw new MissingEntityPropertyException(
 					__d('field',
-						'FieldableBehavior: The "polymorphic_table_alias" was set to "%s", but this property could not be found on entities being fetched. Make sure to include "%s" in in your query as follow: $this->TableModel->find()->select(["%s", ...])',
+						'FieldableBehavior: The "polymorphic_table_alias" was set to "{0}", but this property could not be found on entities being fetched. Make sure to include "{1}" in in your query as follow: $this->TableModel->find()->select(["{2}", ...])',
 						$this->config('polymorphic_table_alias'),
 						$this->config('polymorphic_table_alias'),
 						$this->config('polymorphic_table_alias')

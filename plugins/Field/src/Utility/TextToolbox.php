@@ -13,7 +13,7 @@ namespace Field\Utility;
 
 use Field\Lib\Parsedown;
 use Field\Model\Entity\Field;
-use QuickApps\Utility\HooktagTrait;
+use QuickApps\Core\HooktagTrait;
 
 /**
  * Text utility class.

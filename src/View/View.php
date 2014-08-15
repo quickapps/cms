@@ -15,8 +15,8 @@ use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\View\View as CakeView;
-use QuickApps\Utility\HooktagTrait;
-use QuickApps\Utility\HookTrait;
+use QuickApps\Core\HooktagTrait;
+use QuickApps\Core\HookTrait;
 use QuickApps\View\ViewModeTrait;
 
 /**

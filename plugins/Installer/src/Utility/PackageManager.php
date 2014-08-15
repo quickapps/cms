@@ -12,8 +12,6 @@
 namespace Installer\Utility;
 
 use Cake\Error\FatalErrorException;
-use Installer\Utility\InstallTask;
-use Installer\Utility\UpdateTask;
 
 /**
  * Package tasks factory.
@@ -50,10 +48,24 @@ use Installer\Utility\UpdateTask;
  *         }
  *
  *         // if it's OK parent task can continue
- *         return true;         
+ *         return true;
  *     }
  */
 class PackageManager {
+
+/**
+ * Holds a list of registered and valid task classes.
+ *
+ * More tasks can be attached using `registerTask()` method.
+ * 
+ * @var array
+ */
+	protected static $_tasks = [
+		'install' => '\Installer\Utility\InstallTask',
+		'toggle' => '\Installer\Utility\ToggleTask',
+		'uninstall' => '\Installer\Utility\UninstallTask',
+		'update' => '\Installer\Utility\UpdateTask',
+	];
 
 /**
  * Constructor.
@@ -68,21 +80,38 @@ class PackageManager {
 			set_time_limit(30);
 		}
 
-		switch ($task) {
-			case 'install':
-				$task = new InstallTask($options);
-			break;
-
-			case 'uninstall':
-				$task = new UninstallTask($options);
-			break;
-
-			default:
-				throw new FatalErrorException(__d('installer', 'Invalid task'));
-			break;
+		if (!isset(static::$_tasks[$task])) {
+			throw new FatalErrorException(__d('installer', 'Invalid task'));
 		}
 
-		return $task;
+		$handler = static::$_tasks[$task];
+		if (is_callable($handler)) {
+			return $handler($options);
+		}
+
+		return new $handler($options);
+	}
+
+/**
+ * Registers a new task handler or overwrites existing one.
+ *
+ * ### Usage:
+ *
+ *     PackageManager::registerTask('package-validator', function ($options) {
+ *         return 'Validator says: ' . $options['message'];
+ *     });
+ *
+ *     $task = PackageManager::task('package-validator', ['message' => 'hello world!']);
+ *     echo $task;
+ *     // out: Validator says: hello world!
+ * 
+ * @param string $name name of the task, for later use with `task()` method
+ * @param string|callable $handler A string of a valid class name, or a
+ * callable object. e.g. `\MyNameSpace\MySuperTask`.
+ * @return void
+ */
+	public static function registerTask($name, $handler) {
+		static::$_taks[$name] = $handler;
 	}
 
 }

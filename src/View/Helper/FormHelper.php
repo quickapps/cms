@@ -13,7 +13,7 @@ namespace QuickApps\View\Helper;
 
 use Cake\View\Helper\FormHelper as CakeFormHelper;
 use Cake\View\Widget\WidgetRegistry;
-use QuickApps\Utility\HookTrait;
+use QuickApps\Core\HookTrait;
 
 /**
  * Form helper library.
