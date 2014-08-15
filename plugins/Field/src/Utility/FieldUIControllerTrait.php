@@ -220,7 +220,7 @@ trait FieldUIControllerTrait {
 			$fieldInstance = $this->FieldInstances->newEntity();
 		}
 
-		$fieldsInfoCollection = $this->hook('Field.info');
+		$fieldsInfoCollection = $this->hook('Field.info')->result;
 		$fieldsList = $fieldsInfoCollection->combine('handler', 'name')->toArray(); // for form select
 		$fieldsInfo = $fieldsInfoCollection->toArray(); // for help-blocks
 

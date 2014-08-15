@@ -97,7 +97,7 @@ class UpdateTask extends InstallTask {
 
 		if ($this->config('callbacks')) {
 			$this->_attachListeners("{$this->_extractedPath}src/Event");
-			$beforeUpdateEvent = $this->invoke("Plugin.{$this->_pluginName}.beforeUpdate", $this);
+			$beforeUpdateEvent = $this->hook("Plugin.{$this->_pluginName}.beforeUpdate");
 			if ($beforeUpdateEvent->isStopped() || $beforeUpdateEvent->result === false) {
 				$this->_rollback();
 				return false;
@@ -110,7 +110,7 @@ class UpdateTask extends InstallTask {
 		}
 
 		if ($this->config('callbacks')) {
-			$this->invoke("Plugin.{$this->_pluginName}.afterUpdate", $this);
+			$this->hook("Plugin.{$this->_pluginName}.afterUpdate");
 		}
 
 		$this->_finish();

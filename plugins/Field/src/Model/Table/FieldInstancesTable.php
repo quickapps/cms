@@ -122,7 +122,7 @@ class FieldInstancesTable extends Table {
 						'hooktags' => false,
 						'hidden' => false,
 						'ordering' => 0,
-					], (array)$this->invoke("Field.{$instance->handler}.Instance.viewModeDefaults", $this, $instance, ['viewMode' => $viewMode])->result);
+					], (array)$this->hook("Field.{$instance->handler}.Instance.viewModeDefaults", $instance, ['viewMode' => $viewMode])->result);
 
 					if (!isset($view_modes[$viewMode])) {
 						$view_modes[$viewMode] = [];
@@ -132,7 +132,7 @@ class FieldInstancesTable extends Table {
 					$instance->set('view_modes', $view_modes);
 				}
 
-				$settingsDefaults = (array)$this->invoke("Field.{$instance->handler}.Instance.settingsDefaults", $this, $instance, [])->result;
+				$settingsDefaults = (array)$this->hook("Field.{$instance->handler}.Instance.settingsDefaults", $instance, [])->result;
 				if (!empty($settingsDefaults)) {
 					$instanceSettings = $instance->get('settings');
 					foreach ($settingsDefaults as $k => $v) {
@@ -158,7 +158,7 @@ class FieldInstancesTable extends Table {
  * @return bool False if save operation should not continue, true otherwise
  */
 	public function beforeValidate(Event $event, FieldInstance $instance, $options, Validator $validator) {
-		$instanceEvent = $this->invoke("Field.{$instance->handler}.Instance.beforeValidate", $event->subject, $instance, $options, $validator);
+		$instanceEvent = $this->hook(["Field.{$instance->handler}.Instance.beforeValidate", $event->subject], $instance, $options, $validator);
 		if ($instanceEvent->isStopped() || $instanceEvent->result === false) {
 			return false;
 		}
@@ -175,7 +175,7 @@ class FieldInstancesTable extends Table {
  * @return void
  */
 	public function afterValidate(Event $event, FieldInstance $instance, $options, Validator $validator) {
-		$this->invoke("Field.{$instance->handler}.Instance.afterValidate", $event->subject, $instance, $options, $validator);
+		$this->hook(["Field.{$instance->handler}.Instance.afterValidate", $event->subject], $instance, $options, $validator);
 	}
 
 /**
@@ -187,7 +187,7 @@ class FieldInstancesTable extends Table {
  * @return bool False if save operation should not continue, true otherwise
  */
 	public function beforeSave(Event $event, FieldInstance $instance, $options = []) {
-		$instanceEvent = $this->invoke("Field.{$instance->handler}.Instance.beforeAttach", $event->subject, $instance, $options);
+		$instanceEvent = $this->hook(["Field.{$instance->handler}.Instance.beforeAttach", $event->subject], $instance, $options);
 		if ($instanceEvent->isStopped() || $instanceEvent->result === false) {
 			return false;
 		}
@@ -203,7 +203,7 @@ class FieldInstancesTable extends Table {
  * @return void
  */
 	public function afterSave(Event $event, FieldInstance $instance, $options = []) {
-		$this->invoke("Field.{$instance->handler}.Instance.afterAttach", $event->subject, $instance, $options);
+		$this->hook(["Field.{$instance->handler}.Instance.afterAttach", $event->subject], $instance, $options);
 	}
 
 /**
@@ -215,7 +215,7 @@ class FieldInstancesTable extends Table {
  * @return bool False if delete operation should not continue, true otherwise
  */
 	public function beforeDelete(Event $event, FieldInstance $instance, $options = []) {
-		$instanceEvent = $this->invoke("Field.{$instance->handler}.Instance.beforeDetach", $event->subject, $instance, $options);
+		$instanceEvent = $this->hook(["Field.{$instance->handler}.Instance.beforeDetach", $event->subject], $instance, $options);
 		if ($instanceEvent->isStopped() || $instanceEvent->result === false) {
 			return false;
 		}
@@ -234,7 +234,7 @@ class FieldInstancesTable extends Table {
 	public function afterDelete(Event $event, FieldInstance $instance, $options = []) {
 		$FieldValues = TableRegistry::get('Field.FieldValues');
 		$FieldValues->deleteAll(['field_instance_id' => $instance->id]);
-		$this->invoke("Field.{$instance->handler}.Instance.afterDetach", $event->subject, $instance, $options);
+		$this->hook(["Field.{$instance->handler}.Instance.afterDetach", $event->subject], $instance, $options);
 	}
 
 }

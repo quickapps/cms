@@ -15,7 +15,7 @@ use Cake\Collection\Collection;
 use Cake\Event\Event;
 use Cake\Event\EventListener;
 use Cake\ORM\TableRegistry;
-use QuickApps\Utility\CacheTrait;
+use QuickApps\Core\StaticCacheTrait;
 
 /**
  * Menu rendering dispatcher.
@@ -23,7 +23,7 @@ use QuickApps\Utility\CacheTrait;
  */
 class MenuHook implements EventListener {
 
-	use CacheTrait;
+	use StaticCacheTrait;
 
 /**
  * Returns a list of hooks this Hook Listener is implementing. When the class
@@ -107,12 +107,12 @@ class MenuHook implements EventListener {
 
 		// plugin should take care of rendering
 		if (in_array("Menu.{$menu->handler}.display", listeners())) {
-			return $this->invoke("Menu.{$menu->handler}.display", $event->subject, $menu, $options);
+			return $this->hook(["Menu.{$menu->handler}.display", $event->subject], $menu, $options);
 		}
 
 		// avoid scanning file system every time a block is being rendered
 		$cacheKey = "displayBlock_{$block->region->region}_{$viewMode}";
-		$cache = static::_cache($cacheKey);
+		$cache = static::cache($cacheKey);
 		if ($cache !== null) {
 			$element = $cache;
 		} else {
@@ -124,7 +124,7 @@ class MenuHook implements EventListener {
 
 			foreach ($try as $possible) {
 				if ($View->elementExists($possible)) {
-					$element = static::_cache($cacheKey, $possible);
+					$element = static::cache($cacheKey, $possible);
 					break;
 				}
 			}

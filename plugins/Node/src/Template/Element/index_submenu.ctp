@@ -16,14 +16,14 @@
 		[
 			'title' => '<span class="glyphicon glyphicon-file"></span> ' . __d('node', 'New Content'),
 			'url' => '/admin/node/manage/create',
-			'selected_on_type' => 'reg',
-			'selected_on' => '/admin/node/manage/create*',
+			'activation' => 'any',
+			'active' => '/admin/node/manage/create*',
 		],
 		[
 			'title' => '<span class="glyphicon glyphicon-comment"></span> ' . __d('node', 'Comments'),
 			'url' => '/admin/node/comments/',
-			'selected_on_type' => 'reg',
-			'selected_on' => '/admin/comment/manage*',
+			'activation' => 'any',
+			'active' => '/admin/node/comments*',
 		],
 	];
 

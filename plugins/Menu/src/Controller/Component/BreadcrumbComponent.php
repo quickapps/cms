@@ -132,7 +132,7 @@ class BreadcrumbComponent extends Component {
 		$request = $this->_controller->request;
 		$url = $url === false ? '/' . $request->url : $url;
 		$cacheKey = 'urlChunk_' . md5($url);
-		$cache = static::_cache($cacheKey);
+		$cache = static::cache($cacheKey);
 
 		if ($cache !== null) {
 			return $cache;
@@ -179,7 +179,7 @@ class BreadcrumbComponent extends Component {
 			return $value;
 		}, $out);
 
-		return static::_cache($cacheKey, array_unique($out));
+		return static::cache($cacheKey, array_unique($out));
 	}
 
 /**

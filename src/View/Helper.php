@@ -13,7 +13,7 @@ namespace QuickApps\View;
 
 use Cake\View\Helper as CakeHelper;
 use Quickapps\Utility\HookTrait;
-use Quickapps\Utility\CacheTrait;
+use Quickapps\Core\StaticCacheTrait;
 
 /**
  * Application Helper
@@ -23,6 +23,6 @@ use Quickapps\Utility\CacheTrait;
 class Helper extends CakeHelper {
 
 	use HookTrait;
-	use CacheTrait;
+	use StaticCacheTrait;
 
 }

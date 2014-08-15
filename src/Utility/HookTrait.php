@@ -15,64 +15,62 @@ use Cake\Event\Event;
 use Cake\Event\EventManager;
 
 /**
- * Provides hook(), alter() & invoke() methods.
+ * Provides hook() & alter() methods.
  *
- * QuickAppsCMS's hook system is built over [cake's event system](http://book.cakephp.org/3.0/en/core-libraries/events.html).
+ * QuickAppsCMS's event system is built over [cake's event system](http://book.cakephp.org/3.0/en/core-libraries/events.html).
  * And allows plugins to communicate with the entire system or other plugins.
  *
- * QuickAppsCMS's Hook system is composed of three primary elements:
+ * QuickAppsCMS's Event system is composed of three primary elements:
  *
- * - `Hook Listener`: An event listeners class, which belongs to the `Hook` name-space.
- * - `Hook Handler`: A method in your your listener class which take care of a single hook.
- * - `Hook`: Name of the hook event. e.g.: `FormHelper.input`.
+ * - `Event Listener`: An event listeners class implementing the EventListener interface.
+ * - `Event Handler`: A method in your your listener class which take care of a single event.
+ * - `Event`: Name of the event. e.g.: `FormHelper.input`.
  *
- * A Hook Listener class, may listen to many Hook events. But a Hook Handler can only responds
- * to a single Hook event.
+ * A Event Listener class, may listen to many Events. But a Event Handler can only
+ * responds to a single Event.
  *
- * Your `Hook Listener` class must implement `\Cake\Event\EventListener` interface and provide the `implementedEvents()` method.
- * This method must return an associative array with all hook names that the class will handle.
- * For example: `User.beforeLogin` will respond to:
+ * Your `Event Listener` class must implement `\Cake\Event\EventListener` interface
+ * and provide the `implementedEvents()` method. This method must return an
+ * associative array with all Event names that the class will handle. For example:
+ * `User.beforeLogin` Event name will respond to:
  *
  *     $this->hook('User.beforeLogin', ...);
  *
- * QuickAppsCMS has divided hooks into two groups or "events sub-spaces":
- *
- * - `Alter`: Hooks aimed to alter the given arguments. Triggered trough `alter()` method.
- * - `Hook`: Just a normal hook event which may return some values. Triggered trough `hook()` method.
- *
- * Alter hooks must prefix their names with the `Alter.` word. For example, the hook name `Alter.FormHelper.textarea`
- * will respond to:
+ * When using the `alert()` method Event names are prefixed with with the `Alter.` word.
+ * For example, the Event name `Alter.FormHelper.textarea` will respond to:
  *
  *     $this->alter('FormHelper.textarea', $arg_0, $arg_1, ..., $arg_14);
  *
- * When using alter hook you can provide **up to 15 arguments by reference**
+ * When using `alter()` you can provide **up to 15 arguments by reference**
  *
  * ---
  *
- * In the other hand, hooks which belongs to the `Hook` event space must prefix their names with the
- * `Hook.` word, so for example, the hook name `Hook.Say.HelloWorld` will respond to:
+ * In the other hand, when using the `hook()` method no prefixes are added to
+ * the Event name so for example, the event name `Say.HelloWorld` will respond to:
  *
  *     $this->hook('Say.HelloWorld', $arg_0, $arg_1, ..., $arg_n);
  *
- * You can provide an unlimited number of arguments which are treated by value, and NOT by reference as `alter()` does.
+ * You can provide an unlimited number of arguments which are treated by value, and
+ * NOT by reference as `alter()` does.
  *
  * ***
  *
  * ## "Hello World!" Example:
  *
- *     // Hook Listener Class
+ *     // Event Listener Class
  *
- *     namespace Hook;
+ *     namespace Event;
  *
- *     class HookHandler extends EventListener {
+ *     class EventHandler extends EventListener {
  *         public function implementedEvents() {
  *		       return [
  *		           'Alter.Hello' => 'alterWorld',
- *		           'Hook.Hello' => 'world',
+ *		           'Hello' => 'world',
  *		       ];
  *         }
  *
  *         public function alterWorld(Event $event, &$byReference) {
+ *             // Remember the "&" for referencing
  *             $byReference .= ' World!';
  *         }
  *
@@ -83,13 +81,13 @@ use Cake\Event\EventManager;
  *
  * ***
  *
- *     // Wherever you are able to use hook() & alter()
+ *     // Wherever you are able to use event() & alter()
  *
  *     $hello = 'Hello';
  *     $this->alter('Hello', $hello);
  *     echo $hello; // out: "Hello World!"
  *     echo $this->hook('Hello', $hello); // out: "Hello World! world!"
- *     echo $this->hook('Hello', 'hello'); // out: "hello world!"
+ *     echo $this->hook('Hello', 'hellooo'); // out: "hellooo world!"
  *
  * ## Recommended Reading
  *
@@ -101,35 +99,48 @@ use Cake\Event\EventManager;
 trait HookTrait {
 
 /**
- * Trigger the given hook name under the "Hook" event space.
+ * Trigger the given event name.
  *
- * You can pass an unlimited number of arguments to your hook handler method.
+ * You can pass an unlimited number of arguments to your event handler method.
  *
- * Usage:
+ * ### Usage:
  *
  *     $this->hook('GetTime', $arg_0, $arg_0, ..., $arg_1);
  *
- * Your `Hook Listener` must implement:
+ * Your `Event Listener` must implement:
  *
- *     // note the `Hook.` prefix
- *     ['Hook.GetTime' => 'handlerForGetTime']
+ *     public function implementedEvents() {
+ *         return ['GetTime' => 'handlerForGetTime'];
+ *     }
  *
- * @param string $hookName The hook name to trigger
- * @return mixed Whatever the hook handler returns
+ * You can provide a context to use by passing an array as first arguments where
+ * the first element is the event name and the second one is the context:
+ *
+ *     $this->hook(['GetTime', new ContextObject()], $arg_0, $arg_0, ..., $arg_1);
+ *
+ * If no context is given `$this` will be used by default
+ *
+ * @param string|array $eventName The event name to trigger
+ * @return \Cake\Event\Event The event object that was fired
  */
-	public function hook($hookName) {
+	public function hook($eventName) {
+		if (is_array($eventName)) {
+			list($eventName, $context) = $eventName;
+		} else {
+			$context = $this;
+		}
 		$args = func_get_args();
 		array_shift($args);
-		$event = new Event("Hook.{$hookName}", $this, $args);
+		$event = new Event($eventName, $context, $args);
 		EventManager::instance()->dispatch($event);
-		return $event->result;
+		return $event;
 	}
 
 /**
  * Similar to "hook()" but aimed to alter the given arguments.
  *
  * You can provide **up to 15 arguments**, which are automatically
- * passed to you hook handler method by reference. For example:
+ * passed to you event listener method by reference. For example:
  *
  *     $arg_0 = 'data 0';
  *     $arg_1 = 'data 1';
@@ -142,17 +153,19 @@ trait HookTrait {
  *     $this->alter('MyHook', 'data 0', 'data 1', ..., 'data 14');
  *     // Fatal Error
  *
- * In your `Hook Listener` you must implement the Hook name as below:
+ * In your `Event Listener` class you must implement the should do as below:
  *
  *     // note the `Alter.` prefix
- *     ['Alter.MyHook' => 'alterHandler']
+ *     public function implementedEvents() {
+ *         return ['Alter.MyHook' => 'alterHandler'];
+ *     }
  *
  *     // now you are able to get arguments by reference
  *     public function alterHandler(Event $event, &$arg_0, &$arg_1, ..., &$arg_14) {
  *         // stuff here
  *     }
  *
- * @param string $hookName The name of the "alter hook" to trigger. e.g.: `FormHelper.input`
+ * @param string $eventName The name of the "alter hook" to trigger. e.g.: `FormHelper.input`
  * @param mixed $p0 Optional argument by reference
  * @param mixed $p1 Optional argument by reference
  * @param mixed $p2 Optional argument by reference
@@ -170,8 +183,8 @@ trait HookTrait {
  * @param mixed $p14 Optional argument by reference
  * @return \Cake\Event\Event
  */
-	public function alter($hookName, &$p0 = null, &$p1 = null, &$p2 = null, &$p3 = null, &$p4 = null, &$p5 = null, &$p6 = null, &$p7 = null, &$p8 = null, &$p9 = null, &$p10 = null, &$p11 = null, &$p12 = null, &$p13 = null, &$p14 = null) {
-		$event = new Event("Alter.{$hookName}", $this);
+	public function alter($eventName, &$p0 = null, &$p1 = null, &$p2 = null, &$p3 = null, &$p4 = null, &$p5 = null, &$p6 = null, &$p7 = null, &$p8 = null, &$p9 = null, &$p10 = null, &$p11 = null, &$p12 = null, &$p13 = null, &$p14 = null) {
+		$event = new Event("Alter.{$eventName}", $this);
 		$listeners = EventManager::instance()->listeners($event->name());
 
 		foreach ($listeners as $listener) {
@@ -190,41 +203,6 @@ trait HookTrait {
 			}
 		}
 
-		return $event;
-	}
-
-/**
- * Triggers the given hook regardless of the "event space".
- *
- * Similar to `hook()` but no prefix will be added to the hook name.
- * Also, optionally you can provide a custom `context` for \Cake\Event\Event::$subject.
- *
- *
- * ### Usage:
- *
- *     $this->invoke('EventName', new ContextClass(), $arg1, $arg2, $arg3, ...);
- *
- * ---
- *
- * **Comparison, `hook()` vs `invoke()`:**
- *
- *     // triggers "Hook.Hello", with "$this" as context
- *     $this->hook('Hello');
- *
- *     // triggers "Hello", with an instance of "SomeClass" as context
- *     $this->invoke('Hello', new SomeClass());
- *
- * @param string $hookName The name of the hook to trigger
- * @param mixed $context Optional context for \Cake\Event\Event::$subject, defaults to `$this`
- * @return \Cake\Event\Event The event used to trigger the hook
- */
-	public function invoke($hookName, $context = null) {
-		$context = $context === null ? $this : $context;
-		$args = func_get_args();
-		array_shift($args);
-		array_shift($args);
-		$event = new Event($hookName, $context, $args);
-		EventManager::instance()->dispatch($event);
 		return $event;
 	}
 

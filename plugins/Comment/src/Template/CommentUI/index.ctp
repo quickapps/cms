@@ -11,7 +11,9 @@
  */
 ?>
 
+<?php echo $this->fetch('beforeSubmenu'); ?>
 <?php echo $this->element('Comment.CommentUI/index_submenu'); ?>
+<?php echo $this->fetch('afterSubmenu'); ?>
 
 <div class="clearfix">
 	<?php echo $this->Form->create(null, ['type' => 'get', 'class' => 'form-inline pull-right']); ?>
@@ -24,6 +26,7 @@
 	<?php echo $this->Form->end(); ?>
 </div>
 
+<?php echo $this->fetch('beforeTable'); ?>
 <table class="table table-hover">
 	<thead>
 		<tr>
@@ -86,16 +89,19 @@
 		<?php endif; ?>
 	</tbody>
 </table>
+<?php echo $this->fetch('afterTable'); ?>
 
 <?php if ($filterBy === 'trash'): ?>
 	<p><?php echo $this->Html->link(__d('comment', 'Empty Trash'), ['plugin' => $this->request->plugin, 'controller' => $this->request->controller, 'action' => 'empty_trash'], ['class' => 'btn btn-default btn-sm', 'confirm' => __d('comment', 'Delete all comments in the trash? This operation can not be undone.')]); ?></p>
 <?php endif; ?>
 
+<?php echo $this->fetch('beforePagination'); ?>
 <ul class="pagination">
 	<?php echo $this->Paginator->prev(); ?>
 	<?php echo $this->Paginator->numbers(); ?>
 	<?php echo $this->Paginator->next(); ?>
 </ul>
+<?php echo $this->fetch('afterPagination'); ?>
 
 <p class="text-center help-block">
 	<?php

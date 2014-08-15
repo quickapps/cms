@@ -24,7 +24,9 @@ use Node\Controller\AppController;
  */
 class CommentsController extends AppController {
 
-	use CommentUIControllerTrait;
+	use CommentUIControllerTrait {
+		beforeRender as protected _beforeRender;
+	}
 
 /**
  * Name of the table managed by Comment UI API.
@@ -52,6 +54,20 @@ class CommentsController extends AppController {
 		}
 
 		return __d('node', '-- Unknow --');
+	}
+
+/**
+ * Before every action of this controller.
+ *
+ * We sets appropriate breadcrumbs based on current action being requested.
+ *
+ * @param Cake\Event\Event $event
+ * @return void
+ */
+	public function beforeRender(\Cake\Event\Event $event) {
+		$this->_beforeRender($event);
+		$this->Breadcrumb->push('/admin/node/manage');
+		$this->Breadcrumb->push(__d('node', 'Comments'), '#');
 	}
 
 }

@@ -18,7 +18,7 @@ use Cake\Utility\File;
 use Cake\Utility\Folder;
 use Cake\Utility\Inflector;
 use Cake\Validation\Validation;
-use Installer\Utility\TaskBase;
+use Installer\Utility\BaseTask;
 use QuickApps\Core\Plugin;
 
 /**
@@ -38,7 +38,7 @@ use QuickApps\Core\Plugin;
  *         $errors = $task->errors();
  *     }
  */
-class InstallTask extends TaskBase {
+class InstallTask extends BaseTask {
 
 /**
  * ZIP package source within server file system.
@@ -151,7 +151,7 @@ class InstallTask extends TaskBase {
 		if ($this->config('callbacks')) {
 			// "before" events occurs even before plugins is moved to its destination
 			$this->_attachListeners("{$this->_extractedPath}src/Event");
-			$beforeInstallEvent = $this->invoke("Plugin.{$this->_pluginName}.beforeInstall", $this);
+			$beforeInstallEvent = $this->hook("Plugin.{$this->_pluginName}.beforeInstall");
 			if ($beforeInstallEvent->isStopped() || $beforeInstallEvent->result === false) {
 				$this->_rollback();
 				return false;
@@ -178,7 +178,7 @@ class InstallTask extends TaskBase {
 		}
 
 		if ($this->config('callbacks')) {
-			$this->invoke("Plugin.{$this->_pluginName}.afterInstall", $this);
+			$this->hook("Plugin.{$this->_pluginName}.afterInstall");
 		}
 
 		$this->_finish();

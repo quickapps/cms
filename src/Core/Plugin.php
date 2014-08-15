@@ -19,7 +19,7 @@ use Cake\ORM\TableRegistry;
 use Cake\Utility\File;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
-use QuickApps\Utility\CacheTrait;
+use QuickApps\Core\StaticCacheTrait;
 
 /**
  * Plugin is used to load and locate plugins.
@@ -28,7 +28,7 @@ use QuickApps\Utility\CacheTrait;
  */
 class Plugin extends CakePlugin {
 
-	use CacheTrait;
+	use StaticCacheTrait;
 
 /**
  * Default options for composer's json file.
@@ -151,7 +151,7 @@ class Plugin extends CakePlugin {
 		$plugin = Inflector::camelize($plugin);
 		$cacheKey = "info({$plugin},{$full})";
 
-		if ($cache = static::_cache($cacheKey)) {
+		if ($cache = static::cache($cacheKey)) {
 			return $cache;
 		}
 
@@ -181,7 +181,7 @@ class Plugin extends CakePlugin {
 			}
 		}
 
-		static::_cache($cacheKey, $info);
+		static::cache($cacheKey, $info);
 		return (array)$info;
 	}
 
@@ -196,7 +196,7 @@ class Plugin extends CakePlugin {
 		$plugin = Inflector::camelize($plugin);
 		$cacheKey = "composer({$plugin})";
 
-		if ($cache = static::_cache($cacheKey)) {
+		if ($cache = static::cache($cacheKey)) {
 			return $cache;
 		}
 
@@ -212,7 +212,7 @@ class Plugin extends CakePlugin {
 			return false;
 		}
 
-		static::_cache($cacheKey, $json);
+		static::cache($cacheKey, $json);
 		return $json;
 	}
 
@@ -295,7 +295,7 @@ class Plugin extends CakePlugin {
 		$plugin = Inflector::camelize($plugin);
 		$cacheKey = "settings({$plugin})";
 
-		if ($cache = static::_cache($cacheKey)) {
+		if ($cache = static::cache($cacheKey)) {
 			return $cache;
 		}
 
@@ -312,7 +312,7 @@ class Plugin extends CakePlugin {
 			$settings = (array)$dbInfo->settings;
 		}
 
-		static::_cache($cacheKey, $settings);
+		static::cache($cacheKey, $settings);
 		return $settings;
 	}
 

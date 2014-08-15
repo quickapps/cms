@@ -12,7 +12,7 @@
 namespace Installer\Utility;
 
 use Cake\Utility\Folder;
-use Installer\Utility\InstallTask;
+use Installer\Utility\BaseTask;
 use QuickApps\Core\Plugin;
 
 /**
@@ -31,7 +31,7 @@ use QuickApps\Core\Plugin;
  *         $errors = $task->errors();
  *     }
  */
-class UninstallTask extends InstallTask {
+class UninstallTask extends BaseTask {
 
 /**
  * Default config
@@ -64,8 +64,17 @@ class UninstallTask extends InstallTask {
 		}
 
 		try {
-			$info = Plugin::info($pluginName);
+			$info = Plugin::info($pluginName, true);
+			$pluginEntity = $this->Plugins
+				->find()
+				->where(['name' => $pluginName])
+				->first();
 		} catch (\Exception $e) {
+			$info = null;
+			return false;
+		}
+
+		if (!$info || !$pluginEntity) {
 			$this->error(__d('install', 'Plugin "{0}" was not found.', $pluginName));
 			return false;
 		}
@@ -86,18 +95,13 @@ class UninstallTask extends InstallTask {
 		}
 
 		if ($this->config('callbacks')) {
-			$beforeUninstallEvent = $this->invoke("Plugin.{$info['name']}.beforeUninstall");
+			$beforeUninstallEvent = $this->hook("Plugin.{$info['name']}.beforeUninstall");
 			if ($beforeUninstallEvent->isStopped() || $beforeUninstallEvent->result === false) {
 				return false;
 			}
 		}
 
-		$plugin = $this->Plugins
-			->find()
-			->where(['name' => $pluginName])
-			->first();
-
-		if (!$this->Plugins->delete($plugin)) {
+		if (!$this->Plugins->delete($pluginEntity)) {
 			$this->error(__d('install', 'Plugin "{0}" could not be unregistered from DB.', $info['human_name']));
 			return false;
 		}
@@ -107,7 +111,7 @@ class UninstallTask extends InstallTask {
 		snapshot();
 
 		if ($this->config('callbacks')) {
-			$this->invoke("Plugin.{$info['name']}.afterUninstall");
+			$this->hook("Plugin.{$info['name']}.afterUninstall");
 		}
 
 		return true;

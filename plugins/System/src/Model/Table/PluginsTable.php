@@ -68,7 +68,7 @@ class PluginsTable extends Table {
 		$query->formatResults(function ($results) {
 			return $results->map(function($plugin) {
 				if ($plugin->has('settings') && $plugin->has('name')) {
-					$defaultSettings = $this->invoke("Plugin.{$plugin->name}.defaultSettings")->result;
+					$defaultSettings = $this->hook("Plugin.{$plugin->name}.defaultSettings")->result;
 					if (!is_array($defaultSettings)) {
 						$defaultSettings = [];
 					}
@@ -90,7 +90,7 @@ class PluginsTable extends Table {
  * @return bool False if save operation should not continue, true otherwise
  */
 	public function beforeValidate(Event $event, Entity $plugin, $options, Validator $validator) {
-		$this->invoke("Plugin.{$plugin->name}.beforeValidate", $event->subject, $plugin, $options, $validator);
+		$this->hook(["Plugin.{$plugin->name}.beforeValidate", $event->subject], $plugin, $options, $validator);
 	}
 
 /**
@@ -103,7 +103,7 @@ class PluginsTable extends Table {
  * @return void
  */
 	public function afterValidate(Event $event, Entity $plugin, $options, Validator $validator) {
-		$this->invoke("Plugin.{$plugin->name}.afterValidate", $event->subject, $plugin, $options, $validator);
+		$this->hook(["Plugin.{$plugin->name}.afterValidate", $event->subject], $plugin, $options, $validator);
 	}
 
 /**
@@ -115,7 +115,7 @@ class PluginsTable extends Table {
  * @return bool False if save operation should not continue, true otherwise
  */
 	public function beforeSave(Event $event, Entity $plugin, $options) {
-		$pluginEvent = $this->invoke("Plugin.{$plugin->name}.beforeSave", $event->subject, $plugin, $options);
+		$pluginEvent = $this->hook(["Plugin.{$plugin->name}.beforeSave", $event->subject], $plugin, $options);
 		if ($pluginEvent->isStopped() || $pluginEvent->result === false) {
 			return false;
 		}
@@ -133,7 +133,7 @@ class PluginsTable extends Table {
  */
 	public function afterSave(Event $event, Entity $plugin, $options) {
 		snapshot();
-		$this->invoke("Plugin.{$plugin->name}.afterSave", $event->subject, $plugin, $options);
+		$this->hook(["Plugin.{$plugin->name}.afterSave", $event->subject], $plugin, $options);
 	}
 
 /**
@@ -145,7 +145,7 @@ class PluginsTable extends Table {
  * @return bool False if delete operation should not continue, true otherwise
  */
 	public function beforeDelete(Event $event, Entity $plugin, $options = []) {
-		$pluginEvent = $this->invoke("Plugin.{$plugin->name}.beforeDelete", $event->subject, $plugin, $options);
+		$pluginEvent = $this->hook(["Plugin.{$plugin->name}.beforeDelete", $event->subject], $plugin, $options);
 		if ($pluginEvent->isStopped() || $pluginEvent->result === false) {
 			return false;
 		}
@@ -162,7 +162,7 @@ class PluginsTable extends Table {
  * @return void
  */
 	public function afterDelete(Event $event, Entity $plugin, $options = []) {
-		$this->invoke("Plugin.{$plugin->name}.afterDelete", $event->subject, $plugin, $options);
+		$this->hook(["Plugin.{$plugin->name}.afterDelete", $event->subject], $plugin, $options);
 	}
 
 }

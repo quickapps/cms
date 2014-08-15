@@ -11,8 +11,11 @@
  */
 ?>
 
+<?php echo $this->fetch('beforeSubmenu'); ?>
 <p><?php echo $this->element('Field.FieldUI/field_ui_submenu'); ?></p>
+<?php echo $this->fetch('afterSubmenu'); ?>
 
+<?php echo $this->fetch('beforeTable'); ?>
 <table class="table table-hover table-bordered table-responsive">
 	<thead>
 		<tr>
@@ -101,3 +104,4 @@
 		<?php endforeach; ?>
 	</tbody>
 </table>
+<?php echo $this->fetch('afterTable'); ?>

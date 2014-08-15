@@ -11,8 +11,11 @@
  */
 ?>
 
+<?php echo $this->fetch('beforeSubmenu'); ?>
 <p><?php echo $this->element('Field.FieldUI/field_ui_submenu'); ?></p>
+<?php echo $this->fetch('afterSubmenu'); ?>
 
+<?php echo $this->fetch('beforeForm'); ?>
 <?php echo $this->Form->create(null, ['role' => 'form']); ?>
 	<fieldset>
 		<legend><?php echo __d('field', 'Basic Information'); ?></legend>
@@ -26,7 +29,7 @@
 
 	<hr />
 
-	<?php if ($advanced = $this->invoke("Field.{$instance->handler}.Instance.settingsForm", $this, $instance)): ?>
+	<?php if ($advanced = $this->hook("Field.{$instance->handler}.Instance.settingsForm", $instance)): ?>
 		<fieldset>
 			<legend><?php echo __d('field', 'Advanced'); ?></legend>
 			<?php echo $advanced->result; ?>
@@ -35,3 +38,4 @@
 
 	<?php echo $this->Form->submit(__d('field', 'Save All')); ?>
 <?php echo $this->Form->end(); ?>
+<?php echo $this->fetch('afterForm'); ?>

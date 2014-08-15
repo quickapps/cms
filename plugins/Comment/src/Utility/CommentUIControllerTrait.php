@@ -139,8 +139,13 @@ trait CommentUIControllerTrait {
 		$plugin = Inflector::camelize($event->subject->request->params['plugin']);
 		$controller = Inflector::camelize($event->subject->request->params['controller']);
 		$action = $event->subject->request->params['action'];
-		$templatePath = Plugin::classPath($plugin) . "Template/{$controller}/{$action}.ctp";
+		$prefix = '';
 
+		if (!empty($event->subject->request->params['prefix'])) {
+			$prefix = Inflector::camelize($event->subject->request->params['prefix']) . '/';
+		}
+
+		$templatePath = Plugin::classPath($plugin) . "Template/{$prefix}{$controller}/{$action}.ctp";
 		if (!file_exists($templatePath)) {
 			$alternativeTemplatePath = Plugin::classPath('Comment') . 'Template/CommentUI';
 

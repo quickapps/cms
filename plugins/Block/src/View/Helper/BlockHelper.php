@@ -52,7 +52,7 @@ class BlockHelper extends Helper {
 	public function render($block, $options = []) {
 		$this->alter('BlockHelper.render', $block, $options);
 		if ($this->allowed($block)) {
-			return $this->invoke("Block.{$block->handler}.display", $this->_View, $block, $options)->result;
+			return $this->hook(["Block.{$block->handler}.display", $this->_View], $block, $options)->result;
 		}
 		return '';
 	}
@@ -70,7 +70,7 @@ class BlockHelper extends Helper {
 	public function blocksIn($region, $all = false) {
 		$Blocks = TableRegistry::get('Block.Blocks');
 		$cacheKey = "blocksIn_{$this->_View->theme}_{$region}_{$all}";
-		$blocks = $this->_cache($cacheKey);
+		$blocks = static::cache($cacheKey);
 
 		if ($blocks === null) {
 			$blocks = $Blocks->find()
@@ -108,7 +108,7 @@ class BlockHelper extends Helper {
 				->sortBy(function ($block) {
 					return $block->region->ordering;
 				}, SORT_ASC);
-			$this->_cache($cacheKey, $blocks);
+			static::cache($cacheKey, $blocks);
 		}
 
 		return $blocks;
@@ -123,7 +123,7 @@ class BlockHelper extends Helper {
 	public function allowed($block) {
 		$this->alter('BlockHelper.allowed', $block);
 		$cacheKey = "allowed_{$block->id}";
-		$cache = static::_cache($cacheKey);
+		$cache = static::cache($cacheKey);
 
 		if ($cache !== null) {
 			return $cache;
@@ -133,7 +133,7 @@ class BlockHelper extends Helper {
 			!empty($block->locale) &&
 			!in_array(I18n::defaultLocale(), (array)$block->locale)
 		) {
-			return static::_cache($cacheKey, false);
+			return static::cache($cacheKey, false);
 		}
 
 		if ($block->has('roles') && !empty($block->roles)) {
@@ -150,7 +150,7 @@ class BlockHelper extends Helper {
 				}
 			}
 			if (!$allowed) {
-				return static::_cache($cacheKey, false);
+				return static::cache($cacheKey, false);
 			}
 		}
 
@@ -173,10 +173,10 @@ class BlockHelper extends Helper {
 		}
 
 		if (!$allowed) {
-			return static::_cache($cacheKey, false);
+			return static::cache($cacheKey, false);
 		}
 
-		return static::_cache($cacheKey, true);
+		return static::cache($cacheKey, true);
 	}
 
 /**
@@ -186,7 +186,7 @@ class BlockHelper extends Helper {
  */
 	protected function _listeners() {
 		$cacheKey = '_listeners';
-		$cache = static::_cache($cacheKey);
+		$cache = static::cache($cacheKey);
 
 		if (!$cache) {
 			$cache = [];
@@ -195,7 +195,7 @@ class BlockHelper extends Helper {
 					$cache[] = $listener;
 				}
 			}
-			static::_cache($cacheKey, $cache);
+			static::cache($cacheKey, $cache);
 		}
 
 		return $cache;

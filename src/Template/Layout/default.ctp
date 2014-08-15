@@ -22,7 +22,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<?php echo $this->element('System.theme_head', ['bootstrap' => 'css,js']); ?>
+		<?php echo $this->Html->head(true); ?>
 	</head>
 	<body class="default">
 		<div class="container">

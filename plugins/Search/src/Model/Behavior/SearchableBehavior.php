@@ -422,7 +422,7 @@ class SearchableBehavior extends Behavior {
 					}
 				} else {
 					$hookName = Inflector::variable("operator_{$operator}");
-					$result = $this->invoke("SearchableBehavior.{$hookName}", $this->_table, $query, $value, $negate, $orAnd)->result;
+					$result = $this->hook(["SearchableBehavior.{$hookName}", $this->_table], $query, $value, $negate, $orAnd)->result;
 
 					if ($result instanceof Query) {
 						$query = $result;

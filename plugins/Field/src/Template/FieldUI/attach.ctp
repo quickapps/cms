@@ -11,8 +11,11 @@
  */
 ?>
 
+<?php echo $this->fetch('beforeSubmenu'); ?>
 <p><?php echo $this->element('Field.FieldUI/field_ui_submenu'); ?></p>
+<?php echo $this->fetch('afterSubmenu'); ?>
 
+<?php echo $this->fetch('beforeForm'); ?>
 <?php echo $this->Form->create($fieldInstance); ?>
 	<fieldset>
 		<legend><?php echo __d('field', 'Attach new field'); ?></legend>
@@ -41,6 +44,7 @@
 		<?php echo $this->Form->submit(__d('field', 'Attach')); ?>
 	</fieldset>
 <?php echo $this->Form->end(); ?>
+<?php echo $this->fetch('afterForm'); ?>
 
 <script language="javascript">
 	function showFieldInfo() {

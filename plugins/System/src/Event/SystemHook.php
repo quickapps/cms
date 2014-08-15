@@ -46,7 +46,7 @@ class SystemHook implements EventListener {
  * @return array
  */
 	public function displayBlock(Event $event, $block, $options) {
-		return $this->invoke('Block.Menu.display', $event->subject, $block, $options)->result;
+		return $this->hook(['Block.Menu.display', $event->subject], $block, $options)->result;
 	}
 
 }

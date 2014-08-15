@@ -17,7 +17,7 @@ use Cake\Event\Event;
 use Cake\Event\EventListener;
 use Cake\Event\EventManager;
 use Cake\Utility\Hash;
-use QuickApps\Utility\CacheTrait;
+use QuickApps\Core\StaticCacheTrait;
 use QuickApps\Utility\HookTrait;
 
 /**
@@ -66,7 +66,7 @@ use QuickApps\Utility\HookTrait;
  */
 class BlockHook implements EventListener {
 
-	use CacheTrait;
+	use StaticCacheTrait;
 	use HookTrait;
 
 /**
@@ -135,7 +135,7 @@ class BlockHook implements EventListener {
 		$viewMode = $View->inUseViewMode();
 		// avoid scanning file system every time a block is being rendered
 		$cacheKey = "displayBlock_{$block->region->region}_{$viewMode}";
-		$cache = static::_cache($cacheKey);
+		$cache = static::cache($cacheKey);
 		if ($cache !== null) {
 			$element = $cache;
 		} else {
@@ -147,7 +147,7 @@ class BlockHook implements EventListener {
 
 			foreach ($try as $possible) {
 				if ($View->elementExists($possible)) {
-					$element = static::_cache($cacheKey, $possible);
+					$element = static::cache($cacheKey, $possible);
 					break;
 				}
 			}

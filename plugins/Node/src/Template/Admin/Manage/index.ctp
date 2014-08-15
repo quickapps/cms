@@ -11,7 +11,7 @@
  */
 ?>
 
-<?php echo $this->element('Node.index_submenu'); ?>
+<p><?php echo $this->element('Node.index_submenu'); ?></p>
 
 <table class="table table-hover">
 	<thead>

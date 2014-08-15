@@ -11,11 +11,14 @@
  */
 ?>
 
+<?php echo $this->fetch('beforeSubmenu'); ?>
 <p><?php echo $this->element('Field.FieldUI/field_ui_submenu'); ?></p>
+<?php echo $this->fetch('afterSubmenu'); ?>
 
 <h2><?php echo $viewModeInfo['name']; ?></h2>
 <em class="help-block"><?php echo $viewModeInfo['description']; ?></em>
 
+<?php echo $this->fetch('beforeTable'); ?>
 <table class="table table-hover table-bordered table-responsive">
 	<thead>
 		<tr>
@@ -90,3 +93,4 @@
 		<?php endforeach; ?>
 	</tbody>
 </table>
+<?php echo $this->fetch('afterTable'); ?>

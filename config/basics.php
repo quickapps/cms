@@ -38,13 +38,21 @@ use User\Model\Entity\User;
  * - `plugins`: Array of plugin information indexed by Plugin Name.
  * - `options`: A set of useful environment variables stored in `options` DB table.
  *
- * @param array $mergeWith Array to merge with snapshot array
  * @return void
  */
-function snapshot($mergeWith = []) {
-	Cache::clear(false, 'default');
-	Cache::clear(false, '_cake_core_');
-	Cache::clear(false, '_cake_model_');
+function snapshot() {
+	if (Cache::config('default')) {
+		Cache::clear(false, 'default');
+	}
+
+	if (Cache::config('_cake_core_')) {
+		Cache::clear(false, '_cake_core_');
+	}
+
+	if (Cache::config('_cake_model_')) {
+		Cache::clear(false, '_cake_model_');
+	}
+
 	$snapshot = [
 		'version' => null,
 		'node_types' => [],
@@ -179,10 +187,6 @@ function snapshot($mergeWith = []) {
 			'status' => $plugin->status,
 			'path' => str_replace(['/', DS], '/', $pluginPath),
 		];
-	}
-
-	if (!empty($mergeWith)) {
-		$snapshot = Hash::merge($snapshot, $mergeWith);
 	}
 
 	if (file_exists(ROOT . '/VERSION.txt')) {

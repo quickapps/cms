@@ -43,4 +43,21 @@ class UsersTable extends Table {
 			]);
 	}
 
+/**
+ * Initialize a table instance. Called after the constructor.
+ *
+ * @param array $config Configuration options passed to the constructor
+ * @return void
+ */
+	public function initialize(array $config) {
+		/*
+		$this->belongsToMany('Roles', [
+			'className' => 'User.Roles',
+		]);
+*/
+		$this->addBehavior('Timestamp');
+		$this->addBehavior('Field.Fieldable');
+	}
+
+
 }

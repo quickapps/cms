@@ -13,7 +13,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<?php echo $this->element('System.theme_head', ['bootstrap' => 'css']); ?>
+		<?php echo $this->Html->head('css'); ?>
 		<?php echo $this->Html->css(['front-bootstrap.css']); ?>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>

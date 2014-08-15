@@ -1,3 +1,4 @@
+<?php echo $this->fetch('beforeForm'); ?>
 <?php echo $this->Form->create($arrayContext, ['role' => 'form']); ?>
 	<fieldset>
 		<legend><?php echo __d('field', 'View Mode Settings For "{0}" [{1}]', $instance->label, $viewModeInfo['name']); ?></legend>
@@ -20,9 +21,10 @@
 		<em class="help-block"><?php echo __d('field', 'Whether to render this field or not on "{0}" view mode.', $viewModeInfo['name']); ?></em>
 
 		<div class="field-view-mode-form" style="<?php echo $instance->view_modes[$viewMode]['hidden'] ? 'display:none;' : ''; ?>">
-			<?php echo $this->invoke("Field.{$instance->handler}.Instance.viewModeForm", $this, $instance, [])->result; ?>
+			<?php echo $this->hook("Field.{$instance->handler}.Instance.viewModeForm", $instance, [])->result; ?>
 		</div>
 
 		<?php echo $this->Form->submit(__d('field', 'Save changes')); ?>
 	</fieldset>
 <?php echo $this->Form->end(); ?>
+<?php echo $this->fetch('afterForm'); ?>

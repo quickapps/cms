@@ -16,8 +16,42 @@ use Installer\Utility\InstallTask;
 use Installer\Utility\UpdateTask;
 
 /**
- * Package tasks handler.
+ * Package tasks factory.
  *
+ * ### Basic Usage:
+ *
+ *     $task = PackageManager::task('install', ['active' => true])->download();
+ *     if (!$task->run()) {
+ *         $errors = $task->errors();
+ *     }
+ *
+ * Severals callbacks are triggered during each task, for example "install" task
+ * may trigger "beforeInstall" & "afterInstall" events which can be caught by the
+ * plugin being installed as follow. These events listeners are allowed to run their
+ * own tasks, for example:
+ *
+ *     public function beforeInstall($event) {
+ *         // get the task that triggered this event
+ *         $runningTask = $event->subject;
+ *
+ *         // create a new task "thread"
+ *         $dependency = $runningTask
+ *             ->newTask('install', ['activate' => true, 'callbacks' => false])
+ *             ->download('http://example.com/package-this/plugin-depends-on.zip');
+ *
+ *         // execute the new task
+ *         $success = $dependency->run();
+ *
+ *         // if fails we stop the parent task by returning FALSE
+ *         if (!$success) {
+ *             // merge error messages
+ *             $runningTask->error($dependency->errors());
+ *             return false;
+ *         }
+ *
+ *         // if it's OK parent task can continue
+ *         return true;         
+ *     }
  */
 class PackageManager {
 

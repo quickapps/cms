@@ -468,7 +468,13 @@ class MenuHelper extends Helper {
 /**
  * Checks if the given item should be marked as active.
  *
- * `$item->url` property must exists, and can be either:
+ * If `$item->activation` is a callable function it will be used to determinate
+ * if the link should be active or not, returning true from callable indicates
+ * link should be active, false indicates it should not be marked as active.
+ * Callable receives current request object as first argument and $item as second.
+ *
+ * `$item->url` property MUST exists if  "activation" is not a callable, and can
+ * be either:
  *
  * - A string representing an external or internal URL (all internal links must
  *   starts with "/"). e.g. `/user/login`
@@ -481,6 +487,11 @@ class MenuHelper extends Helper {
  * @return bool
  */
 	protected function _isActive($item) {
+		if (is_callable($item->activation)) {
+			$callable = $item->activation;
+			return $callable($this->_View->request, $item);
+		}
+
 		switch ($item->activation) {
 			case 'any':
 				return $this->_urlMatch($item->active);
@@ -577,7 +588,7 @@ class MenuHelper extends Helper {
 				option('url_locale_prefix') &&
 				!preg_match('/^\/' . $this->_localesPattern() . '\//', $p, $matches)
 			) {
-				$p = '/' .I18n::defaultLocale() . $p;
+				$p = '/' . I18n::defaultLocale() . $p;
 			}
 		}
 
@@ -634,7 +645,7 @@ class MenuHelper extends Helper {
  */
 	protected function _localesPattern() {
 		$cacheKey = '_localesPattern';
-		$cache = static::_cache($cacheKey);
+		$cache = static::cache($cacheKey);
 		if ($cache) {
 			return $cache;
 		}
@@ -646,7 +657,7 @@ class MenuHelper extends Helper {
 				)
 			)
 		) . ')';
-		return static::_cache($cacheKey, $pattern);
+		return static::cache($cacheKey, $pattern);
 	}
 
 /**

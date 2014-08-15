@@ -25,6 +25,62 @@ class HtmlHelper extends CakeHtmlHelper {
 	use HookTrait;
 
 /**
+ * Renders default layout's header.
+ *
+ * This should be used within "<head>" & "</head>", provides a basic
+ * head configuration for usage in theme's layouts.
+ *
+ * ### Usage:
+ *
+ * In your theme's layout (e.g. `default.ctp`) you have to use this method
+ * between `<head>`  & `</head>` tags, for example:
+ *
+ *     <!DOCTYPE html>
+ *     <html>
+ *	       <head>
+ *             <?php echo $this->head(); ?>
+ *             <!-- rest of your head code -->
+ *          </head>
+ *          <body>
+ *              <!-- page content -->
+ *          </body>
+ *     </html>
+ *
+ * If you want to automatically include some Twitter Bootstrap's files
+ * set $bootstrap as follow:
+ *
+ * - (bool) false: Nothing will be automatically included.
+ * - (bool) true: Will include Twitter Bootstrap's CSS & JS files.
+ * - (string) "css": Include CSS files only. (By default)
+ * - (string) "js": Include JS files only.
+ * - (string) combination of "css" and "js": Equivalent to bool true. will
+ *   include both, JS and CSS files.
+ *
+ * #### Example:
+ * 
+ *     // no CSS nor JS
+ *     <?php echo $this->element('System.theme_head', ['bootstrap' => false]); ?>
+ *     
+ *     // CSS files only 
+ *     <?php echo $this->element('System.theme_head', ['bootstrap' => 'css']); ?>
+ *     
+ *     // CSS & JS files
+ *     <?php echo $this->element('System.theme_head', ['bootstrap' => true]); ?>
+ *     
+ *     // JS files only
+ *     <?php echo $this->element('System.theme_head', ['bootstrap' => 'js']); ?>
+ *     
+ *     // CSS & JS files, it can be either "css,js" or "js,css"
+ *     <?php echo $this->element('System.theme_head', ['bootstrap' => 'css,js']); ?>
+ * 
+ * @param mixed $bootstrap
+ * @return string HTML code
+ */
+	public function head($bootstrap = 'css') {
+		return $this->_View->element('layout_head', ['boostrap' => $bootstrap]);
+	}
+
+/**
  * {@inheritdoc}
  *
  * @param string $name Text for link
