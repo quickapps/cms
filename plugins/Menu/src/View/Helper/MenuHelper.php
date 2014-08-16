@@ -164,9 +164,20 @@ class MenuHelper extends Helper {
  *    either be a filename in App/config that contains the templates you want
  *    to load, or an array of templates to use.
  *
+ * You can also pass a callable function as second argument which will be
+ * used as formatter:
+ *
+ *     echo $this->Menu->render($links, function ($link, $info) {
+ *         // render $item here
+ *     });
+ *
+ * Formatters receives two arguments, the item being rendered as first argument
+ * and information abut the item (has children, depth, etc) as second. 
+ *
  * @param array|\Cake\Collection\Collection $items Nested items to render, given
  * as a query result set or as an array list
- * @param array $options An array of HTML attributes and options
+ * @param callable|array $options An array of HTML attributes and options as
+ * described above or a callable function to use as `formatter`
  * @return string HTML
  * @throws \Cake\Error\FatalErrorException When loop invocation is detected, that is,
  * when "render()" method is invoked within a callable method when rendering menus.
@@ -182,6 +193,10 @@ class MenuHelper extends Helper {
 
 		$this->_rendering = true;
 		$this->alter('MenuHelper.render', $items, $options);
+
+		if (is_callable($options)) {
+			$options = ['formatter' => $options];
+		}
 
 		if (!empty($options['templates']) && is_array($options['templates'])) {
 			$this->templates($options['templates']);
@@ -247,7 +262,7 @@ class MenuHelper extends Helper {
  *    templates are restored to previous values.
  * - `childAttrs`: Array of attributes for `child` template.
  *   - `class`: Array list of multiple CSS classes or a single string (will be merged
- *      with auto-generated CSS).
+ *      with auto-generated CSS; "active", "has-children", etc).
  * - `linkAttrs`: Array of attributes for the `link` template.
  *   - `class`: Same as childAttrs.
  *
@@ -292,7 +307,7 @@ class MenuHelper extends Helper {
 
 		if (!empty($options['linkAttrs']['class'])) {
 			if (is_string($options['linkAttrs']['class'])) {
-				$options['class']['class'] = [$options['linkAttrs']['class']];
+				$options['linkAttrs']['class'] = [$options['linkAttrs']['class']];
 			}
 		}
 
@@ -527,7 +542,7 @@ class MenuHelper extends Helper {
 						str_ends_with($itemUrl, str_replace_once($this->_View->request->base, '', env('REQUEST_URI')));
 					$isIndex =
 						$itemUrl === '/' &&
-						$this->_View->request->is('homePage');
+						$this->_View->request->isHome();
 					$isExact =
 						str_replace('//', '/', "{$itemUrl}/") === str_replace('//', '/', "/{$this->_View->request->url}/");
 
@@ -580,7 +595,7 @@ class MenuHelper extends Helper {
 		$patterns = explode("\n", $patterns);
 
 		foreach ($patterns as &$p) {
-			$p = $this->_View->Html->url('/') . $p;
+			$p = $this->_View->Url->build('/') . $p;
 			$p = str_replace('//', '/', $p);
 			$p = str_replace($request->base, '', $p);
 
@@ -605,7 +620,7 @@ class MenuHelper extends Helper {
 		$replacements = array(
 			'|',
 			'.*',
-			'\1' . preg_quote($this->_View->Html->url('/'), '/') . '\2'
+			'\1' . preg_quote($this->_View->Url->build('/'), '/') . '\2'
 		);
 
 		$patterns_quoted = preg_quote($patterns, '/');

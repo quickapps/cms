@@ -11,6 +11,8 @@
  */
 namespace User\Config;
 
+use Cake\Cache\Cache;
+
 /**
  * These are hard-coded values for user roles and must match values stored in
  * "roles" DB table.
@@ -26,3 +28,15 @@ if (!defined('ROLE_ID_AUTHENTICATED')) {
 if (!defined('ROLE_ID_ANONYMOUS')) {
 	define('ROLE_ID_ANONYMOUS', 3);
 }
+
+/**
+ * Used by CachedAutorize
+ * 
+ */
+Cache::config('permissions', [
+	'duration' => '+1 hour',
+	'path' => TMP,
+	'engine' => 'File',
+	'prefix' => 'qa_',
+	'groups' => ['acl']
+]);

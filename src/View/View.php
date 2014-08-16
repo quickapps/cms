@@ -124,6 +124,24 @@ class View extends CakeView {
 	}
 
 /**
+ * Overrides Cake's `View::_getLayoutFileName()` method.
+ *
+ * Adds fallback functionality.
+ *
+ * @param string $name The name of the layout to find.
+ * @return string Filename for layout file (.ctp).
+ */
+	protected function _getLayoutFileName($name = null) {
+		try {
+			$filename = parent::_getLayoutFileName($name);
+		} catch (\Exception $e) {
+			$filename = parent::_getLayoutFileName('default');
+		}
+
+		return $filename;
+	}
+
+/**
  * Sets title for layout.
  *
  * It sets `title_for_layout` view variable, if no previous title was set on controller.

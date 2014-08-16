@@ -24,16 +24,28 @@ use Node\Controller\AppController;
 class ManageController extends AppController {
 
 /**
+ * An array containing the names of helpers controllers uses.
+ *
+ * @var array
+ */
+	public $helpers = [
+		'Paginator' => [
+			'className' => 'QuickApps\View\Helper\PaginatorHelper',
+			'templates' => 'System.paginator-templates.php',
+		],
+	];
+
+/**
  * Shows a list of all the nodes.
  *
  * @return void
  */
 	public function index() {
 		$this->loadModel('Node.Nodes');
-		$nodes = $this->Nodes->find('threaded')
-			->contain(['NodeTypes', 'Author'])
-			->all();
-		$this->set('nodes', $nodes);
+		$nodes = $this->Nodes
+			->find()
+			->contain(['NodeTypes', 'Author']);
+		$this->set('nodes', $this->paginate($nodes));
 		$this->Breadcrumb->push('/admin/node/manage');
 	}
 
@@ -96,9 +108,10 @@ class ManageController extends AppController {
 		}
 
 		$node = $this->Nodes->attachEntityFields($node);
-		$this->set('node', $node);
-		$this->set('type', $type);
-		$this->set('languages', LocaleToolbox::languagesList());
+		$languages = LocaleToolbox::languagesList();
+		$roles = $this->Nodes->Roles->find('list');
+
+		$this->set(compact('node', 'type', 'languages', 'roles'));
 		$this->Breadcrumb->push('/admin/node/manage');
 		$this->Breadcrumb->push([
 			['title' => __d('node', 'Create new content'), 'url' => ['plugin' => 'Node', 'controller' => 'manage', 'action' => 'create']],
@@ -140,6 +153,7 @@ class ManageController extends AppController {
 		} else {
 			$node = $this->Nodes->find()
 				->where(['id' => $id])
+				->contain(['Roles'])
 				->contain([
 					'Translations',
 					'NodeRevisions',
@@ -157,7 +171,14 @@ class ManageController extends AppController {
 			}
 
 			unset($this->request->data['regenerate_slug']);
-			$node->set($this->request->data);
+			$node->accessible([
+				'id',
+				'node_type_id',
+				'node_type_slug',
+				'translation_for',
+				'created_by',
+			], false);
+			$node = $this->Nodes->patchEntity($node, $this->request->data);
 
 			if ($this->Nodes->save($node, ['atomic' => true])) {
 				$this->Flash->success(__d('node', 'Information was saved!'));
@@ -167,8 +188,9 @@ class ManageController extends AppController {
 			}
 		}
 
-		$this->set('node', $node);
-		$this->set('languages', LocaleToolbox::languagesList());
+		$languages = LocaleToolbox::languagesList();
+		$roles = $this->Nodes->Roles->find('list');
+		$this->set(compact('node', 'languages', 'roles'));
 		$this->Breadcrumb->push('/admin/node/manage');
 		$this->Breadcrumb->push(__d('node', 'Editing content'), '#');
 	}

@@ -14,4 +14,3 @@
 			return $this->Menu->formatter($item, $info, $options);
 		},
 	]);
-?>

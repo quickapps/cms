@@ -1,6 +1,22 @@
---
--- Table structure for table `blocks`
---
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+
+CREATE TABLE IF NOT EXISTS `acos` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(10) DEFAULT NULL,
+  `lft` int(10) DEFAULT NULL,
+  `rght` int(10) DEFAULT NULL,
+  `plugin` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `alias` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `alias_hash` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `blocks` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key - Unique block ID.',
@@ -19,21 +35,11 @@ CREATE TABLE IF NOT EXISTS `blocks` (
   UNIQUE KEY `delta` (`delta`,`handler`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
 
---
--- Dumping data for table `blocks`
---
-
 INSERT INTO `blocks` (`id`, `copy_id`, `delta`, `handler`, `title`, `description`, `body`, `visibility`, `pages`, `locale`, `settings`, `status`) VALUES
 (1, NULL, '1', 'System', 'Management [menu:1]', 'Associated block for "Management" menu.', NULL, 'except', NULL, NULL, NULL, 1),
 (2, NULL, '2', 'System', 'Site Main Menu [menu:2]', 'Associated block for "Site Main Menu" menu.', NULL, 'except', NULL, NULL, NULL, 1),
 (3, NULL, 'dashboard_recent_content', 'Node', 'Recent Content', 'Shows a list of latest created contents.', NULL, 'except', NULL, NULL, NULL, 1),
 (4, NULL, 'dashboard_search', 'Node', 'Search', 'Quick Search Form', NULL, 'except', NULL, NULL, NULL, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `blocks_roles`
---
 
 CREATE TABLE IF NOT EXISTS `blocks_roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -41,12 +47,6 @@ CREATE TABLE IF NOT EXISTS `blocks_roles` (
   `role_id` int(10) NOT NULL COMMENT 'The user’s role ID from roles table',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `block_regions`
---
 
 CREATE TABLE IF NOT EXISTS `block_regions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -58,10 +58,6 @@ CREATE TABLE IF NOT EXISTS `block_regions` (
   UNIQUE KEY `block_id` (`block_id`,`theme`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9 ;
 
---
--- Dumping data for table `block_regions`
---
-
 INSERT INTO `block_regions` (`id`, `block_id`, `theme`, `region`, `ordering`) VALUES
 (1, 2, 'BackendTheme', '', 0),
 (2, 2, 'FrontendTheme', 'main-menu', 0),
@@ -71,12 +67,6 @@ INSERT INTO `block_regions` (`id`, `block_id`, `theme`, `region`, `ordering`) VA
 (6, 3, 'FrontendTheme', '', 0),
 (7, 4, 'BackendTheme', 'dashboard-sidebar', 0),
 (8, 4, 'FrontendTheme', '', 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `comments`
---
 
 CREATE TABLE IF NOT EXISTS `comments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -97,19 +87,9 @@ CREATE TABLE IF NOT EXISTS `comments` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
 
---
--- Dumping data for table `comments`
---
-
 INSERT INTO `comments` (`id`, `entity_id`, `user_id`, `table_alias`, `subject`, `body`, `author_name`, `author_email`, `author_web`, `author_ip`, `parent_id`, `rght`, `lft`, `status`, `created`) VALUES
 (1, '1', NULL, 'nodes', 'This is an unstable repository', 'This is an unstable repository and should be treated as an alpha.', NULL, NULL, NULL, '192.168.1.1', NULL, 2, 2, 'approved', '2014-08-03 05:14:42'),
 (4, '1', 1, 'nodes', 'asd ad asd', 'Lorem Ipsum', '', '', '', '192.168.1.1', 1, 1, 0, 'approved', '2014-08-03 08:01:29');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `entities_terms`
---
 
 CREATE TABLE IF NOT EXISTS `entities_terms` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -119,12 +99,6 @@ CREATE TABLE IF NOT EXISTS `entities_terms` (
   `table_alias` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `field_instances`
---
 
 CREATE TABLE IF NOT EXISTS `field_instances` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
@@ -144,19 +118,9 @@ CREATE TABLE IF NOT EXISTS `field_instances` (
   KEY `id` (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
 
---
--- Dumping data for table `field_instances`
---
-
 INSERT INTO `field_instances` (`id`, `slug`, `table_alias`, `handler`, `label`, `description`, `required`, `settings`, `view_modes`, `locked`, `ordering`) VALUES
 (1, 'article-introduction', 'nodes_article', 'TextField', 'Introduction', 'Brief description', 1, 'a:5:{s:4:"type";s:8:"textarea";s:15:"text_processing";s:5:"plain";s:7:"max_len";s:0:"";s:15:"validation_rule";s:0:"";s:18:"validation_message";s:0:"";}', 'a:5:{s:7:"default";a:4:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;}s:6:"teaser";a:4:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;}s:13:"search-result";a:4:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;}s:3:"rss";a:4:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;}s:4:"full";a:4:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;}}', 0, 0),
 (3, 'article-body', 'nodes_article', 'TextField', 'Body', '', 1, 'a:5:{s:4:"type";s:8:"textarea";s:15:"text_processing";s:8:"markdown";s:7:"max_len";s:0:"";s:15:"validation_rule";s:0:"";s:18:"validation_message";s:0:"";}', 'a:5:{s:7:"default";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:6:"teaser";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:13:"search-result";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:3:"rss";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:4:"full";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}}', 0, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `field_values`
---
 
 CREATE TABLE IF NOT EXISTS `field_values` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -169,21 +133,11 @@ CREATE TABLE IF NOT EXISTS `field_values` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=12 ;
 
---
--- Dumping data for table `field_values`
---
-
 INSERT INTO `field_values` (`id`, `field_instance_id`, `field_instance_slug`, `entity_id`, `table_alias`, `value`, `extra`) VALUES
 (1, 1, 'article-introduction', '1', 'nodes_article', 'Lorem ipsum.[random]1,2,3,4,5[/random]', 'a:0:{}'),
 (9, 3, 'article-body', '1', 'nodes_article', '# QuickApps CMS Site Skeleton\r\n\r\nA skeleton for creating web sites with [QuickAppsCMS](http://quickappscms.org) 2.0. This is an unstable repository and should be treated as an alpha.\r\n\r\n## Installation\r\n\r\n### Install with composer \r\n\r\n1. Download [Composer](http://getcomposer.org/doc/00-intro.md) or update `composer self-update`. \r\n2. Run `php composer.phar create-project -s dev quickapps/website [website_name]`. \r\n\r\nIf Composer is installed globally, run `composer create-project -s dev quickapps/website [website_name]` After composer is done visit `http://example.com/` and start QuickAppsCMS installation.\r\n', 'a:0:{}'),
 (10, 3, 'article-body', '2', 'nodes_article', 'Curabitur quis ultricies nisl. Donec eget rutrum nunc. Quisque accumsan, justo sit amet suscipit ullamcorper, nisl lacus dictum arcu, at vehicula enim velit et libero. Vivamus venenatis lacinia eros, et ultrices erat interdum vitae. Aliquam scelerisque leo in tristique tincidunt. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi iaculis nec quam sit amet viverra. Vestibulum sit amet faucibus elit, et mattis urna. In consequat justo vitae augue venenatis lacinia.', 'a:0:{}'),
 (11, 1, 'article-introduction', '2', 'nodes_article', 'Curabitur quis ultricies nisl. Donec eget rutrum nunc. Quisque accumsan, justo sit amet suscipit ullamcorper, nisl lacus dictum arcu, at vehicula enim velit et libero.', 'a:0:{}');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `languages`
---
 
 CREATE TABLE IF NOT EXISTS `languages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -197,19 +151,9 @@ CREATE TABLE IF NOT EXISTS `languages` (
   UNIQUE KEY `code` (`code`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
---
--- Dumping data for table `languages`
---
-
 INSERT INTO `languages` (`id`, `code`, `name`, `direction`, `icon`, `status`, `ordering`) VALUES
 (1, 'en_US', 'English', 'ltr', 'us.gif', 1, 0),
 (2, 'es', 'Spanish', 'ltr', 'es.gif', 1, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `menus`
---
 
 CREATE TABLE IF NOT EXISTS `menus` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -220,19 +164,9 @@ CREATE TABLE IF NOT EXISTS `menus` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
---
--- Dumping data for table `menus`
---
-
 INSERT INTO `menus` (`id`, `title`, `description`, `handler`, `settings`) VALUES
 (1, 'Management', 'The Management menu contains links for administrative tasks.', 'System', NULL),
 (2, 'Site Main Menu', 'The Site Main Menu is used on many sites to show the major sections of the site, often in a top navigation bar.', 'System', NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `menu_links`
---
 
 CREATE TABLE IF NOT EXISTS `menu_links` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
@@ -252,10 +186,6 @@ CREATE TABLE IF NOT EXISTS `menu_links` (
   KEY `router_path` (`url`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=18 ;
 
---
--- Dumping data for table `menu_links`
---
-
 INSERT INTO `menu_links` (`id`, `menu_id`, `lft`, `rght`, `parent_id`, `url`, `description`, `title`, `target`, `expanded`, `active`, `activation`, `status`) VALUES
 (1, 1, 1, 2, 0, '/admin/system/dashboard', NULL, 'Dashboard', '_self', 1, '/admin/system/dashboard\r\n/admin\r\n/admin/', 'any', 1),
 (2, 1, 3, 12, 0, '/admin/system/structure', NULL, 'Structure', '_self', 0, NULL, 'auto', 1),
@@ -274,12 +204,6 @@ INSERT INTO `menu_links` (`id`, `menu_id`, `lft`, `rght`, `parent_id`, `url`, `d
 (15, 2, 3, 4, 0, '/article/hooktags.html', '', 'Hooktags', '_self', 0, NULL, NULL, 1),
 (16, 2, 1, 2, 0, '/', '', 'Home', '_self', 0, NULL, NULL, 1),
 (17, 2, 7, 8, 0, '/find/type:article', '', 'Blog', '_self', 0, '/article/*.html\r\n/find/*type:article*', 'any', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `nodes`
---
 
 CREATE TABLE IF NOT EXISTS `nodes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -301,19 +225,16 @@ CREATE TABLE IF NOT EXISTS `nodes` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
---
--- Dumping data for table `nodes`
---
-
 INSERT INTO `nodes` (`id`, `node_type_id`, `node_type_slug`, `translation_for`, `slug`, `title`, `description`, `promote`, `sticky`, `comment_status`, `language`, `status`, `created`, `modified`, `created_by`, `modified_by`) VALUES
 (1, 1, 'article', NULL, 'my-first-article', 'My First Article!', 'Custom meta description', 1, 0, 1, '', 1, '2014-06-12 07:44:01', '2014-08-10 10:26:27', 1, 0),
 (2, 1, 'article', NULL, 'curabitur-quis-ultricies-nisl', 'Curabitur quis ultricies nisl', 'Donec eget rutrum nunc. Vestibulum sit amet faucibus elit.', 1, 1, 0, '', 1, '2014-08-05 22:19:44', '2014-08-05 22:19:44', 1, 0);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `node_revisions`
---
+CREATE TABLE IF NOT EXISTS `nodes_roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `node_id` int(11) NOT NULL,
+  `role_id` int(10) NOT NULL COMMENT 'The user’s role ID from roles table',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `node_revisions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -323,12 +244,6 @@ CREATE TABLE IF NOT EXISTS `node_revisions` (
   `created` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `node_types`
---
 
 CREATE TABLE IF NOT EXISTS `node_types` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -341,18 +256,8 @@ CREATE TABLE IF NOT EXISTS `node_types` (
   UNIQUE KEY `slug` (`slug`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
 
---
--- Dumping data for table `node_types`
---
-
 INSERT INTO `node_types` (`id`, `slug`, `name`, `description`, `title_label`, `defaults`) VALUES
 (1, 'article', 'Article', 'Use articles for time-sensitive content like news, press releases or blog posts.', 'Title', 'a:7:{s:6:"status";s:1:"1";s:7:"promote";s:1:"1";s:6:"sticky";s:1:"1";s:11:"author_name";s:1:"1";s:9:"show_date";s:1:"1";s:14:"comment_status";s:1:"0";s:8:"language";s:0:"";}');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `options`
---
 
 CREATE TABLE IF NOT EXISTS `options` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -363,10 +268,6 @@ CREATE TABLE IF NOT EXISTS `options` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=8 ;
 
---
--- Dumping data for table `options`
---
-
 INSERT INTO `options` (`id`, `name`, `value`, `autoload`) VALUES
 (1, 'front_theme', 'FrontendTheme', 1),
 (2, 'default_language', 'en_US', 1),
@@ -376,11 +277,12 @@ INSERT INTO `options` (`id`, `name`, `value`, `autoload`) VALUES
 (6, 'site_title', 'My QuickApps CMS Site', 1),
 (7, 'url_locale_prefix', '1', 1);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `plugins`
---
+CREATE TABLE IF NOT EXISTS `permissions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `aco_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `plugins` (
   `name` varchar(80) COLLATE utf8_unicode_ci NOT NULL,
@@ -389,11 +291,7 @@ CREATE TABLE IF NOT EXISTS `plugins` (
   `status` tinyint(1) NOT NULL DEFAULT '0',
   `ordering` int(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='list of installed plugins (we do not consider core plugins)';
-
---
--- Dumping data for table `plugins`
---
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='list of installed plugins';
 
 INSERT INTO `plugins` (`name`, `package`, `settings`, `status`, `ordering`) VALUES
 ('BackendTheme', 'quickapps-theme/backend-theme', '', 1, 0),
@@ -411,33 +309,18 @@ INSERT INTO `plugins` (`name`, `package`, `settings`, `status`, `ordering`) VALU
 ('User', 'quickapps-plugin/user', '', 1, 0),
 ('Wysiwyg', 'quickapps-plugin/wysiwyg', '', 1, 0);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `roles`
---
-
 CREATE TABLE IF NOT EXISTS `roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `slug` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
 
---
--- Dumping data for table `roles`
---
-
-INSERT INTO `roles` (`id`, `name`) VALUES
-(1, 'Administrator'),
-(3, 'Anonymous User'),
-(2, 'Authenticated User');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `search_datasets`
---
+INSERT INTO `roles` (`id`, `slug`, `name`) VALUES
+(1, 'administrator', 'Administrator'),
+(2, 'authenticated ', 'Authenticated User'),
+(3, 'anonymous', 'Anonymous User');
 
 CREATE TABLE IF NOT EXISTS `search_datasets` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -448,19 +331,9 @@ CREATE TABLE IF NOT EXISTS `search_datasets` (
   UNIQUE KEY `entity_id` (`entity_id`,`table_alias`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
---
--- Dumping data for table `search_datasets`
---
-
 INSERT INTO `search_datasets` (`id`, `entity_id`, `table_alias`, `words`) VALUES
 (1, '1', 'nodes', ' my first article custom meta description lorem ipsum random random quickapps cms site skeletona skeleton for creating web sites with quickappscms http quickappscms org this is an unstable repository and should be treated as an alpha installation install with composer download composer http getcomposer org doc intro md or update composer self update run php composer phar create project s dev quickapps website website name if composer is installed globally run composer create project s dev quickapps website website name after composer is done visit http example com and start quickappscms installation '),
 (2, '2', 'nodes', ' curabitur quis ultricies nisl donec eget rutrum nunc vestibulum sit amet faucibus elit quisque accumsan justo suscipit ullamcorper lacus dictum arcu at vehicula enim velit et libero vivamus venenatis lacinia eros ultrices erat interdum vitae aliquam scelerisque leo in tristique tincidunt cum sociis natoque penatibus magnis dis parturient montes nascetur ridiculus mus morbi iaculis nec quam viverra mattis urna consequat augue ');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `terms`
---
 
 CREATE TABLE IF NOT EXISTS `terms` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
@@ -475,12 +348,6 @@ CREATE TABLE IF NOT EXISTS `terms` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -499,18 +366,18 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `username` (`username`,`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
 
---
--- Dumping data for table `users`
---
-
 INSERT INTO `users` (`id`, `name`, `username`, `password`, `email`, `web`, `locale`, `timezone`, `code`, `status`, `last_login`, `created`) VALUES
-(1, 'Christopher Castro', 'admin', '123456', 'chris@quickapps.es', 'http://quickapps.es', 'en_US', NULL, '', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(1, 'QuickApps CMS', 'admin', '$2y$10$EVI2DYmtDEGAqD0s9TbjL.wgbpKlSjLjeH70gXwKRhi6g5DpkR/Be', 'chris@quickapps.es', 'http://quickapps.es', 'en_US', NULL, '', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `users_roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `role_id` int(10) NOT NULL COMMENT 'The user’s role ID from roles table',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
 
---
--- Table structure for table `vocabularies`
---
+INSERT INTO `users_roles` (`id`, `user_id`, `role_id`) VALUES
+(1, 1, 1);
 
 CREATE TABLE IF NOT EXISTS `vocabularies` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
@@ -524,3 +391,7 @@ CREATE TABLE IF NOT EXISTS `vocabularies` (
   PRIMARY KEY (`id`),
   KEY `slug` (`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

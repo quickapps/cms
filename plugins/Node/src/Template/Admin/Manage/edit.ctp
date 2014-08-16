@@ -34,7 +34,7 @@
 		<?php echo $this->Form->input('sticky', ['type' => 'checkbox', 'label' => __d('node', 'Sticky at top of lists')]); ?>
 	</fieldset>
 
-	<?php if (isset($node->_fields)): ?>
+	<?php if (isset($node->_fields) && $node->_fields->count()): ?>
 	<fieldset>
 		<legend><?php echo __d('node', 'Content'); ?></legend>
 		<?php foreach ($node->_fields as $field): ?>
@@ -47,6 +47,8 @@
 		<legend><?php echo __d('node', 'Settings'); ?></legend>
 			<?php echo $this->Form->input('comment_status', ['label' => __d('node', 'Comments'), 'options' => [1 => __d('node', 'Open'), 0 => __d('node', 'Closed'), 2 => __d('node', 'Read Only')]]); ?>
 			<?php echo $this->Form->input('language', ['label' => __d('node', 'Language'), 'options' => $languages, 'empty' => __d('node', '-- ANY --')]); ?>
+			<?php echo $this->Form->input('roles._ids', ['type' => 'select', 'label' => __d('node', 'Show content for specific roles'), 'options' => $roles, 'multiple' => 'checkbox']); ?>
+			<em class="help-block"><?php echo __d('node', 'Show this content only for the selected role(s). If you select no roles, the content will be visible to all users.'); ?></em>
 	</fieldset>
 
 	<?php if ($node->has('node_revisions') && count($node->node_revisions)): ?>

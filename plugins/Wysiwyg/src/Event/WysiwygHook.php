@@ -77,7 +77,7 @@ class WysiwygHook implements EventListener {
 			$editorId = 'ck-editor-' . static::$_counter;
 			$options['class'] .= ' ' . $editorId;
 			$extra = '';
-			$filebrowserBrowseUrl = $event->subject->_View->Html->url(['plugin' => 'Wysiwyg', 'controller' => 'finder']);
+			$filebrowserBrowseUrl = $event->subject->_View->Url->build(['plugin' => 'Wysiwyg', 'controller' => 'finder']);
 			$event->subject->_View->Html->script('Wysiwyg.ckeditor/ckeditor.js', ['block' => true]);
 			$event->subject->_View->Html->script('Wysiwyg.ckeditor/adapters/jquery.js', ['block' => true]);
 			$event->subject->_View->Html->scriptBlock('$(document).ready(function () {

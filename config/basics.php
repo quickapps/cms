@@ -13,6 +13,7 @@ use Cake\Cache\Cache;
 use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Event\EventManager;
+use Cake\I18n\I18n;
 use Cake\Network\Session;
 use Cake\Routing\Router;
 use Cake\Utility\Debugger;
@@ -20,7 +21,9 @@ use Cake\Utility\Folder;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use Cake\ORM\TableRegistry;
-use User\Model\Entity\User;
+use User\Model\Entity\UserSession;
+use User\Utility\AcoManager;
+use QuickApps\Core\Plugin;
 
 /**
  * Stores some bootstrap-handy information into a persistent file.
@@ -219,23 +222,22 @@ function snapshot() {
  * @return \User\Model\Entity\User
  */
 	function user() {
-		if (Router::getRequest()->is('user.logged')) {
-			$properties = (new Session())->read('user');
-			$properties['roles'] = array_unique(array_merge($properties['roles'], ROLE_ID_AUTHENTICATED));
+		if (Router::getRequest()->is('userLoggedIn')) {
+			$properties = (new Session())->read('Auth.User');
 		} else {
 			$properties = [
 				'id' => null,
 				'name' => __d('user', 'Anonymous'),
 				'username' => __d('user', 'anonymous'),
 				'email' => __d('user', '(no email)'),
-				'locale' => null,
-				'roles' => [ROLE_ID_ANONYMOUS],
+				'locale' => I18n::defaultLocale(),
+				'roles' => [TableRegistry::get('Roles')->get(ROLE_ID_ANONYMOUS)],
 			];
 		}
 
 		static $user = null;
 		if ($user === null) {
-			$user = new User($properties);
+			$user = new UserSession($properties);
 		}
 		return $user;
 	}
@@ -337,7 +339,7 @@ function snapshot() {
  * @return array List of methods
  */
 	function get_this_class_methods($class) {
-		$methods = array();
+		$methods = [];
 		$primary = get_class_methods($class);
 
 		if ($parent = get_parent_class($class)) {

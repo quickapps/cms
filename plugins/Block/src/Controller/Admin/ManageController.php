@@ -199,6 +199,7 @@ class ManageController extends AppController {
 
 		if (!empty($this->request->data)) {
 			$data = $this->_prepareData($block);
+			$block->accessible('id', false);
 			$block = $this->Blocks->patchEntity($block, $data);
 			$validate = $block->handler != 'Block' ? 'default' : 'custom';
 

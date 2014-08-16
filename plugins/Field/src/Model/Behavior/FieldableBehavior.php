@@ -552,6 +552,7 @@ class FieldableBehavior extends Behavior {
 		$instances = $this->_getTableFieldInstances($entity);
 		$EventManager = $this->_getEventManager();
 		$FieldValues = $this->_getTable('Field.FieldValues');
+		$this->_cache['_FieldValues'] = [];
 
 		foreach ($instances as $instance) {
 			if ($entity->has(":{$instance->slug}")) {
@@ -588,10 +589,14 @@ class FieldableBehavior extends Behavior {
 					'extra' => $field->extra,
 				]);
 
-				if (!$FieldValues->save($valueEntity)) {
-					$entity = $this->attachEntityFields($entity);
-					$event->stopPropagation();
-					return false;
+				if ($entity->isNew()) {
+					$this->_cache['_FieldValues'][] = $valueEntity;
+				} else {
+					if (!$FieldValues->save($valueEntity)) {
+						$entity = $this->attachEntityFields($entity);
+						$event->stopPropagation();
+						return false;
+					}
 				}
 
 				$entity->unsetProperty(":{$instance->slug}");
@@ -620,6 +625,17 @@ class FieldableBehavior extends Behavior {
 	public function afterSave(Event $event, $entity, $options) {
 		if (!$this->config('enabled')) {
 			return true;
+		}
+
+		// as we dont know entity's ID on before save, we have to delay EntityValues storage
+		// all this occurs inside a transaction so we are safe
+		if (!empty($this->_cache['_FieldValues'])) {
+			$FieldValues = $this->_getTable('Field.FieldValues');
+			foreach ($this->_cache['_FieldValues'] as $valueEntity) {
+				$valueEntity->set('entity_id', $entity->id);
+				$FieldValues->save($valueEntity);
+			}
+			$this->_cache['_FieldValues'] = [];
 		}
 
 		$instances = $this->_getTableFieldInstances($entity);
@@ -868,6 +884,7 @@ class FieldableBehavior extends Behavior {
 			return $entity;
 		}
 
+		$_accessible = [];
 		foreach ($entity->visibleProperties() as $property) {
 			$_accessible[$property] = $entity->accessible($property);
 		}

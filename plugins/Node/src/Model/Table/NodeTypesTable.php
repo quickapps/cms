@@ -73,7 +73,7 @@ class NodeTypesTable extends Table {
 			->add('slug', 'checkSlug', [
 				'rule' => function ($value, $context) {
 					$this->unbindSluggable();
-					return preg_match('/[a-z0-9\-]{3,}/', $value) === 1;
+					return preg_match('/^[a-z0-9\-]{3,}$/', $value) === 1;
 				},
 				'message' => __d('node', 'Invalid machine-name.'),
 				'provider' => 'table',

@@ -26,7 +26,7 @@
 				appName = appName.replace(/([A-Z])/g, function($1) {
 					return '_' + $1.toLowerCase();
 				}).replace(/^_/i, '').replace(/(_){2,}/g, '_');
-				url = '<?php echo $this->Html->url('/'); ?>' + appName + '/' + wr;
+				url = '<?php echo $this->Url->build('/'); ?>' + appName + '/' + wr;
 			}
 		}
 
@@ -35,7 +35,7 @@
 
 	$(document).ready(function() {
 		$('div.elfinder').elfinder({
-			url : '<?php echo $this->Html->url(['plugin' => 'Wysiwyg', 'controller' => 'finder', 'action' => 'connector', 'prefix' => 'admin']); ?>',
+			url : '<?php echo $this->Url->build(['plugin' => 'Wysiwyg', 'controller' => 'finder', 'action' => 'connector', 'prefix' => 'admin']); ?>',
 			dateFormat: '<?php echo __d('wysiwyg', 'M d, Y h:i A'); ?>',
 			fancyDateFormat: '<?php echo __d('wysiwyg', '$1 H:m:i'); ?>',
 			lang: 'en',

@@ -58,16 +58,16 @@ class ServeController extends AppController {
 	];
 
 /**
- * Redirects to ServeController::front_page()
+ * Redirects to ServeController::home()
  *
  * @return void
  */
 	public function index() {
-		$this->redirect(['plugin' => 'node', 'controller' => 'serve', 'action' => 'front_page']);
+		$this->redirect(['plugin' => 'node', 'controller' => 'serve', 'action' => 'home']);
 	}
 
 /**
- * Site font page.
+ * Site's home page.
  *
  * Gets a list of all promoted nodes, so themes may render them in their front-page
  * layout. The view-variable `nodes` holds all promoted contents, themes might render
@@ -75,7 +75,7 @@ class ServeController extends AppController {
  *
  * @return void
  */
-	public function front_page() {
+	public function home() {
 		$this->loadModel('Node.Nodes');
 		$nodes = $this->Nodes->find()
 			->where([
@@ -155,8 +155,7 @@ class ServeController extends AppController {
 			$nodes = [];
 		}
 
-		$this->set('criteria', $criteria);
-		$this->set('nodes', $nodes);
+		$this->set(compact('nodes', 'criteria'));
 		$this->switchViewMode('search-result');
 	}
 
@@ -181,8 +180,7 @@ class ServeController extends AppController {
 			$nodes = [];
 		}
 
-		$this->set('criteria', $criteria);
-		$this->set('nodes', $nodes);
+		$this->set(compact('nodes', 'criteria'));
 		$this->switchViewMode('rss');
 		$this->RequestHandler->renderAs($this, 'rss');
 	}

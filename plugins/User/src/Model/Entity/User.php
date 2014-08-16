@@ -12,6 +12,7 @@
 namespace User\Model\Entity;
 
 use Cake\ORM\Entity;
+use Cake\ORM\TableRegistry;
 
 /**
  * Represents single "user" in "users" database table.
@@ -42,6 +43,36 @@ class User extends Entity {
 		$url .= "?s={$options['s']}&d={$options['d']}&r={$options['r']}";
 
 		return $url;
+	}
+
+/**
+ * Gets an array list of role IDs this user belongs to.
+ * 
+ * @return array
+ */
+	public function _getRoleIds() {
+		$ids = [];
+		if ($this->has('roles')) {
+			foreach ($this->roles as $k => $role) {
+				$ids[] = $role->id;
+			}
+		}
+		return $ids;
+	}
+
+/**
+ * Gets an array list of role NAMES this user belongs to.
+ * 
+ * @return array
+ */
+	public function _getRoleNames() {
+		$names = [];
+		if ($this->has('roles')) {
+			foreach ($this->roles as $k => $role) {
+				$names[] = $role->name;
+			}
+		}
+		return $names;
 	}
 
 }

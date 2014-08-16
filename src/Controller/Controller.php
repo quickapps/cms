@@ -12,7 +12,6 @@
 namespace QuickApps\Controller;
 
 use Cake\Controller\Controller as CakeCotroller;
-use Cake\Core\Configure;
 use Cake\I18n\I18n;
 use QuickApps\Core\HookTrait;
 use QuickApps\View\ViewModeTrait;
@@ -55,6 +54,7 @@ class Controller extends CakeCotroller {
  * @var array
  */
 	public $helpers = [
+		'Url' => ['className' => 'QuickApps\View\Helper\UrlHelper'],
 		'Html' => ['className' => 'QuickApps\View\Helper\HtmlHelper'],
 		'Form' => ['className' => 'QuickApps\View\Helper\FormHelper'],
 		'Menu' => ['className' => 'Menu\View\Helper\MenuHelper'],
@@ -67,7 +67,21 @@ class Controller extends CakeCotroller {
  * @var array
  */
 	public $components = [
-		'System.Detector',
+		'Auth' => [
+			'authenticate' => [
+				'Form' => [
+					'username' => 'username',
+					'password' => 'password',
+					'userModel' => 'User.Users',
+					'scope' => ['Users.status' => 1],
+					'contain' => ['Roles'],
+					'passwordHasher' => 'Default',
+				]
+			],
+			'authorize' => ['User.Cached'],
+			'loginAction' => ['plugin' => 'User', 'controller' => 'gateway', 'action' => 'login'],
+			'unauthorizedRedirect' => ['plugin' => 'User', 'controller' => 'gateway', 'action' => 'unauthorized'],
+		],
 		'Menu.Breadcrumb',
 		'Session',
 		'Flash',
@@ -94,17 +108,6 @@ class Controller extends CakeCotroller {
 		$this->switchViewMode('default');
 		$this->_prepareLanguage();
 		$this->_prepareTheme();
-
-		// TODO: remove this lines
-		$this->request->session()->write('user', [
-			'id' => 1,
-			'name' => 'Chris',
-			'username' => 'admin',
-			'email' => 'chris@quickapps.es',
-			'locale' => 'en_US',
-			// TODO: stores in session "user.roles" both role ID and role Slugs. e.g. [1 => 'administrator', 2 => 'manager']
-			'roles' => [1 => 'administrator', 2 => 'manager'],
-		]);
 	}
 
 /**
@@ -175,6 +178,18 @@ class Controller extends CakeCotroller {
 			$this->theme = option('back_theme');
 		} else {
 			$this->theme = option('front_theme');
+		}
+
+		if ($this->request->isAjax()) {
+			$this->layout = 'ajax';
+		}
+
+		if ($this->request->isHome()) {
+			$this->layout = 'home';
+		}
+
+		if ($this->request->isDashboard()) {
+			$this->layout = 'dashboard';
 		}
 	}
 

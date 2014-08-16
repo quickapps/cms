@@ -1,7 +1,7 @@
 <?php
 	$this->set('channelData', [
 		'title' => $this->fetch('title'),
-		'link' => $this->Html->url('/', true),
+		'link' => $this->Url->build('/', true),
 		'description' => $this->fetch('description'),
 		'language' => 'en-us'
 	]);

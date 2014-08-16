@@ -53,7 +53,7 @@ class PluginsController extends AppController {
 		if ($this->request->data) {
 			$activate = false;
 			if (isset($this->request->data['activate'])) {
-				$activate = (bool)$activate;
+				$activate = (bool)$this->request->data['activate'];
 			}
 
 			if (isset($this->request->data['download'])) {
@@ -70,7 +70,14 @@ class PluginsController extends AppController {
 
 			$success = $task->run();
 			if ($success) {
-				$this->Flash->success(__d('system', 'Plugins successfully installed!'));
+				if (!empty($task->errors())) {
+					$this->Flash->set(__d('system', 'Plugins installed but some errors occur'), [
+						'element' => 'System.installer_errors',
+						'params' => ['errors' => $task->errors(), 'type' => 'warning'],
+					]);
+				} else {
+					$this->Flash->success(__d('system', 'Plugins successfully installed!'));
+				}
 				$this->redirect($this->referer());
 			} else {
 				$this->Flash->set(__d('system', 'Plugins could not be installed'), [
@@ -113,8 +120,7 @@ class PluginsController extends AppController {
 		$plugin = Plugin::info($pluginName, true);
 		$task = $this->Installer
 			->task('toggle')
-			->plugin($pluginName)
-			->enable();
+			->enable($pluginName);
 		$success = $task->run();
 		if ($success) {
 			$this->Flash->success(__d('system', 'Plugin was successfully enabled!'));
@@ -137,8 +143,7 @@ class PluginsController extends AppController {
 		$plugin = Plugin::info($pluginName, true);
 		$task = $this->Installer
 			->task('toggle')
-			->plugin($pluginName)
-			->disable();
+			->disable($pluginName);
 		$success = $task->run();
 		if ($success) {
 			$this->Flash->success(__d('system', 'Plugin was successfully disabled!'));

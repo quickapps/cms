@@ -71,7 +71,8 @@ class PackageManager {
  * Constructor.
  *
  * @return \Installer\Utility\TaskBase
- * @throws \Cake\Error\FatalErrorException When invalid task is given
+ * @throws \Cake\Error\FatalErrorException When invalid task is given, or when
+ * the task class does not extends "BaseTask".
  */
 	public static function task($task, $options = []) {
 		if (function_exists('ini_set')) {
@@ -88,8 +89,13 @@ class PackageManager {
 		if (is_callable($handler)) {
 			return $handler($options);
 		}
+		$handler = new $handler($options);
 
-		return new $handler($options);
+		if ($handler instanceof \Installer\Utility\BaseTask) {
+			return $handler;
+		}
+
+		throw new FatalErrorException(__d('installer', 'Invalid task object, it must extend "BaseTask" class.'));
 	}
 
 /**

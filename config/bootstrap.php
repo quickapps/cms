@@ -192,7 +192,6 @@ foreach (App::objects('Plugin') as $plugin) {
 		$plugin === option('back_theme')
 	) {
 		Plugin::load($plugin, [
-			'namespace' => $plugin,
 			'autoload' => true,
 			'bootstrap' => true,
 			'routes' => true,

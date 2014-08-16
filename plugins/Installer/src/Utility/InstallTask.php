@@ -30,7 +30,7 @@ use QuickApps\Core\Plugin;
  * 
  *     $task = $this->Installer
  *         ->task('install', ['activate' => true, 'isTheme' => true])
- *         ->download('http://example.com/theme-package.zip');
+ *         ->download('http://example.com/theme-package.zip'); // or: ->file(), ->upload()
  *     
  *     if ($task->run()) {
  *         $this->Flash->success('Installed!');
@@ -110,6 +110,29 @@ class InstallTask extends BaseTask {
 	];
 
 /**
+ * Invoked before "start()".
+ * 
+ * @return void
+ */
+	protected function init() {
+		if (!$this->_packagePath) {
+			$this->_rollback();
+			$this->error(__d('installer', 'No valid package was found.'));
+		} elseif (!$this->_unzip()) {
+			$this->_rollback();
+		} elseif (!$this->_validateContent()) {
+			$this->_rollback();
+		} elseif ($this->_exists()) {
+			$this->_rollback();
+			$this->error(__d('installer', 'This plugin is already installed.'));
+		}
+
+		// it will be stopped on start()
+		$this->_pluginName = !$this->_pluginName ? '__DUMMY__' : $this->_pluginName;
+		$this->_plugin($this->_pluginName);
+	}
+
+/**
  * Starts the installation process of the uploaded/downloaded package.
  *
  * This method should me used after a package has been uploaded or
@@ -124,42 +147,24 @@ class InstallTask extends BaseTask {
  *
  * @return bool True on success, false otherwise
  */
-	public function run() {
+	protected function start() {
 		if (!empty($this->_errors)) {
 			$this->_rollback();
 			return false;
 		}
 
-		if (!$this->_packagePath) {
-			$this->_rollback();
-			$this->error(__d('installer', 'You must set a package before try to install.'));
-			return false;
-		}
-
-		if (!$this->_unzip()) {
-			$this->_rollback();
-			return false;
-		}
-
-		if (!$this->_validateContent()) {
-			$this->_rollback();
-			return false;
-		}
-
-		if ($this->_exists()) {
-			$this->_rollback();
-			$this->error(__d('installer', 'This plugin is already installed.'));
-			return false;
-		}
-
-		$this->_pluginName = $this->_pluginName; // duh
-
 		if ($this->config('callbacks')) {
 			// "before" events occurs even before plugins is moved to its destination
 			$this->attachListeners("{$this->_extractedPath}src/Event");
-			$beforeInstallEvent = $this->hook("Plugin.{$this->_pluginName}.beforeInstall");
-			if ($beforeInstallEvent->isStopped() || $beforeInstallEvent->result === false) {
-				$this->error(__d('install', 'Task was explicitly rejected by the plugin.'));
+			try {
+				$beforeInstallEvent = $this->hook("Plugin.{$this->_pluginName}.beforeInstall");
+				if ($beforeInstallEvent->isStopped() || $beforeInstallEvent->result === false) {
+					$this->error(__d('installer', 'Task was explicitly rejected by the plugin.'));
+					$this->_rollback();
+					return false;
+				}
+			} catch (\Exception $e) {
+				$this->error(__d('installer', 'Internal error, plugin did not respond to "beforeInstall" callback correctly.'));
 				$this->_rollback();
 				return false;
 			}
@@ -185,20 +190,25 @@ class InstallTask extends BaseTask {
 		}
 
 		if ($this->config('callbacks')) {
-			$this->hook("Plugin.{$this->_pluginName}.afterInstall");
+			try  {
+				$this->hook("Plugin.{$this->_pluginName}.afterInstall");
+			} catch (\Exception $e) {
+				$this->error(__d('installer', 'Plugin was installed but some errors occur.'));
+			}
 		}
 		
 		$activate = (bool)$this->config('activate');
+		$pluginName = $this->_pluginName;
 		$this->_finish();
 
 		if ($activate) {
 			$newTask = $this
 				->newTask('toggle')
-				->plugin($this->_pluginName)
-				->enable();
+				->enable($pluginName);
 
 			if (!$newTask->run()) {
-				$this->error(__d('install', 'Plugin was installed but it could not be activated after installation.'));
+				$this->error(__d('installer', 'Plugin was installed but it could not be activated after installation.'));
+				$this->error($newTask->errors());
 			}
 		}
 	

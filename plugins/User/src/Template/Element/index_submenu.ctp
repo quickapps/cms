@@ -36,7 +36,7 @@
 		],
 		[
 			'title' => '<span class="glyphicon glyphicon-comment"></span> ' . __d('node', 'Permissions'),
-			'url' => ['plugin' => 'User', 'controller' => 'roles', 'action' => 'index'],
+			'url' => ['plugin' => 'User', 'controller' => 'permissions', 'action' => 'index'],
 			'activation' => 'any',
 			'active' => '/admin/user/permissions*',
 		],

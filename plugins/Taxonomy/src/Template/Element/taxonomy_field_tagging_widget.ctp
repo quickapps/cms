@@ -41,7 +41,7 @@ use Cake\ORM\TableRegistry;
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('#<?php echo $fieldId; ?>').tokenInput('<?php echo $this->Html->url(['plugin' => 'Taxonomy', 'controller' => 'tagger', 'action' => 'search', $field->metadata->settings['vocabulary']], true); ?>', {
+		$('#<?php echo $fieldId; ?>').tokenInput('<?php echo $this->Url->build(['plugin' => 'Taxonomy', 'controller' => 'tagger', 'action' => 'search', $field->metadata->settings['vocabulary']], true); ?>', {
 			allowNewItems: true,
 			hintText: '<?php echo __d('taxonomy', 'Type in a search term'); ?>',
 			noResultsText: '<?php echo __d('taxonomy', 'No results'); ?>',

@@ -13,8 +13,7 @@
 /**
  * Default layout.
  *
- * This layout is used for rendering every page of content but
- * site's front page (a.k.a. index).
+ * This layout is used for rendering every page.
  *
  * @author Christopher Castro <chris@quickapps.es>
  */

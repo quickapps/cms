@@ -21,6 +21,16 @@ use Cake\Validation\Validator;
 class RolesTable extends Table {
 
 /**
+ * Initialize a table instance. Called after the constructor.
+ *
+ * @param array $config Configuration options passed to the constructor
+ * @return void
+ */
+	public function initialize(array $config) {
+		$this->addBehavior('System.Sluggable', ['label' => 'name']);
+	}
+
+/**
  * Default validation rules set.
  *
  * @param \Cake\Validation\Validator $validator
@@ -28,7 +38,7 @@ class RolesTable extends Table {
  */
 	public function validationDefault(Validator $validator) {
 		$validator
-			->add('id', 'checkID', [
+			->add('id', 'protectedID', [
 				'rule' => function ($value, $context) {
 					return !in_array(intval($value), [ROLE_ID_ADMINISTRATOR, ROLE_ID_AUTHENTICATED, ROLE_ID_ANONYMOUS]);
 				},

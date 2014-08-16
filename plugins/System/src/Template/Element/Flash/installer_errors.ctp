@@ -11,7 +11,8 @@
  */
 ?>
 
-<div class="alert alert-danger">
+<?php $type = !isset($type) ? 'danger' : $type; ?>
+<div class="alert alert-<?php echo $type; ?>">
 	<strong><?php echo $message; ?>:</strong>
 	<br />
 	<ol>

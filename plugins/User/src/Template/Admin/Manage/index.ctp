@@ -27,7 +27,9 @@
 			<tr>
 				<td><?php echo $user->name; ?> <small>(<?php echo $user->username; ?>)</small></td>
 				<td><?php echo $user->email; ?></td>
-				<td class="hidden-xs"><?php echo $user->roles; ?></td>
+				<td class="hidden-xs">
+					<?php echo implode(', ', $user->role_names); ?>
+				</td>
 				<td>
 					<div class="btn-group">
 						<?php
@@ -59,3 +61,9 @@
 		<?php endforeach; ?>
 	</tbody>
 </table>
+
+<ul class="pagination">
+	<?php echo $this->Paginator->prev(); ?>
+	<?php echo $this->Paginator->numbers(); ?>
+	<?php echo $this->Paginator->next(); ?>
+</ul>

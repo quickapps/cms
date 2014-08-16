@@ -41,7 +41,6 @@ class FormHelper extends CakeFormHelper {
  */
 	public function widgetRegistry(WidgetRegistry $instance = null, $widgets = []) {
 		$this->alter('FormHelper.widgetRegistry', $instance, $widgets);
-
 		return parent::widgetRegistry($instance, $widgets);
 	}
 

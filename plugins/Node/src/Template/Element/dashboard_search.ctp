@@ -41,7 +41,7 @@
 	function doSearch () {
 		if ($('#criteria').val()) {
 			$(location).attr('href',
-				'<?php echo $this->Html->url('/find/'); ?>' + decodeURIComponent($('#criteria').val())
+				'<?php echo $this->Url->build('/find/'); ?>' + decodeURIComponent($('#criteria').val())
 			);
 		}
 	}

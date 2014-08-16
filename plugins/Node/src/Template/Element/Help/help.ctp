@@ -23,7 +23,7 @@
 <dl>
 	<dt>Creating content</dt>
 	<dd>
-		When new content is created, the Node plugin records basic information about the content, including the author, date of creation, and the <a href="<?php echo $this->Html->url('/admin/node/types'); ?>">Content type</a>.
+		When new content is created, the Node plugin records basic information about the content, including the author, date of creation, and the <a href="<?php echo $this->Url->build('/admin/node/types'); ?>">Content type</a>.
 		It also manages the <em>publishing options</em>, which define whether or not the content is published, promoted to the front page of the site, and/or sticky at the top of content lists.
 		Default settings can be configured for each <?php echo $this->Html->link('type of content', ['plugin' => 'Node', 'controller' => 'types', 'prefix' => 'admin']); ?> on your site.
 	</dd>

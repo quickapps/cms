@@ -20,6 +20,7 @@ use Installer\Utility\InstallTask;
 use Installer\Utility\PackageManager;
 use Installer\Utility\UpdateTask;
 use QuickApps\Core\HookTrait;
+use User\Utility\AcoManager;
 
 /**
  * Base class for tasks.
@@ -71,9 +72,57 @@ abstract class BaseTask {
 /**
  * Starts this task.
  * 
- * @return mixed
+ * @return bool True if task executed correctly
+ * @throws \Cake\Error\FatalErrorException When task is started before task
+ * handler has specified the plugin being managed
  */
-	abstract public function run();
+	final public function run() {
+		$this->init();
+		if (!$this->_pluginName) {
+			throw new FatalErrorException(__d('installer', 'Internal error ({0}), task cannot be run if no plugin was set before using "_plugin()".', get_called_class()));
+		}
+		return $this->start();
+	}
+
+/**
+ * This is where task should initialize all what it needs
+ * before it gets started.
+ *
+ * This method is automatically executed before "run()".
+ * 
+ * @return void
+ */
+	abstract protected function init();
+
+/**
+ * This is the main method of every task.
+ *
+ * It cannot be directly executed, it can only be accessed using "run()".
+ * 
+ * @return bool
+ */
+	abstract protected function start();
+
+/**
+ * Sets the plugin name being handled.
+ *
+ * A plugin name must be set before starting the task using "run()" method.
+ * 
+ * @param string $pluginName
+ * @return Installer\Utility\ToggleTask
+ */
+	protected function _plugin($pluginName) {
+		return $this->_pluginName = $pluginName;
+	}
+
+/**
+ * Get an instance of AcoManager.
+ * 
+ * @return \User\Utility\AcoManager
+ */
+	public function aco() {
+		return new AcoManager($this->_pluginName);
+	}
 
 /**
  * Sets a configuration value.
@@ -147,7 +196,7 @@ abstract class BaseTask {
  */
 	protected function canBeDeleted($path) {
 		if (!file_exists($path) || !is_dir($path)) {
-			$this->error(__d('install', "Plugin's directory was not found: ", $path));
+			$this->error(__d('installer', "Plugin's directory was not found: ", $path));
 			return false;
 		}
 
@@ -170,7 +219,7 @@ abstract class BaseTask {
 			}, $notWritable);
 
 			$ul = '<ul>' . implode("\n", $lis) . '</ul>';
-			$this->error(__d('install', "Some plugin's files or directories cannot be removed from your server, please check write permissions: <br/> {0}", $ul));
+			$this->error(__d('installer', "Some plugin's files or directories cannot be removed from your server, please check write permissions: <br/> {0}", $ul));
 			return false;
 		}
 

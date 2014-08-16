@@ -60,21 +60,24 @@ class ToggleTask extends BaseTask {
 	];
 
 /**
+ * Invoked before "start()".
+ * 
+ * @return void
+ */
+	protected function init() {
+		$this->_plugin($this->config('plugin'));
+	}
+
+/**
  * Starts the uninstall process of the given plugin.
  *
  * @return bool True on success, false otherwise
  */
-	public function run() {
-		$pluginName = $this->config('plugin');
+	protected function start() {
 		$status = $this->config('status');
 
-		if (!$pluginName) {
-			$this->error(__d('install', 'No plugin was given to enable/disable.'));
-			return false;
-		}
-
 		if ($status === null) {
-			$this->error(__d('install', 'You must indicate the new status of the plugin using `enable()` or `disable()`.'));
+			$this->error(__d('installer', 'You must indicate the new status of the plugin using `enable()` or `disable()`.'));
 			return false;
 		} else {
 			$status = (bool)$status;
@@ -82,28 +85,28 @@ class ToggleTask extends BaseTask {
 		}
 
 		try {
-			$info = Plugin::info($pluginName, true);
+			$info = Plugin::info($this->_pluginName, true);
 			$pluginEntity = $this->Plugins
 				->find()
-				->where(['name' => $pluginName])
+				->where(['name' => $this->_pluginName])
 				->first();
 		} catch (\Exception $e) {
 			$info = null;
 		}
 
 		if (!$info || !$pluginEntity) {
-			$this->error(__d('install', 'Plugin "{0}" was not found.', $pluginName));
+			$this->error(__d('installer', 'Plugin "{0}" was not found.', $this->_pluginName));
 			return false;
 		}
 
 		if ($info['isCore']) {
-			$this->error(__d('install', 'Plugin "{0}" is a core plugin, you cannot enable or disable core\'s plugins.', $info['human_name']));
+			$this->error(__d('installer', 'Plugin "{0}" is a core plugin, you cannot enable or disable core\'s plugins.', $info['human_name']));
 			return false;
 		}
 
-		$requiredBy = Plugin::checkReverseDependency($pluginName);
+		$requiredBy = Plugin::checkReverseDependency($this->_pluginName);
 		if (!empty($requiredBy) && $status === false) {
-			$this->error(__d('install', 'Plugin "{0}" cannot be disabled as it is required by: {1}', $info['human_name'], implode(', ', $requiredBy)));
+			$this->error(__d('installer', 'Plugin "{0}" cannot be disabled as it is required by: {1}', $info['human_name'], implode(', ', $requiredBy)));
 			return false;
 		}
 
@@ -114,9 +117,14 @@ class ToggleTask extends BaseTask {
 		}
 
 		if ($this->config('callbacks')) {
-			$beforeEvent = $this->hook("Plugin.{$info['name']}.before{$callbackSufix}");
-			if ($beforeEvent->isStopped() || $beforeEvent->result === false) {
-				$this->error(__d('install', 'Task was explicitly rejected by the plugin.'));
+			try {
+				$beforeEvent = $this->hook("Plugin.{$info['name']}.before{$callbackSufix}");
+				if ($beforeEvent->isStopped() || $beforeEvent->result === false) {
+					$this->error(__d('installer', 'Task was explicitly rejected by the plugin.'));
+					return false;
+				}
+			} catch (\Exception $e) {
+				$this->error(__d('installer', 'Internal error, plugin did not respond to "before{0}" callback correctly.', $callbackSufix));
 				return false;
 			}
 		}
@@ -124,9 +132,9 @@ class ToggleTask extends BaseTask {
 		$pluginEntity->set('status', $status);
 		if (!$this->Plugins->save($pluginEntity)) {
 			if ($status) {
-				$this->error(__d('install', 'Plugin "{0}" could not be enabled due to an internal error.', $info['human_name']));
+				$this->error(__d('installer', 'Plugin "{0}" could not be enabled due to an internal error.', $info['human_name']));
 			} else {
-				$this->error(__d('install', 'Plugin "{0}" could not be disabled due to an internal error.', $info['human_name']));
+				$this->error(__d('installer', 'Plugin "{0}" could not be disabled due to an internal error.', $info['human_name']));
 			}
 			return false;
 		}
@@ -134,7 +142,11 @@ class ToggleTask extends BaseTask {
 		snapshot();
 
 		if ($this->config('callbacks')) {
-			$this->hook("Plugin.{$info['name']}.after{$callbackSufix}");
+			try {
+				$this->hook("Plugin.{$info['name']}.after{$callbackSufix}");
+			} catch (\Exception $e) {
+				$this->error(__d('installer', 'Plugin did not respond to "after{0}" callback.', $callbackSufix));
+			}
 		}
 
 		return true;
@@ -143,12 +155,13 @@ class ToggleTask extends BaseTask {
 /**
  * Indicates this task should enable the given plugin.
  * 
- * @param string $pluginName
+ * @param string|null $pluginName
  * @return Installer\Utility\ToggleTask
  */
 	public function enable($pluginName = null) {
 		if ($pluginName) {
-			$this->plugin('plugin', $pluginName);
+			$this->config('plugin', $pluginName);
+			$this->_plugin($pluginName);
 		}
 		return $this->configure('status', true);
 	}
@@ -156,26 +169,15 @@ class ToggleTask extends BaseTask {
 /**
  * Indicates this task should disable the given plugin.
  * 
- * @param string $pluginName
+ * @param string|null $pluginName
  * @return Installer\Utility\ToggleTask
  */
 	public function disable($pluginName = null) {
 		if ($pluginName) {
-			$this->plugin('plugin', $pluginName);
+			$this->config('plugin', $pluginName);
+			$this->_plugin($pluginName);
 		}
 		return $this->configure('status', false);
-	}
-
-/**
- * Sets the plugin to enable/disable.
- *
- * Shortcut for `$this->config('plugin', 'MyPlugin')`.
- * 
- * @param string $pluginName
- * @return Installer\Utility\ToggleTask
- */
-	public function plugin($pluginName) {
-		return $this->configure('plugin', $pluginName);
 	}
 
 }

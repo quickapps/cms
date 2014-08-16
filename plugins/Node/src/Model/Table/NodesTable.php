@@ -52,6 +52,11 @@ class NodesTable extends Table {
 			'conditions' => ['Nodes.node_type_slug = NodeTypes.slug']
 		]);
 
+		$this->belongsToMany('Roles', [
+			'className' => 'User.Roles',
+			'propertyName' => 'roles',
+		]);
+
 		$this->hasMany('NodeRevisions', [
 			'className' => 'Node.NodeRevisions',
 			'dependent' => true,
