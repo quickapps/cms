@@ -11,8 +11,10 @@
  */
 namespace User\Model\Table;
 
+use Cake\Event\Event;
 use Cake\ORM\Table;
-use User\Model\Entity\User;
+use Cake\ORM\Entity;
+use Cake\Cache\Cache;
 
 /**
  * Represents "permissions" database table.
@@ -38,7 +40,7 @@ class PermissionsTable extends Table {
  *
  * @return bool true if user has access to action in ACO, false otherwise
  */
-	public function check(User $user, $path) {
+	public function check(Entity $user, $path) {
 		$acoPath = $this->Acos->node($path);
 
 		if (!$acoPath) {
@@ -62,6 +64,36 @@ class PermissionsTable extends Table {
 		}
 
 		return false;
+	}
+
+/**
+ * Clear permissions cache when permissions have changed.
+ * 
+ * @param \Cake\Event\Event $event
+ * @return void
+ */
+	public function afterSave(Event $event) {
+		$this->clearCache();
+	}
+
+/**
+ * Clear permissions cache when permissions have changed.
+ * 
+ * @param \Cake\Event\Event $event
+ * @return void
+ */
+	public function afterDelete(Event $event) {
+		$this->clearCache();
+	}
+
+/**
+ * Clear permissions cache.
+ * 
+ * @param \Cake\Event\Event $event
+ * @return void
+ */
+	public function clearCache() {
+		Cache::clearGroup('acl', 'permissions');
 	}
 
 }

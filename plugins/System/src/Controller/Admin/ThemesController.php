@@ -90,8 +90,9 @@ class ThemesController extends AppController {
 				]);
 			}
 		}
-		$this->Breadcrumb->push('/admin/system/themes');
-		$this->Breadcrumb->push(__d('system', 'Install new theme'), '#');
+		$this->Breadcrumb
+			->push('/admin/system/themes')
+			->push(__d('system', 'Install new theme'), '#');
 	}
 
 /**
@@ -101,10 +102,12 @@ class ThemesController extends AppController {
  */
 	public function details($themeName) {
 		$theme = Plugin::info($themeName, true);
+
 		$this->set(compact('theme'));
-		$this->Breadcrumb->push('/admin/system/themes');
-		$this->Breadcrumb->push($theme['human_name'], '#');
-		$this->Breadcrumb->push(__d('system', 'Details'), '#');
+		$this->Breadcrumb
+			->push('/admin/system/themes')
+			->push($theme['human_name'], '#')
+			->push(__d('system', 'Details'), '#');
 	}
 
 /**
@@ -159,8 +162,9 @@ class ThemesController extends AppController {
 		}
 
 		$this->set(compact('arrayContext', 'theme'));
-		$this->Breadcrumb->push('/admin/system/themes');
-		$this->Breadcrumb->push(__d('system', 'Settings for {0} theme', $theme['name']), '#');
+		$this->Breadcrumb
+			->push('/admin/system/themes')
+			->push(__d('system', 'Settings for {0} theme', $theme['name']), '#');
 	}
 
 }

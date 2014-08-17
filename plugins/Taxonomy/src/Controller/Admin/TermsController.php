@@ -77,11 +77,12 @@ class TermsController extends AppController {
 		}
 
 		$this->set(compact('vocabulary', 'terms'));
-		$this->Breadcrumb->push('/admin/system/structure');
-		$this->Breadcrumb->push(__d('taxonomy', 'Taxonomy'), '/admin/taxonomy/manage');
-		$this->Breadcrumb->push(__d('taxonomy', 'Vocabularies'), ['plugin' => 'Taxonomy', 'controller' => 'vocabularies', 'action' => 'index']);
-		$this->Breadcrumb->push("\"{$vocabulary->name}\"", ['plugin' => 'Taxonomy', 'controller' => 'vocabularies', 'action' => 'edit', $vocabulary->id]);
-		$this->Breadcrumb->push(__d('taxonomy', 'Terms'), '#');
+		$this->Breadcrumb
+			->push('/admin/system/structure')
+			->push(__d('taxonomy', 'Taxonomy'), '/admin/taxonomy/manage')
+			->push(__d('taxonomy', 'Vocabularies'), ['plugin' => 'Taxonomy', 'controller' => 'vocabularies', 'action' => 'index'])
+			->push("\"{$vocabulary->name}\"", ['plugin' => 'Taxonomy', 'controller' => 'vocabularies', 'action' => 'edit', $vocabulary->id])
+			->push(__d('taxonomy', 'Terms'), '#');
 	}
 
 /**
@@ -126,12 +127,13 @@ class TermsController extends AppController {
 			});
 
 		$this->set(compact('vocabulary', 'term', 'parentsTree'));
-		$this->Breadcrumb->push('/admin/system/structure');
-		$this->Breadcrumb->push(__d('taxonomy', 'Taxonomy'), '/admin/taxonomy/manage');
-		$this->Breadcrumb->push(__d('taxonomy', 'Vocabularies'), ['plugin' => 'Taxonomy', 'controller' => 'vocabularies', 'action' => 'index']);
-		$this->Breadcrumb->push("\"{$vocabulary->name}\"", ['plugin' => 'Taxonomy', 'controller' => 'vocabularies', 'action' => 'edit', $vocabulary->id]);
-		$this->Breadcrumb->push(__d('taxonomy', 'Terms'), ['plugin' => 'Taxonomy', 'controller' => 'terms', 'action' => 'vocabulary', $vocabulary->id]);
-		$this->Breadcrumb->push(__d('taxonomy', 'Add new term'), '#');
+		$this->Breadcrumb
+			->push('/admin/system/structure')
+			->push(__d('taxonomy', 'Taxonomy'), '/admin/taxonomy/manage')
+			->push(__d('taxonomy', 'Vocabularies'), ['plugin' => 'Taxonomy', 'controller' => 'vocabularies', 'action' => 'index'])
+			->push("\"{$vocabulary->name}\"", ['plugin' => 'Taxonomy', 'controller' => 'vocabularies', 'action' => 'edit', $vocabulary->id])
+			->push(__d('taxonomy', 'Terms'), ['plugin' => 'Taxonomy', 'controller' => 'terms', 'action' => 'vocabulary', $vocabulary->id])
+			->push(__d('taxonomy', 'Add new term'), '#');
 	}
 
 /**
@@ -157,12 +159,13 @@ class TermsController extends AppController {
 		}
 
 		$this->set('term', $term);
-		$this->Breadcrumb->push('/admin/system/structure');
-		$this->Breadcrumb->push(__d('taxonomy', 'Taxonomy'), '/admin/taxonomy/manage');
-		$this->Breadcrumb->push(__d('taxonomy', 'Vocabularies'), ['plugin' => 'Taxonomy', 'controller' => 'vocabularies', 'action' => 'index']);
-		$this->Breadcrumb->push("\"{$vocabulary->name}\"", ['plugin' => 'Taxonomy', 'controller' => 'vocabularies', 'action' => 'edit', $vocabulary->id]);
-		$this->Breadcrumb->push(__d('taxonomy', 'Terms'), ['plugin' => 'Taxonomy', 'controller' => 'terms', 'action' => 'vocabulary', $vocabulary->id]);
-		$this->Breadcrumb->push(__d('taxonomy', 'Editing term'), '#');
+		$this->Breadcrumb
+			->push('/admin/system/structure')
+			->push(__d('taxonomy', 'Taxonomy'), '/admin/taxonomy/manage')
+			->push(__d('taxonomy', 'Vocabularies'), ['plugin' => 'Taxonomy', 'controller' => 'vocabularies', 'action' => 'index'])
+			->push("\"{$vocabulary->name}\"", ['plugin' => 'Taxonomy', 'controller' => 'vocabularies', 'action' => 'edit', $vocabulary->id])
+			->push(__d('taxonomy', 'Terms'), ['plugin' => 'Taxonomy', 'controller' => 'terms', 'action' => 'vocabulary', $vocabulary->id])
+			->push(__d('taxonomy', 'Editing term'), '#');
 	}
 
 /**

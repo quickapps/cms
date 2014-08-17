@@ -76,7 +76,8 @@ class Controller extends CakeCotroller {
 					'scope' => ['Users.status' => 1],
 					'contain' => ['Roles'],
 					'passwordHasher' => 'Default',
-				]
+				],
+				'User.Anonymous',
 			],
 			'authorize' => ['User.Cached'],
 			'loginAction' => ['plugin' => 'User', 'controller' => 'gateway', 'action' => 'login'],
@@ -96,15 +97,6 @@ class Controller extends CakeCotroller {
  */
 	public function __construct($request = null, $response = null) {
 		parent::__construct($request, $response);
-
-		// disable QuickApps auto-magic on new installations.
-		if (
-			strtolower($this->request->params['plugin']) === 'installer' &&
-			strtolower($this->request->params['controller']) === 'startup'
-		) {
-			return;
-		}
-
 		$this->switchViewMode('default');
 		$this->_prepareLanguage();
 		$this->_prepareTheme();
@@ -116,7 +108,7 @@ class Controller extends CakeCotroller {
  * @param string $title_for_layout
  * @return void
  */
-	public function title($title_for_layout) {
+	protected function title($title_for_layout) {
 		$this->set('title_for_layout', $title_for_layout);
 	}
 
@@ -126,7 +118,7 @@ class Controller extends CakeCotroller {
  * @param string $description_for_layout
  * @return void
  */
-	public function description($description_for_layout) {
+	protected function description($description_for_layout) {
 		$this->set('description_for_layout', $description_for_layout);
 	}
 

@@ -30,7 +30,7 @@ if (!defined('ROLE_ID_ANONYMOUS')) {
 }
 
 /**
- * Used by CachedAutorize
+ * Used by CachedAuthorize.
  * 
  */
 Cache::config('permissions', [

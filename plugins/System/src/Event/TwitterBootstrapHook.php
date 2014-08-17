@@ -20,7 +20,7 @@ use Cake\Event\EventListener;
  * By default all CSS and HTML code generated automatically by QuickAppsCMS follow
  * Twitter Bootstrap's conventions.
  *
- * Anyway you are able to define your own "Stylizer" by creating a Hook Listener
+ * Anyway you are able to define your own "Stylizer" by creating a Event Listener
  * with higher priority and stopping hook propagation. This listener has a priory
  * of 10 by default.
  *

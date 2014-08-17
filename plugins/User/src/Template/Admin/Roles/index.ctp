@@ -32,18 +32,20 @@
 						<?php
 							echo $this->Html->link('', [
 								'plugin' => 'User',
-								'controller' => 'manage',
+								'controller' => 'roles',
 								'action' => 'edit',
 								$role->id,
 							], [
-								'title' => __d('user', 'Set as default'),
+								'title' => __d('user', 'Edit role'),
 								'class' => 'btn btn-default btn-sm glyphicon glyphicon-pencil',
 							]);
 						?>
+
+						<?php if (!in_array($role->id, [ROLE_ID_ADMINISTRATOR, ROLE_ID_AUTHENTICATED, ROLE_ID_ANONYMOUS])): ?>
 						<?php
 							echo $this->Html->link('', [
 								'plugin' => 'User',
-								'controller' => 'manage',
+								'controller' => 'roles',
 								'action' => 'delete',
 								$role->id,
 							], [
@@ -52,6 +54,7 @@
 								'confirm' => __d('user', 'You are about to delete: "{0}". Are you sure ?', $role->name),
 							]);
 						?>
+						<?php endif; ?>
 					</div>
 				</td>
 			</tr>

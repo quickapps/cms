@@ -14,7 +14,9 @@ namespace User\Utility;
 use Cake\Error\FatalErrorException;
 use Cake\Model\ModelAwareTrait;
 use Cake\Routing\Router;
+use Cake\Utility\Folder;
 use Cake\Utility\Inflector;
+use QuickApps\Core\Plugin;
 use QuickApps\Core\StaticCacheTrait;
 
 /**
@@ -87,7 +89,7 @@ class AcoManager {
 		$current = null;
 		$parts = explode('/', $path);
 
-		$this->Acos->connection()->transactional(function () use($parts, $current, $parent, $path) {
+		$this->Acos->connection()->transactional(function () use($parts, $current, &$parent, $path) {
 			foreach ($parts as $alias) {
 				$current[] = $alias;
 				$pathSegment = implode('/', $current);
@@ -219,9 +221,9 @@ class AcoManager {
 	}
 
 /**
- * Parses the given ACO path string and returns its representation as an array.
+ * Sanitizes the given ACO path.
  *
- * This methods can return an array with the following keys if $string option
+ * This methods can return an array with the following keys if `$string` option
  * is set to false:
  * 
  * - `plugin`: The name of the plugin being managed by this class.
@@ -232,12 +234,12 @@ class AcoManager {
  *
  * For example:
  *
- *     `Users/`
+ *     `Admin/Users/`
  *
  * Returns:
  *
  * - plugin: YourPlugin
- * - prefix: (empty)
+ * - prefix: Admin
  * - controller: Users
  * - action: index
  *
@@ -256,11 +258,6 @@ class AcoManager {
 
 		if (count($parts) === 1) {
 			$controller = Inflector::camelize($parts[0]);
-
-			// illegal controller cant be named same as an existing prefix
-			if (in_array($controller, $this->_routerPrefixes())) {
-				return false;
-			}
 
 			return [
 				'prefix' => '',
@@ -288,7 +285,8 @@ class AcoManager {
 		$result = compact('plugin', 'prefix', 'controller', 'action');
 
 		if ($string) {
-			$result = implode('/', array_values(array_filter($result)));
+			$result = implode('/', array_values($result));
+			$result = str_replace('//', '/', $result);
 		}
 
 		return $result;
@@ -312,7 +310,6 @@ class AcoManager {
 						$prefixes[] = $prefix;
 					}
 				}
-
 			}
 
 			$cache = static::cache('_routerPrefixes', $prefixes);

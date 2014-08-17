@@ -27,6 +27,8 @@ class GatewayController extends AppController {
  */
 	public function login() {
 		$this->loadModel('User.Users');
+		$this->layout = 'login';
+
 		if ($this->request->is('post')) {
 			$user = $this->Auth->identify();
 			if ($user) {

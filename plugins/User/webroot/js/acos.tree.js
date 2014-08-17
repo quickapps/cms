@@ -9,7 +9,7 @@ $(document).ready(function () {
 						.data('aco-id');
 
 					$.ajax({
-						url: '<?php echo $this->Url->build(['plugin' => 'User', 'controller' => 'permissions', 'action' => 'aco']); ?>/' + aco_id,
+						url: baseURL + aco_id,
 						context: document.body,
 					}).done(function(data) {
 						$('.permissions-table').html(data);
@@ -30,7 +30,7 @@ $(document).ready(function () {
 function savePermissions(aco_id) {
 	$.ajax({
 		type: 'POST',
-		url: '<?php echo $this->Url->build(['plugin' => 'User', 'controller' => 'permissions', 'action' => 'aco']); ?>/' + aco_id,
+		url: baseURL + aco_id,
 		context: document.body,
 		data: $('#permissions-form').serialize(),
 	}).done(function(data) {

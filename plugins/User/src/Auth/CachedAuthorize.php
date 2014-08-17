@@ -12,31 +12,39 @@
 namespace User\Auth;
 
 use Cake\Auth\BaseAuthorize;
-use Cake\Network\Request;
-use Cake\Utility\Inflector;
 use Cake\Cache\Cache;
+use Cake\Network\Request;
+use Cake\ORM\Entity;
+use Cake\Utility\Inflector;
 
 /**
  * Authentication adapter for AuthComponent.
- * 
+ *
+ * This adapter provides "Controller-action" based authorization with
+ * cache capabilities. Only authenticated users are validated using this
+ * technique, all anonymous users (unauthenticated users) are validated
+ * using QuickApps CMS's `FromAuthenticate`
  */
 class CachedAuthorize extends BaseAuthorize  {
 
+/**
+ * Authorizes current logged in user, if user belongs to the "administrator"
+ * he/she is automatically authorized.
+ * 
+ * @param $user An instance of "UserSession" entity, or "User" entity
+ * @param \Cake\Network\Request $request Current request
+ * @return bool True if user is can access this request
+ */
 	public function authorize($user, Request $request) {
 		if ($request->is('userAdmin')) {
 			return true;
 		}
 
 		$user = user();
-		$path = $this->action($request);
-
-		if (!$user->id) {
-			$cacheKey = 'permissions_null';
-		} else {
-			$cacheKey = 'permissions_' . intval($user->id);
-		}
-
+		$path = $this->requestPath($request);
+		$cacheKey = 'permissions_' . intval($user->id);
 		$permissions = Cache::read($cacheKey, 'permissions');
+
 		if ($permissions === false) {
 			$permissions = [];
 			Cache::write($cacheKey, [], 'permissions');
@@ -54,7 +62,14 @@ class CachedAuthorize extends BaseAuthorize  {
 		return $allowed;
 	}
 
-	public function action(Request $request, $path = '/:plugin/:prefix/:controller/:action') {
+/**
+ * Gets an ACO path for current request.
+ * 
+ * @param \Cake\Network\Request $request
+ * @param string $path Pattern
+ * @return string
+ */
+	public function requestPath(Request $request, $path = '/:plugin/:prefix/:controller/:action') {
 		$plugin = empty($request['plugin']) ? null : Inflector::camelize($request['plugin']) . '/';
 		$prefix = empty($request->params['prefix']) ? '' : Inflector::camelize($request->params['prefix']) . '/';
 		$path = str_replace(

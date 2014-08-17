@@ -91,8 +91,9 @@ class HelpController extends AppController {
 			throw new NotFoundException(__d('system', 'No help was found.'));
 		}
 
-		$this->Breadcrumb->push('/admin/system/help');
-		$this->Breadcrumb->push(__d('system', 'About {0}', $pluginName), '#');
+		$this->Breadcrumb
+			->push('/admin/system/help')
+			->push(__d('system', 'About {0}', $pluginName), '#');
 	}
 
 }

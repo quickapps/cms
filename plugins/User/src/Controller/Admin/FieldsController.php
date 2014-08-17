@@ -44,8 +44,9 @@ class FieldsController extends AppController {
  */
 	public function beforeRender(\Cake\Event\Event $event) {
 		$this->_beforeRender($event);
-		$this->Breadcrumb->push('/admin/user/manage');
-		$this->Breadcrumb->push(__d('node', "User's Fields"), '#');
+		$this->Breadcrumb
+			->push('/admin/user/manage')
+			->push(__d('node', "User's Fields"), '#');
 	}
 
 }

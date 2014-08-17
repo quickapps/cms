@@ -40,6 +40,7 @@ class PluginsController extends AppController {
 		$plugins = $collection->toArray();
 		$enabled = count($collection->match(['status' => true])->toArray());
 		$disabled = count($collection->match(['status' => false])->toArray());
+
 		$this->set(compact('plugins', 'all', 'enabled', 'disabled'));
 		$this->Breadcrumb->push('/admin/system/plugins');
 	}
@@ -86,8 +87,10 @@ class PluginsController extends AppController {
 				]);
 			}
 		}
-		$this->Breadcrumb->push('/admin/system/plugins');
-		$this->Breadcrumb->push(__d('system', 'Install new plugin'), '#');
+
+		$this->Breadcrumb
+			->push('/admin/system/plugins')
+			->push(__d('system', 'Install new plugin'), '#');
 	}
 
 /**
@@ -208,8 +211,9 @@ class PluginsController extends AppController {
 		}
 
 		$this->set(compact('arrayContext', 'plugin'));
-		$this->Breadcrumb->push('/admin/system/plugins');
-		$this->Breadcrumb->push(__d('system', 'Settings for {0} plugin', $plugin['name']), '#');
+		$this->Breadcrumb
+			->push('/admin/system/plugins')
+			->push(__d('system', 'Settings for {0} plugin', $plugin['name']), '#');
 	}
 
 }

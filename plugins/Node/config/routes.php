@@ -11,7 +11,6 @@
  */
 namespace Node\Config;
 
-use Cake\Core\Configure;
 use Cake\Routing\Router;
 
 if (!empty(quickapps('node_types'))) {

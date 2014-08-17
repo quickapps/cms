@@ -34,6 +34,7 @@
 	</div>
 </div>
 
+<script>var baseURL = '<?php echo $this->Url->build(['plugin' => 'User', 'controller' => 'permissions', 'action' => 'aco'], true); ?>/';</script>
 <?php echo $this->Html->script('User.jstree.min.js'); ?>
 <?php echo $this->Html->css('User.jstree-themes/default/style.min.css'); ?>
 <?php echo $this->Html->css('User.acos.tree.css'); ?>

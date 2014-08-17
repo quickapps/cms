@@ -164,12 +164,12 @@ Request::addDetector('tablet', function($request) {
  * Load some bootstrap-handy information.
  */
 Configure::config('QuickApps', new PhpConfig(TMP));
-if (!file_exists(TMP . 'snapshot.php') && file_exists(SITE_ROOT . '/config/settings.php')) {
+if (!file_exists(TMP . 'snapshot.php')) {
 	snapshot();
 } else {
 	try {
 		Configure::load('snapshot.php', 'QuickApps', false);
-	} catch (Exception $e) {
+	} catch (\Exception $e) {
 		die('No snapshot found. check write permissions on tmp/ directory');
 	}
 }

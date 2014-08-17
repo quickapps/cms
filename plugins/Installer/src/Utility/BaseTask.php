@@ -62,8 +62,9 @@ abstract class BaseTask {
 		if (function_exists('ini_set')) {
 			ini_set('max_execution_time', 300);
 		} elseif (function_exists('set_time_limit')) {
-			set_time_limit(30);
+			set_time_limit(300);
 		}
+
 		$this->config($config);
 		$this->modelFactory('Table', ['Cake\ORM\TableRegistry', 'get']);
 		$this->loadModel('System.Plugins');
@@ -116,11 +117,14 @@ abstract class BaseTask {
 	}
 
 /**
- * Get an instance of AcoManager.
+ * Gets an instance of AcoManager.
  * 
  * @return \User\Utility\AcoManager
  */
 	public function aco() {
+		if (!$this->_pluginName) {
+			throw new FatalErrorException(__d('installer', 'Internal error ({0}), illegal access to AcoManager before using "_plugin()".', get_called_class()));
+		}
 		return new AcoManager($this->_pluginName);
 	}
 

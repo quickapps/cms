@@ -20,7 +20,7 @@ use QuickApps\Core\Plugin;
  *
  * Allows to enable or disable a plugin.
  *
- * ## Basic Usage:
+ * ## Usage Examples:
  *
  * Using `InstallerComponent` on any controller:
  * 
@@ -110,8 +110,9 @@ class ToggleTask extends BaseTask {
 			return false;
 		}
 
-		// MENTAL NOTE: As plugin is disabled to listeners are attached to the system, so we need
+		// MENTAL NOTE: As plugin is disabled its listeners are not attached to the system, so we need
 		// to manually attach them in order to trigger callbacks.
+		// If `$status` is true means plugin is disabled and we are trying to enable it again.
 		if ($this->config('callbacks') && $status) {
 			$this->attachListeners("{$info['path']}/src/Event");
 		}

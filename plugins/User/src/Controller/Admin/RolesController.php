@@ -29,7 +29,23 @@ class RolesController extends AppController {
 	public function index() {
 		$this->loadModel('User.Acos');
 		$roles = $this->Acos->Roles->find()->all();
+
 		$this->set(compact('roles'));
+		$this->Breadcrumb
+			->push('/admin/user/manage')
+			->push(__d('user', 'Roles'), ['plugin' => 'User', 'controller' => 'roles', 'action' => 'index']);
+	}
+
+/**
+ * Add a new role.
+ *
+ * @return void
+ */
+	public function add() {
+		$this->Breadcrumb
+			->push('/admin/user/manage')
+			->push(__d('user', 'Roles'), ['plugin' => 'User', 'controller' => 'roles', 'action' => 'index'])
+			->push(__d('user', 'Add new role'), '');
 	}
 
 /**
@@ -38,7 +54,32 @@ class RolesController extends AppController {
  * @return void
  */
 	public function edit($id) {
+		$this->Breadcrumb
+			->push('/admin/user/manage')
+			->push(__d('user', 'Roles'), ['plugin' => 'User', 'controller' => 'roles', 'action' => 'index'])
+			->push(__d('user', 'Edit role'), '');
+	}
 
+/**
+ * Removes the given role.
+ *
+ * @return void Redirects to previous page
+ */
+	public function delete($id) {
+		$this->loadModel('User.Roles');
+		$role = $this->Roles->get($id);
+
+		if (!in_array($role->id, [ROLE_ID_ADMINISTRATOR, ROLE_ID_AUTHENTICATED, ROLE_ID_ANONYMOUS])) {
+			if ($this->Roles->delete($role)) {
+				$this->Flash->success(__d('user', 'Role was successfully removed!'));
+			} else {
+				$this->Flash->danger(__d('user', 'Role could not be removed'));
+			}
+		} else {
+			$this->Flash->danger(__d('user', 'This role cannot be deleted!'));
+		}
+
+		$this->redirect($this->referer());
 	}
 
 }

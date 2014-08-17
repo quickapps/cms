@@ -12,6 +12,7 @@
 use Cake\Cache\Cache;
 use Cake\Core\App;
 use Cake\Core\Configure;
+use Cake\Datasource\ConnectionManager;
 use Cake\Event\EventManager;
 use Cake\I18n\I18n;
 use Cake\Network\Session;
@@ -20,6 +21,7 @@ use Cake\Utility\Debugger;
 use Cake\Utility\Folder;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
+use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use User\Model\Entity\UserSession;
 use User\Utility\AcoManager;
@@ -56,6 +58,7 @@ function snapshot() {
 		Cache::clear(false, '_cake_model_');
 	}
 
+	$corePath = str_replace(['/', DS], '/', ROOT);
 	$snapshot = [
 		'version' => null,
 		'node_types' => [],
@@ -64,67 +67,77 @@ function snapshot() {
 		'languages' => []
 	];
 
-	if (!TableRegistry::exists('SnapshotPlugins')) {
-		$PluginTable = TableRegistry::get('SnapshotPlugins', ['table' => 'plugins']);
+	if (ConnectionManager::config('default')) {
+		if (!TableRegistry::exists('SnapshotPlugins')) {
+			$PluginTable = TableRegistry::get('SnapshotPlugins', ['table' => 'plugins']);
+		} else {
+			$PluginTable = TableRegistry::get('SnapshotPlugins');
+		}
+
+		if (!TableRegistry::exists('SnapshotNodeTypes')) {
+			$NodeTypesTable = TableRegistry::get('SnapshotNodeTypes', ['table' => 'node_types']);
+		} else {
+			$NodeTypesTable = TableRegistry::get('SnapshotNodeTypes');
+		}
+
+		if (!TableRegistry::exists('SnapshotLanguages')) {
+			$LanguagesTable = TableRegistry::get('SnapshotLanguages', ['table' => 'languages']);
+		} else {
+			$LanguagesTable = TableRegistry::get('SnapshotLanguages');
+		}
+
+		if (!TableRegistry::exists('SnapshotOptions')) {
+			$OptionsTable = TableRegistry::get('SnapshotOptions', ['table' => 'options']);
+		} else {
+			$OptionsTable = TableRegistry::get('SnapshotOptions');
+		}
+
+		$PluginTable->schema(['value' => 'serialized']);
+		$OptionsTable->schema(['value' => 'serialized']);
+
+		$plugins = $PluginTable->find()
+			->select(['name', 'package', 'status'])
+			->order(['ordering' => 'ASC'])
+			->all();
+		$nodeTypes = $NodeTypesTable->find()
+			->select(['slug'])
+			->all();
+		$languages = $LanguagesTable->find()
+			->where(['status' => 1])
+			->order(['ordering' => 'ASC'])
+			->all();
+		$options = $OptionsTable->find()
+			->select(['name', 'value'])
+			->where(['autoload' => 1])
+			->all();
+
+		foreach ($nodeTypes as $nodeType) {
+			$snapshot['node_types'][] = $nodeType->slug;
+		}
+
+		foreach ($options as $option) {
+			$snapshot['options'][$option->name] = $option->value;
+		}
+
+		foreach ($languages as $language) {
+			$snapshot['languages'][$language->code] = [
+				'name' => $language->name,
+				'native' => $language->native,
+				'direction' => $language->direction,
+				'icon' => $language->icon,
+			];
+		}
 	} else {
-		$PluginTable = TableRegistry::get('SnapshotPlugins');
+		$plugins = [];
+		foreach (App::objects('Plugin') as $plugin) {
+			$plugins[] = new \Cake\ORM\Entity([
+				'name' => $plugin,
+				'status' => true,
+				'package' => (is_dir("{$corePath}/plugins/{$plugin}") ? 'quickapps-plugins' : 'unknow-package'),
+			]);
+		}
 	}
 
-	if (!TableRegistry::exists('SnapshotNodeTypes')) {
-		$NodeTypesTable = TableRegistry::get('SnapshotNodeTypes', ['table' => 'node_types']);
-	} else {
-		$NodeTypesTable = TableRegistry::get('SnapshotNodeTypes');
-	}
-
-	if (!TableRegistry::exists('SnapshotLanguages')) {
-		$LanguagesTable = TableRegistry::get('SnapshotLanguages', ['table' => 'languages']);
-	} else {
-		$LanguagesTable = TableRegistry::get('SnapshotLanguages');
-	}
-
-	if (!TableRegistry::exists('SnapshotOptions')) {
-		$OptionsTable = TableRegistry::get('SnapshotOptions', ['table' => 'options']);
-	} else {
-		$OptionsTable = TableRegistry::get('SnapshotOptions');
-	}
-
-	$PluginTable->schema(['value' => 'serialized']);
-	$OptionsTable->schema(['value' => 'serialized']);
-
-	$plugins = $PluginTable->find()
-		->select(['name', 'package', 'status'])
-		->order(['ordering' => 'ASC'])
-		->all();
-	$nodeTypes = $NodeTypesTable->find()
-		->select(['slug'])
-		->all();
-	$languages = $LanguagesTable->find()
-		->where(['status' => 1])
-		->order(['ordering' => 'ASC'])
-		->all();
-	$options = $OptionsTable->find()
-		->select(['name', 'value'])
-		->where(['autoload' => 1])
-		->all();
-
-	foreach ($nodeTypes as $nodeType) {
-		$snapshot['node_types'][] = $nodeType->slug;
-	}
-
-	foreach ($options as $option) {
-		$snapshot['options'][$option->name] = $option->value;
-	}
-
-	foreach ($languages as $language) {
-		$snapshot['languages'][$language->code] = [
-			'name' => $language->name,
-			'native' => $language->native,
-			'direction' => $language->direction,
-			'icon' => $language->icon,
-		];
-	}
-
-	$corePath = str_replace(['/', DS], '/', ROOT);
 	foreach ($plugins as $plugin) {
 		$pluginPath = false;
 
@@ -224,6 +237,11 @@ function snapshot() {
 	function user() {
 		if (Router::getRequest()->is('userLoggedIn')) {
 			$properties = (new Session())->read('Auth.User');
+			foreach ($properties['roles'] as &$role) {
+				unset($role['_joinData']);
+				$role = new Entity($role);
+			}
+			$properties['roles'][] = TableRegistry::get('Roles')->get(ROLE_ID_AUTHENTICATED);
 		} else {
 			$properties = [
 				'id' => null,
@@ -254,13 +272,14 @@ function snapshot() {
 			return Configure::read("QuickApps.options.{$name}");
 		}
 
-		$option = TableRegistry::get('Options')
-			->find()
-			->where(['Options.name' => $name])
-			->first();
-
-		if ($option) {
-			return $option->value;
+		if (ConnectionManager::config('default')) {
+			$option = TableRegistry::get('Options')
+				->find()
+				->where(['Options.name' => $name])
+				->first();
+			if ($option) {
+				return $option->value;
+			}
 		}
 
 		return $default;

@@ -26,7 +26,11 @@ class UserSession extends User {
  * @return array
  */
 	public function _getRoleIds() {
-		return array_values($this->roles);
+		$ids = [];
+		foreach ($this->roles as $role) {
+			$ids[] = $role->id;
+		}
+		return $ids;
 	}
 
 /**
@@ -35,11 +39,11 @@ class UserSession extends User {
  * @return array
  */
 	public function _getRoleNames() {
-		return TableRegistry::get('User.Users')->Roles
-			->find()
-			->where(['id IN' => $this->_getRoleIds()])
-			->all()
-			->extract('name');
+		$names = [];
+		foreach ($this->roles as $role) {
+			$names[] = $role->name;
+		}
+		return $names;
 	}
 
 /**
@@ -48,7 +52,11 @@ class UserSession extends User {
  * @return array
  */
 	public function _getRoleSlugs() {
-		return array_keys($this->roles);
+		$slugs = [];
+		foreach ($this->roles as $role) {
+			$slugs[] = $role->slug;
+		}
+		return $slugs;
 	}
 
 }

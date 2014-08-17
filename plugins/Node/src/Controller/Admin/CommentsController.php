@@ -66,8 +66,9 @@ class CommentsController extends AppController {
  */
 	public function beforeRender(\Cake\Event\Event $event) {
 		$this->_beforeRender($event);
-		$this->Breadcrumb->push('/admin/node/manage');
-		$this->Breadcrumb->push(__d('node', 'Comments'), '#');
+		$this->Breadcrumb
+			->push('/admin/node/manage')
+			->push(__d('node', 'Comments'), '#');
 	}
 
 }

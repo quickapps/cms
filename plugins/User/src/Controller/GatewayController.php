@@ -33,6 +33,8 @@ class GatewayController extends AppController {
  */
 	public function login() {
 		$this->loadModel('User.Users');
+		$this->layout = 'login';
+
 		if ($this->request->is('post')) {
 			$user = $this->Auth->identify();
 			if ($user) {
@@ -42,6 +44,15 @@ class GatewayController extends AppController {
 				$this->Flash->danger(__d('user', 'Username or password is incorrect'));
 			}
 		}
+	}
+
+/**
+ * Logout.
+ *
+ * @return void
+ */
+	public function logout() {
+		return $this->redirect($this->Auth->logout());
 	}
 
 /**

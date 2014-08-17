@@ -14,13 +14,9 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<?php echo $this->Html->charset(); ?>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title><?php echo $this->fetch('title'); ?></title>
+		<?php echo $this->Html->head(['bootstrap' => false]); ?>
 		<?php echo $this->Html->css('Installer.bootstrap.min'); ?>
-		<?php echo $this->fetch('script') ?>
-		<?php echo $this->fetch('css') ?>
-		<?php echo $this->fetch('meta') ?>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
 	<body>
 		<div class="container">

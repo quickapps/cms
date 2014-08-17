@@ -119,8 +119,9 @@ class ManageController extends AppController {
 			});
 
 		$this->set(compact('frontThemeName', 'backThemeName', 'front', 'back', 'unused'));
-		$this->Breadcrumb->push('/admin/system/structure');
-		$this->Breadcrumb->push(__d('block', 'Manage Blocks'), '#');
+		$this->Breadcrumb
+			->push('/admin/system/structure')
+			->push(__d('block', 'Manage Blocks'), '#');
 	}
 
 /**
@@ -151,38 +152,10 @@ class ManageController extends AppController {
 		$this->_setRoles();
 		$this->_setRegions();
 		$this->set('block', $block);
-		$this->Breadcrumb->push('/admin/system/structure');
-		$this->Breadcrumb->push(__d('block', 'Manage Blocks'), ['plugin' => 'Block', 'controller' => 'manage', 'action' => 'index']);
-		$this->Breadcrumb->push(__d('block', 'Create New Block'), '#');
-	}
-
-/**
- * Deletes the given block by ID.
- *
- * Only custom blocks can be deleted (those with "Block" has handler).
- * 
- * @param string $id Block ID
- * @return void Redirects to previous page
- * @throws \Cake\ORM\Error\RecordNotFoundException if no record can be found given a primary key value
- * @throws \InvalidArgumentException When $primaryKey has an incorrect number of elements
- */
-	public function delete($id) {
-		$this->loadModel('Block.Blocks');
-		$block = $this->Blocks->find()
-			->where(['id' => $id, 'handler' => 'Block'])
-			->first();
-
-		if ($block) {
-			if ($this->Blocks->delete($block)) {
-				$this->Flash->success(__d('block', 'Block was successfully removed!'));
-			} else {
-				$this->Flash->danger(__d('block', 'Block could not be removed'));
-			}
-		} else {
-			$this->Flash->warning(__d('block', 'Block not found!'));
-		}
-
-		$this->redirect($this->referer());
+		$this->Breadcrumb
+			->push('/admin/system/structure')
+			->push(__d('block', 'Manage Blocks'), ['plugin' => 'Block', 'controller' => 'manage', 'action' => 'index'])
+			->push(__d('block', 'Create New Block'), '#');
 	}
 
 /**
@@ -215,9 +188,39 @@ class ManageController extends AppController {
 		$this->_setLanguages();
 		$this->_setRoles();
 		$this->_setRegions($block);
-		$this->Breadcrumb->push('/admin/system/structure');
-		$this->Breadcrumb->push(__d('block', 'Manage Blocks'), ['plugin' => 'Block', 'controller' => 'manage', 'action' => 'index']);
-		$this->Breadcrumb->push(__d('block', 'Editing Block'), '#');
+		$this->Breadcrumb
+			->push('/admin/system/structure')
+			->push(__d('block', 'Manage Blocks'), ['plugin' => 'Block', 'controller' => 'manage', 'action' => 'index'])
+			->push(__d('block', 'Editing Block'), '#');
+	}
+
+/**
+ * Deletes the given block by ID.
+ *
+ * Only custom blocks can be deleted (those with "Block" has handler).
+ * 
+ * @param string $id Block ID
+ * @return void Redirects to previous page
+ * @throws \Cake\ORM\Error\RecordNotFoundException if no record can be found given a primary key value
+ * @throws \InvalidArgumentException When $primaryKey has an incorrect number of elements
+ */
+	public function delete($id) {
+		$this->loadModel('Block.Blocks');
+		$block = $this->Blocks->find()
+			->where(['id' => $id, 'handler' => 'Block'])
+			->first();
+
+		if ($block) {
+			if ($this->Blocks->delete($block)) {
+				$this->Flash->success(__d('block', 'Block was successfully removed!'));
+			} else {
+				$this->Flash->danger(__d('block', 'Block could not be removed'));
+			}
+		} else {
+			$this->Flash->warning(__d('block', 'Block not found!'));
+		}
+
+		$this->redirect($this->referer());
 	}
 
 /**

@@ -79,9 +79,10 @@ class LinksController extends AppController {
 			->toArray();
 
 		$this->set(compact('menu', 'links', 'disabledIds'));
-		$this->Breadcrumb->push('/admin/menu/manage');
-		$this->Breadcrumb->push(__d('menu', 'Editing menu'), ['plugin' => 'Menu', 'controller' => 'manage', 'action' => 'edit', $menu->id]);
-		$this->Breadcrumb->push(__d('menu', 'Links'), '#');
+		$this->Breadcrumb
+			->push('/admin/menu/manage')
+			->push(__d('menu', 'Editing menu'), ['plugin' => 'Menu', 'controller' => 'manage', 'action' => 'edit', $menu->id])
+			->push(__d('menu', 'Links'), '#');
 	}
 
 /**
@@ -138,10 +139,11 @@ class LinksController extends AppController {
 				return $link;
 			});
 		$this->set(compact('menu', 'link', 'parentsTree'));
-		$this->Breadcrumb->push('/admin/menu/manage');
-		$this->Breadcrumb->push(__d('menu', 'Editing menu'), ['plugin' => 'Menu', 'controller' => 'manage', 'action' => 'edit', $menu_id]);
-		$this->Breadcrumb->push(__d('menu', 'Links'), ['plugin' => 'Menu', 'controller' => 'links', 'action' => 'menu', $menu_id]);
-		$this->Breadcrumb->push(__d('menu', 'Add new link'), '#');
+		$this->Breadcrumb
+			->push('/admin/menu/manage')
+			->push(__d('menu', 'Editing menu'), ['plugin' => 'Menu', 'controller' => 'manage', 'action' => 'edit', $menu_id])
+			->push(__d('menu', 'Links'), ['plugin' => 'Menu', 'controller' => 'links', 'action' => 'menu', $menu_id])
+			->push(__d('menu', 'Add new link'), '#');
 	}
 
 /**
@@ -176,10 +178,11 @@ class LinksController extends AppController {
 		}
 
 		$this->set('link', $link);
-		$this->Breadcrumb->push('/admin/menu/manage');
-		$this->Breadcrumb->push(__d('menu', 'Editing menu'), ['plugin' => 'Menu', 'controller' => 'manage', 'action' => 'edit', $link->menu_id]);
-		$this->Breadcrumb->push(__d('menu', 'Links'), ['plugin' => 'Menu', 'controller' => 'links', 'action' => 'menu', $link->menu_id]);
-		$this->Breadcrumb->push(__d('menu', 'Editing link'), '#');
+		$this->Breadcrumb
+			->push('/admin/menu/manage')
+			->push(__d('menu', 'Editing menu'), ['plugin' => 'Menu', 'controller' => 'manage', 'action' => 'edit', $link->menu_id])
+			->push(__d('menu', 'Links'), ['plugin' => 'Menu', 'controller' => 'links', 'action' => 'menu', $link->menu_id])
+			->push(__d('menu', 'Editing link'), '#');
 	}
 
 /**

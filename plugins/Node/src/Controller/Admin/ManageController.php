@@ -62,10 +62,9 @@ class ManageController extends AppController {
 			->select(['id', 'slug', 'name', 'description'])
 			->all();
 		$this->set('types', $types);
-		$this->Breadcrumb->push('/admin/node/manage');
-		$this->Breadcrumb->push([
-			['title' => __d('node', 'Create new content'), 'url' => '#']
-		]);
+		$this->Breadcrumb
+			->push('/admin/node/manage')
+			->push(__d('node', 'Create new content'), '');
 	}
 
 /**
@@ -112,11 +111,10 @@ class ManageController extends AppController {
 		$roles = $this->Nodes->Roles->find('list');
 
 		$this->set(compact('node', 'type', 'languages', 'roles'));
-		$this->Breadcrumb->push('/admin/node/manage');
-		$this->Breadcrumb->push([
-			['title' => __d('node', 'Create new content'), 'url' => ['plugin' => 'Node', 'controller' => 'manage', 'action' => 'create']],
-			['title' => $type->name, 'url' => '#'],
-		]);
+		$this->Breadcrumb
+			->push('/admin/node/manage')
+			->push(__d('node', 'Create new content'), ['plugin' => 'Node', 'controller' => 'manage', 'action' => 'create'])
+			->push($type->name, '');
 	}
 
 /**
@@ -191,8 +189,9 @@ class ManageController extends AppController {
 		$languages = LocaleToolbox::languagesList();
 		$roles = $this->Nodes->Roles->find('list');
 		$this->set(compact('node', 'languages', 'roles'));
-		$this->Breadcrumb->push('/admin/node/manage');
-		$this->Breadcrumb->push(__d('node', 'Editing content'), '#');
+		$this->Breadcrumb
+			->push('/admin/node/manage')
+			->push(__d('node', 'Editing content'), '#');
 	}
 
 /**

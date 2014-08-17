@@ -11,15 +11,16 @@
  */
 namespace Installer\Controller;
 
+use Cake\Controller\Controller;
 use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
 use Cake\Event\Event;
 use Cake\I18n\I18n;
 use Cake\Routing\Router;
+use Cake\Utility\File;
 use Cake\Utility\Folder;
 use Cake\Utility\Hash;
-use Installer\Controller\AppController;
 use QuickApps\Core\Plugin;
 
 /**
@@ -27,7 +28,7 @@ use QuickApps\Core\Plugin;
  *
  * This controller starts the installation process for a new QuickAppsCMS setup.
  */
-class StartupController extends AppController {
+class StartupController extends Controller {
 
 /**
  * {@inheritdoc}
@@ -48,7 +49,21 @@ class StartupController extends AppController {
  *
  * @var string
  */
-	public $components = ['Session'];
+	public $helpers = ['Menu.Menu'];
+
+/**
+ * The name of the View class controllers sends output to.
+ *
+ * @var string
+ */
+	public $viewClass = 'QuickApps\View\View';
+
+/**
+ * {@inheritdoc}
+ *
+ * @var string
+ */
+	public $components = ['Session', 'Flash'];
 
 /**
  * {@inheritdoc}
@@ -81,7 +96,7 @@ class StartupController extends AppController {
 /**
  * Main action.
  *
- * We redirect to first step if the installation process: `language`.
+ * We redirect to first step of the installation process: `language`.
  *
  * @return void
  */
@@ -112,7 +127,7 @@ class StartupController extends AppController {
 
 		foreach ($Folder->read(false, true, true)[0] as $path) {
 			$code = basename($path);
-			$file = $path . DS . 'LC_MESSAGES' . DS . 'installer.po';
+			$file = $path . '/installer.po';
 
 			if (file_exists($file)) {
 				I18n::defaultLocale($code); // trick for __d()
@@ -144,57 +159,56 @@ class StartupController extends AppController {
 
 		$tests = array(
 			'php' => array(
-				'test' => version_compare(PHP_VERSION, '5.4.19', '>='),
+				'assertTrue' => version_compare(PHP_VERSION, '5.4.19', '>='),
 				'message' => __d('installer', 'Your php version is not supported. check that your version is 5.4.19 or newer.')
 			),
 			'mbstring' => array(
-				'test' => extension_loaded('mbstring'),
+				'assertTrue' => extension_loaded('mbstring'),
 				'message' => __d('installer', 'Missing extension: {0}', 'mbstring')
 			),
 			'mcrypt' => array(
-				'test' => extension_loaded('mcrypt'),
+				'assertTrue' => extension_loaded('mcrypt'),
 				'message' => __d('installer', 'Missing extension: {0}', 'mcrypt')
 			),
 			'intl' => array(
-				'test' => extension_loaded('intl'),
+				'assertTrue' => extension_loaded('intl'),
 				'message' => __d('installer', 'Missing extension: {0}', 'intl')
 			),
 			'fileinfo' => array(
-				'test' => extension_loaded('fileinfo'),
+				'assertTrue' => extension_loaded('fileinfo'),
 				'message' => __d('installer', 'Missing extension: {0}', 'fileinfo')
 			),
 			'pdo' => array(
-				'test' => (extension_loaded('pdo') && defined('PDO::ATTR_DEFAULT_FETCH_MODE')),
+				'assertTrue' => (extension_loaded('pdo') && defined('PDO::ATTR_DEFAULT_FETCH_MODE')),
 				'message' => __d('installer', 'Missing extension: {0}', 'PDO')
 			),
 			'no_safe_mode' => array(
-				'test' => (ini_get('safe_mode') == false || ini_get('safe_mode') == '' || strtolower(ini_get('safe_mode')) == 'off'),
+				'assertTrue' => (ini_get('safe_mode') == false || ini_get('safe_mode') == '' || strtolower(ini_get('safe_mode')) == 'off'),
 				'message' => __d('installer', 'Your server has SafeMode on, please turn it off before continuing.')
 			),
 			'tmp_writable' => array(
-				'test' => is_writable(TMP),
+				'assertTrue' => is_writable(TMP),
 				'message' => __d('installer', 'tmp folder is not writable.')
 			),
 			'cache_writable' => array(
-				'test' => is_writable(TMP . 'cache'),
+				'assertTrue' => is_writable(TMP . 'cache'),
 				'message' => __d('installer', 'tmp/cache folder is not writable.')
 			),
 			'models_writable' => array(
-				'test' => is_writable(TMP . 'cache/models'),
+				'assertTrue' => is_writable(TMP . 'cache/models'),
 				'message' => __d('installer', 'tmp/cache/models folder is not writable.')
 			),
 			'persistent_writable' => array(
-				'test' => is_writable(TMP . 'cache/persistent'),
+				'assertTrue' => is_writable(TMP . 'cache/persistent'),
 				'message' => __d('installer', 'tmp/cache/persistent folder is not writable.')
 			),
 			'config_writable' => array(
-				'test' => is_writable(SITE_ROOT . '/config'),
+				'assertTrue' => is_writable(SITE_ROOT . '/config'),
 				'message' => __d('installer', '"config" folder is not writable.')
 			)
 		);
 
-		$results = array_unique(Hash::extract($tests, '{s}.test'));
-
+		$results = array_unique(Hash::extract($tests, '{s}.assertTrue'));
 		if (count($results) !== 1 || $results[0] !== true) {
 			$this->set('success', false);
 			$this->set('tests', $tests);
@@ -235,36 +249,94 @@ class StartupController extends AppController {
 		}
 
 		if (!empty($this->request->data)) {
-			$data = $this->request->data;
-			$config = [
-				'className' => 'Cake\Database\Connection',
-				'driver' => 'Cake\Database\Driver\\' . $data['driver'],
-				'database' => $data['name'],
-				'login' => $data['username'],
-				'password' => $data['password'],
-				'host' => $data['host'],
-				'prefix' => $data['prefix'],
-				'encoding' => 'utf8',
-				'timezone' => 'UTC',
-			];
-			$dumpComplete = false;
+			$requestData = $this->request->data;
 
-			try {
-				// TODO: upload database
-				ConnectionManager::config('installation', $config);
-				$db = ConnectionManager::get('installation');
-				$db->connect();
-				$schemaCollection = $db->schemaCollection();
-				$tables = $schemaCollection->listTables();
-				$dumpComplete = true;
-				die;
-			} catch (\Exception $e) {
-				$this->Flash->danger(__d('installer', 'Unable to connect to database, please check your information. Details: {0}', '<p>' . $e->getMessage(). '</p>'));
-			}
+			// TODO: add support to more DB driver; 'Postgres', 'Sqlite', 'Sqlserver'
+			if (in_array($requestData['driver'], ['Mysql', ])) {
+				if (function_exists('ini_set')) {
+					ini_set('max_execution_time', 300);
+				} elseif (function_exists('set_time_limit')) {
+					set_time_limit(300);
+				}
 
-			if ($dumpComplete) {
-				$this->_step();
-				$this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'account']);
+				$dbConfig = [
+					'className' => 'Cake\Database\Connection',
+					'driver' => 'Cake\Database\Driver\\' . $requestData['driver'],
+					'database' => $requestData['name'],
+					'login' => $requestData['username'],
+					'password' => $requestData['password'],
+					'host' => $requestData['host'],
+					'prefix' => $requestData['prefix'],
+					'encoding' => 'utf8',
+					'timezone' => 'UTC',
+				];
+				$dumpComplete = false;
+
+				try {
+					ConnectionManager::config('installation', $dbConfig);
+					$db = ConnectionManager::get('installation');
+					$db->connect();
+					$schemaPath = ROOT . '/config/Schema/' . strtolower($requestData['driver']) . '/';
+					$Folder = new Folder();
+					$schemaCollection = $db->schemaCollection();
+
+					$existingSchemas = $schemaCollection->listTables();
+					$Folder->cd("{$schemaPath}schema/");
+					$newSchemas = array_map(function ($item) { return str_replace('.sql', '', $item); }, $Folder->read()[1]);
+					$common = array_intersect($existingSchemas, $newSchemas);
+
+					if (!empty($common)) {
+						$this->Flash->danger(__d('installer', 'A previous installation of QuickApps CMS already exists, please drop your database tables or change the prefix.'));
+						$dumpComplete = false;
+					} else {
+						$Folder->cd("{$schemaPath}schema/");
+						foreach ($Folder->read(false, false, true)[1] as $sqlPath) {
+							$sqlFile = new File($sqlPath);
+							$db->transactional(function ($connection) use($sqlFile, $sqlPath) {
+								if ($connection->execute($sqlFile->read())) {
+									$path = str_replace_once(DS . 'schema' . DS, DS . 'data' . DS, $sqlPath);
+									$path = str_replace_last('.sql', '.php', $path);
+									$tableName = str_replace('.php', '', basename($path));
+
+									include_once $path;
+									if (!isset($rows) || !is_array($rows)) {
+										return false;
+									} else {
+										foreach ($rows as $row) {
+											if (!$connection->insert($tableName, $row)) {
+												return false;
+											}
+										}
+										unset($rows);
+									}
+								}
+								return false;
+							});
+						}
+
+						$dumpComplete = true;
+					}
+				} catch (\Exception $e) {
+					$this->Flash->danger(__d('installer', 'Unable to connect to database, please check your information. Details: {0}', '<p>' . $e->getMessage(). '</p>'));
+				}
+
+				if ($dumpComplete) {
+					$config = [
+						'Datasources' => [
+							'default' => $dbConfig,
+						],
+						'Security' => [
+							'salt' => substr(str_shuffle('$%&()=!#@~0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, rand(30, 40))
+						],
+						'debug' => false,
+					];
+					$settingsFile = new File(SITE_ROOT . '/config/settings.php.tmp', true);
+					$settingsFile->write('<?php $config = ' . var_export($config, true) . ';');
+					$this->_step();
+					$this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'account']);
+				}
+			} else {
+				$this->Flash->danger(__d('installer', 'Invalid database type'));
 			}
 		}
 	}
@@ -277,6 +349,27 @@ class StartupController extends AppController {
  * @return void
  */
 	public function account() {
+		if (!$this->_step('license')) {
+			$this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'index']);
+		}
+
+		include_once SITE_ROOT . '/config/settings.php.tmp';
+		ConnectionManager::config($config['Datasources']);
+		$this->loadModel('User.Users');
+		$user = $this->Users->newEntity();
+
+		if ($this->request->data) {
+			$user = $this->Users->newEntity($this->request->data);
+			if ($this->Users->save($user)) {
+				$this->Flash->success(__d('installer', 'Account created you can now login!'));
+				$this->_step();
+				$this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'finish']);
+			} else {
+				$this->Flash->danger(__d('installer', 'Account could not be created, please check your information.'));
+			}
+		}
+
+		$this->set('user', $user);
 	}
 
 /**
@@ -287,6 +380,40 @@ class StartupController extends AppController {
  * @return void
  */
 	public function finish() {
+		if ($this->request->data) {
+			if (rename(SITE_ROOT . '/config/settings.php.tmp', SITE_ROOT . '/config/settings.php')) {
+				include_once SITE_ROOT . '/config/settings.php';
+				ConnectionManager::config($config['Datasources']);
+				snapshot();
+				$this->Session->delete('Startup');
+
+				if (!empty($this->request->data['home'])) {
+					$this->redirect('/');
+				} else {
+					$this->redirect('/admin');
+				}
+			}
+		}
+	}
+
+/**
+ * Shortcut for Controller::set('title_for_layout', ...)
+ *
+ * @param string $title_for_layout
+ * @return void
+ */
+	protected function title($title_for_layout) {
+		$this->set('title_for_layout', $title_for_layout);
+	}
+
+/**
+ * Shortcut for Controller::set('description_for_layout', ...)
+ *
+ * @param string $description_for_layout
+ * @return void
+ */
+	protected function description($description_for_layout) {
+		$this->set('description_for_layout', $description_for_layout);
 	}
 
 /**

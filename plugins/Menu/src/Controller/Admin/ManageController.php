@@ -62,8 +62,9 @@ class ManageController extends AppController {
 		}
 
 		$this->set('menu', $menu);
-		$this->Breadcrumb->push('/admin/menu/manage');
-		$this->Breadcrumb->push(__d('menu', 'Creating new menu'), '#');
+		$this->Breadcrumb
+			->push('/admin/menu/manage')
+			->push(__d('menu', 'Creating new menu'), '#');
 	}
 
 /**
@@ -94,8 +95,9 @@ class ManageController extends AppController {
 		}
 
 		$this->set('menu', $menu);
-		$this->Breadcrumb->push('/admin/menu/manage');
-		$this->Breadcrumb->push(__d('menu', 'Editing menu {0}', $menu->title), '#');
+		$this->Breadcrumb
+			->push('/admin/menu/manage')
+			->push(__d('menu', 'Editing menu {0}', $menu->title), '#');
 	}
 
 /**

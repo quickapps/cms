@@ -87,30 +87,35 @@ class FieldsController extends AppController {
 
 		switch ($this->request->action) {
 			case 'index':
-				$this->Breadcrumb->push($nodeType->name, '#');
-				$this->Breadcrumb->push(__d('node', 'Fields'), ['plugin' => 'Node', 'controller' => 'fields', 'action' => 'index', 'prefix' => 'admin']);
+				$this->Breadcrumb
+					->push($nodeType->name, '#')
+					->push(__d('node', 'Fields'), ['plugin' => 'Node', 'controller' => 'fields', 'action' => 'index', 'prefix' => 'admin']);
 			break;
 
 			case 'configure':
-				$this->Breadcrumb->push($nodeType->name, '#');
-				$this->Breadcrumb->push(__d('node', 'Fields'), ['plugin' => 'Node', 'controller' => 'fields', 'action' => 'index', 'prefix' => 'admin']);
-				$this->Breadcrumb->push(__d('node', 'Configure Field {0}',  $this->viewVars['instance']->label), '#');
+				$this->Breadcrumb
+					->push($nodeType->name, '#')
+					->push(__d('node', 'Fields'), ['plugin' => 'Node', 'controller' => 'fields', 'action' => 'index', 'prefix' => 'admin'])
+					->push(__d('node', 'Configure Field {0}',  $this->viewVars['instance']->label), '#');
 			break;
 
 			case 'attach':
-				$this->Breadcrumb->push($nodeType->name, '#');
-				$this->Breadcrumb->push(__d('node', 'Attach New Field'), '');
+				$this->Breadcrumb
+					->push($nodeType->name, '#')
+					->push(__d('node', 'Attach New Field'), '');
 			break;
 
 			case 'view_mode_list':
-				$this->Breadcrumb->push($nodeType->name, '#');
-				$this->Breadcrumb->push(__d('node', '{0} View Mode', $this->viewVars['viewModeInfo']['name']), '');
+				$this->Breadcrumb
+					->push($nodeType->name, '#')
+					->push(__d('node', '{0} View Mode', $this->viewVars['viewModeInfo']['name']), '');
 			break;
 
 			case 'view_mode_edit':
-				$this->Breadcrumb->push($nodeType->name, '#');
-				$this->Breadcrumb->push(__d('node', '{0} View Mode', $this->viewVars['viewModeInfo']['name']), ['plugin' => 'Node', 'controller' => 'fields', 'action' => 'view_mode_list', 'prefix' => 'admin', $this->viewVars['viewMode']]);
-				$this->Breadcrumb->push(__d('node', 'Field: {0}', $this->viewVars['instance']->label), '');
+				$this->Breadcrumb
+					->push($nodeType->name, '#')
+					->push(__d('node', '{0} View Mode', $this->viewVars['viewModeInfo']['name']), ['plugin' => 'Node', 'controller' => 'fields', 'action' => 'view_mode_list', 'prefix' => 'admin', $this->viewVars['viewMode']])
+					->push(__d('node', 'Field: {0}', $this->viewVars['instance']->label), '');
 			break;
 		}
 	}

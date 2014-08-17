@@ -99,5 +99,5 @@ Request::addDetector('userLoggedIn', function ($request) {
  *     $request->isUserAdmin(); 
  */
 Request::addDetector('userAdmin', function ($request) {
-	return in_array(ROLE_ID_ADMINISTRATOR, array_values(user()->roles));
+	return in_array(ROLE_ID_ADMINISTRATOR, array_values(user()->role_ids));
 });

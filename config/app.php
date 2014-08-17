@@ -72,7 +72,7 @@ $config = [
  *   You should treat it as extremely sensitive data.
  */
 	'Security' => [
-		'salt' => '__SALT__',
+		'salt' => '',
 	],
 
 /**
@@ -208,21 +208,7 @@ $config = [
  * Connection information used by the ORM to connect
  * to your application's datastores.
  */
-	'Datasources' => [
-		'default' => [
-			'className' => 'Cake\Database\Connection',
-			'driver' => 'Cake\Database\Driver\Mysql',
-			'persistent' => false,
-			'host' => 'localhost',
-			'login' => '',
-			'password' => '',
-			'database' => '',
-			'prefix' => false,
-			'encoding' => 'utf8',
-			'timezone' => 'UTC',
-			'cacheMetadata' => true,
-		],
-	],
+	'Datasources' => [],
 
 /**
  * Configures logging options

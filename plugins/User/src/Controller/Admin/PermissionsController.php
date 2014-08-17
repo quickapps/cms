@@ -11,8 +11,8 @@
  */
 namespace User\Controller\Admin;
 
-use User\Controller\AppController;
 use QuickApps\Core\Plugin;
+use User\Controller\AppController;
 
 /**
  * Permissions manager controller.
@@ -32,7 +32,11 @@ class PermissionsController extends AppController {
 			->find('threaded')
 			->order(['lft' => 'ASC'])
 			->all();
+
 		$this->set(compact('tree'));
+		$this->Breadcrumb
+			->push('/admin/user/manage')
+			->push(__d('user', 'Permissions'), ['plugin' => 'User', 'controller' => 'permissions', 'action' => 'index']);
 	}
 
 /**
@@ -42,6 +46,7 @@ class PermissionsController extends AppController {
  */
 	public function aco($aco_id) {
 		$this->loadModel('User.Acos');
+		$this->loadModel('User.Permissions');
 		$aco = $this->Acos->get($aco_id, ['contain' => ['Roles']]);
 
 		if (!empty($this->request->data['roles'])) {

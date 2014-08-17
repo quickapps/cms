@@ -33,9 +33,10 @@ class VocabulariesController extends AppController {
 			->all();
 
 		$this->set(compact('vocabularies'));
-		$this->Breadcrumb->push('/admin/system/structure');
-		$this->Breadcrumb->push(__d('taxonomy', 'Taxonomy'), '/admin/taxonomy/manage');
-		$this->Breadcrumb->push(__d('taxonomy', 'Vocabularies'), '#');
+		$this->Breadcrumb
+			->push('/admin/system/structure')
+			->push(__d('taxonomy', 'Taxonomy'), '/admin/taxonomy/manage')
+			->push(__d('taxonomy', 'Vocabularies'), '#');
 	}
 
 /**
@@ -64,10 +65,11 @@ class VocabulariesController extends AppController {
 		}
 
 		$this->set('vocabulary', $vocabulary);
-		$this->Breadcrumb->push('/admin/system/structure');
-		$this->Breadcrumb->push(__d('taxonomy', 'Taxonomy'), '/admin/taxonomy/manage');
-		$this->Breadcrumb->push(__d('taxonomy', 'Vocabularies'), ['plugin' => 'Taxonomy', 'controller' => 'vocabularies', 'action' => 'index']);
-		$this->Breadcrumb->push(__d('taxonomy', 'Crating new vocabulary'), '#');
+		$this->Breadcrumb
+			->push('/admin/system/structure')
+			->push(__d('taxonomy', 'Taxonomy'), '/admin/taxonomy/manage')
+			->push(__d('taxonomy', 'Vocabularies'), ['plugin' => 'Taxonomy', 'controller' => 'vocabularies', 'action' => 'index'])
+			->push(__d('taxonomy', 'Crating new vocabulary'), '#');
 	}
 
 /**
@@ -97,10 +99,11 @@ class VocabulariesController extends AppController {
 		}
 
 		$this->set('vocabulary', $vocabulary);
-		$this->Breadcrumb->push('/admin/system/structure');
-		$this->Breadcrumb->push(__d('taxonomy', 'Taxonomy'), '/admin/taxonomy/manage');
-		$this->Breadcrumb->push(__d('taxonomy', 'Vocabularies'), ['plugin' => 'Taxonomy', 'controller' => 'vocabularies', 'action' => 'index']);
-		$this->Breadcrumb->push(__d('taxonomy', 'Editing vocabulary'), '#');
+		$this->Breadcrumb
+			->push('/admin/system/structure')
+			->push(__d('taxonomy', 'Taxonomy'), '/admin/taxonomy/manage')
+			->push(__d('taxonomy', 'Vocabularies'), ['plugin' => 'Taxonomy', 'controller' => 'vocabularies', 'action' => 'index'])
+			->push(__d('taxonomy', 'Editing vocabulary'), '#');
 	}
 
 /**
