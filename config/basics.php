@@ -37,11 +37,9 @@ use QuickApps\Core\Plugin;
  *
  *     Configure::read('QuickApps.<option>');
  *
- * Available options are:
+ * Or using the `quickapps()` global function:
  *
- * - `node_types`: List of available content type slugs. e.g. ['article', 'page', ...].
- * - `plugins`: Array of plugin information indexed by Plugin Name.
- * - `options`: A set of useful environment variables stored in `options` DB table.
+ *     quickapps('<option>');
  *
  * @return void
  */
@@ -221,12 +219,16 @@ function snapshot() {
  * Shortcut for reading QuickApps's snapshot configuration.
  *
  * For example, `quickapps('variables');` maps to  `Configure::read('QuickApps.variables');`
+ * If this function is used with no arguments, `quickapps()`, the entire snapshot will be returned.
  *
- * @param string $key
+ * @param string $key The key to read from snapshot, or null to read the whole snapshot's info
  * @return mixed
  */
-	function quickapps($key) {
-		return Configure::read("QuickApps.{$key}");
+	function quickapps($key = null) {
+		if ($key !== null) {
+			return Configure::read("QuickApps.{$key}");
+		}
+		return Configure::read('QuickApps');
 	}
 
 /**
