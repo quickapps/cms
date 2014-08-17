@@ -100,6 +100,42 @@ class ThemesController extends AppController {
  *
  * @return void
  */
+	public function activate($themeName) {
+		$theme = Plugin::info($themeName, true);
+
+		if (!in_array($themeName, [option('front_theme'), option('back_theme')])) {
+			// TODO: activate theme
+			$this->Flash->success(__d('system', 'Theme successfully activated!'));
+		} else {
+			$this->Flash->danger(__d('system', 'This theme is already active.'));
+		}
+
+		$this->redirect($this->referer());
+	}
+
+/**
+ * Detailed theme's information.
+ *
+ * @return void
+ */
+	public function uninstall($themeName) {
+		$theme = Plugin::info($themeName, true);
+
+		if (!in_array($themeName, [option('front_theme'), option('back_theme')])) {
+			// TODO: uninstall theme
+			$this->Flash->success(__d('system', 'Theme successfully activated!'));
+		} else {
+			$this->Flash->danger(__d('system', 'This theme cannot be removed as it is in use.'));
+		}
+
+		$this->redirect($this->referer());
+	}
+
+/**
+ * Detailed theme's information.
+ *
+ * @return void
+ */
 	public function details($themeName) {
 		$theme = Plugin::info($themeName, true);
 

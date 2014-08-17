@@ -36,28 +36,31 @@ class PermissionsTable extends Table {
 	}
 
 /**
- * Checks if the given $aro has access to action $action in $aco
+ * Checks if the given $user has access to the given $path
  *
+ * @param \User\Model\Entity\UserSession An user session
+ * @param string $path An ACO path. e.g. `/Plugin/Controller/action`
  * @return bool true if user has access to action in ACO, false otherwise
  */
-	public function check(Entity $user, $path) {
+	public function check(UserSession $user, $path) {
 		$acoPath = $this->Acos->node($path);
 
 		if (!$acoPath) {
 			return false;
 		}
 
-		if (!$user->roles) {
+		if (!$user->role_ids) {
 			return false;
 		}
 
 		$acoIDs = $acoPath->extract('id');
-		foreach ($user->roles as $role_id) {
+		foreach ($user->role_ids as $role_id) {
 			$permission = $this->find()
 				->where([
 					'role_id' => $role_id,
 					'aco_id IN' => $acoIDs,
-				]);
+				])
+				->first();
 			if ($permission) {
 				return true;
 			}
@@ -87,7 +90,7 @@ class PermissionsTable extends Table {
 	}
 
 /**
- * Clear permissions cache.
+ * Clear permissions cache for all users.
  * 
  * @param \Cake\Event\Event $event
  * @return void

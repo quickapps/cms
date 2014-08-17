@@ -11,33 +11,13 @@
  */
 namespace User\Controller\Admin;
 
-use User\Controller\AppController;
+use User\Controller\GatewayController as BaseGatewayController;
 
 /**
  * Gateway manager controller.
  *
  * Provides login and logout methods for backend.
  */
-class GatewayController extends AppController {
-
-/**
- * Renders the login form.
- *
- * @return void
- */
-	public function login() {
-		$this->loadModel('User.Users');
-		$this->layout = 'login';
-
-		if ($this->request->is('post')) {
-			$user = $this->Auth->identify();
-			if ($user) {
-				$this->Auth->setUser($user);
-				return $this->redirect($this->Auth->redirectUrl());
-			} else {
-				$this->Flash->danger(__d('user', 'Username or password is incorrect'));
-			}
-		}
-	}
+class GatewayController extends BaseGatewayController {
 
 }

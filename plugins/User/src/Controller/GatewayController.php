@@ -22,6 +22,12 @@ use User\Controller\AppController;
  */
 class GatewayController extends AppController {
 
+/**
+ * Mark as allowed basic actions.
+ * 
+ * @param \Cake\Event\Event $event
+ * @return void
+ */
 	public function beforeFilter (Event $event) {
 		$this->Auth->allow(['login', 'logout', 'unauthorized']);
 	}

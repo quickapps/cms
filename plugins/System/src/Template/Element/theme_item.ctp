@@ -61,7 +61,7 @@
 							echo $this->Html->link(__d('system', 'Activate'), [
 								'plugin' => 'System',
 								'controller' => 'themes',
-								'action' => 'active',
+								'action' => 'activate',
 								$theme['name'],
 							], [
 								'class' => 'btn btn-default btn-xs'

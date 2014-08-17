@@ -163,6 +163,7 @@ class PluginsTable extends Table {
  */
 	public function afterDelete(Event $event, Entity $plugin, $options = []) {
 		$this->hook(["Plugin.{$plugin->name}.afterDelete", $event->subject], $plugin, $options);
+		snapshot();
 	}
 
 }

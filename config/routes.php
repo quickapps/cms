@@ -75,16 +75,25 @@ if (!file_exists(SITE_ROOT . '/config/settings.php')) {
  */
 	if ($localePrefix) {
 		foreach (Router::routes() as $router) {
-			foreach ($locales as $code) {
-				Router::connect("/{$code}{$router->template}", $router->defaults, $router->options);
+			if (!empty($router->options['_name'])) {
+				$options = $router->options;
+				$options['locale'] = $localesPattern;
+				$template = str_replace('//', '/', "/:locale/{$router->template}");
+				Router::connect($template, $router->defaults, $options);
+			} else {
+				foreach ($locales as $code) {
+					Router::connect("/{$code}{$router->template}", $router->defaults, $router->options);
+				}
 			}
 		}
 
 		Router::addUrlFilter(
 			function ($params, $request) use ($localesPattern) {
-				if (
-					empty($params['_name']) &&
-					(empty($params['_base']) || !preg_match("/\/{$localesPattern}\//", $params['_base']))
+				if (!empty($params['_name'])) {
+					$params['locale'] = I18n::defaultLocale();
+				} elseif (
+					empty($params['_base']) ||
+					!preg_match("/\/{$localesPattern}\//", $params['_base'])
 				) {
 					$params['_base'] = $request->base . '/' . I18n::defaultLocale() . '/';
 				}
