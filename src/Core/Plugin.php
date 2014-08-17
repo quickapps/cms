@@ -12,11 +12,13 @@
 namespace QuickApps\Core;
 
 use Cake\Collection\Collection;
+use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Core\Plugin as CakePlugin;
 use Cake\Error\FatalErrorException;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\File;
+use Cake\Utility\Folder;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use QuickApps\Core\StaticCacheTrait;
@@ -117,6 +119,46 @@ class Plugin extends CakePlugin {
 		}
 
 		return $collection;
+	}
+
+/**
+ * Scan plugin directories and returns plugin names and their paths within file system.
+ * We consider "plugin name" as the name of the container directory.
+ * 
+ * Example output:
+ *
+ *     [
+ *         'Users' => '/full/path/plugins/Users',
+ *         'ThemeManager' => '/full/path/plugins/ThemeManager',
+ *         ...
+ *         'MySuperPlugin' => '/full/path/plugins/MySuperPlugin',
+ *         'DarkGreenTheme' => '/full/path/plugins/DarkGreenTheme',
+ *     ]
+ *
+ * If $ignoreThemes is set to true `DarkGreenTheme` will not be part of the result
+ *
+ * @param bool $ignoreThemes Whether include themes as well or not
+ * @return array Associative array as `PluginName` => `full/path/to/PluginName`
+ */
+	public static function scan($ignoreThemes = false) {
+		$cacheKey = 'scan';
+		$cache = static::cache($cacheKey);
+		if (!$cache) {
+			$cache = [];
+			$paths = App::path('Plugin');
+			$Folder = new Folder();
+			foreach ($paths as $path) {
+				$Folder->cd($path);
+				foreach ($Folder->read(false, true, true)[0] as $dir) {
+					$name = basename($dir);
+					if ($ignoreThemes && str_ends_with($name, 'Theme')) {
+						continue;
+					}
+					$cache[$name] = $dir;
+				}
+			}
+		}
+		return $cache;
 	}
 
 /**

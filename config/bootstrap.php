@@ -185,7 +185,7 @@ if (!count($activePlugins)) {
 	die("Ops, something went wrong. Try to clear your site's snapshot and verify write permissions on /tmp directory.");
 }
 
-foreach (App::objects('Plugin') as $plugin) {
+foreach (Plugin::scan() as $plugin => $path) {
 	if (
 		in_array($plugin, $activePlugins) ||
 		$plugin === option('front_theme') ||

@@ -129,7 +129,7 @@ function snapshot() {
 		}
 	} else {
 		$plugins = [];
-		foreach (App::objects('Plugin') as $plugin) {
+		foreach (Plugin::scan() as $plugin => $path) {
 			$plugins[] = new \Cake\ORM\Entity([
 				'name' => $plugin,
 				'status' => true,
