@@ -139,7 +139,7 @@ class StartupController extends Controller {
 			}
 		}
 
-		I18n::defaultLocale('en_US');
+		I18n::defaultLocale('en-us');
 		$this->title('Welcome to QuickApps CMS');
 		$this->set('languages', $languages);
 		$this->_step();

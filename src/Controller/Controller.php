@@ -144,7 +144,7 @@ class Controller extends CakeCotroller {
 		} elseif (in_array(option('default_language'), $locales)) {
 			I18n::defaultLocale(option('default_language'));
 		} else {
-			I18n::defaultLocale('en_US');
+			I18n::defaultLocale('en-us');
 		}
 
 		if (

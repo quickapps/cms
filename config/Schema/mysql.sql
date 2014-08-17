@@ -298,7 +298,7 @@ CREATE TABLE IF NOT EXISTS `languages` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
 INSERT INTO `languages` (`id`, `code`, `name`, `direction`, `icon`, `status`, `ordering`) VALUES
-(1, 'en_US', 'English', 'ltr', 'us.gif', 1, 0),
+(1, 'en-us', 'English', 'ltr', 'us.gif', 1, 0),
 (2, 'es', 'Spanish', 'ltr', 'es.gif', 1, 0);
 
 CREATE TABLE IF NOT EXISTS `menus` (
@@ -416,7 +416,7 @@ CREATE TABLE IF NOT EXISTS `options` (
 
 INSERT INTO `options` (`id`, `name`, `value`, `autoload`) VALUES
 (1, 'front_theme', 'FrontendTheme', 1),
-(2, 'default_language', 'en_US', 1),
+(2, 'default_language', 'en-us', 1),
 (3, 'site_description', 'Open Source CMS built on CakePHP 3.0', 1),
 (4, 'site_slogan', 'Open Source CMS built on CakePHP 3.0', 1),
 (5, 'back_theme', 'BackendTheme', 1),
@@ -525,7 +525,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
 
 INSERT INTO `users` (`id`, `name`, `username`, `password`, `email`, `web`, `locale`, `timezone`, `code`, `status`, `last_login`, `created`) VALUES
-(1, 'QuickApps CMS', 'admin', '$2y$10$EVI2DYmtDEGAqD0s9TbjL.wgbpKlSjLjeH70gXwKRhi6g5DpkR/Be', 'chris@quickapps.es', 'http://quickapps.es', 'en_US', NULL, '', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(1, 'QuickApps CMS', 'admin', '$2y$10$EVI2DYmtDEGAqD0s9TbjL.wgbpKlSjLjeH70gXwKRhi6g5DpkR/Be', 'chris@quickapps.es', 'http://quickapps.es', 'en-us', NULL, '', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 CREATE TABLE IF NOT EXISTS `users_roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

@@ -2,7 +2,7 @@
   0 => 
   array (
     'id' => 1,
-    'code' => 'en_US',
+    'code' => 'en-us',
     'name' => 'English',
     'direction' => 'ltr',
     'icon' => 'us.gif',

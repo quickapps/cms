@@ -10,7 +10,7 @@
   array (
     'id' => 2,
     'name' => 'default_language',
-    'value' => 'en_US',
+    'value' => 'en-us',
     'autoload' => true,
   ),
   2 => 

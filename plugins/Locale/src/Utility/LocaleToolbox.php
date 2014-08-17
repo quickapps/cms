@@ -175,13 +175,22 @@ class LocaleToolbox {
 /**
  * Gets a list of languages suitable for select boxes.
  *
+ * @param bool $full Set to true to return the entire list of languages (from catalog)
+ * Set to false (by default) to get a list of installed languages
  * @return void
  */
-	public static function languagesList() {
+	public static function languagesList($full = false) {
 		$languages = [];
-		foreach (quickapps('languages') as $code => $data) {
-			$languages[$code] = $data['native'];
+		if ($full) {
+			foreach (static::$_catalog as $code => $info) {
+				$languages[$code] = $info['language'];
+			}
+		} else {
+			foreach (quickapps('languages') as $code => $data) {
+				$languages[$code] = $data['name'];
+			}
 		}
+
 		return $languages;
 	}
 
