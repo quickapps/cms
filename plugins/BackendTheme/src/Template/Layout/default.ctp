@@ -30,8 +30,25 @@
 					</button>
 					<?php echo $this->Html->link('QuickApps CMS', '/', ['class' => 'navbar-brand']); ?>
 				</div>
+
 				<div class="collapse navbar-collapse">
 					<?php echo $this->Region->create('main-menu')->render(); ?>
+
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								<?php echo $this->Html->image(user()->avatar, ['width' => 20]); ?>
+								<?php echo user()->username; ?>
+								<span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu" role="menu">
+								<li><?php echo $this->Html->link(__d('backend_theme', 'My account'), ['plugin' => 'User', 'controller' => 'me', 'action' => 'index', 'prefix' => false]); ?></li>
+								<li><?php echo $this->Html->link(__d('backend_theme', 'Visit website'), '/'); ?></li>
+								<li class="divider"></li>
+								<li><?php echo $this->Html->link(__d('backend_theme', 'Sign out'), '/logout'); ?></li>
+							</ul>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</nav>

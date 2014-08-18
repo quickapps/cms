@@ -40,6 +40,7 @@ class MenusTable extends Table {
 			'sort' => ['MenuLinks.lft' => 'ASC'],
 		]);
 		$this->_setHasOne();
+		$this->addBehavior('System.Sluggable');
 	}
 
 /**
@@ -195,7 +196,7 @@ class MenusTable extends Table {
  * Creates the default "hasOne" association with Blocks table.
  *
  * When menu is being deleted this association is re-built in order to
- * safely remove menu's associated block (and all copies of that block).
+ * safely remove menu's associated block **(and all copies of that block)**.
  *
  * @return void
  */

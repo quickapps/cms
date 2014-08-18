@@ -14,6 +14,7 @@ namespace Menu\View\Helper;
 use Cake\Core\Configure;
 use Cake\Error\FatalErrorException;
 use Cake\ORM\Entity;
+use Cake\ORM\TableRegistry;
 use Cake\I18n\I18n;
 use Cake\Routing\Router;
 use Cake\Utility\Hash;
@@ -174,8 +175,11 @@ class MenuHelper extends Helper {
  * Formatters receives two arguments, the item being rendered as first argument
  * and information abut the item (has children, depth, etc) as second. 
  *
- * @param array|\Cake\Collection\Collection $items Nested items to render, given
- * as a query result set or as an array list
+ * You can pass the ID or slug of a menu as fist argument to render that menu's links.
+ *
+ * @param integer|string|array|\Cake\Collection\Collection $items Nested items to render, given
+ * as a query result set or as an array list. Or an integer as menu ID in DB to render,
+ * or a string as menu Slug in DB to render.
  * @param callable|array $options An array of HTML attributes and options as
  * described above or a callable function to use as `formatter`
  * @return string HTML
@@ -185,6 +189,39 @@ class MenuHelper extends Helper {
 	public function render($items, $options = []) {
 		if ($this->_rendering) {
 			throw new FatalErrorException(__d('menu', 'Loop detected, MenuHelper already rendering.'));
+		}
+
+		if (is_string($items)) {
+			$slug = $items;
+			$id = static::cache("render({$slug})");
+			if ($id === null) {
+				$items = TableRegistry::get('Menu.Menus')
+					->find()
+					->select(['id'])
+					->where(['slug' => $slug])
+					->first();
+				if (is_object($items)) {
+					$items = $items->id;
+				}
+				static::cache("render({$slug})", $items);
+			} else {
+				$items = $id;
+			}
+		}
+
+		if (is_integer($items)) {
+			$id = $items;
+			$links = static::cache("render({$id})");
+			if ($links === null) {
+				$items = TableRegistry::get('Menu.MenuLinks')
+					->find('threaded')
+					->where(['menu_id' => $id])
+					->all();
+				static::cache("render({$id})", $items);
+			} else {
+				$items = $links;
+			}
+			return $this->render($items, $options);
 		}
 
 		if (empty($items)) {

@@ -303,6 +303,7 @@ INSERT INTO `languages` (`id`, `code`, `name`, `direction`, `icon`, `status`, `o
 
 CREATE TABLE IF NOT EXISTS `menus` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `slug` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Menu title, displayed at top of block.',
   `description` text COLLATE utf8_unicode_ci COMMENT 'Menu description.',
   `handler` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Name of the plugin that created this menu.',
@@ -310,9 +311,9 @@ CREATE TABLE IF NOT EXISTS `menus` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
-INSERT INTO `menus` (`id`, `title`, `description`, `handler`, `settings`) VALUES
-(1, 'Management', 'The Management menu contains links for administrative tasks.', 'System', NULL),
-(2, 'Site Main Menu', 'The Site Main Menu is used on many sites to show the major sections of the site, often in a top navigation bar.', 'System', NULL);
+INSERT INTO `menus` (`id`, `slug`, `title`, `description`, `handler`, `settings`) VALUES
+(1, 'management', 'Management', 'The Management menu contains links for administrative tasks.', 'System', NULL),
+(2, 'site-main-menu', 'Site Main Menu', 'The Site Main Menu is used on many sites to show the major sections of the site, often in a top navigation bar.', 'System', NULL);
 
 CREATE TABLE IF NOT EXISTS `menu_links` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
