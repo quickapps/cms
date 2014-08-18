@@ -12,6 +12,8 @@
 namespace Locale\Utility;
 
 use Cake\Core\Configure;
+use Cake\Utility\Folder;
+use QuickApps\Core\Plugin;
 
 /**
  * Locale Toolbox class.
@@ -26,7 +28,7 @@ class LocaleToolbox {
  *
  * @var array
  */
-	protected $_catalog = [
+	protected static $_catalog = [
 		'af' => ['language' => 'Afrikaans', 'locale' => 'afr', 'localeFallback' => 'afr', 'charset' => 'utf-8', 'direction' => 'ltr'],
 		'ar' => ['language' => 'Arabic', 'locale' => 'ara', 'localeFallback' => 'ara', 'charset' => 'utf-8', 'direction' => 'rtl'],
 		'ar-ae' => ['language' => 'Arabic (U.A.E.)', 'locale' => 'ar_ae', 'localeFallback' => 'ara', 'charset' => 'utf-8', 'direction' => 'rtl'],
@@ -173,6 +175,18 @@ class LocaleToolbox {
 	];
 
 /**
+ * Returns catalog's information for the given code.
+ *
+ * @param string $code
+ * @return null|array Null if not found
+ */
+	public static function info($code) {
+		if (isset(static::$_catalog[$code])) {
+			return static::$_catalog[$code];
+		}
+	}
+
+/**
  * Gets a list of languages suitable for select boxes.
  *
  * @param bool $full Set to true to return the entire list of languages (from catalog)
@@ -192,6 +206,23 @@ class LocaleToolbox {
 		}
 
 		return $languages;
+	}
+
+/**
+ * Gets a list of counties flags suitable for select boxes.
+ *
+ * @return void
+ */
+	public static function flagsList() {
+		$flags = [];
+		$Folder = new Folder(Plugin::path('Locale') . 'webroot/img/flags/');
+
+		foreach ($Folder->read()[1] as $icon) {
+			$value = $icon;
+			$label = str_replace_last('.gif', '', $icon);
+			$flags[$value] = $label;
+		}
+		return $flags;
 	}
 
 }

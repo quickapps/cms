@@ -9,9 +9,10 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Node\Model\Table;
+namespace Locale\Model\Table;
 
 use Cake\Event\Event;
+use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
@@ -21,7 +22,7 @@ use Cake\Validation\Validator;
  * Represents "languages" database table.
  *
  */
-class NodesTable extends Table {
+class LanguagesTable extends Table {
 
 /**
  * Default validation rules set.
@@ -34,15 +35,45 @@ class NodesTable extends Table {
 			->add('name', [
 				'notEmpty' => [
 					'rule' => 'notEmpty',
-					'message' => __d('node', 'You need to provide a language name.'),
+					'message' => __d('locale', 'You need to provide a language name.'),
 				],
 				'length' => [
 					'rule' => ['minLength', 3],
-					'message' => __d('node', 'Language name need to be at least 3 characters long.'),
+					'message' => __d('locale', 'Language name need to be at least 3 characters long.'),
 				],
+			])
+			->validatePresence('code')
+			->add('code', 'unique', [
+				'rule' => 'validateUnique',
+				'message' => __d('locale', 'This language is already registered.'),
+				'provider' => 'table',
 			]);
 
 		return $validator;
+	}
+
+/**
+ * Regenerates system's snapshot.
+ * 
+ * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\ORM\Entity $plugin The Plugin entity that was saved
+ * @param array $options The options passed to the save method
+ * @return void
+ */
+	public function afterSave(Event $event, Entity $language, $options) {
+		snapshot();
+	}
+
+/**
+ * Regenerates system's snapshot.
+ * 
+ * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\ORM\Entity $plugin The Plugin entity that was saved
+ * @param array $options The options passed to the save method
+ * @return void
+ */
+	public function afterDelete(Event $event, Entity $language) {
+		snapshot();
 	}
 
 }
