@@ -58,4 +58,33 @@ class OptionsTable extends Table {
 		snapshot();
 	}
 
+/**
+ * Updates the given option.
+ * 
+ * @param string $name Option name
+ * @param mixed $value Value to store for this option
+ * @param bool|null $autoload Set to true to load this option on bootstrap, null indicates
+ * it should not be modified. Defaults to null (do not change)
+ * @return null|\Cake\ORM\Entity The option as an entity on success, null otherwise
+ */
+	public function update($name, $value, $autoload = null) {
+		$option = $this
+			->find()
+			->where(['name' => $name])
+			->first();
+
+		if (!$option) {
+			return null;
+		}
+
+		$option->set('name', $name);
+		$option->set('value', $value);
+
+		if ($autoload !== null) {
+			$option->set('autoload', $autoload);
+		}
+
+		return $this->save($option);
+	}
+
 }
