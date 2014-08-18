@@ -89,7 +89,8 @@ abstract class BaseTask {
  * This is where task should initialize all what it needs
  * before it gets started.
  *
- * This method is automatically executed before "run()".
+ * This method is automatically executed before "run()". Here is where you
+ * should indicate which plugin is being handled using the `_plugin()` method.
  * 
  * @return void
  */
@@ -112,8 +113,39 @@ abstract class BaseTask {
  * @param string $pluginName
  * @return Installer\Utility\ToggleTask
  */
-	protected function _plugin($pluginName) {
+	final protected function _plugin($pluginName) {
 		return $this->_pluginName = $pluginName;
+	}
+
+/**
+ * Registers a new option in the "options" DB table.
+ *
+ * IMPORTANT: option names are automatically prefixed with "<PluginName>.",
+ * where `<PluginName>` is the name of the plugin running this task. For instance,
+ * if we are installing a new theme named "DarkBlue":
+ *
+ *     $this->addOption('background_color', '#000');
+ *
+ * Will add the following row to the "options" table:
+ *
+ * - name: DarkBlue.background_color
+ * - value: #000
+ * - autoload: true
+ * 
+ * @param string $name Option name, will be automatically prefixed with "<PluginName>."
+ * @param mixed $value Any information this plugin needs for this option
+ * @param bool $autoload True if this option should be loaded on bootstrap. Defaults to true
+ * @return mixed
+ */
+	final public function addOption($name, $value, $autoload = true) {
+		if (!$this->_pluginName) {
+			throw new FatalErrorException(__d('installer', 'Internal error ({0}), cannot use addOption() before "_plugin()".', get_called_class()));
+		}
+
+		$this->loadModel('System.Options');
+		$name = !str_starts_with($name, "{$this->_pluginName}.") ? "{$this->_pluginName}.{$name}" : $name;
+		$option = $this->Options->newEntity(compact('name', 'value', 'autoload'));
+		return $this->Options->save($option);
 	}
 
 /**
@@ -121,7 +153,7 @@ abstract class BaseTask {
  * 
  * @return \User\Utility\AcoManager
  */
-	public function aco() {
+	final public function aco() {
 		if (!$this->_pluginName) {
 			throw new FatalErrorException(__d('installer', 'Internal error ({0}), illegal access to AcoManager before using "_plugin()".', get_called_class()));
 		}
@@ -135,7 +167,7 @@ abstract class BaseTask {
  * @param mixed $value
  * @return \Installer\Utility\BaseTask
  */
-	public function configure($key, $value = null) {
+	final public function configure($key, $value = null) {
 		$this->config($key, $value);
 		return $this;
 	}
@@ -162,7 +194,7 @@ abstract class BaseTask {
  * @param array $options Array of options for the task
  * @return \Installer\Utility\InstallTask New instance of this class
  */
-	public function newTask($task, $options = []) {
+	final public function newTask($task, $options = []) {
 		return PackageManager::task($task, $options);
 	}
 
@@ -172,7 +204,7 @@ abstract class BaseTask {
  * @param array|string $message A single message or an array of messages
  * @return void
  */
-	protected function error($message) {
+	final protected function error($message) {
 		if (is_string($message)) {
 			$message = [$message];
 		}
@@ -186,7 +218,7 @@ abstract class BaseTask {
  * 
  * @return array
  */
-	public function errors() {
+	final public function errors() {
 		return $this->_errors;
 	}
 
@@ -198,7 +230,7 @@ abstract class BaseTask {
  * @param string $path Directory to check
  * @return bool
  */
-	protected function canBeDeleted($path) {
+	final protected function canBeDeleted($path) {
 		if (!file_exists($path) || !is_dir($path)) {
 			$this->error(__d('installer', "Plugin's directory was not found: ", $path));
 			return false;
@@ -237,7 +269,7 @@ abstract class BaseTask {
  * @param string $path Where to look for listener classes
  * @return void
  */
-	protected function attachListeners($path) {
+	final protected function attachListeners($path) {
 		global $classLoader;
 
 		if (file_exists($path) && is_dir($path)) {

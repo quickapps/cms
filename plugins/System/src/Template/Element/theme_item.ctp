@@ -75,7 +75,8 @@
 									'action' => 'uninstall',
 									$theme['name'],
 								], [
-									'class' => 'btn btn-default btn-xs'
+								'confirm' => __d('system', 'Delete this theme? This operation cannot be undone!'),
+									'class' => 'btn btn-default btn-xs',
 								]);
 							?>
 						<?php endif; ?>

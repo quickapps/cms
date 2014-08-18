@@ -30,23 +30,34 @@
 
 			<ul>
 				<?php foreach ($composer['authors'] as $author): ?>
-					<li>
-						<?php if (!empty($author['homepage'])): ?>
-							<?php echo $this->Html->link($author['name'], $author['homepage']); ?>
-						<?php else: ?>
-							<?php echo $author['name']; ?>
-						<?php endif; ?>
+				<li>
+					<?php if (!empty($author['homepage'])): ?>
+						<?php echo $this->Html->link($author['name'], $author['homepage']); ?>
+					<?php else: ?>
+						<?php echo $author['name']; ?>
+					<?php endif; ?>
 
-						<?php if (!empty($author['email'])): ?>
-							&lt;<?php echo $this->Html->link($author['email'], "mailto:{$author['email']}"); ?>&gt;
-						<?php endif; ?>
-					</li>
+					<?php if (!empty($author['email'])): ?>
+						&lt;<?php echo $this->Html->link($author['email'], "mailto:{$author['email']}"); ?>&gt;
+					<?php endif; ?>
+				</li>
 				<?php endforeach; ?>
 			</ul>
 
 		</li>
 		<?php endif; ?>
 
+		<?php if (!empty($composer['extra']['regions'])): ?>
+		<li>
+			<strong><?php echo __d('system', 'Theme Regions'); ?>:</strong>
+
+			<ul>
+				<?php foreach ($composer['extra']['regions'] as $region): ?>
+				<li><?php echo $region; ?></li>
+				<?php endforeach; ?>
+			</ul>
+		</li>
+		<?php endif; ?>
 	</ul>
 </p>
 

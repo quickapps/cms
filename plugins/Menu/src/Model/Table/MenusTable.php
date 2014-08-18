@@ -137,7 +137,7 @@ class MenusTable extends Table {
 	public function afterSave(Event $event, Menu $menu, $options = []) {
 		if ($menu->isNew()) {
 			$block = $this->Blocks->newEntity([
-				'title' => $menu->title . ' ' . __d('menu', '[menu:%d]', $menu->id),
+				'title' => $menu->title . ' ' . __d('menu', '[menu: {0}]', $menu->id),
 				'delta' => $menu->id,
 				'handler' => $menu->handler,
 				'description' => (!empty($menu->description) ? $menu->description : __d('menu', 'Associated block for "{0}" menu.', $menu->title)),

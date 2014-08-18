@@ -49,6 +49,11 @@ class BlockRegionsTable extends Table {
 					return !empty($exists);
 				},
 				'message' => __d('block', 'Invalid theme for region.'),
+			])
+			->add('block_id', 'unique', [
+				'rule' => ['validateUnique', ['scope' => 'theme']],
+				'message' => __d('block', 'This block is already assigned to this theme.'),
+				'provider' => 'table',
 			]);
 	}
 

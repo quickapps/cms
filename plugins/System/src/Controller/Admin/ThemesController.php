@@ -70,12 +70,12 @@ class ThemesController extends AppController {
 			if (isset($this->request->data['download'])) {
 				$task = $this->Installer
 					->task('install')
-					->configure(['packageType' => 'theme'])
+					->configure(['packageType' => 'theme', 'activate' => true])
 					->download($this->request->data['url']);
 			} else {
 				$task = $this->Installer
 					->task('install')
-					->configure(['packageType' => 'theme'])
+					->configure(['packageType' => 'theme', 'activate' => true])
 					->upload($this->request->data['file']);
 			}
 
@@ -96,18 +96,31 @@ class ThemesController extends AppController {
 	}
 
 /**
- * Detailed theme's information.
+ * Removes the given theme.
  *
+ * @param string $themeName
  * @return void
  */
-	public function activate($themeName) {
+	public function uninstall($themeName) {
 		$theme = Plugin::info($themeName, true);
 
 		if (!in_array($themeName, [option('front_theme'), option('back_theme')])) {
-			
-			$this->Flash->success(__d('system', 'Theme successfully activated!'));
+			if ($theme['isCore']) {
+				$this->Flash->danger(__d('system', 'You cannot remove a core theme!'));
+			} else {
+				$task = $this->Installer->task('uninstall', ['plugin' => $themeName]);
+				$success = $task->run();
+				if ($success) {
+					$this->Flash->success(__d('system', 'Theme successfully removed!'));
+				} else {
+					$this->Flash->set(__d('system', 'Theme could not be removed'), [
+						'element' => 'System.installer_errors',
+						'params' => ['errors' => $task->errors()],
+					]);
+				}
+			}
 		} else {
-			$this->Flash->danger(__d('system', 'This theme is already active.'));
+			$this->Flash->danger(__d('system', 'This theme cannot be removed as it is in use.'));
 		}
 
 		$this->redirect($this->referer());
@@ -116,20 +129,32 @@ class ThemesController extends AppController {
 /**
  * Detailed theme's information.
  *
+ * @param string $themeName
  * @return void
  */
-	public function uninstall($themeName) {
+	public function activate($themeName) {
 		$theme = Plugin::info($themeName, true);
 
 		if (!in_array($themeName, [option('front_theme'), option('back_theme')])) {
-			// TODO: uninstall theme
-			$this->Flash->success(__d('system', 'Theme successfully activated!'));
+			$task = $this->Installer
+				->task('activate_theme')
+				->activate($themeName);
+			$success = $task->run();
+			if ($success) {
+				$this->Flash->success(__d('system', 'Theme successfully activated!'));
+			} else {
+				$this->Flash->set(__d('system', 'Theme could not be activated'), [
+					'element' => 'System.installer_errors',
+					'params' => ['errors' => $task->errors()],
+				]);
+			}
 		} else {
-			$this->Flash->danger(__d('system', 'This theme cannot be removed as it is in use.'));
+			$this->Flash->danger(__d('system', 'This theme is already active.'));
 		}
 
 		$this->redirect($this->referer());
 	}
+
 
 /**
  * Detailed theme's information.

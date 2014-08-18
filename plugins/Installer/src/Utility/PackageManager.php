@@ -65,6 +65,7 @@ class PackageManager {
 		'toggle' => '\Installer\Utility\ToggleTask',
 		'uninstall' => '\Installer\Utility\UninstallTask',
 		'update' => '\Installer\Utility\UpdateTask',
+		'activate_theme' => '\Installer\Utility\ThemeActivatorTask',
 	];
 
 /**

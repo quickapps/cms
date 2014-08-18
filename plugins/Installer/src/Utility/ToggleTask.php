@@ -69,7 +69,7 @@ class ToggleTask extends BaseTask {
 	}
 
 /**
- * Starts the uninstall process of the given plugin.
+ * Starts the enable/disable process of the given plugin.
  *
  * @return bool True on success, false otherwise
  */
