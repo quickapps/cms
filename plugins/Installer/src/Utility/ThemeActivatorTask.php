@@ -122,12 +122,8 @@ class ThemeActivatorTask extends BaseTask {
 			$previousTheme = option('front_theme');
 		}
 
-		$option = $this->Options->find()->where(['name' => "{$prefix}theme"])->first();
-		if ($option) {
-			$option->set('value', $this->_pluginName);
-			if ($this->Options->save($option)) { // save() automatically regenerates snapshot
-				$this->_copyBlockPositions($this->_pluginName, $previousTheme);
-			}
+		if ($this->Options->update("{$prefix}theme", $this->_pluginName)) { // save() automatically regenerates snapshot
+			$this->_copyBlockPositions($this->_pluginName, $previousTheme);
 		} else {
 			$this->error(__d('installer', 'Internal error, the option "{0}" was not found.', "{$prefix}theme"));
 			return false;
