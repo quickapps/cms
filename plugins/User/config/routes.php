@@ -23,11 +23,24 @@ Router::connect('/admin/login', [
 	'plugin' => 'User',
 	'controller' => 'gateway',
 	'action' => 'login',
-	'prefix' => 'admin'
+	'prefix' => 'admin',
 ]);
 
 Router::connect('/login', [
 	'plugin' => 'User',
 	'controller' => 'gateway',
 	'action' => 'login',
+]);
+
+Router::connect('/logout', [
+	'plugin' => 'User',
+	'controller' => 'gateway',
+	'action' => 'logout',
+]);
+
+Router::connect('/admin/logout', [
+	'plugin' => 'User',
+	'controller' => 'gateway',
+	'action' => 'logout',
+	'prefix' => 'admin',
 ]);

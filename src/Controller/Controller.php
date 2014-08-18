@@ -81,6 +81,7 @@ class Controller extends CakeCotroller {
 			],
 			'authorize' => ['User.Cached'],
 			'loginAction' => ['plugin' => 'User', 'controller' => 'gateway', 'action' => 'login'],
+			'logoutRedirect' => '/',
 			'unauthorizedRedirect' => ['plugin' => 'User', 'controller' => 'gateway', 'action' => 'unauthorized'],
 		],
 		'Menu.Breadcrumb',
