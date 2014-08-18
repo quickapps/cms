@@ -31,7 +31,7 @@
 					<?php echo $this->Html->link($node->title, $node->url, ['target' => '_blank']); ?>
 
 					<?php if ($node->promote): ?>
-					<span class="glyphicon glyphicon-home" title="<?php echo __d('node', 'Promote to front page'); ?>"></span>
+					<span class="glyphicon glyphicon-home" title="<?php echo __d('node', 'Promote to home page'); ?>"></span>
 					<?php endif; ?>
 
 					<?php if ($node->sticky): ?>

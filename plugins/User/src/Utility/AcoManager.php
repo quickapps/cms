@@ -173,7 +173,8 @@ class AcoManager {
  * After tree is created you should be able to change permissions using
  * User's permissions section in backend.
  *
- * @param string $for
+ * @param string $for Optional, build ACOs for the given plugin, or
+ * all plugins if not given
  * @return bool True on success, false otherwise
  */
 	public static function buildAcos($for = null) {
@@ -182,7 +183,7 @@ class AcoManager {
 		} else {
 			try {
 				$plugins = [Plugin::info($for)];
-			} catch (Exception $e) {
+			} catch (\Exception $e) {
 				return false;
 			}
 		}

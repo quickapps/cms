@@ -11,6 +11,7 @@
  */
 namespace User\Model\Entity;
 
+use Cake\Auth\DefaultPasswordHasher;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 
@@ -30,7 +31,7 @@ class User extends Entity {
  * @return string URL to user's avatar
  * @link http://www.gravatar.com
  */
-	public function _getAvatar($options = []) {
+	protected function _getAvatar($options = []) {
 		$options = (array)$options;
 		$options += [
 			's' => 80,
@@ -46,11 +47,24 @@ class User extends Entity {
 	}
 
 /**
+ * Hashes the password if not empty.
+ * 
+ * @param string $password The RAW password
+ * @return string Encrypted password
+ */
+	protected function _setPassword($password) {
+		if (!empty($password)) {
+			return (new DefaultPasswordHasher)->hash($password);
+		}
+		return $password;
+	}
+
+/**
  * Gets an array list of role IDs this user belongs to.
  * 
  * @return array
  */
-	public function _getRoleIds() {
+	protected function _getRoleIds() {
 		$ids = [];
 		if ($this->has('roles')) {
 			foreach ($this->roles as $k => $role) {
@@ -65,7 +79,7 @@ class User extends Entity {
  * 
  * @return array
  */
-	public function _getRoleNames() {
+	protected function _getRoleNames() {
 		$names = [];
 		if ($this->has('roles')) {
 			foreach ($this->roles as $k => $role) {

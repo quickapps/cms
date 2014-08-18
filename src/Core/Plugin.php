@@ -154,7 +154,7 @@ class Plugin extends CakePlugin {
 					if ($ignoreThemes && str_ends_with($name, 'Theme')) {
 						continue;
 					}
-					$cache[$name] = $dir;
+					$cache[$name] = normalizePath($dir);
 				}
 			}
 		}

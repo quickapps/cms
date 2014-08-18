@@ -96,9 +96,12 @@ class AnonymousAuthenticate extends BaseAuthenticate {
  *         'User/Admin/Gateway/logout' => true,
  *         ...
  *     ]
+ *
+ * Resulting array is always `key` => **true**, as role have access
+ * to every ACO in the array "true" is the only possible value.
  * 
  * @param integer $role_id Role's ID
- * @return array Array of ACO paths
+ * @return array Array of ACO paths which role has permissions to
  */
 	protected function _rolePermissions($role_id) {
 		$Acos = TableRegistry::get('User.Acos');

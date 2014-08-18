@@ -44,7 +44,7 @@ class ThemesController extends AppController {
 					return 0;
 				}
 				return 1;
-			});
+			}, SORT_ASC);
 		$back_themes = $themes
 			->match(['composer.extra.admin' => true])
 			->sortBy(function ($theme) {
@@ -52,7 +52,7 @@ class ThemesController extends AppController {
 					return 0;
 				}
 				return 1;
-			});
+			}, SORT_ASC);
 		$front_count = count($front_themes->toArray());
 		$back_count = count($back_themes->toArray());
 
@@ -104,7 +104,7 @@ class ThemesController extends AppController {
 		$theme = Plugin::info($themeName, true);
 
 		if (!in_array($themeName, [option('front_theme'), option('back_theme')])) {
-			// TODO: activate theme
+			
 			$this->Flash->success(__d('system', 'Theme successfully activated!'));
 		} else {
 			$this->Flash->danger(__d('system', 'This theme is already active.'));

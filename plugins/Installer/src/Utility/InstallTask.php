@@ -422,20 +422,6 @@ class InstallTask extends BaseTask {
 			$errors[] = __d('installer', 'Invalid package, missing "src" directory.');
 		}
 
-		if (
-			$this->config('packageType') === 'theme' &&
-			!str_ends_with($this->_pluginName, 'Theme')
-		) {
-			$this->error(__d('installer', 'The given package is not a valid theme.'));
-			return false;
-		} elseif (
-			$this->config('packageType') === 'plugin' &&
-			str_ends_with($this->_pluginName, 'Theme')
-		) {
-			$this->error(__d('installer', 'The given package is not a valid plugin.'));
-			return false;
-		}
-
 		if (!file_exists($this->_extractedPath . 'composer.json')) {
 			$errors[] = __d('installer', 'Invalid package, missing file "composer.json".');
 		} else {
@@ -450,6 +436,14 @@ class InstallTask extends BaseTask {
 				$json = json_decode($json, true);
 				$this->_pluginName = pluginName($json['name']);
 				$this->_pluginJson = $json;
+
+				if ($this->config('packageType') === 'theme' && !str_ends_with($this->_pluginName, 'Theme')) {
+					$this->error(__d('installer', 'The given package is not a valid theme.'));
+					return false;
+				} elseif ($this->config('packageType') === 'plugin' && str_ends_with($this->_pluginName, 'Theme')) {
+					$this->error(__d('installer', 'The given package is not a valid plugin.'));
+					return false;
+				}
 
 				if (str_ends_with($this->_pluginName, 'Theme')) {
 					if (!file_exists("{$this->_extractedPath}webroot/screenshot.png")) {

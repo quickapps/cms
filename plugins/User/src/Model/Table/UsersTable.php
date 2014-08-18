@@ -13,9 +13,11 @@ namespace User\Model\Table;
 
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\Database\Schema\Table as Schema;
+use Cake\Event\Event;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Cake\Utility\Security;
+use User\Model\Entity\User;
 
 /**
  * Represents "users" database table.
@@ -61,7 +63,7 @@ class UsersTable extends Table {
 					'rule' => 'validateUnique',
 					'provider' => 'table',
 					'message' => __d('user', 'Username already in use.'),
-				]
+				],
 			])
 			->validatePresence('email')
 			->notEmpty('email')
@@ -85,12 +87,15 @@ class UsersTable extends Table {
 				'compare' => [
 					'rule' => function ($value, $context) {
 						$value2 = isset($context['data']['password2']) ? $context['data']['password2'] : false;
-						return $value === $value2;
+						return (new DefaultPasswordHasher)->check($value2, $value);
 					},
 					'message' => __d('user', 'Password mismatch.'),
 				],
 				'length' => [
-					'rule' => ['minLength', 6],
+					'rule' => function ($value, $context) {
+						$raw = isset($context['data']['password2']) ? $context['data']['password2'] : '';
+						return strlen($raw) >= 6;
+					},
 					'message' => __d('user', 'Password must be at least 6 characters long.'),
 				]
 			])
@@ -101,15 +106,17 @@ class UsersTable extends Table {
 			]);
 	}
 
-	public function beforeSave($event, $user) {
+/**
+ * If not password is sent means user is not changing it.
+ * 
+ * @param \Cake\Event\Event $event
+ * @param \User\Model\Entity\User $user
+ * @return void
+ */
+	public function beforeSave(Event $event, User $user) {
 		if (!$user->isNew() && $user->has('password') && empty($user->password)) {
 			$user->unsetProperty('password');
-			$user->accessible('password', false);
 			$user->dirty('password', false);
-		}
-
-		if ($user->has('password')) {
-			$user->set('password', (new DefaultPasswordHasher)->hash($user->password));
 		}
 	}
 

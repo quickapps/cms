@@ -43,177 +43,200 @@ use QuickApps\Core\Plugin;
  *
  * @return void
  */
-function snapshot() {
-	if (Cache::config('default')) {
-		Cache::clear(false, 'default');
-	}
+	function snapshot() {
+		if (Cache::config('default')) {
+			Cache::clear(false, 'default');
+		}
 
-	if (Cache::config('_cake_core_')) {
-		Cache::clear(false, '_cake_core_');
-	}
+		if (Cache::config('_cake_core_')) {
+			Cache::clear(false, '_cake_core_');
+		}
 
-	if (Cache::config('_cake_model_')) {
-		Cache::clear(false, '_cake_model_');
-	}
+		if (Cache::config('_cake_model_')) {
+			Cache::clear(false, '_cake_model_');
+		}
 
-	$corePath = str_replace(['/', DS], '/', ROOT);
-	$snapshot = [
-		'version' => null,
-		'node_types' => [],
-		'plugins' => [],
-		'options' => [],
-		'languages' => []
-	];
+		$corePath = normalizePath(ROOT);
+		$snapshot = [
+			'version' => null,
+			'node_types' => [],
+			'plugins' => [],
+			'options' => [],
+			'languages' => []
+		];
 
-	if (ConnectionManager::config('default')) {
-		if (!TableRegistry::exists('SnapshotPlugins')) {
-			$PluginTable = TableRegistry::get('SnapshotPlugins', ['table' => 'plugins']);
+		if (file_exists(ROOT . '/VERSION.txt')) {
+			$versionFile = file(ROOT . '/VERSION.txt');
+			$snapshot['version'] = trim(array_pop($versionFile));
 		} else {
-			$PluginTable = TableRegistry::get('SnapshotPlugins');
+			die('Missing file: VERSION.txt');
 		}
 
-		if (!TableRegistry::exists('SnapshotNodeTypes')) {
-			$NodeTypesTable = TableRegistry::get('SnapshotNodeTypes', ['table' => 'node_types']);
+		if (ConnectionManager::config('default')) {
+			if (!TableRegistry::exists('SnapshotPlugins')) {
+				$PluginTable = TableRegistry::get('SnapshotPlugins', ['table' => 'plugins']);
+			} else {
+				$PluginTable = TableRegistry::get('SnapshotPlugins');
+			}
+
+			if (!TableRegistry::exists('SnapshotNodeTypes')) {
+				$NodeTypesTable = TableRegistry::get('SnapshotNodeTypes', ['table' => 'node_types']);
+			} else {
+				$NodeTypesTable = TableRegistry::get('SnapshotNodeTypes');
+			}
+
+			if (!TableRegistry::exists('SnapshotLanguages')) {
+				$LanguagesTable = TableRegistry::get('SnapshotLanguages', ['table' => 'languages']);
+			} else {
+				$LanguagesTable = TableRegistry::get('SnapshotLanguages');
+			}
+
+			if (!TableRegistry::exists('SnapshotOptions')) {
+				$OptionsTable = TableRegistry::get('SnapshotOptions', ['table' => 'options']);
+			} else {
+				$OptionsTable = TableRegistry::get('SnapshotOptions');
+			}
+
+			$PluginTable->schema(['value' => 'serialized']);
+			$OptionsTable->schema(['value' => 'serialized']);
+
+			$plugins = $PluginTable->find()
+				->select(['name', 'package', 'status'])
+				->order(['ordering' => 'ASC'])
+				->all();
+			$nodeTypes = $NodeTypesTable->find()
+				->select(['slug'])
+				->all();
+			$languages = $LanguagesTable->find()
+				->where(['status' => 1])
+				->order(['ordering' => 'ASC'])
+				->all();
+			$options = $OptionsTable->find()
+				->select(['name', 'value'])
+				->where(['autoload' => 1])
+				->all();
+
+			foreach ($nodeTypes as $nodeType) {
+				$snapshot['node_types'][] = $nodeType->slug;
+			}
+
+			foreach ($options as $option) {
+				$snapshot['options'][$option->name] = $option->value;
+			}
+
+			foreach ($languages as $language) {
+				$snapshot['languages'][$language->code] = [
+					'name' => $language->name,
+					'native' => $language->native,
+					'direction' => $language->direction,
+					'icon' => $language->icon,
+				];
+			}
 		} else {
-			$NodeTypesTable = TableRegistry::get('SnapshotNodeTypes');
-		}
-
-		if (!TableRegistry::exists('SnapshotLanguages')) {
-			$LanguagesTable = TableRegistry::get('SnapshotLanguages', ['table' => 'languages']);
-		} else {
-			$LanguagesTable = TableRegistry::get('SnapshotLanguages');
-		}
-
-		if (!TableRegistry::exists('SnapshotOptions')) {
-			$OptionsTable = TableRegistry::get('SnapshotOptions', ['table' => 'options']);
-		} else {
-			$OptionsTable = TableRegistry::get('SnapshotOptions');
-		}
-
-		$PluginTable->schema(['value' => 'serialized']);
-		$OptionsTable->schema(['value' => 'serialized']);
-
-		$plugins = $PluginTable->find()
-			->select(['name', 'package', 'status'])
-			->order(['ordering' => 'ASC'])
-			->all();
-		$nodeTypes = $NodeTypesTable->find()
-			->select(['slug'])
-			->all();
-		$languages = $LanguagesTable->find()
-			->where(['status' => 1])
-			->order(['ordering' => 'ASC'])
-			->all();
-		$options = $OptionsTable->find()
-			->select(['name', 'value'])
-			->where(['autoload' => 1])
-			->all();
-
-		foreach ($nodeTypes as $nodeType) {
-			$snapshot['node_types'][] = $nodeType->slug;
-		}
-
-		foreach ($options as $option) {
-			$snapshot['options'][$option->name] = $option->value;
-		}
-
-		foreach ($languages as $language) {
-			$snapshot['languages'][$language->code] = [
-				'name' => $language->name,
-				'native' => $language->native,
-				'direction' => $language->direction,
-				'icon' => $language->icon,
-			];
-		}
-	} else {
-		$plugins = [];
-		foreach (Plugin::scan() as $plugin => $path) {
-			$plugins[] = new \Cake\ORM\Entity([
-				'name' => $plugin,
-				'status' => true,
-				'package' => (is_dir("{$corePath}/plugins/{$plugin}") ? 'quickapps-plugins' : 'unknow-package'),
-			]);
-		}
-	}
-
-	foreach ($plugins as $plugin) {
-		$pluginPath = false;
-
-		foreach (App::path('Plugin') as $path) {
-			if (is_dir($path . $plugin->name)) {
-				$pluginPath = $path . $plugin->name;
-				break;
+			$plugins = [];
+			foreach (Plugin::scan() as $plugin => $path) {
+				$plugins[] = new Entity([
+					'name' => $plugin,
+					'status' => true,
+					'package' => (is_dir("{$corePath}/plugins/{$plugin}") ? 'quickapps-plugins' : 'unknow-package'),
+				]);
 			}
 		}
 
-		$pluginPath = str_replace(['/', DS], '/', $pluginPath);
-		if ($pluginPath === false || !file_exists($pluginPath . '/composer.json')) {
-			Debugger::log(sprintf('Plugin "%s" was found in DB but QuickApps CMS was unable to locate its directory in the file system or its "composer.json" file.', $plugin->name));
-			continue;
-		}
+		foreach ($plugins as $plugin) {
+			$pluginPath = false;
 
-		$eventsPath = "{$pluginPath}/src/Event/";
-		$isCore = strpos($pluginPath, $corePath) !== false;
-		$isTheme = str_ends_with($plugin->name, 'Theme');
-		$status = $isCore ? true : $plugin->status;
-		$events = [
-			'hooks' => [],
-			'hooktags' => [],
-			'fields' => [],
-		];
+			if (isset(Plugin::scan()[$plugin->name])) {
+				$pluginPath = Plugin::scan()[$plugin->name];
+			}
 
-		if (is_dir($eventsPath)) {
-			$Folder = new Folder($eventsPath);
-			foreach ($Folder->read(false, false, true)[1] as $classFile) {
-				$className = basename(preg_replace('/\.php$/', '', $classFile));
-				if (str_ends_with($className, 'Field')) {
-					$events['fields']['Field\\' . $className] = [
-						'namespace' => 'Field\\',
-						'path' => dirname($classFile),
-					];
-				} elseif (str_ends_with($className, 'Hook')) {
-					$events['hooks']['Hook\\' . $className] = [
-						'namespace' => 'Hook\\',
-						'path' => dirname($classFile),
-					];
-				} elseif (str_ends_with($className, 'Hooktag')) {
-					$events['hooktags']['Hooktag\\' . $className] = [
-						'namespace' => 'Hooktag\\',
-						'path' => dirname($classFile),
-					];
+			if ($pluginPath === false || !file_exists($pluginPath . '/composer.json')) {
+				Debugger::log(sprintf('Plugin "%s" was found in DB but QuickApps CMS was unable to locate its directory in the file system or its "composer.json" file.', $plugin->name));
+				continue;
+			}
+
+			$eventsPath = "{$pluginPath}/src/Event/";
+			$isCore = strpos($pluginPath, $corePath) !== false;
+			$isTheme = str_ends_with($plugin->name, 'Theme');
+			$status = $isCore ? true : $plugin->status;
+			$events = [
+				'hooks' => [],
+				'hooktags' => [],
+				'fields' => [],
+			];
+
+			if (is_dir($eventsPath)) {
+				$Folder = new Folder($eventsPath);
+				foreach ($Folder->read(false, false, true)[1] as $classFile) {
+					$className = basename(preg_replace('/\.php$/', '', $classFile));
+					if (str_ends_with($className, 'Field')) {
+						$events['fields']['Field\\' . $className] = [
+							'namespace' => 'Field\\',
+							'path' => dirname($classFile),
+						];
+					} elseif (str_ends_with($className, 'Hook')) {
+						$events['hooks']['Hook\\' . $className] = [
+							'namespace' => 'Hook\\',
+							'path' => dirname($classFile),
+						];
+					} elseif (str_ends_with($className, 'Hooktag')) {
+						$events['hooktags']['Hooktag\\' . $className] = [
+							'namespace' => 'Hooktag\\',
+							'path' => dirname($classFile),
+						];
+					}
 				}
 			}
+
+			$humanName = Inflector::humanize(Inflector::underscore($plugin->name));
+			if ($isTheme) {
+				$humanName = trim(str_replace_last('Theme', '', $humanName));
+			}
+
+			$snapshot['plugins'][$plugin->name] = [
+				'name' => $plugin->name,
+				'human_name' => $humanName,
+				'package' => $plugin->package,
+				'isTheme' => $isTheme,
+				'isCore' => $isCore,
+				'hasHelp' => file_exists($pluginPath . '/src/Template/Element/Help/help.ctp'),
+				'hasSettings' => file_exists($pluginPath . '/src/Template/Element/settings.ctp'),
+				'events' => $events,
+				'status' => $status,
+				'path' => $pluginPath,
+			];
 		}
 
-		$humanName = Inflector::humanize(Inflector::underscore($plugin->name));
-		if ($isTheme) {
-			$humanName = trim(str_replace_last('Theme', '', $humanName));
-		}
-
-		$snapshot['plugins'][$plugin->name] = [
-			'name' => $plugin->name,
-			'human_name' => $humanName,
-			'package' => $plugin->package,
-			'isTheme' => $isTheme,
-			'isCore' => $isCore,
-			'hasHelp' => file_exists($pluginPath . '/src/Template/Element/Help/help.ctp'),
-			'hasSettings' => file_exists($pluginPath . '/src/Template/Element/settings.ctp'),
-			'events' => $events,
-			'status' => $status,
-			'path' => str_replace(['/', DS], '/', $pluginPath),
-		];
+		Configure::write('QuickApps', $snapshot);
+		Configure::dump('snapshot.php', 'QuickApps', ['QuickApps']);
 	}
 
-	if (file_exists(ROOT . '/VERSION.txt')) {
-		$versionFile = file(ROOT . '/VERSION.txt');
-		$snapshot['version'] = trim(array_pop($versionFile));
-	} else {
-		die('Missing file: VERSION.txt');
+/**
+ * Normalizes the given file system path, makes sure that all DIRECTORY_SEPARATOR
+ * are the same, so you won't get a mix of "/" and "\" in your paths.
+ *
+ * ### Example:
+ *
+ *     normalizePath('/some/path\to/some\\thing\about.zip');
+ *     // output:
+ *     /some/path/to/some/thing/about.zip
+ *
+ * You can indicate which "directory separator" symbol to use using the second argument:
+ *
+ *     normalizePath('/some/path\to//some\thing\about.zip', '\');
+ *     // output:
+ *     \some\path\to\some\thing\about.zip
+ *
+ * By defaults uses DIRECTORY_SEPARATOR as symbol.
+ * 
+ * @param string $path The path to normalize
+ * @param string $ds Directory separator character, defaults to DIRECTORY_SEPARATOR
+ * @return string Normalized $path
+ */
+	function normalizePath($path, $ds = DIRECTORY_SEPARATOR) {
+		$path = str_replace(['/', DS], $ds, $path);
+		return str_replace("{$ds}{$ds}", $ds, $path);
 	}
-
-	Configure::write('QuickApps', $snapshot);
-	Configure::dump('snapshot.php', 'QuickApps', ['QuickApps']);
-}
 
 /**
  * Shortcut for reading QuickApps's snapshot configuration.
@@ -234,7 +257,7 @@ function snapshot() {
 /**
  * Gets current user (logged in or not) as an entity.
  *
- * @return \User\Model\Entity\User
+ * @return \User\Model\Entity\UserSession
  */
 	function user() {
 		if (Router::getRequest()->is('userLoggedIn')) {
@@ -301,13 +324,21 @@ function snapshot() {
 	}
 
 /**
- * Used to convert composer-like names to plugin names.
+ * Used to extract plugin names from composer's package names.
  *
  * ### Example:
  *
  *     pluginName('quickapps/my-super-plugin');
  *     // returns: MySuperPlugin
- * 
+ *
+ *
+ * Package names must follow the "author/app-name" pattern, there are two
+ * "especial" composer's package names which are handled differently:
+ *
+ * - `php`: Will return "__PHP__"
+ * - `quickapps/cms`: Will return "__QUICKAPPS__"
+ *
+ * @param string $name Package name. e.g. author-name/package-name
  * @return string
  */
 	function pluginName($name) {
