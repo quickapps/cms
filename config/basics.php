@@ -355,6 +355,42 @@ use QuickApps\Core\Plugin;
 	}
 
 /**
+ * Moves the given element by index from a list array of elements.
+ *
+ * @param array $list Numeric indexed array list of elements
+ * @param integer $position The index position of the element you want to move
+ * @param string $direction Direction, 'up' or 'down'
+ * @return array Reordered original list.
+ */
+	function array_move(array $list, $position, $direction) {
+		if ($direction == 'down') {
+			if (count($list) - 1 > $position) {
+				$b = array_slice($list, 0, $position, true);
+				$b[] = $list[$position + 1];
+				$b[] = $list[$position];
+				$b += array_slice($list, $position + 2, count($list), true);
+
+				return $b;
+			} else {
+				return $list;
+			}
+		} elseif ($direction = 'up') {
+			if ($position > 0 and $position < count($list)) {
+				$b = array_slice($list, 0, ($position - 1), true);
+				$b[] = $list[$position];
+				$b[] = $list[$position - 1];
+				$b += array_slice($list, ($position + 1), count($list), true);
+
+				return $b;
+			} else {
+				return $list;
+			}
+		}
+
+		return $list;
+	}
+
+/**
  * Evaluate a string of PHP code.
  *
  * This is a wrapper around PHP's eval(). It uses output buffering to capture both
