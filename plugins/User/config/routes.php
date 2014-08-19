@@ -17,30 +17,30 @@ Router::connect('/unauthorized', [
 	'plugin' => 'User',
 	'controller' => 'gateway',
 	'action' => 'unauthorized',
-]);
+], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
 
 Router::connect('/admin/login', [
 	'plugin' => 'User',
 	'controller' => 'gateway',
 	'action' => 'login',
 	'prefix' => 'admin',
-]);
+], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
 
 Router::connect('/login', [
 	'plugin' => 'User',
 	'controller' => 'gateway',
 	'action' => 'login',
-]);
+], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
 
 Router::connect('/logout', [
 	'plugin' => 'User',
 	'controller' => 'gateway',
 	'action' => 'logout',
-]);
+], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
 
 Router::connect('/admin/logout', [
 	'plugin' => 'User',
 	'controller' => 'gateway',
 	'action' => 'logout',
 	'prefix' => 'admin',
-]);
+], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);

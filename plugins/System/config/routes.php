@@ -15,9 +15,9 @@ use Cake\Routing\Router;
 
 Router::connect('/admin', [
 	'plugin' => 'System',
-	'controller' => 'Dashboard',
+	'controller' => 'dashboard',
 	'action' => 'index',
 	'prefix' => 'admin',
-], [
-	'_name' => 'admin_dashboard'
-]);
+],
+['_name' => 'admin_dashboard'],
+['routeClass' => 'Cake\Routing\Route\InflectedRoute']);

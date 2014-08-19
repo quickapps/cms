@@ -28,8 +28,8 @@ if (!file_exists(SITE_ROOT . '/config/settings.php')) {
 	);
 
 	Router::plugin('Installer', function($routes) {
-		$routes->connect('/:controller', ['action' => 'index']);
-		$routes->connect('/:controller/:action/*', []);
+		$routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
+		$routes->connect('/:controller/:action/*', [], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
 	});
 } else {
 
@@ -43,18 +43,18 @@ if (!file_exists(SITE_ROOT . '/config/settings.php')) {
 	Router::prefix('admin', function($routes) {
 		foreach (Plugin::loaded() as $plugin) {
 			$routes->plugin($plugin, function($routes) {
-				$routes->connect('', ['controller' => 'manage', 'action' => 'index']);
-				$routes->connect('/:controller', ['action' => 'index']);
-				$routes->connect('/:controller/:action/*', []);
+				$routes->connect('', ['controller' => 'manage', 'action' => 'index'], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
+				$routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
+				$routes->connect('/:controller/:action/*', [], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
 			});
 		}
 	});
 
 	foreach (Plugin::loaded() as $plugin) {
 		Router::plugin($plugin, function($routes) {
-			$routes->connect('', ['controller' => 'main', 'action' => 'index']);
-			$routes->connect('/:controller', ['action' => 'index']);
-			$routes->connect('/:controller/:action/*', []);
+			$routes->connect('', ['controller' => 'main', 'action' => 'index'], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
+			$routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
+			$routes->connect('/:controller/:action/*', [], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
 		});
 	}
 
