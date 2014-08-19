@@ -11,8 +11,11 @@
  */
 namespace System\Controller\Admin;
 
+use Cake\ORM\Entity;
+use Cake\Validation\Validator;
 use System\Controller\AppController;
 use Locale\Utility\LocaleToolbox;
+use QuickApps\Core\Plugin;
 
 /**
  * Configuration Controller.
@@ -28,23 +31,72 @@ class ConfigurationController extends AppController {
  */
 	public function index() {
 		$this->loadModel('System.Options');
-		$variables = $this->Options
-			->find()
-			->all();
+		$languages = LocaleToolbox::languagesList();
 		$arrayContext = [
-			'schema' => [],
+			'schema' => [
+				'site_title' => 'string',
+				'site_slogan' => 'string',
+				'site_description' => 'string',
+				'site_email' => 'string',
+				'site_nodes_home' => 'integer',
+
+				'site_maintenance' => 'boolean',
+				'site_maintenance_ip' => 'string',
+				'site_maintenance_message' => 'string',
+
+				'default_language' => 'string',
+				'url_locale_prefix' => 'string',
+			],
 			'defaults' => [],
 			'errors' => [],
 		];
+		$variables = $this->Options
+			->find()
+			->where(['name IN' => array_keys($arrayContext['schema'])])
+			->all();
 
 		foreach ($variables as $var) {
-			$arrayContext['schema'][$var->name] = ['type' => 'string'];
 			$arrayContext['defaults'][$var->name] = $var->value;
 		}
 
-		$this->set('arrayContext', $arrayContext);
-		$this->set('languages', LocaleToolbox::languagesList());
-		$this->set('variables', $variables);
+		if ($this->request->data) {
+			$mockEntity = new Entity($this->request->data);
+			if ($mockEntity->validate($this->_mockValidator())) {
+				foreach ($this->request->data as $k => $v) {
+					$this->Options->update($k, $v, null, false);
+				}
+				snapshot();
+				$this->Flash->success(__d('system', 'Configuration successfully saved!'));
+				$this->redirect($this->referer());
+			} else {
+				$arrayContext['errors'] = $mockEntity->errors();
+				$this->Flash->danger(__d('system', 'Configuration could not be saved, please check your information.'));
+			}
+		}
+
+		$pluginSettings = Plugin::collection(true)->match(['hasSettings' => true]);
+		$this->set(compact('arrayContext', 'languages', 'variables', 'pluginSettings'));
+		$this->Breadcrumb->push('/admin/system/configuration');
+	}
+
+/**
+ * Created a mock validator object used when validating options
+ *
+ * @return \Cake\Validation\Validator
+ */
+	protected function _mockValidator() {
+		$validator = new Validator();
+		return $validator
+			->validatePresence('site_title')
+			->add('site_title', 'length', [
+				'rule' => ['minLength', 3],
+				'message' => __d('system', "Site's name must be at least 3 characters long."),
+			])
+			->validatePresence('site_email')
+			->add('site_email', 'validEmail', [
+				'rule' => 'email',
+				'message' => __d('system', 'Invalid e-Mail.'),
+			]);
 	}
 
 }

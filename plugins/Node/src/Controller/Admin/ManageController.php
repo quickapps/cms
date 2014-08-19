@@ -104,6 +104,7 @@ class ManageController extends AppController {
 		} else {
 			$node = $this->Nodes->newEntity(['node_type_slug' => $type->slug]);
 			$node->setDefaults($type);
+			$node->set('node_type', $type);
 		}
 
 		$node = $this->Nodes->attachEntityFields($node);
@@ -150,16 +151,18 @@ class ManageController extends AppController {
 			}
 		} else {
 			$node = $this->Nodes->find()
-				->where(['id' => $id])
-				->contain(['Roles'])
+				->where(['Nodes.id' => $id])
 				->contain([
+					'Roles',
 					'Translations',
 					'NodeRevisions',
+					'NodeTypes',
+					'TranslationOf',
 				])
 				->first();
 		}
 
-		if (!$node) {
+		if (!$node || empty($node->node_type)) {
 			throw new NotFoundException(__d('node', 'The requested page was not found.'));
 		}
 
@@ -192,6 +195,68 @@ class ManageController extends AppController {
 		$this->Breadcrumb
 			->push('/admin/node/manage')
 			->push(__d('node', 'Editing content'), '#');
+	}
+
+/**
+ * Translate the given node to a different language.
+ *
+ * @param integer $node_id
+ * @return void
+ */
+	public function translate($node_id) {
+		$this->loadModel('Node.Nodes');
+		$node = $this->Nodes->get($node_id, ['contain' => 'NodeTypes']);
+
+		if (!$node->language || $node->translation_for) {
+			$this->Flash->danger(__d('node', 'You cannot translate this content.'));
+			$this->redirect(['plugin' => 'Node', 'controller' => 'manage', 'action' => 'index']);
+		}
+
+		$translations = $this->Nodes
+			->find()
+			->where(['translation_for' => $node->id])
+			->all();
+		$languages = LocaleToolbox::languagesList();
+		$illegal = array_merge([$node->language], $translations->extract('language')->toArray());
+		foreach ($languages as $code => $name) {
+			if (in_array($code, $illegal)) {
+				unset($languages[$code]);
+			}
+		}
+
+		if (
+			!empty($languages) &&
+			!empty($this->request->data['language']) &&
+			!empty($this->request->data['title']) &&
+			$this->request->data['language'] !== $node->language
+		) {
+			$newNode = $this->Nodes->newEntity($node->toArray(), [
+				'fieldList' => [
+					'node_type_id',
+					'node_type_slug',
+					'title',
+				]
+			]);
+			$newNode->set('status', false);
+			$newNode->set('title', $this->request->data['title']);
+			$newNode->set('translation_for', $node->id);
+			$newNode->set('language', $this->request->data['language']);
+
+			if ($this->Nodes->save($newNode)) {
+				$this->Flash->success(__d('node', 'Translation successfully created and was marked as unpublished. Complete the translation before publishing.'));
+				$this->redirect(['plugin' => 'Node', 'controller' => 'manage', 'action' => 'edit', $newNode->id]);
+			} else {
+				$this->Flash->set(__d('system', 'Translation could not be created'), [
+					'element' => 'System.installer_errors',
+					'params' => ['errors' => $newNode->errors()],
+				]);
+			}
+		}
+
+		$this->set(compact('node', 'translations', 'languages'));
+		$this->Breadcrumb
+			->push('/admin/node/manage')
+			->push(__d('node', 'Translating content'), '');
 	}
 
 /**

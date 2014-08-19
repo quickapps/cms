@@ -126,22 +126,48 @@ class Controller extends CakeCotroller {
 /**
  * Prepares the default language to use.
  *
- * If user is logged in and has selected a preferred language, we will use it.
- * Default site's language will be used otherwise.
+ * This methods apply the following filters looking for language to use:
  *
+ * - URL: If current URL is prefixed  with a valid language code and
+ *   `url_locale_prefix` option is enabled, URL's language code will be used.
+ * - User session: If user is logged in and has selected a valid preferred
+ *   language it will be used.
+ * - GET parameter: If `locale` GET parameter is present in current request,
+ *   and if it a valid language code, it will be used as current language
+ *   and also will persisted in "locale session".
+ * - Locale session: If `locale` session exists it will be used.
+ * - Default site's language will be used otherwise.
+ *
+ * ---
+ * 
  * If `url_locale_prefix` option is enabled, and current request's URL has not
  * language prefix on it, user will be redirected to a locale-prefixed version
- * of the requested URL. For example: `/article/demo-article.html` might
- * redirects to `/en-us/article/demo-article.html`
+ * of the requested URL (using the language code selected as explained above).
+ * 
+ * For example:
+ * 
+ *     /article/demo-article.html
+ * 
+ * Might redirects to:
+ * 
+ *     /en-us/article/demo-article.html
  *
  * @return void
  */
 	protected function _prepareLanguage() {
-		$session = $this->request->session();
 		$locales = array_keys(quickapps('languages'));
+		$localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
+		$normalizedURL = str_replace('//', '/', "/{$this->request->url}"); // starts with "/""
 
-		if ($session->check('user.locale') && in_array($session->read('user.locale'), $locales)) {
-			I18n::defaultLocale($session->read('user.locale'));
+		if (option('url_locale_prefix') && preg_match("/\/{$localesPattern}\//", $normalizedURL, $matches)) {
+			I18n::defaultLocale($matches[1]);
+		} elseif ($this->request->is('userLoggedIn') && in_array(user()->locale, $locales)) {
+			I18n::defaultLocale(user()->locale);
+		} elseif (!empty($this->request->query['locale']) && in_array($this->request->query['locale'], $locales)) {
+			$this->request->session()->write('locale', $this->request->query['locale']);
+			I18n::defaultLocale($this->request->session()->read('locale'));
+		} elseif ($this->request->session()->check('locale') && in_array($this->request->session()->read('locale'), $locales)) {
+			I18n::defaultLocale($this->request->session()->read('locale'));
 		} elseif (in_array(option('default_language'), $locales)) {
 			I18n::defaultLocale(option('default_language'));
 		} else {
@@ -149,14 +175,12 @@ class Controller extends CakeCotroller {
 		}
 
 		if (
-			$this->request->url !== false &&
 			option('url_locale_prefix') &&
-			!str_starts_with($this->request->url, I18n::defaultLocale())
+			!$this->request->is('home') &&
+			!preg_match("/\/{$localesPattern}\//", $normalizedURL)
 		) {
-			$url = $this->request->url;
-			$localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
-			$url = preg_replace("/^{$localesPattern}\//", '', $url);
-			$this->redirect('/' . I18n::defaultLocale() . '/' . $url);
+			$url =  '/' . I18n::defaultLocale() . $normalizedURL;
+			$this->redirect($url);
 		}
 	}
 

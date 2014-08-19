@@ -12,6 +12,7 @@
 namespace User\Controller\Admin;
 
 use User\Controller\AppController;
+use Locale\Utility\LocaleToolbox;
 
 /**
  * User manager controller.
@@ -54,6 +55,7 @@ class ManageController extends AppController {
 		$this->loadModel('User.Users');
 		$user = $this->Users->newEntity();
 		$user = $this->Users->attachEntityFields($user);
+		$languages = LocaleToolbox::languagesList();
 		$roles = $this->Users->Roles->find('list', [
 			'conditions' => [
 				'id NOT IN' => [ROLE_ID_AUTHENTICATED, ROLE_ID_ANONYMOUS]
@@ -71,7 +73,7 @@ class ManageController extends AppController {
 			}
 		}
 
-		$this->set(compact('user', 'roles'));
+		$this->set(compact('user', 'roles', 'languages'));
 		$this->Breadcrumb->push('/admin/user/manage');
 	}
 
@@ -84,6 +86,7 @@ class ManageController extends AppController {
 	public function edit($id) {
 		$this->loadModel('User.Users');
 		$user = $this->Users->get($id, ['contain' => ['Roles']]);
+		$languages = LocaleToolbox::languagesList();
 		$roles = $this->Users->Roles->find('list', [
 			'conditions' => [
 				'id NOT IN' => [ROLE_ID_AUTHENTICATED, ROLE_ID_ANONYMOUS]
@@ -101,7 +104,7 @@ class ManageController extends AppController {
 			}
 		}
 
-		$this->set(compact('user', 'roles'));
+		$this->set(compact('user', 'roles', 'languages'));
 		$this->Breadcrumb->push('/admin/user/manage');
 	}
 

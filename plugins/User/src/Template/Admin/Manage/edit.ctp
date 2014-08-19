@@ -28,6 +28,9 @@
 		<?php echo $this->Form->input('web', ['label' => __d('user', 'Website')]); ?>
 		<em class="help-block"><?php echo __d('user', "User's website, e.g. http://john-locke.about.me"); ?></em>
 
+		<?php echo $this->Form->input('locale', ['type' => 'select', 'options' => $languages, 'label' => __d('user', 'Preferred Language'), 'empty' => __d('user', 'Default')]); ?>
+		<em class="help-block"><?php echo __d('user', "Preferred user's language"); ?></em>
+
 		<?php echo $this->Form->input('status', ['type' => 'checkbox', 'label' => __d('user', 'Active')]); ?>
 		<em class="help-block"><?php echo __d('user', 'Inactive users cannot log-in. Administrator users cannot be disabled.'); ?></em>
 

@@ -14,7 +14,7 @@
 <?php echo $this->Form->create($node, ['id' => 'node-form']); ?>
 	<fieldset>
 		<legend><?php echo __d('node', 'Basic Information'); ?></legend>
-			<?php echo $this->Form->input('title'); ?>
+			<?php echo $this->Form->input('title', ['label' => $node->node_type->title_label]); ?>
 
 			<?php echo $this->Form->input('description'); ?>
 			<em class="help-block"><?php echo __d('node', 'A short description (200 chars. max.) about this content. Will be used as page meta-description when rendering this content node.'); ?></em>

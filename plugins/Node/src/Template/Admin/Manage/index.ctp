@@ -28,7 +28,7 @@
 		<?php foreach ($nodes as $node): ?>
 			<tr class="<?php echo $node->status == 0 ? 'warning' : ''; ?> ">
 				<td>
-					<?php echo $this->Html->link($node->title, $node->url, ['target' => '_blank']); ?>
+					<?php echo $this->Html->link(h($node->title), $node->url, ['target' => '_blank']); ?>
 
 					<?php if ($node->promote): ?>
 					<span class="glyphicon glyphicon-home" title="<?php echo __d('node', 'Promote to home page'); ?>"></span>
@@ -59,17 +59,19 @@
 								'class' => 'btn btn-default btn-sm glyphicon glyphicon-pencil',
 							]);
 						?>
+						<?php if ($node->language && !$node->translation_for): ?>
 						<?php
 							echo $this->Html->link('', [
 								'plugin' => 'Node',
-								'controller' => 'translate',
-								'action' => 'edit',
+								'controller' => 'manage',
+								'action' => 'translate',
 								$node->id
 							], [
 								'title' => __d('node', 'Translate'),
 								'class' => 'btn btn-default btn-sm glyphicon glyphicon-globe',
 							]);
 						?>
+						<?php endif; ?>
 						<?php
 							echo $this->Html->link('', [
 								'plugin' => 'Node',

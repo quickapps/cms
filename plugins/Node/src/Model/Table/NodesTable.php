@@ -48,8 +48,16 @@ class NodesTable extends Table {
 	public function initialize(array $config) {
 		$this->belongsTo('NodeTypes', [
 			'className' => 'Node.NodeTypes',
+			'propertyName' => 'node_type',
 			'fields' => ['slug', 'name', 'description'],
 			'conditions' => ['Nodes.node_type_slug = NodeTypes.slug']
+		]);
+
+		$this->belongsTo('TranslationOf', [
+			'className' => 'Node.Nodes',
+			'foreignKey' => 'translation_for',
+			'propertyName' => 'translation_of',
+			'fields' => ['slug', 'title', 'description'],
 		]);
 
 		$this->belongsToMany('Roles', [

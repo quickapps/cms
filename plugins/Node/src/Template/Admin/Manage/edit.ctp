@@ -14,11 +14,17 @@
 <?php echo $this->Form->create($node, ['id' => 'node-form']); ?>
 	<fieldset>
 		<legend><?php echo __d('node', 'Basic Information'); ?></legend>
-			<?php echo $this->Form->input('title'); ?>
+			<?php echo $this->Form->input('title', ['label' => $node->node_type->title_label]); ?>
 			<em class="help-block">
 				<?php echo __d('node', 'Slug'); ?>: <?php echo __d('node', $node->slug); ?>,
 				<?php echo __d('node', 'URL'); ?>: <?php echo $this->Html->link("/{$node->node_type_slug}/{$node->slug}.html", $node->url, ['target' => '_blank']); ?>
 			</em>
+
+			<?php if ($node->translation_of): ?>
+			<em class="help-block">
+				<strong><?php echo __d('node', 'This content is a translation of'); ?>: </strong><?php echo $this->Html->link($node->translation_of->title, ['plugin' => 'Node', 'controller' => 'manage', 'action' => 'edit', $node->translation_of->id]); ?>
+			</em>
+			<?php endif; ?>
 
 			<?php echo $this->Form->input('regenerate_slug', ['type' => 'checkbox', 'label' => __d('node', 'Regenerate Slug')]); ?>
 			<em class="help-block"><?php echo __d('node', 'Check this to generate a new slug from title.'); ?></em>
@@ -46,7 +52,14 @@
 	<fieldset>
 		<legend><?php echo __d('node', 'Settings'); ?></legend>
 			<?php echo $this->Form->input('comment_status', ['label' => __d('node', 'Comments'), 'options' => [1 => __d('node', 'Open'), 0 => __d('node', 'Closed'), 2 => __d('node', 'Read Only')]]); ?>
-			<?php echo $this->Form->input('language', ['label' => __d('node', 'Language'), 'options' => $languages, 'empty' => __d('node', '-- ANY --')]); ?>
+
+			<?php if (!$node->translation_for): ?>
+				<?php echo $this->Form->input('language', ['label' => __d('node', 'Language'), 'options' => $languages, 'empty' => __d('node', '-- ANY --')]); ?>
+			<?php else: ?>
+				<?php echo $this->Form->label(null, __d('node', 'Language')); ?>
+				<em class="help-block"><?php echo __d('node', 'This content is the ({0}) translation of an existing content originally in ({1}).', $node->language, $node->translation_of->language); ?></em>
+			<?php endif; ?>
+
 			<?php echo $this->Form->input('roles._ids', ['type' => 'select', 'label' => __d('node', 'Show content for specific roles'), 'options' => $roles, 'multiple' => 'checkbox']); ?>
 			<em class="help-block"><?php echo __d('node', 'Show this content only for the selected role(s). If you select no roles, the content will be visible to all users.'); ?></em>
 	</fieldset>
@@ -110,10 +123,14 @@
 	</fieldset>
 	<?php endif; ?>
 
-	<?php if ($node->has('translations') && count($node->translations)): ?>
+	<?php if (!$node->translation_for & $node->has('translations') && count($node->translations)): ?>
 	<fieldset>
 		<legend><?php echo __d('node', 'Translations'); ?></legend>
-		<?php // TODO: render node's translations table ?>
+		<ul>
+			<?php foreach ($node->translations as $translation): ?>
+			<li><?php echo $this->Html->link($translation->title, ['plugin' => 'Node', 'controller' => 'manage', 'action' => 'edit', $translation->id]); ?> (<?php echo $translation->language; ?>)</li>
+			<?php endforeach; ?>
+		</ul>
 	</fieldset>
 	<?php endif; ?>
 

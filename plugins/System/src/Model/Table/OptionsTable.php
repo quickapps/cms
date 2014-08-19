@@ -63,11 +63,13 @@ class OptionsTable extends Table {
  * 
  * @param string $name Option name
  * @param mixed $value Value to store for this option
- * @param bool|null $autoload Set to true to load this option on bootstrap, null indicates
- * it should not be modified. Defaults to null (do not change)
+ * @param bool|null $autoload Set to true to load this option on bootstrap,
+ * null indicates it should not be modified. Defaults to null (do not change)
+ * @param bool $callbacks Whether to trigger callbacks (beforeSavem etc) or not.
+ * Defaults to true
  * @return null|\Cake\ORM\Entity The option as an entity on success, null otherwise
  */
-	public function update($name, $value, $autoload = null) {
+	public function update($name, $value, $autoload = null, $callbacks = true) {
 		$option = $this
 			->find()
 			->where(['name' => $name])
@@ -77,14 +79,17 @@ class OptionsTable extends Table {
 			return null;
 		}
 
-		$option->set('name', $name);
-		$option->set('value', $value);
+		if ($callbacks) {
+			$option->set('value', $value);
 
-		if ($autoload !== null) {
-			$option->set('autoload', $autoload);
+			if ($autoload !== null) {
+				$option->set('autoload', $autoload);
+			}
+
+			return $this->save($option, ['callbacks' => false]);
 		}
 
-		return $this->save($option);
+		return $this->updateAll(['value' => $value], ['name' => $name]);
 	}
 
 }

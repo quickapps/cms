@@ -13,7 +13,9 @@ namespace Node\Controller;
 
 use Cake\Core\Configure;
 use Cake\Error\NotFoundException;
+use Cake\Error\ForbiddenException;
 use Cake\I18n\I18n;
+use Cake\Routing\Router;
 
 /**
  * Node serve controller.
@@ -95,6 +97,8 @@ class ServeController extends AppController {
  * @param string $node_type_slug
  * @param string $node_slug
  * @return void
+ * @throws \Cake\Error\NotFoundException When content is not found
+ * @throws \Cake\Error\ForbiddenException When user can't access this content due to role restrictions
  */
 	public function details($node_type_slug, $node_slug) {
 		$this->loadModel('Node.Nodes');
@@ -109,17 +113,80 @@ class ServeController extends AppController {
 				'Nodes.slug' => $node_slug,
 				'Nodes.node_type_slug' => $node_type_slug,
 				'Nodes.status >' => 0,
-				'Nodes.language IN' => ['', I18n::defaultLocale(), null]
 			];
 		}
 
 		$node = $this->Nodes->find()
 			->where($conditions)
-			->contain(['NodeTypes'])
+			->contain(['NodeTypes', 'Roles'])
 			->first();
 
 		if (!$node) {
 			throw new NotFoundException(__d('node', 'The requested page was not found.'));
+		} else {
+			if (!empty($node->roles)) {
+				$nodeRolesID = [];
+				foreach ($node->roles as $role) {
+					$nodeRolesID[] = $role->id;
+				}
+
+				$allowed = false;
+				foreach (user()->role_ids as $userRoleID) {
+					if (in_array($userRoleID, $nodeRolesID)) {
+						$allowed = true;
+						break;
+					}
+				}
+
+				if (!$allowed) {
+					throw new ForbiddenException(__d('node', 'You have not sufficient permissions to see this page.'));
+				}
+			}
+
+			if (!empty($node->language) && $node->language != I18n::defaultLocale()) {
+				$haveTranslation = $this->Nodes
+					->find()
+					->select(['id', 'slug', 'language'])
+					->where([
+						'translation_for' => $node->id,
+						'node_type_slug' => $node_type_slug,
+						'language' => I18n::defaultLocale(),
+						'status' => 1,
+					])
+					->first();
+
+				if ($haveTranslation) {
+					if (option('url_locale_prefix')) {
+						$url = "/{$haveTranslation->language}/{$node_type_slug}/{$haveTranslation->slug}.html";
+					} else {
+						$url = "/{$node_type_slug}/{$haveTranslation->slug}.html";
+					}
+					$this->redirect($url);
+					return $this->response;
+				}
+
+				$isTranslationOf = $this->Nodes
+					->find()
+					->select(['id', 'slug', 'language'])
+					->where([
+						'slug' => $node_slug,
+						'status' => 1,
+						'translation_for NOT IN' => ['', null]
+					])
+					->first();
+
+				if ($isTranslationOf) {
+					if (option('url_locale_prefix')) {
+						$url = "/{$isTranslationOf->language}/{$node_type_slug}/{$isTranslationOf->slug}.html";
+					} else {
+						$url = "/{$node_type_slug}/{$isTranslationOf->slug}.html";
+					}
+					$this->redirect($url);
+					return $this->response;
+				}
+
+				throw new NotFoundException(__d('node', 'The requested page was not found.'));
+			}
 		}
 
 		// Post new comment logic
