@@ -17,8 +17,8 @@ use Cake\Event\EventManager;
 /**
  * Provides hook() & alter() methods.
  *
- * QuickAppsCMS's event system is built over [cake's event system](http://book.cakephp.org/3.0/en/core-libraries/events.html).
- * And allows plugins to communicate with the entire system or other plugins.
+ * QuickAppsCMS's event system is built over [cake's event system](http://book.cakephp.org/3.0/en/core-libraries/events.html),
+ * and allows plugins to communicate with the entire system or other plugins.
  *
  * QuickAppsCMS's Event system is composed of three primary elements:
  *
@@ -26,7 +26,7 @@ use Cake\Event\EventManager;
  * - `Event Handler`: A method in your your listener class which take care of a single event.
  * - `Event`: Name of the event. e.g.: `FormHelper.input`.
  *
- * A Event Listener class, may listen to many Events. But a Event Handler can only
+ * An Event Listener class, may listen to many Events. But a Event Handler can only
  * responds to a single Event.
  *
  * Your `Event Listener` class must implement `\Cake\Event\EventListener` interface
@@ -61,7 +61,7 @@ use Cake\Event\EventManager;
  *
  *     namespace Event;
  *
- *     class EventHandler extends EventListener {
+ *     class MyEventListener extends EventListener {
  *         public function implementedEvents() {
  *		       return [
  *		           'Alter.Hello' => 'alterWorld',
@@ -106,7 +106,7 @@ class Hook {
 	protected static $_log = [];
 
 /**
- * Retrieve the number of times a hook is fired, or the complete list
+ * Retrieve the number of times a hook was fired, or the complete list
  * of events that were fired.
  *
  * @param string $eventName The name of the event, if null returns the entire list
