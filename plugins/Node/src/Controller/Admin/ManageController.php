@@ -42,9 +42,12 @@ class ManageController extends AppController {
  */
 	public function index() {
 		$this->loadModel('Node.Nodes');
-		$nodes = $this->Nodes
-			->find()
-			->contain(['NodeTypes', 'Author']);
+		$nodes = $this->Nodes->find()->contain(['NodeTypes', 'Author']);
+
+		if (!empty($this->request->query['filter'])) {
+			$this->Nodes->search($this->request->query['filter'], $nodes);
+		}
+
 		$this->set('nodes', $this->paginate($nodes));
 		$this->Breadcrumb->push('/admin/node/manage');
 	}
