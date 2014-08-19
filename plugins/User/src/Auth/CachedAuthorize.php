@@ -31,8 +31,8 @@ class CachedAuthorize extends BaseAuthorize  {
  * Authorizes current logged in user, if user belongs to the "administrator"
  * he/she is automatically authorized.
  * 
- * @param $user An instance of "UserSession" entity, or "User" entity
- * @param \Cake\Network\Request $request Current request
+ * @param array $user Active user data
+ * @param \Cake\Network\Request $request Request instance
  * @return bool True if user is can access this request
  */
 	public function authorize($user, Request $request) {
@@ -51,8 +51,7 @@ class CachedAuthorize extends BaseAuthorize  {
 		}
 
 		if (!isset($permissions[$path])) {
-			$this->_Controller->loadModel('User.Permissions');
-			$allowed = $this->_Controller->Permissions->check($user, $path);
+			$allowed = $user->can($path);
 			$permissions[$path] = $allowed;
 			Cache::write($cacheKey, $permissions, 'permissions');
 		} else {

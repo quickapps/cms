@@ -63,6 +63,13 @@ class AcosTable extends Table {
 
 		if (is_string($ref)) {
 			$path = explode('/', $ref);
+		} elseif (is_array($ref)) {
+			$path = implode('/', array_values(array_filter($ref)));
+			$path = explode('/', $path);
+		}
+
+		if (!$path) {
+			return false;
 		}
 
 		$result = null;

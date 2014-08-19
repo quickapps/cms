@@ -28,7 +28,7 @@
 		<tr>
 			<th><?php echo __d('locale', 'Name'); ?></th>
 			<th class="hidden-xs"><?php echo __d('locale', 'Path'); ?></th>
-			<th>&nbsp;</th>
+			<th width="200">&nbsp;</th>
 		</tr>
 	</thead>
 	<tbody>

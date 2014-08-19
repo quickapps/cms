@@ -142,15 +142,15 @@ class AcoManager {
  * @return bool True on success, false if path was not found
  */
 	public function remove($path) {
-		$path = $this->_parseAco($path);
 		$nodes = $this->Acos->node($path);
 
 		if (!$nodes) {
 			return false;
 		}
 
-		$this->Acos->removeFromTree($nodes->first());
-		$this->Acos->delete($nodes->first());
+		$delete = $nodes->first();
+		$this->Acos->removeFromTree($delete);
+		$this->Acos->delete($delete);
 		return true;
 	}
 
@@ -177,7 +177,7 @@ class AcoManager {
  * all plugins if not given
  * @return bool True on success, false otherwise
  */
-	public static function buildAcos($for = null) {
+	public static function buildAcos($for = null, $sync = false) {
 		if ($for === null) {
 			$plugins = Plugin::collection();
 		} else {
@@ -188,6 +188,7 @@ class AcoManager {
 			}
 		}
 
+		$added = [];
 		foreach ($plugins as $plugin) {
 			$aco = new AcoManager($plugin['name']);
 			$controllerDir = str_replace('/', DS, $plugin['path'] . '/src/Controller/');
@@ -205,20 +206,78 @@ class AcoManager {
 						$path = str_replace_once($plugin['name'] . '/', '', $path);
 						$path = str_replace_last('Controller', '', $path);
 						$path = str_replace_once('Controller/', '', $path);
-						
+
 						foreach ($methods as $method) {
 							// skip protected or private methods
-							if (str_starts_with($method, '_')) {
-								continue;
+							if (!str_starts_with($method, '_')) {
+								$aco->add("{$path}/{$method}");
+								$added[] = "{$plugin['name']}/{$path}/{$method}";
 							}
-							$aco->add("{$path}/{$method}");
 						}
 					}
 				}
 			}
 		}
 
+		if ($sync) {
+			$aco->Acos->recover();
+			$existingPaths = static::paths($for);
+			foreach ($existingPaths as $exists) {
+				if (!in_array($exists, $added)) {
+					$aco->remove($exists);
+				}
+			}
+		}
+
 		return true;
+	}
+
+	public static function paths($for = null) {
+		if ($for !== null) {
+			try {
+				$info = Plugin::info($for);
+				$for = $info['name'];
+			} catch (\Exception $e) {
+				return [];
+			}
+		}
+
+		$cacheKey = "paths({$for})";
+		$paths = static::cache($cacheKey);
+
+		if ($paths === null) {
+			$paths = [];
+			$aco = new AcoManager('dummy');
+			$aco->loadModel('User.Acos');
+			$leafs = $aco->Acos
+				->find()
+				->select(['id'])
+				->where([
+					'Acos.id NOT IN' => $aco->Acos
+						->find()
+						->select(['parent_id'])
+						->where(['parent_id IS NOT' => null])
+				])
+				->all();
+
+			foreach ($leafs as $leaf) {
+				$path = $aco->Acos
+					->find('path', ['for' => $leaf->id])
+					->extract('alias')
+					->toArray();
+				$path = implode('/', $path);
+
+				if (
+					$for === null ||
+					($for !== null && str_starts_with($path, "{$for}/"))
+				) {
+					$paths[] = $path;
+				}
+			}
+			static::cache($cacheKey, $paths);
+		}
+
+		return $paths;
 	}
 
 /**
@@ -248,7 +307,7 @@ class AcoManager {
  * 
  * @param string $aco An ACO path to parse
  * @param bool $string Indicates if it should return a string format path (/Controller/action)
- * @return bool|array An array as described above or false if an invalid $aco was given
+ * @return bool|array|string An array as described above or false if an invalid $aco was given
  */
 	protected function _parseAco($aco, $string = true) {
 		$aco = preg_replace('/\/{2,}/', '/', trim($aco, '/'));

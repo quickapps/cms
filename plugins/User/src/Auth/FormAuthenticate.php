@@ -18,7 +18,6 @@ namespace User\Auth;
 use Cake\Auth\FormAuthenticate as CakeFormAuthenticate;
 use Cake\Network\Request;
 use Cake\Network\Response;
-use Cake\ORM\TableRegistry;
 
 /**
  * An authentication adapter for AuthComponent. Provides the ability to authenticate using POST

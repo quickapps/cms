@@ -15,6 +15,7 @@ use Cake\Event\Event;
 use Cake\ORM\Table;
 use Cake\ORM\Entity;
 use Cake\Cache\Cache;
+use User\Model\Entity\User;
 
 /**
  * Represents "permissions" database table.
@@ -38,11 +39,11 @@ class PermissionsTable extends Table {
 /**
  * Checks if the given $user has access to the given $path
  *
- * @param \User\Model\Entity\UserSession An user session
+ * @param \User\Model\Entity\User An user entity
  * @param string $path An ACO path. e.g. `/Plugin/Controller/action`
  * @return bool true if user has access to action in ACO, false otherwise
  */
-	public function check(UserSession $user, $path) {
+	public function check(User $user, $path) {
 		$acoPath = $this->Acos->node($path);
 
 		if (!$acoPath) {

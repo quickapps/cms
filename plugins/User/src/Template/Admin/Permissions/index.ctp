@@ -11,14 +11,17 @@
  */
 ?>
 
+<p><?php echo $this->element('User.index_submenu'); ?></p>
+
 <div class="row">
 	<div class="col-md-5">
-		<div id="acos-tree">
+		<div id="acos-tree" style="display:none;">
 			<?php
 				echo $this->Menu->render($tree, function ($item, $info) {
 					$options = [];
 					if (!$info['depth']) {
 						$options['templates']['child'] = '<li{{attrs}}><strong>{{content}}</strong>{{children}}</li>';
+						$options['childAttrs']['id'] = 'node-' . $item->title;
 					}
 					if (!$info['hasChildren']) {
 						$options['linkAttrs']['class'] = 'leaf-aco';
@@ -30,11 +33,41 @@
 		</div>
 	</div>
 
-	<div class="col-md-7 permissions-table">
+	<div class="col-md-7 permissions-table"></div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<hr />
+		<strong><?php echo __d('user', 'Maintenance Tasks'); ?></strong>
+		<em class="help-block">
+			<?php
+				echo $this->Html->link(__d('user', 'Update Tree'), [
+					'plugin' => 'User',
+					'controller' => 'permissions',
+					'action' => 'update'
+				], ['class' => 'btn btn-success btn-sm']);
+			?>
+			<span><?php echo __d('user', 'Adds any missing entry to the tree'); ?></span>
+		</em>
+		<em class="help-block">
+			<?php
+				echo $this->Html->link(__d('user', 'Synchronize'), [
+					'plugin' => 'User',
+					'controller' => 'permissions',
+					'action' => 'update',
+					'sync' => 1,
+				], ['class' => 'btn btn-success btn-sm']);
+			?>
+			<span><?php echo __d('user', 'Adds any missing entry to the tree, and removes invalid ones.'); ?></span>
+		</em>
 	</div>
 </div>
 
-<script>var baseURL = '<?php echo $this->Url->build(['plugin' => 'User', 'controller' => 'permissions', 'action' => 'aco'], true); ?>/';</script>
+<script>
+	var baseURL = '<?php echo $this->Url->build(['plugin' => 'User', 'controller' => 'permissions', 'action' => 'aco'], true); ?>/';
+	var expandPlugin = '<?php echo !empty($this->request->query['expand']) ? $this->request->query['expand'] : ''; ?>';
+</script>
 <?php echo $this->Html->script('User.jstree.min.js'); ?>
 <?php echo $this->Html->css('User.jstree-themes/default/style.min.css'); ?>
 <?php echo $this->Html->css('User.acos.tree.css'); ?>

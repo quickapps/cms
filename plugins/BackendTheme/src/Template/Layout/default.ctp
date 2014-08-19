@@ -42,7 +42,7 @@
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu" role="menu">
-								<li><?php echo $this->Html->link(__d('backend_theme', 'My account'), ['plugin' => 'User', 'controller' => 'me', 'action' => 'index', 'prefix' => false]); ?></li>
+								<li><?php echo $this->Html->link(__d('backend_theme', 'My account'), ['plugin' => 'User', 'controller' => 'gateway', 'action' => 'profile', 'prefix' => false]); ?></li>
 								<li><?php echo $this->Html->link(__d('backend_theme', 'Visit website'), '/'); ?></li>
 								<li class="divider"></li>
 								<li><?php echo $this->Html->link(__d('backend_theme', 'Sign out'), '/logout'); ?></li>

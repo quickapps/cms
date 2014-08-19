@@ -25,6 +25,14 @@ $(document).ready(function () {
 			
 		})
 		.jstree();
+
+	if (expandPlugin && $('#node-' + expandPlugin)) {
+		$('#acos-tree')
+			.jstree(true)
+			.open_node('node-' + expandPlugin);
+	}
+
+	$('#acos-tree').show();
 });
 
 function savePermissions(aco_id) {

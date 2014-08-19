@@ -14,6 +14,7 @@ namespace User\Controller;
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\Event\Event;
 use User\Controller\AppController;
+use Locale\Utility\LocaleToolbox;
 
 /**
  * Gateway manager controller.
@@ -28,8 +29,8 @@ class GatewayController extends AppController {
  * @param \Cake\Event\Event $event
  * @return void
  */
-	public function beforeFilter (Event $event) {
-		$this->Auth->allow(['login', 'logout', 'unauthorized']);
+	public function beforeFilter(Event $event) {
+		$this->Auth->allow(['login', 'logout', 'unauthorized', 'forgot']);
 	}
 
 /**
@@ -61,6 +62,38 @@ class GatewayController extends AppController {
  */
 	public function logout() {
 		return $this->redirect($this->Auth->logout());
+	}
+
+/**
+ * Starts the password recovery process.
+ *
+ * @return void
+ */
+	public function forgot() {
+	}
+
+/**
+ * Renders user's profile form.
+ *
+ * @return void
+ */
+	public function profile() {
+		$this->loadModel('User.Users');
+		$user = $this->Users->get(user()->id);
+		$languages = LocaleToolbox::languagesList();
+
+		if ($this->request->data) {
+			$user->accessible(['id', 'username', 'roles', 'status'], false);
+			$user = $this->Users->patchEntity($user, $this->request->data);
+			if ($this->Users->save($user)) {
+				$this->Flash->success(__d('user', 'User information successfully updated!'), ['key' => 'user_profile']);
+				$this->redirect($this->referer());
+			} else {
+				$this->Flash->danger(__d('user', 'User information could not be saved, please check your information.'), ['key' => 'user_profile']);
+			}
+		}
+
+		$this->set(compact('user', 'languages'));
 	}
 
 /**

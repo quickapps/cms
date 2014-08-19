@@ -14,12 +14,30 @@ namespace User\Model\Entity;
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
+use QuickApps\Core\StaticCacheTrait;
 
 /**
  * Represents single "user" in "users" database table.
  *
  */
 class User extends Entity {
+
+	use StaticCacheTrait;
+
+/**
+ * Verifies this user can access the given ACO.
+ * 
+ * @param string $aco An ACO path. e.g. `Plugin/Prefix/Controller/action`
+ * @return bool True if user can access ACO, false otherwise
+ */
+	public function can($aco) {
+		$cache = static::cache("can({$aco})");
+		if ($cache === null) {
+			$cache = TableRegistry::get('User.Permissions')->check($this, $aco);
+			static::cache("can({$aco})", $cache);
+		}
+		return $cache;
+	}
 
 /**
  * Gets user avatar image's URL.

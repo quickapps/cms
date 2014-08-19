@@ -13,6 +13,7 @@ namespace User\Controller\Admin;
 
 use QuickApps\Core\Plugin;
 use User\Controller\AppController;
+use User\Utility\AcoManager;
 
 /**
  * Permissions manager controller.
@@ -64,6 +65,23 @@ class PermissionsController extends AppController {
 
 		$roles = $this->Acos->Roles->find('list');
 		$this->set(compact('aco', 'roles'));
+	}
+
+/**
+ * Analyzes each plugin and adds any missing ACO path to the tree. It won't
+ * remove any invalid ACO unless 'sync' GET parameter is present in URL.
+ *
+ * @return void Redirects to previous page
+ */
+	public function update() {
+		$sync = !empty($this->request->query['sync']) ? true : false;
+		if (AcoManager::buildAcos(null, $sync)) {
+			$this->Flash->success(__d('user', 'Permissions tree was successfully updated!'));
+		} else {
+			$this->Flash->danger(__d('user', 'Some errors occur while updating permissions tree.'));
+		}
+
+		$this->redirect($this->referer());
 	}
 
 }
