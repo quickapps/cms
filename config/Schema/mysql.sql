@@ -363,7 +363,7 @@ CREATE TABLE IF NOT EXISTS `nodes` (
   `promote` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Show in front page?',
   `sticky` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Show at top of lists',
   `comment_status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '0=closed, 1=open, 2=readonly',
-  `language` char(3) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `language` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `status` tinyint(1) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
@@ -413,7 +413,7 @@ CREATE TABLE IF NOT EXISTS `options` (
   `autoload` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1: true (autoload); 0:false',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=13 ;
 
 INSERT INTO `options` (`id`, `name`, `value`, `autoload`) VALUES
 (1, 'front_theme', 'FrontendTheme', 1),
@@ -422,7 +422,12 @@ INSERT INTO `options` (`id`, `name`, `value`, `autoload`) VALUES
 (4, 'site_slogan', 'Open Source CMS built on CakePHP 3.0', 1),
 (5, 'back_theme', 'BackendTheme', 1),
 (6, 'site_title', 'My QuickApps CMS Site', 1),
-(7, 'url_locale_prefix', '1', 1);
+(7, 'url_locale_prefix', '1', 1),
+(8, 'site_email', 'demo@email.com', 0),
+(9, 'site_maintenance_message', 'We sincerely apologize for the inconvenience.<br/>Our site is currently undergoing scheduled maintenance and upgrades, but will return shortly.<br/>Thanks you for your patience.', 0),
+(10, 'site_maintenance_ip', NULL, 0),
+(11, 'site_nodes_home', '5', 1),
+(12, 'site_maintenance', '0', 1);
 
 CREATE TABLE IF NOT EXISTS `permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -516,7 +521,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `web` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `locale` varchar(5) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `timezone` int(50) DEFAULT NULL,
   `code` varchar(200) COLLATE utf8_unicode_ci NOT NULL COMMENT 'random unique code, used for pass recovery',
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `last_login` datetime NOT NULL,
@@ -525,8 +529,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `username` (`username`,`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
 
-INSERT INTO `users` (`id`, `name`, `username`, `password`, `email`, `web`, `locale`, `timezone`, `code`, `status`, `last_login`, `created`) VALUES
-(1, 'QuickApps CMS', 'admin', '$2y$10$EVI2DYmtDEGAqD0s9TbjL.wgbpKlSjLjeH70gXwKRhi6g5DpkR/Be', 'chris@quickapps.es', 'http://quickapps.es', 'en-us', NULL, '', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `users` (`id`, `name`, `username`, `password`, `email`, `web`, `locale`, `code`, `status`, `last_login`, `created`) VALUES
+(1, 'QuickApps CMS', 'admin', '$2y$10$EVI2DYmtDEGAqD0s9TbjL.wgbpKlSjLjeH70gXwKRhi6g5DpkR/Be', 'chris@quickapps.es', 'http://quickapps.es', 'en-us', '', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 CREATE TABLE IF NOT EXISTS `users_roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

@@ -9,7 +9,7 @@ CREATE TABLE `nodes` (
 `promote` BOOLEAN NOT NULL DEFAULT 0 COMMENT 'Show in front page?',
 `sticky` BOOLEAN NOT NULL DEFAULT 0 COMMENT 'Show at top of lists',
 `comment_status` INTEGER(2) NOT NULL DEFAULT 0 COMMENT '0=closed, 1=open, 2=readonly',
-`language` CHAR(3) DEFAULT NULL,
+`language` CHAR(10) DEFAULT NULL,
 `status` BOOLEAN NOT NULL,
 `created` DATETIME NOT NULL,
 `modified` DATETIME NOT NULL,

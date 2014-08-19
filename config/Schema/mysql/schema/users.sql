@@ -6,7 +6,6 @@ CREATE TABLE `users` (
 `email` VARCHAR(100) NOT NULL,
 `web` VARCHAR(200) DEFAULT NULL,
 `locale` VARCHAR(5) DEFAULT NULL,
-`timezone` INTEGER(50) DEFAULT NULL,
 `code` VARCHAR(200) NOT NULL COMMENT 'random unique code, used for pass recovery',
 `status` BOOLEAN NOT NULL DEFAULT 1,
 `last_login` DATETIME NOT NULL,

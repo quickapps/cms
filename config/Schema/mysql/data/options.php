@@ -48,4 +48,39 @@
     'value' => '1',
     'autoload' => true,
   ),
+  7 => 
+  array (
+    'id' => 8,
+    'name' => 'site_email',
+    'value' => 'demo@email.com',
+    'autoload' => false,
+  ),
+  8 => 
+  array (
+    'id' => 9,
+    'name' => 'site_maintenance_message',
+    'value' => 'We sincerely apologize for the inconvenience.<br/>Our site is currently undergoing scheduled maintenance and upgrades, but will return shortly.<br/>Thanks you for your patience.',
+    'autoload' => false,
+  ),
+  9 => 
+  array (
+    'id' => 10,
+    'name' => 'site_maintenance_ip',
+    'value' => NULL,
+    'autoload' => false,
+  ),
+  10 => 
+  array (
+    'id' => 11,
+    'name' => 'site_nodes_home',
+    'value' => '5',
+    'autoload' => true,
+  ),
+  11 => 
+  array (
+    'id' => 12,
+    'name' => 'site_maintenance',
+    'value' => '0',
+    'autoload' => true,
+  ),
 );
