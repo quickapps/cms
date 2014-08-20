@@ -37,7 +37,7 @@ class TermsTable extends Table {
 			'dependent' => true,
 		]);
 		$this->addBehavior('Timestamp');
-		$this->addBehavior('System.Sluggable', ['label' => 'name', 'on' => 'both']);
+		$this->addBehavior('Sluggable', ['label' => 'name', 'on' => 'both']);
 	}
 
 /**

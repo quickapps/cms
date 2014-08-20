@@ -40,7 +40,7 @@ class MenusTable extends Table {
 			'sort' => ['MenuLinks.lft' => 'ASC'],
 		]);
 		$this->_setHasOne();
-		$this->addBehavior('System.Sluggable');
+		$this->addBehavior('Sluggable');
 	}
 
 /**

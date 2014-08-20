@@ -27,7 +27,7 @@ class RolesTable extends Table {
  * @return void
  */
 	public function initialize(array $config) {
-		$this->addBehavior('System.Sluggable', ['label' => 'name']);
+		$this->addBehavior('Sluggable', ['label' => 'name']);
 	}
 
 /**

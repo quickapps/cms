@@ -84,7 +84,7 @@ class NodesTable extends Table {
 
 		$this->addBehavior('Timestamp');
 		$this->addBehavior('Comment.Commentable');
-		$this->addBehavior('System.Sluggable');
+		$this->addBehavior('Sluggable');
 		$this->addBehavior('Field.Fieldable', ['polymorphic_table_alias' => 'node_type_slug']);
 		$this->addBehavior('Search.Searchable', [
 			'fields' => function ($node) {
