@@ -75,7 +75,7 @@ class HtmlHelper extends CakeHtmlHelper {
  *
  * Other options available are:
  *
- * - `icon`: True to include favicon metatag. Defaults to true.
+ * - `icon`: True to include favicon meta-tag. Defaults to true.
  * - `prepend`: Any additional HTML code you need to prepend to the result.
  * - `append`: Any additional HTML code you need to append to the result.
  * 

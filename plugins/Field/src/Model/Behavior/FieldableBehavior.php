@@ -28,13 +28,13 @@ use Field\Utility\FieldCollection;
 use QuickApps\Core\HookTrait;
 
 /**
- * Fieldable Behavior
+ * Fieldable Behavior.
  *
  * Allows additional fields to be attached to Tables. Any Table (Nodes, Users, etc.)
  * can use this behavior to make itself `field-able` and thus allow fields to be
  * attached to it.
  *
- * The Field API defines two primary data structures, FieldInstance and FieldValues:
+ * The Field API defines two primary data structures, FieldInstance and FieldValue:
  *
  * - FieldInstance: is a Field attached to a single Table. (Schema equivalent: column)
  * - FieldValue: is the stored data for a particular [FieldInstance, Entity]
@@ -287,7 +287,9 @@ class FieldableBehavior extends Behavior {
  *     users_<type>
  *
  * Where `<type>` value will vary depending on each Entity's `type` column value from `Users` table.
- * Using this feature allow each Entity in your table to behave like a Table by it self.
+ * Using this feature allows each Entity in your table to behave like a Table by it self. This feature
+ * is used almost exclusively by `Node` plugin, as each Node within Nodes table has a different set
+ * of fields attached depending on Node's type, that is, Node entities are polymorphic.
  *
  * @var array
  */

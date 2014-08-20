@@ -160,7 +160,7 @@ use Search\Model\Entity\SearchDataset;
  *
  * You can define custom operators for your table by using the
  * `addSearchOperator()` method. For example, you might need create a custom
- * criteria `author` which allows you to search a `Node` entity by `author name`.
+ * operator `author` which allows you to search a `Node` entity by `author name`.
  * A search-criteria using this operator may looks as follow:
  *
  *     // get all nodes containing `this phrase` and created by `JohnLocke`

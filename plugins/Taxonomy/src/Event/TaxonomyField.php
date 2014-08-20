@@ -378,12 +378,14 @@ class TaxonomyField extends FieldHandler {
  * 
  *     term:cat,dog,bird,...,term-slug
  *
- * You can provide up to 10 tags as maximum.
+ * You can provide up to 10 terms as maximum.
  *
  * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\FieldInstance $instance Instance information
- * @param array $options
- * @return void
+ * @param \Cake\ORM\Query $query The query being modified
+ * @param string $value Operator value. e.g. `cat,dog,bird`
+ * @param bool $negate Whether this operator was negated using `-`. e.g. "-term:dog"
+ * @param string $orAnd Possible values are "or" & "and"
+ * @return \Cake\ORM\Query Scoped query
  */
 	public function operatorTerm(Event $event, $query, $value, $negate, $orAnd) {
 		$slugs = explode(',', $value);
