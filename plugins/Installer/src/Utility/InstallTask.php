@@ -374,7 +374,7 @@ class InstallTask extends BaseTask {
 			return false;
 		} else {
 			list($directories, $files) = $folder->read(false, false, true);
-			if (count($directories) === 1) {
+			if (count($directories) === 1 && empty($files)) {
 				$container = new Folder($directories[0]);
 				$container->move(['to' => $to]);
 			}
