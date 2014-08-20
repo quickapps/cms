@@ -39,7 +39,6 @@ class GatewayController extends AppController {
  * @return void
  */
 	public function login() {
-		session_start();
 		$this->loadModel('User.Users');
 		$this->layout = 'login';
 
