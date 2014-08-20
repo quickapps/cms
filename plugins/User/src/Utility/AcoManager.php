@@ -178,6 +178,12 @@ class AcoManager {
  * @return bool True on success, false otherwise
  */
 	public static function buildAcos($for = null, $sync = false) {
+		if (function_exists('ini_set')) {
+			ini_set('max_execution_time', 300);
+		} elseif (function_exists('set_time_limit')) {
+			set_time_limit(300);
+		}
+
 		if ($for === null) {
 			$plugins = Plugin::collection();
 		} else {
@@ -227,6 +233,21 @@ class AcoManager {
 					$aco->remove($exists);
 				}
 			}
+			$validLeafs = $aco->Acos
+				->find()
+				->select(['id'])
+				->where(['id NOT IN' => $aco->Acos
+					->find()
+					->select(['parent_id'])
+					->where(['parent_id IS NOT' => null])
+					->all()
+					->extract('parent_id')
+					->toArray()
+				])
+				->all();
+			$aco->Acos->Permissions->deleteAll([
+				'aco_id NOT IN' => $validLeafs->extract('id')->toArray()
+			]);
 		}
 
 		return true;

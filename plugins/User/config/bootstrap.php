@@ -52,7 +52,7 @@ Cache::config('permissions', [
  */
 	function user() {
 		if (Router::getRequest()->is('userLoggedIn')) {
-			$properties = (new Session())->read('Auth.User');
+			$properties = Router::getRequest()->session()->read('Auth.User');
 			foreach ($properties['roles'] as &$role) {
 				unset($role['_joinData']);
 				$role = new Entity($role);

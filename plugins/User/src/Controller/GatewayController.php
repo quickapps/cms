@@ -39,9 +39,9 @@ class GatewayController extends AppController {
  * @return void
  */
 	public function login() {
+		session_start();
 		$this->loadModel('User.Users');
 		$this->layout = 'login';
-		$user = $this->Users->newEntity();
 
 		if ($this->request->is('post')) {
 			$user = $this->Auth->identify();
@@ -52,6 +52,8 @@ class GatewayController extends AppController {
 				$this->Flash->danger(__d('user', 'Username or password is incorrect'));
 			}
 		}
+
+		$user = $this->Users->newEntity();
 		$this->set(compact('user'));
 	}
 

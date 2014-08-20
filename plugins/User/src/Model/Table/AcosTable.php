@@ -34,6 +34,13 @@ class AcosTable extends Table {
 			'joinTable' => 'permissions',
 			'propertyName' => 'roles',
 		]);
+
+		// removes all permissions when a node is removed from the tree
+		$this->hasMany('Permissions', [
+			'className' => 'User.Permissions',
+			'propertyName' => 'permissions',
+			'dependent' => true,
+		]);
 	}
 
 /**
