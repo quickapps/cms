@@ -38,29 +38,61 @@
 
 <div class="row">
 	<div class="col-md-12">
+		<p><h2><?php echo __d('user', 'Maintenance Tasks'); ?></h2></p>
+
 		<hr />
-		<strong><?php echo __d('user', 'Maintenance Tasks'); ?></strong>
-		<em class="help-block">
+
+		<p>
 			<?php
-				echo $this->Html->link(__d('user', 'Update Tree'), [
+				echo $this->Html->link('', [
 					'plugin' => 'User',
 					'controller' => 'permissions',
 					'action' => 'update'
-				], ['class' => 'btn btn-success btn-sm']);
+				], ['class' => 'btn btn-success btn-sm glyphicon glyphicon-refresh']);
 			?>
-			<span><?php echo __d('user', 'Adds any missing entry to the tree'); ?></span>
-		</em>
-		<em class="help-block">
+			<?php echo __d('user', '<strong>Update Tree</strong>: Adds any missing entry to the tree'); ?>
+		</p>
+
+		<p>
 			<?php
-				echo $this->Html->link(__d('user', 'Synchronize'), [
+				echo $this->Html->link('', [
 					'plugin' => 'User',
 					'controller' => 'permissions',
 					'action' => 'update',
 					'sync' => 1,
-				], ['class' => 'btn btn-success btn-sm']);
+				], ['class' => 'btn btn-success btn-sm glyphicon glyphicon-sort-by-attributes']);
 			?>
-			<span><?php echo __d('user', 'Adds any missing entry to the tree, and removes invalid ones.'); ?></span>
-		</em>
+			<?php echo __d('user', '<strong>Synchronize</strong>: Adds any missing entry to the tree, and removes invalid ones.'); ?>
+		</p>
+
+		<p>
+			<?php
+				echo $this->Html->link('', [
+					'plugin' => 'User',
+					'controller' => 'permissions',
+					'action' => 'export',
+				], ['class' => 'btn btn-success btn-sm glyphicon glyphicon-export']);
+			?>
+			<?php echo __d('user', '<strong>Export</strong>: Backups permissions in an external file that can be imported later.'); ?>
+		</p>
+
+		<p>
+			<?php
+				echo $this->Form->create(null, [
+					'url' => [
+						'plugin' => 'User',
+						'controller' => 'permissions',
+						'action' => 'import',
+					],
+					'type' => 'file',
+					'class' => 'form-inline',
+				]);
+			?>
+			<button class="btn btn-success btn-sm glyphicon glyphicon-import" type="submit"></button>
+			<?php echo __d('user', '<strong>Import</strong>: Creates permissions using a backup file.'); ?>
+			<?php echo $this->Form->input('json', ['type' => 'file', 'label' => false, 'class' => 'input-sm']); ?>
+			<?php echo $this->Form->end(); ?>
+		</p>
 	</div>
 </div>
 

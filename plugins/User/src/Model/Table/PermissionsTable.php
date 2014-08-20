@@ -34,6 +34,10 @@ class PermissionsTable extends Table {
 			'className' => 'User.Acos',
 			'propertyName' => 'aco',
 		]);
+		$this->belongsTo('Roles', [
+			'className' => 'User.Roles',
+			'propertyName' => 'role',
+		]);
 	}
 
 /**

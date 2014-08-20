@@ -11,6 +11,7 @@
  */
 namespace User\Controller\Admin;
 
+use Cake\Utility\File;
 use QuickApps\Core\Plugin;
 use User\Controller\AppController;
 use User\Utility\AcoManager;
@@ -47,7 +48,6 @@ class PermissionsController extends AppController {
  */
 	public function aco($aco_id) {
 		$this->loadModel('User.Acos');
-		$this->loadModel('User.Permissions');
 		$aco = $this->Acos->get($aco_id, ['contain' => ['Roles']]);
 
 		if (!empty($this->request->data['roles'])) {
@@ -79,6 +79,122 @@ class PermissionsController extends AppController {
 			$this->Flash->success(__d('user', 'Permissions tree was successfully updated!'));
 		} else {
 			$this->Flash->danger(__d('user', 'Some errors occur while updating permissions tree.'));
+		}
+
+		$this->redirect($this->referer());
+	}
+
+/**
+ * Exports all permissions as a JSON file.
+ *
+ * @return void Forces JSON download
+ */
+	public function export() {
+		$this->loadModel('User.Acos');
+		$out = [];
+		$permissions = $this->Acos->Permissions
+			->find()
+			->contain(['Acos', 'Roles'])
+			->all();
+
+		foreach ($permissions as $permission) {
+			if (!isset($out[$permission->role->slug])) {
+				$out[$permission->role->slug] = [];
+			}
+			$out[$permission->role->slug][] = implode('/', $this->Acos
+				->find('path', ['for' => $permission->aco->id])
+				->extract('alias')
+				->toArray());
+		}
+
+		$this->response->body(json_encode($out, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+		$this->response->type('json');
+		$this->response->download('permissions_' . date('Y-m-d@H:i:s-\U\TC', time()) . '.json');
+		return $this->response;
+	}
+
+/**
+ * Imports the given permissions given as a JSON file.
+ *
+ * @return void Redirects to previous page
+ */
+	public function import() {
+		if (!empty($this->request->data['json'])) {
+			$this->loadModel('User.Acos');
+			$json = $this->request->data['json'];
+			$dst = TMP . $json['name'];
+			if (file_exists($dst)) {
+				$file = new File($dst);
+				$file->delete();
+			}
+
+			if (!move_uploaded_file($json['tmp_name'], $dst)) {
+				$this->Flash->danger(__d('user', 'File could not be uploaded, please check write permissions on /tmp directory.'));
+			} else {
+				$file = new File($dst);
+				$info = json_decode($file->read(), true);
+				$added = [];
+				$error = false;
+
+				if (is_array($info) && !empty($info)) {
+					foreach ($info as $role => $paths) {
+						if (!is_string($role)) {
+							$error = true;
+							$this->Flash->danger(__d('user', 'Given file seems to be corrupt.'));
+							break;
+						}
+						$role = $this->Acos->Roles
+							->find()
+							->where(['slug' => $role])
+							->limit(1)
+							->first();
+
+						if (!$role) {
+							continue;
+						}
+
+						if (is_array($paths)) {
+							foreach ($paths as $path) {
+								$nodes = $this->Acos->node($path);
+
+								if ($nodes) {
+									$leaf = $nodes->first();
+									$exists = $this->Acos->Permissions
+										->exists([
+											'aco_id' => $leaf->id,
+											'role_id' => $role->id
+										]);
+									if (!$exists) {
+										$newPermission =  $this->Acos->Permissions->newEntity([
+											'aco_id' => $leaf->id,
+											'role_id' => $role->id
+										]);
+										if ($this->Acos->Permissions->save($newPermission)) {
+											$added[] = "<strong>{$role->name}</strong>: {$path}";
+										}
+									}
+								}
+							}
+						} else {
+							$error = true;
+							$this->Flash->danger(__d('user', 'Given file seems to be corrupt.'));
+							break;
+						}
+					}
+				} else {
+					$error = true;
+					$this->Flash->danger(__d('user', 'Invalid file given.'));
+				}
+			}
+
+			if (!$error) {
+				if (!empty($added)) {
+					$imported = '<br />' . implode('<br />', $added);
+					$this->Flash->success(__d('user', 'The following entries were imported: {0}', $imported));
+				} else {
+					$this->Flash->success(__d('user', 'Success, but nothing was imported'));
+				}
+			}
 		}
 
 		$this->redirect($this->referer());
