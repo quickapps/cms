@@ -36,7 +36,7 @@ class FormAuthenticate extends CakeFormAuthenticate {
 	public function authenticate(Request $request, Response $response) {
 		$result = parent::authenticate($request, $response);
 		if (!$result) {
-			// try using email
+			// fail? try using "username" as "email"
 			$this->_config['fields']['username'] = 'email';
 			if (!empty($request->data['username'])) {
 				$request->data['email'] = $request->data['username'];

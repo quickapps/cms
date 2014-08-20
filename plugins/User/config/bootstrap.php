@@ -51,7 +51,8 @@ Cache::config('permissions', [
  * @return \User\Model\Entity\UserSession
  */
 	function user() {
-		if (Router::getRequest()->is('userLoggedIn')) {
+		$request = Router::getRequest();
+		if ($request && $request->is('userLoggedIn')) {
 			$properties = Router::getRequest()->session()->read('Auth.User');
 			foreach ($properties['roles'] as &$role) {
 				unset($role['_joinData']);

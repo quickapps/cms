@@ -16,10 +16,11 @@ use Cake\Network\Request;
  *
  * The following built-in detectors returns TRUE:
  *
- * - `home`: When the front of the site is displayed.
+ * - `home`: When the front page (a.k.a. home page) of the site is displayed.
  * - `dashboard`: When the dashboard section is being displayed.
- * - `admin`: When the dashboard or administration section is being displayed.
- * - `localized`: When current request's URL is language-prefixed. e.g. "/es/..."
+ * - `admin`: When the dashboard or administration section is being displayed,
+ *    that is anything within `/admin/*`
+ * - `localized`: When current request's URL is language-prefixed. e.g. "/en-us/..."
  * - `userLoggedIn`: When user has logged in.
  * - `userAdmin`: When user has logged in and belongs to the "Administrator" group.
  */
