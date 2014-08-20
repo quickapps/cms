@@ -19,6 +19,19 @@ Router::connect('/unauthorized', [
 	'action' => 'unauthorized',
 ], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
 
+Router::connect('/user/me', [
+	'plugin' => 'User',
+	'controller' => 'gateway',
+	'action' => 'me',
+], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
+
+Router::connect('/admin/user/me', [
+	'plugin' => 'User',
+	'controller' => 'gateway',
+	'action' => 'me',
+	'prefix' => 'admin',
+], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
+
 Router::connect('/user/profile', [
 	'plugin' => 'User',
 	'controller' => 'gateway',

@@ -74,13 +74,15 @@ class GatewayController extends AppController {
 	}
 
 /**
- * Renders user's profile form.
+ * Renders user's "my profile" form.
+ *
+ * Here is where user can change their information.
  *
  * @return void
  */
-	public function profile() {
+	public function me() {
 		$this->loadModel('User.Users');
-		$user = $this->Users->get(user()->id);
+		$user = $this->Users->get(user()->id, ['conditions' => ['status' => 1]]);
 		$languages = LocaleToolbox::languagesList();
 
 		if ($this->request->data) {
@@ -95,6 +97,16 @@ class GatewayController extends AppController {
 		}
 
 		$this->set(compact('user', 'languages'));
+	}
+
+/**
+ * Shows profile information for the given user.
+ *
+ * @return void
+ */
+	public function profile($id) {
+		$this->loadModel('User.Users');
+		$user = $this->Users->get($id, ['conditions' => ['status' => 1]]);
 	}
 
 /**
