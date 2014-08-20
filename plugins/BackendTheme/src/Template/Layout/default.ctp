@@ -43,7 +43,7 @@
 							</a>
 							<ul class="dropdown-menu" role="menu">
 								<li><?php echo $this->Html->link(__d('backend_theme', 'My account'), ['plugin' => 'User', 'controller' => 'gateway', 'action' => 'profile', 'prefix' => false]); ?></li>
-								<li><?php echo $this->Html->link(__d('backend_theme', 'Visit website'), '/'); ?></li>
+								<li><?php echo $this->Html->link(__d('backend_theme', 'Visit website'), '/', ['target' => '_blank']); ?></li>
 								<li class="divider"></li>
 								<li><?php echo $this->Html->link(__d('backend_theme', 'Sign out'), '/logout'); ?></li>
 							</ul>

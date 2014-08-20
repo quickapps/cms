@@ -24,15 +24,12 @@
 		<p>
 			A Hooktag is a QuickApps-specific code that lets you do nifty things with very little effort.
 			Hooktags can for example print current language code (i.e. "en") or call especifics plugins/themes functions.
-		</p>
-
-		<p>
-			Plugins and themes are able to define their own hooktags.
+			Plugins and themes are able to define their own hooktags. The <em>System</em> plugin provides a series of buil-in
+			hooktags as described below:
 		</p>
 
 		<hr />
 
-		Some useful built-in Hookags are:
 		<p>
 			<code>[locale OPTION/]</code>
 			<p>
@@ -40,7 +37,6 @@
 				<ul>
 					<li><strong>code</strong>: Returns language's <a href="http://www.sil.org/iso639-3/codes.asp" target="_blank">ISO 639-2 code</a> (en, es, fr, etc)</li>
 					<li><strong>name</strong>: Returns language's english name (English, Spanish, German, French, etc)</li>
-					<li><strong>native</strong>: Returns language's native name (English, Español, Deutsch, Fraçais, etc)</li>
 					<li><strong>direction</strong>: Returns direction that text is presented. <em>lft</em> (Left To Right) or <em>rtl</em> (Right to Left)</li>
 				</ul>
 			</p>
@@ -58,14 +54,7 @@
 
 		<p>
 			<code>[t]text to translate using default domain[/t]</code>
-			<p>
-				Search for translation in (in the following order, if one fails then try the next method):
-				<ul>
-					<li>active runing plugin domain.</li>
-					<li>default domain ([t domain=default]...[/t]). </li>
-					<li>translatable entries table. (see <em>Locale</em> plugin)</li>
-				</ul>
-			</p>
+			<p>Search for translation in default translation domain.</p>
 		</p>
 
 		<p>

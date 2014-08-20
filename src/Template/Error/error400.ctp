@@ -12,19 +12,24 @@
 use Cake\Core\Configure;
 
 /**
- * Represents a HTTP 400 error page.
+ * Represents a HTTP 4XX (404, etc) error page.
  *
  * This content will be embed on `Template\Layout\error.ctp` layout.
+ * Themes are allowed to define their own `error.ctp` layout.
  *
  * @author Christopher Castro <chris@quickapps.es>
  */
+	$this->layout = 'error';
 ?>
 
-<div class="alert alert-info">
-	<h3><?php echo __('Error'); ?></h3>
+<div class="alert alert-warning">
+	<h1>
+		<?php echo __('Error'); ?>
+		<br />
+		<small><?php echo __('The requested address {0} was not found on this server.', "<strong>'{$url}'</strong>"); ?></small>
+	</h1>
 	<p><?php echo $message; ?></p>
-	<p><?php echo __('The requested address {0} was not found on this server.', "<strong>'{$url}'</strong>"); ?></p>
-	<?php if (Configure::read('debug') > 0): ?>
+	<?php if (Configure::read('debug')): ?>
 		<p>&nbsp;</p>
 		<p><?php echo $this->element('exception_stack_trace'); ?></p>
 	<?php endif; ?>

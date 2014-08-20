@@ -12,21 +12,25 @@
 use Cake\Core\Configure;
 
 /**
- * Represents a HTTP 500 error page.
+ * Represents a HTTP 5XX (500, etc) error page.
  *
  * This content will be embed on `Template\Layout\error.ctp` layout.
+ * Themes are allowed to define their own `error.ctp` layout.
  *
  * @author Christopher Castro <chris@quickapps.es>
  */
+	$this->layout = 'error';
 ?>
 
 <div class="alert alert-danger">
-	<strong><?php echo __d('system', 'Error'); ?>: </strong>
-	<?php echo __d('system', 'An Internal Error Has Occurred.'); ?>
-	<p>&nbsp;</p>
-	<h2><?php echo $message; ?></h2>
+	<h1>
+		<?php echo __d('system', 'Error'); ?>
+		<br />
+		<small><?php echo __('An Internal Error Has Occurred.'); ?></small>
+	</h1>
+	<p><?php echo $message; ?></p>
+	<?php if (Configure::read('debug')): ?>
+		<p>&nbsp;</p>
+		<p><?php echo $this->element('exception_stack_trace'); ?></p>
+	<?php endif; ?>
 </div>
-
-<?php if (Configure::read('debug') > 0): ?>
-	<?php echo $this->element('exception_stack_trace'); ?>
-<?php endif; ?>
