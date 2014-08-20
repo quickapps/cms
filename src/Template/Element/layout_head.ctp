@@ -25,32 +25,31 @@
 <?php echo $this->Html->charset(); ?>
 
 <?php if (isset($icon) && $icon === true): ?>
-<?php echo $this->Html->meta('icon'); ?>
+	<?php echo $this->Html->meta('icon'); ?>
 <?php endif; ?>
 
 <?php echo $this->fetch('meta'); ?>
 <?php echo $this->fetch('css'); ?>
 <?php echo $this->fetch('script'); ?>
 
-<?php
-	$bootstrap = !isset($bootstrap) ? 'css' : $bootstrap;
-	$bootstrap = is_string($bootstrap) ? strtolower($bootstrap) : $bootstrap;
-	if ($bootstrap !== false) {
-		if (
-			(is_bool($bootstrap) && $bootstrap === true) ||
-			(is_string($bootstrap) && strpos($bootstrap, 'css') !== false)
-		) {
-			echo $this->Html->css(['System.bootstrap.css', 'System.bootstrap-theme.css']);
-		}
+<?php $bootstrap = !isset($bootstrap) ? 'css' : $bootstrap; ?>
+<?php $bootstrap = is_string($bootstrap) ? strtolower($bootstrap) : $bootstrap; ?>
 
-		if (
-			(is_bool($bootstrap) && $bootstrap === true) ||
-			(is_string($bootstrap) && strpos($bootstrap, 'js') !== false)
-		) {
-			echo $this->Html->script('System.bootstrap.js');
-		}
-	}
-?>
+<?php if ($bootstrap !== false): ?>
+	<?php if ((is_bool($bootstrap) && $bootstrap === true) || (is_string($bootstrap) && strpos($bootstrap, 'css') !== false)): ?>
+		<?php echo $this->Html->css(['System.bootstrap.css', 'System.bootstrap-theme.css']); ?>
+	<?php endif; ?>
+
+	<?php if ((is_bool($bootstrap) && $bootstrap === true) || (is_string($bootstrap) && strpos($bootstrap, 'js') !== false)): ?>
+		<?php echo $this->Html->script('System.bootstrap.js'); ?>
+	<?php endif; ?>
+
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<?php echo $this->Html->script('System.html5shiv.js'); ?>
+	<?php echo $this->Html->script('System.respond.js'); ?>
+	<![endif]-->
+<?php endif; ?>
 
 <?php if (isset($append)): ?>
 	<?php echo $append; ?>
