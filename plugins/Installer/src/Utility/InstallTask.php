@@ -20,6 +20,7 @@ use Cake\Utility\Inflector;
 use Cake\Validation\Validation;
 use Installer\Utility\BaseTask;
 use QuickApps\Core\Plugin;
+use User\Utility\AcoManager;
 
 /**
  * Represents a single install task.
@@ -316,7 +317,10 @@ class InstallTask extends BaseTask {
  * @return void
  */
 	protected function _finish() {
+		global $classLoader; // composer class loader instance
 		snapshot();
+		$classLoader->addPsr4("{$this->_pluginName}\\", normalizePath(SITE_ROOT . "/plugins/{$this->_pluginName}/src"), true);
+		AcoManager::buildAcos($this->_pluginName);
 		$this->_rollback();
 	}
 

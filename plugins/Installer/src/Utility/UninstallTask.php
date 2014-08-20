@@ -14,6 +14,7 @@ namespace Installer\Utility;
 use Cake\Utility\Folder;
 use Installer\Utility\BaseTask;
 use QuickApps\Core\Plugin;
+use User\Utility\AcoManager;
 
 /**
  * Represents a single uninstall task.
@@ -122,6 +123,7 @@ class UninstallTask extends BaseTask {
 		$folder = new Folder($info['path']);
 		$folder->delete();
 		snapshot();
+		$this->_clearAcoPaths();
 
 		if ($this->config('callbacks')) {
 			try {
@@ -133,6 +135,27 @@ class UninstallTask extends BaseTask {
 		}
 
 		return true;
+	}
+
+/**
+ * Removes all ACOs created by this plugin.
+ * 
+ * @return void
+ */
+	protected function _clearAcoPaths() {
+		$this->loadModel('User.Acos');
+		$nodes = $this->Acos
+			->find()
+			->where(['plugin' => $this->_pluginName])
+			->order(['lft' => 'ASC'])
+			->all();
+
+		foreach ($nodes as $node) {
+			$this->Acos->removeFromTree($node);
+			$this->Acos->delete($node);
+		}
+
+		AcoManager::buildAcos(null, true); // clear anything else
 	}
 
 }
