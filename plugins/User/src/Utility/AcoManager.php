@@ -148,9 +148,9 @@ class AcoManager {
 			return false;
 		}
 
-		$delete = $nodes->first();
-		$this->Acos->removeFromTree($delete);
-		$this->Acos->delete($delete);
+		$node = $nodes->first();
+		$this->Acos->removeFromTree($node);
+		$this->Acos->delete($node);
 		return true;
 	}
 
@@ -191,7 +191,7 @@ class AcoManager {
 		$added = [];
 		foreach ($plugins as $plugin) {
 			$aco = new AcoManager($plugin['name']);
-			$controllerDir = str_replace('/', DS, $plugin['path'] . '/src/Controller/');
+			$controllerDir = normalizePath("{$plugin['path']}/src/Controller/");
 			$folder = new Folder($controllerDir);
 			$controllers = $folder->findRecursive('.*Controller\.php');
 
@@ -232,6 +232,13 @@ class AcoManager {
 		return true;
 	}
 
+/**
+ * Gets a list of existing ACO paths for the given plugin, or the entire list
+ * if no plugin is given.
+ * 
+ * @param string $for Optional plugin name. e.g. `Taxonomy`
+ * @return array All registered ACO paths
+ */
 	public static function paths($for = null) {
 		if ($for !== null) {
 			try {
@@ -247,7 +254,7 @@ class AcoManager {
 
 		if ($paths === null) {
 			$paths = [];
-			$aco = new AcoManager('dummy');
+			$aco = new AcoManager('__dummy__');
 			$aco->loadModel('User.Acos');
 			$leafs = $aco->Acos
 				->find()
