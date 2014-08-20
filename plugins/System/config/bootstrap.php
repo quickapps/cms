@@ -9,7 +9,6 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-
 use Cake\Network\Request;
 
 /**

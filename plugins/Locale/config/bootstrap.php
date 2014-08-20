@@ -9,7 +9,6 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Locale\Config;
 
 /**
  * Language in which QuickApps CMS's core was written. This value

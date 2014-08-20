@@ -10,21 +10,14 @@
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
 use Cake\Cache\Cache;
-use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
 use Cake\Event\EventManager;
-use Cake\I18n\I18n;
-use Cake\Network\Session;
-use Cake\Routing\Router;
 use Cake\Utility\Debugger;
 use Cake\Utility\Folder;
-use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
-use User\Model\Entity\UserSession;
-use User\Utility\AcoManager;
 use QuickApps\Core\Plugin;
 
 /**
@@ -127,6 +120,7 @@ use QuickApps\Core\Plugin;
 			foreach ($languages as $language) {
 				$snapshot['languages'][$language->code] = [
 					'name' => $language->name,
+					'code' => $language->code,
 					'native' => $language->native,
 					'direction' => $language->direction,
 					'icon' => $language->icon,
@@ -252,37 +246,6 @@ use QuickApps\Core\Plugin;
 			return Configure::read("QuickApps.{$key}");
 		}
 		return Configure::read('QuickApps');
-	}
-
-/**
- * Gets current user (logged in or not) as an entity.
- *
- * @return \User\Model\Entity\UserSession
- */
-	function user() {
-		if (Router::getRequest()->is('userLoggedIn')) {
-			$properties = (new Session())->read('Auth.User');
-			foreach ($properties['roles'] as &$role) {
-				unset($role['_joinData']);
-				$role = new Entity($role);
-			}
-			$properties['roles'][] = TableRegistry::get('Roles')->get(ROLE_ID_AUTHENTICATED);
-		} else {
-			$properties = [
-				'id' => null,
-				'name' => __d('user', 'Anonymous'),
-				'username' => __d('user', 'anonymous'),
-				'email' => __d('user', '(no email)'),
-				'locale' => I18n::defaultLocale(),
-				'roles' => [TableRegistry::get('Roles')->get(ROLE_ID_ANONYMOUS)],
-			];
-		}
-
-		static $user = null;
-		if ($user === null) {
-			$user = new UserSession($properties);
-		}
-		return $user;
 	}
 
 /**

@@ -20,8 +20,6 @@ require __DIR__ . '/paths.php';
  * Use composer to load the autoloader.
  */
 $classLoader = require VENDOR_INCLUDE_PATH . 'autoload.php';
-$classLoader->addPsr4('Cake\\', CAKE);
-$classLoader->addPsr4('QuickApps\\', APP);
 
 /**
  * Load QuickApps basic functionality.
