@@ -13,6 +13,8 @@ namespace Hooktag;
 
 use Cake\Event\Event;
 use Cake\Event\EventListener;
+use Cake\I18n\I18n;
+use Cake\Routing\Router;
 
 /**
  * Main Hook Listener for System plugin.
@@ -21,7 +23,7 @@ use Cake\Event\EventListener;
 class SystemHooktag implements EventListener {
 
 /**
- * Returns a list of hooks this Hook Listener is implementing. When the class
+ * Returns a list of events this Event Listener is implementing. When the class
  * is registered in an event manager, each individual method will be associated
  * with the respective event.
  *
@@ -77,7 +79,7 @@ class SystemHooktag implements EventListener {
 		if (!empty($atts['domain'])) {
 			return __d($atts['domain'], $content);
 		} else {
-			return __d('default', $content);
+			return __($content);
 		}
 	}
 
@@ -95,7 +97,12 @@ class SystemHooktag implements EventListener {
  * @return string
  */
 	public function hooktagURL(Event $event, array $atts = [], $content, $tag) {
-		return \Cake\Routing\Router::url($content, true);
+		try {
+			$url = Router::url($content, true);
+		} catch(\Exception $e) {
+			$url = '';
+		}
+		return $url;
 	}
 
 /**
@@ -128,7 +135,6 @@ class SystemHooktag implements EventListener {
  *
  *     [locale code /]
  *     [locale name /]
- *     [locale native /]
  *     [locale direction /]
  *
  * @param \Cake\Event\Event $event The event that was fired
@@ -141,6 +147,12 @@ class SystemHooktag implements EventListener {
  */
 	public function hooktagLocale(Event $event, array $atts = [], $content, $tag) {
 		$option = array_keys((array)$atts);
+		$locale = I18n::defaultLocale();
+		$languages = quickapps('languages');
+
+		if (!isset($languages[$locale])) {
+			return '';
+		}
 
 		if (empty($option)) {
 			$option = 'code';
@@ -148,23 +160,20 @@ class SystemHooktag implements EventListener {
 			$option = $option[0];
 		}
 
-		// TODO: locale hooktag
-		switch ($option) {
-			case 'code':
-				return '';
-			break;
+		if ($info = $languages[$locale]) {
+			switch ($option) {
+				case 'code':
+					return $info['code'];
+				break;
 
-			case 'name':
-				return '';
-			break;
+				case 'name':
+					return $info['name'];
+				break;
 
-			case 'native':
-				return '';
-			break;
-
-			case 'direction':
-				return '';
-			break;
+				case 'direction':
+					return $info['direction'];
+				break;
+			}
 		}
 
 		return '';
