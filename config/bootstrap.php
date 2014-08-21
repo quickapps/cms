@@ -195,24 +195,10 @@ foreach (Plugin::scan() as $plugin => $path) {
 			'ignoreMissing' => true,
 		]);
 
-		foreach (Plugin::info($plugin)['events']['hooks'] as $className => $eventInfo) {
+		foreach (Plugin::info($plugin)['eventListeners'] as $fullClassName => $eventInfo) {
 			$classLoader->addPsr4($eventInfo['namespace'], $eventInfo['path'], true);
-			if (class_exists($className)) {
-				$EventManager->attach(new $className);
-			}
-		}
-
-		foreach (Plugin::info($plugin)['events']['hooktags'] as $className => $eventInfo) {
-			$classLoader->addPsr4($eventInfo['namespace'], $eventInfo['path'], true);
-			if (class_exists($className)) {
-				$EventManager->attach(new $className);
-			}
-		}
-
-		foreach (Plugin::info($plugin)['events']['fields'] as $className => $eventInfo) {
-			$classLoader->addPsr4($eventInfo['namespace'], $eventInfo['path'], true);
-			if (class_exists($className)) {
-				$EventManager->attach(new $className);
+			if (class_exists($fullClassName)) {
+				$EventManager->attach(new $fullClassName);
 			}
 		}
 	}

@@ -28,9 +28,10 @@ use QuickApps\View\ViewModeTrait;
  *   - field_instance_id: ID of field instance (`field_instances` table) attached to Table.
  *   - table_alias: Name of the table this field is attached to. e.g: `users`.
  *   - description: Something about this field: e.g.: `Please enter your name`.
- *   - required: 1|0
+ *   - required: True if required, false otherwise
  *   - settings: Array of additional information handled by this particular field. ex: `max_len`, `min_len`, etc
  *   - handler: Name of the `Listener Class` a.k.a. `Field Handler`. ex: `Field\Text`
+ *   - errors: Validation error messages
  */
 class Field extends Entity {
 

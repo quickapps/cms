@@ -9,7 +9,7 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Hook;
+namespace Field\Event;
 
 use Cake\Collection\Collection;
 use Cake\Core\Configure;

@@ -153,32 +153,17 @@ use QuickApps\Core\Plugin;
 			$isCore = strpos($pluginPath, $corePath) !== false;
 			$isTheme = str_ends_with($plugin->name, 'Theme');
 			$status = $isCore ? true : $plugin->status;
-			$events = [
-				'hooks' => [],
-				'hooktags' => [],
-				'fields' => [],
-			];
+			$eventListeners = [];
 
 			if (is_dir($eventsPath)) {
 				$Folder = new Folder($eventsPath);
 				foreach ($Folder->read(false, false, true)[1] as $classFile) {
 					$className = basename(preg_replace('/\.php$/', '', $classFile));
-					if (str_ends_with($className, 'Field')) {
-						$events['fields']['Field\\' . $className] = [
-							'namespace' => 'Field\\',
-							'path' => dirname($classFile),
-						];
-					} elseif (str_ends_with($className, 'Hook')) {
-						$events['hooks']['Hook\\' . $className] = [
-							'namespace' => 'Hook\\',
-							'path' => dirname($classFile),
-						];
-					} elseif (str_ends_with($className, 'Hooktag')) {
-						$events['hooktags']['Hooktag\\' . $className] = [
-							'namespace' => 'Hooktag\\',
-							'path' => dirname($classFile),
-						];
-					}
+					$namespace = "{$plugin->name}\Event\\";
+					$eventListeners[$namespace . $className] = [
+						'namespace' => $namespace,
+						'path' => dirname($classFile),
+					];
 				}
 			}
 
@@ -195,7 +180,7 @@ use QuickApps\Core\Plugin;
 				'isCore' => $isCore,
 				'hasHelp' => file_exists($pluginPath . '/src/Template/Element/Help/help.ctp'),
 				'hasSettings' => file_exists($pluginPath . '/src/Template/Element/settings.ctp'),
-				'events' => $events,
+				'eventListeners' => $eventListeners,
 				'status' => $status,
 				'path' => $pluginPath,
 			];

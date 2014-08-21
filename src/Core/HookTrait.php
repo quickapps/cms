@@ -23,7 +23,7 @@ use QuickApps\Core\Hook;
 trait HookTrait {
 
 /**
- * Retrieve the number of times a hook is fired, or the complete list
+ * Retrieve the number of times an event was fired, or the complete list
  * of events that were fired.
  *
  * @param string $eventName The name of the event, if null returns the entire list
