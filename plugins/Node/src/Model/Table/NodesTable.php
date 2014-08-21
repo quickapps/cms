@@ -141,13 +141,11 @@ class NodesTable extends Table {
 		if (!$entity->isNew()) {
 			$prev = TableRegistry::get('Node.Nodes')->get($entity->id);
 			$hash = $this->_calculateHash($prev);
-			$exists = $this->NodeRevisions->find()
-				->select(['id'])
-				->where([
+			$exists = $this->NodeRevisions
+				->exists([
 					'NodeRevisions.node_id' => $entity->id,
 					'NodeRevisions.hash' => $hash,
-				])
-				->first();
+				]);
 
 			if (!$exists) {
 				$revision = $this->NodeRevisions->newEntity([

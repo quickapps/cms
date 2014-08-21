@@ -726,11 +726,17 @@ class FieldableBehavior extends Behavior {
 				return $fieldEvent->result;
 			}
 		}
-		
+
 		if ($entity->errors()) {
 			foreach ($entity->errors() as $fieldName => $errors) {
 				foreach ($entity->_fields as &$field) {
 					if (":{$field->name}" == $fieldName) {
+						$_post = $entity->get(":{$field->name}");
+						if (is_array($_post)) {
+							$field->set('extra', $_post);
+						} elseif(is_string($_post)) {
+							$field->set('value', $_post);
+						}
 						$field->metadata->set('errors', (array)$errors);
 					}
 				}

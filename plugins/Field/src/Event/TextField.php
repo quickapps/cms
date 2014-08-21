@@ -88,7 +88,7 @@ class TextField extends FieldHandler {
 	public function entityBeforeValidate(Event $event, $entity, $field, $options, $validator) {
 		if ($field->metadata->required) {
 			$validator
-				->allowEmpty(":{$field->name}", false, __d('field', 'Field required.'))
+				->notEmpty(":{$field->name}", __d('field', 'Field required.'))
 				->add(":{$field->name}", 'validateRequired', [
 					'rule' => function ($value, $context) use ($field) {
 						if ($field->metadata->settings['type'] === 'textarea') {
@@ -100,8 +100,7 @@ class TextField extends FieldHandler {
 					'message' => __d('field', 'Field required.'),
 				]);
 		} else {
-			$validator
-				->allowEmpty(":{$field->name}", true);
+			$validator->allowEmpty(":{$field->name}", true);
 		}
 
 		if (
@@ -128,7 +127,7 @@ class TextField extends FieldHandler {
 			$validator
 				->add(":{$field->name}", 'validateReg', [
 					'rule' => function ($value, $context) use ($field) {
-						return preg_match($field->metadata->settings['validation_rule'], $value);
+						return preg_match($field->metadata->settings['validation_rule'], $value) === 1;
 					},
 					'message' => $message,
 				]);
