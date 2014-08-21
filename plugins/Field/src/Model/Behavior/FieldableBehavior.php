@@ -101,6 +101,7 @@ use QuickApps\Core\HookTrait;
  *        View Mode. Information is stored as `view-mode-name` => `rendering-information`.
  *     - `handler`: class name of the Field Handler under `Field` namespace.
  *        e.g.: `TextField` (namespaced name: `Field\TextField`)
+ *     - `errors`: Array of validation error messages, only on edit mode.
  *
  * **Notes:**
  *
@@ -687,8 +688,6 @@ class FieldableBehavior extends Behavior {
 				return $fieldEvent->result;
 			}
 		}
-
-		$this->attachEntityFields($entity);
 	}
 
 /**
@@ -727,8 +726,16 @@ class FieldableBehavior extends Behavior {
 				return $fieldEvent->result;
 			}
 		}
-
-		$this->attachEntityFields($entity);
+		
+		if ($entity->errors()) {
+			foreach ($entity->errors() as $fieldName => $errors) {
+				foreach ($entity->_fields as &$field) {
+					if (":{$field->name}" == $fieldName) {
+						$field->metadata->set('errors', (array)$errors);
+					}
+				}
+			}
+		}
 	}
 
 /**
@@ -1015,6 +1022,7 @@ class FieldableBehavior extends Behavior {
 				'settings' => $instance->settings,
 				'view_modes' => $instance->view_modes,
 				'handler' => $instance->handler,
+				'errors' => [],
 			])
 		]);
 
