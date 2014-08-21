@@ -131,25 +131,22 @@ class FieldHook implements EventListener {
  * @return \Cake\Collection\Collection A collection of fields information
  */
 	public function listFields(Event $event, $includeHidden = false) {
-		$tmp = $fields = [];
+		$fields = [];
 
-		foreach ((array)Hash::extract(quickapps('plugins'), '{s}.events.fields') 
-			as $pluginIndex => $pluginFields
-		) {
-			if (!empty($pluginFields)) {
-				$tmp = array_merge($tmp, array_keys($pluginFields));
-			}
-		}
-
-		foreach ($tmp as $k => $f) {
-			list($namespace, $fieldHandler) = namespaceSplit($f);
-			$response = array_merge(
-				['name' => null, 'description' => null, 'hidden' => false, 'handler' => $fieldHandler],
-				(array)$this->hook("Field.{$fieldHandler}.Instance.info")->result
-			);
-
-			if (!$response['hidden'] || $includeHidden) {
-				$fields[] = $response;
+		foreach (listeners() as $listener) {
+			if (str_starts_with($listener, 'Field.') && str_ends_with($listener, '.Instance.info')) {
+				$fieldHandler = explode('.', $listener)[1];
+				$response = array_merge([
+						'name' => null,
+						'description' => null,
+						'hidden' => false,
+						'handler' => $fieldHandler,
+					],
+					(array)$this->hook($listener)->result
+				);
+				if (!$response['hidden'] || $includeHidden) {
+					$fields[] = $response;
+				}
 			}
 		}
 
