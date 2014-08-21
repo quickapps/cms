@@ -46,6 +46,15 @@ class GatewayController extends AppController {
 			$user = $this->Auth->identify();
 			if ($user) {
 				$this->Auth->setUser($user);
+				if ($user['id']) {
+					try {
+						$user = $this->Users->get($user['id']);
+						if ($user) {
+							$this->Users->touch($user, 'Users.login');
+							$this->Users->save($user, ['validate' => false]);
+						}
+					} catch(\Exception $e) {}
+				}
 				return $this->redirect($this->Auth->redirectUrl());
 			} else {
 				$this->Flash->danger(__d('user', 'Username or password is incorrect'));

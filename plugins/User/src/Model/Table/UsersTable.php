@@ -38,7 +38,13 @@ class UsersTable extends Table {
 			'through' => 'UsersRoles',
 			'propertyName' => 'roles',
 		]);
-		$this->addBehavior('Timestamp');
+		$this->addBehavior('Timestamp', [
+			'events' => [
+				'Users.login' => [
+					'last_login' => 'always'
+				]
+			]
+		]);
 		$this->addBehavior('Field.Fieldable');
 	}
 
