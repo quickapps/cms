@@ -317,7 +317,7 @@ class InstallTask extends BaseTask {
  * @return void
  */
 	protected function _finish() {
-		global $classLoader; // composer class loader instance
+		global $classLoader; // composer's class loader instance
 		snapshot();
 		$classLoader->addPsr4("{$this->_pluginName}\\", normalizePath(SITE_ROOT . "/plugins/{$this->_pluginName}/src"), true);
 		AcoManager::buildAcos($this->_pluginName);

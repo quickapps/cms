@@ -263,7 +263,7 @@ abstract class BaseTask {
 	}
 
 /**
- * Loads and registers plugin's Hook classes so plugins may respond
+ * Loads and registers plugin's event listeners classes so plugins may respond
  * to `beforeInstall`, `afterInstall`, etc.
  *
  * @param string $path Where to look for listener classes
@@ -272,20 +272,23 @@ abstract class BaseTask {
 	final protected function attachListeners($path) {
 		global $classLoader;
 
+		if (!$this->_pluginName) {
+			throw new FatalErrorException(__d('installer', 'Internal error ({0}), attachListeners() cannot be used if no plugin was set before using "_plugin()".', get_called_class()));
+		}
+
 		if (file_exists($path) && is_dir($path)) {
 			$EventManager = EventManager::instance();
 			$eventsFolder = new Folder($path);
 
 			foreach ($eventsFolder->read(false, false, true)[1] as $classPath) {
 				$className = preg_replace('/\.php$/i', '', basename($classPath));
-				if (str_ends_with($className, 'Hook')) {
-					$classLoader->addPsr4('Hook\\', dirname($classPath), true);
-					$class = 'Hook\\' . $className;
+				$namespace = "{$this->_pluginName}\Event\\";
+				$classLoader->addPsr4($namespace, dirname($classPath), true);
+				$fullClassName = $namespace . $className;
 
-					if (class_exists($class)) {
-						$this->_listeners[] = new $class;
-						$EventManager->attach(end($this->_listeners));
-					}
+				if (class_exists($fullClassName)) {
+					$this->_listeners[] = new $fullClassName;
+					$EventManager->attach(end($this->_listeners));
 				}
 			}
 		}
