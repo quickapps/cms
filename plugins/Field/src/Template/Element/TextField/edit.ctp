@@ -11,6 +11,12 @@
  */
 ?>
 
+<?php
+	// make sent info persist when validation error occurs
+	if (!empty($field->metadata->errors) && isset($this->request->data[":{$field->name}"])) {
+		$field->set('value', $this->request->data[":{$field->name}"]);
+	}
+?>
 <?php $type = !empty($field->metadata->settings['type']) ? $field->metadata->settings['type'] : 'text'; ?>
 <?php $text_processing = !empty($field->metadata->settings['text_processing']) ? $field->metadata->settings['text_processing'] : false; ?>
 <?php $ckeditorClass = $text_processing === 'full' && $type === 'textarea' ? 'ckeditor' : ''; ?>
