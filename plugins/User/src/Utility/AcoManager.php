@@ -81,8 +81,12 @@ class AcoManager {
 		}
 
 		// path already exists
-		if ($this->Acos->node($path)) {
-			return true;
+		$nodes = $this->Acos->node($path);
+		$nodes = is_object($nodes) ? $nodes->extract('alias')->toArray() : $nodes;
+		if ($nodes) {
+			if (implode('/', $nodes) === $path) {
+				return true;
+			}
 		}
 
 		$parent = null;
@@ -185,7 +189,7 @@ class AcoManager {
 		}
 
 		if ($for === null) {
-			$plugins = Plugin::collection();
+			$plugins = Plugin::collection()->toArray();
 		} else {
 			try {
 				$plugins = [Plugin::info($for)];
@@ -208,16 +212,15 @@ class AcoManager {
 				if (class_exists($className)) {
 					$methods = get_this_class_methods($className);
 					if ($methods) {
-						$path = str_replace('\\', '/', $className);
-						$path = str_replace_once($plugin['name'] . '/', '', $path);
+						$path = explode('Controller\\', $className)[1];
 						$path = str_replace_last('Controller', '', $path);
-						$path = str_replace_once('Controller/', '', $path);
+						$path = str_replace('\\', '/', $path);
 
 						foreach ($methods as $method) {
-							// skip protected or private methods
 							if (!str_starts_with($method, '_')) {
-								$aco->add("{$path}/{$method}");
-								$added[] = "{$plugin['name']}/{$path}/{$method}";
+								if ($aco->add("{$path}/{$method}")) {
+									$added[] = "{$plugin['name']}/{$path}/{$method}";
+								}
 							}
 						}
 					}
