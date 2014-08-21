@@ -62,10 +62,10 @@ require CAKE . 'Config' . DS . 'routes.php';
  *
  */
 if (Configure::read('Variable.url_language_prefix')) {
-	foreach (Router::$routes as $key => $_route) {
-		$route = clone $_route;
-		$route->options['language'] = '[a-z]{3}';
-		$route->template = "/:language{$route->template}";
-		array_splice(Router::$routes, $key, 0, array($route));
+	foreach (Router::$routes as &$route) {
+		if ($route->template !== '/') {
+			$route->options['language'] = '[a-z]{3}';
+			$route->template = "/:language{$route->template}";
+		}
 	}
 }
