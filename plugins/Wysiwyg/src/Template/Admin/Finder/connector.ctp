@@ -34,7 +34,19 @@ require $pp . 'Lib/elFinderVolumeLocalFileSystem.class.php';
 function access($attr, $path, $data, $volume) {
 	if (strpos(basename($path), '.') === 0) {
 		return !($attr == 'read' || $attr == 'write');
-	} elseif (!is_dir($path) && strpos($path, 'webroot') === false) {
+	}
+	if (strpos($path, 'plugins' . DS) !== false) {
+		$path = normalizePath($path);
+		$parts = explode('plugins' . DS, $path);
+		if (!empty($parts[1])) {
+			$validPlugins = Plugin::loaded();
+			$pluginName = explode(DS, $parts[1])[0];
+			if (!in_array($pluginName, $validPlugins)) {
+				return !($attr == 'write' || $attr != 'hidden');
+			}
+		}
+	}
+	if (!is_dir($path) && strpos($path, 'webroot') === false) {
 		return !($attr == 'write' || $attr != 'hidden');
 	}
 }

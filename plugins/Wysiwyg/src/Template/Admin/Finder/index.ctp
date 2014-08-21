@@ -17,16 +17,19 @@
 	var funcNum = window.location.search.replace(/^.*CKEditorFuncNum=(\d+).*$/, "$1");
 
 	function filterURL(url) {
-		if (url.match(/\/file\//i)) {
+		if (url.match(/\/webroot\//i)) {
+			var url = decodeURIComponent(url);
 			var p = url.split('file=')[1];
 			if (url.match(/\/webroot\//i)) {
-				var appName = p.split('/')[0];
-				var wr = p.split('/webroot/')[1];
+				var pluginName = p.split('/webroot/')[0]
+					.replace('/', '')
+					.replace('#', '');
+				var asset = p.split('/webroot/')[1];
 
-				appName = appName.replace(/([A-Z])/g, function($1) {
-					return '_' + $1.toLowerCase();
-				}).replace(/^_/i, '').replace(/(_){2,}/g, '_');
-				url = '<?php echo $this->Url->build('/'); ?>' + appName + '/' + wr;
+				pluginName = pluginName.replace(/([A-Z])/g, function($1) { return '_' + $1.toLowerCase(); })
+					.replace(/^_/i, '')
+					.replace(/(_){2,}/g, '_');
+				url = '<?php echo $this->Url->build('/', true); ?>' + pluginName + '/' + asset;
 			}
 		}
 
