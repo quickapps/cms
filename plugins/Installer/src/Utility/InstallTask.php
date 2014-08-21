@@ -142,7 +142,7 @@ class InstallTask extends BaseTask {
  * ### Events triggered:
  *
  * - `beforeInstall`: Before plugins is registered on DB and before plugin's
- *    directory is moved to "/plugins".
+ *    directory is moved to "/plugins"
  * - `afterInstall`: After plugins was registered in DB and after plugin's
  *    directory was moved to "/plugins"
  *

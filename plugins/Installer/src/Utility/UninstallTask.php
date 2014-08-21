@@ -58,6 +58,13 @@ class UninstallTask extends BaseTask {
 /**
  * Starts the uninstall process of the given plugin.
  *
+ * ### Events triggered:
+ *
+ *- `beforeUninstall`: Before plugins is removed from DB and before
+ *   plugin's directory is deleted from "/plugins"
+ *- `afterUninstall`: After plugins was removed from DB and after
+ *   plugin's directory was deleted from "/plugins"
+ *
  * @return bool True on success, false otherwise
  */
 	protected function start() {

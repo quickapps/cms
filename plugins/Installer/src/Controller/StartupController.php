@@ -131,11 +131,11 @@ class StartupController extends Controller {
 
 			if (file_exists($file)) {
 				I18n::defaultLocale($code); // trick for __d()
-				$languages[$code] = array(
+				$languages[$code] = [
 					'url' => "/installer/startup/requirements?locale={$code}",
 					'welcome' => __d('installer', 'Welcome to QuickApps CMS'),
 					'action' => __d('installer', 'Click here to install in English')
-				);
+				];
 			}
 		}
 
@@ -157,56 +157,56 @@ class StartupController extends Controller {
 			$this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'index']);
 		}
 
-		$tests = array(
-			'php' => array(
+		$tests = [
+			'php' => [
 				'assertTrue' => version_compare(PHP_VERSION, '5.4.19', '>='),
 				'message' => __d('installer', 'Your php version is not supported. check that your version is 5.4.19 or newer.')
-			),
-			'mbstring' => array(
+			],
+			'mbstring' => [
 				'assertTrue' => extension_loaded('mbstring'),
 				'message' => __d('installer', 'Missing extension: {0}', 'mbstring')
-			),
-			'mcrypt' => array(
+			],
+			'mcrypt' => [
 				'assertTrue' => extension_loaded('mcrypt'),
 				'message' => __d('installer', 'Missing extension: {0}', 'mcrypt')
-			),
-			'intl' => array(
+			],
+			'intl' => [
 				'assertTrue' => extension_loaded('intl'),
 				'message' => __d('installer', 'Missing extension: {0}', 'intl')
-			),
-			'fileinfo' => array(
+			],
+			'fileinfo' => [
 				'assertTrue' => extension_loaded('fileinfo'),
 				'message' => __d('installer', 'Missing extension: {0}', 'fileinfo')
-			),
-			'pdo' => array(
+			],
+			'pdo' => [
 				'assertTrue' => (extension_loaded('pdo') && defined('PDO::ATTR_DEFAULT_FETCH_MODE')),
 				'message' => __d('installer', 'Missing extension: {0}', 'PDO')
-			),
-			'no_safe_mode' => array(
+			],
+			'no_safe_mode' => [
 				'assertTrue' => (ini_get('safe_mode') == false || ini_get('safe_mode') == '' || strtolower(ini_get('safe_mode')) == 'off'),
 				'message' => __d('installer', 'Your server has SafeMode on, please turn it off before continuing.')
-			),
-			'tmp_writable' => array(
+			],
+			'tmp_writable' => [
 				'assertTrue' => is_writable(TMP),
 				'message' => __d('installer', 'tmp folder is not writable.')
-			),
-			'cache_writable' => array(
+			],
+			'cache_writable' => [
 				'assertTrue' => is_writable(TMP . 'cache'),
 				'message' => __d('installer', 'tmp/cache folder is not writable.')
-			),
-			'models_writable' => array(
+			],
+			'models_writable' => [
 				'assertTrue' => is_writable(TMP . 'cache/models'),
 				'message' => __d('installer', 'tmp/cache/models folder is not writable.')
-			),
-			'persistent_writable' => array(
+			],
+			'persistent_writable' => [
 				'assertTrue' => is_writable(TMP . 'cache/persistent'),
 				'message' => __d('installer', 'tmp/cache/persistent folder is not writable.')
-			),
-			'config_writable' => array(
+			],
+			'config_writable' => [
 				'assertTrue' => is_writable(SITE_ROOT . '/config'),
 				'message' => __d('installer', '"config" folder is not writable.')
-			)
-		);
+			],
+		];
 
 		$results = array_unique(Hash::extract($tests, '{s}.assertTrue'));
 		if (count($results) !== 1 || $results[0] !== true) {
@@ -425,7 +425,7 @@ class StartupController extends Controller {
  * This allows steps to control user navigation, so users can not pass to the next step
  * without completing all previous steps.
  *
- * @param boolean|string $check
+ * @param bool|string $check
  * @return bool
  */
 	protected function _step($check = false) {

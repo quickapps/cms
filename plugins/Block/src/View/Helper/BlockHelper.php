@@ -117,7 +117,7 @@ class BlockHelper extends Helper {
 /**
  * Checks if the given block can be rendered.
  *
- * @param array $block Block structure
+ * @param \Block\Model\Entity\Block $block Block entity
  * @return bool
  */
 	public function allowed($block) {

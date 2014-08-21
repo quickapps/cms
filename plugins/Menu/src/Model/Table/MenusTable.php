@@ -129,6 +129,8 @@ class MenusTable extends Table {
  * Triggers the "Menu.<handler>.afterSave" hook, so plugins may do
  * any logic their require.
  *
+ * It will also create menu's associated block if not exists.
+ *
  * @param \Cake\Event\Event $event
  * @param \Menu\Model\Entity\Menu $menu
  * @param array $options
