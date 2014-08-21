@@ -16,7 +16,7 @@ use Field\Utility\TextToolbox;
 use Field\Utility\FieldHandler;
 
 /**
- * Text Field Handler.
+ * List Field Handler.
  *
  * Defines list field types, used to create selection lists.
  */
@@ -32,7 +32,7 @@ class ListField extends FieldHandler {
  */
 	public function entityDisplay(Event $event, $field, $options = []) {
 		$View = $event->subject;
-		return $View->element('Field.list_field_display', compact('field', 'options'));
+		return $View->element('Field.ListField/display', compact('field', 'options'));
 	}
 
 /**
@@ -45,7 +45,7 @@ class ListField extends FieldHandler {
  */
 	public function entityEdit(Event $event, $field, $options = []) {
 		$View = $event->subject;
-		return $View->element('Field.list_field_edit', compact('field', 'options'));
+		return $View->element('Field.ListField/edit', compact('field', 'options'));
 	}
 
 /**
@@ -56,9 +56,25 @@ class ListField extends FieldHandler {
  * @param array $options
  * @return void
  */
-	public function entityAfterSave(Event $event, $entity, $field, $options) {
-		$value = $options['post'];
+	public function entityBeforeSave(Event $event, $entity, $field, $options) {
+		$value = $options['_post'];
+		if (is_array($value)) {
+			$value = implode(' ', array_values($value));
+		}
 		$field->set('value', $value);
+		$field->set('extra', $options['_post']); // force it to be a string if it is
+	}
+
+/**
+ * {@inheritdoc}
+ *
+ * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\ORM\Entity $entity The entity to which field is attached to
+ * @param \Field\Model\Entity\Field $field Field information
+ * @param array $options
+ * @return void
+ */
+	public function entityAfterSave(Event $event, $entity, $field, $options) {
 	}
 
 /**
@@ -74,16 +90,10 @@ class ListField extends FieldHandler {
 	public function entityBeforeValidate(Event $event, $entity, $field, $options, $validator) {
 		if ($field->metadata->required) {
 			$validator
-				->allowEmpty(":{$field->name}", false, __d('field', 'Field required.'))
-				->add(":{$field->name}", 'validateRequired', [
-					'rule' => function ($value, $context) use ($field) {
-						return !empty($value);
-					},
-					'message' => __d('field', 'Field required.'),
-				]);
+				->validatePresence(":{$field->name}")
+				->notEmpty(":{$field->name}", __d('field', 'Field required.'));
 		} else {
-			$validator
-				->allowEmpty(":{$field->name}", true);
+			$validator->allowEmpty(":{$field->name}");
 		}
 
 		return true;
@@ -153,7 +163,7 @@ class ListField extends FieldHandler {
  */
 	public function instanceSettingsForm(Event $event, $instance, $options = []) {
 		$View = $event->subject;
-		return $View->element('Field.list_field_settings_form', compact('instance', 'options'));
+		return $View->element('Field.ListField/settings_form', compact('instance', 'options'));
 	}
 
 /**
@@ -166,11 +176,6 @@ class ListField extends FieldHandler {
  */
 	public function instanceSettingsDefaults(Event $event, $instance, $options = []) {
 		return [
-			'type' => 'textarea',
-			'text_processing' => 'full',
-			'max_len' => '',
-			'validation_rule' => '',
-			'validation_message' => '',
 		];
 	}	
 
@@ -184,7 +189,7 @@ class ListField extends FieldHandler {
  */
 	public function instanceViewModeForm(Event $event, $instance, $options = []) {
 		$View = $event->subject;
-		return $View->element('Field.list_field_view_mode_form', compact('instance', 'options'));
+		return $View->element('Field.ListField/view_mode_form', compact('instance', 'options'));
 	}
 
 /**
@@ -202,8 +207,7 @@ class ListField extends FieldHandler {
 					'label_visibility' => 'above',
 					'hooktags' => true,
 					'hidden' => false,
-					'formatter' => 'full',
-					'trim_length' => '',
+					'formatter' => 'default',
 				];
 		}
 	}
