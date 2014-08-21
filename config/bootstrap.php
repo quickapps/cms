@@ -196,7 +196,6 @@ foreach (Plugin::scan() as $plugin => $path) {
 		]);
 
 		foreach (Plugin::info($plugin)['eventListeners'] as $fullClassName => $eventInfo) {
-			$classLoader->addPsr4($eventInfo['namespace'], $eventInfo['path'], true);
 			if (class_exists($fullClassName)) {
 				$EventManager->attach(new $fullClassName);
 			}
