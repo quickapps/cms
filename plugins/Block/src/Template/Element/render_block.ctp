@@ -13,7 +13,7 @@
 /**
  * General block render.
  *
- * This is the default render element used by \Hook\BlockHook::displayBlock().
+ * This is the default render element used by \Block\Event\BlockHook::displayBlock().
  */
 ?>
 

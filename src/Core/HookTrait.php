@@ -23,7 +23,7 @@ use QuickApps\Core\Hook;
 trait HookTrait {
 
 /**
- * Retrieve the number of times an event was fired, or the complete list
+ * Retrieves the number of times an event was fired, or the complete list
  * of events that were fired.
  *
  * @param string $eventName The name of the event, if null returns the entire list
@@ -36,7 +36,7 @@ trait HookTrait {
 	}
 
 /**
- * Trigger the given event name.
+ * Triggers the given event name.
  *
  * You can pass an unlimited number of arguments to your event handler method.
  *

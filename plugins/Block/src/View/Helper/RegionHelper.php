@@ -25,7 +25,7 @@ use QuickApps\View\Helper;
  * ### Usage:
  *
  * Merge `left-sidebar` and `right-sidebar` regions together, the resulting region
- * limit the number of blocks it can holds to `3`:
+ * limits the number of blocks it can holds to `3`:
  * 
  *     echo $this->Region
  *         ->create('left-sidebar')

@@ -206,43 +206,173 @@ use QuickApps\Core\HookTrait;
  *     $this->User->unbindFieldable();
  *     $this->Users->get($id);
  *
- * ## About Field-Handlers & Hooks
+ * ## About Field Handlers
  *
- * Field Handler are "Listeners" classes which must take care of storing,
- * organizing and retrieving information for each entity's field. This is
- * archived using Hook callbacks.
+ * Field Handler are "Listeners" classes which must take care of storing, organizing
+ * and retrieving information for each entity's field. All this is archived using
+ * QuickAppsCMS's events system
  *
- * Similar to Hooks and Hooktags, Field-Handlers must define a series of hook event.
- * This hook events has been organized in two groups or "event subspaces":
+ * Similar to Event Listeners and Hooktags, Field Handlers classes
+ * must define a series of events, which has been organized in two groups or
+ * "event subspaces":
  *
- * -    `Field.<FieldHandler>.Entity`: For handling Entity's related events such
- *      as `entity save`, `entity delete`, etc.
- * -    `Field.<FieldHandler>.Instance`: Related to Field Instances events, such as
- *      "instance being detached from table", "new instance attached to table", etc.
+ * - `Field.<FieldHandler>.Entity`: For handling Entity's related events such
+ *    as `entity save`, `entity delete`, etc.
+ * - `Field.<FieldHandler>.Instance`: Related to Field Instances events, such as
+ *    "instance being detached from table", "new instance attached to table", etc.
  *
- * Below, a list of available hook events:
+ * Below, a list of available events:
  *
  * - `Field.<FieldHandler>.Entity.display`: When an entity is being rendered
- * - `Field.<FieldHandler>.Entity.edit`: When an entity is being rendered in `edit` mode. (backend usually)
+ * - `Field.<FieldHandler>.Entity.edit`: When an entity is being rendered in
+ *   `edit` mode. (backend usually)
  * - `Field.<FieldHandler>.Entity.beforeFind`: Before an entity is retrieved from DB
- * - `Field.<FieldHandler>.Entity.beforeValidate`: Before entity is validated as part of save operation
- * - `Field.<FieldHandler>.Entity.afterValidate`: After entity is validated as part of save operation
+ * - `Field.<FieldHandler>.Entity.beforeValidate`: Before entity is validated as
+ *    part of save operation
+ * - `Field.<FieldHandler>.Entity.afterValidate`: After entity is validated as
+ *    part of save operation
  * - `Field.<FieldHandler>.Entity.beforeSave`: Before entity is saved
  * - `Field.<FieldHandler>.Entity.afterSave`: After entity was saved
  * - `Field.<FieldHandler>.Entity.beforeDelete`: Before entity is deleted
  * - `Field.<FieldHandler>.Entity.afterDelete`: After entity was deleted
  *
- * - `Field.<FieldHandler>.Instance.info`: When QuickAppsCMS asks for information about each registered Field
- * - `Field.<FieldHandler>.Instance.settingsForm`: Additional settings for this field. Should define the way the values will be stored in the database.
- * - `Field.<FieldHandler>.Instance.settingsDefaults`: Default values for field settings form's inputs
- * - `Field.<FieldHandler>.Instance.viewModeForm`: Additional formatter options. Show define the way the values will be rendered for a particular view mode.
- * - `Field.<FieldHandler>.Instance.viewModeDefaults`: Default values for view mode settings form's inputs
- * - `Field.<FieldHandler>.Instance.beforeValidate`: Before field is validated as part of attach operation
- * - `Field.<FieldHandler>.Instance.afterValidate`: After field is validated as part of attach operation
+ * - `Field.<FieldHandler>.Instance.info`: When QuickAppsCMS asks for information
+ *    about each registered Field
+ * - `Field.<FieldHandler>.Instance.settingsForm`: Additional settings for this
+ *    field. Should define the way the values will be stored in the database.
+ * - `Field.<FieldHandler>.Instance.settingsDefaults`: Default values for field
+ *    settings form's inputs
+ * - `Field.<FieldHandler>.Instance.viewModeForm`: Additional formatter options.
+ *    Show define the way the values will be rendered for a particular view mode.
+ * - `Field.<FieldHandler>.Instance.viewModeDefaults`: Default values for view
+ *    mode settings form's inputs
+ * - `Field.<FieldHandler>.Instance.beforeValidate`: Before field is validated as
+ *    part of attach operation
+ * - `Field.<FieldHandler>.Instance.afterValidate`: After field is validated as
+ *    part of attach operation
  * - `Field.<FieldHandler>.Instance.beforeAttach`: Before field is attached to Tables
  * - `Field.<FieldHandler>.Instance.afterAttach`: After field is attached to Tables
  * - `Field.<FieldHandler>.Instance.beforeDetach`: Before field is detached from Tables
  * - `Field.<FieldHandler>.Instance.afterDetach`: After field is detached from Tables
+ *
+ *
+ * ## Preparing Field Inputs
+ *
+ * Your Field Handler should somehow render some form elements (inputs, selects,
+ * textareas, etc) when rendering Table Entities in `edit mode`. For this we have
+ * the `Field.<FieldHandler>.Entity.edit` event, which should return a HTML
+ * containing all the form elements for [entity, field_instance] tuple.
+ *
+ * For example, lets suppose we have a `TextField` attached to `Users` Table for
+ * storing their `favorite_food`, and now we are editing some specific `User`
+ * Entity (i.e.: User.id = 4), so in the form editing page we should see some
+ * inputs for change some values like `username` or `password`, and also we
+ * should see a `favorite_food` input where Users shall type in their favorite
+ * food. Well, your TextField Handler should return something like this:
+ *
+ *     // note the `:` prefix
+ *     <input name=":favorite_food" value="<current_value_from_entity>" />
+ *
+ * To accomplish this, your Field Handler should properly catch the
+ * `Field.<FieldHandler>.Entity.edit` event, example:
+ *
+ *     public function entityEdit(Event $event, $field) {
+ *         return '<input name=":' . $field->name . '" value="' . $field->value . '" />";
+ *     }
+ *
+ * As usual, the second argument `$field` contains all the information you will
+ * need to properly render your form inputs.
+ *
+ * You must tell to QuickAppsCMS that the fields you are sending in your POST
+ * action are actually virtual fields. To do this, all your input's `name`
+ * attributes **must be prefixed** with `:` followed by its machine
+ * (a.k.a. `slug`) name:
+ *
+ *     <input name=":<machine-name>" ... />
+ *
+ * You may also create complex data structures like so:
+ *
+ *     <input name=":album.name" value="<current_value>" />
+ *     <input name=":album.photo.0" value="<current_value>" />
+ *     <input name=":album.photo.1" value="<current_value>" />
+ *     <input name=":album.photo.2" value="<current_value>" />
+ *
+ * The above may produce a $_POST array like below:
+ *
+ *         :album => array(
+ *             name => Album Name,
+ *             photo => array(
+ *                 0 => url_image1.jpg,
+ *                 1 => url_image2.jpg,
+ *                 2 => url_image3.jpg
+ *             )
+ *         ),
+ *         ...
+ *         :other_field => ...,
+ *     )
+ *
+ * **Remember**, you should always rely on View::elements() for rendering HTML code:
+ *
+ *     public function editTextField(Event $event, $field) {
+ *         $view = $event->subject;
+ *         return $View->element('text_field_edit', ['field' => $field]);
+ *     }
+ *
+ * ## Creating an Edit Form
+ *
+ * In previous example we had an User edit form. When rendering User's form-inputs
+ * usually you would do something like so:
+ *
+ *     // edit.ctp
+ *     <?php echo $this->Form->input('id', ['type' => 'hidden']); ?>
+ *     <?php echo $this->Form->input('username'); ?>
+ *     <?php echo $this->Form->input('password'); ?>
+ *
+ * When rendering virtual fields you can pass the whole Field Object to
+ * `FormHelper::input()` method. So instead of passing the input name as first
+ * argument (as above) you can do as follow:
+ *
+ *     // Remember, custom fields are under the `_fields` property of your entity
+ *     <?php echo $this->Form->input($user->_fields[0]); ?>
+ *     <?php echo $this->Form->input($user->_fields[1]); ?>
+ *
+ * That will render the first and second virtual field attached to your entity.
+ * But usually you'll end creating some loop structure and render all of them
+ * at once:
+ *
+ *     <?php foreach ($user->_fields as $field): ?>
+ *         <?php echo $this->Form->input($field); ?>
+ *     <?php endforeach; ?>
+ *
+ * As you may see, `Form::input()` **automagically fires** the
+ * `Field.<FieldHandler>.Entity.edit` event asking to the corresponding Field
+ * Handler for its HTML form elements. Passing the Field object to `Form::input()`
+ * is not mandatory, you can manually generate your input elements:
+ *
+ *     <input name=":<?= $field->name; ?>" value="<?= $field->value; ?>" />
+ *
+ * The `$user` variable used in these examples assumes you used `Controller::set()`
+ * method in your controller.
+ *
+ * A more complete example:
+ *
+ *     // UsersController.php
+ *     public function edit($id) {
+ *         $this->set('user', $this->Users->get($id));
+ *     }
+ *
+ *     // edit.ctp
+ *     <?php echo $this->Form->create($user); ?>
+ *         <?php echo $this->Form->hidden('id'); ?>
+ *         <?php echo $this->Form->input('username'); ?>
+ *         <?php echo $this->Form->input('password'); ?>
+ *         <!-- Custom Fields -->
+ *         <?php foreach ($user->_fields as $field): ?>
+ *             <?php echo $this->Form->input($field); ?>
+ *         <?php endforeach; ?>
+ *         <!-- /Custom Fields -->
+ *         <?php echo $this->Form->submit('Save User'); ?>
+ *     <?php echo $this->Form->end(); ?>
  */
 class FieldableBehavior extends Behavior {
 
@@ -325,7 +455,7 @@ class FieldableBehavior extends Behavior {
 	}
 
 /**
- * Returns a list of hooks this class is implementing. When the class is registered
+ * Returns a list of events this class is implementing. When the class is registered
  * in an event manager, each individual method will be associated with the respective event.
  *
  * @return void
@@ -389,17 +519,20 @@ class FieldableBehavior extends Behavior {
  *
  * ### Events Triggered:
  *
- * - `Field.<FieldHandler>.Entity.beforeSave`: It receives three arguments, the entity is being saved,
- * a field entity representing the field being saved and options array.
- * The options array is passed as an ArrayObject, so any changes in it will be reflected in every listener and remembered
- * at the end of the event so it can be used for the rest of the save operation. Returning false in any of the Field Handler
- * will abort the saving process. If the Field event is stopped using the event API, the Field event object's `result` property will be returned.
+ * - `Field.<FieldHandler>.Entity.beforeSave`: It receives three arguments, the
+ * entity is being saved, a field entity representing the field being saved and
+ * options array. The options array is passed as an ArrayObject, so any changes
+ * in it will be reflected in every listener and remembered at the end of the
+ * event so it can be used for the rest of the save operation. Returning false
+ * in any of the Field Handler will abort the saving process. If the Field event
+ * is stopped using the event API, the Field event object's `result` property
+ * will be returned.
  * 
- * Here is where we dispatch each custom field's `$_POST` information to its corresponding Field Handler, so
- * they can operate over their values.
+ * Here is where we dispatch each custom field's `$_POST` information to its
+ * corresponding Field Handler, so they can operate over their values.
  *
- * Fields Handler's `Field.<FieldHandler>.Entity.beforeSave` event is fired over each attached field for this entity, 
- * so you should have a listener like:
+ * Fields Handler's `Field.<FieldHandler>.Entity.beforeSave` event is fired over
+ * each attached field for this entity, so you should have a listener like:
  *
  *     class TextField implements EventListener {
  *         public function implementedEvents() {
@@ -423,117 +556,6 @@ class FieldableBehavior extends Behavior {
  * according to its needs **using $options['_post']**.
  *
  * **NOTE:** Returning boolean FALSE will halt the whole Entity's save operation.
- *
- * ## Preparing Field Inputs
- *
- * Your Field Handler should somehow render some form elements (inputs, selects, textareas, etc)
- * when rendering Table Entities in `edit mode`. For this we have the ``Field.<FieldHandler>.Entity.edit` hook,
- * which should return a HTML containing all the form elements for [entity, field_instance] tuple.
- *
- * For example, lets suppose we have a `TextField` attached to `Users` Table for storing their `favorite_food`,
- * and now we are editing some specific `User` Entity (i.e.: User.id = 4),
- * so in the form editing page we should see some inputs for change some values
- * like `username` or `password`, and also we should see a `favorite_food` input
- * where Users shall type in their favorite food. Well, your TextField Handler should return something like this:
- *
- *     // note the `:` prefix
- *     <input name=":favorite_food" value="<current_value_from_entity>" />
- *
- * To accomplish this, your Field Handler should catch the ``Field.<FieldHandler>.Entity.edit` hook properly, example:
- *
- *     public function entityEdit(Event $event, $field) {
- *         return '<input name=":' . $field->name . '" value="' . $field->value . '" />";
- *     }
- *
- * As usual, the second argument `$field` contains all the information you will need to properly
- * render your form inputs.
- *
- * You must tell to QuickAppsCMS that the fields you are sending in your POST action are actually
- * virtual fields. To do this, all your input's `name` attributes **must be prefixed** with `:` followed by its machine (a.k.a. `slug`) name:
- *
- *     <input name=":<machine-name>" ... />
- *
- * You may also create complex data structures like so:
- *
- *     <input name=":album.name" value="<current_value>" />
- *     <input name=":album.photo.0" value="<current_value>" />
- *     <input name=":album.photo.1" value="<current_value>" />
- *     <input name=":album.photo.2" value="<current_value>" />
- *
- * The above may produce a $_POST array like below:
- *
- *         :album => array(
- *             name => Album Name,
- *             photo => array(
- *                 0 => url_image1.jpg,
- *                 1 => url_image2.jpg,
- *                 2 => url_image3.jpg
- *             )
- *         ),
- *         ...
- *         :other_field => ...,
- *     )
- *
- * **Remember**, you should always rely on View::elements() for rendering HTML code:
- *
- *     public function editTextField(Event $event, $field) {
- *         $view = $event->subject;
- *         return $View->element('text_field_edit', ['field' => $field]);
- *     }
- *
- * ## Creating an Edit Form
- *
- * In previous example we had an User edit form. When rendering User's form-inputs
- * usually you would do something like so:
- *
- *     // edit.ctp
- *     <?php echo $this->Form->input('id', ['type' => 'hidden']); ?>
- *     <?php echo $this->Form->input('username'); ?>
- *     <?php echo $this->Form->input('password'); ?>
- *
- * When rendering virtual fields you can pass the whole Field Object to `FormHelper::input()` method.
- * So instead of passing the input name as first argument (as above) you can do as follow:
- *
- *     // Remember, custom fields are under the `_fields` property of your entity
- *     <?php echo $this->Form->input($user->_fields[0]); ?>
- *     <?php echo $this->Form->input($user->_fields[1]); ?>
- *
- * That will render the first and second virtual field attached to your entity. But usually you'll end
- * creating some loop structure and render all of them at once:
- *
- *     <?php foreach ($user->_fields as $field): ?>
- *         <?php echo $this->Form->input($field); ?>
- *     <?php endforeach; ?>
- *
- * As you may see, `Form::input()` **automagically fires** the `Field.<FieldHandler>.Entity.edit` hook
- * asking to the corresponding Field Handler for its HTML form elements.
- * Passing the Field object to `Form::input()` is not mandatory, you can manually generate your
- * input elements:
- *
- *     <input name=":<?= $field->name; ?>" value="<?= $field->value; ?>" />
- *
- * The `$user` variable used in these examples assumes you used `Controller::set()` method in your
- * controller.
- *
- * A more complete example:
- *
- *     // UsersController.php
- *     public function edit($id) {
- *         $this->set('user', $this->Users->get($id));
- *     }
- *
- *     // edit.ctp
- *     <?php echo $this->Form->create($user); ?>
- *         <?php echo $this->Form->hidden('id'); ?>
- *         <?php echo $this->Form->input('username'); ?>
- *         <?php echo $this->Form->input('password'); ?>
- *         <!-- Custom Fields -->
- *         <?php foreach ($user->_fields as $field): ?>
- *             <?php echo $this->Form->input($field); ?>
- *         <?php endforeach; ?>
- *         <!-- /Custom Fields -->
- *         <?php echo $this->Form->submit('Save User'); ?>
- *     <?php echo $this->Form->end(); ?>
  *
  * @param \Cake\Event\Event $event
  * @param \Cake\ORM\Entity $entity
@@ -657,11 +679,12 @@ class FieldableBehavior extends Behavior {
  *
  * ### Events Triggered:
  *
- * - `Field.<FieldHandler>.Entity.beforeValidate`: Will be triggered right before any validation is done
- * for the passed entity if the validate key in $options is not set to false.
- * Listeners will receive as arguments the entity, the field entity and the options array and the
- * validation object to be used for validating the entity. If the event is
- * stopped the validation result will be set to the result of the event itself.
+ * - `Field.<FieldHandler>.Entity.beforeValidate`: Will be triggered right before
+ * any validation is done for the passed entity if the validate key in $options
+ * is not set to false. Listeners will receive as arguments the entity, the field
+ * entity and the options array and the validation object to be used for validating
+ * the entity. If the event is stopped the validation result will be set to the
+ * result of the event itself.
  *
  * @param \Cake\Event\Event $event
  * @param \Cake\ORM\Entity $entity
@@ -695,11 +718,11 @@ class FieldableBehavior extends Behavior {
  *
  * ### Events Triggered:
  * 
- * - `Field.<FieldHandler>.Entity.afterValidate`: Will be triggered right after the `validate()` method is
- * called in the entity. Listeners will receive as arguments the entity, the field entity and the
- * options array and the validation object to be used for validating the entity.
- * If the event is stopped the validation result will be set to the result of
- * the event itself.
+ * - `Field.<FieldHandler>.Entity.afterValidate`: Will be triggered right after
+ * the `validate()` method is called in the entity. Listeners will receive as
+ * arguments the entity, the field entity and the options array and the validation
+ * object to be used for validating the entity. If the event is stopped the
+ * validation result will be set to the result of the event itself.
  *
  * @param \Cake\Event\Event $event
  * @param \Cake\ORM\Entity $entity
@@ -749,8 +772,8 @@ class FieldableBehavior extends Behavior {
  *
  * ### Events Triggered:
  *
- * - `Field.<FieldHandler>.Entity.beforeDelete`: Fired before the delete occurs. If stopped the delete
- * will be aborted. Receives the event, entity, and options.
+ * - `Field.<FieldHandler>.Entity.beforeDelete`: Fired before the delete occurs.
+ * If stopped the delete will be aborted. Receives the event, entity, and options.
  *
  * **NOTE:** This method automatically removes all field values
  * from `field_values` database table for each entity.
@@ -814,8 +837,8 @@ class FieldableBehavior extends Behavior {
  * 
  * ### Events Triggered:
  *
- * - `Field.<FieldHandler>.Entity.afterDelete`: Fired after the delete has been successful. Receives
- * the event, entity, field and options.
+ * - `Field.<FieldHandler>.Entity.afterDelete`: Fired after the delete has been
+ * successful. Receives the event, entity, field and options.
  *
  * @param \Cake\Event\Event $event
  * @param \Cake\ORM\Entity $entity
@@ -859,7 +882,8 @@ class FieldableBehavior extends Behavior {
  * Changes behavior's configuration parameters on the fly.
  *
  * Useful when using customized `find_interator` callable, allows to change
- * FieldableBehavior's configuration parameters on each mapper's iteration depending on your needs.
+ * FieldableBehavior's configuration parameters on each mapper's iteration
+ * depending on your needs.
  *
  * @param array $config Configuration parameters as `key` => `value`
  * @return void
