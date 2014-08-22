@@ -68,6 +68,7 @@ class Controller extends CakeCotroller {
  */
 	public $components = [
 		'Auth' => [
+			'className' => 'User.Auth',
 			'authenticate' => [
 				'User.Form' => [
 					'username' => 'username',
