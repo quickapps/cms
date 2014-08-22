@@ -41,9 +41,11 @@ class SerializedType extends Type {
 /**
  * Serializes (if it can) the information to be stored in DB.
  *
- * Arrays and object are serialized, any other type of information will be stored as plain text. 
+ * Arrays and object are serialized, any other type of information will be
+ * stored as plain text. 
  * 
- * @param mixed $value Array or object to be serialized, any other type will not be serialized
+ * @param mixed $value Array or object to be serialized, any other type will
+ *  not be serialized
  * @param \Cake\Database\Driver $driver
  * @return string
  */

@@ -22,31 +22,30 @@ if (!empty(quickapps('node_types'))) {
 		'node_slug' => '[a-z0-9\-]+',
 		'pass' => ['node_type_slug', 'node_slug'],
 		'_name' => 'node_details',
-	], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
+	],
+	['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
 }
 
 Router::connect('/find/:criteria', [
 	'plugin' => 'Node',
 	'controller' => 'Serve',
 	'action' => 'search',
-], [
-	'pass' => ['criteria'],
-	'_name' => 'node_search',
-], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
+],
+['pass' => ['criteria'], '_name' => 'node_search'],
+['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
 
 Router::connect('/rss/:criteria', [
 	'plugin' => 'Node',
 	'controller' => 'Serve',
 	'action' => 'rss',
-], [
-	'pass' => ['criteria'],
-	'_name' => 'node_search_rss',
-], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
+],
+['pass' => ['criteria'], '_name' => 'node_search_rss'],
+['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
 
 Router::connect('/', [
 	'plugin' => 'Node',
 	'controller' => 'Serve',
 	'action' => 'home'
-], [
-	'_name' => 'home'
-], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
+],
+['_name' => 'home'],
+['routeClass' => 'Cake\Routing\Route\InflectedRoute']);

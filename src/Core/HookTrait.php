@@ -18,7 +18,7 @@ use QuickApps\Core\Hook;
 /**
  * Provides hook() & alter() methods.
  *
- * @see QuickApps\Utility\Hook
+ * @see QuickApps\Core\Hook
  */
 trait HookTrait {
 
@@ -26,10 +26,10 @@ trait HookTrait {
  * Retrieves the number of times an event was fired, or the complete list
  * of events that were fired.
  *
- * @param string $eventName The name of the event, if null returns the entire list
- * of event that were fired
+ * @param string $eventName The name of the event, if null returns the entire
+ *  list of event that were fired
  * @return integer|array
- * @see QuickApps\Utility\Hook::didHook()
+ * @see QuickApps\Core\Hook::didHook()
  */
 	public function didHook($eventName = null) {
 		return Hook::didHook($eventName);
@@ -59,7 +59,7 @@ trait HookTrait {
  * 
  * @param string|array $eventName The event name to trigger
  * @return \Cake\Event\Event The event object that was fired
- * @see QuickApps\Utility\Hook::hook()
+ * @see QuickApps\Core\Hook::hook()
  */
 	public function hook($eventName) {
 		if (is_string($eventName)) {
@@ -92,7 +92,7 @@ trait HookTrait {
  *
  * If no context is given "$this" will be used by default.
  *
- * @param string $eventName The name of the "alter hook" to trigger. e.g.: `FormHelper.input`
+ * @param string $eventName The name of the "alter hook" to trigger. e.g. `FormHelper.input`
  * @param mixed $p0 Optional Argument by reference
  * @param mixed $p1 Optional Argument by reference
  * @param mixed $p2 Optional Argument by reference
@@ -109,7 +109,7 @@ trait HookTrait {
  * @param mixed $p13 Optional Argument by reference
  * @param mixed $p14 Optional Argument by reference
  * @return \Cake\Event\Event The event object that was fired
- * @see QuickApps\Utility\Hook::alter()
+ * @see QuickApps\Core\Hook::alter()
  */
 	public function alter($eventName, &$p0 = null, &$p1 = null, &$p2 = null, &$p3 = null, &$p4 = null, &$p5 = null, &$p6 = null, &$p7 = null, &$p8 = null, &$p9 = null, &$p10 = null, &$p11 = null, &$p12 = null, &$p13 = null, &$p14 = null) {
 		if (is_string($eventName)) {

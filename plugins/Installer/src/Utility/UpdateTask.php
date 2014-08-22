@@ -74,7 +74,7 @@ class UpdateTask extends InstallTask {
 /**
  * Starts the update process of the uploaded/downloaded package.
  *
- * This method should me used after a package has been uploaded or
+ * This method should be used after a package has been uploaded or
  * downloaded to the server. An error will be registered otherwise.
  *
  * ### Events triggered:

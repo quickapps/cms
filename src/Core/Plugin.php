@@ -92,7 +92,7 @@ class Plugin extends CakePlugin {
  *
  * @param boolean $extendedInfo Set to true to get extended information for each plugin
  * @param boolean $ignoreError Set to true to ignore error messages when a corrupt
- * plugin is found. Defaults to true
+ *  plugin is found. Defaults to true
  * @return \Cake\Collection\Collection
  */
 	public static function collection($extendedInfo = false, $ignoreError = true) {
@@ -122,8 +122,8 @@ class Plugin extends CakePlugin {
 	}
 
 /**
- * Scan plugin directories and returns plugin names and their paths within file system.
- * We consider "plugin name" as the name of the container directory.
+ * Scan plugin directories and returns plugin names and their paths within file
+ * system. We consider "plugin name" as the name of the container directory.
  * 
  * Example output:
  *
@@ -185,9 +185,11 @@ class Plugin extends CakePlugin {
  *     ]
  *
  * @param string $plugin Plugin name. e.g. `Node`
- * @param boolean $full Merge info with plugin's `composer.json` file and settings stored in DB
+ * @param boolean $full Merge info with plugin's `composer.json` file and
+ *  settings stored in DB
  * @return array Plugin information
- * @throws Cake\Error\FatalErrorException When plugin is not found, or when JSON file is not found
+ * @throws Cake\Error\FatalErrorException When plugin is not found, or when
+ *  JSON file is not found
  */
 	public static function info($plugin, $full = false) {
 		$plugin = Inflector::camelize($plugin);
@@ -232,7 +234,7 @@ class Plugin extends CakePlugin {
  * 
  * @param string $plugin Plugin alias, e.g. `UserManager` or `user_manager`
  * @return mixed False if composer.json is missing or corrupt, or composer info
- * as an array if valid composer.json is found
+ *  as an array if valid composer.json is found
  */
 	public static function composer($plugin) {
 		$plugin = Inflector::camelize($plugin);
@@ -280,10 +282,10 @@ class Plugin extends CakePlugin {
  *     Plugin::validateJson('/path/to/composer.json');
  * 
  * @param array|string $json JSON given as an array result of `json_decode(..., true)`,
- * or a string as path to where .json file can be found
+ *  or a string as path to where .json file can be found
  * @param bool $errorMessages If set to true an array of error messages
- * will be returned, if set to false boolean result will be returned; true on
- * success, false on validation failure failure. Defaults to false (boolean result)
+ *  will be returned, if set to false boolean result will be returned; true on
+ *  success, false on validation failure failure. Defaults to false (boolean result)
  * @return array|bool
  */
 	public static function validateJson($json, $errorMessages = false) {
@@ -472,8 +474,8 @@ class Plugin extends CakePlugin {
  *
  * @param string $pluginName Plugin name to check
  * @return array A list of all plugin names that depends on $plugin, an empty array
- * means that no other plugins depends on $plugin, so $plugin can be safely deleted
- * or turned off.
+ *  means that no other plugins depends on $plugin, so $plugin can be safely deleted
+ *  or turned off.
  */
 	public static function checkReverseDependency($pluginName) {
 		$out = [];
@@ -501,11 +503,11 @@ class Plugin extends CakePlugin {
  *
  * @param string $dependency A dependency string as example above
  * @return array An associative array with three keys as below, callers should
- * pass this structure to `checkIncompatibility()`:
- * - `original`: Contains the original version string ($dependency)
- * - `versions`: Is a list of associative arrays, each containing the keys
- *   'op' and 'version'. 'op' can be one of: '=', '==', '!=', '<>', '<',
- *   '<=', '>', or '>='. 'version' is one piece like '4.5-beta3' or '5.5.11'.
+ *  pass this structure to `checkIncompatibility()`:
+ *  - `original`: Contains the original version string ($dependency)
+ *  - `versions`: Is a list of associative arrays, each containing the keys
+ *    'op' and 'version'. 'op' can be one of: '=', '==', '!=', '<>', '<',
+ *    '<=', '>', or '>='. 'version' is one piece like '4.5-beta3' or '5.5.11'.
  */
 	public static function parseDependency($dependency) {
 		$p_op = '(?P<operator>!=|==|<|<=|>|>=|<>)?';

@@ -41,7 +41,7 @@ class NodeHook implements EventListener {
  *
  * Here we register some basic view modes, for later use in controllers. We could
  * register this view modes at "bootstrap.php", but __d() would not work there
- * so we do it here.
+ * as no language has been set yet, so we do it here.
  * 
  * @param \Cake\Event\Event $event
  * @param \Cake\Network\Request $request Request object to dispatch

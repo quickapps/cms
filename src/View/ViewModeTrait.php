@@ -48,7 +48,7 @@ trait ViewModeTrait {
  * Gets the slug name of in use view mode.
  *
  * @param boolean $full Set to true to get full information as an array.
- * Or set to false (by default) to get slug name only
+ *  Or set to false (by default) to get slug name only
  * @return string
  * @see \QuickApps\View\ViewModeRegistry::inUseViewMode()
  */

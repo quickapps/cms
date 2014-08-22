@@ -74,7 +74,7 @@ class View extends CakeView {
  *
  * @param mixed $view View file to render. Or an object to be rendered
  * @param mixed $layout Layout file to use when rendering view file. Or extra
- * array of options for object rendering
+ *  array of options for object rendering
  * @return string HTML output of object-rendering or view file
  */
 	public function render($view = null, $layout = null) {

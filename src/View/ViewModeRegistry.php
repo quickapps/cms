@@ -14,14 +14,14 @@ namespace QuickApps\View;
 use Cake\Error\InternalErrorException;
 
 /**
- * ViewModeRegistry is used as a registry for handling view modes, also provides a few
- * utility methods such as inUseViewMode().
+ * ViewModeRegistry is used as a registry for handling view modes, also provides
+ * a few utility methods such as inUseViewMode().
  *
  * View modes tells nodes how they should be rendered.
  *
  * Plugins are allowed to register their own view modes at any time.
- * But it is recommended to do this at bootstrap so all plugins will be aware
- * of this new view mode soon as possible.
+ * But it is recommended to do this at bootstrap so all plugins will be aware of
+ * this new view mode soon as possible.
  */
 class ViewModeRegistry {
 
@@ -81,7 +81,7 @@ class ViewModeRegistry {
  *     ViewModeRegistry::registerViewMode('slug-2', 'View Mode 2', 'Dolor sit amet');
  *
  * @param string|array $slug Slug name of your view mode. e.g.: `my-view mode`.
- * Or an array of view modes to register indexed by slug name
+ *  Or an array of view modes to register indexed by slug name
  * @param string|null $name Human readable name. e.g.: `My View Mode`
  * @param string|null $description A brief description about for what is this view mode
  * @return void
@@ -163,11 +163,11 @@ class ViewModeRegistry {
  *          'description' => 'Brief description for teaser view-mode'
  *     ]
  *
- * @param boolean $full Set to true to get full list. Or false (by default) to get
- * only the slug of all registered view modes.
+ * @param boolean $full Set to true to get full list. Or false (by default) to
+ *  get only the slug of all registered view modes.
  * @return array
  * @throws \Cake\Error\InternalErrorException When you try to get information
- * for a particular View Mode that does not exists
+ *  for a particular View Mode that does not exists
  */
 	public static function viewModes($full = false) {
 		if (is_string($full)) {

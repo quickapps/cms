@@ -82,7 +82,7 @@ class SluggableBehavior extends Behavior {
  * @param array $options
  * @return bool True if save should proceed, false otherwise
  * @throws \Cake\Error\FatalErrorException When some of the specified columns
- * in config's "label" is not present in the entity being saved
+ *  in config's "label" is not present in the entity being saved
  */
 	public function beforeSave(Event $event, $entity, $options) {
 		if (!$this->_enabled) {

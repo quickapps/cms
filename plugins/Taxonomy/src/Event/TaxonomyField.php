@@ -130,7 +130,6 @@ class TaxonomyField extends FieldHandler {
 			->extract('name')
 			->toArray();
 
-
 		$field->set('value', implode(' ', $termsNames));
 		return true;
 	}

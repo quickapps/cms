@@ -92,8 +92,9 @@ class Controller extends CakeCotroller {
 /**
  * Constructor.
  *
- * @param \Cake\Network\Request $request Request object for this controller. Can be null for testing,
- *  but expect that features that use the request parameters will not work.
+ * @param \Cake\Network\Request $request Request object for this controller.
+ *  Can be null for testing, but expect that features that use the request
+ *  parameters will not work.
  * @param \Cake\Network\Response $response Response object for this controller.
  */
 	public function __construct($request = null, $response = null) {

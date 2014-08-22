@@ -11,7 +11,7 @@
  */
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="<?php echo language('code'); ?>">
 	<head>
 		<?php echo $this->Html->head(); ?>
 		<?php echo $this->Html->css(['front-bootstrap.css']); ?>

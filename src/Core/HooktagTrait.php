@@ -16,8 +16,9 @@ use QuickApps\Core\Hooktag;
 /**
  * Adds hooktags parsing functionality to any object.
  *
- * A Hooktag is a QuickApps-specific code that lets you do nifty things with very little effort.
- * Hooktags can for example print current language code or call specifics plugins/themes functions.
+ * A Hooktag is a QuickApps-specific code that lets you do nifty things with
+ * very little effort. Hooktags can for example print current language code or
+ * call specifics plugins/themes functions.
  */
 trait HooktagTrait {
 
@@ -48,8 +49,8 @@ trait HooktagTrait {
  * ### $atts
  *
  * Array which may include any arbitrary attributes that are specified by the user.
- * Attribute names are always converted to lowercase before they are passed into the handler function.
- * Values remains untouched.
+ * Attribute names are always converted to lowercase before they are passed into
+ * the handler function. Values remains untouched.
  *
  *     [some_hooktag Foo="bAr"]
  *

@@ -17,7 +17,8 @@ use Cake\Event\EventManager;
 /**
  * Provides hook() & alter() methods.
  *
- * QuickAppsCMS's event system is built over [cake's event system](http://book.cakephp.org/3.0/en/core-libraries/events.html),
+ * QuickAppsCMS's event system is built over
+ * [cake's event system](http://book.cakephp.org/3.0/en/core-libraries/events.html),
  * and allows plugins to communicate with the entire system or other plugins.
  *
  * QuickAppsCMS's Event system is composed of three primary elements:
@@ -36,8 +37,8 @@ use Cake\Event\EventManager;
  *
  *     $this->hook('User.beforeLogin', ...);
  *
- * When using the `alert()` method Event names are prefixed with with the `Alter.` word.
- * For example, the Event name `Alter.FormHelper.textarea` will respond to:
+ * When using the `alert()` method Event names are prefixed with with the `Alter.`
+ * word. For example, the Event name `Alter.FormHelper.textarea` will respond to:
  *
  *     $this->alter('FormHelper.textarea', $arg_0, $arg_1, ..., $arg_14);
  *
@@ -50,8 +51,8 @@ use Cake\Event\EventManager;
  *
  *     $this->hook('Say.HelloWorld', $arg_0, $arg_1, ..., $arg_n);
  *
- * You can provide an unlimited number of arguments which are treated by value, and
- * NOT by reference as `alter()` does.
+ * You can provide an unlimited number of arguments which are treated by value,
+ * and NOT by reference as `alter()` does.
  *
  * ***
  *
@@ -91,8 +92,8 @@ use Cake\Event\EventManager;
  *
  * ## Recommended Reading
  *
- * As QuickAppsCMS's hook system is built on top of CakePHP's events system we highly recommend you
- * to take a look at this part of CakePHP's book:
+ * As QuickAppsCMS's hook system is built on top of CakePHP's events system we
+ * highly recommend you to take a look at this part of CakePHP's book:
  *
  * [CakePHP's Events System](http://book.cakephp.org/3.0/en/core-libraries/events.html)
  */
@@ -106,13 +107,13 @@ class Hook {
 	protected static $_log = [];
 
 /**
- * Retrieve the number of times a hook was fired, or the complete list
+ * Retrieve the number of times an event was fired, or the complete list
  * of events that were fired.
  *
- * @param string $eventName The name of the event, if null returns the entire list
- * of event that were fired
+ * @param string $eventName The name of the event, if null returns the entire
+ *  list of event that were fired
  * @param bool $sort If first argument is null set this to true to sort the list.
- * Defaults to true
+ *  Defaults to true
  * @return integer|array
  */
 	public static function didHook($eventName = null, $sort = true) {
