@@ -33,6 +33,6 @@
 	<dt>Managing field data storage</dt>
 	<dd>
 		Developers of field plugins can either use the default <em>QuickApps storage table</em> to store data for their fields,
-		or a contributed or custom storage system developed using <em>QuickApps Field API</em>.
+		or a contributed or custom storage system developed using <em>QuickApps's Field API</em>.
 	</dd>
 </dl>

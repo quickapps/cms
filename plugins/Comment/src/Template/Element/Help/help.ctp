@@ -29,7 +29,7 @@
 	<dt>Comment approval</dt>
 	<dd>
 		All comments are placed in the <?php echo $this->Html->link('Unapproved comments', ['plugin' => 'Comment', 'controller' => 'manage', 'action' => 'unpublished', 'prefix' => 'admin']); ?> queue,
-		until a user who has the proper permissions will publishes or deletes them.
+		until a user who has the proper permissions will publishes them, mark them as spam, move them to trash bin or just deletes them.
 		Published comments can be bulk managed on the <?php echo $this->Html->link('Published comments', ['plugin' => 'Comment', 'controller' => 'manage', 'action' => 'published', 'prefix' => 'admin']); ?> administration page.
 	</dd>
 </dl>

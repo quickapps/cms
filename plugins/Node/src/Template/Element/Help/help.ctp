@@ -33,12 +33,12 @@
 		The Node plugin gives users with the proper permission the ability to
 		<?php echo $this->Html->link('create new content types', ['plugin' => 'Node', 'controller' => 'types', 'action' => 'add', 'prefix' => 'admin']); ?>
 		in addition to the default ones already configured.
-		Creating custom content types allows you the flexibility to add <?php echo $this->Html->link('fields', ['plugin' => 'System', 'controller' => 'help', 'action' => 'about', 'prefix' => 'admin', 'Field']); ?> and configure default.
+		Creating custom content types allows you the flexibility to add <?php echo $this->Html->link('fields', ['plugin' => 'System', 'controller' => 'help', 'action' => 'about', 'prefix' => 'admin', 'Field']); ?> and configure default
 		settings that suit the differing needs of various site content.
 	</dd>
 
 	<dt>Administering content</dt>
 	<dd>
-		The <?php echo $this->Html->link('Content administration page', ['plugin' => 'Node', 'controller' => 'manage', 'prefix' => 'admin']); ?> allows you to review and bulk manage your site content.
+		The <?php echo $this->Html->link('content administration page', ['plugin' => 'Node', 'controller' => 'manage', 'prefix' => 'admin']); ?> allows you to review and bulk manage your site content.
 	</dd>
 </dl>

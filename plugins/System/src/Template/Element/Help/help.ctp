@@ -13,8 +13,11 @@
 
 <h2>About</h2>
 <p>
-	The System plugin is integral to the site, and provides basic but extensible functionality for use by other plugins and themes.
-	Some integral elements of QuickApps are contained in and managed by the System plugin, including caching, enabling and disabling plugins and themes and configuring fundamental site settings.
+	The System plugin is integral to the site, and provides basic but extensible
+	functionality for use by other plugins and themes. Some integral elements of
+	QuickApps are contained in and managed by the System plugin, including caching,
+	enabling and disabling plugins and themes and configuring fundamental site
+	settings.
 </p>
 
 <h2>Uses</h2>
@@ -22,10 +25,11 @@
 	<dt>Hooktags</dt>
 	<dd>
 		<p>
-			A Hooktag is a QuickApps-specific code that lets you do nifty things with very little effort.
-			Hooktags can for example print current language code (i.e. "en") or call especifics plugins/themes functions.
-			Plugins and themes are able to define their own hooktags. The <em>System</em> plugin provides a series of buil-in
-			hooktags as described below:
+			A Hooktag is a QuickApps-specific code that lets you do nifty things
+			with very little effort. Hooktags can for example print current language
+			code (i.e. "en") or call especifics plugins/themes functions. Plugins and
+			themes are able to define their own hooktags. The <em>System</em>
+			plugin provides a series of buil-in	hooktags as described below:
 		</p>
 
 		<hr />
@@ -36,7 +40,7 @@
 				Possible values of OPTION are: <em>code, name, native or direction.</em>
 				<ul>
 					<li><strong>code</strong>: Returns language's <a href="http://www.sil.org/iso639-3/codes.asp" target="_blank">ISO 639-2 code</a> (en, es, fr, etc)</li>
-					<li><strong>name</strong>: Returns language's english name (English, Spanish, German, French, etc)</li>
+					<li><strong>name</strong>: Returns language's English name (English, Spanish, German, French, etc)</li>
 					<li><strong>direction</strong>: Returns direction that text is presented. <em>lft</em> (Left To Right) or <em>rtl</em> (Right to Left)</li>
 				</ul>
 			</p>
@@ -78,7 +82,7 @@
 		<p>
 			<code>[random]values,by,comma[/random]</code>
 			<p>
-				Returns a radom value from the specified group. e.g.: [random]one,two,three[/random].<br />
+				Returns a random value from the specified group. e.g. [random]one,two,three[/random].<br />
 				If only two numeric values are given as group, then PHP function <a href="http://www.php.net/manual/function.rand.php" target="_blank">rand(min, max)</a> is returned. e.g.: [random]3,10[/random]
 			</p>
 		</p>
