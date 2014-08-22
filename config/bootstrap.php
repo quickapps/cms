@@ -46,7 +46,6 @@ use Cake\Datasource\ConnectionManager;
 use Cake\Error\ErrorHandler;
 use Cake\Event\EventManager;
 use Cake\Log\Log;
-use Cake\Network\Email\Email;
 use Cake\Network\Request;
 use Cake\Routing\DispatcherFactory;
 use Cake\Utility\Inflector;
@@ -141,8 +140,6 @@ if (!Configure::read('App.fullBaseUrl')) {
 
 Cache::config(Configure::consume('Cache'));
 ConnectionManager::config(Configure::consume('Datasources'));
-Email::configTransport(Configure::consume('EmailTransport'));
-Email::config(Configure::consume('Email'));
 Log::config(Configure::consume('Log'));
 
 /**
