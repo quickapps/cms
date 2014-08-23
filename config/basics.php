@@ -259,6 +259,8 @@ use QuickApps\Core\Plugin;
  *     [
  *         'name' => 'English',
  *         'code' => 'en-us',
+ *         'iso' => 'en',
+ *         'country' => 'US',
  *         'direction' => 'ltr',
  *         'icon' => 'us.gif',
  *     ]
@@ -358,34 +360,28 @@ use QuickApps\Core\Plugin;
 	}
 
 /**
- * Moves the given element by index from a list array of elements.
+ * Moves up or down the given element by index from a list array of elements.
+ *
+ * If item could not be moved, the original list will be returned.
  *
  * @param array $list Numeric indexed array list of elements
- * @param integer $position The index position of the element you want to move
+ * @param integer $index The index position of the element you want to move
  * @param string $direction Direction, 'up' or 'down'
  * @return array Reordered original list.
  */
-	function array_move(array $list, $position, $direction) {
+	function array_move(array $list, $index, $direction) {
+		$maxIndex = count($list) - 1;
 		if ($direction == 'down') {
-			if (count($list) - 1 > $position) {
-				$b = array_slice($list, 0, $position, true);
-				$b[] = $list[$position + 1];
-				$b[] = $list[$position];
-				$b += array_slice($list, $position + 2, count($list), true);
-
-				return $b;
-			} else {
-				return $list;
+			if (0 < $index && $index <= $maxIndex) {
+				$item = $list[$index];
+				$list[$index] = $list[$index - 1];
+				$list[$index - 1] = $item;
 			}
 		} elseif ($direction == 'up') {
-			if ($position > 0 and $position < count($list)) {
-				$b = array_slice($list, 0, ($position - 1), true);
-				$b[] = $list[$position];
-				$b[] = $list[$position - 1];
-				$b += array_slice($list, ($position + 1), count($list), true);
-
-				return $b;
-			} else {
+			if ($index >= 0 && $maxIndex > $index) {
+				$item = $list[$index];
+				$list[$index] = $list[$index + 1];
+				$list[$index + 1] = $item;
 				return $list;
 			}
 		}
@@ -448,7 +444,7 @@ use QuickApps\Core\Plugin;
  * ### Example:
  *
  *     echo str_replace_once('A', 'a', 'AAABBBCCC');
- *     // out: aAABBCCCC
+ *     // out: aAABBBCCC
  *
  * @param string $search The value being searched for
  * @param string $replace The replacement value that replaces found search value
@@ -469,7 +465,7 @@ function str_replace_once($search, $replace, $subject) {
  * ### Example:
  *
  *     echo str_replace_once('A', 'a', 'AAABBBCCC');
- *     // out: AAaBBCCCC
+ *     // out: AAaBBBCCC
  *
  * @param string $search The value being searched for
  * @param string $replace The replacement value that replaces found search value

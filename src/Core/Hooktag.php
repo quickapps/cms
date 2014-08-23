@@ -30,12 +30,17 @@ class Hooktag {
  * Look for hooktags in the given text.
  *
  * @param string $content The content to parse
- * @param object $context The context for \Cake\Event\Event::$subject
- * @return string Original string modified with no hooktags [..]
+ * @param object $context The context for \Cake\Event\Event::$subject, if not
+ *  given an instance of this Hooktag class will be used
+ * @return string Original string modified with no hooktags "[ ... ]"
  */
-	public static function hooktags($content, $context) {
+	public static function hooktags($content, $context = null) {
 		if (strpos($content, '[') === false) {
 			return $content;
+		}
+
+		if ($context === null)	 {
+			$context = new Hooktag();
 		}
 
 		static::cache('context', $context);
@@ -48,7 +53,7 @@ class Hooktag {
  * Useful for plain text converting.
  *
  * @param string $text Text from which to remove hooktags
- * @return string Content without hooktags
+ * @return string Content without hooktags markers
  */
 	public static function stripHooktags($text) {
 		$tagregexp = implode('|', array_map('preg_quote', static::_hooktagsList()));
