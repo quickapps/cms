@@ -377,7 +377,7 @@ use QuickApps\Core\Plugin;
 			} else {
 				return $list;
 			}
-		} elseif ($direction = 'up') {
+		} elseif ($direction == 'up') {
 			if ($position > 0 and $position < count($list)) {
 				$b = array_slice($list, 0, ($position - 1), true);
 				$b[] = $list[$position];
@@ -430,7 +430,6 @@ use QuickApps\Core\Plugin;
  * @return array List of methods
  */
 	function get_this_class_methods($class) {
-		$methods = [];
 		$primary = get_class_methods($class);
 
 		if ($parent = get_parent_class($class)) {
@@ -458,7 +457,6 @@ use QuickApps\Core\Plugin;
  */
 function str_replace_once($search, $replace, $subject) {
 	if (strpos($subject, $search) !== false) {
-		$occurrence = strpos($subject, $search);
 		return substr_replace($subject, $replace, strpos($subject, $search), strlen($search));
 	}
 

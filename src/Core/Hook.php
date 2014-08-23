@@ -220,7 +220,7 @@ class Hook {
 		$eventName = "Alter.{$eventName}";
 		static::_log($eventName);
 		$event = new Event($eventName, $context);
-		$listeners = EventManager::instance()->listeners($event->name());
+		$listeners = EventManager::instance()->listeners($eventName);
 
 		foreach ($listeners as $listener) {
 			if ($event->isStopped()) {

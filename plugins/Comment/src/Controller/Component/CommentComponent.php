@@ -364,7 +364,7 @@ class CommentComponent extends Component {
 /**
  * Creates a validation object on the fly.
  *
- * @return Cake\Validation\Validator
+ * @return \Cake\Validation\Validator
  */
 	protected function _createValidator() {
 		$config = $this->config();

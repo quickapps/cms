@@ -38,7 +38,7 @@ class CommentHook implements EventListener {
  * Renders a single Comment.
  *
  * @param Event $event
- * @param Comment\Model\Entity\Comment $comment
+ * @param \Comment\Model\Entity\Comment $comment
  * @param array $options
  * @return string HTML
  */

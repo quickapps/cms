@@ -139,6 +139,7 @@ class BlockHook implements EventListener {
 		if ($cache !== null) {
 			$element = $cache;
 		} else {
+			$element = 'Block.render_block';
 			$try = [
 				"Block.render_block_{$block->region->region}_{$viewMode}",
 				"Block.render_block_{$block->region->region}",

@@ -35,7 +35,7 @@ class Region {
 /**
  * Collection of blocks for this region.
  * 
- * @var \Cake\Collection\Iterator\FilterIterator
+ * @var \Cake\Collection\Collection
  */
 	protected $_blocks = null;
 
@@ -168,7 +168,7 @@ class Region {
  * Null means unlimited number.
  *  
  * @param null|integer $number Defaults to null
- * @return \Block\Utility\Region
+ * @return \Block\View\Region
  */
 	public function blockLimit($number = null) {
 		$number = $number !== null ? intval($number) : $number;
@@ -184,7 +184,7 @@ class Region {
  *
  * @param boolean $homogenize Set to true to make sure all blocks in the collection
  * are marked as they belongs to this region
- * @return \Block\Utility\Region This region with $region's blocks appended
+ * @return \Block\View\Region This region with $region's blocks appended
  */
 	public function merge(Region $region, $homogenize = true) {
 		if ($region->getName() != $this->_machineName) {
@@ -202,7 +202,7 @@ class Region {
  *
  * Used when merging blocks from another region.
  * 
- * @return \Block\Utility\Region This region with homogenized blocks
+ * @return \Block\View\Region This region with homogenized blocks
  */
 	public function homogenize() {
 		$this->_blocks = $this->_blocks->map(function ($block) {

@@ -39,7 +39,7 @@ class FieldsController extends AppController {
  *
  * We sets appropriate breadcrumbs based on current action being requested.
  *
- * @param Cake\Event\Event $event
+ * @param \Cake\Event\Event $event
  * @return void
  */
 	public function beforeRender(\Cake\Event\Event $event) {

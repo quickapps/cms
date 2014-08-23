@@ -82,8 +82,8 @@ class FieldHook implements EventListener {
  * If the field object being rendered has been set to "hidden" for the current
  * view mode it will not be rendered.
  *
- * @param Cake\Event\Event $event
- * @param Field\Model\Entity\Field $field Mock entity
+ * @param \Cake\Event\Event $event
+ * @param \Field\Model\Entity\Field $field Mock entity
  * @param array $options Additional array of options
  * @return string The rendered field
  */

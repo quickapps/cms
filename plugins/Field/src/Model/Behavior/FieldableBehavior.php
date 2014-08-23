@@ -689,7 +689,7 @@ class FieldableBehavior extends Behavior {
  * @param \Cake\Event\Event $event
  * @param \Cake\ORM\Entity $entity
  * @param array $options
- * @param Validator $validator
+ * @param \Cake\Validation\Validator $validator
  * @return bool True on success
  */
 	public function beforeValidate(Event $event, $entity, $options, $validator) {
@@ -870,7 +870,7 @@ class FieldableBehavior extends Behavior {
  *
  * @param \Cake\ORM\Entity $entity The entity to modify
  * @param integer $key Entity key index from result collection.
- * @param MapReduce $mapReduce Instance of the MapReduce routine it is running.
+ * @param object $mapReduce Instance of the MapReduce routine it is running.
  * @return void
  */
 	public function fieldableMapper($entity, $key, $mapReduce) {
