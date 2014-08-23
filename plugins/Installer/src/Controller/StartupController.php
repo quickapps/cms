@@ -326,7 +326,7 @@ class StartupController extends Controller {
 							'default' => $dbConfig,
 						],
 						'Security' => [
-							'salt' => substr(str_shuffle('$%&()=!#@~0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, rand(30, 40))
+							'salt' => substr(str_shuffle('$%&()=!#@~0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, rand(40, 60))
 						],
 						'debug' => false,
 					];
