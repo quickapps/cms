@@ -213,6 +213,7 @@ class FormHelper extends CakeFormHelper {
 		}
 
 		$this->alter('FormHelper.input', $fieldName, $options);
+		debug($this->didHook('Alter.FormHelper.input'));
 		return parent::input($fieldName, $options);
 	}
 

@@ -1,0 +1,86 @@
+2014-08-23 00:12:44 Warning: Warning (2): require_once(C:\xampp\htdocs\quickapps2\vendor\quickapps\cms\./vendor/cakephp/cakephp/src/TestSuite/Fixture/FixtureInjector.php): failed to open stream: No such file or directory in [C:\xampp\php\pear\PHPUnit\TextUI\TestRunner.php, line 624]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - C:\xampp\htdocs\quickapps2\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 135
+PHPUnit_TextUI_TestRunner::handleConfiguration() - C:\xampp\php\pear\PHPUnit\TextUI\TestRunner.php, line 624
+PHPUnit_TextUI_TestRunner::handleConfiguration() - C:\xampp\php\pear\PHPUnit\TextUI\TestRunner.php, line 624
+PHPUnit_TextUI_TestRunner::doRun() - C:\xampp\php\pear\PHPUnit\TextUI\TestRunner.php, line 139
+PHPUnit_TextUI_Command::run() - C:\xampp\php\pear\PHPUnit\TextUI\Command.php, line 176
+PHPUnit_TextUI_Command::main() - C:\xampp\php\pear\PHPUnit\TextUI\Command.php, line 129
+[main] - C:\xampp\php\phpunit, line 46
+
+2014-08-23 00:12:46 Warning: Warning (2): require_once(C:\xampp\htdocs\quickapps2\vendor\quickapps\cms\./vendor/cakephp/cakephp/src/TestSuite/Fixture/FixtureInjector.php): failed to open stream: No such file or directory in [C:\xampp\php\pear\PHPUnit\TextUI\TestRunner.php, line 624]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - C:\xampp\htdocs\quickapps2\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 135
+PHPUnit_TextUI_TestRunner::handleConfiguration() - C:\xampp\php\pear\PHPUnit\TextUI\TestRunner.php, line 624
+PHPUnit_TextUI_TestRunner::handleConfiguration() - C:\xampp\php\pear\PHPUnit\TextUI\TestRunner.php, line 624
+PHPUnit_TextUI_TestRunner::doRun() - C:\xampp\php\pear\PHPUnit\TextUI\TestRunner.php, line 139
+PHPUnit_TextUI_Command::run() - C:\xampp\php\pear\PHPUnit\TextUI\Command.php, line 176
+PHPUnit_TextUI_Command::main() - C:\xampp\php\pear\PHPUnit\TextUI\Command.php, line 129
+[main] - C:\xampp\php\phpunit, line 46
+
+2014-08-23 00:31:28 Error: [Cake\Datasource\Error\MissingDatasourceConfigException] Cannot create alias of "test" as it does not exist.
+Stack Trace:
+#0 C:\xampp\htdocs\quickapps2\vendor\cakephp\cakephp\src\TestSuite\Fixture\FixtureManager.php(90): Cake\Datasource\ConnectionManager::alias('test', 'default')
+#1 C:\xampp\htdocs\quickapps2\vendor\cakephp\cakephp\src\TestSuite\Fixture\FixtureManager.php(119): Cake\TestSuite\Fixture\FixtureManager->_aliasConnections()
+#2 C:\xampp\htdocs\quickapps2\vendor\cakephp\cakephp\src\TestSuite\Fixture\FixtureManager.php(60): Cake\TestSuite\Fixture\FixtureManager->_initDb()
+#3 C:\xampp\htdocs\quickapps2\vendor\cakephp\cakephp\src\TestSuite\Fixture\FixtureInjector.php(134): Cake\TestSuite\Fixture\FixtureManager->fixturize(Object(QuickApps\Test\TestCase\Core\HookTest))
+#4 C:\xampp\php\pear\PHPUnit\Framework\TestResult.php(365): Cake\TestSuite\Fixture\FixtureInjector->startTest(Object(QuickApps\Test\TestCase\Core\HookTest))
+#5 C:\xampp\php\pear\PHPUnit\Framework\TestResult.php(578): PHPUnit_Framework_TestResult->startTest(Object(QuickApps\Test\TestCase\Core\HookTest))
+#6 C:\xampp\php\pear\PHPUnit\Framework\TestCase.php(776): PHPUnit_Framework_TestResult->run(Object(QuickApps\Test\TestCase\Core\HookTest))
+#7 C:\xampp\php\pear\PHPUnit\Framework\TestSuite.php(775): PHPUnit_Framework_TestCase->run(Object(PHPUnit_Framework_TestResult))
+#8 C:\xampp\php\pear\PHPUnit\Framework\TestSuite.php(745): PHPUnit_Framework_TestSuite->runTest(Object(QuickApps\Test\TestCase\Core\HookTest), Object(PHPUnit_Framework_TestResult))
+#9 C:\xampp\php\pear\PHPUnit\Framework\TestSuite.php(705): PHPUnit_Framework_TestSuite->run(Object(PHPUnit_Framework_TestResult), false, Array, Array, false)
+#10 C:\xampp\php\pear\PHPUnit\Framework\TestSuite.php(705): PHPUnit_Framework_TestSuite->run(Object(PHPUnit_Framework_TestResult), false, Array, Array, false)
+#11 C:\xampp\php\pear\PHPUnit\TextUI\TestRunner.php(349): PHPUnit_Framework_TestSuite->run(Object(PHPUnit_Framework_TestResult), false, Array, Array, false)
+#12 C:\xampp\php\pear\PHPUnit\TextUI\Command.php(176): PHPUnit_TextUI_TestRunner->doRun(Object(PHPUnit_Framework_TestSuite), Array)
+#13 C:\xampp\php\pear\PHPUnit\TextUI\Command.php(129): PHPUnit_TextUI_Command->run(Array, true)
+#14 C:\xampp\php\phpunit(46): PHPUnit_TextUI_Command::main()
+#15 {main}
+2014-08-23 01:10:27 Warning: Warning (4096): Object of class QuickApps\Test\TestCase\Core\HookTest could not be converted to string in [C:\xampp\htdocs\quickapps2\vendor\quickapps\cms\tests\TestCase\Core\HookTest.php, line 29]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - C:\xampp\htdocs\quickapps2\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 135
+QuickApps\Test\TestCase\Core\HookTest::setUp() - ROOT\tests\TestCase\Core\HookTest.php, line 29
+PHPUnit_Framework_TestCase::runBare() - C:\xampp\php\pear\PHPUnit\Framework\TestCase.php, line 828
+PHPUnit_Framework_TestResult::run() - C:\xampp\php\pear\PHPUnit\Framework\TestResult.php, line 648
+PHPUnit_Framework_TestCase::run() - C:\xampp\php\pear\PHPUnit\Framework\TestCase.php, line 776
+PHPUnit_Framework_TestSuite::runTest() - C:\xampp\php\pear\PHPUnit\Framework\TestSuite.php, line 775
+PHPUnit_Framework_TestSuite::run() - C:\xampp\php\pear\PHPUnit\Framework\TestSuite.php, line 745
+PHPUnit_Framework_TestSuite::run() - C:\xampp\php\pear\PHPUnit\Framework\TestSuite.php, line 705
+PHPUnit_Framework_TestSuite::run() - C:\xampp\php\pear\PHPUnit\Framework\TestSuite.php, line 705
+PHPUnit_TextUI_TestRunner::doRun() - C:\xampp\php\pear\PHPUnit\TextUI\TestRunner.php, line 349
+PHPUnit_TextUI_Command::run() - C:\xampp\php\pear\PHPUnit\TextUI\Command.php, line 176
+PHPUnit_TextUI_Command::main() - C:\xampp\php\pear\PHPUnit\TextUI\Command.php, line 129
+[main] - C:\xampp\php\phpunit, line 46
+
+2014-08-23 01:10:27 Warning: Warning (2): Creating default object from empty value in [C:\xampp\htdocs\quickapps2\vendor\quickapps\cms\tests\TestCase\Core\HookTest.php, line 29]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - C:\xampp\htdocs\quickapps2\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 135
+QuickApps\Test\TestCase\Core\HookTest::setUp() - ROOT\tests\TestCase\Core\HookTest.php, line 29
+PHPUnit_Framework_TestCase::runBare() - C:\xampp\php\pear\PHPUnit\Framework\TestCase.php, line 828
+PHPUnit_Framework_TestResult::run() - C:\xampp\php\pear\PHPUnit\Framework\TestResult.php, line 648
+PHPUnit_Framework_TestCase::run() - C:\xampp\php\pear\PHPUnit\Framework\TestCase.php, line 776
+PHPUnit_Framework_TestSuite::runTest() - C:\xampp\php\pear\PHPUnit\Framework\TestSuite.php, line 775
+PHPUnit_Framework_TestSuite::run() - C:\xampp\php\pear\PHPUnit\Framework\TestSuite.php, line 745
+PHPUnit_Framework_TestSuite::run() - C:\xampp\php\pear\PHPUnit\Framework\TestSuite.php, line 705
+PHPUnit_Framework_TestSuite::run() - C:\xampp\php\pear\PHPUnit\Framework\TestSuite.php, line 705
+PHPUnit_TextUI_TestRunner::doRun() - C:\xampp\php\pear\PHPUnit\TextUI\TestRunner.php, line 349
+PHPUnit_TextUI_Command::run() - C:\xampp\php\pear\PHPUnit\TextUI\Command.php, line 176
+PHPUnit_TextUI_Command::main() - C:\xampp\php\pear\PHPUnit\TextUI\Command.php, line 129
+[main] - C:\xampp\php\phpunit, line 46
+
+2014-08-23 01:10:40 Warning: Warning (4096): Object of class QuickApps\Test\TestCase\Core\HookTest could not be converted to string in [C:\xampp\htdocs\quickapps2\vendor\quickapps\cms\tests\TestCase\Core\HookTest.php, line 35]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - C:\xampp\htdocs\quickapps2\vendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 135
+QuickApps\Test\TestCase\Core\HookTest::setUp() - ROOT\tests\TestCase\Core\HookTest.php, line 35
+PHPUnit_Framework_TestCase::runBare() - C:\xampp\php\pear\PHPUnit\Framework\TestCase.php, line 828
+PHPUnit_Framework_TestResult::run() - C:\xampp\php\pear\PHPUnit\Framework\TestResult.php, line 648
+PHPUnit_Framework_TestCase::run() - C:\xampp\php\pear\PHPUnit\Framework\TestCase.php, line 776
+PHPUnit_Framework_TestSuite::runTest() - C:\xampp\php\pear\PHPUnit\Framework\TestSuite.php, line 775
+PHPUnit_Framework_TestSuite::run() - C:\xampp\php\pear\PHPUnit\Framework\TestSuite.php, line 745
+PHPUnit_Framework_TestSuite::run() - C:\xampp\php\pear\PHPUnit\Framework\TestSuite.php, line 705
+PHPUnit_Framework_TestSuite::run() - C:\xampp\php\pear\PHPUnit\Framework\TestSuite.php, line 705
+PHPUnit_TextUI_TestRunner::doRun() - C:\xampp\php\pear\PHPUnit\TextUI\TestRunner.php, line 349
+PHPUnit_TextUI_Command::run() - C:\xampp\php\pear\PHPUnit\TextUI\Command.php, line 176
+PHPUnit_TextUI_Command::main() - C:\xampp\php\pear\PHPUnit\TextUI\Command.php, line 129
+[main] - C:\xampp\php\phpunit, line 46
+
