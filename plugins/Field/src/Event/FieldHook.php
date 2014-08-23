@@ -11,7 +11,6 @@
  */
 namespace Field\Event;
 
-use Cake\Collection\Collection;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventListener;
@@ -150,7 +149,7 @@ class FieldHook implements EventListener {
 			}
 		}
 
-		return new Collection($fields);
+		return collection($fields);
 	}
 
 }

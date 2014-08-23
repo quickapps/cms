@@ -11,7 +11,6 @@
  */
 namespace QuickApps\Core;
 
-use Cake\Collection\Collection;
 use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Core\Plugin as CakePlugin;
@@ -90,13 +89,16 @@ class Plugin extends CakePlugin {
  * When $ignoreError is set to true and a corrupt plugin is found, it will
  * be removed from the resulting collection.
  *
- * @param boolean $extendedInfo Set to true to get extended information for each plugin
+ * @param boolean $extendedInfo Set to true to get extended information for each plugin,
+ *  extended information includes "composer.json" and plugin's DB settings
  * @param boolean $ignoreError Set to true to ignore error messages when a corrupt
  *  plugin is found. Defaults to true
  * @return \Cake\Collection\Collection
+ * @throws \Cake\Error\FatalErrorException When a corrupt plugin is found and $ignoreError
+ *  is set to false
  */
 	public static function collection($extendedInfo = false, $ignoreError = true) {
-		$collection = new Collection(quickapps('plugins'));
+		$collection = collection(quickapps('plugins'));
 
 		if ($extendedInfo) {
 			$collection = $collection->map(function ($info, $key) use($ignoreError) {
