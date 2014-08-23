@@ -53,7 +53,7 @@ class FormHelper extends CakeFormHelper {
  * @param array $options An array of html attributes and options.
  * @return string An formatted opening FORM tag.
  */
-	public function create($model = null, $options = []) {
+	public function create($model = null, array $options = []) {
 		$this->alter('FormHelper.create', $model, $options);
 		return parent::create($model, $options);
 	}
@@ -213,7 +213,6 @@ class FormHelper extends CakeFormHelper {
 		}
 
 		$this->alter('FormHelper.input', $fieldName, $options);
-		debug($this->didHook('Alter.FormHelper.input'));
 		return parent::input($fieldName, $options);
 	}
 
