@@ -21,11 +21,15 @@ use Cake\Network\Request;
 use Cake\Network\Response;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
+use Cake\Utility\Security;
 
 /**
  * Anonymous Authenticate adapter.
  *
- * Applies authorization rules to anonymous users.
+ * Applies authorization rules to anonymous users. It also handles "remember me"
+ * cookies, it will try to login an user if he/she has a valid "remember me" cookie.
+ *
+ * Cookies are automatically created by FormAuthenticate.
  */
 class AnonymousAuthenticate extends BaseAuthenticate {
 
@@ -53,6 +57,31 @@ class AnonymousAuthenticate extends BaseAuthenticate {
  * @return void
  */
 	public function unauthenticated(Request $request, Response $response) {
+		$controller = $this->_registry->getController();
+		if (empty($controller->Cookie)) {
+			$controller->addComponent('Cookie');
+		}
+
+		$cookie = $controller->Cookie->read('User.Cookie');
+		if ($cookie) {
+			$cookie = json_decode($cookie, true);
+			if (
+				isset($cookie['user']) &&
+				isset($cookie['hash']) &&
+				$cookie['hash'] == Security::hash($cookie['user'], 'sha1', true)
+			) {
+				$cookie['user'] = json_decode($cookie['user'], true);
+				$user = $this->_findUser($cookie['user']['username']);
+				if ($user) {
+					if (isset($user['password'])) {
+						unset($user['password']);
+					}
+					$controller->Auth->setUser($user);
+					return true;
+				}
+			}
+		}
+
 		$cacheKey = 'permissions_anonymous';
 		$permissions = Cache::read($cacheKey, 'permissions');
 		$action = $this->action($request);

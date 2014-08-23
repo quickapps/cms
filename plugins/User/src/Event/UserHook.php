@@ -13,6 +13,7 @@ namespace User\Event;
 
 use Cake\Event\Event;
 use Cake\Event\EventListener;
+use Cake\Utility\Secutity;
 
 /**
  * Main Hook Listener for User plugin.
@@ -55,7 +56,8 @@ class UserHook implements EventListener {
  * between success or failure using the given argument.
  *
  * @param \Cake\Event\Event $event
- * @param mixed $result
+ * @param mixed $result Result of AuthComponent::identify(), false if user could
+ *  not be identified, or an array of user's info if was successfully identified
  * @return bool
  */
 	public function afterIdentify(Event $event, $result) {

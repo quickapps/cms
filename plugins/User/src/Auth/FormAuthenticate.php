@@ -18,11 +18,13 @@ namespace User\Auth;
 use Cake\Auth\FormAuthenticate as CakeFormAuthenticate;
 use Cake\Network\Request;
 use Cake\Network\Response;
+use Cake\Utility\Security;
 
 /**
- * An authentication adapter for AuthComponent. Provides the ability to authenticate using POST
- * data and using user's **email or username**.
+ * An authentication adapter for AuthComponent. Provides the ability to
+ * authenticate using POST data and using user's **email or username**.
  *
+ * It also provides "remember me" capabilities using cookies.
  */
 class FormAuthenticate extends CakeFormAuthenticate {
 
@@ -44,7 +46,34 @@ class FormAuthenticate extends CakeFormAuthenticate {
 			$result = parent::authenticate($request, $response);
 		}
 
+		if ($result && !empty($request->data['remember'])) {
+			$controller = $this->_registry->getController();
+			if (empty($controller->Cookie)) {
+				$controller->addComponent('Cookie');
+			}
+
+			// user information array
+			$user = json_encode($result); 
+			// used to check that user's info array is authentic
+			$hash = Security::hash($user, 'sha1', true);
+			$controller->Cookie->write('User.Cookie', json_encode(compact('user', 'hash')));
+		}
+
 		return $result;
+	}
+
+/**
+ * Removes "remember me" cookie.
+ * 
+ * @param array $user
+ * @return void
+ */
+	public function logout(array $user) {
+		$controller = $this->_registry->getController();
+		if (empty($controller->Cookie)) {
+			$controller->addComponent('Cookie');
+		}
+		$controller->Cookie->delete('User.Cookie');
 	}
 
 }

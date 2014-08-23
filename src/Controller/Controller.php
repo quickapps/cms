@@ -12,6 +12,7 @@
 namespace QuickApps\Controller;
 
 use Cake\Controller\Controller as CakeCotroller;
+use Cake\Controller\Component\AuthComponent;
 use Cake\I18n\I18n;
 use QuickApps\Core\HookTrait;
 use QuickApps\View\ViewModeTrait;
@@ -70,7 +71,7 @@ class Controller extends CakeCotroller {
 		'Auth' => [
 			'className' => 'User.Auth',
 			'authenticate' => [
-				'User.Form' => [
+				AuthComponent::ALL => [
 					'username' => 'username',
 					'password' => 'password',
 					'userModel' => 'User.Users',
@@ -78,6 +79,7 @@ class Controller extends CakeCotroller {
 					'contain' => ['Roles'],
 					'passwordHasher' => 'Default',
 				],
+				'User.Form',
 				'User.Anonymous',
 			],
 			'authorize' => ['User.Cached'],

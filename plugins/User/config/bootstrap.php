@@ -54,11 +54,16 @@ Cache::config('permissions', [
 		$request = Router::getRequest();
 		if ($request && $request->is('userLoggedIn')) {
 			$properties = Router::getRequest()->session()->read('Auth.User');
-			foreach ($properties['roles'] as &$role) {
-				unset($role['_joinData']);
-				$role = new Entity($role);
+			if (!empty($properties['roles'])) {
+				foreach ($properties['roles'] as &$role) {
+					unset($role['_joinData']);
+					$role = new Entity($role);
+				}
+			} else {
+				$properties['roles'] = [];
 			}
 			$properties['roles'][] = TableRegistry::get('Roles')->get(ROLE_ID_AUTHENTICATED);
+
 		} else {
 			$properties = [
 				'id' => null,
