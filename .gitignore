@@ -5,8 +5,6 @@
 /tags
 /vendor
 composer.lock
-phpunit.xml
-phpdoc.dist.xml
 .tags
 .tags_sorted_by_file
 

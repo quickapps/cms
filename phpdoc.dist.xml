@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+	<title>QuickApps CMS 2.x</title>
+
+	<parser>
+		<target>C:\xampp\htdocs\API\2.0</target>
+		<markers>
+			<item>TODO</item>
+			<item>FIX</item>
+		</markers>
+	</parser>
+
+	<transformer>
+		<target>C:\xampp\htdocs\API\2.0</target>
+	</transformer>
+
+    <transformations>
+        <template name="clean"/>
+    </transformations>
+
+	<files>
+		<directory>src</directory>
+		<directory>plugins</directory>
+		<ignore>Lib/*</ignore>
+		<ignore>Vendor/*</ignore>
+	</files>
+</phpdoc>
