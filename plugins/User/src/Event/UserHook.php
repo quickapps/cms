@@ -33,7 +33,8 @@ class UserHook implements EventListener {
 			'User.beforeIdentify' => 'beforeIdentify',
 			'User.afterIdentify' => 'afterIdentify',
 			'User.beforeLogout' => 'beforeLogout',
-			'User.afterLogout' => 'afterLogout'
+			'User.afterLogout' => 'afterLogout',
+			'Plugin.User.settingsDefaults' => 'settingsDefaults',
 		];
 	}
 
@@ -87,6 +88,20 @@ class UserHook implements EventListener {
  * @return bool
  */
 	public function afterLogout(Event $event, $redirect = '') {
+	}
+
+/**
+ * Provides defaults values for settings keys.
+ *
+ * @param \Cake\Event\Event $event
+ * @param string|array $redirect
+ * @return bool
+ */
+	public function settingsDefaults(Event $event) {
+		return [
+			'message_welcome_subject' => '',
+			'message_welcome_body' => '',
+		];
 	}
 
 }
