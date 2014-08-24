@@ -30,7 +30,7 @@ class CommentHook implements EventListener {
 	public function implementedEvents() {
 		return [
 			'Render.Comment\Model\Entity\Comment' => 'renderComment',
-			'Plugin.Comment.defaultSettings' => 'defaultSettings',
+			'Plugin.Comment.settingsDefaults' => 'settingsDefaults',
 		];
 	}
 
@@ -54,7 +54,7 @@ class CommentHook implements EventListener {
  * @param Event $event
  * @return array
  */
-	public function defaultSettings(Event $event) {
+	public function settingsDefaults(Event $event) {
 		return [
 			'allow_anonymous' => true,
 			'anonymous_name' => true,

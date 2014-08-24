@@ -332,12 +332,15 @@ class Plugin extends CakePlugin {
 	}
 
 /**
- * Gets settings from DB for given plugin.
+ * Gets settings from DB for given plugin. Or reads a single settings key value.
  * 
  * @param string $plugin Plugin alias, e.g. `UserManager` or `user_manager`
- * @return array
+ * @param string $key Which setting to read, the entire settings will be returned
+ *  if no key is provided
+ * @return mixed Array of settings if $key was not provided, or the requested
+ *  value for the given $key (null of key does not exists)
  */
-	public static function settings($plugin) {
+	public static function settings($plugin, $key = null) {
 		$plugin = Inflector::camelize($plugin);
 		$cacheKey = "settings({$plugin})";
 
@@ -346,7 +349,7 @@ class Plugin extends CakePlugin {
 		}
 
 		$settings = [];
-		$PluginsTable = TableRegistry::get('Plugins');
+		$PluginsTable = TableRegistry::get('System.Plugins');
 		$PluginsTable->schema(['settings' => 'serialized']);
 		$dbInfo = $PluginsTable
 			->find()
@@ -359,6 +362,11 @@ class Plugin extends CakePlugin {
 		}
 
 		static::cache($cacheKey, $settings);
+
+		if ($key !== null) {
+			$settings = isset($settings[$key]) ? $settings[$key] : null;
+		}
+
 		return $settings;
 	}
 

@@ -55,8 +55,8 @@ class PluginsTable extends Table {
 /**
  * Here we set default values for plugin's settings.
  *
- * Plugins may implement the `Plugin.<PluginName>.defaultSettings` event to provide
- * default settings values.
+ * Similar to Field Handlers, plugins may implement the
+ * `Plugin.<PluginName>.settingsDefaults` event to provide default settings values.
  * 
  * @param \Cake\Event\Event $event
  * @param \Cake\ORM\Query $query
@@ -68,11 +68,11 @@ class PluginsTable extends Table {
 		$query->formatResults(function ($results) {
 			return $results->map(function($plugin) {
 				if ($plugin->has('settings') && $plugin->has('name')) {
-					$defaultSettings = $this->hook("Plugin.{$plugin->name}.defaultSettings")->result;
-					if (!is_array($defaultSettings)) {
-						$defaultSettings = [];
+					$settingsDefaults = $this->hook("Plugin.{$plugin->name}.settingsDefaults")->result;
+					if (!is_array($settingsDefaults)) {
+						$settingsDefaults = [];
 					}
-					$settings = Hash::merge($defaultSettings, $plugin->settings);
+					$settings = Hash::merge($settingsDefaults, $plugin->settings);
 					$plugin->set('settings', $settings);
 					return $plugin;
 				}
