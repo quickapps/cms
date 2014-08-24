@@ -15,6 +15,7 @@ use Cake\Core\Configure;
 use Cake\I18n\I18n;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
+use Block\Model\Entity\Block;
 use QuickApps\View\Helper;
 
 /**
@@ -49,7 +50,7 @@ class BlockHelper extends Helper {
  * @param array $options Array of options
  * @return string HTML
  */
-	public function render($block, $options = []) {
+	public function render(Block $block, array $options = []) {
 		$this->alter('BlockHelper.render', $block, $options);
 		if ($this->allowed($block)) {
 			return $this->hook(["Block.{$block->handler}.display", $this->_View], $block, $options)->result;
@@ -120,7 +121,7 @@ class BlockHelper extends Helper {
  * @param \Block\Model\Entity\Block $block Block entity
  * @return bool
  */
-	public function allowed($block) {
+	public function allowed(Block $block) {
 		$this->alter('BlockHelper.allowed', $block);
 		$cacheKey = "allowed_{$block->id}";
 		$cache = static::cache($cacheKey);

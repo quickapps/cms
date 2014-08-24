@@ -163,7 +163,8 @@ class PluginsController extends AppController {
 /**
  * Handles plugin's specifics settings.
  *
- * When saving plugin's information `PluginsTable` will trigger the following events:
+ * When saving plugin's information `PluginsTable` will trigger the
+ * following events:
  *
  * - `Plugin.<PluginName>.beforeValidate`
  * - `Plugin.<PluginName>.afterValidate`
@@ -171,6 +172,14 @@ class PluginsController extends AppController {
  * - `Plugin.<PluginName>.afterSave`
  *
  * Check `PluginsTable` documentation for more details.
+ *
+ * Additionally plugins may define default values for each input, to do this they
+ * must catch the event:
+ *
+ * - `Plugin.<PluginName>.settingsDefaults`
+ *
+ * They must return an associative array of default values for each input in
+ * the form.
  *
  * @param string $pluginName
  * @return void

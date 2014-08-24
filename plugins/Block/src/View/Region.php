@@ -21,12 +21,12 @@ use QuickApps\Core\Plugin;
 /**
  * Region class.
  *
- * Represents a region of a theme.
+ * Represents a single region of a theme.
  */
 class Region {
 
 /**
- * Name of this region. e.g.: 'left-sidebar'
+ * machine name of this region. e.g. 'left-sidebar'
  * 
  * @var string
  */
@@ -67,7 +67,8 @@ class Region {
  *
  * - `fixMissing`: When creating a region that is not defined by the theme, it
  *    will try to fix it by adding it to theme's regions if this option is set
- *    to TRUE. Defaults to NULL which automatically enables when `debug` is enabled.
+ *    to TRUE. Defaults to NULL which automatically enables when `debug` is
+ *    enabled. This option will not work when using QuickAppsCMS's core themes.
  *    (NOTE: This option will alter theme's `composer.json` file)
  * - `theme`: Name of the theme this regions belongs to. Defaults to auto-detect.
  *
@@ -76,7 +77,7 @@ class Region {
  * @param array $options
  * @return void
  */
-	public function __construct(View $view, $name, $options = []) {
+	public function __construct(View $view, $name, array $options = []) {
 		$options += [
 			'fixMissing' => null,
 			'theme' => $view->theme,
@@ -93,6 +94,7 @@ class Region {
 			if (
 				!in_array($this->_machineName, $validRegions) &&
 				$options['fixMissing'] &&
+				!$this->_theme['isCore'] &&
 				is_writable($jsonPath)
 			) {
 				$jsonArray = json_decode(file_get_contents($jsonPath), true);
@@ -182,8 +184,8 @@ class Region {
  * You can not merge regions with the same machine-name, new blocks are appended
  * to this region.
  *
- * @param boolean $homogenize Set to true to make sure all blocks in the collection
- * are marked as they belongs to this region
+ * @param boolean $homogenize Set to true to make sure all blocks in the
+ *  collection are marked as they belongs to this region
  * @return \Block\View\Region This region with $region's blocks appended
  */
 	public function merge(Region $region, $homogenize = true) {
@@ -197,8 +199,8 @@ class Region {
 	}
 
 /**
- * Makes sure that every block in this region is actually marked as it belongs to
- * this region.
+ * Makes sure that every block in this region is actually marked as it belongs
+ * to this region.
  *
  * Used when merging blocks from another region.
  * 

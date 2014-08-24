@@ -23,8 +23,10 @@ use Cake\Event\EventManager;
  *
  * QuickAppsCMS's Event system is composed of three primary elements:
  *
- * - `Event Listener`: An event listeners class implementing the EventListener interface.
- * - `Event Handler`: A method in your your listener class which take care of a single event.
+ * - `Event Listener`: An event listeners class implementing the EventListener
+ *    interface.
+ * - `Event Handler`: A method in your your listener class which take care of a
+ *    single event.
  * - `Event`: Name of the event. e.g.: `FormHelper.input`.
  *
  * An Event Listener class, may listen to many Events. But a Event Handler can only
@@ -192,7 +194,8 @@ class Hook {
  *
  * If no context is given an instance of "Hook" class will be used by default.
  *
- * @param string $eventName The name of the "alter hook" to trigger. e.g.: `FormHelper.input`
+ * @param string $eventName Name of the "alter event" to trigger.
+ *  e.g. `FormHelper.input` will trigger `Alter.FormHelper.input` event
  * @param mixed $p0 Optional argument by reference
  * @param mixed $p1 Optional argument by reference
  * @param mixed $p2 Optional argument by reference

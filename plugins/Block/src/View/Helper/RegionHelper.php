@@ -20,7 +20,7 @@ use QuickApps\View\Helper;
 /**
  * Region Factory Helper.
  *
- * For handling theme regions.
+ * For handling theme's regions.
  *
  * ### Usage:
  *
@@ -69,15 +69,18 @@ class RegionHelper extends Helper {
  *
  * ### Valid options are:
  *
- * - `fixMissing`: If set to TRUE when creating a region that is not defined in
- *    the theme, it will try to fix by adding to theme's regions. Defaults to TRUE.
+ * - `fixMissing`: When creating a region that is not defined by the theme, it
+ *    will try to fix it by adding it to theme's regions if this option is set
+ *    to TRUE. Defaults to NULL which automatically enables when `debug` is
+ *    enabled. This option will not work when using QuickAppsCMS's core themes.
+ *    (NOTE: This option will alter theme's `composer.json` file)
  * - `theme`: Name of the theme this regions belongs to. Defaults to auto-detect.
  *
  * @param string $region Region name
  * @param array $options Array of options described above
  * @return \Block\View\Region
  */
-	public function create($region, $options = []) {
+	public function create($region, array $options = []) {
 		$this->alter('RegionHelper.create', $region, $options);
 		static::$_regions[$region] = new Region($this->_View, $region, $options);
 		return static::$_regions[$region];
