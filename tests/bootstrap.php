@@ -8,3 +8,4 @@
 
 define('SITE_ROOT', __DIR__ . '/TestSite');
 require dirname(__DIR__) . '/config/bootstrap.php';
+snapshot();
