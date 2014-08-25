@@ -103,40 +103,7 @@ class PluginsTable extends Table {
 	public function beforeValidate(Event $event, Entity $entity, $options, Validator $validator) {
 		if (!empty($options['validate']) && $options['validate'] == 'settings') {
 			$this->hook(['Plugin.' . $entity->get('_plugin_name') . '.settingsValidate', $event->subject], $entity, $validator);
-		} else {
-			$this->hook(["Plugin.{$entity->name}.beforeValidate", $event->subject], $entity, $options, $validator);
 		}
-	}
-
-/**
- * Triggers the `Plugin.<PluginName>.afterValidate` event.
- * 
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Cake\ORM\Entity $entity The Plugin entity that was validated
- * @param array $options
- * @param \Cake\Validation\Validator $validator
- * @return void
- */
-	public function afterValidate(Event $event, Entity $entity, $options, Validator $validator) {
-		if (empty($options['validate']) || $options['validate'] != 'settings') {
-			$this->hook(["Plugin.{$entity->name}.afterValidate", $event->subject], $entity, $options, $validator);
-		}
-	}
-
-/**
- * Triggers the `Plugin.<PluginName>.beforeSave` event.
- * 
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Cake\ORM\Entity $plugin The Plugin entity that is going to be saved
- * @param array $options The options passed to the save method
- * @return bool False if save operation should not continue, true otherwise
- */
-	public function beforeSave(Event $event, Entity $plugin, $options) {
-		$pluginEvent = $this->hook(["Plugin.{$plugin->name}.beforeSave", $event->subject], $plugin, $options);
-		if ($pluginEvent->isStopped() || $pluginEvent->result === false) {
-			return false;
-		}
-		return true;
 	}
 
 /**
@@ -150,23 +117,6 @@ class PluginsTable extends Table {
  */
 	public function afterSave(Event $event, Entity $plugin, $options) {
 		snapshot();
-		$this->hook(["Plugin.{$plugin->name}.afterSave", $event->subject], $plugin, $options);
-	}
-
-/**
- * Triggers the "Plugin.<PluginName>.beforeDelete" event.
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Cake\ORM\Entity $plugin The Plugin entity that is going to be deleted
- * @param array $options the options passed to the delete method
- * @return bool False if delete operation should not continue, true otherwise
- */
-	public function beforeDelete(Event $event, Entity $plugin, $options = []) {
-		$pluginEvent = $this->hook(["Plugin.{$plugin->name}.beforeDelete", $event->subject], $plugin, $options);
-		if ($pluginEvent->isStopped() || $pluginEvent->result === false) {
-			return false;
-		}
-		return true;
 	}
 
 /**
@@ -179,7 +129,6 @@ class PluginsTable extends Table {
  * @return void
  */
 	public function afterDelete(Event $event, Entity $plugin, $options = []) {
-		$this->hook(["Plugin.{$plugin->name}.afterDelete", $event->subject], $plugin, $options);
 		snapshot();
 	}
 
