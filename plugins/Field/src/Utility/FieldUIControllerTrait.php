@@ -169,6 +169,7 @@ trait FieldUIControllerTrait {
 	public function configure($id) {
 		$instance = $this->_getOrThrow($id, ['locked' => false]);
 
+		// TODO: add settings validation capabilities, similar to System\Controller\Admin\PluginsController::settings()
 		if ($this->request->data) {
 			$instance->accessible('*', true);
 			$instance->accessible(['id', 'table_alias', 'handler', 'ordering'], false);
@@ -310,6 +311,7 @@ trait FieldUIControllerTrait {
 			],
 		];
 
+		// TODO: add view mode settings validation capabilities, similar to System\Controller\Admin\PluginsController::settings()
 		if ($this->request->data) {
 			$instance->accessible('*', true);
 			$currentValues = $instance->view_modes[$viewMode];

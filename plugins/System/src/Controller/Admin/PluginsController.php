@@ -12,6 +12,7 @@
 namespace System\Controller\Admin;
 
 use Cake\Error\NotFoundException;
+use Cake\ORM\Entity;
 use Cake\Utility\Hash;
 use System\Controller\AppController;
 use QuickApps\Core\Plugin;
@@ -181,6 +182,11 @@ class PluginsController extends AppController {
  * They must return an associative array of default values for each input in
  * the form.
  *
+ * Validation rules can be applied to settings, plugins must simply catch the
+ * event:
+ *
+ * - `Plugin.<PluginName>.settingsValidate`
+ *
  * @param string $pluginName
  * @return void
  * @throws \Cake\Error\NotFoundException When plugin do not exists
@@ -199,15 +205,20 @@ class PluginsController extends AppController {
 
 		if (!empty($this->request->data)) {
 			$this->loadModel('System.Plugins');
-			$pluginEntity = $this->Plugins->get($pluginName);
-			$pluginEntity->set('settings', $this->request->data);
+			$settingsEntity = new Entity($this->request->data);
+			$settingsEntity->set('_plugin_name', $pluginName);
 
-			if ($this->Plugins->save($pluginEntity)) {
-				$this->Flash->success(__d('system', 'Plugin settings saved!'));
-				$this->redirect($this->referer());
+			if ($this->Plugins->validate($settingsEntity, ['validate' => 'settings'])) {
+				$pluginEntity = $this->Plugins->get($pluginName);
+				$pluginEntity->set('settings', $this->request->data);
+
+				if ($this->Plugins->save($pluginEntity)) {
+					$this->Flash->success(__d('system', 'Plugin settings saved!'));
+					$this->redirect($this->referer());
+				}
 			} else {
-				$this->Flash->danger(__d('system', 'Plugin settings could not be saved'));
-				$errors = $pluginEntity->errors();
+				$this->Flash->danger(__d('system', 'Plugin settings could not be saved.'));
+				$errors = $settingsEntity->errors();
 
 				if (!empty($errors)) {
 					foreach ($errors as $field => $message) {

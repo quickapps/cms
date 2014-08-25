@@ -186,7 +186,32 @@ class ThemesController extends AppController {
 /**
  * Handles theme's specifics settings.
  *
+ * When saving theme's information `PluginsTable` will trigger the
+ * following events:
+ *
+ * - `Plugin.<PluginName>.beforeValidate`
+ * - `Plugin.<PluginName>.afterValidate`
+ * - `Plugin.<PluginName>.beforeSave`
+ * - `Plugin.<PluginName>.afterSave`
+ *
+ * Check `PluginsTable` documentation for more details.
+ *
+ * Additionally theme may define default values for each input, to do this they
+ * must catch the event:
+ *
+ * - `Plugin.<PluginName>.settingsDefaults`
+ *
+ * They must return an associative array of default values for each input in
+ * the form.
+ *
+ * Validation rules can be applied to settings, theme must simply catch the
+ * event:
+ *
+ * - `Plugin.<PluginName>.settingsValidate`
+ *
+ * @param string $pluginName
  * @return void
+ * @throws \Cake\Error\NotFoundException When plugin do not exists
  */
 	public function settings($themeName) {
 		$theme = Plugin::info($themeName, true);
@@ -202,15 +227,20 @@ class ThemesController extends AppController {
 
 		if (!empty($this->request->data)) {
 			$this->loadModel('System.Plugins');
-			$themeEntity = $this->Plugins->get($themeName);
-			$themeEntity->set('settings', $this->request->data);
+			$settingsEntity = new Entity($this->request->data);
+			$settingsEntity->set('_plugin_name', $themeName);
 
-			if ($this->Plugins->save($themeEntity)) {
-				$this->Flash->success(__d('system', 'Theme settings saved!'));
-				$this->redirect($this->referer());
+			if ($this->Plugins->validate($settingsEntity, ['validate' => 'settings'])) {
+				$pluginEntity = $this->Plugins->get($themeName);
+				$pluginEntity->set('settings', $this->request->data);
+
+				if ($this->Plugins->save($pluginEntity)) {
+					$this->Flash->success(__d('system', 'Theme settings saved!'));
+					$this->redirect($this->referer());
+				}
 			} else {
-				$this->Flash->danger(__d('system', 'Theme settings could not be saved'));
-				$errors = $themeEntity->errors();
+				$this->Flash->danger(__d('system', 'Theme settings could not be saved.'));
+				$errors = $settingsEntity->errors();
 
 				if (!empty($errors)) {
 					foreach ($errors as $field => $message) {
@@ -219,7 +249,7 @@ class ThemesController extends AppController {
 				}
 			}
 		} else {
-			$this->request->data = $theme['settings'];
+			$this->request->data = $plugin['settings'];
 		}
 
 		$this->set(compact('arrayContext', 'theme'));
