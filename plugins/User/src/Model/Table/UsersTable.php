@@ -13,6 +13,7 @@ namespace User\Model\Table;
 
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\Database\Schema\Table as Schema;
+use Cake\Error\FatalErrorException;
 use Cake\Event\Event;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -124,6 +125,28 @@ class UsersTable extends Table {
 			$user->unsetProperty('password');
 			$user->dirty('password', false);
 		}
+	}
+
+/**
+ * Generates a unique token for the given user. The generated token is
+ * automatically persisted on DB.
+ *
+ * Tokens are unique and follows the pattern below:
+ *
+ *     <user_id>-<32-random-letters-and-numbers>
+ * 
+ * @param \User\Model\Entity\User $user The user for which generate the token
+ * @return \User\Model\Entity\User The user entity with a the new token property
+ * @throws \Cake\Error\FatalErrorException When an invalid user entity was given 
+ */
+	public function updateToken(User $user) {
+		if (!$user->has('id')) {
+			throw new FatalErrorException(__d('user', 'UsersTable::updateToken(), no ID was found for the given entity.'));
+		}
+
+		$user->set('token', $user->id . '-' . md5(uniqid($user->id, true)));
+		$this->save($user, ['validate' => false]);
+		return $user;
 	}
 
 }

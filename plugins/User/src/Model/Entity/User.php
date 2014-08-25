@@ -12,8 +12,10 @@
 namespace User\Model\Entity;
 
 use Cake\Auth\DefaultPasswordHasher;
+use Cake\Error\FatalErrorException;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
+use Cake\Utility\Security;
 use QuickApps\Core\StaticCacheTrait;
 
 /**
@@ -105,6 +107,28 @@ class User extends Entity {
 			}
 		}
 		return $names;
+	}
+
+/**
+ * Generates cancel code for this user.
+ * 
+ * @return string
+ * @throws \Cake\Error\FatalErrorException When code cannot be created
+ */
+	protected function _getCancelCode() {
+		if (!$this->has('password') && !$this->has('id')) {
+			throw new FatalErrorException(__d('user', 'Cannot generated cancel code for this user: unknown user ID.'));
+		}
+
+		if (!$this->has('password')) {
+			$password = TableRegistry::get('User.Users')
+				->get($this->id, ['fields' => ['password']])
+				->get('password');
+		} else {
+			$password = $this->password;
+		}
+
+		return Security::hash($password, 'md5', true);
 	}
 
 }

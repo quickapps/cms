@@ -46,7 +46,7 @@ class GatewayController extends AppController {
 			$user = $this->Auth->identify();
 			if ($user) {
 				$this->Auth->setUser($user);
-				if ($user['id']) {
+				if (!empty($user['id'])) {
 					try {
 						$user = $this->Users->get($user['id']);
 						if ($user) {
@@ -72,6 +72,7 @@ class GatewayController extends AppController {
  */
 	public function logout() {
 		$result = $this->Auth->logout();
+		$this->layout = 'login';
 
 		if ($result) {
 			return $this->redirect($result);
@@ -96,10 +97,81 @@ class GatewayController extends AppController {
 				->first();
 
 			if ($user) {
-				$this->Flash->success(__d('user', 'Further instructions have been sent to your e-mail address.'));
+				$emailSent = $this->hook('User.onPasswordRecovery', $user)->result;
+				if ($emailSent) {
+					$this->Flash->success(__d('user', 'Further instructions have been sent to your e-mail address.'));
+				} else {
+					$this->Flash->warning(__d('user', 'Instructions could not been sent to your e-mail address, please try again later.'));
+				}
 			} else {
 				$this->Flash->danger(__d('user', 'Sorry, "{0}" is not recognized as a user name or an e-mail address.', $this->request->data['username']));
 			}
+		}
+	}
+
+/**
+ * Here is where users can request to remove their accounts.
+ *
+ * Only non-administrator users can be canceled this way. User may request to
+ * cancel their accounts by using the form rendered by this action, an e-mail
+ * will be send with a especial link which will remove the account.
+ *
+ * @return void
+ */
+	public function remove() {
+		if ($this->request->data) {
+
+		}
+	}
+
+/**
+ * Here is where users can remove their accounts from the system.
+ *
+ * @param integer $user_id
+ * @param string $code Cancellation code, code is a MD5 hash of user's encrypted
+ *  password + site's salt
+ * @return void Redirects to previous page
+ */
+	public function cancel($user_id, $code) {
+		$this->loadModel('User.Users');
+		$user = $this->Users
+			->find()
+			->where(['id' => $user_id])
+			->limit(1)
+			->first();
+
+		if ($user && $code == $user->cancel_code) {
+			if ($this->Users->delete($user)) {
+				$this->Flash->success(__d('user', 'Account successfully canceled'));
+			} else {
+				$this->Flash->danger(__d('user', 'Account could not be canceled due to an internal error, please try again later.'));
+			}
+		} else {
+			$this->Flash->warning(__d('user', 'Not user was found, invalid cancellation URL.'));
+		}
+
+		$this->redirect($this->referer());
+	}
+
+/**
+ * Registers a new user.
+ *
+ * @return void
+ */
+	public function register() {
+		if ($this->request->data) {
+
+		}
+	}
+
+/**
+ * Activates a registered user.
+ *
+ * @return void
+ */
+	public function activate($code = null) {
+		if ($code !== null) {
+
 		}
 	}
 

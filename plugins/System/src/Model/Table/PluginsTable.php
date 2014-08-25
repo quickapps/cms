@@ -53,6 +53,16 @@ class PluginsTable extends Table {
 	}
 
 /**
+ * Settings validation rules.
+ *
+ * @param \Cake\Validation\Validator $validator
+ * @return \Cake\Validation\Validator
+ */
+	public function validationSettings(Validator $validator) {
+		return $validator;
+	}
+
+/**
  * Here we set default values for plugin's settings.
  *
  * Similar to Field Handlers, plugins may implement the
@@ -81,29 +91,36 @@ class PluginsTable extends Table {
 	}
 
 /**
- * Triggers the `Plugin.<PluginName>.afterValidate` event.
+ * Triggers the `Plugin.<PluginName>.beforeValidate` event. Or may trigger
+ * `Plugin.<PluginName>.settingsValidate` as well.
  * 
  * @param \Cake\Event\Event $event
- * @param \Cake\ORM\Entity $plugin The Plugin entity that is going to be validated
+ * @param \Cake\ORM\Entity $entity The Plugin entity that is going to be validated
  * @param array $options
  * @param \Cake\Validation\Validator $validator
  * @return bool False if save operation should not continue, true otherwise
  */
-	public function beforeValidate(Event $event, Entity $plugin, $options, Validator $validator) {
-		$this->hook(["Plugin.{$plugin->name}.beforeValidate", $event->subject], $plugin, $options, $validator);
+	public function beforeValidate(Event $event, Entity $entity, $options, Validator $validator) {
+		if (!empty($options['validate']) && $options['validate'] == 'settings') {
+			$this->hook(['Plugin.' . $entity->get('_plugin_name') . '.settingsValidate', $event->subject], $entity, $validator);
+		} else {
+			$this->hook(["Plugin.{$entity->name}.beforeValidate", $event->subject], $entity, $options, $validator);
+		}
 	}
 
 /**
  * Triggers the `Plugin.<PluginName>.afterValidate` event.
  * 
  * @param \Cake\Event\Event $event The event that was fired
- * @param \Cake\ORM\Entity $plugin The Plugin entity that was validated
+ * @param \Cake\ORM\Entity $entity The Plugin entity that was validated
  * @param array $options
  * @param \Cake\Validation\Validator $validator
  * @return void
  */
-	public function afterValidate(Event $event, Entity $plugin, $options, Validator $validator) {
-		$this->hook(["Plugin.{$plugin->name}.afterValidate", $event->subject], $plugin, $options, $validator);
+	public function afterValidate(Event $event, Entity $entity, $options, Validator $validator) {
+		if (empty($options['validate']) || $options['validate'] != 'settings') {
+			$this->hook(["Plugin.{$entity->name}.afterValidate", $event->subject], $entity, $options, $validator);
+		}
 	}
 
 /**
