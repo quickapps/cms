@@ -13,7 +13,7 @@ namespace Menu\View\Helper;
 
 use Cake\Error\Exception;
 use Cake\Utility\Hash;
-use Menu\Utility\Breadcrumb;
+use Menu\View\BreadcrumbRegistry;
 use QuickApps\View\Helper;
 
 /**
@@ -33,7 +33,7 @@ class BreadcrumbHelper extends Helper {
 /**
  * Method delegation.
  *
- * We try to dispatch unexisting method to `\Menu\Utility\Breadcrumb` class.
+ * We try to dispatch unexisting method to `\Menu\View\BreadcrumbRegistry` class.
  *
  * @param string $method Name of the method to be invoked
  * @param array $args List of arguments passed to the function
@@ -41,8 +41,8 @@ class BreadcrumbHelper extends Helper {
  * @throws \Cake\Error\Exception When the method is unknown
  */
 	public function __call($method, $args) {
-		if (method_exists('\Menu\Utility\Breadcrumb', $method)) {
-			return call_user_func_array(['\Menu\Utility\Breadcrumb', $method], $args);
+		if (method_exists('\Menu\View\BreadcrumbRegistry', $method)) {
+			return call_user_func_array(['\Menu\View\BreadcrumbRegistry', $method], $args);
 		}
 
 		throw new Exception(__d('menu', 'Method "{0}" was not found.', $method));
@@ -89,7 +89,7 @@ class BreadcrumbHelper extends Helper {
  *
  * @param array $options Array of options for `render()` method
  * @return string HTML code, or an empty string if no crumbs are found
- * @see \Menu\View\Helper\Breadcrumb::render()
+ * @see \Menu\View\Helper\BreadcrumbHelper::render()
  */
 	public function renderIfNotEmpty($options = []) {
 		if ($this->count()) {

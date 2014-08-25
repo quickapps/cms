@@ -24,7 +24,7 @@ use Cake\Utility\Inflector;
 use Field\Error\MissingEntityPropertyException;
 use Field\Model\Entity\Field;
 use Field\Model\Entity\FieldValue;
-use Field\Utility\FieldCollection;
+use Field\Core\FieldCollection;
 use QuickApps\Core\HookTrait;
 
 /**
@@ -107,7 +107,7 @@ use QuickApps\Core\HookTrait;
  *
  * -    The `metadata` key on every field is actually an entity object.
  * -    The `_field` key which holds all the fields is actually an instance of
- *      `Field/Utility/FieldCollection`, which behaves as an array
+ *      `Field/Core/FieldCollection`, which behaves as an array
  *      (so you can iterate over it). It adds some utility methods for handling
  *      fields, for instance it allows you to access an specific field by its
  *      corresponding numeric index or by its machine-name.
@@ -239,11 +239,11 @@ use QuickApps\Core\HookTrait;
  * - `Field.<FieldHandler>.Instance.info`: When QuickAppsCMS asks for information
  *    about each registered Field
  * - `Field.<FieldHandler>.Instance.settingsForm`: Additional settings for this
- *    field. Should define the way the values will be stored in the database.
+ *    field, should define the way the values will be stored in the database.
  * - `Field.<FieldHandler>.Instance.settingsDefaults`: Default values for field
  *    settings form's inputs
- * - `Field.<FieldHandler>.Instance.viewModeForm`: Additional formatter options.
- *    Show define the way the values will be rendered for a particular view mode.
+ * - `Field.<FieldHandler>.Instance.viewModeForm`: Additional view mode settings,
+ *    should define the way the values will be rendered for a particular view mode.
  * - `Field.<FieldHandler>.Instance.viewModeDefaults`: Default values for view
  *    mode settings form's inputs
  * - `Field.<FieldHandler>.Instance.beforeValidate`: Before field is validated as

@@ -9,16 +9,14 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Installer\Utility;
+namespace Installer\Task;
 
 use Cake\Core\InstanceConfigTrait;
 use Cake\Error\FatalErrorException;
 use Cake\Event\EventManager;
 use Cake\Model\ModelAwareTrait;
 use Cake\Utility\Folder;
-use Installer\Utility\InstallTask;
 use Installer\Utility\PackageManager;
-use Installer\Utility\UpdateTask;
 use QuickApps\Core\HookTrait;
 use User\Utility\AcoManager;
 
@@ -111,7 +109,7 @@ abstract class BaseTask {
  * A plugin name must be set before starting the task using "run()" method.
  * 
  * @param string $pluginName
- * @return Installer\Utility\ToggleTask
+ * @return string The plugin name just set
  */
 	final protected function _plugin($pluginName) {
 		return $this->_pluginName = $pluginName;
@@ -165,7 +163,7 @@ abstract class BaseTask {
  * 
  * @param string $key
  * @param mixed $value
- * @return \Installer\Utility\BaseTask
+ * @return \Installer\Task\BaseTask
  */
 	final public function configure($key, $value = null) {
 		$this->config($key, $value);
@@ -192,7 +190,7 @@ abstract class BaseTask {
  *
  * @param string $task Type of task
  * @param array $options Array of options for the task
- * @return \Installer\Utility\InstallTask New instance of this class
+ * @return \Installer\Task\BaseTask New instance of this class
  */
 	final public function newTask($task, $options = []) {
 		return PackageManager::task($task, $options);

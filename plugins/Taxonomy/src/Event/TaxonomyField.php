@@ -14,7 +14,7 @@ namespace Taxonomy\Event;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
-use Field\Utility\FieldHandler;
+use Field\Core\FieldHandler;
 
 /**
  * Text Field Handler.

@@ -91,8 +91,7 @@ class PluginsTable extends Table {
 	}
 
 /**
- * Triggers the `Plugin.<PluginName>.beforeValidate` event. Or may trigger
- * `Plugin.<PluginName>.settingsValidate` as well.
+ * Triggers `Plugin.<PluginName>.settingsValidate` event.
  * 
  * @param \Cake\Event\Event $event
  * @param \Cake\ORM\Entity $entity The Plugin entity that is going to be validated

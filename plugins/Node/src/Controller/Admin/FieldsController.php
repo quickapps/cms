@@ -13,7 +13,7 @@ namespace Node\Controller\Admin;
 
 use Cake\Core\Configure;
 use Cake\Routing\Router;
-use Field\Utility\FieldUIControllerTrait;
+use Field\Controller\FieldUIControllerTrait;
 use Node\Controller\AppController;
 
 /**

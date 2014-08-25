@@ -9,10 +9,9 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Installer\Utility;
+namespace Installer\Task;
 
 use Cake\Utility\Folder;
-use Installer\Utility\BaseTask;
 use QuickApps\Core\Plugin;
 
 /**
@@ -157,7 +156,7 @@ class ToggleTask extends BaseTask {
  * Indicates this task should enable the given plugin.
  * 
  * @param string|null $pluginName
- * @return Installer\Utility\ToggleTask
+ * @return \Installer\Task\ToggleTask This instance
  */
 	public function enable($pluginName = null) {
 		if ($pluginName) {
@@ -171,7 +170,7 @@ class ToggleTask extends BaseTask {
  * Indicates this task should disable the given plugin.
  * 
  * @param string|null $pluginName
- * @return Installer\Utility\ToggleTask
+ * @return \Installer\Task\ToggleTask This instance
  */
 	public function disable($pluginName = null) {
 		if ($pluginName) {

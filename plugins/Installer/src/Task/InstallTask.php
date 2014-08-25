@@ -9,7 +9,7 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Installer\Utility;
+namespace Installer\Task;
 
 use Cake\Event\EventManager;
 use Cake\Network\Http\Client;
@@ -18,7 +18,6 @@ use Cake\Utility\File;
 use Cake\Utility\Folder;
 use Cake\Utility\Inflector;
 use Cake\Validation\Validation;
-use Installer\Utility\BaseTask;
 use QuickApps\Core\Plugin;
 use User\Utility\AcoManager;
 
@@ -220,7 +219,7 @@ class InstallTask extends BaseTask {
  * Gets a ZIP package at the given file system path.
  * 
  * @param string $filePath A valid path
- * @return \Installer\Utility\InstallTask This instance
+ * @return \Installer\Task\InstallTask This instance
  */
 	public function file($filePath) {
 		if (file_exists($filePath) && !is_dir($filePath)) {
@@ -237,7 +236,7 @@ class InstallTask extends BaseTask {
  * Uploads a ZIP package to the server.
  * 
  * @param mixed $package ZIP coming from the form POST request.
- * @return \Installer\Utility\InstallTask This instance
+ * @return \Installer\Task\InstallTask This instance
  */
 	public function upload($package) {
 		if (!isset($package['tmp_name']) || !file_exists($package['tmp_name'])) {
@@ -269,7 +268,7 @@ class InstallTask extends BaseTask {
  * Downloads package from given URL.
  * 
  * @param string $package A valid URL
- * @return \Installer\Utility\InstallTask This instance
+ * @return \Installer\Task\InstallTask This instance
  */
 	public function download($package) {
 		if (!Validation::url($package)) {

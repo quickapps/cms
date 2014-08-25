@@ -9,10 +9,9 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Installer\Utility;
+namespace Installer\Task;
 
 use Cake\Utility\Folder;
-use Installer\Utility\BaseTask;
 use QuickApps\Core\Plugin;
 use User\Utility\AcoManager;
 

@@ -13,7 +13,7 @@ namespace Field\Event;
 
 use Cake\Event\Event;
 use Field\Utility\TextToolbox;
-use Field\Utility\FieldHandler;
+use Field\Core\FieldHandler;
 
 /**
  * List Field Handler.

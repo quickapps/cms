@@ -61,11 +61,11 @@ class PackageManager {
  * @var array
  */
 	protected static $_tasks = [
-		'install' => '\Installer\Utility\InstallTask',
-		'toggle' => '\Installer\Utility\ToggleTask',
-		'uninstall' => '\Installer\Utility\UninstallTask',
-		'update' => '\Installer\Utility\UpdateTask',
-		'activate_theme' => '\Installer\Utility\ThemeActivatorTask',
+		'install' => '\Installer\Task\InstallTask',
+		'toggle' => '\Installer\Task\ToggleTask',
+		'uninstall' => '\Installer\Task\UninstallTask',
+		'update' => '\Installer\Task\UpdateTask',
+		'activate_theme' => '\Installer\Task\ThemeActivatorTask',
 	];
 
 /**
@@ -92,7 +92,7 @@ class PackageManager {
 		}
 		$handler = new $handler($options);
 
-		if ($handler instanceof \Installer\Utility\BaseTask) {
+		if ($handler instanceof \Installer\Task\BaseTask) {
 			return $handler;
 		}
 
@@ -113,8 +113,9 @@ class PackageManager {
  *     // out: Validator says: hello world!
  * 
  * @param string $name name of the task, for later use with `task()` method
- * @param string|callable $handler A string of a valid class name, or a
- * callable object. e.g. `\MyNameSpace\MySuperTask`.
+ * @param string|callable $handler A string of a valid class name extending
+ *  `Installer\Task\BaseTask`, or a callable function.
+ *   e.g. `\MyNameSpace\MySuperTask` (must extend BaseTask)
  * @return void
  */
 	public static function registerTask($name, $handler) {

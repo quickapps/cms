@@ -9,10 +9,9 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Installer\Utility;
+namespace Installer\Task;
 
 use Cake\Utility\Folder;
-use Installer\Utility\BaseTask;
 use QuickApps\Core\Plugin;
 
 /**
@@ -144,7 +143,7 @@ class ThemeActivatorTask extends BaseTask {
  * Indicates this task should activate the given theme.
  * 
  * @param string|null $themeName
- * @return Installer\Utility\ActivateThemeTask
+ * @return \Installer\Task\ThemeActivatorTask This instance
  */
 	public function activate($themeName = null) {
 		if ($themeName) {

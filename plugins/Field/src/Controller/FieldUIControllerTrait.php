@@ -9,7 +9,7 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Field\Utility;
+namespace Field\Controller;
 
 use Cake\Collection\Collection;
 use Cake\Core\Configure;
@@ -38,7 +38,7 @@ use QuickApps\View\ViewModeTrait;
  * Beside adding `use FieldUIControllerTrait;` to your controller you MUST also
  * indicate the name of the Table being managed. Example:
  *
- *     uses Field\Utility\FieldUIControllerTrait;
+ *     uses Field\Controller\FieldUIControllerTrait;
  *
  *     class MyCleanController extends <Plugin>AppController {
  *         use FieldUIControllerTrait;

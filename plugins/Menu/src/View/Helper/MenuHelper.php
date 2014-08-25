@@ -20,7 +20,7 @@ use Cake\Routing\Router;
 use Cake\Utility\Hash;
 use Cake\View\Helper\StringTemplateTrait;
 use Cake\View\View;
-use Menu\Utility\Breadcrumb;
+use Menu\View\BreadcrumbRegistry;
 use QuickApps\Core\Plugin;
 use QuickApps\View\Helper;
 
@@ -586,7 +586,7 @@ class MenuHelper extends Helper {
 					if ($this->config('breadcrumbGuessing')) {
 						static $crumbs = null;
 						if ($crumbs === null) {
-							$crumbs = Breadcrumb::getUrls();
+							$crumbs = BreadcrumbRegistry::getUrls();
 							foreach ($crumbs as &$crumb) {
 								try {
 									$crumb = Router::url($crumb);

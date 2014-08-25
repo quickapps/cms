@@ -16,7 +16,7 @@ use Cake\Event\Event;
 use Cake\Utility\Inflector;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
-use Menu\Utility\Breadcrumb;
+use Menu\View\BreadcrumbRegistry;
 
 /**
  * Breadcrumb component.
@@ -63,7 +63,7 @@ class BreadcrumbComponent extends Component {
  * @param mixed $url If both $crumbs and $url are string values they will be
  * used as `title` and `URL` respectively
  * @return \Menu\Controller\Component\BreadcrumbComponent This instance (for chaining)
- * @see \Menu\Utility\Breadcrumb::push()
+ * @see \Menu\View\BreadcrumbRegistry::push()
  */
 	public function push($crumbs = [], $url = null) {
 		if ($crumbs === [] && $url === null) {
@@ -97,7 +97,7 @@ class BreadcrumbComponent extends Component {
 			}
 		}
 
-		Breadcrumb::push($crumbs, $url);
+		BreadcrumbRegistry::push($crumbs, $url);
 		return $this;
 	}
 
@@ -186,7 +186,7 @@ class BreadcrumbComponent extends Component {
 /**
  * Method delegation.
  *
- * We try to dispatch unexisting method to `\Menu\Utility\Breadcrumb` class.
+ * We try to dispatch unexisting method to `\Menu\View\BreadcrumbRegistry` class.
  *
  * @param string $method Name of the method to be invoked
  * @param array $args List of arguments passed to the function
@@ -194,8 +194,8 @@ class BreadcrumbComponent extends Component {
  * @throws \Cake\Error\Exception When the method is unknown
  */
 	public function __call($method, $args) {
-		if (method_exists('\Menu\Utility\Breadcrumb', $method)) {
-			return call_user_func_array(['\Menu\Utility\Breadcrumb', $method], $args);
+		if (method_exists('\Menu\View\BreadcrumbRegistry', $method)) {
+			return call_user_func_array(['\Menu\View\BreadcrumbRegistry', $method], $args);
 		}
 
 		throw new \Cake\Error\Exception(__d('menu', 'Method "{0}" was not found.', $method));

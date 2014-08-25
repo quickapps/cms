@@ -15,7 +15,7 @@ use Cake\Controller\Component;
 use Installer\Utility\PackageManager;
 
 /**
- * Plugin installer/updater handler.
+ * Plugin package handler.
  *
  * ## Basic Usage:
  *
@@ -29,9 +29,6 @@ use Installer\Utility\PackageManager;
  *         // error
  *         $errors = $task->errors();
  *     }
- *
- * This class acts as a wrapper of `\Installer\Utility\InstallTask`,
- * check documentation for better details.
  */
 class InstallerComponent extends Component {
 
@@ -39,7 +36,7 @@ class InstallerComponent extends Component {
  * Creates a new install/update task.
  * 
  * @param string $task Type of task; 'install', 'update', 'uninstall', etc
- * @return \Installer\Utility\InstallTask Instance of installer class
+ * @return \Installer\Task\BaseTask Instance of the request task
  */
 	public function task($task, $args = []) {
 		return PackageManager::task($task, $args);
