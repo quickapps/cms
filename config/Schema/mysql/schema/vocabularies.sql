@@ -9,4 +9,4 @@ CREATE TABLE `vocabularies` (
 `created` DATETIME NOT NULL,
 PRIMARY KEY (`id`),
 KEY `slug` (`slug`)
-)
+) ENGINE=InnoDB

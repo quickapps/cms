@@ -16,4 +16,4 @@ CREATE TABLE `nodes` (
 `created_by` INTEGER(11) NOT NULL,
 `modified_by` INTEGER(11) NOT NULL,
 PRIMARY KEY (`id`)
-)
+) ENGINE=InnoDB

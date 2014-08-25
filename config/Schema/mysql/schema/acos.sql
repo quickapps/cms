@@ -7,4 +7,4 @@ CREATE TABLE `acos` (
 `alias` VARCHAR(255) NOT NULL,
 `alias_hash` VARCHAR(32) NOT NULL,
 PRIMARY KEY (`id`)
-)
+) ENGINE=InnoDB

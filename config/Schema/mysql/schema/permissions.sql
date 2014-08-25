@@ -3,4 +3,4 @@ CREATE TABLE `permissions` (
 `aco_id` INTEGER(11) NOT NULL,
 `role_id` INTEGER(11) NOT NULL,
 PRIMARY KEY (`id`)
-)
+) ENGINE=InnoDB

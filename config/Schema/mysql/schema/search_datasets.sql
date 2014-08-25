@@ -5,4 +5,4 @@ CREATE TABLE `search_datasets` (
 `words` TEXT DEFAULT NULL,
 PRIMARY KEY (`id`),
 UNIQUE KEY `entity_id` (`entity_id`, `table_alias`)
-)
+) ENGINE=InnoDB

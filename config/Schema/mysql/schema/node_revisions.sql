@@ -5,4 +5,4 @@ CREATE TABLE `node_revisions` (
 `hash` VARCHAR(100) NOT NULL,
 `created` DATETIME NOT NULL,
 PRIMARY KEY (`id`)
-)
+) ENGINE=InnoDB

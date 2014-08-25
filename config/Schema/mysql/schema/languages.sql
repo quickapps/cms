@@ -8,4 +8,4 @@ CREATE TABLE `languages` (
 `ordering` INTEGER(11) NOT NULL DEFAULT 0 COMMENT 'Weight, used in lists of languages.',
 PRIMARY KEY (`id`),
 UNIQUE KEY `code` (`code`)
-)
+) ENGINE=InnoDB

@@ -5,4 +5,4 @@ CREATE TABLE `entities_terms` (
 `field_instance_id` INTEGER(11) NOT NULL,
 `table_alias` VARCHAR(30) NOT NULL,
 PRIMARY KEY (`id`)
-)
+) ENGINE=InnoDB

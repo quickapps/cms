@@ -535,7 +535,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `web` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `locale` varchar(5) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `code` varchar(200) COLLATE utf8_unicode_ci NOT NULL COMMENT 'random unique code, used for pass recovery',
+  `token` varchar(200) COLLATE utf8_unicode_ci NOT NULL COMMENT 'random unique code, used for pass recovery',
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `last_login` datetime NOT NULL,
   `created` datetime NOT NULL,
@@ -543,7 +543,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `username` (`username`,`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
 
-INSERT INTO `users` (`id`, `name`, `username`, `password`, `email`, `web`, `locale`, `code`, `status`, `last_login`, `created`) VALUES
+INSERT INTO `users` (`id`, `name`, `username`, `password`, `email`, `web`, `locale`, `token`, `status`, `last_login`, `created`) VALUES
 (1, 'QuickApps CMS', 'admin', '$2y$10$EVI2DYmtDEGAqD0s9TbjL.wgbpKlSjLjeH70gXwKRhi6g5DpkR/Be', 'chris@quickapps.es', 'http://quickapps.es', 'en-us', '', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 CREATE TABLE IF NOT EXISTS `users_roles` (

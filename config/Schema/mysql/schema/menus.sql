@@ -6,4 +6,4 @@ CREATE TABLE `menus` (
 `handler` VARCHAR(100) NOT NULL COMMENT 'Name of the plugin that created this menu.',
 `settings` TEXT DEFAULT NULL,
 PRIMARY KEY (`id`)
-)
+) ENGINE=InnoDB

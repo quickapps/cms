@@ -10,4 +10,4 @@ CREATE TABLE `terms` (
 `modified` DATETIME NOT NULL,
 PRIMARY KEY (`id`),
 UNIQUE KEY `slug` (`slug`)
-)
+) ENGINE=InnoDB

@@ -6,4 +6,4 @@ CREATE TABLE `block_regions` (
 `ordering` INTEGER(11) NOT NULL DEFAULT 0,
 PRIMARY KEY (`id`),
 UNIQUE KEY `block_id` (`block_id`, `theme`)
-)
+) ENGINE=InnoDB

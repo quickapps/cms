@@ -14,4 +14,4 @@ PRIMARY KEY (`id`),
 UNIQUE KEY `slug` (`slug`),
 KEY `entity` (`table_alias`),
 KEY `id` (`id`)
-)
+) ENGINE=InnoDB

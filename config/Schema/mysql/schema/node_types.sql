@@ -7,4 +7,4 @@ CREATE TABLE `node_types` (
 `defaults` TEXT DEFAULT NULL,
 PRIMARY KEY (`id`),
 UNIQUE KEY `slug` (`slug`)
-)
+) ENGINE=InnoDB

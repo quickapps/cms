@@ -7,4 +7,4 @@ CREATE TABLE `field_values` (
 `value` TEXT DEFAULT NULL,
 `extra` TEXT DEFAULT NULL COMMENT 'Extra information required by this field hadnler',
 PRIMARY KEY (`id`)
-)
+) ENGINE=InnoDB

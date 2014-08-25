@@ -4,4 +4,4 @@ CREATE TABLE `roles` (
 `name` VARCHAR(128) NOT NULL,
 PRIMARY KEY (`id`),
 UNIQUE KEY `name` (`name`)
-)
+) ENGINE=InnoDB

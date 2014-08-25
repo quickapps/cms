@@ -15,4 +15,4 @@ CREATE TABLE `comments` (
 `status` VARCHAR(20) NOT NULL COMMENT 'pending, approved, spam, trash',
 `created` DATETIME NOT NULL,
 PRIMARY KEY (`id`)
-)
+) ENGINE=InnoDB

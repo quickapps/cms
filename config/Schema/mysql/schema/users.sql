@@ -6,10 +6,10 @@ CREATE TABLE `users` (
 `email` VARCHAR(100) NOT NULL,
 `web` VARCHAR(200) DEFAULT NULL,
 `locale` VARCHAR(5) DEFAULT NULL,
-`code` VARCHAR(200) NOT NULL COMMENT 'random unique code, used for pass recovery',
+`token` VARCHAR(200) NOT NULL COMMENT 'random unique code, used for pass recovery',
 `status` BOOLEAN NOT NULL DEFAULT 1,
 `last_login` DATETIME NOT NULL,
 `created` DATETIME NOT NULL,
 PRIMARY KEY (`id`),
 UNIQUE KEY `username` (`username`, `email`)
-)
+) ENGINE=InnoDB

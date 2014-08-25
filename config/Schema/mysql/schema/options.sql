@@ -5,4 +5,4 @@ CREATE TABLE `options` (
 `autoload` BOOLEAN NOT NULL DEFAULT 0 COMMENT '1: true (autoload); 0:false',
 PRIMARY KEY (`id`),
 UNIQUE KEY `name` (`name`)
-)
+) ENGINE=InnoDB

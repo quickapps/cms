@@ -14,4 +14,4 @@ CREATE TABLE `menu_links` (
 `status` BOOLEAN NOT NULL DEFAULT 1,
 PRIMARY KEY (`id`),
 KEY `router_path` (`url`)
-)
+) ENGINE=InnoDB

@@ -5,4 +5,4 @@ CREATE TABLE `plugins` (
 `status` BOOLEAN NOT NULL DEFAULT 0,
 `ordering` INTEGER(3) NOT NULL DEFAULT 0,
 PRIMARY KEY (`name`)
-)
+) ENGINE=InnoDB

@@ -13,4 +13,4 @@ CREATE TABLE `blocks` (
 `status` BOOLEAN NOT NULL DEFAULT 0,
 PRIMARY KEY (`id`),
 UNIQUE KEY `delta` (`delta`, `handler`)
-)
+) ENGINE=InnoDB
