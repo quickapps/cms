@@ -16,7 +16,7 @@
 <?php echo $this->fetch('afterSubmenu'); ?>
 
 <?php echo $this->fetch('beforeForm'); ?>
-<?php echo $this->Form->create(null, ['role' => 'form']); ?>
+<?php echo $this->Form->create($arrayContext, ['role' => 'form']); ?>
 	<fieldset>
 		<legend><?php echo __d('field', 'Basic Information'); ?></legend>
 		<div class="form-group"><?php echo $this->Form->input('_label', ['value' => $instance->label]); ?></div>

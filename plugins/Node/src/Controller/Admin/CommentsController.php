@@ -14,7 +14,7 @@ namespace Node\Controller\Admin;
 use Cake\Core\Configure;
 use Cake\Routing\Router;
 use Comment\Model\Entity\Comment;
-use Comment\Utility\CommentUIControllerTrait;
+use Comment\Controller\CommentUIControllerTrait;
 use Node\Controller\AppController;
 
 /**

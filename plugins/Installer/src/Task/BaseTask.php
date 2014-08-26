@@ -119,8 +119,8 @@ abstract class BaseTask {
  * Registers a new option in the "options" DB table.
  *
  * IMPORTANT: option names are automatically prefixed with "<PluginName>.",
- * where `<PluginName>` is the name of the plugin running this task. For instance,
- * if we are installing a new theme named "DarkBlue":
+ * where `<PluginName>` is the name of the plugin running this task. For
+ * instance, if we are installing a new theme named "DarkBlue":
  *
  *     $this->addOption('background_color', '#000');
  *
@@ -132,10 +132,11 @@ abstract class BaseTask {
  * 
  * @param string $name Option name, will be automatically prefixed with "<PluginName>."
  * @param mixed $value Any information this plugin needs for this option
- * @param bool $autoload True if this option should be loaded on bootstrap. Defaults to true
+ * @param bool $autoload True if this option should be loaded on bootstrap,
+ *  defaults to false
  * @return mixed
  */
-	final public function addOption($name, $value, $autoload = true) {
+	final public function addOption($name, $value, $autoload = false) {
 		if (!$this->_pluginName) {
 			throw new FatalErrorException(__d('installer', 'Internal error ({0}), cannot use addOption() before "_plugin()".', get_called_class()));
 		}
@@ -179,7 +180,7 @@ abstract class BaseTask {
  *
  *     // MyPluginHook.php
  *     public function beforeInstall($event) {
- *         // subject is the instance of installer that fired the event
+ *         // subject is the InstallTask instance that fired the event
  *         $installDependency = $event->subject
  *             ->newTask('install', ['active' => false])
  *             ->download('http://example.com/some-package/this/plugins/depends-on.zip')

@@ -17,8 +17,9 @@ use Cake\Core\Plugin;
 use Cake\Error\NotFoundException;
 use Cake\Error\ForbiddenException;
 use Cake\Event\Event;
-use Cake\ORM\Error\RecordNotFoundException;
+use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
+use Cake\ORM\Error\RecordNotFoundException;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use Field\Model\Entity\FieldViewMode;
@@ -168,8 +169,12 @@ trait FieldUIControllerTrait {
  */
 	public function configure($id) {
 		$instance = $this->_getOrThrow($id, ['locked' => false]);
+		$arrayContext = [
+			'schema' => [],
+			'defaults' => [],
+			'errors' => [],
+		];
 
-		// TODO: add settings validation capabilities, similar to System\Controller\Admin\PluginsController::settings()
 		if ($this->request->data) {
 			$instance->accessible('*', true);
 			$instance->accessible(['id', 'table_alias', 'handler', 'ordering'], false);
@@ -181,19 +186,35 @@ trait FieldUIControllerTrait {
 				}
 			}
 
-			$instance->set('settings', $this->request->data);
-			$save = $this->FieldInstances->save($instance);
+			$settingsEntity = new Entity($this->request->data);
+			$settingsEntity->set('_field_handler', $instance->handler);
 
-			if ($save) {
-				$this->Flash->success(__d('field', 'Field information was saved.'));
-				$this->redirect($this->referer());
+			if ($this->FieldInstances->validate($settingsEntity, ['validate' => 'settings'])) {
+				$instance->set('settings', $this->request->data);
+				$save = $this->FieldInstances->save($instance);
+
+				if ($save) {
+					$this->Flash->success(__d('field', 'Field information was saved.'));
+					$this->redirect($this->referer());
+				} else {
+					$this->Flash->danger(__d('field', 'Your information could not be saved.'));
+				}
 			} else {
-				$this->Flash->danger(__d('field', 'Your information could not be saved.'));
+				$this->Flash->danger(__d('field', 'Field settings could not be saved.'));
+				$errors = $settingsEntity->errors();
+
+				if (!empty($errors)) {
+					foreach ($errors as $field => $message) {
+						$arrayContext['errors'][$field] = $message;
+					}
+				}
 			}
+		} else {
+			$arrayContext['defaults'] = (array)$instance->settings;
+			$this->request->data = $arrayContext['defaults'];
 		}
 
-		$this->request->data = (array)$instance->settings;
-		$this->set('instance', $instance);
+		$this->set(compact('arrayContext', 'instance'));
 	}
 
 /**
@@ -309,21 +330,29 @@ trait FieldUIControllerTrait {
 				'hooktags' => false,
 				'hidden' => false,
 			],
+			'errors' => []
 		];
+		$viewModeInfo = $this->viewModes($viewMode);
 
-		// TODO: add view mode settings validation capabilities, similar to System\Controller\Admin\PluginsController::settings()
 		if ($this->request->data) {
-			$instance->accessible('*', true);
-			$currentValues = $instance->view_modes[$viewMode];
-			$instance->view_modes[$viewMode] = array_merge($currentValues, $this->request->data);
-			$save = $this->FieldInstances->save($instance);
+			$settingsEntity = new Entity($this->request->data);
+			$settingsEntity->set('_field_handler', $instance->handler);
 
-			if ($save) {
-				$this->Flash->success(__d('field', 'Field information was saved.'));
-				$this->redirect($this->referer());
+			if ($this->FieldInstances->validate($settingsEntity, ['validate' => 'viewMode'])) {
+				$instance->accessible('*', true);
+				$viewModes = $instance->get('view_modes');
+				$viewModes[$viewMode] = array_merge($viewModes[$viewMode], $this->request->data);
+				$instance->set('view_modes', $viewModes);
+
+				if ($this->FieldInstances->save($instance)) {
+					$this->Flash->success(__d('field', 'Field information was saved.'));
+					$this->redirect($this->referer());
+				} else {
+					$this->Flash->danger(__d('field', 'Your information could not be saved.'));
+				}
 			} else {
-				$this->Flash->danger(__d('field', 'Your information could not be saved.'));
-				$errors = $instance->errors();
+				$this->Flash->danger(__d('field', 'View mode settings could not be saved.'));
+				$errors = $settingsEntity->errors();
 
 				if (!empty($errors)) {
 					foreach ($errors as $field => $message) {
@@ -332,14 +361,12 @@ trait FieldUIControllerTrait {
 				}
 			}
 		} else {
-			$this->request->data = $instance->view_modes[$viewMode];
+			$arrayContext['defaults'] = (array)$instance->view_modes[$viewMode];
+			$this->request->data = $arrayContext['defaults'];
 		}
 
 		$instance->accessible('settings', true);
-		$this->set('viewMode', $viewMode);
-		$this->set('viewModeInfo', $this->viewModes($viewMode));
-		$this->set('instance', $instance);
-		$this->set('arrayContext', $arrayContext);
+		$this->set(compact('arrayContext', 'viewMode', 'viewModeInfo', 'instance'));
 	}
 
 /**
@@ -457,8 +484,9 @@ trait FieldUIControllerTrait {
 		$this->loadModel('Field.FieldInstances');
 		$conditions = array_merge(['id' => $id], $conditions);
 		$instance = $this->FieldInstances
-			->find('all')
+			->find()
 			->where($conditions)
+			->limit(1)
 			->first();
 
 		if (!$instance) {

@@ -60,7 +60,7 @@ class CommentableBehavior extends Behavior {
 /**
  * Constructor.
  *
- * Here we associate `Comments` table to the table this behavior is attached to.
+ * Here we associate `Comments` table with the table this behavior is attached to.
  *
  * @param \Cake\ORM\Table $table The table this behavior is attached to.
  * @param array $config The config for this behavior.
@@ -131,8 +131,8 @@ class CommentableBehavior extends Behavior {
  *
  * ### Usage:
  *
- *     // in your controller, gets comments for user whose id equals 2
- *     $userComments = $this->Users->find('comments', ['for' => 2]);
+ *     // in your controller, gets comments for post which id equals 2
+ *     $postComments = $this->Posts->find('comments', ['for' => 2]);
  *
  * @param \Cake\ORM\Query $query
  * @param array $options

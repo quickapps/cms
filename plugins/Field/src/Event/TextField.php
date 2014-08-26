@@ -11,6 +11,7 @@
  */
 namespace Field\Event;
 
+use Cake\ORM\Entity;
 use Cake\Event\Event;
 use Field\Utility\TextToolbox;
 use Field\Core\FieldHandler;
@@ -219,7 +220,18 @@ class TextField extends FieldHandler {
 			'validation_rule' => '',
 			'validation_message' => '',
 		];
-	}	
+	}
+
+/**
+ * {@inheritdoc}
+ *
+ * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\ORM\Entity $settings Settings values as an entity
+ * @param \Cake\Validation\Validator $validator
+ * @return void
+ */
+	public function instanceSettingsValidate(Event $event, Entity $settings, $validator) {
+	}
 
 /**
  * {@inheritdoc}
@@ -253,6 +265,17 @@ class TextField extends FieldHandler {
 					'trim_length' => '',
 				];
 		}
+	}
+
+/**
+ * {@inheritdoc}
+ *
+ * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\ORM\Entity $viewMode View mode's setting values as an entity
+ * @param \Cake\Validation\Validator $validator
+ * @return void
+ */
+	public function instanceViewModeValidate(Event $event, Entity $viewMode, $validator) {
 	}
 
 /**

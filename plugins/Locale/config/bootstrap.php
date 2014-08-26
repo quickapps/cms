@@ -13,8 +13,8 @@ use Cake\Core\Configure;
 use Cake\I18n\I18n;
 
 /**
- * Language in which QuickApps CMS's core was written. This value
- * is commonly used as fallback language.
+ * Language in which QuickAppsCMS's core was written. This value
+ * is commonly used as fallback language and should NEVER be changed!
  */
 if (!defined('CORE_LOCALE')) {
 	define('CORE_LOCALE', 'en-us');

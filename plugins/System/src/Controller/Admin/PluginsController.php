@@ -227,7 +227,8 @@ class PluginsController extends AppController {
 				}
 			}
 		} else {
-			$this->request->data = $plugin['settings'];
+			$arrayContext['defaults'] = (array)$plugin['settings'];
+			$this->request->data = $arrayContext['defaults'];
 		}
 
 		$this->set(compact('arrayContext', 'plugin'));

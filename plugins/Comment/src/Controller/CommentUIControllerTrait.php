@@ -9,7 +9,7 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Comment\Utility;
+namespace Comment\Controller;
 
 use Cake\Collection\Collection;
 use Cake\Core\Configure;
@@ -29,16 +29,16 @@ use QuickApps\Core\Plugin;
  * Other plugins may `extends` Comment plugin by using this trait in their
  * controllers.
  *
- * With this trait, Comment plugin provides an user friendly UI for manage entity's
- * comments. It provides a comment-manager user interface (UI) by attaching a series
- * of actions over a `clean` controller.
+ * With this trait, Comment plugin provides an user friendly UI for manage
+ * entity's comments. It provides a comment-manager user interface (UI) by
+ * attaching a series of actions over a `clean` controller.
  *
  * # Usage:
  *
- * Beside adding `use CommentUIControllerTrait;` to your controller you MUST also
- * indicate the name of the Table being managed. Example:
+ * Beside adding `use CommentUIControllerTrait;` to your controller you MUST
+ * also indicate the name of the Table being managed. Example:
  *
- *     uses Comment\Utility\CommentUIControllerTrait;
+ *     uses Comment\Controller\CommentUIControllerTrait;
  *
  *     class MyCleanController extends AppController {
  *         use CommentUIControllerTrait;
@@ -113,8 +113,9 @@ trait CommentUIControllerTrait {
 /**
  * Fallback for template location when extending Comment UI API.
  *
- * If controller tries to render an unexisting template under its Template directory,
- * then we try to find that view under `Comment/Template/CommentUI` directory.
+ * If controller tries to render an unexisting template under its Template
+ * directory, then we try to find that view under `Comment/Template/CommentUI`
+ * directory.
  *
  * ### Example:
  *
@@ -126,9 +127,9 @@ trait CommentUIControllerTrait {
  *     Person\Controller\CommentsManagerController::index()
  *
  * The above controller action will try to render
- * `/plugins/Person/Template/CommentsManager/index.ctp`. But if does not exists then
- * `<QuickAppsCorePath>/plugins/Comment/Template/CommentUI/index.ctp` will be
- * used instead.
+ * `/plugins/Person/Template/CommentsManager/index.ctp`. But if does not exists
+ * then `<QuickAppsCorePath>/plugins/Comment/Template/CommentUI/index.ctp` will
+ * be used instead.
  *
  * Of course you may create your own template and skip this fallback functionality.
  *

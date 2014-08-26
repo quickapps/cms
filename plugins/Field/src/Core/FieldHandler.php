@@ -13,6 +13,7 @@ namespace Field\Core;
 
 use Cake\Event\Event;
 use Cake\Event\EventListener;
+use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use QuickApps\Core\HooktagTrait;
 use QuickApps\Core\HookTrait;
@@ -70,8 +71,10 @@ class FieldHandler implements EventListener {
 			"Field.{$handlerName}.Instance.info" => 'instanceInfo',
 			"Field.{$handlerName}.Instance.settingsForm" => 'instanceSettingsForm',
 			"Field.{$handlerName}.Instance.settingsDefaults" => 'instanceSettingsDefaults',
+			"Field.{$handlerName}.Instance.settingsValidate" => 'instanceSettingsValidate',
 			"Field.{$handlerName}.Instance.viewModeForm" => 'instanceViewModeForm',
 			"Field.{$handlerName}.Instance.viewModeDefaults" => 'instanceViewModeDefaults',
+			"Field.{$handlerName}.Instance.viewModeValidate" => 'instanceViewModeValidate',
 			"Field.{$handlerName}.Instance.beforeAttach" => 'instanceBeforeAttach',
 			"Field.{$handlerName}.Instance.afterAttach" => 'instanceAfterAttach',
 			"Field.{$handlerName}.Instance.beforeDetach" => 'instanceBeforeDetach',
@@ -231,10 +234,25 @@ class FieldHandler implements EventListener {
 	}
 
 /**
+ * Triggered before instance's settings are changed.
+ *
+ * Here Field Handlers can apply custom validation rules to their settings.
+ * Stopping this event or returning false will halt the save operation.
+ *
+ * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\ORM\Entity $settings Settings values as an entity
+ * @param \Cake\Validation\Validator $validator
+ * @return mixed
+ */
+	public function instanceSettingsValidate(Event $event, Entity $settings, $validator) {
+		return true;
+	}
+
+/**
  * Renders all the form elements to be used on the field view mode form.
  *
- * Here is where you should render form elements to hold settings about how Nodes
- * should be rendered for a particular View Mode.
+ * Here is where you should render form elements to hold settings about how
+ * Entities should be rendered for a particular View Mode.
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \\Field\Model\Entity\FieldInstance $instance Instance information
@@ -258,6 +276,17 @@ class FieldHandler implements EventListener {
  */
 	public function instanceViewModeDefaults(Event $event, $instance, $options = []) {
 		return [];
+	}
+
+/**
+ * Triggered before instance's view mode settings are changed.
+ *
+ * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\ORM\Entity $viewMode View mode's setting values as an entity
+ * @param \Cake\Validation\Validator $validator
+ * @return void
+ */
+	public function instanceViewModeValidate(Event $event, Entity $viewMode, $validator) {
 	}
 
 /**
@@ -299,15 +328,16 @@ class FieldHandler implements EventListener {
 /**
  * After an instance of this field was detached from a database table.
  *
- * Here is when you should remove all the stored data for this instance from the DB.
- * For example, if your field stores physical files for every entity, then you should
- * delete those files.
+ * Here is when you should remove all the stored data for this instance from
+ * the DB. For example, if your field stores physical files for every entity,
+ * then you should delete those files.
  *
- * NOTE: By default QuickApps CMS, automatically removes all related records from
- * the `field_values` table. 
+ * NOTE: By default QuickApps CMS, automatically removes all related records
+ * from the `field_values` table. 
  *
  * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\FieldInstance $instance Instance entity being detached (deleted from "field_instances" table)
+ * @param \Field\Model\Entity\FieldInstance $instance Instance entity being
+ *  detached (deleted from "field_instances" table)
  * @param array $options
  * @return void
  */

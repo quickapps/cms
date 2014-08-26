@@ -223,37 +223,47 @@ use QuickApps\Core\HookTrait;
  *
  * Below, a list of available events:
  *
- * - `Field.<FieldHandler>.Entity.display`: When an entity is being rendered
- * - `Field.<FieldHandler>.Entity.edit`: When an entity is being rendered in
- *   `edit` mode. (backend usually)
- * - `Field.<FieldHandler>.Entity.beforeFind`: Before an entity is retrieved from DB
- * - `Field.<FieldHandler>.Entity.beforeValidate`: Before entity is validated as
- *    part of save operation
- * - `Field.<FieldHandler>.Entity.afterValidate`: After entity is validated as
- *    part of save operation
- * - `Field.<FieldHandler>.Entity.beforeSave`: Before entity is saved
- * - `Field.<FieldHandler>.Entity.afterSave`: After entity was saved
- * - `Field.<FieldHandler>.Entity.beforeDelete`: Before entity is deleted
- * - `Field.<FieldHandler>.Entity.afterDelete`: After entity was deleted
+ * **Entity events:**
  *
- * - `Field.<FieldHandler>.Instance.info`: When QuickAppsCMS asks for information
- *    about each registered Field
- * - `Field.<FieldHandler>.Instance.settingsForm`: Additional settings for this
- *    field, should define the way the values will be stored in the database.
- * - `Field.<FieldHandler>.Instance.settingsDefaults`: Default values for field
- *    settings form's inputs
- * - `Field.<FieldHandler>.Instance.viewModeForm`: Additional view mode settings,
- *    should define the way the values will be rendered for a particular view mode.
- * - `Field.<FieldHandler>.Instance.viewModeDefaults`: Default values for view
- *    mode settings form's inputs
- * - `Field.<FieldHandler>.Instance.beforeValidate`: Before field is validated as
- *    part of attach operation
- * - `Field.<FieldHandler>.Instance.afterValidate`: After field is validated as
- *    part of attach operation
- * - `Field.<FieldHandler>.Instance.beforeAttach`: Before field is attached to Tables
- * - `Field.<FieldHandler>.Instance.afterAttach`: After field is attached to Tables
- * - `Field.<FieldHandler>.Instance.beforeDetach`: Before field is detached from Tables
- * - `Field.<FieldHandler>.Instance.afterDetach`: After field is detached from Tables
+ * **NOTE:** In order to make reading more comfortable the
+ * `Field.<FieldHandler>.Entity.` prefix has been trimmed from each event
+ * name listed below. For example, `display` is actually
+ * `Field.Field.<FieldHandler>.Entity.info`
+ *
+ * - `display`: When an entity is being rendered.
+ * - `edit`: When an entity is being rendered in `edit` mode. (backend usually).
+ * - `beforeFind`: Before an entity is retrieved from DB.
+ * - `beforeValidate`: Before entity is validated as part of save operation.
+ * - `afterValidate`: After entity is validated as part of save operation.
+ * - `beforeSave`: Before entity is saved.
+ * - `afterSave`: After entity was saved.
+ * - `beforeDelete`: Before entity is deleted.
+ * - `afterDelete`: After entity was deleted.
+ *
+ * ***
+ *
+ * **Instance events:**
+ *
+ * **NOTE:** In order to make reading more comfortable the
+ * `Field.<FieldHandler>.Instance.` prefix has been trimmed from each event
+ * name listed below. For example, `info` is actually
+ * `Field.<FieldHandler>.Instance.info`
+ * 
+ * - `info`: When QuickAppsCMS asks for information about each registered Field.
+ * - `settingsForm`: Additional settings for this field, should define the way
+ *    the values will be stored in the database.
+ * - `settingsDefaults`: Default values for field settings form's inputs.
+ * - `settingsValidate`: Before instance's settings are changed, here you can
+ *    apply your own validation rules.
+ * - `viewModeForm`: Additional view mode settings, should define the way the
+ *    values will be rendered for a particular view mode.
+ * - `viewModeDefaults`: Default values for view mode settings form's inputs.
+ * - `viewModeValidate`: Before view-mode's settings are changed, here you can
+ *    apply your own validation rules.
+ * - `beforeAttach`: Before field is attached to Tables.
+ * - `afterAttach`: After field is attached to Tables.
+ * - `beforeDetach`: Before field is detached from Tables.
+ * - `afterDetach`: After field is detached from Tables.
  *
  *
  * ## Preparing Field Inputs

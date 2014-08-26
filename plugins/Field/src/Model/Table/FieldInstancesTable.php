@@ -13,6 +13,7 @@ namespace Field\Model\Table;
 
 use Cake\Database\Schema\Table as Schema;
 use Cake\Event\Event;
+use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
@@ -103,6 +104,28 @@ class FieldInstancesTable extends Table {
 	}
 
 /**
+ * Instance's settings validator.
+ *
+ * @param \Cake\Validation\Validator $validator
+ * @return \Cake\Validation\Validator
+ */
+	public function validationSettings(Validator $validator) {
+		return $validator;
+	}
+
+/**
+ * Instance's view mode validator.
+ *
+ * This rules are apply to a single view mode.
+ *
+ * @param \Cake\Validation\Validator $validator
+ * @return \Cake\Validation\Validator
+ */
+	public function validationViewMode(Validator $validator) {
+		return $validator;
+	}
+
+/**
  * Here we set default values for each view mode if they were not defined before.
  * 
  * @param \Cake\Event\Event $event
@@ -149,33 +172,35 @@ class FieldInstancesTable extends Table {
 	}
 
 /**
- * Triggers the "Field.<FieldHandler>.Instance.beforeValidate" event.
+ * Triggers the "Field.<FieldHandler>.Instance.settingsValidate" event.
  *
  * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\FieldInstance $instance The Field Instance that is going to be validated
+ * @param \Cake\ORM\Entity $settings Settings being validated
  * @param array $options
  * @param \Cake\Validation\Validator $validator
  * @return bool False if save operation should not continue, true otherwise
  */
-	public function beforeValidate(Event $event, FieldInstance $instance, $options, Validator $validator) {
-		$instanceEvent = $this->hook(["Field.{$instance->handler}.Instance.beforeValidate", $event->subject], $instance, $options, $validator);
-		if ($instanceEvent->isStopped() || $instanceEvent->result === false) {
-			return false;
+	public function beforeValidate(Event $event, Entity $settings, $options, Validator $validator) {
+		if (isset($options['validate']) && in_array($options['validate'], ['settings', 'viewMode'])) {
+			$eventName = $options['validate'] == 'settings' ? 'settingsValidate' : 'viewModeValidate';
+			$instanceEvent = $this->hook(["Field.{$settings->get('_field_handler')}.Instance.{$eventName}", $event->subject], $settings, $validator);
+			if ($instanceEvent->isStopped() || $instanceEvent->result === false) {
+				return false;
+			}
+			return true;
 		}
-		return true;
 	}
 
 /**
  * Triggers the "Field.<FieldHandler>.Instance.afterValidate" event.
  *
  * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\FieldInstance $instance The Field Instance that was validated
+ * @param \Cake\ORM\Entity $instance The Field Instance that is going to be validated
  * @param array $options
  * @param \Cake\Validation\Validator $validator
  * @return void
  */
-	public function afterValidate(Event $event, FieldInstance $instance, $options, Validator $validator) {
-		$this->hook(["Field.{$instance->handler}.Instance.afterValidate", $event->subject], $instance, $options, $validator);
+	public function afterValidate(Event $event, Entity $instance, $options, Validator $validator) {
 	}
 
 /**

@@ -1,7 +1,7 @@
 <p class="details">
 	<ul>
 		<?php if (!empty($composer['homepage'])): ?>
-		<li><strong><?php echo __d('system', 'Homepage'); ?>:</strong> <?php echo $this->Html->link($composer['homepage'], $composer['homepage']); ?></li>
+		<li><strong><?php echo __d('system', 'Homepage'); ?>:</strong> <?php echo $this->Html->link($composer['homepage'], $composer['homepage'], ['target' => '_blank']); ?></li>
 		<?php endif; ?>
 
 		<?php if (!empty($composer['support']['issues'])): ?>

@@ -419,11 +419,12 @@ class StartupController extends Controller {
 /**
  * Check if the given step name was completed. Or marks current step as completed.
  *
- * If $check is set to false, we mark current step (controller's action name) as completed.
- * If $check is set to a string, we check if that step was completed before.
+ * If $check is set to false, we mark current step (controller's action name)
+ * as completed. If $check is set to a string, we check if that step was
+ * completed before.
  *
- * This allows steps to control user navigation, so users can not pass to the next step
- * without completing all previous steps.
+ * This allows steps to control user navigation, so users can not pass to the
+ * next step without completing all previous steps.
  *
  * @param bool|string $check
  * @return bool
