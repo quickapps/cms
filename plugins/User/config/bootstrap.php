@@ -46,7 +46,13 @@ Cache::config('permissions', [
 ]);
 
 /**
- * Gets current user (logged in or not) as an entity.
+ * Retrieves current user's information (logged in or not) as an entity object.
+ *
+ * **Usage:**
+ *
+ *     $user = user();
+ *     echo user()->name;
+ *     // prints "Anonymous" if not logged in
  *
  * @return \User\Model\Entity\UserSession
  */

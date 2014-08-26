@@ -31,6 +31,7 @@ class GatewayController extends AppController {
  */
 	public function beforeFilter(Event $event) {
 		$this->Auth->allow(['login', 'logout', 'unauthorized', 'forgot']);
+		$this->viewPath = 'Gateway';
 	}
 
 /**

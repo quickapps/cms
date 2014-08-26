@@ -19,6 +19,7 @@
 	</head>
 
 	<body>
+		<?php if ($this->request->is('userLoggedIn')): ?>
 		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
@@ -52,6 +53,7 @@
 				</div>
 			</div>
 		</nav>
+		<?php endif; ?>
 
 		<div class="container">
 			<?php echo $this->Breadcrumb->renderIfNotEmpty(); ?>

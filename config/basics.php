@@ -244,6 +244,14 @@ use QuickApps\Core\Plugin;
 
 /**
  * Shortcut for getting an option value from "options" DB table.
+ *
+ * The second arguments, $default,  is used as default value to return if no
+ * value is found. If not value is found and not default values was given this
+ * function will return `false`.
+ *
+ * **Example:**
+ *
+ *     option('site_slogan');
  * 
  * @param string $name Name of the option to retrieve. e.g. `front_theme`,
  *  `default_language`, `site_slogan`, etc
@@ -270,7 +278,7 @@ use QuickApps\Core\Plugin;
 	}
 
 /**
- * Returns a list of all registered event listeners.
+ * Returns a list of all registered event listeners in the system.
  * 
  * @return array
  */
@@ -315,7 +323,13 @@ use QuickApps\Core\Plugin;
 /**
  * Moves up or down the given element by index from a list array of elements.
  *
- * If item could not be moved, the original list will be returned.
+ * If item could not be moved, the original list will be returned. Valid values
+ * for $direction are `up` or `down`.
+ *
+ * ### Example:
+ *
+ *     array_move(['a', 'b', 'c'], 1, 'up');
+ *     // returns: ['a', 'c', 'b']
  *
  * @param array $list Numeric indexed array list of elements
  * @param integer $index The index position of the element you want to move
@@ -373,9 +387,10 @@ use QuickApps\Core\Plugin;
 	}
 
 /**
- * Return only the methods for the given object.  
- * It will strip out inherited methods.
+ * Return only the methods for the given object. It will strip out inherited
+ * methods.
  *
+ * @param string $class Class name
  * @return array List of methods
  */
 	function get_this_class_methods($class) {
