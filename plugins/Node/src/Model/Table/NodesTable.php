@@ -85,7 +85,22 @@ class NodesTable extends Table {
 		$this->addBehavior('Timestamp');
 		$this->addBehavior('Comment.Commentable');
 		$this->addBehavior('Sluggable');
-		$this->addBehavior('Field.Fieldable', ['polymorphic_table_alias' => 'node_type_slug']);
+		$this->addBehavior('Field.Fieldable', [
+			'bundle' => function ($entity, $table) {
+				$node_type_slug = '';
+				if ($entity->has('node_type_slug')) {
+					$node_type_slug = $entity->node_type_slug;
+				} elseif ($entity->has('id')) {
+					$node_type_slug = $table->get($entity->id, [
+						'fields' => ['id', 'node_type_slug'],
+						'fieldable' => false,
+					])
+					->node_type_slug;
+				}
+
+				return $node_type_slug;
+			}
+		]);
 		$this->addBehavior('Search.Searchable', [
 			'fields' => function ($node) {
 				$words = "{$node->title} {$node->description}";

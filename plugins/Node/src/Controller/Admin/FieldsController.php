@@ -32,7 +32,7 @@ class FieldsController extends AppController {
  *
  * @var string
  */
-	protected $_manageTable = 'nodes_';
+	protected $_manageTable = 'nodes:';
 
 /**
  * Constructor.

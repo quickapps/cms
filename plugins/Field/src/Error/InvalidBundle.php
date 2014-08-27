@@ -14,16 +14,16 @@ namespace Field\Error;
 use Cake\Error\Exception;
 
 /**
- * Exception raised when an entity's property is required to be present.
+ * Exception raised when an incorrect bundle was given.
  *
  */
-class MissingEntityPropertyException extends Exception {
+class InvalidBundle extends Exception {
 
 /**
  * Template string that has attributes sprintf()'ed into it.
  *
  * @var string
  */
-	protected $_messageTemplate = 'Missing entity property.';
+	protected $_messageTemplate = 'Invalid bundle.';
 
 }

@@ -3,7 +3,7 @@
   array (
     'id' => 1,
     'slug' => 'article-introduction',
-    'table_alias' => 'nodes_article',
+    'table_alias' => 'nodes:article',
     'handler' => 'TextField',
     'label' => 'Introduction',
     'description' => 'Brief description',
@@ -17,7 +17,7 @@
   array (
     'id' => 3,
     'slug' => 'article-body',
-    'table_alias' => 'nodes_article',
+    'table_alias' => 'nodes:article',
     'handler' => 'TextField',
     'label' => 'Body',
     'description' => '',
