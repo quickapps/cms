@@ -406,13 +406,13 @@ class FieldableBehavior extends Behavior {
  * These are merged with user-provided configuration when the behavior is used.
  * Available options are:
  *
- * -    `table_alias`: Name of the table being managed. Defaults to null (auto-detect).
+ * -    `tableAlias`: Name of the table being managed. Defaults to null (auto-detect).
  * -    `bundle`: Bundle within this the table. Can be a string or a callable
  *       method that must return a string to use as bundle. 
- *       Default null (use `table_alias` option always).
+ *       Default null (use `tableAlias` option always).
  * -    `enabled`: True enables this behavior or false for disable. Default to true.
  *
- * When using `bundle` feature, `table_alias` becomes:
+ * When using `bundle` feature, `tableAlias` becomes:
  *
  *     <real_table_name>:<bundle>
  *
@@ -425,12 +425,16 @@ class FieldableBehavior extends Behavior {
  *         return $entity->type;
  *     },
  *
- * The example above will use the `type` property of each entity to use as `bundle`.
+ * Bundles are usually set to dynamic values as the example above, where
+ * we use the `type` property of each entity to generate the `bundle` name. For
+ * example, for the "nodes" table we have "node" entities, but we may have
+ * "article nodes", "page nodes", etc depending on the "type of node" they are;
+ * "article" and "page" **are bundles** of "nodes" table.
  *
  * @var array
  */
 	protected $_defaultConfig = [
-		'table_alias' => null,
+		'tableAlias' => null,
 		'bundle' => null,
 		'enabled' => true,
 		'implementedMethods' => [
@@ -449,8 +453,8 @@ class FieldableBehavior extends Behavior {
  */
 	public function __construct(Table $table, array $config = []) {
 		$this->_table = $table;
-		if (empty($config['table_alias'])) {
-			$config['table_alias'] = Inflector::underscore($table->alias());
+		if (empty($config['tableAlias'])) {
+			$config['tableAlias'] = Inflector::underscore($table->alias());
 		}
 		parent::__construct($table, $config);
 	}
@@ -601,7 +605,7 @@ class FieldableBehavior extends Behavior {
 		}
 
 		$pk = $this->_table->primaryKey();
-		$table_alias = $this->_guessTableAlias($entity);
+		$tableAlias = $this->_guessTableAlias($entity);
 		$instances = $this->_getTableFieldInstances($entity);
 		$FieldValues = $this->_getTable('Field.FieldValues');
 		$this->_cache['_FieldValues'] = [];
@@ -636,7 +640,7 @@ class FieldableBehavior extends Behavior {
 					'field_instance_id' => $field->metadata['field_instance_id'],
 					'field_instance_slug' => $field->name,
 					'entity_id' => $entity->{$pk},
-					'table_alias' => $table_alias,
+					'table_alias' => $tableAlias,
 					'value' => $field->value,
 					'extra' => $field->extra,
 				]);
@@ -814,7 +818,7 @@ class FieldableBehavior extends Behavior {
 			throw new FatalErrorException(__d('field', 'Entities in fieldable tables can only be deleted using transaction. Set [atomic = true]'));
 		}
 
-		$table_alias = $this->_guessTableAlias($entity);
+		$tableAlias = $this->_guessTableAlias($entity);
 		$instances = $this->_getTableFieldInstances($entity);
 		$FieldValues = $this->_getTable('Field.FieldValues');
 
@@ -832,8 +836,9 @@ class FieldableBehavior extends Behavior {
 			$valueToDelete = $FieldValues->find()
 				->where([
 					'entity_id' => $entity->get($this->_table->primaryKey()),
-					'table_alias' => $table_alias,
+					'table_alias' => $tableAlias,
 				])
+				->limit(1)
 				->first();
 
 			if ($valueToDelete) {
@@ -973,19 +978,19 @@ class FieldableBehavior extends Behavior {
 
 			if (!empty($options['bundle'])) {
 				if (is_array($options['bundle'])) {
-					$table_alias = [];
+					$tableAlias = [];
 					foreach ($options['bundle'] as $bundle) {
-						$table_alias = $this->config('table_alias') . ':' . $bundle;
+						$tableAlias = $this->config('tableAlias') . ':' . $bundle;
 					}
 				} else {
-					$table_alias = $this->config('table_alias') . ':' . $options['bundle'];
+					$tableAlias = $this->config('tableAlias') . ':' . $options['bundle'];
 				}
 			} else {
-				// look in all bundles by default
-				$table_alias = $this->config('table_alias') . ':*';
+				// indicates "look in all bundles"
+				$tableAlias = '*';
 			}
 
-			$whereClause->traverse(function ($expression) use($table_alias, $pk) {
+			$whereClause->traverse(function ($expression) use($tableAlias, $pk) {
 				if (!($expression instanceof Comparison)) {
 					return;
 				}
@@ -1014,13 +1019,24 @@ class FieldableBehavior extends Behavior {
 						"FieldValues.value {$conjunction}" => $value
 					]);
 
-				if (is_array($table_alias)) {
-					$subQuery->where(['FieldValues.table_alias IN' => $table_alias]);
-				} elseif (strpos($table_alias, '*') !== false || strpos($table_alias, '?') !== false) {
-					$table_alias = str_replace(['*', '?'], ['%', '_'], $table_alias);
-					$subQuery->where(['FieldValues.table_alias LIKE' => $table_alias]);
+				if ($tableAlias === '*') {
+				// look in all bundles
+					$subQuery->where([
+						'OR' => [
+							'FieldValues.table_alias' => $this->config('tableAlias'),
+							'FieldValues.table_alias LIKE' => $this->config('tableAlias') . ':%',
+						]
+					]);
+				} elseif (is_array($tableAlias)) {
+				// look in multiple bundles
+					$subQuery->where(['FieldValues.table_alias IN' => $tableAlias]);
+				} elseif (strpos($tableAlias, '*') !== false || strpos($tableAlias, '?') !== false) {
+				// look in bundle matching pattern
+					$tableAlias = str_replace(['*', '?'], ['%', '_'], $tableAlias);
+					$subQuery->where(['FieldValues.table_alias LIKE' => $tableAlias]);
 				} else {
-					$subQuery->where(['FieldValues.table_alias' => $table_alias]);
+				// look in this specific bundle
+					$subQuery->where(['FieldValues.table_alias' => $tableAlias]);
 				}
 
 				$expression->field($this->_table->alias() . '.' . $pk);
@@ -1102,7 +1118,7 @@ class FieldableBehavior extends Behavior {
  *  the required property is not present in the entity
  */
 	protected function _guessTableAlias($entity) {
-		$table_alias = $this->config('table_alias');
+		$tableAlias = $this->config('tableAlias');
 
 		if ($this->config('bundle')) {
 			$bundle = $this->_resolveBundle($entity);
@@ -1112,10 +1128,10 @@ class FieldableBehavior extends Behavior {
 				);
 			}
 
-			$table_alias = "{$table_alias}:{$bundle}";
+			$tableAlias = "{$tableAlias}:{$bundle}";
 		}
 
-		return $table_alias;
+		return $tableAlias;
 	}
  
  /**
@@ -1155,18 +1171,18 @@ class FieldableBehavior extends Behavior {
  * @return \Cake\ORM\Query Field instances attached to current table as a query result
  */
 	protected function _getTableFieldInstances($entity) {
-		$table_alias = $this->_guessTableAlias($entity);
+		$tableAlias = $this->_guessTableAlias($entity);
 
-		if (isset($this->_cache["TableFieldInstances_{$table_alias}"])) {
-			return $this->_cache["TableFieldInstances_{$table_alias}"];
+		if (isset($this->_cache["TableFieldInstances_{$tableAlias}"])) {
+			return $this->_cache["TableFieldInstances_{$tableAlias}"];
 		} else {
 			$FieldInstances = $this->_getTable('Field.FieldInstances');
-			$this->_cache["TableFieldInstances_{$table_alias}"] = $FieldInstances->find()
-				->where(['FieldInstances.table_alias' => $table_alias])
+			$this->_cache["TableFieldInstances_{$tableAlias}"] = $FieldInstances->find()
+				->where(['FieldInstances.table_alias' => $tableAlias])
 				->order(['ordering' => 'ASC'])
 				->all();
 
-			return $this->_cache["TableFieldInstances_{$table_alias}"];
+			return $this->_cache["TableFieldInstances_{$tableAlias}"];
 		}
 	}
 
