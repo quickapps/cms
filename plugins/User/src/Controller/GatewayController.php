@@ -98,7 +98,7 @@ class GatewayController extends AppController {
 				->first();
 
 			if ($user) {
-				$emailSent = $this->hook('User.onPasswordRecovery', $user)->result;
+				$emailSent = $this->hook('User.passwordRequest', $user)->result;
 				if ($emailSent) {
 					$this->Flash->success(__d('user', 'Further instructions have been sent to your e-mail address.'));
 				} else {
@@ -117,16 +117,25 @@ class GatewayController extends AppController {
  * cancel their accounts by using the form rendered by this action, an e-mail
  * will be send with a especial link which will remove the account.
  *
- * @return void
+ * @return void Redirects to previous page
  */
-	public function remove() {
-		if ($this->request->data) {
+	public function cancel_request() {
+		$user = user();
 
+		$this->loadModel('User.Users');
+		$user = $this->Users->get($user->id);
+		$emailSent = $this->hook('User.cancelRequest', $user)->result;
+		if ($emailSent) {
+			$this->Flash->success(__d('user', 'Further instructions have been sent to your e-mail address.'));
+		} else {
+			$this->Flash->warning(__d('user', 'Instructions could not been sent to your e-mail address, please try again later.'));
 		}
+
+		$this->redirect($this->referer());
 	}
 
 /**
- * Here is where users can remove their accounts from the system.
+ * Here is where user's account is actually removed.
  *
  * @param integer $user_id
  * @param string $code Cancellation code, code is a MD5 hash of user's encrypted
@@ -138,11 +147,21 @@ class GatewayController extends AppController {
 		$user = $this->Users
 			->find()
 			->where(['id' => $user_id])
+			->contain(['Roles'])
 			->limit(1)
 			->first();
 
+		if (
+			in_array(ROLE_ID_ADMINISTRATOR, $user->role_ids) &&
+			$this->Users->countAdministrators() === 1
+		) {
+			$this->Flash->warning(__d('user', 'You are the last administrator in the system, your account cannot be canceled.'));
+			$this->redirect($this->referer());
+		}
+
 		if ($user && $code == $user->cancel_code) {
 			if ($this->Users->delete($user)) {
+				$this->hook('User.canceled', $user);
 				$this->Flash->success(__d('user', 'Account successfully canceled'));
 			} else {
 				$this->Flash->danger(__d('user', 'Account could not be canceled due to an internal error, please try again later.'));
@@ -160,9 +179,60 @@ class GatewayController extends AppController {
  * @return void
  */
 	public function register() {
-		if ($this->request->data) {
+		$this->loadModel('User.Users');
+		$user = $this->Users->newEntity();
+		$registered = false;
+		$languages = LocaleToolbox::languagesList();
 
+		if ($this->request->data) {
+			$user->set('status', 0);
+			$user->accessible(['id', 'token', 'status', 'last_login', 'created', 'roles'], false);
+			$user = $this->Users->patchEntity($user, $this->request->data);
+
+			if ($this->Users->save($user)) {
+				$this->hook('User.registered', $user);
+				$this->Flash->success(__d('user', 'Account successfully created, further instructions have been sent to your e-mail address.', ['key' => 'register']));
+				$registered = true;
+			} else {
+				$this->Flash->danger(__d('user', 'Account could not be created, please check your information.'), ['key' => 'register']);
+			}
 		}
+
+		$this->set(compact('registered', 'user', 'languages'));
+	}
+
+/**
+ * Users can request to re-send activation instructions to their email address.
+ *
+ * @return void
+ */
+	public function activation_email() {
+		$this->loadModel('User.Users');
+		$sent = false;
+
+		if (!empty($this->request->data['username'])) {
+			$user = $this->Users
+				->find()
+				->where([
+					'OR' => [
+						'username' => $this->request->data['username'],
+						'email' => $this->request->data['username'],
+					],
+					'status' => 0
+				])
+				->limit(1)
+				->first();
+
+			if ($user) {
+				$this->hook('User.registered', $user);
+				$this->Flash->success(__d('user', 'Instructions have been sent to your e-mail address.'), ['key' => 'activation_email']);
+				$sent = true;
+			} else {
+				$this->Flash->danger(__d('user', 'No account was found matching the given username/email.'), ['key' => 'activation_email']);
+			}
+		}
+
+		$this->set(compact('sent'));
 	}
 
 /**
@@ -170,10 +240,33 @@ class GatewayController extends AppController {
  *
  * @return void
  */
-	public function activate($code = null) {
-		if ($code !== null) {
-
+	public function activate($token = null) {
+		$activated = false;
+		if ($token === null) {
+			$this->redirect('/');
 		}
+
+		$this->loadModel('User.Users');
+		$user = $this->Users
+			->find()
+			->select(['id', 'name', 'token'])
+			->where(['status' => 0, 'token' => $token])
+			->limit(1)
+			->first();
+
+		if ($user) {
+			if ($this->Users->updateAll(['status' => 1], ['id' => $user->id])) {
+				$this->hook('User.activated', $user);
+				$activated = true;
+				$this->Flash->success(__d('user', 'Account successfully activated.'), ['key' => 'activate']);
+			} else {
+				$this->Flash->danger(__d('user', 'Account could not be activated, please try again later.'), ['key' => 'activate']);
+			}
+		} else {
+			$this->Flash->warning(__d('user', 'Account not found or is already active.'), ['key' => 'activate']);
+		}
+
+		$this->set(compact('activated', 'token'));
 	}
 
 /**
@@ -225,10 +318,19 @@ class GatewayController extends AppController {
  * Shows profile information for the given user.
  *
  * @return void
+ * @throws \Cake\ORM\Error\RecordNotFoundException When user not found, or users
+ *  has marked profile as private 
  */
 	public function profile($id) {
 		$this->loadModel('User.Users');
-		$user = $this->Users->get($id, ['conditions' => ['status' => 1]]);
+
+		$conditions = [];
+		if ($id != user()->id) {
+			$conditions = ['status' => 1, 'public_profile' => true];
+		}
+
+		$user = $this->Users->get($id, ['conditions' => $conditions]);
+		$this->set(compact('user'));
 	}
 
 }

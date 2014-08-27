@@ -15,7 +15,7 @@
 
 <?php echo $this->Form->create($user, ['id' => 'user-form']); ?>
 	<fieldset>
-		<legend><?php echo __d('user', "Editing User's Information"); ?></legend>
+		<legend><?php echo __d('user', 'Creating New Account'); ?></legend>
 		<?php echo $this->Form->input('name', ['label' => __d('user', 'Real name')]); ?>
 		<em class="help-block"><?php echo __d('user', "User's real name, e.g. John Locke"); ?></em>
 
@@ -32,13 +32,12 @@
 		<em class="help-block"><?php echo __d('user', "Preferred user's language"); ?></em>
 
 		<?php echo $this->Form->input('status', ['type' => 'checkbox', 'label' => __d('user', 'Active')]); ?>
-		<em class="help-block"><?php echo __d('user', 'Inactive users cannot log-in. Administrator users cannot be disabled.'); ?></em>
+		<em class="help-block"><?php echo __d('user', 'Inactive users cannot log-in.'); ?></em>
 
 		<?php echo $this->Form->input('password', ['type' => 'password', 'label' => __d('user', 'Password')]); ?>
 		<em class="help-block"><?php echo __d('user', 'At least six characters long.'); ?></em>
 
 		<?php echo $this->Form->input('password2', ['type' => 'password', 'label' => __d('user', 'Confirm Password')]); ?>
-		<em class="help-block"><?php echo __d('user', "Leave both fields empty if you do not need to change User's password."); ?></em>
 
 		<?php echo $this->Form->input('roles._ids', ['type' => 'select', 'options' => $roles, 'label' => __d('user', 'Roles'), 'multiple' => 'checkbox']); ?>
 
@@ -53,6 +52,11 @@
 		</fieldset>
 		<?php endif; ?>
 
-		<?php echo $this->Form->submit(__d('user', 'Save Changes')); ?>
+		<hr />
+
+		<?php echo $this->Form->submit(__d('user', 'Register')); ?>
+
+		<?php echo $this->Form->input('welcome_message', ['type' => 'checkbox', 'label' => __d('user', 'Welcome Message')]); ?>
+		<em class="help-block"><?php echo __d('user', 'Sends a welcome message after registration completes.'); ?></em>
 	</fieldset>
 <?php echo $this->Form->end(); ?>

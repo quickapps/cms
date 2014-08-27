@@ -20,7 +20,7 @@ use User\Model\Entity\User;
 use QuickApps\Core\Plugin;
 
 /**
- * A simple class for handling user  notification emails.
+ * A simple class for handling user notification emails.
  *
  * ### Usage:
  *
@@ -118,7 +118,7 @@ class NotificationManager {
  * 
  * @return bool True on success, false otherwise
  */
-	public function cancel_request() {
+	public function cancelRequest() {
 		$subject = $this->config('message_cancel_request_subject');
 		$body = $this->config('message_cancel_request_body');
 		return $this->_send($subject, $body);
@@ -144,7 +144,7 @@ class NotificationManager {
  * 
  * @return bool True on success, false otherwise
  */
-	public function passwordRecovery() {
+	public function passwordRequest() {
 		$subject = $this->config('message_password_recovery_subject');
 		$body = $this->config('message_password_recovery_body');
 		return $this->_send($subject, $body);
@@ -185,7 +185,7 @@ class NotificationManager {
 
 /**
  * Looks for variables tags in the given message and replaces with their
- * corresponding values. For example, "[site:name]"" will be replaced with user's
+ * corresponding values. For example, "[site:name] will be replaced with user's
  * real name.
  *
  * @param string $text Message where to look for tags.
@@ -209,14 +209,14 @@ class NotificationManager {
 			$user->name,
 			$user->username,
 			$user->email,
-			Router::url(['plugin' => 'User', 'controller' => 'gateway', 'action' => 'activate', $user->token], true),
-			Router::url(['plugin' => 'User', 'controller' => 'gateway', 'action' => 'login', 'token' => $user->token], true),
-			Router::url(['plugin' => 'User', 'controller' => 'gateway', 'action' => 'cancel', $user->id, $user->cancel_code], true),
-			option('site_name'),
+			Router::url(['plugin' => 'User', 'controller' => 'gateway', 'action' => 'activate', 'prefix' => false, $user->token], true),
+			Router::url(['plugin' => 'User', 'controller' => 'gateway', 'action' => 'me', 'prefix' => false, 'token' => $user->token], true),
+			Router::url(['plugin' => 'User', 'controller' => 'gateway', 'action' => 'cancel', 'prefix' => false, $user->id, $user->cancel_code], true),
+			option('site_title'),
 			Router::url('/', true),
 			option('site_description'),
 			option('site_slogan'),
-			Router::url(['plugin' => 'User', 'controller' => 'gateway', 'action' => 'login'], true),
+			Router::url(['plugin' => 'User', 'controller' => 'gateway', 'action' => 'login', 'prefix' => false], true),
 		], $text);
 	}
 

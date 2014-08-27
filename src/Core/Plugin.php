@@ -349,12 +349,18 @@ class Plugin extends CakePlugin {
 		}
 
 		$settings = [];
-		$PluginsTable = TableRegistry::get('System.Plugins');
-		$PluginsTable->schema(['settings' => 'serialized']);
+		if (!TableRegistry::exists('SnapshotNodeTypes')) {
+			$PluginsTable = TableRegistry::get('Plugins');
+			$PluginsTable->schema(['settings' => 'serialized']);
+		} else {
+			$PluginsTable = TableRegistry::get('Plugins');
+		}
+
 		$dbInfo = $PluginsTable
 			->find()
 			->select(['settings'])
 			->where(['name' => $plugin])
+			->limit(1)
 			->first();
 
 		if ($dbInfo) {

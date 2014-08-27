@@ -26,10 +26,14 @@ use Cake\Utility\Security;
 /**
  * Anonymous Authenticate adapter.
  *
- * Applies authorization rules to anonymous users. It also handles "remember me"
- * cookies, it will try to login an user if he/she has a valid "remember me" cookie.
+ * Applies authorization rules to anonymous users. Also, it will try login
+ * using the following methods:
+ * 
+ * - Cookie: If user has a valid "remember me" cookie it be used to log in.
+ * - Token: If a valid token is given in current URL (as GET argument) user
+ *   will be automatically logged in. 
  *
- * Cookies are automatically created by FormAuthenticate.
+ * NOTE: Cookies are automatically created by FormAuthenticate.
  */
 class AnonymousAuthenticate extends BaseAuthenticate {
 
@@ -52,11 +56,27 @@ class AnonymousAuthenticate extends BaseAuthenticate {
  * - Cake\Network\Response - A response object, which will cause AuthComponent to
  *   simply return that response.
  *
- * @param \Cake\Network\Request $request A request object.
- * @param \Cake\Network\Response $response A response object.
- * @return void
+ * @param \Cake\Network\Request $request A request object
+ * @param \Cake\Network\Response $response A response object
+ * @return mixed
  */
 	public function unauthenticated(Request $request, Response $response) {
+		if ($this->_cookieLogin($request)) {
+			return true;
+		}
+
+		if ($this->_tokenLogin($request)) {
+			return true;
+		}
+	}
+
+/**
+ * Tries to login user if he/she has a cookie.
+ * 
+ * @param \Cake\Network\Request $request A request object
+ * @return bool True if user was logged in using cookie, false otherwise
+ */
+	protected function _cookieLogin(Request $request) {
 		$controller = $this->_registry->getController();
 		if (empty($controller->Cookie)) {
 			$controller->addComponent('Cookie');
@@ -94,6 +114,52 @@ class AnonymousAuthenticate extends BaseAuthenticate {
 		if (isset($permissions[$action])) {
 			return true;
 		}
+
+		return false;
+	}
+
+/**
+ * Tries to login user using token.
+ *
+ * Token must be passed as a GET parameter named `token`, tokens looks as follow:
+ *
+ *     // <integer>-<md5-hash>
+ *     1-5df9f63916ebf8528697b629022993e8
+ *
+ * Tokens are consumables, the same token cannot be used twice to log in.
+ * 
+ * @param \Cake\Network\Request $request A request object
+ * @return bool True if user was logged in using token, false otherwise
+ */
+	protected function _tokenLogin(Request $request) {
+		if (
+			!empty($request->query['token']) &&
+			strpos($request->query['token'], '-') !== false
+		) {
+			$token = $request->query['token'];
+			$Users = TableRegistry::get('User.Users');
+			$exists = $Users
+				->find()
+				->select(['id', 'username'])
+				->where(['token' => $token])
+				->limit(1)
+				->first();
+
+			if ($exists) {
+				$user = $this->_findUser($exists->username);
+				if ($user) {
+					$controller = $this->_registry->getController();
+					if (isset($user['password'])) {
+						unset($user['password']);
+					}
+					$controller->Auth->setUser($user);
+					$Users->updateToken($exists);
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 /**

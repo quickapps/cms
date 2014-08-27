@@ -318,6 +318,7 @@ class InstallTask extends BaseTask {
 	protected function _finish() {
 		global $classLoader; // composer's class loader instance
 		snapshot();
+		// trick, makes plugin visible to AcoManager
 		$classLoader->addPsr4("{$this->_pluginName}\\", normalizePath(SITE_ROOT . "/plugins/{$this->_pluginName}/src"), true);
 		AcoManager::buildAcos($this->_pluginName);
 		$this->_rollback();

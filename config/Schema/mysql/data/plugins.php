@@ -99,7 +99,63 @@
   array (
     'name' => 'User',
     'package' => 'quickapps-plugin/user',
-    'settings' => '',
+    'settings' => 'a:15:{s:23:"message_welcome_subject";s:46:"Account details for [user:name] at [site:name]";s:20:"message_welcome_body";s:450:"[user:name],
+
+Thank you for registering at [site:name]. You may now log in by clicking this link or copying and pasting it to your browser:
+
+[user:one-time-login-url]
+
+This link can only be used once to log in and will lead you to a page where you can set your password.
+
+After setting your password, you will be able to log in at [site:login-url] in the future using:
+
+username: [user:name]
+password: Your password
+
+--  [site:name] team";s:18:"message_activation";s:1:"1";s:26:"message_activation_subject";s:57:"Account details for [user:name] at [site:name] (approved)";s:23:"message_activation_body";s:461:"[user:name],
+
+Your account at [site:name] has been activated.
+
+You may now log in by clicking this link or copying and pasting it into your browser:
+
+[user:one-time-login-url]
+
+This link can only be used once to log in and will lead you to a page where you can set your password.
+
+After setting your password, you will be able to log in at [site:login-url] in the future using:
+
+username: [user:name]
+password: Your password
+
+--  [site:name] team";s:15:"message_blocked";s:1:"1";s:23:"message_blocked_subject";s:56:"Account details for [user:name] at [site:name] (blocked)";s:20:"message_blocked_body";s:85:"[user:name],
+
+Your account on [site:name] has been blocked.
+
+--  [site:name] team";s:33:"message_password_recovery_subject";s:61:"Password recovery instructions for [user:name] at [site:name]";s:30:"message_password_recovery_body";s:340:"[user:name],
+
+A request to reset the password for your account has been made at [site:name].
+
+You may now log in by clicking this link or copying and pasting it to your browser:
+
+[user:one-time-login-url]
+
+This link can only be used once to log in and will lead you to a page where you can set your password.
+
+--  [site:name] team";s:30:"message_cancel_request_subject";s:59:"Account cancellation request for [user:name] at [site:name]";s:27:"message_cancel_request_body";s:300:"[user:name],
+
+A request to cancel your account has been made at [site:name].
+
+You may now cancel your account on [site:url] by clicking this link or copying and pasting it into your browser:
+
+[user:cancel-url]
+
+NOTE: The cancellation of your account is not reversible.
+
+--  [site:name] team";s:16:"message_canceled";s:1:"1";s:24:"message_canceled_subject";s:57:"Account details for [user:name] at [site:name] (canceled)";s:21:"message_canceled_body";s:86:"[user:name],
+
+Your account on [site:name] has been canceled.
+
+--  [site:name] team";}',
     'status' => true,
     'ordering' => 0,
   ),

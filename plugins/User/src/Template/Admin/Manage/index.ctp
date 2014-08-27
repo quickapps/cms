@@ -47,14 +47,55 @@
 							echo $this->Html->link('', [
 								'plugin' => 'User',
 								'controller' => 'manage',
-								'action' => 'delete',
+								'action' => 'password_instructions',
 								$user->id,
 							], [
-								'title' => __d('user', 'Delete'),
-								'class' => 'btn btn-default btn-sm glyphicon glyphicon-trash',
-								'confirm' => __d('user', 'You are about to delete: "{0}". Are you sure ?', $user->name),
+								'title' => __d('user', 'Set password recovery instructions'),
+								'class' => 'btn btn-default btn-sm glyphicon glyphicon-qrcode',
+								'confirm' => __d('user', 'You are about to send password recovery instructions to "{0}". Are you sure ?', $user->name),
 							]);
 						?>
+						<?php if (!in_array(ROLE_ID_ADMINISTRATOR, $user->role_ids)): ?>
+							<?php if ($user->status): ?>
+								<?php
+									echo $this->Html->link('', [
+										'plugin' => 'User',
+										'controller' => 'manage',
+										'action' => 'block',
+										$user->id,
+									], [
+										'title' => __d('user', 'Block account'),
+										'class' => 'btn btn-default btn-sm glyphicon glyphicon-remove-circle',
+										'confirm' => __d('user', 'You are about to block: "{0}". Are you sure ?', $user->name),
+									]);
+								?>
+							<?php else: ?>
+								<?php
+									echo $this->Html->link('', [
+										'plugin' => 'User',
+										'controller' => 'manage',
+										'action' => 'activate',
+										$user->id,
+									], [
+										'title' => __d('user', 'Activate account'),
+										'class' => 'btn btn-default btn-sm glyphicon glyphicon-ok-circle',
+										'confirm' => __d('user', 'You are about to activate: "{0}". Are you sure ?', $user->name),
+									]);
+								?>
+							<?php endif; ?>
+							<?php
+								echo $this->Html->link('', [
+									'plugin' => 'User',
+									'controller' => 'manage',
+									'action' => 'delete',
+									$user->id,
+								], [
+									'title' => __d('user', 'Delete'),
+									'class' => 'btn btn-default btn-sm glyphicon glyphicon-trash',
+									'confirm' => __d('user', 'You are about to delete: "{0}". Are you sure ?', $user->name),
+								]);
+							?>
+						<?php endif; ?>
 					</div>
 				</td>
 			</tr>

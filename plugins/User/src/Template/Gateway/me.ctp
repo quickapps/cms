@@ -24,6 +24,12 @@
 		<?php echo $this->Form->input('email', ['label' => __d('user', 'e-Mail')]); ?>
 		<em class="help-block"><?php echo __d('user', 'Must be unique.'); ?></em>
 
+		<?php echo $this->Form->input('public_email', ['type' => 'checkbox', 'label' => __d('user', 'Public e-mail')]); ?>
+		<em class="help-block"><?php echo __d('user', 'Other users can see your email in <a href="{0}">your profile page</a>.', $this->Url->build(['plugin' => 'User', 'controller' => 'gateway', 'action' => 'profile', $user->id])); ?></em>
+
+		<?php echo $this->Form->input('public_profile', ['type' => 'checkbox', 'label' => __d('user', 'Public profile')]); ?>
+		<em class="help-block"><?php echo __d('user', 'Restrict the access to <a href="{0}">your profile page</a>.', $this->Url->build(['plugin' => 'User', 'controller' => 'gateway', 'action' => 'profile', $user->id])); ?></em>
+
 		<?php echo $this->Form->input('web', ['label' => __d('user', 'Website')]); ?>
 		<em class="help-block"><?php echo __d('user', "User's website, e.g. http://john-locke.about.me"); ?></em>
 
@@ -48,5 +54,6 @@
 		<?php endif; ?>
 
 		<?php echo $this->Form->submit(__d('user', 'Save Changes')); ?>
+		<?php echo $this->Html->link(__d('user', 'Cancel my account'), ['plugin' => 'User', 'controller' => 'gateway', 'action' => 'cancel_request']); ?>
 	</fieldset>
 <?php echo $this->Form->end(); ?>

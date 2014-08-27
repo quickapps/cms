@@ -339,7 +339,7 @@ class SearchableBehavior extends Behavior {
 		if (!$dataset) {
 			$dataset = new SearchDataset([
 				'entity_id' => $entity->get($pk),
-				'table_alias' => $table_alias
+				'table_alias' => $table_alias,
 			]);
 		}
 
@@ -355,9 +355,11 @@ class SearchableBehavior extends Behavior {
  * @return void
  */
 	public function beforeDelete(Event $event, Entity $entity) {
+		$tableAlias = Inflector::underscore($this->_table->alias());
 		$this->_table->hasMany('SearchDatasets', [
 			'className' => 'Search.SearchDatasets',
 			'foreignKey' => 'entity_id',
+			'conditions' => ['table_alias' => $tableAlias],
 			'dependent' => true,
 		]);
 		return true;
@@ -418,7 +420,7 @@ class SearchableBehavior extends Behavior {
 					$query = $callable($query, $value, $negate, $orAnd);
 
 					if (!($query instanceof Query)) {
-						throw new FatalErrorException(__d('search', 'Error while processing the "%" token in the search criteria.', $operator));
+						throw new FatalErrorException(__d('search', 'Error while processing the "{0}" token in the search criteria.', $operator));
 					}
 				} else {
 					$hookName = Inflector::variable("operator_{$operator}");
@@ -498,7 +500,7 @@ class SearchableBehavior extends Behavior {
  */
 	protected function _extractWords($text) {
 		$text = str_replace(["\n", "\r"], '', $text); // 
-		$text = preg_replace('/[^a-z\s]/i', ' ', $text); // letters ands withe spaces only
+		$text = preg_replace('/[^a-z\s]/i', ' ', $text); // letters ands white spaces only
 		$text = trim(preg_replace('/\s{2,}/i', ' ', $text)); // remove double spaces
 		$text = strtolower($text); // all to lowercase
 		$words = explode(' ', $text); // convert to array

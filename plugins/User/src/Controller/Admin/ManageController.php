@@ -64,8 +64,21 @@ class ManageController extends AppController {
 
 		if ($this->request->data) {
 			$user->accessible('id', false);
-			$user = $this->Users->patchEntity($user, $this->request->data);
+			$data = $this->request->data;
+
+			if (isset($data['welcome_message'])) {
+				$sendWelcomeMessage = (bool)$data['welcome_message'];
+				unset($data['welcome_message']);
+			} else {
+				$sendWelcomeMessage = false;
+			}
+
+			$user = $this->Users->patchEntity($user, $data);
 			if ($this->Users->save($user)) {
+				if ($sendWelcomeMessage) {
+					$this->hook('User.registered', $user);
+				}
+
 				$this->Flash->success(__d('user', 'User successfully registered!'));
 				$this->redirect(['plugin' => 'User', 'controller' => 'manage', 'action' => 'edit', $user->id]);
 			} else {
@@ -109,6 +122,77 @@ class ManageController extends AppController {
 	}
 
 /**
+ * Blocks the given user account.
+ *
+ * After account is blocked token is regenerated, so user cannot login using
+ * a known token.
+ * 
+ * @param integer $id
+ * @return void Redirects to previous page
+ */
+	public function block($id) {
+		$this->loadModel('User.Users');
+		$user = $this->Users->get($id, [
+			'fields' => ['id', 'name'],
+			'contain' => ['Roles'],
+		]);
+
+		if (!in_array(ROLE_ID_ADMINISTRATOR, $user->role_ids)) {
+			if ($this->Users->updateAll(['status' => 0], ['id' => $user->id])) {
+				$this->Flash->success(__d('user', 'User {0} was successfully blocked!'), $user->name);
+				$this->Users->updateToken($user);
+				$this->hook('User.blocked', $user);
+			} else {
+				$this->Flash->danger(__d('user', 'User could not be blocked, please try again.'));
+			}
+		} else {
+			$this->Flash->warning(__d('user', 'Administrator users cannot be blocked.'));
+		}
+
+		$this->redirect($this->referer());
+	}
+
+/**
+ * Activates the given user account.
+ * 
+ * @param integer $id
+ * @return void Redirects to previous page
+ */
+	public function activate($id) {
+		$this->loadModel('User.Users');
+		$user = $this->Users->get($id, ['fields' => ['id', 'name']]);
+
+		if ($this->Users->updateAll(['status' => 1], ['id' => $user->id])) {
+			$this->hook('User.activated', $user);
+			$this->Flash->success(__d('user', 'User {0} was successfully activated!'), $user->name);
+		} else {
+			$this->Flash->danger(__d('user', 'User could not be activated, please try again.'));
+		}
+
+		$this->redirect($this->referer());
+	}
+
+/**
+ * Sends password recovery instructions to the given user.
+ * 
+ * @param integer $id
+ * @return void Redirects to previous page
+ */
+	public function password_instructions($id) {
+		$this->loadModel('User.Users');
+		$user = $this->Users->get($id, ['fields' => ['id', 'name']]);
+
+		if ($user) {
+			$this->hook('User.passwordRequest', $user)->result;
+			$this->Flash->success(__d('user', 'Instructions we successfully sent to {0}'), $user->name);
+		} else {
+			$this->Flash->danger(__d('user', 'User was not found.'));
+		}
+
+		$this->redirect($this->referer());
+	}
+
+/**
  * Removes the given user.
  * 
  * @param integer $id
@@ -117,20 +201,15 @@ class ManageController extends AppController {
 	public function delete($id) {
 		$this->loadModel('User.Users');
 		$user = $this->Users->get($id, ['contain' => ['Roles']]);
-		$administrators = $this->Users
-			->find()
-			->matching('Roles', function ($q) {
-				return $q->where(['Roles.id' => ROLE_ID_ADMINISTRATOR]);
-			})
-			->count();
 
 		if (
 			in_array(ROLE_ID_ADMINISTRATOR, $user->role_ids) &&
-			$administrators === 1
+			$this->Users->countAdministrators() === 1
 		) {
-			$this->Flash->danger(__d('user', 'You cannot remove this user as it is the only administrator available.'));
+			$this->Flash->danger(__d('user', 'You cannot remove this user as it is the last administrator available.'));
 		} else {
 			if ($this->Users->delete($user)) {
+				$this->hook('User.canceled', $user);
 				$this->Flash->success(__d('user', 'User successfully removed!'));
 				$this->redirect($this->referer());
 			} else {

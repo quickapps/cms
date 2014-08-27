@@ -760,9 +760,9 @@ class FieldableBehavior extends Behavior {
 			}
 		}
 
-		if ($entity->errors()) {
+		if ($entity->errors() && $entity->has('_fields') ) {
 			foreach ($entity->errors() as $fieldName => $errors) {
-				foreach ($entity->_fields as &$field) {
+				foreach ((array)$entity->get('_fields') as &$field) {
 					if (":{$field->name}" == $fieldName) {
 						$_post = $entity->get(":{$field->name}");
 						if (is_array($_post)) {

@@ -37,11 +37,12 @@ class UserHook implements EventListener {
 			'User.beforeLogout' => 'beforeLogout',
 			'User.afterLogout' => 'afterLogout',
 
-			'User.onRegister' => 'onRegister',
-			'User.onActivate' => 'onActivate',
-			'User.onBlock' => 'onBlock',
-			'User.onCancel' => 'onCancel',
-			'User.onPasswordRecovery' => 'onPasswordRecovery',
+			'User.registered' => 'registered',
+			'User.activated' => 'activated',
+			'User.blocked' => 'blocked',
+			'User.cancelRequest' => 'cancelRequest',
+			'User.canceled' => 'canceled',
+			'User.passwordRequest' => 'passwordRequest',
 
 			'Plugin.User.settingsValidate' => 'settingsBeforeValidate',
 		];
@@ -106,7 +107,7 @@ class UserHook implements EventListener {
  * @param \User\Model\Entity\User $user
  * @return bool
  */
-	public function onRegister(Event $event, User $user) {
+	public function registered(Event $event, User $user) {
 		return (new NotificationManager($user))->welcome();
 	}
 
@@ -117,7 +118,7 @@ class UserHook implements EventListener {
  * @param \User\Model\Entity\User $user
  * @return bool
  */
-	public function onActivate(Event $event, User $user) {
+	public function activated(Event $event, User $user) {
 		return (new NotificationManager($user))->activated();
 	}
 
@@ -128,7 +129,7 @@ class UserHook implements EventListener {
  * @param \User\Model\Entity\User $user
  * @return bool
  */
-	public function onBlock(Event $event, User $user) {
+	public function blocked(Event $event, User $user) {
 		return (new NotificationManager($user))->blocked();
 	}
 
@@ -139,19 +140,30 @@ class UserHook implements EventListener {
  * @param \User\Model\Entity\User $user
  * @return bool
  */
-	public function onCancel(Event $event, User $user) {
-		return (new NotificationManager($user))->canceled();
+	public function cancelRequest(Event $event, User $user) {
+		return (new NotificationManager($user))->cancelRequest();
 	}
 
 /**
- * Event triggered when user requests a new password
+ * Event triggered after user account was removed.
  *
  * @param \Cake\Event\Event $event
  * @param \User\Model\Entity\User $user
  * @return bool
  */
-	public function onPasswordRecovery(Event $event, User $user) {
-		return (new NotificationManager($user))->passwordRecovery();
+	public function canceled(Event $event, User $user) {
+		return (new NotificationManager($user))->canceled();
+	}
+
+/**
+ * Event triggered when user request for a new password.
+ *
+ * @param \Cake\Event\Event $event
+ * @param \User\Model\Entity\User $user
+ * @return bool
+ */
+	public function passwordRequest(Event $event, User $user) {
+		return (new NotificationManager($user))->passwordRequest();
 	}
 
 /**

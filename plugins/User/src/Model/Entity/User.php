@@ -42,16 +42,34 @@ class User extends Entity {
 	}
 
 /**
+ * Gets user default-avatar image's URL.
+ *
+ * Powered by Gravatar, it uses user's email to get avatar image URL from
+ * Gravatar service.
+ *
+ * @return string URL to user's avatar
+ * @link http://www.gravatar.com
+ */
+	protected function _getAvatar() {
+		return $this->avatar();
+	}
+
+/**
  * Gets user avatar image's URL.
  *
- * Powered by Gravatar, it uses user's email to
- * get avatar image URL from Gravatar service.
+ * Powered by Gravatar, it uses user's email to get avatar image URL from
+ * Gravatar service.
+ *
+ * Use this method if you need to customize avatar's parameters such as `size`,
+ * etc.
+ *
+ *     $user->avatar(['s' => 150]);
  *
  * @param array $options Array of options for Gravatar API
  * @return string URL to user's avatar
  * @link http://www.gravatar.com
  */
-	protected function _getAvatar($options = []) {
+	public function avatar($options = []) {
 		$options = (array)$options;
 		$options += [
 			's' => 80,

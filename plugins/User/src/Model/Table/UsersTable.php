@@ -57,6 +57,8 @@ class UsersTable extends Table {
  */
 	public function validationDefault(Validator $validator) {
 		return $validator
+			->validatePresence('name')
+			->notEmpty('name', __d('user', 'You must provide a name.'))
 			->validatePresence('username', 'create')
 			->add('username', [
 				'characters' => [
@@ -73,7 +75,7 @@ class UsersTable extends Table {
 				],
 			])
 			->validatePresence('email')
-			->notEmpty('email')
+			->notEmpty('email', __d('user', 'e-Mail cannot be empty.'))
 			->add('email', [
 				'unique' => [
 					'rule' => 'validateUnique',
@@ -147,6 +149,20 @@ class UsersTable extends Table {
 		$user->set('token', $user->id . '-' . md5(uniqid($user->id, true)));
 		$this->save($user, ['validate' => false]);
 		return $user;
+	}
+
+
+/**
+ * Counts the number of administrators ins the system.
+ * 
+ * @return integer
+ */
+	public function countAdministrators() {
+		return $this->find()
+			->matching('Roles', function ($q) {
+				return $q->where(['Roles.id' => ROLE_ID_ADMINISTRATOR]);
+			})
+			->count();
 	}
 
 }
