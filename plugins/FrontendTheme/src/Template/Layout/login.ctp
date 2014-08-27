@@ -31,13 +31,7 @@
 					<div class="panel-heading">
 						<div class="panel-title">
 							<?php echo __d('backend_theme', 'Sign In'); ?>
-							<div class="pull-right">
-								<small>
-									<?php echo $this->Html->link(__d('backend_theme', 'Forgot password?'), ['plugin' => 'User', 'controller' => 'gateway', 'action' => 'forgot']); ?>
-								</small>
-							</div>
 						</div>
-
 					</div>
 
 					<div class="panel-body">
@@ -69,7 +63,14 @@
 								</div>
 							</p>
 
-							<?php echo $this->Form->submit(__d('backend_theme', 'Sign in')); ?>
+							<p>
+								<?php echo $this->Form->submit(__d('backend_theme', 'Sign in')); ?>
+								<div class="pull-right">
+									<small><?php echo $this->Html->link(__d('backend_theme', 'Forgot password?'), ['plugin' => 'User', 'controller' => 'gateway', 'action' => 'forgot']); ?></small>
+									<br />
+									<small><?php echo $this->Html->link(__d('backend_theme', 'Resend activation email?'), ['plugin' => 'User', 'controller' => 'gateway', 'action' => 'activation_email']); ?></small>
+								</div>
+							</p>
 						<?php echo $this->Form->end(); ?>
 					</div>
 				</div>

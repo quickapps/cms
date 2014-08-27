@@ -50,7 +50,7 @@
 								'action' => 'password_instructions',
 								$user->id,
 							], [
-								'title' => __d('user', 'Set password recovery instructions'),
+								'title' => __d('user', 'Send password recovery instructions'),
 								'class' => 'btn btn-default btn-sm glyphicon glyphicon-qrcode',
 								'confirm' => __d('user', 'You are about to send password recovery instructions to "{0}". Are you sure ?', $user->name),
 							]);

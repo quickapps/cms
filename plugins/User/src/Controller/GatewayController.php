@@ -30,7 +30,7 @@ class GatewayController extends AppController {
  * @return void
  */
 	public function beforeFilter(Event $event) {
-		$this->Auth->allow(['login', 'logout', 'unauthorized', 'forgot']);
+		$this->Auth->allow(['login', 'logout', 'unauthorized', 'forgot', 'activation_email', 'register']);
 		$this->viewPath = 'Gateway';
 	}
 
@@ -180,6 +180,7 @@ class GatewayController extends AppController {
  */
 	public function register() {
 		$this->loadModel('User.Users');
+		$this->Users->unbindFieldable();
 		$user = $this->Users->newEntity();
 		$registered = false;
 		$languages = LocaleToolbox::languagesList();
