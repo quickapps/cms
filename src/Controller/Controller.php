@@ -103,21 +103,11 @@ class Controller extends CakeCotroller {
  */
 	public function __construct($request = null, $response = null) {
 		parent::__construct($request, $response);
-		$this->switchViewMode('default');
 		$this->_prepareLanguage();
-		$this->_prepareTheme();
-
-		if (option('site_maintenance')) {
-			$allowedIps = array_filter(
-				array_map(
-					'trim', 
-					explode(',', (array)option('site_maintenance_ip'))
-				)
-			);
-
-			if (!in_array(env('REMOTE_ADDR', $allowedIps))) {
-				throw new SiteUnderMaintenanceException(option('site_maintenance_message'));
-			}
+		if (!$this->response->location()) {
+			$this->switchViewMode('default');
+			$this->_prepareTheme();
+			$this->_checkMaintenanceMode();
 		}
 	}
 
@@ -225,6 +215,28 @@ class Controller extends CakeCotroller {
 
 		if ($this->request->isDashboard()) {
 			$this->layout = 'dashboard';
+		}
+	}
+
+/**
+ * Checks if maintenance is enabled, and renders the corresponding maintenance
+ * message.
+ *
+ * Login & logout sections of the site still working even on maintenance mode,
+ * administrators can access the whole site as well.
+ * 
+ * @return void
+ */
+	protected function _checkMaintenanceMode() {
+		if (
+			option('site_maintenance') &&
+			!$this->request->isUserAdmin() &&
+			!in_array("{$this->request->plugin}:{$this->request->controller}:{$this->request->action}", ['User:gateway:login', 'User:gateway:logout'])
+		) {
+			$allowedIps = (array)array_filter(array_map('trim', explode(',', option('site_maintenance_ip'))));
+			if (!in_array(env('REMOTE_ADDR'), $allowedIps)) {
+				throw new SiteUnderMaintenanceException(option('site_maintenance_message'));
+			}
 		}
 	}
 
