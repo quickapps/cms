@@ -36,6 +36,7 @@ use QuickApps\Core\Plugin;
  *
  * @return void
  */
+if (!function_exists('snapshot')) {
 	function snapshot() {
 		if (Cache::config('default')) {
 			Cache::clear(false, 'default');
@@ -195,6 +196,7 @@ use QuickApps\Core\Plugin;
 		Configure::write('QuickApps', $snapshot);
 		Configure::dump('snapshot.php', 'QuickApps', ['QuickApps']);
 	}
+}
 
 /**
  * Normalizes the given file system path, makes sure that all DIRECTORY_SEPARATOR
@@ -235,12 +237,14 @@ use QuickApps\Core\Plugin;
  *  snapshot's info
  * @return mixed
  */
+if (!function_exists('quickapps')) {
 	function quickapps($key = null) {
 		if ($key !== null) {
 			return Configure::read("QuickApps.{$key}");
 		}
 		return Configure::read('QuickApps');
 	}
+}
 
 /**
  * Shortcut for getting an option value from "options" DB table.
@@ -259,6 +263,7 @@ use QuickApps\Core\Plugin;
  * @return mixed Current value for the specified option. If the specified option
  *  does not exist, returns boolean FALSE
  */
+if (!function_exists('option')) {
 	function option($name, $default = false) {
 		if (Configure::check("QuickApps.options.{$name}")) {
 			return Configure::read("QuickApps.options.{$name}");
@@ -276,12 +281,14 @@ use QuickApps\Core\Plugin;
 
 		return $default;
 	}
+}
 
 /**
  * Returns a list of all registered event listeners in the system.
  * 
  * @return array
  */
+if (!function_exists('listeners')) {
 	function listeners() {
 		$class = new \ReflectionClass(EventManager::instance());
 		$property = $class->getProperty('_listeners');
@@ -289,6 +296,7 @@ use QuickApps\Core\Plugin;
 		$listeners = array_keys($property->getValue(EventManager::instance()));
 		return $listeners;
 	}
+}
 
 /**
  * Used to extract plugin names from composer's package names.
@@ -307,6 +315,7 @@ use QuickApps\Core\Plugin;
  * @param string $name Package name. e.g. author-name/package-name
  * @return string
  */
+if (!function_exists('pluginName')) {
 	function pluginName($name) {
 		$name = strtolower($name);
 		if ($name === 'php') {
@@ -319,6 +328,7 @@ use QuickApps\Core\Plugin;
 		$parts = explode('/', $name);
 		return Inflector::camelize(str_replace('-', '_', end($parts)));
 	}
+}
 
 /**
  * Moves up or down the given element by index from a list array of elements.
@@ -336,6 +346,7 @@ use QuickApps\Core\Plugin;
  * @param string $direction Direction, 'up' or 'down'
  * @return array Reordered original list.
  */
+if (!function_exists('array_move')) {
 	function array_move(array $list, $index, $direction) {
 		$maxIndex = count($list) - 1;
 		if ($direction == 'down') {
@@ -355,6 +366,7 @@ use QuickApps\Core\Plugin;
 
 		return $list;
 	}
+}
 
 /**
  * Evaluate a string of PHP code.
@@ -377,6 +389,7 @@ use QuickApps\Core\Plugin;
  *  code can access this variables
  * @return mixed
  */
+if (!function_exists('php_eval')) {
 	function php_eval($code, $args = []) {
 		ob_start();
 		extract($args);
@@ -385,6 +398,7 @@ use QuickApps\Core\Plugin;
 		ob_end_clean();
 		return $output;
 	}
+}
 
 /**
  * Return only the methods for the given object. It will strip out inherited
@@ -393,6 +407,7 @@ use QuickApps\Core\Plugin;
  * @param string $class Class name
  * @return array List of methods
  */
+if (!function_exists('get_this_class_methods')) {
 	function get_this_class_methods($class) {
 		$primary = get_class_methods($class);
 
@@ -405,6 +420,7 @@ use QuickApps\Core\Plugin;
 
 		return $methods;
 	}
+}
 
 /**
  * Replace the first occurrence only.
@@ -419,12 +435,14 @@ use QuickApps\Core\Plugin;
  * @param string $subject The string being searched and replaced on
  * @return string A string with the replaced value
  */
-function str_replace_once($search, $replace, $subject) {
-	if (strpos($subject, $search) !== false) {
-		return substr_replace($subject, $replace, strpos($subject, $search), strlen($search));
-	}
+if (!function_exists('str_replace_once')) {
+	function str_replace_once($search, $replace, $subject) {
+		if (strpos($subject, $search) !== false) {
+			return substr_replace($subject, $replace, strpos($subject, $search), strlen($search));
+		}
 
-	return $subject;
+		return $subject;
+	}
 }
 
 /**
@@ -440,12 +458,14 @@ function str_replace_once($search, $replace, $subject) {
  * @param string $subject The string being searched and replaced on
  * @return string A string with the replaced value
  */
-function str_replace_last($search, $replace, $subject) {
-	$pos = strrpos($subject, $search);
-	if($pos !== false) {
-		$subject = substr_replace($subject, $replace, $pos, strlen($search));
+if (!function_exists('str_replace_last')) {
+	function str_replace_last($search, $replace, $subject) {
+		$pos = strrpos($subject, $search);
+		if($pos !== false) {
+			$subject = substr_replace($subject, $replace, $pos, strlen($search));
+		}
+		return $subject;
 	}
-	return $subject;
 }
 
 /**
@@ -460,10 +480,12 @@ function str_replace_last($search, $replace, $subject) {
  * @param string $needle
  * @return bool
  */
-function str_starts_with($haystack, $needle) {
-    return
-    	$needle === '' ||
-    	strpos($haystack, $needle) === 0;
+if (!function_exists('str_starts_with')) {
+	function str_starts_with($haystack, $needle) {
+		return
+			$needle === '' ||
+			strpos($haystack, $needle) === 0;
+	}
 }
 
 /**
@@ -478,8 +500,10 @@ function str_starts_with($haystack, $needle) {
  * @param string $needle
  * @return bool
  */
-function str_ends_with($haystack, $needle) {
-	return
-		$needle === '' ||
-		substr($haystack, - strlen($needle)) === $needle;
+if (!function_exists('str_ends_with')) {
+	function str_ends_with($haystack, $needle) {
+		return
+			$needle === '' ||
+			substr($haystack, - strlen($needle)) === $needle;
+	}
 }
