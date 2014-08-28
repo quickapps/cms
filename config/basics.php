@@ -15,6 +15,7 @@ use Cake\Datasource\ConnectionManager;
 use Cake\Event\EventManager;
 use Cake\Utility\Debugger;
 use Cake\Utility\Folder;
+use Cake\Utility\File;
 use Cake\Utility\Inflector;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
@@ -327,6 +328,78 @@ if (!function_exists('pluginName')) {
 		}
 		$parts = explode('/', $name);
 		return Inflector::camelize(str_replace('-', '_', end($parts)));
+	}
+}
+
+/**
+ * Export entire database to PHP files.
+ *
+ * All generated PHP files will be placed in `/tmp/db/` directory. Each PHP
+ * file is named same as the table it represents, for instance `users.php`
+ * represents `users` table schema (and records).
+ * 
+ * @param array $ignoreRecords List of table names to ignore, records will not
+ *  be exported to the resulting PHP file (only its schema)
+ * @return void
+ */
+if (!function_exists('exportDatabase')) {
+	function exportDatabase($ignoreRecords = []) {
+		$db = ConnectionManager::get('default');
+		$db->connect();
+		$schemaCollection = $db->schemaCollection();
+		$tables = $schemaCollection->listTables();
+
+		if (file_exists(TMP . 'db/')) {
+			$dst = new Folder(TMP . 'db/');
+			$dst->delete();
+		} else {
+			$dst = new Folder(TMP . 'db/', true);
+		}
+
+		foreach ($tables as $table) {
+			$Table = TableRegistry::get($table);
+			$Table->behaviors()->reset();
+			$fields = ['_constraints' => []];
+			$records = [];
+
+			foreach ($Table->schema()->columns() as $column) {
+				$fields[$column] = $Table->schema()->column($column);
+			}
+
+			foreach ($Table->schema()->constraints() as $constraint) {
+				$fields['_constraints'][$constraint] = $Table->schema()->constraint($constraint);
+			}
+
+			// we need raw data for time, no Time objects
+			foreach ($Table->schema()->columns() as $column) {
+				$type = $Table->schema()->columnType($column);
+				if (in_array($type, ['date', 'datetime', 'time'])) {
+					$Table->schema()->columnType($column, 'string');
+				}
+			}
+
+			if (!in_array($table, $ignoreRecords)) {
+				$rows = $Table->find('all');
+				foreach ($rows as $row) {
+					$records[] = $row->toArray();
+				}
+			}
+
+			$fixture = "<?php
+
+class {$table} {
+
+	public \$fields = " . var_export($fields, true) . ";
+
+	public \$records = " . var_export($records, true) . ";
+
+}
+
+";
+			$file = new File(TMP . "db/{$table}.php", true);
+			$file->write($fixture, 'w', true);
+		}
+
 	}
 }
 
