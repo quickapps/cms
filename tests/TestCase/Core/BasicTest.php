@@ -35,15 +35,6 @@ class BasicTest extends TestCase {
 	}
 
 /**
- * test quickapps() function.
- *
- * @return void
- */
-	public function testQuickapps() {
-		$this->assertTrue(is_array(quickapps()));
-	}
-
-/**
  * test pluginName() function.
  *
  * @return void
