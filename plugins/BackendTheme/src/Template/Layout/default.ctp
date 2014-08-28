@@ -38,7 +38,7 @@
 					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<?php echo $this->Html->image(user()->avatar, ['width' => 20]); ?>
+								<?php echo $this->Html->image(user()->avatar, ['width' => 25, 'class' => 'img-rounded']); ?>
 								<?php echo user()->username; ?>
 								<span class="caret"></span>
 							</a>
