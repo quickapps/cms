@@ -16,6 +16,7 @@ use Cake\Controller\Component\AuthComponent;
 use Cake\I18n\I18n;
 use QuickApps\Core\HookTrait;
 use QuickApps\View\ViewModeTrait;
+use QuickApps\Error\SiteUnderMaintenanceException;
 
 /**
  * Main controller class for organization of business logic.
@@ -105,6 +106,19 @@ class Controller extends CakeCotroller {
 		$this->switchViewMode('default');
 		$this->_prepareLanguage();
 		$this->_prepareTheme();
+
+		if (option('site_maintenance')) {
+			$allowedIps = array_filter(
+				array_map(
+					'trim', 
+					explode(',', (array)option('site_maintenance_ip'))
+				)
+			);
+
+			if (!in_array(env('REMOTE_ADDR', $allowedIps))) {
+				throw new SiteUnderMaintenanceException(option('site_maintenance_message'));
+			}
+		}
 	}
 
 /**
