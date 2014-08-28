@@ -13,6 +13,7 @@ namespace Wysiwyg\Event;
 
 use Cake\Event\Event;
 use Cake\Event\EventListener;
+use Cake\ORM\TableRegistry;
 
 /**
  * Main Hook Listener for Wysiwyg plugin.
@@ -25,7 +26,7 @@ class WysiwygHook implements EventListener {
  *
  * @var boolean
  */
-	protected static $_jsLoaded = false;
+	protected static $_scriptsLoaded = false;
 
 /**
  * Counts how many CK instances has been created.
@@ -33,13 +34,6 @@ class WysiwygHook implements EventListener {
  * @var boolean
  */
 	protected static $_counter = 0;
-
-/**
- * Holds the original template used by FormHelper.
- * 
- * @var string
- */
-	protected static $_textareaOriginalTemplate = null;
 
 /**
  * Returns a list of hooks this Hook Listener is implementing. When the class
@@ -55,7 +49,7 @@ class WysiwygHook implements EventListener {
 	}
 
 /**
- * Converts the given text area into a wysiwyg editor.
+ * Converts the given text area into a WYSIWYG editor.
  *
  * @param \Cake\Event\Event $event
  * @param string $fieldName
@@ -63,32 +57,53 @@ class WysiwygHook implements EventListener {
  * @return void
  */
 	public function alterTextarea(Event $event, $fieldName, &$options) {
-		if (!static::$_textareaOriginalTemplate) {
-			static::$_textareaOriginalTemplate = $event->subject->templates('textarea');
-		}
-
 		if (
 			!empty($options['class']) &&
-			strpos($options['class'], 'ckeditor') !== false &&
-			!static::$_jsLoaded
+			strpos($options['class'], 'ckeditor') !== false
 		) {
 			static::$_counter++;
-			static::$_jsLoaded = true;
 			$editorId = 'ck-editor-' . static::$_counter;
 			$options['class'] .= ' ' . $editorId;
-			$extra = '';
-			$filebrowserBrowseUrl = $event->subject->_View->Url->build(['plugin' => 'Wysiwyg', 'controller' => 'finder']);
-			$event->subject->_View->Html->script('Wysiwyg.ckeditor/ckeditor.js', ['block' => true]);
-			$event->subject->_View->Html->script('Wysiwyg.ckeditor/adapters/jquery.js', ['block' => true]);
-			$event->subject->_View->Html->scriptBlock('$(document).ready(function () {
-				CKEDITOR.editorConfig = function(config) {
-					config.filebrowserBrowseUrl = "' . $filebrowserBrowseUrl . '";
-				};
-			});', ['block' => true]);
-			$event->subject->templater()->add(['textarea' => static::$_textareaOriginalTemplate . $extra]);
-		} else {
-			$event->subject->templater()->add(['textarea' => static::$_textareaOriginalTemplate]);
+
+			if (!static::$_scriptsLoaded) {
+				static::$_scriptsLoaded = true;
+				$filebrowserBrowseUrl = $event->subject->_View->Url->build(['plugin' => 'Wysiwyg', 'controller' => 'finder']);
+				$event->subject->_View->Html->script('Wysiwyg.ckeditor/ckeditor.js', ['block' => true]);
+				$event->subject->_View->Html->script('Wysiwyg.ckeditor/adapters/jquery.js', ['block' => true]);
+				$event->subject->_View->Html->scriptBlock('$(document).ready(function () {
+					CKEDITOR.editorConfig = function(config) {
+						config.filebrowserBrowseUrl = "' . $filebrowserBrowseUrl . '";
+					};
+				});', ['block' => true]);
+				$this->_includeLinksToNodes($event->subject->_View);
+			}
 		}
+	}
+
+/**
+ * Alters CKEditor's link plugin.
+ *
+ * Allows to link to QuickAppsCMS's contents, adds to layout header some JS
+ * code and files.
+ * 
+ * @param \Cake\View\View $View
+ * @return void
+ */
+	protected function _includeLinksToNodes($View) {
+		$items = [];
+		$nodes = TableRegistry::get('Node.Nodes')
+			->find('all', ['fieldable' => false])
+			->contain(['NodeTypes'])
+			->where(['status' => 1])
+			->order(['sticky' => 'DESC', 'modified' => 'DESC']);
+
+		foreach ($nodes as $node) {
+			$items[] = ["{$node->type}: " . h($node->title), $View->Url->build($node->url, true)];
+		}
+
+		$View->Html->scriptBlock('var linksToNodesItems = ' . json_encode($items) . ';', ['block' => true]);
+		$View->Html->scriptBlock('var linksToNodesLabel = "' . __d('wysiwyg', 'Link to content')  . '";', ['block' => true]);
+		$View->Html->script('Wysiwyg.links.js', ['block' => true]);
 	}
 
 }
