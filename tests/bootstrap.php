@@ -10,90 +10,97 @@ define('SITE_ROOT', __DIR__ . '/TestSite');
 define('QA_CORE', dirname(__DIR__));
 require  QA_CORE . '/config/paths.php';
 require VENDOR_INCLUDE_PATH . 'autoload.php';
-require QA_CORE . '/config/basics.php';
-require CORE_PATH . 'config' . DS . 'bootstrap.php';
 
-use Cake\Cache\Cache;
-use Cake\Configure\Engine\PhpConfig;
-use Cake\Console\ConsoleErrorHandler;
 use Cake\Core\App;
 use Cake\Core\Configure;
-use Cake\Database\Type;
-use Cake\Datasource\ConnectionManager;
-use Cake\Error\ErrorHandler;
-use Cake\Event\EventManager;
-use Cake\Log\Log;
-use Cake\Network\Email\Email;
-use Cake\Network\Request;
-use Cake\Routing\DispatcherFactory;
+use Cake\Core\Plugin;
 use Cake\Utility\Folder;
-use QuickApps\Core\Plugin;
+use Cake\Utility\Inflector;
+use \DirectoryIterator;
 
-Configure::config('default', new PhpConfig());
-Configure::load('app.php', 'default', false);
-Configure::load('app_local.php', 'default');
+/**
+ * Overwrites core's snapshot() function and emulates its real behavior.
+ * 
+ * @return void
+ */
+function snapshot() {
+	$snapshot = [
+		'version' => '2.0',
+		'node_types' => ['article', 'page'],
+		'plugins' => [],
+		'options' => [
+			'back_theme' => 'BackendTheme',
+			'default_language' => 'en-us',
+			'front_theme' => 'FrontendTheme',
+			'site_description' => 'Open Source CMS built on CakePHP 3.0',
+			'site_email' => 'demo@email.com',
+			'site_maintenance' => '0',
+			'site_maintenance_ip' => '192.168.0.1',
+			'site_maintenance_message' => 'We sincerely apologize for the inconvenience.<br/>Our site is currently undergoing scheduled maintenance and upgrades, but will return shortly.<br/>Thanks you for your patience.',
+			'site_nodes_home' => '5',
+			'site_slogan' => 'Open Source CMS built on CakePHP 3.0',
+			'site_title' => 'My QuickApps CMS Site',
+			'url_locale_prefix' => '1',
+		],
+		'languages' => [
+			'en-us' => [
+				'name' => 'English',
+				'code' => 'en-us',
+				'iso' => 'en',
+				'country' => 'US',
+				'direction' => 'ltr',
+				'icon' => 'us.gif',
+			]
+		]
+	];
 
-if (!Configure::read('debug')) {
-	Configure::write('Cache._cake_model_.duration', '+99 years');
-	Configure::write('Cache._cake_core_.duration', '+99 years');
-}
+	foreach (App::path('Plugin') as $pluginsPath) {
+		if (!is_dir($pluginsPath)) {
+			continue;
+		}
+		$dir = new DirectoryIterator($pluginsPath);
+		foreach ($dir as $path) {
+			if ($path->isDir() && !$path->isDot()) {
+				$name = $path->getBaseName();
+				$pluginPath = normalizePath($pluginsPath . $name);
+				$humanName = Inflector::humanize(Inflector::underscore($name));
+				$package = 'quickapps-cms/' . str_replace('_', '-', Inflector::underscore($name));
+				$isTheme = (bool)preg_match('/Theme$/', $name);
+				$isCore = strpos($pluginPath, 'cms' . DS . 'plugins') !== false;
+				$eventsPath = "{$pluginPath}/src/Event/";
+				$status = true;
+				$eventListeners = [];
 
-date_default_timezone_set('UTC');
-mb_internal_encoding(Configure::read('App.encoding'));
-ini_set('intl.default_locale', 'en-us');
-(new ErrorHandler(Configure::consume('Error')))->register();
+				if (is_dir($eventsPath)) {
+					$Folder = new Folder($eventsPath);
+					foreach ($Folder->read(false, false, true)[1] as $classFile) {
+						$className = basename(preg_replace('/\.php$/', '', $classFile));
+						$namespace = "{$name}\Event\\";
+						$eventListeners[$namespace . $className] = [
+							'namespace' => $namespace,
+							'path' => dirname($classFile),
+						];
+					}
+				}
 
-if (!Configure::read('App.fullBaseUrl')) {
-	$s = null;
-	if (env('HTTPS')) {
-		$s = 's';
-	}
-
-	$httpHost = env('HTTP_HOST');
-	if (isset($httpHost)) {
-		Configure::write('App.fullBaseUrl', 'http' . $s . '://' . $httpHost);
-	}
-	unset($httpHost, $s);
-}
-
-Cache::config(Configure::consume('Cache'));
-ConnectionManager::config(Configure::consume('Datasources'));
-Email::configTransport(Configure::consume('EmailTransport'));
-Email::config(Configure::consume('Email'));
-Log::config(Configure::consume('Log'));
-
-Request::addDetector('mobile', function($request) {
-	$detector = new \Detection\MobileDetect();
-	return $detector->isMobile();
-});
-
-Request::addDetector('tablet', function($request) {
-	$detector = new \Detection\MobileDetect();
-	return $detector->isTablet();
-});
-
-$EventManager = EventManager::instance();
-foreach (Plugin::scan() as $plugin => $path) {
-	Plugin::load($plugin, [
-		'autoload' => true,
-		'bootstrap' => true,
-		'routes' => true,
-		'ignoreMissing' => true,
-	]);
-
-	$eventsPath = Plugin::classPath($plugin) . 'Event/';
-	$Folder = new Folder($eventsPath);
-	list($folders, $files) = $Folder->read();
-
-	foreach ($files as $listener) {
-		$listener = str_replace('.php', '', $listener);
-		$className = "{$plugin}\\Event\\{$listener}";
-		if (class_exists($className)) {
-			$EventManager->attach(new $className);
+				$snapshot['plugins'][$name] = [
+					'name' => $name,
+					'human_name' => $humanName,
+					'package' => $package,
+					'isTheme' => $isTheme,
+					'isCore' => $isCore,
+					'hasHelp' => file_exists($pluginPath . '/src/Template/Element/Help/help.ctp'),
+					'hasSettings' => file_exists($pluginPath . '/src/Template/Element/settings.ctp'),
+					'eventListeners' => $eventListeners,
+					'status' => $status,
+					'path' => $pluginPath,
+				];
+			}
 		}
 	}
+
+	Configure::write('QuickApps', $snapshot);
+	Configure::dump('snapshot.php', 'QuickApps', ['QuickApps']);
 }
 
-DispatcherFactory::add('Asset');
-DispatcherFactory::add('Routing');
-DispatcherFactory::add('ControllerFactory');
+require QA_CORE . '/config/bootstrap.php';

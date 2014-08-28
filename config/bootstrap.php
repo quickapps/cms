@@ -13,17 +13,17 @@
 /**
  * Configure paths required to find CakePHP + general file path constants
  */
-require __DIR__ . '/paths.php';
+require_once __DIR__ . '/paths.php';
 
 /**
  * Use composer to load the autoloader.
  */
-$classLoader = require VENDOR_INCLUDE_PATH . 'autoload.php';
+$classLoader = require_once VENDOR_INCLUDE_PATH . 'autoload.php';
 
 /**
  * Load QuickApps basic functionality.
  */
-require __DIR__ . '/basics.php';
+require_once __DIR__ . '/basics.php';
 
 /**
  * Bootstrap CakePHP.
@@ -34,7 +34,7 @@ require __DIR__ . '/basics.php';
  * - Registering the CakePHP autoloader.
  * - Setting the default application paths.
  */
-require CORE_PATH . 'config' . DS . 'bootstrap.php';
+require_once CORE_PATH . 'config' . DS . 'bootstrap.php';
 
 use Cake\Cache\Cache;
 use Cake\Configure\Engine\PhpConfig;
