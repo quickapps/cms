@@ -1,0 +1,68 @@
+<?php
+/**
+ * Licensed under The GPL-3.0 License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @since	 2.0.0
+ * @author	 Christopher Castro <chris@quickapps.es>
+ * @link	 http://www.quickappscms.org
+ * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
+ */
+namespace QuickApps\Test\TestCase\View;
+
+use Cake\TestSuite\TestCase;
+use QuickApps\View\ViewModeRegistry;
+
+/**
+ * ViewModeRegistryTest class.
+ */
+class ViewModeRegistryTest extends TestCase {
+
+	public function tearDown() {
+		parent::tearDown();
+		ViewModeRegistry::removeViewMode('test-view-mode');
+		ViewModeRegistry::removeViewMode('test-1');
+		ViewModeRegistry::removeViewMode('test-2');
+		ViewModeRegistry::removeViewMode('test-3');
+	}
+
+/**
+ * test that switching to an unexisting view mode throws an error.
+ *
+ * @return void
+ * @expectedException \Cake\Error\InternalErrorException
+ */
+	public function testSwitchToInvalidViewMode() {
+		ViewModeRegistry::switchViewMode('unexisting-view-mode');
+	}
+
+/**
+ * test switchViewMode() method.
+ *
+ * @return void
+ * @expectedException \Cake\Error\InternalErrorException
+ */
+	public function testSwitchViewMode() {
+		ViewModeRegistry::addViewMode('test-view-mode', 'view mode human name', 'view mode description');
+		ViewModeRegistry::switchViewMode('unexisting-view-mode');
+		$this->assertEquals('test-view-mode', ViewModeRegistry::inUseViewMode());
+	}
+
+/**
+ * test that addViewMode() method works when adding multiple VMs at once.
+ *
+ * @return void
+ */
+	public function testAddViewModeBulk() {
+		ViewModeRegistry::addViewMode([
+			'test-1' => ['name' => 'Test 1', 'description' => 'Description 1'],
+			'test-2' => ['name' => 'Test 2', 'description' => 'Description 2'],
+			'test-3' => ['name' => 'Test 3', 'description' => 'Description 3'],
+		]);
+		$this->assertTrue(in_array('test-1', ViewModeRegistry::viewModes()));
+		$this->assertTrue(in_array('test-2', ViewModeRegistry::viewModes()));
+		$this->assertTrue(in_array('test-3', ViewModeRegistry::viewModes()));
+	}
+
+}
