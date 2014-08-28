@@ -42,7 +42,7 @@ class ViewModeRegistry {
 /**
  * Marks as "in use" the given view mode.
  *
- * The given view mode must be registered first using `registerViewMode`. If you
+ * The given view mode must be registered first using `addViewMode`. If you
  * try to switch to an unexisting (unregistered) view mode this method will throw.
  *
  * @param string $slug
@@ -63,7 +63,7 @@ class ViewModeRegistry {
  * You can register more than one view mode at once by passing an array as first
  * argument and ignore the others two:
  *
- *     ViewModeRegistry::registerViewMode([
+ *     ViewModeRegistry::addViewMode([
  *         'slug_1' => [
  *         	    'name' => 'View Mode 1',
  *         	    'description' => 'Lorem ipsum',
@@ -77,16 +77,16 @@ class ViewModeRegistry {
  * Or you can register a single view mode by passing its "slug", "name"
  * and "description" as three separated arguments:
  *
- *     ViewModeRegistry::registerViewMode('slug-1', 'View Mode 1', 'Lorem ipsum');
- *     ViewModeRegistry::registerViewMode('slug-2', 'View Mode 2', 'Dolor sit amet');
+ *     ViewModeRegistry::addViewMode('slug-1', 'View Mode 1', 'Lorem ipsum');
+ *     ViewModeRegistry::addViewMode('slug-2', 'View Mode 2', 'Dolor sit amet');
  *
- * @param string|array $slug Slug name of your view mode. e.g.: `my-view mode`.
- *  Or an array of view modes to register indexed by slug name
+ * @param string|array $slug Slug name of your view mode. e.g.: `my-view mode`,
+ *  or an array of view modes to register indexed by slug name
  * @param string|null $name Human readable name. e.g.: `My View Mode`
  * @param string|null $description A brief description about for what is this view mode
  * @return void
  */
-	public static function registerViewMode($slug, $name = null, $description = null) {
+	public static function addViewMode($slug, $name = null, $description = null) {
 		if (is_array($slug) && $name === null && $description === null) {
 			foreach ($slug as $slug => $more) {
 				if (!empty($more['name']) && !empty($more['description'])) {
@@ -105,12 +105,29 @@ class ViewModeRegistry {
 	}
 
 /**
+ * Unregisters the given view-mode, or all of them if first parameter is null.
+ * 
+ * @param string|null $slug View mode's slug
+ * @return void
+ */
+	public static function removeViewMode($slug = null) {
+		if ($slug === null) {
+			static::$_inUse = null;
+			static::$_viewModes = [];
+		} else {
+			if (isset(static::$_viewModes[$slug])) {
+				unset(static::$_viewModes[$slug]);
+			}
+		}
+	}
+
+/**
  * Gets the in use view-mode information.
  *
  * You can get either, slug only or full information as an array.
  *
- * @param boolean $full Set to true to get full information as an array.
- * Or set to false (by default) to get slug name only
+ * @param boolean $full Set to true to get full information as an array,
+ *  or set to false (by default) to get slug name only
  * @return array|string
  */
 	public static function inUseViewMode($full = false) {

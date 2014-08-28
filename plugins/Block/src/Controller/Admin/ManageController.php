@@ -44,7 +44,6 @@ class ManageController extends AppController {
 								->BlockRegions
 								->newEntity(['id' => $id, 'theme' => $theme, 'region' => $region, 'ordering' => $ordering]);
 							$this->Blocks->BlockRegions->save($blockRegion);
-							debug($blockRegion);
 							$ordering++;
 						}
 					}
@@ -94,7 +93,6 @@ class ManageController extends AppController {
 
 		$notIn = array_unique(array_merge($frontIds, $backIds));
 		$notIn = empty($notIn) ? ['0'] : $notIn;
-
 		$unused = $this->Blocks->find()
 			->where([
 				'OR' => [

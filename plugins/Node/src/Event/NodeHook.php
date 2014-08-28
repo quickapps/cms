@@ -31,7 +31,10 @@ class NodeHook implements EventListener {
 	public function implementedEvents() {
 		return [
 			'Render.Node\Model\Entity\Node' => 'renderNode',
-			'Dispatcher.beforeDispatch' => 'dispatcherBeforeDispatch',
+			'Dispatcher.beforeDispatch' => [
+				'callable' => 'dispatcherBeforeDispatch',
+				'priority' => -10,
+			],
 			'Block.Node.display' => 'renderBlock',
 		];
 	}
@@ -50,7 +53,7 @@ class NodeHook implements EventListener {
  * @return void
  */
 	public function dispatcherBeforeDispatch(Event $event, $request, $response) {
-		ViewModeRegistry::registerViewMode([
+		ViewModeRegistry::addViewMode([
 			'default' => [
 				'name' => __d('node', 'Default'),
 				'description' => __d('node', 'Default is used as a generic view mode if no other view mode has been defined for your content.'),

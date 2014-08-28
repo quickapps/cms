@@ -38,10 +38,10 @@ trait ViewModeTrait {
  * @param string|null $name Human readable name. e.g.: `My View Mode`
  * @param string|null $description A brief description about for what is this view mode
  * @return void
- * @see \QuickApps\View\ViewModeRegistry::registerViewMode()
+ * @see \QuickApps\View\ViewModeRegistry::addViewMode()
  */
-	public static function registerViewMode($slug, $name = null, $description = null) {
-		return ViewModeRegistry::registerViewMode($slug, $name, $description);
+	public static function addViewMode($slug, $name = null, $description = null) {
+		return ViewModeRegistry::addViewMode($slug, $name, $description);
 	}
 
 /**
