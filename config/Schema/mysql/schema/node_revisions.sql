@@ -1,8 +1,0 @@
-CREATE TABLE `node_revisions` (
-`id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-`node_id` INTEGER(11) NOT NULL,
-`data` TEXT NOT NULL,
-`hash` VARCHAR(100) NOT NULL,
-`created` DATETIME NOT NULL,
-PRIMARY KEY (`id`)
-) ENGINE=InnoDB

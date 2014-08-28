@@ -1,7 +1,0 @@
-CREATE TABLE `roles` (
-`id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-`slug` VARCHAR(50) NOT NULL,
-`name` VARCHAR(128) NOT NULL,
-PRIMARY KEY (`id`),
-UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB

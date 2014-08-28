@@ -1,6 +1,0 @@
-CREATE TABLE `permissions` (
-`id` INTEGER(11) NOT NULL AUTO_INCREMENT,
-`aco_id` INTEGER(11) NOT NULL,
-`role_id` INTEGER(11) NOT NULL,
-PRIMARY KEY (`id`)
-) ENGINE=InnoDB

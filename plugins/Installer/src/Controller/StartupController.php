@@ -14,6 +14,7 @@ namespace Installer\Controller;
 use Cake\Controller\Controller;
 use Cake\Core\App;
 use Cake\Core\Configure;
+use Cake\Database\Schema\Table as TableSchema;
 use Cake\Datasource\ConnectionManager;
 use Cake\Event\Event;
 use Cake\I18n\I18n;
@@ -276,45 +277,61 @@ class StartupController extends Controller {
 					ConnectionManager::config('installation', $dbConfig);
 					$db = ConnectionManager::get('installation');
 					$db->connect();
-					$schemaPath = ROOT . '/config/Schema/' . strtolower($requestData['driver']) . '/';
-					$Folder = new Folder();
+					$Folder = new Folder(ROOT . '/config/Schema/');
 					$schemaCollection = $db->schemaCollection();
-
 					$existingSchemas = $schemaCollection->listTables();
-					$Folder->cd("{$schemaPath}schema/");
-					$newSchemas = array_map(function ($item) { return str_replace('.sql', '', $item); }, $Folder->read()[1]);
+					$newSchemas = array_map(function ($item) { return str_replace('.php', '', $item); }, $Folder->read()[1]);
 					$common = array_intersect($existingSchemas, $newSchemas);
 
 					if (!empty($common)) {
 						$this->Flash->danger(__d('installer', 'A previous installation of QuickApps CMS already exists, please drop your database tables or change the prefix.'));
 						$dumpComplete = false;
 					} else {
-						$Folder->cd("{$schemaPath}schema/");
-						foreach ($Folder->read(false, false, true)[1] as $sqlPath) {
-							$sqlFile = new File($sqlPath);
-							$db->transactional(function ($connection) use($sqlFile, $sqlPath) {
-								if ($connection->execute($sqlFile->read())) {
-									$path = str_replace_once(DS . 'schema' . DS, DS . 'data' . DS, $sqlPath);
-									$path = str_replace_last('.sql', '.php', $path);
-									$tableName = str_replace('.php', '', basename($path));
+						$schemaFiles = $Folder->read(false, false, true)[1];
 
-									include_once $path;
-									if (!isset($rows) || !is_array($rows)) {
-										return false;
-									} else {
-										foreach ($rows as $row) {
-											if (!$connection->insert($tableName, $row)) {
-												return false;
+						try {
+							$transactionResult = $db->transactional(function ($connection) use($schemaFiles) {
+								foreach ($schemaFiles as $schemaPath) {
+									require $schemaPath;
+									$className = str_replace('.php', '', basename($schemaPath));
+									$tableName = $className;
+									$fixture = new $className;
+									$constraints = [];
+
+									if (isset($fixture->fields['_constraints'])) {
+										$constraints = $fixture->fields['_constraints'];
+										unset($fixture->fields['_constraints']);
+									}
+
+									$tableSchema = new TableSchema($tableName, $fixture->fields);
+									if (!empty($constraints)) {
+										foreach ($constraints as $constraintName => $constraintAttrs) {
+											$tableSchema->addConstraint($constraintName, $constraintAttrs);
+										}
+									}
+
+									$sqlCreate = $tableSchema->createSql($connection)[0];
+									if ($connection->execute($sqlCreate)) {
+										if (!empty($fixture->records)) {
+											foreach ($fixture->records as $row) {
+												if (!$connection->insert($tableName, $row)) {
+													return false;
+												}
 											}
 										}
-										unset($rows);
+									} else {
+										return false;
 									}
 								}
-								return false;
+
+								return true;
 							});
+						} catch (\Exception $e) {
+							$transactionResult = false;
+							$this->Flash->danger(__d('installer', 'Unable to import database information. Details: {0}', '<p>' . $e->getMessage(). '</p>'));
 						}
 
-						$dumpComplete = true;
+						$dumpComplete = $transactionResult;
 					}
 				} catch (\Exception $e) {
 					$this->Flash->danger(__d('installer', 'Unable to connect to database, please check your information. Details: {0}', '<p>' . $e->getMessage(). '</p>'));
