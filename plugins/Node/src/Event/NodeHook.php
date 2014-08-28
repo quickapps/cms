@@ -87,14 +87,14 @@ class NodeHook implements EventListener {
  *
  * Renders the given node per `node-type` + `view-mode` combination:
  *
- *     // render for `article` nodes in `full` view-mode
- *     `render_node_article_full.ctp`
+ *     // render for "article" nodes in "full" view-mode
+ *     render_node_article_full.ctp
  *
- *     // render for `article` nodes in `search-result` view-mode
- *     `render_node_article_search-result.ctp`
+ *     // render for "article" nodes in "search-result" view-mode
+ *     render_node_article_search-result.ctp
  *
- *     // render for `basic-page` nodes in `search-result` view-mode
- *     `render_node_basic-page_search-result.ctp`
+ *     // render for "basic-page" nodes in "search-result" view-mode
+ *     render_node_basic-page_search-result.ctp
  *
  * ### Render node per node-type
  *
@@ -102,23 +102,23 @@ class NodeHook implements EventListener {
  *
  * Similar as before, but just per `node-type` and any view-mode:
  *
- *     // render for `article` nodes
- *     `render_node_article.ctp`
+ *     // render for "article" nodes
+ *     render_node_article.ctp
  *
- *     // render for `basic-page` nodes
- *     `render_node_basic-page.ctp`
+ *     // render for "basic-page" nodes
+ *     render_node_basic-page.ctp
  *
  * ### Render node per view-mode
  *
- *     render_node_[view-mode]"
+ *     render_node_[view-mode]
  *
  * Similar as before, but just per `view-mode` and any `node-type`:
  *
- *     // render any node (article, page, etc) in `rss` view-mode
- *     `render_node_rss.ctp`
+ *     // render any node (article, page, etc) in "rss" view-mode
+ *     render_node_rss.ctp
  *
- *     // render any node (article, page, etc) in `full` view-mode
- *     `render_node_full.ctp`
+ *     // render any node (article, page, etc) in "full" view-mode
+ *     render_node_full.ctp
  *
  * NOTE: To avoid collisions between `view-mode` names and `node-type` names, you
  * should alway use unique and descriptive names as possible when defining new

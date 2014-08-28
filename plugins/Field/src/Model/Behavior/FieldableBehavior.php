@@ -1114,8 +1114,8 @@ class FieldableBehavior extends Behavior {
  *
  * @param \Cake\ORM\Entity $entity From where try to guess `bundle`
  * @return string Table alias
- * @throws \Field\Error\InvalidBundle When `bundle` is used but
- *  the required property is not present in the entity
+ * @throws \Field\Error\InvalidBundle When `bundle` option is used but
+ *  was unable to resolve bundle name
  */
 	protected function _guessTableAlias($entity) {
 		$tableAlias = $this->config('tableAlias');
