@@ -205,6 +205,7 @@ class LocaleToolbox {
 			}
 		}
 
+		asort($languages);
 		return $languages;
 	}
 
@@ -222,6 +223,8 @@ class LocaleToolbox {
 			$label = str_replace_last('.gif', '', $icon);
 			$flags[$value] = $label;
 		}
+
+		asort($flags);
 		return $flags;
 	}
 
