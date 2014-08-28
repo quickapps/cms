@@ -15,7 +15,7 @@ class GitHubComponent extends Component {
 	public $Socket;
 	public $settings = array(
 		'githubServer' => 'https://api.github.com/',
-		'origin' => 'QACMS-Modules',
+		'origin' => 'quickapps-modules',
 		'cacheDuration' => '+1 hours'
 	);
 
@@ -23,13 +23,11 @@ class GitHubComponent extends Component {
 		$this->Socket = new HttpSocket();
 		$this->settings = array_merge($this->settings, $settings);
 
-		Cache::config('github_repo',
-			array(
-				'engine' => 'File',
-				'duration' => $this->settings['cacheDuration'],
-				'path' => CACHE
-			)
-		);
+		Cache::config('github_repo', array(
+			'engine' => 'File',
+			'duration' => $this->settings['cacheDuration'],
+			'path' => CACHE
+		));
 	}
 
 	public function setOrigin($origin) {
@@ -125,15 +123,20 @@ class GitHubComponent extends Component {
 	public function searchRepos($keywords, $params = array()) {
 		$keywords = "QACMS- {$keywords}";
 		$options = $this->__buildParams($params);
-		$results = $this->Socket->get("{$this->settings['githubServer']}legacy/repos/search/{$keywords}{$options}");
-		$results = json_decode($results);
 
-		if (isset($results->repositories)) {
-			foreach ($results->repositories as $i => $r) {
-				if ($r->owner != $this->settings['origin']) {
-					unset($results->repositories[$i]);
+		try {
+			$results = $this->Socket->get("{$this->settings['githubServer']}legacy/repos/search/{$keywords}{$options}");
+			$results = json_decode($results);
+
+			if (isset($results->repositories)) {
+				foreach ($results->repositories as $i => $r) {
+					if ($r->owner != $this->settings['origin']) {
+						unset($results->repositories[$i]);
+					}
 				}
 			}
+		} catch (Exception $e) {
+			$results = array();
 		}
 
 		return $results;
@@ -145,14 +148,18 @@ class GitHubComponent extends Component {
 		$list = Cache::read($key, 'github_repo');
 
 		if (!$list) {
-			$list = $this->Socket->get("{$this->settings['githubServer']}users/{$this->settings['origin']}/repos{$options}");
-			$list = json_decode($list);
+			try {
+				$list = $this->Socket->get("{$this->settings['githubServer']}users/{$this->settings['origin']}/repos{$options}");
+				$list = json_decode($list);
 
-			foreach ($list as &$l) {
-				$l->thumbnail = $this->getThumbnail($l->name);
+				foreach ($list as &$l) {
+					$l->thumbnail = $this->getThumbnail($l->name);
+				}
+
+				Cache::write($key, $list, 'github_repo');
+			} catch (Exception $e) {
+				$list = array();
 			}
-
-			Cache::write($key, $list, 'github_repo');
 		}
 
 		return $list;
@@ -175,4 +182,5 @@ class GitHubComponent extends Component {
 
 		return $options;
 	}
+
 }

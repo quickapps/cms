@@ -16,13 +16,11 @@ class DirectoryController extends SystemAppController {
 
 	public function beforeFilter() {
 		$this->title(__t('Apps Directory'));
-
 		parent::beforeFilter();
 	}
 
 	public function admin_themes($listing = null) {
-		$this->GitHub->setOrigin('QACMS-Themes');
-
+		$this->GitHub->setOrigin('quickapps-themes');
 		$results = array();
 
 		if (isset($this->data['Search']['keywords'])) {
@@ -44,17 +42,17 @@ class DirectoryController extends SystemAppController {
 			));
 		}
 
+		$this->set(compact('results'));
+		$this->set(compact('listing'));
 		$this->setCrumb(
 			'/admin/system/themes',
 			array(__t('Themes Directory'))
 		);
-
-		$this->set(compact('results'));
-		$this->set(compact('listing'));
 	}
 
 	public function admin_modules($listing = null) {
 		$results = array();
+		$this->GitHub->setOrigin('quickapps-modules');
 
 		if (isset($this->data['Search']['keywords'])) {
 			$results = $this->GitHub->searchRepos($this->data['Search']['keywords']);
@@ -75,36 +73,34 @@ class DirectoryController extends SystemAppController {
 			));
 		}
 
+		$this->set(compact('results'));
+		$this->set(compact('listing'));
 		$this->setCrumb(
 			'/admin/system/modules',
 			array(__t('Modules Directory'))
 		);
-
-		$this->set(compact('results'));
-		$this->set(compact('listing'));
 	}
 
 	public function admin_theme_details($repo) {
-		$this->GitHub->setOrigin('QACMS-Themes');
-
+		$this->GitHub->setOrigin('quickapps-themes');
 		$repo = $this->GitHub->getRepo($repo) or $this->redirect('/admin/system/directory/themes');
 
+		$this->set(compact('repo'));
 		$this->setCrumb(
 			'/admin/system/themes',
 			array(__t('Themes Directory'), '/admin/system/directory/themes'),
 			array(__t('Theme Details: %s', $repo->yaml['info']['name']))
 		);
-		$this->set(compact('repo'));
 	}
 
 	public function admin_module_details($repo) {
 		$repo = $this->GitHub->getRepo($repo) or $this->redirect('/admin/system/directory/modules');
 
+		$this->set(compact('repo'));
 		$this->setCrumb(
 			'/admin/system/modules',
 			array(__t('Modules Directory'), '/admin/system/directory/modules'),
 			array(__t('Module Details: %s', $repo->yaml['name']))
 		);
-		$this->set(compact('repo'));
 	}
 }
