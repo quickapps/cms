@@ -88,6 +88,7 @@
 							$plugin['name'],
 						], [
 							'title' => __d('system', 'Disable'),
+							'confirm' => __d('system', 'Disable this this plugin?, are you sure?'),
 							'class' => 'btn btn-default btn-xs glyphicon glyphicon-remove-circle',
 						]);
 					?>
