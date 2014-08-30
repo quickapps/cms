@@ -21,14 +21,14 @@ class ManageControllerTest extends ControllerTestCase {
 	public $Controller;
 
 	public $fixtures = [
-		'plugin.block.blocks',
-		'plugin.block.block_regions',
-		'plugin.block.blocks_roles',
-		'plugin.user.permissions',
-		'plugin.user.acos',
-		'plugin.user.roles',
-		'plugin.system.plugins',
-		'plugin.menu.menu_links',
+		'app.blocks',
+		'app.block_regions',
+		'app.blocks_roles',
+		'app.permissions',
+		'app.acos',
+		'app.roles',
+		'app.plugins',
+		'app.menu_links',
 	];
 
 	public function setUp() {

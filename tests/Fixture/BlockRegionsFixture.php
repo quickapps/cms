@@ -9,21 +9,21 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Menu\Test\Fixture;
+namespace QuickApps\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
- * MenuLinksFixture class
+ * BlockRegionsFixture class
  */
-class MenuLinksFixture extends TestFixture {
+class BlockRegionsFixture extends TestFixture {
 
 	public $fields = [];
 	public $records = [];
 
 	public function init() {
-		include_once QA_CORE .'/config/Schema/menu_links.php';
-		$fixture = new \menu_links();
+		include_once QA_CORE .'/config/Schema/block_regions.php';
+		$fixture = new \block_regions();
 		$this->fields = $fixture->fields;
 		$this->records = $fixture->records;
 		parent::init();
