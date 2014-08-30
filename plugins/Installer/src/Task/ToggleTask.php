@@ -26,11 +26,6 @@ use QuickApps\Core\Plugin;
  *     $task = $this->Installer
  *         ->task('toggle')
  *         ->enable('MyPlugin');
- *     
- *     // or:
- *     $task = $this->Installer
- *         ->task('toggle')
- *         ->configure('plugin', 'MyPlugin');
  *         
  *     // or:
  *     $task = $this->Installer
@@ -64,7 +59,7 @@ class ToggleTask extends BaseTask {
  * @return void
  */
 	protected function init() {
-		$this->_plugin($this->config('plugin'));
+		$this->plugin($this->config('plugin'));
 	}
 
 /**
@@ -84,17 +79,17 @@ class ToggleTask extends BaseTask {
 		}
 
 		try {
-			$info = Plugin::info($this->_pluginName, true);
+			$info = Plugin::info($this->plugin(), true);
 			$pluginEntity = $this->Plugins
 				->find()
-				->where(['name' => $this->_pluginName])
+				->where(['name' => $this->plugin()])
 				->first();
 		} catch (\Exception $e) {
 			$info = null;
 		}
 
 		if (!$info || !$pluginEntity) {
-			$this->error(__d('installer', 'Plugin "{0}" was not found.', $this->_pluginName));
+			$this->error(__d('installer', 'Plugin "{0}" was not found.', $this->plugin()));
 			return false;
 		}
 
@@ -103,7 +98,7 @@ class ToggleTask extends BaseTask {
 			return false;
 		}
 
-		$requiredBy = Plugin::checkReverseDependency($this->_pluginName);
+		$requiredBy = Plugin::checkReverseDependency($this->plugin());
 		if (!empty($requiredBy) && $status === false) {
 			$this->error(__d('installer', 'Plugin "{0}" cannot be disabled as it is required by: {1}', $info['human_name'], implode(', ', $requiredBy)));
 			return false;
@@ -156,28 +151,30 @@ class ToggleTask extends BaseTask {
  * Indicates this task should enable the given plugin.
  * 
  * @param string|null $pluginName
- * @return \Installer\Task\ToggleTask This instance
+ * @return $this
  */
 	public function enable($pluginName = null) {
 		if ($pluginName) {
 			$this->config('plugin', $pluginName);
-			$this->_plugin($pluginName);
+			$this->config('status', true);
+			$this->plugin($pluginName);
 		}
-		return $this->configure('status', true);
+		return $this;
 	}
 
 /**
  * Indicates this task should disable the given plugin.
  * 
  * @param string|null $pluginName
- * @return \Installer\Task\ToggleTask This instance
+ * @return $this
  */
 	public function disable($pluginName = null) {
 		if ($pluginName) {
 			$this->config('plugin', $pluginName);
-			$this->_plugin($pluginName);
+			$this->config('status', false);
+			$this->plugin($pluginName);
 		}
-		return $this->configure('status', false);
+		return $this;
 	}
 
 }

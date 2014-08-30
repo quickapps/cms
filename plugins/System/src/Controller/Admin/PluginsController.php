@@ -61,12 +61,12 @@ class PluginsController extends AppController {
 			if (isset($this->request->data['download'])) {
 				$task = $this->Installer
 					->task('install')
-					->configure(['activate' => $activate, 'packageType' => 'plugin'])
+					->config(['activate' => $activate, 'packageType' => 'plugin'])
 					->download($this->request->data['url']);
 			} else {
 				$task = $this->Installer
 					->task('install')
-					->configure(['activate' => $activate, 'packageType' => 'plugin'])
+					->config(['activate' => $activate, 'packageType' => 'plugin'])
 					->upload($this->request->data['file']);
 			}
 

@@ -12,6 +12,7 @@
 namespace Installer\Utility;
 
 use Cake\Error\FatalErrorException;
+use Installer\Task\BaseTask;
 
 /**
  * Package tasks factory.
@@ -92,7 +93,7 @@ class PackageManager {
 		}
 		$handler = new $handler($options);
 
-		if ($handler instanceof \Installer\Task\BaseTask) {
+		if ($handler instanceof BaseTask) {
 			return $handler;
 		}
 

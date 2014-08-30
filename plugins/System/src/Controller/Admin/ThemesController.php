@@ -70,12 +70,12 @@ class ThemesController extends AppController {
 			if (isset($this->request->data['download'])) {
 				$task = $this->Installer
 					->task('install')
-					->configure(['packageType' => 'theme', 'activate' => true])
+					->config(['packageType' => 'theme', 'activate' => true])
 					->download($this->request->data['url']);
 			} else {
 				$task = $this->Installer
 					->task('install')
-					->configure(['packageType' => 'theme', 'activate' => true])
+					->config(['packageType' => 'theme', 'activate' => true])
 					->upload($this->request->data['file']);
 			}
 

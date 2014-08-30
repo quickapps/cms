@@ -52,6 +52,13 @@ abstract class BaseTask {
 	protected $_pluginName = null;
 
 /**
+ * List of all attached listeners during task execution.
+ * 
+ * @var array
+ */
+	protected $_listeners = [];
+
+/**
  * Constructor.
  *
  * @return void
@@ -77,8 +84,8 @@ abstract class BaseTask {
  */
 	final public function run() {
 		$this->init();
-		if (!$this->_pluginName) {
-			throw new FatalErrorException(__d('installer', 'Internal error ({0}), task cannot be run if no plugin was set before using "_plugin()".', get_called_class()));
+		if (!$this->plugin()) {
+			throw new FatalErrorException(__d('installer', 'Internal error ({0}), task cannot be run if no plugin was set before using "plugin()".', get_called_class()));
 		}
 		return $this->start();
 	}
@@ -88,7 +95,7 @@ abstract class BaseTask {
  * before it gets started.
  *
  * This method is automatically executed before "run()". Here is where you
- * should indicate which plugin is being handled using the `_plugin()` method.
+ * should indicate which plugin is being handled using the `plugin()` method.
  * 
  * @return void
  */
@@ -104,14 +111,17 @@ abstract class BaseTask {
 	abstract protected function start();
 
 /**
- * Sets the plugin name being handled.
+ * Gets or sets the plugin name being handled.
  *
  * A plugin name must be set before starting the task using "run()" method.
  * 
  * @param string $pluginName
  * @return string The plugin name just set
  */
-	final protected function _plugin($pluginName) {
+	final protected function plugin($pluginName = null) {
+		if ($pluginName === null) {
+			return $this->_pluginName;
+		}
 		return $this->_pluginName = $pluginName;
 	}
 
@@ -137,12 +147,12 @@ abstract class BaseTask {
  * @return mixed
  */
 	final public function addOption($name, $value, $autoload = false) {
-		if (!$this->_pluginName) {
-			throw new FatalErrorException(__d('installer', 'Internal error ({0}), cannot use addOption() before "_plugin()".', get_called_class()));
+		if (!$this->plugin()) {
+			throw new FatalErrorException(__d('installer', 'Internal error ({0}), cannot use addOption() before "plugin()".', get_called_class()));
 		}
 
 		$this->loadModel('System.Options');
-		$name = !str_starts_with($name, "{$this->_pluginName}.") ? "{$this->_pluginName}.{$name}" : $name;
+		$name = !str_starts_with($name, $this->plugin() . '.') ? $this->plugin() . ".{$name}" : $name;
 		$option = $this->Options->newEntity(compact('name', 'value', 'autoload'));
 		return $this->Options->save($option);
 	}
@@ -153,22 +163,10 @@ abstract class BaseTask {
  * @return \User\Utility\AcoManager
  */
 	final public function aco() {
-		if (!$this->_pluginName) {
-			throw new FatalErrorException(__d('installer', 'Internal error ({0}), illegal access to AcoManager before using "_plugin()".', get_called_class()));
+		if (!$this->plugin()) {
+			throw new FatalErrorException(__d('installer', 'Internal error ({0}), illegal access to AcoManager before using "plugin()".', get_called_class()));
 		}
-		return new AcoManager($this->_pluginName);
-	}
-
-/**
- * Sets a configuration value.
- * 
- * @param string $key
- * @param mixed $value
- * @return \Installer\Task\BaseTask
- */
-	final public function configure($key, $value = null) {
-		$this->config($key, $value);
-		return $this;
+		return new AcoManager($this->plugin());
 	}
 
 /**
@@ -271,8 +269,8 @@ abstract class BaseTask {
 	final protected function attachListeners($path) {
 		global $classLoader;
 
-		if (!$this->_pluginName) {
-			throw new FatalErrorException(__d('installer', 'Internal error ({0}), attachListeners() cannot be used if no plugin was set before using "_plugin()".', get_called_class()));
+		if (!$this->plugin()) {
+			throw new FatalErrorException(__d('installer', 'Internal error ({0}), attachListeners() cannot be used if no plugin was set before using "plugin()".', get_called_class()));
 		}
 
 		if (file_exists($path) && is_dir($path)) {
@@ -281,7 +279,7 @@ abstract class BaseTask {
 
 			foreach ($eventsFolder->read(false, false, true)[1] as $classPath) {
 				$className = preg_replace('/\.php$/i', '', basename($classPath));
-				$namespace = "{$this->_pluginName}\Event\\";
+				$namespace = $this->plugin() . '\Event\\';
 				$classLoader->addPsr4($namespace, dirname($classPath), true);
 				$fullClassName = $namespace . $className;
 
@@ -290,6 +288,18 @@ abstract class BaseTask {
 					$EventManager->attach(end($this->_listeners));
 				}
 			}
+		}
+	}
+
+/**
+ * Unloads all registered listeners that were attached using "attachListeners()".
+ *
+ * @return void
+ */
+	final protected function detachListeners() {
+		$EventManager = EventManager::instance();
+		foreach ($this->_listeners as $listener) {
+			$EventManager->detach($listener);
 		}
 	}
 

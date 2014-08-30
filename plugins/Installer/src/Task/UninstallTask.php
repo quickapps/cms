@@ -51,7 +51,7 @@ class UninstallTask extends BaseTask {
  * @return void
  */
 	protected function init() {
-		$this->_plugin($this->config('plugin'));
+		$this->plugin($this->config('plugin'));
 	}
 
 /**
@@ -72,23 +72,23 @@ class UninstallTask extends BaseTask {
 			return false;
 		}
 
-		if (!$this->_pluginName) {
+		if (!$this->plugin()) {
 			$this->error(__d('installer', 'No plugin was given to remove.'));
 			return false;
 		}
 
 		try {
-			$info = Plugin::info($this->_pluginName, true);
+			$info = Plugin::info($this->plugin(), true);
 			$pluginEntity = $this->Plugins
 				->find()
-				->where(['name' => $this->_pluginName])
+				->where(['name' => $this->plugin()])
 				->first();
 		} catch (\Exception $e) {
 			$info = null;
 		}
 
 		if (!$info || !$pluginEntity) {
-			$this->error(__d('installer', 'Plugin "{0}" was not found.', $this->_pluginName));
+			$this->error(__d('installer', 'Plugin "{0}" was not found.', $this->plugin()));
 			return false;
 		}
 
@@ -97,7 +97,7 @@ class UninstallTask extends BaseTask {
 			return false;
 		}
 
-		$requiredBy = Plugin::checkReverseDependency($this->_pluginName);
+		$requiredBy = Plugin::checkReverseDependency($this->plugin());
 		if (!empty($requiredBy)) {
 			$this->error(__d('installer', 'Plugin "{0}" cannot be removed as it is required by: {1}', $info['human_name'], implode(', ', $requiredBy)));
 			return false;
@@ -152,7 +152,7 @@ class UninstallTask extends BaseTask {
 		$this->loadModel('User.Acos');
 		$nodes = $this->Acos
 			->find()
-			->where(['plugin' => $this->_pluginName])
+			->where(['plugin' => $this->plugin()])
 			->order(['lft' => 'ASC'])
 			->all();
 

@@ -69,13 +69,6 @@ class InstallTask extends BaseTask {
 	protected $_pluginJson = [];
 
 /**
- * Holds all instances of plugin's listeners.
- *
- * @var array
- */
-	protected $_listeners = [];
-
-/**
  * List of accepted mime-types for package files.
  *
  * @var array
@@ -94,12 +87,12 @@ class InstallTask extends BaseTask {
  *
  * ### Valid options are:
  *
- * - `callbacks`: Set to true to fire `beforeInstall`, `afterInstall`, etc events.
- * - `activate`: Activate plugin after installation ? This may trigger
- *   `beforeEnable` and `àfterDisable` callbacks.
- * - `packageType`: "plugin" indicates that package must be not a "theme", "theme" indicates
- *    that package must be a "theme". Or false which wont verify the type of package.
- *    Defaults to false.
+ * - `callbacks`: Set to true to fire `beforeInstall`, `afterInstall` events.
+ * - `activate`: Activate plugin after installation ? This will trigger
+ *   `beforeEnable` and `afterDisable` callbacks if `callbacks` is set to true.
+ * - `packageType`: "plugin" indicates whether the package must be a theme or
+ *    not not, set to "theme" to indicate that package must be a theme. Set this
+ *    to false will not check the package type. Defaults to false.
  *
  * @var array
  */
@@ -128,8 +121,9 @@ class InstallTask extends BaseTask {
 		}
 
 		// it will be stopped on start()
-		$this->_pluginName = !$this->_pluginName ? '__DUMMY__' : $this->_pluginName;
-		$this->_plugin($this->_pluginName);
+		if (!$this->plugin()) {
+			$this->plugin('__DUMMY__');
+		}
 	}
 
 /**
@@ -157,7 +151,7 @@ class InstallTask extends BaseTask {
 			// "before" events occurs even before plugins is moved to its destination
 			$this->attachListeners("{$this->_extractedPath}src/Event");
 			try {
-				$beforeInstallEvent = $this->hook("Plugin.{$this->_pluginName}.beforeInstall");
+				$beforeInstallEvent = $this->hook('Plugin.' . $this->plugin() . '.beforeInstall');
 				if ($beforeInstallEvent->isStopped() || $beforeInstallEvent->result === false) {
 					$this->error(__d('installer', 'Task was explicitly rejected by the plugin.'));
 					$this->_rollback();
@@ -177,7 +171,7 @@ class InstallTask extends BaseTask {
 
 		$this->loadModel('System.Plugins');
 		$entity = $this->Plugins->newEntity([
-			'name' => $this->_pluginName,
+			'name' => $this->plugin(),
 			'package' => $this->_pluginJson['name'],
 			'settings' => [],
 			'status' => 0,
@@ -191,14 +185,14 @@ class InstallTask extends BaseTask {
 
 		if ($this->config('callbacks')) {
 			try  {
-				$this->hook("Plugin.{$this->_pluginName}.afterInstall");
+				$this->hook('Plugin.' . $this->plugin() . '.afterInstall');
 			} catch (\Exception $e) {
 				$this->error(__d('installer', 'Plugin was installed but some errors occur.'));
 			}
 		}
 		
 		$activate = (bool)$this->config('activate');
-		$pluginName = $this->_pluginName;
+		$pluginName = $this->plugin();
 		$this->_finish();
 
 		if ($activate) {
@@ -277,12 +271,12 @@ class InstallTask extends BaseTask {
 		}
 
 		try {
-			$http = new Client(['redirect' => 3]); // follow 3 redirections
+			$http = new Client(['redirect' => 3]); // follow up to 3 redirections
 			$response = $http->get($package, [], ['headers' => ['X-Requested-With' => 'XMLHttpRequest']]);
 		} catch(\Exception $e) {
 			$response = false;
 		}
-		
+
 		if ($response && $response->isOk()) {
 			$fileName = substr(md5($package), 24) . '.zip';
 			$file = new File(TMP . $fileName);
@@ -319,14 +313,14 @@ class InstallTask extends BaseTask {
 		global $classLoader; // composer's class loader instance
 		snapshot();
 		// trick, makes plugin visible to AcoManager
-		$classLoader->addPsr4("{$this->_pluginName}\\", normalizePath(SITE_ROOT . "/plugins/{$this->_pluginName}/src"), true);
-		AcoManager::buildAcos($this->_pluginName);
+		$classLoader->addPsr4($this->plugin() . "\\", normalizePath(SITE_ROOT . '/plugins/' . $this->plugin() . '/src'), true);
+		AcoManager::buildAcos($this->plugin());
 		$this->_rollback();
 	}
 
 /**
  * Discards the install operation. Restores this class's status
- * to previous its initial state.
+ * to its initial state.
  * 
  * @return void
  */
@@ -346,6 +340,8 @@ class InstallTask extends BaseTask {
 		$this->_pluginName =
 		$this->_pluginPath =
 		$this->_pluginJson = null;
+
+		$this->detachListeners();
 	}
 
 /**
@@ -438,18 +434,18 @@ class InstallTask extends BaseTask {
 			} else {
 				$json = (new File($this->_extractedPath . 'composer.json'))->read();
 				$json = json_decode($json, true);
-				$this->_pluginName = pluginName($json['name']);
+				$this->plugin(pluginName($json['name']));
 				$this->_pluginJson = $json;
 
-				if ($this->config('packageType') === 'theme' && !str_ends_with($this->_pluginName, 'Theme')) {
+				if ($this->config('packageType') === 'theme' && !str_ends_with($this->plugin(), 'Theme')) {
 					$this->error(__d('installer', 'The given package is not a valid theme.'));
 					return false;
-				} elseif ($this->config('packageType') === 'plugin' && str_ends_with($this->_pluginName, 'Theme')) {
+				} elseif ($this->config('packageType') === 'plugin' && str_ends_with($this->plugin(), 'Theme')) {
 					$this->error(__d('installer', 'The given package is not a valid plugin.'));
 					return false;
 				}
 
-				if (str_ends_with($this->_pluginName, 'Theme')) {
+				if (str_ends_with($this->plugin(), 'Theme')) {
 					if (!file_exists("{$this->_extractedPath}webroot/screenshot.png")) {
 						$errors[] = __d('installer', 'Missing "screenshot.png" file.');
 						false;
@@ -471,7 +467,7 @@ class InstallTask extends BaseTask {
 						$p = $p === '__PHP__' ? 'PHP' : $p;
 						$required[] = "{$p} ({$v})";
 					}
-					$errors[] = __d('installer', 'Plugin "{0}" depends on other packages that were not found: {0}', $this->_pluginName, implode(', ', $required));
+					$errors[] = __d('installer', 'Plugin "{0}" depends on other packages that were not found: {0}', $this->plugin(), implode(', ', $required));
 				}
 			}
 		}
@@ -498,11 +494,12 @@ class InstallTask extends BaseTask {
  */
 	protected function _exists() {
 		try {
-			$info = Plugin::info($this->_pluginName, true);
-			return true;
+			$info = Plugin::info($this->plugin(), true);
 		} catch (\Exception $e) {
-			return false;
+			$info = [];
 		}
+
+		return !empty($info);
 	}
 
 /**
@@ -514,7 +511,7 @@ class InstallTask extends BaseTask {
  */
 	protected function _movePackage($clearDestination = false) {
 		$source = new Folder($this->_extractedPath);
-		$destinationPath = SITE_ROOT . "/plugins/{$this->_pluginName}/";
+		$destinationPath = SITE_ROOT . '/plugins/' . $this->plugin() . '/';
 		if (!$clearDestination && file_exists($destinationPath)) {
 			$this->error(__d('installer', 'Destination directory already exists, please delete manually this directory: {0}', $destinationPath));
 			return false;

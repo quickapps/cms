@@ -26,11 +26,6 @@ use QuickApps\Core\Plugin;
  *     $task = $this->Installer
  *         ->task('activate_theme')
  *         ->activate('DarkOceanTheme');
- *     
- *     // or:
- *     $task = $this->Installer
- *         ->task('activate_theme')
- *         ->configure('theme', 'DarkOceanTheme');
  *         
  *     // or:
  *     $task = $this->Installer
@@ -63,7 +58,7 @@ class ThemeActivatorTask extends BaseTask {
  * @return void
  */
 	protected function init() {
-		$this->_plugin($this->config('theme'));
+		$this->plugin($this->config('theme'));
 	}
 
 /**
@@ -73,13 +68,13 @@ class ThemeActivatorTask extends BaseTask {
  */
 	protected function start() {
 		try {
-			$info = Plugin::info($this->_pluginName, true);
+			$info = Plugin::info($this->plugin(), true);
 		} catch (\Exception $e) {
 			$info = null;
 		}
 
 		if (!$info) {
-			$this->error(__d('installer', 'Theme "{0}" was not found.', $this->_pluginName));
+			$this->error(__d('installer', 'Theme "{0}" was not found.', $this->plugin()));
 			return false;
 		}
 
@@ -88,7 +83,7 @@ class ThemeActivatorTask extends BaseTask {
 			return false;
 		}
 
-		if (in_array($this->_pluginName, [option('front_theme'), option('back_theme')])) {
+		if (in_array($this->plugin(), [option('front_theme'), option('back_theme')])) {
 			$this->error(__d('installer', 'Theme "{0}" is already active.', $info['human_name']));
 			return false;
 		}
@@ -121,8 +116,8 @@ class ThemeActivatorTask extends BaseTask {
 			$previousTheme = option('front_theme');
 		}
 
-		if ($this->Options->update("{$prefix}theme", $this->_pluginName)) { // save() automatically regenerates snapshot
-			$this->_copyBlockPositions($this->_pluginName, $previousTheme);
+		if ($this->Options->update("{$prefix}theme", $this->plugin())) { // update() automatically regenerates snapshot
+			$this->_copyBlockPositions($this->plugin(), $previousTheme);
 		} else {
 			$this->error(__d('installer', 'Internal error, the option "{0}" was not found.', "{$prefix}theme"));
 			return false;
@@ -148,7 +143,7 @@ class ThemeActivatorTask extends BaseTask {
 	public function activate($themeName = null) {
 		if ($themeName) {
 			$this->config('theme', $themeName);
-			$this->_plugin($themeName);
+			$this->plugin($themeName);
 		}
 		return $this;
 	}

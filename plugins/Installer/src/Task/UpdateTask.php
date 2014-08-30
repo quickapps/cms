@@ -58,9 +58,9 @@ class UpdateTask extends InstallTask {
 			$this->_rollback();
 		} elseif (!$this->_exists()) {
 			$this->_rollback();
-			$this->error(__d('installer', 'This plugin is not installed, you cannot update a plugin that is not installed in your system.', $this->_pluginName));
+			$this->error(__d('installer', 'This plugin is not installed, you cannot update a plugin that is not installed in your system.', $this->plugin()));
 		} else {
-			$info = Plugin::info($this->_pluginName, true);
+			$info = Plugin::info($this->plugin(), true);
 			if ($info['isCore']) {
 				$this->error(__d('installer', 'Plugin "{0}" is a core plugin, you cannot update system\'s core using this method.', $info['human_name']));
 			} elseif (!$this->canBeDeleted($info['path'])) {
@@ -68,7 +68,7 @@ class UpdateTask extends InstallTask {
 			}
 		}
 
-		$this->_plugin($this->_pluginName);
+		$this->plugin($this->plugin());
 	}
 
 /**
@@ -94,7 +94,7 @@ class UpdateTask extends InstallTask {
 		if ($this->config('callbacks')) {
 			try {
 				$this->attachListeners("{$this->_extractedPath}src/Event");
-				$beforeUpdateEvent = $this->hook("Plugin.{$this->_pluginName}.beforeUpdate");
+				$beforeUpdateEvent = $this->hook('Plugin.' . $this->plugin() . '.beforeUpdate');
 				if ($beforeUpdateEvent->isStopped() || $beforeUpdateEvent->result === false) {
 					$this->error(__d('installer', 'Task was explicitly rejected by the plugin.'));
 					$this->_rollback();
@@ -113,7 +113,7 @@ class UpdateTask extends InstallTask {
 
 		if ($this->config('callbacks')) {
 			try {
-				$this->hook("Plugin.{$this->_pluginName}.afterUpdate");
+				$this->hook('Plugin.' . $this->plugin() . '.afterUpdate');
 			} catch (\Exception $e) {
 				$this->error(__d('installer', 'Plugin did not respond to "afterUninstall" callback correctly.'));
 			}
