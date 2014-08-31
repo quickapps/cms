@@ -36,7 +36,7 @@ before_script:
 
 script:
   - sh -c "if [ '$PHPCS' != '1' ]; then phpunit; fi"
-  - sh -c "phpcs -p --extensions=php --standard=CakePHP ./src ./tests"
+  - sh -c "phpcs -p --extensions=php --standard=CakePHP ./src ./plugins"
 
 notifications:
   email: false

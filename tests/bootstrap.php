@@ -26,6 +26,7 @@ use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Utility\Folder;
+use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use QuickApps\View\ViewModeRegistry;
 use \DirectoryIterator;
@@ -111,6 +112,7 @@ function snapshot() {
 		}
 	}
 
+	$snapshot['plugins'] = Hash::sort($snapshot['plugins'], '{s}.name', 'asc');
 	Configure::write('QuickApps', $snapshot);
 	Configure::dump('snapshot.php', 'QuickApps', ['QuickApps']);
 }
