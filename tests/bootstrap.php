@@ -9,7 +9,7 @@
 define('SITE_ROOT', __DIR__ . '/TestSite');
 define('QA_CORE', dirname(__DIR__));
 require  QA_CORE . '/config/paths.php';
-require VENDOR_INCLUDE_PATH . 'autoload.php';
+require 'vendor/autoload.php';
 
 use Cake\Core\App;
 use Cake\Core\Configure;
