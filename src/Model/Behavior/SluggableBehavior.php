@@ -77,14 +77,14 @@ class SluggableBehavior extends Behavior {
 /**
  * Run before a model is saved, used to set up slug for model.
  *
- * @param \Cake\Event\Event $event
- * @param \Cake\ORM\Entity $entity
- * @param array $options
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Cake\ORM\Entity $entity The entity being saved
+ * @param array $options Array of options for the save operation
  * @return bool True if save should proceed, false otherwise
  * @throws \Cake\Error\FatalErrorException When some of the specified columns
  *  in config's "label" is not present in the entity being saved
  */
-	public function beforeSave(Event $event, $entity, $options) {
+	public function beforeSave(Event $event, $entity, $options = []) {
 		if (!$this->_enabled) {
 			return true;
 		}
@@ -146,7 +146,7 @@ class SluggableBehavior extends Behavior {
  * The generated slug is unique on the whole table.
  *
  * @param string $string string from where to generate slug
- * @param \Cake\ORM\Entity $entity
+ * @param \Cake\ORM\Entity $entity The entity for which generate the slug
  * @return string Slug for given string
  */
 	protected function _slug($string, $entity) {

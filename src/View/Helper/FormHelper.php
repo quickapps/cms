@@ -134,7 +134,7 @@ class FormHelper extends CakeFormHelper {
 		$this->alter('FormHelper.label', $fieldName, $text, $options);
 		return parent::label($fieldName, $text, $options);
 	}
-	
+
 /**
  * {@inheritdoc}
  *

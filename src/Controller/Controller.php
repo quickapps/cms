@@ -114,7 +114,7 @@ class Controller extends CakeCotroller {
 /**
  * Shortcut for Controller::set('title_for_layout', ...)
  *
- * @param string $title_for_layout
+ * @param string $title_for_layout The title to use on layout's title tag
  * @return void
  */
 	protected function title($title_for_layout) {
@@ -124,7 +124,8 @@ class Controller extends CakeCotroller {
 /**
  * Shortcut for Controller::set('description_for_layout', ...)
  *
- * @param string $description_for_layout
+ * @param string $description_for_layout The description to use as
+ *  meta-description on layout's head tag
  * @return void
  */
 	protected function description($description_for_layout) {

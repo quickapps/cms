@@ -59,9 +59,11 @@ trait ViewModeTrait {
 /**
  * Gets all registered view modes.
  *
- * @param boolean $full
+ * @param boolean $full Whether to return full information for each registered
+ *  view mode, or just machine-names of each one. Defaults to false,
+ *  machine-names only.
  * @return array
- * @see \QuickApps\View\ViewModeRegistry::viewModes
+ * @see \QuickApps\View\ViewModeRegistry::viewModes()
  */
 	public function viewModes($full = false) {
 		return ViewModeRegistry::viewModes($full);

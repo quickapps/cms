@@ -26,7 +26,7 @@ class AuthComponent extends CakeAuthComponent {
 	use HookTrait;
 
 /**
- * {@inheritdoc}
+ * {@inheritDoc}
  *
  * ## Events triggered:
  *
@@ -50,7 +50,7 @@ class AuthComponent extends CakeAuthComponent {
 	}
 
 /**
- * {@inheritdoc}
+ * {@inheritDoc}
  *
  * ## Events triggered:
  *

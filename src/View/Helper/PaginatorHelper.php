@@ -154,7 +154,7 @@ class PaginatorHelper extends CakePaginatorHelper {
 		$this->alter('PaginatorHelper.sort', $key, $title, $options);
 		return parent::sort($key, $title, $options);
 	}
-	
+
 /**
  * {@inheritdoc}
  *

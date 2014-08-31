@@ -93,21 +93,21 @@ trait HookTrait {
  * If no context is given "$this" will be used by default.
  *
  * @param string $eventName The name of the "alter hook" to trigger. e.g. `FormHelper.input`
- * @param mixed $p0 Optional Argument by reference
- * @param mixed $p1 Optional Argument by reference
- * @param mixed $p2 Optional Argument by reference
- * @param mixed $p3 Optional Argument by reference
- * @param mixed $p4 Optional Argument by reference
- * @param mixed $p5 Optional Argument by reference
- * @param mixed $p6 Optional Argument by reference
- * @param mixed $p7 Optional Argument by reference
- * @param mixed $p8 Optional Argument by reference
- * @param mixed $p9 Optional Argument by reference
- * @param mixed $p10 Optional Argument by reference
- * @param mixed $p11 Optional Argument by reference
- * @param mixed $p12 Optional Argument by reference
- * @param mixed $p13 Optional Argument by reference
- * @param mixed $p14 Optional Argument by reference
+ * @param mixed &$p0 Optional Argument by reference
+ * @param mixed &$p1 Optional Argument by reference
+ * @param mixed &$p2 Optional Argument by reference
+ * @param mixed &$p3 Optional Argument by reference
+ * @param mixed &$p4 Optional Argument by reference
+ * @param mixed &$p5 Optional Argument by reference
+ * @param mixed &$p6 Optional Argument by reference
+ * @param mixed &$p7 Optional Argument by reference
+ * @param mixed &$p8 Optional Argument by reference
+ * @param mixed &$p9 Optional Argument by reference
+ * @param mixed &$p10 Optional Argument by reference
+ * @param mixed &$p11 Optional Argument by reference
+ * @param mixed &$p12 Optional Argument by reference
+ * @param mixed &$p13 Optional Argument by reference
+ * @param mixed &$p14 Optional Argument by reference
  * @return \Cake\Event\Event The event object that was fired
  * @see QuickApps\Core\Hook::alter()
  */

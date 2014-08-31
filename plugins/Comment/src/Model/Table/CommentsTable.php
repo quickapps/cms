@@ -27,7 +27,7 @@ class CommentsTable extends Table {
 /**
  * Initialize a table instance. Called after the constructor.
  *
- * {@inheritdoc}
+ * {@inheritDoc}
  *
  * @param array $config Configuration options passed to the constructor
  * @return void

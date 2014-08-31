@@ -29,7 +29,7 @@ use Cake\Utility\Security;
 class FormAuthenticate extends CakeFormAuthenticate {
 
 /**
- * {@inheritdoc}
+ * {@inheritDoc}
  *
  * @param \Cake\Network\Request $request The request that contains login information.
  * @param \Cake\Network\Response $response Unused response object.

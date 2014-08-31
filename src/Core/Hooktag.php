@@ -39,7 +39,7 @@ class Hooktag {
 			return $content;
 		}
 
-		if ($context === null)	 {
+		if ($context === null) {
 			$context = new Hooktag();
 		}
 
@@ -134,9 +134,9 @@ class Hooktag {
 /**
  * Invokes hooktag lister for the given hooktag.
  *
- * @author WordPress
  * @param array $m Hooktag as preg array
  * @return string
+ * @author WordPress
  */
 	protected static function _doHooktag($m) {
 		$EventManager = EventManager::instance();
@@ -187,9 +187,9 @@ class Hooktag {
  *         'camelattr' => 'Val1',
  *     ]
  *
- * @author WordPress
- * @param string $text
+ * @param string $text The text where to look for hooktags
  * @return array Associative array of attributes as `tag_name` => `value`
+ * @author WordPress
  */
 	protected static function _parseHooktagAttributes($text) {
 		$atts = [];
@@ -204,7 +204,7 @@ class Hooktag {
 					$atts[strtolower($m[3])] = stripcslashes($m[4]);
 				} elseif (!empty($m[5])) {
 					$atts[strtolower($m[5])] = stripcslashes($m[6]);
-				} elseif (isset($m[7]) and strlen($m[7])) {
+				} elseif (isset($m[7]) && strlen($m[7])) {
 					$atts[] = stripcslashes($m[7]);
 				} elseif (isset($m[8])) {
 					$atts[] = stripcslashes($m[8]);

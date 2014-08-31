@@ -45,7 +45,7 @@ class ViewModeRegistry {
  * The given view mode must be registered first using `addViewMode`. If you
  * try to switch to an unexisting (unregistered) view mode this method will throw.
  *
- * @param string $slug
+ * @param string $slug View mode machine name to switch to
  * @return void
  * @throws \Cake\Error\InternalErrorException When switching to an unregistered view mode
  */

@@ -196,21 +196,21 @@ class Hook {
  *
  * @param string $eventName Name of the "alter event" to trigger.
  *  e.g. `FormHelper.input` will trigger `Alter.FormHelper.input` event
- * @param mixed $p0 Optional argument by reference
- * @param mixed $p1 Optional argument by reference
- * @param mixed $p2 Optional argument by reference
- * @param mixed $p3 Optional argument by reference
- * @param mixed $p4 Optional argument by reference
- * @param mixed $p5 Optional argument by reference
- * @param mixed $p6 Optional argument by reference
- * @param mixed $p7 Optional argument by reference
- * @param mixed $p8 Optional argument by reference
- * @param mixed $p9 Optional argument by reference
- * @param mixed $p10 Optional argument by reference
- * @param mixed $p11 Optional argument by reference
- * @param mixed $p12 Optional argument by reference
- * @param mixed $p13 Optional argument by reference
- * @param mixed $p14 Optional argument by reference
+ * @param mixed &$p0 Optional argument by reference
+ * @param mixed &$p1 Optional argument by reference
+ * @param mixed &$p2 Optional argument by reference
+ * @param mixed &$p3 Optional argument by reference
+ * @param mixed &$p4 Optional argument by reference
+ * @param mixed &$p5 Optional argument by reference
+ * @param mixed &$p6 Optional argument by reference
+ * @param mixed &$p7 Optional argument by reference
+ * @param mixed &$p8 Optional argument by reference
+ * @param mixed &$p9 Optional argument by reference
+ * @param mixed &$p10 Optional argument by reference
+ * @param mixed &$p11 Optional argument by reference
+ * @param mixed &$p12 Optional argument by reference
+ * @param mixed &$p13 Optional argument by reference
+ * @param mixed &$p14 Optional argument by reference
  * @return \Cake\Event\Event
  */
 	public static function alter($eventName, &$p0 = null, &$p1 = null, &$p2 = null, &$p3 = null, &$p4 = null, &$p5 = null, &$p6 = null, &$p7 = null, &$p8 = null, &$p9 = null, &$p10 = null, &$p11 = null, &$p12 = null, &$p13 = null, &$p14 = null) {
@@ -247,7 +247,7 @@ class Hook {
 /**
  * Logs the given event.
  * 
- * @param string $eventName
+ * @param string $eventName The event name to log
  * @return void
  */
 	protected static function _log($eventName) {

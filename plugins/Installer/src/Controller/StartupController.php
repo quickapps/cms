@@ -32,21 +32,21 @@ use QuickApps\Core\Plugin;
 class StartupController extends Controller {
 
 /**
- * {@inheritdoc}
+ * {@inheritDoc}
  *
  * @var string
  */
 	public $theme = false;
 
 /**
- * {@inheritdoc}
+ * {@inheritDoc}
  *
  * @var string
  */
 	public $layout = 'Installer.startup';
 
 /**
- * {@inheritdoc}
+ * {@inheritDoc}
  *
  * @var string
  */
@@ -60,14 +60,14 @@ class StartupController extends Controller {
 	public $viewClass = 'QuickApps\View\View';
 
 /**
- * {@inheritdoc}
+ * {@inheritDoc}
  *
  * @var string
  */
 	public $components = ['Session', 'Flash'];
 
 /**
- * {@inheritdoc}
+ * {@inheritDoc}
  *
  * @param \Cake\Event\Event $event
  * @return void

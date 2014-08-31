@@ -33,8 +33,8 @@ class UrlHelper extends CakeUrlHelper {
  * {@inheritdoc}
  *
  * @param string|array $url Either a relative string url like `/products/view/23` or
- *    an array of URL parameters. Using an array for URLs will allow you to leverage
- *    the reverse routing features of CakePHP.
+ *  an array of URL parameters. Using an array for URLs will allow you to leverage
+ *  the reverse routing features of CakePHP.
  * @param bool $full If true, the full base URL will be prepended to the result
  * @return string Full translated URL with base path.
  * @link http://book.cakephp.org/2.0/en/views/helpers.html
@@ -49,10 +49,10 @@ class UrlHelper extends CakeUrlHelper {
  *
  * @param string|array $path Path string or URL array
  * @param array $options Options array. Possible keys:
- *   `fullBase` Return full URL with domain name
- *   `pathPrefix` Path prefix for relative URLs
- *   `ext` Asset extension to append
- *   `plugin` False value will prevent parsing path as a plugin
+ *  `fullBase` Return full URL with domain name
+ *  `pathPrefix` Path prefix for relative URLs
+ *  `ext` Asset extension to append
+ *  `plugin` False value will prevent parsing path as a plugin
  * @return string Generated URL
  */
 	public function assetUrl($path, array $options = array()) {

@@ -32,11 +32,11 @@ class QuickAppsInstaller extends BaseInstaller {
  *
  * For example, "user-manager-plugin" becomes "UserManagerPlugin",
  *
- * @param array $vars
+ * @param array $vars Composer installer vars
  * @return array Modified $vars
  */
 	public function inflectPackageVars($vars) {
-		$vars['name'] = str_replace(' ', '', 
+		$vars['name'] = str_replace(' ', '',
 			ucwords(
 				strtolower(
 					str_replace(array('-', '_'), ' ', $vars['name'])

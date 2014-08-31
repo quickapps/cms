@@ -27,7 +27,7 @@ class SerializedType extends Type {
  * Deserialize the stored information if it was serialized before.
  * 
  * @param string $value The serialized element to deserialize
- * @param \Cake\Database\Driver $driver
+ * @param \Cake\Database\Driver $driver Database connection driver
  * @return mixed
  */
 	public function toPHP($value, Driver $driver) {
@@ -46,7 +46,7 @@ class SerializedType extends Type {
  * 
  * @param mixed $value Array or object to be serialized, any other type will
  *  not be serialized
- * @param \Cake\Database\Driver $driver
+ * @param \Cake\Database\Driver $driver Database connection driver
  * @return string
  */
 	public function toDatabase($value, Driver $driver) {
@@ -72,7 +72,7 @@ class SerializedType extends Type {
 			return false;
 		}
 		$data = trim($data);
-	 	if ('N;' == $data) {
+		if ('N;' == $data) {
 			return true;
 		}
 		if (strlen($data) < 4) {
@@ -94,11 +94,11 @@ class SerializedType extends Type {
 				}
 			case 'a' :
 			case 'O' :
-				return (bool) preg_match("/^{$token}:[0-9]+:/s", $data);
+				return (bool)preg_match("/^{$token}:[0-9]+:/s", $data);
 			case 'b' :
 			case 'i' :
 			case 'd' :
-				return (bool) preg_match("/^{$token}:[0-9.E-]+;$/", $data);
+				return (bool)preg_match("/^{$token}:[0-9.E-]+;$/", $data);
 		}
 
 		return false;
