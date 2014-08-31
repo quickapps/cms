@@ -69,7 +69,7 @@
 	<listeners>
 		<listener
 			class="\Cake\TestSuite\Fixture\FixtureInjector"
-			file="../../cakephp/cakephp/src/TestSuite/Fixture/FixtureInjector.php">
+			file="./vendor/cakephp/cakephp/src/TestSuite/Fixture/FixtureInjector.php">
 			<arguments>
 				<object class="\Cake\TestSuite\Fixture\FixtureManager" />
 			</arguments>
