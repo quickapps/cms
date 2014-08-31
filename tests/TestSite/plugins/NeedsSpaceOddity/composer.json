@@ -1,0 +1,31 @@
+{
+    "name": "quickapps-plugins/needs-space-oddity",
+    "description": "Used to test dependencies, this plugin requires SpaceOddity plugin to properly run",
+    "type": "quickapps-plugin",
+    "keywords": [
+        "framework",
+        "cms",
+        "cmf",
+        "quickapps",
+        "plugin",
+        "dummy",
+        "test",
+        "lyrics",
+        "space oddity",
+        "music"
+    ],
+    "homepage": "http://quickappscms.org",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Christopher Castro",
+            "email": "chris@quickapps.es"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "quickapps/cms": "2.0.*-dev",
+        "quickapps-plugins/space-oddity": "*"
+    },
+    "version": "1.0"
+}
