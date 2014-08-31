@@ -18,7 +18,9 @@ require_once __DIR__ . '/paths.php';
 /**
  * Use composer to load the autoloader.
  */
-$classLoader = require_once VENDOR_INCLUDE_PATH . 'autoload.php';
+if (!isset($classLoader)) {
+	$classLoader = require_once VENDOR_INCLUDE_PATH . 'autoload.php';
+}
 
 /**
  * Load QuickApps basic functionality.
