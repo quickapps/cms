@@ -25,7 +25,7 @@ define('ROOT', dirname(__DIR__));
  *
  * There is where quickapps & cakephp must be located.
  */
-define('VENDOR_INCLUDE_PATH', dirname(dirname(ROOT)) . '/');
+define('VENDOR_INCLUDE_PATH', dirname(dirname(ROOT)) . DS);
 
 /**
  * The actual directory name for quickapps core's "src".
@@ -77,7 +77,7 @@ define('CACHE', TMP . 'cache' . DS);
  *
  * CakePHP should always be installed with composer, so look there.
  */
-define('CAKE_CORE_INCLUDE_PATH', VENDOR_INCLUDE_PATH . 'cakephp/cakephp');
+define('CAKE_CORE_INCLUDE_PATH', VENDOR_INCLUDE_PATH . 'cakephp' . DS . 'cakephp');
 
 /**
  * Path to the cake directory.

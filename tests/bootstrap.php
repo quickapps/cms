@@ -2,11 +2,11 @@
 /**
  * Constants & paths.
  */
-define('SITE_ROOT', __DIR__ . '/TestSite');
-define('QA_CORE', dirname(__DIR__));
 define('DS', DIRECTORY_SEPARATOR);
+define('SITE_ROOT', __DIR__ . DS . 'TestSite');
+define('QA_CORE', dirname(__DIR__));
 define('ROOT', dirname(__DIR__));
-define('VENDOR_INCLUDE_PATH', realpath('vendor/') . '/');
+define('VENDOR_INCLUDE_PATH', realpath('vendor/') . DS);
 define('APP_DIR', 'src');
 define('WEBROOT_DIR', 'webroot');
 define('APP', ROOT . DS . APP_DIR . DS);
@@ -16,11 +16,11 @@ define('TESTS', ROOT . DS . 'tests' . DS);
 define('TMP', SITE_ROOT . DS . 'tmp' . DS);
 define('LOGS', TMP . 'logs' . DS);
 define('CACHE', TMP . 'cache' . DS);
-define('CAKE_CORE_INCLUDE_PATH', VENDOR_INCLUDE_PATH . 'cakephp/cakephp');
+define('CAKE_CORE_INCLUDE_PATH', VENDOR_INCLUDE_PATH . 'cakephp' . DS . 'cakephp');
 define('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
 define('CAKE', CORE_PATH . 'src' . DS);
 
-$classLoader = require 'vendor/autoload.php';
+$classLoader = require VENDOR_INCLUDE_PATH . 'autoload.php';
 
 use Cake\Core\App;
 use Cake\Core\Configure;
