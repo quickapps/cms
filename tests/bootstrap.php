@@ -1,14 +1,25 @@
 <?php
 /**
- * Test runner bootstrap.
- *
- * Add additional configuration/setup your application needs when running
- * unit tests in this file.
+ * Constants & paths.
  */
-
 define('SITE_ROOT', __DIR__ . '/TestSite');
 define('QA_CORE', dirname(__DIR__));
-require  QA_CORE . '/config/paths.php';
+define('DS', DIRECTORY_SEPARATOR);
+define('ROOT', dirname(__DIR__));
+define('VENDOR_INCLUDE_PATH', realpath('vendor/') . '/');
+define('APP_DIR', 'src');
+define('WEBROOT_DIR', 'webroot');
+define('APP', ROOT . DS . APP_DIR . DS);
+define('CONFIG', ROOT . DS . 'config' . DS);
+define('WWW_ROOT', SITE_ROOT . DS . WEBROOT_DIR . DS);
+define('TESTS', ROOT . DS . 'tests' . DS);
+define('TMP', SITE_ROOT . DS . 'tmp' . DS);
+define('LOGS', TMP . 'logs' . DS);
+define('CACHE', TMP . 'cache' . DS);
+define('CAKE_CORE_INCLUDE_PATH', VENDOR_INCLUDE_PATH . 'cakephp/cakephp');
+define('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
+define('CAKE', CORE_PATH . 'src' . DS);
+
 $classLoader = require 'vendor/autoload.php';
 
 use Cake\Core\App;

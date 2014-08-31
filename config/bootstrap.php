@@ -13,7 +13,9 @@
 /**
  * Configure paths required to find CakePHP + general file path constants
  */
-require_once __DIR__ . '/paths.php';
+if (!defined('DS')) {
+	require_once __DIR__ . '/paths.php';
+}
 
 /**
  * Use composer to load the autoloader.
