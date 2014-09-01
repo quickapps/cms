@@ -11,7 +11,7 @@
  */
 use Cake\Routing\Router;
 
-if (!empty(quickapps('node_types'))) {
+if (is_array(quickapps('node_types'))) {
 	$nodeTypesPattern = implode('|', array_map('preg_quote', quickapps('node_types')));
 	Router::connect('/:node_type_slug/:node_slug.html', [
 		'plugin' => 'Node',

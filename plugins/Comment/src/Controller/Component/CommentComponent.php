@@ -233,7 +233,7 @@ class CommentComponent extends Component {
 						]
 					]);
 
-					if ($this->config('settings.use_akismet') && !empty($this->config('settings.akismet_key'))) {
+					if ($this->config('settings.use_akismet')) {
 						require_once Plugin::classPath('Comment') . 'Lib/Akismet.php';
 
 						try {

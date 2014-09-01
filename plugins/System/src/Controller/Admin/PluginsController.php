@@ -72,7 +72,7 @@ class PluginsController extends AppController {
 
 			$success = $task->run();
 			if ($success) {
-				if (!empty($task->errors())) {
+				if ($task->errors()) {
 					$this->Flash->set(__d('system', 'Plugins installed but some errors occur'), [
 						'element' => 'System.installer_errors',
 						'params' => ['errors' => $task->errors(), 'type' => 'warning'],

@@ -280,13 +280,14 @@ class InstallTask extends BaseTask {
 		if ($response && $response->isOk()) {
 			$fileName = substr(md5($package), 24) . '.zip';
 			$file = new File(TMP . $fileName);
+			$responseBody = $response->body();
 
 			if (file_exists($file->pwd())) {
 				$file->delete();
 			}
 
 			if (
-				!empty($response->body()) &&
+				!empty($responseBody) &&
 				$file->create() &&
 				$file->write($response->body(), 'w+', true)
 			) {

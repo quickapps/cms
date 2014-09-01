@@ -148,9 +148,9 @@ class Hooktag {
 
 		$tag = $m[2];
 		$atts = static::_parseHooktagAttributes($m[3]);
-		$hook = !empty($EventManager->listeners("Hooktag.{$tag}"));
+		$hook = $EventManager->listeners("Hooktag.{$tag}");
 
-		if ($hook) {
+		if (!empty($hook)) {
 			$options = [
 				'atts' => (array)$atts,
 				'content' => null,
