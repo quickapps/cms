@@ -151,8 +151,8 @@ class CommentComponent extends Component {
  * Constructor.
  *
  * @param \Cake\Controller\ComponentRegistry $collection A ComponentRegistry
- * for this component
- * @param array $config
+ *  for this component
+ * @param array $config Array of configuration options to merge with defaults
  * @return void
  */
 	public function __construct(ComponentRegistry $collection, array $config = array()) {
@@ -161,7 +161,7 @@ class CommentComponent extends Component {
 				$this->config('settings.auto_approve') ||
 				$this->_controller->request->is('userAdmin')
 			) {
-				return __d('comment', 'Comment saved!');			
+				return __d('comment', 'Comment saved!');	
 			}
 
 			return __d('comment', 'Your comment is awaiting moderation.');
@@ -174,7 +174,7 @@ class CommentComponent extends Component {
 /**
  * Called before the controller's beforeFilter method.
  *
- * @param Event $event
+ * @param Event $event The event that was triggered
  * @return void
  */
 	public function initialize(Event $event) {
@@ -190,15 +190,15 @@ class CommentComponent extends Component {
 			define('AYAH_SCORING_KEY', $this->config('settings.ayah_scoring_key'));
 			define('AYAH_WEB_SERVICE_HOST', 'ws.areyouahuman.com');
 			define('AYAH_TIMEOUT', 0);
-			define('AYAH_DEBUG_MODE', FALSE);
-			define('AYAH_USE_CURL', TRUE);
+			define('AYAH_DEBUG_MODE', false);
+			define('AYAH_USE_CURL', true);
 		}
 	}
 
 /**
  * Called after the controller executes the requested action.
  *
- * @param Event $event
+ * @param Event $event The event that was triggered
  * @return void
  */
 	public function beforeRender(Event $event) {
@@ -208,7 +208,7 @@ class CommentComponent extends Component {
 /**
  * Adds a new comment for the given entity.
  *
- * @param \Cake\ORM\Entity $entity
+ * @param \Cake\ORM\Entity $entity The entity where to attach new comment
  * @return bool True on success, false otherwise
  */
 	public function post($entity) {
@@ -304,7 +304,7 @@ class CommentComponent extends Component {
  * Extract data from request and prepares for inserting a new comment for
  * the given entity.
  *
- * @param \Cake\ORM\Entity $entity
+ * @param \Cake\ORM\Entity $entity Entity used to guess table name
  * @return array
  */
 	protected function _getRequestData($entity) {

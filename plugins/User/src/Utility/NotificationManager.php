@@ -56,7 +56,7 @@ class NotificationManager {
 /**
  * Constructor.
  * 
- * @param \User\Model\Entity\User $user
+ * @param \User\Model\Entity\User $user The user being handled
  * @param array $config Overwrites User plugin's settings
  * @throws \Cake\ORM\Error\RecordNotFound When an invalid $user is given
  */
@@ -153,8 +153,8 @@ class NotificationManager {
 /**
  * Sends email message to user.
  *
- * @param string $subject
- * @param string $body
+ * @param string $subject Message's subject
+ * @param string $body Message's body
  * @return bool True on success, false otherwise
  */
 	protected function _send($subject, $body) {

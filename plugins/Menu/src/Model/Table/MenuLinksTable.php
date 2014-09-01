@@ -35,7 +35,7 @@ class MenuLinksTable extends Table {
 /**
  * Default validation rules set.
  *
- * @param \Cake\Validation\Validator $validator
+ * @param \Cake\Validation\Validator $validator The validator object
  * @return \Cake\Validation\Validator
  */
 	public function validationDefault(Validator $validator) {
@@ -87,9 +87,7 @@ class MenuLinksTable extends Table {
 			->add('active', 'validPHP', [
 				'rule' => function ($value, $context) {
 					if (!empty($context['data']['activation']) && $context['data']['activation'] === 'php') {
-						return 
-							strpos($value, '<?php') !== false &&
-							strpos($value, '?>') !== false;
+						return strpos($value, '<?php') !== false && strpos($value, '?>') !== false;
 					}
 					return true;
 				},

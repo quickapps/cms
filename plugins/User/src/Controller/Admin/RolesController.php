@@ -51,6 +51,7 @@ class RolesController extends AppController {
 /**
  * Edits the given role.
  *
+ * @param integer $id User's ID
  * @return void
  */
 	public function edit($id) {
@@ -63,6 +64,7 @@ class RolesController extends AppController {
 /**
  * Removes the given role.
  *
+ * @param integer $id User's ID
  * @return void Redirects to previous page
  */
 	public function delete($id) {

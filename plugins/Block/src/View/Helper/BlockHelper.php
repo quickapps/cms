@@ -61,7 +61,7 @@ class BlockHelper extends Helper {
 /**
  * Returns a list of block entities within the given region.
  *
- * @param string $region
+ * @param string $region Region's machine-name
  * @param boolean $all True will return the whole list, that is including blocks
  * that will never be rendered because of its visibility; language or role
  * restrictions, etc. Set to false (by default) will return only blocks

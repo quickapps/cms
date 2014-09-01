@@ -126,8 +126,10 @@ class BlockHook implements EventListener {
  *  
  * NOTE: Please note the difference between "_" and "-"
  *
- * @param \Cake\Event\Event $event
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Block\Model\Entity\Block $block Block entity to be rendered
+ * @param array $options Additional options, will be passed to the template
+ *  element being rendered
  * @return string The rendered block
  */
 	public function displayBlock(Event $event, $block, $options = []) {

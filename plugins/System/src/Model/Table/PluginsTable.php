@@ -55,7 +55,7 @@ class PluginsTable extends Table {
 /**
  * Settings validation rules.
  *
- * @param \Cake\Validation\Validator $validator
+ * @param \Cake\Validation\Validator $validator The validator object
  * @return \Cake\Validation\Validator
  */
 	public function validationSettings(Validator $validator) {
@@ -68,10 +68,10 @@ class PluginsTable extends Table {
  * Similar to Field Handlers, plugins may implement the
  * `Plugin.<PluginName>.settingsDefaults` event to provide default settings values.
  * 
- * @param \Cake\Event\Event $event
- * @param \Cake\ORM\Query $query
- * @param array $options
- * @param boolean $primary
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Cake\ORM\Query $query Query object
+ * @param array $options Additional options as an array
+ * @param boolean $primary Whether is find is a primary query or not
  * @return void
  */
 	public function beforeFind(Event $event, Query $query, array $options, $primary) {
@@ -93,10 +93,10 @@ class PluginsTable extends Table {
 /**
  * Triggers `Plugin.<PluginName>.settingsValidate` event.
  * 
- * @param \Cake\Event\Event $event
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $entity The Plugin entity that is going to be validated
- * @param array $options
- * @param \Cake\Validation\Validator $validator
+ * @param array $options Additional options as an array
+ * @param \Cake\Validation\Validator $validator The validator object
  * @return bool False if save operation should not continue, true otherwise
  */
 	public function beforeValidate(Event $event, Entity $entity, $options, Validator $validator) {
@@ -108,7 +108,7 @@ class PluginsTable extends Table {
 /**
  * Set plugin's load ordering to LAST if it's a new plugin being installed.
  * 
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $plugin The Plugin entity being saved
  * @param array $options The options passed to the save method
  * @return void
@@ -126,7 +126,7 @@ class PluginsTable extends Table {
 /**
  * This method automatically regenerates system's snapshot.
  * 
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $plugin The Plugin entity that was saved
  * @param array $options The options passed to the save method
  * @return void
@@ -138,7 +138,7 @@ class PluginsTable extends Table {
 /**
  * This method automatically regenerates system's snapshot.
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $plugin The Plugin entity that was deleted
  * @param array $options the options passed to the delete method
  * @return void

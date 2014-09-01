@@ -37,9 +37,8 @@ class OptionsTable extends Table {
 /**
  * Regenerates system's snapshot.
  * 
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Cake\ORM\Entity $plugin The Plugin entity that was saved
- * @param array $options The options passed to the save method
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Cake\ORM\Entity $option The option entity that was saved
  * @return void
  */
 	public function afterSave(Event $event, Entity $option, $options) {
@@ -49,9 +48,8 @@ class OptionsTable extends Table {
 /**
  * Regenerates system's snapshot.
  * 
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Cake\ORM\Entity $plugin The Plugin entity that was saved
- * @param array $options The options passed to the save method
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Cake\ORM\Entity $option The option entity that was saved
  * @return void
  */
 	public function afterDelete(Event $event, Entity $option) {

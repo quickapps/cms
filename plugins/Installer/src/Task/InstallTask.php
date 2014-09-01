@@ -190,7 +190,7 @@ class InstallTask extends BaseTask {
 				$this->error(__d('installer', 'Plugin was installed but some errors occur.'));
 			}
 		}
-		
+
 		$activate = (bool)$this->config('activate');
 		$pluginName = $this->plugin();
 		$this->_finish();
@@ -205,7 +205,7 @@ class InstallTask extends BaseTask {
 				$this->error($newTask->errors());
 			}
 		}
-	
+
 		return true;
 	}
 
@@ -384,7 +384,7 @@ class InstallTask extends BaseTask {
 /**
  * Validates ZIP before extracting it.
  *
- * @param string Full path to the ZIP file
+ * @param string $filePath Full path to the ZIP file
  * @return bool True on success, false otherwise
  */
 	protected function _validateZip($filePath) {

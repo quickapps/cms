@@ -102,8 +102,9 @@ class Node extends Entity {
  * is provided it automatically fetches the information from the corresponding
  * Content Type.
  * 
- * @param boolean|\Node\Model\Entity\NodeType $type False for auto fetch or a NodeType
- * entity to extract information from
+ * @param boolean|\Node\Model\Entity\NodeType $type False for auto fetch or a
+ *  NodeType entity to extract information from
+ * @return void
  */
 	public function setDefaults($type = false) {
 		if (!$type) {

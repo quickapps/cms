@@ -165,7 +165,7 @@ class AnonymousAuthenticate extends BaseAuthenticate {
 /**
  * Gets an ACO path for current request.
  * 
- * @param \Cake\Network\Request $request
+ * @param \Cake\Network\Request $request Request object
  * @param string $path Pattern
  * @return string
  */

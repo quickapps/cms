@@ -177,7 +177,7 @@ class LocaleToolbox {
 /**
  * Returns catalog's information for the given code.
  *
- * @param string $code
+ * @param string $code language code. e.g. `en`, `en-us`, etc
  * @return null|array Null if not found
  */
 	public static function info($code) {

@@ -43,7 +43,7 @@ class Block extends Entity {
 /**
  * Sanitizes block's description. No HTML allowed.
  * 
- * @param string $description
+ * @param string $description Block's description
  * @return string
  */
 	protected function _setDescription($description) {

@@ -84,10 +84,10 @@ class CommentableBehavior extends Behavior {
 /**
  * Attaches comments to each entity on find operation.
  *
- * @param \Cake\Event\Event $event
- * @param \Cake\ORM\Query $query
- * @param array $options
- * @param boolean $primary
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Cake\ORM\Query $query The query object
+ * @param array $options Additional options as an array
+ * @param boolean $primary Whether is find is a primary query or not
  * @return void
  */
 	public function beforeFind(Event $event, $query, $options, $primary) {
@@ -134,8 +134,8 @@ class CommentableBehavior extends Behavior {
  *     // in your controller, gets comments for post which id equals 2
  *     $postComments = $this->Posts->find('comments', ['for' => 2]);
  *
- * @param \Cake\ORM\Query $query
- * @param array $options
+ * @param \Cake\ORM\Query $query The query object
+ * @param array $options Additional options as an array
  * @return \Cake\Datasource\ResultSetDecorator Comments collection
  * @throws \InvalidArgumentException When the 'for' key is not passed in $options
  */

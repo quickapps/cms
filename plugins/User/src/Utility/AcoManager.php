@@ -178,7 +178,11 @@ class AcoManager {
  * User's permissions section in backend.
  *
  * @param string $for Optional, build ACOs for the given plugin, or
- * all plugins if not given
+ *  all plugins if not given
+ * @param bool $sync Whether to sync the tree or not. When syncing all invalid
+ *  ACO entries will be removed from the tree, also new ones will be added. When
+ *  syn is set to false only new ACO entries will be added, any invalid entry will
+ *  remain in the tree. Defaults to false
  * @return bool True on success, false otherwise
  */
 	public static function buildAcos($for = null, $sync = false) {

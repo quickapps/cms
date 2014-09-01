@@ -46,10 +46,10 @@ class NodeHook implements EventListener {
  * register this view modes at "bootstrap.php", but __d() would not work there
  * as no language has been set yet, so we do it here.
  * 
- * @param \Cake\Event\Event $event
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\Network\Request $request Request object to dispatch
  * @param \Cake\Network\Response $response Response object to put the results of
- * the dispatch into
+ *  the dispatch into
  * @return void
  */
 	public function dispatcherBeforeDispatch(Event $event, $request, $response) {
@@ -138,9 +138,9 @@ class NodeHook implements EventListener {
  *  
  * NOTE: Please note the difference between "_" and "-"
  *
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Node\Model\Entity\Node $node
- * @param array $options
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Node\Model\Entity\Node $node The node to render
+ * @param array $options Additional options as an array
  * @return string HTML
  */
 	public function renderNode(Event $event, $node, $options = []) {
@@ -171,9 +171,9 @@ class NodeHook implements EventListener {
  * installation: "Recent Content" and "Search", both aimed to be placed on
  * backend's dashboard regions.
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Block\Model\Entity\Block $block The block being rendered
- * @param array $options
+ * @param array $options Additional options as an array
  * @return string
  */
 	public function renderBlock(Event $event, $block, $options = []) {

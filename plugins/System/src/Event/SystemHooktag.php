@@ -46,13 +46,13 @@ class SystemHooktag implements EventListener {
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param array $atts An associative array of attributes, or an empty string if
- * no attributes are given
+ *  no attributes are given
  * @param string $content The enclosed content (if the hooktag is used in its
- * enclosing form)
+ *  enclosing form)
  * @param string $tag The hooktag tag
  * @return string
  */
-	public function hooktagRandom(Event $event, array $atts = [], $content, $tag) {
+	public function hooktagRandom(Event $event, array $atts, $content, $tag) {
 		$elements = explode(',', trim($content));
 
 		if (is_array($elements)) {
@@ -69,9 +69,9 @@ class SystemHooktag implements EventListener {
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param array $atts An associative array of attributes, or an empty string if
- * no attributes are given
+ *  no attributes are given
  * @param string $content The enclosed content (if the hooktag is used in its
- * enclosing form)
+ *  enclosing form)
  * @param string $tag The hooktag tag
  * @return string
  */
@@ -90,13 +90,13 @@ class SystemHooktag implements EventListener {
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param array $atts An associative array of attributes, or an empty string if
- * no attributes are given
+ *  no attributes are given
  * @param string $content The enclosed content (if the hooktag is used in its
- * enclosing form)
+ *  enclosing form)
  * @param string $tag The hooktag tag
  * @return string
  */
-	public function hooktagURL(Event $event, array $atts = [], $content, $tag) {
+	public function hooktagURL(Event $event, array $atts, $content, $tag) {
 		try {
 			$url = Router::url($content, true);
 		} catch(\Exception $e) {
@@ -112,13 +112,13 @@ class SystemHooktag implements EventListener {
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param array $atts An associative array of attributes, or an empty string if
- * no attributes are given
+ *  no attributes are given
  * @param string $content The enclosed content (if the hooktag is used in its
- * enclosing form)
+ *  enclosing form)
  * @param string $tag The hooktag tag
  * @return string
  */
-	public function hooktagDate(Event $event, array $atts = [], $content, $tag) {
+	public function hooktagDate(Event $event, array $atts, $content, $tag) {
 		if (!empty($atts['format']) && !empty($content)) {
 			if (is_numeric($content)) {
 				return date($atts['format'], $content);
@@ -139,19 +139,20 @@ class SystemHooktag implements EventListener {
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param array $atts An associative array of attributes, or an empty string if
- * no attributes are given
+ *  no attributes are given
  * @param string $content The enclosed content (if the hooktag is used in its
- * enclosing form)
+ *  enclosing form)
  * @param string $tag The hooktag tag
  * @return string
  */
-	public function hooktagLocale(Event $event, array $atts = [], $content, $tag) {
+	public function hooktagLocale(Event $event, array $atts, $content, $tag) {
 		$option = array_keys((array)$atts);
 		$locale = I18n::defaultLocale();
 		$languages = quickapps('languages');
+		$out = '';
 
 		if (!isset($languages[$locale])) {
-			return '';
+			return $out;
 		}
 
 		if (empty($option)) {
@@ -163,20 +164,20 @@ class SystemHooktag implements EventListener {
 		if ($info = $languages[$locale]) {
 			switch ($option) {
 				case 'code':
-					return $info['code'];
+					$out = $info['code'];
 				break;
 
 				case 'name':
-					return $info['name'];
+					$out = $info['name'];
 				break;
 
 				case 'direction':
-					return $info['direction'];
+					$out = $info['direction'];
 				break;
 			}
 		}
 
-		return '';
+		return $out;
 	}
 
 }

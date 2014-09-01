@@ -93,12 +93,7 @@ class HtmlHelper extends CakeHtmlHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $name Text for link
- * @param string $link URL for link (if empty it won't be a link)
- * @param string|array $options Link attributes e.g. array('id' => 'selected')
- * @return void
+ * {@inheritDoc}
  */
 	public function addCrumb($name, $link = null, array $options = []) {
 		$event = $this->alter('HtmlHelper.addCrumb', $name, $link, $options);
@@ -106,10 +101,7 @@ class HtmlHelper extends CakeHtmlHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $type Doctype to use.
- * @return string Doctype string
+ * {@inheritDoc}
  */
 	public function docType($type = 'html5') {
 		$event = $this->alter('HtmlHelper.docType', $type);
@@ -117,13 +109,7 @@ class HtmlHelper extends CakeHtmlHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $type The title of the external resource
- * @param string|array $content The address of the external resource or string for content attribute
- * @param array $options Other attributes for the generated tag. If the type attribute is html,
- *    rss, atom, or icon, the mime-type is returned.
- * @return string A completed `<link />` element.
+ * {@inheritDoc}
  */
 	public function meta($type, $content = null, array $options = []) {
 		$event = $this->alter('HtmlHelper.meta', $type, $url, $options);
@@ -131,11 +117,7 @@ class HtmlHelper extends CakeHtmlHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $charset The character set to be used in the meta tag. If empty,
- *  The App.encoding value will be used. Example: "utf-8".
- * @return string A meta tag containing the specified character set.
+ * {@inheritDoc}
  */
 	public function charset($charset = null) {
 		$event = $this->alter('HtmlHelper.charset', $charset);
@@ -143,13 +125,7 @@ class HtmlHelper extends CakeHtmlHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $title The content to be wrapped by <a> tags.
- * @param string|array $url Cake-relative URL or array of URL parameters, or external URL (starts with http://)
- * @param array $options Array of options and HTML attributes.
- * @param string $confirmMessage JavaScript confirmation message.
- * @return string An `<a />` element.
+ * {@inheritDoc}
  */
 	public function link($title, $url = null, array $options = [], $confirmMessage = false) {
 		//$event = $this->alter('HtmlHelper.link', $title, $url, $options, $confirmMessage);
@@ -157,13 +133,7 @@ class HtmlHelper extends CakeHtmlHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string|array $path The name of a CSS style sheet or an array containing names of
- *   CSS stylesheets. If `$path` is prefixed with '/', the path will be relative to the webroot
- *   of your application. Otherwise, the path will be relative to your CSS path, usually webroot/css.
- * @param array $options Array of options and HTML arguments.
- * @return string CSS <link /> or <style /> tag, depending on the type of link.
+ * {@inheritDoc}
  */
 	public function css($path, array $options = array()) {
 		$event = $this->alter('HtmlHelper.css', $path, $options);
@@ -171,12 +141,7 @@ class HtmlHelper extends CakeHtmlHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string|array $url String or array of javascript files to include
- * @param array $options Array of options, and html attributes see above.
- * @return mixed String of `<script />` tags or null if block is specified in options
- *   or if $once is true and the file has been included before.
+ * {@inheritDoc}
  */
 	public function script($url, array $options = array()) {
 		$event = $this->alter('HtmlHelper.script', $url, $options);
@@ -184,12 +149,7 @@ class HtmlHelper extends CakeHtmlHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $script The script to wrap
- * @param array $options The options to use. Options not listed above will be
- *    treated as HTML attributes.
- * @return mixed string or null depending on the value of `$options['block']`
+ * {@inheritDoc}
  */
 	public function scriptBlock($script, array $options = array()) {
 		$event = $this->alter('HtmlHelper.scriptBlock', $script, $options);
@@ -197,10 +157,7 @@ class HtmlHelper extends CakeHtmlHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param array $options Options for the code block.
- * @return void
+ * {@inheritDoc}
  */
 	public function scriptStart(array $options = array()) {
 		$event = $this->alter('HtmlHelper.scriptStart', $options);
@@ -208,9 +165,7 @@ class HtmlHelper extends CakeHtmlHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @return mixed depending on the settings of scriptStart() either a script tag or null
+ * {@inheritDoc}
  */
 	public function scriptEnd() {
 		$event = $this->alter('HtmlHelper.scriptEnd');
@@ -218,11 +173,7 @@ class HtmlHelper extends CakeHtmlHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param array $data Style data array, keys will be used as property names, values as property values.
- * @param boolean $oneline Whether or not the style block should be displayed on one line.
- * @return string CSS styling data
+ * {@inheritDoc}
  */
 	public function style(array $data, $oneline = true) {
 		$event = $this->alter('HtmlHelper.style', $data, $oneline);
@@ -230,12 +181,7 @@ class HtmlHelper extends CakeHtmlHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $separator Text to separate crumbs.
- * @param string|array|boolean $startText This will be the first crumb, if false it defaults to first crumb in array. Can
- *   also be an array, see above for details.
- * @return string Composed bread crumbs
+ * {@inheritDoc}
  */
 	public function getCrumbs($separator = '&raquo;', $startText = false) {
 		$event = $this->alter('HtmlHelper.getCrumbs', $separator, $startText);
@@ -243,12 +189,7 @@ class HtmlHelper extends CakeHtmlHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param array $options Array of html attributes to apply to the generated list elements.
- * @param string|array|boolean $startText This will be the first crumb, if false it defaults to first crumb in array. Can
- *   also be an array, see `HtmlHelper::getCrumbs` for details.
- * @return string breadcrumbs html list
+ * {@inheritDoc}
  */
 	public function getCrumbList(array $options = [], $startText = false) {
 		$event = $this->alter('HtmlHelper.getCrumbList', $options, $startText);
@@ -256,11 +197,7 @@ class HtmlHelper extends CakeHtmlHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $path Path to the image file, relative to the app/webroot/img/ directory.
- * @param array $options Array of HTML attributes. See above for special options.
- * @return string completed img tag
+ * {@inheritDoc}
  */
 	public function image($path, array $options = array()) {
 		$event = $this->alter('HtmlHelper.image', $path, $options);
@@ -268,13 +205,7 @@ class HtmlHelper extends CakeHtmlHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param array $names Array of tablenames. Each tablename also can be a key that points to an array with a set
- *     of attributes to its specific tag
- * @param array $trOptions HTML options for TR elements.
- * @param array $thOptions HTML options for TH elements.
- * @return string Completed table headers
+ * {@inheritDoc}
  */
 	public function tableHeaders(array $names, array $trOptions = null, array $thOptions = null) {
 		$event = $this->alter('HtmlHelper.tableHeaders', $names, $trOptions, $thOptions);
@@ -282,15 +213,7 @@ class HtmlHelper extends CakeHtmlHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param array $data Array of table data
- * @param array $oddTrOptions HTML options for odd TR elements if true useCount is used
- * @param array $evenTrOptions HTML options for even TR elements
- * @param boolean $useCount adds class "column-$i"
- * @param boolean $continueOddEven If false, will use a non-static $count variable,
- *    so that the odd/even count is reset to zero just for that call.
- * @return string Formatted HTML
+ * {@inheritDoc}
  */
 	public function tableCells($data, $oddTrOptions = null, $evenTrOptions = null, $useCount = false, $continueOddEven = true) {
 		$event = $this->alter('HtmlHelper.tableCells', $data, $oddTrOptions, $evenTrOptions, $useCount, $continueOddEven);
@@ -298,13 +221,7 @@ class HtmlHelper extends CakeHtmlHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $name Tag name.
- * @param string $text String content that will appear inside the div element.
- *   If null, only a start tag will be printed
- * @param array $options Additional HTML attributes of the DIV tag, see above.
- * @return string The formatted tag element
+ * {@inheritDoc}
  */
 	public function tag($name, $text = null, array $options = []) {
 		$event = $this->alter('HtmlHelper.tableHeaders', $name, $text, $options);
@@ -312,13 +229,7 @@ class HtmlHelper extends CakeHtmlHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $class CSS class name of the div element.
- * @param string $text String content that will appear inside the div element.
- *   If null, only a start tag will be printed
- * @param array $options Additional HTML attributes of the DIV tag
- * @return string The formatted DIV element
+ * {@inheritDoc}
  */
 	public function div($class = null, $text = null, array $options = []) {
 		$event = $this->alter('HtmlHelper.div', $class, $text, $options);
@@ -326,12 +237,7 @@ class HtmlHelper extends CakeHtmlHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $class CSS class name of the p element.
- * @param string $text String content that will appear inside the p element.
- * @param array $options Additional HTML attributes of the P tag
- * @return string The formatted P element
+ * {@inheritDoc}
  */
 	public function para($class, $text, array $options = []) {
 		$event = $this->alter('HtmlHelper.para', $class, $text, $option);
@@ -339,12 +245,7 @@ class HtmlHelper extends CakeHtmlHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string|array $path Path to the video file, relative to the webroot/{$options['pathPrefix']} directory.
- *  Or an array where each item itself can be a path string or an associate array containing keys `src` and `type`
- * @param array $options Array of HTML attributes, and special options above.
- * @return string Generated media element
+ * {@inheritDoc}
  */
 	public function media($path, array $options = []) {
 		$event = $this->alter('HtmlHelper.meta', $path, $options);
@@ -352,12 +253,7 @@ class HtmlHelper extends CakeHtmlHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param array $list Set of elements to list
- * @param array $options Additional HTML attributes of the list (ol/ul) tag or if ul/ol use that as tag
- * @param array $itemOptions Additional HTML attributes of the list item (LI) tag
- * @return string The nested list
+ * {@inheritDoc}
  */
 	public function nestedList(array $list, array $options = [], array $itemOptions = []) {
 		$event = $this->alter('HtmlHelper.nestedList', $list, $options, $itemOptions);

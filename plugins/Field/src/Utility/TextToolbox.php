@@ -29,7 +29,7 @@ class TextToolbox {
  *
  * @var \Field\Utility\TextToolbox
  */
-	protected static $_instance = null;	
+	protected static $_instance = null;
 
 /**
  * Instance of markdown parser class.
@@ -56,7 +56,7 @@ class TextToolbox {
 /**
  * Formats the given field.
  *
- * @param \Field\Model\Entity\Field The field being rendered
+ * @param \Field\Model\Entity\Field $field The field being rendered
  * @return string
  */
 	public static function formatter(Field $field) {
@@ -67,17 +67,13 @@ class TextToolbox {
 		$content = static::process($content, $processing);
 
 		switch ($formatter) {
-			case 'full':
-				return $content;
-			break;
-
 			case 'plain':
-				return static::filterText($content);
+				$content = static::filterText($content);
 			break;
 
 			case 'trimmed':
 				$len = $viewModeSettings['trim_length'];
-				return static::trimmer($content, $len);
+				$content = static::trimmer($content, $len);
 			break;
 		}
 
@@ -87,26 +83,22 @@ class TextToolbox {
 /**
  * Process the given text to its corresponding format.
  *
- * @param string $content
+ * @param string $content Content to process
  * @param string $processor "plain", "filtered", "markdown" or "full"
  * @return string
  */
 	public static function process($content, $processor) {
 		switch ($processor) {
 			case 'plain':
-				return static::plainProcessor($content);
+				$content = static::plainProcessor($content);
 			break;
 
 			case 'filtered':
-				return static::filteredProcessor($content);
+				$content = static::filteredProcessor($content);
 			break;
 
 			case 'markdown':
-				return static::markdownProcessor($content);
-			break;
-
-			case 'full':
-				return static::fullProcessor($content);
+				$content = static::markdownProcessor($content);
 			break;
 		}
 
@@ -120,7 +112,7 @@ class TextToolbox {
  * - Web page addresses and e-mail addresses turn into links automatically.
  * - Lines and paragraphs break automatically.
  *
- * @param string $text
+ * @param string $text The text to process
  * @return string
  */
 	public static function plainProcessor($text) {
@@ -136,7 +128,7 @@ class TextToolbox {
  * - Web page addresses turn into links automatically.
  * - E-mail addresses turn into links automatically.
  *
- * @param string $text
+ * @param string $text The text to process
  * @return string
  */
 	public static function fullProcessor($text) {
@@ -153,7 +145,7 @@ class TextToolbox {
  * - Allowed HTML tags: `<a> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd>`
  * - Lines and paragraphs break automatically.
  *
- * @param string $text
+ * @param string $text The text to process
  * @return string
  */
 	public static function filteredProcessor($text) {
@@ -168,7 +160,7 @@ class TextToolbox {
  *
  * - [Markdown](http://en.wikipedia.org/wiki/Markdown) text format allowed only.
  *
- * @param string $text
+ * @param string $text The text to process
  * @return string
  */
 	public static function markdownProcessor($text) {
@@ -183,7 +175,7 @@ class TextToolbox {
 /**
  * Attempts to close any unclosed HTML tag.
  *
- * @param string $html
+ * @param string $html HTML content to fix
  * @return string
  */
 	public static function closeOpenTags($html) {
@@ -235,7 +227,7 @@ class TextToolbox {
 /**
  * Safely strip HTML tags.
  *
- * @param string $html
+ * @param string $html HTML content
  * @return string
  */
 	public static function stripHtmlTags($html) {
@@ -269,7 +261,7 @@ class TextToolbox {
  *
  * It will ignores URLs in existing `<a>` tags.
  *
- * @param string $text
+ * @param string $text The text where to look for links
  * @return string
  */
 	public static function urlToLink($text) {
@@ -294,7 +286,7 @@ class TextToolbox {
  * Escape character is "\".
  * For example, "\demo@email.com" won't be converted to link.
  *
- * @param string $text
+ * @param string $text The text where to look for emails addresses
  * @return string
  */
 	public static function emailToLink($text) {
@@ -316,7 +308,7 @@ class TextToolbox {
 /**
  * Strips HTML tags and any hooktag.
  *
- * @param string $text
+ * @param string $text The text to process
  * @return string
  */
 	public static function filterText($text) {
@@ -358,7 +350,7 @@ class TextToolbox {
 	public static function trimmer($text, $len = false, $ellipsis = ' ...') {
 		if (!preg_match('/[0-9]+/i', $len)) {
 			$parts = explode($len, $text);
-			return static::closeOpenTags($parts[0]);			
+			return static::closeOpenTags($parts[0]);
 		}
 
 		$len = $len === false || !is_numeric($len) || $len <= 0 ? 600 : $len;

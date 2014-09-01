@@ -28,7 +28,7 @@ class ListToolbox {
  *
  * @var \Field\Utility\ListToolbox
  */
-	protected static $_instance = null;	
+	protected static $_instance = null;
 
 /**
  * Returns an instance of this class.
@@ -48,7 +48,7 @@ class ListToolbox {
 /**
  * Formats the given field.
  *
- * @param \Field\Model\Entity\Field The field being rendered
+ * @param \Field\Model\Entity\Field $field The field being rendered
  * @return string
  */
 	public static function formatter(Field $field) {

@@ -74,7 +74,7 @@ class Region {
  *
  * @param \Cake\View\View $view Instance of View class to use
  * @param string $name Machine name of the region. e.g.: `left-sidebar`
- * @param array $options
+ * @param array $options Options given as an array
  * @return void
  */
 	public function __construct(View $view, $name, array $options = []) {
@@ -106,7 +106,6 @@ class Region {
 						file_put_contents($jsonPath, $encode);
 					}
 				}
-				
 			}
 		}
 	}
@@ -184,7 +183,8 @@ class Region {
  * You can not merge regions with the same machine-name, new blocks are appended
  * to this region.
  *
- * @param boolean $homogenize Set to true to make sure all blocks in the
+ * @param \Block\View\Region $region Region to merge with
+ * @param bool $homogenize Set to true to make sure all blocks in the
  *  collection are marked as they belongs to this region
  * @return \Block\View\Region This region with $region's blocks appended
  */

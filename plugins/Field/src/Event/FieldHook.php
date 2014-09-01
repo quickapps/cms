@@ -81,7 +81,7 @@ class FieldHook implements EventListener {
  * If the field object being rendered has been set to "hidden" for the current
  * view mode it will not be rendered.
  *
- * @param \Cake\Event\Event $event
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Field\Model\Entity\Field $field Mock entity
  * @param array $options Additional array of options
  * @return string The rendered field
@@ -90,7 +90,7 @@ class FieldHook implements EventListener {
 		$viewMode = $this->inUseViewMode();
 
 		if (
-			isset($field->metadata->view_modes[$viewMode]) && 
+			isset($field->metadata->view_modes[$viewMode]) &&
 			!$field->metadata->view_modes[$viewMode]['hidden']
 		) {
 			$options = array_merge(['edit' => false], $options);

@@ -27,7 +27,7 @@ class LanguagesTable extends Table {
 /**
  * Default validation rules set.
  *
- * @param \Cake\Validation\Validator $validator
+ * @param \Cake\Validation\Validator $validator The validator object
  * @return \Cake\Validation\Validator
  */
 	public function validationDefault(Validator $validator) {
@@ -55,8 +55,8 @@ class LanguagesTable extends Table {
 /**
  * Regenerates system's snapshot.
  * 
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Cake\ORM\Entity $plugin The Plugin entity that was saved
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Cake\ORM\Entity $language The language entity that was saved
  * @param array $options The options passed to the save method
  * @return void
  */
@@ -67,8 +67,8 @@ class LanguagesTable extends Table {
 /**
  * Regenerates system's snapshot.
  * 
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Cake\ORM\Entity $plugin The Plugin entity that was saved
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Cake\ORM\Entity $language The language entity that was saved
  * @param array $options The options passed to the save method
  * @return void
  */

@@ -30,10 +30,6 @@ class FormAuthenticate extends CakeFormAuthenticate {
 
 /**
  * {@inheritDoc}
- *
- * @param \Cake\Network\Request $request The request that contains login information.
- * @param \Cake\Network\Response $response Unused response object.
- * @return mixed False on login failure. An array of User data on success.
  */
 	public function authenticate(Request $request, Response $response) {
 		$result = parent::authenticate($request, $response);
@@ -53,7 +49,7 @@ class FormAuthenticate extends CakeFormAuthenticate {
 			}
 
 			// user information array
-			$user = json_encode($result); 
+			$user = json_encode($result);
 			// used to check that user's info array is authentic
 			$hash = Security::hash($user, 'sha1', true);
 			$controller->Cookie->write('User.Cookie', json_encode(compact('user', 'hash')));
@@ -65,7 +61,7 @@ class FormAuthenticate extends CakeFormAuthenticate {
 /**
  * Removes "remember me" cookie.
  * 
- * @param array $user
+ * @param array $user User information given as an array
  * @return void
  */
 	public function logout(array $user) {

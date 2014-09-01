@@ -176,7 +176,6 @@ class TextField extends FieldHandler {
  * @return void
  */
 	public function entityAfterDelete(Event $event, $entity, $field, $options) {
-		return;
 	}
 
 /**

@@ -75,6 +75,7 @@ class ManageController extends AppController {
 /**
  * Edits language.
  *
+ * @param integer $id Language's ID
  * @return void
  */
 	public function edit($id) {
@@ -109,6 +110,7 @@ class ManageController extends AppController {
 /**
  * Sets the given language as site's default language.
  *
+ * @param integer $id Language's ID
  * @return void Redirects to previous page
  */
 	public function set_default($id) {
@@ -133,7 +135,7 @@ class ManageController extends AppController {
 /**
  * Moves language up or down.
  *
- * @param integer $id Language ID
+ * @param integer $id Language's ID
  * @param string $direction Direction, 'up' or 'down'
  * @return void Redirects to previous page
  */
@@ -175,6 +177,7 @@ class ManageController extends AppController {
 /**
  * Enables the given language.
  *
+ * @param integer $id Language's ID
  * @return void Redirects to previous page
  */
 	public function enable($id) {
@@ -194,6 +197,7 @@ class ManageController extends AppController {
 /**
  * Disables the given language.
  *
+ * @param integer $id Language's ID
  * @return void Redirects to previous page
  */
 	public function disable($id) {
@@ -217,6 +221,7 @@ class ManageController extends AppController {
 /**
  * Unregisters the given language.
  *
+ * @param integer $id Language's ID
  * @return void Redirects to previous page
  */
 	public function delete($id) {

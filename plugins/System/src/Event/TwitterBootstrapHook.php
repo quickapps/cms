@@ -76,11 +76,11 @@ class TwitterBootstrapHook implements EventListener {
  * Adds custom templates on Form::create().
  *
  * @param \Cake\Event\Event $event The event that was fired
- * @param mixed $model
- * @param array $options
+ * @param mixed $model Model handled by this form
+ * @param array &$options Additional options as an array
  * @return array
  */
-	public function alterFormCreate(Event $event, &$model, &$options) {
+	public function alterFormCreate(Event $event, $model, &$options) {
 		$bootstrap = isset($options['bootstrap']) ? (bool)$options['bootstrap'] : true;
 
 		if ($bootstrap) {
@@ -96,11 +96,11 @@ class TwitterBootstrapHook implements EventListener {
  * Appends some CSS classes to generic input (text, textarea, select) elements.
  *
  * @param \Cake\Event\Event $event The event that was fired
- * @param string $fieldName
- * @param array $options
+ * @param string $fieldName Field's name
+ * @param array &$options Additional options as an array
  * @return void
  */
-	public function alterFormInput(Event $event, &$fieldName, &$options) {
+	public function alterFormInput(Event $event, $fieldName, &$options) {
 		$this->_addTemplates($event->subject);
 		if (
 			empty($options['type']) ||
@@ -114,11 +114,11 @@ class TwitterBootstrapHook implements EventListener {
  * Appends some CSS classes to textarea elements.
  *
  * @param \Cake\Event\Event $event The event that was fired
- * @param string $fieldName
- * @param array $options
+ * @param string $fieldName Field's name
+ * @param array &$options Additional options as an array
  * @return void
  */
-	public function alterFormTextarea(Event $event, &$fieldName, &$options) {
+	public function alterFormTextarea(Event $event, $fieldName, &$options) {
 		$this->_addTemplates($event->subject);
 		$options = $this->_addClass($event->subject, $options, 'form-control');
 	}
@@ -127,12 +127,12 @@ class TwitterBootstrapHook implements EventListener {
  * Appends some CSS classes to select elements.
  *
  * @param \Cake\Event\Event $event The event that was fired
- * @param string $fieldName
- * @param array $options
- * @param array $attributes
+ * @param string $fieldName Field's name
+ * @param array $options Options for filling the select element
+ * @param array &$attributes Options for the `<select>` tag
  * @return void
  */
-	public function alterFormSelect(Event $event, &$fieldName, &$options, &$attributes) {
+	public function alterFormSelect(Event $event, $fieldName, $options, &$attributes) {
 		$this->_addTemplates($event->subject);
 		$attributes = $this->_addClass($event->subject, $attributes, 'form-control');
 	}
@@ -141,11 +141,11 @@ class TwitterBootstrapHook implements EventListener {
  * Appends some CSS classes to generic buttons.
  *
  * @param \Cake\Event\Event $event The event that was fired
- * @param string $title
- * @param array $options
+ * @param string $title Button's caption
+ * @param array &$options Additional options as an array
  * @return void
  */
-	public function alterFormButton(Event $event, &$title, &$options) {
+	public function alterFormButton(Event $event, $title, &$options) {
 		$this->_addTemplates($event->subject);
 		$options = $this->_addClass($event->subject, $options, 'btn btn-default');
 	}
@@ -154,11 +154,11 @@ class TwitterBootstrapHook implements EventListener {
  * Appends some CSS classes to submit buttons.
  *
  * @param \Cake\Event\Event $event The event that was fired
- * @param string $caption
- * @param array $options
+ * @param string $caption Button's caption
+ * @param array &$options Additional options as an array
  * @return void
  */
-	public function alterFormSubmit(Event $event, &$caption, &$options) {
+	public function alterFormSubmit(Event $event, $caption, &$options) {
 		$this->_addTemplates($event->subject);
 		$options = $this->_addClass($event->subject, $options, 'btn btn-primary');
 	}
@@ -167,7 +167,7 @@ class TwitterBootstrapHook implements EventListener {
  * Add custom CSS classes to array of options.
  * 
  * @param \Cake\View\Helper\FormHelper $formHelper Instance of FormHelper
- * @param array $options
+ * @param array $options Input's  options
  * @return array
  */
 	protected function _addClass($formHelper, $options, $class) {

@@ -70,7 +70,7 @@ class BlocksTable extends Table {
 /**
  * Default validation rules.
  *
- * @param \Cake\Validation\Validator $validator
+ * @param \Cake\Validation\Validator $validator The validator object
  * @return \Cake\Validation\Validator
  */
 	public function validationDefault(Validator $validator) {
@@ -137,7 +137,7 @@ class BlocksTable extends Table {
  * optional. But blocks created by users (on the Blocks administration page)
  * are required to have a valid "body".
  *
- * @param \Cake\Validation\Validator $validator
+ * @param \Cake\Validation\Validator $validator The validator object
  * @return \Cake\Validation\Validator
  */
 	public function validationCustom(Validator $validator) {
@@ -159,9 +159,9 @@ class BlocksTable extends Table {
  * Triggers the "Block.<handler>.beforeValidate" hook, so plugins may do
  * any logic their require.
  *
- * @param \Cake\Event\Event $event
- * @param \Block\Model\Entity\Block $block
- * @param array $options
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Block\Model\Entity\Block $block The block entity being validated
+ * @param array $options Additional options given as an array
  * @return bool False if save operation should not continue, true otherwise
  */
 	public function beforeValidate(Event $event, Block $block, $options, Validator $validator) {
@@ -176,9 +176,9 @@ class BlocksTable extends Table {
  * Triggers the "Block.<handler>.afterValidate" hook, so plugins may do
  * any logic their require.
  *
- * @param \Cake\Event\Event $event
- * @param \Block\Model\Entity\Block $block
- * @param array $options
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Block\Model\Entity\Block $block The block entity that was validated
+ * @param array $options Additional options given as an array
  * @return void
  */
 	public function afterValidate(Event $event, Block $block, $options, Validator $validator) {
@@ -189,9 +189,9 @@ class BlocksTable extends Table {
  * Triggers the "Block.<handler>.beforeSave" hook, so plugins may do
  * any logic their require.
  *
- * @param \Cake\Event\Event $event
- * @param \Block\Model\Entity\Block $block
- * @param array $options
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Block\Model\Entity\Block $block The block entity being saved
+ * @param array $options Additional options given as an array
  * @return bool False if save operation should not continue, true otherwise
  */
 	public function beforeSave(Event $event, Block $block, $options = []) {
@@ -206,9 +206,9 @@ class BlocksTable extends Table {
  * Triggers the "Block.<handler>.afterSave" hook, so plugins may do
  * any logic their require.
  *
- * @param \Cake\Event\Event $event
- * @param \Block\Model\Entity\Block $block
- * @param array $options
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Block\Model\Entity\Block $block The block entity that was saved
+ * @param array $options Additional options given as an array
  * @return void
  */
 	public function afterSave(Event $event, Block $block, $options = []) {
@@ -219,9 +219,9 @@ class BlocksTable extends Table {
  * Triggers the "Block.<handler>.beforeDelete" hook, so plugins may do
  * any logic their require.
  *
- * @param \Cake\Event\Event $event
- * @param \Block\Model\Entity\Block $block
- * @param array $options
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Block\Model\Entity\Block $block The block entity being deleted
+ * @param array $options Additional options given as an array
  * @return bool False if delete operation should not continue, true otherwise
  */
 	public function beforeDelete(Event $event, Block $block, $options = []) {
@@ -236,9 +236,9 @@ class BlocksTable extends Table {
  * Triggers the "Block.<handler>.afterDelete" hook, so plugins may do
  * any logic their require.
  *
- * @param \Cake\Event\Event $event
- * @param \Block\Model\Entity\Block $block
- * @param array $options
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Block\Model\Entity\Block $block The block entity that was deleted
+ * @param array $options Additional options given as an array
  * @return void
  */
 	public function afterDelete(Event $event, Block $block, $options = []) {

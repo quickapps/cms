@@ -43,7 +43,7 @@ class PermissionsTable extends Table {
 /**
  * Checks if the given $user has access to the given $path
  *
- * @param \User\Model\Entity\User An user entity
+ * @param \User\Model\Entity\User $user An user entity
  * @param string $path An ACO path. e.g. `/Plugin/Controller/action`
  * @return bool true if user has access to action in ACO, false otherwise
  */
@@ -77,7 +77,7 @@ class PermissionsTable extends Table {
 /**
  * Clear permissions cache when permissions have changed.
  * 
- * @param \Cake\Event\Event $event
+ * @param \Cake\Event\Event $event The event that was triggered
  * @return void
  */
 	public function afterSave(Event $event) {
@@ -87,7 +87,7 @@ class PermissionsTable extends Table {
 /**
  * Clear permissions cache when permissions have changed.
  * 
- * @param \Cake\Event\Event $event
+ * @param \Cake\Event\Event $event The event that was triggered
  * @return void
  */
 	public function afterDelete(Event $event) {
@@ -96,8 +96,7 @@ class PermissionsTable extends Table {
 
 /**
  * Clear permissions cache for all users.
- * 
- * @param \Cake\Event\Event $event
+ *
  * @return void
  */
 	public function clearCache() {

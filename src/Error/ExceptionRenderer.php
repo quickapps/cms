@@ -22,9 +22,7 @@ use Cake\Error\ExceptionRenderer as CakeExceptionRenderer;
 class ExceptionRenderer extends CakeExceptionRenderer {
 
 /**
- * {@inheritdoc}
- *
- * @param \Exception $exception Exception
+ * {@inheritDoc}
  */
 	public function __construct(\Exception $exception) {
 		parent::__construct($exception);
@@ -32,11 +30,7 @@ class ExceptionRenderer extends CakeExceptionRenderer {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param \Exception $exception Exception
- * @param int $code Error code
- * @return string Error message
+ * {@inheritDoc}
  */
 	protected function _message(\Exception $exception, $code) {
 		if ($code === 503) {
@@ -46,12 +40,7 @@ class ExceptionRenderer extends CakeExceptionRenderer {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param \Exception $exception Exception instance.
- * @param string $method Method name
- * @param int $code Error code
- * @return string Template name
+ * {@inheritDoc}
  */
 	protected function _template(\Exception $exception, $method, $code) {
 		if ($code === 503) {

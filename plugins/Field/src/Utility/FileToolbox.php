@@ -24,8 +24,8 @@ class FileToolbox {
 /**
  * Gets a translated string representation of the size.
  *
- * @param integer $bytes
- * @param integer $precision
+ * @param integer $bytes Size to convert given in bytes units
+ * @param integer $precision Decimal precision
  * @return string
  */
 	public static function bytesToSize($bytes, $precision = 2) {
@@ -224,7 +224,7 @@ class FileToolbox {
 /**
  * Get file extension.
  *
- * @param string $filename Name of the file. e.g.: `my-file.docx`
+ * @param string $file Name of the file. e.g.: `my-file.docx`
  * @return string
  */
 	public static function ext($file) {

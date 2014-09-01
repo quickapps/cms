@@ -150,7 +150,7 @@ class ToggleTask extends BaseTask {
 /**
  * Indicates this task should enable the given plugin.
  * 
- * @param string|null $pluginName
+ * @param string|null $pluginName Plugin's name
  * @return $this
  */
 	public function enable($pluginName = null) {
@@ -165,7 +165,7 @@ class ToggleTask extends BaseTask {
 /**
  * Indicates this task should disable the given plugin.
  * 
- * @param string|null $pluginName
+ * @param string|null $pluginName Plugin's name
  * @return $this
  */
 	public function disable($pluginName = null) {

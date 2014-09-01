@@ -98,7 +98,7 @@ class ThemesController extends AppController {
 /**
  * Removes the given theme.
  *
- * @param string $themeName
+ * @param string $themeName Theme's name
  * @return void
  */
 	public function uninstall($themeName) {
@@ -129,7 +129,7 @@ class ThemesController extends AppController {
 /**
  * Detailed theme's information.
  *
- * @param string $themeName
+ * @param string $themeName Theme's name
  * @return void
  */
 	public function activate($themeName) {
@@ -155,10 +155,10 @@ class ThemesController extends AppController {
 		$this->redirect($this->referer());
 	}
 
-
 /**
  * Detailed theme's information.
  *
+ * @param string $theme Theme's name
  * @return void
  */
 	public function details($themeName) {
@@ -174,7 +174,7 @@ class ThemesController extends AppController {
 /**
  * Renders theme's "screenshot.png"
  *
- * @param string $themeName
+ * @param string $themeName Theme's name
  * @return Image
  */
 	public function screenshot($themeName) {
@@ -209,7 +209,7 @@ class ThemesController extends AppController {
  *
  * - `Plugin.<PluginName>.settingsValidate`
  *
- * @param string $pluginName
+ * @param string $themeName Theme's name
  * @return void
  * @throws \Cake\Network\Exception\NotFoundException When plugin do not exists
  */

@@ -69,6 +69,7 @@ class TypesController extends AppController {
 /**
  * Edit content type settings.
  *
+ * @param string $slug Node type's slug
  * @return void
  */
 	public function edit($slug) {
@@ -109,6 +110,7 @@ class TypesController extends AppController {
  *
  * All existing contents will not be removed.
  *
+ * @param string $slug Node type's slug
  * @return void
  */
 	public function delete($slug) {

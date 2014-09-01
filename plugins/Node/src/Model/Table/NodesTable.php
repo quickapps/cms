@@ -126,7 +126,7 @@ class NodesTable extends Table {
 /**
  * Default validation rules set.
  *
- * @param \Cake\Validation\Validator $validator
+ * @param \Cake\Validation\Validator $validator The validator object
  * @return \Cake\Validation\Validator
  */
 	public function validationDefault(Validator $validator) {
@@ -148,8 +148,8 @@ class NodesTable extends Table {
 /**
  * Saves a revision version of each node being saved if it has changed.
  *
- * @param \Cake\Event\Event $query
- * @param \Node\Model\Entity\Node $entity
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Node\Model\Entity\Node $entity The entity being saved
  * @return void
  */
 	public function beforeSave(Event $event, $entity) {
@@ -182,9 +182,9 @@ class NodesTable extends Table {
  *
  * Dates must be in day, month, and year format. e.g. `2014-12-30`
  *
- * @param \Cake\ORM\Query $query
- * @param string $value
- * @param boolean $negate
+ * @param \Cake\ORM\Query $query The query object
+ * @param string $value Operator's arguments
+ * @param boolean $negate Whether this operator was negated or not
  * @param string $orAnd and|or
  * @return void
  */
@@ -207,8 +207,8 @@ class NodesTable extends Table {
 		$not = $negate ? ' NOT' : '';
 		$conditions = [
 			"AND{$not}" => [
-				'Nodes.created >=' => $dateLeft, 
-				'Nodes.created <=' => $dateRight, 
+				'Nodes.created >=' => $dateLeft,
+				'Nodes.created <=' => $dateRight,
 			]
 		];
 
@@ -228,9 +228,9 @@ class NodesTable extends Table {
  *
  *     limit:<number>
  *
- * @param \Cake\ORM\Query $query
- * @param string $value
- * @param boolean $negate
+ * @param \Cake\ORM\Query $query The query object
+ * @param string $value Operator's arguments
+ * @param boolean $negate Whether this operator was negated or not
  * @param string $orAnd and|or
  * @return void
  */
@@ -253,9 +253,9 @@ class NodesTable extends Table {
  *
  *     order:<field1>,<asc|desc>;<field2>,<asc,desc>; ...
  *
- * @param \Cake\ORM\Query $query
- * @param string $value
- * @param boolean $negate
+ * @param \Cake\ORM\Query $query The query object
+ * @param string $value Operator's arguments
+ * @param boolean $negate Whether this operator was negated or not
  * @param string $orAnd and|or
  * @return void
  */
@@ -288,9 +288,9 @@ class NodesTable extends Table {
  *
  *     promote:<true|false>
  *
- * @param \Cake\ORM\Query $query
- * @param string $value
- * @param boolean $negate
+ * @param \Cake\ORM\Query $query The query object
+ * @param string $value Operator's arguments
+ * @param boolean $negate Whether this operator was negated or not
  * @param string $orAnd and|or
  * @return void
  */
@@ -323,9 +323,9 @@ class NodesTable extends Table {
  *
  *     type:<slug1>,<slug2>, ...
  *
- * @param \Cake\ORM\Query $query
- * @param string $value
- * @param boolean $negate
+ * @param \Cake\ORM\Query $query The query object
+ * @param string $value Operator's arguments
+ * @param boolean $negate Whether this operator was negated or not
  * @param string $orAnd and|or
  * @return void
  */
@@ -350,9 +350,9 @@ class NodesTable extends Table {
  *
  *     author:<username1>,<username2>, ...
  *
- * @param \Cake\ORM\Query $query
- * @param string $value
- * @param boolean $negate
+ * @param \Cake\ORM\Query $query The query object
+ * @param string $value Operator's arguments
+ * @param boolean $negate Whether this operator was negated or not
  * @param string $orAnd and|or
  * @return void
  */
@@ -380,9 +380,9 @@ class NodesTable extends Table {
  *
  *     language:<lang1>,<lang2>, ...
  *
- * @param \Cake\ORM\Query $query
- * @param string $value
- * @param boolean $negate
+ * @param \Cake\ORM\Query $query The query object
+ * @param string $value Operator's arguments
+ * @param boolean $negate Whether this operator was negated or not
  * @param string $orAnd and|or
  * @return void
  */
@@ -412,7 +412,7 @@ class NodesTable extends Table {
  *
  * Used by revision system to detect if an entity has changed or not.
  * 
- * @param \Cake\ORM\Entity $entity
+ * @param \Cake\ORM\Entity $entity The entity for which calculate its hash
  * @return string MD5 hash
  */
 	protected function _calculateHash($entity) {

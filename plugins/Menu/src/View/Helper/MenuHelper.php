@@ -387,7 +387,7 @@ class MenuHelper extends Helper {
 		if (!empty($options['linkAttrs'])) {
 			$linkAttrs = Hash::merge($linkAttrs, $options['linkAttrs']);
 		}
-	
+
 		$childAttrs['class'] = array_unique($childAttrs['class']);
 		$linkAttrs['class'] = array_unique($linkAttrs['class']);
 		$childAttrs = $this->templater()->formatAttributes($childAttrs);
@@ -412,7 +412,7 @@ class MenuHelper extends Helper {
 /**
  * Counts items in menu.
  *
- * @param \Cake\ORM\Query $items
+ * @param \Cake\ORM\Query $items Items to count
  * @return integer
  */
 	public function countItems($items) {
@@ -436,8 +436,8 @@ class MenuHelper extends Helper {
 /**
  * Internal method to recursively generate the menu.
  *
- * @param \Cake\ORM\Query $items
- * @param integer $depth
+ * @param \Cake\ORM\Query $items Items to render
+ * @param integer $depth Current iteration depth
  * @return string HTML
  */
 	protected function _render($items, $depth = 0) {
@@ -486,8 +486,8 @@ class MenuHelper extends Helper {
 		static $locales = null;
 
 		if (empty($locales)) {
-			$locales = implode('|', 
-				array_map('preg_quote', 
+			$locales = implode('|',
+				array_map('preg_quote',
 					array_keys(
 						quickapps('languages')
 					)
@@ -535,7 +535,7 @@ class MenuHelper extends Helper {
  *
  * Both examples are equivalent.
  *
- * @param \Cake\ORM\Entity $item
+ * @param \Cake\ORM\Entity $item A menu's item
  * @return bool
  */
 	protected function _isActive($item) {
@@ -610,7 +610,7 @@ class MenuHelper extends Helper {
 						return ($isInternal || $isIndex || $isExact || $isInBreadcrumb);
 					}
 
-					return ($isInternal || $isIndex || $isExact); 
+					return ($isInternal || $isIndex || $isExact);
 		}
 	}
 
@@ -671,7 +671,7 @@ class MenuHelper extends Helper {
  *
  * This method will ignore children if parent has been marked as `do no expand`.
  *
- * @param \Cake\ORM\Query $items
+ * @param \Cake\ORM\Query $items Items to count
  * @return integer
  */
 	protected function _count($items) {
@@ -702,8 +702,8 @@ class MenuHelper extends Helper {
 			return $cache;
 		}
 
-		$pattern = '(' . implode('|', 
-			array_map('preg_quote', 
+		$pattern = '(' . implode('|',
+			array_map('preg_quote',
 				array_keys(
 					quickapps('languages')
 				)

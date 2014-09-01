@@ -124,7 +124,7 @@ class ManageController extends AppController {
 /**
  * Edit form for the given node.
  *
- * @param integer $id Node ID
+ * @param integer $id Node's ID
  * @param false|integer $revision_id Fill form with node's revision information
  * @return void
  */
@@ -203,7 +203,7 @@ class ManageController extends AppController {
 /**
  * Translate the given node to a different language.
  *
- * @param integer $node_id
+ * @param integer $node_id Node's ID
  * @return void
  */
 	public function translate($node_id) {
@@ -265,7 +265,7 @@ class ManageController extends AppController {
 /**
  * Deletes the given node by ID.
  *
- * @param integer $node_id
+ * @param integer $node_id Node's ID
  * @return void
  */
 	public function delete($node_id) {
@@ -284,8 +284,8 @@ class ManageController extends AppController {
 /**
  * Removes the given revision of the given node.
  *
- * @param integer $node_id
- * @param integer $revision_id
+ * @param integer $node_id Node's ID
+ * @param integer $revision_id Revision's ID
  * @return void Redirects to previous page
  */
 	public function delete_revision($node_id, $revision_id) {

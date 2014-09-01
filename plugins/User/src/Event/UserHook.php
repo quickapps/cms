@@ -66,7 +66,7 @@ class UserHook implements EventListener {
  * This event is triggered even on identification failure, you must distinguish
  * between success or failure using the given argument.
  *
- * @param \Cake\Event\Event $event
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param mixed $result Result of AuthComponent::identify(), false if user could
  *  not be identified, or an array of user's info if was successfully identified
  * @return bool
@@ -79,8 +79,7 @@ class UserHook implements EventListener {
  *
  * Returning false or stopping the event will halt the logout process.
  *
- * @param \Cake\Event\Event $event
- * @param \User\Model\Table\User $user
+ * @param \Cake\Event\Event $event The event that was triggered
  * @return bool
  */
 	public function beforeLogout(Event $event) {
@@ -93,7 +92,7 @@ class UserHook implements EventListener {
  * Event listeners can return an alternative redirection URL, if not given
  * default URL will be used.
  *
- * @param \Cake\Event\Event $event
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param string|array $redirect Default redirection URL that will be used
  * @return bool
  */
@@ -114,8 +113,8 @@ class UserHook implements EventListener {
 /**
  * Event triggered when an user is activated (status = 1).
  *
- * @param \Cake\Event\Event $event
- * @param \User\Model\Entity\User $user
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \User\Model\Entity\User $user The user entity that was activated
  * @return bool
  */
 	public function activated(Event $event, User $user) {
@@ -125,8 +124,8 @@ class UserHook implements EventListener {
 /**
  * Event triggered when user has been blocked (status = 0).
  *
- * @param \Cake\Event\Event $event
- * @param \User\Model\Entity\User $user
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \User\Model\Entity\User $user The user entity that was blocked
  * @return bool
  */
 	public function blocked(Event $event, User $user) {
@@ -136,8 +135,9 @@ class UserHook implements EventListener {
 /**
  * Event triggered when user requests to cancel his/her account.
  *
- * @param \Cake\Event\Event $event
- * @param \User\Model\Entity\User $user
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \User\Model\Entity\User $user The user entity which requested account
+ *  cancellation
  * @return bool
  */
 	public function cancelRequest(Event $event, User $user) {
@@ -147,8 +147,8 @@ class UserHook implements EventListener {
 /**
  * Event triggered after user account was removed.
  *
- * @param \Cake\Event\Event $event
- * @param \User\Model\Entity\User $user
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \User\Model\Entity\User $user The user entity that was canceled
  * @return bool
  */
 	public function canceled(Event $event, User $user) {
@@ -158,8 +158,8 @@ class UserHook implements EventListener {
 /**
  * Event triggered when user request for a new password.
  *
- * @param \Cake\Event\Event $event
- * @param \User\Model\Entity\User $user
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \User\Model\Entity\User $user The user entity requesting a new password
  * @return bool
  */
 	public function passwordRequest(Event $event, User $user) {
@@ -169,10 +169,9 @@ class UserHook implements EventListener {
 /**
  * Provides defaults values for settings keys.
  *
- * @param \Cake\Event\Event $event
- * @param \Cake\ORM\Entity $plugin
- * @param \ArrayObject $options
- * @param \Cake\Validation\Validator $validator
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Cake\ORM\Entity $settings Settings given as an entity object
+ * @param \Cake\Validation\Validator $validator The validator object
  * @return void
  */
 	public function settingsBeforeValidate(Event $event, $settings, $validator) {

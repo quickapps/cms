@@ -279,8 +279,8 @@ class SearchableBehavior extends Behavior {
 /**
  * Generates a list of words after each entity is saved.
  *
- * @param \Cake\Event\Event $event
- * @param \Cake\ORM\Entity $entity
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Cake\ORM\Entity $entity The entity that was saved
  * @return void
  */
 	public function afterSave(Event $event, Entity $entity) {
@@ -350,8 +350,8 @@ class SearchableBehavior extends Behavior {
 /**
  * Prepares entity to delete its words-index.
  * 
- * @param \Cake\Event\Event $event
- * @param \Cake\ORM\Entity $entity
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Cake\ORM\Entity $entity The entity that was removed
  * @return void
  */
 	public function beforeDelete(Event $event, Entity $entity) {
@@ -390,7 +390,6 @@ class SearchableBehavior extends Behavior {
  *         ->orWhere(['indexed_words NOT LIKE' => '%and not this one%']);
  *         ->andWhere(['indexed_words LIKE' => '%this%']);
  *
- *
  * @param string $criteria A search-criteria. e.g. `"this phrase" author:username`
  * @param null|\Cake\ORM\Query $query The query to scope, or null to create one
  * @return \Cake\ORM\Query Scoped query
@@ -428,7 +427,7 @@ class SearchableBehavior extends Behavior {
 
 					if ($result instanceof Query) {
 						$query = $result;
-					}					
+					}			
 				}
 			} else {
 				if (strpos($token, '-') === 0) {
@@ -459,8 +458,9 @@ class SearchableBehavior extends Behavior {
  *
  * @param string $name scope name. e.g. `author`
  * @param string|array $methodName A string indicating the Table's method name
- * which will take
- * care of this scope method. Or an array compatible with call_user_func_array
+ *  which will take care of this scope method. Or an array compatible with
+ *  call_user_func_array
+ * @return void
  */
 	public function addSearchOperator($name, $methodName) {
 		$this->config("operators.{$name}", $methodName);
@@ -499,7 +499,7 @@ class SearchableBehavior extends Behavior {
  * @return array List of words
  */
 	protected function _extractWords($text) {
-		$text = str_replace(["\n", "\r"], '', $text); // 
+		$text = str_replace(["\n", "\r"], '', $text);
 		$text = preg_replace('/[^a-z\s]/i', ' ', $text); // letters ands white spaces only
 		$text = trim(preg_replace('/\s{2,}/i', ' ', $text)); // remove double spaces
 		$text = strtolower($text); // all to lowercase

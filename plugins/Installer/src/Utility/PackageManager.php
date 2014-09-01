@@ -72,6 +72,8 @@ class PackageManager {
 /**
  * Constructor.
  *
+ * @param string $task The task to handle
+ * @param array $options Additional options for the task handler
  * @return \Installer\Utility\TaskBase
  * @throws \Cake\Error\FatalErrorException When invalid task is given, or when
  * the task class does not extends "BaseTask".

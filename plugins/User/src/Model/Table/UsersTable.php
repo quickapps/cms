@@ -52,7 +52,7 @@ class UsersTable extends Table {
 /**
  * Default validation rules.
  *
- * @param \Cake\Validation\Validator $validator
+ * @param \Cake\Validation\Validator $validator Validator object
  * @return \Cake\Validation\Validator
  */
 	public function validationDefault(Validator $validator) {
@@ -118,8 +118,8 @@ class UsersTable extends Table {
 /**
  * If not password is sent means user is not changing it.
  * 
- * @param \Cake\Event\Event $event
- * @param \User\Model\Entity\User $user
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \User\Model\Entity\User $user User entity being saved
  * @return void
  */
 	public function beforeSave(Event $event, User $user) {

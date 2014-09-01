@@ -51,9 +51,9 @@ class WysiwygHook implements EventListener {
 /**
  * Converts the given text area into a WYSIWYG editor.
  *
- * @param \Cake\Event\Event $event
- * @param string $fieldName
- * @param array $options
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param string $fieldName Field name
+ * @param array $options Array of options
  * @return void
  */
 	public function alterTextarea(Event $event, $fieldName, &$options) {
@@ -86,7 +86,7 @@ class WysiwygHook implements EventListener {
  * Allows to link to QuickAppsCMS's contents, adds to layout header some JS
  * code and files.
  * 
- * @param \Cake\View\View $View
+ * @param \Cake\View\View $View Instance of view class
  * @return void
  */
 	protected function _includeLinksToNodes($View) {

@@ -43,7 +43,7 @@ class CommentsTable extends Table {
 /**
  * Basic validation set of rules.
  *
- * @param \Cake\Validation\Validator $validator
+ * @param \Cake\Validation\Validator $validator The validator object
  * @return \Cake\Validation\Validator
  */
 	public function validationDefault(Validator $validator) {
@@ -98,7 +98,7 @@ class CommentsTable extends Table {
 /**
  * Validation rules when editing a comment in backend.
  * 
- * @param \Cake\Validation\Validator $validator
+ * @param \Cake\Validation\Validator $validator The validator object
  * @return \Cake\Validation\Validator
  */
 	public function validationUpdate(Validator $validator) {

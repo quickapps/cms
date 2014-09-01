@@ -159,7 +159,7 @@ class ManageController extends AppController {
 /**
  * Edits the given block by ID.
  * 
- * @param string $id Block ID
+ * @param string $id Block's ID
  * @return void
  * @throws \Cake\ORM\Error\RecordNotFoundException if no block is not found
  */
@@ -197,7 +197,7 @@ class ManageController extends AppController {
  *
  * Only custom blocks can be deleted (those with "Block" has handler).
  * 
- * @param string $id Block ID
+ * @param string $id Block's ID
  * @return void Redirects to previous page
  * @throws \Cake\ORM\Error\RecordNotFoundException if no record can be found given a primary key value
  * @throws \InvalidArgumentException When $primaryKey has an incorrect number of elements
@@ -224,7 +224,7 @@ class ManageController extends AppController {
 /**
  * Edits the given block by ID.
  * 
- * @param string $id Block ID
+ * @param string $id Block's ID
  * @return void Redirects to previous page
  * @throws \Cake\ORM\Error\RecordNotFoundException if no block is not found
  */
@@ -277,9 +277,9 @@ class ManageController extends AppController {
  * section of the add/edit form.
  *
  * @param null|\Block\Model\Entity\Block $block If a block entity is provided it
- * will be used to guess which regions has been already selected in each theme,
- * so we can properly show the selectbox in the form with the corrects
- * options selected.
+ *  will be used to guess which regions has been already selected in each theme,
+ *  so we can properly show the selectbox in the form with the corrects
+ *  options selected.
  * @return void
  */
 	protected function _setRegions($block = null) {
@@ -289,7 +289,7 @@ class ManageController extends AppController {
 				$value = '';
 
 				if ($block !== null && $block->has('region')) {
-					foreach($block->region as $blockRegion) {
+					foreach ($block->region as $blockRegion) {
 						if ($blockRegion->theme == $key) {
 							$value = $blockRegion->region;
 							break;

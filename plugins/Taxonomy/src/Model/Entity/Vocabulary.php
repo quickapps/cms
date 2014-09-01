@@ -36,7 +36,7 @@ class Vocabulary extends Entity {
 /**
  * Sanitizes vocabulary's description. No HTML allowed.
  * 
- * @param string $description
+ * @param string $description Vocabulary's description
  * @return string
  */
 	protected function _setDescription($description) {

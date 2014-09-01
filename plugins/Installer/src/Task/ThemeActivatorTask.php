@@ -137,7 +137,7 @@ class ThemeActivatorTask extends BaseTask {
 /**
  * Indicates this task should activate the given theme.
  * 
- * @param string|null $themeName
+ * @param string|null $themeName Theme's name
  * @return \Installer\Task\ThemeActivatorTask This instance
  */
 	public function activate($themeName = null) {
@@ -152,8 +152,8 @@ class ThemeActivatorTask extends BaseTask {
  * If $theme2 has any region in common with $theme1 will make $theme1 have these
  * blocks in the same regions as well.
  * 
- * @param string $theme1
- * @param string $theme2
+ * @param string $theme1 Theme name
+ * @param string $theme2 Theme name
  * @return void
  */
 	protected function _copyBlockPositions($theme1, $theme2) {

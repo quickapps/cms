@@ -53,7 +53,7 @@ class NodeTypesTable extends Table {
 /**
  * Default validation rules set.
  *
- * @param \Cake\Validation\Validator $validator
+ * @param \Cake\Validation\Validator $validator The validator object
  * @return \Cake\Validation\Validator
  */
 	public function validationDefault(Validator $validator) {
@@ -96,8 +96,8 @@ class NodeTypesTable extends Table {
 /**
  * Regenerates snapshot after new content type is created.
  * 
- * @param \Cake\Event\Event $event
- * @param \Cake\ORM\Entity $entity
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Cake\ORM\Entity $entity The entity that was saved
  * @return void
  */
 	public function afterSave(Event $event, Entity $entity) {

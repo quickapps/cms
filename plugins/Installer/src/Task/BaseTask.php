@@ -61,6 +61,7 @@ abstract class BaseTask {
 /**
  * Constructor.
  *
+ * @param array $config Additional options for the task handler
  * @return void
  */
 	public function __construct($config = []) {
@@ -115,7 +116,7 @@ abstract class BaseTask {
  *
  * A plugin name must be set before starting the task using "run()" method.
  * 
- * @param string $pluginName
+ * @param string $pluginName Plugin's name
  * @return string The plugin name just set
  */
 	final protected function plugin($pluginName = null) {
@@ -243,7 +244,6 @@ abstract class BaseTask {
 					$notWritable[] = $element;
 				}
 			}
-			
 		}
 
 		if (!empty($notWritable)) {

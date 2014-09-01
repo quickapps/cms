@@ -22,7 +22,8 @@ class Term extends Entity {
 /**
  * Removes any invalid characters from term's name.
  * 
- * @param string $value
+ * @param string $value Term's name
+ * @return string
  */
 	public function _setName($value) {
 		$value = strip_tags($value);

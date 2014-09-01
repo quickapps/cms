@@ -136,7 +136,6 @@ class ListField extends FieldHandler {
  * @return void
  */
 	public function entityAfterDelete(Event $event, $entity, $field, $options) {
-		return;
 	}
 
 /**
@@ -175,9 +174,8 @@ class ListField extends FieldHandler {
  * @return array
  */
 	public function instanceSettingsDefaults(Event $event, $instance, $options = []) {
-		return [
-		];
-	}	
+		return [];
+	}
 
 /**
  * {@inheritDoc}

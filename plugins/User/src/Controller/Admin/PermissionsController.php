@@ -44,6 +44,7 @@ class PermissionsController extends AppController {
 /**
  * Shows the permissions table for the given ACO.
  *
+ * @param integer $aco_id ACO's ID
  * @return void
  */
 	public function aco($aco_id) {

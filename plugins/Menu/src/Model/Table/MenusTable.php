@@ -46,7 +46,7 @@ class MenusTable extends Table {
 /**
  * Default validation rules set.
  *
- * @param \Cake\Validation\Validator $validator
+ * @param \Cake\Validation\Validator $validator The validator object
  * @return \Cake\Validation\Validator
  */
 	public function validationDefault(Validator $validator) {
@@ -75,9 +75,10 @@ class MenusTable extends Table {
  * Triggers the "Menu.<handler>.beforeValidate" hook, so plugins may do
  * any logic their require.
  *
- * @param \Cake\Event\Event $event
- * @param \Menu\Model\Entity\Menu $block
- * @param array $options
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Menu\Model\Entity\Menu $menu Menu entity being validated
+ * @param array $options Options given as an array
+ * @param \Cake\Validation\Validator $validator The validator object being applied
  * @return bool False if save operation should not continue, true otherwise
  */
 	public function beforeValidate(Event $event, Menu $menu, $options, Validator $validator) {
@@ -99,8 +100,8 @@ class MenusTable extends Table {
  * Triggers the "Menu.<handler>.afterValidate" hook, so plugins may do
  * any logic their require.
  *
- * @param \Cake\Event\Event $event
- * @param \Menu\Model\Entity\Menu $menu
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Menu\Model\Entity\Menu $menu The menu entity that was validated
  * @param array $options
  * @return void
  */
@@ -112,9 +113,9 @@ class MenusTable extends Table {
  * Triggers the "Menu.<handler>.beforeSave" hook, so plugins may do
  * any logic their require.
  *
- * @param \Cake\Event\Event $event
- * @param \Menu\Model\Entity\Menu $menu
- * @param array $options
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Menu\Model\Entity\Menu $menu The menu entity being saved
+ * @param array $options Options given as an array
  * @return bool False if save operation should not continue, true otherwise
  */
 	public function beforeSave(Event $event, Menu $menu, $options = []) {
@@ -131,9 +132,9 @@ class MenusTable extends Table {
  *
  * It will also create menu's associated block if not exists.
  *
- * @param \Cake\Event\Event $event
- * @param \Menu\Model\Entity\Menu $menu
- * @param array $options
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Menu\Model\Entity\Menu $menu The menu entity that was saved
+ * @param array $options Options given as an array
  * @return void
  */
 	public function afterSave(Event $event, Menu $menu, $options = []) {
@@ -158,9 +159,9 @@ class MenusTable extends Table {
  * Triggers the "Menu.<handler>.beforeDelete" hook, so plugins may do
  * any logic their require.
  *
- * @param \Cake\Event\Event $event
- * @param \Menu\Model\Entity\Menu $menu
- * @param array $options
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Menu\Model\Entity\Menu $menu The menu entity being deleted
+ * @param array $options Options given as an array
  * @return bool False if delete operation should not continue, true otherwise
  */
 	public function beforeDelete(Event $event, Menu $menu, $options = []) {
@@ -184,9 +185,9 @@ class MenusTable extends Table {
  * Triggers the "Menu.<handler>.afterDelete" hook, so plugins may do
  * any logic their require.
  *
- * @param \Cake\Event\Event $event
- * @param \Menu\Model\Entity\Menu $menu
- * @param array $options
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Menu\Model\Entity\Menu $menu The menu entity that was deleted
+ * @param array $options Options given as an array
  * @return void
  */
 	public function afterDelete(Event $event, Menu $menu, $options = []) {

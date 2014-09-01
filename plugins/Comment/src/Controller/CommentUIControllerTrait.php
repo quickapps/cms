@@ -169,7 +169,7 @@ trait CommentUIControllerTrait {
  * - `spam`: Comments marked as SPAM by Akismet.
  * - `trash`: Comments that were sent to trash bin.
  *
- * @param string Filter comments by `status`, see list above
+ * @param string $status Filter comments by `status`, see list above
  * @return void
  */
 	public function index($status = 'all') {
@@ -205,7 +205,7 @@ trait CommentUIControllerTrait {
 						TextToolbox::trimmer(
 							TextToolbox::plainProcessor(
 								TextToolbox::stripHtmlTags($comment->body)
-							), 
+							),
 							180
 						)
 					);

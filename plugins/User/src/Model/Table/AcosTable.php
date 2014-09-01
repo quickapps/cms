@@ -47,8 +47,8 @@ class AcosTable extends Table {
  * We create a hash of "alias" property so we can perform
  * case sensitive SQL comparisons.
  * 
- * @param \Cake\Event\Event $event
- * @param \User\Model\Entity\Aco $aco
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \User\Model\Entity\Aco $aco ACO entity being saved
  * @return void
  */
 	public function beforeSave(Event $event, Aco $aco) {
@@ -61,7 +61,6 @@ class AcosTable extends Table {
  * Retrieves the ACO node for this model
  *
  * @param string $ref String value `Prefix/Controller/action`
- * @param string $plugin name of the plugin the which $ref belongs to
  * @return array Node found in database
  */
 	public function node($ref) {

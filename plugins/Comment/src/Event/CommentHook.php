@@ -37,9 +37,9 @@ class CommentHook implements EventListener {
 /**
  * Renders a single Comment.
  *
- * @param Event $event
- * @param \Comment\Model\Entity\Comment $comment
- * @param array $options
+ * @param Event $event The event that was triggered
+ * @param \Comment\Model\Entity\Comment $comment The comment entity to render
+ * @param array $options Additional options given as an array
  * @return string HTML
  */
 	public function renderComment(Event $event, $comment, $options = []) {
@@ -51,7 +51,7 @@ class CommentHook implements EventListener {
 /**
  * Defaults settings for Comment's settings form.
  *
- * @param Event $event
+ * @param Event $event The event that was triggered
  * @return array
  */
 	public function settingsDefaults(Event $event) {

@@ -93,7 +93,7 @@ class ManageController extends AppController {
 /**
  * Edits the given user's information.
  * 
- * @param integer $id
+ * @param integer $id User's ID
  * @return void
  */
 	public function edit($id) {
@@ -127,7 +127,7 @@ class ManageController extends AppController {
  * After account is blocked token is regenerated, so user cannot login using
  * a known token.
  * 
- * @param integer $id
+ * @param integer $id User's ID
  * @return void Redirects to previous page
  */
 	public function block($id) {
@@ -155,7 +155,7 @@ class ManageController extends AppController {
 /**
  * Activates the given user account.
  * 
- * @param integer $id
+ * @param integer $id User's ID
  * @return void Redirects to previous page
  */
 	public function activate($id) {
@@ -175,7 +175,7 @@ class ManageController extends AppController {
 /**
  * Sends password recovery instructions to the given user.
  * 
- * @param integer $id
+ * @param integer $id User's ID
  * @return void Redirects to previous page
  */
 	public function password_instructions($id) {
@@ -195,7 +195,7 @@ class ManageController extends AppController {
 /**
  * Removes the given user.
  * 
- * @param integer $id
+ * @param integer $id User's ID
  * @return void Redirects to previous page
  */
 	public function delete($id) {

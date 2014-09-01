@@ -37,7 +37,7 @@ class TaxonomyField extends FieldHandler {
 /**
  * {@inheritDoc}
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options Additional array of options
  * @return string HTML representation of this field
@@ -50,9 +50,9 @@ class TaxonomyField extends FieldHandler {
 /**
  * {@inheritDoc}
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Field\Model\Entity\Field $field Field information
- * @param array $options
+ * @param array $options Additional array of options
  * @return string HTML containing from elements
  */
 	public function entityEdit(Event $event, $field, $options = []) {
@@ -71,7 +71,7 @@ class TaxonomyField extends FieldHandler {
 /**
  * {@inheritDoc}
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options
@@ -137,7 +137,7 @@ class TaxonomyField extends FieldHandler {
 /**
  * {@inheritDoc}
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options
@@ -171,7 +171,7 @@ class TaxonomyField extends FieldHandler {
 /**
  * {@inheritDoc}
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options
@@ -210,7 +210,7 @@ class TaxonomyField extends FieldHandler {
 /**
  * {@inheritDoc}
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options
@@ -224,7 +224,7 @@ class TaxonomyField extends FieldHandler {
 /**
  * {@inheritDoc}
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options
@@ -237,14 +237,13 @@ class TaxonomyField extends FieldHandler {
 /**
  * {@inheritDoc}
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options
  * @return void
  */
 	public function entityAfterDelete(Event $event, $entity, $field, $options) {
-		return;
 	}
 
 /**
@@ -264,7 +263,7 @@ class TaxonomyField extends FieldHandler {
 /**
  * {@inheritDoc}
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Field\Model\Entity\FieldInstance $instance Instance information
  * @param array $options
  * @return string HTML form elements for the settings page
@@ -278,7 +277,7 @@ class TaxonomyField extends FieldHandler {
 /**
  * {@inheritDoc}
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Field\Model\Entity\FieldInstance $instance Instance information
  * @param array $options
  * @return array
@@ -290,12 +289,12 @@ class TaxonomyField extends FieldHandler {
 			'max_values' => 0, // 0: unlimited
 			'error_message' => null,
 		];
-	}	
+	}
 
 /**
  * {@inheritDoc}
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Field\Model\Entity\FieldInstance $instance Instance information
  * @param array $options
  * @return string HTML form elements for the settings page
@@ -308,7 +307,7 @@ class TaxonomyField extends FieldHandler {
 /**
  * {@inheritDoc}
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Field\Model\Entity\FieldInstance $instance Instance information
  * @param array $options
  * @return array
@@ -329,7 +328,7 @@ class TaxonomyField extends FieldHandler {
 /**
  * {@inheritDoc}
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Field\Model\Entity\FieldInstance $instance Instance information
  * @param array $options
  * @return bool False will halt the attach process
@@ -341,7 +340,7 @@ class TaxonomyField extends FieldHandler {
 /**
  * {@inheritDoc}
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Field\Model\Entity\FieldInstance $instance Instance information
  * @return void
  */
@@ -351,7 +350,7 @@ class TaxonomyField extends FieldHandler {
 /**
  * {@inheritDoc}
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Field\Model\Entity\FieldInstance $instance Instance information
  * @param array $options
  * @return bool False will halt the detach process
@@ -363,7 +362,7 @@ class TaxonomyField extends FieldHandler {
 /**
  * {@inheritDoc}
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Field\Model\Entity\FieldInstance $instance Instance information
  * @param array $options
  * @return void
@@ -379,7 +378,7 @@ class TaxonomyField extends FieldHandler {
  *
  * You can provide up to 10 terms as maximum.
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Query $query The query being modified
  * @param string $value Operator value. e.g. `cat,dog,bird`
  * @param bool $negate Whether this operator was negated using `-`. e.g. "-term:dog"

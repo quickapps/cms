@@ -70,6 +70,7 @@ class ManageController extends AppController {
 /**
  * Edits the given menu by ID.
  *
+ * @param integer $id Menu's ID
  * @return void
  */
 	public function edit($id) {
@@ -105,6 +106,7 @@ class ManageController extends AppController {
  *
  * Only custom menus (those created using administration page) can be removed.
  *
+ * @param integer $id Menu's ID
  * @return void Redirects to previous page
  */
 	public function delete($id) {
@@ -131,7 +133,7 @@ class ManageController extends AppController {
 	protected function _prepareData() {
 		$this->loadModel('Block.Blocks');
 		$columns = $this->Blocks->schema()->columns();
-	 	$data = [];
+		$data = [];
 
 		foreach ($this->request->data as $coulumn => $value) {
 			if (in_array($coulumn, $columns)) {

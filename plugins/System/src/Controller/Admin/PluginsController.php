@@ -97,6 +97,7 @@ class PluginsController extends AppController {
 /**
  * Install a new plugin.
  *
+ * @param string $pluginName Plugin's name
  * @return void Redirects to previous page
  */
 	public function delete($pluginName) {
@@ -118,6 +119,7 @@ class PluginsController extends AppController {
 /**
  * Enables the given theme.
  *
+ * @param string $pluginName Plugin's name
  * @return void Redirects to previous page
  */
 	public function enable($pluginName) {
@@ -141,6 +143,7 @@ class PluginsController extends AppController {
 /**
  * Disables the given theme.
  *
+ * @param string $pluginName Plugin's name
  * @return void Redirects to previous page
  */
 	public function disable($pluginName) {
@@ -187,7 +190,7 @@ class PluginsController extends AppController {
  *
  * - `Plugin.<PluginName>.settingsValidate`
  *
- * @param string $pluginName
+ * @param string $pluginName Plugin's name
  * @return void
  * @throws \Cake\Network\Exception\NotFoundException When plugin do not exists
  */

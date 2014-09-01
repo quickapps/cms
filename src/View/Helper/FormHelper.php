@@ -33,11 +33,7 @@ class FormHelper extends CakeFormHelper {
 	protected $_isRendering = false;
 
 /**
- * {@inheritdoc}
- *
- * @param \Cake\View\Widget\WidgetRegistry $instance The registry instance to set.
- * @param array $widgets An array of widgets
- * @return \Cake\View\Widget\WidgetRegistry
+ * {@inheritDoc}
  */
 	public function widgetRegistry(WidgetRegistry $instance = null, $widgets = []) {
 		$this->alter('FormHelper.widgetRegistry', $instance, $widgets);
@@ -45,13 +41,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param mixed $model The context for which the form is being defined. Can
- *   be an ORM entity, ORM resultset, or an array of meta data. You can use false or null
- *   to make a model-less form.
- * @param array $options An array of html attributes and options.
- * @return string An formatted opening FORM tag.
+ * {@inheritDoc}
  */
 	public function create($model = null, array $options = []) {
 		$this->alter('FormHelper.create', $model, $options);
@@ -59,11 +49,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param array $secureAttributes will be passed as html attributes into the hidden input elements generated for the
- *   Security Component.
- * @return string A closing FORM tag.
+ * {@inheritDoc}
  */
 	public function end($secureAttributes = []) {
 		$this->alter('FormHelper.end', $secureAttributes);
@@ -71,13 +57,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param array|null $fields If set specifies the list of fields to use when
- *    generating the hash, else $this->fields is being used.
- * @param array $secureAttributes will be passed as html attributes into the hidden
- *    input elements generated for the Security Component.
- * @return string A hidden input field with a security hash
+ * {@inheritDoc}
  */
 	public function secure(array $fields = array(), array $secureAttributes = array()) {
 		$this->alter('FormHelper.secure', $fields, $secureAttributes);
@@ -85,10 +65,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $name The dot separated name for the field.
- * @return mixed Either null, or the list of fields.
+ * {@inheritDoc}
  */
 	public function unlockField($name = null) {
 		$this->alter('FormHelper.unlockField', $name);
@@ -96,10 +73,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $field This should be "Modelname.fieldname"
- * @return bool If there are errors this method returns true, else false.
+ * {@inheritDoc}
  */
 	public function isFieldError($field) {
 		$this->alter('FormHelper.isFieldError', $field);
@@ -107,13 +81,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $field A field name, like "Modelname.fieldname"
- * @param string|array $text Error message as string or array of messages. If an array,
- *   it should be a hash of key names => messages.
- * @param array $options See above.
- * @return string Formatted errors or ''.
+ * {@inheritDoc}
  */
 	public function error($field, $text = null, array $options = []) {
 		$this->alter('FormHelper.error', $field, $text, $options);
@@ -121,14 +89,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $fieldName This should be "Modelname.fieldname"
- * @param string $text Text that will appear in the label field. If
- *   $text is left undefined the text will be inflected from the
- *   fieldName.
- * @param array|string $options An array of HTML attributes, or a string, to be used as a class name.
- * @return string The formatted LABEL element
+ * {@inheritDoc}
  */
 	public function label($fieldName, $text = null, array $options = array()) {
 		$this->alter('FormHelper.label', $fieldName, $text, $options);
@@ -136,17 +97,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- *
- * @param array $fields An array of customizations for the fields that will be
- *   generated. This array allows you to set custom types, labels, or other options.
- * @param array $options Options array. Valid keys are:
- * - `fieldset` Set to false to disable the fieldset.
- * - `legend` Set to false to disable the legend for the generated input set. Or supply a string
- *    to customize the legend text.
- * @return string Completed form inputs.
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::inputs
+ * {@inheritDoc}
  */
 	public function allInputs(array $fields = [], array $options = []) {
 		$this->alter('FormHelper.allInputs', $fields, $options);
@@ -154,16 +105,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param array $fields An array of customizations for the fields that will be
- *   generated. This array allows you to set custom types, labels, or other options.
- * @param array $blacklist A list of fields to not create inputs for.
- * @param array $options Options array. Valid keys are:
- * - `fieldset` Set to false to disable the fieldset.
- * - `legend` Set to false to disable the legend for the generated input set. Or supply a string
- *    to customize the legend text.
- * @return string Completed form inputs.
+ * {@inheritDoc}
  */
 	public function inputs(array $fields, array $options = []) {
 		$this->alter('FormHelper.inputs', $fields, $options);
@@ -171,15 +113,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $fields the form inputs to wrap in a fieldset
- * @param array $options Options array. Valid keys are:
- * - `fieldset` Set to false to disable the fieldset.
- * - `legend` Set to false to disable the legend for the generated input set. Or supply a string
- *    to customize the legend text.
- * @return string Completed form inputs.
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::inputs
+ * {@inheritDoc}
  */
 	public function fieldset($fields = '', array $options = []) {
 		$this->alter('FormHelper.fieldset', $fields, $options);
@@ -187,11 +121,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $fieldName This should be "Modelname.fieldname"
- * @param array $options Each type of input takes different options.
- * @return string Completed form widget.
+ * {@inheritDoc}
  */
 	public function input($fieldName, array $options = []) {
 		if (!is_string($fieldName) && $fieldName instanceof \Field\Model\Entity\Field) {
@@ -217,11 +147,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $fieldName Name of a field, like this "Modelname.fieldname"
- * @param array $options Array of HTML attributes.
- * @return string An HTML text input element.
+ * {@inheritDoc}
  */
 	public function checkbox($fieldName, array $options = []) {
 		$this->alter('FormHelper.checkbox', $fieldName, $options);
@@ -229,12 +155,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $fieldName Name of a field, like this "Modelname.fieldname"
- * @param array $options Radio button options array.
- * @param array $attributes Array of HTML attributes, and special attributes above.
- * @return string Completed radio widget set.
+ * {@inheritDoc}
  */
 	public function radio($fieldName, $options = [], array $attributes = []) {
 		$this->alter('FormHelper.radio', $fieldName, $options, $attributes);
@@ -242,23 +163,14 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $method Method name / input type to make.
- * @param array $params Parameters for the method call
- * @return string Formatted input method.
- * @throws \Cake\Core\Exception\Exception When there are no params for the method call.
+ * {@inheritDoc}
  */
 	public function __call($method, $params) {
 		return parent::__call($method, $params);
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $fieldName Name of a field, in the form "Modelname.fieldname"
- * @param array $options Array of HTML attributes, and special options above.
- * @return string A generated HTML text input element
+ * {@inheritDoc}
  */
 	public function textarea($fieldName, array $options = []) {
 		$this->alter('FormHelper.textarea', $fieldName, $options);
@@ -266,11 +178,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $fieldName Name of a field, in the form of "Modelname.fieldname"
- * @param array $options Array of HTML attributes.
- * @return string A generated hidden input
+ * {@inheritDoc}
  */
 	public function hidden($fieldName, array $options = []) {
 		$this->alter('FormHelper.hidden', $fieldName, $options);
@@ -278,11 +186,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $fieldName Name of a field, in the form "Modelname.fieldname"
- * @param array $options Array of HTML attributes.
- * @return string A generated file input.
+ * {@inheritDoc}
  */
 	public function file($fieldName, array $options = []) {
 		$this->alter('FormHelper.file', $fieldName, $options);
@@ -290,11 +194,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $title The button's caption. Not automatically HTML encoded
- * @param array $options Array of options and HTML attributes.
- * @return string A HTML button tag.
+ * {@inheritDoc}
  */
 	public function button($title, array $options = []) {
 		$this->alter('FormHelper.button', $title, $options);
@@ -302,12 +202,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $title The button's caption. Not automatically HTML encoded
- * @param string|array $url URL as string or array
- * @param array $options Array of options and HTML attributes.
- * @return string A HTML button tag.
+ * {@inheritDoc}
  */
 	public function postButton($title, $url, array $options = []) {
 		$this->alter('FormHelper.postButton', $title, $url, $options);
@@ -315,13 +210,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $title The content to be wrapped by <a> tags.
- * @param string|array $url Cake-relative URL or array of URL parameters, or external URL (starts with http://)
- * @param array $options Array of HTML attributes.
- * @param boolean|string $confirmMessage JavaScript confirmation message.
- * @return string An `<a />` element.
+ * {@inheritDoc}
  */
 	public function postLink($title, $url = null, array $options = [], $confirmMessage = false) {
 		$this->alter('FormHelper.postLink', $title, $url, $options, $confirmMessage);
@@ -329,14 +218,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $caption The label appearing on the button OR if string contains :// or the
- *  extension .jpg, .jpe, .jpeg, .gif, .png use an image if the extension
- *  exists, AND the first character is /, image is relative to webroot,
- *  OR if the first character is not /, image is relative to webroot/img.
- * @param array $options Array of options. See above.
- * @return string A HTML submit button
+ * {@inheritDoc}
  */
 	public function submit($caption = null, array $options = []) {
 		$this->alter('FormHelper.submit', $caption, $options);
@@ -344,13 +226,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $fieldName Name attribute of the SELECT
- * @param array $options Array of the OPTION elements (as 'value'=>'Text' pairs) to be used in the
- *   SELECT element
- * @param array $attributes The HTML attributes of the select element.
- * @return string Formatted SELECT element
+ * {@inheritDoc}
  */
 	public function select($fieldName, $options = [], array $attributes = []) {
 		$this->alter('FormHelper.select', $fieldName, $options, $attributes);
@@ -358,13 +234,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $fieldName Name attribute of the SELECT
- * @param array $options Array of the OPTION elements (as 'value'=>'Text' pairs) to be used in the
- *   checkboxes element.
- * @param array $attributes The HTML attributes of the select element.
- * @return string Formatted SELECT element
+ * {@inheritDoc}
  */
 	public function multiCheckbox($fieldName, $options, array $attributes = []) {
 		$this->alter('FormHelper.multiCheckbox', $fieldName, $options, $attributes);
@@ -372,11 +242,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $fieldName Prefix name for the SELECT element
- * @param array $options Options & HTML attributes for the select element
- * @return string A generated day select box.
+ * {@inheritDoc}
  */
 	public function day($fieldName = null, array $options = []) {
 		$this->alter('FormHelper.day', $fieldName, $options);
@@ -384,11 +250,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $fieldName Prefix name for the SELECT element
- * @param array $options Options & attributes for the select elements.
- * @return string Completed year select input
+ * {@inheritDoc}
  */
 	public function year($fieldName, array $options = []) {
 		$this->alter('FormHelper.widgetRegistry', $fieldName, $options);
@@ -396,11 +258,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $fieldName Prefix name for the SELECT element
- * @param array $options Attributes for the select element
- * @return string A generated month select dropdown.
+ * {@inheritDoc}
  */
 	public function month($fieldName, array $options = []) {
 		$this->alter('FormHelper.month', $fieldName, $options);
@@ -408,11 +266,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $fieldName Prefix name for the SELECT element
- * @param array $options List of HTML attributes
- * @return string Completed hour select input
+ * {@inheritDoc}
  */
 	public function hour($fieldName, array $options = []) {
 		$this->alter('FormHelper.hour', $fieldName, $options);
@@ -420,11 +274,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $fieldName Prefix name for the SELECT element
- * @param array $options Array of options.
- * @return string Completed minute select input.
+ * {@inheritDoc}
  */
 	public function minute($fieldName, array $options = []) {
 		$this->alter('FormHelper.minute', $fieldName, $options);
@@ -432,11 +282,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $fieldName Prefix name for the SELECT element
- * @param array $options Array of options
- * @return string Completed meridian select input
+ * {@inheritDoc}
  */
 	public function meridian($fieldName, array $options = []) {
 		$this->alter('FormHelper.meridian', $fieldName, $options);
@@ -444,12 +290,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- *
- * @param string $fieldName Prefix name for the SELECT element
- * @param array $options Array of Options
- * @return string Generated set of select boxes for the date and time formats chosen.
+ * {@inheritDoc}
  */
 	public function dateTime($fieldName, array $options = []) {
 		$this->alter('FormHelper.dateTime', $fieldName, $options);
@@ -457,11 +298,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $fieldName Prefix name for the SELECT element
- * @param array $options Options & HTML attributes for the select element
- * @return string A generated day select box.
+ * {@inheritDoc}
  */
 	public function time($fieldName, array $options = []) {
 		$this->alter('FormHelper.time', $fieldName, $options);
@@ -469,11 +306,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $fieldName Prefix name for the SELECT element
- * @param array $options Array of Options
- * @return string Generated set of select boxes for time formats chosen.
+ * {@inheritDoc}
  */
 	public function date($fieldName, array $options = []) {
 		$this->alter('FormHelper.date', $fieldName, $options);
@@ -481,13 +314,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $type The type of context. This key
- *   can be used to overwrite existing providers.
- * @param callable $check A callable that returns a object
- *   when the form context is the correct type.
- * @return void
+ * {@inheritDoc}
  */
 	public function addContextProvider($type, callable $check) {
 		$this->alter('FormHelper.addContextProvider', $type, $check);
@@ -495,12 +322,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $name The name of the widget. e.g. 'text'.
- * @param array|\Cake\View\Widget\WidgetInterface $spec Either a string class name or an object
- *    implementing the WidgetInterface.
- * @return void
+ * {@inheritDoc}
  */
 	public function addWidget($name, $spec) {
 		$this->alter('FormHelper.addWidget', $name, $spec);
@@ -508,11 +330,7 @@ class FormHelper extends CakeFormHelper {
 	}
 
 /**
- * {@inheritdoc}
- *
- * @param string $name The name of the widget. e.g. 'text'.
- * @param array $attrs The attributes for rendering the input.
- * @return void
+ * {@inheritDoc}
  */
 	public function widget($name, array $data = []) {
 		$this->alter('FormHelper.widget', $name, $data);

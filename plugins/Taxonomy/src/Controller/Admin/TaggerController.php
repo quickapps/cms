@@ -25,7 +25,7 @@ class TaggerController extends AppController {
 /**
  * Shows a list of matching terms.
  *
- * @param integer $id
+ * @param integer $vocabulary_id Vocabulary's ID for which render its terms
  * @return void
  */
 	public function search($vocabulary_id) {

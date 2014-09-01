@@ -23,6 +23,7 @@ class LinksController extends AppController {
 /**
  * Shows menu's links as a sortable tree.
  *
+ * @param integer $id Menu's ID for which render its links tree
  * @return void
  */
 	public function menu($id) {
@@ -64,7 +65,7 @@ class LinksController extends AppController {
 				});
 				// don't trust "left" and "right" values coming from user's POST
 				$this->Menus->MenuLinks->addBehavior('Tree', ['scope' => ['menu_id' => $menu->id]]);
-				$this->Menus->MenuLinks->recover(); 
+				$this->Menus->MenuLinks->recover();
 				$this->Flash->success(__d('menu', 'Menu has been reordered'));
 			} else {
 				$this->Flash->danger(__d('menu', 'Invalid information, check you have JavaScript enabled'));
@@ -88,6 +89,7 @@ class LinksController extends AppController {
 /**
  * Add a new link to the given menu.
  *
+ * @param integer $id Menu's ID for which add a link
  * @return void
  */
 	public function add($menu_id) {
@@ -149,6 +151,7 @@ class LinksController extends AppController {
 /**
  * Edits the given menu link by ID.
  *
+ * @param integer $id Link's ID
  * @return void
  */
 	public function edit($id) {
@@ -188,6 +191,7 @@ class LinksController extends AppController {
 /**
  * Deletes the given link.
  *
+ * @param integer $id Link's ID
  * @return void
  */
 	public function delete($id) {

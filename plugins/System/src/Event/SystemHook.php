@@ -40,7 +40,7 @@ class SystemHook implements EventListener {
  * All blocks registered by "System" plugin are associated blocks
  * of some core's menus. So we redirect rendering task to Menu plugin's render.
  * 
- * @param \Cake\Event\Event $event
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Block\Model\Entity\Block $block The block being rendered
  * @param array $options Array of options for BlockHelper::render() method
  * @return array

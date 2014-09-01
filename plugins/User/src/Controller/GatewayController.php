@@ -26,7 +26,7 @@ class GatewayController extends AppController {
 /**
  * Mark as allowed some basic actions.
  * 
- * @param \Cake\Event\Event $event
+ * @param \Cake\Event\Event $event The event that was triggered
  * @return void
  */
 	public function beforeFilter(Event $event) {
@@ -137,7 +137,7 @@ class GatewayController extends AppController {
 /**
  * Here is where user's account is actually removed.
  *
- * @param integer $user_id
+ * @param integer $user_id The ID of the user whose account is being canceled
  * @param string $code Cancellation code, code is a MD5 hash of user's encrypted
  *  password + site's salt
  * @return void Redirects to previous page
@@ -239,6 +239,7 @@ class GatewayController extends AppController {
 /**
  * Activates a registered user.
  *
+ * @param string $token A valid user token
  * @return void
  */
 	public function activate($token = null) {
@@ -318,6 +319,7 @@ class GatewayController extends AppController {
 /**
  * Shows profile information for the given user.
  *
+ * @param integer $id User's ID
  * @return void
  * @throws \Cake\ORM\Error\RecordNotFoundException When user not found, or users
  *  has marked profile as private 

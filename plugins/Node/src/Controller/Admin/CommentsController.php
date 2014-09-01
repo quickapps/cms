@@ -38,7 +38,7 @@ class CommentsController extends AppController {
 /**
  * Renders the description of the entity to which comment is attached to.
  * 
- * @param \Comment\Model\Entity\Comment $comment
+ * @param \Comment\Model\Entity\Comment $comment Comment entity
  * @return string
  */
 	protected function _inResponseTo(Comment $comment) {
@@ -61,7 +61,7 @@ class CommentsController extends AppController {
  *
  * We sets appropriate breadcrumbs based on current action being requested.
  *
- * @param \Cake\Event\Event $event
+ * @param \Cake\Event\Event $event The event that was triggered
  * @return void
  */
 	public function beforeRender(\Cake\Event\Event $event) {

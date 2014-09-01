@@ -99,7 +99,7 @@ class FieldHandler implements EventListener {
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\Field $field Field information
- * @param array $options
+ * @param array $options Options given as an array
  * @return string HTML containing from elements
  */
 	public function entityEdit(Event $event, $field, $options = []) {
@@ -120,7 +120,7 @@ class FieldHandler implements EventListener {
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
- * @param array $options
+ * @param array $options Options given as an array
  * @return bool
  */
 	public function entityBeforeSave(Event $event, $entity, $field, $options) {
@@ -133,7 +133,7 @@ class FieldHandler implements EventListener {
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
- * @param array $options
+ * @param array $options Options given as an array
  * @return void
  */
 	public function entityAfterSave(Event $event, $entity, $field, $options) {
@@ -145,8 +145,8 @@ class FieldHandler implements EventListener {
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
- * @param array $options
- * @param \Cake\Validation\Validator $validator
+ * @param array $options Options given as an array
+ * @param \Cake\Validation\Validator $validator The validator object
  * @return bool False will halt the save process
  */
 	public function entityBeforeValidate(Event $event, $entity, $field, $options, $validator) {
@@ -159,8 +159,8 @@ class FieldHandler implements EventListener {
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
- * @param array $options
- * @param \Cake\Validation\Validator $validator
+ * @param array $options Options given as an array
+ * @param \Cake\Validation\Validator $validator The validator object
  * @return bool False will halt the save process
  */
 	public function entityAfterValidate(Event $event, $entity, $field, $options, $validator) {
@@ -173,7 +173,7 @@ class FieldHandler implements EventListener {
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
- * @param array $options
+ * @param array $options Options given as an array
  * @return bool False will halt the delete process
  */
 	public function entityBeforeDelete(Event $event, $entity, $field, $options) {
@@ -186,7 +186,7 @@ class FieldHandler implements EventListener {
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
- * @param array $options
+ * @param array $options Options given as an array
  * @return void
  */
 	public function entityAfterDelete(Event $event, $entity, $field, $options) {
@@ -199,7 +199,7 @@ class FieldHandler implements EventListener {
  * - `description`: string, Something about what this field does or allows to do.
  * - `hidden`: true|false, If set to false users can not use this field via `Field UI`
  *
- * @param \Cake\Event\Event $event
+ * @param \Cake\Event\Event $event The event that was triggered
  * @return array
  */
 	public function instanceInfo(Event $event) {
@@ -214,7 +214,7 @@ class FieldHandler implements EventListener {
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\FieldInstance $instance Instance information
- * @param array $options
+ * @param array $options Options given as an array
  * @return string HTML form elements for the settings page
  */
 	public function instanceSettingsForm(Event $event, $instance, $options = []) {
@@ -226,7 +226,7 @@ class FieldHandler implements EventListener {
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\FieldInstance $instance Instance information
- * @param array $options
+ * @param array $options Options given as an array
  * @return array
  */
 	public function instanceSettingsDefaults(Event $event, $instance, $options = []) {
@@ -241,7 +241,7 @@ class FieldHandler implements EventListener {
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Cake\ORM\Entity $settings Settings values as an entity
- * @param \Cake\Validation\Validator $validator
+ * @param \Cake\Validation\Validator $validator The validator object
  * @return mixed
  */
 	public function instanceSettingsValidate(Event $event, Entity $settings, $validator) {
@@ -256,7 +256,7 @@ class FieldHandler implements EventListener {
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \\Field\Model\Entity\FieldInstance $instance Instance information
- * @param array $options
+ * @param array $options Options given as an array
  * @return string HTML form elements for the settings page
  */
 	public function instanceViewModeForm(Event $event, $instance, $options = []) {
@@ -271,7 +271,7 @@ class FieldHandler implements EventListener {
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\FieldInstance $instance Instance information
- * @param array $options
+ * @param array $options Options given as an array
  * @return array
  */
 	public function instanceViewModeDefaults(Event $event, $instance, $options = []) {
@@ -283,7 +283,7 @@ class FieldHandler implements EventListener {
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Cake\ORM\Entity $viewMode View mode's setting values as an entity
- * @param \Cake\Validation\Validator $validator
+ * @param \Cake\Validation\Validator $validator The validator object
  * @return void
  */
 	public function instanceViewModeValidate(Event $event, Entity $viewMode, $validator) {
@@ -296,7 +296,7 @@ class FieldHandler implements EventListener {
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\FieldInstance $instance Instance information
- * @param array $options
+ * @param array $options Options given as an array
  * @return bool False will halt the attach process
  */
 	public function instanceBeforeAttach(Event $event, $instance, $options = []) {
@@ -308,6 +308,7 @@ class FieldHandler implements EventListener {
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\FieldInstance $instance Instance information
+ * @param array $options Options given as an array
  * @return void
  */
 	public function instanceAfterAttach(Event $event, $instance, $options = []) {
@@ -318,7 +319,7 @@ class FieldHandler implements EventListener {
  *
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\FieldInstance $instance Instance information
- * @param array $options
+ * @param array $options Options given as an array
  * @return bool False will halt the detach process
  */
 	public function instanceBeforeDetach(Event $event, $instance, $options = []) {
@@ -338,7 +339,7 @@ class FieldHandler implements EventListener {
  * @param \Cake\Event\Event $event The event that was fired
  * @param \Field\Model\Entity\FieldInstance $instance Instance entity being
  *  detached (deleted from "field_instances" table)
- * @param array $options
+ * @param array $options Options given as an array
  * @return void
  */
 	public function instanceAfterDetach(Event $event, $instance, $options = []) {

@@ -252,7 +252,6 @@ class StartupController extends Controller {
 		if (!empty($this->request->data)) {
 			$requestData = $this->request->data;
 
-			// TODO: add support to more DB driver; 'Postgres', 'Sqlite', 'Sqlserver'
 			if (in_array($requestData['driver'], ['Mysql', ])) {
 				if (function_exists('ini_set')) {
 					ini_set('max_execution_time', 300);
@@ -280,7 +279,9 @@ class StartupController extends Controller {
 					$Folder = new Folder(ROOT . '/config/Schema/');
 					$schemaCollection = $db->schemaCollection();
 					$existingSchemas = $schemaCollection->listTables();
-					$newSchemas = array_map(function ($item) { return str_replace('.php', '', $item); }, $Folder->read()[1]);
+					$newSchemas = array_map(function ($item) {
+						return str_replace('.php', '', $item);
+					}, $Folder->read()[1]);
 					$common = array_intersect($existingSchemas, $newSchemas);
 
 					if (!empty($common)) {
@@ -416,7 +417,7 @@ class StartupController extends Controller {
 /**
  * Shortcut for Controller::set('title_for_layout', ...)
  *
- * @param string $title_for_layout
+ * @param string $title_for_layout Page's title
  * @return void
  */
 	protected function title($title_for_layout) {
@@ -426,7 +427,7 @@ class StartupController extends Controller {
 /**
  * Shortcut for Controller::set('description_for_layout', ...)
  *
- * @param string $description_for_layout
+ * @param string $description_for_layout Page's description
  * @return void
  */
 	protected function description($description_for_layout) {
@@ -443,7 +444,8 @@ class StartupController extends Controller {
  * This allows steps to control user navigation, so users can not pass to the
  * next step without completing all previous steps.
  *
- * @param bool|string $check
+ * @param bool|string $check Name of the step to check, or false to mark as
+ *  completed current step
  * @return bool
  */
 	protected function _step($check = false) {

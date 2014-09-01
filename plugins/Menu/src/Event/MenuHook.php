@@ -86,7 +86,7 @@ class MenuHook implements EventListener {
  *  
  * NOTE: Please note the difference between "_" and "-"
  * 
- * @param \Cake\Event\Event $event
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Block\Model\Entity\Block $block The block being rendered
  * @param array $options Array of options for BlockHelper::render() method
  * @return array
