@@ -427,7 +427,7 @@ class SearchableBehavior extends Behavior {
 
 					if ($result instanceof Query) {
 						$query = $result;
-					}		
+					}
 				}
 			} else {
 				if (strpos($token, '-') === 0) {
