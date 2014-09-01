@@ -12,8 +12,8 @@
 namespace Node\Controller;
 
 use Cake\Core\Configure;
-use Cake\Error\NotFoundException;
-use Cake\Error\ForbiddenException;
+use Cake\Network\Exception\NotFoundException;
+use Cake\Network\Exception\ForbiddenException;
 use Cake\I18n\I18n;
 use Cake\Routing\Router;
 
@@ -71,9 +71,9 @@ class ServeController extends AppController {
 /**
  * Site's home page.
  *
- * Gets a list of all promoted nodes, so themes may render them in their front-page
- * layout. The view-variable `nodes` holds all promoted contents, themes might render
- * this nodes using this variable.
+ * Gets a list of all promoted nodes, so themes may render them in their
+ * front-page layout. The view-variable `nodes` holds all promoted contents,
+ * themes might render this nodes using this variable.
  *
  * @return void
  */
@@ -97,8 +97,9 @@ class ServeController extends AppController {
  * @param string $node_type_slug
  * @param string $node_slug
  * @return void
- * @throws \Cake\Error\NotFoundException When content is not found
- * @throws \Cake\Error\ForbiddenException When user can't access this content due to role restrictions
+ * @throws \Cake\Network\Exception\NotFoundException When content is not found
+ * @throws \Cake\Network\Exception\ForbiddenException When user can't access
+ *  this content due to role restrictions
  */
 	public function details($node_type_slug, $node_slug) {
 		$this->loadModel('Node.Nodes');

@@ -31,7 +31,7 @@ class ViewModeRegistryTest extends TestCase {
  * test that switching to an unexisting view mode throws an error.
  *
  * @return void
- * @expectedException \Cake\Error\InternalErrorException
+ * @expectedException \Cake\Network\Exception\InternalErrorException
  */
 	public function testSwitchToInvalidViewMode() {
 		ViewModeRegistry::switchViewMode('unexisting-view-mode');
@@ -41,7 +41,7 @@ class ViewModeRegistryTest extends TestCase {
  * test switchViewMode() method.
  *
  * @return void
- * @expectedException \Cake\Error\InternalErrorException
+ * @expectedException \Cake\Network\Exception\InternalErrorException
  */
 	public function testSwitchViewMode() {
 		ViewModeRegistry::addViewMode('test-view-mode', 'view mode human name', 'view mode description');

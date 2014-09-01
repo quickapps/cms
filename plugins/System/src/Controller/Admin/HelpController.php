@@ -13,7 +13,7 @@ namespace System\Controller\Admin;
 
 use Cake\Core\App;
 use Cake\Core\Configure;
-use Cake\Error\NotFoundException;
+use Cake\Network\Exception\NotFoundException;
 use Cake\I18n\I18n;
 use QuickApps\Core\Plugin;
 use System\Controller\AppController;
@@ -66,7 +66,7 @@ class HelpController extends AppController {
  *
  * @param string $pluginName The plugin name
  * @return void
- * @throws \Cake\Error\NotFoundException When no help document was found
+ * @throws \Cake\Network\Exception\NotFoundException When no help document was found
  */
 	public function about($pluginName) {
 		$about = false;

@@ -12,7 +12,7 @@
 namespace Node\Model\Entity;
 
 use Cake\Core\Configure;
-use Cake\Error\InternalErrorException;
+use Cake\Network\Exception\InternalErrorException;
 use Cake\I18n\I18n;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;

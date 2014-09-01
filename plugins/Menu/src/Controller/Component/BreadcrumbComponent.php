@@ -191,14 +191,14 @@ class BreadcrumbComponent extends Component {
  * @param string $method Name of the method to be invoked
  * @param array $args List of arguments passed to the function
  * @return mixed
- * @throws \Cake\Error\Exception When the method is unknown
+ * @throws \Cake\Core\Exception\Exception When the method is unknown
  */
 	public function __call($method, $args) {
 		if (method_exists('\Menu\View\BreadcrumbRegistry', $method)) {
 			return call_user_func_array(['\Menu\View\BreadcrumbRegistry', $method], $args);
 		}
 
-		throw new \Cake\Error\Exception(__d('menu', 'Method "{0}" was not found.', $method));
+		throw new \Cake\Core\Exception\Exception(__d('menu', 'Method "{0}" was not found.', $method));
 	}
 
 }

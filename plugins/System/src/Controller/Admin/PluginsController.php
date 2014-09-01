@@ -11,7 +11,7 @@
  */
 namespace System\Controller\Admin;
 
-use Cake\Error\NotFoundException;
+use Cake\Network\Exception\NotFoundException;
 use Cake\ORM\Entity;
 use Cake\Utility\Hash;
 use System\Controller\AppController;
@@ -189,7 +189,7 @@ class PluginsController extends AppController {
  *
  * @param string $pluginName
  * @return void
- * @throws \Cake\Error\NotFoundException When plugin do not exists
+ * @throws \Cake\Network\Exception\NotFoundException When plugin do not exists
  */
 	public function settings($pluginName) {
 		$plugin = Plugin::info($pluginName, true);

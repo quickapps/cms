@@ -11,7 +11,7 @@
  */
 namespace System\Controller\Admin;
 
-use Cake\Error\NotFoundException;
+use Cake\Network\Exception\NotFoundException;
 use Cake\Utility\Inflector;
 use System\Controller\AppController;
 use QuickApps\Core\Plugin;
@@ -211,7 +211,7 @@ class ThemesController extends AppController {
  *
  * @param string $pluginName
  * @return void
- * @throws \Cake\Error\NotFoundException When plugin do not exists
+ * @throws \Cake\Network\Exception\NotFoundException When plugin do not exists
  */
 	public function settings($themeName) {
 		$theme = Plugin::info($themeName, true);

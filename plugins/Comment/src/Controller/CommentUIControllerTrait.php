@@ -13,9 +13,9 @@ namespace Comment\Controller;
 
 use Cake\Collection\Collection;
 use Cake\Core\Configure;
-use Cake\Error\ForbiddenException;
+use Cake\Network\Exception\ForbiddenException;
 use Cake\Event\Event;
-use Cake\ORM\Error\RecordNotFoundException;
+use Cake\ORM\Exception\RecordNotFoundException;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
@@ -80,7 +80,7 @@ trait CommentUIControllerTrait {
  *
  * @param \Cake\Event\Event $event The event instance.
  * @return void
- * @throws \Cake\Error\ForbiddenException When
+ * @throws \Cake\Network\Exception\ForbiddenException When
  * - $_manageTable is not defined.
  * - trait is used in non-controller classes.
  * - the controller is not a backend controller.

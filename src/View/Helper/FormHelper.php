@@ -247,7 +247,7 @@ class FormHelper extends CakeFormHelper {
  * @param string $method Method name / input type to make.
  * @param array $params Parameters for the method call
  * @return string Formatted input method.
- * @throws \Cake\Error\Exception When there are no params for the method call.
+ * @throws \Cake\Core\Exception\Exception When there are no params for the method call.
  */
 	public function __call($method, $params) {
 		return parent::__call($method, $params);

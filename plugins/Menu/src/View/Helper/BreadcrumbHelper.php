@@ -11,7 +11,7 @@
  */
 namespace Menu\View\Helper;
 
-use Cake\Error\Exception;
+use Cake\Core\Exception\Exception;
 use Cake\Utility\Hash;
 use Menu\View\BreadcrumbRegistry;
 use QuickApps\View\Helper;
@@ -38,7 +38,7 @@ class BreadcrumbHelper extends Helper {
  * @param string $method Name of the method to be invoked
  * @param array $args List of arguments passed to the function
  * @return mixed
- * @throws \Cake\Error\Exception When the method is unknown
+ * @throws \Cake\Core\Exception\Exception When the method is unknown
  */
 	public function __call($method, $args) {
 		if (method_exists('\Menu\View\BreadcrumbRegistry', $method)) {

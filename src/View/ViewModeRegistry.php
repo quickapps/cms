@@ -11,7 +11,7 @@
  */
 namespace QuickApps\View;
 
-use Cake\Error\InternalErrorException;
+use Cake\Network\Exception\InternalErrorException;
 
 /**
  * ViewModeRegistry is used as a registry for handling view modes, also provides
@@ -47,7 +47,8 @@ class ViewModeRegistry {
  *
  * @param string $slug View mode machine name to switch to
  * @return void
- * @throws \Cake\Error\InternalErrorException When switching to an unregistered view mode
+ * @throws \Cake\Network\Exception\InternalErrorException When switching to an
+ *  unregistered view mode
  */
 	public static function switchViewMode($slug) {
 		if (empty(static::$_viewModes[$slug])) {
@@ -183,8 +184,8 @@ class ViewModeRegistry {
  * @param boolean $full Set to true to get full list. Or false (by default) to
  *  get only the slug of all registered view modes.
  * @return array
- * @throws \Cake\Error\InternalErrorException When you try to get information
- *  for a particular View Mode that does not exists
+ * @throws \Cake\Network\Exception\InternalErrorException When you try to get
+ *  information for a particular View Mode that does not exists
  */
 	public static function viewModes($full = false) {
 		if (is_string($full)) {

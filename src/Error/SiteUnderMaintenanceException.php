@@ -11,7 +11,7 @@
  */
 namespace QuickApps\Error;
 
-use Cake\Error\Exception;
+use Cake\Core\Exception\Exception;
 
 /**
  * Represents an HTTP 503 error.

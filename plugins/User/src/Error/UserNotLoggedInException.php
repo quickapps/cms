@@ -11,7 +11,7 @@
  */
 namespace User\Error;
 
-use Cake\Error\Exception;
+use Cake\Core\Exception\Exception;
 
 /**
  * Exception raised when a user is required to be logged in, but he/she is not.

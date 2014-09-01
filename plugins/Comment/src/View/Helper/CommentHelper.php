@@ -11,7 +11,7 @@
  */
 namespace Comment\View\Helper;
 
-use Cake\Error\InternalErrorException;
+use Cake\Network\Exception\InternalErrorException;
 use Cake\ORM\Entity;
 use QuickApps\Core\HookTrait;
 use QuickApps\Core\Plugin;

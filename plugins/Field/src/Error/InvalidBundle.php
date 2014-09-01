@@ -11,7 +11,7 @@
  */
 namespace Field\Error;
 
-use Cake\Error\Exception;
+use Cake\Core\Exception\Exception;
 
 /**
  * Exception raised when an incorrect bundle was given.
