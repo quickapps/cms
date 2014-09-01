@@ -89,7 +89,7 @@ class LinksController extends AppController {
 /**
  * Add a new link to the given menu.
  *
- * @param integer $id Menu's ID for which add a link
+ * @param integer $menu_id Menu's ID for which add a link
  * @return void
  */
 	public function add($menu_id) {

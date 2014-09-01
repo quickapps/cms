@@ -782,7 +782,7 @@ class FieldableBehavior extends Behavior {
 						$_post = $entity->get(":{$field->name}");
 						if (is_array($_post)) {
 							$field->set('extra', $_post);
-						} elseif(is_string($_post)) {
+						} elseif (is_string($_post)) {
 							$field->set('value', $_post);
 						}
 						$field->metadata->set('errors', (array)$errors);

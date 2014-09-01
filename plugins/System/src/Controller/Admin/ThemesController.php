@@ -158,7 +158,7 @@ class ThemesController extends AppController {
 /**
  * Detailed theme's information.
  *
- * @param string $theme Theme's name
+ * @param string $themeName Theme's name
  * @return void
  */
 	public function details($themeName) {

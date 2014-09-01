@@ -161,7 +161,7 @@ class CommentComponent extends Component {
 				$this->config('settings.auto_approve') ||
 				$this->_controller->request->is('userAdmin')
 			) {
-				return __d('comment', 'Comment saved!');	
+				return __d('comment', 'Comment saved!');
 			}
 
 			return __d('comment', 'Your comment is awaiting moderation.');

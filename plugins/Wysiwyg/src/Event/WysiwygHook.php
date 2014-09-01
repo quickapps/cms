@@ -53,7 +53,7 @@ class WysiwygHook implements EventListener {
  *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param string $fieldName Field name
- * @param array $options Array of options
+ * @param array &$options Array of options
  * @return void
  */
 	public function alterTextarea(Event $event, $fieldName, &$options) {

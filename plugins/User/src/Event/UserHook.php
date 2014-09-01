@@ -53,7 +53,7 @@ class UserHook implements EventListener {
  *
  * Returning false or stopping the event will halt the identification process.
  *
- * @param \Cake\Event\Event $event
+ * @param \Cake\Event\Event $event The event that was triggered
  * @return bool
  */
 	public function beforeIdentify(Event $event) {
@@ -102,8 +102,8 @@ class UserHook implements EventListener {
 /**
  * Event triggered when new users are registered on DB.
  *
- * @param \Cake\Event\Event $event
- * @param \User\Model\Entity\User $user
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \User\Model\Entity\User $user The user entity that was registered
  * @return bool
  */
 	public function registered(Event $event, User $user) {

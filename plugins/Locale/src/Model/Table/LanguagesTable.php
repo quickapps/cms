@@ -57,10 +57,9 @@ class LanguagesTable extends Table {
  * 
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $language The language entity that was saved
- * @param array $options The options passed to the save method
  * @return void
  */
-	public function afterSave(Event $event, Entity $language, $options) {
+	public function afterSave(Event $event, Entity $language) {
 		snapshot();
 	}
 
@@ -69,7 +68,6 @@ class LanguagesTable extends Table {
  * 
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $language The language entity that was saved
- * @param array $options The options passed to the save method
  * @return void
  */
 	public function afterDelete(Event $event, Entity $language) {

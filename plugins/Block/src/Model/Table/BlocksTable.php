@@ -107,9 +107,7 @@ class BlocksTable extends Table {
 			->add('pages', 'validPHP', [
 				'rule' => function ($value, $context) {
 					if (!empty($context['data']['visibility']) && $context['data']['visibility'] === 'php') {
-						return 
-							strpos($value, '<?php') !== false &&
-							strpos($value, '?>') !== false;
+						return strpos($value, '<?php') !== false && strpos($value, '?>') !== false;
 					}
 					return true;
 				},
@@ -162,6 +160,7 @@ class BlocksTable extends Table {
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Block\Model\Entity\Block $block The block entity being validated
  * @param array $options Additional options given as an array
+ * @param \Cake\Validation\Validator $validator The validator object
  * @return bool False if save operation should not continue, true otherwise
  */
 	public function beforeValidate(Event $event, Block $block, $options, Validator $validator) {
@@ -179,6 +178,7 @@ class BlocksTable extends Table {
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Block\Model\Entity\Block $block The block entity that was validated
  * @param array $options Additional options given as an array
+ * @param \Cake\Validation\Validator $validator The validator object
  * @return void
  */
 	public function afterValidate(Event $event, Block $block, $options, Validator $validator) {

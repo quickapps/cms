@@ -102,7 +102,8 @@ class MenusTable extends Table {
  *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Menu\Model\Entity\Menu $menu The menu entity that was validated
- * @param array $options
+ * @param array $options Additional options given as an array
+ * @param \Cake\Validation\Validator $validator The validator object
  * @return void
  */
 	public function afterValidate(Event $event, Menu $menu, $options, Validator $validator) {

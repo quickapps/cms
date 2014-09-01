@@ -67,7 +67,7 @@ class TermsController extends AppController {
 				});
 				// don't trust "left" and "right" values coming from user's POST
 				$this->Vocabularies->Terms->addBehavior('Tree', ['scope' => ['vocabulary_id' => $vocabulary->id]]);
-				$this->Vocabularies->Terms->recover(); 
+				$this->Vocabularies->Terms->recover();
 				$this->Flash->success(__d('taxonomy', 'Vocabulary terms tree has been reordered'));
 			} else {
 				$this->Flash->danger(__d('taxonomy', 'Invalid information, check you have JavaScript enabled'));

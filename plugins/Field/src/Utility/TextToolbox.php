@@ -340,7 +340,7 @@ class TextToolbox {
  *     echo $this->trimmer('Lorem ipsum dolor sit amet, consectetur adipiscing elit', 10);
  *     // out: "Lorem ipsu ..."
  *
- * @param string $text
+ * @param string $text The text to trim
  * @param string|integer|false $len Either a string indicating where to cut the
  * text, or a integer to trim text to that number of characters. If not given
  * (false by default) text will be trimmed to 600 characters length.

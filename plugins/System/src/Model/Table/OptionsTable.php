@@ -41,7 +41,7 @@ class OptionsTable extends Table {
  * @param \Cake\ORM\Entity $option The option entity that was saved
  * @return void
  */
-	public function afterSave(Event $event, Entity $option, $options) {
+	public function afterSave(Event $event, Entity $option) {
 		snapshot();
 	}
 

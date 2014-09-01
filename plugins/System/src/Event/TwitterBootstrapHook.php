@@ -167,7 +167,8 @@ class TwitterBootstrapHook implements EventListener {
  * Add custom CSS classes to array of options.
  * 
  * @param \Cake\View\Helper\FormHelper $formHelper Instance of FormHelper
- * @param array $options Input's  options
+ * @param array $options Input's options
+ * @param string $class CSS classes to add
  * @return array
  */
 	protected function _addClass($formHelper, $options, $class) {
