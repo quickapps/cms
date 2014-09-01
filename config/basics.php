@@ -97,7 +97,10 @@ if (!function_exists('snapshot')) {
 
 			$plugins = $PluginTable->find()
 				->select(['name', 'package', 'status'])
-				->order(['ordering' => 'ASC'])
+				->order([
+					'ordering' => 'ASC',
+					'name' => 'ASC',
+				])
 				->all();
 			$nodeTypes = $NodeTypesTable->find()
 				->select(['slug'])
