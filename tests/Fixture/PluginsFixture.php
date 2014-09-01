@@ -27,6 +27,23 @@ class PluginsFixture extends TestFixture {
 		$fixture = new \plugins();
 		$this->fields = $fixture->fields;
 		$this->records = $fixture->records;
+
+		$this->records[] = [
+			'name' => 'SpaceOddity',
+			'package' => 'quickapps-plugins/space-oddity',
+			'settings' => '',
+			'status' => true,
+			'ordering' => 500
+		];
+
+		$this->records[] = [
+			'name' => 'NeedsSpaceOddity',
+			'package' => 'quickapps-plugins/needs-space-oddity',
+			'settings' => '',
+			'status' => true,
+			'ordering' => 501
+		];
+
 		parent::init();
 	}
 

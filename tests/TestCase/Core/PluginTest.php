@@ -74,7 +74,7 @@ class PluginTest extends TestCase {
 	}
 
 /**
- * test composer() method.
+ * test validateJson() method.
  *
  * @return void
  */
@@ -101,6 +101,31 @@ class PluginTest extends TestCase {
 		$expected = ['__QUICKAPPS__' => '2.0.*-dev', 'SpaceOddity' => '*'];
 
 		$this->assertEquals($expected, $result);
+	}
+
+/**
+ * test checkDependency() method.
+ *
+ * @return void
+ */
+	public function testCheckDependency() {
+		$expected = true;
+		$result = Plugin::checkDependency('NeedsSpaceOddity');
+
+		$this->assertEquals($expected, $result);
+	}
+
+/**
+ * test checkReverseDependency() method.
+ *
+ * @return void
+ */
+	public function testCheckReverseDependency() {
+		$result1 = Plugin::checkReverseDependency('SpaceOddity');
+		$result2 = Plugin::checkReverseDependency('NeedsSpaceOddity');
+
+		$this->assertTrue(!empty($result1));
+		$this->assertTrue(empty($result2));
 	}
 
 }
