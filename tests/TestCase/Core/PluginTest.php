@@ -20,10 +20,9 @@ use QuickApps\Core\Plugin;
  */
 class PluginTest extends TestCase {
 
-	protected $_eventManager = null;
-
-	public function setUp() {
-	}
+	public $fixtures = [
+		'app.plugins',
+	];
 
 /**
  * test scan() method.
@@ -58,7 +57,7 @@ class PluginTest extends TestCase {
  * @expectedException \Cake\Error\FatalErrorException
  */
 	public function testInfoThrow() {
-		Plugin::info('InvalidPlugin');
+		Plugin::info('UnexistingPluginName');
 	}
 
 /**
