@@ -115,7 +115,6 @@ function snapshot() {
 	$snapshot['plugins'] = Hash::sort($snapshot['plugins'], '{s}.name', 'asc');
 	Configure::write('QuickApps', $snapshot);
 	Configure::dump('snapshot.php', 'QuickApps', ['QuickApps']);
-	debug($snapshot);
 }
 
 require QA_CORE . '/config/bootstrap.php';
