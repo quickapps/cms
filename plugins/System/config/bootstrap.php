@@ -87,10 +87,9 @@ Request::addDetector('localized', function ($request) {
  *     $request->isUserLoggedIn(); 
  */
 Request::addDetector('userLoggedIn', function ($request) {
-	return (
-		$request->session()->check('Auth.User.id') &&
-		!empty($request->session()->check('Auth.User.id'))
-	);
+	$sessionExists = $request->session()->check('Auth.User.id');
+	$sessionContent = $request->session()->read('Auth.User.id');
+	return ($sessionExists && !empty($sessionContent));
 });
 
 /**
