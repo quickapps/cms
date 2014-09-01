@@ -106,7 +106,24 @@ class PluginsTable extends Table {
 	}
 
 /**
- * Triggers the `Plugin.<PluginName>.afterSave` event.
+ * Set plugin's load ordering to LAST if it's a new plugin being installed.
+ * 
+ * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\ORM\Entity $plugin The Plugin entity being saved
+ * @param array $options The options passed to the save method
+ * @return void
+ */
+	public function beforeSave(Event $event, Entity $plugin, $options) {
+		if ($plugin->isNew()) {
+			$max = $this->find()
+				->order(['ordering' => 'DESC'])
+				->limit(1)
+				->first();
+			$plugin->set('ordering', $max->ordering + 1);
+		}
+	}
+
+/**
  * This method automatically regenerates system's snapshot.
  * 
  * @param \Cake\Event\Event $event The event that was fired
@@ -119,7 +136,6 @@ class PluginsTable extends Table {
 	}
 
 /**
- * Triggers the "Plugin.<PluginName>.afterDelete" event.
  * This method automatically regenerates system's snapshot.
  *
  * @param \Cake\Event\Event $event The event that was fired
