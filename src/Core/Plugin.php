@@ -400,10 +400,10 @@ class Plugin extends CakePlugin {
  *     Plugin::dependencies(json_decode('/path/to/composer.json', true));
  *
  * @param array|string $plugin Plugin alias, or an array representing a 
- * "composer.json" file, that is, result of `json_decode(..., true)`
+ *  "composer.json" file, that is, result of `json_decode(..., true)`
  * @return array List of plugin & version that $plugin depends on
  * @throws \Cake\Eror\FatalErrorException When $plugin is not found, or when
- * plugin's composer.json is missing or corrupt
+ *  plugin's composer.json is missing or corrupt
  */
 	public static function dependencies($plugin) {
 		if (is_array($plugin)) {
