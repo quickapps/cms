@@ -128,4 +128,40 @@ class PluginTest extends TestCase {
 		$this->assertTrue(empty($result2));
 	}
 
+/**
+ * test parseDependency() method.
+ *
+ * @return void
+ */
+	public function testParseDependency() {
+		$expected1 = [['op' => '<', 'version' => '2.x'], ['op' => '>=', 'version' => '1.x']];
+		$result1 = Plugin::parseDependency('1.*');
+
+		$expected2 = [['op' => '<', 'version' => '1.2'], ['op' => '>=', 'version' => '1.1']];
+		$result2 = Plugin::parseDependency('1.1.*');
+
+		$expected3 = [['op' => '>', 'version' => '1.0']];
+		$result3 = Plugin::parseDependency('>1.0');
+
+		$expected4 = [['op' => '>=', 'version' => '1.x']];
+		$result4 = Plugin::parseDependency('>=1.*');
+
+		$expected5 = [];
+		$result5 = Plugin::parseDependency('*');
+
+		$expected6 = [['op' => '>=', 'version' => '7.0'], ['op' => '<', 'version' => '7.6']];
+		$result6 = Plugin::parseDependency('>=7.x,<7.6');
+
+		$expected7 = $expected6;
+		$result7 = Plugin::parseDependency('>=7.x,<7.6.*');
+
+		$this->assertEquals($expected1, $result1['versions']);
+		$this->assertEquals($expected2, $result2['versions']);
+		$this->assertEquals($expected3, $result3['versions']);
+		$this->assertEquals($expected4, $result4['versions']);
+		$this->assertEquals($expected5, $result5['versions']);
+		$this->assertEquals($expected6, $result6['versions']);
+		$this->assertEquals($expected7, $result7['versions']);
+	}
+
 }
