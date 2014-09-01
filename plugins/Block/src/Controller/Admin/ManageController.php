@@ -161,7 +161,7 @@ class ManageController extends AppController {
  * 
  * @param string $id Block's ID
  * @return void
- * @throws \Cake\ORM\Error\RecordNotFoundException if no block is not found
+ * @throws \Cake\ORM\Exception\RecordNotFoundException if no block is not found
  */
 	public function edit($id) {
 		$this->loadModel('Block.Blocks');
@@ -199,8 +199,10 @@ class ManageController extends AppController {
  * 
  * @param string $id Block's ID
  * @return void Redirects to previous page
- * @throws \Cake\ORM\Error\RecordNotFoundException if no record can be found given a primary key value
- * @throws \InvalidArgumentException When $primaryKey has an incorrect number of elements
+ * @throws \Cake\ORM\Exception\RecordNotFoundException if no record can be found
+ *  given a primary key value
+ * @throws \InvalidArgumentException When $primaryKey has an incorrect number
+ *  of elements
  */
 	public function delete($id) {
 		$this->loadModel('Block.Blocks');
@@ -226,7 +228,7 @@ class ManageController extends AppController {
  * 
  * @param string $id Block's ID
  * @return void Redirects to previous page
- * @throws \Cake\ORM\Error\RecordNotFoundException if no block is not found
+ * @throws \Cake\ORM\Exception\RecordNotFoundException if no block is not found
  */
 	public function duplicate($id) {
 		$this->loadModel('Block.Blocks');

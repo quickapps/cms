@@ -12,7 +12,7 @@
 namespace Locale\Utility;
 
 use Cake\Core\Configure;
-use Cake\Utility\Folder;
+use Cake\Filesystem\Folder;
 use QuickApps\Core\Plugin;
 
 /**

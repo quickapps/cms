@@ -17,10 +17,10 @@ use Cake\Core\Configure;
 use Cake\Database\Schema\Table as TableSchema;
 use Cake\Datasource\ConnectionManager;
 use Cake\Event\Event;
+use Cake\Filesystem\File;
+use Cake\Filesystem\Folder;
 use Cake\I18n\I18n;
 use Cake\Routing\Router;
-use Cake\Utility\File;
-use Cake\Utility\Folder;
 use Cake\Utility\Hash;
 use QuickApps\Core\Plugin;
 

@@ -25,7 +25,7 @@ $classLoader = require VENDOR_INCLUDE_PATH . 'autoload.php';
 use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
-use Cake\Utility\Folder;
+use Cake\Filesystem\Folder;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use QuickApps\View\ViewModeRegistry;

@@ -13,7 +13,7 @@ namespace SpaceOddity\Event;
 
 use Cake\Event\Event;
 use Cake\Event\EventListener;
-use Cake\Utility\Debugger;
+use Cake\Error\Debugger;
 
 /**
  * SpaceOddity Hook class.

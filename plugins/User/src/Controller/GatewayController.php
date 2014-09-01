@@ -321,8 +321,8 @@ class GatewayController extends AppController {
  *
  * @param integer $id User's ID
  * @return void
- * @throws \Cake\ORM\Error\RecordNotFoundException When user not found, or users
- *  has marked profile as private 
+ * @throws \Cake\ORM\Exception\RecordNotFoundException When user not found, or
+ *  users has marked profile as private 
  */
 	public function profile($id) {
 		$this->loadModel('User.Users');

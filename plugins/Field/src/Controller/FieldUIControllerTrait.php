@@ -165,7 +165,8 @@ trait FieldUIControllerTrait {
  *
  * @param integer $id The field instance ID to manage
  * @return void
- * @throws \Cake\ORM\Error\RecordNotFoundException When no field instance was found
+ * @throws \Cake\ORM\Exception\RecordNotFoundException When no field instance
+ *  was found
  */
 	public function configure($id) {
 		$instance = $this->_getOrThrow($id, ['locked' => false]);

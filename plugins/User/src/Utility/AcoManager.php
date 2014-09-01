@@ -12,9 +12,9 @@
 namespace User\Utility;
 
 use Cake\Error\FatalErrorException;
+use Cake\Filesystem\Folder;
 use Cake\Model\ModelAwareTrait;
 use Cake\Routing\Router;
-use Cake\Utility\Folder;
 use Cake\Utility\Inflector;
 use QuickApps\Core\Plugin;
 use QuickApps\Core\StaticCacheTrait;

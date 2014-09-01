@@ -11,7 +11,7 @@
  */
 namespace User\Controller\Admin;
 
-use Cake\Utility\File;
+use Cake\Filesystem\File;
 use QuickApps\Core\Plugin;
 use User\Controller\AppController;
 use User\Utility\AcoManager;

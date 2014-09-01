@@ -11,7 +11,7 @@
  */
 namespace Installer\Task;
 
-use Cake\Utility\Folder;
+use Cake\Filesystem\Folder;
 use QuickApps\Core\Plugin;
 use User\Utility\AcoManager;
 
