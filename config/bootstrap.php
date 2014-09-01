@@ -178,31 +178,31 @@ if (!file_exists(TMP . 'snapshot.php')) {
 /**
  * Load all registered plugins.
  */
-$pluginCollection = Plugin::collection();
-$activePlugins = array_keys($pluginCollection->match(['status' => 1, 'isTheme' => false])->toArray());
+$activePlugins = Plugin::collection()->match(['status' => 1])->toArray();
 $EventManager = EventManager::instance();
 
 if (!count($activePlugins)) {
 	die("Ops, something went wrong. Try to clear your site's snapshot and verify write permissions on /tmp directory.");
 }
 
-foreach (Plugin::scan() as $plugin => $path) {
+foreach ($activePlugins as $pluginName => $info) {
 	if (
-		in_array($plugin, $activePlugins) ||
-		$plugin === option('front_theme') ||
-		$plugin === option('back_theme')
+		$info['isTheme'] &&
+		!in_array($pluginName, [option('front_theme'), option('back_theme')])
 	) {
-		Plugin::load($plugin, [
-			'autoload' => true,
-			'bootstrap' => true,
-			'routes' => true,
-			'ignoreMissing' => true,
-		]);
+		continue;
+	}
 
-		foreach (Plugin::info($plugin)['eventListeners'] as $fullClassName => $eventInfo) {
-			if (class_exists($fullClassName)) {
-				$EventManager->attach(new $fullClassName);
-			}
+	Plugin::load($pluginName, [
+		'autoload' => true,
+		'bootstrap' => true,
+		'routes' => true,
+		'ignoreMissing' => true,
+	]);
+
+	foreach ($info['eventListeners'] as $fullClassName => $eventInfo) {
+		if (class_exists($fullClassName)) {
+			$EventManager->attach(new $fullClassName);
 		}
 	}
 }
