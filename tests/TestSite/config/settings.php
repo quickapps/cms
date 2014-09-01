@@ -2,8 +2,8 @@
 $config = [
 	'Datasources' => [
 		'default' => [
-			'className' => 'Cake\\Database\\Connection',
-			'driver' => 'Cake\\Database\\Driver\\MySQL',
+			'className' => 'Cake\Database\Connection',
+			'driver' => 'Cake\Database\Driver\Mysql',
 			'persistent' => false,
 			'host' => 'localhost',
 			'login' => 'travis',
@@ -14,8 +14,8 @@ $config = [
 			'log' => true,
 		],
 		'test' => [
-			'className' => 'Cake\\Database\\Connection',
-			'driver' => 'Cake\\Database\\Driver\\MySQL',
+			'className' => 'Cake\Database\Connection',
+			'driver' => 'Cake\Database\Driver\Mysql',
 			'persistent' => false,
 			'host' => 'localhost',
 			'login' => 'travis',
