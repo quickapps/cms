@@ -252,7 +252,7 @@ class StartupController extends Controller {
 		if (!empty($this->request->data)) {
 			$requestData = $this->request->data;
 
-			if (in_array($requestData['driver'], ['Mysql', ])) {
+			if (in_array($requestData['driver'], ['Mysql', 'Postgres', 'Sqlite', 'Sqlserver'])) {
 				if (function_exists('ini_set')) {
 					ini_set('max_execution_time', 300);
 				} elseif (function_exists('set_time_limit')) {
