@@ -475,7 +475,7 @@ class Plugin extends CakePlugin {
 			}
 
 			if ($current) {
-				if (!static::checkIncompatibility(static::parseDependency($required), $current)) {	
+				if (!static::checkIncompatibility(static::parseDependency($required), $current)) {
 					return false;
 				}
 			} else {
@@ -496,7 +496,8 @@ class Plugin extends CakePlugin {
  */
 	public static function checkReverseDependency($pluginName) {
 		$out = [];
-		foreach (static::collection(true) as $plugin) {
+		$plugins = static::collection(true)->match(['status' => 1]);
+		foreach ($plugins as $plugin) {
 			if ($plugin['name'] === $pluginName) {
 				continue;
 			}
