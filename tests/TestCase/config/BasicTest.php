@@ -27,8 +27,8 @@ class BasicTest extends TestCase {
  * @return void
  */
 	public function testNormalizePath() {
-		$path1 = normalizePath('/some/path\to/some\\thing\about.zip', '/');
-		$path2 = normalizePath('/some/path\to/some\\thing\about.zip', '@@');
+		$path1 = normalizePath('/some/path\to/some\thing\about.zip', '/');
+		$path2 = normalizePath('/some/path\to/some\thing\about.zip', '@@');
 
 		$this->assertEquals('/some/path/to/some/thing/about.zip', $path1);
 		$this->assertEquals('@@some@@path@@to@@some@@thing@@about.zip', $path2);

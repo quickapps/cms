@@ -226,7 +226,7 @@ if (!function_exists('snapshot')) {
  * @return string Normalized $path
  */
 	function normalizePath($path, $ds = DIRECTORY_SEPARATOR) {
-		$path = str_replace(['/', DS], $ds, $path);
+		$path = str_replace(['/', '\\'], $ds, $path);
 		return str_replace("{$ds}{$ds}", $ds, $path);
 	}
 

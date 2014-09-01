@@ -93,9 +93,11 @@ class TextField extends FieldHandler {
 				->add(":{$field->name}", 'validateRequired', [
 					'rule' => function ($value, $context) use ($field) {
 						if ($field->metadata->settings['type'] === 'textarea') {
-							return !empty(html_entity_decode(trim(strip_tags($value))));
+							$clean = html_entity_decode(trim(strip_tags($value)));
+							return !empty($return);
 						} else {
-							return !empty(trim(strip_tags($value)));
+							$clean = trim(strip_tags($value));
+							return !empty($clean);
 						}
 					},
 					'message' => __d('field', 'Field required.'),
