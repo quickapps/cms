@@ -456,25 +456,26 @@ class Plugin extends CakePlugin {
 				}
 			} else {
 				try {
-					$info = (array)static::info($plugin);
+					$basicInfo = (array)static::info($plugin);
+					$composerInfo = (array)static::composer($plugin);
 				} catch (FatalErrorException $e) {
-					$current = false;
-				}
-
-				// installed, but disabled
-				if (!$info['status']) {
 					return false;
 				}
 
-				if (!empty($info['version'])) {
-					$current = $info['version'];
+				// installed, but disabled
+				if (!$basicInfo['status']) {
+					return false;
+				}
+
+				if (!empty($composerInfo['version'])) {
+					$current = $composerInfo['version'];
 				} else {
 					$current = false;
 				}
 			}
 
 			if ($current) {
-				if (!static::checkIncompatibility(static::parseDependency($required), $current)) {
+				if (!static::checkIncompatibility(static::parseDependency($required), $current)) {	
 					return false;
 				}
 			} else {
@@ -597,19 +598,21 @@ class Plugin extends CakePlugin {
 	public static function checkIncompatibility($v, $current) {
 		if (!empty($v['versions'])) {
 			foreach ($v['versions'] as $required) {
-					$aIsBranch = 'dev-' === substr($current, 0, 4);
-					$bIsBranch = 'dev-' === substr($required['version'], 0, 4);
-					if ($aIsBranch && $bIsBranch) {
-						if (!($required['op'] === '==' && $current === $$required['version'])) {
-							return false;
-						}
+				$aIsBranch = 'dev-' === substr($current, 0, 4);
+				$bIsBranch = 'dev-' === substr($required['version'], 0, 4);
+
+				if ($aIsBranch && $bIsBranch) {
+					if (!($required['op'] === '==' && $current === $$required['version'])) {
+						return false;
 					}
+				}
 
 				if (isset($required['op']) && !version_compare($current, $required['version'], $required['op'])) {
 					return false;
 				}
 			}
 		}
+
 		return true;
 	}
 

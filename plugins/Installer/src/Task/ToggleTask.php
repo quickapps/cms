@@ -98,6 +98,12 @@ class ToggleTask extends BaseTask {
 			return false;
 		}
 
+		$requires = Plugin::checkDependency($this->plugin());
+		if (!$requires && $status === true) {
+			$this->error(__d('installer', 'Plugin "{0}" cannot be enabled as some dependencies are disabled or not installed.', $info['human_name']));
+			return false;
+		}
+
 		$requiredBy = Plugin::checkReverseDependency($this->plugin());
 		if (!empty($requiredBy) && $status === false) {
 			$this->error(__d('installer', 'Plugin "{0}" cannot be disabled as it is required by: {1}', $info['human_name'], implode(', ', $requiredBy)));
