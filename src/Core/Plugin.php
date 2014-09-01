@@ -413,11 +413,11 @@ class Plugin extends CakePlugin {
 				return [];
 			}
 		} else {
-			$info = static::info($plugin, true);
+			$composer = static::composer($plugin);
 		}
 		$dependencies = [];
-		if (!empty($info['composer']['require'])) {
-			foreach ($info['composer']['require'] as $name => $version) {
+		if (!empty($composer['require'])) {
+			foreach ($composer['require'] as $name => $version) {
 				$name = pluginName($name);
 				if (!$name) {
 					continue;
@@ -456,7 +456,7 @@ class Plugin extends CakePlugin {
 				}
 			} else {
 				try {
-					$info = static::info($plugin, true);
+					$info = (array)static::info($plugin);
 				} catch (FatalErrorException $e) {
 					$current = false;
 				}
