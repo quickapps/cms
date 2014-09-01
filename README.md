@@ -1,5 +1,6 @@
 # QuickAppsCMS
 
+[![Build Status](https://travis-ci.org/quickapps/cms.svg?branch=2.0)](https://travis-ci.org/quickapps/cms)
 [![Latest Stable Version](https://poser.pugx.org/quickapps/cms/v/stable.svg)](https://packagist.org/packages/quickapps/cms)
 [![Total Downloads](https://poser.pugx.org/quickapps/cms/downloads.svg)](https://packagist.org/packages/quickapps/cms)
 [![Latest Unstable Version](https://poser.pugx.org/quickapps/cms/v/unstable.svg)](https://packagist.org/packages/quickapps/cms)
