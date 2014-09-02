@@ -6,7 +6,13 @@ define('DS', DIRECTORY_SEPARATOR);
 define('SITE_ROOT', __DIR__ . DS . 'TestSite');
 define('QA_CORE', dirname(__DIR__));
 define('ROOT', dirname(__DIR__));
-define('VENDOR_INCLUDE_PATH', realpath('vendor/') . DS);
+
+if (file_exists('../../../vendor/')) {
+	define('VENDOR_INCLUDE_PATH', realpath('../../../vendor/') . DS);
+} else {
+	define('VENDOR_INCLUDE_PATH', realpath('vendor/') . DS);
+}
+
 define('APP_DIR', 'src');
 define('WEBROOT_DIR', 'webroot');
 define('APP', ROOT . DS . APP_DIR . DS);

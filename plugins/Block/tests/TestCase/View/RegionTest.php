@@ -60,8 +60,8 @@ class RegionTest extends TestCase {
  * @return void
  */
 	public function testGetTheme() {
-		$this->assertEquals('Frontend', $this->regions[0]->getTheme('name'));
-		$this->assertEquals('FrontendTheme', $this->regions[0]->getTheme('human_name'));
+		$this->assertEquals('FrontendTheme', $this->regions[0]->getTheme('name'));
+		$this->assertEquals('Frontend Theme', $this->regions[0]->getTheme('human_name'));
 	}
 
 }
