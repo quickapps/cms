@@ -20,8 +20,18 @@ use QuickApps\Core\Hooktag;
  */
 class HooktagTest extends TestCase {
 
+/**
+ * EventManager instance.
+ * 
+ * @var \Cake\Event\EventManager
+ */
 	protected $_eventManager = null;
 
+/**
+ * setUp().
+ *
+ * @return void
+ */
 	public function setUp() {
 		parent::setUp();
 
@@ -42,7 +52,7 @@ class HooktagTest extends TestCase {
 	}
 
 /**
- * test Hooktag::hooktags() method.
+ * test hooktags() method.
  *
  * @return void
  */
@@ -53,7 +63,7 @@ class HooktagTest extends TestCase {
 	}
 
 /**
- * test Hooktag::stripHooktags() method.
+ * test stripHooktags() method.
  *
  * @return void
  */

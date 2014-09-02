@@ -21,8 +21,18 @@ use QuickApps\Core\Hook;
  */
 class HookTest extends TestCase {
 
+/**
+ * EventManager instance.
+ * 
+ * @var \Cake\Event\EventManager
+ */
 	protected $_eventManager = null;
 
+/**
+ * setUp().
+ *
+ * @return void
+ */
 	public function setUp() {
 		parent::setUp();
 
@@ -40,7 +50,7 @@ class HookTest extends TestCase {
 	}
 
 /**
- * test Hook::didHook() method.
+ * test didHook() method.
  *
  * @return void
  */
@@ -52,7 +62,7 @@ class HookTest extends TestCase {
 	}
 
 /**
- * test Hook::hook() method.
+ * test hook() method.
  *
  * @return void
  */
@@ -64,7 +74,7 @@ class HookTest extends TestCase {
 	}
 
 /**
- * test Hook::alter() method.
+ * test alter() method.
  *
  * @return void
  */

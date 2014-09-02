@@ -17,19 +17,28 @@ use QuickApps\Database\Type\SerializedType;
 
 /**
  * SerializedTypeTest class.
- *
  */
 class SerializedTypeTest extends TestCase {
 
+/**
+ * Instance of the class being tested.
+ * 
+ * @var \QuickApps\Database\Type\SerializedType
+ */
 	protected $_instance = null;
 
+/**
+ * setUp().
+ *
+ * @return void
+ */
 	public function setUp() {
 		parent::setUp();
 		$this->_instance = new SerializedType();
 	}
 
 /**
- * test SerializedType::toPHP() method.
+ * test toPHP() method.
  *
  * @return void
  */
@@ -44,7 +53,7 @@ class SerializedTypeTest extends TestCase {
 	}
 
 /**
- * test SerializedType::toDatabase() method.
+ * test toDatabase() method.
  *
  * @return void
  */

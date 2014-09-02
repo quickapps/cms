@@ -19,6 +19,11 @@ use QuickApps\View\ViewModeRegistry;
  */
 class ViewModeRegistryTest extends TestCase {
 
+/**
+ * tearDown().
+ *
+ * @return void
+ */
 	public function tearDown() {
 		parent::tearDown();
 		ViewModeRegistry::removeViewMode('test-view-mode');
@@ -33,20 +38,8 @@ class ViewModeRegistryTest extends TestCase {
  * @return void
  * @expectedException \Cake\Network\Exception\InternalErrorException
  */
-	public function testSwitchToInvalidViewMode() {
+	public function testSwitchToInvalidViewModeThrow() {
 		ViewModeRegistry::switchViewMode('unexisting-view-mode');
-	}
-
-/**
- * test switchViewMode() method.
- *
- * @return void
- * @expectedException \Cake\Network\Exception\InternalErrorException
- */
-	public function testSwitchViewMode() {
-		ViewModeRegistry::addViewMode('test-view-mode', 'view mode human name', 'view mode description');
-		ViewModeRegistry::switchViewMode('unexisting-view-mode');
-		$this->assertEquals('test-view-mode', ViewModeRegistry::inUseViewMode());
 	}
 
 /**

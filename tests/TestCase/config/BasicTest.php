@@ -16,8 +16,6 @@ use Cake\TestSuite\TestCase;
 
 /**
  * BasicTest class.
- *
- * For testing /config/basics.php
  */
 class BasicTest extends TestCase {
 
@@ -133,6 +131,9 @@ class A {
 	public function dummy() {}
 }
 
+/**
+ * Used for testing get_this_class_methods()
+ */
 class B extends A {
 	public function bar() {}
 }
