@@ -21,14 +21,19 @@ use QuickApps\Model\Behavior\SluggableBehavior;
  */
 class SluggableBehaviorTest extends TestCase {
 
+/**
+ * Instance of behavior being tested.
+ * 
+ * @var \QuickApps\Model\Behavior\SluggableBehavior
+ */
 	public $Behavior;
 
 /**
- * startUp().
+ * setUp().
  *
  * @return void
  */
-	public function startUp() {
+	public function setUp() {
 		$table = $this->getMock('Cake\ORM\Table');
 		$this->Behavior = new SluggableBehavior($table);
 	}
