@@ -33,7 +33,7 @@ class SerializedType extends Type {
 	public function toPHP($value, Driver $driver) {
 		if ($this->_isSerialized($value)) {
 			//@codingStandardsIgnoreStart
-			$value = (array)@unserialize($value);
+			$value = @unserialize($value);
 			//@codingStandardsIgnoreEnd
 		}
 
