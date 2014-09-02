@@ -17,6 +17,7 @@ use Cake\Event\EventManager;
 use Cake\View\View as CakeView;
 use QuickApps\Core\HooktagTrait;
 use QuickApps\Core\HookTrait;
+use QuickApps\Core\StaticCacheTrait;
 use QuickApps\View\ViewModeTrait;
 
 /**
@@ -29,6 +30,7 @@ class View extends CakeView {
 
 	use HooktagTrait;
 	use HookTrait;
+	use StaticCacheTrait;
 	use ViewModeTrait;
 
 /**
