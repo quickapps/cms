@@ -13,6 +13,7 @@ namespace QuickApps\Test\TestCase\Model\Behavior;
 
 use Cake\Event\Event;
 use Cake\ORM\Entity;
+use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use QuickApps\Model\Behavior\SluggableBehavior;
 
@@ -29,12 +30,21 @@ class SluggableBehaviorTest extends TestCase {
 	public $Behavior;
 
 /**
+ * Fixtures.
+ * 
+ * @var array
+ */
+	public $fixtures = [
+		'app.nodes',
+	];
+
+/**
  * setUp().
  *
  * @return void
  */
 	public function setUp() {
-		$table = $this->getMock('Cake\ORM\Table');
+		$table = TableRegistry::get('Nodes');
 		$this->Behavior = new SluggableBehavior($table);
 	}
 
@@ -46,7 +56,7 @@ class SluggableBehaviorTest extends TestCase {
  */
 	public function testBeforeSaveThrow() {
 		$event = new Event('Model.beforeSave');
-		$entity = new Entity(['not_title_label' => 'Random String Title', 'slug' => '']);
+		$entity = new Entity(['id' => 100, 'not_title_label' => 'Random String Title', 'slug' => '']);
 
 		$this->Behavior->beforeSave($event, $entity);
 	}
@@ -58,7 +68,7 @@ class SluggableBehaviorTest extends TestCase {
  */
 	public function testBeforeSave() {
 		$event = new Event('Model.beforeSave');
-		$entity = new Entity(['title' => 'Random String Title', 'slug' => '']);
+		$entity = new Entity(['id' => 100, 'title' => 'Random String Title', 'slug' => '']);
 		$entity->isNew(true);
 
 		$this->Behavior->beforeSave($event, $entity);
@@ -74,12 +84,12 @@ class SluggableBehaviorTest extends TestCase {
 		$event = new Event('Model.beforeSave');
 		$this->Behavior->config('on', 'create');
 
-		$entity = new Entity(['title' => 'Lorem ipsum', 'slug' => '']);
+		$entity = new Entity(['id' => 100, 'title' => 'Lorem ipsum', 'slug' => '']);
 		$entity->isNew(true);
 		$this->Behavior->beforeSave($event, $entity);
 		$this->assertEquals('lorem-ipsum', $entity->get('slug'));
 
-		$entity = new Entity(['title' => 'Lorem ipsum', 'slug' => 'dont-touch']);
+		$entity = new Entity(['id' => 101, 'title' => 'Lorem ipsum', 'slug' => 'dont-touch']);
 		$entity->isNew(false);
 		$this->Behavior->beforeSave($event, $entity);
 		$this->assertEquals('dont-touch', $entity->get('slug'));
@@ -94,12 +104,12 @@ class SluggableBehaviorTest extends TestCase {
 		$event = new Event('Model.beforeSave');
 		$this->Behavior->config('on', 'update');
 
-		$entity = new Entity(['title' => 'Lorem ipsum', 'slug' => 'change-this']);
+		$entity = new Entity(['id' => 100, 'title' => 'Lorem ipsum', 'slug' => 'change-this']);
 		$entity->isNew(false);
 		$this->Behavior->beforeSave($event, $entity);
 		$this->assertEquals('lorem-ipsum', $entity->get('slug'));
 
-		$entity = new Entity(['title' => 'Lorem ipsum', 'slug' => 'dont-touch']);
+		$entity = new Entity(['id' => 101, 'title' => 'Lorem ipsum', 'slug' => 'dont-touch']);
 		$entity->isNew(true);
 		$this->Behavior->beforeSave($event, $entity);
 		$this->assertEquals('dont-touch', $entity->get('slug'));
