@@ -57,20 +57,22 @@ class FileToolbox {
  * @return string HTML code
  */
 	public static function formatter($View, $field) {
+		$out = '';
 		switch ($field->view_mode_settings['formatter']) {
 			case 'link':
-				return $View->element('Field.FileField/display_link', compact('field'));
+				$out = $View->element('Field.FileField/display_link', compact('field'));
 			break;
 
 			case 'table':
-				return $View->element('Field.FileField/display_table', compact('field'));
+				$out = $View->element('Field.FileField/display_table', compact('field'));
 			break;
 
 			case 'url':
 				default:
-					return $View->element('Field.FileField/display_url', compact('field'));
+					$out = $View->element('Field.FileField/display_url', compact('field'));
 			break;
 		}
+		return $out;
 	}
 
 /**
