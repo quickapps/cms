@@ -24,11 +24,6 @@ class ListField extends FieldHandler {
 
 /**
  * {@inheritDoc}
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\Field $field Field information
- * @param array $options Additional array of options
- * @return string HTML representation of this field
  */
 	public function entityDisplay(Event $event, $field, $options = []) {
 		$View = $event->subject;
@@ -37,11 +32,6 @@ class ListField extends FieldHandler {
 
 /**
  * {@inheritDoc}
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\Field $field Field information
- * @param array $options
- * @return string HTML containing from elements
  */
 	public function entityEdit(Event $event, $field, $options = []) {
 		$View = $event->subject;
@@ -50,11 +40,12 @@ class ListField extends FieldHandler {
 
 /**
  * {@inheritDoc}
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\Field $field Field information
- * @param array $options
- * @return void
+ */
+	public function entityFieldAttached(Event $event, $field) {
+	}
+
+/**
+ * {@inheritDoc}
  */
 	public function entityBeforeSave(Event $event, $entity, $field, $options) {
 		$value = $options['_post'];
@@ -67,25 +58,12 @@ class ListField extends FieldHandler {
 
 /**
  * {@inheritDoc}
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Cake\ORM\Entity $entity The entity to which field is attached to
- * @param \Field\Model\Entity\Field $field Field information
- * @param array $options
- * @return void
  */
 	public function entityAfterSave(Event $event, $entity, $field, $options) {
 	}
 
 /**
  * {@inheritDoc}
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Cake\ORM\Entity $entity The entity to which field is attached to
- * @param \Field\Model\Entity\Field $field Field information
- * @param array $options
- * @param \Cake\Validation\Validator $validator
- * @return bool False will halt the save process
  */
 	public function entityBeforeValidate(Event $event, $entity, $field, $options, $validator) {
 		if ($field->metadata->required) {
@@ -101,13 +79,6 @@ class ListField extends FieldHandler {
 
 /**
  * {@inheritDoc}
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Cake\ORM\Entity $entity The entity to which field is attached to
- * @param \Field\Model\Entity\Field $field Field information
- * @param array $options
- * @param \Cake\Validation\Validator $validator
- * @return bool False will halt the save process
  */
 	public function entityAfterValidate(Event $event, $entity, $field, $options, $validator) {
 		return true;
@@ -115,12 +86,6 @@ class ListField extends FieldHandler {
 
 /**
  * {@inheritDoc}
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Cake\ORM\Entity $entity The entity to which field is attached to
- * @param \Field\Model\Entity\Field $field Field information
- * @param array $options
- * @return bool False will halt the delete process
  */
 	public function entityBeforeDelete(Event $event, $entity, $field, $options) {
 		return true;
@@ -128,21 +93,12 @@ class ListField extends FieldHandler {
 
 /**
  * {@inheritDoc}
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Cake\ORM\Entity $entity The entity to which field is attached to
- * @param \Field\Model\Entity\Field $field Field information
- * @param array $options
- * @return void
  */
 	public function entityAfterDelete(Event $event, $entity, $field, $options) {
 	}
 
 /**
  * {@inheritDoc}
- *
- * @param \Cake\Event\Event $event
- * @return array
  */
 	public function instanceInfo(Event $event) {
 		return [
@@ -154,11 +110,6 @@ class ListField extends FieldHandler {
 
 /**
  * {@inheritDoc}
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\FieldInstance $instance Instance information
- * @param array $options
- * @return string HTML form elements for the settings page
  */
 	public function instanceSettingsForm(Event $event, $instance, $options = []) {
 		$View = $event->subject;
@@ -167,11 +118,6 @@ class ListField extends FieldHandler {
 
 /**
  * {@inheritDoc}
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\FieldInstance $instance Instance information
- * @param array $options
- * @return array
  */
 	public function instanceSettingsDefaults(Event $event, $instance, $options = []) {
 		return [];
@@ -179,11 +125,6 @@ class ListField extends FieldHandler {
 
 /**
  * {@inheritDoc}
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\FieldInstance $instance Instance information
- * @param array $options
- * @return string HTML form elements for the settings page
  */
 	public function instanceViewModeForm(Event $event, $instance, $options = []) {
 		$View = $event->subject;
@@ -192,11 +133,6 @@ class ListField extends FieldHandler {
 
 /**
  * {@inheritDoc}
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\FieldInstance $instance Instance information
- * @param array $options
- * @return array
  */
 	public function instanceViewModeDefaults(Event $event, $instance, $options = []) {
 		switch ($options['viewMode']) {
@@ -212,11 +148,6 @@ class ListField extends FieldHandler {
 
 /**
  * {@inheritDoc}
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\FieldInstance $instance Instance information
- * @param array $options
- * @return bool False will halt the attach process
  */
 	public function instanceBeforeAttach(Event $event, $instance, $options = []) {
 		return true;
@@ -224,21 +155,12 @@ class ListField extends FieldHandler {
 
 /**
  * {@inheritDoc}
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\FieldInstance $instance Instance information
- * @return void
  */
 	public function instanceAfterAttach(Event $event, $instance, $options = []) {
 	}
 
 /**
  * {@inheritDoc}
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\FieldInstance $instance Instance information
- * @param array $options
- * @return bool False will halt the detach process
  */
 	public function instanceBeforeDetach(Event $event, $instance, $options = []) {
 		return true;
@@ -246,11 +168,6 @@ class ListField extends FieldHandler {
 
 /**
  * {@inheritDoc}
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param \Field\Model\Entity\FieldInstance $instance Instance information
- * @param array $options
- * @return void
  */
 	public function instanceAfterDetach(Event $event, $instance, $options = []) {
 	}

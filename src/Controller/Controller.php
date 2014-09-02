@@ -137,15 +137,15 @@ class Controller extends CakeCotroller {
  *
  * This methods apply the following filters looking for language to use:
  *
- * - URL: If current URL is prefixed  with a valid language code and
+ * - URL: If current URL is prefixed with a valid language code and
  *   `url_locale_prefix` option is enabled, URL's language code will be used.
  * - User session: If user is logged in and has selected a valid preferred
  *   language it will be used.
  * - GET parameter: If `locale` GET parameter is present in current request,
- *   and if it a valid language code, it will be used as current language
- *   and also will persisted in "locale session".
+ *   and if it is a valid language code, it will be used as current language
+ *   and also will be persisted on `locale` session for further use.
  * - Locale session: If `locale` session exists it will be used.
- * - Default site's language will be used otherwise.
+ * - Default: Site's language will be used otherwise.
  *
  * ---
  * 
