@@ -60,6 +60,7 @@ class FieldHandler implements EventListener {
 			// Related to Entity:
 			"Field.{$handlerName}.Entity.display" => 'entityDisplay',
 			"Field.{$handlerName}.Entity.edit" => 'entityEdit',
+			"Field.{$handlerName}.Entity.fieldAttached" => 'entityFieldAttached',
 			"Field.{$handlerName}.Entity.beforeSave" => 'entityBeforeSave',
 			"Field.{$handlerName}.Entity.afterSave" => 'entityAfterSave',
 			"Field.{$handlerName}.Entity.beforeValidate" => 'entityBeforeValidate',
@@ -85,7 +86,7 @@ class FieldHandler implements EventListener {
 /**
  * Defines how the field will actually display its contents when rendering entities.
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options Additional array of options
  * @return string HTML representation of this field
@@ -97,13 +98,27 @@ class FieldHandler implements EventListener {
 /**
  * Renders field in edit mode.
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options Options given as an array
  * @return string HTML containing from elements
  */
 	public function entityEdit(Event $event, $field, $options = []) {
 		return '';
+	}
+
+/**
+ * Triggered when custom field is attached to entity under the "_fields" property.
+ *
+ * This method is commonly used to alter custom field values before it gets
+ * attached to entity. For instance, set default values.
+ *
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Field\Model\Entity\Field $field The field that is being attached
+ *  to entity, you can alter this before field is attached
+ * @return void
+ */
+	public function entityFieldAttached(Event $event, $field) {
 	}
 
 /**
@@ -117,7 +132,7 @@ class FieldHandler implements EventListener {
  *
  *     $options['post']
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options Options given as an array
@@ -130,7 +145,7 @@ class FieldHandler implements EventListener {
 /**
  * After each entity is saved.
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options Options given as an array
@@ -142,7 +157,7 @@ class FieldHandler implements EventListener {
 /**
  * Before an entity is validated as part of save process.
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options Options given as an array
@@ -156,7 +171,7 @@ class FieldHandler implements EventListener {
 /**
  * After an entity is validated as part of save process.
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options Options given as an array
@@ -170,7 +185,7 @@ class FieldHandler implements EventListener {
 /**
  * Before an entity is deleted from database.
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options Options given as an array
@@ -183,7 +198,7 @@ class FieldHandler implements EventListener {
 /**
  * After an entity is deleted from database.
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options Options given as an array
@@ -212,7 +227,7 @@ class FieldHandler implements EventListener {
  * Field settings will be the same for all shared instances of the same field
  * and should define the way the value will be stored in the database.
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Field\Model\Entity\FieldInstance $instance Instance information
  * @param array $options Options given as an array
  * @return string HTML form elements for the settings page
@@ -224,7 +239,7 @@ class FieldHandler implements EventListener {
 /**
  * Returns an array of default values for field settings form's inputs.
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Field\Model\Entity\FieldInstance $instance Instance information
  * @param array $options Options given as an array
  * @return array
@@ -239,7 +254,7 @@ class FieldHandler implements EventListener {
  * Here Field Handlers can apply custom validation rules to their settings.
  * Stopping this event or returning false will halt the save operation.
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $settings Settings values as an entity
  * @param \Cake\Validation\Validator $validator The validator object
  * @return mixed
@@ -254,7 +269,7 @@ class FieldHandler implements EventListener {
  * Here is where you should render form elements to hold settings about how
  * Entities should be rendered for a particular View Mode.
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \\Field\Model\Entity\FieldInstance $instance Instance information
  * @param array $options Options given as an array
  * @return string HTML form elements for the settings page
@@ -269,7 +284,7 @@ class FieldHandler implements EventListener {
  * You can provide different default values depending on the view mode, you can
  * use `$option['viewMode']` to distinct between view modes.
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Field\Model\Entity\FieldInstance $instance Instance information
  * @param array $options Options given as an array
  * @return array
@@ -281,7 +296,7 @@ class FieldHandler implements EventListener {
 /**
  * Triggered before instance's view mode settings are changed.
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $viewMode View mode's setting values as an entity
  * @param \Cake\Validation\Validator $validator The validator object
  * @return void
@@ -294,7 +309,7 @@ class FieldHandler implements EventListener {
  *
  * Stopping this event will abort the attach operation.
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Field\Model\Entity\FieldInstance $instance Instance information
  * @param array $options Options given as an array
  * @return bool False will halt the attach process
@@ -306,7 +321,7 @@ class FieldHandler implements EventListener {
 /**
  * After an new instance of this field is attached to a database table.
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Field\Model\Entity\FieldInstance $instance Instance information
  * @param array $options Options given as an array
  * @return void
@@ -317,7 +332,7 @@ class FieldHandler implements EventListener {
 /**
  * Before an instance of this field is detached from a database table.
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Field\Model\Entity\FieldInstance $instance Instance information
  * @param array $options Options given as an array
  * @return bool False will halt the detach process
@@ -336,7 +351,7 @@ class FieldHandler implements EventListener {
  * NOTE: By default QuickApps CMS, automatically removes all related records
  * from the `field_values` table. 
  *
- * @param \Cake\Event\Event $event The event that was fired
+ * @param \Cake\Event\Event $event The event that was triggered
  * @param \Field\Model\Entity\FieldInstance $instance Instance entity being
  *  detached (deleted from "field_instances" table)
  * @param array $options Options given as an array

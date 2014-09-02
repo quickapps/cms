@@ -50,6 +50,30 @@ class FileToolbox {
 	}
 
 /**
+ * Renders the given custom field.
+ * 
+ * @param \Cake\View\View $View Instance of view class
+ * @param \Field\Model\Entity\Field $field The field to be rendered
+ * @return string HTML code
+ */
+	public static function formatter($View, $field) {
+		switch ($field->view_mode_settings['formatter']) {
+			case 'link':
+				return $View->element('Field.FileField/display_link', compact('field'));
+			break;
+
+			case 'table':
+				return $View->element('Field.FileField/display_table', compact('field'));
+			break;
+
+			case 'url':
+				default:
+					return $View->element('Field.FileField/display_url', compact('field'));
+			break;
+		}
+	}
+
+/**
  * Creates a path to the icon for a file mime.
  *
  * @param string $mime file mime type
