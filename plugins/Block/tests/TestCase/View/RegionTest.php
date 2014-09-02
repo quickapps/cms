@@ -24,6 +24,11 @@ class RegionTest extends TestCase {
 
 	public $regions = [];
 
+/**
+ * setUp.
+ *
+ * @return void
+ */
 	public function setUp() {
 		parent::setUp();
 		$View = new View();
@@ -38,10 +43,25 @@ class RegionTest extends TestCase {
 		];
 	}
 
+/**
+ * test getName() method.
+ *
+ * @return void
+ */
 	public function testGetName() {
 		$this->assertEquals('left-sidebar', $this->regions[0]->getName());
 		$this->assertEquals('right-sidebar', $this->regions[1]->getName());
 		$this->assertEquals('footer', $this->regions[2]->getName());
+	}
+
+/**
+ * test getTheme() method.
+ *
+ * @return void
+ */
+	public function testGetTheme() {
+		$this->assertEquals('Frontend', $this->regions[0]->getTheme('name'));
+		$this->assertEquals('FrontendTheme', $this->regions[0]->getTheme('human_name'));
 	}
 
 }
