@@ -18,8 +18,18 @@ use Cake\TestSuite\ControllerTestCase;
  */
 class ManageControllerTest extends ControllerTestCase {
 
+/**
+ * Controller being tested.
+ * 
+ * @var \Cake\Controller\Controller
+ */
 	public $Controller;
 
+/**
+ * Fixtures.
+ * 
+ * @var array
+ */
 	public $fixtures = [
 		'app.blocks',
 		'app.block_regions',
@@ -31,16 +41,31 @@ class ManageControllerTest extends ControllerTestCase {
 		'app.menu_links',
 	];
 
+/**
+ * setUp().
+ *
+ * @return void
+ */
 	public function setUp() {
 		parent::setUp();
 		$this->Controller = $this->generate('Block.Admin/Manage', ['components' => ['Auth', 'Flash']]);
 	}
 
+/**
+ * test index action.
+ *
+ * @return void
+ */
 	public function testIndex() {
 		$vars = $this->testAction('/admin/block/manage', ['return' => 'vars']);
 		$this->assertTrue(!empty($vars));
 	}
 
+/**
+ * test add action.
+ *
+ * @return void
+ */
 	public function testAddFail() {
 		$this->Controller
 			->Flash
@@ -54,6 +79,11 @@ class ManageControllerTest extends ControllerTestCase {
 		]);
 	}
 
+/**
+ * test edit action.
+ *
+ * @return void
+ */
 	public function testEdit() {
 		$vars = $this->testAction('/admin/block/manage/edit/1', ['return' => 'vars']);
 		$this->assertTrue(

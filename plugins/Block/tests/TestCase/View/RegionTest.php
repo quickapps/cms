@@ -22,6 +22,11 @@ use Block\View\Region;
  */
 class RegionTest extends TestCase {
 
+/**
+ * Regions used for testing
+ * 
+ * @var array
+ */
 	public $regions = [];
 
 /**
