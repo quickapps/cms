@@ -18,11 +18,12 @@ use Cake\ORM\Entity;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\ORM\Query;
+use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use Field\Error\InvalidBundle;
+use Field\Core\FieldCollection;
 use Field\Model\Entity\Field;
 use Field\Model\Entity\FieldValue;
-use Field\Core\FieldCollection;
 use QuickApps\Core\HookTrait;
 
 /**
@@ -229,6 +230,7 @@ use QuickApps\Core\HookTrait;
  *
  * - `display`: When an entity is being rendered.
  * - `edit`: When an entity is being rendered in `edit` mode. (backend usually).
+ * - `fieldAttached`: When a field is attached to entity's "_field" property.
  * - `beforeFind`: Before an entity is retrieved from DB.
  * - `beforeValidate`: Before entity is validated as part of save operation.
  * - `afterValidate`: After entity is validated as part of save operation.
@@ -615,9 +617,10 @@ class FieldableBehavior extends Behavior {
 				$field = $this->_getMockField($entity, $instance);
 				$options['_post'] = $entity->get(":{$instance->slug}");
 
-				// auto-magic; automatically move to "extra" if array was sent, "value" will be imploded
+				// auto-magic: automatically move to "extra" if an array was sent, "value" will be set to flattened extra
 				if (is_array($options['_post'])) {
-					$field->set('value', implode(' ', $options['_post']));
+					$value = array_values(Hash::flatten($options['_post']));
+					$field->set('value', implode(' ', $value));
 					$field->set('extra', $options['_post']);
 				} else {
 					$field->set('value', $options['_post']);
@@ -777,8 +780,8 @@ class FieldableBehavior extends Behavior {
 
 		if ($entity->errors() && $entity->has('_fields') ) {
 			foreach ($entity->errors() as $fieldName => $errors) {
-				foreach ((array)$entity->get('_fields') as &$field) {
-					if (":{$field->name}" == $fieldName) {
+				foreach ($entity->get('_fields') as &$field) {
+					if ($fieldName == ":{$field->name}") {
 						$_post = $entity->get(":{$field->name}");
 						if (is_array($_post)) {
 							$field->set('extra', $_post);
@@ -944,6 +947,7 @@ class FieldableBehavior extends Behavior {
 		$_fields = [];
 		foreach ($this->_getTableFieldInstances($entity) as $instance) {
 			$mock = $this->_getMockField($entity, $instance);
+
 			// restore from $_POST:
 			if ($entity->has(":{$instance->slug}")) {
 				$value = $entity->get(":{$instance->slug}");
@@ -954,6 +958,8 @@ class FieldableBehavior extends Behavior {
 					$mock->set('extra', $value);
 				}
 			}
+
+			$this->hook(["Field.{$mock->metadata['handler']}.Entity.fieldAttached", $this->_table], $mock);
 			$_fields[] = $mock;
 		}
 
