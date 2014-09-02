@@ -20,6 +20,11 @@ use QuickApps\Core\Plugin;
  */
 class PluginTest extends TestCase {
 
+/**
+ * Fixtures.
+ * 
+ * @var array
+ */
 	public $fixtures = [
 		'app.plugins',
 	];

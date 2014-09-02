@@ -158,10 +158,7 @@ class SluggableBehavior extends Behavior {
 			$slug = substr($slug, 0, $config['length']);
 		}
 
-		$conditions = [
-			"{$config['slug']} LIKE" => "{$slug}%",
-		];
-
+		$conditions = ["{$config['slug']} LIKE" => "{$slug}%"];
 		if ($entity->has($pk)) {
 			$conditions["{$pk} NOT IN"] = [$entity->{$pk}];
 		}
