@@ -133,8 +133,8 @@ class Region {
  *         ->getTheme('composer.author');
  *
  * @param null|string $path If set to a string value, it will extract
- * the specified value from the theme's info-array. Null (by default)
- * returns the whole info-array.
+ *  the specified value from the theme's info-array. Null (by default)
+ *  returns the whole info-array.
  * @return mixed
  */
 	public function getTheme($path = null) {

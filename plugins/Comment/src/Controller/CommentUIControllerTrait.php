@@ -70,8 +70,6 @@ use QuickApps\Core\Plugin;
  * - You must define `$_manageTable` property in your controller.
  * - Your Controller must be a backend-controller (under `Controller\Admin` namespace).
  * - Your Controller must implement the `_inResponseTo()` method described above.
- *
- * @author Christopher Castro <chris@quickapps.es>
  */
 trait CommentUIControllerTrait {
 
@@ -81,10 +79,10 @@ trait CommentUIControllerTrait {
  * @param \Cake\Event\Event $event The event instance.
  * @return void
  * @throws \Cake\Network\Exception\ForbiddenException When
- * - $_manageTable is not defined.
- * - trait is used in non-controller classes.
- * - the controller is not a backend controller.
- * - the "_inResponseTo()" is not implemented.
+ *  - $_manageTable is not defined.
+ *  - trait is used in non-controller classes.
+ *  - the controller is not a backend controller.
+ *  - the "_inResponseTo()" is not implemented.
  */
 	public function beforeFilter(Event $event) {
 		$requestParams = $event->subject->request->params;

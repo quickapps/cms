@@ -58,8 +58,6 @@ use QuickApps\View\ViewModeTrait;
  * - This trait should only be used over a clean controller.
  * - You must define `$_manageTable` property in your controller.
  * - Your Controller must be a backend-controller (under `Controller\Admin` namespace).
- *
- * @author Christopher Castro <chris@quickapps.es>
  */
 trait FieldUIControllerTrait {
 
@@ -71,9 +69,9 @@ trait FieldUIControllerTrait {
  * @param \Cake\Event\Event $event The event instance.
  * @return void
  * @throws \Cake\Network\Exception\ForbiddenException When
- * - $_manageTable is not defined.
- * - trait is used in non-controller classes.
- * - the controller is not a backend controller.
+ *  - $_manageTable is not defined.
+ *  - trait is used in non-controller classes.
+ *  - the controller is not a backend controller.
  */
 	public function beforeFilter(Event $event) {
 		$requestParams = $event->subject->request->params;
@@ -280,7 +278,8 @@ trait FieldUIControllerTrait {
  *
  * @param string $viewMode View mode slug. e.g. `rss` or `default`
  * @return void
- * @throws \Cake\Network\Exception\NotFoundException When given view mode does not exists
+ * @throws \Cake\Network\Exception\NotFoundException When given view mode
+ *  does not exists
  */
 	public function view_mode_list($viewMode) {
 		$this->_validateViewMode($viewMode);
@@ -314,8 +313,10 @@ trait FieldUIControllerTrait {
  * @param string $viewMode View mode slug
  * @param integer $id The field instance ID to manage
  * @return void
- * @throws \Cake\ORM\Exception\RecordNotFoundException When no field instance was found
- * @throws \Cake\Network\Exception\NotFoundException When given view mode does not exists
+ * @throws \Cake\ORM\Exception\RecordNotFoundException When no field
+ *  instance was found
+ * @throws \Cake\Network\Exception\NotFoundException When given view
+ *  mode does not exists
  */
 	public function view_mode_edit($viewMode, $id) {
 		$this->_validateViewMode($viewMode);
@@ -380,8 +381,10 @@ trait FieldUIControllerTrait {
  * @param integer $id Field instance id
  * @param string $direction Direction, 'up' or 'down'
  * @return void Redirects to previous page
- * @throws \Cake\ORM\Exception\RecordNotFoundException When no field instance was found
- * @throws \Cake\Network\Exception\NotFoundException When given view mode does not exists
+ * @throws \Cake\ORM\Exception\RecordNotFoundException When no field
+ *  instance was found
+ * @throws \Cake\Network\Exception\NotFoundException When given view mode
+ *  does not exists
  */
 	public function view_mode_move($viewMode, $id, $direction) {
 		$this->_validateViewMode($viewMode);
@@ -432,7 +435,8 @@ trait FieldUIControllerTrait {
 /**
  * Moves a field up or down.
  *
- * The ordering indicates the position they are displayed on entity's editing form.
+ * The ordering indicates the position they are displayed on entity's
+ * editing form.
  *
  * @param integer $id Field instance id
  * @param string $direction Direction, 'up' or 'down'
@@ -479,7 +483,8 @@ trait FieldUIControllerTrait {
  * @param integer $id Field instance ID
  * @param array $conditions Additional conditions for the WHERE query
  * @return \Field\Model\Entity\FieldInstance The instance
- * @throws \Cake\ORM\Exception\RecordNotFoundException When instance was not found
+ * @throws \Cake\ORM\Exception\RecordNotFoundException When instance
+ *  was not found
  */
 	protected function _getOrThrow($id, $conditions = []) {
 		$this->loadModel('Field.FieldInstances');
@@ -502,7 +507,8 @@ trait FieldUIControllerTrait {
  *
  * @param string $viewMode The view mode to validate
  * @return void
- * @throws \Cake\Network\Exception\NotFoundException When given view mode does not exists
+ * @throws \Cake\Network\Exception\NotFoundException When given view mode
+ *  does not exists
  */
 	protected function _validateViewMode($viewMode) {
 		if (!in_array($viewMode, $this->viewModes())) {
