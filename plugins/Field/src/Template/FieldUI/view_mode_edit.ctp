@@ -19,6 +19,7 @@
 <?php echo $this->Form->create($arrayContext, ['role' => 'form']); ?>
 	<fieldset>
 		<legend><?php echo __d('field', 'View Mode Settings For "{0}" [{1}]', $instance->label, $viewModeInfo['name']); ?></legend>
+
 		<?php
 			echo $this->Form->input('label_visibility', [
 				'label' => __d('field', 'Label field visibility'),
@@ -37,9 +38,11 @@
 		<?php echo $this->Form->input('hidden', ['type' => 'checkbox', 'label' => __d('field', 'Hidden Field'), 'onclick' => '$("div.field-view-mode-form").toggle();']); ?>
 		<em class="help-block"><?php echo __d('field', 'Whether to render this field or not on "{0}" view mode.', $viewModeInfo['name']); ?></em>
 
+		<?php echo $this->fetch('beforeFormContent'); ?>
 		<div class="field-view-mode-form" style="<?php echo $instance->view_modes[$viewMode]['hidden'] ? 'display:none;' : ''; ?>">
 			<?php echo $this->hook("Field.{$instance->handler}.Instance.viewModeForm", $instance, [])->result; ?>
 		</div>
+		<?php echo $this->fetch('afterFormContent'); ?>
 
 		<?php echo $this->Form->submit(__d('field', 'Save changes')); ?>
 	</fieldset>

@@ -19,6 +19,7 @@
 <?php echo $this->Form->create($arrayContext, ['role' => 'form']); ?>
 	<fieldset>
 		<legend><?php echo __d('field', 'Basic Information'); ?></legend>
+
 		<div class="form-group"><?php echo $this->Form->input('_label', ['value' => $instance->label]); ?></div>
 		<div class="form-group"><?php echo $this->Form->input('_required', ['checked' => $instance->required, 'type' => 'checkbox']); ?></div>
 		<div class="form-group">
@@ -29,12 +30,14 @@
 
 	<hr />
 
+	<?php echo $this->fetch('beforeFormContent'); ?>
 	<?php if ($advanced = $this->hook("Field.{$instance->handler}.Instance.settingsForm", $instance)): ?>
 		<fieldset>
 			<legend><?php echo __d('field', 'Advanced'); ?></legend>
 			<?php echo $advanced->result; ?>
 		</fieldset>
 	<?php endif; ?>
+	<?php echo $this->fetch('afterFormContent'); ?>
 
 	<?php echo $this->Form->submit(__d('field', 'Save All')); ?>
 <?php echo $this->Form->end(); ?>
