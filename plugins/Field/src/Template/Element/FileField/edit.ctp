@@ -88,29 +88,28 @@
 </div>
 
 <script type="text/javascript">
-	$('#<?php echo $instanceID; ?>-files-list').sortable();
-
-	var settings = {
-		instanceID: '<?php echo $instanceID; ?>',
-		instanceName: '<?php echo $field->name; ?>',
-		showDescription: <?php echo !empty($field->metadata->settings['description']) ? 'true' : 'false'; ?>,
-		uploader: '<?php echo $this->Url->build(['plugin' => 'Field', 'controller' => 'uploadify', 'action' => 'upload', $field->name], true); ?>',
-		remover: '<?php echo $this->Url->build(['plugin' => 'Field', 'controller' => 'uploadify', 'action' => 'delete', $field->name], true); ?>',
-
-		<?php if (!empty($field->metadata->settings['extensions'])): ?>
-			fileTypeExts: '*.<?php echo str_replace(',', ';*.', $field->metadata->settings['extensions']); ?>',
-		<?php endif; ?>
-
-		fileSizeLimit: '<?php echo ini_get('upload_max_filesize'); ?>B',
-		fileTypeDesc: '<?php echo $field->label; ?>',
-		queueID: '<?php echo $instanceID; ?>-uploader-queue',
-		multi: <?php echo $multi ? 'true' : 'false'; ?>,
-		queueSizeLimit: 10,
-		uploadLimit: <?php echo $field->metadata->settings['multi'] - count($field->extra); ?>,
-		buttonText: '<?php echo __d('field', 'Upload File'); ?>',
-	};
-
 	$(document).ready(function () {
-		FileField.init(settings);
+		$('#<?php echo $instanceID; ?>-files-list').sortable();
+		FileField.init({
+			instance: {
+				id: '<?php echo $instanceID; ?>',
+				name: '<?php echo $field->name; ?>',
+				showDescription: <?php echo !empty($field->metadata->settings['description']) ? 'true' : 'false'; ?>,
+			},
+			uploader: {
+				queueID: '<?php echo $instanceID; ?>-uploader-queue',
+				multi: <?php echo $multi ? 'true' : 'false'; ?>,
+				<?php if (!empty($field->metadata->settings['extensions'])): ?>
+					fileTypeExts: '*.<?php echo str_replace(',', ';*.', $field->metadata->settings['extensions']); ?>',
+				<?php endif; ?>
+				queueSizeLimit: 10,
+				uploadLimit: <?php echo $field->metadata->settings['multi'] - count($field->extra); ?>,
+				fileSizeLimit: '<?php echo ini_get('upload_max_filesize'); ?>B',
+				fileTypeDesc: '<?php echo $field->label; ?>',
+				buttonText: '<?php echo __d('field', 'Upload File'); ?>',
+				uploader: '<?php echo $this->Url->build(['plugin' => 'Field', 'controller' => 'uploadify', 'action' => 'upload', $field->name], true); ?>',
+				remover: '<?php echo $this->Url->build(['plugin' => 'Field', 'controller' => 'uploadify', 'action' => 'delete', $field->name], true); ?>',
+			},
+		});
 	});
 </script>

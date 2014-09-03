@@ -5,128 +5,111 @@
  * @link http://www.quickappscms.org
  */
 FileField = {
-	baseUrl: '',
-	swf: '',
-	uploader: '',
-	cancelImg: '',
-	instances: {},
-	defaultErrorMessages: {
-		400: 'The file {{file.name}} could not be uploaded: invalid field instance.',
-		422: 'The file {{file.name}} could not be uploaded: invalid file extension.',
-		500: 'The file {{file.name}} could not be uploaded: internal server error.',
-	},
-	defaultItemTempalte: '<div id="${fileID}" class="uploadify-queue-item">\
-		<div class="cancel">\
-			<a href="javascript:$(\'#${instanceID}\').uploadify(\'cancel\', \'${fileID}\')">X</a>\
-		</div>\
-		<span class="fileName">${fileName} (${fileSize})</span><span class="data"></span>\
-		<div class="uploadify-progress">\
-			<div class="uploadify-progress-bar"><!--Progress Bar--></div>\
-		</div>\
-	</div>',
 
 /**
- * Initializes the uploader for the given field instance.
+ * Holds all uploader instances created.
  *
- * ### Valid settings options are:
- *
- * - instanceID (string): REQUIRED unique ID to identify the field handler this
- *   uploader will be attached to. If not given an exception will be throw.
- * - instanceName (string): REQUIRED field instance's machine-name. If not given
- *   an exception will be throw.
- * - showDescription (bool): Whether to show field instance help hint or not.
- *   Defaults to false.
- * - fileTypeExts (string): Allowed file extensions separated by ";".
- *   e.g. "*.jpg;*.pdf;*.gif", defaults to "*.*" (any extension).
- * - uploader (string): The URL which take care of uploading the files.
- * - remover (string): The URL which take care of deleting the files.
- * - fileTypeDesc (string): The description of the selectable files. This string
- *   appears in the browse files dialog box in the file type drop down.
- * - queueID (string|bool): The ID (without the hash) of a DOM element to use as
- *   the file queue. File queue items will be appended directly to this element
- *   if defined. If this option is set to false, a file queue will be generated
- *   and the queueID option will be dynamically set. Defaults to false.
- * - multi (bool): Set to false to allow only one file selection at a time.
- *   Defaults to true.
- * - queueSizeLimit (integer): The maximum number of files that can be in the
- *   queue at one time. This does not limit the number of files that can be
- *   uploaded. To limit the number of files that can be uploaded, use the 
- *   "uploadLimit" option. Defaults to 999.
- * - uploadLimit (integer): The maximum number of files you are allowed to
- *   upload. Defaults to 999.
- * - buttonText (string): The text that will appear on the browse button. This
- *   text is rendered as HTML and may include HTML entities.
- * - fileSizeLimit (integer): The maximum size allowed for a file upload. This
- *   value can be a number or string. If it’s a string, it accepts a unit
- *   (B, KB, MB, or GB). The default unit is in KB. You can set this value to
- *   0 for no limit. Defaults to 0.
- * - errorMessages: Error messages, indexed by HTTP code (codes are returned by
- *   the uploader script as HTTP response codes). You can use mustache
- *   placeholder, valid place holders are: {{file}}, {{errorCode}}, {{errorMsg}}
- *   and {{errorString}}. Predefined messages are defined in the 
- *   `defaultErrorMessages` property of this class.
- * - itemTemplate (string): The itemTemplate option allows you to specify a
- *   special HTML template for each item that is added to the queue. Default
- *   template is set in `defaultItemTempalte` property of this class.
- * 
- * @param object settings Object of settings as described above.
- * @return void
+ * @type {Object}
  */
-	init: function (settings) {
-		var self = this;
-		var defaults = {
-			instanceID: null,
-			instanceName: null,
-			queueID: false,
-			multi: true,
-			fileTypeExts: '*.*',
-			queueSizeLimit: 999,
-			uploadLimit: 999,
+	_instances: {},
+
+/**
+ * Default settings for each instance created. This settings are merged with
+ * custom settings when creating a new instance using the "init()" method.
+ * 
+ * @type {Object}
+ */
+	defaultSettings: {
+		instance: {
+			id: null,
+			name: null,
 			showDescription: false,
-			fileSizeLimit: 0,
-			itemTemplate: self.defaultItemTempalte,
-			errorMessages: self.defaultErrorMessages,
+		},
+		uploader: {
+			swf: null,
+			uploader: null,
+			remover: null,
+			mimeIconsBaseURL: null,
+			itemTemplate: '<div id="${fileID}" class="uploadify-queue-item">\
+				<div class="cancel">\
+					<a href="javascript:$(\'#${instanceID}\').uploadify(\'cancel\', \'${fileID}\')">X</a>\
+				</div>\
+				<span class="fileName">${fileName} (${fileSize})</span><span class="data"></span>\
+				<div class="uploadify-progress">\
+					<div class="uploadify-progress-bar"><!--Progress Bar--></div>\
+				</div>\
+			</div>',
+			errorMessages: {
+				400: 'The file {{file.name}} could not be uploaded: invalid field instance.',
+				422: 'The file {{file.name}} could not be uploaded: invalid file extension.',
+				500: 'The file {{file.name}} could not be uploaded: internal server error.',
+			},
 			uploadLimitDown: function () {
 				this.uploadLimit = this.uploadLimit - 1;
 			},
 			uploadLimitUp: function () {
 				this.uploadLimit = this.uploadLimit + 1;
 			},
-		};
-		settings = $.extend(defaults, settings);
-
-		if (!settings.instanceID) {
-			throw "Missing instanceID option";
-		} else if (!settings.instanceName) {
-			throw "Missing instanceName option";
 		}
 
-		var uploader = $('#' + settings.instanceID + '-uploader').uploadify({
-			swf: self.swf,
-			uploader: settings.uploader,
-			queueID: settings.queueID,
-			multi: settings.multi,
-			buttonText: settings.buttonText,
-			queueSizeLimit: settings.queueSizeLimit,
-			auto: true,
-			itemTemplate: settings.itemTemplate,
-			fileTypeExts: settings.fileTypeExts,
-			fileTypeDesc: settings.fileTypeDesc,
-			fileSizeLimit: settings.fileSizeLimit,
+	},
+
+/**
+ * Initializes the uploader for the given field instance.
+ *
+ * ### Valid settings options are:
+ *
+ * - instance
+ *     - id (string): REQUIRED unique ID to identify the field handler this
+ *       uploader will be attached to. If not given an exception will be throw.
+ *     - name (string): REQUIRED field instance's machine-name. If not
+ *       given an exception will be throw.
+ *     - showDescription (bool): Whether to show field instance help hint
+ *       or not. Defaults to false.
+ * - uploader: Any valid options accepted by uploadify class (check their 
+ *   [documentation](http://www.uploadify.com/documentation/)), in addition to
+ *   these options there is also: 
+ *     - remover (string): URL of the script that handles file deletions.
+ *     - errorMessages (object): Error messages, indexed by HTTP code (codes are
+ *       returned by the uploader script as HTTP response codes). You can use
+ *       mustache placeholder, valid place holders are: {{file}}, {{errorCode}},
+ *       {{errorMsg}} and {{errorString}}.
+ *     - mimeIconsBaseURL (string): Base URL to use for file mime-icons.
+ * 
+ * @param {Object} settings Object of settings as described above.
+ * @return void
+ */
+	init: function (settings) {
+		var self = this;
+		settings = $.extend(true, {}, self.defaultSettings, settings);
+
+		if (!settings.instance.id) {
+			throw "Missing instance.id option.";
+		} else if (!settings.instance.name) {
+			throw "Missing instance.name option.";
+		} else if (!settings.uploader.swf) {
+			throw "Missing uploader.swf option, must be set to an URL.";
+		} else if (!settings.uploader.uploader) {
+			throw "Missing uploader.uploader option, must be set to an URL.";
+		} else if (!settings.uploader.remover) {
+			throw "Missing uploader.remover option, must be set to an URL.";
+		}
+
+		var uploadifyOptions = $.extend(true, {}, settings.uploader, {
 			onUploadStart: function (file) {
-				if (settings.uploadLimit <= 0) {
+				if (settings.uploader.uploadLimit <= 0) {
 					alert('The file "' + file.name + '" will not be upload, upload limit reached');
-					$('#' + settings.instanceID + '-uploader').uploadify('cancel', file.id, true);
+					$('#' + settings.instance.id + '-uploader').uploadify('cancel', file.id, true);
 				}
 			},
 			onUploadSuccess: function (file, data, response) {
 				r = $.parseJSON(data);
-				r.number = $('#' + settings.instanceID + ' ul.files-list li').length + 1;
-				self.onUploadSuccess(r, settings);
+				r.number = $('#' + settings.instance.id + ' ul.files-list li').length + 1;
+				self._onUploadSuccess(r, settings);
 			},
 			onUploadError: function (file, errorCode, errorMsg, errorString) {
-				if (settings.errorMessages[errorMsg]) {
-					var message = Mustache.render(settings.errorMessages[errorMsg], {
+				if (settings.uploader.errorMessages[errorMsg]) {
+					var message = Mustache.render(settings.uploader.errorMessages[errorMsg], {
 						file: file,
 						errorCode: errorCode,
 						errorMsg: errorMsg,
@@ -138,88 +121,141 @@ FileField = {
 				}
 			},
 			onSelect: function (file) {
-				self.onSelect(file, settings);
+				self._onSelect(file, settings);
 			},
 			onSWFReady: function() {
-				if (!settings.uploadLimit) {
-					$('#' + settings.instanceID + '-uploader').uploadify('disable', true);
+				if (!settings.uploader.uploadLimit) {
+					$('#' + settings.instance.id + '-uploader').uploadify('disable', true);
 				}
 			}
 		});
 
-		self.instances[settings.instanceID] = {
+		uploadifyOptions.uploadLimit = 999;
+		var uploader = $('#' + settings.instance.id + '-uploader').uploadify(uploadifyOptions);
+		self.setInstance(settings.instance.id, {
 			settings: settings,
 			uploader: uploader,
-		};
+		});
 	},
-	onSelect: function (file, settings) {
-		if (settings.uploadLimit <= 0) {
-			$('#' + settings.instanceID + '-uploader').uploadify('cancel', '*');
-			alert('You are allowed to upload up to ' + settings.uploadLimit + ' files.');
+
+/**
+ * Gets an instance information by ID.
+ * 
+ * @param {String} id Instance ID
+ * @return {Object}
+ */
+	getInstance: function (id) {
+		var self = this;
+		if (self._instances[id]) {
+			return self._instances[id];
+		}
+		return {};
+	},
+
+/**
+ * Registers a new instance.
+ * 
+ * @param {String} id Instance ID
+ * @param {Object} settings Settings used by this instance
+ * @return void
+ */
+	setInstance: function (id, options) {
+		var self = this;
+		self._instances[id] = options;
+	},
+
+/**
+ * Deletes the given file.
+ * 
+ * If file was recently uploaded (not yet attached to entity) will is deleted
+ * from server immediately. Otherwise, if file is already attached to an entity
+ * it will be deleted ONLY after user clicks `SAVE` in the entity edit form.
+ *
+ * @param {String} id ID of the file-item element
+ * @return void
+ */
+	remove: function (id) {
+		var self = this;
+		var parent = $('#' + id).closest('.file-handler');
+		var settings = self.getInstance(parent.attr('id')).settings;
+		var fileName =  $('#' + id + ' input.file-name').val();
+
+		if (!$('#' + id).hasClass('is-perm')) {
+			$.ajax(settings.uploader.remover + '?file=' + fileName)
+				.done(function () {
+					$('#' + id).parent().remove(); // remove <li>
+					settings.uploader.uploadLimitUp();
+					self._afterRemove(settings);
+				});
+		} else {
+			$('#' + id).parent().remove();
+			settings.uploader.uploadLimitUp();
+			this._afterRemove(settings);
 		}
 	},
-	onUploadSuccess: function (response, settings) {
+/**
+ * Triggered by uploadify when each file is selected for the queue.
+ * 
+ * @param {Object} file The selected file
+ * @param {Object} settings Instance settings
+ * @return void
+ */
+	_onSelect: function (file, settings) {
+		if (settings.uploader.uploadLimit <= 0) {
+			$('#' + settings.instance.id + '-uploader').uploadify('cancel', '*');
+			alert('You are allowed to upload up to ' + settings.uploader.uploadLimit + ' files.');
+		}
+	},
+
+/**
+ * Triggered by uploadify when a file is successfully uploaded.
+ * 
+ * @param {Object} response The server response, expected to be a JSON object
+ * @param {Object} settings Instance settings
+ * @return void
+ */
+	_onUploadSuccess: function (response, settings) {
 		var self = this;
 		var view = {
-			uid: settings.instanceID + '-f' + response.number,
+			uid: settings.instance.id + '-f' + response.number,
 			number: response.number,
-			icon_url: self.baseUrl + 'field/img/file-icons/' + response.mime_icon,
+			icon_url: settings.uploader.mimeIconsBaseURL + 'field/img/file-icons/' + response.mime_icon,
 			link: response.file_url,
 			file_name: response.file_name,
 			file_size: response.file_size,
-			instance_name: settings.instanceName,
+			instance_name: settings.instance.name,
 			mime_icon: response.mime_icon,
 			file_name: response.file_name,
 			file_size: response.file_size,
 			description: '',
 			show_icon: true,
-			show_description: settings.showDescription,
+			show_description: settings.instance.showDescription,
 		};
 		var template = '<li>' + Mustache.render($('#file-item-template').html(), view) + '</li>';
-		$('#' + settings.instanceID + '-files-list').append(template);
+		$('#' + settings.instance.id + '-files-list').append(template);
 
-		settings.uploadLimitDown();
-		if (!settings.uploadLimit) {
-			$('#' + settings.instanceID + '-uploader').uploadify('disable', true);
+		settings.uploader.uploadLimitDown();
+		if (!settings.uploader.uploadLimit) {
+			$('#' + settings.instance.id + '-uploader').uploadify('disable', true);
 		}
-		$('#' + settings.instanceID + ' ul.files-list').show();
+		$('#' + settings.instance.id + ' ul.files-list').show();
 	},
 
 /**
- * Delete file for the specified field instance, if file has been just uploaded
- * then is deleted from server. Otherwise, File will be deleted ONLY after user
- * clicks `SAVE` in the entity edit form.
- *
- * @param string id ID of the file-item element
+ * Triggered after a field was deleted.
+ * 
+ * @param  {Object} settings Settings of the instance that file belonged to
+ * @return void
  */
-	remove: function (id) {
-		var self = this;
-		var parent = $('#' + id).closest('.file-handler');
-		var settings = self.instances[parent.attr('id')].settings;
-		var fileName =  $('#' + id + ' input.file-name').val();
-
-		if (!$('#' + id).hasClass('is-perm')) {
-			$.ajax(settings.remover + '?file=' + fileName)
-				.done(function () {
-					$('#' + id).parent().remove(); // remove <li>
-					settings.uploadLimitUp();
-					self._afterRemove(settings);
-				});
-		} else {
-			$('#' + id).parent().remove();
-			settings.uploadLimitUp();
-			this._afterRemove(settings);
-		}
-	},
 	_afterRemove: function (settings) {
-		if (settings.uploadLimit > 0) {
-			var filesInList = $('#' + settings.instanceID + ' ul.files-list li').length;
-			$('#' + settings.instanceID + '-uploader').uploadify('disable', false);
+		if (settings.uploader.uploadLimit > 0) {
+			var filesInList = $('#' + settings.instance.id + ' ul.files-list li').length;
+			$('#' + settings.instance.id + '-uploader').uploadify('disable', false);
 
 			if (!filesInList) {
-				$('#' + settings.instanceID + ' ul.files-list').hide();
+				$('#' + settings.instance.id + ' ul.files-list').hide();
 			} else {
-				$('#' + settings.instanceID + ' ul.files-list').show();
+				$('#' + settings.instance.id + ' ul.files-list').show();
 			}
 		}
 	}

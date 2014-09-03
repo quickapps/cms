@@ -21,14 +21,14 @@
 
 	<script type="text/javascript">
 		$(document).ready(function() {
-			FileField.baseUrl = '<?php echo $this->Url->build('/', true); ?>';
-			FileField.swf = '<?php echo $this->Url->build('/field/js/uploadify/uploadify.swf', true); ?>';
-			FileField.defaultErrorMessages = {
+			FileField.defaultSettings.uploader.mimeIconsBaseURL = '<?php echo $this->Url->build('/', true); ?>';
+			FileField.defaultSettings.uploader.swf = '<?php echo $this->Url->build('/field/js/uploadify/uploadify.swf', true); ?>';
+			FileField.defaultSettings.uploader.errorMessages = {
 				400: '<?php echo __d('field', 'The file {{file.name}} could not be uploaded: invalid field instance.'); ?>',
 				422: '<?php echo __d('field', 'The file {{file.name}} could not be uploaded: invalid file extension.'); ?>',
 				500: '<?php echo __d('field', 'The file {{file.name}} could not be uploaded: internal server error.'); ?>',
 			};
-			FileField.defaultItemTempalte = '<div id="${fileID}" class="uploadify-queue-item">\
+			FileField.defaultSettings.uploader.itemTemplate = '<div id="${fileID}" class="uploadify-queue-item">\
 				<div class="cancel">\
 					<a href="javascript:$(\'#${instanceID}\').uploadify(\'cancel\', \'${fileID}\')">X</a>\
 				</div>\
