@@ -14,6 +14,7 @@ namespace Node\Model\Table;
 use Cake\Database\Schema\Table as Schema;
 use Cake\Event\Event;
 use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
 use Cake\ORM\Query;
 use Node\Model\Entity\Node;
 
@@ -42,6 +43,36 @@ class NodeRevisionsTable extends Table {
  */
 	public function initialize(array $config) {
 		$this->addBehavior('Timestamp');
+	}
+
+/**
+ * Attaches NodeType information to each node revision.
+ * 
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Cake\ORM\Query $query The query object
+ * @param array $options Additional options given as an array
+ * @param boolean $primary Whether this find is a primary query or not
+ * @return void
+ */
+	public function beforeFind(Event $event, Query $query, array $options, $primary) {
+		$query->formatResults(function ($results) {
+			return $results->map(function($revision) {
+				try {
+					if (isset($revision->data->node_type_id)) {
+						$nodeType = TableRegistry::get('Node.NodeTypes')
+							->find()
+							->where(['id' => $revision->data->node_type_id])
+							->first();
+						$revision->data->set('node_type', $nodeType);
+					}
+				} catch (\Exception $e) {debug($e);die("here");
+					$revision->data->set('node_type', false);
+				}
+				return $revision;
+			});
+		});
+
+		return $query;
 	}
 
 }

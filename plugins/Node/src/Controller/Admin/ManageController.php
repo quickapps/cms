@@ -131,26 +131,30 @@ class ManageController extends AppController {
 	public function edit($id, $revision_id = false) {
 		$this->loadModel('Node.Nodes');
 		$this->Nodes->unbindComments();
+		$node = false;
 
 		if ($revision_id && !$this->request->data) {
 			$this->loadModel('Node.NodeRevisions');
 			$revision = $this->NodeRevisions->find()
 				->where(['id' => $revision_id, 'node_id' => $id])
 				->first();
-			$node = $revision->data;
 
-			if (!empty($node->_fields)) {
-				// Merge previous data for each field, we just load the data (metadata keeps to the latests configured).
-				$_fieldsRevision = $node->_fields;
-				$node = $this->Nodes->attachEntityFields($node);
-				$node->_fields = $node->_fields->map(function ($field, $key) use ($_fieldsRevision) {
-					$fieldRevision = $_fieldsRevision[$field->name];
-					if ($fieldRevision) {
-						$field->set('value', $fieldRevision->value);
-						$field->set('extra', $fieldRevision->extra);
-					}
-					return $field;
-				});
+			if ($revision) {
+				$node = $revision->data;
+
+				if (!empty($node->_fields)) {
+					// Merge previous data for each field, we just load the data (metadata keeps to the latests configured).
+					$_fieldsRevision = $node->_fields;
+					$node = $this->Nodes->attachEntityFields($node);
+					$node->_fields = $node->_fields->map(function ($field, $key) use ($_fieldsRevision) {
+						$fieldRevision = $_fieldsRevision[$field->name];
+						if ($fieldRevision) {
+							$field->set('value', $fieldRevision->value);
+							$field->set('extra', $fieldRevision->extra);
+						}
+						return $field;
+					});
+				}
 			}
 		} else {
 			$node = $this->Nodes->find()
