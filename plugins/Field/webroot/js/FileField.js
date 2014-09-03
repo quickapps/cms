@@ -10,6 +10,20 @@ FileField = {
 	uploader: '',
 	cancelImg: '',
 	instances: {},
+	defaultErrorMessages: {
+		400: 'The file {{file.name}} could not be uploaded: invalid field instance.',
+		422: 'The file {{file.name}} could not be uploaded: invalid file extension.',
+		500: 'The file {{file.name}} could not be uploaded: internal server error.',
+	},
+	defaultItemTempalte: '<div id="${fileID}" class="uploadify-queue-item">\
+		<div class="cancel">\
+			<a href="javascript:$(\'#${instanceID}\').uploadify(\'cancel\', \'${fileID}\')">X</a>\
+		</div>\
+		<span class="fileName">${fileName} (${fileSize})</span><span class="data"></span>\
+		<div class="uploadify-progress">\
+			<div class="uploadify-progress-bar"><!--Progress Bar--></div>\
+		</div>\
+	</div>',
 
 /**
  * Initializes the uploader for the given field instance.
@@ -42,11 +56,24 @@ FileField = {
  *   upload. Defaults to 999.
  * - buttonText (string): The text that will appear on the browse button. This
  *   text is rendered as HTML and may include HTML entities.
+ * - fileSizeLimit (integer): The maximum size allowed for a file upload. This
+ *   value can be a number or string. If it’s a string, it accepts a unit
+ *   (B, KB, MB, or GB). The default unit is in KB. You can set this value to
+ *   0 for no limit. Defaults to 0.
+ * - errorMessages: Error messages, indexed by HTTP code (codes are returned by
+ *   the uploader script as HTTP response codes). You can use mustache
+ *   placeholder, valid place holders are: {{file}}, {{errorCode}}, {{errorMsg}}
+ *   and {{errorString}}. Predefined messages are defined in the 
+ *   `defaultErrorMessages` property of this class.
+ * - itemTemplate (string): The itemTemplate option allows you to specify a
+ *   special HTML template for each item that is added to the queue. Default
+ *   template is set in `defaultItemTempalte` property of this class.
  * 
  * @param object settings Object of settings as described above.
  * @return void
  */
 	init: function (settings) {
+		var self = this;
 		var defaults = {
 			instanceID: null,
 			instanceName: null,
@@ -56,6 +83,9 @@ FileField = {
 			queueSizeLimit: 999,
 			uploadLimit: 999,
 			showDescription: false,
+			fileSizeLimit: 0,
+			itemTemplate: self.defaultItemTempalte,
+			errorMessages: self.defaultErrorMessages,
 			uploadLimitDown: function () {
 				this.uploadLimit = this.uploadLimit - 1;
 			},
@@ -72,43 +102,55 @@ FileField = {
 		}
 
 		var uploader = $('#' + settings.instanceID + '-uploader').uploadify({
-			swf: FileField.swf,
+			swf: self.swf,
 			uploader: settings.uploader,
-			cancelImg: FileField.cancelImg,
 			queueID: settings.queueID,
 			multi: settings.multi,
 			buttonText: settings.buttonText,
 			queueSizeLimit: settings.queueSizeLimit,
 			auto: true,
+			itemTemplate: settings.itemTemplate,
 			fileTypeExts: settings.fileTypeExts,
 			fileTypeDesc: settings.fileTypeDesc,
+			fileSizeLimit: settings.fileSizeLimit,
 			onUploadStart: function (file) {
 				if (settings.uploadLimit <= 0) {
 					alert('The file "' + file.name + '" will not be upload, upload limit reached');
-					$('#' + settings.instanceID + '-uploader').uploadify('cancel', null, true);
+					$('#' + settings.instanceID + '-uploader').uploadify('cancel', file.id, true);
 				}
 			},
 			onUploadSuccess: function (file, data, response) {
 				r = $.parseJSON(data);
 				r.number = $('#' + settings.instanceID + ' ul.files-list li').length + 1;
-				FileField.onUploadSuccess(r, settings);
+				self.onUploadSuccess(r, settings);
 			},
 			onUploadError: function (file, errorCode, errorMsg, errorString) {
-				alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
+				if (settings.errorMessages[errorMsg]) {
+					var message = Mustache.render(settings.errorMessages[errorMsg], {
+						file: file,
+						errorCode: errorCode,
+						errorMsg: errorMsg,
+						errorString: errorString,
+					});
+					alert(message);
+				} else {
+					alert('The file ' + file.name + ' could not be uploaded.');
+				}
 			},
 			onSelect: function (file) {
-				FileField.onSelect(file, settings);
+				self.onSelect(file, settings);
+			},
+			onSWFReady: function() {
+				if (!settings.uploadLimit) {
+					$('#' + settings.instanceID + '-uploader').uploadify('disable', true);
+				}
 			}
 		});
 
-		FileField.instances[settings.instanceID] = {
+		self.instances[settings.instanceID] = {
 			settings: settings,
 			uploader: uploader,
 		};
-
-		if (!settings.uploadLimit) {
-			$('#' + settings.instanceID + '-uploader').uploadify('disable', true);
-		}
 	},
 	onSelect: function (file, settings) {
 		if (settings.uploadLimit <= 0) {
@@ -117,10 +159,11 @@ FileField = {
 		}
 	},
 	onUploadSuccess: function (response, settings) {
+		var self = this;
 		var view = {
 			uid: settings.instanceID + '-f' + response.number,
 			number: response.number,
-			icon_url: FileField.baseUrl + 'field/img/file-icons/' + response.mime_icon,
+			icon_url: self.baseUrl + 'field/img/file-icons/' + response.mime_icon,
 			link: response.file_url,
 			file_name: response.file_name,
 			file_size: response.file_size,

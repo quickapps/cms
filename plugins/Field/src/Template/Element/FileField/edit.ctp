@@ -69,6 +69,7 @@
 	</ul>
 
 	<div class="uploader <?php echo $multi ? 'multi-upload' : 'single-upload'; ?>">
+		<div id="<?php echo $instanceID; ?>-uploader-queue" class="uploadify-queue"></div>
 		<?php echo $this->Form->input(":{$field->name}.uploader", ['id' => "{$instanceID}-uploader", 'type' => 'file', 'label' => false]); ?>
 		<em class="help-block">
 			<?php echo __d('field', 'Files must be less than <strong>{0}B</strong>.', ini_get('upload_max_filesize')); ?><br />
@@ -76,8 +77,9 @@
 			<?php if (!empty($field->metadata->settings['extensions'])): ?>
 				<?php echo __d('field', 'Allowed file types: <strong>{0}</strong>.', str_replace(',', ', ', $field->metadata->settings['extensions'])); ?><br />
 			<?php endif; ?>
+
+			<?php echo __d('field', 'You can upload up to <strong>{0}</strong> files.', $field->metadata->settings['multi']); ?><br />
 		</em>
-		<div id="<?php echo $instanceID; ?>-uploader-queue" class="uploadify-queue"></div>
 	</div>
 
 	<?php if (!empty($field->metadata->description)): ?>
@@ -99,8 +101,9 @@
 			fileTypeExts: '*.<?php echo str_replace(',', ';*.', $field->metadata->settings['extensions']); ?>',
 		<?php endif; ?>
 
+		fileSizeLimit: '<?php echo ini_get('upload_max_filesize'); ?>B',
 		fileTypeDesc: '<?php echo $field->label; ?>',
-		queueID: 'queue-<?php echo $field->metadata->field_instance_id; ?>',
+		queueID: '<?php echo $instanceID; ?>-uploader-queue',
 		multi: <?php echo $multi ? 'true' : 'false'; ?>,
 		queueSizeLimit: 10,
 		uploadLimit: <?php echo $field->metadata->settings['multi'] - count($field->extra); ?>,

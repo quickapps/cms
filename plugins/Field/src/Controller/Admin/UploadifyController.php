@@ -41,8 +41,14 @@ class UploadifyController extends AppController {
 			->limit(1)
 			->first();
 
+		$this->response->httpCodes([
+			400 => __d('field', 'Invalid field instance.'),
+			406 => __d('field', 'Invalid file extension.'),
+			500 => __d('field', 'Error while uploading the file.'),
+		]);
+
 		if (!$field) {
-			throw new NotFoundException(__d('field', 'Invalid field instance.'));
+			throw new NotFoundException(__d('field', 'Invalid field instance.'), 400);
 		}
 
 		require_once Plugin::classPath('Field') . 'Lib/class.upload.php';
@@ -54,7 +60,7 @@ class UploadifyController extends AppController {
 			$exts = array_map('strtolower', $exts);
 
 			if (!in_array(strtolower($uploader->file_src_name_ext), $exts)) {
-				throw new NotFoundException(__d('field', 'Invalid file extension.'));
+				throw new NotFoundException(__d('field', 'Invalid file extension.'), 422);
 			}
 		}
 
@@ -73,10 +79,11 @@ class UploadifyController extends AppController {
 				'mime_icon' => FileToolbox::fileIcon($uploader->file_src_mime),
 			]);
 		} else {
-			throw new NotFoundException(__d('field', 'File Upload Error: {0}', $uploader->error));
+			throw new NotFoundException(__d('field', 'File upload error: {0}', $uploader->error), 500);
 		}
 
-		die($response);
+		$this->layout = 'ajax';
+		$this->set(compact('response'));
 	}
 
 /**

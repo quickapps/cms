@@ -80,13 +80,3 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 .uploadify-queue-item.completed {
 	background-color: #E5E5E5;
 }
-.uploadify-progress {
-	background-color: #E5E5E5;
-	margin-top: 10px;
-	width: 100%;
-}
-.uploadify-progress-bar {
-	background-color: #0099FF;
-	height: 3px;
-	width: 1px;
-}
