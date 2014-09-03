@@ -50,7 +50,7 @@
 								'action' => 'view_mode_move',
 								$viewMode,
 								$instance->id,
-								'up'
+								'down'
 							], [
 								'title' => __d('field', 'Move up'),
 								'class' => 'btn btn-default glyphicon glyphicon-arrow-up'
@@ -66,7 +66,7 @@
 								'action' => 'view_mode_move',
 								$viewMode,
 								$instance->id,
-								'down'
+								'up'
 							], [
 								'title' => __d('field', 'Move down'),
 								'class' => 'btn btn-default glyphicon glyphicon-arrow-down'

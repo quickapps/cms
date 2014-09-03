@@ -415,7 +415,7 @@ trait FieldUIControllerTrait {
 		}
 
 		if ($position !== false) {
-			$ordered = $this->_move($unordered, $position, $direction);
+			$ordered = array_move($unordered, $position, $direction);
 			$before = md5(serialize($unordered));
 			$after = md5(serialize($ordered));
 
@@ -448,7 +448,7 @@ trait FieldUIControllerTrait {
 		$direction = !in_array($direction, ['up', 'down']) ? 'up' : $direction;
 		$position = false;
 		$list = $this->FieldInstances->find()
-			->select(['id', 'ordering'])
+			->select(['id', 'label', 'ordering'])
 			->where(['table_alias' => $instance->table_alias])
 			->order(['ordering' => 'ASC'])
 			->all();

@@ -48,7 +48,7 @@
 								'controller' => $this->request->params['controller'],
 								'action' => 'move',
 								$instance->id,
-								'up'
+								'down'
 							], [
 								'title' => __d('field', 'Move Up'),
 								'class' => 'btn btn-default glyphicon glyphicon-arrow-up',
@@ -63,7 +63,7 @@
 								'controller' => $this->request->params['controller'],
 								'action' => 'move',
 								$instance->id,
-								'down'
+								'up'
 							], [
 								'title' => __d('field', 'Move down'),
 								'class' => 'btn btn-default glyphicon glyphicon-arrow-down',
