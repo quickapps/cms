@@ -26,6 +26,16 @@
 			FileField.baseUrl = '<?php echo $this->Url->build('/', true); ?>';
 			FileField.swf = '<?php echo $this->Url->build('/field/js/uploadify/uploadify.swf', true); ?>';
 			FileField.cancelImg = '<?php echo $this->Url->build('/field/css/uploadify-cancel.png', true); ?>';
+
+			$(window).on('beforeunload',function() {
+				if ($('.file-handler .file-item').not('.is-perm').length > 0) {
+					return '<?php echo __d('field', 'Are you sure you want to leave this page?'); ?>';
+				}
+			});
+
+			$('form').on('submit', function () {
+				$(window).unbind('beforeunload');
+			});
 		});
 	</script>
 
@@ -46,14 +56,14 @@
 			 * - (string) file_size: File's size. e.g. `400 KB`
 			 */
 		?>
-		<div id="{{instance_name}}-{{uid}}" class="alert alert-info {{#perm}}is-perm{{/perm}}" data-number="{{number}}" style="cursor:move;">
+		<div id="{{instance_name}}-{{uid}}" class="alert alert-info {{#perm}}is-perm{{/perm}} file-item" data-number="{{number}}" style="cursor:move;">
 			{{#show_icon}}
 			<img src="{{&icon_url}}" class="file-icon" />
 			{{/show_icon}}
 
 			<a href="{{&link}}" target="_blank" class="file-link">{{file_name}}</a>
 			<span class="file-size">({{file_size}})</span>
-			<button class="btn btn-default btn-xs" onclick="FileField.remove('{{instance_name}}-{{uid}}'); return false;"><?php echo __d('field', 'Remove'); ?></button>
+			<button class="btn btn-danger btn-xs" onclick="FileField.remove('{{instance_name}}-{{uid}}'); return false;"><?php echo __d('field', 'Remove'); ?></button>
 
 			{{#show_description}}
 			<hr />
