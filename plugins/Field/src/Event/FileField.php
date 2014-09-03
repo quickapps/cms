@@ -208,7 +208,7 @@ class FileField extends FieldHandler {
 	public function instanceInfo(Event $event) {
 		return [
 			'name' => __d('field', 'Attachment'),
-			'description' => __d('field', 'Allow attach file uploads to contents.'),
+			'description' => __d('field', 'Allows to upload and attach files to contents.'),
 			'hidden' => false
 		];
 	}

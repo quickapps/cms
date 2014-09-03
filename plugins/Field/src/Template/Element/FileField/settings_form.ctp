@@ -36,6 +36,7 @@
 		'onchange' => 'customMulti()'
 	]);
 ?>
+<em class="help-block"><?php echo __d('field', 'Maximum number of files users can upload for this field.'); ?></em>
 
 <div class="custom-multi">
 	<?php
@@ -45,7 +46,6 @@
 			'onkeyup' => "if (/\D/g.test(this.value)) { this.value = this.value.replace(/\D/g,'') }",
 		]);
 	?>
-	<em class="help-block"><?php echo __d('field', 'Maximum number of files users can upload for this field.'); ?></em>
 </div>
 
 <?php
@@ -55,7 +55,7 @@
 	]);
 ?>
 <em class="help-block">
-	<?php echo __d('field', 'Optional subdirectory where files will be stored. Do not include preceding or trailing slashes.'); ?><br />
+	<?php echo __d('field', 'Optional subdirectory where files will be stored.'); ?><br />
 	<?php echo __d('field', 'The root directory is: <code>{0}</code>', normalizePath(SITE_ROOT . '/webroot/files/')); ?><br />
 	<?php echo __d('field', 'For example, "my-subdirectory" will maps to <code>{0}my-subdirectory</code>', normalizePath(SITE_ROOT . '/webroot/files/')); ?>
 </em>

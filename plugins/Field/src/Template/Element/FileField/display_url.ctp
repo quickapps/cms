@@ -11,7 +11,7 @@
  */
 ?>
 
-<?php foreach ($field->extra as $file): ?>
+<?php foreach ((array)$field->extra as $file): ?>
 	<?php $url = normalizePath("/files/{$field->settings['upload_folder']}/{$file['file_name']}", '/'); ?>
 	<p><?php echo $this->Html->link($this->Url->build($url, true), $url, ['target' => '_blank']); ?></p>
 <?php endforeach; ?>

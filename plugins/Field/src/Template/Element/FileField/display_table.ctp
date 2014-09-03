@@ -13,7 +13,7 @@
 
 <table class="table">
 	<tbody>
-	<?php foreach ($field->extra as $file): ?>
+	<?php foreach ((array)$field->extra as $file): ?>
 		<tr>
 			<td>
 				<?php if (!empty($file['mime_icon'])): ?>
