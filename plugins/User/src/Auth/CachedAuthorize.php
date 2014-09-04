@@ -64,7 +64,7 @@ class CachedAuthorize extends BaseAuthorize  {
 /**
  * Gets an ACO path for current request.
  * 
- * @param \Cake\Network\Request $request
+ * @param \Cake\Network\Request $request Request instance
  * @param string $path Pattern
  * @return string
  */
