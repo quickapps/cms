@@ -29,30 +29,19 @@ class FileHandlerController extends AppController {
  * Uploads a new file for the given FileField instance.
  * 
  * @param string $instance_slug Machine-name of the instance, a.k.a "slug"
+ * @param \upload $uploader Instance of uploader class to use, useful when
+ *  extending this controller
  * @return void
  * @throws \Cake\Network\Exception\NotFoundException When invalid slug is given,
  *  or when upload process could not be completed
  */
-	public function upload($instance_slug) {
-		$this->loadModel('Field.FieldInstances');
-		$field = $this->FieldInstances
-			->find()
-			->where(['slug' => $instance_slug])
-			->limit(1)
-			->first();
+	public function upload($instance_slug, $uploader = null) {
+		$field = $this->_getInstance($instance_slug);
 
-		$this->response->httpCodes([
-			400 => __d('field', 'Invalid field instance.'),
-			406 => __d('field', 'Invalid file extension.'),
-			500 => __d('field', 'Error while uploading the file.'),
-		]);
-
-		if (!$field) {
-			throw new NotFoundException(__d('field', 'Invalid field instance.'), 400);
+		if (!is_object($uploader)) {
+			require_once Plugin::classPath('Field') . 'Lib/class.upload.php';
+			$uploader = new \upload($this->request->data['Filedata']);
 		}
-
-		require_once Plugin::classPath('Field') . 'Lib/class.upload.php';
-		$uploader = new \Upload($this->request->data['Filedata']);
 
 		if (!empty($field->settings['extensions'])) {
 			$exts = explode(',', $field->settings['extensions']);
@@ -60,14 +49,13 @@ class FileHandlerController extends AppController {
 			$exts = array_map('strtolower', $exts);
 
 			if (!in_array(strtolower($uploader->file_src_name_ext), $exts)) {
-				throw new NotFoundException(__d('field', 'Invalid file extension.'), 422);
+				$this->_error(__d('field', 'Invalid file extension.'), 501);
 			}
 		}
 
 		$response = '';
 		$uploader->file_overwrite = false;
-		$uploader->no_script = false;
-		$folder = normalizePath(WWW_ROOT . "/files/{$field->settings['upload_folder']}/", DS);
+		$folder = normalizePath(WWW_ROOT . "/files/{$field->settings['upload_folder']}/");
 		$url = normalizePath("/files/{$field->settings['upload_folder']}/", '/');
 
 		$uploader->process($folder);
@@ -79,7 +67,7 @@ class FileHandlerController extends AppController {
 				'mime_icon' => FileToolbox::fileIcon($uploader->file_src_mime),
 			]);
 		} else {
-			throw new NotFoundException(__d('field', 'File upload error: {0}', $uploader->error), 500);
+			$this->_error(__d('field', 'File upload error, details: {0}', $uploader->error), 502);
 		}
 
 		$this->layout = 'ajax';
@@ -108,10 +96,47 @@ class FileHandlerController extends AppController {
 			$file = new File($file);
 			$file->delete();
 		} else {
-			throw new NotFoundException(__d('field', 'Invalid field instance or file name.'));
+			$this->_error(__d('field', 'Invalid field instance or file name.'), 503);
 		}
 
-		die;
+		$response = '';
+		$this->layout = 'ajax';
+		$this->set(compact('response'));
+	}
+
+/**
+ * Get field instance information.
+ *
+ * @param string $slug Filed instance slug
+ * @return \Field\Model\Entity\FieldInstance
+ * @throws \Cake\Network\Exception\NotFoundException When no instance could be found
+ */
+	protected function _getInstance($slug) {
+		$this->loadModel('Field.FieldInstances');
+		$field = $this->FieldInstances
+			->find()
+			->where(['slug' => $slug])
+			->limit(1)
+			->first();
+
+		if (!$field) {
+			$this->_error(__d('field', 'Invalid field instance.'), 504);
+		}
+
+		return $field;
+	}
+
+/**
+ * Sends a JSON message error.
+ * 
+ * @param string $message The message
+ * @param mixed $code A unique code identifier for this message
+ * @return void Stops scripts execution
+ */
+	public function _error($message, $code) {
+		header("HTTP/1.0 {$code} {$message}");
+		echo $message;
+		exit(0);
 	}
 
 }

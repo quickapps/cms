@@ -22,6 +22,32 @@ use QuickApps\Core\Plugin;
 class FileToolbox {
 
 /**
+ * Renders the given custom field.
+ * 
+ * @param \Cake\View\View $view Instance of view class
+ * @param \Field\Model\Entity\Field $field The field to be rendered
+ * @return string HTML code
+ */
+	public static function formatter($view, $field) {
+		$out = '';
+		switch ($field->view_mode_settings['formatter']) {
+			case 'link':
+				$out = $view->element('Field.FileField/display_link', compact('field'));
+			break;
+
+			case 'table':
+				$out = $view->element('Field.FileField/display_table', compact('field'));
+			break;
+
+			case 'url':
+				default:
+					$out = $view->element('Field.FileField/display_url', compact('field'));
+			break;
+		}
+		return $out;
+	}
+
+/**
  * Gets a translated string representation of the size.
  *
  * @param integer $bytes Size to convert given in bytes units
@@ -47,32 +73,6 @@ class FileToolbox {
 		} else {
 			return $bytes . ' B';
 		}
-	}
-
-/**
- * Renders the given custom field.
- * 
- * @param \Cake\View\View $View Instance of view class
- * @param \Field\Model\Entity\Field $field The field to be rendered
- * @return string HTML code
- */
-	public static function formatter($View, $field) {
-		$out = '';
-		switch ($field->view_mode_settings['formatter']) {
-			case 'link':
-				$out = $View->element('Field.FileField/display_link', compact('field'));
-			break;
-
-			case 'table':
-				$out = $View->element('Field.FileField/display_table', compact('field'));
-			break;
-
-			case 'url':
-				default:
-					$out = $View->element('Field.FileField/display_url', compact('field'));
-			break;
-		}
-		return $out;
 	}
 
 /**
@@ -250,17 +250,28 @@ class FileToolbox {
 /**
  * Get file extension.
  *
- * @param string $file Name of the file. e.g.: `my-file.docx`
- * @return string
+ * @param string $fileName File name, including its extension. e.g.: `my-file.docx`
+ * @return string File extension without the DOT, e.g. `pdf`, `jpg`
  */
-	public static function ext($file) {
+	public static function ext($fileName) {
 		return strtolower(
 			substr(
-				$file,
-				strrpos($file, '.') + 1,
-				strlen($file)
+				$fileName,
+				strrpos($fileName, '.') + 1,
+				strlen($fileName)
 			)
 		);
+	}
+
+/**
+ * Remove file extension.
+ *
+ * @param string $fileName File name, including its extension. e.g.: `my-file.docx`
+ * @return string
+ */
+	public static function removeExt($fileName) {
+		$ext = static::ext($fileName);
+		return str_replace_last(".{$ext}", '', $fileName);
 	}
 
 }

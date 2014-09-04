@@ -16,15 +16,16 @@ use Cake\Filesystem\File;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
-use Field\Utility\TextToolbox;
+use Field\Utility\FileToolbox;
+use Field\Utility\ImageToolbox;
 use Field\Core\FieldHandler;
 
 /**
- * File Field Handler.
+ * Image Field Handler.
  *
- * This field allows attach files to entities.
+ * This field allows attach images to entities.
  */
-class FileField extends FieldHandler {
+class ImageField extends FieldHandler {
 
 /**
  * {@inheritDoc}
@@ -36,7 +37,7 @@ class FileField extends FieldHandler {
 			$settings['multi'] = $field->metadata->settings['multi_custom'];
 			$field->metadata->set('settings', $settings);
 		}
-		return $View->element('Field.FileField/display', compact('field', 'options'));
+		return $View->element('Field.ImageField/display', compact('field', 'options'));
 	}
 
 /**
@@ -44,7 +45,7 @@ class FileField extends FieldHandler {
  */
 	public function entityEdit(Event $event, $field, $options = []) {
 		$View = $event->subject;
-		return $View->element('Field.FileField/edit', compact('field', 'options'));
+		return $View->element('Field.ImageField/edit', compact('field', 'options'));
 	}
 
 /**
@@ -59,7 +60,8 @@ class FileField extends FieldHandler {
 					'mime_icon' => '',
 					'file_name' => '',
 					'file_size' => '',
-					'description' => '',
+					'title' => '',
+					'alt' => '',
 				], (array)$file);
 			}
 			$field->set('extra', $newExtra);
@@ -79,7 +81,7 @@ class FileField extends FieldHandler {
 					unset($files[$k]);
 					continue;
 				}
-				$value[] = "{$file['file_name']} {$file['description']}";
+				$value[] = "{$file['file_name']} {$file['title']} {$file['alt']}";
 			}
 			$field->set('value', implode(' ', $value));
 			$field->set('extra', $files);
@@ -128,7 +130,7 @@ class FileField extends FieldHandler {
 						}
 						return false;
 					},
-					'message' => __d('field', 'You must upload one file at least.')
+					'message' => __d('field', 'You must upload one image at least.')
 				]);
 		}
 
@@ -154,7 +156,7 @@ class FileField extends FieldHandler {
 					}
 					return false;
 				},
-				'message' => __d('field', 'You can upload {0} files as maximum.', $maxFiles)
+				'message' => __d('field', 'You can upload {0} images as maximum.', $maxFiles)
 			]);
 
 		if (!empty($field->metadata->settings['extensions'])) {
@@ -176,7 +178,7 @@ class FileField extends FieldHandler {
 						}
 						return false;
 					},
-					'message' => __d('field', 'Invalid file extension. Allowed extension are: {0}', $field->metadata->settings['extensions'])
+					'message' => __d('field', 'Invalid image extension. Allowed extension are: {0}', $field->metadata->settings['extensions'])
 				]);
 		}
 
@@ -209,6 +211,11 @@ class FileField extends FieldHandler {
  * {@inheritDoc}
  */
 	public function entityAfterDelete(Event $event, $entity, $field, $options) {
+		foreach ((array)$field->extra as $image) {
+			if (!empty($image['file_name'])) {
+				ImageToolbox::delete(WWW_ROOT . "/files/{$field->settings['upload_folder']}/{$image['file_name']}");
+			}
+		}
 	}
 
 /**
@@ -219,8 +226,8 @@ class FileField extends FieldHandler {
  */
 	public function instanceInfo(Event $event) {
 		return [
-			'name' => __d('field', 'Attachment'),
-			'description' => __d('field', 'Allows to upload and attach files to contents.'),
+			'name' => __d('field', 'Image'),
+			'description' => __d('field', 'Allows to attach image files to contents.'),
 			'hidden' => false
 		];
 	}
@@ -230,7 +237,7 @@ class FileField extends FieldHandler {
  */
 	public function instanceSettingsForm(Event $event, $instance, $options = []) {
 		$View = $event->subject;
-		return $View->element('Field.FileField/settings_form', compact('instance', 'options'));
+		return $View->element('Field.ImageField/settings_form', compact('instance', 'options'));
 	}
 
 /**
@@ -238,11 +245,20 @@ class FileField extends FieldHandler {
  */
 	public function instanceSettingsDefaults(Event $event, $instance, $options = []) {
 		return [
-			'extensions' => '',
+			'extensions' => 'jpg,jpeg,png,bmp,gif,tif,tiff',
 			'multi' => 1,
 			'multi_custom' => 1,
 			'upload_folder' => '',
 			'description' => '',
+			'preview' => '',
+			'min_width' => '',
+			'min_height' => '',
+			'max_width' => '',
+			'max_height' => '',
+			'min_ratio' => '',
+			'max_ratio' => '',
+			'min_pixels' => '',
+			'max_pixels' => '',
 		];
 	}
 
@@ -257,7 +273,7 @@ class FileField extends FieldHandler {
  */
 	public function instanceViewModeForm(Event $event, $instance, $options = []) {
 		$View = $event->subject;
-		return $View->element('Field.FileField/view_mode_form', compact('instance', 'options'));
+		return $View->element('Field.ImageField/view_mode_form', compact('instance', 'options'));
 	}
 
 /**
@@ -270,7 +286,8 @@ class FileField extends FieldHandler {
 					'label_visibility' => 'above',
 					'hooktags' => true,
 					'hidden' => false,
-					'formatter' => 'link',
+					'size' => 'thumbnail',
+					'link_type' => '',
 				];
 		}
 	}

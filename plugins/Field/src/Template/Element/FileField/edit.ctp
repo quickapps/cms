@@ -41,21 +41,16 @@
 			<li class="item-<?php echo $key; ?>">
 				<script type="text/javascript">
 					$(document).on('<?php echo $instanceID; ?>-init', function () {
+						var fileSettings = <?php echo json_encode($file, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES); ?>;
 						var view = {
 							perm: true,
 							icon_url: '<?php echo $this->Url->build("/field/img/file-icons/{$file['mime_icon']}", true); ?>',
 							link: '<?php echo $this->Url->build(normalizePath("/files/{$field->metadata->settings['upload_folder']}/{$file['file_name']}", '/'), true); ?>',
-							file_name: '<?php echo $file['file_name']; ?>',
-							file_size: '<?php echo $file['file_size']; ?>',
 							instance_name: '<?php echo $field->name; ?>',
-							mime_icon: '<?php echo $file['mime_icon']; ?>',
-							file_name: '<?php echo $file['file_name']; ?>',
-							file_size: '<?php echo $file['file_size']; ?>',
-							description: '<?php echo $file['description']; ?>',
 							show_icon: <?php echo !empty($file['mime_icon']) ? 'true' : 'false'; ?>,
 							show_description: <?php echo $field->metadata->settings['description'] ? 'true' : 'false'; ?>,
 						};
-						$('#<?php echo $instanceID; ?> li.item-<?php echo $key; ?>').html(FileField.renderItem(<?php echo $field->metadata->field_instance_id; ?>, view));
+						$('#<?php echo $instanceID; ?> li.item-<?php echo $key; ?>').html(FileField.renderItem(<?php echo $field->metadata->field_instance_id; ?>, $.extend(fileSettings, view)));
 					});
 				</script>
 			</li>
@@ -84,7 +79,7 @@
 <?php if (!empty($field->metadata->settings['JSON']['instance']['id'])): ?>
 	<script type="text/javascript">
 		$(document).ready(function () {
-			$('#<?php echo $field->metadata->settings['JSON']['instance']['id']; ?>-files-list').sortable();
+			$('#<?php echo $instanceID; ?>-files-list').sortable();
 			FileField.init(<?php echo json_encode($field->metadata->settings['JSON'], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES); ?>);
 		});
 	</script>

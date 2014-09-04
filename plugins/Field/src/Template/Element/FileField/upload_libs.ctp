@@ -9,6 +9,8 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
+
+use Cake\Core\Configure;
 ?>
 
 <?php if (!static::cache('FileFieldUploadLibs')): ?>
@@ -23,10 +25,11 @@
 		$(document).ready(function() {
 			FileField.defaultSettings.uploader.mimeIconsBaseURL = '<?php echo $this->Url->build('/', true); ?>';
 			FileField.defaultSettings.uploader.swf = '<?php echo $this->Url->build('/field/js/uploadify/uploadify.swf', true); ?>';
+			FileField.defaultSettings.uploader.debug = <?php echo Configure::read('debug') ? 'true' : 'false'; ?>;
 			FileField.defaultSettings.uploader.errorMessages = {
-				400: '<?php echo __d('field', 'The file {{file.name}} could not be uploaded: invalid field instance.'); ?>',
-				422: '<?php echo __d('field', 'The file {{file.name}} could not be uploaded: invalid file extension.'); ?>',
-				500: '<?php echo __d('field', 'The file {{file.name}} could not be uploaded: internal server error.'); ?>',
+				504: '<?php echo __d('field', 'The file {{file.name}} could not be uploaded: invalid field instance.'); ?>',
+				501: '<?php echo __d('field', 'The file {{file.name}} could not be uploaded: invalid file extension.'); ?>',
+				502: '<?php echo __d('field', 'The file {{file.name}} could not be uploaded: internal server error.'); ?>',
 			};
 			FileField.defaultSettings.uploader.itemTemplate = '<div id="${fileID}" class="uploadify-queue-item">\
 				<div class="cancel">\

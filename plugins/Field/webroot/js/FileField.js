@@ -30,6 +30,7 @@ FileField = {
 			swf: null,
 			uploader: null,
 			remover: null,
+			debug: false,
 			mimeIconsBaseURL: null,
 			itemTemplate: '<div id="${fileID}" class="uploadify-queue-item">\
 				<div class="cancel">\
@@ -41,9 +42,9 @@ FileField = {
 				</div>\
 			</div>',
 			errorMessages: {
-				400: 'The file {{file.name}} could not be uploaded: invalid field instance.',
-				422: 'The file {{file.name}} could not be uploaded: invalid file extension.',
-				500: 'The file {{file.name}} could not be uploaded: internal server error.',
+				504: 'The file {{file.name}} could not be uploaded: invalid field instance.',
+				501: 'The file {{file.name}} could not be uploaded: invalid file extension.',
+				502: 'The file {{file.name}} could not be uploaded: internal server error.',
 			},
 			uploadLimitDown: function () {
 				this.uploadLimit = this.uploadLimit - 1;
