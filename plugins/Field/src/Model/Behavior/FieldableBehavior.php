@@ -765,31 +765,25 @@ class FieldableBehavior extends Behavior {
 			return true;
 		}
 
-		$instances = $this->_getTableFieldInstances($entity);
-		foreach ($instances as $instance) {
-			$field = $this->_getMockField($entity, $instance);
-			$fieldEvent = $this->hook(["Field.{$field->metadata['handler']}.Entity.afterValidate", $event->subject], $entity, $field, $options, $validator);
+		if ($entity->has('_fields')) {
+			$entityErrors = $entity->errors();
+			foreach ($entity->get('_fields') as &$field) {
+				$postName = ":{$field->name}";
+				$postData = $entity->get($postName);
 
-			if ($fieldEvent->isStopped()) {
-				$entity = $this->attachEntityFields($entity);
-				$event->stopPropagation();
-				$this->attachEntityFields($entity);
-				return $fieldEvent->result;
-			}
-		}
-
-		if ($entity->errors() && $entity->has('_fields') ) {
-			foreach ($entity->errors() as $fieldName => $errors) {
-				foreach ($entity->get('_fields') as &$field) {
-					if ($fieldName == ":{$field->name}") {
-						$_post = $entity->get(":{$field->name}");
-						if (is_array($_post)) {
-							$field->set('extra', $_post);
-						} elseif (is_string($_post)) {
-							$field->set('value', $_post);
-						}
-						$field->metadata->set('errors', (array)$errors);
+				if (!empty($entityErrors[$postName])) {
+					if (is_array($postData)) {
+						$field->set('extra', $postData);
+					} elseif (is_string($postData)) {
+						$field->set('value', $postData);
 					}
+					$field->metadata->set('errors', (array)$entityErrors[$postName]);
+				}
+
+				$fieldEvent = $this->hook(["Field.{$field->metadata['handler']}.Entity.afterValidate", $event->subject], $entity, $field, $options, $validator);
+				if ($fieldEvent->isStopped()) {
+					$event->stopPropagation();
+					return $fieldEvent->result;
 				}
 			}
 		}
