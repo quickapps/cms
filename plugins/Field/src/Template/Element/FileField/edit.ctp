@@ -17,8 +17,9 @@
 	$instanceID = "FileField-{$field->metadata->field_instance_id}";
 ?>
 
-<div id="<?php echo $instanceID; ?>" class="file-handler">
+<div id="<?php echo $instanceID; ?>" class="file-handler well well-sm">
 	<?php echo $this->Form->label("{$instanceID}-uploader", $field->label); ?>
+	<hr />
 
 	<?php if ($field->metadata->errors): ?>
 		<div class="form-group has-error has-feedback">

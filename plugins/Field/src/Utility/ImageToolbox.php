@@ -36,6 +36,9 @@ class ImageToolbox extends FileToolbox {
 /**
  * Renders the given field instance.
  *
+ * When using the `Link to content` option, entities must define the "url"
+ * property, and it should return a valid URL for that entity.
+ *
  * @param \Cake\View\View $view Instance of view class
  * @param \Field\Model\Entity\Field $field Field instance to render
  * @return string HTML
