@@ -15,6 +15,8 @@
  */
 if (file_exists(SITE_ROOT . '/config/settings.php')) {
 	require SITE_ROOT . '/config/settings.php';
+} elseif (file_exists(SITE_ROOT . '/config/settings.php.tmp')) {
+	require SITE_ROOT . '/config/settings.php.tmp';
 } else {
 	$config = [];
 }

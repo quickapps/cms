@@ -371,13 +371,14 @@ class StartupController extends Controller {
 			$this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'index']);
 		}
 
-		include_once SITE_ROOT . '/config/settings.php.tmp';
-		ConnectionManager::config($config['Datasources']);
 		$this->loadModel('User.Users');
 		$user = $this->Users->newEntity();
 
 		if ($this->request->data) {
-			$user = $this->Users->newEntity($this->request->data);
+			$data = $this->request->data;
+			$data['roles'] = ['_ids' => [1]];
+			$user = $this->Users->newEntity($data);
+
 			if ($this->Users->save($user)) {
 				$this->Flash->success(__d('installer', 'Account created you can now login!'));
 				$this->_step();
@@ -400,8 +401,6 @@ class StartupController extends Controller {
 	public function finish() {
 		if ($this->request->data) {
 			if (rename(SITE_ROOT . '/config/settings.php.tmp', SITE_ROOT . '/config/settings.php')) {
-				include_once SITE_ROOT . '/config/settings.php';
-				ConnectionManager::config($config['Datasources']);
 				snapshot();
 				$this->Session->delete('Startup');
 
