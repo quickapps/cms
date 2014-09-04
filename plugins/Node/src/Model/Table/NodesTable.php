@@ -16,6 +16,7 @@ use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
+use QuickApps\Core\Plugin;
 
 /**
  * Represents "nodes" database table.
@@ -180,7 +181,7 @@ class NodesTable extends Table {
  *     created:<date>
  *     created:<date1>..<date2>
  *
- * Dates must be in day, month, and year format. e.g. `2014-12-30`
+ * Dates must be in YEAR-MONTH-DATE format. e.g. `2014-12-30`
  *
  * @param \Cake\ORM\Query $query The query object
  * @param string $value Operator's arguments
@@ -195,22 +196,41 @@ class NodesTable extends Table {
 			$dateLeft = $dateRight = $value;
 		}
 
-		$dl = strtotime($dateLeft);
-		$dr = strtotime($dateRight);
+		$dateLeft = preg_replace('/[^0-9\-]/', '', $dateLeft);
+		$dateRight = preg_replace('/[^0-9\-]/', '', $dateRight);
+		$range = [$dateLeft, $dateRight];
+		foreach ($range as &$date) {
+			$parts = explode('-', $date);
+			$year = !empty($parts[0]) ? intval($parts[0]) : date('Y');
+			$month = !empty($parts[1]) ? intval($parts[1]) : 1;
+			$day = !empty($parts[2]) ? intval($parts[2]) : 1;
+			
+			$year = (1 <= $year && $year <= 32767) ? $year : date('Y');
+			$month = (1 <= $month && $month <= 12) ? $month : 1;
+			$day = (1 <= $month && $month <= 31) ? $day : 1;
 
-		if ($dl > $dr) {
+			$date = date('Y-m-d', strtotime("{$year}-{$month}-{$day}"));
+		}
+
+		list($dateLeft, $dateRight) = $range;
+		if (strtotime($dateLeft) > strtotime($dateRight)) {
 			$tmp = $dateLeft;
 			$dateLeft = $dateRight;
 			$dateRight = $tmp;
 		}
 
-		$not = $negate ? ' NOT' : '';
-		$conditions = [
-			"AND{$not}" => [
-				'Nodes.created >=' => $dateLeft,
-				'Nodes.created <=' => $dateRight,
-			]
-		];
+		if ($dateLeft !== $dateRight) {
+			$not = $negate ? ' NOT' : '';
+			$conditions = [
+				"AND{$not}" => [
+					'Nodes.created >=' => $dateLeft,
+					'Nodes.created <=' => $dateRight,
+				]
+			];
+		} else {
+			$cmp = $negate ? '<=' : '>=';
+			$conditions = ["Nodes.created {$cmp}" => $dateLeft];
+		}
 
 		if ($orAnd === 'or') {
 			$query->orWhere($conditions);
