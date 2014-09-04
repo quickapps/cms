@@ -9,16 +9,33 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
+
+/**
+ * This template can be extended by providing the `$options` view variable,
+ * by passing this variable you can alter some aspect of the rendering process.
+ *
+ * Valid options are:
+ *
+ * - `sortable` (bool): Whether file elements are sortable or not. Defaults to
+ *    true (they can be sorted).
+ * - `initScript` (string): Custom JS logic to execute when initializing this
+ *    field instance. This JS code will be embed within `<script>` tags. At the
+ *    end of this file you can see the default script used to initialize each
+ *    field instance.
+ *
+ * This provides a simple way to customize a few aspects of the rendering
+ * process. However, if you need to create a really customized version of this
+ * template, you must create your own using this template as reference.
+ */
 ?>
 
+<?php $instanceID = "FileField-{$field->metadata->field_instance_id}"; ?>
+<?php $multi = intval($field->metadata->settings['multi']) > 1; ?>
 <?php echo $this->element('Field.FileField/upload_libs'); ?>
-<?php
-	$multi = intval($field->metadata->settings['multi']) > 1;
-	$instanceID = "FileField-{$field->metadata->field_instance_id}";
-?>
 
 <div id="<?php echo $instanceID; ?>" class="file-handler well well-sm">
 	<?php echo $this->Form->label("{$instanceID}-uploader", $field->label); ?>
+
 	<hr />
 
 	<?php if ($field->metadata->errors): ?>
@@ -27,14 +44,12 @@
 		</div>
 	<?php endif; ?>
 
-	<?php
-		// forces field handler callbacks when 0 files is send
-		echo $this->Form->input(":{$field->name}.dummy", ['type' => 'hidden', 'value' => 'dummy']);
-	?>
+	<?php // forces field handler to work when no files are send ?>
+	<?php echo $this->Form->input(":{$field->name}.dummy", ['type' => 'hidden', 'value' => 'dummy']); ?>
 
 	<ul id="<?php echo $instanceID; ?>-files-list" class="files-list list-unstyled">
 		<?php foreach ((array)$field->extra as $key => $file): ?>
-			<?php 
+			<?php
 				if (!is_integer($key)) {
 					continue;
 				}
@@ -59,15 +74,16 @@
 	</ul>
 
 	<div class="uploader <?php echo $multi ? 'multi-upload' : 'single-upload'; ?>">
-		<div id="<?php echo $instanceID; ?>-uploader-queue" class="uploadify-queue"></div>
+		<div id="<?php echo $instanceID; ?>-uploader-queue" class="uploadify-queue">
+			<!-- <?php echo $instanceID; ?>'s QUEUE -->
+		</div>
 		<?php echo $this->Form->input(":{$field->name}.uploader", ['id' => "{$instanceID}-uploader", 'type' => 'file', 'label' => false]); ?>
+
 		<em class="help-block">
 			<?php echo __d('field', 'Files must be less than <strong>{0}B</strong>.', ini_get('upload_max_filesize')); ?><br />
-
 			<?php if (!empty($field->metadata->settings['extensions'])): ?>
 				<?php echo __d('field', 'Allowed file types: <strong>{0}</strong>.', str_replace(',', ', ', $field->metadata->settings['extensions'])); ?><br />
 			<?php endif; ?>
-
 			<?php echo __d('field', 'You can upload up to <strong>{0}</strong> files.', $field->metadata->settings['multi']); ?><br />
 		</em>
 	</div>
@@ -77,17 +93,16 @@
 	<?php endif; ?>
 </div>
 
-<?php if (!empty($field->metadata->settings['JSON']['instance']['id'])): ?>
-	<script type="text/javascript">
-		$(document).ready(function () {
+<script type="text/javascript">
+	$(document).ready(function () {
+		<?php if (!isset($options['sortable']) || $options['sortable'] === true): ?>
+			$('#<?php echo $instanceID; ?>-files-list li').css({'cursor': 'move'});
 			$('#<?php echo $instanceID; ?>-files-list').sortable();
-			FileField.init(<?php echo json_encode($field->metadata->settings['JSON'], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES); ?>);
-		});
-	</script>
-<?php else: ?>
-	<script type="text/javascript">
-		$(document).ready(function () {
-			$('#<?php echo $instanceID; ?>-files-list').sortable();
+		<?php endif; ?>
+
+		<?php if (!empty($options['initScript'])): ?>
+			<?php echo $options['initScript']; ?>
+		<?php else: ?>
 			FileField.init({
 				instance: {
 					id: <?php echo $field->metadata->field_instance_id; ?>,
@@ -109,6 +124,6 @@
 					remover: '<?php echo $this->Url->build(['plugin' => 'Field', 'controller' => 'file_handler', 'action' => 'delete', 'prefix' => false, $field->name], true); ?>',
 				},
 			});
-		});
-	</script>
-<?php endif; ?>
+		<?php endif; ?>
+	});
+</script>

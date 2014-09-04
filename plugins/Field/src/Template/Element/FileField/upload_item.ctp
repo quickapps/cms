@@ -18,13 +18,12 @@
  *
  * - (string) instance_name: Field instance machine-name. e.g. `article-image`.
  * - (string) uid: Unique ID for this file item.
- * - (bool) perm: Whether this file is already saved on DB, or it was just uploaded.
  * - (string) number: Number of this file item within field instance.
+ * - (bool) perm: Whether this file is already saved on DB, or it was just uploaded.
+ * - (bool) show_description: Whether to show file description or not.
  * - (bool) show_icon: Whether to show the icon or not.
  * - (string) icon_url: URL of the file icon.
  * - (string) link: File's link.
- * - (string) file_name: File's size.
- * - (bool) show_description: Whether to show file description or not.
  * - (string) mime_icon: The icon PNG file name. e.g. `pdf.png`
  * - (string) file_name: File's name, including its extension. e.g. `document.pdf`
  * - (string) file_size: File's size. e.g. `400 KB`
@@ -32,7 +31,7 @@
 ?>
 
 <script id="file-item-template" type="x-tmpl-mustache">
-	<div id="{{uid}}" class="alert alert-info {{#perm}}is-perm{{/perm}} file-item" data-number="{{number}}" style="cursor:move;">
+	<div id="{{uid}}" class="alert alert-info {{#perm}}is-perm{{/perm}} file-item" data-number="{{number}}">
 		{{#show_icon}}
 		<img src="{{&icon_url}}" class="file-icon" />
 		{{/show_icon}}
