@@ -16,7 +16,7 @@ use Cake\Error\FatalErrorException;
 use Cake\Event\EventManager;
 use Cake\Filesystem\Folder;
 use Cake\Model\ModelAwareTrait;
-use Installer\Utility\PackageManager;
+use Installer\Task\TaskManager;
 use QuickApps\Core\HookTrait;
 use User\Utility\AcoManager;
 
@@ -193,7 +193,7 @@ abstract class BaseTask {
  * @return \Installer\Task\BaseTask New instance of this class
  */
 	final public function newTask($task, $options = []) {
-		return PackageManager::task($task, $options);
+		return TaskManager::task($task, $options);
 	}
 
 /**

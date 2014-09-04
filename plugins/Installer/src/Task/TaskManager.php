@@ -9,7 +9,7 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Installer\Utility;
+namespace Installer\Task;
 
 use Cake\Error\FatalErrorException;
 use Installer\Task\BaseTask;
@@ -19,7 +19,7 @@ use Installer\Task\BaseTask;
  *
  * ### Basic Usage:
  *
- *     $task = PackageManager::task('install', ['active' => true])->download();
+ *     $task = TaskManager::task('install', ['active' => true])->download();
  *     if (!$task->run()) {
  *         $errors = $task->errors();
  *     }
@@ -52,7 +52,7 @@ use Installer\Task\BaseTask;
  *         return true;
  *     }
  */
-class PackageManager {
+class TaskManager {
 
 /**
  * Holds a list of registered and valid task classes.
@@ -107,11 +107,11 @@ class PackageManager {
  *
  * ### Usage:
  *
- *     PackageManager::registerTask('package-validator', function ($options) {
+ *     TaskManager::registerTask('package-validator', function ($options) {
  *         return 'Validator says: ' . $options['message'];
  *     });
  *
- *     $task = PackageManager::task('package-validator', ['message' => 'hello world!']);
+ *     $task = TaskManager::task('package-validator', ['message' => 'hello world!']);
  *     echo $task;
  *     // out: Validator says: hello world!
  * 

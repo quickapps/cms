@@ -12,7 +12,7 @@
 namespace Installer\Controller\Component;
 
 use Cake\Controller\Component;
-use Installer\Utility\PackageManager;
+use Installer\Task\TaskManager;
 
 /**
  * Plugin package handler.
@@ -40,7 +40,7 @@ class InstallerComponent extends Component {
  * @return \Installer\Task\BaseTask Instance of the request task
  */
 	public function task($task, $args = []) {
-		return PackageManager::task($task, $args);
+		return TaskManager::task($task, $args);
 	}
 
 }
