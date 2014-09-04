@@ -19,7 +19,7 @@ use QuickApps\Core\Plugin;
 /**
  * Utility functions for Image Field Handler.
  *
- * Thumbnails files are always stored in `.tn` directory.
+ * Thumbnails files are always stored in `.tmb` directory.
  */
 class ImageToolbox extends FileToolbox {
 
@@ -32,7 +32,9 @@ class ImageToolbox extends FileToolbox {
 
 /**
  * Renders the given field instance.
- * 
+ *
+ * @param \Cake\View\View $view Instance of view class
+ * @param \Field\Model\Entity\Field $field Field instance to render
  * @return string HTML
  */
 	public static function formatter($view, $field) {
@@ -79,13 +81,11 @@ class ImageToolbox extends FileToolbox {
 
 						default:
 							$out .= $img;
-						break;;
+						break;
 					}
-					
 				}
 			}
 		}
-
 		return $out;
 	}
 
