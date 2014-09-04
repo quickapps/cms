@@ -65,7 +65,7 @@ class NodeRevisionsTable extends Table {
 							->first();
 						$revision->data->set('node_type', $nodeType);
 					}
-				} catch (\Exception $e) {debug($e);die("here");
+				} catch (\Exception $e) {
 					$revision->data->set('node_type', false);
 				}
 				return $revision;
