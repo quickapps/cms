@@ -92,7 +92,7 @@
 			view.show_image = settings.showThumbnail;
 			view.show_title = settings.showTitle;
 			view.show_alt = settings.showAlt;
-			view.thumbnail_url = '<?php echo $this->Url->build(['plugin' => 'Field', 'controller' => 'image_handler', 'action' => 'thumbnail']); ?>/' + settings.name + '?size=' + settings.thumbnailSize + '&file=' + view.file_name;
+			view.thumbnail_url = '<?php echo $this->Url->build(['plugin' => 'Field', 'controller' => 'image_handler', 'action' => 'thumbnail', 'prefix' => false]); ?>/' + settings.name + '?size=' + settings.thumbnailSize + '&file=' + view.file_name;
 
 			view.thumbnail_size = 200;
 			return Mustache.render($('#image-item-template').html(), view);

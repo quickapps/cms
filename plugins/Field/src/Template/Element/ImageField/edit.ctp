@@ -25,8 +25,8 @@ $settings['JSON'] = [
 	'uploader' => [
 		'buttonText' => __d('field', 'Upload Image'),
 		'uploadLimit' => $field->metadata->settings['multi'] - count((array)$field->extra),
-		'uploader' => $this->Url->build(['plugin' => 'Field', 'controller' => 'image_handler', 'action' => 'upload', $field->name], true),
-		'remover' => $this->Url->build(['plugin' => 'Field', 'controller' => 'image_handler', 'action' => 'delete', $field->name], true),
+		'uploader' => $this->Url->build(['plugin' => 'Field', 'controller' => 'image_handler', 'action' => 'upload', 'prefix' => false, $field->name], true),
+		'remover' => $this->Url->build(['plugin' => 'Field', 'controller' => 'image_handler', 'action' => 'delete', 'prefix' => false, $field->name], true),
 		'errorMessages' => [
 			502 => 'The file {{file.name}} could not be uploaded: invalid image given.'
 		]

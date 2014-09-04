@@ -78,8 +78,15 @@ class FileField extends FieldHandler {
 				if (!is_integer($k)) {
 					unset($files[$k]);
 					continue;
+				} else {
+					$file = array_merge([
+						'mime_icon' => '',
+						'file_name' => '',
+						'file_size' => '',
+						'description' => '',
+					], (array)$file);
 				}
-				$value[] = "{$file['file_name']} {$file['description']}";
+				$value[] = trim("{$file['file_name']} {$file['description']}");
 			}
 			$field->set('value', implode(' ', $value));
 			$field->set('extra', $files);

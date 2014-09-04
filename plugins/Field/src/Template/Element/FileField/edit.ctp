@@ -104,8 +104,8 @@
 					fileSizeLimit: '<?php echo ini_get('upload_max_filesize'); ?>B',
 					fileTypeDesc: '<?php echo $field->label; ?>',
 					buttonText: '<?php echo __d('field', 'Upload File'); ?>',
-					uploader: '<?php echo $this->Url->build(['plugin' => 'Field', 'controller' => 'file_handler', 'action' => 'upload', $field->name], true); ?>',
-					remover: '<?php echo $this->Url->build(['plugin' => 'Field', 'controller' => 'file_handler', 'action' => 'delete', $field->name], true); ?>',
+					uploader: '<?php echo $this->Url->build(['plugin' => 'Field', 'controller' => 'file_handler', 'action' => 'upload', 'prefix' => false, $field->name], true); ?>',
+					remover: '<?php echo $this->Url->build(['plugin' => 'Field', 'controller' => 'file_handler', 'action' => 'delete', 'prefix' => false, $field->name], true); ?>',
 				},
 			});
 		});

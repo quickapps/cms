@@ -49,7 +49,7 @@ class ImageToolbox extends FileToolbox {
 
 				foreach (['title', 'alt'] as $attr) {
 					if (!empty($field->metadata->settings["{$attr}_attr"]) && !empty($image[$attr])) {
-						$imageOptions[$attr] = $image[$attr];
+						$imageOptions[$attr] = h($image[$attr]);
 					}
 				}
 

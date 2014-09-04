@@ -9,13 +9,11 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Field\Controller\Admin;
+namespace Field\Controller;
 
-use Cake\Core\Configure;
 use Cake\Filesystem\File;
 use Cake\Network\Exception\NotFoundException;
 use Cake\Routing\Router;
-use Field\Controller\AppController;
 use Field\Utility\FileToolbox;
 use QuickApps\Core\Plugin;
 
