@@ -47,6 +47,12 @@ class ListField extends FieldHandler {
 /**
  * {@inheritDoc}
  */
+	public function entityBeforeFind(Event $event, $entity, $field, $options, $primary) {
+	}
+
+/**
+ * {@inheritDoc}
+ */
 	public function entityBeforeSave(Event $event, $entity, $field, $options) {
 		$value = $options['_post'];
 		if (is_array($value)) {

@@ -53,14 +53,14 @@ class FieldHandler implements EventListener {
  * @return array
  */
 	public function implementedEvents() {
-		$handlerName = explode('\\', get_class($this));
-		$handlerName = array_pop($handlerName);
+		list(, $handlerName) = namespaceSplit(get_class($this));
 
 		return [
 			// Related to Entity:
 			"Field.{$handlerName}.Entity.display" => 'entityDisplay',
 			"Field.{$handlerName}.Entity.edit" => 'entityEdit',
 			"Field.{$handlerName}.Entity.fieldAttached" => 'entityFieldAttached',
+			"Field.{$handlerName}.Entity.beforeFind" => 'entityBeforeFind',
 			"Field.{$handlerName}.Entity.beforeSave" => 'entityBeforeSave',
 			"Field.{$handlerName}.Entity.afterSave" => 'entityAfterSave',
 			"Field.{$handlerName}.Entity.beforeValidate" => 'entityBeforeValidate',
@@ -119,6 +119,27 @@ class FieldHandler implements EventListener {
  * @return void
  */
 	public function entityFieldAttached(Event $event, $field) {
+	}
+
+/**
+ * Triggered on entity's "beforeFind" event.
+ *
+ * Can be used as preprocessor, as fields can directly alter the entity's
+ * properties before it's returned as part of a find query.
+ *
+ * Returning false will cause the entity to be removed from the resulting find
+ * collection. In the other hand, stopping the given event will halt the
+ * entire find operation.
+ *
+ * @param \Cake\Event\Event $event The event that was triggered
+ * @param \Cake\ORM\Entity $entity The entity to which field is attached to
+ * @param \Field\Model\Entity\Field $field Field information
+ * @param array $options Options given as an array
+ * @param bool $primary Whether this event was triggered as part of a primary
+ *  find query or not
+ * @return mixed
+ */
+	public function entityBeforeFind(Event $event, $entity, $field, $options, $primary) {
 	}
 
 /**

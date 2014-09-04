@@ -489,7 +489,8 @@ class FieldableBehavior extends Behavior {
  * You can enable or disable this behavior for a single `find()` operation by
  * setting `fieldable` to false in the options array for find method. e.g.:
  *
- *     ->find('all', ['fieldable' => false]);
+ *     $this->Nodes
+ *         ->find('all', ['fieldable' => false]);
  *
  * It also looks for custom fields in WHERE clause.
  * This will search entities in all bundles this table may have, if you need
@@ -541,10 +542,22 @@ class FieldableBehavior extends Behavior {
 			(isset($options['fieldable']) && $options['fieldable'] === true)
 		) {
 			$query = $this->_scopeQuery($query, $options);
-			$query->formatResults(function ($results) {
-				return $results->map(function ($entity) {
-					return $this->attachEntityFields($entity);
+			$query->formatResults(function ($results) use($event, $options, $primary) {
+				$results = $results->map(function ($entity) use($event, $options, $primary) {
+					$entity = $this->attachEntityFields($entity);
+					foreach ($entity->get('_fields') as $field) {
+						$fieldEvent = $this->hook(["Field.{$field->metadata->handler}.Entity.beforeFind", $event->subject], $entity, $field, $options, $primary);
+						if ($fieldEvent->result === false) {
+							$entity = false;
+							break;
+						} elseif ($fieldEvent->isStopped()) {
+							$event->stopPropagation();
+							return;
+						}
+					}
+					return $entity;
 				});
+				return $results->filter();
 			});
 		}
 	}

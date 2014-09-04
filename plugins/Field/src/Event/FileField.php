@@ -69,6 +69,12 @@ class FileField extends FieldHandler {
 /**
  * {@inheritDoc}
  */
+	public function entityBeforeFind(Event $event, $entity, $field, $options, $primary) {
+	}
+
+/**
+ * {@inheritDoc}
+ */
 	public function entityBeforeSave(Event $event, $entity, $field, $options) {
 		$files = (array)$options['_post'];
 
