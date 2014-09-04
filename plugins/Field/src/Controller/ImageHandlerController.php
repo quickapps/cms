@@ -81,7 +81,7 @@ class ImageHandlerController extends FileHandlerController {
 			->limit(1)
 			->first();
 
-		ImageToolbox::deleteThumbnails($this->request->query['file'], WWW_ROOT . "/files/{$field->settings['upload_folder']}/.tmb/");
+		ImageToolbox::deleteThumbnails(WWW_ROOT . "/files/{$field->settings['upload_folder']}/{$this->request->query['file']}");
 	}
 
 /**
@@ -124,7 +124,6 @@ class ImageHandlerController extends FileHandlerController {
 			$this->response->file($tmb);
 			return $this->response;
 		}
-
 		throw new NotFoundException(__d('field', 'Thumbnail could not be found, check write permissions?'), 500);
 	}
 

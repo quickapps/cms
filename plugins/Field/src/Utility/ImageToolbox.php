@@ -17,9 +17,12 @@ use Field\Utility\FileToolbox;
 use QuickApps\Core\Plugin;
 
 /**
- * Utility functions for Image Field Handler.
+ * ImageToolbox class for handling image related tasks.
  *
- * Thumbnails files are always stored in `.tmb` directory.
+ * Allows to define image preview modes, render a field instance or create
+ * image thumbnails among other things.
+ * 
+ * NOTE: Thumbnails files are always stored in `.tmb` directory.
  */
 class ImageToolbox extends FileToolbox {
 
@@ -184,7 +187,11 @@ class ImageToolbox extends FileToolbox {
  */
 	public static function addPreview($slug, $label, $width, $height) {
 		static::_initPreviews();
-		static::$_previews[$slug] = ['label' => $label, 'width' => $width, 'height' => $height];
+		static::$_previews[$slug] = [
+			'label' => $label,
+			'width' => $width,
+			'height' => $height,
+		];
 	}
 
 /**
@@ -197,9 +204,7 @@ class ImageToolbox extends FileToolbox {
 		$imagePath = normalizePath($imagePath);
 		if (file_exists($imagePath)) {
 			$original = new File($imagePath);
-			$fileName = basename($imagePath);
-			$tmbPath = dirname($imagePath) . '/.tmb/';
-			static::deleteThumbnails($fileName, $tmbPath);
+			static::deleteThumbnails($imagePath);
 			$original->delete();
 		}
 	}
@@ -207,12 +212,13 @@ class ImageToolbox extends FileToolbox {
 /**
  * Delete image's thumbnails if exists.
  * 
- * @param string $fileName Original (full-sized) image's file name
- * @param string $tmbPath Full path to the folder containing the thumbnails
+ * @param string $imagePath Full path to original image file
  * @return void
  */
-	public static function deleteThumbnails($fileName, $tmbPath) {
-		$tmbPath = normalizePath("{$tmbPath}/");
+	public static function deleteThumbnails($imagePath) {
+		$imagePath = normalizePath("{$imagePath}/");
+		$fileName = basename($imagePath);
+		$tmbPath = normalizePath(dirname($imagePath) . '/.tmb/');
 		$folder = new Folder($tmbPath);
 		$pattern = preg_quote(static::removeExt($fileName));
 
@@ -230,9 +236,21 @@ class ImageToolbox extends FileToolbox {
 	protected static function _initPreviews() {
 		if (empty(static::$_previews)) {
 			static::$_previews = [
-				'thumbnail' => ['label' => __d('field', 'Thumbnail'), 'width' => 100, 'height' => 100],
-				'medium' => ['label' => __d('field', 'Medium'), 'width' => 220, 'height' => 220],
-				'large' => ['label' => __d('field', 'Large'), 'width' => 480, 'height' => 480],
+				'thumbnail' => [
+					'label' => __d('field', 'Thumbnail'),
+					'width' => 100,
+					'height' => 100
+				],
+				'medium' => [
+					'label' => __d('field', 'Medium'),
+					'width' => 220,
+					'height' => 220
+				],
+				'large' => [
+					'label' => __d('field', 'Large'),
+					'width' => 480,
+					'height' => 480
+				],
 			];
 		}
 	}
