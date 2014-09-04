@@ -544,15 +544,17 @@ class FieldableBehavior extends Behavior {
 			$query = $this->_scopeQuery($query, $options);
 			$query->formatResults(function ($results) use($event, $options, $primary) {
 				$results = $results->map(function ($entity) use($event, $options, $primary) {
-					$entity = $this->attachEntityFields($entity);
-					foreach ($entity->get('_fields') as $field) {
-						$fieldEvent = $this->hook(["Field.{$field->metadata->handler}.Entity.beforeFind", $event->subject], $entity, $field, $options, $primary);
-						if ($fieldEvent->result === false) {
-							$entity = false;
-							break;
-						} elseif ($fieldEvent->isStopped()) {
-							$event->stopPropagation();
-							return;
+					if ($entity instanceof Entity) {
+						$entity = $this->attachEntityFields($entity);
+						foreach ($entity->get('_fields') as $field) {
+							$fieldEvent = $this->hook(["Field.{$field->metadata->handler}.Entity.beforeFind", $event->subject], $entity, $field, $options, $primary);
+							if ($fieldEvent->result === false) {
+								$entity = false;
+								break;
+							} elseif ($fieldEvent->isStopped()) {
+								$event->stopPropagation();
+								return;
+							}
 						}
 					}
 					return $entity;
