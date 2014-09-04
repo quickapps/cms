@@ -75,14 +75,15 @@ if (!file_exists(SITE_ROOT . '/config/settings.php')) {
  */
 	if ($localePrefix) {
 		foreach (Router::routes() as $router) {
-			if (!empty($router->options['_name'])) {
-				$options = $router->options;
+			$options = $router->options;
+			$options['routeClass'] = empty($options['routeClass']) ? 'Cake\Routing\Route\InflectedRoute' : $options['routeClass'];
+			if (!empty($options['_name'])) {
 				$options['locale'] = $localesPattern;
 				$template = str_replace('//', '/', "/:locale/{$router->template}");
 				Router::connect($template, $router->defaults, $options);
 			} else {
 				foreach ($locales as $code) {
-					Router::connect("/{$code}{$router->template}", $router->defaults, $router->options);
+					Router::connect("/{$code}{$router->template}", $router->defaults, $options);
 				}
 			}
 		}
