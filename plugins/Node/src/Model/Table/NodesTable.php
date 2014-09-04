@@ -204,7 +204,7 @@ class NodesTable extends Table {
 			$year = !empty($parts[0]) ? intval($parts[0]) : date('Y');
 			$month = !empty($parts[1]) ? intval($parts[1]) : 1;
 			$day = !empty($parts[2]) ? intval($parts[2]) : 1;
-			
+
 			$year = (1 <= $year && $year <= 32767) ? $year : date('Y');
 			$month = (1 <= $month && $month <= 12) ? $month : 1;
 			$day = (1 <= $month && $month <= 31) ? $day : 1;

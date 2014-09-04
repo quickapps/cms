@@ -56,6 +56,7 @@ class TaxonomyToolbox {
 	public static function formatter(Field $field, $view) {
 		$out = [];
 		$instance = static::getInstance();
+		$glue = ' ';
 		$terms = TableRegistry::get('Taxonomy.Terms')
 			->find()
 			->where(['id IN' => (array)$field->extra])
