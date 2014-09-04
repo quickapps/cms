@@ -101,6 +101,7 @@ use QuickApps\Core\HookTrait;
  *     - `handler`: class name of the Field Handler under `Field` namespace.
  *        e.g.: `TextField` (namespaced name: `Field\TextField`)
  *     - `errors`: Array of validation error messages, only on edit mode.
+ *     - `entity`: Entity object this field is attached to.
  *
  * **Notes:**
  *
@@ -1087,6 +1088,7 @@ class FieldableBehavior extends Behavior {
 				'view_modes' => $instance->view_modes,
 				'handler' => $instance->handler,
 				'errors' => [],
+				'entity' => $entity,
 			])
 		]);
 

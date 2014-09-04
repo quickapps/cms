@@ -32,6 +32,7 @@ use QuickApps\View\ViewModeTrait;
  *   - settings: Array of additional information handled by this particular field. ex: `max_len`, `min_len`, etc
  *   - handler: Name of the `Listener Class` a.k.a. `Field Handler`. ex: `Field\Text`
  *   - errors: Validation error messages
+ *   - entity: Entity object this field is attached to.
  */
 class Field extends Entity {
 
@@ -60,6 +61,32 @@ class Field extends Entity {
  */
 	public function __toString() {
 		return (string)$this->get('data');
+	}
+
+/**
+ * Returns an array that can be used to describe the internal state of
+ * this object.
+ *
+ * @return array
+ */
+	public function __debugInfo() {
+		return [
+			'name' => $this->get('name'),
+			'label' => $this->get('label'),
+			'value' => $this->get('value'),
+			'extra' => $this->get('extra'),
+			'metadata' => [
+				'field_value_id' => $this->get('metadata')->get('field_value_id'),
+				'field_instance_id' => $this->get('metadata')->get('field_instance_id'),
+				'table_alias' => $this->get('metadata')->get('table_alias'),
+				'description' => $this->get('metadata')->get('description'),
+				'required' => $this->get('metadata')->get('required'),
+				'settings' => $this->get('metadata')->get('settings'),
+				'handler' => $this->get('metadata')->get('handler'),
+				'errors' => $this->get('metadata')->get('errors'),
+				'entity' => 'Object',
+			],
+		];
 	}
 
 }
