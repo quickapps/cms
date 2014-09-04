@@ -23,7 +23,7 @@ use QuickApps\Core\Plugin;
  * Handles file uploading by "File Field Handler".
  *
  */
-class UploadifyController extends AppController {
+class FileHandlerController extends AppController {
 
 /**
  * Uploads a new file for the given FileField instance.

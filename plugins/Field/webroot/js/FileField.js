@@ -24,6 +24,7 @@ FileField = {
 			id: null,
 			name: null,
 			showDescription: false,
+			itemFormatter: null,
 		},
 		uploader: {
 			swf: null,
@@ -51,7 +52,6 @@ FileField = {
 				this.uploadLimit = this.uploadLimit + 1;
 			},
 		}
-
 	},
 
 /**
@@ -66,6 +66,7 @@ FileField = {
  *       given an exception will be throw.
  *     - showDescription (bool): Whether to show field instance help hint
  *       or not. Defaults to false.
+ *       each uploaded item. Defaults to "file-item-template".
  * - uploader: Any valid options accepted by uploadify class (check their 
  *   [documentation](http://www.uploadify.com/documentation/)), in addition to
  *   these options there is also: 
@@ -99,12 +100,12 @@ FileField = {
 			onUploadStart: function (file) {
 				if (settings.uploader.uploadLimit <= 0) {
 					alert('The file "' + file.name + '" will not be upload, upload limit reached');
-					$('#' + settings.instance.id + '-uploader').uploadify('cancel', file.id, true);
+					$('#FileField-' + settings.instance.id + '-uploader').uploadify('cancel', file.id, true);
 				}
 			},
 			onUploadSuccess: function (file, data, response) {
 				r = $.parseJSON(data);
-				r.number = $('#' + settings.instance.id + ' ul.files-list li').length + 1;
+				r.number = $('#FileField-' + settings.instance.id + ' ul.files-list li').length + 1;
 				self._onUploadSuccess(r, settings);
 			},
 			onUploadError: function (file, errorCode, errorMsg, errorString) {
@@ -125,16 +126,22 @@ FileField = {
 			},
 			onSWFReady: function() {
 				if (!settings.uploader.uploadLimit) {
-					$('#' + settings.instance.id + '-uploader').uploadify('disable', true);
+					$('#FileField-' + settings.instance.id + '-uploader').uploadify('disable', true);
 				}
 			}
 		});
 
 		uploadifyOptions.uploadLimit = 999;
-		var uploader = $('#' + settings.instance.id + '-uploader').uploadify(uploadifyOptions);
+		var uploader = $('#FileField-' + settings.instance.id + '-uploader').uploadify(uploadifyOptions);
 		self.setInstance(settings.instance.id, {
 			settings: settings,
 			uploader: uploader,
+		});
+
+		$.event.trigger({
+			type: 'FileField-' + settings.instance.id + '-init',
+			message: 'FileField-' + settings.instance.id + ' ready to upload',
+			time: new Date()
 		});
 	},
 
@@ -146,8 +153,8 @@ FileField = {
  */
 	getInstance: function (id) {
 		var self = this;
-		if (self._instances[id]) {
-			return self._instances[id];
+		if (self._instances['FileField-' + id]) {
+			return self._instances['FileField-' + id];
 		}
 		return {};
 	},
@@ -161,7 +168,29 @@ FileField = {
  */
 	setInstance: function (id, options) {
 		var self = this;
-		self._instances[id] = options;
+		self._instances['FileField-' + id] = options;
+	},
+
+/**
+ * Renders file item.
+ * 
+ * @param {Integer} instanceID File instance ID
+ * @param {Object} view View options to mustache template
+ * @return {String}
+ */
+	renderItem: function (instanceID, view) {
+		var self = this;
+		var settings = self.getInstance(instanceID).settings.instance;
+		var number = self._getNextNumber(instanceID);
+
+		view.uid = 'FileField-' + settings.id + '-item-' + number;
+		view.number = number;
+
+		if (typeof window[settings.itemFormatter] == 'function') {
+			return window[settings.itemFormatter](view, settings);
+		} else {
+			return Mustache.render($('#file-item-template').html(), view);
+		}
 	},
 
 /**
@@ -177,7 +206,7 @@ FileField = {
 	remove: function (id) {
 		var self = this;
 		var parent = $('#' + id).closest('.file-handler');
-		var settings = self.getInstance(parent.attr('id')).settings;
+		var settings = self.getInstance(parent.attr('id').split('-')[1]).settings;
 		var fileName =  $('#' + id + ' input.file-name').val();
 
 		if (!$('#' + id).hasClass('is-perm')) {
@@ -188,11 +217,60 @@ FileField = {
 					self._afterRemove(settings);
 				});
 		} else {
-			$('#' + id).parent().remove();
+			$('#' + id).parent().remove(); // remove <li>
 			settings.uploader.uploadLimitUp();
 			this._afterRemove(settings);
 		}
 	},
+
+/**
+ * Calculates the next number within a field instance files list. This value is
+ * used to properly fill form inputs arrays, as an instance can have multiple
+ * files they must be index by an integer number when sending the POST data.
+ * 
+ * @param {Integer} instanceID Instance ID for which calculate the next number
+ * @return {Integer}
+ */
+	_getNextNumber: function (instanceID) {
+		var self = this;
+		var settings = self.getInstance(instanceID).settings.instance;
+		var numbers = [];
+		var number = 0;
+
+		$('#FileField-' + settings.id + ' ul.files-list li div').each(function () {
+			$div = $(this);
+			numbers.push(parseInt($div.data('number')));
+		});
+
+		if (numbers.length > 0) {
+			numbers.sort(function (a, b) {
+				return b - a;
+			});
+			number = numbers[0] + 1;
+		}
+
+		return number;
+	},
+
+/**
+ * Triggered after a field was deleted.
+ * 
+ * @param  {Object} settings Settings of the instance that file belonged to
+ * @return void
+ */
+	_afterRemove: function (settings) {
+		if (settings.uploader.uploadLimit > 0) {
+			var filesInList = $('#FileField-' + settings.instance.id + ' ul.files-list li').length;
+			$('#FileField-' + settings.instance.id + '-uploader').uploadify('disable', false);
+
+			if (!filesInList) {
+				$('#FileField-' + settings.instance.id + ' ul.files-list').hide();
+			} else {
+				$('#FileField-' + settings.instance.id + ' ul.files-list').show();
+			}
+		}
+	},
+
 /**
  * Triggered by uploadify when each file is selected for the queue.
  * 
@@ -202,7 +280,7 @@ FileField = {
  */
 	_onSelect: function (file, settings) {
 		if (settings.uploader.uploadLimit <= 0) {
-			$('#' + settings.instance.id + '-uploader').uploadify('cancel', '*');
+			$('#FileField-' + settings.instance.id + '-uploader').uploadify('cancel', '*');
 			alert('You are allowed to upload up to ' + settings.uploader.uploadLimit + ' files.');
 		}
 	},
@@ -217,8 +295,6 @@ FileField = {
 	_onUploadSuccess: function (response, settings) {
 		var self = this;
 		var view = {
-			uid: settings.instance.id + '-f' + response.number,
-			number: response.number,
 			icon_url: settings.uploader.mimeIconsBaseURL + 'field/img/file-icons/' + response.mime_icon,
 			link: response.file_url,
 			file_name: response.file_name,
@@ -231,32 +307,14 @@ FileField = {
 			show_icon: true,
 			show_description: settings.instance.showDescription,
 		};
-		var template = '<li>' + Mustache.render($('#file-item-template').html(), view) + '</li>';
-		$('#' + settings.instance.id + '-files-list').append(template);
+		var template = '<li>' + self.renderItem(settings.instance.id, view) + '</li>';
+		$('#FileField-' + settings.instance.id + '-files-list').append(template);
 
 		settings.uploader.uploadLimitDown();
 		if (!settings.uploader.uploadLimit) {
-			$('#' + settings.instance.id + '-uploader').uploadify('disable', true);
+			$('#FileField-' + settings.instance.id + '-uploader').uploadify('disable', true);
 		}
-		$('#' + settings.instance.id + ' ul.files-list').show();
+		$('#FileField-' + settings.instance.id + ' ul.files-list').show();
 	},
 
-/**
- * Triggered after a field was deleted.
- * 
- * @param  {Object} settings Settings of the instance that file belonged to
- * @return void
- */
-	_afterRemove: function (settings) {
-		if (settings.uploader.uploadLimit > 0) {
-			var filesInList = $('#' + settings.instance.id + ' ul.files-list li').length;
-			$('#' + settings.instance.id + '-uploader').uploadify('disable', false);
-
-			if (!filesInList) {
-				$('#' + settings.instance.id + ' ul.files-list').hide();
-			} else {
-				$('#' + settings.instance.id + ' ul.files-list').show();
-			}
-		}
-	}
 }

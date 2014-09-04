@@ -32,14 +32,14 @@
 ?>
 
 <script id="file-item-template" type="x-tmpl-mustache">
-	<div id="{{instance_name}}-{{uid}}" class="alert alert-info {{#perm}}is-perm{{/perm}} file-item" data-number="{{number}}" style="cursor:move;">
+	<div id="{{uid}}" class="alert alert-info {{#perm}}is-perm{{/perm}} file-item" data-number="{{number}}" style="cursor:move;">
 		{{#show_icon}}
 		<img src="{{&icon_url}}" class="file-icon" />
 		{{/show_icon}}
 
 		<a href="{{&link}}" target="_blank" class="file-link">{{file_name}}</a>
 		<span class="file-size">({{file_size}})</span>
-		<button class="btn btn-danger btn-xs" onclick="FileField.remove('{{instance_name}}-{{uid}}'); return false;"><?php echo __d('field', 'Remove'); ?></button>
+		<button class="btn btn-danger btn-xs" onclick="FileField.remove('{{uid}}'); return false;"><?php echo __d('field', 'Remove'); ?></button>
 
 		{{#show_description}}
 		<hr />

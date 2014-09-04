@@ -31,6 +31,11 @@ class FileField extends FieldHandler {
  */
 	public function entityDisplay(Event $event, $field, $options = []) {
 		$View = $event->subject;
+		if ($field->metadata->settings['multi'] === 'custom') {
+			$settings = $field->metadata->settings;
+			$settings['multi'] = $field->metadata->settings['multi_custom'];
+			$field->metadata->set('settings', $settings);
+		}
 		return $View->element('Field.FileField/display', compact('field', 'options'));
 	}
 
@@ -183,6 +188,14 @@ class FileField extends FieldHandler {
  * {@inheritDoc}
  */
 	public function entityAfterValidate(Event $event, $entity, $field, $options, $validator) {
+		// removes the "dummy" input from extra if exists
+		$extra = [];
+		foreach ((array)$field->extra as $k => $v) {
+			if (is_integer($k)) {
+				$extra[] = $v;
+			}
+		}
+		$field->set('extra', $extra);
 		return true;
 	}
 
