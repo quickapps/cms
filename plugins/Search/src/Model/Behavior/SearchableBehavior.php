@@ -166,7 +166,7 @@ use Search\Model\Entity\SearchDataset;
  *     // get all nodes containing `this phrase` and created by `JohnLocke`
  *     "this phrase" author:JohnLocke
  *
- * You must define in your Table an operator method and register it into this
+ * You must define in your table an operator method and register it into this
  * behavior under the `author` name, a full working example may look as follow:
  *
  *     class Nodes extends Table {
@@ -174,9 +174,10 @@ use Search\Model\Entity\SearchDataset;
  *             // attach the behavior
  *             $this->addBehavior('Search.Searchable');
  *             // register a new operator for handling `author:<author_name>` expressions
- *             $this->addSearchOperator('author', 'scopeAuthor');
+ *             $this->addSearchOperator('author', 'operatorAuthor');
  *         }
- *         public function scopeAuthor($query, $value, $negate, $orAnd) {
+ *         
+ *         public function operatorAuthor($query, $value, $negate, $orAnd) {
  *             // $query:
  *             //     The query object to alter
  *             // $value:
@@ -454,22 +455,23 @@ class SearchableBehavior extends Behavior {
 	}
 
 /**
- * Registers a new scope method.
+ * Registers a new operator method.
  *
- * @param string $name scope name. e.g. `author`
- * @param string|array $methodName A string indicating the Table's method name
- *  which will take care of this scope method. Or an array compatible with
- *  call_user_func_array
+ * @param string $name Operator name. e.g. `author`
+ * @param mixed $methodName A string indicating the table's method name
+ *  which will take care of this operator, or an array compatible with
+ *  call_user_func_array or a callable function
  * @return void
  */
 	public function addSearchOperator($name, $methodName) {
+		$name = Inflector::underscore($name);
 		$this->config("operators.{$name}", $methodName);
 	}
 
 /**
- * Enables a scope-tag.
+ * Enables a an operator.
  *
- * @param string $name Name of the scope to be enabled
+ * @param string $name Name of the operator to be enabled
  * @return void
  */
 	public function enableSearchOperator($name) {
@@ -480,9 +482,9 @@ class SearchableBehavior extends Behavior {
 	}
 
 /**
- * Disables a scope-tag.
+ * Disables an operator.
  *
- * @param string $name Name of the scope to be disabled
+ * @param string $name Name of the operator to be disabled
  * @return void
  */
 	public function disableSearchOperator($name) {
@@ -508,7 +510,7 @@ class SearchableBehavior extends Behavior {
 	}
 
 /**
- * Gets the callable method for a given scope method.
+ * Gets the callable method for a given operator method.
  *
  * @param string $name Name of the method to get
  * @return callable
@@ -522,6 +524,10 @@ class SearchableBehavior extends Behavior {
 			if (is_array($callableName)) {
 				return function ($query, $value, $negate, $orAnd) use($callableName) {
 					return call_user_func_array($callableName, [$query, $value, $negate, $orAnd]);
+				};
+			} elseif (is_callable($callableName)) {
+				return function ($query, $value, $negate, $orAnd) use($callableName) {
+					return $callableName($query, $value, $negate, $orAnd);
 				};
 			} elseif (method_exists($this->_table, $callableName)) {
 				return function ($query, $value, $negate, $orAnd) use($callableName) {
