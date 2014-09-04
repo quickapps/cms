@@ -64,7 +64,7 @@ class CachedAuthorize extends BaseAuthorize  {
 /**
  * Gets an ACO path for current request.
  * 
- * @param \Cake\Network\Request $request Request object
+ * @param \Cake\Network\Request $request
  * @param string $path Pattern
  * @return string
  */
@@ -74,7 +74,7 @@ class CachedAuthorize extends BaseAuthorize  {
 		$path = str_replace(
 			array(':controller', ':action', ':plugin/', ':prefix/'),
 			array(Inflector::camelize($request['controller']), $request['action'], $plugin, $prefix),
-			$this->_config['actionPath'] . $path
+			$path
 		);
 		$path = str_replace('//', '/', $path);
 		return trim($path, '/');
