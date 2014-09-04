@@ -313,6 +313,7 @@ class GatewayController extends AppController {
 			}
 		}
 
+		$this->switchViewMode('full');
 		$this->set(compact('user', 'languages'));
 	}
 
@@ -333,6 +334,7 @@ class GatewayController extends AppController {
 		}
 
 		$user = $this->Users->get($id, ['conditions' => $conditions]);
+		$this->switchViewMode('full');
 		$this->set(compact('user'));
 	}
 
