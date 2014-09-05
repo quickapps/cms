@@ -50,26 +50,26 @@ class TextField extends FieldHandler {
 /**
  * {@inheritDoc}
  */
-	public function entityBeforeFind(Event $event, $entity, $field, $options, $primary) {
+	public function entityBeforeFind(Event $event, $field, $options, $primary) {
 	}
 
 /**
  * {@inheritDoc}
  */
-	public function entityBeforeSave(Event $event, $entity, $field, $options) {
+	public function entityBeforeSave(Event $event, $field, $options) {
 		return true;
 	}
 
 /**
  * {@inheritDoc}
  */
-	public function entityAfterSave(Event $event, $entity, $field, $options) {
+	public function entityAfterSave(Event $event, $field, $options) {
 	}
 
 /**
  * {@inheritDoc}
  */
-	public function entityBeforeValidate(Event $event, $entity, $field, $options, $validator) {
+	public function entityBeforeValidate(Event $event, $field, $options, $validator) {
 		if ($field->metadata->required) {
 			$validator
 				->validatePresence(":{$field->name}", __d('field', 'This field required.'))
@@ -124,21 +124,21 @@ class TextField extends FieldHandler {
 /**
  * {@inheritDoc}
  */
-	public function entityAfterValidate(Event $event, $entity, $field, $options, $validator) {
+	public function entityAfterValidate(Event $event, $field, $options, $validator) {
 		return true;
 	}
 
 /**
  * {@inheritDoc}
  */
-	public function entityBeforeDelete(Event $event, $entity, $field, $options) {
+	public function entityBeforeDelete(Event $event, $field, $options) {
 		return true;
 	}
 
 /**
  * {@inheritDoc}
  */
-	public function entityAfterDelete(Event $event, $entity, $field, $options) {
+	public function entityAfterDelete(Event $event, $field, $options) {
 	}
 
 /**

@@ -69,13 +69,13 @@ class FileField extends FieldHandler {
 /**
  * {@inheritDoc}
  */
-	public function entityBeforeFind(Event $event, $entity, $field, $options, $primary) {
+	public function entityBeforeFind(Event $event, $field, $options, $primary) {
 	}
 
 /**
  * {@inheritDoc}
  */
-	public function entityBeforeSave(Event $event, $entity, $field, $options) {
+	public function entityBeforeSave(Event $event, $field, $options) {
 		$files = (array)$options['_post'];
 
 		if (!empty($files)) {
@@ -119,13 +119,13 @@ class FileField extends FieldHandler {
 /**
  * {@inheritDoc}
  */
-	public function entityAfterSave(Event $event, $entity, $field, $options) {
+	public function entityAfterSave(Event $event, $field, $options) {
 	}
 
 /**
  * {@inheritDoc}
  */
-	public function entityBeforeValidate(Event $event, $entity, $field, $options, $validator) {
+	public function entityBeforeValidate(Event $event, $field, $options, $validator) {
 		if ($field->metadata->required) {
 			$validator
 				->add(":{$field->name}", 'isRequired', [
@@ -199,7 +199,7 @@ class FileField extends FieldHandler {
 /**
  * {@inheritDoc}
  */
-	public function entityAfterValidate(Event $event, $entity, $field, $options, $validator) {
+	public function entityAfterValidate(Event $event, $field, $options, $validator) {
 		// removes the "dummy" input from extra if exists
 		$extra = [];
 		foreach ((array)$field->extra as $k => $v) {
@@ -214,14 +214,14 @@ class FileField extends FieldHandler {
 /**
  * {@inheritDoc}
  */
-	public function entityBeforeDelete(Event $event, $entity, $field, $options) {
+	public function entityBeforeDelete(Event $event, $field, $options) {
 		return true;
 	}
 
 /**
  * {@inheritDoc}
  */
-	public function entityAfterDelete(Event $event, $entity, $field, $options) {
+	public function entityAfterDelete(Event $event, $field, $options) {
 	}
 
 /**

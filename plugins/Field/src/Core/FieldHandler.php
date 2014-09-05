@@ -132,14 +132,13 @@ class FieldHandler implements EventListener {
  * entire find operation.
  *
  * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options Options given as an array
  * @param bool $primary Whether this event was triggered as part of a primary
  *  find query or not
  * @return mixed
  */
-	public function entityBeforeFind(Event $event, $entity, $field, $options, $primary) {
+	public function entityBeforeFind(Event $event, $field, $options, $primary) {
 	}
 
 /**
@@ -154,12 +153,11 @@ class FieldHandler implements EventListener {
  *     $options['post']
  *
  * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options Options given as an array
  * @return bool
  */
-	public function entityBeforeSave(Event $event, $entity, $field, $options) {
+	public function entityBeforeSave(Event $event, $field, $options) {
 		return true;
 	}
 
@@ -167,25 +165,23 @@ class FieldHandler implements EventListener {
  * After each entity is saved.
  *
  * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options Options given as an array
  * @return void
  */
-	public function entityAfterSave(Event $event, $entity, $field, $options) {
+	public function entityAfterSave(Event $event, $field, $options) {
 	}
 
 /**
  * Before an entity is validated as part of save process.
  *
  * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options Options given as an array
  * @param \Cake\Validation\Validator $validator The validator object
  * @return bool False will halt the save process
  */
-	public function entityBeforeValidate(Event $event, $entity, $field, $options, $validator) {
+	public function entityBeforeValidate(Event $event, $field, $options, $validator) {
 		return false;
 	}
 
@@ -193,13 +189,12 @@ class FieldHandler implements EventListener {
  * After an entity is validated as part of save process.
  *
  * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options Options given as an array
  * @param \Cake\Validation\Validator $validator The validator object
  * @return bool False will halt the save process
  */
-	public function entityAfterValidate(Event $event, $entity, $field, $options, $validator) {
+	public function entityAfterValidate(Event $event, $field, $options, $validator) {
 		return false;
 	}
 
@@ -207,12 +202,11 @@ class FieldHandler implements EventListener {
  * Before an entity is deleted from database.
  *
  * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options Options given as an array
  * @return bool False will halt the delete process
  */
-	public function entityBeforeDelete(Event $event, $entity, $field, $options) {
+	public function entityBeforeDelete(Event $event, $field, $options) {
 		return true;
 	}
 
@@ -220,12 +214,11 @@ class FieldHandler implements EventListener {
  * After an entity is deleted from database.
  *
  * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $entity The entity to which field is attached to
  * @param \Field\Model\Entity\Field $field Field information
  * @param array $options Options given as an array
  * @return void
  */
-	public function entityAfterDelete(Event $event, $entity, $field, $options) {
+	public function entityAfterDelete(Event $event, $field, $options) {
 	}
 
 /**

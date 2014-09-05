@@ -486,16 +486,27 @@ class FieldableBehavior extends Behavior {
  * Modifies the query object in order to merge custom fields records
  * into each entity under the `_fields` property.
  *
+ * ### Events Triggered:
+ *
+ * - `Field.<FieldHandler>.Entity.beforeFind`: This event is triggered for each
+ * entity in the resulting collection and for each field handler attached to
+ * these entities. It receives three arguments, a field entity representing the
+ * field being processed, an options array and boolean value indicating whether
+ * the query that initialized the event is part of a primary find operation or
+ * not. Returning false will cause the entity to be removed from the resulting
+ * collection, also will stop event propagation, so other fields won't be able
+ * to listen this event. If the event is stopped using the event API, will halt
+ * the entire find operation.
+ *
  * You can enable or disable this behavior for a single `find()` operation by
  * setting `fieldable` to false in the options array for find method. e.g.:
  *
  *     $this->Nodes
  *         ->find('all', ['fieldable' => false]);
  *
- * It also looks for custom fields in WHERE clause.
- * This will search entities in all bundles this table may have, if you need
- * to restrict the search to an specific bundle you must use the `bundle` key in
- * find()'s options:
+ * It also looks for custom fields in WHERE clause. This will search entities in
+ * all bundles this table may have, if you need to restrict the search to an
+ * specific bundle you must use the `bundle` key in find()'s options:
  *
  *     $this->Nodes
  *         ->find('all', ['bundle' => 'articles'])
@@ -503,12 +514,7 @@ class FieldableBehavior extends Behavior {
  *
  * The `bundle` accepts multiples values:
  *
- *     // look in all bundles which names starts with "art"
- *     $this->Nodes
- *         ->find('all', ['bundle' => 'art*']);
- *         ->where([':article-title' => 'My first article!']);
- *         
- *     // wildcard is "*"
+ *     // wildcard is "*", e.g. look in all bundles which names starts with "art"
  *     $this->Nodes
  *         ->find('all', ['bundle' => 'art*']);
  *         ->where([':article-title' => 'My first article!']);
@@ -523,7 +529,7 @@ class FieldableBehavior extends Behavior {
  *         ->find('all', ['bundle' => ['articles', 'pages']]);
  *         ->where([':article-title' => 'My first article!']);
  *
- * The `bundle` option has no effects if no custom fields are given in there
+ * The `bundle` option has no effects if no custom fields are given in the
  * WHERE clause.
  *
  * @param \Cake\Event\Event $event The beforeFind event that was triggered
@@ -547,7 +553,7 @@ class FieldableBehavior extends Behavior {
 					if ($entity instanceof Entity) {
 						$entity = $this->attachEntityFields($entity);
 						foreach ($entity->get('_fields') as $field) {
-							$fieldEvent = $this->hook(["Field.{$field->metadata->handler}.Entity.beforeFind", $event->subject], $entity, $field, $options, $primary);
+							$fieldEvent = $this->hook(["Field.{$field->metadata->handler}.Entity.beforeFind", $event->subject], $field, $options, $primary);
 							if ($fieldEvent->result === false) {
 								$entity = false;
 								break;
@@ -569,14 +575,14 @@ class FieldableBehavior extends Behavior {
  *
  * ### Events Triggered:
  *
- * - `Field.<FieldHandler>.Entity.beforeSave`: It receives three arguments, the
- * entity is being saved, a field entity representing the field being saved and
- * options array. The options array is passed as an ArrayObject, so any changes
- * in it will be reflected in every listener and remembered at the end of the
- * event so it can be used for the rest of the save operation. Returning false
- * in any of the Field Handler will abort the saving process. If the Field event
- * is stopped using the event API, the Field event object's `result` property
- * will be returned.
+ * - `Field.<FieldHandler>.Entity.beforeSave`: It receives two arguments, the
+ * field entity representing the field being saved and options array. The
+ * options array is passed as an ArrayObject, so any changes in it will be
+ * reflected in every listener and remembered at the end of the event so it can
+ * be used for the rest of the save operation. Returning false in any of the
+ * Field Handler will abort the saving process. If the Field event is stopped
+ * using the event API, the Field event object's `result` property will be
+ * returned.
  * 
  * Here is where we dispatch each custom field's `$_POST` information to its
  * corresponding Field Handler, so they can operate over their values.
@@ -643,7 +649,7 @@ class FieldableBehavior extends Behavior {
 					$field->set('extra', []);
 				}
 
-				$fieldEvent = $this->hook(["Field.{$instance->handler}.Entity.beforeSave", $event->subject], $entity, $field, $options);
+				$fieldEvent = $this->hook(["Field.{$instance->handler}.Entity.beforeSave", $event->subject], $field, $options);
 
 				if ($fieldEvent->result === false) {
 					$entity = $this->attachEntityFields($entity);
@@ -687,10 +693,11 @@ class FieldableBehavior extends Behavior {
  *
  * ### Events Triggered:
  *
- * - `Field.<FieldHandler>.Entity.afterSave`: Will be triggered after a successful insert or save,
- * listeners will receive the entity, the field entity and the options array as arguments. The type
- * of operation performed (insert or update) can be determined by checking the
- * entity's method `isNew`, true meaning an insert and false an update.
+ * - `Field.<FieldHandler>.Entity.afterSave`: Will be triggered after a
+ * successful insert or save, listeners will receive two arguments, the field
+ * entity and the options array. The type of operation performed
+ * (insert or update) can be infer by checking the entity's method `isNew`,
+ * true meaning an insert and false an update.
  * 
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $entity The entity that was saved
@@ -716,7 +723,7 @@ class FieldableBehavior extends Behavior {
 		$instances = $this->_getTableFieldInstances($entity);
 		foreach ($instances as $instance) {
 			$field = $this->_getMockField($entity, $instance);
-			$fieldEvent = $this->hook(["Field.{$instance->handler}.Entity.afterSave", $event->subject], $entity, $field, $options);
+			$fieldEvent = $this->hook(["Field.{$instance->handler}.Entity.afterSave", $event->subject], $field, $options);
 		}
 
 		return true;
@@ -729,8 +736,8 @@ class FieldableBehavior extends Behavior {
  *
  * - `Field.<FieldHandler>.Entity.beforeValidate`: Will be triggered right before
  * any validation is done for the passed entity if the validate key in $options
- * is not set to false. Listeners will receive as arguments the entity, the field
- * entity and the options array and the validation object to be used for validating
+ * is not set to false. Listeners will receive as arguments the field entity and
+ * the options array and the validation object to be used for validating
  * the entity. If the event is stopped the validation result will be set to the
  * result of the event itself.
  *
@@ -748,7 +755,7 @@ class FieldableBehavior extends Behavior {
 		$instances = $this->_getTableFieldInstances($entity);
 		foreach ($instances as $instance) {
 			$field = $this->_getMockField($entity, $instance);
-			$fieldEvent = $this->hook(["Field.{$field->metadata['handler']}.Entity.beforeValidate", $event->subject], $entity, $field, $options, $validator);
+			$fieldEvent = $this->hook(["Field.{$field->metadata['handler']}.Entity.beforeValidate", $event->subject], $field, $options, $validator);
 
 			if ($fieldEvent->isStopped()) {
 				$entity = $this->attachEntityFields($entity);
@@ -766,7 +773,7 @@ class FieldableBehavior extends Behavior {
  * 
  * - `Field.<FieldHandler>.Entity.afterValidate`: Will be triggered right after
  * the `validate()` method is called in the entity. Listeners will receive as
- * arguments the entity, the field entity and the options array and the validation
+ * arguments the the field entity, the options array and the validation
  * object to be used for validating the entity. If the event is stopped the
  * validation result will be set to the result of the event itself.
  *
@@ -796,7 +803,7 @@ class FieldableBehavior extends Behavior {
 					$field->metadata->set('errors', (array)$entityErrors[$postName]);
 				}
 
-				$fieldEvent = $this->hook(["Field.{$field->metadata['handler']}.Entity.afterValidate", $event->subject], $entity, $field, $options, $validator);
+				$fieldEvent = $this->hook(["Field.{$field->metadata['handler']}.Entity.afterValidate", $event->subject], $field, $options, $validator);
 				if ($fieldEvent->isStopped()) {
 					$event->stopPropagation();
 					return $fieldEvent->result;
@@ -811,7 +818,8 @@ class FieldableBehavior extends Behavior {
  * ### Events Triggered:
  *
  * - `Field.<FieldHandler>.Entity.beforeDelete`: Fired before the delete occurs.
- * If stopped the delete will be aborted. Receives the event, entity, and options.
+ * If stopped the delete will be aborted. Receives as arguments the field entity
+ * and options array.
  *
  * **NOTE:** This method automatically removes all field values
  * from `field_values` database table for each entity.
@@ -839,7 +847,7 @@ class FieldableBehavior extends Behavior {
 			// invoke fields beforeDelete so they can do its stuff
 			// e.g.: Delete entity information from another table.
 			$field = $this->_getMockField($entity, $instance);
-			$fieldEvent = $this->hook(["Field.{$instance->handler}.Entity.beforeDelete", $event->subject], $entity, $field, $options);
+			$fieldEvent = $this->hook(["Field.{$instance->handler}.Entity.beforeDelete", $event->subject], $field, $options);
 
 			if ($fieldEvent->result == false || $fieldEvent->isStopped()) {
 				$event->stopPropagation();
@@ -875,7 +883,7 @@ class FieldableBehavior extends Behavior {
  * ### Events Triggered:
  *
  * - `Field.<FieldHandler>.Entity.afterDelete`: Fired after the delete has been
- * successful. Receives the event, entity, field and options.
+ * successful. Receives as arguments the field entity and options array.
  *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $entity The entity that was deleted
@@ -894,7 +902,7 @@ class FieldableBehavior extends Behavior {
 
 		if (!empty($this->_cache['fields.beforeDelete']) && is_array($this->_cache['fields.beforeDelete'])) {
 			foreach ($this->_cache['fields.beforeDelete'] as $field) {
-				$fieldEvent = $this->hook(["Field.{$field->handler}.Entity.afterDelete", $event->subject], $entity, $field, $options);
+				$fieldEvent = $this->hook(["Field.{$field->handler}.Entity.afterDelete", $event->subject], $field, $options);
 			}
 			$this->_cache['fields.beforeDelete'] = [];
 		}
