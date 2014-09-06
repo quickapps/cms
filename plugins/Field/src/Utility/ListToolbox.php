@@ -12,7 +12,7 @@
 namespace Field\Utility;
 
 use Field\Model\Entity\Field;
-use QuickApps\Core\HooktagTrait;
+use QuickApps\Event\HooktagAwareTrait;
 
 /**
  * List utility class.
@@ -21,7 +21,7 @@ use QuickApps\Core\HooktagTrait;
  */
 class ListToolbox {
 
-	use HooktagTrait;
+	use HooktagAwareTrait;
 
 /**
  * Holds an instance of this class.

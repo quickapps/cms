@@ -9,11 +9,11 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace QuickApps\Core;
+namespace QuickApps\Event;
 
 use Cake\Event\Event;
 use Cake\Event\EventManager;
-use QuickApps\Core\HookTrait;
+use QuickApps\Event\HookAwareTrait;
 use QuickApps\Core\StaticCacheTrait;
 
 /**
@@ -21,9 +21,9 @@ use QuickApps\Core\StaticCacheTrait;
  *
  * Hooktags are WordPress's shortcodes equivalent for QuickAppsCMS.
  */
-class Hooktag {
+class HooktagManager {
 
-	use HookTrait;
+	use HookAwareTrait;
 	use StaticCacheTrait;
 
 /**
@@ -31,7 +31,7 @@ class Hooktag {
  *
  * @param string $content The content to parse
  * @param object $context The context for \Cake\Event\Event::$subject, if not
- *  given an instance of this Hooktag class will be used
+ *  given an instance of this HooktagManager class will be used
  * @return string Original string modified with no hooktags "[ ... ]"
  */
 	public static function hooktags($content, $context = null) {
@@ -40,7 +40,7 @@ class Hooktag {
 		}
 
 		if ($context === null) {
-			$context = new Hooktag();
+			$context = new HooktagManager();
 		}
 
 		static::cache('context', $context);

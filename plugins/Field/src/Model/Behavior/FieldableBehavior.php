@@ -24,7 +24,7 @@ use Field\Error\InvalidBundle;
 use Field\Core\FieldCollection;
 use Field\Model\Entity\Field;
 use Field\Model\Entity\FieldValue;
-use QuickApps\Core\HookTrait;
+use QuickApps\Event\HookAwareTrait;
 
 /**
  * Fieldable Behavior.
@@ -386,7 +386,7 @@ use QuickApps\Core\HookTrait;
  */
 class FieldableBehavior extends Behavior {
 
-	use HookTrait;
+	use HookAwareTrait;
 
 /**
  * Table which this behavior is attached to.

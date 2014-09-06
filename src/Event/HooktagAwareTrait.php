@@ -9,9 +9,9 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace QuickApps\Core;
+namespace QuickApps\Event;
 
-use QuickApps\Core\Hooktag;
+use QuickApps\Event\HooktagManager;
 
 /**
  * Adds hooktags parsing functionality to any object.
@@ -20,7 +20,7 @@ use QuickApps\Core\Hooktag;
  * very little effort. Hooktags can for example print current language code or
  * call specifics plugins/themes functions.
  */
-trait HooktagTrait {
+trait HooktagAwareTrait {
 
 /**
  * Look for hooktags in the given text.
@@ -76,7 +76,7 @@ trait HooktagTrait {
  * @return string Orginal string modified with no hooktags [..]
  */
 	public function hooktags($content) {
-		return Hooktag::hooktags($content, $this);
+		return HooktagManager::hooktags($content, $this);
 	}
 
 /**
@@ -86,7 +86,7 @@ trait HooktagTrait {
  * @return string Content without hooktags
  */
 	public function stripHooktags($content) {
-		return Hooktag::stripHooktags($content);
+		return HooktagManager::stripHooktags($content);
 	}
 
 }

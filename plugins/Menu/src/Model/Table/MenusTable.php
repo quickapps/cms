@@ -16,7 +16,7 @@ use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 use Menu\Model\Entity\Menu;
-use QuickApps\Core\HookTrait;
+use QuickApps\Event\HookAwareTrait;
 
 /**
  * Represents "menus" database table.
@@ -24,7 +24,7 @@ use QuickApps\Core\HookTrait;
  */
 class MenusTable extends Table {
 
-	use HookTrait;
+	use HookAwareTrait;
 
 /**
  * Initialize a table instance. Called after the constructor.

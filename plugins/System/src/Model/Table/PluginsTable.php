@@ -18,7 +18,7 @@ use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Utility\Hash;
 use Cake\Validation\Validator;
-use QuickApps\Core\HookTrait;
+use QuickApps\Event\HookAwareTrait;
 
 /**
  * Represents "plugins" database table.
@@ -39,7 +39,7 @@ use QuickApps\Core\HookTrait;
  */
 class PluginsTable extends Table {
 
-	use HookTrait;
+	use HookAwareTrait;
 
 /**
  * Alter the schema used by this table.

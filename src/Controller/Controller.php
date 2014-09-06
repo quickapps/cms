@@ -14,8 +14,8 @@ namespace QuickApps\Controller;
 use Cake\Controller\Controller as CakeCotroller;
 use Cake\Controller\Component\AuthComponent;
 use Cake\I18n\I18n;
-use QuickApps\Core\HookTrait;
-use QuickApps\View\ViewModeTrait;
+use QuickApps\Event\HookAwareTrait;
+use QuickApps\View\ViewModeAwareTrait;
 use QuickApps\Error\SiteUnderMaintenanceException;
 
 /**
@@ -26,8 +26,8 @@ use QuickApps\Error\SiteUnderMaintenanceException;
  */
 class Controller extends CakeCotroller {
 
-	use HookTrait;
-	use ViewModeTrait;
+	use HookAwareTrait;
+	use ViewModeAwareTrait;
 
 /**
  * In use theme name.

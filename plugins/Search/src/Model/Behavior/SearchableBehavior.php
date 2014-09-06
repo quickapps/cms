@@ -18,7 +18,7 @@ use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
-use QuickApps\Core\HookTrait;
+use QuickApps\Event\HookAwareTrait;
 use Search\Model\Entity\SearchDataset;
 
 /**
@@ -226,7 +226,7 @@ use Search\Model\Entity\SearchDataset;
  */
 class SearchableBehavior extends Behavior {
 
-	use HookTrait;
+	use HookAwareTrait;
 
 /**
  * The table this behavior is attached to.

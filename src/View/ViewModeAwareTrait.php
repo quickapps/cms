@@ -17,7 +17,7 @@ use QuickApps\View\ViewModeRegistry;
  * Provides methods for handling switching view mode.
  *
  */
-trait ViewModeTrait {
+trait ViewModeAwareTrait {
 
 /**
  * Sets a view mode.

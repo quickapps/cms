@@ -12,7 +12,7 @@
 namespace QuickApps\View\Helper;
 
 use Cake\View\Helper\HtmlHelper as CakeHtmlHelper;
-use QuickApps\Core\HookTrait;
+use QuickApps\Event\HookAwareTrait;
 
 /**
  * Html helper class for easy use of HTML widgets.
@@ -22,7 +22,7 @@ use QuickApps\Core\HookTrait;
  */
 class HtmlHelper extends CakeHtmlHelper {
 
-	use HookTrait;
+	use HookAwareTrait;
 
 /**
  * Renders default layout's header.

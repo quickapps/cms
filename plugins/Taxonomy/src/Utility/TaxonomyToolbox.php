@@ -13,7 +13,7 @@ namespace Taxonomy\Utility;
 
 use Cake\ORM\TableRegistry;
 use Field\Model\Entity\Field;
-use QuickApps\Core\HooktagTrait;
+use QuickApps\Event\HooktagAwareTrait;
 
 /**
  * Taxonomy utility class.
@@ -22,7 +22,7 @@ use QuickApps\Core\HooktagTrait;
  */
 class TaxonomyToolbox {
 
-	use HooktagTrait;
+	use HooktagAwareTrait;
 
 /**
  * Holds an instance of this class.

@@ -13,8 +13,9 @@ namespace Field\Event;
 
 use Cake\ORM\Entity;
 use Cake\Event\Event;
-use Field\Utility\TextToolbox;
 use Field\Core\FieldHandler;
+use Field\Model\Entity\Field;
+use Field\Utility\TextToolbox;
 
 /**
  * Text Field Handler.
@@ -26,7 +27,7 @@ class TextField extends FieldHandler {
 /**
  * {@inheritDoc}
  */
-	public function entityDisplay(Event $event, $field, $options = []) {
+	public function entityDisplay(Event $event, Field $field, $options = []) {
 		$View = $event->subject;
 		$value = TextToolbox::process($field->value, $field->metadata->settings['text_processing']);
 		$field->set('value', $value);
@@ -36,7 +37,7 @@ class TextField extends FieldHandler {
 /**
  * {@inheritDoc}
  */
-	public function entityEdit(Event $event, $field, $options = []) {
+	public function entityEdit(Event $event, Field $field, $options = []) {
 		$View = $event->subject;
 		return $View->element('Field.TextField/edit', compact('field', 'options'));
 	}
@@ -44,32 +45,32 @@ class TextField extends FieldHandler {
 /**
  * {@inheritDoc}
  */
-	public function entityFieldAttached(Event $event, $field) {
+	public function entityFieldAttached(Event $event, Field $field) {
 	}
 
 /**
  * {@inheritDoc}
  */
-	public function entityBeforeFind(Event $event, $field, $options, $primary) {
+	public function entityBeforeFind(Event $event, Field $field, $options, $primary) {
 	}
 
 /**
  * {@inheritDoc}
  */
-	public function entityBeforeSave(Event $event, $field, $options) {
+	public function entityBeforeSave(Event $event, Field $field, $options) {
 		return true;
 	}
 
 /**
  * {@inheritDoc}
  */
-	public function entityAfterSave(Event $event, $field, $options) {
+	public function entityAfterSave(Event $event, Field $field, $options) {
 	}
 
 /**
  * {@inheritDoc}
  */
-	public function entityBeforeValidate(Event $event, $field, $options, $validator) {
+	public function entityBeforeValidate(Event $event, Field $field, $options, $validator) {
 		if ($field->metadata->required) {
 			$validator
 				->validatePresence(":{$field->name}", __d('field', 'This field required.'))
@@ -124,21 +125,21 @@ class TextField extends FieldHandler {
 /**
  * {@inheritDoc}
  */
-	public function entityAfterValidate(Event $event, $field, $options, $validator) {
+	public function entityAfterValidate(Event $event, Field $field, $options, $validator) {
 		return true;
 	}
 
 /**
  * {@inheritDoc}
  */
-	public function entityBeforeDelete(Event $event, $field, $options) {
+	public function entityBeforeDelete(Event $event, Field $field, $options) {
 		return true;
 	}
 
 /**
  * {@inheritDoc}
  */
-	public function entityAfterDelete(Event $event, $field, $options) {
+	public function entityAfterDelete(Event $event, Field $field, $options) {
 	}
 
 /**

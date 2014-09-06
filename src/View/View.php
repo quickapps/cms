@@ -16,10 +16,10 @@ use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\View\View as CakeView;
-use QuickApps\Core\HooktagTrait;
-use QuickApps\Core\HookTrait;
+use QuickApps\Event\HooktagAwareTrait;
+use QuickApps\Event\HookAwareTrait;
 use QuickApps\Core\StaticCacheTrait;
-use QuickApps\View\ViewModeTrait;
+use QuickApps\View\ViewModeAwareTrait;
 
 /**
  * QuickApps View class.
@@ -29,10 +29,10 @@ use QuickApps\View\ViewModeTrait;
  */
 class View extends CakeView {
 
-	use HooktagTrait;
-	use HookTrait;
+	use HooktagAwareTrait;
+	use HookAwareTrait;
 	use StaticCacheTrait;
-	use ViewModeTrait;
+	use ViewModeAwareTrait;
 
 /**
  * True when the view has been rendered.

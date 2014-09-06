@@ -12,7 +12,7 @@
 namespace Field\Model\Entity;
 
 use Cake\ORM\Entity;
-use QuickApps\View\ViewModeTrait;
+use QuickApps\View\ViewModeAwareTrait;
 
 /**
  * Mock Field.
@@ -24,7 +24,7 @@ use QuickApps\View\ViewModeTrait;
  * - value: Value for this [FieldInstance, Entity] tuple. (Schema equivalent: cell value).
  * - extra: Extra information related to `value` or raw information.
  * - metadata:
- *   - field_value_id: ID of the data stored in `field_values` table (from where `value` comes from).
+ *   - field_value_id: ID of the value stored in `field_values` table (from where `value` comes from).
  *   - field_instance_id: ID of field instance (`field_instances` table) attached to Table.
  *   - table_alias: Name of the table this field is attached to. e.g: `users`.
  *   - description: Something about this field: e.g.: `Please enter your name`.
@@ -36,7 +36,7 @@ use QuickApps\View\ViewModeTrait;
  */
 class Field extends Entity {
 
-	use ViewModeTrait;
+	use ViewModeAwareTrait;
 
 /**
  * Gets field's View Mode's settings for the in-use View Mode.
@@ -55,12 +55,12 @@ class Field extends Entity {
 /**
  * String representation of this field.
  *
- * By default, `data` property.
+ * By default, `value` property.
  *
  * @return string
  */
 	public function __toString() {
-		return (string)$this->get('data');
+		return (string)$this->get('value');
 	}
 
 /**

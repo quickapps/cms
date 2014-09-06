@@ -12,7 +12,7 @@
 namespace User\Controller\Component;
 
 use Cake\Controller\Component\AuthComponent as CakeAuthComponent;
-use QuickApps\Core\HookTrait;
+use QuickApps\Event\HookAwareTrait;
 
 /**
  * Authentication control component class
@@ -23,7 +23,7 @@ use QuickApps\Core\HookTrait;
  */
 class AuthComponent extends CakeAuthComponent {
 
-	use HookTrait;
+	use HookAwareTrait;
 
 /**
  * {@inheritDoc}

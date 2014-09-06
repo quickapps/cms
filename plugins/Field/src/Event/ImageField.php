@@ -16,9 +16,10 @@ use Cake\Filesystem\File;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
+use Field\Core\FieldHandler;
+use Field\Model\Entity\Field;
 use Field\Utility\FileToolbox;
 use Field\Utility\ImageToolbox;
-use Field\Core\FieldHandler;
 
 /**
  * Image Field Handler.
@@ -30,7 +31,7 @@ class ImageField extends FieldHandler {
 /**
  * {@inheritDoc}
  */
-	public function entityDisplay(Event $event, $field, $options = []) {
+	public function entityDisplay(Event $event, Field $field, $options = []) {
 		$View = $event->subject;
 		if ($field->metadata->settings['multi'] === 'custom') {
 			$settings = $field->metadata->settings;
@@ -43,7 +44,7 @@ class ImageField extends FieldHandler {
 /**
  * {@inheritDoc}
  */
-	public function entityEdit(Event $event, $field, $options = []) {
+	public function entityEdit(Event $event, Field $field, $options = []) {
 		$View = $event->subject;
 		return $View->element('Field.ImageField/edit', compact('field', 'options'));
 	}
@@ -51,7 +52,7 @@ class ImageField extends FieldHandler {
 /**
  * {@inheritDoc}
  */
-	public function entityFieldAttached(Event $event, $field) {
+	public function entityFieldAttached(Event $event, Field $field) {
 		$extra = (array)$field->extra;
 		if (!empty($extra)) {
 			$newExtra = [];
@@ -71,13 +72,13 @@ class ImageField extends FieldHandler {
 /**
  * {@inheritDoc}
  */
-	public function entityBeforeFind(Event $event, $field, $options, $primary) {
+	public function entityBeforeFind(Event $event, Field $field, $options, $primary) {
 	}
 
 /**
  * {@inheritDoc}
  */
-	public function entityBeforeSave(Event $event, $field, $options) {
+	public function entityBeforeSave(Event $event, Field $field, $options) {
 		$files = (array)$options['_post'];
 
 		if (!empty($files)) {
@@ -122,13 +123,13 @@ class ImageField extends FieldHandler {
 /**
  * {@inheritDoc}
  */
-	public function entityAfterSave(Event $event, $field, $options) {
+	public function entityAfterSave(Event $event, Field $field, $options) {
 	}
 
 /**
  * {@inheritDoc}
  */
-	public function entityBeforeValidate(Event $event, $field, $options, $validator) {
+	public function entityBeforeValidate(Event $event, Field $field, $options, $validator) {
 		if ($field->metadata->required) {
 			$validator
 				->add(":{$field->name}", 'isRequired', [
@@ -202,7 +203,7 @@ class ImageField extends FieldHandler {
 /**
  * {@inheritDoc}
  */
-	public function entityAfterValidate(Event $event, $field, $options, $validator) {
+	public function entityAfterValidate(Event $event, Field $field, $options, $validator) {
 		// removes the "dummy" input from extra if exists
 		$extra = [];
 		foreach ((array)$field->extra as $k => $v) {
@@ -217,14 +218,14 @@ class ImageField extends FieldHandler {
 /**
  * {@inheritDoc}
  */
-	public function entityBeforeDelete(Event $event, $field, $options) {
+	public function entityBeforeDelete(Event $event, Field $field, $options) {
 		return true;
 	}
 
 /**
  * {@inheritDoc}
  */
-	public function entityAfterDelete(Event $event, $field, $options) {
+	public function entityAfterDelete(Event $event, Field $field, $options) {
 		foreach ((array)$field->extra as $image) {
 			if (!empty($image['file_name'])) {
 				ImageToolbox::delete(WWW_ROOT . "/files/{$field->settings['upload_folder']}/{$image['file_name']}");

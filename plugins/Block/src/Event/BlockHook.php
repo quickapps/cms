@@ -18,7 +18,7 @@ use Cake\Event\EventListener;
 use Cake\Event\EventManager;
 use Cake\Utility\Hash;
 use QuickApps\Core\StaticCacheTrait;
-use QuickApps\Core\HookTrait;
+use QuickApps\Event\HookAwareTrait;
 
 /**
  * Block rendering dispatcher.
@@ -67,7 +67,7 @@ use QuickApps\Core\HookTrait;
 class BlockHook implements EventListener {
 
 	use StaticCacheTrait;
-	use HookTrait;
+	use HookAwareTrait;
 
 /**
  * Returns a list of hooks this Hook Listener is implementing. When the class

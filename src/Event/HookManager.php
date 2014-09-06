@@ -9,7 +9,7 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace QuickApps\Core;
+namespace QuickApps\Event;
 
 use Cake\Event\Event;
 use Cake\Event\EventManager;
@@ -99,7 +99,7 @@ use Cake\Event\EventManager;
  *
  * [CakePHP's Events System](http://book.cakephp.org/3.0/en/core-libraries/events.html)
  */
-class Hook {
+class HookManager {
 
 /**
  * Holds a list of all the events that were fired.
@@ -137,7 +137,7 @@ class Hook {
  * You can provide a context to use by passing an array as first arguments where
  * the first element is the event name and the second one is the context:
  *
- *     Hook::hook(['GetTime', new ContextObject()], ['arg0' => 'val0', ...]);
+ *     HookManager::hook(['GetTime', new ContextObject()], ['arg0' => 'val0', ...]);
  *
  * If no context is given an instance of "Hook" class will be used by default.
  *
@@ -149,7 +149,7 @@ class Hook {
 		if (is_array($eventName)) {
 			list($eventName, $context) = $eventName;
 		} else {
-			$context = new Hook();
+			$context = new HookManager();
 		}
 
 		static::_log($eventName);
@@ -190,7 +190,7 @@ class Hook {
  * You can provide a context to use by passing an array as first arguments where
  * the first element is the event name and the second one is the context:
  *
- *     Hook::alter(['AlterTime', new ContextObject()], $arg0, $arg1, ...);
+ *     HookManager::alter(['AlterTime', new ContextObject()], $arg0, $arg1, ...);
  *
  * If no context is given an instance of "Hook" class will be used by default.
  *
@@ -217,7 +217,7 @@ class Hook {
 		if (is_array($eventName)) {
 			list($eventName, $context) = $eventName;
 		} else {
-			$context = new Hook();
+			$context = new HookManager();
 		}
 
 		$eventName = "Alter.{$eventName}";

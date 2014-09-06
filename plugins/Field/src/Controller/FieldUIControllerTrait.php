@@ -23,7 +23,7 @@ use Cake\ORM\Exception\RecordNotFoundException;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use Field\Model\Entity\FieldViewMode;
-use QuickApps\View\ViewModeTrait;
+use QuickApps\View\ViewModeAwareTrait;
 
 /**
  * Field UI Trait.
@@ -61,7 +61,7 @@ use QuickApps\View\ViewModeTrait;
  */
 trait FieldUIControllerTrait {
 
-	use ViewModeTrait;
+	use ViewModeAwareTrait;
 
 /**
  * Validation rules.

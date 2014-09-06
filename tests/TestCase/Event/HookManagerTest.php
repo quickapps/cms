@@ -9,17 +9,17 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace QuickApps\Test\TestCase\Core;
+namespace QuickApps\Test\TestCase\Event;
 
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\TestSuite\TestCase;
-use QuickApps\Core\Hook;
+use QuickApps\Event\HookManager;
 
 /**
  * HookTest class.
  */
-class HookTest extends TestCase {
+class HookManagerTest extends TestCase {
 
 /**
  * EventManager instance.
@@ -55,10 +55,10 @@ class HookTest extends TestCase {
  * @return void
  */
 	public function testDidHook() {
-		$this->assertTrue(Hook::didHook('unexisting') === 0);
+		$this->assertTrue(HookManager::didHook('unexisting') === 0);
 
-		Hook::hook('Test.hook');
-		$this->assertTrue(Hook::didHook('Test.hook') === 1);
+		HookManager::hook('Test.hook');
+		$this->assertTrue(HookManager::didHook('Test.hook') === 1);
 	}
 
 /**
@@ -67,7 +67,7 @@ class HookTest extends TestCase {
  * @return void
  */
 	public function testHook() {
-		$return = Hook::hook('Test.hook');
+		$return = HookManager::hook('Test.hook');
 
 		$this->assertTrue($return instanceof Event);
 		$this->assertEquals($return->result, 'event response');
@@ -81,7 +81,7 @@ class HookTest extends TestCase {
 	public function testAlter() {
 		$var1 = 'dummy1';
 		$var2 = 'dummy2';
-		Hook::alter('Test.alter', $var1, $var2);
+		HookManager::alter('Test.alter', $var1, $var2);
 		$this->assertEquals($var1, 'dummy1 altered');
 		$this->assertEquals($var2, 'dummy2 altered');
 	}

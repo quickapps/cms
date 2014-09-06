@@ -9,18 +9,18 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace QuickApps\Core;
+namespace QuickApps\Event;
 
 use Cake\Event\Event;
 use Cake\Event\EventManager;
-use QuickApps\Core\Hook;
+use QuickApps\Event\HookManager;
 
 /**
  * Provides hook() & alter() methods.
  *
- * @see QuickApps\Core\Hook
+ * @see QuickApps\Event\Hook
  */
-trait HookTrait {
+trait HookAwareTrait {
 
 /**
  * Retrieves the number of times an event was fired, or the complete list
@@ -29,10 +29,10 @@ trait HookTrait {
  * @param string $eventName The name of the event, if null returns the entire
  *  list of event that were fired
  * @return integer|array
- * @see QuickApps\Core\Hook::didHook()
+ * @see QuickApps\Event\HookManager::didHook()
  */
 	public function didHook($eventName = null) {
-		return Hook::didHook($eventName);
+		return HookManager::didHook($eventName);
 	}
 
 /**
@@ -59,7 +59,7 @@ trait HookTrait {
  * 
  * @param string|array $eventName The event name to trigger
  * @return \Cake\Event\Event The event object that was fired
- * @see QuickApps\Core\Hook::hook()
+ * @see QuickApps\Event\HookManager::hook()
  */
 	public function hook($eventName) {
 		if (is_string($eventName)) {
@@ -67,7 +67,7 @@ trait HookTrait {
 		}
 		$args = func_get_args();
 		array_shift($args);
-		return Hook::hook($eventName, $args);
+		return HookManager::hook($eventName, $args);
 	}
 
 /**
@@ -109,13 +109,13 @@ trait HookTrait {
  * @param mixed &$p13 Optional Argument by reference
  * @param mixed &$p14 Optional Argument by reference
  * @return \Cake\Event\Event The event object that was fired
- * @see QuickApps\Core\Hook::alter()
+ * @see QuickApps\Event\HookManager::alter()
  */
 	public function alter($eventName, &$p0 = null, &$p1 = null, &$p2 = null, &$p3 = null, &$p4 = null, &$p5 = null, &$p6 = null, &$p7 = null, &$p8 = null, &$p9 = null, &$p10 = null, &$p11 = null, &$p12 = null, &$p13 = null, &$p14 = null) {
 		if (is_string($eventName)) {
 			$eventName = [$eventName, $this];
 		}
-		return Hook::alter($eventName, $p0, $p1, $p2, $p3, $p4, $p5, $p6, $p7, $p8, $p9, $p10, $p11, $p12, $p13, $p14);
+		return HookManager::alter($eventName, $p0, $p1, $p2, $p3, $p4, $p5, $p6, $p7, $p8, $p9, $p10, $p11, $p12, $p13, $p14);
 	}
 
 }

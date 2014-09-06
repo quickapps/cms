@@ -20,14 +20,14 @@ use Cake\Routing\Router;
 use Cake\Utility\Inflector;
 use Cake\View\Helper;
 use Cake\View\Helper\UrlHelper as CakeUrlHelper;
-use QuickApps\Core\HookTrait;
+use QuickApps\Event\HookAwareTrait;
 
 /**
  * UrlHelper class for generating urls.
  */
 class UrlHelper extends CakeUrlHelper {
 
-	use HookTrait;
+	use HookAwareTrait;
 
 /**
  * {@inheritDoc}

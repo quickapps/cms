@@ -9,16 +9,16 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace QuickApps\Test\TestCase\Core;
+namespace QuickApps\Test\TestCase\Event;
 
 use Cake\Event\EventManager;
 use Cake\TestSuite\TestCase;
-use QuickApps\Core\Hooktag;
+use QuickApps\Event\HooktagManager;
 
 /**
  * HooktagTest class.
  */
-class HooktagTest extends TestCase {
+class HooktagManagerTest extends TestCase {
 
 /**
  * EventManager instance.
@@ -57,9 +57,9 @@ class HooktagTest extends TestCase {
  * @return void
  */
 	public function testHooktags() {
-		$this->assertEquals('some text @@DUMMY@@', Hooktag::hooktags('some text [dummy /]'));
-		$this->assertEquals('hello world', Hooktag::hooktags('hello [dummy_atts at=world/]'));
-		$this->assertEquals('hello world!', Hooktag::hooktags('hello [enclosed]world![/enclosed]'));
+		$this->assertEquals('some text @@DUMMY@@', HooktagManager::hooktags('some text [dummy /]'));
+		$this->assertEquals('hello world', HooktagManager::hooktags('hello [dummy_atts at=world/]'));
+		$this->assertEquals('hello world!', HooktagManager::hooktags('hello [enclosed]world![/enclosed]'));
 	}
 
 /**
@@ -68,8 +68,8 @@ class HooktagTest extends TestCase {
  * @return void
  */
 	public function testStripHooktags() {
-		$this->assertEquals('some text ', Hooktag::stripHooktags('some text [dummy /]'));
-		$this->assertEquals('hello ', Hooktag::stripHooktags('hello [dummy_atts at=world/]'));
+		$this->assertEquals('some text ', HooktagManager::stripHooktags('some text [dummy /]'));
+		$this->assertEquals('hello ', HooktagManager::stripHooktags('hello [dummy_atts at=world/]'));
 	}
 
 }

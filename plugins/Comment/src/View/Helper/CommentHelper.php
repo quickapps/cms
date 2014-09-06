@@ -13,7 +13,7 @@ namespace Comment\View\Helper;
 
 use Cake\Network\Exception\InternalErrorException;
 use Cake\ORM\Entity;
-use QuickApps\Core\HookTrait;
+use QuickApps\Event\HookAwareTrait;
 use QuickApps\Core\Plugin;
 use QuickApps\View\Helper;
 
@@ -24,7 +24,7 @@ use QuickApps\View\Helper;
  */
 class CommentHelper extends Helper {
 
-	use HookTrait;
+	use HookAwareTrait;
 
 /**
  * Renders a comments section for given entity.

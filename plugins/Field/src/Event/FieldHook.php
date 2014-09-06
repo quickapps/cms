@@ -16,8 +16,8 @@ use Cake\Event\Event;
 use Cake\Event\EventListener;
 use Cake\Event\EventManager;
 use Cake\Utility\Hash;
-use QuickApps\Core\HookTrait;
-use QuickApps\View\ViewModeTrait;
+use QuickApps\Event\HookAwareTrait;
+use QuickApps\View\ViewModeAwareTrait;
 
 /**
  * Field rendering dispatcher.
@@ -54,8 +54,8 @@ use QuickApps\View\ViewModeTrait;
  */
 class FieldHook implements EventListener {
 
-	use HookTrait;
-	use ViewModeTrait;
+	use HookAwareTrait;
+	use ViewModeAwareTrait;
 
 /**
  * Returns a list of hooks this Hook Listener is implementing. When the class is

@@ -17,7 +17,7 @@ use Cake\Event\EventManager;
 use Cake\Filesystem\Folder;
 use Cake\Model\ModelAwareTrait;
 use Installer\Task\TaskManager;
-use QuickApps\Core\HookTrait;
+use QuickApps\Event\HookAwareTrait;
 use User\Utility\AcoManager;
 
 /**
@@ -27,7 +27,7 @@ use User\Utility\AcoManager;
 abstract class BaseTask {
 
 	use InstanceConfigTrait;
-	use HookTrait;
+	use HookAwareTrait;
 	use ModelAwareTrait;
 
 /**

@@ -13,7 +13,7 @@ namespace Field\Utility;
 
 use Field\Lib\Parsedown;
 use Field\Model\Entity\Field;
-use QuickApps\Core\HooktagTrait;
+use QuickApps\Event\HooktagAwareTrait;
 
 /**
  * Text utility class.
@@ -22,7 +22,7 @@ use QuickApps\Core\HooktagTrait;
  */
 class TextToolbox {
 
-	use HooktagTrait;
+	use HooktagAwareTrait;
 
 /**
  * Holds an instance of this class.
@@ -231,27 +231,25 @@ class TextToolbox {
  * @return string
  */
 	public static function stripHtmlTags($html) {
-		$html = preg_replace(
-			[
-				'@<head[^>]*?>.*?</head>@siu',
-				'@<style[^>]*?>.*?</style>@siu',
-				'@<object[^>]*?.*?</object>@siu',
-				'@<embed[^>]*?.*?</embed>@siu',
-				'@<applet[^>]*?.*?</applet>@siu',
-				'@<noframes[^>]*?.*?</noframes>@siu',
-				'@<noscript[^>]*?.*?</noscript>@siu',
-				'@<noembed[^>]*?.*?</noembed>@siu',
-				'@</?((address)|(blockquote)|(center)|(del))@iu',
-				'@</?((div)|(h[1-9])|(ins)|(isindex)|(p)|(pre))@iu',
-				'@</?((dir)|(dl)|(dt)|(dd)|(li)|(menu)|(ol)|(ul))@iu',
-				'@</?((table)|(th)|(td)|(caption))@iu',
-				'@</?((form)|(button)|(fieldset)|(legend)|(input))@iu',
-				'@</?((label)|(select)|(optgroup)|(option)|(textarea))@iu',
-				'@</?((frameset)|(frame)|(iframe))@iu',
-			],
-			[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',"$0", "$0", "$0", "$0", "$0", "$0","$0", "$0"],
-			$html
-		);
+		$html = preg_replace([
+			'@<head[^>]*?>.*?</head>@siu',
+			'@<style[^>]*?>.*?</style>@siu',
+			'@<object[^>]*?.*?</object>@siu',
+			'@<embed[^>]*?.*?</embed>@siu',
+			'@<applet[^>]*?.*?</applet>@siu',
+			'@<noframes[^>]*?.*?</noframes>@siu',
+			'@<noscript[^>]*?.*?</noscript>@siu',
+			'@<noembed[^>]*?.*?</noembed>@siu',
+			'@</?((address)|(blockquote)|(center)|(del))@iu',
+			'@</?((div)|(h[1-9])|(ins)|(isindex)|(p)|(pre))@iu',
+			'@</?((dir)|(dl)|(dt)|(dd)|(li)|(menu)|(ol)|(ul))@iu',
+			'@</?((table)|(th)|(td)|(caption))@iu',
+			'@</?((form)|(button)|(fieldset)|(legend)|(input))@iu',
+			'@</?((label)|(select)|(optgroup)|(option)|(textarea))@iu',
+			'@</?((frameset)|(frame)|(iframe))@iu',
+		],
+		[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',"$0", "$0", "$0", "$0", "$0", "$0","$0", "$0"],
+		$html);
 
 		return strip_tags($html, '<script>');
 	}

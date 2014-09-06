@@ -15,8 +15,9 @@ use Cake\Event\Event;
 use Cake\Event\EventListener;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
-use QuickApps\Core\HooktagTrait;
-use QuickApps\Core\HookTrait;
+use Field\Model\Entity\Field;
+use QuickApps\Event\HookAwareTrait;
+use QuickApps\Event\HooktagAwareTrait;
 
 /**
  * Field Handler base class.
@@ -26,8 +27,8 @@ use QuickApps\Core\HookTrait;
  */
 class FieldHandler implements EventListener {
 
-	use HooktagTrait;
-	use HookTrait;
+	use HooktagAwareTrait;
+	use HookAwareTrait;
 
 /**
  * Return a list of implemented events.
@@ -91,7 +92,7 @@ class FieldHandler implements EventListener {
  * @param array $options Additional array of options
  * @return string HTML representation of this field
  */
-	public function entityDisplay(Event $event, $field, $options = []) {
+	public function entityDisplay(Event $event, Field $field, $options = []) {
 		return '';
 	}
 
@@ -103,7 +104,7 @@ class FieldHandler implements EventListener {
  * @param array $options Options given as an array
  * @return string HTML containing from elements
  */
-	public function entityEdit(Event $event, $field, $options = []) {
+	public function entityEdit(Event $event, Field $field, $options = []) {
 		return '';
 	}
 
@@ -118,7 +119,7 @@ class FieldHandler implements EventListener {
  *  to entity, you can alter this before field is attached
  * @return void
  */
-	public function entityFieldAttached(Event $event, $field) {
+	public function entityFieldAttached(Event $event, Field $field) {
 	}
 
 /**
@@ -138,7 +139,7 @@ class FieldHandler implements EventListener {
  *  find query or not
  * @return mixed
  */
-	public function entityBeforeFind(Event $event, $field, $options, $primary) {
+	public function entityBeforeFind(Event $event, Field $field, $options, $primary) {
 	}
 
 /**
@@ -157,7 +158,7 @@ class FieldHandler implements EventListener {
  * @param array $options Options given as an array
  * @return bool
  */
-	public function entityBeforeSave(Event $event, $field, $options) {
+	public function entityBeforeSave(Event $event, Field $field, $options) {
 		return true;
 	}
 
@@ -169,7 +170,7 @@ class FieldHandler implements EventListener {
  * @param array $options Options given as an array
  * @return void
  */
-	public function entityAfterSave(Event $event, $field, $options) {
+	public function entityAfterSave(Event $event, Field $field, $options) {
 	}
 
 /**
@@ -181,7 +182,7 @@ class FieldHandler implements EventListener {
  * @param \Cake\Validation\Validator $validator The validator object
  * @return bool False will halt the save process
  */
-	public function entityBeforeValidate(Event $event, $field, $options, $validator) {
+	public function entityBeforeValidate(Event $event, Field $field, $options, $validator) {
 		return false;
 	}
 
@@ -194,7 +195,7 @@ class FieldHandler implements EventListener {
  * @param \Cake\Validation\Validator $validator The validator object
  * @return bool False will halt the save process
  */
-	public function entityAfterValidate(Event $event, $field, $options, $validator) {
+	public function entityAfterValidate(Event $event, Field $field, $options, $validator) {
 		return false;
 	}
 
@@ -206,7 +207,7 @@ class FieldHandler implements EventListener {
  * @param array $options Options given as an array
  * @return bool False will halt the delete process
  */
-	public function entityBeforeDelete(Event $event, $field, $options) {
+	public function entityBeforeDelete(Event $event, Field $field, $options) {
 		return true;
 	}
 
@@ -218,7 +219,7 @@ class FieldHandler implements EventListener {
  * @param array $options Options given as an array
  * @return void
  */
-	public function entityAfterDelete(Event $event, $field, $options) {
+	public function entityAfterDelete(Event $event, Field $field, $options) {
 	}
 
 /**

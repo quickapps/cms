@@ -19,8 +19,8 @@ use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 use Field\Model\Entity\FieldInstance;
-use QuickApps\Core\HookTrait;
-use QuickApps\View\ViewModeTrait;
+use QuickApps\Event\HookAwareTrait;
+use QuickApps\View\ViewModeAwareTrait;
 
 /**
  * Represents "field_instances" database table.
@@ -42,8 +42,8 @@ use QuickApps\View\ViewModeTrait;
  */
 class FieldInstancesTable extends Table {
 
-	use HookTrait;
-	use ViewModeTrait;
+	use HookAwareTrait;
+	use ViewModeAwareTrait;
 
 /**
  * Alter the schema used by this table.
