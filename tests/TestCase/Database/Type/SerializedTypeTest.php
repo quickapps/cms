@@ -38,32 +38,79 @@ class SerializedTypeTest extends TestCase {
 	}
 
 /**
- * test toPHP() method.
+ * test toPHP() method when working with serialized arrays.
  *
  * @return void
  */
-	public function testToPHP() {
-		$array = [1, 'a' => 'B', 'c' => 'd'];
-		$notSerializedString = ' asd89 a9a 99a %%&';
-		$serialized = serialize($array);
+	public function testToPHPArray() {
 		$driver = new Mysql();
+		$array = [1, 'a' => 'B', 'c' => 'd'];
 
-		$this->assertEquals($array, $this->_instance->toPHP($serialized, $driver));
-		$this->assertEquals($notSerializedString, $this->_instance->toPHP($notSerializedString, $driver));
+		$this->assertEquals($array, $this->_instance->toPHP(serialize($array), $driver));
 	}
 
 /**
- * test toDatabase() method.
+ * test toPHP() method when working with serialized objects.
  *
  * @return void
  */
-	public function testToDatabase() {
-		$array = [1, 'a' => 'B', 'c' => 'd'];
-		$serialized = serialize($array);
+	public function testToPHPObject() {
 		$driver = new Mysql();
+		$object = new \stdClass();
+		$object->subject = 'I lost my unicorn';
+		$object->body = "Don't remember where I parked him.";
 
-		$this->assertEquals($serialized, $this->_instance->toDatabase($array, $driver));
-		$this->assertEquals(serialize($driver), $this->_instance->toDatabase($driver, $driver));
+		$this->assertEquals($object, $this->_instance->toPHP(serialize($object), $driver));
+	}
+
+/**
+ * test that toPHP() returns the same input when it's not a serialized element.
+ *
+ * @return void
+ */
+	public function testToPHPNonSerializable() {
+		$driver = new Mysql();
+		$notSerializedString = ' asd89 a9a 99a %%&';
+
+		$this->assertEquals($notSerializedString, $this->_instance->toPHP($notSerializedString, $driver));
+	}	
+
+/**
+ * test toDatabase() method when working with arrays.
+ *
+ * @return void
+ */
+	public function testToDatabaseArray() {
+		$driver = new Mysql();
+		$array = [1, 'a' => 'B', 'c' => 'd'];
+
+		$this->assertEquals(serialize($array), $this->_instance->toDatabase($array, $driver));
+	}
+
+/**
+ * test toDatabase() method when working with objects.
+ *
+ * @return void
+ */
+	public function testToDatabaseObject() {
+		$driver = new Mysql();
+		$object = new \stdClass();
+		$object->subject = 'I think I found him';
+		$object->body = 'he was under my bed';
+
+		$this->assertEquals(serialize($object), $this->_instance->toDatabase($object, $driver));
+	}
+
+/**
+ * test that toDatabase() returns the same input when it's not a serializable element.
+ *
+ * @return void
+ */
+	public function testToDatabaseNonSerializable() {
+		$driver = new Mysql();
+		$notSerializedString = 'Gman: Bla bla bla mister freeman';
+
+		$this->assertEquals($notSerializedString, $this->_instance->toDatabase($notSerializedString, $driver));
 	}
 
 }
