@@ -489,11 +489,11 @@ class FieldableBehavior extends Behavior {
  * ### Events Triggered:
  *
  * - `Field.<FieldHandler>.Entity.beforeFind`: This event is triggered for each
- * entity in the resulting collection and for each field handler attached to
- * these entities. It receives three arguments, a field entity representing the
- * field being processed, an options array and boolean value indicating whether
- * the query that initialized the event is part of a primary find operation or
- * not. Returning false will cause the entity to be removed from the resulting
+ * entity in the resulting collection and for each field attached to these
+ * entities. It receives three arguments, a field entity representing the field
+ * being processed, an options array and boolean value indicating whether the
+ * query that initialized the event is part of a primary find operation or not.
+ * Returning false will cause the entity to be removed from the resulting
  * collection, also will stop event propagation, so other fields won't be able
  * to listen this event. If the event is stopped using the event API, will halt
  * the entire find operation.
@@ -736,7 +736,7 @@ class FieldableBehavior extends Behavior {
  *
  * - `Field.<FieldHandler>.Entity.beforeValidate`: Will be triggered right before
  * any validation is done for the passed entity if the validate key in $options
- * is not set to false. Listeners will receive as arguments the field entity and
+ * is not set to false. Listeners will receive as arguments the field entity,
  * the options array and the validation object to be used for validating
  * the entity. If the event is stopped the validation result will be set to the
  * result of the event itself.
@@ -1093,6 +1093,7 @@ class FieldableBehavior extends Behavior {
 				'FieldValues.table_alias' => $this->_guessTableAlias($entity),
 				'FieldValues.entity_id' => $entity->get($this->_table->primaryKey())
 			])
+			->limit(1)
 			->first();
 
 		$mockField = new Field([

@@ -66,7 +66,7 @@ class BlockHelper extends Helper {
  * that will never be rendered because of its visibility; language or role
  * restrictions, etc. Set to false (by default) will return only blocks
  * that can be rendered.
- * @return \Cake\Collection\Iterator\FilterIterator
+ * @return \Cake\Collection\Collection
  */
 	public function blocksIn($region, $all = false) {
 		$Blocks = TableRegistry::get('Block.Blocks');
