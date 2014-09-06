@@ -31,7 +31,7 @@
 					<?php echo $this->Html->link('QuickApps CMS', '/', ['class' => 'navbar-brand']); ?>
 				</div>
 				<div class="collapse navbar-collapse">
-					<?php echo $this->Region->create('main-menu')->render(); ?>
+					<?php echo $this->region('main-menu')->render(); ?>
 				</div>
 			</div>
 		</nav>

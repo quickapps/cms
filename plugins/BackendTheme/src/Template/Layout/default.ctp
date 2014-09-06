@@ -33,7 +33,7 @@
 				</div>
 
 				<div class="collapse navbar-collapse">
-					<?php echo $this->Region->create('main-menu')->render(); ?>
+					<?php echo $this->region('main-menu')->render(); ?>
 
 					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown">

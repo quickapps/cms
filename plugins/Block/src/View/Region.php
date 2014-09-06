@@ -11,6 +11,7 @@
  */
 namespace Block\View;
 
+use Cake\Collection\Collection;
 use Cake\Core\Configure;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
@@ -85,7 +86,8 @@ class Region {
 		$this->_machineName = Inflector::slug($name, '-');
 		$this->_View = $view;
 		$this->_theme = Plugin::info($options['theme'], true);
-		$this->_blocks = $this->_View->Region->Block->blocksIn($this->_machineName);
+		$this->_View->addHelper('Block.Block');
+		$this->blocks($this->_View->Block->blocksIn($this->_machineName));
 
 		if (isset($this->_theme['composer']['extra']['regions'])) {
 			$validRegions = array_keys($this->_theme['composer']['extra']['regions']);
@@ -115,7 +117,7 @@ class Region {
  *
  * @return string
  */
-	public function getName() {
+	public function name() {
 		return $this->_machineName;
 	}
 
@@ -125,19 +127,19 @@ class Region {
  * ### Usage:
  *
  *     // full info:
- *     $theme = $this->Region->create('left-sidebar')->getTheme();
- *
+ *     $theme = $this->region('left-sidebar')
+ *         ->theme();
+ *     
  *     // gets theme's "composer.json" info as an array
- *     $themeAuthor = $this->Region
- *         ->create('left-sidebar')
- *         ->getTheme('composer.author');
+ *     $themeAuthor = $this->region('left-sidebar')
+ *         ->theme('composer.author');
  *
  * @param null|string $path If set to a string value, it will extract
  *  the specified value from the theme's info-array. Null (by default)
  *  returns the whole info-array.
  * @return mixed
  */
-	public function getTheme($path = null) {
+	public function theme($path = null) {
 		if ($path == null) {
 			return $this->_theme;
 		}
@@ -145,26 +147,28 @@ class Region {
 	}
 
 /**
- * Returns the block collection of this region.
+ * Gets or sets the block collection of this region.
  *
- * @return \Cake\Collection\Iterator\FilterIterator
+ * @return \Cake\Collection\Collection
  */
-	public function getBlocks() {
+	public function blocks(Collection $blocks = null) {
+		if ($blocks) {
+			$this->_blocks = $blocks;
+		}
 		return $this->_blocks;
 	}
 
 /**
- * Counts all the blocks within this region.
+ * Counts the number of blocks within this region.
  * 
  * @return integer
  */
-	public function countBlocks() {
-		$blocks = $this->_View->Region->Block->blocksIn($this->_machineName);
-		return count($blocks->toArray());
+	public function count() {
+		return count($this->blocks()->toArray());
 	}
 
 /**
- * Limits the number of blocks in an area.
+ * Limits the number of blocks in this region.
  *
  * Null means unlimited number.
  *  
@@ -189,8 +193,12 @@ class Region {
  * @return \Block\View\Region This region with $region's blocks appended
  */
 	public function merge(Region $region, $homogenize = true) {
-		if ($region->getName() != $this->_machineName) {
-			$this->_blocks = $this->_blocks->append($region->getBlocks());
+		if ($region->name() !== $this->name()) {
+			$blocks1 = $this->blocks();
+			$blocks2 = $region->blocks();
+			$combined = $blocks1->append($blocks2)->toArray(false);
+			$this->blocks(collection($combined));
+
 			if ($homogenize) {
 				$this->homogenize();
 			}
@@ -207,10 +215,12 @@ class Region {
  * @return \Block\View\Region This region with homogenized blocks
  */
 	public function homogenize() {
-		$this->_blocks = $this->_blocks->map(function ($block) {
-			$block->region->set('region', $this->_machineName);
-			return $block;
-		});
+		$this->blocks(
+			$this->blocks()->map(function ($block) {
+				$block->region->set('region', $this->_machineName);
+				return $block;
+			})
+		);
 		return $this;
 	}
 
@@ -222,11 +232,11 @@ class Region {
 	public function render() {
 		$html = '';
 		$i = 0;
-		foreach ($this->_blocks as $block) {
+		foreach ($this->blocks() as $block) {
 			if ($this->_blockLimit !== null && $i === $this->_blockLimit) {
 				break;
 			}
-			$html .= $this->_View->Region->Block->render($block);
+			$html .= $this->_View->Block->render($block);
 			$i++;
 		}
 		return $html;
@@ -235,7 +245,7 @@ class Region {
 /**
  * Magic method for rendering this region.
  *
- *     echo $this->Region->create('left-sidebar');
+ *     echo $this->region('left-sidebar');
  * 
  * @return string
  */
@@ -252,7 +262,7 @@ class Region {
 	public function __debugInfo() {
 		return [
 			'_machineName' => $this->_machineName,
-			'_blocks' => $this->_blocks->toArray(),
+			'_blocks' => $this->blocks()->toArray(),
 			'_blockLimit' => $this->_blockLimit,
 			'_theme' => $this->_theme,
 			'_View' => '(object) \QuickApps\View\View',

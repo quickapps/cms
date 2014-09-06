@@ -11,6 +11,7 @@
  */
 namespace QuickApps\View;
 
+use Block\View\Region;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
@@ -41,6 +42,49 @@ class View extends CakeView {
  * @var boolean
  */
 	protected $_hasRendered = false;
+
+/**
+ * Holds all region instances created for later access.
+ * 
+ * @var array
+ */
+	protected $_regions = [];
+
+/**
+ * Defines a new theme region.
+ *
+ * ### Usage:
+ *
+ * Merge `left-sidebar` and `right-sidebar` regions together, the resulting region
+ * limits the number of blocks it can holds to `3`:
+ * 
+ *     echo $this->region('left-sidebar')
+ *         ->append($this->region('right-sidebar'))
+ *         ->blockLimit(3);
+ *
+ * ### Valid options are:
+ *
+ * - `fixMissing`: When creating a region that is not defined by the theme, it
+ *    will try to fix it by adding it to theme's regions if this option is set
+ *    to TRUE. Defaults to NULL which automatically enables when `debug` is
+ *    enabled. This option will not work when using QuickAppsCMS's core themes.
+ *    (NOTE: This option will alter theme's `composer.json` file)
+ * - `theme`: Name of the theme this regions belongs to. Defaults to auto-detect.
+ *
+ * @param string $name Theme's region machine-name. e.g. `left-sidebar`
+ * @param array $options Additional options for region being created
+ * @param bool $force Whether to skip reading from cache or not, defaults to
+ *  false will get from cache if exists.
+ * @return \Block\View\Region Region object
+ * @see \Block\View\Region
+ */
+	public function region($name, $options = [], $force = false) {
+		$this->alter('View.region', $name, $options);
+		if (empty($this->_regions[$name]) || $force) {
+			$this->_regions[$name] = new Region($this, $name, $options);
+		}
+		return $this->_regions[$name];
+	}
 
 /**
  * Overrides Cake's view rendering method. Allows the usage of
