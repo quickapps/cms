@@ -52,7 +52,7 @@ class FileToolbox {
  *
  * @param integer $bytes Size to convert given in bytes units
  * @param integer $precision Decimal precision
- * @return string
+ * @return string Human-readable size, e.g. `1 KB`, `36.8 MB`, etc
  */
 	public static function bytesToSize($bytes, $precision = 2) {
 		$kilobyte = 1024;
@@ -78,17 +78,16 @@ class FileToolbox {
 /**
  * Creates a path to the icon for a file mime.
  *
- * @param string $mime file mime type
+ * @param string $mime File mime type
  * @param mixed $iconsDirectory A path to a directory of icons to be used for
- * files. Defaults to built-in icons directory (Field/webroot/img/file-icons/)
- * @return string A string to the icon as a local path, or false if an appropriate
- * icon could not be found
+ *  files. Defaults to built-in icons directory (Field/webroot/img/file-icons/)
+ * @return mixed A string for the icon file name, or false if an appropriate
+ *  icon could not be found
  */
 	public static function fileIcon($mime, $iconsDirectory = false) {
-		$iconsDirectory = !$iconsDirectory ? Plugin::path('Field') . 'webroot/img/file-icons/' : $iconsDirectory;
-
 		// If there's an icon matching the exact mimetype, go for it.
-		$dashedMime = strtr($mime, array('/' => '-'));
+		$iconsDirectory = !$iconsDirectory ? Plugin::path('Field') . 'webroot/img/file-icons/' : $iconsDirectory;
+		$dashedMime = strtr($mime, ['/' => '-']);
 		$iconPath = "{$iconsDirectory}{$dashedMime}.png";
 
 		if (file_exists($iconPath)) {
@@ -104,7 +103,7 @@ class FileToolbox {
 		}
 
 		// Use generic icons for each category that provides such icons.
-		foreach (array('audio', 'image', 'text', 'video') as $category) {
+		foreach (['audio', 'image', 'text', 'video'] as $category) {
 			if (strpos($mime, $category . '/') === 0) {
 				$iconPath = "{$iconsDirectory}{$category}-x-generic.png";
 				if (file_exists($iconPath)) {
@@ -113,14 +112,10 @@ class FileToolbox {
 			}
 		}
 
-		// Try application-octet-stream as last fallback.
-		$iconPath = "{$iconsDirectory}/application-octet-stream.png";
-
-		if (file_exists($iconPath)) {
+		if (file_exists("{$iconsDirectory}/application-octet-stream.png")) {
 			return 'application-octet-stream.png';
 		}
 
-		// No icon can be found.
 		return false;
 	}
 
@@ -251,9 +246,14 @@ class FileToolbox {
  * Get file extension.
  *
  * @param string $fileName File name, including its extension. e.g.: `my-file.docx`
- * @return string File extension without the DOT, e.g. `pdf`, `jpg`
+ * @return string File extension without the ending DOT and lowercased,
+ *  e.g. `pdf`, `jpg`, `png`, etc. If no extension is found an empty string will
+ *  be returned
  */
 	public static function ext($fileName) {
+		if (strpos($fileName, '.') === false) {
+			return '';
+		}
 		return strtolower(
 			substr(
 				$fileName,
@@ -266,12 +266,16 @@ class FileToolbox {
 /**
  * Remove file extension.
  *
- * @param string $fileName File name, including its extension. e.g.: `my-file.docx`
- * @return string
+ * @param string $fileName File name, including its extension.
+ *  e.g. `my-file.docx`, `myFile.DoCX`, etc
+ * @return string File name without extension, e.g. `my-file`, `myFile`, etc
  */
 	public static function removeExt($fileName) {
 		$ext = static::ext($fileName);
-		return str_replace_last(".{$ext}", '', $fileName);
+		if ($ext) {
+			return preg_replace("/\.{$ext}$/i", '', $fileName);
+		}
+		return $fileName;
 	}
 
 }
