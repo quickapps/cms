@@ -149,11 +149,18 @@ class Region {
 /**
  * Gets or sets the block collection of this region.
  *
+ * When passing a collection of blocks as first argument, all blocks in the
+ * collection will be homogenized, see homogenize() for details.
+ *
+ * @param \Cake\Collection\Collection $blocks Blocks collection if you want to
+ *  overwrite current collection, leave empty to return current collection
  * @return \Cake\Collection\Collection
+ * @see \Block\View\Region::homogenize()
  */
 	public function blocks(Collection $blocks = null) {
 		if ($blocks) {
 			$this->_blocks = $blocks;
+			$this->homogenize();
 		}
 		return $this->_blocks;
 	}
