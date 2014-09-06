@@ -222,12 +222,10 @@ class Region {
  * @return \Block\View\Region This region with homogenized blocks
  */
 	public function homogenize() {
-		$this->blocks(
-			$this->blocks()->map(function ($block) {
-				$block->region->set('region', $this->_machineName);
-				return $block;
-			})
-		);
+		$this->_blocks = $this->blocks()->map(function ($block) {
+			$block->region->set('region', $this->_machineName);
+			return $block;
+		});
 		return $this;
 	}
 
