@@ -1,6 +1,5 @@
 <?php
-
-class nodes_roles {
+class UsersRolesFixture {
 
 	public $fields = array (
   '_constraints' => 
@@ -28,7 +27,7 @@ class nodes_roles {
     'autoIncrement' => true,
     'precision' => NULL,
   ),
-  'node_id' => 
+  'user_id' => 
   array (
     'type' => 'integer',
     'length' => 11,

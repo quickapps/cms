@@ -1,6 +1,5 @@
 <?php
-
-class users {
+class TermsFixture {
 
 	public $fields = array (
   '_constraints' => 
@@ -16,13 +15,12 @@ class users {
       array (
       ),
     ),
-    'username' => 
+    'slug' => 
     array (
       'type' => 'unique',
       'columns' => 
       array (
-        0 => 'username',
-        1 => 'email',
+        0 => 'slug',
       ),
       'length' => 
       array (
@@ -32,7 +30,7 @@ class users {
   'id' => 
   array (
     'type' => 'integer',
-    'length' => 11,
+    'length' => 10,
     'unsigned' => false,
     'null' => false,
     'default' => NULL,
@@ -40,104 +38,71 @@ class users {
     'autoIncrement' => true,
     'precision' => NULL,
   ),
+  'vocabulary_id' => 
+  array (
+    'type' => 'integer',
+    'length' => 11,
+    'unsigned' => false,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ),
+  'lft' => 
+  array (
+    'type' => 'integer',
+    'length' => 11,
+    'unsigned' => false,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ),
+  'rght' => 
+  array (
+    'type' => 'integer',
+    'length' => 11,
+    'unsigned' => false,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ),
+  'parent_id' => 
+  array (
+    'type' => 'integer',
+    'length' => 11,
+    'unsigned' => false,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ),
   'name' => 
   array (
     'type' => 'string',
-    'length' => 150,
+    'length' => 255,
     'null' => false,
     'default' => NULL,
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
   ),
-  'username' => 
+  'slug' => 
   array (
     'type' => 'string',
-    'length' => 80,
+    'length' => 255,
     'null' => false,
     'default' => NULL,
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
   ),
-  'password' => 
-  array (
-    'type' => 'string',
-    'length' => 200,
-    'null' => false,
-    'default' => NULL,
-    'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ),
-  'email' => 
-  array (
-    'type' => 'string',
-    'length' => 100,
-    'null' => false,
-    'default' => NULL,
-    'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ),
-  'web' => 
-  array (
-    'type' => 'string',
-    'length' => 200,
-    'null' => true,
-    'default' => NULL,
-    'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ),
-  'locale' => 
-  array (
-    'type' => 'string',
-    'length' => 5,
-    'null' => true,
-    'default' => NULL,
-    'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ),
-  'public_profile' => 
-  array (
-    'type' => 'boolean',
-    'length' => NULL,
-    'null' => false,
-    'default' => NULL,
-    'comment' => '',
-    'precision' => NULL,
-  ),
-  'public_email' => 
-  array (
-    'type' => 'boolean',
-    'length' => NULL,
-    'null' => false,
-    'default' => NULL,
-    'comment' => '',
-    'precision' => NULL,
-  ),
-  'token' => 
-  array (
-    'type' => 'string',
-    'length' => 200,
-    'null' => false,
-    'default' => NULL,
-    'comment' => 'random unique code, used for pass recovery',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ),
-  'status' => 
-  array (
-    'type' => 'boolean',
-    'length' => NULL,
-    'null' => false,
-    'default' => '1',
-    'comment' => '',
-    'precision' => NULL,
-  ),
-  'last_login' => 
+  'created' => 
   array (
     'type' => 'datetime',
     'length' => NULL,
@@ -146,7 +111,7 @@ class users {
     'comment' => '',
     'precision' => NULL,
   ),
-  'created' => 
+  'modified' => 
   array (
     'type' => 'datetime',
     'length' => NULL,

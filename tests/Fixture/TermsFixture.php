@@ -13,7 +13,7 @@ namespace QuickApps\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
 
-class PermissionsFixture extends TestFixture {
+class TermsFixture extends TestFixture {
 
 	public $fields = array (
   '_constraints' => 
@@ -29,11 +29,22 @@ class PermissionsFixture extends TestFixture {
       array (
       ),
     ),
+    'slug' => 
+    array (
+      'type' => 'unique',
+      'columns' => 
+      array (
+        0 => 'slug',
+      ),
+      'length' => 
+      array (
+      ),
+    ),
   ),
   'id' => 
   array (
     'type' => 'integer',
-    'length' => 11,
+    'length' => 10,
     'unsigned' => false,
     'null' => false,
     'default' => NULL,
@@ -41,7 +52,7 @@ class PermissionsFixture extends TestFixture {
     'autoIncrement' => true,
     'precision' => NULL,
   ),
-  'aco_id' => 
+  'vocabulary_id' => 
   array (
     'type' => 'integer',
     'length' => 11,
@@ -52,7 +63,7 @@ class PermissionsFixture extends TestFixture {
     'precision' => NULL,
     'autoIncrement' => NULL,
   ),
-  'role_id' => 
+  'lft' => 
   array (
     'type' => 'integer',
     'length' => 11,
@@ -62,70 +73,70 @@ class PermissionsFixture extends TestFixture {
     'comment' => '',
     'precision' => NULL,
     'autoIncrement' => NULL,
+  ),
+  'rght' => 
+  array (
+    'type' => 'integer',
+    'length' => 11,
+    'unsigned' => false,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ),
+  'parent_id' => 
+  array (
+    'type' => 'integer',
+    'length' => 11,
+    'unsigned' => false,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ),
+  'name' => 
+  array (
+    'type' => 'string',
+    'length' => 255,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'fixed' => NULL,
+  ),
+  'slug' => 
+  array (
+    'type' => 'string',
+    'length' => 255,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'fixed' => NULL,
+  ),
+  'created' => 
+  array (
+    'type' => 'datetime',
+    'length' => NULL,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+  ),
+  'modified' => 
+  array (
+    'type' => 'datetime',
+    'length' => NULL,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
   ),
 );
 
 	public $records = array (
-  0 => 
-  array (
-    'id' => 1,
-    'aco_id' => 79,
-    'role_id' => 2,
-  ),
-  1 => 
-  array (
-    'id' => 2,
-    'aco_id' => 79,
-    'role_id' => 3,
-  ),
-  2 => 
-  array (
-    'id' => 3,
-    'aco_id' => 80,
-    'role_id' => 2,
-  ),
-  3 => 
-  array (
-    'id' => 4,
-    'aco_id' => 80,
-    'role_id' => 3,
-  ),
-  4 => 
-  array (
-    'id' => 5,
-    'aco_id' => 81,
-    'role_id' => 2,
-  ),
-  5 => 
-  array (
-    'id' => 6,
-    'aco_id' => 81,
-    'role_id' => 3,
-  ),
-  6 => 
-  array (
-    'id' => 7,
-    'aco_id' => 82,
-    'role_id' => 2,
-  ),
-  7 => 
-  array (
-    'id' => 8,
-    'aco_id' => 82,
-    'role_id' => 3,
-  ),
-  8 => 
-  array (
-    'id' => 9,
-    'aco_id' => 83,
-    'role_id' => 2,
-  ),
-  9 => 
-  array (
-    'id' => 10,
-    'aco_id' => 83,
-    'role_id' => 3,
-  ),
 );
 
 }

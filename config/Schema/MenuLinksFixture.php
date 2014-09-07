@@ -1,6 +1,5 @@
 <?php
-
-class menu_links {
+class MenuLinksFixture {
 
 	public $fields = array (
   '_constraints' => 

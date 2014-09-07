@@ -13,7 +13,7 @@ namespace QuickApps\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
 
-class BlockRegionsFixture extends TestFixture {
+class NodeTypesFixture extends TestFixture {
 
 	public $fields = array (
   '_constraints' => 
@@ -29,13 +29,12 @@ class BlockRegionsFixture extends TestFixture {
       array (
       ),
     ),
-    'block_id' => 
+    'slug' => 
     array (
       'type' => 'unique',
       'columns' => 
       array (
-        0 => 'block_id',
-        1 => 'theme',
+        0 => 'slug',
       ),
       'length' => 
       array (
@@ -53,47 +52,54 @@ class BlockRegionsFixture extends TestFixture {
     'autoIncrement' => true,
     'precision' => NULL,
   ),
-  'block_id' => 
-  array (
-    'type' => 'integer',
-    'length' => 11,
-    'unsigned' => false,
-    'null' => false,
-    'default' => NULL,
-    'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ),
-  'theme' => 
+  'slug' => 
   array (
     'type' => 'string',
-    'length' => 200,
+    'length' => 100,
     'null' => false,
     'default' => NULL,
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
   ),
-  'region' => 
+  'name' => 
   array (
     'type' => 'string',
     'length' => 200,
+    'null' => false,
+    'default' => NULL,
+    'comment' => 'human-readable name',
+    'precision' => NULL,
+    'fixed' => NULL,
+  ),
+  'description' => 
+  array (
+    'type' => 'string',
+    'length' => 255,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'fixed' => NULL,
+  ),
+  'title_label' => 
+  array (
+    'type' => 'string',
+    'length' => 80,
+    'null' => false,
+    'default' => NULL,
+    'comment' => 'the label displayed for the title field on the edit form.',
+    'precision' => NULL,
+    'fixed' => NULL,
+  ),
+  'defaults' => 
+  array (
+    'type' => 'text',
+    'length' => NULL,
     'null' => true,
-    'default' => '',
+    'default' => NULL,
     'comment' => '',
     'precision' => NULL,
-    'fixed' => NULL,
-  ),
-  'ordering' => 
-  array (
-    'type' => 'integer',
-    'length' => 11,
-    'unsigned' => false,
-    'null' => false,
-    'default' => '0',
-    'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
   ),
 );
 
@@ -101,66 +107,11 @@ class BlockRegionsFixture extends TestFixture {
   0 => 
   array (
     'id' => 1,
-    'block_id' => 2,
-    'theme' => 'BackendTheme',
-    'region' => '',
-    'ordering' => 0,
-  ),
-  1 => 
-  array (
-    'id' => 2,
-    'block_id' => 2,
-    'theme' => 'FrontendTheme',
-    'region' => 'main-menu',
-    'ordering' => 0,
-  ),
-  2 => 
-  array (
-    'id' => 3,
-    'block_id' => 1,
-    'theme' => 'BackendTheme',
-    'region' => 'main-menu',
-    'ordering' => 0,
-  ),
-  3 => 
-  array (
-    'id' => 4,
-    'block_id' => 1,
-    'theme' => 'FrontendTheme',
-    'region' => '',
-    'ordering' => 0,
-  ),
-  4 => 
-  array (
-    'id' => 5,
-    'block_id' => 3,
-    'theme' => 'BackendTheme',
-    'region' => 'dashboard-main',
-    'ordering' => 0,
-  ),
-  5 => 
-  array (
-    'id' => 6,
-    'block_id' => 3,
-    'theme' => 'FrontendTheme',
-    'region' => '',
-    'ordering' => 0,
-  ),
-  6 => 
-  array (
-    'id' => 7,
-    'block_id' => 4,
-    'theme' => 'BackendTheme',
-    'region' => 'dashboard-sidebar',
-    'ordering' => 0,
-  ),
-  7 => 
-  array (
-    'id' => 8,
-    'block_id' => 4,
-    'theme' => 'FrontendTheme',
-    'region' => '',
-    'ordering' => 0,
+    'slug' => 'article',
+    'name' => 'Article',
+    'description' => 'Use articles for time-sensitive content like news, press releases or blog posts.',
+    'title_label' => 'Title',
+    'defaults' => 'a:7:{s:6:"status";s:1:"1";s:7:"promote";s:1:"1";s:6:"sticky";s:1:"1";s:11:"author_name";s:1:"1";s:9:"show_date";s:1:"1";s:14:"comment_status";s:1:"0";s:8:"language";s:0:"";}',
   ),
 );
 

@@ -22,6 +22,7 @@ use Cake\Filesystem\Folder;
 use Cake\I18n\I18n;
 use Cake\Routing\Router;
 use Cake\Utility\Hash;
+use Cake\Utility\Inflector;
 use QuickApps\Core\Plugin;
 
 /**
@@ -280,11 +281,10 @@ class StartupController extends Controller {
 					$schemaCollection = $db->schemaCollection();
 					$existingSchemas = $schemaCollection->listTables();
 					$newSchemas = array_map(function ($item) {
-						return str_replace('.php', '', $item);
+						return Inflector::underscore(str_replace('Fixture.php', '', $item));
 					}, $Folder->read()[1]);
-					$common = array_intersect($existingSchemas, $newSchemas);
 
-					if (!empty($common)) {
+					if (array_intersect($existingSchemas, $newSchemas)) {
 						$this->Flash->danger(__d('installer', 'A previous installation of QuickApps CMS already exists, please drop your database tables or change the prefix.'));
 						$dumpComplete = false;
 					} else {
@@ -295,7 +295,7 @@ class StartupController extends Controller {
 								foreach ($schemaFiles as $schemaPath) {
 									require $schemaPath;
 									$className = str_replace('.php', '', basename($schemaPath));
-									$tableName = $className;
+									$tableName = Inflector::underscore(str_replace('Fixture', '', $className));
 									$fixture = new $className;
 									$constraints = [];
 

@@ -1,6 +1,5 @@
 <?php
-
-class nodes {
+class NodesFixture {
 
 	public $fields = array (
   '_constraints' => 

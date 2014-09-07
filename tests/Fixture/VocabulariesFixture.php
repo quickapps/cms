@@ -1,6 +1,19 @@
 <?php
+/**
+ * Licensed under The GPL-3.0 License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @since	 1.0.0
+ * @author	 Christopher Castro <chris@quickapps.es>
+ * @link	 http://www.quickappscms.org
+ * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
+ */
+namespace QuickApps\Test\Fixture;
 
-class terms {
+use Cake\TestSuite\Fixture\TestFixture;
+
+class VocabulariesFixture extends TestFixture {
 
 	public $fields = array (
   '_constraints' => 
@@ -11,17 +24,6 @@ class terms {
       'columns' => 
       array (
         0 => 'id',
-      ),
-      'length' => 
-      array (
-      ),
-    ),
-    'slug' => 
-    array (
-      'type' => 'unique',
-      'columns' => 
-      array (
-        0 => 'slug',
       ),
       'length' => 
       array (
@@ -38,50 +40,6 @@ class terms {
     'comment' => '',
     'autoIncrement' => true,
     'precision' => NULL,
-  ),
-  'vocabulary_id' => 
-  array (
-    'type' => 'integer',
-    'length' => 11,
-    'unsigned' => false,
-    'null' => false,
-    'default' => NULL,
-    'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ),
-  'lft' => 
-  array (
-    'type' => 'integer',
-    'length' => 11,
-    'unsigned' => false,
-    'null' => false,
-    'default' => NULL,
-    'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ),
-  'rght' => 
-  array (
-    'type' => 'integer',
-    'length' => 11,
-    'unsigned' => false,
-    'null' => false,
-    'default' => NULL,
-    'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ),
-  'parent_id' => 
-  array (
-    'type' => 'integer',
-    'length' => 11,
-    'unsigned' => false,
-    'null' => false,
-    'default' => NULL,
-    'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
   ),
   'name' => 
   array (
@@ -103,7 +61,36 @@ class terms {
     'precision' => NULL,
     'fixed' => NULL,
   ),
-  'created' => 
+  'description' => 
+  array (
+    'type' => 'text',
+    'length' => NULL,
+    'null' => true,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+  ),
+  'ordering' => 
+  array (
+    'type' => 'integer',
+    'length' => 11,
+    'unsigned' => false,
+    'null' => true,
+    'default' => '0',
+    'comment' => '',
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ),
+  'locked' => 
+  array (
+    'type' => 'boolean',
+    'length' => NULL,
+    'null' => false,
+    'default' => '0',
+    'comment' => 'if set to 1 users can not delete this vocabulary',
+    'precision' => NULL,
+  ),
+  'modified' => 
   array (
     'type' => 'datetime',
     'length' => NULL,
@@ -112,7 +99,7 @@ class terms {
     'comment' => '',
     'precision' => NULL,
   ),
-  'modified' => 
+  'created' => 
   array (
     'type' => 'datetime',
     'length' => NULL,

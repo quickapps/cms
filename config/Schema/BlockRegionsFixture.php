@@ -1,6 +1,5 @@
 <?php
-
-class block_regions {
+class BlockRegionsFixture {
 
 	public $fields = array (
   '_constraints' => 

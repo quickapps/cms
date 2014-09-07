@@ -1,6 +1,5 @@
 <?php
-
-class options {
+class OptionsFixture {
 
 	public $fields = array (
   '_constraints' => 

@@ -1,6 +1,5 @@
 <?php
-
-class blocks {
+class BlocksFixture {
 
 	public $fields = array (
   '_constraints' => 

@@ -1,6 +1,5 @@
 <?php
-
-class plugins {
+class PluginsFixture {
 
 	public $fields = array (
   '_constraints' => 

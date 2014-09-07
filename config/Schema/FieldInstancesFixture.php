@@ -1,6 +1,5 @@
 <?php
-
-class field_instances {
+class FieldInstancesFixture {
 
 	public $fields = array (
   '_constraints' => 

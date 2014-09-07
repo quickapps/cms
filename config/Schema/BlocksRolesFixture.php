@@ -1,6 +1,5 @@
 <?php
-
-class roles {
+class BlocksRolesFixture {
 
 	public $fields = array (
   '_constraints' => 
@@ -11,17 +10,6 @@ class roles {
       'columns' => 
       array (
         0 => 'id',
-      ),
-      'length' => 
-      array (
-      ),
-    ),
-    'name' => 
-    array (
-      'type' => 'unique',
-      'columns' => 
-      array (
-        0 => 'name',
       ),
       'length' => 
       array (
@@ -39,47 +27,31 @@ class roles {
     'autoIncrement' => true,
     'precision' => NULL,
   ),
-  'slug' => 
+  'block_id' => 
   array (
-    'type' => 'string',
-    'length' => 50,
+    'type' => 'integer',
+    'length' => 11,
+    'unsigned' => false,
     'null' => false,
     'default' => NULL,
     'comment' => '',
     'precision' => NULL,
-    'fixed' => NULL,
+    'autoIncrement' => NULL,
   ),
-  'name' => 
+  'role_id' => 
   array (
-    'type' => 'string',
-    'length' => 128,
+    'type' => 'integer',
+    'length' => 10,
+    'unsigned' => false,
     'null' => false,
     'default' => NULL,
-    'comment' => '',
+    'comment' => 'The user’s role ID from roles table',
     'precision' => NULL,
-    'fixed' => NULL,
+    'autoIncrement' => NULL,
   ),
 );
 
 	public $records = array (
-  0 => 
-  array (
-    'id' => 1,
-    'slug' => 'administrator',
-    'name' => 'Administrator',
-  ),
-  1 => 
-  array (
-    'id' => 2,
-    'slug' => 'authenticated ',
-    'name' => 'Authenticated User',
-  ),
-  2 => 
-  array (
-    'id' => 3,
-    'slug' => 'anonymous',
-    'name' => 'Anonymous User',
-  ),
 );
 
 }

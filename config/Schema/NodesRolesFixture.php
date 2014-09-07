@@ -1,6 +1,5 @@
 <?php
-
-class entities_terms {
+class NodesRolesFixture {
 
 	public $fields = array (
   '_constraints' => 
@@ -19,8 +18,8 @@ class entities_terms {
   ),
   'id' => 
   array (
-    'type' => 'biginteger',
-    'length' => 20,
+    'type' => 'integer',
+    'length' => 11,
     'unsigned' => false,
     'null' => false,
     'default' => NULL,
@@ -28,29 +27,7 @@ class entities_terms {
     'autoIncrement' => true,
     'precision' => NULL,
   ),
-  'entity_id' => 
-  array (
-    'type' => 'integer',
-    'length' => 20,
-    'unsigned' => false,
-    'null' => false,
-    'default' => NULL,
-    'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ),
-  'term_id' => 
-  array (
-    'type' => 'integer',
-    'length' => 20,
-    'unsigned' => false,
-    'null' => false,
-    'default' => NULL,
-    'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ),
-  'field_instance_id' => 
+  'node_id' => 
   array (
     'type' => 'integer',
     'length' => 11,
@@ -61,15 +38,16 @@ class entities_terms {
     'precision' => NULL,
     'autoIncrement' => NULL,
   ),
-  'table_alias' => 
+  'role_id' => 
   array (
-    'type' => 'string',
-    'length' => 30,
+    'type' => 'integer',
+    'length' => 10,
+    'unsigned' => false,
     'null' => false,
     'default' => NULL,
-    'comment' => '',
+    'comment' => 'The user’s role ID from roles table',
     'precision' => NULL,
-    'fixed' => NULL,
+    'autoIncrement' => NULL,
   ),
 );
 

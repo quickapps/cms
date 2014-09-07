@@ -1,19 +1,5 @@
 <?php
-/**
- * Licensed under The GPL-3.0 License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @since	 1.0.0
- * @author	 Christopher Castro <chris@quickapps.es>
- * @link	 http://www.quickappscms.org
- * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
- */
-namespace QuickApps\Test\Fixture;
-
-use Cake\TestSuite\Fixture\TestFixture;
-
-class BlocksRolesFixture extends TestFixture {
+class NodeRevisionsFixture {
 
 	public $fields = array (
   '_constraints' => 
@@ -41,7 +27,7 @@ class BlocksRolesFixture extends TestFixture {
     'autoIncrement' => true,
     'precision' => NULL,
   ),
-  'block_id' => 
+  'node_id' => 
   array (
     'type' => 'integer',
     'length' => 11,
@@ -52,16 +38,33 @@ class BlocksRolesFixture extends TestFixture {
     'precision' => NULL,
     'autoIncrement' => NULL,
   ),
-  'role_id' => 
+  'data' => 
   array (
-    'type' => 'integer',
-    'length' => 10,
-    'unsigned' => false,
+    'type' => 'text',
+    'length' => NULL,
     'null' => false,
     'default' => NULL,
-    'comment' => 'The user’s role ID from roles table',
+    'comment' => '',
     'precision' => NULL,
-    'autoIncrement' => NULL,
+  ),
+  'hash' => 
+  array (
+    'type' => 'string',
+    'length' => 100,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'fixed' => NULL,
+  ),
+  'created' => 
+  array (
+    'type' => 'datetime',
+    'length' => NULL,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
   ),
 );
 

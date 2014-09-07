@@ -1,6 +1,19 @@
 <?php
+/**
+ * Licensed under The GPL-3.0 License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @since  1.0.0
+ * @author   Christopher Castro <chris@quickapps.es>
+ * @link   http://www.quickappscms.org
+ * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
+ */
+namespace QuickApps\Test\Fixture;
 
-class vocabularies {
+use Cake\TestSuite\Fixture\TestFixture;
+
+class EntitiesTermsFixture extends TestFixture {
 
 	public $fields = array (
   '_constraints' => 
@@ -19,8 +32,8 @@ class vocabularies {
   ),
   'id' => 
   array (
-    'type' => 'integer',
-    'length' => 10,
+    'type' => 'biginteger',
+    'length' => 20,
     'unsigned' => false,
     'null' => false,
     'default' => NULL,
@@ -28,72 +41,48 @@ class vocabularies {
     'autoIncrement' => true,
     'precision' => NULL,
   ),
-  'name' => 
-  array (
-    'type' => 'string',
-    'length' => 255,
-    'null' => false,
-    'default' => NULL,
-    'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ),
-  'slug' => 
-  array (
-    'type' => 'string',
-    'length' => 255,
-    'null' => false,
-    'default' => NULL,
-    'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ),
-  'description' => 
-  array (
-    'type' => 'text',
-    'length' => NULL,
-    'null' => true,
-    'default' => NULL,
-    'comment' => '',
-    'precision' => NULL,
-  ),
-  'ordering' => 
+  'entity_id' => 
   array (
     'type' => 'integer',
-    'length' => 11,
+    'length' => 20,
     'unsigned' => false,
-    'null' => true,
-    'default' => '0',
+    'null' => false,
+    'default' => NULL,
     'comment' => '',
     'precision' => NULL,
     'autoIncrement' => NULL,
   ),
-  'locked' => 
+  'term_id' => 
   array (
-    'type' => 'boolean',
-    'length' => NULL,
-    'null' => false,
-    'default' => '0',
-    'comment' => 'if set to 1 users can not delete this vocabulary',
-    'precision' => NULL,
-  ),
-  'modified' => 
-  array (
-    'type' => 'datetime',
-    'length' => NULL,
+    'type' => 'integer',
+    'length' => 20,
+    'unsigned' => false,
     'null' => false,
     'default' => NULL,
     'comment' => '',
     'precision' => NULL,
+    'autoIncrement' => NULL,
   ),
-  'created' => 
+  'field_instance_id' => 
   array (
-    'type' => 'datetime',
-    'length' => NULL,
+    'type' => 'integer',
+    'length' => 11,
+    'unsigned' => false,
     'null' => false,
     'default' => NULL,
     'comment' => '',
     'precision' => NULL,
+    'autoIncrement' => NULL,
+  ),
+  'table_alias' => 
+  array (
+    'type' => 'string',
+    'length' => 30,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'fixed' => NULL,
   ),
 );
 

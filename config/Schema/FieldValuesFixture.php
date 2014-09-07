@@ -1,6 +1,5 @@
 <?php
-
-class field_values {
+class FieldValuesFixture {
 
 	public $fields = array (
   '_constraints' => 

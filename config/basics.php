@@ -335,28 +335,26 @@ if (!function_exists('pluginName')) {
 }
 
 /**
- * Export entire database to PHP files.
+ * Export entire database to PHP fixtures.
  *
- * All generated PHP files will be placed in `/tmp/db/` directory. Each PHP
- * file is named same as the table it represents, for instance `users.php`
- * represents `users` table schema (and records).
+ * All generated PHP files will be placed in `/tmp/Fixture/` directory.
  * 
  * @param array $ignoreRecords List of table names to ignore, records will not
  *  be exported to the resulting PHP file (only its schema)
  * @return void
  */
-if (!function_exists('exportDatabase')) {
-	function exportDatabase($ignoreRecords = []) {
+if (!function_exists('exportFixtures')) {
+	function exportFixtures($ignoreRecords = []) {
 		$db = ConnectionManager::get('default');
 		$db->connect();
 		$schemaCollection = $db->schemaCollection();
 		$tables = $schemaCollection->listTables();
 
-		if (file_exists(TMP . 'db/')) {
-			$dst = new Folder(TMP . 'db/');
+		if (file_exists(TMP . 'Fixture/')) {
+			$dst = new Folder(TMP . 'Fixture/');
 			$dst->delete();
 		} else {
-			$dst = new Folder(TMP . 'db/', true);
+			$dst = new Folder(TMP . 'Fixture/', true);
 		}
 
 		foreach ($tables as $table) {
@@ -388,9 +386,9 @@ if (!function_exists('exportDatabase')) {
 				}
 			}
 
+			$className = Inflector::camelize($table) . 'Fixture';
 			$fixture = "<?php
-
-class {$table} {
+class {$className} {
 
 	public \$fields = " . var_export($fields, true) . ";
 
@@ -399,7 +397,7 @@ class {$table} {
 }
 
 ";
-			$file = new File(TMP . "db/{$table}.php", true);
+			$file = new File(TMP . "Fixture/{$className}.php", true);
 			$file->write($fixture, 'w', true);
 		}
 

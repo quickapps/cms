@@ -1,6 +1,5 @@
 <?php
-
-class menus {
+class NodeTypesFixture {
 
 	public $fields = array (
   '_constraints' => 
@@ -11,6 +10,17 @@ class menus {
       'columns' => 
       array (
         0 => 'id',
+      ),
+      'length' => 
+      array (
+      ),
+    ),
+    'slug' => 
+    array (
+      'type' => 'unique',
+      'columns' => 
+      array (
+        0 => 'slug',
       ),
       'length' => 
       array (
@@ -31,43 +41,44 @@ class menus {
   'slug' => 
   array (
     'type' => 'string',
-    'length' => 50,
+    'length' => 100,
     'null' => false,
     'default' => NULL,
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
   ),
-  'title' => 
+  'name' => 
   array (
     'type' => 'string',
-    'length' => 255,
+    'length' => 200,
     'null' => false,
     'default' => NULL,
-    'comment' => 'Menu title, displayed at top of block.',
+    'comment' => 'human-readable name',
     'precision' => NULL,
     'fixed' => NULL,
   ),
   'description' => 
   array (
-    'type' => 'text',
-    'length' => NULL,
-    'null' => true,
-    'default' => NULL,
-    'comment' => 'Menu description.',
-    'precision' => NULL,
-  ),
-  'handler' => 
-  array (
     'type' => 'string',
-    'length' => 100,
+    'length' => 255,
     'null' => false,
     'default' => NULL,
-    'comment' => 'Name of the plugin that created this menu.',
+    'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
   ),
-  'settings' => 
+  'title_label' => 
+  array (
+    'type' => 'string',
+    'length' => 80,
+    'null' => false,
+    'default' => NULL,
+    'comment' => 'the label displayed for the title field on the edit form.',
+    'precision' => NULL,
+    'fixed' => NULL,
+  ),
+  'defaults' => 
   array (
     'type' => 'text',
     'length' => NULL,
@@ -82,20 +93,11 @@ class menus {
   0 => 
   array (
     'id' => 1,
-    'slug' => 'management',
-    'title' => 'Management',
-    'description' => 'The Management menu contains links for administrative tasks.',
-    'handler' => 'System',
-    'settings' => NULL,
-  ),
-  1 => 
-  array (
-    'id' => 2,
-    'slug' => 'site-main-menu',
-    'title' => 'Site Main Menu',
-    'description' => 'The Site Main Menu is used on many sites to show the major sections of the site, often in a top navigation bar.',
-    'handler' => 'System',
-    'settings' => NULL,
+    'slug' => 'article',
+    'name' => 'Article',
+    'description' => 'Use articles for time-sensitive content like news, press releases or blog posts.',
+    'title_label' => 'Title',
+    'defaults' => 'a:7:{s:6:"status";s:1:"1";s:7:"promote";s:1:"1";s:6:"sticky";s:1:"1";s:11:"author_name";s:1:"1";s:9:"show_date";s:1:"1";s:14:"comment_status";s:1:"0";s:8:"language";s:0:"";}',
   ),
 );
 

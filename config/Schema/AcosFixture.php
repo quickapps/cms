@@ -1,6 +1,5 @@
 <?php
-
-class acos {
+class AcosFixture {
 
 	public $fields = array (
   '_constraints' => 
