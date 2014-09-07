@@ -134,7 +134,6 @@ class ManageController extends AppController {
 		if (!empty($this->request->data)) {
 			$data = $this->_prepareData();
 			$data['handler'] = 'Block';
-			$data['status'] = 1;
 			$block = $this->Blocks->patchEntity($block, $data);
 			$block->calculateDelta();
 

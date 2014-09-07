@@ -58,7 +58,8 @@ class ManageControllerTest extends ControllerTestCase {
  */
 	public function testIndex() {
 		$vars = $this->testAction('/admin/block/manage', ['return' => 'vars']);
-		$this->assertTrue(!empty($vars));
+		$this->assertNotEmpty($vars['front']);
+		$this->assertNotEmpty($vars['back']);
 	}
 
 /**
@@ -66,17 +67,27 @@ class ManageControllerTest extends ControllerTestCase {
  *
  * @return void
  */
-	public function testAddFail() {
-		$this->Controller
-			->Flash
-			->expects($this->once())
-			->method('__call')
-			->with($this->equalTo('danger'));
-
+	public function testAdd() {
 		$this->testAction('/admin/block/manage/add', [
 			'method' => 'POST',
-			'data' => ['a' => 'b'],
+			'data' => [
+				'title' => 'test block',
+				'description' => 'this is a test block',
+				'status' => 1,
+				'body' => 'What a block!',
+				'visibility' => 'only',
+				'pages' => '/',
+				'roles' => [
+					'_ids' => [1, 2, 3]
+				],
+			],
 		]);
+		$block = $this->Controller->Blocks
+			->find()
+			->where(['title' => 'test block'])
+			->limit(1)
+			->first();
+		$this->assertNotEmpty($block);
 	}
 
 /**
@@ -86,11 +97,58 @@ class ManageControllerTest extends ControllerTestCase {
  */
 	public function testEdit() {
 		$vars = $this->testAction('/admin/block/manage/edit/1', ['return' => 'vars']);
-		$this->assertTrue(
-			isset($vars['block']) &&
-			($vars['block'] instanceof \Block\Model\Entity\Block) &&
-			$vars['block']->id === 1
-		);
+		$this->assertNotEmpty($vars['block']);
+	}
+
+/**
+ * test edit + save action.
+ *
+ * @return void
+ */
+	public function testEditSave() {
+		$this->testAction('/admin/block/manage/edit/1', [
+			'method' => 'POST',
+			'data' => [
+				'title' => 'New Title',
+				'description' => 'this is a test block',
+				'status' => 1,
+				'body' => 'What a block!',
+				'visibility' => 'only',
+				'pages' => '/',
+			],
+		]);
+		$block = $this->Controller->Blocks->get(1);
+		$this->assertEquals('New Title', $block->title);
+	}
+
+/**
+ * test that non-custom blocks cannot be deleted.
+ *
+ * @return void
+ */
+	public function testDeleteNonCustom() {
+		$this->testAction('/admin/block/manage/delete/1');
+		$block = $this->Controller->Blocks
+			->find()
+			->where(['id' => 1])
+			->limit(1)
+			->first();
+		$this->assertNotEmpty($block);
+	}
+
+/**
+ * test duplicate action.
+ *
+ * @return void
+ */
+	public function testDuplicate() {
+		$this->testAction('/admin/block/manage/duplicate/1');
+		$block = $this->Controller->Blocks
+			->find()
+			->where(['copy_id' => 1])
+			->limit(1)
+			->first();
+		$this->assertNotEmpty($block);
 	}
 
 }
