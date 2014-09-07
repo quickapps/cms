@@ -15,7 +15,7 @@ use Cake\TestSuite\TestCase;
 use Field\Utility\FileToolbox;
 
 /**
- * RegionTest class.
+ * FileToolboxTest class.
  */
 class FileToolboxTest extends TestCase {
 
