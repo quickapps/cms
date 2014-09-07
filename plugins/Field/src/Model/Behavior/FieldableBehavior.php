@@ -1000,7 +1000,7 @@ class FieldableBehavior extends Behavior {
 				if (is_array($options['bundle'])) {
 					$tableAlias = [];
 					foreach ($options['bundle'] as $bundle) {
-						$tableAlias = $this->config('tableAlias') . ':' . $bundle;
+						$tableAlias[] = $this->config('tableAlias') . ':' . $bundle;
 					}
 				} else {
 					$tableAlias = $this->config('tableAlias') . ':' . $options['bundle'];
