@@ -31,7 +31,7 @@ class ImageToolboxTest extends TestCase {
  * Path to image test file.
  * 
  * @var string
- */	
+ */
 	public $img2;
 
 /**

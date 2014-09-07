@@ -787,7 +787,7 @@ class FieldableBehavior extends Behavior {
 
 		if ($entity->has('_fields')) {
 			$entityErrors = $entity->errors();
-			foreach ($entity->get('_fields') as &$field) {
+			foreach ($entity->get('_fields') as $field) {
 				$postName = ":{$field->name}";
 				$postData = $entity->get($postName);
 
