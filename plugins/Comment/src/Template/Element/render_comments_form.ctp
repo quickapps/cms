@@ -21,7 +21,7 @@
 	<section class="comments-form">
 		<header>
 			<h2><?php echo __d('comment', 'Post New Comment'); ?></h2>
-			<?php echo $this->Form->button(__d('comment', 'Cancel Reply'), ['class' => 'cancel-reply btn btn-default', 'onclick' => 'CommentForm.cancelReply();', 'style' => 'display:none;']); ?>
+			<p><?php echo $this->Form->button(__d('comment', 'Cancel Reply'), ['class' => 'cancel-reply btn btn-default btn-sm', 'onclick' => 'CommentForm.cancelReply();', 'style' => 'display:none;']); ?></p>
 			<span class="comments-form-alerts"><?php echo $this->Flash->render('commentsForm'); ?></span>
 		</header>
 

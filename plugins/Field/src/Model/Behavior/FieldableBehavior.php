@@ -631,7 +631,6 @@ class FieldableBehavior extends Behavior {
 		$pk = $this->_table->primaryKey();
 		$tableAlias = $this->_guessTableAlias($entity);
 		$instances = $this->_getTableFieldInstances($entity);
-		$FieldValues = $this->_getTable('Field.FieldValues');
 		$this->_cache['_FieldValues'] = [];
 
 		foreach ($instances as $instance) {
@@ -639,7 +638,8 @@ class FieldableBehavior extends Behavior {
 				$field = $this->_getMockField($entity, $instance);
 				$options['_post'] = $entity->get(":{$instance->slug}");
 
-				// auto-magic: automatically move to "extra" if an array was sent, "value" will be set to flattened extra
+				// auto-magic: automatically move POST data to "extra" if an array was sent,
+				// "value" will be set to flattened extra
 				if (is_array($options['_post'])) {
 					$value = array_values(Hash::flatten($options['_post']));
 					$field->set('value', implode(' ', $value));
@@ -650,7 +650,6 @@ class FieldableBehavior extends Behavior {
 				}
 
 				$fieldEvent = $this->hook(["Field.{$instance->handler}.Entity.beforeSave", $event->subject], $field, $options);
-
 				if ($fieldEvent->result === false) {
 					$entity = $this->attachEntityFields($entity);
 					return false;
@@ -673,7 +672,7 @@ class FieldableBehavior extends Behavior {
 				if ($entity->isNew()) {
 					$this->_cache['_FieldValues'][] = $valueEntity;
 				} else {
-					if (!$FieldValues->save($valueEntity)) {
+					if (!TableRegistry::get('Field.FieldValues')->save($valueEntity)) {
 						$entity = $this->attachEntityFields($entity);
 						$event->stopPropagation();
 						return false;
@@ -712,10 +711,9 @@ class FieldableBehavior extends Behavior {
 		// as we dont know entity's ID on before save, we have to delay EntityValues storage
 		// all this occurs inside a transaction so we are safe
 		if (!empty($this->_cache['_FieldValues'])) {
-			$FieldValues = $this->_getTable('Field.FieldValues');
 			foreach ($this->_cache['_FieldValues'] as $valueEntity) {
 				$valueEntity->set('entity_id', $entity->id);
-				$FieldValues->save($valueEntity);
+				TableRegistry::get('Field.FieldValues')->save($valueEntity);
 			}
 			$this->_cache['_FieldValues'] = [];
 		}
@@ -760,7 +758,6 @@ class FieldableBehavior extends Behavior {
 			if ($fieldEvent->isStopped()) {
 				$entity = $this->attachEntityFields($entity);
 				$event->stopPropagation();
-				$this->attachEntityFields($entity);
 				return $fieldEvent->result;
 			}
 		}
@@ -841,7 +838,6 @@ class FieldableBehavior extends Behavior {
 
 		$tableAlias = $this->_guessTableAlias($entity);
 		$instances = $this->_getTableFieldInstances($entity);
-		$FieldValues = $this->_getTable('Field.FieldValues');
 
 		foreach ($instances as $instance) {
 			// invoke fields beforeDelete so they can do its stuff
@@ -854,7 +850,8 @@ class FieldableBehavior extends Behavior {
 				return false;
 			}
 
-			$valueToDelete = $FieldValues->find()
+			$valueToDelete = TableRegistry::get('Field.FieldValues')
+				->find()
 				->where([
 					'entity_id' => $entity->get($this->_table->primaryKey()),
 					'table_alias' => $tableAlias,
@@ -863,8 +860,7 @@ class FieldableBehavior extends Behavior {
 				->first();
 
 			if ($valueToDelete) {
-				$success = $FieldValues->delete($valueToDelete);
-
+				$success = TableRegistry::get('Field.FieldValues')->delete($valueToDelete);
 				if (!$success) {
 					return false;
 				}
@@ -1036,7 +1032,7 @@ class FieldableBehavior extends Behavior {
 				}
 
 				$field_name = str_replace(':', '', $field_name);
-				$subQuery = $this->_getTable('Field.FieldValues')->find()
+				$subQuery = TableRegistry::get('Field.FieldValues')->find()
 					->select('entity_id')
 					->where([
 						"FieldValues.field_instance_slug" => $field_name,
@@ -1085,8 +1081,7 @@ class FieldableBehavior extends Behavior {
  */
 	protected function _getMockField($entity, $instance) {
 		$pk = $this->_table->primaryKey();
-		$FieldValues = $this->_getTable('Field.FieldValues');
-		$storedValue = $FieldValues->find()
+		$storedValue = TableRegistry::get('Field.FieldValues')->find()
 			->select(['id', 'value', 'extra'])
 			->where([
 				'FieldValues.field_instance_id' => $instance->id,
@@ -1181,16 +1176,6 @@ class FieldableBehavior extends Behavior {
 	}
 
 /**
- * Wrapper for TableRegistry::get().
- *
- * @param string $table Name of the table to load
- * @return \Cake\ORM\Table
- */
-	protected function _getTable($table) {
-		return TableRegistry::get($table);
-	}
-
-/**
  * Used to reduce database queries.
  *
  * @param \Cake\ORM\Entity $entity An entity used to guess table name
@@ -1202,7 +1187,7 @@ class FieldableBehavior extends Behavior {
 		if (isset($this->_cache["TableFieldInstances_{$tableAlias}"])) {
 			return $this->_cache["TableFieldInstances_{$tableAlias}"];
 		} else {
-			$FieldInstances = $this->_getTable('Field.FieldInstances');
+			$FieldInstances = TableRegistry::get('Field.FieldInstances');
 			$this->_cache["TableFieldInstances_{$tableAlias}"] = $FieldInstances->find()
 				->where(['FieldInstances.table_alias' => $tableAlias])
 				->order(['ordering' => 'ASC'])

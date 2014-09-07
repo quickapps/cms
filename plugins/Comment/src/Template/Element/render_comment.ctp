@@ -19,6 +19,10 @@
 
 <article id="comment-<?php echo $comment->id; ?>" class="comment">
 	<header>
+		<address class="author">
+			<?php echo $this->Html->image($comment->get('author')->avatar); ?>
+			<?php echo __d('comment', 'By @{0}', $comment->get('author')->name); ?>
+		</address>
 		<h3><?php echo $comment->subject; ?></h3>
 		<p class="date">
 			<?php
@@ -28,26 +32,23 @@
 				);
 			?>
 		</p>
-
-		<address class="author">
-			<?php echo $this->Html->image($comment->get('author')->avatar); ?>
-			<?php echo __d('comment', 'By @{0}', $comment->get('author')->name); ?>
-		</address>
 	</header>
 
 	<div class="message">
-		<?php echo $comment->body; ?>
-
-		<?php if ($comment->has('children') && !empty($comment->children)): ?>
-			<?php foreach($comment->children as $child): ?>
-				<?php echo $this->render($child); ?>
-			<?php endforeach; ?>
-		<?php endif; ?>
+		<p><?php echo $comment->body; ?></p>
 	</div>
+
+	<?php if ($comment->has('children') && !empty($comment->children)): ?>
+		<div calss="comment-answers">
+		<?php foreach($comment->children as $child): ?>
+			<?php echo $this->render($child); ?>
+		<?php endforeach; ?>
+		</div>
+	<?php endif; ?>
 
 	<footer>
 		<?php if ($this->Comment->config('visibility') === 1): ?>
-			<?php echo $this->Form->button(__d('comment', 'Reply'), ['class' => 'btn btn-default', 'onclick' => "CommentForm.replyTo({$comment->id});"]); ?>
+			<p><?php echo $this->Form->button(__d('comment', 'Reply'), ['class' => 'btn btn-default btn-sm', 'onclick' => "CommentForm.replyTo({$comment->id});"]); ?></p>
 		<?php endif; ?>
 	</footer>
 </article>

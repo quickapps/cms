@@ -193,7 +193,7 @@ class ServeController extends AppController {
 		// Post new comment logic
 		if ($node->comment_status > 0) {
 			$node->set('comments', $this->Nodes->find('comments', ['for' => $node->id]));
-			$this->Comment->config('settings.visibility', $node->comment_status);
+			$this->Comment->config('visibility', $node->comment_status);
 			$this->Comment->post($node);
 		}
 

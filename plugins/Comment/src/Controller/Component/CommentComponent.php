@@ -41,7 +41,7 @@ use User\Model\Entity\User;
  *     $this->Comment->render($entity);
  *
  *     // in any controller
- *     $this->Comment->config('settings.visibility', 1);
+ *     $this->Comment->config('visibility', 1);
  *
  * You can set `visibility` using this component at controller side, or using
  * CommentHelper as example above, accepted values are:
@@ -51,30 +51,6 @@ use User\Model\Entity\User;
  * - 2: Read Only; can't post new comments but can read existing ones.
  */
 class CommentComponent extends Component {
-
-/**
- * Default settings.
- *
- * @var array
- */
-	public static $defaultSettings = [
-		'visibility' => 0,
-		'auto_approve' => false,
-		'allow_anonymous' => false,
-		'anonymous_name' => false,
-		'anonymous_name_required' => true,
-		'anonymous_email' => false,
-		'anonymous_email_required' => true,
-		'anonymous_web' => false,
-		'anonymous_web_required' => true,
-		'text_processing' => 'plain',
-		'use_ayah' => false,
-		'ayah_publisher_key' => '',
-		'ayah_scoring_key' => '',
-		'use_akismet' => false,
-		'akismet_key' => '',
-		'akismet_action' => 'mark',
-	];
 
 /**
  * The controller this component is attached to.
@@ -144,7 +120,24 @@ class CommentComponent extends Component {
 			]
 		],
 		'validator' => false,
-		'settings' => [],
+		'settings' => [
+			'visibility' => 0,
+			'auto_approve' => false,
+			'allow_anonymous' => false,
+			'anonymous_name' => false,
+			'anonymous_name_required' => true,
+			'anonymous_email' => false,
+			'anonymous_email_required' => true,
+			'anonymous_web' => false,
+			'anonymous_web_required' => true,
+			'text_processing' => 'plain',
+			'use_ayah' => false,
+			'ayah_publisher_key' => '',
+			'ayah_scoring_key' => '',
+			'use_akismet' => false,
+			'akismet_key' => '',
+			'akismet_action' => 'mark',
+		],
 	];
 
 /**
@@ -182,12 +175,12 @@ class CommentComponent extends Component {
 		$this->_controller->set('__commentComponentLoaded__', true);
 		$this->_controller->set('_commentFormContext', $this->config('arrayContext'));
 
-		if ($this->config('settings.use_ayah') &&
-			$this->config('settings.ayah_publisher_key') &&
-			$this->config('settings.ayah_scoring_key')
+		if ($this->config('use_ayah') &&
+			$this->config('ayah_publisher_key') &&
+			$this->config('ayah_scoring_key')
 		) {
-			define('AYAH_PUBLISHER_KEY', $this->config('settings.ayah_publisher_key'));
-			define('AYAH_SCORING_KEY', $this->config('settings.ayah_scoring_key'));
+			define('AYAH_PUBLISHER_KEY', $this->config('ayah_publisher_key'));
+			define('AYAH_SCORING_KEY', $this->config('ayah_scoring_key'));
 			define('AYAH_WEB_SERVICE_HOST', 'ws.areyouahuman.com');
 			define('AYAH_TIMEOUT', 0);
 			define('AYAH_DEBUG_MODE', false);
@@ -203,6 +196,33 @@ class CommentComponent extends Component {
  */
 	public function beforeRender(Event $event) {
 		$this->_controller->helpers['Comment.Comment'] = $this->config('settings');
+	}
+
+/**
+ * Reads/writes settings for this component or for CommentHelper class.
+ * 
+ * @param string|array|null $key The key to get/set, or a complete array of configs.
+ * @param mixed|null $value The value to set.
+ * @param bool $merge Whether to merge or overwrite existing config, defaults to true.
+ * @return mixed Config value being read, or the object itself on write operations.
+ * @throws \Cake\Core\Exception\Exception When trying to set a key that is invalid.
+ */
+	public function config($key = null, $value = null, $merge = true) {
+		if ($key !== null && in_array($key, array_keys($this->_defaultConfig['settings']))) {
+			$key = "settings.{$key}";
+		}
+
+		if (!$this->_configInitialized) {
+			$this->_config = $this->_defaultConfig;
+			$this->_configInitialized = true;
+		}
+
+		if (is_array($key) || func_num_args() >= 2) {
+			$this->_configWrite($key, $value, $merge);
+			return $this;
+		}
+
+		return $this->_configRead($key);
 	}
 
 /**
@@ -354,7 +374,7 @@ class CommentComponent extends Component {
  * @return array
  */
 	protected function _loadSettings() {
-		$settings = Hash::merge(static::$defaultSettings, Plugin::info('Comment', true)['settings']);
+		$settings = Hash::merge($this->_defaultConfig['settings'], Plugin::info('Comment', true)['settings']);
 
 		foreach ($settings as $k => $v) {
 			$this->config("settings.{$k}", $v);

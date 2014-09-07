@@ -78,13 +78,13 @@ trait ViewModeAwareTrait {
  * ### Usage
  *
  *     // run this only on `teaser` view mode
- *     echo $this->onViewMode('teaser', function ($context) use ($someVar) {
- *         return $context->element('teaser_element', compact('someVar'));
+ *     echo $this->onViewMode('teaser', function () use ($someVar) {
+ *         return $this->element('teaser_element', compact('someVar'));
  *     });
  *
  *     // run this on "teaser" view mode, or "search-result" view mode
- *     echo $this->onViewMode(['teaser', 'search-result'], function ($context) use ($someVar) {
- *         return $context->element('teaser_or_search_result', compact('someVar'));
+ *     echo $this->onViewMode(['teaser', 'search-result'], function () use ($someVar) {
+ *         return $this->element('teaser_or_search_result', compact('someVar'));
  *     });
  * 
  * @param string|array $viewMode View Mode slug, or an array of slugs
@@ -94,7 +94,7 @@ trait ViewModeAwareTrait {
 	public function onViewMode($viewMode, callable $method) {
 		$viewMode = !is_array($viewMode) ? [$viewMode] : $viewMode;
 		if (in_array($this->inUseViewMode(), $viewMode)) {
-			return $method($this);
+			return $method();
 		}
 	}
 
@@ -105,7 +105,7 @@ trait ViewModeAwareTrait {
  *
  *     $this->switchMode('full');
  *     echo 'before: ' . $this->inUseViewMode();
- *     echo $this->asViewMode('teaser', function ($context) use ($someVar) {
+ *     echo $this->asViewMode('teaser', function () {
  *         echo 'callable: ' . $this->inUseViewMode();
  *     });
  *     echo 'after: ' . $this->inUseViewMode();
