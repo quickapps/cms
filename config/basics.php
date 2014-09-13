@@ -21,11 +21,14 @@ use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use QuickApps\Core\Plugin;
 
+if (!function_exists('snapshot')) {
+
 /**
  * Stores some bootstrap-handy information into a persistent file.
  *
- * Information is stored in `SITE/tmp/snapshot.php` file, it contains
- * useful information such as installed languages, content types slugs, etc.
+ * Information is stored in `TMP/snapshot.php` file, it contains
+ * useful information such as enabled languages, content types slugs, installed
+ * plugins, etc.
  *
  * You can read this information using `Configure::read()` as follow:
  *
@@ -37,7 +40,6 @@ use QuickApps\Core\Plugin;
  *
  * @return void
  */
-if (!function_exists('snapshot')) {
 	function snapshot() {
 		if (Cache::config('default')) {
 			Cache::clear(false, 'default');
@@ -200,7 +202,10 @@ if (!function_exists('snapshot')) {
 		Configure::write('QuickApps', $snapshot);
 		Configure::dump('snapshot.php', 'QuickApps', ['QuickApps']);
 	}
+
 }
+
+if (!function_exists('normalizePath')) {
 
 /**
  * Normalizes the given file system path, makes sure that all DIRECTORY_SEPARATOR
@@ -230,6 +235,10 @@ if (!function_exists('snapshot')) {
 		return str_replace("{$ds}{$ds}", $ds, $path);
 	}
 
+}
+
+if (!function_exists('quickapps')) {
+
 /**
  * Shortcut for reading QuickApps's snapshot configuration.
  *
@@ -241,14 +250,16 @@ if (!function_exists('snapshot')) {
  *  snapshot's info
  * @return mixed
  */
-if (!function_exists('quickapps')) {
 	function quickapps($key = null) {
 		if ($key !== null) {
 			return Configure::read("QuickApps.{$key}");
 		}
 		return Configure::read('QuickApps');
 	}
+
 }
+
+if (!function_exists('option')) {
 
 /**
  * Shortcut for getting an option value from "options" DB table.
@@ -267,7 +278,6 @@ if (!function_exists('quickapps')) {
  * @return mixed Current value for the specified option. If the specified option
  *  does not exist, returns boolean FALSE
  */
-if (!function_exists('option')) {
 	function option($name, $default = false) {
 		if (Configure::check("QuickApps.options.{$name}")) {
 			return Configure::read("QuickApps.options.{$name}");
@@ -285,14 +295,16 @@ if (!function_exists('option')) {
 
 		return $default;
 	}
+
 }
+
+if (!function_exists('listeners')) {
 
 /**
  * Returns a list of all registered event listeners in the system.
  * 
  * @return array
  */
-if (!function_exists('listeners')) {
 	function listeners() {
 		$class = new \ReflectionClass(EventManager::instance());
 		$property = $class->getProperty('_listeners');
@@ -300,7 +312,10 @@ if (!function_exists('listeners')) {
 		$listeners = array_keys($property->getValue(EventManager::instance()));
 		return $listeners;
 	}
+
 }
+
+if (!function_exists('pluginName')) {
 
 /**
  * Used to extract plugin names from composer's package names.
@@ -313,13 +328,12 @@ if (!function_exists('listeners')) {
  * Package names must follow the "author/app-name" pattern, there are two
  * "especial" composer's package names which are handled differently:
  *
- * - `php`: Will return "__PHP__"
- * - `quickapps/cms`: Will return "__QUICKAPPS__"
+ * - `php`: Will return "\_\_PHP\_\_"
+ * - `quickapps/cms`: Will return "\_\_QUICKAPPS\_\_"
  *
  * @param string $name Package name. e.g. author-name/package-name
  * @return string
  */
-if (!function_exists('pluginName')) {
 	function pluginName($name) {
 		$name = strtolower($name);
 		if ($name === 'php') {
@@ -332,7 +346,10 @@ if (!function_exists('pluginName')) {
 		$parts = explode('/', $name);
 		return Inflector::camelize(str_replace('-', '_', end($parts)));
 	}
+
 }
+
+if (!function_exists('exportFixtures')) {
 
 /**
  * Export entire database to PHP fixtures.
@@ -343,7 +360,6 @@ if (!function_exists('pluginName')) {
  *  be exported to the resulting PHP file (only its schema)
  * @return void
  */
-if (!function_exists('exportFixtures')) {
 	function exportFixtures($ignoreRecords = []) {
 		$db = ConnectionManager::get('default');
 		$db->connect();
@@ -402,7 +418,10 @@ class {$className} {
 		}
 
 	}
+
 }
+
+if (!function_exists('array_move')) {
 
 /**
  * Moves up or down the given element by index from a list array of elements.
@@ -420,7 +439,6 @@ class {$className} {
  * @param string $direction Direction, 'up' or 'down'
  * @return array Reordered original list.
  */
-if (!function_exists('array_move')) {
 	function array_move(array $list, $index, $direction) {
 		$maxIndex = count($list) - 1;
 		if ($direction == 'down') {
@@ -440,7 +458,10 @@ if (!function_exists('array_move')) {
 
 		return $list;
 	}
+
 }
+
+if (!function_exists('php_eval')) {
 
 /**
  * Evaluate a string of PHP code.
@@ -463,7 +484,6 @@ if (!function_exists('array_move')) {
  *  code can access this variables
  * @return mixed
  */
-if (!function_exists('php_eval')) {
 	function php_eval($code, $args = []) {
 		ob_start();
 		extract($args);
@@ -472,7 +492,10 @@ if (!function_exists('php_eval')) {
 		ob_end_clean();
 		return $output;
 	}
+
 }
+
+if (!function_exists('get_this_class_methods')) {
 
 /**
  * Return only the methods for the given object. It will strip out inherited
@@ -481,7 +504,6 @@ if (!function_exists('php_eval')) {
  * @param string $class Class name
  * @return array List of methods
  */
-if (!function_exists('get_this_class_methods')) {
 	function get_this_class_methods($class) {
 		$primary = get_class_methods($class);
 
@@ -494,7 +516,10 @@ if (!function_exists('get_this_class_methods')) {
 
 		return $methods;
 	}
+
 }
+
+if (!function_exists('str_replace_once')) {
 
 /**
  * Replace the first occurrence only.
@@ -509,7 +534,6 @@ if (!function_exists('get_this_class_methods')) {
  * @param string $subject The string being searched and replaced on
  * @return string A string with the replaced value
  */
-if (!function_exists('str_replace_once')) {
 	function str_replace_once($search, $replace, $subject) {
 		if (strpos($subject, $search) !== false) {
 			return substr_replace($subject, $replace, strpos($subject, $search), strlen($search));
@@ -517,7 +541,10 @@ if (!function_exists('str_replace_once')) {
 
 		return $subject;
 	}
+
 }
+
+if (!function_exists('str_replace_last')) {
 
 /**
  * Replace the last occurrence only.
@@ -532,7 +559,6 @@ if (!function_exists('str_replace_once')) {
  * @param string $subject The string being searched and replaced on
  * @return string A string with the replaced value
  */
-if (!function_exists('str_replace_last')) {
 	function str_replace_last($search, $replace, $subject) {
 		$pos = strrpos($subject, $search);
 		if($pos !== false) {
@@ -540,7 +566,10 @@ if (!function_exists('str_replace_last')) {
 		}
 		return $subject;
 	}
+
 }
+
+if (!function_exists('str_starts_with')) {
 
 /**
  * Check if $haystack string starts with $needle string.
@@ -554,13 +583,15 @@ if (!function_exists('str_replace_last')) {
  * @param string $needle
  * @return bool
  */
-if (!function_exists('str_starts_with')) {
 	function str_starts_with($haystack, $needle) {
 		return
 			$needle === '' ||
 			strpos($haystack, $needle) === 0;
 	}
+
 }
+
+if (!function_exists('str_ends_with')) {
 
 /**
  * Check if $haystack string ends with $needle string.
@@ -574,10 +605,10 @@ if (!function_exists('str_starts_with')) {
  * @param string $needle
  * @return bool
  */
-if (!function_exists('str_ends_with')) {
 	function str_ends_with($haystack, $needle) {
 		return
 			$needle === '' ||
 			substr($haystack, - strlen($needle)) === $needle;
 	}
+
 }
