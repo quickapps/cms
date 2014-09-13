@@ -94,6 +94,7 @@ class LinksController extends AppController {
  */
 	public function add($menu_id) {
 		$this->loadModel('Menu.Menus');
+		$this->loadModel('Node.Nodes');
 		$menu = $this->Menus->get($menu_id);
 		$link = $this->Menus->MenuLinks->newEntity();
 		$link->set([
@@ -132,6 +133,15 @@ class LinksController extends AppController {
 			}
 		}
 
+		$contentLinks = [];
+		$contents = $this->Nodes
+			->find()
+			->select(['id', 'slug', 'node_type_slug', 'title'])
+			->all();
+		foreach ($contents as $content) {
+			$contentLinks[$content->get('url')] =  __d('menu', '{0} [{1}]', $content->title, $content->node_type_slug);
+		}
+
 		$parentsTree = $this->Menus->MenuLinks
 			->find('treeList', ['spacer' => '--'])
 			->map(function($link) {
@@ -140,7 +150,7 @@ class LinksController extends AppController {
 				}
 				return $link;
 			});
-		$this->set(compact('menu', 'link', 'parentsTree'));
+		$this->set(compact('menu', 'link', 'contentLinks', 'parentsTree'));
 		$this->Breadcrumb
 			->push('/admin/menu/manage')
 			->push(__d('menu', 'Editing menu'), ['plugin' => 'Menu', 'controller' => 'manage', 'action' => 'edit', $menu_id])
@@ -156,6 +166,7 @@ class LinksController extends AppController {
  */
 	public function edit($id) {
 		$this->loadModel('Menu.MenuLinks');
+		$this->loadModel('Node.Nodes');
 		$link = $this->MenuLinks->get($id, ['contain' => ['Menus']]);
 
 		if (!empty($this->request->data)) {
@@ -180,7 +191,16 @@ class LinksController extends AppController {
 			}
 		}
 
-		$this->set('link', $link);
+		$contentLinks = [];
+		$contents = $this->Nodes
+			->find()
+			->select(['id', 'slug', 'node_type_slug', 'title'])
+			->all();
+		foreach ($contents as $content) {
+			$contentLinks[$content->get('url')] =  __d('menu', '{0} [{1}]', $content->title, $content->node_type_slug);
+		}
+
+		$this->set(compact('link', 'contentLinks'));
 		$this->Breadcrumb
 			->push('/admin/menu/manage')
 			->push(__d('menu', 'Editing menu'), ['plugin' => 'Menu', 'controller' => 'manage', 'action' => 'edit', $link->menu_id])

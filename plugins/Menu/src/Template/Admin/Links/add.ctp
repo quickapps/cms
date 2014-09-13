@@ -17,8 +17,11 @@
 		<?php echo $this->Form->input('title', ['label' => __d('menu', "Link's title *")]); ?>
 		<em class="help-block"><?php echo __d('menu', 'The text to be used for this link in the menu.'); ?></em>
 
-		<?php echo $this->Form->input('url', ['label' => __d('menu', 'URL')]); ?>
-		<em class="help-block"><?php echo __d('menu', 'The path for this menu link. This can be an internal QuickApps CMS path such as "/article/my-first-article.html" or an external URL such as http://quickappscms.org. Enter "/" to link to the front page.'); ?></em>
+		<?php echo $this->Form->input('url', ['label' => __d('menu', 'URL'), 'class' => 'link-url']); ?>
+		<?php echo $this->Form->input('content_link', ['type' => 'select', 'label' => __d('menu', 'Link to content'), 'options' => $contentLinks, 'value' => $link->url, 'empty' => true, 'onchange' => "$('.link-url').val(this.value);"]); ?>
+		<em class="help-block"><?php echo __d('menu', 'The path for this menu link. This can be an internal QuickApps CMS path such as "/article/my-first-article.html" or an external URL such as http://quickappscms.org. Enter "/" to link to the front page. You can easily link to an existing content using the "Link to content" option above.'); ?></em>
+
+		<hr />
 
 		<?php echo $this->Form->input('status', ['type' => 'checkbox', 'label' => __d('menu', 'Enabled')]); ?>
 		<em class="help-block"><?php echo __d('menu', 'Links that are not enabled will not be listed in any menu.'); ?></em>
@@ -75,7 +78,7 @@
 
 			<?php echo $this->Form->input('active', ['type' => 'textarea', 'label' => false]); ?>
 			<em class="help-block"><?php echo __d('menu', 'Specify pages by using their paths, enter one path per line. The <code>*</code> character is a wildcard. <code>/</code> is the front page.'); ?></em>
-			<em class="help-block"><?php echo __d('menu', 'If the PHP option is chosen, enter PHP code between <code><?php ... ?></code> tags. Examples:'); ?></em>
+			<em class="help-block"><?php echo __d('menu', 'If the PHP option is chosen, enter PHP code between <code>&lt;?php ... ?&gt;</code> tags. Examples:'); ?></em>
 			<em class="help-block"><?php echo __d('menu', '<code>/product/*.html</code> Matches any product page.'); ?></em>
 			<em class="help-block"><?php echo __d('menu', '<code>/find/*type:article*</code> Matches any search result containing articles.'); ?></em>
 			<em class="help-block"><?php echo __d('menu', "<code>/</code> Matches site's front page (a.k.a. site's index)."); ?></em>
