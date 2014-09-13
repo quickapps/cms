@@ -74,24 +74,24 @@ class SerializedType extends Type {
 			return false;
 		}
 		$data = trim($data);
-		if ('N;' == $data) {
+		if ($data == 'N;') {
 			return true;
 		}
 		if (strlen($data) < 4) {
 			return false;
 		}
-		if (':' !== $data[1]) {
+		if ($data[1] !== ':') {
 			return false;
 		}
 		$lastc = substr($data, -1);
-		if (';' !== $lastc && '}' !== $lastc) {
+		if ($lastc !== ';' && $lastc !== '}') {
 			return false;
 		}
 
 		$token = $data[0];
 		switch ($token) {
 			case 's' :
-				if ('"' !== substr($data, -2, 1)) {
+				if (substr($data, -2, 1) !== '"') {
 					return false;
 				}
 			case 'a' :
