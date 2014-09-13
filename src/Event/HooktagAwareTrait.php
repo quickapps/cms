@@ -19,6 +19,8 @@ use QuickApps\Event\HooktagManager;
  * A Hooktag is a QuickApps-specific code that lets you do nifty things with
  * very little effort. Hooktags can for example print current language code or
  * call specifics plugins/themes functions.
+ *
+ * @see QuickApps\Event\HooktagManager
  */
 trait HooktagAwareTrait {
 

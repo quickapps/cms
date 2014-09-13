@@ -88,7 +88,8 @@ trait ViewModeAwareTrait {
  *     });
  * 
  * @param string|array $viewMode View Mode slug, or an array of slugs
- * @param callable $method A callable function to run, it receives `$this` as only argument
+ * @param callable $method A callable function to run, it receives `$this` as
+ *  only argument
  * @return mixed Callable return
  */
 	public function onViewMode($viewMode, callable $method) {
@@ -116,7 +117,8 @@ trait ViewModeAwareTrait {
  *     after: full
  * 
  * @param string|array $viewMode View Mode slug, or an array of slugs
- * @param callable $method A callable function to run, it receives `$this` as only argument
+ * @param callable $method A callable function to run, it receives `$this` as
+ *  only argument
  * @return mixed Callable return
  */
 	public function asViewMode($viewMode, callable $method) {

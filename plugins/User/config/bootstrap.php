@@ -22,20 +22,31 @@ use User\Model\Entity\UserSession;
  * "roles" DB table.
  */
 if (!defined('ROLE_ID_ADMINISTRATOR')) {
+	/**
+	 * ID for "administrator" role, must match the ID stored in DB. You should
+	 * never change this value on production site.
+	 */
 	define('ROLE_ID_ADMINISTRATOR', 1);
 }
 
 if (!defined('ROLE_ID_AUTHENTICATED')) {
+	/**
+	 * ID for "authenticated" role, must match the ID stored in DB. You should
+	 * never change this value on production site.
+	 */
 	define('ROLE_ID_AUTHENTICATED', 2);
 }
 
 if (!defined('ROLE_ID_ANONYMOUS')) {
+	/**
+	 * ID for "anonymous" role, must match the ID stored in DB. You should
+	 * never change this value on production site.
+	 */
 	define('ROLE_ID_ANONYMOUS', 3);
 }
 
 /**
  * Used by CachedAuthorize.
- * 
  */
 Cache::config('permissions', [
 	'duration' => '+1 hour',

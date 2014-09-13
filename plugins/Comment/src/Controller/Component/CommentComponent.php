@@ -179,11 +179,34 @@ class CommentComponent extends Component {
 			$this->config('ayah_publisher_key') &&
 			$this->config('ayah_scoring_key')
 		) {
+			/**
+			 * @ignore
+			 */
 			define('AYAH_PUBLISHER_KEY', $this->config('ayah_publisher_key'));
+
+			/**
+			 * @ignore
+			 */
 			define('AYAH_SCORING_KEY', $this->config('ayah_scoring_key'));
+
+			/**
+			 * @ignore
+			 */
 			define('AYAH_WEB_SERVICE_HOST', 'ws.areyouahuman.com');
+
+			/**
+			 * @ignore
+			 */
 			define('AYAH_TIMEOUT', 0);
+
+			/**
+			 * @ignore
+			 */
 			define('AYAH_DEBUG_MODE', false);
+
+			/**
+			 * @ignore
+			 */
 			define('AYAH_USE_CURL', true);
 		}
 	}

@@ -89,13 +89,13 @@ class Plugin extends CakePlugin {
  * When $ignoreError is set to true and a corrupt plugin is found, it will
  * be removed from the resulting collection.
  *
- * @param boolean $extendedInfo Set to true to get extended information for each plugin,
- *  extended information includes "composer.json" and plugin's DB settings
- * @param boolean $ignoreError Set to true to ignore error messages when a corrupt
- *  plugin is found. Defaults to true
+ * @param boolean $extendedInfo Set to true to get extended information for each
+ *  plugin, extended information includes "composer.json" and plugin's DB settings
+ * @param boolean $ignoreError Set to true to ignore error messages when a
+ *  corrupt plugin is found. Defaults to true
  * @return \Cake\Collection\Collection
- * @throws \Cake\Error\FatalErrorException When a corrupt plugin is found and $ignoreError
- *  is set to false
+ * @throws \Cake\Error\FatalErrorException When a corrupt plugin is found and
+ *  $ignoreError is set to false
  */
 	public static function collection($extendedInfo = false, $ignoreError = true) {
 		$collection = collection(quickapps('plugins'));
@@ -283,8 +283,8 @@ class Plugin extends CakePlugin {
  *     // OR:
  *     Plugin::validateJson('/path/to/composer.json');
  * 
- * @param array|string $json JSON given as an array result of `json_decode(..., true)`,
- *  or a string as path to where .json file can be found
+ * @param array|string $json JSON given as an array result of
+ *  `json_decode(..., true)`, or a string as path to where .json file can be found
  * @param bool $errorMessages If set to true an array of error messages
  *  will be returned, if set to false boolean result will be returned; true on
  *  success, false on validation failure failure. Defaults to false (boolean result)
@@ -335,8 +335,8 @@ class Plugin extends CakePlugin {
  * Gets settings from DB for given plugin. Or reads a single settings key value.
  * 
  * @param string $plugin Plugin alias, e.g. `UserManager` or `user_manager`
- * @param string $key Which setting to read, the entire settings will be returned
- *  if no key is provided
+ * @param string $key Which setting to read, the entire settings will be
+ *  returned if no key is provided
  * @return mixed Array of settings if $key was not provided, or the requested
  *  value for the given $key (null of key does not exists)
  */
@@ -490,9 +490,9 @@ class Plugin extends CakePlugin {
  * Verify if there is any plugin that depends of $plugin.
  *
  * @param string $pluginName Plugin name to check
- * @return array A list of all plugin names that depends on $plugin, an empty array
- *  means that no other plugins depends on $plugin, so $plugin can be safely deleted
- *  or turned off.
+ * @return array A list of all plugin names that depends on $plugin, an empty
+ *  array means that no other plugins depends on $plugin, so $plugin can be
+ *  safely deleted or turned off.
  */
 	public static function checkReverseDependency($pluginName) {
 		$out = [];

@@ -31,8 +31,8 @@ class HooktagManager {
  *
  * @param string $content The content to parse
  * @param object $context The context for \Cake\Event\Event::$subject, if not
- *  given an instance of this HooktagManager class will be used
- * @return string Original string modified with no hooktags "[ ... ]"
+ *  given an instance of this class will be used
+ * @return string
  */
 	public static function hooktags($content, $context = null) {
 		if (strpos($content, '[') === false) {
@@ -49,8 +49,8 @@ class HooktagManager {
 	}
 
 /**
- * Removes all hooktags from the given content.
- * Useful for plain text converting.
+ * Removes all hooktags from the given content. Useful when converting a string
+ * to plain text.
  *
  * @param string $text Text from which to remove hooktags
  * @return string Content without hooktags markers

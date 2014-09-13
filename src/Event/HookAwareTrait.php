@@ -18,7 +18,7 @@ use QuickApps\Event\HookManager;
 /**
  * Provides hook() & alter() methods.
  *
- * @see QuickApps\Event\Hook
+ * @see QuickApps\Event\HookManager
  */
 trait HookAwareTrait {
 
