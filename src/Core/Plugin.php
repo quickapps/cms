@@ -345,6 +345,9 @@ class Plugin extends CakePlugin {
 		$cacheKey = "settings({$plugin})";
 
 		if ($cache = static::cache($cacheKey)) {
+			if ($key !== null) {
+				$cache = isset($cache[$key]) ? $cache[$key] : null;
+			}
 			return $cache;
 		}
 
