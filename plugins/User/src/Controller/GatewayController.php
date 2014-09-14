@@ -12,9 +12,11 @@
 namespace User\Controller;
 
 use Cake\Auth\DefaultPasswordHasher;
+use Cake\Cache\Cache;
 use Cake\Event\Event;
 use User\Controller\AppController;
 use Locale\Utility\LocaleToolbox;
+use QuickApps\Core\Plugin;
 
 /**
  * Gateway controller.
@@ -44,21 +46,61 @@ class GatewayController extends AppController {
 		$this->layout = 'login';
 
 		if ($this->request->is('post')) {
-			$user = $this->Auth->identify();
-			if ($user) {
-				$this->Auth->setUser($user);
-				if (!empty($user['id'])) {
-					try {
-						$user = $this->Users->get($user['id']);
-						if ($user) {
-							$this->Users->touch($user, 'Users.login');
-							$this->Users->save($user, ['validate' => false]);
-						}
-					} catch(\Exception $e) {}
+			$loginBlocking = Plugin::settings('User', 'failed_login_attempts') && Plugin::settings('User', 'failed_login_attempts_block_seconds');
+			$user = false;
+			$continue = true;
+			if ($loginBlocking) {
+				Cache::config('users_login', [
+					'duration' => '+' . Plugin::settings('User', 'failed_login_attempts_block_seconds') . ' seconds',
+					'path' => TMP,
+					'engine' => 'File',
+					'prefix' => 'qa_',
+					'groups' => ['acl']
+				]);
+
+				$cacheName = 'login_failed_' . env('REMOTE_ADDR');
+				$cache = Cache::read($cacheName, 'users_login');
+				$cacheStruct = [
+					'attempts' => 0,
+					'last_attempt' => 0,
+					'ip' => '',
+					'request_log' => []
+				];
+
+				if ($cache && $cache['attempts'] >= Plugin::settings('User', 'failed_login_attempts')) {
+					$this->Flash->warning(__d('user', 'You have reached the maximum number of login attempts. Try again in {0} minutes.', Plugin::settings('User', 'failed_login_attempts_block_seconds') / 60));
+					$continue = false;
 				}
-				return $this->redirect($this->Auth->redirectUrl());
-			} else {
-				$this->Flash->danger(__d('user', 'Username or password is incorrect.'));
+			}
+
+			if ($continue) {
+				$user = $this->Auth->identify();
+				if ($user) {
+					$this->Auth->setUser($user);
+					if (!empty($user['id'])) {
+						try {
+							$user = $this->Users->get($user['id']);
+							if ($user) {
+								$this->Users->touch($user, 'Users.login');
+								$this->Users->save($user, ['validate' => false]);
+							}
+						} catch(\Exception $e) {}
+					}
+					return $this->redirect($this->Auth->redirectUrl());
+				} else {
+					if ($loginBlocking) {
+						$cache = array_merge($cacheStruct, (array)$cache);
+						$cache['attempts'] += 1;
+						$cache['last_attempt'] = time();
+						$cache['ip'] = env('REMOTE_ADDR');
+						$cache['request_log'][] = [
+							'data' => $this->request->data,
+							'time' => time(),
+						];
+						Cache::write($cacheName, $cache, 'users_login');
+					}
+					$this->Flash->danger(__d('user', 'Username or password is incorrect.'));
+				}
 			}
 		}
 
