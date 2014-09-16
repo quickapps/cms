@@ -12,7 +12,6 @@
 
 /**
  * Renders all comments for the given entity.
- *
  */
 ?>
 

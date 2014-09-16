@@ -242,7 +242,8 @@ trait CommentUIControllerTrait {
 			$comment->accessible(['subject', 'body', 'author_name', 'author_email', 'author_web', 'status'], true);
 			$comment->set($this->request->data);
 
-			if ($this->Comments->save($comment, ['validate' => 'update'])) {
+			$validator = $comment->user_id ? 'default' : 'anonymous';
+			if ($this->Comments->save($comment, ['validate' => $validator, 'associated' => false])) {
 				$this->Flash->success(__d('comment', 'Comment saved!.'));
 				$this->redirect($this->referer());
 			} else {

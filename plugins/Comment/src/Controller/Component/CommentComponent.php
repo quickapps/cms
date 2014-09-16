@@ -120,24 +120,7 @@ class CommentComponent extends Component {
 			]
 		],
 		'validator' => false,
-		'settings' => [
-			'visibility' => 0,
-			'auto_approve' => false,
-			'allow_anonymous' => false,
-			'anonymous_name' => false,
-			'anonymous_name_required' => true,
-			'anonymous_email' => false,
-			'anonymous_email_required' => true,
-			'anonymous_web' => false,
-			'anonymous_web_required' => true,
-			'text_processing' => 'plain',
-			'use_ayah' => false,
-			'ayah_publisher_key' => '',
-			'ayah_scoring_key' => '',
-			'use_akismet' => false,
-			'akismet_key' => '',
-			'akismet_action' => 'mark',
-		],
+		'settings' => [], // auto-filled with Comment plugin's settings
 	];
 
 /**
@@ -149,6 +132,9 @@ class CommentComponent extends Component {
  * @return void
  */
 	public function __construct(ComponentRegistry $collection, array $config = array()) {
+		$this->_defaultConfig['settings'] = Plugin::settings('Comment');
+		$this->_defaultConfig['settings']['visibility'] = 0;
+		$this->_defaultConfig['errorMessage'] = __d('comment', 'Your comment could not be saved, please check your information.');
 		$this->_defaultConfig['successMessage'] = function () {
 			if (
 				$this->config('settings.auto_approve') ||
@@ -159,7 +145,6 @@ class CommentComponent extends Component {
 
 			return __d('comment', 'Your comment is awaiting moderation.');
 		};
-		$this->_defaultConfig['errorMessage'] = __d('comment', 'Your comment could not be saved, please check your information.');
 		parent::__construct($collection, $config);
 		$this->_loadSettings();
 	}
@@ -397,8 +382,7 @@ class CommentComponent extends Component {
  * @return array
  */
 	protected function _loadSettings() {
-		$settings = Hash::merge($this->_defaultConfig['settings'], Plugin::info('Comment', true)['settings']);
-
+		$settings = Plugin::settings('Comment');
 		foreach ($settings as $k => $v) {
 			$this->config("settings.{$k}", $v);
 		}

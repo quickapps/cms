@@ -101,8 +101,8 @@ class CommentsTable extends Table {
  * @param \Cake\Validation\Validator $validator The validator object
  * @return \Cake\Validation\Validator
  */
-	public function validationUpdate(Validator $validator) {
-		$settings = Hash::merge(CommentComponent::$defaultSettings, Plugin::info('Comment', true)['settings']);
+	public function validationAnonymous(Validator $validator) {
+		$settings = Plugin::settings('Comment');
 		$validator = $this->validationDefault($validator);
 
 		if ($settings['allow_anonymous']) {

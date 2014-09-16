@@ -56,16 +56,22 @@ class CommentHook implements EventListener {
  */
 	public function settingsDefaults(Event $event) {
 		return [
-			'allow_anonymous' => true,
-			'anonymous_name' => true,
-			'anonymous_name_required' => 1,
-			'anonymous_email' => true,
-			'anonymous_email_required' => 1,
+			'visibility' => 0,
+			'auto_approve' => false,
+			'allow_anonymous' => false,
+			'anonymous_name' => false,
+			'anonymous_name_required' => true,
+			'anonymous_email' => false,
+			'anonymous_email_required' => true,
 			'anonymous_web' => false,
-			'anonymous_web_required' => 0,
+			'anonymous_web_required' => true,
 			'text_processing' => 'plain',
 			'use_ayah' => false,
+			'ayah_publisher_key' => '',
+			'ayah_scoring_key' => '',
 			'use_akismet' => false,
+			'akismet_key' => '',
+			'akismet_action' => 'mark',
 		];
 	}
 
