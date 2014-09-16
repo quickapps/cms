@@ -33,10 +33,10 @@ use QuickApps\Event\HookAwareTrait;
  * directly in the "blocks" table and setting an appropriate `handler` name.
  * 
  * For example, `Taxonomy` plugin may create a new `Categories` block by inserting
- * its information in the "blocks" table, this new block should may have `Taxonomy`
- * has handler name.
+ * its information in the "blocks" table, this new block may have `Taxonomy` as
+ * handler name.
  *
- * Block's handler property is used to compose the event' name that is triggered
+ * Block's handler property is used to compose event's name that is triggered
  * when block is being rendered (or edited). Event's name follows the pattern below:
  *
  *     Block.<handler>.<display|settings>
@@ -46,8 +46,9 @@ use QuickApps\Event\HookAwareTrait;
  *
  *     Block.Block.display
  *
- * Event which is handled by this class. In the other hand, for the taxonomy example
- * above the following event will be triggered when rendering the `Categories` block:
+ * The event described above is handled by this class. In the other hand, for
+ * the taxonomy example described above the following event will be triggered
+ * when rendering the `Categories` block:
  *
  *     Block.Taxonomy.display
  *

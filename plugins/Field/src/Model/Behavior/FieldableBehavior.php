@@ -98,8 +98,8 @@ use QuickApps\Event\HookAwareTrait;
  *     - `settings`: Any extra information array handled by this particular field.
  *     - `view_modes`: Information about how this field should be rendered on each
  *        View Mode. Information is stored as `view-mode-name` => `rendering-information`.
- *     - `handler`: class name of the Field Handler under `Field` namespace.
- *        e.g.: `TextField` (namespaced name: `Field\TextField`)
+ *     - `handler`: Name of the Field Handler (without namespace). e.g.
+ *       `TaxonomyField` for `Taxonomy\Event\TaxonomyField` class.
  *     - `errors`: Array of validation error messages, only on edit mode.
  *     - `entity`: Entity object this field is attached to.
  *
