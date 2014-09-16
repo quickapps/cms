@@ -98,14 +98,17 @@ trait CommentUIControllerTrait {
 		}
 
 		$this->_manageTable = Inflector::underscore($this->_manageTable);
-		$this->addComponent('Paginator');
-		$this->addComponent('Comment.Comment');
 		$this->helpers[] = 'Time';
 		$this->helpers['Paginator'] = [
 			'className' => 'QuickApps\View\Helper\PaginatorHelper',
 			'templates' => 'System.paginator-templates.php',
 		];
 		$this->paginate['limit'] = 10;
+
+		$this->addComponent('Paginator');
+		$this->addComponent('Comment.Comment');
+		$initializeEvent = new Event('Component.initialize', $this);
+		$this->Comment->initialize($initializeEvent);
 	}
 
 /**
@@ -224,7 +227,6 @@ trait CommentUIControllerTrait {
  */
 	public function edit($id) {
 		$this->loadModel('Comment.Comments');
-		$_settings = Hash::merge(CommentComponent::$defaultSettings, Plugin::info('Comment', true)['settings']);
 		$comment = $this->Comments
 			->find()
 			->contain(['Users'])
@@ -248,7 +250,6 @@ trait CommentUIControllerTrait {
 			}
 		}
 
-		$this->set('_settings', $_settings);
 		$this->set('comment', $comment);
 	}
 

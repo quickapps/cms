@@ -18,17 +18,17 @@
 		<?php if (!$comment->user_id): ?>
 			<?php
 				echo $this->Form->input('author_name', [
-					'label' => ($_settings['anonymous_name_required'] ? __d('comment', 'Author Name *') : __d('comment', 'Author Name')),
+					'label' => ($this->Comment->config('anonymous_name_required') ? __d('comment', 'Author Name *') : __d('comment', 'Author Name')),
 				]);
 			?>
 			<?php
 				echo $this->Form->input('author_email', [
-					'label' => ($_settings['anonymous_name_required'] ? __d('comment', 'Author e-Mail *') : __d('comment', 'Author e-Mail')),
+					'label' => ($this->Comment->config('anonymous_email_required') ? __d('comment', 'Author e-Mail *') : __d('comment', 'Author e-Mail')),
 				]);
 			?>
 			<?php
 				echo $this->Form->input('author_web', [
-					'label' => ($_settings['anonymous_name_required'] ? __d('comment', 'Author Website *') : __d('comment', 'Author Website')),
+					'label' => ($this->Comment->config('anonymous_web_required') ? __d('comment', 'Author Website *') : __d('comment', 'Author Website')),
 				]);
 			?>
 		<?php else: ?>
