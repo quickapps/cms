@@ -22,7 +22,7 @@ use QuickApps\View\ViewModeAwareTrait;
  * - name: Machine name of this field. ex. `user-age`. (Schema equivalent: column name)
  * - label: Human readable name of this field e.g.: `User Last name`.
  * - value: Value for this [FieldInstance, Entity] tuple. (Schema equivalent: cell value).
- * - extra: Extra information related to `value` or raw information.
+ * - raw: Raw `value`.
  * - metadata:
  *   - field_value_id: ID of the value stored in `field_values` table (from where `value` comes from).
  *   - field_instance_id: ID of field instance (`field_instances` table) attached to Table.
@@ -74,7 +74,7 @@ class Field extends Entity {
 			'name' => $this->get('name'),
 			'label' => $this->get('label'),
 			'value' => $this->get('value'),
-			'extra' => $this->get('extra'),
+			'raw' => $this->get('raw'),
 			'metadata' => [
 				'field_value_id' => $this->get('metadata')->get('field_value_id'),
 				'field_instance_id' => $this->get('metadata')->get('field_instance_id'),

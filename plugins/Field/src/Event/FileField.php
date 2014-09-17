@@ -16,7 +16,7 @@ use Cake\Filesystem\File;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
-use Field\Core\FieldHandler;
+use Field\Event\FieldHandler;
 use Field\Model\Entity\Field;
 use Field\Utility\TextToolbox;
 
@@ -52,18 +52,18 @@ class FileField extends FieldHandler {
  * {@inheritDoc}
  */
 	public function entityFieldAttached(Event $event, Field $field) {
-		$extra = (array)$field->extra;
-		if (!empty($extra)) {
-			$newExtra = [];
-			foreach ($extra as $file) {
-				$newExtra[] = array_merge([
+		$raw = (array)$field->raw;
+		if (!empty($raw)) {
+			$newRaw = [];
+			foreach ($raw as $file) {
+				$newRaw[] = array_merge([
 					'mime_icon' => '',
 					'file_name' => '',
 					'file_size' => '',
 					'description' => '',
 				], (array)$file);
 			}
-			$field->set('extra', $newExtra);
+			$field->set('raw', $newRaw);
 		}
 	}
 
@@ -96,14 +96,14 @@ class FileField extends FieldHandler {
 				$value[] = trim("{$file['file_name']} {$file['description']}");
 			}
 			$field->set('value', implode(' ', $value));
-			$field->set('extra', $files);
+			$field->set('raw', $files);
 		}
 
 		if ($field->metadata->field_value_id) {
 			$newFileNames = Hash::extract($files, '{n}.file_name');
 			$prevFiles = (array)TableRegistry::get('Field.FieldValues')
 				->get($field->metadata->field_value_id)
-				->extra;
+				->raw;
 
 			foreach ($prevFiles as $f) {
 				if (!in_array($f['file_name'], $newFileNames)) {
@@ -201,14 +201,14 @@ class FileField extends FieldHandler {
  * {@inheritDoc}
  */
 	public function entityAfterValidate(Event $event, Field $field, $options, $validator) {
-		// removes the "dummy" input from extra if exists
-		$extra = [];
-		foreach ((array)$field->extra as $k => $v) {
+		// removes the "dummy" input from raw if exists
+		$raw = [];
+		foreach ((array)$field->raw as $k => $v) {
 			if (is_integer($k)) {
-				$extra[] = $v;
+				$raw[] = $v;
 			}
 		}
-		$field->set('extra', $extra);
+		$field->set('raw', $raw);
 		return true;
 	}
 

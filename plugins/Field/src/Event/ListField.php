@@ -12,7 +12,7 @@
 namespace Field\Event;
 
 use Cake\Event\Event;
-use Field\Core\FieldHandler;
+use Field\Event\FieldHandler;
 use Field\Model\Entity\Field;
 use Field\Utility\TextToolbox;
 
@@ -60,7 +60,7 @@ class ListField extends FieldHandler {
 			$value = implode(' ', array_values($value));
 		}
 		$field->set('value', $value);
-		$field->set('extra', $options['_post']); // force it to be a string if it is
+		$field->set('raw', $options['_post']); // force it to be a string if it is
 	}
 
 /**

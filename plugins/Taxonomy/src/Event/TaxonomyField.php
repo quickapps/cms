@@ -14,7 +14,7 @@ namespace Taxonomy\Event;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
-use Field\Core\FieldHandler;
+use Field\Event\FieldHandler;
 use Field\Model\Entity\Field;
 
 /**
@@ -98,19 +98,19 @@ class TaxonomyField extends FieldHandler {
 					}
 				}
 			}
-			$field->set('extra', array_unique($termIds));
+			$field->set('raw', array_unique($termIds));
 		} else {
 			// single value given (radio)
 			if (!is_array($options['_post'])) {
 				$options['_post'] = [$options['_post']];
 			}
-			$field->set('extra', array_unique($options['_post']));
+			$field->set('raw', array_unique($options['_post']));
 		}
 
 		$termsNames = $TermsTable
 			->find()
 			->select(['name'])
-			->where(['id IN' => $field->extra])
+			->where(['id IN' => $field->raw])
 			->all()
 			->extract('name')
 			->toArray();
@@ -129,14 +129,14 @@ class TaxonomyField extends FieldHandler {
 		if ($entity->has($pk)) {
 			$TermsCache = TableRegistry::get('Taxonomy.EntitiesTerms');
 			$table_alias = Inflector::underscore($event->subject->alias());
-			$extra = !is_array($field->extra) ? [$field->extra] : $field->extra;
+			$raw = !is_array($field->raw) ? [$field->raw] : $field->raw;
 			$TermsCache->deleteAll([
 				'entity_id' => $entity->get($pk),
 				'table_alias' => $table_alias,
 				'field_instance_id' => $field->metadata->field_instance_id,
 			]);
 
-			foreach ($extra as $term_id) {
+			foreach ($raw as $term_id) {
 				$cacheEntity = $TermsCache->newEntity([
 					'entity_id' => $entity->get($pk),
 					'term_id' => $term_id,

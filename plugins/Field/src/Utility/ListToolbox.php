@@ -66,10 +66,10 @@ class ListToolbox {
 		}
 
 		$selectedOptions = [];
-		if (is_string($field->extra)) {
-			$selectedOptions = [$field->extra];
+		if (is_string($field->raw)) {
+			$selectedOptions = [$field->raw];
 		} else {
-			$selectedOptions = (array)$field->extra;
+			$selectedOptions = (array)$field->raw;
 		}
 
 		foreach ($selectedOptions as $key) {

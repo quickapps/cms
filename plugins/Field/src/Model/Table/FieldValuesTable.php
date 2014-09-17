@@ -29,7 +29,7 @@ class FieldValuesTable extends Table {
  * @return \Cake\Database\Schema\Table the altered schema
  */
 	protected function _initializeSchema(Schema $table) {
-		$table->columnType('extra', 'serialized');
+		$table->columnType('raw', 'serialized');
 		return $table;
 	}
 

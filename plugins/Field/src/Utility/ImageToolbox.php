@@ -47,7 +47,7 @@ class ImageToolbox extends FileToolbox {
 		$out = '';
 		$viewModeSettings = $field->view_mode_settings;
 
-		foreach ((array)$field->extra as $image) {
+		foreach ((array)$field->raw as $image) {
 			if (!empty($image['file_name'])) {
 				$img = '';
 				$originalURL = normalizePath("/files/{$field->metadata->settings['upload_folder']}/{$image['file_name']}", '/');

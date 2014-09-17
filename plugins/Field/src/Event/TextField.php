@@ -13,7 +13,7 @@ namespace Field\Event;
 
 use Cake\ORM\Entity;
 use Cake\Event\Event;
-use Field\Core\FieldHandler;
+use Field\Event\FieldHandler;
 use Field\Model\Entity\Field;
 use Field\Utility\TextToolbox;
 

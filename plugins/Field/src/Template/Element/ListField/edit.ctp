@@ -25,7 +25,7 @@
 	if (!empty($field->metadata->errors) && isset($this->request->data[":{$field->name}"])) {
 		$selected = $this->request->data[":{$field->name}"];
 	} else {
-		$selected = $field->extra;
+		$selected = $field->raw;
 	}
 
 	if ($field->metadata->settings['type'] === 'checkbox') {

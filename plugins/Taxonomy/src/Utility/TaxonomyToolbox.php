@@ -59,7 +59,7 @@ class TaxonomyToolbox {
 		$glue = ' ';
 		$terms = TableRegistry::get('Taxonomy.Terms')
 			->find()
-			->where(['id IN' => (array)$field->extra])
+			->where(['id IN' => (array)$field->raw])
 			->all();
 
 		if (!empty($field->view_mode_settings['link_template'])) {

@@ -21,7 +21,7 @@ use Cake\ORM\TableRegistry;
 	$terms = TableRegistry::get('Taxonomy.Terms')
 		->find()
 		->select(['id', 'name'])
-		->where(['id IN' => (array)$field->extra])
+		->where(['id IN' => (array)$field->raw])
 		->all();
 	foreach ($terms as $term) {
 		$prePopulate[] = "{id: {$term->id}, name: \"{$term->name}\"}";

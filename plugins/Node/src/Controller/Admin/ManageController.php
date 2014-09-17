@@ -150,7 +150,7 @@ class ManageController extends AppController {
 						$fieldRevision = $_fieldsRevision[$field->name];
 						if ($fieldRevision) {
 							$field->set('value', $fieldRevision->value);
-							$field->set('extra', $fieldRevision->extra);
+							$field->set('raw', $fieldRevision->raw);
 						}
 						return $field;
 					});

@@ -9,7 +9,7 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Field\Core;
+namespace Field\Event;
 
 use Cake\Event\Event;
 use Cake\Event\EventListener;

@@ -16,7 +16,7 @@ use Cake\Filesystem\File;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
-use Field\Core\FieldHandler;
+use Field\Event\FieldHandler;
 use Field\Model\Entity\Field;
 use Field\Utility\FileToolbox;
 use Field\Utility\ImageToolbox;
@@ -53,11 +53,11 @@ class ImageField extends FieldHandler {
  * {@inheritDoc}
  */
 	public function entityFieldAttached(Event $event, Field $field) {
-		$extra = (array)$field->extra;
-		if (!empty($extra)) {
-			$newExtra = [];
-			foreach ($extra as $file) {
-				$newExtra[] = array_merge([
+		$raw = (array)$field->raw;
+		if (!empty($raw)) {
+			$newRaw = [];
+			foreach ($raw as $file) {
+				$newRaw[] = array_merge([
 					'mime_icon' => '',
 					'file_name' => '',
 					'file_size' => '',
@@ -65,7 +65,7 @@ class ImageField extends FieldHandler {
 					'alt' => '',
 				], (array)$file);
 			}
-			$field->set('extra', $newExtra);
+			$field->set('raw', $newRaw);
 		}
 	}
 
@@ -99,14 +99,14 @@ class ImageField extends FieldHandler {
 				$value[] = trim("{$file['file_name']} {$file['title']} {$file['alt']}");
 			}
 			$field->set('value', implode(' ', $value));
-			$field->set('extra', $files);
+			$field->set('raw', $files);
 		}
 
 		if ($field->metadata->field_value_id) {
 			$newFileNames = Hash::extract($files, '{n}.file_name');
 			$prevFiles = (array)TableRegistry::get('Field.FieldValues')
 				->get($field->metadata->field_value_id)
-				->extra;
+				->raw;
 
 			foreach ($prevFiles as $f) {
 				if (!in_array($f['file_name'], $newFileNames)) {
@@ -204,14 +204,14 @@ class ImageField extends FieldHandler {
  * {@inheritDoc}
  */
 	public function entityAfterValidate(Event $event, Field $field, $options, $validator) {
-		// removes the "dummy" input from extra if exists
-		$extra = [];
-		foreach ((array)$field->extra as $k => $v) {
+		// removes the "dummy" input from raw if exists
+		$raw = [];
+		foreach ((array)$field->raw as $k => $v) {
 			if (is_integer($k)) {
-				$extra[] = $v;
+				$raw[] = $v;
 			}
 		}
-		$field->set('extra', $extra);
+		$field->set('raw', $raw);
 		return true;
 	}
 
@@ -226,7 +226,7 @@ class ImageField extends FieldHandler {
  * {@inheritDoc}
  */
 	public function entityAfterDelete(Event $event, Field $field, $options) {
-		foreach ((array)$field->extra as $image) {
+		foreach ((array)$field->raw as $image) {
 			if (!empty($image['file_name'])) {
 				ImageToolbox::delete(WWW_ROOT . "/files/{$field->settings['upload_folder']}/{$image['file_name']}");
 			}

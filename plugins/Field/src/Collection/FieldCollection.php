@@ -9,7 +9,7 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Field\Core;
+namespace Field\Collection;
 
 use ArrayObject;
 use Cake\Collection\CollectionTrait;
@@ -46,14 +46,14 @@ class FieldCollection extends ArrayObject {
  *             [name] => user-age,
  *             [label] => User Age,
  *             [value] => 22,
- *             [extra] => null,
+ *             [raw] => null,
  *             [metadata] => [ ... ]
  *         ],
  *         [1] => [
  *             [name] => user-phone,
  *             [label] => User Phone,
  *             [value] => null,
- *             [extra] => null,
+ *             [raw] => null,
  *             [metadata] => [ ... ]
  *         ]
  *    ];
@@ -100,7 +100,7 @@ class FieldCollection extends ArrayObject {
  *
  * @param string $viewMode View mode slug to use for sorting
  * @param int $dir either SORT_DESC or SORT_ASC
- * @return \Field\Core\FieldCollection
+ * @return \Field\Collection\FieldCollection
  */
 	public function sortByViewMode($viewMode, $dir = SORT_ASC) {
 		$items = [];

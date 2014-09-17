@@ -442,8 +442,8 @@ class NodesTable extends Table {
 				if ($property == '_fields') {
 					foreach ($entity->get('_fields') as $field) {
 						if ($field instanceof \Field\Model\Entity\Field) {
-							$extra = is_object($field->extra) || is_array($field->extra) ? serialize($field->extra) : $field->extra;
-							$hash[] = $field->value . $extra;
+							$raw = is_object($field->raw) || is_array($field->raw) ? serialize($field->raw) : $field->raw;
+							$hash[] = $field->value . $raw;
 						}
 					}
 				} else {

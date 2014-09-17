@@ -21,7 +21,7 @@ use Cake\ORM\Query;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use Field\Error\InvalidBundle;
-use Field\Core\FieldCollection;
+use Field\Collection\FieldCollection;
 use Field\Model\Entity\Field;
 use Field\Model\Entity\FieldValue;
 use QuickApps\Event\HookAwareTrait;
@@ -60,14 +60,14 @@ use QuickApps\Event\HookAwareTrait;
  *             [name] => user-age,
  *             [label] => User Age,
  *             [value] => 22,
- *             [extra] => null,
+ *             [raw] => null,
  *             [metadata] => [ ... ]
  *         ],
  *         [1] => [
  *             [name] => user-phone,
  *             [label] => User Phone,
  *             [value] => null, // no data stored
- *             [extra] => null, // no data stored
+ *             [raw] => null, // no data stored
  *             [metadata] => [ ... ]
  *         ],
  *         ...
@@ -86,7 +86,7 @@ use QuickApps\Event\HookAwareTrait;
  * -  `name`: Machine-name of this field. ex. `article-body` (Schema equivalent: column name).
  * -  `label`: Human readable name of this field e.g.: `User Last name`.
  * -  `value`: Value for this [field, entity] tuple. (Schema equivalent: cell value)
- * -  `extra`: Extra data for Field Handler.
+ * -  `raw`: Raw value data.
  * -  `metadata`: Metadata (an Entity Object).
  *     - `field_value_id`: ID of the value stored in `field_values` table.
  *     - `field_instance_id`: ID of field instance (`field_instances` table)
@@ -107,7 +107,7 @@ use QuickApps\Event\HookAwareTrait;
  *
  * -    The `metadata` key on every field is actually an entity object.
  * -    The `_field` key which holds all the fields is actually an instance of
- *      `Field/Core/FieldCollection`, which behaves as an array
+ *      `Field/Collection/FieldCollection`, which behaves as an array
  *      (so you can iterate over it). It adds some utility methods for handling
  *      fields, for instance it allows you to access an specific field by its
  *      corresponding numeric index or by its machine-name.
@@ -140,23 +140,23 @@ use QuickApps\Event\HookAwareTrait;
  * `Users` table has a custom field attached (first-name), and we are looking for
  * all the users whose `first-name` starts with `John`.
  *
- * ## Value vs Extra
+ * ## Value vs Raw
  *
  * In the "Entity Example" above you might notice that each field attached to
- * entities has two properties that looks pretty similar, `value` and `extra`,
+ * entities has two properties that looks pretty similar, `value` and `raw`,
  * as both are intended to store information. Here we explain the "why" of this.
  *
  * Field Handlers may store complex information or structures. For example,
  * `AlbumField` handler may store a list of photos for each entity. In those cases
- * you should use the `extra` property to store your array list of photos, while
+ * you should use the `raw` property to store your array list of photos, while
  * `value` property should always store a Human-Readable representation of
  * your field's value.
  *
  * In our `AlbumField` example, we could store an array list of file names and titles
- * for a given entity under the `extra` property. And we could save photo's titles as
+ * for a given entity under the `raw` property. And we could save photo's titles as
  * space-separated values under `value` property:
  *
- *     // extra:
+ *     // raw:
  *     [photos] => [
  *         ['title' => 'OMG!', 'file' => 'omg.jpg'],
  *         ['title' => 'Look at this, lol', 'file' => 'cats-fighting.gif'],
@@ -167,24 +167,24 @@ use QuickApps\Event\HookAwareTrait;
  *     OMG! Look at this lol Fuuuu
  *
  * In our example when rendering an entity with `AlbumField` attached to it,
- * `AlbumField` should use `extra` information to create a representation of
+ * `AlbumField` should use `raw` information to create a representation of
  * itself, while `value` information would acts like some kind of `words index`
  * when using `Searching over custom fields` feature described above.
  *
  * **Important:**
  *
- * - FieldableBehavior automatically serializes & unserializes the `extra`
- *   property for you, so you should always treat `extra` as an array.
+ * - FieldableBehavior automatically serializes & unserializes the `raw`
+ *   property for you, so you should always treat `raw` as an array.
  * - `Search over fields` feature described above uses the `value` property
  *    when looking for matches. So in this way your entities can be found when
  *    using Field's machine-name in WHERE clauses.
- * - Using `extra` is not mandatory, for instance your Field Handler could use
- *   an additional table schema to store entities information and leave `extra`
+ * - Using `raw` is not mandatory, for instance your Field Handler could use
+ *   an additional table schema to store entities information and leave `raw`
  *   as NULL. In that case, your Field Handler must take care of joining entities
  *   with that external table of information.
  *
  * **Summarizing:** `value` is intended to store `plain text` information suitable
- * for searches, while `extra` is intended to store sets of complex information.
+ * for searches, while `raw` is intended to store sets of complex information.
  *
  * ***
  *
@@ -608,7 +608,7 @@ class FieldableBehavior extends Behavior {
  *
  *     $options['_post']: $_POST information for this [entity, field_instance] tuple.
  *
- * Field Handlers should **alter** `$field->value` and `$field->extra`
+ * Field Handlers should **alter** `$field->value` and `$field->raw`
  * according to its needs **using $options['_post']**.
  *
  * **NOTE:** Returning boolean FALSE will halt the whole Entity's save operation.
@@ -638,15 +638,15 @@ class FieldableBehavior extends Behavior {
 				$field = $this->_getMockField($entity, $instance);
 				$options['_post'] = $entity->get(":{$instance->slug}");
 
-				// auto-magic: automatically move POST data to "extra" if an array was sent,
-				// "value" will be set to flattened extra
+				// auto-magic: automatically move POST data to "raw" if an array was sent,
+				// "value" will be set to flattened raw
 				if (is_array($options['_post'])) {
 					$value = array_values(Hash::flatten($options['_post']));
 					$field->set('value', implode(' ', $value));
-					$field->set('extra', $options['_post']);
+					$field->set('raw', $options['_post']);
 				} else {
 					$field->set('value', $options['_post']);
-					$field->set('extra', []);
+					$field->set('raw', []);
 				}
 
 				$fieldEvent = $this->hook(["Field.{$instance->handler}.Entity.beforeSave", $event->subject], $field, $options);
@@ -666,7 +666,7 @@ class FieldableBehavior extends Behavior {
 					'entity_id' => $entity->{$pk},
 					'table_alias' => $tableAlias,
 					'value' => $field->value,
-					'extra' => $field->extra,
+					'raw' => $field->raw,
 				]);
 
 				if ($entity->isNew()) {
@@ -793,7 +793,7 @@ class FieldableBehavior extends Behavior {
 
 				if (!empty($entityErrors[$postName])) {
 					if (is_array($postData)) {
-						$field->set('extra', $postData);
+						$field->set('raw', $postData);
 					} elseif (is_string($postData)) {
 						$field->set('value', $postData);
 					}
@@ -969,7 +969,7 @@ class FieldableBehavior extends Behavior {
 				if (is_string($value)) {
 					$mock->set('value', $value);
 				} else {
-					$mock->set('extra', $value);
+					$mock->set('raw', $value);
 				}
 			}
 
@@ -1082,7 +1082,7 @@ class FieldableBehavior extends Behavior {
 	protected function _getMockField($entity, $instance) {
 		$pk = $this->_table->primaryKey();
 		$storedValue = TableRegistry::get('Field.FieldValues')->find()
-			->select(['id', 'value', 'extra'])
+			->select(['id', 'value', 'raw'])
 			->where([
 				'FieldValues.field_instance_id' => $instance->id,
 				'FieldValues.table_alias' => $this->_guessTableAlias($entity),
@@ -1095,7 +1095,7 @@ class FieldableBehavior extends Behavior {
 			'name' => $instance->slug,
 			'label' => $instance->label,
 			'value' => null,
-			'extra' => null,
+			'raw' => null,
 			'metadata' => new Entity([
 				'field_value_id' => null,
 				'field_instance_id' => $instance->id,
@@ -1114,7 +1114,7 @@ class FieldableBehavior extends Behavior {
 		if ($storedValue) {
 			$mockField->metadata->accessible('*', true);
 			$mockField->set('value', $storedValue->value);
-			$mockField->set('extra', $storedValue->extra);
+			$mockField->set('raw', $storedValue->raw);
 			$mockField->metadata->set('field_value_id', $storedValue->id);
 			$mockField->metadata->accessible('*', false);
 		}
@@ -1122,7 +1122,7 @@ class FieldableBehavior extends Behavior {
 		$mockField->isNew($entity->isNew());
 		$mockField->accessible('*', false);
 		$mockField->accessible('value', true);
-		$mockField->accessible('extra', true);
+		$mockField->accessible('raw', true);
 
 		return $mockField;
 	}
