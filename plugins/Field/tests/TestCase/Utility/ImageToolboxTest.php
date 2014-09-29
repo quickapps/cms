@@ -101,7 +101,7 @@ class ImageToolboxTest extends TestCase {
  * @return void
  */
 	public function testDelete() {
-		copy($this->img2,  WWW_ROOT . 'files/dummy-test.png');
+		copy($this->img2, WWW_ROOT . 'files/dummy-test.png');
 		ImageToolbox::delete(WWW_ROOT . 'files/dummy-test.png');
 		$this->assertFalse(file_exists(WWW_ROOT . 'files/dummy-test.png'));
 	}

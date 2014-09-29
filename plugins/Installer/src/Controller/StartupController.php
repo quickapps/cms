@@ -329,13 +329,13 @@ class StartupController extends Controller {
 							});
 						} catch (\Exception $e) {
 							$transactionResult = false;
-							$this->Flash->danger(__d('installer', 'Unable to import database information. Details: {0}', '<p>' . $e->getMessage(). '</p>'));
+							$this->Flash->danger(__d('installer', 'Unable to import database information. Details: {0}', '<p>' . $e->getMessage() . '</p>'));
 						}
 
 						$dumpComplete = $transactionResult;
 					}
 				} catch (\Exception $e) {
-					$this->Flash->danger(__d('installer', 'Unable to connect to database, please check your information. Details: {0}', '<p>' . $e->getMessage(). '</p>'));
+					$this->Flash->danger(__d('installer', 'Unable to connect to database, please check your information. Details: {0}', '<p>' . $e->getMessage() . '</p>'));
 				}
 
 				if ($dumpComplete) {
@@ -416,12 +416,14 @@ class StartupController extends Controller {
 /**
  * Shortcut for Controller::set('title_for_layout', ...)
  *
- * @param string $title_for_layout Page's title
+ * @param string $titleForLayout Page's title
  * @return void
  */
-	protected function title($title_for_layout) {
-		$this->set('title_for_layout', $title_for_layout);
+	// @codingStandardsIgnoreStart
+	protected function title($titleForLayout) {
+		$this->set('title_for_layout', $titleForLayout);
 	}
+	// @codingStandardsIgnoreEnd
 
 /**
  * Shortcut for Controller::set('description_for_layout', ...)
@@ -429,9 +431,11 @@ class StartupController extends Controller {
  * @param string $description_for_layout Page's description
  * @return void
  */
-	protected function description($description_for_layout) {
-		$this->set('description_for_layout', $description_for_layout);
+	// @codingStandardsIgnoreStart
+	protected function description($descriptionForLayout) {
+		$this->set('description_for_layout', $descriptionForLayout);
 	}
+	// @codingStandardsIgnoreEnd
 
 /**
  * Check if the given step name was completed. Or marks current step as completed.

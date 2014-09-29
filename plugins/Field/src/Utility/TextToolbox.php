@@ -180,22 +180,21 @@ class TextToolbox {
  */
 	public static function closeOpenTags($html) {
 		preg_match_all("#<([a-z]+)( .*)?(?!/)>#iU", $html, $result);
-		$openedtags = $result[1];
+		$openedTags = $result[1];
 		preg_match_all("#</([a-z]+)>#iU", $html, $result);
-		$closedtags = $result[1];
-		$len_opened = count($openedtags);
+		$closedTags = $result[1];
+		$lenOpened = count($openedTags);
 
-		if (count($closedtags) == $len_opened) {
+		if (count($closedTags) == $lenOpened) {
 			return $html;
 		}
 
-		$openedtags = array_reverse($openedtags);
-
-		for ($i = 0; $i < $len_opened; $i++) {
-			if (!in_array($openedtags[$i], $closedtags)) {
-				$html .= '</' . $openedtags[$i] . '>';
+		$openedTags = array_reverse($openedTags);
+		for ($i = 0; $i < $lenOpened; $i++) {
+			if (!in_array($openedTags[$i], $closedTags)) {
+				$html .= '</' . $openedTags[$i] . '>';
 			} else {
-				unset($closedtags[array_search($openedtags[$i], $closedtags)]);
+				unset($closedTags[array_search($openedTags[$i], $closedTags)]);
 			}
 		}
 
@@ -248,7 +247,7 @@ class TextToolbox {
 			'@</?((label)|(select)|(optgroup)|(option)|(textarea))@iu',
 			'@</?((frameset)|(frame)|(iframe))@iu',
 		],
-		[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',"$0", "$0", "$0", "$0", "$0", "$0","$0", "$0"],
+		[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', "$0", "$0", "$0", "$0", "$0", "$0", "$0", "$0"],
 		$html);
 
 		return strip_tags($html, '<script>');
@@ -339,9 +338,9 @@ class TextToolbox {
  *     // out: "Lorem ipsu ..."
  *
  * @param string $text The text to trim
- * @param string|integer|false $len Either a string indicating where to cut the
- * text, or a integer to trim text to that number of characters. If not given
- * (false by default) text will be trimmed to 600 characters length.
+ * @param string|int|false $len Either a string indicating where to cut the
+ *  text, or a integer to trim text to that number of characters. If not given
+ *  (false by default) text will be trimmed to 600 characters length.
  * @param string $ellipsis Will be used as ending and appended to the trimmed string
  * @return string
  */

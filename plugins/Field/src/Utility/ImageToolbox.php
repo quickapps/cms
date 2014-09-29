@@ -184,8 +184,8 @@ class ImageToolbox extends FileToolbox {
  *
  * @param string $slug Unique machine-name. e.g.: `my-preview-mode`
  * @param string $label Human-readable name. e.g.: `My preview mode`
- * @param integer $width Width for images that would use this preview mode
- * @param integer $height Height for images that would use this preview mode
+ * @param int $width Width for images that would use this preview mode
+ * @param int $height Height for images that would use this preview mode
  * @return void
  */
 	public static function addPreview($slug, $label, $width, $height) {

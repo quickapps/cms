@@ -50,8 +50,8 @@ class FileToolbox {
 /**
  * Gets a translated string representation of the size.
  *
- * @param integer $bytes Size to convert given in bytes units
- * @param integer $precision Decimal precision
+ * @param int $bytes Size to convert given in bytes units
+ * @param int $precision Decimal precision
  * @return string Human-readable size, e.g. `1 KB`, `36.8 MB`, etc
  */
 	public static function bytesToSize($bytes, $precision = 2) {
