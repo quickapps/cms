@@ -67,8 +67,8 @@ use QuickApps\Event\HookAwareTrait;
  */
 class BlockHook implements EventListener {
 
-	use StaticCacheTrait;
 	use HookAwareTrait;
+	use StaticCacheTrait;
 
 /**
  * Returns a list of hooks this Hook Listener is implementing. When the class

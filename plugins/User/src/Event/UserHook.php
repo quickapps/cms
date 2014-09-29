@@ -14,8 +14,8 @@ namespace User\Event;
 use Cake\Event\Event;
 use Cake\Event\EventListener;
 use Cake\Utility\Secutity;
-use User\Utility\NotificationManager;
 use User\Model\Entity\User;
+use User\Utility\NotificationManager;
 
 /**
  * Main Hook Listener for User plugin.

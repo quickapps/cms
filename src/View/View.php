@@ -17,8 +17,8 @@ use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\View\View as CakeView;
 use QuickApps\Core\StaticCacheTrait;
-use QuickApps\Event\HooktagAwareTrait;
 use QuickApps\Event\HookAwareTrait;
+use QuickApps\Event\HooktagAwareTrait;
 use QuickApps\View\ViewModeAwareTrait;
 
 /**

@@ -11,11 +11,11 @@
  */
 namespace Block\View\Helper;
 
+use Block\Model\Entity\Block;
 use Cake\Core\Configure;
 use Cake\I18n\I18n;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
-use Block\Model\Entity\Block;
 use QuickApps\View\Helper;
 
 /**
@@ -62,7 +62,7 @@ class BlockHelper extends Helper {
  * Returns a list of block entities within the given region.
  *
  * @param string $region Region's machine-name
- * @param boolean $all True will return the whole list, that is including blocks
+ * @param bool $all True will return the whole list, that is including blocks
  * that will never be rendered because of its visibility; language or role
  * restrictions, etc. Set to false (by default) will return only blocks
  * that can be rendered.
@@ -234,9 +234,9 @@ class BlockHelper extends Helper {
 
 		// Convert path settings to a regular expression.
 		// Therefore replace newlines with a logical or, /* with asterisks and  "/" with the front page.
-		$to_replace = [
+		$toReplace = [
 			'/(\r\n?|\n)/', // newlines
-			'/\\\\\*/',	 // asterisks
+			'/\\\\\*/', // asterisks
 			'/(^|\|)\/($|\|)/' // front '/'
 		];
 
@@ -246,8 +246,8 @@ class BlockHelper extends Helper {
 			'\1' . preg_quote(Router::url('/'), '/') . '\2'
 		];
 
-		$patterns_quoted = preg_quote($patterns, '/');
-		$regexps[$patterns] = '/^(' . preg_replace($to_replace, $replacements, $patterns_quoted) . ')$/';
+		$patternsQuoted = preg_quote($patterns, '/');
+		$regexps[$patterns] = '/^(' . preg_replace($toReplace, $replacements, $patternsQuoted) . ')$/';
 		return (bool)preg_match($regexps[$patterns], $path);
 	}
 

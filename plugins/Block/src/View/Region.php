@@ -11,12 +11,12 @@
  */
 namespace Block\View;
 
+use Block\Model\Entity\Block;
 use Cake\Collection\Collection;
 use Cake\Core\Configure;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use Cake\View\View;
-use Block\Model\Entity\Block;
 use QuickApps\Core\Plugin;
 
 /**
@@ -43,7 +43,7 @@ class Region {
 /**
  * Maximum number of blocks this region can holds.
  *
- * @var null|integer
+ * @var null|int
  */
 	protected $_blockLimit = null;
 
@@ -103,7 +103,7 @@ class Region {
 				if (is_array($jsonArray)) {
 					$humanName = Inflector::humanize(str_replace('-', '_', $this->_machineName));
 					$jsonArray['extra']['regions'][$this->_machineName] = $humanName;
-					$encode = json_encode($jsonArray, JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
+					$encode = json_encode($jsonArray, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 					if ($encode) {
 						file_put_contents($jsonPath, $encode);
 					}
@@ -168,7 +168,7 @@ class Region {
 /**
  * Counts the number of blocks within this region.
  * 
- * @return integer
+ * @return int
  */
 	public function count() {
 		return count($this->blocks()->toArray());
@@ -179,7 +179,7 @@ class Region {
  *
  * Null means unlimited number.
  *  
- * @param null|integer $number Defaults to null
+ * @param null|int $number Defaults to null
  * @return \Block\View\Region
  */
 	public function blockLimit($number = null) {

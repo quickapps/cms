@@ -12,8 +12,8 @@
 namespace Field\Model\Behavior;
 
 use Cake\Database\Expression\Comparison;
-use Cake\Event\Event;
 use Cake\Error\FatalErrorException;
+use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;

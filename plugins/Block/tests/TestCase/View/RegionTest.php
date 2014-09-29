@@ -11,11 +11,11 @@
  */
 namespace Block\Test\TestCase\View;
 
+use Block\View\Helper\BlockHelper;
+use Block\View\Region;
 use Cake\ORM\Entity;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
-use Block\View\Helper\BlockHelper;
-use Block\View\Region;
 
 /**
  * RegionTest class.

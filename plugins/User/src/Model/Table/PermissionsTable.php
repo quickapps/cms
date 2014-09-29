@@ -59,10 +59,10 @@ class PermissionsTable extends Table {
 		}
 
 		$acoIDs = $acoPath->extract('id');
-		foreach ($user->role_ids as $role_id) {
+		foreach ($user->role_ids as $roleId) {
 			$permission = $this->find()
 				->where([
-					'role_id' => $role_id,
+					'role_id' => $roleId,
 					'aco_id IN' => $acoIDs,
 				])
 				->first();

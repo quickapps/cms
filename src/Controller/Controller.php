@@ -191,7 +191,7 @@ class Controller extends CakeCotroller {
 			!$this->request->is('home') &&
 			!preg_match("/\/{$localesPattern}\//", $normalizedURL)
 		) {
-			$url =  '/' . I18n::defaultLocale() . $normalizedURL;
+			$url = '/' . I18n::defaultLocale() . $normalizedURL;
 			$this->redirect($url);
 		}
 	}

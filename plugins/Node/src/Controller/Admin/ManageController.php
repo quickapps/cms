@@ -127,7 +127,7 @@ class ManageController extends AppController {
  * Edit form for the given node.
  *
  * @param int $id Node's ID
- * @param false|integer $revisionId Fill form with node's revision information
+ * @param false|int $revisionId Fill form with node's revision information
  * @return void
  * @throws \Cake\Network\Exception\NotFoundException When content type, or when
  *  content node was not found

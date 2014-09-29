@@ -11,11 +11,11 @@
  */
 namespace Block\Model\Table;
 
+use Block\Model\Entity\Block;
 use Cake\Database\Schema\Table as Schema;
 use Cake\Event\Event;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Block\Model\Entity\Block;
 use QuickApps\Event\HookAwareTrait;
 
 /**

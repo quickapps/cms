@@ -11,8 +11,8 @@
  */
 namespace User\Model\Table;
 
-use Cake\ORM\Table;
 use Cake\Event\Event;
+use Cake\ORM\Table;
 use User\Model\Entity\Aco;
 
 /**

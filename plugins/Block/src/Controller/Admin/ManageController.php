@@ -39,7 +39,7 @@ class ManageController extends AppController {
 					foreach ($regions as $region => $ids) {
 						$ordering = 0;
 						foreach ($ids as $id) {
-							$blockRegion =  $this
+							$blockRegion = $this
 								->Blocks
 								->BlockRegions
 								->newEntity(['id' => $id, 'theme' => $theme, 'region' => $region, 'ordering' => $ordering]);

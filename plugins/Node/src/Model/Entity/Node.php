@@ -119,7 +119,7 @@ class Node extends Entity {
 					->select(['node_type_slug'])
 					->where(['id' => $this->get('id')])
 					->first();
-				$nodeTypeSlug = $node_type_slug->node_type_slug;
+				$nodeTypeSlug = $nodeTypeSlug->node_type_slug;
 			} else {
 				$nodeTypeSlug = $this->get('node_type_slug');
 			}

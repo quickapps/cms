@@ -65,7 +65,7 @@ class FieldCollection extends ArrayObject {
  *
  *    // OUT: SUCCESS
  *
- * @param integer|string $index Numeric index or machine-name
+ * @param int|string $index Numeric index or machine-name
  * @return mixed \Field\Model\Entity\Field on success or NULL on failure
  */
 	public function offsetGet($index) {

@@ -48,7 +48,7 @@ class UpdateTask extends InstallTask {
  * 
  * @return void
  */
-	protected function init() {
+	public function init() {
 		if (!$this->_packagePath) {
 			$this->_rollback();
 			$this->error(__d('installer', 'You must set a package before try to update.'));
@@ -85,7 +85,7 @@ class UpdateTask extends InstallTask {
  *
  * @return bool True on success, false otherwise
  */
-	protected function start() {
+	public function start() {
 		if (!empty($this->_errors)) {
 			$this->_rollback();
 			return false;
