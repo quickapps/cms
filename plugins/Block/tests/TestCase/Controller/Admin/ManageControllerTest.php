@@ -77,9 +77,6 @@ class ManageControllerTest extends ControllerTestCase {
 				'body' => 'What a block!',
 				'visibility' => 'only',
 				'pages' => '/',
-				'roles' => [
-					'_ids' => [1, 2, 3]
-				],
 			],
 		]);
 		$block = $this->Controller->Blocks
