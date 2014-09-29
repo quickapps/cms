@@ -16,8 +16,8 @@ use Cake\Database\Schema\Table as Schema;
 use Cake\Error\FatalErrorException;
 use Cake\Event\Event;
 use Cake\ORM\Table;
-use Cake\Validation\Validator;
 use Cake\Utility\Security;
+use Cake\Validation\Validator;
 use User\Model\Entity\User;
 
 /**
@@ -151,11 +151,10 @@ class UsersTable extends Table {
 		return $user;
 	}
 
-
 /**
  * Counts the number of administrators ins the system.
  * 
- * @return integer
+ * @return int
  */
 	public function countAdministrators() {
 		return $this->find()

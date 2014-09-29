@@ -13,9 +13,9 @@ namespace Menu\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Event\Event;
-use Cake\Utility\Inflector;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
+use Cake\Utility\Inflector;
 use Menu\View\BreadcrumbRegistry;
 
 /**
@@ -125,7 +125,7 @@ class BreadcrumbComponent extends Component {
  *         "/admin/node",
  *     ]
  *
- * @param string|boolean $url The URL to chunk as string value, set to false will
+ * @param string|bool $url The URL to chunk as string value, set to false will
  * use current request URL.
  * @return array
  */

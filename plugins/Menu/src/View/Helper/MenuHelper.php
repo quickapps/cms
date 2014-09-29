@@ -13,9 +13,9 @@ namespace Menu\View\Helper;
 
 use Cake\Core\Configure;
 use Cake\Error\FatalErrorException;
+use Cake\I18n\I18n;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
-use Cake\I18n\I18n;
 use Cake\Routing\Router;
 use Cake\Utility\Hash;
 use Cake\View\Helper\StringTemplateTrait;
@@ -117,7 +117,7 @@ class MenuHelper extends Helper {
  *
  * Used to detect loops when using callable formatters.
  *
- * @var boolean
+ * @var bool
  */
 	protected $_rendering = false;
 
@@ -175,16 +175,18 @@ class MenuHelper extends Helper {
  * Formatters receives two arguments, the item being rendered as first argument
  * and information abut the item (has children, depth, etc) as second. 
  *
- * You can pass the ID or slug of a menu as fist argument to render that menu's links.
+ * You can pass the ID or slug of a menu as fist argument to render that menu's
+ * links.
  *
- * @param integer|string|array|\Cake\Collection\Collection $items Nested items to render, given
- * as a query result set or as an array list. Or an integer as menu ID in DB to render,
- * or a string as menu Slug in DB to render.
+ * @param int|string|array|\Cake\Collection\Collection $items Nested items
+ *  to render, given as a query result set or as an array list. Or an integer as
+ *  menu ID in DB to render, or a string as menu Slug in DB to render.
  * @param callable|array $options An array of HTML attributes and options as
- * described above or a callable function to use as `formatter`
+ *  described above or a callable function to use as `formatter`
  * @return string HTML
- * @throws \Cake\Error\FatalErrorException When loop invocation is detected, that is,
- * when "render()" method is invoked within a callable method when rendering menus.
+ * @throws \Cake\Error\FatalErrorException When loop invocation is detected,
+ *  that is, when "render()" method is invoked within a callable method when
+ *  rendering menus.
  */
 	public function render($items, $options = []) {
 		if ($this->_rendering) {
@@ -413,7 +415,7 @@ class MenuHelper extends Helper {
  * Counts items in menu.
  *
  * @param \Cake\ORM\Query $items Items to count
- * @return integer
+ * @return int
  */
 	public function countItems($items) {
 		if ($this->_count) {
@@ -437,7 +439,7 @@ class MenuHelper extends Helper {
  * Internal method to recursively generate the menu.
  *
  * @param \Cake\ORM\Query $items Items to render
- * @param integer $depth Current iteration depth
+ * @param int $depth Current iteration depth
  * @return string HTML
  */
 	protected function _render($items, $depth = 0) {
@@ -482,7 +484,7 @@ class MenuHelper extends Helper {
  * with `Router::url()`
  * @return string
  */
-	public function _url($url) {
+	protected function _url($url) {
 		static $locales = null;
 
 		if (empty($locales)) {
@@ -648,7 +650,7 @@ class MenuHelper extends Helper {
 
 		// Convert path settings to a regular expression.
 		// Therefore replace newlines with a logical or, /* with asterisks and "/" with the front page.
-		$to_replace = array(
+		$toReplace = array(
 			'/(\r\n?|\n)/', // newlines
 			'/\\\\\*/', // asterisks
 			'/(^|\|)\/($|\|)/' // front '/'
@@ -660,8 +662,8 @@ class MenuHelper extends Helper {
 			'\1' . preg_quote($this->_View->Url->build('/'), '/') . '\2'
 		);
 
-		$patterns_quoted = preg_quote($patterns, '/');
-		$regexps[$patterns] = '/^(' . preg_replace($to_replace, $replacements, $patterns_quoted) . ')$/';
+		$patternsQuoted = preg_quote($patterns, '/');
+		$regexps[$patterns] = '/^(' . preg_replace($toReplace, $replacements, $patternsQuoted) . ')$/';
 
 		return (bool)preg_match($regexps[$patterns], $path);
 	}
@@ -672,7 +674,7 @@ class MenuHelper extends Helper {
  * This method will ignore children if parent has been marked as `do no expand`.
  *
  * @param \Cake\ORM\Query $items Items to count
- * @return integer
+ * @return int
  */
 	protected function _count($items) {
 		foreach ($items as $item) {

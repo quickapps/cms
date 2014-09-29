@@ -57,7 +57,7 @@ class ThemeActivatorTask extends BaseTask {
  * 
  * @return void
  */
-	protected function init() {
+	public function init() {
 		$this->plugin($this->config('theme'));
 	}
 
@@ -66,7 +66,7 @@ class ThemeActivatorTask extends BaseTask {
  *
  * @return bool True on success, false otherwise
  */
-	protected function start() {
+	public function start() {
 		try {
 			$info = Plugin::info($this->plugin(), true);
 		} catch (\Exception $e) {
@@ -109,7 +109,7 @@ class ThemeActivatorTask extends BaseTask {
 
 		$this->loadModel('System.Options');
 		if ($info['composer']['extra']['admin']) {
-			$prefix =  'back_';
+			$prefix = 'back_';
 			$previousTheme = option('back_theme');
 		} else {
 			$prefix = 'front_';

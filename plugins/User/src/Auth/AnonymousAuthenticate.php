@@ -195,22 +195,22 @@ class AnonymousAuthenticate extends BaseAuthenticate {
  * Resulting array is always `key` => **true**, as role have access
  * to every ACO in the array "true" is the only possible value.
  * 
- * @param integer $role_id Role's ID
+ * @param int $roleId Role's ID
  * @return array Array of ACO paths which role has permissions to
  */
-	protected function _rolePermissions($role_id) {
+	protected function _rolePermissions($roleId) {
 		$Acos = TableRegistry::get('User.Acos');
 		$Permissions = TableRegistry::get('User.Permissions');
 		$out = [];
-		$aco_ids = $Permissions
+		$acoIds = $Permissions
 			->find()
 			->select(['aco_id'])
-			->where(['role_id' => $role_id])
+			->where(['role_id' => $roleId])
 			->all()
 			->extract('aco_id');
 
-		foreach ($aco_ids as $aco_id) {
-			$path  = $Acos->find('path', ['for' => $aco_id]);
+		foreach ($acoIds as $acoId) {
+			$path = $Acos->find('path', ['for' => $acoId]);
 
 			if (!$path) {
 				continue;

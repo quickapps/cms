@@ -11,12 +11,12 @@
  */
 namespace QuickApps\Controller;
 
-use Cake\Controller\Controller as CakeCotroller;
 use Cake\Controller\Component\AuthComponent;
+use Cake\Controller\Controller as CakeCotroller;
 use Cake\I18n\I18n;
+use QuickApps\Error\SiteUnderMaintenanceException;
 use QuickApps\Event\HookAwareTrait;
 use QuickApps\View\ViewModeAwareTrait;
-use QuickApps\Error\SiteUnderMaintenanceException;
 
 /**
  * Main controller class for organization of business logic.
@@ -116,9 +116,11 @@ class Controller extends CakeCotroller {
  * @param string $title_for_layout The title to use on layout's title tag
  * @return void
  */
-	protected function title($title_for_layout) {
-		$this->set('title_for_layout', $title_for_layout);
+	// @codingStandardsIgnoreStart
+	protected function title($titleForLayout) {
+		$this->set('title_for_layout', $titleForLayout);
 	}
+	// @codingStandardsIgnoreEnd
 
 /**
  * Shortcut for Controller::set('description_for_layout', ...)
@@ -127,9 +129,11 @@ class Controller extends CakeCotroller {
  *  meta-description on layout's head tag
  * @return void
  */
-	protected function description($description_for_layout) {
-		$this->set('description_for_layout', $description_for_layout);
+	// @codingStandardsIgnoreStart
+	protected function description($descriptionForLayout) {
+		$this->set('description_for_layout', $descriptionForLayout);
 	}
+	// @codingStandardsIgnoreEnd
 
 /**
  * Prepares the default language to use.
@@ -226,6 +230,8 @@ class Controller extends CakeCotroller {
  * administrators can access the whole site as well.
  * 
  * @return void
+ * @throws QuickApps\Error\SiteUnderMaintenanceException When site is under
+ *  maintenance.
  */
 	protected function _checkMaintenanceMode() {
 		if (

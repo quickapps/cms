@@ -25,7 +25,7 @@ use Cake\Utility\Inflector;
  * technique, all anonymous users (unauthenticated users) are validated
  * using QuickApps CMS's `AnonymousAuthenticate`
  */
-class CachedAuthorize extends BaseAuthorize  {
+class CachedAuthorize extends BaseAuthorize {
 
 /**
  * Authorizes current logged in user, if user belongs to the "administrator"

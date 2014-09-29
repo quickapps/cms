@@ -75,6 +75,8 @@ class ManageController extends AppController {
  *
  * @param string $type Node type slug. e.g.: "article", "product-info"
  * @return void
+ * @throws \Cake\Network\Exception\NotFoundException When content type was not
+ *  found
  */
 	public function add($type = false) {
 		if (!$type) {
@@ -124,19 +126,21 @@ class ManageController extends AppController {
 /**
  * Edit form for the given node.
  *
- * @param integer $id Node's ID
- * @param false|integer $revision_id Fill form with node's revision information
+ * @param int $id Node's ID
+ * @param false|integer $revisionId Fill form with node's revision information
  * @return void
+ * @throws \Cake\Network\Exception\NotFoundException When content type, or when
+ *  content node was not found
  */
-	public function edit($id, $revision_id = false) {
+	public function edit($id, $revisionId = false) {
 		$this->loadModel('Node.Nodes');
 		$this->Nodes->unbindComments();
 		$node = false;
 
-		if ($revision_id && !$this->request->data) {
+		if ($revisionId && !$this->request->data) {
 			$this->loadModel('Node.NodeRevisions');
 			$revision = $this->NodeRevisions->find()
-				->where(['id' => $revision_id, 'node_id' => $id])
+				->where(['id' => $revisionId, 'node_id' => $id])
 				->first();
 
 			if ($revision) {
@@ -207,12 +211,12 @@ class ManageController extends AppController {
 /**
  * Translate the given node to a different language.
  *
- * @param integer $node_id Node's ID
+ * @param int $nodeId Node's ID
  * @return void
  */
-	public function translate($node_id) {
+	public function translate($nodeId) {
 		$this->loadModel('Node.Nodes');
-		$node = $this->Nodes->get($node_id, ['contain' => 'NodeTypes']);
+		$node = $this->Nodes->get($nodeId, ['contain' => 'NodeTypes']);
 
 		if (!$node->language || $node->translation_for) {
 			$this->Flash->danger(__d('node', 'You cannot translate this content.'));
@@ -269,12 +273,12 @@ class ManageController extends AppController {
 /**
  * Deletes the given node by ID.
  *
- * @param integer $node_id Node's ID
+ * @param int $nodeId Node's ID
  * @return void
  */
-	public function delete($node_id) {
+	public function delete($nodeId) {
 		$this->loadModel('Node.Nodes');
-		$node = $this->Nodes->get($node_id);
+		$node = $this->Nodes->get($nodeId);
 
 		if ($this->Nodes->delete($node, ['atomic' => true])) {
 			$this->Flash->success(__d('node', 'Content was successfully removed!'));
@@ -288,14 +292,14 @@ class ManageController extends AppController {
 /**
  * Removes the given revision of the given node.
  *
- * @param integer $node_id Node's ID
- * @param integer $revision_id Revision's ID
+ * @param int $nodeId Node's ID
+ * @param int $revisionId Revision's ID
  * @return void Redirects to previous page
  */
-	public function delete_revision($node_id, $revision_id) {
+	public function delete_revision($nodeId, $revisionId) {
 		$this->loadModel('Node.NodeRevisions');
 		$revision = $this->NodeRevisions->find()
-			->where(['id' => $revision_id, 'node_id' => $node_id])
+			->where(['id' => $revisionId, 'node_id' => $nodeId])
 			->first();
 
 		if ($this->NodeRevisions->delete($revision, ['atomic' => true])) {

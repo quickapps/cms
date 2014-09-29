@@ -58,7 +58,7 @@ class ToggleTask extends BaseTask {
  * 
  * @return void
  */
-	protected function init() {
+	public function init() {
 		$this->plugin($this->config('plugin'));
 	}
 
@@ -67,7 +67,7 @@ class ToggleTask extends BaseTask {
  *
  * @return bool True on success, false otherwise
  */
-	protected function start() {
+	public function start() {
 		$status = $this->config('status');
 
 		if ($status === null) {

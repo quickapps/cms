@@ -13,9 +13,9 @@ namespace Node\Model\Table;
 
 use Cake\Database\Schema\Table as Schema;
 use Cake\Event\Event;
+use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
-use Cake\ORM\Query;
 use Node\Model\Entity\Node;
 
 /**
@@ -51,7 +51,7 @@ class NodeRevisionsTable extends Table {
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Query $query The query object
  * @param array $options Additional options given as an array
- * @param boolean $primary Whether this find is a primary query or not
+ * @param bool $primary Whether this find is a primary query or not
  * @return void
  */
 	public function beforeFind(Event $event, Query $query, array $options, $primary) {

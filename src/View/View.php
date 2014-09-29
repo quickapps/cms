@@ -16,9 +16,9 @@ use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\View\View as CakeView;
+use QuickApps\Core\StaticCacheTrait;
 use QuickApps\Event\HooktagAwareTrait;
 use QuickApps\Event\HookAwareTrait;
-use QuickApps\Core\StaticCacheTrait;
 use QuickApps\View\ViewModeAwareTrait;
 
 /**
@@ -29,8 +29,8 @@ use QuickApps\View\ViewModeAwareTrait;
  */
 class View extends CakeView {
 
-	use HooktagAwareTrait;
 	use HookAwareTrait;
+	use HooktagAwareTrait;
 	use StaticCacheTrait;
 	use ViewModeAwareTrait;
 
@@ -39,7 +39,7 @@ class View extends CakeView {
  *
  * Used to stop infinite loops when using render() method.
  *
- * @var boolean
+ * @var bool
  */
 	protected $_hasRendered = false;
 

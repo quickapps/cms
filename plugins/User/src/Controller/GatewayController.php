@@ -14,9 +14,9 @@ namespace User\Controller;
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\Cache\Cache;
 use Cake\Event\Event;
-use User\Controller\AppController;
 use Locale\Utility\LocaleToolbox;
 use QuickApps\Core\Plugin;
+use User\Controller\AppController;
 
 /**
  * Gateway controller.
@@ -84,7 +84,8 @@ class GatewayController extends AppController {
 								$this->Users->touch($user, 'Users.login');
 								$this->Users->save($user, ['validate' => false]);
 							}
-						} catch(\Exception $e) {}
+						} catch(\Exception $e) {
+						}
 					}
 					return $this->redirect($this->Auth->redirectUrl());
 				} else {
@@ -179,16 +180,16 @@ class GatewayController extends AppController {
 /**
  * Here is where user's account is actually removed.
  *
- * @param integer $user_id The ID of the user whose account is being canceled
+ * @param int $userId The ID of the user whose account is being canceled
  * @param string $code Cancellation code, code is a MD5 hash of user's encrypted
  *  password + site's salt
  * @return void Redirects to previous page
  */
-	public function cancel($user_id, $code) {
+	public function cancel($userId, $code) {
 		$this->loadModel('User.Users');
 		$user = $this->Users
 			->find()
-			->where(['id' => $user_id])
+			->where(['id' => $userId])
 			->contain(['Roles'])
 			->limit(1)
 			->first();
@@ -362,7 +363,7 @@ class GatewayController extends AppController {
 /**
  * Shows profile information for the given user.
  *
- * @param integer $id User's ID
+ * @param int $id User's ID
  * @return void
  * @throws \Cake\ORM\Exception\RecordNotFoundException When user not found, or
  *  users has marked profile as private 

@@ -25,7 +25,7 @@ class UserSession extends User {
  * 
  * @return array
  */
-	public function _getRoleIds() {
+	protected function _getRoleIds() {
 		$ids = [];
 		foreach ($this->roles as $role) {
 			$ids[] = $role->id;
@@ -38,7 +38,7 @@ class UserSession extends User {
  * 
  * @return array
  */
-	public function _getRoleNames() {
+	protected function _getRoleNames() {
 		$names = [];
 		foreach ($this->roles as $role) {
 			$names[] = $role->name;
@@ -51,7 +51,7 @@ class UserSession extends User {
  * 
  * @return array
  */
-	public function _getRoleSlugs() {
+	protected function _getRoleSlugs() {
 		$slugs = [];
 		foreach ($this->roles as $role) {
 			$slugs[] = $role->slug;

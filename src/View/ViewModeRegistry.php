@@ -127,7 +127,7 @@ class ViewModeRegistry {
  *
  * You can get either, slug only or full information as an array.
  *
- * @param boolean $full Set to true to get full information as an array,
+ * @param bool $full Set to true to get full information as an array,
  *  or set to false (by default) to get slug name only
  * @return array|string
  */
@@ -181,7 +181,7 @@ class ViewModeRegistry {
  *          'description' => 'Brief description for teaser view-mode'
  *     ]
  *
- * @param boolean $full Set to true to get full list. Or false (by default) to
+ * @param bool $full Set to true to get full list. Or false (by default) to
  *  get only the slug of all registered view modes.
  * @return array
  * @throws \Cake\Network\Exception\InternalErrorException When you try to get

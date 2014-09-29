@@ -11,6 +11,7 @@
  */
 namespace Search\Model\Behavior;
 
+use Cake\Error\FatalErrorException;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
@@ -287,7 +288,7 @@ class SearchableBehavior extends Behavior {
 	public function afterSave(Event $event, Entity $entity) {
 		$isNew = $entity->isNew();
 		$pk = $this->_table->primaryKey();
-		$table_alias = Inflector::underscore($this->_table->alias());
+		$tableAlias = Inflector::underscore($this->_table->alias());
 		$text = '';
 
 		if (
@@ -333,14 +334,14 @@ class SearchableBehavior extends Behavior {
 		$dataset = $Datasets->find()
 			->where([
 				'entity_id' => $entity->get($pk),
-				'table_alias' => $table_alias
+				'table_alias' => $tableAlias
 			])
 			->first();
 
 		if (!$dataset) {
 			$dataset = new SearchDataset([
 				'entity_id' => $entity->get($pk),
-				'table_alias' => $table_alias,
+				'table_alias' => $tableAlias,
 			]);
 		}
 
@@ -394,6 +395,8 @@ class SearchableBehavior extends Behavior {
  * @param string $criteria A search-criteria. e.g. `"this phrase" author:username`
  * @param null|\Cake\ORM\Query $query The query to scope, or null to create one
  * @return \Cake\ORM\Query Scoped query
+ * @throws Cake\Error\FatalErrorException When query gets corrupted while
+ *  processing tokens 
  */
 	public function search($criteria, $query = null) {
 		$query = is_null($query) ? $this->_table->find() : $query;
@@ -442,11 +445,11 @@ class SearchableBehavior extends Behavior {
 				$token = str_replace('!', '_', $token); // ! Matches any single character.
 
 				if ($orAnd === 'or') {
-					$query->orWhere(["SearchDatasets.words {$LIKE}"  => "%{$token}%"]);
+					$query->orWhere(["SearchDatasets.words {$LIKE}" => "%{$token}%"]);
 				} elseif ($orAnd === 'and') {
 					$query->andWhere(["SearchDatasets.words {$LIKE}" => "%{$token}%"]);
 				} else {
-					$query->where(["SearchDatasets.words {$LIKE}"  => "%{$token}%"]);
+					$query->where(["SearchDatasets.words {$LIKE}" => "%{$token}%"]);
 				}
 			}
 		}

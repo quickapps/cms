@@ -11,9 +11,9 @@
  */
 namespace Node\Controller\Admin;
 
-use Cake\Routing\Router;
 use Cake\Core\Configure;
 use Cake\Network\Exception\NotFoundException;
+use Cake\Routing\Router;
 use Locale\Utility\LocaleToolbox;
 use Node\Controller\AppController;
 
@@ -71,6 +71,8 @@ class TypesController extends AppController {
  *
  * @param string $slug Node type's slug
  * @return void
+ * @throws \Cake\Network\Exception\NotFoundException When content type was not
+ *  found.
  */
 	public function edit($slug) {
 		$this->loadModel('Node.NodeTypes');
@@ -106,12 +108,14 @@ class TypesController extends AppController {
 	}
 
 /**
- * Remove content content type.
+ * Remove content type.
  *
  * All existing contents will not be removed.
  *
  * @param string $slug Node type's slug
  * @return void
+ * @throws \Cake\Network\Exception\NotFoundException When content type was not
+ *  found.
  */
 	public function delete($slug) {
 		$this->loadModel('Node.NodeTypes');

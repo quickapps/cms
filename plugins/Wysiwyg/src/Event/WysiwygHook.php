@@ -24,14 +24,14 @@ class WysiwygHook implements EventListener {
 /**
  * Indicates if CKEditor's JS files were already included.
  *
- * @var boolean
+ * @var bool
  */
 	protected static $_scriptsLoaded = false;
 
 /**
  * Counts how many CK instances has been created.
  *
- * @var boolean
+ * @var bool
  */
 	protected static $_counter = 0;
 
@@ -102,7 +102,7 @@ class WysiwygHook implements EventListener {
 		}
 
 		$View->Html->scriptBlock('var linksToNodesItems = ' . json_encode($items) . ';', ['block' => true]);
-		$View->Html->scriptBlock('var linksToNodesLabel = "' . __d('wysiwyg', 'Link to content')  . '";', ['block' => true]);
+		$View->Html->scriptBlock('var linksToNodesLabel = "' . __d('wysiwyg', 'Link to content') . '";', ['block' => true]);
 		$View->Html->script('Wysiwyg.links.js', ['block' => true]);
 	}
 

@@ -107,7 +107,7 @@ class InstallTask extends BaseTask {
  * 
  * @return void
  */
-	protected function init() {
+	public function init() {
 		if (!$this->_packagePath) {
 			$this->_rollback();
 			$this->error(__d('installer', 'No valid package was found.'));
@@ -141,7 +141,7 @@ class InstallTask extends BaseTask {
  *
  * @return bool True on success, false otherwise
  */
-	protected function start() {
+	public function start() {
 		if (!empty($this->_errors)) {
 			$this->_rollback();
 			return false;
@@ -184,7 +184,7 @@ class InstallTask extends BaseTask {
 		}
 
 		if ($this->config('callbacks')) {
-			try  {
+			try {
 				$this->trigger('Plugin.' . $this->plugin() . '.afterInstall');
 			} catch (\Exception $e) {
 				$this->error(__d('installer', 'Plugin was installed but some errors occur.'));

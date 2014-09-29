@@ -23,7 +23,7 @@ class LinksController extends AppController {
 /**
  * Shows menu's links as a sortable tree.
  *
- * @param integer $id Menu's ID for which render its links tree
+ * @param int $id Menu's ID for which render its links tree
  * @return void
  */
 	public function menu($id) {
@@ -89,18 +89,18 @@ class LinksController extends AppController {
 /**
  * Add a new link to the given menu.
  *
- * @param integer $menu_id Menu's ID for which add a link
+ * @param int $menu_id Menu's ID for which add a link
  * @return void
  */
-	public function add($menu_id) {
+	public function add($menuId) {
 		$this->loadModel('Menu.Menus');
 		$this->loadModel('Node.Nodes');
-		$menu = $this->Menus->get($menu_id);
+		$menu = $this->Menus->get($menuId);
 		$link = $this->Menus->MenuLinks->newEntity();
 		$link->set([
 			'activation' => 'auto',
 			'status' => 1,
-			'menu_id' => $menu_id
+			'menu_id' => $menuId
 		]);
 		$this->Menus->MenuLinks->addBehavior('Tree', ['scope' => ['menu_id' => $menu->id]]);
 
@@ -124,9 +124,9 @@ class LinksController extends AppController {
 				$this->Flash->success(__d('menu', 'Link successfully created!'));
 
 				if (!empty($this->request->data['action_add'])) {
-					$this->redirect(['plugin' => 'Menu', 'controller' => 'links', 'action' => 'add', $menu_id]);
+					$this->redirect(['plugin' => 'Menu', 'controller' => 'links', 'action' => 'add', $menuId]);
 				} elseif (!empty($this->request->data['action_menu'])) {
-					$this->redirect(['plugin' => 'Menu', 'controller' => 'links', 'action' => 'menu', $menu_id]);
+					$this->redirect(['plugin' => 'Menu', 'controller' => 'links', 'action' => 'menu', $menuId]);
 				}
 			} else {
 				$this->Flash->danger(__d('menu', 'Link could not be saved, please check your information'));
@@ -139,7 +139,7 @@ class LinksController extends AppController {
 			->select(['id', 'slug', 'node_type_slug', 'title'])
 			->all();
 		foreach ($contents as $content) {
-			$contentLinks[$content->get('url')] =  __d('menu', '{0} [{1}]', $content->title, $content->node_type_slug);
+			$contentLinks[$content->get('url')] = __d('menu', '{0} [{1}]', $content->title, $content->node_type_slug);
 		}
 
 		$parentsTree = $this->Menus->MenuLinks
@@ -153,15 +153,15 @@ class LinksController extends AppController {
 		$this->set(compact('menu', 'link', 'contentLinks', 'parentsTree'));
 		$this->Breadcrumb
 			->push('/admin/menu/manage')
-			->push(__d('menu', 'Editing menu'), ['plugin' => 'Menu', 'controller' => 'manage', 'action' => 'edit', $menu_id])
-			->push(__d('menu', 'Links'), ['plugin' => 'Menu', 'controller' => 'links', 'action' => 'menu', $menu_id])
+			->push(__d('menu', 'Editing menu'), ['plugin' => 'Menu', 'controller' => 'manage', 'action' => 'edit', $menuId])
+			->push(__d('menu', 'Links'), ['plugin' => 'Menu', 'controller' => 'links', 'action' => 'menu', $menuId])
 			->push(__d('menu', 'Add new link'), '#');
 	}
 
 /**
  * Edits the given menu link by ID.
  *
- * @param integer $id Link's ID
+ * @param int $id Link's ID
  * @return void
  */
 	public function edit($id) {
@@ -197,7 +197,7 @@ class LinksController extends AppController {
 			->select(['id', 'slug', 'node_type_slug', 'title'])
 			->all();
 		foreach ($contents as $content) {
-			$contentLinks[$content->get('url')] =  __d('menu', '{0} [{1}]', $content->title, $content->node_type_slug);
+			$contentLinks[$content->get('url')] = __d('menu', '{0} [{1}]', $content->title, $content->node_type_slug);
 		}
 
 		$this->set(compact('link', 'contentLinks'));
@@ -211,7 +211,7 @@ class LinksController extends AppController {
 /**
  * Deletes the given link.
  *
- * @param integer $id Link's ID
+ * @param int $id Link's ID
  * @return void
  */
 	public function delete($id) {

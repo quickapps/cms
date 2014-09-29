@@ -16,8 +16,8 @@ use Cake\Error\FatalErrorException;
 use Cake\Model\ModelAwareTrait;
 use Cake\Network\Email\Email;
 use Cake\Routing\Router;
-use User\Model\Entity\User;
 use QuickApps\Core\Plugin;
+use User\Model\Entity\User;
 
 /**
  * A simple class for handling user notification emails.
@@ -39,8 +39,8 @@ use QuickApps\Core\Plugin;
  */
 class NotificationManager {
 
-	use ModelAwareTrait;
 	use InstanceConfigTrait;
+	use ModelAwareTrait;
 
 /**
  * User entity being managed.

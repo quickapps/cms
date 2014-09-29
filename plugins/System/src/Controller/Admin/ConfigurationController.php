@@ -13,9 +13,9 @@ namespace System\Controller\Admin;
 
 use Cake\ORM\Entity;
 use Cake\Validation\Validator;
-use System\Controller\AppController;
 use Locale\Utility\LocaleToolbox;
 use QuickApps\Core\Plugin;
+use System\Controller\AppController;
 
 /**
  * Configuration Controller.

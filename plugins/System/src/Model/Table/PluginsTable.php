@@ -71,7 +71,7 @@ class PluginsTable extends Table {
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Query $query Query object
  * @param array $options Additional options as an array
- * @param boolean $primary Whether is find is a primary query or not
+ * @param bool $primary Whether is find is a primary query or not
  * @return void
  */
 	public function beforeFind(Event $event, Query $query, array $options, $primary) {

@@ -128,19 +128,19 @@ class TaxonomyField extends FieldHandler {
 
 		if ($entity->has($pk)) {
 			$TermsCache = TableRegistry::get('Taxonomy.EntitiesTerms');
-			$table_alias = Inflector::underscore($event->subject->alias());
+			$tableAlias = Inflector::underscore($event->subject->alias());
 			$raw = !is_array($field->raw) ? [$field->raw] : $field->raw;
 			$TermsCache->deleteAll([
 				'entity_id' => $entity->get($pk),
-				'table_alias' => $table_alias,
+				'table_alias' => $tableAlias,
 				'field_instance_id' => $field->metadata->field_instance_id,
 			]);
 
-			foreach ($raw as $term_id) {
+			foreach ($raw as $termId) {
 				$cacheEntity = $TermsCache->newEntity([
 					'entity_id' => $entity->get($pk),
-					'term_id' => $term_id,
-					'table_alias' => $table_alias,
+					'term_id' => $termId,
+					'table_alias' => $tableAlias,
 					'field_instance_id' => $field->metadata->field_instance_id,
 				]);
 				$TermsCache->save($cacheEntity);

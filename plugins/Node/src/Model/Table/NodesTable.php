@@ -88,18 +88,18 @@ class NodesTable extends Table {
 		$this->addBehavior('Sluggable');
 		$this->addBehavior('Field.Fieldable', [
 			'bundle' => function ($entity, $table) {
-				$node_type_slug = '';
+				$nodeTypeSlug = '';
 				if ($entity->has('node_type_slug')) {
-					$node_type_slug = $entity->node_type_slug;
+					$nodeTypeSlug = $entity->node_type_slug;
 				} elseif ($entity->has('id')) {
-					$node_type_slug = $table->get($entity->id, [
+					$nodeTypeSlug = $table->get($entity->id, [
 						'fields' => ['id', 'node_type_slug'],
 						'fieldable' => false,
 					])
 					->node_type_slug;
 				}
 
-				return $node_type_slug;
+				return $nodeTypeSlug;
 			}
 		]);
 		$this->addBehavior('Search.Searchable', [
@@ -185,7 +185,7 @@ class NodesTable extends Table {
  *
  * @param \Cake\ORM\Query $query The query object
  * @param string $value Operator's arguments
- * @param boolean $negate Whether this operator was negated or not
+ * @param bool $negate Whether this operator was negated or not
  * @param string $orAnd and|or
  * @return void
  */
@@ -250,11 +250,11 @@ class NodesTable extends Table {
  *
  * @param \Cake\ORM\Query $query The query object
  * @param string $value Operator's arguments
- * @param boolean $negate Whether this operator was negated or not
+ * @param bool $negate Whether this operator was negated or not
  * @param string $orAnd and|or
  * @return void
  */
-	public function operatorLimit(Query$query, $value, $negate, $orAnd) {
+	public function operatorLimit(Query $query, $value, $negate, $orAnd) {
 		if ($negate) {
 			return $query;
 		}
@@ -275,11 +275,11 @@ class NodesTable extends Table {
  *
  * @param \Cake\ORM\Query $query The query object
  * @param string $value Operator's arguments
- * @param boolean $negate Whether this operator was negated or not
+ * @param bool $negate Whether this operator was negated or not
  * @param string $orAnd and|or
  * @return void
  */
-	public function operatorOrder(Query$query, $value, $negate, $orAnd) {
+	public function operatorOrder(Query $query, $value, $negate, $orAnd) {
 		if ($negate) {
 			return $query;
 		}
@@ -310,7 +310,7 @@ class NodesTable extends Table {
  *
  * @param \Cake\ORM\Query $query The query object
  * @param string $value Operator's arguments
- * @param boolean $negate Whether this operator was negated or not
+ * @param bool $negate Whether this operator was negated or not
  * @param string $orAnd and|or
  * @return void
  */
@@ -345,7 +345,7 @@ class NodesTable extends Table {
  *
  * @param \Cake\ORM\Query $query The query object
  * @param string $value Operator's arguments
- * @param boolean $negate Whether this operator was negated or not
+ * @param bool $negate Whether this operator was negated or not
  * @param string $orAnd and|or
  * @return void
  */
@@ -372,7 +372,7 @@ class NodesTable extends Table {
  *
  * @param \Cake\ORM\Query $query The query object
  * @param string $value Operator's arguments
- * @param boolean $negate Whether this operator was negated or not
+ * @param bool $negate Whether this operator was negated or not
  * @param string $orAnd and|or
  * @return void
  */
@@ -402,7 +402,7 @@ class NodesTable extends Table {
  *
  * @param \Cake\ORM\Query $query The query object
  * @param string $value Operator's arguments
- * @param boolean $negate Whether this operator was negated or not
+ * @param bool $negate Whether this operator was negated or not
  * @param string $orAnd and|or
  * @return void
  */

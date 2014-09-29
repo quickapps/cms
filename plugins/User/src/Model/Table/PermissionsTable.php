@@ -11,10 +11,10 @@
  */
 namespace User\Model\Table;
 
-use Cake\Event\Event;
-use Cake\ORM\Table;
-use Cake\ORM\Entity;
 use Cake\Cache\Cache;
+use Cake\Event\Event;
+use Cake\ORM\Entity;
+use Cake\ORM\Table;
 use User\Model\Entity\User;
 
 /**

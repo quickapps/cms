@@ -12,9 +12,9 @@
 namespace Node\Controller;
 
 use Cake\Core\Configure;
+use Cake\I18n\I18n;
 use Cake\Network\Exception\NotFoundException;
 use Cake\Network\Exception\ForbiddenException;
-use Cake\I18n\I18n;
 use Cake\Routing\Router;
 
 /**
@@ -94,25 +94,25 @@ class ServeController extends AppController {
 /**
  * Node's detail page.
  *
- * @param string $node_type_slug Node's type-slug. e.g. `article`, `basic-page`
- * @param string $node_slug Node's slug. e.g. `this-is-an-article`
+ * @param string $nodeTypeSlug Node's type-slug. e.g. `article`, `basic-page`
+ * @param string $nodeSlug Node's slug. e.g. `this-is-an-article`
  * @return void
  * @throws \Cake\Network\Exception\NotFoundException When content is not found
  * @throws \Cake\Network\Exception\ForbiddenException When user can't access
  *  this content due to role restrictions
  */
-	public function details($node_type_slug, $node_slug) {
+	public function details($nodeTypeSlug, $nodeSlug) {
 		$this->loadModel('Node.Nodes');
 
 		if ($this->request->is('userAdmin')) {
 			$conditions = [
-				'Nodes.slug' => $node_slug,
-				'Nodes.node_type_slug' => $node_type_slug,
+				'Nodes.slug' => $nodeSlug,
+				'Nodes.node_type_slug' => $nodeTypeSlug,
 			];
 		} else {
 			$conditions = [
-				'Nodes.slug' => $node_slug,
-				'Nodes.node_type_slug' => $node_type_slug,
+				'Nodes.slug' => $nodeSlug,
+				'Nodes.node_type_slug' => $nodeTypeSlug,
 				'Nodes.status >' => 0,
 			];
 		}
@@ -150,7 +150,7 @@ class ServeController extends AppController {
 					->select(['id', 'slug', 'language'])
 					->where([
 						'translation_for' => $node->id,
-						'node_type_slug' => $node_type_slug,
+						'node_type_slug' => $nodeTypeSlug,
 						'language' => I18n::defaultLocale(),
 						'status' => 1,
 					])
@@ -158,9 +158,9 @@ class ServeController extends AppController {
 
 				if ($haveTranslation) {
 					if (option('url_locale_prefix')) {
-						$url = "/{$haveTranslation->language}/{$node_type_slug}/{$haveTranslation->slug}.html";
+						$url = "/{$haveTranslation->language}/{$nodeTypeSlug}/{$haveTranslation->slug}.html";
 					} else {
-						$url = "/{$node_type_slug}/{$haveTranslation->slug}.html";
+						$url = "/{$nodeTypeSlug}/{$haveTranslation->slug}.html";
 					}
 					$this->redirect($url);
 					return $this->response;
@@ -170,7 +170,7 @@ class ServeController extends AppController {
 					->find()
 					->select(['id', 'slug', 'language'])
 					->where([
-						'slug' => $node_slug,
+						'slug' => $nodeSlug,
 						'status' => 1,
 						'translation_for NOT IN' => ['', null]
 					])
@@ -178,9 +178,9 @@ class ServeController extends AppController {
 
 				if ($isTranslationOf) {
 					if (option('url_locale_prefix')) {
-						$url = "/{$isTranslationOf->language}/{$node_type_slug}/{$isTranslationOf->slug}.html";
+						$url = "/{$isTranslationOf->language}/{$nodeTypeSlug}/{$isTranslationOf->slug}.html";
 					} else {
-						$url = "/{$node_type_slug}/{$isTranslationOf->slug}.html";
+						$url = "/{$nodeTypeSlug}/{$isTranslationOf->slug}.html";
 					}
 					$this->redirect($url);
 					return $this->response;

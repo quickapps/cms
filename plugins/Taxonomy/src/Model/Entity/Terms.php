@@ -25,7 +25,7 @@ class Term extends Entity {
  * @param string $value Term's name
  * @return string
  */
-	public function _setName($value) {
+	protected function _setName($value) {
 		$value = strip_tags($value);
 		$value = str_replace(["\n", "\r"], '', $value);
 		return trim($value);

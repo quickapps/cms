@@ -116,7 +116,7 @@ class HookManager {
  *  list of event that were fired
  * @param bool $sort If first argument is null set this to true to sort the list.
  *  Defaults to true
- * @return integer|array
+ * @return int|array
  */
 	public static function triggered($eventName = null, $sort = true) {
 		if (!$eventName) {

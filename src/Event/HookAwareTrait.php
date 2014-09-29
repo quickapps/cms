@@ -28,7 +28,7 @@ trait HookAwareTrait {
  *
  * @param string $eventName The name of the event, if null returns the entire
  *  list of event that were fired
- * @return integer|array
+ * @return int|array
  * @see QuickApps\Event\HookManager::triggered()
  */
 	public function triggered($eventName = null) {

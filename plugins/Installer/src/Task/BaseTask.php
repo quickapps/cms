@@ -26,8 +26,8 @@ use User\Utility\AcoManager;
  */
 abstract class BaseTask {
 
-	use InstanceConfigTrait;
 	use HookAwareTrait;
+	use InstanceConfigTrait;
 	use ModelAwareTrait;
 
 /**
@@ -100,7 +100,7 @@ abstract class BaseTask {
  * 
  * @return void
  */
-	abstract protected function init();
+	abstract public function init();
 
 /**
  * This is the main method of every task.
@@ -109,7 +109,7 @@ abstract class BaseTask {
  * 
  * @return bool
  */
-	abstract protected function start();
+	abstract public function start();
 
 /**
  * Gets or sets the plugin name being handled.
@@ -119,7 +119,7 @@ abstract class BaseTask {
  * @param string $pluginName Plugin's name
  * @return string The plugin name just set
  */
-	final protected function plugin($pluginName = null) {
+	final public function plugin($pluginName = null) {
 		if ($pluginName === null) {
 			return $this->_pluginName;
 		}
@@ -146,6 +146,7 @@ abstract class BaseTask {
  * @param bool $autoload True if this option should be loaded on bootstrap,
  *  defaults to false
  * @return mixed
+ * @throws \Cake\Error\FatalErrorException On illegal usage of this method
  */
 	final public function addOption($name, $value, $autoload = false) {
 		if (!$this->plugin()) {
@@ -162,6 +163,7 @@ abstract class BaseTask {
  * Gets an instance of AcoManager.
  * 
  * @return \User\Utility\AcoManager
+ * @throws \Cake\Error\FatalErrorException On illegal usage of this method
  */
 	final public function aco() {
 		if (!$this->plugin()) {
@@ -202,7 +204,7 @@ abstract class BaseTask {
  * @param array|string $message A single message or an array of messages
  * @return void
  */
-	final protected function error($message) {
+	final public function error($message) {
 		if (is_string($message)) {
 			$message = [$message];
 		}
@@ -228,7 +230,7 @@ abstract class BaseTask {
  * @param string $path Directory to check
  * @return bool
  */
-	final protected function canBeDeleted($path) {
+	final public function canBeDeleted($path) {
 		if (!file_exists($path) || !is_dir($path)) {
 			$this->error(__d('installer', "Plugin's directory was not found: ", $path));
 			return false;
@@ -265,8 +267,9 @@ abstract class BaseTask {
  *
  * @param string $path Where to look for listener classes
  * @return void
+ * @throws \Cake\Error\FatalErrorException On illegal usage of this method
  */
-	final protected function attachListeners($path) {
+	final public function attachListeners($path) {
 		global $classLoader;
 
 		if (!$this->plugin()) {
@@ -296,7 +299,7 @@ abstract class BaseTask {
  *
  * @return void
  */
-	final protected function detachListeners() {
+	final public function detachListeners() {
 		$EventManager = EventManager::instance();
 		foreach ($this->_listeners as $listener) {
 			$EventManager->detach($listener);

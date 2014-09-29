@@ -13,8 +13,8 @@ namespace Node\Controller\Admin;
 
 use Cake\Core\Configure;
 use Cake\Routing\Router;
-use Comment\Model\Entity\Comment;
 use Comment\Controller\CommentUIControllerTrait;
+use Comment\Model\Entity\Comment;
 use Node\Controller\AppController;
 
 /**

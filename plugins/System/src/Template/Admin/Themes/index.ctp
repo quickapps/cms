@@ -15,13 +15,13 @@
 	<div class="col-md-6">
 		<div class="btn-group filters">
 			<?php
-				echo $this->Html->link(__d('system', 'Front Themes') . ' <span class="badge">' . $front_count . '</span>', '#show-front', [
+				echo $this->Html->link(__d('system', 'Front Themes') . ' <span class="badge">' . $frontCount . '</span>', '#show-front', [
 					'class' => 'btn btn-primary btn-sm btn-front',
 					'escape' => false,
 				]);
 			?>
 			<?php
-				echo $this->Html->link(__d('system', 'Back Themes') . ' <span class="badge">' . $back_count . '</span>', '#show-back', [
+				echo $this->Html->link(__d('system', 'Back Themes') . ' <span class="badge">' . $backCount . '</span>', '#show-back', [
 					'class' => 'btn btn-info btn-sm btn-back',
 					'escape' => false,
 				]);
@@ -55,13 +55,13 @@
 
 <div class="row themes-container">
 	<div class="col-md-12 front-themes themes-list">
-		<?php foreach ($front_themes as $theme): ?>
+		<?php foreach ($frontThemes as $theme): ?>
 			<?php echo $this->element('System.theme_item', ['theme' => $theme]); ?>
 		<?php endforeach; ?>
 	</div>
 
 	<div class="col-md-12 back-themes themes-list">
-		<?php foreach ($back_themes as $theme): ?>
+		<?php foreach ($backThemes as $theme): ?>
 			<?php echo $this->element('System.theme_item', ['theme' => $theme]); ?>
 		<?php endforeach; ?>
 	</div>

@@ -50,7 +50,7 @@ class UninstallTask extends BaseTask {
  * 
  * @return void
  */
-	protected function init() {
+	public function init() {
 		$this->plugin($this->config('plugin'));
 	}
 
@@ -66,7 +66,7 @@ class UninstallTask extends BaseTask {
  *
  * @return bool True on success, false otherwise
  */
-	protected function start() {
+	public function start() {
 		if (!is_writable(TMP)) {
 			$this->error(__d('installer', 'Enable write permissions in /tmp directory before uninstall any plugin'));
 			return false;

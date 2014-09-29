@@ -11,8 +11,8 @@
  */
 namespace Locale\Controller\Admin;
 
-use Locale\Utility\LocaleToolbox;
 use Locale\Controller\AppController;
+use Locale\Utility\LocaleToolbox;
 
 /**
  * Locale manager controller.
@@ -75,7 +75,7 @@ class ManageController extends AppController {
 /**
  * Edits language.
  *
- * @param integer $id Language's ID
+ * @param int $id Language's ID
  * @return void
  */
 	public function edit($id) {
@@ -110,7 +110,7 @@ class ManageController extends AppController {
 /**
  * Sets the given language as site's default language.
  *
- * @param integer $id Language's ID
+ * @param int $id Language's ID
  * @return void Redirects to previous page
  */
 	public function set_default($id) {
@@ -131,11 +131,10 @@ class ManageController extends AppController {
 		$this->redirect($this->referer());
 	}
 
-
 /**
  * Moves language up or down.
  *
- * @param integer $id Language's ID
+ * @param int $id Language's ID
  * @param string $direction Direction, 'up' or 'down'
  * @return void Redirects to previous page
  */
@@ -177,7 +176,7 @@ class ManageController extends AppController {
 /**
  * Enables the given language.
  *
- * @param integer $id Language's ID
+ * @param int $id Language's ID
  * @return void Redirects to previous page
  */
 	public function enable($id) {
@@ -197,7 +196,7 @@ class ManageController extends AppController {
 /**
  * Disables the given language.
  *
- * @param integer $id Language's ID
+ * @param int $id Language's ID
  * @return void Redirects to previous page
  */
 	public function disable($id) {
@@ -221,7 +220,7 @@ class ManageController extends AppController {
 /**
  * Unregisters the given language.
  *
- * @param integer $id Language's ID
+ * @param int $id Language's ID
  * @return void Redirects to previous page
  */
 	public function delete($id) {

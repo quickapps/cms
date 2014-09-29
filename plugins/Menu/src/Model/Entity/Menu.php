@@ -25,7 +25,7 @@ class Menu extends Entity {
  * 
  * @return string
  */
-	public function _getBriefDescription() {
+	protected function _getBriefDescription() {
 		$description = $this->get('description');
 		if (empty($description)) {
 			return '---';

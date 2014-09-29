@@ -44,12 +44,12 @@ class PermissionsController extends AppController {
 /**
  * Shows the permissions table for the given ACO.
  *
- * @param integer $aco_id ACO's ID
+ * @param int $acoId ACO's ID
  * @return void
  */
-	public function aco($aco_id) {
+	public function aco($acoId) {
 		$this->loadModel('User.Acos');
-		$aco = $this->Acos->get($aco_id, ['contain' => ['Roles']]);
+		$aco = $this->Acos->get($acoId, ['contain' => ['Roles']]);
 
 		if (!empty($this->request->data['roles'])) {
 			$aco = $this->Acos->patchEntity($aco, $this->request->data);
@@ -166,7 +166,7 @@ class PermissionsController extends AppController {
 											'role_id' => $role->id
 										]);
 									if (!$exists) {
-										$newPermission =  $this->Acos->Permissions->newEntity([
+										$newPermission = $this->Acos->Permissions->newEntity([
 											'aco_id' => $leaf->id,
 											'role_id' => $role->id
 										]);

@@ -114,7 +114,7 @@ class BreadcrumbRegistry {
 /**
  * Counts the number of crumbs in the stack.
  *
- * @return integer
+ * @return int
  */
 	public static function count() {
 		return count(static::$_crumbs);

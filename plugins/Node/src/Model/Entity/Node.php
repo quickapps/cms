@@ -12,7 +12,7 @@
 namespace Node\Model\Entity;
 
 use Cake\Core\Configure;
-use Cake\Network\Exception\InternalErrorException;
+use Cake\Error\FatalErrorException;
 use Cake\I18n\I18n;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
@@ -35,7 +35,7 @@ class Node extends Entity {
  *
  * @return string
  */
-	public function _getType() {
+	protected function _getType() {
 		$name = __d('node', '(unknown)');
 		if ($this->has('node_type') && $this->node_type->has('name')) {
 			$name = $this->node_type->get('name');
@@ -56,7 +56,7 @@ class Node extends Entity {
  *
  * @return string
  */
-	public function _getUrl() {
+	protected function _getUrl() {
 		$url = Router::getRequest()->base;
 
 		if (option('url_locale_prefix')) {
@@ -73,7 +73,7 @@ class Node extends Entity {
  *
  * @return \User\Model\Entity\User
  */
-	public function _getAuthor() {
+	protected function _getAuthor() {
 		if ($this->has('user')) {
 			return $this->get('user');
 		} elseif (!empty($this->created_by)) {
@@ -102,33 +102,35 @@ class Node extends Entity {
  * is provided it automatically fetches the information from the corresponding
  * Content Type.
  * 
- * @param boolean|\Node\Model\Entity\NodeType $type False for auto fetch or a
+ * @param bool|\Node\Model\Entity\NodeType $type False for auto fetch or a
  *  NodeType entity to extract information from
  * @return void
+ * @throws Cake\Error\FatalErrorException When content type was not found for
+ *  this content node.
  */
 	public function setDefaults($type = false) {
 		if (!$type) {
 			if (!$this->has('node_type_slug') && !$this->has('id')) {
-				throw new InternalErrorException(__d('node', "Node::setDefaults() was unable to get Content Type information."));
+				throw new FatalErrorException(__d('node', "Node::setDefaults() was unable to get Content Type information."));
 			}
 
 			if (!$this->has('node_type_slug')) {
-				$node_type_slug = TableRegistry::get('Node.Nodes')->find()
+				$nodeTypeSlug = TableRegistry::get('Node.Nodes')->find()
 					->select(['node_type_slug'])
 					->where(['id' => $this->get('id')])
 					->first();
-				$node_type_slug = $node_type_slug->node_type_slug;
+				$nodeTypeSlug = $node_type_slug->node_type_slug;
 			} else {
-				$node_type_slug = $this->get('node_type_slug');
+				$nodeTypeSlug = $this->get('node_type_slug');
 			}
 
 			$type = TableRegistry::get('Node.NodeTypes')->find()
-				->where(['slug' => $node_type_slug])
+				->where(['slug' => $nodeTypeSlug])
 				->first();
 		}
 
 		if (!($type instanceof NodeType) || !$type->has('defaults')) {
-			throw new InternalErrorException(__d('node', "Node::setDefaults() was unable to get Content Type defaults values."));
+			throw new FatalErrorException(__d('node', "Node::setDefaults() was unable to get Content Type defaults values."));
 		}
 
 		$this->set('language', $type->defaults['language']);

@@ -28,7 +28,7 @@ class FormHelper extends CakeFormHelper {
 /**
  * Used by input() method.
  *
- * @var boolean
+ * @var bool
  */
 	protected $_isRendering = false;
 

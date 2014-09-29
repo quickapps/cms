@@ -13,8 +13,8 @@ namespace System\Controller\Admin;
 
 use Cake\Network\Exception\NotFoundException;
 use Cake\Utility\Inflector;
-use System\Controller\AppController;
 use QuickApps\Core\Plugin;
+use System\Controller\AppController;
 
 /**
  * Controller for handling plugin tasks.
@@ -37,7 +37,7 @@ class ThemesController extends AppController {
  */
 	public function index() {
 		$themes = Plugin::collection(true)->match(['isTheme' => true]);
-		$front_themes = $themes
+		$frontThemes = $themes
 			->match(['composer.extra.admin' => false])
 			->sortBy(function ($theme) {
 				if ($theme['name'] === option('front_theme')) {
@@ -45,7 +45,7 @@ class ThemesController extends AppController {
 				}
 				return 1;
 			}, SORT_ASC);
-		$back_themes = $themes
+		$backThemes = $themes
 			->match(['composer.extra.admin' => true])
 			->sortBy(function ($theme) {
 				if ($theme['name'] === option('back_theme')) {
@@ -53,10 +53,10 @@ class ThemesController extends AppController {
 				}
 				return 1;
 			}, SORT_ASC);
-		$front_count = count($front_themes->toArray());
-		$back_count = count($back_themes->toArray());
+		$frontCount = count($frontThemes->toArray());
+		$backCount = count($backThemes->toArray());
 
-		$this->set(compact('front_count', 'back_count', 'front_themes', 'back_themes'));
+		$this->set(compact('frontCount', 'backCount', 'frontThemes', 'backThemes'));
 		$this->Breadcrumb->push('/admin/system/themes');
 	}
 

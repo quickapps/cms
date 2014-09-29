@@ -66,7 +66,7 @@ class Plugin extends CakePlugin {
 			'classmap' => [],
 			'files' => [],
 		],
-		'autoload-dev' =>[
+		'autoload-dev' => [
 			'psr-4' => [],
 			'psr-0' => [],
 			'classmap' => [],
@@ -89,9 +89,9 @@ class Plugin extends CakePlugin {
  * When $ignoreError is set to true and a corrupt plugin is found, it will
  * be removed from the resulting collection.
  *
- * @param boolean $extendedInfo Set to true to get extended information for each
+ * @param bool $extendedInfo Set to true to get extended information for each
  *  plugin, extended information includes "composer.json" and plugin's DB settings
- * @param boolean $ignoreError Set to true to ignore error messages when a
+ * @param bool $ignoreError Set to true to ignore error messages when a
  *  corrupt plugin is found. Defaults to true
  * @return \Cake\Collection\Collection
  * @throws \Cake\Error\FatalErrorException When a corrupt plugin is found and
@@ -187,7 +187,7 @@ class Plugin extends CakePlugin {
  *     ]
  *
  * @param string $plugin Plugin name. e.g. `Node`
- * @param boolean $full Merge info with plugin's `composer.json` file and
+ * @param bool $full Merge info with plugin's `composer.json` file and
  *  settings stored in DB
  * @return array Plugin information
  * @throws Cake\Error\FatalErrorException When plugin is not found, or when
@@ -531,11 +531,11 @@ class Plugin extends CakePlugin {
  *    '<=', '>', or '>='. 'version' is one piece like '4.5-beta3' or '5.5.11'.
  */
 	public static function parseDependency($dependency) {
-		$p_op = '(?P<operator>!=|==|<|<=|>|>=|<>)?';
-		$p_major = '(?P<major>\d+)';
-		$p_minor = '(?P<minor>(?:\d+|\*)?)';
-		$p_fix = '(?P<fix>(?:\d+|\*)?)';
-		$p_tail = '(?P<tail>(?:-[A-Za-z]+\d*)?)';
+		$pOp = '(?P<operator>!=|==|<|<=|>|>=|<>)?';
+		$pMajor = '(?P<major>\d+)';
+		$pMinor = '(?P<minor>(?:\d+|\*)?)';
+		$pFix = '(?P<fix>(?:\d+|\*)?)';
+		$pTail = '(?P<tail>(?:-[A-Za-z]+\d*)?)';
 		$out = [
 			'original' => $dependency,
 			'versions' => [],
@@ -543,7 +543,7 @@ class Plugin extends CakePlugin {
 
 		foreach (explode(',', $dependency) as $version) {
 			$version = trim($version);
-			if (preg_match("/^{$p_op}{$p_major}\.?{$p_minor}\.?{$p_fix}{$p_tail}/", $version, $matches)) {
+			if (preg_match("/^{$pOp}{$pMajor}\.?{$pMinor}\.?{$pFix}{$pTail}/", $version, $matches)) {
 				$op = empty($matches['operator']) ? '==' : $matches['operator'];
 				$matches['minor'] = $matches['minor'] === '*' ? 'x' : $matches['minor'];
 				$matches['fix'] = $matches['fix'] === '*' ? 'x' : $matches['fix'];
@@ -571,7 +571,7 @@ class Plugin extends CakePlugin {
 						$matches['major']++;
 					}
 
-					if ($op === '=' || $op=== '==') {
+					if ($op === '=' || $op === '==') {
 						$out['versions'][] = [
 							'op' => '<',
 							'version' => ($matches['major'] + 1) . '.x'

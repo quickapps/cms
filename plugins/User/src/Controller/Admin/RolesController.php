@@ -11,8 +11,8 @@
  */
 namespace User\Controller\Admin;
 
-use User\Controller\AppController;
 use QuickApps\Core\Plugin;
+use User\Controller\AppController;
 
 /**
  * Roles manager controller.
@@ -51,7 +51,7 @@ class RolesController extends AppController {
 /**
  * Edits the given role.
  *
- * @param integer $id User's ID
+ * @param int $id User's ID
  * @return void
  */
 	public function edit($id) {
@@ -64,7 +64,7 @@ class RolesController extends AppController {
 /**
  * Removes the given role.
  *
- * @param integer $id User's ID
+ * @param int $id User's ID
  * @return void Redirects to previous page
  */
 	public function delete($id) {

@@ -47,7 +47,7 @@ trait ViewModeAwareTrait {
 /**
  * Gets the slug name of in use view mode.
  *
- * @param boolean $full Set to true to get full information as an array.
+ * @param bool $full Set to true to get full information as an array.
  *  Or set to false (by default) to get slug name only
  * @return string
  * @see \QuickApps\View\ViewModeRegistry::inUseViewMode()
@@ -59,7 +59,7 @@ trait ViewModeAwareTrait {
 /**
  * Gets all registered view modes.
  *
- * @param boolean $full Whether to return full information for each registered
+ * @param bool $full Whether to return full information for each registered
  *  view mode, or just machine-names of each one. Defaults to false,
  *  machine-names only.
  * @return array

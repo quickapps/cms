@@ -13,8 +13,8 @@ namespace QuickApps\Event;
 
 use Cake\Event\Event;
 use Cake\Event\EventManager;
-use QuickApps\Event\HookAwareTrait;
 use QuickApps\Core\StaticCacheTrait;
+use QuickApps\Event\HookAwareTrait;
 
 /**
  * Provides methods for hooktag parsing.
@@ -81,6 +81,7 @@ class HooktagManager {
 	protected static function _hooktagRegex() {
 		$tagregexp = implode('|', array_map('preg_quote', static::_hooktagsList()));
 
+		// @codingStandardsIgnoreStart
 		return
 			'\\['                                // Opening bracket
 			. '(\\[?)'                           // 1: Optional second opening bracket for escaping hooktags: [[tag]]
@@ -110,6 +111,7 @@ class HooktagManager {
 			.     ')?'
 			. ')'
 			. '(\\]?)';                          // 6: Optional second closing brocket for escaping hooktags: [[tag]]
+		// @codingStandardsIgnoreEnd
 	}
 
 /**

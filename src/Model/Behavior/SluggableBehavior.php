@@ -34,7 +34,7 @@ class SluggableBehavior extends Behavior {
 /**
  * Flag.
  * 
- * @var boolean
+ * @var bool
  */
 	protected $_enabled = true;
 
@@ -110,7 +110,7 @@ class SluggableBehavior extends Behavior {
 
 			foreach ($config['label'] as $field) {
 				$val = $entity->get($field);
-				$label .= !empty($val) ?  " {$val}" : '';
+				$label .= !empty($val) ? " {$val}" : '';
 			}
 
 			if (!empty($label)) {

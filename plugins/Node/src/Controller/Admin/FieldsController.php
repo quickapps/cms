@@ -96,7 +96,7 @@ class FieldsController extends AppController {
 				$this->Breadcrumb
 					->push($nodeType->name, '#')
 					->push(__d('node', 'Fields'), ['plugin' => 'Node', 'controller' => 'fields', 'action' => 'index', 'prefix' => 'admin'])
-					->push(__d('node', 'Configure Field {0}',  $this->viewVars['instance']->label), '#');
+					->push(__d('node', 'Configure Field {0}', $this->viewVars['instance']->label), '#');
 			break;
 
 			case 'attach':

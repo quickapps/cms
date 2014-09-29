@@ -86,7 +86,7 @@ class Region {
 		$this->_machineName = Inflector::slug($name, '-');
 		$this->_View = $view;
 		$this->_theme = Plugin::info($options['theme'], true);
-		$this->_View->addHelper('Block.Block');
+		$this->_View->loadHelper('Block.Block');
 		$this->blocks($this->_View->Block->blocksIn($this->_machineName));
 
 		if (isset($this->_theme['composer']['extra']['regions'])) {
