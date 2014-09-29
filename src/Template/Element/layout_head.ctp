@@ -17,6 +17,11 @@
  */
 ?>
 
+<!--
+	This website is powered by QuickAppsCMS, Licensed under GNU/LGPL
+	Visit the project website at http://www.quickappscms.org for more information
+//-->
+
 <?php if (isset($prepend)): ?>
 	<?php echo $prepend; ?>
 <?php endif; ?>
