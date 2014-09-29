@@ -45,7 +45,7 @@ class FormAuthenticate extends CakeFormAuthenticate {
 		if ($result && !empty($request->data['remember'])) {
 			$controller = $this->_registry->getController();
 			if (empty($controller->Cookie)) {
-				$controller->addComponent('Cookie');
+				$controller->loadComponent('Cookie');
 			}
 
 			// user information array
@@ -67,7 +67,7 @@ class FormAuthenticate extends CakeFormAuthenticate {
 	public function logout(array $user) {
 		$controller = $this->_registry->getController();
 		if (empty($controller->Cookie)) {
-			$controller->addComponent('Cookie');
+			$controller->loadComponent('Cookie');
 		}
 		$controller->Cookie->delete('User.Cookie');
 	}

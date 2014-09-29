@@ -105,8 +105,8 @@ trait CommentUIControllerTrait {
 		];
 		$this->paginate['limit'] = 10;
 
-		$this->addComponent('Paginator');
-		$this->addComponent('Comment.Comment');
+		$this->loadComponent('Paginator');
+		$this->loadComponent('Comment.Comment');
 		$initializeEvent = new Event('Component.initialize', $this);
 		$this->Comment->initialize($initializeEvent);
 	}

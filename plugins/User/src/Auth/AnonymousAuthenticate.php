@@ -79,7 +79,7 @@ class AnonymousAuthenticate extends BaseAuthenticate {
 	protected function _cookieLogin(Request $request) {
 		$controller = $this->_registry->getController();
 		if (empty($controller->Cookie)) {
-			$controller->addComponent('Cookie');
+			$controller->loadComponent('Cookie');
 		}
 
 		$cookie = $controller->Cookie->read('User.Cookie');

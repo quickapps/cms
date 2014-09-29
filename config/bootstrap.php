@@ -54,6 +54,7 @@ use Cake\Network\Email\Email;
 use Cake\Network\Request;
 use Cake\Routing\DispatcherFactory;
 use Cake\Utility\Inflector;
+use Cake\Utility\Security;
 use QuickApps\Core\Plugin;
 
 /**
@@ -125,7 +126,7 @@ if ($isCli) {
 }
 
 /**
- * Set the full base url.
+ * Set the full base URL.
  * This URL is used as the base of all absolute links.
  *
  * If you define fullBaseUrl in your config file you can remove this.
@@ -148,6 +149,7 @@ ConnectionManager::config(Configure::consume('Datasources'));
 Email::configTransport(Configure::consume('EmailTransport'));
 Email::config(Configure::consume('Email'));
 Log::config(Configure::consume('Log'));
+Security::salt(Configure::consume('Security.salt'));
 
 /**
  * Setup detectors for mobile and tablet.
