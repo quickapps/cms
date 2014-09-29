@@ -553,7 +553,7 @@ class FieldableBehavior extends Behavior {
 					if ($entity instanceof Entity) {
 						$entity = $this->attachEntityFields($entity);
 						foreach ($entity->get('_fields') as $field) {
-							$fieldEvent = $this->hook(["Field.{$field->metadata->handler}.Entity.beforeFind", $event->subject], $field, $options, $primary);
+							$fieldEvent = $this->trigger(["Field.{$field->metadata->handler}.Entity.beforeFind", $event->subject], $field, $options, $primary);
 							if ($fieldEvent->result === false) {
 								$entity = false;
 								break;
@@ -649,7 +649,7 @@ class FieldableBehavior extends Behavior {
 					$field->set('raw', []);
 				}
 
-				$fieldEvent = $this->hook(["Field.{$instance->handler}.Entity.beforeSave", $event->subject], $field, $options);
+				$fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.beforeSave", $event->subject], $field, $options);
 				if ($fieldEvent->result === false) {
 					$entity = $this->attachEntityFields($entity);
 					return false;
@@ -721,7 +721,7 @@ class FieldableBehavior extends Behavior {
 		$instances = $this->_getTableFieldInstances($entity);
 		foreach ($instances as $instance) {
 			$field = $this->_getMockField($entity, $instance);
-			$fieldEvent = $this->hook(["Field.{$instance->handler}.Entity.afterSave", $event->subject], $field, $options);
+			$fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.afterSave", $event->subject], $field, $options);
 		}
 
 		return true;
@@ -753,7 +753,7 @@ class FieldableBehavior extends Behavior {
 		$instances = $this->_getTableFieldInstances($entity);
 		foreach ($instances as $instance) {
 			$field = $this->_getMockField($entity, $instance);
-			$fieldEvent = $this->hook(["Field.{$field->metadata['handler']}.Entity.beforeValidate", $event->subject], $field, $options, $validator);
+			$fieldEvent = $this->trigger(["Field.{$field->metadata['handler']}.Entity.beforeValidate", $event->subject], $field, $options, $validator);
 
 			if ($fieldEvent->isStopped()) {
 				$entity = $this->attachEntityFields($entity);
@@ -800,7 +800,7 @@ class FieldableBehavior extends Behavior {
 					$field->metadata->set('errors', (array)$entityErrors[$postName]);
 				}
 
-				$fieldEvent = $this->hook(["Field.{$field->metadata['handler']}.Entity.afterValidate", $event->subject], $field, $options, $validator);
+				$fieldEvent = $this->trigger(["Field.{$field->metadata['handler']}.Entity.afterValidate", $event->subject], $field, $options, $validator);
 				if ($fieldEvent->isStopped()) {
 					$event->stopPropagation();
 					return $fieldEvent->result;
@@ -843,7 +843,7 @@ class FieldableBehavior extends Behavior {
 			// invoke fields beforeDelete so they can do its stuff
 			// e.g.: Delete entity information from another table.
 			$field = $this->_getMockField($entity, $instance);
-			$fieldEvent = $this->hook(["Field.{$instance->handler}.Entity.beforeDelete", $event->subject], $field, $options);
+			$fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.beforeDelete", $event->subject], $field, $options);
 
 			if ($fieldEvent->result == false || $fieldEvent->isStopped()) {
 				$event->stopPropagation();
@@ -898,7 +898,7 @@ class FieldableBehavior extends Behavior {
 
 		if (!empty($this->_cache['fields.beforeDelete']) && is_array($this->_cache['fields.beforeDelete'])) {
 			foreach ($this->_cache['fields.beforeDelete'] as $field) {
-				$fieldEvent = $this->hook(["Field.{$field->handler}.Entity.afterDelete", $event->subject], $field, $options);
+				$fieldEvent = $this->trigger(["Field.{$field->handler}.Entity.afterDelete", $event->subject], $field, $options);
 			}
 			$this->_cache['fields.beforeDelete'] = [];
 		}
@@ -973,7 +973,7 @@ class FieldableBehavior extends Behavior {
 				}
 			}
 
-			$this->hook(["Field.{$mock->metadata['handler']}.Entity.fieldAttached", $this->_table], $mock);
+			$this->trigger(["Field.{$mock->metadata['handler']}.Entity.fieldAttached", $this->_table], $mock);
 			$_fields[] = $mock;
 		}
 

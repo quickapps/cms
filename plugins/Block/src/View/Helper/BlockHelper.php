@@ -53,7 +53,7 @@ class BlockHelper extends Helper {
 	public function render(Block $block, array $options = []) {
 		$this->alter('BlockHelper.render', $block, $options);
 		if ($this->allowed($block)) {
-			return $this->hook(["Block.{$block->handler}.display", $this->_View], $block, $options)->result;
+			return $this->trigger(["Block.{$block->handler}.display", $this->_View], $block, $options)->result;
 		}
 		return '';
 	}

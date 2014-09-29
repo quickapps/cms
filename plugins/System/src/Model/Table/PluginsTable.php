@@ -78,7 +78,7 @@ class PluginsTable extends Table {
 		$query->formatResults(function ($results) {
 			return $results->map(function($plugin) {
 				if ($plugin->has('settings') && $plugin->has('name')) {
-					$settingsDefaults = $this->hook("Plugin.{$plugin->name}.settingsDefaults")->result;
+					$settingsDefaults = $this->trigger("Plugin.{$plugin->name}.settingsDefaults")->result;
 					if (!is_array($settingsDefaults)) {
 						$settingsDefaults = [];
 					}
@@ -101,7 +101,7 @@ class PluginsTable extends Table {
  */
 	public function beforeValidate(Event $event, Entity $entity, $options, Validator $validator) {
 		if (!empty($options['validate']) && $options['validate'] == 'settings') {
-			$this->hook(['Plugin.' . $entity->get('_plugin_name') . '.settingsValidate', $event->subject], $entity, $validator);
+			$this->trigger(['Plugin.' . $entity->get('_plugin_name') . '.settingsValidate', $event->subject], $entity, $validator);
 		}
 	}
 

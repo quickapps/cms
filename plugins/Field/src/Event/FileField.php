@@ -16,7 +16,7 @@ use Cake\Filesystem\File;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
-use Field\Event\FieldHandler;
+use Field\Event\Base\FieldHandler;
 use Field\Model\Entity\Field;
 use Field\Utility\TextToolbox;
 

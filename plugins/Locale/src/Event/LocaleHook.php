@@ -9,19 +9,16 @@
  * @link	 http://www.quickappscms.org
  * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace System\Event;
+namespace Locale\Event;
 
 use Cake\Event\Event;
 use Cake\Event\EventListener;
-use QuickApps\Event\HookAwareTrait;
 
 /**
- * Main Hook Listener for System plugin.
+ * Main Hook Listener for Locale plugin.
  *
  */
-class SystemHook implements EventListener {
-
-	use HookAwareTrait;
+class LocaleHook implements EventListener {
 
 /**
  * Returns a list of hooks this Hook Listener is implementing. When the class is
@@ -32,21 +29,24 @@ class SystemHook implements EventListener {
  */
 	public function implementedEvents() {
 		return [
-			'Block.System.display' => 'displayBlock',
+			'Block.Locale.display' => 'renderBlock',
 		];
 	}
 
 /**
- * All blocks registered by "System" plugin are associated blocks
- * of some core's menus. So we redirect rendering task to Menu plugin's render.
- * 
+ * Renders all blocks registered by Locale plugin.
+ *
+ * Locale plugin has one built-in blocks that comes with every QuickApps CMS
+ * installation: "Language witcher" which allows users to change from one
+ * language to another.
+ *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Block\Model\Entity\Block $block The block being rendered
- * @param array $options Array of options for BlockHelper::render() method
- * @return array
+ * @param array $options Additional options as an array
+ * @return string
  */
-	public function displayBlock(Event $event, $block, $options) {
-		return $this->trigger(['Block.Menu.display', $event->subject], $block, $options)->result;
+	public function renderBlock(Event $event, $block, $options = []) {
+		return $event->subject->element("Locale.{$block->delta}", compact('block', 'options'));
 	}
 
 }

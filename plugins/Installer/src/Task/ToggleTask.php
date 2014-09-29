@@ -119,7 +119,7 @@ class ToggleTask extends BaseTask {
 
 		if ($this->config('callbacks')) {
 			try {
-				$beforeEvent = $this->hook("Plugin.{$info['name']}.before{$callbackSufix}");
+				$beforeEvent = $this->trigger("Plugin.{$info['name']}.before{$callbackSufix}");
 				if ($beforeEvent->isStopped() || $beforeEvent->result === false) {
 					$this->error(__d('installer', 'Task was explicitly rejected by the plugin.'));
 					return false;
@@ -144,7 +144,7 @@ class ToggleTask extends BaseTask {
 
 		if ($this->config('callbacks')) {
 			try {
-				$this->hook("Plugin.{$info['name']}.after{$callbackSufix}");
+				$this->trigger("Plugin.{$info['name']}.after{$callbackSufix}");
 			} catch (\Exception $e) {
 				$this->error(__d('installer', 'Plugin did not respond to "after{0}" callback.', $callbackSufix));
 			}

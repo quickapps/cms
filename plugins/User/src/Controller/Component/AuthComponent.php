@@ -39,13 +39,13 @@ class AuthComponent extends CakeAuthComponent {
  * @return array User record data, or false, if the user could not be identified.
  */
 	public function identify() {
-		$event = $this->hook('User.beforeIdentify');
+		$event = $this->trigger('User.beforeIdentify');
 		if ($event->isStopped() || $event->result === false) {
 			return false;
 		}
 
 		$result = parent::identify();
-		$this->hook('User.afterIdentify', $result);
+		$this->trigger('User.afterIdentify', $result);
 		return $result;
 	}
 
@@ -64,13 +64,13 @@ class AuthComponent extends CakeAuthComponent {
  * @link http://book.cakephp.org/2.0/en/core-libraries/components/authentication.html#logging-users-out
  */
 	public function logout() {
-		$event = $this->hook('User.beforeLogout');
+		$event = $this->trigger('User.beforeLogout');
 		if ($event->isStopped() || $event->result === false) {
 			return false;
 		}
 
 		$result = parent::logout();
-		$eventResult = $this->hook('User.afterLogout', $result)->result;
+		$eventResult = $this->trigger('User.afterLogout', $result)->result;
 
 		if ($eventResult) {
 			$result = $eventResult;

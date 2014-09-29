@@ -15,7 +15,7 @@ use Cake\Event\Event;
 use Cake\Event\EventManager;
 
 /**
- * Provides hook() & alter() methods.
+ * Provides trigger() & alter() methods.
  *
  * QuickAppsCMS's event system is built over
  * [cake's event system](http://book.cakephp.org/3.0/en/core-libraries/events.html),
@@ -37,7 +37,7 @@ use Cake\Event\EventManager;
  * associative array with all Event names that the class will handle. For example:
  * `User.beforeLogin` Event name will respond to:
  *
- *     $this->hook('User.beforeLogin', ...);
+ *     $this->trigger('User.beforeLogin', ...);
  *
  * When using the `alert()` method Event names are prefixed with with the `Alter.`
  * word. For example, the Event name `Alter.FormHelper.textarea` will respond to:
@@ -48,10 +48,10 @@ use Cake\Event\EventManager;
  *
  * ---
  *
- * In the other hand, when using the `hook()` method no prefixes are added to
+ * In the other hand, when using the `trigger()` method no prefixes are added to
  * the Event name so for example, the event name `Say.HelloWorld` will respond to:
  *
- *     $this->hook('Say.HelloWorld', $arg_0, $arg_1, ..., $arg_n);
+ *     $this->trigger('Say.HelloWorld', $arg_0, $arg_1, ..., $arg_n);
  *
  * You can provide an unlimited number of arguments which are treated by value,
  * and NOT by reference as `alter()` does.
@@ -89,8 +89,8 @@ use Cake\Event\EventManager;
  *     $hello = 'Hello';
  *     $this->alter('Hello', $hello);
  *     echo $hello; // out: "Hello World!"
- *     echo $this->hook('Hello', $hello); // out: "Hello World! world!"
- *     echo $this->hook('Hello', 'hellooo'); // out: "hellooo world!"
+ *     echo $this->trigger('Hello', $hello); // out: "Hello World! world!"
+ *     echo $this->trigger('Hello', 'hellooo'); // out: "hellooo world!"
  *
  * ## Recommended Reading
  *
@@ -109,8 +109,8 @@ class HookManager {
 	protected static $_log = [];
 
 /**
- * Retrieve the number of times an event was fired, or the complete list
- * of events that were fired.
+ * Retrieve the number of times an event was triggered, or the complete list
+ * of events that were triggered.
  *
  * @param string $eventName The name of the event, if null returns the entire
  *  list of event that were fired
@@ -118,7 +118,7 @@ class HookManager {
  *  Defaults to true
  * @return integer|array
  */
-	public static function didHook($eventName = null, $sort = true) {
+	public static function triggered($eventName = null, $sort = true) {
 		if (!$eventName) {
 			if ($sort) {
 				arsort(static::$_log, SORT_NATURAL);
@@ -137,7 +137,7 @@ class HookManager {
  * You can provide a context to use by passing an array as first arguments where
  * the first element is the event name and the second one is the context:
  *
- *     HookManager::hook(['GetTime', new ContextObject()], ['arg0' => 'val0', ...]);
+ *     HookManager::trigger(['GetTime', new ContextObject()], ['arg0' => 'val0', ...]);
  *
  * If no context is given an instance of "Hook" class will be used by default.
  *
@@ -145,7 +145,7 @@ class HookManager {
  * @param array $args Associative array of argument to pass to the Event handler method
  * @return \Cake\Event\Event The event object that was fired
  */
-	public static function hook($eventName, $args = []) {
+	public static function trigger($eventName, $args = []) {
 		if (is_array($eventName)) {
 			list($eventName, $context) = $eventName;
 		} else {
@@ -159,7 +159,7 @@ class HookManager {
 	}
 
 /**
- * Similar to "hook()" but aimed to alter the given arguments.
+ * Similar to "trigger()" but aimed to alter the given arguments.
  *
  * You can provide **up to 15 arguments**, which are automatically
  * passed to you event listener method by reference. For example:
@@ -175,7 +175,8 @@ class HookManager {
  *     $this->alter('MyHook', 'data 0', 'data 1', ..., 'data 14');
  *     // Fatal Error
  *
- * In your `Event Listener` class you must implement the should do as below:
+ * Event names are prefixed with the `Alter.` word. For instance, in your
+ * `Event Listener` class you must do as below:
  *
  *     // note the `Alter.` prefix
  *     public function implementedEvents() {

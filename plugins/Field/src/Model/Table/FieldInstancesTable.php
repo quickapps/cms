@@ -145,7 +145,7 @@ class FieldInstancesTable extends Table {
 						'hooktags' => false,
 						'hidden' => false,
 						'ordering' => 0,
-					], (array)$this->hook("Field.{$instance->handler}.Instance.viewModeDefaults", $instance, ['viewMode' => $viewMode])->result);
+					], (array)$this->trigger("Field.{$instance->handler}.Instance.viewModeDefaults", $instance, ['viewMode' => $viewMode])->result);
 
 					if (!isset($view_modes[$viewMode])) {
 						$view_modes[$viewMode] = [];
@@ -155,7 +155,7 @@ class FieldInstancesTable extends Table {
 					$instance->set('view_modes', $view_modes);
 				}
 
-				$settingsDefaults = (array)$this->hook("Field.{$instance->handler}.Instance.settingsDefaults", $instance, [])->result;
+				$settingsDefaults = (array)$this->trigger("Field.{$instance->handler}.Instance.settingsDefaults", $instance, [])->result;
 				if (!empty($settingsDefaults)) {
 					$instanceSettings = $instance->get('settings');
 					foreach ($settingsDefaults as $k => $v) {
@@ -183,7 +183,7 @@ class FieldInstancesTable extends Table {
 	public function beforeValidate(Event $event, Entity $settings, $options, Validator $validator) {
 		if (isset($options['validate']) && in_array($options['validate'], ['settings', 'viewMode'])) {
 			$eventName = $options['validate'] == 'settings' ? 'settingsValidate' : 'viewModeValidate';
-			$instanceEvent = $this->hook(["Field.{$settings->get('_field_handler')}.Instance.{$eventName}", $event->subject], $settings, $validator);
+			$instanceEvent = $this->trigger(["Field.{$settings->get('_field_handler')}.Instance.{$eventName}", $event->subject], $settings, $validator);
 			if ($instanceEvent->isStopped() || $instanceEvent->result === false) {
 				return false;
 			}
@@ -212,7 +212,7 @@ class FieldInstancesTable extends Table {
  * @return bool False if save operation should not continue, true otherwise
  */
 	public function beforeSave(Event $event, FieldInstance $instance, $options = []) {
-		$instanceEvent = $this->hook(["Field.{$instance->handler}.Instance.beforeAttach", $event->subject], $instance, $options);
+		$instanceEvent = $this->trigger(["Field.{$instance->handler}.Instance.beforeAttach", $event->subject], $instance, $options);
 		if ($instanceEvent->isStopped() || $instanceEvent->result === false) {
 			return false;
 		}
@@ -228,7 +228,7 @@ class FieldInstancesTable extends Table {
  * @return void
  */
 	public function afterSave(Event $event, FieldInstance $instance, $options = []) {
-		$this->hook(["Field.{$instance->handler}.Instance.afterAttach", $event->subject], $instance, $options);
+		$this->trigger(["Field.{$instance->handler}.Instance.afterAttach", $event->subject], $instance, $options);
 	}
 
 /**
@@ -240,7 +240,7 @@ class FieldInstancesTable extends Table {
  * @return bool False if delete operation should not continue, true otherwise
  */
 	public function beforeDelete(Event $event, FieldInstance $instance, $options = []) {
-		$instanceEvent = $this->hook(["Field.{$instance->handler}.Instance.beforeDetach", $event->subject], $instance, $options);
+		$instanceEvent = $this->trigger(["Field.{$instance->handler}.Instance.beforeDetach", $event->subject], $instance, $options);
 		if ($instanceEvent->isStopped() || $instanceEvent->result === false) {
 			return false;
 		}
@@ -259,7 +259,7 @@ class FieldInstancesTable extends Table {
 	public function afterDelete(Event $event, FieldInstance $instance, $options = []) {
 		$FieldValues = TableRegistry::get('Field.FieldValues');
 		$FieldValues->deleteAll(['field_instance_id' => $instance->id]);
-		$this->hook(["Field.{$instance->handler}.Instance.afterDetach", $event->subject], $instance, $options);
+		$this->trigger(["Field.{$instance->handler}.Instance.afterDetach", $event->subject], $instance, $options);
 	}
 
 }

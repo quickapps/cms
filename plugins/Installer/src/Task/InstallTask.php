@@ -151,7 +151,7 @@ class InstallTask extends BaseTask {
 			// "before" events occurs even before plugins is moved to its destination
 			$this->attachListeners("{$this->_extractedPath}src/Event");
 			try {
-				$beforeInstallEvent = $this->hook('Plugin.' . $this->plugin() . '.beforeInstall');
+				$beforeInstallEvent = $this->trigger('Plugin.' . $this->plugin() . '.beforeInstall');
 				if ($beforeInstallEvent->isStopped() || $beforeInstallEvent->result === false) {
 					$this->error(__d('installer', 'Task was explicitly rejected by the plugin.'));
 					$this->_rollback();
@@ -185,7 +185,7 @@ class InstallTask extends BaseTask {
 
 		if ($this->config('callbacks')) {
 			try  {
-				$this->hook('Plugin.' . $this->plugin() . '.afterInstall');
+				$this->trigger('Plugin.' . $this->plugin() . '.afterInstall');
 			} catch (\Exception $e) {
 				$this->error(__d('installer', 'Plugin was installed but some errors occur.'));
 			}

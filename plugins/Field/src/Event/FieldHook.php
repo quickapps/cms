@@ -94,7 +94,7 @@ class FieldHook implements EventListener {
 			!$field->metadata->view_modes[$viewMode]['hidden']
 		) {
 			$options = array_merge(['edit' => false], $options);
-			$renderFieldHook = $this->hook(["Field.{$field->metadata['handler']}.Entity.display", $event->subject], $field, $options);
+			$renderFieldHook = $this->trigger(["Field.{$field->metadata['handler']}.Entity.display", $event->subject], $field, $options);
 			$event->stopPropagation(); // We don't want other plugins to catch this
 			return (string)$renderFieldHook->result;
 		}
@@ -107,7 +107,7 @@ class FieldHook implements EventListener {
  *
  * ### Example:
  *
- * Using `$this->hook('Field.info', true)` may produce:
+ * Using `$this->trigger('Field.info', true)` may produce:
  *
  *     array(
  *         [0] => array(
@@ -141,7 +141,7 @@ class FieldHook implements EventListener {
 						'hidden' => false,
 						'handler' => $fieldHandler,
 					],
-					(array)$this->hook($listener)->result
+					(array)$this->trigger($listener)->result
 				);
 				if (!$response['hidden'] || $includeHidden) {
 					$fields[] = $response;

@@ -50,24 +50,24 @@ class HookManagerTest extends TestCase {
 	}
 
 /**
- * test didHook() method.
+ * test triggered() method.
  *
  * @return void
  */
-	public function testDidHook() {
-		$this->assertTrue(HookManager::didHook('unexisting') === 0);
+	public function testTriggered() {
+		$this->assertTrue(HookManager::triggered('unexisting') === 0);
 
-		HookManager::hook('Test.hook');
-		$this->assertTrue(HookManager::didHook('Test.hook') === 1);
+		HookManager::trigger('Test.hook');
+		$this->assertTrue(HookManager::triggered('Test.hook') === 1);
 	}
 
 /**
- * test hook() method.
+ * test trigger() method.
  *
  * @return void
  */
-	public function testHook() {
-		$return = HookManager::hook('Test.hook');
+	public function testTrigger() {
+		$return = HookManager::trigger('Test.hook');
 
 		$this->assertTrue($return instanceof Event);
 		$this->assertEquals($return->result, 'event response');

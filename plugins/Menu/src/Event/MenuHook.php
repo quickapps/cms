@@ -107,7 +107,7 @@ class MenuHook implements EventListener {
 
 		// plugin should take care of rendering
 		if (in_array("Menu.{$menu->handler}.display", listeners())) {
-			return $this->hook(["Menu.{$menu->handler}.display", $event->subject], $menu, $options);
+			return $this->trigger(["Menu.{$menu->handler}.display", $event->subject], $menu, $options);
 		}
 
 		// avoid scanning file system every time a block is being rendered

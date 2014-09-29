@@ -41,7 +41,7 @@ class CommentHelper extends Helper {
 		}
 
 		$this->alter('CommentHelper.render', $entity);
-		$out = $this->hook('CommentHelper.beforeRender')->result;
+		$out = $this->trigger('CommentHelper.beforeRender')->result;
 
 		if ($this->config('visibility') > 0) {
 			$this->config('entity', $entity);
@@ -52,7 +52,7 @@ class CommentHelper extends Helper {
 			}
 		}
 
-		$out .= $this->hook('CommentHelper.afterRender')->result;
+		$out .= $this->trigger('CommentHelper.afterRender')->result;
 		return $out;
 	}
 

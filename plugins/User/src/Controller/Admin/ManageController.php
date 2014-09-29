@@ -76,7 +76,7 @@ class ManageController extends AppController {
 			$user = $this->Users->patchEntity($user, $data);
 			if ($this->Users->save($user)) {
 				if ($sendWelcomeMessage) {
-					$this->hook('User.registered', $user);
+					$this->trigger('User.registered', $user);
 				}
 
 				$this->Flash->success(__d('user', 'User successfully registered!'));
@@ -141,7 +141,7 @@ class ManageController extends AppController {
 			if ($this->Users->updateAll(['status' => 0], ['id' => $user->id])) {
 				$this->Flash->success(__d('user', 'User {0} was successfully blocked!'), $user->name);
 				$this->Users->updateToken($user);
-				$this->hook('User.blocked', $user);
+				$this->trigger('User.blocked', $user);
 			} else {
 				$this->Flash->danger(__d('user', 'User could not be blocked, please try again.'));
 			}
@@ -163,7 +163,7 @@ class ManageController extends AppController {
 		$user = $this->Users->get($id, ['fields' => ['id', 'name']]);
 
 		if ($this->Users->updateAll(['status' => 1], ['id' => $user->id])) {
-			$this->hook('User.activated', $user);
+			$this->trigger('User.activated', $user);
 			$this->Flash->success(__d('user', 'User {0} was successfully activated!'), $user->name);
 		} else {
 			$this->Flash->danger(__d('user', 'User could not be activated, please try again.'));
@@ -183,7 +183,7 @@ class ManageController extends AppController {
 		$user = $this->Users->get($id, ['fields' => ['id', 'name']]);
 
 		if ($user) {
-			$this->hook('User.passwordRequest', $user)->result;
+			$this->trigger('User.passwordRequest', $user)->result;
 			$this->Flash->success(__d('user', 'Instructions we successfully sent to {0}'), $user->name);
 		} else {
 			$this->Flash->danger(__d('user', 'User was not found.'));
@@ -209,7 +209,7 @@ class ManageController extends AppController {
 			$this->Flash->danger(__d('user', 'You cannot remove this user as it is the last administrator available.'));
 		} else {
 			if ($this->Users->delete($user)) {
-				$this->hook('User.canceled', $user);
+				$this->trigger('User.canceled', $user);
 				$this->Flash->success(__d('user', 'User successfully removed!'));
 				$this->redirect($this->referer());
 			} else {

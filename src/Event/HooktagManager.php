@@ -148,9 +148,9 @@ class HooktagManager {
 
 		$tag = $m[2];
 		$atts = static::_parseHooktagAttributes($m[3]);
-		$hook = $EventManager->listeners("Hooktag.{$tag}");
+		$listeners = $EventManager->listeners("Hooktag.{$tag}");
 
-		if (!empty($hook)) {
+		if (!empty($listeners)) {
 			$options = [
 				'atts' => (array)$atts,
 				'content' => null,
@@ -163,7 +163,6 @@ class HooktagManager {
 
 			$event = new Event("Hooktag.{$tag}", static::cache('context'), $options);
 			$EventManager->dispatch($event);
-
 			return $m[1] . $event->result . $m[6];
 		}
 

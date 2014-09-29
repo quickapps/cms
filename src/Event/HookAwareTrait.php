@@ -16,23 +16,23 @@ use Cake\Event\EventManager;
 use QuickApps\Event\HookManager;
 
 /**
- * Provides hook() & alter() methods.
+ * Provides trigger() & alter() methods.
  *
  * @see QuickApps\Event\HookManager
  */
 trait HookAwareTrait {
 
 /**
- * Retrieves the number of times an event was fired, or the complete list
- * of events that were fired.
+ * Retrieves the number of times an event was triggered, or the complete list
+ * of events that were triggered.
  *
  * @param string $eventName The name of the event, if null returns the entire
  *  list of event that were fired
  * @return integer|array
- * @see QuickApps\Event\HookManager::didHook()
+ * @see QuickApps\Event\HookManager::triggered()
  */
-	public function didHook($eventName = null) {
-		return HookManager::didHook($eventName);
+	public function triggered($eventName = null) {
+		return HookManager::triggered($eventName);
 	}
 
 /**
@@ -42,7 +42,7 @@ trait HookAwareTrait {
  *
  * ### Usage:
  *
- *     $this->hook('GetTime', $arg_0, $arg_0, ..., $arg_1);
+ *     $this->trigger('GetTime', $arg_0, $arg_0, ..., $arg_1);
  *
  * Your `Event Listener` must implement:
  *
@@ -53,25 +53,25 @@ trait HookAwareTrait {
  * You can provide a context to use by passing an array as first arguments where
  * the first element is the event name and the second one is the context:
  *
- *     $this->hook(['GetTime', new ContextObject()], $arg_0, $arg_0, ..., $arg_1);
+ *     $this->trigger(['GetTime', new ContextObject()], $arg_0, $arg_0, ..., $arg_1);
  *
  * If no context is given "$this" will be used by default.
  * 
  * @param string|array $eventName The event name to trigger
  * @return \Cake\Event\Event The event object that was fired
- * @see QuickApps\Event\HookManager::hook()
+ * @see QuickApps\Event\HookManager::trigger()
  */
-	public function hook($eventName) {
+	public function trigger($eventName) {
 		if (is_string($eventName)) {
 			$eventName = [$eventName, $this];
 		}
 		$args = func_get_args();
 		array_shift($args);
-		return HookManager::hook($eventName, $args);
+		return HookManager::trigger($eventName, $args);
 	}
 
 /**
- * Similar to "hook()" but aimed to alter the given arguments.
+ * Similar to "trigger()" but aimed to alter the given arguments.
  *
  *  * You can pass up to 15 arguments by reference.
  *

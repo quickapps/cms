@@ -96,7 +96,7 @@ class ThemeActivatorTask extends BaseTask {
 
 		if ($this->config('callbacks')) {
 			try {
-				$beforeEvent = $this->hook("Plugin.{$info['name']}.beforeActivate");
+				$beforeEvent = $this->trigger("Plugin.{$info['name']}.beforeActivate");
 				if ($beforeEvent->isStopped() || $beforeEvent->result === false) {
 					$this->error(__d('installer', 'Task was explicitly rejected by the theme.'));
 					return false;
@@ -125,7 +125,7 @@ class ThemeActivatorTask extends BaseTask {
 
 		if ($this->config('callbacks')) {
 			try {
-				$this->hook("Plugin.{$info['name']}.afterActivate");
+				$this->trigger("Plugin.{$info['name']}.afterActivate");
 			} catch (\Exception $e) {
 				$this->error(__d('installer', 'Theme did not respond to "afterActivate" callback.'));
 			}

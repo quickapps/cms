@@ -109,7 +109,7 @@ class UninstallTask extends BaseTask {
 
 		if ($this->config('callbacks')) {
 			try {
-				$beforeUninstallEvent = $this->hook("Plugin.{$info['name']}.beforeUninstall");
+				$beforeUninstallEvent = $this->trigger("Plugin.{$info['name']}.beforeUninstall");
 				if ($beforeUninstallEvent->isStopped() || $beforeUninstallEvent->result === false) {
 					$this->error(__d('installer', 'Task was explicitly rejected by the plugin.'));
 					return false;
@@ -133,7 +133,7 @@ class UninstallTask extends BaseTask {
 
 		if ($this->config('callbacks')) {
 			try {
-				$this->hook("Plugin.{$info['name']}.afterUninstall");
+				$this->trigger("Plugin.{$info['name']}.afterUninstall");
 			} catch (\Exception $e) {
 				$this->error(__d('installer', 'Plugin did not respond to "afterUninstall" callback.'));
 			}

@@ -140,7 +140,7 @@ class GatewayController extends AppController {
 				->first();
 
 			if ($user) {
-				$emailSent = $this->hook('User.passwordRequest', $user)->result;
+				$emailSent = $this->trigger('User.passwordRequest', $user)->result;
 				if ($emailSent) {
 					$this->Flash->success(__d('user', 'Further instructions have been sent to your e-mail address.'));
 				} else {
@@ -166,7 +166,7 @@ class GatewayController extends AppController {
 
 		$this->loadModel('User.Users');
 		$user = $this->Users->get($user->id);
-		$emailSent = $this->hook('User.cancelRequest', $user)->result;
+		$emailSent = $this->trigger('User.cancelRequest', $user)->result;
 		if ($emailSent) {
 			$this->Flash->success(__d('user', 'Further instructions have been sent to your e-mail address.'));
 		} else {
@@ -203,7 +203,7 @@ class GatewayController extends AppController {
 
 		if ($user && $code == $user->cancel_code) {
 			if ($this->Users->delete($user)) {
-				$this->hook('User.canceled', $user);
+				$this->trigger('User.canceled', $user);
 				$this->Flash->success(__d('user', 'Account successfully canceled'));
 			} else {
 				$this->Flash->danger(__d('user', 'Account could not be canceled due to an internal error, please try again later.'));
@@ -233,7 +233,7 @@ class GatewayController extends AppController {
 			$user = $this->Users->patchEntity($user, $this->request->data);
 
 			if ($this->Users->save($user)) {
-				$this->hook('User.registered', $user);
+				$this->trigger('User.registered', $user);
 				$this->Flash->success(__d('user', 'Account successfully created, further instructions have been sent to your e-mail address.', ['key' => 'register']));
 				$registered = true;
 			} else {
@@ -267,7 +267,7 @@ class GatewayController extends AppController {
 				->first();
 
 			if ($user) {
-				$this->hook('User.registered', $user);
+				$this->trigger('User.registered', $user);
 				$this->Flash->success(__d('user', 'Instructions have been sent to your e-mail address.'), ['key' => 'activation_email']);
 				$sent = true;
 			} else {
@@ -300,7 +300,7 @@ class GatewayController extends AppController {
 
 		if ($user) {
 			if ($this->Users->updateAll(['status' => 1], ['id' => $user->id])) {
-				$this->hook('User.activated', $user);
+				$this->trigger('User.activated', $user);
 				$activated = true;
 				$this->Flash->success(__d('user', 'Account successfully activated.'), ['key' => 'activate']);
 			} else {

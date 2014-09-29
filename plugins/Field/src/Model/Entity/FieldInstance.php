@@ -28,7 +28,7 @@ class FieldInstance extends Entity {
  * @return string
  */
 	public function _getHandlerName() {
-		$info = $this->hook("Field.{$this->handler}.Instance.info");
+		$info = $this->trigger("Field.{$this->handler}.Instance.info");
 
 		if (!empty($info->result['name'])) {
 			return $info->result['name'];

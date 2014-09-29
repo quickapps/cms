@@ -94,7 +94,7 @@ class UpdateTask extends InstallTask {
 		if ($this->config('callbacks')) {
 			try {
 				$this->attachListeners("{$this->_extractedPath}src/Event");
-				$beforeUpdateEvent = $this->hook('Plugin.' . $this->plugin() . '.beforeUpdate');
+				$beforeUpdateEvent = $this->trigger('Plugin.' . $this->plugin() . '.beforeUpdate');
 				if ($beforeUpdateEvent->isStopped() || $beforeUpdateEvent->result === false) {
 					$this->error(__d('installer', 'Task was explicitly rejected by the plugin.'));
 					$this->_rollback();
@@ -113,7 +113,7 @@ class UpdateTask extends InstallTask {
 
 		if ($this->config('callbacks')) {
 			try {
-				$this->hook('Plugin.' . $this->plugin() . '.afterUpdate');
+				$this->trigger('Plugin.' . $this->plugin() . '.afterUpdate');
 			} catch (\Exception $e) {
 				$this->error(__d('installer', 'Plugin did not respond to "afterUninstall" callback correctly.'));
 			}
