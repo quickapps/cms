@@ -24,8 +24,8 @@ class ImageHandlerController extends FileHandlerController {
 /**
  * {@inheritDoc}
  */
-	public function upload($instance_slug, $uploader = null) {
-		$field = $this->_getInstance($instance_slug);
+	public function upload($instanceSlug, $uploader = null) {
+		$field = $this->_getInstance($instanceSlug);
 
 		if (!is_object($uploader)) {
 			require_once Plugin::classPath('Field') . 'Lib/class.upload.php';
@@ -65,19 +65,19 @@ class ImageHandlerController extends FileHandlerController {
 		}
 
 		$uploader->allowed = 'image/*';
-		parent::upload($instance_slug, $uploader);
+		parent::upload($instanceSlug, $uploader);
 	}
 
 /**
  * {@inheritDoc}
  */
-	public function delete($instance_slug) {
-		parent::delete($instance_slug);
+	public function delete($instanceSlug) {
+		parent::delete($instanceSlug);
 		$this->loadModel('Field.FieldInstances');
 		$field = $this->FieldInstances
 			->find()
 			->select(['slug', 'settings'])
-			->where(['slug' => $instance_slug])
+			->where(['slug' => $instanceSlug])
 			->limit(1)
 			->first();
 
@@ -93,15 +93,17 @@ class ImageHandlerController extends FileHandlerController {
  * - size: A preview size name, sett `ImageToolbox::getPreviews()`
  *
  * If any of these variables is not present an exception will be throw.
- * 
- * @param string $instance_slug Filed instance's machine-name
+ *
+ * @param string $instanceSlug Filed instance's machine-name
  * @return void
+ * @throws \Cake\Network\Exception\NotFoundException When field instance
+ *  is not found.
  */
-	public function thumbnail($instance_slug) {
+	public function thumbnail($instanceSlug) {
 		$this->loadModel('Field.FieldInstances');
 		$field = $this->FieldInstances
 			->find()
-			->where(['slug' => $instance_slug])
+			->where(['slug' => $instanceSlug])
 			->limit(1)
 			->first();
 

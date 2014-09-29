@@ -13,8 +13,8 @@ namespace Comment\Controller;
 
 use Cake\Collection\Collection;
 use Cake\Core\Configure;
-use Cake\Network\Exception\ForbiddenException;
 use Cake\Event\Event;
+use Cake\Network\Exception\ForbiddenException;
 use Cake\ORM\Exception\RecordNotFoundException;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
@@ -179,7 +179,7 @@ trait CommentUIControllerTrait {
 		$search = ''; // fills form's input
 		$conditions = ['table_alias' => $this->_manageTable];
 
-		if (in_array($status , ['pending', 'approved', 'spam', 'trash'])) {
+		if (in_array($status, ['pending', 'approved', 'spam', 'trash'])) {
 			$conditions['Comments.status'] = $status;
 		} else {
 			$status = 'all';
@@ -221,9 +221,10 @@ trait CommentUIControllerTrait {
 
 /**
  * Edit form for given comment.
- * 
- * @param integer $id Comment id
+ *
+ * @param int $id Comment id
  * @return void Redirects to previous page
+ * @throws \Cake\ORM\Exception\RecordNotFoundException When comment was not found
  */
 	public function edit($id) {
 		$this->loadModel('Comment.Comments');
@@ -256,8 +257,8 @@ trait CommentUIControllerTrait {
 
 /**
  * Changes the status of the given comment.
- * 
- * @param integer $id Comment id
+ *
+ * @param int $id Comment id
  * @param string $status New status for the comment
  * @return void Redirects to previous page
  */
@@ -275,8 +276,8 @@ trait CommentUIControllerTrait {
 
 /**
  * Permanently deletes the given comment.
- * 
- * @param integer $id Comment id
+ *
+ * @param int $id Comment id
  * @return void Redirects to previous page
  */
 	public function delete($id) {

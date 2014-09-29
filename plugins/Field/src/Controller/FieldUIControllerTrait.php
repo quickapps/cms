@@ -14,12 +14,12 @@ namespace Field\Controller;
 use Cake\Collection\Collection;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
-use Cake\Network\Exception\NotFoundException;
-use Cake\Network\Exception\ForbiddenException;
 use Cake\Event\Event;
+use Cake\Network\Exception\ForbiddenException;
+use Cake\Network\Exception\NotFoundException;
 use Cake\ORM\Entity;
-use Cake\ORM\TableRegistry;
 use Cake\ORM\Exception\RecordNotFoundException;
+use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use Field\Model\Entity\FieldViewMode;
@@ -156,12 +156,12 @@ trait FieldUIControllerTrait {
  * In FormHelper, all fields prefixed with `_` will be considered as columns values
  * of the instance being edited. Any other input element will be considered as part
  * of the `settings` column.
- * 
+ *
  * For example: `_label`, `_required` and `description` maps to `label`, `required`
  * and `description`. And `some_input`, `another_input` maps to `settings.some_input`,
  * `settings.another_input`
  *
- * @param integer $id The field instance ID to manage
+ * @param int $id The field instance ID to manage
  * @return void
  * @throws \Cake\ORM\Exception\RecordNotFoundException When no field instance
  *  was found
@@ -255,7 +255,7 @@ trait FieldUIControllerTrait {
  *
  * Detaches a Field from table being managed.
  *
- * @param integer $id ID of the instance to detach
+ * @param int $id ID of the instance to detach
  * @return void
  */
 	public function detach($id) {
@@ -284,7 +284,7 @@ trait FieldUIControllerTrait {
 	public function view_mode_list($viewMode) {
 		$this->_validateViewMode($viewMode);
 		$this->loadModel('Field.FieldInstances');
-		$instances =$this->FieldInstances
+		$instances = $this->FieldInstances
 			->find()
 			->where(['table_alias' => $this->_manageTable])
 			->order(['ordering' => 'ASC'])
@@ -311,7 +311,7 @@ trait FieldUIControllerTrait {
  * Handles field instance rendering settings for a particular view mode.
  *
  * @param string $viewMode View mode slug
- * @param integer $id The field instance ID to manage
+ * @param int $id The field instance ID to manage
  * @return void
  * @throws \Cake\ORM\Exception\RecordNotFoundException When no field
  *  instance was found
@@ -378,7 +378,7 @@ trait FieldUIControllerTrait {
  * in a specific view mode.
  *
  * @param string $viewMode View mode slug
- * @param integer $id Field instance id
+ * @param int $id Field instance id
  * @param string $direction Direction, 'up' or 'down'
  * @return void Redirects to previous page
  * @throws \Cake\ORM\Exception\RecordNotFoundException When no field
@@ -421,9 +421,9 @@ trait FieldUIControllerTrait {
 
 			if ($before != $after) {
 				foreach ($ordered as $k => $field) {
-					$view_modes = $field->view_modes;
-					$view_modes[$viewMode]['ordering'] = $k;
-					$field->set('view_modes', $view_modes);
+					$viewModes = $field->view_modes;
+					$viewModes[$viewMode]['ordering'] = $k;
+					$field->set('view_modes', $viewModes);
 					$this->FieldInstances->save($field, ['validate' => false]);
 				}
 			}
@@ -438,7 +438,7 @@ trait FieldUIControllerTrait {
  * The ordering indicates the position they are displayed on entity's
  * editing form.
  *
- * @param integer $id Field instance id
+ * @param int $id Field instance id
  * @param string $direction Direction, 'up' or 'down'
  * @return void Redirects to previous page
  */
@@ -480,7 +480,7 @@ trait FieldUIControllerTrait {
 /**
  * Gets the given field instance by ID or throw if not exists.
  *
- * @param integer $id Field instance ID
+ * @param int $id Field instance ID
  * @param array $conditions Additional conditions for the WHERE query
  * @return \Field\Model\Entity\FieldInstance The instance
  * @throws \Cake\ORM\Exception\RecordNotFoundException When instance

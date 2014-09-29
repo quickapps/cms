@@ -11,8 +11,8 @@
  */
 namespace Field\Event;
 
-use Cake\ORM\Entity;
 use Cake\Event\Event;
+use Cake\ORM\Entity;
 use Field\Event\Base\FieldHandler;
 use Field\Model\Entity\Field;
 use Field\Utility\TextToolbox;

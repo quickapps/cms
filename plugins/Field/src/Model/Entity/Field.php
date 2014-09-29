@@ -43,7 +43,7 @@ class Field extends Entity {
  *
  * @return array
  */
-	public function _getViewModeSettings() {
+	protected function _getViewModeSettings() {
 		$viewMode = $this->inUseViewMode();
 		$settings = [];
 		if (!empty($this->metadata->view_modes[$viewMode])) {

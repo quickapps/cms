@@ -13,15 +13,16 @@ namespace Field\Model\Behavior;
 
 use Cake\Database\Expression\Comparison;
 use Cake\Event\Event;
+use Cake\Error\FatalErrorException;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
+use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
-use Cake\ORM\Query;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
-use Field\Error\InvalidBundle;
 use Field\Collection\FieldCollection;
+use Field\Error\InvalidBundle;
 use Field\Model\Entity\Field;
 use Field\Model\Entity\FieldValue;
 use QuickApps\Event\HookAwareTrait;
@@ -535,7 +536,7 @@ class FieldableBehavior extends Behavior {
  * @param \Cake\Event\Event $event The beforeFind event that was triggered
  * @param \Cake\ORM\Query $query The original query to modify
  * @param array $options Additional options given as an array
- * @param boolean $primary Whether this find is a primary query or not
+ * @param bool $primary Whether this find is a primary query or not
  * @return void
  */
 	public function beforeFind(Event $event, Query $query, $options, $primary) {
@@ -990,7 +991,7 @@ class FieldableBehavior extends Behavior {
  * @param array $options Array of options
  * @return \Cake\ORM\Query The modified query object
  */
-	public function _scopeQuery(Query $query, $options) {
+	protected function _scopeQuery(Query $query, $options) {
 		$whereClause = $query->clause('where');
 
 		if ($whereClause) {
@@ -1018,29 +1019,29 @@ class FieldableBehavior extends Behavior {
 				$field = $expression->getField();
 				$value = $expression->getValue();
 				$conjunction = $expression->type();
-				list($entity_name, $field_name) = pluginSplit($field);
+				list($entityName, $fieldName) = pluginSplit($field);
 
-				if (!$field_name) {
-					$field_name = $entity_name;
+				if (!$fieldName) {
+					$fieldName = $entityName;
 				}
 
-				$field_name = preg_replace('/\s{2,}/', ' ', $field_name);
-				list($field_name, ) = explode(' ', trim($field_name));
+				$fieldName = preg_replace('/\s{2,}/', ' ', $fieldName);
+				list($fieldName, ) = explode(' ', trim($fieldName));
 
-				if (strpos($field_name, ':') !== 0) {
+				if (strpos($fieldName, ':') !== 0) {
 					return;
 				}
 
-				$field_name = str_replace(':', '', $field_name);
+				$fieldName = str_replace(':', '', $fieldName);
 				$subQuery = TableRegistry::get('Field.FieldValues')->find()
 					->select('entity_id')
 					->where([
-						"FieldValues.field_instance_slug" => $field_name,
+						"FieldValues.field_instance_slug" => $fieldName,
 						"FieldValues.value {$conjunction}" => $value
 					]);
 
 				if ($tableAlias === '*') {
-				// look in all bundles
+					// look in all bundles
 					$subQuery->where([
 						'OR' => [
 							'FieldValues.table_alias' => $this->config('tableAlias'),
@@ -1048,14 +1049,14 @@ class FieldableBehavior extends Behavior {
 						]
 					]);
 				} elseif (is_array($tableAlias)) {
-				// look in multiple bundles
+					// look in multiple bundles
 					$subQuery->where(['FieldValues.table_alias IN' => $tableAlias]);
 				} elseif (strpos($tableAlias, '*') !== false || strpos($tableAlias, '?') !== false) {
-				// look in bundle matching pattern
+					// look in bundle matching pattern
 					$tableAlias = str_replace(['*', '?'], ['%', '_'], $tableAlias);
 					$subQuery->where(['FieldValues.table_alias LIKE' => $tableAlias]);
 				} else {
-				// look in this specific bundle
+					// look in this specific bundle
 					$subQuery->where(['FieldValues.table_alias' => $tableAlias]);
 				}
 

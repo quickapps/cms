@@ -13,8 +13,8 @@ namespace Comment\View\Helper;
 
 use Cake\Network\Exception\InternalErrorException;
 use Cake\ORM\Entity;
-use QuickApps\Event\HookAwareTrait;
 use QuickApps\Core\Plugin;
+use QuickApps\Event\HookAwareTrait;
 use QuickApps\View\Helper;
 
 /**
@@ -31,9 +31,11 @@ class CommentHelper extends Helper {
  *
  * Entity's comments must be in the `comments` property. It is automatically filled when
  * using `CommentableBBehavior`.
- * 
+ *
  * @param \Cake\ORM\Entity $entity Any valid entity
  * @return string
+ * @throws \Cake\Network\Exception\InternalErrorException When comment
+ *  component was not loaded
  */
 	public function render(Entity $entity) {
 		if (!isset($this->_View->viewVars['__commentComponentLoaded__'])) {

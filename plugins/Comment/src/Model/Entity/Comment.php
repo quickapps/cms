@@ -32,7 +32,7 @@ class Comment extends Entity {
  *
  * @return \User\Model\Entity\User
  */
-	public function _getAuthor() {
+	protected function _getAuthor() {
 		$author = [
 			'username' => __d('comment', 'anonymous'),
 			'name' => $this->get('author_name'),

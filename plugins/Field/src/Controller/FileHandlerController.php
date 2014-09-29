@@ -25,16 +25,16 @@ class FileHandlerController extends AppController {
 
 /**
  * Uploads a new file for the given FileField instance.
- * 
- * @param string $instance_slug Machine-name of the instance, a.k.a "slug"
+ *
+ * @param string $instanceSlug Machine-name of the instance, a.k.a "slug"
  * @param \upload $uploader Instance of uploader class to use, useful when
  *  extending this controller
  * @return void
  * @throws \Cake\Network\Exception\NotFoundException When invalid slug is given,
  *  or when upload process could not be completed
  */
-	public function upload($instance_slug, $uploader = null) {
-		$field = $this->_getInstance($instance_slug);
+	public function upload($instanceSlug, $uploader = null) {
+		$field = $this->_getInstance($instanceSlug);
 
 		if (!is_object($uploader)) {
 			require_once Plugin::classPath('Field') . 'Lib/class.upload.php';
@@ -76,16 +76,16 @@ class FileHandlerController extends AppController {
  * Deletes a file for the given FileField instance.
  *
  * File name must be passes as `file` GET parameter.
- * 
- * @param string $instance_slug Machine-name of the instance, a.k.a "slug"
+ *
+ * @param string $instanceSlug Machine-name of the instance, a.k.a "slug"
  * @return void
  * @throws \Cake\Network\Exception\NotFoundException When invalid slug is given
  */
-	public function delete($instance_slug) {
+	public function delete($instanceSlug) {
 		$this->loadModel('Field.FieldInstances');
 		$field = $this->FieldInstances
 			->find()
-			->where(['slug' => $instance_slug])
+			->where(['slug' => $instanceSlug])
 			->limit(1)
 			->first();
 
@@ -126,12 +126,12 @@ class FileHandlerController extends AppController {
 
 /**
  * Sends a JSON message error.
- * 
+ *
  * @param string $message The message
  * @param mixed $code A unique code identifier for this message
  * @return void Stops scripts execution
  */
-	public function _error($message, $code) {
+	protected function _error($message, $code) {
 		header("HTTP/1.0 {$code} {$message}");
 		echo $message;
 		exit(0);

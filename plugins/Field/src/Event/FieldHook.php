@@ -126,7 +126,7 @@ class FieldHook implements EventListener {
  * exclusively by plugins. So users can not `attach` them to entities using Field UI.
  *
  * @param \Cake\Event\Event $event The hook event
- * @param boolean $includeHidden Set to true to include fields marked as hidden
+ * @param bool $includeHidden Set to true to include fields marked as hidden
  * @return \Cake\Collection\Collection A collection of fields information
  */
 	public function listFields(Event $event, $includeHidden = false) {

@@ -24,10 +24,10 @@ class FieldInstance extends Entity {
 
 /**
  * Gets a human-readable name of the field handler class.
- * 
+ *
  * @return string
  */
-	public function _getHandlerName() {
+	protected function _getHandlerName() {
 		$info = $this->trigger("Field.{$this->handler}.Instance.info");
 
 		if (!empty($info->result['name'])) {

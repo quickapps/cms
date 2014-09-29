@@ -127,11 +127,11 @@ class FieldInstancesTable extends Table {
 
 /**
  * Here we set default values for each view mode if they were not defined before.
- * 
+ *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Query $query The query object
  * @param array $options Additional options given as an array
- * @param boolean $primary Whether this find is a primary query or not
+ * @param bool $primary Whether this find is a primary query or not
  * @return void
  */
 	public function beforeFind(Event $event, Query $query, array $options, $primary) {
@@ -139,7 +139,7 @@ class FieldInstancesTable extends Table {
 		$query->formatResults(function ($results) use ($viewModes) {
 			return $results->map(function($instance) use ($viewModes) {
 				foreach ($viewModes as $viewMode) {
-					$view_modes = $instance->view_modes;
+					$instanceViewModes = $instance->view_modes;
 					$viewModeDefaults = array_merge([
 						'label_visibility' => 'above',
 						'hooktags' => false,
@@ -147,12 +147,12 @@ class FieldInstancesTable extends Table {
 						'ordering' => 0,
 					], (array)$this->trigger("Field.{$instance->handler}.Instance.viewModeDefaults", $instance, ['viewMode' => $viewMode])->result);
 
-					if (!isset($view_modes[$viewMode])) {
-						$view_modes[$viewMode] = [];
+					if (!isset($instanceViewModes[$viewMode])) {
+						$instanceViewModes[$viewMode] = [];
 					}
 
-					$view_modes[$viewMode] = array_merge($viewModeDefaults, $view_modes[$viewMode]);
-					$instance->set('view_modes', $view_modes);
+					$instanceViewModes[$viewMode] = array_merge($viewModeDefaults, $instanceViewModes[$viewMode]);
+					$instance->set('view_modes', $instanceViewModes);
 				}
 
 				$settingsDefaults = (array)$this->trigger("Field.{$instance->handler}.Instance.settingsDefaults", $instance, [])->result;

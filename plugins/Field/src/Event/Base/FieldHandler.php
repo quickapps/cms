@@ -27,8 +27,8 @@ use QuickApps\Event\HooktagAwareTrait;
  */
 class FieldHandler implements EventListener {
 
-	use HooktagAwareTrait;
 	use HookAwareTrait;
+	use HooktagAwareTrait;
 
 /**
  * Return a list of implemented events.

@@ -86,7 +86,7 @@ class CommentComponent extends Component {
  *
  *     $options['errorMessage'] = function ($comment, $controller) {
  *         return 'My customized error message';
- *     } 
+ *     }
  *
  * @var array
  */
@@ -164,6 +164,7 @@ class CommentComponent extends Component {
 			$this->config('ayah_publisher_key') &&
 			$this->config('ayah_scoring_key')
 		) {
+			// @codingStandardsIgnoreStart
 			/**
 			 * @ignore
 			 */
@@ -193,6 +194,7 @@ class CommentComponent extends Component {
 			 * @ignore
 			 */
 			define('AYAH_USE_CURL', true);
+			// @codingStandardsIgnoreEnd
 		}
 	}
 
