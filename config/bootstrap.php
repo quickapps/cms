@@ -41,6 +41,7 @@ require_once __DIR__ . '/basics.php';
 require_once CORE_PATH . 'config' . DS . 'bootstrap.php';
 
 use Cake\Cache\Cache;
+use Cake\Core\ClassLoader;
 use Cake\Core\Configure\Engine\PhpConfig;
 use Cake\Console\ConsoleErrorHandler;
 use Cake\Core\App;
@@ -182,6 +183,8 @@ if (!file_exists(TMP . 'snapshot.php')) {
  */
 $activePlugins = Plugin::collection()->match(['status' => 1])->toArray();
 $EventManager = EventManager::instance();
+$pluginLoader = new ClassLoader();
+$pluginLoader->register();
 
 if (!count($activePlugins)) {
 	die("Ops, something went wrong. Try to clear your site's snapshot and verify write permissions on /tmp directory.");
@@ -195,10 +198,21 @@ foreach ($activePlugins as $pluginName => $info) {
 		continue;
 	}
 
+	$pluginLoader->addNamespace(
+		str_replace('/', '\\', $pluginName),
+		$info['path'] .  DS . 'src' . DS
+	);
+
+	$pluginLoader->addNamespace(
+		str_replace('/', '\\', $pluginName) . '\Test',
+		$info['path'] . DS . 'tests' . DS
+	);
+
 	Plugin::load($pluginName, [
-		'autoload' => true,
+		'autoload' => false,
 		'bootstrap' => true,
 		'routes' => true,
+		'classBase' => 'src',
 		'ignoreMissing' => true,
 	]);
 
