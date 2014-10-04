@@ -40,7 +40,7 @@
 
 		<?php echo $this->fetch('beforeFormContent'); ?>
 		<div class="field-view-mode-form" style="<?php echo $instance->view_modes[$viewMode]['hidden'] ? 'display:none;' : ''; ?>">
-			<?php echo $this->hook("Field.{$instance->handler}.Instance.viewModeForm", $instance, [])->result; ?>
+			<?php echo $this->trigger("Field.{$instance->handler}.Instance.viewModeForm", $instance, [])->result; ?>
 		</div>
 		<?php echo $this->fetch('afterFormContent'); ?>
 

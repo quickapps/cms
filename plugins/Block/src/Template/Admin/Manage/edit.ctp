@@ -15,7 +15,7 @@
 				<em class="help-block"><?php echo __d('block', 'The content of the block as shown to the user.'); ?></em>
 			<?php else: ?>
 				<!-- handler: <?php echo $block->handler; ?> -->
-				<?php $response = $this->hook("Block.{$block->handler}.settings", $block)->result; ?>
+				<?php $response = $this->trigger("Block.{$block->handler}.settings", $block)->result; ?>
 				<?php if ($response): ?>
 					<hr />
 						<?php echo $response; ?>

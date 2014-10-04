@@ -19,7 +19,7 @@
 		<?php echo $this->Form->input('description', ['label' => __d('menu', 'Description')]); ?>
 
 		<?php if ($menu->handler !== 'Menu'): ?>
-			<?php $result = $this->hook("Menu.{$menu->handler}.settings", $menu)->result; ?>
+			<?php $result = $this->trigger("Menu.{$menu->handler}.settings", $menu)->result; ?>
 			<?php if (!empty($result)): ?>
 			<hr />
 				<?php echo $result; ?>

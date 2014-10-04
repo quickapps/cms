@@ -75,8 +75,10 @@ class ManageControllerTest extends ControllerTestCase {
 				'description' => 'this is a test block',
 				'status' => 1,
 				'body' => 'What a block!',
-				'visibility' => 'only',
-				'pages' => '/',
+				'locale' => '',
+				'region' => [],
+				'visibility' => 'except',
+				'pages' => ''
 			],
 		]);
 		$block = $this->Controller->Blocks
@@ -84,6 +86,7 @@ class ManageControllerTest extends ControllerTestCase {
 			->where(['title' => 'test block'])
 			->limit(1)
 			->first();
+
 		$this->assertNotEmpty($block);
 	}
 
