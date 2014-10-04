@@ -265,9 +265,7 @@ class ManageController extends AppController {
  */
 	protected function _setRoles() {
 		$this->loadModel('Block.Blocks');
-		$roles = $this->Blocks->Roles
-			->find('list')
-			->where(['id NOT IN' => [2, 3]]);
+		$roles = $this->Blocks->Roles->find('list');
 		$this->set('roles', $roles);
 	}
 
