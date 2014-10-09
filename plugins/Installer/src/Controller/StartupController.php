@@ -132,7 +132,7 @@ class StartupController extends Controller {
 			$file = $path . '/installer.po';
 
 			if (file_exists($file)) {
-				I18n::defaultLocale($code); // trick for __d()
+				I18n::locale($code); // trick for __d()
 				$languages[$code] = [
 					'url' => "/installer/startup/requirements?locale={$code}",
 					'welcome' => __d('installer', 'Welcome to QuickApps CMS'),
@@ -141,7 +141,7 @@ class StartupController extends Controller {
 			}
 		}
 
-		I18n::defaultLocale('en-us');
+		I18n::locale('en-us');
 		$this->title('Welcome to QuickApps CMS');
 		$this->set('languages', $languages);
 		$this->_step();

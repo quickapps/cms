@@ -172,18 +172,18 @@ class Controller extends CakeCotroller {
 		$normalizedURL = str_replace('//', '/', "/{$this->request->url}"); // starts with "/""
 
 		if (option('url_locale_prefix') && preg_match("/\/{$localesPattern}\//", $normalizedURL, $matches)) {
-			I18n::defaultLocale($matches[1]);
+			I18n::locale($matches[1]);
 		} elseif ($this->request->is('userLoggedIn') && in_array(user()->locale, $locales)) {
-			I18n::defaultLocale(user()->locale);
+			I18n::locale(user()->locale);
 		} elseif (!empty($this->request->query['locale']) && in_array($this->request->query['locale'], $locales)) {
 			$this->request->session()->write('locale', $this->request->query['locale']);
-			I18n::defaultLocale($this->request->session()->read('locale'));
+			I18n::locale($this->request->session()->read('locale'));
 		} elseif ($this->request->session()->check('locale') && in_array($this->request->session()->read('locale'), $locales)) {
-			I18n::defaultLocale($this->request->session()->read('locale'));
+			I18n::locale($this->request->session()->read('locale'));
 		} elseif (in_array(option('default_language'), $locales)) {
-			I18n::defaultLocale(option('default_language'));
+			I18n::locale(option('default_language'));
 		} else {
-			I18n::defaultLocale('en-us');
+			I18n::locale('en-us');
 		}
 
 		if (
