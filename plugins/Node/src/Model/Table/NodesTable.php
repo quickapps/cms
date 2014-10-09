@@ -169,10 +169,15 @@ class NodesTable extends Table {
 					'data' => $prev,
 					'hash' => $hash,
 				]);
-				$this->NodeRevisions->addBehavior('Timestamp');
+
+				if (!$this->NodeRevisions->hasBehavior('Timestamp')) {
+					$this->NodeRevisions->addBehavior('Timestamp');
+				}
 				$this->NodeRevisions->save($revision);
 			}
 		}
+
+		return true;
 	}
 
 /**
