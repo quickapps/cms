@@ -56,7 +56,7 @@ class NodeRevisionsTable extends Table {
  */
 	public function beforeFind(Event $event, Query $query, array $options, $primary) {
 		$query->formatResults(function ($results) {
-			return $results->map(function($revision) {
+			return $results->map(function ($revision) {
 				try {
 					if (isset($revision->data->node_type_id)) {
 						$nodeType = TableRegistry::get('Node.NodeTypes')

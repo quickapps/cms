@@ -144,7 +144,7 @@ class LinksController extends AppController {
 
 		$parentsTree = $this->Menus->MenuLinks
 			->find('treeList', ['spacer' => '--'])
-			->map(function($link) {
+			->map(function ($link) {
 				if (strpos($link, '-') !== false) {
 					$link = str_replace_last('-', '- ', $link);
 				}

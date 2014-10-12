@@ -60,7 +60,7 @@ class ManageController extends AppController {
 			$regions = Plugin::info($theme, true)['composer']['extra']['regions'];
 			foreach ($regions as $regionSlug => $regionName) {
 				$blocks = $this->Blocks->find()
-					->matching('BlockRegions', function($q) use ($regionSlug, $theme) {
+					->matching('BlockRegions', function ($q) use ($regionSlug, $theme) {
 						return $q->where([
 							'BlockRegions.theme' => $theme,
 							'BlockRegions.region' => $regionSlug,
@@ -284,7 +284,7 @@ class ManageController extends AppController {
 	protected function _setRegions($block = null) {
 		$regions = Plugin::collection(true)
 			->match(['isTheme' => true])
-			->map(function($theme, $key) use($block) {
+			->map(function ($theme, $key) use($block) {
 				$value = '';
 
 				if ($block !== null && $block->has('region')) {

@@ -200,7 +200,7 @@ trait CommentUIControllerTrait {
 			->where($conditions)
 			->order(['Comments.created' => 'DESC'])
 			->formatResults(function ($results) {
-				return $results->map(function($comment) {
+				return $results->map(function ($comment) {
 					$comment->set('entity', $this->_inResponseTo($comment));
 					$comment->set('body',
 						TextToolbox::trimmer(

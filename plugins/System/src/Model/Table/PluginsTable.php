@@ -76,7 +76,7 @@ class PluginsTable extends Table {
  */
 	public function beforeFind(Event $event, Query $query, array $options, $primary) {
 		$query->formatResults(function ($results) {
-			return $results->map(function($plugin) {
+			return $results->map(function ($plugin) {
 				if ($plugin->has('settings') && $plugin->has('name')) {
 					$settingsDefaults = $this->trigger("Plugin.{$plugin->name}.settingsDefaults")->result;
 					if (!is_array($settingsDefaults)) {

@@ -75,7 +75,7 @@ class FieldInstancesTable extends Table {
 					'message' => __d('field', 'Machine name need to be at least 3 characters long.'),
 				],
 				'regExp' => [
-					'rule' => function($value, $context) {
+					'rule' => function ($value, $context) {
 						return preg_match('/^[a-z\d\-]+$/', $value) > 0;
 					},
 					'message' => __d('field', 'Only lowercase letters, numbers and "-" symbol are allowed.'),
@@ -137,7 +137,7 @@ class FieldInstancesTable extends Table {
 	public function beforeFind(Event $event, Query $query, array $options, $primary) {
 		$viewModes = $this->viewModes();
 		$query->formatResults(function ($results) use ($viewModes) {
-			return $results->map(function($instance) use ($viewModes) {
+			return $results->map(function ($instance) use ($viewModes) {
 				foreach ($viewModes as $viewMode) {
 					$instanceViewModes = $instance->view_modes;
 					$viewModeDefaults = array_merge([

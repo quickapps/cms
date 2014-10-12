@@ -249,7 +249,7 @@ abstract class BaseTask {
 		}
 
 		if (!empty($notWritable)) {
-			$lis = array_map(function($item) {
+			$lis = array_map(function ($item) {
 					return "<li>{$item}</li>";
 			}, $notWritable);
 

@@ -119,7 +119,7 @@ class TermsController extends AppController {
 
 		$parentsTree = $this->Vocabularies->Terms
 			->find('treeList', ['spacer' => '--'])
-			->map(function($link) {
+			->map(function ($link) {
 				if (strpos($link, '-') !== false) {
 					$link = str_replace_last('-', '- ', $link);
 				}

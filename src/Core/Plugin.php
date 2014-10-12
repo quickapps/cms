@@ -115,7 +115,7 @@ class Plugin extends CakePlugin {
 				return $out;
 			});
 
-			$collection = $collection->filter(function($value, $key) {
+			$collection = $collection->filter(function ($value, $key) {
 				return $value !== false;
 			});
 		}

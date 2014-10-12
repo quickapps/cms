@@ -76,7 +76,7 @@ class BlockHelper extends Helper {
 		if ($blocks === null) {
 			$blocks = $Blocks->find()
 				->contain(['Roles'])
-				->matching('BlockRegions', function($q) use ($region) {
+				->matching('BlockRegions', function ($q) use ($region) {
 					return $q->where([
 						'BlockRegions.theme' => $this->_View->theme,
 						'BlockRegions.region' => $region,
