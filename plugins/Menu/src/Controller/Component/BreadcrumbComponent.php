@@ -35,10 +35,10 @@ class BreadcrumbComponent extends Component {
 /**
  * Initializes BreadcrumbComponent for use in the controller.
  *
- * @param Event $event The initialize even.
+ * @param Event $event The event that was triggered
  * @return void
  */
-	public function initialize(Event $event) {
+	public function beforeFilter(Event $event) {
 		$this->_controller = $event->subject();
 		$this->_controller->helpers['Breadcrumb'] = ['className' => 'Menu\View\Helper\BreadcrumbHelper'];
 	}
