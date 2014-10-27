@@ -143,7 +143,7 @@ class Plugin extends CakePlugin {
  * @return array Associative array as `PluginName` => `full/path/to/PluginName`
  */
 	public static function scan($ignoreThemes = false) {
-		$cacheKey = 'scan';
+		$cacheKey = "scan_{$ignoreThemes}";
 		$cache = static::cache($cacheKey);
 		if (!$cache) {
 			$cache = [];
@@ -151,7 +151,7 @@ class Plugin extends CakePlugin {
 			$Folder = new Folder();
 			foreach ($paths as $path) {
 				$Folder->cd($path);
-				foreach ($Folder->read(false, true, true)[0] as $dir) {
+				foreach ($Folder->read(true, true, true)[0] as $dir) {
 					$name = basename($dir);
 					if ($ignoreThemes && str_ends_with($name, 'Theme')) {
 						continue;
