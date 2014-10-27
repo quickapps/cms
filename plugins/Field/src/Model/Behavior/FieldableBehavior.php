@@ -1018,7 +1018,7 @@ class FieldableBehavior extends Behavior {
 
 				$field = $expression->getField();
 				$value = $expression->getValue();
-				$conjunction = $expression->type();
+				$conjunction = $expression->getOperator();
 				list($entityName, $fieldName) = pluginSplit($field);
 
 				if (!$fieldName) {
@@ -1062,7 +1062,7 @@ class FieldableBehavior extends Behavior {
 
 				$expression->field($this->_table->alias() . '.' . $pk);
 				$expression->value($subQuery);
-				$expression->type('IN');
+				$expression->setOperator('IN');
 			});
 		}
 
