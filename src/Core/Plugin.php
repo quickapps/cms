@@ -149,6 +149,7 @@ class Plugin extends CakePlugin {
 			$cache = [];
 			$paths = App::path('Plugin');
 			$Folder = new Folder();
+			$Folder->sort = true;
 			foreach ($paths as $path) {
 				$Folder->cd($path);
 				foreach ($Folder->read(true, true, true)[0] as $dir) {
