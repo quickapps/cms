@@ -12,13 +12,13 @@
 namespace Locale\Event;
 
 use Cake\Event\Event;
-use Cake\Event\EventListener;
+use Cake\Event\EventListenerInterface;
 
 /**
  * Main Hook Listener for Locale plugin.
  *
  */
-class LocaleHook implements EventListener {
+class LocaleHook implements EventListenerInterface {
 
 /**
  * Returns a list of hooks this Hook Listener is implementing. When the class is

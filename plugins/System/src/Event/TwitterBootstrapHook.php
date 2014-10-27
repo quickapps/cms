@@ -12,7 +12,7 @@
 namespace System\Event;
 
 use Cake\Event\Event;
-use Cake\Event\EventListener;
+use Cake\Event\EventListenerInterface;
 
 /**
  * Applies some Twitter Bootstrap CSS styles to form/html elements.
@@ -31,7 +31,7 @@ use Cake\Event\EventListener;
  *         echo $this->Form->input('user_name', ['bootstrap' => false]);
  *     echo $this->Form->end();
  */
-class TwitterBootstrapHook implements EventListener {
+class TwitterBootstrapHook implements EventListenerInterface {
 
 /**
  * Custom templates for FormHelper.

@@ -12,14 +12,14 @@
 namespace SpaceOddity\Event;
 
 use Cake\Event\Event;
-use Cake\Event\EventListener;
+use Cake\Event\EventListenerInterface;
 use Cake\Error\Debugger;
 
 /**
  * SpaceOddity Hook class.
  *
  */
-class SpaceOddityHook implements EventListener {
+class SpaceOddityHook implements EventListenerInterface {
 
 	protected $_lyrics = 'Ground Control to Major Tom
 Ground Control to Major Tom

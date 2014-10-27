@@ -588,10 +588,10 @@ class FieldableBehavior extends Behavior {
  * Here is where we dispatch each custom field's `$_POST` information to its
  * corresponding Field Handler, so they can operate over their values.
  *
- * Fields Handler's `Field.<FieldHandler>.Entity.beforeSave` event is triggered over
- * each attached field for this entity, so you should have a listener like:
+ * Fields Handler's `Field.<FieldHandler>.Entity.beforeSave` event is triggered
+ * over each attached field for this entity, so you should have a listener like:
  *
- *     class TextField implements EventListener {
+ *     class TextField implements EventListenerInterface {
  *         public function implementedEvents() {
  *             return [
  *                 'Field\TextField.Entity.beforeSave' => 'entityBeforeSave',

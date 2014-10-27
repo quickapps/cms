@@ -12,14 +12,14 @@
 namespace Wysiwyg\Event;
 
 use Cake\Event\Event;
-use Cake\Event\EventListener;
+use Cake\Event\EventListenerInterface;
 use Cake\ORM\TableRegistry;
 
 /**
  * Main Hook Listener for Wysiwyg plugin.
  *
  */
-class WysiwygHook implements EventListener {
+class WysiwygHook implements EventListenerInterface {
 
 /**
  * Indicates if CKEditor's JS files were already included.

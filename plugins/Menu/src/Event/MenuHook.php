@@ -13,7 +13,7 @@ namespace Menu\Event;
 
 use Cake\Collection\Collection;
 use Cake\Event\Event;
-use Cake\Event\EventListener;
+use Cake\Event\EventListenerInterface;
 use Cake\ORM\TableRegistry;
 use QuickApps\Core\StaticCacheTrait;
 
@@ -21,7 +21,7 @@ use QuickApps\Core\StaticCacheTrait;
  * Menu rendering dispatcher.
  *
  */
-class MenuHook implements EventListener {
+class MenuHook implements EventListenerInterface {
 
 	use StaticCacheTrait;
 

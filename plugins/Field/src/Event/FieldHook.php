@@ -13,7 +13,7 @@ namespace Field\Event;
 
 use Cake\Core\Configure;
 use Cake\Event\Event;
-use Cake\Event\EventListener;
+use Cake\Event\EventListenerInterface;
 use Cake\Event\EventManager;
 use Cake\Utility\Hash;
 use QuickApps\Event\HookAwareTrait;
@@ -52,7 +52,7 @@ use QuickApps\View\ViewModeAwareTrait;
  * practice always use view elements as rendering method instead returning
  * hard-coded HTML code in your methods as in the first example above.
  */
-class FieldHook implements EventListener {
+class FieldHook implements EventListenerInterface {
 
 	use HookAwareTrait;
 	use ViewModeAwareTrait;

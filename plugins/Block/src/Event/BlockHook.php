@@ -14,7 +14,7 @@ namespace Block\Event;
 use Cake\Collection\Collection;
 use Cake\Core\Configure;
 use Cake\Event\Event;
-use Cake\Event\EventListener;
+use Cake\Event\EventListenerInterface;
 use Cake\Event\EventManager;
 use Cake\Utility\Hash;
 use QuickApps\Core\StaticCacheTrait;
@@ -65,7 +65,7 @@ use QuickApps\Event\HookAwareTrait;
  *   as it's already unique in the whole system. Anyway, handler names such as
  *   `random-letters`, or `i-like-trains` are valid as well.
  */
-class BlockHook implements EventListener {
+class BlockHook implements EventListenerInterface {
 
 	use HookAwareTrait;
 	use StaticCacheTrait;

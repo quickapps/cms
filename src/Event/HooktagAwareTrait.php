@@ -34,7 +34,7 @@ trait HooktagAwareTrait {
  *
  * You must define a Hooktag Lister `Hooktag.nice_button`:
  *
- *     class YourListener implements EventListener {
+ *     class YourListener implements EventListenerInterface {
  *         public function implementedEvents() {
  *             return ['Hooktag.nice_button' => 'hooktagNiceButton'];
  *         }

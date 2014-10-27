@@ -12,14 +12,14 @@
 namespace Node\Event;
 
 use Cake\Event\Event;
-use Cake\Event\EventListener;
+use Cake\Event\EventListenerInterface;
 use QuickApps\View\ViewModeRegistry;
 
 /**
  * Main Hook Listener for Node plugin.
  *
  */
-class NodeHook implements EventListener {
+class NodeHook implements EventListenerInterface {
 
 /**
  * Returns a list of hooks this Hook Listener is implementing. When the class is

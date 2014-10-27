@@ -12,7 +12,7 @@
 namespace Field\Event\Base;
 
 use Cake\Event\Event;
-use Cake\Event\EventListener;
+use Cake\Event\EventListenerInterface;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Field\Model\Entity\Field;
@@ -25,7 +25,7 @@ use QuickApps\Event\HooktagAwareTrait;
  * All Field Handlers classes should extend this class. It adds some utility
  * methods, and define some default events handlers.
  */
-class FieldHandler implements EventListener {
+class FieldHandler implements EventListenerInterface {
 
 	use HookAwareTrait;
 	use HooktagAwareTrait;

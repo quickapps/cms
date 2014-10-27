@@ -12,13 +12,13 @@
 namespace Comment\Event;
 
 use Cake\Event\Event;
-use Cake\Event\EventListener;
+use Cake\Event\EventListenerInterface;
 
 /**
  * Main Hook Listener for Comment plugin.
  *
  */
-class CommentHook implements EventListener {
+class CommentHook implements EventListenerInterface {
 
 /**
  * Returns a list of hooks this Hook Listener is implementing. When the class

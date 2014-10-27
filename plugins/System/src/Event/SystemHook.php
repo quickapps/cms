@@ -12,14 +12,14 @@
 namespace System\Event;
 
 use Cake\Event\Event;
-use Cake\Event\EventListener;
+use Cake\Event\EventListenerInterface;
 use QuickApps\Event\HookAwareTrait;
 
 /**
  * Main Hook Listener for System plugin.
  *
  */
-class SystemHook implements EventListener {
+class SystemHook implements EventListenerInterface {
 
 	use HookAwareTrait;
 

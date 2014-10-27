@@ -12,7 +12,7 @@
 namespace System\Event;
 
 use Cake\Event\Event;
-use Cake\Event\EventListener;
+use Cake\Event\EventListenerInterface;
 use Cake\I18n\I18n;
 use Cake\Routing\Router;
 
@@ -20,7 +20,7 @@ use Cake\Routing\Router;
  * Main Hook Listener for System plugin.
  *
  */
-class SystemHooktag implements EventListener {
+class SystemHooktag implements EventListenerInterface {
 
 /**
  * Returns a list of events this Event Listener is implementing. When the class
