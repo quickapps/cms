@@ -38,12 +38,6 @@ class RolesTable extends Table {
  */
 	public function validationDefault(Validator $validator) {
 		$validator
-			->add('id', 'protectedID', [
-				'rule' => function ($value, $context) {
-					return !in_array(intval($value), [ROLE_ID_ADMINISTRATOR, ROLE_ID_AUTHENTICATED, ROLE_ID_ANONYMOUS]);
-				},
-				'message' => __d('node', 'This role can not be modified or deleted!'),
-			])
 			->validatePresence('name')
 			->add('name', [
 				'notEmpty' => [
