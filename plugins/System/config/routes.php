@@ -15,7 +15,7 @@ use Cake\Routing\Router;
 
 Router::connect('/admin', [
 	'plugin' => 'System',
-	'controller' => 'dashboard',
+	'controller' => 'Dashboard',
 	'action' => 'index',
 	'prefix' => 'admin',
 ],
