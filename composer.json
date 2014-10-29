@@ -9,8 +9,8 @@
         {"name": "Christopher Castro", "email": "chris@quickapps.es"}
     ],
     "support": {
-        "issues": "https://github.com/quickapps/cms/issues",
-        "source": "https://github.com/quickapps/cms"
+        "issues": "https://github.com/QuickAppsCMS/QuickApps-CMS/issues",
+        "source": "https://github.com/QuickAppsCMS/QuickApps-CMS"
     },
     "require": {
         "php": ">=5.4.19",
