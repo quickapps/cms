@@ -11,6 +11,7 @@
  */
 namespace Block\Model\Table;
 
+use \ArrayObject;
 use Block\Model\Entity\Block;
 use Cake\Database\Schema\Table as Schema;
 use Cake\Event\Event;
@@ -159,11 +160,11 @@ class BlocksTable extends Table {
  *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Block\Model\Entity\Block $block The block entity being validated
- * @param array $options Additional options given as an array
+ * @param \ArrayObject $options Additional options given as an array
  * @param \Cake\Validation\Validator $validator The validator object
  * @return bool False if save operation should not continue, true otherwise
  */
-	public function beforeValidate(Event $event, Block $block, $options, Validator $validator) {
+	public function beforeValidate(Event $event, Block $block, ArrayObject $options, Validator $validator) {
 		$blockEvent = $this->trigger(["Block.{$block->handler}.beforeValidate", $event->subject], $block, $options, $validator);
 		if ($blockEvent->isStopped() || $blockEvent->result === false) {
 			return false;
@@ -177,11 +178,11 @@ class BlocksTable extends Table {
  *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Block\Model\Entity\Block $block The block entity that was validated
- * @param array $options Additional options given as an array
+ * @param \ArrayObject $options Additional options given as an array
  * @param \Cake\Validation\Validator $validator The validator object
  * @return void
  */
-	public function afterValidate(Event $event, Block $block, $options, Validator $validator) {
+	public function afterValidate(Event $event, Block $block, ArrayObject $options, Validator $validator) {
 		$this->trigger(["Block.{$block->handler}.afterValidate", $event->subject], $block, $options, $validator);
 	}
 
@@ -191,10 +192,10 @@ class BlocksTable extends Table {
  *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Block\Model\Entity\Block $block The block entity being saved
- * @param array $options Additional options given as an array
+ * @param \ArrayObject $options Additional options given as an array
  * @return bool False if save operation should not continue, true otherwise
  */
-	public function beforeSave(Event $event, Block $block, $options = []) {
+	public function beforeSave(Event $event, Block $block, ArrayObject $options = null) {
 		$blockEvent = $this->trigger(["Block.{$block->handler}.beforeSave", $event->subject], $block, $options);
 		if ($blockEvent->isStopped() || $blockEvent->result === false) {
 			return false;
@@ -208,10 +209,10 @@ class BlocksTable extends Table {
  *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Block\Model\Entity\Block $block The block entity that was saved
- * @param array $options Additional options given as an array
+ * @param \ArrayObject $options Additional options given as an array
  * @return void
  */
-	public function afterSave(Event $event, Block $block, $options = []) {
+	public function afterSave(Event $event, Block $block, ArrayObject $options = null) {
 		$this->trigger(["Block.{$block->handler}.afterSave", $event->subject], $block, $options);
 	}
 
@@ -221,10 +222,10 @@ class BlocksTable extends Table {
  *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Block\Model\Entity\Block $block The block entity being deleted
- * @param array $options Additional options given as an array
+ * @param \ArrayObject $options Additional options given as an array
  * @return bool False if delete operation should not continue, true otherwise
  */
-	public function beforeDelete(Event $event, Block $block, $options = []) {
+	public function beforeDelete(Event $event, Block $block, ArrayObject $options = null) {
 		$blockEvent = $this->trigger(["Block.{$block->handler}.beforeDelete", $event->subject], $block, $options);
 		if ($blockEvent->isStopped() || $blockEvent->result === false) {
 			return false;
@@ -238,10 +239,10 @@ class BlocksTable extends Table {
  *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Block\Model\Entity\Block $block The block entity that was deleted
- * @param array $options Additional options given as an array
+ * @param \ArrayObject $options Additional options given as an array
  * @return void
  */
-	public function afterDelete(Event $event, Block $block, $options = []) {
+	public function afterDelete(Event $event, Block $block, ArrayObject $options = null) {
 		$this->trigger(["Block.{$block->handler}.afterDelete", $event->subject], $block, $options);
 	}
 

@@ -101,7 +101,7 @@ trait CommentUIControllerTrait {
 		$this->helpers[] = 'Time';
 		$this->helpers['Paginator'] = [
 			'className' => 'QuickApps\View\Helper\PaginatorHelper',
-			'templates' => 'System.paginator-templates.php',
+			'templates' => 'System.paginator-templates',
 		];
 		$this->paginate['limit'] = 10;
 

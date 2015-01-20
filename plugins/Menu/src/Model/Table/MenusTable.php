@@ -11,6 +11,7 @@
  */
 namespace Menu\Model\Table;
 
+use \ArrayObject;
 use Cake\Event\Event;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
@@ -77,11 +78,11 @@ class MenusTable extends Table {
  *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Menu\Model\Entity\Menu $menu Menu entity being validated
- * @param array $options Options given as an array
+ * @param \ArrayObject $options Options given as an array
  * @param \Cake\Validation\Validator $validator The validator object being applied
  * @return bool False if save operation should not continue, true otherwise
  */
-	public function beforeValidate(Event $event, Menu $menu, $options, Validator $validator) {
+	public function beforeValidate(Event $event, Menu $menu, ArrayObject $options, Validator $validator) {
 		$validator
 			->add('title', 'transaction', [
 				'rule' => function ($value, $context) use ($options) {
@@ -102,11 +103,11 @@ class MenusTable extends Table {
  *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Menu\Model\Entity\Menu $menu The menu entity that was validated
- * @param array $options Additional options given as an array
+ * @param \ArrayObject $options Additional options given as an array
  * @param \Cake\Validation\Validator $validator The validator object
  * @return void
  */
-	public function afterValidate(Event $event, Menu $menu, $options, Validator $validator) {
+	public function afterValidate(Event $event, Menu $menu, ArrayObject $options, Validator $validator) {
 		$this->trigger(["Menu.{$menu->handler}.afterValidate", $event->subject], $menu, $options, $validator);
 	}
 
@@ -116,10 +117,10 @@ class MenusTable extends Table {
  *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Menu\Model\Entity\Menu $menu The menu entity being saved
- * @param array $options Options given as an array
+ * @param \ArrayObject $options Options given as an array
  * @return bool False if save operation should not continue, true otherwise
  */
-	public function beforeSave(Event $event, Menu $menu, $options = []) {
+	public function beforeSave(Event $event, Menu $menu, ArrayObject $options = null) {
 		$menuEvent = $this->trigger(["Menu.{$menu->handler}.beforeSave", $event->subject], $menu, $options);
 		if ($menuEvent->isStopped() || $menuEvent->result === false) {
 			return false;
@@ -135,10 +136,10 @@ class MenusTable extends Table {
  *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Menu\Model\Entity\Menu $menu The menu entity that was saved
- * @param array $options Options given as an array
+ * @param \ArrayObject $options Options given as an array
  * @return void
  */
-	public function afterSave(Event $event, Menu $menu, $options = []) {
+	public function afterSave(Event $event, Menu $menu, ArrayObject $options = null) {
 		if ($menu->isNew()) {
 			$block = $this->Blocks->newEntity([
 				'title' => $menu->title . ' ' . __d('menu', '[menu: {0}]', $menu->id),
@@ -162,10 +163,10 @@ class MenusTable extends Table {
  *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Menu\Model\Entity\Menu $menu The menu entity being deleted
- * @param array $options Options given as an array
+ * @param \ArrayObject $options Options given as an array
  * @return bool False if delete operation should not continue, true otherwise
  */
-	public function beforeDelete(Event $event, Menu $menu, $options = []) {
+	public function beforeDelete(Event $event, Menu $menu, ArrayObject $options = null) {
 		$this->hasOne('Blocks', [
 			'className' => 'Block.Blocks',
 			'dependent' => true,
@@ -188,10 +189,10 @@ class MenusTable extends Table {
  *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Menu\Model\Entity\Menu $menu The menu entity that was deleted
- * @param array $options Options given as an array
+ * @param \ArrayObject $options Options given as an array
  * @return void
  */
-	public function afterDelete(Event $event, Menu $menu, $options = []) {
+	public function afterDelete(Event $event, Menu $menu, ArrayObject $options = null) {
 		$this->_setHasOne();
 		$this->trigger(["Menu.{$menu->handler}.afterDelete", $event->subject], $menu, $options);
 	}

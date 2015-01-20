@@ -11,6 +11,7 @@
  */
 namespace System\Model\Table;
 
+use \ArrayObject;
 use Cake\Database\Schema\Table as Schema;
 use Cake\Event\Event;
 use Cake\ORM\Entity;
@@ -70,11 +71,11 @@ class PluginsTable extends Table {
  * 
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Query $query Query object
- * @param array $options Additional options as an array
+ * @param \ArrayObject $options Additional options as an array
  * @param bool $primary Whether is find is a primary query or not
  * @return void
  */
-	public function beforeFind(Event $event, Query $query, array $options, $primary) {
+	public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary) {
 		$query->formatResults(function ($results) {
 			return $results->map(function ($plugin) {
 				if ($plugin->has('settings') && $plugin->has('name')) {
@@ -95,11 +96,11 @@ class PluginsTable extends Table {
  * 
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $entity The Plugin entity that is going to be validated
- * @param array $options Additional options as an array
+ * @param \ArrayObject $options Additional options as an array
  * @param \Cake\Validation\Validator $validator The validator object
  * @return bool False if save operation should not continue, true otherwise
  */
-	public function beforeValidate(Event $event, Entity $entity, $options, Validator $validator) {
+	public function beforeValidate(Event $event, Entity $entity, ArrayObject $options, Validator $validator) {
 		if (!empty($options['validate']) && $options['validate'] == 'settings') {
 			$this->trigger(['Plugin.' . $entity->get('_plugin_name') . '.settingsValidate', $event->subject], $entity, $validator);
 		}
@@ -110,10 +111,10 @@ class PluginsTable extends Table {
  * 
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $plugin The Plugin entity being saved
- * @param array $options The options passed to the save method
+ * @param \ArrayObject $options The options passed to the save method
  * @return void
  */
-	public function beforeSave(Event $event, Entity $plugin, $options) {
+	public function beforeSave(Event $event, Entity $plugin, ArrayObject $options = null) {
 		if ($plugin->isNew()) {
 			$max = $this->find()
 				->order(['ordering' => 'DESC'])
@@ -128,10 +129,10 @@ class PluginsTable extends Table {
  * 
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $plugin The Plugin entity that was saved
- * @param array $options The options passed to the save method
+ * @param \ArrayObject $options The options passed to the save method
  * @return void
  */
-	public function afterSave(Event $event, Entity $plugin, $options) {
+	public function afterSave(Event $event, Entity $plugin, ArrayObject $options = null) {
 		snapshot();
 	}
 
@@ -140,10 +141,10 @@ class PluginsTable extends Table {
  *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $plugin The Plugin entity that was deleted
- * @param array $options the options passed to the delete method
+ * @param \ArrayObject $options the options passed to the delete method
  * @return void
  */
-	public function afterDelete(Event $event, Entity $plugin, $options = []) {
+	public function afterDelete(Event $event, Entity $plugin, ArrayObject $options = null) {
 		snapshot();
 	}
 

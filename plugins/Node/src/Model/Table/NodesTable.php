@@ -11,6 +11,7 @@
  */
 namespace Node\Model\Table;
 
+use \ArrayObject;
 use Cake\Event\Event;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
@@ -151,9 +152,10 @@ class NodesTable extends Table {
  *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Node\Model\Entity\Node $entity The entity being saved
+ * @param \ArrayObject $options Array of options
  * @return void
  */
-	public function beforeSave(Event $event, $entity) {
+	public function beforeSave(Event $event, $entity, ArrayObject $options = null) {
 		if (!$entity->isNew()) {
 			$prev = TableRegistry::get('Node.Nodes')->get($entity->id);
 			$hash = $this->_calculateHash($prev);

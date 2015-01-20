@@ -200,7 +200,7 @@ if (!function_exists('snapshot')) {
 		}
 
 		Configure::write('QuickApps', $snapshot);
-		Configure::dump('snapshot.php', 'QuickApps', ['QuickApps']);
+		Configure::dump('snapshot', 'QuickApps', ['QuickApps']);
 	}
 
 }

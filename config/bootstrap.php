@@ -72,7 +72,7 @@ Type::map('serialized', 'QuickApps\Database\Type\SerializedType');
  * that changes from configuration that does not. This makes deployment simpler.
  */
 Configure::config('default', new PhpConfig());
-Configure::load('app.php', 'default', false);
+Configure::load('app', 'default', false);
 
 /**
  * Load an environment local configuration file.
@@ -80,7 +80,7 @@ Configure::load('app.php', 'default', false);
  * You can use this file to provide local overrides to your
  * shared configuration.
  */
-Configure::load('app_local.php', 'default');
+Configure::load('app_local', 'default');
 
 /**
  * When debug = false the metadata cache should last
@@ -172,7 +172,7 @@ if (!file_exists(TMP . 'snapshot.php')) {
 	snapshot();
 } else {
 	try {
-		Configure::load('snapshot.php', 'QuickApps', false);
+		Configure::load('snapshot', 'QuickApps', false);
 	} catch (\Exception $e) {
 		die('No snapshot found. check write permissions on tmp/ directory');
 	}

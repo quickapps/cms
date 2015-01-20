@@ -29,7 +29,7 @@ class ManageController extends AppController {
 	public $helpers = [
 		'Paginator' => [
 			'className' => 'QuickApps\View\Helper\PaginatorHelper',
-			'templates' => 'System.paginator-templates.php',
+			'templates' => 'System.paginator-templates',
 		],
 	];
 

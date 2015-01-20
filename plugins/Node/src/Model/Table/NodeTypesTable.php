@@ -11,6 +11,7 @@
  */
 namespace Node\Model\Table;
 
+use \ArrayObject;
 use Cake\Database\Schema\Table as Schema;
 use Cake\Event\Event;
 use Cake\ORM\Entity;
@@ -98,9 +99,10 @@ class NodeTypesTable extends Table {
  * 
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $entity The entity that was saved
+ * @param \ArrayObject $options Array of options
  * @return void
  */
-	public function afterSave(Event $event, Entity $entity) {
+	public function afterSave(Event $event, Entity $entity, ArrayObject $options = null) {
 		if ($entity->isNew()) {
 			snapshot();
 		}
