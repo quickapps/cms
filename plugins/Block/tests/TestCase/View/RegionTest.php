@@ -149,4 +149,5 @@ class RegionTest extends TestCase
         }
         $this->assertEquals(['left-sidebar'], array_unique($regions));
     }
+
 }

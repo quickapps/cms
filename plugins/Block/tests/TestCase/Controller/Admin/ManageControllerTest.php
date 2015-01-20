@@ -11,12 +11,12 @@
  */
 namespace Block\Test\TestCase\Controller\Admin;
 
-use Cake\TestSuite\ControllerTestCase;
+use Cake\TestSuite\IntegrationTestCase;
 
 /**
  * ManageControllerTest class.
  */
-class ManageControllerTest extends ControllerTestCase
+class ManageControllerTest extends IntegrationTestCase
 {
 
 /**
@@ -60,9 +60,8 @@ class ManageControllerTest extends ControllerTestCase
  */
     public function testIndex()
     {
-        $vars = $this->testAction('/admin/block/manage', ['return' => 'vars']);
-        $this->assertNotEmpty($vars['front']);
-        $this->assertNotEmpty($vars['back']);
+        $this->get('/admin/block/manage');
+        $this->assertResponseOk();
     }
 
 /**
@@ -72,18 +71,15 @@ class ManageControllerTest extends ControllerTestCase
  */
     public function testAdd()
     {
-        $this->testAction('/admin/block/manage/add', [
-            'method' => 'POST',
-            'data' => [
-                'title' => 'test block',
-                'description' => 'this is a test block',
-                'status' => 1,
-                'body' => 'What a block!',
-                'locale' => '',
-                'region' => [],
-                'visibility' => 'except',
-                'pages' => ''
-            ],
+        $this->post('/admin/block/manage/add', [
+            'title' => 'test block',
+            'description' => 'this is a test block',
+            'status' => 1,
+            'body' => 'What a block!',
+            'locale' => '',
+            'region' => [],
+            'visibility' => 'except',
+            'pages' => ''
         ]);
         $block = $this->Controller->Blocks
             ->find()
@@ -101,8 +97,8 @@ class ManageControllerTest extends ControllerTestCase
  */
     public function testEdit()
     {
-        $vars = $this->testAction('/admin/block/manage/edit/1', ['return' => 'vars']);
-        $this->assertNotEmpty($vars['block']);
+        $vars = $this->get('/admin/block/manage/edit/1');
+        $this->assertResponseOk();
     }
 
 /**
@@ -112,16 +108,13 @@ class ManageControllerTest extends ControllerTestCase
  */
     public function testEditSave()
     {
-        $this->testAction('/admin/block/manage/edit/1', [
-            'method' => 'POST',
-            'data' => [
-                'title' => 'New Title',
-                'description' => 'this is a test block',
-                'status' => 1,
-                'body' => 'What a block!',
-                'visibility' => 'only',
-                'pages' => '/',
-            ],
+        $this->post('/admin/block/manage/edit/1', [
+            'title' => 'New Title',
+            'description' => 'this is a test block',
+            'status' => 1,
+            'body' => 'What a block!',
+            'visibility' => 'only',
+            'pages' => '/',
         ]);
         $block = $this->Controller->Blocks->get(1);
         $this->assertEquals('New Title', $block->title);
@@ -134,7 +127,7 @@ class ManageControllerTest extends ControllerTestCase
  */
     public function testDeleteNonCustom()
     {
-        $this->testAction('/admin/block/manage/delete/1');
+        $this->get('/admin/block/manage/delete/1');
         $block = $this->Controller->Blocks
             ->find()
             ->where(['id' => 1])
@@ -150,7 +143,7 @@ class ManageControllerTest extends ControllerTestCase
  */
     public function testDuplicate()
     {
-        $this->testAction('/admin/block/manage/duplicate/1');
+        $this->get('/admin/block/manage/duplicate/1');
         $block = $this->Controller->Blocks
             ->find()
             ->where(['copy_id' => 1])
@@ -158,4 +151,5 @@ class ManageControllerTest extends ControllerTestCase
             ->first();
         $this->assertNotEmpty($block);
     }
+
 }
