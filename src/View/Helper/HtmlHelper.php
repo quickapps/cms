@@ -20,9 +20,10 @@ use QuickApps\Event\HookAwareTrait;
  * Overwrites CakePHP's Html Helper and adds alter hooks to every method,
  * so plugins may alter html elements rendering cycle.
  */
-class HtmlHelper extends CakeHtmlHelper {
+class HtmlHelper extends CakeHtmlHelper
+{
 
-	use HookAwareTrait;
+    use HookAwareTrait;
 
 /**
  * Renders default layout's header.
@@ -57,19 +58,19 @@ class HtmlHelper extends CakeHtmlHelper {
  *   include both, JS and CSS files.
  *
  * #### Example:
- * 
+ *
  *     // no CSS nor JS
  *     <?php echo $this->Html->head(['boostrap' => false]); ?>
- *     
+ *
  *     // CSS files only (default)
  *     <?php echo $this->Html->head(['boostrap' => 'css']); ?>
- *     
+ *
  *     // CSS & JS files
  *     <?php echo $this->Html->head(['boostrap' => true]); ?>
- *     
+ *
  *     // JS files only
  *     <?php echo $this->Html->head(['boostrap' => 'js']); ?>
- *     
+ *
  *     // CSS & JS files, it can be either "css,js" or "js,css"
  *     <?php echo $this->Html->head(['boostrap' => 'css,js']); ?>
  *
@@ -78,186 +79,207 @@ class HtmlHelper extends CakeHtmlHelper {
  * - `icon`: True to include favicon meta-tag. Defaults to true.
  * - `prepend`: Any additional HTML code you need to prepend to the result.
  * - `append`: Any additional HTML code you need to append to the result.
- * 
+ *
  * @param mixed $options As described above
  * @return string HTML code
  */
-	public function head($options = []) {
-		$options += [
-			'bootstrap' => 'css',
-			'icon' => true,
-			'prepend' => '',
-			'append' => '',
-		];
-		return $this->_View->element('layout_head', $options);
-	}
+    public function head($options = [])
+    {
+        $options += [
+            'bootstrap' => 'css',
+            'icon' => true,
+            'prepend' => '',
+            'append' => '',
+        ];
+        return $this->_View->element('layout_head', $options);
+    }
 
 /**
  * {@inheritDoc}
  */
-	public function addCrumb($name, $link = null, array $options = []) {
-		$event = $this->alter('HtmlHelper.addCrumb', $name, $link, $options);
-		return parent::addCrumb($name, $link, $options);
-	}
+    public function addCrumb($name, $link = null, array $options = [])
+    {
+        $event = $this->alter('HtmlHelper.addCrumb', $name, $link, $options);
+        return parent::addCrumb($name, $link, $options);
+    }
 
 /**
  * {@inheritDoc}
  */
-	public function docType($type = 'html5') {
-		$event = $this->alter('HtmlHelper.docType', $type);
-		return parent::docType($type);
-	}
+    public function docType($type = 'html5')
+    {
+        $event = $this->alter('HtmlHelper.docType', $type);
+        return parent::docType($type);
+    }
 
 /**
  * {@inheritDoc}
  */
-	public function meta($type, $content = null, array $options = []) {
-		$event = $this->alter('HtmlHelper.meta', $type, $url, $options);
-		return parent::meta($type, $url, $options);
-	}
+    public function meta($type, $content = null, array $options = [])
+    {
+        $event = $this->alter('HtmlHelper.meta', $type, $url, $options);
+        return parent::meta($type, $url, $options);
+    }
 
 /**
  * {@inheritDoc}
  */
-	public function charset($charset = null) {
-		$event = $this->alter('HtmlHelper.charset', $charset);
-		return parent::charset($charset);
-	}
+    public function charset($charset = null)
+    {
+        $event = $this->alter('HtmlHelper.charset', $charset);
+        return parent::charset($charset);
+    }
 
 /**
  * {@inheritDoc}
  */
-	public function link($title, $url = null, array $options = [], $confirmMessage = false) {
-		//$event = $this->alter('HtmlHelper.link', $title, $url, $options, $confirmMessage);
-		return parent::link($title, $url, $options, $confirmMessage);
-	}
+    public function link($title, $url = null, array $options = [], $confirmMessage = false)
+    {
+        //$event = $this->alter('HtmlHelper.link', $title, $url, $options, $confirmMessage);
+        return parent::link($title, $url, $options, $confirmMessage);
+    }
 
 /**
  * {@inheritDoc}
  */
-	public function css($path, array $options = array()) {
-		$event = $this->alter('HtmlHelper.css', $path, $options);
-		return parent::css($path, $options);
-	}
+    public function css($path, array $options = array())
+    {
+        $event = $this->alter('HtmlHelper.css', $path, $options);
+        return parent::css($path, $options);
+    }
 
 /**
  * {@inheritDoc}
  */
-	public function script($url, array $options = array()) {
-		$event = $this->alter('HtmlHelper.script', $url, $options);
-		return parent::script($url, $options);
-	}
+    public function script($url, array $options = array())
+    {
+        $event = $this->alter('HtmlHelper.script', $url, $options);
+        return parent::script($url, $options);
+    }
 
 /**
  * {@inheritDoc}
  */
-	public function scriptBlock($script, array $options = array()) {
-		$event = $this->alter('HtmlHelper.scriptBlock', $script, $options);
-		return parent::scriptBlock($script, $options);
-	}
+    public function scriptBlock($script, array $options = array())
+    {
+        $event = $this->alter('HtmlHelper.scriptBlock', $script, $options);
+        return parent::scriptBlock($script, $options);
+    }
 
 /**
  * {@inheritDoc}
  */
-	public function scriptStart(array $options = array()) {
-		$event = $this->alter('HtmlHelper.scriptStart', $options);
-		return parent::scriptStart($options);
-	}
+    public function scriptStart(array $options = array())
+    {
+        $event = $this->alter('HtmlHelper.scriptStart', $options);
+        return parent::scriptStart($options);
+    }
 
 /**
  * {@inheritDoc}
  */
-	public function scriptEnd() {
-		$event = $this->alter('HtmlHelper.scriptEnd');
-		return parent::scriptEnd();
-	}
+    public function scriptEnd()
+    {
+        $event = $this->alter('HtmlHelper.scriptEnd');
+        return parent::scriptEnd();
+    }
 
 /**
  * {@inheritDoc}
  */
-	public function style(array $data, $oneline = true) {
-		$event = $this->alter('HtmlHelper.style', $data, $oneline);
-		return parent::style($data, $oneline);
-	}
+    public function style(array $data, $oneline = true)
+    {
+        $event = $this->alter('HtmlHelper.style', $data, $oneline);
+        return parent::style($data, $oneline);
+    }
 
 /**
  * {@inheritDoc}
  */
-	public function getCrumbs($separator = '&raquo;', $startText = false) {
-		$event = $this->alter('HtmlHelper.getCrumbs', $separator, $startText);
-		return parent::getCrumbs($separator, $startText);
-	}
+    public function getCrumbs($separator = '&raquo;', $startText = false)
+    {
+        $event = $this->alter('HtmlHelper.getCrumbs', $separator, $startText);
+        return parent::getCrumbs($separator, $startText);
+    }
 
 /**
  * {@inheritDoc}
  */
-	public function getCrumbList(array $options = [], $startText = false) {
-		$event = $this->alter('HtmlHelper.getCrumbList', $options, $startText);
-		return parent::getCrumbList($options, $startText);
-	}
+    public function getCrumbList(array $options = [], $startText = false)
+    {
+        $event = $this->alter('HtmlHelper.getCrumbList', $options, $startText);
+        return parent::getCrumbList($options, $startText);
+    }
 
 /**
  * {@inheritDoc}
  */
-	public function image($path, array $options = array()) {
-		$event = $this->alter('HtmlHelper.image', $path, $options);
-		return parent::image($path, $options);
-	}
+    public function image($path, array $options = array())
+    {
+        $event = $this->alter('HtmlHelper.image', $path, $options);
+        return parent::image($path, $options);
+    }
 
 /**
  * {@inheritDoc}
  */
-	public function tableHeaders(array $names, array $trOptions = null, array $thOptions = null) {
-		$event = $this->alter('HtmlHelper.tableHeaders', $names, $trOptions, $thOptions);
-		return parent::tableHeaders($names, $trOptions, $thOptions);
-	}
+    public function tableHeaders(array $names, array $trOptions = null, array $thOptions = null)
+    {
+        $event = $this->alter('HtmlHelper.tableHeaders', $names, $trOptions, $thOptions);
+        return parent::tableHeaders($names, $trOptions, $thOptions);
+    }
 
 /**
  * {@inheritDoc}
  */
-	public function tableCells($data, $oddTrOptions = null, $evenTrOptions = null, $useCount = false, $continueOddEven = true) {
-		$event = $this->alter('HtmlHelper.tableCells', $data, $oddTrOptions, $evenTrOptions, $useCount, $continueOddEven);
-		return parent::tableCells($data, $oddTrOptions, $evenTrOptions, $useCount, $continueOddEven);
-	}
+    public function tableCells($data, $oddTrOptions = null, $evenTrOptions = null, $useCount = false, $continueOddEven = true)
+    {
+        $event = $this->alter('HtmlHelper.tableCells', $data, $oddTrOptions, $evenTrOptions, $useCount, $continueOddEven);
+        return parent::tableCells($data, $oddTrOptions, $evenTrOptions, $useCount, $continueOddEven);
+    }
 
 /**
  * {@inheritDoc}
  */
-	public function tag($name, $text = null, array $options = []) {
-		$event = $this->alter('HtmlHelper.tableHeaders', $name, $text, $options);
-		return parent::tag($name, $text, $options);
-	}
+    public function tag($name, $text = null, array $options = [])
+    {
+        $event = $this->alter('HtmlHelper.tableHeaders', $name, $text, $options);
+        return parent::tag($name, $text, $options);
+    }
 
 /**
  * {@inheritDoc}
  */
-	public function div($class = null, $text = null, array $options = []) {
-		$event = $this->alter('HtmlHelper.div', $class, $text, $options);
-		return parent::div($class, $text, $options);
-	}
+    public function div($class = null, $text = null, array $options = [])
+    {
+        $event = $this->alter('HtmlHelper.div', $class, $text, $options);
+        return parent::div($class, $text, $options);
+    }
 
 /**
  * {@inheritDoc}
  */
-	public function para($class, $text, array $options = []) {
-		$event = $this->alter('HtmlHelper.para', $class, $text, $option);
-		return parent::para($class, $text, $options);
-	}
+    public function para($class, $text, array $options = [])
+    {
+        $event = $this->alter('HtmlHelper.para', $class, $text, $option);
+        return parent::para($class, $text, $options);
+    }
 
 /**
  * {@inheritDoc}
  */
-	public function media($path, array $options = []) {
-		$event = $this->alter('HtmlHelper.meta', $path, $options);
-		return parent::media($path, $options);
-	}
+    public function media($path, array $options = [])
+    {
+        $event = $this->alter('HtmlHelper.meta', $path, $options);
+        return parent::media($path, $options);
+    }
 
 /**
  * {@inheritDoc}
  */
-	public function nestedList(array $list, array $options = [], array $itemOptions = []) {
-		$event = $this->alter('HtmlHelper.nestedList', $list, $options, $itemOptions);
-		return parent::nestedList($list, $options, $itemOptions);
-	}
-
+    public function nestedList(array $list, array $options = [], array $itemOptions = [])
+    {
+        $event = $this->alter('HtmlHelper.nestedList', $list, $options, $itemOptions);
+        return parent::nestedList($list, $options, $itemOptions);
+    }
 }

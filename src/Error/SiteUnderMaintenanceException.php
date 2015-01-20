@@ -17,7 +17,8 @@ use Cake\Core\Exception\Exception;
  * Represents an HTTP 503 error.
  *
  */
-class SiteUnderMaintenanceException extends Exception {
+class SiteUnderMaintenanceException extends Exception
+{
 
 /**
  * Constructor
@@ -25,11 +26,11 @@ class SiteUnderMaintenanceException extends Exception {
  * @param string $message If no message is given 'Site under maintenance'
  *  will be the message
  */
-	public function __construct($message = null) {
-		if (empty($message)) {
-			$message = 'Site under maintenance';
-		}
-		parent::__construct($message, 503);
-	}
-
+    public function __construct($message = null)
+    {
+        if (empty($message)) {
+            $message = 'Site under maintenance';
+        }
+        parent::__construct($message, 503);
+    }
 }

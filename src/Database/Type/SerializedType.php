@@ -21,43 +21,46 @@ use Cake\ORM\Entity;
  * Serialize data, if needed. Arrays and object are automatically serialized
  * to be stored in DB.
  */
-class SerializedType extends Type {
+class SerializedType extends Type
+{
 
 /**
  * Deserialize the stored information if it was serialized before.
- * 
+ *
  * @param string $value The serialized element to deserialize
  * @param \Cake\Database\Driver $driver Database connection driver
  * @return mixed
  */
-	public function toPHP($value, Driver $driver) {
-		if ($this->_isSerialized($value)) {
-			//@codingStandardsIgnoreStart
-			$value = @unserialize($value);
-			//@codingStandardsIgnoreEnd
-		}
+    public function toPHP($value, Driver $driver)
+    {
+        if ($this->_isSerialized($value)) {
+            //@codingStandardsIgnoreStart
+            $value = @unserialize($value);
+            //@codingStandardsIgnoreEnd
+        }
 
-		return $value;
-	}
+        return $value;
+    }
 
 /**
  * Serializes (if it can) the information to be stored in DB.
  *
  * Arrays and object are serialized, any other type of information will be
- * stored as plain text. 
- * 
+ * stored as plain text.
+ *
  * @param mixed $value Array or object to be serialized, any other type will
  *  not be serialized
  * @param \Cake\Database\Driver $driver Database connection driver
  * @return string
  */
-	public function toDatabase($value, Driver $driver) {
-		if (is_array($value) || is_object($value)) {
-			return serialize($value);
-		}
+    public function toDatabase($value, Driver $driver)
+    {
+        if (is_array($value) || is_object($value)) {
+            return serialize($value);
+        }
 
-		return (string)$value;
-	}
+        return (string)$value;
+    }
 
 /**
  * Check value to find if it was serialized.
@@ -69,41 +72,41 @@ class SerializedType extends Type {
  * @return bool False if not serialized and true if it was
  * @author WordPress
  */
-	protected function _isSerialized($data) {
-		if (!is_string($data)) {
-			return false;
-		}
-		$data = trim($data);
-		if ($data == 'N;') {
-			return true;
-		}
-		if (strlen($data) < 4) {
-			return false;
-		}
-		if ($data[1] !== ':') {
-			return false;
-		}
-		$lastc = substr($data, -1);
-		if ($lastc !== ';' && $lastc !== '}') {
-			return false;
-		}
+    protected function _isSerialized($data)
+    {
+        if (!is_string($data)) {
+            return false;
+        }
+        $data = trim($data);
+        if ($data == 'N;') {
+            return true;
+        }
+        if (strlen($data) < 4) {
+            return false;
+        }
+        if ($data[1] !== ':') {
+            return false;
+        }
+        $lastc = substr($data, -1);
+        if ($lastc !== ';' && $lastc !== '}') {
+            return false;
+        }
 
-		$token = $data[0];
-		switch ($token) {
-			case 's' :
-				if (substr($data, -2, 1) !== '"') {
-					return false;
-				}
-			case 'a' :
-			case 'O' :
-				return (bool)preg_match("/^{$token}:[0-9]+:/s", $data);
-			case 'b' :
-			case 'i' :
-			case 'd' :
-				return (bool)preg_match("/^{$token}:[0-9.E-]+;$/", $data);
-		}
+        $token = $data[0];
+        switch ($token) {
+            case 's' :
+                if (substr($data, -2, 1) !== '"') {
+                    return false;
+                }
+            case 'a' :
+            case 'O' :
+                return (bool)preg_match("/^{$token}:[0-9]+:/s", $data);
+            case 'b' :
+            case 'i' :
+            case 'd' :
+                return (bool)preg_match("/^{$token}:[0-9.E-]+;$/", $data);
+        }
 
-		return false;
-	}
-
+        return false;
+    }
 }

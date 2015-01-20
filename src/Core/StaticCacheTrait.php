@@ -13,24 +13,25 @@ namespace QuickApps\Core;
 
 /**
  * Provides simple cache functionality.
- * 
+ *
  * Allows classes to optimize their methods by providing a simple `cache()` static
  * method for reading and writing values.
  */
-trait StaticCacheTrait {
+trait StaticCacheTrait
+{
 
 /**
  * Used internally.
  *
  * @var array
  */
-	protected static $_cache;
+    protected static $_cache;
 
 /**
  * Reads, writes or search internal class's cache.
  *
  * ### Usages:
- * 
+ *
  * - When reading if no cache key is found NULL will be returned.
  *   e.g. `$null = static::cache('invalid-key');`
  * - When writing, this method return the value that was written.
@@ -46,9 +47,9 @@ trait StaticCacheTrait {
  *
  * Writing cache:
  *
- *     static::cache('user_name', 'John'); 
+ *     static::cache('user_name', 'John');
  *     // returns 'John'
- *     
+ *
  *     static::cache('user_last', 'Locke');
  *     // returns 'Locke'
  *
@@ -56,55 +57,57 @@ trait StaticCacheTrait {
  *
  *     static::cache('user_name');
  *     // returns: John
- *     
+ *
  *     static::cache('unexisting_key');
  *     // returns: null
- *     
+ *
  * Reading the entire cache:
  *
  *     static::cache();
  *     // returns: ['user_name' => 'John', 'user_last' => 'Locke']
- *     
+ *
  * Searching keys:
  *
  *     static::cache(null, 'Locke');
- *     // returns: user_last 
- *     
+ *     // returns: user_last
+ *
  *     static::cache(null, 'Unexisting');
  *     // returns: null
- * 
+ *
  * @param null|string $key Cache key to read or write, set both $key and $value
  *  to get the whole cache information
  * @param mixed $value Values to write into the given $key, or null indicates
  *  reading from cache
  * @return mixed
  */
-	protected static function cache($key = null, $value = null) {
-		if ($key === null && $value === null) {
-			// read all
-			return static::$_cache;
-		} elseif ($key !== null && $value === null) {
-			// read key
-			if (isset(static::$_cache[$key])) {
-				return static::$_cache[$key];
-			}
-			return null;
-		} if ($key !== null && $value !== null) {
-			// write key
-			static::$_cache[$key] = $value;
-			return $value;
-		} else {
-			// search key for given value
-			if (!empty(static::$_cache)) {
-				foreach (static::$_cache as $k => $v) {
-					if ($v === $value) {
-						return $k;
-					}
-				}
-			}
-			return null;
-		}
-	}
+    protected static function cache($key = null, $value = null)
+    {
+        if ($key === null && $value === null) {
+            // read all
+            return static::$_cache;
+        } elseif ($key !== null && $value === null) {
+            // read key
+            if (isset(static::$_cache[$key])) {
+                return static::$_cache[$key];
+            }
+            return null;
+        }
+        if ($key !== null && $value !== null) {
+            // write key
+            static::$_cache[$key] = $value;
+            return $value;
+        } else {
+            // search key for given value
+            if (!empty(static::$_cache)) {
+                foreach (static::$_cache as $k => $v) {
+                    if ($v === $value) {
+                        return $k;
+                    }
+                }
+            }
+            return null;
+        }
+    }
 
 /**
  * Clears the entire cache or a specific key.
@@ -121,14 +124,14 @@ trait StaticCacheTrait {
  *  will be erased.
  * @return void
  */
-	protected static function clearCache($key = null) {
-		if ($key !== null) {
-			if (isset(static::$_cache[$key])) {
-				unset(static::$_cache);
-			}
-		} else {
-			static::$_cache = [];
-		}
-	}
-
+    protected static function clearCache($key = null)
+    {
+        if ($key !== null) {
+            if (isset(static::$_cache[$key])) {
+                unset(static::$_cache);
+            }
+        } else {
+            static::$_cache = [];
+        }
+    }
 }

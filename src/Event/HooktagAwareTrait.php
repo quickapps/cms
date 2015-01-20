@@ -22,7 +22,8 @@ use QuickApps\Event\HooktagManager;
  *
  * @see QuickApps\Event\HooktagManager
  */
-trait HooktagAwareTrait {
+trait HooktagAwareTrait
+{
 
 /**
  * Look for hooktags in the given text.
@@ -45,7 +46,7 @@ trait HooktagAwareTrait {
  *     }
  *
  * (Note the `Hooktag.` prefix).
- * 
+ *
  * As you can see hooktags methods will receive three arguments:
  *
  * ### $atts
@@ -77,9 +78,10 @@ trait HooktagAwareTrait {
  * @param string $content The the text to parse
  * @return string Orginal string modified with no hooktags [..]
  */
-	public function hooktags($content) {
-		return HooktagManager::hooktags($content, $this);
-	}
+    public function hooktags($content)
+    {
+        return HooktagManager::hooktags($content, $this);
+    }
 
 /**
  * Removes all hooktags from the given content.
@@ -87,8 +89,8 @@ trait HooktagAwareTrait {
  * @param string $content Text from which to remove hooktags
  * @return string Content without hooktags
  */
-	public function stripHooktags($content) {
-		return HooktagManager::stripHooktags($content);
-	}
-
+    public function stripHooktags($content)
+    {
+        return HooktagManager::stripHooktags($content);
+    }
 }

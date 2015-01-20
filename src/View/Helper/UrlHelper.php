@@ -25,40 +25,44 @@ use QuickApps\Event\HookAwareTrait;
 /**
  * UrlHelper class for generating urls.
  */
-class UrlHelper extends CakeUrlHelper {
+class UrlHelper extends CakeUrlHelper
+{
 
-	use HookAwareTrait;
-
-/**
- * {@inheritDoc}
- */
-	public function build($url = null, $full = false) {
-		$this->alter('UrlHelper.build', $url, $full);
-		return parent::build($url, $full);
-	}
+    use HookAwareTrait;
 
 /**
  * {@inheritDoc}
  */
-	public function assetUrl($path, array $options = array()) {
-		$this->alter('UrlHelper.assetUrl', $path, $options);
-		return parent::assetUrl($path, $options);
-	}
+    public function build($url = null, $full = false)
+    {
+        $this->alter('UrlHelper.build', $url, $full);
+        return parent::build($url, $full);
+    }
 
 /**
  * {@inheritDoc}
  */
-	public function assetTimestamp($path) {
-		$this->alter('UrlHelper.assetTimestamp', $path);
-		return parent::assetTimestamp($path);
-	}
+    public function assetUrl($path, array $options = array())
+    {
+        $this->alter('UrlHelper.assetUrl', $path, $options);
+        return parent::assetUrl($path, $options);
+    }
 
 /**
  * {@inheritDoc}
  */
-	public function webroot($file) {
-		$this->alter('UrlHelper.webroot', $file);
-		return parent::webroot($file);
-	}
+    public function assetTimestamp($path)
+    {
+        $this->alter('UrlHelper.assetTimestamp', $path);
+        return parent::assetTimestamp($path);
+    }
 
+/**
+ * {@inheritDoc}
+ */
+    public function webroot($file)
+    {
+        $this->alter('UrlHelper.webroot', $file);
+        return parent::webroot($file);
+    }
 }

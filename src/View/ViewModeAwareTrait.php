@@ -17,7 +17,8 @@ use QuickApps\View\ViewModeRegistry;
  * Provides methods for handling switching view mode.
  *
  */
-trait ViewModeAwareTrait {
+trait ViewModeAwareTrait
+{
 
 /**
  * Sets a view mode.
@@ -26,9 +27,10 @@ trait ViewModeAwareTrait {
  * @return void
  * @see \QuickApps\View\ViewModeRegistry::switchViewMode()
  */
-	public function switchViewMode($slug) {
-		return ViewModeRegistry::switchViewMode($slug);
-	}
+    public function switchViewMode($slug)
+    {
+        return ViewModeRegistry::switchViewMode($slug);
+    }
 
 /**
  * Registers a new view mode. Or overwrite if already exists.
@@ -40,9 +42,10 @@ trait ViewModeAwareTrait {
  * @return void
  * @see \QuickApps\View\ViewModeRegistry::addViewMode()
  */
-	public static function addViewMode($slug, $name = null, $description = null) {
-		return ViewModeRegistry::addViewMode($slug, $name, $description);
-	}
+    public static function addViewMode($slug, $name = null, $description = null)
+    {
+        return ViewModeRegistry::addViewMode($slug, $name, $description);
+    }
 
 /**
  * Gets the slug name of in use view mode.
@@ -52,9 +55,10 @@ trait ViewModeAwareTrait {
  * @return string
  * @see \QuickApps\View\ViewModeRegistry::inUseViewMode()
  */
-	public function inUseViewMode($full = false) {
-		return ViewModeRegistry::inUseViewMode();
-	}
+    public function inUseViewMode($full = false)
+    {
+        return ViewModeRegistry::inUseViewMode();
+    }
 
 /**
  * Gets all registered view modes.
@@ -65,9 +69,10 @@ trait ViewModeAwareTrait {
  * @return array
  * @see \QuickApps\View\ViewModeRegistry::viewModes()
  */
-	public function viewModes($full = false) {
-		return ViewModeRegistry::viewModes($full);
-	}
+    public function viewModes($full = false)
+    {
+        return ViewModeRegistry::viewModes($full);
+    }
 
 /**
  * Runs the given callable when the in-use view mode matches.
@@ -86,18 +91,19 @@ trait ViewModeAwareTrait {
  *     echo $this->onViewMode(['teaser', 'search-result'], function () use ($someVar) {
  *         return $this->element('teaser_or_search_result', compact('someVar'));
  *     });
- * 
+ *
  * @param string|array $viewMode View Mode slug, or an array of slugs
  * @param callable $method A callable function to run, it receives `$this` as
  *  only argument
  * @return mixed Callable return
  */
-	public function onViewMode($viewMode, callable $method) {
-		$viewMode = !is_array($viewMode) ? [$viewMode] : $viewMode;
-		if (in_array($this->inUseViewMode(), $viewMode)) {
-			return $method();
-		}
-	}
+    public function onViewMode($viewMode, callable $method)
+    {
+        $viewMode = !is_array($viewMode) ? [$viewMode] : $viewMode;
+        if (in_array($this->inUseViewMode(), $viewMode)) {
+            return $method();
+        }
+    }
 
 /**
  * Runs the given callable as it were under the given view mode.
@@ -110,22 +116,22 @@ trait ViewModeAwareTrait {
  *         echo 'callable: ' . $this->inUseViewMode();
  *     });
  *     echo 'after: ' . $this->inUseViewMode();
- *     
+ *
  *     // output:
  *     before: full
  *     callable: teaser
  *     after: full
- * 
+ *
  * @param string|array $viewMode View Mode slug, or an array of slugs
  * @param callable $method A callable function to run, it receives `$this` as
  *  only argument
  * @return mixed Callable return
  */
-	public function asViewMode($viewMode, callable $method) {
-		$prevViewMode = $this->inUseViewMode();
-		$this->switchViewMode($viewMode);
-		$method();
-		$this->switchViewMode($prevViewMode);
-	}
-
+    public function asViewMode($viewMode, callable $method)
+    {
+        $prevViewMode = $this->inUseViewMode();
+        $this->switchViewMode($viewMode);
+        $method();
+        $this->switchViewMode($prevViewMode);
+    }
 }

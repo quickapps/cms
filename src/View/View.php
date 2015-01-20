@@ -26,11 +26,12 @@ use QuickApps\View\ViewModeAwareTrait;
  * Extends Cake's View class to adds some QuickAppsCMS's specific
  * functionalities such as theme regions handling, objects rendering, and more
  */
-class View extends CakeView {
+class View extends CakeView
+{
 
-	use HookAwareTrait;
-	use HooktagAwareTrait;
-	use ViewModeAwareTrait;
+    use HookAwareTrait;
+    use HooktagAwareTrait;
+    use ViewModeAwareTrait;
 
 /**
  * True when the view has been rendered.
@@ -39,14 +40,14 @@ class View extends CakeView {
  *
  * @var bool
  */
-	protected $_hasRendered = false;
+    protected $_hasRendered = false;
 
 /**
  * Holds all region instances created for later access.
- * 
+ *
  * @var array
  */
-	protected $_regions = [];
+    protected $_regions = [];
 
 /**
  * Defines a new theme region.
@@ -55,7 +56,7 @@ class View extends CakeView {
  *
  * Merge `left-sidebar` and `right-sidebar` regions together, the resulting region
  * limits the number of blocks it can holds to `3`:
- * 
+ *
  *     echo $this->region('left-sidebar')
  *         ->append($this->region('right-sidebar'))
  *         ->blockLimit(3);
@@ -76,13 +77,14 @@ class View extends CakeView {
  * @return \Block\View\Region Region object
  * @see \Block\View\Region
  */
-	public function region($name, $options = [], $force = false) {
-		$this->alter('View.region', $name, $options);
-		if (empty($this->_regions[$name]) || $force) {
-			$this->_regions[$name] = new Region($this, $name, $options);
-		}
-		return $this->_regions[$name];
-	}
+    public function region($name, $options = [], $force = false)
+    {
+        $this->alter('View.region', $name, $options);
+        if (empty($this->_regions[$name]) || $force) {
+            $this->_regions[$name] = new Region($this, $name, $options);
+        }
+        return $this->_regions[$name];
+    }
 
 /**
  * Overrides Cake's view rendering method. Allows the usage of
@@ -121,30 +123,31 @@ class View extends CakeView {
  *  array of options for object rendering
  * @return string HTML output of object-rendering or view file
  */
-	public function render($view = null, $layout = null) {
-		$html = "";
+    public function render($view = null, $layout = null)
+    {
+        $html = "";
 
-		if (is_object($view)) {
-			$className = get_class($view);
-			$args = func_get_args();
-			array_shift($args);
-			$args = array_merge([$view], (array)$args); // [entity, options]
-			$event = new Event("Render.{$className}", $this, $args);
-			EventManager::instance()->dispatch($event);
-			$html = $event->result;
-		} else {
-			$this->alter('View.render', $view, $layout);
-			$this->Html->script('System.jquery.js', ['block' => true]);
-			if (!$this->_hasRendered) {
-				$this->_hasRendered = true;
-				$this->_setTitle();
-				$this->_setDescription();
-				$html = parent::render($view, $layout);
-			}
-		}
+        if (is_object($view)) {
+            $className = get_class($view);
+            $args = func_get_args();
+            array_shift($args);
+            $args = array_merge([$view], (array)$args); // [entity, options]
+            $event = new Event("Render.{$className}", $this, $args);
+            EventManager::instance()->dispatch($event);
+            $html = $event->result;
+        } else {
+            $this->alter('View.render', $view, $layout);
+            $this->Html->script('System.jquery.js', ['block' => true]);
+            if (!$this->_hasRendered) {
+                $this->_hasRendered = true;
+                $this->_setTitle();
+                $this->_setDescription();
+                $html = parent::render($view, $layout);
+            }
+        }
 
-		return $html;
-	}
+        return $html;
+    }
 
 /**
  * Overrides Cake's `View::element()` method.
@@ -163,11 +166,12 @@ class View extends CakeView {
  * - `ignoreMissing` - Used to allow missing elements. Set to true to not trigger notices.
  * @return string Rendered Element
  */
-	public function element($name, array $data = [], array $options = []) {
-		$this->alter('View.element', $name, $data, $options);
-		$html = parent::element($name, $data, $options);
-		return $html;
-	}
+    public function element($name, array $data = [], array $options = [])
+    {
+        $this->alter('View.element', $name, $data, $options);
+        $html = parent::element($name, $data, $options);
+        return $html;
+    }
 
 /**
  * Overrides Cake's `View::_getLayoutFileName()` method.
@@ -177,15 +181,16 @@ class View extends CakeView {
  * @param string $name The name of the layout to find.
  * @return string Filename for layout file (.ctp).
  */
-	protected function _getLayoutFileName($name = null) {
-		try {
-			$filename = parent::_getLayoutFileName($name);
-		} catch (\Exception $e) {
-			$filename = parent::_getLayoutFileName('default');
-		}
+    protected function _getLayoutFileName($name = null)
+    {
+        try {
+            $filename = parent::_getLayoutFileName($name);
+        } catch (\Exception $e) {
+            $filename = parent::_getLayoutFileName('default');
+        }
 
-		return $filename;
-	}
+        return $filename;
+    }
 
 /**
  * Sets title for layout.
@@ -196,36 +201,37 @@ class View extends CakeView {
  *
  * @return void
  */
-	protected function _setTitle() {
-		if (empty($this->viewVars['title_for_layout'])) {
-			$title = '';
+    protected function _setTitle()
+    {
+        if (empty($this->viewVars['title_for_layout'])) {
+            $title = '';
 
-			if (
-				!empty($this->viewVars['node']) &&
-				($this->viewVars['node'] instanceof \Node\Model\Entity\Node) &&
-				!empty($this->viewVars['node']->title)
-			) {
-				$title = $this->viewVars['node']->title;
-			} else {
-				foreach ($this->viewVars as $var) {
-					if (
-						is_object($var) &&
-						($var instanceof \Node\Model\Entity\Node) &&
-						!empty($var->title)
-					) {
-						$title = $var->title;
-						break;
-					}
-				}
-			}
+            if (
+                !empty($this->viewVars['node']) &&
+                ($this->viewVars['node'] instanceof \Node\Model\Entity\Node) &&
+                !empty($this->viewVars['node']->title)
+            ) {
+                $title = $this->viewVars['node']->title;
+            } else {
+                foreach ($this->viewVars as $var) {
+                    if (
+                        is_object($var) &&
+                        ($var instanceof \Node\Model\Entity\Node) &&
+                        !empty($var->title)
+                    ) {
+                        $title = $var->title;
+                        break;
+                    }
+                }
+            }
 
-			$title = empty($title) ? option('site_title') : $title;
-			$this->assign('title', $title);
-			$this->set('title_for_layout', $title);
-		} else {
-			$this->assign('title', $this->viewVars['title_for_layout']);
-		}
-	}
+            $title = empty($title) ? option('site_title') : $title;
+            $this->assign('title', $title);
+            $this->set('title_for_layout', $title);
+        } else {
+            $this->assign('title', $this->viewVars['title_for_layout']);
+        }
+    }
 
 /**
  * Sets meta-description for layout.
@@ -236,36 +242,36 @@ class View extends CakeView {
  *
  * @return void
  */
-	protected function _setDescription() {
-		if (empty($this->viewVars['description_for_layout'])) {
-			$description = '';
+    protected function _setDescription()
+    {
+        if (empty($this->viewVars['description_for_layout'])) {
+            $description = '';
 
-			if (
-				!empty($this->viewVars['node']) &&
-				($this->viewVars['node'] instanceof \Node\Model\Entity\Node) &&
-				!empty($this->viewVars['node']->description)
-			) {
-				$title = $this->viewVars['node']->description;
-			} else {
-				foreach ($this->viewVars as $var) {
-					if (
-						is_object($var) &&
-						($var instanceof \Node\Model\Entity\Node) &&
-						!empty($var->title)
-					) {
-						$title = $var->description;
-						break;
-					}
-				}
-			}
+            if (
+                !empty($this->viewVars['node']) &&
+                ($this->viewVars['node'] instanceof \Node\Model\Entity\Node) &&
+                !empty($this->viewVars['node']->description)
+            ) {
+                $title = $this->viewVars['node']->description;
+            } else {
+                foreach ($this->viewVars as $var) {
+                    if (
+                        is_object($var) &&
+                        ($var instanceof \Node\Model\Entity\Node) &&
+                        !empty($var->title)
+                    ) {
+                        $title = $var->description;
+                        break;
+                    }
+                }
+            }
 
-			$description = empty($description) ? option('site_description') : $description;
-			$this->assign('description', $description);
-			$this->set('description_for_layout', $description);
-			$this->append('meta', $this->Html->meta('description', $description));
-		} else {
-			$this->assign('description', $this->viewVars['description_for_layout']);
-		}
-	}
-
+            $description = empty($description) ? option('site_description') : $description;
+            $this->assign('description', $description);
+            $this->set('description_for_layout', $description);
+            $this->append('meta', $this->Html->meta('description', $description));
+        } else {
+            $this->assign('description', $this->viewVars['description_for_layout']);
+        }
+    }
 }

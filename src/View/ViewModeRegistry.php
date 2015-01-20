@@ -23,21 +23,22 @@ use Cake\Network\Exception\InternalErrorException;
  * But it is recommended to do this at bootstrap so all plugins will be aware of
  * this new view mode soon as possible.
  */
-class ViewModeRegistry {
+class ViewModeRegistry
+{
 
 /**
  * Holds the current view mode being used.
  *
  * @var string
  */
-	protected static $_inUse;
+    protected static $_inUse;
 
 /**
  * Holds an array list of all registered view modes.
  *
  * @var array
  */
-	protected static $_viewModes = [];
+    protected static $_viewModes = [];
 
 /**
  * Marks as "in use" the given view mode.
@@ -50,13 +51,14 @@ class ViewModeRegistry {
  * @throws \Cake\Network\Exception\InternalErrorException When switching to an
  *  unregistered view mode
  */
-	public static function switchViewMode($slug) {
-		if (empty(static::$_viewModes[$slug])) {
-			throw new InternalErrorException(__('Illegal usage of ViewModeRegistry::switchViewMode(), view mode "{0}" was not found.', $slug));
-		}
+    public static function switchViewMode($slug)
+    {
+        if (empty(static::$_viewModes[$slug])) {
+            throw new InternalErrorException(__('Illegal usage of ViewModeRegistry::switchViewMode(), view mode "{0}" was not found.', $slug));
+        }
 
-		static::$_inUse = $slug;
-	}
+        static::$_inUse = $slug;
+    }
 
 /**
  * Registers a new view mode. Or overwrite if already exists.
@@ -87,40 +89,42 @@ class ViewModeRegistry {
  * @param string|null $description A brief description about for what is this view mode
  * @return void
  */
-	public static function addViewMode($slug, $name = null, $description = null) {
-		if (is_array($slug) && $name === null && $description === null) {
-			foreach ($slug as $slug => $more) {
-				if (!empty($more['name']) && !empty($more['description'])) {
-					static::$_viewModes[$slug] = [
-						'name' => $more['name'],
-						'description' => $more['description'],
-					];
-				}
-			}
-		} else {
-			static::$_viewModes[$slug] = [
-				'name' => $name,
-				'description' => $description,
-			];
-		}
-	}
+    public static function addViewMode($slug, $name = null, $description = null)
+    {
+        if (is_array($slug) && $name === null && $description === null) {
+            foreach ($slug as $slug => $more) {
+                if (!empty($more['name']) && !empty($more['description'])) {
+                    static::$_viewModes[$slug] = [
+                        'name' => $more['name'],
+                        'description' => $more['description'],
+                    ];
+                }
+            }
+        } else {
+            static::$_viewModes[$slug] = [
+                'name' => $name,
+                'description' => $description,
+            ];
+        }
+    }
 
 /**
  * Unregisters the given view-mode, or all of them if first parameter is null.
- * 
+ *
  * @param string|null $slug View mode's slug
  * @return void
  */
-	public static function removeViewMode($slug = null) {
-		if ($slug === null) {
-			static::$_inUse = null;
-			static::$_viewModes = [];
-		} else {
-			if (isset(static::$_viewModes[$slug])) {
-				unset(static::$_viewModes[$slug]);
-			}
-		}
-	}
+    public static function removeViewMode($slug = null)
+    {
+        if ($slug === null) {
+            static::$_inUse = null;
+            static::$_viewModes = [];
+        } else {
+            if (isset(static::$_viewModes[$slug])) {
+                unset(static::$_viewModes[$slug]);
+            }
+        }
+    }
 
 /**
  * Gets the in use view-mode information.
@@ -131,15 +135,16 @@ class ViewModeRegistry {
  *  or set to false (by default) to get slug name only
  * @return array|string
  */
-	public static function inUseViewMode($full = false) {
-		if (empty(static::$_inUse)) {
-			return '';
-		} elseif ($full === false) {
-			return static::$_inUse;
-		}
+    public static function inUseViewMode($full = false)
+    {
+        if (empty(static::$_inUse)) {
+            return '';
+        } elseif ($full === false) {
+            return static::$_inUse;
+        }
 
-		return static::$_viewModes[static::$_inUse];
-	}
+        return static::$_viewModes[static::$_inUse];
+    }
 
 /**
  * Gets the full list of all registered view modes.
@@ -151,13 +156,13 @@ class ViewModeRegistry {
  * ## Usage:
  *
  * ### Get a list of View Modes slugs:
- * 
+ *
  *     ViewModeRegistry::viewModes();
  *     // output:
  *     ['teaser', 'full', ...]
  *
  * ### Get a full list of every View Mode:
- * 
+ *
  *     ViewModeRegistry::viewModes(true);
  *     // output:
  *     [
@@ -187,18 +192,18 @@ class ViewModeRegistry {
  * @throws \Cake\Network\Exception\InternalErrorException When you try to get
  *  information for a particular View Mode that does not exists
  */
-	public static function viewModes($full = false) {
-		if (is_string($full)) {
-			if (!isset(static::$_viewModes[$full])) {
-				throw new InternalErrorException(__('Illegal usage of ViewModeRegistry::switchViewMode(), view mode "{0}" was not found.', $slug));
-			}
+    public static function viewModes($full = false)
+    {
+        if (is_string($full)) {
+            if (!isset(static::$_viewModes[$full])) {
+                throw new InternalErrorException(__('Illegal usage of ViewModeRegistry::switchViewMode(), view mode "{0}" was not found.', $slug));
+            }
 
-			return static::$_viewModes[$full];
-		} elseif (!$full) {
-			return array_keys(static::$_viewModes);
-		}
+            return static::$_viewModes[$full];
+        } elseif (!$full) {
+            return array_keys(static::$_viewModes);
+        }
 
-		return static::$_viewModes;
-	}
-
+        return static::$_viewModes;
+    }
 }

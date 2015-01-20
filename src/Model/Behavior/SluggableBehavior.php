@@ -22,21 +22,22 @@ use Cake\Utility\Inflector;
  *
  * Allows entities to have a unique `slug`.
  */
-class SluggableBehavior extends Behavior {
+class SluggableBehavior extends Behavior
+{
 
 /**
  * Table which this behavior is attached to.
  *
  * @var \Cake\ORM\Table
  */
-	protected $_table;
+    protected $_table;
 
 /**
  * Flag.
- * 
+ *
  * @var bool
  */
-	protected $_enabled = true;
+    protected $_enabled = true;
 
 /**
  * Default configuration.
@@ -51,17 +52,17 @@ class SluggableBehavior extends Behavior {
  *
  * @var array
  */
-	protected $_defaultConfig = [
-		'label' => 'title',
-		'slug' => 'slug',
-		'separator' => '-',
-		'on' => 'both',
-		'length' => 200,
-		'implementedMethods' => [
-			'bindSluggable' => 'bindSluggable',
-			'unbindSluggable' => 'unbindSluggable',
-		],
-	];
+    protected $_defaultConfig = [
+        'label' => 'title',
+        'slug' => 'slug',
+        'separator' => '-',
+        'on' => 'both',
+        'length' => 200,
+        'implementedMethods' => [
+            'bindSluggable' => 'bindSluggable',
+            'unbindSluggable' => 'unbindSluggable',
+        ],
+    ];
 
 /**
  * Constructor.
@@ -69,10 +70,11 @@ class SluggableBehavior extends Behavior {
  * @param \Cake\ORM\Table $table The table this behavior is attached to
  * @param array $config Configuration array for this behavior
  */
-	public function __construct(Table $table, array $config = []) {
-		$this->_table = $table;
-		parent::__construct($table, $config);
-	}
+    public function __construct(Table $table, array $config = [])
+    {
+        $this->_table = $table;
+        parent::__construct($table, $config);
+    }
 
 /**
  * Run before a model is saved, used to set up slug for model.
@@ -84,61 +86,64 @@ class SluggableBehavior extends Behavior {
  * @throws \Cake\Error\FatalErrorException When some of the specified columns
  *  in config's "label" is not present in the entity being saved
  */
-	public function beforeSave(Event $event, $entity, $options = []) {
-		if (!$this->_enabled) {
-			return true;
-		}
+    public function beforeSave(Event $event, $entity, $options = [])
+    {
+        if (!$this->_enabled) {
+            return true;
+        }
 
-		$config = $this->config();
-		$isNew = $entity->isNew();
+        $config = $this->config();
+        $isNew = $entity->isNew();
 
-		if (
-			($isNew && in_array($config['on'], ['create', 'both'])) ||
-			(!$isNew && in_array($config['on'], ['update', 'both']))
-		) {
-			if (!is_array($config['label'])) {
-				$config['label'] = [$config['label']];
-			}
+        if (
+            ($isNew && in_array($config['on'], ['create', 'both'])) ||
+            (!$isNew && in_array($config['on'], ['update', 'both']))
+        ) {
+            if (!is_array($config['label'])) {
+                $config['label'] = [$config['label']];
+            }
 
-			foreach ($config['label'] as $field) {
-				if (!$entity->has($field)) {
-					throw new FatalErrorException(__('SluggableBehavior was not able to generate a slug reason: entity\'s property "{0}" not found', $field));
-				}
-			}
+            foreach ($config['label'] as $field) {
+                if (!$entity->has($field)) {
+                    throw new FatalErrorException(__('SluggableBehavior was not able to generate a slug reason: entity\'s property "{0}" not found', $field));
+                }
+            }
 
-			$label = '';
+            $label = '';
 
-			foreach ($config['label'] as $field) {
-				$val = $entity->get($field);
-				$label .= !empty($val) ? " {$val}" : '';
-			}
+            foreach ($config['label'] as $field) {
+                $val = $entity->get($field);
+                $label .= !empty($val) ? " {$val}" : '';
+            }
 
-			if (!empty($label)) {
-				$slug = $this->_slug($label, $entity);
-				$entity->set($config['slug'], $slug);
-			}
-		}
+            if (!empty($label)) {
+                $slug = $this->_slug($label, $entity);
+                $entity->set($config['slug'], $slug);
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 
 /**
  * Enables this behavior.
- * 
+ *
  * @return void
  */
-	public function bindSluggable() {
-		$this->_enabled = true;
-	}
+    public function bindSluggable()
+    {
+        $this->_enabled = true;
+    }
 
 /**
  * Disables this behavior.
- * 
+ *
  * @return void
  */
-	public function unbindSluggable() {
-		$this->_enabled = false;
-	}
+    public function unbindSluggable()
+    {
+        $this->_enabled = false;
+    }
 
 /**
  * Generate a slug for the given string and entity.
@@ -149,43 +154,43 @@ class SluggableBehavior extends Behavior {
  * @param \Cake\ORM\Entity $entity The entity for which generate the slug
  * @return string Slug for given string
  */
-	protected function _slug($string, $entity) {
-		$config = $this->config();
-		$slug = Inflector::slug(strtolower($string), $config['separator']);
-		$pk = $this->_table->primaryKey();
+    protected function _slug($string, $entity)
+    {
+        $config = $this->config();
+        $slug = Inflector::slug(strtolower($string), $config['separator']);
+        $pk = $this->_table->primaryKey();
 
-		if (strlen($slug) > $config['length']) {
-			$slug = substr($slug, 0, $config['length']);
-		}
+        if (strlen($slug) > $config['length']) {
+            $slug = substr($slug, 0, $config['length']);
+        }
 
-		$conditions = ["{$config['slug']} LIKE" => "{$slug}%"];
-		if ($entity->has($pk)) {
-			$conditions["{$pk} NOT IN"] = [$entity->{$pk}];
-		}
+        $conditions = ["{$config['slug']} LIKE" => "{$slug}%"];
+        if ($entity->has($pk)) {
+            $conditions["{$pk} NOT IN"] = [$entity->{$pk}];
+        }
 
-		$same = $this->_table->find()
-			->where($conditions)
-			->all()
-			->extract($config['slug'])
-			->toArray();
+        $same = $this->_table->find()
+            ->where($conditions)
+            ->all()
+            ->extract($config['slug'])
+            ->toArray();
 
-		if (!empty($same)) {
-			$initialSlug = $slug;
-			$index = 1;
+        if (!empty($same)) {
+            $initialSlug = $slug;
+            $index = 1;
 
-			while ($index > 0) {
-				$nextSlug = "{$initialSlug}{$config['separator']}{$index}";
+            while ($index > 0) {
+                $nextSlug = "{$initialSlug}{$config['separator']}{$index}";
 
-				if (!in_array($nextSlug, $same)) {
-					$slug = $nextSlug;
-					$index = -1;
-				}
+                if (!in_array($nextSlug, $same)) {
+                    $slug = $nextSlug;
+                    $index = -1;
+                }
 
-				$index++;
-			}
-		}
+                $index++;
+            }
+        }
 
-		return $slug;
-	}
-
+        return $slug;
+    }
 }

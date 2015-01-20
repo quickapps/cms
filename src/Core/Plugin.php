@@ -27,61 +27,62 @@ use QuickApps\Core\StaticCacheTrait;
  *
  * Wrapper for `Cake\Core\Plugin`, it adds some QuickAppsCMS specifics methods.
  */
-class Plugin extends CakePlugin {
+class Plugin extends CakePlugin
+{
 
-	use StaticCacheTrait;
+    use StaticCacheTrait;
 
 /**
  * Default options for composer's json file.
  *
  * @var array
  */
-	protected static $_defaultComposerJson = [
-		'name' => null,
-		'description' => null,
-		'version' => 'dev',
-		'type' => null,
-		'keywords' => [],
-		'homepage' => null,
-		'time' => null,
-		'license' => null,
-		'authors' => [],
-		'support' => [
-			'email' => null,
-			'issues' => null,
-			'forum' => null,
-			'wiki' => null,
-			'irc' => null,
-			'source' => null,
-		],
-		'require' => [],
-		'require-dev' => [],
-		'conflict' => [],
-		'replace' => [],
-		'provide' => [],
-		'suggest' => [],
-		'autoload' => [
-			'psr-4' => [],
-			'psr-0' => [],
-			'classmap' => [],
-			'files' => [],
-		],
-		'autoload-dev' => [
-			'psr-4' => [],
-			'psr-0' => [],
-			'classmap' => [],
-			'files' => [],
-		],
-		'target-dir' => null,
-		'minimum-stability' => null,
-		'repositories' => [],
-		'config' => [],
-		'archive' => [],
-		'prefer-stable' => true,
-		'scripts' => [],
-		'extra' => [],
-		'bin' => [],
-	];
+    protected static $_defaultComposerJson = [
+        'name' => null,
+        'description' => null,
+        'version' => 'dev',
+        'type' => null,
+        'keywords' => [],
+        'homepage' => null,
+        'time' => null,
+        'license' => null,
+        'authors' => [],
+        'support' => [
+            'email' => null,
+            'issues' => null,
+            'forum' => null,
+            'wiki' => null,
+            'irc' => null,
+            'source' => null,
+        ],
+        'require' => [],
+        'require-dev' => [],
+        'conflict' => [],
+        'replace' => [],
+        'provide' => [],
+        'suggest' => [],
+        'autoload' => [
+            'psr-4' => [],
+            'psr-0' => [],
+            'classmap' => [],
+            'files' => [],
+        ],
+        'autoload-dev' => [
+            'psr-4' => [],
+            'psr-0' => [],
+            'classmap' => [],
+            'files' => [],
+        ],
+        'target-dir' => null,
+        'minimum-stability' => null,
+        'repositories' => [],
+        'config' => [],
+        'archive' => [],
+        'prefer-stable' => true,
+        'scripts' => [],
+        'extra' => [],
+        'bin' => [],
+    ];
 
 /**
  * Gets all plugins information as a collection object.
@@ -97,36 +98,37 @@ class Plugin extends CakePlugin {
  * @throws \Cake\Error\FatalErrorException When a corrupt plugin is found and
  *  $ignoreError is set to false
  */
-	public static function collection($extendedInfo = false, $ignoreError = true) {
-		$collection = collection(quickapps('plugins'));
+    public static function collection($extendedInfo = false, $ignoreError = true)
+    {
+        $collection = collection(quickapps('plugins'));
 
-		if ($extendedInfo) {
-			$collection = $collection->map(function ($info, $key) use($ignoreError) {
-				try {
-					$out = Plugin::info($key, true);
-				} catch (FatalErrorException $e) {
-					if (!$ignoreError) {
-						throw $e;
-					} else {
-						return false;
-					}
-				}
+        if ($extendedInfo) {
+            $collection = $collection->map(function ($info, $key) use ($ignoreError) {
+                try {
+                    $out = Plugin::info($key, true);
+                } catch (FatalErrorException $e) {
+                    if (!$ignoreError) {
+                        throw $e;
+                    } else {
+                        return false;
+                    }
+                }
 
-				return $out;
-			});
+                return $out;
+            });
 
-			$collection = $collection->filter(function ($value, $key) {
-				return $value !== false;
-			});
-		}
+            $collection = $collection->filter(function ($value, $key) {
+                return $value !== false;
+            });
+        }
 
-		return $collection;
-	}
+        return $collection;
+    }
 
 /**
  * Scan plugin directories and returns plugin names and their paths within file
  * system. We consider "plugin name" as the name of the container directory.
- * 
+ *
  * Example output:
  *
  *     [
@@ -142,27 +144,28 @@ class Plugin extends CakePlugin {
  * @param bool $ignoreThemes Whether include themes as well or not
  * @return array Associative array as `PluginName` => `full/path/to/PluginName`
  */
-	public static function scan($ignoreThemes = false) {
-		$cacheKey = "scan_{$ignoreThemes}";
-		$cache = static::cache($cacheKey);
-		if (!$cache) {
-			$cache = [];
-			$paths = App::path('Plugin');
-			$Folder = new Folder();
-			$Folder->sort = true;
-			foreach ($paths as $path) {
-				$Folder->cd($path);
-				foreach ($Folder->read(true, true, true)[0] as $dir) {
-					$name = basename($dir);
-					if ($ignoreThemes && str_ends_with($name, 'Theme')) {
-						continue;
-					}
-					$cache[$name] = normalizePath($dir);
-				}
-			}
-		}
-		return $cache;
-	}
+    public static function scan($ignoreThemes = false)
+    {
+        $cacheKey = "scan_{$ignoreThemes}";
+        $cache = static::cache($cacheKey);
+        if (!$cache) {
+            $cache = [];
+            $paths = App::path('Plugin');
+            $Folder = new Folder();
+            $Folder->sort = true;
+            foreach ($paths as $path) {
+                $Folder->cd($path);
+                foreach ($Folder->read(true, true, true)[0] as $dir) {
+                    $name = basename($dir);
+                    if ($ignoreThemes && str_ends_with($name, 'Theme')) {
+                        continue;
+                    }
+                    $cache[$name] = normalizePath($dir);
+                }
+            }
+        }
+        return $cache;
+    }
 
 /**
  * Gets information for a single plugin.
@@ -194,74 +197,76 @@ class Plugin extends CakePlugin {
  * @throws Cake\Error\FatalErrorException When plugin is not found, or when
  *  JSON file is not found
  */
-	public static function info($plugin, $full = false) {
-		$plugin = Inflector::camelize($plugin);
-		$cacheKey = "info({$plugin},{$full})";
+    public static function info($plugin, $full = false)
+    {
+        $plugin = Inflector::camelize($plugin);
+        $cacheKey = "info({$plugin},{$full})";
 
-		if ($cache = static::cache($cacheKey)) {
-			return $cache;
-		}
+        if ($cache = static::cache($cacheKey)) {
+            return $cache;
+        }
 
-		$info = quickapps("plugins.{$plugin}");
-		if (!$info) {
-			throw new FatalErrorException(__('Plugin "{0}" was not found', $plugin));
-		}
+        $info = quickapps("plugins.{$plugin}");
+        if (!$info) {
+            throw new FatalErrorException(__('Plugin "{0}" was not found', $plugin));
+        }
 
-		if ($full) {
-			$json = static::composer($plugin);
+        if ($full) {
+            $json = static::composer($plugin);
 
-			if (!$json) {
-				throw new FatalErrorException(__('Missing or corrupt "composer.json" file for plugin "{0}"', $plugin));
-			}
+            if (!$json) {
+                throw new FatalErrorException(__('Missing or corrupt "composer.json" file for plugin "{0}"', $plugin));
+            }
 
-			$json = Hash::merge(static::$_defaultComposerJson, $json);
-			$info['composer'] = $json;
-			$info['settings'] = [];
-			$dbInfo = TableRegistry::get('System.Plugins')
-				->find()
-				->select(['name', 'settings'])
-				->where(['name' => $plugin])
-				->first();
+            $json = Hash::merge(static::$_defaultComposerJson, $json);
+            $info['composer'] = $json;
+            $info['settings'] = [];
+            $dbInfo = TableRegistry::get('System.Plugins')
+                ->find()
+                ->select(['name', 'settings'])
+                ->where(['name' => $plugin])
+                ->first();
 
-			if ($dbInfo) {
-				$info['settings'] = (array)$dbInfo->settings;
-			}
-		}
+            if ($dbInfo) {
+                $info['settings'] = (array)$dbInfo->settings;
+            }
+        }
 
-		static::cache($cacheKey, $info);
-		return (array)$info;
-	}
+        static::cache($cacheKey, $info);
+        return (array)$info;
+    }
 
 /**
  * Gets composer json information for the given plugin.
- * 
+ *
  * @param string $plugin Plugin alias, e.g. `UserManager` or `user_manager`
  * @return mixed False if composer.json is missing or corrupt, or composer info
  *  as an array if valid composer.json is found
  */
-	public static function composer($plugin) {
-		$plugin = Inflector::camelize($plugin);
-		$cacheKey = "composer({$plugin})";
+    public static function composer($plugin)
+    {
+        $plugin = Inflector::camelize($plugin);
+        $cacheKey = "composer({$plugin})";
 
-		if ($cache = static::cache($cacheKey)) {
-			return $cache;
-		}
+        if ($cache = static::cache($cacheKey)) {
+            return $cache;
+        }
 
-		$info = static::info($plugin, false);
+        $info = static::info($plugin, false);
 
-		if (!file_exists($info['path'] . '/composer.json')) {
-			return false;
-		}
+        if (!file_exists($info['path'] . '/composer.json')) {
+            return false;
+        }
 
-		$json = json_decode(file_get_contents($info['path'] . '/composer.json'), true);
+        $json = json_decode(file_get_contents($info['path'] . '/composer.json'), true);
 
-		if (!static::validateJson($json)) {
-			return false;
-		}
+        if (!static::validateJson($json)) {
+            return false;
+        }
 
-		static::cache($cacheKey, $json);
-		return $json;
-	}
+        static::cache($cacheKey, $json);
+        return $json;
+    }
 
 /**
  * Validates a composer.json file.
@@ -283,7 +288,7 @@ class Plugin extends CakePlugin {
  *     Plugin::validateJson($json);
  *     // OR:
  *     Plugin::validateJson('/path/to/composer.json');
- * 
+ *
  * @param array|string $json JSON given as an array result of
  *  `json_decode(..., true)`, or a string as path to where .json file can be found
  * @param bool $errorMessages If set to true an array of error messages
@@ -291,94 +296,96 @@ class Plugin extends CakePlugin {
  *  success, false on validation failure failure. Defaults to false (boolean result)
  * @return array|bool
  */
-	public static function validateJson($json, $errorMessages = false) {
-		if (is_string($json) && file_exists($json) && !is_dir($json)) {
-			$json = json_decode((new File($json))->read(), true);
-		}
+    public static function validateJson($json, $errorMessages = false)
+    {
+        if (is_string($json) && file_exists($json) && !is_dir($json)) {
+            $json = json_decode((new File($json))->read(), true);
+        }
 
-		$errors = [];
-		if (!is_array($json) || empty($json)) {
-			$errors[] = __('Corrupt JSON information.');
-		} else {
-			if (!isset($json['version'])) {
-				$errors[] = __('Missing field: "{0}"', 'version');
-			}
+        $errors = [];
+        if (!is_array($json) || empty($json)) {
+            $errors[] = __('Corrupt JSON information.');
+        } else {
+            if (!isset($json['version'])) {
+                $errors[] = __('Missing field: "{0}"', 'version');
+            }
 
-			if (!isset($json['type'])) {
-				$errors[] = __('Missing field: "{0}"', 'type');
-			} elseif ($json['type'] !== 'quickapps-plugin') {
-				$errors[] = __('Invalid field: "{0}" ({1}). It should be: {2}', 'type', $json['type'], 'quickapps-plugin');
-			}
+            if (!isset($json['type'])) {
+                $errors[] = __('Missing field: "{0}"', 'type');
+            } elseif ($json['type'] !== 'quickapps-plugin') {
+                $errors[] = __('Invalid field: "{0}" ({1}). It should be: {2}', 'type', $json['type'], 'quickapps-plugin');
+            }
 
-			if (!isset($json['name'])) {
-				$errors[] = __('Missing field: "{0}"', 'name');
-			} elseif (!preg_match('/^(.+)\/(.+)+$/', $json['name'])) {
-				$errors[] = __('Invalid field: "{0}" ({1}). It should be: {2}', 'name', $json['name'], '{author-name}/{package-name}');
-			} elseif (str_ends_with(strtolower($json['name']), 'theme')) {
-				if (!isset($json['extra']['regions'])) {
-					$errors[] = __('Missing field: "{0}"', 'extra.regions');
-				}
-			}
+            if (!isset($json['name'])) {
+                $errors[] = __('Missing field: "{0}"', 'name');
+            } elseif (!preg_match('/^(.+)\/(.+)+$/', $json['name'])) {
+                $errors[] = __('Invalid field: "{0}" ({1}). It should be: {2}', 'name', $json['name'], '{author-name}/{package-name}');
+            } elseif (str_ends_with(strtolower($json['name']), 'theme')) {
+                if (!isset($json['extra']['regions'])) {
+                    $errors[] = __('Missing field: "{0}"', 'extra.regions');
+                }
+            }
 
-			if (!isset($json['description'])) {
-				$errors[] = __('Missing field: "{0}"', 'description');
-			}
-		}
+            if (!isset($json['description'])) {
+                $errors[] = __('Missing field: "{0}"', 'description');
+            }
+        }
 
-		if ($errorMessages) {
-			return $errors;
-		}
+        if ($errorMessages) {
+            return $errors;
+        }
 
-		return empty($errors);
-	}
+        return empty($errors);
+    }
 
 /**
  * Gets settings from DB for given plugin. Or reads a single settings key value.
- * 
+ *
  * @param string $plugin Plugin alias, e.g. `UserManager` or `user_manager`
  * @param string $key Which setting to read, the entire settings will be
  *  returned if no key is provided
  * @return mixed Array of settings if $key was not provided, or the requested
  *  value for the given $key (null of key does not exists)
  */
-	public static function settings($plugin, $key = null) {
-		$plugin = Inflector::camelize($plugin);
-		$cacheKey = "settings({$plugin})";
+    public static function settings($plugin, $key = null)
+    {
+        $plugin = Inflector::camelize($plugin);
+        $cacheKey = "settings({$plugin})";
 
-		if ($cache = static::cache($cacheKey)) {
-			if ($key !== null) {
-				$cache = isset($cache[$key]) ? $cache[$key] : null;
-			}
-			return $cache;
-		}
+        if ($cache = static::cache($cacheKey)) {
+            if ($key !== null) {
+                $cache = isset($cache[$key]) ? $cache[$key] : null;
+            }
+            return $cache;
+        }
 
-		$settings = [];
-		if (!TableRegistry::exists('SnapshotNodeTypes')) {
-			$PluginsTable = TableRegistry::get('Plugins');
-			$PluginsTable->schema(['settings' => 'serialized']);
-		} else {
-			$PluginsTable = TableRegistry::get('Plugins');
-		}
+        $settings = [];
+        if (!TableRegistry::exists('SnapshotNodeTypes')) {
+            $PluginsTable = TableRegistry::get('Plugins');
+            $PluginsTable->schema(['settings' => 'serialized']);
+        } else {
+            $PluginsTable = TableRegistry::get('Plugins');
+        }
 
-		$dbInfo = $PluginsTable
-			->find()
-			->select(['settings'])
-			->where(['name' => $plugin])
-			->limit(1)
-			->first();
+        $dbInfo = $PluginsTable
+            ->find()
+            ->select(['settings'])
+            ->where(['name' => $plugin])
+            ->limit(1)
+            ->first();
 
-		if ($dbInfo) {
-			$settings = (array)$dbInfo->settings;
-		}
+        if ($dbInfo) {
+            $settings = (array)$dbInfo->settings;
+        }
 
-		static::cache($cacheKey, $settings);
+        static::cache($cacheKey, $settings);
 
-		if ($key !== null) {
-			$settings = isset($settings[$key]) ? $settings[$key] : null;
-		}
+        if ($key !== null) {
+            $settings = isset($settings[$key]) ? $settings[$key] : null;
+        }
 
-		return $settings;
-	}
+        return $settings;
+    }
 
 /**
  * Gets plugin's dependencies as an array list.
@@ -403,35 +410,36 @@ class Plugin extends CakePlugin {
  *     // Directly from composer.json information
  *     Plugin::dependencies(json_decode('/path/to/composer.json', true));
  *
- * @param array|string $plugin Plugin alias, or an array representing a 
+ * @param array|string $plugin Plugin alias, or an array representing a
  *  "composer.json" file, that is, result of `json_decode(..., true)`
  * @return array List of plugin & version that $plugin depends on
  * @throws \Cake\Eror\FatalErrorException When $plugin is not found, or when
  *  plugin's composer.json is missing or corrupt
  */
-	public static function dependencies($plugin) {
-		if (is_array($plugin)) {
-			if (isset($plugin['require'])) {
-				$info['composer']['require'] = $plugin['require'];
-			} else {
-				return [];
-			}
-		} else {
-			$composer = static::composer($plugin);
-		}
-		$dependencies = [];
-		if (!empty($composer['require'])) {
-			foreach ($composer['require'] as $name => $version) {
-				$name = pluginName($name);
-				if (!$name) {
-					continue;
-				}
-				$dependencies[$name] = $version;
-			}
-		}
+    public static function dependencies($plugin)
+    {
+        if (is_array($plugin)) {
+            if (isset($plugin['require'])) {
+                $info['composer']['require'] = $plugin['require'];
+            } else {
+                return [];
+            }
+        } else {
+            $composer = static::composer($plugin);
+        }
+        $dependencies = [];
+        if (!empty($composer['require'])) {
+            foreach ($composer['require'] as $name => $version) {
+                $name = pluginName($name);
+                if (!$name) {
+                    continue;
+                }
+                $dependencies[$name] = $version;
+            }
+        }
 
-		return $dependencies;
-	}
+        return $dependencies;
+    }
 
 /**
  * Check if plugin is dependent on any other plugin.
@@ -441,54 +449,55 @@ class Plugin extends CakePlugin {
  *
  *     // Check requirements for MyPlugin
  *     Plugin::checkDependency('MyPlugin');
- *     
+ *
  *     // Check requirements from composer.json
  *     Plugin::checkDependency(json_decode('/path/to/composer.json', true));
  *
  * @param string|array $plugin Plugin alias, or an array representing "composer.json"
  * @return bool True if everything is OK, false otherwise
  */
-	public static function checkDependency($plugin) {
-		$dependencies = static::dependencies($plugin);
+    public static function checkDependency($plugin)
+    {
+        $dependencies = static::dependencies($plugin);
 
-		foreach ($dependencies as $plugin => $required) {
-			if (in_array($plugin, ['__PHP__', '__QUICKAPPS__'])) {
-				if ($plugin === '__PHP__') {
-					$current = PHP_VERSION;
-				} else {
-					$current = quickapps('version');
-				}
-			} else {
-				try {
-					$basicInfo = (array)static::info($plugin);
-					$composerInfo = (array)static::composer($plugin);
-				} catch (FatalErrorException $e) {
-					return false;
-				}
+        foreach ($dependencies as $plugin => $required) {
+            if (in_array($plugin, ['__PHP__', '__QUICKAPPS__'])) {
+                if ($plugin === '__PHP__') {
+                    $current = PHP_VERSION;
+                } else {
+                    $current = quickapps('version');
+                }
+            } else {
+                try {
+                    $basicInfo = (array)static::info($plugin);
+                    $composerInfo = (array)static::composer($plugin);
+                } catch (FatalErrorException $e) {
+                    return false;
+                }
 
-				// installed, but disabled
-				if (!$basicInfo['status']) {
-					return false;
-				}
+                // installed, but disabled
+                if (!$basicInfo['status']) {
+                    return false;
+                }
 
-				if (!empty($composerInfo['version'])) {
-					$current = $composerInfo['version'];
-				} else {
-					$current = false;
-				}
-			}
+                if (!empty($composerInfo['version'])) {
+                    $current = $composerInfo['version'];
+                } else {
+                    $current = false;
+                }
+            }
 
-			if ($current) {
-				if (!static::checkIncompatibility(static::parseDependency($required), $current)) {
-					return false;
-				}
-			} else {
-				return false;
-			}
-		}
+            if ($current) {
+                if (!static::checkIncompatibility(static::parseDependency($required), $current)) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 
 /**
  * Verify if there is any plugin that depends of $plugin.
@@ -498,23 +507,24 @@ class Plugin extends CakePlugin {
  *  array means that no other plugins depends on $plugin, so $plugin can be
  *  safely deleted or turned off.
  */
-	public static function checkReverseDependency($pluginName) {
-		$out = [];
-		$plugins = static::collection(true)->match(['status' => 1]);
-		foreach ($plugins as $plugin) {
-			if ($plugin['name'] === $pluginName) {
-				continue;
-			}
-			if (isset($plugin['composer']['require'])) {
-				$packages = array_keys($plugin['composer']['require']);
-				$packages = array_map('pluginName', $packages);
-				if (in_array($pluginName, $packages)) {
-					$out[] = $plugin['human_name'];
-				}
-			}
-		}
-		return $out;
-	}
+    public static function checkReverseDependency($pluginName)
+    {
+        $out = [];
+        $plugins = static::collection(true)->match(['status' => 1]);
+        foreach ($plugins as $plugin) {
+            if ($plugin['name'] === $pluginName) {
+                continue;
+            }
+            if (isset($plugin['composer']['require'])) {
+                $packages = array_keys($plugin['composer']['require']);
+                $packages = array_map('pluginName', $packages);
+                if (in_array($pluginName, $packages)) {
+                    $out[] = $plugin['human_name'];
+                }
+            }
+        }
+        return $out;
+    }
 
 /**
  * Parse a dependency for comparison.
@@ -531,67 +541,68 @@ class Plugin extends CakePlugin {
  *    'op' and 'version'. 'op' can be one of: '=', '==', '!=', '<>', '<',
  *    '<=', '>', or '>='. 'version' is one piece like '4.5-beta3' or '5.5.11'.
  */
-	public static function parseDependency($dependency) {
-		$pOp = '(?P<operator>!=|==|<|<=|>|>=|<>)?';
-		$pMajor = '(?P<major>\d+)';
-		$pMinor = '(?P<minor>(?:\d+|\*)?)';
-		$pFix = '(?P<fix>(?:\d+|\*)?)';
-		$pTail = '(?P<tail>(?:-[A-Za-z]+\d*)?)';
-		$out = [
-			'original' => $dependency,
-			'versions' => [],
-		];
+    public static function parseDependency($dependency)
+    {
+        $pOp = '(?P<operator>!=|==|<|<=|>|>=|<>)?';
+        $pMajor = '(?P<major>\d+)';
+        $pMinor = '(?P<minor>(?:\d+|\*)?)';
+        $pFix = '(?P<fix>(?:\d+|\*)?)';
+        $pTail = '(?P<tail>(?:-[A-Za-z]+\d*)?)';
+        $out = [
+            'original' => $dependency,
+            'versions' => [],
+        ];
 
-		foreach (explode(',', $dependency) as $version) {
-			$version = trim($version);
-			if (preg_match("/^{$pOp}{$pMajor}\.?{$pMinor}\.?{$pFix}{$pTail}/", $version, $matches)) {
-				$op = empty($matches['operator']) ? '==' : $matches['operator'];
-				$matches['minor'] = $matches['minor'] === '*' ? 'x' : $matches['minor'];
-				$matches['fix'] = $matches['fix'] === '*' ? 'x' : $matches['fix'];
-				$matches['minor'] = $matches['minor'] === '' ? 0 : $matches['minor'];
-				$matches['fix'] = $matches['fix'] === '' ? 0 : $matches['fix'];
+        foreach (explode(',', $dependency) as $version) {
+            $version = trim($version);
+            if (preg_match("/^{$pOp}{$pMajor}\.?{$pMinor}\.?{$pFix}{$pTail}/", $version, $matches)) {
+                $op = empty($matches['operator']) ? '==' : $matches['operator'];
+                $matches['minor'] = $matches['minor'] === '*' ? 'x' : $matches['minor'];
+                $matches['fix'] = $matches['fix'] === '*' ? 'x' : $matches['fix'];
+                $matches['minor'] = $matches['minor'] === '' ? 0 : $matches['minor'];
+                $matches['fix'] = $matches['fix'] === '' ? 0 : $matches['fix'];
 
-				if ($matches['fix'] === 'x') {
-					if ($op === '>' || $op === '<=') {
-						$matches['minor']++;
-					}
+                if ($matches['fix'] === 'x') {
+                    if ($op === '>' || $op === '<=') {
+                        $matches['minor']++;
+                    }
 
-					if ($op === '=' || $op === '==') {
-						$out['versions'][] = [
-							'op' => '<',
-							'version' => $matches['major'] . '.' . ($matches['minor'] + 1)
-						];
-						$op = '>=';
-					}
+                    if ($op === '=' || $op === '==') {
+                        $out['versions'][] = [
+                            'op' => '<',
+                            'version' => $matches['major'] . '.' . ($matches['minor'] + 1)
+                        ];
+                        $op = '>=';
+                    }
 
-					$matches['fix'] = '';
-				}
+                    $matches['fix'] = '';
+                }
 
-				if ($matches['minor'] === 'x') {
-					if ($op === '>' || $op === '<=') {
-						$matches['major']++;
-					}
+                if ($matches['minor'] === 'x') {
+                    if ($op === '>' || $op === '<=') {
+                        $matches['major']++;
+                    }
 
-					if ($op === '=' || $op === '==') {
-						$out['versions'][] = [
-							'op' => '<',
-							'version' => ($matches['major'] + 1) . '.x'
-						];
-						$op = '>=';
-					}
-				}
+                    if ($op === '=' || $op === '==') {
+                        $out['versions'][] = [
+                            'op' => '<',
+                            'version' => ($matches['major'] + 1) . '.x'
+                        ];
+                        $op = '>=';
+                    }
+                }
 
-				$matches['fix'] = empty($matches['fix']) ? '' : '.' . $matches['fix'];
-				$v = preg_replace('/\.{1,}$/', '', $matches['major'] . '.' . $matches['minor'] . $matches['fix']);
-				$out['versions'][] = [
-					'op' => $op,
-					'version' => $v . $matches['tail'],
-				];
-			}
-		}
+                $matches['fix'] = empty($matches['fix']) ? '' : '.' . $matches['fix'];
+                $v = preg_replace('/\.{1,}$/', '', $matches['major'] . '.' . $matches['minor'] . $matches['fix']);
+                $out['versions'][] = [
+                    'op' => $op,
+                    'version' => $v . $matches['tail'],
+                ];
+            }
+        }
 
-		return $out;
-	}
+        return $out;
+    }
 
 /**
  * Check whether a version is compatible with a given dependency.
@@ -600,25 +611,25 @@ class Plugin extends CakePlugin {
  * @param string $current The version to check against (e.g.: 4.2)
  * @return bool True if compatible, false otherwise
  */
-	public static function checkIncompatibility($v, $current) {
-		if (!empty($v['versions'])) {
-			foreach ($v['versions'] as $required) {
-				$aIsBranch = 'dev-' === substr($current, 0, 4);
-				$bIsBranch = 'dev-' === substr($required['version'], 0, 4);
+    public static function checkIncompatibility($v, $current)
+    {
+        if (!empty($v['versions'])) {
+            foreach ($v['versions'] as $required) {
+                $aIsBranch = 'dev-' === substr($current, 0, 4);
+                $bIsBranch = 'dev-' === substr($required['version'], 0, 4);
 
-				if ($aIsBranch && $bIsBranch) {
-					if (!($required['op'] === '==' && $current === $$required['version'])) {
-						return false;
-					}
-				}
+                if ($aIsBranch && $bIsBranch) {
+                    if (!($required['op'] === '==' && $current === $$required['version'])) {
+                        return false;
+                    }
+                }
 
-				if (isset($required['op']) && !version_compare($current, $required['version'], $required['op'])) {
-					return false;
-				}
-			}
-		}
+                if (isset($required['op']) && !version_compare($current, $required['version'], $required['op'])) {
+                    return false;
+                }
+            }
+        }
 
-		return true;
-	}
-
+        return true;
+    }
 }

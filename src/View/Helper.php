@@ -21,9 +21,9 @@ use QuickApps\Event\HookAwareTrait;
  * Add your application-wide methods in the class below, your helpers
  * will inherit them.
  */
-class Helper extends CakeHelper {
+class Helper extends CakeHelper
+{
 
-	use HookAwareTrait;
-	use StaticCacheTrait;
-
+    use HookAwareTrait;
+    use StaticCacheTrait;
 }

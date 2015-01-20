@@ -19,34 +19,37 @@ use Cake\Error\ExceptionRenderer as CakeExceptionRenderer;
  * Custom exception renderer class, it allows to render maintenance page
  * and allows to use hooktags and hook in error templates.
  */
-class ExceptionRenderer extends CakeExceptionRenderer {
+class ExceptionRenderer extends CakeExceptionRenderer
+{
 
 /**
  * {@inheritDoc}
  */
-	public function __construct(\Exception $exception) {
-		parent::__construct($exception);
-		$this->controller->viewClass = 'QuickApps\View\View';
-	}
+    public function __construct(\Exception $exception)
+    {
+        parent::__construct($exception);
+        $this->controller->viewClass = 'QuickApps\View\View';
+    }
 
 /**
  * {@inheritDoc}
  */
-	protected function _message(\Exception $exception, $code) {
-		if ($code === 503) {
-			return $this->error->getMessage();
-		}
-		return parent::_message($exception, $code);
-	}
+    protected function _message(\Exception $exception, $code)
+    {
+        if ($code === 503) {
+            return $this->error->getMessage();
+        }
+        return parent::_message($exception, $code);
+    }
 
 /**
  * {@inheritDoc}
  */
-	protected function _template(\Exception $exception, $method, $code) {
-		if ($code === 503) {
-			return 'maintenance';
-		}
-		return parent::_template($exception, $method, $code);
-	}
-
+    protected function _template(\Exception $exception, $method, $code)
+    {
+        if ($code === 503) {
+            return 'maintenance';
+        }
+        return parent::_template($exception, $method, $code);
+    }
 }

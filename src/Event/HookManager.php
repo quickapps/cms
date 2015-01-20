@@ -99,14 +99,15 @@ use Cake\Event\EventManager;
  *
  * [CakePHP's Events System](http://book.cakephp.org/3.0/en/core-libraries/events.html)
  */
-class HookManager {
+class HookManager
+{
 
 /**
  * Holds a list of all the events that were fired.
- * 
+ *
  * @var array
  */
-	protected static $_log = [];
+    protected static $_log = [];
 
 /**
  * Retrieve the number of times an event was triggered, or the complete list
@@ -118,18 +119,19 @@ class HookManager {
  *  Defaults to true
  * @return int|array
  */
-	public static function triggered($eventName = null, $sort = true) {
-		if (!$eventName) {
-			if ($sort) {
-				arsort(static::$_log, SORT_NATURAL);
-			}
-			return static::$_log;
-		}
-		if (isset(static::$_log[$eventName])) {
-			return static::$_log[$eventName];
-		}
-		return 0;
-	}
+    public static function triggered($eventName = null, $sort = true)
+    {
+        if (!$eventName) {
+            if ($sort) {
+                arsort(static::$_log, SORT_NATURAL);
+            }
+            return static::$_log;
+        }
+        if (isset(static::$_log[$eventName])) {
+            return static::$_log[$eventName];
+        }
+        return 0;
+    }
 
 /**
  * Trigger the given event name.
@@ -145,18 +147,19 @@ class HookManager {
  * @param array $args Associative array of argument to pass to the Event handler method
  * @return \Cake\Event\Event The event object that was fired
  */
-	public static function trigger($eventName, $args = []) {
-		if (is_array($eventName)) {
-			list($eventName, $context) = $eventName;
-		} else {
-			$context = new HookManager();
-		}
+    public static function trigger($eventName, $args = [])
+    {
+        if (is_array($eventName)) {
+            list($eventName, $context) = $eventName;
+        } else {
+            $context = new HookManager();
+        }
 
-		static::_log($eventName);
-		$event = new Event($eventName, $context, $args);
-		EventManager::instance()->dispatch($event);
-		return $event;
-	}
+        static::_log($eventName);
+        $event = new Event($eventName, $context, $args);
+        EventManager::instance()->dispatch($event);
+        return $event;
+    }
 
 /**
  * Similar to "trigger()" but aimed to alter the given arguments.
@@ -214,49 +217,50 @@ class HookManager {
  * @param mixed &$p14 Optional argument by reference
  * @return \Cake\Event\Event
  */
-	public static function alter($eventName, &$p0 = null, &$p1 = null, &$p2 = null, &$p3 = null, &$p4 = null, &$p5 = null, &$p6 = null, &$p7 = null, &$p8 = null, &$p9 = null, &$p10 = null, &$p11 = null, &$p12 = null, &$p13 = null, &$p14 = null) {
-		if (is_array($eventName)) {
-			list($eventName, $context) = $eventName;
-		} else {
-			$context = new HookManager();
-		}
+    public static function alter($eventName, &$p0 = null, &$p1 = null, &$p2 = null, &$p3 = null, &$p4 = null, &$p5 = null, &$p6 = null, &$p7 = null, &$p8 = null, &$p9 = null, &$p10 = null, &$p11 = null, &$p12 = null, &$p13 = null, &$p14 = null)
+    {
+        if (is_array($eventName)) {
+            list($eventName, $context) = $eventName;
+        } else {
+            $context = new HookManager();
+        }
 
-		$eventName = "Alter.{$eventName}";
-		static::_log($eventName);
-		$event = new Event($eventName, $context);
-		$listeners = EventManager::instance()->listeners($eventName);
+        $eventName = "Alter.{$eventName}";
+        static::_log($eventName);
+        $event = new Event($eventName, $context);
+        $listeners = EventManager::instance()->listeners($eventName);
 
-		foreach ($listeners as $listener) {
-			if ($event->isStopped()) {
-				break;
-			}
+        foreach ($listeners as $listener) {
+            if ($event->isStopped()) {
+                break;
+            }
 
-			$result = $listener['callable']($event, $p0, $p1, $p2, $p3, $p4, $p5, $p6, $p7, $p8, $p9, $p10, $p11, $p12, $p13, $p14);
+            $result = $listener['callable']($event, $p0, $p1, $p2, $p3, $p4, $p5, $p6, $p7, $p8, $p9, $p10, $p11, $p12, $p13, $p14);
 
-			if ($result === false) {
-				$event->stopPropagation();
-			}
+            if ($result === false) {
+                $event->stopPropagation();
+            }
 
-			if ($result !== null) {
-				$event->result = $result;
-			}
-		}
+            if ($result !== null) {
+                $event->result = $result;
+            }
+        }
 
-		return $event;
-	}
+        return $event;
+    }
 
 /**
  * Logs the given event.
- * 
+ *
  * @param string $eventName The event name to log
  * @return void
  */
-	protected static function _log($eventName) {
-		if (isset(static::$_log[$eventName])) {
-			static::$_log[$eventName]++;
-		} else {
-			static::$_log[$eventName] = 1;
-		}
-	}
-
+    protected static function _log($eventName)
+    {
+        if (isset(static::$_log[$eventName])) {
+            static::$_log[$eventName]++;
+        } else {
+            static::$_log[$eventName] = 1;
+        }
+    }
 }

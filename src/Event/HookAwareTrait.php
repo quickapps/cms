@@ -20,7 +20,8 @@ use QuickApps\Event\HookManager;
  *
  * @see QuickApps\Event\HookManager
  */
-trait HookAwareTrait {
+trait HookAwareTrait
+{
 
 /**
  * Retrieves the number of times an event was triggered, or the complete list
@@ -31,9 +32,10 @@ trait HookAwareTrait {
  * @return int|array
  * @see QuickApps\Event\HookManager::triggered()
  */
-	public function triggered($eventName = null) {
-		return HookManager::triggered($eventName);
-	}
+    public function triggered($eventName = null)
+    {
+        return HookManager::triggered($eventName);
+    }
 
 /**
  * Triggers the given event name.
@@ -56,19 +58,20 @@ trait HookAwareTrait {
  *     $this->trigger(['GetTime', new ContextObject()], $arg_0, $arg_0, ..., $arg_1);
  *
  * If no context is given "$this" will be used by default.
- * 
+ *
  * @param string|array $eventName The event name to trigger
  * @return \Cake\Event\Event The event object that was fired
  * @see QuickApps\Event\HookManager::trigger()
  */
-	public function trigger($eventName) {
-		if (is_string($eventName)) {
-			$eventName = [$eventName, $this];
-		}
-		$args = func_get_args();
-		array_shift($args);
-		return HookManager::trigger($eventName, $args);
-	}
+    public function trigger($eventName)
+    {
+        if (is_string($eventName)) {
+            $eventName = [$eventName, $this];
+        }
+        $args = func_get_args();
+        array_shift($args);
+        return HookManager::trigger($eventName, $args);
+    }
 
 /**
  * Similar to "trigger()" but aimed to alter the given arguments.
@@ -111,11 +114,11 @@ trait HookAwareTrait {
  * @return \Cake\Event\Event The event object that was fired
  * @see QuickApps\Event\HookManager::alter()
  */
-	public function alter($eventName, &$p0 = null, &$p1 = null, &$p2 = null, &$p3 = null, &$p4 = null, &$p5 = null, &$p6 = null, &$p7 = null, &$p8 = null, &$p9 = null, &$p10 = null, &$p11 = null, &$p12 = null, &$p13 = null, &$p14 = null) {
-		if (is_string($eventName)) {
-			$eventName = [$eventName, $this];
-		}
-		return HookManager::alter($eventName, $p0, $p1, $p2, $p3, $p4, $p5, $p6, $p7, $p8, $p9, $p10, $p11, $p12, $p13, $p14);
-	}
-
+    public function alter($eventName, &$p0 = null, &$p1 = null, &$p2 = null, &$p3 = null, &$p4 = null, &$p5 = null, &$p6 = null, &$p7 = null, &$p8 = null, &$p9 = null, &$p10 = null, &$p11 = null, &$p12 = null, &$p13 = null, &$p14 = null)
+    {
+        if (is_string($eventName)) {
+            $eventName = [$eventName, $this];
+        }
+        return HookManager::alter($eventName, $p0, $p1, $p2, $p3, $p4, $p5, $p6, $p7, $p8, $p9, $p10, $p11, $p12, $p13, $p14);
+    }
 }
