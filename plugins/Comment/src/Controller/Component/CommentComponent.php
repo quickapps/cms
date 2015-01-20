@@ -131,7 +131,7 @@ class CommentComponent extends Component {
  * @param array $config Array of configuration options to merge with defaults
  * @return void
  */
-	public function __construct(ComponentRegistry $collection, array $config = array()) {
+	public function __construct(ComponentRegistry $collection, array $config = []) {
 		$this->_defaultConfig['settings'] = Plugin::settings('Comment');
 		$this->_defaultConfig['settings']['visibility'] = 0;
 		$this->_defaultConfig['errorMessage'] = __d('comment', 'Your comment could not be saved, please check your information.');

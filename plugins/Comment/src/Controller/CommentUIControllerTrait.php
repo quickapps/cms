@@ -71,20 +71,22 @@ use QuickApps\Core\Plugin;
  * - Your Controller must be a backend-controller (under `Controller\Admin` namespace).
  * - Your Controller must implement the `_inResponseTo()` method described above.
  */
-trait CommentUIControllerTrait {
+trait CommentUIControllerTrait
+{
 
-/**
- * Validation rules.
- *
- * @param \Cake\Event\Event $event The event instance.
- * @return void
- * @throws \Cake\Network\Exception\ForbiddenException When
- *  - $_manageTable is not defined.
- *  - trait is used in non-controller classes.
- *  - the controller is not a backend controller.
- *  - the "_inResponseTo()" is not implemented.
- */
-	public function beforeFilter(Event $event) {
+	/**
+	 * Validation rules.
+	 *
+	 * @param \Cake\Event\Event $event The event instance.
+	 * @return void
+	 * @throws \Cake\Network\Exception\ForbiddenException When
+	 *  - $_manageTable is not defined.
+	 *  - trait is used in non-controller classes.
+	 *  - the controller is not a backend controller.
+	 *  - the "_inResponseTo()" is not implemented.
+	 */
+	public function beforeFilter(Event $event)
+	{
 		$requestParams = $event->subject->request->params;
 
 		if (!isset($this->_manageTable) || empty($this->_manageTable)) {
@@ -107,37 +109,37 @@ trait CommentUIControllerTrait {
 
 		$this->loadComponent('Paginator');
 		$this->loadComponent('Comment.Comment');
-		$initializeEvent = new Event('Component.initialize', $this);
-		$this->Comment->initialize($initializeEvent);
+		$this->Comment->initialize([]);
 	}
 
-/**
- * Fallback for template location when extending Comment UI API.
- *
- * If controller tries to render an unexisting template under its Template
- * directory, then we try to find that view under `Comment/Template/CommentUI`
- * directory.
- *
- * ### Example:
- *
- * Suppose you are using this trait to manage comments attached to `Persons`
- * entities. You would probably have a `Person` plugin and a `clean` controller
- * as follow:
- *
- *     // http://example.com/admin/person/comments_manager
- *     Person\Controller\CommentsManagerController::index()
- *
- * The above controller action will try to render
- * `/plugins/Person/Template/CommentsManager/index.ctp`. But if does not exists
- * then `<QuickAppsCorePath>/plugins/Comment/Template/CommentUI/index.ctp` will
- * be used instead.
- *
- * Of course you may create your own template and skip this fallback functionality.
- *
- * @param \Cake\Event\Event $event the event instance.
- * @return void
- */
-	public function beforeRender(Event $event) {
+	/**
+	 * Fallback for template location when extending Comment UI API.
+	 *
+	 * If controller tries to render an unexisting template under its Template
+	 * directory, then we try to find that view under `Comment/Template/CommentUI`
+	 * directory.
+	 *
+	 * ### Example:
+	 *
+	 * Suppose you are using this trait to manage comments attached to `Persons`
+	 * entities. You would probably have a `Person` plugin and a `clean` controller
+	 * as follow:
+	 *
+	 *     // http://example.com/admin/person/comments_manager
+	 *     Person\Controller\CommentsManagerController::index()
+	 *
+	 * The above controller action will try to render
+	 * `/plugins/Person/Template/CommentsManager/index.ctp`. But if does not exists
+	 * then `<QuickAppsCorePath>/plugins/Comment/Template/CommentUI/index.ctp` will
+	 * be used instead.
+	 *
+	 * Of course you may create your own template and skip this fallback functionality.
+	 *
+	 * @param \Cake\Event\Event $event the event instance.
+	 * @return void
+	 */
+	public function beforeRender(Event $event)
+	{
 		$plugin = Inflector::camelize($event->subject->request->params['plugin']);
 		$controller = Inflector::camelize($event->subject->request->params['controller']);
 		$action = $event->subject->request->params['action'];
@@ -159,21 +161,22 @@ trait CommentUIControllerTrait {
 		parent::beforeRender($event);
 	}
 
-/**
- * Field UI main action.
- *
- * Shows all the fields attached to the Table being managed. Possibles values
- * for status are:
- *
- * - `all`: Comments marked as `pending` or `approved`. (by default)
- * - `pending`: Comments awaiting for moderation.
- * - `spam`: Comments marked as SPAM by Akismet.
- * - `trash`: Comments that were sent to trash bin.
- *
- * @param string $status Filter comments by `status`, see list above
- * @return void
- */
-	public function index($status = 'all') {
+	/**
+	 * Field UI main action.
+	 *
+	 * Shows all the fields attached to the Table being managed. Possibles values
+	 * for status are:
+	 *
+	 * - `all`: Comments marked as `pending` or `approved`. (by default)
+	 * - `pending`: Comments awaiting for moderation.
+	 * - `spam`: Comments marked as SPAM by Akismet.
+	 * - `trash`: Comments that were sent to trash bin.
+	 *
+	 * @param string $status Filter comments by `status`, see list above
+	 * @return void
+	 */
+	public function index($status = 'all')
+	{
 		$this->loadModel('Comment.Comments');
 		$this->_setCounters();
 		$search = ''; // fills form's input
@@ -219,14 +222,15 @@ trait CommentUIControllerTrait {
 		$this->set('comments', $this->paginate($comments));
 	}
 
-/**
- * Edit form for given comment.
- *
- * @param int $id Comment id
- * @return void Redirects to previous page
- * @throws \Cake\ORM\Exception\RecordNotFoundException When comment was not found
- */
-	public function edit($id) {
+	/**
+	 * Edit form for given comment.
+	 *
+	 * @param int $id Comment id
+	 * @return void Redirects to previous page
+	 * @throws \Cake\ORM\Exception\RecordNotFoundException When comment was not found
+	 */
+	public function edit($id)
+	{
 		$this->loadModel('Comment.Comments');
 		$comment = $this->Comments
 			->find()
@@ -255,14 +259,15 @@ trait CommentUIControllerTrait {
 		$this->set('comment', $comment);
 	}
 
-/**
- * Changes the status of the given comment.
- *
- * @param int $id Comment id
- * @param string $status New status for the comment
- * @return void Redirects to previous page
- */
-	public function status($id, $status) {
+	/**
+	 * Changes the status of the given comment.
+	 *
+	 * @param int $id Comment id
+	 * @param string $status New status for the comment
+	 * @return void Redirects to previous page
+	 */
+	public function status($id, $status)
+	{
 		if (in_array($status, ['pending', 'approved', 'spam', 'trash'])) {
 			$this->loadModel('Comment.Comments');
 			if ($comment = $this->Comments->get($id)) {
@@ -274,13 +279,14 @@ trait CommentUIControllerTrait {
 		$this->redirect($this->referer());
 	}
 
-/**
- * Permanently deletes the given comment.
- *
- * @param int $id Comment id
- * @return void Redirects to previous page
- */
-	public function delete($id) {
+	/**
+	 * Permanently deletes the given comment.
+	 *
+	 * @param int $id Comment id
+	 * @return void Redirects to previous page
+	 */
+	public function delete($id)
+	{
 		$this->loadModel('Comment.Comments');
 		$comment = $this->Comments
 			->find()
@@ -300,25 +306,27 @@ trait CommentUIControllerTrait {
 		$this->redirect($this->referer());
 	}
 
-/**
- * Permanently deletes all comments marked as "trash".
- *
- * @return void Redirects to previous page
- */
-	public function empty_trash() {
+	/**
+	 * Permanently deletes all comments marked as "trash".
+	 *
+	 * @return void Redirects to previous page
+	 */
+	public function empty_trash()
+	{
 		$this->loadModel('Comment.Comments');
 		$this->Comments->deleteAll(['Comments.status' => 'trash', 'Comments.table_alias' => $this->_manageTable]);
 		$this->Flash->success(__d('comment', 'All comments in trash were successfully removed!'));
 		$this->redirect($this->referer());
 	}
 
-/**
- * Sets a few view-variables holding counters for
- * each status ("pending", "approved", "spam" or "trash").
- *
- * @return void
- */
-	protected function _setCounters() {
+	/**
+	 * Sets a few view-variables holding counters for
+	 * each status ("pending", "approved", "spam" or "trash").
+	 *
+	 * @return void
+	 */
+	protected function _setCounters()
+	{
 		$this->loadModel('Comment.Comments');
 		$pending = $this->Comments->find()->where(['status' => 'pending'])->count();
 		$approved = $this->Comments->find()->where(['status' => 'approved'])->count();
