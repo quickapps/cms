@@ -12,23 +12,23 @@
 namespace Field\Event;
 
 use Cake\Event\Event;
+use Cake\ORM\Entity;
 use Field\Event\Base\FieldHandler;
 use Field\Model\Entity\Field;
-use Field\Utility\TextToolbox;
 
 /**
- * List Field Handler.
+ * Image Field Handler.
  *
- * Defines list field types, used to create selection lists.
+ * This field allows attach date pickers to entities.
  */
-class ListField extends FieldHandler {
+class DateField extends FieldHandler {
 
 /**
  * {@inheritDoc}
  */
 	public function entityDisplay(Event $event, Field $field, $options = []) {
 		$View = $event->subject;
-		return $View->element('Field.ListField/display', compact('field', 'options'));
+		return $View->element('Field.DateField/display', compact('field', 'options'));
 	}
 
 /**
@@ -36,7 +36,7 @@ class ListField extends FieldHandler {
  */
 	public function entityEdit(Event $event, Field $field, $options = []) {
 		$View = $event->subject;
-		return $View->element('Field.ListField/edit', compact('field', 'options'));
+		return $View->element('Field.DateField/edit', compact('field', 'options'));
 	}
 
 /**
@@ -55,12 +55,8 @@ class ListField extends FieldHandler {
  * {@inheritDoc}
  */
 	public function entityBeforeSave(Event $event, Field $field, $options) {
-		$value = $options['_post'];
-		if (is_array($value)) {
-			$value = implode(' ', array_values($value));
-		}
-		$field->set('value', $value);
-		$field->set('raw', $options['_post']); // force it to be a string if it is
+		$date = $options['_post'];
+		return true;
 	}
 
 /**
@@ -73,14 +69,6 @@ class ListField extends FieldHandler {
  * {@inheritDoc}
  */
 	public function entityBeforeValidate(Event $event, Field $field, $options, $validator) {
-		if ($field->metadata->required) {
-			$validator
-				->requirePresence(":{$field->name}")
-				->notEmpty(":{$field->name}", __d('field', 'Field required.'));
-		} else {
-			$validator->allowEmpty(":{$field->name}");
-		}
-
 		return true;
 	}
 
@@ -106,11 +94,14 @@ class ListField extends FieldHandler {
 
 /**
  * {@inheritDoc}
+ *
+ * @param \Cake\Event\Event $event
+ * @return array
  */
 	public function instanceInfo(Event $event) {
 		return [
-			'name' => __d('field', 'List'),
-			'description' => __d('field', 'Defines list field types, used to create selection lists.'),
+			'name' => __d('field', 'Date'),
+			'description' => __d('field', 'Allows to attach date picker to contents.'),
 			'hidden' => false
 		];
 	}
@@ -120,7 +111,7 @@ class ListField extends FieldHandler {
  */
 	public function instanceSettingsForm(Event $event, $instance, $options = []) {
 		$View = $event->subject;
-		return $View->element('Field.ListField/settings_form', compact('instance', 'options'));
+		return $View->element('Field.DateField/settings_form', compact('instance', 'options'));
 	}
 
 /**
@@ -133,9 +124,15 @@ class ListField extends FieldHandler {
 /**
  * {@inheritDoc}
  */
+	public function instanceSettingsValidate(Event $event, Entity $settings, $validator) {
+	}
+
+/**
+ * {@inheritDoc}
+ */
 	public function instanceViewModeForm(Event $event, $instance, $options = []) {
 		$View = $event->subject;
-		return $View->element('Field.ListField/view_mode_form', compact('instance', 'options'));
+		return $View->element('Field.DateField/view_mode_form', compact('instance', 'options'));
 	}
 
 /**
@@ -148,9 +145,14 @@ class ListField extends FieldHandler {
 					'label_visibility' => 'above',
 					'hooktags' => true,
 					'hidden' => false,
-					'formatter' => 'default',
 				];
 		}
+	}
+
+/**
+ * {@inheritDoc}
+ */
+	public function instanceViewModeValidate(Event $event, Entity $viewMode, $validator) {
 	}
 
 /**

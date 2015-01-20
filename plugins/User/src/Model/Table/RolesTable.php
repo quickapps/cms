@@ -38,7 +38,7 @@ class RolesTable extends Table {
  */
 	public function validationDefault(Validator $validator) {
 		$validator
-			->validatePresence('name')
+			->requirePresence('name')
 			->add('name', [
 				'notEmpty' => [
 					'rule' => 'notEmpty',

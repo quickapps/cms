@@ -18,7 +18,7 @@ use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Cake\Utility\Hash;
-use Cake\View\Helper\StringTemplateTrait;
+use Cake\View\StringTemplateTrait;
 use Cake\View\View;
 use Menu\View\BreadcrumbRegistry;
 use QuickApps\Core\Plugin;

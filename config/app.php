@@ -138,11 +138,11 @@ $config = [
  * - `log` - boolean - Whether or not you want exceptions logged.
  * - `exceptionRenderer` - string - The class responsible for rendering
  *   uncaught exceptions.  If you choose a custom class you should place
- *   the file for that class in src/Lib/Error. This class needs to implement a
+ *   the file for that class in src/Error. This class needs to implement a
  *   render method.
  * - `skipLog` - array - List of exceptions to skip for logging. Exceptions that
  *   extend one of the listed exceptions will also be skipped for logging.
- *   E.g.: `'skipLog' => ['Cake\Error\NotFoundException', 'Cake\Error\UnauthorizedException']`
+ *   E.g.: `'skipLog' => ['Cake\Network\Exception\NotFoundException', 'Cake\Network\Exception\UnauthorizedException']`
  */
 	'Error' => [
 		'errorLevel' => E_ALL & ~E_DEPRECATED,
@@ -206,29 +206,32 @@ $config = [
 		],
 	],
 
+
 /**
  * Connection information used by the ORM to connect
  * to your application's datastores.
+ * Drivers include Mysql Postgres Sqlite Sqlserver
+ * See vendor\cakephp\cakephp\src\Database\Driver for complete list
  */
 	'Datasources' => [
-		/**
-		 * The test connection is used during the test suite.
-		 */
-		'test' => [
-			'className' => 'Cake\Database\Connection',
-			'driver' => 'Cake\Database\Driver\Mysql',
-			'persistent' => false,
-			'host' => 'localhost',
-			'login' => 'root',
-			'password' => '',
-			'database' => 'quick_test',
-			'prefix' => false,
-			'encoding' => 'utf8',
-			'timezone' => 'UTC',
-			'cacheMetadata' => true,
-			'quoteIdentifiers' => false,
-			//'init' => ['SET GLOBAL innodb_stats_on_metadata = 0'],
-		],
+        /**
+         * The test connection is used during the test suite.
+         */
+        'test' => [
+            'className' => 'Cake\Database\Connection',
+            'driver' => 'Cake\Database\Driver\Mysql',
+            'persistent' => false,
+            'host' => 'localhost',
+            //'port' => 'nonstandard_port_number',
+            'username' => 'my_app',
+            'password' => 'secret',
+            'database' => 'quick_test',
+            'encoding' => 'utf8',
+            'timezone' => 'UTC',
+            'cacheMetadata' => true,
+            'quoteIdentifiers' => false,
+            //'init' => ['SET GLOBAL innodb_stats_on_metadata = 0'],
+        ],
 	],
 
 /**
@@ -260,10 +263,8 @@ $config = [
  * - `cookie` - The name of the cookie to use. Defaults to 'CAKEPHP'.
  * - `cookiePath` - The url path for which session cookie is set. Maps to the
  *   `session.cookie_path` php.ini config. Defaults to base path of app.
- * - `timeout` - The number of minutes you want sessions to live for. This
- *    timeout is handled by CakePHP.
- *    value to false, when dealing with older versions of IE, Chrome Frame or
- *    certain web-browsing devices and AJAX.
+ * - `timeout` - The time in minutes the session should be valid for.
+ *    Pass 0 to disable checking timeout.
  * - `defaults` - The default configuration set to use as a basis for your session.
  *    There are four built-in options: php, cake, cache, database.
  * - `handler` - Can be used to enable a custom session handler. Expects an

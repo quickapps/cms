@@ -40,11 +40,11 @@ class EntitiesTermsTable extends Table {
  */
 	public function validationDefault(Validator $validator) {
 		$validator
-			->validatePresence('entity_id', 'create')
+			->requirePresence('entity_id', 'create')
 			->notEmpty('entity_id', __d('taxonomy', 'Illegal action, entity_id cannot be empty.'))
-			->validatePresence('term_id', 'create')
+			->requirePresence('term_id', 'create')
 			->notEmpty('term_id', __d('taxonomy', 'Illegal action, term_id cannot be empty.'))
-			->validatePresence('table_alias', 'create')
+			->requirePresence('table_alias', 'create')
 			->notEmpty('table_alias', __d('taxonomy', 'Illegal action, table_alias cannot be empty.'));
 
 		return $validator;

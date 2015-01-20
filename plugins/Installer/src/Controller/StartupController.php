@@ -65,7 +65,7 @@ class StartupController extends Controller {
  *
  * @var string
  */
-	public $components = ['Session', 'Flash'];
+	public $components = ['Flash'];
 
 /**
  * {@inheritDoc}
@@ -82,9 +82,9 @@ class StartupController extends Controller {
 
 		if (!empty($this->request->query['locale']) && !in_array($this->request->params['action'], ['language', 'index'])) {
 			I18n::defaultLocale($this->request->query['locale']);
-			$this->Session->write('installation.language', I18n::defaultLocale());
-		} elseif ($this->Session->read('installation.language')) {
-			I18n::defaultLocale($this->Session->read('installation.language'));
+			$this->request->session()->write('installation.language', I18n::defaultLocale());
+		} elseif ($this->request->session()->read('installation.language')) {
+			I18n::defaultLocale($this->request->session()->read('installation.language'));
 		}
 
 		Router::addUrlFilter(function ($params, $request) {
@@ -264,7 +264,7 @@ class StartupController extends Controller {
 					'className' => 'Cake\Database\Connection',
 					'driver' => 'Cake\Database\Driver\\' . $requestData['driver'],
 					'database' => $requestData['name'],
-					'login' => $requestData['username'],
+					'username' => $requestData['username'],
 					'password' => $requestData['password'],
 					'host' => $requestData['host'],
 					'prefix' => $requestData['prefix'],
@@ -402,7 +402,7 @@ class StartupController extends Controller {
 		if ($this->request->data) {
 			if (rename(SITE_ROOT . '/config/settings.php.tmp', SITE_ROOT . '/config/settings.php')) {
 				snapshot();
-				$this->Session->delete('Startup');
+				$this->request->session()->delete('Startup');
 
 				if (!empty($this->request->data['home'])) {
 					$this->redirect('/');
@@ -452,12 +452,12 @@ class StartupController extends Controller {
  * @return bool
  */
 	protected function _step($check = false) {
-		$_steps = (array)$this->Session->read('Startup._steps');
+		$_steps = (array)$this->request->session()->read('Startup._steps');
 
 		if ($check === false) {
 			$_steps[] = $this->request->params['action'];
 			$_steps = array_unique($_steps);
-			$this->Session->write('Startup._steps', $_steps);
+			$this->request->session()->write('Startup._steps', $_steps);
 		} else {
 			return in_array($check, $_steps);
 		}

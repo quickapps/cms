@@ -53,11 +53,6 @@ define('CONFIG', ROOT . DS . 'config' . DS);
 define('WWW_ROOT', SITE_ROOT . DS . WEBROOT_DIR . DS);
 
 /**
- * Path to the tests directory.
- */
-define('TESTS', ROOT . DS . 'tests' . DS);
-
-/**
  * Path to the temporary files directory.
  */
 define('TMP', SITE_ROOT . DS . 'tmp' . DS);

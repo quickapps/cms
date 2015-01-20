@@ -64,18 +64,19 @@ class WysiwygHook implements EventListenerInterface {
 			static::$_counter++;
 			$editorId = 'ck-editor-' . static::$_counter;
 			$options['class'] .= ' ' . $editorId;
+			$_View = $event->subject();
 
 			if (!static::$_scriptsLoaded) {
 				static::$_scriptsLoaded = true;
-				$filebrowserBrowseUrl = $event->subject->_View->Url->build(['plugin' => 'Wysiwyg', 'controller' => 'finder']);
-				$event->subject->_View->Html->script('Wysiwyg.ckeditor/ckeditor.js', ['block' => true]);
-				$event->subject->_View->Html->script('Wysiwyg.ckeditor/adapters/jquery.js', ['block' => true]);
-				$event->subject->_View->Html->scriptBlock('$(document).ready(function () {
+				$filebrowserBrowseUrl = $_View->Url->build(['plugin' => 'Wysiwyg', 'controller' => 'finder']);
+				$_View->Html->script('Wysiwyg.ckeditor/ckeditor.js', ['block' => true]);
+				$_View->Html->script('Wysiwyg.ckeditor/adapters/jquery.js', ['block' => true]);
+				$_View->Html->scriptBlock('$(document).ready(function () {
 					CKEDITOR.editorConfig = function(config) {
 						config.filebrowserBrowseUrl = "' . $filebrowserBrowseUrl . '";
 					};
 				});', ['block' => true]);
-				$this->_includeLinksToNodes($event->subject->_View);
+				$this->_includeLinksToNodes($_View);
 			}
 		}
 	}

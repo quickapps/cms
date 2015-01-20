@@ -108,7 +108,7 @@ class CommentsTable extends Table {
 		if ($settings['allow_anonymous']) {
 			if ($settings['anonymous_name']) {
 				$validator
-					->validatePresence('author_name')
+					->requirePresence('author_name')
 					->add('author_name', 'nameLength', [
 						'rule' => ['minLength', 3],
 						'message' => __d('comment', 'Your name need to be at least 3 characters long.'),
@@ -123,7 +123,7 @@ class CommentsTable extends Table {
 
 			if ($settings['anonymous_email']) {
 				$validator
-					->validatePresence('author_email')
+					->requirePresence('author_email')
 					->add('author_email', 'validEmail', [
 						'rule' => 'email',
 						'message' => __d('comment', 'e-Mail must be valid.'),
@@ -138,7 +138,7 @@ class CommentsTable extends Table {
 
 			if ($settings['anonymous_web']) {
 				$validator
-					->validatePresence('author_web')
+					->requirePresence('author_web')
 					->add('author_web', 'validURL', [
 						'rule' => 'url',
 						'message' => __d('comment', 'Website must be a valid URL.'),

@@ -58,7 +58,7 @@ class NodeTypesTable extends Table {
  */
 	public function validationDefault(Validator $validator) {
 		$validator
-			->validatePresence('name')
+			->requirePresence('name')
 			->add('name', [
 				'notEmpty' => [
 					'rule' => 'notEmpty',
@@ -78,7 +78,7 @@ class NodeTypesTable extends Table {
 				'message' => __d('node', 'Invalid machine-name.'),
 				'provider' => 'table',
 			])
-			->validatePresence('title_label')
+			->requirePresence('title_label')
 			->add('title_label', [
 				'notEmpty' => [
 					'rule' => 'notEmpty',

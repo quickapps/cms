@@ -406,7 +406,7 @@ class CommentComponent extends Component {
 			// logged user posting
 			$validator = $this->_controller->Comments->validationDefault(new Validator());
 			$validator
-				->validatePresence('user_id')
+				->requirePresence('user_id')
 				->notEmpty('user_id', __d('comment', 'Invalid user.'))
 				->add('user_id', 'checkUserId', [
 					'rule' => function ($value, $context) {

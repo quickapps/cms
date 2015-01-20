@@ -88,7 +88,6 @@ class Controller extends CakeCotroller {
 			'unauthorizedRedirect' => ['plugin' => 'User', 'controller' => 'gateway', 'action' => 'unauthorized'],
 		],
 		'Menu.Breadcrumb',
-		'Session',
 		'Flash',
 	];
 

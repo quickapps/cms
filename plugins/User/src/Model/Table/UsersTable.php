@@ -57,9 +57,9 @@ class UsersTable extends Table {
  */
 	public function validationDefault(Validator $validator) {
 		return $validator
-			->validatePresence('name')
+			->requirePresence('name')
 			->notEmpty('name', __d('user', 'You must provide a name.'))
-			->validatePresence('username', 'create')
+			->requirePresence('username', 'create')
 			->add('username', [
 				'characters' => [
 					'rule' => function ($value, $context) {
@@ -74,7 +74,7 @@ class UsersTable extends Table {
 					'message' => __d('user', 'Username already in use.'),
 				],
 			])
-			->validatePresence('email')
+			->requirePresence('email')
 			->notEmpty('email', __d('user', 'e-Mail cannot be empty.'))
 			->add('email', [
 				'unique' => [
@@ -90,7 +90,7 @@ class UsersTable extends Table {
 					'message' => __d('user', 'Username already in use.'),
 				]
 			])
-			->validatePresence('password', 'create')
+			->requirePresence('password', 'create')
 			->allowEmpty('password', 'update')
 			->add('password', [
 				'compare' => [

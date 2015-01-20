@@ -73,7 +73,7 @@ class TextField extends FieldHandler {
 	public function entityBeforeValidate(Event $event, Field $field, $options, $validator) {
 		if ($field->metadata->required) {
 			$validator
-				->validatePresence(":{$field->name}", __d('field', 'This field required.'))
+				->requirePresence(":{$field->name}", __d('field', 'This field required.'))
 				->add(":{$field->name}", 'notEmpty', [
 					'rule' => function ($value, $context) use ($field) {
 						if ($field->metadata->settings['type'] === 'textarea') {

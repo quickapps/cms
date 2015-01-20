@@ -176,33 +176,33 @@ class UserHook implements EventListenerInterface {
  */
 	public function settingsBeforeValidate(Event $event, $settings, $validator) {
 		$validator
-			->validatePresence('message_welcome_subject')
+			->requirePresence('message_welcome_subject')
 			->notEmpty('message_welcome_subject', __d('user', 'This field cannot be empty.'))
 
-			->validatePresence('message_welcome_body')
+			->requirePresence('message_welcome_body')
 			->notEmpty('message_welcome_body', __d('user', 'This field cannot be empty.'))
 
-			->validatePresence('message_password_recovery_subject')
+			->requirePresence('message_password_recovery_subject')
 			->notEmpty('message_password_recovery_body', __d('user', 'This field cannot be empty.'))
 
-			->validatePresence('message_cancel_request_subject')
+			->requirePresence('message_cancel_request_subject')
 			->notEmpty('message_cancel_request_body', __d('user', 'This field cannot be empty.'));
 
 		if ($settings->message_activation) {
 			$validator
-				->validatePresence('message_activation_subject')
+				->requirePresence('message_activation_subject')
 				->notEmpty('message_activation_body', __d('user', 'This field cannot be empty.'));
 		}
 
 		if ($settings->message_blocked) {
 			$validator
-				->validatePresence('message_blocked_subject')
+				->requirePresence('message_blocked_subject')
 				->notEmpty('message_blocked_body', __d('user', 'This field cannot be empty.'));
 		}
 
 		if ($settings->message_canceled) {
 			$validator
-				->validatePresence('message_canceled_subject')
+				->requirePresence('message_canceled_subject')
 				->notEmpty('message_canceled_body', __d('user', 'This field cannot be empty.'));
 		}
 	}

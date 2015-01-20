@@ -75,7 +75,7 @@ class BlockHelper extends Helper {
 
 		if ($blocks === null) {
 			$blocks = $Blocks->find()
-				->contain(['Roles'])
+				->contain(['Roles', 'BlockRegions'])
 				->matching('BlockRegions', function ($q) use ($region) {
 					return $q->where([
 						'BlockRegions.theme' => $this->_View->theme,
@@ -98,17 +98,15 @@ class BlockHelper extends Helper {
 				});
 
 			if (!$all) {
-				$blocks
-					->filter(function ($block) {
-						// we do a second pass to remove blocks that will never be rendered
-						return $this->allowed($block);
-					});
+				$blocks->filter(function ($block) {
+					// we do a second pass to remove blocks that will never be rendered
+					return $this->allowed($block);
+				});
 			}
 
-			$blocks
-				->sortBy(function ($block) {
-					return $block->region->ordering;
-				}, SORT_ASC);
+			$blocks->sortBy(function ($block) {
+				return $block->region->ordering;
+			}, SORT_ASC);
 			static::cache($cacheKey, $blocks);
 		}
 

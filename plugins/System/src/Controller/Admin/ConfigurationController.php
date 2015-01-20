@@ -87,12 +87,12 @@ class ConfigurationController extends AppController {
 	protected function _mockValidator() {
 		$validator = new Validator();
 		return $validator
-			->validatePresence('site_title')
+			->requirePresence('site_title')
 			->add('site_title', 'length', [
 				'rule' => ['minLength', 3],
 				'message' => __d('system', "Site's name must be at least 3 characters long."),
 			])
-			->validatePresence('site_email')
+			->requirePresence('site_email')
 			->add('site_email', 'validEmail', [
 				'rule' => 'email',
 				'message' => __d('system', 'Invalid e-Mail.'),

@@ -61,7 +61,7 @@ class MenusTable extends Table {
 					'message' => __d('node', 'Title need to be at least 3 characters long.'),
 				],
 			])
-			->validatePresence('handler', 'create')
+			->requirePresence('handler', 'create')
 			->add('handler', 'validHandler', [
 				'rule' => 'notEmpty',
 				'on' => 'create',

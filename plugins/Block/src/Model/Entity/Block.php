@@ -50,4 +50,18 @@ class Block extends Entity {
 		return strip_tags($description);
 	}
 
+/**
+ * Tries to get block's region.
+ *
+ * This method is used when finding blocks matching a particular region.
+ * 
+ * @return \Block\Model\Entity\BlockRegion
+ * @see \Block\View\Helper\BlockHelper
+ */
+	protected function _getRegion() {
+		if (isset($this->_matchingData['BlockRegions'])) {
+			return $this->_matchingData['BlockRegions'];
+		}
+	}	
+
 }

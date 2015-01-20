@@ -65,7 +65,7 @@ class MenuLinksTable extends Table {
 				'message' => __d('node', 'Invalid URL. Internal links must start with "/", e.g. "/article-my-first-article.html"'),
 				'provider' => 'table',
 			])
-			->validatePresence('title')
+			->requirePresence('title')
 			->add('title', [
 				'notEmpty' => [
 					'rule' => 'notEmpty',

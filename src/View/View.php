@@ -16,7 +16,6 @@ use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\View\View as CakeView;
-use QuickApps\Core\StaticCacheTrait;
 use QuickApps\Event\HookAwareTrait;
 use QuickApps\Event\HooktagAwareTrait;
 use QuickApps\View\ViewModeAwareTrait;
@@ -31,7 +30,6 @@ class View extends CakeView {
 
 	use HookAwareTrait;
 	use HooktagAwareTrait;
-	use StaticCacheTrait;
 	use ViewModeAwareTrait;
 
 /**
@@ -124,6 +122,8 @@ class View extends CakeView {
  * @return string HTML output of object-rendering or view file
  */
 	public function render($view = null, $layout = null) {
+		$html = "";
+
 		if (is_object($view)) {
 			$className = get_class($view);
 			$args = func_get_args();

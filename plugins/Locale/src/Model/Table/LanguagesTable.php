@@ -42,7 +42,7 @@ class LanguagesTable extends Table {
 					'message' => __d('locale', 'Language name need to be at least 3 characters long.'),
 				],
 			])
-			->validatePresence('code')
+			->requirePresence('code')
 			->add('code', 'unique', [
 				'rule' => 'validateUnique',
 				'message' => __d('locale', 'This language is already registered.'),

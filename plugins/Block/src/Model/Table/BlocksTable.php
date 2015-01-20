@@ -75,7 +75,7 @@ class BlocksTable extends Table {
  */
 	public function validationDefault(Validator $validator) {
 		return $validator
-			->validatePresence('title')
+			->requirePresence('title')
 			->add('title', [
 				'notEmpty' => [
 					'rule' => 'notEmpty',
@@ -86,7 +86,7 @@ class BlocksTable extends Table {
 					'message' => __d('block', 'Title need to be at least 3 characters long.'),
 				],
 			])
-			->validatePresence('description')
+			->requirePresence('description')
 			->add('description', [
 				'notEmpty' => [
 					'rule' => 'notEmpty',
@@ -120,7 +120,7 @@ class BlocksTable extends Table {
 					'provider' => 'table',
 				]
 			])
-			->validatePresence('handler', 'create')
+			->requirePresence('handler', 'create')
 			->add('handler', 'validHandler', [
 				'rule' => 'notEmpty',
 				'on' => 'create',
@@ -140,7 +140,7 @@ class BlocksTable extends Table {
  */
 	public function validationCustom(Validator $validator) {
 		return $this->validationDefault($validator)
-			->validatePresence('body')
+			->requirePresence('body')
 			->add('body', [
 				'notEmpty' => [
 					'rule' => 'notEmpty',
