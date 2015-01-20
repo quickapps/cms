@@ -18,7 +18,8 @@ use Cake\Validation\Validator;
  * Represents "vocabularies" database table.
  *
  */
-class VocabulariesTable extends Table {
+class VocabulariesTable extends Table
+{
 
 /**
  * Initialize a table instance. Called after the constructor.
@@ -26,14 +27,15 @@ class VocabulariesTable extends Table {
  * @param array $config Configuration options passed to the constructor
  * @return void
  */
-	public function initialize(array $config) {
-		$this->hasMany('Terms', [
-			'className' => 'Taxonomy.Terms',
-			'dependent' => true,
-		]);
-		$this->addBehavior('Timestamp');
-		$this->addBehavior('Sluggable', ['label' => 'name', 'on' => 'both']);
-	}
+    public function initialize(array $config)
+    {
+        $this->hasMany('Terms', [
+            'className' => 'Taxonomy.Terms',
+            'dependent' => true,
+        ]);
+        $this->addBehavior('Timestamp');
+        $this->addBehavior('Sluggable', ['label' => 'name', 'on' => 'both']);
+    }
 
 /**
  * Default validation rules set.
@@ -41,21 +43,21 @@ class VocabulariesTable extends Table {
  * @param \Cake\Validation\Validator $validator The validator object
  * @return \Cake\Validation\Validator
  */
-	public function validationDefault(Validator $validator) {
-		$validator
-			->requirePresence('name')
-			->add('name', [
-				'notEmpty' => [
-					'rule' => 'notEmpty',
-					'message' => __d('node', 'You need to provide a name.'),
-				],
-				'length' => [
-					'rule' => ['minLength', 3],
-					'message' => __d('node', 'Name need to be at least 3 characters long.'),
-				],
-			]);
+    public function validationDefault(Validator $validator)
+    {
+        $validator
+            ->requirePresence('name')
+            ->add('name', [
+                'notEmpty' => [
+                    'rule' => 'notEmpty',
+                    'message' => __d('node', 'You need to provide a name.'),
+                ],
+                'length' => [
+                    'rule' => ['minLength', 3],
+                    'message' => __d('node', 'Name need to be at least 3 characters long.'),
+                ],
+            ]);
 
-		return $validator;
-	}
-
+        return $validator;
+    }
 }

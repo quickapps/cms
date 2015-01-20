@@ -23,18 +23,20 @@ use Cake\Collection\CollectionTrait;
  * functionalities such as `sortAs()` method, or access a fields by its numeric
  * index or its machine-name (like an associative array).
  */
-class FieldCollection extends ArrayObject {
+class FieldCollection extends ArrayObject
+{
 
-	use CollectionTrait;
+    use CollectionTrait;
 
 /**
  * Class constructor.
  *
  * @param array $fields List of fields
  */
-	public function __construct(array $fields = []) {
-		parent::__construct($fields, ArrayObject::STD_PROP_LIST);
-	}
+    public function __construct(array $fields = [])
+    {
+        parent::__construct($fields, ArrayObject::STD_PROP_LIST);
+    }
 
 /**
  * Allows access fields by numeric index or by machine-name.
@@ -68,30 +70,32 @@ class FieldCollection extends ArrayObject {
  * @param int|string $index Numeric index or machine-name
  * @return mixed \Field\Model\Entity\Field on success or NULL on failure
  */
-	public function offsetGet($index) {
-		if (is_string($index)) {
-			foreach ($this as $f) {
-				if ($f->name == $index) {
-					return $f;
-				}
-			}
-		}
+    public function offsetGet($index)
+    {
+        if (is_string($index)) {
+            foreach ($this as $f) {
+                if ($f->name == $index) {
+                    return $f;
+                }
+            }
+        }
 
-		return parent::offsetGet($index);
-	}
+        return parent::offsetGet($index);
+    }
 
 /**
  * Gets a list of all machine names.
  *
  * @return array List of machine names
  */
-	public function machineNames() {
-		$mn = [];
-		foreach ($this as $f) {
-			$mn[] = $f->name;
-		}
-		return $mn;
-	}
+    public function machineNames()
+    {
+        $mn = [];
+        foreach ($this as $f) {
+            $mn[] = $f->name;
+        }
+        return $mn;
+    }
 
 /**
  * Sorts the list of fields by view mode ordering.
@@ -102,21 +106,22 @@ class FieldCollection extends ArrayObject {
  * @param int $dir either SORT_DESC or SORT_ASC
  * @return \Field\Collection\FieldCollection
  */
-	public function sortByViewMode($viewMode, $dir = SORT_ASC) {
-		$items = [];
-		$sorted = $this->sortBy(function ($field) use($viewMode) {
-			if (isset($field->metadata->view_modes[$viewMode])) {
-				return $field->metadata->view_modes[$viewMode]['ordering'];
-			}
-			return 0;
-		}, $dir);
+    public function sortByViewMode($viewMode, $dir = SORT_ASC)
+    {
+        $items = [];
+        $sorted = $this->sortBy(function ($field) use ($viewMode) {
+            if (isset($field->metadata->view_modes[$viewMode])) {
+                return $field->metadata->view_modes[$viewMode]['ordering'];
+            }
+            return 0;
+        }, $dir);
 
-		foreach ($sorted as $item) {
-			$items[] = $item;
-		}
+        foreach ($sorted as $item) {
+            $items[] = $item;
+        }
 
-		return new FieldCollection($items);
-	}
+        return new FieldCollection($items);
+    }
 
 /**
  * Returns an array that can be used to describe the internal state of this
@@ -124,12 +129,12 @@ class FieldCollection extends ArrayObject {
  *
  * @return array
  */
-	public function __debugInfo() {
-		$out = [];
-		foreach ($this as $f) {
-			$out[] = $f;
-		}
-		return $out;
-	}
-
+    public function __debugInfo()
+    {
+        $out = [];
+        foreach ($this as $f) {
+            $out[] = $f;
+        }
+        return $out;
+    }
 }

@@ -20,38 +20,40 @@ use QuickApps\Event\HooktagAwareTrait;
  *
  * Utility methods used by TextField Handler.
  */
-class TextToolbox {
+class TextToolbox
+{
 
-	use HooktagAwareTrait;
+    use HooktagAwareTrait;
 
 /**
  * Holds an instance of this class.
  *
  * @var \Field\Utility\TextToolbox
  */
-	protected static $_instance = null;
+    protected static $_instance = null;
 
 /**
  * Instance of markdown parser class.
  *
  * @var \Field\Lib\Parsedown
  */
-	protected static $_MarkdownParser;
+    protected static $_MarkdownParser;
 
 /**
  * Returns an instance of this class.
  *
  * Useful when we need to use some of the trait methods.
- * 
+ *
  * @return \Field\Utility\TextToolbox
  */
-	public static function getInstance() {
-		if (!static::$_instance) {
-			static::$_instance = new TextToolBox();
-		}
+    public static function getInstance()
+    {
+        if (!static::$_instance) {
+            static::$_instance = new TextToolBox();
+        }
 
-		return static::$_instance;
-	}
+        return static::$_instance;
+    }
 
 /**
  * Formats the given field.
@@ -59,26 +61,27 @@ class TextToolbox {
  * @param \Field\Model\Entity\Field $field The field being rendered
  * @return string
  */
-	public static function formatter(Field $field) {
-		$viewModeSettings = $field->view_mode_settings;
-		$content = $viewModeSettings['hooktags'] ? static::getInstance()->hooktags($field->value) : static::getInstance()->stripHooktags($field->value);
-		$processing = $field->metadata->settings['text_processing'];
-		$formatter = $viewModeSettings['formatter'];
-		$content = static::process($content, $processing);
+    public static function formatter(Field $field)
+    {
+        $viewModeSettings = $field->view_mode_settings;
+        $content = $viewModeSettings['hooktags'] ? static::getInstance()->hooktags($field->value) : static::getInstance()->stripHooktags($field->value);
+        $processing = $field->metadata->settings['text_processing'];
+        $formatter = $viewModeSettings['formatter'];
+        $content = static::process($content, $processing);
 
-		switch ($formatter) {
-			case 'plain':
-				$content = static::filterText($content);
-			break;
+        switch ($formatter) {
+            case 'plain':
+                $content = static::filterText($content);
+            break;
 
-			case 'trimmed':
-				$len = $viewModeSettings['trim_length'];
-				$content = static::trimmer($content, $len);
-			break;
-		}
+            case 'trimmed':
+                $len = $viewModeSettings['trim_length'];
+                $content = static::trimmer($content, $len);
+            break;
+        }
 
-		return $content;
-	}
+        return $content;
+    }
 
 /**
  * Process the given text to its corresponding format.
@@ -87,23 +90,24 @@ class TextToolbox {
  * @param string $processor "plain", "filtered", "markdown" or "full"
  * @return string
  */
-	public static function process($content, $processor) {
-		switch ($processor) {
-			case 'plain':
-				$content = static::plainProcessor($content);
-			break;
+    public static function process($content, $processor)
+    {
+        switch ($processor) {
+            case 'plain':
+                $content = static::plainProcessor($content);
+            break;
 
-			case 'filtered':
-				$content = static::filteredProcessor($content);
-			break;
+            case 'filtered':
+                $content = static::filteredProcessor($content);
+            break;
 
-			case 'markdown':
-				$content = static::markdownProcessor($content);
-			break;
-		}
+            case 'markdown':
+                $content = static::markdownProcessor($content);
+            break;
+        }
 
-		return $content;
-	}
+        return $content;
+    }
 
 /**
  * Process text in plain mode.
@@ -115,12 +119,13 @@ class TextToolbox {
  * @param string $text The text to process
  * @return string
  */
-	public static function plainProcessor($text) {
-		$text = static::emailToLink($text);
-		$text = static::urlToLink($text);
-		$text = nl2br($text);
-		return $text;
-	}
+    public static function plainProcessor($text)
+    {
+        $text = static::emailToLink($text);
+        $text = static::urlToLink($text);
+        $text = nl2br($text);
+        return $text;
+    }
 
 /**
  * Process text in full HTML mode.
@@ -131,11 +136,12 @@ class TextToolbox {
  * @param string $text The text to process
  * @return string
  */
-	public static function fullProcessor($text) {
-		$text = static::emailToLink($text);
-		$text = static::urlToLink($text);
-		return $text;
-	}
+    public static function fullProcessor($text)
+    {
+        $text = static::emailToLink($text);
+        $text = static::urlToLink($text);
+        return $text;
+    }
 
 /**
  * Process text in filtered HTML mode.
@@ -148,12 +154,13 @@ class TextToolbox {
  * @param string $text The text to process
  * @return string
  */
-	public static function filteredProcessor($text) {
-		$text = static::emailToLink($text);
-		$text = static::urlToLink($text);
-		$text = strip_tags($text, '<a><em><strong><cite><blockquote><code><ul><ol><li><dl><dt><dd>');
-		return $text;
-	}
+    public static function filteredProcessor($text)
+    {
+        $text = static::emailToLink($text);
+        $text = static::urlToLink($text);
+        $text = strip_tags($text, '<a><em><strong><cite><blockquote><code><ul><ol><li><dl><dt><dd>');
+        return $text;
+    }
 
 /**
  * Process text in markdown mode.
@@ -163,14 +170,15 @@ class TextToolbox {
  * @param string $text The text to process
  * @return string
  */
-	public static function markdownProcessor($text) {
-		$MarkdownParser = static::getMarkdownParser();
-		$text = $MarkdownParser->parse($text);
-		$text = static::emailToLink($text);
-		$text = str_replace('<p>h', '<p> h', $text);
-		$text = static::urlToLink($text);
-		return $text;
-	}
+    public static function markdownProcessor($text)
+    {
+        $MarkdownParser = static::getMarkdownParser();
+        $text = $MarkdownParser->parse($text);
+        $text = static::emailToLink($text);
+        $text = str_replace('<p>h', '<p> h', $text);
+        $text = static::urlToLink($text);
+        return $text;
+    }
 
 /**
  * Attempts to close any unclosed HTML tag.
@@ -178,28 +186,29 @@ class TextToolbox {
  * @param string $html HTML content to fix
  * @return string
  */
-	public static function closeOpenTags($html) {
-		preg_match_all("#<([a-z]+)( .*)?(?!/)>#iU", $html, $result);
-		$openedTags = $result[1];
-		preg_match_all("#</([a-z]+)>#iU", $html, $result);
-		$closedTags = $result[1];
-		$lenOpened = count($openedTags);
+    public static function closeOpenTags($html)
+    {
+        preg_match_all("#<([a-z]+)( .*)?(?!/)>#iU", $html, $result);
+        $openedTags = $result[1];
+        preg_match_all("#</([a-z]+)>#iU", $html, $result);
+        $closedTags = $result[1];
+        $lenOpened = count($openedTags);
 
-		if (count($closedTags) == $lenOpened) {
-			return $html;
-		}
+        if (count($closedTags) == $lenOpened) {
+            return $html;
+        }
 
-		$openedTags = array_reverse($openedTags);
-		for ($i = 0; $i < $lenOpened; $i++) {
-			if (!in_array($openedTags[$i], $closedTags)) {
-				$html .= '</' . $openedTags[$i] . '>';
-			} else {
-				unset($closedTags[array_search($openedTags[$i], $closedTags)]);
-			}
-		}
+        $openedTags = array_reverse($openedTags);
+        for ($i = 0; $i < $lenOpened; $i++) {
+            if (!in_array($openedTags[$i], $closedTags)) {
+                $html .= '</' . $openedTags[$i] . '>';
+            } else {
+                unset($closedTags[array_search($openedTags[$i], $closedTags)]);
+            }
+        }
 
-		return $html;
-	}
+        return $html;
+    }
 
 /**
  * Protects email address so bots can not read it.
@@ -210,18 +219,19 @@ class TextToolbox {
  * @param string $email The email to obfuscate
  * @return string
  */
-	public static function emailObfuscator($email) {
-		$link = str_rot13('<a href="mailto:' . $email . '" rel="nofollow">' . $email . '</a>');
-		$out = '
+    public static function emailObfuscator($email)
+    {
+        $link = str_rot13('<a href="mailto:' . $email . '" rel="nofollow">' . $email . '</a>');
+        $out = '
 			<script type="text/javascript">
 				document.write(\'' . $link . '\'.replace(/[a-zA-Z]/g,
 				function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
 			</script>
 		';
-		$out .= "<noscript>[" . __d('field', 'Turn on JavaScript to see the email address.') . "]</noscript>";
+        $out .= "<noscript>[" . __d('field', 'Turn on JavaScript to see the email address.') . "]</noscript>";
 
-		return $out;
-	}
+        return $out;
+    }
 
 /**
  * Safely strip HTML tags.
@@ -229,29 +239,30 @@ class TextToolbox {
  * @param string $html HTML content
  * @return string
  */
-	public static function stripHtmlTags($html) {
-		$html = preg_replace([
-			'@<head[^>]*?>.*?</head>@siu',
-			'@<style[^>]*?>.*?</style>@siu',
-			'@<object[^>]*?.*?</object>@siu',
-			'@<embed[^>]*?.*?</embed>@siu',
-			'@<applet[^>]*?.*?</applet>@siu',
-			'@<noframes[^>]*?.*?</noframes>@siu',
-			'@<noscript[^>]*?.*?</noscript>@siu',
-			'@<noembed[^>]*?.*?</noembed>@siu',
-			'@</?((address)|(blockquote)|(center)|(del))@iu',
-			'@</?((div)|(h[1-9])|(ins)|(isindex)|(p)|(pre))@iu',
-			'@</?((dir)|(dl)|(dt)|(dd)|(li)|(menu)|(ol)|(ul))@iu',
-			'@</?((table)|(th)|(td)|(caption))@iu',
-			'@</?((form)|(button)|(fieldset)|(legend)|(input))@iu',
-			'@</?((label)|(select)|(optgroup)|(option)|(textarea))@iu',
-			'@</?((frameset)|(frame)|(iframe))@iu',
-		],
-		[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', "$0", "$0", "$0", "$0", "$0", "$0", "$0", "$0"],
-		$html);
+    public static function stripHtmlTags($html)
+    {
+        $html = preg_replace([
+            '@<head[^>]*?>.*?</head>@siu',
+            '@<style[^>]*?>.*?</style>@siu',
+            '@<object[^>]*?.*?</object>@siu',
+            '@<embed[^>]*?.*?</embed>@siu',
+            '@<applet[^>]*?.*?</applet>@siu',
+            '@<noframes[^>]*?.*?</noframes>@siu',
+            '@<noscript[^>]*?.*?</noscript>@siu',
+            '@<noembed[^>]*?.*?</noembed>@siu',
+            '@</?((address)|(blockquote)|(center)|(del))@iu',
+            '@</?((div)|(h[1-9])|(ins)|(isindex)|(p)|(pre))@iu',
+            '@</?((dir)|(dl)|(dt)|(dd)|(li)|(menu)|(ol)|(ul))@iu',
+            '@</?((table)|(th)|(td)|(caption))@iu',
+            '@</?((form)|(button)|(fieldset)|(legend)|(input))@iu',
+            '@</?((label)|(select)|(optgroup)|(option)|(textarea))@iu',
+            '@</?((frameset)|(frame)|(iframe))@iu',
+        ],
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', "$0", "$0", "$0", "$0", "$0", "$0", "$0", "$0"],
+        $html);
 
-		return strip_tags($html, '<script>');
-	}
+        return strip_tags($html, '<script>');
+    }
 
 /**
  * Convert any URL to a "<a>" HTML tag.
@@ -261,21 +272,22 @@ class TextToolbox {
  * @param string $text The text where to look for links
  * @return string
  */
-	public static function urlToLink($text) {
-		$pattern = [
-			'/[^\\\](?<!http:\/\/|https:\/\/|\"|=|\'|\'>|\">)(www\..*?)(\s|\Z|\.\Z|\.\s|\<|\>|,)/i',
-			'/[^\\\](?<!\"|=|\'|\'>|\">|site:)(https?:\/\/(www){0,1}.*?)(\s|\Z|\.\Z|\.\s|\<|\>|,)/i',
-			'/[\\\\](?<!\"|=|\'|\'>|\">|site:)(https?:\/\/(www){0,1}.*?)(\s|\Z|\.\Z|\.\s|\<|\>|,)/i',
-		];
+    public static function urlToLink($text)
+    {
+        $pattern = [
+            '/[^\\\](?<!http:\/\/|https:\/\/|\"|=|\'|\'>|\">)(www\..*?)(\s|\Z|\.\Z|\.\s|\<|\>|,)/i',
+            '/[^\\\](?<!\"|=|\'|\'>|\">|site:)(https?:\/\/(www){0,1}.*?)(\s|\Z|\.\Z|\.\s|\<|\>|,)/i',
+            '/[\\\\](?<!\"|=|\'|\'>|\">|site:)(https?:\/\/(www){0,1}.*?)(\s|\Z|\.\Z|\.\s|\<|\>|,)/i',
+        ];
 
-		$replacement = [
-			"<a href=\"http://$1\">$1</a>$2",
-			"<a href=\"$1\" target=\"_blank\">$1</a>$3",
-			"$1$3"
-		];
+        $replacement = [
+            "<a href=\"http://$1\">$1</a>$2",
+            "<a href=\"$1\" target=\"_blank\">$1</a>$3",
+            "$1$3"
+        ];
 
-		return preg_replace($pattern, $replacement, $text);
-	}
+        return preg_replace($pattern, $replacement, $text);
+    }
 
 /**
  * Convert any email to a "mailto" link.
@@ -286,21 +298,22 @@ class TextToolbox {
  * @param string $text The text where to look for emails addresses
  * @return string
  */
-	public static function emailToLink($text) {
-		preg_match_all("/([\\\a-z0-9_\-\.]+)@([a-z0-9-]{1,64})\.([a-z]{2,10})/i", $text, $emails);
+    public static function emailToLink($text)
+    {
+        preg_match_all("/([\\\a-z0-9_\-\.]+)@([a-z0-9-]{1,64})\.([a-z]{2,10})/i", $text, $emails);
 
-		foreach ($emails[0] as $email) {
-			$email = trim($email);
+        foreach ($emails[0] as $email) {
+            $email = trim($email);
 
-			if ($email[0] == '\\') {
-				$text = str_replace($email, substr($email, 1), $text);
-			} else {
-				$text = str_replace($email, static::emailObfuscator($email), $text);
-			}
-		}
+            if ($email[0] == '\\') {
+                $text = str_replace($email, substr($email, 1), $text);
+            } else {
+                $text = str_replace($email, static::emailObfuscator($email), $text);
+            }
+        }
 
-		return $text;
-	}
+        return $text;
+    }
 
 /**
  * Strips HTML tags and any hooktag.
@@ -308,9 +321,10 @@ class TextToolbox {
  * @param string $text The text to process
  * @return string
  */
-	public static function filterText($text) {
-		return static::getInstance()->stripHooktags(static::stripHtmlTags($text));
-	}
+    public static function filterText($text)
+    {
+        return static::getInstance()->stripHooktags(static::stripHtmlTags($text));
+    }
 
 /**
  * Safely trim a text.
@@ -344,45 +358,47 @@ class TextToolbox {
  * @param string $ellipsis Will be used as ending and appended to the trimmed string
  * @return string
  */
-	public static function trimmer($text, $len = false, $ellipsis = ' ...') {
-		if (!preg_match('/[0-9]+/i', $len)) {
-			$parts = explode($len, $text);
-			return static::closeOpenTags($parts[0]);
-		}
+    public static function trimmer($text, $len = false, $ellipsis = ' ...')
+    {
+        if (!preg_match('/[0-9]+/i', $len)) {
+            $parts = explode($len, $text);
+            return static::closeOpenTags($parts[0]);
+        }
 
-		$len = $len === false || !is_numeric($len) || $len <= 0 ? 600 : $len;
-		$text = static::filterText($text);
-		$textLen = strlen($text);
+        $len = $len === false || !is_numeric($len) || $len <= 0 ? 600 : $len;
+        $text = static::filterText($text);
+        $textLen = strlen($text);
 
-		if ($textLen > $len) {
-			return substr($text, 0, $len) . $ellipsis;
-		}
+        if ($textLen > $len) {
+            return substr($text, 0, $len) . $ellipsis;
+        }
 
-		return $text;
-	}
+        return $text;
+    }
 
 /**
  * Gets a markdown parser instance.
  *
  * @return \Field\Lib\Parsedown
  */
-	public static function getMarkdownParser() {
-		if (empty(static::$_MarkdownParser)) {
-			static::$_MarkdownParser = new Parsedown();
-		}
+    public static function getMarkdownParser()
+    {
+        if (empty(static::$_MarkdownParser)) {
+            static::$_MarkdownParser = new Parsedown();
+        }
 
-		return static::$_MarkdownParser;
-	}
+        return static::$_MarkdownParser;
+    }
 
 /**
  * Debug friendly object properties.
  *
  * @return array
  */
-	public function __debugInfo() {
-		$properties = get_object_vars($this);
-		$properties['_instance'] = '(object) TextToolbox';
-		return $properties;
-	}
-
+    public function __debugInfo()
+    {
+        $properties = get_object_vars($this);
+        $properties['_instance'] = '(object) TextToolbox';
+        return $properties;
+    }
 }

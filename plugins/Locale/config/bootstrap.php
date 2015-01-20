@@ -17,7 +17,7 @@ use Cake\I18n\I18n;
  * is commonly used as fallback language and should NEVER be changed!
  */
 if (!defined('CORE_LOCALE')) {
-	define('CORE_LOCALE', 'en-us');
+    define('CORE_LOCALE', 'en-us');
 }
 
 /**
@@ -58,10 +58,11 @@ if (!defined('CORE_LOCALE')) {
  * @param string|null $key The key to read, or null to read the whole info
  * @return mixed
  */
-	function language($key = null) {
-		$code = I18n::defaultLocale();
-		if ($key !== null) {
-			return Configure::read("QuickApps.languages.{$code}.{$key}");
-		}
-		return Configure::read('QuickApps.languages.{$code}');
-	}
+    function language($key = null)
+    {
+        $code = I18n::defaultLocale();
+        if ($key !== null) {
+            return Configure::read("QuickApps.languages.{$code}.{$key}");
+        }
+        return Configure::read('QuickApps.languages.{$code}');
+    }

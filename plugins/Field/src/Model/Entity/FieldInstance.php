@@ -18,22 +18,24 @@ use QuickApps\Event\HookAwareTrait;
  * Represents an "instance" from the "field_instances" database table.
  *
  */
-class FieldInstance extends Entity {
+class FieldInstance extends Entity
+{
 
-	use HookAwareTrait;
+    use HookAwareTrait;
 
 /**
  * Gets a human-readable name of the field handler class.
  *
  * @return string
  */
-	protected function _getHandlerName() {
-		$info = $this->trigger("Field.{$this->handler}.Instance.info");
+    protected function _getHandlerName()
+    {
+        $info = $this->trigger("Field.{$this->handler}.Instance.info");
 
-		if (!empty($info->result['name'])) {
-			return $info->result['name'];
-		}
+        if (!empty($info->result['name'])) {
+            return $info->result['name'];
+        }
 
-		return $this->handler;
-	}
+        return $this->handler;
+    }
 }

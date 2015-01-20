@@ -17,41 +17,44 @@ use Wysiwyg\Controller\AppController;
  * File manager for elFinder CKeditor Add-on.
  *
  */
-class FinderController extends AppController {
+class FinderController extends AppController
+{
 
 /**
  * Renders elFinder's UI.
  *
  * @return void
  */
-	public function index() {
-		$this->layout = 'elfinder';
-	}
+    public function index()
+    {
+        $this->layout = 'elfinder';
+    }
 
 /**
  * elFinder UI connector.
  *
  * @return void
  */
-	public function connector() {
-	}
+    public function connector()
+    {
+    }
 
 /**
  * Returns the given plugin's file within webroot directory.
  *
  * @return void
  */
-	public function plugin_file() {
-		if (!empty($this->request->query['file'])) {
-			$path = $this->request->query['file'];
-			$path = str_replace_once('#', '', $path);
-			$file = str_replace('//', '/', SITE_ROOT . "/plugins/{$path}");
-			if ((strpos($file, 'webroot') !== false || strpos($file, '.tmb') !== false) && file_exists($file)) {
-				$this->response->file($file);
-				return $this->response;
-			}
-		}
-		die;
-	}
-
+    public function plugin_file()
+    {
+        if (!empty($this->request->query['file'])) {
+            $path = $this->request->query['file'];
+            $path = str_replace_once('#', '', $path);
+            $file = str_replace('//', '/', SITE_ROOT . "/plugins/{$path}");
+            if ((strpos($file, 'webroot') !== false || strpos($file, '.tmb') !== false) && file_exists($file)) {
+                $this->response->file($file);
+                return $this->response;
+            }
+        }
+        die;
+    }
 }

@@ -18,7 +18,8 @@ use Cake\Event\EventListenerInterface;
  * Main Hook Listener for Locale plugin.
  *
  */
-class LocaleHook implements EventListenerInterface {
+class LocaleHook implements EventListenerInterface
+{
 
 /**
  * Returns a list of hooks this Hook Listener is implementing. When the class is
@@ -27,11 +28,12 @@ class LocaleHook implements EventListenerInterface {
  *
  * @return void
  */
-	public function implementedEvents() {
-		return [
-			'Block.Locale.display' => 'renderBlock',
-		];
-	}
+    public function implementedEvents()
+    {
+        return [
+            'Block.Locale.display' => 'renderBlock',
+        ];
+    }
 
 /**
  * Renders all blocks registered by Locale plugin.
@@ -45,8 +47,8 @@ class LocaleHook implements EventListenerInterface {
  * @param array $options Additional options as an array
  * @return string
  */
-	public function renderBlock(Event $event, $block, $options = []) {
-		return $event->subject->element("Locale.{$block->delta}", compact('block', 'options'));
-	}
-
+    public function renderBlock(Event $event, $block, $options = [])
+    {
+        return $event->subject->element("Locale.{$block->delta}", compact('block', 'options'));
+    }
 }

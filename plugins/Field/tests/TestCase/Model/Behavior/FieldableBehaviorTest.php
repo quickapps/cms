@@ -20,73 +20,76 @@ use Field\Model\Behavior\FieldableBehavior;
 /**
  * FieldableBehaviorTest class.
  */
-class FieldableBehaviorTest extends TestCase {
+class FieldableBehaviorTest extends TestCase
+{
 
 /**
  * Fixtures.
- * 
+ *
  * @var array
  */
-	public $fixtures = [
-		'app.nodes',
-		'app.field_instances',
-		'app.field_values',
-	];
+    public $fixtures = [
+        'app.nodes',
+        'app.field_instances',
+        'app.field_values',
+    ];
 
 /**
  * setUp().
  *
  * @return void
  */
-	public function setUp() {
-		$this->table = TableRegistry::get('Nodes');
-		$this->table->addBehavior('Field.Fieldable');
-	}
+    public function setUp()
+    {
+        $this->table = TableRegistry::get('Nodes');
+        $this->table->addBehavior('Field.Fieldable');
+    }
 
 /**
  * testFindUsingCustomFieldsInWhereClause.
  *
  * @return void
  */
-	public function testFindUsingCustomFieldsInWhereClause() {
-		$matching1 = $this->table
-			->find()
-			->where([':article-introduction LIKE' => '%Lorem%'])
-			->limit(1)
-			->first();
-		$matching2 = $this->table
-			->find('all', ['bundle' => 'art*'])
-			->where([':article-introduction LIKE' => '%Lorem%'])
-			->limit(1)
-			->first();
-		$matching3 = $this->table
-			->find('all', ['bundle' => 'art?cle'])
-			->where([':article-introduction LIKE' => '%Lorem%'])
-			->limit(1)
-			->first();
-		$matching4 = $this->table
-			->find('all', ['bundle' => ['article', 'dummy']])
-			->where([':article-introduction LIKE' => '%Lorem%'])
-			->limit(1)
-			->first();
+    public function testFindUsingCustomFieldsInWhereClause()
+    {
+        $matching1 = $this->table
+            ->find()
+            ->where([':article-introduction LIKE' => '%Lorem%'])
+            ->limit(1)
+            ->first();
+        $matching2 = $this->table
+            ->find('all', ['bundle' => 'art*'])
+            ->where([':article-introduction LIKE' => '%Lorem%'])
+            ->limit(1)
+            ->first();
+        $matching3 = $this->table
+            ->find('all', ['bundle' => 'art?cle'])
+            ->where([':article-introduction LIKE' => '%Lorem%'])
+            ->limit(1)
+            ->first();
+        $matching4 = $this->table
+            ->find('all', ['bundle' => ['article', 'dummy']])
+            ->where([':article-introduction LIKE' => '%Lorem%'])
+            ->limit(1)
+            ->first();
 
-		$this->assertNotEmpty($matching1);
-		$this->assertNotEmpty($matching2);
-		$this->assertNotEmpty($matching3);
-		$this->assertNotEmpty($matching4);
-	}
+        $this->assertNotEmpty($matching1);
+        $this->assertNotEmpty($matching2);
+        $this->assertNotEmpty($matching3);
+        $this->assertNotEmpty($matching4);
+    }
 
 /**
  * testCustomFieldsAttach.
  *
  * @return void
  */
-	public function testCustomFieldsAttach() {
-		$entity = $this->table
-			->find()
-			->limit(1)
-			->first();
-		$this->assertNotEmpty($entity->get('_fields'));
-	}
-
+    public function testCustomFieldsAttach()
+    {
+        $entity = $this->table
+            ->find()
+            ->limit(1)
+            ->first();
+        $this->assertNotEmpty($entity->get('_fields'));
+    }
 }

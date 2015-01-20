@@ -16,29 +16,31 @@ use Cake\ORM\Entity;
 /**
  * Represents a single "language" within "languages" table.
  */
-class Language extends Entity {
+class Language extends Entity
+{
 
 /**
  * Returns language country.
- * 
+ *
  * @return string language country. e.g. "US", "ES"
  */
-	protected function _getCountry() {
-		$parts = explode('-', $this->get('code'));
-		if (isset($parts[1])) {
-			return strtoupper($parts[1]);
-		}
-		return strtoupper($parts[0]);
-	}
+    protected function _getCountry()
+    {
+        $parts = explode('-', $this->get('code'));
+        if (isset($parts[1])) {
+            return strtoupper($parts[1]);
+        }
+        return strtoupper($parts[0]);
+    }
 
 /**
  * Gets language's ISO-639-1 code.
- * 
+ *
  * @return string language country. e.g. "en", "es"
  */
-	protected function _getIso() {
-		$parts = explode('-', $this->get('code'));
-		return strtolower($parts[0]);
-	}
-
+    protected function _getIso()
+    {
+        $parts = explode('-', $this->get('code'));
+        return strtolower($parts[0]);
+    }
 }

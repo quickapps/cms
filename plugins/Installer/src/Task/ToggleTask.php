@@ -22,23 +22,24 @@ use QuickApps\Core\Plugin;
  * ## Usage Examples:
  *
  * Using `InstallerComponent` on any controller:
- * 
+ *
  *     $task = $this->Installer
  *         ->task('toggle')
  *         ->enable('MyPlugin');
- *         
+ *
  *     // or:
  *     $task = $this->Installer
  *         ->task('toggle', ['plugin' => 'MyPlugin'])
  *         ->enable();
- *     
+ *
  *     if ($task->run()) {
  *         $this->Flash->success('Enabled!');
  *     } else {
  *         $errors = $task->errors();
  *     }
  */
-class ToggleTask extends BaseTask {
+class ToggleTask extends BaseTask
+{
 
 /**
  * Default config
@@ -47,140 +48,143 @@ class ToggleTask extends BaseTask {
  *
  * @var array
  */
-	protected $_defaultConfig = [
-		'plugin' => false,
-		'callbacks' => true,
-		'status' => null,
-	];
+    protected $_defaultConfig = [
+        'plugin' => false,
+        'callbacks' => true,
+        'status' => null,
+    ];
 
 /**
  * Invoked before "start()".
- * 
+ *
  * @return void
  */
-	public function init() {
-		$this->plugin($this->config('plugin'));
-	}
+    public function init()
+    {
+        $this->plugin($this->config('plugin'));
+    }
 
 /**
  * Starts the enable/disable process of the given plugin.
  *
  * @return bool True on success, false otherwise
  */
-	public function start() {
-		$status = $this->config('status');
+    public function start()
+    {
+        $status = $this->config('status');
 
-		if ($status === null) {
-			$this->error(__d('installer', 'You must indicate the new status of the plugin using `enable()` or `disable()`.'));
-			return false;
-		} else {
-			$status = (bool)$status;
-			$callbackSufix = $status ? 'Enable' : 'Disable'; // used later
-		}
+        if ($status === null) {
+            $this->error(__d('installer', 'You must indicate the new status of the plugin using `enable()` or `disable()`.'));
+            return false;
+        } else {
+            $status = (bool)$status;
+            $callbackSufix = $status ? 'Enable' : 'Disable'; // used later
+        }
 
-		try {
-			$info = Plugin::info($this->plugin(), true);
-			$pluginEntity = $this->Plugins
-				->find()
-				->where(['name' => $this->plugin()])
-				->first();
-		} catch (\Exception $e) {
-			$info = null;
-		}
+        try {
+            $info = Plugin::info($this->plugin(), true);
+            $pluginEntity = $this->Plugins
+                ->find()
+                ->where(['name' => $this->plugin()])
+                ->first();
+        } catch (\Exception $e) {
+            $info = null;
+        }
 
-		if (!$info || !$pluginEntity) {
-			$this->error(__d('installer', 'Plugin "{0}" was not found.', $this->plugin()));
-			return false;
-		}
+        if (!$info || !$pluginEntity) {
+            $this->error(__d('installer', 'Plugin "{0}" was not found.', $this->plugin()));
+            return false;
+        }
 
-		if ($info['isCore']) {
-			$this->error(__d('installer', 'Plugin "{0}" is a core plugin, you cannot enable or disable core\'s plugins.', $info['human_name']));
-			return false;
-		}
+        if ($info['isCore']) {
+            $this->error(__d('installer', 'Plugin "{0}" is a core plugin, you cannot enable or disable core\'s plugins.', $info['human_name']));
+            return false;
+        }
 
-		$requires = Plugin::checkDependency($this->plugin());
-		if (!$requires && $status === true) {
-			$this->error(__d('installer', 'Plugin "{0}" cannot be enabled as some dependencies are disabled or not installed.', $info['human_name']));
-			return false;
-		}
+        $requires = Plugin::checkDependency($this->plugin());
+        if (!$requires && $status === true) {
+            $this->error(__d('installer', 'Plugin "{0}" cannot be enabled as some dependencies are disabled or not installed.', $info['human_name']));
+            return false;
+        }
 
-		$requiredBy = Plugin::checkReverseDependency($this->plugin());
-		if (!empty($requiredBy) && $status === false) {
-			$this->error(__d('installer', 'Plugin "{0}" cannot be disabled as it is required by: {1}', $info['human_name'], implode(', ', $requiredBy)));
-			return false;
-		}
+        $requiredBy = Plugin::checkReverseDependency($this->plugin());
+        if (!empty($requiredBy) && $status === false) {
+            $this->error(__d('installer', 'Plugin "{0}" cannot be disabled as it is required by: {1}', $info['human_name'], implode(', ', $requiredBy)));
+            return false;
+        }
 
-		// MENTAL NOTE: As plugin is disabled its listeners are not attached to the system, so we need
-		// to manually attach them in order to trigger callbacks.
-		// If `$status` is true means plugin is disabled and we are trying to enable it again.
-		if ($this->config('callbacks') && $status) {
-			$this->attachListeners("{$info['path']}/src/Event");
-		}
+        // MENTAL NOTE: As plugin is disabled its listeners are not attached to the system, so we need
+        // to manually attach them in order to trigger callbacks.
+        // If `$status` is true means plugin is disabled and we are trying to enable it again.
+        if ($this->config('callbacks') && $status) {
+            $this->attachListeners("{$info['path']}/src/Event");
+        }
 
-		if ($this->config('callbacks')) {
-			try {
-				$beforeEvent = $this->trigger("Plugin.{$info['name']}.before{$callbackSufix}");
-				if ($beforeEvent->isStopped() || $beforeEvent->result === false) {
-					$this->error(__d('installer', 'Task was explicitly rejected by the plugin.'));
-					return false;
-				}
-			} catch (\Exception $e) {
-				$this->error(__d('installer', 'Internal error, plugin did not respond to "before{0}" callback correctly.', $callbackSufix));
-				return false;
-			}
-		}
+        if ($this->config('callbacks')) {
+            try {
+                $beforeEvent = $this->trigger("Plugin.{$info['name']}.before{$callbackSufix}");
+                if ($beforeEvent->isStopped() || $beforeEvent->result === false) {
+                    $this->error(__d('installer', 'Task was explicitly rejected by the plugin.'));
+                    return false;
+                }
+            } catch (\Exception $e) {
+                $this->error(__d('installer', 'Internal error, plugin did not respond to "before{0}" callback correctly.', $callbackSufix));
+                return false;
+            }
+        }
 
-		$pluginEntity->set('status', $status);
-		if (!$this->Plugins->save($pluginEntity)) {
-			if ($status) {
-				$this->error(__d('installer', 'Plugin "{0}" could not be enabled due to an internal error.', $info['human_name']));
-			} else {
-				$this->error(__d('installer', 'Plugin "{0}" could not be disabled due to an internal error.', $info['human_name']));
-			}
-			return false;
-		}
+        $pluginEntity->set('status', $status);
+        if (!$this->Plugins->save($pluginEntity)) {
+            if ($status) {
+                $this->error(__d('installer', 'Plugin "{0}" could not be enabled due to an internal error.', $info['human_name']));
+            } else {
+                $this->error(__d('installer', 'Plugin "{0}" could not be disabled due to an internal error.', $info['human_name']));
+            }
+            return false;
+        }
 
-		snapshot();
+        snapshot();
 
-		if ($this->config('callbacks')) {
-			try {
-				$this->trigger("Plugin.{$info['name']}.after{$callbackSufix}");
-			} catch (\Exception $e) {
-				$this->error(__d('installer', 'Plugin did not respond to "after{0}" callback.', $callbackSufix));
-			}
-		}
+        if ($this->config('callbacks')) {
+            try {
+                $this->trigger("Plugin.{$info['name']}.after{$callbackSufix}");
+            } catch (\Exception $e) {
+                $this->error(__d('installer', 'Plugin did not respond to "after{0}" callback.', $callbackSufix));
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 
 /**
  * Indicates this task should enable the given plugin.
- * 
+ *
  * @param string|null $pluginName Plugin's name
  * @return $this
  */
-	public function enable($pluginName = null) {
-		if ($pluginName) {
-			$this->config('plugin', $pluginName);
-			$this->config('status', true);
-			$this->plugin($pluginName);
-		}
-		return $this;
-	}
+    public function enable($pluginName = null)
+    {
+        if ($pluginName) {
+            $this->config('plugin', $pluginName);
+            $this->config('status', true);
+            $this->plugin($pluginName);
+        }
+        return $this;
+    }
 
 /**
  * Indicates this task should disable the given plugin.
- * 
+ *
  * @param string|null $pluginName Plugin's name
  * @return $this
  */
-	public function disable($pluginName = null) {
-		if ($pluginName) {
-			$this->config('plugin', $pluginName);
-			$this->config('status', false);
-			$this->plugin($pluginName);
-		}
-		return $this;
-	}
-
+    public function disable($pluginName = null)
+    {
+        if ($pluginName) {
+            $this->config('plugin', $pluginName);
+            $this->config('status', false);
+            $this->plugin($pluginName);
+        }
+        return $this;
+    }
 }

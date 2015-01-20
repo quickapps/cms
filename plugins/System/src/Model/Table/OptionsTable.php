@@ -21,7 +21,8 @@ use Cake\ORM\TableRegistry;
  * Represents "options" database table.
  *
  */
-class OptionsTable extends Table {
+class OptionsTable extends Table
+{
 
 /**
  * Alter the schema used by this table.
@@ -29,36 +30,39 @@ class OptionsTable extends Table {
  * @param \Cake\Database\Schema\Table $table The table definition fetched from database
  * @return \Cake\Database\Schema\Table the altered schema
  */
-	protected function _initializeSchema(Schema $table) {
-		$table->columnType('value', 'serialized');
-		return $table;
-	}
+    protected function _initializeSchema(Schema $table)
+    {
+        $table->columnType('value', 'serialized');
+        return $table;
+    }
 
 /**
  * Regenerates system's snapshot.
- * 
+ *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $option The option entity that was saved
  * @return void
  */
-	public function afterSave(Event $event, Entity $option) {
-		snapshot();
-	}
+    public function afterSave(Event $event, Entity $option)
+    {
+        snapshot();
+    }
 
 /**
  * Regenerates system's snapshot.
- * 
+ *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $option The option entity that was saved
  * @return void
  */
-	public function afterDelete(Event $event, Entity $option) {
-		snapshot();
-	}
+    public function afterDelete(Event $event, Entity $option)
+    {
+        snapshot();
+    }
 
 /**
  * Updates the given option.
- * 
+ *
  * @param string $name Option name
  * @param mixed $value Value to store for this option
  * @param bool|null $autoload Set to true to load this option on bootstrap,
@@ -67,27 +71,27 @@ class OptionsTable extends Table {
  * Defaults to true
  * @return null|\Cake\ORM\Entity The option as an entity on success, null otherwise
  */
-	public function update($name, $value, $autoload = null, $callbacks = true) {
-		$option = $this
-			->find()
-			->where(['name' => $name])
-			->first();
+    public function update($name, $value, $autoload = null, $callbacks = true)
+    {
+        $option = $this
+            ->find()
+            ->where(['name' => $name])
+            ->first();
 
-		if (!$option) {
-			return null;
-		}
+        if (!$option) {
+            return null;
+        }
 
-		if ($callbacks) {
-			$option->set('value', $value);
+        if ($callbacks) {
+            $option->set('value', $value);
 
-			if ($autoload !== null) {
-				$option->set('autoload', $autoload);
-			}
+            if ($autoload !== null) {
+                $option->set('autoload', $autoload);
+            }
 
-			return $this->save($option, ['callbacks' => false]);
-		}
+            return $this->save($option, ['callbacks' => false]);
+        }
 
-		return $this->updateAll(['value' => $value], ['name' => $name]);
-	}
-
+        return $this->updateAll(['value' => $value], ['name' => $name]);
+    }
 }

@@ -14,10 +14,10 @@ namespace System\Config;
 use Cake\Routing\Router;
 
 Router::connect('/admin', [
-	'plugin' => 'System',
-	'controller' => 'Dashboard',
-	'action' => 'index',
-	'prefix' => 'admin',
+    'plugin' => 'System',
+    'controller' => 'Dashboard',
+    'action' => 'index',
+    'prefix' => 'admin',
 ],
 ['_name' => 'admin_dashboard'],
 ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);

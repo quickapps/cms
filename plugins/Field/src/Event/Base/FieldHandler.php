@@ -25,10 +25,11 @@ use QuickApps\Event\HooktagAwareTrait;
  * All Field Handlers classes should extend this class. It adds some utility
  * methods, and define some default events handlers.
  */
-class FieldHandler implements EventListenerInterface {
+class FieldHandler implements EventListenerInterface
+{
 
-	use HookAwareTrait;
-	use HooktagAwareTrait;
+    use HookAwareTrait;
+    use HooktagAwareTrait;
 
 /**
  * Return a list of implemented events.
@@ -53,36 +54,37 @@ class FieldHandler implements EventListenerInterface {
  *
  * @return array
  */
-	public function implementedEvents() {
-		list(, $handlerName) = namespaceSplit(get_class($this));
+    public function implementedEvents()
+    {
+        list(, $handlerName) = namespaceSplit(get_class($this));
 
-		return [
-			// Related to Entity:
-			"Field.{$handlerName}.Entity.display" => 'entityDisplay',
-			"Field.{$handlerName}.Entity.edit" => 'entityEdit',
-			"Field.{$handlerName}.Entity.fieldAttached" => 'entityFieldAttached',
-			"Field.{$handlerName}.Entity.beforeFind" => 'entityBeforeFind',
-			"Field.{$handlerName}.Entity.beforeSave" => 'entityBeforeSave',
-			"Field.{$handlerName}.Entity.afterSave" => 'entityAfterSave',
-			"Field.{$handlerName}.Entity.beforeValidate" => 'entityBeforeValidate',
-			"Field.{$handlerName}.Entity.afterValidate" => 'entityAfterValidate',
-			"Field.{$handlerName}.Entity.beforeDelete" => 'entityBeforeDelete',
-			"Field.{$handlerName}.Entity.afterDelete" => 'entityAfterDelete',
+        return [
+            // Related to Entity:
+            "Field.{$handlerName}.Entity.display" => 'entityDisplay',
+            "Field.{$handlerName}.Entity.edit" => 'entityEdit',
+            "Field.{$handlerName}.Entity.fieldAttached" => 'entityFieldAttached',
+            "Field.{$handlerName}.Entity.beforeFind" => 'entityBeforeFind',
+            "Field.{$handlerName}.Entity.beforeSave" => 'entityBeforeSave',
+            "Field.{$handlerName}.Entity.afterSave" => 'entityAfterSave',
+            "Field.{$handlerName}.Entity.beforeValidate" => 'entityBeforeValidate',
+            "Field.{$handlerName}.Entity.afterValidate" => 'entityAfterValidate',
+            "Field.{$handlerName}.Entity.beforeDelete" => 'entityBeforeDelete',
+            "Field.{$handlerName}.Entity.afterDelete" => 'entityAfterDelete',
 
-			// Related to Instance:
-			"Field.{$handlerName}.Instance.info" => 'instanceInfo',
-			"Field.{$handlerName}.Instance.settingsForm" => 'instanceSettingsForm',
-			"Field.{$handlerName}.Instance.settingsDefaults" => 'instanceSettingsDefaults',
-			"Field.{$handlerName}.Instance.settingsValidate" => 'instanceSettingsValidate',
-			"Field.{$handlerName}.Instance.viewModeForm" => 'instanceViewModeForm',
-			"Field.{$handlerName}.Instance.viewModeDefaults" => 'instanceViewModeDefaults',
-			"Field.{$handlerName}.Instance.viewModeValidate" => 'instanceViewModeValidate',
-			"Field.{$handlerName}.Instance.beforeAttach" => 'instanceBeforeAttach',
-			"Field.{$handlerName}.Instance.afterAttach" => 'instanceAfterAttach',
-			"Field.{$handlerName}.Instance.beforeDetach" => 'instanceBeforeDetach',
-			"Field.{$handlerName}.Instance.afterDetach" => 'instanceAfterDetach',
-		];
-	}
+            // Related to Instance:
+            "Field.{$handlerName}.Instance.info" => 'instanceInfo',
+            "Field.{$handlerName}.Instance.settingsForm" => 'instanceSettingsForm',
+            "Field.{$handlerName}.Instance.settingsDefaults" => 'instanceSettingsDefaults',
+            "Field.{$handlerName}.Instance.settingsValidate" => 'instanceSettingsValidate',
+            "Field.{$handlerName}.Instance.viewModeForm" => 'instanceViewModeForm',
+            "Field.{$handlerName}.Instance.viewModeDefaults" => 'instanceViewModeDefaults',
+            "Field.{$handlerName}.Instance.viewModeValidate" => 'instanceViewModeValidate',
+            "Field.{$handlerName}.Instance.beforeAttach" => 'instanceBeforeAttach',
+            "Field.{$handlerName}.Instance.afterAttach" => 'instanceAfterAttach',
+            "Field.{$handlerName}.Instance.beforeDetach" => 'instanceBeforeDetach',
+            "Field.{$handlerName}.Instance.afterDetach" => 'instanceAfterDetach',
+        ];
+    }
 
 /**
  * Defines how the field will actually display its contents when rendering entities.
@@ -92,9 +94,10 @@ class FieldHandler implements EventListenerInterface {
  * @param array $options Additional array of options
  * @return string HTML representation of this field
  */
-	public function entityDisplay(Event $event, Field $field, $options = []) {
-		return '';
-	}
+    public function entityDisplay(Event $event, Field $field, $options = [])
+    {
+        return '';
+    }
 
 /**
  * Renders field in edit mode.
@@ -104,9 +107,10 @@ class FieldHandler implements EventListenerInterface {
  * @param array $options Options given as an array
  * @return string HTML containing from elements
  */
-	public function entityEdit(Event $event, Field $field, $options = []) {
-		return '';
-	}
+    public function entityEdit(Event $event, Field $field, $options = [])
+    {
+        return '';
+    }
 
 /**
  * Triggered when custom field is attached to entity under the "_fields" property.
@@ -119,8 +123,9 @@ class FieldHandler implements EventListenerInterface {
  *  to entity, you can alter this before field is attached
  * @return void
  */
-	public function entityFieldAttached(Event $event, Field $field) {
-	}
+    public function entityFieldAttached(Event $event, Field $field)
+    {
+    }
 
 /**
  * Triggered on entity's "beforeFind" event.
@@ -139,8 +144,9 @@ class FieldHandler implements EventListenerInterface {
  *  find query or not
  * @return mixed
  */
-	public function entityBeforeFind(Event $event, Field $field, $options, $primary) {
-	}
+    public function entityBeforeFind(Event $event, Field $field, $options, $primary)
+    {
+    }
 
 /**
  * Before each entity is saved.
@@ -158,9 +164,10 @@ class FieldHandler implements EventListenerInterface {
  * @param array $options Options given as an array
  * @return bool
  */
-	public function entityBeforeSave(Event $event, Field $field, $options) {
-		return true;
-	}
+    public function entityBeforeSave(Event $event, Field $field, $options)
+    {
+        return true;
+    }
 
 /**
  * After each entity is saved.
@@ -170,8 +177,9 @@ class FieldHandler implements EventListenerInterface {
  * @param array $options Options given as an array
  * @return void
  */
-	public function entityAfterSave(Event $event, Field $field, $options) {
-	}
+    public function entityAfterSave(Event $event, Field $field, $options)
+    {
+    }
 
 /**
  * Before an entity is validated as part of save process.
@@ -182,9 +190,10 @@ class FieldHandler implements EventListenerInterface {
  * @param \Cake\Validation\Validator $validator The validator object
  * @return bool False will halt the save process
  */
-	public function entityBeforeValidate(Event $event, Field $field, $options, $validator) {
-		return false;
-	}
+    public function entityBeforeValidate(Event $event, Field $field, $options, $validator)
+    {
+        return false;
+    }
 
 /**
  * After an entity is validated as part of save process.
@@ -195,9 +204,10 @@ class FieldHandler implements EventListenerInterface {
  * @param \Cake\Validation\Validator $validator The validator object
  * @return bool False will halt the save process
  */
-	public function entityAfterValidate(Event $event, Field $field, $options, $validator) {
-		return false;
-	}
+    public function entityAfterValidate(Event $event, Field $field, $options, $validator)
+    {
+        return false;
+    }
 
 /**
  * Before an entity is deleted from database.
@@ -207,9 +217,10 @@ class FieldHandler implements EventListenerInterface {
  * @param array $options Options given as an array
  * @return bool False will halt the delete process
  */
-	public function entityBeforeDelete(Event $event, Field $field, $options) {
-		return true;
-	}
+    public function entityBeforeDelete(Event $event, Field $field, $options)
+    {
+        return true;
+    }
 
 /**
  * After an entity is deleted from database.
@@ -219,8 +230,9 @@ class FieldHandler implements EventListenerInterface {
  * @param array $options Options given as an array
  * @return void
  */
-	public function entityAfterDelete(Event $event, Field $field, $options) {
-	}
+    public function entityAfterDelete(Event $event, Field $field, $options)
+    {
+    }
 
 /**
  * Returns an array of information of this field.
@@ -232,9 +244,10 @@ class FieldHandler implements EventListenerInterface {
  * @param \Cake\Event\Event $event The event that was triggered
  * @return array
  */
-	public function instanceInfo(Event $event) {
-		return [];
-	}
+    public function instanceInfo(Event $event)
+    {
+        return [];
+    }
 
 /**
  * Renders all the form elements to be used on the field settings form.
@@ -247,9 +260,10 @@ class FieldHandler implements EventListenerInterface {
  * @param array $options Options given as an array
  * @return string HTML form elements for the settings page
  */
-	public function instanceSettingsForm(Event $event, $instance, $options = []) {
-		return '';
-	}
+    public function instanceSettingsForm(Event $event, $instance, $options = [])
+    {
+        return '';
+    }
 
 /**
  * Returns an array of default values for field settings form's inputs.
@@ -259,9 +273,10 @@ class FieldHandler implements EventListenerInterface {
  * @param array $options Options given as an array
  * @return array
  */
-	public function instanceSettingsDefaults(Event $event, $instance, $options = []) {
-		return [];
-	}
+    public function instanceSettingsDefaults(Event $event, $instance, $options = [])
+    {
+        return [];
+    }
 
 /**
  * Triggered before instance's settings are changed.
@@ -274,9 +289,10 @@ class FieldHandler implements EventListenerInterface {
  * @param \Cake\Validation\Validator $validator The validator object
  * @return mixed
  */
-	public function instanceSettingsValidate(Event $event, Entity $settings, $validator) {
-		return true;
-	}
+    public function instanceSettingsValidate(Event $event, Entity $settings, $validator)
+    {
+        return true;
+    }
 
 /**
  * Renders all the form elements to be used on the field view mode form.
@@ -289,9 +305,10 @@ class FieldHandler implements EventListenerInterface {
  * @param array $options Options given as an array
  * @return string HTML form elements for the settings page
  */
-	public function instanceViewModeForm(Event $event, $instance, $options = []) {
-		return '';
-	}
+    public function instanceViewModeForm(Event $event, $instance, $options = [])
+    {
+        return '';
+    }
 
 /**
  * Returns an array of defaults values for each input in the view modes form.
@@ -304,9 +321,10 @@ class FieldHandler implements EventListenerInterface {
  * @param array $options Options given as an array
  * @return array
  */
-	public function instanceViewModeDefaults(Event $event, $instance, $options = []) {
-		return [];
-	}
+    public function instanceViewModeDefaults(Event $event, $instance, $options = [])
+    {
+        return [];
+    }
 
 /**
  * Triggered before instance's view mode settings are changed.
@@ -316,8 +334,9 @@ class FieldHandler implements EventListenerInterface {
  * @param \Cake\Validation\Validator $validator The validator object
  * @return void
  */
-	public function instanceViewModeValidate(Event $event, Entity $viewMode, $validator) {
-	}
+    public function instanceViewModeValidate(Event $event, Entity $viewMode, $validator)
+    {
+    }
 
 /**
  * Before an new instance of this field is attached to a database table.
@@ -329,9 +348,10 @@ class FieldHandler implements EventListenerInterface {
  * @param array $options Options given as an array
  * @return bool False will halt the attach process
  */
-	public function instanceBeforeAttach(Event $event, $instance, $options = []) {
-		return false;
-	}
+    public function instanceBeforeAttach(Event $event, $instance, $options = [])
+    {
+        return false;
+    }
 
 /**
  * After an new instance of this field is attached to a database table.
@@ -341,8 +361,9 @@ class FieldHandler implements EventListenerInterface {
  * @param array $options Options given as an array
  * @return void
  */
-	public function instanceAfterAttach(Event $event, $instance, $options = []) {
-	}
+    public function instanceAfterAttach(Event $event, $instance, $options = [])
+    {
+    }
 
 /**
  * Before an instance of this field is detached from a database table.
@@ -352,9 +373,10 @@ class FieldHandler implements EventListenerInterface {
  * @param array $options Options given as an array
  * @return bool False will halt the detach process
  */
-	public function instanceBeforeDetach(Event $event, $instance, $options = []) {
-		return false;
-	}
+    public function instanceBeforeDetach(Event $event, $instance, $options = [])
+    {
+        return false;
+    }
 
 /**
  * After an instance of this field was detached from a database table.
@@ -364,7 +386,7 @@ class FieldHandler implements EventListenerInterface {
  * then you should delete those files.
  *
  * NOTE: By default QuickApps CMS, automatically removes all related records
- * from the `field_values` table. 
+ * from the `field_values` table.
  *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Field\Model\Entity\FieldInstance $instance Instance entity being
@@ -372,7 +394,7 @@ class FieldHandler implements EventListenerInterface {
  * @param array $options Options given as an array
  * @return void
  */
-	public function instanceAfterDetach(Event $event, $instance, $options = []) {
-	}
-
+    public function instanceAfterDetach(Event $event, $instance, $options = [])
+    {
+    }
 }

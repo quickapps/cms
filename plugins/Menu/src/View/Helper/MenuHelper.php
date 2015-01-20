@@ -30,16 +30,17 @@ use QuickApps\View\Helper;
  * Renders nested database records into a well formated `<ul>` menus
  * suitable for HTML pages.
  */
-class MenuHelper extends Helper {
+class MenuHelper extends Helper
+{
 
-	use StringTemplateTrait;
+    use StringTemplateTrait;
 
 /**
  * Default configuration for this class.
  *
  * - `formatter`: Callable method used when formating each item.
  * - `beautify`: Set to true to "beautify" the resulting HTML, compacted HTMl will
- *    be returned if set to FALSE. You can set this option to a string compatible with 
+ *    be returned if set to FALSE. You can set this option to a string compatible with
  *    [htmLawed](http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/htmLawed_README.htm) library.
  *    e.g: `2s0n`. Defaults to FALSE (compact).
  * - `dropdown`: Set to true to automatically apply a few CSS styles for creating a
@@ -93,24 +94,24 @@ class MenuHelper extends Helper {
  *
  * @var array
  */
-	protected $_defaultConfig = [
-		'formatter' => null,
-		'beautify' => false,
-		'dropdown' => false,
-		'activeClass' => 'active',
-		'firstClass' => 'first-item',
-		'lastClass' => 'last-item',
-		'hasChildrenClass' => 'has-children',
-		'split' => false,
-		'breadcrumbGuessing' => true,
-		'templates' => [
-			'div' => '<div{{attrs}}>{{content}}</div>',
-			'root' => '<ul{{attrs}}>{{content}}</ul>',
-			'parent' => '<ul{{attrs}}>{{content}}</ul>',
-			'child' => '<li{{attrs}}>{{content}}{{children}}</li>',
-			'link' => '<a href="{{url}}"{{attrs}}><span>{{content}}</span></a>',
-		]
-	];
+    protected $_defaultConfig = [
+        'formatter' => null,
+        'beautify' => false,
+        'dropdown' => false,
+        'activeClass' => 'active',
+        'firstClass' => 'first-item',
+        'lastClass' => 'last-item',
+        'hasChildrenClass' => 'has-children',
+        'split' => false,
+        'breadcrumbGuessing' => true,
+        'templates' => [
+            'div' => '<div{{attrs}}>{{content}}</div>',
+            'root' => '<ul{{attrs}}>{{content}}</ul>',
+            'parent' => '<ul{{attrs}}>{{content}}</ul>',
+            'child' => '<li{{attrs}}>{{content}}{{children}}</li>',
+            'link' => '<a href="{{url}}"{{attrs}}><span>{{content}}</span></a>',
+        ]
+    ];
 
 /**
  * Flags that indicates this helper is already rendering a menu.
@@ -119,7 +120,7 @@ class MenuHelper extends Helper {
  *
  * @var bool
  */
-	protected $_rendering = false;
+    protected $_rendering = false;
 
 /**
  * Constructor.
@@ -127,14 +128,15 @@ class MenuHelper extends Helper {
  * @param View $View The View this helper is being attached to
  * @param array $config Configuration settings for the helper
  */
-	public function __construct(View $View, $config = array()) {
-		if (empty($config['formatter'])) {
-			$this->_defaultConfig['formatter'] = function ($entity, $info) {
-				return $this->formatter($entity, $info);
-			};
-		}
-		parent::__construct($View, $config);
-	}
+    public function __construct(View $View, $config = array())
+    {
+        if (empty($config['formatter'])) {
+            $this->_defaultConfig['formatter'] = function ($entity, $info) {
+                return $this->formatter($entity, $info);
+            };
+        }
+        parent::__construct($View, $config);
+    }
 
 /**
  * Renders a nested menu.
@@ -173,7 +175,7 @@ class MenuHelper extends Helper {
  *     });
  *
  * Formatters receives two arguments, the item being rendered as first argument
- * and information abut the item (has children, depth, etc) as second. 
+ * and information abut the item (has children, depth, etc) as second.
  *
  * You can pass the ID or slug of a menu as fist argument to render that menu's
  * links.
@@ -188,108 +190,109 @@ class MenuHelper extends Helper {
  *  that is, when "render()" method is invoked within a callable method when
  *  rendering menus.
  */
-	public function render($items, $options = []) {
-		if ($this->_rendering) {
-			throw new FatalErrorException(__d('menu', 'Loop detected, MenuHelper already rendering.'));
-		}
+    public function render($items, $options = [])
+    {
+        if ($this->_rendering) {
+            throw new FatalErrorException(__d('menu', 'Loop detected, MenuHelper already rendering.'));
+        }
 
-		if (is_string($items)) {
-			$slug = $items;
-			$id = static::cache("render({$slug})");
-			if ($id === null) {
-				$items = TableRegistry::get('Menu.Menus')
-					->find()
-					->select(['id'])
-					->where(['slug' => $slug])
-					->first();
-				if (is_object($items)) {
-					$items = $items->id;
-				}
-				static::cache("render({$slug})", $items);
-			} else {
-				$items = $id;
-			}
-		}
+        if (is_string($items)) {
+            $slug = $items;
+            $id = static::cache("render({$slug})");
+            if ($id === null) {
+                $items = TableRegistry::get('Menu.Menus')
+                    ->find()
+                    ->select(['id'])
+                    ->where(['slug' => $slug])
+                    ->first();
+                if (is_object($items)) {
+                    $items = $items->id;
+                }
+                static::cache("render({$slug})", $items);
+            } else {
+                $items = $id;
+            }
+        }
 
-		if (is_integer($items)) {
-			$id = $items;
-			$links = static::cache("render({$id})");
-			if ($links === null) {
-				$items = TableRegistry::get('Menu.MenuLinks')
-					->find('threaded')
-					->where(['menu_id' => $id])
-					->all();
-				static::cache("render({$id})", $items);
-			} else {
-				$items = $links;
-			}
-			return $this->render($items, $options);
-		}
+        if (is_integer($items)) {
+            $id = $items;
+            $links = static::cache("render({$id})");
+            if ($links === null) {
+                $items = TableRegistry::get('Menu.MenuLinks')
+                    ->find('threaded')
+                    ->where(['menu_id' => $id])
+                    ->all();
+                static::cache("render({$id})", $items);
+            } else {
+                $items = $links;
+            }
+            return $this->render($items, $options);
+        }
 
-		if (empty($items)) {
-			return '';
-		}
+        if (empty($items)) {
+            return '';
+        }
 
-		$this->_rendering = true;
-		$this->alter('MenuHelper.render', $items, $options);
+        $this->_rendering = true;
+        $this->alter('MenuHelper.render', $items, $options);
 
-		if (is_callable($options)) {
-			$options = ['formatter' => $options];
-		}
+        if (is_callable($options)) {
+            $options = ['formatter' => $options];
+        }
 
-		if (!empty($options['templates']) && is_array($options['templates'])) {
-			$this->templates($options['templates']);
-			unset($options['templates']);
-		}
+        if (!empty($options['templates']) && is_array($options['templates'])) {
+            $this->templates($options['templates']);
+            unset($options['templates']);
+        }
 
-		$out = '';
-		$attrs = [];
+        $out = '';
+        $attrs = [];
 
-		foreach ($options as $key => $value) {
-			if (isset($this->_defaultConfig[$key])) {
-				$this->config($key, $value);
-			} else {
-				$attrs[$key] = $value;
-			}
-		}
+        foreach ($options as $key => $value) {
+            if (isset($this->_defaultConfig[$key])) {
+                $this->config($key, $value);
+            } else {
+                $attrs[$key] = $value;
+            }
+        }
 
-		$this->countItems($items);
+        $this->countItems($items);
 
-		if (intval($this->config('split')) > 1) {
-			$arrayItems = (is_object($items) && method_exists($items, 'toArray')) ? $items->toArray() : (array)$items;
-			$count = count($arrayItems);
-			$size = round($count / intval($this->config('split')));
-			$chunk = array_chunk($arrayItems, $size);
-			$i = 0;
+        if (intval($this->config('split')) > 1) {
+            $arrayItems = (is_object($items) && method_exists($items, 'toArray')) ? $items->toArray() : (array)$items;
+            $count = count($arrayItems);
+            $size = round($count / intval($this->config('split')));
+            $chunk = array_chunk($arrayItems, $size);
+            $i = 0;
 
-			foreach ($chunk as $menu) {
-				$i++;
-				$out .=	$this->formatTemplate('parent', [
-					'attrs' => $this->templater()->formatAttributes(['class' => "menu-part part-{$i}"]),
-					'content' => $this->_render($menu, $this->config('formatter'))
-				]);
-			}
+            foreach ($chunk as $menu) {
+                $i++;
+                $out .=    $this->formatTemplate('parent', [
+                    'attrs' => $this->templater()->formatAttributes(['class' => "menu-part part-{$i}"]),
+                    'content' => $this->_render($menu, $this->config('formatter'))
+                ]);
+            }
 
-			$out = $this->formatTemplate('div', [
-				'attrs' => $this->templater()->formatAttributes($attrs),
-				'content' => $out,
-			]);
-		} else {
-			$out .= $this->formatTemplate('root', [
-				'attrs' => $this->templater()->formatAttributes($attrs),
-				'content' => $this->_render($items)
-			]);
-		}
+            $out = $this->formatTemplate('div', [
+                'attrs' => $this->templater()->formatAttributes($attrs),
+                'content' => $out,
+            ]);
+        } else {
+            $out .= $this->formatTemplate('root', [
+                'attrs' => $this->templater()->formatAttributes($attrs),
+                'content' => $this->_render($items)
+            ]);
+        }
 
-		if ($this->config('beautify')) {
-			$tidy = is_bool($this->config('beautify')) ? '1t0n' : $this->config('beautify');
-			include_once Plugin::classPath('Menu') . 'Lib/htmLawed.php';
-			$out = htmLawed($out, compact('tidy'));
-		}
+        if ($this->config('beautify')) {
+            $tidy = is_bool($this->config('beautify')) ? '1t0n' : $this->config('beautify');
+            include_once Plugin::classPath('Menu') . 'Lib/htmLawed.php';
+            $out = htmLawed($out, compact('tidy'));
+        }
 
-		$this->_clear();
-		return $out;
-	}
+        $this->_clear();
+        return $out;
+    }
 
 /**
  * Default callable method (see formatter option).
@@ -322,94 +325,95 @@ class MenuHelper extends Helper {
  * @param array $options Additional options
  * @return string
  */
-	public function formatter($item, array $info, array $options = []) {
-		$this->alter('MenuHelper.formatter', $item, $info, $options);
+    public function formatter($item, array $info, array $options = [])
+    {
+        $this->alter('MenuHelper.formatter', $item, $info, $options);
 
-		$options = Hash::merge([
-			'templates' => [],
-			'childAttrs' => ['class' => []],
-			'linkAttrs' => ['class' => []],
-		], $options);
-		$config = $this->config();
+        $options = Hash::merge([
+            'templates' => [],
+            'childAttrs' => ['class' => []],
+            'linkAttrs' => ['class' => []],
+        ], $options);
+        $config = $this->config();
 
-		if (!empty($options['templates']) && is_array($options['templates'])) {
-			$templatesBefore = $this->templates();
-			$this->templates($options['templates']);
-			unset($options['templates']);
-		}
+        if (!empty($options['templates']) && is_array($options['templates'])) {
+            $templatesBefore = $this->templates();
+            $this->templates($options['templates']);
+            unset($options['templates']);
+        }
 
-		if (!empty($options['childAttrs']['class'])) {
-			if (is_string($options['childAttrs']['class'])) {
-				$options['childAttrs']['class'] = [$options['childAttrs']['class']];
-			}
-		}
+        if (!empty($options['childAttrs']['class'])) {
+            if (is_string($options['childAttrs']['class'])) {
+                $options['childAttrs']['class'] = [$options['childAttrs']['class']];
+            }
+        }
 
-		if (!empty($options['linkAttrs']['class'])) {
-			if (is_string($options['linkAttrs']['class'])) {
-				$options['linkAttrs']['class'] = [$options['linkAttrs']['class']];
-			}
-		}
+        if (!empty($options['linkAttrs']['class'])) {
+            if (is_string($options['linkAttrs']['class'])) {
+                $options['linkAttrs']['class'] = [$options['linkAttrs']['class']];
+            }
+        }
 
-		$childAttrs = $options['childAttrs'];
-		$linkAttrs = $options['linkAttrs'];
+        $childAttrs = $options['childAttrs'];
+        $linkAttrs = $options['linkAttrs'];
 
-		if ($info['index'] === 1) {
-			$childAttrs['class'][] = $config['firstClass'];
-		}
+        if ($info['index'] === 1) {
+            $childAttrs['class'][] = $config['firstClass'];
+        }
 
-		if ($info['index'] === $info['total']) {
-			$childAttrs['class'][] = $config['lastClass'];
-		}
+        if ($info['index'] === $info['total']) {
+            $childAttrs['class'][] = $config['lastClass'];
+        }
 
-		if ($info['hasChildren']) {
-			$childAttrs['class'][] = $config['hasChildrenClass'];
-			if ($this->config('dropdown')) {
-				$childAttrs['class'][] = 'dropdown';
-				$linkAttrs['data-toggle'] = 'dropdown';
-			}
-		}
+        if ($info['hasChildren']) {
+            $childAttrs['class'][] = $config['hasChildrenClass'];
+            if ($this->config('dropdown')) {
+                $childAttrs['class'][] = 'dropdown';
+                $linkAttrs['data-toggle'] = 'dropdown';
+            }
+        }
 
-		if (!empty($item->description)) {
-			$linkAttrs['title'] = $item->description;
-		}
+        if (!empty($item->description)) {
+            $linkAttrs['title'] = $item->description;
+        }
 
-		if (!empty($item->target)) {
-			$linkAttrs['target'] = $item->target;
-		}
+        if (!empty($item->target)) {
+            $linkAttrs['target'] = $item->target;
+        }
 
-		if ($info['active']) {
-			$childAttrs['class'][] = $config['activeClass'];
-			$linkAttrs['class'][] = $config['activeClass'];
-		}
+        if ($info['active']) {
+            $childAttrs['class'][] = $config['activeClass'];
+            $linkAttrs['class'][] = $config['activeClass'];
+        }
 
-		if (!empty($options['childAttrs'])) {
-			$childAttrs = Hash::merge($childAttrs, $options['childAttrs']);
-		}
+        if (!empty($options['childAttrs'])) {
+            $childAttrs = Hash::merge($childAttrs, $options['childAttrs']);
+        }
 
-		if (!empty($options['linkAttrs'])) {
-			$linkAttrs = Hash::merge($linkAttrs, $options['linkAttrs']);
-		}
+        if (!empty($options['linkAttrs'])) {
+            $linkAttrs = Hash::merge($linkAttrs, $options['linkAttrs']);
+        }
 
-		$childAttrs['class'] = array_unique($childAttrs['class']);
-		$linkAttrs['class'] = array_unique($linkAttrs['class']);
-		$childAttrs = $this->templater()->formatAttributes($childAttrs);
-		$linkAttrs = $this->templater()->formatAttributes($linkAttrs);
-		$return = $this->formatTemplate('child', [
-			'attrs' => $childAttrs,
-			'content' => $this->formatTemplate('link', [
-				'url' => $this->_url($item->url),
-				'attrs' => $linkAttrs,
-				'content' => $item->title,
-			]),
-			'children' => $info['children'],
-		]);
+        $childAttrs['class'] = array_unique($childAttrs['class']);
+        $linkAttrs['class'] = array_unique($linkAttrs['class']);
+        $childAttrs = $this->templater()->formatAttributes($childAttrs);
+        $linkAttrs = $this->templater()->formatAttributes($linkAttrs);
+        $return = $this->formatTemplate('child', [
+            'attrs' => $childAttrs,
+            'content' => $this->formatTemplate('link', [
+                'url' => $this->_url($item->url),
+                'attrs' => $linkAttrs,
+                'content' => $item->title,
+            ]),
+            'children' => $info['children'],
+        ]);
 
-		if (isset($templatesBefore)) {
-			$this->templates($templatesBefore);
-		}
+        if (isset($templatesBefore)) {
+            $this->templates($templatesBefore);
+        }
 
-		return $return;
-	}
+        return $return;
+    }
 
 /**
  * Counts items in menu.
@@ -417,23 +421,25 @@ class MenuHelper extends Helper {
  * @param \Cake\ORM\Query $items Items to count
  * @return int
  */
-	public function countItems($items) {
-		if ($this->_count) {
-			return $this->_count;
-		}
+    public function countItems($items)
+    {
+        if ($this->_count) {
+            return $this->_count;
+        }
 
-		$this->_count($items);
-		return $this->_count;
-	}
+        $this->_count($items);
+        return $this->_count;
+    }
 
 /**
  * Restores the default values built into MenuHelper.
  *
  * @return void
  */
-	public function resetTemplates() {
-		$this->templates($this->_defaultConfig['templates']);
-	}
+    public function resetTemplates()
+    {
+        $this->templates($this->_defaultConfig['templates']);
+    }
 
 /**
  * Internal method to recursively generate the menu.
@@ -442,82 +448,84 @@ class MenuHelper extends Helper {
  * @param int $depth Current iteration depth
  * @return string HTML
  */
-	protected function _render($items, $depth = 0) {
-		$content = '';
-		$formatter = $this->config('formatter');
+    protected function _render($items, $depth = 0)
+    {
+        $content = '';
+        $formatter = $this->config('formatter');
 
-		foreach ($items as $item) {
-			$children = '';
-			if (is_array($item)) {
-				$item = new Entity($item);
-			}
+        foreach ($items as $item) {
+            $children = '';
+            if (is_array($item)) {
+                $item = new Entity($item);
+            }
 
-			if ($item->has('children') && !empty($item->children) && $item->expanded) {
-				$children = $this->formatTemplate('parent', [
-					'attrs' => $this->templater()->formatAttributes([
-						'class' => ($this->config('dropdown') ? 'dropdown-menu multi-level' : ''),
-						'role' => 'menu'
-					]),
-					'content' => $this->_render($item->children, $depth + 1)
-				]);
-			}
+            if ($item->has('children') && !empty($item->children) && $item->expanded) {
+                $children = $this->formatTemplate('parent', [
+                    'attrs' => $this->templater()->formatAttributes([
+                        'class' => ($this->config('dropdown') ? 'dropdown-menu multi-level' : ''),
+                        'role' => 'menu'
+                    ]),
+                    'content' => $this->_render($item->children, $depth + 1)
+                ]);
+            }
 
-			$this->_index++;
-			$info = [
-				'index' => $this->_index,
-				'total' => $this->_count,
-				'active' => $this->_isActive($item),
-				'depth' => $depth,
-				'hasChildren' => !empty($children),
-				'children' => $children,
-			];
-			$content .= $formatter($item, $info);
-		}
+            $this->_index++;
+            $info = [
+                'index' => $this->_index,
+                'total' => $this->_count,
+                'active' => $this->_isActive($item),
+                'depth' => $depth,
+                'hasChildren' => !empty($children),
+                'children' => $children,
+            ];
+            $content .= $formatter($item, $info);
+        }
 
-		return $content;
-	}
+        return $content;
+    }
 
 /**
  * Returns a safe URL string for later use on HtmlHelper.
- * 
+ *
  * @param string|array $url URL given as string or an array compatible
  * with `Router::url()`
  * @return string
  */
-	protected function _url($url) {
-		static $locales = null;
+    protected function _url($url)
+    {
+        static $locales = null;
 
-		if (empty($locales)) {
-			$locales = implode('|',
-				array_map('preg_quote',
-					array_keys(
-						quickapps('languages')
-					)
-				)
-			);
-		}
+        if (empty($locales)) {
+            $locales = implode('|',
+                array_map('preg_quote',
+                    array_keys(
+                        quickapps('languages')
+                    )
+                )
+            );
+        }
 
-		if (
-			option('url_locale_prefix') &&
-			is_string($url) &&
-			str_starts_with($url, '/') &&
-			!preg_match('/^\/(' . $locales . ')/', $url)
-		) {
-			$locale = I18n::defaultLocale();
-			$url = "/{$locale}{$url}";
-			$full = true;
-		} else {
-			$full = false;
-		}
+        if (
+            option('url_locale_prefix') &&
+            is_string($url) &&
+            str_starts_with($url, '/') &&
+            !preg_match('/^\/(' . $locales . ')/', $url)
+        ) {
+            $locale = I18n::defaultLocale();
+            $url = "/{$locale}{$url}";
+            $full = true;
+        } else {
+            $full = false;
+        }
 
-		try {
-			$url = Router::url($url, $full);
-		} catch (\Exception $e) {
-			$url = '';
-		}
+        try {
+            $url = Router::url($url, $full);
+        } catch (\Exception $e) {
+            $url = '';
+        }
 
-		return $url;
-	}
+        return $url;
+    }
 
 /**
  * Checks if the given item should be marked as active.
@@ -540,81 +548,82 @@ class MenuHelper extends Helper {
  * @param \Cake\ORM\Entity $item A menu's item
  * @return bool
  */
-	protected function _isActive($item) {
-		if (is_callable($item->activation)) {
-			$callable = $item->activation;
-			return $callable($this->_View->request, $item);
-		}
+    protected function _isActive($item)
+    {
+        if (is_callable($item->activation)) {
+            $callable = $item->activation;
+            return $callable($this->_View->request, $item);
+        }
 
-		switch ($item->activation) {
-			case 'any':
-				return $this->_urlMatch($item->active);
-			case 'none':
-				return !$this->_urlMatch($item->active);
-			case 'php':
-				return php_eval($item->active, [
-					'view', &$this->_View,
-					'item', &$item,
-				]) === true;
-			case 'auto':
-				default:
-					try {
-						$itemUrl = Router::url($item->url);
-					} catch (\Exception $e) {
-						$itemUrl = false;
-					}
+        switch ($item->activation) {
+            case 'any':
+                return $this->_urlMatch($item->active);
+            case 'none':
+                return !$this->_urlMatch($item->active);
+            case 'php':
+                return php_eval($item->active, [
+                    'view', &$this->_View,
+                    'item', &$item,
+                ]) === true;
+            case 'auto':
+                default:
+                    try {
+                        $itemUrl = Router::url($item->url);
+                    } catch (\Exception $e) {
+                        $itemUrl = false;
+                    }
 
-					// external link
-					if (empty($itemUrl) || $itemUrl[0] !== '/') {
-						return ($itemUrl == env('REQUEST_URI'));
-					}
+                    // external link
+                    if (empty($itemUrl) || $itemUrl[0] !== '/') {
+                        return ($itemUrl == env('REQUEST_URI'));
+                    }
 
-					$itemUrl = str_replace_once($this->_View->request->base, '', $itemUrl);
-					if (option('url_locale_prefix')) {
-						if (!preg_match('/^\/' . $this->_localesPattern() . '/', $itemUrl)) {
-							$itemUrl = '/' . I18n::defaultLocale() . $itemUrl;
-						}
-					}
+                    $itemUrl = str_replace_once($this->_View->request->base, '', $itemUrl);
+                    if (option('url_locale_prefix')) {
+                        if (!preg_match('/^\/' . $this->_localesPattern() . '/', $itemUrl)) {
+                            $itemUrl = '/' . I18n::defaultLocale() . $itemUrl;
+                        }
+                    }
 
-					$isInternal =
-						$itemUrl !== '/' &&
-						str_ends_with($itemUrl, str_replace_once($this->_View->request->base, '', env('REQUEST_URI')));
-					$isIndex =
-						$itemUrl === '/' &&
-						$this->_View->request->isHome();
-					$isExact =
-						str_replace('//', '/', "{$itemUrl}/") === str_replace('//', '/', "/{$this->_View->request->url}/");
+                    $isInternal =
+                        $itemUrl !== '/' &&
+                        str_ends_with($itemUrl, str_replace_once($this->_View->request->base, '', env('REQUEST_URI')));
+                    $isIndex =
+                        $itemUrl === '/' &&
+                        $this->_View->request->isHome();
+                    $isExact =
+                        str_replace('//', '/', "{$itemUrl}/") === str_replace('//', '/', "/{$this->_View->request->url}/");
 
-					if ($this->config('breadcrumbGuessing')) {
-						static $crumbs = null;
-						if ($crumbs === null) {
-							$crumbs = BreadcrumbRegistry::getUrls();
-							foreach ($crumbs as &$crumb) {
-								try {
-									$crumb = Router::url($crumb);
-								} catch (\Exception $e) {
-									$crumb = '';
-								}
+                    if ($this->config('breadcrumbGuessing')) {
+                        static $crumbs = null;
+                        if ($crumbs === null) {
+                            $crumbs = BreadcrumbRegistry::getUrls();
+                            foreach ($crumbs as &$crumb) {
+                                try {
+                                    $crumb = Router::url($crumb);
+                                } catch (\Exception $e) {
+                                    $crumb = '';
+                                }
 
-								if (str_starts_with($crumb, $this->_View->request->base)) {
-									$crumb = str_replace_once($this->_View->request->base, '', $crumb);
-								}
+                                if (str_starts_with($crumb, $this->_View->request->base)) {
+                                    $crumb = str_replace_once($this->_View->request->base, '', $crumb);
+                                }
 
-								if (option('url_locale_prefix')) {
-									if (!preg_match('/^\/' . $this->_localesPattern() . '/', $crumb)) {
-										$crumb = '/' . I18n::defaultLocale() . $crumb;
-									}
-								}
-							}
-						}
+                                if (option('url_locale_prefix')) {
+                                    if (!preg_match('/^\/' . $this->_localesPattern() . '/', $crumb)) {
+                                        $crumb = '/' . I18n::defaultLocale() . $crumb;
+                                    }
+                                }
+                            }
+                        }
 
-						$isInBreadcrumb = in_array($itemUrl, $crumbs);
-						return ($isInternal || $isIndex || $isExact || $isInBreadcrumb);
-					}
+                        $isInBreadcrumb = in_array($itemUrl, $crumbs);
+                        return ($isInternal || $isIndex || $isExact || $isInBreadcrumb);
+                    }
 
-					return ($isInternal || $isIndex || $isExact);
-		}
-	}
+                    return ($isInternal || $isIndex || $isExact);
+        }
+    }
 
 /**
  * Check if a path matches any pattern in a set of patterns.
@@ -624,49 +633,50 @@ class MenuHelper extends Helper {
  * @param mixed $path String as path to match. Or false to use current page URL
  * @return bool TRUE if the path matches a pattern, FALSE otherwise
  */
-	protected function _urlMatch($patterns, $path = false) {
-		if (empty($patterns)) {
-			return false;
-		}
+    protected function _urlMatch($patterns, $path = false)
+    {
+        if (empty($patterns)) {
+            return false;
+        }
 
-		$request = $this->_View->request;
-		$path = !$path ? '/' . $request->url : $path;
-		$patterns = explode("\n", $patterns);
+        $request = $this->_View->request;
+        $path = !$path ? '/' . $request->url : $path;
+        $patterns = explode("\n", $patterns);
 
-		foreach ($patterns as &$p) {
-			$p = $this->_View->Url->build('/') . $p;
-			$p = str_replace('//', '/', $p);
-			$p = str_replace($request->base, '', $p);
+        foreach ($patterns as &$p) {
+            $p = $this->_View->Url->build('/') . $p;
+            $p = str_replace('//', '/', $p);
+            $p = str_replace($request->base, '', $p);
 
-			if (
-				option('url_locale_prefix') &&
-				!preg_match('/^\/' . $this->_localesPattern() . '\//', $p, $matches)
-			) {
-				$p = '/' . I18n::defaultLocale() . $p;
-			}
-		}
+            if (
+                option('url_locale_prefix') &&
+                !preg_match('/^\/' . $this->_localesPattern() . '\//', $p, $matches)
+            ) {
+                $p = '/' . I18n::defaultLocale() . $p;
+            }
+        }
 
-		$patterns = implode("\n", $patterns);
+        $patterns = implode("\n", $patterns);
 
-		// Convert path settings to a regular expression.
-		// Therefore replace newlines with a logical or, /* with asterisks and "/" with the front page.
-		$toReplace = array(
-			'/(\r\n?|\n)/', // newlines
-			'/\\\\\*/', // asterisks
-			'/(^|\|)\/($|\|)/' // front '/'
-		);
+        // Convert path settings to a regular expression.
+        // Therefore replace newlines with a logical or, /* with asterisks and "/" with the front page.
+        $toReplace = array(
+            '/(\r\n?|\n)/', // newlines
+            '/\\\\\*/', // asterisks
+            '/(^|\|)\/($|\|)/' // front '/'
+        );
 
-		$replacements = array(
-			'|',
-			'.*',
-			'\1' . preg_quote($this->_View->Url->build('/'), '/') . '\2'
-		);
+        $replacements = array(
+            '|',
+            '.*',
+            '\1' . preg_quote($this->_View->Url->build('/'), '/') . '\2'
+        );
 
-		$patternsQuoted = preg_quote($patterns, '/');
-		$regexps[$patterns] = '/^(' . preg_replace($toReplace, $replacements, $patternsQuoted) . ')$/';
+        $patternsQuoted = preg_quote($patterns, '/');
+        $regexps[$patterns] = '/^(' . preg_replace($toReplace, $replacements, $patternsQuoted) . ')$/';
 
-		return (bool)preg_match($regexps[$patterns], $path);
-	}
+        return (bool)preg_match($regexps[$patterns], $path);
+    }
 
 /**
  * Internal method for counting items in menu.
@@ -676,16 +686,17 @@ class MenuHelper extends Helper {
  * @param \Cake\ORM\Query $items Items to count
  * @return int
  */
-	protected function _count($items) {
-		foreach ($items as $item) {
-			$this->_count++;
-			$item = is_array($item) ? new Entity($item) : $item;
+    protected function _count($items)
+    {
+        foreach ($items as $item) {
+            $this->_count++;
+            $item = is_array($item) ? new Entity($item) : $item;
 
-			if ($item->has('children') && !empty($item->children) && $item->expanded) {
-				$this->_count($item->children);
-			}
-		}
-	}
+            if ($item->has('children') && !empty($item->children) && $item->expanded) {
+                $this->_count($item->children);
+            }
+        }
+    }
 
 /**
  * Returns a regular expression that is used to verify if an URL starts
@@ -697,22 +708,23 @@ class MenuHelper extends Helper {
  *
  * @return string
  */
-	protected function _localesPattern() {
-		$cacheKey = '_localesPattern';
-		$cache = static::cache($cacheKey);
-		if ($cache) {
-			return $cache;
-		}
+    protected function _localesPattern()
+    {
+        $cacheKey = '_localesPattern';
+        $cache = static::cache($cacheKey);
+        if ($cache) {
+            return $cache;
+        }
 
-		$pattern = '(' . implode('|',
-			array_map('preg_quote',
-				array_keys(
-					quickapps('languages')
-				)
-			)
-		) . ')';
-		return static::cache($cacheKey, $pattern);
-	}
+        $pattern = '(' . implode('|',
+            array_map('preg_quote',
+                array_keys(
+                    quickapps('languages')
+                )
+            )
+        ) . ')';
+        return static::cache($cacheKey, $pattern);
+    }
 
 /**
  * Clears all temporary variables used when rendering a menu, so they do not
@@ -720,12 +732,12 @@ class MenuHelper extends Helper {
  *
  * @return void
  */
-	protected function _clear() {
-		$this->_index = 0;
-		$this->_count = 0;
-		$this->_rendering = false;
-		$this->config($this->_defaultConfig);
-		$this->resetTemplates();
-	}
-
+    protected function _clear()
+    {
+        $this->_index = 0;
+        $this->_count = 0;
+        $this->_rendering = false;
+        $this->config($this->_defaultConfig);
+        $this->resetTemplates();
+    }
 }

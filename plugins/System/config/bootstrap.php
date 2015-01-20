@@ -31,14 +31,14 @@ use Cake\Network\Request;
  *     $request->isHome();
  */
 Request::addDetector('home', function ($request) {
-	return (
-		!empty($request->params['plugin']) &&
-		strtolower($request->params['plugin']) === 'node' &&
-		!empty($request->params['controller']) &&
-		strtolower($request->params['controller']) === 'serve' &&
-		!empty($request->params['action']) &&
-		strtolower($request->params['action']) === 'home'
-	);
+    return (
+        !empty($request->params['plugin']) &&
+        strtolower($request->params['plugin']) === 'node' &&
+        !empty($request->params['controller']) &&
+        strtolower($request->params['controller']) === 'serve' &&
+        !empty($request->params['action']) &&
+        strtolower($request->params['action']) === 'home'
+    );
 });
 
 /**
@@ -47,10 +47,10 @@ Request::addDetector('home', function ($request) {
  *     $request->isAdmin();
  */
 Request::addDetector('admin', function ($request) {
-	return (
-		!empty($request->params['prefix']) &&
-		$request->params['prefix'] === 'admin'
-	);
+    return (
+        !empty($request->params['prefix']) &&
+        $request->params['prefix'] === 'admin'
+    );
 });
 
 /**
@@ -59,44 +59,44 @@ Request::addDetector('admin', function ($request) {
  *     $request->isDashboard();
  */
 Request::addDetector('dashboard', function ($request) {
-	return (
-		!empty($request->params['plugin']) &&
-		strtolower($request->params['plugin']) === 'system' &&
-		!empty($request->params['controller']) &&
-		strtolower($request->params['controller']) === 'dashboard' &&
-		!empty($request->params['action']) &&
-		strtolower($request->params['action']) === 'index'
-	);
+    return (
+        !empty($request->params['plugin']) &&
+        strtolower($request->params['plugin']) === 'system' &&
+        !empty($request->params['controller']) &&
+        strtolower($request->params['controller']) === 'dashboard' &&
+        !empty($request->params['action']) &&
+        strtolower($request->params['action']) === 'index'
+    );
 });
 
 /**
  * Checks if current URL is language prefixed.
  *
- *     $request->isLocalized();    
+ *     $request->isLocalized();
  */
 Request::addDetector('localized', function ($request) {
-	$locales = array_keys(quickapps('languages'));
-	$localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
-	$url = str_starts_with($request->url, '/') ? str_replace_once('/', '', $request->url) : $request->url;
-	return preg_match("/^{$localesPattern}\//", $url);
+    $locales = array_keys(quickapps('languages'));
+    $localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
+    $url = str_starts_with($request->url, '/') ? str_replace_once('/', '', $request->url) : $request->url;
+    return preg_match("/^{$localesPattern}\//", $url);
 });
 
 /**
  * Checks if visitor user is logged in.
  *
- *     $request->isUserLoggedIn(); 
+ *     $request->isUserLoggedIn();
  */
 Request::addDetector('userLoggedIn', function ($request) {
-	$sessionExists = $request->session()->check('Auth.User.id');
-	$sessionContent = $request->session()->read('Auth.User.id');
-	return ($sessionExists && !empty($sessionContent));
+    $sessionExists = $request->session()->check('Auth.User.id');
+    $sessionContent = $request->session()->read('Auth.User.id');
+    return ($sessionExists && !empty($sessionContent));
 });
 
 /**
  * Checks if visitor user is logged in and has administrator privileges.
  *
- *     $request->isUserAdmin(); 
+ *     $request->isUserAdmin();
  */
 Request::addDetector('userAdmin', function ($request) {
-	return in_array(ROLE_ID_ADMINISTRATOR, array_values(user()->role_ids));
+    return in_array(ROLE_ID_ADMINISTRATOR, array_values(user()->role_ids));
 });

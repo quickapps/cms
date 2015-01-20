@@ -17,28 +17,29 @@ use System\Controller\AppController;
  * Structure controller.
  *
  */
-class StructureController extends AppController {
+class StructureController extends AppController
+{
 
 /**
  * Main action for dashboard.
  *
  * @return void
  */
-	public function index() {
-		$this->loadModel('Menu.MenuLinks');
-		$links = $this->MenuLinks->find('threaded')
-			->where([
-					'parent_id IN' => \Cake\ORM\TableRegistry::get('Menu.MenuLinks')
-						->find()
-						->select(['id'])
-						->where(['title' => 'Structure'])
-						->extract('id')
-						->toArray()
-				])
-			->all();
+    public function index()
+    {
+        $this->loadModel('Menu.MenuLinks');
+        $links = $this->MenuLinks->find('threaded')
+            ->where([
+                    'parent_id IN' => \Cake\ORM\TableRegistry::get('Menu.MenuLinks')
+                        ->find()
+                        ->select(['id'])
+                        ->where(['title' => 'Structure'])
+                        ->extract('id')
+                        ->toArray()
+                ])
+            ->all();
 
-		$this->set('links', $links);
-		$this->Breadcrumb->push('/admin/system/structure');
-	}
-
+        $this->set('links', $links);
+        $this->Breadcrumb->push('/admin/system/structure');
+    }
 }

@@ -22,31 +22,32 @@ use Cake\Routing\Router;
  *
  * For handling all public node-rendering requests.
  */
-class ServeController extends AppController {
+class ServeController extends AppController
+{
 
 /**
  * Components used by this controller.
  *
  * @var array
  */
-	public $components = [
-		'Comment.Comment',
-		'Paginator',
-		'RequestHandler',
-	];
+    public $components = [
+        'Comment.Comment',
+        'Paginator',
+        'RequestHandler',
+    ];
 
 /**
  * An array containing the names of helpers controllers uses.
  *
  * @var array
  */
-	public $helpers = [
-		'Time',
-		'Paginator' => [
-			'className' => 'QuickApps\View\Helper\PaginatorHelper',
-			'templates' => 'System.paginator-templates',
-		],
-	];
+    public $helpers = [
+        'Time',
+        'Paginator' => [
+            'className' => 'QuickApps\View\Helper\PaginatorHelper',
+            'templates' => 'System.paginator-templates',
+        ],
+    ];
 
 /**
  * Paginator settings.
@@ -55,18 +56,19 @@ class ServeController extends AppController {
  *
  * @var array
  */
-	public $paginate = [
-		'limit' => 10,
-	];
+    public $paginate = [
+        'limit' => 10,
+    ];
 
 /**
  * Redirects to ServeController::home()
  *
  * @return void
  */
-	public function index() {
-		$this->redirect(['plugin' => 'node', 'controller' => 'serve', 'action' => 'home']);
-	}
+    public function index()
+    {
+        $this->redirect(['plugin' => 'node', 'controller' => 'serve', 'action' => 'home']);
+    }
 
 /**
  * Site's home page.
@@ -77,19 +79,20 @@ class ServeController extends AppController {
  *
  * @return void
  */
-	public function home() {
-		$this->loadModel('Node.Nodes');
-		$nodes = $this->Nodes->find()
-			->where([
-				'Nodes.promote' => 1,
-				'Nodes.status >' => 0,
-				'Nodes.language IN' => ['', I18n::defaultLocale(), null],
-			])
-			->order(['Nodes.sticky' => 'DESC', 'Nodes.created' => 'DESC'])
-			->all();
+    public function home()
+    {
+        $this->loadModel('Node.Nodes');
+        $nodes = $this->Nodes->find()
+            ->where([
+                'Nodes.promote' => 1,
+                'Nodes.status >' => 0,
+                'Nodes.language IN' => ['', I18n::defaultLocale(), null],
+            ])
+            ->order(['Nodes.sticky' => 'DESC', 'Nodes.created' => 'DESC'])
+            ->all();
 
-		$this->set('nodes', $nodes);
-	}
+        $this->set('nodes', $nodes);
+    }
 
 /**
  * Node's detail page.
@@ -101,105 +104,106 @@ class ServeController extends AppController {
  * @throws \Cake\Network\Exception\ForbiddenException When user can't access
  *  this content due to role restrictions
  */
-	public function details($nodeTypeSlug, $nodeSlug) {
-		$this->loadModel('Node.Nodes');
+    public function details($nodeTypeSlug, $nodeSlug)
+    {
+        $this->loadModel('Node.Nodes');
 
-		if ($this->request->is('userAdmin')) {
-			$conditions = [
-				'Nodes.slug' => $nodeSlug,
-				'Nodes.node_type_slug' => $nodeTypeSlug,
-			];
-		} else {
-			$conditions = [
-				'Nodes.slug' => $nodeSlug,
-				'Nodes.node_type_slug' => $nodeTypeSlug,
-				'Nodes.status >' => 0,
-			];
-		}
+        if ($this->request->is('userAdmin')) {
+            $conditions = [
+                'Nodes.slug' => $nodeSlug,
+                'Nodes.node_type_slug' => $nodeTypeSlug,
+            ];
+        } else {
+            $conditions = [
+                'Nodes.slug' => $nodeSlug,
+                'Nodes.node_type_slug' => $nodeTypeSlug,
+                'Nodes.status >' => 0,
+            ];
+        }
 
-		$node = $this->Nodes->find()
-			->where($conditions)
-			->contain(['NodeTypes', 'Roles'])
-			->first();
+        $node = $this->Nodes->find()
+            ->where($conditions)
+            ->contain(['NodeTypes', 'Roles'])
+            ->first();
 
-		if (!$node) {
-			throw new NotFoundException(__d('node', 'The requested page was not found.'));
-		} else {
-			if (!empty($node->roles)) {
-				$nodeRolesID = [];
-				foreach ($node->roles as $role) {
-					$nodeRolesID[] = $role->id;
-				}
+        if (!$node) {
+            throw new NotFoundException(__d('node', 'The requested page was not found.'));
+        } else {
+            if (!empty($node->roles)) {
+                $nodeRolesID = [];
+                foreach ($node->roles as $role) {
+                    $nodeRolesID[] = $role->id;
+                }
 
-				$allowed = false;
-				foreach (user()->role_ids as $userRoleID) {
-					if (in_array($userRoleID, $nodeRolesID)) {
-						$allowed = true;
-						break;
-					}
-				}
+                $allowed = false;
+                foreach (user()->role_ids as $userRoleID) {
+                    if (in_array($userRoleID, $nodeRolesID)) {
+                        $allowed = true;
+                        break;
+                    }
+                }
 
-				if (!$allowed) {
-					throw new ForbiddenException(__d('node', 'You have not sufficient permissions to see this page.'));
-				}
-			}
+                if (!$allowed) {
+                    throw new ForbiddenException(__d('node', 'You have not sufficient permissions to see this page.'));
+                }
+            }
 
-			if (!empty($node->language) && $node->language != I18n::defaultLocale()) {
-				$haveTranslation = $this->Nodes
-					->find()
-					->select(['id', 'slug', 'language'])
-					->where([
-						'translation_for' => $node->id,
-						'node_type_slug' => $nodeTypeSlug,
-						'language' => I18n::defaultLocale(),
-						'status' => 1,
-					])
-					->first();
+            if (!empty($node->language) && $node->language != I18n::defaultLocale()) {
+                $haveTranslation = $this->Nodes
+                    ->find()
+                    ->select(['id', 'slug', 'language'])
+                    ->where([
+                        'translation_for' => $node->id,
+                        'node_type_slug' => $nodeTypeSlug,
+                        'language' => I18n::defaultLocale(),
+                        'status' => 1,
+                    ])
+                    ->first();
 
-				if ($haveTranslation) {
-					if (option('url_locale_prefix')) {
-						$url = "/{$haveTranslation->language}/{$nodeTypeSlug}/{$haveTranslation->slug}.html";
-					} else {
-						$url = "/{$nodeTypeSlug}/{$haveTranslation->slug}.html";
-					}
-					$this->redirect($url);
-					return $this->response;
-				}
+                if ($haveTranslation) {
+                    if (option('url_locale_prefix')) {
+                        $url = "/{$haveTranslation->language}/{$nodeTypeSlug}/{$haveTranslation->slug}.html";
+                    } else {
+                        $url = "/{$nodeTypeSlug}/{$haveTranslation->slug}.html";
+                    }
+                    $this->redirect($url);
+                    return $this->response;
+                }
 
-				$isTranslationOf = $this->Nodes
-					->find()
-					->select(['id', 'slug', 'language'])
-					->where([
-						'slug' => $nodeSlug,
-						'status' => 1,
-						'translation_for NOT IN' => ['', null]
-					])
-					->first();
+                $isTranslationOf = $this->Nodes
+                    ->find()
+                    ->select(['id', 'slug', 'language'])
+                    ->where([
+                        'slug' => $nodeSlug,
+                        'status' => 1,
+                        'translation_for NOT IN' => ['', null]
+                    ])
+                    ->first();
 
-				if ($isTranslationOf) {
-					if (option('url_locale_prefix')) {
-						$url = "/{$isTranslationOf->language}/{$nodeTypeSlug}/{$isTranslationOf->slug}.html";
-					} else {
-						$url = "/{$nodeTypeSlug}/{$isTranslationOf->slug}.html";
-					}
-					$this->redirect($url);
-					return $this->response;
-				}
+                if ($isTranslationOf) {
+                    if (option('url_locale_prefix')) {
+                        $url = "/{$isTranslationOf->language}/{$nodeTypeSlug}/{$isTranslationOf->slug}.html";
+                    } else {
+                        $url = "/{$nodeTypeSlug}/{$isTranslationOf->slug}.html";
+                    }
+                    $this->redirect($url);
+                    return $this->response;
+                }
 
-				throw new NotFoundException(__d('node', 'The requested page was not found.'));
-			}
-		}
+                throw new NotFoundException(__d('node', 'The requested page was not found.'));
+            }
+        }
 
-		// Post new comment logic
-		if ($node->comment_status > 0) {
-			$node->set('comments', $this->Nodes->find('comments', ['for' => $node->id]));
-			$this->Comment->config('visibility', $node->comment_status);
-			$this->Comment->post($node);
-		}
+        // Post new comment logic
+        if ($node->comment_status > 0) {
+            $node->set('comments', $this->Nodes->find('comments', ['for' => $node->id]));
+            $this->Comment->config('visibility', $node->comment_status);
+            $this->Comment->post($node);
+        }
 
-		$this->set('node', $node);
-		$this->switchViewMode('full');
-	}
+        $this->set('node', $node);
+        $this->switchViewMode('full');
+    }
 
 /**
  * Node search engine page.
@@ -208,24 +212,25 @@ class ServeController extends AppController {
  * e.g.: `"this phrase" -"but not this" OR -hello`
  * @return void
  */
-	public function search($criteria) {
-		$this->loadModel('Node.Nodes');
+    public function search($criteria)
+    {
+        $this->loadModel('Node.Nodes');
 
-		try {
-			$nodes = $this->Nodes->search($criteria);
+        try {
+            $nodes = $this->Nodes->search($criteria);
 
-			if ($nodes->clause('limit')) {
-				$this->paginate['limit'] = $nodes->clause('limit');
-			}
+            if ($nodes->clause('limit')) {
+                $this->paginate['limit'] = $nodes->clause('limit');
+            }
 
-			$nodes = $this->paginate($nodes);
-		} catch (\Exception $e) {
-			$nodes = [];
-		}
+            $nodes = $this->paginate($nodes);
+        } catch (\Exception $e) {
+            $nodes = [];
+        }
 
-		$this->set(compact('nodes', 'criteria'));
-		$this->switchViewMode('search-result');
-	}
+        $this->set(compact('nodes', 'criteria'));
+        $this->switchViewMode('search-result');
+    }
 
 /**
  * RSS feeder.
@@ -237,20 +242,20 @@ class ServeController extends AppController {
  * e.g.: `"this phrase" -"but not this" OR -hello`
  * @return void
  */
-	public function rss($criteria) {
-		$this->loadModel('Node.Nodes');
+    public function rss($criteria)
+    {
+        $this->loadModel('Node.Nodes');
 
-		try {
-			$nodes = $this->Nodes
-				->search($criteria)
-				->limit(10);
-		} catch (\Exception $e) {
-			$nodes = [];
-		}
+        try {
+            $nodes = $this->Nodes
+                ->search($criteria)
+                ->limit(10);
+        } catch (\Exception $e) {
+            $nodes = [];
+        }
 
-		$this->set(compact('nodes', 'criteria'));
-		$this->switchViewMode('rss');
-		$this->RequestHandler->renderAs($this, 'rss');
-	}
-
+        $this->set(compact('nodes', 'criteria'));
+        $this->switchViewMode('rss');
+        $this->RequestHandler->renderAs($this, 'rss');
+    }
 }

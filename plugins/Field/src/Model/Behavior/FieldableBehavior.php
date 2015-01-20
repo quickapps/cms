@@ -249,7 +249,7 @@ use QuickApps\Event\HookAwareTrait;
  * `Field.<FieldHandler>.Instance.` prefix has been trimmed from each event
  * name listed below. For example, `info` is actually
  * `Field.<FieldHandler>.Instance.info`
- * 
+ *
  * - `info`: When QuickAppsCMS asks for information about each registered Field.
  * - `settingsForm`: Additional settings for this field, should define the way
  *    the values will be stored in the database.
@@ -385,16 +385,17 @@ use QuickApps\Event\HookAwareTrait;
  *         <?php echo $this->Form->submit('Save User'); ?>
  *     <?php echo $this->Form->end(); ?>
  */
-class FieldableBehavior extends Behavior {
+class FieldableBehavior extends Behavior
+{
 
-	use HookAwareTrait;
+    use HookAwareTrait;
 
 /**
  * Table which this behavior is attached to.
  *
  * @var \Cake\ORM\Table
  */
-	protected $_table;
+    protected $_table;
 
 /**
  * Used for reduce BD queries and allow inter-method communication.
@@ -402,7 +403,7 @@ class FieldableBehavior extends Behavior {
  *
  * @var array
  */
-	protected $_cache = [];
+    protected $_cache = [];
 
 /**
  * Default configuration.
@@ -412,7 +413,7 @@ class FieldableBehavior extends Behavior {
  *
  * -    `tableAlias`: Name of the table being managed. Defaults to null (auto-detect).
  * -    `bundle`: Bundle within this the table. Can be a string or a callable
- *       method that must return a string to use as bundle. 
+ *       method that must return a string to use as bundle.
  *       Default null (use `tableAlias` option always).
  * -    `enabled`: True enables this behavior or false for disable. Default to true.
  *
@@ -437,17 +438,17 @@ class FieldableBehavior extends Behavior {
  *
  * @var array
  */
-	protected $_defaultConfig = [
-		'tableAlias' => null,
-		'bundle' => null,
-		'enabled' => true,
-		'implementedMethods' => [
-			'configureFieldable' => 'configureFieldable',
-			'attachEntityFields' => 'attachEntityFields',
-			'unbindFieldable' => 'unbindFieldable',
-			'bindFieldable' => 'bindFieldable',
-		],
-	];
+    protected $_defaultConfig = [
+        'tableAlias' => null,
+        'bundle' => null,
+        'enabled' => true,
+        'implementedMethods' => [
+            'configureFieldable' => 'configureFieldable',
+            'attachEntityFields' => 'attachEntityFields',
+            'unbindFieldable' => 'unbindFieldable',
+            'bindFieldable' => 'bindFieldable',
+        ],
+    ];
 
 /**
  * Constructor.
@@ -455,13 +456,14 @@ class FieldableBehavior extends Behavior {
  * @param \Cake\ORM\Table $table The table this behavior is attached to
  * @param array $config Configuration array for this behavior
  */
-	public function __construct(Table $table, array $config = []) {
-		$this->_table = $table;
-		if (empty($config['tableAlias'])) {
-			$config['tableAlias'] = Inflector::underscore($table->alias());
-		}
-		parent::__construct($table, $config);
-	}
+    public function __construct(Table $table, array $config = [])
+    {
+        $this->_table = $table;
+        if (empty($config['tableAlias'])) {
+            $config['tableAlias'] = Inflector::underscore($table->alias());
+        }
+        parent::__construct($table, $config);
+    }
 
 /**
  * Returns a list of events this class is implementing. When the class is registered
@@ -469,19 +471,20 @@ class FieldableBehavior extends Behavior {
  *
  * @return void
  */
-	public function implementedEvents() {
-		$events = [
-			'Model.beforeFind' => ['callable' => 'beforeFind', 'priority' => 15],
-			'Model.beforeSave' => ['callable' => 'beforeSave', 'priority' => 15],
-			'Model.afterSave' => ['callable' => 'afterSave', 'priority' => 15],
-			'Model.beforeDelete' => ['callable' => 'beforeDelete', 'priority' => 15],
-			'Model.afterDelete' => ['callable' => 'afterDelete', 'priority' => 15],
-			'Model.beforeValidate' => ['callable' => 'beforeValidate', 'priority' => 15],
-			'Model.afterValidate' => ['callable' => 'afterValidate', 'priority' => 15],
-		];
+    public function implementedEvents()
+    {
+        $events = [
+            'Model.beforeFind' => ['callable' => 'beforeFind', 'priority' => 15],
+            'Model.beforeSave' => ['callable' => 'beforeSave', 'priority' => 15],
+            'Model.afterSave' => ['callable' => 'afterSave', 'priority' => 15],
+            'Model.beforeDelete' => ['callable' => 'beforeDelete', 'priority' => 15],
+            'Model.afterDelete' => ['callable' => 'afterDelete', 'priority' => 15],
+            'Model.beforeValidate' => ['callable' => 'beforeValidate', 'priority' => 15],
+            'Model.afterValidate' => ['callable' => 'afterValidate', 'priority' => 15],
+        ];
 
-		return $events;
-	}
+        return $events;
+    }
 
 /**
  * Modifies the query object in order to merge custom fields records
@@ -519,12 +522,12 @@ class FieldableBehavior extends Behavior {
  *     $this->Nodes
  *         ->find('all', ['bundle' => 'art*']);
  *         ->where([':article-title' => 'My first article!']);
- *     
+ *
  *     // single character match is "?"
  *     $this->Nodes
  *         ->find('all', ['bundle' => 'arti?les']);
  *         ->where([':article-title' => 'My first article!']);
- *     
+ *
  *     // look in "articles" and "pages" bundles only
  *     $this->Nodes
  *         ->find('all', ['bundle' => ['articles', 'pages']]);
@@ -539,37 +542,38 @@ class FieldableBehavior extends Behavior {
  * @param bool $primary Whether this find is a primary query or not
  * @return void
  */
-	public function beforeFind(Event $event, Query $query, $options, $primary) {
-		if (isset($options['fieldable']) && $options['fieldable'] === false) {
-			return true;
-		}
+    public function beforeFind(Event $event, Query $query, $options, $primary)
+    {
+        if (isset($options['fieldable']) && $options['fieldable'] === false) {
+            return true;
+        }
 
-		if (
-			$this->config('enabled') ||
-			(isset($options['fieldable']) && $options['fieldable'] === true)
-		) {
-			$query = $this->_scopeQuery($query, $options);
-			$query->formatResults(function ($results) use($event, $options, $primary) {
-				$results = $results->map(function ($entity) use($event, $options, $primary) {
-					if ($entity instanceof Entity) {
-						$entity = $this->attachEntityFields($entity);
-						foreach ($entity->get('_fields') as $field) {
-							$fieldEvent = $this->trigger(["Field.{$field->metadata->handler}.Entity.beforeFind", $event->subject], $field, $options, $primary);
-							if ($fieldEvent->result === false) {
-								$entity = false;
-								break;
-							} elseif ($fieldEvent->isStopped()) {
-								$event->stopPropagation();
-								return;
-							}
-						}
-					}
-					return $entity;
-				});
-				return $results->filter();
-			});
-		}
-	}
+        if (
+            $this->config('enabled') ||
+            (isset($options['fieldable']) && $options['fieldable'] === true)
+        ) {
+            $query = $this->_scopeQuery($query, $options);
+            $query->formatResults(function ($results) use ($event, $options, $primary) {
+                $results = $results->map(function ($entity) use ($event, $options, $primary) {
+                    if ($entity instanceof Entity) {
+                        $entity = $this->attachEntityFields($entity);
+                        foreach ($entity->get('_fields') as $field) {
+                            $fieldEvent = $this->trigger(["Field.{$field->metadata->handler}.Entity.beforeFind", $event->subject], $field, $options, $primary);
+                            if ($fieldEvent->result === false) {
+                                $entity = false;
+                                break;
+                            } elseif ($fieldEvent->isStopped()) {
+                                $event->stopPropagation();
+                                return;
+                            }
+                        }
+                    }
+                    return $entity;
+                });
+                return $results->filter();
+            });
+        }
+    }
 
 /**
  * Before an entity is saved.
@@ -584,7 +588,7 @@ class FieldableBehavior extends Behavior {
  * Field Handler will abort the saving process. If the Field event is stopped
  * using the event API, the Field event object's `result` property will be
  * returned.
- * 
+ *
  * Here is where we dispatch each custom field's `$_POST` information to its
  * corresponding Field Handler, so they can operate over their values.
  *
@@ -620,73 +624,74 @@ class FieldableBehavior extends Behavior {
  * @throws \Cake\Error\FatalErrorException When using this behavior in non-atomic mode
  * @return bool True if save operation should continue
  */
-	public function beforeSave(Event $event, $entity, $options) {
-		if (!$this->config('enabled')) {
-			return true;
-		}
+    public function beforeSave(Event $event, $entity, $options)
+    {
+        if (!$this->config('enabled')) {
+            return true;
+        }
 
-		if (!$options['atomic']) {
-			throw new FatalErrorException(__d('field', 'Entities in fieldable tables can only be saved using transaction. Set [atomic = true]'));
-		}
+        if (!$options['atomic']) {
+            throw new FatalErrorException(__d('field', 'Entities in fieldable tables can only be saved using transaction. Set [atomic = true]'));
+        }
 
-		$pk = $this->_table->primaryKey();
-		$tableAlias = $this->_guessTableAlias($entity);
-		$instances = $this->_getTableFieldInstances($entity);
-		$this->_cache['_FieldValues'] = [];
+        $pk = $this->_table->primaryKey();
+        $tableAlias = $this->_guessTableAlias($entity);
+        $instances = $this->_getTableFieldInstances($entity);
+        $this->_cache['_FieldValues'] = [];
 
-		foreach ($instances as $instance) {
-			if ($entity->has(":{$instance->slug}")) {
-				$field = $this->_getMockField($entity, $instance);
-				$options['_post'] = $entity->get(":{$instance->slug}");
+        foreach ($instances as $instance) {
+            if ($entity->has(":{$instance->slug}")) {
+                $field = $this->_getMockField($entity, $instance);
+                $options['_post'] = $entity->get(":{$instance->slug}");
 
-				// auto-magic: automatically move POST data to "raw" if an array was sent,
-				// "value" will be set to flattened raw
-				if (is_array($options['_post'])) {
-					$value = array_values(Hash::flatten($options['_post']));
-					$field->set('value', implode(' ', $value));
-					$field->set('raw', $options['_post']);
-				} else {
-					$field->set('value', $options['_post']);
-					$field->set('raw', []);
-				}
+                // auto-magic: automatically move POST data to "raw" if an array was sent,
+                // "value" will be set to flattened raw
+                if (is_array($options['_post'])) {
+                    $value = array_values(Hash::flatten($options['_post']));
+                    $field->set('value', implode(' ', $value));
+                    $field->set('raw', $options['_post']);
+                } else {
+                    $field->set('value', $options['_post']);
+                    $field->set('raw', []);
+                }
 
-				$fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.beforeSave", $event->subject], $field, $options);
-				if ($fieldEvent->result === false) {
-					$entity = $this->attachEntityFields($entity);
-					return false;
-				} elseif ($fieldEvent->isStopped()) {
-					$entity = $this->attachEntityFields($entity);
-					$event->stopPropagation();
-					return $fieldEvent->result;
-				}
+                $fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.beforeSave", $event->subject], $field, $options);
+                if ($fieldEvent->result === false) {
+                    $entity = $this->attachEntityFields($entity);
+                    return false;
+                } elseif ($fieldEvent->isStopped()) {
+                    $entity = $this->attachEntityFields($entity);
+                    $event->stopPropagation();
+                    return $fieldEvent->result;
+                }
 
-				$valueEntity = new FieldValue([
-					'id' => $field->metadata['field_value_id'],
-					'field_instance_id' => $field->metadata['field_instance_id'],
-					'field_instance_slug' => $field->name,
-					'entity_id' => $entity->{$pk},
-					'table_alias' => $tableAlias,
-					'value' => $field->value,
-					'raw' => $field->raw,
-				]);
+                $valueEntity = new FieldValue([
+                    'id' => $field->metadata['field_value_id'],
+                    'field_instance_id' => $field->metadata['field_instance_id'],
+                    'field_instance_slug' => $field->name,
+                    'entity_id' => $entity->{$pk},
+                    'table_alias' => $tableAlias,
+                    'value' => $field->value,
+                    'raw' => $field->raw,
+                ]);
 
-				if ($entity->isNew()) {
-					$this->_cache['_FieldValues'][] = $valueEntity;
-				} else {
-					if (!TableRegistry::get('Field.FieldValues')->save($valueEntity)) {
-						$entity = $this->attachEntityFields($entity);
-						$event->stopPropagation();
-						return false;
-					}
-				}
+                if ($entity->isNew()) {
+                    $this->_cache['_FieldValues'][] = $valueEntity;
+                } else {
+                    if (!TableRegistry::get('Field.FieldValues')->save($valueEntity)) {
+                        $entity = $this->attachEntityFields($entity);
+                        $event->stopPropagation();
+                        return false;
+                    }
+                }
 
-				$entity->unsetProperty(":{$instance->slug}");
-			}
-		}
+                $entity->unsetProperty(":{$instance->slug}");
+            }
+        }
 
-		$entity = $this->attachEntityFields($entity);
-		return true;
-	}
+        $entity = $this->attachEntityFields($entity);
+        return true;
+    }
 
 /**
  * After an entity is saved.
@@ -698,35 +703,36 @@ class FieldableBehavior extends Behavior {
  * entity and the options array. The type of operation performed
  * (insert or update) can be infer by checking the entity's method `isNew`,
  * true meaning an insert and false an update.
- * 
+ *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $entity The entity that was saved
  * @param array $options Additional options given as an array
  * @return bool True always
  */
-	public function afterSave(Event $event, $entity, $options) {
-		if (!$this->config('enabled')) {
-			return true;
-		}
+    public function afterSave(Event $event, $entity, $options)
+    {
+        if (!$this->config('enabled')) {
+            return true;
+        }
 
-		// as we dont know entity's ID on before save, we have to delay EntityValues storage
-		// all this occurs inside a transaction so we are safe
-		if (!empty($this->_cache['_FieldValues'])) {
-			foreach ($this->_cache['_FieldValues'] as $valueEntity) {
-				$valueEntity->set('entity_id', $entity->id);
-				TableRegistry::get('Field.FieldValues')->save($valueEntity);
-			}
-			$this->_cache['_FieldValues'] = [];
-		}
+        // as we dont know entity's ID on before save, we have to delay EntityValues storage
+        // all this occurs inside a transaction so we are safe
+        if (!empty($this->_cache['_FieldValues'])) {
+            foreach ($this->_cache['_FieldValues'] as $valueEntity) {
+                $valueEntity->set('entity_id', $entity->id);
+                TableRegistry::get('Field.FieldValues')->save($valueEntity);
+            }
+            $this->_cache['_FieldValues'] = [];
+        }
 
-		$instances = $this->_getTableFieldInstances($entity);
-		foreach ($instances as $instance) {
-			$field = $this->_getMockField($entity, $instance);
-			$fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.afterSave", $event->subject], $field, $options);
-		}
+        $instances = $this->_getTableFieldInstances($entity);
+        foreach ($instances as $instance) {
+            $field = $this->_getMockField($entity, $instance);
+            $fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.afterSave", $event->subject], $field, $options);
+        }
 
-		return true;
-	}
+        return true;
+    }
 
 /**
  * Before entity validation process.
@@ -746,29 +752,30 @@ class FieldableBehavior extends Behavior {
  * @param \Cake\Validation\Validator $validator The validator object
  * @return bool True on success
  */
-	public function beforeValidate(Event $event, $entity, $options, $validator) {
-		if (!$this->config('enabled')) {
-			return true;
-		}
+    public function beforeValidate(Event $event, $entity, $options, $validator)
+    {
+        if (!$this->config('enabled')) {
+            return true;
+        }
 
-		$instances = $this->_getTableFieldInstances($entity);
-		foreach ($instances as $instance) {
-			$field = $this->_getMockField($entity, $instance);
-			$fieldEvent = $this->trigger(["Field.{$field->metadata['handler']}.Entity.beforeValidate", $event->subject], $field, $options, $validator);
+        $instances = $this->_getTableFieldInstances($entity);
+        foreach ($instances as $instance) {
+            $field = $this->_getMockField($entity, $instance);
+            $fieldEvent = $this->trigger(["Field.{$field->metadata['handler']}.Entity.beforeValidate", $event->subject], $field, $options, $validator);
 
-			if ($fieldEvent->isStopped()) {
-				$entity = $this->attachEntityFields($entity);
-				$event->stopPropagation();
-				return $fieldEvent->result;
-			}
-		}
-	}
+            if ($fieldEvent->isStopped()) {
+                $entity = $this->attachEntityFields($entity);
+                $event->stopPropagation();
+                return $fieldEvent->result;
+            }
+        }
+    }
 
 /**
  * After entity validation process.
  *
  * ### Events Triggered:
- * 
+ *
  * - `Field.<FieldHandler>.Entity.afterValidate`: Will be triggered right after
  * the `validate()` method is called in the entity. Listeners will receive as
  * arguments the the field entity, the options array and the validation
@@ -781,34 +788,35 @@ class FieldableBehavior extends Behavior {
  * @param Validator $validator The validator object
  * @return bool True on success
  */
-	public function afterValidate(Event $event, $entity, $options, $validator) {
-		if (!$this->config('enabled')) {
-			return true;
-		}
+    public function afterValidate(Event $event, $entity, $options, $validator)
+    {
+        if (!$this->config('enabled')) {
+            return true;
+        }
 
-		if ($entity->has('_fields')) {
-			$entityErrors = $entity->errors();
-			foreach ($entity->get('_fields') as $field) {
-				$postName = ":{$field->name}";
-				$postData = $entity->get($postName);
+        if ($entity->has('_fields')) {
+            $entityErrors = $entity->errors();
+            foreach ($entity->get('_fields') as $field) {
+                $postName = ":{$field->name}";
+                $postData = $entity->get($postName);
 
-				if (!empty($entityErrors[$postName])) {
-					if (is_array($postData)) {
-						$field->set('raw', $postData);
-					} elseif (is_string($postData)) {
-						$field->set('value', $postData);
-					}
-					$field->metadata->set('errors', (array)$entityErrors[$postName]);
-				}
+                if (!empty($entityErrors[$postName])) {
+                    if (is_array($postData)) {
+                        $field->set('raw', $postData);
+                    } elseif (is_string($postData)) {
+                        $field->set('value', $postData);
+                    }
+                    $field->metadata->set('errors', (array)$entityErrors[$postName]);
+                }
 
-				$fieldEvent = $this->trigger(["Field.{$field->metadata['handler']}.Entity.afterValidate", $event->subject], $field, $options, $validator);
-				if ($fieldEvent->isStopped()) {
-					$event->stopPropagation();
-					return $fieldEvent->result;
-				}
-			}
-		}
-	}
+                $fieldEvent = $this->trigger(["Field.{$field->metadata['handler']}.Entity.afterValidate", $event->subject], $field, $options, $validator);
+                if ($fieldEvent->isStopped()) {
+                    $event->stopPropagation();
+                    return $fieldEvent->result;
+                }
+            }
+        }
+    }
 
 /**
  * Deletes an entity from a fieldable table.
@@ -828,55 +836,56 @@ class FieldableBehavior extends Behavior {
  * @return bool
  * @throws \Cake\Error\FatalErrorException When using this behavior in non-atomic mode
  */
-	public function beforeDelete(Event $event, $entity, $options) {
-		if (!$this->config('enabled')) {
-			return true;
-		}
+    public function beforeDelete(Event $event, $entity, $options)
+    {
+        if (!$this->config('enabled')) {
+            return true;
+        }
 
-		if (!$options['atomic']) {
-			throw new FatalErrorException(__d('field', 'Entities in fieldable tables can only be deleted using transaction. Set [atomic = true]'));
-		}
+        if (!$options['atomic']) {
+            throw new FatalErrorException(__d('field', 'Entities in fieldable tables can only be deleted using transaction. Set [atomic = true]'));
+        }
 
-		$tableAlias = $this->_guessTableAlias($entity);
-		$instances = $this->_getTableFieldInstances($entity);
+        $tableAlias = $this->_guessTableAlias($entity);
+        $instances = $this->_getTableFieldInstances($entity);
 
-		foreach ($instances as $instance) {
-			// invoke fields beforeDelete so they can do its stuff
-			// e.g.: Delete entity information from another table.
-			$field = $this->_getMockField($entity, $instance);
-			$fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.beforeDelete", $event->subject], $field, $options);
+        foreach ($instances as $instance) {
+            // invoke fields beforeDelete so they can do its stuff
+            // e.g.: Delete entity information from another table.
+            $field = $this->_getMockField($entity, $instance);
+            $fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.beforeDelete", $event->subject], $field, $options);
 
-			if ($fieldEvent->result == false || $fieldEvent->isStopped()) {
-				$event->stopPropagation();
-				return false;
-			}
+            if ($fieldEvent->result == false || $fieldEvent->isStopped()) {
+                $event->stopPropagation();
+                return false;
+            }
 
-			$valueToDelete = TableRegistry::get('Field.FieldValues')
-				->find()
-				->where([
-					'entity_id' => $entity->get($this->_table->primaryKey()),
-					'table_alias' => $tableAlias,
-				])
-				->limit(1)
-				->first();
+            $valueToDelete = TableRegistry::get('Field.FieldValues')
+                ->find()
+                ->where([
+                    'entity_id' => $entity->get($this->_table->primaryKey()),
+                    'table_alias' => $tableAlias,
+                ])
+                ->limit(1)
+                ->first();
 
-			if ($valueToDelete) {
-				$success = TableRegistry::get('Field.FieldValues')->delete($valueToDelete);
-				if (!$success) {
-					return false;
-				}
-			}
+            if ($valueToDelete) {
+                $success = TableRegistry::get('Field.FieldValues')->delete($valueToDelete);
+                if (!$success) {
+                    return false;
+                }
+            }
 
-			// holds in cache field mocks, so we can catch them on afterDelete
-			$this->_cache['fields.beforeDelete'][] = $field;
-		}
+            // holds in cache field mocks, so we can catch them on afterDelete
+            $this->_cache['fields.beforeDelete'][] = $field;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
 /**
  * After an entity was removed from database.
- * 
+ *
  * ### Events Triggered:
  *
  * - `Field.<FieldHandler>.Entity.afterDelete`: Fired after the delete has been
@@ -888,22 +897,23 @@ class FieldableBehavior extends Behavior {
  * @throws \Cake\Error\FatalErrorException When using this behavior in non-atomic mode
  * @return void
  */
-	public function afterDelete(Event $event, $entity, $options) {
-		if (!$this->config('enabled')) {
-			return;
-		}
+    public function afterDelete(Event $event, $entity, $options)
+    {
+        if (!$this->config('enabled')) {
+            return;
+        }
 
-		if (!$options['atomic']) {
-			throw new FatalErrorException(__d('field', 'Entities in fieldable tables can only be deleted using transactions. Set [atomic = true]'));
-		}
+        if (!$options['atomic']) {
+            throw new FatalErrorException(__d('field', 'Entities in fieldable tables can only be deleted using transactions. Set [atomic = true]'));
+        }
 
-		if (!empty($this->_cache['fields.beforeDelete']) && is_array($this->_cache['fields.beforeDelete'])) {
-			foreach ($this->_cache['fields.beforeDelete'] as $field) {
-				$fieldEvent = $this->trigger(["Field.{$field->handler}.Entity.afterDelete", $event->subject], $field, $options);
-			}
-			$this->_cache['fields.beforeDelete'] = [];
-		}
-	}
+        if (!empty($this->_cache['fields.beforeDelete']) && is_array($this->_cache['fields.beforeDelete'])) {
+            foreach ($this->_cache['fields.beforeDelete'] as $field) {
+                $fieldEvent = $this->trigger(["Field.{$field->handler}.Entity.afterDelete", $event->subject], $field, $options);
+            }
+            $this->_cache['fields.beforeDelete'] = [];
+        }
+    }
 
 /**
  * Changes behavior's configuration parameters on the fly.
@@ -915,27 +925,30 @@ class FieldableBehavior extends Behavior {
  * @param array $config Configuration parameters as `key` => `value`
  * @return void
  */
-	public function configureFieldable($config) {
-		$this->config($config);
-	}
+    public function configureFieldable($config)
+    {
+        $this->config($config);
+    }
 
 /**
  * Enables this behavior.
  *
  * @return void
  */
-	public function bindFieldable() {
-		$this->config('enabled', true);
-	}
+    public function bindFieldable()
+    {
+        $this->config('enabled', true);
+    }
 
 /**
  * Disables this behavior.
  *
  * @return void
  */
-	public function unbindFieldable() {
-		$this->config('enabled', false);
-	}
+    public function unbindFieldable()
+    {
+        $this->config('enabled', false);
+    }
 
 /**
  * The method which actually fetches custom fields.
@@ -945,42 +958,43 @@ class FieldableBehavior extends Behavior {
  * @param \Cake\ORM\Entity $entity The entity where to fetch fields
  * @return \Cake\ORM\Entity Modified $entity
  */
-	public function attachEntityFields($entity) {
-		if (!($entity instanceof Entity)) {
-			return $entity;
-		}
+    public function attachEntityFields($entity)
+    {
+        if (!($entity instanceof Entity)) {
+            return $entity;
+        }
 
-		$_accessible = [];
-		foreach ($entity->visibleProperties() as $property) {
-			$_accessible[$property] = $entity->accessible($property);
-		}
-		$entity->accessible('*', true);
-		foreach ($_accessible as $property => $access) {
-			$entity->accessible($property, $access);
-		}
+        $_accessible = [];
+        foreach ($entity->visibleProperties() as $property) {
+            $_accessible[$property] = $entity->accessible($property);
+        }
+        $entity->accessible('*', true);
+        foreach ($_accessible as $property => $access) {
+            $entity->accessible($property, $access);
+        }
 
-		$_fields = [];
-		foreach ($this->_getTableFieldInstances($entity) as $instance) {
-			$mock = $this->_getMockField($entity, $instance);
+        $_fields = [];
+        foreach ($this->_getTableFieldInstances($entity) as $instance) {
+            $mock = $this->_getMockField($entity, $instance);
 
-			// restore from $_POST:
-			if ($entity->has(":{$instance->slug}")) {
-				$value = $entity->get(":{$instance->slug}");
+            // restore from $_POST:
+            if ($entity->has(":{$instance->slug}")) {
+                $value = $entity->get(":{$instance->slug}");
 
-				if (is_string($value)) {
-					$mock->set('value', $value);
-				} else {
-					$mock->set('raw', $value);
-				}
-			}
+                if (is_string($value)) {
+                    $mock->set('value', $value);
+                } else {
+                    $mock->set('raw', $value);
+                }
+            }
 
-			$this->trigger(["Field.{$mock->metadata['handler']}.Entity.fieldAttached", $this->_table], $mock);
-			$_fields[] = $mock;
-		}
+            $this->trigger(["Field.{$mock->metadata['handler']}.Entity.fieldAttached", $this->_table], $mock);
+            $_fields[] = $mock;
+        }
 
-		$entity->set('_fields', new FieldCollection($_fields));
-		return $entity;
-	}
+        $entity->set('_fields', new FieldCollection($_fields));
+        return $entity;
+    }
 
 /**
  * Look for `:<machine-name>` patterns in query's WHERE clause.
@@ -991,83 +1005,84 @@ class FieldableBehavior extends Behavior {
  * @param array $options Array of options
  * @return \Cake\ORM\Query The modified query object
  */
-	protected function _scopeQuery(Query $query, $options) {
-		$whereClause = $query->clause('where');
+    protected function _scopeQuery(Query $query, $options)
+    {
+        $whereClause = $query->clause('where');
 
-		if ($whereClause) {
-			$pk = $this->_table->primaryKey();
+        if ($whereClause) {
+            $pk = $this->_table->primaryKey();
 
-			if (!empty($options['bundle'])) {
-				if (is_array($options['bundle'])) {
-					$tableAlias = [];
-					foreach ($options['bundle'] as $bundle) {
-						$tableAlias[] = $this->config('tableAlias') . ':' . $bundle;
-					}
-				} else {
-					$tableAlias = $this->config('tableAlias') . ':' . $options['bundle'];
-				}
-			} else {
-				// indicates "look in all bundles"
-				$tableAlias = '*';
-			}
+            if (!empty($options['bundle'])) {
+                if (is_array($options['bundle'])) {
+                    $tableAlias = [];
+                    foreach ($options['bundle'] as $bundle) {
+                        $tableAlias[] = $this->config('tableAlias') . ':' . $bundle;
+                    }
+                } else {
+                    $tableAlias = $this->config('tableAlias') . ':' . $options['bundle'];
+                }
+            } else {
+                // indicates "look in all bundles"
+                $tableAlias = '*';
+            }
 
-			$whereClause->traverse(function ($expression) use($tableAlias, $pk) {
-				if (!($expression instanceof Comparison)) {
-					return;
-				}
+            $whereClause->traverse(function ($expression) use ($tableAlias, $pk) {
+                if (!($expression instanceof Comparison)) {
+                    return;
+                }
 
-				$field = $expression->getField();
-				$value = $expression->getValue();
-				$conjunction = $expression->getOperator();
-				list($entityName, $fieldName) = pluginSplit($field);
+                $field = $expression->getField();
+                $value = $expression->getValue();
+                $conjunction = $expression->getOperator();
+                list($entityName, $fieldName) = pluginSplit($field);
 
-				if (!$fieldName) {
-					$fieldName = $entityName;
-				}
+                if (!$fieldName) {
+                    $fieldName = $entityName;
+                }
 
-				$fieldName = preg_replace('/\s{2,}/', ' ', $fieldName);
-				list($fieldName, ) = explode(' ', trim($fieldName));
+                $fieldName = preg_replace('/\s{2,}/', ' ', $fieldName);
+                list($fieldName, ) = explode(' ', trim($fieldName));
 
-				if (strpos($fieldName, ':') !== 0) {
-					return;
-				}
+                if (strpos($fieldName, ':') !== 0) {
+                    return;
+                }
 
-				$fieldName = str_replace(':', '', $fieldName);
-				$subQuery = TableRegistry::get('Field.FieldValues')->find()
-					->select('entity_id')
-					->where([
-						"FieldValues.field_instance_slug" => $fieldName,
-						"FieldValues.value {$conjunction}" => $value
-					]);
+                $fieldName = str_replace(':', '', $fieldName);
+                $subQuery = TableRegistry::get('Field.FieldValues')->find()
+                    ->select('entity_id')
+                    ->where([
+                        "FieldValues.field_instance_slug" => $fieldName,
+                        "FieldValues.value {$conjunction}" => $value
+                    ]);
 
-				if ($tableAlias === '*') {
-					// look in all bundles
-					$subQuery->where([
-						'OR' => [
-							'FieldValues.table_alias' => $this->config('tableAlias'),
-							'FieldValues.table_alias LIKE' => $this->config('tableAlias') . ':%',
-						]
-					]);
-				} elseif (is_array($tableAlias)) {
-					// look in multiple bundles
-					$subQuery->where(['FieldValues.table_alias IN' => $tableAlias]);
-				} elseif (strpos($tableAlias, '*') !== false || strpos($tableAlias, '?') !== false) {
-					// look in bundle matching pattern
-					$tableAlias = str_replace(['*', '?'], ['%', '_'], $tableAlias);
-					$subQuery->where(['FieldValues.table_alias LIKE' => $tableAlias]);
-				} else {
-					// look in this specific bundle
-					$subQuery->where(['FieldValues.table_alias' => $tableAlias]);
-				}
+                if ($tableAlias === '*') {
+                    // look in all bundles
+                    $subQuery->where([
+                        'OR' => [
+                            'FieldValues.table_alias' => $this->config('tableAlias'),
+                            'FieldValues.table_alias LIKE' => $this->config('tableAlias') . ':%',
+                        ]
+                    ]);
+                } elseif (is_array($tableAlias)) {
+                    // look in multiple bundles
+                    $subQuery->where(['FieldValues.table_alias IN' => $tableAlias]);
+                } elseif (strpos($tableAlias, '*') !== false || strpos($tableAlias, '?') !== false) {
+                    // look in bundle matching pattern
+                    $tableAlias = str_replace(['*', '?'], ['%', '_'], $tableAlias);
+                    $subQuery->where(['FieldValues.table_alias LIKE' => $tableAlias]);
+                } else {
+                    // look in this specific bundle
+                    $subQuery->where(['FieldValues.table_alias' => $tableAlias]);
+                }
 
-				$expression->field($this->_table->alias() . '.' . $pk);
-				$expression->value($subQuery);
-				$expression->setOperator('IN');
-			});
-		}
+                $expression->field($this->_table->alias() . '.' . $pk);
+                $expression->value($subQuery);
+                $expression->setOperator('IN');
+            });
+        }
 
-		return $query;
-	}
+        return $query;
+    }
 
 /**
  * Creates a new "Field" for each entity.
@@ -1080,53 +1095,54 @@ class FieldableBehavior extends Behavior {
  *  information when creating the mock field.
  * @return \Field\Model\Entity\Field
  */
-	protected function _getMockField($entity, $instance) {
-		$pk = $this->_table->primaryKey();
-		$storedValue = TableRegistry::get('Field.FieldValues')->find()
-			->select(['id', 'value', 'raw'])
-			->where([
-				'FieldValues.field_instance_id' => $instance->id,
-				'FieldValues.table_alias' => $this->_guessTableAlias($entity),
-				'FieldValues.entity_id' => $entity->get($this->_table->primaryKey())
-			])
-			->limit(1)
-			->first();
+    protected function _getMockField($entity, $instance)
+    {
+        $pk = $this->_table->primaryKey();
+        $storedValue = TableRegistry::get('Field.FieldValues')->find()
+            ->select(['id', 'value', 'raw'])
+            ->where([
+                'FieldValues.field_instance_id' => $instance->id,
+                'FieldValues.table_alias' => $this->_guessTableAlias($entity),
+                'FieldValues.entity_id' => $entity->get($this->_table->primaryKey())
+            ])
+            ->limit(1)
+            ->first();
 
-		$mockField = new Field([
-			'name' => $instance->slug,
-			'label' => $instance->label,
-			'value' => null,
-			'raw' => null,
-			'metadata' => new Entity([
-				'field_value_id' => null,
-				'field_instance_id' => $instance->id,
-				'entity_id' => $entity->{$pk},
-				'table_alias' => $this->_guessTableAlias($entity),
-				'description' => $instance->description,
-				'required' => $instance->required,
-				'settings' => $instance->settings,
-				'view_modes' => $instance->view_modes,
-				'handler' => $instance->handler,
-				'errors' => [],
-				'entity' => $entity,
-			])
-		]);
+        $mockField = new Field([
+            'name' => $instance->slug,
+            'label' => $instance->label,
+            'value' => null,
+            'raw' => null,
+            'metadata' => new Entity([
+                'field_value_id' => null,
+                'field_instance_id' => $instance->id,
+                'entity_id' => $entity->{$pk},
+                'table_alias' => $this->_guessTableAlias($entity),
+                'description' => $instance->description,
+                'required' => $instance->required,
+                'settings' => $instance->settings,
+                'view_modes' => $instance->view_modes,
+                'handler' => $instance->handler,
+                'errors' => [],
+                'entity' => $entity,
+            ])
+        ]);
 
-		if ($storedValue) {
-			$mockField->metadata->accessible('*', true);
-			$mockField->set('value', $storedValue->value);
-			$mockField->set('raw', $storedValue->raw);
-			$mockField->metadata->set('field_value_id', $storedValue->id);
-			$mockField->metadata->accessible('*', false);
-		}
+        if ($storedValue) {
+            $mockField->metadata->accessible('*', true);
+            $mockField->set('value', $storedValue->value);
+            $mockField->set('raw', $storedValue->raw);
+            $mockField->metadata->set('field_value_id', $storedValue->id);
+            $mockField->metadata->accessible('*', false);
+        }
 
-		$mockField->isNew($entity->isNew());
-		$mockField->accessible('*', false);
-		$mockField->accessible('value', true);
-		$mockField->accessible('raw', true);
+        $mockField->isNew($entity->isNew());
+        $mockField->accessible('*', false);
+        $mockField->accessible('value', true);
+        $mockField->accessible('raw', true);
 
-		return $mockField;
-	}
+        return $mockField;
+    }
 
 /**
  * Gets table alias this behavior is attached to.
@@ -1139,42 +1155,44 @@ class FieldableBehavior extends Behavior {
  * @throws \Field\Error\InvalidBundle When `bundle` option is used but
  *  was unable to resolve bundle name
  */
-	protected function _guessTableAlias($entity) {
-		$tableAlias = $this->config('tableAlias');
+    protected function _guessTableAlias($entity)
+    {
+        $tableAlias = $this->config('tableAlias');
 
-		if ($this->config('bundle')) {
-			$bundle = $this->_resolveBundle($entity);
-			if ($bundle === false) {
-				throw new InvalidBundle(
-					__d('field', 'FieldableBehavior: The "bundle" option was set to "{0}", but this property could not be found on entities being fetched.', $this->config('bundle'))
-				);
-			}
+        if ($this->config('bundle')) {
+            $bundle = $this->_resolveBundle($entity);
+            if ($bundle === false) {
+                throw new InvalidBundle(
+                    __d('field', 'FieldableBehavior: The "bundle" option was set to "{0}", but this property could not be found on entities being fetched.', $this->config('bundle'))
+                );
+            }
 
-			$tableAlias = "{$tableAlias}:{$bundle}";
-		}
+            $tableAlias = "{$tableAlias}:{$bundle}";
+        }
 
-		return $tableAlias;
-	}
+        return $tableAlias;
+    }
 
 /**
  * Resolves `bundle` name using $entity as context.
- * 
+ *
  * @param \Cake\ORM\Entity $entity Entity to use as context when resolving bundle
  * @return mixed Bundle name as string value on success, false otherwise
  */
-	protected function _resolveBundle($entity) {
-		$bundle = $this->config('bundle');
-		if ($bundle !== null) {
-			if (is_callable($bundle)) {
-				$callable = $this->config('bundle');
-				return $callable($entity, $this->_table);
-			} elseif (is_string($bundle)) {
-				return $bundle;
-			}
-		}
+    protected function _resolveBundle($entity)
+    {
+        $bundle = $this->config('bundle');
+        if ($bundle !== null) {
+            if (is_callable($bundle)) {
+                $callable = $this->config('bundle');
+                return $callable($entity, $this->_table);
+            } elseif (is_string($bundle)) {
+                return $bundle;
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
 /**
  * Used to reduce database queries.
@@ -1182,20 +1200,20 @@ class FieldableBehavior extends Behavior {
  * @param \Cake\ORM\Entity $entity An entity used to guess table name
  * @return \Cake\ORM\Query Field instances attached to current table as a query result
  */
-	protected function _getTableFieldInstances($entity) {
-		$tableAlias = $this->_guessTableAlias($entity);
+    protected function _getTableFieldInstances($entity)
+    {
+        $tableAlias = $this->_guessTableAlias($entity);
 
-		if (isset($this->_cache["TableFieldInstances_{$tableAlias}"])) {
-			return $this->_cache["TableFieldInstances_{$tableAlias}"];
-		} else {
-			$FieldInstances = TableRegistry::get('Field.FieldInstances');
-			$this->_cache["TableFieldInstances_{$tableAlias}"] = $FieldInstances->find()
-				->where(['FieldInstances.table_alias' => $tableAlias])
-				->order(['ordering' => 'ASC'])
-				->all();
+        if (isset($this->_cache["TableFieldInstances_{$tableAlias}"])) {
+            return $this->_cache["TableFieldInstances_{$tableAlias}"];
+        } else {
+            $FieldInstances = TableRegistry::get('Field.FieldInstances');
+            $this->_cache["TableFieldInstances_{$tableAlias}"] = $FieldInstances->find()
+                ->where(['FieldInstances.table_alias' => $tableAlias])
+                ->order(['ordering' => 'ASC'])
+                ->all();
 
-			return $this->_cache["TableFieldInstances_{$tableAlias}"];
-		}
-	}
-
+            return $this->_cache["TableFieldInstances_{$tableAlias}"];
+        }
+    }
 }

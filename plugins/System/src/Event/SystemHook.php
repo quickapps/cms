@@ -19,9 +19,10 @@ use QuickApps\Event\HookAwareTrait;
  * Main Hook Listener for System plugin.
  *
  */
-class SystemHook implements EventListenerInterface {
+class SystemHook implements EventListenerInterface
+{
 
-	use HookAwareTrait;
+    use HookAwareTrait;
 
 /**
  * Returns a list of hooks this Hook Listener is implementing. When the class is
@@ -30,23 +31,24 @@ class SystemHook implements EventListenerInterface {
  *
  * @return void
  */
-	public function implementedEvents() {
-		return [
-			'Block.System.display' => 'displayBlock',
-		];
-	}
+    public function implementedEvents()
+    {
+        return [
+            'Block.System.display' => 'displayBlock',
+        ];
+    }
 
 /**
  * All blocks registered by "System" plugin are associated blocks
  * of some core's menus. So we redirect rendering task to Menu plugin's render.
- * 
+ *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Block\Model\Entity\Block $block The block being rendered
  * @param array $options Array of options for BlockHelper::render() method
  * @return array
  */
-	public function displayBlock(Event $event, $block, $options) {
-		return $this->trigger(['Block.Menu.display', $event->subject], $block, $options)->result;
-	}
-
+    public function displayBlock(Event $event, $block, $options)
+    {
+        return $this->trigger(['Block.Menu.display', $event->subject], $block, $options)->result;
+    }
 }

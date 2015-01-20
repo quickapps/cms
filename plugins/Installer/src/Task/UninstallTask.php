@@ -21,17 +21,18 @@ use User\Utility\AcoManager;
  * ## Basic Usage:
  *
  * Using `InstallerComponent` on any controller:
- * 
+ *
  *     $task = $this->Installer
  *         ->task('uninstall', ['plugin' => 'MyPlugin']);
- *     
+ *
  *     if ($task->run()) {
  *         $this->Flash->success('Removed!');
  *     } else {
  *         $errors = $task->errors();
  *     }
  */
-class UninstallTask extends BaseTask {
+class UninstallTask extends BaseTask
+{
 
 /**
  * Default config
@@ -40,19 +41,20 @@ class UninstallTask extends BaseTask {
  *
  * @var array
  */
-	protected $_defaultConfig = [
-		'plugin' => false,
-		'callbacks' => true,
-	];
+    protected $_defaultConfig = [
+        'plugin' => false,
+        'callbacks' => true,
+    ];
 
 /**
  * Invoked before "start()".
- * 
+ *
  * @return void
  */
-	public function init() {
-		$this->plugin($this->config('plugin'));
-	}
+    public function init()
+    {
+        $this->plugin($this->config('plugin'));
+    }
 
 /**
  * Starts the uninstall process of the given plugin.
@@ -66,102 +68,101 @@ class UninstallTask extends BaseTask {
  *
  * @return bool True on success, false otherwise
  */
-	public function start() {
-		if (!is_writable(TMP)) {
-			$this->error(__d('installer', 'Enable write permissions in /tmp directory before uninstall any plugin'));
-			return false;
-		}
+    public function start()
+    {
+        if (!is_writable(TMP)) {
+            $this->error(__d('installer', 'Enable write permissions in /tmp directory before uninstall any plugin'));
+            return false;
+        }
 
-		if (!$this->plugin()) {
-			$this->error(__d('installer', 'No plugin was given to remove.'));
-			return false;
-		}
+        if (!$this->plugin()) {
+            $this->error(__d('installer', 'No plugin was given to remove.'));
+            return false;
+        }
 
-		try {
-			$info = Plugin::info($this->plugin(), true);
-			$pluginEntity = $this->Plugins
-				->find()
-				->where(['name' => $this->plugin()])
-				->first();
-		} catch (\Exception $e) {
-			$info = null;
-		}
+        try {
+            $info = Plugin::info($this->plugin(), true);
+            $pluginEntity = $this->Plugins
+                ->find()
+                ->where(['name' => $this->plugin()])
+                ->first();
+        } catch (\Exception $e) {
+            $info = null;
+        }
 
-		if (!$info || !$pluginEntity) {
-			$this->error(__d('installer', 'Plugin "{0}" was not found.', $this->plugin()));
-			return false;
-		}
+        if (!$info || !$pluginEntity) {
+            $this->error(__d('installer', 'Plugin "{0}" was not found.', $this->plugin()));
+            return false;
+        }
 
-		if ($info['isCore']) {
-			$this->error(__d('installer', 'Plugin "{0}" is a core plugin, you cannot remove core\'s plugins.', $info['human_name']));
-			return false;
-		}
+        if ($info['isCore']) {
+            $this->error(__d('installer', 'Plugin "{0}" is a core plugin, you cannot remove core\'s plugins.', $info['human_name']));
+            return false;
+        }
 
-		$requiredBy = Plugin::checkReverseDependency($this->plugin());
-		if (!empty($requiredBy)) {
-			$this->error(__d('installer', 'Plugin "{0}" cannot be removed as it is required by: {1}', $info['human_name'], implode(', ', $requiredBy)));
-			return false;
-		}
+        $requiredBy = Plugin::checkReverseDependency($this->plugin());
+        if (!empty($requiredBy)) {
+            $this->error(__d('installer', 'Plugin "{0}" cannot be removed as it is required by: {1}', $info['human_name'], implode(', ', $requiredBy)));
+            return false;
+        }
 
-		if (!$this->canBeDeleted($info['path'])) {
-			return false;
-		}
+        if (!$this->canBeDeleted($info['path'])) {
+            return false;
+        }
 
-		if ($this->config('callbacks')) {
-			try {
-				$beforeUninstallEvent = $this->trigger("Plugin.{$info['name']}.beforeUninstall");
-				if ($beforeUninstallEvent->isStopped() || $beforeUninstallEvent->result === false) {
-					$this->error(__d('installer', 'Task was explicitly rejected by the plugin.'));
-					return false;
-				}
-			} catch (\Exception $e) {
-				$this->error(__d('installer', 'Internal error, plugin did not respond to "beforeUninstall" callback correctly.'));
-				return false;
-			}
+        if ($this->config('callbacks')) {
+            try {
+                $beforeUninstallEvent = $this->trigger("Plugin.{$info['name']}.beforeUninstall");
+                if ($beforeUninstallEvent->isStopped() || $beforeUninstallEvent->result === false) {
+                    $this->error(__d('installer', 'Task was explicitly rejected by the plugin.'));
+                    return false;
+                }
+            } catch (\Exception $e) {
+                $this->error(__d('installer', 'Internal error, plugin did not respond to "beforeUninstall" callback correctly.'));
+                return false;
+            }
+        }
 
-		}
+        if (!$this->Plugins->delete($pluginEntity)) {
+            $this->error(__d('installer', 'Plugin "{0}" could not be unregistered from DB.', $info['human_name']));
+            return false;
+        }
 
-		if (!$this->Plugins->delete($pluginEntity)) {
-			$this->error(__d('installer', 'Plugin "{0}" could not be unregistered from DB.', $info['human_name']));
-			return false;
-		}
+        $folder = new Folder($info['path']);
+        $folder->delete();
+        snapshot();
+        $this->_clearAcoPaths();
 
-		$folder = new Folder($info['path']);
-		$folder->delete();
-		snapshot();
-		$this->_clearAcoPaths();
+        if ($this->config('callbacks')) {
+            try {
+                $this->trigger("Plugin.{$info['name']}.afterUninstall");
+            } catch (\Exception $e) {
+                $this->error(__d('installer', 'Plugin did not respond to "afterUninstall" callback.'));
+            }
+        }
 
-		if ($this->config('callbacks')) {
-			try {
-				$this->trigger("Plugin.{$info['name']}.afterUninstall");
-			} catch (\Exception $e) {
-				$this->error(__d('installer', 'Plugin did not respond to "afterUninstall" callback.'));
-			}
-
-		}
-
-		return true;
-	}
+        return true;
+    }
 
 /**
  * Removes all ACOs created by this plugin.
- * 
+ *
  * @return void
  */
-	protected function _clearAcoPaths() {
-		$this->loadModel('User.Acos');
-		$nodes = $this->Acos
-			->find()
-			->where(['plugin' => $this->plugin()])
-			->order(['lft' => 'ASC'])
-			->all();
+    protected function _clearAcoPaths()
+    {
+        $this->loadModel('User.Acos');
+        $nodes = $this->Acos
+            ->find()
+            ->where(['plugin' => $this->plugin()])
+            ->order(['lft' => 'ASC'])
+            ->all();
 
-		foreach ($nodes as $node) {
-			$this->Acos->removeFromTree($node);
-			$this->Acos->delete($node);
-		}
+        foreach ($nodes as $node) {
+            $this->Acos->removeFromTree($node);
+            $this->Acos->delete($node);
+        }
 
-		AcoManager::buildAcos(null, true); // clear anything else
-	}
-
+        AcoManager::buildAcos(null, true); // clear anything else
+    }
 }

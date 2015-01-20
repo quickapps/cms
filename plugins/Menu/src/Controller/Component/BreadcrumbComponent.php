@@ -23,14 +23,15 @@ use Menu\View\BreadcrumbRegistry;
  *
  * This component automatically attaches `BreadcrumbHelper` helper.
  */
-class BreadcrumbComponent extends Component {
+class BreadcrumbComponent extends Component
+{
 
 /**
  * The controller this component is attached to.
  *
  * @var \Cake\Controller\Controller
  */
-	protected $_controller;
+    protected $_controller;
 
 /**
  * Initializes BreadcrumbComponent for use in the controller.
@@ -38,10 +39,11 @@ class BreadcrumbComponent extends Component {
  * @param Event $event The event that was triggered
  * @return void
  */
-	public function beforeFilter(Event $event) {
-		$this->_controller = $event->subject();
-		$this->_controller->helpers['Breadcrumb'] = ['className' => 'Menu\View\Helper\BreadcrumbHelper'];
-	}
+    public function beforeFilter(Event $event)
+    {
+        $this->_controller = $event->subject();
+        $this->_controller->helpers['Breadcrumb'] = ['className' => 'Menu\View\Helper\BreadcrumbHelper'];
+    }
 
 /**
  * Adds a new crumb to the stack.
@@ -65,41 +67,42 @@ class BreadcrumbComponent extends Component {
  * @return \Menu\Controller\Component\BreadcrumbComponent This instance (for chaining)
  * @see \Menu\View\BreadcrumbRegistry::push()
  */
-	public function push($crumbs = [], $url = null) {
-		if ($crumbs === [] && $url === null) {
-			$MenuLinks = TableRegistry::get('Menu.MenuLinks');
-			$MenuLinks->removeBehavior('Tree');
-			$possibleMatches = $this->_urlChunk();
-			$found = $MenuLinks
-				->find()
-				->select(['id', 'menu_id'])
-				->where(['MenuLinks.url IN' => $possibleMatches])
-				->first();
+    public function push($crumbs = [], $url = null)
+    {
+        if ($crumbs === [] && $url === null) {
+            $MenuLinks = TableRegistry::get('Menu.MenuLinks');
+            $MenuLinks->removeBehavior('Tree');
+            $possibleMatches = $this->_urlChunk();
+            $found = $MenuLinks
+                ->find()
+                ->select(['id', 'menu_id'])
+                ->where(['MenuLinks.url IN' => $possibleMatches])
+                ->first();
 
-			$crumbs = [];
-			if ($found) {
-				$MenuLinks->addBehavior('Tree', ['scope' => ['menu_id' => $found->menu_id]]);
-				$crumbs = $MenuLinks->find('path', ['for' => $found->id])->toArray();
-			}
-		} elseif (is_string($crumbs) && strpos($crumbs, '/') !== false && $url === null) {
-			$MenuLinks = TableRegistry::get('Menu.MenuLinks');
-			$MenuLinks->removeBehavior('Tree');
-			$found = $MenuLinks
-				->find()
-				->select(['id', 'menu_id'])
-				->where(['MenuLinks.url IN' => $crumbs])
-				->first();
+            $crumbs = [];
+            if ($found) {
+                $MenuLinks->addBehavior('Tree', ['scope' => ['menu_id' => $found->menu_id]]);
+                $crumbs = $MenuLinks->find('path', ['for' => $found->id])->toArray();
+            }
+        } elseif (is_string($crumbs) && strpos($crumbs, '/') !== false && $url === null) {
+            $MenuLinks = TableRegistry::get('Menu.MenuLinks');
+            $MenuLinks->removeBehavior('Tree');
+            $found = $MenuLinks
+                ->find()
+                ->select(['id', 'menu_id'])
+                ->where(['MenuLinks.url IN' => $crumbs])
+                ->first();
 
-			$crumbs = [];
-			if ($found) {
-				$MenuLinks->addBehavior('Tree', ['scope' => ['menu_id' => $found->menu_id]]);
-				$crumbs = $MenuLinks->find('path', ['for' => $found->id])->toArray();
-			}
-		}
+            $crumbs = [];
+            if ($found) {
+                $MenuLinks->addBehavior('Tree', ['scope' => ['menu_id' => $found->menu_id]]);
+                $crumbs = $MenuLinks->find('path', ['for' => $found->id])->toArray();
+            }
+        }
 
-		BreadcrumbRegistry::push($crumbs, $url);
-		return $this;
-	}
+        BreadcrumbRegistry::push($crumbs, $url);
+        return $this;
+    }
 
 /**
  * Returns possible URL combinations for the given URL or current request's URL.
@@ -129,59 +132,60 @@ class BreadcrumbComponent extends Component {
  * use current request URL.
  * @return array
  */
-	protected function _urlChunk($url = false) {
-		$request = $this->_controller->request;
-		$url = $url === false ? '/' . $request->url : $url;
-		$cacheKey = 'urlChunk_' . md5($url);
-		$cache = static::cache($cacheKey);
+    protected function _urlChunk($url = false)
+    {
+        $request = $this->_controller->request;
+        $url = $url === false ? '/' . $request->url : $url;
+        $cacheKey = 'urlChunk_' . md5($url);
+        $cache = static::cache($cacheKey);
 
-		if ($cache !== null) {
-			return $cache;
-		}
+        if ($cache !== null) {
+            return $cache;
+        }
 
-		$parsedURL = Router::parse($url);
-		$out = [$url];
-		$passArguments = [];
+        $parsedURL = Router::parse($url);
+        $out = [$url];
+        $passArguments = [];
 
-		if (!empty($parsedURL['?'])) {
-			unset($parsedURL['?']);
-		}
+        if (!empty($parsedURL['?'])) {
+            unset($parsedURL['?']);
+        }
 
-		if (!empty($parsedURL['pass'])) {
-			$passArguments = $parsedURL['pass'];
-			$parsedURL['pass'] = null;
-			$parsedURL = array_merge($parsedURL, $passArguments);
-		}
+        if (!empty($parsedURL['pass'])) {
+            $passArguments = $parsedURL['pass'];
+            $parsedURL['pass'] = null;
+            $parsedURL = array_merge($parsedURL, $passArguments);
+        }
 
-		// "/controller_name/index" -> "/controller"
-		if ($parsedURL['action'] === 'index') {
-			$parsedURL['action'] = null;
-			$out[] = Router::url($parsedURL);
-		}
+        // "/controller_name/index" -> "/controller"
+        if ($parsedURL['action'] === 'index') {
+            $parsedURL['action'] = null;
+            $out[] = Router::url($parsedURL);
+        }
 
-		// "/plugin_name/plugin_name/action_name" -> "/plugin_name/action_name"
-		if (!empty($parsedURL['plugin']) && strtolower($parsedURL['controller']) === strtolower($parsedURL['plugin'])) {
-			$parsedURL['plugin'] = null;
-			$out[] = Router::url($parsedURL);
-		}
+        // "/plugin_name/plugin_name/action_name" -> "/plugin_name/action_name"
+        if (!empty($parsedURL['plugin']) && strtolower($parsedURL['controller']) === strtolower($parsedURL['plugin'])) {
+            $parsedURL['plugin'] = null;
+            $out[] = Router::url($parsedURL);
+        }
 
-		if (!empty($passArguments)) {
-			$passArguments = array_reverse($passArguments);
-			foreach ($passArguments as $pass) {
-				unset($parsedURL[array_search($pass, $parsedURL)]);
-				$out[] = Router::url($parsedURL);
-			}
-		}
+        if (!empty($passArguments)) {
+            $passArguments = array_reverse($passArguments);
+            foreach ($passArguments as $pass) {
+                unset($parsedURL[array_search($pass, $parsedURL)]);
+                $out[] = Router::url($parsedURL);
+            }
+        }
 
-		$out = array_map(function ($value) use ($request) {
-			if (str_starts_with($value, $request->base)) {
-				return str_replace_once($request->base, '', $value);
-			}
-			return $value;
-		}, $out);
+        $out = array_map(function ($value) use ($request) {
+            if (str_starts_with($value, $request->base)) {
+                return str_replace_once($request->base, '', $value);
+            }
+            return $value;
+        }, $out);
 
-		return static::cache($cacheKey, array_unique($out));
-	}
+        return static::cache($cacheKey, array_unique($out));
+    }
 
 /**
  * Method delegation.
@@ -193,12 +197,12 @@ class BreadcrumbComponent extends Component {
  * @return mixed
  * @throws \Cake\Core\Exception\Exception When the method is unknown
  */
-	public function __call($method, $args) {
-		if (method_exists('\Menu\View\BreadcrumbRegistry', $method)) {
-			return call_user_func_array(['\Menu\View\BreadcrumbRegistry', $method], $args);
-		}
+    public function __call($method, $args)
+    {
+        if (method_exists('\Menu\View\BreadcrumbRegistry', $method)) {
+            return call_user_func_array(['\Menu\View\BreadcrumbRegistry', $method], $args);
+        }
 
-		throw new \Cake\Core\Exception\Exception(__d('menu', 'Method "{0}" was not found.', $method));
-	}
-
+        throw new \Cake\Core\Exception\Exception(__d('menu', 'Method "{0}" was not found.', $method));
+    }
 }

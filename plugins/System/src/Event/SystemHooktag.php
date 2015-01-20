@@ -20,7 +20,8 @@ use Cake\Routing\Router;
  * Main Hook Listener for System plugin.
  *
  */
-class SystemHooktag implements EventListenerInterface {
+class SystemHooktag implements EventListenerInterface
+{
 
 /**
  * Returns a list of events this Event Listener is implementing. When the class
@@ -29,15 +30,16 @@ class SystemHooktag implements EventListenerInterface {
  *
  * @return void
  */
-	public function implementedEvents() {
-		return [
-			'Hooktag.random' => 'hooktagRandom',
-			'Hooktag.t' => 'hooktagTranslate',
-			'Hooktag.url' => 'hooktagURL',
-			'Hooktag.date' => 'hooktagDate',
-			'Hooktag.locale' => 'hooktagLocale',
-		];
-	}
+    public function implementedEvents()
+    {
+        return [
+            'Hooktag.random' => 'hooktagRandom',
+            'Hooktag.t' => 'hooktagTranslate',
+            'Hooktag.url' => 'hooktagURL',
+            'Hooktag.date' => 'hooktagDate',
+            'Hooktag.locale' => 'hooktagLocale',
+        ];
+    }
 
 /**
  * Implements the "random" hooktag.
@@ -52,15 +54,16 @@ class SystemHooktag implements EventListenerInterface {
  * @param string $tag The hooktag tag
  * @return string
  */
-	public function hooktagRandom(Event $event, array $atts, $content, $tag) {
-		$elements = explode(',', trim($content));
+    public function hooktagRandom(Event $event, array $atts, $content, $tag)
+    {
+        $elements = explode(',', trim($content));
 
-		if (is_array($elements)) {
-			return $elements[array_rand($elements)];
-		}
+        if (is_array($elements)) {
+            return $elements[array_rand($elements)];
+        }
 
-		return '';
-	}
+        return '';
+    }
 
 /**
  * Implements the "t" hooktag.
@@ -75,13 +78,14 @@ class SystemHooktag implements EventListenerInterface {
  * @param string $tag The hooktag tag
  * @return string
  */
-	public function hooktagTranslate(Event $event, array $atts, $content, $tag) {
-		if (!empty($atts['domain'])) {
-			return __d($atts['domain'], $content);
-		} else {
-			return __($content);
-		}
-	}
+    public function hooktagTranslate(Event $event, array $atts, $content, $tag)
+    {
+        if (!empty($atts['domain'])) {
+            return __d($atts['domain'], $content);
+        } else {
+            return __($content);
+        }
+    }
 
 /**
  * Implements the "url" hooktag.
@@ -96,14 +100,15 @@ class SystemHooktag implements EventListenerInterface {
  * @param string $tag The hooktag tag
  * @return string
  */
-	public function hooktagURL(Event $event, array $atts, $content, $tag) {
-		try {
-			$url = Router::url($content, true);
-		} catch(\Exception $e) {
-			$url = '';
-		}
-		return $url;
-	}
+    public function hooktagURL(Event $event, array $atts, $content, $tag)
+    {
+        try {
+            $url = Router::url($content, true);
+        } catch (\Exception $e) {
+            $url = '';
+        }
+        return $url;
+    }
 
 /**
  * Implements the "date" hooktag.
@@ -118,17 +123,18 @@ class SystemHooktag implements EventListenerInterface {
  * @param string $tag The hooktag tag
  * @return string
  */
-	public function hooktagDate(Event $event, array $atts, $content, $tag) {
-		if (!empty($atts['format']) && !empty($content)) {
-			if (is_numeric($content)) {
-				return date($atts['format'], $content);
-			} else {
-				return date($atts['format'], strtotime($content));
-			}
-		}
+    public function hooktagDate(Event $event, array $atts, $content, $tag)
+    {
+        if (!empty($atts['format']) && !empty($content)) {
+            if (is_numeric($content)) {
+                return date($atts['format'], $content);
+            } else {
+                return date($atts['format'], strtotime($content));
+            }
+        }
 
-		return '';
-	}
+        return '';
+    }
 
 /**
  * Implements the "locale" hooktag.
@@ -145,39 +151,39 @@ class SystemHooktag implements EventListenerInterface {
  * @param string $tag The hooktag tag
  * @return string
  */
-	public function hooktagLocale(Event $event, array $atts, $content, $tag) {
-		$option = array_keys((array)$atts);
-		$locale = I18n::defaultLocale();
-		$languages = quickapps('languages');
-		$out = '';
+    public function hooktagLocale(Event $event, array $atts, $content, $tag)
+    {
+        $option = array_keys((array)$atts);
+        $locale = I18n::defaultLocale();
+        $languages = quickapps('languages');
+        $out = '';
 
-		if (!isset($languages[$locale])) {
-			return $out;
-		}
+        if (!isset($languages[$locale])) {
+            return $out;
+        }
 
-		if (empty($option)) {
-			$option = 'code';
-		} else {
-			$option = $option[0];
-		}
+        if (empty($option)) {
+            $option = 'code';
+        } else {
+            $option = $option[0];
+        }
 
-		if ($info = $languages[$locale]) {
-			switch ($option) {
-				case 'code':
-					$out = $info['code'];
-				break;
+        if ($info = $languages[$locale]) {
+            switch ($option) {
+                case 'code':
+                    $out = $info['code'];
+                break;
 
-				case 'name':
-					$out = $info['name'];
-				break;
+                case 'name':
+                    $out = $info['name'];
+                break;
 
-				case 'direction':
-					$out = $info['direction'];
-				break;
-			}
-		}
+                case 'direction':
+                    $out = $info['direction'];
+                break;
+            }
+        }
 
-		return $out;
-	}
-
+        return $out;
+    }
 }

@@ -18,19 +18,20 @@ use Cake\Utility\String;
  * Represents a single "menu" within "menus" table.
  *
  */
-class Menu extends Entity {
+class Menu extends Entity
+{
 
 /**
  * Gets a brief description of 80 characters long.
- * 
+ *
  * @return string
  */
-	protected function _getBriefDescription() {
-		$description = $this->get('description');
-		if (empty($description)) {
-			return '---';
-		}
-		return String::truncate($description, 80);
-	}
-
+    protected function _getBriefDescription()
+    {
+        $description = $this->get('description');
+        if (empty($description)) {
+            return '---';
+        }
+        return String::truncate($description, 80);
+    }
 }

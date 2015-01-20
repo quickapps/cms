@@ -18,7 +18,8 @@ use Cake\Event\EventListenerInterface;
  * Main Hook Listener for Comment plugin.
  *
  */
-class CommentHook implements EventListenerInterface {
+class CommentHook implements EventListenerInterface
+{
 
 /**
  * Returns a list of hooks this Hook Listener is implementing. When the class
@@ -27,12 +28,13 @@ class CommentHook implements EventListenerInterface {
  *
  * @return void
  */
-	public function implementedEvents() {
-		return [
-			'Render.Comment\Model\Entity\Comment' => 'renderComment',
-			'Plugin.Comment.settingsDefaults' => 'settingsDefaults',
-		];
-	}
+    public function implementedEvents()
+    {
+        return [
+            'Render.Comment\Model\Entity\Comment' => 'renderComment',
+            'Plugin.Comment.settingsDefaults' => 'settingsDefaults',
+        ];
+    }
 
 /**
  * Renders a single Comment.
@@ -42,11 +44,12 @@ class CommentHook implements EventListenerInterface {
  * @param array $options Additional options given as an array
  * @return string HTML
  */
-	public function renderComment(Event $event, $comment, $options = []) {
-		$View = $event->subject;
-		$html = $View->element('Comment.render_comment', compact('comment', 'options'));
-		return $html;
-	}
+    public function renderComment(Event $event, $comment, $options = [])
+    {
+        $View = $event->subject;
+        $html = $View->element('Comment.render_comment', compact('comment', 'options'));
+        return $html;
+    }
 
 /**
  * Defaults settings for Comment's settings form.
@@ -54,25 +57,25 @@ class CommentHook implements EventListenerInterface {
  * @param Event $event The event that was triggered
  * @return array
  */
-	public function settingsDefaults(Event $event) {
-		return [
-			'visibility' => 0,
-			'auto_approve' => false,
-			'allow_anonymous' => false,
-			'anonymous_name' => false,
-			'anonymous_name_required' => true,
-			'anonymous_email' => false,
-			'anonymous_email_required' => true,
-			'anonymous_web' => false,
-			'anonymous_web_required' => true,
-			'text_processing' => 'plain',
-			'use_ayah' => false,
-			'ayah_publisher_key' => '',
-			'ayah_scoring_key' => '',
-			'use_akismet' => false,
-			'akismet_key' => '',
-			'akismet_action' => 'mark',
-		];
-	}
-
+    public function settingsDefaults(Event $event)
+    {
+        return [
+            'visibility' => 0,
+            'auto_approve' => false,
+            'allow_anonymous' => false,
+            'anonymous_name' => false,
+            'anonymous_name_required' => true,
+            'anonymous_email' => false,
+            'anonymous_email_required' => true,
+            'anonymous_web' => false,
+            'anonymous_web_required' => true,
+            'text_processing' => 'plain',
+            'use_ayah' => false,
+            'ayah_publisher_key' => '',
+            'ayah_scoring_key' => '',
+            'use_akismet' => false,
+            'akismet_key' => '',
+            'akismet_action' => 'mark',
+        ];
+    }
 }

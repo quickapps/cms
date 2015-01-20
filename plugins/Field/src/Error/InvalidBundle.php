@@ -17,13 +17,13 @@ use Cake\Core\Exception\Exception;
  * Exception raised when an incorrect bundle was given.
  *
  */
-class InvalidBundle extends Exception {
+class InvalidBundle extends Exception
+{
 
 /**
  * Template string that has attributes sprintf()'ed into it.
  *
  * @var string
  */
-	protected $_messageTemplate = 'Invalid bundle.';
-
+    protected $_messageTemplate = 'Invalid bundle.';
 }

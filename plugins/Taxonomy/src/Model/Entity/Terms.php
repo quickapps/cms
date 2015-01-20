@@ -17,18 +17,19 @@ use Cake\ORM\Entity;
  * Represents a single "term" within "terms" table.
  *
  */
-class Term extends Entity {
+class Terms extends Entity
+{
 
 /**
  * Removes any invalid characters from term's name.
- * 
+ *
  * @param string $value Term's name
  * @return string
  */
-	protected function _setName($value) {
-		$value = strip_tags($value);
-		$value = str_replace(["\n", "\r"], '', $value);
-		return trim($value);
-	}
-
+    protected function _setName($value)
+    {
+        $value = strip_tags($value);
+        $value = str_replace(["\n", "\r"], '', $value);
+        return trim($value);
+    }
 }

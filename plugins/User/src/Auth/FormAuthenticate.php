@@ -26,50 +26,52 @@ use Cake\Utility\Security;
  *
  * It also provides "remember me" capabilities using cookies.
  */
-class FormAuthenticate extends CakeFormAuthenticate {
+class FormAuthenticate extends CakeFormAuthenticate
+{
 
 /**
  * {@inheritDoc}
  */
-	public function authenticate(Request $request, Response $response) {
-		$result = parent::authenticate($request, $response);
-		if (!$result) {
-			// fail? try using "username" as "email"
-			$this->_config['fields']['username'] = 'email';
-			if (!empty($request->data['username'])) {
-				$request->data['email'] = $request->data['username'];
-			}
-			$result = parent::authenticate($request, $response);
-		}
+    public function authenticate(Request $request, Response $response)
+    {
+        $result = parent::authenticate($request, $response);
+        if (!$result) {
+            // fail? try using "username" as "email"
+            $this->_config['fields']['username'] = 'email';
+            if (!empty($request->data['username'])) {
+                $request->data['email'] = $request->data['username'];
+            }
+            $result = parent::authenticate($request, $response);
+        }
 
-		if ($result && !empty($request->data['remember'])) {
-			$controller = $this->_registry->getController();
-			if (empty($controller->Cookie)) {
-				$controller->loadComponent('Cookie');
-			}
+        if ($result && !empty($request->data['remember'])) {
+            $controller = $this->_registry->getController();
+            if (empty($controller->Cookie)) {
+                $controller->loadComponent('Cookie');
+            }
 
-			// user information array
-			$user = json_encode($result);
-			// used to check that user's info array is authentic
-			$hash = Security::hash($user, 'sha1', true);
-			$controller->Cookie->write('User.Cookie', json_encode(compact('user', 'hash')));
-		}
+            // user information array
+            $user = json_encode($result);
+            // used to check that user's info array is authentic
+            $hash = Security::hash($user, 'sha1', true);
+            $controller->Cookie->write('User.Cookie', json_encode(compact('user', 'hash')));
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
 /**
  * Removes "remember me" cookie.
- * 
+ *
  * @param array $user User information given as an array
  * @return void
  */
-	public function logout(array $user) {
-		$controller = $this->_registry->getController();
-		if (empty($controller->Cookie)) {
-			$controller->loadComponent('Cookie');
-		}
-		$controller->Cookie->delete('User.Cookie');
-	}
-
+    public function logout(array $user)
+    {
+        $controller = $this->_registry->getController();
+        if (empty($controller->Cookie)) {
+            $controller->loadComponent('Cookie');
+        }
+        $controller->Cookie->delete('User.Cookie');
+    }
 }

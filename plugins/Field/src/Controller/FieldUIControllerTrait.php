@@ -59,9 +59,10 @@ use QuickApps\View\ViewModeAwareTrait;
  * - You must define `$_manageTable` property in your controller.
  * - Your Controller must be a backend-controller (under `Controller\Admin` namespace).
  */
-trait FieldUIControllerTrait {
+trait FieldUIControllerTrait
+{
 
-	use ViewModeAwareTrait;
+    use ViewModeAwareTrait;
 
 /**
  * Validation rules.
@@ -73,19 +74,20 @@ trait FieldUIControllerTrait {
  *  - trait is used in non-controller classes.
  *  - the controller is not a backend controller.
  */
-	public function beforeFilter(Event $event) {
-		$requestParams = $event->subject->request->params;
+    public function beforeFilter(Event $event)
+    {
+        $requestParams = $event->subject->request->params;
 
-		if (!isset($this->_manageTable) || empty($this->_manageTable)) {
-			throw new ForbiddenException(__d('field', 'FieldUIControllerTrait: The property $_manageTable was not found or is empty.'));
-		} elseif (!($this instanceof \Cake\Controller\Controller)) {
-			throw new ForbiddenException(__d('field', 'FieldUIControllerTrait: This trait must be used on instances of Cake\Controller\Controller.'));
-		} elseif (!isset($requestParams['prefix']) || strtolower($requestParams['prefix']) !== 'admin') {
-			throw new ForbiddenException(__d('field', 'FieldUIControllerTrait: This trait must be used on backend-controllers only.'));
-		}
+        if (!isset($this->_manageTable) || empty($this->_manageTable)) {
+            throw new ForbiddenException(__d('field', 'FieldUIControllerTrait: The property $_manageTable was not found or is empty.'));
+        } elseif (!($this instanceof \Cake\Controller\Controller)) {
+            throw new ForbiddenException(__d('field', 'FieldUIControllerTrait: This trait must be used on instances of Cake\Controller\Controller.'));
+        } elseif (!isset($requestParams['prefix']) || strtolower($requestParams['prefix']) !== 'admin') {
+            throw new ForbiddenException(__d('field', 'FieldUIControllerTrait: This trait must be used on backend-controllers only.'));
+        }
 
-		$this->_manageTable = Inflector::underscore($this->_manageTable);
-	}
+        $this->_manageTable = Inflector::underscore($this->_manageTable);
+    }
 
 /**
  * Fallback for template location when extending Field UI API.
@@ -111,22 +113,23 @@ trait FieldUIControllerTrait {
  * @param \Cake\Event\Event $event the event instance.
  * @return void
  */
-	public function beforeRender(Event $event) {
-		$plugin = Inflector::camelize($event->subject->request->params['plugin']);
-		$controller = Inflector::camelize($event->subject->request->params['controller']);
-		$action = $event->subject->request->params['action'];
-		$templatePath = Plugin::classPath($plugin) . "Template/{$controller}/{$action}.ctp";
+    public function beforeRender(Event $event)
+    {
+        $plugin = Inflector::camelize($event->subject->request->params['plugin']);
+        $controller = Inflector::camelize($event->subject->request->params['controller']);
+        $action = $event->subject->request->params['action'];
+        $templatePath = Plugin::classPath($plugin) . "Template/{$controller}/{$action}.ctp";
 
-		if (!file_exists($templatePath)) {
-			$alternativeTemplatePath = Plugin::classPath('Field') . 'Template/FieldUI';
+        if (!file_exists($templatePath)) {
+            $alternativeTemplatePath = Plugin::classPath('Field') . 'Template/FieldUI';
 
-			if (file_exists("{$alternativeTemplatePath}/{$action}.ctp")) {
-				$this->view = "{$alternativeTemplatePath}/{$action}.ctp";
-			}
-		}
+            if (file_exists("{$alternativeTemplatePath}/{$action}.ctp")) {
+                $this->view = "{$alternativeTemplatePath}/{$action}.ctp";
+            }
+        }
 
-		parent::beforeRender($event);
-	}
+        parent::beforeRender($event);
+    }
 
 /**
  * Field UI main action.
@@ -135,20 +138,21 @@ trait FieldUIControllerTrait {
  *
  * @return void
  */
-	public function index() {
-		$this->loadModel('Field.FieldInstances');
-		$instances = $this->FieldInstances
-			->find()
-			->where(['table_alias' => $this->_manageTable])
-			->order(['ordering' => 'ASC'])
-			->all();
+    public function index()
+    {
+        $this->loadModel('Field.FieldInstances');
+        $instances = $this->FieldInstances
+            ->find()
+            ->where(['table_alias' => $this->_manageTable])
+            ->order(['ordering' => 'ASC'])
+            ->all();
 
-		if (count($instances) == 0) {
-			$this->Flash->warning(__d('field', 'There are no field attached yet.'));
-		}
+        if (count($instances) == 0) {
+            $this->Flash->warning(__d('field', 'There are no field attached yet.'));
+        }
 
-		$this->set('instances', $instances);
-	}
+        $this->set('instances', $instances);
+    }
 
 /**
  * Handles a single field instance configuration parameters.
@@ -166,55 +170,56 @@ trait FieldUIControllerTrait {
  * @throws \Cake\ORM\Exception\RecordNotFoundException When no field instance
  *  was found
  */
-	public function configure($id) {
-		$instance = $this->_getOrThrow($id, ['locked' => false]);
-		$arrayContext = [
-			'schema' => [],
-			'defaults' => [],
-			'errors' => [],
-		];
+    public function configure($id)
+    {
+        $instance = $this->_getOrThrow($id, ['locked' => false]);
+        $arrayContext = [
+            'schema' => [],
+            'defaults' => [],
+            'errors' => [],
+        ];
 
-		if ($this->request->data) {
-			$instance->accessible('*', true);
-			$instance->accessible(['id', 'table_alias', 'handler', 'ordering'], false);
+        if ($this->request->data) {
+            $instance->accessible('*', true);
+            $instance->accessible(['id', 'table_alias', 'handler', 'ordering'], false);
 
-			foreach ($this->request->data as $k => $v) {
-				if (str_starts_with($k, '_')) {
-					$instance->set(str_replace_once('_', '', $k), $v);
-					unset($this->request->data[$k]);
-				}
-			}
+            foreach ($this->request->data as $k => $v) {
+                if (str_starts_with($k, '_')) {
+                    $instance->set(str_replace_once('_', '', $k), $v);
+                    unset($this->request->data[$k]);
+                }
+            }
 
-			$settingsEntity = new Entity($this->request->data);
-			$settingsEntity->set('_field_handler', $instance->handler);
+            $settingsEntity = new Entity($this->request->data);
+            $settingsEntity->set('_field_handler', $instance->handler);
 
-			if ($this->FieldInstances->validate($settingsEntity, ['validate' => 'settings'])) {
-				$instance->set('settings', $this->request->data);
-				$save = $this->FieldInstances->save($instance);
+            if ($this->FieldInstances->validate($settingsEntity, ['validate' => 'settings'])) {
+                $instance->set('settings', $this->request->data);
+                $save = $this->FieldInstances->save($instance);
 
-				if ($save) {
-					$this->Flash->success(__d('field', 'Field information was saved.'));
-					$this->redirect($this->referer());
-				} else {
-					$this->Flash->danger(__d('field', 'Your information could not be saved.'));
-				}
-			} else {
-				$this->Flash->danger(__d('field', 'Field settings could not be saved.'));
-				$errors = $settingsEntity->errors();
+                if ($save) {
+                    $this->Flash->success(__d('field', 'Field information was saved.'));
+                    $this->redirect($this->referer());
+                } else {
+                    $this->Flash->danger(__d('field', 'Your information could not be saved.'));
+                }
+            } else {
+                $this->Flash->danger(__d('field', 'Field settings could not be saved.'));
+                $errors = $settingsEntity->errors();
 
-				if (!empty($errors)) {
-					foreach ($errors as $field => $message) {
-						$arrayContext['errors'][$field] = $message;
-					}
-				}
-			}
-		} else {
-			$arrayContext['defaults'] = (array)$instance->settings;
-			$this->request->data = $arrayContext['defaults'];
-		}
+                if (!empty($errors)) {
+                    foreach ($errors as $field => $message) {
+                        $arrayContext['errors'][$field] = $message;
+                    }
+                }
+            }
+        } else {
+            $arrayContext['defaults'] = (array)$instance->settings;
+            $this->request->data = $arrayContext['defaults'];
+        }
 
-		$this->set(compact('arrayContext', 'instance'));
-	}
+        $this->set(compact('arrayContext', 'instance'));
+    }
 
 /**
  * Attach action.
@@ -223,32 +228,33 @@ trait FieldUIControllerTrait {
  *
  * @return void
  */
-	public function attach() {
-		$this->loadModel('Field.FieldInstances');
+    public function attach()
+    {
+        $this->loadModel('Field.FieldInstances');
 
-		if (!empty($this->request->data)) {
-			$data = $this->request->data;
-			$data['table_alias'] = $this->_manageTable;
-			$fieldInstance = $this->FieldInstances->newEntity($data);
+        if (!empty($this->request->data)) {
+            $data = $this->request->data;
+            $data['table_alias'] = $this->_manageTable;
+            $fieldInstance = $this->FieldInstances->newEntity($data);
 
-			if ($this->FieldInstances->save($fieldInstance)) {
-				$this->Flash->success(__d('field', 'Field attached!'));
-				$this->redirect($this->referer());
-			} else {
-				$this->Flash->danger(__d('field', 'Field could not be attached'));
-			}
-		} else {
-			$fieldInstance = $this->FieldInstances->newEntity();
-		}
+            if ($this->FieldInstances->save($fieldInstance)) {
+                $this->Flash->success(__d('field', 'Field attached!'));
+                $this->redirect($this->referer());
+            } else {
+                $this->Flash->danger(__d('field', 'Field could not be attached'));
+            }
+        } else {
+            $fieldInstance = $this->FieldInstances->newEntity();
+        }
 
-		$fieldsInfoCollection = $this->trigger('Field.info')->result;
-		$fieldsList = $fieldsInfoCollection->combine('handler', 'name')->toArray(); // for form select
-		$fieldsInfo = $fieldsInfoCollection->toArray(); // for help-blocks
+        $fieldsInfoCollection = $this->trigger('Field.info')->result;
+        $fieldsList = $fieldsInfoCollection->combine('handler', 'name')->toArray(); // for form select
+        $fieldsInfo = $fieldsInfoCollection->toArray(); // for help-blocks
 
-		$this->set('fieldsList', $fieldsList);
-		$this->set('fieldsInfo', $fieldsInfo);
-		$this->set('fieldInstance', $fieldInstance);
-	}
+        $this->set('fieldsList', $fieldsList);
+        $this->set('fieldsInfo', $fieldsInfo);
+        $this->set('fieldInstance', $fieldInstance);
+    }
 
 /**
  * Detach action.
@@ -258,18 +264,19 @@ trait FieldUIControllerTrait {
  * @param int $id ID of the instance to detach
  * @return void
  */
-	public function detach($id) {
-		$instance = $this->_getOrThrow($id, ['locked' => false]);
-		$this->loadModel('Field.FieldInstances');
+    public function detach($id)
+    {
+        $instance = $this->_getOrThrow($id, ['locked' => false]);
+        $this->loadModel('Field.FieldInstances');
 
-		if ($this->FieldInstances->delete($instance)) {
-			$this->Flash->success(__d('field', 'Field detached successfully!'));
-		} else {
-			$this->Flash->danger(__d('field', 'Field could not be detached'));
-		}
+        if ($this->FieldInstances->delete($instance)) {
+            $this->Flash->success(__d('field', 'Field detached successfully!'));
+        } else {
+            $this->Flash->danger(__d('field', 'Field could not be detached'));
+        }
 
-		$this->redirect($this->referer());
-	}
+        $this->redirect($this->referer());
+    }
 
 /**
  * View modes.
@@ -281,31 +288,32 @@ trait FieldUIControllerTrait {
  * @throws \Cake\Network\Exception\NotFoundException When given view mode
  *  does not exists
  */
-	public function view_mode_list($viewMode) {
-		$this->_validateViewMode($viewMode);
-		$this->loadModel('Field.FieldInstances');
-		$instances = $this->FieldInstances
-			->find()
-			->where(['table_alias' => $this->_manageTable])
-			->order(['ordering' => 'ASC'])
-			->all();
+    public function view_mode_list($viewMode)
+    {
+        $this->_validateViewMode($viewMode);
+        $this->loadModel('Field.FieldInstances');
+        $instances = $this->FieldInstances
+            ->find()
+            ->where(['table_alias' => $this->_manageTable])
+            ->order(['ordering' => 'ASC'])
+            ->all();
 
-		if (count($instances) === 0) {
-			$this->Flash->warning(__d('field', 'There are no field attached yet.'));
-		} else {
-			$instances = $instances->sortBy(function ($fieldInstance) use($viewMode) {
-				if (isset($fieldInstance->view_modes[$viewMode]['ordering'])) {
-					return $fieldInstance->view_modes[$viewMode]['ordering'];
-				}
+        if (count($instances) === 0) {
+            $this->Flash->warning(__d('field', 'There are no field attached yet.'));
+        } else {
+            $instances = $instances->sortBy(function ($fieldInstance) use ($viewMode) {
+                if (isset($fieldInstance->view_modes[$viewMode]['ordering'])) {
+                    return $fieldInstance->view_modes[$viewMode]['ordering'];
+                }
 
-				return 0;
-			}, SORT_ASC);
-		}
+                return 0;
+            }, SORT_ASC);
+        }
 
-		$this->set('instances', $instances);
-		$this->set('viewMode', $viewMode);
-		$this->set('viewModeInfo', $this->viewModes($viewMode));
-	}
+        $this->set('instances', $instances);
+        $this->set('viewMode', $viewMode);
+        $this->set('viewModeInfo', $this->viewModes($viewMode));
+    }
 
 /**
  * Handles field instance rendering settings for a particular view mode.
@@ -318,58 +326,59 @@ trait FieldUIControllerTrait {
  * @throws \Cake\Network\Exception\NotFoundException When given view
  *  mode does not exists
  */
-	public function view_mode_edit($viewMode, $id) {
-		$this->_validateViewMode($viewMode);
-		$instance = $this->_getOrThrow($id);
-		$arrayContext = [
-			'schema' => [
-				'label_visibility' => ['type' => 'string'],
-				'hooktags' => ['type' => 'boolean'],
-				'hidden' => ['type' => 'boolean'],
-			],
-			'defaults' => [
-				'label_visibility' => 'hidden',
-				'hooktags' => false,
-				'hidden' => false,
-			],
-			'errors' => []
-		];
-		$viewModeInfo = $this->viewModes($viewMode);
+    public function view_mode_edit($viewMode, $id)
+    {
+        $this->_validateViewMode($viewMode);
+        $instance = $this->_getOrThrow($id);
+        $arrayContext = [
+            'schema' => [
+                'label_visibility' => ['type' => 'string'],
+                'hooktags' => ['type' => 'boolean'],
+                'hidden' => ['type' => 'boolean'],
+            ],
+            'defaults' => [
+                'label_visibility' => 'hidden',
+                'hooktags' => false,
+                'hidden' => false,
+            ],
+            'errors' => []
+        ];
+        $viewModeInfo = $this->viewModes($viewMode);
 
-		if ($this->request->data) {
-			$settingsEntity = new Entity($this->request->data);
-			$settingsEntity->set('_field_handler', $instance->handler);
+        if ($this->request->data) {
+            $settingsEntity = new Entity($this->request->data);
+            $settingsEntity->set('_field_handler', $instance->handler);
 
-			if ($this->FieldInstances->validate($settingsEntity, ['validate' => 'viewMode'])) {
-				$instance->accessible('*', true);
-				$viewModes = $instance->get('view_modes');
-				$viewModes[$viewMode] = array_merge($viewModes[$viewMode], $this->request->data);
-				$instance->set('view_modes', $viewModes);
+            if ($this->FieldInstances->validate($settingsEntity, ['validate' => 'viewMode'])) {
+                $instance->accessible('*', true);
+                $viewModes = $instance->get('view_modes');
+                $viewModes[$viewMode] = array_merge($viewModes[$viewMode], $this->request->data);
+                $instance->set('view_modes', $viewModes);
 
-				if ($this->FieldInstances->save($instance)) {
-					$this->Flash->success(__d('field', 'Field information was saved.'));
-					$this->redirect($this->referer());
-				} else {
-					$this->Flash->danger(__d('field', 'Your information could not be saved.'));
-				}
-			} else {
-				$this->Flash->danger(__d('field', 'View mode settings could not be saved.'));
-				$errors = $settingsEntity->errors();
+                if ($this->FieldInstances->save($instance)) {
+                    $this->Flash->success(__d('field', 'Field information was saved.'));
+                    $this->redirect($this->referer());
+                } else {
+                    $this->Flash->danger(__d('field', 'Your information could not be saved.'));
+                }
+            } else {
+                $this->Flash->danger(__d('field', 'View mode settings could not be saved.'));
+                $errors = $settingsEntity->errors();
 
-				if (!empty($errors)) {
-					foreach ($errors as $field => $message) {
-						$arrayContext['errors'][$field] = $message;
-					}
-				}
-			}
-		} else {
-			$arrayContext['defaults'] = (array)$instance->view_modes[$viewMode];
-			$this->request->data = $arrayContext['defaults'];
-		}
+                if (!empty($errors)) {
+                    foreach ($errors as $field => $message) {
+                        $arrayContext['errors'][$field] = $message;
+                    }
+                }
+            }
+        } else {
+            $arrayContext['defaults'] = (array)$instance->view_modes[$viewMode];
+            $this->request->data = $arrayContext['defaults'];
+        }
 
-		$instance->accessible('settings', true);
-		$this->set(compact('arrayContext', 'viewMode', 'viewModeInfo', 'instance'));
-	}
+        $instance->accessible('settings', true);
+        $this->set(compact('arrayContext', 'viewMode', 'viewModeInfo', 'instance'));
+    }
 
 /**
  * Moves a field up or down within a view mode.
@@ -386,51 +395,52 @@ trait FieldUIControllerTrait {
  * @throws \Cake\Network\Exception\NotFoundException When given view mode
  *  does not exists
  */
-	public function view_mode_move($viewMode, $id, $direction) {
-		$this->_validateViewMode($viewMode);
-		$instance = $this->_getOrThrow($id);
-		$unordered = [];
-		$position = false;
-		$k = 0;
-		$list = $this->FieldInstances->find()
-			->select(['id', 'view_modes'])
-			->where(['table_alias' => $instance->table_alias])
-			->order(['ordering' => 'ASC'])
-			->all()
-			->sortBy(function ($fieldInstance) use($viewMode) {
-				if (isset($fieldInstance->view_modes[$viewMode]['ordering'])) {
-					return $fieldInstance->view_modes[$viewMode]['ordering'];
-				}
+    public function view_mode_move($viewMode, $id, $direction)
+    {
+        $this->_validateViewMode($viewMode);
+        $instance = $this->_getOrThrow($id);
+        $unordered = [];
+        $position = false;
+        $k = 0;
+        $list = $this->FieldInstances->find()
+            ->select(['id', 'view_modes'])
+            ->where(['table_alias' => $instance->table_alias])
+            ->order(['ordering' => 'ASC'])
+            ->all()
+            ->sortBy(function ($fieldInstance) use ($viewMode) {
+                if (isset($fieldInstance->view_modes[$viewMode]['ordering'])) {
+                    return $fieldInstance->view_modes[$viewMode]['ordering'];
+                }
 
-				return 0;
-			}, SORT_ASC);
+                return 0;
+            }, SORT_ASC);
 
-		foreach ($list as $field) {
-			if ($field->id === $instance->id) {
-				$position = $k;
-			}
+        foreach ($list as $field) {
+            if ($field->id === $instance->id) {
+                $position = $k;
+            }
 
-			$unordered[] = $field;
-			$k++;
-		}
+            $unordered[] = $field;
+            $k++;
+        }
 
-		if ($position !== false) {
-			$ordered = array_move($unordered, $position, $direction);
-			$before = md5(serialize($unordered));
-			$after = md5(serialize($ordered));
+        if ($position !== false) {
+            $ordered = array_move($unordered, $position, $direction);
+            $before = md5(serialize($unordered));
+            $after = md5(serialize($ordered));
 
-			if ($before != $after) {
-				foreach ($ordered as $k => $field) {
-					$viewModes = $field->view_modes;
-					$viewModes[$viewMode]['ordering'] = $k;
-					$field->set('view_modes', $viewModes);
-					$this->FieldInstances->save($field, ['validate' => false]);
-				}
-			}
-		}
+            if ($before != $after) {
+                foreach ($ordered as $k => $field) {
+                    $viewModes = $field->view_modes;
+                    $viewModes[$viewMode]['ordering'] = $k;
+                    $field->set('view_modes', $viewModes);
+                    $this->FieldInstances->save($field, ['validate' => false]);
+                }
+            }
+        }
 
-		$this->redirect($this->referer());
-	}
+        $this->redirect($this->referer());
+    }
 
 /**
  * Moves a field up or down.
@@ -442,40 +452,41 @@ trait FieldUIControllerTrait {
  * @param string $direction Direction, 'up' or 'down'
  * @return void Redirects to previous page
  */
-	public function move($id, $direction) {
-		$instance = $this->_getOrThrow($id);
-		$unordered = [];
-		$direction = !in_array($direction, ['up', 'down']) ? 'up' : $direction;
-		$position = false;
-		$list = $this->FieldInstances->find()
-			->select(['id', 'label', 'ordering'])
-			->where(['table_alias' => $instance->table_alias])
-			->order(['ordering' => 'ASC'])
-			->all();
+    public function move($id, $direction)
+    {
+        $instance = $this->_getOrThrow($id);
+        $unordered = [];
+        $direction = !in_array($direction, ['up', 'down']) ? 'up' : $direction;
+        $position = false;
+        $list = $this->FieldInstances->find()
+            ->select(['id', 'label', 'ordering'])
+            ->where(['table_alias' => $instance->table_alias])
+            ->order(['ordering' => 'ASC'])
+            ->all();
 
-		foreach ($list as $k => $field) {
-			if ($field->id === $instance->id) {
-				$position = $k;
-			}
+        foreach ($list as $k => $field) {
+            if ($field->id === $instance->id) {
+                $position = $k;
+            }
 
-			$unordered[] = $field;
-		}
+            $unordered[] = $field;
+        }
 
-		if ($position !== false) {
-			$ordered = array_move($unordered, $position, $direction);
-			$before = md5(serialize($unordered));
-			$after = md5(serialize($ordered));
+        if ($position !== false) {
+            $ordered = array_move($unordered, $position, $direction);
+            $before = md5(serialize($unordered));
+            $after = md5(serialize($ordered));
 
-			if ($before != $after) {
-				foreach ($ordered as $k => $field) {
-					$field->set('ordering', $k);
-					$this->FieldInstances->save($field, ['validate' => false]);
-				}
-			}
-		}
+            if ($before != $after) {
+                foreach ($ordered as $k => $field) {
+                    $field->set('ordering', $k);
+                    $this->FieldInstances->save($field, ['validate' => false]);
+                }
+            }
+        }
 
-		$this->redirect($this->referer());
-	}
+        $this->redirect($this->referer());
+    }
 
 /**
  * Gets the given field instance by ID or throw if not exists.
@@ -486,21 +497,22 @@ trait FieldUIControllerTrait {
  * @throws \Cake\ORM\Exception\RecordNotFoundException When instance
  *  was not found
  */
-	protected function _getOrThrow($id, $conditions = []) {
-		$this->loadModel('Field.FieldInstances');
-		$conditions = array_merge(['id' => $id], $conditions);
-		$instance = $this->FieldInstances
-			->find()
-			->where($conditions)
-			->limit(1)
-			->first();
+    protected function _getOrThrow($id, $conditions = [])
+    {
+        $this->loadModel('Field.FieldInstances');
+        $conditions = array_merge(['id' => $id], $conditions);
+        $instance = $this->FieldInstances
+            ->find()
+            ->where($conditions)
+            ->limit(1)
+            ->first();
 
-		if (!$instance) {
-			throw new RecordNotFoundException(__d('field', 'The requested field does not exists.'));
-		}
+        if (!$instance) {
+            throw new RecordNotFoundException(__d('field', 'The requested field does not exists.'));
+        }
 
-		return $instance;
-	}
+        return $instance;
+    }
 
 /**
  * Throws if the given view modes does not exists.
@@ -510,10 +522,10 @@ trait FieldUIControllerTrait {
  * @throws \Cake\Network\Exception\NotFoundException When given view mode
  *  does not exists
  */
-	protected function _validateViewMode($viewMode) {
-		if (!in_array($viewMode, $this->viewModes())) {
-			throw new NotFoundException(__d('field', 'The requested view mode does not exists.'));
-		}
-	}
-
+    protected function _validateViewMode($viewMode)
+    {
+        if (!in_array($viewMode, $this->viewModes())) {
+            throw new NotFoundException(__d('field', 'The requested view mode does not exists.'));
+        }
+    }
 }

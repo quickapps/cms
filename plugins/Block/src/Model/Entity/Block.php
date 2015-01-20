@@ -18,7 +18,8 @@ use Cake\ORM\TableRegistry;
  * Represents a single "block" within "blocks" table.
  *
  */
-class Block extends Entity {
+class Block extends Entity
+{
 
 /**
  * Automatically calculates "delta" for entity's handler.
@@ -28,40 +29,42 @@ class Block extends Entity {
  *
  * @return void
  */
-	public function calculateDelta() {
-		if ($this->isNew() && $this->has('handler') && !$this->get('delta')) {
-			$latest = TableRegistry::get('Block.Blocks')->find()
-				->select('id')
-				->where(['handler' => $this->handler])
-				->order(['id' => 'DESC'])
-				->first();
-			$lastId = $latest ? $latest->id : 0;
-			$this->set('delta', $lastId + 1);
-		}
-	}
+    public function calculateDelta()
+    {
+        if ($this->isNew() && $this->has('handler') && !$this->get('delta')) {
+            $latest = TableRegistry::get('Block.Blocks')->find()
+                ->select('id')
+                ->where(['handler' => $this->handler])
+                ->order(['id' => 'DESC'])
+                ->first();
+            $lastId = $latest ? $latest->id : 0;
+            $this->set('delta', $lastId + 1);
+        }
+    }
 
 /**
  * Sanitizes block's description. No HTML allowed.
- * 
+ *
  * @param string $description Block's description
  * @return string
  */
-	protected function _setDescription($description) {
-		return strip_tags($description);
-	}
+    protected function _setDescription($description)
+    {
+        return strip_tags($description);
+    }
 
 /**
  * Tries to get block's region.
  *
  * This method is used when finding blocks matching a particular region.
- * 
+ *
  * @return \Block\Model\Entity\BlockRegion
  * @see \Block\View\Helper\BlockHelper
  */
-	protected function _getRegion() {
-		if (isset($this->_matchingData['BlockRegions'])) {
-			return $this->_matchingData['BlockRegions'];
-		}
-	}	
-
+    protected function _getRegion()
+    {
+        if (isset($this->_matchingData['BlockRegions'])) {
+            return $this->_matchingData['BlockRegions'];
+        }
+    }
 }

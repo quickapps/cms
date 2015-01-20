@@ -14,59 +14,59 @@ namespace User\Config;
 use Cake\Routing\Router;
 
 Router::connect('/unauthorized', [
-	'plugin' => 'User',
-	'controller' => 'Gateway',
-	'action' => 'unauthorized',
+    'plugin' => 'User',
+    'controller' => 'Gateway',
+    'action' => 'unauthorized',
 ], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
 
 Router::connect('/user/me', [
-	'plugin' => 'User',
-	'controller' => 'Gateway',
-	'action' => 'me',
+    'plugin' => 'User',
+    'controller' => 'Gateway',
+    'action' => 'me',
 ], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
 
 Router::connect('/admin/user/me', [
-	'plugin' => 'User',
-	'controller' => 'Gateway',
-	'action' => 'me',
-	'prefix' => 'admin',
+    'plugin' => 'User',
+    'controller' => 'Gateway',
+    'action' => 'me',
+    'prefix' => 'admin',
 ], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
 
 Router::connect('/user/profile', [
-	'plugin' => 'User',
-	'controller' => 'Gateway',
-	'action' => 'profile',
+    'plugin' => 'User',
+    'controller' => 'Gateway',
+    'action' => 'profile',
 ], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
 
 Router::connect('/admin/user/profile', [
-	'plugin' => 'User',
-	'controller' => 'Gateway',
-	'action' => 'profile',
-	'prefix' => 'admin',
+    'plugin' => 'User',
+    'controller' => 'Gateway',
+    'action' => 'profile',
+    'prefix' => 'admin',
 ], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
 
 Router::connect('/login', [
-	'plugin' => 'User',
-	'controller' => 'Gateway',
-	'action' => 'login',
+    'plugin' => 'User',
+    'controller' => 'Gateway',
+    'action' => 'login',
 ], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
 
 Router::connect('/admin/login', [
-	'plugin' => 'User',
-	'controller' => 'Gateway',
-	'action' => 'login',
-	'prefix' => 'admin',
+    'plugin' => 'User',
+    'controller' => 'Gateway',
+    'action' => 'login',
+    'prefix' => 'admin',
 ], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
 
 Router::connect('/logout', [
-	'plugin' => 'User',
-	'controller' => 'Gateway',
-	'action' => 'logout',
+    'plugin' => 'User',
+    'controller' => 'Gateway',
+    'action' => 'logout',
 ], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
 
 Router::connect('/admin/logout', [
-	'plugin' => 'User',
-	'controller' => 'Gateway',
-	'action' => 'logout',
-	'prefix' => 'admin',
+    'plugin' => 'User',
+    'controller' => 'Gateway',
+    'action' => 'logout',
+    'prefix' => 'admin',
 ], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);

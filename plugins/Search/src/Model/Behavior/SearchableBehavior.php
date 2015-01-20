@@ -37,7 +37,7 @@ use Search\Model\Entity\SearchDataset;
  *
  * In the example above, this behavior will look for words to index in user's
  * "username" and user's "email" properties.
- * 
+ *
  * If you need a really special selection of words for each entity is being indexed,
  * then you can set the `fields` option as a callable which should return a list of
  * words for the given entity. For example:
@@ -100,7 +100,7 @@ use Search\Model\Entity\SearchDataset;
  *     "this phrase" OR -"not this one" AND this
  *
  * ---
- * 
+ *
  * Use wildcard searches to broaden results; asterisk (`*`) matches any one or
  * more characters, exclamation mark (`!`) matches any single character:
  *
@@ -124,7 +124,7 @@ use Search\Model\Entity\SearchDataset;
  *     ]
  *
  * ---
- * 
+ *
  * Search criteria allows you to perform complex search conditions in a human-readable
  * way. Allows you, for example, create user-friendly search-forms, or create some
  * RSS feed just by creating a friendly URL using a search-criteria.
@@ -177,7 +177,7 @@ use Search\Model\Entity\SearchDataset;
  *             // register a new operator for handling `author:<author_name>` expressions
  *             $this->addSearchOperator('author', 'operatorAuthor');
  *         }
- *         
+ *
  *         public function operatorAuthor($query, $value, $negate, $orAnd) {
  *             // $query:
  *             //     The query object to alter
@@ -220,21 +220,22 @@ use Search\Model\Entity\SearchDataset;
  *     }
  *
  * IMPORTANT:
- * 
+ *
  * - Event handler method should always return the modified $query object.
  * - The event's context, that is `$event->subject`, is the table instance that
  *   fired the event.
  */
-class SearchableBehavior extends Behavior {
+class SearchableBehavior extends Behavior
+{
 
-	use HookAwareTrait;
+    use HookAwareTrait;
 
 /**
  * The table this behavior is attached to.
  *
  * @var Table
  */
-	protected $_table;
+    protected $_table;
 
 /**
  * Behavior configuration array.
@@ -249,18 +250,18 @@ class SearchableBehavior extends Behavior {
  *
  * @var array
  */
-	protected $_defaultConfig = [
-		'operators' => [],
-		'fields' => [],
-		'bannedWords' => [],
-		'on' => 'both',
-		'implementedMethods' => [
-			'search' => 'search',
-			'addSearchOperator' => 'addSearchOperator',
-			'enableSearchOperator' => 'enableSearchOperator',
-			'disableSearchOperator' => 'disableSearchOperator',
-		],
-	];
+    protected $_defaultConfig = [
+        'operators' => [],
+        'fields' => [],
+        'bannedWords' => [],
+        'on' => 'both',
+        'implementedMethods' => [
+            'search' => 'search',
+            'addSearchOperator' => 'addSearchOperator',
+            'enableSearchOperator' => 'enableSearchOperator',
+            'disableSearchOperator' => 'disableSearchOperator',
+        ],
+    ];
 
 /**
  * Constructor
@@ -268,15 +269,16 @@ class SearchableBehavior extends Behavior {
  * @param \Cake\ORM\Table $table The table this behavior is attached to.
  * @param array $config The config for this behavior.
  */
-	public function __construct(Table $table, array $config = []) {
-		$this->_table = $table;
-		$this->_table->hasOne('Search.SearchDatasets', [
-			'foreignKey' => 'entity_id',
-			'conditions' => ['table_alias' => Inflector::underscore($this->_table->alias())],
-			'dependent' => true
-		]);
-		parent::__construct($table, $config);
-	}
+    public function __construct(Table $table, array $config = [])
+    {
+        $this->_table = $table;
+        $this->_table->hasOne('Search.SearchDatasets', [
+            'foreignKey' => 'entity_id',
+            'conditions' => ['table_alias' => Inflector::underscore($this->_table->alias())],
+            'dependent' => true
+        ]);
+        parent::__construct($table, $config);
+    }
 
 /**
  * Generates a list of words after each entity is saved.
@@ -285,87 +287,89 @@ class SearchableBehavior extends Behavior {
  * @param \Cake\ORM\Entity $entity The entity that was saved
  * @return void
  */
-	public function afterSave(Event $event, Entity $entity) {
-		$isNew = $entity->isNew();
-		$pk = $this->_table->primaryKey();
-		$tableAlias = Inflector::underscore($this->_table->alias());
-		$text = '';
+    public function afterSave(Event $event, Entity $entity)
+    {
+        $isNew = $entity->isNew();
+        $pk = $this->_table->primaryKey();
+        $tableAlias = Inflector::underscore($this->_table->alias());
+        $text = '';
 
-		if (
-			($this->config('on') === 'update' && $isNew) ||
-			($this->config('on') === 'insert' && !$isNew) ||
-			($this->config('on') !== 'both')
-		) {
-			continue;
-		}
+        if (
+            ($this->config('on') === 'update' && $isNew) ||
+            ($this->config('on') === 'insert' && !$isNew) ||
+            ($this->config('on') !== 'both')
+        ) {
+            continue;
+        }
 
-		if (is_callable($this->config('fields'))) {
-			$callable = $this->config('fields');
-			$text = $callable($entity);
+        if (is_callable($this->config('fields'))) {
+            $callable = $this->config('fields');
+            $text = $callable($entity);
 
-			if (is_array($text)) {
-				$text = implode(' ', (string)$text);
-			}
-		} else {
-			foreach ($this->config('fields') as $f) {
-				if ($entity->has($f)) {
-					$newWords = trim($entity->get($f));
-					$text .= ' ' . $newWords;
-				}
-			}
-		}
+            if (is_array($text)) {
+                $text = implode(' ', (string)$text);
+            }
+        } else {
+            foreach ($this->config('fields') as $f) {
+                if ($entity->has($f)) {
+                    $newWords = trim($entity->get($f));
+                    $text .= ' ' . $newWords;
+                }
+            }
+        }
 
-		$words = $this->_extractWords($text);
-		$bannedCallable = is_callable($this->config('bannedWords')) ? $this->config('bannedWords') : false;
+        $words = $this->_extractWords($text);
+        $bannedCallable = is_callable($this->config('bannedWords')) ? $this->config('bannedWords') : false;
 
-		foreach ($words as $i => $w) {
-			if ($bannedCallable) {
-				if (!$bannedCallable($w)) { // false means it's banned
-					unset($words[$i]);
-				}
-			} else {
-				if (in_array($w, $this->config('bannedWords')) || empty($w)) {
-					unset($words[$i]);
-				}
-			}
-		}
+        foreach ($words as $i => $w) {
+            if ($bannedCallable) {
+                if (!$bannedCallable($w)) { // false means it's banned
+                    unset($words[$i]);
+                }
+            } else {
+                if (in_array($w, $this->config('bannedWords')) || empty($w)) {
+                    unset($words[$i]);
+                }
+            }
+        }
 
-		$Datasets = TableRegistry::get('Search.SearchDatasets');
-		$dataset = $Datasets->find()
-			->where([
-				'entity_id' => $entity->get($pk),
-				'table_alias' => $tableAlias
-			])
-			->first();
+        $Datasets = TableRegistry::get('Search.SearchDatasets');
+        $dataset = $Datasets->find()
+            ->where([
+                'entity_id' => $entity->get($pk),
+                'table_alias' => $tableAlias
+            ])
+            ->first();
 
-		if (!$dataset) {
-			$dataset = new SearchDataset([
-				'entity_id' => $entity->get($pk),
-				'table_alias' => $tableAlias,
-			]);
-		}
+        if (!$dataset) {
+            $dataset = new SearchDataset([
+                'entity_id' => $entity->get($pk),
+                'table_alias' => $tableAlias,
+            ]);
+        }
 
-		$dataset->set('words', ' ' . implode(' ', $words) . ' ');
-		$Datasets->save($dataset);
-	}
+        $dataset->set('words', ' ' . implode(' ', $words) . ' ');
+        $Datasets->save($dataset);
+    }
 
 /**
  * Prepares entity to delete its words-index.
- * 
+ *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Entity $entity The entity that was removed
  * @return void
  */
-	public function beforeDelete(Event $event, Entity $entity) {
-		$tableAlias = Inflector::underscore($this->_table->alias());
-		$this->_table->hasMany('SearchDatasets', [
-			'className' => 'Search.SearchDatasets',
-			'foreignKey' => 'entity_id',
-			'conditions' => ['table_alias' => $tableAlias],
-			'dependent' => true,
-		]);
-		return true;
-	}
+    public function beforeDelete(Event $event, Entity $entity)
+    {
+        $tableAlias = Inflector::underscore($this->_table->alias());
+        $this->_table->hasMany('SearchDatasets', [
+            'className' => 'Search.SearchDatasets',
+            'foreignKey' => 'entity_id',
+            'conditions' => ['table_alias' => $tableAlias],
+            'dependent' => true,
+        ]);
+        return true;
+    }
 
 /**
  * Scopes the given query object.
@@ -396,66 +400,67 @@ class SearchableBehavior extends Behavior {
  * @param null|\Cake\ORM\Query $query The query to scope, or null to create one
  * @return \Cake\ORM\Query Scoped query
  * @throws Cake\Error\FatalErrorException When query gets corrupted while
- *  processing tokens 
+ *  processing tokens
  */
-	public function search($criteria, $query = null) {
-		$query = is_null($query) ? $this->_table->find() : $query;
-		$tokens = $this->_getTokens($criteria);
-		$query->contain('SearchDatasets');
+    public function search($criteria, $query = null)
+    {
+        $query = is_null($query) ? $this->_table->find() : $query;
+        $tokens = $this->_getTokens($criteria);
+        $query->contain('SearchDatasets');
 
-		foreach ($tokens as $k => $token) {
-			if (in_array(strtolower($token), ['or', 'and'])) {
-				continue;
-			}
+        foreach ($tokens as $k => $token) {
+            if (in_array(strtolower($token), ['or', 'and'])) {
+                continue;
+            }
 
-			$previousToken = $k > 0 && isset($tokens[$k - 1]) ? $tokens[$k - 1] : null;
-			$orAnd = in_array(strtolower($previousToken), ['or', 'and']) ? strtolower($previousToken) : null;
+            $previousToken = $k > 0 && isset($tokens[$k - 1]) ? $tokens[$k - 1] : null;
+            $orAnd = in_array(strtolower($previousToken), ['or', 'and']) ? strtolower($previousToken) : null;
 
-			if (strpos($token, ':') !== false) {
-				$parts = explode(':', $token);
-				$operator = array_shift($parts);
-				$negate = str_starts_with($operator, '-');
-				$operator = Inflector::underscore(preg_replace('/\PL/u', '', $operator));
-				$callable = $this->_operatorCallable($operator);
-				$value = implode('', $parts);
+            if (strpos($token, ':') !== false) {
+                $parts = explode(':', $token);
+                $operator = array_shift($parts);
+                $negate = str_starts_with($operator, '-');
+                $operator = Inflector::underscore(preg_replace('/\PL/u', '', $operator));
+                $callable = $this->_operatorCallable($operator);
+                $value = implode('', $parts);
 
-				if ($callable) {
-					$query = $callable($query, $value, $negate, $orAnd);
+                if ($callable) {
+                    $query = $callable($query, $value, $negate, $orAnd);
 
-					if (!($query instanceof Query)) {
-						throw new FatalErrorException(__d('search', 'Error while processing the "{0}" token in the search criteria.', $operator));
-					}
-				} else {
-					$hookName = Inflector::variable("operator_{$operator}");
-					$result = $this->trigger(["SearchableBehavior.{$hookName}", $this->_table], $query, $value, $negate, $orAnd)->result;
+                    if (!($query instanceof Query)) {
+                        throw new FatalErrorException(__d('search', 'Error while processing the "{0}" token in the search criteria.', $operator));
+                    }
+                } else {
+                    $hookName = Inflector::variable("operator_{$operator}");
+                    $result = $this->trigger(["SearchableBehavior.{$hookName}", $this->_table], $query, $value, $negate, $orAnd)->result;
 
-					if ($result instanceof Query) {
-						$query = $result;
-					}
-				}
-			} else {
-				if (strpos($token, '-') === 0) {
-					$token = str_replace_once('-', '', $token);
-					$LIKE = 'NOT LIKE';
-				} else {
-					$LIKE = 'LIKE';
-				}
+                    if ($result instanceof Query) {
+                        $query = $result;
+                    }
+                }
+            } else {
+                if (strpos($token, '-') === 0) {
+                    $token = str_replace_once('-', '', $token);
+                    $LIKE = 'NOT LIKE';
+                } else {
+                    $LIKE = 'LIKE';
+                }
 
-				$token = str_replace('*', '%', $token); // * Matches any one or more characters.
-				$token = str_replace('!', '_', $token); // ! Matches any single character.
+                $token = str_replace('*', '%', $token); // * Matches any one or more characters.
+                $token = str_replace('!', '_', $token); // ! Matches any single character.
 
-				if ($orAnd === 'or') {
-					$query->orWhere(["SearchDatasets.words {$LIKE}" => "%{$token}%"]);
-				} elseif ($orAnd === 'and') {
-					$query->andWhere(["SearchDatasets.words {$LIKE}" => "%{$token}%"]);
-				} else {
-					$query->where(["SearchDatasets.words {$LIKE}" => "%{$token}%"]);
-				}
-			}
-		}
+                if ($orAnd === 'or') {
+                    $query->orWhere(["SearchDatasets.words {$LIKE}" => "%{$token}%"]);
+                } elseif ($orAnd === 'and') {
+                    $query->andWhere(["SearchDatasets.words {$LIKE}" => "%{$token}%"]);
+                } else {
+                    $query->where(["SearchDatasets.words {$LIKE}" => "%{$token}%"]);
+                }
+            }
+        }
 
-		return $query;
-	}
+        return $query;
+    }
 
 /**
  * Registers a new operator method.
@@ -466,10 +471,11 @@ class SearchableBehavior extends Behavior {
  *  call_user_func_array or a callable function
  * @return void
  */
-	public function addSearchOperator($name, $methodName) {
-		$name = Inflector::underscore($name);
-		$this->config("operators.{$name}", $methodName);
-	}
+    public function addSearchOperator($name, $methodName)
+    {
+        $name = Inflector::underscore($name);
+        $this->config("operators.{$name}", $methodName);
+    }
 
 /**
  * Enables a an operator.
@@ -477,12 +483,13 @@ class SearchableBehavior extends Behavior {
  * @param string $name Name of the operator to be enabled
  * @return void
  */
-	public function enableSearchOperator($name) {
-		if (isset($this->_config['operators'][":{$name}"])) {
-			$this->_config['operators'][$name] = $this->_config['operators'][":{$name}"];
-			unset($this->_config['operators'][":{$name}"]);
-		}
-	}
+    public function enableSearchOperator($name)
+    {
+        if (isset($this->_config['operators'][":{$name}"])) {
+            $this->_config['operators'][$name] = $this->_config['operators'][":{$name}"];
+            unset($this->_config['operators'][":{$name}"]);
+        }
+    }
 
 /**
  * Disables an operator.
@@ -490,27 +497,29 @@ class SearchableBehavior extends Behavior {
  * @param string $name Name of the operator to be disabled
  * @return void
  */
-	public function disableSearchOperator($name) {
-		if (isset($this->_config['operators'][$name])) {
-			$this->_config['operators'][":{$name}"] = $this->_config['operators'][$name];
-			unset($this->_config['operators'][$name]);
-		}
-	}
+    public function disableSearchOperator($name)
+    {
+        if (isset($this->_config['operators'][$name])) {
+            $this->_config['operators'][":{$name}"] = $this->_config['operators'][$name];
+            unset($this->_config['operators'][$name]);
+        }
+    }
 
 /**
  * Extracts words from given text.
- * 
+ *
  * @param string $text The text from where extract words
  * @return array List of words
  */
-	protected function _extractWords($text) {
-		$text = str_replace(["\n", "\r"], '', $text);
-		$text = preg_replace('/[^a-z\s]/i', ' ', $text); // letters ands white spaces only
-		$text = trim(preg_replace('/\s{2,}/i', ' ', $text)); // remove double spaces
-		$text = strtolower($text); // all to lowercase
-		$words = explode(' ', $text); // convert to array
-		return $words;
-	}
+    protected function _extractWords($text)
+    {
+        $text = str_replace(["\n", "\r"], '', $text);
+        $text = preg_replace('/[^a-z\s]/i', ' ', $text); // letters ands white spaces only
+        $text = trim(preg_replace('/\s{2,}/i', ' ', $text)); // remove double spaces
+        $text = strtolower($text); // all to lowercase
+        $words = explode(' ', $text); // convert to array
+        return $words;
+    }
 
 /**
  * Gets the callable method for a given operator method.
@@ -518,29 +527,30 @@ class SearchableBehavior extends Behavior {
  * @param string $name Name of the method to get
  * @return callable
  */
-	protected function _operatorCallable($name) {
-		$operators = $this->config('operators');
+    protected function _operatorCallable($name)
+    {
+        $operators = $this->config('operators');
 
-		if (isset($operators[$name])) {
-			$callableName = $operators[$name];
+        if (isset($operators[$name])) {
+            $callableName = $operators[$name];
 
-			if (is_array($callableName)) {
-				return function ($query, $value, $negate, $orAnd) use($callableName) {
-					return call_user_func_array($callableName, [$query, $value, $negate, $orAnd]);
-				};
-			} elseif (is_callable($callableName)) {
-				return function ($query, $value, $negate, $orAnd) use($callableName) {
-					return $callableName($query, $value, $negate, $orAnd);
-				};
-			} elseif (method_exists($this->_table, $callableName)) {
-				return function ($query, $value, $negate, $orAnd) use($callableName) {
-					return $this->_table->$callableName($query, $value, $negate, $orAnd);
-				};
-			}
-		}
+            if (is_array($callableName)) {
+                return function ($query, $value, $negate, $orAnd) use ($callableName) {
+                    return call_user_func_array($callableName, [$query, $value, $negate, $orAnd]);
+                };
+            } elseif (is_callable($callableName)) {
+                return function ($query, $value, $negate, $orAnd) use ($callableName) {
+                    return $callableName($query, $value, $negate, $orAnd);
+                };
+            } elseif (method_exists($this->_table, $callableName)) {
+                return function ($query, $value, $negate, $orAnd) use ($callableName) {
+                    return $this->_table->$callableName($query, $value, $negate, $orAnd);
+                };
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
 /**
  * Extract tokens from search-criteria.
@@ -548,12 +558,12 @@ class SearchableBehavior extends Behavior {
  * @param string $criteria A search-criteria
  * @return array List of extracted tokens
  */
-	protected function _getTokens($criteria) {
-		$criteria = trim(urldecode($criteria));
-		$criteria = preg_replace('/(-?[\w]+)\:"([\]\[\w\s]+)/', '"${1}:${2}', $criteria);
-		$criteria = str_replace(['-"', '+"'], ['"-', '"+'], $criteria);
-		$tokens = str_getcsv($criteria, ' ');
-		return $tokens;
-	}
-
+    protected function _getTokens($criteria)
+    {
+        $criteria = trim(urldecode($criteria));
+        $criteria = preg_replace('/(-?[\w]+)\:"([\]\[\w\s]+)/', '"${1}:${2}', $criteria);
+        $criteria = str_replace(['-"', '+"'], ['"-', '"+'], $criteria);
+        $tokens = str_getcsv($criteria, ' ');
+        return $tokens;
+    }
 }

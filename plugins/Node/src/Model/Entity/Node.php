@@ -24,7 +24,8 @@ use User\Model\Entity\User;
  * Represents a single "node" within "nodes" table.
  *
  */
-class Node extends Entity {
+class Node extends Entity
+{
 
 /**
  * Gets node type.
@@ -35,13 +36,14 @@ class Node extends Entity {
  *
  * @return string
  */
-	protected function _getType() {
-		$name = __d('node', '(unknown)');
-		if ($this->has('node_type') && $this->node_type->has('name')) {
-			$name = $this->node_type->get('name');
-		}
-		return $name;
-	}
+    protected function _getType()
+    {
+        $name = __d('node', '(unknown)');
+        if ($this->has('node_type') && $this->node_type->has('name')) {
+            $name = $this->node_type->get('name');
+        }
+        return $name;
+    }
 
 /**
  * Gets node's details page URL.
@@ -56,44 +58,46 @@ class Node extends Entity {
  *
  * @return string
  */
-	protected function _getUrl() {
-		$url = Router::getRequest()->base;
+    protected function _getUrl()
+    {
+        $url = Router::getRequest()->base;
 
-		if (option('url_locale_prefix')) {
-			$url .= '/' . I18n::defaultLocale();
-		}
+        if (option('url_locale_prefix')) {
+            $url .= '/' . I18n::defaultLocale();
+        }
 
-		$url .= "/{$this->node_type_slug}/{$this->slug}.html";
+        $url .= "/{$this->node_type_slug}/{$this->slug}.html";
 
-		return Router::normalize($url);
-	}
+        return Router::normalize($url);
+    }
 
 /**
  * Gets node's author as an User entity.
  *
  * @return \User\Model\Entity\User
  */
-	protected function _getAuthor() {
-		if ($this->has('user')) {
-			return $this->get('user');
-		} elseif (!empty($this->created_by)) {
-			$user = TableRegistry::get('User.Users')
-				->find()
-				->where(['id' => $this->created_by])
-				->first();
+    protected function _getAuthor()
+    {
+        if ($this->has('user')) {
+            return $this->get('user');
+        } elseif (!empty($this->created_by)) {
+            $user = TableRegistry::get('User.Users')
+                ->find()
+                ->where(['id' => $this->created_by])
+                ->first();
 
-			if ($user) {
-				return $user;
-			}
-		}
+            if ($user) {
+                return $user;
+            }
+        }
 
-		return new User([
-			'username' => __d('node', 'unknown'),
-			'name' => __d('node', 'Unknown'),
-			'web' => __d('node', '(no website)'),
-			'email' => __d('node', 'Unknown'),
-		]);
-	}
+        return new User([
+            'username' => __d('node', 'unknown'),
+            'name' => __d('node', 'Unknown'),
+            'web' => __d('node', '(no website)'),
+            'email' => __d('node', 'Unknown'),
+        ]);
+    }
 
 /**
  * Set defaults content settings based on parent content type.
@@ -101,43 +105,43 @@ class Node extends Entity {
  * You can provide a NodeType entity to fetch defaults values. By default if none
  * is provided it automatically fetches the information from the corresponding
  * Content Type.
- * 
+ *
  * @param bool|\Node\Model\Entity\NodeType $type False for auto fetch or a
  *  NodeType entity to extract information from
  * @return void
  * @throws Cake\Error\FatalErrorException When content type was not found for
  *  this content node.
  */
-	public function setDefaults($type = false) {
-		if (!$type) {
-			if (!$this->has('node_type_slug') && !$this->has('id')) {
-				throw new FatalErrorException(__d('node', "Node::setDefaults() was unable to get Content Type information."));
-			}
+    public function setDefaults($type = false)
+    {
+        if (!$type) {
+            if (!$this->has('node_type_slug') && !$this->has('id')) {
+                throw new FatalErrorException(__d('node', "Node::setDefaults() was unable to get Content Type information."));
+            }
 
-			if (!$this->has('node_type_slug')) {
-				$nodeTypeSlug = TableRegistry::get('Node.Nodes')->find()
-					->select(['node_type_slug'])
-					->where(['id' => $this->get('id')])
-					->first();
-				$nodeTypeSlug = $nodeTypeSlug->node_type_slug;
-			} else {
-				$nodeTypeSlug = $this->get('node_type_slug');
-			}
+            if (!$this->has('node_type_slug')) {
+                $nodeTypeSlug = TableRegistry::get('Node.Nodes')->find()
+                    ->select(['node_type_slug'])
+                    ->where(['id' => $this->get('id')])
+                    ->first();
+                $nodeTypeSlug = $nodeTypeSlug->node_type_slug;
+            } else {
+                $nodeTypeSlug = $this->get('node_type_slug');
+            }
 
-			$type = TableRegistry::get('Node.NodeTypes')->find()
-				->where(['slug' => $nodeTypeSlug])
-				->first();
-		}
+            $type = TableRegistry::get('Node.NodeTypes')->find()
+                ->where(['slug' => $nodeTypeSlug])
+                ->first();
+        }
 
-		if (!($type instanceof NodeType) || !$type->has('defaults')) {
-			throw new FatalErrorException(__d('node', "Node::setDefaults() was unable to get Content Type defaults values."));
-		}
+        if (!($type instanceof NodeType) || !$type->has('defaults')) {
+            throw new FatalErrorException(__d('node', "Node::setDefaults() was unable to get Content Type defaults values."));
+        }
 
-		$this->set('language', $type->defaults['language']);
-		$this->set('comment_status', $type->defaults['comment_status']);
-		$this->set('status', $type->defaults['status']);
-		$this->set('promote', $type->defaults['promote']);
-		$this->set('sticky', $type->defaults['sticky']);
-	}
-
+        $this->set('language', $type->defaults['language']);
+        $this->set('comment_status', $type->defaults['comment_status']);
+        $this->set('status', $type->defaults['status']);
+        $this->set('promote', $type->defaults['promote']);
+        $this->set('sticky', $type->defaults['sticky']);
+    }
 }

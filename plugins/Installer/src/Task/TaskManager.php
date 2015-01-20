@@ -52,22 +52,23 @@ use Installer\Task\BaseTask;
  *         return true;
  *     }
  */
-class TaskManager {
+class TaskManager
+{
 
 /**
  * Holds a list of registered and valid task classes.
  *
  * More tasks can be attached using `registerTask()` method.
- * 
+ *
  * @var array
  */
-	protected static $_tasks = [
-		'install' => '\Installer\Task\InstallTask',
-		'toggle' => '\Installer\Task\ToggleTask',
-		'uninstall' => '\Installer\Task\UninstallTask',
-		'update' => '\Installer\Task\UpdateTask',
-		'activate_theme' => '\Installer\Task\ThemeActivatorTask',
-	];
+    protected static $_tasks = [
+        'install' => '\Installer\Task\InstallTask',
+        'toggle' => '\Installer\Task\ToggleTask',
+        'uninstall' => '\Installer\Task\UninstallTask',
+        'update' => '\Installer\Task\UpdateTask',
+        'activate_theme' => '\Installer\Task\ThemeActivatorTask',
+    ];
 
 /**
  * Constructor.
@@ -78,29 +79,30 @@ class TaskManager {
  * @throws \Cake\Error\FatalErrorException When invalid task is given, or when
  * the task class does not extends "BaseTask".
  */
-	public static function task($task, $options = []) {
-		if (function_exists('ini_set')) {
-			ini_set('max_execution_time', 300);
-		} elseif (function_exists('set_time_limit')) {
-			set_time_limit(30);
-		}
+    public static function task($task, $options = [])
+    {
+        if (function_exists('ini_set')) {
+            ini_set('max_execution_time', 300);
+        } elseif (function_exists('set_time_limit')) {
+            set_time_limit(30);
+        }
 
-		if (!isset(static::$_tasks[$task])) {
-			throw new FatalErrorException(__d('installer', 'Invalid task'));
-		}
+        if (!isset(static::$_tasks[$task])) {
+            throw new FatalErrorException(__d('installer', 'Invalid task'));
+        }
 
-		$handler = static::$_tasks[$task];
-		if (is_callable($handler)) {
-			return $handler($options);
-		}
-		$handler = new $handler($options);
+        $handler = static::$_tasks[$task];
+        if (is_callable($handler)) {
+            return $handler($options);
+        }
+        $handler = new $handler($options);
 
-		if ($handler instanceof BaseTask) {
-			return $handler;
-		}
+        if ($handler instanceof BaseTask) {
+            return $handler;
+        }
 
-		throw new FatalErrorException(__d('installer', 'Invalid task object, it must extend "BaseTask" class.'));
-	}
+        throw new FatalErrorException(__d('installer', 'Invalid task object, it must extend "BaseTask" class.'));
+    }
 
 /**
  * Registers a new task handler or overwrites existing one.
@@ -114,15 +116,15 @@ class TaskManager {
  *     $task = TaskManager::task('package-validator', ['message' => 'hello world!']);
  *     echo $task;
  *     // out: Validator says: hello world!
- * 
+ *
  * @param string $name name of the task, for later use with `task()` method
  * @param string|callable $handler A string of a valid class name extending
  *  `Installer\Task\BaseTask`, or a callable function.
  *   e.g. `\MyNameSpace\MySuperTask` (must extend BaseTask)
  * @return void
  */
-	public static function registerTask($name, $handler) {
-		static::$_taks[$name] = $handler;
-	}
-
+    public static function registerTask($name, $handler)
+    {
+        static::$_taks[$name] = $handler;
+    }
 }

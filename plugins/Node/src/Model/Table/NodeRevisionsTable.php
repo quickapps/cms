@@ -23,7 +23,8 @@ use Node\Model\Entity\Node;
  * Represents "node_revisions" database table.
  *
  */
-class NodeRevisionsTable extends Table {
+class NodeRevisionsTable extends Table
+{
 
 /**
  * Alter the schema used by this table.
@@ -31,10 +32,11 @@ class NodeRevisionsTable extends Table {
  * @param \Cake\Database\Schema\Table $table The table definition fetched from database
  * @return \Cake\Database\Schema\Table the altered schema
  */
-	protected function _initializeSchema(Schema $table) {
-		$table->columnType('data', 'serialized');
-		return $table;
-	}
+    protected function _initializeSchema(Schema $table)
+    {
+        $table->columnType('data', 'serialized');
+        return $table;
+    }
 
 /**
  * Initialize a table instance. Called after the constructor.
@@ -42,38 +44,39 @@ class NodeRevisionsTable extends Table {
  * @param array $config Configuration options passed to the constructor
  * @return void
  */
-	public function initialize(array $config) {
-		$this->addBehavior('Timestamp');
-	}
+    public function initialize(array $config)
+    {
+        $this->addBehavior('Timestamp');
+    }
 
 /**
  * Attaches NodeType information to each node revision.
- * 
+ *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\ORM\Query $query The query object
  * @param \ArrayObject $options Additional options given as an array
  * @param bool $primary Whether this find is a primary query or not
  * @return void
  */
-	public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary) {
-		$query->formatResults(function ($results) {
-			return $results->map(function ($revision) {
-				try {
-					if (isset($revision->data->node_type_id)) {
-						$nodeType = TableRegistry::get('Node.NodeTypes')
-							->find()
-							->where(['id' => $revision->data->node_type_id])
-							->first();
-						$revision->data->set('node_type', $nodeType);
-					}
-				} catch (\Exception $e) {
-					$revision->data->set('node_type', false);
-				}
-				return $revision;
-			});
-		});
+    public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary)
+    {
+        $query->formatResults(function ($results) {
+            return $results->map(function ($revision) {
+                try {
+                    if (isset($revision->data->node_type_id)) {
+                        $nodeType = TableRegistry::get('Node.NodeTypes')
+                            ->find()
+                            ->where(['id' => $revision->data->node_type_id])
+                            ->first();
+                        $revision->data->set('node_type', $nodeType);
+                    }
+                } catch (\Exception $e) {
+                    $revision->data->set('node_type', false);
+                }
+                return $revision;
+            });
+        });
 
-		return $query;
-	}
-
+        return $query;
+    }
 }

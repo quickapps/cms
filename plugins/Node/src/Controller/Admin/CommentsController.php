@@ -22,39 +22,41 @@ use Node\Controller\AppController;
  *
  * Allows to approved, detach and configure Fields to `Node Types`.
  */
-class CommentsController extends AppController {
+class CommentsController extends AppController
+{
 
-	use CommentUIControllerTrait {
-		beforeRender as protected _beforeRender;
-	}
+    use CommentUIControllerTrait {
+        beforeRender as protected _beforeRender;
+    }
 
 /**
  * Name of the table managed by Comment UI API.
  *
  * @var string
  */
-	protected $_manageTable = 'nodes';
+    protected $_manageTable = 'nodes';
 
 /**
  * Renders the description of the entity to which comment is attached to.
- * 
+ *
  * @param \Comment\Model\Entity\Comment $comment Comment entity
  * @return string
  */
-	protected function _inResponseTo(Comment $comment) {
-		$this->loadModel('Node.Nodes');
-		$this->Nodes->unbindFieldable();
-		$node = $this->Nodes->get($comment->entity_id);
+    protected function _inResponseTo(Comment $comment)
+    {
+        $this->loadModel('Node.Nodes');
+        $this->Nodes->unbindFieldable();
+        $node = $this->Nodes->get($comment->entity_id);
 
-		if ($node) {
-			$out = __d('node', '<a href="{0}" target="_blank">{1}</a>', Router::url(['plugin' => 'Node', 'controller' => 'manage', 'action' => 'edit', $node->id]), $node->title);
-			$out .= '<br />';
-			$out .= __d('node', '<a href="{0}" target="_blank">{1}</a>', Router::url($node->url), 'View content');
-			return $out;
-		}
+        if ($node) {
+            $out = __d('node', '<a href="{0}" target="_blank">{1}</a>', Router::url(['plugin' => 'Node', 'controller' => 'manage', 'action' => 'edit', $node->id]), $node->title);
+            $out .= '<br />';
+            $out .= __d('node', '<a href="{0}" target="_blank">{1}</a>', Router::url($node->url), 'View content');
+            return $out;
+        }
 
-		return __d('node', '-- Unknow --');
-	}
+        return __d('node', '-- Unknow --');
+    }
 
 /**
  * Before every action of this controller.
@@ -64,11 +66,11 @@ class CommentsController extends AppController {
  * @param \Cake\Event\Event $event The event that was triggered
  * @return void
  */
-	public function beforeRender(\Cake\Event\Event $event) {
-		$this->_beforeRender($event);
-		$this->Breadcrumb
-			->push('/admin/node/manage')
-			->push(__d('node', 'Comments'), '#');
-	}
-
+    public function beforeRender(\Cake\Event\Event $event)
+    {
+        $this->_beforeRender($event);
+        $this->Breadcrumb
+            ->push('/admin/node/manage')
+            ->push(__d('node', 'Comments'), '#');
+    }
 }

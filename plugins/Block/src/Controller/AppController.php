@@ -17,5 +17,6 @@ use QuickApps\Controller\Controller;
  * Main controller for Block plugin.
  *
  */
-class AppController extends Controller {
+class AppController extends Controller
+{
 }

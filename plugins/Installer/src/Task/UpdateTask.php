@@ -19,18 +19,19 @@ use Installer\Task\InstallTask;
  * ## Basic Usage:
  *
  * Using `InstallerComponent` on any controller:
- * 
+ *
  *     $task = $this->Installer
  *         ->task('update', ['callbacks' => true])
  *         ->download('http://example.com/new-version.zip');
- *     
+ *
  *     if ($task->run()) {
  *         $this->Flash->success('Installed!');
  *     } else {
  *         $errors = $task->errors();
  *     }
  */
-class UpdateTask extends InstallTask {
+class UpdateTask extends InstallTask
+{
 
 /**
  * Default config
@@ -39,37 +40,38 @@ class UpdateTask extends InstallTask {
  *
  * @var array
  */
-	protected $_defaultConfig = [
-		'callbacks' => true,
-	];
+    protected $_defaultConfig = [
+        'callbacks' => true,
+    ];
 
 /**
  * Invoked before "start()".
- * 
+ *
  * @return void
  */
-	public function init() {
-		if (!$this->_packagePath) {
-			$this->_rollback();
-			$this->error(__d('installer', 'You must set a package before try to update.'));
-		} elseif (!$this->_unzip()) {
-			$this->_rollback();
-		} elseif (!$this->_validateContent()) {
-			$this->_rollback();
-		} elseif (!$this->_exists()) {
-			$this->_rollback();
-			$this->error(__d('installer', 'This plugin is not installed, you cannot update a plugin that is not installed in your system.', $this->plugin()));
-		} else {
-			$info = Plugin::info($this->plugin(), true);
-			if ($info['isCore']) {
-				$this->error(__d('installer', 'Plugin "{0}" is a core plugin, you cannot update system\'s core using this method.', $info['human_name']));
-			} elseif (!$this->canBeDeleted($info['path'])) {
-				return;
-			}
-		}
+    public function init()
+    {
+        if (!$this->_packagePath) {
+            $this->_rollback();
+            $this->error(__d('installer', 'You must set a package before try to update.'));
+        } elseif (!$this->_unzip()) {
+            $this->_rollback();
+        } elseif (!$this->_validateContent()) {
+            $this->_rollback();
+        } elseif (!$this->_exists()) {
+            $this->_rollback();
+            $this->error(__d('installer', 'This plugin is not installed, you cannot update a plugin that is not installed in your system.', $this->plugin()));
+        } else {
+            $info = Plugin::info($this->plugin(), true);
+            if ($info['isCore']) {
+                $this->error(__d('installer', 'Plugin "{0}" is a core plugin, you cannot update system\'s core using this method.', $info['human_name']));
+            } elseif (!$this->canBeDeleted($info['path'])) {
+                return;
+            }
+        }
 
-		$this->plugin($this->plugin());
-	}
+        $this->plugin($this->plugin());
+    }
 
 /**
  * Starts the update process of the uploaded/downloaded package.
@@ -85,42 +87,42 @@ class UpdateTask extends InstallTask {
  *
  * @return bool True on success, false otherwise
  */
-	public function start() {
-		if (!empty($this->_errors)) {
-			$this->_rollback();
-			return false;
-		}
+    public function start()
+    {
+        if (!empty($this->_errors)) {
+            $this->_rollback();
+            return false;
+        }
 
-		if ($this->config('callbacks')) {
-			try {
-				$this->attachListeners("{$this->_extractedPath}src/Event");
-				$beforeUpdateEvent = $this->trigger('Plugin.' . $this->plugin() . '.beforeUpdate');
-				if ($beforeUpdateEvent->isStopped() || $beforeUpdateEvent->result === false) {
-					$this->error(__d('installer', 'Task was explicitly rejected by the plugin.'));
-					$this->_rollback();
-					return false;
-				}
-			} catch (\Exception $e) {
-				$this->error(__d('installer', 'Internal error, plugin did not respond to "beforeUpdate" callback correctly.'));
-				return false;
-			}
-		}
+        if ($this->config('callbacks')) {
+            try {
+                $this->attachListeners("{$this->_extractedPath}src/Event");
+                $beforeUpdateEvent = $this->trigger('Plugin.' . $this->plugin() . '.beforeUpdate');
+                if ($beforeUpdateEvent->isStopped() || $beforeUpdateEvent->result === false) {
+                    $this->error(__d('installer', 'Task was explicitly rejected by the plugin.'));
+                    $this->_rollback();
+                    return false;
+                }
+            } catch (\Exception $e) {
+                $this->error(__d('installer', 'Internal error, plugin did not respond to "beforeUpdate" callback correctly.'));
+                return false;
+            }
+        }
 
-		if (!$this->_movePackage(true)) {
-			$this->_rollback();
-			return false;
-		}
+        if (!$this->_movePackage(true)) {
+            $this->_rollback();
+            return false;
+        }
 
-		if ($this->config('callbacks')) {
-			try {
-				$this->trigger('Plugin.' . $this->plugin() . '.afterUpdate');
-			} catch (\Exception $e) {
-				$this->error(__d('installer', 'Plugin did not respond to "afterUninstall" callback correctly.'));
-			}
-		}
+        if ($this->config('callbacks')) {
+            try {
+                $this->trigger('Plugin.' . $this->plugin() . '.afterUpdate');
+            } catch (\Exception $e) {
+                $this->error(__d('installer', 'Plugin did not respond to "afterUninstall" callback correctly.'));
+            }
+        }
 
-		$this->_finish();
-		return true;
-	}
-
+        $this->_finish();
+        return true;
+    }
 }

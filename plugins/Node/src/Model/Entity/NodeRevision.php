@@ -17,6 +17,6 @@ use Cake\ORM\Entity;
  * Represents a single "node_revision" within "node_revisions" table.
  *
  */
-class NodeRevision extends Entity {
-
+class NodeRevision extends Entity
+{
 }

@@ -17,6 +17,6 @@ use Cake\ORM\Entity;
  * Represents single "role" in "roles" database table.
  *
  */
-class Role extends Entity {
-
+class Role extends Entity
+{
 }

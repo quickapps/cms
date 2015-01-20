@@ -19,31 +19,33 @@ use QuickApps\Event\HooktagAwareTrait;
  *
  * Utility methods used by ListField Handler.
  */
-class ListToolbox {
+class ListToolbox
+{
 
-	use HooktagAwareTrait;
+    use HooktagAwareTrait;
 
 /**
  * Holds an instance of this class.
  *
  * @var \Field\Utility\ListToolbox
  */
-	protected static $_instance = null;
+    protected static $_instance = null;
 
 /**
  * Returns an instance of this class.
  *
  * Useful when we need to use some of the trait methods.
- * 
+ *
  * @return \Field\Utility\ListToolbox
  */
-	public static function getInstance() {
-		if (!static::$_instance) {
-			static::$_instance = new ListToolbox();
-		}
+    public static function getInstance()
+    {
+        if (!static::$_instance) {
+            static::$_instance = new ListToolbox();
+        }
 
-		return static::$_instance;
-	}
+        return static::$_instance;
+    }
 
 /**
  * Formats the given field.
@@ -51,43 +53,43 @@ class ListToolbox {
  * @param \Field\Model\Entity\Field $field The field being rendered
  * @return string
  */
-	public static function formatter(Field $field) {
-		$viewModeSettings = $field->view_mode_settings;
-		$result = '';
-		$options = [];
+    public static function formatter(Field $field)
+    {
+        $viewModeSettings = $field->view_mode_settings;
+        $result = '';
+        $options = [];
 
-		if (!empty($field->metadata->settings['options'])) {
-			foreach (explode("\n", $field->metadata->settings['options']) as $option) {
-				$option = explode('|', $option);
-				$value = $option[0];
-				$label = isset($option[1]) ? $option[1] : $option[0];
-				$options[$value] = $label;
-			}
-		}
+        if (!empty($field->metadata->settings['options'])) {
+            foreach (explode("\n", $field->metadata->settings['options']) as $option) {
+                $option = explode('|', $option);
+                $value = $option[0];
+                $label = isset($option[1]) ? $option[1] : $option[0];
+                $options[$value] = $label;
+            }
+        }
 
-		$selectedOptions = [];
-		if (is_string($field->raw)) {
-			$selectedOptions = [$field->raw];
-		} else {
-			$selectedOptions = (array)$field->raw;
-		}
+        $selectedOptions = [];
+        if (is_string($field->raw)) {
+            $selectedOptions = [$field->raw];
+        } else {
+            $selectedOptions = (array)$field->raw;
+        }
 
-		foreach ($selectedOptions as $key) {
-			switch($field->view_mode_settings['formatter']) {
-				case 'key':
-					$result .= "{$key}<br />";
-				break;
+        foreach ($selectedOptions as $key) {
+            switch ($field->view_mode_settings['formatter']) {
+                case 'key':
+                    $result .= "{$key}<br />";
+                break;
 
-				case 'default':
-					default:
-						if (!empty($options[$key])) {
-							$result .= "{$options[$key]}<br />";
-						}
-				break;
-			}
-		}
+                case 'default':
+                    default:
+                        if (!empty($options[$key])) {
+                            $result .= "{$options[$key]}<br />";
+                        }
+                break;
+            }
+        }
 
-		return $result;
-	}
-
+        return $result;
+    }
 }

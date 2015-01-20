@@ -17,5 +17,6 @@ use QuickApps\Controller\Controller;
  * Main controller for Comment plugin.
  *
  */
-class AppController extends Controller {
+class AppController extends Controller
+{
 }

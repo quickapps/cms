@@ -21,7 +21,8 @@ use User\Utility\NotificationManager;
  * Main Hook Listener for User plugin.
  *
  */
-class UserHook implements EventListenerInterface {
+class UserHook implements EventListenerInterface
+{
 
 /**
  * Returns a list of hooks this Hook Listener is implementing. When the class
@@ -30,23 +31,24 @@ class UserHook implements EventListenerInterface {
  *
  * @return void
  */
-	public function implementedEvents() {
-		return [
-			'User.beforeIdentify' => 'beforeIdentify',
-			'User.afterIdentify' => 'afterIdentify',
-			'User.beforeLogout' => 'beforeLogout',
-			'User.afterLogout' => 'afterLogout',
+    public function implementedEvents()
+    {
+        return [
+            'User.beforeIdentify' => 'beforeIdentify',
+            'User.afterIdentify' => 'afterIdentify',
+            'User.beforeLogout' => 'beforeLogout',
+            'User.afterLogout' => 'afterLogout',
 
-			'User.registered' => 'registered',
-			'User.activated' => 'activated',
-			'User.blocked' => 'blocked',
-			'User.cancelRequest' => 'cancelRequest',
-			'User.canceled' => 'canceled',
-			'User.passwordRequest' => 'passwordRequest',
+            'User.registered' => 'registered',
+            'User.activated' => 'activated',
+            'User.blocked' => 'blocked',
+            'User.cancelRequest' => 'cancelRequest',
+            'User.canceled' => 'canceled',
+            'User.passwordRequest' => 'passwordRequest',
 
-			'Plugin.User.settingsValidate' => 'settingsBeforeValidate',
-		];
-	}
+            'Plugin.User.settingsValidate' => 'settingsBeforeValidate',
+        ];
+    }
 
 /**
  * Event triggered before users is identified.
@@ -56,9 +58,10 @@ class UserHook implements EventListenerInterface {
  * @param \Cake\Event\Event $event The event that was triggered
  * @return bool
  */
-	public function beforeIdentify(Event $event) {
-		return true;
-	}
+    public function beforeIdentify(Event $event)
+    {
+        return true;
+    }
 
 /**
  * Triggered After user's identification operation has been completed.
@@ -71,8 +74,9 @@ class UserHook implements EventListenerInterface {
  *  not be identified, or an array of user's info if was successfully identified
  * @return bool
  */
-	public function afterIdentify(Event $event, $result) {
-	}
+    public function afterIdentify(Event $event, $result)
+    {
+    }
 
 /**
  * Event triggered before user logout action.
@@ -82,9 +86,10 @@ class UserHook implements EventListenerInterface {
  * @param \Cake\Event\Event $event The event that was triggered
  * @return bool
  */
-	public function beforeLogout(Event $event) {
-		return true;
-	}
+    public function beforeLogout(Event $event)
+    {
+        return true;
+    }
 
 /**
  * Event triggered after user logout action.
@@ -96,8 +101,9 @@ class UserHook implements EventListenerInterface {
  * @param string|array $redirect Default redirection URL that will be used
  * @return bool
  */
-	public function afterLogout(Event $event, $redirect = '') {
-	}
+    public function afterLogout(Event $event, $redirect = '')
+    {
+    }
 
 /**
  * Event triggered when new users are registered on DB.
@@ -106,9 +112,10 @@ class UserHook implements EventListenerInterface {
  * @param \User\Model\Entity\User $user The user entity that was registered
  * @return bool
  */
-	public function registered(Event $event, User $user) {
-		return (new NotificationManager($user))->welcome();
-	}
+    public function registered(Event $event, User $user)
+    {
+        return (new NotificationManager($user))->welcome();
+    }
 
 /**
  * Event triggered when an user is activated (status = 1).
@@ -117,9 +124,10 @@ class UserHook implements EventListenerInterface {
  * @param \User\Model\Entity\User $user The user entity that was activated
  * @return bool
  */
-	public function activated(Event $event, User $user) {
-		return (new NotificationManager($user))->activated();
-	}
+    public function activated(Event $event, User $user)
+    {
+        return (new NotificationManager($user))->activated();
+    }
 
 /**
  * Event triggered when user has been blocked (status = 0).
@@ -128,9 +136,10 @@ class UserHook implements EventListenerInterface {
  * @param \User\Model\Entity\User $user The user entity that was blocked
  * @return bool
  */
-	public function blocked(Event $event, User $user) {
-		return (new NotificationManager($user))->blocked();
-	}
+    public function blocked(Event $event, User $user)
+    {
+        return (new NotificationManager($user))->blocked();
+    }
 
 /**
  * Event triggered when user requests to cancel his/her account.
@@ -140,9 +149,10 @@ class UserHook implements EventListenerInterface {
  *  cancellation
  * @return bool
  */
-	public function cancelRequest(Event $event, User $user) {
-		return (new NotificationManager($user))->cancelRequest();
-	}
+    public function cancelRequest(Event $event, User $user)
+    {
+        return (new NotificationManager($user))->cancelRequest();
+    }
 
 /**
  * Event triggered after user account was removed.
@@ -151,9 +161,10 @@ class UserHook implements EventListenerInterface {
  * @param \User\Model\Entity\User $user The user entity that was canceled
  * @return bool
  */
-	public function canceled(Event $event, User $user) {
-		return (new NotificationManager($user))->canceled();
-	}
+    public function canceled(Event $event, User $user)
+    {
+        return (new NotificationManager($user))->canceled();
+    }
 
 /**
  * Event triggered when user request for a new password.
@@ -162,9 +173,10 @@ class UserHook implements EventListenerInterface {
  * @param \User\Model\Entity\User $user The user entity requesting a new password
  * @return bool
  */
-	public function passwordRequest(Event $event, User $user) {
-		return (new NotificationManager($user))->passwordRequest();
-	}
+    public function passwordRequest(Event $event, User $user)
+    {
+        return (new NotificationManager($user))->passwordRequest();
+    }
 
 /**
  * Provides defaults values for settings keys.
@@ -174,37 +186,37 @@ class UserHook implements EventListenerInterface {
  * @param \Cake\Validation\Validator $validator The validator object
  * @return void
  */
-	public function settingsBeforeValidate(Event $event, $settings, $validator) {
-		$validator
-			->requirePresence('message_welcome_subject')
-			->notEmpty('message_welcome_subject', __d('user', 'This field cannot be empty.'))
+    public function settingsBeforeValidate(Event $event, $settings, $validator)
+    {
+        $validator
+            ->requirePresence('message_welcome_subject')
+            ->notEmpty('message_welcome_subject', __d('user', 'This field cannot be empty.'))
 
-			->requirePresence('message_welcome_body')
-			->notEmpty('message_welcome_body', __d('user', 'This field cannot be empty.'))
+            ->requirePresence('message_welcome_body')
+            ->notEmpty('message_welcome_body', __d('user', 'This field cannot be empty.'))
 
-			->requirePresence('message_password_recovery_subject')
-			->notEmpty('message_password_recovery_body', __d('user', 'This field cannot be empty.'))
+            ->requirePresence('message_password_recovery_subject')
+            ->notEmpty('message_password_recovery_body', __d('user', 'This field cannot be empty.'))
 
-			->requirePresence('message_cancel_request_subject')
-			->notEmpty('message_cancel_request_body', __d('user', 'This field cannot be empty.'));
+            ->requirePresence('message_cancel_request_subject')
+            ->notEmpty('message_cancel_request_body', __d('user', 'This field cannot be empty.'));
 
-		if ($settings->message_activation) {
-			$validator
-				->requirePresence('message_activation_subject')
-				->notEmpty('message_activation_body', __d('user', 'This field cannot be empty.'));
-		}
+        if ($settings->message_activation) {
+            $validator
+                ->requirePresence('message_activation_subject')
+                ->notEmpty('message_activation_body', __d('user', 'This field cannot be empty.'));
+        }
 
-		if ($settings->message_blocked) {
-			$validator
-				->requirePresence('message_blocked_subject')
-				->notEmpty('message_blocked_body', __d('user', 'This field cannot be empty.'));
-		}
+        if ($settings->message_blocked) {
+            $validator
+                ->requirePresence('message_blocked_subject')
+                ->notEmpty('message_blocked_body', __d('user', 'This field cannot be empty.'));
+        }
 
-		if ($settings->message_canceled) {
-			$validator
-				->requirePresence('message_canceled_subject')
-				->notEmpty('message_canceled_body', __d('user', 'This field cannot be empty.'));
-		}
-	}
-
+        if ($settings->message_canceled) {
+            $validator
+                ->requirePresence('message_canceled_subject')
+                ->notEmpty('message_canceled_body', __d('user', 'This field cannot be empty.'));
+        }
+    }
 }

@@ -74,268 +74,267 @@ use QuickApps\Core\Plugin;
 trait CommentUIControllerTrait
 {
 
-	/**
-	 * Validation rules.
-	 *
-	 * @param \Cake\Event\Event $event The event instance.
-	 * @return void
-	 * @throws \Cake\Network\Exception\ForbiddenException When
-	 *  - $_manageTable is not defined.
-	 *  - trait is used in non-controller classes.
-	 *  - the controller is not a backend controller.
-	 *  - the "_inResponseTo()" is not implemented.
-	 */
-	public function beforeFilter(Event $event)
-	{
-		$requestParams = $event->subject->request->params;
+    /**
+     * Validation rules.
+     *
+     * @param \Cake\Event\Event $event The event instance.
+     * @return void
+     * @throws \Cake\Network\Exception\ForbiddenException When
+     *  - $_manageTable is not defined.
+     *  - trait is used in non-controller classes.
+     *  - the controller is not a backend controller.
+     *  - the "_inResponseTo()" is not implemented.
+     */
+    public function beforeFilter(Event $event)
+    {
+        $requestParams = $event->subject->request->params;
 
-		if (!isset($this->_manageTable) || empty($this->_manageTable)) {
-			throw new ForbiddenException(__d('field', 'CommentUIControllerTrait: The property $_manageTable was not found or is empty.'));
-		} elseif (!($this instanceof \Cake\Controller\Controller)) {
-			throw new ForbiddenException(__d('field', 'CommentUIControllerTrait: This trait must be used on instances of Cake\Controller\Controller.'));
-		} elseif (!isset($requestParams['prefix']) || strtolower($requestParams['prefix']) !== 'admin') {
-			throw new ForbiddenException(__d('field', 'CommentUIControllerTrait: This trait must be used on backend-controllers only.'));
-		} elseif (!method_exists($this, '_inResponseTo')) {
-			throw new ForbiddenException(__d('field', 'CommentUIControllerTrait: This trait needs you to implement the "_inResponseTo()" method.'));
-		}
+        if (!isset($this->_manageTable) || empty($this->_manageTable)) {
+            throw new ForbiddenException(__d('field', 'CommentUIControllerTrait: The property $_manageTable was not found or is empty.'));
+        } elseif (!($this instanceof \Cake\Controller\Controller)) {
+            throw new ForbiddenException(__d('field', 'CommentUIControllerTrait: This trait must be used on instances of Cake\Controller\Controller.'));
+        } elseif (!isset($requestParams['prefix']) || strtolower($requestParams['prefix']) !== 'admin') {
+            throw new ForbiddenException(__d('field', 'CommentUIControllerTrait: This trait must be used on backend-controllers only.'));
+        } elseif (!method_exists($this, '_inResponseTo')) {
+            throw new ForbiddenException(__d('field', 'CommentUIControllerTrait: This trait needs you to implement the "_inResponseTo()" method.'));
+        }
 
-		$this->_manageTable = Inflector::underscore($this->_manageTable);
-		$this->helpers[] = 'Time';
-		$this->helpers['Paginator'] = [
-			'className' => 'QuickApps\View\Helper\PaginatorHelper',
-			'templates' => 'System.paginator-templates',
-		];
-		$this->paginate['limit'] = 10;
+        $this->_manageTable = Inflector::underscore($this->_manageTable);
+        $this->helpers[] = 'Time';
+        $this->helpers['Paginator'] = [
+            'className' => 'QuickApps\View\Helper\PaginatorHelper',
+            'templates' => 'System.paginator-templates',
+        ];
+        $this->paginate['limit'] = 10;
 
-		$this->loadComponent('Paginator');
-		$this->loadComponent('Comment.Comment');
-		$this->Comment->initialize([]);
-	}
+        $this->loadComponent('Paginator');
+        $this->loadComponent('Comment.Comment');
+        $this->Comment->initialize([]);
+    }
 
-	/**
-	 * Fallback for template location when extending Comment UI API.
-	 *
-	 * If controller tries to render an unexisting template under its Template
-	 * directory, then we try to find that view under `Comment/Template/CommentUI`
-	 * directory.
-	 *
-	 * ### Example:
-	 *
-	 * Suppose you are using this trait to manage comments attached to `Persons`
-	 * entities. You would probably have a `Person` plugin and a `clean` controller
-	 * as follow:
-	 *
-	 *     // http://example.com/admin/person/comments_manager
-	 *     Person\Controller\CommentsManagerController::index()
-	 *
-	 * The above controller action will try to render
-	 * `/plugins/Person/Template/CommentsManager/index.ctp`. But if does not exists
-	 * then `<QuickAppsCorePath>/plugins/Comment/Template/CommentUI/index.ctp` will
-	 * be used instead.
-	 *
-	 * Of course you may create your own template and skip this fallback functionality.
-	 *
-	 * @param \Cake\Event\Event $event the event instance.
-	 * @return void
-	 */
-	public function beforeRender(Event $event)
-	{
-		$plugin = Inflector::camelize($event->subject->request->params['plugin']);
-		$controller = Inflector::camelize($event->subject->request->params['controller']);
-		$action = $event->subject->request->params['action'];
-		$prefix = '';
+    /**
+     * Fallback for template location when extending Comment UI API.
+     *
+     * If controller tries to render an unexisting template under its Template
+     * directory, then we try to find that view under `Comment/Template/CommentUI`
+     * directory.
+     *
+     * ### Example:
+     *
+     * Suppose you are using this trait to manage comments attached to `Persons`
+     * entities. You would probably have a `Person` plugin and a `clean` controller
+     * as follow:
+     *
+     *     // http://example.com/admin/person/comments_manager
+     *     Person\Controller\CommentsManagerController::index()
+     *
+     * The above controller action will try to render
+     * `/plugins/Person/Template/CommentsManager/index.ctp`. But if does not exists
+     * then `<QuickAppsCorePath>/plugins/Comment/Template/CommentUI/index.ctp` will
+     * be used instead.
+     *
+     * Of course you may create your own template and skip this fallback functionality.
+     *
+     * @param \Cake\Event\Event $event the event instance.
+     * @return void
+     */
+    public function beforeRender(Event $event)
+    {
+        $plugin = Inflector::camelize($event->subject->request->params['plugin']);
+        $controller = Inflector::camelize($event->subject->request->params['controller']);
+        $action = $event->subject->request->params['action'];
+        $prefix = '';
 
-		if (!empty($event->subject->request->params['prefix'])) {
-			$prefix = Inflector::camelize($event->subject->request->params['prefix']) . '/';
-		}
+        if (!empty($event->subject->request->params['prefix'])) {
+            $prefix = Inflector::camelize($event->subject->request->params['prefix']) . '/';
+        }
 
-		$templatePath = Plugin::classPath($plugin) . "Template/{$prefix}{$controller}/{$action}.ctp";
-		if (!file_exists($templatePath)) {
-			$alternativeTemplatePath = Plugin::classPath('Comment') . 'Template/CommentUI';
+        $templatePath = Plugin::classPath($plugin) . "Template/{$prefix}{$controller}/{$action}.ctp";
+        if (!file_exists($templatePath)) {
+            $alternativeTemplatePath = Plugin::classPath('Comment') . 'Template/CommentUI';
 
-			if (file_exists("{$alternativeTemplatePath}/{$action}.ctp")) {
-				$this->view = "{$alternativeTemplatePath}/{$action}.ctp";
-			}
-		}
+            if (file_exists("{$alternativeTemplatePath}/{$action}.ctp")) {
+                $this->view = "{$alternativeTemplatePath}/{$action}.ctp";
+            }
+        }
 
-		parent::beforeRender($event);
-	}
+        parent::beforeRender($event);
+    }
 
-	/**
-	 * Field UI main action.
-	 *
-	 * Shows all the fields attached to the Table being managed. Possibles values
-	 * for status are:
-	 *
-	 * - `all`: Comments marked as `pending` or `approved`. (by default)
-	 * - `pending`: Comments awaiting for moderation.
-	 * - `spam`: Comments marked as SPAM by Akismet.
-	 * - `trash`: Comments that were sent to trash bin.
-	 *
-	 * @param string $status Filter comments by `status`, see list above
-	 * @return void
-	 */
-	public function index($status = 'all')
-	{
-		$this->loadModel('Comment.Comments');
-		$this->_setCounters();
-		$search = ''; // fills form's input
-		$conditions = ['table_alias' => $this->_manageTable];
+    /**
+     * Field UI main action.
+     *
+     * Shows all the fields attached to the Table being managed. Possibles values
+     * for status are:
+     *
+     * - `all`: Comments marked as `pending` or `approved`. (by default)
+     * - `pending`: Comments awaiting for moderation.
+     * - `spam`: Comments marked as SPAM by Akismet.
+     * - `trash`: Comments that were sent to trash bin.
+     *
+     * @param string $status Filter comments by `status`, see list above
+     * @return void
+     */
+    public function index($status = 'all')
+    {
+        $this->loadModel('Comment.Comments');
+        $this->_setCounters();
+        $search = ''; // fills form's input
+        $conditions = ['table_alias' => $this->_manageTable];
 
-		if (in_array($status, ['pending', 'approved', 'spam', 'trash'])) {
-			$conditions['Comments.status'] = $status;
-		} else {
-			$status = 'all';
-			$conditions['Comments.status IN'] = ['pending', 'approved'];
-		}
+        if (in_array($status, ['pending', 'approved', 'spam', 'trash'])) {
+            $conditions['Comments.status'] = $status;
+        } else {
+            $status = 'all';
+            $conditions['Comments.status IN'] = ['pending', 'approved'];
+        }
 
-		if (!empty($this->request->query['search'])) {
-			$search = $this->request->query['search'];
-			$conditions['OR'] = [
-				'Comments.subject LIKE' => "%{$this->request->query['search']}%",
-				'Comments.body LIKE' => "%{$this->request->query['search']}%",
-			];
-		}
+        if (!empty($this->request->query['search'])) {
+            $search = $this->request->query['search'];
+            $conditions['OR'] = [
+                'Comments.subject LIKE' => "%{$this->request->query['search']}%",
+                'Comments.body LIKE' => "%{$this->request->query['search']}%",
+            ];
+        }
 
-		$comments = $this->Comments
-			->find()
-			->contain(['Users'])
-			->where($conditions)
-			->order(['Comments.created' => 'DESC'])
-			->formatResults(function ($results) {
-				return $results->map(function ($comment) {
-					$comment->set('entity', $this->_inResponseTo($comment));
-					$comment->set('body',
-						TextToolbox::trimmer(
-							TextToolbox::plainProcessor(
-								TextToolbox::stripHtmlTags($comment->body)
-							),
-							180
-						)
-					);
-					return $comment;
-				});
-			});
+        $comments = $this->Comments
+            ->find()
+            ->contain(['Users'])
+            ->where($conditions)
+            ->order(['Comments.created' => 'DESC'])
+            ->formatResults(function ($results) {
+                return $results->map(function ($comment) {
+                    $comment->set('entity', $this->_inResponseTo($comment));
+                    $comment->set('body',
+                        TextToolbox::trimmer(
+                            TextToolbox::plainProcessor(
+                                TextToolbox::stripHtmlTags($comment->body)
+                            ),
+                            180
+                        )
+                    );
+                    return $comment;
+                });
+            });
 
-		$this->set('search', $search);
-		$this->set('filterBy', $status);
-		$this->set('comments', $this->paginate($comments));
-	}
+        $this->set('search', $search);
+        $this->set('filterBy', $status);
+        $this->set('comments', $this->paginate($comments));
+    }
 
-	/**
-	 * Edit form for given comment.
-	 *
-	 * @param int $id Comment id
-	 * @return void Redirects to previous page
-	 * @throws \Cake\ORM\Exception\RecordNotFoundException When comment was not found
-	 */
-	public function edit($id)
-	{
-		$this->loadModel('Comment.Comments');
-		$comment = $this->Comments
-			->find()
-			->contain(['Users'])
-			->where(['Comments.id' => $id, 'Comments.table_alias' => $this->_manageTable])
-			->first();
+    /**
+     * Edit form for given comment.
+     *
+     * @param int $id Comment id
+     * @return void Redirects to previous page
+     * @throws \Cake\ORM\Exception\RecordNotFoundException When comment was not found
+     */
+    public function edit($id)
+    {
+        $this->loadModel('Comment.Comments');
+        $comment = $this->Comments
+            ->find()
+            ->contain(['Users'])
+            ->where(['Comments.id' => $id, 'Comments.table_alias' => $this->_manageTable])
+            ->first();
 
-		if (!$comment) {
-			throw new RecordNotFoundException(__d('comment', 'Comment could not be found.'));
-		}
+        if (!$comment) {
+            throw new RecordNotFoundException(__d('comment', 'Comment could not be found.'));
+        }
 
-		if (!empty($this->request->data)) {
-			$comment->accessible('*', false);
-			$comment->accessible(['subject', 'body', 'author_name', 'author_email', 'author_web', 'status'], true);
-			$comment->set($this->request->data);
+        if (!empty($this->request->data)) {
+            $comment->accessible('*', false);
+            $comment->accessible(['subject', 'body', 'author_name', 'author_email', 'author_web', 'status'], true);
+            $comment->set($this->request->data);
 
-			$validator = $comment->user_id ? 'default' : 'anonymous';
-			if ($this->Comments->save($comment, ['validate' => $validator, 'associated' => false])) {
-				$this->Flash->success(__d('comment', 'Comment saved!.'));
-				$this->redirect($this->referer());
-			} else {
-				$this->Flash->danger(__d('comment', 'Comment could not be saved, please check your information.'));
-			}
-		}
+            $validator = $comment->user_id ? 'default' : 'anonymous';
+            if ($this->Comments->save($comment, ['validate' => $validator, 'associated' => false])) {
+                $this->Flash->success(__d('comment', 'Comment saved!.'));
+                $this->redirect($this->referer());
+            } else {
+                $this->Flash->danger(__d('comment', 'Comment could not be saved, please check your information.'));
+            }
+        }
 
-		$this->set('comment', $comment);
-	}
+        $this->set('comment', $comment);
+    }
 
-	/**
-	 * Changes the status of the given comment.
-	 *
-	 * @param int $id Comment id
-	 * @param string $status New status for the comment
-	 * @return void Redirects to previous page
-	 */
-	public function status($id, $status)
-	{
-		if (in_array($status, ['pending', 'approved', 'spam', 'trash'])) {
-			$this->loadModel('Comment.Comments');
-			if ($comment = $this->Comments->get($id)) {
-				$comment->set('status', $status);
-				$this->Comments->save($comment, ['validate' => false]);
-			}
-		}
+    /**
+     * Changes the status of the given comment.
+     *
+     * @param int $id Comment id
+     * @param string $status New status for the comment
+     * @return void Redirects to previous page
+     */
+    public function status($id, $status)
+    {
+        if (in_array($status, ['pending', 'approved', 'spam', 'trash'])) {
+            $this->loadModel('Comment.Comments');
+            if ($comment = $this->Comments->get($id)) {
+                $comment->set('status', $status);
+                $this->Comments->save($comment, ['validate' => false]);
+            }
+        }
 
-		$this->redirect($this->referer());
-	}
+        $this->redirect($this->referer());
+    }
 
-	/**
-	 * Permanently deletes the given comment.
-	 *
-	 * @param int $id Comment id
-	 * @return void Redirects to previous page
-	 */
-	public function delete($id)
-	{
-		$this->loadModel('Comment.Comments');
-		$comment = $this->Comments
-			->find()
-			->where(['Comments.id' => $id, 'Comments.table_alias' => $this->_manageTable])
-			->first();
+    /**
+     * Permanently deletes the given comment.
+     *
+     * @param int $id Comment id
+     * @return void Redirects to previous page
+     */
+    public function delete($id)
+    {
+        $this->loadModel('Comment.Comments');
+        $comment = $this->Comments
+            ->find()
+            ->where(['Comments.id' => $id, 'Comments.table_alias' => $this->_manageTable])
+            ->first();
 
-		if ($comment) {
-			if ($this->Comments->delete($comment)) {
-				$this->Flash->success(__d('comment', 'Comment was successfully deleted!'));
-			} else {
-				$this->Flash->danger(__d('comment', 'Comment could not be deleted, please try again.'));
-			}
-		} else {
-			$this->Flash->danger(__d('comment', 'Invalid comment, comment was not found.'));
-		}
+        if ($comment) {
+            if ($this->Comments->delete($comment)) {
+                $this->Flash->success(__d('comment', 'Comment was successfully deleted!'));
+            } else {
+                $this->Flash->danger(__d('comment', 'Comment could not be deleted, please try again.'));
+            }
+        } else {
+            $this->Flash->danger(__d('comment', 'Invalid comment, comment was not found.'));
+        }
 
-		$this->redirect($this->referer());
-	}
+        $this->redirect($this->referer());
+    }
 
-	/**
-	 * Permanently deletes all comments marked as "trash".
-	 *
-	 * @return void Redirects to previous page
-	 */
-	public function empty_trash()
-	{
-		$this->loadModel('Comment.Comments');
-		$this->Comments->deleteAll(['Comments.status' => 'trash', 'Comments.table_alias' => $this->_manageTable]);
-		$this->Flash->success(__d('comment', 'All comments in trash were successfully removed!'));
-		$this->redirect($this->referer());
-	}
+    /**
+     * Permanently deletes all comments marked as "trash".
+     *
+     * @return void Redirects to previous page
+     */
+    public function empty_trash()
+    {
+        $this->loadModel('Comment.Comments');
+        $this->Comments->deleteAll(['Comments.status' => 'trash', 'Comments.table_alias' => $this->_manageTable]);
+        $this->Flash->success(__d('comment', 'All comments in trash were successfully removed!'));
+        $this->redirect($this->referer());
+    }
 
-	/**
-	 * Sets a few view-variables holding counters for
-	 * each status ("pending", "approved", "spam" or "trash").
-	 *
-	 * @return void
-	 */
-	protected function _setCounters()
-	{
-		$this->loadModel('Comment.Comments');
-		$pending = $this->Comments->find()->where(['status' => 'pending'])->count();
-		$approved = $this->Comments->find()->where(['status' => 'approved'])->count();
-		$spam = $this->Comments->find()->where(['status' => 'spam'])->count();
-		$trash = $this->Comments->find()->where(['status' => 'trash'])->count();
-		$this->set('pendingCounter', $pending);
-		$this->set('approvedCounter', $approved);
-		$this->set('spamCounter', $spam);
-		$this->set('trashCounter', $trash);
-	}
-
+    /**
+     * Sets a few view-variables holding counters for
+     * each status ("pending", "approved", "spam" or "trash").
+     *
+     * @return void
+     */
+    protected function _setCounters()
+    {
+        $this->loadModel('Comment.Comments');
+        $pending = $this->Comments->find()->where(['status' => 'pending'])->count();
+        $approved = $this->Comments->find()->where(['status' => 'approved'])->count();
+        $spam = $this->Comments->find()->where(['status' => 'spam'])->count();
+        $trash = $this->Comments->find()->where(['status' => 'trash'])->count();
+        $this->set('pendingCounter', $pending);
+        $this->set('approvedCounter', $approved);
+        $this->set('spamCounter', $spam);
+        $this->set('trashCounter', $trash);
+    }
 }

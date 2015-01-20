@@ -22,38 +22,38 @@ use User\Model\Entity\UserSession;
  * "roles" DB table.
  */
 if (!defined('ROLE_ID_ADMINISTRATOR')) {
-/**
+    /**
  * ID for "administrator" role, must match the ID stored in DB. You should
  * never change this value on production site.
  */
-	define('ROLE_ID_ADMINISTRATOR', 1);
+    define('ROLE_ID_ADMINISTRATOR', 1);
 }
 
 if (!defined('ROLE_ID_AUTHENTICATED')) {
-/**
+    /**
  * ID for "authenticated" role, must match the ID stored in DB. You should
  * never change this value on production site.
  */
-	define('ROLE_ID_AUTHENTICATED', 2);
+    define('ROLE_ID_AUTHENTICATED', 2);
 }
 
 if (!defined('ROLE_ID_ANONYMOUS')) {
-/**
+    /**
  * ID for "anonymous" role, must match the ID stored in DB. You should
  * never change this value on production site.
  */
-	define('ROLE_ID_ANONYMOUS', 3);
+    define('ROLE_ID_ANONYMOUS', 3);
 }
 
 /**
  * Used by CachedAuthorize.
  */
 Cache::config('permissions', [
-	'duration' => '+1 hour',
-	'path' => TMP,
-	'engine' => 'File',
-	'prefix' => 'qa_',
-	'groups' => ['acl']
+    'duration' => '+1 hour',
+    'path' => TMP,
+    'engine' => 'File',
+    'prefix' => 'qa_',
+    'groups' => ['acl']
 ]);
 
 /**
@@ -67,34 +67,34 @@ Cache::config('permissions', [
  *
  * @return \User\Model\Entity\UserSession
  */
-	function user() {
-		$request = Router::getRequest();
-		if ($request && $request->is('userLoggedIn')) {
-			$properties = Router::getRequest()->session()->read('Auth.User');
-			if (!empty($properties['roles'])) {
-				foreach ($properties['roles'] as &$role) {
-					unset($role['_joinData']);
-					$role = new Entity($role);
-				}
-			} else {
-				$properties['roles'] = [];
-			}
-			$properties['roles'][] = TableRegistry::get('Roles')->get(ROLE_ID_AUTHENTICATED);
+    function user()
+    {
+        $request = Router::getRequest();
+        if ($request && $request->is('userLoggedIn')) {
+            $properties = Router::getRequest()->session()->read('Auth.User');
+            if (!empty($properties['roles'])) {
+                foreach ($properties['roles'] as &$role) {
+                    unset($role['_joinData']);
+                    $role = new Entity($role);
+                }
+            } else {
+                $properties['roles'] = [];
+            }
+            $properties['roles'][] = TableRegistry::get('Roles')->get(ROLE_ID_AUTHENTICATED);
+        } else {
+            $properties = [
+                'id' => null,
+                'name' => __d('user', 'Anonymous'),
+                'username' => __d('user', 'anonymous'),
+                'email' => __d('user', '(no email)'),
+                'locale' => I18n::defaultLocale(),
+                'roles' => [TableRegistry::get('Roles')->get(ROLE_ID_ANONYMOUS)],
+            ];
+        }
 
-		} else {
-			$properties = [
-				'id' => null,
-				'name' => __d('user', 'Anonymous'),
-				'username' => __d('user', 'anonymous'),
-				'email' => __d('user', '(no email)'),
-				'locale' => I18n::defaultLocale(),
-				'roles' => [TableRegistry::get('Roles')->get(ROLE_ID_ANONYMOUS)],
-			];
-		}
-
-		static $user = null;
-		if ($user === null) {
-			$user = new UserSession($properties);
-		}
-		return $user;
-	}
+        static $user = null;
+        if ($user === null) {
+            $user = new UserSession($properties);
+        }
+        return $user;
+    }

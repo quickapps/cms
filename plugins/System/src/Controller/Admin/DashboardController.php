@@ -19,7 +19,8 @@ use System\Controller\AppController;
  * Represents backend's dashboard panel, here is users are redirected to after
  * login in backend.
  */
-class DashboardController extends AppController {
+class DashboardController extends AppController
+{
 
 /**
  * Main action for dashboard.
@@ -28,6 +29,7 @@ class DashboardController extends AppController {
  *
  * @return void
  */
-	public function index() {
-	}
+    public function index()
+    {
+    }
 }

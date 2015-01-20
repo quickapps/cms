@@ -23,7 +23,8 @@ use System\Controller\AppController;
  *
  * For handling plugin's help documents.
  */
-class HelpController extends AppController {
+class HelpController extends AppController
+{
 
 /**
  * Main action.
@@ -48,18 +49,19 @@ class HelpController extends AppController {
  *
  * @return void
  */
-	public function index() {
-		$plugins = [];
+    public function index()
+    {
+        $plugins = [];
 
-		foreach (Plugin::collection() as $plugin) {
-			if ($plugin['status'] && $plugin['hasHelp']) {
-				$plugins[] = $plugin['human_name'];
-			}
-		}
+        foreach (Plugin::collection() as $plugin) {
+            if ($plugin['status'] && $plugin['hasHelp']) {
+                $plugins[] = $plugin['human_name'];
+            }
+        }
 
-		$this->set('plugins', $plugins);
-		$this->Breadcrumb->push('/admin/system/help');
-	}
+        $this->set('plugins', $plugins);
+        $this->Breadcrumb->push('/admin/system/help');
+    }
 
 /**
  * Renders the help document of the given plugin.
@@ -68,32 +70,32 @@ class HelpController extends AppController {
  * @return void
  * @throws \Cake\Network\Exception\NotFoundException When no help document was found
  */
-	public function about($pluginName) {
-		$about = false;
+    public function about($pluginName)
+    {
+        $about = false;
 
-		if (Plugin::loaded($pluginName)) {
-			$locale = I18n::defaultLocale();
-			$templatePath = App::path('Template', $pluginName)[0] . 'Element/Help/';
-			$about = false;
-			$lookFor = ["help_{$locale}", 'help'];
+        if (Plugin::loaded($pluginName)) {
+            $locale = I18n::defaultLocale();
+            $templatePath = App::path('Template', $pluginName)[0] . 'Element/Help/';
+            $about = false;
+            $lookFor = ["help_{$locale}", 'help'];
 
-			foreach ($lookFor as $name) {
-				if (file_exists($templatePath . "{$name}.ctp")) {
-					$about = "{$pluginName}.Help/{$name}";
-					break;
-				}
-			}
-		}
+            foreach ($lookFor as $name) {
+                if (file_exists($templatePath . "{$name}.ctp")) {
+                    $about = "{$pluginName}.Help/{$name}";
+                    break;
+                }
+            }
+        }
 
-		if ($about) {
-			$this->set('about', $about);
-		} else {
-			throw new NotFoundException(__d('system', 'No help was found.'));
-		}
+        if ($about) {
+            $this->set('about', $about);
+        } else {
+            throw new NotFoundException(__d('system', 'No help was found.'));
+        }
 
-		$this->Breadcrumb
-			->push('/admin/system/help')
-			->push(__d('system', 'About {0}', $pluginName), '#');
-	}
-
+        $this->Breadcrumb
+            ->push('/admin/system/help')
+            ->push(__d('system', 'About {0}', $pluginName), '#');
+    }
 }

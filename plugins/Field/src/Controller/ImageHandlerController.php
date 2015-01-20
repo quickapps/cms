@@ -19,70 +19,73 @@ use QuickApps\Core\Plugin;
  * Handles file uploading by "Image Field Handler".
  *
  */
-class ImageHandlerController extends FileHandlerController {
+class ImageHandlerController extends FileHandlerController
+{
 
 /**
  * {@inheritDoc}
  */
-	public function upload($instanceSlug, $uploader = null) {
-		$field = $this->_getInstance($instanceSlug);
+    public function upload($instanceSlug, $uploader = null)
+    {
+        $field = $this->_getInstance($instanceSlug);
 
-		if (!is_object($uploader)) {
-			require_once Plugin::classPath('Field') . 'Lib/class.upload.php';
-			$uploader = new \upload($this->request->data['Filedata']);
-		}
+        if (!is_object($uploader)) {
+            require_once Plugin::classPath('Field') . 'Lib/class.upload.php';
+            $uploader = new \upload($this->request->data['Filedata']);
+        }
 
-		if (!empty($field->settings['min_width'])) {
-			$uploader->image_min_width = $field->settings['min_width'];
-		}
+        if (!empty($field->settings['min_width'])) {
+            $uploader->image_min_width = $field->settings['min_width'];
+        }
 
-		if (!empty($field->settings['min_height'])) {
-			$uploader->image_min_height = $field->settings['min_height'];
-		}
+        if (!empty($field->settings['min_height'])) {
+            $uploader->image_min_height = $field->settings['min_height'];
+        }
 
-		if (!empty($field->settings['max_width'])) {
-			$uploader->image_max_width = $field->settings['max_width'];
-		}
+        if (!empty($field->settings['max_width'])) {
+            $uploader->image_max_width = $field->settings['max_width'];
+        }
 
-		if (!empty($field->settings['max_height'])) {
-			$uploader->image_max_height = $field->settings['max_height'];
-		}
+        if (!empty($field->settings['max_height'])) {
+            $uploader->image_max_height = $field->settings['max_height'];
+        }
 
-		if (!empty($field->settings['min_ratio'])) {
-			$uploader->image_min_ratio = $field->settings['min_ratio'];
-		}
+        if (!empty($field->settings['min_ratio'])) {
+            $uploader->image_min_ratio = $field->settings['min_ratio'];
+        }
 
-		if (!empty($field->settings['max_ratio'])) {
-			$uploader->image_max_ratio = $field->settings['max_ratio'];
-		}
+        if (!empty($field->settings['max_ratio'])) {
+            $uploader->image_max_ratio = $field->settings['max_ratio'];
+        }
 
-		if (!empty($field->settings['min_pixels'])) {
-			$uploader->image_min_pixels = $field->settings['min_pixels'];
-		}
+        if (!empty($field->settings['min_pixels'])) {
+            $uploader->image_min_pixels = $field->settings['min_pixels'];
+        }
 
-		if (!empty($field->settings['max_pixels'])) {
-			$uploader->image_max_pixels = $field->settings['max_pixels'];
-		}
+        if (!empty($field->settings['max_pixels'])) {
+            $uploader->image_max_pixels = $field->settings['max_pixels'];
+        }
 
-		$uploader->allowed = 'image/*';
-		parent::upload($instanceSlug, $uploader);
-	}
+        $uploader->allowed = 'image/*';
+        parent::upload($instanceSlug, $uploader);
+    }
 
 /**
  * {@inheritDoc}
  */
-	public function delete($instanceSlug) {
-		parent::delete($instanceSlug);
-		$this->loadModel('Field.FieldInstances');
-		$field = $this->FieldInstances
-			->find()
-			->select(['slug', 'settings'])
-			->where(['slug' => $instanceSlug])
-			->limit(1)
-			->first();
+    public function delete($instanceSlug)
+    {
+        parent::delete($instanceSlug);
+        $this->loadModel('Field.FieldInstances');
+        $field = $this->FieldInstances
+            ->find()
+            ->select(['slug', 'settings'])
+            ->where(['slug' => $instanceSlug])
+            ->limit(1)
+            ->first();
 
-		ImageToolbox::deleteThumbnails(WWW_ROOT . "/files/{$field->settings['upload_folder']}/{$this->request->query['file']}");
-	}
+        ImageToolbox::deleteThumbnails(WWW_ROOT . "/files/{$field->settings['upload_folder']}/{$this->request->query['file']}");
+    }
 
 /**
  * Returns an scaled version of the given file image.
@@ -99,34 +102,34 @@ class ImageHandlerController extends FileHandlerController {
  * @throws \Cake\Network\Exception\NotFoundException When field instance
  *  is not found.
  */
-	public function thumbnail($instanceSlug) {
-		$this->loadModel('Field.FieldInstances');
-		$field = $this->FieldInstances
-			->find()
-			->where(['slug' => $instanceSlug])
-			->limit(1)
-			->first();
+    public function thumbnail($instanceSlug)
+    {
+        $this->loadModel('Field.FieldInstances');
+        $field = $this->FieldInstances
+            ->find()
+            ->where(['slug' => $instanceSlug])
+            ->limit(1)
+            ->first();
 
-		if (!$field) {
-			throw new NotFoundException(__d('field', 'Invalid field instance.'), 400);
-		}
+        if (!$field) {
+            throw new NotFoundException(__d('field', 'Invalid field instance.'), 400);
+        }
 
-		if (empty($this->request->query['file'])) {
-			throw new NotFoundException(__d('field', 'Invalid file name.'), 400);
-		}
+        if (empty($this->request->query['file'])) {
+            throw new NotFoundException(__d('field', 'Invalid file name.'), 400);
+        }
 
-		if (empty($this->request->query['size'])) {
-			throw new NotFoundException(__d('field', 'Invalid image size.'), 400);
-		}
+        if (empty($this->request->query['size'])) {
+            throw new NotFoundException(__d('field', 'Invalid image size.'), 400);
+        }
 
-		$imagePath = normalizePath(WWW_ROOT . "/files/{$field->settings['upload_folder']}/{$this->request->query['file']}");
-		$tmb = ImageToolbox::thumbnail($imagePath, $this->request->query['size']);
+        $imagePath = normalizePath(WWW_ROOT . "/files/{$field->settings['upload_folder']}/{$this->request->query['file']}");
+        $tmb = ImageToolbox::thumbnail($imagePath, $this->request->query['size']);
 
-		if ($tmb) {
-			$this->response->file($tmb);
-			return $this->response;
-		}
-		throw new NotFoundException(__d('field', 'Thumbnail could not be found, check write permissions?'), 500);
-	}
-
+        if ($tmb) {
+            $this->response->file($tmb);
+            return $this->response;
+        }
+        throw new NotFoundException(__d('field', 'Thumbnail could not be found, check write permissions?'), 500);
+    }
 }

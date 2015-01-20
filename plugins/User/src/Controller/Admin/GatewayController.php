@@ -18,6 +18,6 @@ use User\Controller\GatewayController as BaseGatewayController;
  *
  * Provides login and logout methods for backend.
  */
-class GatewayController extends BaseGatewayController {
-
+class GatewayController extends BaseGatewayController
+{
 }

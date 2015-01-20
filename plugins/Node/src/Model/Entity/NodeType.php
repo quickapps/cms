@@ -17,6 +17,6 @@ use Cake\ORM\Entity;
  * Represents a single "node_type" within "node_types" table.
  *
  */
-class NodeType extends Entity {
-
+class NodeType extends Entity
+{
 }

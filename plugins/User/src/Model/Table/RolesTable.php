@@ -18,7 +18,8 @@ use Cake\Validation\Validator;
  * Represents "roles" database table.
  *
  */
-class RolesTable extends Table {
+class RolesTable extends Table
+{
 
 /**
  * Initialize a table instance. Called after the constructor.
@@ -26,9 +27,10 @@ class RolesTable extends Table {
  * @param array $config Configuration options passed to the constructor
  * @return void
  */
-	public function initialize(array $config) {
-		$this->addBehavior('Sluggable', ['label' => 'name']);
-	}
+    public function initialize(array $config)
+    {
+        $this->addBehavior('Sluggable', ['label' => 'name']);
+    }
 
 /**
  * Default validation rules set.
@@ -36,21 +38,21 @@ class RolesTable extends Table {
  * @param \Cake\Validation\Validator $validator The validator object
  * @return \Cake\Validation\Validator
  */
-	public function validationDefault(Validator $validator) {
-		$validator
-			->requirePresence('name')
-			->add('name', [
-				'notEmpty' => [
-					'rule' => 'notEmpty',
-					'message' => __d('node', 'You need to provide a role name.'),
-				],
-				'length' => [
-					'rule' => ['minLength', 3],
-					'message' => __d('node', 'Role name need to be at least 3 characters long.'),
-				],
-			]);
+    public function validationDefault(Validator $validator)
+    {
+        $validator
+            ->requirePresence('name')
+            ->add('name', [
+                'notEmpty' => [
+                    'rule' => 'notEmpty',
+                    'message' => __d('node', 'You need to provide a role name.'),
+                ],
+                'length' => [
+                    'rule' => ['minLength', 3],
+                    'message' => __d('node', 'Role name need to be at least 3 characters long.'),
+                ],
+            ]);
 
-		return $validator;
-	}
-
+        return $validator;
+    }
 }

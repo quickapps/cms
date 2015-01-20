@@ -20,7 +20,8 @@ use Cake\ORM\Table;
  * In this table is where `Field Handlers` stores their information.
  * Every row of this table represents a cell-value (for attached field in tables).
  */
-class FieldValuesTable extends Table {
+class FieldValuesTable extends Table
+{
 
 /**
  * Alter the schema used by this table.
@@ -28,10 +29,11 @@ class FieldValuesTable extends Table {
  * @param \Cake\Database\Schema\Table $table The table definition fetched from database
  * @return \Cake\Database\Schema\Table the altered schema
  */
-	protected function _initializeSchema(Schema $table) {
-		$table->columnType('raw', 'serialized');
-		return $table;
-	}
+    protected function _initializeSchema(Schema $table)
+    {
+        $table->columnType('raw', 'serialized');
+        return $table;
+    }
 
 /**
  * Initialize a table instance. Called after the constructor.
@@ -39,11 +41,11 @@ class FieldValuesTable extends Table {
  * @param array $config Configuration options passed to the constructor
  * @return void
  */
-	public function initialize(array $config) {
-		$this->belongsTo('FieldInstances', [
-			'className' => 'Field.FieldInstances',
-			'foreignKey' => 'field_instance_id'
-		]);
-	}
-
+    public function initialize(array $config)
+    {
+        $this->belongsTo('FieldInstances', [
+            'className' => 'Field.FieldInstances',
+            'foreignKey' => 'field_instance_id'
+        ]);
+    }
 }

@@ -11,10 +11,10 @@
  */
 
 $config = [
-	'number' => '<li><a href="{{url}}">{{text}}</a></li>',
-	'current' => '<li class="active"><a href="{{url}}">{{text}}</a></li>',
-	'nextActive' => '<li class="next"><a href="{{url}}">&raquo;</a></li>',
-	'nextDisabled' => '<li class="next disabled"><a href="#">&raquo;</a></li>',
-	'prevActive' => '<li class="previous"><a href="{{url}}">&laquo;</a></li>',
-	'prevDisabled' => '<li class="previous disabled"><a href="#">&laquo;</a></li>',
+    'number' => '<li><a href="{{url}}">{{text}}</a></li>',
+    'current' => '<li class="active"><a href="{{url}}">{{text}}</a></li>',
+    'nextActive' => '<li class="next"><a href="{{url}}">&raquo;</a></li>',
+    'nextDisabled' => '<li class="next disabled"><a href="#">&raquo;</a></li>',
+    'prevActive' => '<li class="previous"><a href="{{url}}">&laquo;</a></li>',
+    'prevDisabled' => '<li class="previous disabled"><a href="#">&laquo;</a></li>',
 ];

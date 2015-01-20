@@ -23,9 +23,10 @@ use QuickApps\Event\HookAwareTrait;
  * Represents "menus" database table.
  *
  */
-class MenusTable extends Table {
+class MenusTable extends Table
+{
 
-	use HookAwareTrait;
+    use HookAwareTrait;
 
 /**
  * Initialize a table instance. Called after the constructor.
@@ -33,16 +34,17 @@ class MenusTable extends Table {
  * @param array $config Configuration options passed to the constructor
  * @return void
  */
-	public function initialize(array $config) {
-		$this->hasMany('MenuLinks', [
-			'className' => 'Menu.MenuLinks',
-			'dependent' => true,
-			'propertyName' => 'links',
-			'sort' => ['MenuLinks.lft' => 'ASC'],
-		]);
-		$this->_setHasOne();
-		$this->addBehavior('Sluggable');
-	}
+    public function initialize(array $config)
+    {
+        $this->hasMany('MenuLinks', [
+            'className' => 'Menu.MenuLinks',
+            'dependent' => true,
+            'propertyName' => 'links',
+            'sort' => ['MenuLinks.lft' => 'ASC'],
+        ]);
+        $this->_setHasOne();
+        $this->addBehavior('Sluggable');
+    }
 
 /**
  * Default validation rules set.
@@ -50,27 +52,28 @@ class MenusTable extends Table {
  * @param \Cake\Validation\Validator $validator The validator object
  * @return \Cake\Validation\Validator
  */
-	public function validationDefault(Validator $validator) {
-		$validator
-			->add('title', [
-				'notEmpty' => [
-					'rule' => 'notEmpty',
-					'message' => __d('node', 'You need to provide a title.'),
-				],
-				'length' => [
-					'rule' => ['minLength', 3],
-					'message' => __d('node', 'Title need to be at least 3 characters long.'),
-				],
-			])
-			->requirePresence('handler', 'create')
-			->add('handler', 'validHandler', [
-				'rule' => 'notEmpty',
-				'on' => 'create',
-				'message' => __d('menu', 'Invalid menu handler'),
-			]);
+    public function validationDefault(Validator $validator)
+    {
+        $validator
+            ->add('title', [
+                'notEmpty' => [
+                    'rule' => 'notEmpty',
+                    'message' => __d('node', 'You need to provide a title.'),
+                ],
+                'length' => [
+                    'rule' => ['minLength', 3],
+                    'message' => __d('node', 'Title need to be at least 3 characters long.'),
+                ],
+            ])
+            ->requirePresence('handler', 'create')
+            ->add('handler', 'validHandler', [
+                'rule' => 'notEmpty',
+                'on' => 'create',
+                'message' => __d('menu', 'Invalid menu handler'),
+            ]);
 
-		return $validator;
-	}
+        return $validator;
+    }
 
 /**
  * Triggers the "Menu.<handler>.beforeValidate" hook, so plugins may do
@@ -82,20 +85,21 @@ class MenusTable extends Table {
  * @param \Cake\Validation\Validator $validator The validator object being applied
  * @return bool False if save operation should not continue, true otherwise
  */
-	public function beforeValidate(Event $event, Menu $menu, ArrayObject $options, Validator $validator) {
-		$validator
-			->add('title', 'transaction', [
-				'rule' => function ($value, $context) use ($options) {
-					return !empty($options['atomic']) && $options['atomic'] === true;
-				},
-				'message' => __d('menu', 'Illegal action, you must use "atomic => true" when saving Menu entities.')
-			]);
-		$menuEvent = $this->trigger(["Menu.{$menu->handler}.beforeValidate", $event->subject], $menu, $options, $validator);
-		if ($menuEvent->isStopped() || $menuEvent->result === false) {
-			return false;
-		}
-		return true;
-	}
+    public function beforeValidate(Event $event, Menu $menu, ArrayObject $options, Validator $validator)
+    {
+        $validator
+            ->add('title', 'transaction', [
+                'rule' => function ($value, $context) use ($options) {
+                    return !empty($options['atomic']) && $options['atomic'] === true;
+                },
+                'message' => __d('menu', 'Illegal action, you must use "atomic => true" when saving Menu entities.')
+            ]);
+        $menuEvent = $this->trigger(["Menu.{$menu->handler}.beforeValidate", $event->subject], $menu, $options, $validator);
+        if ($menuEvent->isStopped() || $menuEvent->result === false) {
+            return false;
+        }
+        return true;
+    }
 
 /**
  * Triggers the "Menu.<handler>.afterValidate" hook, so plugins may do
@@ -107,9 +111,10 @@ class MenusTable extends Table {
  * @param \Cake\Validation\Validator $validator The validator object
  * @return void
  */
-	public function afterValidate(Event $event, Menu $menu, ArrayObject $options, Validator $validator) {
-		$this->trigger(["Menu.{$menu->handler}.afterValidate", $event->subject], $menu, $options, $validator);
-	}
+    public function afterValidate(Event $event, Menu $menu, ArrayObject $options, Validator $validator)
+    {
+        $this->trigger(["Menu.{$menu->handler}.afterValidate", $event->subject], $menu, $options, $validator);
+    }
 
 /**
  * Triggers the "Menu.<handler>.beforeSave" hook, so plugins may do
@@ -120,13 +125,14 @@ class MenusTable extends Table {
  * @param \ArrayObject $options Options given as an array
  * @return bool False if save operation should not continue, true otherwise
  */
-	public function beforeSave(Event $event, Menu $menu, ArrayObject $options = null) {
-		$menuEvent = $this->trigger(["Menu.{$menu->handler}.beforeSave", $event->subject], $menu, $options);
-		if ($menuEvent->isStopped() || $menuEvent->result === false) {
-			return false;
-		}
-		return true;
-	}
+    public function beforeSave(Event $event, Menu $menu, ArrayObject $options = null)
+    {
+        $menuEvent = $this->trigger(["Menu.{$menu->handler}.beforeSave", $event->subject], $menu, $options);
+        if ($menuEvent->isStopped() || $menuEvent->result === false) {
+            return false;
+        }
+        return true;
+    }
 
 /**
  * Triggers the "Menu.<handler>.afterSave" hook, so plugins may do
@@ -139,23 +145,24 @@ class MenusTable extends Table {
  * @param \ArrayObject $options Options given as an array
  * @return void
  */
-	public function afterSave(Event $event, Menu $menu, ArrayObject $options = null) {
-		if ($menu->isNew()) {
-			$block = $this->Blocks->newEntity([
-				'title' => $menu->title . ' ' . __d('menu', '[menu: {0}]', $menu->id),
-				'delta' => $menu->id,
-				'handler' => $menu->handler,
-				'description' => (!empty($menu->description) ? $menu->description : __d('menu', 'Associated block for "{0}" menu.', $menu->title)),
-				'visibility' => 'except',
-				'pages' => null,
-				'locale' => null,
-				'status' => 0,
-			]);
-			$this->Blocks->save($block, ['validate' => false]);
-		}
+    public function afterSave(Event $event, Menu $menu, ArrayObject $options = null)
+    {
+        if ($menu->isNew()) {
+            $block = $this->Blocks->newEntity([
+                'title' => $menu->title . ' ' . __d('menu', '[menu: {0}]', $menu->id),
+                'delta' => $menu->id,
+                'handler' => $menu->handler,
+                'description' => (!empty($menu->description) ? $menu->description : __d('menu', 'Associated block for "{0}" menu.', $menu->title)),
+                'visibility' => 'except',
+                'pages' => null,
+                'locale' => null,
+                'status' => 0,
+            ]);
+            $this->Blocks->save($block, ['validate' => false]);
+        }
 
-		$this->trigger(["Menu.{$menu->handler}.afterSave", $event->subject], $menu, $options);
-	}
+        $this->trigger(["Menu.{$menu->handler}.afterSave", $event->subject], $menu, $options);
+    }
 
 /**
  * Triggers the "Menu.<handler>.beforeDelete" hook, so plugins may do
@@ -166,22 +173,23 @@ class MenusTable extends Table {
  * @param \ArrayObject $options Options given as an array
  * @return bool False if delete operation should not continue, true otherwise
  */
-	public function beforeDelete(Event $event, Menu $menu, ArrayObject $options = null) {
-		$this->hasOne('Blocks', [
-			'className' => 'Block.Blocks',
-			'dependent' => true,
-			'foreignKey' => 'delta',
-			'propertyName' => 'block',
-			'conditions' => ['Blocks.handler' => $menu->handler],
-			'cascadeCallbacks' => true,
-		]);
+    public function beforeDelete(Event $event, Menu $menu, ArrayObject $options = null)
+    {
+        $this->hasOne('Blocks', [
+            'className' => 'Block.Blocks',
+            'dependent' => true,
+            'foreignKey' => 'delta',
+            'propertyName' => 'block',
+            'conditions' => ['Blocks.handler' => $menu->handler],
+            'cascadeCallbacks' => true,
+        ]);
 
-		$menuEvent = $this->trigger(["Menu.{$menu->handler}.beforeDelete", $event->subject], $menu, $options);
-		if ($menuEvent->isStopped() || $menuEvent->result === false) {
-			return false;
-		}
-		return true;
-	}
+        $menuEvent = $this->trigger(["Menu.{$menu->handler}.beforeDelete", $event->subject], $menu, $options);
+        if ($menuEvent->isStopped() || $menuEvent->result === false) {
+            return false;
+        }
+        return true;
+    }
 
 /**
  * Triggers the "Menu.<handler>.afterDelete" hook, so plugins may do
@@ -192,10 +200,11 @@ class MenusTable extends Table {
  * @param \ArrayObject $options Options given as an array
  * @return void
  */
-	public function afterDelete(Event $event, Menu $menu, ArrayObject $options = null) {
-		$this->_setHasOne();
-		$this->trigger(["Menu.{$menu->handler}.afterDelete", $event->subject], $menu, $options);
-	}
+    public function afterDelete(Event $event, Menu $menu, ArrayObject $options = null)
+    {
+        $this->_setHasOne();
+        $this->trigger(["Menu.{$menu->handler}.afterDelete", $event->subject], $menu, $options);
+    }
 
 /**
  * Creates the default "hasOne" association with Blocks table.
@@ -205,14 +214,14 @@ class MenusTable extends Table {
  *
  * @return void
  */
-	protected function _setHasOne() {
-		$this->hasOne('Blocks', [
-			'className' => 'Block.Blocks',
-			'dependent' => false,
-			'foreignKey' => 'delta',
-			'propertyName' => 'block',
-			'conditions' => ['Blocks.handler = Menus.handler']
-		]);
-	}
-
+    protected function _setHasOne()
+    {
+        $this->hasOne('Blocks', [
+            'className' => 'Block.Blocks',
+            'dependent' => false,
+            'foreignKey' => 'delta',
+            'propertyName' => 'block',
+            'conditions' => ['Blocks.handler = Menus.handler']
+        ]);
+    }
 }

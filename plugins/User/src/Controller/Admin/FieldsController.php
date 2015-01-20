@@ -21,18 +21,19 @@ use User\Controller\AppController;
  *
  * Allows to attach, detach and configure Fields to `Users`.
  */
-class FieldsController extends AppController {
+class FieldsController extends AppController
+{
 
-	use FieldUIControllerTrait {
-		beforeRender as protected _beforeRender;
-	}
+    use FieldUIControllerTrait {
+        beforeRender as protected _beforeRender;
+    }
 
 /**
  * Name of the table managed by Field UI API.
  *
  * @var string
  */
-	protected $_manageTable = 'users';
+    protected $_manageTable = 'users';
 
 /**
  * Before every action of this controller.
@@ -42,11 +43,11 @@ class FieldsController extends AppController {
  * @param \Cake\Event\Event $event The event that was triggered
  * @return void
  */
-	public function beforeRender(\Cake\Event\Event $event) {
-		$this->_beforeRender($event);
-		$this->Breadcrumb
-			->push('/admin/user/manage')
-			->push(__d('node', "User's Fields"), '#');
-	}
-
+    public function beforeRender(\Cake\Event\Event $event)
+    {
+        $this->_beforeRender($event);
+        $this->Breadcrumb
+            ->push('/admin/user/manage')
+            ->push(__d('node', "User's Fields"), '#');
+    }
 }

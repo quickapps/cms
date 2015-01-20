@@ -17,6 +17,6 @@ use QuickApps\Controller\Controller;
  * Main controller for Locale plugin.
  *
  */
-class AppController extends Controller {
-
+class AppController extends Controller
+{
 }

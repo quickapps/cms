@@ -19,7 +19,8 @@ use QuickApps\View\ViewModeRegistry;
  * Main Hook Listener for Node plugin.
  *
  */
-class NodeHook implements EventListenerInterface {
+class NodeHook implements EventListenerInterface
+{
 
 /**
  * Returns a list of hooks this Hook Listener is implementing. When the class is
@@ -28,16 +29,17 @@ class NodeHook implements EventListenerInterface {
  *
  * @return void
  */
-	public function implementedEvents() {
-		return [
-			'Render.Node\Model\Entity\Node' => 'renderNode',
-			'Dispatcher.beforeDispatch' => [
-				'callable' => 'dispatcherBeforeDispatch',
-				'priority' => -10,
-			],
-			'Block.Node.display' => 'renderBlock',
-		];
-	}
+    public function implementedEvents()
+    {
+        return [
+            'Render.Node\Model\Entity\Node' => 'renderNode',
+            'Dispatcher.beforeDispatch' => [
+                'callable' => 'dispatcherBeforeDispatch',
+                'priority' => -10,
+            ],
+            'Block.Node.display' => 'renderBlock',
+        ];
+    }
 
 /**
  * Fired before any controller instance is created.
@@ -45,37 +47,38 @@ class NodeHook implements EventListenerInterface {
  * Here we register some basic view modes, for later use in controllers. We could
  * register this view modes at "bootstrap.php", but __d() would not work there
  * as no language has been set yet, so we do it here.
- * 
+ *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Cake\Network\Request $request Request object to dispatch
  * @param \Cake\Network\Response $response Response object to put the results of
  *  the dispatch into
  * @return void
  */
-	public function dispatcherBeforeDispatch(Event $event, $request, $response) {
-		ViewModeRegistry::addViewMode([
-			'default' => [
-				'name' => __d('node', 'Default'),
-				'description' => __d('node', 'Default is used as a generic view mode if no other view mode has been defined for your content.'),
-			],
-			'teaser' => [
-				'name' => __d('node', 'Teaser'),
-				'description' => __d('node', 'Teaser is a really short format that is typically used in main the main page, such as "last news", etc.'),
-			],
-			'search-result' => [
-				'name' => __d('node', 'Search Result'),
-				'description' => __d('node', 'Search Result is a short format that is typically used in lists of multiple content items such as search results.'),
-			],
-			'rss' => [
-				'name' => __d('node', 'RSS'),
-				'description' => __d('node', 'RSS is similar to "Search Result" but intended to be used when rendering content as part of a RSS feed list.'),
-			],
-			'full' => [
-				'name' => __d('node', 'Full'),
-				'description' => __d('node', 'Full content is typically used when the content is displayed on its own page.'),
-			],
-		]);
-	}
+    public function dispatcherBeforeDispatch(Event $event, $request, $response)
+    {
+        ViewModeRegistry::addViewMode([
+            'default' => [
+                'name' => __d('node', 'Default'),
+                'description' => __d('node', 'Default is used as a generic view mode if no other view mode has been defined for your content.'),
+            ],
+            'teaser' => [
+                'name' => __d('node', 'Teaser'),
+                'description' => __d('node', 'Teaser is a really short format that is typically used in main the main page, such as "last news", etc.'),
+            ],
+            'search-result' => [
+                'name' => __d('node', 'Search Result'),
+                'description' => __d('node', 'Search Result is a short format that is typically used in lists of multiple content items such as search results.'),
+            ],
+            'rss' => [
+                'name' => __d('node', 'RSS'),
+                'description' => __d('node', 'RSS is similar to "Search Result" but intended to be used when rendering content as part of a RSS feed list.'),
+            ],
+            'full' => [
+                'name' => __d('node', 'Full'),
+                'description' => __d('node', 'Full content is typically used when the content is displayed on its own page.'),
+            ],
+        ]);
+    }
 
 /**
  * Renders a single Content Node.
@@ -85,7 +88,7 @@ class NodeHook implements EventListenerInterface {
  * if one is not found we look the next one, etc.
  *
  * ### Render node per node-type & view-mode
- * 
+ *
  *      render_node_[node-type]_[view-mode]
  *
  * Renders the given node per `node-type` + `view-mode` combination:
@@ -129,13 +132,13 @@ class NodeHook implements EventListenerInterface {
  * `default`, `teaser`, `search-result`, `rss`, `full`.
  *
  * ### Default
- * 
+ *
  *     render_node
  *
  * This is the global render, if none of the above is found we try to use this last.
  *
  * ---
- *  
+ *
  * NOTE: Please note the difference between "_" and "-"
  *
  * @param \Cake\Event\Event $event The event that was triggered
@@ -143,26 +146,27 @@ class NodeHook implements EventListenerInterface {
  * @param array $options Additional options as an array
  * @return string HTML
  */
-	public function renderNode(Event $event, $node, $options = []) {
-		$View = $event->subject;
-		$viewMode = $View->inUseViewMode();
-		$html = '';
-		$try = [
-			"Node.render_node_{$node->node_type_slug}_{$viewMode}",
-			"Node.render_node_{$node->node_type_slug}",
-			"Node.render_node_{$viewMode}",
-			'Node.render_node'
-		];
+    public function renderNode(Event $event, $node, $options = [])
+    {
+        $View = $event->subject;
+        $viewMode = $View->inUseViewMode();
+        $html = '';
+        $try = [
+            "Node.render_node_{$node->node_type_slug}_{$viewMode}",
+            "Node.render_node_{$node->node_type_slug}",
+            "Node.render_node_{$viewMode}",
+            'Node.render_node'
+        ];
 
-		foreach ($try as $element) {
-			if ($View->elementExists($element)) {
-				$html = $View->element($element, compact('node', 'options'));
-				break;
-			}
-		}
+        foreach ($try as $element) {
+            if ($View->elementExists($element)) {
+                $html = $View->element($element, compact('node', 'options'));
+                break;
+            }
+        }
 
-		return $html;
-	}
+        return $html;
+    }
 
 /**
  * Renders all blocks registered by Node plugin.
@@ -176,8 +180,8 @@ class NodeHook implements EventListenerInterface {
  * @param array $options Additional options as an array
  * @return string
  */
-	public function renderBlock(Event $event, $block, $options = []) {
-		return $event->subject->element("Node.{$block->delta}", compact('block', 'options'));
-	}
-
+    public function renderBlock(Event $event, $block, $options = [])
+    {
+        return $event->subject->element("Node.{$block->delta}", compact('block', 'options'));
+    }
 }

@@ -17,6 +17,6 @@ use Cake\ORM\Entity;
  * Represents a single "block_region" within "region" table.
  *
  */
-class BlockRegion extends Entity {
-
+class BlockRegion extends Entity
+{
 }

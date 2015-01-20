@@ -21,9 +21,10 @@ use QuickApps\Core\StaticCacheTrait;
  * Menu rendering dispatcher.
  *
  */
-class MenuHook implements EventListenerInterface {
+class MenuHook implements EventListenerInterface
+{
 
-	use StaticCacheTrait;
+    use StaticCacheTrait;
 
 /**
  * Returns a list of hooks this Hook Listener is implementing. When the class
@@ -32,11 +33,12 @@ class MenuHook implements EventListenerInterface {
  *
  * @return void
  */
-	public function implementedEvents() {
-		return [
-			'Block.Menu.display' => 'displayBlock',
-		];
-	}
+    public function implementedEvents()
+    {
+        return [
+            'Block.Menu.display' => 'displayBlock',
+        ];
+    }
 
 /**
  * Renders menu's associated block.
@@ -50,7 +52,7 @@ class MenuHook implements EventListenerInterface {
  * is not found we look the next one, etc.
  *
  * ### Render menu per theme's region & view-mode
- * 
+ *
  *      render_menu_[region-name]_[view-mode]
  *
  * Renders the given block per theme's `region-name` + `view-mode` combination:
@@ -77,60 +79,60 @@ class MenuHook implements EventListenerInterface {
  *     `render_menu_left-sidebar.ctp`
  *
  * ### Default
- * 
+ *
  *     render_block.ctp
  *
  * This is the global render, if none of the above is found we try to use this last.
  *
  * ---
- *  
+ *
  * NOTE: Please note the difference between "_" and "-"
- * 
+ *
  * @param \Cake\Event\Event $event The event that was triggered
  * @param \Block\Model\Entity\Block $block The block being rendered
  * @param array $options Array of options for BlockHelper::render() method
  * @return array
  */
-	public function displayBlock(Event $event, $block, $options) {
-		$View = $event->subject;
-		$viewMode = $View->inUseViewMode();
-		$menu = TableRegistry::get('Menu.Menus')
-			->find()
-			->contain(['Blocks'])
-			->where(['Menus.id' => $block->delta])
-			->first();
-		$links = TableRegistry::get('Menu.MenuLinks')
-			->find('threaded')
-			->where(['menu_id' => $menu->id])
-			->order(['lft' => 'ASC']);
-		$menu->set('links', $links);
+    public function displayBlock(Event $event, $block, $options)
+    {
+        $View = $event->subject;
+        $viewMode = $View->inUseViewMode();
+        $menu = TableRegistry::get('Menu.Menus')
+            ->find()
+            ->contain(['Blocks'])
+            ->where(['Menus.id' => $block->delta])
+            ->first();
+        $links = TableRegistry::get('Menu.MenuLinks')
+            ->find('threaded')
+            ->where(['menu_id' => $menu->id])
+            ->order(['lft' => 'ASC']);
+        $menu->set('links', $links);
 
-		// plugin should take care of rendering
-		if (in_array("Menu.{$menu->handler}.display", listeners())) {
-			return $this->trigger(["Menu.{$menu->handler}.display", $event->subject], $menu, $options);
-		}
+        // plugin should take care of rendering
+        if (in_array("Menu.{$menu->handler}.display", listeners())) {
+            return $this->trigger(["Menu.{$menu->handler}.display", $event->subject], $menu, $options);
+        }
 
-		// avoid scanning file system every time a block is being rendered
-		$cacheKey = "displayBlock_{$block->region->region}_{$viewMode}";
-		$cache = static::cache($cacheKey);
-		if ($cache !== null) {
-			$element = $cache;
-		} else {
-			$try = [
-				"Menu.render_menu_{$block->region->region}_{$viewMode}",
-				"Menu.render_menu_{$block->region->region}",
-				'Menu.render_menu'
-			];
+        // avoid scanning file system every time a block is being rendered
+        $cacheKey = "displayBlock_{$block->region->region}_{$viewMode}";
+        $cache = static::cache($cacheKey);
+        if ($cache !== null) {
+            $element = $cache;
+        } else {
+            $try = [
+                "Menu.render_menu_{$block->region->region}_{$viewMode}",
+                "Menu.render_menu_{$block->region->region}",
+                'Menu.render_menu'
+            ];
 
-			foreach ($try as $possible) {
-				if ($View->elementExists($possible)) {
-					$element = static::cache($cacheKey, $possible);
-					break;
-				}
-			}
-		}
+            foreach ($try as $possible) {
+                if ($View->elementExists($possible)) {
+                    $element = static::cache($cacheKey, $possible);
+                    break;
+                }
+            }
+        }
 
-		return $View->element($element, compact('menu', 'options'));
-	}
-
+        return $View->element($element, compact('menu', 'options'));
+    }
 }

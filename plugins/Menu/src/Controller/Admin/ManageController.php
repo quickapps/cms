@@ -18,54 +18,57 @@ use Menu\Controller\AppController;
  *
  * Allow CRUD for menus.
  */
-class ManageController extends AppController {
+class ManageController extends AppController
+{
 
 /**
  * Shows a list of all the nodes.
  *
  * @return void
  */
-	public function index() {
-		$this->loadModel('Menu.Menus');
-		$menus = $this->Menus->find()->all();
+    public function index()
+    {
+        $this->loadModel('Menu.Menus');
+        $menus = $this->Menus->find()->all();
 
-		$this->set('menus', $menus);
-		$this->Breadcrumb->push('/admin/menu/manage');
-	}
+        $this->set('menus', $menus);
+        $this->Breadcrumb->push('/admin/menu/manage');
+    }
 
 /**
  * Adds a new menu.
  *
  * @return void
  */
-	public function add() {
-		$this->loadModel('Menu.Menus');
-		$menu = $this->Menus->newEntity();
-		$menu->set('handler', 'Menu');
+    public function add()
+    {
+        $this->loadModel('Menu.Menus');
+        $menu = $this->Menus->newEntity();
+        $menu->set('handler', 'Menu');
 
-		if ($this->request->data) {
-			$data = $this->_prepareData();
-			$menu = $this->Menus->patchEntity($menu, $data, [
-				'fieldList' => [
-					'title',
-					'description',
-					'settings',
-				],
-			]);
+        if ($this->request->data) {
+            $data = $this->_prepareData();
+            $menu = $this->Menus->patchEntity($menu, $data, [
+                'fieldList' => [
+                    'title',
+                    'description',
+                    'settings',
+                ],
+            ]);
 
-			if ($this->Menus->save($menu, ['atomic' => true])) {
-				$this->Flash->success(__d('menu', 'Menu has been created, now you can start adding links!'));
-				$this->redirect(['plugin' => 'Menu', 'controller' => 'links', 'action' => 'add', $menu->id]);
-			} else {
-				$this->Flash->danger(__d('menu', 'Menu could not be created, please check your information'));
-			}
-		}
+            if ($this->Menus->save($menu, ['atomic' => true])) {
+                $this->Flash->success(__d('menu', 'Menu has been created, now you can start adding links!'));
+                $this->redirect(['plugin' => 'Menu', 'controller' => 'links', 'action' => 'add', $menu->id]);
+            } else {
+                $this->Flash->danger(__d('menu', 'Menu could not be created, please check your information'));
+            }
+        }
 
-		$this->set('menu', $menu);
-		$this->Breadcrumb
-			->push('/admin/menu/manage')
-			->push(__d('menu', 'Creating new menu'), '#');
-	}
+        $this->set('menu', $menu);
+        $this->Breadcrumb
+            ->push('/admin/menu/manage')
+            ->push(__d('menu', 'Creating new menu'), '#');
+    }
 
 /**
  * Edits the given menu by ID.
@@ -73,33 +76,34 @@ class ManageController extends AppController {
  * @param int $id Menu's ID
  * @return void
  */
-	public function edit($id) {
-		$this->loadModel('Menu.Menus');
-		$menu = $this->Menus->get($id);
+    public function edit($id)
+    {
+        $this->loadModel('Menu.Menus');
+        $menu = $this->Menus->get($id);
 
-		if ($this->request->data) {
-			$data = $this->_prepareData();
-			$menu = $this->Menus->patchEntity($menu, $data, [
-				'fieldList' => [
-					'title',
-					'description',
-					'settings',
-				],
-			]);
+        if ($this->request->data) {
+            $data = $this->_prepareData();
+            $menu = $this->Menus->patchEntity($menu, $data, [
+                'fieldList' => [
+                    'title',
+                    'description',
+                    'settings',
+                ],
+            ]);
 
-			if ($this->Menus->save($menu, ['atomic' => true])) {
-				$this->Flash->success(__d('menu', 'Menu has been saved!'));
-				$this->redirect($this->referer());
-			} else {
-				$this->Flash->danger(__d('menu', 'Menu could not be saved, please check your information'));
-			}
-		}
+            if ($this->Menus->save($menu, ['atomic' => true])) {
+                $this->Flash->success(__d('menu', 'Menu has been saved!'));
+                $this->redirect($this->referer());
+            } else {
+                $this->Flash->danger(__d('menu', 'Menu could not be saved, please check your information'));
+            }
+        }
 
-		$this->set('menu', $menu);
-		$this->Breadcrumb
-			->push('/admin/menu/manage')
-			->push(__d('menu', 'Editing menu {0}', $menu->title), '#');
-	}
+        $this->set('menu', $menu);
+        $this->Breadcrumb
+            ->push('/admin/menu/manage')
+            ->push(__d('menu', 'Editing menu {0}', $menu->title), '#');
+    }
 
 /**
  * Removes the given menu by ID.
@@ -109,18 +113,19 @@ class ManageController extends AppController {
  * @param int $id Menu's ID
  * @return void Redirects to previous page
  */
-	public function delete($id) {
-		$this->loadModel('Menu.Menus');
-		$menu = $this->Menus->get($id);
+    public function delete($id)
+    {
+        $this->loadModel('Menu.Menus');
+        $menu = $this->Menus->get($id);
 
-		if ($menu->handler === 'Menu' && $this->Menus->delete($menu)) {
-			$this->Flash->success(__d('menu', 'Menu has been successfully deleted!'));
-		} else {
-			$this->Flash->danger(__d('menu', 'Menu could not be deleted, please try again'));
-		}
+        if ($menu->handler === 'Menu' && $this->Menus->delete($menu)) {
+            $this->Flash->success(__d('menu', 'Menu has been successfully deleted!'));
+        } else {
+            $this->Flash->danger(__d('menu', 'Menu could not be deleted, please try again'));
+        }
 
-		$this->redirect($this->referer());
-	}
+        $this->redirect($this->referer());
+    }
 
 /**
  * Prepares incoming data from Form's POST.
@@ -130,20 +135,20 @@ class ManageController extends AppController {
  *
  * @return array
  */
-	protected function _prepareData() {
-		$this->loadModel('Block.Blocks');
-		$columns = $this->Blocks->schema()->columns();
-		$data = [];
+    protected function _prepareData()
+    {
+        $this->loadModel('Block.Blocks');
+        $columns = $this->Blocks->schema()->columns();
+        $data = [];
 
-		foreach ($this->request->data as $coulumn => $value) {
-			if (in_array($coulumn, $columns)) {
-				$data[$coulumn] = $value;
-			} else {
-				$data['settings'][$coulumn] = $value;
-			}
-		}
+        foreach ($this->request->data as $coulumn => $value) {
+            if (in_array($coulumn, $columns)) {
+                $data[$coulumn] = $value;
+            } else {
+                $data['settings'][$coulumn] = $value;
+            }
+        }
 
-		return $data;
-	}
-
+        return $data;
+    }
 }

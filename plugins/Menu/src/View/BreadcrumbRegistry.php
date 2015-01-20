@@ -18,14 +18,15 @@ namespace Menu\View;
  * hierarchy. This class is used as a registry and provides several methods for
  * manage the crumbs stack.
  */
-class BreadcrumbRegistry {
+class BreadcrumbRegistry
+{
 
 /**
  * Crumbs stack.
  *
  * @var array
  */
-	protected static $_crumbs = [];
+    protected static $_crumbs = [];
 
 /**
  * Adds a new crumb to the stack.
@@ -70,82 +71,87 @@ class BreadcrumbRegistry {
  * @return bool True on success, False otherwise
  * @see \Menu\View\Helper\BreadcrumbHelper::render()
  */
-	public static function push($crumbs = [], $url = '') {
-		if (empty($crumbs)) {
-			return false;
-		}
+    public static function push($crumbs = [], $url = '')
+    {
+        if (empty($crumbs)) {
+            return false;
+        }
 
-		if (is_string($crumbs) && (is_string($url) || is_array($url))) {
-			// "title" and "URL" as arguments"
-			$crumbs = [['title' => $crumbs, 'url' => $url]];
-		} elseif (is_array($crumbs) && isset($crumbs['title']) && isset($crumbs['url'])) {
-			// Single crumb push as an array
-			$crumbs = [$crumbs];
-		}
+        if (is_string($crumbs) && (is_string($url) || is_array($url))) {
+            // "title" and "URL" as arguments"
+            $crumbs = [['title' => $crumbs, 'url' => $url]];
+        } elseif (is_array($crumbs) && isset($crumbs['title']) && isset($crumbs['url'])) {
+            // Single crumb push as an array
+            $crumbs = [$crumbs];
+        }
 
-		foreach ($crumbs as $crumb) {
-			if (isset($crumb['title']) && isset($crumb['url'])) {
-				static::$_crumbs[] = $crumb;
-			}
-		}
+        foreach ($crumbs as $crumb) {
+            if (isset($crumb['title']) && isset($crumb['url'])) {
+                static::$_crumbs[] = $crumb;
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 
 /**
  * Pops and returns the last crumb of the crumbs stack.
  *
  * @return array
  */
-	public static function pop() {
-		$crumb = array_pop(static::$_crumbs);
-		return $crumb;
-	}
+    public static function pop()
+    {
+        $crumb = array_pop(static::$_crumbs);
+        return $crumb;
+    }
 
 /**
  * Clears the crumbs stack.
  *
  * @return void
  */
-	public static function clear() {
-		static::$_crumbs = [];
-	}
+    public static function clear()
+    {
+        static::$_crumbs = [];
+    }
 
 /**
  * Counts the number of crumbs in the stack.
  *
  * @return int
  */
-	public static function count() {
-		return count(static::$_crumbs);
-	}
+    public static function count()
+    {
+        return count(static::$_crumbs);
+    }
 
 /**
  * Gets the full array stack of crumbs.
  *
  * @return array
  */
-	public static function getStack() {
-		return static::$_crumbs;
-	}
+    public static function getStack()
+    {
+        return static::$_crumbs;
+    }
 
 /**
  * Gets a list of all URLs.
  *
  * @return array
  */
-	public static function getUrls() {
-		$urls = [];
+    public static function getUrls()
+    {
+        $urls = [];
 
-		foreach (static::$_crumbs as $crumb) {
-			if (!empty($crumb['url']) ) {
-				$urls[] = $crumb['url'];
-			} elseif (is_object($crumb)) {
-				$urls[] = $crumb->url;
-			}
-		}
+        foreach (static::$_crumbs as $crumb) {
+            if (!empty($crumb['url'])) {
+                $urls[] = $crumb['url'];
+            } elseif (is_object($crumb)) {
+                $urls[] = $crumb->url;
+            }
+        }
 
-		return $urls;
-	}
-
+        return $urls;
+    }
 }

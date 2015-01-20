@@ -21,16 +21,17 @@ use QuickApps\Event\HookAwareTrait;
  * This class acts as a wrapper for CakePHP's AuthComponent, provides
  * so specific functionalities used by QuickAppsCMS.
  */
-class AuthComponent extends CakeAuthComponent {
+class AuthComponent extends CakeAuthComponent
+{
 
-	use HookAwareTrait;
+    use HookAwareTrait;
 
 /**
  * {@inheritDoc}
  *
  * ## Events triggered:
  *
- * - `User.beforeIdentify`: Triggered before any Authenticate Adapter is executed, 
+ * - `User.beforeIdentify`: Triggered before any Authenticate Adapter is executed,
  *    returning false or stopping this event will halt the "identify" operation.
  * - `User.afterIdentify`: After user's identification operation has been completed.
  *    This event is triggered even on identification failure, you must distinguish
@@ -38,45 +39,46 @@ class AuthComponent extends CakeAuthComponent {
  *
  * @return array User record data, or false, if the user could not be identified.
  */
-	public function identify() {
-		$event = $this->trigger('User.beforeIdentify');
-		if ($event->isStopped() || $event->result === false) {
-			return false;
-		}
+    public function identify()
+    {
+        $event = $this->trigger('User.beforeIdentify');
+        if ($event->isStopped() || $event->result === false) {
+            return false;
+        }
 
-		$result = parent::identify();
-		$this->trigger('User.afterIdentify', $result);
-		return $result;
-	}
+        $result = parent::identify();
+        $this->trigger('User.afterIdentify', $result);
+        return $result;
+    }
 
 /**
  * {@inheritDoc}
  *
  * ## Events triggered:
  *
- * - `User.beforeLogout`: Triggered before any Authenticate Adapter is executed, 
+ * - `User.beforeLogout`: Triggered before any Authenticate Adapter is executed,
  *    returning false or stopping this event will halt the logout operation.
  * - `User.afterLogout`: After user's logout operation has been completed.
  *    Event listeners can return an alternative redirection URL, if not given
  *    default URL will be used.
- * 
+ *
  * @return string Normalized config `logoutRedirect`
  * @link http://book.cakephp.org/2.0/en/core-libraries/components/authentication.html#logging-users-out
  */
-	public function logout() {
-		$event = $this->trigger('User.beforeLogout');
-		if ($event->isStopped() || $event->result === false) {
-			return false;
-		}
+    public function logout()
+    {
+        $event = $this->trigger('User.beforeLogout');
+        if ($event->isStopped() || $event->result === false) {
+            return false;
+        }
 
-		$result = parent::logout();
-		$eventResult = $this->trigger('User.afterLogout', $result)->result;
+        $result = parent::logout();
+        $eventResult = $this->trigger('User.afterLogout', $result)->result;
 
-		if ($eventResult) {
-			$result = $eventResult;
-		}
+        if ($eventResult) {
+            $result = $eventResult;
+        }
 
-		return $result;
-	}
-
+        return $result;
+    }
 }

@@ -17,6 +17,6 @@ use Cake\ORM\Entity;
  * Represents single "data_set" from search_datasets" database table.
  *
  */
-class SearchDataset extends Entity {
-
+class SearchDataset extends Entity
+{
 }

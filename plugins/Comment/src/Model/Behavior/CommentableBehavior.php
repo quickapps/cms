@@ -22,21 +22,22 @@ use Cake\Utility\Inflector;
  * Allow entities to be commented.
  *
  */
-class CommentableBehavior extends Behavior {
+class CommentableBehavior extends Behavior
+{
 
 /**
  * The table this behavior is attached to.
  *
  * @var Table
  */
-	protected $_table;
+    protected $_table;
 
 /**
  * Enable/Diable this behavior.
  *
  * @var bool
  */
-	protected $_enabled = false;
+    protected $_enabled = false;
 
 /**
  * Default configuration.
@@ -45,17 +46,17 @@ class CommentableBehavior extends Behavior {
  *
  * @var array
  */
-	protected $_defaultConfig = [
-		'implementedFinders' => [
-			'comments' => 'findComments',
-		],
-		'implementedMethods' => [
-			'bindComments' => 'bindComments',
-			'unbindComments' => 'unbindComments',
-		],
-		'count' => false,
-		'order' => ['Comments.created' => 'DESC'],
-	];
+    protected $_defaultConfig = [
+        'implementedFinders' => [
+            'comments' => 'findComments',
+        ],
+        'implementedMethods' => [
+            'bindComments' => 'bindComments',
+            'unbindComments' => 'unbindComments',
+        ],
+        'count' => false,
+        'order' => ['Comments.created' => 'DESC'],
+    ];
 
 /**
  * Constructor.
@@ -65,21 +66,22 @@ class CommentableBehavior extends Behavior {
  * @param \Cake\ORM\Table $table The table this behavior is attached to.
  * @param array $config The config for this behavior.
  */
-	public function __construct(Table $table, array $config = []) {
-		$this->_table = $table;
-		$this->_table->hasMany('Comments', [
-			'className' => 'Comment.Comments',
-			'foreignKey' => 'entity_id',
-			'conditions' => [
-				'table_alias' => Inflector::underscore($this->_table->alias()),
-				'status' => 'approved',
-			],
-			'joinType' => 'LEFT',
-			'dependent' => true,
-		]);
+    public function __construct(Table $table, array $config = [])
+    {
+        $this->_table = $table;
+        $this->_table->hasMany('Comments', [
+            'className' => 'Comment.Comments',
+            'foreignKey' => 'entity_id',
+            'conditions' => [
+                'table_alias' => Inflector::underscore($this->_table->alias()),
+                'status' => 'approved',
+            ],
+            'joinType' => 'LEFT',
+            'dependent' => true,
+        ]);
 
-		parent::__construct($table, $config);
-	}
+        parent::__construct($table, $config);
+    }
 
 /**
  * Attaches comments to each entity on find operation.
@@ -90,38 +92,39 @@ class CommentableBehavior extends Behavior {
  * @param bool $primary Whether is find is a primary query or not
  * @return void
  */
-	public function beforeFind(Event $event, $query, $options, $primary) {
-		if ($this->_enabled) {
-			if ($query->count() > 0) {
-				$pk = $this->_table->primaryKey();
-				$tableAlias = Inflector::underscore($this->_table->alias());
+    public function beforeFind(Event $event, $query, $options, $primary)
+    {
+        if ($this->_enabled) {
+            if ($query->count() > 0) {
+                $pk = $this->_table->primaryKey();
+                $tableAlias = Inflector::underscore($this->_table->alias());
 
-				$query->contain([
-					'Comments' => function ($query) {
-						return $query->find('threaded')
-							->contain(['Users'])
-							->order($this->config('order'));
-					},
-				]);
+                $query->contain([
+                    'Comments' => function ($query) {
+                        return $query->find('threaded')
+                            ->contain(['Users'])
+                            ->order($this->config('order'));
+                    },
+                ]);
 
-				if (
-					$this->config('count') ||
-					(isset($options['comments_count']) && $options['comments_count'] === true)
-				) {
-					$query->formatResults(function ($results) use ($pk, $tableAlias) {
-						return $results->map(function ($entity) use ($pk, $tableAlias) {
-							$entityId = $entity->{$pk};
-							$count = TableRegistry::get('Comment.Comments')->find()
-								->where(['entity_id' => $entityId, 'table_alias' => $tableAlias])
-								->count();
-							$entity->set('comments_count', $count);
-							return $entity;
-						});
-					});
-				}
-			}
-		}
-	}
+                if (
+                    $this->config('count') ||
+                    (isset($options['comments_count']) && $options['comments_count'] === true)
+                ) {
+                    $query->formatResults(function ($results) use ($pk, $tableAlias) {
+                        return $results->map(function ($entity) use ($pk, $tableAlias) {
+                            $entityId = $entity->{$pk};
+                            $count = TableRegistry::get('Comment.Comments')->find()
+                                ->where(['entity_id' => $entityId, 'table_alias' => $tableAlias])
+                                ->count();
+                            $entity->set('comments_count', $count);
+                            return $entity;
+                        });
+                    });
+                }
+            }
+        }
+    }
 
 /**
  * Get comments for the given entity.
@@ -139,22 +142,23 @@ class CommentableBehavior extends Behavior {
  * @return \Cake\Datasource\ResultSetDecorator Comments collection
  * @throws \InvalidArgumentException When the 'for' key is not passed in $options
  */
-	public function findComments(Query $query, $options) {
-		$pk = $this->_table->primaryKey();
-		$tableAlias = Inflector::underscore($this->_table->alias());
+    public function findComments(Query $query, $options)
+    {
+        $pk = $this->_table->primaryKey();
+        $tableAlias = Inflector::underscore($this->_table->alias());
 
-		if (empty($options['for'])) {
-			throw new \InvalidArgumentException("The 'for' key is required for find('children')");
-		}
+        if (empty($options['for'])) {
+            throw new \InvalidArgumentException("The 'for' key is required for find('children')");
+        }
 
-		$comments = $this->_table->Comments
-			->find('threaded')
-			->where(['table_alias' => $tableAlias, 'entity_id' => $options['for']])
-			->order($this->config('order'))
-			->all();
+        $comments = $this->_table->Comments
+            ->find('threaded')
+            ->where(['table_alias' => $tableAlias, 'entity_id' => $options['for']])
+            ->order($this->config('order'))
+            ->all();
 
-		return $comments;
-	}
+        return $comments;
+    }
 
 /**
  * Enables this behavior.
@@ -163,9 +167,10 @@ class CommentableBehavior extends Behavior {
  *
  * @return void
  */
-	public function bindComments() {
-		$this->_enabled = true;
-	}
+    public function bindComments()
+    {
+        $this->_enabled = true;
+    }
 
 /**
  * Disables this behavior.
@@ -174,8 +179,8 @@ class CommentableBehavior extends Behavior {
  *
  * @return void
  */
-	public function unbindComments() {
-		$this->_enabled = false;
-	}
-
+    public function unbindComments()
+    {
+        $this->_enabled = false;
+    }
 }

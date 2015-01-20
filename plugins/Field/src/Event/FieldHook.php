@@ -52,10 +52,11 @@ use QuickApps\View\ViewModeAwareTrait;
  * practice always use view elements as rendering method instead returning
  * hard-coded HTML code in your methods as in the first example above.
  */
-class FieldHook implements EventListenerInterface {
+class FieldHook implements EventListenerInterface
+{
 
-	use HookAwareTrait;
-	use ViewModeAwareTrait;
+    use HookAwareTrait;
+    use ViewModeAwareTrait;
 
 /**
  * Returns a list of hooks this Hook Listener is implementing. When the class is
@@ -64,15 +65,16 @@ class FieldHook implements EventListenerInterface {
  *
  * @return void
  */
-	public function implementedEvents() {
-		return [
-			'Render.Field\Model\Entity\Field' => [
-				'callable' => 'renderField',
-				'priority' => -1
-			],
-			'Field.info' => 'listFields',
-		];
-	}
+    public function implementedEvents()
+    {
+        return [
+            'Render.Field\Model\Entity\Field' => [
+                'callable' => 'renderField',
+                'priority' => -1
+            ],
+            'Field.info' => 'listFields',
+        ];
+    }
 
 /**
  * We catch all field rendering request (from QuickApps\View\View) here, then we
@@ -86,21 +88,22 @@ class FieldHook implements EventListenerInterface {
  * @param array $options Additional array of options
  * @return string The rendered field
  */
-	public function renderField(Event $event, $field, $options = []) {
-		$viewMode = $this->inUseViewMode();
+    public function renderField(Event $event, $field, $options = [])
+    {
+        $viewMode = $this->inUseViewMode();
 
-		if (
-			isset($field->metadata->view_modes[$viewMode]) &&
-			!$field->metadata->view_modes[$viewMode]['hidden']
-		) {
-			$options = array_merge(['edit' => false], $options);
-			$renderFieldHook = $this->trigger(["Field.{$field->metadata['handler']}.Entity.display", $event->subject], $field, $options);
-			$event->stopPropagation(); // We don't want other plugins to catch this
-			return (string)$renderFieldHook->result;
-		}
+        if (
+            isset($field->metadata->view_modes[$viewMode]) &&
+            !$field->metadata->view_modes[$viewMode]['hidden']
+        ) {
+            $options = array_merge(['edit' => false], $options);
+            $renderFieldHook = $this->trigger(["Field.{$field->metadata['handler']}.Entity.display", $event->subject], $field, $options);
+            $event->stopPropagation(); // We don't want other plugins to catch this
+            return (string)$renderFieldHook->result;
+        }
 
-		return '';
-	}
+        return '';
+    }
 
 /**
  * Gets a collection of information of every registered field in the system.
@@ -129,27 +132,27 @@ class FieldHook implements EventListenerInterface {
  * @param bool $includeHidden Set to true to include fields marked as hidden
  * @return \Cake\Collection\Collection A collection of fields information
  */
-	public function listFields(Event $event, $includeHidden = false) {
-		$fields = [];
+    public function listFields(Event $event, $includeHidden = false)
+    {
+        $fields = [];
 
-		foreach (listeners() as $listener) {
-			if (str_starts_with($listener, 'Field.') && str_ends_with($listener, '.Instance.info')) {
-				$fieldHandler = explode('.', $listener)[1];
-				$response = array_merge([
-						'name' => null,
-						'description' => null,
-						'hidden' => false,
-						'handler' => $fieldHandler,
-					],
-					(array)$this->trigger($listener)->result
-				);
-				if (!$response['hidden'] || $includeHidden) {
-					$fields[] = $response;
-				}
-			}
-		}
+        foreach (listeners() as $listener) {
+            if (str_starts_with($listener, 'Field.') && str_ends_with($listener, '.Instance.info')) {
+                $fieldHandler = explode('.', $listener)[1];
+                $response = array_merge([
+                        'name' => null,
+                        'description' => null,
+                        'hidden' => false,
+                        'handler' => $fieldHandler,
+                    ],
+                    (array)$this->trigger($listener)->result
+                );
+                if (!$response['hidden'] || $includeHidden) {
+                    $fields[] = $response;
+                }
+            }
+        }
 
-		return collection($fields);
-	}
-
+        return collection($fields);
+    }
 }

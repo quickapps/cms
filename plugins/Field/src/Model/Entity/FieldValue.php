@@ -17,6 +17,6 @@ use Cake\ORM\Entity;
  * Represents a "value" from the "field_values" database table.
  *
  */
-class FieldValue extends Entity {
-
+class FieldValue extends Entity
+{
 }

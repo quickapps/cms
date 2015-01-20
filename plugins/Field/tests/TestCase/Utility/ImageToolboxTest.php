@@ -18,92 +18,99 @@ use Field\Utility\ImageToolbox;
 /**
  * ImageToolboxTest class.
  */
-class ImageToolboxTest extends TestCase {
+class ImageToolboxTest extends TestCase
+{
 
 /**
  * Path to image test file.
- * 
+ *
  * @var string
  */
-	public $img1;
+    public $img1;
 
 /**
  * Path to image test file.
- * 
+ *
  * @var string
  */
-	public $img2;
+    public $img2;
 
 /**
  * setUp().
  *
  * @return void
  */
-	public function setUp() {
-		parent::setUp();
-		$this->img1 = WWW_ROOT . 'files/test.png';
-		$this->img2 = WWW_ROOT . 'files/test2.png';
-	}
+    public function setUp()
+    {
+        parent::setUp();
+        $this->img1 = WWW_ROOT . 'files/test.png';
+        $this->img2 = WWW_ROOT . 'files/test2.png';
+    }
 
 /**
  * tearDown().
  *
  * @return void
  */
-	public function tearDown() {
-		parent::tearDown();
-		$folder = new Folder(WWW_ROOT . 'files/.tmb/');
-		$folder->delete();
-	}
+    public function tearDown()
+    {
+        parent::tearDown();
+        $folder = new Folder(WWW_ROOT . 'files/.tmb/');
+        $folder->delete();
+    }
 
 /**
  * test thumbnail() method.
  *
  * @return void
  */
-	public function testThumbnail() {
-		$this->assertNotEmpty(ImageToolbox::thumbnail($this->img1, 'thumbnail'));
-		$this->assertNotEmpty(ImageToolbox::thumbnail($this->img2, 'thumbnail'));
-	}
+    public function testThumbnail()
+    {
+        $this->assertNotEmpty(ImageToolbox::thumbnail($this->img1, 'thumbnail'));
+        $this->assertNotEmpty(ImageToolbox::thumbnail($this->img2, 'thumbnail'));
+    }
 
 /**
  * test previewsOptions() method.
  *
  * @return void
  */
-	public function testPreviewsOptions() {
-		$this->assertNotEmpty(ImageToolbox::previewsOptions());
-	}
+    public function testPreviewsOptions()
+    {
+        $this->assertNotEmpty(ImageToolbox::previewsOptions());
+    }
 
 /**
  * test getPreviews() method.
  *
  * @return void
  */
-	public function testGetPreviews() {
-		$this->assertNotEmpty(ImageToolbox::getPreviews());
-		$this->assertNotEmpty(ImageToolbox::getPreviews('thumbnail'));
-	}
+    public function testGetPreviews()
+    {
+        $this->assertNotEmpty(ImageToolbox::getPreviews());
+        $this->assertNotEmpty(ImageToolbox::getPreviews('thumbnail'));
+    }
 
 /**
  * test addPreview() method.
  *
  * @return void
  */
-	public function testAddPreview() {
-		ImageToolbox::addPreview('box20', '20x20 Box', 20, 20);
-		$this->assertNotEmpty(ImageToolbox::getPreviews('box20'));
-	}
+    public function testAddPreview()
+    {
+        ImageToolbox::addPreview('box20', '20x20 Box', 20, 20);
+        $this->assertNotEmpty(ImageToolbox::getPreviews('box20'));
+    }
 
 /**
  * test delete() method.
  *
  * @return void
  */
-	public function testDelete() {
-		copy($this->img2, WWW_ROOT . 'files/dummy-test.png');
-		ImageToolbox::delete(WWW_ROOT . 'files/dummy-test.png');
-		$this->assertFalse(file_exists(WWW_ROOT . 'files/dummy-test.png'));
-	}
-
+    public function testDelete()
+    {
+        copy($this->img2, WWW_ROOT . 'files/dummy-test.png');
+        ImageToolbox::delete(WWW_ROOT . 'files/dummy-test.png');
+        $this->assertFalse(file_exists(WWW_ROOT . 'files/dummy-test.png'));
+    }
 }

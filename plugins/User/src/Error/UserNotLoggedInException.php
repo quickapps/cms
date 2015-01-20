@@ -17,13 +17,13 @@ use Cake\Core\Exception\Exception;
  * Exception raised when a user is required to be logged in, but he/she is not.
  *
  */
-class UserNotLoggedInException extends Exception {
+class UserNotLoggedInException extends Exception
+{
 
 /**
  * Template string that has attributes sprintf()'ed into it.
  *
  * @var string
  */
-	protected $_messageTemplate = 'User not logged in.';
-
+    protected $_messageTemplate = 'User not logged in.';
 }

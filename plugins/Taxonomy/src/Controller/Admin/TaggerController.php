@@ -20,7 +20,8 @@ use Taxonomy\Controller\AppController;
  *
  * @see \Hook\TaxonomyField
  */
-class TaggerController extends AppController {
+class TaggerController extends AppController
+{
 
 /**
  * Shows a list of matching terms.
@@ -28,22 +29,22 @@ class TaggerController extends AppController {
  * @param int $vocabularyId Vocabulary's ID for which render its terms
  * @return void
  */
-	public function search($vocabularyId) {
-		$this->loadModel('Taxonomy.Terms');
-		$out = [];
-		$text = $this->request->query['q'];
-		$terms = $this->Terms
-			->find()
-			->select(['id', 'name'])
-			->where(['name LIKE' => "%%{$text}%%", 'vocabulary_id' => $vocabularyId])
-			->limit(10)
-			->all();
+    public function search($vocabularyId)
+    {
+        $this->loadModel('Taxonomy.Terms');
+        $out = [];
+        $text = $this->request->query['q'];
+        $terms = $this->Terms
+            ->find()
+            ->select(['id', 'name'])
+            ->where(['name LIKE' => "%%{$text}%%", 'vocabulary_id' => $vocabularyId])
+            ->limit(10)
+            ->all();
 
-		foreach ($terms as $term) {
-			$out[] = ['id' => $term->id, 'name' => $term->name];
-		}
+        foreach ($terms as $term) {
+            $out[] = ['id' => $term->id, 'name' => $term->name];
+        }
 
-		die(json_encode($out));
-	}
-
+        die(json_encode($out));
+    }
 }

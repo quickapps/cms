@@ -18,15 +18,16 @@ use Taxonomy\Controller\AppController;
  *
  * Redirects to Vocabularies controller.
  */
-class ManageController extends AppController {
+class ManageController extends AppController
+{
 
 /**
  * Shows a list of all vocabularies.
  *
  * @return void
  */
-	public function index() {
-		$this->redirect(['plugin' => 'Taxonomy', 'controller' => 'vocabularies', 'action' => 'index']);
-	}
-
+    public function index()
+    {
+        $this->redirect(['plugin' => 'Taxonomy', 'controller' => 'vocabularies', 'action' => 'index']);
+    }
 }

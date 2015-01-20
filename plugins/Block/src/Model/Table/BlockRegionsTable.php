@@ -19,7 +19,8 @@ use QuickApps\Core\Plugin;
  * Represents "block_regions" database table.
  *
  */
-class BlockRegionsTable extends Table {
+class BlockRegionsTable extends Table
+{
 
 /**
  * Initialize method.
@@ -27,11 +28,12 @@ class BlockRegionsTable extends Table {
  * @param array $config The configuration for the Table.
  * @return void
  */
-	public function initialize(array $config) {
-		$this->belongsTo('Blocks', [
-			'className' => 'Block.Blocks',
-		]);
-	}
+    public function initialize(array $config)
+    {
+        $this->belongsTo('Blocks', [
+            'className' => 'Block.Blocks',
+        ]);
+    }
 
 /**
  * Default validation rules.
@@ -39,22 +41,22 @@ class BlockRegionsTable extends Table {
  * @param \Cake\Validation\Validator $validator The validator object
  * @return \Cake\Validation\Validator
  */
-	public function validationDefault(Validator $validator) {
-		return $validator
-			->add('theme', 'validTheme', [
-				'rule' => function ($value, $context) {
-					$exists = Plugin::collection(false)
-						->match(['name' => $value])
-						->first();
-					return !empty($exists);
-				},
-				'message' => __d('block', 'Invalid theme for region.'),
-			])
-			->add('block_id', 'unique', [
-				'rule' => ['validateUnique', ['scope' => 'theme']],
-				'message' => __d('block', 'This block is already assigned to this theme.'),
-				'provider' => 'table',
-			]);
-	}
-
+    public function validationDefault(Validator $validator)
+    {
+        return $validator
+            ->add('theme', 'validTheme', [
+                'rule' => function ($value, $context) {
+                    $exists = Plugin::collection(false)
+                        ->match(['name' => $value])
+                        ->first();
+                    return !empty($exists);
+                },
+                'message' => __d('block', 'Invalid theme for region.'),
+            ])
+            ->add('block_id', 'unique', [
+                'rule' => ['validateUnique', ['scope' => 'theme']],
+                'message' => __d('block', 'This block is already assigned to this theme.'),
+                'provider' => 'table',
+            ]);
+    }
 }

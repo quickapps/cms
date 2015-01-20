@@ -34,23 +34,25 @@ use QuickApps\View\ViewModeAwareTrait;
  *   - errors: Validation error messages
  *   - entity: Entity object this field is attached to.
  */
-class Field extends Entity {
+class Field extends Entity
+{
 
-	use ViewModeAwareTrait;
+    use ViewModeAwareTrait;
 
 /**
  * Gets field's View Mode's settings for the in-use View Mode.
  *
  * @return array
  */
-	protected function _getViewModeSettings() {
-		$viewMode = $this->inUseViewMode();
-		$settings = [];
-		if (!empty($this->metadata->view_modes[$viewMode])) {
-			$settings = $this->metadata->view_modes[$viewMode];
-		}
-		return $settings;
-	}
+    protected function _getViewModeSettings()
+    {
+        $viewMode = $this->inUseViewMode();
+        $settings = [];
+        if (!empty($this->metadata->view_modes[$viewMode])) {
+            $settings = $this->metadata->view_modes[$viewMode];
+        }
+        return $settings;
+    }
 
 /**
  * String representation of this field.
@@ -59,9 +61,10 @@ class Field extends Entity {
  *
  * @return string
  */
-	public function __toString() {
-		return (string)$this->get('value');
-	}
+    public function __toString()
+    {
+        return (string)$this->get('value');
+    }
 
 /**
  * Returns an array that can be used to describe the internal state of
@@ -69,24 +72,24 @@ class Field extends Entity {
  *
  * @return array
  */
-	public function __debugInfo() {
-		return [
-			'name' => $this->get('name'),
-			'label' => $this->get('label'),
-			'value' => $this->get('value'),
-			'raw' => $this->get('raw'),
-			'metadata' => [
-				'field_value_id' => $this->get('metadata')->get('field_value_id'),
-				'field_instance_id' => $this->get('metadata')->get('field_instance_id'),
-				'table_alias' => $this->get('metadata')->get('table_alias'),
-				'description' => $this->get('metadata')->get('description'),
-				'required' => $this->get('metadata')->get('required'),
-				'settings' => $this->get('metadata')->get('settings'),
-				'handler' => $this->get('metadata')->get('handler'),
-				'errors' => $this->get('metadata')->get('errors'),
-				'entity' => 'Object',
-			],
-		];
-	}
-
+    public function __debugInfo()
+    {
+        return [
+            'name' => $this->get('name'),
+            'label' => $this->get('label'),
+            'value' => $this->get('value'),
+            'raw' => $this->get('raw'),
+            'metadata' => [
+                'field_value_id' => $this->get('metadata')->get('field_value_id'),
+                'field_instance_id' => $this->get('metadata')->get('field_instance_id'),
+                'table_alias' => $this->get('metadata')->get('table_alias'),
+                'description' => $this->get('metadata')->get('description'),
+                'required' => $this->get('metadata')->get('required'),
+                'settings' => $this->get('metadata')->get('settings'),
+                'handler' => $this->get('metadata')->get('handler'),
+                'errors' => $this->get('metadata')->get('errors'),
+                'entity' => 'Object',
+            ],
+        ];
+    }
 }

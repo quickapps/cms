@@ -24,39 +24,40 @@ use User\Utility\AcoManager;
  * Base class for tasks.
  *
  */
-abstract class BaseTask {
+abstract class BaseTask
+{
 
-	use HookAwareTrait;
-	use InstanceConfigTrait;
-	use ModelAwareTrait;
+    use HookAwareTrait;
+    use InstanceConfigTrait;
+    use ModelAwareTrait;
 
 /**
  * Default config
  *
  * @var array
  */
-	protected $_defaultConfig = [];
+    protected $_defaultConfig = [];
 
 /**
  * List of error messages.
- * 
+ *
  * @var array
  */
-	protected $_errors = [];
+    protected $_errors = [];
 
 /**
  * Holds the name of the plugin which is running the task.
- * 
+ *
  * @var string
  */
-	protected $_pluginName = null;
+    protected $_pluginName = null;
 
 /**
  * List of all attached listeners during task execution.
- * 
+ *
  * @var array
  */
-	protected $_listeners = [];
+    protected $_listeners = [];
 
 /**
  * Constructor.
@@ -64,32 +65,34 @@ abstract class BaseTask {
  * @param array $config Additional options for the task handler
  * @return void
  */
-	public function __construct($config = []) {
-		if (function_exists('ini_set')) {
-			ini_set('max_execution_time', 300);
-		} elseif (function_exists('set_time_limit')) {
-			set_time_limit(300);
-		}
+    public function __construct($config = [])
+    {
+        if (function_exists('ini_set')) {
+            ini_set('max_execution_time', 300);
+        } elseif (function_exists('set_time_limit')) {
+            set_time_limit(300);
+        }
 
-		$this->config($config);
-		$this->modelFactory('Table', ['Cake\ORM\TableRegistry', 'get']);
-		$this->loadModel('System.Plugins');
-	}
+        $this->config($config);
+        $this->modelFactory('Table', ['Cake\ORM\TableRegistry', 'get']);
+        $this->loadModel('System.Plugins');
+    }
 
 /**
  * Starts this task.
- * 
+ *
  * @return bool True if task executed correctly
  * @throws \Cake\Error\FatalErrorException When task is started before task
  * handler has specified the plugin being managed
  */
-	final public function run() {
-		$this->init();
-		if (!$this->plugin()) {
-			throw new FatalErrorException(__d('installer', 'Internal error ({0}), task cannot be run if no plugin was set before using "plugin()".', get_called_class()));
-		}
-		return $this->start();
-	}
+    final public function run()
+    {
+        $this->init();
+        if (!$this->plugin()) {
+            throw new FatalErrorException(__d('installer', 'Internal error ({0}), task cannot be run if no plugin was set before using "plugin()".', get_called_class()));
+        }
+        return $this->start();
+    }
 
 /**
  * This is where task should initialize all what it needs
@@ -97,34 +100,35 @@ abstract class BaseTask {
  *
  * This method is automatically executed before "run()". Here is where you
  * should indicate which plugin is being handled using the `plugin()` method.
- * 
+ *
  * @return void
  */
-	abstract public function init();
+    abstract public function init();
 
 /**
  * This is the main method of every task.
  *
  * It cannot be directly executed, it can only be accessed using "run()".
- * 
+ *
  * @return bool
  */
-	abstract public function start();
+    abstract public function start();
 
 /**
  * Gets or sets the plugin name being handled.
  *
  * A plugin name must be set before starting the task using "run()" method.
- * 
+ *
  * @param string $pluginName Plugin's name
  * @return string The plugin name just set
  */
-	final public function plugin($pluginName = null) {
-		if ($pluginName === null) {
-			return $this->_pluginName;
-		}
-		return $this->_pluginName = $pluginName;
-	}
+    final public function plugin($pluginName = null)
+    {
+        if ($pluginName === null) {
+            return $this->_pluginName;
+        }
+        return $this->_pluginName = $pluginName;
+    }
 
 /**
  * Registers a new option in the "options" DB table.
@@ -140,7 +144,7 @@ abstract class BaseTask {
  * - name: DarkBlue.background_color
  * - value: #000
  * - autoload: true
- * 
+ *
  * @param string $name Option name, will be automatically prefixed with "<PluginName>."
  * @param mixed $value Any information this plugin needs for this option
  * @param bool $autoload True if this option should be loaded on bootstrap,
@@ -148,29 +152,31 @@ abstract class BaseTask {
  * @return mixed
  * @throws \Cake\Error\FatalErrorException On illegal usage of this method
  */
-	final public function addOption($name, $value, $autoload = false) {
-		if (!$this->plugin()) {
-			throw new FatalErrorException(__d('installer', 'Internal error ({0}), cannot use addOption() before "plugin()".', get_called_class()));
-		}
+    final public function addOption($name, $value, $autoload = false)
+    {
+        if (!$this->plugin()) {
+            throw new FatalErrorException(__d('installer', 'Internal error ({0}), cannot use addOption() before "plugin()".', get_called_class()));
+        }
 
-		$this->loadModel('System.Options');
-		$name = !str_starts_with($name, $this->plugin() . '.') ? $this->plugin() . ".{$name}" : $name;
-		$option = $this->Options->newEntity(compact('name', 'value', 'autoload'));
-		return $this->Options->save($option);
-	}
+        $this->loadModel('System.Options');
+        $name = !str_starts_with($name, $this->plugin() . '.') ? $this->plugin() . ".{$name}" : $name;
+        $option = $this->Options->newEntity(compact('name', 'value', 'autoload'));
+        return $this->Options->save($option);
+    }
 
 /**
  * Gets an instance of AcoManager.
- * 
+ *
  * @return \User\Utility\AcoManager
  * @throws \Cake\Error\FatalErrorException On illegal usage of this method
  */
-	final public function aco() {
-		if (!$this->plugin()) {
-			throw new FatalErrorException(__d('installer', 'Internal error ({0}), illegal access to AcoManager before using "plugin()".', get_called_class()));
-		}
-		return new AcoManager($this->plugin());
-	}
+    final public function aco()
+    {
+        if (!$this->plugin()) {
+            throw new FatalErrorException(__d('installer', 'Internal error ({0}), illegal access to AcoManager before using "plugin()".', get_called_class()));
+        }
+        return new AcoManager($this->plugin());
+    }
 
 /**
  * Creates a new instance of this class, so we can chain multiple
@@ -194,72 +200,76 @@ abstract class BaseTask {
  * @param array $options Array of options for the task
  * @return \Installer\Task\BaseTask New instance of this class
  */
-	final public function newTask($task, $options = []) {
-		return TaskManager::task($task, $options);
-	}
+    final public function newTask($task, $options = [])
+    {
+        return TaskManager::task($task, $options);
+    }
 
 /**
  * Registers a new error message, or a set of messages at once.
- * 
+ *
  * @param array|string $message A single message or an array of messages
  * @return void
  */
-	final public function error($message) {
-		if (is_string($message)) {
-			$message = [$message];
-		}
-		foreach ($message as $m) {
-			$this->_errors[] = $m;
-		}
-	}
+    final public function error($message)
+    {
+        if (is_string($message)) {
+            $message = [$message];
+        }
+        foreach ($message as $m) {
+            $this->_errors[] = $m;
+        }
+    }
 
 /**
  * Gets a list of all errors during installation.
- * 
+ *
  * @return array
  */
-	final public function errors() {
-		return $this->_errors;
-	}
+    final public function errors()
+    {
+        return $this->_errors;
+    }
 
 /**
  * Recursively checks if the given directory (and its content) can be deleted.
  *
  * This method automatically registers an error message if validation fails.
- * 
+ *
  * @param string $path Directory to check
  * @return bool
  */
-	final public function canBeDeleted($path) {
-		if (!file_exists($path) || !is_dir($path)) {
-			$this->error(__d('installer', "Plugin's directory was not found: ", $path));
-			return false;
-		}
+    final public function canBeDeleted($path)
+    {
+        if (!file_exists($path) || !is_dir($path)) {
+            $this->error(__d('installer', "Plugin's directory was not found: ", $path));
+            return false;
+        }
 
-		$folder = new Folder($path);
-		$content = $folder->tree();
-		$notWritable = [];
+        $folder = new Folder($path);
+        $content = $folder->tree();
+        $notWritable = [];
 
-		foreach ($content as $foldersOrFiles) {
-			foreach ($foldersOrFiles as $element) {
-				if (!is_writable($element)) {
-					$notWritable[] = $element;
-				}
-			}
-		}
+        foreach ($content as $foldersOrFiles) {
+            foreach ($foldersOrFiles as $element) {
+                if (!is_writable($element)) {
+                    $notWritable[] = $element;
+                }
+            }
+        }
 
-		if (!empty($notWritable)) {
-			$lis = array_map(function ($item) {
-					return "<li>{$item}</li>";
-			}, $notWritable);
+        if (!empty($notWritable)) {
+            $lis = array_map(function ($item) {
+                    return "<li>{$item}</li>";
+            }, $notWritable);
 
-			$ul = '<ul>' . implode("\n", $lis) . '</ul>';
-			$this->error(__d('installer', "Some plugin's files or directories cannot be removed from your server, please check write permissions: <br/> {0}", $ul));
-			return false;
-		}
+            $ul = '<ul>' . implode("\n", $lis) . '</ul>';
+            $this->error(__d('installer', "Some plugin's files or directories cannot be removed from your server, please check write permissions: <br/> {0}", $ul));
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
 /**
  * Loads and registers plugin's event listeners classes so plugins may respond
@@ -269,41 +279,42 @@ abstract class BaseTask {
  * @return void
  * @throws \Cake\Error\FatalErrorException On illegal usage of this method
  */
-	final public function attachListeners($path) {
-		global $classLoader;
+    final public function attachListeners($path)
+    {
+        global $classLoader;
 
-		if (!$this->plugin()) {
-			throw new FatalErrorException(__d('installer', 'Internal error ({0}), attachListeners() cannot be used if no plugin was set before using "plugin()".', get_called_class()));
-		}
+        if (!$this->plugin()) {
+            throw new FatalErrorException(__d('installer', 'Internal error ({0}), attachListeners() cannot be used if no plugin was set before using "plugin()".', get_called_class()));
+        }
 
-		if (file_exists($path) && is_dir($path)) {
-			$EventManager = EventManager::instance();
-			$eventsFolder = new Folder($path);
+        if (file_exists($path) && is_dir($path)) {
+            $EventManager = EventManager::instance();
+            $eventsFolder = new Folder($path);
 
-			foreach ($eventsFolder->read(false, false, true)[1] as $classPath) {
-				$className = preg_replace('/\.php$/i', '', basename($classPath));
-				$namespace = $this->plugin() . '\Event\\';
-				$classLoader->addPsr4($namespace, dirname($classPath), true);
-				$fullClassName = $namespace . $className;
+            foreach ($eventsFolder->read(false, false, true)[1] as $classPath) {
+                $className = preg_replace('/\.php$/i', '', basename($classPath));
+                $namespace = $this->plugin() . '\Event\\';
+                $classLoader->addPsr4($namespace, dirname($classPath), true);
+                $fullClassName = $namespace . $className;
 
-				if (class_exists($fullClassName)) {
-					$this->_listeners[] = new $fullClassName;
-					$EventManager->attach(end($this->_listeners));
-				}
-			}
-		}
-	}
+                if (class_exists($fullClassName)) {
+                    $this->_listeners[] = new $fullClassName;
+                    $EventManager->attach(end($this->_listeners));
+                }
+            }
+        }
+    }
 
 /**
  * Unloads all registered listeners that were attached using "attachListeners()".
  *
  * @return void
  */
-	final public function detachListeners() {
-		$EventManager = EventManager::instance();
-		foreach ($this->_listeners as $listener) {
-			$EventManager->detach($listener);
-		}
-	}
-
+    final public function detachListeners()
+    {
+        $EventManager = EventManager::instance();
+        foreach ($this->_listeners as $listener) {
+            $EventManager->detach($listener);
+        }
+    }
 }

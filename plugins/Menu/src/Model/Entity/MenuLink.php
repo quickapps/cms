@@ -17,6 +17,6 @@ use Cake\ORM\Entity;
  * Represents a single "menu_link" within "menu_links" table.
  *
  */
-class MenuLink extends Entity {
-
+class MenuLink extends Entity
+{
 }

@@ -18,45 +18,48 @@ use User\Model\Entity\User;
  * Represents an logged in user.
  *
  */
-class UserSession extends User {
+class UserSession extends User
+{
 
 /**
  * Gets an array list of role IDs this user belongs to.
- * 
+ *
  * @return array
  */
-	protected function _getRoleIds() {
-		$ids = [];
-		foreach ($this->roles as $role) {
-			$ids[] = $role->id;
-		}
-		return $ids;
-	}
+    protected function _getRoleIds()
+    {
+        $ids = [];
+        foreach ($this->roles as $role) {
+            $ids[] = $role->id;
+        }
+        return $ids;
+    }
 
 /**
  * Gets an array list of role NAMES this user belongs to.
- * 
+ *
  * @return array
  */
-	protected function _getRoleNames() {
-		$names = [];
-		foreach ($this->roles as $role) {
-			$names[] = $role->name;
-		}
-		return $names;
-	}
+    protected function _getRoleNames()
+    {
+        $names = [];
+        foreach ($this->roles as $role) {
+            $names[] = $role->name;
+        }
+        return $names;
+    }
 
 /**
  * Gets an array list of role NAMES this user belongs to.
- * 
+ *
  * @return array
  */
-	protected function _getRoleSlugs() {
-		$slugs = [];
-		foreach ($this->roles as $role) {
-			$slugs[] = $role->slug;
-		}
-		return $slugs;
-	}
-
+    protected function _getRoleSlugs()
+    {
+        $slugs = [];
+        foreach ($this->roles as $role) {
+            $slugs[] = $role->slug;
+        }
+        return $slugs;
+    }
 }

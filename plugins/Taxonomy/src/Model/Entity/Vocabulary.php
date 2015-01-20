@@ -18,29 +18,31 @@ use Cake\Utility\String;
  * Represents a single "vocabulary" within "vocabularies" table.
  *
  */
-class Vocabulary extends Entity {
+class Vocabulary extends Entity
+{
 
 /**
  * Gets a brief description of 80 characters long.
- * 
+ *
  * @return string
  */
-	protected function _getBriefDescription() {
-		$description = $this->get('description');
-		if (empty($description)) {
-			return '---';
-		}
-		return String::truncate($description, 80);
-	}
+    protected function _getBriefDescription()
+    {
+        $description = $this->get('description');
+        if (empty($description)) {
+            return '---';
+        }
+        return String::truncate($description, 80);
+    }
 
 /**
  * Sanitizes vocabulary's description. No HTML allowed.
- * 
+ *
  * @param string $description Vocabulary's description
  * @return string
  */
-	protected function _setDescription($description) {
-		return strip_tags($description);
-	}
-
+    protected function _setDescription($description)
+    {
+        return strip_tags($description);
+    }
 }

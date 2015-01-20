@@ -18,51 +18,55 @@ use QuickApps\Core\Plugin;
  * Represents single "aco" in "acos" database table.
  *
  */
-class Aco extends Entity {
+class Aco extends Entity
+{
 
 /**
  * For usage as part of MenuHelper.
- * 
+ *
  * @return string
  */
-	protected function _getTitle() {
-		if ($this->_getIsPlugin()) {
-			try {
-				$info = Plugin::info($this->alias);
-				return $info['human_name'];
-			} catch (\Exception $e) {
-				return $this->alias;
-			}
-		}
-		return $this->alias;
-	}
+    protected function _getTitle()
+    {
+        if ($this->_getIsPlugin()) {
+            try {
+                $info = Plugin::info($this->alias);
+                return $info['human_name'];
+            } catch (\Exception $e) {
+                return $this->alias;
+            }
+        }
+        return $this->alias;
+    }
 
 /**
  * For usage as part of MenuHelper.
- * 
+ *
  * @return string
  */
-	protected function _getExpanded() {
-		return true;
-	}
+    protected function _getExpanded()
+    {
+        return true;
+    }
 
 /**
  * For usage as part of MenuHelper.
- * 
+ *
  * @return string
  */
-	protected function _getPluginName() {
-		$info = Plugin::info($this->alias);
-		return $info['human_name'];
-	}
+    protected function _getPluginName()
+    {
+        $info = Plugin::info($this->alias);
+        return $info['human_name'];
+    }
 
 /**
  * For usage as part of MenuHelper.
- * 
+ *
  * @return string
  */
-	protected function _getIsPlugin() {
-		return empty($this->parent_id);
-	}
-
+    protected function _getIsPlugin()
+    {
+        return empty($this->parent_id);
+    }
 }

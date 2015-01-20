@@ -17,6 +17,6 @@ use Cake\ORM\Table;
  * Represents "search_datasets" database table.
  *
  */
-class SearchDatasetsTable extends Table {
-
+class SearchDatasetsTable extends Table
+{
 }

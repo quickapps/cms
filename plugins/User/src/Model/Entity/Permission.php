@@ -17,6 +17,6 @@ use Cake\ORM\Entity;
  * Represents single "permission" in "permissions" database table.
  *
  */
-class Permission extends Entity {
-
+class Permission extends Entity
+{
 }
