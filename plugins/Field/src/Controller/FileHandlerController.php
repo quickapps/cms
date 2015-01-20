@@ -4,10 +4,10 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @since	 1.0.0
- * @author	 Christopher Castro <chris@quickapps.es>
- * @link	 http://www.quickappscms.org
- * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
+ * @since    1.0.0
+ * @author   Christopher Castro <chris@quickapps.es>
+ * @link     http://www.quickappscms.org
+ * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
 namespace Field\Controller;
 
@@ -24,16 +24,16 @@ use QuickApps\Core\Plugin;
 class FileHandlerController extends AppController
 {
 
-/**
- * Uploads a new file for the given FileField instance.
- *
- * @param string $instanceSlug Machine-name of the instance, a.k.a "slug"
- * @param \upload $uploader Instance of uploader class to use, useful when
- *  extending this controller
- * @return void
- * @throws \Cake\Network\Exception\NotFoundException When invalid slug is given,
- *  or when upload process could not be completed
- */
+    /**
+     * Uploads a new file for the given FileField instance.
+     *
+     * @param string $instanceSlug Machine-name of the instance, a.k.a "slug"
+     * @param \upload $uploader Instance of uploader class to use, useful when
+     *  extending this controller
+     * @return void
+     * @throws \Cake\Network\Exception\NotFoundException When invalid slug is given,
+     *  or when upload process could not be completed
+     */
     public function upload($instanceSlug, $uploader = null)
     {
         $field = $this->_getInstance($instanceSlug);
@@ -74,15 +74,15 @@ class FileHandlerController extends AppController
         $this->set(compact('response'));
     }
 
-/**
- * Deletes a file for the given FileField instance.
- *
- * File name must be passes as `file` GET parameter.
- *
- * @param string $instanceSlug Machine-name of the instance, a.k.a "slug"
- * @return void
- * @throws \Cake\Network\Exception\NotFoundException When invalid slug is given
- */
+    /**
+     * Deletes a file for the given FileField instance.
+     *
+     * File name must be passes as `file` GET parameter.
+     *
+     * @param string $instanceSlug Machine-name of the instance, a.k.a "slug"
+     * @return void
+     * @throws \Cake\Network\Exception\NotFoundException When invalid slug is given
+     */
     public function delete($instanceSlug)
     {
         $this->loadModel('Field.FieldInstances');
@@ -105,13 +105,13 @@ class FileHandlerController extends AppController
         $this->set(compact('response'));
     }
 
-/**
- * Get field instance information.
- *
- * @param string $slug Filed instance slug
- * @return \Field\Model\Entity\FieldInstance
- * @throws \Cake\Network\Exception\NotFoundException When no instance could be found
- */
+    /**
+     * Get field instance information.
+     *
+     * @param string $slug Filed instance slug
+     * @return \Field\Model\Entity\FieldInstance
+     * @throws \Cake\Network\Exception\NotFoundException When no instance could be found
+     */
     protected function _getInstance($slug)
     {
         $this->loadModel('Field.FieldInstances');
@@ -128,13 +128,13 @@ class FileHandlerController extends AppController
         return $field;
     }
 
-/**
- * Sends a JSON message error.
- *
- * @param string $message The message
- * @param mixed $code A unique code identifier for this message
- * @return void Stops scripts execution
- */
+    /**
+     * Sends a JSON message error.
+     *
+     * @param string $message The message
+     * @param mixed $code A unique code identifier for this message
+     * @return void Stops scripts execution
+     */
     protected function _error($message, $code)
     {
         header("HTTP/1.0 {$code} {$message}");

@@ -4,10 +4,10 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @since	 2.0.0
- * @author	 Christopher Castro <chris@quickapps.es>
- * @link	 http://www.quickappscms.org
- * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
+ * @since    2.0.0
+ * @author   Christopher Castro <chris@quickapps.es>
+ * @link     http://www.quickappscms.org
+ * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
 namespace Comment\Model\Table;
 
@@ -25,14 +25,14 @@ use QuickApps\Core\Plugin;
 class CommentsTable extends Table
 {
 
-/**
- * Initialize a table instance. Called after the constructor.
- *
- * {@inheritDoc}
- *
- * @param array $config Configuration options passed to the constructor
- * @return void
- */
+    /**
+     * Initialize a table instance. Called after the constructor.
+     *
+     * {@inheritDoc}
+     *
+     * @param array $config Configuration options passed to the constructor
+     * @return void
+     */
     public function initialize(array $config)
     {
         $this->addBehavior('Timestamp');
@@ -42,12 +42,12 @@ class CommentsTable extends Table
         ]);
     }
 
-/**
- * Basic validation set of rules.
- *
- * @param \Cake\Validation\Validator $validator The validator object
- * @return \Cake\Validation\Validator
- */
+    /**
+     * Basic validation set of rules.
+     *
+     * @param \Cake\Validation\Validator $validator The validator object
+     * @return \Cake\Validation\Validator
+     */
     public function validationDefault(Validator $validator)
     {
         $validator
@@ -98,12 +98,12 @@ class CommentsTable extends Table
         return $validator;
     }
 
-/**
- * Validation rules when editing a comment in backend.
- *
- * @param \Cake\Validation\Validator $validator The validator object
- * @return \Cake\Validation\Validator
- */
+    /**
+     * Validation rules when editing a comment in backend.
+     *
+     * @param \Cake\Validation\Validator $validator The validator object
+     * @return \Cake\Validation\Validator
+     */
     public function validationAnonymous(Validator $validator)
     {
         $settings = Plugin::settings('Comment');

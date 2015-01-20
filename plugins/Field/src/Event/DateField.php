@@ -4,10 +4,10 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @since	 2.0.0
- * @author	 Christopher Castro <chris@quickapps.es>
- * @link	 http://www.quickappscms.org
- * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
+ * @since    2.0.0
+ * @author   Christopher Castro <chris@quickapps.es>
+ * @link     http://www.quickappscms.org
+ * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
 namespace Field\Event;
 
@@ -24,91 +24,91 @@ use Field\Model\Entity\Field;
 class DateField extends FieldHandler
 {
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityDisplay(Event $event, Field $field, $options = [])
     {
         $View = $event->subject;
         return $View->element('Field.DateField/display', compact('field', 'options'));
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityEdit(Event $event, Field $field, $options = [])
     {
         $View = $event->subject;
         return $View->element('Field.DateField/edit', compact('field', 'options'));
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityFieldAttached(Event $event, Field $field)
     {
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityBeforeFind(Event $event, Field $field, $options, $primary)
     {
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityBeforeSave(Event $event, Field $field, $options)
     {
         $date = $options['_post'];
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityAfterSave(Event $event, Field $field, $options)
     {
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityBeforeValidate(Event $event, Field $field, $options, $validator)
     {
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityAfterValidate(Event $event, Field $field, $options, $validator)
     {
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityBeforeDelete(Event $event, Field $field, $options)
     {
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityAfterDelete(Event $event, Field $field, $options)
     {
     }
 
-/**
- * {@inheritDoc}
- *
- * @param \Cake\Event\Event $event
- * @return array
- */
+    /**
+     * {@inheritDoc}
+     *
+     * @param \Cake\Event\Event $event
+     * @return array
+     */
     public function instanceInfo(Event $event)
     {
         return [
@@ -118,42 +118,42 @@ class DateField extends FieldHandler
         ];
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceSettingsForm(Event $event, $instance, $options = [])
     {
         $View = $event->subject;
         return $View->element('Field.DateField/settings_form', compact('instance', 'options'));
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceSettingsDefaults(Event $event, $instance, $options = [])
     {
         return [];
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceSettingsValidate(Event $event, Entity $settings, $validator)
     {
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceViewModeForm(Event $event, $instance, $options = [])
     {
         $View = $event->subject;
         return $View->element('Field.DateField/view_mode_form', compact('instance', 'options'));
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceViewModeDefaults(Event $event, $instance, $options = [])
     {
         switch ($options['viewMode']) {
@@ -166,39 +166,39 @@ class DateField extends FieldHandler
         }
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceViewModeValidate(Event $event, Entity $viewMode, $validator)
     {
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceBeforeAttach(Event $event, $instance, $options = [])
     {
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceAfterAttach(Event $event, $instance, $options = [])
     {
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceBeforeDetach(Event $event, $instance, $options = [])
     {
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceAfterDetach(Event $event, $instance, $options = [])
     {
     }

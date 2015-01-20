@@ -4,10 +4,10 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @since	 1.0.0
- * @author	 Christopher Castro <chris@quickapps.es>
- * @link	 http://www.quickappscms.org
- * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
+ * @since    1.0.0
+ * @author   Christopher Castro <chris@quickapps.es>
+ * @link     http://www.quickappscms.org
+ * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
 namespace Field\Controller;
 
@@ -22,9 +22,9 @@ use QuickApps\Core\Plugin;
 class ImageHandlerController extends FileHandlerController
 {
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function upload($instanceSlug, $uploader = null)
     {
         $field = $this->_getInstance($instanceSlug);
@@ -70,9 +70,9 @@ class ImageHandlerController extends FileHandlerController
         parent::upload($instanceSlug, $uploader);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function delete($instanceSlug)
     {
         parent::delete($instanceSlug);
@@ -87,21 +87,21 @@ class ImageHandlerController extends FileHandlerController
         ImageToolbox::deleteThumbnails(WWW_ROOT . "/files/{$field->settings['upload_folder']}/{$this->request->query['file']}");
     }
 
-/**
- * Returns an scaled version of the given file image.
- *
- * The following GET variables must be set on request:
- *
- * - file: The image's file name to scale.
- * - size: A preview size name, sett `ImageToolbox::getPreviews()`
- *
- * If any of these variables is not present an exception will be throw.
- *
- * @param string $instanceSlug Filed instance's machine-name
- * @return void
- * @throws \Cake\Network\Exception\NotFoundException When field instance
- *  is not found.
- */
+    /**
+     * Returns an scaled version of the given file image.
+     *
+     * The following GET variables must be set on request:
+     *
+     * - file: The image's file name to scale.
+     * - size: A preview size name, sett `ImageToolbox::getPreviews()`
+     *
+     * If any of these variables is not present an exception will be throw.
+     *
+     * @param string $instanceSlug Filed instance's machine-name
+     * @return void
+     * @throws \Cake\Network\Exception\NotFoundException When field instance
+     *  is not found.
+     */
     public function thumbnail($instanceSlug)
     {
         $this->loadModel('Field.FieldInstances');

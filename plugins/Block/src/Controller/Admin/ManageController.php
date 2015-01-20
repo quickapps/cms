@@ -4,10 +4,10 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @since	 2.0.0
- * @author	 Christopher Castro <chris@quickapps.es>
- * @link	 http://www.quickappscms.org
- * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
+ * @since    2.0.0
+ * @author   Christopher Castro <chris@quickapps.es>
+ * @link     http://www.quickappscms.org
+ * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
 namespace Block\Controller\Admin;
 
@@ -24,11 +24,11 @@ use QuickApps\Core\Plugin;
 class ManageController extends AppController
 {
 
-/**
- * Shows a list of all the nodes.
- *
- * @return void
- */
+    /**
+     * Shows a list of all the nodes.
+     *
+     * @return void
+     */
     public function index()
     {
         $this->loadModel('Block.Blocks');
@@ -124,11 +124,11 @@ class ManageController extends AppController
             ->push(__d('block', 'Manage Blocks'), '#');
     }
 
-/**
- * Creates a new custom block.
- *
- * @return void
- */
+    /**
+     * Creates a new custom block.
+     *
+     * @return void
+     */
     public function add()
     {
         $this->loadModel('Block.Blocks');
@@ -158,13 +158,13 @@ class ManageController extends AppController
             ->push(__d('block', 'Create New Block'), '#');
     }
 
-/**
- * Edits the given block by ID.
- *
- * @param string $id Block's ID
- * @return void
- * @throws \Cake\ORM\Exception\RecordNotFoundException if no block is not found
- */
+    /**
+     * Edits the given block by ID.
+     *
+     * @param string $id Block's ID
+     * @return void
+     * @throws \Cake\ORM\Exception\RecordNotFoundException if no block is not found
+     */
     public function edit($id)
     {
         $this->loadModel('Block.Blocks');
@@ -195,18 +195,18 @@ class ManageController extends AppController
             ->push(__d('block', 'Editing Block'), '#');
     }
 
-/**
- * Deletes the given block by ID.
- *
- * Only custom blocks can be deleted (those with "Block" has handler).
- *
- * @param string $id Block's ID
- * @return void Redirects to previous page
- * @throws \Cake\ORM\Exception\RecordNotFoundException if no record can be found
- *  given a primary key value
- * @throws \InvalidArgumentException When $primaryKey has an incorrect number
- *  of elements
- */
+    /**
+     * Deletes the given block by ID.
+     *
+     * Only custom blocks can be deleted (those with "Block" has handler).
+     *
+     * @param string $id Block's ID
+     * @return void Redirects to previous page
+     * @throws \Cake\ORM\Exception\RecordNotFoundException if no record can be found
+     *  given a primary key value
+     * @throws \InvalidArgumentException When $primaryKey has an incorrect number
+     *  of elements
+     */
     public function delete($id)
     {
         $this->loadModel('Block.Blocks');
@@ -227,13 +227,13 @@ class ManageController extends AppController
         $this->redirect($this->referer());
     }
 
-/**
- * Edits the given block by ID.
- *
- * @param string $id Block's ID
- * @return void Redirects to previous page
- * @throws \Cake\ORM\Exception\RecordNotFoundException if no block is not found
- */
+    /**
+     * Edits the given block by ID.
+     *
+     * @param string $id Block's ID
+     * @return void Redirects to previous page
+     * @throws \Cake\ORM\Exception\RecordNotFoundException if no block is not found
+     */
     public function duplicate($id)
     {
         $this->loadModel('Block.Blocks');
@@ -255,21 +255,21 @@ class ManageController extends AppController
         $this->redirect($this->referer() . '#unused-blocks');
     }
 
-/**
- * Sets "languages" variable for later use in FormHelper.
- *
- * @return void
- */
+    /**
+     * Sets "languages" variable for later use in FormHelper.
+     *
+     * @return void
+     */
     protected function _setLanguages()
     {
         $this->set('languages', LocaleToolbox::languagesList());
     }
 
-/**
- * Sets "roles" variable for later use in FormHelper.
- *
- * @return void
- */
+    /**
+     * Sets "roles" variable for later use in FormHelper.
+     *
+     * @return void
+     */
     protected function _setRoles()
     {
         $this->loadModel('Block.Blocks');
@@ -277,18 +277,18 @@ class ManageController extends AppController
         $this->set('roles', $roles);
     }
 
-/**
- * Sets "regions" variable for later use in FormHelper.
- *
- * This variable is used to properly fill inputs in the "Theme Region"
- * section of the add/edit form.
- *
- * @param null|\Block\Model\Entity\Block $block If a block entity is provided it
- *  will be used to guess which regions has been already selected in each theme,
- *  so we can properly show the selectbox in the form with the corrects
- *  options selected.
- * @return void
- */
+    /**
+     * Sets "regions" variable for later use in FormHelper.
+     *
+     * This variable is used to properly fill inputs in the "Theme Region"
+     * section of the add/edit form.
+     *
+     * @param null|\Block\Model\Entity\Block $block If a block entity is provided it
+     *  will be used to guess which regions has been already selected in each theme,
+     *  so we can properly show the selectbox in the form with the corrects
+     *  options selected.
+     * @return void
+     */
     protected function _setRegions($block = null)
     {
         $regions = Plugin::collection(true)
@@ -315,17 +315,17 @@ class ManageController extends AppController
         $this->set('regions', $regions);
     }
 
-/**
- * Prepares incoming data from Form's POST.
- *
- * Any input field that is not a column in the "blocks" table will be moved
- * to the "settings" column. For example, `random_name` becomes `settings.random_name`.
- *
- * @param null|\Block\Model\Entity\Block $block Optional entity to properly
- * fetch associated data when updating
- * @param array $ignore List of key to ignore, will not be moved under `settings`
- * @return array
- */
+    /**
+     * Prepares incoming data from Form's POST.
+     *
+     * Any input field that is not a column in the "blocks" table will be moved
+     * to the "settings" column. For example, `random_name` becomes `settings.random_name`.
+     *
+     * @param null|\Block\Model\Entity\Block $block Optional entity to properly
+     * fetch associated data when updating
+     * @param array $ignore List of key to ignore, will not be moved under `settings`
+     * @return array
+     */
     protected function _prepareData($block = null, $ignore = [])
     {
         $this->loadModel('Block.Blocks');

@@ -4,10 +4,10 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @since	 2.0.0
- * @author	 Christopher Castro <chris@quickapps.es>
- * @link	 http://www.quickappscms.org
- * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
+ * @since    2.0.0
+ * @author   Christopher Castro <chris@quickapps.es>
+ * @link     http://www.quickappscms.org
+ * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
 namespace Block\View\Helper;
 
@@ -26,12 +26,12 @@ use QuickApps\View\Helper;
 class BlockHelper extends Helper
 {
 
-/**
- * Render all blocks for a particular region.
- *
- * @param string $region Region alias to render
- * @return string HTML blocks
- */
+    /**
+     * Render all blocks for a particular region.
+     *
+     * @param string $region Region alias to render
+     * @return string HTML blocks
+     */
     public function region($region)
     {
         $this->alter('BlockHelper.region', $region);
@@ -45,13 +45,13 @@ class BlockHelper extends Helper
         return $html;
     }
 
-/**
- * Renders a single block.
- *
- * @param \Block\Model\Entity\Block $block Block entity to render
- * @param array $options Array of options
- * @return string HTML
- */
+    /**
+     * Renders a single block.
+     *
+     * @param \Block\Model\Entity\Block $block Block entity to render
+     * @param array $options Array of options
+     * @return string HTML
+     */
     public function render(Block $block, array $options = [])
     {
         $this->alter('BlockHelper.render', $block, $options);
@@ -61,16 +61,16 @@ class BlockHelper extends Helper
         return '';
     }
 
-/**
- * Returns a list of block entities within the given region.
- *
- * @param string $region Region's machine-name
- * @param bool $all True will return the whole list, that is including blocks
- * that will never be rendered because of its visibility; language or role
- * restrictions, etc. Set to false (by default) will return only blocks
- * that can be rendered.
- * @return \Cake\Collection\Collection
- */
+    /**
+     * Returns a list of block entities within the given region.
+     *
+     * @param string $region Region's machine-name
+     * @param bool $all True will return the whole list, that is including blocks
+     *  that will never be rendered because of its visibility; language or role
+     *  restrictions, etc. Set to false (by default) will return only blocks
+     *  that can be rendered.
+     * @return \Cake\Collection\Collection
+     */
     public function blocksIn($region, $all = false)
     {
         $Blocks = TableRegistry::get('Block.Blocks');
@@ -117,12 +117,12 @@ class BlockHelper extends Helper
         return $blocks;
     }
 
-/**
- * Checks if the given block can be rendered.
- *
- * @param \Block\Model\Entity\Block $block Block entity
- * @return bool
- */
+    /**
+     * Checks if the given block can be rendered.
+     *
+     * @param \Block\Model\Entity\Block $block Block entity
+     * @return bool
+     */
     public function allowed(Block $block)
     {
         $this->alter('BlockHelper.allowed', $block);
@@ -183,11 +183,11 @@ class BlockHelper extends Helper
         return static::cache($cacheKey, true);
     }
 
-/**
- * Returns all listeners that starts with `Block.`
- *
- * @return array
- */
+    /**
+     * Returns all listeners that starts with `Block.`
+     *
+     * @return array
+     */
     protected function _listeners()
     {
         $cacheKey = '_listeners';
@@ -206,13 +206,13 @@ class BlockHelper extends Helper
         return $cache;
     }
 
-/**
- * Check if a current URL matches any pattern in a set of patterns.
- *
- * @param string $patterns String containing a set of patterns
- * separated by \n, \r or \r\n
- * @return bool TRUE if the path matches a pattern, FALSE otherwise
- */
+    /**
+     * Check if a current URL matches any pattern in a set of patterns.
+     *
+     * @param string $patterns String containing a set of patterns
+     * separated by \n, \r or \r\n
+     * @return bool TRUE if the path matches a pattern, FALSE otherwise
+     */
     protected function _urlMatch($patterns)
     {
         if (empty($patterns)) {

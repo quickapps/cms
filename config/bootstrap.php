@@ -4,24 +4,24 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @since	 1.0.0
- * @author	 Christopher Castro <chris@quickapps.es>
- * @link	 http://www.quickappscms.org
- * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
+ * @since    1.0.0
+ * @author   Christopher Castro <chris@quickapps.es>
+ * @link     http://www.quickappscms.org
+ * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
 
 /**
  * Configure paths required to find CakePHP + general file path constants
  */
 if (!defined('DS')) {
-	require_once __DIR__ . '/paths.php';
+    require_once __DIR__ . '/paths.php';
 }
 
 /**
  * Use composer to load the autoloader.
  */
 if (!isset($classLoader)) {
-	$classLoader = require_once VENDOR_INCLUDE_PATH . 'autoload.php';
+    $classLoader = require_once VENDOR_INCLUDE_PATH . 'autoload.php';
 }
 
 /**
@@ -88,8 +88,8 @@ Configure::load('app_local', 'default');
  * to refresh the cache while users are doing requests
  */
 if (!Configure::read('debug')) {
-	Configure::write('Cache._cake_model_.duration', '+99 years');
-	Configure::write('Cache._cake_core_.duration', '+99 years');
+    Configure::write('Cache._cake_model_.duration', '+99 years');
+    Configure::write('Cache._cake_core_.duration', '+99 years');
 }
 
 /**
@@ -114,16 +114,16 @@ ini_set('intl.default_locale', 'en-us');
  */
 $isCli = php_sapi_name() === 'cli';
 if ($isCli) {
-	(new ConsoleErrorHandler(Configure::consume('Error')))->register();
+    (new ConsoleErrorHandler(Configure::consume('Error')))->register();
 } else {
-	(new ErrorHandler(Configure::consume('Error')))->register();
+    (new ErrorHandler(Configure::consume('Error')))->register();
 }
 
 /**
  * Include the CLI bootstrap overrides.
  */
 if ($isCli) {
-	require __DIR__ . '/bootstrap_cli.php';
+    require __DIR__ . '/bootstrap_cli.php';
 }
 
 /**
@@ -133,16 +133,16 @@ if ($isCli) {
  * If you define fullBaseUrl in your config file you can remove this.
  */
 if (!Configure::read('App.fullBaseUrl')) {
-	$s = null;
-	if (env('HTTPS')) {
-		$s = 's';
-	}
+    $s = null;
+    if (env('HTTPS')) {
+        $s = 's';
+    }
 
-	$httpHost = env('HTTP_HOST');
-	if (isset($httpHost)) {
-		Configure::write('App.fullBaseUrl', 'http' . $s . '://' . $httpHost);
-	}
-	unset($httpHost, $s);
+    $httpHost = env('HTTP_HOST');
+    if (isset($httpHost)) {
+        Configure::write('App.fullBaseUrl', 'http' . $s . '://' . $httpHost);
+    }
+    unset($httpHost, $s);
 }
 
 Cache::config(Configure::consume('Cache'));
@@ -156,12 +156,12 @@ Security::salt(Configure::consume('Security.salt'));
  * Setup detectors for mobile and tablet.
  */
 Request::addDetector('mobile', function($request) {
-	$detector = new \Detection\MobileDetect();
-	return $detector->isMobile();
+    $detector = new \Detection\MobileDetect();
+    return $detector->isMobile();
 });
 Request::addDetector('tablet', function($request) {
-	$detector = new \Detection\MobileDetect();
-	return $detector->isTablet();
+    $detector = new \Detection\MobileDetect();
+    return $detector->isTablet();
 });
 
 /**
@@ -169,13 +169,13 @@ Request::addDetector('tablet', function($request) {
  */
 Configure::config('QuickApps', new PhpConfig(TMP));
 if (!file_exists(TMP . 'snapshot.php')) {
-	snapshot();
+    snapshot();
 } else {
-	try {
-		Configure::load('snapshot', 'QuickApps', false);
-	} catch (\Exception $e) {
-		die('No snapshot found. check write permissions on tmp/ directory');
-	}
+    try {
+        Configure::load('snapshot', 'QuickApps', false);
+    } catch (\Exception $e) {
+        die('No snapshot found. check write permissions on tmp/ directory');
+    }
 }
 
 /**
@@ -187,47 +187,47 @@ $pluginLoader = new ClassLoader();
 $pluginLoader->register();
 
 if (!count($activePlugins)) {
-	die("Ops, something went wrong. Try to clear your site's snapshot and verify write permissions on /tmp directory.");
+    die("Ops, something went wrong. Try to clear your site's snapshot and verify write permissions on /tmp directory.");
 }
 
 foreach ($activePlugins as $pluginName => $info) {
-	if (
-		$info['isTheme'] &&
-		!in_array($pluginName, [option('front_theme'), option('back_theme')])
-	) {
-		continue;
-	}
+    if (
+        $info['isTheme'] &&
+        !in_array($pluginName, [option('front_theme'), option('back_theme')])
+    ) {
+        continue;
+    }
 
-	$pluginLoader->addNamespace(
-		str_replace('/', '\\', $pluginName),
-		$info['path'] .  DS . 'src' . DS
-	);
+    $pluginLoader->addNamespace(
+        str_replace('/', '\\', $pluginName),
+        $info['path'] .  DS . 'src' . DS
+    );
 
-	$pluginLoader->addNamespace(
-		str_replace('/', '\\', $pluginName) . '\Test',
-		$info['path'] . DS . 'tests' . DS
-	);
+    $pluginLoader->addNamespace(
+        str_replace('/', '\\', $pluginName) . '\Test',
+        $info['path'] . DS . 'tests' . DS
+    );
 
-	Plugin::load($pluginName, [
-		'autoload' => false,
-		'bootstrap' => true,
-		'routes' => true,
-		'classBase' => 'src',
-		'ignoreMissing' => true,
-	]);
+    Plugin::load($pluginName, [
+        'autoload' => false,
+        'bootstrap' => true,
+        'routes' => true,
+        'classBase' => 'src',
+        'ignoreMissing' => true,
+    ]);
 
-	foreach ($info['eventListeners'] as $fullClassName => $eventInfo) {
-		if (class_exists($fullClassName)) {
-			$EventManager->attach(new $fullClassName);
-		}
-	}
+    foreach ($info['eventListeners'] as $fullClassName => $eventInfo) {
+        if (class_exists($fullClassName)) {
+            $EventManager->attach(new $fullClassName);
+        }
+    }
 }
 
 /**
  * Load site's "bootstrap.php".
  */
 if (file_exists(SITE_ROOT . '/config/bootstrap.php')) {
-	include_once SITE_ROOT . '/config/bootstrap.php';
+    include_once SITE_ROOT . '/config/bootstrap.php';
 }
 
 /**

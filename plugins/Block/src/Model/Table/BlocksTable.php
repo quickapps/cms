@@ -4,10 +4,10 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @since	 2.0.0
- * @author	 Christopher Castro <chris@quickapps.es>
- * @link	 http://www.quickappscms.org
- * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
+ * @since    2.0.0
+ * @author   Christopher Castro <chris@quickapps.es>
+ * @link     http://www.quickappscms.org
+ * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
 namespace Block\Model\Table;
 
@@ -28,12 +28,12 @@ class BlocksTable extends Table
 
     use HookAwareTrait;
 
-/**
- * Initialize method.
- *
- * @param array $config The configuration for the Table.
- * @return void
- */
+    /**
+     * Initialize method.
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
+     */
     public function initialize(array $config)
     {
         $this->hasMany('BlockRegions', [
@@ -58,12 +58,12 @@ class BlocksTable extends Table
         ]);
     }
 
-/**
- * Alter the schema used by this table.
- *
- * @param \Cake\Database\Schema\Table $table The table definition fetched from database
- * @return \Cake\Database\Schema\Table the altered schema
- */
+    /**
+     * Alter the schema used by this table.
+     *
+     * @param \Cake\Database\Schema\Table $table The table definition fetched from database
+     * @return \Cake\Database\Schema\Table the altered schema
+     */
     protected function _initializeSchema(Schema $table)
     {
         $table->columnType('locale', 'serialized');
@@ -71,12 +71,12 @@ class BlocksTable extends Table
         return $table;
     }
 
-/**
- * Default validation rules.
- *
- * @param \Cake\Validation\Validator $validator The validator object
- * @return \Cake\Validation\Validator
- */
+    /**
+     * Default validation rules.
+     *
+     * @param \Cake\Validation\Validator $validator The validator object
+     * @return \Cake\Validation\Validator
+     */
     public function validationDefault(Validator $validator)
     {
         return $validator
@@ -133,16 +133,16 @@ class BlocksTable extends Table
             ]);
     }
 
-/**
- * Validation rules for custom blocks.
- *
- * Plugins may define their own blocks, in these cases the "body" value is
- * optional. But blocks created by users (on the Blocks administration page)
- * are required to have a valid "body".
- *
- * @param \Cake\Validation\Validator $validator The validator object
- * @return \Cake\Validation\Validator
- */
+    /**
+     * Validation rules for custom blocks.
+     *
+     * Plugins may define their own blocks, in these cases the "body" value is
+     * optional. But blocks created by users (on the Blocks administration page)
+     * are required to have a valid "body".
+     *
+     * @param \Cake\Validation\Validator $validator The validator object
+     * @return \Cake\Validation\Validator
+     */
     public function validationCustom(Validator $validator)
     {
         return $this->validationDefault($validator)
@@ -159,16 +159,16 @@ class BlocksTable extends Table
             ]);
     }
 
-/**
- * Triggers the "Block.<handler>.beforeValidate" hook, so plugins may do
- * any logic their require.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Block\Model\Entity\Block $block The block entity being validated
- * @param \ArrayObject $options Additional options given as an array
- * @param \Cake\Validation\Validator $validator The validator object
- * @return bool False if save operation should not continue, true otherwise
- */
+    /**
+     * Triggers the "Block.<handler>.beforeValidate" hook, so plugins may do
+     * any logic their require.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Block\Model\Entity\Block $block The block entity being validated
+     * @param \ArrayObject $options Additional options given as an array
+     * @param \Cake\Validation\Validator $validator The validator object
+     * @return bool False if save operation should not continue, true otherwise
+     */
     public function beforeValidate(Event $event, Block $block, ArrayObject $options, Validator $validator)
     {
         $blockEvent = $this->trigger(["Block.{$block->handler}.beforeValidate", $event->subject], $block, $options, $validator);
@@ -178,30 +178,30 @@ class BlocksTable extends Table
         return true;
     }
 
-/**
- * Triggers the "Block.<handler>.afterValidate" hook, so plugins may do
- * any logic their require.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Block\Model\Entity\Block $block The block entity that was validated
- * @param \ArrayObject $options Additional options given as an array
- * @param \Cake\Validation\Validator $validator The validator object
- * @return void
- */
+    /**
+     * Triggers the "Block.<handler>.afterValidate" hook, so plugins may do
+     * any logic their require.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Block\Model\Entity\Block $block The block entity that was validated
+     * @param \ArrayObject $options Additional options given as an array
+     * @param \Cake\Validation\Validator $validator The validator object
+     * @return void
+     */
     public function afterValidate(Event $event, Block $block, ArrayObject $options, Validator $validator)
     {
         $this->trigger(["Block.{$block->handler}.afterValidate", $event->subject], $block, $options, $validator);
     }
 
-/**
- * Triggers the "Block.<handler>.beforeSave" hook, so plugins may do
- * any logic their require.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Block\Model\Entity\Block $block The block entity being saved
- * @param \ArrayObject $options Additional options given as an array
- * @return bool False if save operation should not continue, true otherwise
- */
+    /**
+     * Triggers the "Block.<handler>.beforeSave" hook, so plugins may do
+     * any logic their require.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Block\Model\Entity\Block $block The block entity being saved
+     * @param \ArrayObject $options Additional options given as an array
+     * @return bool False if save operation should not continue, true otherwise
+     */
     public function beforeSave(Event $event, Block $block, ArrayObject $options = null)
     {
         $blockEvent = $this->trigger(["Block.{$block->handler}.beforeSave", $event->subject], $block, $options);
@@ -211,29 +211,29 @@ class BlocksTable extends Table
         return true;
     }
 
-/**
- * Triggers the "Block.<handler>.afterSave" hook, so plugins may do
- * any logic their require.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Block\Model\Entity\Block $block The block entity that was saved
- * @param \ArrayObject $options Additional options given as an array
- * @return void
- */
+    /**
+     * Triggers the "Block.<handler>.afterSave" hook, so plugins may do
+     * any logic their require.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Block\Model\Entity\Block $block The block entity that was saved
+     * @param \ArrayObject $options Additional options given as an array
+     * @return void
+     */
     public function afterSave(Event $event, Block $block, ArrayObject $options = null)
     {
         $this->trigger(["Block.{$block->handler}.afterSave", $event->subject], $block, $options);
     }
 
-/**
- * Triggers the "Block.<handler>.beforeDelete" hook, so plugins may do
- * any logic their require.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Block\Model\Entity\Block $block The block entity being deleted
- * @param \ArrayObject $options Additional options given as an array
- * @return bool False if delete operation should not continue, true otherwise
- */
+    /**
+     * Triggers the "Block.<handler>.beforeDelete" hook, so plugins may do
+     * any logic their require.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Block\Model\Entity\Block $block The block entity being deleted
+     * @param \ArrayObject $options Additional options given as an array
+     * @return bool False if delete operation should not continue, true otherwise
+     */
     public function beforeDelete(Event $event, Block $block, ArrayObject $options = null)
     {
         $blockEvent = $this->trigger(["Block.{$block->handler}.beforeDelete", $event->subject], $block, $options);
@@ -243,15 +243,15 @@ class BlocksTable extends Table
         return true;
     }
 
-/**
- * Triggers the "Block.<handler>.afterDelete" hook, so plugins may do
- * any logic their require.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Block\Model\Entity\Block $block The block entity that was deleted
- * @param \ArrayObject $options Additional options given as an array
- * @return void
- */
+    /**
+     * Triggers the "Block.<handler>.afterDelete" hook, so plugins may do
+     * any logic their require.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Block\Model\Entity\Block $block The block entity that was deleted
+     * @param \ArrayObject $options Additional options given as an array
+     * @return void
+     */
     public function afterDelete(Event $event, Block $block, ArrayObject $options = null)
     {
         $this->trigger(["Block.{$block->handler}.afterDelete", $event->subject], $block, $options);

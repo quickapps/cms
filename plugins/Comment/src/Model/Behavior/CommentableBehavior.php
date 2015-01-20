@@ -4,10 +4,10 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @since	 2.0.0
- * @author	 Christopher Castro <chris@quickapps.es>
- * @link	 http://www.quickappscms.org
- * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
+ * @since    2.0.0
+ * @author   Christopher Castro <chris@quickapps.es>
+ * @link     http://www.quickappscms.org
+ * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
 namespace Comment\Model\Behavior;
 
@@ -25,27 +25,27 @@ use Cake\Utility\Inflector;
 class CommentableBehavior extends Behavior
 {
 
-/**
- * The table this behavior is attached to.
- *
- * @var Table
- */
+    /**
+     * The table this behavior is attached to.
+     *
+     * @var Table
+     */
     protected $_table;
 
-/**
- * Enable/Diable this behavior.
- *
- * @var bool
- */
+    /**
+     * Enable/Diable this behavior.
+     *
+     * @var bool
+     */
     protected $_enabled = false;
 
-/**
- * Default configuration.
- *
- * These are merged with user-provided configuration when the behavior is used.
- *
- * @var array
- */
+    /**
+     * Default configuration.
+     *
+     * These are merged with user-provided configuration when the behavior is used.
+     *
+     * @var array
+     */
     protected $_defaultConfig = [
         'implementedFinders' => [
             'comments' => 'findComments',
@@ -58,14 +58,14 @@ class CommentableBehavior extends Behavior
         'order' => ['Comments.created' => 'DESC'],
     ];
 
-/**
- * Constructor.
- *
- * Here we associate `Comments` table with the table this behavior is attached to.
- *
- * @param \Cake\ORM\Table $table The table this behavior is attached to.
- * @param array $config The config for this behavior.
- */
+    /**
+     * Constructor.
+     *
+     * Here we associate `Comments` table with the table this behavior is attached to.
+     *
+     * @param \Cake\ORM\Table $table The table this behavior is attached to.
+     * @param array $config The config for this behavior.
+     */
     public function __construct(Table $table, array $config = [])
     {
         $this->_table = $table;
@@ -83,15 +83,15 @@ class CommentableBehavior extends Behavior
         parent::__construct($table, $config);
     }
 
-/**
- * Attaches comments to each entity on find operation.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Query $query The query object
- * @param array $options Additional options as an array
- * @param bool $primary Whether is find is a primary query or not
- * @return void
- */
+    /**
+     * Attaches comments to each entity on find operation.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\ORM\Query $query The query object
+     * @param array $options Additional options as an array
+     * @param bool $primary Whether is find is a primary query or not
+     * @return void
+     */
     public function beforeFind(Event $event, $query, $options, $primary)
     {
         if ($this->_enabled) {
@@ -126,22 +126,22 @@ class CommentableBehavior extends Behavior
         }
     }
 
-/**
- * Get comments for the given entity.
- *
- * Allows you to get all comments even when this behavior was disabled
- * using `unbindComments()`.
- *
- * ### Usage:
- *
- *     // in your controller, gets comments for post which id equals 2
- *     $postComments = $this->Posts->find('comments', ['for' => 2]);
- *
- * @param \Cake\ORM\Query $query The query object
- * @param array $options Additional options as an array
- * @return \Cake\Datasource\ResultSetDecorator Comments collection
- * @throws \InvalidArgumentException When the 'for' key is not passed in $options
- */
+    /**
+     * Get comments for the given entity.
+     *
+     * Allows you to get all comments even when this behavior was disabled
+     * using `unbindComments()`.
+     *
+     * ### Usage:
+     *
+     *     // in your controller, gets comments for post which id equals 2
+     *     $postComments = $this->Posts->find('comments', ['for' => 2]);
+     *
+     * @param \Cake\ORM\Query $query The query object
+     * @param array $options Additional options as an array
+     * @return \Cake\Datasource\ResultSetDecorator Comments collection
+     * @throws \InvalidArgumentException When the 'for' key is not passed in $options
+     */
     public function findComments(Query $query, $options)
     {
         $pk = $this->_table->primaryKey();
@@ -160,25 +160,25 @@ class CommentableBehavior extends Behavior
         return $comments;
     }
 
-/**
- * Enables this behavior.
- *
- * Comments will be attached to entities.
- *
- * @return void
- */
+    /**
+     * Enables this behavior.
+     *
+     * Comments will be attached to entities.
+     *
+     * @return void
+     */
     public function bindComments()
     {
         $this->_enabled = true;
     }
 
-/**
- * Disables this behavior.
- *
- * Comments won't be attached to entities.
- *
- * @return void
- */
+    /**
+     * Disables this behavior.
+     *
+     * Comments won't be attached to entities.
+     *
+     * @return void
+     */
     public function unbindComments()
     {
         $this->_enabled = false;

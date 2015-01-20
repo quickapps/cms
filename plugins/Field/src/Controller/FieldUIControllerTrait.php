@@ -4,10 +4,10 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @since	 2.0.0
- * @author	 Christopher Castro <chris@quickapps.es>
- * @link	 http://www.quickappscms.org
- * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
+ * @since    2.0.0
+ * @author   Christopher Castro <chris@quickapps.es>
+ * @link     http://www.quickappscms.org
+ * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
 namespace Field\Controller;
 
@@ -64,16 +64,16 @@ trait FieldUIControllerTrait
 
     use ViewModeAwareTrait;
 
-/**
- * Validation rules.
- *
- * @param \Cake\Event\Event $event The event instance.
- * @return void
- * @throws \Cake\Network\Exception\ForbiddenException When
- *  - $_manageTable is not defined.
- *  - trait is used in non-controller classes.
- *  - the controller is not a backend controller.
- */
+    /**
+     * Validation rules.
+     *
+     * @param \Cake\Event\Event $event The event instance.
+     * @return void
+     * @throws \Cake\Network\Exception\ForbiddenException When
+     *  - $_manageTable is not defined.
+     *  - trait is used in non-controller classes.
+     *  - the controller is not a backend controller.
+     */
     public function beforeFilter(Event $event)
     {
         $requestParams = $event->subject->request->params;
@@ -89,30 +89,30 @@ trait FieldUIControllerTrait
         $this->_manageTable = Inflector::underscore($this->_manageTable);
     }
 
-/**
- * Fallback for template location when extending Field UI API.
- *
- * If controller tries to render an unexisting template under its Template
- * directory, then we try to find that view under `Field/Template/FieldUI` directory.
- *
- * ### Example:
- *
- * Suppose you are using this trait to manage fields attached to `Persons` entities.
- * You would probably have a `Person` plugin and a `clean` controller as follow:
- *
- *     // http://example.com/admin/person/fields_manager
- *     Person\Controller\FieldsManagerController::index()
- *
- * The above controller action will try to render
- * `/plugins/Person/Template/CommentsManager/index.ctp`. But if does not exists then
- * `<QuickAppsCorePath>/plugins/Comment/Template/CommentUI/index.ctp`
- * will be used instead.
- *
- * Of course you may create your own template and skip this fallback functionality.
- *
- * @param \Cake\Event\Event $event the event instance.
- * @return void
- */
+    /**
+     * Fallback for template location when extending Field UI API.
+     *
+     * If controller tries to render an unexisting template under its Template
+     * directory, then we try to find that view under `Field/Template/FieldUI` directory.
+     *
+     * ### Example:
+     *
+     * Suppose you are using this trait to manage fields attached to `Persons` entities.
+     * You would probably have a `Person` plugin and a `clean` controller as follow:
+     *
+     *     // http://example.com/admin/person/fields_manager
+     *     Person\Controller\FieldsManagerController::index()
+     *
+     * The above controller action will try to render
+     * `/plugins/Person/Template/CommentsManager/index.ctp`. But if does not exists then
+     * `<QuickAppsCorePath>/plugins/Comment/Template/CommentUI/index.ctp`
+     * will be used instead.
+     *
+     * Of course you may create your own template and skip this fallback functionality.
+     *
+     * @param \Cake\Event\Event $event the event instance.
+     * @return void
+     */
     public function beforeRender(Event $event)
     {
         $plugin = Inflector::camelize($event->subject->request->params['plugin']);
@@ -131,13 +131,13 @@ trait FieldUIControllerTrait
         parent::beforeRender($event);
     }
 
-/**
- * Field UI main action.
- *
- * Shows all the fields attached to the Table being managed.
- *
- * @return void
- */
+    /**
+     * Field UI main action.
+     *
+     * Shows all the fields attached to the Table being managed.
+     *
+     * @return void
+     */
     public function index()
     {
         $this->loadModel('Field.FieldInstances');
@@ -154,22 +154,22 @@ trait FieldUIControllerTrait
         $this->set('instances', $instances);
     }
 
-/**
- * Handles a single field instance configuration parameters.
- *
- * In FormHelper, all fields prefixed with `_` will be considered as columns values
- * of the instance being edited. Any other input element will be considered as part
- * of the `settings` column.
- *
- * For example: `_label`, `_required` and `description` maps to `label`, `required`
- * and `description`. And `some_input`, `another_input` maps to `settings.some_input`,
- * `settings.another_input`
- *
- * @param int $id The field instance ID to manage
- * @return void
- * @throws \Cake\ORM\Exception\RecordNotFoundException When no field instance
- *  was found
- */
+    /**
+     * Handles a single field instance configuration parameters.
+     *
+     * In FormHelper, all fields prefixed with `_` will be considered as columns values
+     * of the instance being edited. Any other input element will be considered as part
+     * of the `settings` column.
+     *
+     * For example: `_label`, `_required` and `description` maps to `label`, `required`
+     * and `description`. And `some_input`, `another_input` maps to `settings.some_input`,
+     * `settings.another_input`
+     *
+     * @param int $id The field instance ID to manage
+     * @return void
+     * @throws \Cake\ORM\Exception\RecordNotFoundException When no field instance
+     *  was found
+     */
     public function configure($id)
     {
         $instance = $this->_getOrThrow($id, ['locked' => false]);
@@ -221,13 +221,13 @@ trait FieldUIControllerTrait
         $this->set(compact('arrayContext', 'instance'));
     }
 
-/**
- * Attach action.
- *
- * Attaches a new Field to the table being managed.
- *
- * @return void
- */
+    /**
+     * Attach action.
+     *
+     * Attaches a new Field to the table being managed.
+     *
+     * @return void
+     */
     public function attach()
     {
         $this->loadModel('Field.FieldInstances');
@@ -256,14 +256,14 @@ trait FieldUIControllerTrait
         $this->set('fieldInstance', $fieldInstance);
     }
 
-/**
- * Detach action.
- *
- * Detaches a Field from table being managed.
- *
- * @param int $id ID of the instance to detach
- * @return void
- */
+    /**
+     * Detach action.
+     *
+     * Detaches a Field from table being managed.
+     *
+     * @param int $id ID of the instance to detach
+     * @return void
+     */
     public function detach($id)
     {
         $instance = $this->_getOrThrow($id, ['locked' => false]);
@@ -278,16 +278,16 @@ trait FieldUIControllerTrait
         $this->redirect($this->referer());
     }
 
-/**
- * View modes.
- *
- * Shows the list of fields for corresponding view mode.
- *
- * @param string $viewMode View mode slug. e.g. `rss` or `default`
- * @return void
- * @throws \Cake\Network\Exception\NotFoundException When given view mode
- *  does not exists
- */
+    /**
+     * View modes.
+     *
+     * Shows the list of fields for corresponding view mode.
+     *
+     * @param string $viewMode View mode slug. e.g. `rss` or `default`
+     * @return void
+     * @throws \Cake\Network\Exception\NotFoundException When given view mode
+     *  does not exists
+     */
     public function view_mode_list($viewMode)
     {
         $this->_validateViewMode($viewMode);
@@ -315,17 +315,17 @@ trait FieldUIControllerTrait
         $this->set('viewModeInfo', $this->viewModes($viewMode));
     }
 
-/**
- * Handles field instance rendering settings for a particular view mode.
- *
- * @param string $viewMode View mode slug
- * @param int $id The field instance ID to manage
- * @return void
- * @throws \Cake\ORM\Exception\RecordNotFoundException When no field
- *  instance was found
- * @throws \Cake\Network\Exception\NotFoundException When given view
- *  mode does not exists
- */
+    /**
+     * Handles field instance rendering settings for a particular view mode.
+     *
+     * @param string $viewMode View mode slug
+     * @param int $id The field instance ID to manage
+     * @return void
+     * @throws \Cake\ORM\Exception\RecordNotFoundException When no field
+     *  instance was found
+     * @throws \Cake\Network\Exception\NotFoundException When given view
+     *  mode does not exists
+     */
     public function view_mode_edit($viewMode, $id)
     {
         $this->_validateViewMode($viewMode);
@@ -380,21 +380,21 @@ trait FieldUIControllerTrait
         $this->set(compact('arrayContext', 'viewMode', 'viewModeInfo', 'instance'));
     }
 
-/**
- * Moves a field up or down within a view mode.
- *
- * The ordering indicates the position they are displayed when entities are rendered
- * in a specific view mode.
- *
- * @param string $viewMode View mode slug
- * @param int $id Field instance id
- * @param string $direction Direction, 'up' or 'down'
- * @return void Redirects to previous page
- * @throws \Cake\ORM\Exception\RecordNotFoundException When no field
- *  instance was found
- * @throws \Cake\Network\Exception\NotFoundException When given view mode
- *  does not exists
- */
+    /**
+     * Moves a field up or down within a view mode.
+     *
+     * The ordering indicates the position they are displayed when entities are rendered
+     * in a specific view mode.
+     *
+     * @param string $viewMode View mode slug
+     * @param int $id Field instance id
+     * @param string $direction Direction, 'up' or 'down'
+     * @return void Redirects to previous page
+     * @throws \Cake\ORM\Exception\RecordNotFoundException When no field
+     *  instance was found
+     * @throws \Cake\Network\Exception\NotFoundException When given view mode
+     *  does not exists
+     */
     public function view_mode_move($viewMode, $id, $direction)
     {
         $this->_validateViewMode($viewMode);
@@ -442,16 +442,16 @@ trait FieldUIControllerTrait
         $this->redirect($this->referer());
     }
 
-/**
- * Moves a field up or down.
- *
- * The ordering indicates the position they are displayed on entity's
- * editing form.
- *
- * @param int $id Field instance id
- * @param string $direction Direction, 'up' or 'down'
- * @return void Redirects to previous page
- */
+    /**
+     * Moves a field up or down.
+     *
+     * The ordering indicates the position they are displayed on entity's
+     * editing form.
+     *
+     * @param int $id Field instance id
+     * @param string $direction Direction, 'up' or 'down'
+     * @return void Redirects to previous page
+     */
     public function move($id, $direction)
     {
         $instance = $this->_getOrThrow($id);
@@ -488,15 +488,15 @@ trait FieldUIControllerTrait
         $this->redirect($this->referer());
     }
 
-/**
- * Gets the given field instance by ID or throw if not exists.
- *
- * @param int $id Field instance ID
- * @param array $conditions Additional conditions for the WHERE query
- * @return \Field\Model\Entity\FieldInstance The instance
- * @throws \Cake\ORM\Exception\RecordNotFoundException When instance
- *  was not found
- */
+    /**
+     * Gets the given field instance by ID or throw if not exists.
+     *
+     * @param int $id Field instance ID
+     * @param array $conditions Additional conditions for the WHERE query
+     * @return \Field\Model\Entity\FieldInstance The instance
+     * @throws \Cake\ORM\Exception\RecordNotFoundException When instance
+     *  was not found
+     */
     protected function _getOrThrow($id, $conditions = [])
     {
         $this->loadModel('Field.FieldInstances');
@@ -514,14 +514,14 @@ trait FieldUIControllerTrait
         return $instance;
     }
 
-/**
- * Throws if the given view modes does not exists.
- *
- * @param string $viewMode The view mode to validate
- * @return void
- * @throws \Cake\Network\Exception\NotFoundException When given view mode
- *  does not exists
- */
+    /**
+     * Throws if the given view modes does not exists.
+     *
+     * @param string $viewMode The view mode to validate
+     * @return void
+     * @throws \Cake\Network\Exception\NotFoundException When given view mode
+     *  does not exists
+     */
     protected function _validateViewMode($viewMode)
     {
         if (!in_array($viewMode, $this->viewModes())) {

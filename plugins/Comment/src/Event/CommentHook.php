@@ -4,10 +4,10 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @since	 2.0.0
- * @author	 Christopher Castro <chris@quickapps.es>
- * @link	 http://www.quickappscms.org
- * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
+ * @since    2.0.0
+ * @author   Christopher Castro <chris@quickapps.es>
+ * @link     http://www.quickappscms.org
+ * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
 namespace Comment\Event;
 
@@ -21,13 +21,13 @@ use Cake\Event\EventListenerInterface;
 class CommentHook implements EventListenerInterface
 {
 
-/**
- * Returns a list of hooks this Hook Listener is implementing. When the class
- * is registered in an event manager, each individual method will be associated
- * with the respective event.
- *
- * @return void
- */
+    /**
+     * Returns a list of hooks this Hook Listener is implementing. When the class
+     * is registered in an event manager, each individual method will be associated
+     * with the respective event.
+     *
+     * @return void
+     */
     public function implementedEvents()
     {
         return [
@@ -36,14 +36,14 @@ class CommentHook implements EventListenerInterface
         ];
     }
 
-/**
- * Renders a single Comment.
- *
- * @param Event $event The event that was triggered
- * @param \Comment\Model\Entity\Comment $comment The comment entity to render
- * @param array $options Additional options given as an array
- * @return string HTML
- */
+    /**
+     * Renders a single Comment.
+     *
+     * @param Event $event The event that was triggered
+     * @param \Comment\Model\Entity\Comment $comment The comment entity to render
+     * @param array $options Additional options given as an array
+     * @return string HTML
+     */
     public function renderComment(Event $event, $comment, $options = [])
     {
         $View = $event->subject;
@@ -51,12 +51,12 @@ class CommentHook implements EventListenerInterface
         return $html;
     }
 
-/**
- * Defaults settings for Comment's settings form.
- *
- * @param Event $event The event that was triggered
- * @return array
- */
+    /**
+     * Defaults settings for Comment's settings form.
+     *
+     * @param Event $event The event that was triggered
+     * @return array
+     */
     public function settingsDefaults(Event $event)
     {
         return [

@@ -4,10 +4,10 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @since	 2.0.0
- * @author	 Christopher Castro <chris@quickapps.es>
- * @link	 http://www.quickappscms.org
- * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
+ * @since    2.0.0
+ * @author   Christopher Castro <chris@quickapps.es>
+ * @link     http://www.quickappscms.org
+ * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
 namespace Comment\Controller\Component;
 
@@ -53,44 +53,44 @@ use User\Model\Entity\User;
 class CommentComponent extends Component
 {
 
-/**
- * The controller this component is attached to.
- *
- * @var \Cake\Controller\Controller
- */
+    /**
+     * The controller this component is attached to.
+     *
+     * @var \Cake\Controller\Controller
+     */
     protected $_controller;
 
-/**
- * Default configuration.
- *
- * - `redirectOnSuccess`: Set to true to redirect to `referer` page on success.
- *    Set to false for no redirection, or set to an array|string compatible with
- *    `Controller::redirect()` method.
- * - `successMessage`: Custom success alert-message. Or a callable method which
- *    must return a customized message.
- * - `errorMessage`: Custom error alert-message. Or a callable method which must
- *    return a customized message.
- * - `arrayContext`: Information for the ArrayContext provider used by FormHelper
- *    when rendering comments form.
- * - `validator`: A custom validator object, if not provided it automatically
- *    creates one for you using the information below:
- * - `settings`: Array of additional settings parameters, will be merged with
- *    those coming from Comment Plugin's configuration panel (at backend).
- *
- * When defining `successMessage` or `errorMessage` as callable functions you
- * should expect two arguments. A comment entity as first argument and the
- * controller instance this component is attached to as second argument:
- *
- *     $options['successMessage'] = function ($comment, $controller) {
- *         return 'My customized success message';
- *     }
- *
- *     $options['errorMessage'] = function ($comment, $controller) {
- *         return 'My customized error message';
- *     }
- *
- * @var array
- */
+    /**
+     * Default configuration.
+     *
+     * - `redirectOnSuccess`: Set to true to redirect to `referer` page on success.
+     *    Set to false for no redirection, or set to an array|string compatible with
+     *    `Controller::redirect()` method.
+     * - `successMessage`: Custom success alert-message. Or a callable method which
+     *    must return a customized message.
+     * - `errorMessage`: Custom error alert-message. Or a callable method which must
+     *    return a customized message.
+     * - `arrayContext`: Information for the ArrayContext provider used by FormHelper
+     *    when rendering comments form.
+     * - `validator`: A custom validator object, if not provided it automatically
+     *    creates one for you using the information below:
+     * - `settings`: Array of additional settings parameters, will be merged with
+     *    those coming from Comment Plugin's configuration panel (at backend).
+     *
+     * When defining `successMessage` or `errorMessage` as callable functions you
+     * should expect two arguments. A comment entity as first argument and the
+     * controller instance this component is attached to as second argument:
+     *
+     *     $options['successMessage'] = function ($comment, $controller) {
+     *         return 'My customized success message';
+     *     }
+     *
+     *     $options['errorMessage'] = function ($comment, $controller) {
+     *         return 'My customized error message';
+     *     }
+     *
+     * @var array
+     */
     protected $_defaultConfig = [
         'redirectOnSuccess' => true,
         'successMessage' => 'Comment saved!',
@@ -124,14 +124,14 @@ class CommentComponent extends Component
         'settings' => [], // auto-filled with Comment plugin's settings
     ];
 
-/**
- * Constructor.
- *
- * @param \Cake\Controller\ComponentRegistry $collection A ComponentRegistry
- *  for this component
- * @param array $config Array of configuration options to merge with defaults
- * @return void
- */
+    /**
+     * Constructor.
+     *
+     * @param \Cake\Controller\ComponentRegistry $collection A ComponentRegistry
+     *  for this component
+     * @param array $config Array of configuration options to merge with defaults
+     * @return void
+     */
     public function __construct(ComponentRegistry $collection, array $config = [])
     {
         $this->_defaultConfig['settings'] = Plugin::settings('Comment');
@@ -151,12 +151,12 @@ class CommentComponent extends Component
         $this->_loadSettings();
     }
 
-/**
- * Called before the controller's beforeFilter method.
- *
- * @param Event $event The event that was triggered
- * @return void
- */
+    /**
+     * Called before the controller's beforeFilter method.
+     *
+     * @param Event $event The event that was triggered
+     * @return void
+     */
     public function beforeFilter(Event $event)
     {
         $this->_controller = $event->subject;
@@ -201,26 +201,26 @@ class CommentComponent extends Component
         }
     }
 
-/**
- * Called after the controller executes the requested action.
- *
- * @param Event $event The event that was triggered
- * @return void
- */
+    /**
+     * Called after the controller executes the requested action.
+     *
+     * @param Event $event The event that was triggered
+     * @return void
+     */
     public function beforeRender(Event $event)
     {
         $this->_controller->helpers['Comment.Comment'] = $this->config('settings');
     }
 
-/**
- * Reads/writes settings for this component or for CommentHelper class.
- *
- * @param string|array|null $key The key to get/set, or a complete array of configs.
- * @param mixed|null $value The value to set.
- * @param bool $merge Whether to merge or overwrite existing config, defaults to true.
- * @return mixed Config value being read, or the object itself on write operations.
- * @throws \Cake\Core\Exception\Exception When trying to set a key that is invalid.
- */
+    /**
+     * Reads/writes settings for this component or for CommentHelper class.
+     *
+     * @param string|array|null $key The key to get/set, or a complete array of configs.
+     * @param mixed|null $value The value to set.
+     * @param bool $merge Whether to merge or overwrite existing config, defaults to true.
+     * @return mixed Config value being read, or the object itself on write operations.
+     * @throws \Cake\Core\Exception\Exception When trying to set a key that is invalid.
+     */
     public function config($key = null, $value = null, $merge = true)
     {
         if ($key !== null && in_array($key, array_keys($this->_defaultConfig['settings']))) {
@@ -240,12 +240,12 @@ class CommentComponent extends Component
         return $this->_configRead($key);
     }
 
-/**
- * Adds a new comment for the given entity.
- *
- * @param \Cake\ORM\Entity $entity The entity where to attach new comment
- * @return bool True on success, false otherwise
- */
+    /**
+     * Adds a new comment for the given entity.
+     *
+     * @param \Cake\ORM\Entity $entity The entity where to attach new comment
+     * @return bool True on success, false otherwise
+     */
     public function post($entity)
     {
         if (
@@ -336,13 +336,13 @@ class CommentComponent extends Component
         return false;
     }
 
-/**
- * Extract data from request and prepares for inserting a new comment for
- * the given entity.
- *
- * @param \Cake\ORM\Entity $entity Entity used to guess table name
- * @return array
- */
+    /**
+     * Extract data from request and prepares for inserting a new comment for
+     * the given entity.
+     *
+     * @param \Cake\ORM\Entity $entity Entity used to guess table name
+     * @return array
+     */
     protected function _getRequestData($entity)
     {
         $data = [];
@@ -368,13 +368,13 @@ class CommentComponent extends Component
         return $data;
     }
 
-/**
- * Prepares error messages for FormHelper.
- *
- * @param \Comment\Model\Entity\Comment $comment The invalidated comment entity
- * to extract error messages
- * @return void
- */
+    /**
+     * Prepares error messages for FormHelper.
+     *
+     * @param \Comment\Model\Entity\Comment $comment The invalidated comment entity
+     * to extract error messages
+     * @return void
+     */
     protected function _setErrors(Comment $comment)
     {
         $arrayContext = $this->config('arrayContext');
@@ -385,12 +385,12 @@ class CommentComponent extends Component
         $this->_controller->set('_commentFormContext', $this->config('arrayContext'));
     }
 
-/**
- * Fetch settings from data base and merges
- * with this component's configuration.
- *
- * @return array
- */
+    /**
+     * Fetch settings from data base and merges
+     * with this component's configuration.
+     *
+     * @return array
+     */
     protected function _loadSettings()
     {
         $settings = Plugin::settings('Comment');
@@ -399,11 +399,11 @@ class CommentComponent extends Component
         }
     }
 
-/**
- * Creates a validation object on the fly.
- *
- * @return \Cake\Validation\Validator
- */
+    /**
+     * Creates a validation object on the fly.
+     *
+     * @return \Cake\Validation\Validator
+     */
     protected function _createValidator()
     {
         $config = $this->config();

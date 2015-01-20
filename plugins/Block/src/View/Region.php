@@ -4,10 +4,10 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @since	 2.0.0
- * @author	 Christopher Castro <chris@quickapps.es>
- * @link	 http://www.quickappscms.org
- * @license	 http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
+ * @since    2.0.0
+ * @author   Christopher Castro <chris@quickapps.es>
+ * @link     http://www.quickappscms.org
+ * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
 namespace Block\View;
 
@@ -27,58 +27,58 @@ use QuickApps\Core\Plugin;
 class Region
 {
 
-/**
- * machine name of this region. e.g. 'left-sidebar'
- *
- * @var string
- */
+    /**
+     * machine name of this region. e.g. 'left-sidebar'
+     *
+     * @var string
+     */
     protected $_machineName = null;
 
-/**
- * Collection of blocks for this region.
- *
- * @var \Cake\Collection\Collection
- */
+    /**
+     * Collection of blocks for this region.
+     *
+     * @var \Cake\Collection\Collection
+     */
     protected $_blocks = null;
 
-/**
- * Maximum number of blocks this region can holds.
- *
- * @var null|int
- */
+    /**
+     * Maximum number of blocks this region can holds.
+     *
+     * @var null|int
+     */
     protected $_blockLimit = null;
 
-/**
- * Information about the theme this region belongs to.
- *
- * @var array
- */
+    /**
+     * Information about the theme this region belongs to.
+     *
+     * @var array
+     */
     protected $_theme;
 
-/**
- * View instance.
- *
- * @var \Cake\View\View
- */
+    /**
+     * View instance.
+     *
+     * @var \Cake\View\View
+     */
     protected $_View = null;
 
-/**
- * Constructor.
- *
- * ### Valid options are:
- *
- * - `fixMissing`: When creating a region that is not defined by the theme, it
- *    will try to fix it by adding it to theme's regions if this option is set
- *    to TRUE. Defaults to NULL which automatically enables when `debug` is
- *    enabled. This option will not work when using QuickAppsCMS's core themes.
- *    (NOTE: This option will alter theme's `composer.json` file)
- * - `theme`: Name of the theme this regions belongs to. Defaults to auto-detect.
- *
- * @param \Cake\View\View $view Instance of View class to use
- * @param string $name Machine name of the region. e.g.: `left-sidebar`
- * @param array $options Options given as an array
- * @return void
- */
+    /**
+     * Constructor.
+     *
+     * ### Valid options are:
+     *
+     * - `fixMissing`: When creating a region that is not defined by the theme, it
+     *    will try to fix it by adding it to theme's regions if this option is set
+     *    to TRUE. Defaults to NULL which automatically enables when `debug` is
+     *    enabled. This option will not work when using QuickAppsCMS's core themes.
+     *    (NOTE: This option will alter theme's `composer.json` file)
+     * - `theme`: Name of the theme this regions belongs to. Defaults to auto-detect.
+     *
+     * @param \Cake\View\View $view Instance of View class to use
+     * @param string $name Machine name of the region. e.g.: `left-sidebar`
+     * @param array $options Options given as an array
+     * @return void
+     */
     public function __construct(View $view, $name, array $options = [])
     {
         $options += [
@@ -114,34 +114,34 @@ class Region
         }
     }
 
-/**
- * Returns the name of this region.
- *
- * @return string
- */
+    /**
+     * Returns the name of this region.
+     *
+     * @return string
+     */
     public function name()
     {
         return $this->_machineName;
     }
 
-/**
- * Returns information of the theme this regions belongs to.
- *
- * ### Usage:
- *
- *     // full info:
- *     $theme = $this->region('left-sidebar')
- *         ->theme();
- *
- *     // gets theme's "composer.json" info as an array
- *     $themeAuthor = $this->region('left-sidebar')
- *         ->theme('composer.author');
- *
- * @param null|string $path If set to a string value, it will extract
- *  the specified value from the theme's info-array. Null (by default)
- *  returns the whole info-array.
- * @return mixed
- */
+    /**
+     * Returns information of the theme this regions belongs to.
+     *
+     * ### Usage:
+     *
+     *     // full info:
+     *     $theme = $this->region('left-sidebar')
+     *         ->theme();
+     *
+     *     // gets theme's "composer.json" info as an array
+     *     $themeAuthor = $this->region('left-sidebar')
+     *         ->theme('composer.author');
+     *
+     * @param null|string $path If set to a string value, it will extract
+     *  the specified value from the theme's info-array. Null (by default)
+     *  returns the whole info-array.
+     * @return mixed
+     */
     public function theme($path = null)
     {
         if ($path == null) {
@@ -150,17 +150,17 @@ class Region
         return Hash::get($this->_theme, $path);
     }
 
-/**
- * Gets or sets the block collection of this region.
- *
- * When passing a collection of blocks as first argument, all blocks in the
- * collection will be homogenized, see homogenize() for details.
- *
- * @param \Cake\Collection\Collection $blocks Blocks collection if you want to
- *  overwrite current collection, leave empty to return current collection
- * @return \Cake\Collection\Collection
- * @see \Block\View\Region::homogenize()
- */
+    /**
+     * Gets or sets the block collection of this region.
+     *
+     * When passing a collection of blocks as first argument, all blocks in the
+     * collection will be homogenized, see homogenize() for details.
+     *
+     * @param \Cake\Collection\Collection $blocks Blocks collection if you want to
+     *  overwrite current collection, leave empty to return current collection
+     * @return \Cake\Collection\Collection
+     * @see \Block\View\Region::homogenize()
+     */
     public function blocks(Collection $blocks = null)
     {
         if ($blocks) {
@@ -170,24 +170,24 @@ class Region
         return $this->_blocks;
     }
 
-/**
- * Counts the number of blocks within this region.
- *
- * @return int
- */
+    /**
+     * Counts the number of blocks within this region.
+     *
+     * @return int
+     */
     public function count()
     {
         return count($this->blocks()->toArray());
     }
 
-/**
- * Limits the number of blocks in this region.
- *
- * Null means unlimited number.
- *
- * @param null|int $number Defaults to null
- * @return \Block\View\Region
- */
+    /**
+     * Limits the number of blocks in this region.
+     *
+     * Null means unlimited number.
+     *
+     * @param null|int $number Defaults to null
+     * @return \Block\View\Region
+     */
     public function blockLimit($number = null)
     {
         $number = $number !== null ? intval($number) : $number;
@@ -195,17 +195,17 @@ class Region
         return $this;
     }
 
-/**
- * Merge blocks from another region.
- *
- * You can not merge regions with the same machine-name, new blocks are appended
- * to this region.
- *
- * @param \Block\View\Region $region Region to merge with
- * @param bool $homogenize Set to true to make sure all blocks in the
- *  collection are marked as they belongs to this region
- * @return \Block\View\Region This region with $region's blocks appended
- */
+    /**
+     * Merge blocks from another region.
+     *
+     * You can not merge regions with the same machine-name, new blocks are appended
+     * to this region.
+     *
+     * @param \Block\View\Region $region Region to merge with
+     * @param bool $homogenize Set to true to make sure all blocks in the
+     *  collection are marked as they belongs to this region
+     * @return \Block\View\Region This region with $region's blocks appended
+     */
     public function merge(Region $region, $homogenize = true)
     {
         if ($region->name() !== $this->name()) {
@@ -221,14 +221,14 @@ class Region
         return $this;
     }
 
-/**
- * Makes sure that every block in this region is actually marked as it belongs
- * to this region.
- *
- * Used when merging blocks from another region.
- *
- * @return \Block\View\Region This region with homogenized blocks
- */
+    /**
+     * Makes sure that every block in this region is actually marked as it belongs
+     * to this region.
+     *
+     * Used when merging blocks from another region.
+     *
+     * @return \Block\View\Region This region with homogenized blocks
+     */
     public function homogenize()
     {
         $this->_blocks = $this->blocks()->map(function ($block) {
@@ -238,11 +238,11 @@ class Region
         return $this;
     }
 
-/**
- * Render all blocks within this region.
- *
- * @return string
- */
+    /**
+     * Render all blocks within this region.
+     *
+     * @return string
+     */
     public function render()
     {
         $html = '';
@@ -257,24 +257,24 @@ class Region
         return $html;
     }
 
-/**
- * Magic method for rendering this region.
- *
- *     echo $this->region('left-sidebar');
- *
- * @return string
- */
+    /**
+     * Magic method for rendering this region.
+     *
+     *     echo $this->region('left-sidebar');
+     *
+     * @return string
+     */
     public function __toString()
     {
         return $this->render();
     }
 
-/**
- * Returns an array that can be used to describe the internal state of
- * this object.
- *
- * @return array
- */
+    /**
+     * Returns an array that can be used to describe the internal state of
+     * this object.
+     *
+     * @return array
+     */
     public function __debugInfo()
     {
         return [

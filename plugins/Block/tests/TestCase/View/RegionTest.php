@@ -23,29 +23,29 @@ use Cake\View\View;
 class RegionTest extends TestCase
 {
 
-/**
- * Fixtures.
- *
- * @var array
- */
+    /**
+     * Fixtures.
+     *
+     * @var array
+     */
     public $fixtures = [
         'app.plugins',
         'app.blocks',
         'app.block_regions',
     ];
 
-/**
- * Regions used for testing
- *
- * @var array
- */
+    /**
+     * Regions used for testing
+     *
+     * @var array
+     */
     public $regions = [];
 
-/**
- * setUp.
- *
- * @return void
- */
+    /**
+     * setUp.
+     *
+     * @return void
+     */
     public function setUp()
     {
         parent::setUp();
@@ -79,11 +79,11 @@ class RegionTest extends TestCase
         ]));
     }
 
-/**
- * test name() method.
- *
- * @return void
- */
+    /**
+     * test name() method.
+     *
+     * @return void
+     */
     public function testName()
     {
         $this->assertEquals('left-sidebar', $this->regions[0]->name());
@@ -91,22 +91,22 @@ class RegionTest extends TestCase
         $this->assertEquals('footer', $this->regions[2]->name());
     }
 
-/**
- * test theme() method.
- *
- * @return void
- */
+    /**
+     * test theme() method.
+     *
+     * @return void
+     */
     public function testGetTheme()
     {
         $this->assertEquals('FrontendTheme', $this->regions[0]->theme('name'));
         $this->assertEquals('Frontend Theme', $this->regions[0]->theme('human_name'));
     }
 
-/**
- * test count() method.
- *
- * @return void
- */
+    /**
+     * test count() method.
+     *
+     * @return void
+     */
     public function testCount()
     {
         $this->assertEquals(3, $this->regions[0]->count());
@@ -114,11 +114,11 @@ class RegionTest extends TestCase
         $this->assertEquals(5, $this->regions[2]->count());
     }
 
-/**
- * test merge() method.
- *
- * @return void
- */
+    /**
+     * test merge() method.
+     *
+     * @return void
+     */
     public function testMerge()
     {
         $this->setUp();
@@ -134,11 +134,11 @@ class RegionTest extends TestCase
         $this->assertEquals(5, $this->regions[2]->merge($this->regions[2], false)->count());
     }
 
-/**
- * test homogenize() method.
- *
- * @return void
- */
+    /**
+     * test homogenize() method.
+     *
+     * @return void
+     */
     public function testHomogenize()
     {
         $this->regions[0]->merge($this->regions[1], false);

@@ -19,18 +19,18 @@ use Cake\TestSuite\IntegrationTestCase;
 class ManageControllerTest extends IntegrationTestCase
 {
 
-/**
- * Controller being tested.
- *
- * @var \Cake\Controller\Controller
- */
+    /**
+     * Controller being tested.
+     *
+     * @var \Cake\Controller\Controller
+     */
     public $Controller;
 
-/**
- * Fixtures.
- *
- * @var array
- */
+    /**
+     * Fixtures.
+     *
+     * @var array
+     */
     public $fixtures = [
         'app.blocks',
         'app.block_regions',
@@ -42,33 +42,33 @@ class ManageControllerTest extends IntegrationTestCase
         'app.menu_links',
     ];
 
-/**
- * setUp().
- *
- * @return void
- */
+    /**
+     * setUp().
+     *
+     * @return void
+     */
     public function setUp()
     {
         parent::setUp();
         $this->Controller = $this->generate('Block.Admin/Manage', ['components' => ['Auth', 'Flash']]);
     }
 
-/**
- * test index action.
- *
- * @return void
- */
+    /**
+     * test index action.
+     *
+     * @return void
+     */
     public function testIndex()
     {
         $this->get('/admin/block/manage');
         $this->assertResponseOk();
     }
 
-/**
- * test add action.
- *
- * @return void
- */
+    /**
+     * test add action.
+     *
+     * @return void
+     */
     public function testAdd()
     {
         $this->post('/admin/block/manage/add', [
@@ -90,22 +90,22 @@ class ManageControllerTest extends IntegrationTestCase
         $this->assertNotEmpty($block);
     }
 
-/**
- * test edit action.
- *
- * @return void
- */
+    /**
+     * test edit action.
+     *
+     * @return void
+     */
     public function testEdit()
     {
         $vars = $this->get('/admin/block/manage/edit/1');
         $this->assertResponseOk();
     }
 
-/**
- * test edit + save action.
- *
- * @return void
- */
+    /**
+     * test edit + save action.
+     *
+     * @return void
+     */
     public function testEditSave()
     {
         $this->post('/admin/block/manage/edit/1', [
@@ -120,11 +120,11 @@ class ManageControllerTest extends IntegrationTestCase
         $this->assertEquals('New Title', $block->title);
     }
 
-/**
- * test that non-custom blocks cannot be deleted.
- *
- * @return void
- */
+    /**
+     * test that non-custom blocks cannot be deleted.
+     *
+     * @return void
+     */
     public function testDeleteNonCustom()
     {
         $this->get('/admin/block/manage/delete/1');
@@ -136,11 +136,11 @@ class ManageControllerTest extends IntegrationTestCase
         $this->assertNotEmpty($block);
     }
 
-/**
- * test duplicate action.
- *
- * @return void
- */
+    /**
+     * test duplicate action.
+     *
+     * @return void
+     */
     public function testDuplicate()
     {
         $this->get('/admin/block/manage/duplicate/1');
