@@ -23,11 +23,11 @@ class FieldInstance extends Entity
 
     use HookAwareTrait;
 
-/**
- * Gets a human-readable name of the field handler class.
- *
- * @return string
- */
+    /**
+     * Gets a human-readable name of the field handler class.
+     *
+     * @return string
+     */
     protected function _getHandlerName()
     {
         $info = $this->trigger("Field.{$this->handler}.Instance.info");

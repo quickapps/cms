@@ -21,25 +21,25 @@ use Field\Utility\ImageToolbox;
 class ImageToolboxTest extends TestCase
 {
 
-/**
- * Path to image test file.
- *
- * @var string
- */
+    /**
+     * Path to image test file.
+     *
+     * @var string
+     */
     public $img1;
 
-/**
- * Path to image test file.
- *
- * @var string
- */
+    /**
+     * Path to image test file.
+     *
+     * @var string
+     */
     public $img2;
 
-/**
- * setUp().
- *
- * @return void
- */
+    /**
+     * setUp().
+     *
+     * @return void
+     */
     public function setUp()
     {
         parent::setUp();
@@ -47,11 +47,11 @@ class ImageToolboxTest extends TestCase
         $this->img2 = WWW_ROOT . 'files/test2.png';
     }
 
-/**
- * tearDown().
- *
- * @return void
- */
+    /**
+     * tearDown().
+     *
+     * @return void
+     */
     public function tearDown()
     {
         parent::tearDown();
@@ -59,54 +59,54 @@ class ImageToolboxTest extends TestCase
         $folder->delete();
     }
 
-/**
- * test thumbnail() method.
- *
- * @return void
- */
+    /**
+     * test thumbnail() method.
+     *
+     * @return void
+     */
     public function testThumbnail()
     {
         $this->assertNotEmpty(ImageToolbox::thumbnail($this->img1, 'thumbnail'));
         $this->assertNotEmpty(ImageToolbox::thumbnail($this->img2, 'thumbnail'));
     }
 
-/**
- * test previewsOptions() method.
- *
- * @return void
- */
+    /**
+     * test previewsOptions() method.
+     *
+     * @return void
+     */
     public function testPreviewsOptions()
     {
         $this->assertNotEmpty(ImageToolbox::previewsOptions());
     }
 
-/**
- * test getPreviews() method.
- *
- * @return void
- */
+    /**
+     * test getPreviews() method.
+     *
+     * @return void
+     */
     public function testGetPreviews()
     {
         $this->assertNotEmpty(ImageToolbox::getPreviews());
         $this->assertNotEmpty(ImageToolbox::getPreviews('thumbnail'));
     }
 
-/**
- * test addPreview() method.
- *
- * @return void
- */
+    /**
+     * test addPreview() method.
+     *
+     * @return void
+     */
     public function testAddPreview()
     {
         ImageToolbox::addPreview('box20', '20x20 Box', 20, 20);
         $this->assertNotEmpty(ImageToolbox::getPreviews('box20'));
     }
 
-/**
- * test delete() method.
- *
- * @return void
- */
+    /**
+     * test delete() method.
+     *
+     * @return void
+     */
     public function testDelete()
     {
         copy($this->img2, WWW_ROOT . 'files/dummy-test.png');

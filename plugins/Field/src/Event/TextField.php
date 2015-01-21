@@ -25,9 +25,9 @@ use Field\Utility\TextToolbox;
 class TextField extends FieldHandler
 {
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityDisplay(Event $event, Field $field, $options = [])
     {
         $View = $event->subject;
@@ -36,47 +36,47 @@ class TextField extends FieldHandler
         return $View->element('Field.TextField/display', compact('field', 'options'));
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityEdit(Event $event, Field $field, $options = [])
     {
         $View = $event->subject;
         return $View->element('Field.TextField/edit', compact('field', 'options'));
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityFieldAttached(Event $event, Field $field)
     {
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityBeforeFind(Event $event, Field $field, $options, $primary)
     {
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityBeforeSave(Event $event, Field $field, $options)
     {
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityAfterSave(Event $event, Field $field, $options)
     {
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityBeforeValidate(Event $event, Field $field, $options, $validator)
     {
         if ($field->metadata->required) {
@@ -130,32 +130,32 @@ class TextField extends FieldHandler
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityAfterValidate(Event $event, Field $field, $options, $validator)
     {
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityBeforeDelete(Event $event, Field $field, $options)
     {
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityAfterDelete(Event $event, Field $field, $options)
     {
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceInfo(Event $event)
     {
         return [
@@ -165,18 +165,18 @@ class TextField extends FieldHandler
         ];
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceSettingsForm(Event $event, $instance, $options = [])
     {
         $View = $event->subject;
         return $View->element('Field.TextField/settings_form', compact('instance', 'options'));
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceSettingsDefaults(Event $event, $instance, $options = [])
     {
         return [
@@ -188,25 +188,25 @@ class TextField extends FieldHandler
         ];
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceSettingsValidate(Event $event, Entity $settings, $validator)
     {
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceViewModeForm(Event $event, $instance, $options = [])
     {
         $View = $event->subject;
         return $View->element('Field.TextField/view_mode_form', compact('instance', 'options'));
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceViewModeDefaults(Event $event, $instance, $options = [])
     {
         switch ($options['viewMode']) {
@@ -221,39 +221,39 @@ class TextField extends FieldHandler
         }
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceViewModeValidate(Event $event, Entity $viewMode, $validator)
     {
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceBeforeAttach(Event $event, $instance, $options = [])
     {
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceAfterAttach(Event $event, $instance, $options = [])
     {
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceBeforeDetach(Event $event, $instance, $options = [])
     {
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceAfterDetach(Event $event, $instance, $options = [])
     {
     }

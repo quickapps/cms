@@ -390,54 +390,54 @@ class FieldableBehavior extends Behavior
 
     use HookAwareTrait;
 
-/**
- * Table which this behavior is attached to.
- *
- * @var \Cake\ORM\Table
- */
+    /**
+     * Table which this behavior is attached to.
+     *
+     * @var \Cake\ORM\Table
+     */
     protected $_table;
 
-/**
- * Used for reduce BD queries and allow inter-method communication.
- * Example, it allows to pass some information from beforeDelete() to afterDelete().
- *
- * @var array
- */
+    /**
+     * Used for reduce BD queries and allow inter-method communication.
+     * Example, it allows to pass some information from beforeDelete() to afterDelete().
+     *
+     * @var array
+     */
     protected $_cache = [];
 
-/**
- * Default configuration.
- *
- * These are merged with user-provided configuration when the behavior is used.
- * Available options are:
- *
- * -    `tableAlias`: Name of the table being managed. Defaults to null (auto-detect).
- * -    `bundle`: Bundle within this the table. Can be a string or a callable
- *       method that must return a string to use as bundle.
- *       Default null (use `tableAlias` option always).
- * -    `enabled`: True enables this behavior or false for disable. Default to true.
- *
- * When using `bundle` feature, `tableAlias` becomes:
- *
- *     <real_table_name>:<bundle>
- *
- * If `bundle` is set to a callable function, this function receives an entity as
- * first argument and the table instance as second argument, the callable must
- * return a string value to use as `bundle`.
- *
- *     // ...
- *     'bundle' => function ($entity, $table) {
- *         return $entity->type;
- *     },
- *
- * Bundles are usually set to dynamic values as the example above, where
- * we use the `type` property of each entity to generate the `bundle` name. For
- * example, for the "nodes" table we have "node" entities, but we may have
- * "article nodes", "page nodes", etc depending on the "type of node" they are;
- * "article" and "page" **are bundles** of "nodes" table.
- *
- * @var array
- */
+    /**
+     * Default configuration.
+     *
+     * These are merged with user-provided configuration when the behavior is used.
+     * Available options are:
+     *
+     * -    `tableAlias`: Name of the table being managed. Defaults to null (auto-detect).
+     * -    `bundle`: Bundle within this the table. Can be a string or a callable
+     *       method that must return a string to use as bundle.
+     *       Default null (use `tableAlias` option always).
+     * -    `enabled`: True enables this behavior or false for disable. Default to true.
+     *
+     * When using `bundle` feature, `tableAlias` becomes:
+     *
+     *     <real_table_name>:<bundle>
+     *
+     * If `bundle` is set to a callable function, this function receives an entity as
+     * first argument and the table instance as second argument, the callable must
+     * return a string value to use as `bundle`.
+     *
+     *     // ...
+     *     'bundle' => function ($entity, $table) {
+     *         return $entity->type;
+     *     },
+     *
+     * Bundles are usually set to dynamic values as the example above, where
+     * we use the `type` property of each entity to generate the `bundle` name. For
+     * example, for the "nodes" table we have "node" entities, but we may have
+     * "article nodes", "page nodes", etc depending on the "type of node" they are;
+     * "article" and "page" **are bundles** of "nodes" table.
+     *
+     * @var array
+     */
     protected $_defaultConfig = [
         'tableAlias' => null,
         'bundle' => null,
@@ -450,12 +450,12 @@ class FieldableBehavior extends Behavior
         ],
     ];
 
-/**
- * Constructor.
- *
- * @param \Cake\ORM\Table $table The table this behavior is attached to
- * @param array $config Configuration array for this behavior
- */
+    /**
+     * Constructor.
+     *
+     * @param \Cake\ORM\Table $table The table this behavior is attached to
+     * @param array $config Configuration array for this behavior
+     */
     public function __construct(Table $table, array $config = [])
     {
         $this->_table = $table;
@@ -465,12 +465,12 @@ class FieldableBehavior extends Behavior
         parent::__construct($table, $config);
     }
 
-/**
- * Returns a list of events this class is implementing. When the class is registered
- * in an event manager, each individual method will be associated with the respective event.
- *
- * @return void
- */
+    /**
+     * Returns a list of events this class is implementing. When the class is registered
+     * in an event manager, each individual method will be associated with the respective event.
+     *
+     * @return void
+     */
     public function implementedEvents()
     {
         $events = [
@@ -486,62 +486,62 @@ class FieldableBehavior extends Behavior
         return $events;
     }
 
-/**
- * Modifies the query object in order to merge custom fields records
- * into each entity under the `_fields` property.
- *
- * ### Events Triggered:
- *
- * - `Field.<FieldHandler>.Entity.beforeFind`: This event is triggered for each
- * entity in the resulting collection and for each field attached to these
- * entities. It receives three arguments, a field entity representing the field
- * being processed, an options array and boolean value indicating whether the
- * query that initialized the event is part of a primary find operation or not.
- * Returning false will cause the entity to be removed from the resulting
- * collection, also will stop event propagation, so other fields won't be able
- * to listen this event. If the event is stopped using the event API, will halt
- * the entire find operation.
- *
- * You can enable or disable this behavior for a single `find()` operation by
- * setting `fieldable` to false in the options array for find method. e.g.:
- *
- *     $this->Nodes
- *         ->find('all', ['fieldable' => false]);
- *
- * It also looks for custom fields in WHERE clause. This will search entities in
- * all bundles this table may have, if you need to restrict the search to an
- * specific bundle you must use the `bundle` key in find()'s options:
- *
- *     $this->Nodes
- *         ->find('all', ['bundle' => 'articles'])
- *         ->where([':article-title' => 'My first article!']);
- *
- * The `bundle` accepts multiples values:
- *
- *     // wildcard is "*", e.g. look in all bundles which names starts with "art"
- *     $this->Nodes
- *         ->find('all', ['bundle' => 'art*']);
- *         ->where([':article-title' => 'My first article!']);
- *
- *     // single character match is "?"
- *     $this->Nodes
- *         ->find('all', ['bundle' => 'arti?les']);
- *         ->where([':article-title' => 'My first article!']);
- *
- *     // look in "articles" and "pages" bundles only
- *     $this->Nodes
- *         ->find('all', ['bundle' => ['articles', 'pages']]);
- *         ->where([':article-title' => 'My first article!']);
- *
- * The `bundle` option has no effects if no custom fields are given in the
- * WHERE clause.
- *
- * @param \Cake\Event\Event $event The beforeFind event that was triggered
- * @param \Cake\ORM\Query $query The original query to modify
- * @param array $options Additional options given as an array
- * @param bool $primary Whether this find is a primary query or not
- * @return void
- */
+    /**
+     * Modifies the query object in order to merge custom fields records
+     * into each entity under the `_fields` property.
+     *
+     * ### Events Triggered:
+     *
+     * - `Field.<FieldHandler>.Entity.beforeFind`: This event is triggered for each
+     * entity in the resulting collection and for each field attached to these
+     * entities. It receives three arguments, a field entity representing the field
+     * being processed, an options array and boolean value indicating whether the
+     * query that initialized the event is part of a primary find operation or not.
+     * Returning false will cause the entity to be removed from the resulting
+     * collection, also will stop event propagation, so other fields won't be able
+     * to listen this event. If the event is stopped using the event API, will halt
+     * the entire find operation.
+     *
+     * You can enable or disable this behavior for a single `find()` operation by
+     * setting `fieldable` to false in the options array for find method. e.g.:
+     *
+     *     $this->Nodes
+     *         ->find('all', ['fieldable' => false]);
+     *
+     * It also looks for custom fields in WHERE clause. This will search entities in
+     * all bundles this table may have, if you need to restrict the search to an
+     * specific bundle you must use the `bundle` key in find()'s options:
+     *
+     *     $this->Nodes
+     *         ->find('all', ['bundle' => 'articles'])
+     *         ->where([':article-title' => 'My first article!']);
+     *
+     * The `bundle` accepts multiples values:
+     *
+     *     // wildcard is "*", e.g. look in all bundles which names starts with "art"
+     *     $this->Nodes
+     *         ->find('all', ['bundle' => 'art*']);
+     *         ->where([':article-title' => 'My first article!']);
+     *
+     *     // single character match is "?"
+     *     $this->Nodes
+     *         ->find('all', ['bundle' => 'arti?les']);
+     *         ->where([':article-title' => 'My first article!']);
+     *
+     *     // look in "articles" and "pages" bundles only
+     *     $this->Nodes
+     *         ->find('all', ['bundle' => ['articles', 'pages']]);
+     *         ->where([':article-title' => 'My first article!']);
+     *
+     * The `bundle` option has no effects if no custom fields are given in the
+     * WHERE clause.
+     *
+     * @param \Cake\Event\Event $event The beforeFind event that was triggered
+     * @param \Cake\ORM\Query $query The original query to modify
+     * @param array $options Additional options given as an array
+     * @param bool $primary Whether this find is a primary query or not
+     * @return void
+     */
     public function beforeFind(Event $event, Query $query, $options, $primary)
     {
         if (isset($options['fieldable']) && $options['fieldable'] === false) {
@@ -575,55 +575,55 @@ class FieldableBehavior extends Behavior
         }
     }
 
-/**
- * Before an entity is saved.
- *
- * ### Events Triggered:
- *
- * - `Field.<FieldHandler>.Entity.beforeSave`: It receives two arguments, the
- * field entity representing the field being saved and options array. The
- * options array is passed as an ArrayObject, so any changes in it will be
- * reflected in every listener and remembered at the end of the event so it can
- * be used for the rest of the save operation. Returning false in any of the
- * Field Handler will abort the saving process. If the Field event is stopped
- * using the event API, the Field event object's `result` property will be
- * returned.
- *
- * Here is where we dispatch each custom field's `$_POST` information to its
- * corresponding Field Handler, so they can operate over their values.
- *
- * Fields Handler's `Field.<FieldHandler>.Entity.beforeSave` event is triggered
- * over each attached field for this entity, so you should have a listener like:
- *
- *     class TextField implements EventListenerInterface {
- *         public function implementedEvents() {
- *             return [
- *                 'Field\TextField.Entity.beforeSave' => 'entityBeforeSave',
- *             ];
- *         }
- *
- *         public function entityBeforeSave(Event $event, $entity, $field, $options) {
- *              // alter $field, and do nifty things with $options['_post']
- *              // return FALSE; will halt the operation
- *         }
- *     }
- *
- * You will see `$options` array contains the POST information user just sent when
- * pressing form submit button.
- *
- *     $options['_post']: $_POST information for this [entity, field_instance] tuple.
- *
- * Field Handlers should **alter** `$field->value` and `$field->raw`
- * according to its needs **using $options['_post']**.
- *
- * **NOTE:** Returning boolean FALSE will halt the whole Entity's save operation.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $entity The entity being saved
- * @param array $options Additional options given as an array
- * @throws \Cake\Error\FatalErrorException When using this behavior in non-atomic mode
- * @return bool True if save operation should continue
- */
+    /**
+     * Before an entity is saved.
+     *
+     * ### Events Triggered:
+     *
+     * - `Field.<FieldHandler>.Entity.beforeSave`: It receives two arguments, the
+     * field entity representing the field being saved and options array. The
+     * options array is passed as an ArrayObject, so any changes in it will be
+     * reflected in every listener and remembered at the end of the event so it can
+     * be used for the rest of the save operation. Returning false in any of the
+     * Field Handler will abort the saving process. If the Field event is stopped
+     * using the event API, the Field event object's `result` property will be
+     * returned.
+     *
+     * Here is where we dispatch each custom field's `$_POST` information to its
+     * corresponding Field Handler, so they can operate over their values.
+     *
+     * Fields Handler's `Field.<FieldHandler>.Entity.beforeSave` event is triggered
+     * over each attached field for this entity, so you should have a listener like:
+     *
+     *     class TextField implements EventListenerInterface {
+     *         public function implementedEvents() {
+     *             return [
+     *                 'Field\TextField.Entity.beforeSave' => 'entityBeforeSave',
+     *             ];
+     *         }
+     *
+     *         public function entityBeforeSave(Event $event, $entity, $field, $options) {
+     *              // alter $field, and do nifty things with $options['_post']
+     *              // return FALSE; will halt the operation
+     *         }
+     *     }
+     *
+     * You will see `$options` array contains the POST information user just sent when
+     * pressing form submit button.
+     *
+     *     $options['_post']: $_POST information for this [entity, field_instance] tuple.
+     *
+     * Field Handlers should **alter** `$field->value` and `$field->raw`
+     * according to its needs **using $options['_post']**.
+     *
+     * **NOTE:** Returning boolean FALSE will halt the whole Entity's save operation.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\ORM\Entity $entity The entity being saved
+     * @param array $options Additional options given as an array
+     * @throws \Cake\Error\FatalErrorException When using this behavior in non-atomic mode
+     * @return bool True if save operation should continue
+     */
     public function beforeSave(Event $event, $entity, $options)
     {
         if (!$this->config('enabled')) {
@@ -693,22 +693,22 @@ class FieldableBehavior extends Behavior
         return true;
     }
 
-/**
- * After an entity is saved.
- *
- * ### Events Triggered:
- *
- * - `Field.<FieldHandler>.Entity.afterSave`: Will be triggered after a
- * successful insert or save, listeners will receive two arguments, the field
- * entity and the options array. The type of operation performed
- * (insert or update) can be infer by checking the entity's method `isNew`,
- * true meaning an insert and false an update.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $entity The entity that was saved
- * @param array $options Additional options given as an array
- * @return bool True always
- */
+    /**
+     * After an entity is saved.
+     *
+     * ### Events Triggered:
+     *
+     * - `Field.<FieldHandler>.Entity.afterSave`: Will be triggered after a
+     * successful insert or save, listeners will receive two arguments, the field
+     * entity and the options array. The type of operation performed
+     * (insert or update) can be infer by checking the entity's method `isNew`,
+     * true meaning an insert and false an update.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\ORM\Entity $entity The entity that was saved
+     * @param array $options Additional options given as an array
+     * @return bool True always
+     */
     public function afterSave(Event $event, $entity, $options)
     {
         if (!$this->config('enabled')) {
@@ -734,24 +734,24 @@ class FieldableBehavior extends Behavior
         return true;
     }
 
-/**
- * Before entity validation process.
- *
- * ### Events Triggered:
- *
- * - `Field.<FieldHandler>.Entity.beforeValidate`: Will be triggered right before
- * any validation is done for the passed entity if the validate key in $options
- * is not set to false. Listeners will receive as arguments the field entity,
- * the options array and the validation object to be used for validating
- * the entity. If the event is stopped the validation result will be set to the
- * result of the event itself.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $entity The entity being validated
- * @param array $options Additional options given as an array
- * @param \Cake\Validation\Validator $validator The validator object
- * @return bool True on success
- */
+    /**
+     * Before entity validation process.
+     *
+     * ### Events Triggered:
+     *
+     * - `Field.<FieldHandler>.Entity.beforeValidate`: Will be triggered right before
+     * any validation is done for the passed entity if the validate key in $options
+     * is not set to false. Listeners will receive as arguments the field entity,
+     * the options array and the validation object to be used for validating
+     * the entity. If the event is stopped the validation result will be set to the
+     * result of the event itself.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\ORM\Entity $entity The entity being validated
+     * @param array $options Additional options given as an array
+     * @param \Cake\Validation\Validator $validator The validator object
+     * @return bool True on success
+     */
     public function beforeValidate(Event $event, $entity, $options, $validator)
     {
         if (!$this->config('enabled')) {
@@ -771,23 +771,23 @@ class FieldableBehavior extends Behavior
         }
     }
 
-/**
- * After entity validation process.
- *
- * ### Events Triggered:
- *
- * - `Field.<FieldHandler>.Entity.afterValidate`: Will be triggered right after
- * the `validate()` method is called in the entity. Listeners will receive as
- * arguments the the field entity, the options array and the validation
- * object to be used for validating the entity. If the event is stopped the
- * validation result will be set to the result of the event itself.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $entity The entity that was validated
- * @param array $options Additional options given as an array
- * @param Validator $validator The validator object
- * @return bool True on success
- */
+    /**
+     * After entity validation process.
+     *
+     * ### Events Triggered:
+     *
+     * - `Field.<FieldHandler>.Entity.afterValidate`: Will be triggered right after
+     * the `validate()` method is called in the entity. Listeners will receive as
+     * arguments the the field entity, the options array and the validation
+     * object to be used for validating the entity. If the event is stopped the
+     * validation result will be set to the result of the event itself.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\ORM\Entity $entity The entity that was validated
+     * @param array $options Additional options given as an array
+     * @param Validator $validator The validator object
+     * @return bool True on success
+     */
     public function afterValidate(Event $event, $entity, $options, $validator)
     {
         if (!$this->config('enabled')) {
@@ -818,24 +818,24 @@ class FieldableBehavior extends Behavior
         }
     }
 
-/**
- * Deletes an entity from a fieldable table.
- *
- * ### Events Triggered:
- *
- * - `Field.<FieldHandler>.Entity.beforeDelete`: Fired before the delete occurs.
- * If stopped the delete will be aborted. Receives as arguments the field entity
- * and options array.
- *
- * **NOTE:** This method automatically removes all field values
- * from `field_values` database table for each entity.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $entity The entity being deleted
- * @param array $options Additional options given as an array
- * @return bool
- * @throws \Cake\Error\FatalErrorException When using this behavior in non-atomic mode
- */
+    /**
+     * Deletes an entity from a fieldable table.
+     *
+     * ### Events Triggered:
+     *
+     * - `Field.<FieldHandler>.Entity.beforeDelete`: Fired before the delete occurs.
+     * If stopped the delete will be aborted. Receives as arguments the field entity
+     * and options array.
+     *
+     * **NOTE:** This method automatically removes all field values
+     * from `field_values` database table for each entity.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\ORM\Entity $entity The entity being deleted
+     * @param array $options Additional options given as an array
+     * @return bool
+     * @throws \Cake\Error\FatalErrorException When using this behavior in non-atomic mode
+     */
     public function beforeDelete(Event $event, $entity, $options)
     {
         if (!$this->config('enabled')) {
@@ -883,20 +883,20 @@ class FieldableBehavior extends Behavior
         return true;
     }
 
-/**
- * After an entity was removed from database.
- *
- * ### Events Triggered:
- *
- * - `Field.<FieldHandler>.Entity.afterDelete`: Fired after the delete has been
- * successful. Receives as arguments the field entity and options array.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $entity The entity that was deleted
- * @param array $options Additional options given as an array
- * @throws \Cake\Error\FatalErrorException When using this behavior in non-atomic mode
- * @return void
- */
+    /**
+     * After an entity was removed from database.
+     *
+     * ### Events Triggered:
+     *
+     * - `Field.<FieldHandler>.Entity.afterDelete`: Fired after the delete has been
+     * successful. Receives as arguments the field entity and options array.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\ORM\Entity $entity The entity that was deleted
+     * @param array $options Additional options given as an array
+     * @throws \Cake\Error\FatalErrorException When using this behavior in non-atomic mode
+     * @return void
+     */
     public function afterDelete(Event $event, $entity, $options)
     {
         if (!$this->config('enabled')) {
@@ -915,49 +915,49 @@ class FieldableBehavior extends Behavior
         }
     }
 
-/**
- * Changes behavior's configuration parameters on the fly.
- *
- * Useful when using customized `find_interator` callable, allows to change
- * FieldableBehavior's configuration parameters on each mapper's iteration
- * depending on your needs.
- *
- * @param array $config Configuration parameters as `key` => `value`
- * @return void
- */
+    /**
+     * Changes behavior's configuration parameters on the fly.
+     *
+     * Useful when using customized `find_interator` callable, allows to change
+     * FieldableBehavior's configuration parameters on each mapper's iteration
+     * depending on your needs.
+     *
+     * @param array $config Configuration parameters as `key` => `value`
+     * @return void
+     */
     public function configureFieldable($config)
     {
         $this->config($config);
     }
 
-/**
- * Enables this behavior.
- *
- * @return void
- */
+    /**
+     * Enables this behavior.
+     *
+     * @return void
+     */
     public function bindFieldable()
     {
         $this->config('enabled', true);
     }
 
-/**
- * Disables this behavior.
- *
- * @return void
- */
+    /**
+     * Disables this behavior.
+     *
+     * @return void
+     */
     public function unbindFieldable()
     {
         $this->config('enabled', false);
     }
 
-/**
- * The method which actually fetches custom fields.
- *
- * Fetches all Entity's fields under the `_fields` property.
- *
- * @param \Cake\ORM\Entity $entity The entity where to fetch fields
- * @return \Cake\ORM\Entity Modified $entity
- */
+    /**
+     * The method which actually fetches custom fields.
+     *
+     * Fetches all Entity's fields under the `_fields` property.
+     *
+     * @param \Cake\ORM\Entity $entity The entity where to fetch fields
+     * @return \Cake\ORM\Entity Modified $entity
+     */
     public function attachEntityFields($entity)
     {
         if (!($entity instanceof Entity)) {
@@ -996,15 +996,15 @@ class FieldableBehavior extends Behavior
         return $entity;
     }
 
-/**
- * Look for `:<machine-name>` patterns in query's WHERE clause.
- *
- * Allows to search entities using custom fields as conditions in WHERE clause.
- *
- * @param \Cake\ORM\Query $query The query to scope
- * @param array $options Array of options
- * @return \Cake\ORM\Query The modified query object
- */
+    /**
+     * Look for `:<machine-name>` patterns in query's WHERE clause.
+     *
+     * Allows to search entities using custom fields as conditions in WHERE clause.
+     *
+     * @param \Cake\ORM\Query $query The query to scope
+     * @param array $options Array of options
+     * @return \Cake\ORM\Query The modified query object
+     */
     protected function _scopeQuery(Query $query, $options)
     {
         $whereClause = $query->clause('where');
@@ -1084,17 +1084,17 @@ class FieldableBehavior extends Behavior
         return $query;
     }
 
-/**
- * Creates a new "Field" for each entity.
- *
- * This mock Field represents a new property (table column) for
- * your entity.
- *
- * @param \Cake\ORM\Entity $entity The entity where to attach fields
- * @param \Field\Model\Entity\FieldInstance $instance The instance where to get the
- *  information when creating the mock field.
- * @return \Field\Model\Entity\Field
- */
+    /**
+     * Creates a new "Field" for each entity.
+     *
+     * This mock Field represents a new property (table column) for
+     * your entity.
+     *
+     * @param \Cake\ORM\Entity $entity The entity where to attach fields
+     * @param \Field\Model\Entity\FieldInstance $instance The instance where to get the
+     *  information when creating the mock field.
+     * @return \Field\Model\Entity\Field
+     */
     protected function _getMockField($entity, $instance)
     {
         $pk = $this->_table->primaryKey();
@@ -1144,17 +1144,17 @@ class FieldableBehavior extends Behavior
         return $mockField;
     }
 
-/**
- * Gets table alias this behavior is attached to.
- *
- * This method requires an entity, so we can properly take care of the
- * `bundle` option. If this option is not used, then `Table::alias()` is returned.
- *
- * @param \Cake\ORM\Entity $entity From where try to guess `bundle`
- * @return string Table alias
- * @throws \Field\Error\InvalidBundle When `bundle` option is used but
- *  was unable to resolve bundle name
- */
+    /**
+     * Gets table alias this behavior is attached to.
+     *
+     * This method requires an entity, so we can properly take care of the
+     * `bundle` option. If this option is not used, then `Table::alias()` is returned.
+     *
+     * @param \Cake\ORM\Entity $entity From where try to guess `bundle`
+     * @return string Table alias
+     * @throws \Field\Error\InvalidBundle When `bundle` option is used but
+     *  was unable to resolve bundle name
+     */
     protected function _guessTableAlias($entity)
     {
         $tableAlias = $this->config('tableAlias');
@@ -1173,12 +1173,12 @@ class FieldableBehavior extends Behavior
         return $tableAlias;
     }
 
-/**
- * Resolves `bundle` name using $entity as context.
- *
- * @param \Cake\ORM\Entity $entity Entity to use as context when resolving bundle
- * @return mixed Bundle name as string value on success, false otherwise
- */
+    /**
+     * Resolves `bundle` name using $entity as context.
+     *
+     * @param \Cake\ORM\Entity $entity Entity to use as context when resolving bundle
+     * @return mixed Bundle name as string value on success, false otherwise
+     */
     protected function _resolveBundle($entity)
     {
         $bundle = $this->config('bundle');
@@ -1194,12 +1194,12 @@ class FieldableBehavior extends Behavior
         return false;
     }
 
-/**
- * Used to reduce database queries.
- *
- * @param \Cake\ORM\Entity $entity An entity used to guess table name
- * @return \Cake\ORM\Query Field instances attached to current table as a query result
- */
+    /**
+     * Used to reduce database queries.
+     *
+     * @param \Cake\ORM\Entity $entity An entity used to guess table name
+     * @return \Cake\ORM\Query Field instances attached to current table as a query result
+     */
     protected function _getTableFieldInstances($entity)
     {
         $tableAlias = $this->_guessTableAlias($entity);

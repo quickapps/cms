@@ -23,33 +23,33 @@ use Field\Model\Behavior\FieldableBehavior;
 class FieldableBehaviorTest extends TestCase
 {
 
-/**
- * Fixtures.
- *
- * @var array
- */
+    /**
+     * Fixtures.
+     *
+     * @var array
+     */
     public $fixtures = [
         'app.nodes',
         'app.field_instances',
         'app.field_values',
     ];
 
-/**
- * setUp().
- *
- * @return void
- */
+    /**
+     * setUp().
+     *
+     * @return void
+     */
     public function setUp()
     {
         $this->table = TableRegistry::get('Nodes');
         $this->table->addBehavior('Field.Fieldable');
     }
 
-/**
- * testFindUsingCustomFieldsInWhereClause.
- *
- * @return void
- */
+    /**
+     * testFindUsingCustomFieldsInWhereClause.
+     *
+     * @return void
+     */
     public function testFindUsingCustomFieldsInWhereClause()
     {
         $matching1 = $this->table
@@ -79,11 +79,11 @@ class FieldableBehaviorTest extends TestCase
         $this->assertNotEmpty($matching4);
     }
 
-/**
- * testCustomFieldsAttach.
- *
- * @return void
- */
+    /**
+     * testCustomFieldsAttach.
+     *
+     * @return void
+     */
     public function testCustomFieldsAttach()
     {
         $entity = $this->table

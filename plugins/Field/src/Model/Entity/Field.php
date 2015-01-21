@@ -39,11 +39,11 @@ class Field extends Entity
 
     use ViewModeAwareTrait;
 
-/**
- * Gets field's View Mode's settings for the in-use View Mode.
- *
- * @return array
- */
+    /**
+     * Gets field's View Mode's settings for the in-use View Mode.
+     *
+     * @return array
+     */
     protected function _getViewModeSettings()
     {
         $viewMode = $this->inUseViewMode();
@@ -54,24 +54,24 @@ class Field extends Entity
         return $settings;
     }
 
-/**
- * String representation of this field.
- *
- * By default, `value` property.
- *
- * @return string
- */
+    /**
+     * String representation of this field.
+     *
+     * By default, `value` property.
+     *
+     * @return string
+     */
     public function __toString()
     {
         return (string)$this->get('value');
     }
 
-/**
- * Returns an array that can be used to describe the internal state of
- * this object.
- *
- * @return array
- */
+    /**
+     * Returns an array that can be used to describe the internal state of
+     * this object.
+     *
+     * @return array
+     */
     public function __debugInfo()
     {
         return [

@@ -58,13 +58,13 @@ class FieldHook implements EventListenerInterface
     use HookAwareTrait;
     use ViewModeAwareTrait;
 
-/**
- * Returns a list of hooks this Hook Listener is implementing. When the class is
- * registered in an event manager, each individual method will be associated with
- * the respective event.
- *
- * @return void
- */
+    /**
+     * Returns a list of hooks this Hook Listener is implementing. When the class is
+     * registered in an event manager, each individual method will be associated with
+     * the respective event.
+     *
+     * @return void
+     */
     public function implementedEvents()
     {
         return [
@@ -76,18 +76,18 @@ class FieldHook implements EventListenerInterface
         ];
     }
 
-/**
- * We catch all field rendering request (from QuickApps\View\View) here, then we
- * dispatch to their corresponding FieldHandler.
- *
- * If the field object being rendered has been set to "hidden" for the current
- * view mode it will not be rendered.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Field\Model\Entity\Field $field Mock entity
- * @param array $options Additional array of options
- * @return string The rendered field
- */
+    /**
+     * We catch all field rendering request (from QuickApps\View\View) here, then we
+     * dispatch to their corresponding FieldHandler.
+     *
+     * If the field object being rendered has been set to "hidden" for the current
+     * view mode it will not be rendered.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Field\Model\Entity\Field $field Mock entity
+     * @param array $options Additional array of options
+     * @return string The rendered field
+     */
     public function renderField(Event $event, $field, $options = [])
     {
         $viewMode = $this->inUseViewMode();
@@ -105,33 +105,33 @@ class FieldHook implements EventListenerInterface
         return '';
     }
 
-/**
- * Gets a collection of information of every registered field in the system.
- *
- * ### Example:
- *
- * Using `$this->trigger('Field.info', true)` may produce:
- *
- *     array(
- *         [0] => array(
- *             'name' => 'Textarea',
- *             'description' => 'Allows to store long texts',
- *             'hidden' => false
- *         ),
- *         [1] => array(
- *             'name' => 'Secret Field',
- *             'description' => 'This field should only be used internally by plugins',
- *             'hidden' => true
- *         )
- *     )
- *
- * Some fields may register themselves as hidden when they are intended to be used
- * exclusively by plugins. So users can not `attach` them to entities using Field UI.
- *
- * @param \Cake\Event\Event $event The hook event
- * @param bool $includeHidden Set to true to include fields marked as hidden
- * @return \Cake\Collection\Collection A collection of fields information
- */
+    /**
+     * Gets a collection of information of every registered field in the system.
+     *
+     * ### Example:
+     *
+     * Using `$this->trigger('Field.info', true)` may produce:
+     *
+     *     array(
+     *         [0] => array(
+     *             'name' => 'Textarea',
+     *             'description' => 'Allows to store long texts',
+     *             'hidden' => false
+     *         ),
+     *         [1] => array(
+     *             'name' => 'Secret Field',
+     *             'description' => 'This field should only be used internally by plugins',
+     *             'hidden' => true
+     *         )
+     *     )
+     *
+     * Some fields may register themselves as hidden when they are intended to be used
+     * exclusively by plugins. So users can not `attach` them to entities using Field UI.
+     *
+     * @param \Cake\Event\Event $event The hook event
+     * @param bool $includeHidden Set to true to include fields marked as hidden
+     * @return \Cake\Collection\Collection A collection of fields information
+     */
     public function listFields(Event $event, $includeHidden = false)
     {
         $fields = [];

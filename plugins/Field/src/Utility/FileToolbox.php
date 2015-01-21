@@ -22,13 +22,13 @@ use QuickApps\Core\Plugin;
 class FileToolbox
 {
 
-/**
- * Renders the given custom field.
- *
- * @param \Cake\View\View $view Instance of view class
- * @param \Field\Model\Entity\Field $field The field to be rendered
- * @return string HTML code
- */
+    /**
+     * Renders the given custom field.
+     *
+     * @param \Cake\View\View $view Instance of view class
+     * @param \Field\Model\Entity\Field $field The field to be rendered
+     * @return string HTML code
+     */
     public static function formatter($view, $field)
     {
         $out = '';
@@ -49,13 +49,13 @@ class FileToolbox
         return $out;
     }
 
-/**
- * Gets a translated string representation of the size.
- *
- * @param int $bytes Size to convert given in bytes units
- * @param int $precision Decimal precision
- * @return string Human-readable size, e.g. `1 KB`, `36.8 MB`, etc
- */
+    /**
+     * Gets a translated string representation of the size.
+     *
+     * @param int $bytes Size to convert given in bytes units
+     * @param int $precision Decimal precision
+     * @return string Human-readable size, e.g. `1 KB`, `36.8 MB`, etc
+     */
     public static function bytesToSize($bytes, $precision = 2)
     {
         $kilobyte = 1024;
@@ -78,15 +78,15 @@ class FileToolbox
         }
     }
 
-/**
- * Creates a path to the icon for a file mime.
- *
- * @param string $mime File mime type
- * @param mixed $iconsDirectory A path to a directory of icons to be used for
- *  files. Defaults to built-in icons directory (Field/webroot/img/file-icons/)
- * @return mixed A string for the icon file name, or false if an appropriate
- *  icon could not be found
- */
+    /**
+     * Creates a path to the icon for a file mime.
+     *
+     * @param string $mime File mime type
+     * @param mixed $iconsDirectory A path to a directory of icons to be used for
+     *  files. Defaults to built-in icons directory (Field/webroot/img/file-icons/)
+     * @return mixed A string for the icon file name, or false if an appropriate
+     *  icon could not be found
+     */
     public static function fileIcon($mime, $iconsDirectory = false)
     {
         // If there's an icon matching the exact mimetype, go for it.
@@ -123,12 +123,12 @@ class FileToolbox
         return false;
     }
 
-/**
- * Determine the generic icon MIME package based on a file's MIME type.
- *
- * @param string $mime File mime type
- * @return string The generic icon MIME package expected for this file
- */
+    /**
+     * Determine the generic icon MIME package based on a file's MIME type.
+     *
+     * @param string $mime File mime type
+     * @return string The generic icon MIME package expected for this file
+     */
     public static function fileIconMap($mime)
     {
         switch ($mime) {
@@ -247,14 +247,14 @@ class FileToolbox
         }
     }
 
-/**
- * Get file extension.
- *
- * @param string $fileName File name, including its extension. e.g.: `my-file.docx`
- * @return string File extension without the ending DOT and lowercased,
- *  e.g. `pdf`, `jpg`, `png`, etc. If no extension is found an empty string will
- *  be returned
- */
+    /**
+     * Get file extension.
+     *
+     * @param string $fileName File name, including its extension. e.g.: `my-file.docx`
+     * @return string File extension without the ending DOT and lowercased,
+     *  e.g. `pdf`, `jpg`, `png`, etc. If no extension is found an empty string will
+     *  be returned
+     */
     public static function ext($fileName)
     {
         if (strpos($fileName, '.') === false) {
@@ -269,13 +269,13 @@ class FileToolbox
         );
     }
 
-/**
- * Remove file extension.
- *
- * @param string $fileName File name, including its extension.
- *  e.g. `my-file.docx`, `myFile.DoCX`, etc
- * @return string File name without extension, e.g. `my-file`, `myFile`, etc
- */
+    /**
+     * Remove file extension.
+     *
+     * @param string $fileName File name, including its extension.
+     *  e.g. `my-file.docx`, `myFile.DoCX`, etc
+     * @return string File name without extension, e.g. `my-file`, `myFile`, etc
+     */
     public static function removeExt($fileName)
     {
         $ext = static::ext($fileName);

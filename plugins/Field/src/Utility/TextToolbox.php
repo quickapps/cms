@@ -25,27 +25,27 @@ class TextToolbox
 
     use HooktagAwareTrait;
 
-/**
- * Holds an instance of this class.
- *
- * @var \Field\Utility\TextToolbox
- */
+    /**
+     * Holds an instance of this class.
+     *
+     * @var \Field\Utility\TextToolbox
+     */
     protected static $_instance = null;
 
-/**
- * Instance of markdown parser class.
- *
- * @var \Field\Lib\Parsedown
- */
+    /**
+     * Instance of markdown parser class.
+     *
+     * @var \Field\Lib\Parsedown
+     */
     protected static $_MarkdownParser;
 
-/**
- * Returns an instance of this class.
- *
- * Useful when we need to use some of the trait methods.
- *
- * @return \Field\Utility\TextToolbox
- */
+    /**
+     * Returns an instance of this class.
+     *
+     * Useful when we need to use some of the trait methods.
+     *
+     * @return \Field\Utility\TextToolbox
+     */
     public static function getInstance()
     {
         if (!static::$_instance) {
@@ -55,12 +55,12 @@ class TextToolbox
         return static::$_instance;
     }
 
-/**
- * Formats the given field.
- *
- * @param \Field\Model\Entity\Field $field The field being rendered
- * @return string
- */
+    /**
+     * Formats the given field.
+     *
+     * @param \Field\Model\Entity\Field $field The field being rendered
+     * @return string
+     */
     public static function formatter(Field $field)
     {
         $viewModeSettings = $field->view_mode_settings;
@@ -83,13 +83,13 @@ class TextToolbox
         return $content;
     }
 
-/**
- * Process the given text to its corresponding format.
- *
- * @param string $content Content to process
- * @param string $processor "plain", "filtered", "markdown" or "full"
- * @return string
- */
+    /**
+     * Process the given text to its corresponding format.
+     *
+     * @param string $content Content to process
+     * @param string $processor "plain", "filtered", "markdown" or "full"
+     * @return string
+     */
     public static function process($content, $processor)
     {
         switch ($processor) {
@@ -109,16 +109,16 @@ class TextToolbox
         return $content;
     }
 
-/**
- * Process text in plain mode.
- *
- * - No HTML tags allowed.
- * - Web page addresses and e-mail addresses turn into links automatically.
- * - Lines and paragraphs break automatically.
- *
- * @param string $text The text to process
- * @return string
- */
+    /**
+     * Process text in plain mode.
+     *
+     * - No HTML tags allowed.
+     * - Web page addresses and e-mail addresses turn into links automatically.
+     * - Lines and paragraphs break automatically.
+     *
+     * @param string $text The text to process
+     * @return string
+     */
     public static function plainProcessor($text)
     {
         $text = static::emailToLink($text);
@@ -127,15 +127,15 @@ class TextToolbox
         return $text;
     }
 
-/**
- * Process text in full HTML mode.
- *
- * - Web page addresses turn into links automatically.
- * - E-mail addresses turn into links automatically.
- *
- * @param string $text The text to process
- * @return string
- */
+    /**
+     * Process text in full HTML mode.
+     *
+     * - Web page addresses turn into links automatically.
+     * - E-mail addresses turn into links automatically.
+     *
+     * @param string $text The text to process
+     * @return string
+     */
     public static function fullProcessor($text)
     {
         $text = static::emailToLink($text);
@@ -143,17 +143,17 @@ class TextToolbox
         return $text;
     }
 
-/**
- * Process text in filtered HTML mode.
- *
- * - Web page addresses turn into links automatically.
- * - E-mail addresses turn into links automatically.
- * - Allowed HTML tags: `<a> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd>`
- * - Lines and paragraphs break automatically.
- *
- * @param string $text The text to process
- * @return string
- */
+    /**
+     * Process text in filtered HTML mode.
+     *
+     * - Web page addresses turn into links automatically.
+     * - E-mail addresses turn into links automatically.
+     * - Allowed HTML tags: `<a> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd>`
+     * - Lines and paragraphs break automatically.
+     *
+     * @param string $text The text to process
+     * @return string
+     */
     public static function filteredProcessor($text)
     {
         $text = static::emailToLink($text);
@@ -162,14 +162,14 @@ class TextToolbox
         return $text;
     }
 
-/**
- * Process text in markdown mode.
- *
- * - [Markdown](http://en.wikipedia.org/wiki/Markdown) text format allowed only.
- *
- * @param string $text The text to process
- * @return string
- */
+    /**
+     * Process text in markdown mode.
+     *
+     * - [Markdown](http://en.wikipedia.org/wiki/Markdown) text format allowed only.
+     *
+     * @param string $text The text to process
+     * @return string
+     */
     public static function markdownProcessor($text)
     {
         $MarkdownParser = static::getMarkdownParser();
@@ -180,12 +180,12 @@ class TextToolbox
         return $text;
     }
 
-/**
- * Attempts to close any unclosed HTML tag.
- *
- * @param string $html HTML content to fix
- * @return string
- */
+    /**
+     * Attempts to close any unclosed HTML tag.
+     *
+     * @param string $html HTML content to fix
+     * @return string
+     */
     public static function closeOpenTags($html)
     {
         preg_match_all("#<([a-z]+)( .*)?(?!/)>#iU", $html, $result);
@@ -210,15 +210,15 @@ class TextToolbox
         return $html;
     }
 
-/**
- * Protects email address so bots can not read it.
- *
- * Replaces emails address with an encoded JS script, so there is no way bots
- * can read an email address from the generated HTML source code.
- *
- * @param string $email The email to obfuscate
- * @return string
- */
+    /**
+     * Protects email address so bots can not read it.
+     *
+     * Replaces emails address with an encoded JS script, so there is no way bots
+     * can read an email address from the generated HTML source code.
+     *
+     * @param string $email The email to obfuscate
+     * @return string
+     */
     public static function emailObfuscator($email)
     {
         $link = str_rot13('<a href="mailto:' . $email . '" rel="nofollow">' . $email . '</a>');
@@ -233,12 +233,12 @@ class TextToolbox
         return $out;
     }
 
-/**
- * Safely strip HTML tags.
- *
- * @param string $html HTML content
- * @return string
- */
+    /**
+     * Safely strip HTML tags.
+     *
+     * @param string $html HTML content
+     * @return string
+     */
     public static function stripHtmlTags($html)
     {
         $html = preg_replace([
@@ -264,14 +264,14 @@ class TextToolbox
         return strip_tags($html, '<script>');
     }
 
-/**
- * Convert any URL to a "<a>" HTML tag.
- *
- * It will ignores URLs in existing `<a>` tags.
- *
- * @param string $text The text where to look for links
- * @return string
- */
+    /**
+     * Convert any URL to a "<a>" HTML tag.
+     *
+     * It will ignores URLs in existing `<a>` tags.
+     *
+     * @param string $text The text where to look for links
+     * @return string
+     */
     public static function urlToLink($text)
     {
         $pattern = [
@@ -289,15 +289,15 @@ class TextToolbox
         return preg_replace($pattern, $replacement, $text);
     }
 
-/**
- * Convert any email to a "mailto" link.
- *
- * Escape character is "\".
- * For example, "\demo@email.com" won't be converted to link.
- *
- * @param string $text The text where to look for emails addresses
- * @return string
- */
+    /**
+     * Convert any email to a "mailto" link.
+     *
+     * Escape character is "\".
+     * For example, "\demo@email.com" won't be converted to link.
+     *
+     * @param string $text The text where to look for emails addresses
+     * @return string
+     */
     public static function emailToLink($text)
     {
         preg_match_all("/([\\\a-z0-9_\-\.]+)@([a-z0-9-]{1,64})\.([a-z]{2,10})/i", $text, $emails);
@@ -315,49 +315,49 @@ class TextToolbox
         return $text;
     }
 
-/**
- * Strips HTML tags and any hooktag.
- *
- * @param string $text The text to process
- * @return string
- */
+    /**
+     * Strips HTML tags and any hooktag.
+     *
+     * @param string $text The text to process
+     * @return string
+     */
     public static function filterText($text)
     {
         return static::getInstance()->stripHooktags(static::stripHtmlTags($text));
     }
 
-/**
- * Safely trim a text.
- *
- * This method is HTML aware, it will not "destroy" any HTML tag. You can trim
- * the text to a given number of characters, or you can give a string as second
- * argument which will be used to cut the given text and return the first part.
- *
- * ## Examples:
- *
- *     $text = '
- *     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- *     Fusce augue nulla, iaculis adipiscing risus sed, pharetra tempor risus.
- *     <!-- readmore -->
- *     Ut volutpat nisl enim, quic sit amet quam ut lacus condimentum volutpat in eu magna.
- *     Phasellus a dolor cursus, aliquam felis sit amet, feugiat orci. Donec vel consec.';
- *
- *     echo $this->trimmer($text, '<!-- readmore -->');
- *
- *     // outputs:
- *     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- *     Fusce augue nulla, iaculis adipiscing risus sed, pharetra tempor risus.
- *
- *     echo $this->trimmer('Lorem ipsum dolor sit amet, consectetur adipiscing elit', 10);
- *     // out: "Lorem ipsu ..."
- *
- * @param string $text The text to trim
- * @param string|int|false $len Either a string indicating where to cut the
- *  text, or a integer to trim text to that number of characters. If not given
- *  (false by default) text will be trimmed to 600 characters length.
- * @param string $ellipsis Will be used as ending and appended to the trimmed string
- * @return string
- */
+    /**
+     * Safely trim a text.
+     *
+     * This method is HTML aware, it will not "destroy" any HTML tag. You can trim
+     * the text to a given number of characters, or you can give a string as second
+     * argument which will be used to cut the given text and return the first part.
+     *
+     * ## Examples:
+     *
+     *     $text = '
+     *     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+     *     Fusce augue nulla, iaculis adipiscing risus sed, pharetra tempor risus.
+     *     <!-- readmore -->
+     *     Ut volutpat nisl enim, quic sit amet quam ut lacus condimentum volutpat in eu magna.
+     *     Phasellus a dolor cursus, aliquam felis sit amet, feugiat orci. Donec vel consec.';
+     *
+     *     echo $this->trimmer($text, '<!-- readmore -->');
+     *
+     *     // outputs:
+     *     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+     *     Fusce augue nulla, iaculis adipiscing risus sed, pharetra tempor risus.
+     *
+     *     echo $this->trimmer('Lorem ipsum dolor sit amet, consectetur adipiscing elit', 10);
+     *     // out: "Lorem ipsu ..."
+     *
+     * @param string $text The text to trim
+     * @param string|int|false $len Either a string indicating where to cut the
+     *  text, or a integer to trim text to that number of characters. If not given
+     *  (false by default) text will be trimmed to 600 characters length.
+     * @param string $ellipsis Will be used as ending and appended to the trimmed string
+     * @return string
+     */
     public static function trimmer($text, $len = false, $ellipsis = ' ...')
     {
         if (!preg_match('/[0-9]+/i', $len)) {
@@ -376,11 +376,11 @@ class TextToolbox
         return $text;
     }
 
-/**
- * Gets a markdown parser instance.
- *
- * @return \Field\Lib\Parsedown
- */
+    /**
+     * Gets a markdown parser instance.
+     *
+     * @return \Field\Lib\Parsedown
+     */
     public static function getMarkdownParser()
     {
         if (empty(static::$_MarkdownParser)) {
@@ -390,11 +390,11 @@ class TextToolbox
         return static::$_MarkdownParser;
     }
 
-/**
- * Debug friendly object properties.
- *
- * @return array
- */
+    /**
+     * Debug friendly object properties.
+     *
+     * @return array
+     */
     public function __debugInfo()
     {
         $properties = get_object_vars($this);

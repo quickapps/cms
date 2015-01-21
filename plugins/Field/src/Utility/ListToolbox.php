@@ -24,20 +24,20 @@ class ListToolbox
 
     use HooktagAwareTrait;
 
-/**
- * Holds an instance of this class.
- *
- * @var \Field\Utility\ListToolbox
- */
+    /**
+     * Holds an instance of this class.
+     *
+     * @var \Field\Utility\ListToolbox
+     */
     protected static $_instance = null;
 
-/**
- * Returns an instance of this class.
- *
- * Useful when we need to use some of the trait methods.
- *
- * @return \Field\Utility\ListToolbox
- */
+    /**
+     * Returns an instance of this class.
+     *
+     * Useful when we need to use some of the trait methods.
+     *
+     * @return \Field\Utility\ListToolbox
+     */
     public static function getInstance()
     {
         if (!static::$_instance) {
@@ -47,12 +47,12 @@ class ListToolbox
         return static::$_instance;
     }
 
-/**
- * Formats the given field.
- *
- * @param \Field\Model\Entity\Field $field The field being rendered
- * @return string
- */
+    /**
+     * Formats the given field.
+     *
+     * @param \Field\Model\Entity\Field $field The field being rendered
+     * @return string
+     */
     public static function formatter(Field $field)
     {
         $viewModeSettings = $field->view_mode_settings;

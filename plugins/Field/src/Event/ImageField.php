@@ -29,9 +29,9 @@ use Field\Utility\ImageToolbox;
 class ImageField extends FieldHandler
 {
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityDisplay(Event $event, Field $field, $options = [])
     {
         $View = $event->subject;
@@ -43,18 +43,18 @@ class ImageField extends FieldHandler
         return $View->element('Field.ImageField/display', compact('field', 'options'));
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityEdit(Event $event, Field $field, $options = [])
     {
         $View = $event->subject;
         return $View->element('Field.ImageField/edit', compact('field', 'options'));
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityFieldAttached(Event $event, Field $field)
     {
         $raw = (array)$field->raw;
@@ -73,16 +73,16 @@ class ImageField extends FieldHandler
         }
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityBeforeFind(Event $event, Field $field, $options, $primary)
     {
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityBeforeSave(Event $event, Field $field, $options)
     {
         $files = (array)$options['_post'];
@@ -126,16 +126,16 @@ class ImageField extends FieldHandler
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityAfterSave(Event $event, Field $field, $options)
     {
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityBeforeValidate(Event $event, Field $field, $options, $validator)
     {
         if ($field->metadata->required) {
@@ -208,9 +208,9 @@ class ImageField extends FieldHandler
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityAfterValidate(Event $event, Field $field, $options, $validator)
     {
         // removes the "dummy" input from raw if exists
@@ -224,17 +224,17 @@ class ImageField extends FieldHandler
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityBeforeDelete(Event $event, Field $field, $options)
     {
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityAfterDelete(Event $event, Field $field, $options)
     {
         foreach ((array)$field->raw as $image) {
@@ -244,12 +244,9 @@ class ImageField extends FieldHandler
         }
     }
 
-/**
- * {@inheritDoc}
- *
- * @param \Cake\Event\Event $event
- * @return array
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceInfo(Event $event)
     {
         return [
@@ -259,18 +256,18 @@ class ImageField extends FieldHandler
         ];
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceSettingsForm(Event $event, $instance, $options = [])
     {
         $View = $event->subject;
         return $View->element('Field.ImageField/settings_form', compact('instance', 'options'));
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceSettingsDefaults(Event $event, $instance, $options = [])
     {
         return [
@@ -291,25 +288,25 @@ class ImageField extends FieldHandler
         ];
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceSettingsValidate(Event $event, Entity $settings, $validator)
     {
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceViewModeForm(Event $event, $instance, $options = [])
     {
         $View = $event->subject;
         return $View->element('Field.ImageField/view_mode_form', compact('instance', 'options'));
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceViewModeDefaults(Event $event, $instance, $options = [])
     {
         switch ($options['viewMode']) {
@@ -324,39 +321,39 @@ class ImageField extends FieldHandler
         }
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceViewModeValidate(Event $event, Entity $viewMode, $validator)
     {
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceBeforeAttach(Event $event, $instance, $options = [])
     {
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceAfterAttach(Event $event, $instance, $options = [])
     {
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceBeforeDetach(Event $event, $instance, $options = [])
     {
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceAfterDetach(Event $event, $instance, $options = [])
     {
     }

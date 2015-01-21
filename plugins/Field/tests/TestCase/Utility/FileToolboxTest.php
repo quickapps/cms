@@ -20,11 +20,11 @@ use Field\Utility\FileToolbox;
 class FileToolboxTest extends TestCase
 {
 
-/**
- * test bytesToSize() method.
- *
- * @return void
- */
+    /**
+     * test bytesToSize() method.
+     *
+     * @return void
+     */
     public function testBytesToSize()
     {
         $this->assertEquals('6 B', FileToolbox::bytesToSize(6));
@@ -34,11 +34,11 @@ class FileToolboxTest extends TestCase
         $this->assertEquals('1.3 TB', FileToolbox::bytesToSize(1024 * 1024 * 1024 * 1024 * 1.3));
     }
 
-/**
- * test fileIcon() method.
- *
- * @return void
- */
+    /**
+     * test fileIcon() method.
+     *
+     * @return void
+     */
     public function testFileIcon()
     {
         $this->assertEquals('x-office-document.png', FileToolbox::fileIcon('application/msword'));
@@ -46,11 +46,11 @@ class FileToolboxTest extends TestCase
         $this->assertEquals('audio-x-generic.png', FileToolbox::fileIcon('audio/mp3'));
     }
 
-/**
- * test ext() method.
- *
- * @return void
- */
+    /**
+     * test ext() method.
+     *
+     * @return void
+     */
     public function testExt()
     {
         $this->assertEquals('exe', FileToolbox::ext('some-file-name.exe'));
@@ -58,11 +58,11 @@ class FileToolboxTest extends TestCase
         $this->assertEquals('jpg', FileToolbox::ext('some-file-name.not-this.and-not-this.JPG'));
     }
 
-/**
- * test that ext() returns empty when filename has no extension.
- *
- * @return void
- */
+    /**
+     * test that ext() returns empty when filename has no extension.
+     *
+     * @return void
+     */
     public function testExtNotExtension()
     {
         $this->assertEquals('', FileToolbox::ext('file-with-no-extension'));
@@ -70,11 +70,11 @@ class FileToolboxTest extends TestCase
         $this->assertEquals('', FileToolbox::ext('file-with-no-extension....'));
     }
 
-/**
- * test removeExt() method.
- *
- * @return void
- */
+    /**
+     * test removeExt() method.
+     *
+     * @return void
+     */
     public function testRemoveExt()
     {
         $this->assertEquals('some-file-name', FileToolbox::removeExt('some-file-name.exe'));

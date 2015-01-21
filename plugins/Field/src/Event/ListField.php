@@ -24,41 +24,41 @@ use Field\Utility\TextToolbox;
 class ListField extends FieldHandler
 {
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityDisplay(Event $event, Field $field, $options = [])
     {
         $View = $event->subject;
         return $View->element('Field.ListField/display', compact('field', 'options'));
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityEdit(Event $event, Field $field, $options = [])
     {
         $View = $event->subject;
         return $View->element('Field.ListField/edit', compact('field', 'options'));
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityFieldAttached(Event $event, Field $field)
     {
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityBeforeFind(Event $event, Field $field, $options, $primary)
     {
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityBeforeSave(Event $event, Field $field, $options)
     {
         $value = $options['_post'];
@@ -69,16 +69,16 @@ class ListField extends FieldHandler
         $field->set('raw', $options['_post']); // force it to be a string if it is
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityAfterSave(Event $event, Field $field, $options)
     {
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityBeforeValidate(Event $event, Field $field, $options, $validator)
     {
         if ($field->metadata->required) {
@@ -92,32 +92,32 @@ class ListField extends FieldHandler
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityAfterValidate(Event $event, Field $field, $options, $validator)
     {
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityBeforeDelete(Event $event, Field $field, $options)
     {
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityAfterDelete(Event $event, Field $field, $options)
     {
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceInfo(Event $event)
     {
         return [
@@ -127,35 +127,35 @@ class ListField extends FieldHandler
         ];
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceSettingsForm(Event $event, $instance, $options = [])
     {
         $View = $event->subject;
         return $View->element('Field.ListField/settings_form', compact('instance', 'options'));
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceSettingsDefaults(Event $event, $instance, $options = [])
     {
         return [];
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceViewModeForm(Event $event, $instance, $options = [])
     {
         $View = $event->subject;
         return $View->element('Field.ListField/view_mode_form', compact('instance', 'options'));
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceViewModeDefaults(Event $event, $instance, $options = [])
     {
         switch ($options['viewMode']) {
@@ -169,32 +169,32 @@ class ListField extends FieldHandler
         }
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceBeforeAttach(Event $event, $instance, $options = [])
     {
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceAfterAttach(Event $event, $instance, $options = [])
     {
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceBeforeDetach(Event $event, $instance, $options = [])
     {
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceAfterDetach(Event $event, $instance, $options = [])
     {
     }

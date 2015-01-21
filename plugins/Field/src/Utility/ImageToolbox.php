@@ -27,23 +27,23 @@ use QuickApps\Core\Plugin;
 class ImageToolbox extends FileToolbox
 {
 
-/**
- * List of preview modes. More modes can be defined using "addPreview()" method.
- *
- * @var array
- */
+    /**
+     * List of preview modes. More modes can be defined using "addPreview()" method.
+     *
+     * @var array
+     */
     protected static $_previews = [];
 
-/**
- * Renders the given field instance.
- *
- * When using the `Link to content` option, entities must define the "url"
- * property, and it should return a valid URL for that entity.
- *
- * @param \Cake\View\View $view Instance of view class
- * @param \Field\Model\Entity\Field $field Field instance to render
- * @return string HTML
- */
+    /**
+     * Renders the given field instance.
+     *
+     * When using the `Link to content` option, entities must define the "url"
+     * property, and it should return a valid URL for that entity.
+     *
+     * @param \Cake\View\View $view Instance of view class
+     * @param \Field\Model\Entity\Field $field Field instance to render
+     * @return string HTML
+     */
     public static function formatter($view, $field)
     {
         $out = '';
@@ -97,13 +97,13 @@ class ImageToolbox extends FileToolbox
         return $out;
     }
 
-/**
- * Creates a thumbnail for the given image.
- *
- * @param string $filePath Full path to original image file
- * @param string $previewSize A valid preview preset
- * @return string|bool Full path to thumbnail file on success, false otherwise
- */
+    /**
+     * Creates a thumbnail for the given image.
+     *
+     * @param string $filePath Full path to original image file
+     * @param string $previewSize A valid preview preset
+     * @return string|bool Full path to thumbnail file on success, false otherwise
+     */
     public static function thumbnail($filePath, $previewSize)
     {
         $filePath = normalizePath($filePath);
@@ -147,11 +147,11 @@ class ImageToolbox extends FileToolbox
         return $tnPath;
     }
 
-/**
- * Returns an array list of available previews modes suitable for select boxes.
- *
- * @return array
- */
+    /**
+     * Returns an array list of available previews modes suitable for select boxes.
+     *
+     * @return array
+     */
     public static function previewsOptions()
     {
         static::_initPreviews();
@@ -163,13 +163,13 @@ class ImageToolbox extends FileToolbox
         return $options;
     }
 
-/**
- * Gets all defined previews, or information for an specific preview.
- *
- * @param string $slug Slug of the preview for which get its info, set to null
- *  will retrieve info for all registered previews
- * @return array
- */
+    /**
+     * Gets all defined previews, or information for an specific preview.
+     *
+     * @param string $slug Slug of the preview for which get its info, set to null
+     *  will retrieve info for all registered previews
+     * @return array
+     */
     public static function getPreviews($slug = null)
     {
         static::_initPreviews();
@@ -184,15 +184,15 @@ class ImageToolbox extends FileToolbox
         return static::$_previews;
     }
 
-/**
- * Defines a new preview configuration or overwrite if exists.
- *
- * @param string $slug Unique machine-name. e.g.: `my-preview-mode`
- * @param string $label Human-readable name. e.g.: `My preview mode`
- * @param int $width Width for images that would use this preview mode
- * @param int $height Height for images that would use this preview mode
- * @return void
- */
+    /**
+     * Defines a new preview configuration or overwrite if exists.
+     *
+     * @param string $slug Unique machine-name. e.g.: `my-preview-mode`
+     * @param string $label Human-readable name. e.g.: `My preview mode`
+     * @param int $width Width for images that would use this preview mode
+     * @param int $height Height for images that would use this preview mode
+     * @return void
+     */
     public static function addPreview($slug, $label, $width, $height)
     {
         static::_initPreviews();
@@ -203,12 +203,12 @@ class ImageToolbox extends FileToolbox
         ];
     }
 
-/**
- * Deletes the given image and all its thumbnails.
- *
- * @param string $imagePath Full path to image file
- * @return void
- */
+    /**
+     * Deletes the given image and all its thumbnails.
+     *
+     * @param string $imagePath Full path to image file
+     * @return void
+     */
     public static function delete($imagePath)
     {
         $imagePath = normalizePath($imagePath);
@@ -219,12 +219,12 @@ class ImageToolbox extends FileToolbox
         }
     }
 
-/**
- * Delete image's thumbnails if exists.
- *
- * @param string $imagePath Full path to original image file
- * @return void
- */
+    /**
+     * Delete image's thumbnails if exists.
+     *
+     * @param string $imagePath Full path to original image file
+     * @return void
+     */
     public static function deleteThumbnails($imagePath)
     {
         $imagePath = normalizePath("{$imagePath}/");
@@ -239,11 +239,11 @@ class ImageToolbox extends FileToolbox
         }
     }
 
-/**
- * Initializes defaults built-in preview modes.
- *
- * @return void
- */
+    /**
+     * Initializes defaults built-in preview modes.
+     *
+     * @return void
+     */
     protected static function _initPreviews()
     {
         if (empty(static::$_previews)) {
