@@ -33,47 +33,47 @@ use QuickApps\Core\Plugin;
 class StartupController extends Controller
 {
 
-/**
- * {@inheritDoc}
- *
- * @var string
- */
+    /**
+     * {@inheritDoc}
+     *
+     * @var string
+     */
     public $theme = false;
 
-/**
- * {@inheritDoc}
- *
- * @var string
- */
+    /**
+     * {@inheritDoc}
+     *
+     * @var string
+     */
     public $layout = 'Installer.startup';
 
-/**
- * {@inheritDoc}
- *
- * @var string
- */
+    /**
+     * {@inheritDoc}
+     *
+     * @var string
+     */
     public $helpers = ['Menu.Menu'];
 
-/**
- * The name of the View class controllers sends output to.
- *
- * @var string
- */
+    /**
+     * The name of the View class controllers sends output to.
+     *
+     * @var string
+     */
     public $viewClass = 'QuickApps\View\View';
 
-/**
- * {@inheritDoc}
- *
- * @var string
- */
+    /**
+     * {@inheritDoc}
+     *
+     * @var string
+     */
     public $components = ['Flash'];
 
-/**
- * {@inheritDoc}
- *
- * @param \Cake\Event\Event $event
- * @return void
- */
+    /**
+     * {@inheritDoc}
+     *
+     * @param \Cake\Event\Event $event
+     * @return void
+     */
     public function beforeFilter(Event $event)
     {
         if (file_exists(SITE_ROOT . '/config/settings.php')) {
@@ -97,13 +97,13 @@ class StartupController extends Controller
         });
     }
 
-/**
- * Main action.
- *
- * We redirect to first step of the installation process: `language`.
- *
- * @return void
- */
+    /**
+     * Main action.
+     *
+     * We redirect to first step of the installation process: `language`.
+     *
+     * @return void
+     */
     public function index()
     {
         $this->redirect([
@@ -113,13 +113,13 @@ class StartupController extends Controller
         ]);
     }
 
-/**
- * First step of the installation process.
- *
- * User must select the language they want to use for the installation process.
- *
- * @return void
- */
+    /**
+     * First step of the installation process.
+     *
+     * User must select the language they want to use for the installation process.
+     *
+     * @return void
+     */
     public function language()
     {
         $Folder = new Folder(Plugin::classPath('Installer') . 'Locale');
@@ -151,13 +151,13 @@ class StartupController extends Controller
         $this->_step();
     }
 
-/**
- * Second step of the installation process.
- *
- * We check server requirements here.
- *
- * @return void
- */
+    /**
+     * Second step of the installation process.
+     *
+     * We check server requirements here.
+     *
+     * @return void
+     */
     public function requirements()
     {
         if (!$this->_step('language')) {
@@ -227,13 +227,13 @@ class StartupController extends Controller
         $this->title(__d('installer', 'Server Requirements'));
     }
 
-/**
- * Third step of the installation process.
- *
- * License agreement.
- *
- * @return void
- */
+    /**
+     * Third step of the installation process.
+     *
+     * License agreement.
+     *
+     * @return void
+     */
     public function license()
     {
         if (!$this->_step('requirements')) {
@@ -244,13 +244,13 @@ class StartupController extends Controller
         $this->_step();
     }
 
-/**
- * Fourth step of the installation process.
- *
- * User must introduce database connection information.
- *
- * @return void
- */
+    /**
+     * Fourth step of the installation process.
+     *
+     * User must introduce database connection information.
+     *
+     * @return void
+     */
     public function database()
     {
         if (!$this->_step('license')) {
@@ -366,13 +366,13 @@ class StartupController extends Controller
         }
     }
 
-/**
- * Fifth step of the installation process.
- *
- * Create a new administrator user account.
- *
- * @return void
- */
+    /**
+     * Fifth step of the installation process.
+     *
+     * Create a new administrator user account.
+     *
+     * @return void
+     */
     public function account()
     {
         if (!$this->_step('license')) {
@@ -399,13 +399,13 @@ class StartupController extends Controller
         $this->set('user', $user);
     }
 
-/**
- * Last step of the installation process.
- *
- * Here we say "thanks" and redirect to site's frontend or backend.
- *
- * @return void
- */
+    /**
+     * Last step of the installation process.
+     *
+     * Here we say "thanks" and redirect to site's frontend or backend.
+     *
+     * @return void
+     */
     public function finish()
     {
         if ($this->request->data) {
@@ -422,12 +422,12 @@ class StartupController extends Controller
         }
     }
 
-/**
- * Shortcut for Controller::set('title_for_layout', ...)
- *
- * @param string $titleForLayout Page's title
- * @return void
- */
+    /**
+     * Shortcut for Controller::set('title_for_layout', ...)
+     *
+     * @param string $titleForLayout Page's title
+     * @return void
+     */
     // @codingStandardsIgnoreStart
     protected function title($titleForLayout)
     {
@@ -435,12 +435,12 @@ class StartupController extends Controller
     }
     // @codingStandardsIgnoreEnd
 
-/**
- * Shortcut for Controller::set('description_for_layout', ...)
- *
- * @param string $description_for_layout Page's description
- * @return void
- */
+    /**
+     * Shortcut for Controller::set('description_for_layout', ...)
+     *
+     * @param string $description_for_layout Page's description
+     * @return void
+     */
     // @codingStandardsIgnoreStart
     protected function description($descriptionForLayout)
     {
@@ -448,20 +448,20 @@ class StartupController extends Controller
     }
     // @codingStandardsIgnoreEnd
 
-/**
- * Check if the given step name was completed. Or marks current step as completed.
- *
- * If $check is set to false, we mark current step (controller's action name)
- * as completed. If $check is set to a string, we check if that step was
- * completed before.
- *
- * This allows steps to control user navigation, so users can not pass to the
- * next step without completing all previous steps.
- *
- * @param bool|string $check Name of the step to check, or false to mark as
- *  completed current step
- * @return bool
- */
+    /**
+     * Check if the given step name was completed. Or marks current step as completed.
+     *
+     * If $check is set to false, we mark current step (controller's action name)
+     * as completed. If $check is set to a string, we check if that step was
+     * completed before.
+     *
+     * This allows steps to control user navigation, so users can not pass to the
+     * next step without completing all previous steps.
+     *
+     * @param bool|string $check Name of the step to check, or false to mark as
+     *  completed current step
+     * @return bool
+     */
     protected function _step($check = false)
     {
         $_steps = (array)$this->request->session()->read('Startup._steps');
@@ -475,11 +475,11 @@ class StartupController extends Controller
         }
     }
 
-/**
- * Sets some view-variables used across all steps.
- *
- * @return void
- */
+    /**
+     * Sets some view-variables used across all steps.
+     *
+     * @return void
+     */
     protected function _prepareLayout()
     {
         $menu = [

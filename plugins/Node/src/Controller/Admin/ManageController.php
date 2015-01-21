@@ -24,11 +24,11 @@ use Node\Controller\AppController;
 class ManageController extends AppController
 {
 
-/**
- * An array containing the names of helpers controllers uses.
- *
- * @var array
- */
+    /**
+     * An array containing the names of helpers controllers uses.
+     *
+     * @var array
+     */
     public $helpers = [
         'Paginator' => [
             'className' => 'QuickApps\View\Helper\PaginatorHelper',
@@ -36,11 +36,11 @@ class ManageController extends AppController
         ],
     ];
 
-/**
- * Shows a list of all the nodes.
- *
- * @return void
- */
+    /**
+     * Shows a list of all the nodes.
+     *
+     * @return void
+     */
     public function index()
     {
         $this->loadModel('Node.Nodes');
@@ -54,13 +54,13 @@ class ManageController extends AppController
         $this->Breadcrumb->push('/admin/node/manage');
     }
 
-/**
- * Node-type selection screen.
- *
- * User must select which content type wish to create.
- *
- * @return void
- */
+    /**
+     * Node-type selection screen.
+     *
+     * User must select which content type wish to create.
+     *
+     * @return void
+     */
     public function create()
     {
         $this->loadModel('Node.NodeTypes');
@@ -73,14 +73,14 @@ class ManageController extends AppController
             ->push(__d('node', 'Create new content'), '');
     }
 
-/**
- * Shows the "new node" form.
- *
- * @param string $type Node type slug. e.g.: "article", "product-info"
- * @return void
- * @throws \Cake\Network\Exception\NotFoundException When content type was not
- *  found
- */
+    /**
+     * Shows the "new node" form.
+     *
+     * @param string $type Node type slug. e.g.: "article", "product-info"
+     * @return void
+     * @throws \Cake\Network\Exception\NotFoundException When content type was not
+     *  found
+     */
     public function add($type = false)
     {
         if (!$type) {
@@ -127,15 +127,15 @@ class ManageController extends AppController
             ->push($type->name, '');
     }
 
-/**
- * Edit form for the given node.
- *
- * @param int $id Node's ID
- * @param false|int $revisionId Fill form with node's revision information
- * @return void
- * @throws \Cake\Network\Exception\NotFoundException When content type, or when
- *  content node was not found
- */
+    /**
+     * Edit form for the given node.
+     *
+     * @param int $id Node's ID
+     * @param false|int $revisionId Fill form with node's revision information
+     * @return void
+     * @throws \Cake\Network\Exception\NotFoundException When content type, or when
+     *  content node was not found
+     */
     public function edit($id, $revisionId = false)
     {
         $this->loadModel('Node.Nodes');
@@ -213,12 +213,12 @@ class ManageController extends AppController
             ->push(__d('node', 'Editing content'), '#');
     }
 
-/**
- * Translate the given node to a different language.
- *
- * @param int $nodeId Node's ID
- * @return void
- */
+    /**
+     * Translate the given node to a different language.
+     *
+     * @param int $nodeId Node's ID
+     * @return void
+     */
     public function translate($nodeId)
     {
         $this->loadModel('Node.Nodes');
@@ -276,12 +276,12 @@ class ManageController extends AppController
             ->push(__d('node', 'Translating content'), '');
     }
 
-/**
- * Deletes the given node by ID.
- *
- * @param int $nodeId Node's ID
- * @return void
- */
+    /**
+     * Deletes the given node by ID.
+     *
+     * @param int $nodeId Node's ID
+     * @return void
+     */
     public function delete($nodeId)
     {
         $this->loadModel('Node.Nodes');
@@ -296,13 +296,13 @@ class ManageController extends AppController
         $this->redirect($this->referer());
     }
 
-/**
- * Removes the given revision of the given node.
- *
- * @param int $nodeId Node's ID
- * @param int $revisionId Revision's ID
- * @return void Redirects to previous page
- */
+    /**
+     * Removes the given revision of the given node.
+     *
+     * @param int $nodeId Node's ID
+     * @param int $revisionId Revision's ID
+     * @return void Redirects to previous page
+     */
     public function delete_revision($nodeId, $revisionId)
     {
         $this->loadModel('Node.NodeRevisions');

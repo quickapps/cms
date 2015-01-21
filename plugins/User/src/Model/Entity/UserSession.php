@@ -21,11 +21,11 @@ use User\Model\Entity\User;
 class UserSession extends User
 {
 
-/**
- * Gets an array list of role IDs this user belongs to.
- *
- * @return array
- */
+    /**
+     * Gets an array list of role IDs this user belongs to.
+     *
+     * @return array
+     */
     protected function _getRoleIds()
     {
         $ids = [];
@@ -35,11 +35,11 @@ class UserSession extends User
         return $ids;
     }
 
-/**
- * Gets an array list of role NAMES this user belongs to.
- *
- * @return array
- */
+    /**
+     * Gets an array list of role NAMES this user belongs to.
+     *
+     * @return array
+     */
     protected function _getRoleNames()
     {
         $names = [];
@@ -49,11 +49,11 @@ class UserSession extends User
         return $names;
     }
 
-/**
- * Gets an array list of role NAMES this user belongs to.
- *
- * @return array
- */
+    /**
+     * Gets an array list of role NAMES this user belongs to.
+     *
+     * @return array
+     */
     protected function _getRoleSlugs()
     {
         $slugs = [];

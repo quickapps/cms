@@ -25,11 +25,11 @@ use Node\Controller\AppController;
 class TypesController extends AppController
 {
 
-/**
- * List of registered node-types.
- *
- * @return void
- */
+    /**
+     * List of registered node-types.
+     *
+     * @return void
+     */
     public function index()
     {
         $this->loadModel('Node.NodeTypes');
@@ -40,11 +40,11 @@ class TypesController extends AppController
         $this->Breadcrumb->push('/admin/node/types');
     }
 
-/**
- * Create new content type.
- *
- * @return void
- */
+    /**
+     * Create new content type.
+     *
+     * @return void
+     */
     public function add()
     {
         $this->loadModel('Node.NodeTypes');
@@ -69,14 +69,14 @@ class TypesController extends AppController
             ->push(__d('node', 'Creating Content Type'), '#');
     }
 
-/**
- * Edit content type settings.
- *
- * @param string $slug Node type's slug
- * @return void
- * @throws \Cake\Network\Exception\NotFoundException When content type was not
- *  found.
- */
+    /**
+     * Edit content type settings.
+     *
+     * @param string $slug Node type's slug
+     * @return void
+     * @throws \Cake\Network\Exception\NotFoundException When content type was not
+     *  found.
+     */
     public function edit($slug)
     {
         $this->loadModel('Node.NodeTypes');
@@ -111,16 +111,16 @@ class TypesController extends AppController
             ->push(__d('node', 'Editing "{0}" Content Type', $type->name), '');
     }
 
-/**
- * Remove content type.
- *
- * All existing contents will not be removed.
- *
- * @param string $slug Node type's slug
- * @return void
- * @throws \Cake\Network\Exception\NotFoundException When content type was not
- *  found.
- */
+    /**
+     * Remove content type.
+     *
+     * All existing contents will not be removed.
+     *
+     * @param string $slug Node type's slug
+     * @return void
+     * @throws \Cake\Network\Exception\NotFoundException When content type was not
+     *  found.
+     */
     public function delete($slug)
     {
         $this->loadModel('Node.NodeTypes');

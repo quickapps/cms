@@ -25,12 +25,12 @@ use Cake\Validation\Validator;
 class LanguagesTable extends Table
 {
 
-/**
- * Default validation rules set.
- *
- * @param \Cake\Validation\Validator $validator The validator object
- * @return \Cake\Validation\Validator
- */
+    /**
+     * Default validation rules set.
+     *
+     * @param \Cake\Validation\Validator $validator The validator object
+     * @return \Cake\Validation\Validator
+     */
     public function validationDefault(Validator $validator)
     {
         $validator
@@ -54,25 +54,25 @@ class LanguagesTable extends Table
         return $validator;
     }
 
-/**
- * Regenerates system's snapshot.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $language The language entity that was saved
- * @return void
- */
+    /**
+     * Regenerates system's snapshot.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\ORM\Entity $language The language entity that was saved
+     * @return void
+     */
     public function afterSave(Event $event, Entity $language)
     {
         snapshot();
     }
 
-/**
- * Regenerates system's snapshot.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $language The language entity that was saved
- * @return void
- */
+    /**
+     * Regenerates system's snapshot.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\ORM\Entity $language The language entity that was saved
+     * @return void
+     */
     public function afterDelete(Event $event, Entity $language)
     {
         snapshot();

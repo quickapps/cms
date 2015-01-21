@@ -30,36 +30,36 @@ class UrlHelper extends CakeUrlHelper
 
     use HookAwareTrait;
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function build($url = null, $full = false)
     {
         $this->alter('UrlHelper.build', $url, $full);
         return parent::build($url, $full);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function assetUrl($path, array $options = array())
     {
         $this->alter('UrlHelper.assetUrl', $path, $options);
         return parent::assetUrl($path, $options);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function assetTimestamp($path)
     {
         $this->alter('UrlHelper.assetTimestamp', $path);
         return parent::assetTimestamp($path);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function webroot($file)
     {
         $this->alter('UrlHelper.webroot', $file);

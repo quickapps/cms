@@ -26,115 +26,115 @@ class FormHelper extends CakeFormHelper
 
     use HookAwareTrait;
 
-/**
- * Used by input() method.
- *
- * @var bool
- */
+    /**
+     * Used by input() method.
+     *
+     * @var bool
+     */
     protected $_isRendering = false;
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function widgetRegistry(WidgetRegistry $instance = null, $widgets = [])
     {
         $this->alter('FormHelper.widgetRegistry', $instance, $widgets);
         return parent::widgetRegistry($instance, $widgets);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function create($model = null, array $options = [])
     {
         $this->alter('FormHelper.create', $model, $options);
         return parent::create($model, $options);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function end($secureAttributes = [])
     {
         $this->alter('FormHelper.end', $secureAttributes);
         return parent::end($secureAttributes);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function secure(array $fields = array(), array $secureAttributes = array())
     {
         $this->alter('FormHelper.secure', $fields, $secureAttributes);
         return parent::secure($fields, $secureAttributes);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function unlockField($name = null)
     {
         $this->alter('FormHelper.unlockField', $name);
         return parent::unlockField($name);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function isFieldError($field)
     {
         $this->alter('FormHelper.isFieldError', $field);
         return parent::isFieldError($field);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function error($field, $text = null, array $options = [])
     {
         $this->alter('FormHelper.error', $field, $text, $options);
         return parent::error($field, $text, $options);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function label($fieldName, $text = null, array $options = array())
     {
         $this->alter('FormHelper.label', $fieldName, $text, $options);
         return parent::label($fieldName, $text, $options);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function allInputs(array $fields = [], array $options = [])
     {
         $this->alter('FormHelper.allInputs', $fields, $options);
         return parent::inputs($fields, $options);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function inputs(array $fields, array $options = [])
     {
         $this->alter('FormHelper.inputs', $fields, $options);
         return parent::inputs($fields, $options);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function fieldset($fields = '', array $options = [])
     {
         $this->alter('FormHelper.fieldset', $fields, $options);
         return parent::fieldset($fields, $options);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function input($fieldName, array $options = [])
     {
         if (!is_string($fieldName) && $fieldName instanceof \Field\Model\Entity\Field) {
@@ -159,215 +159,215 @@ class FormHelper extends CakeFormHelper
         return parent::input($fieldName, $options);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function checkbox($fieldName, array $options = [])
     {
         $this->alter('FormHelper.checkbox', $fieldName, $options);
         return parent::checkbox($fieldName, $options);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function radio($fieldName, $options = [], array $attributes = [])
     {
         $this->alter('FormHelper.radio', $fieldName, $options, $attributes);
         return parent::radio($fieldName, $options, $attributes);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function __call($method, $params)
     {
         return parent::__call($method, $params);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function textarea($fieldName, array $options = [])
     {
         $this->alter('FormHelper.textarea', $fieldName, $options);
         return parent::textarea($fieldName, $options);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function hidden($fieldName, array $options = [])
     {
         $this->alter('FormHelper.hidden', $fieldName, $options);
         return parent::hidden($fieldName, $options);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function file($fieldName, array $options = [])
     {
         $this->alter('FormHelper.file', $fieldName, $options);
         return parent::file($fieldName, $options);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function button($title, array $options = [])
     {
         $this->alter('FormHelper.button', $title, $options);
         return parent::button($title, $options);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function postButton($title, $url, array $options = [])
     {
         $this->alter('FormHelper.postButton', $title, $url, $options);
         return parent::postButton($title, $url, $options);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function postLink($title, $url = null, array $options = [], $confirmMessage = false)
     {
         $this->alter('FormHelper.postLink', $title, $url, $options, $confirmMessage);
         return parent::postLink($title, $url, $options, $confirmMessage);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function submit($caption = null, array $options = [])
     {
         $this->alter('FormHelper.submit', $caption, $options);
         return parent::submit($caption, $options);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function select($fieldName, $options = [], array $attributes = [])
     {
         $this->alter('FormHelper.select', $fieldName, $options, $attributes);
         return parent::select($fieldName, $options, $attributes);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function multiCheckbox($fieldName, $options, array $attributes = [])
     {
         $this->alter('FormHelper.multiCheckbox', $fieldName, $options, $attributes);
         return parent::multiCheckbox($fieldName, $options, $attributes);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function day($fieldName = null, array $options = [])
     {
         $this->alter('FormHelper.day', $fieldName, $options);
         return parent::day($fieldName, $options);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function year($fieldName, array $options = [])
     {
         $this->alter('FormHelper.widgetRegistry', $fieldName, $options);
         return parent::widgetRegistry($instance, $widgets);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function month($fieldName, array $options = [])
     {
         $this->alter('FormHelper.month', $fieldName, $options);
         return parent::month($fieldName, $options);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function hour($fieldName, array $options = [])
     {
         $this->alter('FormHelper.hour', $fieldName, $options);
         return parent::hour($fieldName, $options);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function minute($fieldName, array $options = [])
     {
         $this->alter('FormHelper.minute', $fieldName, $options);
         return parent::minute($fieldName, $options);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function meridian($fieldName, array $options = [])
     {
         $this->alter('FormHelper.meridian', $fieldName, $options);
         return parent::meridian($fieldName, $options);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function dateTime($fieldName, array $options = [])
     {
         $this->alter('FormHelper.dateTime', $fieldName, $options);
         return parent::dateTime($fieldName, $options);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function time($fieldName, array $options = [])
     {
         $this->alter('FormHelper.time', $fieldName, $options);
         return parent::time($fieldName, $options);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function date($fieldName, array $options = [])
     {
         $this->alter('FormHelper.date', $fieldName, $options);
         return parent::date($fieldName, $options);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function addContextProvider($type, callable $check)
     {
         $this->alter('FormHelper.addContextProvider', $type, $check);
         return parent::addContextProvider($type, $check);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function addWidget($name, $spec)
     {
         $this->alter('FormHelper.addWidget', $name, $spec);
         return parent::addWidget($name, $spec);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function widget($name, array $data = [])
     {
         $this->alter('FormHelper.widget', $name, $data);

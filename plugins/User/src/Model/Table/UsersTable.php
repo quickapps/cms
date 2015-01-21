@@ -27,12 +27,12 @@ use User\Model\Entity\User;
 class UsersTable extends Table
 {
 
-/**
- * Initialize a table instance. Called after the constructor.
- *
- * @param array $config Configuration options passed to the constructor
- * @return void
- */
+    /**
+     * Initialize a table instance. Called after the constructor.
+     *
+     * @param array $config Configuration options passed to the constructor
+     * @return void
+     */
     public function initialize(array $config)
     {
         $this->belongsToMany('Roles', [
@@ -51,12 +51,12 @@ class UsersTable extends Table
         $this->addBehavior('Field.Fieldable');
     }
 
-/**
- * Default validation rules.
- *
- * @param \Cake\Validation\Validator $validator Validator object
- * @return \Cake\Validation\Validator
- */
+    /**
+     * Default validation rules.
+     *
+     * @param \Cake\Validation\Validator $validator Validator object
+     * @return \Cake\Validation\Validator
+     */
     public function validationDefault(Validator $validator)
     {
         return $validator
@@ -118,13 +118,13 @@ class UsersTable extends Table
             ]);
     }
 
-/**
- * If not password is sent means user is not changing it.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \User\Model\Entity\User $user User entity being saved
- * @return void
- */
+    /**
+     * If not password is sent means user is not changing it.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \User\Model\Entity\User $user User entity being saved
+     * @return void
+     */
     public function beforeSave(Event $event, User $user)
     {
         if (!$user->isNew() && $user->has('password') && empty($user->password)) {
@@ -133,18 +133,18 @@ class UsersTable extends Table
         }
     }
 
-/**
- * Generates a unique token for the given user. The generated token is
- * automatically persisted on DB.
- *
- * Tokens are unique and follows the pattern below:
- *
- *     <user_id>-<32-random-letters-and-numbers>
- *
- * @param \User\Model\Entity\User $user The user for which generate the token
- * @return \User\Model\Entity\User The user entity with a the new token property
- * @throws \Cake\Error\FatalErrorException When an invalid user entity was given
- */
+    /**
+     * Generates a unique token for the given user. The generated token is
+     * automatically persisted on DB.
+     *
+     * Tokens are unique and follows the pattern below:
+     *
+     *     <user_id>-<32-random-letters-and-numbers>
+     *
+     * @param \User\Model\Entity\User $user The user for which generate the token
+     * @return \User\Model\Entity\User The user entity with a the new token property
+     * @throws \Cake\Error\FatalErrorException When an invalid user entity was given
+     */
     public function updateToken(User $user)
     {
         if (!$user->has('id')) {
@@ -156,11 +156,11 @@ class UsersTable extends Table
         return $user;
     }
 
-/**
- * Counts the number of administrators ins the system.
- *
- * @return int
- */
+    /**
+     * Counts the number of administrators ins the system.
+     *
+     * @return int
+     */
     public function countAdministrators()
     {
         return $this->find()

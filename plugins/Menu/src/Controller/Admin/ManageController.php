@@ -21,11 +21,11 @@ use Menu\Controller\AppController;
 class ManageController extends AppController
 {
 
-/**
- * Shows a list of all the nodes.
- *
- * @return void
- */
+    /**
+     * Shows a list of all the nodes.
+     *
+     * @return void
+     */
     public function index()
     {
         $this->loadModel('Menu.Menus');
@@ -35,11 +35,11 @@ class ManageController extends AppController
         $this->Breadcrumb->push('/admin/menu/manage');
     }
 
-/**
- * Adds a new menu.
- *
- * @return void
- */
+    /**
+     * Adds a new menu.
+     *
+     * @return void
+     */
     public function add()
     {
         $this->loadModel('Menu.Menus');
@@ -70,12 +70,12 @@ class ManageController extends AppController
             ->push(__d('menu', 'Creating new menu'), '#');
     }
 
-/**
- * Edits the given menu by ID.
- *
- * @param int $id Menu's ID
- * @return void
- */
+    /**
+     * Edits the given menu by ID.
+     *
+     * @param int $id Menu's ID
+     * @return void
+     */
     public function edit($id)
     {
         $this->loadModel('Menu.Menus');
@@ -105,14 +105,14 @@ class ManageController extends AppController
             ->push(__d('menu', 'Editing menu {0}', $menu->title), '#');
     }
 
-/**
- * Removes the given menu by ID.
- *
- * Only custom menus (those created using administration page) can be removed.
- *
- * @param int $id Menu's ID
- * @return void Redirects to previous page
- */
+    /**
+     * Removes the given menu by ID.
+     *
+     * Only custom menus (those created using administration page) can be removed.
+     *
+     * @param int $id Menu's ID
+     * @return void Redirects to previous page
+     */
     public function delete($id)
     {
         $this->loadModel('Menu.Menus');
@@ -127,14 +127,14 @@ class ManageController extends AppController
         $this->redirect($this->referer());
     }
 
-/**
- * Prepares incoming data from Form's POST.
- *
- * Any input field that is not a column in the "menus" table will be moved to the
- * "settings" column. For example, `random_name` becomes `settings.random_name`.
- *
- * @return array
- */
+    /**
+     * Prepares incoming data from Form's POST.
+     *
+     * Any input field that is not a column in the "menus" table will be moved to the
+     * "settings" column. For example, `random_name` becomes `settings.random_name`.
+     *
+     * @return array
+     */
     protected function _prepareData()
     {
         $this->loadModel('Block.Blocks');

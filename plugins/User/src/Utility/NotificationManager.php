@@ -43,24 +43,29 @@ class NotificationManager
     use InstanceConfigTrait;
     use ModelAwareTrait;
 
-/**
- * User entity being managed.
- *
- * @var \User\Model\Entity\User
- */
+    /**
+     * User entity being managed.
+     *
+     * @var \User\Model\Entity\User
+     */
     protected $_user;
 
+    /**
+     * Default configuration.
+     *
+     * @var array
+     */
     protected $_defaultConfig = [
         'updateToken' => true
     ];
 
-/**
- * Constructor.
- *
- * @param \User\Model\Entity\User $user The user being handled
- * @param array $config Overwrites User plugin's settings
- * @throws \Cake\ORM\Error\RecordNotFound When an invalid $user is given
- */
+    /**
+     * Constructor.
+     *
+     * @param \User\Model\Entity\User $user The user being handled
+     * @param array $config Overwrites User plugin's settings
+     * @throws \Cake\ORM\Error\RecordNotFound When an invalid $user is given
+     */
     public function __construct(User $user, array $config = [])
     {
         $this->modelFactory('Table', ['Cake\ORM\TableRegistry', 'get']);
@@ -74,11 +79,11 @@ class NotificationManager
         }
     }
 
-/**
- * Sends "welcome" message to user.
- *
- * @return bool True on success, false otherwise
- */
+    /**
+     * Sends "welcome" message to user.
+     *
+     * @return bool True on success, false otherwise
+     */
     public function welcome()
     {
         $subject = $this->config('message_welcome_subject');
@@ -86,11 +91,11 @@ class NotificationManager
         return $this->_send($subject, $body);
     }
 
-/**
- * Notifies user when account is activated.
- *
- * @return bool True on success, false otherwise
- */
+    /**
+     * Notifies user when account is activated.
+     *
+     * @return bool True on success, false otherwise
+     */
     public function activated()
     {
         if ($this->config('message_activation')) {
@@ -102,11 +107,11 @@ class NotificationManager
         return true;
     }
 
-/**
- * Notifies user when account is blocked.
- *
- * @return bool True on success, false otherwise
- */
+    /**
+     * Notifies user when account is blocked.
+     *
+     * @return bool True on success, false otherwise
+     */
     public function blocked()
     {
         if ($this->config('message_blocked')) {
@@ -118,11 +123,11 @@ class NotificationManager
         return true;
     }
 
-/**
- * Notifies user when account is canceled.
- *
- * @return bool True on success, false otherwise
- */
+    /**
+     * Notifies user when account is canceled.
+     *
+     * @return bool True on success, false otherwise
+     */
     public function cancelRequest()
     {
         $subject = $this->config('message_cancel_request_subject');
@@ -130,11 +135,11 @@ class NotificationManager
         return $this->_send($subject, $body);
     }
 
-/**
- * Notifies user when account is canceled.
- *
- * @return bool True on success, false otherwise
- */
+    /**
+     * Notifies user when account is canceled.
+     *
+     * @return bool True on success, false otherwise
+     */
     public function canceled()
     {
         if ($this->config('message_canceled')) {
@@ -146,11 +151,11 @@ class NotificationManager
         return true;
     }
 
-/**
- * Sends instructions for the "password recovery" process.
- *
- * @return bool True on success, false otherwise
- */
+    /**
+     * Sends instructions for the "password recovery" process.
+     *
+     * @return bool True on success, false otherwise
+     */
     public function passwordRequest()
     {
         $subject = $this->config('message_password_recovery_subject');
@@ -158,13 +163,13 @@ class NotificationManager
         return $this->_send($subject, $body);
     }
 
-/**
- * Sends email message to user.
- *
- * @param string $subject Message's subject
- * @param string $body Message's body
- * @return bool True on success, false otherwise
- */
+    /**
+     * Sends email message to user.
+     *
+     * @param string $subject Message's subject
+     * @param string $body Message's body
+     * @return bool True on success, false otherwise
+     */
     protected function _send($subject, $body)
     {
         if ($this->config('updateToken') === true) {
@@ -192,14 +197,14 @@ class NotificationManager
         }
     }
 
-/**
- * Looks for variables tags in the given message and replaces with their
- * corresponding values. For example, "[site:name] will be replaced with user's
- * real name.
- *
- * @param string $text Message where to look for tags.
- * @return string
- */
+    /**
+     * Looks for variables tags in the given message and replaces with their
+     * corresponding values. For example, "[site:name] will be replaced with user's
+     * real name.
+     *
+     * @param string $text Message where to look for tags.
+     * @return string
+     */
     protected function _parseVariables($text)
     {
         $user = $this->_user;

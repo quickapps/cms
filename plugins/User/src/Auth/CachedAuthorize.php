@@ -28,14 +28,14 @@ use Cake\Utility\Inflector;
 class CachedAuthorize extends BaseAuthorize
 {
 
-/**
- * Authorizes current logged in user, if user belongs to the "administrator"
- * he/she is automatically authorized.
- *
- * @param array $user Active user data
- * @param \Cake\Network\Request $request Request instance
- * @return bool True if user is can access this request
- */
+    /**
+     * Authorizes current logged in user, if user belongs to the "administrator"
+     * he/she is automatically authorized.
+     *
+     * @param array $user Active user data
+     * @param \Cake\Network\Request $request Request instance
+     * @return bool True if user is can access this request
+     */
     public function authorize($user, Request $request)
     {
         if ($request->is('userAdmin')) {
@@ -63,13 +63,13 @@ class CachedAuthorize extends BaseAuthorize
         return $allowed;
     }
 
-/**
- * Gets an ACO path for current request.
- *
- * @param \Cake\Network\Request $request Request instance
- * @param string $path Pattern
- * @return string
- */
+    /**
+     * Gets an ACO path for current request.
+     *
+     * @param \Cake\Network\Request $request Request instance
+     * @param string $path Pattern
+     * @return string
+     */
     public function requestPath(Request $request, $path = '/:plugin/:prefix/:controller/:action')
     {
         $plugin = empty($request['plugin']) ? null : Inflector::camelize($request['plugin']) . '/';

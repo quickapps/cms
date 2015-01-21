@@ -32,11 +32,11 @@ class Plugin extends CakePlugin
 
     use StaticCacheTrait;
 
-/**
- * Default options for composer's json file.
- *
- * @var array
- */
+    /**
+     * Default options for composer's json file.
+     *
+     * @var array
+     */
     protected static $_defaultComposerJson = [
         'name' => null,
         'description' => null,
@@ -84,20 +84,20 @@ class Plugin extends CakePlugin
         'bin' => [],
     ];
 
-/**
- * Gets all plugins information as a collection object.
- *
- * When $ignoreError is set to true and a corrupt plugin is found, it will
- * be removed from the resulting collection.
- *
- * @param bool $extendedInfo Set to true to get extended information for each
- *  plugin, extended information includes "composer.json" and plugin's DB settings
- * @param bool $ignoreError Set to true to ignore error messages when a
- *  corrupt plugin is found. Defaults to true
- * @return \Cake\Collection\Collection
- * @throws \Cake\Error\FatalErrorException When a corrupt plugin is found and
- *  $ignoreError is set to false
- */
+    /**
+     * Gets all plugins information as a collection object.
+     *
+     * When $ignoreError is set to true and a corrupt plugin is found, it will
+     * be removed from the resulting collection.
+     *
+     * @param bool $extendedInfo Set to true to get extended information for each
+     *  plugin, extended information includes "composer.json" and plugin's DB settings
+     * @param bool $ignoreError Set to true to ignore error messages when a
+     *  corrupt plugin is found. Defaults to true
+     * @return \Cake\Collection\Collection
+     * @throws \Cake\Error\FatalErrorException When a corrupt plugin is found and
+     *  $ignoreError is set to false
+     */
     public static function collection($extendedInfo = false, $ignoreError = true)
     {
         $collection = collection(quickapps('plugins'));
@@ -125,25 +125,25 @@ class Plugin extends CakePlugin
         return $collection;
     }
 
-/**
- * Scan plugin directories and returns plugin names and their paths within file
- * system. We consider "plugin name" as the name of the container directory.
- *
- * Example output:
- *
- *     [
- *         'Users' => '/full/path/plugins/Users',
- *         'ThemeManager' => '/full/path/plugins/ThemeManager',
- *         ...
- *         'MySuperPlugin' => '/full/path/plugins/MySuperPlugin',
- *         'DarkGreenTheme' => '/full/path/plugins/DarkGreenTheme',
- *     ]
- *
- * If $ignoreThemes is set to true `DarkGreenTheme` will not be part of the result
- *
- * @param bool $ignoreThemes Whether include themes as well or not
- * @return array Associative array as `PluginName` => `full/path/to/PluginName`
- */
+    /**
+     * Scan plugin directories and returns plugin names and their paths within file
+     * system. We consider "plugin name" as the name of the container directory.
+     *
+     * Example output:
+     *
+     *     [
+     *         'Users' => '/full/path/plugins/Users',
+     *         'ThemeManager' => '/full/path/plugins/ThemeManager',
+     *         ...
+     *         'MySuperPlugin' => '/full/path/plugins/MySuperPlugin',
+     *         'DarkGreenTheme' => '/full/path/plugins/DarkGreenTheme',
+     *     ]
+     *
+     * If $ignoreThemes is set to true `DarkGreenTheme` will not be part of the result
+     *
+     * @param bool $ignoreThemes Whether include themes as well or not
+     * @return array Associative array as `PluginName` => `full/path/to/PluginName`
+     */
     public static function scan($ignoreThemes = false)
     {
         $cacheKey = "scan_{$ignoreThemes}";
@@ -167,36 +167,36 @@ class Plugin extends CakePlugin
         return $cache;
     }
 
-/**
- * Gets information for a single plugin.
- *
- * When `$full` is set to true composer info is merged into the `composer` key,
- * and DB settings under `settings` key.
- *
- * ### Example:
- *
- *     $pluginInfo = Plugin::info('User', true);
- *     // out:
- *     [
- *         'name' => 'User,
- *         'isTheme' => false,
- *         'isCore' => true,
- *         'hasHelp' => true,
- *         'hasSettings' => false,
- *         'events' => [ ... ],
- *         'status' => 1,
- *         'path' => '/path/to/plugin',
- *         'composer' => [ ... ], // only when $full = true
- *         'settings' => [ ... ], // only when $full = true
- *     ]
- *
- * @param string $plugin Plugin name. e.g. `Node`
- * @param bool $full Merge info with plugin's `composer.json` file and
- *  settings stored in DB
- * @return array Plugin information
- * @throws Cake\Error\FatalErrorException When plugin is not found, or when
- *  JSON file is not found
- */
+    /**
+     * Gets information for a single plugin.
+     *
+     * When `$full` is set to true composer info is merged into the `composer` key,
+     * and DB settings under `settings` key.
+     *
+     * ### Example:
+     *
+     *     $pluginInfo = Plugin::info('User', true);
+     *     // out:
+     *     [
+     *         'name' => 'User,
+     *         'isTheme' => false,
+     *         'isCore' => true,
+     *         'hasHelp' => true,
+     *         'hasSettings' => false,
+     *         'events' => [ ... ],
+     *         'status' => 1,
+     *         'path' => '/path/to/plugin',
+     *         'composer' => [ ... ], // only when $full = true
+     *         'settings' => [ ... ], // only when $full = true
+     *     ]
+     *
+     * @param string $plugin Plugin name. e.g. `Node`
+     * @param bool $full Merge info with plugin's `composer.json` file and
+     *  settings stored in DB
+     * @return array Plugin information
+     * @throws Cake\Error\FatalErrorException When plugin is not found, or when
+     *  JSON file is not found
+     */
     public static function info($plugin, $full = false)
     {
         $plugin = Inflector::camelize($plugin);
@@ -236,13 +236,13 @@ class Plugin extends CakePlugin
         return (array)$info;
     }
 
-/**
- * Gets composer json information for the given plugin.
- *
- * @param string $plugin Plugin alias, e.g. `UserManager` or `user_manager`
- * @return mixed False if composer.json is missing or corrupt, or composer info
- *  as an array if valid composer.json is found
- */
+    /**
+     * Gets composer json information for the given plugin.
+     *
+     * @param string $plugin Plugin alias, e.g. `UserManager` or `user_manager`
+     * @return mixed False if composer.json is missing or corrupt, or composer info
+     *  as an array if valid composer.json is found
+     */
     public static function composer($plugin)
     {
         $plugin = Inflector::camelize($plugin);
@@ -268,34 +268,34 @@ class Plugin extends CakePlugin
         return $json;
     }
 
-/**
- * Validates a composer.json file.
- *
- * Below a list of validation rules that are applied:
- *
- * - must be a valid JSON file.
- * - key `name` must be present. A follow the pattern `author/package`
- * - key `version` must be present.
- * - key `type` must be present and be "quickapps-plugin" (even if it's a theme).
- * - key `name` must be present.
- * - key `description` must be present.
- * - key `extra.regions` must be present if it's a theme (its name ends with
- *   `-theme`, e.g. `quickapps/blue-sky-theme`)
- *
- * ### Usage:
- *
- *     $json = json_decode(file_gets_content('/path/to/composer.json'), true);
- *     Plugin::validateJson($json);
- *     // OR:
- *     Plugin::validateJson('/path/to/composer.json');
- *
- * @param array|string $json JSON given as an array result of
- *  `json_decode(..., true)`, or a string as path to where .json file can be found
- * @param bool $errorMessages If set to true an array of error messages
- *  will be returned, if set to false boolean result will be returned; true on
- *  success, false on validation failure failure. Defaults to false (boolean result)
- * @return array|bool
- */
+    /**
+     * Validates a composer.json file.
+     *
+     * Below a list of validation rules that are applied:
+     *
+     * - must be a valid JSON file.
+     * - key `name` must be present. A follow the pattern `author/package`
+     * - key `version` must be present.
+     * - key `type` must be present and be "quickapps-plugin" (even if it's a theme).
+     * - key `name` must be present.
+     * - key `description` must be present.
+     * - key `extra.regions` must be present if it's a theme (its name ends with
+     *   `-theme`, e.g. `quickapps/blue-sky-theme`)
+     *
+     * ### Usage:
+     *
+     *     $json = json_decode(file_gets_content('/path/to/composer.json'), true);
+     *     Plugin::validateJson($json);
+     *     // OR:
+     *     Plugin::validateJson('/path/to/composer.json');
+     *
+     * @param array|string $json JSON given as an array result of
+     *  `json_decode(..., true)`, or a string as path to where .json file can be found
+     * @param bool $errorMessages If set to true an array of error messages
+     *  will be returned, if set to false boolean result will be returned; true on
+     *  success, false on validation failure failure. Defaults to false (boolean result)
+     * @return array|bool
+     */
     public static function validateJson($json, $errorMessages = false)
     {
         if (is_string($json) && file_exists($json) && !is_dir($json)) {
@@ -338,15 +338,15 @@ class Plugin extends CakePlugin
         return empty($errors);
     }
 
-/**
- * Gets settings from DB for given plugin. Or reads a single settings key value.
- *
- * @param string $plugin Plugin alias, e.g. `UserManager` or `user_manager`
- * @param string $key Which setting to read, the entire settings will be
- *  returned if no key is provided
- * @return mixed Array of settings if $key was not provided, or the requested
- *  value for the given $key (null of key does not exists)
- */
+    /**
+     * Gets settings from DB for given plugin. Or reads a single settings key value.
+     *
+     * @param string $plugin Plugin alias, e.g. `UserManager` or `user_manager`
+     * @param string $key Which setting to read, the entire settings will be
+     *  returned if no key is provided
+     * @return mixed Array of settings if $key was not provided, or the requested
+     *  value for the given $key (null of key does not exists)
+     */
     public static function settings($plugin, $key = null)
     {
         $plugin = Inflector::camelize($plugin);
@@ -387,35 +387,35 @@ class Plugin extends CakePlugin
         return $settings;
     }
 
-/**
- * Gets plugin's dependencies as an array list.
- *
- * This method returns package names that follows the pattern `author-name/package`.
- * Packages such as `ext-mbstring`, etc will be ignored (EXCEPT `php`).
- * The special package name `__QUICKAPPS__` represent QuickApps CMS's version, and
- * `__PHP__` represents server's PHP version.
- *
- * ### Example:
- *
- *     // Get plugin's composer.json and extract dependencies
- *     Plugin::dependencies('UserManager');
- *     // may returns:
- *     [
- *         'UserWork' => '1.0',
- *         'Calentar' => '1.0.*',
- *         '__QUICKAPPS__' => '>1.0', // QuickApps CMS v1.0 or higher required,
- *         '__PHP__' => '>4.3'
- *     ]
- *
- *     // Directly from composer.json information
- *     Plugin::dependencies(json_decode('/path/to/composer.json', true));
- *
- * @param array|string $plugin Plugin alias, or an array representing a
- *  "composer.json" file, that is, result of `json_decode(..., true)`
- * @return array List of plugin & version that $plugin depends on
- * @throws \Cake\Eror\FatalErrorException When $plugin is not found, or when
- *  plugin's composer.json is missing or corrupt
- */
+    /**
+     * Gets plugin's dependencies as an array list.
+     *
+     * This method returns package names that follows the pattern `author-name/package`.
+     * Packages such as `ext-mbstring`, etc will be ignored (EXCEPT `php`).
+     * The special package name `__QUICKAPPS__` represent QuickApps CMS's version, and
+     * `__PHP__` represents server's PHP version.
+     *
+     * ### Example:
+     *
+     *     // Get plugin's composer.json and extract dependencies
+     *     Plugin::dependencies('UserManager');
+     *     // may returns:
+     *     [
+     *         'UserWork' => '1.0',
+     *         'Calentar' => '1.0.*',
+     *         '__QUICKAPPS__' => '>1.0', // QuickApps CMS v1.0 or higher required,
+     *         '__PHP__' => '>4.3'
+     *     ]
+     *
+     *     // Directly from composer.json information
+     *     Plugin::dependencies(json_decode('/path/to/composer.json', true));
+     *
+     * @param array|string $plugin Plugin alias, or an array representing a
+     *  "composer.json" file, that is, result of `json_decode(..., true)`
+     * @return array List of plugin & version that $plugin depends on
+     * @throws \Cake\Eror\FatalErrorException When $plugin is not found, or when
+     *  plugin's composer.json is missing or corrupt
+     */
     public static function dependencies($plugin)
     {
         if (is_array($plugin)) {
@@ -441,21 +441,21 @@ class Plugin extends CakePlugin
         return $dependencies;
     }
 
-/**
- * Check if plugin is dependent on any other plugin.
- * If yes, check if that plugin is available (installed and enabled).
- *
- * ### Usage:
- *
- *     // Check requirements for MyPlugin
- *     Plugin::checkDependency('MyPlugin');
- *
- *     // Check requirements from composer.json
- *     Plugin::checkDependency(json_decode('/path/to/composer.json', true));
- *
- * @param string|array $plugin Plugin alias, or an array representing "composer.json"
- * @return bool True if everything is OK, false otherwise
- */
+    /**
+     * Check if plugin is dependent on any other plugin.
+     * If yes, check if that plugin is available (installed and enabled).
+     *
+     * ### Usage:
+     *
+     *     // Check requirements for MyPlugin
+     *     Plugin::checkDependency('MyPlugin');
+     *
+     *     // Check requirements from composer.json
+     *     Plugin::checkDependency(json_decode('/path/to/composer.json', true));
+     *
+     * @param string|array $plugin Plugin alias, or an array representing "composer.json"
+     * @return bool True if everything is OK, false otherwise
+     */
     public static function checkDependency($plugin)
     {
         $dependencies = static::dependencies($plugin);
@@ -499,14 +499,14 @@ class Plugin extends CakePlugin
         return true;
     }
 
-/**
- * Verify if there is any plugin that depends of $plugin.
- *
- * @param string $pluginName Plugin name to check
- * @return array A list of all plugin names that depends on $plugin, an empty
- *  array means that no other plugins depends on $plugin, so $plugin can be
- *  safely deleted or turned off.
- */
+    /**
+     * Verify if there is any plugin that depends of $plugin.
+     *
+     * @param string $pluginName Plugin name to check
+     * @return array A list of all plugin names that depends on $plugin, an empty
+     *  array means that no other plugins depends on $plugin, so $plugin can be
+     *  safely deleted or turned off.
+     */
     public static function checkReverseDependency($pluginName)
     {
         $out = [];
@@ -526,21 +526,21 @@ class Plugin extends CakePlugin
         return $out;
     }
 
-/**
- * Parse a dependency for comparison.
- *
- * ### Usage:
- *
- *     Plugin::parseDependency('>=7.x-4.5-beta5,3.x');
- *
- * @param string $dependency A dependency string as example above
- * @return array An associative array with three keys as below, callers should
- *  pass this structure to `checkIncompatibility()`:
- *  - `original`: Contains the original version string ($dependency)
- *  - `versions`: Is a list of associative arrays, each containing the keys
- *    'op' and 'version'. 'op' can be one of: '=', '==', '!=', '<>', '<',
- *    '<=', '>', or '>='. 'version' is one piece like '4.5-beta3' or '5.5.11'.
- */
+    /**
+     * Parse a dependency for comparison.
+     *
+     * ### Usage:
+     *
+     *     Plugin::parseDependency('>=7.x-4.5-beta5,3.x');
+     *
+     * @param string $dependency A dependency string as example above
+     * @return array An associative array with three keys as below, callers should
+     *  pass this structure to `checkIncompatibility()`:
+     *  - `original`: Contains the original version string ($dependency)
+     *  - `versions`: Is a list of associative arrays, each containing the keys
+     *    'op' and 'version'. 'op' can be one of: '=', '==', '!=', '<>', '<',
+     *    '<=', '>', or '>='. 'version' is one piece like '4.5-beta3' or '5.5.11'.
+     */
     public static function parseDependency($dependency)
     {
         $pOp = '(?P<operator>!=|==|<|<=|>|>=|<>)?';
@@ -604,13 +604,13 @@ class Plugin extends CakePlugin
         return $out;
     }
 
-/**
- * Check whether a version is compatible with a given dependency.
- *
- * @param array $v The parsed dependency structure from `parseDependency()`
- * @param string $current The version to check against (e.g.: 4.2)
- * @return bool True if compatible, false otherwise
- */
+    /**
+     * Check whether a version is compatible with a given dependency.
+     *
+     * @param array $v The parsed dependency structure from `parseDependency()`
+     * @param string $current The version to check against (e.g.: 4.2)
+     * @return bool True if compatible, false otherwise
+     */
     public static function checkIncompatibility($v, $current)
     {
         if (!empty($v['versions'])) {

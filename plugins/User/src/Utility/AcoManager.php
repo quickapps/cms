@@ -34,19 +34,19 @@ class AcoManager
     use ModelAwareTrait;
     use StaticCacheTrait;
 
-/**
- * Name of the plugin being managed.
- *
- * @var string
- */
+    /**
+     * Name of the plugin being managed.
+     *
+     * @var string
+     */
     protected $_pluginName;
 
-/**
- * Constructor.
- *
- * @param string $pluginName The plugin being managed
- * @throws \Cake\Error\FatalErrorException When no plugin name is given.
- */
+    /**
+     * Constructor.
+     *
+     * @param string $pluginName The plugin being managed
+     * @throws \Cake\Error\FatalErrorException When no plugin name is given.
+     */
     public function __construct($pluginName = null)
     {
         $this->_pluginName = $pluginName;
@@ -61,21 +61,21 @@ class AcoManager
         $this->loadModel('User.Acos');
     }
 
-/**
- * Grants permissions to all users within $roles over the given $aco.
- *
- * ### Aco path format:
- *
- * - `ControllerName/`: Maps to \<PluginName>\Controller\ControllerName::index()
- * - `ControllerName`: Same.
- * - `ControllerName/action_name`: Maps to \<PluginName>\Controller\ControllerName::action_name()
- * - `Prefix/ControllerName/action_name`: Maps to \<PluginName>\Controller\Prefix\ControllerName::action_name()
- *
- * @param string $path ACO path as described above
- * @param array $roles List of user roles to grant access to. If not given,
- * $path cannot be used by anyone but "administrators"
- * @return bool True on success
- */
+    /**
+     * Grants permissions to all users within $roles over the given $aco.
+     *
+     * ### Aco path format:
+     *
+     * - `ControllerName/`: Maps to \<PluginName>\Controller\ControllerName::index()
+     * - `ControllerName`: Same.
+     * - `ControllerName/action_name`: Maps to \<PluginName>\Controller\ControllerName::action_name()
+     * - `Prefix/ControllerName/action_name`: Maps to \<PluginName>\Controller\Prefix\ControllerName::action_name()
+     *
+     * @param string $path ACO path as described above
+     * @param array $roles List of user roles to grant access to. If not given,
+     *  $path cannot be used by anyone but "administrators"
+     * @return bool True on success
+     */
     public function add($path, $roles = [])
     {
         $path = $this->_parseAco($path);
@@ -142,12 +142,12 @@ class AcoManager
         return false;
     }
 
-/**
- * Removes the given ACO and its permissions.
- *
- * @param string $path ACO path e.g. `ControllerName/action_name`
- * @return bool True on success, false if path was not found
- */
+    /**
+     * Removes the given ACO and its permissions.
+     *
+     * @param string $path ACO path e.g. `ControllerName/action_name`
+     * @return bool True on success, false if path was not found
+     */
     public function remove($path)
     {
         $nodes = $this->Acos->node($path);
@@ -162,33 +162,33 @@ class AcoManager
         return true;
     }
 
-/**
- * This method should never be used unless you know what are you doing.
- *
- * Populates the "acos" DB with information of every installed plugin, or
- * for the given plugin. It will automatically extracts plugin's controllers
- * and actions for creating a tree structure as follow:
- *
- * - PluginName
- *   - Admin
- *     - PrivateController
- *       - index
- *       - private_action
- *   - ControllerName
- *     - index
- *     - another_action
- *
- * After tree is created you should be able to change permissions using
- * User's permissions section in backend.
- *
- * @param string $for Optional, build ACOs for the given plugin, or
- *  all plugins if not given
- * @param bool $sync Whether to sync the tree or not. When syncing all invalid
- *  ACO entries will be removed from the tree, also new ones will be added. When
- *  syn is set to false only new ACO entries will be added, any invalid entry will
- *  remain in the tree. Defaults to false
- * @return bool True on success, false otherwise
- */
+    /**
+     * This method should never be used unless you know what are you doing.
+     *
+     * Populates the "acos" DB with information of every installed plugin, or
+     * for the given plugin. It will automatically extracts plugin's controllers
+     * and actions for creating a tree structure as follow:
+     *
+     * - PluginName
+     *   - Admin
+     *     - PrivateController
+     *       - index
+     *       - private_action
+     *   - ControllerName
+     *     - index
+     *     - another_action
+     *
+     * After tree is created you should be able to change permissions using
+     * User's permissions section in backend.
+     *
+     * @param string $for Optional, build ACOs for the given plugin, or
+     *  all plugins if not given
+     * @param bool $sync Whether to sync the tree or not. When syncing all invalid
+     *  ACO entries will be removed from the tree, also new ones will be added. When
+     *  syn is set to false only new ACO entries will be added, any invalid entry will
+     *  remain in the tree. Defaults to false
+     * @return bool True on success, false otherwise
+     */
     public static function buildAcos($for = null, $sync = false)
     {
         if (function_exists('ini_set')) {
@@ -265,13 +265,13 @@ class AcoManager
         return true;
     }
 
-/**
- * Gets a list of existing ACO paths for the given plugin, or the entire list
- * if no plugin is given.
- *
- * @param string $for Optional plugin name. e.g. `Taxonomy`
- * @return array All registered ACO paths
- */
+    /**
+     * Gets a list of existing ACO paths for the given plugin, or the entire list
+     * if no plugin is given.
+     *
+     * @param string $for Optional plugin name. e.g. `Taxonomy`
+     * @return array All registered ACO paths
+     */
     public static function paths($for = null)
     {
         if ($for !== null) {
@@ -321,35 +321,35 @@ class AcoManager
         return $paths;
     }
 
-/**
- * Sanitizes the given ACO path.
- *
- * This methods can return an array with the following keys if `$string` option
- * is set to false:
- *
- * - `plugin`: The name of the plugin being managed by this class.
- * - `prefix`: ACO prefix, for example `Admin` for controller within /Controller/Admin/
- *    it may be empty, if not prefix is found.
- * - `controller`: Controller name. e.g.: `MySuperController`
- * - `action`: Controller's action. e.g.: `mini_action`, `index` by default
- *
- * For example:
- *
- *     `Admin/Users/`
- *
- * Returns:
- *
- * - plugin: YourPlugin
- * - prefix: Admin
- * - controller: Users
- * - action: index
- *
- * Where "YourPlugin" is the plugin name passed to this class's constructor.
- *
- * @param string $aco An ACO path to parse
- * @param bool $string Indicates if it should return a string format path (/Controller/action)
- * @return bool|array|string An array as described above or false if an invalid $aco was given
- */
+    /**
+     * Sanitizes the given ACO path.
+     *
+     * This methods can return an array with the following keys if `$string` option
+     * is set to false:
+     *
+     * - `plugin`: The name of the plugin being managed by this class.
+     * - `prefix`: ACO prefix, for example `Admin` for controller within /Controller/Admin/
+     *    it may be empty, if not prefix is found.
+     * - `controller`: Controller name. e.g.: `MySuperController`
+     * - `action`: Controller's action. e.g.: `mini_action`, `index` by default
+     *
+     * For example:
+     *
+     *     `Admin/Users/`
+     *
+     * Returns:
+     *
+     * - plugin: YourPlugin
+     * - prefix: Admin
+     * - controller: Users
+     * - action: index
+     *
+     * Where "YourPlugin" is the plugin name passed to this class's constructor.
+     *
+     * @param string $aco An ACO path to parse
+     * @param bool $string Indicates if it should return a string format path (/Controller/action)
+     * @return bool|array|string An array as described above or false if an invalid $aco was given
+     */
     protected function _parseAco($aco, $string = true)
     {
         $aco = preg_replace('/\/{2,}/', '/', trim($aco, '/'));
@@ -394,11 +394,11 @@ class AcoManager
         return $result;
     }
 
-/**
- * Gets a CamelizedList of all existing router prefixes.
- *
- * @return array
- */
+    /**
+     * Gets a CamelizedList of all existing router prefixes.
+     *
+     * @return array
+     */
     protected function _routerPrefixes()
     {
         $cache = static::cache('_routerPrefixes');

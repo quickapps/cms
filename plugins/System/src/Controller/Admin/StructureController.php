@@ -20,11 +20,11 @@ use System\Controller\AppController;
 class StructureController extends AppController
 {
 
-/**
- * Main action for dashboard.
- *
- * @return void
- */
+    /**
+     * Main action for dashboard.
+     *
+     * @return void
+     */
     public function index()
     {
         $this->loadModel('Menu.MenuLinks');

@@ -29,19 +29,19 @@ class CommentsController extends AppController
         beforeRender as protected _beforeRender;
     }
 
-/**
- * Name of the table managed by Comment UI API.
- *
- * @var string
- */
+    /**
+     * Name of the table managed by Comment UI API.
+     *
+     * @var string
+     */
     protected $_manageTable = 'nodes';
 
-/**
- * Renders the description of the entity to which comment is attached to.
- *
- * @param \Comment\Model\Entity\Comment $comment Comment entity
- * @return string
- */
+    /**
+     * Renders the description of the entity to which comment is attached to.
+     *
+     * @param \Comment\Model\Entity\Comment $comment Comment entity
+     * @return string
+     */
     protected function _inResponseTo(Comment $comment)
     {
         $this->loadModel('Node.Nodes');
@@ -58,14 +58,14 @@ class CommentsController extends AppController
         return __d('node', '-- Unknow --');
     }
 
-/**
- * Before every action of this controller.
- *
- * We sets appropriate breadcrumbs based on current action being requested.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @return void
- */
+    /**
+     * Before every action of this controller.
+     *
+     * We sets appropriate breadcrumbs based on current action being requested.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @return void
+     */
     public function beforeRender(\Cake\Event\Event $event)
     {
         $this->_beforeRender($event);

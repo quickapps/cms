@@ -27,15 +27,15 @@ use User\Model\Entity\User;
 class Node extends Entity
 {
 
-/**
- * Gets node type.
- *
- * As Node Types are not dependent of Nodes (deleting a node_type won't remove
- * all nodes of that type). Some types we found nodes without `node_type`, in
- * that cases, if no node_type is found `--unknow--` will be returned.
- *
- * @return string
- */
+    /**
+     * Gets node type.
+     *
+     * As Node Types are not dependent of Nodes (deleting a node_type won't remove
+     * all nodes of that type). Some types we found nodes without `node_type`, in
+     * that cases, if no node_type is found `--unknow--` will be returned.
+     *
+     * @return string
+     */
     protected function _getType()
     {
         $name = __d('node', '(unknown)');
@@ -45,19 +45,19 @@ class Node extends Entity
         return $name;
     }
 
-/**
- * Gets node's details page URL.
- *
- * Node's details URL's follows the syntax below:
- *
- *     http://example.com/[node-type-slug]/[node-slug].html
- *
- * Example:
- *
- *     http://example.com/blog-article/my-first-article.html
- *
- * @return string
- */
+    /**
+     * Gets node's details page URL.
+     *
+     * Node's details URL's follows the syntax below:
+     *
+     *     http://example.com/[node-type-slug]/[node-slug].html
+     *
+     * Example:
+     *
+     *     http://example.com/blog-article/my-first-article.html
+     *
+     * @return string
+     */
     protected function _getUrl()
     {
         $url = Router::getRequest()->base;
@@ -71,11 +71,11 @@ class Node extends Entity
         return Router::normalize($url);
     }
 
-/**
- * Gets node's author as an User entity.
- *
- * @return \User\Model\Entity\User
- */
+    /**
+     * Gets node's author as an User entity.
+     *
+     * @return \User\Model\Entity\User
+     */
     protected function _getAuthor()
     {
         if ($this->has('user')) {
@@ -99,19 +99,19 @@ class Node extends Entity
         ]);
     }
 
-/**
- * Set defaults content settings based on parent content type.
- *
- * You can provide a NodeType entity to fetch defaults values. By default if none
- * is provided it automatically fetches the information from the corresponding
- * Content Type.
- *
- * @param bool|\Node\Model\Entity\NodeType $type False for auto fetch or a
- *  NodeType entity to extract information from
- * @return void
- * @throws Cake\Error\FatalErrorException When content type was not found for
- *  this content node.
- */
+    /**
+     * Set defaults content settings based on parent content type.
+     *
+     * You can provide a NodeType entity to fetch defaults values. By default if none
+     * is provided it automatically fetches the information from the corresponding
+     * Content Type.
+     *
+     * @param bool|\Node\Model\Entity\NodeType $type False for auto fetch or a
+     *  NodeType entity to extract information from
+     * @return void
+     * @throws Cake\Error\FatalErrorException When content type was not found for
+     *  this content node.
+     */
     public function setDefaults($type = false)
     {
         if (!$type) {

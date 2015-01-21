@@ -230,26 +230,26 @@ class SearchableBehavior extends Behavior
 
     use HookAwareTrait;
 
-/**
- * The table this behavior is attached to.
- *
- * @var Table
- */
+    /**
+     * The table this behavior is attached to.
+     *
+     * @var Table
+     */
     protected $_table;
 
-/**
- * Behavior configuration array.
- *
- * - operators: A list of registered operators methods as `name` => `methodName`
- * - fields: List of entity fields where to look for words. Or a callable method,
- *   it receives and entity as first argument, and it must return a list of words
- *   for that entity (as an array list, or a string space-separated words).
- * - bannedWords: List of banned words.
- * - on: Indicates when to extract words, `update` when entity is being updated,
- * `insert` when a new entity is inserted into table. Or `both` (by default)
- *
- * @var array
- */
+    /**
+     * Behavior configuration array.
+     *
+     * - operators: A list of registered operators methods as `name` => `methodName`
+     * - fields: List of entity fields where to look for words. Or a callable method,
+     *   it receives and entity as first argument, and it must return a list of words
+     *   for that entity (as an array list, or a string space-separated words).
+     * - bannedWords: List of banned words.
+     * - on: Indicates when to extract words, `update` when entity is being updated,
+     * `insert` when a new entity is inserted into table. Or `both` (by default)
+     *
+     * @var array
+     */
     protected $_defaultConfig = [
         'operators' => [],
         'fields' => [],
@@ -263,12 +263,12 @@ class SearchableBehavior extends Behavior
         ],
     ];
 
-/**
- * Constructor
- *
- * @param \Cake\ORM\Table $table The table this behavior is attached to.
- * @param array $config The config for this behavior.
- */
+    /**
+     * Constructor
+     *
+     * @param \Cake\ORM\Table $table The table this behavior is attached to.
+     * @param array $config The config for this behavior.
+     */
     public function __construct(Table $table, array $config = [])
     {
         $this->_table = $table;
@@ -280,13 +280,13 @@ class SearchableBehavior extends Behavior
         parent::__construct($table, $config);
     }
 
-/**
- * Generates a list of words after each entity is saved.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $entity The entity that was saved
- * @return void
- */
+    /**
+     * Generates a list of words after each entity is saved.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\ORM\Entity $entity The entity that was saved
+     * @return void
+     */
     public function afterSave(Event $event, Entity $entity)
     {
         $isNew = $entity->isNew();
@@ -352,13 +352,13 @@ class SearchableBehavior extends Behavior
         $Datasets->save($dataset);
     }
 
-/**
- * Prepares entity to delete its words-index.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $entity The entity that was removed
- * @return void
- */
+    /**
+     * Prepares entity to delete its words-index.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\ORM\Entity $entity The entity that was removed
+     * @return void
+     */
     public function beforeDelete(Event $event, Entity $entity)
     {
         $tableAlias = Inflector::underscore($this->_table->alias());
@@ -371,37 +371,37 @@ class SearchableBehavior extends Behavior
         return true;
     }
 
-/**
- * Scopes the given query object.
- *
- * It looks for search-criteria and applies them over the query object. For example,
- * given the criteria below:
- *
- *     "this phrase" -"and not this one"
- *
- * Alters the query object as follow:
- *
- *     $query->where([
- *        'indexed_words LIKE' => '%this phrase%',
- *        'indexed_words NOT LIKE' => '%and not this one%'
- *     ]);
- *
- * The `AND` & `OR` keywords are allowed to create complex conditions. For example:
- *
- *     "this phrase" OR -"and not this one" AND "this"
- *
- * Will produce something like:
- *
- *     $query->where(['indexed_words LIKE' => '%this phrase%'])
- *         ->orWhere(['indexed_words NOT LIKE' => '%and not this one%']);
- *         ->andWhere(['indexed_words LIKE' => '%this%']);
- *
- * @param string $criteria A search-criteria. e.g. `"this phrase" author:username`
- * @param null|\Cake\ORM\Query $query The query to scope, or null to create one
- * @return \Cake\ORM\Query Scoped query
- * @throws Cake\Error\FatalErrorException When query gets corrupted while
- *  processing tokens
- */
+    /**
+     * Scopes the given query object.
+     *
+     * It looks for search-criteria and applies them over the query object. For example,
+     * given the criteria below:
+     *
+     *     "this phrase" -"and not this one"
+     *
+     * Alters the query object as follow:
+     *
+     *     $query->where([
+     *        'indexed_words LIKE' => '%this phrase%',
+     *        'indexed_words NOT LIKE' => '%and not this one%'
+     *     ]);
+     *
+     * The `AND` & `OR` keywords are allowed to create complex conditions. For example:
+     *
+     *     "this phrase" OR -"and not this one" AND "this"
+     *
+     * Will produce something like:
+     *
+     *     $query->where(['indexed_words LIKE' => '%this phrase%'])
+     *         ->orWhere(['indexed_words NOT LIKE' => '%and not this one%']);
+     *         ->andWhere(['indexed_words LIKE' => '%this%']);
+     *
+     * @param string $criteria A search-criteria. e.g. `"this phrase" author:username`
+     * @param null|\Cake\ORM\Query $query The query to scope, or null to create one
+     * @return \Cake\ORM\Query Scoped query
+     * @throws Cake\Error\FatalErrorException When query gets corrupted while
+     *  processing tokens
+     */
     public function search($criteria, $query = null)
     {
         $query = is_null($query) ? $this->_table->find() : $query;
@@ -462,27 +462,27 @@ class SearchableBehavior extends Behavior
         return $query;
     }
 
-/**
- * Registers a new operator method.
- *
- * @param string $name Operator name. e.g. `author`
- * @param mixed $methodName A string indicating the table's method name
- *  which will take care of this operator, or an array compatible with
- *  call_user_func_array or a callable function
- * @return void
- */
+    /**
+     * Registers a new operator method.
+     *
+     * @param string $name Operator name. e.g. `author`
+     * @param mixed $methodName A string indicating the table's method name
+     *  which will take care of this operator, or an array compatible with
+     *  call_user_func_array or a callable function
+     * @return void
+     */
     public function addSearchOperator($name, $methodName)
     {
         $name = Inflector::underscore($name);
         $this->config("operators.{$name}", $methodName);
     }
 
-/**
- * Enables a an operator.
- *
- * @param string $name Name of the operator to be enabled
- * @return void
- */
+    /**
+     * Enables a an operator.
+     *
+     * @param string $name Name of the operator to be enabled
+     * @return void
+     */
     public function enableSearchOperator($name)
     {
         if (isset($this->_config['operators'][":{$name}"])) {
@@ -491,12 +491,12 @@ class SearchableBehavior extends Behavior
         }
     }
 
-/**
- * Disables an operator.
- *
- * @param string $name Name of the operator to be disabled
- * @return void
- */
+    /**
+     * Disables an operator.
+     *
+     * @param string $name Name of the operator to be disabled
+     * @return void
+     */
     public function disableSearchOperator($name)
     {
         if (isset($this->_config['operators'][$name])) {
@@ -505,12 +505,12 @@ class SearchableBehavior extends Behavior
         }
     }
 
-/**
- * Extracts words from given text.
- *
- * @param string $text The text from where extract words
- * @return array List of words
- */
+    /**
+     * Extracts words from given text.
+     *
+     * @param string $text The text from where extract words
+     * @return array List of words
+     */
     protected function _extractWords($text)
     {
         $text = str_replace(["\n", "\r"], '', $text);
@@ -521,12 +521,12 @@ class SearchableBehavior extends Behavior
         return $words;
     }
 
-/**
- * Gets the callable method for a given operator method.
- *
- * @param string $name Name of the method to get
- * @return callable
- */
+    /**
+     * Gets the callable method for a given operator method.
+     *
+     * @param string $name Name of the method to get
+     * @return callable
+     */
     protected function _operatorCallable($name)
     {
         $operators = $this->config('operators');
@@ -552,12 +552,12 @@ class SearchableBehavior extends Behavior
         return false;
     }
 
-/**
- * Extract tokens from search-criteria.
- *
- * @param string $criteria A search-criteria
- * @return array List of extracted tokens
- */
+    /**
+     * Extract tokens from search-criteria.
+     *
+     * @param string $criteria A search-criteria
+     * @return array List of extracted tokens
+     */
     protected function _getTokens($criteria)
     {
         $criteria = trim(urldecode($criteria));

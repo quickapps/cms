@@ -38,30 +38,30 @@ use Cake\Utility\Security;
 class AnonymousAuthenticate extends BaseAuthenticate
 {
 
-/**
- * Anonymous count as a "login failure".
- *
- * @param \Cake\Network\Request $request Unused request object
- * @param \Cake\Network\Response $response Unused response object
- * @return mixed False on login failure. An array of User data on success
- */
+    /**
+     * Anonymous count as a "login failure".
+     *
+     * @param \Cake\Network\Request $request Unused request object
+     * @param \Cake\Network\Response $response Unused response object
+     * @return mixed False on login failure. An array of User data on success
+     */
     public function authenticate(Request $request, Response $response)
     {
         return false;
     }
 
-/**
- * Handle unauthenticated access attempt. In implementation valid return values
- * can be:
- *
- * - Null - No action taken, AuthComponent should return appropriate response.
- * - Cake\Network\Response - A response object, which will cause AuthComponent to
- *   simply return that response.
- *
- * @param \Cake\Network\Request $request A request object
- * @param \Cake\Network\Response $response A response object
- * @return mixed
- */
+    /**
+     * Handle unauthenticated access attempt. In implementation valid return values
+     * can be:
+     *
+     * - Null - No action taken, AuthComponent should return appropriate response.
+     * - Cake\Network\Response - A response object, which will cause AuthComponent to
+     *   simply return that response.
+     *
+     * @param \Cake\Network\Request $request A request object
+     * @param \Cake\Network\Response $response A response object
+     * @return mixed
+     */
     public function unauthenticated(Request $request, Response $response)
     {
         if ($this->_cookieLogin($request)) {
@@ -73,12 +73,12 @@ class AnonymousAuthenticate extends BaseAuthenticate
         }
     }
 
-/**
- * Tries to login user if he/she has a cookie.
- *
- * @param \Cake\Network\Request $request A request object
- * @return bool True if user was logged in using cookie, false otherwise
- */
+    /**
+     * Tries to login user if he/she has a cookie.
+     *
+     * @param \Cake\Network\Request $request A request object
+     * @return bool True if user was logged in using cookie, false otherwise
+     */
     protected function _cookieLogin(Request $request)
     {
         $controller = $this->_registry->getController();
@@ -122,19 +122,19 @@ class AnonymousAuthenticate extends BaseAuthenticate
         return false;
     }
 
-/**
- * Tries to login user using token.
- *
- * Token must be passed as a GET parameter named `token`, tokens looks as follow:
- *
- *     // <integer>-<md5-hash>
- *     1-5df9f63916ebf8528697b629022993e8
- *
- * Tokens are consumables, the same token cannot be used twice to log in.
- *
- * @param \Cake\Network\Request $request A request object
- * @return bool True if user was logged in using token, false otherwise
- */
+    /**
+     * Tries to login user using token.
+     *
+     * Token must be passed as a GET parameter named `token`, tokens looks as follow:
+     *
+     *     // <integer>-<md5-hash>
+     *     1-5df9f63916ebf8528697b629022993e8
+     *
+     * Tokens are consumables, the same token cannot be used twice to log in.
+     *
+     * @param \Cake\Network\Request $request A request object
+     * @return bool True if user was logged in using token, false otherwise
+     */
     protected function _tokenLogin(Request $request)
     {
         if (
@@ -167,13 +167,13 @@ class AnonymousAuthenticate extends BaseAuthenticate
         return false;
     }
 
-/**
- * Gets an ACO path for current request.
- *
- * @param \Cake\Network\Request $request Request object
- * @param string $path Pattern
- * @return string
- */
+    /**
+     * Gets an ACO path for current request.
+     *
+     * @param \Cake\Network\Request $request Request object
+     * @param string $path Pattern
+     * @return string
+     */
     public function action(Request $request, $path = '/:plugin/:prefix/:controller/:action')
     {
         $plugin = empty($request['plugin']) ? null : Inflector::camelize($request['plugin']) . '/';
@@ -187,23 +187,23 @@ class AnonymousAuthenticate extends BaseAuthenticate
         return trim($path, '/');
     }
 
-/**
- * Gets all permissions available for the given role.
- *
- * Example Output:
- *
- *     [
- *         'User/Admin/Gateway/login' => true,
- *         'User/Admin/Gateway/logout' => true,
- *         ...
- *     ]
- *
- * Resulting array is always `key` => **true**, as role have access
- * to every ACO in the array "true" is the only possible value.
- *
- * @param int $roleId Role's ID
- * @return array Array of ACO paths which role has permissions to
- */
+    /**
+     * Gets all permissions available for the given role.
+     *
+     * Example Output:
+     *
+     *     [
+     *         'User/Admin/Gateway/login' => true,
+     *         'User/Admin/Gateway/logout' => true,
+     *         ...
+     *     ]
+     *
+     * Resulting array is always `key` => **true**, as role have access
+     * to every ACO in the array "true" is the only possible value.
+     *
+     * @param int $roleId Role's ID
+     * @return array Array of ACO paths which role has permissions to
+     */
     protected function _rolePermissions($roleId)
     {
         $Acos = TableRegistry::get('User.Acos');

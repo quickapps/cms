@@ -29,9 +29,9 @@ use Cake\Utility\Security;
 class FormAuthenticate extends CakeFormAuthenticate
 {
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function authenticate(Request $request, Response $response)
     {
         $result = parent::authenticate($request, $response);
@@ -60,12 +60,12 @@ class FormAuthenticate extends CakeFormAuthenticate
         return $result;
     }
 
-/**
- * Removes "remember me" cookie.
- *
- * @param array $user User information given as an array
- * @return void
- */
+    /**
+     * Removes "remember me" cookie.
+     *
+     * @param array $user User information given as an array
+     * @return void
+     */
     public function logout(array $user)
     {
         $controller = $this->_registry->getController();

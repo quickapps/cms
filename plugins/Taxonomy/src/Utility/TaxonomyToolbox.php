@@ -25,20 +25,20 @@ class TaxonomyToolbox
 
     use HooktagAwareTrait;
 
-/**
- * Holds an instance of this class.
- *
- * @var \Taxonomy\Utility\TaxonomyToolbox
- */
+    /**
+     * Holds an instance of this class.
+     *
+     * @var \Taxonomy\Utility\TaxonomyToolbox
+     */
     protected static $_instance = null;
 
-/**
- * Returns an instance of this class.
- *
- * Useful when we need to use some of the trait methods.
- *
- * @return \Taxonomy\Utility\TaxonomyToolbox
- */
+    /**
+     * Returns an instance of this class.
+     *
+     * Useful when we need to use some of the trait methods.
+     *
+     * @return \Taxonomy\Utility\TaxonomyToolbox
+     */
     public static function getInstance()
     {
         if (!static::$_instance) {
@@ -48,13 +48,13 @@ class TaxonomyToolbox
         return static::$_instance;
     }
 
-/**
- * Formats the given field.
- *
- * @param \Field\Model\Entity\Field $field The field being rendered
- * @param \Cake\View\View $view Instance of View, used to access HtmlHelper
- * @return string
- */
+    /**
+     * Formats the given field.
+     *
+     * @param \Field\Model\Entity\Field $field The field being rendered
+     * @param \Cake\View\View $view Instance of View, used to access HtmlHelper
+     * @return string
+     */
     public static function formatter(Field $field, $view)
     {
         $out = [];

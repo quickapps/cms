@@ -34,40 +34,40 @@ use User\Utility\AcoManager;
 class UninstallTask extends BaseTask
 {
 
-/**
- * Default config
- *
- * These are merged with user-provided configuration when the task is used.
- *
- * @var array
- */
+    /**
+     * Default config
+     *
+     * These are merged with user-provided configuration when the task is used.
+     *
+     * @var array
+     */
     protected $_defaultConfig = [
         'plugin' => false,
         'callbacks' => true,
     ];
 
-/**
- * Invoked before "start()".
- *
- * @return void
- */
+    /**
+     * Invoked before "start()".
+     *
+     * @return void
+     */
     public function init()
     {
         $this->plugin($this->config('plugin'));
     }
 
-/**
- * Starts the uninstall process of the given plugin.
- *
- * ### Events triggered:
- *
- *- `beforeUninstall`: Before plugins is removed from DB and before
- *   plugin's directory is deleted from "/plugins"
- *- `afterUninstall`: After plugins was removed from DB and after
- *   plugin's directory was deleted from "/plugins"
- *
- * @return bool True on success, false otherwise
- */
+    /**
+     * Starts the uninstall process of the given plugin.
+     *
+     * ### Events triggered:
+     *
+     *- `beforeUninstall`: Before plugins is removed from DB and before
+     *   plugin's directory is deleted from "/plugins"
+     *- `afterUninstall`: After plugins was removed from DB and after
+     *   plugin's directory was deleted from "/plugins"
+     *
+     * @return bool True on success, false otherwise
+     */
     public function start()
     {
         if (!is_writable(TMP)) {
@@ -144,11 +144,11 @@ class UninstallTask extends BaseTask
         return true;
     }
 
-/**
- * Removes all ACOs created by this plugin.
- *
- * @return void
- */
+    /**
+     * Removes all ACOs created by this plugin.
+     *
+     * @return void
+     */
     protected function _clearAcoPaths()
     {
         $this->loadModel('User.Acos');

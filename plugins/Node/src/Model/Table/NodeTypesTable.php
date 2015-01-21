@@ -26,12 +26,12 @@ use Cake\Validation\Validator;
 class NodeTypesTable extends Table
 {
 
-/**
- * Alter the schema used by this table.
- *
- * @param \Cake\Database\Schema\Table $table The table definition fetched from database
- * @return \Cake\Database\Schema\Table the altered schema
- */
+    /**
+     * Alter the schema used by this table.
+     *
+     * @param \Cake\Database\Schema\Table $table The table definition fetched from database
+     * @return \Cake\Database\Schema\Table the altered schema
+     */
     protected function _initializeSchema(Schema $table)
     {
         $table->columnType('settings', 'serialized');
@@ -39,12 +39,12 @@ class NodeTypesTable extends Table
         return $table;
     }
 
-/**
- * Initialize a table instance. Called after the constructor.
- *
- * @param array $config Configuration options passed to the constructor
- * @return void
- */
+    /**
+     * Initialize a table instance. Called after the constructor.
+     *
+     * @param array $config Configuration options passed to the constructor
+     * @return void
+     */
     public function initialize(array $config)
     {
         $this->addBehavior('Sluggable', [
@@ -54,12 +54,12 @@ class NodeTypesTable extends Table
         ]);
     }
 
-/**
- * Default validation rules set.
- *
- * @param \Cake\Validation\Validator $validator The validator object
- * @return \Cake\Validation\Validator
- */
+    /**
+     * Default validation rules set.
+     *
+     * @param \Cake\Validation\Validator $validator The validator object
+     * @return \Cake\Validation\Validator
+     */
     public function validationDefault(Validator $validator)
     {
         $validator
@@ -98,14 +98,14 @@ class NodeTypesTable extends Table
         return $validator;
     }
 
-/**
- * Regenerates snapshot after new content type is created.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $entity The entity that was saved
- * @param \ArrayObject $options Array of options
- * @return void
- */
+    /**
+     * Regenerates snapshot after new content type is created.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\ORM\Entity $entity The entity that was saved
+     * @param \ArrayObject $options Array of options
+     * @return void
+     */
     public function afterSave(Event $event, Entity $entity, ArrayObject $options = null)
     {
         if ($entity->isNew()) {

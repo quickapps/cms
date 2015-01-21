@@ -20,66 +20,66 @@ namespace QuickApps\Core;
 trait StaticCacheTrait
 {
 
-/**
- * Used internally.
- *
- * @var array
- */
+    /**
+     * Used internally.
+     *
+     * @var array
+     */
     protected static $_cache;
 
-/**
- * Reads, writes or search internal class's cache.
- *
- * ### Usages:
- *
- * - When reading if no cache key is found NULL will be returned.
- *   e.g. `$null = static::cache('invalid-key');`
- * - When writing, this method return the value that was written.
- *   e.g. `$value = static::cache('key', 'value');`
- * - Set both arguments to NULL to read the whole cache content at the moment.
- *   e.g. `$allCache = static::cache()`
- * - Set key to null and value to anything to find the first key holding the
- *   given value. e.g. `$key = static::cache(null, 'search key for this value')`,
- *   if no key for the given
- *   value is found NULL will be returned.
- *
- * ## Examples:
- *
- * Writing cache:
- *
- *     static::cache('user_name', 'John');
- *     // returns 'John'
- *
- *     static::cache('user_last', 'Locke');
- *     // returns 'Locke'
- *
- * Reading cache:
- *
- *     static::cache('user_name');
- *     // returns: John
- *
- *     static::cache('unexisting_key');
- *     // returns: null
- *
- * Reading the entire cache:
- *
- *     static::cache();
- *     // returns: ['user_name' => 'John', 'user_last' => 'Locke']
- *
- * Searching keys:
- *
- *     static::cache(null, 'Locke');
- *     // returns: user_last
- *
- *     static::cache(null, 'Unexisting');
- *     // returns: null
- *
- * @param null|string $key Cache key to read or write, set both $key and $value
- *  to get the whole cache information
- * @param mixed $value Values to write into the given $key, or null indicates
- *  reading from cache
- * @return mixed
- */
+    /**
+     * Reads, writes or search internal class's cache.
+     *
+     * ### Usages:
+     *
+     * - When reading if no cache key is found NULL will be returned.
+     *   e.g. `$null = static::cache('invalid-key');`
+     * - When writing, this method return the value that was written.
+     *   e.g. `$value = static::cache('key', 'value');`
+     * - Set both arguments to NULL to read the whole cache content at the moment.
+     *   e.g. `$allCache = static::cache()`
+     * - Set key to null and value to anything to find the first key holding the
+     *   given value. e.g. `$key = static::cache(null, 'search key for this value')`,
+     *   if no key for the given
+     *   value is found NULL will be returned.
+     *
+     * ## Examples:
+     *
+     * Writing cache:
+     *
+     *     static::cache('user_name', 'John');
+     *     // returns 'John'
+     *
+     *     static::cache('user_last', 'Locke');
+     *     // returns 'Locke'
+     *
+     * Reading cache:
+     *
+     *     static::cache('user_name');
+     *     // returns: John
+     *
+     *     static::cache('unexisting_key');
+     *     // returns: null
+     *
+     * Reading the entire cache:
+     *
+     *     static::cache();
+     *     // returns: ['user_name' => 'John', 'user_last' => 'Locke']
+     *
+     * Searching keys:
+     *
+     *     static::cache(null, 'Locke');
+     *     // returns: user_last
+     *
+     *     static::cache(null, 'Unexisting');
+     *     // returns: null
+     *
+     * @param null|string $key Cache key to read or write, set both $key and $value
+     *  to get the whole cache information
+     * @param mixed $value Values to write into the given $key, or null indicates
+     *  reading from cache
+     * @return mixed
+     */
     protected static function cache($key = null, $value = null)
     {
         if ($key === null && $value === null) {
@@ -109,21 +109,21 @@ trait StaticCacheTrait
         }
     }
 
-/**
- * Clears the entire cache or a specific key.
- *
- * ## Usage:
- *
- *     static::_clearCache('user_cache');
- *     // removes "user_cache" only
- *
- *     static::_clearCache();
- *     // removes every key
- *
- * @param string|null $key Cache key to clear, if NULL the entire cache
- *  will be erased.
- * @return void
- */
+    /**
+     * Clears the entire cache or a specific key.
+     *
+     * ## Usage:
+     *
+     *     static::_clearCache('user_cache');
+     *     // removes "user_cache" only
+     *
+     *     static::_clearCache();
+     *     // removes every key
+     *
+     * @param string|null $key Cache key to clear, if NULL the entire cache
+     *  will be erased.
+     * @return void
+     */
     protected static function clearCache($key = null)
     {
         if ($key !== null) {

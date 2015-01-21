@@ -21,11 +21,11 @@ use Taxonomy\Controller\AppController;
 class VocabulariesController extends AppController
 {
 
-/**
- * Shows a list of all vocabularies.
- *
- * @return void
- */
+    /**
+     * Shows a list of all vocabularies.
+     *
+     * @return void
+     */
     public function index()
     {
         $this->loadModel('Taxonomy.Vocabularies');

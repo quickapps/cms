@@ -34,11 +34,11 @@ use Cake\Event\EventListenerInterface;
 class TwitterBootstrapHook implements EventListenerInterface
 {
 
-/**
- * Custom templates for FormHelper.
- *
- * @var array
- */
+    /**
+     * Custom templates for FormHelper.
+     *
+     * @var array
+     */
     protected $_templates = [
         'dateWidget' => '<div class="row">
 			<div class="col-sm-3">{{year}}</div>
@@ -57,11 +57,11 @@ class TwitterBootstrapHook implements EventListenerInterface
         'submitContainer' => '{{content}}',
     ];
 
-/**
- * Implemented hook events list.
- *
- * @return array List of implemented hooks
- */
+    /**
+     * Implemented hook events list.
+     *
+     * @return array List of implemented hooks
+     */
     public function implementedEvents()
     {
         return [
@@ -74,14 +74,14 @@ class TwitterBootstrapHook implements EventListenerInterface
         ];
     }
 
-/**
- * Adds custom templates on Form::create().
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param mixed $model Model handled by this form
- * @param array &$options Additional options as an array
- * @return array
- */
+    /**
+     * Adds custom templates on Form::create().
+     *
+     * @param \Cake\Event\Event $event The event that was fired
+     * @param mixed $model Model handled by this form
+     * @param array &$options Additional options as an array
+     * @return array
+     */
     public function alterFormCreate(Event $event, $model, &$options)
     {
         $bootstrap = isset($options['bootstrap']) ? (bool)$options['bootstrap'] : true;
@@ -95,14 +95,14 @@ class TwitterBootstrapHook implements EventListenerInterface
         }
     }
 
-/**
- * Appends some CSS classes to generic input (text, textarea, select) elements.
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param string $fieldName Field's name
- * @param array &$options Additional options as an array
- * @return void
- */
+    /**
+     * Appends some CSS classes to generic input (text, textarea, select) elements.
+     *
+     * @param \Cake\Event\Event $event The event that was fired
+     * @param string $fieldName Field's name
+     * @param array &$options Additional options as an array
+     * @return void
+     */
     public function alterFormInput(Event $event, $fieldName, &$options)
     {
         $this->_addTemplates($event->subject);
@@ -114,71 +114,71 @@ class TwitterBootstrapHook implements EventListenerInterface
         }
     }
 
-/**
- * Appends some CSS classes to textarea elements.
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param string $fieldName Field's name
- * @param array &$options Additional options as an array
- * @return void
- */
+    /**
+     * Appends some CSS classes to textarea elements.
+     *
+     * @param \Cake\Event\Event $event The event that was fired
+     * @param string $fieldName Field's name
+     * @param array &$options Additional options as an array
+     * @return void
+     */
     public function alterFormTextarea(Event $event, $fieldName, &$options)
     {
         $this->_addTemplates($event->subject);
         $options = $this->_addClass($event->subject, $options, 'form-control');
     }
 
-/**
- * Appends some CSS classes to select elements.
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param string $fieldName Field's name
- * @param array $options Options for filling the select element
- * @param array &$attributes Options for the `<select>` tag
- * @return void
- */
+    /**
+     * Appends some CSS classes to select elements.
+     *
+     * @param \Cake\Event\Event $event The event that was fired
+     * @param string $fieldName Field's name
+     * @param array $options Options for filling the select element
+     * @param array &$attributes Options for the `<select>` tag
+     * @return void
+     */
     public function alterFormSelect(Event $event, $fieldName, $options, &$attributes)
     {
         $this->_addTemplates($event->subject);
         $attributes = $this->_addClass($event->subject, $attributes, 'form-control');
     }
 
-/**
- * Appends some CSS classes to generic buttons.
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param string $title Button's caption
- * @param array &$options Additional options as an array
- * @return void
- */
+    /**
+     * Appends some CSS classes to generic buttons.
+     *
+     * @param \Cake\Event\Event $event The event that was fired
+     * @param string $title Button's caption
+     * @param array &$options Additional options as an array
+     * @return void
+     */
     public function alterFormButton(Event $event, $title, &$options)
     {
         $this->_addTemplates($event->subject);
         $options = $this->_addClass($event->subject, $options, 'btn btn-default');
     }
 
-/**
- * Appends some CSS classes to submit buttons.
- *
- * @param \Cake\Event\Event $event The event that was fired
- * @param string $caption Button's caption
- * @param array &$options Additional options as an array
- * @return void
- */
+    /**
+     * Appends some CSS classes to submit buttons.
+     *
+     * @param \Cake\Event\Event $event The event that was fired
+     * @param string $caption Button's caption
+     * @param array &$options Additional options as an array
+     * @return void
+     */
     public function alterFormSubmit(Event $event, $caption, &$options)
     {
         $this->_addTemplates($event->subject);
         $options = $this->_addClass($event->subject, $options, 'btn btn-primary');
     }
 
-/**
- * Add custom CSS classes to array of options.
- *
- * @param \Cake\View\Helper\FormHelper $formHelper Instance of FormHelper
- * @param array $options Input's options
- * @param string $class CSS classes to add
- * @return array
- */
+    /**
+     * Add custom CSS classes to array of options.
+     *
+     * @param \Cake\View\Helper\FormHelper $formHelper Instance of FormHelper
+     * @param array $options Input's options
+     * @param string $class CSS classes to add
+     * @return array
+     */
     protected function _addClass($formHelper, $options, $class)
     {
         $bootstrap = isset($options['bootstrap']) ? (bool)$options['bootstrap'] : true;
@@ -194,12 +194,12 @@ class TwitterBootstrapHook implements EventListenerInterface
         return $options;
     }
 
-/**
- * Add custom set of templates to FormHelper.
- *
- * @param \Cake\View\Helper\FormHelper $formHelper Instance of FormHelper
- * @return void
- */
+    /**
+     * Add custom set of templates to FormHelper.
+     *
+     * @param \Cake\View\Helper\FormHelper $formHelper Instance of FormHelper
+     * @return void
+     */
     protected function _addTemplates($formHelper)
     {
         if (empty($formHelper->_bootstrapTemplates)) {

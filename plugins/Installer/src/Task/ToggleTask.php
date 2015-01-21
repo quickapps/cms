@@ -41,34 +41,34 @@ use QuickApps\Core\Plugin;
 class ToggleTask extends BaseTask
 {
 
-/**
- * Default config
- *
- * These are merged with user-provided configuration when the task is used.
- *
- * @var array
- */
+    /**
+     * Default config
+     *
+     * These are merged with user-provided configuration when the task is used.
+     *
+     * @var array
+     */
     protected $_defaultConfig = [
         'plugin' => false,
         'callbacks' => true,
         'status' => null,
     ];
 
-/**
- * Invoked before "start()".
- *
- * @return void
- */
+    /**
+     * Invoked before "start()".
+     *
+     * @return void
+     */
     public function init()
     {
         $this->plugin($this->config('plugin'));
     }
 
-/**
- * Starts the enable/disable process of the given plugin.
- *
- * @return bool True on success, false otherwise
- */
+    /**
+     * Starts the enable/disable process of the given plugin.
+     *
+     * @return bool True on success, false otherwise
+     */
     public function start()
     {
         $status = $this->config('status');
@@ -156,12 +156,12 @@ class ToggleTask extends BaseTask
         return true;
     }
 
-/**
- * Indicates this task should enable the given plugin.
- *
- * @param string|null $pluginName Plugin's name
- * @return $this
- */
+    /**
+     * Indicates this task should enable the given plugin.
+     *
+     * @param string|null $pluginName Plugin's name
+     * @return $this
+     */
     public function enable($pluginName = null)
     {
         if ($pluginName) {
@@ -172,12 +172,12 @@ class ToggleTask extends BaseTask
         return $this;
     }
 
-/**
- * Indicates this task should disable the given plugin.
- *
- * @param string|null $pluginName Plugin's name
- * @return $this
- */
+    /**
+     * Indicates this task should disable the given plugin.
+     *
+     * @param string|null $pluginName Plugin's name
+     * @return $this
+     */
     public function disable($pluginName = null)
     {
         if ($pluginName) {

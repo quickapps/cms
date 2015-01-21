@@ -24,13 +24,13 @@ use User\Utility\NotificationManager;
 class UserHook implements EventListenerInterface
 {
 
-/**
- * Returns a list of hooks this Hook Listener is implementing. When the class
- * is registered in an event manager, each individual method will be associated
- * with the respective event.
- *
- * @return void
- */
+    /**
+     * Returns a list of hooks this Hook Listener is implementing. When the class
+     * is registered in an event manager, each individual method will be associated
+     * with the respective event.
+     *
+     * @return void
+     */
     public function implementedEvents()
     {
         return [
@@ -50,142 +50,142 @@ class UserHook implements EventListenerInterface
         ];
     }
 
-/**
- * Event triggered before users is identified.
- *
- * Returning false or stopping the event will halt the identification process.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @return bool
- */
+    /**
+     * Event triggered before users is identified.
+     *
+     * Returning false or stopping the event will halt the identification process.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @return bool
+     */
     public function beforeIdentify(Event $event)
     {
         return true;
     }
 
-/**
- * Triggered After user's identification operation has been completed.
- *
- * This event is triggered even on identification failure, you must distinguish
- * between success or failure using the given argument.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param mixed $result Result of AuthComponent::identify(), false if user could
- *  not be identified, or an array of user's info if was successfully identified
- * @return bool
- */
+    /**
+     * Triggered After user's identification operation has been completed.
+     *
+     * This event is triggered even on identification failure, you must distinguish
+     * between success or failure using the given argument.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param mixed $result Result of AuthComponent::identify(), false if user could
+     *  not be identified, or an array of user's info if was successfully identified
+     * @return bool
+     */
     public function afterIdentify(Event $event, $result)
     {
     }
 
-/**
- * Event triggered before user logout action.
- *
- * Returning false or stopping the event will halt the logout process.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @return bool
- */
+    /**
+     * Event triggered before user logout action.
+     *
+     * Returning false or stopping the event will halt the logout process.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @return bool
+     */
     public function beforeLogout(Event $event)
     {
         return true;
     }
 
-/**
- * Event triggered after user logout action.
- *
- * Event listeners can return an alternative redirection URL, if not given
- * default URL will be used.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param string|array $redirect Default redirection URL that will be used
- * @return bool
- */
+    /**
+     * Event triggered after user logout action.
+     *
+     * Event listeners can return an alternative redirection URL, if not given
+     * default URL will be used.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param string|array $redirect Default redirection URL that will be used
+     * @return bool
+     */
     public function afterLogout(Event $event, $redirect = '')
     {
     }
 
-/**
- * Event triggered when new users are registered on DB.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \User\Model\Entity\User $user The user entity that was registered
- * @return bool
- */
+    /**
+     * Event triggered when new users are registered on DB.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \User\Model\Entity\User $user The user entity that was registered
+     * @return bool
+     */
     public function registered(Event $event, User $user)
     {
         return (new NotificationManager($user))->welcome();
     }
 
-/**
- * Event triggered when an user is activated (status = 1).
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \User\Model\Entity\User $user The user entity that was activated
- * @return bool
- */
+    /**
+     * Event triggered when an user is activated (status = 1).
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \User\Model\Entity\User $user The user entity that was activated
+     * @return bool
+     */
     public function activated(Event $event, User $user)
     {
         return (new NotificationManager($user))->activated();
     }
 
-/**
- * Event triggered when user has been blocked (status = 0).
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \User\Model\Entity\User $user The user entity that was blocked
- * @return bool
- */
+    /**
+     * Event triggered when user has been blocked (status = 0).
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \User\Model\Entity\User $user The user entity that was blocked
+     * @return bool
+     */
     public function blocked(Event $event, User $user)
     {
         return (new NotificationManager($user))->blocked();
     }
 
-/**
- * Event triggered when user requests to cancel his/her account.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \User\Model\Entity\User $user The user entity which requested account
- *  cancellation
- * @return bool
- */
+    /**
+     * Event triggered when user requests to cancel his/her account.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \User\Model\Entity\User $user The user entity which requested account
+     *  cancellation
+     * @return bool
+     */
     public function cancelRequest(Event $event, User $user)
     {
         return (new NotificationManager($user))->cancelRequest();
     }
 
-/**
- * Event triggered after user account was removed.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \User\Model\Entity\User $user The user entity that was canceled
- * @return bool
- */
+    /**
+     * Event triggered after user account was removed.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \User\Model\Entity\User $user The user entity that was canceled
+     * @return bool
+     */
     public function canceled(Event $event, User $user)
     {
         return (new NotificationManager($user))->canceled();
     }
 
-/**
- * Event triggered when user request for a new password.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \User\Model\Entity\User $user The user entity requesting a new password
- * @return bool
- */
+    /**
+     * Event triggered when user request for a new password.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \User\Model\Entity\User $user The user entity requesting a new password
+     * @return bool
+     */
     public function passwordRequest(Event $event, User $user)
     {
         return (new NotificationManager($user))->passwordRequest();
     }
 
-/**
- * Provides defaults values for settings keys.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $settings Settings given as an entity object
- * @param \Cake\Validation\Validator $validator The validator object
- * @return void
- */
+    /**
+     * Provides defaults values for settings keys.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\ORM\Entity $settings Settings given as an entity object
+     * @param \Cake\Validation\Validator $validator The validator object
+     * @return void
+     */
     public function settingsBeforeValidate(Event $event, $settings, $validator)
     {
         $validator

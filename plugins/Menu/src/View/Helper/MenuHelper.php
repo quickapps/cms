@@ -35,65 +35,65 @@ class MenuHelper extends Helper
 
     use StringTemplateTrait;
 
-/**
- * Default configuration for this class.
- *
- * - `formatter`: Callable method used when formating each item.
- * - `beautify`: Set to true to "beautify" the resulting HTML, compacted HTMl will
- *    be returned if set to FALSE. You can set this option to a string compatible with
- *    [htmLawed](http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/htmLawed_README.htm) library.
- *    e.g: `2s0n`. Defaults to FALSE (compact).
- * - `dropdown`: Set to true to automatically apply a few CSS styles for creating a
- *    "Dropdown" menu. Defaults to FALSE. This option is useful when rendering
- *    Multi-level menus, such as site's "main menu", etc.
- * - `activeClass`: CSS class to use when an item is active (its URL matches current URL).
- * - `firstItemClass`: CSS class for the first item.
- * - `lastItemClass`: CSS class for the last item.
- * - `hasChildrenClass`: CSS class to use when an item has children.
- * - `split`: Split menu into multiple root menus (multiple UL's). Must be an integer,
- *    or false for no split (by default).
- * - `breadcrumbGuessing`: Mark an item as "active" if its URL is on the breadcrumb stack.
- *    Default to true.
- * - `templates`: HTML templates used when formating items.
- *   - `div`: Template of the wrapper element which holds all menus when using `split`.
- *   - `root`: Top UL/OL menu template.
- *   - `parent`: Wrapper which holds children of a parent node.
- *   - `child`: Template for child nodes (leafs).
- *   - `link`: Template for link elements.
- *
- * ## Example:
- *
- * This example shows where each template is used when rendering a menu.
- *
- *     <div> // div template (only if split > 1)
- *         <ul> // root template (first part of split menu)
- *             <li> // child template
- *                 <a href="">Link 1</a> // link template
- *             </li>
- *             <li> // child template
- *                 <a href="">Link 2</a> // link template
- *                 <ul> // parent template
- *                     <li> // child template
- *                         <a href="">Link 2.1</a> // link template
- *                     </li>
- *                     <li> // child template
- *                         <a href="">Link 2.2</a> // link template
- *                     </li>
- *                     ...
- *                 </ul>
- *             </li>
- *             ...
- *         </ul>
- *
- *         <ul> // root template (second part of split menu)
- *             ...
- *         </ul>
- *
- *         ...
- *     </div>
- *
- * @var array
- */
+    /**
+     * Default configuration for this class.
+     *
+     * - `formatter`: Callable method used when formating each item.
+     * - `beautify`: Set to true to "beautify" the resulting HTML, compacted HTMl will
+     *    be returned if set to FALSE. You can set this option to a string compatible with
+     *    [htmLawed](http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/htmLawed_README.htm) library.
+     *    e.g: `2s0n`. Defaults to FALSE (compact).
+     * - `dropdown`: Set to true to automatically apply a few CSS styles for creating a
+     *    "Dropdown" menu. Defaults to FALSE. This option is useful when rendering
+     *    Multi-level menus, such as site's "main menu", etc.
+     * - `activeClass`: CSS class to use when an item is active (its URL matches current URL).
+     * - `firstItemClass`: CSS class for the first item.
+     * - `lastItemClass`: CSS class for the last item.
+     * - `hasChildrenClass`: CSS class to use when an item has children.
+     * - `split`: Split menu into multiple root menus (multiple UL's). Must be an integer,
+     *    or false for no split (by default).
+     * - `breadcrumbGuessing`: Mark an item as "active" if its URL is on the breadcrumb stack.
+     *    Default to true.
+     * - `templates`: HTML templates used when formating items.
+     *   - `div`: Template of the wrapper element which holds all menus when using `split`.
+     *   - `root`: Top UL/OL menu template.
+     *   - `parent`: Wrapper which holds children of a parent node.
+     *   - `child`: Template for child nodes (leafs).
+     *   - `link`: Template for link elements.
+     *
+     * ## Example:
+     *
+     * This example shows where each template is used when rendering a menu.
+     *
+     *     <div> // div template (only if split > 1)
+     *         <ul> // root template (first part of split menu)
+     *             <li> // child template
+     *                 <a href="">Link 1</a> // link template
+     *             </li>
+     *             <li> // child template
+     *                 <a href="">Link 2</a> // link template
+     *                 <ul> // parent template
+     *                     <li> // child template
+     *                         <a href="">Link 2.1</a> // link template
+     *                     </li>
+     *                     <li> // child template
+     *                         <a href="">Link 2.2</a> // link template
+     *                     </li>
+     *                     ...
+     *                 </ul>
+     *             </li>
+     *             ...
+     *         </ul>
+     *
+     *         <ul> // root template (second part of split menu)
+     *             ...
+     *         </ul>
+     *
+     *         ...
+     *     </div>
+     *
+     * @var array
+     */
     protected $_defaultConfig = [
         'formatter' => null,
         'beautify' => false,
@@ -113,21 +113,21 @@ class MenuHelper extends Helper
         ]
     ];
 
-/**
- * Flags that indicates this helper is already rendering a menu.
- *
- * Used to detect loops when using callable formatters.
- *
- * @var bool
- */
+    /**
+     * Flags that indicates this helper is already rendering a menu.
+     *
+     * Used to detect loops when using callable formatters.
+     *
+     * @var bool
+     */
     protected $_rendering = false;
 
-/**
- * Constructor.
- *
- * @param View $View The View this helper is being attached to
- * @param array $config Configuration settings for the helper
- */
+    /**
+     * Constructor.
+     *
+     * @param View $View The View this helper is being attached to
+     * @param array $config Configuration settings for the helper
+     */
     public function __construct(View $View, $config = array())
     {
         if (empty($config['formatter'])) {
@@ -138,58 +138,58 @@ class MenuHelper extends Helper
         parent::__construct($View, $config);
     }
 
-/**
- * Renders a nested menu.
- *
- * This methods renders a HTML menu using a `threaded` result set:
- *
- *     // In controller:
- *     $this->set('links', $this->Links->find('threaded'));
- *
- *     // In view:
- *     echo $this->Menu->render('links');
- *
- * ### Options:
- *
- * You can pass an associative array `key => value`.
- * Any `key` not in `$_defaultConfig` will be treated as an additional attribute
- * for the top level UL (root). If `key` is in `$_defaultConfig` it will temporally
- * overwrite default configuration parameters:
- *
- * - `formatter`: Callable method used when formating each item.
- * - `activeClass`: CSS class to use when an item is active (its URL matches current URL).
- * - `firstItemClass`: CSS class for the first item.
- * - `lastItemClass`: CSS class for the last item.
- * - `hasChildrenClass`: CSS class to use when an item has children.
- * - `split`: Split menu into multiple root menus (multiple UL's)
- * - `templates`: The templates you want to use for this menu. Any templates
- *    will be merged on top of the already loaded templates. This option can
- *    either be a filename in App/config that contains the templates you want
- *    to load, or an array of templates to use.
- *
- * You can also pass a callable function as second argument which will be
- * used as formatter:
- *
- *     echo $this->Menu->render($links, function ($link, $info) {
- *         // render $item here
- *     });
- *
- * Formatters receives two arguments, the item being rendered as first argument
- * and information abut the item (has children, depth, etc) as second.
- *
- * You can pass the ID or slug of a menu as fist argument to render that menu's
- * links.
- *
- * @param int|string|array|\Cake\Collection\Collection $items Nested items
- *  to render, given as a query result set or as an array list. Or an integer as
- *  menu ID in DB to render, or a string as menu Slug in DB to render.
- * @param callable|array $options An array of HTML attributes and options as
- *  described above or a callable function to use as `formatter`
- * @return string HTML
- * @throws \Cake\Error\FatalErrorException When loop invocation is detected,
- *  that is, when "render()" method is invoked within a callable method when
- *  rendering menus.
- */
+    /**
+     * Renders a nested menu.
+     *
+     * This methods renders a HTML menu using a `threaded` result set:
+     *
+     *     // In controller:
+     *     $this->set('links', $this->Links->find('threaded'));
+     *
+     *     // In view:
+     *     echo $this->Menu->render('links');
+     *
+     * ### Options:
+     *
+     * You can pass an associative array `key => value`.
+     * Any `key` not in `$_defaultConfig` will be treated as an additional attribute
+     * for the top level UL (root). If `key` is in `$_defaultConfig` it will temporally
+     * overwrite default configuration parameters:
+     *
+     * - `formatter`: Callable method used when formating each item.
+     * - `activeClass`: CSS class to use when an item is active (its URL matches current URL).
+     * - `firstItemClass`: CSS class for the first item.
+     * - `lastItemClass`: CSS class for the last item.
+     * - `hasChildrenClass`: CSS class to use when an item has children.
+     * - `split`: Split menu into multiple root menus (multiple UL's)
+     * - `templates`: The templates you want to use for this menu. Any templates
+     *    will be merged on top of the already loaded templates. This option can
+     *    either be a filename in App/config that contains the templates you want
+     *    to load, or an array of templates to use.
+     *
+     * You can also pass a callable function as second argument which will be
+     * used as formatter:
+     *
+     *     echo $this->Menu->render($links, function ($link, $info) {
+     *         // render $item here
+     *     });
+     *
+     * Formatters receives two arguments, the item being rendered as first argument
+     * and information abut the item (has children, depth, etc) as second.
+     *
+     * You can pass the ID or slug of a menu as fist argument to render that menu's
+     * links.
+     *
+     * @param int|string|array|\Cake\Collection\Collection $items Nested items
+     *  to render, given as a query result set or as an array list. Or an integer as
+     *  menu ID in DB to render, or a string as menu Slug in DB to render.
+     * @param callable|array $options An array of HTML attributes and options as
+     *  described above or a callable function to use as `formatter`
+     * @return string HTML
+     * @throws \Cake\Error\FatalErrorException When loop invocation is detected,
+     *  that is, when "render()" method is invoked within a callable method when
+     *  rendering menus.
+     */
     public function render($items, $options = [])
     {
         if ($this->_rendering) {
@@ -294,37 +294,37 @@ class MenuHelper extends Helper
         return $out;
     }
 
-/**
- * Default callable method (see formatter option).
- *
- * ### Valid options are:
- *
- * - `templates`: Array of templates indexed as `templateName` => `templatePattern`.
- *    Temporally overwrites templates when rendering this item, after item is rendered
- *    templates are restored to previous values.
- * - `childAttrs`: Array of attributes for `child` template.
- *   - `class`: Array list of multiple CSS classes or a single string (will be merged
- *      with auto-generated CSS; "active", "has-children", etc).
- * - `linkAttrs`: Array of attributes for the `link` template.
- *   - `class`: Same as childAttrs.
- *
- * ### Information argument
- *
- * The second argument `$info` holds a series of useful values when rendering each
- * item of the menu. This values are stored as `key` => `value` array.
- *
- * - `index` (integer): Position of current item.
- * - `total` (integer): Total number of items in the menu being rendered.
- * - `depth` (integer): Item depth within the tree structure.
- * - `hasChildren` (boolean): true|false
- * - `children` (string): HTML content of rendered children for this item.
- *    Empty if has no children.
- *
- * @param \Cake\ORM\Entity $item The item to render
- * @param array $info Array of useful information such as described above
- * @param array $options Additional options
- * @return string
- */
+    /**
+     * Default callable method (see formatter option).
+     *
+     * ### Valid options are:
+     *
+     * - `templates`: Array of templates indexed as `templateName` => `templatePattern`.
+     *    Temporally overwrites templates when rendering this item, after item is rendered
+     *    templates are restored to previous values.
+     * - `childAttrs`: Array of attributes for `child` template.
+     *   - `class`: Array list of multiple CSS classes or a single string (will be merged
+     *      with auto-generated CSS; "active", "has-children", etc).
+     * - `linkAttrs`: Array of attributes for the `link` template.
+     *   - `class`: Same as childAttrs.
+     *
+     * ### Information argument
+     *
+     * The second argument `$info` holds a series of useful values when rendering each
+     * item of the menu. This values are stored as `key` => `value` array.
+     *
+     * - `index` (integer): Position of current item.
+     * - `total` (integer): Total number of items in the menu being rendered.
+     * - `depth` (integer): Item depth within the tree structure.
+     * - `hasChildren` (boolean): true|false
+     * - `children` (string): HTML content of rendered children for this item.
+     *    Empty if has no children.
+     *
+     * @param \Cake\ORM\Entity $item The item to render
+     * @param array $info Array of useful information such as described above
+     * @param array $options Additional options
+     * @return string
+     */
     public function formatter($item, array $info, array $options = [])
     {
         $this->alter('MenuHelper.formatter', $item, $info, $options);
@@ -415,12 +415,12 @@ class MenuHelper extends Helper
         return $return;
     }
 
-/**
- * Counts items in menu.
- *
- * @param \Cake\ORM\Query $items Items to count
- * @return int
- */
+    /**
+     * Counts items in menu.
+     *
+     * @param \Cake\ORM\Query $items Items to count
+     * @return int
+     */
     public function countItems($items)
     {
         if ($this->_count) {
@@ -431,23 +431,23 @@ class MenuHelper extends Helper
         return $this->_count;
     }
 
-/**
- * Restores the default values built into MenuHelper.
- *
- * @return void
- */
+    /**
+     * Restores the default values built into MenuHelper.
+     *
+     * @return void
+     */
     public function resetTemplates()
     {
         $this->templates($this->_defaultConfig['templates']);
     }
 
-/**
- * Internal method to recursively generate the menu.
- *
- * @param \Cake\ORM\Query $items Items to render
- * @param int $depth Current iteration depth
- * @return string HTML
- */
+    /**
+     * Internal method to recursively generate the menu.
+     *
+     * @param \Cake\ORM\Query $items Items to render
+     * @param int $depth Current iteration depth
+     * @return string HTML
+     */
     protected function _render($items, $depth = 0)
     {
         $content = '';
@@ -484,13 +484,13 @@ class MenuHelper extends Helper
         return $content;
     }
 
-/**
- * Returns a safe URL string for later use on HtmlHelper.
- *
- * @param string|array $url URL given as string or an array compatible
- * with `Router::url()`
- * @return string
- */
+    /**
+     * Returns a safe URL string for later use on HtmlHelper.
+     *
+     * @param string|array $url URL given as string or an array compatible
+     *  with `Router::url()`
+     * @return string
+     */
     protected function _url($url)
     {
         static $locales = null;
@@ -527,27 +527,27 @@ class MenuHelper extends Helper
         return $url;
     }
 
-/**
- * Checks if the given item should be marked as active.
- *
- * If `$item->activation` is a callable function it will be used to determinate
- * if the link should be active or not, returning true from callable indicates
- * link should be active, false indicates it should not be marked as active.
- * Callable receives current request object as first argument and $item as second.
- *
- * `$item->url` property MUST exists if  "activation" is not a callable, and can
- * be either:
- *
- * - A string representing an external or internal URL (all internal links must
- *   starts with "/"). e.g. `/user/login`
- * - An array compatible with \Cake\Routing\Router::url().
- *   e.g. `['controller' => 'users', 'action' => 'login']`
- *
- * Both examples are equivalent.
- *
- * @param \Cake\ORM\Entity $item A menu's item
- * @return bool
- */
+    /**
+     * Checks if the given item should be marked as active.
+     *
+     * If `$item->activation` is a callable function it will be used to determinate
+     * if the link should be active or not, returning true from callable indicates
+     * link should be active, false indicates it should not be marked as active.
+     * Callable receives current request object as first argument and $item as second.
+     *
+     * `$item->url` property MUST exists if  "activation" is not a callable, and can
+     * be either:
+     *
+     * - A string representing an external or internal URL (all internal links must
+     *   starts with "/"). e.g. `/user/login`
+     * - An array compatible with \Cake\Routing\Router::url().
+     *   e.g. `['controller' => 'users', 'action' => 'login']`
+     *
+     * Both examples are equivalent.
+     *
+     * @param \Cake\ORM\Entity $item A menu's item
+     * @return bool
+     */
     protected function _isActive($item)
     {
         if (is_callable($item->activation)) {
@@ -625,14 +625,14 @@ class MenuHelper extends Helper
         }
     }
 
-/**
- * Check if a path matches any pattern in a set of patterns.
- *
- * @param string $patterns String containing a set of patterns separated by \n,
- * \r or \r\n
- * @param mixed $path String as path to match. Or false to use current page URL
- * @return bool TRUE if the path matches a pattern, FALSE otherwise
- */
+    /**
+     * Check if a path matches any pattern in a set of patterns.
+     *
+     * @param string $patterns String containing a set of patterns separated by \n,
+     *  \r or \r\n
+     * @param mixed $path String as path to match. Or false to use current page URL
+     * @return bool TRUE if the path matches a pattern, FALSE otherwise
+     */
     protected function _urlMatch($patterns, $path = false)
     {
         if (empty($patterns)) {
@@ -678,14 +678,14 @@ class MenuHelper extends Helper
         return (bool)preg_match($regexps[$patterns], $path);
     }
 
-/**
- * Internal method for counting items in menu.
- *
- * This method will ignore children if parent has been marked as `do no expand`.
- *
- * @param \Cake\ORM\Query $items Items to count
- * @return int
- */
+    /**
+     * Internal method for counting items in menu.
+     *
+     * This method will ignore children if parent has been marked as `do no expand`.
+     *
+     * @param \Cake\ORM\Query $items Items to count
+     * @return int
+     */
     protected function _count($items)
     {
         foreach ($items as $item) {
@@ -698,16 +698,16 @@ class MenuHelper extends Helper
         }
     }
 
-/**
- * Returns a regular expression that is used to verify if an URL starts
- * or not with a language prefix.
- *
- * ## Example:
- *
- *     (en\-us|fr|es|it)
- *
- * @return string
- */
+    /**
+     * Returns a regular expression that is used to verify if an URL starts
+     * or not with a language prefix.
+     *
+     * ## Example:
+     *
+     *     (en\-us|fr|es|it)
+     *
+     * @return string
+     */
     protected function _localesPattern()
     {
         $cacheKey = '_localesPattern';
@@ -726,12 +726,12 @@ class MenuHelper extends Helper
         return static::cache($cacheKey, $pattern);
     }
 
-/**
- * Clears all temporary variables used when rendering a menu, so they do not
- * interfere when rendering other menus.
- *
- * @return void
- */
+    /**
+     * Clears all temporary variables used when rendering a menu, so they do not
+     * interfere when rendering other menus.
+     *
+     * @return void
+     */
     protected function _clear()
     {
         $this->_index = 0;

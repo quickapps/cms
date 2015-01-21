@@ -22,11 +22,11 @@ use User\Controller\AppController;
 class RolesController extends AppController
 {
 
-/**
- * Shows a list of all available roles.
- *
- * @return void
- */
+    /**
+     * Shows a list of all available roles.
+     *
+     * @return void
+     */
     public function index()
     {
         $this->loadModel('User.Acos');
@@ -38,11 +38,11 @@ class RolesController extends AppController
             ->push(__d('user', 'Roles'), ['plugin' => 'User', 'controller' => 'roles', 'action' => 'index']);
     }
 
-/**
- * Add a new role.
- *
- * @return void
- */
+    /**
+     * Add a new role.
+     *
+     * @return void
+     */
     public function add()
     {
         $this->Breadcrumb
@@ -51,12 +51,12 @@ class RolesController extends AppController
             ->push(__d('user', 'Add new role'), '');
     }
 
-/**
- * Edits the given role.
- *
- * @param int $id User's ID
- * @return void
- */
+    /**
+     * Edits the given role.
+     *
+     * @param int $id User's ID
+     * @return void
+     */
     public function edit($id)
     {
         $this->Breadcrumb
@@ -65,12 +65,12 @@ class RolesController extends AppController
             ->push(__d('user', 'Edit role'), '');
     }
 
-/**
- * Removes the given role.
- *
- * @param int $id User's ID
- * @return void Redirects to previous page
- */
+    /**
+     * Removes the given role.
+     *
+     * @param int $id User's ID
+     * @return void Redirects to previous page
+     */
     public function delete($id)
     {
         $this->loadModel('User.Roles');

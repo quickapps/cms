@@ -26,23 +26,23 @@ use User\Controller\AppController;
 class GatewayController extends AppController
 {
 
-/**
- * Mark as allowed some basic actions.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @return void
- */
+    /**
+     * Mark as allowed some basic actions.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @return void
+     */
     public function beforeFilter(Event $event)
     {
         $this->Auth->allow(['login', 'logout', 'unauthorized', 'forgot', 'activation_email', 'register']);
         $this->viewPath = 'Gateway';
     }
 
-/**
- * Renders the login form.
- *
- * @return void
- */
+    /**
+     * Renders the login form.
+     *
+     * @return void
+     */
     public function login()
     {
         $this->loadModel('User.Users');
@@ -112,11 +112,11 @@ class GatewayController extends AppController
         $this->set(compact('user'));
     }
 
-/**
- * Logout.
- *
- * @return void
- */
+    /**
+     * Logout.
+     *
+     * @return void
+     */
     public function logout()
     {
         $result = $this->Auth->logout();
@@ -130,11 +130,11 @@ class GatewayController extends AppController
         }
     }
 
-/**
- * Starts the password recovery process.
- *
- * @return void
- */
+    /**
+     * Starts the password recovery process.
+     *
+     * @return void
+     */
     public function forgot()
     {
         if (!empty($this->request->data['username'])) {
@@ -158,15 +158,15 @@ class GatewayController extends AppController
         }
     }
 
-/**
- * Here is where users can request to remove their accounts.
- *
- * Only non-administrator users can be canceled this way. User may request to
- * cancel their accounts by using the form rendered by this action, an e-mail
- * will be send with a especial link which will remove the account.
- *
- * @return void Redirects to previous page
- */
+    /**
+     * Here is where users can request to remove their accounts.
+     *
+     * Only non-administrator users can be canceled this way. User may request to
+     * cancel their accounts by using the form rendered by this action, an e-mail
+     * will be send with a especial link which will remove the account.
+     *
+     * @return void Redirects to previous page
+     */
     public function cancel_request()
     {
         $user = user();
@@ -183,14 +183,14 @@ class GatewayController extends AppController
         $this->redirect($this->referer());
     }
 
-/**
- * Here is where user's account is actually removed.
- *
- * @param int $userId The ID of the user whose account is being canceled
- * @param string $code Cancellation code, code is a MD5 hash of user's encrypted
- *  password + site's salt
- * @return void Redirects to previous page
- */
+    /**
+     * Here is where user's account is actually removed.
+     *
+     * @param int $userId The ID of the user whose account is being canceled
+     * @param string $code Cancellation code, code is a MD5 hash of user's encrypted
+     *  password + site's salt
+     * @return void Redirects to previous page
+     */
     public function cancel($userId, $code)
     {
         $this->loadModel('User.Users');
@@ -223,11 +223,11 @@ class GatewayController extends AppController
         $this->redirect($this->referer());
     }
 
-/**
- * Registers a new user.
- *
- * @return void
- */
+    /**
+     * Registers a new user.
+     *
+     * @return void
+     */
     public function register()
     {
         $this->loadModel('User.Users');
@@ -253,11 +253,11 @@ class GatewayController extends AppController
         $this->set(compact('registered', 'user', 'languages'));
     }
 
-/**
- * Users can request to re-send activation instructions to their email address.
- *
- * @return void
- */
+    /**
+     * Users can request to re-send activation instructions to their email address.
+     *
+     * @return void
+     */
     public function activation_email()
     {
         $this->loadModel('User.Users');
@@ -288,12 +288,12 @@ class GatewayController extends AppController
         $this->set(compact('sent'));
     }
 
-/**
- * Activates a registered user.
- *
- * @param string $token A valid user token
- * @return void
- */
+    /**
+     * Activates a registered user.
+     *
+     * @param string $token A valid user token
+     * @return void
+     */
     public function activate($token = null)
     {
         $activated = false;
@@ -324,12 +324,12 @@ class GatewayController extends AppController
         $this->set(compact('activated', 'token'));
     }
 
-/**
- * Renders the "unauthorized" screen, when an user attempts to access
- * to a restricted area.
- *
- * @return void
- */
+    /**
+     * Renders the "unauthorized" screen, when an user attempts to access
+     * to a restricted area.
+     *
+     * @return void
+     */
     public function unauthorized()
     {
         $this->loadModel('User.Users');
@@ -344,13 +344,13 @@ class GatewayController extends AppController
         }
     }
 
-/**
- * Renders user's "my profile" form.
- *
- * Here is where user can change their information.
- *
- * @return void
- */
+    /**
+     * Renders user's "my profile" form.
+     *
+     * Here is where user can change their information.
+     *
+     * @return void
+     */
     public function me()
     {
         $this->loadModel('User.Users');
@@ -372,14 +372,14 @@ class GatewayController extends AppController
         $this->set(compact('user', 'languages'));
     }
 
-/**
- * Shows profile information for the given user.
- *
- * @param int $id User's ID
- * @return void
- * @throws \Cake\ORM\Exception\RecordNotFoundException When user not found, or
- *  users has marked profile as private
- */
+    /**
+     * Shows profile information for the given user.
+     *
+     * @param int $id User's ID
+     * @return void
+     * @throws \Cake\ORM\Exception\RecordNotFoundException When user not found, or
+     *  users has marked profile as private
+     */
     public function profile($id)
     {
         $this->loadModel('User.Users');

@@ -43,41 +43,41 @@ class PluginsTable extends Table
 
     use HookAwareTrait;
 
-/**
- * Alter the schema used by this table.
- *
- * @param \Cake\Database\Schema\Table $table The table definition fetched from database
- * @return \Cake\Database\Schema\Table the altered schema
- */
+    /**
+     * Alter the schema used by this table.
+     *
+     * @param \Cake\Database\Schema\Table $table The table definition fetched from database
+     * @return \Cake\Database\Schema\Table the altered schema
+     */
     protected function _initializeSchema(Schema $table)
     {
         $table->columnType('settings', 'serialized');
         return $table;
     }
 
-/**
- * Settings validation rules.
- *
- * @param \Cake\Validation\Validator $validator The validator object
- * @return \Cake\Validation\Validator
- */
+    /**
+     * Settings validation rules.
+     *
+     * @param \Cake\Validation\Validator $validator The validator object
+     * @return \Cake\Validation\Validator
+     */
     public function validationSettings(Validator $validator)
     {
         return $validator;
     }
 
-/**
- * Here we set default values for plugin's settings.
- *
- * Similar to Field Handlers, plugins may implement the
- * `Plugin.<PluginName>.settingsDefaults` event to provide default settings values.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Query $query Query object
- * @param \ArrayObject $options Additional options as an array
- * @param bool $primary Whether is find is a primary query or not
- * @return void
- */
+    /**
+     * Here we set default values for plugin's settings.
+     *
+     * Similar to Field Handlers, plugins may implement the
+     * `Plugin.<PluginName>.settingsDefaults` event to provide default settings values.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\ORM\Query $query Query object
+     * @param \ArrayObject $options Additional options as an array
+     * @param bool $primary Whether is find is a primary query or not
+     * @return void
+     */
     public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary)
     {
         $query->formatResults(function ($results) {
@@ -95,15 +95,15 @@ class PluginsTable extends Table
         });
     }
 
-/**
- * Triggers `Plugin.<PluginName>.settingsValidate` event.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $entity The Plugin entity that is going to be validated
- * @param \ArrayObject $options Additional options as an array
- * @param \Cake\Validation\Validator $validator The validator object
- * @return bool False if save operation should not continue, true otherwise
- */
+    /**
+     * Triggers `Plugin.<PluginName>.settingsValidate` event.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\ORM\Entity $entity The Plugin entity that is going to be validated
+     * @param \ArrayObject $options Additional options as an array
+     * @param \Cake\Validation\Validator $validator The validator object
+     * @return bool False if save operation should not continue, true otherwise
+     */
     public function beforeValidate(Event $event, Entity $entity, ArrayObject $options, Validator $validator)
     {
         if (!empty($options['validate']) && $options['validate'] == 'settings') {
@@ -111,14 +111,14 @@ class PluginsTable extends Table
         }
     }
 
-/**
- * Set plugin's load ordering to LAST if it's a new plugin being installed.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $plugin The Plugin entity being saved
- * @param \ArrayObject $options The options passed to the save method
- * @return void
- */
+    /**
+     * Set plugin's load ordering to LAST if it's a new plugin being installed.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\ORM\Entity $plugin The Plugin entity being saved
+     * @param \ArrayObject $options The options passed to the save method
+     * @return void
+     */
     public function beforeSave(Event $event, Entity $plugin, ArrayObject $options = null)
     {
         if ($plugin->isNew()) {
@@ -130,27 +130,27 @@ class PluginsTable extends Table
         }
     }
 
-/**
- * This method automatically regenerates system's snapshot.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $plugin The Plugin entity that was saved
- * @param \ArrayObject $options The options passed to the save method
- * @return void
- */
+    /**
+     * This method automatically regenerates system's snapshot.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\ORM\Entity $plugin The Plugin entity that was saved
+     * @param \ArrayObject $options The options passed to the save method
+     * @return void
+     */
     public function afterSave(Event $event, Entity $plugin, ArrayObject $options = null)
     {
         snapshot();
     }
 
-/**
- * This method automatically regenerates system's snapshot.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $plugin The Plugin entity that was deleted
- * @param \ArrayObject $options the options passed to the delete method
- * @return void
- */
+    /**
+     * This method automatically regenerates system's snapshot.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\ORM\Entity $plugin The Plugin entity that was deleted
+     * @param \ArrayObject $options the options passed to the delete method
+     * @return void
+     */
     public function afterDelete(Event $event, Entity $plugin, ArrayObject $options = null)
     {
         snapshot();

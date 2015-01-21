@@ -25,11 +25,11 @@ use Field\Model\Entity\Field;
 class TaxonomyField extends FieldHandler
 {
 
-/**
- * Return a list of implemented events.
- *
- * @return array
- */
+    /**
+     * Return a list of implemented events.
+     *
+     * @return array
+     */
     public function implementedEvents()
     {
         $events = parent::implementedEvents();
@@ -37,18 +37,18 @@ class TaxonomyField extends FieldHandler
         return $events;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityDisplay(Event $event, Field $field, $options = [])
     {
         $View = $event->subject;
         return $View->element('Taxonomy.taxonomy_field_display', compact('field', 'options'));
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityEdit(Event $event, Field $field, $options = [])
     {
         $View = $event->subject;
@@ -63,9 +63,9 @@ class TaxonomyField extends FieldHandler
         return $View->element('Taxonomy.taxonomy_field_edit', compact('field', 'options', 'terms'));
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityBeforeSave(Event $event, Field $field, $options)
     {
         if (!$field->metadata->settings['vocabulary']) {
@@ -124,9 +124,9 @@ class TaxonomyField extends FieldHandler
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityAfterSave(Event $event, Field $field, $options)
     {
         $pk = $event->subject->primaryKey();
@@ -154,9 +154,9 @@ class TaxonomyField extends FieldHandler
         }
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityBeforeValidate(Event $event, Field $field, $options, $validator)
     {
         if ($field->metadata->required) {
@@ -187,32 +187,32 @@ class TaxonomyField extends FieldHandler
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityAfterValidate(Event $event, Field $field, $options, $validator)
     {
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityBeforeDelete(Event $event, Field $field, $options)
     {
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function entityAfterDelete(Event $event, Field $field, $options)
     {
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceInfo(Event $event)
     {
         return [
@@ -222,9 +222,9 @@ class TaxonomyField extends FieldHandler
         ];
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceSettingsForm(Event $event, $instance, $options = [])
     {
         $View = $event->subject;
@@ -232,9 +232,9 @@ class TaxonomyField extends FieldHandler
         return $View->element('Taxonomy.taxonomy_field_settings_form', compact('instance', 'options', 'vocabularies'));
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceSettingsDefaults(Event $event, $instance, $options = [])
     {
         return [
@@ -245,18 +245,18 @@ class TaxonomyField extends FieldHandler
         ];
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceViewModeForm(Event $event, $instance, $options = [])
     {
         $View = $event->subject;
         return $View->element('Taxonomy.taxonomy_field_view_mode_form', compact('instance', 'options'));
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceViewModeDefaults(Event $event, $instance, $options = [])
     {
         switch ($options['viewMode']) {
@@ -271,56 +271,51 @@ class TaxonomyField extends FieldHandler
         }
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceBeforeAttach(Event $event, $instance, $options = [])
     {
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceAfterAttach(Event $event, $instance, $options = [])
     {
     }
 
-/**
- * {@inheritDoc}
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Field\Model\Entity\FieldInstance $instance Instance information
- * @param array $options
- * @return bool False will halt the detach process
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceBeforeDetach(Event $event, $instance, $options = [])
     {
         return true;
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function instanceAfterDetach(Event $event, $instance, $options = [])
     {
     }
 
-/**
- * Handles the "term:" search operator. Which filters all entities matching
- * a given collection of terms.
- *
- *     term:cat,dog,bird,...,term-slug
- *
- * You can provide up to 10 terms as maximum.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Query $query The query being modified
- * @param string $value Operator value. e.g. `cat,dog,bird`
- * @param bool $negate Whether this operator was negated using `-`. e.g. "-term:dog"
- * @param string $orAnd Possible values are "or" & "and"
- * @return \Cake\ORM\Query Scoped query
- */
+    /**
+     * Handles the "term:" search operator. Which filters all entities matching
+     * a given collection of terms.
+     *
+     *     term:cat,dog,bird,...,term-slug
+     *
+     * You can provide up to 10 terms as maximum.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\ORM\Query $query The query being modified
+     * @param string $value Operator value. e.g. `cat,dog,bird`
+     * @param bool $negate Whether this operator was negated using `-`. e.g. "-term:dog"
+     * @param string $orAnd Possible values are "or" & "and"
+     * @return \Cake\ORM\Query Scoped query
+     */
     public function operatorTerm(Event $event, $query, $value, $negate, $orAnd)
     {
         $slugs = explode(',', $value);

@@ -21,11 +21,11 @@ use QuickApps\Core\Plugin;
 class Aco extends Entity
 {
 
-/**
- * For usage as part of MenuHelper.
- *
- * @return string
- */
+    /**
+     * For usage as part of MenuHelper.
+     *
+     * @return string
+     */
     protected function _getTitle()
     {
         if ($this->_getIsPlugin()) {
@@ -39,32 +39,32 @@ class Aco extends Entity
         return $this->alias;
     }
 
-/**
- * For usage as part of MenuHelper.
- *
- * @return string
- */
+    /**
+     * For usage as part of MenuHelper.
+     *
+     * @return string
+     */
     protected function _getExpanded()
     {
         return true;
     }
 
-/**
- * For usage as part of MenuHelper.
- *
- * @return string
- */
+    /**
+     * For usage as part of MenuHelper.
+     *
+     * @return string
+     */
     protected function _getPluginName()
     {
         $info = Plugin::info($this->alias);
         return $info['human_name'];
     }
 
-/**
- * For usage as part of MenuHelper.
- *
- * @return string
- */
+    /**
+     * For usage as part of MenuHelper.
+     *
+     * @return string
+     */
     protected function _getIsPlugin()
     {
         return empty($this->parent_id);

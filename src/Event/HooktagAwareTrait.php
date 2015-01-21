@@ -25,70 +25,70 @@ use QuickApps\Event\HooktagManager;
 trait HooktagAwareTrait
 {
 
-/**
- * Look for hooktags in the given text.
- *
- * If any is found a hook invocation is fired asking for its Hooktag Lister method.
- * For example:
- *
- *     [nice_button color=green]Click Me![/nice_button]
- *
- * You must define a Hooktag Lister `Hooktag.nice_button`:
- *
- *     class YourListener implements EventListenerInterface {
- *         public function implementedEvents() {
- *             return ['Hooktag.nice_button' => 'hooktagNiceButton'];
- *         }
- *
- *         public function hooktagNiceButton(Event $event, $atts, $content, $tag) {
- *             // return some text
- *         }
- *     }
- *
- * (Note the `Hooktag.` prefix).
- *
- * As you can see hooktags methods will receive three arguments:
- *
- * ### $atts
- *
- * Array which may include any arbitrary attributes that are specified by the user.
- * Attribute names are always converted to lowercase before they are passed into
- * the handler function. Values remains untouched.
- *
- *     [some_hooktag Foo="bAr"]
- *
- * Produces:
- *
- *     $atts = ['foo' => 'bAr'];
- *
- * **TIP:** Don't use camelCase or UPPER-CASE for your $atts attribute names
- *
- * ### $content
- *
- *  Holds the enclosed content (if the hooktag is used in its enclosing form).
- *  For self-closing hooktags $content will be null:
- *
- *  [self_close some=thing /]
- *
- *
- * ### $tag
- *
- * The hooktag name. i.e.: `some_hooktag`
- *
- * @param string $content The the text to parse
- * @return string Orginal string modified with no hooktags [..]
- */
+	/**
+	 * Look for hooktags in the given text.
+	 *
+	 * If any is found a hook invocation is fired asking for its Hooktag Lister method.
+	 * For example:
+	 *
+	 *     [nice_button color=green]Click Me![/nice_button]
+	 *
+	 * You must define a Hooktag Lister `Hooktag.nice_button`:
+	 *
+	 *     class YourListener implements EventListenerInterface {
+	 *         public function implementedEvents() {
+	 *             return ['Hooktag.nice_button' => 'hooktagNiceButton'];
+	 *         }
+	 *
+	 *         public function hooktagNiceButton(Event $event, $atts, $content, $tag) {
+	 *             // return some text
+	 *         }
+	 *     }
+	 *
+	 * (Note the `Hooktag.` prefix).
+	 *
+	 * As you can see hooktags methods will receive three arguments:
+	 *
+	 * ### $atts
+	 *
+	 * Array which may include any arbitrary attributes that are specified by the user.
+	 * Attribute names are always converted to lowercase before they are passed into
+	 * the handler function. Values remains untouched.
+	 *
+	 *     [some_hooktag Foo="bAr"]
+	 *
+	 * Produces:
+	 *
+	 *     $atts = ['foo' => 'bAr'];
+	 *
+	 * **TIP:** Don't use camelCase or UPPER-CASE for your $atts attribute names
+	 *
+	 * ### $content
+	 *
+	 *  Holds the enclosed content (if the hooktag is used in its enclosing form).
+	 *  For self-closing hooktags $content will be null:
+	 *
+	 *  [self_close some=thing /]
+	 *
+	 *
+	 * ### $tag
+	 *
+	 * The hooktag name. i.e.: `some_hooktag`
+	 *
+	 * @param string $content The the text to parse
+	 * @return string Orginal string modified with no hooktags [..]
+	 */
     public function hooktags($content)
     {
         return HooktagManager::hooktags($content, $this);
     }
 
-/**
- * Removes all hooktags from the given content.
- *
- * @param string $content Text from which to remove hooktags
- * @return string Content without hooktags
- */
+	/**
+	 * Removes all hooktags from the given content.
+	 *
+	 * @param string $content Text from which to remove hooktags
+	 * @return string Content without hooktags
+	 */
     public function stripHooktags($content)
     {
         return HooktagManager::stripHooktags($content);

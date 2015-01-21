@@ -31,40 +31,40 @@ abstract class BaseTask
     use InstanceConfigTrait;
     use ModelAwareTrait;
 
-/**
- * Default config
- *
- * @var array
- */
+    /**
+     * Default config
+     *
+     * @var array
+     */
     protected $_defaultConfig = [];
 
-/**
- * List of error messages.
- *
- * @var array
- */
+    /**
+     * List of error messages.
+     *
+     * @var array
+     */
     protected $_errors = [];
 
-/**
- * Holds the name of the plugin which is running the task.
- *
- * @var string
- */
+    /**
+     * Holds the name of the plugin which is running the task.
+     *
+     * @var string
+     */
     protected $_pluginName = null;
 
-/**
- * List of all attached listeners during task execution.
- *
- * @var array
- */
+    /**
+     * List of all attached listeners during task execution.
+     *
+     * @var array
+     */
     protected $_listeners = [];
 
-/**
- * Constructor.
- *
- * @param array $config Additional options for the task handler
- * @return void
- */
+    /**
+     * Constructor.
+     *
+     * @param array $config Additional options for the task handler
+     * @return void
+     */
     public function __construct($config = [])
     {
         if (function_exists('ini_set')) {
@@ -78,13 +78,13 @@ abstract class BaseTask
         $this->loadModel('System.Plugins');
     }
 
-/**
- * Starts this task.
- *
- * @return bool True if task executed correctly
- * @throws \Cake\Error\FatalErrorException When task is started before task
- * handler has specified the plugin being managed
- */
+    /**
+     * Starts this task.
+     *
+     * @return bool True if task executed correctly
+     * @throws \Cake\Error\FatalErrorException When task is started before task
+     * handler has specified the plugin being managed
+     */
     final public function run()
     {
         $this->init();
@@ -94,34 +94,34 @@ abstract class BaseTask
         return $this->start();
     }
 
-/**
- * This is where task should initialize all what it needs
- * before it gets started.
- *
- * This method is automatically executed before "run()". Here is where you
- * should indicate which plugin is being handled using the `plugin()` method.
- *
- * @return void
- */
+    /**
+     * This is where task should initialize all what it needs
+     * before it gets started.
+     *
+     * This method is automatically executed before "run()". Here is where you
+     * should indicate which plugin is being handled using the `plugin()` method.
+     *
+     * @return void
+     */
     abstract public function init();
 
-/**
- * This is the main method of every task.
- *
- * It cannot be directly executed, it can only be accessed using "run()".
- *
- * @return bool
- */
+    /**
+     * This is the main method of every task.
+     *
+     * It cannot be directly executed, it can only be accessed using "run()".
+     *
+     * @return bool
+     */
     abstract public function start();
 
-/**
- * Gets or sets the plugin name being handled.
- *
- * A plugin name must be set before starting the task using "run()" method.
- *
- * @param string $pluginName Plugin's name
- * @return string The plugin name just set
- */
+    /**
+     * Gets or sets the plugin name being handled.
+     *
+     * A plugin name must be set before starting the task using "run()" method.
+     *
+     * @param string $pluginName Plugin's name
+     * @return string The plugin name just set
+     */
     final public function plugin($pluginName = null)
     {
         if ($pluginName === null) {
@@ -130,28 +130,28 @@ abstract class BaseTask
         return $this->_pluginName = $pluginName;
     }
 
-/**
- * Registers a new option in the "options" DB table.
- *
- * IMPORTANT: option names are automatically prefixed with "<PluginName>.",
- * where `<PluginName>` is the name of the plugin running this task. For
- * instance, if we are installing a new theme named "DarkBlue":
- *
- *     $this->addOption('background_color', '#000');
- *
- * Will add the following row to the "options" table:
- *
- * - name: DarkBlue.background_color
- * - value: #000
- * - autoload: true
- *
- * @param string $name Option name, will be automatically prefixed with "<PluginName>."
- * @param mixed $value Any information this plugin needs for this option
- * @param bool $autoload True if this option should be loaded on bootstrap,
- *  defaults to false
- * @return mixed
- * @throws \Cake\Error\FatalErrorException On illegal usage of this method
- */
+    /**
+     * Registers a new option in the "options" DB table.
+     *
+     * IMPORTANT: option names are automatically prefixed with "<PluginName>.",
+     * where `<PluginName>` is the name of the plugin running this task. For
+     * instance, if we are installing a new theme named "DarkBlue":
+     *
+     *     $this->addOption('background_color', '#000');
+     *
+     * Will add the following row to the "options" table:
+     *
+     * - name: DarkBlue.background_color
+     * - value: #000
+     * - autoload: true
+     *
+     * @param string $name Option name, will be automatically prefixed with "<PluginName>."
+     * @param mixed $value Any information this plugin needs for this option
+     * @param bool $autoload True if this option should be loaded on bootstrap,
+     *  defaults to false
+     * @return mixed
+     * @throws \Cake\Error\FatalErrorException On illegal usage of this method
+     */
     final public function addOption($name, $value, $autoload = false)
     {
         if (!$this->plugin()) {
@@ -164,12 +164,12 @@ abstract class BaseTask
         return $this->Options->save($option);
     }
 
-/**
- * Gets an instance of AcoManager.
- *
- * @return \User\Utility\AcoManager
- * @throws \Cake\Error\FatalErrorException On illegal usage of this method
- */
+    /**
+     * Gets an instance of AcoManager.
+     *
+     * @return \User\Utility\AcoManager
+     * @throws \Cake\Error\FatalErrorException On illegal usage of this method
+     */
     final public function aco()
     {
         if (!$this->plugin()) {
@@ -178,39 +178,39 @@ abstract class BaseTask
         return new AcoManager($this->plugin());
     }
 
-/**
- * Creates a new instance of this class, so we can chain multiple
- * installation/upgrade tasks.
- *
- * This allow plugins to start a new installation "thread" on callbacks
- * (beforeInstall, afterInstall, etc), for instance:
- *
- *     // MyPluginHook.php
- *     public function beforeInstall($event) {
- *         // subject is the InstallTask instance that fired the event
- *         $installDependency = $event->subject
- *             ->newTask('install', ['active' => false])
- *             ->download('http://example.com/some-package/this/plugins/depends-on.zip')
- *             ->run();
- *         // if false will halt the whole installation
- *         return $installDependency;
- *     }
- *
- * @param string $task Type of task
- * @param array $options Array of options for the task
- * @return \Installer\Task\BaseTask New instance of this class
- */
+    /**
+     * Creates a new instance of this class, so we can chain multiple
+     * installation/upgrade tasks.
+     *
+     * This allow plugins to start a new installation "thread" on callbacks
+     * (beforeInstall, afterInstall, etc), for instance:
+     *
+     *     // MyPluginHook.php
+     *     public function beforeInstall($event) {
+     *         // subject is the InstallTask instance that fired the event
+     *         $installDependency = $event->subject
+     *             ->newTask('install', ['active' => false])
+     *             ->download('http://example.com/some-package/this/plugins/depends-on.zip')
+     *             ->run();
+     *         // if false will halt the whole installation
+     *         return $installDependency;
+     *     }
+     *
+     * @param string $task Type of task
+     * @param array $options Array of options for the task
+     * @return \Installer\Task\BaseTask New instance of this class
+     */
     final public function newTask($task, $options = [])
     {
         return TaskManager::task($task, $options);
     }
 
-/**
- * Registers a new error message, or a set of messages at once.
- *
- * @param array|string $message A single message or an array of messages
- * @return void
- */
+    /**
+     * Registers a new error message, or a set of messages at once.
+     *
+     * @param array|string $message A single message or an array of messages
+     * @return void
+     */
     final public function error($message)
     {
         if (is_string($message)) {
@@ -221,24 +221,24 @@ abstract class BaseTask
         }
     }
 
-/**
- * Gets a list of all errors during installation.
- *
- * @return array
- */
+    /**
+     * Gets a list of all errors during installation.
+     *
+     * @return array
+     */
     final public function errors()
     {
         return $this->_errors;
     }
 
-/**
- * Recursively checks if the given directory (and its content) can be deleted.
- *
- * This method automatically registers an error message if validation fails.
- *
- * @param string $path Directory to check
- * @return bool
- */
+    /**
+     * Recursively checks if the given directory (and its content) can be deleted.
+     *
+     * This method automatically registers an error message if validation fails.
+     *
+     * @param string $path Directory to check
+     * @return bool
+     */
     final public function canBeDeleted($path)
     {
         if (!file_exists($path) || !is_dir($path)) {
@@ -271,14 +271,14 @@ abstract class BaseTask
         return true;
     }
 
-/**
- * Loads and registers plugin's event listeners classes so plugins may respond
- * to `beforeInstall`, `afterInstall`, etc.
- *
- * @param string $path Where to look for listener classes
- * @return void
- * @throws \Cake\Error\FatalErrorException On illegal usage of this method
- */
+    /**
+     * Loads and registers plugin's event listeners classes so plugins may respond
+     * to `beforeInstall`, `afterInstall`, etc.
+     *
+     * @param string $path Where to look for listener classes
+     * @return void
+     * @throws \Cake\Error\FatalErrorException On illegal usage of this method
+     */
     final public function attachListeners($path)
     {
         global $classLoader;
@@ -305,11 +305,11 @@ abstract class BaseTask
         }
     }
 
-/**
- * Unloads all registered listeners that were attached using "attachListeners()".
- *
- * @return void
- */
+    /**
+     * Unloads all registered listeners that were attached using "attachListeners()".
+     *
+     * @return void
+     */
     final public function detachListeners()
     {
         $EventManager = EventManager::instance();

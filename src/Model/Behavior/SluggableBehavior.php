@@ -25,33 +25,33 @@ use Cake\Utility\Inflector;
 class SluggableBehavior extends Behavior
 {
 
-/**
- * Table which this behavior is attached to.
- *
- * @var \Cake\ORM\Table
- */
+    /**
+     * Table which this behavior is attached to.
+     *
+     * @var \Cake\ORM\Table
+     */
     protected $_table;
 
-/**
- * Flag.
- *
- * @var bool
- */
+    /**
+     * Flag.
+     *
+     * @var bool
+     */
     protected $_enabled = true;
 
-/**
- * Default configuration.
- *
- * - `label`: Set to the field name that contains the string from where to
- *    generate the slug, or a set of field names to concatenate for generating
- *    the slug. `title` by default.
- * - `slug`: Name of the field name that holds generated slugs. `slug` by default.
- * - `separator`: Separator char. `-` by default. e.g.: `one-two-three`
- * - `on`: When to generate new slugs. `create`, `update` or `both` (by default).
- * - `length`: Maximum length the generated slug can have. default to 200.
- *
- * @var array
- */
+    /**
+     * Default configuration.
+     *
+     * - `label`: Set to the field name that contains the string from where to
+     *    generate the slug, or a set of field names to concatenate for generating
+     *    the slug. `title` by default.
+     * - `slug`: Name of the field name that holds generated slugs. `slug` by default.
+     * - `separator`: Separator char. `-` by default. e.g.: `one-two-three`
+     * - `on`: When to generate new slugs. `create`, `update` or `both` (by default).
+     * - `length`: Maximum length the generated slug can have. default to 200.
+     *
+     * @var array
+     */
     protected $_defaultConfig = [
         'label' => 'title',
         'slug' => 'slug',
@@ -64,28 +64,28 @@ class SluggableBehavior extends Behavior
         ],
     ];
 
-/**
- * Constructor.
- *
- * @param \Cake\ORM\Table $table The table this behavior is attached to
- * @param array $config Configuration array for this behavior
- */
+    /**
+     * Constructor.
+     *
+     * @param \Cake\ORM\Table $table The table this behavior is attached to
+     * @param array $config Configuration array for this behavior
+     */
     public function __construct(Table $table, array $config = [])
     {
         $this->_table = $table;
         parent::__construct($table, $config);
     }
 
-/**
- * Run before a model is saved, used to set up slug for model.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $entity The entity being saved
- * @param array $options Array of options for the save operation
- * @return bool True if save should proceed, false otherwise
- * @throws \Cake\Error\FatalErrorException When some of the specified columns
- *  in config's "label" is not present in the entity being saved
- */
+    /**
+     * Run before a model is saved, used to set up slug for model.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\ORM\Entity $entity The entity being saved
+     * @param array $options Array of options for the save operation
+     * @return bool True if save should proceed, false otherwise
+     * @throws \Cake\Error\FatalErrorException When some of the specified columns
+     *  in config's "label" is not present in the entity being saved
+     */
     public function beforeSave(Event $event, $entity, $options = [])
     {
         if (!$this->_enabled) {
@@ -125,35 +125,35 @@ class SluggableBehavior extends Behavior
         return true;
     }
 
-/**
- * Enables this behavior.
- *
- * @return void
- */
+    /**
+     * Enables this behavior.
+     *
+     * @return void
+     */
     public function bindSluggable()
     {
         $this->_enabled = true;
     }
 
-/**
- * Disables this behavior.
- *
- * @return void
- */
+    /**
+     * Disables this behavior.
+     *
+     * @return void
+     */
     public function unbindSluggable()
     {
         $this->_enabled = false;
     }
 
-/**
- * Generate a slug for the given string and entity.
- *
- * The generated slug is unique on the whole table.
- *
- * @param string $string string from where to generate slug
- * @param \Cake\ORM\Entity $entity The entity for which generate the slug
- * @return string Slug for given string
- */
+    /**
+     * Generate a slug for the given string and entity.
+     *
+     * The generated slug is unique on the whole table.
+     *
+     * @param string $string string from where to generate slug
+     * @param \Cake\ORM\Entity $entity The entity for which generate the slug
+     * @return string Slug for given string
+     */
     protected function _slug($string, $entity)
     {
         $config = $this->config();

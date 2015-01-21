@@ -26,11 +26,11 @@ use QuickApps\Core\Plugin;
 class NodesTable extends Table
 {
 
-/**
- * List of implemented events.
- *
- * @return array
- */
+    /**
+     * List of implemented events.
+     *
+     * @return array
+     */
     public function implementedEvents()
     {
         $events = [
@@ -43,12 +43,12 @@ class NodesTable extends Table
         return $events;
     }
 
-/**
- * Initialize a table instance. Called after the constructor.
- *
- * @param array $config Configuration options passed to the constructor
- * @return void
- */
+    /**
+     * Initialize a table instance. Called after the constructor.
+     *
+     * @param array $config Configuration options passed to the constructor
+     * @return void
+     */
     public function initialize(array $config)
     {
         $this->belongsTo('NodeTypes', [
@@ -128,12 +128,12 @@ class NodesTable extends Table
         $this->addSearchOperator('language', 'operatorLanguage');
     }
 
-/**
- * Default validation rules set.
- *
- * @param \Cake\Validation\Validator $validator The validator object
- * @return \Cake\Validation\Validator
- */
+    /**
+     * Default validation rules set.
+     *
+     * @param \Cake\Validation\Validator $validator The validator object
+     * @return \Cake\Validation\Validator
+     */
     public function validationDefault(Validator $validator)
     {
         $validator
@@ -151,14 +151,14 @@ class NodesTable extends Table
         return $validator;
     }
 
-/**
- * Saves a revision version of each node being saved if it has changed.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Node\Model\Entity\Node $entity The entity being saved
- * @param \ArrayObject $options Array of options
- * @return void
- */
+    /**
+     * Saves a revision version of each node being saved if it has changed.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Node\Model\Entity\Node $entity The entity being saved
+     * @param \ArrayObject $options Array of options
+     * @return void
+     */
     public function beforeSave(Event $event, $entity, ArrayObject $options = null)
     {
         if (!$entity->isNew()) {
@@ -187,20 +187,20 @@ class NodesTable extends Table
         return true;
     }
 
-/**
- * Handles "created" search operator.
- *
- *     created:<date>
- *     created:<date1>..<date2>
- *
- * Dates must be in YEAR-MONTH-DATE format. e.g. `2014-12-30`
- *
- * @param \Cake\ORM\Query $query The query object
- * @param string $value Operator's arguments
- * @param bool $negate Whether this operator was negated or not
- * @param string $orAnd and|or
- * @return void
- */
+    /**
+     * Handles "created" search operator.
+     *
+     *     created:<date>
+     *     created:<date1>..<date2>
+     *
+     * Dates must be in YEAR-MONTH-DATE format. e.g. `2014-12-30`
+     *
+     * @param \Cake\ORM\Query $query The query object
+     * @param string $value Operator's arguments
+     * @param bool $negate Whether this operator was negated or not
+     * @param string $orAnd and|or
+     * @return void
+     */
     public function operatorCreated(Query $query, $value, $negate, $orAnd)
     {
         if (strpos($value, '..') !== false) {
@@ -256,17 +256,17 @@ class NodesTable extends Table
         return $query;
     }
 
-/**
- * Handles "limit" search operator.
- *
- *     limit:<number>
- *
- * @param \Cake\ORM\Query $query The query object
- * @param string $value Operator's arguments
- * @param bool $negate Whether this operator was negated or not
- * @param string $orAnd and|or
- * @return void
- */
+    /**
+     * Handles "limit" search operator.
+     *
+     *     limit:<number>
+     *
+     * @param \Cake\ORM\Query $query The query object
+     * @param string $value Operator's arguments
+     * @param bool $negate Whether this operator was negated or not
+     * @param string $orAnd and|or
+     * @return void
+     */
     public function operatorLimit(Query $query, $value, $negate, $orAnd)
     {
         if ($negate) {
@@ -282,17 +282,17 @@ class NodesTable extends Table
         return $query;
     }
 
-/**
- * Handles "order" search operator.
- *
- *     order:<field1>,<asc|desc>;<field2>,<asc,desc>; ...
- *
- * @param \Cake\ORM\Query $query The query object
- * @param string $value Operator's arguments
- * @param bool $negate Whether this operator was negated or not
- * @param string $orAnd and|or
- * @return void
- */
+    /**
+     * Handles "order" search operator.
+     *
+     *     order:<field1>,<asc|desc>;<field2>,<asc,desc>; ...
+     *
+     * @param \Cake\ORM\Query $query The query object
+     * @param string $value Operator's arguments
+     * @param bool $negate Whether this operator was negated or not
+     * @param string $orAnd and|or
+     * @return void
+     */
     public function operatorOrder(Query $query, $value, $negate, $orAnd)
     {
         if ($negate) {
@@ -318,17 +318,17 @@ class NodesTable extends Table
         return $query;
     }
 
-/**
- * Handles "promote" search operator.
- *
- *     promote:<true|false>
- *
- * @param \Cake\ORM\Query $query The query object
- * @param string $value Operator's arguments
- * @param bool $negate Whether this operator was negated or not
- * @param string $orAnd and|or
- * @return void
- */
+    /**
+     * Handles "promote" search operator.
+     *
+     *     promote:<true|false>
+     *
+     * @param \Cake\ORM\Query $query The query object
+     * @param string $value Operator's arguments
+     * @param bool $negate Whether this operator was negated or not
+     * @param string $orAnd and|or
+     * @return void
+     */
     public function operatorPromote(Query $query, $value, $negate, $orAnd)
     {
         $value = strtolower($value);
@@ -354,17 +354,17 @@ class NodesTable extends Table
         return $query;
     }
 
-/**
- * Handles "type" search operator.
- *
- *     type:<slug1>,<slug2>, ...
- *
- * @param \Cake\ORM\Query $query The query object
- * @param string $value Operator's arguments
- * @param bool $negate Whether this operator was negated or not
- * @param string $orAnd and|or
- * @return void
- */
+    /**
+     * Handles "type" search operator.
+     *
+     *     type:<slug1>,<slug2>, ...
+     *
+     * @param \Cake\ORM\Query $query The query object
+     * @param string $value Operator's arguments
+     * @param bool $negate Whether this operator was negated or not
+     * @param string $orAnd and|or
+     * @return void
+     */
     public function operatorType(Query $query, $value, $negate, $orAnd)
     {
         $value = explode(',', strtolower($value));
@@ -382,17 +382,17 @@ class NodesTable extends Table
         return $query;
     }
 
-/**
- * Handles "author" search operator.
- *
- *     author:<username1>,<username2>, ...
- *
- * @param \Cake\ORM\Query $query The query object
- * @param string $value Operator's arguments
- * @param bool $negate Whether this operator was negated or not
- * @param string $orAnd and|or
- * @return void
- */
+    /**
+     * Handles "author" search operator.
+     *
+     *     author:<username1>,<username2>, ...
+     *
+     * @param \Cake\ORM\Query $query The query object
+     * @param string $value Operator's arguments
+     * @param bool $negate Whether this operator was negated or not
+     * @param string $orAnd and|or
+     * @return void
+     */
     public function operatorAuthor(Query $query, $value, $negate, $orAnd)
     {
         $value = explode(',', $value);
@@ -413,17 +413,17 @@ class NodesTable extends Table
         return $query;
     }
 
-/**
- * Handles "language" search operator.
- *
- *     language:<lang1>,<lang2>, ...
- *
- * @param \Cake\ORM\Query $query The query object
- * @param string $value Operator's arguments
- * @param bool $negate Whether this operator was negated or not
- * @param string $orAnd and|or
- * @return void
- */
+    /**
+     * Handles "language" search operator.
+     *
+     *     language:<lang1>,<lang2>, ...
+     *
+     * @param \Cake\ORM\Query $query The query object
+     * @param string $value Operator's arguments
+     * @param bool $negate Whether this operator was negated or not
+     * @param string $orAnd and|or
+     * @return void
+     */
     public function operatorLanguage(Query $query, $value, $negate, $orAnd)
     {
         $value = explode(',', $value);
@@ -446,14 +446,14 @@ class NodesTable extends Table
         return $query;
     }
 
-/**
- * Generates a unique hash for the given entity.
- *
- * Used by revision system to detect if an entity has changed or not.
- *
- * @param \Cake\ORM\Entity $entity The entity for which calculate its hash
- * @return string MD5 hash
- */
+    /**
+     * Generates a unique hash for the given entity.
+     *
+     * Used by revision system to detect if an entity has changed or not.
+     *
+     * @param \Cake\ORM\Entity $entity The entity for which calculate its hash
+     * @return string MD5 hash
+     */
     protected function _calculateHash($entity)
     {
         $hash = [];

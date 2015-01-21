@@ -21,12 +21,12 @@ use Menu\Controller\AppController;
 class LinksController extends AppController
 {
 
-/**
- * Shows menu's links as a sortable tree.
- *
- * @param int $id Menu's ID for which render its links tree
- * @return void
- */
+    /**
+     * Shows menu's links as a sortable tree.
+     *
+     * @param int $id Menu's ID for which render its links tree
+     * @return void
+     */
     public function menu($id)
     {
         $this->loadModel('Menu.Menus');
@@ -88,12 +88,12 @@ class LinksController extends AppController
             ->push(__d('menu', 'Links'), '#');
     }
 
-/**
- * Add a new link to the given menu.
- *
- * @param int $menuId Menu's ID for which add a link
- * @return void
- */
+    /**
+     * Add a new link to the given menu.
+     *
+     * @param int $menuId Menu's ID for which add a link
+     * @return void
+     */
     public function add($menuId)
     {
         $this->loadModel('Menu.Menus');
@@ -161,12 +161,12 @@ class LinksController extends AppController
             ->push(__d('menu', 'Add new link'), '#');
     }
 
-/**
- * Edits the given menu link by ID.
- *
- * @param int $id Link's ID
- * @return void
- */
+    /**
+     * Edits the given menu link by ID.
+     *
+     * @param int $id Link's ID
+     * @return void
+     */
     public function edit($id)
     {
         $this->loadModel('Menu.MenuLinks');
@@ -212,12 +212,12 @@ class LinksController extends AppController
             ->push(__d('menu', 'Editing link'), '#');
     }
 
-/**
- * Deletes the given link.
- *
- * @param int $id Link's ID
- * @return void
- */
+    /**
+     * Deletes the given link.
+     *
+     * @param int $id Link's ID
+     * @return void
+     */
     public function delete($id)
     {
         $this->loadModel('Menu.MenuLinks');

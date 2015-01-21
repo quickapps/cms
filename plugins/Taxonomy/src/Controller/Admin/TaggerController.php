@@ -23,12 +23,12 @@ use Taxonomy\Controller\AppController;
 class TaggerController extends AppController
 {
 
-/**
- * Shows a list of matching terms.
- *
- * @param int $vocabularyId Vocabulary's ID for which render its terms
- * @return void
- */
+    /**
+     * Shows a list of matching terms.
+     *
+     * @param int $vocabularyId Vocabulary's ID for which render its terms
+     * @return void
+     */
     public function search($vocabularyId)
     {
         $this->loadModel('Taxonomy.Terms');

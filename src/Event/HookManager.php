@@ -102,23 +102,23 @@ use Cake\Event\EventManager;
 class HookManager
 {
 
-/**
- * Holds a list of all the events that were fired.
- *
- * @var array
- */
+    /**
+     * Holds a list of all the events that were fired.
+     *
+     * @var array
+     */
     protected static $_log = [];
 
-/**
- * Retrieve the number of times an event was triggered, or the complete list
- * of events that were triggered.
- *
- * @param string $eventName The name of the event, if null returns the entire
- *  list of event that were fired
- * @param bool $sort If first argument is null set this to true to sort the list.
- *  Defaults to true
- * @return int|array
- */
+    /**
+     * Retrieve the number of times an event was triggered, or the complete list
+     * of events that were triggered.
+     *
+     * @param string $eventName The name of the event, if null returns the entire
+     *  list of event that were fired
+     * @param bool $sort If first argument is null set this to true to sort the list.
+     *  Defaults to true
+     * @return int|array
+     */
     public static function triggered($eventName = null, $sort = true)
     {
         if (!$eventName) {
@@ -133,20 +133,20 @@ class HookManager
         return 0;
     }
 
-/**
- * Trigger the given event name.
- *
- * You can provide a context to use by passing an array as first arguments where
- * the first element is the event name and the second one is the context:
- *
- *     HookManager::trigger(['GetTime', new ContextObject()], ['arg0' => 'val0', ...]);
- *
- * If no context is given an instance of "Hook" class will be used by default.
- *
- * @param array $eventName The event name to trigger
- * @param array $args Associative array of argument to pass to the Event handler method
- * @return \Cake\Event\Event The event object that was fired
- */
+    /**
+     * Trigger the given event name.
+     *
+     * You can provide a context to use by passing an array as first arguments where
+     * the first element is the event name and the second one is the context:
+     *
+     *     HookManager::trigger(['GetTime', new ContextObject()], ['arg0' => 'val0', ...]);
+     *
+     * If no context is given an instance of "Hook" class will be used by default.
+     *
+     * @param array $eventName The event name to trigger
+     * @param array $args Associative array of argument to pass to the Event handler method
+     * @return \Cake\Event\Event The event object that was fired
+     */
     public static function trigger($eventName, $args = [])
     {
         if (is_array($eventName)) {
@@ -161,62 +161,62 @@ class HookManager
         return $event;
     }
 
-/**
- * Similar to "trigger()" but aimed to alter the given arguments.
- *
- * You can provide **up to 15 arguments**, which are automatically
- * passed to you event listener method by reference. For example:
- *
- *     $arg_0 = 'data 0';
- *     $arg_1 = 'data 1';
- *     ...
- *     $arg_14 = 'data 14';
- *     $this->alter('MyHook', $arg_0, $arg_1, ..., $arg_14);
- *
- * Note that passing arguments as values will produce `Fatal Error`:
- *
- *     $this->alter('MyHook', 'data 0', 'data 1', ..., 'data 14');
- *     // Fatal Error
- *
- * Event names are prefixed with the `Alter.` word. For instance, in your
- * `Event Listener` class you must do as below:
- *
- *     // note the `Alter.` prefix
- *     public function implementedEvents() {
- *         return ['Alter.MyHook' => 'alterHandler'];
- *     }
- *
- *     // now you are able to get arguments by reference
- *     public function alterHandler(Event $event, &$arg_0, &$arg_1, ..., &$arg_14) {
- *         // stuff here
- *     }
- *
- * You can provide a context to use by passing an array as first arguments where
- * the first element is the event name and the second one is the context:
- *
- *     HookManager::alter(['AlterTime', new ContextObject()], $arg0, $arg1, ...);
- *
- * If no context is given an instance of "Hook" class will be used by default.
- *
- * @param string $eventName Name of the "alter event" to trigger.
- *  e.g. `FormHelper.input` will trigger `Alter.FormHelper.input` event
- * @param mixed &$p0 Optional argument by reference
- * @param mixed &$p1 Optional argument by reference
- * @param mixed &$p2 Optional argument by reference
- * @param mixed &$p3 Optional argument by reference
- * @param mixed &$p4 Optional argument by reference
- * @param mixed &$p5 Optional argument by reference
- * @param mixed &$p6 Optional argument by reference
- * @param mixed &$p7 Optional argument by reference
- * @param mixed &$p8 Optional argument by reference
- * @param mixed &$p9 Optional argument by reference
- * @param mixed &$p10 Optional argument by reference
- * @param mixed &$p11 Optional argument by reference
- * @param mixed &$p12 Optional argument by reference
- * @param mixed &$p13 Optional argument by reference
- * @param mixed &$p14 Optional argument by reference
- * @return \Cake\Event\Event
- */
+    /**
+     * Similar to "trigger()" but aimed to alter the given arguments.
+     *
+     * You can provide **up to 15 arguments**, which are automatically
+     * passed to you event listener method by reference. For example:
+     *
+     *     $arg_0 = 'data 0';
+     *     $arg_1 = 'data 1';
+     *     ...
+     *     $arg_14 = 'data 14';
+     *     $this->alter('MyHook', $arg_0, $arg_1, ..., $arg_14);
+     *
+     * Note that passing arguments as values will produce `Fatal Error`:
+     *
+     *     $this->alter('MyHook', 'data 0', 'data 1', ..., 'data 14');
+     *     // Fatal Error
+     *
+     * Event names are prefixed with the `Alter.` word. For instance, in your
+     * `Event Listener` class you must do as below:
+     *
+     *     // note the `Alter.` prefix
+     *     public function implementedEvents() {
+     *         return ['Alter.MyHook' => 'alterHandler'];
+     *     }
+     *
+     *     // now you are able to get arguments by reference
+     *     public function alterHandler(Event $event, &$arg_0, &$arg_1, ..., &$arg_14) {
+     *         // stuff here
+     *     }
+     *
+     * You can provide a context to use by passing an array as first arguments where
+     * the first element is the event name and the second one is the context:
+     *
+     *     HookManager::alter(['AlterTime', new ContextObject()], $arg0, $arg1, ...);
+     *
+     * If no context is given an instance of "Hook" class will be used by default.
+     *
+     * @param string $eventName Name of the "alter event" to trigger.
+     *  e.g. `FormHelper.input` will trigger `Alter.FormHelper.input` event
+     * @param mixed &$p0 Optional argument by reference
+     * @param mixed &$p1 Optional argument by reference
+     * @param mixed &$p2 Optional argument by reference
+     * @param mixed &$p3 Optional argument by reference
+     * @param mixed &$p4 Optional argument by reference
+     * @param mixed &$p5 Optional argument by reference
+     * @param mixed &$p6 Optional argument by reference
+     * @param mixed &$p7 Optional argument by reference
+     * @param mixed &$p8 Optional argument by reference
+     * @param mixed &$p9 Optional argument by reference
+     * @param mixed &$p10 Optional argument by reference
+     * @param mixed &$p11 Optional argument by reference
+     * @param mixed &$p12 Optional argument by reference
+     * @param mixed &$p13 Optional argument by reference
+     * @param mixed &$p14 Optional argument by reference
+     * @return \Cake\Event\Event
+     */
     public static function alter($eventName, &$p0 = null, &$p1 = null, &$p2 = null, &$p3 = null, &$p4 = null, &$p5 = null, &$p6 = null, &$p7 = null, &$p8 = null, &$p9 = null, &$p10 = null, &$p11 = null, &$p12 = null, &$p13 = null, &$p14 = null)
     {
         if (is_array($eventName)) {
@@ -249,12 +249,12 @@ class HookManager
         return $event;
     }
 
-/**
- * Logs the given event.
- *
- * @param string $eventName The event name to log
- * @return void
- */
+    /**
+     * Logs the given event.
+     *
+     * @param string $eventName The event name to log
+     * @return void
+     */
     protected static function _log($eventName)
     {
         if (isset(static::$_log[$eventName])) {

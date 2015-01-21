@@ -25,22 +25,22 @@ use Cake\Routing\Router;
 class ServeController extends AppController
 {
 
-/**
- * Components used by this controller.
- *
- * @var array
- */
+    /**
+     * Components used by this controller.
+     *
+     * @var array
+     */
     public $components = [
         'Comment.Comment',
         'Paginator',
         'RequestHandler',
     ];
 
-/**
- * An array containing the names of helpers controllers uses.
- *
- * @var array
- */
+    /**
+     * An array containing the names of helpers controllers uses.
+     *
+     * @var array
+     */
     public $helpers = [
         'Time',
         'Paginator' => [
@@ -49,36 +49,36 @@ class ServeController extends AppController
         ],
     ];
 
-/**
- * Paginator settings.
- *
- * Used by `search()` and `rss()`.
- *
- * @var array
- */
+    /**
+     * Paginator settings.
+     *
+     * Used by `search()` and `rss()`.
+     *
+     * @var array
+     */
     public $paginate = [
         'limit' => 10,
     ];
 
-/**
- * Redirects to ServeController::home()
- *
- * @return void
- */
+    /**
+     * Redirects to ServeController::home()
+     *
+     * @return void
+     */
     public function index()
     {
         $this->redirect(['plugin' => 'node', 'controller' => 'serve', 'action' => 'home']);
     }
 
-/**
- * Site's home page.
- *
- * Gets a list of all promoted nodes, so themes may render them in their
- * front-page layout. The view-variable `nodes` holds all promoted contents,
- * themes might render this nodes using this variable.
- *
- * @return void
- */
+    /**
+     * Site's home page.
+     *
+     * Gets a list of all promoted nodes, so themes may render them in their
+     * front-page layout. The view-variable `nodes` holds all promoted contents,
+     * themes might render this nodes using this variable.
+     *
+     * @return void
+     */
     public function home()
     {
         $this->loadModel('Node.Nodes');
@@ -94,16 +94,16 @@ class ServeController extends AppController
         $this->set('nodes', $nodes);
     }
 
-/**
- * Node's detail page.
- *
- * @param string $nodeTypeSlug Node's type-slug. e.g. `article`, `basic-page`
- * @param string $nodeSlug Node's slug. e.g. `this-is-an-article`
- * @return void
- * @throws \Cake\Network\Exception\NotFoundException When content is not found
- * @throws \Cake\Network\Exception\ForbiddenException When user can't access
- *  this content due to role restrictions
- */
+    /**
+     * Node's detail page.
+     *
+     * @param string $nodeTypeSlug Node's type-slug. e.g. `article`, `basic-page`
+     * @param string $nodeSlug Node's slug. e.g. `this-is-an-article`
+     * @return void
+     * @throws \Cake\Network\Exception\NotFoundException When content is not found
+     * @throws \Cake\Network\Exception\ForbiddenException When user can't access
+     *  this content due to role restrictions
+     */
     public function details($nodeTypeSlug, $nodeSlug)
     {
         $this->loadModel('Node.Nodes');
@@ -205,13 +205,13 @@ class ServeController extends AppController
         $this->switchViewMode('full');
     }
 
-/**
- * Node search engine page.
- *
- * @param string $criteria A search criteria.
- * e.g.: `"this phrase" -"but not this" OR -hello`
- * @return void
- */
+    /**
+     * Node search engine page.
+     *
+     * @param string $criteria A search criteria.
+     *  e.g.: `"this phrase" -"but not this" OR -hello`
+     * @return void
+     */
     public function search($criteria)
     {
         $this->loadModel('Node.Nodes');
@@ -232,16 +232,16 @@ class ServeController extends AppController
         $this->switchViewMode('search-result');
     }
 
-/**
- * RSS feeder.
- *
- * Similar to `ServeController::search()` but it uses
- * `rss` layout instead of default layout.
- *
- * @param string $criteria A search criteria.
- * e.g.: `"this phrase" -"but not this" OR -hello`
- * @return void
- */
+    /**
+     * RSS feeder.
+     *
+     * Similar to `ServeController::search()` but it uses
+     * `rss` layout instead of default layout.
+     *
+     * @param string $criteria A search criteria.
+     *  e.g.: `"this phrase" -"but not this" OR -hello`
+     * @return void
+     */
     public function rss($criteria)
     {
         $this->loadModel('Node.Nodes');

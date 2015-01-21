@@ -33,22 +33,22 @@ use Installer\Task\InstallTask;
 class UpdateTask extends InstallTask
 {
 
-/**
- * Default config
- *
- * These are merged with user-provided configuration when the task is used.
- *
- * @var array
- */
+    /**
+     * Default config
+     *
+     * These are merged with user-provided configuration when the task is used.
+     *
+     * @var array
+     */
     protected $_defaultConfig = [
         'callbacks' => true,
     ];
 
-/**
- * Invoked before "start()".
- *
- * @return void
- */
+    /**
+     * Invoked before "start()".
+     *
+     * @return void
+     */
     public function init()
     {
         if (!$this->_packagePath) {
@@ -73,20 +73,20 @@ class UpdateTask extends InstallTask
         $this->plugin($this->plugin());
     }
 
-/**
- * Starts the update process of the uploaded/downloaded package.
- *
- * This method should be used after a package has been uploaded or
- * downloaded to the server. An error will be registered otherwise.
- *
- * ### Events triggered:
- *
- * - `beforeUpdate`: Before plugins's old directory is removed from "/plugins"
- * - `afterUpdate`: Before plugins's old directory was removed from "/plugins" and
- *    after placing new directory in its place.
- *
- * @return bool True on success, false otherwise
- */
+    /**
+     * Starts the update process of the uploaded/downloaded package.
+     *
+     * This method should be used after a package has been uploaded or
+     * downloaded to the server. An error will be registered otherwise.
+     *
+     * ### Events triggered:
+     *
+     * - `beforeUpdate`: Before plugins's old directory is removed from "/plugins"
+     * - `afterUpdate`: Before plugins's old directory was removed from "/plugins" and
+     *    after placing new directory in its place.
+     *
+     * @return bool True on success, false otherwise
+    */
     public function start()
     {
         if (!empty($this->_errors)) {

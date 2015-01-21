@@ -30,32 +30,32 @@ class Controller extends CakeCotroller
     use HookAwareTrait;
     use ViewModeAwareTrait;
 
-/**
- * In use theme name.
- *
- * @var string
- */
+    /**
+     * In use theme name.
+     *
+     * @var string
+     */
     public $theme;
 
-/**
- * Name of the layout that should be used by current theme.
- *
- * @var string
- */
+    /**
+     * Name of the layout that should be used by current theme.
+     *
+     * @var string
+     */
     public $layout;
 
-/**
- * The name of the View class controllers sends output to.
- *
- * @var string
- */
+    /**
+     * The name of the View class controllers sends output to.
+     *
+     * @var string
+     */
     public $viewClass = 'QuickApps\View\View';
 
-/**
- * An array containing the names of helpers controllers uses.
- *
- * @var array
- */
+    /**
+     * An array containing the names of helpers controllers uses.
+     *
+     * @var array
+     */
     public $helpers = [
         'Url' => ['className' => 'QuickApps\View\Helper\UrlHelper'],
         'Html' => ['className' => 'QuickApps\View\Helper\HtmlHelper'],
@@ -63,11 +63,11 @@ class Controller extends CakeCotroller
         'Menu' => ['className' => 'Menu\View\Helper\MenuHelper'],
     ];
 
-/**
- * An array containing the names of components controllers uses.
- *
- * @var array
- */
+    /**
+     * An array containing the names of components controllers uses.
+     *
+     * @var array
+     */
     public $components = [
         'Auth' => [
             'className' => 'User.Auth',
@@ -92,14 +92,14 @@ class Controller extends CakeCotroller
         'Flash',
     ];
 
-/**
- * Constructor.
- *
- * @param \Cake\Network\Request $request Request object for this controller.
- *  Can be null for testing, but expect that features that use the request
- *  parameters will not work.
- * @param \Cake\Network\Response $response Response object for this controller.
- */
+    /**
+     * Constructor.
+     *
+     * @param \Cake\Network\Request $request Request object for this controller.
+     *  Can be null for testing, but expect that features that use the request
+     *  parameters will not work.
+     * @param \Cake\Network\Response $response Response object for this controller.
+     */
     public function __construct($request = null, $response = null)
     {
         parent::__construct($request, $response);
@@ -111,12 +111,12 @@ class Controller extends CakeCotroller
         }
     }
 
-/**
- * Shortcut for Controller::set('title_for_layout', ...)
- *
- * @param string $title_for_layout The title to use on layout's title tag
- * @return void
- */
+    /**
+     * Shortcut for Controller::set('title_for_layout', ...)
+     *
+     * @param string $title_for_layout The title to use on layout's title tag
+     * @return void
+     */
     // @codingStandardsIgnoreStart
     protected function title($titleForLayout)
     {
@@ -124,13 +124,13 @@ class Controller extends CakeCotroller
     }
     // @codingStandardsIgnoreEnd
 
-/**
- * Shortcut for Controller::set('description_for_layout', ...)
- *
- * @param string $description_for_layout The description to use as
- *  meta-description on layout's head tag
- * @return void
- */
+    /**
+     * Shortcut for Controller::set('description_for_layout', ...)
+     *
+     * @param string $description_for_layout The description to use as
+     *  meta-description on layout's head tag
+     * @return void
+     */
     // @codingStandardsIgnoreStart
     protected function description($descriptionForLayout)
     {
@@ -138,37 +138,37 @@ class Controller extends CakeCotroller
     }
     // @codingStandardsIgnoreEnd
 
-/**
- * Prepares the default language to use.
- *
- * This methods apply the following filters looking for language to use:
- *
- * - URL: If current URL is prefixed with a valid language code and
- *   `url_locale_prefix` option is enabled, URL's language code will be used.
- * - User session: If user is logged in and has selected a valid preferred
- *   language it will be used.
- * - GET parameter: If `locale` GET parameter is present in current request,
- *   and if it is a valid language code, it will be used as current language
- *   and also will be persisted on `locale` session for further use.
- * - Locale session: If `locale` session exists it will be used.
- * - Default: Site's language will be used otherwise.
- *
- * ---
- *
- * If `url_locale_prefix` option is enabled, and current request's URL has not
- * language prefix on it, user will be redirected to a locale-prefixed version
- * of the requested URL (using the language code selected as explained above).
- *
- * For example:
- *
- *     /article/demo-article.html
- *
- * Might redirects to:
- *
- *     /en-us/article/demo-article.html
- *
- * @return void
- */
+    /**
+     * Prepares the default language to use.
+     *
+     * This methods apply the following filters looking for language to use:
+     *
+     * - URL: If current URL is prefixed with a valid language code and
+     *   `url_locale_prefix` option is enabled, URL's language code will be used.
+     * - User session: If user is logged in and has selected a valid preferred
+     *   language it will be used.
+     * - GET parameter: If `locale` GET parameter is present in current request,
+     *   and if it is a valid language code, it will be used as current language
+     *   and also will be persisted on `locale` session for further use.
+     * - Locale session: If `locale` session exists it will be used.
+     * - Default: Site's language will be used otherwise.
+     *
+     * ---
+     *
+     * If `url_locale_prefix` option is enabled, and current request's URL has not
+     * language prefix on it, user will be redirected to a locale-prefixed version
+     * of the requested URL (using the language code selected as explained above).
+     *
+     * For example:
+     *
+     *     /article/demo-article.html
+     *
+     * Might redirects to:
+     *
+     *     /en-us/article/demo-article.html
+     *
+     * @return void
+     */
     protected function _prepareLanguage()
     {
         $locales = array_keys(quickapps('languages'));
@@ -200,11 +200,11 @@ class Controller extends CakeCotroller
         }
     }
 
-/**
- * Sets the theme to use.
- *
- * @return void
- */
+    /**
+     * Sets the theme to use.
+     *
+     * @return void
+     */
     protected function _prepareTheme()
     {
         $this->layout = 'default';
@@ -227,17 +227,17 @@ class Controller extends CakeCotroller
         }
     }
 
-/**
- * Checks if maintenance is enabled, and renders the corresponding maintenance
- * message.
- *
- * Login & logout sections of the site still working even on maintenance mode,
- * administrators can access the whole site as well.
- *
- * @return void
- * @throws QuickApps\Error\SiteUnderMaintenanceException When site is under
- *  maintenance.
- */
+    /**
+     * Checks if maintenance is enabled, and renders the corresponding maintenance
+     * message.
+     *
+     * Login & logout sections of the site still working even on maintenance mode,
+     * administrators can access the whole site as well.
+     *
+     * @return void
+     * @throws QuickApps\Error\SiteUnderMaintenanceException When site is under
+     *  maintenance.
+     */
     protected function _checkMaintenanceMode()
     {
         if (

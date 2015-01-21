@@ -41,33 +41,33 @@ use QuickApps\Core\Plugin;
 class ThemeActivatorTask extends BaseTask
 {
 
-/**
- * Default config
- *
- * These are merged with user-provided configuration when the task is used.
- *
- * @var array
- */
+    /**
+     * Default config
+     *
+     * These are merged with user-provided configuration when the task is used.
+     *
+     * @var array
+     */
     protected $_defaultConfig = [
         'theme' => false,
         'callbacks' => true,
     ];
 
-/**
- * Invoked before "start()".
- *
- * @return void
- */
+    /**
+     * Invoked before "start()".
+     *
+     * @return void
+     */
     public function init()
     {
         $this->plugin($this->config('theme'));
     }
 
-/**
- * Starts the activation process of the given theme.
- *
- * @return bool True on success, false otherwise
- */
+    /**
+     * Starts the activation process of the given theme.
+     *
+     * @return bool True on success, false otherwise
+     */
     public function start()
     {
         try {
@@ -137,12 +137,12 @@ class ThemeActivatorTask extends BaseTask
         return true;
     }
 
-/**
- * Indicates this task should activate the given theme.
- *
- * @param string|null $themeName Theme's name
- * @return \Installer\Task\ThemeActivatorTask This instance
- */
+    /**
+     * Indicates this task should activate the given theme.
+     *
+     * @param string|null $themeName Theme's name
+     * @return \Installer\Task\ThemeActivatorTask This instance
+     */
     public function activate($themeName = null)
     {
         if ($themeName) {
@@ -152,14 +152,14 @@ class ThemeActivatorTask extends BaseTask
         return $this;
     }
 
-/**
- * If $theme2 has any region in common with $theme1 will make $theme1 have these
- * blocks in the same regions as well.
- *
- * @param string $theme1 Theme name
- * @param string $theme2 Theme name
- * @return void
- */
+    /**
+     * If $theme2 has any region in common with $theme1 will make $theme1 have these
+     * blocks in the same regions as well.
+     *
+     * @param string $theme1 Theme name
+     * @param string $theme2 Theme name
+     * @return void
+     */
     protected function _copyBlockPositions($theme1, $theme2)
     {
         $this->loadModel('Block.BlockRegions');

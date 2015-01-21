@@ -25,18 +25,18 @@ use System\Controller\AppController;
 class PluginsController extends AppController
 {
 
-/**
- * An array containing the names of components controllers uses.
- *
- * @var array
- */
+    /**
+     * An array containing the names of components controllers uses.
+     *
+     * @var array
+     */
     public $components = ['Installer.Installer'];
 
-/**
- * Main action.
- *
- * @return void
- */
+    /**
+     * Main action.
+     *
+     * @return void
+     */
     public function index()
     {
         $collection = Plugin::collection(true)->match(['isTheme' => false]);
@@ -48,11 +48,11 @@ class PluginsController extends AppController
         $this->Breadcrumb->push('/admin/system/plugins');
     }
 
-/**
- * Install a new theme.
- *
- * @return void
- */
+    /**
+     * Install a new theme.
+     *
+     * @return void
+     */
     public function install()
     {
         if ($this->request->data) {
@@ -97,12 +97,12 @@ class PluginsController extends AppController
             ->push(__d('system', 'Install new plugin'), '#');
     }
 
-/**
- * Install a new plugin.
- *
- * @param string $pluginName Plugin's name
- * @return void Redirects to previous page
- */
+    /**
+     * Install a new plugin.
+     *
+     * @param string $pluginName Plugin's name
+     * @return void Redirects to previous page
+     */
     public function delete($pluginName)
     {
         $plugin = Plugin::info($pluginName, true);
@@ -120,12 +120,12 @@ class PluginsController extends AppController
         $this->redirect($this->referer());
     }
 
-/**
- * Enables the given theme.
- *
- * @param string $pluginName Plugin's name
- * @return void Redirects to previous page
- */
+    /**
+     * Enables the given theme.
+     *
+     * @param string $pluginName Plugin's name
+     * @return void Redirects to previous page
+     */
     public function enable($pluginName)
     {
         $plugin = Plugin::info($pluginName, true);
@@ -145,12 +145,12 @@ class PluginsController extends AppController
         $this->redirect($this->referer());
     }
 
-/**
- * Disables the given theme.
- *
- * @param string $pluginName Plugin's name
- * @return void Redirects to previous page
- */
+    /**
+     * Disables the given theme.
+     *
+     * @param string $pluginName Plugin's name
+     * @return void Redirects to previous page
+     */
     public function disable($pluginName)
     {
         $plugin = Plugin::info($pluginName, true);
@@ -170,36 +170,36 @@ class PluginsController extends AppController
         $this->redirect($this->referer());
     }
 
-/**
- * Handles plugin's specifics settings.
- *
- * When saving plugin's information `PluginsTable` will trigger the
- * following events:
- *
- * - `Plugin.<PluginName>.beforeValidate`
- * - `Plugin.<PluginName>.afterValidate`
- * - `Plugin.<PluginName>.beforeSave`
- * - `Plugin.<PluginName>.afterSave`
- *
- * Check `PluginsTable` documentation for more details.
- *
- * Additionally plugins may define default values for each input, to do this they
- * must catch the event:
- *
- * - `Plugin.<PluginName>.settingsDefaults`
- *
- * They must return an associative array of default values for each input in
- * the form.
- *
- * Validation rules can be applied to settings, plugins must simply catch the
- * event:
- *
- * - `Plugin.<PluginName>.settingsValidate`
- *
- * @param string $pluginName Plugin's name
- * @return void
- * @throws \Cake\Network\Exception\NotFoundException When plugin do not exists
- */
+    /**
+     * Handles plugin's specifics settings.
+     *
+     * When saving plugin's information `PluginsTable` will trigger the
+     * following events:
+     *
+     * - `Plugin.<PluginName>.beforeValidate`
+     * - `Plugin.<PluginName>.afterValidate`
+     * - `Plugin.<PluginName>.beforeSave`
+     * - `Plugin.<PluginName>.afterSave`
+     *
+     * Check `PluginsTable` documentation for more details.
+     *
+     * Additionally plugins may define default values for each input, to do this they
+     * must catch the event:
+     *
+     * - `Plugin.<PluginName>.settingsDefaults`
+     *
+     * They must return an associative array of default values for each input in
+     * the form.
+     *
+     * Validation rules can be applied to settings, plugins must simply catch the
+     * event:
+     *
+     * - `Plugin.<PluginName>.settingsValidate`
+     *
+     * @param string $pluginName Plugin's name
+     * @return void
+     * @throws \Cake\Network\Exception\NotFoundException When plugin do not exists
+     */
     public function settings($pluginName)
     {
         $plugin = Plugin::info($pluginName, true);

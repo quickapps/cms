@@ -23,23 +23,23 @@ use Cake\Validation\Validator;
 class MenuLinksTable extends Table
 {
 
-/**
- * Initialize a table instance. Called after the constructor.
- *
- * @param array $config Configuration options passed to the constructor
- * @return void
- */
+    /**
+     * Initialize a table instance. Called after the constructor.
+     *
+     * @param array $config Configuration options passed to the constructor
+     * @return void
+     */
     public function initialize(array $config)
     {
         $this->belongsTo('Menus', ['className' => 'Menu.Menus']);
     }
 
-/**
- * Default validation rules set.
- *
- * @param \Cake\Validation\Validator $validator The validator object
- * @return \Cake\Validation\Validator
- */
+    /**
+     * Default validation rules set.
+     *
+     * @param \Cake\Validation\Validator $validator The validator object
+     * @return \Cake\Validation\Validator
+     */
     public function validationDefault(Validator $validator)
     {
         $validator

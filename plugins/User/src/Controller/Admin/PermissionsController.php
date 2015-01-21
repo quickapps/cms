@@ -24,11 +24,11 @@ use User\Utility\AcoManager;
 class PermissionsController extends AppController
 {
 
-/**
- * Shows tree list of ACOS grouped by plugin.
- *
- * @return void
- */
+    /**
+     * Shows tree list of ACOS grouped by plugin.
+     *
+     * @return void
+     */
     public function index()
     {
         $this->loadModel('User.Acos');
@@ -43,12 +43,12 @@ class PermissionsController extends AppController
             ->push(__d('user', 'Permissions'), ['plugin' => 'User', 'controller' => 'permissions', 'action' => 'index']);
     }
 
-/**
- * Shows the permissions table for the given ACO.
- *
- * @param int $acoId ACO's ID
- * @return void
- */
+    /**
+     * Shows the permissions table for the given ACO.
+     *
+     * @param int $acoId ACO's ID
+     * @return void
+     */
     public function aco($acoId)
     {
         $this->loadModel('User.Acos');
@@ -71,12 +71,12 @@ class PermissionsController extends AppController
         $this->set(compact('aco', 'roles'));
     }
 
-/**
- * Analyzes each plugin and adds any missing ACO path to the tree. It won't
- * remove any invalid ACO unless 'sync' GET parameter is present in URL.
- *
- * @return void Redirects to previous page
- */
+    /**
+     * Analyzes each plugin and adds any missing ACO path to the tree. It won't
+     * remove any invalid ACO unless 'sync' GET parameter is present in URL.
+     *
+     * @return void Redirects to previous page
+     */
     public function update()
     {
         $sync = !empty($this->request->query['sync']) ? true : false;
@@ -89,11 +89,11 @@ class PermissionsController extends AppController
         $this->redirect($this->referer());
     }
 
-/**
- * Exports all permissions as a JSON file.
- *
- * @return void Forces JSON download
- */
+    /**
+     * Exports all permissions as a JSON file.
+     *
+     * @return void Forces JSON download
+     */
     public function export()
     {
         $this->loadModel('User.Acos');
@@ -119,11 +119,11 @@ class PermissionsController extends AppController
         return $this->response;
     }
 
-/**
- * Imports the given permissions given as a JSON file.
- *
- * @return void Redirects to previous page
- */
+    /**
+     * Imports the given permissions given as a JSON file.
+     *
+     * @return void Redirects to previous page
+     */
     public function import()
     {
         if (!empty($this->request->data['json'])) {

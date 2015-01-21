@@ -27,14 +27,14 @@ class HooktagManager
     use HookAwareTrait;
     use StaticCacheTrait;
 
-/**
- * Look for hooktags in the given text.
- *
- * @param string $content The content to parse
- * @param object $context The context for \Cake\Event\Event::$subject, if not
- *  given an instance of this class will be used
- * @return string
- */
+    /**
+     * Look for hooktags in the given text.
+     *
+     * @param string $content The content to parse
+     * @param object $context The context for \Cake\Event\Event::$subject, if not
+     *  given an instance of this class will be used
+     * @return string
+     */
     public static function hooktags($content, $context = null)
     {
         if (strpos($content, '[') === false) {
@@ -50,37 +50,37 @@ class HooktagManager
         return preg_replace_callback("/{$pattern}/s", 'static::_doHooktag', $content);
     }
 
-/**
- * Removes all hooktags from the given content. Useful when converting a string
- * to plain text.
- *
- * @param string $text Text from which to remove hooktags
- * @return string Content without hooktags markers
- */
+    /**
+     * Removes all hooktags from the given content. Useful when converting a string
+     * to plain text.
+     *
+     * @param string $text Text from which to remove hooktags
+     * @return string Content without hooktags markers
+     */
     public static function stripHooktags($text)
     {
         $tagregexp = implode('|', array_map('preg_quote', static::_hooktagsList()));
         return preg_replace('/(.?)\[(' . $tagregexp . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', '$1$6', $text);
     }
 
-/**
- * Retrieve the hooktag regular expression for searching.
- *
- * The regular expression combines the hooktag tags in the regular expression
- * in a regex class.
- *
- * The regular expression contains 6 different sub matches to help with parsing.
- *
- * 1 - An extra [ to allow for escaping hooktag with double [[]]
- * 2 - The hooktag name
- * 3 - The hooktag argument list
- * 4 - The self closing /
- * 5 - The content of a hooktag when it wraps some content.
- * 6 - An extra ] to allow for escaping hooktag with double [[]]
- *
- * @author WordPress
- * @return string The hooktag search regular expression
- */
+    /**
+     * Retrieve the hooktag regular expression for searching.
+     *
+     * The regular expression combines the hooktag tags in the regular expression
+     * in a regex class.
+     *
+     * The regular expression contains 6 different sub matches to help with parsing.
+     *
+     * 1 - An extra [ to allow for escaping hooktag with double [[]]
+     * 2 - The hooktag name
+     * 3 - The hooktag argument list
+     * 4 - The self closing /
+     * 5 - The content of a hooktag when it wraps some content.
+     * 6 - An extra ] to allow for escaping hooktag with double [[]]
+     *
+     * @author WordPress
+     * @return string The hooktag search regular expression
+     */
     protected static function _hooktagRegex()
     {
         $tagregexp = implode('|', array_map('preg_quote', static::_hooktagsList()));
@@ -118,11 +118,11 @@ class HooktagManager
         // @codingStandardsIgnoreEnd
     }
 
-/**
- * Returns a list of all registered hooktags in the system.
- *
- * @return array
- */
+    /**
+     * Returns a list of all registered hooktags in the system.
+     *
+     * @return array
+     */
     protected static function _hooktagsList()
     {
         $hooktags = static::cache('hooktagsList');
@@ -138,13 +138,13 @@ class HooktagManager
         return $hooktags;
     }
 
-/**
- * Invokes hooktag lister for the given hooktag.
- *
- * @param array $m Hooktag as preg array
- * @return string
- * @author WordPress
- */
+    /**
+     * Invokes hooktag lister for the given hooktag.
+     *
+     * @param array $m Hooktag as preg array
+     * @return string
+     * @author WordPress
+     */
     protected static function _doHooktag($m)
     {
         $EventManager = EventManager::instance();
@@ -177,27 +177,27 @@ class HooktagManager
         return '';
     }
 
-/**
- * Looks for hooktag attributes.
- *
- * Attribute names are always converted to lowercase. Values are untouched.
- *
- * ## Example:
- *
- *     [hook_tag_name attr1="value1" aTTr2=value2 CamelAttr=Val1 /]
- *
- * Produces:
- *
- *     [
- *         'attr1' => 'value1',
- *         'attr2' => 'value2',
- *         'camelattr' => 'Val1',
- *     ]
- *
- * @param string $text The text where to look for hooktags
- * @return array Associative array of attributes as `tag_name` => `value`
- * @author WordPress
- */
+    /**
+     * Looks for hooktag attributes.
+     *
+     * Attribute names are always converted to lowercase. Values are untouched.
+     *
+     * ## Example:
+     *
+     *     [hook_tag_name attr1="value1" aTTr2=value2 CamelAttr=Val1 /]
+     *
+     * Produces:
+     *
+     *     [
+     *         'attr1' => 'value1',
+     *         'attr2' => 'value2',
+     *         'camelattr' => 'Val1',
+     *     ]
+     *
+     * @param string $text The text where to look for hooktags
+     * @return array Associative array of attributes as `tag_name` => `value`
+     * @author WordPress
+     */
     protected static function _parseHooktagAttributes($text)
     {
         $atts = [];

@@ -21,11 +21,11 @@ use Cake\Utility\String;
 class Vocabulary extends Entity
 {
 
-/**
- * Gets a brief description of 80 characters long.
- *
- * @return string
- */
+    /**
+     * Gets a brief description of 80 characters long.
+     *
+     * @return string
+     */
     protected function _getBriefDescription()
     {
         $description = $this->get('description');
@@ -35,12 +35,12 @@ class Vocabulary extends Entity
         return String::truncate($description, 80);
     }
 
-/**
- * Sanitizes vocabulary's description. No HTML allowed.
- *
- * @param string $description Vocabulary's description
- * @return string
- */
+    /**
+     * Sanitizes vocabulary's description. No HTML allowed.
+     *
+     * @param string $description Vocabulary's description
+     * @return string
+     */
     protected function _setDescription($description)
     {
         return strip_tags($description);

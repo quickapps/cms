@@ -22,18 +22,18 @@ use Cake\Error\ExceptionRenderer as CakeExceptionRenderer;
 class ExceptionRenderer extends CakeExceptionRenderer
 {
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     public function __construct(\Exception $exception)
     {
         parent::__construct($exception);
         $this->controller->viewClass = 'QuickApps\View\View';
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     protected function _message(\Exception $exception, $code)
     {
         if ($code === 503) {
@@ -42,9 +42,9 @@ class ExceptionRenderer extends CakeExceptionRenderer
         return parent::_message($exception, $code);
     }
 
-/**
- * {@inheritDoc}
- */
+    /**
+     * {@inheritDoc}
+     */
     protected function _template(\Exception $exception, $method, $code)
     {
         if ($code === 503) {

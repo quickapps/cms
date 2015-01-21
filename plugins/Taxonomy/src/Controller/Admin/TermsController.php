@@ -21,12 +21,12 @@ use Taxonomy\Controller\AppController;
 class TermsController extends AppController
 {
 
-/**
- * Shows a tree list of all terms within a vocabulary.
- *
- * @param int $id Vocabulary's ID for which render its terms
- * @return void
- */
+    /**
+     * Shows a tree list of all terms within a vocabulary.
+     *
+     * @param int $id Vocabulary's ID for which render its terms
+     * @return void
+     */
     public function vocabulary($id)
     {
         $this->loadModel('Taxonomy.Vocabularies');

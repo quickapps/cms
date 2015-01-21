@@ -41,39 +41,39 @@ use User\Utility\AcoManager;
 class InstallTask extends BaseTask
 {
 
-/**
- * ZIP package source within server file system.
- *
- * @var string
- */
+    /**
+     * ZIP package source within server file system.
+     *
+     * @var string
+     */
     protected $_packagePath = null;
 
-/**
- * Full path to the unzip'ed package.
- *
- * @var string
- */
+    /**
+     * Full path to the unzip'ed package.
+     *
+     * @var string
+     */
     protected $_extractedPath = null;
 
-/**
- * Full path to plugin's directory: SITE_ROOT . 'plugins/<PluginName>'.
- *
- * @var string
- */
+    /**
+     * Full path to plugin's directory: SITE_ROOT . 'plugins/<PluginName>'.
+     *
+     * @var string
+     */
     protected $_pluginPath = null;
 
-/**
- * Plugin's composer.json in array format.
- *
- * @var array
- */
+    /**
+     * Plugin's composer.json in array format.
+     *
+     * @var array
+     */
     protected $_pluginJson = [];
 
-/**
- * List of accepted mime-types for package files.
- *
- * @var array
- */
+    /**
+     * List of accepted mime-types for package files.
+     *
+     * @var array
+     */
     protected $_validMimes = [
         'application/zip',
         'application/x-zip-compressed',
@@ -81,33 +81,33 @@ class InstallTask extends BaseTask
         'application/gzip',
     ];
 
-/**
- * Default config.
- *
- * These are merged with user-provided configuration when the task is used.
- *
- * ### Valid options are:
- *
- * - `callbacks`: Set to true to fire `beforeInstall`, `afterInstall` events.
- * - `activate`: Activate plugin after installation ? This will trigger
- *   `beforeEnable` and `afterDisable` callbacks if `callbacks` is set to true.
- * - `packageType`: "plugin" indicates whether the package must be a theme or
- *    not not, set to "theme" to indicate that package must be a theme. Set this
- *    to false will not check the package type. Defaults to false.
- *
- * @var array
- */
+    /**
+     * Default config.
+     *
+     * These are merged with user-provided configuration when the task is used.
+     *
+     * ### Valid options are:
+     *
+     * - `callbacks`: Set to true to fire `beforeInstall`, `afterInstall` events.
+     * - `activate`: Activate plugin after installation ? This will trigger
+     *   `beforeEnable` and `afterDisable` callbacks if `callbacks` is set to true.
+     * - `packageType`: "plugin" indicates whether the package must be a theme or
+     *    not not, set to "theme" to indicate that package must be a theme. Set this
+     *    to false will not check the package type. Defaults to false.
+     *
+     * @var array
+     */
     protected $_defaultConfig = [
         'callbacks' => true,
         'activate' => true,
         'packageType' => false,
     ];
 
-/**
- * Invoked before "start()".
- *
- * @return void
- */
+    /**
+     * Invoked before "start()".
+     *
+     * @return void
+     */
     public function init()
     {
         if (!$this->_packagePath) {
@@ -128,21 +128,21 @@ class InstallTask extends BaseTask
         }
     }
 
-/**
- * Starts the installation process of the uploaded/downloaded package.
- *
- * This method should me used after a package has been uploaded or
- * downloaded to the server. An error will be registered otherwise.
- *
- * ### Events triggered:
- *
- * - `beforeInstall`: Before plugins is registered on DB and before plugin's
- *    directory is moved to "/plugins"
- * - `afterInstall`: After plugins was registered in DB and after plugin's
- *    directory was moved to "/plugins"
- *
- * @return bool True on success, false otherwise
- */
+    /**
+     * Starts the installation process of the uploaded/downloaded package.
+     *
+     * This method should me used after a package has been uploaded or
+     * downloaded to the server. An error will be registered otherwise.
+     *
+     * ### Events triggered:
+     *
+     * - `beforeInstall`: Before plugins is registered on DB and before plugin's
+     *    directory is moved to "/plugins"
+     * - `afterInstall`: After plugins was registered in DB and after plugin's
+     *    directory was moved to "/plugins"
+     *
+     * @return bool True on success, false otherwise
+     */
     public function start()
     {
         if (!empty($this->_errors)) {
@@ -212,12 +212,12 @@ class InstallTask extends BaseTask
         return true;
     }
 
-/**
- * Gets a ZIP package at the given file system path.
- *
- * @param string $filePath A valid path
- * @return \Installer\Task\InstallTask This instance
- */
+    /**
+     * Gets a ZIP package at the given file system path.
+     *
+     * @param string $filePath A valid path
+     * @return \Installer\Task\InstallTask This instance
+     */
     public function file($filePath)
     {
         if (file_exists($filePath) && !is_dir($filePath)) {
@@ -230,12 +230,12 @@ class InstallTask extends BaseTask
         return $this;
     }
 
-/**
- * Uploads a ZIP package to the server.
- *
- * @param mixed $package ZIP coming from the form POST request.
- * @return \Installer\Task\InstallTask This instance
- */
+    /**
+     * Uploads a ZIP package to the server.
+     *
+     * @param mixed $package ZIP coming from the form POST request.
+     * @return \Installer\Task\InstallTask This instance
+     */
     public function upload($package)
     {
         if (!isset($package['tmp_name']) || !file_exists($package['tmp_name'])) {
@@ -263,12 +263,12 @@ class InstallTask extends BaseTask
         return $this;
     }
 
-/**
- * Downloads package from given URL.
- *
- * @param string $package A valid URL
- * @return \Installer\Task\InstallTask This instance
- */
+    /**
+     * Downloads package from given URL.
+     *
+     * @param string $package A valid URL
+     * @return \Installer\Task\InstallTask This instance
+     */
     public function download($package)
     {
         if (!Validation::url($package)) {
@@ -311,11 +311,11 @@ class InstallTask extends BaseTask
         return $this;
     }
 
-/**
- * After installation is completed.
- *
- * @return void
- */
+    /**
+     * After installation is completed.
+     *
+     * @return void
+     */
     protected function _finish()
     {
         global $classLoader; // composer's class loader instance
@@ -326,12 +326,12 @@ class InstallTask extends BaseTask
         $this->_rollback();
     }
 
-/**
- * Discards the install operation. Restores this class's status
- * to its initial state.
- *
- * @return void
- */
+    /**
+     * Discards the install operation. Restores this class's status
+     * to its initial state.
+     *
+     * @return void
+     */
     protected function _rollback()
     {
         if ($this->_extractedPath) {
@@ -353,11 +353,11 @@ class InstallTask extends BaseTask
         $this->detachListeners();
     }
 
-/**
- * Extracts the current ZIP package.
- *
- * @return bool True on success, false otherwise
- */
+    /**
+     * Extracts the current ZIP package.
+     *
+     * @return bool True on success, false otherwise
+     */
     protected function _unzip()
     {
         include_once Plugin::classPath('Installer') . 'Lib/pclzip.lib.php';
@@ -390,12 +390,12 @@ class InstallTask extends BaseTask
         return true;
     }
 
-/**
- * Validates ZIP before extracting it.
- *
- * @param string $filePath Full path to the ZIP file
- * @return bool True on success, false otherwise
- */
+    /**
+     * Validates ZIP before extracting it.
+     *
+     * @param string $filePath Full path to the ZIP file
+     * @return bool True on success, false otherwise
+     */
     protected function _validateZip($filePath)
     {
         $errors = [];
@@ -418,11 +418,11 @@ class InstallTask extends BaseTask
         return empty($errors);
     }
 
-/**
- * Validates the content of the extracted ZIP.
- *
- * @return bool True on success, false otherwise
- */
+    /**
+     * Validates the content of the extracted ZIP.
+     *
+     * @return bool True on success, false otherwise
+     */
     protected function _validateContent()
     {
         if (!$this->_extractedPath) {
@@ -499,11 +499,11 @@ class InstallTask extends BaseTask
         return empty($errors);
     }
 
-/**
- * Check if the plugins is already installed or not.
- *
- * @return bool True if plugins is installed.
- */
+    /**
+     * Check if the plugins is already installed or not.
+     *
+     * @return bool True if plugins is installed.
+     */
     protected function _exists()
     {
         try {
@@ -515,13 +515,13 @@ class InstallTask extends BaseTask
         return !empty($info);
     }
 
-/**
- * Moves the extracted package to its final destination.
- *
- * @param bool $clearDestination Set to true to delete the destination directory if
- * already exists. Defaults to false, an error will occur if destination already exists
- * @return bool True on success, false otherwise
- */
+    /**
+     * Moves the extracted package to its final destination.
+     *
+     * @param bool $clearDestination Set to true to delete the destination directory if
+     * already exists. Defaults to false, an error will occur if destination already exists
+     * @return bool True on success, false otherwise
+     */
     protected function _movePackage($clearDestination = false)
     {
         $source = new Folder($this->_extractedPath);

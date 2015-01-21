@@ -22,12 +22,12 @@ use User\Model\Entity\Aco;
 class AcosTable extends Table
 {
 
-/**
- * Initialize a table instance. Called after the constructor.
- *
- * @param array $config Configuration options passed to the constructor
- * @return void
- */
+    /**
+     * Initialize a table instance. Called after the constructor.
+     *
+     * @param array $config Configuration options passed to the constructor
+     * @return void
+     */
     public function initialize(array $config)
     {
         $this->addBehavior('Tree');
@@ -45,14 +45,14 @@ class AcosTable extends Table
         ]);
     }
 
-/**
- * We create a hash of "alias" property so we can perform
- * case sensitive SQL comparisons.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \User\Model\Entity\Aco $aco ACO entity being saved
- * @return void
- */
+    /**
+     * We create a hash of "alias" property so we can perform
+     * case sensitive SQL comparisons.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \User\Model\Entity\Aco $aco ACO entity being saved
+     * @return void
+     */
     public function beforeSave(Event $event, Aco $aco)
     {
         if ($aco->isNew()) {
@@ -60,12 +60,12 @@ class AcosTable extends Table
         }
     }
 
-/**
- * Retrieves the ACO node for this model
- *
- * @param string $ref String value `Prefix/Controller/action`
- * @return array Node found in database
- */
+    /**
+     * Retrieves the ACO node for this model
+     *
+     * @param string $ref String value `Prefix/Controller/action`
+     * @return array Node found in database
+     */
     public function node($ref)
     {
         $type = $this->alias();

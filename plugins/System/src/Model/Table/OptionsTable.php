@@ -24,53 +24,53 @@ use Cake\ORM\TableRegistry;
 class OptionsTable extends Table
 {
 
-/**
- * Alter the schema used by this table.
- *
- * @param \Cake\Database\Schema\Table $table The table definition fetched from database
- * @return \Cake\Database\Schema\Table the altered schema
- */
+    /**
+     * Alter the schema used by this table.
+     *
+     * @param \Cake\Database\Schema\Table $table The table definition fetched from database
+     * @return \Cake\Database\Schema\Table the altered schema
+     */
     protected function _initializeSchema(Schema $table)
     {
         $table->columnType('value', 'serialized');
         return $table;
     }
 
-/**
- * Regenerates system's snapshot.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $option The option entity that was saved
- * @return void
- */
+    /**
+     * Regenerates system's snapshot.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\ORM\Entity $option The option entity that was saved
+     * @return void
+     */
     public function afterSave(Event $event, Entity $option)
     {
         snapshot();
     }
 
-/**
- * Regenerates system's snapshot.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Entity $option The option entity that was saved
- * @return void
- */
+    /**
+     * Regenerates system's snapshot.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\ORM\Entity $option The option entity that was saved
+     * @return void
+     */
     public function afterDelete(Event $event, Entity $option)
     {
         snapshot();
     }
 
-/**
- * Updates the given option.
- *
- * @param string $name Option name
- * @param mixed $value Value to store for this option
- * @param bool|null $autoload Set to true to load this option on bootstrap,
- * null indicates it should not be modified. Defaults to null (do not change)
- * @param bool $callbacks Whether to trigger callbacks (beforeSavem etc) or not.
- * Defaults to true
- * @return null|\Cake\ORM\Entity The option as an entity on success, null otherwise
- */
+    /**
+     * Updates the given option.
+     *
+     * @param string $name Option name
+     * @param mixed $value Value to store for this option
+     * @param bool|null $autoload Set to true to load this option on bootstrap,
+     *  null indicates it should not be modified. Defaults to null (do not change)
+     * @param bool $callbacks Whether to trigger callbacks (beforeSavem etc) or not.
+     *  Defaults to true
+     * @return null|\Cake\ORM\Entity The option as an entity on success, null otherwise
+     */
     public function update($name, $value, $autoload = null, $callbacks = true)
     {
         $option = $this

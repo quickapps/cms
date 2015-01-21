@@ -23,12 +23,12 @@ use QuickApps\Core\Plugin;
 class LocaleToolbox
 {
 
-/**
- * HTTP_ACCEPT_LANGUAGE catalog holds all
- * information related to a language.
- *
- * @var array
- */
+    /**
+     * HTTP_ACCEPT_LANGUAGE catalog holds all
+     * information related to a language.
+     *
+     * @var array
+     */
     protected static $_catalog = [
         'af' => ['language' => 'Afrikaans', 'locale' => 'afr', 'localeFallback' => 'afr', 'charset' => 'utf-8', 'direction' => 'ltr'],
         'ar' => ['language' => 'Arabic', 'locale' => 'ara', 'localeFallback' => 'ara', 'charset' => 'utf-8', 'direction' => 'rtl'],
@@ -175,12 +175,12 @@ class LocaleToolbox
         'zu' => ['language' => 'Zulu', 'locale' => 'zul', 'localeFallback' => 'zul', 'charset' => 'utf-8', 'direction' => 'ltr'],
     ];
 
-/**
- * Returns catalog's information for the given code.
- *
- * @param string $code language code. e.g. `en`, `en-us`, etc
- * @return null|array Null if not found
- */
+    /**
+     * Returns catalog's information for the given code.
+     *
+     * @param string $code language code. e.g. `en`, `en-us`, etc
+     * @return null|array Null if not found
+     */
     public static function info($code)
     {
         if (isset(static::$_catalog[$code])) {
@@ -188,13 +188,13 @@ class LocaleToolbox
         }
     }
 
-/**
- * Gets a list of languages suitable for select boxes.
- *
- * @param bool $full Set to true to return the entire list of languages (from catalog)
- * Set to false (by default) to get a list of installed languages
- * @return void
- */
+    /**
+     * Gets a list of languages suitable for select boxes.
+     *
+     * @param bool $full Set to true to return the entire list of languages (from catalog)
+     * Set to false (by default) to get a list of installed languages
+     * @return void
+     */
     public static function languagesList($full = false)
     {
         $languages = [];
@@ -212,11 +212,11 @@ class LocaleToolbox
         return $languages;
     }
 
-/**
- * Gets a list of counties flags suitable for select boxes.
- *
- * @return void
- */
+    /**
+     * Gets a list of counties flags suitable for select boxes.
+     *
+     * @return void
+     */
     public static function flagsList()
     {
         $flags = [];

@@ -25,11 +25,11 @@ use System\Controller\AppController;
 class ConfigurationController extends AppController
 {
 
-/**
- * Main action.
- *
- * @return void
- */
+    /**
+     * Main action.
+     *
+     * @return void
+     */
     public function index()
     {
         $this->loadModel('System.Options');
@@ -81,11 +81,11 @@ class ConfigurationController extends AppController
         $this->Breadcrumb->push('/admin/system/configuration');
     }
 
-/**
- * Created a mock validator object used when validating options
- *
- * @return \Cake\Validation\Validator
- */
+    /**
+     * Created a mock validator object used when validating options
+     *
+     * @return \Cake\Validation\Validator
+     */
     protected function _mockValidator()
     {
         $validator = new Validator();

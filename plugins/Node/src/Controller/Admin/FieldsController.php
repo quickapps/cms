@@ -28,24 +28,24 @@ class FieldsController extends AppController
         beforeRender as protected _beforeRender;
     }
 
-/**
- * Name of the table managed by Field UI API.
- *
- * @var string
- */
+    /**
+     * Name of the table managed by Field UI API.
+     *
+     * @var string
+     */
     protected $_manageTable = 'nodes:';
 
-/**
- * Constructor.
- *
- * We tweak Field UI here, as nodes are polymorphic we need to dynamically change
- * `$_manageTable` property according to `node_type`.
- *
- * @param \Cake\Network\Request $request Request object for this controller. Can be
- * null for testing, but expect that features that use the request parameters
- * will not work.
- * @param \Cake\Network\Response $response Response object for this controller.
- */
+    /**
+     * Constructor.
+     *
+     * We tweak Field UI here, as nodes are polymorphic we need to dynamically change
+     * `$_manageTable` property according to `node_type`.
+     *
+     * @param \Cake\Network\Request $request Request object for this controller. Can be
+     *  null for testing, but expect that features that use the request parameters
+     *  will not work.
+     * @param \Cake\Network\Response $response Response object for this controller.
+     */
     public function __construct($request = null, $response = null)
     {
         parent::__construct($request, $response);
@@ -71,14 +71,14 @@ class FieldsController extends AppController
         }
     }
 
-/**
- * Before every action of this controller.
- *
- * We sets appropriate breadcrumbs based on current action being requested.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @return void
- */
+    /**
+     * Before every action of this controller.
+     *
+     * We sets appropriate breadcrumbs based on current action being requested.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @return void
+     */
     public function beforeRender(\Cake\Event\Event $event)
     {
         $this->_beforeRender($event);

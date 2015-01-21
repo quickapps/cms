@@ -26,29 +26,29 @@ use System\Controller\AppController;
 class HelpController extends AppController
 {
 
-/**
- * Main action.
- *
- * Here is where we render all available documents. Plugins are able to define
- * their own `help document` just by creating an view-element named `help.ctp`.
- *
- * Example:
- *
- * Album plugin may create its own `help document` by creating this file:
- *
- *     /plugins/Album/src/Template/Element/help.ctp
- *
- * Optionally, plugins are able to define translated versions of
- * help documents. To do this, you must simply define a view element as
- * `help_[code].ctp`, where `[code]` is a two-character language code.
- * For example:
- *
- *     help_en-us.ctp
- *     help_es.ctp
- *     help_fr.ctp
- *
- * @return void
- */
+    /**
+     * Main action.
+     *
+     * Here is where we render all available documents. Plugins are able to define
+     * their own `help document` just by creating an view-element named `help.ctp`.
+     *
+     * Example:
+     *
+     * Album plugin may create its own `help document` by creating this file:
+     *
+     *     /plugins/Album/src/Template/Element/help.ctp
+     *
+     * Optionally, plugins are able to define translated versions of
+     * help documents. To do this, you must simply define a view element as
+     * `help_[code].ctp`, where `[code]` is a two-character language code.
+     * For example:
+     *
+     *     help_en-us.ctp
+     *     help_es.ctp
+     *     help_fr.ctp
+     *
+     * @return void
+     */
     public function index()
     {
         $plugins = [];
@@ -63,13 +63,13 @@ class HelpController extends AppController
         $this->Breadcrumb->push('/admin/system/help');
     }
 
-/**
- * Renders the help document of the given plugin.
- *
- * @param string $pluginName The plugin name
- * @return void
- * @throws \Cake\Network\Exception\NotFoundException When no help document was found
- */
+    /**
+     * Renders the help document of the given plugin.
+     *
+     * @param string $pluginName The plugin name
+     * @return void
+     * @throws \Cake\Network\Exception\NotFoundException When no help document was found
+     */
     public function about($pluginName)
     {
         $about = false;

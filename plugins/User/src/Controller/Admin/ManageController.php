@@ -22,11 +22,11 @@ use User\Controller\AppController;
 class ManageController extends AppController
 {
 
-/**
- * An array containing the names of helpers controllers uses.
- *
- * @var array
- */
+    /**
+     * An array containing the names of helpers controllers uses.
+     *
+     * @var array
+     */
     public $helpers = [
         'Paginator' => [
             'className' => 'QuickApps\View\Helper\PaginatorHelper',
@@ -34,11 +34,11 @@ class ManageController extends AppController
         ],
     ];
 
-/**
- * Shows a list of all the nodes.
- *
- * @return void
- */
+    /**
+     * Shows a list of all the nodes.
+     *
+     * @return void
+     */
     public function index()
     {
         $this->loadModel('User.Users');
@@ -48,11 +48,11 @@ class ManageController extends AppController
         $this->Breadcrumb->push('/admin/user/manage');
     }
 
-/**
- * Adds a new user.
- *
- * @return void
- */
+    /**
+     * Adds a new user.
+     *
+     * @return void
+     */
     public function add()
     {
         $this->loadModel('User.Users');
@@ -93,12 +93,12 @@ class ManageController extends AppController
         $this->Breadcrumb->push('/admin/user/manage');
     }
 
-/**
- * Edits the given user's information.
- *
- * @param int $id User's ID
- * @return void
- */
+    /**
+     * Edits the given user's information.
+     *
+     * @param int $id User's ID
+     * @return void
+     */
     public function edit($id)
     {
         $this->loadModel('User.Users');
@@ -125,15 +125,15 @@ class ManageController extends AppController
         $this->Breadcrumb->push('/admin/user/manage');
     }
 
-/**
- * Blocks the given user account.
- *
- * After account is blocked token is regenerated, so user cannot login using
- * a known token.
- *
- * @param int $id User's ID
- * @return void Redirects to previous page
- */
+    /**
+     * Blocks the given user account.
+     *
+     * After account is blocked token is regenerated, so user cannot login using
+     * a known token.
+     *
+     * @param int $id User's ID
+     * @return void Redirects to previous page
+     */
     public function block($id)
     {
         $this->loadModel('User.Users');
@@ -157,12 +157,12 @@ class ManageController extends AppController
         $this->redirect($this->referer());
     }
 
-/**
- * Activates the given user account.
- *
- * @param int $id User's ID
- * @return void Redirects to previous page
- */
+    /**
+     * Activates the given user account.
+     *
+     * @param int $id User's ID
+     * @return void Redirects to previous page
+     */
     public function activate($id)
     {
         $this->loadModel('User.Users');
@@ -178,12 +178,12 @@ class ManageController extends AppController
         $this->redirect($this->referer());
     }
 
-/**
- * Sends password recovery instructions to the given user.
- *
- * @param int $id User's ID
- * @return void Redirects to previous page
- */
+    /**
+     * Sends password recovery instructions to the given user.
+     *
+     * @param int $id User's ID
+     * @return void Redirects to previous page
+     */
     public function password_instructions($id)
     {
         $this->loadModel('User.Users');
@@ -199,12 +199,12 @@ class ManageController extends AppController
         $this->redirect($this->referer());
     }
 
-/**
- * Removes the given user.
- *
- * @param int $id User's ID
- * @return void Redirects to previous page
- */
+    /**
+     * Removes the given user.
+     *
+     * @param int $id User's ID
+     * @return void Redirects to previous page
+     */
     public function delete($id)
     {
         $this->loadModel('User.Users');

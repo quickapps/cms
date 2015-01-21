@@ -21,13 +21,13 @@ use Cake\Event\EventListenerInterface;
 class LocaleHook implements EventListenerInterface
 {
 
-/**
- * Returns a list of hooks this Hook Listener is implementing. When the class is
- * registered in an event manager, each individual method will be associated with
- * the respective event.
- *
- * @return void
- */
+    /**
+     * Returns a list of hooks this Hook Listener is implementing. When the class is
+     * registered in an event manager, each individual method will be associated with
+     * the respective event.
+     *
+     * @return void
+     */
     public function implementedEvents()
     {
         return [
@@ -35,18 +35,18 @@ class LocaleHook implements EventListenerInterface
         ];
     }
 
-/**
- * Renders all blocks registered by Locale plugin.
- *
- * Locale plugin has one built-in blocks that comes with every QuickApps CMS
- * installation: "Language witcher" which allows users to change from one
- * language to another.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Block\Model\Entity\Block $block The block being rendered
- * @param array $options Additional options as an array
- * @return string
- */
+    /**
+     * Renders all blocks registered by Locale plugin.
+     *
+     * Locale plugin has one built-in blocks that comes with every QuickApps CMS
+     * installation: "Language witcher" which allows users to change from one
+     * language to another.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Block\Model\Entity\Block $block The block being rendered
+     * @param array $options Additional options as an array
+     * @return string
+     */
     public function renderBlock(Event $event, $block, $options = [])
     {
         return $event->subject->element("Locale.{$block->delta}", compact('block', 'options'));

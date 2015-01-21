@@ -55,13 +55,13 @@ use Installer\Task\BaseTask;
 class TaskManager
 {
 
-/**
- * Holds a list of registered and valid task classes.
- *
- * More tasks can be attached using `registerTask()` method.
- *
- * @var array
- */
+    /**
+     * Holds a list of registered and valid task classes.
+     *
+     * More tasks can be attached using `registerTask()` method.
+     *
+     * @var array
+     */
     protected static $_tasks = [
         'install' => '\Installer\Task\InstallTask',
         'toggle' => '\Installer\Task\ToggleTask',
@@ -70,15 +70,15 @@ class TaskManager
         'activate_theme' => '\Installer\Task\ThemeActivatorTask',
     ];
 
-/**
- * Constructor.
- *
- * @param string $task The task to handle
- * @param array $options Additional options for the task handler
- * @return \Installer\Utility\TaskBase
- * @throws \Cake\Error\FatalErrorException When invalid task is given, or when
- * the task class does not extends "BaseTask".
- */
+    /**
+     * Constructor.
+     *
+     * @param string $task The task to handle
+     * @param array $options Additional options for the task handler
+     * @return \Installer\Utility\TaskBase
+     * @throws \Cake\Error\FatalErrorException When invalid task is given, or when
+     * the task class does not extends "BaseTask".
+     */
     public static function task($task, $options = [])
     {
         if (function_exists('ini_set')) {
@@ -104,25 +104,25 @@ class TaskManager
         throw new FatalErrorException(__d('installer', 'Invalid task object, it must extend "BaseTask" class.'));
     }
 
-/**
- * Registers a new task handler or overwrites existing one.
- *
- * ### Usage:
- *
- *     TaskManager::registerTask('package-validator', function ($options) {
- *         return 'Validator says: ' . $options['message'];
- *     });
- *
- *     $task = TaskManager::task('package-validator', ['message' => 'hello world!']);
- *     echo $task;
- *     // out: Validator says: hello world!
- *
- * @param string $name name of the task, for later use with `task()` method
- * @param string|callable $handler A string of a valid class name extending
- *  `Installer\Task\BaseTask`, or a callable function.
- *   e.g. `\MyNameSpace\MySuperTask` (must extend BaseTask)
- * @return void
- */
+    /**
+     * Registers a new task handler or overwrites existing one.
+     *
+     * ### Usage:
+     *
+     *     TaskManager::registerTask('package-validator', function ($options) {
+     *         return 'Validator says: ' . $options['message'];
+     *     });
+     *
+     *     $task = TaskManager::task('package-validator', ['message' => 'hello world!']);
+     *     echo $task;
+     *     // out: Validator says: hello world!
+     *
+     * @param string $name name of the task, for later use with `task()` method
+     * @param string|callable $handler A string of a valid class name extending
+     *  `Installer\Task\BaseTask`, or a callable function.
+     *   e.g. `\MyNameSpace\MySuperTask` (must extend BaseTask)
+     * @return void
+     */
     public static function registerTask($name, $handler)
     {
         static::$_taks[$name] = $handler;

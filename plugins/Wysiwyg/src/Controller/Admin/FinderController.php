@@ -20,30 +20,30 @@ use Wysiwyg\Controller\AppController;
 class FinderController extends AppController
 {
 
-/**
- * Renders elFinder's UI.
- *
- * @return void
- */
+    /**
+     * Renders elFinder's UI.
+     *
+     * @return void
+     */
     public function index()
     {
         $this->layout = 'elfinder';
     }
 
-/**
- * elFinder UI connector.
- *
- * @return void
- */
+    /**
+     * elFinder UI connector.
+     *
+     * @return void
+     */
     public function connector()
     {
     }
 
-/**
- * Returns the given plugin's file within webroot directory.
- *
- * @return void
- */
+    /**
+     * Returns the given plugin's file within webroot directory.
+     *
+     * @return void
+     */
     public function plugin_file()
     {
         if (!empty($this->request->query['file'])) {

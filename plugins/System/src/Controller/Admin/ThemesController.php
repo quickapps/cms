@@ -24,18 +24,18 @@ use System\Controller\AppController;
 class ThemesController extends AppController
 {
 
-/**
- * An array containing the names of components controllers uses.
- *
- * @var array
- */
+    /**
+     * An array containing the names of components controllers uses.
+     *
+     * @var array
+     */
     public $components = ['Installer.Installer'];
 
-/**
- * Main action.
- *
- * @return void
- */
+    /**
+     * Main action.
+     *
+     * @return void
+     */
     public function index()
     {
         $themes = Plugin::collection(true)->match(['isTheme' => true]);
@@ -62,11 +62,11 @@ class ThemesController extends AppController
         $this->Breadcrumb->push('/admin/system/themes');
     }
 
-/**
- * Install a new theme.
- *
- * @return void
- */
+    /**
+     * Install a new theme.
+     *
+     * @return void
+     */
     public function install()
     {
         if ($this->request->data) {
@@ -98,12 +98,12 @@ class ThemesController extends AppController
             ->push(__d('system', 'Install new theme'), '#');
     }
 
-/**
- * Removes the given theme.
- *
- * @param string $themeName Theme's name
- * @return void
- */
+    /**
+     * Removes the given theme.
+     *
+     * @param string $themeName Theme's name
+     * @return void
+     */
     public function uninstall($themeName)
     {
         $theme = Plugin::info($themeName, true);
@@ -130,12 +130,12 @@ class ThemesController extends AppController
         $this->redirect($this->referer());
     }
 
-/**
- * Detailed theme's information.
- *
- * @param string $themeName Theme's name
- * @return void
- */
+    /**
+     * Detailed theme's information.
+     *
+     * @param string $themeName Theme's name
+     * @return void
+     */
     public function activate($themeName)
     {
         $theme = Plugin::info($themeName, true);
@@ -160,12 +160,12 @@ class ThemesController extends AppController
         $this->redirect($this->referer());
     }
 
-/**
- * Detailed theme's information.
- *
- * @param string $themeName Theme's name
- * @return void
- */
+    /**
+     * Detailed theme's information.
+     *
+     * @param string $themeName Theme's name
+     * @return void
+     */
     public function details($themeName)
     {
         $theme = Plugin::info($themeName, true);
@@ -177,12 +177,12 @@ class ThemesController extends AppController
             ->push(__d('system', 'Details'), '#');
     }
 
-/**
- * Renders theme's "screenshot.png"
- *
- * @param string $themeName Theme's name
- * @return Image
- */
+    /**
+     * Renders theme's "screenshot.png"
+     *
+     * @param string $themeName Theme's name
+     * @return Image
+     */
     public function screenshot($themeName)
     {
         $info = Plugin::info($themeName);
@@ -190,36 +190,36 @@ class ThemesController extends AppController
         return $this->response;
     }
 
-/**
- * Handles theme's specifics settings.
- *
- * When saving theme's information `PluginsTable` will trigger the
- * following events:
- *
- * - `Plugin.<PluginName>.beforeValidate`
- * - `Plugin.<PluginName>.afterValidate`
- * - `Plugin.<PluginName>.beforeSave`
- * - `Plugin.<PluginName>.afterSave`
- *
- * Check `PluginsTable` documentation for more details.
- *
- * Additionally theme may define default values for each input, to do this they
- * must catch the event:
- *
- * - `Plugin.<PluginName>.settingsDefaults`
- *
- * They must return an associative array of default values for each input in
- * the form.
- *
- * Validation rules can be applied to settings, theme must simply catch the
- * event:
- *
- * - `Plugin.<PluginName>.settingsValidate`
- *
- * @param string $themeName Theme's name
- * @return void
- * @throws \Cake\Network\Exception\NotFoundException When plugin do not exists
- */
+    /**
+     * Handles theme's specifics settings.
+     *
+     * When saving theme's information `PluginsTable` will trigger the
+     * following events:
+     *
+     * - `Plugin.<PluginName>.beforeValidate`
+     * - `Plugin.<PluginName>.afterValidate`
+     * - `Plugin.<PluginName>.beforeSave`
+     * - `Plugin.<PluginName>.afterSave`
+     *
+     * Check `PluginsTable` documentation for more details.
+     *
+     * Additionally theme may define default values for each input, to do this they
+     * must catch the event:
+     *
+     * - `Plugin.<PluginName>.settingsDefaults`
+     *
+     * They must return an associative array of default values for each input in
+     * the form.
+     *
+     * Validation rules can be applied to settings, theme must simply catch the
+     * event:
+     *
+     * - `Plugin.<PluginName>.settingsValidate`
+     *
+     * @param string $themeName Theme's name
+     * @return void
+     * @throws \Cake\Network\Exception\NotFoundException When plugin do not exists
+     */
     public function settings($themeName)
     {
         $theme = Plugin::info($themeName, true);

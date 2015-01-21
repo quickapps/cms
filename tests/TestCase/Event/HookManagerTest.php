@@ -21,19 +21,20 @@ use QuickApps\Event\HookManager;
  */
 class HookManagerTest extends TestCase {
 
-/**
- * EventManager instance.
- * 
- * @var \Cake\Event\EventManager
- */
+	/**
+	 * EventManager instance.
+	 * 
+	 * @var \Cake\Event\EventManager
+	 */
 	protected $_eventManager = null;
 
-/**
- * setUp().
- *
- * @return void
- */
-	public function setUp() {
+	/**
+	 * setUp().
+	 *
+	 * @return void
+	 */
+	public function setUp()
+	{
 		parent::setUp();
 
 		$this->_eventManager = EventManager::instance();
@@ -49,36 +50,39 @@ class HookManagerTest extends TestCase {
 		}
 	}
 
-/**
- * test triggered() method.
- *
- * @return void
- */
-	public function testTriggered() {
+	/**
+	 * test triggered() method.
+	 *
+	 * @return void
+	 */
+	public function testTriggered()
+	{
 		$this->assertTrue(HookManager::triggered('unexisting') === 0);
 
 		HookManager::trigger('Test.hook');
 		$this->assertTrue(HookManager::triggered('Test.hook') === 1);
 	}
 
-/**
- * test trigger() method.
- *
- * @return void
- */
-	public function testTrigger() {
+	/**
+	 * test trigger() method.
+	 *
+	 * @return void
+	 */
+	public function testTrigger()
+	{
 		$return = HookManager::trigger('Test.hook');
 
 		$this->assertTrue($return instanceof Event);
 		$this->assertEquals($return->result, 'event response');
 	}
 
-/**
- * test alter() method.
- *
- * @return void
- */
-	public function testAlter() {
+	/**
+	 * test alter() method.
+	 *
+	 * @return void
+	 */
+	public function testAlter()
+	{
 		$var1 = 'dummy1';
 		$var2 = 'dummy2';
 		HookManager::alter('Test.alter', $var1, $var2);

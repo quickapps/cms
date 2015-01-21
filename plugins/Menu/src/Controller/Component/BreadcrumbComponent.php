@@ -26,47 +26,47 @@ use Menu\View\BreadcrumbRegistry;
 class BreadcrumbComponent extends Component
 {
 
-/**
- * The controller this component is attached to.
- *
- * @var \Cake\Controller\Controller
- */
+    /**
+     * The controller this component is attached to.
+     *
+     * @var \Cake\Controller\Controller
+     */
     protected $_controller;
 
-/**
- * Initializes BreadcrumbComponent for use in the controller.
- *
- * @param Event $event The event that was triggered
- * @return void
- */
+    /**
+     * Initializes BreadcrumbComponent for use in the controller.
+     *
+     * @param Event $event The event that was triggered
+     * @return void
+     */
     public function beforeFilter(Event $event)
     {
         $this->_controller = $event->subject();
         $this->_controller->helpers['Breadcrumb'] = ['className' => 'Menu\View\Helper\BreadcrumbHelper'];
     }
 
-/**
- * Adds a new crumb to the stack.
- *
- * You can use this method without any argument, if you do it will automatically
- * try to guess the full breadcrumb path based on current URL (if current URL
- * matches any URL in any of your menus links).
- *
- *     $this->Breadcrumb->push();
- *
- * Also, you can can pass a string as first argument representing an URL, if you
- * do it will try to find that URL in in any of your menus, and then generate its
- * corresponding breadcrumb.
- *
- *     $this->Breadcrumb->push('/admin/some/url');
- *
- * @param array|string $crumbs Single crumb or an array of multiple crumbs
- * to push at once
- * @param mixed $url If both $crumbs and $url are string values they will be
- * used as `title` and `URL` respectively
- * @return \Menu\Controller\Component\BreadcrumbComponent This instance (for chaining)
- * @see \Menu\View\BreadcrumbRegistry::push()
- */
+    /**
+     * Adds a new crumb to the stack.
+     *
+     * You can use this method without any argument, if you do it will automatically
+     * try to guess the full breadcrumb path based on current URL (if current URL
+     * matches any URL in any of your menus links).
+     *
+     *     $this->Breadcrumb->push();
+     *
+     * Also, you can can pass a string as first argument representing an URL, if you
+     * do it will try to find that URL in in any of your menus, and then generate its
+     * corresponding breadcrumb.
+     *
+     *     $this->Breadcrumb->push('/admin/some/url');
+     *
+     * @param array|string $crumbs Single crumb or an array of multiple crumbs
+     * to push at once
+     * @param mixed $url If both $crumbs and $url are string values they will be
+     * used as `title` and `URL` respectively
+     * @return \Menu\Controller\Component\BreadcrumbComponent This instance (for chaining)
+     * @see \Menu\View\BreadcrumbRegistry::push()
+     */
     public function push($crumbs = [], $url = null)
     {
         if ($crumbs === [] && $url === null) {
@@ -104,34 +104,34 @@ class BreadcrumbComponent extends Component
         return $this;
     }
 
-/**
- * Returns possible URL combinations for the given URL or current request's URL.
- *
- * ### Example:
- *
- * For the given URL, `/admin/node/manage/index/arg1/arg2?get1=v1&get2=v2` where:
- *
- * - `/admin`: Prefix.
- * - `/node`: Plugin name.
- * - `/manage`: Controller name.
- * - `/index`: Controller's action.
- * - `/arg1` and `/arg2`: Action's arguments.
- * - `get1` and `get2`: GET arguments.
- *
- * The following array will be returned by this method:
- *
- *     [
- *         "/admin/node/node/index/arg1/arg2?get1=v1&get2=v2",
- *         "/admin/node/node/arg1/arg2",
- *         "/admin/node/arg1/arg2",
- *         "/admin/node/arg1",
- *         "/admin/node",
- *     ]
- *
- * @param string|bool $url The URL to chunk as string value, set to false will
- * use current request URL.
- * @return array
- */
+    /**
+     * Returns possible URL combinations for the given URL or current request's URL.
+     *
+     * ### Example:
+     *
+     * For the given URL, `/admin/node/manage/index/arg1/arg2?get1=v1&get2=v2` where:
+     *
+     * - `/admin`: Prefix.
+     * - `/node`: Plugin name.
+     * - `/manage`: Controller name.
+     * - `/index`: Controller's action.
+     * - `/arg1` and `/arg2`: Action's arguments.
+     * - `get1` and `get2`: GET arguments.
+     *
+     * The following array will be returned by this method:
+     *
+     *     [
+     *         "/admin/node/node/index/arg1/arg2?get1=v1&get2=v2",
+     *         "/admin/node/node/arg1/arg2",
+     *         "/admin/node/arg1/arg2",
+     *         "/admin/node/arg1",
+     *         "/admin/node",
+     *     ]
+     *
+     * @param string|bool $url The URL to chunk as string value, set to false will
+     * use current request URL.
+     * @return array
+     */
     protected function _urlChunk($url = false)
     {
         $request = $this->_controller->request;
@@ -187,16 +187,16 @@ class BreadcrumbComponent extends Component
         return static::cache($cacheKey, array_unique($out));
     }
 
-/**
- * Method delegation.
- *
- * We try to dispatch unexisting method to `\Menu\View\BreadcrumbRegistry` class.
- *
- * @param string $method Name of the method to be invoked
- * @param array $args List of arguments passed to the function
- * @return mixed
- * @throws \Cake\Core\Exception\Exception When the method is unknown
- */
+    /**
+     * Method delegation.
+     *
+     * We try to dispatch unexisting method to `\Menu\View\BreadcrumbRegistry` class.
+     *
+     * @param string $method Name of the method to be invoked
+     * @param array $args List of arguments passed to the function
+     * @return mixed
+     * @throws \Cake\Core\Exception\Exception When the method is unknown
+     */
     public function __call($method, $args)
     {
         if (method_exists('\Menu\View\BreadcrumbRegistry', $method)) {

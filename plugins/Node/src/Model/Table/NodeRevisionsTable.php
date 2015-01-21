@@ -26,38 +26,38 @@ use Node\Model\Entity\Node;
 class NodeRevisionsTable extends Table
 {
 
-/**
- * Alter the schema used by this table.
- *
- * @param \Cake\Database\Schema\Table $table The table definition fetched from database
- * @return \Cake\Database\Schema\Table the altered schema
- */
+    /**
+     * Alter the schema used by this table.
+     *
+     * @param \Cake\Database\Schema\Table $table The table definition fetched from database
+     * @return \Cake\Database\Schema\Table the altered schema
+     */
     protected function _initializeSchema(Schema $table)
     {
         $table->columnType('data', 'serialized');
         return $table;
     }
 
-/**
- * Initialize a table instance. Called after the constructor.
- *
- * @param array $config Configuration options passed to the constructor
- * @return void
- */
+    /**
+     * Initialize a table instance. Called after the constructor.
+     *
+     * @param array $config Configuration options passed to the constructor
+     * @return void
+     */
     public function initialize(array $config)
     {
         $this->addBehavior('Timestamp');
     }
 
-/**
- * Attaches NodeType information to each node revision.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param \Cake\ORM\Query $query The query object
- * @param \ArrayObject $options Additional options given as an array
- * @param bool $primary Whether this find is a primary query or not
- * @return void
- */
+    /**
+     * Attaches NodeType information to each node revision.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\ORM\Query $query The query object
+     * @param \ArrayObject $options Additional options given as an array
+     * @param bool $primary Whether this find is a primary query or not
+     * @return void
+     */
     public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary)
     {
         $query->formatResults(function ($results) {

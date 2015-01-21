@@ -22,11 +22,11 @@ use Locale\Utility\LocaleToolbox;
 class ManageController extends AppController
 {
 
-/**
- * Shows a list of languages.
- *
- * @return void
- */
+    /**
+     * Shows a list of languages.
+     *
+     * @return void
+     */
     public function index()
     {
         $this->loadModel('Locale.Languages');
@@ -39,11 +39,11 @@ class ManageController extends AppController
         $this->Breadcrumb->push('/admin/locale');
     }
 
-/**
- * Registers a new language in the system.
- *
- * @return void
- */
+    /**
+     * Registers a new language in the system.
+     *
+     * @return void
+     */
     public function add()
     {
         $this->loadModel('Locale.Languages');
@@ -75,12 +75,12 @@ class ManageController extends AppController
             ->push(__d('locale', 'Add new language'), '');
     }
 
-/**
- * Edits language.
- *
- * @param int $id Language's ID
- * @return void
- */
+    /**
+     * Edits language.
+     *
+     * @param int $id Language's ID
+     * @return void
+     */
     public function edit($id)
     {
         $this->loadModel('Locale.Languages');
@@ -111,12 +111,12 @@ class ManageController extends AppController
             ->push(__d('locale', 'Editing language'), '');
     }
 
-/**
- * Sets the given language as site's default language.
- *
- * @param int $id Language's ID
- * @return void Redirects to previous page
- */
+    /**
+     * Sets the given language as site's default language.
+     *
+     * @param int $id Language's ID
+     * @return void Redirects to previous page
+     */
     public function set_default($id)
     {
         $this->loadModel('Locale.Languages');
@@ -136,13 +136,13 @@ class ManageController extends AppController
         $this->redirect($this->referer());
     }
 
-/**
- * Moves language up or down.
- *
- * @param int $id Language's ID
- * @param string $direction Direction, 'up' or 'down'
- * @return void Redirects to previous page
- */
+    /**
+     * Moves language up or down.
+     *
+     * @param int $id Language's ID
+     * @param string $direction Direction, 'up' or 'down'
+     * @return void Redirects to previous page
+     */
     public function move($id, $direction)
     {
         $this->loadModel('Locale.Languages');
@@ -179,12 +179,12 @@ class ManageController extends AppController
         $this->redirect($this->referer());
     }
 
-/**
- * Enables the given language.
- *
- * @param int $id Language's ID
- * @return void Redirects to previous page
- */
+    /**
+     * Enables the given language.
+     *
+     * @param int $id Language's ID
+     * @return void Redirects to previous page
+     */
     public function enable($id)
     {
         $this->loadModel('Locale.Languages');
@@ -200,12 +200,12 @@ class ManageController extends AppController
         $this->redirect($this->referer());
     }
 
-/**
- * Disables the given language.
- *
- * @param int $id Language's ID
- * @return void Redirects to previous page
- */
+    /**
+     * Disables the given language.
+     *
+     * @param int $id Language's ID
+     * @return void Redirects to previous page
+     */
     public function disable($id)
     {
         $this->loadModel('Locale.Languages');
@@ -225,12 +225,12 @@ class ManageController extends AppController
         $this->redirect($this->referer());
     }
 
-/**
- * Unregisters the given language.
- *
- * @param int $id Language's ID
- * @return void Redirects to previous page
- */
+    /**
+     * Unregisters the given language.
+     *
+     * @param int $id Language's ID
+     * @return void Redirects to previous page
+     */
     public function delete($id)
     {
         $this->loadModel('Locale.Languages');

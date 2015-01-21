@@ -33,13 +33,13 @@ use Installer\Task\TaskManager;
 class InstallerComponent extends Component
 {
 
-/**
- * Creates a new install/update task.
- *
- * @param string $task Type of task; 'install', 'update', 'uninstall', etc
- * @param array $args Additional options for the task handler
- * @return \Installer\Task\BaseTask Instance of the request task
- */
+	/**
+	 * Creates a new install/update task.
+	 *
+	 * @param string $task Type of task; 'install', 'update', 'uninstall', etc
+	 * @param array $args Additional options for the task handler
+	 * @return \Installer\Task\BaseTask Instance of the request task
+	 */
     public function task($task, $args = [])
     {
         return TaskManager::task($task, $args);

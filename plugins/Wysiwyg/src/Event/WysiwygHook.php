@@ -22,27 +22,27 @@ use Cake\ORM\TableRegistry;
 class WysiwygHook implements EventListenerInterface
 {
 
-/**
- * Indicates if CKEditor's JS files were already included.
- *
- * @var bool
- */
+    /**
+     * Indicates if CKEditor's JS files were already included.
+     *
+     * @var bool
+     */
     protected static $_scriptsLoaded = false;
 
-/**
- * Counts how many CK instances has been created.
- *
- * @var bool
- */
+    /**
+     * Counts how many CK instances has been created.
+     *
+     * @var bool
+     */
     protected static $_counter = 0;
 
-/**
- * Returns a list of hooks this Hook Listener is implementing. When the class
- * is registered in an event manager, each individual method will be associated
- * with the respective event.
- *
- * @return void
- */
+    /**
+     * Returns a list of hooks this Hook Listener is implementing. When the class
+     * is registered in an event manager, each individual method will be associated
+     * with the respective event.
+     *
+     * @return void
+     */
     public function implementedEvents()
     {
         return [
@@ -50,14 +50,14 @@ class WysiwygHook implements EventListenerInterface
         ];
     }
 
-/**
- * Converts the given text area into a WYSIWYG editor.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @param string $fieldName Field name
- * @param array &$options Array of options
- * @return void
- */
+    /**
+     * Converts the given text area into a WYSIWYG editor.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param string $fieldName Field name
+     * @param array &$options Array of options
+     * @return void
+     */
     public function alterTextarea(Event $event, $fieldName, &$options)
     {
         if (
@@ -84,15 +84,15 @@ class WysiwygHook implements EventListenerInterface
         }
     }
 
-/**
- * Alters CKEditor's link plugin.
- *
- * Allows to link to QuickAppsCMS's contents, adds to layout header some JS
- * code and files.
- *
- * @param \Cake\View\View $View Instance of view class
- * @return void
- */
+    /**
+     * Alters CKEditor's link plugin.
+     *
+     * Allows to link to QuickAppsCMS's contents, adds to layout header some JS
+     * code and files.
+     *
+     * @param \Cake\View\View $View Instance of view class
+     * @return void
+     */
     protected function _includeLinksToNodes($View)
     {
         $items = [];

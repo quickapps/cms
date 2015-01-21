@@ -21,12 +21,12 @@ use Cake\Validation\Validator;
 class VocabulariesTable extends Table
 {
 
-/**
- * Initialize a table instance. Called after the constructor.
- *
- * @param array $config Configuration options passed to the constructor
- * @return void
- */
+    /**
+     * Initialize a table instance. Called after the constructor.
+     *
+     * @param array $config Configuration options passed to the constructor
+     * @return void
+     */
     public function initialize(array $config)
     {
         $this->hasMany('Terms', [
@@ -37,12 +37,12 @@ class VocabulariesTable extends Table
         $this->addBehavior('Sluggable', ['label' => 'name', 'on' => 'both']);
     }
 
-/**
- * Default validation rules set.
- *
- * @param \Cake\Validation\Validator $validator The validator object
- * @return \Cake\Validation\Validator
- */
+    /**
+     * Default validation rules set.
+     *
+     * @param \Cake\Validation\Validator $validator The validator object
+     * @return \Cake\Validation\Validator
+     */
     public function validationDefault(Validator $validator)
     {
         $validator

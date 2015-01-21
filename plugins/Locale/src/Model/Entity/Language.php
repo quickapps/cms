@@ -19,11 +19,11 @@ use Cake\ORM\Entity;
 class Language extends Entity
 {
 
-/**
- * Returns language country.
- *
- * @return string language country. e.g. "US", "ES"
- */
+    /**
+     * Returns language country.
+     *
+     * @return string language country. e.g. "US", "ES"
+     */
     protected function _getCountry()
     {
         $parts = explode('-', $this->get('code'));
@@ -33,11 +33,11 @@ class Language extends Entity
         return strtoupper($parts[0]);
     }
 
-/**
- * Gets language's ISO-639-1 code.
- *
- * @return string language country. e.g. "en", "es"
- */
+    /**
+     * Gets language's ISO-639-1 code.
+     *
+     * @return string language country. e.g. "en", "es"
+     */
     protected function _getIso()
     {
         $parts = explode('-', $this->get('code'));

@@ -22,13 +22,13 @@ use System\Controller\AppController;
 class DashboardController extends AppController
 {
 
-/**
- * Main action for dashboard.
- *
- * Here is where we render some view elements.
- *
- * @return void
- */
+	/**
+	 * Main action for dashboard.
+	 *
+	 * Here is where we render some view elements.
+	 *
+	 * @return void
+	 */
     public function index()
     {
     }

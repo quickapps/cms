@@ -21,11 +21,11 @@ use Taxonomy\Controller\AppController;
 class ManageController extends AppController
 {
 
-/**
- * Shows a list of all vocabularies.
- *
- * @return void
- */
+	/**
+	 * Shows a list of all vocabularies.
+	 *
+	 * @return void
+	 */
     public function index()
     {
         $this->redirect(['plugin' => 'Taxonomy', 'controller' => 'vocabularies', 'action' => 'index']);

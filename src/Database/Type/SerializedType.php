@@ -24,13 +24,13 @@ use Cake\ORM\Entity;
 class SerializedType extends Type
 {
 
-/**
- * Deserialize the stored information if it was serialized before.
- *
- * @param string $value The serialized element to deserialize
- * @param \Cake\Database\Driver $driver Database connection driver
- * @return mixed
- */
+    /**
+     * Deserialize the stored information if it was serialized before.
+     *
+     * @param string $value The serialized element to deserialize
+     * @param \Cake\Database\Driver $driver Database connection driver
+     * @return mixed
+     */
     public function toPHP($value, Driver $driver)
     {
         if ($this->_isSerialized($value)) {
@@ -42,17 +42,17 @@ class SerializedType extends Type
         return $value;
     }
 
-/**
- * Serializes (if it can) the information to be stored in DB.
- *
- * Arrays and object are serialized, any other type of information will be
- * stored as plain text.
- *
- * @param mixed $value Array or object to be serialized, any other type will
- *  not be serialized
- * @param \Cake\Database\Driver $driver Database connection driver
- * @return string
- */
+    /**
+     * Serializes (if it can) the information to be stored in DB.
+     *
+     * Arrays and object are serialized, any other type of information will be
+     * stored as plain text.
+     *
+     * @param mixed $value Array or object to be serialized, any other type will
+     *  not be serialized
+     * @param \Cake\Database\Driver $driver Database connection driver
+     * @return string
+     */
     public function toDatabase($value, Driver $driver)
     {
         if (is_array($value) || is_object($value)) {
@@ -62,16 +62,16 @@ class SerializedType extends Type
         return (string)$value;
     }
 
-/**
- * Check value to find if it was serialized.
- *
- * If $data is not an string, then returned value will always be false.
- * Serialized data is always a string.
- *
- * @param mixed $data Value to check to see if was serialized
- * @return bool False if not serialized and true if it was
- * @author WordPress
- */
+    /**
+     * Check value to find if it was serialized.
+     *
+     * If $data is not an string, then returned value will always be false.
+     * Serialized data is always a string.
+     *
+     * @param mixed $data Value to check to see if was serialized
+     * @return bool False if not serialized and true if it was
+     * @author WordPress
+     */
     protected function _isSerialized($data)
     {
         if (!is_string($data)) {

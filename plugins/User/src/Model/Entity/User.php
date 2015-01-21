@@ -27,12 +27,12 @@ class User extends Entity
 
     use StaticCacheTrait;
 
-/**
- * Verifies this user can access the given ACO.
- *
- * @param string $aco An ACO path. e.g. `Plugin/Prefix/Controller/action`
- * @return bool True if user can access ACO, false otherwise
- */
+    /**
+     * Verifies this user can access the given ACO.
+     *
+     * @param string $aco An ACO path. e.g. `Plugin/Prefix/Controller/action`
+     * @return bool True if user can access ACO, false otherwise
+     */
     public function can($aco)
     {
         $cache = static::cache("can({$aco})");
@@ -43,35 +43,35 @@ class User extends Entity
         return $cache;
     }
 
-/**
- * Gets user default-avatar image's URL.
- *
- * Powered by Gravatar, it uses user's email to get avatar image URL from
- * Gravatar service.
- *
- * @return string URL to user's avatar
- * @link http://www.gravatar.com
- */
+    /**
+     * Gets user default-avatar image's URL.
+     *
+     * Powered by Gravatar, it uses user's email to get avatar image URL from
+     * Gravatar service.
+     *
+     * @return string URL to user's avatar
+     * @link http://www.gravatar.com
+     */
     protected function _getAvatar()
     {
         return $this->avatar();
     }
 
-/**
- * Gets user avatar image's URL.
- *
- * Powered by Gravatar, it uses user's email to get avatar image URL from
- * Gravatar service.
- *
- * Use this method if you need to customize avatar's parameters such as `size`,
- * etc.
- *
- *     $user->avatar(['s' => 150]);
- *
- * @param array $options Array of options for Gravatar API
- * @return string URL to user's avatar
- * @link http://www.gravatar.com
- */
+    /**
+     * Gets user avatar image's URL.
+     *
+     * Powered by Gravatar, it uses user's email to get avatar image URL from
+     * Gravatar service.
+     *
+     * Use this method if you need to customize avatar's parameters such as `size`,
+     * etc.
+     *
+     *     $user->avatar(['s' => 150]);
+     *
+     * @param array $options Array of options for Gravatar API
+     * @return string URL to user's avatar
+     * @link http://www.gravatar.com
+     */
     public function avatar($options = [])
     {
         $options = (array)$options;
@@ -88,12 +88,12 @@ class User extends Entity
         return $url;
     }
 
-/**
- * Hashes the password if not empty.
- *
- * @param string $password The RAW password
- * @return string Encrypted password
- */
+    /**
+     * Hashes the password if not empty.
+     *
+     * @param string $password The RAW password
+     * @return string Encrypted password
+     */
     protected function _setPassword($password)
     {
         if (!empty($password)) {
@@ -102,11 +102,11 @@ class User extends Entity
         return $password;
     }
 
-/**
- * Gets an array list of role IDs this user belongs to.
- *
- * @return array
- */
+    /**
+     * Gets an array list of role IDs this user belongs to.
+     *
+     * @return array
+     */
     protected function _getRoleIds()
     {
         $ids = [];
@@ -118,11 +118,11 @@ class User extends Entity
         return $ids;
     }
 
-/**
- * Gets an array list of role NAMES this user belongs to.
- *
- * @return array
- */
+    /**
+     * Gets an array list of role NAMES this user belongs to.
+     *
+     * @return array
+     */
     protected function _getRoleNames()
     {
         $names = [];
@@ -134,12 +134,12 @@ class User extends Entity
         return $names;
     }
 
-/**
- * Generates cancel code for this user.
- *
- * @return string
- * @throws \Cake\Error\FatalErrorException When code cannot be created
- */
+    /**
+     * Generates cancel code for this user.
+     *
+     * @return string
+     * @throws \Cake\Error\FatalErrorException When code cannot be created
+     */
     protected function _getCancelCode()
     {
         if (!$this->has('password') && !$this->has('id')) {

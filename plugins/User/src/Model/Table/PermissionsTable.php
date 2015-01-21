@@ -24,12 +24,12 @@ use User\Model\Entity\User;
 class PermissionsTable extends Table
 {
 
-/**
- * Initialize a table instance. Called after the constructor.
- *
- * @param array $config Configuration options passed to the constructor
- * @return void
- */
+    /**
+     * Initialize a table instance. Called after the constructor.
+     *
+     * @param array $config Configuration options passed to the constructor
+     * @return void
+     */
     public function initialize(array $config)
     {
         $this->belongsTo('Acos', [
@@ -42,13 +42,13 @@ class PermissionsTable extends Table
         ]);
     }
 
-/**
- * Checks if the given $user has access to the given $path
- *
- * @param \User\Model\Entity\User $user An user entity
- * @param string $path An ACO path. e.g. `/Plugin/Controller/action`
- * @return bool true if user has access to action in ACO, false otherwise
- */
+    /**
+     * Checks if the given $user has access to the given $path
+     *
+     * @param \User\Model\Entity\User $user An user entity
+     * @param string $path An ACO path. e.g. `/Plugin/Controller/action`
+     * @return bool true if user has access to action in ACO, false otherwise
+     */
     public function check(User $user, $path)
     {
         $acoPath = $this->Acos->node($path);
@@ -77,33 +77,33 @@ class PermissionsTable extends Table
         return false;
     }
 
-/**
- * Clear permissions cache when permissions have changed.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @return void
- */
+    /**
+     * Clear permissions cache when permissions have changed.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @return void
+     */
     public function afterSave(Event $event)
     {
         $this->clearCache();
     }
 
-/**
- * Clear permissions cache when permissions have changed.
- *
- * @param \Cake\Event\Event $event The event that was triggered
- * @return void
- */
+    /**
+     * Clear permissions cache when permissions have changed.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @return void
+     */
     public function afterDelete(Event $event)
     {
         $this->clearCache();
     }
 
-/**
- * Clear permissions cache for all users.
- *
- * @return void
- */
+    /**
+     * Clear permissions cache for all users.
+     *
+     * @return void
+     */
     public function clearCache()
     {
         Cache::clearGroup('acl', 'permissions');
