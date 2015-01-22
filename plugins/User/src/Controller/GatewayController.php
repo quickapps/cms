@@ -167,7 +167,7 @@ class GatewayController extends AppController
      *
      * @return void Redirects to previous page
      */
-    public function cancel_request()
+    public function cancelRequest()
     {
         $user = user();
 
@@ -258,7 +258,7 @@ class GatewayController extends AppController
      *
      * @return void
      */
-    public function activation_email()
+    public function activationEmail()
     {
         $this->loadModel('User.Users');
         $sent = false;

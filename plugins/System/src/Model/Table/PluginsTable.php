@@ -11,7 +11,6 @@
  */
 namespace System\Model\Table;
 
-use \ArrayObject;
 use Cake\Database\Schema\Table as Schema;
 use Cake\Event\Event;
 use Cake\ORM\Entity;
@@ -20,6 +19,7 @@ use Cake\ORM\Table;
 use Cake\Utility\Hash;
 use Cake\Validation\Validator;
 use QuickApps\Event\HookAwareTrait;
+use \ArrayObject;
 
 /**
  * Represents "plugins" database table.

@@ -11,13 +11,13 @@
  */
 namespace Menu\Model\Table;
 
-use \ArrayObject;
 use Cake\Event\Event;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 use Menu\Model\Entity\Menu;
 use QuickApps\Event\HookAwareTrait;
+use \ArrayObject;
 
 /**
  * Represents "menus" database table.

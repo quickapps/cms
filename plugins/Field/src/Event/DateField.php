@@ -105,9 +105,6 @@ class DateField extends FieldHandler
 
     /**
      * {@inheritDoc}
-     *
-     * @param \Cake\Event\Event $event
-     * @return array
      */
     public function instanceInfo(Event $event)
     {

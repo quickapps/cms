@@ -288,7 +288,7 @@ trait FieldUIControllerTrait
      * @throws \Cake\Network\Exception\NotFoundException When given view mode
      *  does not exists
      */
-    public function view_mode_list($viewMode)
+    public function viewModeList($viewMode)
     {
         $this->_validateViewMode($viewMode);
         $this->loadModel('Field.FieldInstances');
@@ -326,7 +326,7 @@ trait FieldUIControllerTrait
      * @throws \Cake\Network\Exception\NotFoundException When given view
      *  mode does not exists
      */
-    public function view_mode_edit($viewMode, $id)
+    public function viewModeEdit($viewMode, $id)
     {
         $this->_validateViewMode($viewMode);
         $instance = $this->_getOrThrow($id);
@@ -395,7 +395,7 @@ trait FieldUIControllerTrait
      * @throws \Cake\Network\Exception\NotFoundException When given view mode
      *  does not exists
      */
-    public function view_mode_move($viewMode, $id, $direction)
+    public function viewModeMove($viewMode, $id, $direction)
     {
         $this->_validateViewMode($viewMode);
         $instance = $this->_getOrThrow($id);

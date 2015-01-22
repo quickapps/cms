@@ -44,7 +44,7 @@ class FinderController extends AppController
      *
      * @return void
      */
-    public function plugin_file()
+    public function pluginFile()
     {
         if (!empty($this->request->query['file'])) {
             $path = $this->request->query['file'];

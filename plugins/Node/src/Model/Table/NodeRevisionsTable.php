@@ -11,13 +11,13 @@
  */
 namespace Node\Model\Table;
 
-use \ArrayObject;
 use Cake\Database\Schema\Table as Schema;
 use Cake\Event\Event;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Node\Model\Entity\Node;
+use \ArrayObject;
 
 /**
  * Represents "node_revisions" database table.

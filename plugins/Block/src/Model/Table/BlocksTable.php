@@ -11,13 +11,13 @@
  */
 namespace Block\Model\Table;
 
-use \ArrayObject;
 use Block\Model\Entity\Block;
 use Cake\Database\Schema\Table as Schema;
 use Cake\Event\Event;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use QuickApps\Event\HookAwareTrait;
+use \ArrayObject;
 
 /**
  * Represents "blocks" database table.

@@ -184,7 +184,7 @@ class ManageController extends AppController
      * @param int $id User's ID
      * @return void Redirects to previous page
      */
-    public function password_instructions($id)
+    public function passwordInstructions($id)
     {
         $this->loadModel('User.Users');
         $user = $this->Users->get($id, ['fields' => ['id', 'name']]);

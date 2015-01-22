@@ -11,7 +11,6 @@
  */
 namespace Field\Model\Table;
 
-use \ArrayObject;
 use Cake\Database\Schema\Table as Schema;
 use Cake\Event\Event;
 use Cake\ORM\Entity;
@@ -22,6 +21,7 @@ use Cake\Validation\Validator;
 use Field\Model\Entity\FieldInstance;
 use QuickApps\Event\HookAwareTrait;
 use QuickApps\View\ViewModeAwareTrait;
+use \ArrayObject;
 
 /**
  * Represents "field_instances" database table.

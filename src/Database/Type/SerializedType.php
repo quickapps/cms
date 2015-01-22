@@ -98,13 +98,19 @@ class SerializedType extends Type
                 if (substr($data, -2, 1) !== '"') {
                     return false;
                 }
+                // no break
             case 'a':
+                // no break
             case 'O':
                 return (bool)preg_match("/^{$token}:[0-9]+:/s", $data);
+                // no break
             case 'b':
+                // no break
             case 'i':
+                // no break
             case 'd':
                 return (bool)preg_match("/^{$token}:[0-9.E-]+;$/", $data);
+                // no break
         }
 
         return false;

@@ -28,8 +28,8 @@ if (!file_exists(SITE_ROOT . '/config/settings.php')) {
     );
 
     Router::plugin('Installer', function($routes) {
-        $routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
-        $routes->connect('/:controller/:action/*', [], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
+        $routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'Cake\Routing\Route\DashedRoute']);
+        $routes->connect('/:controller/:action/*', [], ['routeClass' => 'Cake\Routing\Route\DashedRoute']);
     });
 } else {
 
@@ -43,18 +43,18 @@ if (!file_exists(SITE_ROOT . '/config/settings.php')) {
     Router::prefix('admin', function($routes) {
         foreach (Plugin::loaded() as $plugin) {
             $routes->plugin($plugin, function($routes) {
-                $routes->connect('', ['controller' => 'manage', 'action' => 'index'], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
-                $routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
-                $routes->connect('/:controller/:action/*', [], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
+                $routes->connect('', ['controller' => 'manage', 'action' => 'index'], ['routeClass' => 'Cake\Routing\Route\DashedRoute']);
+                $routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'Cake\Routing\Route\DashedRoute']);
+                $routes->connect('/:controller/:action/*', [], ['routeClass' => 'Cake\Routing\Route\DashedRoute']);
             });
         }
     });
 
     foreach (Plugin::loaded() as $plugin) {
         Router::plugin($plugin, function($routes) {
-            $routes->connect('', ['controller' => 'main', 'action' => 'index'], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
-            $routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
-            $routes->connect('/:controller/:action/*', [], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
+            $routes->connect('', ['controller' => 'main', 'action' => 'index'], ['routeClass' => 'Cake\Routing\Route\DashedRoute']);
+            $routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'Cake\Routing\Route\DashedRoute']);
+            $routes->connect('/:controller/:action/*', [], ['routeClass' => 'Cake\Routing\Route\DashedRoute']);
         });
     }
 
@@ -76,7 +76,7 @@ if (!file_exists(SITE_ROOT . '/config/settings.php')) {
     if ($localePrefix) {
         foreach (Router::routes() as $router) {
             $options = $router->options;
-            $options['routeClass'] = empty($options['routeClass']) ? 'Cake\Routing\Route\InflectedRoute' : $options['routeClass'];
+            $options['routeClass'] = empty($options['routeClass']) ? 'Cake\Routing\Route\DashedRoute' : $options['routeClass'];
             if (!empty($options['_name'])) {
                 $options['locale'] = $localesPattern;
                 $template = str_replace('//', '/', "/:locale/{$router->template}");

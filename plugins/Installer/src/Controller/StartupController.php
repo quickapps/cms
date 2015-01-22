@@ -71,7 +71,7 @@ class StartupController extends Controller
     /**
      * {@inheritDoc}
      *
-     * @param \Cake\Event\Event $event
+     * @param \Cake\Event\Event $event The event that was triggered
      * @return void
      */
     public function beforeFilter(Event $event)

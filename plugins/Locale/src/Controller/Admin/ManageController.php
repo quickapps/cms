@@ -117,7 +117,7 @@ class ManageController extends AppController
      * @param int $id Language's ID
      * @return void Redirects to previous page
      */
-    public function set_default($id)
+    public function setDefault($id)
     {
         $this->loadModel('Locale.Languages');
         $this->loadModel('System.Options');

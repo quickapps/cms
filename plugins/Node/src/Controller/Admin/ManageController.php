@@ -303,7 +303,7 @@ class ManageController extends AppController
      * @param int $revisionId Revision's ID
      * @return void Redirects to previous page
      */
-    public function delete_revision($nodeId, $revisionId)
+    public function deleteRevision($nodeId, $revisionId)
     {
         $this->loadModel('Node.NodeRevisions');
         $revision = $this->NodeRevisions->find()

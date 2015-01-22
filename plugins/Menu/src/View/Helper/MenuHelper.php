@@ -267,7 +267,7 @@ class MenuHelper extends Helper
 
             foreach ($chunk as $menu) {
                 $i++;
-                $out .=    $this->formatTemplate('parent', [
+                $out .= $this->formatTemplate('parent', [
                     'attrs' => $this->templater()->formatAttributes(['class' => "menu-part part-{$i}"]),
                     'content' => $this->_render($menu, $this->config('formatter'))
                 ]);

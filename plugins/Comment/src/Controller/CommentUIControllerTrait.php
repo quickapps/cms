@@ -312,7 +312,7 @@ trait CommentUIControllerTrait
      *
      * @return void Redirects to previous page
      */
-    public function empty_trash()
+    public function emptyTrash()
     {
         $this->loadModel('Comment.Comments');
         $this->Comments->deleteAll(['Comments.status' => 'trash', 'Comments.table_alias' => $this->_manageTable]);
