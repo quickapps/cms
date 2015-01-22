@@ -94,16 +94,16 @@ class SerializedType extends Type
 
         $token = $data[0];
         switch ($token) {
-            case 's' :
+            case 's':
                 if (substr($data, -2, 1) !== '"') {
                     return false;
                 }
-            case 'a' :
-            case 'O' :
+            case 'a':
+            case 'O':
                 return (bool)preg_match("/^{$token}:[0-9]+:/s", $data);
-            case 'b' :
-            case 'i' :
-            case 'd' :
+            case 'b':
+            case 'i':
+            case 'd':
                 return (bool)preg_match("/^{$token}:[0-9.E-]+;$/", $data);
         }
 

@@ -38,7 +38,7 @@ class HtmlHelper extends CakeHtmlHelper
      *
      *     <!DOCTYPE html>
      *     <html>
-     *	       <head>
+     *           <head>
      *             <?php echo $this->head(); ?>
      *             <!-- rest of your head code -->
      *          </head>

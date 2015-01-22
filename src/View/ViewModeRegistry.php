@@ -68,13 +68,13 @@ class ViewModeRegistry
      *
      *     ViewModeRegistry::addViewMode([
      *         'slug_1' => [
-     *         	    'name' => 'View Mode 1',
-     *         	    'description' => 'Lorem ipsum',
-     *         	],
+     *                 'name' => 'View Mode 1',
+     *                 'description' => 'Lorem ipsum',
+     *             ],
      *         'slug_2' => [
-     *         	    'name' => 'View Mode 2',
-     *         	    'description' => 'Dolor sit amet',
-     *         	],
+     *                 'name' => 'View Mode 2',
+     *                 'description' => 'Dolor sit amet',
+     *             ],
      *     ]);
      *
      * Or you can register a single view mode by passing its "slug", "name"

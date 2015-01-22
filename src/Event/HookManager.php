@@ -66,10 +66,10 @@ use Cake\Event\EventManager;
  *
  *     class MyEventListener extends EventListener {
  *         public function implementedEvents() {
- *		       return [
- *		           'Alter.Hello' => 'alterWorld',
- *		           'Hello' => 'world',
- *		       ];
+ *               return [
+ *                   'Alter.Hello' => 'alterWorld',
+ *                   'Hello' => 'world',
+ *               ];
  *         }
  *
  *         public function alterWorld(Event $event, &$byReference) {
