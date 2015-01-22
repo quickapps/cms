@@ -53,7 +53,7 @@ class TwitterBootstrapHook implements EventListenerInterface
         'errorList' => '<ul class="text-danger">{{content}}</ul>',
         'inputContainer' => '<div class="form-group {{type}}{{required}}">{{content}}</div>',
         'inputContainerError' => '<div class="form-group has-error has-feedback {{type}}{{required}}">{{content}}<span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>{{error}}</div>',
-        'radioWrapper' => '{{input}}{{label}}<br />',
+        'radioWrapper' => '{{label}}<br />',
         'submitContainer' => '{{content}}',
     ];
 
