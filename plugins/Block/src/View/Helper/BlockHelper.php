@@ -12,6 +12,8 @@
 namespace Block\View\Helper;
 
 use Block\Model\Entity\Block;
+use Cake\Cache\Cache;
+use Cake\Collection\Collection;
 use Cake\Core\Configure;
 use Cake\I18n\I18n;
 use Cake\ORM\TableRegistry;
@@ -73,11 +75,18 @@ class BlockHelper extends Helper
      */
     public function blocksIn($region, $all = false)
     {
-        $Blocks = TableRegistry::get('Block.Blocks');
-        $cacheKey = "blocksIn_{$this->_View->theme}_{$region}_{$all}";
-        $blocks = static::cache($cacheKey);
+        $pCacheKey = "{$this->_View->theme}_{$region}"; // persistent cache
+        $blocks = Cache::read($pCacheKey, 'blocks');
+
+        if (!$blocks) {
+            $cacheKey = "blocksIn_{$pCacheKey}_{$all}";
+            $blocks = static::cache($cacheKey);
+        } else {
+            $blocks = new Collection($blocks);
+        }
 
         if ($blocks === null) {
+            $Blocks = TableRegistry::get('Block.Blocks');
             $blocks = $Blocks->find()
                 ->contain(['Roles', 'BlockRegions'])
                 ->matching('BlockRegions', function ($q) use ($region) {
@@ -111,7 +120,9 @@ class BlockHelper extends Helper
             $blocks->sortBy(function ($block) {
                 return $block->region->ordering;
             }, SORT_ASC);
+
             static::cache($cacheKey, $blocks);
+            Cache::write($pCacheKey, $blocks->toArray(), 'blocks');
         }
 
         return $blocks;

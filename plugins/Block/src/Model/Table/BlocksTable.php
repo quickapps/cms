@@ -12,6 +12,7 @@
 namespace Block\Model\Table;
 
 use Block\Model\Entity\Block;
+use Cake\Cache\Cache;
 use Cake\Database\Schema\Table as Schema;
 use Cake\Event\Event;
 use Cake\ORM\Table;
@@ -215,6 +216,8 @@ class BlocksTable extends Table
      * Triggers the "Block.<handler>.afterSave" hook, so plugins may do
      * any logic their require.
      *
+     * All cached blocks are automatically removed.
+     *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Block\Model\Entity\Block $block The block entity that was saved
      * @param \ArrayObject $options Additional options given as an array
@@ -223,6 +226,7 @@ class BlocksTable extends Table
     public function afterSave(Event $event, Block $block, ArrayObject $options = null)
     {
         $this->trigger(["Block.{$block->handler}.afterSave", $event->subject], $block, $options);
+        $this->clearCache();
     }
 
     /**
@@ -247,6 +251,8 @@ class BlocksTable extends Table
      * Triggers the "Block.<handler>.afterDelete" hook, so plugins may do
      * any logic their require.
      *
+     * All cached blocks are automatically removed.
+     *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Block\Model\Entity\Block $block The block entity that was deleted
      * @param \ArrayObject $options Additional options given as an array
@@ -255,5 +261,16 @@ class BlocksTable extends Table
     public function afterDelete(Event $event, Block $block, ArrayObject $options = null)
     {
         $this->trigger(["Block.{$block->handler}.afterDelete", $event->subject], $block, $options);
+        $this->clearCache();
+    }
+
+    /**
+     * Clear blocks cache for all themes and all regions.
+     *
+     * @return void
+     */
+    public function clearCache()
+    {
+        Cache::clearGroup('views', 'blocks');
     }
 }

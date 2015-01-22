@@ -11,9 +11,13 @@
  */
 namespace Block\Model\Table;
 
+use Block\Model\Entity\BlockRegion;
+use Cake\Cache\Cache;
+use Cake\Event\Event;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use QuickApps\Core\Plugin;
+use \ArrayObject;
 
 /**
  * Represents "block_regions" database table.
@@ -58,5 +62,41 @@ class BlockRegionsTable extends Table
                 'message' => __d('block', 'This block is already assigned to this theme.'),
                 'provider' => 'table',
             ]);
+    }
+
+    /**
+     * Clears blocks cache after assignment changes.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Block\Model\Entity\BlockRegion $blockRegion The block entity that was deleted
+     * @param \ArrayObject $options Additional options given as an array
+     * @return void
+     */
+    public function afterSave(Event $event, BlockRegion $blockRegion, ArrayObject $options = null)
+    {
+        $this->clearCache();
+    }
+
+    /**
+     * Clears blocks cache after assignment is removed.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Block\Model\Entity\BlockRegion $blockRegion The block entity that was deleted
+     * @param \ArrayObject $options Additional options given as an array
+     * @return void
+     */
+    public function afterDelete(Event $event, BlockRegion $blockRegion, ArrayObject $options = null)
+    {
+        $this->clearCache();
+    }
+
+    /**
+     * Clear blocks cache for all themes and all regions.
+     *
+     * @return void
+     */
+    public function clearCache()
+    {
+        Cache::clearGroup('views', 'blocks');
     }
 }
