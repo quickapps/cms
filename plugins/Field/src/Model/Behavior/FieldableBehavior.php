@@ -1075,8 +1075,8 @@ class FieldableBehavior extends Behavior
                     $subQuery->where(['FieldValues.table_alias' => $tableAlias]);
                 }
 
-                $expression->field($this->_table->alias() . '.' . $pk);
-                $expression->value($subQuery);
+                $expression->setField($this->_table->alias() . '.' . $pk);
+                $expression->setValue($subQuery);
                 $expression->setOperator('IN');
             });
         }
