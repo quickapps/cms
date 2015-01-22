@@ -70,7 +70,7 @@ class ManageControllerTest extends IntegrationTestCase
             'visibility' => 'except',
             'pages' => ''
         ]);
-        $block = $this->Controller->Blocks
+        $block = TableRegistry::get('Block.Blocks')
             ->find()
             ->where(['title' => 'test block'])
             ->limit(1)
@@ -105,7 +105,7 @@ class ManageControllerTest extends IntegrationTestCase
             'visibility' => 'only',
             'pages' => '/',
         ]);
-        $block = $this->Controller->Blocks->get(1);
+        $block = TableRegistry::get('Block.Blocks')->get(1);
         $this->assertEquals('New Title', $block->title);
     }
 
@@ -117,7 +117,7 @@ class ManageControllerTest extends IntegrationTestCase
     public function testDeleteNonCustom()
     {
         $this->get('/admin/block/manage/delete/1');
-        $block = $this->Controller->Blocks
+        $block = TableRegistry::get('Block.Blocks')
             ->find()
             ->where(['id' => 1])
             ->limit(1)
@@ -133,7 +133,7 @@ class ManageControllerTest extends IntegrationTestCase
     public function testDuplicate()
     {
         $this->get('/admin/block/manage/duplicate/1');
-        $block = $this->Controller->Blocks
+        $block = TableRegistry::get('Block.Blocks')
             ->find()
             ->where(['copy_id' => 1])
             ->limit(1)
