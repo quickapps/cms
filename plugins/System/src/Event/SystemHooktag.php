@@ -172,15 +172,15 @@ class SystemHooktag implements EventListenerInterface
             switch ($option) {
                 case 'code':
                     $out = $info['code'];
-                break;
+                    break;
 
                 case 'name':
                     $out = $info['name'];
-                break;
+                    break;
 
                 case 'direction':
                     $out = $info['direction'];
-                break;
+                    break;
             }
         }
 

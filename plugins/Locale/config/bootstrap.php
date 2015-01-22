@@ -58,11 +58,11 @@ if (!defined('CORE_LOCALE')) {
  * @param string|null $key The key to read, or null to read the whole info
  * @return mixed
  */
-    function language($key = null)
-    {
-        $code = I18n::defaultLocale();
-        if ($key !== null) {
-            return Configure::read("QuickApps.languages.{$code}.{$key}");
-        }
-        return Configure::read('QuickApps.languages.{$code}');
+function language($key = null)
+{
+    $code = I18n::defaultLocale();
+    if ($key !== null) {
+        return Configure::read("QuickApps.languages.{$code}.{$key}");
     }
+    return Configure::read('QuickApps.languages.{$code}');
+}

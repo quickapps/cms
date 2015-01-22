@@ -87,12 +87,12 @@ class TermsController extends AppController
             ->push(__d('taxonomy', 'Terms'), '#');
     }
 
-/**
- * Adds a new terms within the given vocabulary.
- *
- * @param int $vocabularyId Vocabulary's ID
- * @return void
- */
+    /**
+     * Adds a new terms within the given vocabulary.
+     *
+     * @param int $vocabularyId Vocabulary's ID
+     * @return void
+     */
     public function add($vocabularyId)
     {
         $this->loadModel('Taxonomy.Vocabularies');
@@ -139,12 +139,12 @@ class TermsController extends AppController
             ->push(__d('taxonomy', 'Add new term'), '#');
     }
 
-/**
- * Edits the given vocabulary's term by ID.
- *
- * @param int $id Term's ID
- * @return void
- */
+    /**
+     * Edits the given vocabulary's term by ID.
+     *
+     * @param int $id Term's ID
+     * @return void
+     */
     public function edit($id)
     {
         $this->loadModel('Taxonomy.Terms');
@@ -172,12 +172,12 @@ class TermsController extends AppController
             ->push(__d('taxonomy', 'Editing term'), '#');
     }
 
-/**
- * Deletes the given term.
- *
- * @param int $id Term's ID
- * @return void
- */
+    /**
+     * Deletes the given term.
+     *
+     * @param int $id Term's ID
+     * @return void
+     */
     public function delete($id)
     {
         $this->loadModel('Taxonomy.Terms');

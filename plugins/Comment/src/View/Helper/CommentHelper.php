@@ -27,17 +27,17 @@ class CommentHelper extends Helper
 
     use HookAwareTrait;
 
-/**
- * Renders a comments section for given entity.
- *
- * Entity's comments must be in the `comments` property. It is automatically filled when
- * using `CommentableBBehavior`.
- *
- * @param \Cake\ORM\Entity $entity Any valid entity
- * @return string
- * @throws \Cake\Network\Exception\InternalErrorException When comment
- *  component was not loaded
- */
+    /**
+     * Renders a comments section for given entity.
+     *
+     * Entity's comments must be in the `comments` property. It is automatically filled when
+     * using `CommentableBBehavior`.
+     *
+     * @param \Cake\ORM\Entity $entity Any valid entity
+     * @return string
+     * @throws \Cake\Network\Exception\InternalErrorException When comment
+     *  component was not loaded
+     */
     public function render(Entity $entity)
     {
         if (!isset($this->_View->viewVars['__commentComponentLoaded__'])) {
@@ -60,15 +60,15 @@ class CommentHelper extends Helper
         return $out;
     }
 
-/**
- * Shortcut for generate form-input's options.
- *
- * It take cares of adding an asterisk "*" to each required filed label,
- * it also adds the "required" attribute.
- *
- * @param string $input Input name (author_name, author_email, author_web, subject or body)
- * @return array
- */
+    /**
+     * Shortcut for generate form-input's options.
+     *
+     * It take cares of adding an asterisk "*" to each required filed label,
+     * it also adds the "required" attribute.
+     *
+     * @param string $input Input name (author_name, author_email, author_web, subject or body)
+     * @return array
+     */
     public function optionsForInput($input)
     {
         $options = [
@@ -106,11 +106,11 @@ class CommentHelper extends Helper
         return [];
     }
 
-/**
- * Renders "Are You Human" form element.
- *
- * @return string HTML
- */
+    /**
+     * Renders "Are You Human" form element.
+     *
+     * @return string HTML
+     */
     public function captcha()
     {
         $out = '';

@@ -496,8 +496,10 @@ class MenuHelper extends Helper
         static $locales = null;
 
         if (empty($locales)) {
-            $locales = implode('|',
-                array_map('preg_quote',
+            $locales = implode(
+                '|',
+                array_map(
+                    'preg_quote',
                     array_keys(
                         quickapps('languages')
                     )
@@ -566,62 +568,62 @@ class MenuHelper extends Helper
                     'item', &$item,
                 ]) === true;
             case 'auto':
-                default:
-                    try {
-                        $itemUrl = Router::url($item->url);
-                    } catch (\Exception $e) {
-                        $itemUrl = false;
+            default:
+                try {
+                    $itemUrl = Router::url($item->url);
+                } catch (\Exception $e) {
+                    $itemUrl = false;
+                }
+
+                // external link
+                if (empty($itemUrl) || $itemUrl[0] !== '/') {
+                    return ($itemUrl == env('REQUEST_URI'));
+                }
+
+                $itemUrl = str_replace_once($this->_View->request->base, '', $itemUrl);
+                if (option('url_locale_prefix')) {
+                    if (!preg_match('/^\/' . $this->_localesPattern() . '/', $itemUrl)) {
+                        $itemUrl = '/' . I18n::defaultLocale() . $itemUrl;
                     }
+                }
 
-                    // external link
-                    if (empty($itemUrl) || $itemUrl[0] !== '/') {
-                        return ($itemUrl == env('REQUEST_URI'));
-                    }
+                $isInternal =
+                    $itemUrl !== '/' &&
+                    str_ends_with($itemUrl, str_replace_once($this->_View->request->base, '', env('REQUEST_URI')));
+                $isIndex =
+                    $itemUrl === '/' &&
+                    $this->_View->request->isHome();
+                $isExact =
+                    str_replace('//', '/', "{$itemUrl}/") === str_replace('//', '/', "/{$this->_View->request->url}/");
 
-                    $itemUrl = str_replace_once($this->_View->request->base, '', $itemUrl);
-                    if (option('url_locale_prefix')) {
-                        if (!preg_match('/^\/' . $this->_localesPattern() . '/', $itemUrl)) {
-                            $itemUrl = '/' . I18n::defaultLocale() . $itemUrl;
-                        }
-                    }
+                if ($this->config('breadcrumbGuessing')) {
+                    static $crumbs = null;
+                    if ($crumbs === null) {
+                        $crumbs = BreadcrumbRegistry::getUrls();
+                        foreach ($crumbs as &$crumb) {
+                            try {
+                                $crumb = Router::url($crumb);
+                            } catch (\Exception $e) {
+                                $crumb = '';
+                            }
 
-                    $isInternal =
-                        $itemUrl !== '/' &&
-                        str_ends_with($itemUrl, str_replace_once($this->_View->request->base, '', env('REQUEST_URI')));
-                    $isIndex =
-                        $itemUrl === '/' &&
-                        $this->_View->request->isHome();
-                    $isExact =
-                        str_replace('//', '/', "{$itemUrl}/") === str_replace('//', '/', "/{$this->_View->request->url}/");
+                            if (str_starts_with($crumb, $this->_View->request->base)) {
+                                $crumb = str_replace_once($this->_View->request->base, '', $crumb);
+                            }
 
-                    if ($this->config('breadcrumbGuessing')) {
-                        static $crumbs = null;
-                        if ($crumbs === null) {
-                            $crumbs = BreadcrumbRegistry::getUrls();
-                            foreach ($crumbs as &$crumb) {
-                                try {
-                                    $crumb = Router::url($crumb);
-                                } catch (\Exception $e) {
-                                    $crumb = '';
-                                }
-
-                                if (str_starts_with($crumb, $this->_View->request->base)) {
-                                    $crumb = str_replace_once($this->_View->request->base, '', $crumb);
-                                }
-
-                                if (option('url_locale_prefix')) {
-                                    if (!preg_match('/^\/' . $this->_localesPattern() . '/', $crumb)) {
-                                        $crumb = '/' . I18n::defaultLocale() . $crumb;
-                                    }
+                            if (option('url_locale_prefix')) {
+                                if (!preg_match('/^\/' . $this->_localesPattern() . '/', $crumb)) {
+                                    $crumb = '/' . I18n::defaultLocale() . $crumb;
                                 }
                             }
                         }
-
-                        $isInBreadcrumb = in_array($itemUrl, $crumbs);
-                        return ($isInternal || $isIndex || $isExact || $isInBreadcrumb);
                     }
 
-                    return ($isInternal || $isIndex || $isExact);
+                    $isInBreadcrumb = in_array($itemUrl, $crumbs);
+                    return ($isInternal || $isIndex || $isExact || $isInBreadcrumb);
+                }
+
+                return ($isInternal || $isIndex || $isExact);
         }
     }
 
@@ -716,8 +718,10 @@ class MenuHelper extends Helper
             return $cache;
         }
 
-        $pattern = '(' . implode('|',
-            array_map('preg_quote',
+        $pattern = '(' . implode(
+            '|',
+            array_map(
+                'preg_quote',
                 array_keys(
                     quickapps('languages')
                 )

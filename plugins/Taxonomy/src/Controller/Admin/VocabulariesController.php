@@ -41,11 +41,11 @@ class VocabulariesController extends AppController
             ->push(__d('taxonomy', 'Vocabularies'), '#');
     }
 
-/**
- * Adds a new menu.
- *
- * @return void
- */
+    /**
+     * Adds a new menu.
+     *
+     * @return void
+     */
     public function add()
     {
         $this->loadModel('Taxonomy.Vocabularies');
@@ -75,12 +75,12 @@ class VocabulariesController extends AppController
             ->push(__d('taxonomy', 'Crating new vocabulary'), '#');
     }
 
-/**
- * Edits the given vocabulary by ID.
- *
- * @param int $id Vocabulary's ID
- * @return void
- */
+    /**
+     * Edits the given vocabulary by ID.
+     *
+     * @param int $id Vocabulary's ID
+     * @return void
+     */
     public function edit($id)
     {
         $this->loadModel('Taxonomy.Vocabularies');
@@ -110,12 +110,12 @@ class VocabulariesController extends AppController
             ->push(__d('taxonomy', 'Editing vocabulary'), '#');
     }
 
-/**
- * Removes the given vocabulary by ID.
- *
- * @param int $id Vocabulary's ID
- * @return void Redirects to previous page
- */
+    /**
+     * Removes the given vocabulary by ID.
+     *
+     * @param int $id Vocabulary's ID
+     * @return void Redirects to previous page
+     */
     public function delete($id)
     {
         $this->loadModel('Taxonomy.Vocabularies');

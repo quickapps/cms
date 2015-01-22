@@ -139,7 +139,8 @@ class FieldHook implements EventListenerInterface
         foreach (listeners() as $listener) {
             if (str_starts_with($listener, 'Field.') && str_ends_with($listener, '.Instance.info')) {
                 $fieldHandler = explode('.', $listener)[1];
-                $response = array_merge([
+                $response = array_merge(
+                    [
                         'name' => null,
                         'description' => null,
                         'hidden' => false,

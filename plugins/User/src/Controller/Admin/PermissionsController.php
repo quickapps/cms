@@ -107,10 +107,13 @@ class PermissionsController extends AppController
             if (!isset($out[$permission->role->slug])) {
                 $out[$permission->role->slug] = [];
             }
-            $out[$permission->role->slug][] = implode('/', $this->Acos
+            $out[$permission->role->slug][] = implode(
+                '/',
+                $this->Acos
                 ->find('path', ['for' => $permission->aco->id])
                 ->extract('alias')
-                ->toArray());
+                ->toArray()
+            );
         }
 
         $this->response->body(json_encode($out, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));

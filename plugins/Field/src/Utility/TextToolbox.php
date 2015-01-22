@@ -72,12 +72,12 @@ class TextToolbox
         switch ($formatter) {
             case 'plain':
                 $content = static::filterText($content);
-            break;
+                break;
 
             case 'trimmed':
                 $len = $viewModeSettings['trim_length'];
                 $content = static::trimmer($content, $len);
-            break;
+                break;
         }
 
         return $content;
@@ -95,15 +95,15 @@ class TextToolbox
         switch ($processor) {
             case 'plain':
                 $content = static::plainProcessor($content);
-            break;
+                break;
 
             case 'filtered':
                 $content = static::filteredProcessor($content);
-            break;
+                break;
 
             case 'markdown':
                 $content = static::markdownProcessor($content);
-            break;
+                break;
         }
 
         return $content;
@@ -241,7 +241,8 @@ class TextToolbox
      */
     public static function stripHtmlTags($html)
     {
-        $html = preg_replace([
+        $html = preg_replace(
+            [
             '@<head[^>]*?>.*?</head>@siu',
             '@<style[^>]*?>.*?</style>@siu',
             '@<object[^>]*?.*?</object>@siu',
@@ -257,9 +258,10 @@ class TextToolbox
             '@</?((form)|(button)|(fieldset)|(legend)|(input))@iu',
             '@</?((label)|(select)|(optgroup)|(option)|(textarea))@iu',
             '@</?((frameset)|(frame)|(iframe))@iu',
-        ],
-        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', "$0", "$0", "$0", "$0", "$0", "$0", "$0", "$0"],
-        $html);
+            ],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', "$0", "$0", "$0", "$0", "$0", "$0", "$0", "$0"],
+            $html
+        );
 
         return strip_tags($html, '<script>');
     }

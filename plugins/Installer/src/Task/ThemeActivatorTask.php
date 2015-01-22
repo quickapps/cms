@@ -119,7 +119,8 @@ class ThemeActivatorTask extends BaseTask
             $previousTheme = option('front_theme');
         }
 
-        if ($this->Options->update("{$prefix}theme", $this->plugin())) { // update() automatically regenerates snapshot
+        if ($this->Options->update("{$prefix}theme", $this->plugin())) {
+// update() automatically regenerates snapshot
             $this->_copyBlockPositions($this->plugin(), $previousTheme);
         } else {
             $this->error(__d('installer', 'Internal error, the option "{0}" was not found.', "{$prefix}theme"));

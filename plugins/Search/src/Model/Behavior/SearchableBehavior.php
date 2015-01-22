@@ -323,7 +323,8 @@ class SearchableBehavior extends Behavior
 
         foreach ($words as $i => $w) {
             if ($bannedCallable) {
-                if (!$bannedCallable($w)) { // false means it's banned
+                if (!$bannedCallable($w)) {
+// false means it's banned
                     unset($words[$i]);
                 }
             } else {

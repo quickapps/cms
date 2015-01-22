@@ -35,16 +35,16 @@ class FileToolbox
         switch ($field->view_mode_settings['formatter']) {
             case 'link':
                 $out = $view->element('Field.FileField/display_link', compact('field'));
-            break;
+                break;
 
             case 'table':
                 $out = $view->element('Field.FileField/display_table', compact('field'));
-            break;
+                break;
 
             case 'url':
-                default:
-                    $out = $view->element('Field.FileField/display_url', compact('field'));
-            break;
+            default:
+                $out = $view->element('Field.FileField/display_url', compact('field'));
+                break;
         }
         return $out;
     }

@@ -86,7 +86,7 @@ class UpdateTask extends InstallTask
      *    after placing new directory in its place.
      *
      * @return bool True on success, false otherwise
-    */
+     */
     public function start()
     {
         if (!empty($this->_errors)) {

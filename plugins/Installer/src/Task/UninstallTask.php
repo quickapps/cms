@@ -61,9 +61,9 @@ class UninstallTask extends BaseTask
      *
      * ### Events triggered:
      *
-     *- `beforeUninstall`: Before plugins is removed from DB and before
+     * - `beforeUninstall`: Before plugins is removed from DB and before
      *   plugin's directory is deleted from "/plugins"
-     *- `afterUninstall`: After plugins was removed from DB and after
+     * - `afterUninstall`: After plugins was removed from DB and after
      *   plugin's directory was deleted from "/plugins"
      *
      * @return bool True on success, false otherwise

@@ -81,15 +81,15 @@ class ImageToolbox extends FileToolbox
                             } else {
                                 $out .= $img;
                             }
-                        break;
+                            break;
 
                         case 'file':
                             $out .= $view->Html->link($img, $originalURL, ['escape' => false, 'target' => '_blank']);
-                        break;
+                            break;
 
                         default:
                             $out .= $img;
-                        break;
+                            break;
                     }
                 }
             }

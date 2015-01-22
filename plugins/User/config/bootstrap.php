@@ -67,34 +67,34 @@ Cache::config('permissions', [
      *
      * @return \User\Model\Entity\UserSession
      */
-    function user()
-    {
-        $request = Router::getRequest();
-        if ($request && $request->is('userLoggedIn')) {
-            $properties = Router::getRequest()->session()->read('Auth.User');
-            if (!empty($properties['roles'])) {
-                foreach ($properties['roles'] as &$role) {
-                    unset($role['_joinData']);
-                    $role = new Entity($role);
-                }
-            } else {
-                $properties['roles'] = [];
+function user()
+{
+    $request = Router::getRequest();
+    if ($request && $request->is('userLoggedIn')) {
+        $properties = Router::getRequest()->session()->read('Auth.User');
+        if (!empty($properties['roles'])) {
+            foreach ($properties['roles'] as &$role) {
+                unset($role['_joinData']);
+                $role = new Entity($role);
             }
-            $properties['roles'][] = TableRegistry::get('Roles')->get(ROLE_ID_AUTHENTICATED);
         } else {
-            $properties = [
-                'id' => null,
-                'name' => __d('user', 'Anonymous'),
-                'username' => __d('user', 'anonymous'),
-                'email' => __d('user', '(no email)'),
-                'locale' => I18n::defaultLocale(),
-                'roles' => [TableRegistry::get('Roles')->get(ROLE_ID_ANONYMOUS)],
-            ];
+            $properties['roles'] = [];
         }
-
-        static $user = null;
-        if ($user === null) {
-            $user = new UserSession($properties);
-        }
-        return $user;
+        $properties['roles'][] = TableRegistry::get('Roles')->get(ROLE_ID_AUTHENTICATED);
+    } else {
+        $properties = [
+            'id' => null,
+            'name' => __d('user', 'Anonymous'),
+            'username' => __d('user', 'anonymous'),
+            'email' => __d('user', '(no email)'),
+            'locale' => I18n::defaultLocale(),
+            'roles' => [TableRegistry::get('Roles')->get(ROLE_ID_ANONYMOUS)],
+        ];
     }
+
+    static $user = null;
+    if ($user === null) {
+        $user = new UserSession($properties);
+    }
+    return $user;
+}

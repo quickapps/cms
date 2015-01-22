@@ -162,18 +162,18 @@ class BlockHelper extends Helper
             case 'except':
                 // Show on all pages except listed pages
                 $allowed = !$this->_urlMatch($block->pages);
-            break;
+                break;
             case 'only':
                 // Show only on listed pages
                 $allowed = $this->_urlMatch($block->pages);
-            break;
+                break;
             case 'php':
                 // Use custom PHP code to determine visibility
                 $allowed = php_eval($block->pages, [
                     'view' => &$this->_View,
                     'block' => &$block
                 ]) === true;
-            break;
+                break;
         }
 
         if (!$allowed) {

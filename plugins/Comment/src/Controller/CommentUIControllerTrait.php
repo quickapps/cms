@@ -205,7 +205,8 @@ trait CommentUIControllerTrait
             ->formatResults(function ($results) {
                 return $results->map(function ($comment) {
                     $comment->set('entity', $this->_inResponseTo($comment));
-                    $comment->set('body',
+                    $comment->set(
+                        'body',
                         TextToolbox::trimmer(
                             TextToolbox::plainProcessor(
                                 TextToolbox::stripHtmlTags($comment->body)

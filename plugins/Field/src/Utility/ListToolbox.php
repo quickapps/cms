@@ -79,14 +79,14 @@ class ListToolbox
             switch ($field->view_mode_settings['formatter']) {
                 case 'key':
                     $result .= "{$key}<br />";
-                break;
+                    break;
 
                 case 'default':
-                    default:
-                        if (!empty($options[$key])) {
-                            $result .= "{$options[$key]}<br />";
-                        }
-                break;
+                default:
+                    if (!empty($options[$key])) {
+                        $result .= "{$options[$key]}<br />";
+                    }
+                    break;
             }
         }
 
