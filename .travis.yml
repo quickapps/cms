@@ -18,7 +18,6 @@ matrix:
   fast_finish: true
   include:
     - php: 5.4
-      env: PHPCS=0
     - php: hhvm-nightly
       env: HHVM=1 DB=mysql db_dsn='mysql://travis@0.0.0.0/quick_test'
 
