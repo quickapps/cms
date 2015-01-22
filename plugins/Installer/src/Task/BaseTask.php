@@ -12,10 +12,10 @@
 namespace Installer\Task;
 
 use Cake\Core\InstanceConfigTrait;
+use Cake\Datasource\ModelAwareTrait;
 use Cake\Error\FatalErrorException;
 use Cake\Event\EventManager;
 use Cake\Filesystem\Folder;
-use Cake\Model\ModelAwareTrait;
 use Installer\Task\TaskManager;
 use QuickApps\Event\HookAwareTrait;
 use User\Utility\AcoManager;

@@ -11,9 +11,9 @@
  */
 namespace User\Utility;
 
+use Cake\Datasource\ModelAwareTrait;
 use Cake\Error\FatalErrorException;
 use Cake\Filesystem\Folder;
-use Cake\Model\ModelAwareTrait;
 use Cake\Routing\Router;
 use Cake\Utility\Inflector;
 use QuickApps\Core\Plugin;
