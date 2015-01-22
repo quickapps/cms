@@ -338,9 +338,16 @@ class ManageController extends AppController
                 if ($coulumn == 'region') {
                     foreach ($value as $theme => $region) {
                         if (!$block) {
-                            $data[$coulumn][] = ['theme' => $theme, 'region' => $region];
+                            $data[$coulumn][] = [
+                                'theme' => $theme,
+                                'region' => $region
+                            ];
                         } else {
-                            $tmp = ['theme' => $theme, 'region' => $region];
+                            $tmp = [
+                                'theme' => $theme,
+                                'region' => $region
+                            ];
+
                             foreach ($block->region as $blockRegion) {
                                 if ($blockRegion->theme == $theme) {
                                     $tmp['id'] = $blockRegion->id;

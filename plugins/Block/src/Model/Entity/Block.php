@@ -66,5 +66,9 @@ class Block extends Entity
         if (isset($this->_matchingData['BlockRegions'])) {
             return $this->_matchingData['BlockRegions'];
         }
+
+        if (isset($this->_properties['region'])) {
+            return $this->_properties['region'];
+        }
     }
 }
