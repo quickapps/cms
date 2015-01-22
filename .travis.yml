@@ -5,9 +5,6 @@ php:
   - 5.5
   - 5.6
 
-env:
-  - DB=mysql db_class='Cake\Database\Driver\Mysql' db_dsn='mysql:host=0.0.0.0;dbname=quick_test' db_database='quick_test' db_login='travis' db_password=''
-
 services:
   - memcached
   - redis-server

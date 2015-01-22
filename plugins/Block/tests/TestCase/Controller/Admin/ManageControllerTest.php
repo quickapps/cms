@@ -43,17 +43,6 @@ class ManageControllerTest extends IntegrationTestCase
     ];
 
     /**
-     * setUp().
-     *
-     * @return void
-     */
-    public function setUp()
-    {
-        parent::setUp();
-        $this->Controller = $this->generate('Block.Admin/Manage', ['components' => ['Auth', 'Flash']]);
-    }
-
-    /**
      * test index action.
      *
      * @return void
