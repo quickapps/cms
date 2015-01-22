@@ -90,6 +90,6 @@ class FieldableBehaviorTest extends TestCase
             ->find()
             ->limit(1)
             ->first();
-        $this->assertNotEmpty($entity->get('_fields'));
+        $this->assertNotEmpty($entity->get('_fields')->toArray());
     }
 }
