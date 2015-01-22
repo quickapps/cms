@@ -151,5 +151,4 @@ class ManageControllerTest extends IntegrationTestCase
             ->first();
         $this->assertNotEmpty($block);
     }
-
 }

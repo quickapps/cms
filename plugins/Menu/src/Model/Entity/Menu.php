@@ -21,11 +21,11 @@ use Cake\Utility\String;
 class Menu extends Entity
 {
 
-	/**
-	 * Gets a brief description of 80 characters long.
-	 *
-	 * @return string
-	 */
+    /**
+     * Gets a brief description of 80 characters long.
+     *
+     * @return string
+     */
     protected function _getBriefDescription()
     {
         $description = $this->get('description');

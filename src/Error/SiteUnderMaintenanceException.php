@@ -20,12 +20,12 @@ use Cake\Core\Exception\Exception;
 class SiteUnderMaintenanceException extends Exception
 {
 
-	/**
-	 * Constructor
-	 *
-	 * @param string $message If no message is given 'Site under maintenance'
-	 *  will be the message
-	 */
+    /**
+     * Constructor
+     *
+     * @param string $message If no message is given 'Site under maintenance'
+     *  will be the message
+     */
     public function __construct($message = null)
     {
         if (empty($message)) {

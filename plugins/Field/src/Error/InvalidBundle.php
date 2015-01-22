@@ -20,10 +20,10 @@ use Cake\Core\Exception\Exception;
 class InvalidBundle extends Exception
 {
 
-	/**
-	 * Template string that has attributes sprintf()'ed into it.
-	 *
-	 * @var string
-	 */
+    /**
+     * Template string that has attributes sprintf()'ed into it.
+     *
+     * @var string
+     */
     protected $_messageTemplate = 'Invalid bundle.';
 }
