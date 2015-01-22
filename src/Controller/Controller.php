@@ -171,6 +171,7 @@ class Controller extends CakeCotroller
      */
     protected function _prepareLanguage()
     {
+        debug($this->request->session()->read('Auth'));
         $locales = array_keys(quickapps('languages'));
         $localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
         $normalizedURL = str_replace('//', '/', "/{$this->request->url}"); // starts with "/""
