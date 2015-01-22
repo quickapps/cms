@@ -44,6 +44,17 @@ class ManageControllerTest extends IntegrationTestCase
     ];
 
     /**
+     * setUp().
+     *
+     * @return void
+     */
+    public function setUp()
+    {
+        parent::setUp();
+        $this->session(mockUserSession());
+    }    
+
+    /**
      * test index action.
      *
      * @return void
@@ -98,16 +109,21 @@ class ManageControllerTest extends IntegrationTestCase
      */
     public function testEditSave()
     {
-        $this->post('/admin/block/manage/edit/1', [
-            'title' => 'New Title',
+        $data = [
+            'title' => 'New Title!!',
             'description' => 'this is a test block',
             'status' => 1,
             'body' => 'What a block!',
             'visibility' => 'only',
             'pages' => '/',
-        ]);
-        $block = TableRegistry::get('Block.Blocks')->get(1);
-        $this->assertEquals('New Title', $block->title);
+        ];
+        $this->post('/admin/block/manage/edit/1', $data);
+        $this->assertResponseOk();
+
+        $query = TableRegistry::get('Block.Blocks')
+            ->find()
+            ->where(['title' => $data['title']]);
+        $this->assertEquals(1, $query->count());
     }
 
     /**

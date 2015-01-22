@@ -32,6 +32,7 @@ use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Filesystem\Folder;
+use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use QuickApps\View\ViewModeRegistry;
@@ -121,6 +122,26 @@ function snapshot() {
 	$snapshot['plugins'] = Hash::sort($snapshot['plugins'], '{s}.name', 'asc');
 	Configure::write('QuickApps', $snapshot);
 	Configure::dump('snapshot', 'QuickApps', ['QuickApps']);
+}
+
+/**
+ * Mocks an user session.
+ *
+ * Used for testing restricted areas of the app.
+ *
+ * @return array Auth session
+ */
+function mockUserSession() {
+	$session = [
+	    'Auth' => [
+	        'User' => TableRegistry::get('User.Users')
+	        	->find()
+	        	->where(['Users.id' => 1])
+	        	->toArray()
+	    ]
+    ];
+
+    return $session;
 }
 
 require QA_CORE . '/config/bootstrap.php';
