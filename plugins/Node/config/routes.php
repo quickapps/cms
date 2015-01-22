@@ -30,26 +30,35 @@ if (is_array(quickapps('node_types'))) {
     );
 }
 
-Router::connect('/find/:criteria', [
+Router::connect(
+    '/find/:criteria',
+    [
     'plugin' => 'Node',
     'controller' => 'Serve',
     'action' => 'search',
-],
-['pass' => ['criteria'], '_name' => 'node_search'],
-['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
+    ],
+    ['pass' => ['criteria'], '_name' => 'node_search'],
+    ['routeClass' => 'Cake\Routing\Route\InflectedRoute']
+);
 
-Router::connect('/rss/:criteria', [
+Router::connect(
+    '/rss/:criteria',
+    [
     'plugin' => 'Node',
     'controller' => 'Serve',
     'action' => 'rss',
-],
-['pass' => ['criteria'], '_name' => 'node_search_rss'],
-['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
+    ],
+    ['pass' => ['criteria'], '_name' => 'node_search_rss'],
+    ['routeClass' => 'Cake\Routing\Route\InflectedRoute']
+);
 
-Router::connect('/', [
+Router::connect(
+    '/',
+    [
     'plugin' => 'Node',
     'controller' => 'Serve',
     'action' => 'home'
-],
-['_name' => 'home'],
-['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
+    ],
+    ['_name' => 'home'],
+    ['routeClass' => 'Cake\Routing\Route\InflectedRoute']
+);

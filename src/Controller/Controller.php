@@ -190,8 +190,7 @@ class Controller extends CakeCotroller
             I18n::locale('en-us');
         }
 
-        if (
-            option('url_locale_prefix') &&
+        if (option('url_locale_prefix') &&
             !$this->request->is('home') &&
             !preg_match("/\/{$localesPattern}\//", $normalizedURL)
         ) {
@@ -240,8 +239,7 @@ class Controller extends CakeCotroller
      */
     protected function _checkMaintenanceMode()
     {
-        if (
-            option('site_maintenance') &&
+        if (option('site_maintenance') &&
             !$this->request->isUserAdmin() &&
             !in_array("{$this->request->plugin}:{$this->request->controller}:{$this->request->action}", ['User:gateway:login', 'User:gateway:logout'])
         ) {

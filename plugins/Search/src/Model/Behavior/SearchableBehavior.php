@@ -294,8 +294,7 @@ class SearchableBehavior extends Behavior
         $tableAlias = Inflector::underscore($this->_table->alias());
         $text = '';
 
-        if (
-            ($this->config('on') === 'update' && $isNew) ||
+        if (($this->config('on') === 'update' && $isNew) ||
             ($this->config('on') === 'insert' && !$isNew) ||
             ($this->config('on') !== 'both')
         ) {

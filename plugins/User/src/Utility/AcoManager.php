@@ -308,8 +308,7 @@ class AcoManager
                     ->toArray();
                 $path = implode('/', $path);
 
-                if (
-                    $for === null ||
+                if ($for === null ||
                     ($for !== null && str_starts_with($path, "{$for}/"))
                 ) {
                     $paths[] = $path;

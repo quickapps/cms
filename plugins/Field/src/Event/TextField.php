@@ -97,8 +97,7 @@ class TextField extends FieldHandler
             $validator->allowEmpty(":{$field->name}", true);
         }
 
-        if (
-            $field->metadata->settings['type'] === 'text' &&
+        if ($field->metadata->settings['type'] === 'text' &&
             !empty($field->metadata->settings['max_len']) &&
             $field->metadata->settings['max_len'] > 0
         ) {

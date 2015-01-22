@@ -95,8 +95,7 @@ class Region
             $validRegions = array_keys($this->_theme['composer']['extra']['regions']);
             $jsonPath = "{$this->_theme['path']}/composer.json";
             $options['fixMissing'] = $options['fixMissing'] == null ? Configure::read('debug') : $options['fixMissing'];
-            if (
-                !in_array($this->_machineName, $validRegions) &&
+            if (!in_array($this->_machineName, $validRegions) &&
                 $options['fixMissing'] &&
                 !$this->_theme['isCore'] &&
                 is_writable($jsonPath)

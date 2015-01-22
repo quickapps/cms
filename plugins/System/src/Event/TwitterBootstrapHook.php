@@ -106,8 +106,7 @@ class TwitterBootstrapHook implements EventListenerInterface
     public function alterFormInput(Event $event, $fieldName, &$options)
     {
         $this->_addTemplates($event->subject);
-        if (
-            empty($options['type']) ||
+        if (empty($options['type']) ||
             !in_array($options['type'], ['textarea', 'select', 'button', 'submit', 'checkbox'])
         ) {
             $options = $this->_addClass($event->subject, $options, 'form-control');

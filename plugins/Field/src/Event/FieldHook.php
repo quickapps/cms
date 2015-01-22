@@ -92,8 +92,7 @@ class FieldHook implements EventListenerInterface
     {
         $viewMode = $this->inUseViewMode();
 
-        if (
-            isset($field->metadata->view_modes[$viewMode]) &&
+        if (isset($field->metadata->view_modes[$viewMode]) &&
             !$field->metadata->view_modes[$viewMode]['hidden']
         ) {
             $options = array_merge(['edit' => false], $options);

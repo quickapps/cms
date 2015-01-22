@@ -210,8 +210,7 @@ class ManageController extends AppController
         $this->loadModel('User.Users');
         $user = $this->Users->get($id, ['contain' => ['Roles']]);
 
-        if (
-            in_array(ROLE_ID_ADMINISTRATOR, $user->role_ids) &&
+        if (in_array(ROLE_ID_ADMINISTRATOR, $user->role_ids) &&
             $this->Users->countAdministrators() === 1
         ) {
             $this->Flash->danger(__d('user', 'You cannot remove this user as it is the last administrator available.'));

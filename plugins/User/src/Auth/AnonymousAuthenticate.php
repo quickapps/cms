@@ -89,8 +89,7 @@ class AnonymousAuthenticate extends BaseAuthenticate
         $cookie = $controller->Cookie->read('User.Cookie');
         if ($cookie) {
             $cookie = json_decode($cookie, true);
-            if (
-                isset($cookie['user']) &&
+            if (isset($cookie['user']) &&
                 isset($cookie['hash']) &&
                 $cookie['hash'] == Security::hash($cookie['user'], 'sha1', true)
             ) {
@@ -137,8 +136,7 @@ class AnonymousAuthenticate extends BaseAuthenticate
      */
     protected function _tokenLogin(Request $request)
     {
-        if (
-            !empty($request->query['token']) &&
+        if (!empty($request->query['token']) &&
             strpos($request->query['token'], '-') !== false
         ) {
             $token = $request->query['token'];

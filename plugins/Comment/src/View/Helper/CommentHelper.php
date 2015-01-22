@@ -93,8 +93,7 @@ class CommentHelper extends Helper
         ];
 
         if (isset($options[$input])) {
-            if (
-                in_array($input, ['author_name', 'author_email', 'author_web']) &&
+            if (in_array($input, ['author_name', 'author_email', 'author_web']) &&
                 $this->config($input . '_required')
             ) {
                 $options[$input]['required'] = 'required';

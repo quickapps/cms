@@ -133,8 +133,7 @@ class BlockHelper extends Helper
             return $cache;
         }
 
-        if (
-            !empty($block->locale) &&
+        if (!empty($block->locale) &&
             !in_array(I18n::defaultLocale(), (array)$block->locale)
         ) {
             return static::cache($cacheKey, false);

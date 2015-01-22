@@ -107,8 +107,7 @@ class CommentableBehavior extends Behavior
                     },
                 ]);
 
-                if (
-                    $this->config('count') ||
+                if ($this->config('count') ||
                     (isset($options['comments_count']) && $options['comments_count'] === true)
                 ) {
                     $query->formatResults(function ($results) use ($pk, $tableAlias) {

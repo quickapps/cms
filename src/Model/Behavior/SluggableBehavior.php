@@ -95,8 +95,7 @@ class SluggableBehavior extends Behavior
         $config = $this->config();
         $isNew = $entity->isNew();
 
-        if (
-            ($isNew && in_array($config['on'], ['create', 'both'])) ||
+        if (($isNew && in_array($config['on'], ['create', 'both'])) ||
             (!$isNew && in_array($config['on'], ['update', 'both']))
         ) {
             if (!is_array($config['label'])) {

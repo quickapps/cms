@@ -507,8 +507,7 @@ class MenuHelper extends Helper
             );
         }
 
-        if (
-            option('url_locale_prefix') &&
+        if (option('url_locale_prefix') &&
             is_string($url) &&
             str_starts_with($url, '/') &&
             !preg_match('/^\/(' . $locales . ')/', $url)
@@ -650,8 +649,7 @@ class MenuHelper extends Helper
             $p = str_replace('//', '/', $p);
             $p = str_replace($request->base, '', $p);
 
-            if (
-                option('url_locale_prefix') &&
+            if (option('url_locale_prefix') &&
                 !preg_match('/^\/' . $this->_localesPattern() . '\//', $p, $matches)
             ) {
                 $p = '/' . I18n::defaultLocale() . $p;

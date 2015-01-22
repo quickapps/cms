@@ -60,8 +60,7 @@ class WysiwygHook implements EventListenerInterface
      */
     public function alterTextarea(Event $event, $fieldName, &$options)
     {
-        if (
-            !empty($options['class']) &&
+        if (!empty($options['class']) &&
             strpos($options['class'], 'ckeditor') !== false
         ) {
             static::$_counter++;

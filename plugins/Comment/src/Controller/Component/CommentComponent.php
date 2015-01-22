@@ -138,8 +138,7 @@ class CommentComponent extends Component
         $this->_defaultConfig['settings']['visibility'] = 0;
         $this->_defaultConfig['errorMessage'] = __d('comment', 'Your comment could not be saved, please check your information.');
         $this->_defaultConfig['successMessage'] = function () {
-            if (
-                $this->config('settings.auto_approve') ||
+            if ($this->config('settings.auto_approve') ||
                 $this->_controller->request->is('userAdmin')
             ) {
                 return __d('comment', 'Comment saved!');
@@ -248,8 +247,7 @@ class CommentComponent extends Component
      */
     public function post($entity)
     {
-        if (
-            !empty($this->_controller->request->data['comment']) &&
+        if (!empty($this->_controller->request->data['comment']) &&
             $this->config('settings.visibility') === 1
         ) {
             $pk = TableRegistry::get($entity->source())->primaryKey();

@@ -206,16 +206,14 @@ class View extends CakeView
         if (empty($this->viewVars['title_for_layout'])) {
             $title = '';
 
-            if (
-                !empty($this->viewVars['node']) &&
+            if (!empty($this->viewVars['node']) &&
                 ($this->viewVars['node'] instanceof \Node\Model\Entity\Node) &&
                 !empty($this->viewVars['node']->title)
             ) {
                 $title = $this->viewVars['node']->title;
             } else {
                 foreach ($this->viewVars as $var) {
-                    if (
-                        is_object($var) &&
+                    if (is_object($var) &&
                         ($var instanceof \Node\Model\Entity\Node) &&
                         !empty($var->title)
                     ) {
@@ -247,16 +245,14 @@ class View extends CakeView
         if (empty($this->viewVars['description_for_layout'])) {
             $description = '';
 
-            if (
-                !empty($this->viewVars['node']) &&
+            if (!empty($this->viewVars['node']) &&
                 ($this->viewVars['node'] instanceof \Node\Model\Entity\Node) &&
                 !empty($this->viewVars['node']->description)
             ) {
                 $title = $this->viewVars['node']->description;
             } else {
                 foreach ($this->viewVars as $var) {
-                    if (
-                        is_object($var) &&
+                    if (is_object($var) &&
                         ($var instanceof \Node\Model\Entity\Node) &&
                         !empty($var->title)
                     ) {

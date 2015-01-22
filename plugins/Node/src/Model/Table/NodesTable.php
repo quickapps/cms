@@ -304,8 +304,7 @@ class NodesTable extends Table
 
         foreach ($split as $segment) {
             $parts = explode(',', $segment);
-            if (
-                count($parts) === 2 &&
+            if (count($parts) === 2 &&
                 in_array($parts[1], ['asc', 'desc']) &&
                 in_array($parts[0], ['slug', 'title', 'description', 'sticky', 'created', 'modified'])
             ) {

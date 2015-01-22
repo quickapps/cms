@@ -201,8 +201,7 @@ class GatewayController extends AppController
             ->limit(1)
             ->first();
 
-        if (
-            in_array(ROLE_ID_ADMINISTRATOR, $user->role_ids) &&
+        if (in_array(ROLE_ID_ADMINISTRATOR, $user->role_ids) &&
             $this->Users->countAdministrators() === 1
         ) {
             $this->Flash->warning(__d('user', 'You are the last administrator in the system, your account cannot be canceled.'));

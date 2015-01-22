@@ -241,8 +241,7 @@ class ManageController extends AppController
             }
         }
 
-        if (
-            !empty($languages) &&
+        if (!empty($languages) &&
             !empty($this->request->data['language']) &&
             !empty($this->request->data['title']) &&
             $this->request->data['language'] !== $node->language

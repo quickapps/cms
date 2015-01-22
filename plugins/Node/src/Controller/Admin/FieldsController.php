@@ -51,8 +51,7 @@ class FieldsController extends AppController
         parent::__construct($request, $response);
         $validTypes = quickapps('node_types');
 
-        if (
-            !isset($request->query['type']) ||
+        if (!isset($request->query['type']) ||
             !in_array($request->query['type'], $validTypes)
         ) {
             $this->redirect(['plugin' => 'System', 'controller' => 'dashboard', 'prefix' => 'admin']);

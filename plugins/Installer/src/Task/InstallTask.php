@@ -240,8 +240,7 @@ class InstallTask extends BaseTask
     {
         if (!isset($package['tmp_name']) || !file_exists($package['tmp_name'])) {
             $this->error(__d('installer', 'Invalid package.'));
-        } elseif (
-            !isset($package['type']) ||
+        } elseif (!isset($package['type']) ||
             !in_array($package['type'], array_merge($this->_validMimes, ['application/octet-stream'])) ||
             !isset($package['name']) ||
             !str_ends_with(strtolower($package['name']), '.zip')
@@ -292,8 +291,7 @@ class InstallTask extends BaseTask
                 $file->delete();
             }
 
-            if (
-                !empty($responseBody) &&
+            if (!empty($responseBody) &&
                 $file->create() &&
                 $file->write($response->body(), 'w+', true)
             ) {
@@ -484,8 +482,7 @@ class InstallTask extends BaseTask
             }
         }
 
-        if (
-            !file_exists(SITE_ROOT . '/plugins') ||
+        if (!file_exists(SITE_ROOT . '/plugins') ||
             !is_dir(SITE_ROOT . '/plugins') ||
             !is_writable(SITE_ROOT . '/plugins')
         ) {

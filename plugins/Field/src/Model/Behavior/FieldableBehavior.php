@@ -548,8 +548,7 @@ class FieldableBehavior extends Behavior
             return true;
         }
 
-        if (
-            $this->config('enabled') ||
+        if ($this->config('enabled') ||
             (isset($options['fieldable']) && $options['fieldable'] === true)
         ) {
             $query = $this->_scopeQuery($query, $options);

@@ -52,7 +52,7 @@ class ManageControllerTest extends IntegrationTestCase
     {
         parent::setUp();
         $this->session(mockUserSession());
-    }    
+    }
 
     /**
      * test index action.
