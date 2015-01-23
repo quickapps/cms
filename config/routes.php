@@ -102,5 +102,4 @@ if (!file_exists(SITE_ROOT . '/config/settings.php')) {
             }
         );
     }
-
 }

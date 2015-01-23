@@ -277,6 +277,10 @@ class StartupController extends Controller
                     'prefix' => $requestData['prefix'],
                     'encoding' => 'utf8',
                     'timezone' => 'UTC',
+                    'cacheMetadata' => true,
+                    'quoteIdentifiers' => false,
+                    'log' => false,
+                    'init' => [],
                 ];
                 $dumpComplete = false;
 

@@ -20,7 +20,7 @@ $config = [
      * Development Mode:
      * true: Errors and warnings shown.
      */
-    'debug' => true,
+    'debug' => false,
 
     /**
      * Configure basic information about the application.
@@ -83,7 +83,7 @@ $config = [
      * enable timestamping regardless of debug value.
      */
     'Asset' => [
-        'timestamp' => false,
+        //'timestamp' => true,
     ],
 
     /**
@@ -222,6 +222,11 @@ $config = [
             'driver' => 'Cake\Database\Driver\Mysql',
             'persistent' => false,
             'host' => 'localhost',
+            /*
+            * CakePHP will use the default DB port based on the driver selected
+            * MySQL on MAMP uses port 8889, MAMP users will want to uncomment
+            * the following line and set the port accordingly
+            */
             //'port' => 'nonstandard_port_number',
             'username' => 'my_app',
             'password' => 'secret',
@@ -229,7 +234,24 @@ $config = [
             'encoding' => 'utf8',
             'timezone' => 'UTC',
             'cacheMetadata' => true,
+
+            /*
+            * Set identifier quoting to true if you are using reserved words or
+            * special characters in your table or column names. Enabling this
+            * setting will result in queries built using the Query Builder having
+            * identifiers quoted when creating SQL. It should be noted that this
+            * decreases performance because each query needs to be traversed and
+            * manipulated before being executed.
+            */
             'quoteIdentifiers' => false,
+
+            /*
+            * During development, if using MySQL < 5.6, uncommenting the
+            * following line could boost the speed at which schema metadata is
+            * fetched from the database. It can also be set directly with the
+            * mysql configuration directive 'innodb_stats_on_metadata = 0'
+            * which is the recommended value in production environments
+            */
             //'init' => ['SET GLOBAL innodb_stats_on_metadata = 0'],
         ],
     ],
@@ -240,11 +262,13 @@ $config = [
     'Log' => [
         'debug' => [
             'className' => 'Cake\Log\Engine\FileLog',
+            'path' => LOGS,
             'file' => 'debug',
             'levels' => ['notice', 'info', 'debug'],
         ],
         'error' => [
             'className' => 'Cake\Log\Engine\FileLog',
+            'path' => LOGS,
             'file' => 'error',
             'levels' => ['warning', 'error', 'critical', 'alert', 'emergency'],
         ],
