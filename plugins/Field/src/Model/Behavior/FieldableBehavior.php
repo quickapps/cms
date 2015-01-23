@@ -633,6 +633,23 @@ class FieldableBehavior extends Behavior
             throw new FatalErrorException(__d('field', 'Entities in fieldable tables can only be saved using transaction. Set [atomic = true]'));
         }
 
+        // start of old validation events emulation
+        $validator = $this->_table->validator();
+        $eventResult = $this->_table->dispatchEvent('Model.beforeValidate', compact('entity', 'options', 'validator'));
+
+        if ($eventResult->result === false) {
+            return false;
+        }
+
+        $errors = $validator->errors($entity->toArray(), $entity->isNew());
+        $entity->errors($errors);
+        $this->_table->dispatchEvent('Model.afterValidate', compact('entity', 'options', 'validator'));
+
+        if (!empty($errors)) {
+            return false;
+        }
+        // end of validation events
+
         $pk = $this->_table->primaryKey();
         $tableAlias = $this->_guessTableAlias($entity);
         $instances = $this->_getTableFieldInstances($entity);

@@ -256,9 +256,9 @@ class CommentComponent extends Component
                 $this->_controller->loadModel('Comment.Comments');
                 $data = $this->_getRequestData($entity);
                 $this->_controller->Comments->validator('commentValidation', $this->_createValidator());
-                $comment = $this->_controller->Comments->newEntity($data);
+                $comment = $this->_controller->Comments->newEntity($data, ['validate' => 'commentValidation']);
 
-                if ($this->_controller->Comments->validate($comment, ['validate' => 'commentValidation'])) {
+                if (empty($comment->errors())) {
                     $save = false;
                     $this->_controller->Comments->addBehavior('Tree', [
                         'scope' => [

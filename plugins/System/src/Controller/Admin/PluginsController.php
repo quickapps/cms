@@ -217,8 +217,9 @@ class PluginsController extends AppController
             $this->loadModel('System.Plugins');
             $settingsEntity = new Entity($this->request->data);
             $settingsEntity->set('_plugin_name', $pluginName);
+            $errors = $this->Plugins->validator('settings')->errors($settingsEntity->toArray());
 
-            if ($this->Plugins->validate($settingsEntity, ['validate' => 'settings'])) {
+            if (empty($errors)) {
                 $pluginEntity = $this->Plugins->get($pluginName);
                 $pluginEntity->set('settings', $this->request->data);
 
@@ -228,12 +229,8 @@ class PluginsController extends AppController
                 }
             } else {
                 $this->Flash->danger(__d('system', 'Plugin settings could not be saved.'));
-                $errors = $settingsEntity->errors();
-
-                if (!empty($errors)) {
-                    foreach ($errors as $field => $message) {
-                        $arrayContext['errors'][$field] = $message;
-                    }
+                foreach ($errors as $field => $message) {
+                    $arrayContext['errors'][$field] = $message;
                 }
             }
         } else {

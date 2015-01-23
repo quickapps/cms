@@ -237,8 +237,9 @@ class ThemesController extends AppController
             $this->loadModel('System.Plugins');
             $settingsEntity = new Entity($this->request->data);
             $settingsEntity->set('_plugin_name', $themeName);
+            $errors = $this->Plugins->validator('settings')->errors($settingsEntity->toArray());
 
-            if ($this->Plugins->validate($settingsEntity, ['validate' => 'settings'])) {
+            if (empty($errors)) {
                 $pluginEntity = $this->Plugins->get($themeName);
                 $pluginEntity->set('settings', $this->request->data);
 
@@ -248,12 +249,8 @@ class ThemesController extends AppController
                 }
             } else {
                 $this->Flash->danger(__d('system', 'Theme settings could not be saved.'));
-                $errors = $settingsEntity->errors();
-
-                if (!empty($errors)) {
-                    foreach ($errors as $field => $message) {
-                        $arrayContext['errors'][$field] = $message;
-                    }
+                foreach ($errors as $field => $message) {
+                    $arrayContext['errors'][$field] = $message;
                 }
             }
         } else {

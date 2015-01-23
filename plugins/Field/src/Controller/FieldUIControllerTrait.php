@@ -192,8 +192,9 @@ trait FieldUIControllerTrait
 
             $settingsEntity = new Entity($this->request->data);
             $settingsEntity->set('_field_handler', $instance->handler);
+            $errors = $this->FieldInstances->validator('settings')->errors($settingsEntity->toArray());
 
-            if ($this->FieldInstances->validate($settingsEntity, ['validate' => 'settings'])) {
+            if (empty($errors)) {
                 $instance->set('settings', $this->request->data);
                 $save = $this->FieldInstances->save($instance);
 
@@ -205,12 +206,8 @@ trait FieldUIControllerTrait
                 }
             } else {
                 $this->Flash->danger(__d('field', 'Field settings could not be saved.'));
-                $errors = $settingsEntity->errors();
-
-                if (!empty($errors)) {
-                    foreach ($errors as $field => $message) {
-                        $arrayContext['errors'][$field] = $message;
-                    }
+                foreach ($errors as $field => $message) {
+                    $arrayContext['errors'][$field] = $message;
                 }
             }
         } else {
@@ -348,8 +345,9 @@ trait FieldUIControllerTrait
         if ($this->request->data) {
             $settingsEntity = new Entity($this->request->data);
             $settingsEntity->set('_field_handler', $instance->handler);
+            $errors = $this->FieldInstances->validator('viewMode')->errors($settingsEntity->toArray());
 
-            if ($this->FieldInstances->validate($settingsEntity, ['validate' => 'viewMode'])) {
+            if (empty($errors)) {
                 $instance->accessible('*', true);
                 $viewModes = $instance->get('view_modes');
                 $viewModes[$viewMode] = array_merge($viewModes[$viewMode], $this->request->data);
@@ -363,12 +361,8 @@ trait FieldUIControllerTrait
                 }
             } else {
                 $this->Flash->danger(__d('field', 'View mode settings could not be saved.'));
-                $errors = $settingsEntity->errors();
-
-                if (!empty($errors)) {
-                    foreach ($errors as $field => $message) {
-                        $arrayContext['errors'][$field] = $message;
-                    }
+                foreach ($errors as $field => $message) {
+                    $arrayContext['errors'][$field] = $message;
                 }
             }
         } else {

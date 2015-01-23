@@ -101,7 +101,7 @@
 			)
 		);
 	?>
-	<p class="help-block"><?php echo __d('field', 'Enter your custom regular expression. e.g.: "/^[a-z0-9]{3,}$/i" (Only letters and integers, min 3 characters)'); ?></p>
+	<p class="help-block"><?php echo __d('field', 'Enter your custom regular expression. e.g.: <strong>/^[a-z0-9]{3,}$/i</strong> (Only letters and integers, min 3 characters)'); ?></p>
 </div>
 
 <div class="form-group validation-message">
