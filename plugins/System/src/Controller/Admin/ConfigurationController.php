@@ -62,8 +62,11 @@ class ConfigurationController extends AppController
         }
 
         if ($this->request->data) {
-            $mockEntity = new Entity($this->request->data);
-            if ($mockEntity->validate($this->_mockValidator())) {
+            $validator = $this->_mockValidator();
+            $errors = $validator->errors($this->request->data());
+
+            if (empty($errors)) {
+                $mockEntity = new Entity($this->request->data());
                 foreach ($this->request->data as $k => $v) {
                     $this->Options->update($k, $v, null, false);
                 }
@@ -71,7 +74,7 @@ class ConfigurationController extends AppController
                 $this->Flash->success(__d('system', 'Configuration successfully saved!'));
                 $this->redirect($this->referer());
             } else {
-                $arrayContext['errors'] = $mockEntity->errors();
+                $arrayContext['errors'] = $errors;
                 $this->Flash->danger(__d('system', 'Configuration could not be saved, please check your information.'));
             }
         }
