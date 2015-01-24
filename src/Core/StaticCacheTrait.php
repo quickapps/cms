@@ -128,7 +128,7 @@ trait StaticCacheTrait
     {
         if ($key !== null) {
             if (isset(static::$_cache[$key])) {
-                unset(static::$_cache);
+                unset(static::$_cache[$key]);
             }
         } else {
             static::$_cache = [];
