@@ -579,7 +579,8 @@ class MenuHelper extends Helper
                     return ($itemUrl == env('REQUEST_URI'));
                 }
 
-                $itemUrl = str_replace_once($this->_View->request->base, '', $itemUrl);
+                $baseUrl = $this->_View->request->base ? $this->_View->request->base : '/';
+                $itemUrl = str_replace_once($baseUrl, '', $itemUrl);
                 if (option('url_locale_prefix')) {
                     if (!preg_match('/^\/' . $this->_localesPattern() . '/', $itemUrl)) {
                         $itemUrl = '/' . I18n::defaultLocale() . $itemUrl;
@@ -588,7 +589,7 @@ class MenuHelper extends Helper
 
                 $isInternal =
                     $itemUrl !== '/' &&
-                    str_ends_with($itemUrl, str_replace_once($this->_View->request->base, '', env('REQUEST_URI')));
+                    str_ends_with($itemUrl, str_replace_once($baseUrl, '', env('REQUEST_URI')));
                 $isIndex =
                     $itemUrl === '/' &&
                     $this->_View->request->isHome();
@@ -606,8 +607,8 @@ class MenuHelper extends Helper
                                 $crumb = '';
                             }
 
-                            if (str_starts_with($crumb, $this->_View->request->base)) {
-                                $crumb = str_replace_once($this->_View->request->base, '', $crumb);
+                            if (str_starts_with($crumb, $baseUrl)) {
+                                $crumb = str_replace_once($baseUrl, '', $crumb);
                             }
 
                             if (option('url_locale_prefix')) {
