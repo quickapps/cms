@@ -75,17 +75,14 @@ class BlockHelper extends Helper
      */
     public function blocksIn($region, $all = false)
     {
-        $pCacheKey = "{$this->_View->theme}_{$region}"; // persistent cache
+        $pCacheKey = $all ? "{$this->_View->theme}_{$region}_all" : "{$this->_View->theme}_{$region}";
         $blocks = Cache::read($pCacheKey, 'blocks');
 
-        if (!$blocks) {
-            $cacheKey = "blocksIn_{$pCacheKey}_{$all}";
-            $blocks = static::cache($cacheKey);
-        } else {
+        if ($blocks) {
             $blocks = new Collection($blocks);
         }
 
-        if ($blocks === null) {
+        if (!$blocks) {
             $Blocks = TableRegistry::get('Block.Blocks');
             $blocks = $Blocks->find()
                 ->contain(['Roles', 'BlockRegions'])
@@ -121,7 +118,6 @@ class BlockHelper extends Helper
                 return $block->region->ordering;
             }, SORT_ASC);
 
-            static::cache($cacheKey, $blocks);
             Cache::write($pCacheKey, $blocks->toArray(), 'blocks');
         }
 
