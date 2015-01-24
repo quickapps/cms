@@ -11,71 +11,84 @@
  */
 
 /**
+ * Tries to define the given constant if not defined already.
+ *
+ * @param string $name Constant name
+ * @param string $value Constant value
+ * @return void
+ */
+function tryDefine($name, $value) {
+	if (!defined($name)) {
+		define($name, $value);
+	}	
+}
+
+/**
  * Use the DS to separate the directories in other defines
  */
-define('DS', DIRECTORY_SEPARATOR);
+tryDefine('DS', DIRECTORY_SEPARATOR);
 
 /**
  * The full path to the directory which holds QuickApps CMS core's "src", WITHOUT a trailing DS.
  */
-define('ROOT', dirname(__DIR__));
+tryDefine('ROOT', dirname(__DIR__));
 
 /**
  * Path to composer's vendor directory.
  *
  * There is where quickapps & cakephp must be located.
  */
-define('VENDOR_INCLUDE_PATH', dirname(dirname(ROOT)) . DS);
+tryDefine('VENDOR_INCLUDE_PATH', dirname(dirname(ROOT)) . DS);
 
 /**
  * The actual directory name for quickapps core's "src".
  */
-define('APP_DIR', 'src');
+tryDefine('APP_DIR', 'src');
 
 /**
  * The name of the webroot dir. Defaults to 'webroot'
  */
-define('WEBROOT_DIR', 'webroot');
+tryDefine('WEBROOT_DIR', 'webroot');
 
 /**
  * Path to the quickapps application's directory.
  */
-define('APP', ROOT . DS . APP_DIR . DS);
+tryDefine('APP', ROOT . DS . APP_DIR . DS);
 
 /**
  * Path to the config directory.
  */
-define('CONFIG', ROOT . DS . 'config' . DS);
+tryDefine('CONFIG', ROOT . DS . 'config' . DS);
 
 /**
  * File path to the webroot directory.
  */
-define('WWW_ROOT', SITE_ROOT . DS . WEBROOT_DIR . DS);
+tryDefine('WWW_ROOT', SITE_ROOT . DS . WEBROOT_DIR . DS);
 
 /**
  * Path to the temporary files directory.
  */
-define('TMP', SITE_ROOT . DS . 'tmp' . DS);
+tryDefine('TMP', SITE_ROOT . DS . 'tmp' . DS);
 
 /**
  * Path to the logs directory.
  */
-define('LOGS', SITE_ROOT . DS . 'logs' . DS);
+tryDefine('LOGS', SITE_ROOT . DS . 'logs' . DS);
 
 /**
  * Path to the cache files directory. It can be shared between hosts in a multi-server setup.
  */
-define('CACHE', TMP . 'cache' . DS);
+tryDefine('CACHE', TMP . 'cache' . DS);
 
 /**
  * The absolute path to the "cake" directory, WITHOUT a trailing DS.
  *
  * CakePHP should always be installed with composer, so look there.
  */
-define('CAKE_CORE_INCLUDE_PATH', VENDOR_INCLUDE_PATH . 'cakephp' . DS . 'cakephp');
+tryDefine('CAKE_CORE_INCLUDE_PATH', VENDOR_INCLUDE_PATH . 'cakephp' . DS . 'cakephp');
 
 /**
  * Path to the cake directory.
  */
-define('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
-define('CAKE', CORE_PATH . 'src' . DS);
+tryDefine('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
+tryDefine('CAKE', CORE_PATH . 'src' . DS);

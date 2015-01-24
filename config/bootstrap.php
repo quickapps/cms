@@ -11,11 +11,10 @@
  */
 
 /**
- * Configure paths required to find CakePHP + general file path constants
+ * Configure paths required to find CakePHP + general filepath
+ * constants
  */
-if (!defined('DS')) {
-    require_once __DIR__ . '/paths.php';
-}
+require __DIR__ . '/paths.php';
 
 /**
  * Use composer to load the autoloader.
