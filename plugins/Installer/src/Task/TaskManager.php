@@ -31,7 +31,7 @@ use Installer\Task\BaseTask;
  *
  *     public function beforeInstall($event) {
  *         // get the task that triggered this event
- *         $runningTask = $event->subject;
+ *         $runningTask = $event->subject();
  *
  *         // create a new task "thread"
  *         $dependency = $runningTask
@@ -109,11 +109,11 @@ class TaskManager
      *
      * ### Usage:
      *
-     *     TaskManager::registerTask('package-validator', function ($options) {
+     *     TaskManager::registerTask('my_task_name', function ($options) {
      *         return 'Validator says: ' . $options['message'];
      *     });
      *
-     *     $task = TaskManager::task('package-validator', ['message' => 'hello world!']);
+     *     $task = TaskManager::task('my_task_name', ['message' => 'hello world!']);
      *     echo $task;
      *     // out: Validator says: hello world!
      *

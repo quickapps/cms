@@ -17,7 +17,7 @@ use QuickApps\Core\Plugin;
 /**
  * Represents a single toggle task.
  *
- * Allows to enable or disable a plugin.
+ * Allows to activate a theme.
  *
  * ## Usage Examples:
  *
@@ -91,8 +91,8 @@ class ThemeActivatorTask extends BaseTask
             return false;
         }
 
-        // MENTAL NOTE: As theme is "inactive" its listeners are not attached to the system, so we need
-        // to manually attach them in order to trigger callbacks.
+        // MENTAL NOTE: As theme is "inactive" its listeners are not attached to the
+        // system, so we need to manually attach them in order to trigger callbacks.
         if ($this->config('callbacks')) {
             $this->attachListeners("{$info['path']}/src/Event");
         }
@@ -120,7 +120,7 @@ class ThemeActivatorTask extends BaseTask
         }
 
         if ($this->Options->update("{$prefix}theme", $this->plugin())) {
-// update() automatically regenerates snapshot
+            // update() automatically regenerates snapshot
             $this->_copyBlockPositions($this->plugin(), $previousTheme);
         } else {
             $this->error(__d('installer', 'Internal error, the option "{0}" was not found.', "{$prefix}theme"));
@@ -154,27 +154,27 @@ class ThemeActivatorTask extends BaseTask
     }
 
     /**
-     * If $theme2 has any region in common with $theme1 will make $theme1 have these
-     * blocks in the same regions as well.
+     * If $src has any region in common with $dst this method will make
+     * $dst have these blocks in the same regions as $src.
      *
-     * @param string $theme1 Theme name
-     * @param string $theme2 Theme name
+     * @param string $dst Destination theme name
+     * @param string $src Source theme name
      * @return void
      */
-    protected function _copyBlockPositions($theme1, $theme2)
+    protected function _copyBlockPositions($dst, $src)
     {
         $this->loadModel('Block.BlockRegions');
-        $theme1 = Plugin::info($theme1, true);
-        $newRegions = array_keys($theme1['composer']['extra']['regions']);
+        $dst = Plugin::info($dst, true);
+        $newRegions = array_keys($dst['composer']['extra']['regions']);
         $existingPositions = $this->BlockRegions
             ->find()
-            ->where(['theme' => $theme2])
+            ->where(['theme' => $src])
             ->all();
         foreach ($existingPositions as $position) {
             if (in_array($position->region, $newRegions)) {
                 $newPosition = $this->BlockRegions->newEntity([
                     'block_id' => $position->block_id,
-                    'theme' => $theme1['name'],
+                    'theme' => $dst['name'],
                     'region' => $position->region,
                     'ordering' => $position->ordering,
                 ]);

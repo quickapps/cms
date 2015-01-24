@@ -56,7 +56,7 @@ class InstallTask extends BaseTask
     protected $_extractedPath = null;
 
     /**
-     * Full path to plugin's directory: SITE_ROOT . 'plugins/<PluginName>'.
+     * Full path to plugin's directory: SITE_ROOT . '/plugins/<PluginName>'.
      *
      * @var string
      */
@@ -91,9 +91,11 @@ class InstallTask extends BaseTask
      * - `callbacks`: Set to true to fire `beforeInstall`, `afterInstall` events.
      * - `activate`: Activate plugin after installation ? This will trigger
      *   `beforeEnable` and `afterDisable` callbacks if `callbacks` is set to true.
-     * - `packageType`: "plugin" indicates whether the package must be a theme or
-     *    not not, set to "theme" to indicate that package must be a theme. Set this
-     *    to false will not check the package type. Defaults to false.
+     * - `packageType`: "plugin" indicates whether the package must be a plugin or
+     *    not, set to "theme" to indicate that package must be a theme. False
+     *    will not check the package type. Defaults to false.
+     * - `validateMime`: Whether or not to check package's mime-type, default to
+     *    true.
      *
      * @var array
      */
@@ -101,6 +103,7 @@ class InstallTask extends BaseTask
         'callbacks' => true,
         'activate' => true,
         'packageType' => false,
+        'validateMime' => true,
     ];
 
     /**
@@ -233,8 +236,8 @@ class InstallTask extends BaseTask
     /**
      * Uploads a ZIP package to the server.
      *
-     * @param mixed $package ZIP coming from the form POST request.
-     * @return \Installer\Task\InstallTask This instance
+     * @param mixed $package ZIP coming from the form POST request
+     * @return $this
      */
     public function upload($package)
     {
@@ -265,25 +268,25 @@ class InstallTask extends BaseTask
     /**
      * Downloads package from given URL.
      *
-     * @param string $package A valid URL
-     * @return \Installer\Task\InstallTask This instance
+     * @param string $url A valid URL
+     * @return $this
      */
-    public function download($package)
+    public function download($url)
     {
-        if (!Validation::url($package)) {
+        if (!Validation::url($url)) {
             $this->error(__d('installer', 'Invalid URL given.'));
             return $this;
         }
 
         try {
             $http = new Client(['redirect' => 3]); // follow up to 3 redirections
-            $response = $http->get($package, [], ['headers' => ['X-Requested-With' => 'XMLHttpRequest']]);
+            $response = $http->get($url, [], ['headers' => ['X-Requested-With' => 'XMLHttpRequest']]);
         } catch (\Exception $e) {
             $response = false;
         }
 
         if ($response && $response->isOk()) {
-            $fileName = substr(md5($package), 24) . '.zip';
+            $fileName = substr(md5($url), 24) . '.zip';
             $file = new File(TMP . $fileName);
             $responseBody = $response->body();
 
@@ -318,7 +321,7 @@ class InstallTask extends BaseTask
     {
         global $classLoader; // composer's class loader instance
         snapshot();
-        // trick, makes plugin visible to AcoManager
+        // trick: makes plugin visible to AcoManager
         $classLoader->addPsr4($this->plugin() . "\\", normalizePath(SITE_ROOT . '/plugins/' . $this->plugin() . '/src'), true);
         AcoManager::buildAcos($this->plugin());
         $this->_rollback();
@@ -398,13 +401,16 @@ class InstallTask extends BaseTask
     {
         $errors = [];
         if (str_ends_with(strtolower($filePath), '.zip')) {
-            $file = new File($filePath);
-            $mime = $file->mime();
-            if (!$mime || !in_array($mime, $this->_validMimes)) {
-                $errors[] = __d('installer', 'Invalid file, the given file is not in ZIP format.');
-                $file->delete();
+            if ($this->config('validateMime')) {
+                $file = new File($filePath);
+                $mime = $file->mime();
+
+                if (!$mime || !in_array($mime, $this->_validMimes)) {
+                    $errors[] = __d('installer', 'Invalid file, the given file is not in ZIP format.');
+                    $file->delete();
+                }
+                $file->close();
             }
-            $file->close();
         } else {
             $errors[] = __d('installer', 'Invalid file extension, package file must be a ZIP file.');
         }
@@ -468,7 +474,7 @@ class InstallTask extends BaseTask
                     }
                 }
 
-                // dependencies, the fun part
+                // dependencies: the fun part
                 if (!Plugin::checkDependency($json)) {
                     $required = [];
                     foreach ($json['require'] as $p => $v) {
