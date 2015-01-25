@@ -49,24 +49,24 @@ if (!defined('ROLE_ID_ANONYMOUS')) {
  * Used by CachedAuthorize.
  */
 Cache::config('permissions', [
-    'duration' => '+1 hour',
-    'path' => TMP,
-    'engine' => 'File',
+    'className' => 'File',
     'prefix' => 'qa_',
+    'path' => TMP,
+    'duration' => '+1 hour',
     'groups' => ['acl']
 ]);
 
-    /**
-     * Retrieves current user's information (logged in or not) as an entity object.
-     *
-     * **Usage:**
-     *
-     *     $user = user();
-     *     echo user()->name;
-     *     // prints "Anonymous" if not logged in
-     *
-     * @return \User\Model\Entity\UserSession
-     */
+/**
+ * Retrieves current user's information (logged in or not) as an entity object.
+ *
+ * **Usage:**
+ *
+ *     $user = user();
+ *     echo user()->name;
+ *     // prints "Anonymous" if not logged in
+ *
+ * @return \User\Model\Entity\UserSession
+ */
 function user()
 {
     $request = Router::getRequest();

@@ -15,9 +15,9 @@ use Cake\Cache\Cache;
  * Used to speed up blocks rendering.
  */
 Cache::config('blocks', [
-    'duration' => '+2 hours',
-    'path' => CACHE,
-    'engine' => 'File',
+    'className' => 'File',
     'prefix' => 'qa_blocks_in_',
+    'path' => CACHE,
+    'duration' => '+2 hours',
     'groups' => ['views']
 ]);

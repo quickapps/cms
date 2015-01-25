@@ -18,7 +18,7 @@ use Cake\ORM\Entity;
 use Cake\Utility\Inflector;
 
 /**
- * Authentication adapter for AuthComponent.
+ * Authorization adapter for AuthComponent.
  *
  * This adapter provides "Controller-action" based authorization with
  * cache capabilities. Only authenticated users are validated using this
