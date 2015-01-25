@@ -54,10 +54,10 @@ class CommentHelper extends Helper
             throw new InternalErrorException(__d('comment', 'Illegal usage of \Comment\View\Helper\CommentHelper.'));
         }
 
-        $this->alter('CommentHelper.render', $entity);
+        $this->alter(['CommentHelper.render', $this->_View], $entity);
         $this->config('entity', $entity);
 
-        $event = $this->trigger('CommentHelper.beforeRender');
+        $event = $this->trigger(['CommentHelper.beforeRender', $this->_View]);
         if ($event->isStopped()) {
             return $event->result;
         }
@@ -70,7 +70,7 @@ class CommentHelper extends Helper
             }
         }
 
-        $event = $this->trigger('CommentHelper.afterRender', $out);
+        $event = $this->trigger(['CommentHelper.afterRender', $this->_View], $out);
         if ($event->isStopped()) {
             return $event->result;
         }
