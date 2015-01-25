@@ -31,8 +31,8 @@
  */
 ?>
 
-<?php if (!static::cache('ImageFieldTemplates')): ?>
-	<?php static::cache('ImageFieldTemplates', '__LOADED__'); ?>
+<?php if (!isset($this->viewVars['__ImageFieldTemplates__'])): ?>
+	<?php $this->viewVars['__ImageFieldTemplates__'] = '__LOADED__'; ?>
 	<script id="image-item-template" type="x-tmpl-mustache">
 		<div id="{{uid}}" class="alert alert-info {{#perm}}is-perm{{/perm}} file-item" data-number="{{number}}">
 			<div class="media">
