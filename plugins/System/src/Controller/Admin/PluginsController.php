@@ -108,6 +108,7 @@ class PluginsController extends AppController
         $plugin = Plugin::info($pluginName, true);
         $task = $this->Installer->task('uninstall', ['plugin' => $pluginName]);
         $success = $task->run();
+
         if ($success) {
             $this->Flash->success(__d('system', 'Plugin was successfully removed!'));
         } else {
@@ -117,7 +118,7 @@ class PluginsController extends AppController
             ]);
         }
 
-        $this->redirect($this->referer());
+        header('Location:' . $this->referer());
     }
 
     /**
@@ -142,7 +143,7 @@ class PluginsController extends AppController
             ]);
         }
 
-        $this->redirect($this->referer());
+        header('Location:' . $this->referer());
     }
 
     /**
@@ -167,7 +168,7 @@ class PluginsController extends AppController
             ]);
         }
 
-        $this->redirect($this->referer());
+        header('Location:' . $this->referer());
     }
 
     /**
