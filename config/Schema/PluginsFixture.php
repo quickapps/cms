@@ -115,56 +115,64 @@ class PluginsFixture {
     'settings' => '',
     'status' => true,
     'ordering' => 5,
-  ),
-  6 => 
+  ), 
+  6 =>
   array (
-    'name' => 'Locale',
-    'package' => 'quickapps-plugin/locale',
+    'name' => 'Jquery',
+    'package' => 'quickapps-plugin/jquery',
     'settings' => '',
     'status' => true,
     'ordering' => 6,
   ),
   7 => 
   array (
-    'name' => 'Menu',
-    'package' => 'quickapps-plugin/menu',
+    'name' => 'Locale',
+    'package' => 'quickapps-plugin/locale',
     'settings' => '',
     'status' => true,
     'ordering' => 7,
   ),
   8 => 
   array (
-    'name' => 'Node',
-    'package' => 'quickapps-plugin/node',
+    'name' => 'Menu',
+    'package' => 'quickapps-plugin/menu',
     'settings' => '',
     'status' => true,
     'ordering' => 8,
   ),
   9 => 
   array (
-    'name' => 'Search',
-    'package' => 'quickapps-plugin/search',
+    'name' => 'Node',
+    'package' => 'quickapps-plugin/node',
     'settings' => '',
     'status' => true,
     'ordering' => 9,
   ),
   10 => 
   array (
-    'name' => 'System',
-    'package' => 'quickapps-plugin/system',
+    'name' => 'Search',
+    'package' => 'quickapps-plugin/search',
     'settings' => '',
     'status' => true,
     'ordering' => 10,
   ),
   11 => 
   array (
-    'name' => 'Taxonomy',
-    'package' => 'quickapps-plugin/taxonomy',
+    'name' => 'System',
+    'package' => 'quickapps-plugin/system',
     'settings' => '',
     'status' => true,
     'ordering' => 11,
   ),
   12 => 
+  array (
+    'name' => 'Taxonomy',
+    'package' => 'quickapps-plugin/taxonomy',
+    'settings' => '',
+    'status' => true,
+    'ordering' => 12,
+  ),
+  13 => 
   array (
     'name' => 'User',
     'package' => 'quickapps-plugin/user',
@@ -226,15 +234,15 @@ Your account on [site:name] has been canceled.
 
 --  [site:name] team";}',
     'status' => true,
-    'ordering' => 12,
+    'ordering' => 13,
   ),
-  13 => 
+  14 => 
   array (
     'name' => 'Wysiwyg',
     'package' => 'quickapps-plugin/wysiwyg',
     'settings' => '',
     'status' => true,
-    'ordering' => 13,
+    'ordering' => 14,
   ),
 );
 

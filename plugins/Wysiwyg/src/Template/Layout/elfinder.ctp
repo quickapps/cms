@@ -22,7 +22,7 @@
 
 		<?php echo $this->Html->css('/wysiwyg/js/elfinder/css/elfinder.min.css'); ?>
 		<?php echo $this->Html->css('/wysiwyg/js/elfinder/css/theme.css'); ?>
-		<?php echo $this->Html->script('/system/js/jquery-ui.js'); ?>
+		<?php echo $this->Html->script('Jquery.jquery-ui.min.js'); ?>
 		<?php echo $this->Html->script('/wysiwyg/js/elfinder/js/elfinder.min.js'); ?>
 	</head>
 

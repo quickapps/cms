@@ -18,7 +18,7 @@
 ?>
 
 <!--
-	This website is powered by QuickAppsCMS, Licensed under GNU/LGPL
+	This website is powered by QuickAppsCMS <?php echo quickapps('version'); ?>, Licensed under GNU/LGPL
 	Visit the project website at http://www.quickappscms.org for more information
 //-->
 

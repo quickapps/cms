@@ -223,10 +223,10 @@ class TextToolbox
     {
         $link = str_rot13('<a href="mailto:' . $email . '" rel="nofollow">' . $email . '</a>');
         $out = '
-			<script type="text/javascript">
+            <script type="text/javascript">
 				document.write(\'' . $link . '\'.replace(/[a-zA-Z]/g,
-				function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
-			</script>
+                function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
+            </script>
 		';
         $out .= "<noscript>[" . __d('field', 'Turn on JavaScript to see the email address.') . "]</noscript>";
 

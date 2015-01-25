@@ -137,7 +137,8 @@ class View extends CakeView
             $html = $event->result;
         } else {
             $this->alter('View.render', $view, $layout);
-            $this->Html->script('System.jquery.js', ['block' => true]);
+            $this->jQuery->load(['block' => true]);
+
             if (!$this->_hasRendered) {
                 $this->_hasRendered = true;
                 $this->_setTitle();

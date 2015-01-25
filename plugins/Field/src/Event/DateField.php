@@ -17,7 +17,7 @@ use Field\Event\Base\FieldHandler;
 use Field\Model\Entity\Field;
 
 /**
- * Image Field Handler.
+ * Date Field Handler.
  *
  * This field allows attach date pickers to entities.
  */
@@ -29,7 +29,7 @@ class DateField extends FieldHandler
      */
     public function entityDisplay(Event $event, Field $field, $options = [])
     {
-        $View = $event->subject;
+        $View = $event->subject();
         return $View->element('Field.DateField/display', compact('field', 'options'));
     }
 
@@ -38,7 +38,7 @@ class DateField extends FieldHandler
      */
     public function entityEdit(Event $event, Field $field, $options = [])
     {
-        $View = $event->subject;
+        $View = $event->subject();
         return $View->element('Field.DateField/edit', compact('field', 'options'));
     }
 
@@ -120,7 +120,7 @@ class DateField extends FieldHandler
      */
     public function instanceSettingsForm(Event $event, $instance, $options = [])
     {
-        $View = $event->subject;
+        $View = $event->subject();
         return $View->element('Field.DateField/settings_form', compact('instance', 'options'));
     }
 
@@ -144,7 +144,7 @@ class DateField extends FieldHandler
      */
     public function instanceViewModeForm(Event $event, $instance, $options = [])
     {
-        $View = $event->subject;
+        $View = $event->subject();
         return $View->element('Field.DateField/view_mode_form', compact('instance', 'options'));
     }
 

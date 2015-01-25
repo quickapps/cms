@@ -74,9 +74,9 @@ class WysiwygHook implements EventListenerInterface
                 $_View->Html->script('Wysiwyg.ckeditor/ckeditor.js', ['block' => true]);
                 $_View->Html->script('Wysiwyg.ckeditor/adapters/jquery.js', ['block' => true]);
                 $_View->Html->scriptBlock('$(document).ready(function () {
-					CKEDITOR.editorConfig = function(config) {
+                    CKEDITOR.editorConfig = function(config) {
 						config.filebrowserBrowseUrl = "' . $filebrowserBrowseUrl . '";
-					};
+                    };
 				});', ['block' => true]);
                 $this->_includeLinksToNodes($_View);
             }

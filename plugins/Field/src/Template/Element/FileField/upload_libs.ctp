@@ -16,7 +16,7 @@ use Cake\Core\Configure;
 <?php if (!isset($this->viewVars['__FileFieldUploadLibs__'])): ?>
 	<?php $this->viewVars['__FileFieldUploadLibs__'] = '__LOADED__'; ?>
 	<?php echo $this->Html->css('Field.uploadify'); ?>
-	<?php echo $this->Html->script('System.jquery-ui'); ?>
+	<?php echo $this->Html->script('Jquery.jquery-ui.min.js'); ?>
 	<?php echo $this->Html->script('System.mustache'); ?>
 	<?php echo $this->Html->script('Field.FileField'); ?>
 	<?php echo $this->Html->script('Field.uploadify/jquery.uploadify.min.js?' . time()); ?>

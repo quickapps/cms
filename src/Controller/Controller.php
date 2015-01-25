@@ -61,6 +61,7 @@ class Controller extends CakeCotroller
         'Html' => ['className' => 'QuickApps\View\Helper\HtmlHelper'],
         'Form' => ['className' => 'QuickApps\View\Helper\FormHelper'],
         'Menu' => ['className' => 'Menu\View\Helper\MenuHelper'],
+        'jQuery' => ['className' => 'Jquery\View\Helper\JqueryHelper'],
     ];
 
     /**

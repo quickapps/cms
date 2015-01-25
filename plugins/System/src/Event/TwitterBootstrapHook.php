@@ -41,13 +41,13 @@ class TwitterBootstrapHook implements EventListenerInterface
      */
     protected $_templates = [
         'dateWidget' => '<div class="row">
-			<div class="col-sm-3">{{year}}</div>
-			<div class="col-sm-3">{{month}}</div>
-			<div class="col-sm-3">{{day}}</div>
-			<div class="col-sm-3">{{hour}}</div>
-			<div class="col-sm-3">{{minute}}</div>
-			<div class="col-sm-3">{{second}}</div>
-			<div class="col-sm-3">{{meridian}}</div>
+            <div class="col-sm-3">{{year}}</div>
+            <div class="col-sm-3">{{month}}</div>
+            <div class="col-sm-3">{{day}}</div>
+            <div class="col-sm-3">{{hour}}</div>
+            <div class="col-sm-3">{{minute}}</div>
+            <div class="col-sm-3">{{second}}</div>
+            <div class="col-sm-3">{{meridian}}</div>
 		</div>',
         'error' => '<em class="help-block text-danger">{{content}}</em>',
         'errorList' => '<ul class="text-danger">{{content}}</ul>',

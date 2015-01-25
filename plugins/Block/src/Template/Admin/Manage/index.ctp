@@ -164,4 +164,4 @@
 	</div>
 </p>
 
-<?php echo $this->Html->script(['System.bootstrap.js', 'System.jquery-ui.js', 'System.jquery.cookie.js', 'Block.collapse-ui.js']); ?>
+<?php echo $this->Html->script(['System.bootstrap.js', 'Jquery.jquery-ui.min.js', 'System.jquery.cookie.js', 'Block.collapse-ui.js']); ?>

@@ -43,7 +43,7 @@
 <?php echo $this->Form->end(); ?>
 <?php
 	echo $this->Html->script([
-		'System.jquery-ui.js',
+		'Jquery.jquery-ui.min.js',
 		'System.jquery.json.js',
 		'System.jquery.mjs.nestedSortable.js',
 		'Menu.links.tree.js'
