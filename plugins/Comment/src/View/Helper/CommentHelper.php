@@ -30,8 +30,18 @@ class CommentHelper extends Helper
     /**
      * Renders a comments section for given entity.
      *
-     * Entity's comments must be in the `comments` property. It is automatically filled when
-     * using `CommentableBBehavior`.
+     * Entity's comments must be in the `comments` property. It is automatically
+     * filled when using `CommentableBehavior`.
+     *
+     * The following events will be triggered:
+     *
+     * - `CommentHelper.beforeRender`: Triggered before default rendering
+     *   operation starts. By stopping this event, you can return the final
+     *   value of the rendering operation.
+     * - `CommentHelper.afterRender`: Triggered after default rendering
+     *   operation is completed. Listeners will receive the rendered output. By
+     *   stopping this event, you can return the final value of the rendering
+     *   operation.
      *
      * @param \Cake\ORM\Entity $entity Any valid entity
      * @return string
@@ -45,18 +55,26 @@ class CommentHelper extends Helper
         }
 
         $this->alter('CommentHelper.render', $entity);
-        $out = $this->trigger('CommentHelper.beforeRender')->result;
+        $this->config('entity', $entity);
 
+        $event = $this->trigger('CommentHelper.beforeRender');
+        if ($event->isStopped()) {
+            return $event->result;
+        }
+
+        $out = '';
         if ($this->config('visibility') > 0) {
-            $this->config('entity', $entity);
             $out .= $this->_View->element('Comment.render_comments');
-
             if ($this->config('visibility') === 1) {
                 $out .= $this->_View->element('Comment.render_comments_form');
             }
         }
 
-        $out .= $this->trigger('CommentHelper.afterRender')->result;
+        $event = $this->trigger('CommentHelper.afterRender', $out);
+        if ($event->isStopped()) {
+            return $event->result;
+        }
+
         return $out;
     }
 
