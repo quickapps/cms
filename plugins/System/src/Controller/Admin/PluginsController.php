@@ -119,6 +119,7 @@ class PluginsController extends AppController
         }
 
         header('Location:' . $this->referer());
+        exit();
     }
 
     /**
@@ -144,6 +145,7 @@ class PluginsController extends AppController
         }
 
         header('Location:' . $this->referer());
+        exit();
     }
 
     /**
@@ -169,6 +171,7 @@ class PluginsController extends AppController
         }
 
         header('Location:' . $this->referer());
+        exit();
     }
 
     /**
