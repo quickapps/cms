@@ -66,6 +66,11 @@ tryDefine('CONFIG', ROOT . DS . 'config' . DS);
 tryDefine('WWW_ROOT', SITE_ROOT . DS . WEBROOT_DIR . DS);
 
 /**
+ * Path to the tests directory.
+ */
+tryDefine('TESTS', ROOT . DS . 'tests' . DS);
+
+/**
  * Path to the temporary files directory.
  */
 tryDefine('TMP', SITE_ROOT . DS . 'tmp' . DS);
