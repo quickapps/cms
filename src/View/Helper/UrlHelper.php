@@ -35,7 +35,7 @@ class UrlHelper extends CakeUrlHelper
      */
     public function build($url = null, $full = false)
     {
-        $this->alter('UrlHelper.build', $url, $full);
+        $this->alter(['UrlHelper.build', $this->_View], $url, $full);
         return parent::build($url, $full);
     }
 
@@ -44,7 +44,7 @@ class UrlHelper extends CakeUrlHelper
      */
     public function assetUrl($path, array $options = array())
     {
-        $this->alter('UrlHelper.assetUrl', $path, $options);
+        $this->alter(['UrlHelper.assetUrl', $this->_View], $path, $options);
         return parent::assetUrl($path, $options);
     }
 
@@ -53,7 +53,7 @@ class UrlHelper extends CakeUrlHelper
      */
     public function assetTimestamp($path)
     {
-        $this->alter('UrlHelper.assetTimestamp', $path);
+        $this->alter(['UrlHelper.assetTimestamp', $this->_View], $path);
         return parent::assetTimestamp($path);
     }
 
@@ -62,7 +62,7 @@ class UrlHelper extends CakeUrlHelper
      */
     public function webroot($file)
     {
-        $this->alter('UrlHelper.webroot', $file);
+        $this->alter(['UrlHelper.webroot', $this->_View], $file);
         return parent::webroot($file);
     }
 }

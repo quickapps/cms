@@ -29,7 +29,7 @@ class PaginatorHelper extends CakePaginatorHelper
      */
     public function beforeRender(Event $event, $viewFile)
     {
-        $this->alter('PaginatorHelper.beforeRender', $viewFile);
+        $this->alter(['PaginatorHelper.beforeRender', $this->_View], $viewFile);
         return parent::beforeRender($event, $viewFile);
     }
 
@@ -38,7 +38,7 @@ class PaginatorHelper extends CakePaginatorHelper
      */
     public function params($model = null)
     {
-        $this->alter('PaginatorHelper.params', $model);
+        $this->alter(['PaginatorHelper.params', $this->_View], $model);
         return parent::params($model);
     }
 
@@ -47,7 +47,7 @@ class PaginatorHelper extends CakePaginatorHelper
      */
     public function param($key, $model = null)
     {
-        $this->alter('PaginatorHelper.param', $key, $model);
+        $this->alter(['PaginatorHelper.param', $this->_View], $key, $model);
         return parent::param($key, $model);
     }
 
@@ -56,7 +56,7 @@ class PaginatorHelper extends CakePaginatorHelper
      */
     public function options(array $options = [])
     {
-        $this->alter('PaginatorHelper.options', $options);
+        $this->alter(['PaginatorHelper.options', $this->_View], $options);
         return parent::options($options);
     }
 
@@ -65,7 +65,7 @@ class PaginatorHelper extends CakePaginatorHelper
      */
     public function current($model = null)
     {
-        $this->alter('PaginatorHelper.current', $model);
+        $this->alter(['PaginatorHelper.current', $this->_View], $model);
         return parent::current($model);
     }
 
@@ -74,7 +74,7 @@ class PaginatorHelper extends CakePaginatorHelper
      */
     public function sortKey($model = null, array $options = [])
     {
-        $this->alter('PaginatorHelper.sortKey', $model, $options);
+        $this->alter(['PaginatorHelper.sortKey', $this->_View], $model, $options);
         return parent::sortKey($model, $options);
     }
 
@@ -83,7 +83,7 @@ class PaginatorHelper extends CakePaginatorHelper
      */
     public function sortDir($model = null, array $options = [])
     {
-        $this->alter('PaginatorHelper.sortDir', $model, $options);
+        $this->alter(['PaginatorHelper.sortDir', $this->_View], $model, $options);
         return parent::sortDir($model, $options);
     }
 
@@ -92,7 +92,7 @@ class PaginatorHelper extends CakePaginatorHelper
      */
     public function prev($title = '<< Previous', array $options = [])
     {
-        $this->alter('PaginatorHelper.prev', $title, $options);
+        $this->alter(['PaginatorHelper.prev', $this->_View], $title, $options);
         return parent::prev($title, $options);
     }
 
@@ -101,7 +101,7 @@ class PaginatorHelper extends CakePaginatorHelper
      */
     public function next($title = 'Next >>', array $options = [])
     {
-        $this->alter('PaginatorHelper.next', $title, $options);
+        $this->alter(['PaginatorHelper.next', $this->_View], $title, $options);
         return parent::next($title, $options);
     }
 
@@ -110,7 +110,7 @@ class PaginatorHelper extends CakePaginatorHelper
      */
     public function sort($key, $title = null, array $options = [])
     {
-        $this->alter('PaginatorHelper.sort', $key, $title, $options);
+        $this->alter(['PaginatorHelper.sort', $this->_View], $key, $title, $options);
         return parent::sort($key, $title, $options);
     }
 
@@ -119,7 +119,7 @@ class PaginatorHelper extends CakePaginatorHelper
      */
     public function generateUrl(array $options = [], $model = null, $full = false)
     {
-        $this->alter('PaginatorHelper.generateUrl', $options, $model, $full);
+        $this->alter(['PaginatorHelper.generateUrl', $this->_View], $options, $model, $full);
         return parent::generateUrl($options, $model, $full);
     }
 
@@ -128,7 +128,7 @@ class PaginatorHelper extends CakePaginatorHelper
      */
     public function hasPrev($model = null)
     {
-        $this->alter('PaginatorHelper.hasPrev', $model);
+        $this->alter(['PaginatorHelper.hasPrev', $this->_View], $model);
         return parent::hasPrev($model);
     }
 
@@ -137,7 +137,7 @@ class PaginatorHelper extends CakePaginatorHelper
      */
     public function hasNext($model = null)
     {
-        $this->alter('PaginatorHelper.hasNext', $model);
+        $this->alter(['PaginatorHelper.hasNext', $this->_View], $model);
         return parent::hasNext($model);
     }
 
@@ -146,7 +146,7 @@ class PaginatorHelper extends CakePaginatorHelper
      */
     public function counter($options = [])
     {
-        $this->alter('PaginatorHelper.counter', $options);
+        $this->alter(['PaginatorHelper.counter', $this->_View], $options);
         return parent::counter($options);
     }
 
@@ -155,7 +155,7 @@ class PaginatorHelper extends CakePaginatorHelper
      */
     public function numbers(array $options = [])
     {
-        $this->alter('PaginatorHelper.numbers', $options);
+        $this->alter(['PaginatorHelper.numbers', $this->_View], $options);
         return parent::numbers($options);
     }
 
@@ -164,7 +164,7 @@ class PaginatorHelper extends CakePaginatorHelper
      */
     public function first($first = '<< first', array $options = [])
     {
-        $this->alter('PaginatorHelper.first', $first, $options);
+        $this->alter(['PaginatorHelper.first', $this->_View], $first, $options);
         return parent::first($first, $options);
     }
 
@@ -173,7 +173,7 @@ class PaginatorHelper extends CakePaginatorHelper
      */
     public function last($last = 'last >>', array $options = array())
     {
-        $this->alter('PaginatorHelper.last', $last, $options);
+        $this->alter(['PaginatorHelper.last', $this->_View], $last, $options);
         return parent::last($last, $options);
     }
 }

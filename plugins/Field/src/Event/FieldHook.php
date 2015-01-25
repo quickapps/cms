@@ -44,7 +44,7 @@ use QuickApps\View\ViewModeAwareTrait;
  *
  *     public function display(Event $event, $field, $options) {
  *         return $event
- *             ->subject
+ *             ->subject()
  *             ->element('MyPlugin.text_field_display', compact('field', 'options'));
  *     }
  *
@@ -96,7 +96,7 @@ class FieldHook implements EventListenerInterface
             !$field->metadata->view_modes[$viewMode]['hidden']
         ) {
             $options = array_merge(['edit' => false], $options);
-            $renderFieldHook = $this->trigger(["Field.{$field->metadata['handler']}.Entity.display", $event->subject], $field, $options);
+            $renderFieldHook = $this->trigger(["Field.{$field->metadata['handler']}.Entity.display", $event->subject()], $field, $options);
             $event->stopPropagation(); // We don't want other plugins to catch this
             return (string)$renderFieldHook->result;
         }

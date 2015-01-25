@@ -49,6 +49,6 @@ class LocaleHook implements EventListenerInterface
      */
     public function renderBlock(Event $event, $block, $options = [])
     {
-        return $event->subject->element("Locale.{$block->delta}", compact('block', 'options'));
+        return $event->subject()->element("Locale.{$block->delta}", compact('block', 'options'));
     }
 }

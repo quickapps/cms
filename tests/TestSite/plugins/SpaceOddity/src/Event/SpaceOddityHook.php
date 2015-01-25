@@ -84,7 +84,7 @@ And there\'s nothing I can do.';
  * @return void
  */
 	public function afterRender(Event $event) {
-		$event->subject->Blocks->set('title', $this->_line());
+		$event->subject()->Blocks->set('title', $this->_line());
 	}
 
 /**

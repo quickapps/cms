@@ -137,7 +137,7 @@ class BlockHook implements EventListenerInterface
      */
     public function displayBlock(Event $event, $block, $options = [])
     {
-        $View = $event->subject;
+        $View = $event->subject();
         $viewMode = $View->inUseViewMode();
         // avoid scanning file system every time a block is being rendered
         $cacheKey = "displayBlock_{$block->region->region}_{$viewMode}";

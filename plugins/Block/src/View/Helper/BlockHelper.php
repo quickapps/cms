@@ -36,7 +36,7 @@ class BlockHelper extends Helper
      */
     public function region($region)
     {
-        $this->alter('BlockHelper.region', $region);
+        $this->alter(['BlockHelper.region', $this->_View], $region);
         $html = '';
         $blocks = $this->blocksIn($region);
 
@@ -56,7 +56,7 @@ class BlockHelper extends Helper
      */
     public function render(Block $block, array $options = [])
     {
-        $this->alter('BlockHelper.render', $block, $options);
+        $this->alter(['BlockHelper.render', $this->_View], $block, $options);
         if ($this->allowed($block)) {
             return $this->trigger(["Block.{$block->handler}.display", $this->_View], $block, $options)->result;
         }
@@ -75,14 +75,10 @@ class BlockHelper extends Helper
      */
     public function blocksIn($region, $all = false)
     {
-        $pCacheKey = $all ? "{$this->_View->theme}_{$region}_all" : "{$this->_View->theme}_{$region}";
-        $blocks = Cache::read($pCacheKey, 'blocks');
+        $cacheKey = $all ? "{$this->_View->theme}_{$region}_all" : "{$this->_View->theme}_{$region}";
+        $blocksCache = Cache::read($cacheKey, 'blocks');
 
-        if ($blocks) {
-            $blocks = new Collection($blocks);
-        }
-
-        if (!$blocks) {
+        if (!$blocksCache) {
             $Blocks = TableRegistry::get('Block.Blocks');
             $blocks = $Blocks->find()
                 ->contain(['Roles', 'BlockRegions'])
@@ -118,7 +114,9 @@ class BlockHelper extends Helper
                 return $block->region->ordering;
             }, SORT_ASC);
 
-            Cache::write($pCacheKey, $blocks->toArray(), 'blocks');
+            Cache::write($cacheKey, $blocks->toArray(), 'blocks');
+        } else {
+            $blocks = new Collection($blocksCache);
         }
 
         return $blocks;
@@ -132,7 +130,7 @@ class BlockHelper extends Helper
      */
     public function allowed(Block $block)
     {
-        $this->alter('BlockHelper.allowed', $block);
+        $this->alter(['BlockHelper.allowed', $this->_View], $block);
         $cacheKey = "allowed_{$block->id}";
         $cache = static::cache($cacheKey);
 

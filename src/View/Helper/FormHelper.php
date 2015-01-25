@@ -38,7 +38,7 @@ class FormHelper extends CakeFormHelper
      */
     public function widgetRegistry(WidgetRegistry $instance = null, $widgets = [])
     {
-        $this->alter('FormHelper.widgetRegistry', $instance, $widgets);
+        $this->alter(['FormHelper.widgetRegistry', $this->_View], $instance, $widgets);
         return parent::widgetRegistry($instance, $widgets);
     }
 
@@ -47,7 +47,7 @@ class FormHelper extends CakeFormHelper
      */
     public function create($model = null, array $options = [])
     {
-        $this->alter('FormHelper.create', $model, $options);
+        $this->alter(['FormHelper.create', $this->_View], $model, $options);
         return parent::create($model, $options);
     }
 
@@ -56,7 +56,7 @@ class FormHelper extends CakeFormHelper
      */
     public function end($secureAttributes = [])
     {
-        $this->alter('FormHelper.end', $secureAttributes);
+        $this->alter(['FormHelper.end', $this->_View], $secureAttributes);
         return parent::end($secureAttributes);
     }
 
@@ -65,7 +65,7 @@ class FormHelper extends CakeFormHelper
      */
     public function secure(array $fields = array(), array $secureAttributes = array())
     {
-        $this->alter('FormHelper.secure', $fields, $secureAttributes);
+        $this->alter(['FormHelper.secure', $this->_View], $fields, $secureAttributes);
         return parent::secure($fields, $secureAttributes);
     }
 
@@ -74,7 +74,7 @@ class FormHelper extends CakeFormHelper
      */
     public function unlockField($name = null)
     {
-        $this->alter('FormHelper.unlockField', $name);
+        $this->alter(['FormHelper.unlockField', $this->_View], $name);
         return parent::unlockField($name);
     }
 
@@ -83,7 +83,7 @@ class FormHelper extends CakeFormHelper
      */
     public function isFieldError($field)
     {
-        $this->alter('FormHelper.isFieldError', $field);
+        $this->alter(['FormHelper.isFieldError', $this->_View], $field);
         return parent::isFieldError($field);
     }
 
@@ -92,7 +92,7 @@ class FormHelper extends CakeFormHelper
      */
     public function error($field, $text = null, array $options = [])
     {
-        $this->alter('FormHelper.error', $field, $text, $options);
+        $this->alter(['FormHelper.error', $this->_View], $field, $text, $options);
         return parent::error($field, $text, $options);
     }
 
@@ -101,7 +101,7 @@ class FormHelper extends CakeFormHelper
      */
     public function label($fieldName, $text = null, array $options = array())
     {
-        $this->alter('FormHelper.label', $fieldName, $text, $options);
+        $this->alter(['FormHelper.label', $this->_View], $fieldName, $text, $options);
         return parent::label($fieldName, $text, $options);
     }
 
@@ -110,7 +110,7 @@ class FormHelper extends CakeFormHelper
      */
     public function allInputs(array $fields = [], array $options = [])
     {
-        $this->alter('FormHelper.allInputs', $fields, $options);
+        $this->alter(['FormHelper.allInputs', $this->_View], $fields, $options);
         return parent::inputs($fields, $options);
     }
 
@@ -119,7 +119,7 @@ class FormHelper extends CakeFormHelper
      */
     public function inputs(array $fields, array $options = [])
     {
-        $this->alter('FormHelper.inputs', $fields, $options);
+        $this->alter(['FormHelper.inputs', $this->_View], $fields, $options);
         return parent::inputs($fields, $options);
     }
 
@@ -128,7 +128,7 @@ class FormHelper extends CakeFormHelper
      */
     public function fieldset($fields = '', array $options = [])
     {
-        $this->alter('FormHelper.fieldset', $fields, $options);
+        $this->alter(['FormHelper.fieldset', $this->_View], $fields, $options);
         return parent::fieldset($fields, $options);
     }
 
@@ -155,7 +155,7 @@ class FormHelper extends CakeFormHelper
             }
         }
 
-        $this->alter('FormHelper.input', $fieldName, $options);
+        $this->alter(['FormHelper.input', $this->_View], $fieldName, $options);
         return parent::input($fieldName, $options);
     }
 
@@ -164,7 +164,7 @@ class FormHelper extends CakeFormHelper
      */
     public function checkbox($fieldName, array $options = [])
     {
-        $this->alter('FormHelper.checkbox', $fieldName, $options);
+        $this->alter(['FormHelper.checkbox', $this->_View], $fieldName, $options);
         return parent::checkbox($fieldName, $options);
     }
 
@@ -173,7 +173,7 @@ class FormHelper extends CakeFormHelper
      */
     public function radio($fieldName, $options = [], array $attributes = [])
     {
-        $this->alter('FormHelper.radio', $fieldName, $options, $attributes);
+        $this->alter(['FormHelper.radio', $this->_View], $fieldName, $options, $attributes);
         return parent::radio($fieldName, $options, $attributes);
     }
 
@@ -190,7 +190,7 @@ class FormHelper extends CakeFormHelper
      */
     public function textarea($fieldName, array $options = [])
     {
-        $this->alter('FormHelper.textarea', $fieldName, $options);
+        $this->alter(['FormHelper.textarea', $this->_View], $fieldName, $options);
         return parent::textarea($fieldName, $options);
     }
 
@@ -199,7 +199,7 @@ class FormHelper extends CakeFormHelper
      */
     public function hidden($fieldName, array $options = [])
     {
-        $this->alter('FormHelper.hidden', $fieldName, $options);
+        $this->alter(['FormHelper.hidden', $this->_View], $fieldName, $options);
         return parent::hidden($fieldName, $options);
     }
 
@@ -208,7 +208,7 @@ class FormHelper extends CakeFormHelper
      */
     public function file($fieldName, array $options = [])
     {
-        $this->alter('FormHelper.file', $fieldName, $options);
+        $this->alter(['FormHelper.file', $this->_View], $fieldName, $options);
         return parent::file($fieldName, $options);
     }
 
@@ -217,7 +217,7 @@ class FormHelper extends CakeFormHelper
      */
     public function button($title, array $options = [])
     {
-        $this->alter('FormHelper.button', $title, $options);
+        $this->alter(['FormHelper.button', $this->_View], $title, $options);
         return parent::button($title, $options);
     }
 
@@ -226,7 +226,7 @@ class FormHelper extends CakeFormHelper
      */
     public function postButton($title, $url, array $options = [])
     {
-        $this->alter('FormHelper.postButton', $title, $url, $options);
+        $this->alter(['FormHelper.postButton', $this->_View], $title, $url, $options);
         return parent::postButton($title, $url, $options);
     }
 
@@ -235,7 +235,7 @@ class FormHelper extends CakeFormHelper
      */
     public function postLink($title, $url = null, array $options = [], $confirmMessage = false)
     {
-        $this->alter('FormHelper.postLink', $title, $url, $options, $confirmMessage);
+        $this->alter(['FormHelper.postLink', $this->_View], $title, $url, $options, $confirmMessage);
         return parent::postLink($title, $url, $options, $confirmMessage);
     }
 
@@ -244,7 +244,7 @@ class FormHelper extends CakeFormHelper
      */
     public function submit($caption = null, array $options = [])
     {
-        $this->alter('FormHelper.submit', $caption, $options);
+        $this->alter(['FormHelper.submit', $this->_View], $caption, $options);
         return parent::submit($caption, $options);
     }
 
@@ -253,7 +253,7 @@ class FormHelper extends CakeFormHelper
      */
     public function select($fieldName, $options = [], array $attributes = [])
     {
-        $this->alter('FormHelper.select', $fieldName, $options, $attributes);
+        $this->alter(['FormHelper.select', $this->_View], $fieldName, $options, $attributes);
         return parent::select($fieldName, $options, $attributes);
     }
 
@@ -262,7 +262,7 @@ class FormHelper extends CakeFormHelper
      */
     public function multiCheckbox($fieldName, $options, array $attributes = [])
     {
-        $this->alter('FormHelper.multiCheckbox', $fieldName, $options, $attributes);
+        $this->alter(['FormHelper.multiCheckbox', $this->_View], $fieldName, $options, $attributes);
         return parent::multiCheckbox($fieldName, $options, $attributes);
     }
 
@@ -271,7 +271,7 @@ class FormHelper extends CakeFormHelper
      */
     public function day($fieldName = null, array $options = [])
     {
-        $this->alter('FormHelper.day', $fieldName, $options);
+        $this->alter(['FormHelper.day', $this->_View], $fieldName, $options);
         return parent::day($fieldName, $options);
     }
 
@@ -280,7 +280,7 @@ class FormHelper extends CakeFormHelper
      */
     public function year($fieldName, array $options = [])
     {
-        $this->alter('FormHelper.widgetRegistry', $fieldName, $options);
+        $this->alter(['FormHelper.widgetRegistry', $this->_View], $fieldName, $options);
         return parent::widgetRegistry($instance, $widgets);
     }
 
@@ -289,7 +289,7 @@ class FormHelper extends CakeFormHelper
      */
     public function month($fieldName, array $options = [])
     {
-        $this->alter('FormHelper.month', $fieldName, $options);
+        $this->alter(['FormHelper.month', $this->_View], $fieldName, $options);
         return parent::month($fieldName, $options);
     }
 
@@ -298,7 +298,7 @@ class FormHelper extends CakeFormHelper
      */
     public function hour($fieldName, array $options = [])
     {
-        $this->alter('FormHelper.hour', $fieldName, $options);
+        $this->alter(['FormHelper.hour', $this->_View], $fieldName, $options);
         return parent::hour($fieldName, $options);
     }
 
@@ -307,7 +307,7 @@ class FormHelper extends CakeFormHelper
      */
     public function minute($fieldName, array $options = [])
     {
-        $this->alter('FormHelper.minute', $fieldName, $options);
+        $this->alter(['FormHelper.minute', $this->_View], $fieldName, $options);
         return parent::minute($fieldName, $options);
     }
 
@@ -316,7 +316,7 @@ class FormHelper extends CakeFormHelper
      */
     public function meridian($fieldName, array $options = [])
     {
-        $this->alter('FormHelper.meridian', $fieldName, $options);
+        $this->alter(['FormHelper.meridian', $this->_View], $fieldName, $options);
         return parent::meridian($fieldName, $options);
     }
 
@@ -325,7 +325,7 @@ class FormHelper extends CakeFormHelper
      */
     public function dateTime($fieldName, array $options = [])
     {
-        $this->alter('FormHelper.dateTime', $fieldName, $options);
+        $this->alter(['FormHelper.dateTime', $this->_View], $fieldName, $options);
         return parent::dateTime($fieldName, $options);
     }
 
@@ -334,7 +334,7 @@ class FormHelper extends CakeFormHelper
      */
     public function time($fieldName, array $options = [])
     {
-        $this->alter('FormHelper.time', $fieldName, $options);
+        $this->alter(['FormHelper.time', $this->_View], $fieldName, $options);
         return parent::time($fieldName, $options);
     }
 
@@ -343,7 +343,7 @@ class FormHelper extends CakeFormHelper
      */
     public function date($fieldName, array $options = [])
     {
-        $this->alter('FormHelper.date', $fieldName, $options);
+        $this->alter(['FormHelper.date', $this->_View], $fieldName, $options);
         return parent::date($fieldName, $options);
     }
 
@@ -352,7 +352,7 @@ class FormHelper extends CakeFormHelper
      */
     public function addContextProvider($type, callable $check)
     {
-        $this->alter('FormHelper.addContextProvider', $type, $check);
+        $this->alter(['FormHelper.addContextProvider', $this->_View], $type, $check);
         return parent::addContextProvider($type, $check);
     }
 
@@ -361,7 +361,7 @@ class FormHelper extends CakeFormHelper
      */
     public function addWidget($name, $spec)
     {
-        $this->alter('FormHelper.addWidget', $name, $spec);
+        $this->alter(['FormHelper.addWidget', $this->_View], $name, $spec);
         return parent::addWidget($name, $spec);
     }
 
@@ -370,7 +370,7 @@ class FormHelper extends CakeFormHelper
      */
     public function widget($name, array $data = [])
     {
-        $this->alter('FormHelper.widget', $name, $data);
+        $this->alter(['FormHelper.widget', $this->_View], $name, $data);
         return parent::widget($name, $data);
     }
 }

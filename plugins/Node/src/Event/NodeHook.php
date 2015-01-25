@@ -148,7 +148,7 @@ class NodeHook implements EventListenerInterface
      */
     public function renderNode(Event $event, $node, $options = [])
     {
-        $View = $event->subject;
+        $View = $event->subject();
         $viewMode = $View->inUseViewMode();
         $html = '';
         $try = [
@@ -182,6 +182,6 @@ class NodeHook implements EventListenerInterface
      */
     public function renderBlock(Event $event, $block, $options = [])
     {
-        return $event->subject->element("Node.{$block->delta}", compact('block', 'options'));
+        return $event->subject()->element("Node.{$block->delta}", compact('block', 'options'));
     }
 }

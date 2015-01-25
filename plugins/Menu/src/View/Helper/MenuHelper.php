@@ -234,7 +234,7 @@ class MenuHelper extends Helper
         }
 
         $this->_rendering = true;
-        $this->alter('MenuHelper.render', $items, $options);
+        $this->alter(['MenuHelper.render', $this->_View], $items, $options);
 
         if (is_callable($options)) {
             $options = ['formatter' => $options];
@@ -327,7 +327,7 @@ class MenuHelper extends Helper
      */
     public function formatter($item, array $info, array $options = [])
     {
-        $this->alter('MenuHelper.formatter', $item, $info, $options);
+        $this->alter(['MenuHelper.formatter', $this->_View], $item, $info, $options);
 
         $options = Hash::merge([
             'templates' => [],

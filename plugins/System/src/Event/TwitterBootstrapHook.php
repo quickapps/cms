@@ -87,7 +87,7 @@ class TwitterBootstrapHook implements EventListenerInterface
         $bootstrap = isset($options['bootstrap']) ? (bool)$options['bootstrap'] : true;
 
         if ($bootstrap) {
-            $this->_addTemplates($event->subject);
+            $this->_addTemplates($event->subject()->Form);
         }
 
         if (isset($options['bootstrap'])) {
@@ -105,11 +105,11 @@ class TwitterBootstrapHook implements EventListenerInterface
      */
     public function alterFormInput(Event $event, $fieldName, &$options)
     {
-        $this->_addTemplates($event->subject);
+        $this->_addTemplates($event->subject()->Form);
         if (empty($options['type']) ||
             !in_array($options['type'], ['textarea', 'select', 'button', 'submit', 'checkbox'])
         ) {
-            $options = $this->_addClass($event->subject, $options, 'form-control');
+            $options = $this->_addClass($event->subject()->Form, $options, 'form-control');
         }
     }
 
@@ -123,8 +123,8 @@ class TwitterBootstrapHook implements EventListenerInterface
      */
     public function alterFormTextarea(Event $event, $fieldName, &$options)
     {
-        $this->_addTemplates($event->subject);
-        $options = $this->_addClass($event->subject, $options, 'form-control');
+        $this->_addTemplates($event->subject()->Form);
+        $options = $this->_addClass($event->subject()->Form, $options, 'form-control');
     }
 
     /**
@@ -138,8 +138,8 @@ class TwitterBootstrapHook implements EventListenerInterface
      */
     public function alterFormSelect(Event $event, $fieldName, $options, &$attributes)
     {
-        $this->_addTemplates($event->subject);
-        $attributes = $this->_addClass($event->subject, $attributes, 'form-control');
+        $this->_addTemplates($event->subject()->Form);
+        $attributes = $this->_addClass($event->subject()->Form, $attributes, 'form-control');
     }
 
     /**
@@ -152,8 +152,8 @@ class TwitterBootstrapHook implements EventListenerInterface
      */
     public function alterFormButton(Event $event, $title, &$options)
     {
-        $this->_addTemplates($event->subject);
-        $options = $this->_addClass($event->subject, $options, 'btn btn-default');
+        $this->_addTemplates($event->subject()->Form);
+        $options = $this->_addClass($event->subject()->Form, $options, 'btn btn-default');
     }
 
     /**
@@ -166,8 +166,8 @@ class TwitterBootstrapHook implements EventListenerInterface
      */
     public function alterFormSubmit(Event $event, $caption, &$options)
     {
-        $this->_addTemplates($event->subject);
-        $options = $this->_addClass($event->subject, $options, 'btn btn-primary');
+        $this->_addTemplates($event->subject()->Form);
+        $options = $this->_addClass($event->subject()->Form, $options, 'btn btn-primary');
     }
 
     /**

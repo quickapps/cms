@@ -95,7 +95,7 @@ class MenuHook implements EventListenerInterface
      */
     public function displayBlock(Event $event, $block, $options)
     {
-        $View = $event->subject;
+        $View = $event->subject();
         $viewMode = $View->inUseViewMode();
         $menu = TableRegistry::get('Menu.Menus')
             ->find()
@@ -110,7 +110,7 @@ class MenuHook implements EventListenerInterface
 
         // plugin should take care of rendering
         if (in_array("Menu.{$menu->handler}.display", listeners())) {
-            return $this->trigger(["Menu.{$menu->handler}.display", $event->subject], $menu, $options);
+            return $this->trigger(["Menu.{$menu->handler}.display", $event->subject()], $menu, $options);
         }
 
         // avoid scanning file system every time a block is being rendered
