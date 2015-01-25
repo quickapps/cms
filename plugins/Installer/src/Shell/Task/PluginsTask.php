@@ -40,27 +40,27 @@ class PluginsTask extends Shell
             } elseif (!Validation::url($url)) {
                 $this->err('Invalid URL please try again');
             } else {
-                $this->out('Downloading plugin...');
+                $this->out('Downloading plugin...', 0);
                 $task = TaskManager::task('install', [
                     'activate' => true,
                     'packageType' => 'plugin',
                     'validateMime' => false,
                 ])->download($url);
-                $this->out('Downloading completed!');
+                $this->_io->overwrite('Downloading plugin... completed!');
 
-                $this->out('Starting installation...');
-                $this->out();
-
+                $this->out('Starting installation...', 0);
                 $result = $task->run();
+
                 if ($result) {
-                    $this->out('Plugin successfully installed!');
+                    $this->_io->overwrite('Starting installation... successfully installed!', 2);
                     $this->out();
                     break;
                 } else {
-                    $this->err('Plugin could not be installed, see below:');
+                    $this->_io->overwrite('Starting installation... failed! see below:', 2);
                     foreach ($task->errors() as $error) {
-                        $this->err('- ' . $error);
+                        $this->err("\t- " . $error);
                     }
+                    $this->out();
                 }
             }
         }
@@ -112,10 +112,11 @@ class PluginsTask extends Shell
                     if ($task->run()) {
                         $this->out('Plugin uninstalled!');
                     } else {
-                        $this->err('Plugin could not be uninstalled, se below:');
+                        $this->err('Plugin could not be uninstalled, se below:', 2);
                         foreach ($task->errors() as $error) {
-                            $this->err('- ' . $error);
+                            $this->err("\t- " . $error);
                         }
+                        $this->out();
                     }
                 } else {
                     $this->err('Confirmation failure, operation aborted!');
@@ -164,10 +165,11 @@ class PluginsTask extends Shell
                 if ($task->run()) {
                     $this->out('Plugin enabled!');
                 } else {
-                    $this->err('Plugin could not be enabled, se below:');
+                    $this->err('Plugin could not be enabled, se below:', 2);
                     foreach ($task->errors() as $error) {
-                        $this->err('- ' . $error);
+                        $this->err("\t- " . $error);
                     }
+                    $this->out();
                 }
                 break;
             }
@@ -226,10 +228,11 @@ class PluginsTask extends Shell
                     if ($task->run()) {
                         $this->out('Plugin disabled!');
                     } else {
-                        $this->err('Plugin could not be disabled, se below:');
+                        $this->err('Plugin could not be disabled, se below:', 2);
                         foreach ($task->errors() as $error) {
-                            $this->err('- ' . $error);
+                            $this->err("\t- " . $error);
                         }
+                        $this->out();
                     }
                 }
                 break;

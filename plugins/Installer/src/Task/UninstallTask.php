@@ -141,6 +141,7 @@ class UninstallTask extends BaseTask
             }
         }
 
+        Plugin::unload($info['name']);
         return true;
     }
 

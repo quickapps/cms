@@ -12,9 +12,10 @@
 namespace Installer\Shell;
 
 use Cake\Console\Shell;
+use Cake\Core\Configure;
 
 /**
- * Shell for I18N management.
+ * Shell for plugins management.
  *
  */
 class PluginsShell extends Shell
@@ -36,26 +37,26 @@ class PluginsShell extends Shell
     {
         $this->out('<info>Plugins Shell</info>');
         $this->hr();
-        $this->out('[I]nstall new plugin');
-        $this->out('[U]install existing plugin');
-        $this->out('[E]nable plugin');
-        $this->out('[D]isable plugin');
+        $this->out('[1] Install new plugin');
+        $this->out('[2] Uinstall existing plugin');
+        $this->out('[3] Enable plugin');
+        $this->out('[4] Disable plugin');
         $this->out('[H]elp');
         $this->out('[Q]uit');
 
-        $choice = strtolower($this->in('What would you like to do?', ['I', 'U', 'E', 'D', 'H', 'Q']));
+        $choice = strtolower($this->in('What would you like to do?', [1, 2, 3, 4, 'H', 'Q']));
         switch ($choice) {
-            case 'i':
+            case '1':
                 $this->Plugins->install();
                 break;
-            case 'u':
+            case '2':
                 $this->Plugins->uninstall();
                 break;
-            case 'd':
-                $this->Plugins->disable();
-                break;
-            case 'e':
+            case '3':
                 $this->Plugins->enable();
+                break;
+            case '4':
+                $this->Plugins->disable();
                 break;
             case 'h':
                 $this->out($this->OptionParser->help());
@@ -63,7 +64,7 @@ class PluginsShell extends Shell
             case 'q':
                 return $this->_stop();
             default:
-                $this->out('You have made an invalid selection. Please choose a command to execute by entering E, I, H, or Q.');
+                $this->out('You have made an invalid selection. Please choose a command to execute by entering 1, 2, 3, 4, H, or Q.');
         }
         $this->hr();
         $this->main();
