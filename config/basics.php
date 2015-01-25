@@ -324,6 +324,7 @@ if (!function_exists('pluginName')) {
      *
      * - `php`: Will return "\_\_PHP\_\_"
      * - `quickapps/cms`: Will return "\_\_QUICKAPPS\_\_"
+     * - `cakephp/cakephp`: Will return "\_\CAKEPHP\_\_"
      *
      * @param string $name Package name. e.g. author-name/package-name
      * @return string
@@ -334,6 +335,8 @@ if (!function_exists('pluginName')) {
             return '__PHP__';
         } elseif ($name === 'quickapps/cms') {
             return '__QUICKAPPS__';
+        } elseif ($name === 'cakephp/cakephp') {
+            return '__CAKEPHP__';
         } elseif (strpos($name, '/') === false) {
             return ''; // invalid
         }

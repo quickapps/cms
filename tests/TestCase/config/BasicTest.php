@@ -43,6 +43,7 @@ class BasicTest extends TestCase {
         $this->assertEquals('TestPlugin', pluginName('quickapps-cms/test-plugin'));
         $this->assertEquals('__PHP__', pluginName('php'));
         $this->assertEquals('__QUICKAPPS__', pluginName('quickapps/cms'));
+        $this->assertEquals('__CAKEPHP__', pluginName('cakephp/cakephp'));
     }
 
     /**

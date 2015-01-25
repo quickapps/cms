@@ -481,6 +481,7 @@ class InstallTask extends BaseTask
                         $p = pluginName($p);
                         $p = $p === '__QUICKAPPS__' ? 'QuickApps CMS' : $p;
                         $p = $p === '__PHP__' ? 'PHP' : $p;
+                        $p = $p === '__CAKEPHP__' ? 'CakePHP' : $p;
                         $required[] = "{$p} ({$v})";
                     }
                     $errors[] = __d('installer', 'Plugin "{0}" depends on other packages that were not found: {0}', $this->plugin(), implode(', ', $required));

@@ -39,8 +39,8 @@ class Plugin extends CakePlugin
      */
     protected static $_defaultComposerJson = [
         'name' => null,
-        'description' => null,
-        'version' => 'dev',
+        'description' => '---',
+        'version' => '0.0.1-dev',
         'type' => null,
         'keywords' => [],
         'homepage' => null,
@@ -260,6 +260,24 @@ class Plugin extends CakePlugin
 
         $json = json_decode(file_get_contents($info['path'] . '/composer.json'), true);
 
+        // try to guess package version from VERSION.txt or similar
+        if (!isset($json['version'])) {
+            $files = glob($info['path'] . '/*', GLOB_NOSORT);
+            $version = null;
+
+            foreach ($files as $file) {
+                if (in_array(basename(strtolower($file)), ['version.txt', 'version'])) {
+                    $versionFile = file($file);
+                    $version = trim(array_pop($versionFile));
+                    break;
+                }
+            }
+
+            if ($version) {
+                $json['version'] = $version;
+            }
+        }
+
         if (!static::validateJson($json)) {
             return false;
         }
@@ -275,10 +293,8 @@ class Plugin extends CakePlugin
      *
      * - must be a valid JSON file.
      * - key `name` must be present. A follow the pattern `author/package`
-     * - key `version` must be present.
-     * - key `type` must be present and be "quickapps-plugin" (even if it's a theme).
+     * - key `type` must be present and be "quickapps-plugin" or "cakephp-plugin" (even if it's a theme).
      * - key `name` must be present.
-     * - key `description` must be present.
      * - key `extra.regions` must be present if it's a theme (its name ends with
      *   `-theme`, e.g. `quickapps/blue-sky-theme`)
      *
@@ -306,14 +322,10 @@ class Plugin extends CakePlugin
         if (!is_array($json) || empty($json)) {
             $errors[] = __('Corrupt JSON information.');
         } else {
-            if (!isset($json['version'])) {
-                $errors[] = __('Missing field: "{0}"', 'version');
-            }
-
             if (!isset($json['type'])) {
                 $errors[] = __('Missing field: "{0}"', 'type');
-            } elseif ($json['type'] !== 'quickapps-plugin') {
-                $errors[] = __('Invalid field: "{0}" ({1}). It should be: {2}', 'type', $json['type'], 'quickapps-plugin');
+            } elseif (!in_array($json['type'], ['quickapps-plugin', 'cakephp-plugin'])) {
+                $errors[] = __('Invalid field: "{0}" ({1}). It should be: {2}', 'type', $json['type'], 'quickapps-plugin or cakephp-plugin');
             }
 
             if (!isset($json['name'])) {
@@ -324,10 +336,6 @@ class Plugin extends CakePlugin
                 if (!isset($json['extra']['regions'])) {
                     $errors[] = __('Missing field: "{0}"', 'extra.regions');
                 }
-            }
-
-            if (!isset($json['description'])) {
-                $errors[] = __('Missing field: "{0}"', 'description');
             }
         }
 
@@ -392,8 +400,11 @@ class Plugin extends CakePlugin
      *
      * This method returns package names that follows the pattern `author-name/package`.
      * Packages such as `ext-mbstring`, etc will be ignored (EXCEPT `php`).
-     * The special package name `__QUICKAPPS__` represent QuickApps CMS's version, and
-     * `__PHP__` represents server's PHP version.
+     * There are a few special package names that may be present:
+     *
+     * - `__QUICKAPPS__` represent QuickApps CMS's version.
+     * - `__PHP__` represents server's PHP version.
+     * - `__CAKEPHP__` represents cakephp's version.
      *
      * ### Example:
      *
@@ -461,9 +472,11 @@ class Plugin extends CakePlugin
         $dependencies = static::dependencies($plugin);
 
         foreach ($dependencies as $plugin => $required) {
-            if (in_array($plugin, ['__PHP__', '__QUICKAPPS__'])) {
+            if (in_array($plugin, ['__PHP__', '__QUICKAPPS__', '__CAKEPHP__'])) {
                 if ($plugin === '__PHP__') {
                     $current = PHP_VERSION;
+                } elseif ($plugin === '__CAKEPHP__') {
+                    $current = Configure::version();
                 } else {
                     $current = quickapps('version');
                 }
