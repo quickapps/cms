@@ -166,14 +166,13 @@ class JqueryHelper extends Helper
         $out = '';
         list($plugin, $theme) = pluginSplit($themeName);
         $plugin = !$plugin ? 'Jquery' : $plugin;
+        $out .= (string)$this->_View->Html->css("{$plugin}.ui/{$theme}/theme.css");
 
         if (Configure::read('debug')) {
             $out .= (string)$this->_View->Html->css("{$plugin}.ui/{$theme}/jquery-ui.css", $options);
         } else {
             $out .= (string)$this->_View->Html->css("{$plugin}.ui/{$theme}/jquery-ui.min.css", $options);
         }
-
-        $out .= (string)$this->_View->Html->css("{$plugin}.ui/{$theme}/theme.css");
 
         if (empty($out)) {
             return;
