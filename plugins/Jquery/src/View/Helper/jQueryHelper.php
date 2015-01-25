@@ -74,7 +74,7 @@ class JqueryHelper extends Helper
                 if (is_array($file)) {
                     $options = $file;
                 } else {
-                    $file = 'Jquery.ui/' . strtolower($f);
+                    $file = 'Jquery.ui/' . strtolower($file);
                     if (!str_ends_with($file, '.js')) {
                         $file .= '.js';
                     }
