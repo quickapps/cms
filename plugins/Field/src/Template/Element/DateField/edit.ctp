@@ -11,4 +11,13 @@
  */
 ?>
 
-<?php echo $this->Html->script('Jquery.jquery-ui.min.js'); ?>
+<?php echo $this->jQuery->theme(); ?>
+<?php echo $this->jQuery->ui('datepicker'); ?>
+
+<span id="dp-container-<?php echo $field->name; ?>"><?php echo $this->Form->input($field, ['readonly']); ?></span>
+
+<script>
+	$(document).ready(function() {
+		$('#dp-container-<?php echo $field->name; ?> input').datepicker();
+	});
+</script>
