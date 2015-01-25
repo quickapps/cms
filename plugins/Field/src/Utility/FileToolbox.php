@@ -32,7 +32,7 @@ class FileToolbox
     public static function formatter($view, $field)
     {
         $out = '';
-        switch ($field->view_mode_settings['formatter']) {
+        switch ($field->viewModeSettings['formatter']) {
             case 'link':
                 $out = $view->element('Field.FileField/display_link', compact('field'));
                 break;

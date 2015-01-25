@@ -47,7 +47,7 @@ class ImageToolbox extends FileToolbox
     public static function formatter($view, $field)
     {
         $out = '';
-        $viewModeSettings = $field->view_mode_settings;
+        $viewModeSettings = $field->viewModeSettings;
 
         foreach ((array)$field->raw as $image) {
             if (!empty($image['file_name'])) {

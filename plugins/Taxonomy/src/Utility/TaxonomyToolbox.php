@@ -65,20 +65,20 @@ class TaxonomyToolbox
             ->where(['id IN' => (array)$field->raw])
             ->all();
 
-        if (!empty($field->view_mode_settings['link_template'])) {
+        if (!empty($field->viewModeSettings['link_template'])) {
             $templatesBefore = $view->Html->templates();
-            $view->Html->templates(['link' => $field->view_mode_settings['link_template']]);
+            $view->Html->templates(['link' => $field->viewModeSettings['link_template']]);
         }
 
         foreach ($terms as $term) {
-            if ($field->view_mode_settings['hooktags']) {
+            if ($field->viewModeSettings['hooktags']) {
                 $term->set('name', $instance->hooktags($term->name));
             }
 
-            if ($field->view_mode_settings['formatter'] === 'link_localized') {
+            if ($field->viewModeSettings['formatter'] === 'link_localized') {
                 $glue = ' ';
                 $out[] = $view->Html->link(__($term->name), "/find/term:{$term->slug}", ['class' => 'label label-primary']);
-            } elseif ($field->view_mode_settings['formatter'] === 'plain_localized') {
+            } elseif ($field->viewModeSettings['formatter'] === 'plain_localized') {
                 $glue = ', ';
                 $out[] = __($term->name);
             } else {

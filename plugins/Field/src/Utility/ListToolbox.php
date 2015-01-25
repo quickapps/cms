@@ -55,7 +55,7 @@ class ListToolbox
      */
     public static function formatter(Field $field)
     {
-        $viewModeSettings = $field->view_mode_settings;
+        $viewModeSettings = $field->viewModeSettings;
         $result = '';
         $options = [];
 
@@ -76,7 +76,7 @@ class ListToolbox
         }
 
         foreach ($selectedOptions as $key) {
-            switch ($field->view_mode_settings['formatter']) {
+            switch ($field->viewModeSettings['formatter']) {
                 case 'key':
                     $result .= "{$key}<br />";
                     break;

@@ -63,7 +63,7 @@ class TextToolbox
      */
     public static function formatter(Field $field)
     {
-        $viewModeSettings = $field->view_mode_settings;
+        $viewModeSettings = $field->viewModeSettings;
         $content = $viewModeSettings['hooktags'] ? static::getInstance()->hooktags($field->value) : static::getInstance()->stripHooktags($field->value);
         $processing = $field->metadata->settings['text_processing'];
         $formatter = $viewModeSettings['formatter'];
