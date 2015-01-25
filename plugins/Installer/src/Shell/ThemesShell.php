@@ -15,10 +15,10 @@ use Cake\Core\Configure;
 use QuickApps\Console\Shell;
 
 /**
- * Shell for plugins management.
+ * Shell for themes management.
  *
  */
-class PluginsShell extends Shell
+class ThemesShell extends Shell
 {
 
     /**
@@ -26,7 +26,7 @@ class PluginsShell extends Shell
      *
      * @var array
      */
-    public $tasks = ['Installer.Plugins'];
+    public $tasks = ['Installer.Themes'];
 
     /**
      * Override main() for help message hook
@@ -35,28 +35,24 @@ class PluginsShell extends Shell
      */
     public function main()
     {
-        $this->out('<info>Plugins Shell</info>');
+        $this->out('<info>Themes Shell</info>');
         $this->hr();
-        $this->out('[1] Install new plugin');
-        $this->out('[2] Uinstall existing plugin');
-        $this->out('[3] Enable plugin');
-        $this->out('[4] Disable plugin');
+        $this->out('[1] Install new theme');
+        $this->out('[2] Uinstall existing theme');
+        $this->out('[3] Change site theme');
         $this->out('[H]elp');
         $this->out('[Q]uit');
 
-        $choice = strtolower($this->in('What would you like to do?', [1, 2, 3, 4, 'H', 'Q']));
+        $choice = strtolower($this->in('What would you like to do?', [1, 2, 3, 'H', 'Q']));
         switch ($choice) {
             case '1':
-                $this->Plugins->install();
+                $this->Themes->install();
                 break;
             case '2':
-                $this->Plugins->uninstall();
+                $this->Themes->uninstall();
                 break;
             case '3':
-                $this->Plugins->enable();
-                break;
-            case '4':
-                $this->Plugins->disable();
+                $this->Themes->change();
                 break;
             case 'h':
                 $this->out($this->OptionParser->help());
@@ -64,7 +60,7 @@ class PluginsShell extends Shell
             case 'q':
                 return $this->_stop();
             default:
-                $this->out('You have made an invalid selection. Please choose a command to execute by entering 1, 2, 3, 4, H, or Q.');
+                $this->out('You have made an invalid selection. Please choose a command to execute by entering 1, 2, 3, H, or Q.');
         }
         $this->hr();
         $this->main();
