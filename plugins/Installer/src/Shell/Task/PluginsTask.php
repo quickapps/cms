@@ -11,10 +11,10 @@
  */
 namespace Installer\Shell\Task;
 
-use Cake\Console\Shell;
 use Cake\Core\Configure;
 use Cake\Validation\Validation;
 use Installer\Task\TaskManager;
+use QuickApps\Console\Shell;
 use QuickApps\Core\Plugin;
 
 /**
@@ -135,8 +135,8 @@ class PluginsTask extends Shell
      */
     public function enable()
     {
-        $activePlugins = Plugin::collection()->match(['status' => 0, 'isTheme' => false])->toArray();
-        if (!count($activePlugins)) {
+        $disabledPlugins = Plugin::collection()->match(['status' => 0, 'isTheme' => false])->toArray();
+        if (!count($disabledPlugins)) {
             $this->err('There are no disabled plugins!');
             $this->out();
             return;
@@ -144,8 +144,8 @@ class PluginsTask extends Shell
 
         $index = 1;
         $this->out();
-        foreach ($activePlugins as $k => $v) {
-            $activePlugins[$index] = $v;
+        foreach ($disabledPlugins as $k => $v) {
+            $disabledPlugins[$index] = $v;
             $this->out(sprintf('[%2d] %s', $index, $v['human_name']));
             $index++;
         }
@@ -157,10 +157,10 @@ class PluginsTask extends Shell
             if (strtoupper($in) === 'Q') {
                 $this->err('Operation aborted');
                 break;
-            } elseif (!isset($activePlugins[intval($in)])) {
+            } elseif (!isset($disabledPlugins[intval($in)])) {
                 $this->err('Invalid option');
             } else {
-                $task = TaskManager::task('toggle')->enable($activePlugins[$in]['name']);
+                $task = TaskManager::task('toggle')->enable($disabledPlugins[$in]['name']);
 
                 if ($task->run()) {
                     $this->out('Plugin enabled!');
@@ -185,8 +185,8 @@ class PluginsTask extends Shell
      */
     public function disable()
     {
-        $disabledPlugins = Plugin::collection()->match(['status' => 1, 'isTheme' => false])->toArray();
-        if (!count($disabledPlugins)) {
+        $enabledPlugins = Plugin::collection()->match(['status' => 1, 'isTheme' => false])->toArray();
+        if (!count($enabledPlugins)) {
             $this->err('There are no active plugins!');
             $this->out();
             return;
@@ -194,8 +194,8 @@ class PluginsTask extends Shell
 
         $index = 1;
         $this->out();
-        foreach ($disabledPlugins as $k => $v) {
-            $disabledPlugins[$index] = $v;
+        foreach ($enabledPlugins as $k => $v) {
+            $enabledPlugins[$index] = $v;
             $this->out(sprintf('[%2d] %s', $index, $v['human_name']));
             $index++;
         }
@@ -207,10 +207,10 @@ class PluginsTask extends Shell
             if (strtoupper($in) === 'Q') {
                 $this->err('Operation aborted');
                 break;
-            } elseif (!isset($disabledPlugins[intval($in)])) {
+            } elseif (!isset($enabledPlugins[intval($in)])) {
                 $this->err('Invalid option');
             } else {
-                $info = Plugin::info($disabledPlugins[$in]['name'], true);
+                $info = Plugin::info($enabledPlugins[$in]['name'], true);
                 $this->hr();
                 $this->out('<info>The following plugin will be uninstalled</info>');
                 $this->hr();
@@ -221,9 +221,9 @@ class PluginsTask extends Shell
                 $this->hr();
                 $this->out();
 
-                $confirm = $this->in(sprintf('Please type in "%s" to disable this plugin', $disabledPlugins[$in]['name']));
-                if ($confirm === $disabledPlugins[$in]['name']) {
-                    $task = TaskManager::task('toggle')->disable($disabledPlugins[$in]['name']);
+                $confirm = $this->in(sprintf('Please type in "%s" to disable this plugin', $enabledPlugins[$in]['name']));
+                if ($confirm === $enabledPlugins[$in]['name']) {
+                    $task = TaskManager::task('toggle')->disable($enabledPlugins[$in]['name']);
 
                     if ($task->run()) {
                         $this->out('Plugin disabled!');
