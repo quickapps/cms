@@ -53,6 +53,7 @@ class PermissionsController extends AppController
     {
         $this->loadModel('User.Acos');
         $aco = $this->Acos->get($acoId, ['contain' => ['Roles']]);
+        $path = $this->Acos->find('path', ['for' => $acoId])->extract('alias')->toArray();
 
         if (!empty($this->request->data['roles'])) {
             $aco = $this->Acos->patchEntity($aco, $this->request->data);
@@ -68,7 +69,7 @@ class PermissionsController extends AppController
         }
 
         $roles = $this->Acos->Roles->find('list');
-        $this->set(compact('aco', 'roles'));
+        $this->set(compact('aco', 'roles', 'path'));
     }
 
     /**
