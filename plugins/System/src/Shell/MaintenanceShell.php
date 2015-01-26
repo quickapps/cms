@@ -9,16 +9,16 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Installer\Shell;
+namespace System\Shell;
 
 use Cake\Core\Configure;
 use QuickApps\Console\Shell;
 
 /**
- * Shell for plugins management.
+ * Maintenance shell.
  *
  */
-class PluginsShell extends Shell
+class MaintenanceShell extends Shell
 {
 
     /**
@@ -26,7 +26,7 @@ class PluginsShell extends Shell
      *
      * @var array
      */
-    public $tasks = ['Installer.Plugins'];
+    public $tasks = ['System.Database'];
 
     /**
      * Override main() for help message hook
@@ -35,38 +35,42 @@ class PluginsShell extends Shell
      */
     public function main()
     {
-        $this->out('<info>Plugins Shell</info>');
+        $this->out('<info>Maintenance Shell</info>');
         $this->hr();
-        $this->out('[1] Install new plugin');
-        $this->out('[2] Uinstall existing plugin');
-        $this->out('[3] Enable plugin');
-        $this->out('[4] Disable plugin');
+        $this->out('[1] Export database');
         $this->out('[H]elp');
         $this->out('[Q]uit');
 
-        $choice = strtolower($this->in('What would you like to do?', [1, 2, 3, 4, 'H', 'Q']));
+        $choice = strtolower($this->in('What would you like to do?', [1, 2, 3, 'H', 'Q']));
         switch ($choice) {
-            case '1':
-                $this->Plugins->install();
-                break;
-            case '2':
-                $this->Plugins->uninstall();
-                break;
-            case '3':
-                $this->Plugins->enable();
-                break;
-            case '4':
-                $this->Plugins->disable();
-                break;
             case 'h':
                 $this->out($this->OptionParser->help());
                 break;
             case 'q':
                 return $this->_stop();
             default:
-                $this->out('You have made an invalid selection. Please choose a command to execute by entering 1, 2, 3, 4, H, or Q.');
+                $this->out('You have made an invalid selection. Please choose a command to execute by entering 1, 2, 3, H, or Q.');
         }
         $this->hr();
         $this->main();
+    }
+
+    /**
+     * Gets the option parser instance and configures it.
+     *
+     * @return \Cake\Console\ConsoleOptionParser
+     */
+    public function getOptionParser()
+    {
+        $parser = parent::getOptionParser();
+
+        $parser->description(
+            'Provides some useful maintenance commands.'
+        )->addSubcommand('database', [
+            'help' => 'Provides database maintenance tasks',
+            'parser' => $this->Database->getOptionParser()
+        ]);
+
+        return $parser;
     }
 }

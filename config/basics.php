@@ -354,7 +354,7 @@ if (!function_exists('exportFixtures')) {
      * 
      * @param array $ignoreRecords List of table names to ignore, records will not
      *  be exported to the resulting PHP file (only its schema)
-     * @return void
+     * @return bool
      */
     function exportFixtures($ignoreRecords = []) {
         $db = ConnectionManager::get('default');
@@ -362,11 +362,11 @@ if (!function_exists('exportFixtures')) {
         $schemaCollection = $db->schemaCollection();
         $tables = $schemaCollection->listTables();
 
-        if (file_exists(TMP . 'Fixture/')) {
-            $dst = new Folder(TMP . 'Fixture/');
+        if (file_exists(TMP . 'fixture/')) {
+            $dst = new Folder(TMP . 'fixture/');
             $dst->delete();
         } else {
-            new Folder(TMP . 'Fixture/', true);
+            new Folder(TMP . 'fixture/', true);
         }
 
         foreach ($tables as $table) {
@@ -409,12 +409,12 @@ class {$className} {
 }
 
 ";
-            $file = new File(TMP . "Fixture/{$className}.php", true);
+            $file = new File(TMP . "fixture/{$className}.php", true);
             $file->write($fixture, 'w', true);
         }
 
+        return true;
     }
-
 }
 
 if (!function_exists('array_move')) {
