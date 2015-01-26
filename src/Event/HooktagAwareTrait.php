@@ -76,11 +76,12 @@ trait HooktagAwareTrait
      * The hooktag name. i.e.: `some_hooktag`
      *
      * @param string $content The the text to parse
+     * @param object|null $context Context to use when triggering events
      * @return string Orginal string modified with no hooktags [..]
      */
-    public function hooktags($content)
+    public function hooktags($content, $context = null)
     {
-        return HooktagManager::hooktags($content, $this);
+        return HooktagManager::hooktags($content, $context);
     }
 
     /**

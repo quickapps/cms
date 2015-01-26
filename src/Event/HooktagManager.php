@@ -13,8 +13,10 @@ namespace QuickApps\Event;
 
 use Cake\Event\Event;
 use Cake\Event\EventManager;
+use Cake\Routing\Router;
 use QuickApps\Core\StaticCacheTrait;
 use QuickApps\Event\HookAwareTrait;
+use QuicKApps\View\View;
 
 /**
  * Provides methods for hooktag parsing.
@@ -26,6 +28,13 @@ class HooktagManager
 
     use HookAwareTrait;
     use StaticCacheTrait;
+
+    /**
+     * Default context to use.
+     *
+     * @var object
+     */
+    protected static $_defaultContext = null;
 
     /**
      * Look for hooktags in the given text.
@@ -42,7 +51,7 @@ class HooktagManager
         }
 
         if ($context === null) {
-            $context = new HooktagManager();
+            $context = static::_getDefaultContext();
         }
 
         static::cache('context', $context);
@@ -61,6 +70,19 @@ class HooktagManager
     {
         $tagregexp = implode('|', array_map('preg_quote', static::_hooktagsList()));
         return preg_replace('/(.?)\[(' . $tagregexp . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', '$1$6', $text);
+    }
+
+    /**
+     * Gets default context to use.
+     *
+     * @return \QuickApps\View\View
+     */
+    protected static function _getDefaultContext()
+    {
+        if (!static::$_defaultContext) {
+            static::$_defaultContext = new View(Router::getRequest(), null, EventManager::instance(), []);
+        }
+        return static::$_defaultContext;
     }
 
     /**
