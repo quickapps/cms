@@ -222,7 +222,7 @@ use Search\Model\Entity\SearchDataset;
  * IMPORTANT:
  *
  * - Event handler method should always return the modified $query object.
- * - The event's context, that is `$event->subject`, is the table instance that
+ * - The event's context, that is `$event->subject()`, is the table instance that
  *   fired the event.
  */
 class SearchableBehavior extends Behavior

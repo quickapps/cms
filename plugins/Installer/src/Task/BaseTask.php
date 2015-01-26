@@ -188,7 +188,7 @@ abstract class BaseTask
      *     // MyPluginHook.php
      *     public function beforeInstall($event) {
      *         // subject is the InstallTask instance that fired the event
-     *         $installDependency = $event->subject
+     *         $installDependency = $event->subject()
      *             ->newTask('install', ['active' => false])
      *             ->download('http://example.com/some-package/this/plugins/depends-on.zip')
      *             ->run();

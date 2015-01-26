@@ -29,7 +29,7 @@ class ListField extends FieldHandler
      */
     public function entityDisplay(Event $event, Field $field, $options = [])
     {
-        $View = $event->subject;
+        $View = $event->subject();
         return $View->element('Field.ListField/display', compact('field', 'options'));
     }
 
@@ -38,7 +38,7 @@ class ListField extends FieldHandler
      */
     public function entityEdit(Event $event, Field $field, $options = [])
     {
-        $View = $event->subject;
+        $View = $event->subject();
         return $View->element('Field.ListField/edit', compact('field', 'options'));
     }
 
@@ -132,7 +132,7 @@ class ListField extends FieldHandler
      */
     public function instanceSettingsForm(Event $event, $instance, $options = [])
     {
-        $View = $event->subject;
+        $View = $event->subject();
         return $View->element('Field.ListField/settings_form', compact('instance', 'options'));
     }
 
@@ -149,7 +149,7 @@ class ListField extends FieldHandler
      */
     public function instanceViewModeForm(Event $event, $instance, $options = [])
     {
-        $View = $event->subject;
+        $View = $event->subject();
         return $View->element('Field.ListField/view_mode_form', compact('instance', 'options'));
     }
 

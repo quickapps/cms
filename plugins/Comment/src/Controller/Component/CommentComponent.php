@@ -158,7 +158,7 @@ class CommentComponent extends Component
      */
     public function beforeFilter(Event $event)
     {
-        $this->_controller = $event->subject;
+        $this->_controller = $event->subject();
         $this->_controller->set('__commentComponentLoaded__', true);
         $this->_controller->set('_commentFormContext', $this->config('arrayContext'));
 

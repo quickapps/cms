@@ -30,7 +30,7 @@ class TextField extends FieldHandler
      */
     public function entityDisplay(Event $event, Field $field, $options = [])
     {
-        $View = $event->subject;
+        $View = $event->subject();
         $value = TextToolbox::process($field->value, $field->metadata->settings['text_processing']);
         $field->set('value', $value);
         return $View->element('Field.TextField/display', compact('field', 'options'));
@@ -41,7 +41,7 @@ class TextField extends FieldHandler
      */
     public function entityEdit(Event $event, Field $field, $options = [])
     {
-        $View = $event->subject;
+        $View = $event->subject();
         return $View->element('Field.TextField/edit', compact('field', 'options'));
     }
 
@@ -169,7 +169,7 @@ class TextField extends FieldHandler
      */
     public function instanceSettingsForm(Event $event, $instance, $options = [])
     {
-        $View = $event->subject;
+        $View = $event->subject();
         return $View->element('Field.TextField/settings_form', compact('instance', 'options'));
     }
 
@@ -199,7 +199,7 @@ class TextField extends FieldHandler
      */
     public function instanceViewModeForm(Event $event, $instance, $options = [])
     {
-        $View = $event->subject;
+        $View = $event->subject();
         return $View->element('Field.TextField/view_mode_form', compact('instance', 'options'));
     }
 

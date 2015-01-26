@@ -98,7 +98,7 @@ class ManageControllerTest extends IntegrationTestCase
      */
     public function testEdit()
     {
-        $vars = $this->get('/admin/block/manage/edit/1');
+        $this->get('/admin/block/manage/edit/1');
         $this->assertResponseOk();
     }
 

@@ -107,7 +107,7 @@ class PluginsTable extends Table
     public function beforeValidate(Event $event, Entity $entity, ArrayObject $options, Validator $validator)
     {
         if (!empty($options['validate']) && $options['validate'] == 'settings') {
-            $this->trigger(['Plugin.' . $entity->get('_plugin_name') . '.settingsValidate', $event->subject], $entity, $validator);
+            $this->trigger(['Plugin.' . $entity->get('_plugin_name') . '.settingsValidate', $event->subject()], $entity, $validator);
         }
     }
 

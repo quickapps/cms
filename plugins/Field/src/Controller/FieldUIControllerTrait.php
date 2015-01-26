@@ -76,7 +76,7 @@ trait FieldUIControllerTrait
      */
     public function beforeFilter(Event $event)
     {
-        $requestParams = $event->subject->request->params;
+        $requestParams = $event->subject()->request->params;
 
         if (!isset($this->_manageTable) || empty($this->_manageTable)) {
             throw new ForbiddenException(__d('field', 'FieldUIControllerTrait: The property $_manageTable was not found or is empty.'));
@@ -115,9 +115,9 @@ trait FieldUIControllerTrait
      */
     public function beforeRender(Event $event)
     {
-        $plugin = Inflector::camelize($event->subject->request->params['plugin']);
-        $controller = Inflector::camelize($event->subject->request->params['controller']);
-        $action = $event->subject->request->params['action'];
+        $plugin = Inflector::camelize($event->subject()->request->params['plugin']);
+        $controller = Inflector::camelize($event->subject()->request->params['controller']);
+        $action = $event->subject()->request->params['action'];
         $templatePath = Plugin::classPath($plugin) . "Template/{$controller}/{$action}.ctp";
 
         if (!file_exists($templatePath)) {

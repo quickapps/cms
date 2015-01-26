@@ -87,7 +87,7 @@ trait CommentUIControllerTrait
      */
     public function beforeFilter(Event $event)
     {
-        $requestParams = $event->subject->request->params;
+        $requestParams = $event->subject()->request->params;
 
         if (!isset($this->_manageTable) || empty($this->_manageTable)) {
             throw new ForbiddenException(__d('field', 'CommentUIControllerTrait: The property $_manageTable was not found or is empty.'));
@@ -140,13 +140,13 @@ trait CommentUIControllerTrait
      */
     public function beforeRender(Event $event)
     {
-        $plugin = Inflector::camelize($event->subject->request->params['plugin']);
-        $controller = Inflector::camelize($event->subject->request->params['controller']);
-        $action = $event->subject->request->params['action'];
+        $plugin = Inflector::camelize($event->subject()->request->params['plugin']);
+        $controller = Inflector::camelize($event->subject()->request->params['controller']);
+        $action = $event->subject()->request->params['action'];
         $prefix = '';
 
-        if (!empty($event->subject->request->params['prefix'])) {
-            $prefix = Inflector::camelize($event->subject->request->params['prefix']) . '/';
+        if (!empty($event->subject()->request->params['prefix'])) {
+            $prefix = Inflector::camelize($event->subject()->request->params['prefix']) . '/';
         }
 
         $templatePath = Plugin::classPath($plugin) . "Template/{$prefix}{$controller}/{$action}.ctp";

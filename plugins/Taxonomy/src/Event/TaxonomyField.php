@@ -42,7 +42,7 @@ class TaxonomyField extends FieldHandler
      */
     public function entityDisplay(Event $event, Field $field, $options = [])
     {
-        $View = $event->subject;
+        $View = $event->subject();
         return $View->element('Taxonomy.taxonomy_field_display', compact('field', 'options'));
     }
 
@@ -51,7 +51,7 @@ class TaxonomyField extends FieldHandler
      */
     public function entityEdit(Event $event, Field $field, $options = [])
     {
-        $View = $event->subject;
+        $View = $event->subject();
         $terms = [];
 
         if ($field->metadata->settings['vocabulary']) {
@@ -129,12 +129,12 @@ class TaxonomyField extends FieldHandler
      */
     public function entityAfterSave(Event $event, Field $field, $options)
     {
-        $pk = $event->subject->primaryKey();
+        $pk = $event->subject()->primaryKey();
         $entity = $field->metadata->entity;
 
         if ($entity->has($pk)) {
             $TermsCache = TableRegistry::get('Taxonomy.EntitiesTerms');
-            $tableAlias = Inflector::underscore($event->subject->alias());
+            $tableAlias = Inflector::underscore($event->subject()->alias());
             $raw = !is_array($field->raw) ? [$field->raw] : $field->raw;
             $TermsCache->deleteAll([
                 'entity_id' => $entity->get($pk),
@@ -227,7 +227,7 @@ class TaxonomyField extends FieldHandler
      */
     public function instanceSettingsForm(Event $event, $instance, $options = [])
     {
-        $View = $event->subject;
+        $View = $event->subject();
         $vocabularies = TableRegistry::get('Taxonomy.Vocabularies')->find('list');
         return $View->element('Taxonomy.taxonomy_field_settings_form', compact('instance', 'options', 'vocabularies'));
     }
@@ -250,7 +250,7 @@ class TaxonomyField extends FieldHandler
      */
     public function instanceViewModeForm(Event $event, $instance, $options = [])
     {
-        $View = $event->subject;
+        $View = $event->subject();
         return $View->element('Taxonomy.taxonomy_field_view_mode_form', compact('instance', 'options'));
     }
 
@@ -323,7 +323,7 @@ class TaxonomyField extends FieldHandler
 
         if ($slugs) {
             $IN = $negate ? 'NOT IN' : 'IN';
-            $table = $event->subject;
+            $table = $event->subject();
             $pk = $table->primaryKey();
             $tableAlias = $table->alias();
             $termsIds = TableRegistry::get('Taxonomy.Terms')

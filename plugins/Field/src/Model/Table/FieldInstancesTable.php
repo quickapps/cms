@@ -191,7 +191,7 @@ class FieldInstancesTable extends Table
     {
         if (isset($options['validate']) && in_array($options['validate'], ['settings', 'viewMode'])) {
             $eventName = $options['validate'] == 'settings' ? 'settingsValidate' : 'viewModeValidate';
-            $instanceEvent = $this->trigger(["Field.{$settings->get('_field_handler')}.Instance.{$eventName}", $event->subject], $settings, $validator);
+            $instanceEvent = $this->trigger(["Field.{$settings->get('_field_handler')}.Instance.{$eventName}", $event->subject()], $settings, $validator);
             if ($instanceEvent->isStopped() || $instanceEvent->result === false) {
                 return false;
             }
@@ -222,7 +222,7 @@ class FieldInstancesTable extends Table
      */
     public function beforeSave(Event $event, FieldInstance $instance, ArrayObject $options = null)
     {
-        $instanceEvent = $this->trigger(["Field.{$instance->handler}.Instance.beforeAttach", $event->subject], $instance, $options);
+        $instanceEvent = $this->trigger(["Field.{$instance->handler}.Instance.beforeAttach", $event->subject()], $instance, $options);
         if ($instanceEvent->isStopped() || $instanceEvent->result === false) {
             return false;
         }
@@ -239,7 +239,7 @@ class FieldInstancesTable extends Table
      */
     public function afterSave(Event $event, FieldInstance $instance, ArrayObject $options = null)
     {
-        $this->trigger(["Field.{$instance->handler}.Instance.afterAttach", $event->subject], $instance, $options);
+        $this->trigger(["Field.{$instance->handler}.Instance.afterAttach", $event->subject()], $instance, $options);
     }
 
     /**
@@ -252,7 +252,7 @@ class FieldInstancesTable extends Table
      */
     public function beforeDelete(Event $event, FieldInstance $instance, ArrayObject $options = null)
     {
-        $instanceEvent = $this->trigger(["Field.{$instance->handler}.Instance.beforeDetach", $event->subject], $instance, $options);
+        $instanceEvent = $this->trigger(["Field.{$instance->handler}.Instance.beforeDetach", $event->subject()], $instance, $options);
         if ($instanceEvent->isStopped() || $instanceEvent->result === false) {
             return false;
         }
@@ -272,6 +272,6 @@ class FieldInstancesTable extends Table
     {
         $FieldValues = TableRegistry::get('Field.FieldValues');
         $FieldValues->deleteAll(['field_instance_id' => $instance->id]);
-        $this->trigger(["Field.{$instance->handler}.Instance.afterDetach", $event->subject], $instance, $options);
+        $this->trigger(["Field.{$instance->handler}.Instance.afterDetach", $event->subject()], $instance, $options);
     }
 }

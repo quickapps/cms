@@ -366,7 +366,7 @@ if (!function_exists('exportFixtures')) {
             $dst = new Folder(TMP . 'Fixture/');
             $dst->delete();
         } else {
-            $dst = new Folder(TMP . 'Fixture/', true);
+            new Folder(TMP . 'Fixture/', true);
         }
 
         foreach ($tables as $table) {

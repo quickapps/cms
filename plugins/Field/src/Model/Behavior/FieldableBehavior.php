@@ -51,29 +51,31 @@ use QuickApps\Event\HookAwareTrait;
  *
  * ## Entity Example:
  *
- *     // $user = $this->Users->get(1);
- *     // User's properties might look as follows:
- *     [id] => 1,
- *     [password] => e10adc3949ba59abbe56e057f20f883e,
- *     ...
- *     [_fields] => [
- *         [0] => [
- *             [name] => user-age,
- *             [label] => User Age,
- *             [value] => 22,
- *             [raw] => null,
- *             [metadata] => [ ... ]
- *         ],
- *         [1] => [
- *             [name] => user-phone,
- *             [label] => User Phone,
- *             [value] => null, // no data stored
- *             [raw] => null, // no data stored
- *             [metadata] => [ ... ]
- *         ],
- *         ...
- *         [n] => [ ... ]
- *     )
+ * ```php
+ * $user = $this->Users->get(1);
+ * // User's properties might look as follows:
+ * [id] => 1,
+ * [password] => e10adc3949ba59abbe56e057f20f883e,
+ * ...
+ * [_fields] => [
+ *      [0] => [
+ *          [name] => user-age,
+ *          [label] => User Age,
+ *          [value] => 22,
+ *          [raw] => null,
+ *          [metadata] => [ ... ]
+ *      ],
+ *      [1] => [
+ *           [name] => user-phone,
+ *           [label] => User Phone,
+ *           [value] => null, // no data stored
+ *           [raw] => null, // no data stored
+ *           [metadata] => [ ... ]
+ *      ],
+ *      ...
+ *      [n] => [ ... ]
+ * ]
+ * ```
  *
  * In the example above, User entity has a custom field named `user-age` and its
  * current value is 22. In the other hand, it also has a `user-phone` field but
@@ -119,13 +121,15 @@ use QuickApps\Event\HookAwareTrait;
  * its attached fields and do fancy thing with them. Following with our User
  * entity example:
  *
- *     // In your controller
- *     $user = $this->Users->get($id);
- *     echo $user->_fields[0]->label . ': ' . $user->_fields[0]->value;
- *     // out: User Age: 22
+ * ```php
+ * // In your controller
+ * $user = $this->Users->get($id);
+ * echo $user->_fields[0]->label . ': ' . $user->_fields[0]->value;
+ * // out: User Age: 22
  *
- *     echo "This field is attached to '" . $user->_fields[0]->metadata->table_alias . "' table";
- *     // out: This field is attached to 'users' table;
+ * echo "This field is attached to '" . $user->_fields[0]->metadata->table_alias . "' table";
+ * // out: This field is attached to 'users' table;
+ * ```
  *
  * ## Searching over custom fields
  *
@@ -134,9 +138,11 @@ use QuickApps\Event\HookAwareTrait;
  * (a.k.a. field slug), you should use this "machine-name" prefixed with `:`,
  * for example:
  *
- *     TableRegistry::get('Users')
- *         ->find('all')
- *         ->where(['Users.:first-name LIKE' => 'John%']);
+ * ```php
+ * TableRegistry::get('Users')
+ *     ->find('all')
+ *     ->where(['Users.:first-name LIKE' => 'John%']);
+ * ```
  *
  * `Users` table has a custom field attached (first-name), and we are looking for
  * all the users whose `first-name` starts with `John`.
@@ -157,15 +163,16 @@ use QuickApps\Event\HookAwareTrait;
  * for a given entity under the `raw` property. And we could save photo's titles as
  * space-separated values under `value` property:
  *
- *     // raw:
- *     [photos] => [
- *         ['title' => 'OMG!', 'file' => 'omg.jpg'],
- *         ['title' => 'Look at this, lol', 'file' => 'cats-fighting.gif'],
- *         ['title' => 'Fuuuu', 'file' => 'fuuuu-meme.png'],
- *     ]
+ * ```php
+ * // raw:
+ * [photos] => [
+ *     ['title' => 'OMG!', 'file' => 'omg.jpg'],
+ *     ['title' => 'Look at this, lol', 'file' => 'cats-fighting.gif'],
+ *     ['title' => 'Fuuuu', 'file' => 'fuuuu-meme.png'],
+ * ]
  *
- *     // value:
- *     OMG! Look at this lol Fuuuu
+ * // value: OMG! Look at this lol Fuuuu
+ * ```
  *
  * In our example when rendering an entity with `AlbumField` attached to it,
  * `AlbumField` should use `raw` information to create a representation of
@@ -194,7 +201,9 @@ use QuickApps\Event\HookAwareTrait;
  * Just like any other behavior, in your Table constructor attach this behavior
  * as usual:
  *
- *     $this->attachBehavior('Field.Fieldable');
+ * ```php
+ * $this->attachBehavior('Field.Fieldable');
+ * ```
  *
  * ## Enable/Disable Field Attachment
  *
@@ -202,9 +211,11 @@ use QuickApps\Event\HookAwareTrait;
  * of your entities you should use the unbindFieldable(). Or bindFieldable() to
  * enable it again.
  *
- *     // there wont be a "_field" key on your User entity
- *     $this->User->unbindFieldable();
- *     $this->Users->get($id);
+ * ```php
+ * // there wont be a "_field" key on your User entity
+ * $this->User->unbindFieldable();
+ * $this->Users->get($id);
+ * ```
  *
  * ## About Field Handlers
  *
@@ -281,15 +292,19 @@ use QuickApps\Event\HookAwareTrait;
  * should see a `favorite_food` input where Users shall type in their favorite
  * food. Well, your TextField Handler should return something like this:
  *
- *     // note the `:` prefix
- *     <input name=":favorite_food" value="<current_value_from_entity>" />
+ * ```html
+ * <!-- note the ":" prefix -->
+ * <input name=":favorite_food" value="<current_value_from_entity>" />
+ * ```
  *
  * To accomplish this, your Field Handler should properly catch the
  * `Field.<FieldHandler>.Entity.edit` event, example:
  *
- *     public function entityEdit(Event $event, $field) {
- *         return '<input name=":' . $field->name . '" value="' . $field->value . '" />";
- *     }
+ * ```php
+ * public function entityEdit(Event $event, $field) {
+ *     return '<input name=":' . $field->name . '" value="' . $field->value . '" />";
+ * }
+ * ```
  *
  * As usual, the second argument `$field` contains all the information you will
  * need to properly render your form inputs.
@@ -299,91 +314,111 @@ use QuickApps\Event\HookAwareTrait;
  * attributes **must be prefixed** with `:` followed by its machine
  * (a.k.a. `slug`) name:
  *
- *     <input name=":<machine-name>" ... />
+ * ```html
+ * <input name=":<machine-name>" ... />
+ * ```
  *
  * You may also create complex data structures like so:
  *
- *     <input name=":album.name" value="<current_value>" />
- *     <input name=":album.photo.0" value="<current_value>" />
- *     <input name=":album.photo.1" value="<current_value>" />
- *     <input name=":album.photo.2" value="<current_value>" />
+ * ```html
+ * <input name=":album.name" value="<current_value>" />
+ * <input name=":album.photo.0" value="<current_value>" />
+ * <input name=":album.photo.1" value="<current_value>" />
+ * <input name=":album.photo.2" value="<current_value>" />
+ * ```
  *
  * The above may produce a $_POST array like below:
  *
- *         :album => array(
- *             name => Album Name,
- *             photo => array(
- *                 0 => url_image1.jpg,
- *                 1 => url_image2.jpg,
- *                 2 => url_image3.jpg
- *             )
- *         ),
- *         ...
- *         :other_field => ...,
- *     )
+ * ```php
+ *
+ * $_POST = [
+ *     :album => [
+ *         name => Album Name,
+ *         photo => [
+ *             0 => url_image1.jpg,
+ *             1 => url_image2.jpg,
+ *             2 => url_image3.jpg
+ *         ]
+ *     ],
+ *     ...
+ *     :other_field => ...,
+ * ]
+ * ```
  *
  * **Remember**, you should always rely on View::elements() for rendering HTML code:
  *
- *     public function editTextField(Event $event, $field) {
- *         $view = $event->subject;
- *         return $View->element('text_field_edit', ['field' => $field]);
- *     }
+ * ```php
+ * public function editTextField(Event $event, $field) {
+ *     $view = $event->subject();
+ *     return $View->element('text_field_edit', ['field' => $field]);
+ * }
+ * ```
  *
  * ## Creating an Edit Form
  *
  * In previous example we had an User edit form. When rendering User's form-inputs
  * usually you would do something like so:
  *
- *     // edit.ctp
- *     <?php echo $this->Form->input('id', ['type' => 'hidden']); ?>
- *     <?php echo $this->Form->input('username'); ?>
- *     <?php echo $this->Form->input('password'); ?>
+ * ```php
+ * // edit.ctp
+ * <?php echo $this->Form->input('id', ['type' => 'hidden']); ?>
+ * <?php echo $this->Form->input('username'); ?>
+ * <?php echo $this->Form->input('password'); ?>
+ * ```php
  *
  * When rendering virtual fields you can pass the whole Field Object to
  * `FormHelper::input()` method. So instead of passing the input name as first
  * argument (as above) you can do as follow:
  *
- *     // Remember, custom fields are under the `_fields` property of your entity
- *     <?php echo $this->Form->input($user->_fields[0]); ?>
- *     <?php echo $this->Form->input($user->_fields[1]); ?>
+ * ```php
+ * // Remember, custom fields are under the `_fields` property of your entity
+ * <?php echo $this->Form->input($user->_fields[0]); ?>
+ * <?php echo $this->Form->input($user->_fields[1]); ?>
+ * ```
  *
  * That will render the first and second virtual field attached to your entity.
  * But usually you'll end creating some loop structure and render all of them
  * at once:
  *
- *     <?php foreach ($user->_fields as $field): ?>
- *         <?php echo $this->Form->input($field); ?>
- *     <?php endforeach; ?>
+ * ```php
+ * <?php foreach ($user->_fields as $field): ?>
+ *     <?php echo $this->Form->input($field); ?>
+ * <?php endforeach; ?>
+ * ```
  *
  * As you may see, `Form::input()` **automagically fires** the
  * `Field.<FieldHandler>.Entity.edit` event asking to the corresponding Field
  * Handler for its HTML form elements. Passing the Field object to `Form::input()`
  * is not mandatory, you can manually generate your input elements:
  *
- *     <input name=":<?= $field->name; ?>" value="<?= $field->value; ?>" />
+ * ```php
+ * <input name=":<?php echo $field->name; ?>" value="<?php echo $field->value; ?>" />
+ * ```
  *
  * The `$user` variable used in these examples assumes you used `Controller::set()`
  * method in your controller.
  *
  * A more complete example:
  *
- *     // UsersController.php
- *     public function edit($id) {
- *         $this->set('user', $this->Users->get($id));
- *     }
+ * ```php
+ * // UsersController.php
+ * public function edit($id) {
+ *     $this->set('user', $this->Users->get($id));
+ * }
  *
- *     // edit.ctp
- *     <?php echo $this->Form->create($user); ?>
- *         <?php echo $this->Form->hidden('id'); ?>
- *         <?php echo $this->Form->input('username'); ?>
- *         <?php echo $this->Form->input('password'); ?>
- *         <!-- Custom Fields -->
- *         <?php foreach ($user->_fields as $field): ?>
- *             <?php echo $this->Form->input($field); ?>
- *         <?php endforeach; ?>
- *         <!-- /Custom Fields -->
- *         <?php echo $this->Form->submit('Save User'); ?>
- *     <?php echo $this->Form->end(); ?>
+ * // edit.ctp
+ * <?php echo $this->Form->create($user); ?>
+ *     <?php echo $this->Form->hidden('id'); ?>
+ *     <?php echo $this->Form->input('username'); ?>
+ *     <?php echo $this->Form->input('password'); ?>
+ *     <!-- Custom Fields -->
+ *     <?php foreach ($user->_fields as $field): ?>
+ *         <?php echo $this->Form->input($field); ?>
+ *     <?php endforeach; ?>
+ *     <!-- /Custom Fields -->
+ *     <?php echo $this->Form->submit('Save User'); ?>
+ * <?php echo $this->Form->end(); ?>
+ * ```
  */
 class FieldableBehavior extends Behavior
 {
@@ -557,7 +592,7 @@ class FieldableBehavior extends Behavior
                     if ($entity instanceof Entity) {
                         $entity = $this->attachEntityFields($entity);
                         foreach ($entity->get('_fields') as $field) {
-                            $fieldEvent = $this->trigger(["Field.{$field->metadata->handler}.Entity.beforeFind", $event->subject], $field, $options, $primary);
+                            $fieldEvent = $this->trigger(["Field.{$field->metadata->handler}.Entity.beforeFind", $event->subject()], $field, $options, $primary);
                             if ($fieldEvent->result === false) {
                                 $entity = false;
                                 break;
@@ -671,7 +706,7 @@ class FieldableBehavior extends Behavior
                     $field->set('raw', []);
                 }
 
-                $fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.beforeSave", $event->subject], $field, $options);
+                $fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.beforeSave", $event->subject()], $field, $options);
                 if ($fieldEvent->result === false) {
                     $entity = $this->attachEntityFields($entity);
                     return false;
@@ -744,7 +779,7 @@ class FieldableBehavior extends Behavior
         $instances = $this->_getTableFieldInstances($entity);
         foreach ($instances as $instance) {
             $field = $this->_getMockField($entity, $instance);
-            $fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.afterSave", $event->subject], $field, $options);
+            $fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.afterSave", $event->subject()], $field, $options);
         }
 
         return true;
@@ -777,7 +812,7 @@ class FieldableBehavior extends Behavior
         $instances = $this->_getTableFieldInstances($entity);
         foreach ($instances as $instance) {
             $field = $this->_getMockField($entity, $instance);
-            $fieldEvent = $this->trigger(["Field.{$field->metadata['handler']}.Entity.beforeValidate", $event->subject], $field, $options, $validator);
+            $fieldEvent = $this->trigger(["Field.{$field->metadata['handler']}.Entity.beforeValidate", $event->subject()], $field, $options, $validator);
 
             if ($fieldEvent->isStopped()) {
                 $entity = $this->attachEntityFields($entity);
@@ -825,7 +860,7 @@ class FieldableBehavior extends Behavior
                     $field->metadata->set('errors', (array)$entityErrors[$postName]);
                 }
 
-                $fieldEvent = $this->trigger(["Field.{$field->metadata['handler']}.Entity.afterValidate", $event->subject], $field, $options, $validator);
+                $fieldEvent = $this->trigger(["Field.{$field->metadata['handler']}.Entity.afterValidate", $event->subject()], $field, $options, $validator);
                 if ($fieldEvent->isStopped()) {
                     $event->stopPropagation();
                     return $fieldEvent->result;
@@ -869,7 +904,7 @@ class FieldableBehavior extends Behavior
             // invoke fields beforeDelete so they can do its stuff
             // e.g.: Delete entity information from another table.
             $field = $this->_getMockField($entity, $instance);
-            $fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.beforeDelete", $event->subject], $field, $options);
+            $fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.beforeDelete", $event->subject()], $field, $options);
 
             if ($fieldEvent->result == false || $fieldEvent->isStopped()) {
                 $event->stopPropagation();
@@ -925,7 +960,7 @@ class FieldableBehavior extends Behavior
 
         if (!empty($this->_cache['fields.beforeDelete']) && is_array($this->_cache['fields.beforeDelete'])) {
             foreach ($this->_cache['fields.beforeDelete'] as $field) {
-                $fieldEvent = $this->trigger(["Field.{$field->handler}.Entity.afterDelete", $event->subject], $field, $options);
+                $fieldEvent = $this->trigger(["Field.{$field->handler}.Entity.afterDelete", $event->subject()], $field, $options);
             }
             $this->_cache['fields.beforeDelete'] = [];
         }

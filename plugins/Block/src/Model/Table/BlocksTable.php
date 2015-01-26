@@ -172,7 +172,7 @@ class BlocksTable extends Table
      */
     public function beforeValidate(Event $event, Block $block, ArrayObject $options, Validator $validator)
     {
-        $blockEvent = $this->trigger(["Block.{$block->handler}.beforeValidate", $event->subject], $block, $options, $validator);
+        $blockEvent = $this->trigger(["Block.{$block->handler}.beforeValidate", $event->subject()], $block, $options, $validator);
         if ($blockEvent->isStopped() || $blockEvent->result === false) {
             return false;
         }
@@ -191,7 +191,7 @@ class BlocksTable extends Table
      */
     public function afterValidate(Event $event, Block $block, ArrayObject $options, Validator $validator)
     {
-        $this->trigger(["Block.{$block->handler}.afterValidate", $event->subject], $block, $options, $validator);
+        $this->trigger(["Block.{$block->handler}.afterValidate", $event->subject()], $block, $options, $validator);
     }
 
     /**
@@ -205,7 +205,7 @@ class BlocksTable extends Table
      */
     public function beforeSave(Event $event, Block $block, ArrayObject $options = null)
     {
-        $blockEvent = $this->trigger(["Block.{$block->handler}.beforeSave", $event->subject], $block, $options);
+        $blockEvent = $this->trigger(["Block.{$block->handler}.beforeSave", $event->subject()], $block, $options);
         if ($blockEvent->isStopped() || $blockEvent->result === false) {
             return false;
         }
@@ -225,7 +225,7 @@ class BlocksTable extends Table
      */
     public function afterSave(Event $event, Block $block, ArrayObject $options = null)
     {
-        $this->trigger(["Block.{$block->handler}.afterSave", $event->subject], $block, $options);
+        $this->trigger(["Block.{$block->handler}.afterSave", $event->subject()], $block, $options);
         $this->clearCache();
     }
 
@@ -240,7 +240,7 @@ class BlocksTable extends Table
      */
     public function beforeDelete(Event $event, Block $block, ArrayObject $options = null)
     {
-        $blockEvent = $this->trigger(["Block.{$block->handler}.beforeDelete", $event->subject], $block, $options);
+        $blockEvent = $this->trigger(["Block.{$block->handler}.beforeDelete", $event->subject()], $block, $options);
         if ($blockEvent->isStopped() || $blockEvent->result === false) {
             return false;
         }
@@ -260,7 +260,7 @@ class BlocksTable extends Table
      */
     public function afterDelete(Event $event, Block $block, ArrayObject $options = null)
     {
-        $this->trigger(["Block.{$block->handler}.afterDelete", $event->subject], $block, $options);
+        $this->trigger(["Block.{$block->handler}.afterDelete", $event->subject()], $block, $options);
         $this->clearCache();
     }
 

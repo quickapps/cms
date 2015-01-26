@@ -33,7 +33,7 @@ class FileField extends FieldHandler
      */
     public function entityDisplay(Event $event, Field $field, $options = [])
     {
-        $View = $event->subject;
+        $View = $event->subject();
         if ($field->metadata->settings['multi'] === 'custom') {
             $settings = $field->metadata->settings;
             $settings['multi'] = $field->metadata->settings['multi_custom'];
@@ -47,7 +47,7 @@ class FileField extends FieldHandler
      */
     public function entityEdit(Event $event, Field $field, $options = [])
     {
-        $View = $event->subject;
+        $View = $event->subject();
         return $View->element('Field.FileField/edit', compact('field', 'options'));
     }
 
@@ -253,7 +253,7 @@ class FileField extends FieldHandler
      */
     public function instanceSettingsForm(Event $event, $instance, $options = [])
     {
-        $View = $event->subject;
+        $View = $event->subject();
         return $View->element('Field.FileField/settings_form', compact('instance', 'options'));
     }
 
@@ -283,7 +283,7 @@ class FileField extends FieldHandler
      */
     public function instanceViewModeForm(Event $event, $instance, $options = [])
     {
-        $View = $event->subject;
+        $View = $event->subject();
         return $View->element('Field.FileField/view_mode_form', compact('instance', 'options'));
     }
 

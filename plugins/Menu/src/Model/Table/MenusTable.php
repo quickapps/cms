@@ -94,7 +94,7 @@ class MenusTable extends Table
                 },
                 'message' => __d('menu', 'Illegal action, you must use "atomic => true" when saving Menu entities.')
             ]);
-        $menuEvent = $this->trigger(["Menu.{$menu->handler}.beforeValidate", $event->subject], $menu, $options, $validator);
+        $menuEvent = $this->trigger(["Menu.{$menu->handler}.beforeValidate", $event->subject()], $menu, $options, $validator);
         if ($menuEvent->isStopped() || $menuEvent->result === false) {
             return false;
         }
@@ -113,7 +113,7 @@ class MenusTable extends Table
      */
     public function afterValidate(Event $event, Menu $menu, ArrayObject $options, Validator $validator)
     {
-        $this->trigger(["Menu.{$menu->handler}.afterValidate", $event->subject], $menu, $options, $validator);
+        $this->trigger(["Menu.{$menu->handler}.afterValidate", $event->subject()], $menu, $options, $validator);
     }
 
     /**
@@ -127,7 +127,7 @@ class MenusTable extends Table
      */
     public function beforeSave(Event $event, Menu $menu, ArrayObject $options = null)
     {
-        $menuEvent = $this->trigger(["Menu.{$menu->handler}.beforeSave", $event->subject], $menu, $options);
+        $menuEvent = $this->trigger(["Menu.{$menu->handler}.beforeSave", $event->subject()], $menu, $options);
         if ($menuEvent->isStopped() || $menuEvent->result === false) {
             return false;
         }
@@ -161,7 +161,7 @@ class MenusTable extends Table
             $this->Blocks->save($block, ['validate' => false]);
         }
 
-        $this->trigger(["Menu.{$menu->handler}.afterSave", $event->subject], $menu, $options);
+        $this->trigger(["Menu.{$menu->handler}.afterSave", $event->subject()], $menu, $options);
     }
 
     /**
@@ -184,7 +184,7 @@ class MenusTable extends Table
             'cascadeCallbacks' => true,
         ]);
 
-        $menuEvent = $this->trigger(["Menu.{$menu->handler}.beforeDelete", $event->subject], $menu, $options);
+        $menuEvent = $this->trigger(["Menu.{$menu->handler}.beforeDelete", $event->subject()], $menu, $options);
         if ($menuEvent->isStopped() || $menuEvent->result === false) {
             return false;
         }
@@ -203,7 +203,7 @@ class MenusTable extends Table
     public function afterDelete(Event $event, Menu $menu, ArrayObject $options = null)
     {
         $this->_setHasOne();
-        $this->trigger(["Menu.{$menu->handler}.afterDelete", $event->subject], $menu, $options);
+        $this->trigger(["Menu.{$menu->handler}.afterDelete", $event->subject()], $menu, $options);
     }
 
     /**
