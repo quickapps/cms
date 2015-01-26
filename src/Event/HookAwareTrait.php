@@ -44,7 +44,7 @@ trait HookAwareTrait
      *
      * ### Usage:
      *
-     *     $this->trigger('GetTime', $arg_0, $arg_0, ..., $arg_1);
+     *     $this->trigger('GetTime', $arg_0, $arg_1, ..., $arg_n);
      *
      * Your `Event Listener` must implement:
      *
@@ -55,9 +55,9 @@ trait HookAwareTrait
      * You can provide a context to use by passing an array as first arguments where
      * the first element is the event name and the second one is the context:
      *
-     *     $this->trigger(['GetTime', new ContextObject()], $arg_0, $arg_0, ..., $arg_1);
+     *     $this->trigger(['GetTime', new ContextObject()], $arg_0, $arg_1, ..., $arg_n);
      *
-     * If no context is given "$this" will be used by default.
+     * If no context is given `$this` will be used by default.
      *
      * @param string|array $eventName The event name to trigger
      * @return \Cake\Event\Event The event object that was fired
