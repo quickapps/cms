@@ -99,29 +99,29 @@ class BlockHook implements EventListenerInterface
      *
      *     render_block_[region-name]_[view-mode]
      *
-     * Renders the given block based on theme's `region-name` and `view-mode`, for
+     * Renders the given block based on theme's **region-name and view-mode**, for
      * example:
      *
-     * - `render_block_left-sidebar_full.ctp`: Render for blocks in `left-sidebar`
-     *    region when view-mode is `full`
+     * - render_block_left-sidebar_full.ctp: Render for blocks in `left-sidebar`
+     *   region when view-mode is `full`
      *
-     * - `render_block_left-sidebar_search-result.ctp`: Render for blocks in
+     * - render_block_left-sidebar_search-result.ctp: Render for blocks in
      *   `left-sidebar` region when view-mode is `search-result`.
      *
-     * - `render_block_footer_search-result.ctp`: Render for blocks in `footer`
-     *    region when view-mode is `search-result`.
+     * - render_block_footer_search-result.ctp: Render for blocks in `footer`
+     *   region when view-mode is `search-result`.
      *
      *
      * ### Render block based on theme's region
      *
      *     render_block_[region-name]
      *
-     * Similar as before, but based on theme's `region` (and any view-mode), for
-     * example:
+     * Similar as before, but based on theme's **region-name** (and any view-mode),
+     * for example:
      *
-     * - `render_block_right-sidebar.ctp`: Render for blocks in `right-sidebar` region.
+     * - render_block_right-sidebar.ctp: Render for blocks in `right-sidebar` region.
      *
-     * - `render_block_left-sidebar.ctp` Render for blocks in `left-sidebar` region.
+     * - render_block_left-sidebar.ctp: Render for blocks in `left-sidebar` region.
      *
      *
      * ### Default

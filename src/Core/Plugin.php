@@ -131,13 +131,15 @@ class Plugin extends CakePlugin
      *
      * Example output:
      *
-     *     [
-     *         'Users' => '/full/path/plugins/Users',
-     *         'ThemeManager' => '/full/path/plugins/ThemeManager',
-     *         ...
-     *         'MySuperPlugin' => '/full/path/plugins/MySuperPlugin',
-     *         'DarkGreenTheme' => '/full/path/plugins/DarkGreenTheme',
-     *     ]
+     * ```php
+     * [
+     *     'Users' => '/full/path/plugins/Users',
+     *     'ThemeManager' => '/full/path/plugins/ThemeManager',
+     *     ...
+     *     'MySuperPlugin' => '/full/path/plugins/MySuperPlugin',
+     *     'DarkGreenTheme' => '/full/path/plugins/DarkGreenTheme',
+     * ]
+     * ```
      *
      * If $ignoreThemes is set to true `DarkGreenTheme` will not be part of the result
      *
@@ -175,20 +177,21 @@ class Plugin extends CakePlugin
      *
      * ### Example:
      *
-     *     $pluginInfo = Plugin::info('User', true);
-     *     // out:
-     *     [
-     *         'name' => 'User,
-     *         'isTheme' => false,
-     *         'isCore' => true,
-     *         'hasHelp' => true,
-     *         'hasSettings' => false,
-     *         'events' => [ ... ],
-     *         'status' => 1,
-     *         'path' => '/path/to/plugin',
-     *         'composer' => [ ... ], // only when $full = true
-     *         'settings' => [ ... ], // only when $full = true
-     *     ]
+     * ```php
+     * $pluginInfo = Plugin::info('User', true);
+     * // out: [
+     * //   'name' => 'User,
+     * //   'isTheme' => false,
+     * //   'isCore' => true,
+     * //   'hasHelp' => true,
+     * //   'hasSettings' => false,
+     * //   'events' => [ ... ],
+     * //   'status' => 1,
+     * //   'path' => '/path/to/plugin',
+     * //   'composer' => [ ... ], // only when $full = true
+     * //   'settings' => [ ... ], // only when $full = true
+     * // ]
+     * ```
      *
      * @param string $plugin Plugin name. e.g. `Node`
      * @param bool $full Merge info with plugin's `composer.json` file and
@@ -300,10 +303,14 @@ class Plugin extends CakePlugin
      *
      * ### Usage:
      *
-     *     $json = json_decode(file_gets_content('/path/to/composer.json'), true);
-     *     Plugin::validateJson($json);
-     *     // OR:
-     *     Plugin::validateJson('/path/to/composer.json');
+     * ```php
+     * $json = json_decode(file_gets_content('/path/to/composer.json'), true);
+     * Plugin::validateJson($json);
+     * 
+     * // OR:
+     * 
+     * Plugin::validateJson('/path/to/composer.json');
+     * ```
      *
      * @param array|string $json JSON given as an array result of
      *  `json_decode(..., true)`, or a string as path to where .json file can be found
@@ -408,18 +415,20 @@ class Plugin extends CakePlugin
      *
      * ### Example:
      *
-     *     // Get plugin's composer.json and extract dependencies
-     *     Plugin::dependencies('UserManager');
-     *     // may returns:
-     *     [
-     *         'UserWork' => '1.0',
-     *         'Calentar' => '1.0.*',
-     *         '__QUICKAPPS__' => '>1.0', // QuickApps CMS v1.0 or higher required,
-     *         '__PHP__' => '>4.3'
-     *     ]
+     * ```php
+     * // Get plugin's composer.json and extract dependencies
+     * Plugin::dependencies('UserManager');
+     * 
+     * // may returns: [
+     * //    'UserWork' => '1.0',
+     * //    'Calentar' => '1.0.*',
+     * //    '__QUICKAPPS__' => '>1.0', // QuickApps CMS v1.0 or higher required,
+     * //    '__PHP__' => '>4.3'
+     * // ]
      *
-     *     // Directly from composer.json information
-     *     Plugin::dependencies(json_decode('/path/to/composer.json', true));
+     * // Directly from composer.json information
+     * Plugin::dependencies(json_decode('/path/to/composer.json', true));
+     * ```
      *
      * @param array|string $plugin Plugin alias, or an array representing a
      *  "composer.json" file, that is, result of `json_decode(..., true)`
@@ -458,11 +467,13 @@ class Plugin extends CakePlugin
      *
      * ### Usage:
      *
-     *     // Check requirements for MyPlugin
-     *     Plugin::checkDependency('MyPlugin');
+     * ```php
+     * // Check requirements for MyPlugin
+     * Plugin::checkDependency('MyPlugin');
      *
-     *     // Check requirements from composer.json
-     *     Plugin::checkDependency(json_decode('/path/to/composer.json', true));
+     * // Check requirements from composer.json
+     * Plugin::checkDependency(json_decode('/path/to/composer.json', true));
+     * ```
      *
      * @param string|array $plugin Plugin alias, or an array representing "composer.json"
      * @return bool True if everything is OK, false otherwise
@@ -544,7 +555,9 @@ class Plugin extends CakePlugin
      *
      * ### Usage:
      *
-     *     Plugin::parseDependency('>=7.x-4.5-beta5,3.x');
+     * ```php
+     * Plugin::parseDependency('>=7.x-4.5-beta5,3.x');
+     * ```
      *
      * @param string $dependency A dependency string as example above
      * @return array An associative array with three keys as below, callers should

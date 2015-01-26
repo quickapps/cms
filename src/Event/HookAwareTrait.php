@@ -43,18 +43,24 @@ trait HookAwareTrait
      *
      * ### Usage:
      *
-     *     $this->trigger('GetTime', $arg_0, $arg_1, ..., $arg_n);
-     *
+     * ```php
+     * $this->trigger('GetTime', $arg_0, $arg_1, ..., $arg_n);
+     * ```
+     * 
      * Your `Event Listener` must implement:
      *
-     *     public function implementedEvents() {
-     *         return ['GetTime' => 'handlerForGetTime'];
-     *     }
+     * ```php
+     * public function implementedEvents() {
+     *     return ['GetTime' => 'handlerForGetTime'];
+     * }
+     * ```
      *
      * You can provide a context to use by passing an array as first arguments where
      * the first element is the event name and the second one is the context:
      *
-     *     $this->trigger(['GetTime', new ContextObject()], $arg_0, $arg_1, ..., $arg_n);
+     * ```php
+     * $this->trigger(['GetTime', new ContextObject()], $arg_0, $arg_1, ..., $arg_n);
+     * ```
      *
      * If no context is given `$this` will be used by default.
      *
@@ -79,18 +85,24 @@ trait HookAwareTrait
      *
      * ### Usage:
      *
-     *     $this->alter('Time', $arg_0, $arg_0, ..., $arg_1);
+     * ```php
+     * $this->alter('Time', $arg_0, $arg_0, ..., $arg_1);
+     * ```
      *
      * Your `Event Listener` must implement:
      *
-     *     public function implementedEvents() {
-     *         return ['Alter.Time' => 'handlerForAlterTime'];
-     *     }
+     * ```php
+     * public function implementedEvents() {
+     *     return ['Alter.Time' => 'handlerForAlterTime'];
+     * }
+     * ```
      *
      * You can provide a context to use by passing an array as first arguments where
      * the first element is the event name and the second one is the context:
      *
-     *     $this->alter(['Time', new ContextObject()], $arg0, $arg1, ...);
+     * ```php
+     * $this->alter(['Time', new ContextObject()], $arg0, $arg1, ...);
+     * ```
      *
      * If no context is given "$this" will be used by default.
      *

@@ -66,23 +66,26 @@ class ViewModeRegistry
      * You can register more than one view mode at once by passing an array as first
      * argument and ignore the others two:
      *
-     *     ViewModeRegistry::addViewMode([
-     *         'slug_1' => [
-     *                 'name' => 'View Mode 1',
-     *                 'description' => 'Lorem ipsum',
-     *             ],
-     *         'slug_2' => [
-     *                 'name' => 'View Mode 2',
-     *                 'description' => 'Dolor sit amet',
-     *             ],
-     *     ]);
-     *
+     * ```php
+     * ViewModeRegistry::addViewMode([
+     *     'slug_1' => [
+     *         'name' => 'View Mode 1',
+     *         'description' => 'Lorem ipsum',
+     *     ],
+     *     'slug_2' => [
+     *         'name' => 'View Mode 2',
+     *         'description' => 'Dolor sit amet',
+     *      ],
+     * ]);
+     * ```
+     * 
      * Or you can register a single view mode by passing its "slug", "name"
      * and "description" as three separated arguments:
      *
-     *     ViewModeRegistry::addViewMode('slug-1', 'View Mode 1', 'Lorem ipsum');
-     *     ViewModeRegistry::addViewMode('slug-2', 'View Mode 2', 'Dolor sit amet');
-     *
+     * ```php
+     * ViewModeRegistry::addViewMode('slug-1', 'View Mode 1', 'Lorem ipsum');
+     * ViewModeRegistry::addViewMode('slug-2', 'View Mode 2', 'Dolor sit amet');
+     * ```
      * @param string|array $slug Slug name of your view mode. e.g.: `my-view mode`,
      *  or an array of view modes to register indexed by slug name
      * @param string|null $name Human readable name. e.g.: `My View Mode`
@@ -157,34 +160,37 @@ class ViewModeRegistry
      *
      * ### Get a list of View Modes slugs:
      *
-     *     ViewModeRegistry::viewModes();
-     *     // output:
-     *     ['teaser', 'full', ...]
+     * ```php
+     * ViewModeRegistry::viewModes();
+     * // output: ['teaser', 'full', ...]
+     * ```
      *
      * ### Get a full list of every View Mode:
      *
-     *     ViewModeRegistry::viewModes(true);
-     *     // output:
-     *     [
-     *         'teaser' => [
-     *             'name' => 'Human readable for teaser mode',
-     *             'description' => 'Brief description for teaser view-mode'
-     *         ],
-     *         'full' => [
-     *             'name' => 'Human readable for full mode',
-     *             'description' => 'Brief description for full view-mode'
-     *         ],
-     *         ...
-     *     ]
-     *
+     * ```php
+     * ViewModeRegistry::viewModes(true);
+     * // output: [
+     * //     'teaser' => [
+     * //         'name' => 'Human readable for teaser mode',
+     * //         'description' => 'Brief description for teaser view-mode'
+     * //     ],
+     * //     'full' => [
+     * //         'name' => 'Human readable for full mode',
+     * //         'description' => 'Brief description for full view-mode'
+     * //     ],
+     * //     ...
+     * // ]
+     * ```
+     * 
      * ### Get full information for a particular View Mode:
      *
-     *     ViewModeRegistry::viewModes('teaser');
-     *     // output:
-     *     [
-     *         'name' => 'Human readable for teaser mode',
-     *          'description' => 'Brief description for teaser view-mode'
-     *     ]
+     * ```php
+     * ViewModeRegistry::viewModes('teaser');
+     * // output: [
+     * //     'name' => 'Human readable for teaser mode',
+     * //     'description' => 'Brief description for teaser view-mode'
+     * // ]
+     * ```
      *
      * @param bool $full Set to true to get full list. Or false (by default) to
      *  get only the slug of all registered view modes.

@@ -37,12 +37,16 @@ use Cake\Event\EventManager;
  * associative array with all Event names that the class will handle. For example:
  * `User.beforeLogin` Event name will respond to:
  *
- *     $this->trigger('User.beforeLogin', ...);
+ * ```php
+ * $this->trigger('User.beforeLogin', ...);
+ * ```
  *
  * When using the `alert()` method Event names are prefixed with with the `Alter.`
  * word. For example, the Event name `Alter.FormHelper.textarea` will respond to:
  *
- *     $this->alter('FormHelper.textarea', $arg_0, $arg_1, ..., $arg_14);
+ * ```php
+ * $this->alter('FormHelper.textarea', $arg_0, $arg_1, ..., $arg_14);
+ * ```
  *
  * When using `alter()` you can provide **up to 15 arguments by reference**
  *
@@ -51,7 +55,9 @@ use Cake\Event\EventManager;
  * In the other hand, when using the `trigger()` method no prefixes are added to
  * the Event name so for example, the event name `Say.HelloWorld` will respond to:
  *
- *     $this->trigger('Say.HelloWorld', $arg_0, $arg_1, ..., $arg_n);
+ * ```php
+ * $this->trigger('Say.HelloWorld', $arg_0, $arg_1, ..., $arg_n);
+ * ```
  *
  * You can provide an unlimited number of arguments which are treated by value,
  * and NOT by reference as `alter()` does.
@@ -60,37 +66,45 @@ use Cake\Event\EventManager;
  *
  * ## "Hello World!" Example:
  *
- *     // Event Listener Class
+ * ```php
+ * // Event Listener Class
  *
- *     namespace Event;
+ * namespace Event;
  *
- *     class MyEventListener extends EventListener {
- *         public function implementedEvents() {
- *               return [
- *                   'Alter.Hello' => 'alterWorld',
- *                   'Hello' => 'world',
- *               ];
- *         }
+ * use Cake\Event\Event;
+ * use Cake\Event\EventListenerInterface;
  *
- *         public function alterWorld(Event $event, &$byReference) {
- *             // Remember the "&" for referencing
- *             $byReference .= ' World!';
- *         }
- *
- *          public function world(Event $event, $byValue) {
- *             return $byValue . ' world!';
- *         }
+ * class MyEventListener implements EventListenerInterface {
+ *     public function implementedEvents() {
+ *           return [
+ *               'Alter.Hello' => 'alterWorld',
+ *               'Hello' => 'world',
+ *           ];
  *     }
+ *
+ *     public function alterWorld(Event $event, &$byReference) {
+ *         // Remember the "&" for referencing
+ *         $byReference .= ' World!';
+ *     }
+ *
+ *      public function world(Event $event, $byValue) {
+ *         return $byValue . ' world!';
+ *     }
+ * }
+ * ```
  *
  * ***
  *
- *     // Wherever you are able to use event() & alter()
+ * ```php
+ * // Wherever you are able to use event() & alter()
  *
- *     $hello = 'Hello';
- *     $this->alter('Hello', $hello);
- *     echo $hello; // out: "Hello World!"
- *     echo $this->trigger('Hello', $hello); // out: "Hello World! world!"
- *     echo $this->trigger('Hello', 'hellooo'); // out: "hellooo world!"
+ * $hello = 'Hello';
+ * $this->alter('Hello', $hello);
+ *
+ * echo $hello; // out: "Hello World!"
+ * echo $this->trigger('Hello', $hello); // out: "Hello World! world!"
+ * echo $this->trigger('Hello', 'hellooo'); // out: "hellooo world!"
+ * ```
  *
  * ## Recommended Reading
  *
@@ -139,9 +153,11 @@ class HookManager
      * You can provide a context to use by passing an array as first arguments where
      * the first element is the event name and the second one is the context:
      *
-     *     HookManager::trigger(['GetTime', new ContextObject()], ['arg0' => 'val0', ...]);
+     * ```php
+     * HookManager::trigger(['GetTime', new ContextObject()], ['arg0' => 'val0', ...]);
+     * ```
      *
-     * If no context is given an instance of "Hook" class will be used by default.
+     * If no context is given an instance of "HookManager" class will be used by default.
      *
      * @param array $eventName The event name to trigger
      * @param array $args Associative array of argument to pass to the Event handler method
@@ -167,34 +183,42 @@ class HookManager
      * You can provide **up to 15 arguments**, which are automatically
      * passed to you event listener method by reference. For example:
      *
-     *     $arg_0 = 'data 0';
-     *     $arg_1 = 'data 1';
-     *     ...
-     *     $arg_14 = 'data 14';
-     *     $this->alter('MyHook', $arg_0, $arg_1, ..., $arg_14);
+     * ```php
+     * $arg_0 = 'data 0';
+     * $arg_1 = 'data 1';
+     * ...
+     * $arg_14 = 'data 14';
+     * $this->alter('MyHook', $arg_0, $arg_1, ..., $arg_14);
+     * ```
      *
      * Note that passing arguments as values will produce `Fatal Error`:
      *
-     *     $this->alter('MyHook', 'data 0', 'data 1', ..., 'data 14');
-     *     // Fatal Error
+     * ```php
+     * $this->alter('MyHook', 'data 0', 'data 1', ..., 'data 14');
+     * // Fatal Error
+     * ```
      *
      * Event names are prefixed with the `Alter.` word. For instance, in your
      * `Event Listener` class you must do as below:
      *
-     *     // note the `Alter.` prefix
-     *     public function implementedEvents() {
-     *         return ['Alter.MyHook' => 'alterHandler'];
-     *     }
+     * ```php
+     * // note the `Alter.` prefix
+     * public function implementedEvents() {
+     *     return ['Alter.MyHook' => 'alterHandler'];
+     * }
      *
-     *     // now you are able to get arguments by reference
-     *     public function alterHandler(Event $event, &$arg_0, &$arg_1, ..., &$arg_14) {
-     *         // stuff here
-     *     }
+     * // now you are able to get arguments by reference
+     * public function alterHandler(Event $event, &$arg_0, &$arg_1, ..., &$arg_14) {
+     *     // stuff here
+     * }
+     * ```
      *
      * You can provide a context to use by passing an array as first arguments where
      * the first element is the event name and the second one is the context:
      *
-     *     HookManager::alter(['AlterTime', new ContextObject()], $arg0, $arg1, ...);
+     * ```php
+     * HookManager::alter(['AlterTime', new ContextObject()], $arg0, $arg1, ...);
+     * ```
      *
      * If no context is given an instance of "Hook" class will be used by default.
      *

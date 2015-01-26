@@ -31,7 +31,7 @@ use QuickApps\Event\HookAwareTrait;
  * Fieldable Behavior.
  *
  * Allows additional fields to be attached to Tables. Any Table (Nodes, Users, etc.)
- * can use this behavior to make itself `field-able` and thus allow fields to be
+ * can use this behavior to make itself `fieldable` and thus allow fields to be
  * attached to it.
  *
  * The Field API defines two primary data structures, FieldInstance and FieldValue:
@@ -40,7 +40,7 @@ use QuickApps\Event\HookAwareTrait;
  * - FieldValue: is the stored data for a particular [FieldInstance, Entity]
  *   tuple of your Table. (Schema equivalent: cell value)
  *
- * **Basically, this behavior allows you to add _virtual columns_ to your table schema.**
+ * **This behavior allows you to add _virtual columns_ to your table schema.**
  *
  *
  * ***
@@ -140,8 +140,8 @@ use QuickApps\Event\HookAwareTrait;
  *
  * ```php
  * TableRegistry::get('Users')
- *     ->find('all')
- *     ->where(['Users.:first-name LIKE' => 'John%']);
+ *   ->find('all')
+ *   ->where(['Users.:first-name LIKE' => 'John%']);
  * ```
  *
  * `Users` table has a custom field attached (first-name), and we are looking for
@@ -364,7 +364,7 @@ use QuickApps\Event\HookAwareTrait;
  * <?php echo $this->Form->input('id', ['type' => 'hidden']); ?>
  * <?php echo $this->Form->input('username'); ?>
  * <?php echo $this->Form->input('password'); ?>
- * ```php
+ * ```
  *
  * When rendering virtual fields you can pass the whole Field Object to
  * `FormHelper::input()` method. So instead of passing the input name as first
@@ -375,6 +375,9 @@ use QuickApps\Event\HookAwareTrait;
  * <?php echo $this->Form->input($user->_fields[0]); ?>
  * <?php echo $this->Form->input($user->_fields[1]); ?>
  * ```
+ *
+ * **TIP:** You can get any custom field by using either, its index or its machine
+ * name, for example: `$user->_field['user-age']` is the same as `$user->_field[0]`
  *
  * That will render the first and second virtual field attached to your entity.
  * But usually you'll end creating some loop structure and render all of them

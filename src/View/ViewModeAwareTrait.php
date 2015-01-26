@@ -36,7 +36,7 @@ trait ViewModeAwareTrait
      * Registers a new view mode. Or overwrite if already exists.
      *
      * @param string|array $slug Slug name of your view mode. e.g.: `my-view mode`.
-     * Or an array of view modes to register indexed by slug name
+     *  Or an array of view modes to register indexed by slug name
      * @param string|null $name Human readable name. e.g.: `My View Mode`
      * @param string|null $description A brief description about for what is this view mode
      * @return void
@@ -82,15 +82,17 @@ trait ViewModeAwareTrait
      *
      * ### Usage
      *
-     *     // run this only on `teaser` view mode
-     *     echo $this->onViewMode('teaser', function () use ($someVar) {
-     *         return $this->element('teaser_element', compact('someVar'));
-     *     });
+     * ```php
+     * // run this only on `teaser` view mode
+     * echo $this->onViewMode('teaser', function () use ($someVar) {
+     *     return $this->element('teaser_element', compact('someVar'));
+     * });
      *
-     *     // run this on "teaser" view mode, or "search-result" view mode
-     *     echo $this->onViewMode(['teaser', 'search-result'], function () use ($someVar) {
-     *         return $this->element('teaser_or_search_result', compact('someVar'));
-     *     });
+     * // run this on "teaser" view mode, or "search-result" view mode
+     * echo $this->onViewMode(['teaser', 'search-result'], function () use ($someVar) {
+     *     return $this->element('teaser_or_search_result', compact('someVar'));
+     * });
+     * ```
      *
      * @param string|array $viewMode View Mode slug, or an array of slugs
      * @param callable $method A callable function to run, it receives `$this` as
@@ -110,17 +112,21 @@ trait ViewModeAwareTrait
      *
      * ### Usage
      *
-     *     $this->switchMode('full');
-     *     echo 'before: ' . $this->inUseViewMode();
-     *     echo $this->asViewMode('teaser', function () {
-     *         echo 'callable: ' . $this->inUseViewMode();
-     *     });
-     *     echo 'after: ' . $this->inUseViewMode();
+     * ```php
+     * $this->switchMode('full');
+     * echo 'before: ' . $this->inUseViewMode();
+     * 
+     * echo $this->asViewMode('teaser', function () {
+     *		echo 'callable: ' . $this->inUseViewMode();
+     * });
+     * 
+     * echo 'after: ' . $this->inUseViewMode();
      *
-     *     // output:
-     *     before: full
-     *     callable: teaser
-     *     after: full
+     * // output:
+     * // before: full
+     * // callable: teaser
+     * // after: full
+     * ```
      *
      * @param string|array $viewMode View Mode slug, or an array of slugs
      * @param callable $method A callable function to run, it receives `$this` as

@@ -35,15 +35,17 @@ trait HooktagAwareTrait
      *
      * You must define a Hooktag Lister `Hooktag.nice_button`:
      *
-     *     class YourListener implements EventListenerInterface {
-     *         public function implementedEvents() {
-     *             return ['Hooktag.nice_button' => 'hooktagNiceButton'];
-     *         }
-     *
-     *         public function hooktagNiceButton(Event $event, $atts, $content, $tag) {
-     *             // return some text
-     *         }
+     * ```php
+     * class YourListener implements EventListenerInterface {
+     *     public function implementedEvents() {
+     *         return ['Hooktag.nice_button' => 'hooktagNiceButton'];
      *     }
+     *
+     *     public function hooktagNiceButton(Event $event, $atts, $content, $tag) {
+     *         // return some text
+     *     }
+     * }
+     * ```
      *
      * (Note the `Hooktag.` prefix).
      *
@@ -59,7 +61,9 @@ trait HooktagAwareTrait
      *
      * Produces:
      *
-     *     $atts = ['foo' => 'bAr'];
+     * ```php
+     * $atts = ['foo' => 'bAr'];
+     * ```
      *
      * **TIP:** Don't use camelCase or UPPER-CASE for your $atts attribute names
      *

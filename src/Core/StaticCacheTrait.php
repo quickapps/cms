@@ -47,32 +47,35 @@ trait StaticCacheTrait
      *
      * Writing cache:
      *
-     *     static::cache('user_name', 'John');
-     *     // returns 'John'
+     * ```php
+     * static::cache('user_name', 'John');
+     * // returns 'John'
      *
-     *     static::cache('user_last', 'Locke');
-     *     // returns 'Locke'
+     * static::cache('user_last', 'Locke');
+     * // returns 'Locke'
+     * ```
      *
      * Reading cache:
      *
-     *     static::cache('user_name');
-     *     // returns: John
+     * ```php
+     * static::cache('user_name'); // returns: John
      *
-     *     static::cache('unexisting_key');
-     *     // returns: null
+     * static::cache('unexisting_key'); // returns: null
+     * ```
      *
      * Reading the entire cache:
      *
-     *     static::cache();
-     *     // returns: ['user_name' => 'John', 'user_last' => 'Locke']
+     * ```php
+     * static::cache(); // returns: ['user_name' => 'John', 'user_last' => 'Locke']
+     * ```
      *
      * Searching keys:
      *
-     *     static::cache(null, 'Locke');
-     *     // returns: user_last
+     * ```php
+     * static::cache(null, 'Locke'); // returns: user_last
      *
-     *     static::cache(null, 'Unexisting');
-     *     // returns: null
+     * static::cache(null, 'Unexisting'); // returns: null
+     * ```
      *
      * @param null|string $key Cache key to read or write, set both $key and $value
      *  to get the whole cache information
@@ -114,11 +117,10 @@ trait StaticCacheTrait
      *
      * ## Usage:
      *
-     *     static::_clearCache('user_cache');
-     *     // removes "user_cache" only
-     *
-     *     static::_clearCache();
-     *     // removes every key
+     * ```php
+     * static::_clearCache('user_cache'); // removes "user_cache" only
+     * static::_clearCache(); // removes every key
+     * ```
      *
      * @param string|null $key Cache key to clear, if NULL the entire cache
      *  will be erased.

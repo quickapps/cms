@@ -210,11 +210,13 @@ class HooktagManager
      *
      * Produces:
      *
-     *     [
-     *         'attr1' => 'value1',
-     *         'attr2' => 'value2',
-     *         'camelattr' => 'Val1',
-     *     ]
+     * ```php
+     * [
+     *     'attr1' => 'value1',
+     *     'attr2' => 'value2',
+     *     'camelattr' => 'Val1',
+     * ]
+     * ```
      *
      * @param string $text The text where to look for hooktags
      * @return array Associative array of attributes as `tag_name` => `value`
