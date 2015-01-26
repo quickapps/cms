@@ -11,18 +11,13 @@
  */
 namespace Field\Controller;
 
-use Cake\Collection\Collection;
-use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Event\Event;
 use Cake\Network\Exception\ForbiddenException;
 use Cake\Network\Exception\NotFoundException;
 use Cake\ORM\Entity;
 use Cake\ORM\Exception\RecordNotFoundException;
-use Cake\ORM\TableRegistry;
-use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
-use Field\Model\Entity\FieldViewMode;
 use QuickApps\View\ViewModeAwareTrait;
 
 /**

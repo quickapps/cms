@@ -13,7 +13,6 @@ namespace User\Event;
 
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
-use Cake\Utility\Secutity;
 use User\Model\Entity\User;
 use User\Utility\NotificationManager;
 

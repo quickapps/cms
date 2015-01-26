@@ -13,7 +13,6 @@ namespace Menu\Model\Table;
 
 use Cake\Event\Event;
 use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 use Menu\Model\Entity\Menu;
 use QuickApps\Event\HookAwareTrait;

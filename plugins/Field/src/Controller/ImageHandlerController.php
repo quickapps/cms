@@ -98,7 +98,7 @@ class ImageHandlerController extends FileHandlerController
      * If any of these variables is not present an exception will be throw.
      *
      * @param string $instanceSlug Filed instance's machine-name
-     * @return void
+     * @return \Cake\Network\Response
      * @throws \Cake\Network\Exception\NotFoundException When field instance
      *  is not found.
      */

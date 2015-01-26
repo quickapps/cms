@@ -12,7 +12,6 @@
 namespace QuickApps\Event;
 
 use Cake\Event\Event;
-use Cake\Event\EventManager;
 use QuickApps\Event\HookManager;
 
 /**

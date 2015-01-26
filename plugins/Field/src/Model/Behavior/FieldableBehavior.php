@@ -575,7 +575,7 @@ class FieldableBehavior extends Behavior
      * @param \Cake\ORM\Query $query The original query to modify
      * @param array $options Additional options given as an array
      * @param bool $primary Whether this find is a primary query or not
-     * @return void
+     * @return boolean|null
      */
     public function beforeFind(Event $event, Query $query, $options, $primary)
     {

@@ -14,16 +14,13 @@ namespace Comment\Controller\Component;
 use Cake\Controller\Component;
 use Cake\Controller\ComponentRegistry;
 use Cake\Event\Event;
-use Cake\Network\Session;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
-use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use Cake\Validation\Validator;
 use Comment\Model\Entity\Comment;
 use Field\Utility\TextToolbox;
 use QuickApps\Core\Plugin;
-use User\Error\UserNotLoggedInException;
 use User\Model\Entity\User;
 
 /**

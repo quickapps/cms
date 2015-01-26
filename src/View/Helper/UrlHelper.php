@@ -14,10 +14,6 @@
  */
 namespace QuickApps\View\Helper;
 
-use Cake\Core\Configure;
-use Cake\Core\Plugin;
-use Cake\Routing\Router;
-use Cake\Utility\Inflector;
 use Cake\View\Helper;
 use Cake\View\Helper\UrlHelper as CakeUrlHelper;
 use QuickApps\Event\HookAwareTrait;

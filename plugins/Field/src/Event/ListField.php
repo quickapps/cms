@@ -14,7 +14,6 @@ namespace Field\Event;
 use Cake\Event\Event;
 use Field\Event\Base\FieldHandler;
 use Field\Model\Entity\Field;
-use Field\Utility\TextToolbox;
 
 /**
  * List Field Handler.

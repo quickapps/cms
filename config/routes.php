@@ -11,10 +11,8 @@
  */
 namespace QuickApps\Config;
 
-use Cake\Core\Configure;
 use Cake\I18n\I18n;
 use Cake\Routing\Router;
-use Cake\Utility\Inflector;
 use QuickApps\Core\Plugin;
 
 if (!file_exists(SITE_ROOT . '/config/settings.php')) {

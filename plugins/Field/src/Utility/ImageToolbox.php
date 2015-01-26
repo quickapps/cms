@@ -102,7 +102,7 @@ class ImageToolbox extends FileToolbox
      *
      * @param string $filePath Full path to original image file
      * @param string $previewSize A valid preview preset
-     * @return string|bool Full path to thumbnail file on success, false otherwise
+     * @return false|string Full path to thumbnail file on success, false otherwise
      */
     public static function thumbnail($filePath, $previewSize)
     {

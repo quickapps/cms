@@ -11,15 +11,10 @@
  */
 namespace Comment\Controller;
 
-use Cake\Collection\Collection;
-use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Network\Exception\ForbiddenException;
 use Cake\ORM\Exception\RecordNotFoundException;
-use Cake\ORM\TableRegistry;
-use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
-use Comment\Controller\Component\CommentComponent;
 use Field\Utility\TextToolbox;
 use QuickApps\Core\Plugin;
 

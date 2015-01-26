@@ -12,7 +12,6 @@
 namespace Menu\Event;
 
 use Block\Model\Entity\Block;
-use Cake\Collection\Collection;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use Cake\ORM\TableRegistry;

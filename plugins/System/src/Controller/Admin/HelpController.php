@@ -12,7 +12,6 @@
 namespace System\Controller\Admin;
 
 use Cake\Core\App;
-use Cake\Core\Configure;
 use Cake\I18n\I18n;
 use Cake\Network\Exception\NotFoundException;
 use QuickApps\Core\Plugin;

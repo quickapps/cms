@@ -56,7 +56,7 @@ class NodeRevisionsTable extends Table
      * @param \Cake\ORM\Query $query The query object
      * @param \ArrayObject $options Additional options given as an array
      * @param bool $primary Whether this find is a primary query or not
-     * @return void
+     * @return Query
      */
     public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary)
     {

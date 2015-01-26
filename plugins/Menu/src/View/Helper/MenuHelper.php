@@ -11,7 +11,6 @@
  */
 namespace Menu\View\Helper;
 
-use Cake\Core\Configure;
 use Cake\Error\FatalErrorException;
 use Cake\I18n\I18n;
 use Cake\ORM\Entity;
