@@ -63,7 +63,7 @@ class FormHelper extends CakeFormHelper
     /**
      * {@inheritDoc}
      */
-    public function secure(array $fields = array(), array $secureAttributes = array())
+    public function secure(array $fields = [], array $secureAttributes = [])
     {
         $this->alter(['FormHelper.secure', $this->_View], $fields, $secureAttributes);
         return parent::secure($fields, $secureAttributes);
@@ -99,7 +99,7 @@ class FormHelper extends CakeFormHelper
     /**
      * {@inheritDoc}
      */
-    public function label($fieldName, $text = null, array $options = array())
+    public function label($fieldName, $text = null, array $options = [])
     {
         $this->alter(['FormHelper.label', $this->_View], $fieldName, $text, $options);
         return parent::label($fieldName, $text, $options);

@@ -54,7 +54,7 @@
 														$block->id
 													], [
 														'title' => __d('block', 'Duplicate'),
-														'class' => 'btn btn-default btn-sm glyphicon glyphicon-th-large',
+														'class' => 'btn btn-default btn-sm glyphicon glyphicon-copy',
 														'confirm' => __d('block', 'Duplicate this block, are you sure?'),
 													]);
 												?>
