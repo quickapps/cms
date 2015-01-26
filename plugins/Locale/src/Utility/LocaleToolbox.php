@@ -191,11 +191,12 @@ class LocaleToolbox
     /**
      * Gets a list of languages suitable for select boxes.
      *
-     * @param bool $full Set to true to return the entire list of languages (from catalog)
-     * Set to false (by default) to get a list of installed languages
+     * @param bool $full Set to true to return the entire list of languages
+     *  (from catalog). Set to false (by default) to get a list of installed languages
+     * @param bool $sort Sort languages alphabetically if set to true (by default).
      * @return void
      */
-    public static function languagesList($full = false)
+    public static function languagesList($full = false, $sort = true)
     {
         $languages = [];
         if ($full) {
@@ -208,7 +209,9 @@ class LocaleToolbox
             }
         }
 
-        asort($languages);
+        if ($sort) {
+            asort($languages);
+        }
         return $languages;
     }
 
