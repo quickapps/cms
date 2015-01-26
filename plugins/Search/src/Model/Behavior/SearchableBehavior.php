@@ -323,7 +323,7 @@ class SearchableBehavior extends Behavior
         foreach ($words as $i => $w) {
             if ($bannedCallable) {
                 if (!$bannedCallable($w)) {
-// false means it's banned
+                    // false means it's banned
                     unset($words[$i]);
                 }
             } else {
@@ -357,7 +357,7 @@ class SearchableBehavior extends Behavior
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\ORM\Entity $entity The entity that was removed
-     * @return boolean
+     * @return bool
      */
     public function beforeDelete(Event $event, Entity $entity)
     {

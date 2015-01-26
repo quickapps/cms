@@ -132,7 +132,7 @@ class FileHandlerController extends AppController
      * Sends a JSON message error.
      *
      * @param string $message The message
-     * @param integer $code A unique code identifier for this message
+     * @param int $code A unique code identifier for this message
      * @return void Stops scripts execution
      */
     protected function _error($message, $code)
