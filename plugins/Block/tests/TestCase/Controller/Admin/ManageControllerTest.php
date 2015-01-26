@@ -118,8 +118,6 @@ class ManageControllerTest extends IntegrationTestCase
             'pages' => '/',
         ];
         $this->post('/admin/block/manage/edit/1', $data);
-        $this->assertResponseOk();
-
         $query = TableRegistry::get('Block.Blocks')
             ->find()
             ->where(['title' => $data['title']]);
