@@ -14,7 +14,6 @@ namespace Field\Event\Base;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use Cake\ORM\Entity;
-use Cake\ORM\TableRegistry;
 use Field\Model\Entity\Field;
 use QuickApps\Event\HookAwareTrait;
 use QuickApps\Event\HooktagAwareTrait;

@@ -357,7 +357,7 @@ class SearchableBehavior extends Behavior
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\ORM\Entity $entity The entity that was removed
-     * @return void
+     * @return boolean
      */
     public function beforeDelete(Event $event, Entity $entity)
     {

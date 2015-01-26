@@ -12,7 +12,6 @@
 namespace Menu\Model\Table;
 
 use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
 use Cake\Validation\Validation;
 use Cake\Validation\Validator;
 

@@ -11,8 +11,6 @@
  */
 namespace User\Controller\Admin;
 
-use Cake\Core\Configure;
-use Cake\Routing\Router;
 use Field\Controller\FieldUIControllerTrait;
 use User\Controller\AppController;
 

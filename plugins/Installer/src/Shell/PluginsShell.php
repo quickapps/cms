@@ -12,7 +12,6 @@
 namespace Installer\Shell;
 
 use Cake\Console\Shell;
-use Cake\Core\Configure;
 
 /**
  * Shell for plugins management.

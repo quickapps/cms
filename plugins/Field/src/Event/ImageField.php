@@ -18,7 +18,6 @@ use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Field\Event\Base\FieldHandler;
 use Field\Model\Entity\Field;
-use Field\Utility\FileToolbox;
 use Field\Utility\ImageToolbox;
 
 /**

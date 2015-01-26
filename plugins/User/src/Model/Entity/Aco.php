@@ -42,7 +42,7 @@ class Aco extends Entity
     /**
      * For usage as part of MenuHelper.
      *
-     * @return string
+     * @return boolean
      */
     protected function _getExpanded()
     {
@@ -63,7 +63,7 @@ class Aco extends Entity
     /**
      * For usage as part of MenuHelper.
      *
-     * @return string
+     * @return boolean
      */
     protected function _getIsPlugin()
     {

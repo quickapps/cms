@@ -15,7 +15,6 @@ use Cake\Controller\Component;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
-use Cake\Utility\Inflector;
 use Menu\View\BreadcrumbRegistry;
 
 /**

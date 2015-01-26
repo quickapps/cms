@@ -14,7 +14,6 @@ namespace Block\View\Helper;
 use Block\Model\Entity\Block;
 use Cake\Cache\Cache;
 use Cake\Collection\Collection;
-use Cake\Core\Configure;
 use Cake\I18n\I18n;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;

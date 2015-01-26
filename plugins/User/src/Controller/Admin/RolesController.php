@@ -11,7 +11,6 @@
  */
 namespace User\Controller\Admin;
 
-use QuickApps\Core\Plugin;
 use User\Controller\AppController;
 
 /**

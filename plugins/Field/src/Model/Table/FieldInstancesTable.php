@@ -185,7 +185,7 @@ class FieldInstancesTable extends Table
      * @param \Cake\ORM\Entity $settings Settings being validated
      * @param \ArrayObject $options Additional options given as an array
      * @param \Cake\Validation\Validator $validator The validator object
-     * @return bool False if save operation should not continue, true otherwise
+     * @return boolean|null False if save operation should not continue, true otherwise
      */
     public function beforeValidate(Event $event, Entity $settings, ArrayObject $options, Validator $validator)
     {

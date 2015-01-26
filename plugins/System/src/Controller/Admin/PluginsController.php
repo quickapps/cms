@@ -13,7 +13,6 @@ namespace System\Controller\Admin;
 
 use Cake\Network\Exception\NotFoundException;
 use Cake\ORM\Entity;
-use Cake\Utility\Hash;
 use QuickApps\Core\Plugin;
 use System\Controller\AppController;
 

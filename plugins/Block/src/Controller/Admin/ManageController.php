@@ -12,7 +12,6 @@
 namespace Block\Controller\Admin;
 
 use Block\Controller\AppController;
-use Cake\Utility\Hash;
 use Locale\Utility\LocaleToolbox;
 use QuickApps\Core\Plugin;
 

@@ -12,7 +12,6 @@
 namespace QuickApps\View;
 
 use Block\View\Region;
-use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\Network\Request;

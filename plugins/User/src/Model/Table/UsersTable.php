@@ -12,11 +12,9 @@
 namespace User\Model\Table;
 
 use Cake\Auth\DefaultPasswordHasher;
-use Cake\Database\Schema\Table as Schema;
 use Cake\Error\FatalErrorException;
 use Cake\Event\Event;
 use Cake\ORM\Table;
-use Cake\Utility\Security;
 use Cake\Validation\Validator;
 use User\Model\Entity\User;
 

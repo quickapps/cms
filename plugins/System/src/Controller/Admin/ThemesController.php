@@ -12,7 +12,6 @@
 namespace System\Controller\Admin;
 
 use Cake\Network\Exception\NotFoundException;
-use Cake\Utility\Inflector;
 use QuickApps\Core\Plugin;
 use System\Controller\AppController;
 

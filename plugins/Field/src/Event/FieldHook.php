@@ -11,11 +11,8 @@
  */
 namespace Field\Event;
 
-use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
-use Cake\Event\EventManager;
-use Cake\Utility\Hash;
 use QuickApps\Event\HookAwareTrait;
 use QuickApps\View\ViewModeAwareTrait;
 

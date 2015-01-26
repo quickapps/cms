@@ -11,12 +11,9 @@
  */
 namespace Installer\Task;
 
-use Cake\Event\EventManager;
 use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
 use Cake\Network\Http\Client;
-use Cake\ORM\TableRegistry;
-use Cake\Utility\Inflector;
 use Cake\Validation\Validation;
 use QuickApps\Core\Plugin;
 use User\Utility\AcoManager;

@@ -476,7 +476,7 @@ if (!function_exists('php_eval')) {
      * @param string $code The code to evaluate
      * @param array $args Array of arguments as `key` => `value` pairs, evaluated
      *  code can access this variables
-     * @return mixed
+     * @return string
      */
     function php_eval($code, $args = []) {
         ob_start();

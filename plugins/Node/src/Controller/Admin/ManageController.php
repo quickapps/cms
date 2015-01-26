@@ -11,7 +11,6 @@
  */
 namespace Node\Controller\Admin;
 
-use Cake\Core\Configure;
 use Cake\Network\Exception\NotFoundException;
 use Locale\Utility\LocaleToolbox;
 use Node\Controller\AppController;
