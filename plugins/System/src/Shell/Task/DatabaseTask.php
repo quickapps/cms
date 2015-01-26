@@ -22,7 +22,7 @@ class DatabaseTask extends Shell
 {
     /**
      * List of tables to export.
-     * 
+     *
      * @var array
      */
     protected $_export = [];
@@ -49,8 +49,8 @@ class DatabaseTask extends Shell
                     }
                 }
             } else {
-                $this->out(sprintf('Database exported on: %s', TMP .'fixture'));
-            }  
+                $this->out(sprintf('Database exported on: %s', TMP . 'fixture'));
+            }
         } else {
             $this->err('Unable to export database');
         }
@@ -73,5 +73,5 @@ class DatabaseTask extends Shell
         ]);
 
         return $parser;
-    }   
+    }
 }
