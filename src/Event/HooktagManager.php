@@ -16,7 +16,7 @@ use Cake\Event\EventManager;
 use Cake\Routing\Router;
 use QuickApps\Core\StaticCacheTrait;
 use QuickApps\Event\HookAwareTrait;
-use QuicKApps\View\View;
+use QuickApps\View\View;
 
 /**
  * Provides methods for hooktag parsing.
