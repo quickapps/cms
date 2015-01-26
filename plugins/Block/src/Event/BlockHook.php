@@ -144,16 +144,17 @@ class BlockHook implements EventListenerInterface
     {
         $View = $event->subject();
         $viewMode = $View->inUseViewMode();
-        // avoid scanning file system every time a block is being rendered
-        $cacheKey = "displayBlock_{$block->region->region}_{$viewMode}";
+        $blockRegion = isset($block->region->region) ? 'none' : $block->region->region; 
+        $cacheKey = "displayBlock_{$blockRegion}_{$viewMode}";
         $cache = static::cache($cacheKey);
+        $element = 'Block.render_block';
+
         if ($cache !== null) {
             $element = $cache;
         } else {
-            $element = 'Block.render_block';
             $try = [
-                "Block.render_block_{$block->region->region}_{$viewMode}",
-                "Block.render_block_{$block->region->region}",
+                "Block.render_block_{$blockRegion}_{$viewMode}",
+                "Block.render_block_{$blockRegion}",
                 'Block.render_block'
             ];
 

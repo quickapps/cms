@@ -119,10 +119,11 @@ class MenuHook implements EventListenerInterface
             return $this->trigger(["Menu.{$menu->handler}.display", $event->subject()], $menu, $options);
         }
 
-        // avoid scanning file system every time a block is being rendered
         $blockRegion = isset($block->region->region) ? $block->region->region : 'none';
         $cacheKey = "displayBlock_{$blockRegion}_{$viewMode}";
         $cache = static::cache($cacheKey);
+        $element = 'Menu.render_menu';
+
         if ($cache !== null) {
             $element = $cache;
         } else {
