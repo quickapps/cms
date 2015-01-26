@@ -11,6 +11,7 @@
  */
 namespace Menu\Event;
 
+use Block\Model\Entity\Block;
 use Cake\Collection\Collection;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
@@ -43,57 +44,62 @@ class MenuHook implements EventListenerInterface
     /**
      * Renders menu's associated block.
      *
-     * If menu's handler plugin has defined the `Menu.<handler>.display` listener,
-     * the rendering task will be passed to it. If not, this method will render the
-     * menu using a `specialized-render` view-element as described below.
+     * If the event name `Menu.<handler>.display` exists the rendering task will be
+     * delegated to this listener by triggering a new event, where `<handler>` is
+     * the Menu Entity's handler property ($menu->handler). If no event is defined
+     * this method will render the menu using a series of possible view elements as
+     * described below.
      *
-     * You can define `specialized-renders` according to your needs as follow.
-     * This method looks for specialized renders in the order described below, if one
-     * is not found we look the next one, etc.
+     * This method will look for certain view elements when rendering each menu, if
+     * one of this elements is not present it'll look the next one, and so on. These
+     * view elements should be defined by Themes by placing them in
+     * `<MyTheme>/Template/Element`.
      *
-     * ### Render menu per theme's region & view-mode
+     * ### Render menu based on theme's region & view-mode
      *
-     *      render_menu_[region-name]_[view-mode]
+     *     render_menu_[region-name]_[view-mode]
      *
-     * Renders the given block per theme's `region-name` + `view-mode` combination:
+     * Renders the given block based on theme's `region-name` and `view-mode`, for
+     * example:
      *
-     *     // render for menus in `left-sidebar` region when view-mode is `full`
-     *     `render_menu_left-sidebar_full.ctp`
+     * - `render_menu_left-sidebar_full.ctp`: Render for menus in `left-sidebar`
+     *    region when view-mode is `full`.
      *
-     *     // render for menus in `left-sidebar` region when view-mode is `search-result`
-     *     `render_menu_left-sidebar_search-result.ctp`
+     * - `render_menu_left-sidebar_search-result.ctp`: Render for menus in
+     *   `left-sidebar` region when view-mode is `search-result`
      *
-     *     // render for menus in `footer` region when view-mode is `search-result`
-     *     `render_menu_footer_search-result.ctp`
+     * - `render_menu_footer_search-result.ctp`: Render for menus in `footer` region
+     *   when view-mode is `search-result`.
      *
-     * ### Render menu per theme's region
+     * ### Render menu based on theme's region
      *
      *     render_menu_[region-name]
      *
-     * Similar as before, but just per theme's `region` and any view-mode
+     * Similar as before, but based only on theme's `region` (and any view-mode), for
+     * example:
      *
-     *     // render for menus in `right-sidebar` region
-     *     `render_menu_right-sidebar.ctp`
+     * - `render_menu_right-sidebar.ctp`: Render for menus in `right-sidebar`
+     *   region.
      *
-     *     // render for menus in `left-sidebar` region
-     *     `render_menu_left-sidebar.ctp`
+     * - `render_menu_left-sidebar.ctp`: Render for menus in `left-sidebar`
+     *   region.
      *
      * ### Default
      *
      *     render_block.ctp
      *
-     * This is the global render, if none of the above is found we try to use this last.
+     * This is the default render, if none of the above is found we try to use this
+     * last.
      *
      * ---
      *
      * NOTE: Please note the difference between "_" and "-"
-     *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Block\Model\Entity\Block $block The block being rendered
      * @param array $options Array of options for BlockHelper::render() method
      * @return array
      */
-    public function displayBlock(Event $event, $block, $options)
+    public function displayBlock(Event $event, Block $block, $options)
     {
         $View = $event->subject();
         $viewMode = $View->inUseViewMode();
@@ -114,14 +120,15 @@ class MenuHook implements EventListenerInterface
         }
 
         // avoid scanning file system every time a block is being rendered
-        $cacheKey = "displayBlock_{$block->region->region}_{$viewMode}";
+        $blockRegion = isset($block->region->region) ? $block->region->region : 'none';
+        $cacheKey = "displayBlock_{$blockRegion}_{$viewMode}";
         $cache = static::cache($cacheKey);
         if ($cache !== null) {
             $element = $cache;
         } else {
             $try = [
-                "Menu.render_menu_{$block->region->region}_{$viewMode}",
-                "Menu.render_menu_{$block->region->region}",
+                "Menu.render_menu_{$blockRegion}_{$viewMode}",
+                "Menu.render_menu_{$blockRegion}",
                 'Menu.render_menu'
             ];
 

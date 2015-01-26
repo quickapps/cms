@@ -11,6 +11,7 @@
  */
 namespace Block\Event;
 
+use Block\Model\Entity\Block;
 use Cake\Collection\Collection;
 use Cake\Core\Configure;
 use Cake\Event\Event;
@@ -37,7 +38,8 @@ use QuickApps\Event\HookAwareTrait;
  * handler name.
  *
  * Block's handler property is used to compose event's name that is triggered
- * when block is being rendered (or edited). Event's name follows the pattern below:
+ * when block is being rendered (or edited). Event's name follows the pattern
+ * described below:
  *
  *     Block.<handler>.<display|settings>
  *
@@ -88,36 +90,39 @@ class BlockHook implements EventListenerInterface
     /**
      * Renders the given block entity.
      *
-     * You can define `specialized-renders` according to your needs as follow.
-     * This method looks for specialized renders in the order described below, if one
-     * is not found we look the next one, etc.
+     * This method will look for certain view elements when rendering each block, if
+     * one of this elements is not present it'll look the next one, and so on. These
+     * view elements should be defined by Themes by placing them in
+     * `<MyTheme>/Template/Element`.
      *
-     * ### Render block per theme's region & view-mode
+     * ### Render block based on theme's region & view-mode
      *
-     *      render_block_[region-name]_[view-mode]
+     *     render_block_[region-name]_[view-mode]
      *
-     * Renders the given block per theme's `region-name` + `view-mode` combination:
+     * Renders the given block based on theme's `region-name` and `view-mode`, for
+     * example:
      *
-     *     // render for blocks in `left-sidebar` region when view-mode is `full`
-     *     `render_block_left-sidebar_full.ctp`
+     * - `render_block_left-sidebar_full.ctp`: Render for blocks in `left-sidebar`
+     *    region when view-mode is `full`
      *
-     *     // render for blocks in `left-sidebar` region when view-mode is `search-result`
-     *     `render_block_left-sidebar_search-result.ctp`
+     * - `render_block_left-sidebar_search-result.ctp`: Render for blocks in
+     *   `left-sidebar` region when view-mode is `search-result`.
      *
-     *     // render for blocks in `footer` region when view-mode is `search-result`
-     *     `render_block_footer_search-result.ctp`
+     * - `render_block_footer_search-result.ctp`: Render for blocks in `footer`
+     *    region when view-mode is `search-result`.
      *
-     * ### Render block per theme's region
+     *
+     * ### Render block based on theme's region
      *
      *     render_block_[region-name]
      *
-     * Similar as before, but just per theme's `region` and any view-mode
+     * Similar as before, but based on theme's `region` (and any view-mode), for
+     * example:
      *
-     *     // render for blocks in `right-sidebar` region
-     *     `render_block_right-sidebar.ctp`
+     * - `render_block_right-sidebar.ctp`: Render for blocks in `right-sidebar` region.
      *
-     *     // render for blocks in `left-sidebar` region
-     *     `render_block_left-sidebar.ctp`
+     * - `render_block_left-sidebar.ctp` Render for blocks in `left-sidebar` region.
+     *
      *
      * ### Default
      *
@@ -135,7 +140,7 @@ class BlockHook implements EventListenerInterface
      *  element being rendered
      * @return string The rendered block
      */
-    public function displayBlock(Event $event, $block, $options = [])
+    public function displayBlock(Event $event, BLock $block, $options = [])
     {
         $View = $event->subject();
         $viewMode = $View->inUseViewMode();

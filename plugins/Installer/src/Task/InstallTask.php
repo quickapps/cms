@@ -296,7 +296,7 @@ class InstallTask extends BaseTask
 
             if (!empty($responseBody) &&
                 $file->create() &&
-                $file->write($response->body(), 'w+', true)
+                $file->write($responseBody, 'w+', true)
             ) {
                 $file->close();
                 if ($this->_validateZip($file->pwd())) {
