@@ -180,7 +180,7 @@ class ThemesController extends AppController
      * Renders theme's "screenshot.png"
      *
      * @param string $themeName Theme's name
-     * @return Image
+     * @return \Cake\Network\Response
      */
     public function screenshot($themeName)
     {

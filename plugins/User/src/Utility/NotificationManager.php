@@ -13,7 +13,6 @@ namespace User\Utility;
 
 use Cake\Core\InstanceConfigTrait;
 use Cake\Datasource\ModelAwareTrait;
-use Cake\Error\FatalErrorException;
 use Cake\Network\Email\Email;
 use Cake\Routing\Router;
 use QuickApps\Core\Plugin;

@@ -11,7 +11,6 @@
  */
 namespace User\Controller;
 
-use Cake\Auth\DefaultPasswordHasher;
 use Cake\Cache\Cache;
 use Cake\Event\Event;
 use Locale\Utility\LocaleToolbox;

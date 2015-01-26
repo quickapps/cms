@@ -97,7 +97,7 @@ class ServeController extends AppController
      *
      * @param string $nodeTypeSlug Node's type-slug. e.g. `article`, `basic-page`
      * @param string $nodeSlug Node's slug. e.g. `this-is-an-article`
-     * @return void
+     * @return \Cake\Network\Response|null
      * @throws \Cake\Network\Exception\NotFoundException When content is not found
      * @throws \Cake\Network\Exception\ForbiddenException When user can't access
      *  this content due to role restrictions
