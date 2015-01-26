@@ -11,7 +11,6 @@
  */
 namespace System\Shell;
 
-use Cake\Core\Configure;
 use QuickApps\Console\Shell;
 
 /**

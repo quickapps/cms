@@ -12,8 +12,6 @@
 namespace Installer\Controller;
 
 use Cake\Controller\Controller;
-use Cake\Core\App;
-use Cake\Core\Configure;
 use Cake\Database\Schema\Table as TableSchema;
 use Cake\Datasource\ConnectionManager;
 use Cake\Event\Event;

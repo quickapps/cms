@@ -92,7 +92,7 @@ class PermissionsController extends AppController
     /**
      * Exports all permissions as a JSON file.
      *
-     * @return void Forces JSON download
+     * @return \Cake\Network\Response Forces JSON download
      */
     public function export()
     {

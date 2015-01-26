@@ -11,7 +11,6 @@
  */
 namespace Installer\Task;
 
-use Cake\Filesystem\Folder;
 use QuickApps\Core\Plugin;
 
 /**
