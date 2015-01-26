@@ -15,6 +15,9 @@ use Block\View\Region;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
+use Cake\Network\Request;
+use Cake\Network\Response;
+use Cake\Utility\Hash;
 use Cake\View\View as CakeView;
 use QuickApps\Event\HookAwareTrait;
 use QuickApps\Event\HooktagAwareTrait;
@@ -48,6 +51,34 @@ class View extends CakeView
      * @var array
      */
     protected $_regions = [];
+
+    /**
+     * Constructor
+     *
+     * @param \Cake\Network\Request|null $request Request instance.
+     * @param \Cake\Network\Response|null $response Response instance.
+     * @param \Cake\Event\EventManager|null $eventManager Event manager instance.
+     * @param array $viewOptions View options. See View::$_passedVars for list of
+     *   options which get set as class properties.
+     */
+    public function __construct(
+        Request $request = null,
+        Response $response = null,
+        EventManager $eventManager = null,
+        array $viewOptions = []
+    ) {
+        $defaultOptions = [
+            'helpers' => [
+                'Url' => ['className' => 'QuickApps\View\Helper\UrlHelper'],
+                'Html' => ['className' => 'QuickApps\View\Helper\HtmlHelper'],
+                'Form' => ['className' => 'QuickApps\View\Helper\FormHelper'],
+                'Menu' => ['className' => 'Menu\View\Helper\MenuHelper'],
+                'jQuery' => ['className' => 'Jquery\View\Helper\JqueryHelper'],
+            ]
+        ];
+        $viewOptions = Hash::merge($defaultOptions, $viewOptions);
+        parent::__construct($request, $response, $eventManager, $viewOptions);
+    }
 
     /**
      * Defines a new theme region.
@@ -138,7 +169,7 @@ class View extends CakeView
         } else {
             $this->alter('View.render', $view, $layout);
             if (isset($this->jQuery)) {
-                $this->jQuery->load(['block' => true]);                
+                $this->jQuery->load(['block' => true]);
             }
 
             if (!$this->_hasRendered) {

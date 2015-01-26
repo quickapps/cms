@@ -52,19 +52,6 @@ class Controller extends CakeCotroller
     public $viewClass = 'QuickApps\View\View';
 
     /**
-     * An array containing the names of helpers controllers uses.
-     *
-     * @var array
-     */
-    public $helpers = [
-        'Url' => ['className' => 'QuickApps\View\Helper\UrlHelper'],
-        'Html' => ['className' => 'QuickApps\View\Helper\HtmlHelper'],
-        'Form' => ['className' => 'QuickApps\View\Helper\FormHelper'],
-        'Menu' => ['className' => 'Menu\View\Helper\MenuHelper'],
-        'jQuery' => ['className' => 'Jquery\View\Helper\JqueryHelper'],
-    ];
-
-    /**
      * An array containing the names of components controllers uses.
      *
      * @var array
