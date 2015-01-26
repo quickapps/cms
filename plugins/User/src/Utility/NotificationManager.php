@@ -184,17 +184,17 @@ class NotificationManager
         }
 
         $sender = new Email('default');
+        $sent = false;
         try {
             $sent = $sender
                 ->to($this->_user->email)
                 ->subject($subject)
                 ->send($body);
-            if ($sent) {
-                return true;
-            }
         } catch (\Exception $e) {
             return false;
         }
+
+        return $sent;
     }
 
     /**
