@@ -18,6 +18,7 @@ use Cake\Network\Exception\NotFoundException;
 use Cake\ORM\Entity;
 use Cake\ORM\Exception\RecordNotFoundException;
 use Cake\Utility\Inflector;
+use QuickApps\Event\HookAwareTrait;
 use QuickApps\View\ViewModeAwareTrait;
 
 /**
@@ -57,6 +58,7 @@ use QuickApps\View\ViewModeAwareTrait;
 trait FieldUIControllerTrait
 {
 
+    use HookAwareTrait;
     use ViewModeAwareTrait;
 
     /**
