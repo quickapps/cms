@@ -11,7 +11,6 @@
  */
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
-use Cake\Datasource\ConnectionManager;
 use Cake\Event\EventManager;
 use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
@@ -344,77 +343,6 @@ if (!function_exists('pluginName')) {
         return Inflector::camelize(str_replace('-', '_', end($parts)));
     }
 
-}
-
-if (!function_exists('exportFixtures')) {
-    /**
-     * Export entire database to PHP fixtures.
-     *
-     * All generated PHP files will be placed in `/tmp/Fixture/` directory.
-     * 
-     * @param array $ignoreRecords List of table names to ignore, records will not
-     *  be exported to the resulting PHP file (only its schema)
-     * @return bool
-     */
-    function exportFixtures($ignoreRecords = []) {
-        $db = ConnectionManager::get('default');
-        $db->connect();
-        $schemaCollection = $db->schemaCollection();
-        $tables = $schemaCollection->listTables();
-
-        if (file_exists(TMP . 'fixture/')) {
-            $dst = new Folder(TMP . 'fixture/');
-            $dst->delete();
-        } else {
-            new Folder(TMP . 'fixture/', true);
-        }
-
-        foreach ($tables as $table) {
-            $Table = TableRegistry::get($table);
-            $Table->behaviors()->reset();
-            $fields = ['_constraints' => []];
-            $records = [];
-
-            foreach ($Table->schema()->columns() as $column) {
-                $fields[$column] = $Table->schema()->column($column);
-            }
-
-            foreach ($Table->schema()->constraints() as $constraint) {
-                $fields['_constraints'][$constraint] = $Table->schema()->constraint($constraint);
-            }
-
-            // we need raw data for time, no Time objects
-            foreach ($Table->schema()->columns() as $column) {
-                $type = $Table->schema()->columnType($column);
-                if (in_array($type, ['date', 'datetime', 'time'])) {
-                    $Table->schema()->columnType($column, 'string');
-                }
-            }
-
-            if (!in_array($table, $ignoreRecords)) {
-                $rows = $Table->find('all');
-                foreach ($rows as $row) {
-                    $records[] = $row->toArray();
-                }
-            }
-
-            $className = Inflector::camelize($table) . 'Fixture';
-            $fixture = "<?php
-class {$className} {
-
-    public \$fields = " . var_export($fields, true) . ";
-
-    public \$records = " . var_export($records, true) . ";
-
-}
-
-";
-            $file = new File(TMP . "fixture/{$className}.php", true);
-            $file->write($fixture, 'w', true);
-        }
-
-        return true;
-    }
 }
 
 if (!function_exists('array_move')) {
