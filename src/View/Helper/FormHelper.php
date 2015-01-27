@@ -280,7 +280,7 @@ class FormHelper extends CakeFormHelper
      */
     public function year($fieldName, array $options = [])
     {
-        $this->alter(['FormHelper.widgetRegistry', $this->_View], $fieldName, $options);
+        $this->alter(['FormHelper.year', $this->_View], $fieldName, $options);
         return parent::widgetRegistry($instance, $widgets);
     }
 

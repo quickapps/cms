@@ -62,7 +62,7 @@ use Cake\Core\Configure;
             $options[] = empty($settings['time_ampm']) ?: "ampm: true";
         }
 
-        $options[] = empty($settings['format']) ? "dateFormat: 'yy-mm-dd'" : "dateFormat: '{$settings['format']}'";
+        $options[] = empty($settings['format']) ? "dateFormat: 'yy-mm-dd'" : 'dateFormat: "' . $settings['format'] . '"';
         $options[] = empty($settings['button_bar']) ?: "showButtonPanel: true";
         $options[] = empty($settings['month_year_menu']) ?: "changeMonth: true";
         $options[] = empty($settings['month_year_menu']) ?: "changeYear: true";

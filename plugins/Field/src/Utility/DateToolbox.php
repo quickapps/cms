@@ -39,8 +39,8 @@ class DateToolbox
             '@' => 'U',
         ],
         'time' => [
-            'HH' => 'H',
-            'H' => 'G',
+            'HH' => 'G',
+            'H' => 'H',
             'hh' => 'h',
             'h' => 'g',
             'mm' => 'i',
@@ -51,6 +51,29 @@ class DateToolbox
     ];
 
     /**
+     * Converts the given $date to a valid PHP's DateTime object using a jQuery's
+     * date/time $format.
+     *
+     * @param string $format A jQuery's date/time format. e.g. `'today is:' yy-mm-dd`
+     * @param string $date A date formatted using $format. e.g. `today is: 2015-01-30`
+     * @return \DateTime
+     */
+    public static function createFromFormat($format, $date)
+    {
+        if (preg_match_all("/'([^']+)'/", $format, $matches)) {
+            foreach ($matches[1] as $literal) {
+                $date = str_replace($literal, '', $date);
+            }
+            $date = preg_replace('/\s{2,}/', ' ', $date); // remove double spaces
+        }
+
+        $date = trim($date);
+        $format = DateToolbox::normalizeFormat($format);
+        $result = date_create_from_format($format, $date);
+        return $result;
+    }
+
+    /**
      * Converts jQuery's date/time format to PHP's.
      *
      * @param string $format Date format coming from jQuery's datepicker widget.
@@ -59,6 +82,9 @@ class DateToolbox
      */
     public static function normalizeFormat($format)
     {
+        $format = preg_replace("/'([^']+)'/", '', $format); // remove quotes
+        $format = preg_replace('/\s{2,}/', ' ', $format); // remove double spaces
+        $format = trim($format);
         list($dateFormat, $timeFormat) = explode(' ', "{$format} ");
 
         // normalize formats
@@ -78,6 +104,7 @@ class DateToolbox
     public static function validateDateFormat($format)
     {
         $format = str_replace(array_keys(static::$_map['date']), '', $format);
+        $format = preg_replace("/'(.*)'/", '', $format); // remove quotes
         $format = preg_replace('/[^a-z]/i', '', $format);
         $format = trim($format);
 

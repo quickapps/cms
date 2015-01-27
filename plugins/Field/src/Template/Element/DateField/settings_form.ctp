@@ -11,53 +11,6 @@
  */
 ?>
 
-<?php
-    echo $this->Form->input('timepicker', [
-        'id' => 'timepicker-checkbox',
-        'type' => 'checkbox',
-        'label' => __d('field', 'Add a Time picker'),
-        'onclick' => "$('#TimeOptions').toggle();",
-    ]);
-?>
-
-<div id="TimeOptions">
-    <fieldset>
-        <legend><?php echo __d('field', 'Time Options'); ?></legend>
-
-        <?php
-            echo $this->Form->input('time_format', [
-                'type' => 'text',
-                'label' => __d('field', 'Time format'),
-            ]);
-        ?>
-        <em class="help-block"><?php echo __d('field', 'e.g.: <code>H:mm:ss:c</code>, see below'); ?></em>
-
-        <ul>
-            <li><code>H</code>: <?php echo __d('field', 'Hour with no leading 0 (24 hour)'); ?></li>
-            <li><code>HH</code>: <?php echo __d('field', 'Hour with leading 0 (24 hour)'); ?></li>
-            <li><code>h</code>: <?php echo __d('field', 'Hour with no leading 0 (12 hour)'); ?></li>
-            <li><code>hh</code>: <?php echo __d('field', 'Hour with leading 0 (12 hour)'); ?></li>
-            <li><code>m</code>: <?php echo __d('field', 'Minute with no leading 0'); ?></li>
-            <li><code>mm</code>: <?php echo __d('field', 'Minute with leading 0'); ?></li>
-            <li><code>ss</code>: <?php echo __d('field', 'Second with leading 0'); ?></li>
-            <li><code>tt</code>: <?php echo __d('field', 'am or pm for AM/PM'); ?></li>
-            <li><code>TT</code>: <?php echo __d('field', 'AM or PM for AM/PM'); ?></li>
-        </ul>
-
-        <?php
-            echo $this->Form->input('time_ampm', [
-                'type' => 'checkbox',
-                'label' => __d('field', 'Use AM/PM')
-            ]);
-
-            echo $this->Form->input('time_seconds', [
-                'type' => 'checkbox',
-                'label' => __d('field', 'Display seconds')
-            ]);
-        ?>
-    </fieldset>
-</div>
-
 <fieldset>
     <legend><?php echo __d('field', 'Date Options'); ?></legend>
 
@@ -67,7 +20,7 @@
             'label' => __d('field', 'Date format'),
         ]);
     ?>
-    <em class="help-block"><?php echo __d('field', 'This option is not used when localized. e.g.: <code>yy-mm-dd</code>, see below for details'); ?></em>
+    <em class="help-block"><?php echo __d('field', "This option is not used when localized. e.g.: <code>'Meeting on:' yy-mm-dd</code>, see below for details"); ?></em>
 
     <ul>
         <li><code>d</code>: <?php echo __d('field', 'day of month (no leading zero)'); ?></li>
@@ -81,6 +34,8 @@
         <li><code>MM</code>: <?php echo __d('field', 'month name long'); ?></li>
         <li><code>y</code>: <?php echo __d('field', 'year (two digit)'); ?></li>
         <li><code>yy</code>: <?php echo __d('field', 'year (four digit)'); ?></li>
+        <li><code>'..'</code>: <?php echo __d('field', 'literal text'); ?></li>
+        <li><code>''</code>: <?php echo __d('field', 'single quote'); ?></li>
         <li><code>@</code>: <?php echo __d('field', 'Unix timestamp (ms since 01/01/1970)'); ?></li>
     </ul>
 
@@ -189,6 +144,54 @@
         ]);
     ?>    
 </fieldset>
+
+<?php
+    echo $this->Form->input('timepicker', [
+        'id' => 'timepicker-checkbox',
+        'type' => 'checkbox',
+        'label' => __d('field', 'Add a Time picker'),
+        'onclick' => "$('#TimeOptions').toggle();",
+    ]);
+?>
+
+<div id="TimeOptions">
+    <fieldset>
+        <legend><?php echo __d('field', 'Time Options'); ?></legend>
+
+        <?php
+            echo $this->Form->input('time_format', [
+                'type' => 'text',
+                'label' => __d('field', 'Time format'),
+            ]);
+        ?>
+        <em class="help-block"><?php echo __d('field', 'e.g.: <code>H:mm:ss:c</code>, see below'); ?></em>
+
+        <ul>
+            <li><code>H</code>: <?php echo __d('field', 'Hour with no leading 0 (24 hour)'); ?></li>
+            <li><code>HH</code>: <?php echo __d('field', 'Hour with leading 0 (24 hour)'); ?></li>
+            <li><code>h</code>: <?php echo __d('field', 'Hour with no leading 0 (12 hour)'); ?></li>
+            <li><code>hh</code>: <?php echo __d('field', 'Hour with leading 0 (12 hour)'); ?></li>
+            <li><code>m</code>: <?php echo __d('field', 'Minute with no leading 0'); ?></li>
+            <li><code>mm</code>: <?php echo __d('field', 'Minute with leading 0'); ?></li>
+            <li><code>ss</code>: <?php echo __d('field', 'Second with leading 0'); ?></li>
+            <li><code>tt</code>: <?php echo __d('field', 'am or pm for AM/PM'); ?></li>
+            <li><code>TT</code>: <?php echo __d('field', 'AM or PM for AM/PM'); ?></li>
+        </ul>
+
+        <?php
+            echo $this->Form->input('time_ampm', [
+                'type' => 'checkbox',
+                'label' => __d('field', 'Use AM/PM')
+            ]);
+
+            echo $this->Form->input('time_seconds', [
+                'type' => 'checkbox',
+                'label' => __d('field', 'Display seconds')
+            ]);
+        ?>
+    </fieldset>
+</div>
+
 
 
 <script type="text/javascript">

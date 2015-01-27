@@ -62,9 +62,13 @@ class DateField extends FieldHandler
     public function entityBeforeSave(Event $event, Field $field, $options)
     {
         if (!empty($options['_post']['date']) && !empty($options['_post']['format'])) {
-            $format = DateToolbox::normalizeFormat($options['_post']['format']);
-            if ($date = date_create_from_format($format, $options['_post']['date'])) {
+            $date = $options['_post']['date'];
+            $format = $options['_post']['format'];
+            if ($date = DateToolbox::createFromFormat($format, $date)) {
                 $field->set('raw', date_timestamp_get($date));
+            } else {
+                $field->metadata->entity->errors(":{$field->name}", __d('field', 'Invalid date/time, it must match the the pattern: {0}', $format));
+                return false;
             }
         }
 
@@ -85,7 +89,7 @@ class DateField extends FieldHandler
     public function entityBeforeValidate(Event $event, Field $field, $options, $validator)
     {
         if ($field->metadata->required) {
-            $validator->notEmpty(":{$field->name}", __d('field', 'You must upload one image at least.'));
+            $validator->notEmpty(":{$field->name}", __d('field', 'You must select a date/time.'));
         }
         return true;
     }
