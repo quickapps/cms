@@ -87,7 +87,7 @@ class JqueryHelper extends Helper
         }
 
         if (empty($files)) {
-            $files[] = Configure::read('debug') ? 'jquery-ui.js' : 'jquery-ui.min.js';
+            $files[] = Configure::read('debug') ? 'Jquery.jquery-ui.js' : 'Jquery.jquery-ui.min.js';
         } else {
             array_unshift($files, 'Jquery.ui/core.js');
         }
@@ -166,7 +166,7 @@ class JqueryHelper extends Helper
         $out = '';
         list($plugin, $theme) = pluginSplit($themeName);
         $plugin = !$plugin ? 'Jquery' : $plugin;
-        $out .= (string)$this->_View->Html->css("{$plugin}.ui/{$theme}/theme.css");
+        $out .= (string)$this->_View->Html->css("{$plugin}.ui/{$theme}/theme.css", $options);
 
         if (Configure::read('debug')) {
             $out .= (string)$this->_View->Html->css("{$plugin}.ui/{$theme}/jquery-ui.css", $options);
