@@ -185,12 +185,12 @@ trait FieldUIControllerTrait
                 }
             }
 
-            $settingsEntity = new Entity($this->request->data);
-            $settingsEntity->set('_field_handler', $instance->handler);
-            $errors = $this->FieldInstances->validator('settings')->errors($settingsEntity->toArray());
+            $validator = $this->FieldInstances->validator('settings');
+            $this->trigger(["Field.{$instance->handler}.Instance.settingsValidate", $this->FieldInstances], $this->request->data(), $validator);
+            $errors = $validator->errors($this->request->data());
 
             if (empty($errors)) {
-                $instance->set('settings', $this->request->data);
+                $instance->set('settings', $this->request->data());
                 $save = $this->FieldInstances->save($instance);
 
                 if ($save) {
@@ -337,15 +337,15 @@ trait FieldUIControllerTrait
         ];
         $viewModeInfo = $this->viewModes($viewMode);
 
-        if ($this->request->data) {
-            $settingsEntity = new Entity($this->request->data);
-            $settingsEntity->set('_field_handler', $instance->handler);
-            $errors = $this->FieldInstances->validator('viewMode')->errors($settingsEntity->toArray());
+        if ($this->request->data()) {
+            $validator = $this->FieldInstances->validator('viewMode');
+            $this->trigger(["Field.{$instance->handler}.Instance.viewModeValidate", $this->FieldInstances], $this->request->data(), $validator);
+            $errors = $validator->errors($this->request->data());
 
             if (empty($errors)) {
                 $instance->accessible('*', true);
                 $viewModes = $instance->get('view_modes');
-                $viewModes[$viewMode] = array_merge($viewModes[$viewMode], $this->request->data);
+                $viewModes[$viewMode] = array_merge($viewModes[$viewMode], $this->request->data());
                 $instance->set('view_modes', $viewModes);
 
                 if ($this->FieldInstances->save($instance)) {

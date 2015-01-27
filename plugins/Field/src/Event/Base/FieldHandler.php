@@ -281,16 +281,14 @@ class FieldHandler implements EventListenerInterface
      * Triggered before instance's settings are changed.
      *
      * Here Field Handlers can apply custom validation rules to their settings.
-     * Stopping this event or returning false will halt the save operation.
      *
      * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Cake\ORM\Entity $settings Settings values as an entity
+     * @param array $settings Settings values to be validated
      * @param \Cake\Validation\Validator $validator The validator object
-     * @return mixed
+     * @return void
      */
-    public function instanceSettingsValidate(Event $event, Entity $settings, $validator)
+    public function instanceSettingsValidate(Event $event, array $settings, $validator)
     {
-        return true;
     }
 
     /**
@@ -300,7 +298,7 @@ class FieldHandler implements EventListenerInterface
      * Entities should be rendered for a particular View Mode.
      *
      * @param \Cake\Event\Event $event The event that was triggered
-     * @param \\Field\Model\Entity\FieldInstance $instance Instance information
+     * @param \Field\Model\Entity\FieldInstance $instance Instance information
      * @param array $options Options given as an array
      * @return string HTML form elements for the settings page
      */
@@ -328,12 +326,14 @@ class FieldHandler implements EventListenerInterface
     /**
      * Triggered before instance's view mode settings are changed.
      *
+     * Here Field Handlers can apply custom validation rules to view mode's settings.
+     *
      * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Cake\ORM\Entity $viewMode View mode's setting values as an entity
+     * @param array $settings View mode's setting values to be validated
      * @param \Cake\Validation\Validator $validator The validator object
      * @return void
      */
-    public function instanceViewModeValidate(Event $event, Entity $viewMode, $validator)
+    public function instanceViewModeValidate(Event $event, array $settings, $validator)
     {
     }
 

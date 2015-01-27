@@ -179,27 +179,6 @@ class FieldInstancesTable extends Table
     }
 
     /**
-     * Triggers the "Field.<FieldHandler>.Instance.settingsValidate" event.
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Cake\ORM\Entity $settings Settings being validated
-     * @param \ArrayObject $options Additional options given as an array
-     * @param \Cake\Validation\Validator $validator The validator object
-     * @return bool|null False if save operation should not continue, true otherwise
-     */
-    public function beforeValidate(Event $event, Entity $settings, ArrayObject $options, Validator $validator)
-    {
-        if (isset($options['validate']) && in_array($options['validate'], ['settings', 'viewMode'])) {
-            $eventName = $options['validate'] == 'settings' ? 'settingsValidate' : 'viewModeValidate';
-            $instanceEvent = $this->trigger(["Field.{$settings->get('_field_handler')}.Instance.{$eventName}", $event->subject()], $settings, $validator);
-            if ($instanceEvent->isStopped() || $instanceEvent->result === false) {
-                return false;
-            }
-            return true;
-        }
-    }
-
-    /**
      * Triggers the "Field.<FieldHandler>.Instance.afterValidate" event.
      *
      * @param \Cake\Event\Event $event The event that was triggered

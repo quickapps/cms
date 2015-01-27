@@ -13,7 +13,6 @@ namespace Field\Event;
 
 use Cake\Event\Event;
 use Cake\Filesystem\File;
-use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Field\Event\Base\FieldHandler;
@@ -290,7 +289,7 @@ class ImageField extends FieldHandler
     /**
      * {@inheritDoc}
      */
-    public function instanceSettingsValidate(Event $event, Entity $settings, $validator)
+    public function instanceSettingsValidate(Event $event, array $settings, $validator)
     {
     }
 
@@ -323,7 +322,7 @@ class ImageField extends FieldHandler
     /**
      * {@inheritDoc}
      */
-    public function instanceViewModeValidate(Event $event, Entity $viewMode, $validator)
+    public function instanceViewModeValidate(Event $event, array $settings, $validator)
     {
     }
 

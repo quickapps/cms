@@ -12,7 +12,6 @@
 namespace Field\Event;
 
 use Cake\Event\Event;
-use Cake\ORM\Entity;
 use Field\Event\Base\FieldHandler;
 use Field\Model\Entity\Field;
 use Field\Utility\TextToolbox;
@@ -190,7 +189,7 @@ class TextField extends FieldHandler
     /**
      * {@inheritDoc}
      */
-    public function instanceSettingsValidate(Event $event, Entity $settings, $validator)
+    public function instanceSettingsValidate(Event $event, array $settings, $validator)
     {
     }
 
@@ -223,8 +222,13 @@ class TextField extends FieldHandler
     /**
      * {@inheritDoc}
      */
-    public function instanceViewModeValidate(Event $event, Entity $viewMode, $validator)
+    public function instanceViewModeValidate(Event $event, array $settings, $validator)
     {
+        if (!empty($settings['formatter']) && $settings['formatter'] == 'trimmed') {
+            $validator
+                ->requirePresence('trim_length', __d('field', 'Invalid trimmer string.'))
+                ->notEmpty('trim_length', __d('field', 'Invalid trimmer string.'));
+        }
     }
 
     /**
