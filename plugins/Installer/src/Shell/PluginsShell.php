@@ -11,7 +11,7 @@
  */
 namespace Installer\Shell;
 
-use QuickApps\Console\Shell;
+use Cake\Console\Shell;
 
 /**
  * Shell for plugins management.
@@ -26,6 +26,13 @@ class PluginsShell extends Shell
      * @var array
      */
     public $tasks = ['Installer.Plugins'];
+
+    /**
+     * {@inheritDoc}
+     */
+    public function startup()
+    {
+    }
 
     /**
      * Override main() for help message hook

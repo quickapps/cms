@@ -11,10 +11,10 @@
  */
 namespace Installer\Shell\Task;
 
+use Cake\Console\Shell;
 use Cake\Core\Configure;
 use Cake\Validation\Validation;
 use Installer\Task\TaskManager;
-use QuickApps\Console\Shell;
 use QuickApps\Core\Plugin;
 
 /**
@@ -23,6 +23,12 @@ use QuickApps\Core\Plugin;
  */
 class ThemesTask extends Shell
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function startup()
+    {
+    }
 
     /**
      * Install a new theme from URL.

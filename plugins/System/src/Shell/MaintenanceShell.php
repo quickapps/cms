@@ -11,7 +11,7 @@
  */
 namespace System\Shell;
 
-use QuickApps\Console\Shell;
+use Cake\Console\Shell;
 
 /**
  * Maintenance shell.
@@ -28,6 +28,13 @@ class MaintenanceShell extends Shell
     public $tasks = ['System.Database'];
 
     /**
+     * {@inheritDoc}
+     */
+    public function startup()
+    {
+    }
+
+    /**
      * Override main() for help message hook
      *
      * @return void
@@ -42,6 +49,9 @@ class MaintenanceShell extends Shell
 
         $choice = strtolower($this->in('What would you like to do?', [1, 2, 3, 'H', 'Q']));
         switch ($choice) {
+            case '1':
+                $this->dispatchShell('System.maintenance database --export');
+                break;
             case 'h':
                 $this->out($this->OptionParser->help());
                 break;

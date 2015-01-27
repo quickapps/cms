@@ -82,7 +82,6 @@ class CommandListShell extends CakeCommandListShell
     public function getOptionParser()
     {
         $parser = parent::getOptionParser();
-
         $parser->description(
             'Get the list of available shells for this QuickApps CMS installation.'
         )->addOption('xml', [

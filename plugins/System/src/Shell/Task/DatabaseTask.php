@@ -11,8 +11,12 @@
  */
 namespace System\Shell\Task;
 
+use Cake\Console\Shell;
+use Cake\Datasource\ConnectionManager;
+use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
-use QuickApps\Console\Shell;
+use Cake\ORM\TableRegistry;
+use Cake\Utility\Inflector;
 
 /**
  * Database manager.
@@ -20,12 +24,13 @@ use QuickApps\Console\Shell;
  */
 class DatabaseTask extends Shell
 {
+
     /**
-     * List of tables to export.
-     *
-     * @var array
+     * {@inheritDoc}
      */
-    protected $_export = [];
+    public function startup()
+    {
+    }
 
     /**
      * Execution method always used for tasks
@@ -34,26 +39,103 @@ class DatabaseTask extends Shell
      */
     public function main()
     {
-        if (isset($this->params['export'])) {
-            $this->_export = explode(',', $this->params['export']);
-        }
+        if (array_key_exists('export', $this->params)) {
+            $export = empty($this->params['export']) ? [] : explode(',', $this->params['export']);
+            array_filter($export);
 
-        if (exportFixtures($this->_export)) {
-            if (!empty($this->params['destination'])) {
-                $src = new Folder(TMP . 'fixture');
-                if ($src->move(['to' => $this->params['destination']])) {
-                    $this->out(sprintf('Database exported on: %s', $this->params['destination']));
-                } else {
-                    foreach ($src->errors() as $err) {
-                        $this->err($err);
+            if ($this->export($export)) {
+                if (!empty($this->params['destination'])) {
+                    $src = new Folder(TMP . 'fixture');
+                    if ($src->move(['to' => $this->params['destination']])) {
+                        $this->out(sprintf('Database exported on: %s', $this->params['destination']));
+                    } else {
+                        foreach ($src->errors() as $err) {
+                            $this->err($err);
+                        }
                     }
+                } else {
+                    $this->out(sprintf('Database exported on: %s', TMP . 'fixture'));
                 }
             } else {
-                $this->out(sprintf('Database exported on: %s', TMP . 'fixture'));
+                $this->err('Unable to export database');
             }
-        } else {
-            $this->err('Unable to export database');
         }
+    }
+
+    /**
+     * Export entire database to PHP fixtures.
+     *
+     * All generated PHP files will be placed in `/tmp/Fixture/` directory.
+     *
+     * @param array $whiteList List of table names to export. If not given (empty
+     *  array) all tables will be exported
+     * @return bool
+     */
+    public function export($whiteList = [])
+    {
+        $db = ConnectionManager::get('default');
+        $db->connect();
+        $schemaCollection = $db->schemaCollection();
+        $tables = $schemaCollection->listTables();
+
+        if (file_exists(TMP . 'fixture/')) {
+            $dst = new Folder(TMP . 'fixture/');
+            $dst->delete();
+            $this->out(sprintf('Removing existing directory %s', TMP . 'fixture/'), 1, Shell::VERBOSE);
+        } else {
+            new Folder(TMP . 'fixture/', true);
+            $this->out(sprintf('Creating directory %s', TMP . 'fixture/'), 1, Shell::VERBOSE);
+        }
+
+        foreach ($tables as $table) {
+            if (!empty($whiteList) && !in_array($table, $whiteList)) {
+                $this->out(sprintf('Table "%s" skipped', $table), 1, Shell::VERBOSE);
+                continue;
+            }
+
+            $Table = TableRegistry::get($table);
+            $Table->behaviors()->reset();
+            $fields = ['_constraints' => []];
+            $records = [];
+
+            foreach ($Table->schema()->columns() as $column) {
+                $fields[$column] = $Table->schema()->column($column);
+            }
+
+            foreach ($Table->schema()->constraints() as $constraint) {
+                $fields['_constraints'][$constraint] = $Table->schema()->constraint($constraint);
+            }
+
+            // we need raw data for time, no Time objects
+            foreach ($Table->schema()->columns() as $column) {
+                $type = $Table->schema()->columnType($column);
+                if (in_array($type, ['date', 'datetime', 'time'])) {
+                    $Table->schema()->columnType($column, 'string');
+                }
+            }
+
+            $className = Inflector::camelize($table) . 'Fixture';
+
+            $fields = json_decode(str_replace(['(', ')'], ['&#40', '&#41'], json_encode($fields)), true);
+            $fields = var_export($fields, true);
+            $fields = str_replace(['array (', ')', '&#40', '&#41'], ['[', ']', '(', ')'], $fields);
+
+            $records = json_decode(str_replace(['(', ')'], ['&#40', '&#41'], json_encode($records)), true);
+            $records = var_export($records, true);
+            $records = str_replace(['array (', ')', '&#40', '&#41'], ['[', ']', '(', ')'], $records);
+
+            $fixture = "<?php\n";
+            $fixture .= "class {$className}\n{\n\n";
+            $fixture .= "    public \$fields = {$fields};\n";
+            $fixture .= "    public \$records = {$records};\n";
+            $fixture .= "}\n";
+
+            $file = new File(TMP . "fixture/{$className}.php", true);
+            $file->write($fixture, 'w', true);
+            $this->out(sprintf('Table "%s" exported!', $table), 1, Shell::VERBOSE);
+        }
+
+        return true;
     }
 
     /**
