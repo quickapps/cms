@@ -19,6 +19,8 @@ use System\Controller\AppController;
  * Controller for handling plugin tasks.
  *
  * Here is where can install new plugin or remove existing ones.
+ *
+ * @property    \System\Model\Table\PluginsTable $Plugins
  */
 class ThemesController extends AppController
 {
@@ -253,7 +255,7 @@ class ThemesController extends AppController
                 }
             }
         } else {
-            $this->request->data = $plugin['settings'];
+            $this->request->data = $theme['settings'];
         }
 
         $this->set(compact('arrayContext', 'theme'));

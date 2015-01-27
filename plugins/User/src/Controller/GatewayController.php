@@ -21,6 +21,8 @@ use User\Controller\AppController;
  * Gateway controller.
  *
  * Provides login and logout methods.
+ *
+ * @property    \User\Model\Table\UsersTable $Users
  */
 class GatewayController extends AppController
 {
@@ -51,6 +53,7 @@ class GatewayController extends AppController
             $loginBlocking = Plugin::settings('User', 'failed_login_attempts') && Plugin::settings('User', 'failed_login_attempts_block_seconds');
             $user = false;
             $continue = true;
+
             if ($loginBlocking) {
                 Cache::config('users_login', [
                     'duration' => '+' . Plugin::settings('User', 'failed_login_attempts_block_seconds') . ' seconds',
@@ -93,7 +96,7 @@ class GatewayController extends AppController
                     return $this->redirect($this->Auth->redirectUrl());
                 } else {
                     if ($loginBlocking) {
-                        $cache = array_merge($cacheStruct, (array)$cache);
+                        $cache = array_merge($cacheStruct, $cache);
                         $cache['attempts'] += 1;
                         $cache['last_attempt'] = time();
                         $cache['ip'] = env('REMOTE_ADDR');

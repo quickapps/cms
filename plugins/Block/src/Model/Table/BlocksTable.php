@@ -23,6 +23,9 @@ use \ArrayObject;
 /**
  * Represents "blocks" database table.
  *
+ * @property    \User\Model\Table\RolesTable $Roles
+ * @property    \Block\Model\Table\BlocksTable $Blocks
+ * @property    \Block\Model\Table\BlockRegionsTable $BlockRegions
  */
 class BlocksTable extends Table
 {

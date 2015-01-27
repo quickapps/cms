@@ -247,7 +247,7 @@ class CommentComponent extends Component
         if (!empty($this->_controller->request->data['comment']) &&
             $this->config('settings.visibility') === 1
         ) {
-            $pk = TableRegistry::get($entity->source())->primaryKey();
+            $pk = (string)TableRegistry::get($entity->source())->primaryKey();
 
             if ($entity->has($pk)) {
                 $this->_controller->loadModel('Comment.Comments');
@@ -319,13 +319,13 @@ class CommentComponent extends Component
                 } else {
                     $this->_setErrors($comment);
                 }
-            }
 
-            $errorMessage = $this->config('errorMessage');
-            if (is_callable($errorMessage)) {
-                $errorMessage = $errorMessage($comment, $this->_controller);
+                $errorMessage = $this->config('errorMessage');
+                if (is_callable($errorMessage)) {
+                    $errorMessage = $errorMessage($comment, $this->_controller);
+                }
+                $this->_controller->Flash->danger($errorMessage, ['key' => 'commentsForm']);
             }
-            $this->_controller->Flash->danger($errorMessage, ['key' => 'commentsForm']);
         }
 
         return false;
@@ -373,7 +373,7 @@ class CommentComponent extends Component
     protected function _setErrors(Comment $comment)
     {
         $arrayContext = $this->config('arrayContext');
-        foreach ($comment->errors() as $field => $msg) {
+        foreach ((array)$comment->errors() as $field => $msg) {
             $arrayContext['errors']['comment'][$field] = $msg;
         }
         $this->config('arrayContext', $arrayContext);
@@ -431,6 +431,9 @@ class CommentComponent extends Component
         } elseif ($this->config('settings.allow_anonymous')) {
             // anonymous user posting
             $validator = $this->_controller->Comments->validationUpdate(new Validator());
+        } else {
+            // other case
+            $validator = new Validator();
         }
 
         if ($this->config('settings.use_ayah') &&

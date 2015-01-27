@@ -18,6 +18,9 @@ use Locale\Utility\LocaleToolbox;
  * Locale manager controller.
  *
  * Provides full CRUD for languages.
+ *
+ * @property    \System\Model\Table\OptionsTable $Options
+ * @property    \Locale\Model\Table\LanguagesTable $Languages
  */
 class ManageController extends AppController
 {

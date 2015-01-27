@@ -39,7 +39,7 @@ if (!file_exists(SITE_ROOT . '/config/settings.php')) {
     $localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
 
     Router::prefix('admin', function($routes) {
-        foreach (Plugin::loaded() as $plugin) {
+        foreach ((array)Plugin::loaded() as $plugin) {
             $routes->plugin($plugin, function($routes) {
                 $routes->connect('', ['controller' => 'manage', 'action' => 'index'], ['routeClass' => 'Cake\Routing\Route\DashedRoute']);
                 $routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'Cake\Routing\Route\DashedRoute']);
@@ -48,7 +48,7 @@ if (!file_exists(SITE_ROOT . '/config/settings.php')) {
         }
     });
 
-    foreach (Plugin::loaded() as $plugin) {
+    foreach ((array)Plugin::loaded() as $plugin) {
         Router::plugin($plugin, function($routes) {
             $routes->connect('', ['controller' => 'main', 'action' => 'index'], ['routeClass' => 'Cake\Routing\Route\DashedRoute']);
             $routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'Cake\Routing\Route\DashedRoute']);

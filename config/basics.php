@@ -179,7 +179,7 @@ if (!function_exists('snapshot')) {
                 }
             }
 
-            $humanName = Inflector::humanize(Inflector::underscore($plugin->name));
+            $humanName = (string)Inflector::humanize((string)Inflector::underscore($plugin->name));
             if ($isTheme) {
                 $humanName = trim(str_replace_last('Theme', '', $humanName));
             }

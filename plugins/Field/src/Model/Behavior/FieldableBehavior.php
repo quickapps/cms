@@ -917,7 +917,7 @@ class FieldableBehavior extends Behavior
             $valueToDelete = TableRegistry::get('Field.FieldValues')
                 ->find()
                 ->where([
-                    'entity_id' => $entity->get($this->_table->primaryKey()),
+                    'entity_id' => $entity->get((string)$this->_table->primaryKey()),
                     'table_alias' => $tableAlias,
                 ])
                 ->limit(1)
@@ -1088,7 +1088,7 @@ class FieldableBehavior extends Behavior
                 $field = $expression->getField();
                 $value = $expression->getValue();
                 $conjunction = $expression->getOperator();
-                list($entityName, $fieldName) = pluginSplit($field);
+                list($entityName, $fieldName) = pluginSplit((string)$field);
 
                 if (!$fieldName) {
                     $fieldName = $entityName;
@@ -1122,8 +1122,8 @@ class FieldableBehavior extends Behavior
                     $subQuery->where(['FieldValues.table_alias IN' => $tableAlias]);
                 } elseif (strpos($tableAlias, '*') !== false || strpos($tableAlias, '?') !== false) {
                     // look in bundle matching pattern
-                    $tableAlias = str_replace(['*', '?'], ['%', '_'], $tableAlias);
-                    $subQuery->where(['FieldValues.table_alias LIKE' => $tableAlias]);
+                    $newTableAlias = str_replace(['*', '?'], ['%', '_'], $tableAlias);
+                    $subQuery->where(['FieldValues.table_alias LIKE' => $newTableAlias]);
                 } else {
                     // look in this specific bundle
                     $subQuery->where(['FieldValues.table_alias' => $tableAlias]);
@@ -1157,7 +1157,7 @@ class FieldableBehavior extends Behavior
             ->where([
                 'FieldValues.field_instance_id' => $instance->id,
                 'FieldValues.table_alias' => $this->_guessTableAlias($entity),
-                'FieldValues.entity_id' => $entity->get($this->_table->primaryKey())
+                'FieldValues.entity_id' => $entity->get((string)$this->_table->primaryKey())
             ])
             ->limit(1)
             ->first();
@@ -1252,7 +1252,7 @@ class FieldableBehavior extends Behavior
      * Used to reduce database queries.
      *
      * @param \Cake\ORM\Entity $entity An entity used to guess table name
-     * @return \Cake\ORM\Query Field instances attached to current table as a query result
+     * @return \Cake\Datasource\ResultSetInterface Field instances attached to current table as a query result
      */
     protected function _getTableFieldInstances($entity)
     {

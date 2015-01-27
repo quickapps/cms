@@ -21,6 +21,23 @@ use \ArrayObject;
 /**
  * Represents "nodes" database table.
  *
+ * @property    \Node\Model\Table\NodeTypesTable $NodeTypes
+ * @property    \Node\Model\Table\NodesTable $TranslationOf
+ * @property    \User\Model\Table\RolesTable $Roles
+ * @property    \User\Model\Table\NodeRevisionsTable $NodeRevisions
+ * @property    \User\Model\Table\NodesTable $Translations
+ * @property    \User\Model\Table\UsersTable $Author
+ * @method    \Cake\ORM\Query search(string $criteria, null|\Cake\ORM\Query $query = null)
+ * @method    void addSearchOperator(string $name, mixed $methodName)
+ * @method    void enableSearchOperator(string $name)
+ * @method    void disableSearchOperator(string $name)
+ * @method    \Cake\Datasource\ResultSetDecorator findComments(\Cake\ORM\Query $query, $options)
+ * @method    void bindComments()
+ * @method    void unbindComments()
+ * @method    void configureFieldable(array $config)
+ * @method    \Cake\ORM\Entity attachEntityFields(\Cake\ORM\Entity $entity)
+ * @method    void bindFieldable()
+ * @method    void unbindFieldable()
  */
 class NodesTable extends Table
 {
@@ -156,7 +173,7 @@ class NodesTable extends Table
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Node\Model\Entity\Node $entity The entity being saved
      * @param \ArrayObject $options Array of options
-     * @return void
+     * @return bool True on success
      */
     public function beforeSave(Event $event, $entity, ArrayObject $options = null)
     {
@@ -169,21 +186,21 @@ class NodesTable extends Table
                         'NodeRevisions.node_id' => $entity->id,
                         'NodeRevisions.hash' => $hash,
                     ]);
-            } catch (\Exception $ex) {
-                $exists = false;
-            }
 
-            if (!$exists) {
-                $revision = $this->NodeRevisions->newEntity([
-                    'node_id' => $prev->id,
-                    'data' => $prev,
-                    'hash' => $hash,
-                ]);
+                if (!$exists) {
+                    $revision = $this->NodeRevisions->newEntity([
+                        'node_id' => $prev->id,
+                        'data' => $prev,
+                        'hash' => $hash,
+                    ]);
 
-                if (!$this->NodeRevisions->hasBehavior('Timestamp')) {
-                    $this->NodeRevisions->addBehavior('Timestamp');
+                    if (!$this->NodeRevisions->hasBehavior('Timestamp')) {
+                        $this->NodeRevisions->addBehavior('Timestamp');
+                    }
+                    $this->NodeRevisions->save($revision);
                 }
-                $this->NodeRevisions->save($revision);
+            } catch (\Exception $ex) {
+                // unable to create node's review
             }
         }
 

@@ -21,6 +21,8 @@ use QuickApps\Core\Plugin;
  * Allow CRUD for blocks.
  *
  * @property    \Block\Model\Table\BlocksTable $Blocks
+ * @property    \Block\Model\Table\BlocksTable $BlockRegions
+ * @property    \Menu\Controller\Component\BreadcrumbComponent $Breadcrumb
  */
 class ManageController extends AppController
 {

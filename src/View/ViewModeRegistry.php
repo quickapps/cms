@@ -209,7 +209,7 @@ class ViewModeRegistry
 
             return static::$_viewModes[$viewMode];
         } elseif (!$viewMode) {
-            return array_keys(static::$viewMode);
+            return array_keys(static::$_viewModes);
         }
 
         return static::$_viewModes;
