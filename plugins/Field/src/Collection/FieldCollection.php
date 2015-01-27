@@ -43,29 +43,32 @@ class FieldCollection extends ArrayObject
      *
      * ### Example:
      *
-     *     $fields => [
-     *         [0] => [
-     *             [name] => user-age,
-     *             [label] => User Age,
-     *             [value] => 22,
-     *             [raw] => null,
-     *             [metadata] => [ ... ]
-     *         ],
-     *         [1] => [
-     *             [name] => user-phone,
-     *             [label] => User Phone,
-     *             [value] => null,
-     *             [raw] => null,
-     *             [metadata] => [ ... ]
-     *         ]
-     *    ];
-     *    $collection = new FieldCollection($fields);
+     * ```php
+     * $fields => [
+     *     [0] => [
+     *         [name] => user-age,
+     *         [label] => User Age,
+     *         [value] => 22,
+     *         [raw] => null,
+     *         [metadata] => [ ... ]
+     *     ],
+     *     [1] => [
+     *         [name] => user-phone,
+     *         [label] => User Phone,
+     *         [value] => null,
+     *         [raw] => null,
+     *         [metadata] => [ ... ]
+     *     ]
+     * ];
      *
-     *    if ($collection[1] === $collection['user-phone']) {
-     *        echo "SUCCESS";
-     *    }
+     * $collection = new FieldCollection($fields);
      *
-     *    // OUT: SUCCESS
+     * if ($collection[1] === $collection['user-phone']) {
+     *    echo "SUCCESS";
+     * }
+     *
+     * // outputs: SUCCESS
+     * ```
      *
      * @param int|string $index Numeric index or machine-name
      * @return mixed \Field\Model\Entity\Field on success or NULL on failure

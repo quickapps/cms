@@ -78,7 +78,7 @@ class ViewModeRegistry
      *      ],
      * ]);
      * ```
-     * 
+     *
      * Or you can register a single view mode by passing its "slug", "name"
      * and "description" as three separated arguments:
      *
@@ -181,7 +181,7 @@ class ViewModeRegistry
      * //     ...
      * // ]
      * ```
-     * 
+     *
      * ### Get full information for a particular View Mode:
      *
      * ```php

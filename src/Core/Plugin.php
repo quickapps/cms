@@ -306,9 +306,9 @@ class Plugin extends CakePlugin
      * ```php
      * $json = json_decode(file_gets_content('/path/to/composer.json'), true);
      * Plugin::validateJson($json);
-     * 
+     *
      * // OR:
-     * 
+     *
      * Plugin::validateJson('/path/to/composer.json');
      * ```
      *
@@ -418,7 +418,7 @@ class Plugin extends CakePlugin
      * ```php
      * // Get plugin's composer.json and extract dependencies
      * Plugin::dependencies('UserManager');
-     * 
+     *
      * // may returns: [
      * //    'UserWork' => '1.0',
      * //    'Calentar' => '1.0.*',

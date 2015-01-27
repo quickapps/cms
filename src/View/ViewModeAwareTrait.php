@@ -115,11 +115,11 @@ trait ViewModeAwareTrait
      * ```php
      * $this->switchMode('full');
      * echo 'before: ' . $this->inUseViewMode();
-     * 
+     *
      * echo $this->asViewMode('teaser', function () {
-     *		echo 'callable: ' . $this->inUseViewMode();
+     *      echo 'callable: ' . $this->inUseViewMode();
      * });
-     * 
+     *
      * echo 'after: ' . $this->inUseViewMode();
      *
      * // output:

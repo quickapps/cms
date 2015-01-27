@@ -46,7 +46,7 @@ trait HookAwareTrait
      * ```php
      * $this->trigger('GetTime', $arg_0, $arg_1, ..., $arg_n);
      * ```
-     * 
+     *
      * Your `Event Listener` must implement:
      *
      * ```php
