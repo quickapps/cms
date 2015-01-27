@@ -32,6 +32,18 @@ use Cake\Core\Configure;
             if ($settings['timepicker']) {
                 $this->Html->script("/field/js/timepicker/i18n/jquery-ui-timepicker-{$settings['locale']}.js", ['block' => true]);
             }
+        } else {
+            $options[] = empty($settings['format']) ? "dateFormat: 'yy-mm-dd'" : 'dateFormat: "' . $settings['format'] . '"';
+
+            if ($settings['timepicker']) {
+                if (empty($settings['time_format'])) {
+                    $format = 'H:mm';
+                    $format .= empty($settings['time_seconds']) ?: ':ss';
+                    $options[] = "timeFormat: '{$format}'";
+                } else {
+                    $options[] = "timeFormat: '{$settings['time_format']}'";
+                }
+            }
         }
 
         if ($settings['timepicker']) {
@@ -49,20 +61,10 @@ use Cake\Core\Configure;
             $options[] = "minuteText: '" . __d('field', 'Minute') . "'";
             $options[] = "secondText: '" . __d('field', 'Second') . "'";
             $options[] = "millisecText: '" . __d('field', 'Milliseconds') . "'";
-
-            if (empty($settings['time_format'])) {
-                $format = 'H:mm';
-                $format .= empty($settings['time_seconds']) ?: ':ss';
-                $options[] = "timeFormat: '{$format}'";
-            } else {
-                $options[] = "timeFormat: '{$settings['time_format']}'";
-            }
-
             $options[] = empty($settings['time_seconds']) ?: "showSecond: true";
             $options[] = empty($settings['time_ampm']) ?: "ampm: true";
         }
 
-        $options[] = empty($settings['format']) ? "dateFormat: 'yy-mm-dd'" : 'dateFormat: "' . $settings['format'] . '"';
         $options[] = empty($settings['button_bar']) ?: "showButtonPanel: true";
         $options[] = empty($settings['month_year_menu']) ?: "changeMonth: true";
         $options[] = empty($settings['month_year_menu']) ?: "changeYear: true";
@@ -85,6 +87,13 @@ use Cake\Core\Configure;
                 'option',
                 $.datepicker.regional['<?php echo $settings['locale']; ?>']
             );
+
+            <?php if ($settings['timepicker']): ?>
+                $('#dp-container-<?php echo $field->name; ?> input').<?php echo $pickerWidget; ?>(
+                    'option',
+                    $.timepicker.regional['<?php echo $settings['locale']; ?>']
+                );
+            <?php endif; ?>
         <?php endif; ?>
 
         var dateFormat = $('#dp-container-<?php echo $field->name; ?> input').<?php echo $pickerWidget; ?>('option', 'dateFormat');
