@@ -97,7 +97,7 @@ class UsersTable extends Table
                 'compare' => [
                     'rule' => function ($value, $context) {
                         $value2 = isset($context['data']['password2']) ? $context['data']['password2'] : false;
-                        return (new DefaultPasswordHasher)->check($value2, $value);
+                        return (new DefaultPasswordHasher)->check($value2, $value) || $value == $value2;
                     },
                     'message' => __d('user', 'Password mismatch.'),
                 ],
