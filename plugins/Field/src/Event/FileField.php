@@ -105,13 +105,18 @@ class FileField extends FieldHandler
 
         if ($field->metadata->field_value_id) {
             $newFileNames = Hash::extract($files, '{n}.file_name');
-            $prevFiles = (array)TableRegistry::get('Field.FieldValues')
-                ->get($field->metadata->field_value_id)
-                ->raw;
+
+            try {
+                $prevFiles = (array)TableRegistry::get('Field.FieldValues')
+                    ->get($field->metadata->field_value_id)
+                    ->raw;
+            } catch (\Exception $ex) {
+                $prevFiles = [];
+            }
 
             foreach ($prevFiles as $f) {
                 if (!in_array($f['file_name'], $newFileNames)) {
-                    $file = normalizePath(WWW_ROOT . "/files/{$field->settings['upload_folder']}/{$f['file_name']}", DS);
+                    $file = normalizePath(WWW_ROOT . "/files/{$field->metadata->settings['upload_folder']}/{$f['file_name']}", DS);
                     $file = new File($file);
                     $file->delete();
                 }

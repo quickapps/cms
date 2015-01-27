@@ -61,17 +61,18 @@ trait ViewModeAwareTrait
     }
 
     /**
-     * Gets all registered view modes.
+     * Gets the full list of all registered view modes, or for a single view mode
+     * if $viewMode is set to a string value.
      *
-     * @param bool $full Whether to return full information for each registered
-     *  view mode, or just machine-names of each one. Defaults to false,
-     *  machine-names only.
+     * @param bool|string $viewMode Set to true to get full list. Or false (by default) to
+     *  get only the slug of all registered view modes. Or set to a string value to
+     *  get information for that view mode only.
      * @return array
      * @see \QuickApps\View\ViewModeRegistry::viewModes()
      */
-    public function viewModes($full = false)
+    public function viewModes($viewMode = false)
     {
-        return ViewModeRegistry::viewModes($full);
+        return ViewModeRegistry::viewModes($viewMode);
     }
 
     /**

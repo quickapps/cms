@@ -87,6 +87,7 @@ class GatewayController extends AppController
                                 $this->Users->save($user, ['validate' => false]);
                             }
                         } catch (\Exception $e) {
+                            // invalid user
                         }
                     }
                     return $this->redirect($this->Auth->redirectUrl());

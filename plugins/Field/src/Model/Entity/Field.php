@@ -33,6 +33,13 @@ use QuickApps\View\ViewModeAwareTrait;
  *   - handler: Name of the `Listener Class` a.k.a. `Field Handler`. ex: `Field\Text`
  *   - errors: Validation error messages
  *   - entity: Entity object this field is attached to.
+ *
+ * @property    string $name
+ * @property    string $label
+ * @property    string $value
+ * @property    string $raw
+ * @property    array $metadata
+ * @property    array $settings
  */
 class Field extends Entity
 {

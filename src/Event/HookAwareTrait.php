@@ -26,7 +26,7 @@ trait HookAwareTrait
      * Retrieves the number of times an event was triggered, or the complete list
      * of events that were triggered.
      *
-     * @param string $eventName The name of the event, if null returns the entire
+     * @param string|null $eventName The name of the event, if null returns the entire
      *  list of event that were fired
      * @return int|array
      * @see QuickApps\Event\HookManager::triggered()
@@ -64,7 +64,7 @@ trait HookAwareTrait
      *
      * If no context is given `$this` will be used by default.
      *
-     * @param string|array $eventName The event name to trigger
+     * @param array|string $eventName The event name to trigger
      * @return \Cake\Event\Event The event object that was fired
      * @see QuickApps\Event\HookManager::trigger()
      */
@@ -106,7 +106,7 @@ trait HookAwareTrait
      *
      * If no context is given "$this" will be used by default.
      *
-     * @param string $eventName The name of the "alter hook" to trigger. e.g. `FormHelper.input`
+     * @param array|string $eventName The name of the "alter hook" to trigger. e.g. `FormHelper.input`
      * @param mixed &$p0 Optional Argument by reference
      * @param mixed &$p1 Optional Argument by reference
      * @param mixed &$p2 Optional Argument by reference

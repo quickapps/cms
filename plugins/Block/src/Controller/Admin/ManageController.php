@@ -19,6 +19,8 @@ use QuickApps\Core\Plugin;
  * Block manager controller.
  *
  * Allow CRUD for blocks.
+ *
+ * @property    \Block\Model\Table\BlocksTable $Blocks
  */
 class ManageController extends AppController
 {

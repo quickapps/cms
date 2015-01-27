@@ -161,13 +161,17 @@ class NodesTable extends Table
     public function beforeSave(Event $event, $entity, ArrayObject $options = null)
     {
         if (!$entity->isNew()) {
-            $prev = TableRegistry::get('Node.Nodes')->get($entity->id);
-            $hash = $this->_calculateHash($prev);
-            $exists = $this->NodeRevisions
-                ->exists([
-                    'NodeRevisions.node_id' => $entity->id,
-                    'NodeRevisions.hash' => $hash,
-                ]);
+            try {
+                $prev = TableRegistry::get('Node.Nodes')->get($entity->id);
+                $hash = $this->_calculateHash($prev);
+                $exists = $this->NodeRevisions
+                    ->exists([
+                        'NodeRevisions.node_id' => $entity->id,
+                        'NodeRevisions.hash' => $hash,
+                    ]);
+            } catch (\Exception $ex) {
+                $exists = false;
+            }
 
             if (!$exists) {
                 $revision = $this->NodeRevisions->newEntity([

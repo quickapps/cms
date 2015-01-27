@@ -127,7 +127,7 @@ class HookManager
      * Retrieve the number of times an event was triggered, or the complete list
      * of events that were triggered.
      *
-     * @param string $eventName The name of the event, if null returns the entire
+     * @param string|null $eventName The name of the event, if null returns the entire
      *  list of event that were fired
      * @param bool $sort If first argument is null set this to true to sort the list.
      *  Defaults to true
@@ -159,7 +159,7 @@ class HookManager
      *
      * If no context is given an instance of "HookManager" class will be used by default.
      *
-     * @param array $eventName The event name to trigger
+     * @param array|string $eventName The event name to trigger
      * @param array $args Associative array of argument to pass to the Event handler method
      * @return \Cake\Event\Event The event object that was fired
      */
@@ -222,7 +222,7 @@ class HookManager
      *
      * If no context is given an instance of "Hook" class will be used by default.
      *
-     * @param string $eventName Name of the "alter event" to trigger.
+     * @param array|string $eventName Name of the "alter event" to trigger.
      *  e.g. `FormHelper.input` will trigger `Alter.FormHelper.input` event
      * @param mixed &$p0 Optional argument by reference
      * @param mixed &$p1 Optional argument by reference

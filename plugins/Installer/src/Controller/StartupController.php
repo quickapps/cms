@@ -27,6 +27,8 @@ use QuickApps\Core\Plugin;
  * Controller for handling new QuickAppsCMS installations.
  *
  * This controller starts the installation process for a new QuickAppsCMS setup.
+ *
+ * @property    \User\Model\Table\UsersTable $Users
  */
 class StartupController extends Controller
 {

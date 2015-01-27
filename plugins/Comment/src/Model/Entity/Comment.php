@@ -18,6 +18,7 @@ use User\Model\Entity\User;
 /**
  * Represents a single "comment" within "comments" table.
  *
+ * @property    int $user_id
  */
 class Comment extends Entity
 {

@@ -18,6 +18,7 @@ use QuickApps\Core\Plugin;
 /**
  * Handles file uploading by "Image Field Handler".
  *
+ * @property    \Field\Model\Table\FieldInstancesTable $FieldInstances
  */
 class ImageHandlerController extends FileHandlerController
 {
@@ -27,43 +28,43 @@ class ImageHandlerController extends FileHandlerController
      */
     public function upload($instanceSlug, $uploader = null)
     {
-        $field = $this->_getInstance($instanceSlug);
+        $instance = $this->_getInstance($instanceSlug);
 
         if (!is_object($uploader)) {
             require_once Plugin::classPath('Field') . 'Lib/class.upload.php';
             $uploader = new \upload($this->request->data['Filedata']);
         }
 
-        if (!empty($field->settings['min_width'])) {
-            $uploader->image_min_width = $field->settings['min_width'];
+        if (!empty($instance->settings['min_width'])) {
+            $uploader->image_min_width = $instance->settings['min_width'];
         }
 
-        if (!empty($field->settings['min_height'])) {
-            $uploader->image_min_height = $field->settings['min_height'];
+        if (!empty($instance->settings['min_height'])) {
+            $uploader->image_min_height = $instance->settings['min_height'];
         }
 
-        if (!empty($field->settings['max_width'])) {
-            $uploader->image_max_width = $field->settings['max_width'];
+        if (!empty($instance->settings['max_width'])) {
+            $uploader->image_max_width = $instance->settings['max_width'];
         }
 
-        if (!empty($field->settings['max_height'])) {
-            $uploader->image_max_height = $field->settings['max_height'];
+        if (!empty($instance->settings['max_height'])) {
+            $uploader->image_max_height = $instance->settings['max_height'];
         }
 
-        if (!empty($field->settings['min_ratio'])) {
-            $uploader->image_min_ratio = $field->settings['min_ratio'];
+        if (!empty($instance->settings['min_ratio'])) {
+            $uploader->image_min_ratio = $instance->settings['min_ratio'];
         }
 
-        if (!empty($field->settings['max_ratio'])) {
-            $uploader->image_max_ratio = $field->settings['max_ratio'];
+        if (!empty($instance->settings['max_ratio'])) {
+            $uploader->image_max_ratio = $instance->settings['max_ratio'];
         }
 
-        if (!empty($field->settings['min_pixels'])) {
-            $uploader->image_min_pixels = $field->settings['min_pixels'];
+        if (!empty($instance->settings['min_pixels'])) {
+            $uploader->image_min_pixels = $instance->settings['min_pixels'];
         }
 
-        if (!empty($field->settings['max_pixels'])) {
-            $uploader->image_max_pixels = $field->settings['max_pixels'];
+        if (!empty($instance->settings['max_pixels'])) {
+            $uploader->image_max_pixels = $instance->settings['max_pixels'];
         }
 
         $uploader->allowed = 'image/*';
@@ -77,14 +78,14 @@ class ImageHandlerController extends FileHandlerController
     {
         parent::delete($instanceSlug);
         $this->loadModel('Field.FieldInstances');
-        $field = $this->FieldInstances
+        $instance = $this->FieldInstances
             ->find()
             ->select(['slug', 'settings'])
             ->where(['slug' => $instanceSlug])
             ->limit(1)
             ->first();
 
-        ImageToolbox::deleteThumbnails(WWW_ROOT . "/files/{$field->settings['upload_folder']}/{$this->request->query['file']}");
+        ImageToolbox::deleteThumbnails(WWW_ROOT . "/files/{$instance->settings['upload_folder']}/{$this->request->query['file']}");
     }
 
     /**
@@ -105,13 +106,13 @@ class ImageHandlerController extends FileHandlerController
     public function thumbnail($instanceSlug)
     {
         $this->loadModel('Field.FieldInstances');
-        $field = $this->FieldInstances
+        $instance = $this->FieldInstances
             ->find()
             ->where(['slug' => $instanceSlug])
             ->limit(1)
             ->first();
 
-        if (!$field) {
+        if (!$instance) {
             throw new NotFoundException(__d('field', 'Invalid field instance.'), 400);
         }
 
@@ -123,7 +124,7 @@ class ImageHandlerController extends FileHandlerController
             throw new NotFoundException(__d('field', 'Invalid image size.'), 400);
         }
 
-        $imagePath = normalizePath(WWW_ROOT . "/files/{$field->settings['upload_folder']}/{$this->request->query['file']}");
+        $imagePath = normalizePath(WWW_ROOT . "/files/{$instance->settings['upload_folder']}/{$this->request->query['file']}");
         $tmb = ImageToolbox::thumbnail($imagePath, $this->request->query['size']);
 
         if ($tmb) {

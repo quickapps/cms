@@ -150,7 +150,8 @@ class ViewModeRegistry
     }
 
     /**
-     * Gets the full list of all registered view modes.
+     * Gets the full list of all registered view modes, or for a single view mode
+     * if $viewMode is set to a string value.
      *
      * You can get either a full list of every registered view mode, or a plain list
      * of slugs of every registered view mode. Or you can get all information for a
@@ -192,22 +193,23 @@ class ViewModeRegistry
      * // ]
      * ```
      *
-     * @param bool $full Set to true to get full list. Or false (by default) to
-     *  get only the slug of all registered view modes.
+     * @param bool|string $viewMode Set to true to get full list. Or false (by default) to
+     *  get only the slug of all registered view modes. Or set to a string value to
+     *  get information for that view mode only.
      * @return array
      * @throws \Cake\Network\Exception\InternalErrorException When you try to get
      *  information for a particular View Mode that does not exists
      */
-    public static function viewModes($full = false)
+    public static function viewModes($viewMode = false)
     {
-        if (is_string($full)) {
-            if (!isset(static::$_viewModes[$full])) {
+        if (is_string($viewMode)) {
+            if (!isset(static::$_viewModes[$viewMode])) {
                 throw new InternalErrorException(__('Illegal usage of ViewModeRegistry::switchViewMode(), view mode "{0}" was not found.', $slug));
             }
 
-            return static::$_viewModes[$full];
-        } elseif (!$full) {
-            return array_keys(static::$_viewModes);
+            return static::$_viewModes[$viewMode];
+        } elseif (!$viewMode) {
+            return array_keys(static::$viewMode);
         }
 
         return static::$_viewModes;

@@ -19,6 +19,10 @@ use Node\Controller\AppController;
  * Node manager controller.
  *
  * Provides full CRUD for nodes.
+ *
+ * @property    \Node\Model\Table\NodesTable $Nodes
+ * @property    \Node\Model\Table\NodeTypesTable $NodeTypes
+ * @property    \Node\Model\Table\NodeRevisionsTable $NodeRevisions
  */
 class ManageController extends AppController
 {

@@ -438,6 +438,9 @@ class Plugin extends CakePlugin
      */
     public static function dependencies($plugin)
     {
+        $info = [];
+        $dependencies = [];
+
         if (is_array($plugin)) {
             if (isset($plugin['require'])) {
                 $info['composer']['require'] = $plugin['require'];
@@ -447,7 +450,7 @@ class Plugin extends CakePlugin
         } else {
             $composer = static::composer($plugin);
         }
-        $dependencies = [];
+
         if (!empty($composer['require'])) {
             foreach ($composer['require'] as $name => $version) {
                 $name = pluginName($name);

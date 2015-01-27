@@ -255,7 +255,7 @@ class BlockHelper extends Helper
         ];
 
         $patternsQuoted = preg_quote($patterns, '/');
-        $regexps[$patterns] = '/^(' . preg_replace($toReplace, $replacements, $patternsQuoted) . ')$/';
-        return (bool)preg_match($regexps[$patterns], $path);
+        $patterns = '/^(' . preg_replace($toReplace, $replacements, $patternsQuoted) . ')$/';
+        return (bool)preg_match($patterns, $path);
     }
 }

@@ -17,6 +17,8 @@ use Cake\ORM\TableRegistry;
 /**
  * Represents a single "block" within "blocks" table.
  *
+ * @property    string $handler
+ * @property    array $_matchingData
  */
 class Block extends Entity
 {
