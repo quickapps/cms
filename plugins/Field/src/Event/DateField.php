@@ -12,9 +12,9 @@
 namespace Field\Event;
 
 use Cake\Event\Event;
-use Cake\ORM\Entity;
 use Field\Event\Base\FieldHandler;
 use Field\Model\Entity\Field;
+use Field\Utility\DateToolbox;
 
 /**
  * Date Field Handler.
@@ -61,7 +61,14 @@ class DateField extends FieldHandler
      */
     public function entityBeforeSave(Event $event, Field $field, $options)
     {
-        $date = $options['_post'];
+        if (!empty($options['_post']['date']) && !empty($options['_post']['format'])) {
+            $format = DateToolbox::normalizeFormat($options['_post']['format']);
+            if ($date = date_create_from_format($format, $options['_post']['date'])) {
+                $field->set('raw', date_timestamp_get($date));
+            }
+        }
+
+        $field->set('value', $options['_post']['date']);
         return true;
     }
 
@@ -77,6 +84,9 @@ class DateField extends FieldHandler
      */
     public function entityBeforeValidate(Event $event, Field $field, $options, $validator)
     {
+        if ($field->metadata->required) {
+            $validator->notEmpty(":{$field->name}", __d('field', 'You must upload one image at least.'));
+        }
         return true;
     }
 
@@ -135,8 +145,26 @@ class DateField extends FieldHandler
     /**
      * {@inheritDoc}
      */
-    public function instanceSettingsValidate(Event $event, Entity $settings, $validator)
+    public function instanceSettingsValidate(Event $event, array $settings, $validator)
     {
+        $validator
+            ->allowEmpty('time_format')
+            ->add('time_format', 'validTimeFormat', [
+                'rule' => function ($value, $context) use ($settings) {
+                    if (empty($settings['timepicker'])) {
+                        return true;
+                    }
+                    return DateToolbox::validateTimeFormat($value);
+                },
+                'message' => __d('field', 'Invalid time format.')
+            ])
+            ->allowEmpty('format')
+            ->add('format', 'validDateFormat', [
+                'rule' => function ($value, $context) {
+                    return DateToolbox::validateDateFormat($value);
+                },
+                'message' => __d('field', 'Invalid date format.')
+            ]);
     }
 
     /**
@@ -157,7 +185,7 @@ class DateField extends FieldHandler
             default:
                 return [
                     'label_visibility' => 'above',
-                    'hooktags' => true,
+                    'hooktags' => false,
                     'hidden' => false,
                 ];
         }
@@ -166,7 +194,7 @@ class DateField extends FieldHandler
     /**
      * {@inheritDoc}
      */
-    public function instanceViewModeValidate(Event $event, Entity $viewMode, $validator)
+    public function instanceViewModeValidate(Event $event, array $settings, $validator)
     {
     }
 
