@@ -511,7 +511,7 @@ class MenuHelper extends Helper
             str_starts_with($url, '/') &&
             !preg_match('/^\/(' . $locales . ')/', $url)
         ) {
-            $locale = I18n::defaultLocale();
+            $locale = I18n::locale();
             $url = "/{$locale}{$url}";
             $full = true;
         } else {
@@ -582,7 +582,7 @@ class MenuHelper extends Helper
                 $itemUrl = str_replace_once($baseUrl, '', $itemUrl);
                 if (option('url_locale_prefix')) {
                     if (!preg_match('/^\/' . $this->_localesPattern() . '/', $itemUrl)) {
-                        $itemUrl = '/' . I18n::defaultLocale() . $itemUrl;
+                        $itemUrl = '/' . I18n::locale() . $itemUrl;
                     }
                 }
 
@@ -612,7 +612,7 @@ class MenuHelper extends Helper
 
                             if (option('url_locale_prefix')) {
                                 if (!preg_match('/^\/' . $this->_localesPattern() . '/', $crumb)) {
-                                    $crumb = '/' . I18n::defaultLocale() . $crumb;
+                                    $crumb = '/' . I18n::locale() . $crumb;
                                 }
                             }
                         }
@@ -652,7 +652,7 @@ class MenuHelper extends Helper
             if (option('url_locale_prefix') &&
                 !preg_match('/^\/' . $this->_localesPattern() . '\//', $p, $matches)
             ) {
-                $p = '/' . I18n::defaultLocale() . $p;
+                $p = '/' . I18n::locale() . $p;
             }
         }
 

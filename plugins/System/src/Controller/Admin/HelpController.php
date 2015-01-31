@@ -74,7 +74,7 @@ class HelpController extends AppController
         $about = false;
 
         if (Plugin::loaded($pluginName)) {
-            $locale = I18n::defaultLocale();
+            $locale = I18n::locale();
             $templatePath = App::path('Template', $pluginName)[0] . 'Element/Help/';
             $about = false;
             $lookFor = ["help_{$locale}", 'help'];

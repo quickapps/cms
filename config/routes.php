@@ -89,12 +89,12 @@ if (!file_exists(SITE_ROOT . '/config/settings.php')) {
         Router::addUrlFilter(
             function ($params, $request) use ($localesPattern) {
                 if (!empty($params['_name'])) {
-                    $params['locale'] = I18n::defaultLocale();
+                    $params['locale'] = I18n::locale();
                 } elseif (
                     empty($params['_base']) ||
                     !preg_match("/\/{$localesPattern}\//", $params['_base'])
                 ) {
-                    $params['_base'] = $request->base . '/' . I18n::defaultLocale() . '/';
+                    $params['_base'] = $request->base . '/' . I18n::locale() . '/';
                 }
                 return $params;
             }

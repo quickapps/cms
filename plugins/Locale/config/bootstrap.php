@@ -23,8 +23,8 @@ if (!defined('CORE_LOCALE')) {
 /**
  * Retrieves information for current language.
  *
- * Useful when you need to read current language's code, direction, etc.
- * It will return all the information if no `$key` is given.
+ * Useful when you need to read current language's code, language's direction, etc.
+ * It will returns all the information if no `$key` is given.
  *
  * ### Usage:
  *
@@ -60,9 +60,35 @@ if (!defined('CORE_LOCALE')) {
  */
 function language($key = null)
 {
-    $code = I18n::defaultLocale();
+    $code = I18n::locale();
     if ($key !== null) {
         return Configure::read("QuickApps.languages.{$code}.{$key}");
     }
     return Configure::read('QuickApps.languages.{$code}');
+}
+
+/**
+ * Strips language prefix from the given URL.
+ *
+ * For instance, `/en-us/article/my-first-article.html` becomes
+ * `/article/my-first-article.html`.
+ *
+ * @param string $url The URL
+ * @return string New URL
+ */
+function stripLanguagePrefix($url)
+{
+    static $locales = null;
+    static $localesPattern = null;
+
+    if (!$locales) {
+        $locales = array_keys(quickapps('languages'));
+    }
+
+    if (!$localesPattern) {
+        $localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
+    }
+
+    $url = preg_replace('/\/?' . $localesPattern . '\//', '/', $url);
+    return $url;
 }

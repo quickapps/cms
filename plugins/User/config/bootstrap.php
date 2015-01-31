@@ -87,7 +87,7 @@ function user()
             'name' => __d('user', 'Anonymous'),
             'username' => __d('user', 'anonymous'),
             'email' => __d('user', '(no email)'),
-            'locale' => I18n::defaultLocale(),
+            'locale' => I18n::locale(),
             'roles' => [TableRegistry::get('Roles')->get(ROLE_ID_ANONYMOUS)],
         ];
     }

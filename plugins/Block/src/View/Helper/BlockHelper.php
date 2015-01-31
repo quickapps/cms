@@ -138,7 +138,7 @@ class BlockHelper extends Helper
         }
 
         if (!empty($block->locale) &&
-            !in_array(I18n::defaultLocale(), (array)$block->locale)
+            !in_array(I18n::locale(), (array)$block->locale)
         ) {
             return static::cache($cacheKey, false);
         }
@@ -232,7 +232,7 @@ class BlockHelper extends Helper
 
             foreach ($patterns as &$p) {
                 if (!preg_match("/^{$localesPattern}\//", $p)) {
-                    $p = I18n::defaultLocale() . '/' . $p;
+                    $p = I18n::locale() . '/' . $p;
                     $p = str_replace('//', '/', $p);
                 }
             }

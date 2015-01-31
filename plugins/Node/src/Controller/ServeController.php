@@ -84,7 +84,7 @@ class ServeController extends AppController
             ->where([
                 'Nodes.promote' => 1,
                 'Nodes.status >' => 0,
-                'Nodes.language IN' => ['', I18n::defaultLocale(), null],
+                'Nodes.language IN' => ['', I18n::locale(), null],
             ])
             ->order(['Nodes.sticky' => 'DESC', 'Nodes.created' => 'DESC'])
             ->all();
@@ -146,14 +146,14 @@ class ServeController extends AppController
                 }
             }
 
-            if (!empty($node->language) && $node->language != I18n::defaultLocale()) {
+            if (!empty($node->language) && $node->language != I18n::locale()) {
                 $haveTranslation = $this->Nodes
                     ->find()
                     ->select(['id', 'slug', 'language'])
                     ->where([
                         'translation_for' => $node->id,
                         'node_type_slug' => $nodeTypeSlug,
-                        'language' => I18n::defaultLocale(),
+                        'language' => I18n::locale(),
                         'status' => 1,
                     ])
                     ->first();

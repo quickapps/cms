@@ -154,7 +154,7 @@ class SystemHooktag implements EventListenerInterface
     public function hooktagLocale(Event $event, array $atts, $content, $tag)
     {
         $option = array_keys((array)$atts);
-        $locale = I18n::defaultLocale();
+        $locale = I18n::locale();
         $languages = quickapps('languages');
         $out = '';
 

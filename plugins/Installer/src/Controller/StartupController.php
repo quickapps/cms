@@ -83,15 +83,15 @@ class StartupController extends Controller
         $this->_prepareLayout();
 
         if (!empty($this->request->query['locale']) && !in_array($this->request->params['action'], ['language', 'index'])) {
-            I18n::defaultLocale($this->request->query['locale']);
-            $this->request->session()->write('installation.language', I18n::defaultLocale());
+            I18n::locale($this->request->query['locale']);
+            $this->request->session()->write('installation.language', I18n::locale());
         } elseif ($this->request->session()->read('installation.language')) {
-            I18n::defaultLocale($this->request->session()->read('installation.language'));
+            I18n::locale($this->request->session()->read('installation.language'));
         }
 
         Router::addUrlFilter(function ($params, $request) {
             if (!in_array($request->params['action'], ['language', 'index'])) {
-                $params['locale'] = I18n::defaultLocale();
+                $params['locale'] = I18n::locale();
             }
             return $params;
         });

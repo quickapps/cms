@@ -62,7 +62,7 @@ class Node extends Entity
         $url = Router::getRequest()->base;
 
         if (option('url_locale_prefix')) {
-            $url .= '/' . I18n::defaultLocale();
+            $url .= '/' . I18n::locale();
         }
 
         $url .= "/{$this->node_type_slug}/{$this->slug}.html";
