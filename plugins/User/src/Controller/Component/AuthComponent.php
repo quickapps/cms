@@ -69,7 +69,7 @@ class AuthComponent extends CakeAuthComponent
     {
         $event = $this->trigger('User.beforeLogout');
         if ($event->isStopped() || $event->result === false) {
-            return false;
+            return;
         }
 
         $result = parent::logout();
