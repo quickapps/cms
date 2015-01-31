@@ -21,35 +21,56 @@ use Cake\Console\ShellDispatcher;
  *
  * Allows to use CLI shells on HTTP environments. Use with caution as interactive
  * shell may not work properly.
+ *
+ * ### Usage
+ *
+ * ```php
+ * $success = WebShellDispatcher::run('MyPlugin.MyShell subcommand --arg1 --arg2');
+ *
+ * if ($success) {
+ *     echo "OK";
+ * } else {
+ *     echo "ERROR, see below:<br />";
+ *     echo '<pre>' . WebShellDispatcher::output() . '</pre>';
+ * }
+ * ```
  */
 class WebShellDispatcher extends ShellDispatcher
 {
 
     /**
+     * Holds the output of the last shell process.
+     *
+     * @var string
+     */
+    protected $_out = '';
+
+    /**
      * Run the dispatcher
      *
      * @param string $args Commands to run
-     * @return string Output buffer of the shell process.
+     * @return bool Result of the shell process. True on success, false otherwise.
      */
     public static function run($args)
     {
+        static::$_out = '';
         $argv = explode(' ', "dummy-shell.php {$args}");
         $dispatcher = new WebShellDispatcher($argv);
-        return $dispatcher->_dispatch();
+
+        ob_start();
+        $response = $dispatcher->dispatch();
+        static::$_out = ob_get_clean();
+        return ($response === 0);
     }
 
     /**
-     * Dispatch a request.
+     * Returns the output result of the last shell process executed using run().
      *
-     * @return string Output buffer
-     * @throws \Cake\Console\Exception\MissingShellMethodException
+     * @return string
      */
-    protected function _dispatch()
+    public static function output()
     {
-        ob_start();
-        $response = parent::_dispatch();
-        $out = ob_get_clean();
-        return $out;
+        return static::$_out;
     }
 
     /**

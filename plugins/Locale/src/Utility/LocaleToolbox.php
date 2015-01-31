@@ -218,7 +218,7 @@ class LocaleToolbox
     /**
      * Gets a list of counties flags suitable for select boxes.
      *
-     * @return void
+     * @return array
      */
     public static function flagsList()
     {

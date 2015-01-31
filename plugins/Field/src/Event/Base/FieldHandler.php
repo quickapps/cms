@@ -153,10 +153,12 @@ class FieldHandler implements EventListenerInterface
      * Returning a non-true value will halt the save operation, as stopping
      * the event as well.
      *
-     * The options array contains the `post` key, which holds all the information
+     * The options array contains the `_post` key, which holds all the information
      * you need to update you field:
      *
-     *     $options['post']
+     * ```php
+     * $options['_post']
+     * ```
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Field\Model\Entity\Field $field Field information

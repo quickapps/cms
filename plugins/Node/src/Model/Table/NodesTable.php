@@ -124,13 +124,15 @@ class NodesTable extends Table
         ]);
         $this->addBehavior('Search.Searchable', [
             'fields' => function ($node) {
-                $words = "{$node->title} {$node->description}";
+                $words = '';
+                $words .= empty($node->title) ?: " {$node->title}";
+                $words .= empty($node->title) ?: " {$node->description}";
+
                 if (!empty($node->_fields)) {
                     foreach ($node->_fields as $vf) {
                         $words .= ' ' . trim($vf->value);
                     }
                 }
-
                 return $words;
             }
         ]);

@@ -38,7 +38,7 @@ class UrlHelper extends CakeUrlHelper
     /**
      * {@inheritDoc}
      */
-    public function assetUrl($path, array $options = array())
+    public function assetUrl($path, array $options = [])
     {
         $this->alter(['UrlHelper.assetUrl', $this->_View], $path, $options);
         return parent::assetUrl($path, $options);
