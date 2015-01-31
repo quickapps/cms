@@ -13,6 +13,19 @@
 
 <p><?php echo $this->element('User.index_submenu'); ?></p>
 
+<div class="row">
+	<div class="col-md-4 pull-right">
+		<p>
+			<?php echo $this->Form->create(null, ['type' => 'get']); ?>
+			<div class="input-group">
+				<?php echo $this->Form->input('filter', ['label' => false]) ?>
+				<span class="input-group-btn"><?php echo $this->Form->submit(__d('node', 'Search Users')); ?></span>
+			</div>
+			<?php echo $this->Form->end(); ?>
+		</p>
+	</div>
+</div>
+
 <table class="table table-hover">
 	<thead>
 		<tr>

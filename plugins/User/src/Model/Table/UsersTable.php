@@ -46,7 +46,28 @@ class UsersTable extends Table
                 ]
             ]
         ]);
+        $this->addBehavior('Search.Searchable', [
+            'fields' => function ($user) {
+                $words = '';
+                $words .= empty($user->name) ?: " {$user->name}";
+                $words .= empty($user->username) ?: " {$user->username}";
+                $words .= empty($user->email) ?: " {$user->email}";
+                $words .= empty($user->web) ?: " {$user->web}";
+
+                if (!empty($user->_fields)) {
+                    foreach ($user->_fields as $vf) {
+                        $words .= ' ' . trim($vf->value);
+                    }
+                }
+                return $words;
+            }
+        ]);
         $this->addBehavior('Field.Fieldable');
+
+        $this->addSearchOperator('created', 'operatorCreated');
+        $this->addSearchOperator('limit', 'operatorLimit');
+        $this->addSearchOperator('order', 'operatorOrder');
+        $this->addSearchOperator('email', 'operatorEmail');
     }
 
     /**
@@ -166,5 +187,166 @@ class UsersTable extends Table
                 return $q->where(['Roles.id' => ROLE_ID_ADMINISTRATOR]);
             })
             ->count();
+    }
+
+    /**
+     * Handles "created" search operator.
+     *
+     *     created:<date>
+     *     created:<date1>..<date2>
+     *
+     * Dates must be in YEAR-MONTH-DATE format. e.g. `2014-12-30`
+     *
+     * @param \Cake\ORM\Query $query The query object
+     * @param string $value Operator's arguments
+     * @param bool $negate Whether this operator was negated or not
+     * @param string $orAnd and|or
+     * @return void
+     */
+    public function operatorCreated(Query $query, $value, $negate, $orAnd)
+    {
+        if (strpos($value, '..') !== false) {
+            list($dateLeft, $dateRight) = explode('..', $value);
+        } else {
+            $dateLeft = $dateRight = $value;
+        }
+
+        $dateLeft = preg_replace('/[^0-9\-]/', '', $dateLeft);
+        $dateRight = preg_replace('/[^0-9\-]/', '', $dateRight);
+        $range = [$dateLeft, $dateRight];
+        foreach ($range as &$date) {
+            $parts = explode('-', $date);
+            $year = !empty($parts[0]) ? intval($parts[0]) : date('Y');
+            $month = !empty($parts[1]) ? intval($parts[1]) : 1;
+            $day = !empty($parts[2]) ? intval($parts[2]) : 1;
+
+            $year = (1 <= $year && $year <= 32767) ? $year : date('Y');
+            $month = (1 <= $month && $month <= 12) ? $month : 1;
+            $day = (1 <= $month && $month <= 31) ? $day : 1;
+
+            $date = date('Y-m-d', strtotime("{$year}-{$month}-{$day}"));
+        }
+
+        list($dateLeft, $dateRight) = $range;
+        if (strtotime($dateLeft) > strtotime($dateRight)) {
+            $tmp = $dateLeft;
+            $dateLeft = $dateRight;
+            $dateRight = $tmp;
+        }
+
+        if ($dateLeft !== $dateRight) {
+            $not = $negate ? ' NOT' : '';
+            $conditions = [
+                "AND{$not}" => [
+                    'Users.created >=' => $dateLeft,
+                    'Users.created <=' => $dateRight,
+                ]
+            ];
+        } else {
+            $cmp = $negate ? '<=' : '>=';
+            $conditions = ["Users.created {$cmp}" => $dateLeft];
+        }
+
+        if ($orAnd === 'or') {
+            $query->orWhere($conditions);
+        } elseif ($orAnd === 'and') {
+            $query->andWhere($conditions);
+        } else {
+            $query->where($conditions);
+        }
+
+        return $query;
+    }
+
+    /**
+     * Handles "limit" search operator.
+     *
+     *     limit:<number>
+     *
+     * @param \Cake\ORM\Query $query The query object
+     * @param string $value Operator's arguments
+     * @param bool $negate Whether this operator was negated or not
+     * @param string $orAnd and|or
+     * @return void
+     */
+    public function operatorLimit(Query $query, $value, $negate, $orAnd)
+    {
+        if ($negate) {
+            return $query;
+        }
+
+        $value = intval($value);
+
+        if ($value > 0) {
+            $query->limit($value);
+        }
+
+        return $query;
+    }
+
+    /**
+     * Handles "order" search operator.
+     *
+     *     order:<field1>,<asc|desc>;<field2>,<asc,desc>; ...
+     *
+     * @param \Cake\ORM\Query $query The query object
+     * @param string $value Operator's arguments
+     * @param bool $negate Whether this operator was negated or not
+     * @param string $orAnd and|or
+     * @return void
+     */
+    public function operatorOrder(Query $query, $value, $negate, $orAnd)
+    {
+        if ($negate) {
+            return $query;
+        }
+
+        $value = strtolower($value);
+        $split = explode(';', $value);
+
+        foreach ($split as $segment) {
+            $parts = explode(',', $segment);
+            if (count($parts) === 2 &&
+                in_array($parts[1], ['asc', 'desc']) &&
+                in_array($parts[0], ['slug', 'title', 'description', 'sticky', 'created', 'modified'])
+            ) {
+                $field = $parts[0];
+                $dir = $parts[1];
+                $query->order(["Users.{$field}" => $dir]);
+            }
+        }
+
+        return $query;
+    }
+
+    /**
+     * Handles "email" search operator.
+     *
+     *     email:<user1@demo.com>,<user2@demo.com>, ...
+     *
+     * @param \Cake\ORM\Query $query The query object
+     * @param string $value Operator's arguments
+     * @param bool $negate Whether this operator was negated or not
+     * @param string $orAnd and|or
+     * @return void
+     */
+    public function operatorEmail(Query $query, $value, $negate, $orAnd)
+    {
+        $value = explode(',', $value);
+
+        if (!empty($value)) {
+            $conjunction = $negate ? 'NOT IN' : 'IN';
+            $conditions = ["Users.email {$conjunction}" => $value];
+
+            if ($orAnd === 'or') {
+                $query->orWhere($conditions);
+            } elseif ($orAnd === 'and') {
+                $query->andWhere($conditions);
+            } else {
+                $query->where($conditions);
+            }
+        }
+
+        return $query;
     }
 }

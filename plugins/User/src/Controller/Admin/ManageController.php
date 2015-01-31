@@ -43,8 +43,12 @@ class ManageController extends AppController
     {
         $this->loadModel('User.Users');
         $users = $this->Users->find()->contain(['Roles']);
-        $this->set('users', $this->paginate($users));
 
+        if (!empty($this->request->query['filter'])) {
+            $this->Users->search($this->request->query['filter'], $users);
+        }
+
+        $this->set('users', $this->paginate($users));
         $this->Breadcrumb->push('/admin/user/manage');
     }
 
