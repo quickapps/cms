@@ -114,8 +114,12 @@ class DatabaseTask extends Shell
                 }
             }
 
-            $className = Inflector::camelize($table) . 'Fixture';
+            $rows = $Table->find('all');
+            foreach ($rows as $row) {
+                $records[] = $row->toArray();
+            }
 
+            $className = Inflector::camelize($table) . 'Fixture';
             $fields = json_decode(str_replace(['(', ')'], ['&#40', '&#41'], json_encode($fields)), true);
             $fields = var_export($fields, true);
             $fields = str_replace(['array (', ')', '&#40', '&#41'], ['[', ']', '(', ')'], $fields);

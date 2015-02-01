@@ -147,9 +147,9 @@ class BlocksFixture {
   ),
 );
 
-	public $records = array (
+    public $records = [
   0 => 
-  array (
+  [
     'id' => 1,
     'copy_id' => NULL,
     'delta' => '1',
@@ -162,9 +162,9 @@ class BlocksFixture {
     'locale' => NULL,
     'settings' => NULL,
     'status' => true,
-  ),
+  ],
   1 => 
-  array (
+  [
     'id' => 2,
     'copy_id' => NULL,
     'delta' => '2',
@@ -177,9 +177,9 @@ class BlocksFixture {
     'locale' => NULL,
     'settings' => NULL,
     'status' => true,
-  ),
+  ],
   2 => 
-  array (
+  [
     'id' => 3,
     'copy_id' => NULL,
     'delta' => 'dashboard_recent_content',
@@ -192,9 +192,9 @@ class BlocksFixture {
     'locale' => NULL,
     'settings' => NULL,
     'status' => true,
-  ),
+  ],
   3 => 
-  array (
+  [
     'id' => 4,
     'copy_id' => NULL,
     'delta' => 'dashboard_search',
@@ -207,8 +207,23 @@ class BlocksFixture {
     'locale' => NULL,
     'settings' => NULL,
     'status' => true,
-  ),
-);
+  ],
+  4 => 
+  [
+    'id' => 5,
+    'copy_id' => NULL,
+    'delta' => 'language_switcher',
+    'handler' => 'Locale',
+    'title' => 'Change Language',
+    'description' => 'Language switcher block',
+    'body' => NULL,
+    'visibility' => 'except',
+    'pages' => NULL,
+    'locale' => NULL,
+    'settings' => 'a:2:{s:4:"type";s:4:"html";s:5:"flags";b:1;}',
+    'status' => true,
+  ],
+];
 
 }
 
