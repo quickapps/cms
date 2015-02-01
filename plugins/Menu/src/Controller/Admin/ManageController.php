@@ -46,20 +46,29 @@ class ManageController extends AppController
         $menu = $this->Menus->newEntity();
         $menu->set('handler', 'Menu');
 
-        if ($this->request->data) {
+        if ($this->request->data()) {
             $data = $this->_prepareData();
-            $menu = $this->Menus->patchEntity($menu, $data, [
-                'fieldList' => [
-                    'title',
-                    'description',
-                    'settings',
-                ],
-            ]);
+            $validator = $this->Menus->validator();
+            $this->trigger(["Menu.{$menu->handler}.validate", $this->Menus], $data, $validator);
+            $errors = $validator->errors($data, false);
 
-            if ($this->Menus->save($menu, ['atomic' => true])) {
-                $this->Flash->success(__d('menu', 'Menu has been created, now you can start adding links!'));
-                $this->redirect(['plugin' => 'Menu', 'controller' => 'links', 'action' => 'add', $menu->id]);
+            if (empty($errors)) {
+                $menu = $this->Menus->patchEntity($menu, $data, [
+                    'fieldList' => [
+                        'title',
+                        'description',
+                        'settings',
+                    ],
+                ]);
+
+                if ($this->Menus->save($menu, ['atomic' => true])) {
+                    $this->Flash->success(__d('menu', 'Menu has been created, now you can start adding links!'));
+                    $this->redirect(['plugin' => 'Menu', 'controller' => 'links', 'action' => 'add', $menu->id]);
+                } else {
+                    $this->Flash->danger(__d('menu', 'Menu could not be created, please check your information'));
+                }
             } else {
+                $menu->errors($errors);
                 $this->Flash->danger(__d('menu', 'Menu could not be created, please check your information'));
             }
         }
@@ -73,6 +82,10 @@ class ManageController extends AppController
     /**
      * Edits the given menu by ID.
      *
+     * The event `Block.<handler>.validate` will be automatically triggered,
+     * so custom menu's (those handled by plugins <> "Menu") can be validated
+     * before persisted.
+     *
      * @param int $id Menu's ID
      * @return void
      */
@@ -83,18 +96,27 @@ class ManageController extends AppController
 
         if ($this->request->data) {
             $data = $this->_prepareData();
-            $menu = $this->Menus->patchEntity($menu, $data, [
-                'fieldList' => [
-                    'title',
-                    'description',
-                    'settings',
-                ],
-            ]);
+            $validator = $this->Menus->validator('default');
+            $errors = $validator->errors($data, false);
 
-            if ($this->Menus->save($menu, ['atomic' => true])) {
-                $this->Flash->success(__d('menu', 'Menu has been saved!'));
-                $this->redirect($this->referer());
+            if (empty($errors)) {
+                $menu = $this->Menus->patchEntity($menu, $data, [
+                    'fieldList' => [
+                        'title',
+                        'description',
+                        'settings',
+                    ],
+                    'validate' => false
+                ]);
+
+                if ($this->Menus->save($menu, ['atomic' => true])) {
+                    $this->Flash->success(__d('menu', 'Menu has been saved!'));
+                    $this->redirect($this->referer());
+                } else {
+                    $this->Flash->danger(__d('menu', 'Menu could not be saved, please check your information'));
+                }
             } else {
+                $menu->errors($errors);
                 $this->Flash->danger(__d('menu', 'Menu could not be saved, please check your information'));
             }
         }

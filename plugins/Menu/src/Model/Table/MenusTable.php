@@ -57,12 +57,18 @@ class MenusTable extends Table
             ->add('title', [
                 'notEmpty' => [
                     'rule' => 'notEmpty',
-                    'message' => __d('node', 'You need to provide a title.'),
+                    'message' => __d('menu', 'You need to provide a title.'),
                 ],
                 'length' => [
                     'rule' => ['minLength', 3],
-                    'message' => __d('node', 'Title need to be at least 3 characters long.'),
+                    'message' => __d('menu', 'Title need to be at least 3 characters long.'),
                 ],
+                'transaction' => [
+                    'rule' => function ($value, $context) use ($options) {
+                        return !empty($options['atomic']) && $options['atomic'] === true;
+                    },
+                    'message' => __d('menu', 'Illegal action, you must use "atomic => true" when saving Menu entities.')
+                ]
             ])
             ->requirePresence('handler', 'create')
             ->add('handler', 'validHandler', [
@@ -72,47 +78,6 @@ class MenusTable extends Table
             ]);
 
         return $validator;
-    }
-
-    /**
-     * Triggers the "Menu.<handler>.beforeValidate" hook, so plugins may do
-     * any logic their require.
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Menu\Model\Entity\Menu $menu Menu entity being validated
-     * @param \ArrayObject $options Options given as an array
-     * @param \Cake\Validation\Validator $validator The validator object being applied
-     * @return bool False if save operation should not continue, true otherwise
-     */
-    public function beforeValidate(Event $event, Menu $menu, ArrayObject $options, Validator $validator)
-    {
-        $validator
-            ->add('title', 'transaction', [
-                'rule' => function ($value, $context) use ($options) {
-                    return !empty($options['atomic']) && $options['atomic'] === true;
-                },
-                'message' => __d('menu', 'Illegal action, you must use "atomic => true" when saving Menu entities.')
-            ]);
-        $menuEvent = $this->trigger(["Menu.{$menu->handler}.beforeValidate", $event->subject()], $menu, $options, $validator);
-        if ($menuEvent->isStopped() || $menuEvent->result === false) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Triggers the "Menu.<handler>.afterValidate" hook, so plugins may do
-     * any logic their require.
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Menu\Model\Entity\Menu $menu The menu entity that was validated
-     * @param \ArrayObject $options Additional options given as an array
-     * @param \Cake\Validation\Validator $validator The validator object
-     * @return void
-     */
-    public function afterValidate(Event $event, Menu $menu, ArrayObject $options, Validator $validator)
-    {
-        $this->trigger(["Menu.{$menu->handler}.afterValidate", $event->subject()], $menu, $options, $validator);
     }
 
     /**

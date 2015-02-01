@@ -238,7 +238,7 @@ class ThemesController extends AppController
             $this->loadModel('System.Plugins');
             $settingsEntity = new Entity($this->request->data);
             $settingsEntity->set('_plugin_name', $themeName);
-            $errors = $this->Plugins->validator('settings')->errors($settingsEntity->toArray());
+            $errors = $this->Plugins->validator('settings')->errors($settingsEntity->toArray(), false);
 
             if (empty($errors)) {
                 $pluginEntity = $this->Plugins->get($themeName);

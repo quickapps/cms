@@ -179,8 +179,7 @@ class PluginsController extends AppController
      * When saving plugin's information `PluginsTable` will trigger the
      * following events:
      *
-     * - `Plugin.<PluginName>.beforeValidate`
-     * - `Plugin.<PluginName>.afterValidate`
+     * - `Plugin.<PluginName>.validate`
      * - `Plugin.<PluginName>.beforeSave`
      * - `Plugin.<PluginName>.afterSave`
      *
@@ -197,7 +196,7 @@ class PluginsController extends AppController
      * Validation rules can be applied to settings, plugins must simply catch the
      * event:
      *
-     * - `Plugin.<PluginName>.settingsValidate`
+     * - `Plugin.<PluginName>.validate`
      *
      * @param string $pluginName Plugin's name
      * @return void
@@ -216,15 +215,16 @@ class PluginsController extends AppController
             throw new NotFoundException(__d('system', 'The requested page was not found.'));
         }
 
-        if (!empty($this->request->data)) {
+        if ($this->request->data()) {
             $this->loadModel('System.Plugins');
-            $settingsEntity = new Entity($this->request->data);
-            $settingsEntity->set('_plugin_name', $pluginName);
-            $errors = $this->Plugins->validator('settings')->errors($settingsEntity->toArray());
+            $data = $this->request->data();
+            $validator = $this->Plugins->validator('settings');
+            $this->trigger(["Plugin.{$pluginName}.validate", $this->Plugins], $data, $validator);
+            $errors = $validator->errors($data, false);
 
             if (empty($errors)) {
                 $pluginEntity = $this->Plugins->get($pluginName);
-                $pluginEntity->set('settings', $this->request->data);
+                $pluginEntity->set('settings', $this->request->data());
 
                 if ($this->Plugins->save($pluginEntity)) {
                     $this->Flash->success(__d('system', 'Plugin settings saved!'));

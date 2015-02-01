@@ -96,22 +96,6 @@ class PluginsTable extends Table
     }
 
     /**
-     * Triggers `Plugin.<PluginName>.settingsValidate` event.
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Cake\ORM\Entity $entity The Plugin entity that is going to be validated
-     * @param \ArrayObject $options Additional options as an array
-     * @param \Cake\Validation\Validator $validator The validator object
-     * @return bool|null False if save operation should not continue, true otherwise
-     */
-    public function beforeValidate(Event $event, Entity $entity, ArrayObject $options, Validator $validator)
-    {
-        if (!empty($options['validate']) && $options['validate'] == 'settings') {
-            $this->trigger(['Plugin.' . $entity->get('_plugin_name') . '.settingsValidate', $event->subject()], $entity, $validator);
-        }
-    }
-
-    /**
      * Set plugin's load ordering to LAST if it's a new plugin being installed.
      *
      * @param \Cake\Event\Event $event The event that was triggered

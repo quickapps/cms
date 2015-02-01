@@ -176,7 +176,7 @@ trait FieldUIControllerTrait
             'errors' => [],
         ];
 
-        if ($this->request->data) {
+        if ($this->request->data()) {
             $instance->accessible('*', true);
             $instance->accessible(['id', 'table_alias', 'handler', 'ordering'], false);
 
@@ -189,7 +189,7 @@ trait FieldUIControllerTrait
 
             $validator = $this->FieldInstances->validator('settings');
             $this->trigger(["Field.{$instance->handler}.Instance.settingsValidate", $this->FieldInstances], $this->request->data(), $validator);
-            $errors = $validator->errors($this->request->data());
+            $errors = $validator->errors($this->request->data(), false);
 
             if (empty($errors)) {
                 $instance->set('settings', $this->request->data());
@@ -342,7 +342,7 @@ trait FieldUIControllerTrait
         if ($this->request->data()) {
             $validator = $this->FieldInstances->validator('viewMode');
             $this->trigger(["Field.{$instance->handler}.Instance.viewModeValidate", $this->FieldInstances], $this->request->data(), $validator);
-            $errors = $validator->errors($this->request->data());
+            $errors = $validator->errors($this->request->data(), false);
 
             if (empty($errors)) {
                 $instance->accessible('*', true);

@@ -45,7 +45,7 @@ class UserHook implements EventListenerInterface
             'User.canceled' => 'canceled',
             'User.passwordRequest' => 'passwordRequest',
 
-            'Plugin.User.settingsValidate' => 'settingsBeforeValidate',
+            'Plugin.User.validate' => 'settingsValidate',
         ];
     }
 
@@ -181,11 +181,11 @@ class UserHook implements EventListenerInterface
      * Provides defaults values for settings keys.
      *
      * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Cake\ORM\Entity $settings Settings given as an entity object
+     * @param array $data Data to be validated
      * @param \Cake\Validation\Validator $validator The validator object
      * @return void
      */
-    public function settingsBeforeValidate(Event $event, $settings, $validator)
+    public function settingsValidate(Event $event, $data, $validator)
     {
         $validator
             ->requirePresence('message_welcome_subject')
@@ -200,19 +200,19 @@ class UserHook implements EventListenerInterface
             ->requirePresence('message_cancel_request_subject')
             ->notEmpty('message_cancel_request_body', __d('user', 'This field cannot be empty.'));
 
-        if ($settings->message_activation) {
+        if ($data['message_activation']) {
             $validator
                 ->requirePresence('message_activation_subject')
                 ->notEmpty('message_activation_body', __d('user', 'This field cannot be empty.'));
         }
 
-        if ($settings->message_blocked) {
+        if ($data['message_blocked']) {
             $validator
                 ->requirePresence('message_blocked_subject')
                 ->notEmpty('message_blocked_body', __d('user', 'This field cannot be empty.'));
         }
 
-        if ($settings->message_canceled) {
+        if ($data['message_canceled']) {
             $validator
                 ->requirePresence('message_canceled_subject')
                 ->notEmpty('message_canceled_body', __d('user', 'This field cannot be empty.'));

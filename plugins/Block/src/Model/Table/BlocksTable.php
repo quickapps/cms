@@ -129,11 +129,11 @@ class BlocksTable extends Table
                     'provider' => 'table',
                 ]
             ])
-            ->requirePresence('handler', 'create')
+            ->requirePresence('handler', 'create', __d('block', 'This field is required.'))
             ->add('handler', 'validHandler', [
                 'rule' => 'notEmpty',
                 'on' => 'create',
-                'message' => __d('menu', 'Invalid menu handler'),
+                'message' => __d('menu', 'Invalid block handler'),
             ]);
     }
 
@@ -164,42 +164,9 @@ class BlocksTable extends Table
     }
 
     /**
-     * Triggers the "Block.<handler>.beforeValidate" hook, so plugins may do
-     * any logic their require.
+     * Triggers the following events:
      *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Block\Model\Entity\Block $block The block entity being validated
-     * @param \ArrayObject $options Additional options given as an array
-     * @param \Cake\Validation\Validator $validator The validator object
-     * @return bool False if save operation should not continue, true otherwise
-     */
-    public function beforeValidate(Event $event, Block $block, ArrayObject $options, Validator $validator)
-    {
-        $blockEvent = $this->trigger(["Block.{$block->handler}.beforeValidate", $event->subject()], $block, $options, $validator);
-        if ($blockEvent->isStopped() || $blockEvent->result === false) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Triggers the "Block.<handler>.afterValidate" hook, so plugins may do
-     * any logic their require.
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Block\Model\Entity\Block $block The block entity that was validated
-     * @param \ArrayObject $options Additional options given as an array
-     * @param \Cake\Validation\Validator $validator The validator object
-     * @return void
-     */
-    public function afterValidate(Event $event, Block $block, ArrayObject $options, Validator $validator)
-    {
-        $this->trigger(["Block.{$block->handler}.afterValidate", $event->subject()], $block, $options, $validator);
-    }
-
-    /**
-     * Triggers the "Block.<handler>.beforeSave" hook, so plugins may do
-     * any logic their require.
+     * - `Block.<handler>.beforeSave`
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Block\Model\Entity\Block $block The block entity being saved

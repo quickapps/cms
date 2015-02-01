@@ -32,6 +32,7 @@ class LocaleHook implements EventListenerInterface
     {
         return [
             'Block.Locale.display' => 'renderBlock',
+            'Block.Locale.settings' => 'settingsBlock',
         ];
     }
 
@@ -49,6 +50,19 @@ class LocaleHook implements EventListenerInterface
      */
     public function renderBlock(Event $event, $block, $options = [])
     {
-        return $event->subject()->element("Locale.{$block->delta}", compact('block', 'options'));
+        return $event->subject()->element("Locale.{$block->delta}_render", compact('block', 'options'));
+    }
+
+    /**
+     * Renders block's settings form elements.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Block\Model\Entity\Block $block The block being rendered
+     * @param array $options Additional options as an array
+     * @return string
+     */
+    public function settingsBlock(Event $event, $block, $options = [])
+    {
+        return $event->subject()->element("Locale.{$block->delta}_settings", compact('block', 'options'));
     }
 }

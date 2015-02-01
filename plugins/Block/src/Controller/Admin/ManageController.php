@@ -12,6 +12,7 @@
 namespace Block\Controller\Admin;
 
 use Block\Controller\AppController;
+use Cake\View\Form\ArrayContext;
 use Locale\Utility\LocaleToolbox;
 use QuickApps\Core\Plugin;
 
@@ -137,16 +138,23 @@ class ManageController extends AppController
         $this->loadModel('Block.Blocks');
         $block = $this->Blocks->newEntity();
 
-        if (!empty($this->request->data)) {
+        if ($this->request->data()) {
             $data = $this->_prepareData();
             $data['handler'] = 'Block';
-            $block = $this->Blocks->patchEntity($block, $data);
-            $block->calculateDelta();
+            $validator = $this->Blocks->validator('custom');
+            $errors = $validator->errors($data, false);
 
-            if ($this->Blocks->save($block, ['validate' => 'custom'])) {
-                $this->Flash->success(__d('block', 'Block created.'));
-                $this->redirect(['plugin' => 'Block', 'controller' => 'manage', 'action' => 'edit', $block->id]);
+            if (empty($errors)) {
+                $block = $this->Blocks->patchEntity($block, $data, ['validate' => false]);
+                $block->calculateDelta();
+                if ($this->Blocks->save($block)) {
+                    $this->Flash->success(__d('block', 'Block created.'));
+                    $this->redirect(['plugin' => 'Block', 'controller' => 'manage', 'action' => 'edit', $block->id]);
+                } else {
+                    $this->Flash->danger(__d('block', 'Block could not be created, please check your information.'));
+                }
             } else {
+                $block->errors($errors);
                 $this->Flash->danger(__d('block', 'Block could not be created, please check your information.'));
             }
         }
@@ -164,6 +172,10 @@ class ManageController extends AppController
     /**
      * Edits the given block by ID.
      *
+     * The event `Block.<handler>.validate` will be automatically triggered,
+     * so custom block's (those handled by plugins <> "Block") can be validated
+     * before persisted.
+     *
      * @param string $id Block's ID
      * @return void
      * @throws \Cake\ORM\Exception\RecordNotFoundException if no block is not found
@@ -174,21 +186,32 @@ class ManageController extends AppController
         $block = $this->Blocks->get($id, ['contain' => ['BlockRegions', 'Roles']]);
         $block->accessible('handler', false);
 
-        if (!empty($this->request->data)) {
+        if ($this->request->data()) {
             $data = $this->_prepareData($block);
-            $block->accessible('id', false);
-            $block = $this->Blocks->patchEntity($block, $data);
-            $validate = $block->handler != 'Block' ? 'default' : 'custom';
+            $validator = $block->handler != 'Block' ? $this->Blocks->validator('default') : $this->Blocks->validator('custom');
+            $this->trigger(["Block.{$block->handler}.validate", $this->Blocks], $data, $validator);
+            $errors = $validator->errors($data, false);
 
-            if ($this->Blocks->save($block, ['validate' => $validate])) {
-                $this->Flash->success(__d('block', 'Block updated!'));
-                $this->redirect(['plugin' => 'Block', 'controller' => 'manage', 'action' => 'edit', $block->id]);
+            if (empty($errors)) {
+                $block->accessible('id', false);
+                $block = $this->Blocks->patchEntity($block, $data, ['validate' => false]);
+                if ($this->Blocks->save($block)) {
+                    $this->Flash->success(__d('block', 'Block updated!'));
+                    $this->redirect($this->referer());
+                } else {
+                    $this->Flash->success(__d('block', 'Your information could not be saved, please try again.'));
+                }
             } else {
+                $block->errors($errors);
                 $this->Flash->danger(__d('block', 'Block could not be updated, please check your information.'));
+            }
+        } else {
+            foreach ($block->settings as $k => $v) {
+                $block->set($k, $v);
             }
         }
 
-        $this->set('block', $block);
+        $this->set(compact('block'));
         $this->_setLanguages();
         $this->_setRoles();
         $this->_setRegions($block);
@@ -325,7 +348,7 @@ class ManageController extends AppController
      * to the "settings" column. For example, `random_name` becomes `settings.random_name`.
      *
      * @param null|\Block\Model\Entity\Block $block Optional entity to properly
-     * fetch associated data when updating
+     *  fetch associated data when updating
      * @param array $ignore List of key to ignore, will not be moved under `settings`
      * @return array
      */
@@ -336,12 +359,12 @@ class ManageController extends AppController
         $data = ['region' => []];
         $columns = array_merge($this->Blocks->schema()->columns(), $ignore);
 
-        foreach ($this->request->data as $coulumn => $value) {
-            if (in_array($coulumn, $columns)) {
-                if ($coulumn == 'region') {
+        foreach ($this->request->data() as $column => $value) {
+            if (in_array($column, $columns)) {
+                if ($column == 'region') {
                     foreach ($value as $theme => $region) {
                         if (!$block) {
-                            $data[$coulumn][] = [
+                            $data[$column][] = [
                                 'theme' => $theme,
                                 'region' => $region
                             ];
@@ -357,14 +380,14 @@ class ManageController extends AppController
                                     break;
                                 }
                             }
-                            $data[$coulumn][] = $tmp;
+                            $data[$column][] = $tmp;
                         }
                     }
                 } else {
-                    $data[$coulumn] = $value;
+                    $data[$column] = $value;
                 }
             } else {
-                $data['settings'][$coulumn] = $value;
+                $data['settings'][$column] = $value;
             }
         }
 
