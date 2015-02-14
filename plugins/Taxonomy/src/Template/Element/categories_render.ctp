@@ -46,7 +46,7 @@ $vocabularies = TableRegistry::get('Taxonomy.Vocabularies')
     <?php
         $terms = TableRegistry::get('Taxonomy.Terms')
             ->find('threaded')
-            ->where(['Terms.vocabulary_id IN' => $vocabularies->extract('id')])
+            ->where(['Terms.vocabulary_id IN' => $vocabularies->extract('id')->toArray()])
             ->order(['Terms.lft' => 'ASC']);
 
         TaxonomyToolbox::termsForBlock($terms, $block);
