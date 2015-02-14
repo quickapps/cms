@@ -17,7 +17,7 @@ if (is_array(quickapps('node_types'))) {
         'plugin' => 'Node',
         'controller' => 'Serve',
         'action' => 'details'
-     ], [
+    ], [
         'node_type_slug' => $nodeTypesPattern,
         'node_slug' => '[a-z0-9\-]+',
         'pass' => ['node_type_slug', 'node_slug'],

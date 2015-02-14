@@ -63,7 +63,6 @@ abstract class BaseTask
      * Constructor.
      *
      * @param array $config Additional options for the task handler
-     * @return void
      */
     public function __construct($config = [])
     {

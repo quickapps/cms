@@ -55,7 +55,6 @@ class ListToolbox
      */
     public static function formatter(Field $field)
     {
-        $viewModeSettings = $field->viewModeSettings;
         $result = '';
         $options = [];
 
@@ -68,7 +67,6 @@ class ListToolbox
             }
         }
 
-        $selectedOptions = [];
         if (is_string($field->raw)) {
             $selectedOptions = [$field->raw];
         } else {

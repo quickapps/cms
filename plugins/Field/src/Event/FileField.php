@@ -157,7 +157,6 @@ class FileField extends FieldHandler
                 ]);
         }
 
-        $maxFiles = 0;
         if ($field->metadata->settings['multi'] !== 'custom') {
             $maxFiles = intval($field->metadata->settings['multi']);
         } else {

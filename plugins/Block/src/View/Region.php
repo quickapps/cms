@@ -77,7 +77,6 @@ class Region
      * @param \Cake\View\View $view Instance of View class to use
      * @param string $name Machine name of the region. e.g.: `left-sidebar`
      * @param array $options Options given as an array
-     * @return void
      */
     public function __construct(View $view, $name, array $options = [])
     {

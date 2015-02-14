@@ -127,7 +127,6 @@ class CommentComponent extends Component
      * @param \Cake\Controller\ComponentRegistry $collection A ComponentRegistry
      *  for this component
      * @param array $config Array of configuration options to merge with defaults
-     * @return void
      */
     public function __construct(ComponentRegistry $collection, array $config = [])
     {
@@ -287,7 +286,7 @@ class CommentComponent extends Component
                             }
 
                             if ($akismet->isCommentSpam()) {
-                                if ($this->config('settings.akismet_action') === 'mark') {
+                                if ($this->config('settings.akismet_action') == 'mark') {
                                     $comment->set('status', 'spam'); // mark as spam
                                 } else {
                                     $save = true; // delete: we never save it

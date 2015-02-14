@@ -711,10 +711,10 @@ class FieldableBehavior extends Behavior
 
                 $fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.beforeSave", $event->subject()], $field, $options);
                 if ($fieldEvent->result === false) {
-                    $entity = $this->attachEntityFields($entity);
+                    $this->attachEntityFields($entity);
                     return false;
                 } elseif ($fieldEvent->isStopped()) {
-                    $entity = $this->attachEntityFields($entity);
+                    $this->attachEntityFields($entity);
                     $event->stopPropagation();
                     return $fieldEvent->result;
                 }
@@ -733,7 +733,7 @@ class FieldableBehavior extends Behavior
                     $this->_cache['_FieldValues'][] = $valueEntity;
                 } else {
                     if (!TableRegistry::get('Field.FieldValues')->save($valueEntity)) {
-                        $entity = $this->attachEntityFields($entity);
+                        $this->attachEntityFields($entity);
                         $event->stopPropagation();
                         return false;
                     }
@@ -743,7 +743,7 @@ class FieldableBehavior extends Behavior
             }
         }
 
-        $entity = $this->attachEntityFields($entity);
+        $this->attachEntityFields($entity);
         return true;
     }
 
@@ -782,7 +782,7 @@ class FieldableBehavior extends Behavior
         $instances = $this->_getTableFieldInstances($entity);
         foreach ($instances as $instance) {
             $field = $this->_getMockField($entity, $instance);
-            $fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.afterSave", $event->subject()], $field, $options);
+            $this->trigger(["Field.{$instance->handler}.Entity.afterSave", $event->subject()], $field, $options);
         }
 
         return true;
@@ -818,7 +818,7 @@ class FieldableBehavior extends Behavior
             $fieldEvent = $this->trigger(["Field.{$field->metadata['handler']}.Entity.beforeValidate", $event->subject()], $field, $options, $validator);
 
             if ($fieldEvent->isStopped()) {
-                $entity = $this->attachEntityFields($entity);
+                $this->attachEntityFields($entity);
                 $event->stopPropagation();
                 return $fieldEvent->result;
             }
@@ -963,7 +963,7 @@ class FieldableBehavior extends Behavior
 
         if (!empty($this->_cache['fields.beforeDelete']) && is_array($this->_cache['fields.beforeDelete'])) {
             foreach ($this->_cache['fields.beforeDelete'] as $field) {
-                $fieldEvent = $this->trigger(["Field.{$field->handler}.Entity.afterDelete", $event->subject()], $field, $options);
+                $this->trigger(["Field.{$field->handler}.Entity.afterDelete", $event->subject()], $field, $options);
             }
             $this->_cache['fields.beforeDelete'] = [];
         }

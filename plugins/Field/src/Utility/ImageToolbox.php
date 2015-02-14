@@ -138,7 +138,7 @@ class ImageToolbox extends FileToolbox
             $handle->image_ratio_crop = true;
             $handle->image_convert = 'jpg';
             $handle->file_new_name_body = $dstFileNameBody;
-            $result = $handle->process($dstPath);
+            $handle->process($dstPath);
 
             if (empty($handle->error)) {
                 $tnPath = $handle->file_dst_pathname;
