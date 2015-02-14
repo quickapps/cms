@@ -121,8 +121,8 @@ class MenusTable extends Table
                 'pages' => null,
                 'locale' => null,
                 'status' => 0,
-            ]);
-            $this->Blocks->save($block, ['validate' => false]);
+            ], ['validate' => false]);
+            $this->Blocks->save($block);
         }
 
         $this->trigger(["Menu.{$menu->handler}.afterSave", $event->subject()], $menu, $options);

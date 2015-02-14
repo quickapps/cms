@@ -11,6 +11,7 @@
  */
 namespace Taxonomy\Event;
 
+use Cake\Cache\Cache;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
@@ -18,9 +19,9 @@ use Field\Event\Base\FieldHandler;
 use Field\Model\Entity\Field;
 
 /**
- * Text Field Handler.
+ * Taxonomy Field Handler.
  *
- * This field allows to store text information, such as textboxes, textareas, etc.
+ * This field allows to store terms information. Used to classify contents.
  */
 class TaxonomyField extends FieldHandler
 {
@@ -57,7 +58,7 @@ class TaxonomyField extends FieldHandler
         if ($field->metadata->settings['vocabulary']) {
             $TermsTable = TableRegistry::get('Taxonomy.Terms');
             $TermsTable->addBehavior('Tree', ['scope' => ['vocabulary_id' => $field->metadata->settings['vocabulary']]]);
-            $terms = $TermsTable->find('treeList');
+            $terms = $TermsTable->find('treeList', ['spacer' => '&nbsp;&nbsp;']);
         }
 
         return $View->element('Taxonomy.taxonomy_field_edit', compact('field', 'options', 'terms'));
@@ -143,6 +144,7 @@ class TaxonomyField extends FieldHandler
             ]);
 
             foreach ($raw as $termId) {
+                Cache::delete("t{$termId}", 'terms_count');
                 $cacheEntity = $TermsCache->newEntity([
                     'entity_id' => $entity->get($pk),
                     'term_id' => $termId,

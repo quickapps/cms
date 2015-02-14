@@ -55,7 +55,7 @@ class TermsController extends AppController
                         'parent_id' => intval($item->parent_id),
                         'lft' => ($item->left - 1),
                         'rght' => ($item->right - 1),
-                    ]);
+                    ], ['validate' => false]);
                     $term->isNew(false);
                     $term->dirty('id', false);
                     $entities[] = $term;
@@ -64,7 +64,7 @@ class TermsController extends AppController
                 $this->Vocabularies->Terms->unbindSluggable();
                 $this->Vocabularies->Terms->connection()->transactional(function () use ($entities) {
                     foreach ($entities as $entity) {
-                        $this->Vocabularies->Terms->save($entity, ['validate' => false, 'atomic' => false]);
+                        $this->Vocabularies->Terms->save($entity, ['atomic' => false]);
                     }
                 });
                 // don't trust "left" and "right" values coming from user's POST

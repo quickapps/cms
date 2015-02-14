@@ -75,7 +75,7 @@ class NodesTable extends Table
         ]);
 
         $this->belongsTo('TranslationOf', [
-            'className' => 'Node.Nodes',
+            'className' => 'Node\Model\Table\NodesTable',
             'foreignKey' => 'translation_for',
             'propertyName' => 'translation_of',
             'fields' => ['slug', 'title', 'description'],
@@ -92,7 +92,7 @@ class NodesTable extends Table
         ]);
 
         $this->hasMany('Translations', [
-            'className' => 'Node.Nodes',
+            'className' => 'Node\Model\Table\NodesTable',
             'foreignKey' => 'translation_for',
             'dependent' => true,
         ]);

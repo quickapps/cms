@@ -11,7 +11,9 @@
  */
 namespace Taxonomy\Utility;
 
+use Cake\Cache\Cache;
 use Cake\ORM\TableRegistry;
+use Cake\Routing\Router;
 use Field\Model\Entity\Field;
 use QuickApps\Event\HooktagAwareTrait;
 
@@ -92,5 +94,38 @@ class TaxonomyToolbox
         }
 
         return implode($glue, $out);
+    }
+
+    /**
+     * Prepares the given threaded list of terms.
+     *
+     * @param array &$terms Threaded list of terms
+     * @param \Cake\Datasource\EntityInterface $block The block
+     */
+    public static function termsForBlock($terms, $block)
+    {
+        foreach ($terms as $term) {
+            $title = $term->name;
+
+            if (!empty($block->settings['show_counters'])) {
+                $count = Cache::read("t{$term->id}", 'terms_count');
+                if (!$count) {
+                    $count = (int)TableRegistry::get('Taxonomy.EntitiesTerms')
+                        ->find()
+                        ->where(['EntitiesTerms.term_id' => $term->id])
+                        ->count();
+                    Cache::write("t{$term->id}", $count, 'terms_count');
+                }
+                $title .= " ({$count})";
+            }
+
+            $term->set('title', $title);
+            $term->set('url', "/find/term:{$term->slug}");
+
+            if (!empty($term->children)) {
+                $term->set('expanded', true);
+                static::termsForBlock($term->children, $block);
+            }
+        }
     }
 }

@@ -9,16 +9,17 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Locale\Event;
+namespace Taxonomy\Event;
 
+use Cake\Cache\Cache;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 
 /**
- * Main Hook Listener for Locale plugin.
+ * Main Hook Listener for Node plugin.
  *
  */
-class LocaleHook implements EventListenerInterface
+class TaxonomyHook implements EventListenerInterface
 {
 
     /**
@@ -31,17 +32,17 @@ class LocaleHook implements EventListenerInterface
     public function implementedEvents()
     {
         return [
-            'Block.Locale.display' => 'renderBlock',
-            'Block.Locale.settings' => 'settingsBlock',
+            'Block.Taxonomy.display' => 'renderBlock',
+            'Block.Taxonomy.settings' => 'settingsBlock',
+            'Block.Taxonomy.afterSave' => 'afterSaveBlock',
         ];
     }
 
     /**
-     * Renders all blocks registered by Locale plugin.
+     * Renders all blocks registered by Taxonomy plugin.
      *
-     * Locale plugin has one built-in block that comes with every QuickAppsCMS
-     * installation: "Language witcher" which allows users to change from one
-     * language to another.
+     * Taxonomy plugin has one built-in block that comes with every QuickAppsCMS
+     * installation: "Categories" which allows to create HTML categories lists.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Block\Model\Entity\Block $block The block being rendered
@@ -50,19 +51,32 @@ class LocaleHook implements EventListenerInterface
      */
     public function renderBlock(Event $event, $block, $options = [])
     {
-        return $event->subject()->element("Locale.{$block->delta}_render", compact('block', 'options'));
+        return $event->subject()->element("Taxonomy.{$block->delta}_render", compact('block', 'options'));
     }
 
     /**
      * Renders block's settings form elements.
      *
      * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Block\Model\Entity\Block $block The block being rendered
+     * @param \Block\Model\Entity\Block $block The block
      * @param array $options Additional options as an array
      * @return string
      */
     public function settingsBlock(Event $event, $block, $options = [])
     {
-        return $event->subject()->element("Locale.{$block->delta}_settings", compact('block', 'options'));
+        return $event->subject()->element("Taxonomy.{$block->delta}_settings", compact('block', 'options'));
+    }
+
+    /**
+     * Clear counters cache after block settings changes.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Block\Model\Entity\Block $block The block that was saved
+     * @param array $options Additional options as an array
+     * @return string
+     */
+    public function afterSaveBlock(Event $event, $block, $options = [])
+    {
+        Cache::clear(false, 'terms_count');
     }
 }

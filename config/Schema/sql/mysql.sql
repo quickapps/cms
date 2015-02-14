@@ -1,3 +1,12 @@
+-- phpMyAdmin SQL Dump
+-- version 4.1.12
+-- http://www.phpmyadmin.net
+--
+-- Host: 127.0.0.1
+-- Generation Time: Feb 14, 2015 at 09:04 PM
+-- Server version: 5.6.16
+-- PHP Version: 5.5.11
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -18,14 +27,15 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `acos` (
-`id` int(10) NOT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `parent_id` int(10) DEFAULT NULL,
   `lft` int(10) DEFAULT NULL,
   `rght` int(10) DEFAULT NULL,
   `plugin` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `alias` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `alias_hash` varchar(32) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=159 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `alias_hash` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=159 ;
 
 --
 -- Dumping data for table `acos`
@@ -198,7 +208,7 @@ INSERT INTO `acos` (`id`, `parent_id`, `lft`, `rght`, `plugin`, `alias`, `alias_
 --
 
 CREATE TABLE IF NOT EXISTS `blocks` (
-`id` int(11) NOT NULL COMMENT 'Primary Key - Unique block ID.',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key - Unique block ID.',
   `copy_id` int(11) DEFAULT NULL COMMENT 'id of the block this block is a copy of',
   `delta` varchar(30) COLLATE utf8_unicode_ci NOT NULL COMMENT 'unique ID within a handler',
   `handler` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Block' COMMENT 'Name of the plugin that created this block. Used to generate event name, e.g. "Menu" triggers "Block.Menu.display" when rendering the block',
@@ -209,8 +219,10 @@ CREATE TABLE IF NOT EXISTS `blocks` (
   `pages` text COLLATE utf8_unicode_ci COMMENT 'Contents of the "Pages" block contains either a list of paths on which to include/exclude the block or PHP code, depending on "visibility" setting.',
   `locale` text COLLATE utf8_unicode_ci,
   `settings` longtext COLLATE utf8_unicode_ci COMMENT 'additional information used by this block, used by blocks handlers <> `Block`',
-  `status` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `status` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `delta` (`delta`,`handler`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `blocks`
@@ -221,7 +233,8 @@ INSERT INTO `blocks` (`id`, `copy_id`, `delta`, `handler`, `title`, `description
 (2, NULL, '2', 'System', 'Site Main Menu [menu:2]', 'Associated block for "Site Main Menu" menu.', NULL, 'except', NULL, NULL, NULL, 1),
 (3, NULL, 'dashboard_recent_content', 'Node', 'Recent Content', 'Shows a list of latest created contents.', NULL, 'except', NULL, NULL, NULL, 1),
 (4, NULL, 'dashboard_search', 'Node', 'Search', 'Quick Search Form', NULL, 'except', NULL, NULL, NULL, 1),
-(5, NULL, 'language_switcher', 'Locale', 'Change Language', 'Language switcher block', NULL, 'except', NULL, NULL, 'a:2:{s:4:"type";s:4:"html";s:5:"flags";b:1;}', 1);
+(5, NULL, 'language_switcher', 'Locale', 'Change Language', 'Language switcher block', NULL, 'except', NULL, NULL, 'a:2:{s:4:"type";s:4:"html";s:5:"flags";b:1;}', 1),
+(6, NULL, 'categories', 'Taxonomy', 'Categories', 'List of terms block', NULL, 'except', NULL, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -230,10 +243,11 @@ INSERT INTO `blocks` (`id`, `copy_id`, `delta`, `handler`, `title`, `description
 --
 
 CREATE TABLE IF NOT EXISTS `blocks_roles` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `block_id` int(11) NOT NULL,
-  `role_id` int(10) NOT NULL COMMENT 'The user’s role ID from roles table'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `role_id` int(10) NOT NULL COMMENT 'The user’s role ID from roles table',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -242,12 +256,14 @@ CREATE TABLE IF NOT EXISTS `blocks_roles` (
 --
 
 CREATE TABLE IF NOT EXISTS `block_regions` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `block_id` int(11) NOT NULL,
   `theme` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `region` varchar(200) COLLATE utf8_unicode_ci DEFAULT '',
-  `ordering` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `ordering` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `block_id` (`block_id`,`theme`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `block_regions`
@@ -270,7 +286,7 @@ INSERT INTO `block_regions` (`id`, `block_id`, `theme`, `region`, `ordering`) VA
 --
 
 CREATE TABLE IF NOT EXISTS `comments` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `entity_id` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `table_alias` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -284,8 +300,9 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `rght` int(4) NOT NULL,
   `lft` int(4) NOT NULL,
   `status` varchar(20) COLLATE utf8_unicode_ci NOT NULL COMMENT 'pending, approved, spam, trash',
-  `created` datetime NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `comments`
@@ -302,12 +319,13 @@ INSERT INTO `comments` (`id`, `entity_id`, `user_id`, `table_alias`, `subject`, 
 --
 
 CREATE TABLE IF NOT EXISTS `entities_terms` (
-`id` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `entity_id` int(20) NOT NULL,
   `term_id` int(20) NOT NULL,
   `field_instance_id` int(11) NOT NULL,
-  `table_alias` varchar(30) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `table_alias` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -316,7 +334,7 @@ CREATE TABLE IF NOT EXISTS `entities_terms` (
 --
 
 CREATE TABLE IF NOT EXISTS `field_instances` (
-`id` int(10) NOT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `slug` varchar(200) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Machine name, must be unique',
   `table_alias` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Name of the table to which this field belongs to. eg: comment, node_article. Must be unique',
   `handler` varchar(80) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Name of event handler class under the `Field` namespace',
@@ -326,8 +344,12 @@ CREATE TABLE IF NOT EXISTS `field_instances` (
   `settings` text COLLATE utf8_unicode_ci COMMENT 'Serialized information',
   `view_modes` longtext COLLATE utf8_unicode_ci,
   `locked` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0: (unlocked) users can edit this instance; 1: (locked) users can not modify this instance using web interface',
-  `ordering` int(3) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `ordering` int(3) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `slug` (`slug`),
+  KEY `entity` (`table_alias`),
+  KEY `id` (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `field_instances`
@@ -344,14 +366,15 @@ INSERT INTO `field_instances` (`id`, `slug`, `table_alias`, `handler`, `label`, 
 --
 
 CREATE TABLE IF NOT EXISTS `field_values` (
-`id` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `field_instance_id` int(10) NOT NULL,
   `field_instance_slug` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `entity_id` varchar(50) COLLATE utf8_unicode_ci NOT NULL COMMENT 'id of the entity in `table`',
   `table_alias` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `value` text COLLATE utf8_unicode_ci,
-  `raw` text COLLATE utf8_unicode_ci COMMENT 'Extra information required by this field hadnler'
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `raw` text COLLATE utf8_unicode_ci COMMENT 'Extra information required by this field hadnler',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `field_values`
@@ -370,14 +393,16 @@ INSERT INTO `field_values` (`id`, `field_instance_id`, `field_instance_slug`, `e
 --
 
 CREATE TABLE IF NOT EXISTS `languages` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` varchar(12) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Language code, e.g. ’eng’',
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Language name in English.',
   `direction` varchar(3) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'ltr' COMMENT 'Direction of language (Left-to-Right , Right-to-Left ).',
   `icon` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT '0' COMMENT 'Enabled flag (1 = Enabled, 0 = Disabled).',
-  `ordering` int(11) NOT NULL DEFAULT '0' COMMENT 'Weight, used in lists of languages.'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `ordering` int(11) NOT NULL DEFAULT '0' COMMENT 'Weight, used in lists of languages.',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code` (`code`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `languages`
@@ -394,13 +419,14 @@ INSERT INTO `languages` (`id`, `code`, `name`, `direction`, `icon`, `status`, `o
 --
 
 CREATE TABLE IF NOT EXISTS `menus` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `slug` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Menu title, displayed at top of block.',
   `description` text COLLATE utf8_unicode_ci COMMENT 'Menu description.',
   `handler` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Name of the plugin that created this menu.',
-  `settings` longtext COLLATE utf8_unicode_ci
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `settings` longtext COLLATE utf8_unicode_ci,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `menus`
@@ -417,7 +443,7 @@ INSERT INTO `menus` (`id`, `slug`, `title`, `description`, `handler`, `settings`
 --
 
 CREATE TABLE IF NOT EXISTS `menu_links` (
-`id` int(10) NOT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `menu_id` int(11) NOT NULL COMMENT 'All links with the same menu ID are part of the same menu.',
   `lft` int(11) NOT NULL,
   `rght` int(11) NOT NULL,
@@ -429,8 +455,10 @@ CREATE TABLE IF NOT EXISTS `menu_links` (
   `expanded` int(1) NOT NULL DEFAULT '1' COMMENT 'Flag for whether this link should be rendered as expanded in menus - expanded links always have their child links displayed, instead of only when the link is in the active trail (1 = expanded, 0 = not expanded)',
   `active` text COLLATE utf8_unicode_ci COMMENT 'php code, or regular expression. based on active_on_type',
   `activation` varchar(5) COLLATE utf8_unicode_ci DEFAULT 'auto' COMMENT 'php: on php return TRUE. auto: auto-detect; any: request''s URL matches any in "active" column; none: request''s URL matches none of listed in "active" column',
-  `status` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `router_path` (`url`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data for table `menu_links`
@@ -462,7 +490,7 @@ INSERT INTO `menu_links` (`id`, `menu_id`, `lft`, `rght`, `parent_id`, `url`, `d
 --
 
 CREATE TABLE IF NOT EXISTS `nodes` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `node_type_id` int(11) NOT NULL,
   `node_type_slug` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `translation_for` int(11) DEFAULT NULL,
@@ -477,8 +505,9 @@ CREATE TABLE IF NOT EXISTS `nodes` (
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   `created_by` int(11) NOT NULL,
-  `modified_by` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `modified_by` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `nodes`
@@ -495,10 +524,11 @@ INSERT INTO `nodes` (`id`, `node_type_id`, `node_type_slug`, `translation_for`, 
 --
 
 CREATE TABLE IF NOT EXISTS `nodes_roles` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `node_id` int(11) NOT NULL,
-  `role_id` int(10) NOT NULL COMMENT 'The user’s role ID from roles table'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `role_id` int(10) NOT NULL COMMENT 'The user’s role ID from roles table',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -507,12 +537,13 @@ CREATE TABLE IF NOT EXISTS `nodes_roles` (
 --
 
 CREATE TABLE IF NOT EXISTS `node_revisions` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `node_id` int(11) NOT NULL,
   `data` longtext COLLATE utf8_unicode_ci NOT NULL,
   `hash` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `created` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -521,13 +552,15 @@ CREATE TABLE IF NOT EXISTS `node_revisions` (
 --
 
 CREATE TABLE IF NOT EXISTS `node_types` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `slug` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(200) COLLATE utf8_unicode_ci NOT NULL COMMENT 'human-readable name',
   `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `title_label` varchar(80) COLLATE utf8_unicode_ci NOT NULL COMMENT 'the label displayed for the title field on the edit form.',
-  `defaults` longtext COLLATE utf8_unicode_ci
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `defaults` longtext COLLATE utf8_unicode_ci,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `slug` (`slug`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `node_types`
@@ -543,11 +576,13 @@ INSERT INTO `node_types` (`id`, `slug`, `name`, `description`, `title_label`, `d
 --
 
 CREATE TABLE IF NOT EXISTS `options` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `value` text COLLATE utf8_unicode_ci,
-  `autoload` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1: true (autoload); 0:false'
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `autoload` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1: true (autoload); 0:false',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `options`
@@ -574,10 +609,11 @@ INSERT INTO `options` (`id`, `name`, `value`, `autoload`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `permissions` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `aco_id` int(11) NOT NULL,
-  `role_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `role_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `permissions`
@@ -606,7 +642,8 @@ CREATE TABLE IF NOT EXISTS `plugins` (
   `package` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'composer package. e.g. user_name/plugin_name',
   `settings` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'serialized array of options',
   `status` tinyint(1) NOT NULL DEFAULT '0',
-  `ordering` int(3) NOT NULL DEFAULT '0'
+  `ordering` int(3) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='list of installed plugins';
 
 --
@@ -637,10 +674,12 @@ INSERT INTO `plugins` (`name`, `package`, `settings`, `status`, `ordering`) VALU
 --
 
 CREATE TABLE IF NOT EXISTS `roles` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `slug` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `name` varchar(128) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `name` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `roles`
@@ -658,11 +697,13 @@ INSERT INTO `roles` (`id`, `slug`, `name`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `search_datasets` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `entity_id` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `table_alias` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `words` longtext COLLATE utf8_unicode_ci
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `words` longtext COLLATE utf8_unicode_ci,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `entity_id` (`entity_id`,`table_alias`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `search_datasets`
@@ -679,7 +720,7 @@ INSERT INTO `search_datasets` (`id`, `entity_id`, `table_alias`, `words`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `terms` (
-`id` int(10) NOT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `vocabulary_id` int(11) NOT NULL,
   `lft` int(11) NOT NULL,
   `rght` int(11) NOT NULL,
@@ -687,8 +728,10 @@ CREATE TABLE IF NOT EXISTS `terms` (
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created` datetime NOT NULL,
-  `modified` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `slug` (`slug`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -697,7 +740,7 @@ CREATE TABLE IF NOT EXISTS `terms` (
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `username` varchar(80) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
@@ -709,8 +752,10 @@ CREATE TABLE IF NOT EXISTS `users` (
   `token` varchar(200) COLLATE utf8_unicode_ci NOT NULL COMMENT 'random unique code, used for pass recovery',
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `last_login` datetime NOT NULL,
-  `created` datetime NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`,`email`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `users`
@@ -726,10 +771,11 @@ INSERT INTO `users` (`id`, `name`, `username`, `password`, `email`, `web`, `loca
 --
 
 CREATE TABLE IF NOT EXISTS `users_roles` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
-  `role_id` int(10) NOT NULL COMMENT 'The user’s role ID from roles table'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `role_id` int(10) NOT NULL COMMENT 'The user’s role ID from roles table',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `users_roles`
@@ -745,283 +791,18 @@ INSERT INTO `users_roles` (`id`, `user_id`, `role_id`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `vocabularies` (
-`id` int(10) NOT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci,
   `ordering` int(11) DEFAULT '0',
   `locked` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'if set to 1 users can not delete this vocabulary',
   `modified` datetime NOT NULL,
-  `created` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `slug` (`slug`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `acos`
---
-ALTER TABLE `acos`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `blocks`
---
-ALTER TABLE `blocks`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `delta` (`delta`,`handler`);
-
---
--- Indexes for table `blocks_roles`
---
-ALTER TABLE `blocks_roles`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `block_regions`
---
-ALTER TABLE `block_regions`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `block_id` (`block_id`,`theme`);
-
---
--- Indexes for table `comments`
---
-ALTER TABLE `comments`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `entities_terms`
---
-ALTER TABLE `entities_terms`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `field_instances`
---
-ALTER TABLE `field_instances`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `slug` (`slug`), ADD KEY `entity` (`table_alias`), ADD KEY `id` (`id`);
-
---
--- Indexes for table `field_values`
---
-ALTER TABLE `field_values`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `languages`
---
-ALTER TABLE `languages`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `code` (`code`);
-
---
--- Indexes for table `menus`
---
-ALTER TABLE `menus`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `menu_links`
---
-ALTER TABLE `menu_links`
- ADD PRIMARY KEY (`id`), ADD KEY `router_path` (`url`);
-
---
--- Indexes for table `nodes`
---
-ALTER TABLE `nodes`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `nodes_roles`
---
-ALTER TABLE `nodes_roles`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `node_revisions`
---
-ALTER TABLE `node_revisions`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `node_types`
---
-ALTER TABLE `node_types`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `slug` (`slug`);
-
---
--- Indexes for table `options`
---
-ALTER TABLE `options`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `name` (`name`);
-
---
--- Indexes for table `permissions`
---
-ALTER TABLE `permissions`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `plugins`
---
-ALTER TABLE `plugins`
- ADD PRIMARY KEY (`name`);
-
---
--- Indexes for table `roles`
---
-ALTER TABLE `roles`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `name` (`name`);
-
---
--- Indexes for table `search_datasets`
---
-ALTER TABLE `search_datasets`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `entity_id` (`entity_id`,`table_alias`);
-
---
--- Indexes for table `terms`
---
-ALTER TABLE `terms`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `slug` (`slug`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `username` (`username`,`email`);
-
---
--- Indexes for table `users_roles`
---
-ALTER TABLE `users_roles`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `vocabularies`
---
-ALTER TABLE `vocabularies`
- ADD PRIMARY KEY (`id`), ADD KEY `slug` (`slug`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `acos`
---
-ALTER TABLE `acos`
-MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=159;
---
--- AUTO_INCREMENT for table `blocks`
---
-ALTER TABLE `blocks`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key - Unique block ID.',AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT for table `blocks_roles`
---
-ALTER TABLE `blocks_roles`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `block_regions`
---
-ALTER TABLE `block_regions`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
---
--- AUTO_INCREMENT for table `comments`
---
-ALTER TABLE `comments`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT for table `entities_terms`
---
-ALTER TABLE `entities_terms`
-MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `field_instances`
---
-ALTER TABLE `field_instances`
-MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `field_values`
---
-ALTER TABLE `field_values`
-MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
---
--- AUTO_INCREMENT for table `languages`
---
-ALTER TABLE `languages`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `menus`
---
-ALTER TABLE `menus`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `menu_links`
---
-ALTER TABLE `menu_links`
-MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
---
--- AUTO_INCREMENT for table `nodes`
---
-ALTER TABLE `nodes`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `nodes_roles`
---
-ALTER TABLE `nodes_roles`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `node_revisions`
---
-ALTER TABLE `node_revisions`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `node_types`
---
-ALTER TABLE `node_types`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `options`
---
-ALTER TABLE `options`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
---
--- AUTO_INCREMENT for table `permissions`
---
-ALTER TABLE `permissions`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
---
--- AUTO_INCREMENT for table `roles`
---
-ALTER TABLE `roles`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `search_datasets`
---
-ALTER TABLE `search_datasets`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `terms`
---
-ALTER TABLE `terms`
-MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `users_roles`
---
-ALTER TABLE `users_roles`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `vocabularies`
---
-ALTER TABLE `vocabularies`
-MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

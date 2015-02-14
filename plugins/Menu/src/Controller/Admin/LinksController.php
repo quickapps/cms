@@ -54,7 +54,7 @@ class LinksController extends AppController
                         'parent_id' => intval($item->parent_id),
                         'lft' => ($item->left - 1),
                         'rght' => ($item->right - 1),
-                    ]);
+                    ], ['validate' => false]);
                     $link->isNew(false);
                     $link->dirty('id', false);
                     $entities[] = $link;
@@ -62,7 +62,7 @@ class LinksController extends AppController
 
                 $this->Menus->MenuLinks->connection()->transactional(function () use ($entities) {
                     foreach ($entities as $entity) {
-                        $this->Menus->MenuLinks->save($entity, ['validate' => false, 'atomic' => false]);
+                        $this->Menus->MenuLinks->save($entity, ['atomic' => false]);
                     }
                 });
                 // don't trust "left" and "right" values coming from user's POST

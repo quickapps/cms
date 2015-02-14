@@ -206,7 +206,7 @@ class ManageController extends AppController
                 $this->Flash->danger(__d('block', 'Block could not be updated, please check your information.'));
             }
         } else {
-            foreach ($block->settings as $k => $v) {
+            foreach ((array)$block->settings as $k => $v) {
                 $block->set($k, $v);
             }
         }

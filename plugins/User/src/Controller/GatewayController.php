@@ -87,7 +87,7 @@ class GatewayController extends AppController
                             $user = $this->Users->get($user['id']);
                             if ($user) {
                                 $this->Users->touch($user, 'Users.login');
-                                $this->Users->save($user, ['validate' => false]);
+                                $this->Users->save($user);
                             }
                         } catch (\Exception $e) {
                             // invalid user

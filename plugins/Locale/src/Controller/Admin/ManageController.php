@@ -174,7 +174,7 @@ class ManageController extends AppController
             if ($before != $after) {
                 foreach ($ordered as $k => $l) {
                     $l->set('ordering', $k);
-                    $this->Languages->save($l, ['validate' => false]);
+                    $this->Languages->save($l);
                 }
             }
         }

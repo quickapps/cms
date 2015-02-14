@@ -54,7 +54,7 @@ class FormHelper extends CakeFormHelper
     /**
      * {@inheritDoc}
      */
-    public function end($secureAttributes = [])
+    public function end(array $secureAttributes = [])
     {
         $this->alter(['FormHelper.end', $this->_View], $secureAttributes);
         return parent::end($secureAttributes);

@@ -172,7 +172,7 @@ class UsersTable extends Table
         }
 
         $user->set('token', $user->id . '-' . md5(uniqid($user->id, true)));
-        $this->save($user, ['validate' => false]);
+        $this->save($user);
         return $user;
     }
 

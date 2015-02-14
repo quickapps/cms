@@ -238,13 +238,14 @@ trait CommentUIControllerTrait
             throw new RecordNotFoundException(__d('comment', 'Comment could not be found.'));
         }
 
-        if (!empty($this->request->data)) {
+        if ($this->request->data()) {
             $comment->accessible('*', false);
             $comment->accessible(['subject', 'body', 'author_name', 'author_email', 'author_web', 'status'], true);
-            $comment->set($this->request->data);
-
             $validator = $comment->user_id ? 'default' : 'anonymous';
-            if ($this->Comments->save($comment, ['validate' => $validator, 'associated' => false])) {
+            $this->Comments->patchEntity($comment, $this->request->data(), ['validate' => $validator]);
+
+            if (empty($comment->errors())) {
+                $this->Comments->save($comment, ['associated' => false]);
                 $this->Flash->success(__d('comment', 'Comment saved!.'));
                 $this->redirect($this->referer());
             } else {
@@ -268,7 +269,7 @@ trait CommentUIControllerTrait
             $this->loadModel('Comment.Comments');
             if ($comment = $this->Comments->get($id)) {
                 $comment->set('status', $status);
-                $this->Comments->save($comment, ['validate' => false]);
+                $this->Comments->save($comment);
             }
         }
 

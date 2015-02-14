@@ -425,7 +425,7 @@ trait FieldUIControllerTrait
                     $viewModes = $field->view_modes;
                     $viewModes[$viewMode]['ordering'] = $k;
                     $field->set('view_modes', $viewModes);
-                    $this->FieldInstances->save($field, ['validate' => false]);
+                    $this->FieldInstances->save($field);
                 }
             }
         }
@@ -471,7 +471,7 @@ trait FieldUIControllerTrait
             if ($before != $after) {
                 foreach ($ordered as $k => $field) {
                     $field->set('ordering', $k);
-                    $this->FieldInstances->save($field, ['validate' => false]);
+                    $this->FieldInstances->save($field);
                 }
             }
         }
