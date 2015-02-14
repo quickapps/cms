@@ -334,7 +334,7 @@ class SearchableBehavior extends Behavior
                 $text = implode(' ', (string)$text);
             }
         } else {
-            foreach ($this->config('fields') as $f) {
+            foreach ((array)$this->config('fields') as $f) {
                 if ($entity->has($f)) {
                     $newWords = trim($entity->get($f));
                     $text .= ' ' . $newWords;

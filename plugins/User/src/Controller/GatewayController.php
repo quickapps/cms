@@ -22,7 +22,9 @@ use User\Controller\AppController;
  *
  * Provides login and logout methods.
  *
- * @property    \User\Model\Table\UsersTable $Users
+ * @property \User\Model\Table\UsersTable $Users
+ * @method bool touch(\Cake\ORM\Entity $entity, string $eventName)
+ * @method void unbindFieldable()
  */
 class GatewayController extends AppController
 {
@@ -42,7 +44,7 @@ class GatewayController extends AppController
     /**
      * Renders the login form.
      *
-     * @return void
+     * @return \Cake\Network\Response|null
      */
     public function login()
     {
@@ -51,7 +53,6 @@ class GatewayController extends AppController
 
         if ($this->request->is('post')) {
             $loginBlocking = Plugin::settings('User', 'failed_login_attempts') && Plugin::settings('User', 'failed_login_attempts_block_seconds');
-            $user = false;
             $continue = true;
 
             if ($loginBlocking) {
@@ -65,12 +66,6 @@ class GatewayController extends AppController
 
                 $cacheName = 'login_failed_' . env('REMOTE_ADDR');
                 $cache = Cache::read($cacheName, 'users_login');
-                $cacheStruct = [
-                    'attempts' => 0,
-                    'last_attempt' => 0,
-                    'ip' => '',
-                    'request_log' => []
-                ];
 
                 if ($cache && $cache['attempts'] >= Plugin::settings('User', 'failed_login_attempts')) {
                     $this->Flash->warning(__d('user', 'You have reached the maximum number of login attempts. Try again in {0} minutes.', Plugin::settings('User', 'failed_login_attempts_block_seconds') / 60));
@@ -95,7 +90,13 @@ class GatewayController extends AppController
                     }
                     return $this->redirect($this->Auth->redirectUrl());
                 } else {
-                    if ($loginBlocking) {
+                    if ($loginBlocking && isset($cache) && isset($cacheName)) {
+                        $cacheStruct = [
+                            'attempts' => 0,
+                            'last_attempt' => 0,
+                            'ip' => '',
+                            'request_log' => []
+                        ];
                         $cache = array_merge($cacheStruct, $cache);
                         $cache['attempts'] += 1;
                         $cache['last_attempt'] = time();
@@ -118,7 +119,7 @@ class GatewayController extends AppController
     /**
      * Logout.
      *
-     * @return void
+     * @return \Cake\Network\Response|null
      */
     public function logout()
     {
@@ -330,7 +331,7 @@ class GatewayController extends AppController
      * Renders the "unauthorized" screen, when an user attempts to access
      * to a restricted area.
      *
-     * @return void
+     * @return \Cake\Network\Response|null
      */
     public function unauthorized()
     {

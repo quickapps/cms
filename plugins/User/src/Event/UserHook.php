@@ -65,13 +65,13 @@ class UserHook implements EventListenerInterface
     /**
      * Triggered After user's identification operation has been completed.
      *
-     * This event is triggered even on identification failure, you must distinguish
-     * between success or failure using the given argument.
+     * This event is triggered even on identification failure, you must
+     * distinguish between success or failure using the given argument `$result`.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param mixed $result Result of AuthComponent::identify(), false if user could
      *  not be identified, or an array of user's info if was successfully identified
-     * @return bool
+     * @return null
      */
     public function afterIdentify(Event $event, $result)
     {
@@ -98,7 +98,7 @@ class UserHook implements EventListenerInterface
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param string|array $redirect Default redirection URL that will be used
-     * @return bool
+     * @return string|null
      */
     public function afterLogout(Event $event, $redirect = '')
     {

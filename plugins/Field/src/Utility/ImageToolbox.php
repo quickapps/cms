@@ -121,7 +121,8 @@ class ImageToolbox extends FileToolbox
         require_once Plugin::classPath('Field') . 'Lib/class.upload.php';
         $handle = new \upload($srcPath . $srcFileName);
         if (empty($previewInfo)) {
-            $previewInfo = reset(static::getPreviews());
+            $previews = static::getPreviews();
+            $previewInfo = reset($previews);
         }
 
         $dstFileNameBody = static::removeExt("{$previewInfo['width']}x{$previewInfo['height']}_{$srcFileName}");

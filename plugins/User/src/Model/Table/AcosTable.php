@@ -70,6 +70,7 @@ class AcosTable extends Table
     {
         $type = $this->alias();
         $table = $this->table();
+        $path = [];
 
         if (is_string($ref)) {
             $path = explode('/', $ref);
@@ -82,7 +83,6 @@ class AcosTable extends Table
             return false;
         }
 
-        $result = null;
         $start = $path[0];
         unset($path[0]);
 

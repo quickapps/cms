@@ -117,8 +117,8 @@ class HtmlHelper extends CakeHtmlHelper
      */
     public function meta($type, $content = null, array $options = [])
     {
-        $this->alter(['HtmlHelper.meta', $this->_View], $type, $url, $options);
-        return parent::meta($type, $url, $options);
+        $this->alter(['HtmlHelper.meta', $this->_View], $type, $content, $options);
+        return parent::meta($type, $content, $options);
     }
 
     /**
@@ -133,10 +133,10 @@ class HtmlHelper extends CakeHtmlHelper
     /**
      * {@inheritDoc}
      */
-    public function link($title, $url = null, array $options = [], $confirmMessage = false)
+    public function link($title, $url = null, array $options = [])
     {
-        $this->alter(['HtmlHelper.link', $this->_View], $title, $url, $options, $confirmMessage);
-        return parent::link($title, $url, $options, $confirmMessage);
+        $this->alter(['HtmlHelper.link', $this->_View], $title, $url, $options);
+        return parent::link($title, $url, $options);
     }
 
     /**
@@ -261,7 +261,7 @@ class HtmlHelper extends CakeHtmlHelper
      */
     public function para($class, $text, array $options = [])
     {
-        $this->alter(['HtmlHelper.para', $this->_View], $class, $text, $option);
+        $this->alter(['HtmlHelper.para', $this->_View], $class, $text, $options);
         return parent::para($class, $text, $options);
     }
 

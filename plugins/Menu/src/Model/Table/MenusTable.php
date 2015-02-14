@@ -62,12 +62,6 @@ class MenusTable extends Table
                 'length' => [
                     'rule' => ['minLength', 3],
                     'message' => __d('menu', 'Title need to be at least 3 characters long.'),
-                ],
-                'transaction' => [
-                    'rule' => function ($value, $context) use ($options) {
-                        return !empty($options['atomic']) && $options['atomic'] === true;
-                    },
-                    'message' => __d('menu', 'Illegal action, you must use "atomic => true" when saving Menu entities.')
                 ]
             ])
             ->requirePresence('handler', 'create')

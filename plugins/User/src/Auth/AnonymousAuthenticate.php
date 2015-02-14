@@ -43,7 +43,7 @@ class AnonymousAuthenticate extends BaseAuthenticate
      *
      * @param \Cake\Network\Request $request Unused request object
      * @param \Cake\Network\Response $response Unused response object
-     * @return mixed False on login failure. An array of User data on success
+     * @return bool False always.
      */
     public function authenticate(Request $request, Response $response)
     {
@@ -60,7 +60,7 @@ class AnonymousAuthenticate extends BaseAuthenticate
      *
      * @param \Cake\Network\Request $request A request object
      * @param \Cake\Network\Response $response A response object
-     * @return mixed
+     * @return bool|null
      */
     public function unauthenticated(Request $request, Response $response)
     {

@@ -13,6 +13,7 @@ namespace System\Event;
 
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
+use QuickApps\Core\StaticCacheTrait;
 
 /**
  * Applies some Twitter Bootstrap CSS styles to form/html elements.
@@ -33,6 +34,8 @@ use Cake\Event\EventListenerInterface;
  */
 class TwitterBootstrapHook implements EventListenerInterface
 {
+
+    use StaticCacheTrait;
 
     /**
      * Custom templates for FormHelper.
@@ -202,9 +205,9 @@ class TwitterBootstrapHook implements EventListenerInterface
      */
     protected function _addTemplates($formHelper)
     {
-        if (empty($formHelper->_bootstrapTemplates)) {
+        if (!static::cache('bootstrapTemplates')) {
             $formHelper->templates($this->_templates);
-            $formHelper->_bootstrapTemplates = true;
+            static::cache('bootstrapTemplates', true);
         }
     }
 }

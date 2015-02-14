@@ -12,7 +12,6 @@
 namespace System\Controller\Admin;
 
 use Cake\Network\Exception\NotFoundException;
-use Cake\ORM\Entity;
 use QuickApps\Core\Plugin;
 use System\Controller\AppController;
 
@@ -48,7 +47,7 @@ class PluginsController extends AppController
     }
 
     /**
-     * Install a new theme.
+     * Installs a new plugin.
      *
      * @return void
      */
@@ -97,7 +96,7 @@ class PluginsController extends AppController
     }
 
     /**
-     * Install a new plugin.
+     * Uninstalls the given plugin.
      *
      * @param string $pluginName Plugin's name
      * @return void Redirects to previous page
@@ -122,7 +121,7 @@ class PluginsController extends AppController
     }
 
     /**
-     * Enables the given theme.
+     * Enables the given plugin.
      *
      * @param string $pluginName Plugin's name
      * @return void Redirects to previous page
@@ -148,7 +147,7 @@ class PluginsController extends AppController
     }
 
     /**
-     * Disables the given theme.
+     * Disables the given plugin.
      *
      * @param string $pluginName Plugin's name
      * @return void Redirects to previous page

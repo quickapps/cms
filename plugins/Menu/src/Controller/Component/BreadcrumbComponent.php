@@ -16,6 +16,7 @@ use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Menu\View\BreadcrumbRegistry;
+use QuickApps\Core\StaticCacheTrait;
 
 /**
  * Breadcrumb component.
@@ -24,6 +25,8 @@ use Menu\View\BreadcrumbRegistry;
  */
 class BreadcrumbComponent extends Component
 {
+
+    use StaticCacheTrait;
 
     /**
      * The controller this component is attached to.
@@ -59,16 +62,16 @@ class BreadcrumbComponent extends Component
      *
      *     $this->Breadcrumb->push('/admin/some/url');
      *
-     * @param array|string $crumbs Single crumb or an array of multiple crumbs
-     * to push at once
+     * @param array|string|null $crumbs Single crumb or an array of multiple crumbs to push
+     *  at once
      * @param mixed $url If both $crumbs and $url are string values they will be
-     * used as `title` and `URL` respectively
+     *  used as `title` and `URL` respectively
      * @return \Menu\Controller\Component\BreadcrumbComponent This instance (for chaining)
      * @see \Menu\View\BreadcrumbRegistry::push()
      */
-    public function push($crumbs = [], $url = null)
+    public function push($crumbs = null, $url = null)
     {
-        if ($crumbs === [] && $url === null) {
+        if ($crumbs === null && $url === null) {
             $MenuLinks = TableRegistry::get('Menu.MenuLinks');
             $MenuLinks->removeBehavior('Tree');
             $possibleMatches = $this->_urlChunk();

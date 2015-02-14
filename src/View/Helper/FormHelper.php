@@ -111,7 +111,7 @@ class FormHelper extends CakeFormHelper
     public function allInputs(array $fields = [], array $options = [])
     {
         $this->alter(['FormHelper.allInputs', $this->_View], $fields, $options);
-        return parent::inputs($fields, $options);
+        return parent::allInputs($fields, $options);
     }
 
     /**
@@ -233,10 +233,10 @@ class FormHelper extends CakeFormHelper
     /**
      * {@inheritDoc}
      */
-    public function postLink($title, $url = null, array $options = [], $confirmMessage = false)
+    public function postLink($title, $url = null, array $options = [])
     {
-        $this->alter(['FormHelper.postLink', $this->_View], $title, $url, $options, $confirmMessage);
-        return parent::postLink($title, $url, $options, $confirmMessage);
+        $this->alter(['FormHelper.postLink', $this->_View], $title, $url, $options);
+        return parent::postLink($title, $url, $options);
     }
 
     /**
@@ -281,7 +281,7 @@ class FormHelper extends CakeFormHelper
     public function year($fieldName, array $options = [])
     {
         $this->alter(['FormHelper.year', $this->_View], $fieldName, $options);
-        return parent::year($instance, $widgets);
+        return parent::year($fieldName, $options);
     }
 
     /**

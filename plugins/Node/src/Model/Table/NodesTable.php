@@ -221,7 +221,7 @@ class NodesTable extends Table
      * @param string $value Operator's arguments
      * @param bool $negate Whether this operator was negated or not
      * @param string $orAnd and|or
-     * @return void
+     * @return \Cake\ORM\Query
      */
     public function operatorCreated(Query $query, $value, $negate, $orAnd)
     {
@@ -287,7 +287,7 @@ class NodesTable extends Table
      * @param string $value Operator's arguments
      * @param bool $negate Whether this operator was negated or not
      * @param string $orAnd and|or
-     * @return void
+     * @return \Cake\ORM\Query
      */
     public function operatorLimit(Query $query, $value, $negate, $orAnd)
     {
@@ -313,7 +313,7 @@ class NodesTable extends Table
      * @param string $value Operator's arguments
      * @param bool $negate Whether this operator was negated or not
      * @param string $orAnd and|or
-     * @return void
+     * @return \Cake\ORM\Query
      */
     public function operatorOrder(Query $query, $value, $negate, $orAnd)
     {
@@ -348,7 +348,7 @@ class NodesTable extends Table
      * @param string $value Operator's arguments
      * @param bool $negate Whether this operator was negated or not
      * @param string $orAnd and|or
-     * @return void
+     * @return \Cake\ORM\Query
      */
     public function operatorPromote(Query $query, $value, $negate, $orAnd)
     {
@@ -384,7 +384,7 @@ class NodesTable extends Table
      * @param string $value Operator's arguments
      * @param bool $negate Whether this operator was negated or not
      * @param string $orAnd and|or
-     * @return void
+     * @return \Cake\ORM\Query
      */
     public function operatorType(Query $query, $value, $negate, $orAnd)
     {
@@ -412,7 +412,7 @@ class NodesTable extends Table
      * @param string $value Operator's arguments
      * @param bool $negate Whether this operator was negated or not
      * @param string $orAnd and|or
-     * @return void
+     * @return \Cake\ORM\Query
      */
     public function operatorAuthor(Query $query, $value, $negate, $orAnd)
     {
@@ -443,7 +443,7 @@ class NodesTable extends Table
      * @param string $value Operator's arguments
      * @param bool $negate Whether this operator was negated or not
      * @param string $orAnd and|or
-     * @return void
+     * @return \Cake\ORM\Query
      */
     public function operatorLanguage(Query $query, $value, $negate, $orAnd)
     {

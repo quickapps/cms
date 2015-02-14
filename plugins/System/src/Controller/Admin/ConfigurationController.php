@@ -66,8 +66,7 @@ class ConfigurationController extends AppController
             $errors = $validator->errors($this->request->data());
 
             if (empty($errors)) {
-                $mockEntity = new Entity($this->request->data());
-                foreach ($this->request->data as $k => $v) {
+                foreach ($this->request->data() as $k => $v) {
                     $this->Options->update($k, $v, null, false);
                 }
                 snapshot();

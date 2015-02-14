@@ -143,7 +143,6 @@ class CommentableBehavior extends Behavior
      */
     public function findComments(Query $query, $options)
     {
-        $pk = $this->_table->primaryKey();
         $tableAlias = Inflector::underscore($this->_table->alias());
 
         if (empty($options['for'])) {

@@ -151,10 +151,11 @@ class TermsController extends AppController
         $term = $this->Terms->get($id, ['contain' => ['Vocabularies']]);
         $vocabulary = $term->vocabulary;
 
-        if (!empty($this->request->data)) {
-            $link = $this->Terms->patchEntity($term, $this->request->data, ['fieldList' => ['name']]);
+        if ($this->request->data()) {
+            $term = $this->Terms->patchEntity($term, $this->request->data(), ['fieldList' => ['name']]);
 
-            if ($this->Terms->save($term, ['associated' => false])) {
+            if (empty($term->errors())) {
+                $this->Terms->save($term, ['associated' => false]);
                 $this->Flash->success(__d('taxonomy', 'Term has been updated'));
                 $this->redirect($this->referer());
             } else {

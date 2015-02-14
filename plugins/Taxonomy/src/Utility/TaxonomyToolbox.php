@@ -13,7 +13,6 @@ namespace Taxonomy\Utility;
 
 use Cake\Cache\Cache;
 use Cake\ORM\TableRegistry;
-use Cake\Routing\Router;
 use Field\Model\Entity\Field;
 use QuickApps\Event\HooktagAwareTrait;
 

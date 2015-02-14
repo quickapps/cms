@@ -237,7 +237,7 @@ class AcoManager
             }
         }
 
-        if ($sync) {
+        if ($sync && isset($aco)) {
             $aco->Acos->recover();
             $existingPaths = static::paths($for);
             foreach ($existingPaths as $exists) {

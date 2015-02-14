@@ -85,7 +85,7 @@ class BreadcrumbRegistry
             $crumbs = [$crumbs];
         }
 
-        foreach ($crumbs as $crumb) {
+        foreach ((array)$crumbs as $crumb) {
             if (isset($crumb['title']) && isset($crumb['url'])) {
                 static::$_crumbs[] = $crumb;
             }

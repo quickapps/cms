@@ -282,14 +282,14 @@ class View extends CakeView
                 ($this->viewVars['node'] instanceof \Node\Model\Entity\Node) &&
                 !empty($this->viewVars['node']->description)
             ) {
-                $title = $this->viewVars['node']->description;
+                $description = $this->viewVars['node']->description;
             } else {
                 foreach ($this->viewVars as $var) {
                     if (is_object($var) &&
                         ($var instanceof \Node\Model\Entity\Node) &&
-                        !empty($var->title)
+                        !empty($var->description)
                     ) {
-                        $title = $var->description;
+                        $description = $var->description;
                         break;
                     }
                 }

@@ -132,6 +132,7 @@ class BlockHelper extends Helper
         $this->alter(['BlockHelper.allowed', $this->_View], $block);
         $cacheKey = "allowed_{$block->id}";
         $cache = static::cache($cacheKey);
+        $allowed = false;
 
         if ($cache !== null) {
             return $cache;

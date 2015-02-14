@@ -195,14 +195,14 @@ class PermissionsController extends AppController
                     $error = true;
                     $this->Flash->danger(__d('user', 'Invalid file given.'));
                 }
-            }
 
-            if (!$error) {
-                if (!empty($added)) {
-                    $imported = '<br />' . implode('<br />', $added);
-                    $this->Flash->success(__d('user', 'The following entries were imported: {0}', $imported));
-                } else {
-                    $this->Flash->success(__d('user', 'Success, but nothing was imported'));
+                if (!$error) {
+                    if (!empty($added)) {
+                        $imported = '<br />' . implode('<br />', $added);
+                        $this->Flash->success(__d('user', 'The following entries were imported: {0}', $imported));
+                    } else {
+                        $this->Flash->success(__d('user', 'Success, but nothing was imported'));
+                    }
                 }
             }
         }

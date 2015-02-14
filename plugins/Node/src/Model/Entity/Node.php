@@ -38,8 +38,8 @@ class Node extends Entity
     protected function _getType()
     {
         $name = __d('node', '(unknown)');
-        if ($this->has('node_type') && $this->node_type->has('name')) {
-            $name = $this->node_type->get('name');
+        if ($this->has('node_type') && $this->get('node_type')->has('name')) {
+            $name = $this->get('node_type')->get('name');
         }
         return $name;
     }
