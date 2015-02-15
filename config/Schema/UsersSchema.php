@@ -157,24 +157,7 @@ trait UsersSchemaTrait
   ],
 ];
 
-    protected $_records = [
-  0 => 
-  [
-    'id' => 1,
-    'name' => 'QuickApps CMS',
-    'username' => 'admin',
-    'password' => '$2y$10$EVI2DYmtDEGAqD0s9TbjL.wgbpKlSjLjeH70gXwKRhi6g5DpkR/Be',
-    'email' => 'chris@quickapps.es',
-    'web' => 'http://quickapps.es',
-    'locale' => 'en-us',
-    'public_profile' => false,
-    'public_email' => false,
-    'token' => '',
-    'status' => true,
-    'last_login' => '0000-00-00 00:00:00',
-    'created' => '0000-00-00 00:00:00',
-  ],
-];
+    protected $_records = [];
 
     public function fields()
     {
