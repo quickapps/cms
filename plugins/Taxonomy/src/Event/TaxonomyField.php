@@ -15,7 +15,7 @@ use Cake\Cache\Cache;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
-use Field\Event\Base\FieldHandler;
+use Field\FieldHandler;
 use Field\Model\Entity\Field;
 
 /**

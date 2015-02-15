@@ -13,7 +13,7 @@ namespace Search\Operator;
 
 use Cake\ORM\Query;
 use Cake\ORM\Table;
-use Search\Operator\Operator;
+use Search\Operator;
 
 /**
  * Handles "limits" search operator.

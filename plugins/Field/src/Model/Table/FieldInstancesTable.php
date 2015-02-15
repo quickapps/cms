@@ -35,8 +35,6 @@ use \ArrayObject;
  * - `Field.<FieldHandler>.Instance.settingsDefaults`: Default values for field settings form's inputs
  * - `Field.<FieldHandler>.Instance.viewModeForm`: Additional formatter options. Show define the way the values will be rendered for a particular view mode.
  * - `Field.<FieldHandler>.Instance.viewModeDefaults`: Default values for view mode settings form's inputs
- * - `Field.<FieldHandler>.Instance.beforeValidate`: Before field is validated when it's being attached to Tables
- * - `Field.<FieldHandler>.Instance.afterValidate`: After field is validated when it's being attached to Tables
  * - `Field.<FieldHandler>.Instance.beforeAttach`: Before field is attached to Tables
  * - `Field.<FieldHandler>.Instance.afterAttach`: After field is attached to Tables
  * - `Field.<FieldHandler>.Instance.beforeDetach`: Before field is detached from Tables
@@ -173,7 +171,7 @@ class FieldInstancesTable extends Table
         $query->formatResults(function ($results) use ($viewModes) {
             return $results->map(function ($instance) use ($viewModes) {
                 if (!is_object($instance)) {
-                    return $instance;    
+                    return $instance;
                 }
 
                 foreach ($viewModes as $viewMode) {

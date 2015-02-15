@@ -12,7 +12,7 @@
 namespace Field\Event;
 
 use Cake\Event\Event;
-use Field\Event\Base\FieldHandler;
+use Field\FieldHandler;
 use Field\Model\Entity\Field;
 
 /**

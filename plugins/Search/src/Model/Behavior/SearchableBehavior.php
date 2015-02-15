@@ -21,7 +21,7 @@ use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
 use QuickApps\Event\HookAwareTrait;
 use Search\Model\Entity\SearchDataset;
-use Search\Operator\Operator;
+use Search\Operator;
 
 /**
  * This behavior allows entities to be searchable through an auto-generated
