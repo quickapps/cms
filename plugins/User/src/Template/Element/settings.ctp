@@ -51,17 +51,17 @@
 
 	<div class="alert alert-info">
 		<strong><?php echo __d('user', 'Available variables are:'); ?></strong>
-		<code>[user:name]</code>
-		<code>[user:username]</code>
-		<code>[user:email]</code>
-		<code>[user:activation-url]</code>
-		<code>[user:one-time-login-url]</code>
-		<code>[user:cancel-url]</code>
-		<code>[site:name]</code>
-		<code>[site:url]</code>
-		<code>[site:description]</code>
-		<code>[site:slogan]</code>
-		<code>[site:login-url]</code>
+		<code>{{user:name}}</code>
+		<code>{{user:username}}</code>
+		<code>{{user:email}}</code>
+		<code>{{user:activation-url}}</code>
+		<code>{{user:one-time-login-url}}</code>
+		<code>{{user:cancel-url}}</code>
+		<code>{{site:name}}</code>
+		<code>{{site:url}}</code>
+		<code>{{site:description}}</code>
+		<code>{{site:slogan}}</code>
+		<code>{{site:login-url}}</code>
 	</div>
 
 	<hr />

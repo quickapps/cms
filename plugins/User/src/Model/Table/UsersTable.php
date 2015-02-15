@@ -21,7 +21,7 @@ use User\Model\Entity\User;
 /**
  * Represents "users" database table.
  *
- * @method    addSearchOperator(string $name, mixed $handler)
+ * @method void addSearchOperator(string $name, mixed $handler, array $options = [])
  */
 class UsersTable extends Table
 {

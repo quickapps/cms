@@ -208,17 +208,17 @@ class NotificationManager
     {
         $user = $this->_user;
         return str_replace([
-            '[user:name]',
-            '[user:username]',
-            '[user:email]',
-            '[user:activation-url]',
-            '[user:one-time-login-url]',
-            '[user:cancel-url]',
-            '[site:name]',
-            '[site:url]',
-            '[site:description]',
-            '[site:slogan]',
-            '[site:login-url]',
+            '{{user:name}}',
+            '{{user:username}}',
+            '{{user:email}}',
+            '{{user:activation-url}}',
+            '{{user:one-time-login-url}}',
+            '{{user:cancel-url}}',
+            '{{site:name}}',
+            '{{site:url}}',
+            '{{site:description}}',
+            '{{site:slogan}}',
+            '{{site:login-url}}',
         ], [
             $user->name,
             $user->username,
