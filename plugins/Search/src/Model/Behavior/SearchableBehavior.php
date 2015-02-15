@@ -21,6 +21,7 @@ use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
 use QuickApps\Event\HookAwareTrait;
 use Search\Model\Entity\SearchDataset;
+use Search\Operator\Operator;
 
 /**
  * This behavior allows entities to be searchable through an auto-generated
@@ -494,16 +495,73 @@ class SearchableBehavior extends Behavior
     /**
      * Registers a new operator method.
      *
-     * @param string $name Operator name. e.g. `author`
-     * @param mixed $methodName A string indicating the table's method name
-     *  which will take care of this operator, or an array compatible with
-     *  call_user_func_array or a callable function
+     * Allowed formats are:
+     *
+     * ```php
+     * $this->addSearchOperator('created', 'operatorCreated');
+     * ```
+     *
+     * The above will use Table's `operatorCreated()` method to handle the
+     * "created" operator.
+     *
+     * ```php
+     * $this->addSearchOperator('created', 'MyPlugin.Limit');
+     * ```
+     *
+     * The above will use `MyPlugin\Search\LimitOperator` class to handle the
+     * "limit" operator. Note the `Operator` suffix.
+     *
+     * ```php
+     * $this->addSearchOperator('created', 'MyPlugin.Limit', ['my_option' => 'option_value']);
+     * ```
+     *
+     * Similar as before, but in this case you can provide some configuration
+     * options passing an array as above.
+     *
+     * ```php
+     * $this->addSearchOperator('created', function ($query, $value, $negate, $orAnd) {
+     *     // handler logic
+     *     return $query;
+     * });
+     * ```
+     * You can simply pass a callable function to handle the operator, this
+     * callable must return the altered $query object.
+     *
+     *
+     * ```php
+     * $this->addSearchOperator('created', new CreatedOperator($table, $options));
+     * ```
+     *
+     * In this case you can directly pass an instance of an operator handler,
+     * this object should extends the `Search\Operator\Operator` abstract class.
+     *
+     * @param string $name Underscored operator's name. e.g. `author`
+     * @param mixed $handler A valid handler as described above
      * @return void
      */
-    public function addSearchOperator($name, $methodName)
+    public function addSearchOperator($name, $handler, array $options = [])
     {
         $name = Inflector::underscore($name);
-        $this->config("operators.{$name}", $methodName);
+        $operator = [
+            'handler' => false,
+            'options' => [],
+        ];
+
+        if (is_string($handler)) {
+            if (method_exists($this->_table, $handler)) {
+                $operator['handler'] = $handler;
+            } else {
+                list($plugin, $class) = pluginSplit($handler);
+                $className = $plugin ? "{$plugin}\\" : 'Search\\';
+                $className .= strpos($class, '\\') ? "{$class}Operator" : "Operator\\{$class}Operator";
+                $operator['handler'] = $className;
+                $operator['options'] = $options;
+            }
+        } elseif (is_object($handler) || is_callable($handler)) {
+            $operator['handler'] = $handler;
+        }
+
+        $this->config("operators.{$name}", $operator);
     }
 
     /**
@@ -559,22 +617,27 @@ class SearchableBehavior extends Behavior
      */
     protected function _operatorCallable($name)
     {
-        $operators = $this->config('operators');
+        $operator = $this->config("operators.{$name}");
 
-        if (isset($operators[$name])) {
-            $callableName = $operators[$name];
+        if ($operator) {
+            $handler = $operator['handler'];
 
-            if (is_array($callableName)) {
-                return function ($query, $value, $negate, $orAnd) use ($callableName) {
-                    return call_user_func_array($callableName, [$query, $value, $negate, $orAnd]);
+            if (is_callable($handler)) {
+                return function ($query, $value, $negate, $orAnd) use ($handler) {
+                    return $handler($query, $value, $negate, $orAnd);
                 };
-            } elseif (is_callable($callableName)) {
-                return function ($query, $value, $negate, $orAnd) use ($callableName) {
-                    return $callableName($query, $value, $negate, $orAnd);
+            } elseif ($handler instanceof Operator) {
+                return function ($query, $value, $negate, $orAnd) use ($handler) {
+                    return $handler->scope($query, $value, $negate, $orAnd);
                 };
-            } elseif (method_exists($this->_table, $callableName)) {
-                return function ($query, $value, $negate, $orAnd) use ($callableName) {
-                    return $this->_table->$callableName($query, $value, $negate, $orAnd);
+            } elseif (is_string($handler) && method_exists($this->_table, $handler)) {
+                return function ($query, $value, $negate, $orAnd) use ($handler) {
+                    return $this->_table->$handler($query, $value, $negate, $orAnd);
+                };
+            } elseif (is_string($handler) && class_exists($handler)) {
+                return function ($query, $value, $negate, $orAnd) use ($operator) {
+                    $instance = new $operator['handler']($this->_table, $operator['options']);
+                    return $instance->scope($query, $value, $negate, $orAnd);
                 };
             }
         }
