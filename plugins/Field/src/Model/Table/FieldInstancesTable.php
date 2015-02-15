@@ -172,6 +172,10 @@ class FieldInstancesTable extends Table
         $viewModes = $this->viewModes();
         $query->formatResults(function ($results) use ($viewModes) {
             return $results->map(function ($instance) use ($viewModes) {
+                if (!is_object($instance)) {
+                    return $instance;    
+                }
+
                 foreach ($viewModes as $viewMode) {
                     $instanceViewModes = $instance->view_modes;
                     $viewModeDefaults = array_merge([
