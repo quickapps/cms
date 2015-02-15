@@ -76,6 +76,8 @@ class CommentsTable extends Table
             ->add('parent_id', 'checkParentId', [
                 'rule' => function ($value, $context) {
                     if (!empty($value)) {
+                        // make sure it's a valid parent: exists and belongs to the
+                        // the same bundle (table)
                         $conditions = [
                             'id' => $value,
                             'entity_id' => $context['providers']['entity']->entity_id,

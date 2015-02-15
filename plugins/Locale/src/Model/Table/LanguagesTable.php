@@ -13,6 +13,7 @@ namespace Locale\Model\Table;
 
 use Cake\Event\Event;
 use Cake\ORM\Entity;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
@@ -22,6 +23,22 @@ use Cake\Validation\Validator;
  */
 class LanguagesTable extends Table
 {
+
+    /**
+     * Application rules.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rule checker
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        // unique code
+        $rules->add($rules->isUnique(['code']), 'uniqueCode', [
+            'message' => __d('locale', 'This language is already registered.'),
+        ]);
+
+        return $rules;
+    }
 
     /**
      * Default validation rules set.
@@ -42,12 +59,7 @@ class LanguagesTable extends Table
                     'message' => __d('locale', 'Language name need to be at least 3 characters long.'),
                 ],
             ])
-            ->requirePresence('code')
-            ->add('code', 'unique', [
-                'rule' => 'validateUnique',
-                'message' => __d('locale', 'This language is already registered.'),
-                'provider' => 'table',
-            ]);
+            ->requirePresence('code');
 
         return $validator;
     }

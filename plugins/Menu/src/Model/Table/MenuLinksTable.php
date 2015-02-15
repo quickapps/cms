@@ -93,7 +93,7 @@ class MenuLinksTable extends Table
                     }
                     return true;
                 },
-                'message' => __d('menu', 'Invalid PHP code, make sure that tags "<?php" & "?>" are present.')
+                'message' => __d('menu', 'Invalid PHP code, make sure that tags "&lt;?php" & "?&gt;" are present.')
             ]);
 
         return $validator;

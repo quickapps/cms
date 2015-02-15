@@ -14,6 +14,7 @@ namespace Block\Model\Table;
 use Block\Model\Entity\BlockRegion;
 use Cake\Cache\Cache;
 use Cake\Event\Event;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use QuickApps\Core\Plugin;
@@ -40,6 +41,22 @@ class BlockRegionsTable extends Table
     }
 
     /**
+     * Application rules.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rule checker
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        // unique block_id
+        $rules->add($rules->isUnique(['block_id', 'theme']), 'uniqueBlockId', [
+            'message' => __d('block', 'This block is already assigned to this theme.'),
+        ]);
+
+        return $rules;
+    }
+
+    /**
      * Default validation rules.
      *
      * @param \Cake\Validation\Validator $validator The validator object
@@ -56,11 +73,6 @@ class BlockRegionsTable extends Table
                     return !empty($exists);
                 },
                 'message' => __d('block', 'Invalid theme for region.'),
-            ])
-            ->add('block_id', 'unique', [
-                'rule' => ['validateUnique', ['scope' => 'theme']],
-                'message' => __d('block', 'This block is already assigned to this theme.'),
-                'provider' => 'table',
             ]);
     }
 

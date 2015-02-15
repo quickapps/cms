@@ -15,6 +15,7 @@ use Block\Model\Entity\Block;
 use Cake\Cache\Cache;
 use Cake\Database\Schema\Table as Schema;
 use Cake\Event\Event;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use QuickApps\Event\HookAwareTrait;
@@ -76,6 +77,22 @@ class BlocksTable extends Table
     }
 
     /**
+     * Application rules.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rule checker
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        // unique delta
+        $rules->add($rules->isUnique(['delta', 'handler']), 'uniqueDelta', [
+            'message' => __d('block', 'Invalid delta, there is already a block with the same [delta, handler] combination.'),
+        ]);
+
+        return $rules;
+    }
+
+    /**
      * Default validation rules.
      *
      * @param \Cake\Validation\Validator $validator The validator object
@@ -121,13 +138,6 @@ class BlocksTable extends Table
                     return true;
                 },
                 'message' => __d('block', 'Invalid PHP code, make sure that tags "<?php" & "?>" are present.')
-            ])
-            ->add('delta', [
-                'unique' => [
-                    'rule' => ['validateUnique', ['scope' => 'handler']],
-                    'message' => __d('block', 'Invalid delta, there is already a block with the same [delta, handler] combination.'),
-                    'provider' => 'table',
-                ]
             ])
             ->requirePresence('handler', 'create', __d('block', 'This field is required.'))
             ->add('handler', 'validHandler', [

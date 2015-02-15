@@ -14,6 +14,7 @@ namespace User\Model\Table;
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\Error\FatalErrorException;
 use Cake\Event\Event;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use User\Model\Entity\User;
@@ -72,6 +73,27 @@ class UsersTable extends Table
     }
 
     /**
+     * Application rules.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rule checker
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        // unique mail
+        $rules->add($rules->isUnique(['email']), 'uniqueEmail', [
+            'message' => __d('user', 'e-mail already in use.'),
+        ]);
+
+        // unique username
+        $rules->add($rules->isUnique(['username']), 'uniqueUsername', [
+            'message' => __d('user', 'Username already in use.'),
+        ]);
+
+        return $rules;
+    }
+
+    /**
      * Default validation rules.
      *
      * @param \Cake\Validation\Validator $validator Validator object
@@ -91,28 +113,9 @@ class UsersTable extends Table
                     'provider' => 'table',
                     'message' => __d('user', 'Invalid username. Only letters, numbers and "_" symbol, and at least three characters long.'),
                 ],
-                'unique' => [
-                    'rule' => 'validateUnique',
-                    'provider' => 'table',
-                    'message' => __d('user', 'Username already in use.'),
-                ],
             ])
             ->requirePresence('email')
-            ->notEmpty('email', __d('user', 'E-mail cannot be empty.'))
-            ->add('email', [
-                'unique' => [
-                    'rule' => 'validateUnique',
-                    'provider' => 'table',
-                    'message' => __d('user', 'e-Mail already in use.'),
-                ]
-            ])
-            ->add('username', [
-                'unique' => [
-                    'rule' => 'validateUnique',
-                    'provider' => 'table',
-                    'message' => __d('user', 'Username already in use.'),
-                ]
-            ])
+            ->notEmpty('email', __d('user', 'e-mail cannot be empty.'))
             ->requirePresence('password', 'create')
             ->allowEmpty('password', 'update')
             ->add('password', [

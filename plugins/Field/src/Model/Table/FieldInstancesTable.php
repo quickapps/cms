@@ -15,6 +15,7 @@ use Cake\Database\Schema\Table as Schema;
 use Cake\Event\Event;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
@@ -61,6 +62,37 @@ class FieldInstancesTable extends Table
     }
 
     /**
+     * Application rules.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rule checker
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        // check max instances limit
+        $rules->addCreate(function ($instance, $options) {
+            $info = $this->trigger("Field.{$instance->handler}.Instance.info")->result;
+            if (isset($info['maxInstances'])) {
+                $count = $this->find()
+                    ->where([
+                        'FieldInstances.table_alias' => $instance->table_alias,
+                        'FieldInstances.handler' => $instance->handler,
+                    ])
+                    ->count();
+                return $count <= intval($info['maxInstances']);
+            }
+            return true;
+        }, 'maxInstances');
+
+        // unique slug
+        $rules->addCreate($rules->isUnique(['slug']), 'uniqueSlug', [
+            'message' => __d('field', 'The machine name is already in use.')
+        ]);
+
+        return $rules;
+    }
+
+    /**
      * Default validation rules set.
      *
      * @param \Cake\Validation\Validator $validator The validator object
@@ -85,11 +117,6 @@ class FieldInstancesTable extends Table
                     'message' => __d('field', 'Only lowercase letters, numbers and "-" symbol are allowed.'),
                     'provider' => 'table',
                 ],
-                'unique' => [
-                    'rule' => 'validateUnique',
-                    'provider' => 'table',
-                    'message' => __d('field', 'The machine name is already in use.'),
-                ]
             ])
             ->notEmpty('table_alias', __d('field', 'Invalid table alias.'))
             ->notEmpty('handler', __d('field', 'Invalid field type.'))
@@ -176,19 +203,6 @@ class FieldInstancesTable extends Table
                 return $instance;
             });
         });
-    }
-
-    /**
-     * Triggers the "Field.<FieldHandler>.Instance.afterValidate" event.
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Cake\ORM\Entity $instance The Field Instance that is going to be validated
-     * @param \ArrayObject $options Additional options given as an array
-     * @param \Cake\Validation\Validator $validator The validator object
-     * @return void
-     */
-    public function afterValidate(Event $event, Entity $instance, ArrayObject $options, Validator $validator)
-    {
     }
 
     /**

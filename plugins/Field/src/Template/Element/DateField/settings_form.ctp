@@ -40,7 +40,6 @@
     </ul>
 
     <?php
-
         echo $this->Form->input('button_bar', [
             'type' => 'checkbox',
             'label' => __d('field', 'Display button bar')
@@ -68,9 +67,7 @@
             'empty' => false,
             'label' => __d('field', 'Display multiple months')
         ]);  
-    ?>
 
-    <?php
         echo $this->Form->input('locale', [
             'type' => 'select',
             'options' => [
@@ -191,8 +188,6 @@
         ?>
     </fieldset>
 </div>
-
-
 
 <script type="text/javascript">
     $(document).ready(function ()  {
