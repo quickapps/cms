@@ -35,31 +35,39 @@ class BreadcrumbRegistry
      *
      * #### Single crumb push as an array:
      *
-     *     BreadcrumbRegistry::push(['title' => 'Crumb 1', 'url' => 'URL for crumb 1']);
-     *     BreadcrumbRegistry::push(['title' => 'Crumb 2', 'url' => '/MyPlugin/my_controller/action_name']);
-     *     BreadcrumbRegistry::push(['title' => 'Crumb 3', 'url' => 'URL for crumb 3']);
+     * ```php
+     * BreadcrumbRegistry::push(['title' => 'Crumb 1', 'url' => 'URL for crumb 1']);
+     * BreadcrumbRegistry::push(['title' => 'Crumb 2', 'url' => '/MyPlugin/my_controller/action_name']);
+     * BreadcrumbRegistry::push(['title' => 'Crumb 3', 'url' => 'URL for crumb 3']);
+     * ```
      *
      * #### Multiple crumbs at once:
      *
-     *     BreadcrumbRegistry::push([
-     *         ['title' => 'Crumb 1', 'url' => 'URL for crumb 1'],
-     *         ['title' => 'Crumb 2', 'url' => '/MyPlugin/my_controller/action_name'],
-     *         ['title' => 'Crumb 3', 'url' => 'URL for crumb 3'],
-     *     ]);
+     * ```php
+     * BreadcrumbRegistry::push([
+     *     ['title' => 'Crumb 1', 'url' => 'URL for crumb 1'],
+     *     ['title' => 'Crumb 2', 'url' => '/MyPlugin/my_controller/action_name'],
+     *     ['title' => 'Crumb 3', 'url' => 'URL for crumb 3'],
+     * ]);
+     * ```
      *
      * #### "title" and "URL" as arguments:
      *
-     *     BreadcrumbRegistry::push('Crumb 1', 'URL for crumb 1');
-     *     BreadcrumbRegistry::push('Crumb 2', ['plugin' => 'MyPlugin', 'controller' => 'my_controller', 'action' => 'action_name']);
-     *     BreadcrumbRegistry::push('Crumb 3', 'URL for crumb 3');
+     * ```php
+     * BreadcrumbRegistry::push('Crumb 1', 'URL for crumb 1');
+     * BreadcrumbRegistry::push('Crumb 2', ['plugin' => 'MyPlugin', 'controller' => 'my_controller', 'action' => 'action_name']);
+     * BreadcrumbRegistry::push('Crumb 3', 'URL for crumb 3');
+     * ```
      *
      * All three examples above produces the same HTML output when using `BreadcrumbHelper::render()`:
      *
-     *     <ol>
-     *         <li class="first-item"><a href="URL for crumb 1"><span>Crumb 1</span></a></li>
-     *         <li class="active"><a href="/MyPlugin/my_controller/action_name"><span>Crumb 2</span></a></li>
-     *         <li class="last-item"><a href="URL for crumb 3"><span>Crumb 3</span></a></li>
-     *     </ol>
+     * ```html
+     * <ol>
+     *     <li class="first-item"><a href="URL for crumb 1"><span>Crumb 1</span></a></li>
+     *     <li class="active"><a href="/MyPlugin/my_controller/action_name"><span>Crumb 2</span></a></li>
+     *     <li class="last-item"><a href="URL for crumb 3"><span>Crumb 3</span></a></li>
+     * </ol>
+     * ```
      *
      * NOTE: you can provide URLs as both, string values or as an array compatible
      * with `Router::url()`.

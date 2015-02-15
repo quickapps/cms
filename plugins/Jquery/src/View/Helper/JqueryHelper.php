@@ -50,11 +50,15 @@ class JqueryHelper extends Helper
      *
      * You can indicate the name of the JS files to include as follow:
      *
-     *     $this->jQuery->ui('mouse', 'droppable', 'widget', ...);
+     * ```php
+     * $this->jQuery->ui('mouse', 'droppable', 'widget', ...);
+     * ```
      *
      * You can provide an array of options for HtmlHelper::script() as follow:
      *
-     *     $this->jQuery->ui('mouse', 'droppable', ['block' => 'true'], 'widget', ...);
+     * ```php
+     * $this->jQuery->ui('mouse', 'droppable', ['block' => 'true'], 'widget', ...);
+     * ```
      *
      * If no component is given all components (concatenated as a single JS file)
      * will be loaded at once.
@@ -110,13 +114,17 @@ class JqueryHelper extends Helper
      *
      * You can indicate UI themes provided by an specific plugin:
      *
-     *     $this->jQuery->theme('MyPlugin.flick');
+     * ```php
+     * $this->jQuery->theme('MyPlugin.flick');
+     * ```
      *
      * Theme's assets should be located at `MyPlugin/webroot/css/ui/flick/`
      *
      * If no plugin syntax is given, **Jquery** plugin will be used by default:
      *
-     *     $this->jQuery->theme('flick');
+     * ```php
+     * $this->jQuery->theme('flick');
+     * ```
      *
      * Theme's assets are located at `Jquery/webroot/css/ui/flick/`
      *
@@ -132,12 +140,16 @@ class JqueryHelper extends Helper
      * You can define the global parameter `jQueryUI.default_theme` in your site's
      * `bootstrap.php` to indicate the theme to use by default. For instance:
      *
-     *     Configure::write('jQueryUI.default_theme', 'MyPlugin.ui-darkness');
+     * ```php
+     * Configure::write('jQueryUI.default_theme', 'MyPlugin.ui-darkness');
+     * ```
      *
      * The `MyPlugin.ui-darkness` theme will be used by default every time this
      * method is used with no arguments:
      *
-     *     $this->jQuery->theme();
+     * ```php
+     * $this->jQuery->theme();
+     * ```
      *
      * Theme's assets should be located at `MyPlugin/webroot/css/ui/ui-darkness/`
      *

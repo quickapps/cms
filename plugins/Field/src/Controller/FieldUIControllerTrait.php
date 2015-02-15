@@ -35,13 +35,15 @@ use QuickApps\View\ViewModeAwareTrait;
  * Beside adding `use FieldUIControllerTrait;` to your controller you MUST also
  * indicate the name of the Table being managed. Example:
  *
- *     uses Field\Controller\FieldUIControllerTrait;
+ * ```php
+ * uses Field\Controller\FieldUIControllerTrait;
  *
- *     class MyCleanController extends <Plugin>AppController {
- *         use FieldUIControllerTrait;
- *         // underscored table alias. e.g.: "user_photos"
- *         protected $_manageTable = 'nodes';
- *     }
+ * class MyCleanController extends <Plugin>AppController {
+ *     use FieldUIControllerTrait;
+ *     // underscored table alias. e.g.: "user_photos"
+ *     protected $_manageTable = 'nodes';
+ * }
+ * ```
  *
  * In order to avoid trait collision you should always `extend` Field UI using this
  * trait over a `clean` controller. This is, a empty controller class with no
@@ -97,8 +99,10 @@ trait FieldUIControllerTrait
      * Suppose you are using this trait to manage fields attached to `Persons` entities.
      * You would probably have a `Person` plugin and a `clean` controller as follow:
      *
-     *     // http://example.com/admin/person/fields_manager
-     *     Person\Controller\FieldsManagerController::index()
+     * ```
+     * // http://example.com/admin/person/fields_manager
+     * Person\Controller\FieldsManagerController::index()
+     * ```
      *
      * The above controller action will try to render
      * `/plugins/Person/Template/CommentsManager/index.ctp`. But if does not exists then

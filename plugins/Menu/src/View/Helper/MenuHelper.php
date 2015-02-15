@@ -64,32 +64,34 @@ class MenuHelper extends Helper
      *
      * This example shows where each template is used when rendering a menu.
      *
-     *     <div> // div template (only if split > 1)
-     *         <ul> // root template (first part of split menu)
-     *             <li> // child template
-     *                 <a href="">Link 1</a> // link template
-     *             </li>
-     *             <li> // child template
-     *                 <a href="">Link 2</a> // link template
-     *                 <ul> // parent template
-     *                     <li> // child template
-     *                         <a href="">Link 2.1</a> // link template
-     *                     </li>
-     *                     <li> // child template
-     *                         <a href="">Link 2.2</a> // link template
-     *                     </li>
-     *                     ...
-     *                 </ul>
-     *             </li>
-     *             ...
-     *         </ul>
-     *
-     *         <ul> // root template (second part of split menu)
-     *             ...
-     *         </ul>
-     *
+     * ```html
+     * <div> // div template (only if split > 1)
+     *     <ul> // root template (first part of split menu)
+     *         <li> // child template
+     *             <a href="">Link 1</a> // link template
+     *         </li>
+     *         <li> // child template
+     *             <a href="">Link 2</a> // link template
+     *             <ul> // parent template
+     *                 <li> // child template
+     *                     <a href="">Link 2.1</a> // link template
+     *                 </li>
+     *                 <li> // child template
+     *                     <a href="">Link 2.2</a> // link template
+     *                 </li>
+     *                 ...
+     *             </ul>
+     *         </li>
      *         ...
-     *     </div>
+     *     </ul>
+     *
+     *     <ul> // root template (second part of split menu)
+     *         ...
+     *     </ul>
+     *
+     *     ...
+     * </div>
+     * ```
      *
      * @var array
      */
@@ -142,11 +144,13 @@ class MenuHelper extends Helper
      *
      * This methods renders a HTML menu using a `threaded` result set:
      *
-     *     // In controller:
-     *     $this->set('links', $this->Links->find('threaded'));
+     * ```php
+     * // In controller:
+     * $this->set('links', $this->Links->find('threaded'));
      *
-     *     // In view:
-     *     echo $this->Menu->render('links');
+     * // In view:
+     * echo $this->Menu->render('links');
+     * ```
      *
      * ### Options:
      *
@@ -169,9 +173,11 @@ class MenuHelper extends Helper
      * You can also pass a callable function as second argument which will be
      * used as formatter:
      *
-     *     echo $this->Menu->render($links, function ($link, $info) {
-     *         // render $item here
-     *     });
+     * ```php
+     * echo $this->Menu->render($links, function ($link, $info) {
+     *     // render $item here
+     * });
+     * ```
      *
      * Formatters receives two arguments, the item being rendered as first argument
      * and information abut the item (has children, depth, etc) as second.
@@ -703,7 +709,9 @@ class MenuHelper extends Helper
      *
      * ## Example:
      *
-     *     (en\-us|fr|es|it)
+     * ```
+     * (en\-us|fr|es|it)
+     * ```
      *
      * @return string
      */

@@ -19,16 +19,18 @@ use Installer\Task\TaskManager;
  *
  * ## Basic Usage:
  *
- *     $task = $this->Installer
- *         ->task('install', ['active' => false])
- *         ->download('http://example.com/package.zip');
- *     // ....
- *     if ($task->run()) {
- *         // success
- *     }  else {
- *         // error
- *         $errors = $task->errors();
- *     }
+ * ```php
+ * $task = $this->Installer
+ *     ->task('install', ['active' => false])
+ *     ->download('http://example.com/package.zip');
+ * // ....
+ * if ($task->run()) {
+ *     // success
+ * }  else {
+ *     // error
+ *     $errors = $task->errors();
+ * }
+ * ```
  */
 class InstallerComponent extends Component
 {

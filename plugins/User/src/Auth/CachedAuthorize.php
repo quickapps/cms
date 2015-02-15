@@ -23,7 +23,7 @@ use Cake\Utility\Inflector;
  * This adapter provides "Controller-action" based authorization with
  * cache capabilities. Only authenticated users are validated using this
  * technique, all anonymous users (unauthenticated users) are validated
- * using QuickApps CMS's `AnonymousAuthenticate`
+ * using QuickAppsCMS's `AnonymousAuthenticate`
  */
 class CachedAuthorize extends BaseAuthorize
 {

@@ -24,7 +24,9 @@ use QuickApps\Core\StaticCacheTrait;
  *
  * ### Usage:
  *
- *     $manager = new AcoManager('PluginName');
+ * ```php
+ * $manager = new AcoManager('PluginName');
+ * ```
  *
  * You must indicate the plugin to manage.
  */

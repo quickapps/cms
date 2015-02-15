@@ -23,9 +23,11 @@ use User\Model\Entity\User;
  *
  * ### Usage:
  *
- *     $user = $this->Users->get($id);
- *     $manager = new NotificationManager($user);
- *     $manager->welcome();
+ * ```php
+ * $user = $this->Users->get($id);
+ * $manager = new NotificationManager($user);
+ * $manager->welcome();
+ * ```
  *
  * The example above will send a "welcome" message to the given user.
  * Messages can be customized on User plugin's configuration page.
@@ -34,7 +36,9 @@ use User\Model\Entity\User;
  * message is send, you can disable this behavior by passing `updateToken` option
  * set to false to the class constructor:
  *
- *     new NotificationManager($user, ['updateToken' => false]);
+ * ```php
+ * new NotificationManager($user, ['updateToken' => false]);
+ * ```
  */
 class NotificationManager
 {

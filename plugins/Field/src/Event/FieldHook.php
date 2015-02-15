@@ -24,26 +24,32 @@ use QuickApps\View\ViewModeAwareTrait;
  *
  * Field Handlers should implement the `<FieldHandler>.Entity.display` hook. e.g.:
  *
- *     Field.TextField.Entity.display
+ * ```
+ * Field.TextField.Entity.display
+ * ```
  *
  * Its callable method should expect two parameters, `$field` and `$options`, and it
  * should return a HTML string representation of your field. i.e.:
  *
- *     public function display(Event $event, $field, $options) {
- *         return
- *             "<h2>{$field->label}</h2>" .
- *             "<p>{$field->value}</p>";
- *     }
+ * ```php
+ * public function display(Event $event, $field, $options) {
+ *     return
+ *         "<h2>{$field->label}</h2>" .
+ *         "<p>{$field->value}</p>";
+ * }
+ * ```
  *
  * Usually you will rely on view elements for HTML rendering, to invoke
  * View::element(...), you should use event's subject which is the view instance
  * in use:
  *
- *     public function display(Event $event, $field, $options) {
- *         return $event
- *             ->subject()
- *             ->element('MyPlugin.text_field_display', compact('field', 'options'));
- *     }
+ * ```php
+ * public function display(Event $event, $field, $options) {
+ *     return $event
+ *         ->subject()
+ *         ->element('MyPlugin.text_field_display', compact('field', 'options'));
+ * }
+ * ```
  *
  * Remember that view elements can alway be overwritten by themes. So it's a good
  * practice always use view elements as rendering method instead returning
@@ -108,18 +114,20 @@ class FieldHook implements EventListenerInterface
      *
      * Using `$this->trigger('Field.info', true)` may produce:
      *
-     *     array(
-     *         [0] => array(
-     *             'name' => 'Textarea',
-     *             'description' => 'Allows to store long texts',
-     *             'hidden' => false
-     *         ),
-     *         [1] => array(
-     *             'name' => 'Secret Field',
-     *             'description' => 'This field should only be used internally by plugins',
-     *             'hidden' => true
-     *         )
-     *     )
+     * ```php
+     * [
+     *     [0] => [
+     *         'name' => 'Textarea',
+     *         'description' => 'Allows to store long texts',
+     *         'hidden' => false
+     *     ],
+     *     [1] => [
+     *         'name' => 'Secret Field',
+     *         'description' => 'This field should only be used internally by plugins',
+     *         'hidden' => true
+     *     ]
+     * ];
+     * ```
      *
      * Some fields may register themselves as hidden when they are intended to be used
      * exclusively by plugins. So users can not `attach` them to entities using Field UI.

@@ -17,15 +17,15 @@ use QuickApps\Event\HookAwareTrait;
 /**
  * Represents an "instance" from the "field_instances" database table.
  *
- * @property    int $id
- * @property    string $slug
- * @property    string $handler
- * @property    string $table_alias
- * @property    string $label
- * @property    string $description
- * @property    bool $required
- * @property    array $view_modes
- * @property    array $settings
+ * @property int $id
+ * @property string $slug
+ * @property string $handler
+ * @property string $table_alias
+ * @property string $label
+ * @property string $description
+ * @property bool $required
+ * @property array $view_modes
+ * @property array $settings
  */
 class FieldInstance extends Entity
 {

@@ -24,19 +24,6 @@ use \ArrayObject;
 /**
  * Represents "plugins" database table.
  *
- * This table represents all plugins (including themes) installed in the site.
- * It also triggers the following events:
- *
- * - `Plugin.<PluginName>.beforeValidate`
- * - `Plugin.<PluginName>.afterValidate`
- * - `Plugin.<PluginName>.beforeSave`
- * - `Plugin.<PluginName>.afterSave`
- * - `Plugin.<PluginName>.beforeDelete`
- * - `Plugin.<PluginName>.afterDelete`
- *
- * The names of these events should be descriptive enough to let you know
- * what they do, or for what they are aimed to. You can find the details in
- * the DockBlocks of each method in this class.
  */
 class PluginsTable extends Table
 {

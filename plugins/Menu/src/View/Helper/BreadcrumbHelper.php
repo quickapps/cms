@@ -86,9 +86,11 @@ class BreadcrumbHelper extends Helper
      *
      * Simplifies the following situation:
      *
-     *     if ($this->Breadcrumb->count()) {
-     *         echo $this->Breadcrumb->render();
-     *     }
+     * ```php
+     * if ($this->Breadcrumb->count()) {
+     *     echo $this->Breadcrumb->render();
+     * }
+     * ```
      *
      * @param array $options Array of options for `render()` method
      * @return string HTML code, or an empty string if no crumbs are found

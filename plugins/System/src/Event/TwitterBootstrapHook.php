@@ -28,9 +28,11 @@ use QuickApps\Core\StaticCacheTrait;
  * If you need disable Twitter Bootstrap's CSS classes to be applied, you can set
  * the special `bootstrap` key as FALSE in your array of options. For example:
  *
- *     echo $this->Form->create($userEntity, ['bootstrap' => false]);
- *         echo $this->Form->input('user_name', ['bootstrap' => false]);
- *     echo $this->Form->end();
+ * ```php
+ * echo $this->Form->create($userEntity, ['bootstrap' => false]);
+ *     echo $this->Form->input('user_name', ['bootstrap' => false]);
+ * echo $this->Form->end();
+ * ```
  */
 class TwitterBootstrapHook implements EventListenerInterface
 {

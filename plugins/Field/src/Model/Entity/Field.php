@@ -34,12 +34,12 @@ use QuickApps\View\ViewModeAwareTrait;
  *   - errors: Validation error messages
  *   - entity: Entity object this field is attached to.
  *
- * @property    string $name
- * @property    string $label
- * @property    string $value
- * @property    string $raw
- * @property    \Cake\Datasource\EntityInterface $metadata
- * @property    array $settings
+ * @property string $name
+ * @property string $label
+ * @property string $value
+ * @property string $raw
+ * @property array $settings
+ * @property \Cake\Datasource\EntityInterface $metadata
  */
 class Field extends Entity
 {

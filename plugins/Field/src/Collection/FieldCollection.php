@@ -17,11 +17,11 @@ use Cake\Collection\CollectionTrait;
 /**
  * Field Collection.
  *
- * Used for manage fields attached to every entity using `Fieldable` behavior.
+ * Used for manage fields attached to every entity using `Fieldable` behaviour.
  *
  * Allows to handle fields as an array list, but it adds a few useful
  * functionalities such as `sortAs()` method, or access a fields by its numeric
- * index or its machine-name (like an associative array).
+ * index or its machine-name (associative array).
  */
 class FieldCollection extends ArrayObject
 {
