@@ -119,7 +119,7 @@ class DatabaseTask extends Shell
                 $records[] = $row->toArray();
             }
 
-            $className = Inflector::camelize($table) . 'Fixture';
+            $className = Inflector::camelize($table) . 'Schema';
             $fields = json_decode(str_replace(['(', ')'], ['&#40', '&#41'], json_encode($fields)), true);
             $fields = var_export($fields, true);
             $fields = str_replace(['array (', ')', '&#40', '&#41'], ['[', ']', '(', ')'], $fields);
@@ -129,9 +129,29 @@ class DatabaseTask extends Shell
             $records = str_replace(['array (', ')', '&#40', '&#41'], ['[', ']', '(', ')'], $records);
 
             $fixture = "<?php\n";
-            $fixture .= "class {$className}\n{\n\n";
-            $fixture .= "    public \$fields = {$fields};\n";
-            $fixture .= "    public \$records = {$records};\n";
+            $fixture .= "trait {$className}Trait\n";
+            $fixture .= "{\n";
+            $fixture .= "\n";
+            $fixture .= "    protected \$_fields = {$fields};\n";
+            $fixture .= "\n";
+            $fixture .= "    protected \$_records = {$records};\n";
+            $fixture .= "\n";
+            $fixture .= "    public function fields()\n";
+            $fixture .= "    {\n";
+            $fixture .= "        return \$this->_fields;\n";
+            $fixture .= "    }\n";
+            $fixture .= "\n";
+            $fixture .= "    public function records()\n";
+            $fixture .= "    {\n";
+            $fixture .= "        return \$this->_records;\n";
+            $fixture .= "    }\n";
+            $fixture .= "}\n\n";
+
+            $fixture .= "class {$className}\n";
+            $fixture .= "{\n";
+            $fixture .= "\n";
+            $fixture .= "    use {$className}Trait;\n";
+            $fixture .= "\n";
             $fixture .= "}\n";
 
             $file = new File(TMP . "fixture/{$className}.php", true);

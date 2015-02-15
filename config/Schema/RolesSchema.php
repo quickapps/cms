@@ -1,34 +1,35 @@
 <?php
-class RolesFixture {
+trait RolesSchemaTrait
+{
 
-	public $fields = array (
+    protected $_fields = [
   '_constraints' => 
-  array (
+  [
     'primary' => 
-    array (
+    [
       'type' => 'primary',
       'columns' => 
-      array (
+      [
         0 => 'id',
-      ),
+      ],
       'length' => 
-      array (
-      ),
-    ),
+      [
+      ],
+    ],
     'name' => 
-    array (
+    [
       'type' => 'unique',
       'columns' => 
-      array (
+      [
         0 => 'name',
-      ),
+      ],
       'length' => 
-      array (
-      ),
-    ),
-  ),
+      [
+      ],
+    ],
+  ],
   'id' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
@@ -37,9 +38,9 @@ class RolesFixture {
     'comment' => '',
     'autoIncrement' => true,
     'precision' => NULL,
-  ),
+  ],
   'slug' => 
-  array (
+  [
     'type' => 'string',
     'length' => 50,
     'null' => false,
@@ -47,9 +48,9 @@ class RolesFixture {
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'name' => 
-  array (
+  [
     'type' => 'string',
     'length' => 128,
     'null' => false,
@@ -57,29 +58,44 @@ class RolesFixture {
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
-);
+  ],
+];
 
-	public $records = array (
+    protected $_records = [
   0 => 
-  array (
+  [
     'id' => 1,
     'slug' => 'administrator',
     'name' => 'Administrator',
-  ),
+  ],
   1 => 
-  array (
+  [
     'id' => 2,
     'slug' => 'authenticated ',
     'name' => 'Authenticated User',
-  ),
+  ],
   2 => 
-  array (
+  [
     'id' => 3,
     'slug' => 'anonymous',
     'name' => 'Anonymous User',
-  ),
-);
+  ],
+];
 
+    public function fields()
+    {
+        return $this->_fields;
+    }
+
+    public function records()
+    {
+        return $this->_records;
+    }
 }
 
+class RolesSchema
+{
+
+    use RolesSchemaTrait;
+
+}

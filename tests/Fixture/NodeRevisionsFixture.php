@@ -12,78 +12,20 @@
 namespace QuickApps\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
+require QA_CORE . '/config/Schema/NodeRevisionsSchema.php';
 
-class NodeRevisionsFixture extends TestFixture {
+class NodeRevisionsFixture extends TestFixture
+{
 
-	public $fields = array (
-  '_constraints' => 
-  array (
-    'primary' => 
-    array (
-      'type' => 'primary',
-      'columns' => 
-      array (
-        0 => 'id',
-      ),
-      'length' => 
-      array (
-      ),
-    ),
-  ),
-  'id' => 
-  array (
-    'type' => 'integer',
-    'length' => 11,
-    'unsigned' => false,
-    'null' => false,
-    'default' => NULL,
-    'comment' => '',
-    'autoIncrement' => true,
-    'precision' => NULL,
-  ),
-  'node_id' => 
-  array (
-    'type' => 'integer',
-    'length' => 11,
-    'unsigned' => false,
-    'null' => false,
-    'default' => NULL,
-    'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ),
-  'data' => 
-  array (
-    'type' => 'text',
-    'length' => NULL,
-    'null' => false,
-    'default' => NULL,
-    'comment' => '',
-    'precision' => NULL,
-  ),
-  'hash' => 
-  array (
-    'type' => 'string',
-    'length' => 100,
-    'null' => false,
-    'default' => NULL,
-    'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ),
-  'created' => 
-  array (
-    'type' => 'datetime',
-    'length' => NULL,
-    'null' => false,
-    'default' => NULL,
-    'comment' => '',
-    'precision' => NULL,
-  ),
-);
+    use \NodeRevisionsSchemaTrait;
 
-	public $records = array (
-);
-
+    /**
+     * {@inheritdoc}
+     */
+    public function init()
+    {
+        $this->fields = $this->fields();
+        $this->records = $this->records();
+        parent::init();
+    }
 }
-

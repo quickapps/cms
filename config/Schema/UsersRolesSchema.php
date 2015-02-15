@@ -1,23 +1,24 @@
 <?php
-class NodesRolesFixture {
+trait UsersRolesSchemaTrait
+{
 
-	public $fields = array (
+    protected $_fields = [
   '_constraints' => 
-  array (
+  [
     'primary' => 
-    array (
+    [
       'type' => 'primary',
       'columns' => 
-      array (
+      [
         0 => 'id',
-      ),
+      ],
       'length' => 
-      array (
-      ),
-    ),
-  ),
+      [
+      ],
+    ],
+  ],
   'id' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
@@ -26,9 +27,9 @@ class NodesRolesFixture {
     'comment' => '',
     'autoIncrement' => true,
     'precision' => NULL,
-  ),
-  'node_id' => 
-  array (
+  ],
+  'user_id' => 
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
@@ -37,9 +38,9 @@ class NodesRolesFixture {
     'comment' => '',
     'precision' => NULL,
     'autoIncrement' => NULL,
-  ),
+  ],
   'role_id' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 10,
     'unsigned' => false,
@@ -48,11 +49,32 @@ class NodesRolesFixture {
     'comment' => 'The user’s role ID from roles table',
     'precision' => NULL,
     'autoIncrement' => NULL,
-  ),
-);
+  ],
+];
 
-	public $records = array (
-);
+    protected $_records = [
+  0 => 
+  [
+    'id' => 1,
+    'user_id' => 1,
+    'role_id' => 1,
+  ],
+];
 
+    public function fields()
+    {
+        return $this->_fields;
+    }
+
+    public function records()
+    {
+        return $this->_records;
+    }
 }
 
+class UsersRolesSchema
+{
+
+    use UsersRolesSchemaTrait;
+
+}

@@ -12,61 +12,20 @@
 namespace QuickApps\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
+require QA_CORE . '/config/Schema/NodesRolesSchema.php';
 
-class NodesRolesFixture extends TestFixture {
+class NodesRolesFixture extends TestFixture
+{
 
-	public $fields = array (
-  '_constraints' => 
-  array (
-    'primary' => 
-    array (
-      'type' => 'primary',
-      'columns' => 
-      array (
-        0 => 'id',
-      ),
-      'length' => 
-      array (
-      ),
-    ),
-  ),
-  'id' => 
-  array (
-    'type' => 'integer',
-    'length' => 11,
-    'unsigned' => false,
-    'null' => false,
-    'default' => NULL,
-    'comment' => '',
-    'autoIncrement' => true,
-    'precision' => NULL,
-  ),
-  'node_id' => 
-  array (
-    'type' => 'integer',
-    'length' => 11,
-    'unsigned' => false,
-    'null' => false,
-    'default' => NULL,
-    'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ),
-  'role_id' => 
-  array (
-    'type' => 'integer',
-    'length' => 10,
-    'unsigned' => false,
-    'null' => false,
-    'default' => NULL,
-    'comment' => 'The user’s role ID from roles table',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ),
-);
+    use \NodesRolesSchemaTrait;
 
-	public $records = array (
-);
-
+    /**
+     * {@inheritdoc}
+     */
+    public function init()
+    {
+        $this->fields = $this->fields();
+        $this->records = $this->records();
+        parent::init();
+    }
 }
-

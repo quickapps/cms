@@ -1,35 +1,36 @@
 <?php
-class BlockRegionsFixture {
+trait BlockRegionsSchemaTrait
+{
 
-	public $fields = array (
+    protected $_fields = [
   '_constraints' => 
-  array (
+  [
     'primary' => 
-    array (
+    [
       'type' => 'primary',
       'columns' => 
-      array (
+      [
         0 => 'id',
-      ),
+      ],
       'length' => 
-      array (
-      ),
-    ),
+      [
+      ],
+    ],
     'block_id' => 
-    array (
+    [
       'type' => 'unique',
       'columns' => 
-      array (
+      [
         0 => 'block_id',
         1 => 'theme',
-      ),
+      ],
       'length' => 
-      array (
-      ),
-    ),
-  ),
+      [
+      ],
+    ],
+  ],
   'id' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
@@ -38,9 +39,9 @@ class BlockRegionsFixture {
     'comment' => '',
     'autoIncrement' => true,
     'precision' => NULL,
-  ),
+  ],
   'block_id' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
@@ -49,9 +50,9 @@ class BlockRegionsFixture {
     'comment' => '',
     'precision' => NULL,
     'autoIncrement' => NULL,
-  ),
+  ],
   'theme' => 
-  array (
+  [
     'type' => 'string',
     'length' => 200,
     'null' => false,
@@ -59,9 +60,9 @@ class BlockRegionsFixture {
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'region' => 
-  array (
+  [
     'type' => 'string',
     'length' => 200,
     'null' => true,
@@ -69,9 +70,9 @@ class BlockRegionsFixture {
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'ordering' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
@@ -80,75 +81,90 @@ class BlockRegionsFixture {
     'comment' => '',
     'precision' => NULL,
     'autoIncrement' => NULL,
-  ),
-);
+  ],
+];
 
-	public $records = array (
+    protected $_records = [
   0 => 
-  array (
+  [
     'id' => 1,
     'block_id' => 2,
     'theme' => 'BackendTheme',
     'region' => '',
     'ordering' => 0,
-  ),
+  ],
   1 => 
-  array (
+  [
     'id' => 2,
     'block_id' => 2,
     'theme' => 'FrontendTheme',
     'region' => 'main-menu',
     'ordering' => 0,
-  ),
+  ],
   2 => 
-  array (
+  [
     'id' => 3,
     'block_id' => 1,
     'theme' => 'BackendTheme',
     'region' => 'main-menu',
     'ordering' => 0,
-  ),
+  ],
   3 => 
-  array (
+  [
     'id' => 4,
     'block_id' => 1,
     'theme' => 'FrontendTheme',
     'region' => '',
     'ordering' => 0,
-  ),
+  ],
   4 => 
-  array (
+  [
     'id' => 5,
     'block_id' => 3,
     'theme' => 'BackendTheme',
     'region' => 'dashboard-main',
     'ordering' => 0,
-  ),
+  ],
   5 => 
-  array (
+  [
     'id' => 6,
     'block_id' => 3,
     'theme' => 'FrontendTheme',
     'region' => '',
     'ordering' => 0,
-  ),
+  ],
   6 => 
-  array (
+  [
     'id' => 7,
     'block_id' => 4,
     'theme' => 'BackendTheme',
     'region' => 'dashboard-sidebar',
     'ordering' => 0,
-  ),
+  ],
   7 => 
-  array (
+  [
     'id' => 8,
     'block_id' => 4,
     'theme' => 'FrontendTheme',
     'region' => '',
     'ordering' => 0,
-  ),
-);
+  ],
+];
 
+    public function fields()
+    {
+        return $this->_fields;
+    }
+
+    public function records()
+    {
+        return $this->_records;
+    }
 }
 
+class BlockRegionsSchema
+{
+
+    use BlockRegionsSchemaTrait;
+
+}

@@ -1,23 +1,24 @@
 <?php
-class MenuLinksFixture {
+trait MenuLinksSchemaTrait
+{
 
-	public $fields = array (
+    protected $_fields = [
   '_constraints' => 
-  array (
+  [
     'primary' => 
-    array (
+    [
       'type' => 'primary',
       'columns' => 
-      array (
+      [
         0 => 'id',
-      ),
+      ],
       'length' => 
-      array (
-      ),
-    ),
-  ),
+      [
+      ],
+    ],
+  ],
   'id' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 10,
     'unsigned' => false,
@@ -26,9 +27,9 @@ class MenuLinksFixture {
     'comment' => '',
     'autoIncrement' => true,
     'precision' => NULL,
-  ),
+  ],
   'menu_id' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
@@ -37,9 +38,9 @@ class MenuLinksFixture {
     'comment' => 'All links with the same menu ID are part of the same menu.',
     'precision' => NULL,
     'autoIncrement' => NULL,
-  ),
+  ],
   'lft' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
@@ -48,9 +49,9 @@ class MenuLinksFixture {
     'comment' => '',
     'precision' => NULL,
     'autoIncrement' => NULL,
-  ),
+  ],
   'rght' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
@@ -59,9 +60,9 @@ class MenuLinksFixture {
     'comment' => '',
     'precision' => NULL,
     'autoIncrement' => NULL,
-  ),
+  ],
   'parent_id' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 10,
     'unsigned' => false,
@@ -70,9 +71,9 @@ class MenuLinksFixture {
     'comment' => 'The parent link ID (plid) is the mlid of the link above in the hierarchy, or zero if the link is at the top level in its menu.',
     'precision' => NULL,
     'autoIncrement' => NULL,
-  ),
+  ],
   'url' => 
-  array (
+  [
     'type' => 'string',
     'length' => 255,
     'null' => true,
@@ -80,9 +81,9 @@ class MenuLinksFixture {
     'comment' => 'the url',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'description' => 
-  array (
+  [
     'type' => 'string',
     'length' => 200,
     'null' => true,
@@ -90,9 +91,9 @@ class MenuLinksFixture {
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'title' => 
-  array (
+  [
     'type' => 'string',
     'length' => 255,
     'null' => true,
@@ -100,9 +101,9 @@ class MenuLinksFixture {
     'comment' => 'The text displayed for the link, which may be modified by a title callback stored in menu_router.',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'target' => 
-  array (
+  [
     'type' => 'string',
     'length' => 15,
     'null' => false,
@@ -110,9 +111,9 @@ class MenuLinksFixture {
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'expanded' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 1,
     'unsigned' => false,
@@ -121,18 +122,18 @@ class MenuLinksFixture {
     'comment' => 'Flag for whether this link should be rendered as expanded in menus - expanded links always have their child links displayed, instead of only when the link is in the active trail (1 = expanded, 0 = not expanded)',
     'precision' => NULL,
     'autoIncrement' => NULL,
-  ),
+  ],
   'active' => 
-  array (
+  [
     'type' => 'text',
     'length' => NULL,
     'null' => true,
     'default' => NULL,
     'comment' => 'php code, or regular expression. based on active_on_type',
     'precision' => NULL,
-  ),
+  ],
   'activation' => 
-  array (
+  [
     'type' => 'string',
     'length' => 5,
     'null' => true,
@@ -140,21 +141,21 @@ class MenuLinksFixture {
     'comment' => 'php: on php return TRUE. auto: auto-detect; any: request\'s URL matches any in "active" column; none: request\'s URL matches none of listed in "active" column',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'status' => 
-  array (
+  [
     'type' => 'boolean',
     'length' => NULL,
     'null' => false,
     'default' => '1',
     'comment' => '',
     'precision' => NULL,
-  ),
-);
+  ],
+];
 
-	public $records = array (
+    protected $_records = [
   0 => 
-  array (
+  [
     'id' => 1,
     'menu_id' => 1,
     'lft' => 1,
@@ -170,9 +171,9 @@ class MenuLinksFixture {
 /admin/',
     'activation' => 'any',
     'status' => true,
-  ),
+  ],
   1 => 
-  array (
+  [
     'id' => 2,
     'menu_id' => 1,
     'lft' => 3,
@@ -186,9 +187,9 @@ class MenuLinksFixture {
     'active' => NULL,
     'activation' => 'auto',
     'status' => true,
-  ),
+  ],
   2 => 
-  array (
+  [
     'id' => 3,
     'menu_id' => 1,
     'lft' => 13,
@@ -203,9 +204,9 @@ class MenuLinksFixture {
 /admin/node/comments*',
     'activation' => 'any',
     'status' => true,
-  ),
+  ],
   3 => 
-  array (
+  [
     'id' => 4,
     'menu_id' => 1,
     'lft' => 15,
@@ -219,9 +220,9 @@ class MenuLinksFixture {
     'active' => NULL,
     'activation' => NULL,
     'status' => true,
-  ),
+  ],
   4 => 
-  array (
+  [
     'id' => 5,
     'menu_id' => 1,
     'lft' => 17,
@@ -235,9 +236,9 @@ class MenuLinksFixture {
     'active' => NULL,
     'activation' => NULL,
     'status' => true,
-  ),
+  ],
   5 => 
-  array (
+  [
     'id' => 6,
     'menu_id' => 1,
     'lft' => 19,
@@ -251,9 +252,9 @@ class MenuLinksFixture {
     'active' => NULL,
     'activation' => NULL,
     'status' => true,
-  ),
+  ],
   6 => 
-  array (
+  [
     'id' => 7,
     'menu_id' => 1,
     'lft' => 23,
@@ -267,9 +268,9 @@ class MenuLinksFixture {
     'active' => NULL,
     'activation' => NULL,
     'status' => true,
-  ),
+  ],
   7 => 
-  array (
+  [
     'id' => 8,
     'menu_id' => 1,
     'lft' => 25,
@@ -283,9 +284,9 @@ class MenuLinksFixture {
     'active' => NULL,
     'activation' => NULL,
     'status' => true,
-  ),
+  ],
   8 => 
-  array (
+  [
     'id' => 9,
     'menu_id' => 1,
     'lft' => 4,
@@ -299,9 +300,9 @@ class MenuLinksFixture {
     'active' => NULL,
     'activation' => NULL,
     'status' => true,
-  ),
+  ],
   9 => 
-  array (
+  [
     'id' => 10,
     'menu_id' => 1,
     'lft' => 6,
@@ -315,9 +316,9 @@ class MenuLinksFixture {
     'active' => NULL,
     'activation' => NULL,
     'status' => true,
-  ),
+  ],
   10 => 
-  array (
+  [
     'id' => 11,
     'menu_id' => 1,
     'lft' => 8,
@@ -331,9 +332,9 @@ class MenuLinksFixture {
     'active' => NULL,
     'activation' => NULL,
     'status' => true,
-  ),
+  ],
   11 => 
-  array (
+  [
     'id' => 12,
     'menu_id' => 1,
     'lft' => 10,
@@ -347,9 +348,9 @@ class MenuLinksFixture {
     'active' => NULL,
     'activation' => NULL,
     'status' => true,
-  ),
+  ],
   12 => 
-  array (
+  [
     'id' => 13,
     'menu_id' => 1,
     'lft' => 21,
@@ -363,9 +364,9 @@ class MenuLinksFixture {
     'active' => NULL,
     'activation' => NULL,
     'status' => true,
-  ),
+  ],
   13 => 
-  array (
+  [
     'id' => 14,
     'menu_id' => 2,
     'lft' => 5,
@@ -379,9 +380,9 @@ class MenuLinksFixture {
     'active' => NULL,
     'activation' => NULL,
     'status' => true,
-  ),
+  ],
   14 => 
-  array (
+  [
     'id' => 15,
     'menu_id' => 2,
     'lft' => 3,
@@ -395,9 +396,9 @@ class MenuLinksFixture {
     'active' => NULL,
     'activation' => NULL,
     'status' => true,
-  ),
+  ],
   15 => 
-  array (
+  [
     'id' => 16,
     'menu_id' => 2,
     'lft' => 1,
@@ -411,9 +412,9 @@ class MenuLinksFixture {
     'active' => NULL,
     'activation' => NULL,
     'status' => true,
-  ),
+  ],
   16 => 
-  array (
+  [
     'id' => 17,
     'menu_id' => 2,
     'lft' => 7,
@@ -428,8 +429,23 @@ class MenuLinksFixture {
 /find/*type:article*',
     'activation' => 'any',
     'status' => true,
-  ),
-);
+  ],
+];
 
+    public function fields()
+    {
+        return $this->_fields;
+    }
+
+    public function records()
+    {
+        return $this->_records;
+    }
 }
 
+class MenuLinksSchema
+{
+
+    use MenuLinksSchemaTrait;
+
+}

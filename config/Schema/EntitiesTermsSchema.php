@@ -1,23 +1,24 @@
 <?php
-class EntitiesTermsFixture {
+trait EntitiesTermsSchemaTrait
+{
 
-	public $fields = array (
+    protected $_fields = [
   '_constraints' => 
-  array (
+  [
     'primary' => 
-    array (
+    [
       'type' => 'primary',
       'columns' => 
-      array (
+      [
         0 => 'id',
-      ),
+      ],
       'length' => 
-      array (
-      ),
-    ),
-  ),
+      [
+      ],
+    ],
+  ],
   'id' => 
-  array (
+  [
     'type' => 'biginteger',
     'length' => 20,
     'unsigned' => false,
@@ -26,9 +27,9 @@ class EntitiesTermsFixture {
     'comment' => '',
     'autoIncrement' => true,
     'precision' => NULL,
-  ),
+  ],
   'entity_id' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 20,
     'unsigned' => false,
@@ -37,9 +38,9 @@ class EntitiesTermsFixture {
     'comment' => '',
     'precision' => NULL,
     'autoIncrement' => NULL,
-  ),
+  ],
   'term_id' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 20,
     'unsigned' => false,
@@ -48,9 +49,9 @@ class EntitiesTermsFixture {
     'comment' => '',
     'precision' => NULL,
     'autoIncrement' => NULL,
-  ),
+  ],
   'field_instance_id' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
@@ -59,9 +60,9 @@ class EntitiesTermsFixture {
     'comment' => '',
     'precision' => NULL,
     'autoIncrement' => NULL,
-  ),
+  ],
   'table_alias' => 
-  array (
+  [
     'type' => 'string',
     'length' => 30,
     'null' => false,
@@ -69,11 +70,26 @@ class EntitiesTermsFixture {
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
-);
+  ],
+];
 
-	public $records = array (
-);
+    protected $_records = [
+];
 
+    public function fields()
+    {
+        return $this->_fields;
+    }
+
+    public function records()
+    {
+        return $this->_records;
+    }
 }
 
+class EntitiesTermsSchema
+{
+
+    use EntitiesTermsSchemaTrait;
+
+}

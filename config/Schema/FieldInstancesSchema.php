@@ -1,34 +1,35 @@
 <?php
-class FieldInstancesFixture {
+trait FieldInstancesSchemaTrait
+{
 
-	public $fields = array (
+    protected $_fields = [
   '_constraints' => 
-  array (
+  [
     'primary' => 
-    array (
+    [
       'type' => 'primary',
       'columns' => 
-      array (
+      [
         0 => 'id',
-      ),
+      ],
       'length' => 
-      array (
-      ),
-    ),
+      [
+      ],
+    ],
     'slug' => 
-    array (
+    [
       'type' => 'unique',
       'columns' => 
-      array (
+      [
         0 => 'slug',
-      ),
+      ],
       'length' => 
-      array (
-      ),
-    ),
-  ),
+      [
+      ],
+    ],
+  ],
   'id' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 10,
     'unsigned' => false,
@@ -37,9 +38,9 @@ class FieldInstancesFixture {
     'comment' => '',
     'autoIncrement' => true,
     'precision' => NULL,
-  ),
+  ],
   'slug' => 
-  array (
+  [
     'type' => 'string',
     'length' => 200,
     'null' => false,
@@ -47,9 +48,9 @@ class FieldInstancesFixture {
     'comment' => 'Machine name, must be unique',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'table_alias' => 
-  array (
+  [
     'type' => 'string',
     'length' => 100,
     'null' => false,
@@ -57,9 +58,9 @@ class FieldInstancesFixture {
     'comment' => 'Name of the table to which this field belongs to. eg: comment, node_article. Must be unique',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'handler' => 
-  array (
+  [
     'type' => 'string',
     'length' => 80,
     'null' => false,
@@ -67,9 +68,9 @@ class FieldInstancesFixture {
     'comment' => 'Name of event handler class under the `Field` namespace',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'label' => 
-  array (
+  [
     'type' => 'string',
     'length' => 200,
     'null' => false,
@@ -77,9 +78,9 @@ class FieldInstancesFixture {
     'comment' => 'Human readble name, used in views. eg: `First Name` (for a textbox)',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'description' => 
-  array (
+  [
     'type' => 'string',
     'length' => 250,
     'null' => true,
@@ -87,45 +88,45 @@ class FieldInstancesFixture {
     'comment' => 'instructions to present to the user below this field on the editing form.',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'required' => 
-  array (
+  [
     'type' => 'boolean',
     'length' => NULL,
     'null' => false,
     'default' => '0',
     'comment' => '',
     'precision' => NULL,
-  ),
+  ],
   'settings' => 
-  array (
+  [
     'type' => 'text',
     'length' => NULL,
     'null' => true,
     'default' => NULL,
     'comment' => 'Serialized information',
     'precision' => NULL,
-  ),
+  ],
   'view_modes' => 
-  array (
+  [
     'type' => 'text',
     'length' => NULL,
     'null' => true,
     'default' => NULL,
     'comment' => '',
     'precision' => NULL,
-  ),
+  ],
   'locked' => 
-  array (
+  [
     'type' => 'boolean',
     'length' => NULL,
     'null' => false,
     'default' => '0',
     'comment' => '0: (unlocked) users can edit this instance; 1: (locked) users can not modify this instance using web interface',
     'precision' => NULL,
-  ),
+  ],
   'ordering' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 3,
     'unsigned' => false,
@@ -134,12 +135,12 @@ class FieldInstancesFixture {
     'comment' => '',
     'precision' => NULL,
     'autoIncrement' => NULL,
-  ),
-);
+  ],
+];
 
-	public $records = array (
+    protected $_records = [
   0 => 
-  array (
+  [
     'id' => 1,
     'slug' => 'article-introduction',
     'table_alias' => 'nodes:article',
@@ -151,9 +152,9 @@ class FieldInstancesFixture {
     'view_modes' => 'a:5:{s:7:"default";a:4:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;}s:6:"teaser";a:4:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;}s:13:"search-result";a:4:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;}s:3:"rss";a:4:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;}s:4:"full";a:4:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;}}',
     'locked' => false,
     'ordering' => 0,
-  ),
+  ],
   1 => 
-  array (
+  [
     'id' => 3,
     'slug' => 'article-body',
     'table_alias' => 'nodes:article',
@@ -165,8 +166,23 @@ class FieldInstancesFixture {
     'view_modes' => 'a:5:{s:7:"default";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:6:"teaser";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:13:"search-result";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:3:"rss";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}s:4:"full";a:6:{s:16:"label_visibility";s:5:"above";s:8:"hooktags";b:0;s:6:"hidden";b:0;s:8:"ordering";i:0;s:9:"formatter";s:4:"full";s:11:"trim_length";s:0:"";}}',
     'locked' => false,
     'ordering' => 1,
-  ),
-);
+  ],
+];
 
+    public function fields()
+    {
+        return $this->_fields;
+    }
+
+    public function records()
+    {
+        return $this->_records;
+    }
 }
 
+class FieldInstancesSchema
+{
+
+    use FieldInstancesSchemaTrait;
+
+}

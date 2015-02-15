@@ -292,7 +292,7 @@ class StartupController extends Controller
                     $schemaCollection = $db->schemaCollection();
                     $existingSchemas = $schemaCollection->listTables();
                     $newSchemas = array_map(function ($item) {
-                        return Inflector::underscore(str_replace('Fixture.php', '', $item));
+                        return Inflector::underscore(str_replace('Schema.php', '', $item));
                     }, $Folder->read()[1]);
 
                     if (array_intersect($existingSchemas, $newSchemas)) {
@@ -304,18 +304,21 @@ class StartupController extends Controller
                         try {
                             $transactionResult = $db->transactional(function ($connection) use ($schemaFiles) {
                                 foreach ($schemaFiles as $schemaPath) {
+                                    // IMPORT
                                     require $schemaPath;
                                     $className = str_replace('.php', '', basename($schemaPath));
-                                    $tableName = Inflector::underscore(str_replace('Fixture', '', $className));
+                                    $tableName = Inflector::underscore(str_replace('Schema', '', $className));
                                     $fixture = new $className;
+                                    $fields = $fixture->fields();
+                                    $records = $fixture->records();
                                     $constraints = [];
 
-                                    if (isset($fixture->fields['_constraints'])) {
-                                        $constraints = $fixture->fields['_constraints'];
-                                        unset($fixture->fields['_constraints']);
+                                    if (isset($fields['_constraints'])) {
+                                        $constraints = $fields['_constraints'];
+                                        unset($fields['_constraints']);
                                     }
 
-                                    $tableSchema = new TableSchema($tableName, $fixture->fields);
+                                    $tableSchema = new TableSchema($tableName, $fields);
                                     if (!empty($constraints)) {
                                         foreach ($constraints as $constraintName => $constraintAttrs) {
                                             $tableSchema->addConstraint($constraintName, $constraintAttrs);
@@ -324,8 +327,8 @@ class StartupController extends Controller
 
                                     $sqlCreate = $tableSchema->createSql($connection)[0];
                                     if ($connection->execute($sqlCreate)) {
-                                        if (!empty($fixture->records)) {
-                                            foreach ($fixture->records as $row) {
+                                        if (!empty($records)) {
+                                            foreach ($records as $row) {
                                                 if (!$connection->insert($tableName, $row)) {
                                                     return false;
                                                 }

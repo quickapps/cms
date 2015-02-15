@@ -1,35 +1,36 @@
 <?php
-class BlocksFixture {
+trait BlocksSchemaTrait
+{
 
-	public $fields = array (
+    protected $_fields = [
   '_constraints' => 
-  array (
+  [
     'primary' => 
-    array (
+    [
       'type' => 'primary',
       'columns' => 
-      array (
+      [
         0 => 'id',
-      ),
+      ],
       'length' => 
-      array (
-      ),
-    ),
+      [
+      ],
+    ],
     'delta' => 
-    array (
+    [
       'type' => 'unique',
       'columns' => 
-      array (
+      [
         0 => 'delta',
         1 => 'handler',
-      ),
+      ],
       'length' => 
-      array (
-      ),
-    ),
-  ),
+      [
+      ],
+    ],
+  ],
   'id' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
@@ -38,9 +39,9 @@ class BlocksFixture {
     'comment' => 'Primary Key - Unique block ID.',
     'autoIncrement' => true,
     'precision' => NULL,
-  ),
+  ],
   'copy_id' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
@@ -49,9 +50,9 @@ class BlocksFixture {
     'comment' => 'id of the block this block is a copy of',
     'precision' => NULL,
     'autoIncrement' => NULL,
-  ),
+  ],
   'delta' => 
-  array (
+  [
     'type' => 'string',
     'length' => 30,
     'null' => false,
@@ -59,9 +60,9 @@ class BlocksFixture {
     'comment' => 'unique ID within a handler',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'handler' => 
-  array (
+  [
     'type' => 'string',
     'length' => 100,
     'null' => false,
@@ -69,9 +70,9 @@ class BlocksFixture {
     'comment' => 'Name of the plugin that created this block. Used to generate event name, e.g. "Menu" triggers "Block.Menu.display" when rendering the block',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'title' => 
-  array (
+  [
     'type' => 'string',
     'length' => 100,
     'null' => false,
@@ -79,9 +80,9 @@ class BlocksFixture {
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'description' => 
-  array (
+  [
     'type' => 'string',
     'length' => 200,
     'null' => true,
@@ -89,18 +90,18 @@ class BlocksFixture {
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'body' => 
-  array (
+  [
     'type' => 'text',
     'length' => NULL,
     'null' => true,
     'default' => NULL,
     'comment' => '',
     'precision' => NULL,
-  ),
+  ],
   'visibility' => 
-  array (
+  [
     'type' => 'string',
     'length' => 8,
     'null' => false,
@@ -108,46 +109,46 @@ class BlocksFixture {
     'comment' => 'indicate how to show blocks on pages. (except = show on all pages except listed pages; only = show only on listed pages; php = use custom PHP code to determine visibility)',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'pages' => 
-  array (
+  [
     'type' => 'text',
     'length' => NULL,
     'null' => true,
     'default' => NULL,
     'comment' => 'Contents of the "Pages" block contains either a list of paths on which to include/exclude the block or PHP code, depending on "visibility" setting.',
     'precision' => NULL,
-  ),
+  ],
   'locale' => 
-  array (
+  [
     'type' => 'text',
     'length' => NULL,
     'null' => true,
     'default' => NULL,
     'comment' => '',
     'precision' => NULL,
-  ),
+  ],
   'settings' => 
-  array (
+  [
     'type' => 'text',
     'length' => NULL,
     'null' => true,
     'default' => NULL,
     'comment' => 'additional information used by this block, used by blocks handlers <> `Block`',
     'precision' => NULL,
-  ),
+  ],
   'status' => 
-  array (
+  [
     'type' => 'boolean',
     'length' => NULL,
     'null' => false,
     'default' => '0',
     'comment' => '',
     'precision' => NULL,
-  ),
-);
+  ],
+];
 
-    public $records = [
+    protected $_records = [
   0 => 
   [
     'id' => 1,
@@ -223,7 +224,37 @@ class BlocksFixture {
     'settings' => 'a:2:{s:4:"type";s:4:"html";s:5:"flags";b:1;}',
     'status' => true,
   ],
+  5 => 
+  [
+    'id' => 6,
+    'copy_id' => NULL,
+    'delta' => 'categories',
+    'handler' => 'Taxonomy',
+    'title' => 'Categories',
+    'description' => 'List of terms block',
+    'body' => NULL,
+    'visibility' => 'except',
+    'pages' => NULL,
+    'locale' => NULL,
+    'settings' => NULL,
+    'status' => false,
+  ],
 ];
 
+    public function fields()
+    {
+        return $this->_fields;
+    }
+
+    public function records()
+    {
+        return $this->_records;
+    }
 }
 
+class BlocksSchema
+{
+
+    use BlocksSchemaTrait;
+
+}

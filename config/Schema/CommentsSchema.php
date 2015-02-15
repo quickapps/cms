@@ -1,23 +1,24 @@
 <?php
-class CommentsFixture {
+trait CommentsSchemaTrait
+{
 
-	public $fields = array (
+    protected $_fields = [
   '_constraints' => 
-  array (
+  [
     'primary' => 
-    array (
+    [
       'type' => 'primary',
       'columns' => 
-      array (
+      [
         0 => 'id',
-      ),
+      ],
       'length' => 
-      array (
-      ),
-    ),
-  ),
+      [
+      ],
+    ],
+  ],
   'id' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
@@ -26,9 +27,9 @@ class CommentsFixture {
     'comment' => '',
     'autoIncrement' => true,
     'precision' => NULL,
-  ),
+  ],
   'entity_id' => 
-  array (
+  [
     'type' => 'string',
     'length' => 50,
     'null' => false,
@@ -36,9 +37,9 @@ class CommentsFixture {
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'user_id' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
@@ -47,9 +48,9 @@ class CommentsFixture {
     'comment' => '',
     'precision' => NULL,
     'autoIncrement' => NULL,
-  ),
+  ],
   'table_alias' => 
-  array (
+  [
     'type' => 'string',
     'length' => 50,
     'null' => false,
@@ -57,9 +58,9 @@ class CommentsFixture {
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'subject' => 
-  array (
+  [
     'type' => 'string',
     'length' => 200,
     'null' => false,
@@ -67,18 +68,18 @@ class CommentsFixture {
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'body' => 
-  array (
+  [
     'type' => 'text',
     'length' => NULL,
     'null' => false,
     'default' => NULL,
     'comment' => '',
     'precision' => NULL,
-  ),
+  ],
   'author_name' => 
-  array (
+  [
     'type' => 'string',
     'length' => 100,
     'null' => true,
@@ -86,9 +87,9 @@ class CommentsFixture {
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'author_email' => 
-  array (
+  [
     'type' => 'string',
     'length' => 100,
     'null' => true,
@@ -96,9 +97,9 @@ class CommentsFixture {
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'author_web' => 
-  array (
+  [
     'type' => 'string',
     'length' => 200,
     'null' => true,
@@ -106,9 +107,9 @@ class CommentsFixture {
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'author_ip' => 
-  array (
+  [
     'type' => 'string',
     'length' => 60,
     'null' => false,
@@ -116,9 +117,9 @@ class CommentsFixture {
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'parent_id' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 4,
     'unsigned' => false,
@@ -127,9 +128,9 @@ class CommentsFixture {
     'comment' => '',
     'precision' => NULL,
     'autoIncrement' => NULL,
-  ),
+  ],
   'rght' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 4,
     'unsigned' => false,
@@ -138,9 +139,9 @@ class CommentsFixture {
     'comment' => '',
     'precision' => NULL,
     'autoIncrement' => NULL,
-  ),
+  ],
   'lft' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 4,
     'unsigned' => false,
@@ -149,9 +150,9 @@ class CommentsFixture {
     'comment' => '',
     'precision' => NULL,
     'autoIncrement' => NULL,
-  ),
+  ],
   'status' => 
-  array (
+  [
     'type' => 'string',
     'length' => 20,
     'null' => false,
@@ -159,21 +160,21 @@ class CommentsFixture {
     'comment' => 'pending, approved, spam, trash',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'created' => 
-  array (
+  [
     'type' => 'datetime',
     'length' => NULL,
     'null' => false,
     'default' => NULL,
     'comment' => '',
     'precision' => NULL,
-  ),
-);
+  ],
+];
 
-	public $records = array (
+    protected $_records = [
   0 => 
-  array (
+  [
     'id' => 1,
     'entity_id' => '1',
     'user_id' => NULL,
@@ -189,9 +190,9 @@ class CommentsFixture {
     'lft' => 2,
     'status' => 'approved',
     'created' => '2014-08-03 05:14:42',
-  ),
+  ],
   1 => 
-  array (
+  [
     'id' => 4,
     'entity_id' => '1',
     'user_id' => 1,
@@ -207,8 +208,23 @@ class CommentsFixture {
     'lft' => 0,
     'status' => 'approved',
     'created' => '2014-08-03 08:01:29',
-  ),
-);
+  ],
+];
 
+    public function fields()
+    {
+        return $this->_fields;
+    }
+
+    public function records()
+    {
+        return $this->_records;
+    }
 }
 
+class CommentsSchema
+{
+
+    use CommentsSchemaTrait;
+
+}

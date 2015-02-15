@@ -1,35 +1,36 @@
 <?php
-class UsersFixture {
+trait UsersSchemaTrait
+{
 
-	public $fields = array (
+    protected $_fields = [
   '_constraints' => 
-  array (
+  [
     'primary' => 
-    array (
+    [
       'type' => 'primary',
       'columns' => 
-      array (
+      [
         0 => 'id',
-      ),
+      ],
       'length' => 
-      array (
-      ),
-    ),
+      [
+      ],
+    ],
     'username' => 
-    array (
+    [
       'type' => 'unique',
       'columns' => 
-      array (
+      [
         0 => 'username',
         1 => 'email',
-      ),
+      ],
       'length' => 
-      array (
-      ),
-    ),
-  ),
+      [
+      ],
+    ],
+  ],
   'id' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
@@ -38,9 +39,9 @@ class UsersFixture {
     'comment' => '',
     'autoIncrement' => true,
     'precision' => NULL,
-  ),
+  ],
   'name' => 
-  array (
+  [
     'type' => 'string',
     'length' => 150,
     'null' => false,
@@ -48,9 +49,9 @@ class UsersFixture {
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'username' => 
-  array (
+  [
     'type' => 'string',
     'length' => 80,
     'null' => false,
@@ -58,9 +59,9 @@ class UsersFixture {
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'password' => 
-  array (
+  [
     'type' => 'string',
     'length' => 200,
     'null' => false,
@@ -68,9 +69,9 @@ class UsersFixture {
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'email' => 
-  array (
+  [
     'type' => 'string',
     'length' => 100,
     'null' => false,
@@ -78,9 +79,9 @@ class UsersFixture {
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'web' => 
-  array (
+  [
     'type' => 'string',
     'length' => 200,
     'null' => true,
@@ -88,9 +89,9 @@ class UsersFixture {
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'locale' => 
-  array (
+  [
     'type' => 'string',
     'length' => 5,
     'null' => true,
@@ -98,27 +99,27 @@ class UsersFixture {
     'comment' => '',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'public_profile' => 
-  array (
+  [
     'type' => 'boolean',
     'length' => NULL,
     'null' => false,
     'default' => NULL,
     'comment' => '',
     'precision' => NULL,
-  ),
+  ],
   'public_email' => 
-  array (
+  [
     'type' => 'boolean',
     'length' => NULL,
     'null' => false,
     'default' => NULL,
     'comment' => '',
     'precision' => NULL,
-  ),
+  ],
   'token' => 
-  array (
+  [
     'type' => 'string',
     'length' => 200,
     'null' => false,
@@ -126,38 +127,69 @@ class UsersFixture {
     'comment' => 'random unique code, used for pass recovery',
     'precision' => NULL,
     'fixed' => NULL,
-  ),
+  ],
   'status' => 
-  array (
+  [
     'type' => 'boolean',
     'length' => NULL,
     'null' => false,
     'default' => '1',
     'comment' => '',
     'precision' => NULL,
-  ),
+  ],
   'last_login' => 
-  array (
+  [
     'type' => 'datetime',
     'length' => NULL,
     'null' => false,
     'default' => NULL,
     'comment' => '',
     'precision' => NULL,
-  ),
+  ],
   'created' => 
-  array (
+  [
     'type' => 'datetime',
     'length' => NULL,
     'null' => false,
     'default' => NULL,
     'comment' => '',
     'precision' => NULL,
-  ),
-);
+  ],
+];
 
-	public $records = array (
-);
+    protected $_records = [
+  0 => 
+  [
+    'id' => 1,
+    'name' => 'QuickApps CMS',
+    'username' => 'admin',
+    'password' => '$2y$10$EVI2DYmtDEGAqD0s9TbjL.wgbpKlSjLjeH70gXwKRhi6g5DpkR/Be',
+    'email' => 'chris@quickapps.es',
+    'web' => 'http://quickapps.es',
+    'locale' => 'en-us',
+    'public_profile' => false,
+    'public_email' => false,
+    'token' => '',
+    'status' => true,
+    'last_login' => '0000-00-00 00:00:00',
+    'created' => '0000-00-00 00:00:00',
+  ],
+];
 
+    public function fields()
+    {
+        return $this->_fields;
+    }
+
+    public function records()
+    {
+        return $this->_records;
+    }
 }
 
+class UsersSchema
+{
+
+    use UsersSchemaTrait;
+
+}

@@ -1,23 +1,24 @@
 <?php
-class BlocksRolesFixture {
+trait NodesRolesSchemaTrait
+{
 
-	public $fields = array (
+    protected $_fields = [
   '_constraints' => 
-  array (
+  [
     'primary' => 
-    array (
+    [
       'type' => 'primary',
       'columns' => 
-      array (
+      [
         0 => 'id',
-      ),
+      ],
       'length' => 
-      array (
-      ),
-    ),
-  ),
+      [
+      ],
+    ],
+  ],
   'id' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
@@ -26,9 +27,9 @@ class BlocksRolesFixture {
     'comment' => '',
     'autoIncrement' => true,
     'precision' => NULL,
-  ),
-  'block_id' => 
-  array (
+  ],
+  'node_id' => 
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
@@ -37,9 +38,9 @@ class BlocksRolesFixture {
     'comment' => '',
     'precision' => NULL,
     'autoIncrement' => NULL,
-  ),
+  ],
   'role_id' => 
-  array (
+  [
     'type' => 'integer',
     'length' => 10,
     'unsigned' => false,
@@ -48,11 +49,26 @@ class BlocksRolesFixture {
     'comment' => 'The user’s role ID from roles table',
     'precision' => NULL,
     'autoIncrement' => NULL,
-  ),
-);
+  ],
+];
 
-	public $records = array (
-);
+    protected $_records = [
+];
 
+    public function fields()
+    {
+        return $this->_fields;
+    }
+
+    public function records()
+    {
+        return $this->_records;
+    }
 }
 
+class NodesRolesSchema
+{
+
+    use NodesRolesSchemaTrait;
+
+}
