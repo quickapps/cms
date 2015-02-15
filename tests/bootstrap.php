@@ -39,7 +39,7 @@ use QuickApps\View\ViewModeRegistry;
 use \DirectoryIterator;
 
 /**
- * Overwrites core's snapshot() function and emulates its real behavior.
+ * Overwrites core's snapshot() function and emulates its real behaviour.
  * 
  * @return void
  */

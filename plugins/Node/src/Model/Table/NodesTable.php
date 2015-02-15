@@ -27,7 +27,7 @@ use \ArrayObject;
  * @property \User\Model\Table\NodeRevisionsTable $NodeRevisions
  * @property \User\Model\Table\NodesTable $Translations
  * @property \User\Model\Table\UsersTable $Author
- * @method void addSearchOperator(string $name, mixed $methodName)
+ * @method void addSearchOperator(string $name, mixed $handler, array $options = [])
  * @method void enableSearchOperator(string $name)
  * @method void disableSearchOperator(string $name)
  * @method void bindComments()

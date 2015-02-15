@@ -70,8 +70,6 @@ class GenericOperator extends Operator
         $conjunction = strtolower($this->config('conjunction'));
 
         if ($field && !empty($value)) {
-            $conditions = [];
-
             if ($conjunction == 'auto') {
                 $conjunction = strpos($value, ',') ? 'in' : 'like';
             }
