@@ -16,9 +16,13 @@ use Cake\ORM\Table;
 use Search\Operator\Operator;
 
 /**
- * Handles "limit" search operator.
+ * Handles "limits" search operator.
  *
- *     limit:<number>
+ * For instance:
+ *
+ * ```
+ * limit:<number>
+ * ```
  *
  * Limits the number of results.
  */
@@ -28,7 +32,7 @@ class LimitOperator extends Operator
     /**
      * {@inheritdoc}
      */
-    public public function scope(Query $query, $value, $negate, $orAnd)
+    public function scope(Query $query, $value, $negate, $orAnd)
     {
         if ($negate) {
             return $query;

@@ -16,14 +16,18 @@ use Cake\ORM\Table;
 use Search\Operator\Operator;
 
 /**
- * Handles "created" search operator.
+ * Handles date ranges operators.
  *
- *     created:<date>
- *     created:<date1>..<date2>
+ * For instance:
+ *
+ * ```
+ * created:<date>
+ * created:<date1>..<date2>
+ * ```
  *
  * Dates must be in YEAR-MONTH-DATE format. e.g. `2014-12-30`
  */
-class CreatedOperator extends Operator
+class DateOperator extends Operator
 {
 
     /**

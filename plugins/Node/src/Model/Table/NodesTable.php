@@ -137,13 +137,14 @@ class NodesTable extends Table
             }
         ]);
 
-        $this->addSearchOperator('created', 'Search.Created');
-        $this->addSearchOperator('limit', 'Search.Limit');
-        $this->addSearchOperator('order', 'Search.Order');
-        $this->addSearchOperator('author', 'operatorAuthor');
         $this->addSearchOperator('promote', 'operatorPromote');
-        $this->addSearchOperator('type', 'operatorType');
-        $this->addSearchOperator('language', 'operatorLanguage');
+        $this->addSearchOperator('author', 'operatorAuthor');
+        $this->addSearchOperator('limit', 'Search.Limit');
+        $this->addSearchOperator('modified', 'Search.Date', ['field' => 'modified']);
+        $this->addSearchOperator('created', 'Search.Date', ['field' => 'created']);
+        $this->addSearchOperator('type', 'Search.Generic', ['field' => 'node_type_slug', 'conjunction' => 'auto']);
+        $this->addSearchOperator('language', 'Search.Generic', ['field' => 'language', 'conjunction' => 'auto']);
+        $this->addSearchOperator('order', 'Search.Order', ['fields' => ['slug', 'title', 'description', 'sticky', 'created', 'modified']]);
     }
 
     /**
@@ -245,34 +246,6 @@ class NodesTable extends Table
     }
 
     /**
-     * Handles "type" search operator.
-     *
-     *     type:<slug1>,<slug2>, ...
-     *
-     * @param \Cake\ORM\Query $query The query object
-     * @param string $value Operator's arguments
-     * @param bool $negate Whether this operator was negated or not
-     * @param string $orAnd and|or
-     * @return \Cake\ORM\Query
-     */
-    public function operatorType(Query $query, $value, $negate, $orAnd)
-    {
-        $value = explode(',', strtolower($value));
-        $conjunction = $negate ? 'NOT IN' : 'IN';
-        $conditions = ["Nodes.node_type_slug {$conjunction}" => $value];
-
-        if ($orAnd === 'or') {
-            $query->orWhere($conditions);
-        } elseif ($orAnd === 'and') {
-            $query->andWhere($conditions);
-        } else {
-            $query->where($conditions);
-        }
-
-        return $query;
-    }
-
-    /**
      * Handles "author" search operator.
      *
      *     author:<username1>,<username2>, ...
@@ -284,37 +257,6 @@ class NodesTable extends Table
      * @return \Cake\ORM\Query
      */
     public function operatorAuthor(Query $query, $value, $negate, $orAnd)
-    {
-        $value = explode(',', $value);
-
-        if (!empty($value)) {
-            $conjunction = $negate ? 'NOT IN' : 'IN';
-            $conditions = ["Nodes.language {$conjunction}" => $value];
-
-            if ($orAnd === 'or') {
-                $query->orWhere($conditions);
-            } elseif ($orAnd === 'and') {
-                $query->andWhere($conditions);
-            } else {
-                $query->where($conditions);
-            }
-        }
-
-        return $query;
-    }
-
-    /**
-     * Handles "language" search operator.
-     *
-     *     language:<lang1>,<lang2>, ...
-     *
-     * @param \Cake\ORM\Query $query The query object
-     * @param string $value Operator's arguments
-     * @param bool $negate Whether this operator was negated or not
-     * @param string $orAnd and|or
-     * @return \Cake\ORM\Query
-     */
-    public function operatorLanguage(Query $query, $value, $negate, $orAnd)
     {
         $value = explode(',', $value);
 

@@ -16,9 +16,13 @@ use Cake\ORM\Table;
 use Search\Operator\Operator;
 
 /**
- * Handles "order" search operator.
+ * Handles "order by" operators.
  *
- *     order:<field1>,<asc|desc>;<field2>,<asc,desc>; ...
+ * For instance:
+ *
+ * ```
+ * order:<field1>,<asc|desc>;<field2>,<asc,desc>; ...
+ * ```
  *
  * Orders the resulting entities.
  */
@@ -43,14 +47,14 @@ class OrderOperator extends Operator
     /**
      * {@inheritdoc}
      */
-    public public function scope(Query $query, $value, $negate, $orAnd)
+    public function scope(Query $query, $value, $negate, $orAnd)
     {
         if ($negate || empty($this->config('fields'))) {
             return $query;
         }
 
-        $fields = $this->config('fields');
         $tableAlias = $this->_table->alias();
+        $fields = $this->config('fields');
         $value = strtolower($value);
         $split = explode(';', $value);
 

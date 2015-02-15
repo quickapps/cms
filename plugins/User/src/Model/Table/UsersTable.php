@@ -65,9 +65,9 @@ class UsersTable extends Table
         ]);
         $this->addBehavior('Field.Fieldable');
 
-        $this->addSearchOperator('created', 'Search.Created');
+        $this->addSearchOperator('created', 'Search.Date', ['field' => 'created']);
         $this->addSearchOperator('limit', 'Search.Limit');
-        $this->addSearchOperator('email', 'operatorEmail');
+        $this->addSearchOperator('email', 'Search.Generic', ['field' => 'email', 'conjunction' => 'auto']);
         $this->addSearchOperator('order', 'Search.Order', ['fields' => ['name', 'username', 'email', 'web']]);
     }
 
@@ -98,7 +98,7 @@ class UsersTable extends Table
                 ],
             ])
             ->requirePresence('email')
-            ->notEmpty('email', __d('user', 'e-Mail cannot be empty.'))
+            ->notEmpty('email', __d('user', 'E-mail cannot be empty.'))
             ->add('email', [
                 'unique' => [
                     'rule' => 'validateUnique',
@@ -188,36 +188,5 @@ class UsersTable extends Table
                 return $q->where(['Roles.id' => ROLE_ID_ADMINISTRATOR]);
             })
             ->count();
-    }
-
-    /**
-     * Handles "email" search operator.
-     *
-     *     email:<user1@demo.com>,<user2@demo.com>, ...
-     *
-     * @param \Cake\ORM\Query $query The query object
-     * @param string $value Operator's arguments
-     * @param bool $negate Whether this operator was negated or not
-     * @param string $orAnd and|or
-     * @return void
-     */
-    public function operatorEmail(Query $query, $value, $negate, $orAnd)
-    {
-        $value = explode(',', $value);
-
-        if (!empty($value)) {
-            $conjunction = $negate ? 'NOT IN' : 'IN';
-            $conditions = ["Users.email {$conjunction}" => $value];
-
-            if ($orAnd === 'or') {
-                $query->orWhere($conditions);
-            } elseif ($orAnd === 'and') {
-                $query->andWhere($conditions);
-            } else {
-                $query->where($conditions);
-            }
-        }
-
-        return $query;
     }
 }
