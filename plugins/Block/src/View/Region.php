@@ -16,8 +16,8 @@ use Cake\Collection\Collection;
 use Cake\Core\Configure;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
-use Cake\View\View;
 use QuickApps\Core\Plugin;
+use QuickApps\View\View;
 
 /**
  * Region class.
@@ -58,7 +58,7 @@ class Region
     /**
      * View instance.
      *
-     * @var \Cake\View\View
+     * @var \QuickApps\View\View
      */
     protected $_View = null;
 
@@ -74,7 +74,7 @@ class Region
      *    (NOTE: This option will alter theme's `composer.json` file)
      * - `theme`: Name of the theme this regions belongs to. Defaults to auto-detect.
      *
-     * @param \Cake\View\View $view Instance of View class to use
+     * @param \QuickApps\View\View $view Instance of View class to use
      * @param string $name Machine name of the region. e.g.: `left-sidebar`
      * @param array $options Options given as an array
      */

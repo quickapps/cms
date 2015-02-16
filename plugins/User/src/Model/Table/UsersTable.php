@@ -23,7 +23,7 @@ use User\Model\Entity\User;
  * Represents "users" database table.
  *
  * @method void addSearchOperator(string $name, mixed $handler, array $options = [])
- * @method bool touch(\Cake\ORM\Entity $entity, string $eventName = 'Model.beforeSave')
+ * @method bool touch(\Cake\Datasource\EntityInterface $entity, string $eventName = 'Model.beforeSave')
  * @method void unbindFieldable()
  */
 class UsersTable extends Table

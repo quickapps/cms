@@ -759,7 +759,7 @@ class FieldableBehavior extends Behavior
      * true meaning an insert and false an update.
      *
      * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Cake\ORM\Entity $entity The entity that was saved
+     * @param \Cake\Datasource\EntityInterface $entity The entity that was saved
      * @param array $options Additional options given as an array
      * @return bool True always
      */
@@ -801,7 +801,7 @@ class FieldableBehavior extends Behavior
      * result of the event itself.
      *
      * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Cake\ORM\Entity $entity The entity being validated
+     * @param \Cake\Datasource\EntityInterface $entity The entity being validated
      * @param array $options Additional options given as an array
      * @param \Cake\Validation\Validator $validator The validator object
      * @return bool True on success
@@ -837,7 +837,7 @@ class FieldableBehavior extends Behavior
      * validation result will be set to the result of the event itself.
      *
      * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Cake\ORM\Entity $entity The entity that was validated
+     * @param \Cake\Datasource\EntityInterface $entity The entity that was validated
      * @param array $options Additional options given as an array
      * @param Validator $validator The validator object
      * @return bool True on success
@@ -885,7 +885,7 @@ class FieldableBehavior extends Behavior
      * from `field_values` database table for each entity.
      *
      * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Cake\ORM\Entity $entity The entity being deleted
+     * @param \Cake\Datasource\EntityInterface $entity The entity being deleted
      * @param array $options Additional options given as an array
      * @return bool
      * @throws \Cake\Error\FatalErrorException When using this behavior in non-atomic mode
@@ -942,11 +942,12 @@ class FieldableBehavior extends Behavior
      *
      * ### Events Triggered:
      *
-     * - `Field.<FieldHandler>.Entity.afterDelete`: Fired after the delete has been
-     * successful. Receives as arguments the field entity and options array.
+     * - `Field.<FieldHandler>.Entity.afterDelete`: Fired after the delete has
+     *    been successful. Receives as arguments the field entity and options
+     *    array.
      *
      * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Cake\ORM\Entity $entity The entity that was deleted
+     * @param \Cake\Datasource\EntityInterface $entity The entity that was deleted
      * @param array $options Additional options given as an array
      * @throws \Cake\Error\FatalErrorException When using this behavior in non-atomic mode
      * @return void
@@ -1009,8 +1010,8 @@ class FieldableBehavior extends Behavior
      *
      * Fetches all Entity's fields under the `_fields` property.
      *
-     * @param \Cake\ORM\Entity $entity The entity where to fetch fields
-     * @return \Cake\ORM\Entity Modified $entity
+     * @param \Cake\Datasource\EntityInterface $entity The entity where to fetch fields
+     * @return \Cake\Datasource\EntityInterface Modified $entity
      */
     public function attachEntityFields($entity)
     {
@@ -1144,7 +1145,7 @@ class FieldableBehavior extends Behavior
      * This mock Field represents a new property (table column) for
      * your entity.
      *
-     * @param \Cake\ORM\Entity $entity The entity where to attach fields
+     * @param \Cake\Datasource\EntityInterface $entity The entity where to attach fields
      * @param \Field\Model\Entity\FieldInstance $instance The instance where to get the
      *  information when creating the mock field.
      * @return \Field\Model\Entity\Field
@@ -1204,7 +1205,7 @@ class FieldableBehavior extends Behavior
      * This method requires an entity, so we can properly take care of the
      * `bundle` option. If this option is not used, then `Table::alias()` is returned.
      *
-     * @param \Cake\ORM\Entity $entity From where try to guess `bundle`
+     * @param \Cake\Datasource\EntityInterface $entity From where try to guess `bundle`
      * @return string Table alias
      * @throws \Field\Error\InvalidBundle When `bundle` option is used but
      *  was unable to resolve bundle name
@@ -1230,7 +1231,7 @@ class FieldableBehavior extends Behavior
     /**
      * Resolves `bundle` name using $entity as context.
      *
-     * @param \Cake\ORM\Entity $entity Entity to use as context when resolving bundle
+     * @param \Cake\Datasource\EntityInterface $entity Entity to use as context when resolving bundle
      * @return mixed Bundle name as string value on success, false otherwise
      */
     protected function _resolveBundle($entity)
@@ -1251,7 +1252,7 @@ class FieldableBehavior extends Behavior
     /**
      * Used to reduce database queries.
      *
-     * @param \Cake\ORM\Entity $entity An entity used to guess table name
+     * @param \Cake\Datasource\EntityInterface $entity An entity used to guess table name
      * @return \Cake\Datasource\ResultSetInterface Field instances attached to current table as a query result
      */
     protected function _getTableFieldInstances($entity)

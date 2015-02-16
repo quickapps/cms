@@ -283,8 +283,8 @@ class NodesTable extends Table
      *
      * Used by revision system to detect if an entity has changed or not.
      *
-     * @param \Cake\ORM\Entity $entity The entity for which calculate its hash
-     * @return string MD5 hash
+     * @param \Cake\Datasource\EntityInterface $entity The entity for which calculate its hash
+     * @return string MD5 hash for this particular entity
      */
     protected function _calculateHash($entity)
     {

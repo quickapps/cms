@@ -440,7 +440,7 @@ class InstallTask extends BaseTask
             $jsonErrors = Plugin::validateJson($this->_extractedPath . 'composer.json', true);
             if (!empty($jsonErrors)) {
                 $errors[] = __d('installer', 'Invalid "composer.json".');
-                foreach ($jsonErrors as $e) {
+                foreach ((array)$jsonErrors as $e) {
                     $errors[] = $e;
                 }
             } else {

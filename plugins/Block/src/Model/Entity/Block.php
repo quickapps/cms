@@ -20,10 +20,10 @@ use Cake\ORM\TableRegistry;
  * @property int $id
  * @property array $locale
  * @property array $roles
+ * @property array $region
  * @property array $_matchingData
  * @property string $delta
  * @property string $pages
- * @property string $region
  * @property string $visibility
  * @property string $handler
  * @property string $description
