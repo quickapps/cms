@@ -23,6 +23,8 @@ use User\Model\Entity\User;
  * Represents "users" database table.
  *
  * @method void addSearchOperator(string $name, mixed $handler, array $options = [])
+ * @method bool touch(\Cake\ORM\Entity $entity, string $eventName = 'Model.beforeSave')
+ * @method void unbindFieldable()
  */
 class UsersTable extends Table
 {
@@ -81,15 +83,10 @@ class UsersTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         // unique mail
-        $rules->add($rules->isUnique(['email']), 'uniqueEmail', [
-            'message' => __d('user', 'e-mail already in use.'),
-        ]);
+        $rules->add($rules->isUnique(['email'], __d('user', 'e-mail already in use.')));
 
         // unique username
-        $rules->add($rules->isUnique(['username']), 'uniqueUsername', [
-            'message' => __d('user', 'Username already in use.'),
-        ]);
-
+        $rules->add($rules->isUnique(['username'], __d('user', 'Username already in use.')));
         return $rules;
     }
 

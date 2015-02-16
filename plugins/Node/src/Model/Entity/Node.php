@@ -22,6 +22,19 @@ use User\Model\Entity\User;
 /**
  * Represents a single "node" within "nodes" table.
  *
+ * @property int $id
+ * @property int $node_type_id
+ * @property int $translation_for
+ * @property int $promote
+ * @property int $sticky
+ * @property int $comment_status
+ * @property int $status
+ * @property int $created_by
+ * @property int $modified_by
+ * @property string $node_type_slug
+ * @property string $slug
+ * @property string $title
+ * @property string $description
  */
 class Node extends Entity
 {

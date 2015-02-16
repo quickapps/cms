@@ -27,15 +27,6 @@ class PaginatorHelper extends CakePaginatorHelper
     /**
      * {@inheritDoc}
      */
-    public function beforeRender(Event $event, $viewFile)
-    {
-        $this->alter(['PaginatorHelper.beforeRender', $this->_View], $viewFile);
-        return parent::beforeRender($event, $viewFile);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function params($model = null)
     {
         $this->alter(['PaginatorHelper.params', $this->_View], $model);

@@ -20,6 +20,7 @@ use User\Model\Entity\User;
 /**
  * Represents "permissions" database table.
  *
+ * @property \User\Model\Table\AcosTable $Acos
  */
 class PermissionsTable extends Table
 {

@@ -340,7 +340,7 @@ class CommentComponent extends Component
     protected function _getRequestData($entity)
     {
         $data = [];
-        $pk = TableRegistry::get($entity->source())->primaryKey();
+        $pk = (string)TableRegistry::get($entity->source())->primaryKey();
 
         if (!empty($this->_controller->request->data['comment'])) {
             $data = $this->_controller->request->data['comment'];

@@ -56,7 +56,7 @@ class AcoManager
         if (!$this->_pluginName) {
             throw new FatalErrorException(__d('user', 'You must provide a Plugin name to manage.'));
         } else {
-            $this->_pluginName = Inflector::camelize($this->_pluginName);
+            $this->_pluginName = (string)Inflector::camelize($this->_pluginName);
         }
 
         $this->modelFactory('Table', ['Cake\ORM\TableRegistry', 'get']);

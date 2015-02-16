@@ -26,7 +26,9 @@ use QuickApps\View\ViewModeAwareTrait;
  * QuickApps View class.
  *
  * Extends Cake's View class to adds some QuickAppsCMS's specific
- * functionalities such as theme regions handling, objects rendering, and more
+ * functionalities such as theme regions handling, objects rendering, and more.
+ *
+ * @property \Block\View\Helper\BlockHelper $Block
  */
 class View extends CakeView
 {

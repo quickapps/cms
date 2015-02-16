@@ -85,10 +85,7 @@ class BlocksTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         // unique delta
-        $rules->add($rules->isUnique(['delta', 'handler']), 'uniqueDelta', [
-            'message' => __d('block', 'Invalid delta, there is already a block with the same [delta, handler] combination.'),
-        ]);
-
+        $rules->add($rules->isUnique(['delta', 'handler'], __d('block', 'Invalid delta, there is already a block with the same [delta, handler] combination.')));
         return $rules;
     }
 

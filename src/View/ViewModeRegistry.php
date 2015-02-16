@@ -95,15 +95,15 @@ class ViewModeRegistry
     public static function addViewMode($slug, $name = null, $description = null)
     {
         if (is_array($slug) && $name === null && $description === null) {
-            foreach ($slug as $slug => $more) {
+            foreach ($slug as $s => $more) {
                 if (!empty($more['name']) && !empty($more['description'])) {
-                    static::$_viewModes[$slug] = [
+                    static::$_viewModes[$s] = [
                         'name' => $more['name'],
                         'description' => $more['description'],
                     ];
                 }
             }
-        } else {
+        } elseif (is_string($slug)) {
             static::$_viewModes[$slug] = [
                 'name' => $name,
                 'description' => $description,

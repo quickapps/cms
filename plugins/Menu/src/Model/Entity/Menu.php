@@ -17,6 +17,12 @@ use Cake\Utility\String;
 /**
  * Represents a single "menu" within "menus" table.
  *
+ * @property int $id
+ * @property string $slug
+ * @property string $title
+ * @property string $description
+ * @property string $handler
+ * @property array $settings
  */
 class Menu extends Entity
 {

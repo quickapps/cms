@@ -12,6 +12,7 @@
 namespace Node\Controller\Admin;
 
 use Cake\Network\Exception\NotFoundException;
+use Cake\ORM\Query;
 use Locale\Utility\LocaleToolbox;
 use Node\Controller\AppController;
 
@@ -49,7 +50,9 @@ class ManageController extends AppController
         $this->loadModel('Node.Nodes');
         $nodes = $this->Nodes->find()->contain(['NodeTypes', 'Author']);
 
-        if (!empty($this->request->query['filter'])) {
+        if (!empty($this->request->query['filter']) &&
+            $nodes instanceof Query
+        ) {
             $this->Nodes->search($this->request->query['filter'], $nodes);
         }
 

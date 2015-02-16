@@ -16,6 +16,12 @@ use Cake\ORM\Entity;
 /**
  * Represents a single "node_type" within "node_types" table.
  *
+ * @property int $id
+ * @property string $slug
+ * @property string $name
+ * @property string $description
+ * @property string $title_label
+ * @property array $defaults
  */
 class NodeType extends Entity
 {

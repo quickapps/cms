@@ -80,13 +80,13 @@ class FieldInstancesTable extends Table
                 return $count <= intval($info['maxInstances']);
             }
             return true;
-        }, 'maxInstances');
-
-        // unique slug
-        $rules->addCreate($rules->isUnique(['slug']), 'uniqueSlug', [
-            'message' => __d('field', 'The machine name is already in use.')
+        }, 'maxInstances', [
+            'errorField' => 'slug',
+            'message' => __d('field', 'No more instances of this field can be attached, limit reached.'),
         ]);
 
+        // unique slug
+        $rules->add($rules->isUnique(['slug'], __d('field', 'The machine name is already in use.')));
         return $rules;
     }
 

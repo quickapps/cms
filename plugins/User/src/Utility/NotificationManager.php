@@ -39,6 +39,8 @@ use User\Model\Entity\User;
  * ```php
  * new NotificationManager($user, ['updateToken' => false]);
  * ```
+ *
+ * @property \User\Model\Table\UsersTable $Users
  */
 class NotificationManager
 {

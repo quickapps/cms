@@ -18,7 +18,20 @@ use User\Model\Entity\User;
 /**
  * Represents a single "comment" within "comments" table.
  *
- * @property    int $user_id
+ * @property int $id
+ * @property int $entity_id
+ * @property int $user_id
+ * @property int $parent_id
+ * @property int $rght
+ * @property int $lft
+ * @property string $table_alias
+ * @property string $subject
+ * @property string $body
+ * @property string $author_name
+ * @property string $author_email
+ * @property string $author_web
+ * @property string $author_ip
+ * @property string $status
  */
 class Comment extends Entity
 {

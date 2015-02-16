@@ -49,10 +49,7 @@ class BlockRegionsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         // unique block_id
-        $rules->add($rules->isUnique(['block_id', 'theme']), 'uniqueBlockId', [
-            'message' => __d('block', 'This block is already assigned to this theme.'),
-        ]);
-
+        $rules->add($rules->isUnique(['block_id', 'theme'], __d('block', 'This block is already assigned to this theme.')));
         return $rules;
     }
 

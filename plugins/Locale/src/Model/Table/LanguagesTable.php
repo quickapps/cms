@@ -33,10 +33,7 @@ class LanguagesTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         // unique code
-        $rules->add($rules->isUnique(['code']), 'uniqueCode', [
-            'message' => __d('locale', 'This language is already registered.'),
-        ]);
-
+        $rules->add($rules->isUnique(['code'], __d('locale', 'This language is already registered.')));
         return $rules;
     }
 

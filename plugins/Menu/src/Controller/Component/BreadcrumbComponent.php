@@ -130,14 +130,14 @@ class BreadcrumbComponent extends Component
      *         "/admin/node",
      *     ]
      *
-     * @param string|bool $url The URL to chunk as string value, set to false will
-     * use current request URL.
+     * @param string|null $url The URL to chunk as string value, set to null
+     *  will use current request URL.
      * @return array
      */
-    protected function _urlChunk($url = false)
+    protected function _urlChunk($url = null)
     {
         $request = $this->_controller->request;
-        $url = $url === false ? '/' . $request->url : $url;
+        $url = !$url ? '/' . $request->url : $url;
         $cacheKey = 'urlChunk_' . md5($url);
         $cache = static::cache($cacheKey);
 

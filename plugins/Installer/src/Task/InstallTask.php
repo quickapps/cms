@@ -345,9 +345,8 @@ class InstallTask extends BaseTask
         $this->_packagePath =
         $this->_extractedPath =
         $this->_pluginName =
-        $this->_pluginPath =
-        $this->_pluginJson = null;
-
+        $this->_pluginPath = null;
+        $this->_pluginJson = [];
         $this->detachListeners();
     }
 
@@ -448,7 +447,7 @@ class InstallTask extends BaseTask
                 $json = (new File($this->_extractedPath . 'composer.json'))->read();
                 $json = json_decode($json, true);
                 $this->plugin(pluginName($json['name']));
-                $this->_pluginJson = $json;
+                $this->_pluginJson = (array)$json;
 
                 if ($this->config('packageType') === 'theme' && !str_ends_with($this->plugin(), 'Theme')) {
                     $this->error(__d('installer', 'The given package is not a valid theme.'));

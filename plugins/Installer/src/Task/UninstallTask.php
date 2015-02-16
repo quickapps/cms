@@ -87,7 +87,7 @@ class UninstallTask extends BaseTask
                 ->where(['name' => $this->plugin()])
                 ->first();
         } catch (\Exception $e) {
-            $info = null;
+            $info = $pluginEntity = null;
         }
 
         if (!$info || !$pluginEntity) {

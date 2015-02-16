@@ -17,6 +17,13 @@ use QuickApps\Core\Plugin;
 /**
  * Represents single "aco" in "acos" database table.
  *
+ * @property int $id
+ * @property int $parent_id
+ * @property int $lft
+ * @property int $rght
+ * @property string $plugin
+ * @property string $alias
+ * @property string $alias_hash
  */
 class Aco extends Entity
 {

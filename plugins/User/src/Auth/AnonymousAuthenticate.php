@@ -95,7 +95,7 @@ class AnonymousAuthenticate extends BaseAuthenticate
             ) {
                 $cookie['user'] = json_decode($cookie['user'], true);
                 $user = $this->_findUser($cookie['user']['username']);
-                if ($user) {
+                if (!empty($user) && is_array($user)) {
                     if (isset($user['password'])) {
                         unset($user['password']);
                     }

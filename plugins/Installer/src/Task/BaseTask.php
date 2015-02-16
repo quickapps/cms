@@ -297,8 +297,9 @@ abstract class BaseTask
                 $fullClassName = $namespace . $className;
 
                 if (class_exists($fullClassName)) {
-                    $this->_listeners[] = new $fullClassName;
-                    $EventManager->attach(end($this->_listeners));
+                    $handler = new $fullClassName;
+                    $this->_listeners[] = $handler;
+                    $EventManager->attach($handler);
                 }
             }
         }
