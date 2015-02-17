@@ -69,19 +69,19 @@ class FieldInstancesTable extends Table
     {
         // check max instances limit
         $rules->addCreate(function ($instance, $options) {
-            $info = $this->trigger("Field.{$instance->handler}.Instance.info")->result;
-            if (isset($info['maxInstances'])) {
+            $info = (array)$this->trigger("Field.{$instance->handler}.Instance.info")->result;
+            if (isset($info['maxInstances']) && $info['maxInstances'] > 0) {
                 $count = $this->find()
                     ->where([
                         'FieldInstances.table_alias' => $instance->table_alias,
                         'FieldInstances.handler' => $instance->handler,
                     ])
                     ->count();
-                return $count <= intval($info['maxInstances']);
+                return ($count <= (intval($info['maxInstances']) - 1));
             }
             return true;
         }, 'maxInstances', [
-            'errorField' => 'slug',
+            'errorField' => 'label',
             'message' => __d('field', 'No more instances of this field can be attached, limit reached.'),
         ]);
 
