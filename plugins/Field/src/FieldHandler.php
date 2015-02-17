@@ -43,7 +43,7 @@ class FieldHandler implements EventListenerInterface
      *
      * Where:
      *
-     * - `Field`: Prefix, is the event subspace.
+     * - `Field`: Prefix, the event subspace.
      * - `TextField`: Name of the class for Text Handler in this example.
      * - `Entity` or `Instance`: "Entity" for events related to entities
      *    (an User, a Node, etc), or "Instance" for field instances events.
@@ -56,7 +56,6 @@ class FieldHandler implements EventListenerInterface
     public function implementedEvents()
     {
         list(, $handlerName) = namespaceSplit(get_class($this));
-
         return [
             // Related to Entity:
             "Field.{$handlerName}.Entity.display" => 'entityDisplay',
@@ -238,16 +237,30 @@ class FieldHandler implements EventListenerInterface
     /**
      * Returns an array of information of this field.
      *
-     * - `name`: string, Human readable name of this field. ex. `Selectbox`
-     * - `description`: string, Something about what this field does or allows to do.
-     * - `hidden`: true|false, If set to false users can not use this field via `Field UI`
+     * - `name` (string): Human readable name of this field. ex. `Selectbox`
+     *   Defaults to class name.
+     *
+     * - `description` (string): Something about what this field does or allows
+     *   to do. Defaults to class name.
+     *
+     * - `hidden` (bool): If set to false users can not use this field via
+     *   Field UI. Defaults to true, users can use it via Field UI.
+     *
+     * - `maxInstances` (int): Maximum number instances of this field a table
+     *   can have. Set to 0 to indicate no limits. Defaults to 0.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @return array
      */
     public function instanceInfo(Event $event)
     {
-        return [];
+        list(, $handlerName) = namespaceSplit(get_class($this));
+        return [
+            'name' => $handlerName,
+            'description' => $handlerName,
+            'hidden' => false,
+            'maxInstances' => 0,
+        ];
     }
 
     /**
@@ -312,8 +325,8 @@ class FieldHandler implements EventListenerInterface
     /**
      * Returns an array of defaults values for each input in the view modes form.
      *
-     * You can provide different default values depending on the view mode, you can
-     * use `$option['viewMode']` to distinct between view modes.
+     * You can provide different default values depending on the view mode, you
+     * can use `$option['viewMode']` to distinct between view modes.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Field\Model\Entity\FieldInstance $instance Instance information

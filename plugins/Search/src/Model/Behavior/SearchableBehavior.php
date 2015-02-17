@@ -180,37 +180,87 @@ use Search\Operator;
  *     // get all nodes containing `this phrase` and created by `JohnLocke`
  *     "this phrase" author:JohnLocke
  *
- * You must define in your table an operator method and register it into this
+ * You can define in your table an operator method and register it into this
  * behavior under the `author` name, a full working example may look as follow:
  *
  * ```php
  * class Nodes extends Table
  * {
- *    public function initialize(array $config)
- *    {
- *        // attach the behavior
- *        $this->addBehavior('Search.Searchable');
+ *     public function initialize(array $config)
+ *     {
+ *         // attach the behavior
+ *         $this->addBehavior('Search.Searchable');
  *
- *        // register a new operator for handling `author:<author_name>` expressions
- *        $this->addSearchOperator('author', 'operatorAuthor');
- *    }
+ *         // register a new operator for handling `author:<author_name>` expressions
+ *         $this->addSearchOperator('author', 'operatorAuthor');
+ *     }
  *
- *    public function operatorAuthor($query, $value, $negate, $orAnd)
- *    {
- *        // $query:
- *        //     The query object to alter
- *        // $value:
- *        //     The value after `author:`. e.g.: `JohnLocke`
- *        // $negate:
- *        //     TRUE if user has negated this command. e.g.: `-author:JohnLocke`.
- *        //     FALSE otherwise.
- *        // $orAnd:
- *        //     or|and|false Indicates the type of condition. e.g.: `OR author:JohnLocke`
- *        //     will set $orAnd to `or`. But, `AND author:JohnLocke` will set $orAnd to `and`.
- *        //     By default is set to FALSE. This allows you to use
- *        //     Query::andWhere() and Query::orWhere() methods.
- *    }
+ *     public function operatorAuthor($query, $value, $negate, $orAnd)
+ *     {
+ *         // $query:
+ *         //     The query object to alter
+ *         // $value:
+ *         //     The value after `author:`. e.g.: `JohnLocke`
+ *         // $negate:
+ *         //     TRUE if user has negated this command. e.g.: `-author:JohnLocke`.
+ *         //     FALSE otherwise.
+ *         // $orAnd:
+ *         //     or|and|false Indicates the type of condition. e.g.: `OR author:JohnLocke`
+ *         //     will set $orAnd to `or`. But, `AND author:JohnLocke` will set $orAnd to `and`.
+ *         //     By default is set to FALSE. This allows you to use
+ *         //     Query::andWhere() and Query::orWhere() methods.
+ *
+ *         // scope query and return.
+ *         return $query;
+ *     }
  * }
+ * ```
+ *
+ * You can also define operator as a callable function:
+ *
+ * ```php
+ * class Nodes extends Table
+ * {
+ *     public function initialize(array $config)
+ *     {
+ *         $this->addBehavior('Search.Searchable');
+ *
+ *         $this->addSearchOperator('author', function($query, $value, $negate, $orAnd) {
+ *             // scope query and return.
+ *             return $query;
+ *         });
+ *     }
+ * }
+ * ```
+ *
+ * ### Creating Reusable Operators
+ *
+ * If your application has operators that are commonly reused, it is helpful to
+ * package those operators into re-usable classes:
+ *
+ * ```php
+ * // in MyPlugin/Model/Search/CustomOperator.php
+ * namespace MyPlugin\Model\Search;
+ *
+ * use Search\Operator;
+ *
+ * class CustomOperator extends Operator
+ * {
+ *     public function scope($query, $value, $negate, $orAnd)
+ *     {
+ *         // scope $query
+ *         return $query;
+ *     }
+ * }
+ *
+ * // In any table class:
+ *
+ * // Add the custom operator,
+ * $this->addSearchOperator('operator_name', 'MyPlugin.Custom', ['opt1' => 'val1', ...]);
+ *
+ * // OR passing a constructed operator
+ * use MyPlugin\Model\Search\CustomOperator;
+ * $this->addSearchOperator('operator_name', new CustomOperator($this, ['opt1' => 'val1', ...]));
  * ```
  *
  * ### Fallback Operators
@@ -504,12 +554,16 @@ class SearchableBehavior extends Behavior
      * The above will use Table's `operatorCreated()` method to handle the
      * "created" operator.
      *
+     * ---
+     *
      * ```php
      * $this->addSearchOperator('created', 'MyPlugin.Limit');
      * ```
      *
-     * The above will use `MyPlugin\Search\LimitOperator` class to handle the
-     * "limit" operator. Note the `Operator` suffix.
+     * The above will use `MyPlugin\Model\Search\LimitOperator` class to handle
+     * the "limit" operator. Note the `Operator` suffix.
+     *
+     * ---
      *
      * ```php
      * $this->addSearchOperator('created', 'MyPlugin.Limit', ['my_option' => 'option_value']);
@@ -518,22 +572,34 @@ class SearchableBehavior extends Behavior
      * Similar as before, but in this case you can provide some configuration
      * options passing an array as above.
      *
+     * ---
+     *
+     * ```php
+     * $this->addSearchOperator('created', 'Full\ClassName');
+     * ```
+     *
+     * Or you can indicate a full class name to use.
+     *
+     * ---
+     *
      * ```php
      * $this->addSearchOperator('created', function ($query, $value, $negate, $orAnd) {
      *     // handler logic
      *     return $query;
      * });
      * ```
+     *
      * You can simply pass a callable function to handle the operator, this
      * callable must return the altered $query object.
      *
+     * ---
      *
      * ```php
      * $this->addSearchOperator('created', new CreatedOperator($table, $options));
      * ```
      *
      * In this case you can directly pass an instance of an operator handler,
-     * this object should extends the `Search\Operator\Operator` abstract class.
+     * this object should extends the `Search\Operator` abstract class.
      *
      * @param string $name Underscored operator's name. e.g. `author`
      * @param mixed $handler A valid handler as described above
@@ -543,6 +609,7 @@ class SearchableBehavior extends Behavior
     {
         $name = Inflector::underscore($name);
         $operator = [
+            'name' => $name,
             'handler' => false,
             'options' => [],
         ];
@@ -552,8 +619,14 @@ class SearchableBehavior extends Behavior
                 $operator['handler'] = $handler;
             } else {
                 list($plugin, $class) = pluginSplit($handler);
-                $className = $plugin ? "{$plugin}\\" : 'Search\\';
-                $className .= strpos($class, '\\') ? "{$class}Operator" : "Operator\\{$class}Operator";
+
+                if ($plugin) {
+                    $className = "{$plugin}\\Model\\Search\\{$class}Operator";
+                    $className = str_replace('OperatorOperator', 'Operator', $className);
+                } else {
+                    $className = $class;
+                }
+
                 $operator['handler'] = $className;
                 $operator['options'] = $options;
             }

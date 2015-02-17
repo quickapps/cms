@@ -139,19 +139,18 @@ class FieldHook implements EventListenerInterface
     public function listFields(Event $event, $includeHidden = false)
     {
         $fields = [];
-
         foreach (listeners() as $listener) {
-            if (str_starts_with($listener, 'Field.') && str_ends_with($listener, '.Instance.info')) {
+            if (str_starts_with($listener, 'Field.') &&
+                str_ends_with($listener, '.Instance.info')
+            ) {
                 $fieldHandler = explode('.', $listener)[1];
-                $response = array_merge(
-                    [
-                        'name' => null,
-                        'description' => null,
-                        'hidden' => false,
-                        'handler' => $fieldHandler,
-                    ],
-                    (array)$this->trigger($listener)->result
-                );
+                $response = array_merge([
+                    'name' => null,
+                    'description' => null,
+                    'hidden' => false,
+                    'handler' => $fieldHandler,
+                    'maxInstances' => 0,
+                ], (array)$this->trigger($listener)->result);
                 if (!$response['hidden'] || $includeHidden) {
                     $fields[] = $response;
                 }

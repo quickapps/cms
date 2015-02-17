@@ -125,7 +125,7 @@ class DateField extends FieldHandler
         return [
             'name' => __d('field', 'Date'),
             'description' => __d('field', 'Allows to attach date picker to contents.'),
-            'hidden' => false
+            'hidden' => false,
         ];
     }
 

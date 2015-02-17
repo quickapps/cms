@@ -255,5 +255,6 @@ class ServeController extends AppController
         $this->set(compact('nodes', 'criteria'));
         $this->switchViewMode('rss');
         $this->RequestHandler->renderAs($this, 'rss');
+        $this->RequestHandler->respondAs('xml');
     }
 }
