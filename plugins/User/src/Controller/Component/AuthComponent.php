@@ -31,11 +31,13 @@ class AuthComponent extends CakeAuthComponent
      *
      * ## Events triggered:
      *
-     * - `User.beforeIdentify`: Triggered before any Authenticate Adapter is executed,
-     *    returning false or stopping this event will halt the "identify" operation.
-     * - `User.afterIdentify`: After user's identification operation has been completed.
-     *    This event is triggered even on identification failure, you must distinguish
-     *    between success or failure using the given argument.
+     * - `User.beforeIdentify`: Triggered before any Authenticate Adapter is
+     *   executed, returning false or stopping this event will halt the "identify"
+     *   operation.
+     *
+     * - `User.afterIdentify`: After user's identification operation has been
+     *   completed. This event is triggered even on identification failure, you must
+     *   distinguish between success or failure using the given argument.
      *
      * @return array User record data, or false, if the user could not be identified.
      */
@@ -58,6 +60,7 @@ class AuthComponent extends CakeAuthComponent
      *
      * - `User.beforeLogout`: Triggered before any Authenticate Adapter is executed,
      *    returning false or stopping this event will halt the logout operation.
+     *
      * - `User.afterLogout`: After user's logout operation has been completed.
      *    Event listeners can return an alternative redirection URL, if not given
      *    default URL will be used.

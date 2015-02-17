@@ -57,7 +57,8 @@ class PluginsTable extends Table
      * Here we set default values for plugin's settings.
      *
      * Similar to Field Handlers, plugins may implement the
-     * `Plugin.<PluginName>.settingsDefaults` event to provide default settings values.
+     * `Plugin.<PluginName>.settingsDefaults` event to provide default settings
+     * values.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\ORM\Query $query Query object

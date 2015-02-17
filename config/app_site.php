@@ -11,7 +11,7 @@
  */
 
 /**
- * Includes application's settings (database info, etc).
+ * Proxy file, includes site's settings (database info, etc).
  */
 if (file_exists(SITE_ROOT . '/config/settings.php')) {
 	require SITE_ROOT . '/config/settings.php';

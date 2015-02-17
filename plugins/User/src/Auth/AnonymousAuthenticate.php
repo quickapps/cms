@@ -55,8 +55,8 @@ class AnonymousAuthenticate extends BaseAuthenticate
      * can be:
      *
      * - Null - No action taken, AuthComponent should return appropriate response.
-     * - Cake\Network\Response - A response object, which will cause AuthComponent to
-     *   simply return that response.
+     * - Cake\Network\Response - A response object, which will cause AuthComponent
+     *   to simply return that response.
      *
      * @param \Cake\Network\Request $request A request object
      * @param \Cake\Network\Response $response A response object
@@ -190,14 +190,16 @@ class AnonymousAuthenticate extends BaseAuthenticate
      *
      * Example Output:
      *
-     *     [
-     *         'User/Admin/Gateway/login' => true,
-     *         'User/Admin/Gateway/logout' => true,
-     *         ...
-     *     ]
+     * ```php
+     * [
+     *     'User/Admin/Gateway/login' => true,
+     *     'User/Admin/Gateway/logout' => true,
+     *     ...
+     * ]
+     * ```
      *
-     * Resulting array is always `key` => **true**, as role have access
-     * to every ACO in the array "true" is the only possible value.
+     * Resulting array is always `key` => **true**, as role have access to every ACO
+     * in the array "true" is the only possible value.
      *
      * @param int $roleId Role's ID
      * @return array Array of ACO paths which role has permissions to

@@ -86,8 +86,8 @@ class WysiwygHook implements EventListenerInterface
     /**
      * Alters CKEditor's link plugin.
      *
-     * Allows to link to QuickAppsCMS's contents, adds to layout header some JS
-     * code and files.
+     * Allows to link to QuickAppsCMS's contents, adds to layout header some JS code
+     * and files.
      *
      * @param \Cake\View\View $View Instance of view class
      * @return void

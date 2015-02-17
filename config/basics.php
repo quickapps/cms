@@ -31,11 +31,15 @@ if (!function_exists('snapshot')) {
      *
      * You can read this information using `Configure::read()` as follow:
      *
-     *     Configure::read('QuickApps.<option>');
+     * ```php
+     * Configure::read('QuickApps.<option>');
+     * ```
      *
      * Or using the `quickapps()` global function:
      *
-     *     quickapps('<option>');
+     * ```php
+     * quickapps('<option>');
+     * ```
      *
      * @return void
      */
@@ -201,7 +205,6 @@ if (!function_exists('snapshot')) {
         Configure::write('QuickApps', $snapshot);
         Configure::dump('snapshot', 'QuickApps', ['QuickApps']);
     }
-
 }
 
 if (!function_exists('normalizePath')) {
@@ -211,16 +214,18 @@ if (!function_exists('normalizePath')) {
      *
      * ### Example:
      *
-     *     normalizePath('/some/path\to/some\\thing\about.zip');
-     *     // output:
-     *     /some/path/to/some/thing/about.zip
+     * ```php
+     * normalizePath('/some/path\to/some\\thing\about.zip');
+     * // output: /some/path/to/some/thing/about.zip
+     * ```
      *
      * You can indicate which "directory separator" symbol to use using the second
      * argument:
      *
-     *     normalizePath('/some/path\to//some\thing\about.zip', '\');
-     *     // output:
-     *     \some\path\to\some\thing\about.zip
+     * ```php
+     * normalizePath('/some/path\to//some\thing\about.zip', '\');
+     * // output: \some\path\to\some\thing\about.zip
+     * ```
      *
      * By defaults uses DIRECTORY_SEPARATOR as symbol.
      * 
@@ -232,7 +237,6 @@ if (!function_exists('normalizePath')) {
         $path = str_replace(['/', '\\'], $ds, $path);
         return str_replace("{$ds}{$ds}", $ds, $path);
     }
-
 }
 
 if (!function_exists('quickapps')) {
@@ -240,8 +244,8 @@ if (!function_exists('quickapps')) {
      * Shortcut for reading QuickApps's snapshot configuration.
      *
      * For example, `quickapps('variables');` maps to 
-     * `Configure::read('QuickApps.variables');`. If this function is used with no
-     * arguments, `quickapps()`, the entire snapshot will be returned.
+     * `Configure::read('QuickApps.variables');`. If this function is used with
+     * no arguments, `quickapps()`, the entire snapshot will be returned.
      *
      * @param string $key The key to read from snapshot, or null to read the whole
      *  snapshot's info
@@ -253,7 +257,6 @@ if (!function_exists('quickapps')) {
         }
         return Configure::read('QuickApps');
     }
-
 }
 
 if (!function_exists('option')) {
@@ -266,7 +269,9 @@ if (!function_exists('option')) {
      *
      * **Example:**
      *
-     *     option('site_slogan');
+     * ```php
+     * option('site_slogan');
+     * ```
      * 
      * @param string $name Name of the option to retrieve. e.g. `front_theme`,
      *  `default_language`, `site_slogan`, etc
@@ -291,7 +296,6 @@ if (!function_exists('option')) {
 
         return $default;
     }
-
 }
 
 if (!function_exists('listeners')) {
@@ -307,7 +311,6 @@ if (!function_exists('listeners')) {
         $listeners = array_keys($property->getValue(EventManager::instance()));
         return $listeners;
     }
-
 }
 
 if (!function_exists('pluginName')) {
@@ -316,15 +319,17 @@ if (!function_exists('pluginName')) {
      *
      * ### Example:
      *
-     *     pluginName('quickapps/my-super-plugin');
-     *     // returns: MySuperPlugin
+     * ```php
+     * pluginName('quickapps/my-super-plugin');
+     * // returns: MySuperPlugin
+     * ```
      *
      * Package names must follow the "author/app-name" pattern, there are two
      * "especial" composer's package names which are handled differently:
      *
      * - `php`: Will return "\_\_PHP\_\_"
      * - `quickapps/cms`: Will return "\_\_QUICKAPPS\_\_"
-     * - `cakephp/cakephp`: Will return "\_\CAKEPHP\_\_"
+     * - `cakephp/cakephp`: Will return "\_\_CAKEPHP\_\_"
      *
      * @param string $name Package name. e.g. author-name/package-name
      * @return string
@@ -343,7 +348,6 @@ if (!function_exists('pluginName')) {
         $parts = explode('/', $name);
         return Inflector::camelize(str_replace('-', '_', end($parts)));
     }
-
 }
 
 if (!function_exists('array_move')) {
@@ -355,8 +359,10 @@ if (!function_exists('array_move')) {
      *
      * ### Example:
      *
-     *     array_move(['a', 'b', 'c'], 1, 'up');
-     *     // returns: ['a', 'c', 'b']
+     * ```php
+     * array_move(['a', 'b', 'c'], 1, 'up');
+     * // returns: ['a', 'c', 'b']
+     * ```
      *
      * @param array $list Numeric indexed array list of elements
      * @param integer $index The index position of the element you want to move
@@ -382,7 +388,6 @@ if (!function_exists('array_move')) {
 
         return $list;
     }
-
 }
 
 if (!function_exists('php_eval')) {
@@ -399,8 +404,10 @@ if (!function_exists('php_eval')) {
      *
      * ### Usage:
      *
-     *     echo php_eval('<?php return "Hello {$world}!"; ?>', ['world' => 'WORLD']);
-     *     // output: Hello WORLD
+     * ```php
+     * echo php_eval('<?php return "Hello {$world}!"; ?>', ['world' => 'WORLD']);
+     * // output: Hello WORLD
+     * ```
      *
      * @param string $code The code to evaluate
      * @param array $args Array of arguments as `key` => `value` pairs, evaluated
@@ -415,7 +422,6 @@ if (!function_exists('php_eval')) {
         ob_end_clean();
         return $output;
     }
-
 }
 
 if (!function_exists('get_this_class_methods')) {
@@ -438,7 +444,6 @@ if (!function_exists('get_this_class_methods')) {
 
         return $methods;
     }
-
 }
 
 if (!function_exists('str_replace_once')) {
@@ -447,8 +452,10 @@ if (!function_exists('str_replace_once')) {
      *
      * ### Example:
      *
-     *     echo str_replace_once('A', 'a', 'AAABBBCCC');
-     *     // out: aAABBBCCC
+     * ```php
+     * echo str_replace_once('A', 'a', 'AAABBBCCC');
+     * // out: aAABBBCCC
+     * ```
      *
      * @param string $search The value being searched for
      * @param string $replace The replacement value that replaces found search value
@@ -462,7 +469,6 @@ if (!function_exists('str_replace_once')) {
 
         return $subject;
     }
-
 }
 
 if (!function_exists('str_replace_last')) {
@@ -471,8 +477,10 @@ if (!function_exists('str_replace_last')) {
      *
      * ### Example:
      *
-     *     echo str_replace_once('A', 'a', 'AAABBBCCC');
-     *     // out: AAaBBBCCC
+     * ```php
+     * echo str_replace_once('A', 'a', 'AAABBBCCC');
+     * // out: AAaBBBCCC
+     * ```
      *
      * @param string $search The value being searched for
      * @param string $replace The replacement value that replaces found search value
@@ -486,7 +494,6 @@ if (!function_exists('str_replace_last')) {
         }
         return $subject;
     }
-
 }
 
 if (!function_exists('str_starts_with')) {
@@ -495,8 +502,10 @@ if (!function_exists('str_starts_with')) {
      *
      * ### Example:
      *
-     *     str_starts_with('lorem ipsum', 'lo'); // true
-     *     str_starts_with('lorem ipsum', 'ipsum'); // false
+     * ```php
+     * str_starts_with('lorem ipsum', 'lo'); // true
+     * str_starts_with('lorem ipsum', 'ipsum'); // false
+     * ```
      *
      * @param string $haystack
      * @param string $needle
@@ -507,7 +516,6 @@ if (!function_exists('str_starts_with')) {
             $needle === '' ||
             strpos($haystack, $needle) === 0;
     }
-
 }
 
 if (!function_exists('str_ends_with')) {
@@ -516,8 +524,10 @@ if (!function_exists('str_ends_with')) {
      *
      * ### Example:
      *
-     *     str_ends_with('lorem ipsum', 'm'); // true
-     *     str_ends_with('dolorem sit amet', 'at'); // false
+     * ```php
+     * str_ends_with('lorem ipsum', 'm'); // true
+     * str_ends_with('dolorem sit amet', 'at'); // false
+     * ```
      *
      * @param string $haystack
      * @param string $needle
@@ -528,5 +538,4 @@ if (!function_exists('str_ends_with')) {
             $needle === '' ||
             substr($haystack, - strlen($needle)) === $needle;
     }
-
 }

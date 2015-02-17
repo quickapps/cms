@@ -22,8 +22,8 @@ use Cake\Network\Response;
 use Cake\Utility\Security;
 
 /**
- * An authentication adapter for AuthComponent. Provides the ability to
- * authenticate using POST data and using user's **email or username**.
+ * An authentication adapter for AuthComponent. Provides the ability to authenticate
+ * using POST data and using user's **email or username**.
  *
  * It also provides "remember me" capabilities using cookies.
  */

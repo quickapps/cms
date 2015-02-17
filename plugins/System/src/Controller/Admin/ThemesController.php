@@ -20,7 +20,7 @@ use System\Controller\AppController;
  *
  * Here is where can install new plugin or remove existing ones.
  *
- * @property    \System\Model\Table\PluginsTable $Plugins
+ * @property \System\Model\Table\PluginsTable $Plugins
  */
 class ThemesController extends AppController
 {
@@ -209,8 +209,8 @@ class ThemesController extends AppController
      *
      * - `Plugin.<PluginName>.settingsDefaults`
      *
-     * They must return an associative array of default values for each input in
-     * the form.
+     * They must return an associative array of default values for each input in the
+     * form.
      *
      * Validation rules can be applied to settings, theme must simply catch the
      * event:

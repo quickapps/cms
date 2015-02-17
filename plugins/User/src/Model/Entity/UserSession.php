@@ -17,13 +17,13 @@ use User\Model\Entity\User;
 /**
  * Represents an logged in user.
  *
- * @property    int $id
- * @property    array $roleIds
- * @property    array $roleNames
- * @property    array $roleSlugs
- * @property    array $role_ids
- * @property    array $role_names
- * @property    array $role_slugs
+ * @property int $id
+ * @property array $roleIds
+ * @property array $roleNames
+ * @property array $roleSlugs
+ * @property array $role_ids
+ * @property array $role_names
+ * @property array $role_slugs
  */
 class UserSession extends User
 {

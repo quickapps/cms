@@ -18,7 +18,7 @@ use QuickApps\Core\Plugin;
 /**
  * Handles file uploading by "Image Field Handler".
  *
- * @property    \Field\Model\Table\FieldInstancesTable $FieldInstances
+ * @property \Field\Model\Table\FieldInstancesTable $FieldInstances
  */
 class ImageHandlerController extends FileHandlerController
 {

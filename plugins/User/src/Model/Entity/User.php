@@ -66,7 +66,9 @@ class User extends Entity
      * Use this method if you need to customize avatar's parameters such as `size`,
      * etc.
      *
-     *     $user->avatar(['s' => 150]);
+     * ```php
+     * $user->avatar(['s' => 150]);
+     * ```
      *
      * @param array $options Array of options for Gravatar API
      * @return string URL to user's avatar

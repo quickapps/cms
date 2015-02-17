@@ -114,9 +114,9 @@ class Node extends Entity
     /**
      * Set defaults content settings based on parent content type.
      *
-     * You can provide a NodeType entity to fetch defaults values. By default if none
-     * is provided it automatically fetches the information from the corresponding
-     * Content Type.
+     * You can provide a NodeType entity to fetch defaults values. By default if
+     * none is provided it automatically fetches the information from the
+     * corresponding Content Type.
      *
      * @param bool|\Node\Model\Entity\NodeType $type False for auto fetch or a
      *  NodeType entity to extract information from

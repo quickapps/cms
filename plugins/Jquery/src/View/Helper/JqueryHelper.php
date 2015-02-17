@@ -28,10 +28,14 @@ class JqueryHelper extends Helper
      *
      * - `block` Set to true to append output to view block "script" or provide
      *   custom block name.
-     * - `once` Whether or not the script should be checked for uniqueness. If true scripts will only be
-     *   included once, use false to allow the same script to be included more than once per request.
-     * - `plugin` False value will prevent parsing path as a plugin
-     * - `fullBase` If true the url will get a full address for the script file
+     *
+     * - `once` Whether or not the script should be checked for uniqueness. If true
+     *   scripts will only be included once, use false to allow the same script to
+     *   be included more than once per request.
+     *
+     * - `plugin` False value will prevent parsing path as a plugin.
+     *
+     * - `fullBase` If true the url will get a full address for the script file.
      *
      * @param array $options Array of options, and html attributes see above.
      * @return mixed String of `<script />` tags or null if block is specified in options
@@ -157,11 +161,16 @@ class JqueryHelper extends Helper
      *
      * - `block` Set to true to append output to view block "css" or provide
      *   custom block name.
-     * - `once` Whether or not the css file should be checked for uniqueness. If true css
-     *   files  will only be included once, use false to allow the same
+     *
+     * - `once` Whether or not the css file should be checked for uniqueness. If
+     *   true css files  will only be included once, use false to allow the same
      *   css to be included more than once per request.
-     * - `plugin` False value will prevent parsing path as a plugin
-     * - `rel` Defaults to 'stylesheet'. If equal to 'import' the stylesheet will be imported.
+     *
+     * - `plugin` False value will prevent parsing path as a plugin.
+     *
+     * - `rel` Defaults to 'stylesheet'. If equal to 'import' the stylesheet will be
+     *   imported.
+     *
      * - `fullBase` If true the URL will get a full address for the css file.
      *
      * @param string|null $themeName Name of the theme to load

@@ -83,9 +83,9 @@ use Search\Operator;
  * ]);
  * ```
  *
- * If you need to ban a really specific list of words you can set `bannedWords` option
- * as a callable method that should return true or false to tell if a words should be
- * indexed or not. For example:
+ * If you need to ban a really specific list of words you can set `bannedWords`
+ * option as a callable method that should return true or false to tell if a words
+ * should be indexed or not. For example:
  *
  * ```php
  * $this->addBehavior('Search.Searchable', [
@@ -134,9 +134,9 @@ use Search\Operator;
  *
  * ---
  *
- * Search criteria allows you to perform complex search conditions in a human-readable
- * way. Allows you, for example, create user-friendly search-forms, or create some
- * RSS feed just by creating a friendly URL using a search-criteria.
+ * Search criteria allows you to perform complex search conditions in a
+ * human-readable way. Allows you, for example, create user-friendly search-forms,
+ * or create some RSS feed just by creating a friendly URL using a search-criteria.
  * e.g.: `http://example.com/rss/category:art date:>2014-01-01`
  *
  * You must use the `search()` method to scope any query using a search-criteria.
@@ -316,13 +316,16 @@ class SearchableBehavior extends Behavior
     /**
      * Behavior configuration array.
      *
-     * - operators: A list of registered operators methods as `name` => `methodName`
+     * - operators: A list of registered operators methods as `name` => `methodName`.
+     *
      * - fields: List of entity fields where to look for words. Or a callable method,
      *   it receives and entity as first argument, and it must return a list of words
      *   for that entity (as an array list, or a string space-separated words).
+     *
      * - bannedWords: List of banned words.
+     *
      * - on: Indicates when to extract words, `update` when entity is being updated,
-     * `insert` when a new entity is inserted into table. Or `both` (by default)
+     * `insert` when a new entity is inserted into table. Or `both` (by default).
      *
      * @var array
      */
@@ -450,8 +453,8 @@ class SearchableBehavior extends Behavior
     /**
      * Scopes the given query object.
      *
-     * It looks for search-criteria and applies them over the query object. For example,
-     * given the criteria below:
+     * It looks for search-criteria and applies them over the query object. For
+     * example, given the criteria below:
      *
      *     "this phrase" -"and not this one"
      *
@@ -551,8 +554,8 @@ class SearchableBehavior extends Behavior
      * $this->addSearchOperator('created', 'operatorCreated');
      * ```
      *
-     * The above will use Table's `operatorCreated()` method to handle the
-     * "created" operator.
+     * The above will use Table's `operatorCreated()` method to handle the "created"
+     * operator.
      *
      * ---
      *
@@ -560,8 +563,8 @@ class SearchableBehavior extends Behavior
      * $this->addSearchOperator('created', 'MyPlugin.Limit');
      * ```
      *
-     * The above will use `MyPlugin\Model\Search\LimitOperator` class to handle
-     * the "limit" operator. Note the `Operator` suffix.
+     * The above will use `MyPlugin\Model\Search\LimitOperator` class to handle the
+     * "limit" operator. Note the `Operator` suffix.
      *
      * ---
      *
@@ -589,8 +592,8 @@ class SearchableBehavior extends Behavior
      * });
      * ```
      *
-     * You can simply pass a callable function to handle the operator, this
-     * callable must return the altered $query object.
+     * You can simply pass a callable function to handle the operator, this callable
+     * must return the altered $query object.
      *
      * ---
      *

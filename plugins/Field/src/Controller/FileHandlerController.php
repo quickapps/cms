@@ -20,7 +20,7 @@ use QuickApps\Core\Plugin;
 /**
  * Handles file uploading by "File Field Handler".
  *
- * @property    \Field\Model\Table\FieldInstancesTable $FieldInstances
+ * @property \Field\Model\Table\FieldInstancesTable $FieldInstances
  */
 class FileHandlerController extends AppController
 {
@@ -111,7 +111,8 @@ class FileHandlerController extends AppController
      *
      * @param string $slug Filed instance slug
      * @return \Field\Model\Entity\FieldInstance
-     * @throws \Cake\Network\Exception\NotFoundException When no instance could be found
+     * @throws \Cake\Network\Exception\NotFoundException When no instance could be
+     *  found
      */
     protected function _getInstance($slug)
     {

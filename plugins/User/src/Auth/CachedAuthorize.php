@@ -20,10 +20,10 @@ use Cake\Utility\Inflector;
 /**
  * Authorization adapter for AuthComponent.
  *
- * This adapter provides "Controller-action" based authorization with
- * cache capabilities. Only authenticated users are validated using this
- * technique, all anonymous users (unauthenticated users) are validated
- * using QuickAppsCMS's `AnonymousAuthenticate`
+ * This adapter provides "Controller-action" based authorization with cache
+ * capabilities. Only authenticated users are validated using this technique, all
+ * anonymous users (unauthenticated users) are validated using QuickAppsCMS's
+ * `AnonymousAuthenticate`
  */
 class CachedAuthorize extends BaseAuthorize
 {

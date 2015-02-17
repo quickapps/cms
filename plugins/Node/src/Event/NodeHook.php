@@ -44,14 +44,14 @@ class NodeHook implements EventListenerInterface
     /**
      * Fired before any controller instance is created.
      *
-     * Here we register some basic view modes, for later use in controllers. We could
-     * register this view modes at "bootstrap.php", but __d() would not work there
-     * as no language has been set yet, so we do it here.
+     * Here we register some basic view modes, for later use in controllers. We
+     * could register this view modes at "bootstrap.php", but __d() would not work
+     * there as no language has been set yet, so we do it here.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\Network\Request $request Request object to dispatch
      * @param \Cake\Network\Response $response Response object to put the results of
-     *  the dispatch into
+     * the dispatch into
      * @return void
      */
     public function dispatcherBeforeDispatch(Event $event, $request, $response)

@@ -54,13 +54,17 @@ class BreadcrumbComponent extends Component
      * try to guess the full breadcrumb path based on current URL (if current URL
      * matches any URL in any of your menus links).
      *
-     *     $this->Breadcrumb->push();
+     * ```php
+     * $this->Breadcrumb->push();
+     * ```
      *
      * Also, you can can pass a string as first argument representing an URL, if you
      * do it will try to find that URL in in any of your menus, and then generate its
      * corresponding breadcrumb.
      *
-     *     $this->Breadcrumb->push('/admin/some/url');
+     * ```php
+     * $this->Breadcrumb->push('/admin/some/url');
+     * ```
      *
      * @param array|string|null $crumbs Single crumb or an array of multiple crumbs to push
      *  at once
@@ -111,7 +115,8 @@ class BreadcrumbComponent extends Component
      *
      * ### Example:
      *
-     * For the given URL, `/admin/node/manage/index/arg1/arg2?get1=v1&get2=v2` where:
+     * For the given URL, `/admin/node/manage/index/arg1/arg2?get1=v1&get2=v2`
+     * where:
      *
      * - `/admin`: Prefix.
      * - `/node`: Plugin name.
@@ -122,13 +127,15 @@ class BreadcrumbComponent extends Component
      *
      * The following array will be returned by this method:
      *
-     *     [
-     *         "/admin/node/node/index/arg1/arg2?get1=v1&get2=v2",
-     *         "/admin/node/node/arg1/arg2",
-     *         "/admin/node/arg1/arg2",
-     *         "/admin/node/arg1",
-     *         "/admin/node",
-     *     ]
+     * ```php
+     * [
+     *     "/admin/node/node/index/arg1/arg2?get1=v1&get2=v2",
+     *     "/admin/node/node/arg1/arg2",
+     *     "/admin/node/arg1/arg2",
+     *     "/admin/node/arg1",
+     *     "/admin/node",
+     * ]
+     * ```
      *
      * @param string|null $url The URL to chunk as string value, set to null
      *  will use current request URL.

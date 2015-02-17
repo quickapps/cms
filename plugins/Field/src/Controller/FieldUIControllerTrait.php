@@ -92,12 +92,14 @@ trait FieldUIControllerTrait
      * Fallback for template location when extending Field UI API.
      *
      * If controller tries to render an unexisting template under its Template
-     * directory, then we try to find that view under `Field/Template/FieldUI` directory.
+     * directory, then we try to find that view under `Field/Template/FieldUI`
+     * directory.
      *
      * ### Example:
      *
-     * Suppose you are using this trait to manage fields attached to `Persons` entities.
-     * You would probably have a `Person` plugin and a `clean` controller as follow:
+     * Suppose you are using this trait to manage fields attached to `Persons`
+     * entities. You would probably have a `Person` plugin and a `clean` controller
+     * as follow:
      *
      * ```
      * // http://example.com/admin/person/fields_manager
@@ -105,11 +107,12 @@ trait FieldUIControllerTrait
      * ```
      *
      * The above controller action will try to render
-     * `/plugins/Person/Template/CommentsManager/index.ctp`. But if does not exists then
-     * `<QuickAppsCorePath>/plugins/Comment/Template/CommentUI/index.ctp`
+     * `/plugins/Person/Template/CommentsManager/index.ctp`. But if does not exists
+     * then `<QuickAppsCorePath>/plugins/Comment/Template/CommentUI/index.ctp`
      * will be used instead.
      *
-     * Of course you may create your own template and skip this fallback functionality.
+     * Of course you may create your own template and skip this fallback
+     * functionality.
      *
      * @param \Cake\Event\Event $event the event instance.
      * @return void
@@ -158,13 +161,13 @@ trait FieldUIControllerTrait
     /**
      * Handles a single field instance configuration parameters.
      *
-     * In FormHelper, all fields prefixed with `_` will be considered as columns values
-     * of the instance being edited. Any other input element will be considered as part
-     * of the `settings` column.
+     * In FormHelper, all fields prefixed with `_` will be considered as columns
+     * values of the instance being edited. Any other input element will be
+     * considered as part of the `settings` column.
      *
-     * For example: `_label`, `_required` and `description` maps to `label`, `required`
-     * and `description`. And `some_input`, `another_input` maps to `settings.some_input`,
-     * `settings.another_input`
+     * For example: `_label`, `_required` and `description` maps to `label`,
+     * `required` and `description`. And `some_input`, `another_input` maps to
+     * `settings.some_input`, `settings.another_input`
      *
      * @param int $id The field instance ID to manage
      * @return void
@@ -378,8 +381,8 @@ trait FieldUIControllerTrait
     /**
      * Moves a field up or down within a view mode.
      *
-     * The ordering indicates the position they are displayed when entities are rendered
-     * in a specific view mode.
+     * The ordering indicates the position they are displayed when entities are
+     * rendered in a specific view mode.
      *
      * @param string $viewMode View mode slug
      * @param int $id Field instance id

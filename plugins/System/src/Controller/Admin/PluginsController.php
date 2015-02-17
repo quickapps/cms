@@ -184,13 +184,13 @@ class PluginsController extends AppController
      *
      * Check `PluginsTable` documentation for more details.
      *
-     * Additionally plugins may define default values for each input, to do this they
-     * must catch the event:
+     * Additionally plugins may define default values for each input, to do this
+     * they must catch the event:
      *
      * - `Plugin.<PluginName>.settingsDefaults`
      *
-     * They must return an associative array of default values for each input in
-     * the form.
+     * They must return an associative array of default values for each input in the
+     * form.
      *
      * Validation rules can be applied to settings, plugins must simply catch the
      * event:

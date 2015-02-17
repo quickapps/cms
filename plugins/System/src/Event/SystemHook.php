@@ -26,8 +26,8 @@ class SystemHook implements EventListenerInterface
 
     /**
      * Returns a list of hooks this Hook Listener is implementing. When the class is
-     * registered in an event manager, each individual method will be associated with
-     * the respective event.
+     * registered in an event manager, each individual method will be associated
+     * with the respective event.
      *
      * @return void
      */

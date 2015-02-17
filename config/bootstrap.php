@@ -78,7 +78,7 @@ Configure::load('app', 'default', false);
  * You can use this file to provide local overrides to your
  * shared configuration.
  */
-Configure::load('app_local', 'default');
+Configure::load('app_site', 'default');
 
 /**
  * When debug = false the metadata cache should last

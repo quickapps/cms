@@ -30,7 +30,6 @@ if (!file_exists(SITE_ROOT . '/config/settings.php')) {
         $routes->connect('/:controller/:action/*', [], ['routeClass' => 'Cake\Routing\Route\DashedRoute']);
     });
 } else {
-
 /**
  * Generate basic routes.
  */
