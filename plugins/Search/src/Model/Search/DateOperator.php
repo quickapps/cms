@@ -9,7 +9,7 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Search\Operator;
+namespace Search\Model\Search;
 
 use Cake\ORM\Query;
 use Cake\ORM\Table;
