@@ -130,10 +130,10 @@ class View extends CakeView
      * ```php
      * // $node, instance of: Node\Model\Entity\Node
      * $this->render($node);
-     * 
+     *
      * // $block, instance of: Block\Model\Entity\Block
      * $this->render($block);
-     * 
+     *
      * // $field, instance of: Field\Model\Entity\Field
      * $this->render($field);
      * ```

@@ -738,8 +738,6 @@ class FieldableBehavior extends Behavior
                         return false;
                     }
                 }
-
-                $entity->unsetProperty(":{$instance->slug}");
             }
         }
 
@@ -783,6 +781,11 @@ class FieldableBehavior extends Behavior
         foreach ($instances as $instance) {
             $field = $this->_getMockField($entity, $instance);
             $this->trigger(["Field.{$instance->handler}.Entity.afterSave", $event->subject()], $field, $options);
+
+            // remove POST info after saved
+            if ($entity->has(":{$instance->slug}")) {
+                $entity->unsetProperty(":{$instance->slug}");
+            }
         }
 
         return true;

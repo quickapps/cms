@@ -19,6 +19,7 @@ use Cake\Core\Configure;
             'name' => ":{$field->name}[from][date]",
             'label' => __d('field', 'Start Publishing'),
             'class' => 'picker-from',
+            'value' => (!empty($field->raw['from']['string']) ? $field->raw['from']['string'] : ''),
             'readonly',
         ]);
 
@@ -27,6 +28,7 @@ use Cake\Core\Configure;
             'name' => ":{$field->name}[to][date]",
             'label' => __d('field', 'Finish Publishing'),
             'class' => 'picker-to',
+            'value' => (!empty($field->raw['to']['string']) ? $field->raw['to']['string'] : ''),
             'readonly',
         ]);
 

@@ -89,6 +89,7 @@ class DateField extends FieldHandler
     public function entityBeforeValidate(Event $event, Field $field, $options, $validator)
     {
         if ($field->metadata->required) {
+            // TODO: check not null dates using callable
             $validator->notEmpty(":{$field->name}", __d('field', 'You must select a date/time.'));
         }
         return true;

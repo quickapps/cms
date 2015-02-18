@@ -15,6 +15,7 @@ use Cake\Event\Event;
 use Field\Event\DateField;
 use Field\FieldHandler;
 use Field\Model\Entity\Field;
+use Field\Utility\DateToolbox;
 
 /**
  * Publish Date Field Handler.
@@ -53,6 +54,31 @@ class PublishDateField extends FieldHandler
      */
     public function entityBeforeSave(Event $event, Field $field, $options)
     {
+        $values = [];
+        $raw = [
+            'from' => ['string' => null, 'timestamp' => null],
+            'to' => ['string' => null, 'timestamp' => null],
+        ];
+        foreach (['from', 'to'] as $type) {
+            if (!empty($options['_post'][$type]['date']) &&
+                !empty($options['_post'][$type]['format'])
+            ) {
+                $date = $options['_post'][$type]['date'];
+                $format = $options['_post'][$type]['format'];
+                if ($date = DateToolbox::createFromFormat($format, $date)) {
+                    $raw[$type]['string'] = $options['_post'][$type]['date'];
+                    $raw[$type]['timestamp'] = date_timestamp_get($date);
+                    $values[] = $raw[$type]['timestamp'];
+                } else {
+                    $typeLabel = $type == 'from' ? __d('field', 'From') : __d('field', 'To');
+                    $field->metadata->entity->errors(":{$field->name}", __d('field', 'Invalid date/time range, "{0}" date must match the the pattern: {1}', $typeLabel, $format));
+                    return false;
+                }
+            }
+        }
+
+        $field->set('value', implode(' ', $values));
+        $field->set('raw', $raw);
         return true;
     }
 
@@ -69,6 +95,7 @@ class PublishDateField extends FieldHandler
     public function entityBeforeValidate(Event $event, Field $field, $options, $validator)
     {
         if ($field->metadata->required) {
+            // TODO: check not null dates using callable
             $validator->notEmpty(":{$field->name}", __d('field', 'You must select a date/time.'));
         }
         return true;

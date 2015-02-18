@@ -13,8 +13,20 @@ use Cake\Core\Configure;
 ?>
 
 <span id="dp-container-<?php echo $field->name; ?>">
-    <?php echo $this->Form->input($field, ['readonly', 'name' => ":{$field->name}[date]", 'class' => 'picker']); ?>
-    <?php echo $this->Form->input(":{$field->name}.format", ['type' => 'hidden', 'class' => 'format']); ?>
+    <?php
+        echo $this->Form->input($field, [
+            'name' => ":{$field->name}[date]",
+            'value' => $field->value,
+            'class' => 'picker'
+            'readonly',
+        ]);
+
+        // value dynamically set using JS
+        echo $this->Form->input(":{$field->name}.format", [
+            'type' => 'hidden',
+            'class' => 'format'
+        ]);
+    ?>
 
     <?php if (!$field->required): ?>
         <em class="help-block"><?php echo $this->Html->link(__d('field', 'Empty date'), '', ['onclick' => "javascript: $('#dp-container-{$field->name} input').val(''); return false;"]); ?></em>

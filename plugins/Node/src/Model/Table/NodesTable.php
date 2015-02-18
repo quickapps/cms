@@ -128,9 +128,11 @@ class NodesTable extends Table
                 $words .= empty($node->title) ?: " {$node->title}";
                 $words .= empty($node->title) ?: " {$node->description}";
 
-                if (!empty($node->_fields)) {
+                if ($node->has('_fields')) {
                     foreach ($node->_fields as $vf) {
-                        $words .= ' ' . trim($vf->value);
+                        if ($vf->value) {
+                            $words .= ' ' . trim((string)$vf->value);
+                        }
                     }
                 }
                 return $words;
