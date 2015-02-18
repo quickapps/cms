@@ -25,8 +25,8 @@ use QuickApps\View\ViewModeAwareTrait;
 /**
  * QuickApps View class.
  *
- * Extends Cake's View class to adds some QuickAppsCMS's specific
- * functionalities such as theme regions handling, objects rendering, and more.
+ * Extends Cake's View class to adds some QuickAppsCMS's specific functionalities
+ * such as theme regions handling, objects rendering, and more.
  *
  * @property \Block\View\Helper\BlockHelper $Block
  */
@@ -60,7 +60,7 @@ class View extends CakeView
      * @param \Cake\Network\Response|null $response Response instance.
      * @param \Cake\Event\EventManager|null $eventManager Event manager instance.
      * @param array $viewOptions View options. See View::$_passedVars for list of
-     *   options which get set as class properties.
+     *  options which get set as class properties.
      */
     public function __construct(
         Request $request = null,
@@ -89,9 +89,11 @@ class View extends CakeView
      * Merge `left-sidebar` and `right-sidebar` regions together, the resulting region
      * limits the number of blocks it can holds to `3`:
      *
-     *     echo $this->region('left-sidebar')
-     *         ->append($this->region('right-sidebar'))
-     *         ->blockLimit(3);
+     * ```php
+     * echo $this->region('left-sidebar')
+     *     ->append($this->region('right-sidebar'))
+     *     ->blockLimit(3);
+     * ```
      *
      * ### Valid options are:
      *
@@ -99,7 +101,8 @@ class View extends CakeView
      *    will try to fix it by adding it to theme's regions if this option is set
      *    to TRUE. Defaults to NULL which automatically enables when `debug` is
      *    enabled. This option will not work when using QuickAppsCMS's core themes.
-     *    (NOTE: This option will alter theme's `composer.json` file)
+     *    (NOTE: This option will alter theme's `composer.json` file).
+     *
      * - `theme`: Name of the theme this regions belongs to. Defaults to auto-detect.
      *
      * @param string $name Theme's region machine-name. e.g. `left-sidebar`
@@ -124,31 +127,41 @@ class View extends CakeView
      *
      * **Example:**
      *
-     *     // $node, instance of: Node\Model\Entity\Node
-     *     $this->render($node);
-     *     // $block, instance of: Block\Model\Entity\Block
-     *     $this->render($block);
-     *     // $field, instance of: Field\Model\Entity\Field
-     *     $this->render($field);
+     * ```php
+     * // $node, instance of: Node\Model\Entity\Node
+     * $this->render($node);
+     * 
+     * // $block, instance of: Block\Model\Entity\Block
+     * $this->render($block);
+     * 
+     * // $field, instance of: Field\Model\Entity\Field
+     * $this->render($field);
+     * ```
      *
      * When rendering objects the `Render.<ClassName>` event is automatically fired.
      * For example, when rendering a node entity the following event is fired asking
      * for its HTML rendering:
      *
-     *     // Will trigger: Render.QuickaApps\Node\Model\Entity\Node
-     *     $someNode = TableRegistry::get('Nodes')->get(1);
-     *     $this->render($someNode);
+     * ```php
+     * // Will trigger: Render.QuickaApps\Node\Model\Entity\Node
+     * $someNode = TableRegistry::get('Nodes')->get(1);
+     * $this->render($someNode);
+     * ```
      *
      * It is not limited to Entity instances only, you can virtually define a `Render`
      * for any class name.
      *
      * You can pass an unlimited number of arguments to your `Render` as follow:
      *
-     *     $this->render($someObject, arg_1, arg_2, ...., arg_n);
+     * ```php
+     * $this->render($someObject, arg_1, arg_2, ...., arg_n);
+     * ```
      *
      * Your Render event-handler may look as below:
      *
-     *     public function renderMyObject(Event $event, $theObject, $arg_1, $arg_2, ..., $arg_n);
+     * ```php
+     * public function renderMyObject(Event $event, $theObject, $arg_1, $arg_2, ..., $arg_n);
+     * ```
      *
      * @param mixed $view View file to render. Or an object to be rendered
      * @param mixed $layout Layout file to use when rendering view file. Or extra
@@ -188,8 +201,8 @@ class View extends CakeView
      * Overrides Cake's `View::element()` method.
      *
      * @param string $name Name of template file in the/app/Template/Element/ folder,
-     *   or `MyPlugin.template` to use the template element from MyPlugin. If the element
-     *   is not found in the plugin, the normal view path cascade will be searched.
+     *  or `MyPlugin.template` to use the template element from MyPlugin. If the element
+     *  is not found in the plugin, the normal view path cascade will be searched.
      * @param array $data Array of data to be made available to the rendered view (i.e. the Element)
      * @param array $options Array of options. Possible keys are:
      * - `cache` - Can either be `true`, to enable caching using the config in View::$elementCache. Or an array
@@ -230,9 +243,9 @@ class View extends CakeView
     /**
      * Sets title for layout.
      *
-     * It sets `title_for_layout` view variable, if no previous title was set on controller.
-     * It will try to extract title from the Node being rendered (if not empty).
-     * Otherwise, site's title will be used.
+     * It sets `title_for_layout` view variable, if no previous title was set on
+     * controller. It will try to extract title from the Node being rendered (if not
+     * empty). Otherwise, site's title will be used.
      *
      * @return void
      */

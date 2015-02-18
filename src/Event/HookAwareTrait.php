@@ -26,8 +26,8 @@ trait HookAwareTrait
      * Retrieves the number of times an event was triggered, or the complete list
      * of events that were triggered.
      *
-     * @param string|null $eventName The name of the event, if null returns the entire
-     *  list of event that were fired
+     * @param string|null $eventName The name of the event, if null returns the
+     *  entire list of event that were fired
      * @return int|array
      * @see QuickApps\Event\HookManager::triggered()
      */
@@ -81,7 +81,7 @@ trait HookAwareTrait
     /**
      * Similar to "trigger()" but aimed to alter the given arguments.
      *
-     *  * You can pass up to 15 arguments by reference.
+     * *IMPORTANT*: You can pass up to 15 arguments by reference.
      *
      * ### Usage:
      *

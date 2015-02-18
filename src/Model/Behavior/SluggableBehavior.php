@@ -43,11 +43,15 @@ class SluggableBehavior extends Behavior
      * Default configuration.
      *
      * - `label`: Set to the field name that contains the string from where to
-     *    generate the slug, or a set of field names to concatenate for generating
-     *    the slug. `title` by default.
+     *   generate the slug, or a set of field names to concatenate for generating
+     *   the slug. `title` by default.
+     *
      * - `slug`: Name of the field name that holds generated slugs. `slug` by default.
-     * - `separator`: Separator char. `-` by default. e.g.: `one-two-three`
+     *
+     * - `separator`: Separator char. `-` by default. e.g.: `one-two-three`.
+     *
      * - `on`: When to generate new slugs. `create`, `update` or `both` (by default).
+     *
      * - `length`: Maximum length the generated slug can have. default to 200.
      *
      * @var array

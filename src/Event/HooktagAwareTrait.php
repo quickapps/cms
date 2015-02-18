@@ -28,8 +28,8 @@ trait HooktagAwareTrait
     /**
      * Look for hooktags in the given text.
      *
-     * If any is found a hook invocation is fired asking for its Hooktag Lister method.
-     * For example:
+     * If any is found a hook invocation is fired asking for its Hooktag Lister
+     * method. For example:
      *
      *     [nice_button color=green]Click Me![/nice_button]
      *
@@ -53,9 +53,9 @@ trait HooktagAwareTrait
      *
      * ### $atts
      *
-     * Array which may include any arbitrary attributes that are specified by the user.
-     * Attribute names are always converted to lowercase before they are passed into
-     * the handler function. Values remains untouched.
+     * Array which may include any arbitrary attributes that are specified by the
+     * user. Attribute names are always converted to lowercase before they are
+     * passed into the handler function. Values remains untouched.
      *
      *     [some_hooktag Foo="bAr"]
      *
