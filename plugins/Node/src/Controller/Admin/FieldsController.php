@@ -12,6 +12,7 @@
 namespace Node\Controller\Admin;
 
 use Cake\Core\Configure;
+use Cake\Event\Event;
 use Cake\Routing\Router;
 use Field\Controller\FieldUIControllerTrait;
 use Node\Controller\AppController;
@@ -78,7 +79,7 @@ class FieldsController extends AppController
      * @param \Cake\Event\Event $event The event that was triggered
      * @return void
      */
-    public function beforeRender(\Cake\Event\Event $event)
+    public function beforeRender(Event $event)
     {
         $this->_beforeRender($event);
         $this->loadModel('Node.NodeTypes');

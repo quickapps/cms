@@ -11,6 +11,7 @@
  */
 namespace Field\Controller;
 
+use Cake\Controller\Controller;
 use Cake\Core\Plugin;
 use Cake\Event\Event;
 use Cake\Network\Exception\ForbiddenException;
@@ -79,13 +80,11 @@ trait FieldUIControllerTrait
 
         if (!isset($this->_manageTable) || empty($this->_manageTable)) {
             throw new ForbiddenException(__d('field', 'FieldUIControllerTrait: The property $_manageTable was not found or is empty.'));
-        } elseif (!($this instanceof \Cake\Controller\Controller)) {
+        } elseif (!($this instanceof Controller)) {
             throw new ForbiddenException(__d('field', 'FieldUIControllerTrait: This trait must be used on instances of Cake\Controller\Controller.'));
         } elseif (!isset($requestParams['prefix']) || strtolower($requestParams['prefix']) !== 'admin') {
             throw new ForbiddenException(__d('field', 'FieldUIControllerTrait: This trait must be used on backend-controllers only.'));
         }
-
-        $this->_manageTable = Inflector::underscore($this->_manageTable);
     }
 
     /**
@@ -233,15 +232,21 @@ trait FieldUIControllerTrait
     {
         $this->loadModel('Field.FieldInstances');
 
-        if (!empty($this->request->data)) {
-            $data = $this->request->data;
+        if ($this->request->data()) {
+            $data = $this->request->data();
             $data['table_alias'] = $this->_manageTable;
             $fieldInstance = $this->FieldInstances->newEntity($data);
+            $success = empty($fieldInstance->errors());
 
-            if ($this->FieldInstances->save($fieldInstance)) {
-                $this->Flash->success(__d('field', 'Field attached!'));
-                $this->redirect($this->referer());
-            } else {
+            if ($success) {
+                $success = $this->FieldInstances->save($fieldInstance);
+                if ($success) {
+                    $this->Flash->success(__d('field', 'Field attached!'));
+                    $this->redirect($this->referer());
+                }
+            }
+
+            if (!$success) {
                 $this->Flash->danger(__d('field', 'Field could not be attached'));
             }
         } else {

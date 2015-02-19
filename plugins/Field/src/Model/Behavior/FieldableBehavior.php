@@ -1032,7 +1032,8 @@ class FieldableBehavior extends Behavior
         }
 
         $_fields = [];
-        foreach ($this->_getTableFieldInstances($entity) as $instance) {
+        $instances = $this->_getTableFieldInstances($entity);
+        foreach ($instances as $instance) {
             $mock = $this->_getMockField($entity, $instance);
 
             // restore from $_POST:

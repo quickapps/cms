@@ -74,14 +74,13 @@ class NodeTypesTable extends Table
                     'message' => __d('node', 'Name need to be at least 3 characters long.'),
                 ],
             ])
-            ->allowEmpty('slug')
+            ->requirePresence('slug')
+            ->notEmpty('slug', __d('node', 'Machine-name cannot be left empty.'))
             ->add('slug', 'checkSlug', [
                 'rule' => function ($value, $context) {
-                    $this->unbindSluggable();
-                    return preg_match('/^[a-z0-9\-]{3,}$/', $value) === 1;
+                    return (preg_match('/^[a-z0-9\-]{3,}$/', $value) === 1);
                 },
                 'message' => __d('node', 'Invalid machine-name.'),
-                'provider' => 'table',
             ])
             ->requirePresence('title_label')
             ->add('title_label', [

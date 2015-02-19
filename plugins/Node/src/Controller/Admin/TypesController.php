@@ -47,13 +47,19 @@ class TypesController extends AppController
     {
         $this->loadModel('Node.NodeTypes');
 
-        if ($this->request->data) {
-            $type = $this->NodeTypes->newEntity($this->request->data);
+        if ($this->request->data()) {
+            $type = $this->NodeTypes->newEntity($this->request->data());
+            $success = empty($type->errors());
 
-            if ($this->NodeTypes->save($type)) {
-                $this->Flash->success(__d('node', 'Content type created, now attach some fields.'));
-                $this->redirect(['plugin' => 'Node', 'controller' => 'fields', 'type' => $type->slug]);
-            } else {
+            if ($success) {
+                $success = $this->NodeTypes->save($type);
+                if ($success) {
+                    $this->Flash->success(__d('node', 'Content type created, now attach some fields.'));
+                    $this->redirect(['plugin' => 'Node', 'controller' => 'fields', 'type' => $type->slug]);
+                }
+            }
+
+            if (!$success) {
                 $this->Flash->danger(__d('node', 'Content type could not be created, check your information.'));
             }
         } else {
