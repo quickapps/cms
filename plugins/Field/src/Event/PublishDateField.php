@@ -12,6 +12,7 @@
 namespace Field\Event;
 
 use Cake\Event\Event;
+use Cake\Routing\Router;
 use Field\Event\DateField;
 use Field\FieldHandler;
 use Field\Model\Entity\Field;
@@ -25,6 +26,19 @@ use Field\Utility\DateToolbox;
  */
 class PublishDateField extends FieldHandler
 {
+
+    /**
+     * {@inheritDoc}
+     */
+    public function entityDisplay(Event $event, Field $field, $options = [])
+    {
+        $View = $event->subject();
+        $field->raw = array_merge([
+            'from' => ['string' => null, 'timestamp' => null],
+            'to' => ['string' => null, 'timestamp' => null],
+        ], $field->raw);
+        return $View->element('Field.PublishDateField/display', compact('field', 'options'));
+    }
 
     /**
      * {@inheritDoc}
@@ -47,6 +61,18 @@ class PublishDateField extends FieldHandler
      */
     public function entityBeforeFind(Event $event, Field $field, $options, $primary)
     {
+        if ($primary &&
+            !Router::getRequest()->isAdmin() &&
+            !empty($field->raw['from']['timestamp']) &&
+            !empty($field->raw['to']['timestamp'])
+        ) {
+            $now = time();
+            if ($field->raw['from']['timestamp'] > $now ||
+                $now > $field->raw['to']['timestamp']
+            ) {
+                return false;
+            }
+        }
     }
 
     /**
@@ -60,17 +86,17 @@ class PublishDateField extends FieldHandler
             'to' => ['string' => null, 'timestamp' => null],
         ];
         foreach (['from', 'to'] as $type) {
-            if (!empty($options['_post'][$type]['date']) &&
+            if (!empty($options['_post'][$type]['string']) &&
                 !empty($options['_post'][$type]['format'])
             ) {
-                $date = $options['_post'][$type]['date'];
+                $date = $options['_post'][$type]['string'];
                 $format = $options['_post'][$type]['format'];
                 if ($date = DateToolbox::createFromFormat($format, $date)) {
-                    $raw[$type]['string'] = $options['_post'][$type]['date'];
+                    $raw[$type]['string'] = $options['_post'][$type]['string'];
                     $raw[$type]['timestamp'] = date_timestamp_get($date);
-                    $values[] = $raw[$type]['timestamp'];
+                    $values[] = $raw[$type]['timestamp'] . ' ' . $options['_post'][$type]['string'];
                 } else {
-                    $typeLabel = $type == 'from' ? __d('field', 'From') : __d('field', 'To');
+                    $typeLabel = $type == 'from' ? __d('field', 'Start') : __d('field', 'Finish');
                     $field->metadata->entity->errors(":{$field->name}", __d('field', 'Invalid date/time range, "{0}" date must match the the pattern: {1}', $typeLabel, $format));
                     return false;
                 }
@@ -95,9 +121,29 @@ class PublishDateField extends FieldHandler
     public function entityBeforeValidate(Event $event, Field $field, $options, $validator)
     {
         if ($field->metadata->required) {
-            // TODO: check not null dates using callable
-            $validator->notEmpty(":{$field->name}", __d('field', 'You must select a date/time.'));
+            $validator->notEmpty(":{$field->name}", __d('field', 'You must select a date/time range.'));
         }
+
+        $validator
+            ->add(":{$field->name}", [
+                'validRange' => [
+                    'rule' => function ($value, $context) {
+                        if (!empty($value['from']['string']) &&
+                            !empty($value['from']['format']) &&
+                            !empty($value['to']['string']) &&
+                            !empty($value['to']['format'])
+                        ) {
+                            $from = DateToolbox::createFromFormat($value['from']['format'], $value['from']['string']);
+                            $to = DateToolbox::createFromFormat($value['to']['format'], $value['to']['string']);
+                            return date_timestamp_get($from) < date_timestamp_get($to);
+                            ;
+                        }
+                        return false;
+                    },
+                    'message' => __d('field', 'Invalid date/time range, "Start" date must be before "Finish" date.')
+                ]
+            ]);
+
         return true;
     }
 

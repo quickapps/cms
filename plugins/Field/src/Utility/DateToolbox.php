@@ -11,6 +11,8 @@
  */
 namespace Field\Utility;
 
+use Cake\Datasource\EntityInterface;
+
 /**
  * DateToolbox class for handling date related tasks.
  *
@@ -82,6 +84,7 @@ class DateToolbox
      */
     public static function normalizeFormat($format)
     {
+        $format = trim($format);
         $format = preg_replace("/'([^']+)'/", '', $format); // remove quotes
         $format = preg_replace('/\s{2,}/', ' ', $format); // remove double spaces
         $format = trim($format);
@@ -124,5 +127,28 @@ class DateToolbox
         $format = trim($format);
 
         return empty($format);
+    }
+
+    /**
+     * Given a DateField instance, gets its PHP's date-format.
+     *
+     * @param \Cake\Datasource\EntityInterface $field DateField instance
+     * @return string PHP date-format for later use with date() function
+     */
+    public static function getPHPFormat(EntityInterface $field)
+    {
+        $settings = $field->metadata->settings;
+        $format = empty($settings['format']) ? 'yy-mm-dd' : $settings['format'];
+        if ($settings['timepicker']) {
+            $format .= ' ';
+            if (empty($settings['time_format'])) {
+                $format .= 'H:mm';
+                $format .= empty($settings['time_seconds']) ?: ':ss';
+            } else {
+                $format .= $settings['time_format'];
+            }
+        }
+
+        return static::normalizeFormat($format);
     }
 }

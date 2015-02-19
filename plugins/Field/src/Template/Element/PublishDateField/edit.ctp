@@ -16,7 +16,7 @@ use Cake\Core\Configure;
     <?php
         echo $this->Form->input($field, [
             'id' => "picker-{$field->name}-from",
-            'name' => ":{$field->name}[from][date]",
+            'name' => ":{$field->name}[from][string]",
             'label' => __d('field', 'Start Publishing'),
             'class' => 'picker-from',
             'value' => (!empty($field->raw['from']['string']) ? $field->raw['from']['string'] : ''),
@@ -25,7 +25,7 @@ use Cake\Core\Configure;
 
         echo $this->Form->input($field, [
             'id' => "picker-{$field->name}-to",
-            'name' => ":{$field->name}[to][date]",
+            'name' => ":{$field->name}[to][string]",
             'label' => __d('field', 'Finish Publishing'),
             'class' => 'picker-to',
             'value' => (!empty($field->raw['to']['string']) ? $field->raw['to']['string'] : ''),
