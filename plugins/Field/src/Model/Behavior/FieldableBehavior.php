@@ -184,8 +184,8 @@ use QuickApps\Event\HookAwareTrait;
  * - FieldableBehavior automatically serializes & unserializes the `raw`
  *   property for you, so you should always treat `raw` as an array.
  * - `Search over fields` feature described above uses the `value` property
- *    when looking for matches. So in this way your entities can be found when
- *    using Field's machine-name in WHERE clauses.
+ *   when looking for matches. So in this way your entities can be found when
+ *   using Field's machine-name in WHERE clauses.
  * - Using `raw` is not mandatory, for instance your Field Handler could use
  *   an additional table schema to store entities information and leave `raw`
  *   as NULL. In that case, your Field Handler must take care of joining entities
@@ -449,11 +449,11 @@ class FieldableBehavior extends Behavior
      * These are merged with user-provided configuration when the behavior is used.
      * Available options are:
      *
-     * -    `tableAlias`: Name of the table being managed. Defaults to null (auto-detect).
-     * -    `bundle`: Bundle within this the table. Can be a string or a callable
-     *       method that must return a string to use as bundle.
-     *       Default null (use `tableAlias` option always).
-     * -    `enabled`: True enables this behavior or false for disable. Default to true.
+     * - `tableAlias`: Name of the table being managed. Defaults to null (auto-detect).
+     * - `bundle`: Bundle within this the table. Can be a string or a callable
+     *    method that must return a string to use as bundle.
+     *    Default null (use `tableAlias` option always).
+     * - `enabled`: True enables this behavior or false for disable. Default to true.
      *
      * When using `bundle` feature, `tableAlias` becomes:
      *
@@ -463,10 +463,12 @@ class FieldableBehavior extends Behavior
      * first argument and the table instance as second argument, the callable must
      * return a string value to use as `bundle`.
      *
-     *     // ...
-     *     'bundle' => function ($entity, $table) {
-     *         return $entity->type;
-     *     },
+     * ```php
+     * // ...
+     * 'bundle' => function ($entity, $table) {
+     *     return $entity->type;
+     * },
+     * ```
      *
      * Bundles are usually set to dynamic values as the example above, where
      * we use the `type` property of each entity to generate the `bundle` name. For
@@ -531,45 +533,53 @@ class FieldableBehavior extends Behavior
      * ### Events Triggered:
      *
      * - `Field.<FieldHandler>.Entity.beforeFind`: This event is triggered for each
-     * entity in the resulting collection and for each field attached to these
-     * entities. It receives three arguments, a field entity representing the field
-     * being processed, an options array and boolean value indicating whether the
-     * query that initialized the event is part of a primary find operation or not.
-     * Returning false will cause the entity to be removed from the resulting
-     * collection, also will stop event propagation, so other fields won't be able
-     * to listen this event. If the event is stopped using the event API, will halt
-     * the entire find operation.
+     *    entity in the resulting collection and for each field attached to these
+     *    entities. It receives three arguments, a field entity representing the
+     *    field being processed, an options array and boolean value indicating
+     *    whether the query that initialized the event is part of a primary find
+     *    operation or not. Returning false will cause the entity to be removed from
+     *    the resulting collection, also will stop event propagation, so other
+     *    fields won't be able to listen this event. If the event is stopped using
+     *    the event API, will halt the entire find operation.
      *
      * You can enable or disable this behavior for a single `find()` operation by
      * setting `fieldable` to false in the options array for find method. e.g.:
      *
-     *     $this->Nodes
-     *         ->find('all', ['fieldable' => false]);
+     * ```php
+     * $this->Nodes
+     *     ->find('all', [
+     *         'fieldable' => false,
+     *     ]);
+     * ```
      *
      * It also looks for custom fields in WHERE clause. This will search entities in
      * all bundles this table may have, if you need to restrict the search to an
      * specific bundle you must use the `bundle` key in find()'s options:
      *
-     *     $this->Nodes
-     *         ->find('all', ['bundle' => 'articles'])
-     *         ->where([':article-title' => 'My first article!']);
+     * ```php
+     * $this->Nodes
+     *     ->find('all', ['bundle' => 'articles'])
+     *     ->where([':article-title' => 'My first article!']);
+     * ```
      *
      * The `bundle` accepts multiples values:
      *
-     *     // wildcard is "*", e.g. look in all bundles which names starts with "art"
-     *     $this->Nodes
-     *         ->find('all', ['bundle' => 'art*']);
-     *         ->where([':article-title' => 'My first article!']);
+     * ```php
+     * // wildcard is "*", e.g. look in all bundles which names starts with "art"
+     * $this->Nodes
+     *     ->find('all', ['bundle' => 'art*']);
+     *     ->where([':article-title' => 'My first article!']);
      *
-     *     // single character match is "?"
-     *     $this->Nodes
-     *         ->find('all', ['bundle' => 'arti?les']);
-     *         ->where([':article-title' => 'My first article!']);
+     * // single character match is "?"
+     * $this->Nodes
+     *     ->find('all', ['bundle' => 'arti?les']);
+     *     ->where([':article-title' => 'My first article!']);
      *
-     *     // look in "articles" and "pages" bundles only
-     *     $this->Nodes
-     *         ->find('all', ['bundle' => ['articles', 'pages']]);
-     *         ->where([':article-title' => 'My first article!']);
+     * // look in "articles" and "pages" bundles only
+     * $this->Nodes
+     *     ->find('all', ['bundle' => ['articles', 'pages']]);
+     *     ->where([':article-title' => 'My first article!']);
+     * ```
      *
      * The `bundle` option has no effects if no custom fields are given in the
      * WHERE clause.
@@ -618,13 +628,13 @@ class FieldableBehavior extends Behavior
      * ### Events Triggered:
      *
      * - `Field.<FieldHandler>.Entity.beforeSave`: It receives two arguments, the
-     * field entity representing the field being saved and options array. The
-     * options array is passed as an ArrayObject, so any changes in it will be
-     * reflected in every listener and remembered at the end of the event so it can
-     * be used for the rest of the save operation. Returning false in any of the
-     * Field Handler will abort the saving process. If the Field event is stopped
-     * using the event API, the Field event object's `result` property will be
-     * returned.
+     *    field entity representing the field being saved and options array. The
+     *    options array is passed as an ArrayObject, so any changes in it will be
+     *    reflected in every listener and remembered at the end of the event so it
+     *    can be used for the rest of the save operation. Returning false in any of
+     *    the Field Handler will abort the saving process. If the Field event is
+     *    stopped using the event API, the Field event object's `result` property
+     *    will be returned.
      *
      * Here is where we dispatch each custom field's `$_POST` information to its
      * corresponding Field Handler, so they can operate over their values.
@@ -632,26 +642,28 @@ class FieldableBehavior extends Behavior
      * Fields Handler's `Field.<FieldHandler>.Entity.beforeSave` event is triggered
      * over each attached field for this entity, so you should have a listener like:
      *
-     *     class TextField implements EventListenerInterface {
-     *         public function implementedEvents() {
-     *             return [
-     *                 'Field\TextField.Entity.beforeSave' => 'entityBeforeSave',
-     *             ];
-     *         }
-     *
-     *         public function entityBeforeSave(Event $event, $entity, $field, $options) {
-     *              // alter $field, and do nifty things with $options['_post']
-     *              // return FALSE; will halt the operation
-     *         }
+     * ```php
+     * class TextField implements EventListenerInterface {
+     *     public function implementedEvents() {
+     *         return [
+     *             'Field.TextField.Entity.beforeSave' => 'entityBeforeSave',
+     *         ];
      *     }
      *
-     * You will see `$options` array contains the POST information user just sent when
-     * pressing form submit button.
+     *     public function entityBeforeSave(Event $event, $entity, $field, $options) {
+     *          // alter $field, and do nifty things with $options['_post']
+     *          // return FALSE; will halt the operation
+     *     }
+     * }
+     * ```
+     *
+     * You will see `$options` array contains the POST information user just sent
+     * when pressing form submit button.
      *
      *     $options['_post']: $_POST information for this [entity, field_instance] tuple.
      *
-     * Field Handlers should **alter** `$field->value` and `$field->raw`
-     * according to its needs **using $options['_post']**.
+     * Field Handlers should **alter** `$field->value` and `$field->raw` according
+     * to its needs **using $options['_post']**.
      *
      * **NOTE:** Returning boolean FALSE will halt the whole Entity's save operation.
      *
@@ -751,10 +763,10 @@ class FieldableBehavior extends Behavior
      * ### Events Triggered:
      *
      * - `Field.<FieldHandler>.Entity.afterSave`: Will be triggered after a
-     * successful insert or save, listeners will receive two arguments, the field
-     * entity and the options array. The type of operation performed
-     * (insert or update) can be infer by checking the entity's method `isNew`,
-     * true meaning an insert and false an update.
+     *    successful insert or save, listeners will receive two arguments, the field
+     *    entity and the options array. The type of operation performed (insert or
+     *    update) can be infer by checking the entity's method `isNew`, true meaning
+     *    an insert and false an update.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\Datasource\EntityInterface $entity The entity that was saved
@@ -796,12 +808,12 @@ class FieldableBehavior extends Behavior
      *
      * ### Events Triggered:
      *
-     * - `Field.<FieldHandler>.Entity.beforeValidate`: Will be triggered right before
-     * any validation is done for the passed entity if the validate key in $options
-     * is not set to false. Listeners will receive as arguments the field entity,
-     * the options array and the validation object to be used for validating
-     * the entity. If the event is stopped the validation result will be set to the
-     * result of the event itself.
+     * - `Field.<FieldHandler>.Entity.beforeValidate`: Will be triggered right
+     *    before any validation is done for the passed entity if the validate key in
+     *    $options is not set to false. Listeners will receive as arguments the
+     *    field entity, the options array and the validation object to be used for
+     *    validating the entity. If the event is stopped the validation result will
+     *    be set to the result of the event itself.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\Datasource\EntityInterface $entity The entity being validated
@@ -834,10 +846,10 @@ class FieldableBehavior extends Behavior
      * ### Events Triggered:
      *
      * - `Field.<FieldHandler>.Entity.afterValidate`: Will be triggered right after
-     * the `validate()` method is called in the entity. Listeners will receive as
-     * arguments the the field entity, the options array and the validation
-     * object to be used for validating the entity. If the event is stopped the
-     * validation result will be set to the result of the event itself.
+     *    the `validate()` method is called in the entity. Listeners will receive as
+     *    arguments the the field entity, the options array and the validation
+     *    object to be used for validating the entity. If the event is stopped the
+     *    validation result will be set to the result of the event itself.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\Datasource\EntityInterface $entity The entity that was validated
@@ -881,8 +893,8 @@ class FieldableBehavior extends Behavior
      * ### Events Triggered:
      *
      * - `Field.<FieldHandler>.Entity.beforeDelete`: Fired before the delete occurs.
-     *   If stopped the delete will be aborted. Receives as arguments the field
-     *   entity and options array.
+     *    If stopped the delete will be aborted. Receives as arguments the field
+     *    entity and options array.
      *
      * **NOTE:** This method automatically removes all field values
      * from `field_values` database table for each entity.
@@ -945,9 +957,8 @@ class FieldableBehavior extends Behavior
      *
      * ### Events Triggered:
      *
-     * - `Field.<FieldHandler>.Entity.afterDelete`: Fired after the delete has
-     *    been successful. Receives as arguments the field entity and options
-     *    array.
+     * - `Field.<FieldHandler>.Entity.afterDelete`: Fired after the delete has been
+     *    successful. Receives as arguments the field entity and options array.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\Datasource\EntityInterface $entity The entity that was deleted
@@ -1146,8 +1157,7 @@ class FieldableBehavior extends Behavior
     /**
      * Creates a new "Field" for each entity.
      *
-     * This mock Field represents a new property (table column) for
-     * your entity.
+     * This mock Field represents a new property (table column) for your entity.
      *
      * @param \Cake\Datasource\EntityInterface $entity The entity where to attach fields
      * @param \Field\Model\Entity\FieldInstance $instance The instance where to get the
@@ -1206,8 +1216,8 @@ class FieldableBehavior extends Behavior
     /**
      * Gets table alias this behavior is attached to.
      *
-     * This method requires an entity, so we can properly take care of the
-     * `bundle` option. If this option is not used, then `Table::alias()` is returned.
+     * This method requires an entity, so we can properly take care of the `bundle`
+     * option. If this option is not used, then `Table::alias()` is returned.
      *
      * @param \Cake\Datasource\EntityInterface $entity From where try to guess `bundle`
      * @return string Table alias
