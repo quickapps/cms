@@ -21,13 +21,6 @@ class ManageControllerTest extends IntegrationTestCase
 {
 
     /**
-     * Controller being tested.
-     *
-     * @var \Cake\Controller\Controller
-     */
-    public $Controller;
-
-    /**
      * Fixtures.
      *
      * @var array
@@ -92,10 +85,12 @@ class ManageControllerTest extends IntegrationTestCase
             'status' => 1,
             'comment_status' => 1,
 
+            // custom fields
             ':article-introduction' => 'Intro text',
             ':article-body' => 'Article body',
         ]);
-        $node = TableRegistry::get('Node.Nodes')
+        $node = $this->_controller
+            ->Nodes
             ->find()
             ->where(['title' => 'Test Article'])
             ->limit(1)
@@ -112,5 +107,24 @@ class ManageControllerTest extends IntegrationTestCase
     {
         $this->get('/admin/node/manage/edit/1');
         $this->assertResponseOk();
+    }
+
+    /**
+     * test delete action.
+     *
+     * @return void
+     */
+    public function testDelete()
+    {
+        foreach ([1, 2] as $id) {
+            $this->get("/admin/node/manage/delete/{$id}");
+            $exists = $this->_controller
+                ->Nodes
+                ->find()
+                ->where(['id' => $id])
+                ->limit(1)
+                ->count();
+            $this->assertEquals(0, $exists);
+        }
     }
 }

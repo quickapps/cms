@@ -21,13 +21,6 @@ class ManageControllerTest extends IntegrationTestCase
 {
 
     /**
-     * Controller being tested.
-     *
-     * @var \Cake\Controller\Controller
-     */
-    public $Controller;
-
-    /**
      * Fixtures.
      *
      * @var array
