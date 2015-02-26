@@ -51,7 +51,7 @@ class NodeHook implements EventListenerInterface
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\Network\Request $request Request object to dispatch
      * @param \Cake\Network\Response $response Response object to put the results of
-     * the dispatch into
+     *  the dispatch into
      * @return void
      */
     public function dispatcherBeforeDispatch(Event $event, $request, $response)

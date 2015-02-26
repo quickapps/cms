@@ -206,8 +206,7 @@ class ServeController extends AppController
     /**
      * Node search engine page.
      *
-     * @param string $criteria A search criteria.
-     *  e.g.: `"this phrase" -"but not this" OR -hello`
+     * @param string $criteria A search criteria. e.g.: `"this phrase" -"but not this" OR -hello`
      * @return void
      */
     public function search($criteria)
@@ -233,11 +232,10 @@ class ServeController extends AppController
     /**
      * RSS feeder.
      *
-     * Similar to `ServeController::search()` but it uses
-     * `rss` layout instead of default layout.
+     * Similar to `ServeController::search()` but it uses `rss` layout instead of
+     * default layout.
      *
-     * @param string $criteria A search criteria.
-     *  e.g.: `"this phrase" -"but not this" OR -hello`
+     * @param string $criteria A search criteria. e.g.: `"this phrase" -"but not this" OR -hello`
      * @return void
      */
     public function rss($criteria)

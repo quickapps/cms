@@ -243,6 +243,6 @@ class PluginsController extends AppController
         $this->set(compact('arrayContext', 'plugin'));
         $this->Breadcrumb
             ->push('/admin/system/plugins')
-            ->push(__d('system', 'Settings for {0} plugin', $plugin['name']), '#');
+            ->push(__d('system', 'Settings for "{0}" plugin', $plugin['name']), '#');
     }
 }

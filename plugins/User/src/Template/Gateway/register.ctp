@@ -1,3 +1,16 @@
+<?php
+/**
+ * Licensed under The GPL-3.0 License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @since    2.0.0
+ * @author   Christopher Castro <chris@quickapps.es>
+ * @link     http://www.quickappscms.org
+ * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
+ */
+?>
+
 <?php echo $this->Flash->render('register'); ?>
 
 <?php if (!$registered): ?>
@@ -14,7 +27,8 @@
 			<em class="help-block"><?php echo __d('user', 'Must be unique.'); ?></em>
 
 			<?php echo $this->Form->input('password', ['type' => 'password', 'label' => __d('user', 'Password')]); ?>
-			<em class="help-block"><?php echo __d('user', 'At least six characters long.'); ?></em>
+			<?php echo $this->element('User.password_help'); ?>
+
 			<?php echo $this->Form->input('password2', ['type' => 'password', 'label' => __d('user', 'Confirm Password')]); ?>
 
 			<?php echo $this->Form->submit(__d('user', 'Register')); ?>
