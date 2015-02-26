@@ -20,7 +20,7 @@ define('CONFIG', ROOT . DS . 'config' . DS);
 define('WWW_ROOT', SITE_ROOT . DS . WEBROOT_DIR . DS);
 define('TESTS', ROOT . DS . 'tests' . DS);
 define('TMP', SITE_ROOT . DS . 'tmp' . DS);
-define('LOGS', TMP . 'logs' . DS);
+define('LOGS', SITE_ROOT . DS . 'logs' . DS);
 define('CACHE', TMP . 'cache' . DS);
 define('CAKE_CORE_INCLUDE_PATH', VENDOR_INCLUDE_PATH . 'cakephp' . DS . 'cakephp');
 define('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
@@ -60,7 +60,7 @@ function snapshot() {
             'site_nodes_home' => '5',
             'site_slogan' => 'Open Source CMS built on CakePHP 3.0',
             'site_title' => 'My QuickApps CMS Site',
-            'url_locale_prefix' => '1',
+            'url_locale_prefix' => '0',
         ],
         'languages' => [
             'en-us' => [
