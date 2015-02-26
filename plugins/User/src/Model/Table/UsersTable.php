@@ -17,6 +17,7 @@ use Cake\Event\Event;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use QuickApps\Core\Plugin;
 use User\Model\Entity\User;
 
 /**
@@ -98,7 +99,7 @@ class UsersTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
-        return $validator
+        $validator
             ->requirePresence('name')
             ->notEmpty('name', __d('user', 'You must provide a name.'))
             ->requirePresence('username', 'create')
@@ -122,13 +123,6 @@ class UsersTable extends Table
                         return (new DefaultPasswordHasher)->check($value2, $value) || $value == $value2;
                     },
                     'message' => __d('user', 'Password mismatch.'),
-                ],
-                'length' => [
-                    'rule' => function ($value, $context) {
-                        $raw = isset($context['data']['password2']) ? $context['data']['password2'] : '';
-                        return strlen($raw) >= 6;
-                    },
-                    'message' => __d('user', 'Password must be at least 6 characters long.'),
                 ]
             ])
             ->allowEmpty('web')
@@ -136,6 +130,74 @@ class UsersTable extends Table
                 'rule' => 'url',
                 'message' => __d('user', 'Invalid URL.'),
             ]);
+
+        // password policies
+        $settings = Plugin::settings('User');
+        $len = intval($settings['password_min_length']);
+        $validator
+            ->add('password', [
+                'length' => [
+                    'rule' => function ($value, $context) use ($len) {
+                        $raw = isset($context['data']['password2']) ? $context['data']['password2'] : '';
+                        return mb_strlen($raw) >= $len;
+                    },
+                    'message' => __d('user', 'Password must be at least {0} characters long.', $len),
+                ]
+            ]);
+
+        if ($settings['password_uppercase']) {
+            $validator
+                ->add('password', [
+                    'uppercase' => [
+                        'rule' => function ($value, $context) {
+                            $raw = isset($context['data']['password2']) ? $context['data']['password2'] : '';
+                            return preg_match('/[A-Z]/', $raw) ? true : false;
+                        },
+                        'message' => __d('user', 'Password must contain at least one uppercase character (A-Z).'),
+                    ]
+                ]);
+        }
+
+        if ($settings['password_lowercase']) {
+            $validator
+                ->add('password', [
+                    'lowercase' => [
+                        'rule' => function ($value, $context) {
+                            $raw = isset($context['data']['password2']) ? $context['data']['password2'] : '';
+                            return preg_match('/[a-z]/', $raw) ? true : false;
+                        },
+                        'message' => __d('user', 'Password must contain at least one lowercase character (a-z).'),
+                    ]
+                ]);
+        }
+
+        if ($settings['password_number']) {
+            $validator
+                ->add('password', [
+                    'number' => [
+                        'rule' => function ($value, $context) {
+                            $raw = isset($context['data']['password2']) ? $context['data']['password2'] : '';
+                            return preg_match('/[0-9]/', $raw) ? true : false;
+                        },
+                        'message' => __d('user', 'Password must contain at least one numeric character (1-9).'),
+                    ]
+                ]);
+        }
+
+        if ($settings['password_non_alphanumeric']) {
+            $validator
+                ->add('password', [
+                    'non_alphanumeric' => [
+                        'rule' => function ($value, $context) {
+                            $raw = isset($context['data']['password2']) ? $context['data']['password2'] : '';
+                            return preg_match('/[^0-9a-z]/i', $raw) ? true : false;
+                        },
+                        'message' => __d('user', 'Password must contain at least one non-alphanumeric character (e.g. #%?).'),
+                    ]
+                ]);
+        }
+
+        return $validator;
     }
 
     /**

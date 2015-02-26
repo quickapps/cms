@@ -13,6 +13,7 @@ namespace User\Event;
 
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
+use Cake\Validation\Validator;
 use User\Model\Entity\User;
 use User\Utility\NotificationManager;
 
@@ -33,11 +34,11 @@ class UserHook implements EventListenerInterface
     public function implementedEvents()
     {
         return [
+            // model
             'User.beforeIdentify' => 'beforeIdentify',
             'User.afterIdentify' => 'afterIdentify',
             'User.beforeLogout' => 'beforeLogout',
             'User.afterLogout' => 'afterLogout',
-
             'User.registered' => 'registered',
             'User.activated' => 'activated',
             'User.blocked' => 'blocked',
@@ -45,7 +46,9 @@ class UserHook implements EventListenerInterface
             'User.canceled' => 'canceled',
             'User.passwordRequest' => 'passwordRequest',
 
+            // plugin
             'Plugin.User.validate' => 'settingsValidate',
+            'Plugin.User.settingsDefaults' => 'settingsDefaults',
         ];
     }
 
@@ -178,15 +181,23 @@ class UserHook implements EventListenerInterface
     }
 
     /**
-     * Provides defaults values for settings keys.
+     * Validates plugin's settings.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param array $data Data to be validated
      * @param \Cake\Validation\Validator $validator The validator object
      * @return void
      */
-    public function settingsValidate(Event $event, $data, $validator)
+    public function settingsValidate(Event $event, $data, Validator $validator)
     {
+        if (isset($data['password_min_length'])) {
+            $validator
+                ->add('password_min_length', 'validNumber', [
+                    'rule' => ['naturalNumber', false], // false: exclude zero
+                    'message' => __d('user', 'Invalid password min-length.')
+                ]);
+        }
+
         $validator
             ->requirePresence('message_welcome_subject')
             ->notEmpty('message_welcome_subject', __d('user', 'This field cannot be empty.'))
@@ -217,5 +228,22 @@ class UserHook implements EventListenerInterface
                 ->requirePresence('message_canceled_subject')
                 ->notEmpty('message_canceled_body', __d('user', 'This field cannot be empty.'));
         }
+    }
+
+    /**
+     * Provides defaults values for settings keys.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @return array
+     */
+    public function settingsDefaults(Event $event)
+    {
+        return [
+            'password_min_length' => 6,
+            'password_uppercase' => 0,
+            'password_lowercase' => 0,
+            'password_number' => 0,
+            'password_non_alphanumeric' => 0,
+        ];
     }
 }

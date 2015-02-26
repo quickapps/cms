@@ -35,7 +35,7 @@
 		<em class="help-block"><?php echo __d('user', 'Inactive users cannot log-in.'); ?></em>
 
 		<?php echo $this->Form->input('password', ['type' => 'password', 'label' => __d('user', 'Password')]); ?>
-		<em class="help-block"><?php echo __d('user', 'At least six characters long.'); ?></em>
+		<?php echo $this->element('User.password_help'); ?>
 
 		<?php echo $this->Form->input('password2', ['type' => 'password', 'label' => __d('user', 'Confirm Password')]); ?>
 
