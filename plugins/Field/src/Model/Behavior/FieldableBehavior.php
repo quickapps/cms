@@ -881,8 +881,8 @@ class FieldableBehavior extends Behavior
      * ### Events Triggered:
      *
      * - `Field.<FieldHandler>.Entity.beforeDelete`: Fired before the delete occurs.
-     * If stopped the delete will be aborted. Receives as arguments the field entity
-     * and options array.
+     *   If stopped the delete will be aborted. Receives as arguments the field
+     *   entity and options array.
      *
      * **NOTE:** This method automatically removes all field values
      * from `field_values` database table for each entity.
@@ -912,7 +912,7 @@ class FieldableBehavior extends Behavior
             $field = $this->_getMockField($entity, $instance);
             $fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.beforeDelete", $event->subject()], $field, $options);
 
-            if ($fieldEvent->result == false || $fieldEvent->isStopped()) {
+            if ($fieldEvent->isStopped()) {
                 $event->stopPropagation();
                 return false;
             }
