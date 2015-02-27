@@ -69,7 +69,7 @@ class ManageController extends AppController
             ]
         ]);
 
-        if ($this->request->data) {
+        if ($this->request->data()) {
             $user->accessible('id', false);
             $data = $this->request->data;
 
@@ -114,7 +114,7 @@ class ManageController extends AppController
             ]
         ]);
 
-        if ($this->request->data) {
+        if ($this->request->data()) {
             $user->accessible(['id', 'username'], false);
             $user = $this->Users->patchEntity($user, $this->request->data);
             if ($this->Users->save($user)) {

@@ -51,7 +51,7 @@ class VocabulariesController extends AppController
         $this->loadModel('Taxonomy.Vocabularies');
         $vocabulary = $this->Vocabularies->newEntity();
 
-        if ($this->request->data) {
+        if ($this->request->data()) {
             $vocabulary = $this->Vocabularies->patchEntity($vocabulary, $this->request->data, [
                 'fieldList' => [
                     'name',
@@ -86,7 +86,7 @@ class VocabulariesController extends AppController
         $this->loadModel('Taxonomy.Vocabularies');
         $vocabulary = $this->Vocabularies->get($id);
 
-        if ($this->request->data) {
+        if ($this->request->data()) {
             $vocabulary = $this->Vocabularies->patchEntity($vocabulary, $this->request->data, [
                 'fieldList' => [
                     'name',

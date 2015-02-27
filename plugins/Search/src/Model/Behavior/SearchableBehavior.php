@@ -402,7 +402,7 @@ class SearchableBehavior extends Behavior
         $bannedCallable = is_callable($this->config('bannedWords')) ? $this->config('bannedWords') : false;
 
         foreach ($words as $i => $w) {
-            if ($bannedCallable) {
+            if (is_callable($bannedCallable)) {
                 if (!$bannedCallable($w)) {
                     // false means it's banned
                     unset($words[$i]);

@@ -163,7 +163,7 @@ class ToggleTask extends BaseTask
      */
     public function enable($pluginName = null)
     {
-        if ($pluginName) {
+        if ($pluginName !== null) {
             $this->config('plugin', $pluginName);
             $this->config('status', true);
             $this->plugin($pluginName);
@@ -179,7 +179,7 @@ class ToggleTask extends BaseTask
      */
     public function disable($pluginName = null)
     {
-        if ($pluginName) {
+        if ($pluginName !== null) {
             $this->config('plugin', $pluginName);
             $this->config('status', false);
             $this->plugin($pluginName);

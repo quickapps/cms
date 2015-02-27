@@ -33,6 +33,7 @@ class ManageControllerTest extends IntegrationTestCase
         'app.roles',
         'app.users',
         'app.comments',
+        'app.menus',
         'app.menu_links',
         'app.search_datasets',
         'app.field_instances',

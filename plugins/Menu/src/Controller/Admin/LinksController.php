@@ -107,7 +107,7 @@ class LinksController extends AppController
         ]);
         $this->Menus->MenuLinks->addBehavior('Tree', ['scope' => ['menu_id' => $menu->id]]);
 
-        if ($this->request->data) {
+        if ($this->request->data()) {
             $link = $this->Menus->MenuLinks->patchEntity($link, $this->request->data, [
                 'fieldList' => [
                     'parent_id',

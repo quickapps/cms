@@ -323,7 +323,7 @@ class TaxonomyField extends FieldHandler
         $slugs = explode(',', $value);
         $slugs = array_slice($slugs, 0, 10);
 
-        if ($slugs) {
+        if (!empty($slugs)) {
             $IN = $negate ? 'NOT IN' : 'IN';
             $table = $event->subject();
             $pk = $table->primaryKey();

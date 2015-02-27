@@ -12,6 +12,7 @@
 namespace Field\Model\Behavior;
 
 use Cake\Database\Expression\Comparison;
+use Cake\Datasource\EntityInterface;
 use Cake\Error\FatalErrorException;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
@@ -602,7 +603,7 @@ class FieldableBehavior extends Behavior
             $query = $this->_scopeQuery($query, $options);
             $query->formatResults(function ($results) use ($event, $options, $primary) {
                 $results = $results->map(function ($entity) use ($event, $options, $primary) {
-                    if ($entity instanceof Entity) {
+                    if ($entity instanceof EntityInterface) {
                         $entity = $this->attachEntityFields($entity);
                         foreach ($entity->get('_fields') as $field) {
                             $fieldEvent = $this->trigger(["Field.{$field->metadata->handler}.Entity.beforeFind", $event->subject()], $field, $options, $primary);
@@ -668,12 +669,12 @@ class FieldableBehavior extends Behavior
      * **NOTE:** Returning boolean FALSE will halt the whole Entity's save operation.
      *
      * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Cake\ORM\Entity $entity The entity being saved
+     * @param \Cake\Datasource\EntityInterface $entity The entity being saved
      * @param array $options Additional options given as an array
      * @throws \Cake\Error\FatalErrorException When using this behavior in non-atomic mode
      * @return bool True if save operation should continue
      */
-    public function beforeSave(Event $event, $entity, $options)
+    public function beforeSave(Event $event, EntityInterface $entity, $options)
     {
         if (!$this->config('enabled')) {
             return true;
@@ -773,7 +774,7 @@ class FieldableBehavior extends Behavior
      * @param array $options Additional options given as an array
      * @return bool True always
      */
-    public function afterSave(Event $event, $entity, $options)
+    public function afterSave(Event $event, EntityInterface $entity, $options)
     {
         if (!$this->config('enabled')) {
             return true;
@@ -821,7 +822,7 @@ class FieldableBehavior extends Behavior
      * @param \Cake\Validation\Validator $validator The validator object
      * @return bool True on success
      */
-    public function beforeValidate(Event $event, $entity, $options, $validator)
+    public function beforeValidate(Event $event, EntityInterface $entity, $options, $validator)
     {
         if (!$this->config('enabled')) {
             return true;
@@ -857,7 +858,7 @@ class FieldableBehavior extends Behavior
      * @param Validator $validator The validator object
      * @return bool True on success
      */
-    public function afterValidate(Event $event, $entity, $options, $validator)
+    public function afterValidate(Event $event, EntityInterface $entity, $options, $validator)
     {
         if (!$this->config('enabled')) {
             return true;
@@ -905,7 +906,7 @@ class FieldableBehavior extends Behavior
      * @return bool
      * @throws \Cake\Error\FatalErrorException When using this behavior in non-atomic mode
      */
-    public function beforeDelete(Event $event, $entity, $options)
+    public function beforeDelete(Event $event, EntityInterface $entity, $options)
     {
         if (!$this->config('enabled')) {
             return true;
@@ -966,7 +967,7 @@ class FieldableBehavior extends Behavior
      * @throws \Cake\Error\FatalErrorException When using this behavior in non-atomic mode
      * @return void
      */
-    public function afterDelete(Event $event, $entity, $options)
+    public function afterDelete(Event $event, EntityInterface $entity, $options)
     {
         if (!$this->config('enabled')) {
             return;
@@ -1027,9 +1028,9 @@ class FieldableBehavior extends Behavior
      * @param \Cake\Datasource\EntityInterface $entity The entity where to fetch fields
      * @return \Cake\Datasource\EntityInterface Modified $entity
      */
-    public function attachEntityFields($entity)
+    public function attachEntityFields(EntityInterface $entity)
     {
-        if (!($entity instanceof Entity)) {
+        if (!($entity instanceof EntityInterface)) {
             return $entity;
         }
 
@@ -1164,7 +1165,7 @@ class FieldableBehavior extends Behavior
      *  information when creating the mock field.
      * @return \Field\Model\Entity\Field
      */
-    protected function _getMockField($entity, $instance)
+    protected function _getMockField(EntityInterface $entity, $instance)
     {
         $pk = $this->_table->primaryKey();
         $storedValue = TableRegistry::get('Field.FieldValues')->find()
@@ -1224,7 +1225,7 @@ class FieldableBehavior extends Behavior
      * @throws \Field\Error\InvalidBundle When `bundle` option is used but
      *  was unable to resolve bundle name
      */
-    protected function _guessTableAlias($entity)
+    protected function _guessTableAlias(EntityInterface $entity)
     {
         $tableAlias = $this->config('tableAlias');
 
@@ -1248,7 +1249,7 @@ class FieldableBehavior extends Behavior
      * @param \Cake\Datasource\EntityInterface $entity Entity to use as context when resolving bundle
      * @return mixed Bundle name as string value on success, false otherwise
      */
-    protected function _resolveBundle($entity)
+    protected function _resolveBundle(EntityInterface $entity)
     {
         $bundle = $this->config('bundle');
         if ($bundle !== null) {
@@ -1269,7 +1270,7 @@ class FieldableBehavior extends Behavior
      * @param \Cake\Datasource\EntityInterface $entity An entity used to guess table name
      * @return \Cake\Datasource\ResultSetInterface Field instances attached to current table as a query result
      */
-    protected function _getTableFieldInstances($entity)
+    protected function _getTableFieldInstances(EntityInterface $entity)
     {
         $tableAlias = $this->_guessTableAlias($entity);
 

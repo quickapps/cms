@@ -135,7 +135,7 @@ class HookManager
      */
     public static function triggered($eventName = null, $sort = true)
     {
-        if (!$eventName) {
+        if ($eventName === null) {
             if ($sort) {
                 arsort(static::$_log, SORT_NATURAL);
             }

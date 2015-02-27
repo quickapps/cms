@@ -53,7 +53,7 @@ class AcoManager
     {
         $this->_pluginName = $pluginName;
 
-        if (!$this->_pluginName) {
+        if ($this->_pluginName === null) {
             throw new FatalErrorException(__d('user', 'You must provide a Plugin name to manage.'));
         } else {
             $this->_pluginName = (string)Inflector::camelize($this->_pluginName);
@@ -222,7 +222,7 @@ class AcoManager
 
                 if (class_exists($className)) {
                     $methods = get_this_class_methods($className);
-                    if ($methods) {
+                    if (!empty($methods)) {
                         $path = explode('Controller\\', $className)[1];
                         $path = str_replace_last('Controller', '', $path);
                         $path = str_replace('\\', '/', $path);
@@ -355,7 +355,8 @@ class AcoManager
     {
         $aco = preg_replace('/\/{2,}/', '/', trim($aco, '/'));
         $parts = explode('/', $aco);
-        if (!$parts) {
+
+        if (empty($parts)) {
             return false;
         }
 

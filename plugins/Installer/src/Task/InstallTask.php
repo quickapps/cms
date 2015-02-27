@@ -401,7 +401,7 @@ class InstallTask extends BaseTask
                 $file = new File($filePath);
                 $mime = $file->mime();
 
-                if (!$mime || !in_array($mime, $this->_validMimes)) {
+                if ($mime === false || !in_array($mime, $this->_validMimes)) {
                     $errors[] = __d('installer', 'Invalid file, the given file is not in ZIP format.');
                     $file->delete();
                 }

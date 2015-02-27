@@ -127,10 +127,11 @@ class ImageHandlerController extends FileHandlerController
         $imagePath = normalizePath(WWW_ROOT . "/files/{$instance->settings['upload_folder']}/{$this->request->query['file']}");
         $tmb = ImageToolbox::thumbnail($imagePath, $this->request->query['size']);
 
-        if ($tmb) {
+        if ($tmb !== false) {
             $this->response->file($tmb);
             return $this->response;
         }
+
         throw new NotFoundException(__d('field', 'Thumbnail could not be found, check write permissions?'), 500);
     }
 }

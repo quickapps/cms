@@ -102,7 +102,7 @@ class HooktagManager
     /**
      * Escapes all hooktags from the given content.
      *
-     * @param string $content Text from which to escape hooktags
+     * @param string $text Text from which to escape hooktags
      * @return string Content with all hooktags escaped
      */
     public static function escape($text)

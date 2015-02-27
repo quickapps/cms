@@ -100,7 +100,7 @@ class TermsController extends AppController
         $term = $this->Vocabularies->Terms->newEntity(['vocabulary_id' => $vocabulary->id]);
         $this->Vocabularies->Terms->addBehavior('Tree', ['scope' => ['vocabulary_id' => $vocabulary->id]]);
 
-        if ($this->request->data) {
+        if ($this->request->data()) {
             $term = $this->Vocabularies->Terms->patchEntity($term, $this->request->data, [
                 'fieldList' => [
                     'parent_id',

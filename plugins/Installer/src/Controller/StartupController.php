@@ -472,14 +472,14 @@ class StartupController extends Controller
     protected function _step($check = false)
     {
         $_steps = (array)$this->request->session()->read('Startup._steps');
-
         if ($check === false) {
             $_steps[] = $this->request->params['action'];
             $_steps = array_unique($_steps);
             $this->request->session()->write('Startup._steps', $_steps);
-        } else {
+        } elseif (is_string($check)) {
             return in_array($check, $_steps);
         }
+        return false;
     }
 
     /**

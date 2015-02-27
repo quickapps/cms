@@ -53,7 +53,7 @@ class PluginsController extends AppController
      */
     public function install()
     {
-        if ($this->request->data) {
+        if ($this->request->data()) {
             $activate = false;
             if (isset($this->request->data['activate'])) {
                 $activate = (bool)$this->request->data['activate'];

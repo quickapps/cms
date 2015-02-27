@@ -82,29 +82,26 @@ class ManageController extends AppController
     /**
      * Shows the "new node" form.
      *
-     * @param string $type Node type slug. e.g.: "article", "product-info"
+     * @param string|bool $type Node type slug. e.g.: "article", "product-info"
      * @return void
-     * @throws \Cake\Network\Exception\NotFoundException When content type was not
-     *  found
+     * @throws \Cake\Network\Exception\NotFoundException When content type was not found
      */
     public function add($type = false)
     {
-        if (!$type) {
+        if ($type === false) {
             $this->redirect(['plugin' => 'Node', 'controller' => 'manage', 'action' => 'create', 'prefix' => 'admin']);
         }
 
         $this->loadModel('Node.NodeTypes');
         $this->loadModel('Node.Nodes');
         $this->Nodes->unbindComments();
-        $type = $this->NodeTypes->find()
-            ->where(['slug' => $type])
-            ->first();
+        $type = $this->NodeTypes->find()->where(['slug' => $type])->first();
 
         if (!$type) {
             throw new NotFoundException(__d('node', 'The specified content type does not exists.'));
         }
 
-        if ($this->request->data) {
+        if ($this->request->data()) {
             $data = $this->request->data;
             $data['node_type_slug'] = $type->slug;
             $data['node_type_id'] = $type->id;
@@ -148,7 +145,7 @@ class ManageController extends AppController
         $this->Nodes->unbindComments();
         $node = false;
 
-        if ($revisionId && !$this->request->data) {
+        if (intval($revisionId) > 0 && !$this->request->data()) {
             $this->loadModel('Node.NodeRevisions');
             $revision = $this->NodeRevisions->find()
                 ->where(['id' => $revisionId, 'node_id' => $id])

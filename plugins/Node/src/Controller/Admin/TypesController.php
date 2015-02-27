@@ -92,7 +92,7 @@ class TypesController extends AppController
             throw new NotFoundException(__d('node', 'Content type was not found!'));
         }
 
-        if ($this->request->data) {
+        if ($this->request->data()) {
             $type->accessible('*', true);
             $type->accessible(['id', 'slug'], false);
             $type->set($this->request->data);

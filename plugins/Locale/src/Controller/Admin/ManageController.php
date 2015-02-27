@@ -91,7 +91,7 @@ class ManageController extends AppController
         $languages = LocaleToolbox::languagesList(true);
         $icons = LocaleToolbox::flagsList();
 
-        if ($this->request->data) {
+        if ($this->request->data()) {
             $language = $this->Languages->patchEntity($language, $this->request->data, [
                 'fieldList' => [
                     'name',

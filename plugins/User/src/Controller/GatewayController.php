@@ -239,7 +239,7 @@ class GatewayController extends AppController
         $registered = false;
         $languages = LocaleToolbox::languagesList();
 
-        if ($this->request->data) {
+        if ($this->request->data()) {
             $user->set('status', 0);
             $user->accessible(['id', 'token', 'status', 'last_login', 'created', 'roles'], false);
             $user = $this->Users->patchEntity($user, $this->request->data);
@@ -360,7 +360,7 @@ class GatewayController extends AppController
         $user = $this->Users->get(user()->id, ['conditions' => ['status' => 1]]);
         $languages = LocaleToolbox::languagesList();
 
-        if ($this->request->data) {
+        if ($this->request->data()) {
             $user->accessible(['id', 'username', 'roles', 'status'], false);
             $user = $this->Users->patchEntity($user, $this->request->data);
             if ($this->Users->save($user)) {

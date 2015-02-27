@@ -145,7 +145,7 @@ class ThemeActivatorTask extends BaseTask
      */
     public function activate($themeName = null)
     {
-        if ($themeName) {
+        if ($themeName !== null) {
             $this->config('theme', $themeName);
             $this->plugin($themeName);
         }

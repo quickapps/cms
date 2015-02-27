@@ -64,7 +64,7 @@ class ImageToolbox extends FileToolbox
                 if ($viewModeSettings['size']) {
                     $thumbnail = static::thumbnail(normalizePath(WWW_ROOT . "/files/{$field->metadata->settings['upload_folder']}/{$image['file_name']}"), $viewModeSettings['size']);
 
-                    if ($thumbnail) {
+                    if ($thumbnail !== false) {
                         $thumbnail = basename($thumbnail);
                         $img = $view->Html->image(normalizePath("/files/{$field->metadata->settings['upload_folder']}/.tmb/{$thumbnail}", '/'), $imageOptions);
                     }

@@ -276,7 +276,7 @@ class Plugin extends CakePlugin
                 }
             }
 
-            if ($version) {
+            if ($version !== null) {
                 $json['version'] = $version;
             }
         }

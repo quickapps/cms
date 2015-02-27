@@ -79,7 +79,7 @@ class AcosTable extends Table
             $path = explode('/', $path);
         }
 
-        if (!$path) {
+        if (empty($path)) {
             return false;
         }
 

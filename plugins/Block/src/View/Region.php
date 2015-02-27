@@ -127,13 +127,13 @@ class Region
      *
      * ### Usage:
      *
-     *     // full info:
-     *     $theme = $this->region('left-sidebar')
-     *         ->theme();
+     * ```php
+     * // full info:
+     * $theme = $this->region('left-sidebar')->theme();
      *
-     *     // gets theme's "composer.json" info as an array
-     *     $themeAuthor = $this->region('left-sidebar')
-     *         ->theme('composer.author');
+     * // gets theme's "composer.json" info as an array
+     * $themeAuthor = $this->region('left-sidebar')->theme('composer.author');
+     * ```
      *
      * @param null|string $path If set to a string value, it will extract
      *  the specified value from the theme's info-array. Null (by default)
@@ -142,7 +142,7 @@ class Region
      */
     public function theme($path = null)
     {
-        if ($path == null) {
+        if ($path === null) {
             return $this->_theme;
         }
         return Hash::get($this->_theme, $path);

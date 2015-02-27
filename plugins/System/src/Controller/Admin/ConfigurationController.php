@@ -61,7 +61,7 @@ class ConfigurationController extends AppController
             $arrayContext['defaults'][$var->name] = $var->value;
         }
 
-        if ($this->request->data) {
+        if ($this->request->data()) {
             $validator = $this->_mockValidator();
             $errors = $validator->errors($this->request->data());
 

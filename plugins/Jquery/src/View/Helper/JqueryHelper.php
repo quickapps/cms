@@ -179,7 +179,7 @@ class JqueryHelper extends Helper
      */
     public function theme($themeName = null, $options = [])
     {
-        if (!$themeName) {
+        if ($themeName === null) {
             $default = Configure::read('jQueryUI.defaultTheme');
             $themeName = $default ?: 'Jquery.ui-lightness';
         }

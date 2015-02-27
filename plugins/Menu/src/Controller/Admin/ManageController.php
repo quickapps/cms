@@ -94,7 +94,7 @@ class ManageController extends AppController
         $this->loadModel('Menu.Menus');
         $menu = $this->Menus->get($id);
 
-        if ($this->request->data) {
+        if ($this->request->data()) {
             $data = $this->_prepareData();
             $validator = $this->Menus->validator('default');
             $errors = $validator->errors($data, false);

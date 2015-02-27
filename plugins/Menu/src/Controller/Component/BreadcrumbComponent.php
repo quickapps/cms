@@ -106,7 +106,10 @@ class BreadcrumbComponent extends Component
             }
         }
 
-        BreadcrumbRegistry::push($crumbs, $url);
+        if (is_array($crumbs) || is_string($crumbs)) {
+            BreadcrumbRegistry::push($crumbs, $url);
+        }
+
         return $this;
     }
 

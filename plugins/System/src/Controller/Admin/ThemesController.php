@@ -70,7 +70,7 @@ class ThemesController extends AppController
      */
     public function install()
     {
-        if ($this->request->data) {
+        if ($this->request->data()) {
             if (isset($this->request->data['download'])) {
                 $task = $this->Installer
                     ->task('install')
