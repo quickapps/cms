@@ -93,10 +93,30 @@ class HooktagManager
      * @param string $text Text from which to remove hooktags
      * @return string Content without hooktags markers
      */
-    public static function stripHooktags($text)
+    public static function strip($text)
     {
         $tagregexp = implode('|', array_map('preg_quote', static::_hooktagsList()));
         return preg_replace('/(.?){(' . $tagregexp . ')\b(.*?)(?:(\/))?}(?:(.+?){\/\2})?(.?)/s', '$1$6', $text);
+    }
+
+    /**
+     * Escapes all hooktags from the given content.
+     *
+     * @param string $content Text from which to escape hooktags
+     * @return string Content with all hooktags escaped
+     */
+    public static function escape($text)
+    {
+        $tagregexp = implode('|', array_map('preg_quote', static::_hooktagsList()));
+        preg_match_all('/(.?){(' . $tagregexp . ')\b(.*?)(?:(\/))?}(?:(.+?){\/\2})?(.?)/s', $text, $matches);
+
+        foreach ($matches[0] as $ht) {
+            $replace = str_replace_once('{', '{{', $ht);
+            $replace = str_replace_last('}', '}}', $replace);
+            $text = str_replace($ht, $replace, $text);
+        }
+
+        return $text;
     }
 
     /**

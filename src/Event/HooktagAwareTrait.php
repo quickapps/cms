@@ -96,7 +96,18 @@ trait HooktagAwareTrait
      */
     public function stripHooktags($content)
     {
-        return HooktagManager::stripHooktags($content);
+        return HooktagManager::strip($content);
+    }
+
+    /**
+     * Escapes all hooktags from the given content.
+     *
+     * @param string $content Text from which to escape hooktags
+     * @return string Content with all hooktags escaped
+     */
+    public function escapeHooktags($content)
+    {
+        return HooktagManager::escape($content);
     }
 
     /**
@@ -104,7 +115,7 @@ trait HooktagAwareTrait
      *
      * @return void
      */
-    public function enableHooktags($content)
+    public function enableHooktags()
     {
         return HooktagManager::enable();
     }

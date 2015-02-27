@@ -44,7 +44,7 @@
 	<fieldset>
 		<legend><?php echo __d('node', 'Content'); ?></legend>
 		<?php foreach ($node->_fields as $field): ?>
-			<?php echo $this->Form->input($field); ?>
+			<?php echo $this->escapeHooktags($this->Form->input($field)); ?>
 		<?php endforeach; ?>
 	</fieldset>
 	<?php endif; ?>
