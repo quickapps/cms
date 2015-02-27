@@ -19,75 +19,75 @@ use QuickApps\Event\HookManager;
 /**
  * HookTest class.
  */
-class HookManagerTest extends TestCase {
+class HookManagerTest extends TestCase
+{
 
-	/**
-	 * EventManager instance.
-	 * 
-	 * @var \Cake\Event\EventManager
-	 */
-	protected $_eventManager = null;
+    /**
+     * EventManager instance.
+     * 
+     * @var \Cake\Event\EventManager
+     */
+    protected $_eventManager = null;
 
-	/**
-	 * setUp().
-	 *
-	 * @return void
-	 */
-	public function setUp()
-	{
-		parent::setUp();
+    /**
+     * setUp().
+     *
+     * @return void
+     */
+    public function setUp()
+    {
+        parent::setUp();
 
-		$this->_eventManager = EventManager::instance();
-		if (!$this->_eventManager->listeners('Test.hook')) {
-			$this->_eventManager->attach(function ($event) {
-				return 'event response';
-			}, 'Test.hook');
+        $this->_eventManager = EventManager::instance();
+        if (!$this->_eventManager->listeners('Test.hook')) {
+            $this->_eventManager->attach(function ($event) {
+                return 'event response';
+            }, 'Test.hook');
 
-			$this->_eventManager->attach(function ($event, &$arg1, &$arg2) {
-				$arg1 .= ' altered';
-				$arg2 .= ' altered';
-			}, 'Alter.Test.alter');
-		}
-	}
+            $this->_eventManager->attach(function ($event, &$arg1, &$arg2) {
+                $arg1 .= ' altered';
+                $arg2 .= ' altered';
+            }, 'Alter.Test.alter');
+        }
+    }
 
-	/**
-	 * test triggered() method.
-	 *
-	 * @return void
-	 */
-	public function testTriggered()
-	{
-		$this->assertTrue(HookManager::triggered('unexisting') === 0);
+    /**
+     * test triggered() method.
+     *
+     * @return void
+     */
+    public function testTriggered()
+    {
+        $this->assertTrue(HookManager::triggered('unexisting') === 0);
 
-		HookManager::trigger('Test.hook');
-		$this->assertTrue(HookManager::triggered('Test.hook') === 1);
-	}
+        HookManager::trigger('Test.hook');
+        $this->assertTrue(HookManager::triggered('Test.hook') === 1);
+    }
 
-	/**
-	 * test trigger() method.
-	 *
-	 * @return void
-	 */
-	public function testTrigger()
-	{
-		$return = HookManager::trigger('Test.hook');
+    /**
+     * test trigger() method.
+     *
+     * @return void
+     */
+    public function testTrigger()
+    {
+        $return = HookManager::trigger('Test.hook');
 
-		$this->assertTrue($return instanceof Event);
-		$this->assertEquals($return->result, 'event response');
-	}
+        $this->assertTrue($return instanceof Event);
+        $this->assertEquals($return->result, 'event response');
+    }
 
-	/**
-	 * test alter() method.
-	 *
-	 * @return void
-	 */
-	public function testAlter()
-	{
-		$var1 = 'dummy1';
-		$var2 = 'dummy2';
-		HookManager::alter('Test.alter', $var1, $var2);
-		$this->assertEquals($var1, 'dummy1 altered');
-		$this->assertEquals($var2, 'dummy2 altered');
-	}
-
+    /**
+     * test alter() method.
+     *
+     * @return void
+     */
+    public function testAlter()
+    {
+        $var1 = 'dummy1';
+        $var2 = 'dummy2';
+        HookManager::alter('Test.alter', $var1, $var2);
+        $this->assertEquals($var1, 'dummy1 altered');
+        $this->assertEquals($var2, 'dummy2 altered');
+    }
 }

@@ -20,7 +20,8 @@ use QuickApps\Model\Behavior\SluggableBehavior;
 /**
  * SluggableBehaviorTest class.
  */
-class SluggableBehaviorTest extends TestCase {
+class SluggableBehaviorTest extends TestCase
+{
 
     /**
      * Instance of behavior being tested.
@@ -119,5 +120,4 @@ class SluggableBehaviorTest extends TestCase {
         $this->Behavior->beforeSave($event, $entity);
         $this->assertEquals('dont-touch', $entity->get('slug'));
     }
-
 }

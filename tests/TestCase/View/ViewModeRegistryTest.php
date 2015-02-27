@@ -17,7 +17,8 @@ use QuickApps\View\ViewModeRegistry;
 /**
  * ViewModeRegistryTest class.
  */
-class ViewModeRegistryTest extends TestCase {
+class ViewModeRegistryTest extends TestCase
+{
 
     /**
      * tearDown().
@@ -60,5 +61,4 @@ class ViewModeRegistryTest extends TestCase {
         $this->assertTrue(in_array('test-2', ViewModeRegistry::viewModes()));
         $this->assertTrue(in_array('test-3', ViewModeRegistry::viewModes()));
     }
-
 }

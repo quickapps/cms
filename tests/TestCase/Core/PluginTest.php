@@ -177,5 +177,4 @@ class PluginTest extends TestCase {
         $this->assertEquals($expected6, $result6['versions']);
         $this->assertEquals($expected7, $result7['versions']);
     }
-
 }
