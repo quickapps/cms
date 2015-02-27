@@ -18,58 +18,72 @@ use QuickApps\Event\HooktagManager;
 /**
  * HooktagTest class.
  */
-class HooktagManagerTest extends TestCase {
+class HooktagManagerTest extends TestCase
+{
 
 /**
  * EventManager instance.
  * 
  * @var \Cake\Event\EventManager
  */
-	protected $_eventManager = null;
+    protected $_eventManager = null;
 
 /**
  * setUp().
  *
  * @return void
  */
-	public function setUp() {
-		parent::setUp();
+    public function setUp()
+    {
+        parent::setUp();
 
-		$this->_eventManager = EventManager::instance();
-		if (!$this->_eventManager->listeners('Hooktag.dummy')) {
-			$this->_eventManager->attach(function ($event, $atts, $content, $code) {
-				return '@@DUMMY@@';
-			}, 'Hooktag.dummy');
+        $this->_eventManager = EventManager::instance();
+        if (!$this->_eventManager->listeners('Hooktag.dummy')) {
+            $this->_eventManager->attach(function ($event, $atts, $content, $code) {
+                return '@@DUMMY@@';
+            }, 'Hooktag.dummy');
 
-			$this->_eventManager->attach(function ($event, $atts, $content, $code) {
-				return $atts['at'];
-			}, 'Hooktag.dummy_atts');
+            $this->_eventManager->attach(function ($event, $atts, $content, $code) {
+                return $atts['at'];
+            }, 'Hooktag.dummy_atts');
 
-			$this->_eventManager->attach(function ($event, $atts, $content, $code) {
-				return $content;
-			}, 'Hooktag.enclosed');
-		}
-	}
+            $this->_eventManager->attach(function ($event, $atts, $content, $code) {
+                return $content;
+            }, 'Hooktag.enclosed');
+        }
+    }
 
 /**
  * test hooktags() method.
  *
  * @return void
  */
-	public function testHooktags() {
-		$this->assertEquals('some text @@DUMMY@@', HooktagManager::hooktags('some text {dummy /}'));
-		$this->assertEquals('hello world', HooktagManager::hooktags('hello {dummy_atts at=world/}'));
-		$this->assertEquals('hello world!', HooktagManager::hooktags('hello {enclosed}world!{/enclosed}'));
-	}
+    public function testHooktags()
+    {
+        $this->assertEquals('some text @@DUMMY@@', HooktagManager::hooktags('some text {dummy /}'));
+        $this->assertEquals('hello world', HooktagManager::hooktags('hello {dummy_atts at=world/}'));
+        $this->assertEquals('hello world!', HooktagManager::hooktags('hello {enclosed}world!{/enclosed}'));
+    }
 
 /**
- * test stripHooktags() method.
+ * test strip() method.
  *
  * @return void
  */
-	public function testStripHooktags() {
-		$this->assertEquals('some text ', HooktagManager::stripHooktags('some text {dummy /}'));
-		$this->assertEquals('hello ', HooktagManager::stripHooktags('hello {dummy_atts at=world/}'));
-	}
+    public function testStrip()
+    {
+        $this->assertEquals('some text ', HooktagManager::strip('some text {dummy /}'));
+        $this->assertEquals('hello ', HooktagManager::strip('hello {dummy_atts at=world/}'));
+    }
 
+/**
+ * test scape() method.
+ *
+ * @return void
+ */
+    public function testEscape()
+    {
+        $this->assertEquals('some text {{dummy /}}', HooktagManager::escape('some text {dummy /}'));
+        $this->assertEquals('hello {{dummy_atts at=world/}}', HooktagManager::escape('hello {dummy_atts at=world/}'));
+    }
 }
