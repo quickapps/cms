@@ -194,7 +194,7 @@ class View extends CakeView
             }
         }
 
-        return $html;
+        return $this->hooktags($html);
     }
 
     /**

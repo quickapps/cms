@@ -44,7 +44,7 @@ class SystemHooktag implements EventListenerInterface
     /**
      * Implements the "random" hooktag.
      *
-     *     [random]1,2,3[/random]
+     *     {random}1,2,3{/random}
      *
      * @param \Cake\Event\Event $event The event that was fired
      * @param array $atts An associative array of attributes, or an empty string if
@@ -68,7 +68,7 @@ class SystemHooktag implements EventListenerInterface
     /**
      * Implements the "t" hooktag.
      *
-     *     [t]Text for translate[/t]
+     *     {t}Text for translate{/t}
      *
      * @param \Cake\Event\Event $event The event that was fired
      * @param array $atts An associative array of attributes, or an empty string if
@@ -90,7 +90,7 @@ class SystemHooktag implements EventListenerInterface
     /**
      * Implements the "url" hooktag.
      *
-     *     [url]/some/url/on/my/site[/url]
+     *     {url}/some/url/on/my/site{/url}
      *
      * @param \Cake\Event\Event $event The event that was fired
      * @param array $atts An associative array of attributes, or an empty string if
@@ -113,7 +113,7 @@ class SystemHooktag implements EventListenerInterface
     /**
      * Implements the "date" hooktag.
      *
-     *     [date format=d-m-Y]2014-05-06[/date]
+     *     {date format=d-m-Y}2014-05-06{/date}
      *
      * @param \Cake\Event\Event $event The event that was fired
      * @param array $atts An associative array of attributes, or an empty string if
@@ -139,9 +139,9 @@ class SystemHooktag implements EventListenerInterface
     /**
      * Implements the "locale" hooktag.
      *
-     *     [locale code /]
-     *     [locale name /]
-     *     [locale direction /]
+     *     {locale code /}
+     *     {locale name /}
+     *     {locale direction /}
      *
      * @param \Cake\Event\Event $event The event that was fired
      * @param array $atts An associative array of attributes, or an empty string if

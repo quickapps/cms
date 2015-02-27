@@ -35,7 +35,7 @@
 		<hr />
 
 		<p>
-			<code>[locale OPTION/]</code>
+			<code>{{locale OPTION /}}</code>
 			<p>
 				Possible values of OPTION are: <em>code, name, native or direction.</em>
 				<ul>
@@ -47,27 +47,27 @@
 		</p>
 
 		<p>
-			<code>[locale /]</code>
-			<p>Shortcut for [language code] which return current language code (en, es, fr, etc).</p>
+			<code>{{locale /}}</code>
+			<p>Shortcut for {{language code}} which return current language code (en, es, fr, etc).</p>
 		</p>
 
 		<p>
-			<code>[t domain=DOMAIN]text to translate by domain[/t]</code>
-			<p>Search for translation in specified domain, e.g: [t domain=System]Help[/t] will try to find translation for <em>Help</em> in <em>System</em> plugin translation table.</p>
+			<code>{{t domain=DOMAIN}text to translate by domain{/t}}</code>
+			<p>Search for translation in specified domain, e.g: <em>{{t domain=System}Help{/t}}</em> will try to find translation for <em>Help</em> in <em>System</em> plugin translation table.</p>
 		</p>
 
 		<p>
-			<code>[t]text to translate using default domain[/t]</code>
+			<code>{{t}text to translate using default domain{/t}}</code>
 			<p>Search for translation in default translation domain.</p>
 		</p>
 
 		<p>
-			<code>[url]/some_path/image.jpg[/url]</code>
+			<code>{{url}/some_path/image.jpg{/url}}</code>
 			<p>Return well formatted url. URL can be an relative url (/type-of-content/my-post.html) or external (http://www.example.com/my-url).</p>
 		</p>
 
 		<p>
-			<code>[date format=FORMAT]TIME_STAMP_OR_ENGLISH_DATE[/date]</code>
+			<code>{{date format=FORMAT}TIME_STAMP_OR_ENGLISH_DATE{/date}}</code>
 			<p>
 				Returns php result of <em>date(FORMAT, TIME_STAMP_OR_ENGLISH_DATE)</em>. <a href="http://www.php.net/manual/function.date.php" target="_blank">More info about date()</a><br/>
 				It accepts both: numeric time stamp or english formatted date (Year-month-day Hours:Mins:Secs) as second parameter.
@@ -75,15 +75,15 @@
 		</p>
 
 		<p>
-			<code>[date format=FORMAT /]</code>
+			<code>{{date format=FORMAT /}}</code>
 			<p>Returns php result of <em>date(FORMAT)</em>. <a href="http://www.php.net/manual/function.date.php" target="_blank">More info about date()</a></p>
 		</p>
 
 		<p>
-			<code>[random]values,by,comma[/random]</code>
+			<code>{{random}values,by,comma{/random}}</code>
 			<p>
-				Returns a random value from the specified group. e.g. [random]one,two,three[/random].<br />
-				If only two numeric values are given as group, then PHP function <a href="http://www.php.net/manual/function.rand.php" target="_blank">rand(min, max)</a> is returned. e.g.: [random]3,10[/random]
+				Returns a random value from the specified group. e.g. <em>{{random}one,two,three{/random}}</em>.<br />
+				If only two numeric values are given as group, then PHP function <a href="http://www.php.net/manual/function.rand.php" target="_blank">rand(min, max)</a> is returned. e.g.: <em>{{random}3,10{/random}}</em>
 			</p>
 		</p>
 	</dd>

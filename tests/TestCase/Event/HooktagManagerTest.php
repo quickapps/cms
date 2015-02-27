@@ -57,9 +57,9 @@ class HooktagManagerTest extends TestCase {
  * @return void
  */
 	public function testHooktags() {
-		$this->assertEquals('some text @@DUMMY@@', HooktagManager::hooktags('some text [dummy /]'));
-		$this->assertEquals('hello world', HooktagManager::hooktags('hello [dummy_atts at=world/]'));
-		$this->assertEquals('hello world!', HooktagManager::hooktags('hello [enclosed]world![/enclosed]'));
+		$this->assertEquals('some text @@DUMMY@@', HooktagManager::hooktags('some text {dummy /}'));
+		$this->assertEquals('hello world', HooktagManager::hooktags('hello {dummy_atts at=world/}'));
+		$this->assertEquals('hello world!', HooktagManager::hooktags('hello {enclosed}world!{/enclosed}'));
 	}
 
 /**
@@ -68,8 +68,8 @@ class HooktagManagerTest extends TestCase {
  * @return void
  */
 	public function testStripHooktags() {
-		$this->assertEquals('some text ', HooktagManager::stripHooktags('some text [dummy /]'));
-		$this->assertEquals('hello ', HooktagManager::stripHooktags('hello [dummy_atts at=world/]'));
+		$this->assertEquals('some text ', HooktagManager::stripHooktags('some text {dummy /}'));
+		$this->assertEquals('hello ', HooktagManager::stripHooktags('hello {dummy_atts at=world/}'));
 	}
 
 }

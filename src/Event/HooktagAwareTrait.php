@@ -31,7 +31,7 @@ trait HooktagAwareTrait
      * If any is found a hook invocation is fired asking for its Hooktag Lister
      * method. For example:
      *
-     *     [nice_button color=green]Click Me![/nice_button]
+     *     {nice_button color=green}Click Me!{/nice_button}
      *
      * You must define a Hooktag Lister `Hooktag.nice_button`:
      *
@@ -57,7 +57,7 @@ trait HooktagAwareTrait
      * user. Attribute names are always converted to lowercase before they are
      * passed into the handler function. Values remains untouched.
      *
-     *     [some_hooktag Foo="bAr"]
+     *     {some_hooktag Foo="bAr" /}
      *
      * Produces:
      *
@@ -72,7 +72,7 @@ trait HooktagAwareTrait
      *  Holds the enclosed content (if the hooktag is used in its enclosing form).
      *  For self-closing hooktags $content will be null:
      *
-     *  [self_close some=thing /]
+     *  {self_close some=thing /}
      *
      *
      * ### $tag
@@ -97,5 +97,27 @@ trait HooktagAwareTrait
     public function stripHooktags($content)
     {
         return HooktagManager::stripHooktags($content);
+    }
+
+    /**
+     * Enables hooktags feature.
+     *
+     * @return void
+     */
+    public function enableHooktags($content)
+    {
+        return HooktagManager::enable();
+    }
+
+    /**
+     * Globally disables hooktags feature.
+     *
+     * The `hooktags()` method will not work when disabled.
+     *
+     * @return void
+     */
+    public function disableHooktags()
+    {
+        return HooktagManager::disable();
     }
 }

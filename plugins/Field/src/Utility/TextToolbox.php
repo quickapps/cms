@@ -64,15 +64,9 @@ class TextToolbox
     public static function formatter(Field $field)
     {
         $viewModeSettings = $field->viewModeSettings;
-        if ($viewModeSettings['hooktags']) {
-            $content = static::getInstance()->hooktags($field->value);
-        } else {
-            $content = static::getInstance()->stripHooktags($field->value);
-        }
-
         $processing = $field->metadata->settings['text_processing'];
         $formatter = $viewModeSettings['formatter'];
-        $content = static::process($content, $processing);
+        $content = static::process($field->value, $processing);
 
         switch ($formatter) {
             case 'plain':

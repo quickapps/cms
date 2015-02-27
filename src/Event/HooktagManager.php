@@ -21,7 +21,25 @@ use QuickApps\View\View;
 /**
  * Provides methods for hooktag parsing.
  *
- * Hooktags are WordPress's shortcodes equivalent for QuickAppsCMS.
+ * Hooktags are WordPress's shortcodes equivalent for QuickAppsCMS. Hooktags looks
+ * as follow:
+ *
+ * 1. Self-closing form:
+ *
+ *     {my_hooktag attr1=val1 attr2=val2 ... /}
+ *
+ * 2. Enclosed form:
+ *
+ *     {my_hooktag attr1=val1 attr2=val2 ... } content {/my_hooktag}
+ *
+ * Hooktags can be escaped by using an additional `{` symbol, for instance:
+ *
+ *     {{ something }}
+ *     // this will actually prints `{ something }`
+ *
+ *     {{something} dummy {/something}}
+ *     // this will actually prints `{something} dummy {/something}`
+ *
  */
 class HooktagManager
 {
@@ -37,6 +55,15 @@ class HooktagManager
     protected static $_defaultContext = null;
 
     /**
+     * Hooktags parser status.
+     *
+     * The `hooktags()` method will not work when set to false.
+     *
+     * @var boolean
+     */
+    protected static $_enabled = true;
+
+    /**
      * Look for hooktags in the given text.
      *
      * @param string $content The content to parse
@@ -46,7 +73,7 @@ class HooktagManager
      */
     public static function hooktags($content, $context = null)
     {
-        if (strpos($content, '[') === false) {
+        if (!static::$_enabled || strpos($content, '{') === false) {
             return $content;
         }
 
@@ -69,7 +96,29 @@ class HooktagManager
     public static function stripHooktags($text)
     {
         $tagregexp = implode('|', array_map('preg_quote', static::_hooktagsList()));
-        return preg_replace('/(.?)\[(' . $tagregexp . ')\b(.*?)(?:(\/))?\](?:(.+?)\[\/\2\])?(.?)/s', '$1$6', $text);
+        return preg_replace('/(.?){(' . $tagregexp . ')\b(.*?)(?:(\/))?}(?:(.+?){\/\2})?(.?)/s', '$1$6', $text);
+    }
+
+    /**
+     * Enables hooktags feature.
+     *
+     * @return void
+     */
+    public static function enable()
+    {
+        static::$_enabled = true;
+    }
+
+    /**
+     * Globally disables hooktags feature.
+     *
+     * The `hooktags()` method will not work when disabled.
+     *
+     * @return void
+     */
+    public static function disable()
+    {
+        static::$_enabled = false;
     }
 
     /**
@@ -93,12 +142,12 @@ class HooktagManager
      *
      * The regular expression contains 6 different sub matches to help with parsing.
      *
-     * 1 - An extra [ to allow for escaping hooktag with double [[]]
+     * 1 - An extra { to allow for escaping hooktags: {{ something }}
      * 2 - The hooktag name
      * 3 - The hooktag argument list
      * 4 - The self closing /
      * 5 - The content of a hooktag when it wraps some content.
-     * 6 - An extra ] to allow for escaping hooktag with double [[]]
+     * 6 - An extra } to allow for escaping hooktags
      *
      * @author WordPress
      * @return string The hooktag search regular expression
@@ -109,34 +158,34 @@ class HooktagManager
 
         // @codingStandardsIgnoreStart
         return
-            '\\['                                // Opening bracket
-            . '(\\[?)'                           // 1: Optional second opening bracket for escaping hooktags: [[tag]]
+            '{'                                  // Opening brackets
+            . '({?)'                             // 1: Optional second opening bracket for escaping hooktags: {{tag}}
             . "({$tagregexp})"                   // 2: Hooktag name
             . '(?![\\w-])'                       // Not followed by word character or hyphen
             . '('                                // 3: Unroll the loop: Inside the opening hooktag tag
-            .     '[^\\]\\/]*'                   // Not a closing bracket or forward slash
+            .     '[^}\\/]*'                    // Not a closing bracket or forward slash
             .     '(?:'
-            .         '\\/(?!\\])'               // A forward slash not followed by a closing bracket
-            .         '[^\\]\\/]*'               // Not a closing bracket or forward slash
+            .         '\\/(?!})'                // A forward slash not followed by a closing bracket
+            .         '[^}\\/]*'                // Not a closing bracket or forward slash
             .     ')*?'
             . ')'
             . '(?:'
             .     '(\\/)'                        // 4: Self closing tag ...
-            .     '\\]'                          // ... and closing bracket
+            .     '}'                           // ... and closing bracket
             . '|'
-            .     '\\]'                          // Closing bracket
+            .     '}'                           // Closing bracket
             .     '(?:'
             .         '('                        // 5: Unroll the loop: Optionally, anything between the opening and closing hooktag tags
-            .             '[^\\[]*+'             // Not an opening bracket
+            .             '[^{]*+'              // Not an opening bracket
             .             '(?:'
-            .                 '\\[(?!\\/\\2\\])' // An opening bracket not followed by the closing hooktag tag
-            .                 '[^\\[]*+'         // Not an opening bracket
+            .                 '{(?!\\/\\2})'   // An opening bracket not followed by the closing hooktag tag
+            .                 '[^{]*+'          // Not an opening bracket
             .             ')*+'
             .         ')'
-            .         '\\[\\/\\2\\]'             // Closing hooktag tag
+            .         '{\\/\\2}'               // Closing hooktag tag
             .     ')?'
             . ')'
-            . '(\\]?)';                          // 6: Optional second closing brocket for escaping hooktags: [[tag]]
+            . '(}?)';                            // 6: Optional second closing bracket for escaping hooktags: {{tag}}
         // @codingStandardsIgnoreEnd
     }
 
@@ -171,8 +220,8 @@ class HooktagManager
     {
         $EventManager = EventManager::instance();
 
-        // allow [[foo]] syntax for escaping a tag
-        if ($m[1] == '[' && $m[6] == ']') {
+        // allow {{foo}} syntax for escaping a tag
+        if ($m[1] == '{' && $m[6] == '}') {
             return substr($m[0], 1, -1);
         }
 

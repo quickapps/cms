@@ -101,7 +101,13 @@ class FieldHook implements EventListenerInterface
             $options = array_merge(['edit' => false], $options);
             $renderFieldHook = $this->trigger(["Field.{$field->metadata['handler']}.Entity.display", $event->subject()], $field, $options);
             $event->stopPropagation(); // We don't want other plugins to catch this
-            return (string)$renderFieldHook->result;
+            $result = (string)$renderFieldHook->result;
+
+            if (!$field->metadata->view_modes[$viewMode]['hooktags']) {
+                $result = $event->subject()->stripHooktags($result);
+            }
+
+            return $result;
         }
 
         return '';
