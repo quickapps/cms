@@ -45,7 +45,7 @@ abstract class Operator
     }
 
     /**
-     * Alerts the given query and applies this operator's filter conditions.
+     * Alters the given query and applies this operator's filter conditions.
      *
      * @param \Cake\ORM\Query $query The query to alter
      * @param string $value The value this this operator, that is whatever comes
