@@ -15,7 +15,7 @@ use Cake\Event\Event;
 use Cake\Filesystem\File;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
-use Field\FieldHandler;
+use Field\BaseHandler;
 use Field\Model\Entity\Field;
 
 /**
@@ -23,7 +23,7 @@ use Field\Model\Entity\Field;
  *
  * This field allows attach files to entities.
  */
-class FileField extends FieldHandler
+class FileField extends BaseHandler
 {
 
     /**

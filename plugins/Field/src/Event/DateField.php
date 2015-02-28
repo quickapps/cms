@@ -12,7 +12,7 @@
 namespace Field\Event;
 
 use Cake\Event\Event;
-use Field\FieldHandler;
+use Field\BaseHandler;
 use Field\Model\Entity\Field;
 use Field\Utility\DateToolbox;
 
@@ -21,7 +21,7 @@ use Field\Utility\DateToolbox;
  *
  * This field allows attach date pickers to entities.
  */
-class DateField extends FieldHandler
+class DateField extends BaseHandler
 {
 
     /**

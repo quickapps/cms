@@ -12,7 +12,7 @@
 namespace Field\Event;
 
 use Cake\Event\Event;
-use Field\FieldHandler;
+use Field\BaseHandler;
 use Field\Model\Entity\Field;
 use Field\Utility\TextToolbox;
 
@@ -21,7 +21,7 @@ use Field\Utility\TextToolbox;
  *
  * This field allows to store text information, such as textboxes, textareas, etc.
  */
-class TextField extends FieldHandler
+class TextField extends BaseHandler
 {
 
     /**

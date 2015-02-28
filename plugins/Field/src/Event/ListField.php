@@ -12,7 +12,7 @@
 namespace Field\Event;
 
 use Cake\Event\Event;
-use Field\FieldHandler;
+use Field\BaseHandler;
 use Field\Model\Entity\Field;
 
 /**
@@ -20,7 +20,7 @@ use Field\Model\Entity\Field;
  *
  * Defines list field types, used to create selection lists.
  */
-class ListField extends FieldHandler
+class ListField extends BaseHandler
 {
 
     /**

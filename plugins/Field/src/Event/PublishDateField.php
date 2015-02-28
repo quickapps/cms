@@ -13,8 +13,8 @@ namespace Field\Event;
 
 use Cake\Event\Event;
 use Cake\Routing\Router;
+use Field\BaseHandler;
 use Field\Event\DateField;
-use Field\FieldHandler;
 use Field\Model\Entity\Field;
 use Field\Utility\DateToolbox;
 
@@ -24,7 +24,7 @@ use Field\Utility\DateToolbox;
  * Allows scheduling of contents by making them available only between
  * certain dates.
  */
-class PublishDateField extends FieldHandler
+class PublishDateField extends BaseHandler
 {
 
     /**

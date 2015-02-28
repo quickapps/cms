@@ -19,12 +19,12 @@ use QuickApps\Event\HookAwareTrait;
 use QuickApps\Event\HooktagAwareTrait;
 
 /**
- * Field Handler base class.
+ * Base Handler class.
  *
- * All Field Handlers classes should extend this class. It adds some utility
+ * All handlers classes should extend this class. It adds some utility
  * methods, and define some default events handlers.
  */
-class FieldHandler implements EventListenerInterface
+class BaseHandler implements EventListenerInterface
 {
 
     use HookAwareTrait;

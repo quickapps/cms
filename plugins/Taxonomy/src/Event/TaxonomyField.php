@@ -15,7 +15,7 @@ use Cake\Cache\Cache;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
-use Field\FieldHandler;
+use Field\BaseHandler;
 use Field\Model\Entity\Field;
 
 /**
@@ -23,7 +23,7 @@ use Field\Model\Entity\Field;
  *
  * This field allows to store terms information. Used to classify contents.
  */
-class TaxonomyField extends FieldHandler
+class TaxonomyField extends BaseHandler
 {
 
     /**

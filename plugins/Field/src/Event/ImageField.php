@@ -15,7 +15,7 @@ use Cake\Event\Event;
 use Cake\Filesystem\File;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
-use Field\FieldHandler;
+use Field\BaseHandler;
 use Field\Model\Entity\Field;
 use Field\Utility\ImageToolbox;
 
@@ -24,7 +24,7 @@ use Field\Utility\ImageToolbox;
  *
  * This field allows attach images to entities.
  */
-class ImageField extends FieldHandler
+class ImageField extends BaseHandler
 {
 
     /**
