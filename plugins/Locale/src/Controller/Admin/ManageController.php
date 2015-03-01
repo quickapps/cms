@@ -152,6 +152,7 @@ class ManageController extends AppController
         $language = $this->Languages->get($id);
         $unordered = [];
         $direction = !in_array($direction, ['up', 'down']) ? 'up' : $direction;
+        $updated = false;
         $position = false;
         $list = $this->Languages->find()
             ->select(['id', 'ordering'])
@@ -167,6 +168,8 @@ class ManageController extends AppController
         }
 
         if ($position !== false) {
+            // fix movement orientation from top-down to left-right
+            $direction = $direction == 'up' ? 'down' : 'up';
             $ordered = array_move($unordered, $position, $direction);
             $before = md5(serialize($unordered));
             $after = md5(serialize($ordered));
@@ -174,9 +177,15 @@ class ManageController extends AppController
             if ($before != $after) {
                 foreach ($ordered as $k => $l) {
                     $l->set('ordering', $k);
-                    $this->Languages->save($l);
+                    if ($this->Languages->save($l)) {
+                        $updated = true;
+                    }
                 }
             }
+        }
+
+        if ($updated) {
+            $this->Flash->success(__d('locale', 'Language successfully reordered!'));
         }
 
         $this->redirect($this->referer());
