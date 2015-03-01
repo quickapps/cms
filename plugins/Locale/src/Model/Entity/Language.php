@@ -41,6 +41,7 @@ class Language extends Entity
      */
     protected function _getLanguageCode()
     {
+        $locale = localeParts($this->get('code'));
         return $locale['language'];
     }
 }
