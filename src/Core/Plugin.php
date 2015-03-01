@@ -36,8 +36,9 @@ class Plugin extends CakePlugin
      * Default options for composer's json file.
      *
      * @var array
+     * @see https://getcomposer.org/doc/04-schema.md
      */
-    protected static $_defaultComposerJson = [
+    protected static $_defaultComposerSchema = [
         'name' => null,
         'description' => '---',
         'version' => '0.0.1-dev',
@@ -221,7 +222,7 @@ class Plugin extends CakePlugin
                 throw new FatalErrorException(__('Missing or corrupt "composer.json" file for plugin "{0}"', $plugin));
             }
 
-            $json = Hash::merge(static::$_defaultComposerJson, $json);
+            $json = Hash::merge(static::$_defaultComposerSchema, $json);
             $info['composer'] = $json;
             $info['settings'] = [];
             $dbInfo = TableRegistry::get('System.Plugins')
