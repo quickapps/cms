@@ -264,10 +264,11 @@ class MenuHelper extends Helper
             if (intval($this->config('split')) > 1) {
                 if (is_object($items) && method_exists($items, 'toArray')) {
                     $arrayItems = $items->toArray();
+                } else {
+                    $arrayItems = (array)$items;
                 }
 
                 $chunkOut = '';
-                $arrayItems = (array)$items;
                 $size = round(count($arrayItems) / intval($this->config('split')));
                 $chunk = array_chunk($arrayItems, $size);
                 $i = 1;
