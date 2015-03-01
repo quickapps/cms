@@ -65,8 +65,8 @@ function snapshot() {
         'languages' => [
             'en-us' => [
                 'name' => 'English',
-                'code' => 'en-us',
-                'iso' => 'en',
+                'locale' => 'en-us',
+                'code' => 'en',
                 'country' => 'US',
                 'direction' => 'ltr',
                 'icon' => 'us.gif',
