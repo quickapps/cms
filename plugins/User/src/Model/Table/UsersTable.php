@@ -133,19 +133,22 @@ class UsersTable extends Table
 
         // password policies
         $settings = Plugin::settings('User');
-        $len = intval($settings['password_min_length']);
-        $validator
-            ->add('password', [
-                'length' => [
-                    'rule' => function ($value, $context) use ($len) {
-                        $raw = isset($context['data']['password2']) ? $context['data']['password2'] : '';
-                        return mb_strlen($raw) >= $len;
-                    },
-                    'message' => __d('user', 'Password must be at least {0} characters long.', $len),
-                ]
-            ]);
 
-        if ($settings['password_uppercase']) {
+        if (isset($settings['password_min_length'])) {
+            $len = intval($settings['password_min_length']);
+            $validator
+                ->add('password', [
+                    'length' => [
+                        'rule' => function ($value, $context) use ($len) {
+                            $raw = isset($context['data']['password2']) ? $context['data']['password2'] : '';
+                            return mb_strlen($raw) >= $len;
+                        },
+                        'message' => __d('user', 'Password must be at least {0} characters long.', $len),
+                    ]
+                ]);
+        }
+
+        if (isset($settings['password_uppercase']) && $settings['password_uppercase']) {
             $validator
                 ->add('password', [
                     'uppercase' => [
@@ -158,7 +161,7 @@ class UsersTable extends Table
                 ]);
         }
 
-        if ($settings['password_lowercase']) {
+        if (isset($settings['password_lowercase']) && $settings['password_lowercase']) {
             $validator
                 ->add('password', [
                     'lowercase' => [
@@ -171,7 +174,7 @@ class UsersTable extends Table
                 ]);
         }
 
-        if ($settings['password_number']) {
+        if (isset($settings['password_number']) && $settings['password_number']) {
             $validator
                 ->add('password', [
                     'number' => [
@@ -184,7 +187,7 @@ class UsersTable extends Table
                 ]);
         }
 
-        if ($settings['password_non_alphanumeric']) {
+        if (isset($settings['password_non_alphanumeric']) && $settings['password_non_alphanumeric']) {
             $validator
                 ->add('password', [
                     'non_alphanumeric' => [
