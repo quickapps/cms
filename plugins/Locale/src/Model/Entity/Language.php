@@ -15,32 +15,32 @@ use Cake\ORM\Entity;
 
 /**
  * Represents a single "language" within "languages" table.
+ *
+ * @property int $id
+ * @property string $countryCode
+ * @property string $languageCode
  */
 class Language extends Entity
 {
 
     /**
-     * Returns language country.
+     * Returns language's country code.
      *
-     * @return string language country. e.g. "US", "ES"
+     * @return string language's country code. e.g. "NZ" (for en_NZ), "EE" (for et_EE)
      */
-    protected function _getCountry()
+    protected function _getCountryCode()
     {
-        $parts = explode('-', $this->get('code'));
-        if (isset($parts[1])) {
-            return strtoupper($parts[1]);
-        }
-        return strtoupper($parts[0]);
+        $locale = localeParts($this->get('code'));
+        return $locale['country'];
     }
 
     /**
      * Gets language's ISO-639-1 code.
      *
-     * @return string language country. e.g. "en", "es"
+     * @return string language's code. e.g. "en" (for en_NZ), "et" (for et_EE)
      */
-    protected function _getIso()
+    protected function _getLanguageCode()
     {
-        $parts = explode('-', $this->get('code'));
-        return strtolower($parts[0]);
+        return $locale['language'];
     }
 }

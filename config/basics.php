@@ -128,16 +128,12 @@ if (!function_exists('snapshot')) {
             }
 
             foreach ($languages as $language) {
-                // mimics Locale\Mode\Entity\Language
-                $country = explode('-', $language->code);
-                $country = isset($country[1]) ? strtoupper($country[1]) : strtoupper($country[0]);
-                $iso = strtolower(explode('-', $language->code)[0]);
-
+                $locale = localeParts($language->code);
                 $snapshot['languages'][$language->code] = [
                     'name' => $language->name,
-                    'code' => $language->code,
-                    'iso' => $iso,
-                    'country' => $country,
+                    'locale' => $language->code,
+                    'code' => $locale['language'],
+                    'country' => $locale['country'],
                     'direction' => $language->direction,
                     'icon' => $language->icon,
                 ];
@@ -347,6 +343,35 @@ if (!function_exists('pluginName')) {
         }
         $parts = explode('/', $name);
         return Inflector::camelize(str_replace('-', '_', end($parts)));
+    }
+}
+
+if (!function_exists('localeParts')) {
+    /**
+     * Parses the given locale ID and returns its parts: language and country
+     * codes.
+     *
+     * ### Example:
+     *
+     * ```php
+     * localeParts('en_NZ');
+     * // returns: ['language' => 'en', 'country' => 'NZ']
+     * ```
+     *
+     * @param string $localeId Locale code. e.g. "en_NZ" (or "en-NZ") for
+     *  "English New Zealand" 
+     * @return array With to keys for holding `country` and `language` codes
+     */
+    function localeParts($localeId) {
+        $localeId = str_replace('_', '-', $localeId);
+        $parts = explode('-', $localeId);
+        $country = isset($parts[1]) ? strtoupper($parts[1]) : strtoupper($parts[0]);
+        $language = strtolower($parts[0]);
+
+        return [
+            'language' => $language,
+            'country' => $country,
+        ];
     }
 }
 
