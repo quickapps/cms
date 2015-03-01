@@ -12,7 +12,7 @@
 namespace QuickApps\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
-require QA_CORE . '/config/Schema/FieldValuesSchema.php';
+require_once QA_CORE . '/config/Schema/FieldValuesSchema.php';
 
 class FieldValuesFixture extends TestFixture
 {

@@ -12,7 +12,7 @@
 namespace QuickApps\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
-require QA_CORE . '/config/Schema/MenuLinksSchema.php';
+require_once QA_CORE . '/config/Schema/MenuLinksSchema.php';
 
 class MenuLinksFixture extends TestFixture
 {

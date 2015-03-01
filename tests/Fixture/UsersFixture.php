@@ -12,7 +12,7 @@
 namespace QuickApps\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
-require QA_CORE . '/config/Schema/UsersSchema.php';
+require_once QA_CORE . '/config/Schema/UsersSchema.php';
 
 class UsersFixture extends TestFixture
 {

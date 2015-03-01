@@ -12,7 +12,7 @@
 namespace QuickApps\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
-require QA_CORE . '/config/Schema/VocabulariesSchema.php';
+require_once QA_CORE . '/config/Schema/VocabulariesSchema.php';
 
 class VocabulariesFixture extends TestFixture
 {
