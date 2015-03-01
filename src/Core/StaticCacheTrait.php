@@ -40,12 +40,11 @@ trait StaticCacheTrait
      *   e.g. `$allCache = static::cache()`
      * - Set key to null and value to anything to find the first key holding the
      *   given value. e.g. `$key = static::cache(null, 'search key for this value')`,
-     *   if no key for the given
-     *   value is found NULL will be returned.
+     *   if no key for the given value is found NULL will be returned.
      *
-     * ## Examples:
+     * ### Examples:
      *
-     * Writing cache:
+     * #### Writing cache:
      *
      * ```php
      * static::cache('user_name', 'John');
@@ -55,7 +54,7 @@ trait StaticCacheTrait
      * // returns 'Locke'
      * ```
      *
-     * Reading cache:
+     * #### Reading cache:
      *
      * ```php
      * static::cache('user_name'); // returns: John
@@ -63,13 +62,13 @@ trait StaticCacheTrait
      * static::cache('unexisting_key'); // returns: null
      * ```
      *
-     * Reading the entire cache:
+     * #### Reading the entire cache:
      *
      * ```php
      * static::cache(); // returns: ['user_name' => 'John', 'user_last' => 'Locke']
      * ```
      *
-     * Searching keys:
+     * #### Searching keys:
      *
      * ```php
      * static::cache(null, 'Locke'); // returns: user_last
