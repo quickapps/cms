@@ -97,7 +97,7 @@ class BlockHook implements EventListenerInterface
      *
      * ### Render block based on theme's region & view-mode
      *
-     *     render_block_[region-name]_[view-mode]
+     *     render_block_[region-name]_[view-mode].ctp
      *
      * Renders the given block based on theme's **region-name and view-mode**, for
      * example:
@@ -114,7 +114,7 @@ class BlockHook implements EventListenerInterface
      *
      * ### Render block based on theme's region
      *
-     *     render_block_[region-name]
+     *     render_block_[region-name].ctp
      *
      * Similar as before, but based on theme's **region-name** (and any view-mode),
      * for example:
@@ -128,7 +128,9 @@ class BlockHook implements EventListenerInterface
      *
      *     render_block.ctp
      *
-     * This is the global render, if none of the above is found we try to use this last.
+     * This is the global render, if none of the above renders is found we try to
+     * use this last. Themes can overwrite this view element by creating a new one
+     * at `ExampleTheme/Template/Element/render_block.ctp`.
      *
      * ---
      *

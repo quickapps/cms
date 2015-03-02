@@ -87,55 +87,58 @@ class NodeHook implements EventListenerInterface
      * This method looks for specialized renders in the order described below,
      * if one is not found we look the next one, etc.
      *
-     * ### Render node per node-type & view-mode
+     * ### Render node based on node-type & view-mode
      *
-     *      render_node_[node-type]_[view-mode]
+     *      render_node_[node-type]_[view-mode].ctp
      *
-     * Renders the given node per `node-type` + `view-mode` combination:
+     * Renders the given node based on `node-type` + `view-mode` combination, for
+     * example:
      *
-     *     // render for "article" nodes in "full" view-mode
-     *     render_node_article_full.ctp
+     * - render_node_article_full.ctp: Render for "article" nodes in "full"
+     *   view-mode.
      *
-     *     // render for "article" nodes in "search-result" view-mode
-     *     render_node_article_search-result.ctp
+     * - render_node_article_search-result.ctp: Render for "article" nodes in
+     *   "search-result" view-mode.
      *
-     *     // render for "basic-page" nodes in "search-result" view-mode
-     *     render_node_basic-page_search-result.ctp
+     * - render_node_basic-page_search-result.ctp: Render for "basic-page" nodes in
+     *   "search-result" view-mode.
      *
-     * ### Render node per node-type
+     * ### Render node based on node-type
      *
-     *     render_node_[node-type]
+     *     render_node_[node-type].ctp
      *
-     * Similar as before, but just per `node-type` and any view-mode:
+     * Similar as before, but just based on `node-type` (and any view-mode), for
+     * example:
      *
-     *     // render for "article" nodes
-     *     render_node_article.ctp
+     * - render_node_article.ctp: Render for "article" nodes.
      *
-     *     // render for "basic-page" nodes
-     *     render_node_basic-page.ctp
+     * - render_node_basic-page.ctp: Render for "basic-page" nodes
      *
-     * ### Render node per view-mode
+     * ### Render node based on view-mode
      *
-     *     render_node_[view-mode]
+     *     render_node_[view-mode].ctp
      *
-     * Similar as before, but just per `view-mode` and any `node-type`:
+     * Similar as before, but just based on `view-mode` (and any node-type), for
+     * example:
      *
-     *     // render any node (article, page, etc) in "rss" view-mode
-     *     render_node_rss.ctp
+     * - render_node_rss.ctp: Render any node (article, page, etc) in "rss"
+     *   view-mode.
      *
-     *     // render any node (article, page, etc) in "full" view-mode
-     *     render_node_full.ctp
+     * - render_node_full.ctp: Render any node (article, page, etc) in "full"
+     *   view-mode.
      *
-     * NOTE: To avoid collisions between `view-mode` names and `node-type` names, you
-     * should alway use unique and descriptive names as possible when defining new
-     * content types. By default, Node plugin defines the following view-modes:
+     * NOTE: To avoid collisions between `view-mode` names and `node-type` names,
+     * you should alway use unique and descriptive names as possible when defining
+     * new content types. By default, Node plugin defines the following view-modes:
      * `default`, `teaser`, `search-result`, `rss`, `full`.
      *
      * ### Default
      *
-     *     render_node
+     *     render_node.ctp
      *
-     * This is the global render, if none of the above is found we try to use this last.
+     * This is the global render, if none of the above renders is found we try to
+     * use this last. Themes can overwrite this view element by creating a new one
+     * at `ExampleTheme/Template/Element/render_node.ctp`.
      *
      * ---
      *

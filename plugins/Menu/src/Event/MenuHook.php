@@ -56,7 +56,7 @@ class MenuHook implements EventListenerInterface
      *
      * ### Render menu based on theme's region & view-mode
      *
-     *     render_menu_[region-name]_[view-mode]
+     *     render_menu_[region-name]_[view-mode].ctp
      *
      * Renders the given block based on theme's `region-name` and `view-mode`, for
      * example:
@@ -72,7 +72,7 @@ class MenuHook implements EventListenerInterface
      *
      * ### Render menu based on theme's region
      *
-     *     render_menu_[region-name]
+     *     render_menu_[region-name].ctp
      *
      * Similar as before, but based only on theme's `region` (and any view-mode), for
      * example:
@@ -88,7 +88,8 @@ class MenuHook implements EventListenerInterface
      *     render_block.ctp
      *
      * This is the default render, if none of the above is found we try to use this
-     * last.
+     * last. Themes can overwrite this view element by creating a new one
+     * at `ExampleTheme/Template/Element/render_block.ctp`.
      *
      * ---
      *

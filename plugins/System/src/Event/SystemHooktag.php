@@ -17,7 +17,7 @@ use Cake\I18n\I18n;
 use Cake\Routing\Router;
 
 /**
- * Main Hook Listener for System plugin.
+ * Main Hooktag Listener for System plugin.
  *
  */
 class SystemHooktag implements EventListenerInterface

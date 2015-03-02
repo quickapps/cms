@@ -589,7 +589,7 @@ class SearchableBehavior extends Behavior
      *
      * ```php
      * $this->addSearchOperator('created', function ($query, $value, $negate, $orAnd) {
-     *     // handler logic
+     *     // scope $query
      *     return $query;
      * });
      * ```
@@ -678,7 +678,7 @@ class SearchableBehavior extends Behavior
      */
     protected function _extractWords($text)
     {
-        $text = str_replace(["\n", "\r"], '', $text);
+        $text = str_replace(["\n", "\r"], '', $text); // remove new lines
         $text = preg_replace('/[^a-z\s]/i', ' ', $text); // letters ands white spaces only
         $text = trim(preg_replace('/\s{2,}/i', ' ', $text)); // remove double spaces
         $text = strtolower($text); // all to lowercase

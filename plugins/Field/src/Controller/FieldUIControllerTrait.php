@@ -106,8 +106,8 @@ trait FieldUIControllerTrait
      * ```
      *
      * The above controller action will try to render
-     * `/plugins/Person/Template/CommentsManager/index.ctp`. But if does not exists
-     * then `<QuickAppsCorePath>/plugins/Comment/Template/CommentUI/index.ctp`
+     * `/plugins/Person/Template/FieldsManager/index.ctp`. But if does not exists
+     * then `<QuickAppsCorePath>/plugins/Field/Template/FieldUI/index.ctp`
      * will be used instead.
      *
      * Of course you may create your own template and skip this fallback
