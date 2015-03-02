@@ -16,7 +16,6 @@ use Cake\Controller\ComponentRegistry;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
-use Cake\Utility\Inflector;
 use Cake\Validation\Validator;
 use Comment\Model\Entity\Comment;
 use Field\Utility\TextToolbox;
