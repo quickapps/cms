@@ -335,7 +335,7 @@ class MenuHelper extends Helper
     /**
      * Prepares item's attributes for rendering.
      *
-     * @param mixed $item The item being rendered
+     * @param \Cake\Datasource\EntityInterface $item The item being rendered
      * @param array $info Item's rendering info
      * @param array $options Item's rendering options
      * @return array Associative array with two keys, `link` and `child`
@@ -633,14 +633,14 @@ class MenuHelper extends Helper
      * Sanitizes the given URL by making sure it's suitable for menu links.
      *
      * @param string $url Item's URL to sanitize
-     * @return string|bool False on error, URL (as string) otherwise
+     * @return string Valid URL, empty string on error
      */
     protected function _sanitizeUrl($url)
     {
         try {
             $url = Router::url($url);
         } catch (\Exception $ex) {
-            $url = false;
+            return '';
         }
 
         if (empty($url) || $url[0] !== '/') {

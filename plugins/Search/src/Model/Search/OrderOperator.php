@@ -56,13 +56,12 @@ class OrderOperator extends Operator
         $tableAlias = $this->_table->alias();
         $fields = $this->config('fields');
         $value = strtolower($value);
-        $split = explode(';', $value);
 
         if (is_string($fields)) {
             $fields = [$fields];
         }
 
-        foreach ($split as $segment) {
+        foreach (explode(';', $value) as $segment) {
             $parts = explode(',', $segment);
             if (count($parts) === 2 &&
                 in_array($parts[1], ['asc', 'desc']) &&

@@ -37,13 +37,10 @@ class LimitOperator extends Operator
         if ($negate) {
             return $query;
         }
-
         $value = intval($value);
-
         if ($value > 0) {
             $query->limit($value);
         }
-
         return $query;
     }
 }

@@ -33,22 +33,27 @@ class GenericOperator extends Operator
      * ### Options:
      *
      * - field: Name of the table column which should be scoped.
+     *
      * - conjunction: Defaults to `auto`, accepted values are:
      *
      *   - `LIKE`: Useful when matching string values, accepts wildcard `*` for
      *     matching "any" sequence of chars and `!` for matching any single char.
-     *     e.g. `author:c*` or `author:ca!`, mixing `author:c!r*`
+     *     e.g. `author:c*` or `author:ca!`, mixing: `author:c!r*`.
+     *
      *   - `IN`: Useful when operators accepts a list of possible values.
-     *     e.g. `author:chris,carter,lisa`
-     *   - `=`: Used for strict matching
-     *   - `<>`: Used for strict matching
+     *     e.g. `author:chris,carter,lisa`.
+     *
+     *   - `=`: Used for strict matching.
+     *
+     *   - `<>`: Used for strict matching.
+     *
      *   - `auto`: Auto detects, it will use `IN` if comma symbol is found in
-     *     the given value, `LIKE` will be used otherwise. e.g.
-     *     For `author:chris,peter` the `IN` conjunction will be used, for
+     *     the given value, `LIKE` will be used otherwise. e.g. For
+     *     `author:chris,peter` the `IN` conjunction will be used, for
      *     `author:chris` the `LIKE` conjunction will be used instead.
      *
      * - inSlice: Maximum number of elements when using `IN` conjunction,
-     *   defaults to 5.
+     *   defaults to 5. Used for security proposes.
      *
      * Note that wildcard will not works when using `IN` conjunction.
      *
