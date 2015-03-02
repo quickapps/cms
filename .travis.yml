@@ -20,12 +20,7 @@ matrix:
   include:
     - php: 5.4
       env: PHPCS=1
-    - php: hhvm-nightly
-      env: HHVM=1 DB=sqlite
-    - php: hhvm-nightly
-      env: HHVM=1 DB=mysql
   allow_failures:
-    - php: hhvm-nightly
     - env: DB=pgsql
     - php: 7.0
 
@@ -34,7 +29,6 @@ before_script:
   - composer install --prefer-dist --no-interaction --dev
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE quick_test;'; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'CREATE DATABASE quick_test;' -U postgres; fi"
-  - sh -c "if [ '$HHVM' != '1' ]; then echo 'extension = memcached.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi"
   - phpenv rehash
   - set +H
 
