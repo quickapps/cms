@@ -19,7 +19,7 @@ trait FieldValuesSchemaTrait
   ],
   'id' => 
   [
-    'type' => 'biginteger',
+    'type' => 'integer',
     'length' => 20,
     'unsigned' => false,
     'null' => false,
@@ -146,6 +146,11 @@ If Composer is installed globally, run `composer create-project -s dev quickapps
 
     public function fields()
     {
+        foreach ($this->_fields as $name => $info) {
+            if (!empty($info['autoIncrement'])) {
+                $this->_fields[$name]['length'] = null;
+            }
+        }
         return $this->_fields;
     }
 

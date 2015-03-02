@@ -25,7 +25,12 @@ class AcosFixture extends TestFixture
     public function init()
     {
         $this->fields = $this->fields();
-        $this->records = $this->records();
+        $this->records = [];
+
+        if (getenv('DB') != 'sqlite') {
+            $this->records = $this->records();
+        }
+
         parent::init();
     }
 }

@@ -138,6 +138,11 @@ class DatabaseTask extends Shell
             $fixture .= "\n";
             $fixture .= "    public function fields()\n";
             $fixture .= "    {\n";
+            $fixture .= "        foreach (\$this->_fields as \$name => \$info) {\n";
+            $fixture .= "            if (!empty(\$info['autoIncrement'])) {\n";
+            $fixture .= "                \$this->_fields[\$name]['length'] = null;\n";
+            $fixture .= "            }\n";
+            $fixture .= "        }\n";
             $fixture .= "        return \$this->_fields;\n";
             $fixture .= "    }\n";
             $fixture .= "\n";

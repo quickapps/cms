@@ -310,7 +310,7 @@ INSERT INTO `comments` (`id`, `entity_id`, `user_id`, `table_alias`, `subject`, 
 --
 
 CREATE TABLE IF NOT EXISTS `entities_terms` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` int(20) NOT NULL AUTO_INCREMENT,
   `entity_id` int(20) NOT NULL,
   `term_id` int(20) NOT NULL,
   `field_instance_id` int(11) NOT NULL,
@@ -357,7 +357,7 @@ INSERT INTO `field_instances` (`id`, `slug`, `table_alias`, `handler`, `label`, 
 --
 
 CREATE TABLE IF NOT EXISTS `field_values` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` int(20) NOT NULL AUTO_INCREMENT,
   `field_instance_id` int(10) NOT NULL,
   `field_instance_slug` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `entity_id` varchar(50) COLLATE utf8_unicode_ci NOT NULL COMMENT 'id of the entity in `table`',
@@ -495,8 +495,8 @@ CREATE TABLE IF NOT EXISTS `nodes` (
   `status` tinyint(1) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
-  `created_by` int(11) NOT NULL,
-  `modified_by` int(11) NOT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `modified_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
