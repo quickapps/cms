@@ -23,8 +23,6 @@ if (getenv('DB') == 'sqlite') {
 } elseif (getenv('DB') == 'mysql') {
     $conn = [
         'driver' => 'Cake\Database\Driver\Mysql',
-        'persistent' => false,
-        'host' => 'localhost',
         'username' => 'travis',
         'password' => '',
         'database' => 'quick_test',

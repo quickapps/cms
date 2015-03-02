@@ -263,14 +263,20 @@ $config = [
         'debug' => [
             'className' => 'Cake\Log\Engine\FileLog',
             'path' => LOGS,
-            'file' => 'debug',
+            'file' => 'debug.log',
             'levels' => ['notice', 'info', 'debug'],
         ],
         'error' => [
             'className' => 'Cake\Log\Engine\FileLog',
             'path' => LOGS,
-            'file' => 'error',
+            'file' => 'errors.log',
             'levels' => ['warning', 'error', 'critical', 'alert', 'emergency'],
+        ],
+        'queries' => [
+            'className' => 'Cake\Log\Engine\FileLog',
+            'path' => LOGS,
+            'file' => 'queries.log',
+            'scopes' => ['queriesLog'],
         ],
     ],
 
