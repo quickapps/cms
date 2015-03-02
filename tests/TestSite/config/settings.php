@@ -12,7 +12,7 @@
 
 // Ensure default test connection is defined
 if (!getenv('DB')) {
-    putenv('DB=sqlite');
+    putenv('DB=mysql');
 }
 
 if (getenv('DB') == 'sqlite') {
