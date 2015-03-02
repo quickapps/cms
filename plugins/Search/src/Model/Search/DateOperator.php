@@ -51,15 +51,55 @@ class DateOperator extends Operator
     {
         $tableAlias = $this->_table->alias();
         $column = $this->config('field');
-        if (strpos($value, '..') !== false) {
-            list($dateLeft, $dateRight) = explode('..', $value);
+        $range = $this->_parseRange($value);
+
+        if ($range['lower'] !== $range['upper']) {
+            $not = $negate ? ' NOT' : '';
+            $conditions = [
+                "AND{$not}" => [
+                    "{$tableAlias}.{$column} >=" => $range['lower'],
+                    "{$tableAlias}.{$column} <=" => $range['upper'],
+                ]
+            ];
         } else {
-            $dateLeft = $dateRight = $value;
+            $cmp = $negate ? '<=' : '>=';
+            $conditions = ["{$tableAlias}.{$column} {$cmp}" => $range['lower']];
         }
 
-        $dateLeft = preg_replace('/[^0-9\-]/', '', $dateLeft);
-        $dateRight = preg_replace('/[^0-9\-]/', '', $dateRight);
-        $range = [$dateLeft, $dateRight];
+        if ($orAnd === 'or') {
+            $query->orWhere($conditions);
+        } elseif ($orAnd === 'and') {
+            $query->andWhere($conditions);
+        } else {
+            $query->where($conditions);
+        }
+
+        return $query;
+    }
+
+    /**
+     * Parses and extracts lower and upper date values from the given range given
+     * as `lower..upper`.
+     *
+     * Dates must be in YEAR-MONTH-DATE format. e.g. `2014-12-30`. It automatically
+     * reorder dates if they are given in inversed order (upper..lower).
+     *
+     * @param string $value A date range given as `<dateLower>..<dateUpper>`. For
+     *  instance. `2014-12-30..2015-12-30`
+     * @return array Associative array with two keys: `lower` and `upper`, returned
+     *  dates are fully PHP compliant
+     */
+    protected function _parseRange($value)
+    {
+        if (strpos($value, '..') !== false) {
+            list($lower, $upper) = explode('..', $value);
+        } else {
+            $lower = $upper = $value;
+        }
+
+        $lower = preg_replace('/[^0-9\-]/', '', $lower);
+        $upper = preg_replace('/[^0-9\-]/', '', $upper);
+        $range = [$lower, $upper];
         foreach ($range as &$date) {
             $parts = explode('-', $date);
             $year = !empty($parts[0]) ? intval($parts[0]) : date('Y');
@@ -73,34 +113,16 @@ class DateOperator extends Operator
             $date = date('Y-m-d', strtotime("{$year}-{$month}-{$day}"));
         }
 
-        list($dateLeft, $dateRight) = $range;
-        if (strtotime($dateLeft) > strtotime($dateRight)) {
-            $tmp = $dateLeft;
-            $dateLeft = $dateRight;
-            $dateRight = $tmp;
+        list($lower, $upper) = $range;
+        if (strtotime($lower) > strtotime($upper)) {
+            $tmp = $lower;
+            $lower = $upper;
+            $upper = $tmp;
         }
 
-        if ($dateLeft !== $dateRight) {
-            $not = $negate ? ' NOT' : '';
-            $conditions = [
-                "AND{$not}" => [
-                    "{$tableAlias}.{$column} >=" => $dateLeft,
-                    "{$tableAlias}.{$column} <=" => $dateRight,
-                ]
-            ];
-        } else {
-            $cmp = $negate ? '<=' : '>=';
-            $conditions = ["{$tableAlias}.{$column} {$cmp}" => $dateLeft];
-        }
-
-        if ($orAnd === 'or') {
-            $query->orWhere($conditions);
-        } elseif ($orAnd === 'and') {
-            $query->andWhere($conditions);
-        } else {
-            $query->where($conditions);
-        }
-
-        return $query;
+        return [
+            'lower' => $lower,
+            'upper' => $upper,
+        ];
     }
 }

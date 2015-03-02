@@ -415,7 +415,7 @@ class StartupController extends Controller
      */
     public function finish()
     {
-        if ($this->request->data) {
+        if ($this->request->data()) {
             if (rename(SITE_ROOT . '/config/settings.php.tmp', SITE_ROOT . '/config/settings.php')) {
                 snapshot();
                 $this->request->session()->delete('Startup');
@@ -425,6 +425,8 @@ class StartupController extends Controller
                 } else {
                     $this->redirect('/admin');
                 }
+            } else {
+                $this->Flash->danger(__d('installer', 'Unable to continue, check write permission for the "/config" directory.'));
             }
         }
     }
