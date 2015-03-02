@@ -780,8 +780,8 @@ class FieldableBehavior extends Behavior
             return true;
         }
 
-        // as we dont know entity's ID on before save, we have to delay EntityValues storage
-        // all this occurs inside a transaction so we are safe
+        // as we don't know entity's ID on beforeSave, we must delay EntityValues
+        // storage; all this occurs inside a transaction so we are safe
         if (!empty($this->_cache['_FieldValues'])) {
             foreach ($this->_cache['_FieldValues'] as $valueEntity) {
                 $valueEntity->set('entity_id', $entity->id);
