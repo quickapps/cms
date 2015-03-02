@@ -97,32 +97,54 @@ class DateOperator extends Operator
             $lower = $upper = $value;
         }
 
-        $lower = preg_replace('/[^0-9\-]/', '', $lower);
-        $upper = preg_replace('/[^0-9\-]/', '', $upper);
-        $range = [$lower, $upper];
-        foreach ($range as &$date) {
-            $parts = explode('-', $date);
-            $year = !empty($parts[0]) ? intval($parts[0]) : date('Y');
-            $month = !empty($parts[1]) ? intval($parts[1]) : 1;
-            $day = !empty($parts[2]) ? intval($parts[2]) : 1;
+        $lower = $this->_normalize($lower);
+        $upper = $this->_normalize($upper);
 
-            $year = (1 <= $year && $year <= 32767) ? $year : date('Y');
-            $month = (1 <= $month && $month <= 12) ? $month : 1;
-            $day = (1 <= $month && $month <= 31) ? $day : 1;
-
-            $date = date('Y-m-d', strtotime("{$year}-{$month}-{$day}"));
-        }
-
-        list($lower, $upper) = $range;
         if (strtotime($lower) > strtotime($upper)) {
-            $tmp = $lower;
-            $lower = $upper;
-            $upper = $tmp;
+            list($lower, $upper) = [$upper, $lower];
         }
 
         return [
             'lower' => $lower,
             'upper' => $upper,
         ];
+    }
+
+    /**
+     * Normalizes the given date.
+     *
+     * @param string $date Date to normalize
+     * @return string Date formated as `Y-m-d`
+     */
+    protected function _normalize($date)
+    {
+        $date = preg_replace('/[^0-9\-]/', '', $date);
+        $parts = explode('-', $date);
+        $year = date('Y');
+        $month = 1;
+        $day = 1;
+
+        if (!empty($parts[0]) &&
+            1 <= intval($parts[0]) &&
+            intval($parts[0]) <= 32767
+        ) {
+            $year = intval($parts[0]);
+        }
+
+        if (!empty($parts[1]) &&
+            1 <= intval($parts[1]) &&
+            intval($parts[1]) <= 12
+        ) {
+            $month = intval($parts[1]);
+        }
+
+        if (!empty($parts[2]) &&
+            1 <= intval($parts[2]) &&
+            intval($parts[2]) <= 31
+        ) {
+            $day = intval($parts[2]);
+        }
+
+        return date('Y-m-d', strtotime("{$year}-{$month}-{$day}"));
     }
 }
