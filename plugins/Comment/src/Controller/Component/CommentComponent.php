@@ -243,91 +243,123 @@ class CommentComponent extends Component
      */
     public function post($entity)
     {
-        if (!empty($this->_controller->request->data['comment']) &&
-            $this->config('settings.visibility') === 1
+        $pk = (string)TableRegistry::get($entity->source())->primaryKey();
+        if (empty($this->_controller->request->data['comment']) ||
+            $this->config('settings.visibility') !== 1 ||
+            !$entity->has($pk)
         ) {
-            $pk = (string)TableRegistry::get($entity->source())->primaryKey();
+            return false;
+        }
 
-            if ($entity->has($pk)) {
-                $this->_controller->loadModel('Comment.Comments');
-                $data = $this->_getRequestData($entity);
-                $this->_controller->Comments->validator('commentValidation', $this->_createValidator());
-                $comment = $this->_controller->Comments->newEntity($data, ['validate' => 'commentValidation']);
+        $this->_controller->loadModel('Comment.Comments');
+        $data = $this->_getRequestData($entity);
+        $this->_controller->Comments->validator('commentValidation', $this->_createValidator());
+        $comment = $this->_controller->Comments->newEntity($data, ['validate' => 'commentValidation']);
+        $errors = !empty($comment->errors());
 
-                if (empty($comment->errors())) {
-                    $save = false;
-                    $this->_controller->Comments->addBehavior('Tree', [
-                        'scope' => [
-                            'entity_id' => $data['entity_id'],
-                            'table_alias' => $data['table_alias'],
-                        ]
-                    ]);
+        if (!$errors) {
+            $persist = true;
+            $saved = true;
+            $this->_controller->Comments->addBehavior('Tree', [
+                'scope' => [
+                    'entity_id' => $data['entity_id'],
+                    'table_alias' => $data['table_alias'],
+                ]
+            ]);
 
-                    if ($this->config('settings.use_akismet')) {
-                        require_once Plugin::classPath('Comment') . 'Lib/Akismet.php';
-
-                        try {
-                            $akismet = new \Akismet(Router::url('/'), $this->config('settings.akismet_key'));
-
-                            if (!empty($data['author_name'])) {
-                                $akismet->setCommentAuthor($data['author_name']);
-                            }
-
-                            if (!empty($data['author_email'])) {
-                                $akismet->setCommentAuthorEmail($data['author_email']);
-                            }
-
-                            if (!empty($data['author_web'])) {
-                                $akismet->setCommentAuthorURL($data['author_web']);
-                            }
-
-                            if (!empty($data['body'])) {
-                                $akismet->setCommentContent($data['body']);
-                            }
-
-                            if ($akismet->isCommentSpam()) {
-                                if ($this->config('settings.akismet_action') == 'mark') {
-                                    $comment->set('status', 'spam'); // mark as spam
-                                } else {
-                                    $save = true; // delete: we never save it
-                                }
-                            }
-                        } catch (\Exception $e) {
-                            // something went wrong with Akismet, save comment as "pending"
-                            $comment->set('status', 'pending');
-                            $save = $this->_controller->Comments->save($comment);
-                        }
-                    } else {
-                        $save = $this->_controller->Comments->save($comment);
-                    }
-
-                    if ($save) {
-                        $successMessage = $this->config('successMessage');
-                        if (is_callable($successMessage)) {
-                            $successMessage = $successMessage($comment, $this->_controller);
-                        }
-                        $this->_controller->Flash->success($successMessage, ['key' => 'commentsForm']);
-                        if ($this->config('redirectOnSuccess')) {
-                            $redirectTo = $this->config('redirectOnSuccess') === true ? $this->_controller->referer() : $this->config('redirectOnSuccess');
-                            $this->_controller->redirect($redirectTo);
-                        }
-                        return true;
-                    } else {
-                        $this->_setErrors($comment);
-                    }
-                } else {
-                    $this->_setErrors($comment);
+            if ($this->config('settings.use_akismet')) {
+                $newStatus = $this->_akismetStatus($data);
+                $comment->set('status', $newStatus);
+                
+                if ($newStatus == 'spam' &&
+                    $this->config('settings.akismet_action') != 'mark'
+                ) {
+                    $persist = false;
                 }
+            }
 
-                $errorMessage = $this->config('errorMessage');
-                if (is_callable($errorMessage)) {
-                    $errorMessage = $errorMessage($comment, $this->_controller);
-                }
-                $this->_controller->Flash->danger($errorMessage, ['key' => 'commentsForm']);
+            if ($persist) {
+                $saved = $this->_controller->Comments->save($comment);
+            }
+
+            if ($saved) {
+                $this->_afterSave($comment);
+                return true; // all OK
+            } else {
+                $errors = true;
             }
         }
 
+        if ($errors) {
+            $this->_setErrors($comment);
+            $errorMessage = $this->config('errorMessage');
+            if (is_callable($errorMessage)) {
+                $errorMessage = $errorMessage($comment, $this->_controller);
+            }
+            $this->_controller->Flash->danger($errorMessage, ['key' => 'commentsForm']);
+        }
+
         return false;
+    }
+
+    /**
+     * Calculates comment's status using akismet.
+     *
+     * @param array $data Comment's data to be validated by Akismet
+     * @return string Filtered comment's status
+     */
+    protected function _akismetStatus($data)
+    {
+        require_once Plugin::classPath('Comment') . 'Lib/Akismet.php';
+
+        try {
+            $akismet = new \Akismet(Router::url('/'), $this->config('settings.akismet_key'));
+
+            if (!empty($data['author_name'])) {
+                $akismet->setCommentAuthor($data['author_name']);
+            }
+
+            if (!empty($data['author_email'])) {
+                $akismet->setCommentAuthorEmail($data['author_email']);
+            }
+
+            if (!empty($data['author_web'])) {
+                $akismet->setCommentAuthorURL($data['author_web']);
+            }
+
+            if (!empty($data['body'])) {
+                $akismet->setCommentContent($data['body']);
+            }
+
+            if ($akismet->isCommentSpam()) {
+                return 'spam';
+            }
+        } catch (\Exception $ex) {
+            return 'pending';
+        }
+
+        return $data['status'];
+    }
+
+    /**
+     * Logic triggered after comment was successfully saved.
+     *
+     * @param \Cake\Datasource\EntityInterface $comment Comment that was just saved
+     * @return void
+     */
+    protected function _afterSave($comment)
+    {
+        $successMessage = $this->config('successMessage');
+        if (is_callable($successMessage)) {
+            $successMessage = $successMessage($comment, $this->_controller);
+        }
+
+        $this->_controller->Flash->success($successMessage, ['key' => 'commentsForm']);
+
+        if ($this->config('redirectOnSuccess')) {
+            $redirectTo = $this->config('redirectOnSuccess') === true ? $this->_controller->referer() : $this->config('redirectOnSuccess');
+            $this->_controller->redirect($redirectTo);
+        }
     }
 
     /**
@@ -359,6 +391,11 @@ class CommentComponent extends Component
         $data['author_ip'] = $this->_controller->request->clientIp();
         $data['entity_id'] = $entity->get($pk);
         $data['table_alias'] = Inflector::underscore($entity->source());
+
+        if (mb_strpos($data['table_alias'], '.') !== false) {
+            $data['table_alias'] = pluginSplit($data['table_alias'])[1];
+        }
+
         return $data;
     }
 

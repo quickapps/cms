@@ -36,7 +36,7 @@ class PublishDateField extends BaseHandler
         $field->raw = array_merge([
             'from' => ['string' => null, 'timestamp' => null],
             'to' => ['string' => null, 'timestamp' => null],
-        ], $field->raw);
+        ], (array)$field->raw);
         return $View->element('Field.PublishDateField/display', compact('field', 'options'));
     }
 
