@@ -7,8 +7,8 @@ php:
   - 7.0
 
 env:
-  - DB=mysql db_dsn='mysql://travis@0.0.0.0/quick_test'
-  - DB=sqlite db_dsn='sqlite:///:memory:'
+  - DB=mysql
+  - DB=sqlite
 
 services:
   - memcached
@@ -20,9 +20,9 @@ matrix:
     - php: 5.4
       env: PHPCS=1
     - php: hhvm-nightly
-      env: HHVM=1 DB=sqlite db_dsn='sqlite:///:memory:'
+      env: HHVM=1 DB=sqlite
     - php: hhvm-nightly
-      env: HHVM=1 DB=mysql db_dsn='mysql://travis@0.0.0.0/quick_test'
+      env: HHVM=1 DB=mysql
   allow_failures:
     - php: hhvm-nightly
     - php: 7.0
