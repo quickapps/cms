@@ -4,23 +4,28 @@ php:
   - 5.4
   - 5.5
   - 5.6
+  - 7.0
 
 env:
   - DB=mysql db_dsn='mysql://travis@0.0.0.0/quick_test'
+  - DB=sqlite db_dsn='sqlite:///:memory:'
 
 services:
   - memcached
   - redis-server
 
 matrix:
-  allow_failures:
-    - php: hhvm-nightly
   fast_finish: true
   include:
     - php: 5.4
       env: PHPCS=1
     - php: hhvm-nightly
+      env: HHVM=1 DB=sqlite db_dsn='sqlite:///:memory:'
+    - php: hhvm-nightly
       env: HHVM=1 DB=mysql db_dsn='mysql://travis@0.0.0.0/quick_test'
+  allow_failures:
+    - php: hhvm-nightly
+    - php: 7.0
 
 before_script:
   - composer self-update
@@ -32,7 +37,6 @@ before_script:
 
 script:
   - sh -c "if [ '$PHPCS' != '1' ]; then phpunit; fi"
-  - sh -c "if [ '$PHPCS' = '1' ]; then vendor/bin/phpcs --version; fi"
   - sh -c "if [ '$PHPCS' = '1' ]; then vendor/bin/phpcs -p -n --ignore=*/Lib/* --extensions=php --standard=vendor/cakephp/cakephp-codesniffer/CakePHP ./src ./plugins; fi"
 
 notifications:
