@@ -371,32 +371,60 @@ class CommentComponent extends Component
      */
     protected function _getRequestData($entity)
     {
-        $data = [];
         $pk = (string)TableRegistry::get($entity->source())->primaryKey();
+        $data = [];
+        $return = [
+            'subject' => '',
+            'body' => '',
+            'status' => 'pending',
+            'author_ip' => $this->_controller->request->clientIp(),
+            'entity_id' => $entity->get($pk),
+            'table_alias' => $this->_getTableAlias($entity),
+        ];
 
         if (!empty($this->_controller->request->data['comment'])) {
             $data = $this->_controller->request->data['comment'];
         }
 
         if ($this->_controller->request->is('userLoggedIn')) {
-            $data['user_id'] = user()->id;
-            $data['author_name'] = null;
-            $data['author_email'] = null;
-            $data['author_web'] = null;
+            $return['user_id'] = user()->id;
+            $return['author_name'] = null;
+            $return['author_email'] = null;
+            $return['author_web'] = null;
         }
 
-        $data['subject'] = !empty($data['subject']) ? TextToolbox::process($data['subject'], $this->config('settings.text_processing')) : '';
-        $data['body'] = !empty($data['body']) ? TextToolbox::process($data['body'], $this->config('settings.text_processing')) : '';
-        $data['status'] = $this->config('settings.auto_approve') || $this->_controller->request->is('userAdmin') ? 'approved' : 'pending';
-        $data['author_ip'] = $this->_controller->request->clientIp();
-        $data['entity_id'] = $entity->get($pk);
-        $data['table_alias'] = Inflector::underscore($entity->source());
-
-        if (mb_strpos($data['table_alias'], '.') !== false) {
-            $data['table_alias'] = pluginSplit($data['table_alias'])[1];
+        if (!empty($data['subject'])) {
+            $return['subject'] = TextToolbox::process($data['subject'], $this->config('settings.text_processing'));
         }
 
-        return $data;
+        if (!empty($data['body'])) {
+            $return['body'] = TextToolbox::process($data['body'], $this->config('settings.text_processing'));
+        }
+
+        if ($this->config('settings.auto_approve') ||
+            $this->_controller->request->is('userAdmin')
+        ) {
+            $return['status'] = 'approved';
+        }
+
+        return $return;
+    }
+
+    /**
+     * Get table alias for the given entity.
+     *
+     * @param \Cake\Datasource\EntityInterface $entity The entity
+     * @return string Table alias
+     */
+    protected function _getTableAlias($entity)
+    {
+        $alias = $entity->source();
+        if (mb_strpos($alias, '.') !== false) {
+            $parts = explode('.', $alias);
+            $alias = array_pop($parts);
+        }
+
+        return strtolower($alias);
     }
 
     /**

@@ -295,16 +295,12 @@ class MenuHelper extends Helper
             unset($options['templates']);
         }
 
-        if (!empty($options['childAttrs']['class'])) {
-            if (is_string($options['childAttrs']['class'])) {
-                $options['childAttrs']['class'] = [$options['childAttrs']['class']];
-            }
+        if (!empty($options['childAttrs']['class']) && is_string($options['childAttrs']['class'])) {
+            $options['childAttrs']['class'] = [$options['childAttrs']['class']];
         }
 
-        if (!empty($options['linkAttrs']['class'])) {
-            if (is_string($options['linkAttrs']['class'])) {
-                $options['linkAttrs']['class'] = [$options['linkAttrs']['class']];
-            }
+        if (!empty($options['linkAttrs']['class']) && is_string($options['linkAttrs']['class'])) {
+            $options['linkAttrs']['class'] = [$options['linkAttrs']['class']];
         }
 
         $childAttrs = $options['childAttrs'];
