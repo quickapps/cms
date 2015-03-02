@@ -40,7 +40,7 @@ class ManageControllerTest extends IntegrationTestCase
         //'app.node_revisions',
         //'app.nodes',
         //'app.node_types',
-        'app.options',
+        //'app.options',
         'app.permissions',
         'app.plugins',
         'app.roles',
