@@ -201,42 +201,9 @@ class MenuHelper extends Helper
             throw new FatalErrorException(__d('menu', 'Loop detected, MenuHelper already rendering.'));
         }
 
-        if (is_integer($items)) {
-            $id = $items;
-            $cacheKey = "render({$id})";
-            $items = static::cache($cacheKey);
-
-            if ($items === null) {
-                $items = TableRegistry::get('Menu.MenuLinks')
-                    ->find('threaded')
-                    ->where(['menu_id' => $id])
-                    ->all();
-                static::cache($cacheKey, $items);
-            }
-        } elseif (is_string($items)) {
-            $slug = $items;
-            $cacheKey = "render({$slug})";
-            $items = static::cache($cacheKey);
-
-            if ($items === null) {
-                $items = [];
-                $menu = TableRegistry::get('Menu.Menus')
-                    ->find()
-                    ->select(['id'])
-                    ->where(['slug' => $slug])
-                    ->first();
-
-                if (is_object($menu)) {
-                    $items = TableRegistry::get('Menu.MenuLinks')
-                        ->find('threaded')
-                        ->where(['menu_id' => $menu->id])
-                        ->all();
-                }
-                static::cache($cacheKey, $items);
-            }
-        }
-
         $out = '';
+        $items = $this->_prepareItems($items);
+
         if (!empty($items)) {
             $attrs = [];
             $this->_rendering = true;
@@ -244,47 +211,24 @@ class MenuHelper extends Helper
 
             if (is_callable($options)) {
                 $options = ['formatter' => $options];
-            }
+            } else {
+                if (!empty($options['templates']) && is_array($options['templates'])) {
+                    $this->templates($options['templates']);
+                    unset($options['templates']);
+                }
 
-            if (!empty($options['templates']) && is_array($options['templates'])) {
-                $this->templates($options['templates']);
-                unset($options['templates']);
-            }
-
-            foreach ($options as $key => $value) {
-                if (isset($this->_defaultConfig[$key])) {
-                    $this->config($key, $value);
-                } else {
-                    $attrs[$key] = $value;
+                foreach ($options as $key => $value) {
+                    if (isset($this->_defaultConfig[$key])) {
+                        $this->config($key, $value);
+                    } else {
+                        $attrs[$key] = $value;
+                    }
                 }
             }
 
             $this->countItems($items);
-
             if (intval($this->config('split')) > 1) {
-                if (is_object($items) && method_exists($items, 'toArray')) {
-                    $arrayItems = $items->toArray();
-                } else {
-                    $arrayItems = (array)$items;
-                }
-
-                $chunkOut = '';
-                $size = round(count($arrayItems) / intval($this->config('split')));
-                $chunk = array_chunk($arrayItems, $size);
-                $i = 1;
-
-                foreach ($chunk as $menu) {
-                    $chunkOut .= $this->formatTemplate('parent', [
-                        'attrs' => $this->templater()->formatAttributes(['class' => "menu-part part-{$i}"]),
-                        'content' => $this->_render($menu, $this->config('formatter'))
-                    ]);
-                    $i++;
-                }
-
-                $out .= $this->formatTemplate('div', [
-                    'attrs' => $this->templater()->formatAttributes($attrs),
-                    'content' => $chunkOut,
-                ]);
+                $out .= $this->_renderParts($items, $options, $attrs);
             } else {
                 $out .= $this->formatTemplate('root', [
                     'attrs' => $this->templater()->formatAttributes($attrs),
@@ -448,6 +392,87 @@ class MenuHelper extends Helper
     public function resetTemplates()
     {
         $this->templates($this->_defaultConfig['templates']);
+    }
+
+    /**
+     * Prepares the items (links) to be rendered as part of a menu.
+     *
+     * @param mixed $items As described on `render()`
+     * @return mixed Collection of links to be rendered
+     */
+    protected function _prepareItems($items)
+    {
+        if (is_integer($items)) {
+            $id = $items;
+            $cacheKey = "render({$id})";
+            $items = static::cache($cacheKey);
+
+            if ($items === null) {
+                $items = TableRegistry::get('Menu.MenuLinks')
+                    ->find('threaded')
+                    ->where(['menu_id' => $id])
+                    ->all();
+                static::cache($cacheKey, $items);
+            }
+        } elseif (is_string($items)) {
+            $slug = $items;
+            $cacheKey = "render({$slug})";
+            $items = static::cache($cacheKey);
+
+            if ($items === null) {
+                $items = [];
+                $menu = TableRegistry::get('Menu.Menus')
+                    ->find()
+                    ->select(['id'])
+                    ->where(['slug' => $slug])
+                    ->first();
+
+                if (is_object($menu)) {
+                    $items = TableRegistry::get('Menu.MenuLinks')
+                        ->find('threaded')
+                        ->where(['menu_id' => $menu->id])
+                        ->all();
+                }
+                static::cache($cacheKey, $items);
+            }
+        }
+
+        return $items;
+    }
+
+    /**
+     * Starts rendering process of a menu's parts (when using the "split" option).
+     *
+     * @param mixed $items Menu links
+     * @param array $options Options for the rendering process
+     * @param array $attrs Menu's attributes
+     * @return string
+     */
+    protected function _renderPart($items, $options, $attrs)
+    {
+        if (is_object($items) && method_exists($items, 'toArray')) {
+            $arrayItems = $items->toArray();
+        } else {
+            $arrayItems = (array)$items;
+        }
+
+        $chunkOut = '';
+        $size = round(count($arrayItems) / intval($this->config('split')));
+        $chunk = array_chunk($arrayItems, $size);
+        $i = 1;
+
+        foreach ($chunk as $menu) {
+            $chunkOut .= $this->formatTemplate('parent', [
+                'attrs' => $this->templater()->formatAttributes(['class' => "menu-part part-{$i}"]),
+                'content' => $this->_render($menu, $this->config('formatter'))
+            ]);
+            $i++;
+        }
+
+        return $this->formatTemplate('div', [
+            'attrs' => $this->templater()->formatAttributes($attrs),
+            'content' => $chunkOut,
+        ]);
     }
 
     /**
