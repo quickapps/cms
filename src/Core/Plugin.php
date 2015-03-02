@@ -296,9 +296,8 @@ class Plugin extends CakePlugin
      * Below a list of validation rules that are applied:
      *
      * - must be a valid JSON file.
-     * - key `name` must be present. A follow the pattern `author/package`
+     * - key `name` must be present and follow the pattern `author/package`
      * - key `type` must be present and be "quickapps-plugin" or "cakephp-plugin" (even if it's a theme).
-     * - key `name` must be present.
      * - key `extra.regions` must be present if it's a theme (its name ends with
      *   `-theme`, e.g. `quickapps/blue-sky-theme`)
      *
