@@ -20,7 +20,6 @@ use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
 use QuickApps\Event\HookAwareTrait;
-use Search\Model\Entity\SearchDataset;
 use Search\Operator;
 
 /**
@@ -353,9 +352,11 @@ class SearchableBehavior extends Behavior
         $this->_table = $table;
         $this->_table->hasOne('Search.SearchDatasets', [
             'foreignKey' => 'entity_id',
-            'conditions' => ['table_alias' => Inflector::underscore($this->_table->alias())],
+            'conditions' => ['table_alias' => (string)Inflector::underscore($this->_table->alias())],
             'dependent' => true
         ]);
+        $config['pk'] = $this->_table->primaryKey();
+        $config['table_alias'] = (string)Inflector::underscore($this->_table->alias());
         parent::__construct($table, $config);
     }
 
@@ -369,67 +370,29 @@ class SearchableBehavior extends Behavior
     public function afterSave(Event $event, Entity $entity)
     {
         $isNew = $entity->isNew();
-        $pk = $this->_table->primaryKey();
-        $tableAlias = Inflector::underscore($this->_table->alias());
-        $text = '';
-
         if (($this->config('on') === 'update' && $isNew) ||
             ($this->config('on') === 'insert' && !$isNew) ||
             ($this->config('on') !== 'both')
         ) {
-            continue;
-        }
-
-        if (is_callable($this->config('fields'))) {
-            $callable = $this->config('fields');
-            $text = $callable($entity);
-
-            if (is_array($text)) {
-                $text = implode(' ', (array)$text);
-            } else {
-                $text = (string)$text;
-            }
-        } else {
-            foreach ((array)$this->config('fields') as $f) {
-                if ($entity->has($f)) {
-                    $newWords = trim($entity->get($f));
-                    $text .= ' ' . $newWords;
-                }
-            }
-        }
-
-        $words = $this->_extractWords($text);
-        $bannedCallable = is_callable($this->config('bannedWords')) ? $this->config('bannedWords') : false;
-
-        foreach ($words as $i => $w) {
-            if (is_callable($bannedCallable)) {
-                if (!$bannedCallable($w)) {
-                    // false means it's banned
-                    unset($words[$i]);
-                }
-            } else {
-                if (in_array($w, $this->config('bannedWords')) || empty($w)) {
-                    unset($words[$i]);
-                }
-            }
+            return;
         }
 
         $Datasets = TableRegistry::get('Search.SearchDatasets');
         $dataset = $Datasets->find()
             ->where([
-                'entity_id' => $entity->get($pk),
-                'table_alias' => $tableAlias
+                'entity_id' => $entity->get($this->config('pk')),
+                'table_alias' => $this->config('table_alias'),
             ])
             ->first();
 
         if (!$dataset) {
-            $dataset = new SearchDataset([
-                'entity_id' => $entity->get($pk),
-                'table_alias' => $tableAlias,
+            $dataset = TableRegistry::get('Search.SearchDatasets')->newEntity([
+                'entity_id' => $entity->get($this->config('pk')),
+                'table_alias' => $this->config('table_alias'),
             ]);
         }
 
-        $dataset->set('words', ' ' . implode(' ', $words) . ' ');
+        $dataset->set('words', ' ' . $this->_extractEntityWords($entity) . ' ');
         $Datasets->save($dataset);
     }
 
@@ -442,11 +405,10 @@ class SearchableBehavior extends Behavior
      */
     public function beforeDelete(Event $event, Entity $entity)
     {
-        $tableAlias = Inflector::underscore($this->_table->alias());
         $this->_table->hasMany('SearchDatasets', [
             'className' => 'Search.SearchDatasets',
             'foreignKey' => 'entity_id',
-            'conditions' => ['table_alias' => $tableAlias],
+            'conditions' => ['table_alias' => $this->config('table_alias')],
             'dependent' => true,
         ]);
         return true;
@@ -671,19 +633,65 @@ class SearchableBehavior extends Behavior
     }
 
     /**
-     * Extracts words from given text.
+     * Extracts a list of words to by indexed for given entity.
      *
-     * @param string $text The text from where extract words
-     * @return array List of words
+     * @param \Cake\Datasource\EntityInterface $entity The text from where extract words
+     * @return string Space-separated list of words. e.g. `cat dog this that`
      */
-    protected function _extractWords($text)
+    protected function _extractEntityWords($entity)
     {
-        $text = str_replace(["\n", "\r"], '', $text); // remove new lines
+        $text = '';
+        if (is_callable($this->config('fields'))) {
+            $callable = $this->config('fields');
+            $text = $callable($entity);
+
+            if (is_array($text)) {
+                $text = implode(' ', (array)$text);
+            }
+        } else {
+            foreach ((array)$this->config('fields') as $f) {
+                if ($entity->has($f)) {
+                    $text .= ' ' . trim($entity->get($f));
+                }
+            }
+        }
+
+        // TODO: allow other languages
+        $text = str_replace(["\n", "\r"], '', (string)$text); // remove new lines
         $text = preg_replace('/[^a-z\s]/i', ' ', $text); // letters ands white spaces only
         $text = trim(preg_replace('/\s{2,}/i', ' ', $text)); // remove double spaces
         $text = strtolower($text); // all to lowercase
-        $words = explode(' ', $text); // convert to array
-        return $words;
+        return $this->_filterText($text);
+    }
+
+    /**
+     * Removes any invalid word from the given text.
+     *
+     * @param string $text The text to filter
+     * @return string Filtered text
+     */
+    protected function _filterText($text)
+    {
+        // return true means `yes, it's banned`
+        if (is_callable($this->config('bannedWords'))) {
+            $isBanned = function ($word) {
+                $callable = $this->config('bannedWords');
+                return $callable($word);
+            };
+        } else {
+            $isBanned = function ($word) {
+                return in_array($word, (array)$this->config('bannedWords')) || empty($word);
+            };
+        }
+
+        $words = explode(' ', $text);
+        foreach ($words as $i => $w) {
+            if ($isBanned($w)) {
+                unset($words[$i]);
+            }
+        }
+
+        return implode(' ', $words);
     }
 
     /**
