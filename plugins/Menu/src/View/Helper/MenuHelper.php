@@ -263,8 +263,8 @@ class MenuHelper extends Helper
      *
      * ### Information argument
      *
-     * The second argument `$info` holds a series of useful values when rendering each
-     * item of the menu. This values are stored as `key` => `value` array.
+     * The second argument `$info` holds a series of useful values when rendering
+     * each item of the menu. This values are stored as `key` => `value` array.
      *
      * - `index` (integer): Position of current item.
      * - `total` (integer): Total number of items in the menu being rendered.
@@ -282,76 +282,18 @@ class MenuHelper extends Helper
     {
         $this->alter(['MenuHelper.formatter', $this->_View], $item, $info, $options);
 
-        $options = Hash::merge([
-            'templates' => [],
-            'childAttrs' => ['class' => []],
-            'linkAttrs' => ['class' => []],
-        ], $options);
-        $config = $this->config();
-
-        if (!empty($options['templates']) && is_array($options['templates'])) {
+        if (!empty($options['templates'])) {
             $templatesBefore = $this->templates();
-            $this->templates($options['templates']);
+            $this->templates((array)$options['templates']);
             unset($options['templates']);
         }
 
-        if (!empty($options['childAttrs']['class']) && is_string($options['childAttrs']['class'])) {
-            $options['childAttrs']['class'] = [$options['childAttrs']['class']];
-        }
-
-        if (!empty($options['linkAttrs']['class']) && is_string($options['linkAttrs']['class'])) {
-            $options['linkAttrs']['class'] = [$options['linkAttrs']['class']];
-        }
-
-        $childAttrs = $options['childAttrs'];
-        $linkAttrs = $options['linkAttrs'];
-
-        if ($info['index'] === 1) {
-            $childAttrs['class'][] = $config['firstClass'];
-        }
-
-        if ($info['index'] === $info['total']) {
-            $childAttrs['class'][] = $config['lastClass'];
-        }
-
-        if ($info['hasChildren']) {
-            $childAttrs['class'][] = $config['hasChildrenClass'];
-            if ($this->config('dropdown')) {
-                $childAttrs['class'][] = 'dropdown';
-                $linkAttrs['data-toggle'] = 'dropdown';
-            }
-        }
-
-        if (!empty($item->description)) {
-            $linkAttrs['title'] = $item->description;
-        }
-
-        if (!empty($item->target)) {
-            $linkAttrs['target'] = $item->target;
-        }
-
-        if ($info['active']) {
-            $childAttrs['class'][] = $config['activeClass'];
-            $linkAttrs['class'][] = $config['activeClass'];
-        }
-
-        if (!empty($options['childAttrs'])) {
-            $childAttrs = Hash::merge($childAttrs, $options['childAttrs']);
-        }
-
-        if (!empty($options['linkAttrs'])) {
-            $linkAttrs = Hash::merge($linkAttrs, $options['linkAttrs']);
-        }
-
-        $childAttrs['class'] = array_unique($childAttrs['class']);
-        $linkAttrs['class'] = array_unique($linkAttrs['class']);
-        $childAttrs = $this->templater()->formatAttributes($childAttrs);
-        $linkAttrs = $this->templater()->formatAttributes($linkAttrs);
+        $attrs = $this->_prepareItemAttrs($item, $info, $options);
         $return = $this->formatTemplate('child', [
-            'attrs' => $childAttrs,
+            'attrs' => $this->templater()->formatAttributes($attrs['child']),
             'content' => $this->formatTemplate('link', [
                 'url' => $this->_url($item->url),
-                'attrs' => $linkAttrs,
+                'attrs' => $this->templater()->formatAttributes($attrs['link']),
                 'content' => $item->title,
             ]),
             'children' => $info['children'],
@@ -388,6 +330,70 @@ class MenuHelper extends Helper
     public function resetTemplates()
     {
         $this->templates($this->_defaultConfig['templates']);
+    }
+
+    /**
+     * Prepares item's attributes for rendering.
+     *
+     * @param mixed $item The item being rendered
+     * @param array $info Item's rendering info
+     * @param array $options Item's rendering options
+     * @return array Associative array with two keys, `link` and `child`
+     * @see \Menu\View\Helper\MenuHelper::formatter()
+     */
+    protected function _prepareItemAttrs($item, array $info, array $options)
+    {
+        $options = Hash::merge([
+            'childAttrs' => ['class' => []],
+            'linkAttrs' => ['class' => []],
+        ], $options);
+        $childAttrs = $options['childAttrs'];
+        $linkAttrs = $options['linkAttrs'];
+
+        if (is_string($childAttrs['class'])) {
+            $childAttrs['class'] = [$childAttrs['class']];
+        }
+
+        if (is_string($linkAttrs['class'])) {
+            $linkAttrs['class'] = [$linkAttrs['class']];
+        }
+
+        if ($info['index'] === 1) {
+            $childAttrs['class'][] = $this->config('firstClass');
+        }
+
+        if ($info['index'] === $info['total']) {
+            $childAttrs['class'][] = $this->config('lastClass');
+        }
+
+        if ($info['hasChildren']) {
+            $childAttrs['class'][] = $this->config('hasChildrenClass');
+            if ($this->config('dropdown')) {
+                $childAttrs['class'][] = 'dropdown';
+                $linkAttrs['data-toggle'] = 'dropdown';
+            }
+        }
+
+        if (!empty($item->description)) {
+            $linkAttrs['title'] = $item->description;
+        }
+
+        if (!empty($item->target)) {
+            $linkAttrs['target'] = $item->target;
+        }
+
+        if ($info['active']) {
+            $childAttrs['class'][] = $this->config('activeClass');
+            $linkAttrs['class'][] = $this->config('activeClass');
+        }
+
+        $linkAttrs['class'] = array_unique($linkAttrs['class']);
+        $childAttrs['class'] = array_unique($childAttrs['class']);
+
+        return [
+            'link' => $linkAttrs,
+            'child' => $childAttrs,
+        ];
     }
 
     /**
@@ -515,7 +521,7 @@ class MenuHelper extends Helper
     }
 
     /**
-     * Returns a safe URL string for later use on HtmlHelper.
+     * Returns a safe URL string for later use with HtmlHelper.
      *
      * @param string|array $url URL given as string or an array compatible
      *  with `Router::url()`
@@ -530,9 +536,7 @@ class MenuHelper extends Helper
                 '|',
                 array_map(
                     'preg_quote',
-                    array_keys(
-                        quickapps('languages')
-                    )
+                    array_keys(quickapps('languages'))
                 )
             );
         }
@@ -598,28 +602,10 @@ class MenuHelper extends Helper
                 ]) === true;
             case 'auto':
             default:
-                try {
-                    $itemUrl = Router::url($item->url);
-                } catch (\Exception $e) {
-                    $itemUrl = false;
-                }
-
-                // external link
-                if (empty($itemUrl) || $itemUrl[0] !== '/') {
-                    return ($itemUrl == env('REQUEST_URI'));
-                }
-
-                $baseUrl = $this->_View->request->base ? $this->_View->request->base : '/';
-                $itemUrl = str_replace_once($baseUrl, '', $itemUrl);
-                if (option('url_locale_prefix')) {
-                    if (!preg_match('/^\/' . $this->_localesPattern() . '/', $itemUrl)) {
-                        $itemUrl = '/' . I18n::locale() . $itemUrl;
-                    }
-                }
-
+                $itemUrl = $this->_sanitizeUrl($item->url);
                 $isInternal =
                     $itemUrl !== '/' &&
-                    str_ends_with($itemUrl, str_replace_once($baseUrl, '', env('REQUEST_URI')));
+                    str_ends_with($itemUrl, str_replace_once($this->_baseUrl(), '', env('REQUEST_URI')));
                 $isIndex =
                     $itemUrl === '/' &&
                     $this->_View->request->isHome();
@@ -631,21 +617,7 @@ class MenuHelper extends Helper
                     if ($crumbs === null) {
                         $crumbs = BreadcrumbRegistry::getUrls();
                         foreach ($crumbs as &$crumb) {
-                            try {
-                                $crumb = Router::url($crumb);
-                            } catch (\Exception $e) {
-                                $crumb = '';
-                            }
-
-                            if (str_starts_with($crumb, $baseUrl)) {
-                                $crumb = str_replace_once($baseUrl, '', $crumb);
-                            }
-
-                            if (option('url_locale_prefix')) {
-                                if (!preg_match('/^\/' . $this->_localesPattern() . '/', $crumb)) {
-                                    $crumb = '/' . I18n::locale() . $crumb;
-                                }
-                            }
+                            $crumb = $this->_sanitizeUrl($crumb);
                         }
                     }
 
@@ -655,6 +627,51 @@ class MenuHelper extends Helper
 
                 return ($isInternal || $isIndex || $isExact);
         }
+    }
+
+    /**
+     * Sanitizes the given URL by making sure it's suitable for menu links.
+     *
+     * @param string $url Item's URL to sanitize
+     * @return string|bool False on error, URL (as string) otherwise
+     */
+    protected function _sanitizeUrl($url)
+    {
+        try {
+            $url = Router::url($url);
+        } catch (\Exception $ex) {
+            $url = false;
+        }
+
+        if (empty($url) || $url[0] !== '/') {
+            return ($url == env('REQUEST_URI'));
+        }
+
+        if (str_starts_with($url, $this->_baseUrl())) {
+            $url = str_replace_once($this->_baseUrl(), '', $url);
+        }
+
+        if (option('url_locale_prefix')) {
+            if (!preg_match('/^\/' . $this->_localesPattern() . '/', $url)) {
+                $url = '/' . I18n::locale() . $url;
+            }
+        }
+
+        return $url;
+    }
+
+    /**
+     * Calculates site's base URL.
+     *
+     * @return string Site's base URL
+     */
+    protected function _baseUrl()
+    {
+        static $base = null;
+        if ($base === null) {
+            $base = $this->_View->request->base ? $this->_View->request->base : '/';
+        }
+        return $base;
     }
 
     /**
