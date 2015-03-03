@@ -11,10 +11,6 @@ env:
   - DB=sqlite
   - DB=pgsql
 
-services:
-  - memcached
-  - redis-server
-
 matrix:
   fast_finish: true
   include:
