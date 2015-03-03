@@ -146,7 +146,7 @@ class BreadcrumbComponent extends Component
      */
     protected function _urlChunk($url = null)
     {
-        if (!$url) {
+        if (empty($url)) {
             $url = '/' . $this->_controller->request->url;
         }
 
