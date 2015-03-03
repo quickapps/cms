@@ -12,12 +12,12 @@
 namespace QuickApps\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
-require_once QA_CORE . '/config/Schema/UsersSchema.php';
+require_once QA_CORE . '/config/Schema/UsersRolesSchema.php';
 
 class UsersRolesFixture extends TestFixture
 {
 
-    use \UsersSchemaTrait;
+    use \UsersRolesSchemaTrait;
 
     /**
      * {@inheritdoc}
