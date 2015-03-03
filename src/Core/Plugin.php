@@ -597,35 +597,35 @@ class Plugin extends CakePlugin
                     $matches['fix'] = 0;
                 }
 
-                if ($matches['fix'] === 'x') {
+                if (is_string($matches['fix']) && $matches['fix'] == 'x') {
                     if ($op === '>' || $op === '<=') {
-                        $matches['minor']++;
+                        $matches['minor'] = intval($matches['minor']) + 1;
                     }
                     if ($op === '=' || $op === '==') {
                         $out['versions'][] = [
                             'op' => '<',
-                            'version' => $matches['major'] . '.' . ($matches['minor'] + 1)
+                            'version' => $matches['major'] . '.' . (intval($matches['minor']) + 1)
                         ];
                         $op = '>=';
                     }
-                    $matches['fix'] = '';
+                    $matches['fix'] = 0;
                 }
 
                 if ($matches['minor'] === 'x') {
                     if ($op === '>' || $op === '<=') {
-                        $matches['major']++;
+                        $matches['major'] = intval($matches['major']) + 1;
                     }
                     if ($op === '=' || $op === '==') {
                         $out['versions'][] = [
                             'op' => '<',
-                            'version' => ($matches['major'] + 1) . '.x'
+                            'version' => (intval($matches['major']) + 1) . '.x'
                         ];
                         $op = '>=';
                     }
                 }
 
-                $matches['fix'] = empty($matches['fix']) ? '' : '.' . $matches['fix'];
-                $v = preg_replace('/\.{1,}$/', '', "{$matches['major']}.{$matches['minor']}.{$matches['fix']}");
+                $matches['fix'] = empty($matches['fix']) ? '' : ".{$matches['fix']}";
+                $v = preg_replace('/\.{1,}$/', '', "{$matches['major']}.{$matches['minor']}{$matches['fix']}");
                 $out['versions'][] = [
                     'op' => $op,
                     'version' => "{$v}{$matches['tail']}",

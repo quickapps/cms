@@ -163,11 +163,17 @@ class PluginTest extends TestCase {
         $expected5 = [];
         $result5 = Plugin::parseDependency('*');
 
-        $expected6 = [['op' => '>=', 'version' => '7.0'], ['op' => '<', 'version' => '7.6']];
-        $result6 = Plugin::parseDependency('>=7.x,<7.6');
+        $expected6 = [['op' => '>=', 'version' => '7.x'], ['op' => '<', 'version' => '7.6']];
+        $result6 = Plugin::parseDependency('>=7.*,<7.6');
 
-        $expected7 = $expected6;
-        $result7 = Plugin::parseDependency('>=7.x,<7.6.*');
+        $expected7 = [['op' => '>=', 'version' => '7.x'], ['op' => '<', 'version' => '7.6']];
+        $result7 = Plugin::parseDependency('>=7.*,<7.6.*');
+
+        $expected8 = [['op' => '==', 'version' => '2.6.8']];
+        $result8 = Plugin::parseDependency('2.6.8');
+
+        $expected9 = [['op' => '>', 'version' => '2.7']];
+        $result9 = Plugin::parseDependency('>2.6.*');
 
         $this->assertEquals($expected1, $result1['versions']);
         $this->assertEquals($expected2, $result2['versions']);
@@ -176,5 +182,7 @@ class PluginTest extends TestCase {
         $this->assertEquals($expected5, $result5['versions']);
         $this->assertEquals($expected6, $result6['versions']);
         $this->assertEquals($expected7, $result7['versions']);
+        $this->assertEquals($expected8, $result8['versions']);
+        $this->assertEquals($expected9, $result9['versions']);
     }
 }
