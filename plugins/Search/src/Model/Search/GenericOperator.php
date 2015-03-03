@@ -71,39 +71,55 @@ class GenericOperator extends Operator
      */
     public function scope(Query $query, Token $token)
     {
-        $tableAlias = $this->_table->alias();
         $field = $this->config('field');
-        $conjunction = strtolower($this->config('conjunction'));
         $value = $token->value();
 
-        if ($field && !empty($value)) {
-            if ($conjunction == 'auto') {
-                $conjunction = strpos($value, ',') ? 'in' : 'like';
-            }
+        if (!$field || empty($value)) {
+            return $query;
+        }
 
-            if ($conjunction == 'in') {
-                $value = explode(',', $value);
-                $value = array_slice($value, 0, $this->config('inSlice'));
-                $conjunction = $token->negated() ? 'NOT IN' : 'IN';
-            } elseif ($conjunction == 'like') {
-                $value = str_replace(['*', '!'], ['%', '_'], $value);
-                $conjunction = $token->negated() ? 'NOT LIKE' : 'LIKE';
-            } elseif ($conjunction == '=') {
-                $conjunction = $token->negated() ? '<>' : '';
-            } elseif ($conjunction == '<>') {
-                $conjunction = $token->negated() ? '' : '<>';
-            }
+        $conjunction = $this->_conjunction($value);
+        $tableAlias = $this->_table->alias();
+        $conditions = ["{$tableAlias}.{$field} {$conjunction}" => $value];
 
-            $conditions = ["{$tableAlias}.{$field} {$conjunction}" => $value];
-            if ($token->where() === 'or') {
-                $query->orWhere($conditions);
-            } elseif ($token->where() === 'and') {
-                $query->andWhere($conditions);
-            } else {
-                $query->where($conditions);
-            }
+        if ($token->where() === 'or') {
+            $query->orWhere($conditions);
+        } elseif ($token->where() === 'and') {
+            $query->andWhere($conditions);
+        } else {
+            $query->where($conditions);
         }
 
         return $query;
+    }
+
+    /**
+     * Calculates the proper conjunction to used based on the given value, and
+     * alters the given value to match this conjunction.
+     *
+     * @param string &$value Value to use when calculating the conjunction, it will
+     *  be altered if needed in order to match the resulting conjunction
+     * @return string
+     */
+    protected function _conjunction(&$value)
+    {
+        $conjunction = strtolower($this->config('conjunction'));
+        if ($conjunction == 'auto') {
+            $conjunction = strpos($value, ',') ? 'in' : 'like';
+        }
+
+        if ($conjunction == 'in') {
+            $value = array_slice(explode(',', $value), 0, $this->config('inSlice'));
+            $conjunction = $token->negated() ? 'NOT IN' : 'IN';
+        } elseif ($conjunction == 'like') {
+            $value = str_replace(['*', '!'], ['%', '_'], $value);
+            $conjunction = $token->negated() ? 'NOT LIKE' : 'LIKE';
+        } elseif ($conjunction == '=') {
+            $conjunction = $token->negated() ? '<>' : '';
+        } elseif ($conjunction == '<>') {
+            $conjunction = $token->negated() ? '' : '<>';
+        }
+
+        return $conjunction;
     }
 }
