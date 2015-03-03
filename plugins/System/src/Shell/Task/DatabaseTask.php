@@ -96,14 +96,16 @@ class DatabaseTask extends Shell
             $Table = TableRegistry::get($table);
             $Table->behaviors()->reset();
             $fields = ['_constraints' => []];
+            $columns = $Table->schema()->columns();
             $records = [];
 
-            foreach ($Table->schema()->columns() as $column) {
+            foreach ($columns as $column) {
                 $fields[$column] = $Table->schema()->column($column);
             }
 
             foreach ($Table->schema()->constraints() as $constraint) {
-                $fields['_constraints'][$constraint] = $Table->schema()->constraint($constraint);
+                $constraintName = in_array($constraint, $columns) ? Inflector::underscore("{$table}_{$constraint}") : $constraint;
+                $fields['_constraints'][$constraintName] = $Table->schema()->constraint($constraint);
             }
 
             // we need raw data for time, no Time objects
