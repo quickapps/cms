@@ -9,6 +9,8 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
+
+use QuickApps\Core\Plugin;
 ?>
 
 <div class="text-right"><?php echo $this->Html->link(__d('block', 'Create New Block'), ['plugin' => 'Block', 'controller' => 'manage', 'action' => 'add'], ['class' => 'btn btn-primary']); ?></div>
@@ -17,7 +19,11 @@
 	<div class="panel-group" id="accordion">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#front-theme"><?php echo __d('block', 'Theme: {0}', $frontThemeName); ?></a></h4>
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion" href="#front-theme">
+						<?php echo __d('block', 'Theme: {0}', Plugin::info(option('front_theme'))['human_name']); ?>
+					</a>
+				</h4>
 			</div>
 			<div id="front-theme" class="panel-collapse collapse">
 				<div class="panel-body">
@@ -93,7 +99,11 @@
 
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#back-theme"><?php echo __d('block', 'Theme: {0}', $backThemeName); ?></a></h4>
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion" href="#back-theme">
+						<?php echo __d('block', 'Theme: {0}', Plugin::info(option('back_theme'))['human_name']); ?>
+					</a>
+				</h4>
 			</div>
 			<div id="back-theme" class="panel-collapse collapse">
 				<div class="panel-body">

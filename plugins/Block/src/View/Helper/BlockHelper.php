@@ -90,16 +90,7 @@ class BlockHelper extends Helper
                 ->where(['Blocks.status' => 1])
                 ->all()
                 ->filter(function ($block) {
-                    // we have to remove all blocks that belongs to a disabled plugin
-                    if ($block->handler === 'Block') {
-                        return true;
-                    }
-                    foreach ($this->_listeners() as $listener) {
-                        if (str_starts_with($listener, "Block.{$block->handler}")) {
-                            return true;
-                        }
-                    }
-                    return false;
+                    return $block->renderable();
                 });
 
             if (!$all) {

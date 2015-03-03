@@ -35,93 +35,20 @@ class ManageController extends AppController
     public function index()
     {
         $this->loadModel('Block.Blocks');
-        $front = $back = $unused = $frontIds = $backIds = [];
-        $frontThemeName = $backThemeName = null;
+        $front = $back = $unused = [];
 
         if ($this->request->isPost()) {
-            if (!empty($this->request->data['regions'])) {
-                foreach ($this->request->data['regions'] as $theme => $regions) {
-                    foreach ($regions as $region => $ids) {
-                        $ordering = 0;
-                        foreach ($ids as $id) {
-                            $blockRegion = $this
-                                ->Blocks
-                                ->BlockRegions
-                                ->newEntity(['id' => $id, 'theme' => $theme, 'region' => $region, 'ordering' => $ordering]);
-                            $this->Blocks->BlockRegions->save($blockRegion);
-                            $ordering++;
-                        }
-                    }
-                }
-
+            if ($this->_reorder()) {
                 $this->Flash->success(__d('block', 'Blocks ordering updated!'));
             }
             $this->redirect(['plugin' => 'Block', 'controller' => 'manage', 'action' => 'index']);
         }
 
-        foreach (['front', 'back'] as $type) {
-            $theme = option("{$type}_theme");
-            ${"{$type}ThemeName"} = Plugin::info($theme)['human_name'];
-            $regions = Plugin::info($theme, true)['composer']['extra']['regions'];
-            foreach ($regions as $regionSlug => $regionName) {
-                $blocks = $this->Blocks->find()
-                    ->matching('BlockRegions', function ($q) use ($regionSlug, $theme) {
-                        return $q->where([
-                            'BlockRegions.theme' => $theme,
-                            'BlockRegions.region' => $regionSlug,
-                        ]);
-                    })
-                    ->where(['Blocks.status' => 1])
-                    ->all()
-                    ->filter(function ($block) {
-                        // we have to remove all blocks that belongs to a disabled plugin
-                        if ($block->handler === 'Block') {
-                            return true;
-                        }
-                        foreach (listeners() as $listener) {
-                            if (str_starts_with($listener, "Block.{$block->handler}")) {
-                                return true;
-                            }
-                        }
-                        return false;
-                    })
-                    ->sortBy(function ($block) {
-                        return $block->region->ordering;
-                    }, SORT_ASC);
-                ${$type}[$regionName] = $blocks;
+        $front = $this->Blocks->inFrontTheme();
+        $back = $this->Blocks->inBackTheme();
+        $unused = $this->Blocks->unused();
 
-                foreach ($blocks as $block) {
-                    ${"{$type}Ids"}[] = $block->id;
-                }
-            }
-        }
-
-        $notIn = array_unique(array_merge($frontIds, $backIds));
-        $notIn = empty($notIn) ? ['0'] : $notIn;
-        $unused = $this->Blocks->find()
-            ->where([
-                'OR' => [
-                    'Blocks.id NOT IN' => $notIn,
-                    'Blocks.status' => 0,
-                ]
-            ])
-            ->all()
-            ->filter(function ($block) {
-                // we have to remove all blocks that belongs to a disabled plugin
-                if ($block->handler === 'Block') {
-                    return true;
-                }
-
-                foreach (listeners() as $listener) {
-                    if (str_starts_with($listener, "Block.{$block->handler}")) {
-                        return true;
-                    }
-                }
-
-                return false;
-            });
-
-        $this->set(compact('frontThemeName', 'backThemeName', 'front', 'back', 'unused'));
+        $this->set(compact('front', 'back', 'unused'));
         $this->Breadcrumb
             ->push('/admin/system/structure')
             ->push(__d('block', 'Manage Blocks'), '#');
@@ -278,6 +205,37 @@ class ManageController extends AppController
         }
 
         $this->redirect($this->referer() . '#unused-blocks');
+    }
+
+    /**
+     * Reorders blocks based on the order provided via POST.
+     *
+     * @return bool True on success, false otherwise
+     */
+    protected function _reorder()
+    {
+        if (!empty($this->request->data['regions'])) {
+            foreach ($this->request->data['regions'] as $theme => $regions) {
+                foreach ($regions as $region => $ids) {
+                    $ordering = 0;
+                    foreach ($ids as $id) {
+                        $blockRegion = $this->Blocks
+                            ->BlockRegions
+                            ->newEntity([
+                                'id' => $id,
+                                'theme' => $theme,
+                                'region' => $region,
+                                'ordering' => $ordering
+                            ]);
+                        $blockRegion->isNew(false);
+                        $this->Blocks->BlockRegions->save($blockRegion);
+                        $ordering++;
+                    }
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     /**

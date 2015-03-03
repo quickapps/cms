@@ -18,6 +18,7 @@ use Cake\Event\Event;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use QuickApps\Core\Plugin;
 use QuickApps\Event\HookAwareTrait;
 use \ArrayObject;
 
@@ -74,6 +75,92 @@ class BlocksTable extends Table
         $table->columnType('locale', 'serialized');
         $table->columnType('settings', 'serialized');
         return $table;
+    }
+
+    /**
+     * Gets a list of all blocks renderable in front-end theme.
+     *
+     * @return mixed
+     */
+    public function inFrontTheme()
+    {
+        return $this->_inTheme('front');
+    }
+
+    /**
+     * Gets a list of all blocks renderable in front-end theme.
+     *
+     * @return mixed
+     */
+    public function inBackTheme()
+    {
+        return $this->_inTheme('back');
+    }
+
+    /**
+     * Gets a list of all blocks that are NOT renderable.
+     *
+     * @return mixed
+     */
+    public function unused()
+    {
+        $ids = [];
+        foreach ([$this->inFrontTheme(), $this->inBackTheme()] as $bundle) {
+            foreach ($bundle as $region => $blocks) {
+                foreach ($blocks as $block) {
+                    $ids[] = $block->get('id');
+                }
+            }
+        }
+
+        $notIn = array_unique($ids);
+        $notIn = empty($notIn) ? ['0'] : $notIn;
+        return $this->find()
+            ->where([
+                'OR' => [
+                    'Blocks.id NOT IN' => $notIn,
+                    'Blocks.status' => 0,
+                ]
+            ])
+            ->all()
+            ->filter(function ($block) {
+                return $block->renderable();
+            });
+    }
+
+    /**
+     * Gets a list of all blocks renderable in the given type theme.
+     *
+     * @param string $type Possible values are: 'front' or 'back'
+     * @return array Blocks index by region name
+     */
+    protected function _inTheme($type = 'front')
+    {
+        $theme = option("{$type}_theme");
+        $regions = Plugin::info($theme, true)['composer']['extra']['regions'];
+        $out = [];
+
+        foreach ($regions as $slug => $name) {
+            $blocks = $this->find()
+                ->matching('BlockRegions', function ($q) use ($slug, $theme) {
+                    return $q->where([
+                        'BlockRegions.theme' => $theme,
+                        'BlockRegions.region' => $slug,
+                    ]);
+                })
+                ->where(['Blocks.status' => 1])
+                ->all()
+                ->filter(function ($block) {
+                    return $block->renderable();
+                })
+                ->sortBy(function ($block) {
+                    return $block->region->ordering;
+                }, SORT_ASC);
+
+            $out[$name] = $blocks;
+        }
+
+        return $out;
     }
 
     /**

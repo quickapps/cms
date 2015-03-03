@@ -23,7 +23,7 @@ class DateToolbox
     /**
      * Maps jQuery's datepicker format tokens to PHP's
      *
-     * @var array]
+     * @var array
      */
     protected static $_map = [
         'date' => [
@@ -80,7 +80,7 @@ class DateToolbox
      *
      * @param string $format Date format coming from jQuery's datepicker widget.
      *  e.g. yy-mm-dd hh:mm
-     * @return array An array result of using date_parse_from_format()
+     * @return string A valid date/time format to use with PHP
      */
     public static function normalizeFormat($format)
     {

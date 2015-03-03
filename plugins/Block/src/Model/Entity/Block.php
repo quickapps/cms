@@ -53,6 +53,24 @@ class Block extends Entity
     }
 
     /**
+     * Checks if whether this block can be rendered or not.
+     *
+     * @return bool
+     */
+    public function renderable()
+    {
+        if ($this->get('handler') === 'Block') {
+            return true;
+        }
+        foreach (listeners() as $listener) {
+            if (str_starts_with($listener, 'Block.' . $this->get('handler'))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Sanitizes block's description. No HTML allowed.
      *
      * @param string $description Block's description

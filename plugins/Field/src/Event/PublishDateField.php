@@ -14,7 +14,6 @@ namespace Field\Event;
 use Cake\Event\Event;
 use Cake\Routing\Router;
 use Field\BaseHandler;
-use Field\Event\DateField;
 use Field\Model\Entity\Field;
 use Field\Utility\DateToolbox;
 
