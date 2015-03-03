@@ -784,9 +784,7 @@ class FieldableBehavior extends Behavior
         if (!empty($this->_cache['_FieldValues'])) {
             foreach ($this->_cache['_FieldValues'] as $valueEntity) {
                 $valueEntity->set('entity_id', $entity->id);
-                if (empty($valueEntity->get('id'))) {
-                    $valueEntity->unsetProperty('id');
-                }
+                $valueEntity->unsetProperty('id');
                 TableRegistry::get('Field.FieldValues')->save($valueEntity);
             }
             $this->_cache['_FieldValues'] = [];
