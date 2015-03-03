@@ -146,8 +146,10 @@ class BreadcrumbComponent extends Component
      */
     protected function _urlChunk($url = null)
     {
-        $request = $this->_controller->request;
-        $url = !$url ? '/' . $request->url : $url;
+        if (!$url) {
+            $url = '/' . $this->_controller->request->url;
+        }
+
         $cacheKey = 'urlChunk_' . md5($url);
         $cache = static::cache($cacheKey);
 
@@ -176,22 +178,21 @@ class BreadcrumbComponent extends Component
         }
 
         // "/plugin_name/plugin_name/action_name" -> "/plugin_name/action_name"
-        if (!empty($parsedURL['plugin']) && strtolower($parsedURL['controller']) === strtolower($parsedURL['plugin'])) {
+        if (!empty($parsedURL['plugin']) &&
+            strtolower($parsedURL['controller']) === strtolower($parsedURL['plugin'])
+        ) {
             $parsedURL['plugin'] = null;
             $out[] = Router::url($parsedURL);
         }
 
-        if (!empty($passArguments)) {
-            $passArguments = array_reverse($passArguments);
-            foreach ($passArguments as $pass) {
-                unset($parsedURL[array_search($pass, $parsedURL)]);
-                $out[] = Router::url($parsedURL);
-            }
+        foreach (array_reverse($passArguments) as $pass) {
+            unset($parsedURL[array_search($pass, $parsedURL)]);
+            $out[] = Router::url($parsedURL);
         }
 
-        $out = array_map(function ($value) use ($request) {
-            if (str_starts_with($value, $request->base)) {
-                return str_replace_once($request->base, '', $value);
+        $out = array_map(function ($value) {
+            if (str_starts_with($value, $this->_controller->request->base)) {
+                return str_replace_once($this->_controller->request->base, '', $value);
             }
             return $value;
         }, $out);
