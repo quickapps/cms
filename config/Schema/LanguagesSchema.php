@@ -16,7 +16,7 @@ trait LanguagesSchemaTrait
       [
       ],
     ],
-    '705b6ee8efbfe82e22c77a2a6357a902' => 
+    'languages_code' => 
     [
       'type' => 'unique',
       'columns' => 

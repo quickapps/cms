@@ -16,7 +16,7 @@ trait TermsSchemaTrait
       [
       ],
     ],
-    '5a24395523d66189d7521d196717d1af' => 
+    'terms_slug' => 
     [
       'type' => 'unique',
       'columns' => 

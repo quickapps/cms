@@ -16,7 +16,7 @@ trait BlocksSchemaTrait
       [
       ],
     ],
-    'b4a86e247415f496060c7c17dc00976c' => 
+    'blocks_delta' => 
     [
       'type' => 'unique',
       'columns' => 

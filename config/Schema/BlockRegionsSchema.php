@@ -16,7 +16,7 @@ trait BlockRegionsSchemaTrait
       [
       ],
     ],
-    'eb657645743d72aa30909bb50bbfcb04' => 
+    'block_regions_block_id' => 
     [
       'type' => 'unique',
       'columns' => 
