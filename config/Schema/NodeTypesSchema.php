@@ -93,7 +93,6 @@ trait NodeTypesSchemaTrait
     protected $_records = [
   0 => 
   [
-    'id' => 1,
     'slug' => 'article',
     'name' => 'Article',
     'description' => 'Use articles for time-sensitive content like news, press releases or blog posts.',

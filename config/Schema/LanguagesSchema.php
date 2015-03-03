@@ -106,7 +106,6 @@ trait LanguagesSchemaTrait
     protected $_records = [
   0 => 
   [
-    'id' => 1,
     'code' => 'en-us',
     'name' => 'English',
     'direction' => 'ltr',
@@ -116,7 +115,6 @@ trait LanguagesSchemaTrait
   ],
   1 => 
   [
-    'id' => 2,
     'code' => 'es',
     'name' => 'Spanish',
     'direction' => 'ltr',

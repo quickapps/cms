@@ -118,7 +118,11 @@ class DatabaseTask extends Shell
 
             $rows = $Table->find('all');
             foreach ($rows as $row) {
-                $records[] = $row->toArray();
+                $row = $row->toArray();
+                if (isset($row['id'])) {
+                    unset($row['id']);
+                }
+                $records[] = $row;
             }
 
             $className = Inflector::camelize($table) . 'Schema';

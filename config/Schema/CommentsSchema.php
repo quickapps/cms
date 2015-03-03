@@ -175,7 +175,6 @@ trait CommentsSchemaTrait
     protected $_records = [
   0 => 
   [
-    'id' => 1,
     'entity_id' => '1',
     'user_id' => NULL,
     'table_alias' => 'nodes',
@@ -193,7 +192,6 @@ trait CommentsSchemaTrait
   ],
   1 => 
   [
-    'id' => 4,
     'entity_id' => '1',
     'user_id' => 1,
     'table_alias' => 'nodes',

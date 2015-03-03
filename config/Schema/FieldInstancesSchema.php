@@ -141,7 +141,6 @@ trait FieldInstancesSchemaTrait
     protected $_records = [
   0 => 
   [
-    'id' => 1,
     'slug' => 'article-introduction',
     'table_alias' => 'nodes:article',
     'handler' => 'TextField',
@@ -155,7 +154,6 @@ trait FieldInstancesSchemaTrait
   ],
   1 => 
   [
-    'id' => 3,
     'slug' => 'article-body',
     'table_alias' => 'nodes:article',
     'handler' => 'TextField',

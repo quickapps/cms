@@ -64,19 +64,16 @@ trait RolesSchemaTrait
     protected $_records = [
   0 => 
   [
-    'id' => 1,
     'slug' => 'administrator',
     'name' => 'Administrator',
   ],
   1 => 
   [
-    'id' => 2,
     'slug' => 'authenticated ',
     'name' => 'Authenticated User',
   ],
   2 => 
   [
-    'id' => 3,
     'slug' => 'anonymous',
     'name' => 'Anonymous User',
   ],

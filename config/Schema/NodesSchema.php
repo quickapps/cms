@@ -183,7 +183,6 @@ trait NodesSchemaTrait
     protected $_records = [
   0 => 
   [
-    'id' => 1,
     'node_type_id' => 1,
     'node_type_slug' => 'article',
     'translation_for' => NULL,
@@ -202,7 +201,6 @@ trait NodesSchemaTrait
   ],
   1 => 
   [
-    'id' => 2,
     'node_type_id' => 1,
     'node_type_slug' => 'article',
     'translation_for' => NULL,

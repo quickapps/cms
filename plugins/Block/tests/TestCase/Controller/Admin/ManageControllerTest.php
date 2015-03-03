@@ -80,7 +80,6 @@ class ManageControllerTest extends IntegrationTestCase
             ->where(['title' => 'test block'])
             ->limit(1)
             ->first();
-
         $this->assertNotEmpty($block);
     }
 
