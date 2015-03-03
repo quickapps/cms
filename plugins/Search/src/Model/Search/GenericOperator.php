@@ -72,13 +72,11 @@ class GenericOperator extends Operator
     public function scope(Query $query, Token $token)
     {
         $field = $this->config('field');
-        $value = $token->value();
-
-        if (!$field || empty($value)) {
+        if (!$field || empty($token->value())) {
             return $query;
         }
 
-        $conjunction = $this->_conjunction($value);
+        list($conjunction, $value) = $this->_prepareConjunction($token);
         $tableAlias = $this->_table->alias();
         $conditions = ["{$tableAlias}.{$field} {$conjunction}" => $value];
 
@@ -94,15 +92,15 @@ class GenericOperator extends Operator
     }
 
     /**
-     * Calculates the proper conjunction to used based on the given value, and
-     * alters the given value to match this conjunction.
+     * Calculates the conjunction to use and the value to use with this conjunction
+     * based on the given token.
      *
-     * @param string &$value Value to use when calculating the conjunction, it will
-     *  be altered if needed in order to match the resulting conjunction
+     * @param \Search\Token $token Token for which calculating the conjunction
      * @return string
      */
-    protected function _conjunction(&$value)
+    protected function _prepareConjunction($token)
     {
+        $value = $token->value();
         $conjunction = strtolower($this->config('conjunction'));
         if ($conjunction == 'auto') {
             $conjunction = strpos($value, ',') ? 'in' : 'like';
@@ -120,6 +118,6 @@ class GenericOperator extends Operator
             $conjunction = $token->negated() ? '' : '<>';
         }
 
-        return $conjunction;
+        return [$conjunction, $value];
     }
 }
