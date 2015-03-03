@@ -104,7 +104,7 @@ class DatabaseTask extends Shell
             }
 
             foreach ($Table->schema()->constraints() as $constraint) {
-                $constraintName = in_array($constraint, $columns) ? Inflector::underscore("{$table}_{$constraint}") : $constraint;
+                $constraintName = in_array($constraint, $columns) ? md5(Inflector::underscore("{$table}_{$constraint}")) : $constraint;
                 $fields['_constraints'][$constraintName] = $Table->schema()->constraint($constraint);
             }
 
