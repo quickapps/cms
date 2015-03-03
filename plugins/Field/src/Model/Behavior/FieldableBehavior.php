@@ -1082,7 +1082,6 @@ class FieldableBehavior extends Behavior
 
         if ($whereClause) {
             $pk = $this->_table->primaryKey();
-
             if (!empty($options['bundle'])) {
                 if (is_array($options['bundle'])) {
                     $tableAlias = [];
@@ -1120,7 +1119,7 @@ class FieldableBehavior extends Behavior
 
                 $fieldName = str_replace(':', '', $fieldName);
                 $subQuery = TableRegistry::get('Field.FieldValues')->find()
-                    ->select('entity_id')
+                    ->select('FieldValues.entity_id')
                     ->where([
                         "FieldValues.field_instance_slug" => $fieldName,
                         "FieldValues.value {$conjunction}" => $value
@@ -1146,7 +1145,7 @@ class FieldableBehavior extends Behavior
                     $subQuery->where(['FieldValues.table_alias' => $tableAlias]);
                 }
 
-                $expression->setField($this->_table->alias() . '.' . $pk);
+                $expression->setField('CONCAT(' . $this->_table->alias() . ".{$pk}, '')");
                 $expression->setValue($subQuery);
                 $expression->setOperator('IN');
             });
