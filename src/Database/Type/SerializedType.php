@@ -78,22 +78,15 @@ class SerializedType extends Type
             return false;
         }
         $data = trim($data);
+        $lastc = substr($data, -1);
+
         if ($data == 'N;') {
             return true;
-        }
-        if (strlen($data) < 4) {
-            return false;
-        }
-        if ($data[1] !== ':') {
-            return false;
-        }
-        $lastc = substr($data, -1);
-        if ($lastc !== ';' && $lastc !== '}') {
+        } elseif (strlen($data) < 4 || ($lastc !== ';' && $lastc !== '}') || $data[1] !== ':') {
             return false;
         }
 
-        $token = $data[0];
-        switch ($token) {
+        switch ($data[0]) {
             case 's':
                 if (substr($data, -2, 1) !== '"') {
                     return false;
@@ -102,14 +95,14 @@ class SerializedType extends Type
             case 'a':
                 // no break
             case 'O':
-                return (bool)preg_match("/^{$token}:[0-9]+:/s", $data);
+                return (bool)preg_match("/^{$data[0]}:[0-9]+:/s", $data);
                 // no break
             case 'b':
                 // no break
             case 'i':
                 // no break
             case 'd':
-                return (bool)preg_match("/^{$token}:[0-9.E-]+;$/", $data);
+                return (bool)preg_match("/^{$data[0]}:[0-9.E-]+;$/", $data);
                 // no break
         }
 

@@ -687,7 +687,6 @@ class FieldableBehavior extends Behavior
         // start of old validation events emulation
         $validator = $this->_table->validator();
         $eventResult = $this->_table->dispatchEvent('Model.beforeValidate', compact('entity', 'options', 'validator'));
-
         if ($eventResult->result === false) {
             return false;
         }

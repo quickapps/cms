@@ -51,19 +51,14 @@ class Comment extends Entity
     {
         $author = [
             'username' => __d('comment', 'anonymous'),
-            'name' => $this->get('author_name'),
-            'web' => $this->get('author_web'),
-            'email' => $this->get('author_email'),
+            'name' => !empty($this->get('author_name')) ? $this->get('author_name') : __d('comment', 'Anonymous'),
+            'web' => !empty($this->get('author_web')) ? $this->get('author_web') : __d('comment', '(no website)'),
+            'email' => !empty($this->get('author_email')) ? $this->get('author_email') : __d('comment', '(no email given)'),
             'ip' => $this->get('author_ip'),
         ];
 
-        $author['name'] = empty($author['name']) ? __d('comment', 'Anonymous') : $author['name'];
-        $author['web'] = empty($author['web']) ? __d('comment', '(no website)') : $author['web'];
-        $author['email'] = empty($author['email']) ? __d('comment', '(no email given)') : $author['email'];
-
         if ($this->has('user') || !empty($this->get('user_id'))) {
             $user = $this->get('user');
-
             if (!$user) {
                 $user = TableRegistry::get('User.Users')
                     ->find()
@@ -77,7 +72,11 @@ class Comment extends Entity
                 $author['email'] = $user->email;
             }
         }
-        $author['name'] = empty($author['name']) ? __d('comment', 'Anonymous') : $author['name'];
+
+        if (empty($author['name'])) {
+            $author['name'] = __d('comment', 'Anonymous');
+        }
+
         return new User($author);
     }
 }

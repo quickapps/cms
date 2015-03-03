@@ -586,16 +586,21 @@ class Plugin extends CakePlugin
             $version = trim($version);
             if (preg_match("/^{$pOp}{$pMajor}\.?{$pMinor}\.?{$pFix}{$pTail}/", $version, $matches)) {
                 $op = empty($matches['operator']) ? '==' : $matches['operator'];
-                $matches['minor'] = $matches['minor'] === '*' ? 'x' : $matches['minor'];
-                $matches['fix'] = $matches['fix'] === '*' ? 'x' : $matches['fix'];
-                $matches['minor'] = $matches['minor'] === '' ? 0 : $matches['minor'];
-                $matches['fix'] = $matches['fix'] === '' ? 0 : $matches['fix'];
+                $matches['minor'] = str_replace('*', 'x', $matches['minor']);
+                $matches['fix'] = str_replace('*', 'x', $matches['fix']);
+
+                if ($matches['minor'] === '') {
+                    $matches['minor'] = 0;
+                }
+
+                if ($matches['fix'] === '') {
+                    $matches['fix'] = 0;
+                }
 
                 if ($matches['fix'] === 'x') {
                     if ($op === '>' || $op === '<=') {
                         $matches['minor']++;
                     }
-
                     if ($op === '=' || $op === '==') {
                         $out['versions'][] = [
                             'op' => '<',
@@ -603,7 +608,6 @@ class Plugin extends CakePlugin
                         ];
                         $op = '>=';
                     }
-
                     $matches['fix'] = '';
                 }
 
@@ -611,7 +615,6 @@ class Plugin extends CakePlugin
                     if ($op === '>' || $op === '<=') {
                         $matches['major']++;
                     }
-
                     if ($op === '=' || $op === '==') {
                         $out['versions'][] = [
                             'op' => '<',
@@ -622,10 +625,10 @@ class Plugin extends CakePlugin
                 }
 
                 $matches['fix'] = empty($matches['fix']) ? '' : '.' . $matches['fix'];
-                $v = preg_replace('/\.{1,}$/', '', $matches['major'] . '.' . $matches['minor'] . $matches['fix']);
+                $v = preg_replace('/\.{1,}$/', '', "{$matches['major']}.{$matches['minor']}.{$matches['fix']}");
                 $out['versions'][] = [
                     'op' => $op,
-                    'version' => $v . $matches['tail'],
+                    'version' => "{$v}{$matches['tail']}",
                 ];
             }
         }

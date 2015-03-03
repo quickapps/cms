@@ -66,7 +66,7 @@ class AcoManager
     /**
      * Grants permissions to all users within $roles over the given $aco.
      *
-     * ### Aco path format:
+     * ### ACO path format:
      *
      * - `ControllerName/`: Maps to \<PluginName>\Controller\ControllerName::index()
      * - `ControllerName`: Same.
@@ -87,27 +87,26 @@ class AcoManager
 
         // path already exists
         $nodes = $this->Acos->node($path);
-        $nodes = is_object($nodes) ? $nodes->extract('alias')->toArray() : $nodes;
-        if ($nodes) {
-            if (implode('/', $nodes) === $path) {
-                return true;
-            }
+        if (is_object($nodes)) {
+            $nodes = $nodes->extract('alias')->toArray();
+        }
+        if (!empty($nodes) && implode('/', $nodes) === $path) {
+            return true;
         }
 
         $parent = null;
         $current = null;
         $parts = explode('/', $path);
-
         $this->Acos->connection()->transactional(function () use ($parts, $current, &$parent, $path) {
             foreach ($parts as $alias) {
                 $current[] = $alias;
-                $pathSegment = implode('/', $current);
-                $node = $this->Acos->node($pathSegment);
+                $node = $this->Acos->node(implode('/', $current));
+
                 if ($node) {
                     $parent = $node->first();
                 } else {
                     $acoEntity = $this->Acos->newEntity([
-                        'parent_id' => isset($parent->id) ? $parent->id : null,
+                        'parent_id' => (isset($parent->id) ? $parent->id : null),
                         'plugin' => $this->_pluginName,
                         'alias' => $alias,
                         'alias_hash' => md5($alias),
@@ -118,8 +117,6 @@ class AcoManager
         });
 
         if ($parent) {
-            $action = $parent;
-
             // register roles
             if (!empty($roles)) {
                 $this->loadModel('User.Permissions');
@@ -131,13 +128,12 @@ class AcoManager
 
                 foreach ($roles as $role) {
                     $permissionEntity = $this->Permissions->newEntity([
-                        'aco_id' => $action->id,
+                        'aco_id' => $parent->id, // action
                         'role_id' => $role->id,
                     ]);
                     $this->Permissions->save($permissionEntity);
                 }
             }
-
             return true;
         }
 
@@ -153,7 +149,6 @@ class AcoManager
     public function remove($path)
     {
         $nodes = $this->Acos->node($path);
-
         if (!$nodes) {
             return false;
         }
