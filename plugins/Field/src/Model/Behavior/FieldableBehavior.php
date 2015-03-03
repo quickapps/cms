@@ -1079,79 +1079,122 @@ class FieldableBehavior extends Behavior
     protected function _scopeQuery(Query $query, $options)
     {
         $whereClause = $query->clause('where');
-
-        if ($whereClause) {
-            $pk = $this->_table->primaryKey();
-            if (!empty($options['bundle'])) {
-                if (is_array($options['bundle'])) {
-                    $tableAlias = [];
-                    foreach ($options['bundle'] as $bundle) {
-                        $tableAlias[] = $this->config('tableAlias') . ':' . $bundle;
-                    }
-                } else {
-                    $tableAlias = $this->config('tableAlias') . ':' . $options['bundle'];
-                }
-            } else {
-                // indicates "look in all bundles"
-                $tableAlias = '*';
-            }
-
-            $whereClause->traverse(function ($expression) use ($tableAlias, $pk) {
-                if (!($expression instanceof Comparison)) {
-                    return;
-                }
-
-                $field = $expression->getField();
-                $value = $expression->getValue();
-                $conjunction = $expression->getOperator();
-                list($entityName, $fieldName) = pluginSplit((string)$field);
-
-                if (!$fieldName) {
-                    $fieldName = $entityName;
-                }
-
-                $fieldName = preg_replace('/\s{2,}/', ' ', $fieldName);
-                list($fieldName, ) = explode(' ', trim($fieldName));
-
-                if (strpos($fieldName, ':') !== 0) {
-                    return;
-                }
-
-                $fieldName = str_replace(':', '', $fieldName);
-                $subQuery = TableRegistry::get('Field.FieldValues')->find()
-                    ->select('FieldValues.entity_id')
-                    ->where([
-                        "FieldValues.field_instance_slug" => $fieldName,
-                        "FieldValues.value {$conjunction}" => $value
-                    ]);
-
-                if ($tableAlias === '*') {
-                    // look in all bundles
-                    $subQuery->where([
-                        'OR' => [
-                            'FieldValues.table_alias' => $this->config('tableAlias'),
-                            'FieldValues.table_alias LIKE' => $this->config('tableAlias') . ':%',
-                        ]
-                    ]);
-                } elseif (is_array($tableAlias)) {
-                    // look in multiple bundles
-                    $subQuery->where(['FieldValues.table_alias IN' => $tableAlias]);
-                } elseif (strpos($tableAlias, '*') !== false || strpos($tableAlias, '?') !== false) {
-                    // look in bundle matching pattern
-                    $newTableAlias = str_replace(['*', '?'], ['%', '_'], $tableAlias);
-                    $subQuery->where(['FieldValues.table_alias LIKE' => $newTableAlias]);
-                } else {
-                    // look in this specific bundle
-                    $subQuery->where(['FieldValues.table_alias' => $tableAlias]);
-                }
-
-                $expression->setField('CONCAT(' . $this->_table->alias() . ".{$pk}, '')");
-                $expression->setValue($subQuery);
-                $expression->setOperator('IN');
-            });
+        if (!$whereClause) {
+            return $query;
         }
 
+        $options['bundle'] = empty($options['bundle']) ? null : $options['bundle'];
+        $bundle = $this->_calculateBundle($options['bundle']);
+        $alias = $this->_table->alias();
+        $pk = $this->_table->primaryKey();
+
+        $whereClause->traverse(function ($expression) use ($bundle, $alias, $pk) {
+            if (!($expression instanceof Comparison)) {
+                return;
+            }
+
+            $field = $expression->getField();
+            $value = $expression->getValue();
+            $conjunction = $expression->getOperator();
+            list($entityName, $fieldName) = pluginSplit((string)$field);
+
+            if (!$fieldName) {
+                $fieldName = $entityName;
+            }
+
+            $fieldName = preg_replace('/\s{2,}/', ' ', $fieldName);
+            list($fieldName, ) = explode(' ', trim($fieldName));
+
+            if (strpos($fieldName, ':') !== 0) {
+                return;
+            }
+
+            $fieldName = str_replace(':', '', $fieldName);
+            $subQuery = TableRegistry::get('Field.FieldValues')->find()
+                ->select('FieldValues.entity_id')
+                ->where([
+                    "FieldValues.field_instance_slug" => $fieldName,
+                    "FieldValues.value {$conjunction}" => $value
+                ]);
+
+            if ($bundle === '*') {
+                // look in all bundles
+                $subQuery->where([
+                    'OR' => [
+                        'FieldValues.table_alias' => $this->config('tableAlias'),
+                        'FieldValues.table_alias LIKE' => $this->config('tableAlias') . ':%',
+                    ]
+                ]);
+            } elseif (is_array($bundle)) {
+                // look in multiple bundles
+                $subQuery->where(['FieldValues.table_alias IN' => $bundle]);
+            } elseif (strpos($bundle, '*') !== false || strpos($bundle, '?') !== false) {
+                // look in bundle matching pattern
+                $newTableAlias = str_replace(['*', '?'], ['%', '_'], $bundle);
+                $subQuery->where(['FieldValues.table_alias LIKE' => $newTableAlias]);
+            } else {
+                // look in this specific bundle
+                $subQuery->where(['FieldValues.table_alias' => $bundle]);
+            }
+
+            list(, $driverClass) = namespaceSplit(strtolower(get_class($subQuery->connection()->driver())));
+            switch ($driverClass) {
+                case 'sqlite':
+                    $field = "({$alias}.{$pk} || '')";
+                    break;
+                default:
+                case 'mysql':
+                case 'postgres':
+                case 'sqlserver':
+                    $field = "CONCAT({$alias}.{$pk}, '')";
+                    break;
+            }
+
+            $expression->setField($field);
+            $expression->setValue($subQuery);
+            $expression->setOperator('IN');
+        });
+
         return $query;
+    }
+
+    /**
+     * Calculates the bundle name to use.
+     *
+     * ### Example:
+     *
+     * ```php
+     * $this->_calculateBundle('articles');
+     * // returns "<tableName>:articles"
+     *
+     * $this->_calculateBundle(['articles', 'pages']);
+     * // returns ["<tableName>:articles", "<tableName>:pages"]
+     *
+     * $this->_calculateBundle();
+     * // returns "*"
+     * ```
+     *
+     * @param string|null $bundle Bundle to use within the table being managed by this
+     *  behavior. e.g. `articles`. If not given `*` will be returned
+     * @return string|array Bundle name as string if single bundle, or an array
+     *  if multiple bundles were detected
+     */
+    protected function _calculateBundle($bundle = null)
+    {
+        if (empty($bundle)) {
+            return '*';
+        }
+
+        if (is_array($bundle)) {
+            $out = [];
+            foreach ($bundle as $b) {
+                $out[] = $this->config('tableAlias') . ':' . (string)$b;
+            }
+
+            return $out;
+        }
+
+        return $this->config('tableAlias') . ':' . (string)$bundle;
     }
 
     /**
