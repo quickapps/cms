@@ -16,7 +16,7 @@ trait BlocksSchemaTrait
       [
       ],
     ],
-    'blocks_delta' => 
+    'b4a86e247415f496060c7c17dc00976c' => 
     [
       'type' => 'unique',
       'columns' => 
@@ -34,10 +34,10 @@ trait BlocksSchemaTrait
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
-    'null' => false,
+    'null' => true,
     'default' => NULL,
     'comment' => 'Primary Key - Unique block ID.',
-    'autoIncrement' => true,
+    //'autoIncrement' => true,
     'precision' => NULL,
   ],
   'copy_id' => 
@@ -166,7 +166,7 @@ trait BlocksSchemaTrait
   ],
   1 => 
   [
-    'id' => 2,
+    //'id' => 2,
     'copy_id' => NULL,
     'delta' => '2',
     'handler' => 'System',
@@ -181,7 +181,7 @@ trait BlocksSchemaTrait
   ],
   2 => 
   [
-    'id' => 3,
+    //'id' => 3,
     'copy_id' => NULL,
     'delta' => 'dashboard_recent_content',
     'handler' => 'Node',
@@ -196,7 +196,7 @@ trait BlocksSchemaTrait
   ],
   3 => 
   [
-    'id' => 4,
+    //'id' => 4,
     'copy_id' => NULL,
     'delta' => 'dashboard_search',
     'handler' => 'Node',
@@ -211,7 +211,7 @@ trait BlocksSchemaTrait
   ],
   4 => 
   [
-    'id' => 5,
+    //'id' => 5,
     'copy_id' => NULL,
     'delta' => 'language_switcher',
     'handler' => 'Locale',
@@ -226,7 +226,7 @@ trait BlocksSchemaTrait
   ],
   5 => 
   [
-    'id' => 6,
+    //'id' => 6,
     'copy_id' => NULL,
     'delta' => 'categories',
     'handler' => 'Taxonomy',

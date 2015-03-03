@@ -16,7 +16,7 @@ trait SearchDatasetsSchemaTrait
       [
       ],
     ],
-    'search_datasets_entity_id' => 
+    '20c7abf8d0fa64d704bf663839fa1128' => 
     [
       'type' => 'unique',
       'columns' => 
