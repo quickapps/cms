@@ -16,7 +16,7 @@ trait RolesSchemaTrait
       [
       ],
     ],
-    'name' => 
+    'roles_name' => 
     [
       'type' => 'unique',
       'columns' => 

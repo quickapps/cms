@@ -16,7 +16,7 @@ trait OptionsSchemaTrait
       [
       ],
     ],
-    'name' => 
+    'options_name' => 
     [
       'type' => 'unique',
       'columns' => 

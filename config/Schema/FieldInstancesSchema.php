@@ -16,7 +16,7 @@ trait FieldInstancesSchemaTrait
       [
       ],
     ],
-    'slug' => 
+    'field_instances_slug' => 
     [
       'type' => 'unique',
       'columns' => 

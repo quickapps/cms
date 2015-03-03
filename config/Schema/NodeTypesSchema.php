@@ -16,7 +16,7 @@ trait NodeTypesSchemaTrait
       [
       ],
     ],
-    'slug' => 
+    'node_types_slug' => 
     [
       'type' => 'unique',
       'columns' => 

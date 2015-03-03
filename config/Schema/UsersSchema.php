@@ -16,7 +16,7 @@ trait UsersSchemaTrait
       [
       ],
     ],
-    'username' => 
+    'users_username' => 
     [
       'type' => 'unique',
       'columns' => 
