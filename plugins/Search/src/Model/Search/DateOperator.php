@@ -14,6 +14,7 @@ namespace Search\Model\Search;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Search\Operator;
+use Search\Token;
 
 /**
  * Handles date ranges operators.
@@ -47,28 +48,28 @@ class DateOperator extends Operator
     /**
      * {@inheritdoc}
      */
-    public function scope(Query $query, $value, $negate, $orAnd)
+    public function scope(Query $query, Token $token)
     {
         $tableAlias = $this->_table->alias();
         $column = $this->config('field');
-        $range = $this->_parseRange($value);
+        $range = $this->_parseRange($token->value());
 
         if ($range['lower'] !== $range['upper']) {
-            $not = $negate ? ' NOT' : '';
+            $conjunction = $token->negated() ? 'AND NOT' : 'AND';
             $conditions = [
-                "AND{$not}" => [
+                "{$conjunction}" => [
                     "{$tableAlias}.{$column} >=" => $range['lower'],
                     "{$tableAlias}.{$column} <=" => $range['upper'],
                 ]
             ];
         } else {
-            $cmp = $negate ? '<=' : '>=';
+            $cmp = $token->negated() ? '<=' : '>=';
             $conditions = ["{$tableAlias}.{$column} {$cmp}" => $range['lower']];
         }
 
-        if ($orAnd === 'or') {
+        if ($token->where() === 'or') {
             $query->orWhere($conditions);
-        } elseif ($orAnd === 'and') {
+        } elseif ($token->where() === 'and') {
             $query->andWhere($conditions);
         } else {
             $query->where($conditions);

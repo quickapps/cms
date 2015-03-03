@@ -312,19 +312,17 @@ class TaxonomyField extends BaseHandler
      * You can provide up to 10 terms as maximum.
      *
      * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Cake\ORM\Query $query The query being modified
-     * @param string $value Operator value. e.g. `cat,dog,bird`
-     * @param bool $negate Whether this operator was negated using `-`. e.g. "-term:dog"
-     * @param string $orAnd Possible values are "or" & "and"
+     * @param \Cake\ORM\Query $query The query being scoped
+     * @param \Search\Token $token Operator token
      * @return \Cake\ORM\Query Scoped query
      */
-    public function operatorTerm(Event $event, $query, $value, $negate, $orAnd)
+    public function operatorTerm(Event $event, $query, $token)
     {
-        $slugs = explode(',', $value);
+        $slugs = explode(',', $token->value());
         $slugs = array_slice($slugs, 0, 10);
 
         if (!empty($slugs)) {
-            $IN = $negate ? 'NOT IN' : 'IN';
+            $IN = $token->negated() ? 'NOT IN' : 'IN';
             $table = $event->subject();
             $pk = $table->primaryKey();
             $tableAlias = $table->alias();
@@ -341,9 +339,9 @@ class TaxonomyField extends BaseHandler
                     ->select(['entity_id'])
                     ->where(['term_id IN' => $termsIds, 'table_alias' => $tableAlias]);
 
-            if ($orAnd === 'or') {
+            if ($token->where() === 'or') {
                 $query->orWhere(["{$tableAlias}.{$pk} {$IN}" => $subQuery]);
-            } elseif ($orAnd === 'and') {
+            } elseif ($token->where() === 'and') {
                 $query->andWhere(["{$tableAlias}.{$pk} {$IN}" => $subQuery]);
             } else {
                 $query->where(["{$tableAlias}.{$pk} {$IN}" => $subQuery]);

@@ -14,6 +14,7 @@ namespace Search;
 use Cake\Core\InstanceConfigTrait;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
+use Search\Token;
 
 /**
  * Base operator class, every operator handler should extends this class.
@@ -23,6 +24,13 @@ abstract class Operator
 {
 
     use InstanceConfigTrait;
+
+    /**
+     * Default configuration for this operator.
+     *
+     * @var array
+     */
+    protected $_defaultConfig = [];
 
     /**
      * The table for which handle this operator.
@@ -48,16 +56,19 @@ abstract class Operator
      * Alters the given query and applies this operator's filter conditions.
      *
      * @param \Cake\ORM\Query $query The query to alter
-     * @param string $value The value this this operator, that is whatever comes
-     *  after `:` symbol. e.g. `JohnLocke` for criteria `author:JohnLocke`
-     * @param bool $negate True if user has negated this command.
-     *  e.g.: `-author:JohnLocke`. False otherwise.
-     * @param string $orAnd Possible values are "or", "and" and false. Indicates
-     *  the type of condition. e.g.: `OR author:JohnLocke` will set $orAnd to
-     *  `or`. But, `AND author:JohnLocke` will set $orAnd to `and`. By default
-     *  it is set to FALSE. This allows you to use Query::andWhere() and
-     *  Query::orWhere() methods as needed.
+     * @param \Search\Token $token Token representing this operator. Frequently used
+     *  methods are:
+     *  - Token::value(): The value this this operator, that is whatever comes
+     *    after `:` symbol. e.g. `JohnLocke` for criteria `author:JohnLocke`
+     *  - Token::negated(): True if user has negated this operator using the "-"
+     *    symbol. e.g.: `-author:JohnLocke`. False otherwise.
+     *  - Token::where(): Possible values are "or", "and" and false. Indicates the
+     *    type of WHERE condition that should be used when scoping using this token,
+     *    for instance, `OR author:JohnLocke` will return `or`. But,
+     *    `AND author:JohnLocke` will return `and`. By default it is set
+     *    to NULL. This allows you to use Query::andWhere() and Query::orWhere()
+     *    methods as needed.
      * @return \Cake\ORM\Query Altered query
      */
-    abstract public function scope(Query $query, $value, $negate, $orAnd);
+    abstract public function scope(Query $query, Token $token);
 }

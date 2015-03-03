@@ -14,6 +14,7 @@ namespace Search\Model\Search;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Search\Operator;
+use Search\Token;
 
 /**
  * Handles "limits" search operator.
@@ -32,12 +33,12 @@ class LimitOperator extends Operator
     /**
      * {@inheritdoc}
      */
-    public function scope(Query $query, $value, $negate, $orAnd)
+    public function scope(Query $query, Token $token)
     {
-        if ($negate) {
+        if ($token->negated()) {
             return $query;
         }
-        $value = intval($value);
+        $value = intval($token->value());
         if ($value > 0) {
             $query->limit($value);
         }

@@ -217,15 +217,13 @@ class NodesTable extends Table
      *     promote:<true|false>
      *
      * @param \Cake\ORM\Query $query The query object
-     * @param string $value Operator's arguments
-     * @param bool $negate Whether this operator was negated or not
-     * @param string $orAnd and|or
+     * @param \Search\Token $token Operator token
      * @return \Cake\ORM\Query
      */
-    public function operatorPromote(Query $query, $value, $negate, $orAnd)
+    public function operatorPromote(Query $query, $token)
     {
-        $value = strtolower($value);
-        $conjunction = $negate ? '<>' : '';
+        $value = strtolower($token->value());
+        $conjunction = $token->negated() ? '<>' : '';
         $conditions = [];
 
         if ($value === 'true') {
@@ -235,9 +233,9 @@ class NodesTable extends Table
         }
 
         if (!empty($conditions)) {
-            if ($orAnd === 'or') {
+            if ($token->where() === 'or') {
                 $query->orWhere($conditions);
-            } elseif ($orAnd === 'and') {
+            } elseif ($token->where() === 'and') {
                 $query->andWhere($conditions);
             } else {
                 $query->where($conditions);
@@ -253,24 +251,22 @@ class NodesTable extends Table
      *     author:<username1>,<username2>, ...
      *
      * @param \Cake\ORM\Query $query The query object
-     * @param string $value Operator's arguments
-     * @param bool $negate Whether this operator was negated or not
-     * @param string $orAnd and|or
+     * @param \Search\Token $token Operator token
      * @return \Cake\ORM\Query
      */
-    public function operatorAuthor(Query $query, $value, $negate, $orAnd)
+    public function operatorAuthor(Query $query, $token)
     {
-        $value = explode(',', $value);
+        $value = explode(',', $token->value());
 
         if (!empty($value)) {
-            $conjunction = $negate ? 'NOT IN' : 'IN';
+            $conjunction = $token->negated() ? 'NOT IN' : 'IN';
             $subQuery = TableRegistry::get('User.Users')->find()
                 ->select(['id'])
                 ->where(["Users.username {$conjunction}" => $value]);
 
-            if ($orAnd === 'or') {
+            if ($token->where() === 'or') {
                 $query->orWhere(['Nodes.created_by IN' => $subQuery]);
-            } elseif ($orAnd === 'and') {
+            } elseif ($token->where() === 'and') {
                 $query->andWhere(['Nodes.created_by IN' => $subQuery]);
             } else {
                 $query->where(['Nodes.created_by IN' => $subQuery]);

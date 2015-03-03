@@ -14,6 +14,7 @@ namespace Search\Model\Search;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Search\Operator;
+use Search\Token;
 
 /**
  * Handles "order by" operators.
@@ -47,15 +48,15 @@ class OrderOperator extends Operator
     /**
      * {@inheritdoc}
      */
-    public function scope(Query $query, $value, $negate, $orAnd)
+    public function scope(Query $query, Token $token)
     {
-        if ($negate || empty($this->config('fields'))) {
+        if ($token->negated() || empty($this->config('fields'))) {
             return $query;
         }
 
         $tableAlias = $this->_table->alias();
         $fields = $this->config('fields');
-        $value = strtolower($value);
+        $value = strtolower($token->value());
 
         if (is_string($fields)) {
             $fields = [$fields];

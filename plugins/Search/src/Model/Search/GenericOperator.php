@@ -14,6 +14,7 @@ namespace Search\Model\Search;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Search\Operator;
+use Search\Token;
 
 /**
  * Generic handler for any search operator.
@@ -68,11 +69,12 @@ class GenericOperator extends Operator
     /**
      * {@inheritdoc}
      */
-    public function scope(Query $query, $value, $negate, $orAnd)
+    public function scope(Query $query, Token $token)
     {
         $tableAlias = $this->_table->alias();
         $field = $this->config('field');
         $conjunction = strtolower($this->config('conjunction'));
+        $value = $token->value();
 
         if ($field && !empty($value)) {
             if ($conjunction == 'auto') {
@@ -82,20 +84,20 @@ class GenericOperator extends Operator
             if ($conjunction == 'in') {
                 $value = explode(',', $value);
                 $value = array_slice($value, 0, $this->config('inSlice'));
-                $conjunction = $negate ? 'NOT IN' : 'IN';
+                $conjunction = $token->negated() ? 'NOT IN' : 'IN';
             } elseif ($conjunction == 'like') {
                 $value = str_replace(['*', '!'], ['%', '_'], $value);
-                $conjunction = $negate ? 'NOT LIKE' : 'LIKE';
+                $conjunction = $token->negated() ? 'NOT LIKE' : 'LIKE';
             } elseif ($conjunction == '=') {
-                $conjunction = $negate ? '<>' : '';
+                $conjunction = $token->negated() ? '<>' : '';
             } elseif ($conjunction == '<>') {
-                $conjunction = $negate ? '' : '<>';
+                $conjunction = $token->negated() ? '' : '<>';
             }
 
             $conditions = ["{$tableAlias}.{$field} {$conjunction}" => $value];
-            if ($orAnd === 'or') {
+            if ($token->where() === 'or') {
                 $query->orWhere($conditions);
-            } elseif ($orAnd === 'and') {
+            } elseif ($token->where() === 'and') {
                 $query->andWhere($conditions);
             } else {
                 $query->where($conditions);

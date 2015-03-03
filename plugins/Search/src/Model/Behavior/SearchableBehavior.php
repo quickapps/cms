@@ -21,6 +21,7 @@ use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
 use QuickApps\Event\HookAwareTrait;
 use Search\Operator;
+use Search\Token;
 
 /**
  * This behavior allows entities to be searchable through an auto-generated
@@ -183,7 +184,7 @@ use Search\Operator;
  * behavior under the `author` name, a full working example may look as follow:
  *
  * ```php
- * class Nodes extends Table
+ * class MyTable extends Table
  * {
  *     public function initialize(array $config)
  *     {
@@ -194,22 +195,11 @@ use Search\Operator;
  *         $this->addSearchOperator('author', 'operatorAuthor');
  *     }
  *
- *     public function operatorAuthor($query, $value, $negate, $orAnd)
+ *     public function operatorAuthor(Query $query, Token $token)
  *     {
- *         // $query:
- *         //     The query object to alter
- *         // $value:
- *         //     The value after `author:`. e.g.: `JohnLocke`
- *         // $negate:
- *         //     TRUE if user has negated this command. e.g.: `-author:JohnLocke`.
- *         //     FALSE otherwise.
- *         // $orAnd:
- *         //     or|and|false Indicates the type of condition. e.g.: `OR author:JohnLocke`
- *         //     will set $orAnd to `or`. But, `AND author:JohnLocke` will set $orAnd to `and`.
- *         //     By default is set to FALSE. This allows you to use
- *         //     Query::andWhere() and Query::orWhere() methods.
- *
- *         // scope query and return.
+ *         // $query: The query object to alter
+ *         // $token: Token representing the operator to apply.
+ *         // Scope query using $token information and return.
  *         return $query;
  *     }
  * }
@@ -218,14 +208,14 @@ use Search\Operator;
  * You can also define operator as a callable function:
  *
  * ```php
- * class Nodes extends Table
+ * class MyTable extends Table
  * {
  *     public function initialize(array $config)
  *     {
  *         $this->addBehavior('Search.Searchable');
  *
- *         $this->addSearchOperator('author', function($query, $value, $negate, $orAnd) {
- *             // scope query and return.
+ *         $this->addSearchOperator('author', function(Query $query, Token $token) {
+ *             // Scope query and return.
  *             return $query;
  *         });
  *     }
@@ -245,9 +235,9 @@ use Search\Operator;
  *
  * class CustomOperator extends Operator
  * {
- *     public function scope($query, $value, $negate, $orAnd)
+ *     public function scope($query, $token)
  *     {
- *         // scope $query
+ *         // Scope $query
  *         return $query;
  *     }
  * }
@@ -286,8 +276,8 @@ use Search\Operator;
  *
  * // ...
  *
- * public function operatorDate($event, $query, $value, $negate, $orAnd) {
- *     // alter $query object and return it
+ * public function operatorDate($event, $query, $token) {
+ *     // Scope $query object and return it
  *     return $query;
  * }
  *
@@ -451,62 +441,77 @@ class SearchableBehavior extends Behavior
      */
     public function search($criteria, $query = null)
     {
-        $query = is_null($query) ? $this->_table->find() : $query;
-        $tokens = $this->_getTokens($criteria);
+        if ($query === null) {
+            $query = $this->_table->find();
+        }
         $query->contain('SearchDatasets');
 
-        foreach ($tokens as $k => $token) {
-            if (in_array(strtolower($token), ['or', 'and'])) {
-                continue;
-            }
-
-            $previousToken = $k > 0 && isset($tokens[$k - 1]) ? $tokens[$k - 1] : null;
-            $orAnd = in_array(strtolower($previousToken), ['or', 'and']) ? strtolower($previousToken) : null;
-
-            if (strpos($token, ':') !== false) {
-                $parts = explode(':', $token);
-                $operator = array_shift($parts);
-                $negate = str_starts_with($operator, '-');
-                $operator = Inflector::underscore(preg_replace('/\PL/u', '', $operator));
-                $callable = $this->_operatorCallable($operator);
-                $value = implode('', $parts);
-
-                if (is_callable($callable)) {
-                    $query = $callable($query, $value, $negate, $orAnd);
-
-                    if (!($query instanceof Query)) {
-                        throw new FatalErrorException(__d('search', 'Error while processing the "{0}" token in the search criteria.', $operator));
-                    }
-                } else {
-                    $hookName = Inflector::variable("operator_{$operator}");
-                    $result = $this->trigger(["SearchableBehavior.{$hookName}", $this->_table], $query, $value, $negate, $orAnd)->result;
-
-                    if ($result instanceof Query) {
-                        $query = $result;
-                    }
-                }
+        foreach ($this->_getTokens($criteria) as $token) {
+            if ($token->isOperator()) {
+                $this->_scopeOperator($query, $token);
             } else {
-                if (strpos($token, '-') === 0) {
-                    $token = str_replace_once('-', '', $token);
-                    $LIKE = 'NOT LIKE';
-                } else {
-                    $LIKE = 'LIKE';
-                }
-
-                $token = str_replace('*', '%', $token); // * Matches any one or more characters.
-                $token = str_replace('!', '_', $token); // ! Matches any single character.
-
-                if ($orAnd === 'or') {
-                    $query->orWhere(["SearchDatasets.words {$LIKE}" => "%{$token}%"]);
-                } elseif ($orAnd === 'and') {
-                    $query->andWhere(["SearchDatasets.words {$LIKE}" => "%{$token}%"]);
-                } else {
-                    $query->where(["SearchDatasets.words {$LIKE}" => "%{$token}%"]);
-                }
+                $this->_scopeWords($query, $token);
             }
         }
 
         return $query;
+    }
+
+    /**
+     * Scopes the given query using the given operator token.
+     *
+     * @param \Cake\ORM\Query $query The query to scope
+     * @param \Search\Token $token Token describing an operator. e.g `-op_name:op_value`
+     * @return \Cake\ORM\Query Scoped query
+     */
+    protected function _scopeOperator(Query $query, Token $token)
+    {
+        $callable = $this->_operatorCallable($token->name());
+
+        if (is_callable($callable)) {
+            $query = $callable($query, $token);
+            if (!($query instanceof Query)) {
+                throw new FatalErrorException(__d('search', 'Error while processing the "{0}" token in the search criteria.', $operator));
+            }
+        } else {
+            $result = $this->trigger([
+                'SearchableBehavior.' . (string)Inflector::variable('operator_' . $token->name()),
+                $this->_table,
+            ], $query, $token)->result;
+
+            if ($result instanceof Query) {
+                $query = $result;
+            }
+        }
+
+        return $query;
+    }
+
+    /**
+     * Scopes the given query using the given words token.
+     *
+     * @param \Cake\ORM\Query $query The query to scope
+     * @param \Search\Token $token Token describing a words sequence. e.g `this is a phrase`
+     * @return \Cake\ORM\Query Scoped query
+     */
+    protected function _scopeWords(Query $query, Token $token)
+    {
+        $LIKE = 'LIKE';
+        if ($token->negated()) {
+            $LIKE = 'NOT LIKE';
+        }
+
+        // * Matches any one or more characters.
+        // ! Matches any single character.
+        $value = str_replace(['*', '!'], ['%', '_'], $token->value());
+
+        if ($token->where() === 'or') {
+            $query->orWhere(["SearchDatasets.words {$LIKE}" => "%{$value}%"]);
+        } elseif ($token->where() === 'and') {
+            $query->andWhere(["SearchDatasets.words {$LIKE}" => "%{$value}%"]);
+        } else {
+            $query->where(["SearchDatasets.words {$LIKE}" => "%{$value}%"]);
+        }
     }
 
     /**
@@ -550,7 +555,7 @@ class SearchableBehavior extends Behavior
      * ---
      *
      * ```php
-     * $this->addSearchOperator('created', function ($query, $value, $negate, $orAnd) {
+     * $this->addSearchOperator('created', function ($query, $token) {
      *     // scope $query
      *     return $query;
      * });
@@ -709,21 +714,21 @@ class SearchableBehavior extends Behavior
             $handler = $operator['handler'];
 
             if (is_callable($handler)) {
-                return function ($query, $value, $negate, $orAnd) use ($handler) {
-                    return $handler($query, $value, $negate, $orAnd);
+                return function ($query, $token) use ($handler) {
+                    return $handler($query, $token);
                 };
             } elseif ($handler instanceof Operator) {
-                return function ($query, $value, $negate, $orAnd) use ($handler) {
-                    return $handler->scope($query, $value, $negate, $orAnd);
+                return function ($query, $token) use ($handler) {
+                    return $handler->scope($query, $token);
                 };
             } elseif (is_string($handler) && method_exists($this->_table, $handler)) {
-                return function ($query, $value, $negate, $orAnd) use ($handler) {
-                    return $this->_table->$handler($query, $value, $negate, $orAnd);
+                return function ($query, $token) use ($handler) {
+                    return $this->_table->$handler($query, $token);
                 };
             } elseif (is_string($handler) && class_exists($handler)) {
-                return function ($query, $value, $negate, $orAnd) use ($operator) {
+                return function ($query, $token) use ($operator) {
                     $instance = new $operator['handler']($this->_table, $operator['options']);
-                    return $instance->scope($query, $value, $negate, $orAnd);
+                    return $instance->scope($query, $token);
                 };
             }
         }
@@ -742,7 +747,24 @@ class SearchableBehavior extends Behavior
         $criteria = trim(urldecode($criteria));
         $criteria = preg_replace('/(-?[\w]+)\:"([\]\[\w\s]+)/', '"${1}:${2}', $criteria);
         $criteria = str_replace(['-"', '+"'], ['"-', '"+'], $criteria);
-        $tokens = str_getcsv($criteria, ' ');
+        $parts = str_getcsv($criteria, ' ');
+        $tokens = [];
+
+        foreach ($parts as $i => $t) {
+            if (in_array(strtolower($t), ['or', 'and'])) {
+                continue;
+            }
+
+            $where = null;
+            if (isset($parts[$i - 1]) &&
+                in_array(strtolower($parts[$i - 1]), ['or', 'and'])
+            ) {
+                $where = $parts[$i - 1];
+            }
+
+            $tokens[] = new Token($t, $where);
+        }
+
         return $tokens;
     }
 }
