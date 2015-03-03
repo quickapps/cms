@@ -100,7 +100,7 @@ class BlocksTable extends Table
     /**
      * Gets a list of all blocks that are NOT renderable.
      *
-     * @return mixed
+     * @return \Cake\Collection\CollectionInterface
      */
     public function unused()
     {

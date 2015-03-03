@@ -35,8 +35,6 @@ class ManageController extends AppController
     public function index()
     {
         $this->loadModel('Block.Blocks');
-        $front = $back = $unused = [];
-
         if ($this->request->isPost()) {
             if ($this->_reorder()) {
                 $this->Flash->success(__d('block', 'Blocks ordering updated!'));
