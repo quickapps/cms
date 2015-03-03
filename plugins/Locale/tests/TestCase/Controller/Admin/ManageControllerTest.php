@@ -26,7 +26,7 @@ class ManageControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
-        'app.acos',
+        //'app.acos',
         'app.block_regions',
         'app.blocks',
         'app.blocks_roles',
@@ -39,6 +39,7 @@ class ManageControllerTest extends IntegrationTestCase
         'app.menus',
         //'app.node_revisions',
         //'app.nodes',
+        //'app.nodes_roles',
         //'app.node_types',
         //'app.options',
         'app.permissions',
