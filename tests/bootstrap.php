@@ -28,6 +28,7 @@ define('CAKE', CORE_PATH . 'src' . DS);
 
 $classLoader = require VENDOR_INCLUDE_PATH . 'autoload.php';
 
+use Cake\Cache\Cache;
 use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
@@ -186,3 +187,10 @@ ViewModeRegistry::addViewMode([
         'description' => __d('node', 'Full content is typically used when the content is displayed on its own page.'),
     ],
 ]);
+
+/**
+ * Clear any previous information.
+ */
+Cache::clear(false, '_cake_model_');
+Cache::clear(false, '_cake_core_');
+snapshot();
