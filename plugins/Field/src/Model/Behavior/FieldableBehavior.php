@@ -1123,7 +1123,7 @@ class FieldableBehavior extends Behavior
     /**
      * Creates a sub-query for matching virtual fields.
      *
-     * @param \Cake\Database\ExpressionInterface $expression Expression to scope
+     * @param \Cake\Database\Expression\Comparison $expression Expression to scope
      * @param string $bundle Table's bundle to scope. e.g. `articles` for `Nodes` table
      * @return \Cake\ORM\Query|bool False if not virtual field was found. The query
      *  object to use otherwise
