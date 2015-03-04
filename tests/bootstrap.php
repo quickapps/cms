@@ -46,7 +46,7 @@ use \DirectoryIterator;
  */
 function snapshot() {
     $snapshot = [
-        'version' => '2.0',
+        'version' => '2.0.0-dev',
         'node_types' => ['article', 'page'],
         'plugins' => [],
         'options' => [

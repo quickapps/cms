@@ -109,8 +109,7 @@ class PluginTest extends TestCase {
     public function testDependencies()
     {
         $result = Plugin::dependencies('NeedsSpaceOddity');
-        $expected = ['__QUICKAPPS__' => '2.0.*-dev', 'SpaceOddity' => '*'];
-
+        $expected = ['__QUICKAPPS__' => '2.0.*', 'SpaceOddity' => '1.*'];
         $this->assertEquals($expected, $result);
     }
 
@@ -123,7 +122,6 @@ class PluginTest extends TestCase {
     {
         $expected = true;
         $result = Plugin::checkDependency('NeedsSpaceOddity');
-
         $this->assertEquals($expected, $result);
     }
 
@@ -142,47 +140,49 @@ class PluginTest extends TestCase {
     }
 
     /**
-     * test parseDependency() method.
+     * test checkIncompatibility() method.
      *
      * @return void
      */
-    public function testParseDependency()
+    public function testCheckIncompatibility()
     {
-        $expected1 = [['op' => '<', 'version' => '2.x'], ['op' => '>=', 'version' => '1.x']];
-        $result1 = Plugin::parseDependency('1.*');
+        $tests = [
+            ['provided' => '1.0', 'constraints' => '1.*', 'expected' => true],
+            ['provided' => '3.0', 'constraints' => '~1.2', 'expected' => false],
+            ['provided' => '1.5', 'constraints' => '>=1.2 <2.0', 'expected' => true],
+            ['provided' => '2.0', 'constraints' => '>=1.0 <1.1', 'expected' => false],
+            ['provided' => '1.1.8', 'constraints' => '1.1.*', 'expected' => true],
+            ['provided' => '1.1.8', 'constraints' => '>1.0', 'expected' => true],
+            ['provided' => '1.0', 'constraints' => '>1.0', 'expected' => false],
+            ['provided' => '2.0', 'constraints' => '>1.0', 'expected' => true],
+            ['provided' => '2.0.1', 'constraints' => '>1.0', 'expected' => true],
+            ['provided' => '1.6', 'constraints' => '1.0 - 2.0', 'expected' => true],
+            ['provided' => '1.6', 'constraints' => '>=1.0.0 <2.1', 'expected' => true],
+            ['provided' => '3.0', 'constraints' => '>=1.0.0 <2.1', 'expected' => false],
+            ['provided' => 'dev-master', 'constraints' => '*', 'expected' => true],
+            ['provided' => '1.2.2', 'constraints' => '*', 'expected' => true],
+            ['provided' => '8.5', 'constraints' => '>=7.0 <8.6.6', 'expected' => true],
+            ['provided' => '7.6.66', 'constraints' => '>=7.0 <8.6.6', 'expected' => true],
+            ['provided' => '5.0', 'constraints' => '>=7.0 <8.6.6', 'expected' => false],
+            ['provided' => '5', 'constraints' => '>=7.0 <8.6.6', 'expected' => false],
+            ['provided' => '9.0', 'constraints' => '>=7.0 <8.6.6', 'expected' => false],
+            ['provided' => '9', 'constraints' => '>=7.0 <8.6.6', 'expected' => false],
+            ['provided' => '2.6.8', 'constraints' => '2.6.8', 'expected' => true],
+            ['provided' => '2.6.8', 'constraints' => '2.6.8 || 2.6.5', 'expected' => true],
+            ['provided' => '2.6.5', 'constraints' => '2.6.8 || 2.6.5', 'expected' => true],
+            ['provided' => '2.6.6', 'constraints' => '2.6.8 || 2.6.5', 'expected' => false],
+            ['provided' => '2.6.7', 'constraints' => '2.6.8 || 2.6.5', 'expected' => false],
+            ['provided' => '1.9', 'constraints' => '^1.2.3', 'expected' => true],
+            ['provided' => '1.0', 'constraints' => '>=1.2.3 <2.0', 'expected' => false],
+        ];
 
-        $expected2 = [['op' => '<', 'version' => '1.2'], ['op' => '>=', 'version' => '1.1']];
-        $result2 = Plugin::parseDependency('1.1.*');
-
-        $expected3 = [['op' => '>', 'version' => '1.0']];
-        $result3 = Plugin::parseDependency('>1.0');
-
-        $expected4 = [['op' => '>=', 'version' => '1.x']];
-        $result4 = Plugin::parseDependency('>=1.*');
-
-        $expected5 = [];
-        $result5 = Plugin::parseDependency('*');
-
-        $expected6 = [['op' => '>=', 'version' => '7.x'], ['op' => '<', 'version' => '7.6']];
-        $result6 = Plugin::parseDependency('>=7.*,<7.6');
-
-        $expected7 = [['op' => '>=', 'version' => '7.x'], ['op' => '<', 'version' => '7.6']];
-        $result7 = Plugin::parseDependency('>=7.*,<7.6.*');
-
-        $expected8 = [['op' => '==', 'version' => '2.6.8']];
-        $result8 = Plugin::parseDependency('2.6.8');
-
-        $expected9 = [['op' => '>', 'version' => '2.7']];
-        $result9 = Plugin::parseDependency('>2.6.*');
-
-        $this->assertEquals($expected1, $result1['versions']);
-        $this->assertEquals($expected2, $result2['versions']);
-        $this->assertEquals($expected3, $result3['versions']);
-        $this->assertEquals($expected4, $result4['versions']);
-        $this->assertEquals($expected5, $result5['versions']);
-        $this->assertEquals($expected6, $result6['versions']);
-        $this->assertEquals($expected7, $result7['versions']);
-        $this->assertEquals($expected8, $result8['versions']);
-        $this->assertEquals($expected9, $result9['versions']);
+        foreach ($tests as $test) {
+            $current = Plugin::checkIncompatibility($test['provided'], $test['constraints']) ? 'true' : 'false';
+            $expected = $test['expected'] ? 'true' : 'false';
+            $this->assertEquals(
+                "{$test['provided']} @ {$test['constraints']} -> {$expected}",
+                "{$test['provided']} @ {$test['constraints']} -> {$current}"
+            );
+        }
     }
 }
