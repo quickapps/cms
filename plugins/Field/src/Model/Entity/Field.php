@@ -25,7 +25,8 @@ use QuickApps\View\ViewModeAwareTrait;
  * - raw: Raw `value`.
  * - metadata: A mock entity which holds the following properties
  *   - field_value_id: ID of the value stored in `field_values` table (from where `value` comes from).
- *   - field_instance_id: ID of field instance (`field_instances` table) attached to Table.
+ *   - field_instance_id: ID of the field instance (`field_instances` table) attached to Table.
+ *   - field_instance_slug: Machine-name of the field instance (`field_instances` table) attached to Table.
  *   - table_alias: Name of the table this field is attached to. e.g: `users`.
  *   - description: Something about this field: e.g.: `Please enter your name`.
  *   - required: True if required, false otherwise
@@ -38,7 +39,6 @@ use QuickApps\View\ViewModeAwareTrait;
  * @property string $label
  * @property string $value
  * @property string $raw
- * @property array $settings
  * @property \Cake\Datasource\EntityInterface $metadata
  */
 class Field extends Entity

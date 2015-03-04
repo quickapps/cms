@@ -684,71 +684,49 @@ class FieldableBehavior extends Behavior
             throw new FatalErrorException(__d('field', 'Entities in fieldable tables can only be saved using transaction. Set [atomic = true]'));
         }
 
-        // start of old validation events emulation
-        $validator = $this->_table->validator();
-        $eventResult = $this->_table->dispatchEvent('Model.beforeValidate', compact('entity', 'options', 'validator'));
-        if ($eventResult->result === false) {
+        if (!$this->_validationEvents($entity, $options)) {
             return false;
         }
-
-        $errors = $validator->errors($entity->toArray(), $entity->isNew());
-        $entity->errors($errors);
-        $this->_table->dispatchEvent('Model.afterValidate', compact('entity', 'options', 'validator'));
-
-        if (!empty($errors)) {
-            return false;
-        }
-        // end of validation events
 
         $pk = $this->_table->primaryKey();
         $tableAlias = $this->_guessTableAlias($entity);
-        $instances = $this->_getTableFieldInstances($entity);
-        $this->_cache['_FieldValues'] = [];
+        $this->_cache['createValues'] = [];
 
-        foreach ($instances as $instance) {
-            if ($entity->has(":{$instance->slug}")) {
-                $field = $this->_getMockField($entity, $instance);
-                $options['_post'] = $entity->get(":{$instance->slug}");
+        foreach ($this->_getTableFieldInstances($entity) as $instance) {
+            if (!$entity->has(":{$instance->slug}")) {
+                continue;
+            }
 
-                // auto-magic: automatically move POST data to "raw" if an array was sent,
-                // "value" will be set to flattened raw
-                if (is_array($options['_post'])) {
-                    $value = array_values(Hash::flatten($options['_post']));
-                    $field->set('value', implode(' ', $value));
-                    $field->set('raw', $options['_post']);
-                } else {
-                    $field->set('value', $options['_post']);
-                    $field->set('raw', []);
-                }
+            $field = $this->_getMockField($entity, $instance);
+            $options['_post'] = $this->_preparePostData($field);
+            $fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.beforeSave", $event->subject()], $field, $options);
 
-                $fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.beforeSave", $event->subject()], $field, $options);
-                if ($fieldEvent->result === false) {
-                    $this->attachEntityFields($entity);
-                    return false;
-                } elseif ($fieldEvent->isStopped()) {
+            if ($fieldEvent->result === false) {
+                $this->attachEntityFields($entity);
+                return false;
+            } elseif ($fieldEvent->isStopped()) {
+                $this->attachEntityFields($entity);
+                $event->stopPropagation();
+                return $fieldEvent->result;
+            }
+
+            $valueEntity = new FieldValue([
+                'id' => $field->metadata['field_value_id'],
+                'field_instance_id' => $field->metadata['field_instance_id'],
+                'field_instance_slug' => $field->name,
+                'entity_id' => $entity->{$pk},
+                'table_alias' => $tableAlias,
+                'value' => $field->value,
+                'raw' => $field->raw,
+            ]);
+
+            if ($entity->isNew()) {
+                $this->_cache['createValues'][] = $valueEntity;
+            } else {
+                if (!TableRegistry::get('Field.FieldValues')->save($valueEntity)) {
                     $this->attachEntityFields($entity);
                     $event->stopPropagation();
-                    return $fieldEvent->result;
-                }
-
-                $valueEntity = new FieldValue([
-                    'id' => $field->metadata['field_value_id'],
-                    'field_instance_id' => $field->metadata['field_instance_id'],
-                    'field_instance_slug' => $field->name,
-                    'entity_id' => $entity->{$pk},
-                    'table_alias' => $tableAlias,
-                    'value' => $field->value,
-                    'raw' => $field->raw,
-                ]);
-
-                if ($entity->isNew()) {
-                    $this->_cache['_FieldValues'][] = $valueEntity;
-                } else {
-                    if (!TableRegistry::get('Field.FieldValues')->save($valueEntity)) {
-                        $this->attachEntityFields($entity);
-                        $event->stopPropagation();
-                        return false;
-                    }
+                    return false;
                 }
             }
         }
@@ -781,13 +759,13 @@ class FieldableBehavior extends Behavior
 
         // as we don't know entity's ID on beforeSave, we must delay EntityValues
         // storage; all this occurs inside a transaction so we are safe
-        if (!empty($this->_cache['_FieldValues'])) {
-            foreach ($this->_cache['_FieldValues'] as $valueEntity) {
+        if (!empty($this->_cache['createValues'])) {
+            foreach ($this->_cache['createValues'] as $valueEntity) {
                 $valueEntity->set('entity_id', $entity->id);
                 $valueEntity->unsetProperty('id');
                 TableRegistry::get('Field.FieldValues')->save($valueEntity);
             }
-            $this->_cache['_FieldValues'] = [];
+            $this->_cache['createValues'] = [];
         }
 
         $instances = $this->_getTableFieldInstances($entity);
@@ -1064,6 +1042,60 @@ class FieldableBehavior extends Behavior
     }
 
     /**
+     * Triggers before/after validate events.
+     *
+     * @param \Cake\Datasource\EntityInterface $entity The entity being validated
+     * @param array $options Options for validation process
+     * @return bool True if save operation should continue, false otherwise
+     */
+    protected function _validationEvents(EntityInterface $entity, $options = [])
+    {
+        $validator = $this->_table->validator();
+        $event = $this->_table->dispatchEvent('Model.beforeValidate', compact('entity', 'options', 'validator'));
+        if ($event->result === false) {
+            return false;
+        }
+
+        $errors = $validator->errors($entity->toArray(), $entity->isNew());
+        $entity->errors($errors);
+        $this->_table->dispatchEvent('Model.afterValidate', compact('entity', 'options', 'validator'));
+
+        if (!empty($errors)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Alters the given $field and fetches incoming POST data, both 'value' and
+     * 'raw' properties will be automatically filled for the given $field entity.
+     *
+     * @param \Cake\Datasource\EntityInterface $field The field entity for which
+     *  fetch POST information
+     * @return mixed Raw POST information
+     */
+    protected function _preparePostData(EntityInterface $field)
+    {
+        $post = $field
+            ->get('metadata')
+            ->get('entity')
+            ->get(':' . $field->get('metadata')->get('field_instance_slug'));
+
+        // auto-magic: automatically move POST data to "raw" if an array was sent,
+        // "value" will be set to flattened raw
+        if (is_array($post)) {
+            $field->set('value', implode(' ', array_values(Hash::flatten($post))));
+            $field->set('raw', $post);
+        } else {
+            $field->set('value', $post);
+            $field->set('raw', []);
+        }
+
+        return $post;
+    }
+
+    /**
      * Look for `:<machine-name>` patterns in query's WHERE clause.
      *
      * Allows to search entities using custom fields as conditions in WHERE clause.
@@ -1267,6 +1299,7 @@ class FieldableBehavior extends Behavior
             'metadata' => new Entity([
                 'field_value_id' => null,
                 'field_instance_id' => $instance->id,
+                'field_instance_slug' => $instance->slug,
                 'entity_id' => $entity->{$pk},
                 'table_alias' => $this->_guessTableAlias($entity),
                 'description' => $instance->description,
