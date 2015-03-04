@@ -20,6 +20,8 @@ use Cake\Filesystem\Folder;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
+use Composer\Package\LinkConstraint\VersionConstraint;
+use Composer\Package\Version\VersionParser;
 use QuickApps\Core\StaticCacheTrait;
 
 /**
@@ -422,7 +424,7 @@ class Plugin extends CakePlugin
      * // may returns: [
      * //    'UserWork' => '1.0',
      * //    'Calentar' => '1.0.*',
-     * //    '__QUICKAPPS__' => '>1.0', // QuickApps CMS v1.0 or higher required,
+     * //    '__QUICKAPPS__' => '>=1.0', // QuickApps CMS v1.0 or higher required,
      * //    '__PHP__' => '>4.3'
      * // ]
      *
@@ -465,8 +467,8 @@ class Plugin extends CakePlugin
     }
 
     /**
-     * Check if plugin is dependent on any other plugin.
-     * If yes, check if that plugin is available (installed and enabled).
+     * Check if plugin is dependent on any other plugin. If it does, check if that
+     * plugin is available (installed and enabled).
      *
      * ### Usage:
      *
@@ -515,7 +517,7 @@ class Plugin extends CakePlugin
             }
 
             if ($current) {
-                if (!static::checkIncompatibility(static::parseDependency($required), $current)) {
+                if (!static::checkIncompatibility($current, $required)) {
                     return false;
                 }
             } else {
@@ -554,114 +556,22 @@ class Plugin extends CakePlugin
     }
 
     /**
-     * Parse a dependency for comparison.
-     *
-     * ### Usage:
-     *
-     * ```php
-     * Plugin::parseDependency('>=7.x-4.5-beta5,3.x');
-     * ```
-     *
-     * @param string $dependency A dependency string as example above
-     * @return array An associative array with three keys as below, callers should
-     *  pass this structure to `checkIncompatibility()`:
-     *  - `original`: Contains the original version string ($dependency)
-     *  - `versions`: Is a list of associative arrays, each containing the keys
-     *    'op' and 'version'. 'op' can be one of: '=', '==', '!=', '<>', '<',
-     *    '<=', '>', or '>='. 'version' is one piece like '4.5-beta3' or '5.5.11'.
-     */
-    public static function parseDependency($dependency)
-    {
-        $pOp = '(?P<operator>!=|==|<|<=|>|>=|<>)?';
-        $pMajor = '(?P<major>\d+)';
-        $pMinor = '(?P<minor>(?:\d+|\*)?)';
-        $pFix = '(?P<fix>(?:\d+|\*)?)';
-        $pTail = '(?P<tail>(?:-[A-Za-z]+\d*)?)';
-        $out = [
-            'original' => $dependency,
-            'versions' => [],
-        ];
-
-        foreach (explode(',', $dependency) as $version) {
-            $version = trim($version);
-            if (preg_match("/^{$pOp}{$pMajor}\.?{$pMinor}\.?{$pFix}{$pTail}/", $version, $matches)) {
-                $op = empty($matches['operator']) ? '==' : $matches['operator'];
-                $matches['minor'] = str_replace('*', 'x', $matches['minor']);
-                $matches['fix'] = str_replace('*', 'x', $matches['fix']);
-
-                if ($matches['minor'] === '') {
-                    $matches['minor'] = 0;
-                }
-
-                if ($matches['fix'] === '') {
-                    $matches['fix'] = 0;
-                }
-
-                if (is_string($matches['fix']) && $matches['fix'] == 'x') {
-                    if ($op === '>' || $op === '<=') {
-                        $matches['minor'] = intval($matches['minor']) + 1;
-                    }
-                    if ($op === '=' || $op === '==') {
-                        $out['versions'][] = [
-                            'op' => '<',
-                            'version' => $matches['major'] . '.' . (intval($matches['minor']) + 1)
-                        ];
-                        $op = '>=';
-                    }
-                    $matches['fix'] = 0;
-                }
-
-                if ($matches['minor'] === 'x') {
-                    if ($op === '>' || $op === '<=') {
-                        $matches['major'] = intval($matches['major']) + 1;
-                    }
-                    if ($op === '=' || $op === '==') {
-                        $out['versions'][] = [
-                            'op' => '<',
-                            'version' => (intval($matches['major']) + 1) . '.x'
-                        ];
-                        $op = '>=';
-                    }
-                }
-
-                $matches['fix'] = empty($matches['fix']) ? '' : ".{$matches['fix']}";
-                $v = preg_replace('/\.{1,}$/', '', "{$matches['major']}.{$matches['minor']}{$matches['fix']}");
-                $out['versions'][] = [
-                    'op' => $op,
-                    'version' => "{$v}{$matches['tail']}",
-                ];
-            }
-        }
-
-        return $out;
-    }
-
-    /**
      * Check whether a version is compatible with a given dependency.
      *
-     * @param array $v The parsed dependency structure from `parseDependency()`
-     * @param string $current The version to check against (e.g.: 4.2)
+     * @param string $current The version to check against (e.g. 4.2.6)
+     * @param string $constraints A string representing a dependency constraints, for
+     *  instance, `>7.0 || 1.2`
      * @return bool True if compatible, false otherwise
      */
-    public static function checkIncompatibility($v, $current)
+    public static function checkIncompatibility($current, $constraints)
     {
-        if (!empty($v['versions'])) {
-            foreach ($v['versions'] as $required) {
-                $aIsBranch = 'dev-' === substr($current, 0, 4);
-                $bIsBranch = 'dev-' === substr($required['version'], 0, 4);
-
-                if ($aIsBranch && $bIsBranch) {
-                    if (!($required['op'] === '==' && $current === $$required['version'])) {
-                        return false;
-                    }
-                }
-
-                if (isset($required['op']) && !version_compare($current, $required['version'], $required['op'])) {
-                    return false;
-                }
-            }
+        try {
+            $versionParser = new VersionParser();
+            $providedConstraint = new VersionConstraint('==', $versionParser->normalize($current));
+            $constraints = $versionParser->parseConstraints($constraints);
+            return $constraints->matches($providedConstraint);
+        } catch (\Exception $ex) {
+            return false;
         }
-
-        return true;
     }
 }
