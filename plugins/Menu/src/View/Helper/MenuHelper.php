@@ -228,7 +228,7 @@ class MenuHelper extends Helper
 
             $this->countItems($items);
             if (intval($this->config('split')) > 1) {
-                $out .= $this->_renderParts($items, $options, $attrs);
+                $out .= $this->_renderPart($items, $options, $attrs);
             } else {
                 $out .= $this->formatTemplate('root', [
                     'attrs' => $this->templater()->formatAttributes($attrs),
