@@ -1026,14 +1026,10 @@ class FieldableBehavior extends Behavior
      * Fetches all Entity's fields under the `_fields` property.
      *
      * @param \Cake\Datasource\EntityInterface $entity The entity where to fetch fields
-     * @return \Cake\Datasource\EntityInterface Modified $entity
+     * @return \Cake\Datasource\EntityInterface
      */
     public function attachEntityFields(EntityInterface $entity)
     {
-        if (!($entity instanceof EntityInterface)) {
-            return $entity;
-        }
-
         $_accessible = [];
         foreach ($entity->visibleProperties() as $property) {
             $_accessible[$property] = $entity->accessible($property);

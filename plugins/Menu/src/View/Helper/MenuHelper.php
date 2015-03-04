@@ -603,6 +603,10 @@ class MenuHelper extends Helper
             case 'auto':
             default:
                 $itemUrl = $this->_sanitizeUrl($item->url);
+                if (empty($itemUrl) || !str_starts_with($itemUrl, '/')) {
+                    return ($itemUrl == env('REQUEST_URI'));
+                }
+
                 $isInternal =
                     $itemUrl !== '/' &&
                     str_ends_with($itemUrl, str_replace_once($this->_baseUrl(), '', env('REQUEST_URI')));
@@ -643,8 +647,8 @@ class MenuHelper extends Helper
             return '';
         }
 
-        if (empty($url) || $url[0] !== '/') {
-            return ($url == env('REQUEST_URI'));
+        if (!str_starts_with($url, '/')) {
+            return $url;
         }
 
         if (str_starts_with($url, $this->_baseUrl())) {

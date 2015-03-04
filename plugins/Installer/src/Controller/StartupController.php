@@ -389,7 +389,7 @@ class StartupController extends Controller
         $this->loadModel('User.Users');
         $user = $this->Users->newEntity();
 
-        if ($this->request->data) {
+        if ($this->request->data()) {
             $data = $this->request->data;
             $data['roles'] = ['_ids' => [1]];
             $user = $this->Users->newEntity($data);

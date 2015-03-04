@@ -241,7 +241,7 @@ class UsersTable extends Table
             ];
         }
 
-        $validatoradd('password', $rules);
+        $validator->add('password', $rules);
         return $validator;
     }
 
