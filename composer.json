@@ -15,7 +15,7 @@
     "require": {
         "php": ">=5.4.19",
         "cakephp/cakephp": "3.0.*-dev",
-        "composer/composer": "*"
+        "composer/composer": "1.0.@dev"
     },
     "require-dev": {
         "phpunit/phpunit": "*",
