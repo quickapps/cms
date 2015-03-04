@@ -27,8 +27,7 @@ if (getenv('DB') == 'sqlite') {
         'password' => '',
         'database' => 'quick_test',
         'log' => true,
-    ];    
-
+    ];
 } elseif (getenv('DB') == 'pgsql') {
     $conn = [
         'driver' => 'Cake\Database\Driver\Postgres',

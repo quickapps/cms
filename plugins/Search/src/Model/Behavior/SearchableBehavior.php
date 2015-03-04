@@ -434,7 +434,7 @@ class SearchableBehavior extends Behavior
      * ```
      *
      * @param string $criteria A search-criteria. e.g. `"this phrase" author:username`
-     * @param null|\Cake\ORM\Query $query The query to scope, or null to create one
+     * @param \Cake\ORM\Query|null $query The query to scope, or null to create one
      * @return \Cake\ORM\Query Scoped query
      * @throws Cake\Error\FatalErrorException When query gets corrupted while
      *  processing tokens
