@@ -603,10 +603,6 @@ class MenuHelper extends Helper
             case 'auto':
             default:
                 $itemUrl = $this->_sanitizeUrl($item->url);
-                if (empty($itemUrl) || !str_starts_with($itemUrl, '/')) {
-                    return ($itemUrl == env('REQUEST_URI'));
-                }
-
                 $isInternal =
                     $itemUrl !== '/' &&
                     str_ends_with($itemUrl, str_replace_once($this->_baseUrl(), '', env('REQUEST_URI')));
@@ -614,23 +610,33 @@ class MenuHelper extends Helper
                     $itemUrl === '/' &&
                     $this->_View->request->isHome();
                 $isExact =
-                    str_replace('//', '/', "{$itemUrl}/") === str_replace('//', '/', "/{$this->_View->request->url}/");
+                    str_replace('//', '/', "{$itemUrl}/") === str_replace('//', '/', "/{$this->_View->request->url}/") ||
+                    ($itemUrl == env('REQUEST_URI'));
 
                 if ($this->config('breadcrumbGuessing')) {
-                    static $crumbs = null;
-                    if ($crumbs === null) {
-                        $crumbs = BreadcrumbRegistry::getUrls();
-                        foreach ($crumbs as &$crumb) {
-                            $crumb = $this->_sanitizeUrl($crumb);
-                        }
-                    }
-
-                    $isInBreadcrumb = in_array($itemUrl, $crumbs);
-                    return ($isInternal || $isIndex || $isExact || $isInBreadcrumb);
+                    return ($isInternal || $isIndex || $isExact || in_array($itemUrl, $this->_crumbUrls()));
                 }
 
                 return ($isInternal || $isIndex || $isExact);
         }
+    }
+
+    /**
+     * Gets a list of all URLs present in current crumbs path.
+     *
+     * @return array List of URLs
+     */
+    protected function _crumbUrls()
+    {
+        static $crumbs = null;
+        if ($crumbs === null) {
+            $crumbs = BreadcrumbRegistry::getUrls();
+            foreach ($crumbs as &$crumb) {
+                $crumb = $this->_sanitizeUrl($crumb);
+            }
+        }
+
+        return $crumbs;
     }
 
     /**
