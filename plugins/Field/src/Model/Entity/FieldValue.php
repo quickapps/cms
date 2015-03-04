@@ -16,6 +16,13 @@ use Cake\ORM\Entity;
 /**
  * Represents a "value" from the "field_values" database table.
  *
+ * @property int $id
+ * @property int $field_instance_id
+ * @property int $entity_id
+ * @property string $field_instance_slug
+ * @property string $table_alias
+ * @property string $value
+ * @property object|array $raw
  */
 class FieldValue extends Entity
 {

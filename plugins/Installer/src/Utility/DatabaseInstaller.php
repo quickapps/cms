@@ -80,7 +80,6 @@ class DatabaseInstaller
         $conn = static::_getConn();
 
         if ($conn === false) {
-            static::_error(__d('installer', 'Unable to connect to database, please check your information. Details: {0}', '<p>' . $e->getMessage() . '</p>'));
             return false;
         }
 
@@ -156,7 +155,8 @@ class DatabaseInstaller
     /**
      * Generates a new connection to DB.
      *
-     * @return \Cake\Database\Connection|bool A connection object, or false on failure
+     * @return \Cake\Database\Connection|bool A connection object, or false on
+     *  failure. On failure error messages are automatically set
      */
     protected static function _getConn()
     {
@@ -164,6 +164,7 @@ class DatabaseInstaller
             !static::config('database') ||
             !static::config('username')
         ) {
+            static::_error(__d('installer', 'Database name and username cannot be empty.'));
             return false;
         }
 
@@ -172,7 +173,8 @@ class DatabaseInstaller
             $conn = ConnectionManager::get('installation');
             $conn->connect();
             return $conn;
-        } catch (\Exception $e) {
+        } catch (\Exception $ex) {
+            static::_error(__d('installer', 'Unable to connect to database, please check your information. Details: {0}', '<p>' . $ex->getMessage() . '</p>'));
             return false;
         }
     }
@@ -194,7 +196,7 @@ class DatabaseInstaller
                     // IMPORT
                     require $schemaPath;
                     $className = str_replace('.php', '', basename($schemaPath));
-                    $tableName = Inflector::underscore(str_replace('Schema', '', $className));
+                    $tableName = (string)Inflector::underscore(str_replace('Schema', '', $className));
                     $fixture = new $className;
                     $fields = $fixture->fields();
                     $records = $fixture->records();

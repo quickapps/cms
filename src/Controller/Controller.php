@@ -12,11 +12,13 @@
 namespace QuickApps\Controller;
 
 use Cake\Controller\Component\AuthComponent;
-use Cake\Controller\Controller as CakeCotroller;
+use Cake\Controller\Controller as CakeController;
 use Cake\I18n\I18n;
 use QuickApps\Error\SiteUnderMaintenanceException;
 use QuickApps\Event\HookAwareTrait;
 use QuickApps\View\ViewModeAwareTrait;
+use ReflectionException;
+use ReflectionMethod;
 
 /**
  * Main controller class for organization of business logic.
@@ -24,7 +26,7 @@ use QuickApps\View\ViewModeAwareTrait;
  * Provides basic QuickAppsCMS functionality, such as themes handling,
  * user authorization, and more.
  */
-class Controller extends CakeCotroller
+class Controller extends CakeController
 {
 
     use HookAwareTrait;
@@ -91,40 +93,65 @@ class Controller extends CakeCotroller
     public function __construct($request = null, $response = null)
     {
         parent::__construct($request, $response);
-        $this->_prepareLanguage();
+        $this->prepareLanguage();
         if (!$this->response->location()) {
             $this->switchViewMode('default');
-            $this->_prepareTheme();
-            $this->_checkMaintenanceMode();
+            $this->prepareTheme();
+            $this->checkMaintenanceMode();
         }
+    }
+
+    /**
+     * Method to check that an action is accessible from a URL.
+     *
+     * Override this method to change which controller methods can be reached.
+     * The default implementation disallows access to all methods defined on
+     * Cake\Controller\Controller or QuickApps\Controller\Controller, and allows all
+     * public methods on all subclasses of this class.
+     *
+     * @param string $action The action to check.
+     * @return bool Whether or not the method is accessible from a URL.
+     */
+    public function isAction($action)
+    {
+        try {
+            $method = new ReflectionMethod($this, $action);
+        } catch (\ReflectionException $e) {
+            return false;
+        }
+        if (!$method->isPublic()) {
+            return false;
+        }
+        if ($method->getDeclaringClass()->name === 'Cake\Controller\Controller' ||
+            $method->getDeclaringClass()->name === 'QuickApps\Controller\Controller'
+        ) {
+            return false;
+        }
+        return true;
     }
 
     /**
      * Shortcut for Controller::set('title_for_layout', ...)
      *
-     * @param string $title_for_layout The title to use on layout's title tag
+     * @param string $titleForLayout The title to use on layout's title tag
      * @return void
      */
-    // @codingStandardsIgnoreStart
-    protected function title($titleForLayout)
+    public function title($titleForLayout)
     {
         $this->set('title_for_layout', $titleForLayout);
     }
-    // @codingStandardsIgnoreEnd
 
     /**
      * Shortcut for Controller::set('description_for_layout', ...)
      *
-     * @param string $description_for_layout The description to use as
+     * @param string $descriptionForLayout The description to use as
      *  meta-description on layout's head tag
      * @return void
      */
-    // @codingStandardsIgnoreStart
-    protected function description($descriptionForLayout)
+    public function description($descriptionForLayout)
     {
         $this->set('description_for_layout', $descriptionForLayout);
     }
-    // @codingStandardsIgnoreEnd
 
     /**
      * Prepares the default language to use.
@@ -157,7 +184,7 @@ class Controller extends CakeCotroller
      *
      * @return void
      */
-    protected function _prepareLanguage()
+    public function prepareLanguage()
     {
         $locales = array_keys(quickapps('languages'));
         $localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
@@ -192,7 +219,7 @@ class Controller extends CakeCotroller
      *
      * @return void
      */
-    protected function _prepareTheme()
+    public function prepareTheme()
     {
         $this->layout = 'default';
         if (!empty($this->request->params['prefix']) && strtolower($this->request->params['prefix']) === 'admin') {
@@ -223,9 +250,9 @@ class Controller extends CakeCotroller
      *
      * @return void
      * @throws QuickApps\Error\SiteUnderMaintenanceException When site is under
-     *  maintenance.
+     *  maintenance mode
      */
-    protected function _checkMaintenanceMode()
+    public function checkMaintenanceMode()
     {
         if (option('site_maintenance') &&
             !$this->request->isUserAdmin() &&

@@ -12,15 +12,11 @@
 namespace Installer\Controller;
 
 use Cake\Controller\Controller;
-use Cake\Database\Schema\Table as TableSchema;
-use Cake\Datasource\ConnectionManager;
 use Cake\Event\Event;
-use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
 use Cake\I18n\I18n;
 use Cake\Routing\Router;
 use Cake\Utility\Hash;
-use Cake\Utility\Inflector;
 use Installer\Utility\DatabaseInstaller;
 use QuickApps\Core\Plugin;
 
@@ -329,26 +325,26 @@ class StartupController extends Controller
         }
     }
 
+    // @codingStandardsIgnoreStart
     /**
      * Shortcut for Controller::set('title_for_layout', ...)
      *
      * @param string $titleForLayout Page's title
      * @return void
      */
-    // @codingStandardsIgnoreStart
     protected function title($titleForLayout)
     {
         $this->set('title_for_layout', $titleForLayout);
     }
     // @codingStandardsIgnoreEnd
 
+    // @codingStandardsIgnoreStart
     /**
      * Shortcut for Controller::set('description_for_layout', ...)
      *
-     * @param string $description_for_layout Page's description
+     * @param string $descriptionForLayout Page's description
      * @return void
      */
-    // @codingStandardsIgnoreStart
     protected function description($descriptionForLayout)
     {
         $this->set('description_for_layout', $descriptionForLayout);
