@@ -13,6 +13,7 @@ namespace Block\Model\Entity;
 
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
+use User\Model\Entity\AccessibleEntityTrait;
 
 /**
  * Represents a single "block" within "blocks" table.
@@ -27,9 +28,11 @@ use Cake\ORM\TableRegistry;
  * @property string $visibility
  * @property string $handler
  * @property string $description
+ * @method bool isAccessible(array|null $roles = null)
  */
 class Block extends Entity
 {
+    use AccessibleEntityTrait;
 
     /**
      * Automatically calculates "delta" for entity's handler.

@@ -123,7 +123,6 @@ class BlockHelper extends Helper
         $this->alter(['BlockHelper.allowed', $this->_View], $block);
         $cacheKey = "allowed_{$block->id}";
         $cache = static::cache($cacheKey);
-        $allowed = false;
 
         if ($cache !== null) {
             return $cache;
@@ -135,24 +134,11 @@ class BlockHelper extends Helper
             return static::cache($cacheKey, false);
         }
 
-        if ($block->has('roles') && !empty($block->roles)) {
-            $rolesIds = [];
-            $userRoles = user()->roles;
-            $allowed = false;
-            foreach ($block->roles as $role) {
-                $rolesIds[] = $role->id;
-            }
-            foreach ($userRoles as $role) {
-                if (in_array($role, $rolesIds)) {
-                    $allowed = true;
-                    break;
-                }
-            }
-            if (!$allowed) {
-                return static::cache($cacheKey, false);
-            }
+        if (!$block->isAccessible()) {
+            return static::cache($cacheKey, false);
         }
 
+        $allowed = false;
         switch ($block->visibility) {
             case 'except':
                 // Show on all pages except listed pages

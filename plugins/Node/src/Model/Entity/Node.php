@@ -17,6 +17,7 @@ use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Node\Model\Entity\NodeType;
+use User\Model\Entity\AccessibleEntityTrait;
 use User\Model\Entity\User;
 
 /**
@@ -40,9 +41,12 @@ use User\Model\Entity\User;
  * @property string $url
  * @property array $roles
  * @property \User\Model\Entity\User $author
+ * @method bool isAccessible(array|null $roles = null)
  */
 class Node extends Entity
 {
+
+    use AccessibleEntityTrait;
 
     /**
      * Gets node type.
@@ -165,34 +169,6 @@ class Node extends Entity
                 'status' => 1,
             ])
             ->first();
-    }
-
-    /**
-     * Whether this node can be accessed by current logged in user.
-     *
-     * @return bool False if user has no permissions to see this node due to
-     *  role restrictions, true otherwise
-     */
-    public function isAccessible()
-    {
-        if (empty($this->roles)) {
-            return true;
-        }
-
-        $allowed = false;
-        $nodeRolesID = [];
-        foreach ($this->roles as $role) {
-            $nodeRolesID[] = $role->id;
-        }
-
-        foreach (user()->role_ids as $userRoleID) {
-            if (in_array($userRoleID, $nodeRolesID)) {
-                $allowed = true;
-                break;
-            }
-        }
-
-        return $allowed;
     }
 
     /**
