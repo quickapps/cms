@@ -194,72 +194,69 @@ class UsersTable extends Table
      */
     protected function _applyPasswordPolicies(Validator $validator)
     {
+        $rules = [];
         if (Plugin::settings('User', 'password_min_length')) {
             $len = intval(Plugin::settings('User', 'password_min_length'));
-            $validator
-                ->add('password', [
-                    'length' => [
-                        'rule' => function ($value, $context) use ($len) {
-                            $raw = isset($context['data']['password2']) ? $context['data']['password2'] : '';
-                            return mb_strlen($raw) >= $len;
-                        },
-                        'message' => __d('user', 'Password must be at least {0} characters long.', $len),
-                    ]
-                ]);
+            $rules['length'] = [
+                'rule' => function ($value, $context) use ($len) {
+                    return mb_strlen($this->_getRawPassword($context)) >= $len;
+                },
+                'message' => __d('user', 'Password must be at least {0} characters long.', $len),
+            ];
         }
 
         if (Plugin::settings('User', 'password_uppercase')) {
-            $validator
-                ->add('password', [
-                    'uppercase' => [
-                        'rule' => function ($value, $context) {
-                            $raw = isset($context['data']['password2']) ? $context['data']['password2'] : '';
-                            return preg_match('/[A-Z]/', $raw) ? true : false;
-                        },
-                        'message' => __d('user', 'Password must contain at least one uppercase character (A-Z).'),
-                    ]
-                ]);
+            $rules['uppercase'] = [
+                'rule' => function ($value, $context) {
+                    return (bool)preg_match('/[A-Z]/', $this->_getRawPassword($context));
+                },
+                'message' => __d('user', 'Password must contain at least one uppercase character (A-Z).'),
+            ];
         }
 
         if (Plugin::settings('User', 'password_lowercase')) {
-            $validator
-                ->add('password', [
-                    'lowercase' => [
-                        'rule' => function ($value, $context) {
-                            $raw = isset($context['data']['password2']) ? $context['data']['password2'] : '';
-                            return preg_match('/[a-z]/', $raw) ? true : false;
-                        },
-                        'message' => __d('user', 'Password must contain at least one lowercase character (a-z).'),
-                    ]
-                ]);
+            $rules['lowercase'] = [
+                'rule' => function ($value, $context) {
+                    return (bool)preg_match('/[a-z]/', $this->_getRawPassword($context));
+                },
+                'message' => __d('user', 'Password must contain at least one lowercase character (a-z).'),
+            ];
         }
 
         if (Plugin::settings('User', 'password_number')) {
-            $validator
-                ->add('password', [
-                    'number' => [
-                        'rule' => function ($value, $context) {
-                            $raw = isset($context['data']['password2']) ? $context['data']['password2'] : '';
-                            return preg_match('/[0-9]/', $raw) ? true : false;
-                        },
-                        'message' => __d('user', 'Password must contain at least one numeric character (1-9).'),
-                    ]
-                ]);
+            $rules['number'] = [
+                'rule' => function ($value, $context) {
+                    return (bool)preg_match('/[0-9]/', $this->_getRawPassword($context));
+                },
+                'message' => __d('user', 'Password must contain at least one numeric character (1-9).'),
+            ];
         }
 
         if (Plugin::settings('User', 'password_non_alphanumeric')) {
-            $validator
-                ->add('password', [
-                    'non_alphanumeric' => [
-                        'rule' => function ($value, $context) {
-                            $raw = isset($context['data']['password2']) ? $context['data']['password2'] : '';
-                            return preg_match('/[^0-9a-z]/i', $raw) ? true : false;
-                        },
-                        'message' => __d('user', 'Password must contain at least one non-alphanumeric character (e.g. #%?).'),
-                    ]
-                ]);
+            $rules['non_alphanumeric'] = [
+                'rule' => function ($value, $context) {
+                    return (bool)preg_match('/[^0-9a-z]/i', $this->_getRawPassword($context));
+                },
+                'message' => __d('user', 'Password must contain at least one non-alphanumeric character (e.g. #%?).'),
+            ];
         }
 
+        $validatoradd('password', $rules);
         return $validator;
+    }
+
+    /**
+     * Tries to get raw password from the given context.
+     *
+     * @param array $context Validation rule's context
+     * @return string Raw password
+     */
+    protected function _getRawPassword($context)
+    {
+        if (isset($context['data']['password2'])) {
+            return $context['data']['password2'];
+        }
+
+        return '';
     }
 }
