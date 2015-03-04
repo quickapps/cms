@@ -5,6 +5,7 @@
     "keywords": ["framework", "cms", "cmf", "cakephp"],
     "homepage": "http://quickappscms.org",
     "license": "GPL-3.0",
+
     "authors": [
         {"name": "Christopher Castro", "email": "chris@quickapps.es"}
     ],
@@ -15,7 +16,7 @@
     "require": {
         "php": ">=5.4.19",
         "cakephp/cakephp": "3.0.*-dev",
-        "composer/composer": "1.0.@dev"
+        "composer/composer": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "*",

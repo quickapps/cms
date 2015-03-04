@@ -20,6 +20,7 @@ matrix:
     - php: 7.0
 
 before_script:
+  - COMPOSER_ROOT_VERSION=dev-master composer install
   - composer self-update
   - composer install --prefer-dist --no-interaction
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE quick_test;'; fi"
