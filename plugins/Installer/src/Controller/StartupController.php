@@ -258,117 +258,13 @@ class StartupController extends Controller
         }
 
         if (!empty($this->request->data)) {
-            $requestData = $this->request->data;
-
-            if (in_array($requestData['driver'], ['Mysql', 'Postgres', 'Sqlite', 'Sqlserver'])) {
-                if (function_exists('ini_set')) {
-                    ini_set('max_execution_time', 300);
-                } elseif (function_exists('set_time_limit')) {
-                    set_time_limit(300);
-                }
-
-                $dbConfig = [
-                    'className' => 'Cake\Database\Connection',
-                    'driver' => 'Cake\Database\Driver\\' . $requestData['driver'],
-                    'database' => $requestData['name'],
-                    'username' => $requestData['username'],
-                    'password' => $requestData['password'],
-                    'host' => $requestData['host'],
-                    'prefix' => $requestData['prefix'],
-                    'encoding' => 'utf8',
-                    'timezone' => 'UTC',
-                    'cacheMetadata' => true,
-                    'quoteIdentifiers' => false,
-                    'log' => false,
-                    'init' => [],
-                ];
-                $dumpComplete = false;
-
-                try {
-                    ConnectionManager::config('installation', $dbConfig);
-                    $db = ConnectionManager::get('installation');
-                    $db->connect();
-                    $Folder = new Folder(ROOT . '/config/Schema/');
-                    $schemaCollection = $db->schemaCollection();
-                    $existingSchemas = $schemaCollection->listTables();
-                    $newSchemas = array_map(function ($item) {
-                        return Inflector::underscore(str_replace('Schema.php', '', $item));
-                    }, $Folder->read()[1]);
-
-                    if (array_intersect($existingSchemas, $newSchemas)) {
-                        $this->Flash->danger(__d('installer', 'A previous installation of QuickApps CMS already exists, please drop your database tables or change the prefix.'));
-                        $dumpComplete = false;
-                    } else {
-                        $schemaFiles = $Folder->read(false, false, true)[1];
-
-                        try {
-                            $transactionResult = $db->transactional(function ($connection) use ($schemaFiles) {
-                                foreach ($schemaFiles as $schemaPath) {
-                                    // IMPORT
-                                    require $schemaPath;
-                                    $className = str_replace('.php', '', basename($schemaPath));
-                                    $tableName = Inflector::underscore(str_replace('Schema', '', $className));
-                                    $fixture = new $className;
-                                    $fields = $fixture->fields();
-                                    $records = $fixture->records();
-                                    $constraints = [];
-
-                                    if (isset($fields['_constraints'])) {
-                                        $constraints = $fields['_constraints'];
-                                        unset($fields['_constraints']);
-                                    }
-
-                                    $tableSchema = new TableSchema($tableName, $fields);
-                                    if (!empty($constraints)) {
-                                        foreach ($constraints as $constraintName => $constraintAttrs) {
-                                            $tableSchema->addConstraint($constraintName, $constraintAttrs);
-                                        }
-                                    }
-
-                                    $sqlCreate = $tableSchema->createSql($connection)[0];
-                                    if ($connection->execute($sqlCreate)) {
-                                        if (!empty($records)) {
-                                            foreach ($records as $row) {
-                                                if (!$connection->insert($tableName, $row)) {
-                                                    return false;
-                                                }
-                                            }
-                                        }
-                                    } else {
-                                        return false;
-                                    }
-                                }
-
-                                return true;
-                            });
-                        } catch (\Exception $e) {
-                            $transactionResult = false;
-                            $this->Flash->danger(__d('installer', 'Unable to import database information. Details: {0}', '<p>' . $e->getMessage() . '</p>'));
-                        }
-
-                        $dumpComplete = $transactionResult;
-                    }
-                } catch (\Exception $e) {
-                    $this->Flash->danger(__d('installer', 'Unable to connect to database, please check your information. Details: {0}', '<p>' . $e->getMessage() . '</p>'));
-                }
-
-                if ($dumpComplete) {
-                    $config = [
-                        'Datasources' => [
-                            'default' => $dbConfig,
-                        ],
-                        'Security' => [
-                            'salt' => substr(str_shuffle('$%&()=!#@~0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, rand(40, 60))
-                        ],
-                        'debug' => false,
-                    ];
-                    $settingsFile = new File(SITE_ROOT . '/config/settings.php.tmp', true);
-                    $settingsFile->write('<?php $config = ' . var_export($config, true) . ';');
-                    $this->_step();
-                    $this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'account']);
-                }
+            if (DatabaseInstaller::init($this->request->data())) {
+                $this->_step();
+                $this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'account']);
             } else {
-                $this->Flash->danger(__d('installer', 'Invalid database type'));
+                foreach (Database::errors() as $error) {
+                    $this->Flash->danger($error);
+                }
             }
         }
     }
