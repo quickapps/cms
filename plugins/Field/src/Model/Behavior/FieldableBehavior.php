@@ -720,7 +720,7 @@ class FieldableBehavior extends Behavior
                 'raw' => $field->raw,
             ]);
 
-            if ($entity->isNew()) {
+            if ($entity->isNew() || empty($valueEntity->id)) {
                 $this->_cache['createValues'][] = $valueEntity;
             } else {
                 if (!TableRegistry::get('Field.FieldValues')->save($valueEntity)) {
