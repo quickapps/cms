@@ -20,8 +20,9 @@ matrix:
     - php: 7.0
 
 before_script:
+  - COMPOSER_ROOT_VERSION=dev-master
   - composer self-update
-  - COMPOSER_ROOT_VERSION=dev-master composer install --prefer-dist --no-interaction
+  - composer install --prefer-dist --no-interaction
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE quick_test;'; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'CREATE DATABASE quick_test;' -U postgres; fi"
   - phpenv rehash
