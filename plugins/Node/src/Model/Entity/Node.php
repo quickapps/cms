@@ -121,7 +121,11 @@ class Node extends Entity
      */
     public function parentLocale()
     {
-        return $this->Nodes
+        if (!$this->has('slug')) {
+            throw new FatalErrorException(__d('node', "Missing property 'slug', make sure to include it using Query::select()."));
+        }
+
+        return TableRegistry::get('Node.Nodes')
             ->find()
             ->select(['id', 'slug', 'node_type_slug', 'language'])
             ->where([
@@ -138,14 +142,20 @@ class Node extends Entity
      * @param string|null $locale Locale code for which look for translations,
      *  if not given current language code will be used
      * @return mixed Translation entity if exists, null otherwise
+     * @throws Cake\Error\FatalErrorException When if any of the required
+     *  properties is not present in this entity
      */
     public function hasTranslation($locale = null)
     {
+        if (!$this->has('id') || !$this->has('node_type_slug')) {
+            throw new FatalErrorException(__d('node', "Missing properties 'id' or 'node_type_slug', make sure to include them using Query::select()."));
+        }
+
         if ($locale === null) {
             $locale = I18n::locale();
         }
 
-        return $this->Nodes
+        return TableRegistry::get('Node.Nodes')
             ->find()
             ->select(['id', 'slug', 'node_type_slug', 'language'])
             ->where([
@@ -202,7 +212,7 @@ class Node extends Entity
     {
         if (!$type) {
             if (!$this->has('node_type_slug') && !$this->has('id')) {
-                throw new FatalErrorException(__d('node', "Node::setDefaults() was unable to get Content Type information."));
+                throw new FatalErrorException(__d('node', 'Unable to get Content-Type information.'));
             }
 
             if (!$this->has('node_type_slug')) {
