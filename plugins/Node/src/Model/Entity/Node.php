@@ -35,6 +35,11 @@ use User\Model\Entity\User;
  * @property string $slug
  * @property string $title
  * @property string $description
+ * @property string $language
+ * @property string $type
+ * @property string $url
+ * @property array $roles
+ * @property \User\Model\Entity\User $author
  */
 class Node extends Entity
 {
@@ -73,13 +78,11 @@ class Node extends Entity
     protected function _getUrl()
     {
         $url = Router::getRequest()->base;
-
         if (option('url_locale_prefix')) {
             $url .= '/' . I18n::locale();
         }
 
         $url .= "/{$this->node_type_slug}/{$this->slug}.html";
-
         return Router::normalize($url);
     }
 
@@ -109,6 +112,77 @@ class Node extends Entity
             'web' => __d('node', '(no website)'),
             'email' => __d('node', 'Unknown'),
         ]);
+    }
+
+    /**
+     * Gets the parent node for which this node is a translation of.
+     *
+     * @return mixed The parent node if exists, null otherwise
+     */
+    public function parentLocale()
+    {
+        return $this->Nodes
+            ->find()
+            ->select(['id', 'slug', 'node_type_slug', 'language'])
+            ->where([
+                'slug' => $this->slug,
+                'status' => 1,
+                'translation_for NOT IN' => ['', null]
+            ])
+            ->first();
+    }
+
+    /**
+     * Find if this node has a translation to the given locale code.
+     *
+     * @param string|null $locale Locale code for which look for translations,
+     *  if not given current language code will be used
+     * @return mixed Translation entity if exists, null otherwise
+     */
+    public function hasTranslation($locale = null)
+    {
+        if ($locale === null) {
+            $locale = I18n::locale();
+        }
+
+        return $this->Nodes
+            ->find()
+            ->select(['id', 'slug', 'node_type_slug', 'language'])
+            ->where([
+                'translation_for' => $this->id,
+                'node_type_slug' => $this->node_type_slug,
+                'language' => $locale,
+                'status' => 1,
+            ])
+            ->first();
+    }
+
+    /**
+     * Whether this node can be accessed by current logged in user.
+     *
+     * @return bool False if user has no permissions to see this node due to
+     *  role restrictions, true otherwise
+     */
+    public function isAccessible()
+    {
+        if (empty($this->roles)) {
+            return true;
+        }
+
+        $allowed = false;
+        $nodeRolesID = [];
+        foreach ($this->roles as $role) {
+            $nodeRolesID[] = $role->id;
+        }
+
+        foreach (user()->role_ids as $userRoleID) {
+            if (in_array($userRoleID, $nodeRolesID)) {
+                $allowed = true;
+                break;
+            }
+        }
+
+        return $allowed;
     }
 
     /**
