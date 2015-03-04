@@ -32,7 +32,7 @@
 			</div>
 
 			<div class="form-group">
-				<?php echo $this->Form->input('name', ['label' => __d('installer', 'Database Name'), 'placeholder' => __d('installer', 'ex. quickappscms_db')]); ?>
+				<?php echo $this->Form->input('database', ['label' => __d('installer', 'Database Name'), 'placeholder' => __d('installer', 'ex. quickappscms_db')]); ?>
 				<em class="help-block"><?php echo __d('installer', 'Database must already exist!'); ?></em>
 			</div>
 

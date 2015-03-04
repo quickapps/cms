@@ -21,6 +21,7 @@ use Cake\I18n\I18n;
 use Cake\Routing\Router;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
+use Installer\Utility\DatabaseInstaller;
 use QuickApps\Core\Plugin;
 
 /**
@@ -253,6 +254,7 @@ class StartupController extends Controller
      */
     public function database()
     {
+        \Cake\Core\Configure::write('debug', true);
         if (!$this->_step('license')) {
             $this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'index']);
         }
@@ -262,7 +264,7 @@ class StartupController extends Controller
                 $this->_step();
                 $this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'account']);
             } else {
-                foreach (Database::errors() as $error) {
+                foreach (DatabaseInstaller::errors() as $error) {
                     $this->Flash->danger($error);
                 }
             }

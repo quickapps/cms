@@ -16,6 +16,7 @@ use Cake\Database\Schema\Table as TableSchema;
 use Cake\Datasource\ConnectionManager;
 use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
+use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 
 /**
@@ -24,6 +25,8 @@ use Cake\Utility\Inflector;
  */
 class DatabaseInstaller
 {
+
+    use StaticConfigTrait;
 
     /**
      * Error messages list.
@@ -73,11 +76,9 @@ class DatabaseInstaller
             set_time_limit(300);
         }
 
-        $dbConfig['driver'] = "Cake\\Database\\Driver\\{$dbConfig['driver']}";
-        static::config(static::$_defaultConfig);
-        static::config($dbConfig);
-
+        static::_prepareConfig($dbConfig);
         $conn = static::_getConn();
+
         if ($conn === false) {
             static::_error(__d('installer', 'Unable to connect to database, please check your information. Details: {0}', '<p>' . $e->getMessage() . '</p>'));
             return false;
@@ -119,6 +120,29 @@ class DatabaseInstaller
     }
 
     /**
+     * Prepares database configuration attributes.
+     *
+     * If the file "ROOT/config/settings.php.tmp" exists, and has declared a
+     * connection named "default" it will be used.
+     *
+     * @param array $dbConfig Database connection info coming from POST
+     * @return void
+     */
+    protected static function _prepareConfig($dbConfig)
+    {
+        if (is_readable(SITE_ROOT . '/config/settings.php.tmp')) {
+            include_once SITE_ROOT . '/config/settings.php.tmp';
+            if (isset($config['Datasources']['default'])) {
+                static::config($config['Datasources']['default']);
+                return;
+            }
+        }
+
+        $dbConfig['driver'] = "Cake\\Database\\Driver\\{$dbConfig['driver']}";
+        static::config(Hash::merge(static::$_defaultConfig, $dbConfig));
+    }
+
+    /**
      * Registers an error message.
      *
      * @param string $message The error message
@@ -136,9 +160,18 @@ class DatabaseInstaller
      */
     protected static function _getConn()
     {
+        if (!static::config('className') ||
+            !static::config('database') ||
+            !static::config('username')
+        ) {
+            return false;
+        }
+
         try {
             ConnectionManager::config('installation', static::$_config);
-            return ConnectionManager::get('installation');
+            $conn = ConnectionManager::get('installation');
+            $conn->connect();
+            return $conn;
         } catch (\Exception $e) {
             return false;
         }
@@ -245,6 +278,6 @@ class DatabaseInstaller
     protected static function _salt()
     {
         $space = '$%&()=!#@~0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        return ubstr(str_shuffle($space), 0, rand(40, 60));
+        return substr(str_shuffle($space), 0, rand(40, 60));
     }
 }
