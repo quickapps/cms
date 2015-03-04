@@ -120,6 +120,25 @@ class ManageControllerTest extends IntegrationTestCase
     {
         $this->get('/admin/node/manage/edit/1');
         $this->assertResponseOk();
+
+        $this->post('/admin/node/manage/edit/1', [
+            'title' => 'Modified Article',
+            'description' => 'this node was modified',
+            'status' => 1,
+            'comment_status' => 1,
+
+            // custom fields
+            ':article-introduction' => 'Intro text',
+            ':article-body' => 'Article body',
+        ]);
+
+        $node = $this->_controller
+            ->Nodes
+            ->find()
+            ->where(['title' => 'Modified Article'])
+            ->limit(1)
+            ->first();
+        $this->assertNotEmpty($node);
     }
 
     /**

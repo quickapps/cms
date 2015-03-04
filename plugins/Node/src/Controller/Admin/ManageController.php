@@ -186,11 +186,12 @@ class ManageController extends AppController
         }
 
         if (!empty($this->request->data)) {
-            if (!$this->request->data['regenerate_slug']) {
+            if (empty($this->request->data['regenerate_slug'])) {
                 $this->Nodes->behaviors()->Sluggable->config(['on' => 'create']);
+            } else {
+                unset($this->request->data['regenerate_slug']);
             }
 
-            unset($this->request->data['regenerate_slug']);
             $node->accessible([
                 'id',
                 'node_type_id',
@@ -198,8 +199,8 @@ class ManageController extends AppController
                 'translation_for',
                 'created_by',
             ], false);
-            $node = $this->Nodes->patchEntity($node, $this->request->data);
 
+            $node = $this->Nodes->patchEntity($node, $this->request->data());
             if ($this->Nodes->save($node, ['atomic' => true, 'associated' => ['Roles']])) {
                 $this->Flash->success(__d('node', 'Information was saved!'));
                 $this->redirect("/admin/node/manage/edit/{$id}");
