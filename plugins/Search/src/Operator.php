@@ -58,11 +58,11 @@ abstract class Operator
      * @param \Cake\ORM\Query $query The query to alter
      * @param \Search\Token $token Token representing this operator. Frequently used
      *  methods are:
-     *  - Token::value(): The value this this operator, that is whatever comes
+     *  - Token::value(): The value for this operator, that is whatever comes
      *    after `:` symbol. e.g. `JohnLocke` for criteria `author:JohnLocke`
-     *  - Token::negated(): True if user has negated this operator using the "-"
+     *  - Token::negated(): True if user has negated this operator using the `-`
      *    symbol. e.g.: `-author:JohnLocke`. False otherwise.
-     *  - Token::where(): Possible values are "or", "and" and false. Indicates the
+     *  - Token::where(): Possible values are "or", "and" and null. Indicates the
      *    type of WHERE condition that should be used when scoping using this token,
      *    for instance, `OR author:JohnLocke` will return `or`. But,
      *    `AND author:JohnLocke` will return `and`. By default it is set
