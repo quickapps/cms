@@ -53,8 +53,7 @@ class PermissionsTable extends Table
     public function check(User $user, $path)
     {
         $acoPath = $this->Acos->node($path);
-
-        if (!$acoPath) {
+        if (empty($acoPath)) {
             return false;
         }
 

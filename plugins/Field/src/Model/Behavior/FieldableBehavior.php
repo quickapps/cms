@@ -1071,11 +1071,11 @@ class FieldableBehavior extends Behavior
      * Alters the given $field and fetches incoming POST data, both 'value' and
      * 'raw' properties will be automatically filled for the given $field entity.
      *
-     * @param \Cake\Datasource\EntityInterface $field The field entity for which
+     * @param \Field\Model\Entity\Field $field The field entity for which
      *  fetch POST information
      * @return mixed Raw POST information
      */
-    protected function _preparePostData(EntityInterface $field)
+    protected function _preparePostData(Field $field)
     {
         $post = $field
             ->get('metadata')

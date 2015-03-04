@@ -61,21 +61,40 @@ class AcosTable extends Table
     }
 
     /**
-     * Retrieves the ACO node for this model
+     * Retrieves the ACO nodes for the given ACO path.
      *
-     * @param string $ref String value `Prefix/Controller/action`
-     * @return array Node found in database
+     * ### ACO path format:
+     *
+     * As a string describing a path:
+     *
+     *     PluginName/ControllerName/actionName
+     *
+     * Or an associative array which values describes a path, for instance:
+     *
+     * ```php
+     * [
+     *     'plugin' => YourPlugin,
+     *     'prefix' => Admin,
+     *     'controller' => Users,
+     *     'action' => index,
+     * ]
+     * ```
+     *
+     * The above array is equivalent to: `PluginName/Admin/Users/index`
+     *
+     * @param string|array $path ACO path as described above
+     * @return \Cake\ORM\Query|bool False if not found or query result if found
      */
-    public function node($ref)
+    public function node($stringPath)
     {
         $type = $this->alias();
         $table = $this->table();
         $path = [];
 
-        if (is_string($ref)) {
-            $path = explode('/', $ref);
-        } elseif (is_array($ref)) {
-            $path = implode('/', array_values(array_filter($ref)));
+        if (is_string($stringPath)) {
+            $path = explode('/', $stringPath);
+        } elseif (is_array($stringPath)) {
+            $path = implode('/', array_values(array_filter($stringPath)));
             $path = explode('/', $path);
         }
 

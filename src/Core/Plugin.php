@@ -200,7 +200,7 @@ class Plugin extends CakePlugin
      * @param bool $full Merge info with plugin's `composer.json` file and
      *  settings stored in DB
      * @return array Plugin information
-     * @throws Cake\Error\FatalErrorException When plugin is not found, or when
+     * @throws \Cake\Error\FatalErrorException When plugin is not found, or when
      *  JSON file is not found
      */
     public static function info($plugin, $full = false)
