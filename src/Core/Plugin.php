@@ -498,8 +498,6 @@ class Plugin extends CakePlugin
     public static function checkDependency($plugin)
     {
         foreach (static::dependencies($plugin) as $plugin => $required) {
-            $version = '';
-
             if (in_array($plugin, ['__PHP__', '__QUICKAPPS__', '__CAKEPHP__'])) {
                 if ($plugin === '__PHP__') {
                     $version = PHP_VERSION;
@@ -512,7 +510,6 @@ class Plugin extends CakePlugin
                 try {
                     $basicInfo = (array)static::info($plugin);
                     $composerInfo = (array)static::composer($plugin);
-                    $packageName = $composerInfo['name'];
                 } catch (FatalErrorException $e) {
                     return false;
                 }
