@@ -28,7 +28,7 @@ class DatabaseTask extends Shell
     /**
      * Export entire database to PHP fixtures.
      *
-     * By default, all generated PHP files will be placed in `/tmp/Fixture/`
+     * By default, all generated PHP files will be placed in `/tmp/fixture/`
      * directory, this can be changed using the `--destination` argument.
      *
      * ### Parameters:
@@ -43,22 +43,29 @@ class DatabaseTask extends Shell
     public function export()
     {
         $options = (array)$this->params;
-        if (file_exists(TMP . 'fixture/')) {
-            $dst = new Folder(TMP . 'fixture/');
+        $destination = normalizePath("{$options['destination']}/");
+
+        if (is_string($options['tables'])) {
+            $options['tables'] = explode(',', $options['tables']);
+        }
+
+        if (file_exists($destination)) {
+            $dst = new Folder($destination);
             $dst->delete();
-            $this->out(sprintf('Removing existing directory %s', TMP . 'fixture/'), 1, Shell::VERBOSE);
+            $this->out(__d('system', 'Removing existing directory: {0}', $destination), 1, Shell::VERBOSE);
         } else {
-            new Folder(TMP . 'fixture/', true);
-            $this->out(sprintf('Creating directory %s', TMP . 'fixture/'), 1, Shell::VERBOSE);
+            new Folder($destination, true);
+            $this->out(__d('system', 'Creating directory: {0}', $destination), 1, Shell::VERBOSE);
         }
 
         $db = ConnectionManager::get('default');
         $db->connect();
         $schemaCollection = $db->schemaCollection();
         $tables = $schemaCollection->listTables();
+
         foreach ($tables as $table) {
             if (!empty($options['tables']) && !in_array($table, $options['tables'])) {
-                $this->out(sprintf('Table "%s" skipped', $table), 1, Shell::VERBOSE);
+                $this->out(__d('system', 'Table "{0}" skipped', $table), 1, Shell::VERBOSE);
                 continue;
             }
 
@@ -85,13 +92,14 @@ class DatabaseTask extends Shell
                 }
             }
 
-            $rows = $Table->find('all');
-            foreach ($rows as $row) {
-                $row = $row->toArray();
-                if (isset($row['id'])) {
-                    unset($row['id']);
+            if ($options['mode'] === 'full') {
+                foreach ($Table->find('all') as $row) {
+                    $row = $row->toArray();
+                    if (isset($row['id'])) {
+                        unset($row['id']);
+                    }
+                    $records[] = $row;
                 }
-                $records[] = $row;
             }
 
             $className = Inflector::camelize($table) . 'Fixture';
@@ -107,12 +115,12 @@ class DatabaseTask extends Shell
             $fixture .= "    public \$records = {$records};\n";
             $fixture .= "}\n";
 
-            $file = new File(normalizePath("{$options['destination']}/{$className}.php"), true);
+            $file = new File(normalizePath("{$destination}/{$className}.php"), true);
             $file->write($fixture, 'w', true);
-            $this->out(sprintf('Table "%s" exported!', $table), 1, Shell::VERBOSE);
+            $this->out(__d('system', 'Table "{0}" exported!', $table), 1, Shell::VERBOSE);
         }
 
-        $this->out(sprintf('Database exported on: %s', TMP . 'fixture'));
+        $this->out(__d('system', 'Database exported to: {0}', $destination));
 
         return true;
     }
@@ -152,7 +160,13 @@ class DatabaseTask extends Shell
                         'tables' => [
                             'short' => 't',
                             'help' => __d('system', 'Optional, comma-separated list of table names to export. All tables will be exported if not provided.'),
-                            'default' => false,
+                            'default' => [],
+                        ],
+                        'mode' => [
+                            'short' => 'm',
+                            'help' => __d('system', 'What to export, "full" exports schema and records, or "schema" for schema only.'),
+                            'default' => 'full',
+                            'choices' => ['full', 'schema'],
                         ],
                     ]
                 ]
