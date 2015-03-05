@@ -82,20 +82,20 @@ class AcosTable extends Table
      *
      * The above array is equivalent to: `PluginName/Admin/Users/index`
      *
-     * @param string|array $path ACO path as described above
+     * @param string|array $ref ACO path as described above
      * @return \Cake\ORM\Query|bool False if not found or query result if found
      */
-    public function node($stringPath)
+    public function node($ref)
     {
         $type = $this->alias();
         $table = $this->table();
         $path = [];
 
-        if (is_string($stringPath)) {
-            $path = explode('/', $stringPath);
-        } elseif (is_array($stringPath)) {
-            $path = implode('/', array_values(array_filter($stringPath)));
+        if (is_array($ref)) {
+            $path = implode('/', array_values(array_filter($ref)));
             $path = explode('/', $path);
+        } elseif (is_string($ref)) {
+            $path = explode('/', $ref);
         }
 
         if (empty($path)) {

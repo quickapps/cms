@@ -10,7 +10,7 @@
 	],
 	"minimum-stability": "dev",
 	"require": {
-		"quickapps/cms": "2.0.*-dev"
+		"quickapps/cms": "2.*"
 	},
 	"version": "1.0",
 	"extra": {

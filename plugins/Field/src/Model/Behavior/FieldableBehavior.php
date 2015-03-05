@@ -1115,8 +1115,8 @@ class FieldableBehavior extends Behavior
         $bundle = $this->_calculateBundle($options['bundle']);
         $alias = $this->_table->alias();
         $pk = $this->_table->primaryKey();
-        $driver = $query->connection()->driver();
-        list(, $driverClass) = namespaceSplit(strtolower(get_class($driver)));
+        $conn = $query->connection(null);
+        list(, $driverClass) = namespaceSplit(strtolower(get_class($conn->driver())));
 
         $whereClause->traverse(function ($expression) use ($pk, $bundle, $alias, $driverClass) {
             if (!($expression instanceof Comparison)) {

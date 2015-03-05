@@ -39,17 +39,17 @@ class HooktagManagerTest extends TestCase
 
         $this->_eventManager = EventManager::instance();
         if (!$this->_eventManager->listeners('Hooktag.dummy')) {
-            $this->_eventManager->attach(function ($event, $atts, $content, $code) {
+            $this->_eventManager->on('Hooktag.dummy', function ($event, $atts, $content, $code) {
                 return '@@DUMMY@@';
-            }, 'Hooktag.dummy');
+            });
 
-            $this->_eventManager->attach(function ($event, $atts, $content, $code) {
+            $this->_eventManager->on('Hooktag.dummy_atts', function ($event, $atts, $content, $code) {
                 return $atts['at'];
-            }, 'Hooktag.dummy_atts');
+            });
 
-            $this->_eventManager->attach(function ($event, $atts, $content, $code) {
+            $this->_eventManager->on('Hooktag.enclosed', function ($event, $atts, $content, $code) {
                 return $content;
-            }, 'Hooktag.enclosed');
+            });
         }
     }
 

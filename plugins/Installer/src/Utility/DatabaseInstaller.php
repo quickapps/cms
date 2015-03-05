@@ -65,10 +65,6 @@ class DatabaseInstaller
     public static function init($dbConfig)
     {
         static::clear();
-        if (!in_array($dbConfig['driver'], ['Mysql', 'Postgres', 'Sqlite', 'Sqlserver'])) {
-            static::_error(__d('installer', 'Invalid database type'));
-            return false;
-        }
 
         if (function_exists('ini_set')) {
             ini_set('max_execution_time', 300);
@@ -78,7 +74,6 @@ class DatabaseInstaller
 
         static::_prepareConfig($dbConfig);
         $conn = static::_getConn();
-
         if ($conn === false) {
             return false;
         }
@@ -92,7 +87,7 @@ class DatabaseInstaller
             return false;
         }
 
-        static::_initSetting();
+        static::_writeSetting();
         return true;
     }
 
@@ -125,20 +120,30 @@ class DatabaseInstaller
      * connection named "default" it will be used.
      *
      * @param array $dbConfig Database connection info coming from POST
-     * @return void
+     * @return bool True on success, false otherwise
      */
-    protected static function _prepareConfig($dbConfig)
+    protected static function _prepareConfig($dbConfig = [])
     {
         if (is_readable(SITE_ROOT . '/config/settings.php.tmp')) {
-            include_once SITE_ROOT . '/config/settings.php.tmp';
-            if (isset($config['Datasources']['default'])) {
-                static::config($config['Datasources']['default']);
-                return;
+            $dbConfig = include_once SITE_ROOT . '/config/settings.php.tmp';
+            if (empty($dbConfig['Datasources']['default'])) {
+                static::_error(__d('installer', 'Invalid database information in file "{0}"', SITE_ROOT . '/config/settings.php.tmp'));
+                return false;
             }
+            $dbConfig = $dbConfig['Datasources']['default'];
+        } else {
+            $driver = !empty($dbConfig['driver']) ? $dbConfig['driver'] : 'dummy';
+            $dbConfig['driver'] = "Cake\\Database\\Driver\\{$driver}";
         }
 
-        $dbConfig['driver'] = "Cake\\Database\\Driver\\{$dbConfig['driver']}";
+        list(, $driverClass) = namespaceSplit($dbConfig['driver']);
+        if (!in_array($driverClass, ['Mysql', 'Postgres', 'Sqlite', 'Sqlserver'])) {
+            static::_error(__d('installer', 'Invalid database type.'));
+            return false;
+        }
+
         static::config(Hash::merge(static::$_defaultConfig, $dbConfig));
+        return true;
     }
 
     /**
@@ -257,7 +262,7 @@ class DatabaseInstaller
      *
      * @return void
      */
-    protected static function _initSetting()
+    protected static function _writeSetting()
     {
         $config = [
             'Datasources' => [
@@ -269,7 +274,7 @@ class DatabaseInstaller
             'debug' => false,
         ];
         $settingsFile = new File(SITE_ROOT . '/config/settings.php.tmp', true);
-        $settingsFile->write('<?php $config = ' . var_export($config, true) . ';');
+        $settingsFile->write("<?php\n return " . var_export($config, true) . ";\n");
     }
 
     /**

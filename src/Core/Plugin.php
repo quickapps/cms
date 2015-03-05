@@ -43,7 +43,7 @@ class Plugin extends CakePlugin
     protected static $_defaultComposerSchema = [
         'name' => null,
         'description' => '---',
-        'version' => '0.0.1-dev',
+        'version' => 'dev-master',
         'type' => null,
         'keywords' => [],
         'homepage' => null,

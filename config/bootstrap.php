@@ -216,7 +216,7 @@ foreach ($activePlugins as $pluginName => $info) {
 
     foreach ($info['eventListeners'] as $fullClassName => $eventInfo) {
         if (class_exists($fullClassName)) {
-            $EventManager->attach(new $fullClassName);
+            $EventManager->on(new $fullClassName);
         }
     }
 }

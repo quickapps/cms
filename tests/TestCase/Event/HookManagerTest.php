@@ -40,14 +40,14 @@ class HookManagerTest extends TestCase
 
         $this->_eventManager = EventManager::instance();
         if (!$this->_eventManager->listeners('Test.hook')) {
-            $this->_eventManager->attach(function ($event) {
+            $this->_eventManager->on('Test.hook', function ($event) {
                 return 'event response';
-            }, 'Test.hook');
+            });
 
-            $this->_eventManager->attach(function ($event, &$arg1, &$arg2) {
+            $this->_eventManager->on('Alter.Test.alter', function ($event, &$arg1, &$arg2) {
                 $arg1 .= ' altered';
                 $arg2 .= ' altered';
-            }, 'Alter.Test.alter');
+            });
         }
     }
 
@@ -59,7 +59,6 @@ class HookManagerTest extends TestCase
     public function testTriggered()
     {
         $this->assertTrue(HookManager::triggered('unexisting') === 0);
-
         HookManager::trigger('Test.hook');
         $this->assertTrue(HookManager::triggered('Test.hook') === 1);
     }
@@ -72,7 +71,6 @@ class HookManagerTest extends TestCase
     public function testTrigger()
     {
         $return = HookManager::trigger('Test.hook');
-
         $this->assertTrue($return instanceof Event);
         $this->assertEquals($return->result, 'event response');
     }

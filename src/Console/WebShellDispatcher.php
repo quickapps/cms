@@ -49,7 +49,7 @@ class WebShellDispatcher extends ShellDispatcher
      * Run the dispatcher
      *
      * @param string $args Commands to run
-     * @return bool Result of the shell process. True on success, false otherwise.
+     * @return int Result of the shell process. 1 on success, 0 otherwise.
      */
     public static function run($args)
     {
@@ -60,7 +60,7 @@ class WebShellDispatcher extends ShellDispatcher
         ob_start();
         $response = $dispatcher->dispatch();
         static::$_out = ob_get_clean();
-        return ($response === 0);
+        return (int)($response === 0);
     }
 
     /**
