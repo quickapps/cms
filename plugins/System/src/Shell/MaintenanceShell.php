@@ -72,13 +72,12 @@ class MaintenanceShell extends Shell
     public function getOptionParser()
     {
         $parser = parent::getOptionParser();
-
-        $parser->description(
-            'Provides some useful maintenance commands.'
-        )->addSubcommand('database', [
-            'help' => 'Provides database maintenance tasks',
-            'parser' => $this->Database->getOptionParser()
-        ]);
+        $parser
+            ->description('Provides some useful maintenance commands.')
+            ->addSubcommand('database', [
+                'help' => 'Provides database maintenance tasks',
+                'parser' => $this->Database->getOptionParser()
+            ]);
 
         return $parser;
     }

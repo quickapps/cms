@@ -26,58 +26,23 @@ class DatabaseTask extends Shell
 {
 
     /**
-     * {@inheritDoc}
-     */
-    public function startup()
-    {
-    }
-
-    /**
-     * Execution method always used for tasks
-     *
-     * @return void
-     */
-    public function main()
-    {
-        if (array_key_exists('export', $this->params)) {
-            $export = empty($this->params['export']) ? [] : explode(',', $this->params['export']);
-            array_filter($export);
-
-            if ($this->export($export)) {
-                if (!empty($this->params['destination'])) {
-                    $src = new Folder(TMP . 'fixture');
-                    if ($src->move(['to' => $this->params['destination']])) {
-                        $this->out(sprintf('Database exported on: %s', $this->params['destination']));
-                    } else {
-                        foreach ($src->errors() as $err) {
-                            $this->err($err);
-                        }
-                    }
-                } else {
-                    $this->out(sprintf('Database exported on: %s', TMP . 'fixture'));
-                }
-            } else {
-                $this->err('Unable to export database');
-            }
-        }
-    }
-
-    /**
      * Export entire database to PHP fixtures.
      *
-     * All generated PHP files will be placed in `/tmp/Fixture/` directory.
+     * By default, all generated PHP files will be placed in `/tmp/Fixture/`
+     * directory, this can be changed using the `--destination` argument.
      *
-     * @param array $whiteList List of table names to export. If not given (empty
-     *  array) all tables will be exported
+     * ### Parameters:
+     *
+     * - tables [t]: List of table names to export. If not given all tables will be
+     *   exported.
+     *
+     * - destination [d]: Where to place the exported tables.
+     *
      * @return bool
      */
-    public function export($whiteList = [])
+    public function export()
     {
-        $db = ConnectionManager::get('default');
-        $db->connect();
-        $schemaCollection = $db->schemaCollection();
-        $tables = $schemaCollection->listTables();
-
+        $options = (array)$this->params;
         if (file_exists(TMP . 'fixture/')) {
             $dst = new Folder(TMP . 'fixture/');
             $dst->delete();
@@ -87,8 +52,12 @@ class DatabaseTask extends Shell
             $this->out(sprintf('Creating directory %s', TMP . 'fixture/'), 1, Shell::VERBOSE);
         }
 
+        $db = ConnectionManager::get('default');
+        $db->connect();
+        $schemaCollection = $db->schemaCollection();
+        $tables = $schemaCollection->listTables();
         foreach ($tables as $table) {
-            if (!empty($whiteList) && !in_array($table, $whiteList)) {
+            if (!empty($options['tables']) && !in_array($table, $options['tables'])) {
                 $this->out(sprintf('Table "%s" skipped', $table), 1, Shell::VERBOSE);
                 continue;
             }
@@ -108,7 +77,7 @@ class DatabaseTask extends Shell
                 $fields['_constraints'][$constraintName] = $Table->schema()->constraint($constraint);
             }
 
-            // we need raw data for time, no Time objects
+            // we need raw data for time instead of Time Objects
             foreach ($Table->schema()->columns() as $column) {
                 $type = $Table->schema()->columnType($column);
                 if (in_array($type, ['date', 'datetime', 'time'])) {
@@ -125,52 +94,40 @@ class DatabaseTask extends Shell
                 $records[] = $row;
             }
 
-            $className = Inflector::camelize($table) . 'Schema';
-            $fields = json_decode(str_replace(['(', ')'], ['&#40', '&#41'], json_encode($fields)), true);
-            $fields = var_export($fields, true);
-            $fields = str_replace(['array (', ')', '&#40', '&#41'], ['[', ']', '(', ')'], $fields);
-
-            $records = json_decode(str_replace(['(', ')'], ['&#40', '&#41'], json_encode($records)), true);
-            $records = var_export($records, true);
-            $records = str_replace(['array (', ')', '&#40', '&#41'], ['[', ']', '(', ')'], $records);
+            $className = Inflector::camelize($table) . 'Fixture';
+            $fields = $this->_arrayToString($fields);
+            $records = $this->_arrayToString($records);
 
             $fixture = "<?php\n";
-            $fixture .= "trait {$className}Trait\n";
-            $fixture .= "{\n";
-            $fixture .= "\n";
-            $fixture .= "    protected \$_fields = {$fields};\n";
-            $fixture .= "\n";
-            $fixture .= "    protected \$_records = {$records};\n";
-            $fixture .= "\n";
-            $fixture .= "    public function fields()\n";
-            $fixture .= "    {\n";
-            $fixture .= "        foreach (\$this->_fields as \$name => \$info) {\n";
-            $fixture .= "            if (!empty(\$info['autoIncrement'])) {\n";
-            $fixture .= "                \$this->_fields[\$name]['length'] = null;\n";
-            $fixture .= "            }\n";
-            $fixture .= "        }\n";
-            $fixture .= "        return \$this->_fields;\n";
-            $fixture .= "    }\n";
-            $fixture .= "\n";
-            $fixture .= "    public function records()\n";
-            $fixture .= "    {\n";
-            $fixture .= "        return \$this->_records;\n";
-            $fixture .= "    }\n";
-            $fixture .= "}\n\n";
-
             $fixture .= "class {$className}\n";
             $fixture .= "{\n";
             $fixture .= "\n";
-            $fixture .= "    use {$className}Trait;\n";
+            $fixture .= "    public \$fields = {$fields};\n";
             $fixture .= "\n";
+            $fixture .= "    public \$records = {$records};\n";
             $fixture .= "}\n";
 
-            $file = new File(TMP . "fixture/{$className}.php", true);
+            $file = new File(normalizePath("{$options['destination']}/{$className}.php"), true);
             $file->write($fixture, 'w', true);
             $this->out(sprintf('Table "%s" exported!', $table), 1, Shell::VERBOSE);
         }
 
+        $this->out(sprintf('Database exported on: %s', TMP . 'fixture'));
+
         return true;
+    }
+
+    /**
+     * Converts an array to code-string representation.
+     *
+     * @param array $var The array to convert
+     * @return string
+     */
+    protected function _arrayToString(array $var)
+    {
+        $var = json_decode(str_replace(['(', ')'], ['&#40', '&#41'], json_encode($var)), true);
+        $var = var_export($var, true);
+        return str_replace(['array (', ')', '&#40', '&#41'], ['[', ']', '(', ')'], $var);
     }
 
     /**
@@ -181,13 +138,25 @@ class DatabaseTask extends Shell
     public function getOptionParser()
     {
         $parser = parent::getOptionParser();
-        $parser->description(
-            'Database maintenance:'
-        )->addOption('export', [
-            'help' => 'List of table names to export, if none if given all tables will be exported. e.g. --export users,roles.'
-        ])->addOption('destination', [
-            'help' => 'Where to place the exported tables. defaults to "TMP/fixture/"',
-        ]);
+        $parser
+            ->description(__d('system', 'Database maintenance tasks'))
+            ->addSubcommand('export', [
+                'help' => __d('system', 'Use this command to persist your database into portable files.'),
+                'parser' => [
+                    'options' => [
+                        'destination' => [
+                            'short' => 'd',
+                            'help' => __d('system', 'Where to place the exported tables.'),
+                            'default' => normalizePath(TMP . '/fixture/'),
+                        ],
+                        'tables' => [
+                            'short' => 't',
+                            'help' => __d('system', 'Optional, comma-separated list of table names to export. All tables will be exported if not provided.'),
+                            'default' => false,
+                        ],
+                    ]
+                ]
+            ]);
 
         return $parser;
     }
