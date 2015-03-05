@@ -40,7 +40,7 @@ if (getenv('DB') == 'sqlite') {
     ];
 }
 
-$config = [
+return [
     'Datasources' => [
         'test' => $conn,
     ],

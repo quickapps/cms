@@ -11,7 +11,7 @@
  */
 namespace Installer\Utility;
 
-use Cake\Core\StaticConfigTrait;
+use Cake\Core\InstanceConfigTrait;
 use Cake\Database\Schema\Table as TableSchema;
 use Cake\Datasource\ConnectionManager;
 use Cake\Filesystem\File;
@@ -26,21 +26,38 @@ use Cake\Utility\Inflector;
 class DatabaseInstaller
 {
 
-    use StaticConfigTrait;
+    use InstanceConfigTrait;
 
     /**
      * Error messages list.
      *
      * @var array
      */
-    protected static $_errors = [];
+    protected $_errors = [];
 
     /**
-     * Database connection config schema.
+     * Default configuration for this class.
+     *
+     * - settingsPath: Full path to the "settings.php" file where store connection
+     *   information used by QuickAppsCMS. This should NEVER be changed, use with
+     *   caution.
+     *
+     * - schemaPath: Path to directory containing all tables information to be
+     *   imported (fixtures).
      *
      * @var array
      */
-    protected static $_defaultConfig = [
+    protected $_defaultConfig = [
+        'settingsPath' => SITE_ROOT . '/config/settings.php',
+        'schemaPath' => ROOT . '/config/Schema/',
+    ];
+
+    /**
+     * Default database connection config.
+     *
+     * @var array
+     */
+    protected $_defaultConnection = [
         'className' => 'Cake\Database\Connection',
         'driver' => '',
         'database' => '',
@@ -57,38 +74,58 @@ class DatabaseInstaller
     ];
 
     /**
-     * Starts the process.
+     * Constructor.
      *
-     * @param array $dbConfig Database connection information
-     * @return bool True on success, false otherwise
+     * @param array $config Configuration options
      */
-    public static function init($dbConfig)
+    public function __construct($config = [])
     {
-        static::clear();
-
         if (function_exists('ini_set')) {
             ini_set('max_execution_time', 300);
         } elseif (function_exists('set_time_limit')) {
             set_time_limit(300);
         }
+        $this->config($config);
+    }
 
-        static::_prepareConfig($dbConfig);
-        $conn = static::_getConn();
+    /**
+     * Starts the process.
+     *
+     * @param array $dbConfig Database connection information
+     * @return bool True on success, false otherwise
+     */
+    public function install($dbConfig = [])
+    {
+        if (!$this->prepareConfig($dbConfig)) {
+            return false;
+        }
+
+        $conn = $this->getConn();
         if ($conn === false) {
             return false;
         }
 
-        if (!static::_isDbEmpty($conn)) {
-            static::_error(__d('installer', 'A previous installation of QuickApps CMS already exists, please drop your database tables or change the prefix.'));
+        if (!$this->isDbEmpty($conn)) {
             return false;
         }
 
-        if (!static::_importTables($conn)) {
+        if (!$this->importTables($conn)) {
             return false;
         }
 
-        static::_writeSetting();
+        $this->writeSetting();
         return true;
+    }
+
+    /**
+     * Registers an error message.
+     *
+     * @param string $message The error message
+     * @return void
+     */
+    public function error($message)
+    {
+        $this->_errors[] = $message;
     }
 
     /**
@@ -96,21 +133,9 @@ class DatabaseInstaller
      *
      * @return array
      */
-    public static function errors()
+    public function errors()
     {
-        return static::$_errors;
-    }
-
-    /**
-     * Clear all values stored in DatabaseInstaller.
-     *
-     * @return bool Success
-     */
-    public static function clear()
-    {
-        static::$_errors = [];
-        static::$_config = [];
-        return true;
+        return $this->_errors;
     }
 
     /**
@@ -122,39 +147,36 @@ class DatabaseInstaller
      * @param array $dbConfig Database connection info coming from POST
      * @return bool True on success, false otherwise
      */
-    protected static function _prepareConfig($dbConfig = [])
+    public function prepareConfig($dbConfig = [])
     {
+        if ($this->config('connection')) {
+            return true;
+        }
+
         if (is_readable(SITE_ROOT . '/config/settings.php.tmp')) {
-            $dbConfig = include_once SITE_ROOT . '/config/settings.php.tmp';
+            $dbConfig = include SITE_ROOT . '/config/settings.php.tmp';
             if (empty($dbConfig['Datasources']['default'])) {
-                static::_error(__d('installer', 'Invalid database information in file "{0}"', SITE_ROOT . '/config/settings.php.tmp'));
+                $this->error(__d('installer', 'Invalid database information in file "{0}"', SITE_ROOT . '/config/settings.php.tmp'));
                 return false;
             }
             $dbConfig = $dbConfig['Datasources']['default'];
         } else {
-            $driver = !empty($dbConfig['driver']) ? $dbConfig['driver'] : 'dummy';
-            $dbConfig['driver'] = "Cake\\Database\\Driver\\{$driver}";
+            if (empty($dbConfig['driver'])) {
+                $dbConfig['driver'] = '__INVALID__';
+            }
+            if (strpos($dbConfig['driver'], "\\") === false) {
+                $dbConfig['driver'] = "Cake\\Database\\Driver\\{$dbConfig['driver']}";
+            }
         }
 
         list(, $driverClass) = namespaceSplit($dbConfig['driver']);
         if (!in_array($driverClass, ['Mysql', 'Postgres', 'Sqlite', 'Sqlserver'])) {
-            static::_error(__d('installer', 'Invalid database type.'));
+            $this->error(__d('installer', 'Invalid database type ({0}).', $driverClass));
             return false;
         }
 
-        static::config(Hash::merge(static::$_defaultConfig, $dbConfig));
+        $this->config('connection', Hash::merge($this->_defaultConnection, $dbConfig));
         return true;
-    }
-
-    /**
-     * Registers an error message.
-     *
-     * @param string $message The error message
-     * @return void
-     */
-    protected static function _error($message)
-    {
-        static::$_errors[] = $message;
     }
 
     /**
@@ -163,23 +185,23 @@ class DatabaseInstaller
      * @return \Cake\Database\Connection|bool A connection object, or false on
      *  failure. On failure error messages are automatically set
      */
-    protected static function _getConn()
+    public function getConn()
     {
-        if (!static::config('className') ||
-            !static::config('database') ||
-            !static::config('username')
+        if (!$this->config('connection.className') ||
+            !$this->config('connection.database') ||
+            !$this->config('connection.username')
         ) {
-            static::_error(__d('installer', 'Database name and username cannot be empty.'));
+            $this->error(__d('installer', 'Database name and username cannot be empty.'));
             return false;
         }
 
         try {
-            ConnectionManager::config('installation', static::$_config);
+            ConnectionManager::config('installation', $this->config('connection'));
             $conn = ConnectionManager::get('installation');
             $conn->connect();
             return $conn;
         } catch (\Exception $ex) {
-            static::_error(__d('installer', 'Unable to connect to database, please check your information. Details: {0}', '<p>' . $ex->getMessage() . '</p>'));
+            $this->error(__d('installer', 'Unable to connect to database, please check your information. Details: {0}', '<p>' . $ex->getMessage() . '</p>'));
             return false;
         }
     }
@@ -191,9 +213,9 @@ class DatabaseInstaller
      * @return bool True on success, false otherwise. On failure error messages
      *  are automatically set
      */
-    protected static function _importTables($conn)
+    public function importTables($conn)
     {
-        $Folder = new Folder(ROOT . '/config/Schema/');
+        $Folder = new Folder($this->config('schemaPath'));
         $schemaFiles = $Folder->read(false, false, true)[1];
         try {
             return (bool)$conn->transactional(function ($connection) use ($schemaFiles) {
@@ -235,7 +257,7 @@ class DatabaseInstaller
                 return true;
             });
         } catch (\Exception $ex) {
-            static::_error(__d('installer', 'Unable to import database information. Details: {0}', '<p>' . $ex->getMessage() . '</p>'));
+            $this->error(__d('installer', 'Unable to import database information. Details: {0}', '<p>' . $ex->getMessage() . '</p>'));
             return false;
         }
     }
@@ -247,34 +269,44 @@ class DatabaseInstaller
      * @return bool True if database if empty and tables can be imported, false if
      *  there are some existing tables
      */
-    protected static function _isDbEmpty($conn)
+    public function isDbEmpty($conn)
     {
-        $Folder = new Folder(ROOT . '/config/Schema/');
+        $Folder = new Folder($this->config('schemaPath'));
         $existingSchemas = $conn->schemaCollection()->listTables();
         $newSchemas = array_map(function ($item) {
             return Inflector::underscore(str_replace('Schema.php', '', $item));
         }, $Folder->read()[1]);
-        return !array_intersect($existingSchemas, $newSchemas);
+        $result = !array_intersect($existingSchemas, $newSchemas);
+        if (!$result) {
+            $this->error(__d('installer', 'A previous installation of QuickApps CMS already exists, please drop your database tables or change the prefix.'));
+        }
+        return $result;
     }
 
     /**
      * Creates site's "settings.php" file.
      *
-     * @return void
+     * @return bool True on success
      */
-    protected static function _writeSetting()
+    public function writeSetting()
     {
         $config = [
             'Datasources' => [
-                'default' => static::$_config,
+                'default' => $this->config('connection'),
             ],
             'Security' => [
-                'salt' => static::_salt()
+                'salt' => $this->salt()
             ],
             'debug' => false,
         ];
-        $settingsFile = new File(SITE_ROOT . '/config/settings.php.tmp', true);
-        $settingsFile->write("<?php\n return " . var_export($config, true) . ";\n");
+
+        $filePath = $this->config('settingsPath');
+        if (!str_ends_with(strtolower($filePath), '.tmp')) {
+            $filePath .= '.tmp';
+        }
+
+        $settingsFile = new File($filePath, true);
+        return $settingsFile->write("<?php\n return " . var_export($config, true) . ";\n");
     }
 
     /**
@@ -282,7 +314,7 @@ class DatabaseInstaller
      *
      * @return string
      */
-    protected static function _salt()
+    public function salt()
     {
         $space = '$%&()=!#@~0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         return substr(str_shuffle($space), 0, rand(40, 60));

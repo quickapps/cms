@@ -250,19 +250,21 @@ class StartupController extends Controller
      */
     public function database()
     {
-        \Cake\Core\Configure::write('debug', true);
         if (!$this->_step('license')) {
             $this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'index']);
         }
 
         if (!empty($this->request->data)) {
-            if (DatabaseInstaller::init($this->request->data())) {
+            $dbInstaller = new DatabaseInstaller();
+            if ($dbInstaller->install($this->request->data())) {
                 $this->_step();
                 $this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'account']);
             } else {
-                foreach (DatabaseInstaller::errors() as $error) {
-                    $this->Flash->danger($error);
+                $errors = '';
+                foreach ($dbInstaller->errors() as $error) {
+                    $errors .= "\t<li>{$error}</li>\n";
                 }
+                $this->Flash->danger("<ul>\n{$errors}</ul>\n");
             }
         }
     }
