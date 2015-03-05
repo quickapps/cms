@@ -19,11 +19,40 @@ use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
 
 /**
- * Database manager.
+ * Export database.
  *
  */
-class DatabaseTask extends Shell
+class DatabaseExportTask extends Shell
 {
+
+    /**
+     * Gets the option parser instance and configures it.
+     *
+     * @return \Cake\Console\ConsoleOptionParser
+     */
+    public function getOptionParser()
+    {
+        $parser = parent::getOptionParser();
+        $parser
+            ->description(__d('system', 'Export database'))
+            ->addOption('destination', [
+                'short' => 'd',
+                'help' => __d('system', 'Where to place the exported tables.'),
+                'default' => normalizePath(TMP . '/fixture/'),
+            ])
+            ->addOption('tables', [
+                'short' => 't',
+                'help' => __d('system', 'Optional, comma-separated list of table names to export. All tables will be exported if not provided.'),
+                'default' => [],
+            ])
+            ->addOption('mode', [
+                'short' => 'm',
+                'help' => __d('system', 'What to export, "full" exports schema and records, or "schema" for schema only.'),
+                'default' => 'full',
+                'choices' => ['full', 'schema'],
+            ]);
+        return $parser;
+    }
 
     /**
      * Export entire database to PHP fixtures.
@@ -38,9 +67,11 @@ class DatabaseTask extends Shell
      *
      * - destination [d]: Where to place the exported tables.
      *
+     * - mode [m]: Possible values are "full" or "schema"
+     *
      * @return bool
      */
-    public function export()
+    public function main()
     {
         $options = (array)$this->params;
         $destination = normalizePath("{$options['destination']}/");
@@ -136,42 +167,5 @@ class DatabaseTask extends Shell
         $var = json_decode(str_replace(['(', ')'], ['&#40', '&#41'], json_encode($var)), true);
         $var = var_export($var, true);
         return str_replace(['array (', ')', '&#40', '&#41'], ['[', ']', '(', ')'], $var);
-    }
-
-    /**
-     * Gets the option parser instance and configures it.
-     *
-     * @return \Cake\Console\ConsoleOptionParser
-     */
-    public function getOptionParser()
-    {
-        $parser = parent::getOptionParser();
-        $parser
-            ->description(__d('system', 'Database maintenance tasks'))
-            ->addSubcommand('export', [
-                'help' => __d('system', 'Use this command to persist your database into portable files.'),
-                'parser' => [
-                    'options' => [
-                        'destination' => [
-                            'short' => 'd',
-                            'help' => __d('system', 'Where to place the exported tables.'),
-                            'default' => normalizePath(TMP . '/fixture/'),
-                        ],
-                        'tables' => [
-                            'short' => 't',
-                            'help' => __d('system', 'Optional, comma-separated list of table names to export. All tables will be exported if not provided.'),
-                            'default' => [],
-                        ],
-                        'mode' => [
-                            'short' => 'm',
-                            'help' => __d('system', 'What to export, "full" exports schema and records, or "schema" for schema only.'),
-                            'default' => 'full',
-                            'choices' => ['full', 'schema'],
-                        ],
-                    ]
-                ]
-            ]);
-
-        return $parser;
     }
 }
