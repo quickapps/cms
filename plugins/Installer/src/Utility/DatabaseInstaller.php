@@ -48,8 +48,8 @@ class DatabaseInstaller
      * @var array
      */
     protected $_defaultConfig = [
-        'settingsPath' => SITE_ROOT . '/config/settings.php',
-        'schemaPath' => ROOT . '/config/Schema/',
+        'settingsPath' => null,
+        'schemaPath' => null,
     ];
 
     /**
@@ -85,6 +85,9 @@ class DatabaseInstaller
         } elseif (function_exists('set_time_limit')) {
             set_time_limit(300);
         }
+
+        $this->_defaultConfig['settingsPath'] = SITE_ROOT . '/config/settings.php';
+        $this->_defaultConfig['schemaPath'] = ROOT . '/config/Schema/';
         $this->config($config);
     }
 

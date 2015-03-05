@@ -153,6 +153,7 @@ class PluginTest extends TestCase {
             ['provided' => '2.1-dev', 'constraints' => '2.0.x-dev', 'expected' => false],
             ['provided' => '2.6.8-dev', 'constraints' => '2.6.8', 'expected' => true],
             ['provided' => '2.6.8', 'constraints' => '2.6.8-dev', 'expected' => true],
+            ['provided' => 'dev-master', 'constraints' => 'dev-master', 'expected' => true],
             ['provided' => 'dev-master', 'constraints' => '*', 'expected' => true],
             ['provided' => 'dev-master', 'constraints' => '2.6.8', 'expected' => false],
             ['provided' => 'dev-master', 'constraints' => '>=3.0', 'expected' => true],

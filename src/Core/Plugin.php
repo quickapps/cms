@@ -567,6 +567,10 @@ class Plugin extends CakePlugin
      */
     public static function checkCompatibility($version, $constraints = null)
     {
+        if (empty($constraints) || $version == $constraints) {
+            return true;
+        }
+
         $parser = new VersionParser();
         $modifierRegex = '[\-\@]dev(\#\w+)?';
         $constraints = preg_replace('{' . $modifierRegex . '$}i', '', $constraints);
