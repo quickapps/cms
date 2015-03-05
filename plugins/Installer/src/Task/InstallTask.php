@@ -446,7 +446,8 @@ class InstallTask extends BaseTask
             } else {
                 $json = (new File($this->_extractedPath . 'composer.json'))->read();
                 $json = json_decode($json, true);
-                $this->plugin(pluginName($json['name']));
+                list(, $plugin) = packageSplit($json['name'], true);
+                $this->plugin($plugin);
                 $this->_pluginJson = (array)$json;
 
                 if ($this->config('packageType') === 'theme' && !str_ends_with($this->plugin(), 'Theme')) {
@@ -471,16 +472,12 @@ class InstallTask extends BaseTask
                 }
 
                 // dependencies: the fun part
-                if (!Plugin::checkDependency($json)) {
+                if (isset($json['require']) && !Plugin::checkDependency($json['require'])) {
                     $required = [];
                     foreach ($json['require'] as $p => $v) {
-                        $p = pluginName($p);
-                        $p = $p === '__QUICKAPPS__' ? 'QuickApps CMS' : $p;
-                        $p = $p === '__PHP__' ? 'PHP' : $p;
-                        $p = $p === '__CAKEPHP__' ? 'CakePHP' : $p;
                         $required[] = "{$p} ({$v})";
                     }
-                    $errors[] = __d('installer', 'Plugin "{0}" depends on other packages that were not found: {0}', $this->plugin(), implode(', ', $required));
+                    $errors[] = __d('installer', 'Plugin "{0}" depends on other packages, plugins or libraries that were not found: {0}', $this->plugin(), implode(', ', $required));
                 }
             }
         }

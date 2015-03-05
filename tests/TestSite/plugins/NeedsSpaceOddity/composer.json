@@ -24,7 +24,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "quickapps/cms": "2.0.*",
+        "quickapps/cms": "*",
         "quickapps-plugins/space-oddity": "1.*"
     },
     "version": "1.0"

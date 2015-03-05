@@ -109,7 +109,7 @@ class PluginTest extends TestCase {
     public function testDependencies()
     {
         $result = Plugin::dependencies('NeedsSpaceOddity');
-        $expected = ['__QUICKAPPS__' => '2.0.*', 'SpaceOddity' => '1.*'];
+        $expected = ['quickapps/cms' => '*', 'quickapps-plugins/space-oddity' => '1.*'];
         $this->assertEquals($expected, $result);
     }
 

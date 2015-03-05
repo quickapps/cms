@@ -109,9 +109,9 @@ class Plugin extends CakePlugin
             $collection = $collection->map(function ($info, $key) use ($ignoreError) {
                 try {
                     $out = Plugin::info($key, true);
-                } catch (FatalErrorException $e) {
+                } catch (FatalErrorException $ex) {
                     if (!$ignoreError) {
-                        throw $e;
+                        throw $ex;
                     } else {
                         return false;
                     }
@@ -212,14 +212,13 @@ class Plugin extends CakePlugin
             return $cache;
         }
 
-        $info = quickapps("plugins.{$plugin}");
-        if (!$info) {
+        if (!static::exists($plugin)) {
             throw new FatalErrorException(__('Plugin "{0}" was not found', $plugin));
         }
 
+        $info = quickapps("plugins.{$plugin}");
         if ($full) {
             $json = static::composer($plugin);
-
             if (!$json) {
                 throw new FatalErrorException(__('Missing or corrupt "composer.json" file for plugin "{0}"', $plugin));
             }
@@ -243,19 +242,135 @@ class Plugin extends CakePlugin
     }
 
     /**
-     * Gets version number of the given plugin.
+     * Gets version number of the given plugin, package or library
      *
-     * @param string $plugin Plugin name
-     * @return string Plugin's version
+     * ### Example:
+     *
+     * ```php
+     * // CakePHP, returns: Configure::version()
+     * Plugin::version('cakephp/cakephp');
+     *
+     * // QuickAppsCMS, returns: quickapps('version')
+     * Plugin::version('cakephp/cakephp');
+     *
+     * // Unexisting package or plugin, returns: empty
+     * Plugin::version('unexisting/plugin');
+     *
+     * // Unexisting library, returns: empty
+     * Plugin::version('unexisting-extension');
+     *
+     * // Installed package, returns: read from composer's "installed.json"
+     * Plugin::version('robmorgan/phinx');
+     *
+     * // Installed QuickAppsCMS's plugin, returns: read from "composer.json" (or VERSION.txt)
+     * Plugin::version('some-quickapps/plugin');
+     * ```
+     *
+     * @param string $package Plugin name or package name
+     * @return string Package version
      */
-    public static function version($plugin)
+    public static function version($package)
     {
-        $composer = static::composer($plugin);
-        return $composer['version'];
+        $cacheKey = "version({$package})";
+        $cache = static::cache($cacheKey);
+        if ($cache !== null) {
+            return $cache;
+        }
+
+        // Installed plugin
+        list(, $pluginName) = packageSplit($package, true);
+        if (static::exists($pluginName)) {
+            try {
+                $pluginInfo = static::info($pluginName, false);
+            } catch (\Exception $ex) {
+                $pluginInfo = false;
+            }
+
+            if ($pluginInfo) {
+                $json = json_decode(file_get_contents($pluginInfo['path'] . '/composer.json'), true);
+                if (isset($json['version'])) {
+                    return static::cache($cacheKey, $json['version']);
+                }
+
+                $files = glob($pluginInfo['path'] . '/*', GLOB_NOSORT);
+                $version = 'dev-master';
+                foreach ($files as $file) {
+                    $fileName = basename(strtolower($file));
+                    if (preg_match('/version?(\.\w+)/i', $fileName)) {
+                        $versionFile = file($file);
+                        $version = trim(array_pop($versionFile));
+                        break;
+                    }
+                }
+                return static::cache($cacheKey, $version);
+            }
+        }
+
+        // Library or an extension
+        if (strpos($package, '/') === false) {
+            if (strtolower($package) === 'php') {
+                return static::cache($cacheKey, PHP_VERSION);
+            } elseif (function_exists('phpversion')) {
+                $version = phpversion($package);
+                return static::cache($cacheKey, $version === false ? '' : $version);
+            } elseif (function_exists('extension_loaded')) {
+                return static::cache($cacheKey, extension_loaded($package) ? '99999' : '');
+            }
+            return static::cache($cacheKey, '');
+        }
+
+        // QuickAppsCMS or CakePHP
+        if (in_array($package, ['quickapps/cms', 'cakephp/cakephp'])) {
+            if (strtolower($package) === 'cakephp/cakephp') {
+                return static::cache($cacheKey, Configure::version());
+            } else {
+                return static::cache($cacheKey, quickapps('version'));
+            }
+        }
+
+        // Package installed using composer
+        $installed = static::cache('installedPackages');
+        if (empty($installed)) {
+            $jsonPath = VENDOR_INCLUDE_PATH . 'composer/installed.json';
+            if (is_readable($jsonPath)) {
+                $json = (array)json_decode(file_get_contents($jsonPath), true);
+                foreach ($json as $pkg) {
+                    $installed[$pkg['name']] = [
+                        'name' => $pkg['name'],
+                        'version' => $pkg['version'],
+                        'version_normalized' => $pkg['version_normalized'],
+                    ];
+                }
+                static::cache('installedPackages', $installed);
+            }
+        }
+
+        if (isset($installed[$package])) {
+            return static::cache($cacheKey, $installed[$package]['version']);
+        }
+
+
+        // Unexisting plugin or package
+        return static::cache($cacheKey, '');
+    }
+
+    /**
+     * Checks whether a plugins ins installed on the system regardless of its status.
+     *
+     * @param string $plugin Plugin to check
+     * @return bool True if exists, false otherwise
+     */
+    public static function exists($plugin)
+    {
+        $check = quickapps("plugins.{$plugin}");
+        return !empty($check);
     }
 
     /**
      * Gets composer json information for the given plugin.
+     *
+     * This method makes sure the `version` key is always present in the resulting
+     * array.
      *
      * @param string $plugin Plugin alias, e.g. `UserManager` or `user_manager`
      * @return mixed False if composer.json is missing or corrupt, or composer info
@@ -271,29 +386,13 @@ class Plugin extends CakePlugin
         }
 
         $info = static::info($plugin, false);
-
         if (!file_exists($info['path'] . '/composer.json')) {
             return false;
         }
 
         $json = json_decode(file_get_contents($info['path'] . '/composer.json'), true);
-
-        // try to guess package version from VERSION.txt or similar
         if (!isset($json['version'])) {
-            $files = glob($info['path'] . '/*', GLOB_NOSORT);
-            $version = null;
-
-            foreach ($files as $file) {
-                if (in_array(basename(strtolower($file)), ['version.txt', 'version'])) {
-                    $versionFile = file($file);
-                    $version = trim(array_pop($versionFile));
-                    break;
-                }
-            }
-
-            if ($version !== null) {
-                $json['version'] = $version;
-            }
+            $json['version'] = static::version($plugin);
         }
 
         if (!static::validateJson($json)) {
@@ -419,14 +518,6 @@ class Plugin extends CakePlugin
     /**
      * Gets plugin's dependencies as an array list.
      *
-     * This method returns package names that follows the pattern `author-name/package`.
-     * Packages such as `ext-mbstring`, etc will be ignored (EXCEPT `php`).
-     * There are a few special package names that may be present:
-     *
-     * - `__QUICKAPPS__` represent QuickApps CMS's version.
-     * - `__PHP__` represents server's PHP version.
-     * - `__CAKEPHP__` represents cakephp's version.
-     *
      * ### Example:
      *
      * ```php
@@ -434,48 +525,24 @@ class Plugin extends CakePlugin
      * Plugin::dependencies('UserManager');
      *
      * // may returns: [
-     * //    'UserWork' => '1.0',
-     * //    'Calentar' => '1.0.*',
-     * //    '__QUICKAPPS__' => '>=1.0', // QuickApps CMS v1.0 or higher required,
-     * //    '__PHP__' => '>4.3'
+     * //    'some-vendor/user-work' => '1.0',
+     * //    'another-vendor/calendar' => '1.0.*',
+     * //    'quickapps/cms' => '>=1.0', // QuickApps CMS v1.0 or higher required,
+     * //    'php' => '>4.3',
+     * //    'cakephp/cakephp' => '3.*',
      * // ]
-     *
-     * // Directly from composer.json information
-     * Plugin::dependencies(json_decode('/path/to/composer.json', true));
      * ```
      *
-     * @param array|string $plugin Plugin alias, or an array representing a
-     *  "composer.json" file, that is, result of `json_decode(..., true)`
-     * @return array List of plugin & version that $plugin depends on
-     * @throws \Cake\Eror\FatalErrorException When $plugin is not found, or when
-     *  plugin's composer.json is missing or corrupt
+     * @param string $plugin Plugin alias
+     * @return array List packages and versions the given plugin depends on
      */
     public static function dependencies($plugin)
     {
-        $info = [];
-        $dependencies = [];
-
-        if (is_array($plugin)) {
-            if (isset($plugin['require'])) {
-                $info['composer']['require'] = $plugin['require'];
-            } else {
-                return [];
-            }
-        } else {
-            $composer = static::composer($plugin);
-        }
-
+        $composer = static::composer($plugin);
         if (!empty($composer['require'])) {
-            foreach ($composer['require'] as $name => $version) {
-                $name = pluginName($name);
-                if (!$name) {
-                    continue;
-                }
-                $dependencies[$name] = $version;
-            }
+            return $composer['require'];
         }
-
-        return $dependencies;
+        return [];
     }
 
     /**
@@ -487,39 +554,22 @@ class Plugin extends CakePlugin
      * ```php
      * // Check requirements for MyPlugin
      * Plugin::checkDependency('MyPlugin');
-     *
-     * // Check requirements from composer.json
-     * Plugin::checkDependency(json_decode('/path/to/composer.json', true));
      * ```
      *
-     * @param string|array $plugin Plugin alias, or an array representing "composer.json"
+     * @param string|array $plugin Plugin alias or an array of dependencies
+     *  compatible with self::dependencies()
      * @return bool True if everything is OK, false otherwise
      */
     public static function checkDependency($plugin)
     {
-        foreach (static::dependencies($plugin) as $plugin => $required) {
-            if (in_array($plugin, ['__PHP__', '__QUICKAPPS__', '__CAKEPHP__'])) {
-                if ($plugin === '__PHP__') {
-                    $version = PHP_VERSION;
-                } elseif ($plugin === '__CAKEPHP__') {
-                    $version = Configure::version();
-                } else {
-                    $version = quickapps('version');
-                }
-            } else {
-                try {
-                    $basicInfo = (array)static::info($plugin);
-                    $composerInfo = (array)static::composer($plugin);
-                } catch (FatalErrorException $e) {
-                    return false;
-                }
-
-                // installed, but disabled
+        $dependencies = is_array($plugin) ? $plugin : static::dependencies($plugin);
+        foreach ($dependencies as $package => $required) {
+            $version = static::version($package);
+            if (static::exists($package)) {
+                $basicInfo = (array)static::info($package);
                 if (!$basicInfo['status']) {
-                    return false;
+                    return false; // installed, but disabled
                 }
-
-                $version = static::version($plugin);
             }
 
             if (!static::checkCompatibility($version, $required)) {
@@ -531,25 +581,31 @@ class Plugin extends CakePlugin
     }
 
     /**
-     * Verify if there is any plugin that depends of $pluginName.
+     * Checks if there is any active plugin that depends of $pluginName.
      *
      * @param string $pluginName Plugin name to check
-     * @return array A list of all plugin names that depends on $plugin, an empty
-     *  array means that no other plugins depends on $plugin, so $plugin can be
-     *  safely deleted or turned off.
+     * @return array A list of all plugin names that depends on $pluginName, an
+     *  empty array means that no other plugins depends on $pluginName, so
+     *  $pluginName can be safely deleted or turned off.
      */
     public static function checkReverseDependency($pluginName)
     {
+        // TODO: check against composer's installed.json
         $out = [];
-        $plugins = static::collection(true)->match(['status' => 1]);
+        list(, $pluginName) = packageSplit($pluginName, true);
+        $plugins = static::collection()->match(['status' => 1]);
         foreach ($plugins as $plugin) {
-            if ($plugin['name'] === $pluginName) {
+            if (strtolower($plugin['name']) === strtolower($pluginName)) {
                 continue;
             }
-            if (isset($plugin['composer']['require'])) {
-                $packages = array_keys($plugin['composer']['require']);
-                $packages = array_map('pluginName', $packages);
-                if (in_array($pluginName, $packages)) {
+
+            $dependencies = static::dependencies($plugin['name']);
+            if (!empty($dependencies)) {
+                $packages = array_map(function ($item) {
+                    list(, $package) = packageSplit($item, true);
+                    return strtolower($package);
+                }, array_keys($dependencies));
+                if (in_array(strtolower($pluginName), $packages)) {
                     $out[] = $plugin['human_name'];
                 }
             }
@@ -558,7 +614,13 @@ class Plugin extends CakePlugin
     }
 
     /**
-     * Check whether a version is compatible with a given dependency.
+     * Check whether a version matches the given constraint.
+     *
+     * ### Example:
+     *
+     * ```php
+     * Plugin::checkCompatibility('1.2.6', '>=1.1'); // returns true
+     * ```
      *
      * @param string $version The version to check against (e.g. 4.2.6)
      * @param string $constraints A string representing a dependency constraints,
@@ -567,6 +629,10 @@ class Plugin extends CakePlugin
      */
     public static function checkCompatibility($version, $constraints = null)
     {
+        if (is_string($version) && empty($version)) {
+            return false;
+        }
+
         if (empty($constraints) || $version == $constraints) {
             return true;
         }

@@ -311,38 +311,29 @@ if (!function_exists('listeners')) {
 
 if (!function_exists('pluginName')) {
     /**
-     * Used to extract plugin names from composer's package names.
+     * Splits a composer package syntax into its vendor and package name.
+     * If $name does not have a dot, then index 0 will be null.
      *
-     * ### Example:
-     *
-     * ```php
-     * pluginName('quickapps/my-super-plugin');
-     * // returns: MySuperPlugin
-     * ```
-     *
-     * Package names must follow the "author/app-name" pattern, there are two
-     * "especial" composer's package names which are handled differently:
-     *
-     * - `php`: Will return "\_\_PHP\_\_"
-     * - `quickapps/cms`: Will return "\_\_QUICKAPPS\_\_"
-     * - `cakephp/cakephp`: Will return "\_\_CAKEPHP\_\_"
+     * Commonly used like `list($vendor, $package) = packageSplit($name);`
      *
      * @param string $name Package name. e.g. author-name/package-name
-     * @return string
+     * @param bool $camelize Set to true to Camelize each part
+     * @return array Array with 2 indexes. 0 => vendor name, 1 => package name.
      */
-    function pluginName($name) {
-        $name = strtolower($name);
-        if ($name === 'php') {
-            return '__PHP__';
-        } elseif ($name === 'quickapps/cms') {
-            return '__QUICKAPPS__';
-        } elseif ($name === 'cakephp/cakephp') {
-            return '__CAKEPHP__';
-        } elseif (strpos($name, '/') === false) {
-            return ''; // invalid
+    function packageSplit($name, $camelize = false) {
+        $pos = strrpos($name, '/');
+        if ($pos === false) {
+            $parts = ['', $name];
+        } else {
+            $parts = [substr($name, 0, $pos), substr($name, $pos + 1)];
         }
-        $parts = explode('/', $name);
-        return Inflector::camelize(str_replace('-', '_', end($parts)));
+        if ($camelize) {
+            $parts[0] = Inflector::camelize(str_replace('-', '_', $parts[0]));
+            if (!empty($parts[1])) {
+                $parts[1] = Inflector::camelize(str_replace('-', '_', $parts[1]));
+            }
+        }
+        return $parts;
     }
 }
 

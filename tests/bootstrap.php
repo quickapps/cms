@@ -89,7 +89,7 @@ function snapshot() {
                 $isTheme = (bool)preg_match('/Theme$/', $name);
                 $isCore = strpos($pluginPath, 'cms' . DS . 'plugins') !== false;
                 $eventsPath = "{$pluginPath}/src/Event/";
-                $status = true;
+                $status = true; // all plugins enabled
                 $eventListeners = [];
 
                 if (is_dir($eventsPath)) {

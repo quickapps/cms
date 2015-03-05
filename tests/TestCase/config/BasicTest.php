@@ -34,16 +34,16 @@ class BasicTest extends TestCase {
     }
 
     /**
-     * test pluginName() function.
+     * test packageSplit() function.
      *
      * @return void
      */
-    public function testPluginName()
+    public function testPackageSplit()
     {
-        $this->assertEquals('TestPlugin', pluginName('quickapps-cms/test-plugin'));
-        $this->assertEquals('__PHP__', pluginName('php'));
-        $this->assertEquals('__QUICKAPPS__', pluginName('quickapps/cms'));
-        $this->assertEquals('__CAKEPHP__', pluginName('cakephp/cakephp'));
+        $this->assertEquals(['quickapps-cms', 'test-plugin'], packageSplit('quickapps-cms/test-plugin'));
+        $this->assertEquals(['', 'php'], packageSplit('php'));
+        $this->assertEquals(['', 'TestPlugin'], packageSplit('test-plugin', true));
+        $this->assertEquals(['VendorName', 'TestPlugin'], packageSplit('vendor_name/test-plugin', true));
     }
 
     /**
