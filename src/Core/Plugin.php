@@ -243,6 +243,18 @@ class Plugin extends CakePlugin
     }
 
     /**
+     * Gets version number of the given plugin.
+     *
+     * @param string $plugin Plugin name
+     * @return string Plugin's version
+     */
+    public static function version($plugin)
+    {
+        $composer = static::composer($plugin);
+        return $composer['version'];
+    }
+
+    /**
      * Gets composer json information for the given plugin.
      *
      * @param string $plugin Plugin alias, e.g. `UserManager` or `user_manager`
@@ -485,21 +497,22 @@ class Plugin extends CakePlugin
      */
     public static function checkDependency($plugin)
     {
-        $dependencies = static::dependencies($plugin);
+        foreach (static::dependencies($plugin) as $plugin => $required) {
+            $version = '';
 
-        foreach ($dependencies as $plugin => $required) {
             if (in_array($plugin, ['__PHP__', '__QUICKAPPS__', '__CAKEPHP__'])) {
                 if ($plugin === '__PHP__') {
-                    $current = PHP_VERSION;
+                    $version = PHP_VERSION;
                 } elseif ($plugin === '__CAKEPHP__') {
-                    $current = Configure::version();
+                    $version = Configure::version();
                 } else {
-                    $current = quickapps('version');
+                    $version = quickapps('version');
                 }
             } else {
                 try {
                     $basicInfo = (array)static::info($plugin);
                     $composerInfo = (array)static::composer($plugin);
+                    $packageName = $composerInfo['name'];
                 } catch (FatalErrorException $e) {
                     return false;
                 }
@@ -509,18 +522,10 @@ class Plugin extends CakePlugin
                     return false;
                 }
 
-                if (!empty($composerInfo['version'])) {
-                    $current = $composerInfo['version'];
-                } else {
-                    $current = false;
-                }
+                $version = static::version($plugin);
             }
 
-            if ($current) {
-                if (!static::checkIncompatibility($current, $required)) {
-                    return false;
-                }
-            } else {
+            if (!static::checkCompatibility($version, $required)) {
                 return false;
             }
         }
@@ -529,7 +534,7 @@ class Plugin extends CakePlugin
     }
 
     /**
-     * Verify if there is any plugin that depends of $plugin.
+     * Verify if there is any plugin that depends of $pluginName.
      *
      * @param string $pluginName Plugin name to check
      * @return array A list of all plugin names that depends on $plugin, an empty
@@ -558,18 +563,27 @@ class Plugin extends CakePlugin
     /**
      * Check whether a version is compatible with a given dependency.
      *
-     * @param string $current The version to check against (e.g. 4.2.6)
-     * @param string $constraints A string representing a dependency constraints, for
-     *  instance, `>7.0 || 1.2`
+     * @param string $version The version to check against (e.g. 4.2.6)
+     * @param string $constraints A string representing a dependency constraints,
+     *  for instance, `>7.0 || 1.2`
      * @return bool True if compatible, false otherwise
      */
-    public static function checkIncompatibility($current, $constraints)
+    public static function checkCompatibility($version, $constraints = null)
     {
+        $parser = new VersionParser();
+        $modifierRegex = '[\-\@]dev(\#\w+)?';
+        $constraints = preg_replace('{' . $modifierRegex . '$}i', '', $constraints);
+        $version = $parser->normalize($version);
+        $version = preg_replace('{' . $modifierRegex . '$}i', '', $version);
+
+        if (empty($constraints) || $version == $constraints) {
+            return true;
+        }
+
         try {
-            $versionParser = new VersionParser();
-            $providedConstraint = new VersionConstraint('==', $versionParser->normalize($current));
-            $constraints = $versionParser->parseConstraints($constraints);
-            return $constraints->matches($providedConstraint);
+            $pkgConstraint = new VersionConstraint('==', $version);
+            $constraintObjects = $parser->parseConstraints($constraints);
+            return $constraintObjects->matches($pkgConstraint);
         } catch (\Exception $ex) {
             return false;
         }
