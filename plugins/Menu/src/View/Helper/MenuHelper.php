@@ -210,7 +210,7 @@ class MenuHelper extends Helper
             $this->alter(['MenuHelper.render', $this->_View], $items, $options);
 
             if (is_callable($options)) {
-                $options = ['formatter' => $options];
+                $this->config('formatter', $options);
             } else {
                 if (!empty($options['templates']) && is_array($options['templates'])) {
                     $this->templates($options['templates']);
@@ -343,10 +343,10 @@ class MenuHelper extends Helper
      */
     protected function _prepareItemAttrs($item, array $info, array $options)
     {
-        $options = Hash::merge([
+        $options = Hash::merge($options, [
             'childAttrs' => ['class' => []],
             'linkAttrs' => ['class' => []],
-        ], $options);
+        ]);
         $childAttrs = $options['childAttrs'];
         $linkAttrs = $options['linkAttrs'];
 
