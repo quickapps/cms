@@ -78,7 +78,10 @@ class ConfigurationController extends AppController
             }
         }
 
-        $pluginSettings = Plugin::collection(true)->match(['hasSettings' => true]);
+        $pluginSettings = Plugin::get()
+            ->filter(function ($plugin) {
+                return $plugin->hasSettings;
+            });
         $this->set(compact('arrayContext', 'languages', 'variables', 'pluginSettings'));
         $this->Breadcrumb->push('/admin/system/configuration');
     }

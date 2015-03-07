@@ -12,7 +12,7 @@
 
 use QuickApps\Core\Plugin;
 
-$settings = Plugin::settings('User');
+$settings = Plugin::get('User')->settings();
 ?>
 
 <em class="help-block">

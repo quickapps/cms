@@ -69,36 +69,31 @@ class ThemeActivatorTask extends BaseTask
      */
     public function start()
     {
-        try {
-            $info = Plugin::info($this->plugin(), true);
-        } catch (\Exception $e) {
-            $info = null;
-        }
-
-        if (!$info) {
+        if (!Plugin::exists($this->plugin())) {
             $this->error(__d('installer', 'Theme "{0}" was not found.', $this->plugin()));
             return false;
         }
 
-        if (!$info['isTheme']) {
-            $this->error(__d('installer', '"{0}" is not a theme.', $info['human_name']));
+        $plugin = Plugin::get($this->plugin());
+        if (!$plugin->isTheme) {
+            $this->error(__d('installer', '"{0}" is not a theme.', $plugin->human_name));
             return false;
         }
 
         if (in_array($this->plugin(), [option('front_theme'), option('back_theme')])) {
-            $this->error(__d('installer', 'Theme "{0}" is already active.', $info['human_name']));
+            $this->error(__d('installer', 'Theme "{0}" is already active.', $plugin->human_name));
             return false;
         }
 
         // MENTAL NOTE: As theme is "inactive" its listeners are not attached to the
         // system, so we need to manually attach them in order to trigger callbacks.
         if ($this->config('callbacks')) {
-            $this->attachListeners("{$info['path']}/src/Event");
+            $this->attachListeners("{$plugin->path}/src/Event");
         }
 
         if ($this->config('callbacks')) {
             try {
-                $beforeEvent = $this->trigger("Plugin.{$info['name']}.beforeActivate");
+                $beforeEvent = $this->trigger("Plugin.{$plugin->name}.beforeActivate");
                 if ($beforeEvent->isStopped() || $beforeEvent->result === false) {
                     $this->error(__d('installer', 'Task was explicitly rejected by the theme.'));
                     return false;
@@ -110,7 +105,7 @@ class ThemeActivatorTask extends BaseTask
         }
 
         $this->loadModel('System.Options');
-        if ($info['composer']['extra']['admin']) {
+        if (isset($plugin->composer['extra']['admin']) && $plugin->composer['extra']['admin']) {
             $prefix = 'back_';
             $previousTheme = option('back_theme');
         } else {
@@ -128,7 +123,7 @@ class ThemeActivatorTask extends BaseTask
 
         if ($this->config('callbacks')) {
             try {
-                $this->trigger("Plugin.{$info['name']}.afterActivate");
+                $this->trigger("Plugin.{$plugin->name}.afterActivate");
             } catch (\Exception $e) {
                 $this->error(__d('installer', 'Theme did not respond to "afterActivate" callback.'));
             }
@@ -163,8 +158,13 @@ class ThemeActivatorTask extends BaseTask
     protected function _copyBlockPositions($dst, $src)
     {
         $this->loadModel('Block.BlockRegions');
-        $dst = Plugin::info($dst, true);
-        $newRegions = array_keys($dst['composer']['extra']['regions']);
+        $dstTheme = Plugin::get($dst);
+        $newRegions = isset($plugin->composer['extra']['regions']) ? array_keys($plugin->composer['extra']['regions']) : [];
+
+        if (empty($newRegions)) {
+            return;
+        }
+
         $existingPositions = $this->BlockRegions
             ->find()
             ->where(['theme' => $src])
@@ -173,7 +173,7 @@ class ThemeActivatorTask extends BaseTask
             if (in_array($position->region, $newRegions)) {
                 $newPosition = $this->BlockRegions->newEntity([
                     'block_id' => $position->block_id,
-                    'theme' => $dst['name'],
+                    'theme' => $dstTheme->name,
                     'region' => $position->region,
                     'ordering' => $position->ordering,
                 ]);

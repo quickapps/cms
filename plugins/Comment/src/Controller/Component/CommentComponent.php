@@ -129,7 +129,7 @@ class CommentComponent extends Component
      */
     public function __construct(ComponentRegistry $collection, array $config = [])
     {
-        $this->_defaultConfig['settings'] = Plugin::settings('Comment');
+        $this->_defaultConfig['settings'] = Plugin::get('Comment')->settings();
         $this->_defaultConfig['settings']['visibility'] = 0;
         $this->_defaultConfig['errorMessage'] = __d('comment', 'Your comment could not be saved, please check your information.');
         $this->_defaultConfig['successMessage'] = function () {
@@ -451,7 +451,7 @@ class CommentComponent extends Component
      */
     protected function _loadSettings()
     {
-        $settings = Plugin::settings('Comment');
+        $settings = Plugin::get('Comment')->settings();
         foreach ($settings as $k => $v) {
             $this->config("settings.{$k}", $v);
         }

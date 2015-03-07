@@ -137,7 +137,8 @@ class BlocksTable extends Table
     protected function _inTheme($type = 'front')
     {
         $theme = option("{$type}_theme");
-        $regions = Plugin::info($theme, true)['composer']['extra']['regions'];
+        $composer = Plugin::get($theme)->composer(true);
+        $regions = $composer['extra']['regions'];
         $out = [];
 
         foreach ($regions as $slug => $name) {

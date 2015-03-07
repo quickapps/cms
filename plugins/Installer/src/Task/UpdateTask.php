@@ -62,10 +62,10 @@ class UpdateTask extends InstallTask
             $this->_rollback();
             $this->error(__d('installer', 'This plugin is not installed, you cannot update a plugin that is not installed in your system.', $this->plugin()));
         } else {
-            $info = Plugin::info($this->plugin(), true);
-            if ($info['isCore']) {
-                $this->error(__d('installer', 'Plugin "{0}" is a core plugin, you cannot update system\'s core using this method.', $info['human_name']));
-            } elseif (!$this->canBeDeleted($info['path'])) {
+            $plugin = Plugin::get($this->plugin());
+            if ($plugin->isCore) {
+                $this->error(__d('installer', 'Plugin "{0}" is a core plugin, you cannot update system\'s core using this method.', $plugin->human_name));
+            } elseif (!$this->canBeDeleted($plugin->path)) {
                 return;
             }
         }

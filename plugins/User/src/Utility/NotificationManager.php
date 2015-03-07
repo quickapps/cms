@@ -76,7 +76,7 @@ class NotificationManager
         $this->modelFactory('Table', ['Cake\ORM\TableRegistry', 'get']);
         $this->loadModel('User.Users');
         $this->_user = $this->Users->get($user->id);
-        $settings = Plugin::settings('User');
+        $settings = Plugin::get('User')->settings();
 
         $this->config($settings);
         if (!empty($config)) {

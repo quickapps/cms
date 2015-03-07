@@ -26,7 +26,7 @@ if (!isset($classLoader)) {
 /**
  * Load QuickApps basic functionality.
  */
-require_once __DIR__ . '/basics.php';
+require_once __DIR__ . '/functions.php';
 
 /**
  * Bootstrap CakePHP.
@@ -179,7 +179,11 @@ if (!file_exists(TMP . 'snapshot.php')) {
 /**
  * Load all registered plugins.
  */
-$activePlugins = Plugin::collection()->match(['status' => 1])->toArray();
+$activePlugins = Plugin::get()
+    ->filter(function ($plugin) {
+        return $plugin->status;
+    })
+    ->toArray();
 $EventManager = EventManager::instance();
 $pluginLoader = new ClassLoader();
 $pluginLoader->register();
@@ -188,25 +192,25 @@ if (!count($activePlugins)) {
     die("Ops, something went wrong. Try to clear your site's snapshot and verify write permissions on /tmp directory.");
 }
 
-foreach ($activePlugins as $pluginName => $info) {
+foreach ($activePlugins as $plugin) {
     if (
-        $info['isTheme'] &&
-        !in_array($pluginName, [option('front_theme'), option('back_theme')])
+        $plugin->isTheme &&
+        !in_array($plugin->name, [option('front_theme'), option('back_theme')])
     ) {
         continue;
     }
 
     $pluginLoader->addNamespace(
-        str_replace('/', '\\', $pluginName),
-        $info['path'] .  DS . 'src' . DS
+        str_replace('/', '\\', $plugin->name),
+        $plugin->path .  DS . 'src' . DS
     );
 
     $pluginLoader->addNamespace(
-        str_replace('/', '\\', $pluginName) . '\Test',
-        $info['path'] . DS . 'tests' . DS
+        str_replace('/', '\\', $plugin->name) . '\Test',
+        $plugin->path . DS . 'tests' . DS
     );
 
-    Plugin::load($pluginName, [
+    Plugin::load($plugin->name, [
         'autoload' => false,
         'bootstrap' => true,
         'routes' => true,
@@ -214,7 +218,7 @@ foreach ($activePlugins as $pluginName => $info) {
         'ignoreMissing' => true,
     ]);
 
-    foreach ($info['eventListeners'] as $fullClassName => $eventInfo) {
+    foreach ($plugin->eventListeners as $fullClassName => $eventInfo) {
         if (class_exists($fullClassName)) {
             $EventManager->on(new $fullClassName);
         }

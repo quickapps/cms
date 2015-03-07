@@ -120,8 +120,17 @@
 			<ul>
 				<?php foreach($pluginSettings as $plugin): ?>
 				<li>
-					<strong><?php echo $this->Html->link($plugin['human_name'], ['plugin' => 'System', 'controller' => 'plugins', 'action' => 'settings', $plugin['name']]); ?></strong>
-					<em class="help-block"><?php echo $plugin['composer']['description']; ?></em>
+					<strong>
+						<?php
+							echo $this->Html->link($plugin->human_name, [
+								'plugin' => 'System',
+								'controller' => 'plugins',
+								'action' => 'settings',
+								$plugin->name()
+							]);
+						?>
+					</strong>
+					<em class="help-block"><?php echo $plugin->composer['description']; ?></em>
 				</li>
 				<?php endforeach; ?>
 			</ul>

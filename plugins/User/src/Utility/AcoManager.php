@@ -195,10 +195,10 @@ class AcoManager
         }
 
         if ($for === null) {
-            $plugins = Plugin::collection()->toArray();
+            $plugins = Plugin::get()->toArray();
         } else {
             try {
-                $plugins = [Plugin::info($for)];
+                $plugins = [Plugin::get($for)];
             } catch (\Exception $e) {
                 return false;
             }
@@ -206,14 +206,14 @@ class AcoManager
 
         $added = [];
         foreach ($plugins as $plugin) {
-            $aco = new AcoManager($plugin['name']);
-            $controllerDir = normalizePath("{$plugin['path']}/src/Controller/");
+            $aco = new AcoManager($plugin->name);
+            $controllerDir = normalizePath("{$plugin->path}/src/Controller/");
             $folder = new Folder($controllerDir);
             $controllers = $folder->findRecursive('.*Controller\.php');
 
             foreach ($controllers as $controller) {
                 $controller = str_replace([$controllerDir, '.php'], '', $controller);
-                $className = $plugin['name'] . '\\' . 'Controller\\' . str_replace(DS, '\\', $controller);
+                $className = $plugin->name . '\\' . 'Controller\\' . str_replace(DS, '\\', $controller);
 
                 if (class_exists($className)) {
                     $methods = get_this_class_methods($className);
@@ -225,7 +225,7 @@ class AcoManager
                         foreach ($methods as $method) {
                             if (!str_starts_with($method, '_')) {
                                 if ($aco->add("{$path}/{$method}")) {
-                                    $added[] = "{$plugin['name']}/{$path}/{$method}";
+                                    $added[] = "{$plugin->name}/{$path}/{$method}";
                                 }
                             }
                         }
@@ -273,8 +273,7 @@ class AcoManager
     {
         if ($for !== null) {
             try {
-                $info = Plugin::info($for);
-                $for = $info['name'];
+                $for = Plugin::get($for)->info('name');
             } catch (\Exception $e) {
                 return [];
             }

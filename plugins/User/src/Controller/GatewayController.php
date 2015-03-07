@@ -37,7 +37,7 @@ class GatewayController extends AppController
      */
     public function beforeFilter(Event $event)
     {
-        $this->Auth->allow(['login', 'logout', 'unauthorized', 'forgot', 'activation_email', 'register']);
+        $this->Auth->allow(['login', 'logout', 'unauthorized', 'forgot', 'activationEmail', 'register']);
         $this->viewPath = 'Gateway';
     }
 
@@ -52,12 +52,14 @@ class GatewayController extends AppController
         $this->layout = 'login';
 
         if ($this->request->is('post')) {
-            $loginBlocking = Plugin::settings('User', 'failed_login_attempts') && Plugin::settings('User', 'failed_login_attempts_block_seconds');
+            $loginBlocking =
+                Plugin::get('User')->settings('failed_login_attempts') &&
+                Plugin::get('User')->settings('failed_login_attempts_block_seconds');
             $continue = true;
 
             if ($loginBlocking) {
                 Cache::config('users_login', [
-                    'duration' => '+' . Plugin::settings('User', 'failed_login_attempts_block_seconds') . ' seconds',
+                    'duration' => '+' . Plugin::get('User')->settings('failed_login_attempts_block_seconds') . ' seconds',
                     'path' => TMP,
                     'engine' => 'File',
                     'prefix' => 'qa_',
@@ -67,7 +69,7 @@ class GatewayController extends AppController
                 $cacheName = 'login_failed_' . env('REMOTE_ADDR');
                 $cache = Cache::read($cacheName, 'users_login');
 
-                if ($cache && $cache['attempts'] >= Plugin::settings('User', 'failed_login_attempts')) {
+                if ($cache && $cache['attempts'] >= Plugin::get('User')->settings('failed_login_attempts')) {
                     $this->Flash->warning(__d('user', 'You have reached the maximum number of login attempts. Try again in {0} minutes.', Plugin::settings('User', 'failed_login_attempts_block_seconds') / 60));
                     $continue = false;
                 }

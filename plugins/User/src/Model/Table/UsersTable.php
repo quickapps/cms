@@ -195,8 +195,8 @@ class UsersTable extends Table
     protected function _applyPasswordPolicies(Validator $validator)
     {
         $rules = [];
-        if (Plugin::settings('User', 'password_min_length')) {
-            $len = intval(Plugin::settings('User', 'password_min_length'));
+        if (Plugin::get('User')->settings('password_min_length')) {
+            $len = intval(Plugin::get('User')->settings('password_min_length'));
             $rules['length'] = [
                 'rule' => function ($value, $context) use ($len) {
                     return mb_strlen($this->_getRawPassword($context)) >= $len;
@@ -205,7 +205,7 @@ class UsersTable extends Table
             ];
         }
 
-        if (Plugin::settings('User', 'password_uppercase')) {
+        if (Plugin::get('User')->settings('password_uppercase')) {
             $rules['uppercase'] = [
                 'rule' => function ($value, $context) {
                     return (bool)preg_match('/[A-Z]/', $this->_getRawPassword($context));
@@ -214,7 +214,7 @@ class UsersTable extends Table
             ];
         }
 
-        if (Plugin::settings('User', 'password_lowercase')) {
+        if (Plugin::get('User')->settings('password_lowercase')) {
             $rules['lowercase'] = [
                 'rule' => function ($value, $context) {
                     return (bool)preg_match('/[a-z]/', $this->_getRawPassword($context));
@@ -223,7 +223,7 @@ class UsersTable extends Table
             ];
         }
 
-        if (Plugin::settings('User', 'password_number')) {
+        if (Plugin::get('User')->settings('password_number')) {
             $rules['number'] = [
                 'rule' => function ($value, $context) {
                     return (bool)preg_match('/[0-9]/', $this->_getRawPassword($context));
@@ -232,7 +232,7 @@ class UsersTable extends Table
             ];
         }
 
-        if (Plugin::settings('User', 'password_non_alphanumeric')) {
+        if (Plugin::get('User')->settings('password_non_alphanumeric')) {
             $rules['non_alphanumeric'] = [
                 'rule' => function ($value, $context) {
                     return (bool)preg_match('/[^0-9a-z]/i', $this->_getRawPassword($context));

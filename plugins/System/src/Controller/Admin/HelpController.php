@@ -51,9 +51,9 @@ class HelpController extends AppController
     {
         $plugins = [];
 
-        foreach (Plugin::collection() as $plugin) {
-            if ($plugin['status'] && $plugin['hasHelp']) {
-                $plugins[] = $plugin['human_name'];
+        foreach (Plugin::get() as $plugin) {
+            if ($plugin->status && $plugin->hasHelp) {
+                $plugins[] = $plugin->human_name;
             }
         }
 

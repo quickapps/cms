@@ -82,12 +82,16 @@ class PluginsTask extends Shell
      */
     public function uninstall()
     {
-        $allPlugins = Plugin::collection()->match(['isTheme' => false])->toArray();
+        $allPlugins = Plugin::get()
+            ->filter(function ($plugin) {
+                return !$plugin->isTheme;
+            })
+            ->toArray();
         $index = 1;
         $this->out();
-        foreach ($allPlugins as $k => $v) {
-            $allPlugins[$index] = $v;
-            $this->out(sprintf('[%2d] %s', $index, $v['human_name']));
+        foreach ($allPlugins as $plugin) {
+            $allPlugins[$index] = $plugin;
+            $this->out(sprintf('[%2d] %s', $index, $plugin->human_name));
             $index++;
         }
         $this->out();
@@ -101,20 +105,20 @@ class PluginsTask extends Shell
             } elseif (!isset($allPlugins[intval($in)])) {
                 $this->err('Invalid option');
             } else {
-                $info = Plugin::info($allPlugins[$in]['name'], true);
+                $plugin = Plugin::get($allPlugins[$in]->name());
                 $this->hr();
                 $this->out('<info>The following plugin will be uninstalled</info>');
                 $this->hr();
-                $this->out(sprintf('Name:        %s', $info['name']));
-                $this->out(sprintf('Description: %s', $info['composer']['description']));
-                $this->out(sprintf('Status:      %s', $info['status'] ? 'Active' : 'Disabled'));
-                $this->out(sprintf('Path:        %s', $info['path']));
+                $this->out(sprintf('Name:        %s', $plugin->name));
+                $this->out(sprintf('Description: %s', $plugin->composer['description']));
+                $this->out(sprintf('Status:      %s', $plugin->status ? 'Active' : 'Disabled'));
+                $this->out(sprintf('Path:        %s', $plugin->path));
                 $this->hr();
                 $this->out();
 
-                $confirm = $this->in(sprintf('Please type in "%s" to uninstall', $allPlugins[$in]['name']));
-                if ($confirm === $allPlugins[$in]['name']) {
-                    $task = TaskManager::task('uninstall', ['plugin' => $allPlugins[$in]['name']]);
+                $confirm = $this->in(sprintf('Please type in "%s" to uninstall', $allPlugins[$in]->name));
+                if ($confirm === $allPlugins[$in]->name) {
+                    $task = TaskManager::task('uninstall', ['plugin' => $allPlugins[$in]->name]);
 
                     if ($task->run()) {
                         $this->out('Plugin uninstalled!');
@@ -142,7 +146,12 @@ class PluginsTask extends Shell
      */
     public function enable()
     {
-        $disabledPlugins = Plugin::collection()->match(['status' => 0, 'isTheme' => false])->toArray();
+        $disabledPlugins = Plugin::get()
+            ->filter(function ($plugin) {
+                return !$plugin->status && !$plugin->isTheme;
+            })
+            ->toArray();
+
         if (!count($disabledPlugins)) {
             $this->err('There are no disabled plugins!');
             $this->out();
@@ -151,9 +160,9 @@ class PluginsTask extends Shell
 
         $index = 1;
         $this->out();
-        foreach ($disabledPlugins as $k => $v) {
-            $disabledPlugins[$index] = $v;
-            $this->out(sprintf('[%2d] %s', $index, $v['human_name']));
+        foreach ($disabledPlugins as $plugin) {
+            $disabledPlugins[$index] = $plugin;
+            $this->out(sprintf('[%2d] %s', $index, $plugin->human_name));
             $index++;
         }
         $this->out();
@@ -167,7 +176,7 @@ class PluginsTask extends Shell
             } elseif (!isset($disabledPlugins[intval($in)])) {
                 $this->err('Invalid option');
             } else {
-                $task = TaskManager::task('toggle')->enable($disabledPlugins[$in]['name']);
+                $task = TaskManager::task('toggle')->enable($disabledPlugins[$in]->name());
 
                 if ($task->run()) {
                     $this->out('Plugin enabled!');
@@ -192,7 +201,12 @@ class PluginsTask extends Shell
      */
     public function disable()
     {
-        $enabledPlugins = Plugin::collection()->match(['status' => 1, 'isTheme' => false])->toArray();
+        $enabledPlugins = Plugin::get()
+            ->filter(function ($plugin) {
+                return $plugin->status && !$plugin->isTheme;
+            })
+            ->toArray();
+
         if (!count($enabledPlugins)) {
             $this->err('There are no active plugins!');
             $this->out();
@@ -201,9 +215,9 @@ class PluginsTask extends Shell
 
         $index = 1;
         $this->out();
-        foreach ($enabledPlugins as $k => $v) {
-            $enabledPlugins[$index] = $v;
-            $this->out(sprintf('[%2d] %s', $index, $v['human_name']));
+        foreach ($enabledPlugins as $plugin) {
+            $enabledPlugins[$index] = $plugin;
+            $this->out(sprintf('[%2d] %s', $index, $plugin->human_name));
             $index++;
         }
         $this->out();
@@ -217,20 +231,20 @@ class PluginsTask extends Shell
             } elseif (!isset($enabledPlugins[intval($in)])) {
                 $this->err('Invalid option');
             } else {
-                $info = Plugin::info($enabledPlugins[$in]['name'], true);
+                $plugin = Plugin::get($enabledPlugins[$in]->name());
                 $this->hr();
                 $this->out('<info>The following plugin will be uninstalled</info>');
                 $this->hr();
-                $this->out(sprintf('Name:        %s', $info['name']));
-                $this->out(sprintf('Description: %s', $info['composer']['description']));
-                $this->out(sprintf('Status:      %s', $info['status'] ? 'Active' : 'Disabled'));
-                $this->out(sprintf('Path:        %s', $info['path']));
+                $this->out(sprintf('Name:        %s', $plugin->name));
+                $this->out(sprintf('Description: %s', $plugin->composer['description']));
+                $this->out(sprintf('Status:      %s', $plugin->status ? 'Active' : 'Disabled'));
+                $this->out(sprintf('Path:        %s', $plugin->path));
                 $this->hr();
                 $this->out();
 
-                $confirm = $this->in(sprintf('Please type in "%s" to disable this plugin', $enabledPlugins[$in]['name']));
-                if ($confirm === $enabledPlugins[$in]['name']) {
-                    $task = TaskManager::task('toggle')->disable($enabledPlugins[$in]['name']);
+                $confirm = $this->in(sprintf('Please type in "%s" to disable this plugin', $enabledPlugins[$in]->name));
+                if ($confirm === $enabledPlugins[$in]->name) {
+                    $task = TaskManager::task('toggle')->disable($enabledPlugins[$in]->name);
 
                     if ($task->run()) {
                         $this->out('Plugin disabled!');

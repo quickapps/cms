@@ -13,7 +13,17 @@
 use QuickApps\Core\Plugin;
 ?>
 
-<div class="text-right"><?php echo $this->Html->link(__d('block', 'Create New Block'), ['plugin' => 'Block', 'controller' => 'manage', 'action' => 'add'], ['class' => 'btn btn-primary']); ?></div>
+<div class="text-right">
+	<?php
+		echo $this->Html->link(__d('block', 'Create New Block'), [
+			'plugin' => 'Block',
+			'controller' => 'manage',
+			'action' => 'add'
+		], [
+			'class' => 'btn btn-primary'
+		]);
+	?>
+</div>
 
 <p>
 	<div class="panel-group" id="accordion">
@@ -21,7 +31,7 @@ use QuickApps\Core\Plugin;
 			<div class="panel-heading">
 				<h4 class="panel-title">
 					<a data-toggle="collapse" data-parent="#accordion" href="#front-theme">
-						<?php echo __d('block', 'Theme: {0}', Plugin::info(option('front_theme'))['human_name']); ?>
+						<?php echo __d('block', 'Theme: {0}', Plugin::get(option('front_theme'))->human_name); ?>
 					</a>
 				</h4>
 			</div>
@@ -101,7 +111,7 @@ use QuickApps\Core\Plugin;
 			<div class="panel-heading">
 				<h4 class="panel-title">
 					<a data-toggle="collapse" data-parent="#accordion" href="#back-theme">
-						<?php echo __d('block', 'Theme: {0}', Plugin::info(option('back_theme'))['human_name']); ?>
+						<?php echo __d('block', 'Theme: {0}', Plugin::get(option('back_theme'))->human_name); ?>
 					</a>
 				</h4>
 			</div>
@@ -121,10 +131,41 @@ use QuickApps\Core\Plugin;
 												<em class="help-block"><?php echo $block->description; ?></em>
 											</div>
 											<div class="btn-group pull-right">
-												<?php echo $this->Html->link('', ['plugin' => 'Block', 'controller' => 'manage', 'action' => 'edit', $block->id], ['title' => __d('block', 'Edit'), 'class' => 'btn btn-default btn-sm glyphicon glyphicon-pencil']); ?>
-												<?php echo $this->Html->link('', ['plugin' => 'Block', 'controller' => 'manage', 'action' => 'duplicate', $block->id], ['title' => __d('block', 'Duplicate'), 'class' => 'btn btn-default btn-sm glyphicon glyphicon-th-large']); ?>
+												<?php
+													echo $this->Html->link('', [
+														'plugin' => 'Block',
+														'controller' => 'manage',
+														'action' => 'edit',
+														$block->id,
+													], [
+														'title' => __d('block', 'Edit'),
+														'class' => 'btn btn-default btn-sm glyphicon glyphicon-pencil',
+													]);
+												?>
+												<?php
+													echo $this->Html->link('', [
+														'plugin' => 'Block',
+														'controller' => 'manage',
+														'action' => 'duplicate',
+														$block->id,
+													], [
+														'title' => __d('block', 'Duplicate'),
+														'class' => 'btn btn-default btn-sm glyphicon glyphicon-th-large',
+													]);
+												?>
 												<?php if ($block->handler === 'Block'): ?>
-													<?php echo $this->Html->link('', ['plugin' => 'Block', 'controller' => 'manage', 'action' => 'delete', $block->id], ['title' => __d('block', 'Delete'), 'class' => 'btn btn-default btn-sm glyphicon glyphicon-trash', 'confirm' => __d('block', 'Delete this block, are you sure?')]); ?>
+													<?php
+														echo $this->Html->link('', [
+															'plugin' => 'Block',
+															'controller' => 'manage',
+															'action' => 'delete',
+															$block->id,
+														], [
+															'title' => __d('block', 'Delete'),
+															'class' => 'btn btn-default btn-sm glyphicon glyphicon-trash',
+															'confirm' => __d('block', 'Delete this block, are you sure?'),
+														]);
+													?>
 												<?php endif; ?>
 											</div>
 											<?php echo $this->Form->hidden('regions.' . option('back_theme') . ".{$block->region->region}.", ['value' => $block->region->id]); ?>
@@ -159,10 +200,41 @@ use QuickApps\Core\Plugin;
 									<em class="help-block"><?php echo $block->description; ?></em>
 								</div>
 								<div class="btn-group pull-right">
-									<?php echo $this->Html->link('', ['plugin' => 'Block', 'controller' => 'manage', 'action' => 'edit', $block->id], ['title' => __d('block', 'Edit'), 'class' => 'btn btn-default btn-sm glyphicon glyphicon-pencil']); ?>
-									<?php echo $this->Html->link('', ['plugin' => 'Block', 'controller' => 'manage', 'action' => 'duplicate', $block->id], ['title' => __d('block', 'Duplicate'), 'class' => 'btn btn-default btn-sm glyphicon glyphicon-th-large']); ?>
+									<?php
+										echo $this->Html->link('', [
+											'plugin' => 'Block',
+											'controller' => 'manage',
+											'action' => 'edit',
+											$block->id,
+										], [
+											'title' => __d('block', 'Edit'),
+											'class' => 'btn btn-default btn-sm glyphicon glyphicon-pencil',
+										]);
+									?>
+									<?php
+										echo $this->Html->link('', [
+											'plugin' => 'Block',
+											'controller' => 'manage',
+											'action' => 'duplicate',
+											$block->id,
+										], [
+											'title' => __d('block', 'Duplicate'),
+											'class' => 'btn btn-default btn-sm glyphicon glyphicon-th-large',
+										]);
+									?>
 									<?php if ($block->handler === 'Block'): ?>
-										<?php echo $this->Html->link('', ['plugin' => 'Block', 'controller' => 'manage', 'action' => 'delete', $block->id], ['title' => __d('block', 'Delete'), 'class' => 'btn btn-default btn-sm glyphicon glyphicon-trash', 'confirm' => __d('block', 'Delete this block, are you sure?')]); ?>
+										<?php
+											echo $this->Html->link('', [
+												'plugin' => 'Block',
+												'controller' => 'manage',
+												'action' => 'delete',
+												$block->id
+											], [
+												'title' => __d('block', 'Delete'),
+												'class' => 'btn btn-default btn-sm glyphicon glyphicon-trash',
+												'confirm' => __d('block', 'Delete this block, are you sure?'),
+											]);
+										?>
 									<?php endif; ?>
 								</div>
 							</li>

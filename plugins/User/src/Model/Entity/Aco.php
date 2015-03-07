@@ -37,8 +37,7 @@ class Aco extends Entity
     {
         if ($this->_getIsPlugin()) {
             try {
-                $info = Plugin::info($this->alias);
-                return $info['human_name'];
+                return Plugin::get($this->alias)->human_name;
             } catch (\Exception $e) {
                 return $this->alias;
             }
@@ -63,8 +62,7 @@ class Aco extends Entity
      */
     protected function _getPluginName()
     {
-        $info = Plugin::info($this->alias);
-        return $info['human_name'];
+        return Plugin::get($this->alias)->human_name;
     }
 
     /**

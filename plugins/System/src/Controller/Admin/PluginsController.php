@@ -37,10 +37,17 @@ class PluginsController extends AppController
      */
     public function index()
     {
-        $collection = Plugin::collection(true)->match(['isTheme' => false]);
+        $collection = Plugin::get()
+            ->filter(function ($plugin) {
+                return !$plugin->isTheme;
+            });
         $plugins = $collection->toArray();
-        $enabled = count($collection->match(['status' => true])->toArray());
-        $disabled = count($collection->match(['status' => false])->toArray());
+        $enabled = count($collection->filter(function ($plugin) {
+            return $plugin->status;
+        })->toArray());
+        $disabled = count($collection->filter(function ($plugin) {
+            return !$plugin->status;
+        })->toArray());
 
         $this->set(compact('plugins', 'all', 'enabled', 'disabled'));
         $this->Breadcrumb->push('/admin/system/plugins');
@@ -103,7 +110,7 @@ class PluginsController extends AppController
      */
     public function delete($pluginName)
     {
-        $plugin = Plugin::info($pluginName, true);
+        $plugin = Plugin::get($pluginName); // throws if not exists
         $task = $this->Installer->task('uninstall', ['plugin' => $pluginName]);
         $success = $task->run();
 
@@ -128,7 +135,7 @@ class PluginsController extends AppController
      */
     public function enable($pluginName)
     {
-        $plugin = Plugin::info($pluginName, true);
+        $plugin = Plugin::get($pluginName);
         $task = $this->Installer
             ->task('toggle')
             ->enable($pluginName);
@@ -154,7 +161,7 @@ class PluginsController extends AppController
      */
     public function disable($pluginName)
     {
-        $plugin = Plugin::info($pluginName, true);
+        $plugin = Plugin::get($pluginName);
         $task = $this->Installer
             ->task('toggle')
             ->disable($pluginName);
@@ -203,14 +210,14 @@ class PluginsController extends AppController
      */
     public function settings($pluginName)
     {
-        $plugin = Plugin::info($pluginName, true);
+        $plugin = Plugin::get($pluginName);
         $arrayContext = [
             'schema' => [],
             'defaults' => [],
             'errors' => [],
         ];
 
-        if (!$plugin['hasSettings'] || $plugin['isTheme']) {
+        if (!$plugin->hasSettings || $plugin->isTheme) {
             throw new NotFoundException(__d('system', 'The requested page was not found.'));
         }
 
@@ -236,13 +243,13 @@ class PluginsController extends AppController
                 }
             }
         } else {
-            $arrayContext['defaults'] = (array)$plugin['settings'];
+            $arrayContext['defaults'] = (array)$plugin->settings;
             $this->request->data = $arrayContext['defaults'];
         }
 
         $this->set(compact('arrayContext', 'plugin'));
         $this->Breadcrumb
             ->push('/admin/system/plugins')
-            ->push(__d('system', 'Settings for "{0}" plugin', $plugin['name']), '#');
+            ->push(__d('system', 'Settings for "{0}" plugin', $plugin->name), '#');
     }
 }

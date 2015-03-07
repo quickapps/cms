@@ -18,7 +18,8 @@ use QuickApps\Core\Plugin;
 /**
  * PluginTest class.
  */
-class PluginTest extends TestCase {
+class PluginTest extends TestCase
+{
 
     /**
      * Fixtures.
@@ -47,39 +48,25 @@ class PluginTest extends TestCase {
     }
 
     /**
-     * test info() method.
+     * test get() method.
      *
      * @return void
      */
-    public function testInfo()
+    public function testGet()
     {
-        $node = Plugin::info('Node');
-        $this->assertTrue(!empty($node['name']) && !empty($node['path']));
+        $plugin = Plugin::get('Node');
+        $this->assertTrue(!empty($plugin));
     }
 
     /**
-     * test that info() method throws when getting an invalid plugin.
+     * test that get() method throws when getting an invalid plugin.
      *
      * @return void
      * @expectedException \Cake\Error\FatalErrorException
      */
-    public function testInfoThrow()
+    public function testGetThrow()
     {
-        Plugin::info('UnexistingPluginName');
-    }
-
-    /**
-     * test composer() method.
-     *
-     * @return void
-     */
-    public function testComposer()
-    {
-        $composer = Plugin::composer('InvalidPlugin');
-        $valid = Plugin::composer('Node');
-
-        $this->assertEquals(false, $composer);
-        $this->assertTrue(is_array($valid));
+        Plugin::get('UnexistingPluginName');
     }
 
     /**
@@ -102,30 +89,6 @@ class PluginTest extends TestCase {
     }
 
     /**
-     * test dependencies() method.
-     *
-     * @return void
-     */
-    public function testDependencies()
-    {
-        $result = Plugin::dependencies('NeedsSpaceOddity');
-        $expected = ['quickapps/cms' => '*', 'quickapps-plugins/space-oddity' => '1.*'];
-        $this->assertEquals($expected, $result);
-    }
-
-    /**
-     * test checkDependency() method.
-     *
-     * @return void
-     */
-    public function testCheckDependency()
-    {
-        $expected = true;
-        $result = Plugin::checkDependency('NeedsSpaceOddity');
-        $this->assertEquals($expected, $result);
-    }
-
-    /**
      * test checkReverseDependency() method.
      *
      * @return void
@@ -137,77 +100,5 @@ class PluginTest extends TestCase {
 
         $this->assertTrue(!empty($result1));
         $this->assertTrue(empty($result2));
-    }
-
-    /**
-     * test checkIncompatibility() method.
-     *
-     * @return void
-     */
-    public function testCheckIncompatibility()
-    {
-        $tests = [
-            // Modifiers
-            ['provided' => '3.0.0-RC2', 'constraints' => '3.0.x-dev', 'expected' => true],
-            ['provided' => '2.0.1-dev', 'constraints' => '2.0.x-dev', 'expected' => true],
-            ['provided' => '2.1-dev', 'constraints' => '2.0.x-dev', 'expected' => false],
-            ['provided' => '2.6.8-dev', 'constraints' => '2.6.8', 'expected' => true],
-            ['provided' => '2.6.8', 'constraints' => '2.6.8-dev', 'expected' => true],
-            ['provided' => 'dev-master', 'constraints' => 'dev-master', 'expected' => true],
-            ['provided' => 'dev-master', 'constraints' => '*', 'expected' => true],
-            ['provided' => 'dev-master', 'constraints' => '2.6.8', 'expected' => false],
-            ['provided' => 'dev-master', 'constraints' => '>=3.0', 'expected' => true],
-            ['provided' => '5.6.16', 'constraints' => '5.6.x@dev#abc123', 'expected' => true],
-            ['provided' => '5.6.16', 'constraints' => '5.6.x-dev#abc123', 'expected' => true],
-            ['provided' => '1.0.1.6700', 'constraints' => '1.0.*@alpha', 'expected' => true],
-            ['provided' => '1.0.1', 'constraints' => '1.0.*@beta', 'expected' => true],
-            ['provided' => '1.0.1', 'constraints' => '@dev', 'expected' => true],
-            // Basics
-            ['provided' => '1.0', 'constraints' => '1.*', 'expected' => true],
-            ['provided' => '1.2.2', 'constraints' => '*', 'expected' => true],
-            ['provided' => '1.1.8', 'constraints' => '1.1.*', 'expected' => true],
-            // AND ranges
-            ['provided' => '8.5', 'constraints' => '>=7.0 <8.6.6', 'expected' => true],
-            ['provided' => '7.6.66-alpha', 'constraints' => '>=7.0 <8.6.6', 'expected' => true],
-            ['provided' => '5.0', 'constraints' => '>=7.0 <8.6.6', 'expected' => false],
-            ['provided' => '5', 'constraints' => '>=7.0 <8.6.6', 'expected' => false],
-            ['provided' => '9.0', 'constraints' => '>=7.0 <8.6.6', 'expected' => false],
-            ['provided' => '9', 'constraints' => '>=7.0 <8.6.6', 'expected' => false],
-            ['provided' => '9-alpha', 'constraints' => '>=7.0 <8.6.6', 'expected' => false],
-            // Hyphen range
-            ['provided' => '1.6', 'constraints' => '1.0 - 2.0', 'expected' => true],
-            ['provided' => '3.0', 'constraints' => '1.0 - 2.0', 'expected' => false],
-            ['provided' => '1.6', 'constraints' => '>=1.0.0 <2.1', 'expected' => true],
-            // OR
-            ['provided' => '2.6.8', 'constraints' => '2.6.8 || 2.6.5', 'expected' => true],
-            ['provided' => '2.6.5', 'constraints' => '2.6.8 || 2.6.5', 'expected' => true],
-            ['provided' => '2.6.6', 'constraints' => '2.6.8 || 2.6.5', 'expected' => false],
-            ['provided' => '2.6.7', 'constraints' => '2.6.8 || 2.6.5', 'expected' => false],
-            // AND + OR
-            ['provided' => '2.6.8', 'constraints' => '2.6.8 || >=7.0 <8.6.6', 'expected' => true],
-            ['provided' => '8.5', 'constraints' => '2.6.8 || >=7.0 <8.6.6', 'expected' => true],
-            // Tilde operator
-            ['provided' => '3.0', 'constraints' => '~1.2', 'expected' => false],
-            ['provided' => '1.5', 'constraints' => '>=1.2 <2.0', 'expected' => true],
-            ['provided' => '2.0', 'constraints' => '>=1.0 <1.1', 'expected' => false],
-            // Caret operator
-            ['provided' => '1.9', 'constraints' => '^1.2.3', 'expected' => true],
-            ['provided' => '1.0', 'constraints' => '>=1.2.3 <2.0', 'expected' => false],
-            // Logical operators
-            ['provided' => '1.1.8', 'constraints' => '>1.0', 'expected' => true],
-            ['provided' => '2.1', 'constraints' => '<=2.0', 'expected' => false],
-            ['provided' => '2.0', 'constraints' => '<>2.1.6', 'expected' => true],
-            ['provided' => '2.0.1', 'constraints' => '!=1.0', 'expected' => true],
-
-        ];
-
-        foreach ($tests as $test) {
-            $current = Plugin::checkCompatibility($test['provided'], $test['constraints']) ? 'true' : 'false';
-            $expected = $test['expected'] ? 'true' : 'false';
-            $this->assertEquals(
-                "{$test['provided']} @ {$test['constraints']} -> {$expected}",
-                "{$test['provided']} @ {$test['constraints']} -> {$current}"
-            );
-        }
     }
 }

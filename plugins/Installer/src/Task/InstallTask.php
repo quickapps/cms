@@ -15,6 +15,8 @@ use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
 use Cake\Network\Http\Client;
 use Cake\Validation\Validation;
+use QuickApps\Core\Package\PackageFactory;
+use QuickApps\Core\Package\RuleChecker;
 use QuickApps\Core\Plugin;
 use User\Utility\AcoManager;
 
@@ -472,12 +474,12 @@ class InstallTask extends BaseTask
                 }
 
                 // dependencies: the fun part
-                if (isset($json['require']) && !Plugin::checkDependency($json['require'])) {
-                    $required = [];
-                    foreach ($json['require'] as $p => $v) {
-                        $required[] = "{$p} ({$v})";
+                if (isset($json['require'])) {
+                    $checker = new RuleChecker($json['require']);
+                    if (!$checker->check()) {
+                        $errors[] = __d('installer', 'Plugin "{0}" depends on other packages, plugins or libraries that were not found: {1}', $this->plugin(), $checker->fail(true));
                     }
-                    $errors[] = __d('installer', 'Plugin "{0}" depends on other packages, plugins or libraries that were not found: {0}', $this->plugin(), implode(', ', $required));
+
                 }
             }
         }
@@ -503,13 +505,7 @@ class InstallTask extends BaseTask
      */
     protected function _exists()
     {
-        try {
-            $info = Plugin::info($this->plugin(), true);
-        } catch (\Exception $e) {
-            $info = [];
-        }
-
-        return !empty($info);
+        return Plugin::exists($this->plugin());
     }
 
     /**

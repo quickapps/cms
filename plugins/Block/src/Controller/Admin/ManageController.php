@@ -272,14 +272,15 @@ class ManageController extends AppController
      */
     protected function _setRegions($block = null)
     {
-        $regions = Plugin::collection(true)
-            ->match(['isTheme' => true])
-            ->map(function ($theme, $key) use ($block) {
+        $regions = Plugin::get()
+            ->filter(function ($plugin) {
+                return $plugin->isTheme;
+            })
+            ->map(function ($theme) use ($block) {
                 $value = '';
-
                 if ($block !== null && $block->has('region')) {
                     foreach ($block->region as $blockRegion) {
-                        if ($blockRegion->theme == $key) {
+                        if ($blockRegion->theme == $theme->name) {
                             $value = $blockRegion->region;
                             break;
                         }
@@ -287,9 +288,9 @@ class ManageController extends AppController
                 }
 
                 return [
-                    'theme' => $key,
-                    'description' => $theme['composer']['description'],
-                    'regions' => (array)$theme['composer']['extra']['regions'],
+                    'theme' => $theme->human_name,
+                    'description' => $theme->composer['description'],
+                    'regions' => (array)$theme->composer['extra']['regions'],
                     'value' => $value,
                 ];
             });

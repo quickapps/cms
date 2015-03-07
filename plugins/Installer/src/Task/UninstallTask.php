@@ -81,38 +81,38 @@ class UninstallTask extends BaseTask
         }
 
         try {
-            $info = Plugin::info($this->plugin(), true);
+            $plugin = Plugin::get($this->plugin());
             $pluginEntity = $this->Plugins
                 ->find()
                 ->where(['name' => $this->plugin()])
                 ->first();
         } catch (\Exception $e) {
-            $info = $pluginEntity = null;
+            $plugin = $pluginEntity = false;
         }
 
-        if (!$info || !$pluginEntity) {
+        if (!$plugin || !$pluginEntity) {
             $this->error(__d('installer', 'Plugin "{0}" was not found.', $this->plugin()));
             return false;
         }
 
-        if ($info['isCore']) {
-            $this->error(__d('installer', 'Plugin "{0}" is a core plugin, you cannot remove core\'s plugins.', $info['human_name']));
+        if ($plugin->isCore) {
+            $this->error(__d('installer', 'Plugin "{0}" is a core plugin, you cannot remove core\'s plugins.', $plugin->human_name));
             return false;
         }
 
         $requiredBy = Plugin::checkReverseDependency($this->plugin());
         if (!empty($requiredBy)) {
-            $this->error(__d('installer', 'Plugin "{0}" cannot be removed as it is required by: {1}', $info['human_name'], implode(', ', $requiredBy)));
+            $this->error(__d('installer', 'Plugin "{0}" cannot be removed as it is required by: {1}', $plugin->human_name, implode(', ', $requiredBy)));
             return false;
         }
 
-        if (!$this->canBeDeleted($info['path'])) {
+        if (!$this->canBeDeleted($plugin->path)) {
             return false;
         }
 
         if ($this->config('callbacks')) {
             try {
-                $beforeUninstallEvent = $this->trigger("Plugin.{$info['name']}.beforeUninstall");
+                $beforeUninstallEvent = $this->trigger("Plugin.{$plugin->name}.beforeUninstall");
                 if ($beforeUninstallEvent->isStopped() || $beforeUninstallEvent->result === false) {
                     $this->error(__d('installer', 'Task was explicitly rejected by the plugin.'));
                     return false;
@@ -124,24 +124,24 @@ class UninstallTask extends BaseTask
         }
 
         if (!$this->Plugins->delete($pluginEntity)) {
-            $this->error(__d('installer', 'Plugin "{0}" could not be unregistered from DB.', $info['human_name']));
+            $this->error(__d('installer', 'Plugin "{0}" could not be unregistered from DB.', $plugin->human_name));
             return false;
         }
 
-        $folder = new Folder($info['path']);
+        $folder = new Folder($plugin->path);
         $folder->delete();
         snapshot();
         $this->_clearAcoPaths();
 
         if ($this->config('callbacks')) {
             try {
-                $this->trigger("Plugin.{$info['name']}.afterUninstall");
+                $this->trigger("Plugin.{$plugin->name}.afterUninstall");
             } catch (\Exception $e) {
                 $this->error(__d('installer', 'Plugin did not respond to "afterUninstall" callback.'));
             }
         }
 
-        Plugin::unload($info['name']);
+        Plugin::unload($plugin->name);
         return true;
     }
 

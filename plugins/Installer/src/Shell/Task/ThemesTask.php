@@ -80,12 +80,17 @@ class ThemesTask extends Shell
      */
     public function uninstall()
     {
-        $allThemes = Plugin::collection()->match(['isTheme' => true])->toArray();
+        $allThemes = Plugin::get()
+            ->filter(function ($plugin) {
+                return $plugin->isTheme;
+            })
+            ->toArray();
+
         $index = 1;
         $this->out();
-        foreach ($allThemes as $k => $v) {
-            $allThemes[$index] = $v;
-            $this->out(sprintf('[%2d] %s', $index, $v['human_name']));
+        foreach ($allThemes as $plugin) {
+            $allThemes[$index] = $plugin;
+            $this->out(sprintf('[%2d] %s', $index, $plugin->human_name));
             $index++;
         }
         $this->out();
@@ -99,22 +104,22 @@ class ThemesTask extends Shell
             } elseif (!isset($allThemes[intval($in)])) {
                 $this->err('Invalid option');
             } else {
-                $info = Plugin::info($allThemes[$in]['name'], true);
+                $plugin = Plugin::get($allThemes[$in]->name());
                 $this->hr();
                 $this->out('<info>The following theme will be uninstalled</info>');
                 $this->hr();
-                $this->out(sprintf('Name:        %s', $info['name']));
-                $this->out(sprintf('Description: %s', $info['composer']['description']));
-                $this->out(sprintf('Status:      %s', $info['status'] ? 'In use' : 'Disabled'));
-                $this->out(sprintf('Regions:     %s', implode(', ', array_keys($info['composer']['extra']['regions']))));
-                $this->out(sprintf('Type:        %s', $info['composer']['extra']['admin'] ? 'Backend' : 'Frontend'));
-                $this->out(sprintf('Path:        %s', $info['path']));
+                $this->out(sprintf('Name:        %s', $plugin->name));
+                $this->out(sprintf('Description: %s', $plugin->composer['description']));
+                $this->out(sprintf('Status:      %s', $plugin->status ? 'In use' : 'Disabled'));
+                $this->out(sprintf('Regions:     %s', implode(', ', array_keys($plugin->composer['extra']['regions']))));
+                $this->out(sprintf('Type:        %s', $plugin->composer['extra']['admin'] ? 'Backend' : 'Frontend'));
+                $this->out(sprintf('Path:        %s', $plugin->path));
                 $this->hr();
                 $this->out();
 
-                $confirm = $this->in(sprintf('Please type in "%s" to uninstall', $allThemes[$in]['name']));
-                if ($confirm === $allThemes[$in]['name']) {
-                    $task = TaskManager::task('uninstall', ['plugin' => $allThemes[$in]['name']]);
+                $confirm = $this->in(sprintf('Please type in "%s" to uninstall', $allThemes[$in]->name));
+                if ($confirm === $allThemes[$in]->name) {
+                    $task = TaskManager::task('uninstall', ['plugin' => $allThemes[$in]->name]);
 
                     if ($task->run()) {
                         $this->out('Theme uninstalled!');
@@ -142,7 +147,12 @@ class ThemesTask extends Shell
      */
     public function change()
     {
-        $disabledThemes = Plugin::collection()->match(['status' => 0, 'isTheme' => true])->toArray();
+        $disabledThemes = Plugin::get()
+            ->filter(function ($plugin) {
+                return !$plugin->status && $plugin->isTheme;
+            })
+            ->toArray();
+
         if (!count($disabledThemes)) {
             $this->err('There are no themes available!');
             $this->out();
@@ -151,9 +161,9 @@ class ThemesTask extends Shell
 
         $index = 1;
         $this->out();
-        foreach ($disabledThemes as $k => $v) {
-            $disabledThemes[$index] = $v;
-            $this->out(sprintf('[%2d] %s', $index, $v['human_name']));
+        foreach ($disabledThemes as $plugin) {
+            $disabledThemes[$index] = $plugin;
+            $this->out(sprintf('[%2d] %s', $index, $plugin->human_name));
             $index++;
         }
         $this->out();
@@ -167,7 +177,7 @@ class ThemesTask extends Shell
             } elseif (!isset($disabledThemes[intval($in)])) {
                 $this->err('Invalid option');
             } else {
-                $task = TaskManager::task('activate_theme')->activate($disabledThemes[$in]['name']);
+                $task = TaskManager::task('activate_theme')->activate($disabledThemes[$in]->name);
 
                 if ($task->run()) {
                     $this->out('Theme switched!');

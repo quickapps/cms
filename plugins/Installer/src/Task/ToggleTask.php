@@ -11,6 +11,7 @@
  */
 namespace Installer\Task;
 
+use QuickApps\Core\Package\RuleChecker;
 use QuickApps\Core\Plugin;
 
 /**
@@ -81,34 +82,34 @@ class ToggleTask extends BaseTask
         }
 
         try {
-            $info = Plugin::info($this->plugin(), true);
+            $plugin = Plugin::get($this->plugin());
             $pluginEntity = $this->Plugins
                 ->find()
                 ->where(['name' => $this->plugin()])
                 ->first();
         } catch (\Exception $e) {
-            $info = $pluginEntity = null;
+            $plugin = $pluginEntity = false;
         }
 
-        if (!$info || !$pluginEntity) {
+        if (!$plugin || !$pluginEntity) {
             $this->error(__d('installer', 'Plugin "{0}" was not found.', $this->plugin()));
             return false;
         }
 
-        if ($info['isCore']) {
-            $this->error(__d('installer', 'Plugin "{0}" is a core plugin, you cannot enable or disable core\'s plugins.', $info['human_name']));
+        if ($plugin->isCore) {
+            $this->error(__d('installer', 'Plugin "{0}" is a core plugin, you cannot enable or disable core\'s plugins.', $plugin->human_name));
             return false;
         }
 
-        $requires = Plugin::checkDependency($this->plugin());
-        if (!$requires && $status === true) {
-            $this->error(__d('installer', 'Plugin "{0}" cannot be enabled as some dependencies are disabled or not installed.', $info['human_name']));
+        $checker = new RuleChecker((array)$plugin->composer['require']);
+        if ($status === true && !$checker->check()) {
+            $this->error(__d('installer', 'Plugin "{0}" cannot be enabled as some dependencies are disabled or not installed: {1}', $plugin->human_name, $checker->fail(true)));
             return false;
         }
 
         $requiredBy = Plugin::checkReverseDependency($this->plugin());
-        if (!empty($requiredBy) && $status === false) {
-            $this->error(__d('installer', 'Plugin "{0}" cannot be disabled as it is required by: {1}', $info['human_name'], implode(', ', $requiredBy)));
+        if ($status === false && !empty($requiredBy)) {
+            $this->error(__d('installer', 'Plugin "{0}" cannot be disabled as it is required by: {1}', $plugin->human_name, implode(', ', $requiredBy)));
             return false;
         }
 
@@ -116,12 +117,12 @@ class ToggleTask extends BaseTask
         // to manually attach them in order to trigger callbacks.
         // If `$status` is true means plugin is disabled and we are trying to enable it again.
         if ($this->config('callbacks') && $status) {
-            $this->attachListeners("{$info['path']}/src/Event");
+            $this->attachListeners("{$plugin->path}/src/Event");
         }
 
         if ($this->config('callbacks')) {
             try {
-                $beforeEvent = $this->trigger("Plugin.{$info['name']}.before{$callbackSufix}");
+                $beforeEvent = $this->trigger("Plugin.{$plugin->name}.before{$callbackSufix}");
                 if ($beforeEvent->isStopped() || $beforeEvent->result === false) {
                     $this->error(__d('installer', 'Task was explicitly rejected by the plugin.'));
                     return false;
@@ -135,9 +136,9 @@ class ToggleTask extends BaseTask
         $pluginEntity->set('status', $status);
         if (!$this->Plugins->save($pluginEntity)) {
             if ($status) {
-                $this->error(__d('installer', 'Plugin "{0}" could not be enabled due to an internal error.', $info['human_name']));
+                $this->error(__d('installer', 'Plugin "{0}" could not be enabled due to an internal error.', $plugin->human_name));
             } else {
-                $this->error(__d('installer', 'Plugin "{0}" could not be disabled due to an internal error.', $info['human_name']));
+                $this->error(__d('installer', 'Plugin "{0}" could not be disabled due to an internal error.', $plugin->human_name));
             }
             return false;
         }
@@ -146,7 +147,7 @@ class ToggleTask extends BaseTask
 
         if ($this->config('callbacks')) {
             try {
-                $this->trigger("Plugin.{$info['name']}.after{$callbackSufix}");
+                $this->trigger("Plugin.{$plugin->name}.after{$callbackSufix}");
             } catch (\Exception $e) {
                 $this->error(__d('installer', 'Plugin did not respond to "after{0}" callback.', $callbackSufix));
             }

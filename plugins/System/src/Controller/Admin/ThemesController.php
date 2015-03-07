@@ -39,19 +39,26 @@ class ThemesController extends AppController
      */
     public function index()
     {
-        $themes = Plugin::collection(true)->match(['isTheme' => true]);
+        $themes = Plugin::get()
+            ->filter(function ($plugin) {
+                return $plugin->isTheme;
+            });
         $frontThemes = $themes
-            ->match(['composer.extra.admin' => false])
+            ->filter(function ($theme) {
+                return !isset($theme->composer['extra']['admin']) || !$theme->composer['extra']['admin'];
+            })
             ->sortBy(function ($theme) {
-                if ($theme['name'] === option('front_theme')) {
+                if ($theme->name() === option('front_theme')) {
                     return 0;
                 }
                 return 1;
             }, SORT_ASC);
         $backThemes = $themes
-            ->match(['composer.extra.admin' => true])
+            ->filter(function ($theme) {
+                return isset($theme->composer['extra']['admin']) && $theme->composer['extra']['admin'];
+            })
             ->sortBy(function ($theme) {
-                if ($theme['name'] === option('back_theme')) {
+                if ($theme->name() === option('back_theme')) {
                     return 0;
                 }
                 return 1;
@@ -107,10 +114,9 @@ class ThemesController extends AppController
      */
     public function uninstall($themeName)
     {
-        $theme = Plugin::info($themeName, true);
-
+        $theme = Plugin::get($themeName); // throws
         if (!in_array($themeName, [option('front_theme'), option('back_theme')])) {
-            if ($theme['isCore']) {
+            if ($theme->isCore) {
                 $this->Flash->danger(__d('system', 'You cannot remove a core theme!'));
             } else {
                 $task = $this->Installer->task('uninstall', ['plugin' => $themeName]);
@@ -139,8 +145,7 @@ class ThemesController extends AppController
      */
     public function activate($themeName)
     {
-        $theme = Plugin::info($themeName, true);
-
+        Plugin::get($themeName); // throws
         if (!in_array($themeName, [option('front_theme'), option('back_theme')])) {
             $task = $this->Installer
                 ->task('activate_theme')
@@ -169,12 +174,11 @@ class ThemesController extends AppController
      */
     public function details($themeName)
     {
-        $theme = Plugin::info($themeName, true);
-
+        $theme = Plugin::get($themeName);
         $this->set(compact('theme'));
         $this->Breadcrumb
             ->push('/admin/system/themes')
-            ->push($theme['human_name'], '#')
+            ->push($theme->human_name, '#') // throws
             ->push(__d('system', 'Details'), '#');
     }
 
@@ -186,8 +190,8 @@ class ThemesController extends AppController
      */
     public function screenshot($themeName)
     {
-        $info = Plugin::info($themeName);
-        $this->response->file("{$info['path']}/webroot/screenshot.png");
+        $theme = Plugin::get($themeName); // throws
+        $this->response->file("{$theme->path}/webroot/screenshot.png");
         return $this->response;
     }
 
@@ -223,14 +227,14 @@ class ThemesController extends AppController
      */
     public function settings($themeName)
     {
-        $theme = Plugin::info($themeName, true);
+        $theme = Plugin::get($themeName);
         $arrayContext = [
             'schema' => [],
             'defaults' => [],
             'errors' => [],
         ];
 
-        if (!$theme['hasSettings'] || !$theme['isTheme']) {
+        if (!$theme->hasSettings || !$theme->isTheme) {
             throw new NotFoundException(__d('system', 'The requested page was not found.'));
         }
 
@@ -255,12 +259,12 @@ class ThemesController extends AppController
                 }
             }
         } else {
-            $this->request->data = $theme['settings'];
+            $this->request->data = (array)$theme->settings;
         }
 
         $this->set(compact('arrayContext', 'theme'));
         $this->Breadcrumb
             ->push('/admin/system/themes')
-            ->push(__d('system', 'Settings for {0} theme', $theme['name']), '#');
+            ->push(__d('system', 'Settings for {0} theme', $theme->name), '#');
     }
 }

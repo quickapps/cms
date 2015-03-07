@@ -86,17 +86,17 @@ class Region
         ];
         $this->_machineName = Inflector::slug($name, '-');
         $this->_View = $view;
-        $this->_theme = Plugin::info($options['theme'], true);
+        $this->_theme = Plugin::get($options['theme']);
         $this->_View->loadHelper('Block.Block');
         $this->blocks($this->_View->Block->blocksIn($this->_machineName));
 
-        if (isset($this->_theme['composer']['extra']['regions'])) {
-            $validRegions = array_keys($this->_theme['composer']['extra']['regions']);
-            $jsonPath = "{$this->_theme['path']}/composer.json";
+        if (isset($this->_theme->composer['extra']['regions'])) {
+            $validRegions = array_keys($this->_theme->composer['extra']['regions']);
+            $jsonPath = "{$this->_theme->path}/composer.json";
             $options['fixMissing'] = $options['fixMissing'] == null ? Configure::read('debug') : $options['fixMissing'];
             if (!in_array($this->_machineName, $validRegions) &&
                 $options['fixMissing'] &&
-                !$this->_theme['isCore'] &&
+                !$this->_theme->isCore &&
                 is_writable($jsonPath)
             ) {
                 $jsonArray = json_decode(file_get_contents($jsonPath), true);
@@ -128,24 +128,14 @@ class Region
      * ### Usage:
      *
      * ```php
-     * // full info:
      * $theme = $this->region('left-sidebar')->theme();
-     *
-     * // gets theme's "composer.json" info as an array
-     * $themeAuthor = $this->region('left-sidebar')->theme('composer.author');
      * ```
      *
-     * @param null|string $path If set to a string value, it will extract
-     *  the specified value from the theme's info-array. Null (by default)
-     *  returns the whole info-array.
-     * @return mixed
+     * @return QuickApps\Core\Package\PluginPackage
      */
-    public function theme($path = null)
+    public function theme()
     {
-        if ($path === null) {
-            return $this->_theme;
-        }
-        return Hash::get($this->_theme, $path);
+        return $this->_theme;
     }
 
     /**
