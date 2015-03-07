@@ -4,9 +4,7 @@ $(document).ready(function () {
 			$data = $(data);
 			$data.each(function (k, v) {
 				if (v.node.children.length == 0) {
-					var aco_id = $('#' + v.node.id)
-						.children('a.leaf-aco')
-						.data('aco-id');
+					var aco_id = v.node.a_attr['data-aco-id'];
 
 					$.ajax({
 						url: baseURL + aco_id,
