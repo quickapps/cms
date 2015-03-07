@@ -211,6 +211,7 @@ class MenuHelper extends Helper
 
             if (is_callable($options)) {
                 $this->config('formatter', $options);
+                $options = [];
             } else {
                 if (!empty($options['templates']) && is_array($options['templates'])) {
                     $this->templates($options['templates']);

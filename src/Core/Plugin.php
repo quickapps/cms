@@ -38,7 +38,7 @@ class Plugin extends CakePlugin
      *
      * @param string $plugin Plugin name to get, or null to get a collection of
      *  plugins objects
-     * @return \Cake\Collection\Collection|QuickApps\Core\Package\BasePackage
+     * @return \Cake\Collection\Collection|\QuickApps\Core\Package\PluginPackage
      */
     public static function get($plugin = null)
     {
@@ -48,6 +48,7 @@ class Plugin extends CakePlugin
         }
 
         if ($plugin === null) {
+            $collection = [];
             foreach ((array)quickapps('plugins') as $plugin) {
                 $collection[] = PackageFactory::create($plugin['name']);
             }

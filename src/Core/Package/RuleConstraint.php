@@ -21,21 +21,21 @@ class RuleConstraint
     /**
      * Left hand side of the rule.
      *
-     * @var array
+     * @var \QuickApps\Core\Package\BasePackage|string
      */
     protected $_lhs = '';
 
     /**
      * Right hand side of the rule.
      *
-     * @var array
+     * @var string
      */
     protected $_rhs = '';
 
     /**
      * Constructor.
      *
-     * @param string $lhs Left part
+     * @param \QuickApps\Core\Package\BasePackage|string $lhs Left part
      * @param string $rhs Right part
      */
     public function __construct($lhs, $rhs)

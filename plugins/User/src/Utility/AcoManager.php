@@ -273,7 +273,7 @@ class AcoManager
     {
         if ($for !== null) {
             try {
-                $for = Plugin::get($for)->info('name');
+                $for = Plugin::get($for)->name;
             } catch (\Exception $e) {
                 return [];
             }

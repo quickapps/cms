@@ -51,7 +51,7 @@ class Region
     /**
      * Information about the theme this region belongs to.
      *
-     * @var array
+     * @var \QuickApps\Core\Package\PluginPackage
      */
     protected $_theme;
 

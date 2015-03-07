@@ -100,7 +100,7 @@ class RuleChecker
         $pass = true;
         foreach ($this->_rules as $rule) {
             if ($rule->lhs() instanceof BasePackage) {
-                $package = $lhs;
+                $package = $rule->lhs();
             } else {
                 $package = PackageFactory::create($rule->lhs());
             }

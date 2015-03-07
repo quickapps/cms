@@ -19,6 +19,18 @@ use QuickApps\Core\Plugin;
 /**
  * Represents a QuickAppsCMS plugin.
  *
+ * @property string $name
+ * @property string $human_name
+ * @property string $package
+ * @property string $path
+ * @property bool $isTheme
+ * @property bool $isCore
+ * @property bool $hasHelp
+ * @property bool $hasSettings
+ * @property bool $status
+ * @property array $eventListeners
+ * @property array $settings
+ * @property array $composer
  */
 class PluginPackage extends BasePackage
 {
@@ -30,7 +42,7 @@ class PluginPackage extends BasePackage
      */
     public function name()
     {
-        return Inflector::camelize(str_replace('-', '_', parent::name()));
+        return (string)Inflector::camelize(str_replace('-', '_', parent::name()));
     }
 
     /**
@@ -84,6 +96,7 @@ class PluginPackage extends BasePackage
      * Plugin::info('settings.some_key');
      * ```
      *
+     * @param string $key Optional path to read from the resulting array
      * @param bool $full Fetch settings from DB
      * @return array Plugin information
      * @throws \Cake\Error\FatalErrorException When plugin is not found
