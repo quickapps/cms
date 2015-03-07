@@ -53,7 +53,7 @@ class PackageFactoryTest extends TestCase
      */
     public function testCreateThirdParty()
     {
-        $package = PackageFactory::create('quickapps/cms');
+        $package = PackageFactory::create('cakephp/cakephp');
         $this->assertTrue($package instanceof ThirdPartyPackage);
     }
 

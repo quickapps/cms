@@ -81,8 +81,8 @@ class RuleCheckerTest extends TestCase
         $checker1->check();
         $checker2->check();
 
-        $this->assertTrue(!empty($checker1->pass(true)));
-        $this->assertTrue(empty($checker2->pass(true)));
+        $this->assertNotEmpty($checker1->pass(true));
+        $this->assertEmpty($checker2->pass(true));
     }
 
     /**
@@ -98,7 +98,7 @@ class RuleCheckerTest extends TestCase
         $checker1->check();
         $checker2->check();
 
-        $this->assertTrue(empty($checker1->fail(true)));
-        $this->assertTrue(!empty($checker2->fail(true)));
+        $this->assertEmpty($checker1->fail(true));
+        $this->assertNotEmpty($checker2->fail(true));
     }
 }
