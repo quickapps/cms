@@ -5,7 +5,6 @@
     "keywords": ["framework", "cms", "cmf", "cakephp"],
     "homepage": "http://quickappscms.org",
     "license": "GPL-3.0",
-
     "authors": [
         {"name": "Christopher Castro", "email": "chris@quickapps.es"}
     ],
@@ -24,8 +23,12 @@
     },
 	"autoload": {
 		"psr-4": {
-			"QuickApps\\": "src",
-			"QuickApps\\Test\\": "tests"
+			"QuickApps\\": "src"
 		}
-	}
+	},
+    "autoload-dev": {
+        "psr-4": {
+            "QuickApps\\Test\\": "tests"
+        }
+    }
 }
