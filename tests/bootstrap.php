@@ -37,7 +37,6 @@ use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use QuickApps\View\ViewModeRegistry;
-use \DirectoryIterator;
 
 /**
  * Overwrites core's snapshot() function and emulates its real behaviour.
