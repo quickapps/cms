@@ -99,7 +99,6 @@ class PluginPackage extends BasePackage
      * @param string $key Optional path to read from the resulting array
      * @param bool $full Fetch settings from DB
      * @return array Plugin information
-     * @throws \Cake\Error\FatalErrorException When plugin is not found
      */
     public function &info($key = null, $full = false)
     {
@@ -110,10 +109,6 @@ class PluginPackage extends BasePackage
         $cache = $this->config($cacheKey);
 
         if (!$cache) {
-            if (!Plugin::exists($plugin)) {
-                throw new FatalErrorException(__('Plugin "{0}" was not found', $plugin));
-            }
-
             $info = (array)quickapps("plugins.{$plugin}");
             if ($full) {
                 $info['composer'] = $this->composer();

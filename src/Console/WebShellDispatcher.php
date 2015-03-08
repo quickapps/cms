@@ -43,7 +43,7 @@ class WebShellDispatcher extends ShellDispatcher
      *
      * @var string
      */
-    protected $_out = '';
+    protected static $_out = '';
 
     /**
      * Run the dispatcher
@@ -74,7 +74,7 @@ class WebShellDispatcher extends ShellDispatcher
     }
 
     /**
-     * Create the given shell name, and set the plugin property
+     * Create the given shell name, and set the plugin property.
      *
      * @param string $className The class name to instantiate
      * @param string $shortName The plugin-prefixed shell name
