@@ -73,10 +73,10 @@ class DatabaseShell extends Shell
                 $this->dispatchShell('System.database export -m full');
                 break;
             case 'l':
-                $this->dispatchShell('System.database tables');
+                $this->tables();
                 break;
             case 's':
-                $this->dispatchShell('System.database connection');
+                $this->connection();
                 break;
             case 'h':
                 $this->out($this->OptionParser->help());

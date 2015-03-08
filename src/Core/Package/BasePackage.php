@@ -15,7 +15,7 @@ use Cake\Core\Configure;
 use Cake\Core\InstanceConfigTrait;
 use Cake\Utility\Hash;
 use QuickApps\Core\Package\ComposerSchema;
-use QuickApps\Core\Package\Constraint;
+use QuickApps\Core\Package\Rule\Constraint;
 use QuickApps\Core\StaticCacheTrait;
 
 /**

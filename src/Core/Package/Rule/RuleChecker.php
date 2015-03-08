@@ -9,7 +9,7 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace QuickApps\Core\Package;
+namespace QuickApps\Core\Package\Rule;
 
 use Composer\Package\LinkConstraint\VersionConstraint;
 use Composer\Package\Version\VersionParser;
@@ -48,6 +48,13 @@ class RuleChecker
     protected $_pass = [];
 
     /**
+     * Whether rules were checked using check() or not.
+     *
+     * @var bool
+     */
+    protected $_checked = false;
+
+    /**
      * Constructor.
      *
      * ### Basic usage:
@@ -58,14 +65,25 @@ class RuleChecker
      *     'quickapps/cms' => '2.*',
      * ];
      *
-     * $solver = new RuleChecker($rules);
+     * $checker = new RuleChecker($rules);
      *
-     * if ($solver->check()) {
+     * if ($checker->check()) {
      *     // all OK
      * } else {
      *     // ERROR, get failing rules:
-     *     $solver->fail();
+     *     $checker->fail();
      * }
+     * ```
+     *
+     * ### Without invoking check():
+     *
+     * You can also use `pass()` or `fail()` methods before invoking `check()` as
+     * in the example below.
+     *
+     * ```php
+     * $checker = new RuleChecker($rules);
+     * $pass = $checker->pass();
+     * $fail = $checker->fail();
      * ```
      *
      * ### Providing packages as objects:
@@ -86,14 +104,14 @@ class RuleChecker
     public function __construct(array $rules)
     {
         foreach ($rules as $lhs => $rhs) {
-            $this->_rules[] = new RuleConstraint($lhs, $rhs);
+            $this->_rules[] = new Rule($lhs, $rhs);
         }
     }
 
     /**
-     * Check if all rules of this class.
+     * Checks all the rules of this class.
      *
-     * @return bool
+     * @return bool True if all rules are meet
      */
     public function check()
     {
@@ -102,7 +120,7 @@ class RuleChecker
             if ($rule->lhs() instanceof BasePackage) {
                 $package = $rule->lhs();
             } else {
-                $package = PackageFactory::create($rule->lhs());
+                $package = PackageFactory::create((string)$rule->lhs());
             }
 
             if (!$package->versionMatch($rule->rhs())) {
@@ -113,6 +131,7 @@ class RuleChecker
             }
         }
 
+        $this->_checked = true;
         return $pass;
     }
 
@@ -124,6 +143,10 @@ class RuleChecker
      */
     public function pass($asString = false)
     {
+        if (!$this->_checked) {
+            $this->check();
+        }
+
         if (!$asString) {
             return $this->_pass;
         }
@@ -144,6 +167,10 @@ class RuleChecker
      */
     public function fail($asString = false)
     {
+        if (!$this->_checked) {
+            $this->check();
+        }
+
         if (!$asString) {
             return $this->_fail;
         }
@@ -159,10 +186,10 @@ class RuleChecker
     /**
      * Marks a rule as PASS.
      *
-     * @param \QuickApps\Core\Package\RuleConstraint $rule The rule to mark
+     * @param \QuickApps\Core\Package\Rule\Rule $rule The rule to mark
      * @return void
      */
-    protected function _pass(RuleConstraint $rule)
+    protected function _pass(Rule $rule)
     {
         $this->_pass[] = $rule;
     }
@@ -170,10 +197,10 @@ class RuleChecker
     /**
      * Marks a rule as FAIL.
      *
-     * @param \QuickApps\Core\Package\RuleConstraint $rule The rule to mark
+     * @param \QuickApps\Core\Package\Rule\Rule $rule The rule to mark
      * @return void
      */
-    protected function _fail(RuleConstraint $rule)
+    protected function _fail(Rule $rule)
     {
         $this->_fail[] = $rule;
     }

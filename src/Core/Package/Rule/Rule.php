@@ -9,13 +9,13 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace QuickApps\Core\Package;
+namespace QuickApps\Core\Package\Rule;
 
 /**
  * Represents a rule.
  *
  */
-class RuleConstraint
+class Rule
 {
 
     /**
