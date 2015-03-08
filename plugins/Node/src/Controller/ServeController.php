@@ -80,14 +80,15 @@ class ServeController extends AppController
     public function home()
     {
         $this->loadModel('Node.Nodes');
-        $nodes = $this->Nodes->find()
+        $nodes = $this->Nodes
+            ->find('all')
             ->where([
                 'Nodes.promote' => 1,
                 'Nodes.status >' => 0,
                 'Nodes.language IN' => ['', I18n::locale(), null],
             ])
             ->order(['Nodes.sticky' => 'DESC', 'Nodes.created' => 'DESC'])
-            ->all();
+            ->limit((int)option('site_nodes_home'));
 
         $this->set('nodes', $nodes);
     }
