@@ -37,13 +37,15 @@ class Plugin extends CakePlugin
      * specified.
      *
      * @param string $plugin Plugin name to get, or null to get a collection of
-     *  plugins objects
-     * @return \Cake\Collection\Collection|\QuickApps\Core\Package\PluginPackage
+     *  all plugin objects
+     * @return \QuickApps\Core\Package\PluginPackage|\Cake\Collection\Collection
      */
     public static function get($plugin = null)
     {
         $cacheKey = "get({$plugin})";
-        if ($cache = static::cache($cacheKey)) {
+        $cache = static::cache($cacheKey);
+
+        if ($cache !== null) {
             return $cache;
         }
 

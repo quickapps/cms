@@ -29,6 +29,9 @@ class LibraryPackage extends BasePackage
      *
      * // PHP version, returns: PHP_VERSION
      * $this->version('php');
+     *
+     * // Some PHP extension
+     * $this->version('ext-intl');
      * ```
      *
      * @return string Package's version, for instance `1.2.x-dev`
@@ -39,13 +42,20 @@ class LibraryPackage extends BasePackage
             return parent::version();
         }
 
-        if (strtolower($this->_packageName) === 'php') {
+        $lib = strtolower($this->_packageName);
+        if ($lib === 'lib-icu') {
+            $lib = 'intl';
+        } elseif (stripos($lib, 'ext-') === 0) {
+            $lib = substr($lib, 4);
+        }
+
+        if ($lib === 'php') {
             $this->_version = PHP_VERSION;
         } elseif (function_exists('phpversion')) {
-            $version = phpversion($this->_packageName);
+            $version = phpversion($lib);
             $this->_version = $version === false ? '' : $version;
         } elseif (function_exists('extension_loaded')) {
-            $this->_version = extension_loaded($this->_packageName) ? '99999' : '';
+            $this->_version = extension_loaded($lib) ? '99999' : '';
         }
 
         return $this->_version;

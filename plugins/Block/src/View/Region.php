@@ -14,7 +14,6 @@ namespace Block\View;
 use Block\Model\Entity\Block;
 use Cake\Collection\Collection;
 use Cake\Core\Configure;
-use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use QuickApps\Core\Plugin;
 use QuickApps\View\View;

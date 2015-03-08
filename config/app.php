@@ -92,6 +92,7 @@ return [
     'Cache' => [
         'default' => [
             'className' => 'File',
+            'path' => CACHE,
         ],
 
         /**

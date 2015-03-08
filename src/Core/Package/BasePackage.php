@@ -12,6 +12,7 @@
 namespace QuickApps\Core\Package;
 
 use Cake\Core\Configure;
+use Cake\Core\InstanceConfigTrait;
 use Cake\Utility\Hash;
 use QuickApps\Core\Package\ComposerSchema;
 use QuickApps\Core\Package\Constraint;
@@ -24,7 +25,15 @@ use QuickApps\Core\StaticCacheTrait;
 class BasePackage
 {
 
+    use InstanceConfigTrait;
     use StaticCacheTrait;
+
+    /**
+     * Default config.
+     *
+     * @var array
+     */
+    protected $_defaultConfig = [];
 
     /**
      * Full package name. e.g. `vendor/package`

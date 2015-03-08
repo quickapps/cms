@@ -82,7 +82,7 @@ trait StaticCacheTrait
      *  reading from cache
      * @return mixed
      */
-    protected static function cache($key = null, $value = null)
+    public static function cache($key = null, $value = null)
     {
         if ($key === null && $value === null) {
             // read all
@@ -112,20 +112,20 @@ trait StaticCacheTrait
     }
 
     /**
-     * Clears the entire cache or a specific key.
+     * Drops the entire cache or a specific key.
      *
      * ## Usage:
      *
      * ```php
-     * static::_clearCache('user_cache'); // removes "user_cache" only
-     * static::_clearCache(); // removes every key
+     * static::dropCache('user_cache'); // removes "user_cache" only
+     * static::dropCache(); // removes every key
      * ```
      *
      * @param string|null $key Cache key to clear, if NULL the entire cache
      *  will be erased.
      * @return void
      */
-    protected static function clearCache($key = null)
+    public static function dropCache($key = null)
     {
         if ($key !== null) {
             if (isset(static::$_cache[$key])) {

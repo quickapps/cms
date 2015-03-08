@@ -106,8 +106,8 @@ class PluginPackage extends BasePackage
         // TODO: optimize, when full is requested an previous non-full exists ->
         // replace non-full with full
         $plugin = $this->name();
-        $cacheKey = "info({$plugin},{$full})";
-        $cache = static::cache($cacheKey);
+        $cacheKey = "info_{$full}";
+        $cache = $this->config($cacheKey);
 
         if (!$cache) {
             if (!Plugin::exists($plugin)) {
@@ -120,7 +120,8 @@ class PluginPackage extends BasePackage
                 $info['settings'] = (array)$this->settings();
             }
 
-            $cache = static::cache($cacheKey, $info);
+            $this->config($cacheKey, $info);
+            $cache = $info;
         }
 
         if ($key === null) {
@@ -142,8 +143,7 @@ class PluginPackage extends BasePackage
     public function settings($key = null)
     {
         $plugin = $this->name();
-        $cacheKey = "settings({$plugin})";
-        if ($cache = static::cache($cacheKey)) {
+        if ($cache = $this->config('settings')) {
             if ($key !== null) {
                 $cache = isset($cache[$key]) ? $cache[$key] : null;
             }
@@ -169,7 +169,7 @@ class PluginPackage extends BasePackage
             $settings = (array)$dbInfo->settings;
         }
 
-        static::cache($cacheKey, $settings);
+        $this->config('settings', $settings);
         if ($key !== null) {
             $settings = isset($settings[$key]) ? $settings[$key] : null;
         }
