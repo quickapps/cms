@@ -45,6 +45,12 @@ class DatabaseExportTask extends Shell
                 'help' => __d('system', 'Optional, comma-separated list of table names to export. All tables will be exported if not provided.'),
                 'default' => [],
             ])
+            ->addOption('no-id', [
+                'short' => 'n',
+                'help' => __d('system', 'Exclude "id" columns from records, useful for some DB driver such as Postgres.'),
+                'boolean' => true,
+                'default' => false,
+            ])
             ->addOption('mode', [
                 'short' => 'm',
                 'help' => __d('system', 'What to export, "full" exports schema and records, or "schema" for schema only.'),
@@ -126,7 +132,7 @@ class DatabaseExportTask extends Shell
             if ($options['mode'] === 'full') {
                 foreach ($Table->find('all') as $row) {
                     $row = $row->toArray();
-                    if (isset($row['id'])) {
+                    if ($this->params['no-id'] && isset($row['id'])) {
                         unset($row['id']);
                     }
                     $records[] = $row;
