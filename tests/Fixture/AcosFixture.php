@@ -12,25 +12,100 @@
 namespace QuickApps\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
-require_once QA_CORE . '/config/Schema/AcosSchema.php';
 
 class AcosFixture extends TestFixture
 {
 
-    use \AcosSchemaTrait;
+    public $fields = [
+  '_constraints' => 
+  [
+    'primary' => 
+    [
+      'type' => 'primary',
+      'columns' => 
+      [
+        0 => 'id',
+      ],
+      'length' => 
+      [
+      ],
+    ],
+  ],
+  'id' => 
+  [
+    'type' => 'integer',
+    'length' => 10,
+    'unsigned' => false,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'autoIncrement' => true,
+    'precision' => NULL,
+  ],
+  'parent_id' => 
+  [
+    'type' => 'integer',
+    'length' => 10,
+    'unsigned' => false,
+    'null' => true,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+  'lft' => 
+  [
+    'type' => 'integer',
+    'length' => 10,
+    'unsigned' => false,
+    'null' => true,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+  'rght' => 
+  [
+    'type' => 'integer',
+    'length' => 10,
+    'unsigned' => false,
+    'null' => true,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+  'plugin' => 
+  [
+    'type' => 'string',
+    'length' => 255,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'alias' => 
+  [
+    'type' => 'string',
+    'length' => 255,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'alias_hash' => 
+  [
+    'type' => 'string',
+    'length' => 32,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+];
 
-    /**
-     * {@inheritdoc}
-     */
-    public function init()
-    {
-        $this->fields = $this->fields();
-        $this->records = [];
-
-        if (getenv('DB') != 'sqlite') {
-            $this->records = $this->records();
-        }
-
-        parent::init();
-    }
+    public $records = [];
 }

@@ -1,8 +1,8 @@
 <?php
-trait UsersRolesSchemaTrait
+class NodesRolesFixture
 {
 
-    protected $_fields = [
+    public $fields = [
   '_constraints' => 
   [
     'primary' => 
@@ -28,7 +28,7 @@ trait UsersRolesSchemaTrait
     'autoIncrement' => true,
     'precision' => NULL,
   ],
-  'user_id' => 
+  'node_id' => 
   [
     'type' => 'integer',
     'length' => 11,
@@ -52,33 +52,6 @@ trait UsersRolesSchemaTrait
   ],
 ];
 
-    protected $_records = [
-  0 => 
-  [
-    'user_id' => 1,
-    'role_id' => 1,
-  ],
+    public $records = [
 ];
-
-    public function fields()
-    {
-        foreach ($this->_fields as $name => $info) {
-            if (!empty($info['autoIncrement'])) {
-                $this->_fields[$name]['length'] = null;
-            }
-        }
-        return $this->_fields;
-    }
-
-    public function records()
-    {
-        return $this->_records;
-    }
-}
-
-class UsersRolesSchema
-{
-
-    use UsersRolesSchemaTrait;
-
 }

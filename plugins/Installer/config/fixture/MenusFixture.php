@@ -1,8 +1,8 @@
 <?php
-trait MenusSchemaTrait
+class MenusFixture
 {
 
-    protected $_fields = [
+    public $fields = [
   '_constraints' => 
   [
     'primary' => 
@@ -78,9 +78,10 @@ trait MenusSchemaTrait
   ],
 ];
 
-    protected $_records = [
+    public $records = [
   0 => 
   [
+    'id' => 1,
     'slug' => 'management',
     'title' => 'Management',
     'description' => 'The Management menu contains links for administrative tasks.',
@@ -89,6 +90,7 @@ trait MenusSchemaTrait
   ],
   1 => 
   [
+    'id' => 2,
     'slug' => 'site-main-menu',
     'title' => 'Site Main Menu',
     'description' => 'The Site Main Menu is used on many sites to show the major sections of the site, often in a top navigation bar.',
@@ -96,26 +98,4 @@ trait MenusSchemaTrait
     'settings' => NULL,
   ],
 ];
-
-    public function fields()
-    {
-        foreach ($this->_fields as $name => $info) {
-            if (!empty($info['autoIncrement'])) {
-                $this->_fields[$name]['length'] = null;
-            }
-        }
-        return $this->_fields;
-    }
-
-    public function records()
-    {
-        return $this->_records;
-    }
-}
-
-class MenusSchema
-{
-
-    use MenusSchemaTrait;
-
 }

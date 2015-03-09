@@ -1,8 +1,8 @@
 <?php
-trait BlocksSchemaTrait
+class BlocksFixture
 {
 
-    protected $_fields = [
+    public $fields = [
   '_constraints' => 
   [
     'primary' => 
@@ -148,9 +148,10 @@ trait BlocksSchemaTrait
   ],
 ];
 
-    protected $_records = [
+    public $records = [
   0 => 
   [
+    'id' => 1,
     'copy_id' => NULL,
     'delta' => '1',
     'handler' => 'System',
@@ -165,6 +166,7 @@ trait BlocksSchemaTrait
   ],
   1 => 
   [
+    'id' => 2,
     'copy_id' => NULL,
     'delta' => '2',
     'handler' => 'System',
@@ -179,6 +181,7 @@ trait BlocksSchemaTrait
   ],
   2 => 
   [
+    'id' => 3,
     'copy_id' => NULL,
     'delta' => 'dashboard_recent_content',
     'handler' => 'Node',
@@ -193,6 +196,7 @@ trait BlocksSchemaTrait
   ],
   3 => 
   [
+    'id' => 4,
     'copy_id' => NULL,
     'delta' => 'dashboard_search',
     'handler' => 'Node',
@@ -207,6 +211,7 @@ trait BlocksSchemaTrait
   ],
   4 => 
   [
+    'id' => 5,
     'copy_id' => NULL,
     'delta' => 'language_switcher',
     'handler' => 'Locale',
@@ -221,6 +226,7 @@ trait BlocksSchemaTrait
   ],
   5 => 
   [
+    'id' => 6,
     'copy_id' => NULL,
     'delta' => 'categories',
     'handler' => 'Taxonomy',
@@ -234,26 +240,4 @@ trait BlocksSchemaTrait
     'status' => false,
   ],
 ];
-
-    public function fields()
-    {
-        foreach ($this->_fields as $name => $info) {
-            if (!empty($info['autoIncrement'])) {
-                $this->_fields[$name]['length'] = null;
-            }
-        }
-        return $this->_fields;
-    }
-
-    public function records()
-    {
-        return $this->_records;
-    }
-}
-
-class BlocksSchema
-{
-
-    use BlocksSchemaTrait;
-
 }

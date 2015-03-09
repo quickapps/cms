@@ -1,8 +1,8 @@
 <?php
-trait FieldValuesSchemaTrait
+class FieldValuesFixture
 {
 
-    protected $_fields = [
+    public $fields = [
   '_constraints' => 
   [
     'primary' => 
@@ -89,9 +89,10 @@ trait FieldValuesSchemaTrait
   ],
 ];
 
-    protected $_records = [
+    public $records = [
   0 => 
   [
+    'id' => 1,
     'field_instance_id' => 1,
     'field_instance_slug' => 'article-introduction',
     'entity_id' => '1',
@@ -101,6 +102,7 @@ trait FieldValuesSchemaTrait
   ],
   1 => 
   [
+    'id' => 9,
     'field_instance_id' => 3,
     'field_instance_slug' => 'article-body',
     'entity_id' => '1',
@@ -122,6 +124,7 @@ If Composer is installed globally, run `composer create-project -s dev quickapps
   ],
   2 => 
   [
+    'id' => 10,
     'field_instance_id' => 3,
     'field_instance_slug' => 'article-body',
     'entity_id' => '2',
@@ -131,6 +134,7 @@ If Composer is installed globally, run `composer create-project -s dev quickapps
   ],
   3 => 
   [
+    'id' => 11,
     'field_instance_id' => 1,
     'field_instance_slug' => 'article-introduction',
     'entity_id' => '2',
@@ -139,26 +143,4 @@ If Composer is installed globally, run `composer create-project -s dev quickapps
     'raw' => 'a:0:{}',
   ],
 ];
-
-    public function fields()
-    {
-        foreach ($this->_fields as $name => $info) {
-            if (!empty($info['autoIncrement'])) {
-                $this->_fields[$name]['length'] = null;
-            }
-        }
-        return $this->_fields;
-    }
-
-    public function records()
-    {
-        return $this->_records;
-    }
-}
-
-class FieldValuesSchema
-{
-
-    use FieldValuesSchemaTrait;
-
 }

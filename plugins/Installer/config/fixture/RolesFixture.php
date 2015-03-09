@@ -1,8 +1,8 @@
 <?php
-trait RolesSchemaTrait
+class RolesFixture
 {
 
-    protected $_fields = [
+    public $fields = [
   '_constraints' => 
   [
     'primary' => 
@@ -61,43 +61,24 @@ trait RolesSchemaTrait
   ],
 ];
 
-    protected $_records = [
+    public $records = [
   0 => 
   [
+    'id' => 1,
     'slug' => 'administrator',
     'name' => 'Administrator',
   ],
   1 => 
   [
+    'id' => 2,
     'slug' => 'authenticated ',
     'name' => 'Authenticated User',
   ],
   2 => 
   [
+    'id' => 3,
     'slug' => 'anonymous',
     'name' => 'Anonymous User',
   ],
 ];
-
-    public function fields()
-    {
-        foreach ($this->_fields as $name => $info) {
-            if (!empty($info['autoIncrement'])) {
-                $this->_fields[$name]['length'] = null;
-            }
-        }
-        return $this->_fields;
-    }
-
-    public function records()
-    {
-        return $this->_records;
-    }
-}
-
-class RolesSchema
-{
-
-    use RolesSchemaTrait;
-
 }

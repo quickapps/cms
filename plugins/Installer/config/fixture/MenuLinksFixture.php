@@ -1,8 +1,8 @@
 <?php
-trait MenuLinksSchemaTrait
+class MenuLinksFixture
 {
 
-    protected $_fields = [
+    public $fields = [
   '_constraints' => 
   [
     'primary' => 
@@ -153,9 +153,10 @@ trait MenuLinksSchemaTrait
   ],
 ];
 
-    protected $_records = [
+    public $records = [
   0 => 
   [
+    'id' => 1,
     'menu_id' => 1,
     'lft' => 1,
     'rght' => 2,
@@ -173,6 +174,7 @@ trait MenuLinksSchemaTrait
   ],
   1 => 
   [
+    'id' => 2,
     'menu_id' => 1,
     'lft' => 3,
     'rght' => 12,
@@ -188,6 +190,7 @@ trait MenuLinksSchemaTrait
   ],
   2 => 
   [
+    'id' => 3,
     'menu_id' => 1,
     'lft' => 13,
     'rght' => 14,
@@ -204,6 +207,7 @@ trait MenuLinksSchemaTrait
   ],
   3 => 
   [
+    'id' => 4,
     'menu_id' => 1,
     'lft' => 15,
     'rght' => 16,
@@ -219,6 +223,7 @@ trait MenuLinksSchemaTrait
   ],
   4 => 
   [
+    'id' => 5,
     'menu_id' => 1,
     'lft' => 17,
     'rght' => 18,
@@ -234,6 +239,7 @@ trait MenuLinksSchemaTrait
   ],
   5 => 
   [
+    'id' => 6,
     'menu_id' => 1,
     'lft' => 19,
     'rght' => 20,
@@ -249,6 +255,7 @@ trait MenuLinksSchemaTrait
   ],
   6 => 
   [
+    'id' => 7,
     'menu_id' => 1,
     'lft' => 23,
     'rght' => 24,
@@ -264,6 +271,7 @@ trait MenuLinksSchemaTrait
   ],
   7 => 
   [
+    'id' => 8,
     'menu_id' => 1,
     'lft' => 25,
     'rght' => 26,
@@ -279,6 +287,7 @@ trait MenuLinksSchemaTrait
   ],
   8 => 
   [
+    'id' => 9,
     'menu_id' => 1,
     'lft' => 4,
     'rght' => 5,
@@ -294,6 +303,7 @@ trait MenuLinksSchemaTrait
   ],
   9 => 
   [
+    'id' => 10,
     'menu_id' => 1,
     'lft' => 6,
     'rght' => 7,
@@ -309,6 +319,7 @@ trait MenuLinksSchemaTrait
   ],
   10 => 
   [
+    'id' => 11,
     'menu_id' => 1,
     'lft' => 8,
     'rght' => 9,
@@ -324,6 +335,7 @@ trait MenuLinksSchemaTrait
   ],
   11 => 
   [
+    'id' => 12,
     'menu_id' => 1,
     'lft' => 10,
     'rght' => 11,
@@ -339,6 +351,7 @@ trait MenuLinksSchemaTrait
   ],
   12 => 
   [
+    'id' => 13,
     'menu_id' => 1,
     'lft' => 21,
     'rght' => 22,
@@ -354,6 +367,7 @@ trait MenuLinksSchemaTrait
   ],
   13 => 
   [
+    'id' => 14,
     'menu_id' => 2,
     'lft' => 5,
     'rght' => 6,
@@ -369,6 +383,7 @@ trait MenuLinksSchemaTrait
   ],
   14 => 
   [
+    'id' => 15,
     'menu_id' => 2,
     'lft' => 3,
     'rght' => 4,
@@ -384,6 +399,7 @@ trait MenuLinksSchemaTrait
   ],
   15 => 
   [
+    'id' => 16,
     'menu_id' => 2,
     'lft' => 1,
     'rght' => 2,
@@ -399,6 +415,7 @@ trait MenuLinksSchemaTrait
   ],
   16 => 
   [
+    'id' => 17,
     'menu_id' => 2,
     'lft' => 7,
     'rght' => 8,
@@ -414,26 +431,4 @@ trait MenuLinksSchemaTrait
     'status' => true,
   ],
 ];
-
-    public function fields()
-    {
-        foreach ($this->_fields as $name => $info) {
-            if (!empty($info['autoIncrement'])) {
-                $this->_fields[$name]['length'] = null;
-            }
-        }
-        return $this->_fields;
-    }
-
-    public function records()
-    {
-        return $this->_records;
-    }
-}
-
-class MenuLinksSchema
-{
-
-    use MenuLinksSchemaTrait;
-
 }

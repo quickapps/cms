@@ -1,8 +1,8 @@
 <?php
-trait BlockRegionsSchemaTrait
+class BlockRegionsFixture
 {
 
-    protected $_fields = [
+    public $fields = [
   '_constraints' => 
   [
     'primary' => 
@@ -84,9 +84,10 @@ trait BlockRegionsSchemaTrait
   ],
 ];
 
-    protected $_records = [
+    public $records = [
   0 => 
   [
+    'id' => 1,
     'block_id' => 2,
     'theme' => 'BackendTheme',
     'region' => '',
@@ -94,6 +95,7 @@ trait BlockRegionsSchemaTrait
   ],
   1 => 
   [
+    'id' => 2,
     'block_id' => 2,
     'theme' => 'FrontendTheme',
     'region' => 'main-menu',
@@ -101,6 +103,7 @@ trait BlockRegionsSchemaTrait
   ],
   2 => 
   [
+    'id' => 3,
     'block_id' => 1,
     'theme' => 'BackendTheme',
     'region' => 'main-menu',
@@ -108,6 +111,7 @@ trait BlockRegionsSchemaTrait
   ],
   3 => 
   [
+    'id' => 4,
     'block_id' => 1,
     'theme' => 'FrontendTheme',
     'region' => '',
@@ -115,6 +119,7 @@ trait BlockRegionsSchemaTrait
   ],
   4 => 
   [
+    'id' => 5,
     'block_id' => 3,
     'theme' => 'BackendTheme',
     'region' => 'dashboard-main',
@@ -122,6 +127,7 @@ trait BlockRegionsSchemaTrait
   ],
   5 => 
   [
+    'id' => 6,
     'block_id' => 3,
     'theme' => 'FrontendTheme',
     'region' => '',
@@ -129,6 +135,7 @@ trait BlockRegionsSchemaTrait
   ],
   6 => 
   [
+    'id' => 7,
     'block_id' => 4,
     'theme' => 'BackendTheme',
     'region' => 'dashboard-sidebar',
@@ -136,32 +143,11 @@ trait BlockRegionsSchemaTrait
   ],
   7 => 
   [
+    'id' => 8,
     'block_id' => 4,
     'theme' => 'FrontendTheme',
     'region' => '',
     'ordering' => 0,
   ],
 ];
-
-    public function fields()
-    {
-        foreach ($this->_fields as $name => $info) {
-            if (!empty($info['autoIncrement'])) {
-                $this->_fields[$name]['length'] = null;
-            }
-        }
-        return $this->_fields;
-    }
-
-    public function records()
-    {
-        return $this->_records;
-    }
-}
-
-class BlockRegionsSchema
-{
-
-    use BlockRegionsSchemaTrait;
-
 }

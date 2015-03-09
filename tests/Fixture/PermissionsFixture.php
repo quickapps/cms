@@ -12,20 +12,59 @@
 namespace QuickApps\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
-require_once QA_CORE . '/config/Schema/PermissionsSchema.php';
 
 class PermissionsFixture extends TestFixture
 {
 
-    use \PermissionsSchemaTrait;
+    public $fields = [
+  '_constraints' => 
+  [
+    'primary' => 
+    [
+      'type' => 'primary',
+      'columns' => 
+      [
+        0 => 'id',
+      ],
+      'length' => 
+      [
+      ],
+    ],
+  ],
+  'id' => 
+  [
+    'type' => 'integer',
+    'length' => 11,
+    'unsigned' => false,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'autoIncrement' => true,
+    'precision' => NULL,
+  ],
+  'aco_id' => 
+  [
+    'type' => 'integer',
+    'length' => 11,
+    'unsigned' => false,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+  'role_id' => 
+  [
+    'type' => 'integer',
+    'length' => 11,
+    'unsigned' => false,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+];
 
-    /**
-     * {@inheritdoc}
-     */
-    public function init()
-    {
-        $this->fields = $this->fields();
-        $this->records = $this->records();
-        parent::init();
-    }
+    public $records = [];
 }

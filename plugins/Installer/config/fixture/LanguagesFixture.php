@@ -1,8 +1,8 @@
 <?php
-trait LanguagesSchemaTrait
+class LanguagesFixture
 {
 
-    protected $_fields = [
+    public $fields = [
   '_constraints' => 
   [
     'primary' => 
@@ -103,9 +103,10 @@ trait LanguagesSchemaTrait
   ],
 ];
 
-    protected $_records = [
+    public $records = [
   0 => 
   [
+    'id' => 1,
     'code' => 'en-us',
     'name' => 'English',
     'direction' => 'ltr',
@@ -115,6 +116,7 @@ trait LanguagesSchemaTrait
   ],
   1 => 
   [
+    'id' => 2,
     'code' => 'es',
     'name' => 'Spanish',
     'direction' => 'ltr',
@@ -123,26 +125,4 @@ trait LanguagesSchemaTrait
     'ordering' => 0,
   ],
 ];
-
-    public function fields()
-    {
-        foreach ($this->_fields as $name => $info) {
-            if (!empty($info['autoIncrement'])) {
-                $this->_fields[$name]['length'] = null;
-            }
-        }
-        return $this->_fields;
-    }
-
-    public function records()
-    {
-        return $this->_records;
-    }
-}
-
-class LanguagesSchema
-{
-
-    use LanguagesSchemaTrait;
-
 }

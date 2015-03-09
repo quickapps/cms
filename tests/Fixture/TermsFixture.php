@@ -12,20 +12,131 @@
 namespace QuickApps\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
-require_once QA_CORE . '/config/Schema/TermsSchema.php';
 
 class TermsFixture extends TestFixture
 {
 
-    use \TermsSchemaTrait;
+    public $fields = [
+  '_constraints' => 
+  [
+    'primary' => 
+    [
+      'type' => 'primary',
+      'columns' => 
+      [
+        0 => 'id',
+      ],
+      'length' => 
+      [
+      ],
+    ],
+    'terms_slug' => 
+    [
+      'type' => 'unique',
+      'columns' => 
+      [
+        0 => 'slug',
+      ],
+      'length' => 
+      [
+      ],
+    ],
+  ],
+  'id' => 
+  [
+    'type' => 'integer',
+    'length' => 10,
+    'unsigned' => false,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'autoIncrement' => true,
+    'precision' => NULL,
+  ],
+  'vocabulary_id' => 
+  [
+    'type' => 'integer',
+    'length' => 11,
+    'unsigned' => false,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+  'lft' => 
+  [
+    'type' => 'integer',
+    'length' => 11,
+    'unsigned' => false,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+  'rght' => 
+  [
+    'type' => 'integer',
+    'length' => 11,
+    'unsigned' => false,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+  'parent_id' => 
+  [
+    'type' => 'integer',
+    'length' => 11,
+    'unsigned' => false,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+  'name' => 
+  [
+    'type' => 'string',
+    'length' => 255,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'slug' => 
+  [
+    'type' => 'string',
+    'length' => 255,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'created' => 
+  [
+    'type' => 'datetime',
+    'length' => NULL,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+  ],
+  'modified' => 
+  [
+    'type' => 'datetime',
+    'length' => NULL,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+  ],
+];
 
-    /**
-     * {@inheritdoc}
-     */
-    public function init()
-    {
-        $this->fields = $this->fields();
-        $this->records = $this->records();
-        parent::init();
-    }
+    public $records = [
+];
 }

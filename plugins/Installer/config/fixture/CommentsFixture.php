@@ -1,8 +1,8 @@
 <?php
-trait CommentsSchemaTrait
+class CommentsFixture
 {
 
-    protected $_fields = [
+    public $fields = [
   '_constraints' => 
   [
     'primary' => 
@@ -172,9 +172,10 @@ trait CommentsSchemaTrait
   ],
 ];
 
-    protected $_records = [
+    public $records = [
   0 => 
   [
+    'id' => 1,
     'entity_id' => '1',
     'user_id' => NULL,
     'table_alias' => 'nodes',
@@ -192,6 +193,7 @@ trait CommentsSchemaTrait
   ],
   1 => 
   [
+    'id' => 4,
     'entity_id' => '1',
     'user_id' => 1,
     'table_alias' => 'nodes',
@@ -208,26 +210,4 @@ trait CommentsSchemaTrait
     'created' => '2014-08-03 08:01:29',
   ],
 ];
-
-    public function fields()
-    {
-        foreach ($this->_fields as $name => $info) {
-            if (!empty($info['autoIncrement'])) {
-                $this->_fields[$name]['length'] = null;
-            }
-        }
-        return $this->_fields;
-    }
-
-    public function records()
-    {
-        return $this->_records;
-    }
-}
-
-class CommentsSchema
-{
-
-    use CommentsSchemaTrait;
-
 }

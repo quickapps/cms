@@ -12,20 +12,84 @@
 namespace QuickApps\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
-require_once QA_CORE . '/config/Schema/RolesSchema.php';
 
 class RolesFixture extends TestFixture
 {
 
-    use \RolesSchemaTrait;
+    public $fields = [
+  '_constraints' => 
+  [
+    'primary' => 
+    [
+      'type' => 'primary',
+      'columns' => 
+      [
+        0 => 'id',
+      ],
+      'length' => 
+      [
+      ],
+    ],
+    'roles_name' => 
+    [
+      'type' => 'unique',
+      'columns' => 
+      [
+        0 => 'name',
+      ],
+      'length' => 
+      [
+      ],
+    ],
+  ],
+  'id' => 
+  [
+    'type' => 'integer',
+    'length' => 11,
+    'unsigned' => false,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'autoIncrement' => true,
+    'precision' => NULL,
+  ],
+  'slug' => 
+  [
+    'type' => 'string',
+    'length' => 50,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'name' => 
+  [
+    'type' => 'string',
+    'length' => 128,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+];
 
-    /**
-     * {@inheritdoc}
-     */
-    public function init()
-    {
-        $this->fields = $this->fields();
-        $this->records = $this->records();
-        parent::init();
-    }
+    public $records = [
+  0 => 
+  [
+    'slug' => 'administrator',
+    'name' => 'Administrator',
+  ],
+  1 => 
+  [
+    'slug' => 'authenticated ',
+    'name' => 'Authenticated User',
+  ],
+  2 => 
+  [
+    'slug' => 'anonymous',
+    'name' => 'Anonymous User',
+  ],
+];
 }

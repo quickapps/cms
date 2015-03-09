@@ -1,8 +1,8 @@
 <?php
-trait NodeTypesSchemaTrait
+class NodeTypesFixture
 {
 
-    protected $_fields = [
+    public $fields = [
   '_constraints' => 
   [
     'primary' => 
@@ -90,9 +90,10 @@ trait NodeTypesSchemaTrait
   ],
 ];
 
-    protected $_records = [
+    public $records = [
   0 => 
   [
+    'id' => 1,
     'slug' => 'article',
     'name' => 'Article',
     'description' => 'Use articles for time-sensitive content like news, press releases or blog posts.',
@@ -100,26 +101,4 @@ trait NodeTypesSchemaTrait
     'defaults' => 'a:7:{s:6:"status";s:1:"1";s:7:"promote";s:1:"1";s:6:"sticky";s:1:"1";s:11:"author_name";s:1:"1";s:9:"show_date";s:1:"1";s:14:"comment_status";s:1:"0";s:8:"language";s:0:"";}',
   ],
 ];
-
-    public function fields()
-    {
-        foreach ($this->_fields as $name => $info) {
-            if (!empty($info['autoIncrement'])) {
-                $this->_fields[$name]['length'] = null;
-            }
-        }
-        return $this->_fields;
-    }
-
-    public function records()
-    {
-        return $this->_records;
-    }
-}
-
-class NodeTypesSchema
-{
-
-    use NodeTypesSchemaTrait;
-
 }

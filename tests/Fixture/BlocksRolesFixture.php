@@ -12,20 +12,60 @@
 namespace QuickApps\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
-require_once QA_CORE . '/config/Schema/BlocksRolesSchema.php';
 
 class BlocksRolesFixture extends TestFixture
 {
 
-    use \BlocksRolesSchemaTrait;
+    public $fields = [
+  '_constraints' => 
+  [
+    'primary' => 
+    [
+      'type' => 'primary',
+      'columns' => 
+      [
+        0 => 'id',
+      ],
+      'length' => 
+      [
+      ],
+    ],
+  ],
+  'id' => 
+  [
+    'type' => 'integer',
+    'length' => 11,
+    'unsigned' => false,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'autoIncrement' => true,
+    'precision' => NULL,
+  ],
+  'block_id' => 
+  [
+    'type' => 'integer',
+    'length' => 11,
+    'unsigned' => false,
+    'null' => false,
+    'default' => NULL,
+    'comment' => '',
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+  'role_id' => 
+  [
+    'type' => 'integer',
+    'length' => 10,
+    'unsigned' => false,
+    'null' => false,
+    'default' => NULL,
+    'comment' => 'The user’s role ID from roles table',
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+];
 
-    /**
-     * {@inheritdoc}
-     */
-    public function init()
-    {
-        $this->fields = $this->fields();
-        $this->records = $this->records();
-        parent::init();
-    }
+    public $records = [
+];
 }

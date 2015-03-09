@@ -85,7 +85,7 @@ class DatabaseInstaller
     public function __construct($config = [])
     {
         $this->_defaultConfig['settingsPath'] = SITE_ROOT . '/config/settings.php';
-        $this->_defaultConfig['schemaPath'] = ROOT . '/config/Schema/';
+        $this->_defaultConfig['schemaPath'] = ROOT . '/plugins/Installer/config/fixture/';
         $this->config($config);
 
         if (function_exists('ini_set')) {
@@ -230,10 +230,10 @@ class DatabaseInstaller
                     // IMPORT
                     require $schemaPath;
                     $className = str_replace('.php', '', basename($schemaPath));
-                    $tableName = (string)Inflector::underscore(str_replace('Schema', '', $className));
+                    $tableName = (string)Inflector::underscore(str_replace_last('Fixture', '', $className));
                     $fixture = new $className;
-                    $fields = $fixture->fields();
-                    $records = $fixture->records();
+                    $fields = (array)$fixture->fields;
+                    $records = (array)$fixture->records;
                     $constraints = [];
 
                     if (isset($fields['_constraints'])) {
@@ -249,11 +249,9 @@ class DatabaseInstaller
                     }
 
                     if ($connection->execute($tableSchema->createSql($connection)[0])) {
-                        if (!empty($records)) {
-                            foreach ($records as $row) {
-                                if (!$connection->insert($tableName, $row)) {
-                                    return false;
-                                }
+                        foreach ($records as $row) {
+                            if (!$connection->insert($tableName, $row)) {
+                                return false;
                             }
                         }
                     } else {
