@@ -13,11 +13,17 @@
 
 <?php $type = !isset($type) ? 'danger' : $type; ?>
 <div class="alert alert-<?php echo $type; ?>">
-	<strong><?php echo $message; ?>:</strong>
-	<br />
-	<ol>
-		<?php foreach ($params['errors'] as $error): ?>
-		<li><?php echo $error; ?></li>
-		<?php endforeach; ?>
-	</ol>
+    <strong><?php echo $message; ?>:</strong>
+
+    <br />
+
+    <?php if (is_array($params['errors'])): ?>
+    <ol>
+        <?php foreach ($params['errors'] as $error): ?>
+        <li><?php echo $error; ?></li>
+        <?php endforeach; ?>
+    </ol>
+    <?php else: ?>
+        <?php echo nl2br($params['errors']); ?>
+    <?php endif; ?>
 </div>

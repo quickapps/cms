@@ -12,6 +12,8 @@
 namespace System\Controller\Admin;
 
 use Cake\Network\Exception\NotFoundException;
+use Installer\Utility\PackageUploader;
+use QuickApps\Console\WebShellDispatcher;
 use QuickApps\Core\Plugin;
 use System\Controller\AppController;
 
@@ -22,13 +24,6 @@ use System\Controller\AppController;
  */
 class PluginsController extends AppController
 {
-
-    /**
-     * An array containing the names of components controllers uses.
-     *
-     * @var array
-     */
-    public $components = ['Installer.Installer'];
 
     /**
      * Main action.
@@ -61,38 +56,32 @@ class PluginsController extends AppController
     public function install()
     {
         if ($this->request->data()) {
-            $activate = false;
-            if (isset($this->request->data['activate'])) {
-                $activate = (bool)$this->request->data['activate'];
-            }
+            $task = false;
+            $uploadError = false;
+            $activate = isset($this->request->data['activate']) ? ' -a' : '';
 
             if (isset($this->request->data['download'])) {
-                $task = $this->Installer
-                    ->task('install')
-                    ->config(['activate' => $activate, 'packageType' => 'plugin'])
-                    ->download($this->request->data['url']);
+                $task = WebShellDispatcher::run("Installer.plugins install -s \"{$this->request->data['url']}\"{$activate}");
             } else {
-                $task = $this->Installer
-                    ->task('install')
-                    ->config(['activate' => $activate, 'packageType' => 'plugin'])
-                    ->upload($this->request->data['file']);
-            }
-
-            $success = $task->run();
-            if ($success) {
-                if ($task->errors()) {
+                $uploader = new PackageUploader($this->request->data['file']);
+                if ($uploader->upload()) {
+                    $task = WebShellDispatcher::run('Installer.plugins install -s "' . $uploader->dst() . '"' . $activate);
+                } else {
+                    $uploadError = true;
                     $this->Flash->set(__d('system', 'Plugins installed but some errors occur'), [
                         'element' => 'System.installer_errors',
-                        'params' => ['errors' => $task->errors(), 'type' => 'warning'],
+                        'params' => ['errors' => $uploader->errors(), 'type' => 'warning'],
                     ]);
-                } else {
-                    $this->Flash->success(__d('system', 'Plugins successfully installed!'));
                 }
+            }
+
+            if ($task) {
+                $this->Flash->success(__d('system', 'Plugins successfully installed!'));
                 $this->redirect($this->referer());
-            } else {
+            } elseif (!$task && !$uploadError) {
                 $this->Flash->set(__d('system', 'Plugins could not be installed'), [
                     'element' => 'System.installer_errors',
-                    'params' => ['errors' => $task->errors()],
+                    'params' => ['errors' => WebShellDispatcher::output()],
                 ]);
             }
         }
@@ -111,15 +100,14 @@ class PluginsController extends AppController
     public function delete($pluginName)
     {
         $plugin = Plugin::get($pluginName); // throws if not exists
-        $task = $this->Installer->task('uninstall', ['plugin' => $pluginName]);
-        $success = $task->run();
+        $task = WebShellDispatcher::run("Installer.plugins uninstall -p {$plugin->name}");
 
-        if ($success) {
+        if ($task) {
             $this->Flash->success(__d('system', 'Plugin was successfully removed!'));
         } else {
             $this->Flash->set(__d('system', 'Plugins could not be removed'), [
                 'element' => 'System.installer_errors',
-                'params' => ['errors' => $task->errors()],
+                'params' => ['errors' => WebShellDispatcher::output()],
             ]);
         }
 
@@ -136,16 +124,14 @@ class PluginsController extends AppController
     public function enable($pluginName)
     {
         $plugin = Plugin::get($pluginName);
-        $task = $this->Installer
-            ->task('toggle')
-            ->enable($pluginName);
-        $success = $task->run();
-        if ($success) {
+        $task = WebShellDispatcher::run("Installer.plugins toggle -p {$plugin->name} -s enable");
+
+        if ($task) {
             $this->Flash->success(__d('system', 'Plugin was successfully enabled!'));
         } else {
-            $this->Flash->set(__d('system', 'Plugins could not be enabled'), [
+            $this->Flash->set(__d('system', 'Plugin could not be enabled'), [
                 'element' => 'System.installer_errors',
-                'params' => ['errors' => $task->errors()],
+                'params' => ['errors' => WebShellDispatcher::output()],
             ]);
         }
 
@@ -162,16 +148,14 @@ class PluginsController extends AppController
     public function disable($pluginName)
     {
         $plugin = Plugin::get($pluginName);
-        $task = $this->Installer
-            ->task('toggle')
-            ->disable($pluginName);
-        $success = $task->run();
-        if ($success) {
+        $task = WebShellDispatcher::run("Installer.plugins toggle -p {$plugin->name} -s disable");
+
+        if ($task) {
             $this->Flash->success(__d('system', 'Plugin was successfully disabled!'));
         } else {
-            $this->Flash->set(__d('system', 'Plugins could not be disabled'), [
+            $this->Flash->set(__d('system', 'Plugin could not be disabled'), [
                 'element' => 'System.installer_errors',
-                'params' => ['errors' => $task->errors()],
+                'params' => ['errors' => WebShellDispatcher::output()],
             ]);
         }
 

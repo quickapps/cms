@@ -12,6 +12,8 @@
 namespace System\Controller\Admin;
 
 use Cake\Network\Exception\NotFoundException;
+use Installer\Utility\PackageUploader;
+use QuickApps\Console\WebShellDispatcher;
 use QuickApps\Core\Plugin;
 use System\Controller\AppController;
 
@@ -26,13 +28,6 @@ class ThemesController extends AppController
 {
 
     /**
-     * An array containing the names of components controllers uses.
-     *
-     * @var array
-     */
-    public $components = ['Installer.Installer'];
-
-    /**
      * Main action.
      *
      * @return void
@@ -43,6 +38,7 @@ class ThemesController extends AppController
             ->filter(function ($plugin) {
                 return $plugin->isTheme;
             });
+
         $frontThemes = $themes
             ->filter(function ($theme) {
                 return !isset($theme->composer['extra']['admin']) || !$theme->composer['extra']['admin'];
@@ -53,6 +49,7 @@ class ThemesController extends AppController
                 }
                 return 1;
             }, SORT_ASC);
+
         $backThemes = $themes
             ->filter(function ($theme) {
                 return isset($theme->composer['extra']['admin']) && $theme->composer['extra']['admin'];
@@ -63,6 +60,7 @@ class ThemesController extends AppController
                 }
                 return 1;
             }, SORT_ASC);
+
         $frontCount = count($frontThemes->toArray());
         $backCount = count($backThemes->toArray());
 
@@ -78,26 +76,31 @@ class ThemesController extends AppController
     public function install()
     {
         if ($this->request->data()) {
+            $task = false;
+            $uploadError = false;
+
             if (isset($this->request->data['download'])) {
-                $task = $this->Installer
-                    ->task('install')
-                    ->config(['packageType' => 'theme', 'activate' => true])
-                    ->download($this->request->data['url']);
+                $task = WebShellDispatcher::run("Installer.plugins install -s \"{$this->request->data['url']}\" --theme -a");
             } else {
-                $task = $this->Installer
-                    ->task('install')
-                    ->config(['packageType' => 'theme', 'activate' => true])
-                    ->upload($this->request->data['file']);
+                $uploader = new PackageUploader($this->request->data['file']);
+                if ($uploader->upload()) {
+                    $task = WebShellDispatcher::run('Installer.plugins install -s "' . $uploader->dst() . '" --theme -a');
+                } else {
+                    $uploadError = true;
+                    $this->Flash->set(__d('system', 'Plugins installed but some errors occur'), [
+                        'element' => 'System.installer_errors',
+                        'params' => ['errors' => $uploader->errors(), 'type' => 'warning'],
+                    ]);
+                }
             }
 
-            $success = $task->run();
-            if ($success) {
+            if ($task) {
                 $this->Flash->success(__d('system', 'Theme successfully installed!'));
                 $this->redirect($this->referer());
-            } else {
+            } elseif (!$task && !$uploadError) {
                 $this->Flash->set(__d('system', 'Theme could not be installed'), [
                     'element' => 'System.installer_errors',
-                    'params' => ['errors' => $task->errors()],
+                    'params' => ['errors' => WebShellDispatcher::output()],
                 ]);
             }
         }
@@ -119,19 +122,18 @@ class ThemesController extends AppController
             if ($theme->isCore) {
                 $this->Flash->danger(__d('system', 'You cannot remove a core theme!'));
             } else {
-                $task = $this->Installer->task('uninstall', ['plugin' => $themeName]);
-                $success = $task->run();
-                if ($success) {
+                $task = WebShellDispatcher::run("Installer.plugins uninstall -p {$theme->name}");
+                if ($task) {
                     $this->Flash->success(__d('system', 'Theme successfully removed!'));
                 } else {
                     $this->Flash->set(__d('system', 'Theme could not be removed'), [
                         'element' => 'System.installer_errors',
-                        'params' => ['errors' => $task->errors()],
+                        'params' => ['errors' => WebShellDispatcher::output()],
                     ]);
                 }
             }
         } else {
-            $this->Flash->danger(__d('system', 'This theme cannot be removed as it is in use.'));
+            $this->Flash->danger(__d('system', 'This theme cannot be removed as it is currently being used.'));
         }
 
         $this->redirect($this->referer());
@@ -145,18 +147,15 @@ class ThemesController extends AppController
      */
     public function activate($themeName)
     {
-        Plugin::get($themeName); // throws
+        $theme = Plugin::get($themeName); // throws
         if (!in_array($themeName, [option('front_theme'), option('back_theme')])) {
-            $task = $this->Installer
-                ->task('activate_theme')
-                ->activate($themeName);
-            $success = $task->run();
-            if ($success) {
+            $task = WebShellDispatcher::run("Installer.themes change -t {$theme->name}");
+            if ($task) {
                 $this->Flash->success(__d('system', 'Theme successfully activated!'));
             } else {
                 $this->Flash->set(__d('system', 'Theme could not be activated'), [
                     'element' => 'System.installer_errors',
-                    'params' => ['errors' => $task->errors()],
+                    'params' => ['errors' => WebShellDispatcher::output()],
                 ]);
             }
         } else {
@@ -174,11 +173,11 @@ class ThemesController extends AppController
      */
     public function details($themeName)
     {
-        $theme = Plugin::get($themeName);
+        $theme = Plugin::get($themeName); // throws
         $this->set(compact('theme'));
         $this->Breadcrumb
             ->push('/admin/system/themes')
-            ->push($theme->human_name, '#') // throws
+            ->push($theme->human_name, '#')
             ->push(__d('system', 'Details'), '#');
     }
 
