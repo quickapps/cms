@@ -18,6 +18,7 @@ use Cake\I18n\I18n;
 use Cake\Routing\Router;
 use Cake\Utility\Hash;
 use Installer\Utility\DatabaseInstaller;
+use Installer\Utility\ServerTest;
 use QuickApps\Core\Plugin;
 
 /**
@@ -161,66 +162,14 @@ class StartupController extends Controller
             $this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'index']);
         }
 
-        $tests = [
-            'php' => [
-                'assertTrue' => version_compare(PHP_VERSION, '5.4.19', '>='),
-                'message' => __d('installer', 'Your php version is not supported. check that your version is 5.4.19 or newer.')
-            ],
-            'mbstring' => [
-                'assertTrue' => extension_loaded('mbstring'),
-                'message' => __d('installer', 'Missing extension: {0}', 'mbstring')
-            ],
-            'mcrypt' => [
-                'assertTrue' => extension_loaded('mcrypt'),
-                'message' => __d('installer', 'Missing extension: {0}', 'mcrypt')
-            ],
-            'intl' => [
-                'assertTrue' => extension_loaded('intl'),
-                'message' => __d('installer', 'Missing extension: {0}', 'intl')
-            ],
-            'fileinfo' => [
-                'assertTrue' => extension_loaded('fileinfo'),
-                'message' => __d('installer', 'Missing extension: {0}', 'fileinfo')
-            ],
-            'pdo' => [
-                'assertTrue' => (extension_loaded('pdo') && defined('PDO::ATTR_DEFAULT_FETCH_MODE')),
-                'message' => __d('installer', 'Missing extension: {0}', 'PDO')
-            ],
-            'no_safe_mode' => [
-                'assertTrue' => (ini_get('safe_mode') === false || ini_get('safe_mode') === '' || strtolower(ini_get('safe_mode')) == 'off'),
-                'message' => __d('installer', 'Your server has SafeMode on, please turn it off before continuing.')
-            ],
-            'tmp_writable' => [
-                'assertTrue' => is_writable(TMP),
-                'message' => __d('installer', 'tmp folder is not writable.')
-            ],
-            'cache_writable' => [
-                'assertTrue' => is_writable(TMP . 'cache'),
-                'message' => __d('installer', 'tmp/cache folder is not writable.')
-            ],
-            'models_writable' => [
-                'assertTrue' => is_writable(TMP . 'cache/models'),
-                'message' => __d('installer', 'tmp/cache/models folder is not writable.')
-            ],
-            'persistent_writable' => [
-                'assertTrue' => is_writable(TMP . 'cache/persistent'),
-                'message' => __d('installer', 'tmp/cache/persistent folder is not writable.')
-            ],
-            'config_writable' => [
-                'assertTrue' => is_writable(SITE_ROOT . '/config'),
-                'message' => __d('installer', '"config" folder is not writable.')
-            ],
-        ];
+        $tests = $this->_getTester();
+        $errors = $tests->errors();
 
-        $results = array_unique(Hash::extract($tests, '{s}.assertTrue'));
-        if (count($results) !== 1 || $results[0] !== true) {
-            $this->set('success', false);
-            $this->set('tests', $tests);
-        } else {
-            $this->set('success', true);
+        if (empty($errors)) {
             $this->_step();
         }
 
+        $this->set('errors', $errors);
         $this->title(__d('installer', 'Server Requirements'));
     }
 
@@ -352,6 +301,46 @@ class StartupController extends Controller
         $this->set('description_for_layout', $descriptionForLayout);
     }
     // @codingStandardsIgnoreEnd
+    
+    /**
+     * Gets an instance of ServerTest class.
+     *
+     * @return \Installer\Utility\ServerTest
+     */
+    protected function _getTester()
+    {
+        $tests = new ServerTest();
+        $tests
+            ->add('php', (bool)version_compare(PHP_VERSION, '5.4.19', '>='), __d('installer', 'Your php version is not supported. check that your version is 5.4.19 or newer.'))
+            ->add('mbstring', (bool)extension_loaded('mbstring'), __d('installer', 'Missing extension: {0}', 'mbstring'))
+            ->add('mcrypt', (bool)extension_loaded('mcrypt'), __d('installer', 'Missing extension: {0}', 'mcrypt'))
+            ->add('intl', (bool)extension_loaded('intl'), __d('installer', 'Missing extension: {0}', 'intl'))
+            ->add('fileinfo', (bool)extension_loaded('fileinfo'), __d('installer', 'Missing extension: {0}', 'fileinfo'))
+            ->add('tmp_writable', is_writable(TMP), __d('installer', '"{0}" folder is not writable.', 'tmp/'))
+            ->add('cache_writable', is_writable(TMP . 'cache'), __d('installer', '"{0}" folder is not writable.', 'tmp/cache/'))
+            ->add('models_writable', is_writable(TMP . 'cache/models'), __d('installer', '"{0}" folder is not writable.', 'tmp/cache/models/'))
+            ->add('persistent_writable', is_writable(TMP . 'cache/persistent'), __d('installer', '"{0}" folder is not writable.', 'tmp/cache/persistent/'))
+            ->add('config_writable', is_writable(SITE_ROOT . '/config'), __d('installer', '"{0}" folder is not writable.', 'config/'))
+            ->add('pdo', [
+                'rule' => function () {
+                    return
+                        extension_loaded('pdo') &&
+                        defined('PDO::ATTR_DEFAULT_FETCH_MODE');
+                },
+                'message' => __d('installer', 'Missing extension: {0}', 'PDO'),
+            ])
+            ->add('no_safe_mode', [
+                'rule' => function () {
+                    return
+                        ini_get('safe_mode') === false ||
+                        ini_get('safe_mode') === '' ||
+                        strtolower(ini_get('safe_mode')) == 'off';
+                },
+                'message' => __d('installer', 'Your server has SafeMode on, please turn it off before continuing.'),
+            ]);
+
+        return $tests;
+    }
 
     /**
      * Check if the given step name was completed. Or marks current step as completed.

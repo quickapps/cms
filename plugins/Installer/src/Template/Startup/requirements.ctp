@@ -11,7 +11,7 @@
  */
 ?>
 
-<?php if ($success): ?>
+<?php if (empty($errors)): ?>
     <div class="alert alert-success clearfix">
         <p><?php echo __d('installer', '<strong>Congratulations!</strong> Your server meets the basic software requirements.'); ?></p>
         <p><?php echo $this->Html->link(__d('installer', 'Continue'), ['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'license'], ['class' => 'btn btn-primary pull-right']); ?></p>
@@ -20,13 +20,11 @@
     <div class="alert alert-danger">
         <p><?php echo __d('installer', "<strong>Uh oh.</strong> There's a server compatibility issue. See below."); ?></p>
         <p>
-            <ul>
-                <?php foreach ($tests as $name => $testNode): ?>
-                    <?php if (!$testNode['assertTrue']): ?>
-                        <li><em><?php echo $testNode['message']; ?></em></li>
-                    <?php endif; ?>
+            <ol>
+                <?php foreach ($errors as $name => $message): ?>
+                    <li><?php echo $message; ?></li>
                 <?php endforeach; ?>
-            </ul>
+            </ol>
         </p>
     </div>
 <?php endif; ?>

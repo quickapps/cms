@@ -11,7 +11,7 @@
  */
 ?>
 
-<?php echo $this->Form->create('Database', ['class' => 'form-vertical']); ?>
+<?php echo $this->Form->create('Database', ['class' => 'database-form form-vertical']); ?>
 <fieldset>
     <legend><?php echo __d('installer', 'Database Connection'); ?></legend>
     <small><em><?php echo __d('installer', 'Enter connection data for your database. Note: your database must already exist before completing this step.'); ?></em></small>
@@ -64,13 +64,28 @@
                 <?php echo $this->Form->input('password', ['label' => __d('installer', 'Password')]); ?>
                 <em class="help-block"><?php echo __d('installer', 'Password used to log into this database.'); ?></em>
             </div>
+        </div>
+    </div>
 
-            <div class="form-group">
-                <?php echo $this->Form->input('prefix', ['value' => 'qa_', 'label' => __d('installer', 'Table Prefix')]); ?>
-                <em class="help-block"><?php echo __d('installer', 'Only change if "qa_" conflicts with existing tables. Otherwise, leave this alone.'); ?></em>
-            </div>
-            <p><?php echo $this->Form->submit(__d('installer', 'Continue'), ['class' => 'pull-right']); ?></p>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-12">
+            <p><?php echo $this->Form->submit(__d('installer', 'Continue'), ['class' => 'submit-btn pull-right']); ?></p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <small class="wait-msg pull-right" style="display:none;"><em><?php echo __d('installer', 'This might take a few minutes, please be patient'); ?></em></small>
         </div>
     </div>
 </fieldset>
 <?php echo $this->Form->end(); ?>
+
+<script>
+    $('form.database-form').on('submit', function () {
+        $('.submit-btn').prop('disabled', true);
+        $('.wait-msg').show();
+    });
+</script>
