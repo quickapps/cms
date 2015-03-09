@@ -136,8 +136,19 @@ class PluginPackage extends BasePackage
             return $this->_info;
         }
 
-        $data = null;
+        return $this->_getKey($key);
+    }
+
+    /**
+     * Gets value for the given key.
+     *
+     * @param string $key The path to read, dot-syntax allowed
+     * @return mixed
+     */
+    protected function &_getKey($key)
+    {
         $default = null;
+        $parts = explode('.', $key);
 
         switch (count($parts)) {
             case 1:
@@ -145,25 +156,21 @@ class PluginPackage extends BasePackage
                     return $this->_info[$parts[0]];
                 }
                 return $default;
-                break;
             case 2:
                 if (isset($this->_info[$parts[0]][$parts[1]])) {
                     return $this->_info[$parts[0]][$parts[1]];
                 }
                 return $default;
-                break;
             case 3:
                 if (isset($this->_info[$parts[0]][$parts[1]][$parts[2]])) {
                     return $this->_info[$parts[0]][$parts[1]][$parts[2]];
                 }
                 return $default;
-                break;
             case 4:
                 if (isset($this->_info[$parts[0]][$parts[1]][$parts[2]][$parts[3]])) {
                     return $this->_info[$parts[0]][$parts[1]][$parts[2]][$parts[3]];
                 }
                 return $default;
-                break;
             default:
                 $data = $this->_info;
                 foreach ($parts as $key) {
