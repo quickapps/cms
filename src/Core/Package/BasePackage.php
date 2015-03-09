@@ -14,13 +14,14 @@ namespace QuickApps\Core\Package;
 use Cake\Core\Configure;
 use Cake\Core\InstanceConfigTrait;
 use Cake\Utility\Hash;
-use QuickApps\Core\Package\ComposerSchema;
+use QuickApps\Core\Package\Composer\JsonSchema;
 use QuickApps\Core\Package\Rule\Constraint;
 use QuickApps\Core\StaticCacheTrait;
 
 /**
  * Represents a composer package or QuickAppsCMS plugin.
  *
+ * Package types should extend this class.
  */
 class BasePackage
 {
@@ -174,7 +175,7 @@ class BasePackage
         }
 
         if ($full) {
-            $json = Hash::merge(ComposerSchema::$schema, $json);
+            $json = Hash::merge(JsonSchema::$schema, $json);
         }
 
         return static::cache($cacheKey, $json);
