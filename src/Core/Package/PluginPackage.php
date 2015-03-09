@@ -17,7 +17,7 @@ use Cake\Utility\Inflector;
 use QuickApps\Core\Plugin;
 
 /**
- * Represents a QuickAppsCMS plugin.
+ * Represents a QuickAppsCMS plugin (including themes).
  *
  * @property string $name
  * @property string $human_name
@@ -34,6 +34,13 @@ use QuickApps\Core\Plugin;
  */
 class PluginPackage extends BasePackage
 {
+
+    /**
+     * Plugin information.
+     *
+     * @var array
+     */
+    protected $_info = [];
 
     /**
      * {@inheritdoc}
@@ -53,8 +60,7 @@ class PluginPackage extends BasePackage
      */
     public function &__get($property)
     {
-        $full = in_array($property, ['settings', 'composer']);
-        return $this->info($property, $full);
+        return $this->info($property);
     }
 
     /**
@@ -70,7 +76,7 @@ class PluginPackage extends BasePackage
      * Reading full information:
      *
      * ```php
-     * Plugin::info(null, true);
+     * $plugin->info();
      *
      * // returns an array as follow:
      * [
@@ -91,40 +97,85 @@ class PluginPackage extends BasePackage
      * using a dot syntax path:
      *
      * ```php
-     * Plugin::info('isTheme'); // returns: false
+     * $plugin->info('isTheme');
      *
-     * Plugin::info('settings.some_key');
+     * $plugin->info('settings.some_key');
      * ```
      *
      * @param string $key Optional path to read from the resulting array
-     * @param bool $full Fetch settings from DB
      * @return array Plugin information
      */
-    public function &info($key = null, $full = false)
+    public function &info($key = null)
     {
-        // TODO: optimize, when full is requested an previous non-full exists ->
-        // replace non-full with full
         $plugin = $this->name();
-        $cacheKey = "info_{$full}";
-        $cache = $this->config($cacheKey);
+        if (empty($this->_info)) {
+            $this->_info = (array)quickapps("plugins.{$plugin}");
+        }
 
-        if (!$cache) {
-            $info = (array)quickapps("plugins.{$plugin}");
-            if ($full) {
-                $info['composer'] = $this->composer();
-                $info['settings'] = (array)$this->settings();
+        $parts = explode('.', $key);
+        $getComposer = in_array('composer', $parts) || $key === null;
+        $getSettings = in_array('settings', $parts) || $key === null;
+
+        if ($getComposer && !isset($this->_info['composer'])) {
+            $this->_info['composer'] = $this->composer();
+
+            if ($this->_info['isTheme'] && !isset($this->_info['composer']['extra']['admin'])) {
+                $this->_info['composer']['extra']['admin'] = false;
             }
 
-            $this->config($cacheKey, $info);
-            $cache = $info;
+            if ($this->_info['isTheme'] && !isset($this->_info['composer']['extra']['regions'])) {
+                $this->_info['composer']['extra']['regions'] = [];
+            }
+        }
+
+        if ($getSettings && !isset($this->_info['settings'])) {
+            $this->_info['settings'] = (array)$this->settings();
         }
 
         if ($key === null) {
-            return $cache;
+            return $this->_info;
         }
 
-        $value = Hash::get($cache, $key);
-        return $value;
+        $data = null;
+        $default = null;
+
+        switch (count($parts)) {
+            case 1:
+                if (isset($this->_info[$parts[0]])) {
+                    return $this->_info[$parts[0]];
+                }
+                return $default;
+                break;
+            case 2:
+                if (isset($this->_info[$parts[0]][$parts[1]])) {
+                    return $this->_info[$parts[0]][$parts[1]];
+                }
+                return $default;
+                break;
+            case 3:
+                if (isset($this->_info[$parts[0]][$parts[1]][$parts[2]])) {
+                    return $this->_info[$parts[0]][$parts[1]][$parts[2]];
+                }
+                return $default;
+                break;
+            case 4:
+                if (isset($this->_info[$parts[0]][$parts[1]][$parts[2]][$parts[3]])) {
+                    return $this->_info[$parts[0]][$parts[1]][$parts[2]][$parts[3]];
+                }
+                return $default;
+                break;
+            default:
+                $data = $this->_info;
+                foreach ($parts as $key) {
+                    if (is_array($data) && isset($data[$key])) {
+                        $data = $data[$key];
+                    } else {
+                        return $default;
+                    }
+                }
+        }
+
+        return $data;
     }
 
     /**
@@ -237,6 +288,6 @@ class PluginPackage extends BasePackage
      */
     public function __debugInfo()
     {
-        return $this->info(null, true);
+        return $this->info(null);
     }
 }
