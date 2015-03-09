@@ -181,25 +181,23 @@ if (!file_exists(TMP . 'snapshot.php')) {
  */
 $activePlugins = Plugin::get()
     ->filter(function ($plugin) {
-        return $plugin->status;
+        $filter = $plugin->status;
+        if ($plugin->isTheme) {
+            $filter = $filter && in_array($plugin->name, [option('front_theme'), option('back_theme')]);
+        }
+        return $filter;
     })
     ->toArray();
-$EventManager = EventManager::instance();
-$pluginLoader = new ClassLoader();
-$pluginLoader->register();
 
 if (!count($activePlugins)) {
     die("Ops, something went wrong. Try to clear your site's snapshot and verify write permissions on /tmp directory.");
 }
 
-foreach ($activePlugins as $plugin) {
-    if (
-        $plugin->isTheme &&
-        !in_array($plugin->name, [option('front_theme'), option('back_theme')])
-    ) {
-        continue;
-    }
+$EventManager = EventManager::instance();
+$pluginLoader = new ClassLoader();
+$pluginLoader->register();
 
+foreach ($activePlugins as $plugin) {
     $pluginLoader->addNamespace(
         str_replace('/', '\\', $plugin->name),
         $plugin->path .  DS . 'src' . DS
