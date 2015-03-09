@@ -187,7 +187,7 @@ class StartupController extends Controller
                 'message' => __d('installer', 'Missing extension: {0}', 'PDO')
             ],
             'no_safe_mode' => [
-                'assertTrue' => (ini_get('safe_mode') == false || ini_get('safe_mode') == '' || strtolower(ini_get('safe_mode')) == 'off'),
+                'assertTrue' => (ini_get('safe_mode') === false || ini_get('safe_mode') === '' || strtolower(ini_get('safe_mode')) == 'off'),
                 'message' => __d('installer', 'Your server has SafeMode on, please turn it off before continuing.')
             ],
             'tmp_writable' => [

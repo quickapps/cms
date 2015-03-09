@@ -61,11 +61,11 @@ class PluginsController extends AppController
             $activate = isset($this->request->data['activate']) ? ' -a' : '';
 
             if (isset($this->request->data['download'])) {
-                $task = WebShellDispatcher::run("Installer.plugins install -s \"{$this->request->data['url']}\"{$activate}");
+                $task = (bool)WebShellDispatcher::run("Installer.plugins install -s \"{$this->request->data['url']}\"{$activate}");
             } else {
                 $uploader = new PackageUploader($this->request->data['file']);
                 if ($uploader->upload()) {
-                    $task = WebShellDispatcher::run('Installer.plugins install -s "' . $uploader->dst() . '"' . $activate);
+                    $task = (bool)WebShellDispatcher::run('Installer.plugins install -s "' . $uploader->dst() . '"' . $activate);
                 } else {
                     $uploadError = true;
                     $this->Flash->set(__d('system', 'Plugins installed but some errors occur'), [
@@ -100,7 +100,7 @@ class PluginsController extends AppController
     public function delete($pluginName)
     {
         $plugin = Plugin::get($pluginName); // throws if not exists
-        $task = WebShellDispatcher::run("Installer.plugins uninstall -p {$plugin->name}");
+        $task = (bool)WebShellDispatcher::run("Installer.plugins uninstall -p {$plugin->name}");
 
         if ($task) {
             $this->Flash->success(__d('system', 'Plugin was successfully removed!'));
@@ -124,7 +124,7 @@ class PluginsController extends AppController
     public function enable($pluginName)
     {
         $plugin = Plugin::get($pluginName);
-        $task = WebShellDispatcher::run("Installer.plugins toggle -p {$plugin->name} -s enable");
+        $task = (bool)WebShellDispatcher::run("Installer.plugins toggle -p {$plugin->name} -s enable");
 
         if ($task) {
             $this->Flash->success(__d('system', 'Plugin was successfully enabled!'));
@@ -148,7 +148,7 @@ class PluginsController extends AppController
     public function disable($pluginName)
     {
         $plugin = Plugin::get($pluginName);
-        $task = WebShellDispatcher::run("Installer.plugins toggle -p {$plugin->name} -s disable");
+        $task = (bool)WebShellDispatcher::run("Installer.plugins toggle -p {$plugin->name} -s disable");
 
         if ($task) {
             $this->Flash->success(__d('system', 'Plugin was successfully disabled!'));

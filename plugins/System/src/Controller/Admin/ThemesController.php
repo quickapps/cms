@@ -80,11 +80,11 @@ class ThemesController extends AppController
             $uploadError = false;
 
             if (isset($this->request->data['download'])) {
-                $task = WebShellDispatcher::run("Installer.plugins install -s \"{$this->request->data['url']}\" --theme -a");
+                $task = (bool)WebShellDispatcher::run("Installer.plugins install -s \"{$this->request->data['url']}\" --theme -a");
             } else {
                 $uploader = new PackageUploader($this->request->data['file']);
                 if ($uploader->upload()) {
-                    $task = WebShellDispatcher::run('Installer.plugins install -s "' . $uploader->dst() . '" --theme -a');
+                    $task = (bool)WebShellDispatcher::run('Installer.plugins install -s "' . $uploader->dst() . '" --theme -a');
                 } else {
                     $uploadError = true;
                     $this->Flash->set(__d('system', 'Plugins installed but some errors occur'), [
@@ -122,7 +122,7 @@ class ThemesController extends AppController
             if ($theme->isCore) {
                 $this->Flash->danger(__d('system', 'You cannot remove a core theme!'));
             } else {
-                $task = WebShellDispatcher::run("Installer.plugins uninstall -p {$theme->name}");
+                $task = (bool)WebShellDispatcher::run("Installer.plugins uninstall -p {$theme->name}");
                 if ($task) {
                     $this->Flash->success(__d('system', 'Theme successfully removed!'));
                 } else {
@@ -149,7 +149,7 @@ class ThemesController extends AppController
     {
         $theme = Plugin::get($themeName); // throws
         if (!in_array($themeName, [option('front_theme'), option('back_theme')])) {
-            $task = WebShellDispatcher::run("Installer.themes change -t {$theme->name}");
+            $task = (bool)WebShellDispatcher::run("Installer.themes change -t {$theme->name}");
             if ($task) {
                 $this->Flash->success(__d('system', 'Theme successfully activated!'));
             } else {
