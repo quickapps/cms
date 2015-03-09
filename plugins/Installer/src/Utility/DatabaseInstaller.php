@@ -45,11 +45,15 @@ class DatabaseInstaller
      * - schemaPath: Path to directory containing all tables information to be
      *   imported (fixtures).
      *
+     * - maxExecutionTime: Time in seconds for PHP's "max_execution_time" directive.
+     *   Defaults to 300 (5 minutes).
+     *
      * @var array
      */
     protected $_defaultConfig = [
         'settingsPath' => null,
         'schemaPath' => null,
+        'maxExecutionTime' => 300,
     ];
 
     /**
@@ -80,15 +84,15 @@ class DatabaseInstaller
      */
     public function __construct($config = [])
     {
-        if (function_exists('ini_set')) {
-            ini_set('max_execution_time', 300);
-        } elseif (function_exists('set_time_limit')) {
-            set_time_limit(300);
-        }
-
         $this->_defaultConfig['settingsPath'] = SITE_ROOT . '/config/settings.php';
         $this->_defaultConfig['schemaPath'] = ROOT . '/config/Schema/';
         $this->config($config);
+
+        if (function_exists('ini_set')) {
+            ini_set('max_execution_time', (int)$this->config('maxExecutionTime'));
+        } elseif (function_exists('set_time_limit')) {
+            set_time_limit((int)$this->config('maxExecutionTime'));
+        }
     }
 
     /**
