@@ -142,7 +142,7 @@ class PackageFactory
      */
     public static function addDetector($name, callable $method)
     {
-        static::$_detectors[$name] = $callable;
+        static::$_detectors[$name] = $method;
     }
 
     /**
