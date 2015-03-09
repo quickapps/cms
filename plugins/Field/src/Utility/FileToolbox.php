@@ -35,11 +35,9 @@ class FileToolbox
             case 'link':
                 $out = $view->element('Field.FileField/display_link', compact('field'));
                 break;
-
             case 'table':
                 $out = $view->element('Field.FileField/display_table', compact('field'));
                 break;
-
             case 'url':
             default:
                 $out = $view->element('Field.FileField/display_url', compact('field'));
@@ -88,30 +86,26 @@ class FileToolbox
      */
     public static function fileIcon($mime, $iconsDirectory = false)
     {
-        // If there's an icon matching the exact mimetype, go for it.
-        $iconsDirectory = !$iconsDirectory ? Plugin::path('Field') . 'webroot/img/file-icons/' : $iconsDirectory;
-        $dashedMime = strtr($mime, ['/' => '-']);
-        $iconPath = "{$iconsDirectory}{$dashedMime}.png";
+        if (!$iconsDirectory) {
+            $iconsDirectory = Plugin::path('Field') . 'webroot/img/file-icons/';
+        }
 
-        if (file_exists($iconPath)) {
+        // If there's an icon matching the exact mimetype, go for it.
+        $dashedMime = strtr($mime, ['/' => '-']);
+        if (file_exists("{$iconsDirectory}{$dashedMime}.png")) {
             return "{$dashedMime}.png";
         }
 
         // For a few mimetypes, we can "manually" map to a generic icon.
         $genericMime = (string)static::fileIconMap($mime);
-        $iconPath = "{$iconsDirectory}{$genericMime}.png";
-
-        if ($genericMime && file_exists($iconPath)) {
+        if ($genericMime && file_exists("{$iconsDirectory}{$genericMime}.png")) {
             return "{$genericMime}.png";
         }
 
         // Use generic icons for each category that provides such icons.
-        foreach (['audio', 'image', 'text', 'video'] as $category) {
-            if (strpos($mime, $category . '/') === 0) {
-                $iconPath = "{$iconsDirectory}{$category}-x-generic.png";
-                if (file_exists($iconPath)) {
-                    return "{$category}-x-generic.png";
-                }
+        if (preg_match('/^(audio|image|text|video)\//', $mime, $matches)) {
+            if (file_exists("{$iconsDirectory}{$matches[1]}-x-generic.png")) {
+                return "{$matches[1]}-x-generic.png";
             }
         }
 
@@ -241,6 +235,7 @@ class FileToolbox
             case 'application/x-pef-executable':
                 return 'application-x-executable';
 
+            // not found
             default:
                 return false;
         }
