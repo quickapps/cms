@@ -12,6 +12,7 @@
 namespace Installer\Shell;
 
 use Cake\Console\Shell;
+use QuickApps\Core\Plugin;
 
 /**
  * Shell for themes management.
@@ -177,7 +178,7 @@ class ThemesShell extends Shell
         $this->out();
         foreach ($disabledThemes as $theme) {
             $disabledThemes[$index] = $theme;
-            $this->out(__d('installer', '[{0,number,integer}] {1}', $index, $theme->human_name));
+            $this->out(__d('installer', '[{0,number,integer}] {1} [{2}]', $index, $theme->human_name, $theme->isAdmin ? 'back' : 'front'));
             $index++;
         }
         $this->out();
@@ -191,7 +192,7 @@ class ThemesShell extends Shell
             } elseif (!isset($disabledThemes[intval($in)])) {
                 $this->err('Invalid option');
             } else {
-                $task = $this->dispatchShell("Installer.themes activate -t {$disabledThemes[$in]->name}");
+                $task = $this->dispatchShell("Installer.themes change -t {$disabledThemes[$in]->name}");
 
                 if ($task === 0) {
                     $this->out('Theme changed!');
