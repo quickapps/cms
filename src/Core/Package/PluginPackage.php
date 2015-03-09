@@ -12,7 +12,6 @@
 namespace QuickApps\Core\Package;
 
 use Cake\ORM\TableRegistry;
-use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use QuickApps\Core\Plugin;
 

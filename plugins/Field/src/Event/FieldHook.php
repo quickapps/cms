@@ -29,7 +29,7 @@ use QuickApps\View\ViewModeAwareTrait;
  * ```
  *
  * Its callable method should expect two parameters, `$field` and `$options`, and it
- * should return a HTML string representation of your field. i.e.:
+ * should return a HTML string representation of $field. i.e.:
  *
  * ```php
  * public function display(Event $event, $field, $options) {
@@ -41,7 +41,7 @@ use QuickApps\View\ViewModeAwareTrait;
  *
  * Usually you will rely on view elements for HTML rendering, to invoke
  * View::element(...), you should use event's subject which is the view instance
- * in use:
+ * being used:
  *
  * ```php
  * public function display(Event $event, $field, $options) {
@@ -53,7 +53,7 @@ use QuickApps\View\ViewModeAwareTrait;
  *
  * Remember that view elements can alway be overwritten by themes. So it's a good
  * practice always use view elements as rendering method instead returning
- * hard-coded HTML code in your methods as in the first example above.
+ * hard-coded HTML code.
  */
 class FieldHook implements EventListenerInterface
 {

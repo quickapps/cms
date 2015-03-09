@@ -12,10 +12,10 @@
 ?>
 
 <?php
-	$type = !empty($field->metadata->settings['type']) ? $field->metadata->settings['type'] : 'text';
-	$text_processing = !empty($field->metadata->settings['text_processing']) ? $field->metadata->settings['text_processing'] : false;
-	$ckeditorClass = ($text_processing === 'full' && $type === 'textarea') ? 'ckeditor' : '';
-	$rows = ($type === 'textarea') ? 5 : '';
+    $type = !empty($field->metadata->settings['type']) ? $field->metadata->settings['type'] : 'text';
+    $text_processing = !empty($field->metadata->settings['text_processing']) ? $field->metadata->settings['text_processing'] : false;
+    $ckeditorClass = ($text_processing === 'full' && $type === 'textarea') ? 'ckeditor' : '';
+    $rows = ($type === 'textarea') ? 5 : '';
 ?>
 <?php echo $this->Form->input($field, ['type'=> $type, 'class' => $ckeditorClass, 'rows' => $rows]); ?>
 <?php if (!empty($field->metadata->description)): ?>

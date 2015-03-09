@@ -14,49 +14,49 @@ use Locale\Utility\LocaleToolbox;
 ?>
 
 <?php if ($block->settings['type'] == 'selectbox'): ?>
-	<?php
-		$options = [];
-		foreach (quickapps('languages') as $code => $info) {
-			$options[$code] = $info['name'];
-		}
-		echo $this->Html->script('Locale.language.switcher.js');
-		echo $this->Form->input('language-switcher', [
-			'type' => 'select',
-			'options' => $options,
-			'value' => I18n::locale(),
-			'class' => 'language-switcher',
-			'onchange' => 'switchLanguage(this);'
-		]);
-	?>
-	<script type="text/javascript">
-		if (typeof switchLanguage !== 'function') {
-			function switchLanguage(sb) {
-				var code = $(sb).val();
-				if (code.length) {
-					var url = '<?php echo stripLanguagePrefix($this->Url->build($this->request->url, true)); ?>?locale=' + code; 
-					$(location).attr('href', url);
-				}
-			}
-		}
-	</script>
+    <?php
+        $options = [];
+        foreach (quickapps('languages') as $code => $info) {
+            $options[$code] = $info['name'];
+        }
+        echo $this->Html->script('Locale.language.switcher.js');
+        echo $this->Form->input('language-switcher', [
+            'type' => 'select',
+            'options' => $options,
+            'value' => I18n::locale(),
+            'class' => 'language-switcher',
+            'onchange' => 'switchLanguage(this);'
+        ]);
+    ?>
+    <script type="text/javascript">
+        if (typeof switchLanguage !== 'function') {
+            function switchLanguage(sb) {
+                var code = $(sb).val();
+                if (code.length) {
+                    var url = '<?php echo stripLanguagePrefix($this->Url->build($this->request->url, true)); ?>?locale=' + code; 
+                    $(location).attr('href', url);
+                }
+            }
+        }
+    </script>
 <?php else: ?>
-	<?php
-		$links = [];
-		foreach (quickapps('languages') as $code => $info) {
-			if ($block->settings['flags'] && $info['icon']) {
-				$name = $this->Html->image("Locale.flags/{$info['icon']}") . " {$info['name']}";
-			} else {
-				$name = $info['name'];
-			}
+    <?php
+        $links = [];
+        foreach (quickapps('languages') as $code => $info) {
+            if ($block->settings['flags'] && $info['icon']) {
+                $name = $this->Html->image("Locale.flags/{$info['icon']}") . " {$info['name']}";
+            } else {
+                $name = $info['name'];
+            }
 
-			$links[] = [
-				'title' => $name,
-				'url' => stripLanguagePrefix($this->Url->build(str_replace('//', '/', "/{$this->request->url}"), true)) . "?locale={$code}",
-				'activation' => function ($request, $url) use($code) {
-					return ($code == I18n::locale());
-				}
-			];
-		}
-		echo $this->Menu->render($links, ['class' => 'language-switcher']);
-	?>	
+            $links[] = [
+                'title' => $name,
+                'url' => stripLanguagePrefix($this->Url->build(str_replace('//', '/', "/{$this->request->url}"), true)) . "?locale={$code}",
+                'activation' => function ($request, $url) use($code) {
+                    return ($code == I18n::locale());
+                }
+            ];
+        }
+        echo $this->Menu->render($links, ['class' => 'language-switcher']);
+    ?>  
 <?php endif; ?>

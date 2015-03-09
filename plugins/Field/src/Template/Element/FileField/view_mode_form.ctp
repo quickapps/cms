@@ -11,15 +11,15 @@
  */
 
 $formats = [
-	'link' => __d('field', 'Link to file'),
-	'table' => __d('field', 'Table of Files'),
-	'url' => __d('field', 'File URL'),
+    'link' => __d('field', 'Link to file'),
+    'table' => __d('field', 'Table of Files'),
+    'url' => __d('field', 'File URL'),
 ];
 
 echo $this->Form->input('formatter', [
-	'label' => __d('field', 'Files format'),
-	'type' => 'select',
-	'options' => $formats,
-	'empty' => false
+    'label' => __d('field', 'Files format'),
+    'type' => 'select',
+    'options' => $formats,
+    'empty' => false
 ]);
 

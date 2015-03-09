@@ -32,57 +32,57 @@ require $pp . 'Lib/elFinderVolumeLocalFileSystem.class.php';
  * @return bool|null
  **/
 function access($attr, $path, $data, $volume) {
-	if (strpos(basename($path), '.') === 0) {
-		return !($attr == 'read' || $attr == 'write');
-	}
-	if (strpos($path, 'plugins' . DS) !== false) {
-		$path = normalizePath($path);
-		$parts = explode('plugins' . DS, $path);
-		if (!empty($parts[1])) {
-			$validPlugins = Plugin::loaded();
-			$pluginName = explode(DS, $parts[1])[0];
-			if (!in_array($pluginName, $validPlugins)) {
-				return !($attr == 'write' || $attr != 'hidden');
-			}
-		}
-	}
-	if (!is_dir($path) && strpos($path, 'webroot') === false) {
-		return !($attr == 'write' || $attr != 'hidden');
-	}
+    if (strpos(basename($path), '.') === 0) {
+        return !($attr == 'read' || $attr == 'write');
+    }
+    if (strpos($path, 'plugins' . DS) !== false) {
+        $path = normalizePath($path);
+        $parts = explode('plugins' . DS, $path);
+        if (!empty($parts[1])) {
+            $validPlugins = Plugin::loaded();
+            $pluginName = explode(DS, $parts[1])[0];
+            if (!in_array($pluginName, $validPlugins)) {
+                return !($attr == 'write' || $attr != 'hidden');
+            }
+        }
+    }
+    if (!is_dir($path) && strpos($path, 'webroot') === false) {
+        return !($attr == 'write' || $attr != 'hidden');
+    }
 }
 
 $opts = [
-	'locale' => 'en_US.UTF-8',
-	'debug' => true,
-	'roots' => [[
-		'alias' => __d('wysiwyg', 'Site Files'),
-		'driver' => 'LocalFileSystem',
-		'path' => SITE_ROOT . '/webroot/files/',
-		'URL' => $this->Url->build('/files', true),
-		'mimeDetect' => 'internal',
-		'tmbPath' => '.tmb',
-		'utf8fix' => true,
-		'tmbCrop' => false,
-		'tmbSize' => 200,
-		'acceptedName'    => '/^[^\.].*$/',
-		'accessControl' => 'access',
-		'dateFormat' => __d('wysiwyg', 'j M Y H:i'),
-		'defaults' => ['read' => true, 'write' => true],
-	], [
-		'alias' => __d('wysiwyg', 'Plugins'),
-		'driver' => 'LocalFileSystem',
-		'path' => SITE_ROOT . '/plugins/',
-		'URL' => $this->Url->build(['plugin' => 'Wysiwyg', 'controller' => 'finder', 'action' => 'plugin_file', 'file' => '#'], true),
-		'mimeDetect' => 'internal',
-		'tmbPath' => '.tmb',
-		'utf8fix' => true,
-		'tmbCrop' => false,
-		'tmbSize' => 200,
-		'acceptedName'    => '/^[^\.].*$/',
-		'accessControl' => 'access',
-		'dateFormat' => __d('wysiwyg', 'j M Y H:i'),
-		'defaults' => ['read' => true, 'write' => true],
-	]]
+    'locale' => 'en_US.UTF-8',
+    'debug' => true,
+    'roots' => [[
+        'alias' => __d('wysiwyg', 'Site Files'),
+        'driver' => 'LocalFileSystem',
+        'path' => SITE_ROOT . '/webroot/files/',
+        'URL' => $this->Url->build('/files', true),
+        'mimeDetect' => 'internal',
+        'tmbPath' => '.tmb',
+        'utf8fix' => true,
+        'tmbCrop' => false,
+        'tmbSize' => 200,
+        'acceptedName'    => '/^[^\.].*$/',
+        'accessControl' => 'access',
+        'dateFormat' => __d('wysiwyg', 'j M Y H:i'),
+        'defaults' => ['read' => true, 'write' => true],
+    ], [
+        'alias' => __d('wysiwyg', 'Plugins'),
+        'driver' => 'LocalFileSystem',
+        'path' => SITE_ROOT . '/plugins/',
+        'URL' => $this->Url->build(['plugin' => 'Wysiwyg', 'controller' => 'finder', 'action' => 'plugin_file', 'file' => '#'], true),
+        'mimeDetect' => 'internal',
+        'tmbPath' => '.tmb',
+        'utf8fix' => true,
+        'tmbCrop' => false,
+        'tmbSize' => 200,
+        'acceptedName'    => '/^[^\.].*$/',
+        'accessControl' => 'access',
+        'dateFormat' => __d('wysiwyg', 'j M Y H:i'),
+        'defaults' => ['read' => true, 'write' => true],
+    ]]
 ];
 
 header('Access-Control-Allow-Origin: *');

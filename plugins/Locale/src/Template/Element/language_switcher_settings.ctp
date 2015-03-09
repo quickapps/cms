@@ -12,16 +12,16 @@
 ?>
 
 <fieldset>
-	<legend><?php echo __d('locale', 'Display Mode'); ?></legend>
-	<?php
-		echo $this->Form->radio('type', [
-			'selectbox' => __d('locale', 'Selectbox'),
-			'html' => __d('locale', 'HTML list'),
-		]);
+    <legend><?php echo __d('locale', 'Display Mode'); ?></legend>
+    <?php
+        echo $this->Form->radio('type', [
+            'selectbox' => __d('locale', 'Selectbox'),
+            'html' => __d('locale', 'HTML list'),
+        ]);
 
-		echo $this->Form->input('flags', [
-			'type' => 'checkbox',
-			'label' => __d('locale', 'Show flags when possible.'),
-		]);
-	?>
+        echo $this->Form->input('flags', [
+            'type' => 'checkbox',
+            'label' => __d('locale', 'Show flags when possible.'),
+        ]);
+    ?>
 </fieldset>

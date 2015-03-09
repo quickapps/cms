@@ -17,7 +17,7 @@ use Cake\Event\EventListenerInterface;
 use Cake\ORM\TableRegistry;
 
 /**
- * Main Hook Listener for System plugin.
+ * Main Hooktag Listener for Block plugin.
  *
  */
 class BlockHooktag implements EventListenerInterface

@@ -19,23 +19,23 @@
 ?>
 
 <article class="node node-<?php echo $node->node_type_slug; ?> viewmode-<?php echo $this->inUseViewMode(); ?>">
-	<header>
-		<?php if ($this->inUseViewMode() === 'full'): ?>
-			<h1><?php echo $this->hooktags($node->title); ?></h1>
-		<?php else: ?>
-			<h2><?php echo $this->Html->link($this->hooktags($node->title), $node->url); ?></h2>
-		<?php endif; ?>
-		<?php //TODO: set timezone to user's timezone (read from session) ?>
-		<p><?php echo __d('node', 'Published'); ?>: <time pubdate="pubdate"><?php echo $node->created->timeAgoInWords(); ?></time></p>
-	</header>
+    <header>
+        <?php if ($this->inUseViewMode() === 'full'): ?>
+            <h1><?php echo $this->hooktags($node->title); ?></h1>
+        <?php else: ?>
+            <h2><?php echo $this->Html->link($this->hooktags($node->title), $node->url); ?></h2>
+        <?php endif; ?>
+        <?php //TODO: set timezone to user's timezone (read from session) ?>
+        <p><?php echo __d('node', 'Published'); ?>: <time pubdate="pubdate"><?php echo $node->created->timeAgoInWords(); ?></time></p>
+    </header>
 
-	<?php if (!empty($node->_fields)): ?>
-		<?php foreach ($node->_fields->sortByViewMode($this->inUseViewMode()) as $field): ?>
-			<?php echo $this->render($field); ?>
-		<?php endforeach; ?>
-	<?php endif; ?>
+    <?php if (!empty($node->_fields)): ?>
+        <?php foreach ($node->_fields->sortByViewMode($this->inUseViewMode()) as $field): ?>
+            <?php echo $this->render($field); ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
 
-	<?php if ($this->inUseViewMode() === 'full'): ?>
-		<?php echo $this->Comment->render($node); ?>
-	<?php endif; ?>
+    <?php if ($this->inUseViewMode() === 'full'): ?>
+        <?php echo $this->Comment->render($node); ?>
+    <?php endif; ?>
 </article>

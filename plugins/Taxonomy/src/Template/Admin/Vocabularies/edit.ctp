@@ -12,17 +12,17 @@
 ?>
 
 <?php echo $this->Form->create($vocabulary); ?>
-	<fieldset>
-		<legend><?php echo __d('taxonomy', 'Editing Vocabulary'); ?></legend>
+    <fieldset>
+        <legend><?php echo __d('taxonomy', 'Editing Vocabulary'); ?></legend>
 
-		<?php echo $this->Form->label(__d('taxonomy', 'Name *')); ?>
-		<div class="input-group">
-			<?php echo $this->Form->input('name', ['label' => false]); ?>
-			<span class="input-group-addon"><?php echo __d('taxonomy', 'Slug: {0}', $vocabulary->slug); ?></span>
-		</div>
-		<em class="help-block"><?php echo __d('taxonomy', 'Name for this vocabulary. e.g. "Music".'); ?></em>
+        <?php echo $this->Form->label(__d('taxonomy', 'Name *')); ?>
+        <div class="input-group">
+            <?php echo $this->Form->input('name', ['label' => false]); ?>
+            <span class="input-group-addon"><?php echo __d('taxonomy', 'Slug: {0}', $vocabulary->slug); ?></span>
+        </div>
+        <em class="help-block"><?php echo __d('taxonomy', 'Name for this vocabulary. e.g. "Music".'); ?></em>
 
-		<?php echo $this->Form->input('description', ['label' => __d('taxonomy', 'Description')]); ?>
-		<?php echo $this->Form->submit(__d('taxonomy', 'Save Changes'), ['escape' => false]); ?>
-	</fieldset>
+        <?php echo $this->Form->input('description', ['label' => __d('taxonomy', 'Description')]); ?>
+        <?php echo $this->Form->submit(__d('taxonomy', 'Save Changes'), ['escape' => false]); ?>
+    </fieldset>
 <?php echo $this->Form->end(); ?>

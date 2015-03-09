@@ -11,28 +11,26 @@
  */
 
 use Cake\ORM\TableRegistry;
-?>
 
-<?php
-	$nodes = TableRegistry::get('Node.Nodes')
-		->find()
-		->order(['created' => 'DESC'])
-		->limit(10)
-		->all();
+$nodes = TableRegistry::get('Node.Nodes')
+    ->find()
+    ->order(['created' => 'DESC'])
+    ->limit(10)
+    ->all();
 ?>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><?php echo __d('node', 'Recent Content'); ?></div>
-	<div class="panel-body">
-		<table class="table">
-			<?php foreach ($nodes as $node): ?>
-				<tr>
-					<td>
-						<?php echo $this->Html->link($node->title, ['plugin' => 'Node', 'controller' => 'manage', 'action' => 'edit', $node->id]); ?>
-						<em class="help-block"><?php echo $node->description; ?></em>
-					</td>
-				</tr>
-			<?php endforeach; ?>
-		</table>
-	</div>
+    <div class="panel-heading"><?php echo __d('node', 'Recent Content'); ?></div>
+    <div class="panel-body">
+        <table class="table">
+            <?php foreach ($nodes as $node): ?>
+                <tr>
+                    <td>
+                        <?php echo $this->Html->link($node->title, ['plugin' => 'Node', 'controller' => 'manage', 'action' => 'edit', $node->id]); ?>
+                        <em class="help-block"><?php echo $node->description; ?></em>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    </div>
 </div>

@@ -15,10 +15,10 @@ $format = DateToolbox::getPHPFormat($field);
 ?>
 
 <?php if ($field->viewModeSettings['label_visibility'] == 'above'): ?>
-	<h3 class="field-label"><?php echo $field->label; ?></h3>
-	<p><?php echo date($format, $field->raw); ?></p>
+    <h3 class="field-label"><?php echo $field->label; ?></h3>
+    <p><?php echo date($format, $field->raw); ?></p>
 <?php elseif ($field->viewModeSettings['label_visibility'] == 'inline'): ?>
-	<p><strong class="field-label"><?php echo $field->label; ?>:</strong> <?php echo date($format, $field->raw); ?></p>
+    <p><strong class="field-label"><?php echo $field->label; ?>:</strong> <?php echo date($format, $field->raw); ?></p>
 <?php else: ?>
-	<p><?php echo date($format, $field->raw); ?></p>
+    <p><?php echo date($format, $field->raw); ?></p>
 <?php endif; ?>

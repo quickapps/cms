@@ -14,10 +14,10 @@ use Taxonomy\Utility\TaxonomyToolbox;
 ?>
 
 <?php if ($field->viewModeSettings['label_visibility'] == 'above'): ?>
-	<h3 class="field-label"><?php echo $field->label; ?></h3>
-	<p><?php echo TaxonomyToolbox::formatter($field, $this); ?></p>
+    <h3 class="field-label"><?php echo $field->label; ?></h3>
+    <p><?php echo TaxonomyToolbox::formatter($field, $this); ?></p>
 <?php elseif ($field->viewModeSettings['label_visibility'] == 'inline'): ?>
-	<p><strong class="field-label"><?php echo $field->label; ?>:</strong> <?php echo TaxonomyToolbox::formatter($field, $this); ?></p>
+    <p><strong class="field-label"><?php echo $field->label; ?>:</strong> <?php echo TaxonomyToolbox::formatter($field, $this); ?></p>
 <?php else: ?>
-	<p><?php echo TaxonomyToolbox::formatter($field, $this); ?></p>
+    <p><?php echo TaxonomyToolbox::formatter($field, $this); ?></p>
 <?php endif; ?>

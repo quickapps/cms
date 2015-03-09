@@ -12,21 +12,21 @@
 ?>
 
 <?php echo $this->Form->create($term); ?>
-	<fieldset>
-		<legend><?php echo __d('taxonomy', "Add New Vocabulary's Term"); ?></legend>
-		<?php echo $this->Form->input('name', ['label' => __d('taxonomy', "Term's name *")]); ?>
-		<em class="help-block"><?php echo __d('taxonomy', 'The name for this term. e.g. "cat", "dog" or "bird" for the "animals" vocabulary.'); ?></em>
+    <fieldset>
+        <legend><?php echo __d('taxonomy', "Add New Vocabulary's Term"); ?></legend>
+        <?php echo $this->Form->input('name', ['label' => __d('taxonomy', "Term's name *")]); ?>
+        <em class="help-block"><?php echo __d('taxonomy', 'The name for this term. e.g. "cat", "dog" or "bird" for the "animals" vocabulary.'); ?></em>
 
-		<?php
-			echo $this->Form->input('parent_id', [
-				'type' => 'select',
-				'label' => __d('taxonomy', 'Parent term'),
-				'options' => $parentsTree,
-				'empty' => __d('taxonomy', '-- NONE --')
-			]);
-		?>
+        <?php
+            echo $this->Form->input('parent_id', [
+                'type' => 'select',
+                'label' => __d('taxonomy', 'Parent term'),
+                'options' => $parentsTree,
+                'empty' => __d('taxonomy', '-- NONE --')
+            ]);
+        ?>
 
-		<?php echo $this->Form->submit(__d('taxonomy', '&laquo; Save & go back to terms tree'), ['name' => 'action_vocabulary', 'escape' => false]); ?>
-		<?php echo $this->Form->submit(__d('taxonomy', 'Save & add another &raquo;'), ['name' => 'action_add', 'escape' => false]); ?>
-	</fieldset>
+        <?php echo $this->Form->submit(__d('taxonomy', '&laquo; Save & go back to terms tree'), ['name' => 'action_vocabulary', 'escape' => false]); ?>
+        <?php echo $this->Form->submit(__d('taxonomy', 'Save & add another &raquo;'), ['name' => 'action_add', 'escape' => false]); ?>
+    </fieldset>
 <?php echo $this->Form->end(); ?>

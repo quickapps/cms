@@ -12,50 +12,50 @@
 ?>
 
 <li id="menuLink_<?php echo $link->id; ?>">
-	<div>
-		<span style="cursor:move;">
-			<?php if (!in_array($link->id, $disabledIds) && !in_array($link->parent_id, $disabledIds)): ?>
-				<?php echo $link->title; ?>
-			<?php else: ?>
-				<del><?php echo $link->title; ?></del>
-			<?php endif; ?>
-			&nbsp;&nbsp;&nbsp;
-		</span>
-		<div class="btn-group">
-			<?php
-				echo $this->Html->link('', [
-					'plugin' => 'Menu',
-					'controller' => 'links',
-					'action' => 'edit',
-					$link->id
-				], [
-					'title' => __d('menu', 'Edit link'),
-					'class' => 'btn btn-default btn-xs glyphicon glyphicon-pencil',
-				]);
-			?>
-			<?php if (!empty($link->url)): ?>
-				<?php
-					echo $this->Html->link('', $link->url, [
-						'title' => __d('menu', 'Visit URL'),
-						'class' => 'btn btn-default btn-xs glyphicon glyphicon-link',
-						'target' => '_blank',
-					]);
-				?>
-			<?php endif; ?>
-			<?php
-				echo $this->Html->link('', [
-					'plugin' => 'Menu',
-					'controller' => 'links',
-					'action' => 'delete',
-					$link->id
-				], [
-					'title' => __d('menu', 'Delete this link'),
-					'class' => 'btn btn-default btn-xs glyphicon glyphicon-trash',
-					'confirm' => __d('menu', 'Remove this link? Children links will be re-assigned to the immediately superior parent link.'),
-				]);
-			?>
-		</div>
-	</div>
+    <div>
+        <span style="cursor:move;">
+            <?php if (!in_array($link->id, $disabledIds) && !in_array($link->parent_id, $disabledIds)): ?>
+                <?php echo $link->title; ?>
+            <?php else: ?>
+                <del><?php echo $link->title; ?></del>
+            <?php endif; ?>
+            &nbsp;&nbsp;&nbsp;
+        </span>
+        <div class="btn-group">
+            <?php
+                echo $this->Html->link('', [
+                    'plugin' => 'Menu',
+                    'controller' => 'links',
+                    'action' => 'edit',
+                    $link->id
+                ], [
+                    'title' => __d('menu', 'Edit link'),
+                    'class' => 'btn btn-default btn-xs glyphicon glyphicon-pencil',
+                ]);
+            ?>
+            <?php if (!empty($link->url)): ?>
+                <?php
+                    echo $this->Html->link('', $link->url, [
+                        'title' => __d('menu', 'Visit URL'),
+                        'class' => 'btn btn-default btn-xs glyphicon glyphicon-link',
+                        'target' => '_blank',
+                    ]);
+                ?>
+            <?php endif; ?>
+            <?php
+                echo $this->Html->link('', [
+                    'plugin' => 'Menu',
+                    'controller' => 'links',
+                    'action' => 'delete',
+                    $link->id
+                ], [
+                    'title' => __d('menu', 'Delete this link'),
+                    'class' => 'btn btn-default btn-xs glyphicon glyphicon-trash',
+                    'confirm' => __d('menu', 'Remove this link? Children links will be re-assigned to the immediately superior parent link.'),
+                ]);
+            ?>
+        </div>
+    </div>
 
-	<p><?php echo $info['children']; ?></p>
+    <p><?php echo $info['children']; ?></p>
 </li>

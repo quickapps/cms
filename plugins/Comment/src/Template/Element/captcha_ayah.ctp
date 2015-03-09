@@ -13,6 +13,4 @@
 /**
  * Renders the `post new comment` form.
  */
-?>
-
-<?php echo $ayah->getPublisherHTML();
+ echo $ayah->getPublisherHTML();

@@ -14,10 +14,10 @@ use Field\Utility\ImageToolbox;
 ?>
 
 <?php if ($field->viewModeSettings['label_visibility'] == 'above'): ?>
-	<h3 class="field-label"><?php echo $field->label; ?></h3>
-	<p><?php echo ImageToolbox::formatter($this, $field); ?></p>
+    <h3 class="field-label"><?php echo $field->label; ?></h3>
+    <p><?php echo ImageToolbox::formatter($this, $field); ?></p>
 <?php elseif ($field->viewModeSettings['label_visibility'] == 'inline'): ?>
-	<p><strong class="field-label"><?php echo $field->label; ?>:</strong> <?php echo ImageToolbox::formatter($this, $field); ?></p>
+    <p><strong class="field-label"><?php echo $field->label; ?>:</strong> <?php echo ImageToolbox::formatter($this, $field); ?></p>
 <?php else: ?>
-	<p><?php echo ImageToolbox::formatter($this, $field); ?></p>
+    <p><?php echo ImageToolbox::formatter($this, $field); ?></p>
 <?php endif; ?>

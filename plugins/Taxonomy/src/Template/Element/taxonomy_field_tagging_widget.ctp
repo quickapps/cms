@@ -15,43 +15,43 @@ use Cake\ORM\TableRegistry;
 ?>
 
 <?php
-	$count = intval(Configure::read('_taggerWidgetInstancesCount'));
-	$tokenLimit = '';
-	$prePopulate = [];
-	$terms = TableRegistry::get('Taxonomy.Terms')
-		->find()
-		->select(['id', 'name'])
-		->where(['id IN' => (array)$field->raw])
-		->all();
-	foreach ($terms as $term) {
-		$prePopulate[] = "{id: {$term->id}, name: \"{$term->name}\"}";
-	}
+    $count = intval(Configure::read('_taggerWidgetInstancesCount'));
+    $tokenLimit = '';
+    $prePopulate = [];
+    $terms = TableRegistry::get('Taxonomy.Terms')
+        ->find()
+        ->select(['id', 'name'])
+        ->where(['id IN' => (array)$field->raw])
+        ->all();
+    foreach ($terms as $term) {
+        $prePopulate[] = "{id: {$term->id}, name: \"{$term->name}\"}";
+    }
 
-	$prePopulate = "\n " . implode(",\n ", $prePopulate) . "\n ";
-	if (intval($field->metadata->settings['max_values'])) {
-		$tokenLimit = "tokenLimit: {$field->metadata->settings['max_values']},";
-	}
+    $prePopulate = "\n " . implode(",\n ", $prePopulate) . "\n ";
+    if (intval($field->metadata->settings['max_values'])) {
+        $tokenLimit = "tokenLimit: {$field->metadata->settings['max_values']},";
+    }
 ?>
 
 <?php if (!$count): ?>
-	<?php echo $this->Html->css('Taxonomy.token-input.css'); ?>
-	<?php echo $this->Html->css('Taxonomy.token-input-facebook.css'); ?>
-	<?php echo $this->Html->script('Taxonomy.jquery.tokeninput.js'); ?>
+    <?php echo $this->Html->css('Taxonomy.token-input.css'); ?>
+    <?php echo $this->Html->css('Taxonomy.token-input-facebook.css'); ?>
+    <?php echo $this->Html->script('Taxonomy.jquery.tokeninput.js'); ?>
 <?php endif; ?>
 
 <script type="text/javascript">
-	$(document).ready(function() {
-		$('#<?php echo $fieldId; ?>').tokenInput('<?php echo $this->Url->build(['plugin' => 'Taxonomy', 'controller' => 'tagger', 'action' => 'search', $field->metadata->settings['vocabulary']], true); ?>', {
-			allowNewItems: true,
-			hintText: '<?php echo __d('taxonomy', 'Type in a search term'); ?>',
-			noResultsText: '<?php echo __d('taxonomy', 'No results'); ?>',
-			searchingText: '<?php echo __d('taxonomy', 'Searching...'); ?>',
-			deleteText: '<?php echo __d('taxonomy', 'x'); ?>',
-			<?php echo $tokenLimit; ?>
-			theme: 'facebook',
-			preventDuplicates: true,
-			prePopulate: [<?php echo $prePopulate; ?>]
-		});
-	});
+    $(document).ready(function() {
+        $('#<?php echo $fieldId; ?>').tokenInput('<?php echo $this->Url->build(['plugin' => 'Taxonomy', 'controller' => 'tagger', 'action' => 'search', $field->metadata->settings['vocabulary']], true); ?>', {
+            allowNewItems: true,
+            hintText: '<?php echo __d('taxonomy', 'Type in a search term'); ?>',
+            noResultsText: '<?php echo __d('taxonomy', 'No results'); ?>',
+            searchingText: '<?php echo __d('taxonomy', 'Searching...'); ?>',
+            deleteText: '<?php echo __d('taxonomy', 'x'); ?>',
+            <?php echo $tokenLimit; ?>
+            theme: 'facebook',
+            preventDuplicates: true,
+            prePopulate: [<?php echo $prePopulate; ?>]
+        });
+    });
 </script>
 <?php Configure::write('_taggerWidgetInstancesCount', $count); ?>

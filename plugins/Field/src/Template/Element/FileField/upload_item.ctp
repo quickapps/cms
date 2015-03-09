@@ -31,22 +31,22 @@
 ?>
 
 <script id="file-item-template" type="x-tmpl-mustache">
-	<div id="{{uid}}" class="alert alert-info {{#perm}}is-perm{{/perm}} file-item" data-number="{{number}}">
-		{{#show_icon}}
-		<img src="{{&icon_url}}" class="file-icon" />
-		{{/show_icon}}
+    <div id="{{uid}}" class="alert alert-info {{#perm}}is-perm{{/perm}} file-item" data-number="{{number}}">
+        {{#show_icon}}
+        <img src="{{&icon_url}}" class="file-icon" />
+        {{/show_icon}}
 
-		<a href="{{&link}}" target="_blank" class="file-link">{{file_name}}</a>
-		<span class="file-size">({{file_size}})</span>
-		<button class="btn btn-danger btn-xs" onclick="FileField.remove('{{uid}}'); return false;"><?php echo __d('field', 'Remove'); ?></button>
+        <a href="{{&link}}" target="_blank" class="file-link">{{file_name}}</a>
+        <span class="file-size">({{file_size}})</span>
+        <button class="btn btn-danger btn-xs" onclick="FileField.remove('{{uid}}'); return false;"><?php echo __d('field', 'Remove'); ?></button>
 
-		{{#show_description}}
-		<hr />
-		<input type="text" name=":{{instance_name}}[{{number}}][description]" value="{{description}}" class="file-description form-control input-sm" placeholder="<?php echo __d('field', 'File description'); ?>" />
-		{{/show_description}}
+        {{#show_description}}
+        <hr />
+        <input type="text" name=":{{instance_name}}[{{number}}][description]" value="{{description}}" class="file-description form-control input-sm" placeholder="<?php echo __d('field', 'File description'); ?>" />
+        {{/show_description}}
 
-		<input type="hidden" name=":{{instance_name}}[{{number}}][mime_icon]" value="{{mime_icon}}" class="mime-icon" />
-		<input type="hidden" name=":{{instance_name}}[{{number}}][file_name]" value="{{file_name}}" class="file-name" />
-		<input type="hidden" name=":{{instance_name}}[{{number}}][file_size]" value="{{file_size}}" class="file-size" />
-	</div>
+        <input type="hidden" name=":{{instance_name}}[{{number}}][mime_icon]" value="{{mime_icon}}" class="mime-icon" />
+        <input type="hidden" name=":{{instance_name}}[{{number}}][file_name]" value="{{file_name}}" class="file-name" />
+        <input type="hidden" name=":{{instance_name}}[{{number}}][file_size]" value="{{file_size}}" class="file-size" />
+    </div>
 </script>

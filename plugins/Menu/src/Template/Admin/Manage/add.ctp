@@ -12,21 +12,21 @@
 ?>
 
 <?php echo $this->Form->create($menu); ?>
-	<fieldset>
-		<legend><?php echo __d('menu', 'Creating Menu'); ?></legend>
+    <fieldset>
+        <legend><?php echo __d('menu', 'Creating Menu'); ?></legend>
 
-		<?php echo $this->Form->input('title', ['label' => __d('menu', 'Title *')]); ?>
-		<?php echo $this->Form->input('description', ['label' => __d('menu', 'Description')]); ?>
+        <?php echo $this->Form->input('title', ['label' => __d('menu', 'Title *')]); ?>
+        <?php echo $this->Form->input('description', ['label' => __d('menu', 'Description')]); ?>
 
-		<?php if ($menu->handler !== 'Menu'): ?>
-			<?php $result = $this->trigger("Menu.{$menu->handler}.settings", $menu)->result; ?>
-			<?php if (!empty($result)): ?>
-			<hr />
-				<?php echo $result; ?>
-			<hr />
-			<?php endif; ?>
-		<?php endif; ?>
+        <?php if ($menu->handler !== 'Menu'): ?>
+            <?php $result = $this->trigger("Menu.{$menu->handler}.settings", $menu)->result; ?>
+            <?php if (!empty($result)): ?>
+            <hr />
+                <?php echo $result; ?>
+            <hr />
+            <?php endif; ?>
+        <?php endif; ?>
 
-		<?php echo $this->Form->submit(__d('menu', 'Save & add links &raquo;'), ['escape' => false]); ?>
-	</fieldset>
+        <?php echo $this->Form->submit(__d('menu', 'Save & add links &raquo;'), ['escape' => false]); ?>
+    </fieldset>
 <?php echo $this->Form->end(); ?>

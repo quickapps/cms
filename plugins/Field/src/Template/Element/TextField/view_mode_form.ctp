@@ -12,45 +12,45 @@
 ?>
 
 <?php
-	echo $this->Form->input('formatter', [
-		'id' => 'display-type-selectbox',
-		'label' => __d('field', 'Display content as'),
-		'type' => 'select',
-		'options' => array(
-			'plain' => __d('field', 'Plain'),
-			'full' => __d('field', 'Full'),
-			'trimmed' => __d('field', 'Trimmed')
-		),
-		'empty' => false,
-		'escape' => false,
-		'onchange' => "if (this.value == 'trimmed') { $('#trimmed').show(); } else { $('#trimmed').hide(); };"
-	]);
+    echo $this->Form->input('formatter', [
+        'id' => 'display-type-selectbox',
+        'label' => __d('field', 'Display content as'),
+        'type' => 'select',
+        'options' => array(
+            'plain' => __d('field', 'Plain'),
+            'full' => __d('field', 'Full'),
+            'trimmed' => __d('field', 'Trimmed')
+        ),
+        'empty' => false,
+        'escape' => false,
+        'onchange' => "if (this.value == 'trimmed') { $('#trimmed').show(); } else { $('#trimmed').hide(); };"
+    ]);
 ?>
 
 <ul>
-	<li><em class="help-block"><strong><?php echo __d('field', 'Full'); ?>:</strong> <?php echo __d('field', 'Text will be rendered with no modifications.'); ?></em></li>
-	<li><em class="help-block"><strong><?php echo __d('field', 'Plain'); ?>:</strong> <?php echo __d('field', 'Text will converted to plain text.'); ?></em></li>
-	<li><em class="help-block"><strong><?php echo __d('field', 'Trimmed'); ?>:</strong> <?php echo __d('field', 'Text will cut to an specific length.'); ?></em></li>
+    <li><em class="help-block"><strong><?php echo __d('field', 'Full'); ?>:</strong> <?php echo __d('field', 'Text will be rendered with no modifications.'); ?></em></li>
+    <li><em class="help-block"><strong><?php echo __d('field', 'Plain'); ?>:</strong> <?php echo __d('field', 'Text will converted to plain text.'); ?></em></li>
+    <li><em class="help-block"><strong><?php echo __d('field', 'Trimmed'); ?>:</strong> <?php echo __d('field', 'Text will cut to an specific length.'); ?></em></li>
 </ul>
 
 <div id="trimmed">
-	<?php
-		echo $this->Form->input('trim_length', [
-			'type' => 'text',
-			'label' => __d('field', 'Trim length or read-more-cutter')
-		]);
-	?>
+    <?php
+        echo $this->Form->input('trim_length', [
+            'type' => 'text',
+            'label' => __d('field', 'Trim length or read-more-cutter')
+        ]);
+    ?>
 
-	<ul>
-		<li><em class="help-block"><?php echo __d('field', 'Numeric value will convert content to plain text and then trim it to the specified number of chars. e.g.: 400'); ?></em></li>
-		<li><em class="help-block"><?php echo __d('field', 'String value will cut the content in two by the specified string, the first part will be displayed. e.g.: &lt;!-- readmore --&gt;'); ?></em></li>
-	</ul>
+    <ul>
+        <li><em class="help-block"><?php echo __d('field', 'Numeric value will convert content to plain text and then trim it to the specified number of chars. e.g.: 400'); ?></em></li>
+        <li><em class="help-block"><?php echo __d('field', 'String value will cut the content in two by the specified string, the first part will be displayed. e.g.: &lt;!-- readmore --&gt;'); ?></em></li>
+    </ul>
 </div>
 
 <script type="text/javascript">
-	if ($('#display-type-selectbox').val() == 'trimmed') {
-		$('#trimmed').show();
-	} else {
-		$('#trimmed').hide();
-	}
+    if ($('#display-type-selectbox').val() == 'trimmed') {
+        $('#trimmed').show();
+    } else {
+        $('#trimmed').hide();
+    }
 </script>

@@ -12,34 +12,34 @@
 ?>
 
 <li id="vocabularyTerm_<?php echo $term->id; ?>">
-	<div>
-		<span style="cursor:move;"><?php echo $term->name; ?> (<?php echo $term->slug; ?>)&nbsp;&nbsp;&nbsp;</span>
-		<div class="btn-group">
-			<?php
-				echo $this->Html->link('', [
-					'plugin' => 'Taxonomy',
-					'controller' => 'terms',
-					'action' => 'edit',
-					$term->id
-				], [
-					'title' => __d('menu', 'Edit term'),
-					'class' => 'btn btn-default btn-xs glyphicon glyphicon-pencil',
-				]);
-			?>
-			<?php
-				echo $this->Html->link('', [
-					'plugin' => 'Taxonomy',
-					'controller' => 'terms',
-					'action' => 'delete',
-					$term->id
-				], [
-					'title' => __d('menu', 'Delete this link'),
-					'confirm' => __d('menu', 'Remove this term? Children terms will be re-assigned to the immediately superior parent term.'),
-					'class' => 'btn btn-default btn-xs glyphicon glyphicon-trash'
-				]);
-			?>
-		</div>
-	</div>
+    <div>
+        <span style="cursor:move;"><?php echo $term->name; ?> (<?php echo $term->slug; ?>)&nbsp;&nbsp;&nbsp;</span>
+        <div class="btn-group">
+            <?php
+                echo $this->Html->link('', [
+                    'plugin' => 'Taxonomy',
+                    'controller' => 'terms',
+                    'action' => 'edit',
+                    $term->id
+                ], [
+                    'title' => __d('menu', 'Edit term'),
+                    'class' => 'btn btn-default btn-xs glyphicon glyphicon-pencil',
+                ]);
+            ?>
+            <?php
+                echo $this->Html->link('', [
+                    'plugin' => 'Taxonomy',
+                    'controller' => 'terms',
+                    'action' => 'delete',
+                    $term->id
+                ], [
+                    'title' => __d('menu', 'Delete this link'),
+                    'confirm' => __d('menu', 'Remove this term? Children terms will be re-assigned to the immediately superior parent term.'),
+                    'class' => 'btn btn-default btn-xs glyphicon glyphicon-trash'
+                ]);
+            ?>
+        </div>
+    </div>
 
-	<p><?php echo $info['children']; ?></p>
+    <p><?php echo $info['children']; ?></p>
 </li>

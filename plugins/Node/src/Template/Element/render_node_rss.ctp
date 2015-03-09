@@ -17,7 +17,7 @@
 ?>
 
 <?php if (!empty($node->_fields)): ?>
-	<?php foreach ($node->_fields->sortByViewMode($this->inUseViewMode()) as $field): ?>
-		<?php echo $this->render($field); ?>
-	<?php endforeach; ?>
+    <?php foreach ($node->_fields->sortByViewMode($this->inUseViewMode()) as $field): ?>
+        <?php echo $this->render($field); ?>
+    <?php endforeach; ?>
 <?php endif; ?>

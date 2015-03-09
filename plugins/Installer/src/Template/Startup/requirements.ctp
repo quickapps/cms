@@ -12,21 +12,21 @@
 ?>
 
 <?php if ($success): ?>
-	<div class="alert alert-success clearfix">
-		<p><?php echo __d('installer', '<strong>Congratulations!</strong> Your server meets the basic software requirements.'); ?></p>
-		<p><?php echo $this->Html->link(__d('installer', 'Continue'), ['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'license'], ['class' => 'btn btn-primary pull-right']); ?></p>
-	</div>
+    <div class="alert alert-success clearfix">
+        <p><?php echo __d('installer', '<strong>Congratulations!</strong> Your server meets the basic software requirements.'); ?></p>
+        <p><?php echo $this->Html->link(__d('installer', 'Continue'), ['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'license'], ['class' => 'btn btn-primary pull-right']); ?></p>
+    </div>
 <?php else: ?>
-	<div class="alert alert-danger">
-		<p><?php echo __d('installer', "<strong>Uh oh.</strong> There's a server compatibility issue. See below."); ?></p>
-		<p>
-			<ul>
-				<?php foreach ($tests as $name => $testNode): ?>
-					<?php if (!$testNode['assertTrue']): ?>
-						<li><em><?php echo $testNode['message']; ?></em></li>
-					<?php endif; ?>
-				<?php endforeach; ?>
-			</ul>
-		</p>
-	</div>
+    <div class="alert alert-danger">
+        <p><?php echo __d('installer', "<strong>Uh oh.</strong> There's a server compatibility issue. See below."); ?></p>
+        <p>
+            <ul>
+                <?php foreach ($tests as $name => $testNode): ?>
+                    <?php if (!$testNode['assertTrue']): ?>
+                        <li><em><?php echo $testNode['message']; ?></em></li>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </ul>
+        </p>
+    </div>
 <?php endif; ?>

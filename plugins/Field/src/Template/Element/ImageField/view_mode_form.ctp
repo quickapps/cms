@@ -14,19 +14,19 @@ use Field\Utility\ImageToolbox;
 ?>
 
 <?php
-	echo $this->Form->input('size', [
-		'label' => __d('field', 'Image style'),
-		'type' => 'select',
-		'options' => ImageToolbox::previewsOptions(),
-		'empty' => __d('field', 'None (original image)')
-	]);
+    echo $this->Form->input('size', [
+        'label' => __d('field', 'Image style'),
+        'type' => 'select',
+        'options' => ImageToolbox::previewsOptions(),
+        'empty' => __d('field', 'None (original image)')
+    ]);
 
-	echo $this->Form->input('link_type', [
-		'label' => __d('field', 'Link image to'),
-		'type' => 'select',
-		'options' => [
-			'content' => __d('field', 'Content'),
-			'file' => __d('field', 'Image file'),
-		],
-		'empty' => __d('field', 'Nothing')
-	]);
+    echo $this->Form->input('link_type', [
+        'label' => __d('field', 'Link image to'),
+        'type' => 'select',
+        'options' => [
+            'content' => __d('field', 'Content'),
+            'file' => __d('field', 'Image file'),
+        ],
+        'empty' => __d('field', 'Nothing')
+    ]);
