@@ -26,45 +26,26 @@ class ImageHandlerController extends FileHandlerController
     /**
      * {@inheritDoc}
      */
-    public function upload($instanceSlug, $uploader = null)
+    public function upload($instanceSlug)
     {
         $instance = $this->_getInstance($instanceSlug);
+        require_once Plugin::classPath('Field') . 'Lib/class.upload.php';
+        $uploader = new \upload($this->request->data['Filedata']);
+        $maps = [
+            'min_width' => 'image_min_width',
+            'min_height' => 'image_min_height',
+            'max_width' => 'image_max_width',
+            'max_height' => 'image_max_height',
+            'min_ratio' => 'image_min_ratio',
+            'max_ratio' => 'image_max_ratio',
+            'min_pixels' => 'image_min_pixels',
+            'max_pixels' => 'image_max_pixels',
+        ];
 
-        if (!is_object($uploader)) {
-            require_once Plugin::classPath('Field') . 'Lib/class.upload.php';
-            $uploader = new \upload($this->request->data['Filedata']);
-        }
-
-        if (!empty($instance->settings['min_width'])) {
-            $uploader->image_min_width = $instance->settings['min_width'];
-        }
-
-        if (!empty($instance->settings['min_height'])) {
-            $uploader->image_min_height = $instance->settings['min_height'];
-        }
-
-        if (!empty($instance->settings['max_width'])) {
-            $uploader->image_max_width = $instance->settings['max_width'];
-        }
-
-        if (!empty($instance->settings['max_height'])) {
-            $uploader->image_max_height = $instance->settings['max_height'];
-        }
-
-        if (!empty($instance->settings['min_ratio'])) {
-            $uploader->image_min_ratio = $instance->settings['min_ratio'];
-        }
-
-        if (!empty($instance->settings['max_ratio'])) {
-            $uploader->image_max_ratio = $instance->settings['max_ratio'];
-        }
-
-        if (!empty($instance->settings['min_pixels'])) {
-            $uploader->image_min_pixels = $instance->settings['min_pixels'];
-        }
-
-        if (!empty($instance->settings['max_pixels'])) {
-            $uploader->image_max_pixels = $instance->settings['max_pixels'];
+        foreach ($maps as $k => $v) {
+            if (!empty($instance->settings[$k])) {
+                $uploader->{$v} = $instance->settings[$k];
+            }
         }
 
         $uploader->allowed = 'image/*';

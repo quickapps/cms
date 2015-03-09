@@ -29,20 +29,14 @@ class FileHandlerController extends AppController
      * Uploads a new file for the given FileField instance.
      *
      * @param string $instanceSlug Machine-name of the instance, a.k.a "slug"
-     * @param \upload $uploader Instance of uploader class to use, useful when
-     *  extending this controller
-     * @return void
      * @throws \Cake\Network\Exception\NotFoundException When invalid slug is given,
      *  or when upload process could not be completed
      */
-    public function upload($instanceSlug, $uploader = null)
+    public function upload($instanceSlug)
     {
         $instance = $this->_getInstance($instanceSlug);
-
-        if (!is_object($uploader)) {
-            require_once Plugin::classPath('Field') . 'Lib/class.upload.php';
-            $uploader = new \upload($this->request->data['Filedata']);
-        }
+        require_once Plugin::classPath('Field') . 'Lib/class.upload.php';
+        $uploader = new \upload($this->request->data['Filedata']);
 
         if (!empty($instance->settings['extensions'])) {
             $exts = explode(',', $instance->settings['extensions']);
