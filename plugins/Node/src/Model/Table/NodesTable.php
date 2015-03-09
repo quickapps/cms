@@ -108,33 +108,43 @@ class NodesTable extends Table
         $this->addBehavior('Sluggable');
         $this->addBehavior('Field.Fieldable', [
             'bundle' => function ($entity, $table) {
-                $nodeTypeSlug = '';
                 if ($entity->has('node_type_slug')) {
-                    $nodeTypeSlug = $entity->node_type_slug;
-                } elseif ($entity->has('id')) {
-                    $nodeTypeSlug = $table->get($entity->id, [
-                        'fields' => ['id', 'node_type_slug'],
-                        'fieldable' => false,
-                    ])
-                    ->node_type_slug;
+                    return $entity->node_type_slug;
                 }
 
-                return $nodeTypeSlug;
+                if ($entity->has('id')) {
+                    return $table
+                        ->get($entity->id, [
+                            'fields' => ['id', 'node_type_slug'],
+                            'fieldable' => false,
+                        ])
+                        ->node_type_slug;
+                }
+
+                return '';
             }
         ]);
         $this->addBehavior('Search.Searchable', [
             'fields' => function ($node) {
                 $words = '';
-                $words .= empty($node->title) ?: " {$node->title}";
-                $words .= empty($node->title) ?: " {$node->description}";
+                if ($node->has('title')) {
+                    $words .= " {$node->title}";
+                }
 
-                if ($node->has('_fields')) {
-                    foreach ($node->_fields as $vf) {
-                        if ($vf->value) {
-                            $words .= ' ' . trim((string)$vf->value);
-                        }
+                if ($node->has('description')) {
+                    $words .= " {$node->description}";
+                }
+
+                if (!$node->has('_fields')) {
+                    return $words;
+                }
+
+                foreach ($node->_fields as $vf) {
+                    if ($vf->value) {
+                        $words .= ' ' . trim((string)$vf->value);
                     }
                 }
+
                 return $words;
             }
         ]);

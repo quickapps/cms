@@ -77,20 +77,19 @@ class JqueryHelper extends Helper
         $options = [];
         $out = '';
 
-        if (!empty($args)) {
-            foreach ($args as $file) {
-                if (is_array($file)) {
-                    $options = $file;
-                } else {
-                    $file = 'Jquery.ui/' . strtolower($file);
-                    if (!str_ends_with($file, '.js')) {
-                        $file .= '.js';
-                    }
+        foreach ($args as $file) {
+            if (is_array($file)) {
+                $options = $file;
+                continue;
+            }
 
-                    if ($file != 'Jquery.ui/core.js') {
-                        $files[] = $file;
-                    }
-                }
+            $file = 'Jquery.ui/' . strtolower($file);
+            if (!str_ends_with($file, '.js')) {
+                $file .= '.js';
+            }
+
+            if ($file != 'Jquery.ui/core.js') {
+                $files[] = $file;
             }
         }
 
