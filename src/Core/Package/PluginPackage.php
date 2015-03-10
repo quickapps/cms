@@ -203,16 +203,10 @@ class PluginPackage extends BasePackage
         }
 
         $settings = [];
-        if (!TableRegistry::exists('SnapshotNodeTypes')) {
-            $PluginsTable = TableRegistry::get('Plugins');
-            $PluginsTable->schema(['settings' => 'serialized']);
-        } else {
-            $PluginsTable = TableRegistry::get('Plugins');
-        }
-
+        $PluginsTable = TableRegistry::get('System.Plugins');
         $dbInfo = $PluginsTable
             ->find()
-            ->select(['settings'])
+            ->select(['name', 'settings'])
             ->where(['name' => $plugin])
             ->limit(1)
             ->first();

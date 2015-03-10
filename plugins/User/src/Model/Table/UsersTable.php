@@ -150,12 +150,12 @@ class UsersTable extends Table
     }
 
     /**
-     * Generates a unique token for the given user. The generated token is
+     * Generates a unique token for the given user entity. The generated token is
      * automatically persisted on DB.
      *
-     * Tokens are unique and follows the pattern below:
+     * Tokens are unique within the entire DB and follows the pattern below:
      *
-     *     <user_id>-<32-random-letters-and-numbers>
+     *     <32-random-letters-and-numbers>
      *
      * @param \User\Model\Entity\User $user The user for which generate the token
      * @return \User\Model\Entity\User The user entity with a the new token property
@@ -167,8 +167,15 @@ class UsersTable extends Table
             throw new FatalErrorException(__d('user', 'UsersTable::updateToken(), no ID was found for the given entity.'));
         }
 
-        $user->set('token', $user->id . '-' . md5(uniqid($user->id, true)));
-        $this->save($user);
+        $token = md5(uniqid($user->id, true));
+        $count = $this->find()->where(['Users.token' => $token])->limit(1)->count();
+        while ($count > 0) {
+            $token = str_shuffle(md5(uniqid($user->id, true) . rand(1, 9999)));
+            $count = $this->find()->where(['Users.token' => $token])->limit(1)->count();
+        }
+
+        $user->set('token', $token);
+        $this->updateAll(['token' => $token], ['id' => $user->id]);
         return $user;
     }
 
