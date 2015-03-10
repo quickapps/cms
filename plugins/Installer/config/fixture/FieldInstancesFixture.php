@@ -31,7 +31,6 @@ class FieldInstancesFixture
   'id' => 
   [
     'type' => 'integer',
-    'length' => 10,
     'unsigned' => false,
     'null' => false,
     'default' => NULL,

@@ -111,6 +111,7 @@ class DatabaseExportTask extends Shell
             $fields = ['_constraints' => []];
             $columns = $Table->schema()->columns();
             $records = [];
+            $primaryKeys = [];
 
             foreach ($columns as $column) {
                 $fields[$column] = $Table->schema()->column($column);
@@ -119,6 +120,19 @@ class DatabaseExportTask extends Shell
             foreach ($Table->schema()->constraints() as $constraint) {
                 $constraintName = in_array($constraint, $columns) ? Inflector::underscore("{$table}_{$constraint}") : $constraint;
                 $fields['_constraints'][$constraintName] = $Table->schema()->constraint($constraint);
+                if (isset($fields['_constraints']['primary']['columns'])) {
+                    $primaryKeys = $fields['_constraints']['primary']['columns'];
+                }
+            }
+
+            foreach ($fields as $column => $info) {
+                if (isset($info['length']) &&
+                    in_array($column, $primaryKeys) &&
+                    isset($info['autoIncrement']) &&
+                    $info['autoIncrement'] === true
+                ) {
+                    unset($fields[$column]['length']);
+                }
             }
 
             // we need raw data for time instead of Time Objects

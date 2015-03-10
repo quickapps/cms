@@ -20,7 +20,6 @@ class EntitiesTermsFixture
   'id' => 
   [
     'type' => 'integer',
-    'length' => 20,
     'unsigned' => false,
     'null' => false,
     'default' => NULL,

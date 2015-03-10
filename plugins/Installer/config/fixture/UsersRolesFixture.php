@@ -20,7 +20,6 @@ class UsersRolesFixture
   'id' => 
   [
     'type' => 'integer',
-    'length' => 11,
     'unsigned' => false,
     'null' => false,
     'default' => NULL,

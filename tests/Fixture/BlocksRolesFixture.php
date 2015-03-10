@@ -34,7 +34,6 @@ class BlocksRolesFixture extends TestFixture
   'id' => 
   [
     'type' => 'integer',
-    'length' => 11,
     'unsigned' => false,
     'null' => false,
     'default' => NULL,
