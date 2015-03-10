@@ -29,7 +29,7 @@ use QuickApps\Core\Plugin;
  * provides a set of useful methods for interacting with QuickAppsCMS.
  *
  * This class automatically tries to determinate the best package type based on
- * its name using a what we call "detectors" methods. This class comes with a few
+ * its name using what we call "detectors" methods. This class comes with a few
  * built-in detector methods which are described below, however more detectors can
  * be registered (or overwrite existing ones) using the `addDetector()` method. A
  * "detector" is a simple callable function which based on a given package name it
@@ -43,12 +43,12 @@ use QuickApps\Core\Plugin;
  * PackageFactory::addDetector('myVendorPlugin', function ($packageName) {
  *     list($vendor, $package) = packageSplit($packageName);
  *     if ($vendor == 'my-vendor-plugin') {
- *         return new MyVendorPlugin($package, "/path/to/{$package}/")
+ *         return new MyVendorPackage($package, "/path/to/{$package}/")
  *     }
  * });
  * ```
  *
- * In this example we are using our own `MyVendorPlugin` class for representing
+ * In this example we are using our own `MyVendorPackage` class for representing
  * packages created by `my-vendor-plugin`.
  *
  * ### Built-in detectors:
@@ -58,13 +58,15 @@ use QuickApps\Core\Plugin;
  * - library: For packages representing PHP extension libraries or PHP itself, for
  *   example: `ext-intl`, `php`, `ext-zlib`, etc
  *
- * - thirdParty: For packages representing third-party libraries installed used
+ * - thirdParty: For packages representing third-party libraries installed using
  *   composer, for example: `nesbot/carbon`, `robmorgan/phinx`, etc.
  *
  * ### Detection order:
  *
  * Detectors methods are invoked in the order they were registered, if one detector
  * fails to detect a package the next registered detector will be used, and so on.
+ * By default `GenricPackage` will be used if all detectors fails to detect the
+ * given package name.
  */
 class PackageFactory
 {
@@ -131,7 +133,7 @@ class PackageFactory
     }
 
     /**
-     * Registers a new package getter method.
+     * Registers a new package detection method.
      *
      * Callable function should return an object package extending
      * `QuickApp\Core\Package\BasePackage` class on success.

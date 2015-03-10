@@ -47,7 +47,7 @@ class NodeTypesTable extends Table
      */
     public function initialize(array $config)
     {
-        $this->addBehavior('Sluggable', [
+        $this->addBehavior('System.Sluggable', [
             'label' => 'name',
             'slug' => 'slug',
             'on' => 'insert',

@@ -105,7 +105,7 @@ class NodesTable extends Table
 
         $this->addBehavior('Timestamp');
         $this->addBehavior('Comment.Commentable');
-        $this->addBehavior('Sluggable');
+        $this->addBehavior('System.Sluggable');
         $this->addBehavior('Field.Fieldable', [
             'bundle' => function ($entity, $table) {
                 if ($entity->has('node_type_slug')) {

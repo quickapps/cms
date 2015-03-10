@@ -231,11 +231,18 @@ class PluginPackage extends BasePackage
     /**
      * {@inheritdoc}
      *
+     * It will look for plugin's version in the following places:
+     *
+     * - Plugin's "composer.json" file.
+     * - Plugin's "VERSION.txt" file (or similar: version.md, etc).
+     * - Composer's "installed.json" file.
+     *
+     * If not found `dev-master` is returned by default. If plugin is not registered
+     * on QuickAppsCMS (not installed) an empty string will be returned instead.
+     *
      * ### Example:
      *
      * ```php
-     * // Installed QuickAppsCMS's plugin,
-     * // returns: read from "composer.json" (or "version.*" file)
      * $this->version('some-quickapps/plugin');
      * ```
      *
@@ -253,11 +260,13 @@ class PluginPackage extends BasePackage
             return $this->_version;
         }
 
-        if (isset($this->composer['version'])) {
+        // from composer.json
+        if (!empty($this->composer['version'])) {
             $this->_version = $this->composer['version'];
             return $this->_version;
         }
 
+        // from version.txt
         $files = glob($this->path . '/*', GLOB_NOSORT);
         foreach ($files as $file) {
             $fileName = basename(strtolower($file));
@@ -269,6 +278,7 @@ class PluginPackage extends BasePackage
             }
         }
 
+        // from installed.json
         $installedJson = normalizePath(VENDOR_INCLUDE_PATH . "composer/installed.json");
         if (is_readable($installedJson)) {
             $json = (array)json_decode(file_get_contents($installedJson), true);
