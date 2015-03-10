@@ -61,10 +61,11 @@ Cache::config('permissions', [
  *
  * **Usage:**
  *
- *     $user = user();
- *     echo user()->name;
- *     // prints "Anonymous" if not logged in
- *
+ * ```php
+ * $user = user();
+ * echo user()->name;
+ * // prints "Anonymous" if not logged in
+ * ```
  * @return \User\Model\Entity\UserSession
  */
 function user()
