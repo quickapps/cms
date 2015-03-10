@@ -19,7 +19,7 @@ require __DIR__ . '/paths.php';
 /**
  * Load site's "bootstrap.php".
  */
-if (file_exists(SITE_ROOT . '/config/bootstrap.php')) {
+if (is_readable(SITE_ROOT . '/config/bootstrap.php')) {
     include_once SITE_ROOT . '/config/bootstrap.php';
 }
 
