@@ -25,11 +25,11 @@ class WelcomeMessage extends BaseMessage
     /**
      * {@inheritdoc}
      */
-    public function __construct(User $user, array $config = [])
+    public function send()
     {
-        parent::__construct($user, $config);
         $this
             ->subject(Plugin::get('User')->settings['message_welcome_subject'])
             ->body(Plugin::get('User')->settings['message_welcome_body']);
+        return parent::send();
     }
 }

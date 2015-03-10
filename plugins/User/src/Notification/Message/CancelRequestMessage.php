@@ -25,11 +25,11 @@ class CancelRequestMessage extends BaseMessage
     /**
      * {@inheritdoc}
      */
-    public function __construct(User $user, array $config = [])
+    public function send()
     {
-        parent::__construct($user, $config);
         $this
             ->subject(Plugin::get('User')->settings['message_cancel_request_subject'])
             ->body(Plugin::get('User')->settings['message_cancel_request_body']);
+        return parent::send();
     }
 }

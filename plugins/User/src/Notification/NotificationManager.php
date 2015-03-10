@@ -66,7 +66,7 @@ class NotificationManager
         'activated' => 'User\\Notification\\Message\\ActivatedMessage',
         'blocked' => 'User\\Notification\Message\BlockedMessage',
         'cancelRequest' => 'User\\Notification\\Message\\CancelRequestMessage',
-        'canceled' => 'User\\NotificationMessage\\CanceledMessage',
+        'canceled' => 'User\\Notification\\Message\\CanceledMessage',
         'passwordRequest' => 'User\\Notification\\Message\\PasswordRequestMessage',
     ];
 
@@ -106,6 +106,16 @@ class NotificationManager
         }
 
         throw new InvalidUserMessageException([$method, $method]);
+    }
+
+    /**
+     * Gets a list of all registered messages.
+     *
+     * @return array
+     */
+    public static function messages()
+    {
+        return static::$_messages;
     }
 
     /**
