@@ -3,94 +3,94 @@ class FieldValuesFixture
 {
 
     public $fields = [
-  '_constraints' => 
-  [
-    'primary' => 
+    '_constraints' =>
+    [
+    'primary' =>
     [
       'type' => 'primary',
-      'columns' => 
+      'columns' =>
       [
         0 => 'id',
       ],
-      'length' => 
+      'length' =>
       [
       ],
     ],
-  ],
-  'id' => 
-  [
+    ],
+    'id' =>
+    [
     'type' => 'integer',
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
     'autoIncrement' => true,
-    'precision' => NULL,
-  ],
-  'field_instance_id' => 
-  [
+    'precision' => null,
+    ],
+    'field_instance_id' =>
+    [
     'type' => 'integer',
     'length' => 10,
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-  'field_instance_slug' => 
-  [
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'field_instance_slug' =>
+    [
     'type' => 'string',
     'length' => 200,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'entity_id' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'entity_id' =>
+    [
     'type' => 'string',
     'length' => 50,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => 'id of the entity in `table`',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'table_alias' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'table_alias' =>
+    [
     'type' => 'string',
     'length' => 100,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'value' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'value' =>
+    [
     'type' => 'text',
-    'length' => NULL,
+    'length' => null,
     'null' => true,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-  ],
-  'raw' => 
-  [
+    'precision' => null,
+    ],
+    'raw' =>
+    [
     'type' => 'text',
-    'length' => NULL,
+    'length' => null,
     'null' => true,
-    'default' => NULL,
+    'default' => null,
     'comment' => 'Extra information required by this field hadnler',
-    'precision' => NULL,
-  ],
-];
+    'precision' => null,
+    ],
+    ];
 
     public $records = [
-  0 => 
-  [
+    0 =>
+    [
     'id' => 1,
     'field_instance_id' => 1,
     'field_instance_slug' => 'article-introduction',
@@ -98,9 +98,9 @@ class FieldValuesFixture
     'table_alias' => 'nodes:article',
     'value' => 'Lorem ipsum.[random]1,2,3,4,5[/random]',
     'raw' => 'a:0:{}',
-  ],
-  1 => 
-  [
+    ],
+    1 =>
+    [
     'id' => 9,
     'field_instance_id' => 3,
     'field_instance_slug' => 'article-body',
@@ -120,9 +120,9 @@ A skeleton for creating web sites with [QuickAppsCMS](http://quickappscms.org) 2
 If Composer is installed globally, run `composer create-project -s dev quickapps/website [website_name]` After composer is done visit `http://example.com/` and start QuickAppsCMS installation.
 ',
     'raw' => 'a:0:{}',
-  ],
-  2 => 
-  [
+    ],
+    2 =>
+    [
     'id' => 10,
     'field_instance_id' => 3,
     'field_instance_slug' => 'article-body',
@@ -130,9 +130,9 @@ If Composer is installed globally, run `composer create-project -s dev quickapps
     'table_alias' => 'nodes:article',
     'value' => 'Curabitur quis ultricies nisl. Donec eget rutrum nunc. Quisque accumsan, justo sit amet suscipit ullamcorper, nisl lacus dictum arcu, at vehicula enim velit et libero. Vivamus venenatis lacinia eros, et ultrices erat interdum vitae. Aliquam scelerisque leo in tristique tincidunt. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi iaculis nec quam sit amet viverra. Vestibulum sit amet faucibus elit, et mattis urna. In consequat justo vitae augue venenatis lacinia.',
     'raw' => 'a:0:{}',
-  ],
-  3 => 
-  [
+    ],
+    3 =>
+    [
     'id' => 11,
     'field_instance_id' => 1,
     'field_instance_slug' => 'article-introduction',
@@ -140,6 +140,6 @@ If Composer is installed globally, run `composer create-project -s dev quickapps
     'table_alias' => 'nodes:article',
     'value' => 'Curabitur quis ultricies nisl. Donec eget rutrum nunc. Quisque accumsan, justo sit amet suscipit ullamcorper, nisl lacus dictum arcu, at vehicula enim velit et libero.',
     'raw' => 'a:0:{}',
-  ],
-];
+    ],
+    ];
 }

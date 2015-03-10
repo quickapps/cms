@@ -3,125 +3,125 @@ class TermsFixture
 {
 
     public $fields = [
-  '_constraints' => 
-  [
-    'primary' => 
+    '_constraints' =>
+    [
+    'primary' =>
     [
       'type' => 'primary',
-      'columns' => 
+      'columns' =>
       [
         0 => 'id',
       ],
-      'length' => 
+      'length' =>
       [
       ],
     ],
-    'terms_slug' => 
+    'terms_slug' =>
     [
       'type' => 'unique',
-      'columns' => 
+      'columns' =>
       [
         0 => 'slug',
       ],
-      'length' => 
+      'length' =>
       [
       ],
     ],
-  ],
-  'id' => 
-  [
+    ],
+    'id' =>
+    [
     'type' => 'integer',
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
     'autoIncrement' => true,
-    'precision' => NULL,
-  ],
-  'vocabulary_id' => 
-  [
+    'precision' => null,
+    ],
+    'vocabulary_id' =>
+    [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-  'lft' => 
-  [
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'lft' =>
+    [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-  'rght' => 
-  [
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'rght' =>
+    [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-  'parent_id' => 
-  [
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'parent_id' =>
+    [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-  'name' => 
-  [
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'name' =>
+    [
     'type' => 'string',
     'length' => 255,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'slug' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'slug' =>
+    [
     'type' => 'string',
     'length' => 255,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'created' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'created' =>
+    [
     'type' => 'datetime',
-    'length' => NULL,
+    'length' => null,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-  ],
-  'modified' => 
-  [
+    'precision' => null,
+    ],
+    'modified' =>
+    [
     'type' => 'datetime',
-    'length' => NULL,
+    'length' => null,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-  ],
-];
+    'precision' => null,
+    ],
+    ];
 
     public $records = [
-];
+    ];
 }

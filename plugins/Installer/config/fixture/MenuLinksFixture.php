@@ -3,165 +3,165 @@ class MenuLinksFixture
 {
 
     public $fields = [
-  '_constraints' => 
-  [
-    'primary' => 
+    '_constraints' =>
+    [
+    'primary' =>
     [
       'type' => 'primary',
-      'columns' => 
+      'columns' =>
       [
         0 => 'id',
       ],
-      'length' => 
+      'length' =>
       [
       ],
     ],
-  ],
-  'id' => 
-  [
+    ],
+    'id' =>
+    [
     'type' => 'integer',
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
     'autoIncrement' => true,
-    'precision' => NULL,
-  ],
-  'menu_id' => 
-  [
+    'precision' => null,
+    ],
+    'menu_id' =>
+    [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => 'All links with the same menu ID are part of the same menu.',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-  'lft' => 
-  [
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'lft' =>
+    [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-  'rght' => 
-  [
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'rght' =>
+    [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-  'parent_id' => 
-  [
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'parent_id' =>
+    [
     'type' => 'integer',
     'length' => 10,
     'unsigned' => false,
     'null' => false,
     'default' => '0',
     'comment' => 'The parent link ID (plid) is the mlid of the link above in the hierarchy, or zero if the link is at the top level in its menu.',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-  'url' => 
-  [
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'url' =>
+    [
     'type' => 'string',
     'length' => 255,
     'null' => true,
-    'default' => NULL,
+    'default' => null,
     'comment' => 'the url',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'description' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'description' =>
+    [
     'type' => 'string',
     'length' => 200,
     'null' => true,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'title' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'title' =>
+    [
     'type' => 'string',
     'length' => 255,
     'null' => true,
-    'default' => NULL,
+    'default' => null,
     'comment' => 'The text displayed for the link, which may be modified by a title callback stored in menu_router.',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'target' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'target' =>
+    [
     'type' => 'string',
     'length' => 15,
     'null' => false,
     'default' => '_self',
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'expanded' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'expanded' =>
+    [
     'type' => 'integer',
     'length' => 1,
     'unsigned' => false,
     'null' => false,
     'default' => '1',
     'comment' => 'Flag for whether this link should be rendered as expanded in menus - expanded links always have their child links displayed, instead of only when the link is in the active trail (1 = expanded, 0 = not expanded)',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-  'active' => 
-  [
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'active' =>
+    [
     'type' => 'text',
-    'length' => NULL,
+    'length' => null,
     'null' => true,
-    'default' => NULL,
+    'default' => null,
     'comment' => 'php code, or regular expression. based on active_on_type',
-    'precision' => NULL,
-  ],
-  'activation' => 
-  [
+    'precision' => null,
+    ],
+    'activation' =>
+    [
     'type' => 'string',
     'length' => 5,
     'null' => true,
     'default' => 'auto',
     'comment' => 'php: on php return TRUE. auto: auto-detect; any: request\'s URL matches any in "active" column; none: request\'s URL matches none of listed in "active" column',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'status' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'status' =>
+    [
     'type' => 'boolean',
-    'length' => NULL,
+    'length' => null,
     'null' => false,
     'default' => '1',
     'comment' => '',
-    'precision' => NULL,
-  ],
-];
+    'precision' => null,
+    ],
+    ];
 
     public $records = [
-  0 => 
-  [
+    0 =>
+    [
     'id' => 1,
     'menu_id' => 1,
     'lft' => 1,
     'rght' => 2,
     'parent_id' => 0,
     'url' => '/admin/system/dashboard',
-    'description' => NULL,
+    'description' => null,
     'title' => 'Dashboard',
     'target' => '_self',
     'expanded' => 1,
@@ -170,32 +170,32 @@ class MenuLinksFixture
 /admin/',
     'activation' => 'any',
     'status' => true,
-  ],
-  1 => 
-  [
+    ],
+    1 =>
+    [
     'id' => 2,
     'menu_id' => 1,
     'lft' => 3,
     'rght' => 12,
     'parent_id' => 0,
     'url' => '/admin/system/structure',
-    'description' => NULL,
+    'description' => null,
     'title' => 'Structure',
     'target' => '_self',
     'expanded' => 0,
-    'active' => NULL,
+    'active' => null,
     'activation' => 'auto',
     'status' => true,
-  ],
-  2 => 
-  [
+    ],
+    2 =>
+    [
     'id' => 3,
     'menu_id' => 1,
     'lft' => 13,
     'rght' => 14,
     'parent_id' => 0,
     'url' => '/admin/node/manage',
-    'description' => NULL,
+    'description' => null,
     'title' => 'Content',
     'target' => '_self',
     'expanded' => 0,
@@ -203,89 +203,89 @@ class MenuLinksFixture
 /admin/node/comments*',
     'activation' => 'any',
     'status' => true,
-  ],
-  3 => 
-  [
+    ],
+    3 =>
+    [
     'id' => 4,
     'menu_id' => 1,
     'lft' => 15,
     'rght' => 16,
     'parent_id' => 0,
     'url' => '/admin/system/themes',
-    'description' => NULL,
+    'description' => null,
     'title' => 'Themes',
     'target' => '_self',
     'expanded' => 0,
-    'active' => NULL,
-    'activation' => NULL,
+    'active' => null,
+    'activation' => null,
     'status' => true,
-  ],
-  4 => 
-  [
+    ],
+    4 =>
+    [
     'id' => 5,
     'menu_id' => 1,
     'lft' => 17,
     'rght' => 18,
     'parent_id' => 0,
     'url' => '/admin/system/plugins',
-    'description' => NULL,
+    'description' => null,
     'title' => 'Plugins',
     'target' => '_self',
     'expanded' => 0,
-    'active' => NULL,
-    'activation' => NULL,
+    'active' => null,
+    'activation' => null,
     'status' => true,
-  ],
-  5 => 
-  [
+    ],
+    5 =>
+    [
     'id' => 6,
     'menu_id' => 1,
     'lft' => 19,
     'rght' => 20,
     'parent_id' => 0,
     'url' => '/admin/user/manage',
-    'description' => NULL,
+    'description' => null,
     'title' => 'Users',
     'target' => '_self',
     'expanded' => 0,
-    'active' => NULL,
-    'activation' => NULL,
+    'active' => null,
+    'activation' => null,
     'status' => true,
-  ],
-  6 => 
-  [
+    ],
+    6 =>
+    [
     'id' => 7,
     'menu_id' => 1,
     'lft' => 23,
     'rght' => 24,
     'parent_id' => 0,
     'url' => '/admin/system/configuration',
-    'description' => NULL,
+    'description' => null,
     'title' => 'Configuration',
     'target' => '_self',
     'expanded' => 0,
-    'active' => NULL,
-    'activation' => NULL,
+    'active' => null,
+    'activation' => null,
     'status' => true,
-  ],
-  7 => 
-  [
+    ],
+    7 =>
+    [
     'id' => 8,
     'menu_id' => 1,
     'lft' => 25,
     'rght' => 26,
     'parent_id' => 0,
     'url' => '/admin/system/help',
-    'description' => NULL,
+    'description' => null,
     'title' => 'Help',
     'target' => '_self',
     'expanded' => 0,
-    'active' => NULL,
-    'activation' => NULL,
+    'active' => null,
+    'activation' => null,
     'status' => true,
-  ],
-  8 => 
-  [
+    ],
+    8 =>
+    [
     'id' => 9,
     'menu_id' => 1,
     'lft' => 4,
@@ -296,12 +296,12 @@ class MenuLinksFixture
     'title' => 'Blocks',
     'target' => '_self',
     'expanded' => 0,
-    'active' => NULL,
-    'activation' => NULL,
+    'active' => null,
+    'activation' => null,
     'status' => true,
-  ],
-  9 => 
-  [
+    ],
+    9 =>
+    [
     'id' => 10,
     'menu_id' => 1,
     'lft' => 6,
@@ -312,12 +312,12 @@ class MenuLinksFixture
     'title' => 'Content Types',
     'target' => '_self',
     'expanded' => 0,
-    'active' => NULL,
-    'activation' => NULL,
+    'active' => null,
+    'activation' => null,
     'status' => true,
-  ],
-  10 => 
-  [
+    ],
+    10 =>
+    [
     'id' => 11,
     'menu_id' => 1,
     'lft' => 8,
@@ -328,12 +328,12 @@ class MenuLinksFixture
     'title' => 'Menus',
     'target' => '_self',
     'expanded' => 0,
-    'active' => NULL,
-    'activation' => NULL,
+    'active' => null,
+    'activation' => null,
     'status' => true,
-  ],
-  11 => 
-  [
+    ],
+    11 =>
+    [
     'id' => 12,
     'menu_id' => 1,
     'lft' => 10,
@@ -344,12 +344,12 @@ class MenuLinksFixture
     'title' => 'Taxonomy',
     'target' => '_self',
     'expanded' => 0,
-    'active' => NULL,
-    'activation' => NULL,
+    'active' => null,
+    'activation' => null,
     'status' => true,
-  ],
-  12 => 
-  [
+    ],
+    12 =>
+    [
     'id' => 13,
     'menu_id' => 1,
     'lft' => 21,
@@ -360,12 +360,12 @@ class MenuLinksFixture
     'title' => 'Languages',
     'target' => '_self',
     'expanded' => 0,
-    'active' => NULL,
-    'activation' => NULL,
+    'active' => null,
+    'activation' => null,
     'status' => true,
-  ],
-  13 => 
-  [
+    ],
+    13 =>
+    [
     'id' => 14,
     'menu_id' => 2,
     'lft' => 5,
@@ -376,12 +376,12 @@ class MenuLinksFixture
     'title' => 'About',
     'target' => '_self',
     'expanded' => 0,
-    'active' => NULL,
-    'activation' => NULL,
+    'active' => null,
+    'activation' => null,
     'status' => true,
-  ],
-  14 => 
-  [
+    ],
+    14 =>
+    [
     'id' => 15,
     'menu_id' => 2,
     'lft' => 3,
@@ -392,12 +392,12 @@ class MenuLinksFixture
     'title' => 'Hooktags',
     'target' => '_self',
     'expanded' => 0,
-    'active' => NULL,
-    'activation' => NULL,
+    'active' => null,
+    'activation' => null,
     'status' => true,
-  ],
-  15 => 
-  [
+    ],
+    15 =>
+    [
     'id' => 16,
     'menu_id' => 2,
     'lft' => 1,
@@ -408,12 +408,12 @@ class MenuLinksFixture
     'title' => 'Home',
     'target' => '_self',
     'expanded' => 0,
-    'active' => NULL,
-    'activation' => NULL,
+    'active' => null,
+    'activation' => null,
     'status' => true,
-  ],
-  16 => 
-  [
+    ],
+    16 =>
+    [
     'id' => 17,
     'menu_id' => 2,
     'lft' => 7,
@@ -428,6 +428,6 @@ class MenuLinksFixture
 /find/*type:article*',
     'activation' => 'any',
     'status' => true,
-  ],
-];
+    ],
+    ];
 }

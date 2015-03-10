@@ -3,155 +3,155 @@ class OptionsFixture
 {
 
     public $fields = [
-  '_constraints' => 
-  [
-    'primary' => 
+    '_constraints' =>
+    [
+    'primary' =>
     [
       'type' => 'primary',
-      'columns' => 
+      'columns' =>
       [
         0 => 'id',
       ],
-      'length' => 
+      'length' =>
       [
       ],
     ],
-    'options_name' => 
+    'options_name' =>
     [
       'type' => 'unique',
-      'columns' => 
+      'columns' =>
       [
         0 => 'name',
       ],
-      'length' => 
+      'length' =>
       [
       ],
     ],
-  ],
-  'id' => 
-  [
+    ],
+    'id' =>
+    [
     'type' => 'integer',
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
     'autoIncrement' => true,
-    'precision' => NULL,
-  ],
-  'name' => 
-  [
+    'precision' => null,
+    ],
+    'name' =>
+    [
     'type' => 'string',
     'length' => 100,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'value' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'value' =>
+    [
     'type' => 'text',
-    'length' => NULL,
+    'length' => null,
     'null' => true,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-  ],
-  'autoload' => 
-  [
+    'precision' => null,
+    ],
+    'autoload' =>
+    [
     'type' => 'boolean',
-    'length' => NULL,
+    'length' => null,
     'null' => false,
     'default' => '0',
     'comment' => '1: true (autoload); 0:false',
-    'precision' => NULL,
-  ],
-];
+    'precision' => null,
+    ],
+    ];
 
     public $records = [
-  0 => 
-  [
+    0 =>
+    [
     'id' => 1,
     'name' => 'front_theme',
     'value' => 'FrontendTheme',
     'autoload' => true,
-  ],
-  1 => 
-  [
+    ],
+    1 =>
+    [
     'id' => 2,
     'name' => 'default_language',
     'value' => 'en-us',
     'autoload' => true,
-  ],
-  2 => 
-  [
+    ],
+    2 =>
+    [
     'id' => 3,
     'name' => 'site_description',
     'value' => 'Open Source CMS built on CakePHP 3.0',
     'autoload' => true,
-  ],
-  3 => 
-  [
+    ],
+    3 =>
+    [
     'id' => 4,
     'name' => 'site_slogan',
     'value' => 'Open Source CMS built on CakePHP 3.0',
     'autoload' => true,
-  ],
-  4 => 
-  [
+    ],
+    4 =>
+    [
     'id' => 5,
     'name' => 'back_theme',
     'value' => 'BackendTheme',
     'autoload' => true,
-  ],
-  5 => 
-  [
+    ],
+    5 =>
+    [
     'id' => 6,
     'name' => 'site_title',
     'value' => 'My QuickApps CMS Site',
     'autoload' => true,
-  ],
-  6 => 
-  [
+    ],
+    6 =>
+    [
     'id' => 7,
     'name' => 'url_locale_prefix',
     'value' => '1',
     'autoload' => true,
-  ],
-  7 => 
-  [
+    ],
+    7 =>
+    [
     'id' => 8,
     'name' => 'site_email',
     'value' => 'demo@email.com',
     'autoload' => false,
-  ],
-  8 => 
-  [
+    ],
+    8 =>
+    [
     'id' => 9,
     'name' => 'site_maintenance_message',
     'value' => 'We sincerely apologize for the inconvenience.<br/>Our site is currently undergoing scheduled maintenance and upgrades, but will return shortly.<br/>Thanks you for your patience.',
     'autoload' => false,
-  ],
-  9 => 
-  [
+    ],
+    9 =>
+    [
     'id' => 10,
     'name' => 'site_maintenance_ip',
-    'value' => NULL,
+    'value' => null,
     'autoload' => false,
-  ],
-  10 => 
-  [
+    ],
+    10 =>
+    [
     'id' => 11,
     'name' => 'site_nodes_home',
     'value' => '5',
     'autoload' => true,
-  ],
-  11 => 
-  [
+    ],
+    11 =>
+    [
     'id' => 12,
     'name' => 'site_maintenance',
     'value' => '0',
     'autoload' => true,
-  ],
-];
+    ],
+    ];
 }

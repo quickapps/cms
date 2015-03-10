@@ -3,189 +3,189 @@ class NodesFixture
 {
 
     public $fields = [
-  '_constraints' => 
-  [
-    'primary' => 
+    '_constraints' =>
+    [
+    'primary' =>
     [
       'type' => 'primary',
-      'columns' => 
+      'columns' =>
       [
         0 => 'id',
       ],
-      'length' => 
+      'length' =>
       [
       ],
     ],
-  ],
-  'id' => 
-  [
+    ],
+    'id' =>
+    [
     'type' => 'integer',
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
     'autoIncrement' => true,
-    'precision' => NULL,
-  ],
-  'node_type_id' => 
-  [
+    'precision' => null,
+    ],
+    'node_type_id' =>
+    [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-  'node_type_slug' => 
-  [
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'node_type_slug' =>
+    [
     'type' => 'string',
     'length' => 100,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'translation_for' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'translation_for' =>
+    [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => true,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-  'slug' => 
-  [
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'slug' =>
+    [
     'type' => 'string',
     'length' => 100,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'title' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'title' =>
+    [
     'type' => 'string',
     'length' => 250,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'description' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'description' =>
+    [
     'type' => 'string',
     'length' => 200,
     'null' => true,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'promote' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'promote' =>
+    [
     'type' => 'boolean',
-    'length' => NULL,
+    'length' => null,
     'null' => false,
     'default' => '0',
     'comment' => 'Show in front page?',
-    'precision' => NULL,
-  ],
-  'sticky' => 
-  [
+    'precision' => null,
+    ],
+    'sticky' =>
+    [
     'type' => 'boolean',
-    'length' => NULL,
+    'length' => null,
     'null' => false,
     'default' => '0',
     'comment' => 'Show at top of lists',
-    'precision' => NULL,
-  ],
-  'comment_status' => 
-  [
+    'precision' => null,
+    ],
+    'comment_status' =>
+    [
     'type' => 'integer',
     'length' => 2,
     'unsigned' => false,
     'null' => false,
     'default' => '0',
     'comment' => '0=closed, 1=open, 2=readonly',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-  'language' => 
-  [
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'language' =>
+    [
     'type' => 'string',
     'fixed' => true,
     'length' => 10,
     'null' => true,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-  ],
-  'status' => 
-  [
+    'precision' => null,
+    ],
+    'status' =>
+    [
     'type' => 'boolean',
-    'length' => NULL,
+    'length' => null,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-  ],
-  'created' => 
-  [
+    'precision' => null,
+    ],
+    'created' =>
+    [
     'type' => 'datetime',
-    'length' => NULL,
+    'length' => null,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-  ],
-  'modified' => 
-  [
+    'precision' => null,
+    ],
+    'modified' =>
+    [
     'type' => 'datetime',
-    'length' => NULL,
+    'length' => null,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-  ],
-  'created_by' => 
-  [
+    'precision' => null,
+    ],
+    'created_by' =>
+    [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => true,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-  'modified_by' => 
-  [
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'modified_by' =>
+    [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => true,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-];
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    ];
 
     public $records = [
-  0 => 
-  [
+    0 =>
+    [
     'id' => 1,
     'node_type_id' => 1,
     'node_type_slug' => 'article',
-    'translation_for' => NULL,
+    'translation_for' => null,
     'slug' => 'my-first-article',
     'title' => 'My First Article!',
     'description' => 'Custom meta description',
@@ -198,13 +198,13 @@ class NodesFixture
     'modified' => '2014-08-10 10:26:27',
     'created_by' => 1,
     'modified_by' => 0,
-  ],
-  1 => 
-  [
+    ],
+    1 =>
+    [
     'id' => 2,
     'node_type_id' => 1,
     'node_type_slug' => 'article',
-    'translation_for' => NULL,
+    'translation_for' => null,
     'slug' => 'curabitur-quis-ultricies-nisl',
     'title' => 'Curabitur quis ultricies nisl',
     'description' => 'Donec eget rutrum nunc. Vestibulum sit amet faucibus elit.',
@@ -217,6 +217,6 @@ class NodesFixture
     'modified' => '2014-08-05 22:19:44',
     'created_by' => 1,
     'modified_by' => 0,
-  ],
-];
+    ],
+    ];
 }

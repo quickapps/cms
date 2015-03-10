@@ -11,9 +11,9 @@
  */
 namespace User\Model\Behavior;
 
+use Cake\Network\Session;
 use Cake\ORM\Behavior;
 use Cake\ORM\Table;
-use Cake\Network\Session;
 
 /**
  * WhoDidIt Behavior.
@@ -44,7 +44,7 @@ class WhoDidItBehavior extends Behavior
      * - createdByField: The name of the "created_by" field in DB. Defaults to
      *   `created_by`.
      *
-     * - modifiedByField: The name of the "modified_by" field in DB. Default to 
+     * - modifiedByField: The name of the "modified_by" field in DB. Default to
      *   `modified_by`.
      *
      * - userModel: The name of the Users class table, used to bind user's

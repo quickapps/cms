@@ -25,14 +25,14 @@ class SluggableBehaviorTest extends TestCase
 
     /**
      * Instance of behavior being tested.
-     * 
+     *
      * @var \System\Model\Behavior\SluggableBehavior
      */
     public $Behavior;
 
     /**
      * Fixtures.
-     * 
+     *
      * @var array
      */
     public $fixtures = [
