@@ -106,8 +106,8 @@ class LanguagesFixture
   0 => 
   [
     'id' => 1,
-    'code' => 'en-us',
-    'name' => 'English',
+    'code' => 'en_US',
+    'name' => 'English (US)',
     'direction' => 'ltr',
     'icon' => 'us.gif',
     'status' => 1,
@@ -116,8 +116,8 @@ class LanguagesFixture
   1 => 
   [
     'id' => 2,
-    'code' => 'es',
-    'name' => 'Spanish',
+    'code' => 'es_ES',
+    'name' => 'Spanish (ES)',
     'direction' => 'ltr',
     'icon' => 'es.gif',
     'status' => 1,

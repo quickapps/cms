@@ -193,19 +193,20 @@ class Controller extends CakeController
 
         if (!empty($this->request->query['locale']) && in_array($this->request->query['locale'], $locales)) {
             $this->request->session()->write('locale', $this->request->query['locale']);
-            I18n::locale($this->request->session()->read('locale'));
+            $code = $this->request->session()->read('locale');
         } elseif (option('url_locale_prefix') && preg_match("/\/{$localesPattern}\//", $normalizedURL, $matches)) {
-            I18n::locale($matches[1]);
+            $code = $matches[1];
         } elseif ($this->request->session()->check('locale') && in_array($this->request->session()->read('locale'), $locales)) {
-            I18n::locale($this->request->session()->read('locale'));
+            $code = $this->request->session()->read('locale');
         } elseif ($this->request->is('userLoggedIn') && in_array(user()->locale, $locales)) {
-            I18n::locale(user()->locale);
+            $code = user()->locale;
         } elseif (in_array(option('default_language'), $locales)) {
-            I18n::locale(option('default_language'));
+            $code = option('default_language');
         } else {
-            I18n::locale(CORE_LOCALE);
+            $code = CORE_LOCALE;
         }
 
+        I18n::locale(normalizeLocale($code));
         if (option('url_locale_prefix') &&
             !$this->request->is('home') &&
             !preg_match("/\/{$localesPattern}\//", $normalizedURL)

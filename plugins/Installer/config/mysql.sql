@@ -400,8 +400,8 @@ CREATE TABLE IF NOT EXISTS `languages` (
 --
 
 INSERT INTO `languages` (`id`, `code`, `name`, `direction`, `icon`, `status`, `ordering`) VALUES
-(1, 'en-us', 'English', 'ltr', 'us.gif', 1, 0),
-(2, 'es', 'Spanish', 'ltr', 'es.gif', 1, 0);
+(1, 'en_US', 'English (US)', 'ltr', 'us.gif', 1, 0),
+(2, 'es_ES', 'Spanish (ES)', 'ltr', 'es.gif', 1, 0);
 
 -- --------------------------------------------------------
 

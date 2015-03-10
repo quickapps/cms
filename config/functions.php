@@ -43,7 +43,8 @@ if (!function_exists('snapshot')) {
      *
      * @return void
      */
-    function snapshot() {
+    function snapshot()
+    {
         if (Cache::config('default')) {
             Cache::clear(false, 'default');
         }
@@ -128,12 +129,12 @@ if (!function_exists('snapshot')) {
             }
 
             foreach ($languages as $language) {
-                $locale = localeParts($language->code);
+                list($languageCode, $countryCode) = localeSplit($language->code);
                 $snapshot['languages'][$language->code] = [
                     'name' => $language->name,
                     'locale' => $language->code,
-                    'code' => $locale['language'],
-                    'country' => $locale['country'],
+                    'code' => $languageCode,
+                    'country' => $countryCode,
                     'direction' => $language->direction,
                     'icon' => $language->icon,
                 ];
@@ -229,7 +230,8 @@ if (!function_exists('normalizePath')) {
      * @param string $ds Directory separator character, defaults to DIRECTORY_SEPARATOR
      * @return string Normalized $path
      */
-    function normalizePath($path, $ds = DIRECTORY_SEPARATOR) {
+    function normalizePath($path, $ds = DIRECTORY_SEPARATOR)
+    {
         $path = str_replace(['/', '\\'], $ds, $path);
         return str_replace("{$ds}{$ds}", $ds, $path);
     }
@@ -247,7 +249,8 @@ if (!function_exists('quickapps')) {
      *  snapshot's info
      * @return mixed
      */
-    function quickapps($key = null) {
+    function quickapps($key = null)
+    {
         if ($key !== null) {
             return Configure::read("QuickApps.{$key}");
         }
@@ -263,7 +266,7 @@ if (!function_exists('option')) {
      * value is found. If not value is found and not default values was given this
      * function will return `false`.
      *
-     * **Example:**
+     * ### Example:
      *
      * ```php
      * option('site_slogan');
@@ -275,7 +278,8 @@ if (!function_exists('option')) {
      * @return mixed Current value for the specified option. If the specified option
      *  does not exist, returns boolean FALSE
      */
-    function option($name, $default = false) {
+    function option($name, $default = false)
+    {
         if (Configure::check("QuickApps.options.{$name}")) {
             return Configure::read("QuickApps.options.{$name}");
         }
@@ -300,7 +304,8 @@ if (!function_exists('listeners')) {
      * 
      * @return array
      */
-    function listeners() {
+    function listeners()
+    {
         $class = new \ReflectionClass(EventManager::instance());
         $property = $class->getProperty('_listeners');
         $property->setAccessible(true);
@@ -309,18 +314,26 @@ if (!function_exists('listeners')) {
     }
 }
 
-if (!function_exists('pluginName')) {
+if (!function_exists('packageSplit')) {
     /**
      * Splits a composer package syntax into its vendor and package name.
-     * If $name does not have a dot, then index 0 will be null.
      *
      * Commonly used like `list($vendor, $package) = packageSplit($name);`
+     *
+     * ### Example:
+     *
+     * ```php
+     * list($vendor, $package) = packageSplit('some-vendor/this-package', true);
+     * echo "{$vendor} : {$package}";
+     * // prints: SomeVendor : ThisPackage
+     * ```
      *
      * @param string $name Package name. e.g. author-name/package-name
      * @param bool $camelize Set to true to Camelize each part
      * @return array Array with 2 indexes. 0 => vendor name, 1 => package name.
      */
-    function packageSplit($name, $camelize = false) {
+    function packageSplit($name, $camelize = false)
+    {
         $pos = strrpos($name, '/');
         if ($pos === false) {
             $parts = ['', $name];
@@ -337,32 +350,44 @@ if (!function_exists('pluginName')) {
     }
 }
 
-if (!function_exists('localeParts')) {
+if (!function_exists('normalizeLocale')) {
     /**
-     * Parses the given locale ID and returns its parts: language and country
-     * codes.
+     * Normalizes the given locale code.
+     *
+     * @param string $locale The locale code to normalize. e.g. `en-US`
+     * @return string Normalized code. e.g. `en_US`
+     */
+    function normalizeLocale($locale)
+    {
+        list($language, $region) = localeSplit($locale);
+        return !empty($region) ? "{$language}_{$region}" : $language;
+    }
+}
+
+if (!function_exists('localeSplit')) {
+    /**
+     * Parses and splits the given locale code and returns its parts: language and
+     * regional codes.
      *
      * ### Example:
      *
      * ```php
-     * localeParts('en_NZ');
-     * // returns: ['language' => 'en', 'country' => 'NZ']
+     * list($language, $region) = localeSplit('en_NZ');
      * ```
+     *
+     * IMPORTANT: Note that region code may be an empty string.
      *
      * @param string $localeId Locale code. e.g. "en_NZ" (or "en-NZ") for
      *  "English New Zealand" 
-     * @return array With to keys for holding `country` and `language` codes
+     * @return array Array with 2 indexes. 0 => language code, 1 => country code.
      */
-    function localeParts($localeId) {
-        $localeId = str_replace('_', '-', $localeId);
-        $parts = explode('-', $localeId);
-        $country = isset($parts[1]) ? strtoupper($parts[1]) : strtoupper($parts[0]);
+    function localeSplit($localeId)
+    {
+        $localeId = str_replace('-', '_', $localeId);
+        $parts = explode('_', $localeId);
+        $country = isset($parts[1]) ? strtoupper($parts[1]) : '';
         $language = strtolower($parts[0]);
-
-        return [
-            'language' => $language,
-            'country' => $country,
-        ];
+        return [$language, $country];
     }
 }
 
@@ -385,7 +410,8 @@ if (!function_exists('array_move')) {
      * @param string $direction Direction, 'up' or 'down'
      * @return array Reordered original list.
      */
-    function array_move(array $list, $index, $direction) {
+    function array_move(array $list, $index, $direction)
+    {
         $maxIndex = count($list) - 1;
         if ($direction == 'down') {
             if (0 < $index && $index <= $maxIndex) {
@@ -430,7 +456,8 @@ if (!function_exists('php_eval')) {
      *  code can access this variables
      * @return string
      */
-    function php_eval($code, $args = []) {
+    function php_eval($code, $args = [])
+    {
         ob_start();
         extract($args);
         print eval('?>' . $code);
@@ -448,7 +475,8 @@ if (!function_exists('get_this_class_methods')) {
      * @param string $class Class name
      * @return array List of methods
      */
-    function get_this_class_methods($class) {
+    function get_this_class_methods($class)
+    {
         $primary = get_class_methods($class);
 
         if ($parent = get_parent_class($class)) {
@@ -478,7 +506,8 @@ if (!function_exists('str_replace_once')) {
      * @param string $subject The string being searched and replaced on
      * @return string A string with the replaced value
      */
-    function str_replace_once($search, $replace, $subject) {
+    function str_replace_once($search, $replace, $subject)
+    {
         if (strpos($subject, $search) !== false) {
             return substr_replace($subject, $replace, strpos($subject, $search), strlen($search));
         }
@@ -503,7 +532,8 @@ if (!function_exists('str_replace_last')) {
      * @param string $subject The string being searched and replaced on
      * @return string A string with the replaced value
      */
-    function str_replace_last($search, $replace, $subject) {
+    function str_replace_last($search, $replace, $subject)
+    {
         $pos = strrpos($subject, $search);
         if($pos !== false) {
             $subject = substr_replace($subject, $replace, $pos, strlen($search));
@@ -527,7 +557,8 @@ if (!function_exists('str_starts_with')) {
      * @param string $needle
      * @return bool
      */
-    function str_starts_with($haystack, $needle) {
+    function str_starts_with($haystack, $needle)
+    {
         return
             $needle === '' ||
             strpos($haystack, $needle) === 0;
@@ -549,7 +580,8 @@ if (!function_exists('str_ends_with')) {
      * @param string $needle
      * @return bool
      */
-    function str_ends_with($haystack, $needle) {
+    function str_ends_with($haystack, $needle)
+    {
         return
             $needle === '' ||
             substr($haystack, - strlen($needle)) === $needle;

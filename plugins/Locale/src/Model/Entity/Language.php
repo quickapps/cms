@@ -17,21 +17,21 @@ use Cake\ORM\Entity;
  * Represents a single "language" within "languages" table.
  *
  * @property int $id
- * @property string $countryCode
+ * @property string $regionCode
  * @property string $languageCode
  */
 class Language extends Entity
 {
 
     /**
-     * Returns language's country code.
+     * Returns language's region code.
      *
-     * @return string language's country code. e.g. "NZ" (for en_NZ), "EE" (for et_EE)
+     * @return string language's region code. e.g. "NZ" (for en_NZ), "EE" (for et_EE)
      */
-    protected function _getCountryCode()
+    protected function _getRegionCode()
     {
-        $locale = localeParts($this->get('code'));
-        return $locale['country'];
+        list(, $country) = localeSplit($this->get('code'));
+        return $country;
     }
 
     /**
@@ -41,7 +41,7 @@ class Language extends Entity
      */
     protected function _getLanguageCode()
     {
-        $locale = localeParts($this->get('code'));
-        return $locale['language'];
+        list($language, ) = localeSplit($this->get('code'));
+        return $language;
     }
 }

@@ -17,6 +17,13 @@
 require __DIR__ . '/paths.php';
 
 /**
+ * Load site's "bootstrap.php".
+ */
+if (file_exists(SITE_ROOT . '/config/bootstrap.php')) {
+    include_once SITE_ROOT . '/config/bootstrap.php';
+}
+
+/**
  * Use composer to load the autoloader.
  */
 if (!isset($classLoader)) {
@@ -105,7 +112,7 @@ mb_internal_encoding(Configure::read('App.encoding'));
  * Set the default locale. This controls how dates, number and currency is
  * formatted and sets the default language to use for translations.
  */
-ini_set('intl.default_locale', 'en-us');
+ini_set('intl.default_locale', 'en_US');
 
 /**
  * Register application error and exception handlers.
@@ -221,13 +228,6 @@ foreach ($activePlugins as $plugin) {
             $EventManager->on(new $fullClassName);
         }
     }
-}
-
-/**
- * Load site's "bootstrap.php".
- */
-if (file_exists(SITE_ROOT . '/config/bootstrap.php')) {
-    include_once SITE_ROOT . '/config/bootstrap.php';
 }
 
 /**

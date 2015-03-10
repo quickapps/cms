@@ -17,7 +17,7 @@ use Cake\I18n\I18n;
  * is commonly used as fallback language and should NEVER be changed!
  */
 if (!defined('CORE_LOCALE')) {
-    define('CORE_LOCALE', 'en-us');
+    define('CORE_LOCALE', 'en_US');
 }
 
 if (!function_exists('language')) {
@@ -36,8 +36,8 @@ if (!function_exists('language')) {
      * language();
      * // may return:
      * [
-     *     'name' => 'English',
-     *     'locale' => 'en-US',
+     *     'name' => 'English (US)',
+     *     'locale' => 'en_US',
      *     'code' => 'en',
      *     'country' => 'US',
      *     'direction' => 'ltr',

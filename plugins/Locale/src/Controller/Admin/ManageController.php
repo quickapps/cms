@@ -57,7 +57,7 @@ class ManageController extends AppController
         if (!empty($this->request->data['code'])) {
             $info = LocaleToolbox::info($this->request->data['code']);
             $language = $this->Languages->patchEntity($language, [
-                'code' => $this->request->data['code'],
+                'code' => normalizeLocale($this->request->data['code']),
                 'name' => $info['language'],
                 'direction' => $info['direction'],
                 'status' => (isset($this->request->data['status']) ? $this->request->data['status'] : false),
