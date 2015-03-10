@@ -15,7 +15,7 @@ use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use Cake\Validation\Validator;
 use User\Model\Entity\User;
-use User\Utility\NotificationManager;
+use User\Notification\NotificationManager;
 
 /**
  * Main Hook Listener for User plugin.
@@ -116,7 +116,7 @@ class UserHook implements EventListenerInterface
      */
     public function registered(Event $event, User $user)
     {
-        return (new NotificationManager($user))->welcome();
+        return NotificationManager::welcome($user)->send();
     }
 
     /**
@@ -128,7 +128,7 @@ class UserHook implements EventListenerInterface
      */
     public function activated(Event $event, User $user)
     {
-        return (new NotificationManager($user))->activated();
+        return NotificationManager::activated($user)->send();
     }
 
     /**
@@ -140,7 +140,7 @@ class UserHook implements EventListenerInterface
      */
     public function blocked(Event $event, User $user)
     {
-        return (new NotificationManager($user))->blocked();
+        return NotificationManager::blocked($user)->send();
     }
 
     /**
@@ -153,7 +153,7 @@ class UserHook implements EventListenerInterface
      */
     public function cancelRequest(Event $event, User $user)
     {
-        return (new NotificationManager($user))->cancelRequest();
+        return NotificationManager::cancelRequest($user)->send();
     }
 
     /**
@@ -165,7 +165,7 @@ class UserHook implements EventListenerInterface
      */
     public function canceled(Event $event, User $user)
     {
-        return (new NotificationManager($user))->canceled();
+        return NotificationManager::canceled($user)->send();
     }
 
     /**
@@ -177,7 +177,7 @@ class UserHook implements EventListenerInterface
      */
     public function passwordRequest(Event $event, User $user)
     {
-        return (new NotificationManager($user))->passwordRequest();
+        return NotificationManager::passwordRequest($user)->send();
     }
 
     /**

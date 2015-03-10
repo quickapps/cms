@@ -126,8 +126,8 @@ class AnonymousAuthenticate extends BaseAuthenticate
      *
      * Token must be passed as a GET parameter named `token`, tokens looks as follow:
      *
-     *     // <integer>-<md5-hash>
-     *     1-5df9f63916ebf8528697b629022993e8
+     *     // <md5-hash> (length = 32)
+     *     5df9f63916ebf8528697b629022993e8
      *
      * Tokens are consumables, the same token cannot be used twice to log in.
      *
@@ -136,9 +136,7 @@ class AnonymousAuthenticate extends BaseAuthenticate
      */
     protected function _tokenLogin(Request $request)
     {
-        if (!empty($request->query['token']) &&
-            strpos($request->query['token'], '-') !== false
-        ) {
+        if (!empty($request->query['token'])) {
             $token = $request->query['token'];
             $Users = TableRegistry::get('User.Users');
             $exists = $Users
