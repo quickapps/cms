@@ -11,6 +11,7 @@
  */
 namespace User\Model\Behavior;
 
+use Cake\Event\Event;
 use Cake\Network\Session;
 use Cake\ORM\Behavior;
 use Cake\ORM\Table;
