@@ -16,34 +16,38 @@ if (!getenv('DB')) {
 }
 
 if (getenv('DB') == 'sqlite') {
-    $conn = [
-        'driver' => 'Cake\Database\Driver\Sqlite',
-        'log' => true,
+    $datasources = [
+        'test' => [
+            'driver' => 'Cake\Database\Driver\Sqlite',
+            'log' => true,
+        ],
     ];
 } elseif (getenv('DB') == 'mysql') {
-    $conn = [
-        'driver' => 'Cake\Database\Driver\Mysql',
-        'username' => 'travis',
-        'password' => '',
-        'database' => 'quick_test',
-        'log' => true,
+    $datasources = [
+        'test' => [
+            'driver' => 'Cake\Database\Driver\Mysql',
+            'username' => 'travis',
+            'password' => '',
+            'database' => 'quick_test',
+            'log' => true,
+        ],
     ];
 } elseif (getenv('DB') == 'pgsql') {
-    $conn = [
-        'driver' => 'Cake\Database\Driver\Postgres',
-        'persistent' => false,
-        'host' => 'localhost',
-        'username' => 'postgres',
-        'password' => '',
-        'database' => 'quick_test',
-        'log' => true,
+    $datasources = [
+        'test' => [
+            'driver' => 'Cake\Database\Driver\Postgres',
+            'persistent' => false,
+            'host' => 'localhost',
+            'username' => 'postgres',
+            'password' => '',
+            'database' => 'quick_test',
+            'log' => true,
+        ],
     ];
 }
 
 return [
-    'Datasources' => [
-        'test' => $conn,
-    ],
+    'Datasources' => $datasources,
     'Security' => [
         'salt' => '459dnv028fj20rmv034jv84hv929sadn306139fn)(·%o23',
     ],
