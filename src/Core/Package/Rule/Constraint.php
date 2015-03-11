@@ -11,8 +11,8 @@
  */
 namespace QuickApps\Core\Package\Rule;
 
-use Composer\Package\LinkConstraint\VersionConstraint;
-use Composer\Package\Version\VersionParser;
+use QuickApps\Core\Package\Composer\Package\LinkConstraint\VersionConstraint;
+use QuickApps\Core\Package\Composer\Package\Version\VersionParser;
 
 /**
  * Provides match() method.

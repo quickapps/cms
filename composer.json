@@ -14,7 +14,6 @@
     },
     "require": {
         "php": ">=5.4.19",
-        "composer/composer": "dev-master",
         "cakephp/cakephp": "3.0.*-dev"
     },
     "require-dev": {
