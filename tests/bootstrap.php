@@ -164,6 +164,8 @@ function mockUserSession() {
 
 require QA_CORE . '/config/bootstrap.php';
 
+Carbon\Carbon::setTestNow(Carbon\Carbon::now());
+
 ViewModeRegistry::addViewMode([
     'default' => [
         'name' => __d('node', 'Default'),
