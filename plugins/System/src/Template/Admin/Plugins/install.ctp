@@ -55,7 +55,7 @@
     <?php echo $this->Form->create(null); ?>
         <?php
             echo $this->Form->input('path', [
-                'label' => __d('system', 'Install using a package in a server directory or ZIP file.'),
+                'label' => __d('system', 'Server directory or ZIP file.'),
                 'placeholder' => __d('system', '/example/path/to/package.zip')
             ]);
 
