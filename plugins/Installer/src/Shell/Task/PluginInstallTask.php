@@ -243,6 +243,10 @@ class PluginInstallTask extends Shell
         $source = new Folder($this->_workingDir);
         $destinationPath = normalizePath(SITE_ROOT . "/plugins/{$this->_plugin['name']}/");
 
+        if ($this->_workingDir === $destinationPath) {
+            return true;
+        }
+
         if (!$clearDestination && file_exists($destinationPath)) {
             $this->err(__d('installer', 'Destination directory already exists, please delete manually this directory: {0}', $destinationPath));
             return false;
@@ -299,7 +303,7 @@ class PluginInstallTask extends Shell
      */
     protected function _getFromDirectory()
     {
-        $this->_workingDir = realpath(normalizePath("{$this->params['source']}/"));
+        $this->_workingDir = normalizePath(realpath($this->params['source']) . '/');
         return $this->_validateContent();
     }
 
@@ -443,13 +447,21 @@ class PluginInstallTask extends Shell
                     'packageName' => $json['name'],
                 ];
 
+                if (Plugin::exists($this->_plugin['name'])) {
+                    $exists = Plugin::get($this->_plugin['name']);
+                    if ($exists->status) {
+                        $errors[] = __d('installer', 'The plugin "{0}" is already installed.', $this->_plugin['name']);
+                    } else {
+                        $errors[] = __d('installer', 'The plugin "{0}" is already installed but disabled, maybe you want try to enable it?.', $this->_plugin['name']);
+                    }
+                }
+
                 if (str_ends_with($this->_plugin['name'], 'Theme')) {
                     if (!file_exists("{$this->_workingDir}webroot/screenshot.png")) {
                         $errors[] = __d('installer', 'Missing "screenshot.png" file.');
                     }
                 }
 
-                // Dependencies
                 if (isset($json['require'])) {
                     $checker = new RuleChecker($json['require']);
                     if (!$checker->check()) {

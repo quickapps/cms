@@ -32,10 +32,9 @@ class PluginsController extends AppController
      */
     public function index()
     {
-        $collection = Plugin::get()
-            ->filter(function ($plugin) {
-                return !$plugin->isTheme;
-            });
+        $collection = Plugin::get()->filter(function ($plugin) {
+            return !$plugin->isTheme;
+        });
         $plugins = $collection->toArray();
         $enabled = count($collection->filter(function ($plugin) {
             return $plugin->status;
@@ -58,10 +57,12 @@ class PluginsController extends AppController
         if ($this->request->data()) {
             $task = false;
             $uploadError = false;
-            $activate = isset($this->request->data['activate']) ? ' -a' : '';
+            $activate = !empty($this->request->data['activate']) ? ' -a' : '';
 
             if (isset($this->request->data['download'])) {
                 $task = (bool)WebShellDispatcher::run("Installer.plugins install -s \"{$this->request->data['url']}\"{$activate}");
+            } elseif (isset($this->request->data['file_system'])) {
+                $task = (bool)WebShellDispatcher::run("Installer.plugins install -s \"{$this->request->data['path']}\"{$activate}");
             } else {
                 $uploader = new PackageUploader($this->request->data['file']);
                 if ($uploader->upload()) {
