@@ -125,8 +125,8 @@ class BaseMessage
             $this->_user = $this->Users->updateToken($this->_user);
         }
 
-        $subject = $this->_parseVariables($this->subject());
-        $body = $this->_parseVariables($this->body());
+        $subject = $this->_parseVariables((string)$this->subject());
+        $body = $this->_parseVariables((string)$this->body());
 
         if (empty($subject) || empty($body)) {
             return false;
