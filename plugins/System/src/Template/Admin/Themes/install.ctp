@@ -25,4 +25,11 @@
         <?php echo $this->Form->input('url', ['type' => 'text', 'label' => __d('system', 'Download ZIP package from URL')]); ?>
         <?php echo $this->Form->submit(__d('system', 'Install from URL'), ['name' => 'download']); ?>
     <?php echo $this->Form->end(); ?>
+
+    <hr />
+
+    <?php echo $this->Form->create(null); ?>
+        <?php echo $this->Form->input('path', ['label' => __d('system', 'Server directory or ZIP file.'), 'placeholder' => __d('system', '/example/path/to/theme.zip')]); ?>
+        <?php echo $this->Form->submit(__d('system', 'Install from File System'), ['name' => 'file_system']); ?>
+    <?php echo $this->Form->end(); ?>
 </fieldset>

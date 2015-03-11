@@ -81,6 +81,8 @@ class ThemesController extends AppController
 
             if (isset($this->request->data['download'])) {
                 $task = (bool)WebShellDispatcher::run("Installer.plugins install -s \"{$this->request->data['url']}\" --theme -a");
+            } elseif (isset($this->request->data['file_system'])) {
+                $task = (bool)WebShellDispatcher::run("Installer.plugins install -s \"{$this->request->data['path']}\" --theme -a");
             } else {
                 $uploader = new PackageUploader($this->request->data['file']);
                 if ($uploader->upload()) {
