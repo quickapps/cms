@@ -11,6 +11,8 @@
  */
 namespace Block\Test\TestCase\View;
 
+use Cake\Datasource\ConnectionManager;
+use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use Installer\Utility\DatabaseInstaller;
 
@@ -38,6 +40,20 @@ class DatabaseInstallerTest extends TestCase
         $this->installer = new DatabaseInstaller([
             'settingsPath' => TMP . 'settings_test.php'
         ]);
+
+        // drop all tables
+        $db = ConnectionManager::get('test');
+        $db->connect();
+        $tables = $db->schemaCollection()->listTables();
+        foreach ($tables as $table) {
+            $Table = TableRegistry::get($table, ['connection' => $db]);
+            $schema = $Table->schema();
+            $sql = $schema->dropSql($db);
+
+            foreach ($sql as $stmt) {
+                $db->execute($stmt)->closeCursor();
+            }
+        }
     }
 
     /**
@@ -59,12 +75,9 @@ class DatabaseInstallerTest extends TestCase
      */
     public function testPopulate()
     {
-        /*
         $config = include SITE_ROOT . '/config/settings.php';
         $result = $this->installer->install($config['Datasources']['test']);
-        debug($this->installer->errors());
         $this->assertTrue($result);
         $this->assertEmpty($this->installer->errors());
-        */
     }
 }

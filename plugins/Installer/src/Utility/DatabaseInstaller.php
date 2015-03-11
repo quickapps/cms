@@ -12,6 +12,7 @@
 namespace Installer\Utility;
 
 use Cake\Core\InstanceConfigTrait;
+use Cake\Database\Connection;
 use Cake\Database\Schema\Table as TableSchema;
 use Cake\Datasource\ConnectionManager;
 use Cake\Filesystem\File;
@@ -34,6 +35,13 @@ class DatabaseInstaller
      * @var array
      */
     protected $_errors = [];
+
+    /**
+     * Whether the install() method was invoked or not.
+     *
+     * @var bool
+     */
+    protected $_installed = false;
 
     /**
      * Default configuration for this class.
@@ -103,6 +111,8 @@ class DatabaseInstaller
      */
     public function install($dbConfig = [])
     {
+        $this->_installed = true;
+
         if (!$this->prepareConfig($dbConfig)) {
             return false;
         }
@@ -142,6 +152,9 @@ class DatabaseInstaller
      */
     public function errors()
     {
+        if (!$this->_installed) {
+            $this->error(__d('installer', 'Nothing installed'));
+        }
         return $this->_errors;
     }
 
@@ -194,11 +207,8 @@ class DatabaseInstaller
      */
     public function getConn()
     {
-        if (!$this->config('connection.className') ||
-            !$this->config('connection.database') ||
-            !$this->config('connection.username')
-        ) {
-            $this->error(__d('installer', 'Database name and username cannot be empty.'));
+        if (!$this->config('connection.className')) {
+            $this->error(__d('installer', 'Database engine cannot be empty.'));
             return false;
         }
 
@@ -223,38 +233,13 @@ class DatabaseInstaller
     public function importTables($conn)
     {
         $Folder = new Folder($this->config('schemaPath'));
-        $schemaFiles = $Folder->read(false, false, true)[1];
+        $fixtures = $Folder->read(false, false, true)[1];
         try {
-            return (bool)$conn->transactional(function ($connection) use ($schemaFiles) {
-                foreach ($schemaFiles as $schemaPath) {
-                    // IMPORT
-                    require $schemaPath;
-                    $className = str_replace('.php', '', basename($schemaPath));
-                    $tableName = (string)Inflector::underscore(str_replace_last('Fixture', '', $className));
-                    $fixture = new $className;
-                    $fields = (array)$fixture->fields;
-                    $records = (array)$fixture->records;
-                    $constraints = [];
-
-                    if (isset($fields['_constraints'])) {
-                        $constraints = $fields['_constraints'];
-                        unset($fields['_constraints']);
-                    }
-
-                    $tableSchema = new TableSchema($tableName, $fields);
-                    if (!empty($constraints)) {
-                        foreach ($constraints as $constraintName => $constraintAttrs) {
-                            $tableSchema->addConstraint($constraintName, $constraintAttrs);
-                        }
-                    }
-
-                    if ($connection->execute($tableSchema->createSql($connection)[0])) {
-                        foreach ($records as $row) {
-                            if (!$connection->insert($tableName, $row)) {
-                                return false;
-                            }
-                        }
-                    } else {
+            return (bool)$conn->transactional(function ($connection) use ($fixtures) {
+                foreach ($fixtures as $fixture) {
+                    $result = $this->_processFixture($fixture, $connection);
+                    if (!$result) {
+                        $this->error(__d('installer', 'Error importing "{0}".', $fixture));
                         return false;
                     }
                 }
@@ -323,5 +308,129 @@ class DatabaseInstaller
     {
         $space = '$%&()=!#@~0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         return substr(str_shuffle($space), 0, rand(40, 60));
+    }
+
+    /**
+     * Process the given fixture class, creates its schema and imports its records.
+     *
+     * @param string $path Full path to schema class file
+     * @param \Cake\Database\Connection $connection Database connection to use
+     * @return bool True on success
+     */
+    protected function _processFixture($path, Connection $connection)
+    {
+        if (!is_readable($path)) {
+            return false;
+        }
+
+        require $path;
+        $className = str_replace('.php', '', basename($path));
+        $tableName = (string)Inflector::underscore(str_replace_last('Fixture', '', $className));
+        $fixture = new $className;
+        $fields = (array)$fixture->fields;
+        $constraints = [];
+
+        if (isset($fields['_constraints'])) {
+            $constraints = $fields['_constraints'];
+            unset($fields['_constraints']);
+        }
+
+        $schema = new TableSchema($tableName, $fields);
+        if (!empty($constraints)) {
+            foreach ($constraints as $constraintName => $constraintAttrs) {
+                $schema->addConstraint($constraintName, $constraintAttrs);
+            }
+        }
+
+        $sql = $schema->createSql($connection);
+        $tableCreated = true;
+        foreach ($sql as $stmt) {
+            try {
+                if (!$connection->execute($stmt)) {
+                    $tableCreated = false;
+                }
+            } catch (\Exception $ex) {
+                $this->error(__d('installer', 'Unable to create table "{0}. Details: {1}"', $ex->getMessage()));
+                $tableCreated = false;
+            }
+        }
+
+        if (!$tableCreated) {
+            return false;
+        }
+
+        if (!$this->_importRecords($fixture, $schema, $connection)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Imports all records of the given fixture.
+     *
+     * @param object $fixture Fixture object instance
+     * @param \Cake\Database\Schema\Table $schema Table schema for which records
+     *  will be imported
+     * @param \Cake\Database\Connection $connection Database connection to use
+     * @return bool True on success
+     */
+    protected function _importRecords($fixture, TableSchema $schema, Connection $connection)
+    {
+        if (isset($fixture->records) && !empty($fixture->records)) {
+            $fixture->records = (array)$fixture->records;
+            if (count($fixture->records) > 100) {
+                $chunk = array_chunk($fixture->records, 100);
+            } else {
+                $chunk = [0 => $fixture->records];
+            }
+
+            foreach ($chunk as $records) {
+                list($fields, $values, $types) = $this->_getRecords($records, $schema);
+                $query = $connection->newQuery()
+                    ->insert($fields, $types)
+                    ->into($schema->name());
+
+                foreach ($values as $row) {
+                    $query->values($row);
+                }
+
+                try {
+                    $statement = $query->execute();
+                    $statement->closeCursor();
+                } catch (\Exception $ex) {
+                    $this->error(__d('installer', 'Error while importing data for table "{0}". Details: {1}', $schema->name(), $ex->getMessage()));
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Converts the given array of records into data used to generate a query.
+     *
+     * @param array $records Records to be imported
+     * @param \Cake\Database\Schema\Table $schema Table schema for which records will
+     *  be imported
+     * @return array
+     */
+    protected function _getRecords(array $records, TableSchema $schema)
+    {
+        $fields = $values = $types = [];
+        $columns = $schema->columns();
+        foreach ($records as $record) {
+            $fields = array_merge($fields, array_intersect(array_keys($record), $columns));
+        }
+        $fields = array_values(array_unique($fields));
+        foreach ($fields as $field) {
+            $types[$field] = $schema->column($field)['type'];
+        }
+        $default = array_fill_keys($fields, null);
+        foreach ($records as $record) {
+            $values[] = array_merge($default, $record);
+        }
+        return [$fields, $values, $types];
     }
 }
