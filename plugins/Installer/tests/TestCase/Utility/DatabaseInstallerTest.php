@@ -55,7 +55,7 @@ class DatabaseInstallerTest extends TestCase
             unlink(TMP . 'settings_test.php');
         }
         $this->_dropTables();
-        foreach ($this->fixtureManager->loaded() as &$fixture) {
+        foreach ($this->fixtureManager->loaded() as $fixture) {
             $fixture->created = [];
         }
     }
