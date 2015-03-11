@@ -30,7 +30,7 @@
                     <li><code>type:</code> <?php echo __d('node', "to specify the type contents (content type's machine-name). e.g., type:article"); ?></li>
                     <li><code>promote:</code> <?php echo __d('node', 'filter contents that were (or were not) promoted to front page. e.g., promote:true, promote:false'); ?></li>
                     <li><code>author:</code> <?php echo __d('node', 'filter contents matching a given author name. e.g., author:admin'); ?></li>
-                    <li><code>language:</code> <?php echo __d('node', 'filter contents matching the given languages. e.g., language:es,en-us'); ?></li>
+                    <li><code>language:</code> <?php echo __d('node', 'filter contents matching the given languages. e.g., language:es,en_US'); ?></li>
                     <li><code>limit:</code> <?php echo __d('node', 'limits the number of items of search result. e.g., limit:10'); ?></li>
                 </ul>
             </p>

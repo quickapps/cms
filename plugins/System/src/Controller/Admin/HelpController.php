@@ -41,7 +41,7 @@ class HelpController extends AppController
      * To do this, you must simply define a view element as `help_[code].ctp`, where
      * `[code]` is a two-character language code. For example:
      *
-     *     help_en-us.ctp
+     *     help_en_US.ctp
      *     help_es.ctp
      *     help_fr.ctp
      *

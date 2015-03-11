@@ -581,7 +581,7 @@ CREATE TABLE IF NOT EXISTS `options` (
 
 INSERT INTO `options` (`id`, `name`, `value`, `autoload`) VALUES
 (1, 'front_theme', 'FrontendTheme', 1),
-(2, 'default_language', 'en-us', 1),
+(2, 'default_language', 'en_US', 1),
 (3, 'site_description', 'Open Source CMS built on CakePHP 3.0', 1),
 (4, 'site_slogan', 'Open Source CMS built on CakePHP 3.0', 1),
 (5, 'back_theme', 'BackendTheme', 1),

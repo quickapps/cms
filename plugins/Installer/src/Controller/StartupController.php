@@ -121,8 +121,8 @@ class StartupController extends Controller
     {
         $Folder = new Folder(Plugin::classPath('Installer') . 'Locale');
         $languages = [
-            'en-us' => [
-                'url' => '/installer/startup/requirements?locale=en-us',
+            'en_US' => [
+                'url' => '/installer/startup/requirements?locale=en_US',
                 'welcome' => 'Welcome to QuickApps CMS',
                 'action' => 'Click here to install in English'
             ]
@@ -142,7 +142,7 @@ class StartupController extends Controller
             }
         }
 
-        I18n::locale('en-us');
+        I18n::locale('en_US');
         $this->title('Welcome to QuickApps CMS');
         $this->set('languages', $languages);
         $this->_step();

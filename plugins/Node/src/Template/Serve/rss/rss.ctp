@@ -14,7 +14,7 @@ $this->set('channelData', [
     'title' => $this->fetch('title'),
     'link' => $this->Url->build('/', true),
     'description' => $this->fetch('description'),
-    'language' => 'en-us'
+    'language' => language('locale')
 ]);
 
 foreach ($nodes as $node) {

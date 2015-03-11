@@ -181,7 +181,7 @@ class Controller extends CakeController
      *
      * Might redirects to:
      *
-     *     /en-us/article/demo-article.html
+     *     /en_US/article/demo-article.html
      *
      * @return void
      */
@@ -193,20 +193,19 @@ class Controller extends CakeController
 
         if (!empty($this->request->query['locale']) && in_array($this->request->query['locale'], $locales)) {
             $this->request->session()->write('locale', $this->request->query['locale']);
-            $code = $this->request->session()->read('locale');
+            I18n::locale($this->request->session()->read('locale'));
         } elseif (option('url_locale_prefix') && preg_match("/\/{$localesPattern}\//", $normalizedURL, $matches)) {
-            $code = $matches[1];
+            I18n::locale($matches[1]);
         } elseif ($this->request->session()->check('locale') && in_array($this->request->session()->read('locale'), $locales)) {
-            $code = $this->request->session()->read('locale');
+            I18n::locale($this->request->session()->read('locale'));
         } elseif ($this->request->is('userLoggedIn') && in_array(user()->locale, $locales)) {
-            $code = user()->locale;
+            I18n::locale(user()->locale);
         } elseif (in_array(option('default_language'), $locales)) {
-            $code = option('default_language');
+            I18n::locale(option('default_language'));
         } else {
-            $code = CORE_LOCALE;
+            I18n::locale(CORE_LOCALE);
         }
 
-        I18n::locale(normalizeLocale($code));
         if (option('url_locale_prefix') &&
             !$this->request->is('home') &&
             !preg_match("/\/{$localesPattern}\//", $normalizedURL)

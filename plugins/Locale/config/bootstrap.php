@@ -77,7 +77,7 @@ if (!function_exists('stripLanguagePrefix')) {
     /**
      * Strips language prefix from the given URL.
      *
-     * For instance, `/en-us/article/my-first-article.html` becomes
+     * For instance, `/en_US/article/my-first-article.html` becomes
      * `/article/my-first-article.html`.
      *
      * @param string $url The URL

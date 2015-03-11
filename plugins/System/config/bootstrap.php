@@ -20,7 +20,7 @@ use Cake\Network\Request;
  * - `dashboard`: When the dashboard section is being displayed.
  * - `admin`: When the dashboard or administration section is being displayed,
  *    that is anything within `/admin/*`
- * - `localized`: When current request's URL is language-prefixed. e.g. "/en-us/..."
+ * - `localized`: When current request's URL is language-prefixed. e.g. "/en_US/..."
  * - `userLoggedIn`: When user has logged in.
  * - `userAdmin`: When user has logged in and belongs to the "Administrator" group.
  */
@@ -31,14 +31,13 @@ use Cake\Network\Request;
  *     $request->isHome();
  */
 Request::addDetector('home', function ($request) {
-    return (
+    return
         !empty($request->params['plugin']) &&
         strtolower($request->params['plugin']) === 'node' &&
         !empty($request->params['controller']) &&
         strtolower($request->params['controller']) === 'serve' &&
         !empty($request->params['action']) &&
-        strtolower($request->params['action']) === 'home'
-    );
+        strtolower($request->params['action']) === 'home';
 });
 
 /**
@@ -47,10 +46,9 @@ Request::addDetector('home', function ($request) {
  *     $request->isAdmin();
  */
 Request::addDetector('admin', function ($request) {
-    return (
+    return
         !empty($request->params['prefix']) &&
-        $request->params['prefix'] === 'admin'
-    );
+        $request->params['prefix'] === 'admin';
 });
 
 /**
@@ -59,14 +57,12 @@ Request::addDetector('admin', function ($request) {
  *     $request->isDashboard();
  */
 Request::addDetector('dashboard', function ($request) {
-    return (
-        !empty($request->params['plugin']) &&
+    return !empty($request->params['plugin']) &&
         strtolower($request->params['plugin']) === 'system' &&
         !empty($request->params['controller']) &&
         strtolower($request->params['controller']) === 'dashboard' &&
         !empty($request->params['action']) &&
-        strtolower($request->params['action']) === 'index'
-    );
+        strtolower($request->params['action']) === 'index';
 });
 
 /**
@@ -89,7 +85,7 @@ Request::addDetector('localized', function ($request) {
 Request::addDetector('userLoggedIn', function ($request) {
     $sessionExists = $request->session()->check('Auth.User.id');
     $sessionContent = $request->session()->read('Auth.User.id');
-    return ($sessionExists && !empty($sessionContent));
+    return $sessionExists && !empty($sessionContent);
 });
 
 /**

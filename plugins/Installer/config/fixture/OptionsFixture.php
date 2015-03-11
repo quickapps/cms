@@ -80,7 +80,7 @@ class OptionsFixture
     [
     'id' => 2,
     'name' => 'default_language',
-    'value' => 'en-us',
+    'value' => 'en_US',
     'autoload' => true,
     ],
     2 =>

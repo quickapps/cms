@@ -50,7 +50,7 @@ function snapshot() {
         'plugins' => [],
         'options' => [
             'back_theme' => 'BackendTheme',
-            'default_language' => 'en-us',
+            'default_language' => 'en_US',
             'front_theme' => 'FrontendTheme',
             'site_description' => 'Open Source CMS built on CakePHP 3.0',
             'site_email' => 'demo@email.com',
@@ -63,9 +63,9 @@ function snapshot() {
             'url_locale_prefix' => '0',
         ],
         'languages' => [
-            'en-us' => [
+            'en_US' => [
                 'name' => 'English',
-                'locale' => 'en-us',
+                'locale' => 'en_US',
                 'code' => 'en',
                 'country' => 'US',
                 'direction' => 'ltr',
