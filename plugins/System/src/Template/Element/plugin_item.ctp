@@ -9,13 +9,11 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-?>
 
-<?php
-    $classes = [];
-    $classes[] = $plugin->status ? 'panel-success' : 'panel-danger';
-    $classes[] = $plugin->status ? 'panel-enabled' : 'panel-disabled';
-    $classes[] = $plugin->isCore ? 'panel-core' : 'panel-third-party';
+$classes = [];
+$classes[] = $plugin->status ? 'panel-success' : 'panel-danger';
+$classes[] = $plugin->status ? 'panel-enabled' : 'panel-disabled';
+$classes[] = $plugin->isCore ? 'panel-core' : 'panel-third-party';
 ?>
 <div class="plugin-panel panel <?php echo implode(' ', $classes); ?>">
     <div class="panel-heading">
@@ -113,11 +111,10 @@
 
     <div class="panel-body">
         <em class="help-block description"><?php echo $plugin->composer['description']; ?></em>
-
         <div class="extended-info" style="display:none;">
             <?php echo $this->element('System.composer_details', ['composer' => $plugin->composer]); ?>
+            <small class="pull-right"><?php echo __d('system', 'Package location: {0}', "<code>{$plugin->path}</code>"); ?></small>
         </div>
-
         <a href="" class="btn btn-default btn-xs glyphicon glyphicon-arrow-down toggler"></a>
     </div>
 </div>

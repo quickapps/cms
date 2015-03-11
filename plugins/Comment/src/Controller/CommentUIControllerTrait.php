@@ -33,13 +33,15 @@ use QuickApps\Core\Plugin;
  * Beside adding `use CommentUIControllerTrait;` to your controller you MUST
  * also indicate the name of the Table being managed. Example:
  *
- *     uses Comment\Controller\CommentUIControllerTrait;
+ * ```php
+ * uses Comment\Controller\CommentUIControllerTrait;
  *
- *     class MyCleanController extends AppController {
- *         use CommentUIControllerTrait;
- *         // underscored table alias. e.g.: "user_photos"
- *         protected $_manageTable = 'nodes';
- *     }
+ * class MyCleanController extends AppController {
+ *     use CommentUIControllerTrait;
+ *     // underscored table alias. e.g.: "user_photos"
+ *     protected $_manageTable = 'nodes';
+ * }
+ * ```
  *
  * In order to avoid trait collision you should always `extend` Comment UI using
  * this trait over a `clean` controller. This is, an empty controller class with
@@ -53,11 +55,13 @@ use QuickApps\Core\Plugin;
  * must return a string value describing the entity that the given comment is
  * attached to. For example:
  *
- *     protected function _inResponseTo(\Comment\Model\Entity\Comment $comment) {
- *         $this->loadModel('MyPlugin.Persons');
- *         $person = $this->Persons->get($comment->entity_id);
- *         return "{$person->name}<br />{$person->email}";
- *     }
+ * ```php
+ * protected function _inResponseTo(\Comment\Model\Entity\Comment $comment) {
+ *     $this->loadModel('MyPlugin.Persons');
+ *     $person = $this->Persons->get($comment->entity_id);
+ *     return "{$person->name}<br />{$person->email}";
+ * }
+ * ```php
  *
  * # Requirements
  *

@@ -65,8 +65,8 @@
             <strong><?php echo __d('system', 'Theme Regions'); ?>:</strong>
 
             <ul>
-                <?php foreach ($composer['extra']['regions'] as $region): ?>
-                <li><?php echo $region; ?></li>
+                <?php foreach ($composer['extra']['regions'] as $machineName => $region): ?>
+                <li><?php echo $region; ?> (<?php echo $machineName; ?>)</li>
                 <?php endforeach; ?>
             </ul>
         </li>

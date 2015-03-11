@@ -94,33 +94,31 @@ class CommentableBehavior extends Behavior
      */
     public function beforeFind(Event $event, $query, $options, $primary)
     {
-        if ($this->_enabled) {
-            if ($query->count() > 0) {
-                $pk = $this->_table->primaryKey();
-                $tableAlias = Inflector::underscore($this->_table->alias());
+        if ($this->_enabled && $query->count() > 0) {
+            $pk = $this->_table->primaryKey();
+            $tableAlias = Inflector::underscore($this->_table->alias());
 
-                $query->contain([
-                    'Comments' => function ($query) {
-                        return $query->find('threaded')
-                            ->contain(['Users'])
-                            ->order($this->config('order'));
-                    },
-                ]);
+            $query->contain([
+                'Comments' => function ($query) {
+                    return $query->find('threaded')
+                        ->contain(['Users'])
+                        ->order($this->config('order'));
+                },
+            ]);
 
-                if ($this->config('count') ||
-                    (isset($options['comments_count']) && $options['comments_count'] === true)
-                ) {
-                    $query->formatResults(function ($results) use ($pk, $tableAlias) {
-                        return $results->map(function ($entity) use ($pk, $tableAlias) {
-                            $entityId = $entity->{$pk};
-                            $count = TableRegistry::get('Comment.Comments')->find()
-                                ->where(['entity_id' => $entityId, 'table_alias' => $tableAlias])
-                                ->count();
-                            $entity->set('comments_count', $count);
-                            return $entity;
-                        });
+            if ($this->config('count') ||
+                (isset($options['comments_count']) && $options['comments_count'] === true)
+            ) {
+                $query->formatResults(function ($results) use ($pk, $tableAlias) {
+                    return $results->map(function ($entity) use ($pk, $tableAlias) {
+                        $entityId = $entity->{$pk};
+                        $count = TableRegistry::get('Comment.Comments')->find()
+                            ->where(['entity_id' => $entityId, 'table_alias' => $tableAlias])
+                            ->count();
+                        $entity->set('comments_count', $count);
+                        return $entity;
                     });
-                }
+                });
             }
         }
     }

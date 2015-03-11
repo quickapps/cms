@@ -17,13 +17,13 @@ use QuickApps\View\ViewModeAwareTrait;
 /**
  * Mock Field.
  *
- * This entity represents a Table column. It holds the following attributes:
+ * This entity represents a table cell and holds the following attributes:
  *
  * - name: Machine name of this field. ex. `user-age`. (Schema equivalent: column name)
  * - label: Human readable name of this field e.g.: `User Last name`.
  * - value: Value for this [FieldInstance, Entity] tuple. (Schema equivalent: cell value).
  * - raw: Raw `value`.
- * - metadata: A mock entity which holds the following properties
+ * - metadata: A mock entity which holds the following properties describing a column
  *   - field_value_id: ID of the value stored in `field_values` table (from where `value` comes from).
  *   - field_instance_id: ID of the field instance (`field_instances` table) attached to Table.
  *   - field_instance_slug: Machine-name of the field instance (`field_instances` table) attached to Table.

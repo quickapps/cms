@@ -32,12 +32,14 @@ use User\Model\Entity\User;
  * When this component is attached you can render entity's comments using the
  * CommentHelper:
  *
- *     // in any view:
- *     $this->Comment->config('visibility', 1);
- *     $this->Comment->render($entity);
+ * ```php
+ * // in any view:
+ * $this->Comment->config('visibility', 1);
+ * $this->Comment->render($entity);
  *
- *     // in any controller
- *     $this->Comment->config('visibility', 1);
+ * // in any controller
+ * $this->Comment->config('visibility', 1);
+ * ```
  *
  * You can set `visibility` using this component at controller side, or using
  * CommentHelper as example above, accepted values are:
