@@ -50,10 +50,14 @@ class DatabaseInstallerTest extends TestCase
      */
     public function tearDown()
     {
+        parent::tearDown();
         if (is_readable(TMP . 'settings_test.php')) {
             unlink(TMP . 'settings_test.php');
         }
         $this->_dropTables();
+        foreach ($this->fixtureManager->loaded() as &$fixture) {
+            $fixture->created = [];
+        }
     }
 
     /**
