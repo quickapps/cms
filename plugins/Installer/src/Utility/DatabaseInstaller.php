@@ -54,14 +54,14 @@ class DatabaseInstaller
      *   imported (fixtures).
      *
      * - maxExecutionTime: Time in seconds for PHP's "max_execution_time" directive.
-     *   Defaults to 300 (5 minutes).
+     *   Defaults to 480 (8 minutes).
      *
      * @var array
      */
     protected $_defaultConfig = [
         'settingsPath' => null,
         'schemaPath' => null,
-        'maxExecutionTime' => 300,
+        'maxExecutionTime' => 480,
     ];
 
     /**
@@ -79,10 +79,7 @@ class DatabaseInstaller
         'prefix' => '',
         'encoding' => 'utf8',
         'timezone' => 'UTC',
-        'cacheMetadata' => true,
-        'quoteIdentifiers' => false,
         'log' => false,
-        'init' => [],
     ];
 
     /**

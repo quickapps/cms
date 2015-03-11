@@ -17,11 +17,13 @@ if (!getenv('DB')) {
 
 if (getenv('DB') == 'sqlite') {
     $conn = [
+        'className' => 'Cake\Database\Connection',
         'driver' => 'Cake\Database\Driver\Sqlite',
         'log' => true,
     ];
 } elseif (getenv('DB') == 'mysql') {
     $conn = [
+        'className' => 'Cake\Database\Connection',
         'driver' => 'Cake\Database\Driver\Mysql',
         'username' => 'travis',
         'password' => '',
@@ -30,6 +32,7 @@ if (getenv('DB') == 'sqlite') {
     ];
 } elseif (getenv('DB') == 'pgsql') {
     $conn = [
+        'className' => 'Cake\Database\Connection',
         'driver' => 'Cake\Database\Driver\Postgres',
         'persistent' => false,
         'host' => 'localhost',
