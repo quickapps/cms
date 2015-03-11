@@ -213,6 +213,7 @@ class DatabaseInstaller
         }
 
         try {
+            ConnectionManager::drop('installation');
             ConnectionManager::config('installation', $this->config('connection'));
             $conn = ConnectionManager::get('installation');
             $conn->connect();
