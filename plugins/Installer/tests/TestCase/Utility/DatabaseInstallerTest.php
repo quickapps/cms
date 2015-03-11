@@ -91,7 +91,11 @@ class DatabaseInstallerTest extends TestCase
     {
         $config = include SITE_ROOT . '/config/settings.php';
         $result = $this->installer->install($config['Datasources']['test']);
+
+        if (!$result) {
+            debug($this->installer->errors());
+        }
+
         $this->assertTrue($result);
-        $this->assertEmpty($this->installer->errors());
     }
 }
