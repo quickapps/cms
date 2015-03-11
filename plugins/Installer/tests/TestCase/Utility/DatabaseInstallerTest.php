@@ -60,16 +60,13 @@ class DatabaseInstallerTest extends TestCase
      */
     public function testPopulate()
     {
+        $this->skipIf(getenv('DB') == 'mysql', 'MySQL installation on CI server fails.');
+
         $this->_dropTables();
         $config = include SITE_ROOT . '/config/settings.php';
         $result = $this->installer->install($this->_getConn());
-
-        if (!$result) {
-            debug($this->installer->errors());
-        }
-
-        //$this->assertTrue($result);
-        //$this->assertEmpty($this->installer->errors());
+        $this->assertTrue($result);
+        $this->assertEmpty($this->installer->errors());
     }
 
     /**
