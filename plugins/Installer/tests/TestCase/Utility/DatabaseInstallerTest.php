@@ -40,7 +40,29 @@ class DatabaseInstallerTest extends TestCase
         $this->installer = new DatabaseInstaller([
             'settingsPath' => TMP . 'settings_test.php'
         ]);
+        $this->_dropTables();
+    }
 
+    /**
+     * tearDown.
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        if (is_readable(TMP . 'settings_test.php')) {
+            unlink(TMP . 'settings_test.php');
+        }
+        $this->_dropTables();
+    }
+
+    /**
+     * Removes all tables in current DB connection.
+     *
+     * @return void
+     */
+    protected function _dropTables()
+    {
         // drop all tables
         $db = ConnectionManager::get('test');
         $db->connect();
@@ -53,18 +75,6 @@ class DatabaseInstallerTest extends TestCase
             foreach ($sql as $stmt) {
                 $db->execute($stmt)->closeCursor();
             }
-        }
-    }
-
-    /**
-     * tearDown.
-     *
-     * @return void
-     */
-    public function tearDown()
-    {
-        if (is_readable(TMP . 'settings_test.php')) {
-            unlink(TMP . 'settings_test.php');
         }
     }
 
