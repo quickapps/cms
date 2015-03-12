@@ -11,8 +11,8 @@
  */
 namespace Menu\Test\TestCase\View;
 
-use Menu\View\Helper\MenuHelper;
 use Cake\TestSuite\TestCase;
+use Menu\View\Helper\MenuHelper;
 use QuickApps\View\View;
 
 /**
