@@ -142,7 +142,29 @@ class ThemesShell extends Shell
      */
     protected function _install()
     {
-        // TODO: theme shell install UI
+        $message = "Please provide a theme source, it can be either an URL or a filesystem path to a ZIP/directory within your server?\n[Q]uit";
+
+        while (true) {
+            $source = $this->in($message);
+            if (strtoupper($source) === 'Q') {
+                $this->err('Installation aborted');
+                break;
+            } else {
+                $this->out('Starting installation...', 0);
+                $task = $this->dispatchShell("Installer.plugins install -s \"{$source}\" --theme -a");
+
+                if ($task === 0) {
+                    $this->_io->overwrite('Starting installation... successfully installed!', 2);
+                    $this->out();
+                    break;
+                } else {
+                    $this->_io->overwrite('Starting installation... failed!', 2);
+                    $this->out();
+                }
+            }
+        }
+
+        $this->out();
     }
 
     /**
@@ -152,7 +174,58 @@ class ThemesShell extends Shell
      */
     protected function _uninstall()
     {
-        // TODO: theme shell uninstall UI
+        $allThemes = Plugin::get()
+            ->filter(function ($plugin) {
+                return $plugin->isTheme;
+            })
+            ->toArray();
+        $index = 1;
+        $this->out();
+        foreach ($allThemes as $plugin) {
+            $allThemes[$index] = $plugin;
+            $this->out(__d('installer', '[{0,number}] {1}', $index, $plugin->human_name));
+            $index++;
+        }
+        $this->out();
+
+        $message = "Which theme would you like to uninstall?\n[Q]uit";
+        while (true) {
+            $in = trim($this->in($message));
+            if (strtoupper($in) === 'Q') {
+                $this->err('Operation aborted');
+                break;
+            } elseif (intval($in) < 1 || !isset($allThemes[intval($in)])) {
+                $this->err('Invalid option');
+            } else {
+                $plugin = Plugin::get($allThemes[$in]->name());
+                $this->hr();
+                $this->out('<info>The following theme will be uninstalled</info>');
+                $this->hr();
+                $this->out(sprintf('Name:        %s', $plugin->name));
+                $this->out(sprintf('Description: %s', $plugin->composer['description']));
+                $this->out(sprintf('Path:        %s', $plugin->path));
+                $this->hr();
+                $this->out();
+
+                $confirm = $this->in(sprintf('Please type in "%s" to uninstall', $allThemes[$in]->name));
+                if ($confirm === $allThemes[$in]->name) {
+                    $task = $this->dispatchShell("Installer.plugins uninstall -p {$allThemes[$in]->name}");
+
+                    if ($task === 0) {
+                        $this->out('Plugin uninstalled!');
+                        Plugin::dropCache();
+                    } else {
+                        $this->err('Plugin could not be uninstalled.', 2);
+                        $this->out();
+                    }
+                } else {
+                    $this->err('Confirmation failure, operation aborted!');
+                }
+                break;
+            }
+        }
+
+        $this->out();
     }
 
     /**
@@ -189,7 +262,7 @@ class ThemesShell extends Shell
             if (strtoupper($in) === 'Q') {
                 $this->err('Operation aborted');
                 break;
-            } elseif (!isset($disabledThemes[intval($in)])) {
+            } elseif (intval($in) < 1 || !isset($disabledThemes[intval($in)])) {
                 $this->err('Invalid option');
             } else {
                 $task = $this->dispatchShell("Installer.themes change -t {$disabledThemes[$in]->name}");

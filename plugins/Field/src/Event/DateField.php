@@ -88,10 +88,19 @@ class DateField extends BaseHandler
      */
     public function entityBeforeValidate(Event $event, Field $field, $options, $validator)
     {
-        if ($field->metadata->required) {
-            // TODO: check not null dates using callable
-            $validator->notEmpty(":{$field->name}", __d('field', 'You must select a date/time.'));
+        if (!$field->metadata->required) {
+            return true;
         }
+
+        $validator
+            ->notEmpty(":{$field->name}", __d('field', 'You must select a date/time.'))
+            ->add(":{$field->name}", 'validDate', [
+                'rule' => function ($value, $context) {
+                    return DateToolbox::createFromFormat($value['format'], $value['date']) !== false;
+                },
+                'message' => __d('field', 'Invalid date/time given.'),
+            ]);
+
         return true;
     }
 
