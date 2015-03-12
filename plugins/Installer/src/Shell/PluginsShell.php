@@ -199,7 +199,7 @@ class PluginsShell extends Shell
             if (strtoupper($in) === 'Q') {
                 $this->err('Operation aborted');
                 break;
-            } elseif (!isset($allPlugins[intval($in)])) {
+            } elseif (intval($in) < 1 || !isset($allPlugins[intval($in)])) {
                 $this->err('Invalid option');
             } else {
                 $plugin = Plugin::get($allPlugins[$in]->name());
@@ -268,7 +268,7 @@ class PluginsShell extends Shell
             if (strtoupper($in) === 'Q') {
                 $this->err('Operation aborted');
                 break;
-            } elseif (!isset($disabledPlugins[intval($in)])) {
+            } elseif (intval($in) < 1 || !isset($disabledPlugins[intval($in)])) {
                 $this->err('Invalid option');
             } else {
                 $task = $this->dispatchShell("Installer.plugins toggle -p {$disabledPlugins[$in]->name} -s enable");
@@ -321,7 +321,7 @@ class PluginsShell extends Shell
             if (strtoupper($in) === 'Q') {
                 $this->err('Operation aborted');
                 break;
-            } elseif (!isset($enabledPlugins[intval($in)])) {
+            } elseif (intval($in) < 1 || !isset($enabledPlugins[intval($in)])) {
                 $this->err('Invalid option');
             } else {
                 $plugin = Plugin::get($enabledPlugins[$in]->name());
