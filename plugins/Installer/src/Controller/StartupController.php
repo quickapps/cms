@@ -158,7 +158,7 @@ class StartupController extends Controller
     public function requirements()
     {
         if (!$this->_step('language')) {
-            $this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'index']);
+            $this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'language']);
         }
 
         $tests = $this->_getTester();
@@ -182,7 +182,7 @@ class StartupController extends Controller
     public function license()
     {
         if (!$this->_step('requirements')) {
-            $this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'index']);
+            $this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'requirements']);
         }
 
         $this->title(__d('installer', 'License Agreement'));
@@ -199,7 +199,7 @@ class StartupController extends Controller
     public function database()
     {
         if (!$this->_step('license')) {
-            $this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'index']);
+            $this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'license']);
         }
 
         if (!empty($this->request->data)) {
@@ -226,8 +226,8 @@ class StartupController extends Controller
      */
     public function account()
     {
-        if (!$this->_step('license')) {
-            $this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'index']);
+        if (!$this->_step('database')) {
+            $this->redirect(['plugin' => 'Installer', 'controller' => 'startup', 'action' => 'database']);
         }
 
         $this->loadModel('User.Users');
@@ -300,7 +300,7 @@ class StartupController extends Controller
         $this->set('description_for_layout', $descriptionForLayout);
     }
     // @codingStandardsIgnoreEnd
-    
+
     /**
      * Gets an instance of ServerTest class.
      *
@@ -342,23 +342,24 @@ class StartupController extends Controller
     }
 
     /**
-     * Check if the given step name was completed. Or marks current step as completed.
+     * Check if the given step name was completed. Or marks current step as
+     * completed.
      *
-     * If $check is set to false, we mark current step (controller's action name)
-     * as completed. If $check is set to a string, we check if that step was
+     * If $check is set to NULL, it marks current step (controller's action name)
+     * as completed. If $check is set to a string, it checks if that step was
      * completed before.
      *
      * This allows steps to control user navigation, so users can not pass to the
      * next step without completing all previous steps.
      *
-     * @param bool|string $check Name of the step to check, or false to mark as
+     * @param null|string $check Name of the step to check, or false to mark as
      *  completed current step
      * @return bool
      */
-    protected function _step($check = false)
+    protected function _step($check = null)
     {
         $_steps = (array)$this->request->session()->read('Startup._steps');
-        if ($check === false) {
+        if ($check === null) {
             $_steps[] = $this->request->params['action'];
             $_steps = array_unique($_steps);
             $this->request->session()->write('Startup._steps', $_steps);
