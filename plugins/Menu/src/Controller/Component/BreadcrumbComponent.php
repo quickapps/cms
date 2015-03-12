@@ -50,27 +50,27 @@ class BreadcrumbComponent extends Component
     /**
      * Adds a new crumb to the stack.
      *
-     * You can use this method without any argument, if you do it will automatically
-     * try to guess the full breadcrumb path based on current URL (if current URL
-     * matches any URL in any of your menus links).
+     * You can use this method without any argument, if you do, it will
+     * automatically try to guess the full breadcrumb path based on current URL (if
+     * current URL matches any URL in any of your menu links).
      *
      * ```php
      * $this->Breadcrumb->push();
      * ```
      *
      * Also, you can can pass a string as first argument representing an URL, if you
-     * do it will try to find that URL in in any of your menus, and then generate its
-     * corresponding breadcrumb.
+     * do, it will try to find that URL in in any of your menus, and then generate
+     * its corresponding breadcrumb.
      *
      * ```php
      * $this->Breadcrumb->push('/admin/some/url');
      * ```
      *
-     * @param array|string|null $crumbs Single crumb or an array of multiple crumbs to push
-     *  at once
+     * @param array|string|null $crumbs Single crumb or an array of multiple crumbs
+     *  to push at once. Or null for guess from current URL
      * @param mixed $url If both $crumbs and $url are string values they will be
      *  used as `title` and `URL` respectively
-     * @return \Menu\Controller\Component\BreadcrumbComponent This instance (for chaining)
+     * @return $this For method chaining
      * @see \Menu\View\BreadcrumbRegistry::push()
      */
     public function push($crumbs = null, $url = null)

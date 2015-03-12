@@ -325,7 +325,7 @@ class MenuHelper extends Helper
      * list($options, $attrs) = $this->_prepareOptions($options);
      * ```
      *
-     * @param array $options Options given to `render()`
+     * @param array|callable $options Options given to `render()`
      * @return array Array with two keys: `0 => $options` sanitized and filtered
      *  options array, and `1 => $attrs` list of attributes for top level UL element
      */

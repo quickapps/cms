@@ -18,7 +18,7 @@ use Cake\Routing\Router;
 use User\Model\Entity\User;
 
 /**
- * Base class for user message, all message types should extend this class.
+ * Base class for user messages, all message types should extend this class.
  *
  * @property \User\Model\Table\UsersTable $Users
  */
