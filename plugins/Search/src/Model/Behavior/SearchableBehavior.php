@@ -661,9 +661,8 @@ class SearchableBehavior extends Behavior
             }
         }
 
-        // TODO: allow other languages
         $text = str_replace(["\n", "\r"], '', (string)$text); // remove new lines
-        $text = preg_replace('/[^a-z\s]/i', ' ', $text); // letters ands white spaces only
+        $text = preg_replace('/[^\p{L}\s]/i', ' ', $text); // letters (any language) ands white spaces only
         $text = trim(preg_replace('/\s{2,}/i', ' ', $text)); // remove double spaces
         $text = strtolower($text); // all to lowercase
         return $this->_filterText($text);

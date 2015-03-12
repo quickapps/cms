@@ -224,7 +224,7 @@ class UsersTable extends Table
         if (Plugin::get('User')->settings('password_lowercase')) {
             $rules['lowercase'] = [
                 'rule' => function ($value, $context) {
-                    return (bool)preg_match('/[a-z]/', $this->_getRawPassword($context));
+                    return (bool)preg_match('/[\p{Ll}]/', $this->_getRawPassword($context));
                 },
                 'message' => __d('user', 'Password must contain at least one lowercase character (a-z).'),
             ];
