@@ -66,7 +66,7 @@ class RuleCheckerTest extends TestCase
 
         $this->assertTrue($checker1->check());
         $this->assertFalse($checker2->check());
-    } 
+    }
 
     /**
      * test pass() method.

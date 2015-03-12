@@ -82,7 +82,7 @@ class RolesFixture extends TestFixture
   ],
   1 => 
   [
-    'slug' => 'authenticated ',
+    'slug' => 'authenticated',
     'name' => 'Authenticated User',
   ],
   2 => 

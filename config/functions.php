@@ -225,7 +225,7 @@ if (!function_exists('normalizePath')) {
      * ```
      *
      * By defaults uses DIRECTORY_SEPARATOR as symbol.
-     * 
+     *
      * @param string $path The path to normalize
      * @param string $ds Directory separator character, defaults to DIRECTORY_SEPARATOR
      * @return string Normalized $path
@@ -241,7 +241,7 @@ if (!function_exists('quickapps')) {
     /**
      * Shortcut for reading QuickApps's snapshot configuration.
      *
-     * For example, `quickapps('variables');` maps to 
+     * For example, `quickapps('variables');` maps to
      * `Configure::read('QuickApps.variables');`. If this function is used with
      * no arguments, `quickapps()`, the entire snapshot will be returned.
      *
@@ -271,7 +271,7 @@ if (!function_exists('option')) {
      * ```php
      * option('site_slogan');
      * ```
-     * 
+     *
      * @param string $name Name of the option to retrieve. e.g. `front_theme`,
      *  `default_language`, `site_slogan`, etc
      * @param mixed $default The default value to return if no value is found
@@ -301,7 +301,7 @@ if (!function_exists('option')) {
 if (!function_exists('listeners')) {
     /**
      * Returns a list of all registered event listeners in the system.
-     * 
+     *
      * @return array
      */
     function listeners()
@@ -378,7 +378,7 @@ if (!function_exists('localeSplit')) {
      * IMPORTANT: Note that region code may be an empty string.
      *
      * @param string $localeId Locale code. e.g. "en_NZ" (or "en-NZ") for
-     *  "English New Zealand" 
+     *  "English New Zealand"
      * @return array Array with 2 indexes. 0 => language code, 1 => country code.
      */
     function localeSplit($localeId)

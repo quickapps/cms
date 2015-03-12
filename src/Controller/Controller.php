@@ -223,7 +223,9 @@ class Controller extends CakeController
     public function prepareTheme()
     {
         $this->layout = 'default';
-        if (!empty($this->request->params['prefix']) && strtolower($this->request->params['prefix']) === 'admin') {
+        if (!empty($this->request->params['prefix']) &&
+            strtolower($this->request->params['prefix']) === 'admin'
+        ) {
             $this->theme = option('back_theme');
         } else {
             $this->theme = option('front_theme');

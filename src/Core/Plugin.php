@@ -194,7 +194,6 @@ class Plugin extends CakePlugin
      */
     public static function checkReverseDependency($pluginName)
     {
-        // TODO: check against composer's installed.json
         $out = [];
         list(, $pluginName) = packageSplit($pluginName, true);
         $plugins = static::get()

@@ -17,14 +17,14 @@ use Cake\Core\Configure;
         echo $this->Form->input($field, [
             'name' => ":{$field->name}[date]",
             'value' => $field->value,
-            'class' => 'picker'
+            'class' => 'picker',
             'readonly',
         ]);
 
         // value dynamically set using JS
         echo $this->Form->input(":{$field->name}.format", [
             'type' => 'hidden',
-            'class' => 'format'
+            'class' => 'format',
         ]);
     ?>
 

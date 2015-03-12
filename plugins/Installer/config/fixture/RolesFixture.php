@@ -70,7 +70,7 @@ class RolesFixture
     1 =>
     [
     'id' => 2,
-    'slug' => 'authenticated ',
+    'slug' => 'authenticated',
     'name' => 'Authenticated User',
     ],
     2 =>

@@ -23,7 +23,7 @@ class PluginTest extends TestCase
 
     /**
      * Fixtures.
-     * 
+     *
      * @var array
      */
     public $fixtures = [

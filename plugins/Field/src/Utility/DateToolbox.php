@@ -58,7 +58,7 @@ class DateToolbox
      *
      * @param string $format A jQuery's date/time format. e.g. `'today is:' yy-mm-dd`
      * @param string $date A date formatted using $format. e.g. `today is: 2015-01-30`
-     * @return \DateTime
+     * @return \DateTime|false Date object on success, false on error
      */
     public static function createFromFormat($format, $date)
     {
@@ -71,8 +71,7 @@ class DateToolbox
 
         $date = trim($date);
         $format = DateToolbox::normalizeFormat($format);
-        $result = date_create_from_format($format, $date);
-        return $result;
+        return date_create_from_format($format, $date);
     }
 
     /**

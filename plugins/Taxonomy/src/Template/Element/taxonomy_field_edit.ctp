@@ -45,7 +45,6 @@
             $inputOptions['type'] = 'text';
             $inputOptions['class'] = 'taxonomy-tags';
             unset($inputOptions['multiple'], $inputOptions['options']);
-            // TODO: taxonomy field: auto-complete tagging
             echo $this->element('Taxonomy.taxonomy_field_tagging_widget', ['fieldId' => $id, 'field' => $field]);
         }
     ?>

@@ -678,7 +678,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
 
 INSERT INTO `roles` (`id`, `slug`, `name`) VALUES
 (1, 'administrator', 'Administrator'),
-(2, 'authenticated ', 'Authenticated User'),
+(2, 'authenticated', 'Authenticated User'),
 (3, 'anonymous', 'Anonymous User');
 
 -- --------------------------------------------------------

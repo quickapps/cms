@@ -127,10 +127,8 @@ trait StaticCacheTrait
      */
     public static function dropCache($key = null)
     {
-        if ($key !== null) {
-            if (isset(static::$_cache[$key])) {
-                unset(static::$_cache[$key]);
-            }
+        if ($key !== null && isset(static::$_cache[$key])) {
+            unset(static::$_cache[$key]);
         } else {
             static::$_cache = [];
         }

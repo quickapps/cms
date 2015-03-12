@@ -210,29 +210,6 @@ class TextToolbox
     }
 
     /**
-     * Protects email address so bots can not read it.
-     *
-     * Replaces emails address with an encoded JS script, so there is no way bots
-     * can read an email address from the generated HTML source code.
-     *
-     * @param string $email The email to obfuscate
-     * @return string
-     */
-    public static function emailObfuscator($email)
-    {
-        $link = str_rot13('<a href="mailto:' . $email . '" rel="nofollow">' . $email . '</a>');
-        $out = '
-            <script type="text/javascript">
-				document.write(\'' . $link . '\'.replace(/[a-zA-Z]/g,
-                function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
-            </script>
-		';
-        $out .= "<noscript>[" . __d('field', 'Turn on JavaScript to see the email address.') . "]</noscript>";
-
-        return $out;
-    }
-
-    /**
      * Safely strip HTML tags.
      *
      * @param string $html HTML content
@@ -293,8 +270,8 @@ class TextToolbox
     /**
      * Convert any email to a "mailto" link.
      *
-     * Escape character is "\".
-     * For example, "\demo@email.com" won't be converted to link.
+     * Escape character is `\`. For example, "\demo@email.com" won't be converted
+     * to link.
      *
      * @param string $text The text where to look for emails addresses
      * @return string
@@ -314,6 +291,29 @@ class TextToolbox
         }
 
         return $text;
+    }
+
+    /**
+     * Protects email address so bots can not read it.
+     *
+     * Replaces emails address with an encoded JS script, so there is no way bots
+     * can read an email address from the generated HTML source code.
+     *
+     * @param string $email The email to obfuscate
+     * @return string
+     */
+    public static function emailObfuscator($email)
+    {
+        $link = str_rot13('<a href="mailto:' . $email . '" rel="nofollow">' . $email . '</a>');
+        $out = '
+            <script type="text/javascript">
+                document.write(\'' . $link . '\'.replace(/[a-zA-Z]/g,
+                function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
+            </script>
+        ';
+        $out .= "<noscript>[" . __d('field', 'Turn on JavaScript to see the email address.') . "]</noscript>";
+
+        return $out;
     }
 
     /**
@@ -356,7 +356,8 @@ class TextToolbox
      * @param string|int|false $len Either a string indicating where to cut the
      *  text, or a integer to trim text to that number of characters. If not given
      *  (false by default) text will be trimmed to 600 characters length.
-     * @param string $ellipsis Will be used as ending and appended to the trimmed string
+     * @param string $ellipsis Will be used as ending and appended to the trimmed
+     *  string. Defaults to ` ...`
      * @return string
      */
     public static function trimmer($text, $len = false, $ellipsis = ' ...')
@@ -387,7 +388,6 @@ class TextToolbox
         if (empty(static::$_MarkdownParser)) {
             static::$_MarkdownParser = new Parsedown();
         }
-
         return static::$_MarkdownParser;
     }
 
