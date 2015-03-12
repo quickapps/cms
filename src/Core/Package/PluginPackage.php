@@ -30,6 +30,7 @@ use QuickApps\Core\Plugin;
  * @property array $eventListeners
  * @property array $settings
  * @property array $composer
+ * @property array $permissions
  */
 class PluginPackage extends BasePackage
 {
@@ -42,6 +43,13 @@ class PluginPackage extends BasePackage
     protected $_info = [];
 
     /**
+     * Permissions tree for this plugin.
+     *
+     * @var null|array
+     */
+    protected $_permissions = null;
+
+    /**
      * {@inheritdoc}
      *
      * @return string CamelizedName plugin name
@@ -49,6 +57,60 @@ class PluginPackage extends BasePackage
     public function name()
     {
         return (string)Inflector::camelize(str_replace('-', '_', parent::name()));
+    }
+
+    /**
+     * Gets plugin's permissions tree.
+     *
+     * ### Output example:
+     *
+     * ```php
+     * [
+     *     'administrator' => [
+     *         'Plugin/Controller/action',
+     *         'Plugin/Controller/action2',
+     *         ...
+     *     ],
+     *     'role-machine-name' => [
+     *         'Plugin/Controller/anotherAction',
+     *         'Plugin/Controller/anotherAction2',
+     *     ],
+     *     ...
+     * ]
+     * ```
+     *
+     * @return array Permissions index by role's machine-name
+     */
+    public function permissions()
+    {
+        if (is_array($this->_permissions)) {
+            return $this->_permissions;
+        }
+
+        $out = [];
+        $acosTable = TableRegistry::get('User.Acos');
+        $permissions = $acosTable
+            ->Permissions
+            ->find()
+            ->where(['Acos.plugin' => $this->name])
+            ->contain(['Acos', 'Roles'])
+            ->all();
+
+        foreach ($permissions as $permission) {
+            if (!isset($out[$permission->role->slug])) {
+                $out[$permission->role->slug] = [];
+            }
+            $out[$permission->role->slug][] = implode(
+                '/',
+                $acosTable
+                ->find('path', ['for' => $permission->aco->id])
+                ->extract('alias')
+                ->toArray()
+            );
+        }
+
+        $this->_permissions = $out;
+        return $out;
     }
 
     /**
@@ -65,10 +127,12 @@ class PluginPackage extends BasePackage
     /**
      * Gets information for this plugin.
      *
-     * When `$full` is set to true plugin's settings info is fetched from DB and
-     * placed under the `settings` key of the resulting array. Also composer
-     * information is converted to an array and placed under the `composer` key of
-     * the resulting array.
+     * When `$full` is set to true some additional keys will be repent in the
+     * resulting array:
+     *
+     * - `settings`: Plugin's settings info fetched from DB.
+     * - `composer`: Composer JSON information, converted to an array.
+     * - `permissions`: Permissions tree for this plugin, see `PluginPackage::permissions()`
      *
      * ### Example:
      *
@@ -89,15 +153,15 @@ class PluginPackage extends BasePackage
      *     'path' => '/path/to/plugin',
      *     'settings' => [ ... ], // only when $full = true
      *     'composer' => [ ... ], // only when $full = true
+     *     'permissions' => [ ... ], // only when $full = true
      * ]
      * ```
      *
-     * Additionally the first argument, $key, can be used to get an specific vale
+     * Additionally the first argument, $key, can be used to get an specific value
      * using a dot syntax path:
      *
      * ```php
      * $plugin->info('isTheme');
-     *
      * $plugin->info('settings.some_key');
      * ```
      *
@@ -114,6 +178,7 @@ class PluginPackage extends BasePackage
         $parts = explode('.', $key);
         $getComposer = in_array('composer', $parts) || $key === null;
         $getSettings = in_array('settings', $parts) || $key === null;
+        $getPermissions = in_array('permissions', $parts) || $key === null;
 
         if ($getComposer && !isset($this->_info['composer'])) {
             $this->_info['composer'] = $this->composer();
@@ -129,6 +194,10 @@ class PluginPackage extends BasePackage
 
         if ($getSettings && !isset($this->_info['settings'])) {
             $this->_info['settings'] = (array)$this->settings();
+        }
+
+        if ($getPermissions && !isset($this->_info['permissions'])) {
+            $this->_info['permissions'] = (array)$this->permissions();
         }
 
         if ($key === null) {
