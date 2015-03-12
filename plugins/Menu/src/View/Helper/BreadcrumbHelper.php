@@ -92,6 +92,12 @@ class BreadcrumbHelper extends Helper
      * }
      * ```
      *
+     * ### Usage:
+     *
+     * ```php
+     * echo $this->Breadcrumb->renderIfNotEmpty();
+     * ```
+     *
      * @param array $options Array of options for `render()` method
      * @return string HTML code, or an empty string if no crumbs are found
      * @see \Menu\View\Helper\BreadcrumbHelper::render()
@@ -101,7 +107,6 @@ class BreadcrumbHelper extends Helper
         if ($this->count()) {
             return $this->render($options);
         }
-
         return '';
     }
 }
