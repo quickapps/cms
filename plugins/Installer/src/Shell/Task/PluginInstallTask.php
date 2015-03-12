@@ -12,10 +12,10 @@
 namespace Installer\Shell\Task;
 
 use Cake\Console\Shell;
+use Cake\Datasource\ConnectionManager;
 use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
 use Cake\Network\Http\Client;
-use Cake\Utility\Inflector;
 use Cake\Validation\Validation;
 use QuickApps\Core\Package\PluginPackage;
 use QuickApps\Core\Package\Rule\RuleChecker;
@@ -26,12 +26,21 @@ use User\Utility\AcoManager;
 /**
  * Plugins installer.
  *
+ * @property \System\Model\Table\PluginsTable $Plugins
+ * @property \System\Model\Table\OptionsTable $Options
  */
 class PluginInstallTask extends Shell
 {
 
     use HookAwareTrait;
     use ListenerHandlerTrait;
+
+    /**
+     * List of option names added during installation. Used to rollback.
+     *
+     * @var array
+     */
+    protected $_addedOptions = [];
 
     /**
      * Flag that indicates the source package is a ZIP file.
@@ -79,6 +88,8 @@ class PluginInstallTask extends Shell
     protected $_plugin = [
         'name' => '',
         'packageName' => '',
+        'type' => '',
+        'composer' => [],
     ];
 
     /**
@@ -99,7 +110,7 @@ class PluginInstallTask extends Shell
     {
         $parser = parent::getOptionParser();
         $parser
-            ->description(__d('installer', 'Install a new plugin.'))
+            ->description(__d('installer', 'Install a new plugin or theme.'))
             ->addOption('source', [
                 'short' => 's',
                 'help' => __d('system', 'Either a full path within filesystem to a ZIP file, or path to a directory representing an extracted ZIP file, or an URL from where download plugin package.'),
@@ -132,9 +143,41 @@ class PluginInstallTask extends Shell
      */
     public function main()
     {
+        $connection = ConnectionManager::get('default');
+        $result = $connection->transactional(function ($conn) {
+            try {
+                $result = $this->_runTransactional();
+            } catch (\Exception $ex) {
+                $this->err(__d('install', 'Something went wrong. Details: {0}', $ex->getMessage()));
+                $result = false;
+            }
+
+            if (!$result) {
+                $this->_rollbackMovePackage();
+                $this->_reset();
+            }
+
+            return $result;
+        });
+
+        // ensure snapshot
+        snapshot();
+        return $result;
+    }
+
+    /**
+     * Runs installation logic inside a safe transactional thread. This prevent
+     * DB inconsistencies on install failure.
+     *
+     * @return bool True on success, false otherwise
+     */
+    protected function _runTransactional()
+    {
+        // to avoid any possible issue
+        snapshot();
+
         if (!$this->_init()) {
-            $this->_reset();
-            return false;
+            return $this->_reset();
         }
 
         if (!$this->params['no-callbacks']) {
@@ -144,19 +187,12 @@ class PluginInstallTask extends Shell
                 $event = $this->trigger("Plugin.{$this->_plugin['name']}.beforeInstall");
                 if ($event->isStopped() || $event->result === false) {
                     $this->err(__d('installer', 'Task was explicitly rejected by the plugin.'));
-                    $this->_reset();
-                    return false;
+                    return $this->_reset();
                 }
             } catch (\Exception $ex) {
                 $this->err(__d('installer', 'Internal error, plugin did not respond to "beforeInstall" callback correctly.'));
-                $this->_reset();
-                return false;
+                return $this->_reset();
             }
-        }
-
-        if (!$this->_movePackage()) {
-            $this->_reset();
-            return false;
         }
 
         $this->loadModel('System.Plugins');
@@ -166,11 +202,21 @@ class PluginInstallTask extends Shell
             'settings' => [],
             'status' => 0,
             'ordering' => 0,
-        ]);
+        ], ['validate' => false]);
 
-        if (!$this->Plugins->save($entity, ['atomic' => true])) {
-            $this->_reset();
-            return false;
+        // do not move this
+        if (!$this->_movePackage()) {
+            return $this->_reset();
+        }
+
+        if (!$this->_addOptions()) {
+            $this->_rollbackMovePackage();
+            return $this->_reset();
+        }
+
+        if (!$this->Plugins->save($entity)) {
+            $this->_rollbackMovePackage();
+            return $this->_reset();
         }
 
         if (!$this->params['no-callbacks']) {
@@ -191,10 +237,73 @@ class PluginInstallTask extends Shell
     }
 
     /**
+     * Deletes the directory that was moved to its final destination.
+     *
+     * @return void
+     */
+    protected function _rollbackMovePackage()
+    {
+        if (!empty($this->_plugin['name'])) {
+            $destinationPath = normalizePath(SITE_ROOT . "/plugins/{$this->_plugin['name']}/");
+            if (is_dir($destinationPath)) {
+                $dst = new Folder($destinationPath);
+                $dst->delete();
+            }
+        }
+    }
+
+    /**
+     * Register on "options" table any declared option is plugin's "composer.json".
+     *
+     * @return bool True on success, false otherwise
+     */
+    protected function _addOptions()
+    {
+        if (!empty($this->_plugin['composer']['extra']['options'])) {
+            $this->loadModel('System.Options');
+            foreach ($this->_plugin['composer']['extra']['options'] as $index => $option) {
+                if (empty($option['name'])) {
+                    $this->err(__d('installer', 'Unable to register plugin option, invalid option #{0}.', $index));
+                    return false;
+                }
+
+                $entity = $this->Options->newEntity([
+                    'name' => $option['name'],
+                    'value' => !empty($option['value']) ? $option['value'] : null,
+                    'autoload' => isset($option['autoload']) ? (bool)$option['autoload'] : false,
+                ]);
+                $errors = $entity->errors();
+
+                if (empty($errors)) {
+                    if (!$this->Options->save($entity)) {
+                        $this->err(__d('installer', 'Unable to register plugin\'s options "{0}".', $option['name']));
+                        return false;
+                    }
+                    $this->_addedOptions[] = $option['name'];
+                } else {
+                    $this->err(__d('installer', 'Some errors were found while trying to register plugin options values, see below:'));
+                    foreach ($errors as $error) {
+                        $this->err(__d('installer', '  - {0}', $error));
+                    }
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Discards the install operation. Restores this class's status
      * to its initial state.
      *
-     * @return void
+     * ### Usage:
+     *
+     * ```php
+     * return $this->_reset();
+     * ```
+     *
+     * @return bool False always
      */
     protected function _reset()
     {
@@ -203,15 +312,19 @@ class PluginInstallTask extends Shell
             $source->delete();
         }
 
-        $this->_workingDir =
+        $this->_addedOptions = [];
+        $this->_workingDir = null;
         $this->_sourceType = null;
         $this->_plugin = [
             'name' => '',
             'packageName' => '',
+            'type' => '',
+            'composer' => [],
         ];
 
         Plugin::dropCache();
         $this->_detachListeners();
+        return false;
     }
 
     /**
@@ -243,6 +356,7 @@ class PluginInstallTask extends Shell
         $source = new Folder($this->_workingDir);
         $destinationPath = normalizePath(SITE_ROOT . "/plugins/{$this->_plugin['name']}/");
 
+        // allow to install from destination folder
         if ($this->_workingDir === $destinationPath) {
             return true;
         }
@@ -443,8 +557,10 @@ class PluginInstallTask extends Shell
                 }
 
                 $this->_plugin = [
-                    'name' => (string)Inflector::camelize(str_replace('-', '_', $pluginName)),
+                    'name' => $pluginName,
                     'packageName' => $json['name'],
+                    'type' => str_ends_with($pluginName, 'Theme') ? 'theme' : 'plugin',
+                    'composer' => $json,
                 ];
 
                 if (Plugin::exists($this->_plugin['name'])) {
@@ -456,7 +572,7 @@ class PluginInstallTask extends Shell
                     }
                 }
 
-                if (str_ends_with($this->_plugin['name'], 'Theme')) {
+                if ($this->_plugin['type'] == 'theme') {
                     if (!file_exists("{$this->_workingDir}webroot/screenshot.png")) {
                         $errors[] = __d('installer', 'Missing "screenshot.png" file.');
                     }

@@ -12,8 +12,10 @@
 namespace Installer\Shell\Task;
 
 use Cake\Console\Shell;
+use Cake\Datasource\ConnectionManager;
 use Cake\Filesystem\Folder;
 use Installer\Shell\Task\ListenerHandlerTrait;
+use QuickApps\Core\Package\PluginPackage;
 use QuickApps\Core\Plugin;
 use QuickApps\Event\HookAwareTrait;
 use User\Utility\AcoManager;
@@ -21,11 +23,20 @@ use User\Utility\AcoManager;
 /**
  * Plugin uninstaller.
  *
+ * @property \System\Model\Table\PluginsTable $Plugins
+ * @property \System\Model\Table\OptionsTable $Options
  */
 class PluginUninstallTask extends Shell
 {
 
     use HookAwareTrait;
+
+    /**
+     * The plugin being managed by this task.
+     *
+     * @var \QuickApps\Core\Package\PluginPackage
+     */
+    protected $_plugin = null;
 
     /**
      * Removes the welcome message.
@@ -66,6 +77,34 @@ class PluginUninstallTask extends Shell
      */
     public function main()
     {
+        $connection = ConnectionManager::get('default');
+        $result = $connection->transactional(function ($conn) {
+            try {
+                $result = $this->_runTransactional();
+            } catch (\Exception $ex) {
+                $this->err(__d('install', 'Something went wrong. Details: {0}', $ex->getMessage()));
+                $result = false;
+            }
+
+            return $result;
+        });
+
+        // ensure snapshot
+        snapshot();
+        return $result;
+    }
+
+    /**
+     * Runs uninstallation logic inside a safe transactional thread. This prevent
+     * DB inconsistencies on uninstall failure.
+     *
+     * @return bool True on success, false otherwise
+     */
+    protected function _runTransactional()
+    {
+        // to avoid any possible issue
+        snapshot();
+
         if (!is_writable(TMP)) {
             $this->err(__d('installer', 'Enable write permissions in /tmp directory before uninstall any plugin or theme.'));
             return false;
@@ -134,11 +173,11 @@ class PluginUninstallTask extends Shell
             return false;
         }
 
+        $this->_removeOptions();
+        $this->_clearAcoPaths();
         $folder = new Folder($plugin->path);
-
         $folder->delete();
         snapshot();
-        $this->_clearAcoPaths();
 
         if (!$this->params['no-callbacks']) {
             try {
@@ -151,6 +190,26 @@ class PluginUninstallTask extends Shell
         Plugin::unload($plugin->name);
         Plugin::dropCache();
         return true;
+    }
+
+    /**
+     * Removes from "options" table any entry registered by the plugin.
+     *
+     * @return void
+     */
+    protected function _removeOptions()
+    {
+        $options = [];
+        if (!empty($this->_plugin->composer['extra']['options'])) {
+            $this->loadModel('System.Options');
+            $options = $this->_plugin->composer['extra']['options'];
+        }
+
+        foreach ($options as $option) {
+            if (!empty($option['name'])) {
+                $this->Options->deleteAll(['name' => $option['name']]);
+            }
+        }
     }
 
     /**
