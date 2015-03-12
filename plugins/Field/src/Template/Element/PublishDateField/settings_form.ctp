@@ -66,7 +66,7 @@
             ],
             'empty' => false,
             'label' => __d('field', 'Display multiple months')
-        ]);  
+        ]);
 
         echo $this->Form->input('locale', [
             'type' => 'select',
@@ -139,7 +139,7 @@
             'escape' => false,
             'label' => __d('field', 'Localize')
         ]);
-    ?>    
+    ?>
 </fieldset>
 
 <?php

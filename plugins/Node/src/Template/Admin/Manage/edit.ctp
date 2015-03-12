@@ -70,7 +70,7 @@
 
     <fieldset>
         <legend><?php echo __d('node', 'Revisions'); ?></legend>
-        
+
         <table class="table table-hover">
             <thead>
                 <tr>

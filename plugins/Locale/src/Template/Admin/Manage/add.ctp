@@ -3,7 +3,7 @@
         <legend><?php echo __d('locale', 'Adding New Language'); ?></legend>
 
         <?php echo $this->Form->input('code', ['type' => 'select', 'label' => __d('locale', 'Choose Language'), 'options' => $languages]); ?>
-        
+
         <div class="input-group">
             <span class="input-group-addon"><?php echo __d('locale', 'Language Icon'); ?>: <span class="flag"></span></span>
             <?php echo $this->Form->input('icon', ['type' => 'select', 'options' => $icons, 'label' => false, 'onchange' => 'changeFlag();', 'id' => 'flag-icons']); ?>

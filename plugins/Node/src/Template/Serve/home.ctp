@@ -9,7 +9,7 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
- 
+
 $this->asViewMode('teaser', function () use ($nodes) {
     foreach ($nodes as $node) {
         echo $this->render($node);

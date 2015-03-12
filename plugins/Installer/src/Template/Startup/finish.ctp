@@ -23,5 +23,5 @@
             <?php echo $this->Form->end(); ?>
         </p>
 
-    </div>  
+    </div>
 </div>

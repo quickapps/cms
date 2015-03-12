@@ -66,7 +66,7 @@
         <fieldset>
             <legend><?php echo __d('menu', 'Link Activation'); ?></legend>
             <em class="help-block"><?php echo __d('menu', 'Choose a method to determinate when this link should be marked as "active".'); ?></em>
-            
+
             <?php
                 echo $this->Form->radio('activation', [
                     'auto' => __d('menu', 'Automatic, let application decide.'),

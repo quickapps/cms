@@ -116,7 +116,7 @@ use Cake\Core\Configure;
         $('#dp-container-<?php echo $field->name; ?> .format').val(dateFormat);
 
         <?php if ($settings['timepicker']): ?>
-            var timeFormat = $('#dp-container-<?php echo $field->name; ?> .picker').<?php echo $pickerWidget; ?>('option', 'timeFormat'); 
+            var timeFormat = $('#dp-container-<?php echo $field->name; ?> .picker').<?php echo $pickerWidget; ?>('option', 'timeFormat');
             var currentVal = $('#dp-container-<?php echo $field->name; ?> .format').val();
             $('#dp-container-<?php echo $field->name; ?> .format').val(currentVal + ' ' + timeFormat);
         <?php endif; ?>

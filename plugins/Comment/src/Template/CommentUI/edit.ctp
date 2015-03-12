@@ -40,7 +40,7 @@
                     web: <?php echo $comment->author->web; ?><br />
                     ip: <?php echo $comment->author->ip; ?>
                 </div>
-            </div>  
+            </div>
         <?php endif; ?>
 
         <hr />

@@ -82,7 +82,7 @@ use Field\Utility\ImageToolbox;
 ?>
 <em class="help-block"><?php echo __d('field', 'The alt attribute may be used by search engines, screen readers, and when the image cannot be loaded.'); ?></em>
 
-<?php 
+<?php
     echo $this->Form->input('preview', [
         'type' => 'select',
         'label' => __d('field', 'Preview image style'),

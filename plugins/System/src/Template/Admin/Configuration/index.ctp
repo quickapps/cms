@@ -115,7 +115,7 @@
             <hr />
 
             <h2><?php echo __d('system', 'Other plugin settings'); ?></h2>
-            
+
 
             <ul>
                 <?php foreach($pluginSettings as $plugin): ?>

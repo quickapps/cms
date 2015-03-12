@@ -26,7 +26,7 @@
             <?php
                 echo __d(
                     'node',
-                    'Anonymous users {0} leave their name.', 
+                    'Anonymous users {0} leave their name.',
                     $this->Form->input('anonymous_name_required', [
                         'type' => 'select',
                         'label' => false,
@@ -45,7 +45,7 @@
             <?php
                 echo __d(
                     'node',
-                    'Anonymous users {0} leave an email address.', 
+                    'Anonymous users {0} leave an email address.',
                     $this->Form->input('anonymous_email_required', [
                         'type' => 'select',
                         'label' => false,
@@ -64,7 +64,7 @@
             <?php
                 echo __d(
                     'node',
-                    'Anonymous users {0} leave a website URL.', 
+                    'Anonymous users {0} leave a website URL.',
                     $this->Form->input('anonymous_web_required', [
                         'type' => 'select',
                         'label' => false,

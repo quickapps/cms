@@ -12,7 +12,7 @@
 
 /**
  * Renders the given node in RSS format.
- * 
+ *
  */
 ?>
 

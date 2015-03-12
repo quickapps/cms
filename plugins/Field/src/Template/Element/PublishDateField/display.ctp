@@ -23,7 +23,7 @@ $format = DateToolbox::getPHPFormat($field);
     </p>
 <?php elseif ($field->viewModeSettings['label_visibility'] == 'inline'): ?>
     <p>
-        <strong class="field-label"><?php echo $field->label; ?>:</strong> 
+        <strong class="field-label"><?php echo $field->label; ?>:</strong>
         <?php echo __d('field', 'Start date: {0}', date($format, $field->raw['from']['timestamp'])); ?>
         <br />
         <?php echo __d('field', 'Finish date: {0}', date($format, $field->raw['to']['timestamp'])); ?>

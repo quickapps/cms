@@ -33,7 +33,7 @@ use Locale\Utility\LocaleToolbox;
             function switchLanguage(sb) {
                 var code = $(sb).val();
                 if (code.length) {
-                    var url = '<?php echo stripLanguagePrefix($this->Url->build($this->request->url, true)); ?>?locale=' + code; 
+                    var url = '<?php echo stripLanguagePrefix($this->Url->build($this->request->url, true)); ?>?locale=' + code;
                     $(location).attr('href', url);
                 }
             }
@@ -58,5 +58,5 @@ use Locale\Utility\LocaleToolbox;
             ];
         }
         echo $this->Menu->render($links, ['class' => 'language-switcher']);
-    ?>  
+    ?>
 <?php endif; ?>

@@ -12,7 +12,7 @@
 
 /**
  * Backend themes should always implement both "dashboard-main" and
- * "dashboard-sidebar" in order to properly fill this page. 
+ * "dashboard-sidebar" in order to properly fill this page.
  */
 ?>
 

@@ -48,7 +48,7 @@
                             web: <?php echo $comment->author->web; ?><br />
                             ip: <?php echo $comment->author->ip; ?>
                         </div>
-                    </div>  
+                    </div>
                 </td>
                 <td>
                     <h4><?php echo $this->Html->link($comment->subject, ['plugin' => $this->request->plugin, 'controller' => $this->request->controller, 'action' => 'edit', $comment->id]); ?></h4>
