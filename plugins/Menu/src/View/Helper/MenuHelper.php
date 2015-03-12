@@ -201,47 +201,31 @@ class MenuHelper extends Helper
             throw new FatalErrorException(__d('menu', 'Loop detected, MenuHelper already rendering.'));
         }
 
-        $out = '';
+        $this->alter(['MenuHelper.render', $this->_View], $items, $options);
         $items = $this->_prepareItems($items);
 
-        if (!empty($items)) {
-            $attrs = [];
-            $this->_rendering = true;
-            $this->alter(['MenuHelper.render', $this->_View], $items, $options);
+        if (empty($items)) {
+            return '';
+        }
 
-            if (is_callable($options)) {
-                $this->config('formatter', $options);
-                $options = [];
-            } else {
-                if (!empty($options['templates']) && is_array($options['templates'])) {
-                    $this->templates($options['templates']);
-                    unset($options['templates']);
-                }
+        list($attrs, $options) = $this->_prepareOptions($options);
+        $this->_rendering = true;
+        $this->countItems($items);
+        $out = '';
 
-                foreach ($options as $key => $value) {
-                    if (isset($this->_defaultConfig[$key])) {
-                        $this->config($key, $value);
-                    } else {
-                        $attrs[$key] = $value;
-                    }
-                }
-            }
+        if (intval($this->config('split')) > 1) {
+            $out .= $this->_renderPart($items, $options, $attrs);
+        } else {
+            $out .= $this->formatTemplate('root', [
+                'attrs' => $this->templater()->formatAttributes($attrs),
+                'content' => $this->_render($items)
+            ]);
+        }
 
-            $this->countItems($items);
-            if (intval($this->config('split')) > 1) {
-                $out .= $this->_renderPart($items, $options, $attrs);
-            } else {
-                $out .= $this->formatTemplate('root', [
-                    'attrs' => $this->templater()->formatAttributes($attrs),
-                    'content' => $this->_render($items)
-                ]);
-            }
-
-            if ($this->config('beautify')) {
-                include_once Plugin::classPath('Menu') . 'Lib/htmLawed.php';
-                $tidy = is_bool($this->config('beautify')) ? '1t0n' : $this->config('beautify');
-                $out = htmLawed($out, compact('tidy'));
-            }
+        if ($this->config('beautify')) {
+            include_once Plugin::classPath('Menu') . 'Lib/htmLawed.php';
+            $tidy = is_bool($this->config('beautify')) ? '1t0n' : $this->config('beautify');
+            $out = htmLawed($out, compact('tidy'));
         }
 
         $this->_clear();
@@ -318,19 +302,58 @@ class MenuHelper extends Helper
         if ($this->_count) {
             return $this->_count;
         }
-
         $this->_count($items);
         return $this->_count;
     }
 
     /**
-     * Restores the default values built into MenuHelper.
+     * Restores the default template values built into MenuHelper.
      *
      * @return void
      */
     public function resetTemplates()
     {
         $this->templates($this->_defaultConfig['templates']);
+    }
+
+    /**
+     * Prepares options given to "render()" method.
+     *
+     * ### Usage:
+     *
+     * ```php
+     * list($options, $attrs) = $this->_prepareOptions($options);
+     * ```
+     *
+     * @param array $options Options given to `render()`
+     * @return array Array with two keys: `0 => $options` sanitized and filtered
+     *  options array, and `1 => $attrs` list of attributes for top level UL element
+     */
+    protected function _prepareOptions($options = [])
+    {
+        $attrs = [];
+        if (is_callable($options)) {
+            $this->config('formatter', $options);
+            $options = [];
+        } else {
+            if (!empty($options['templates']) && is_array($options['templates'])) {
+                $this->templates($options['templates']);
+                unset($options['templates']);
+            }
+
+            foreach ($options as $key => $value) {
+                if (isset($this->_defaultConfig[$key])) {
+                    $this->config($key, $value);
+                } else {
+                    $attrs[$key] = $value;
+                }
+            }
+        }
+
+        return [
+            $options,
+            $attrs,
+        ];
     }
 
     /**
