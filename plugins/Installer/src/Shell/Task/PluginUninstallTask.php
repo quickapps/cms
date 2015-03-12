@@ -67,12 +67,12 @@ class PluginUninstallTask extends Shell
     public function main()
     {
         if (!is_writable(TMP)) {
-            $this->err(__d('installer', 'Enable write permissions in /tmp directory before uninstall any plugin'));
+            $this->err(__d('installer', 'Enable write permissions in /tmp directory before uninstall any plugin or theme.'));
             return false;
         }
 
         if (!$this->params['plugin']) {
-            $this->err(__d('installer', 'No plugin was given to remove.'));
+            $this->err(__d('installer', 'No plugin/theme was given to remove.'));
             return false;
         }
 
@@ -90,18 +90,25 @@ class PluginUninstallTask extends Shell
         }
 
         if (!$plugin || !$pluginEntity) {
-            $this->err(__d('installer', 'Plugin "{0}" was not found.', $this->params['plugin']));
+            $this->err(__d('installer', 'Plugin "{name}" was not found.', ['name' => $this->params['plugin']]));
+            return false;
+        }
+
+        $this->_plugin = $plugin;
+        $type = $plugin->isTheme ? 'theme' : 'plugin';
+        if ($plugin->isTheme && in_array($plugin->name, [option('front_theme'), option('back_theme')])) {
+            $this->err(__d('installer', '{type, select, theme{The theme} other{The plugin}} "{name}" is currently being used and cannot be removed.', ['type' => $type, 'name' => $plugin->human_name]));
             return false;
         }
 
         if ($plugin->isCore) {
-            $this->err(__d('installer', 'Plugin "{0}" is a core plugin, you cannot remove core\'s plugins.', $plugin->human_name));
+            $this->err(__d('installer', '{type, select, theme{The theme} other{The plugin}} "{name}" is a core plugin, you cannot remove core\'s plugins.', ['type' => $type, 'name' => $plugin->human_name]));
             return false;
         }
 
         $requiredBy = Plugin::checkReverseDependency($this->params['plugin']);
         if (!empty($requiredBy)) {
-            $this->err(__d('installer', 'Plugin "{0}" cannot be removed as it is required by: {1}', $plugin->human_name, implode(', ', $requiredBy)));
+            $this->err(__d('installer', '{type, select, theme{The theme} other{The plugin}} "{name}" cannot be removed as it is required by: {required}', ['type' => $type, 'name' => $plugin->human_name, 'required' => implode(', ', $requiredBy)]));
             return false;
         }
 
@@ -113,17 +120,17 @@ class PluginUninstallTask extends Shell
             try {
                 $event = $this->trigger("Plugin.{$plugin->name}.beforeUninstall");
                 if ($event->isStopped() || $event->result === false) {
-                    $this->err(__d('installer', 'Task was explicitly rejected by the plugin.'));
+                    $this->err(__d('installer', 'Task was explicitly rejected by the {type, select, theme{theme} other{plugin}}.', ['type' => $type]));
                     return false;
                 }
             } catch (\Exception $e) {
-                $this->err(__d('installer', 'Internal error, plugin did not respond to "beforeUninstall" callback correctly.'));
+                $this->err(__d('installer', 'Internal error, the {type, select, theme{theme} other{plugin}} did not respond to "beforeUninstall" callback correctly.', ['type' => $type]));
                 return false;
             }
         }
 
         if (!$this->Plugins->delete($pluginEntity)) {
-            $this->err(__d('installer', 'Plugin "{0}" could not be unregistered from DB.', $plugin->human_name));
+            $this->err(__d('installer', '{type, select, theme{The theme} other{The plugin}} "{name}" could not be unregistered from DB.', ['type' => $type, 'name' => $plugin->human_name]));
             return false;
         }
 
@@ -137,7 +144,7 @@ class PluginUninstallTask extends Shell
             try {
                 $this->trigger("Plugin.{$plugin->name}.afterUninstall");
             } catch (\Exception $e) {
-                $this->err(__d('installer', 'Plugin did not respond to "afterUninstall" callback.'));
+                $this->err(__d('installer', '{type, select, theme{The theme} other{The plugin}} did not respond to "afterUninstall" callback.', ['type' => $type]));
             }
         }
 
@@ -178,8 +185,9 @@ class PluginUninstallTask extends Shell
      */
     protected function _canBeDeleted($path)
     {
+        $type = $this->_plugin->isTheme ? 'theme' : 'plugin';
         if (!file_exists($path) || !is_dir($path)) {
-            $this->err(__d('installer', "Plugin's directory was not found: ", $path));
+            $this->err(__d('installer', "{type, select, theme{Theme's} other{Plugin's}} directory was not found: {path}", ['type' => $type, 'path' => $path]));
             return false;
         }
 
@@ -196,9 +204,9 @@ class PluginUninstallTask extends Shell
         }
 
         if (!empty($notWritable)) {
-            $this->err(__d('installer', "Some plugin's files or directories cannot be removed from your server, please check write permissions of:"));
+            $this->err(__d('installer', "Some {type, select, theme{theme's} other{plugin's}} files or directories cannot be removed from your server, please check write permissions of:", ['type' => $type]));
             foreach ($notWritable as $path) {
-                $this->err(__d('installer', '  - {0}', $path));
+                $this->err(__d('installer', '  - {path}', ['path' => $path]));
             }
             return false;
         }
