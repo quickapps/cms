@@ -1,0 +1,12 @@
+{
+    "name": "quickapps-themes/nuked-app",
+    "description": "Plugin with some invalid event listeners that should break the installation process.",
+    "type": "quickapps-plugin",
+    "version": "1.0",
+    "extra": {
+        "options": [
+            {"name": "nuked_app_option1", "value": "value1", "autoload": true},
+            {"name": "nuked_app_option2", "value": "value2"}
+        ]
+    }
+}
