@@ -153,7 +153,7 @@ class PluginInstallTask extends Shell
             }
 
             if (!$result) {
-                $this->_rollbackMovePackage();
+                $this->_rollbackCopyPackage();
                 $this->_reset();
             }
 
@@ -182,7 +182,7 @@ class PluginInstallTask extends Shell
 
         if (!$this->params['no-callbacks']) {
             // "before" events occurs even before plugins is moved to its destination
-            $this->_attachListeners($this->_plugin['name'], normalizePath("{$this->_workingDir}/src/Event"));
+            $this->_attachListeners($this->_plugin['name'], "{$this->_workingDir}/");
             try {
                 $event = $this->trigger("Plugin.{$this->_plugin['name']}.beforeInstall");
                 if ($event->isStopped() || $event->result === false) {
@@ -205,17 +205,17 @@ class PluginInstallTask extends Shell
         ], ['validate' => false]);
 
         // do not move this
-        if (!$this->_movePackage()) {
+        if (!$this->_copyPackage()) {
             return $this->_reset();
         }
 
         if (!$this->_addOptions()) {
-            $this->_rollbackMovePackage();
+            $this->_rollbackCopyPackage();
             return $this->_reset();
         }
 
         if (!$this->Plugins->save($entity)) {
-            $this->_rollbackMovePackage();
+            $this->_rollbackCopyPackage();
             return $this->_reset();
         }
 
@@ -237,15 +237,15 @@ class PluginInstallTask extends Shell
     }
 
     /**
-     * Deletes the directory that was moved to its final destination.
+     * Deletes the directory that was copied to its final destination.
      *
      * @return void
      */
-    protected function _rollbackMovePackage()
+    protected function _rollbackCopyPackage()
     {
         if (!empty($this->_plugin['name'])) {
             $destinationPath = normalizePath(SITE_ROOT . "/plugins/{$this->_plugin['name']}/");
-            if (is_dir($destinationPath)) {
+            if (is_dir($destinationPath) && is_writable($destinationPath)) {
                 $dst = new Folder($destinationPath);
                 $dst->delete();
             }
@@ -344,14 +344,14 @@ class PluginInstallTask extends Shell
     }
 
     /**
-     * Moves the extracted package to its final destination.
+     * Copies the extracted package to its final destination.
      *
      * @param bool $clearDestination Set to true to delete the destination directory
      *  if already exists. Defaults to false; an error will occur if destination
      *  already exists. Useful for upgrade tasks
      * @return bool True on success
      */
-    protected function _movePackage($clearDestination = false)
+    protected function _copyPackage($clearDestination = false)
     {
         $source = new Folder($this->_workingDir);
         $destinationPath = normalizePath(SITE_ROOT . "/plugins/{$this->_plugin['name']}/");
@@ -372,7 +372,7 @@ class PluginInstallTask extends Shell
             }
         }
 
-        if ($source->move(['to' => $destinationPath])) {
+        if ($source->copy(['to' => $destinationPath])) {
             return true;
         }
 

@@ -119,7 +119,7 @@ class PluginToggleTask extends Shell
         // MENTAL NOTE: As plugin is disabled its listeners are not attached to the
         // system, so we need to manually attach them in order to trigger callbacks.
         if (!$this->params['no-callbacks']) {
-            $this->_attachListeners($plugin->name, "{$plugin->path}/src/Event");
+            $this->_attachListeners($plugin->name, "{$plugin->path}/");
             $trigger = $this->_triggerBeforeEvents($plugin);
             if (!$trigger) {
                 return false;

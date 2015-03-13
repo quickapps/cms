@@ -74,17 +74,16 @@ class PluginsShell extends Shell
      */
     public function main()
     {
-        $this->out('<info>Plugins Shell</info>');
+        $this->out(__d('installer', '<info>Plugins Shell</info>'));
         $this->hr();
-        $this->out('[I]nstall new plugin');
-        $this->out('[R]emove an existing plugin');
-        $this->out('[E]nable plugin');
-        $this->out('[D]isable plugin');
-        $this->out('[U]pdate plugin');
-        $this->out('[H]elp');
-        $this->out('[Q]uit');
+        $this->out(__d('installer', '[I]nstall new plugin'));
+        $this->out(__d('installer', '[R]emove an existing plugin'));
+        $this->out(__d('installer', '[E]nable plugin'));
+        $this->out(__d('installer', '[D]isable plugin'));
+        $this->out(__d('installer', '[H]elp'));
+        $this->out(__d('installer', '[Q]uit'));
 
-        $choice = strtolower($this->in('What would you like to do?', ['I', 'R', 'E', 'D', 'H', 'Q']));
+        $choice = strtolower($this->in(__d('installer', 'What would you like to do?'), ['I', 'R', 'E', 'D', 'H', 'Q']));
         switch ($choice) {
             case 'i':
                 $this->_install();
@@ -104,7 +103,7 @@ class PluginsShell extends Shell
             case 'q':
                 return $this->_stop();
             default:
-                $this->out('You have made an invalid selection. Please choose a command to execute by entering 1, 2, 3, 4, H, or Q.');
+                $this->out(__d('installer', 'You have made an invalid selection. Please choose a command to execute by entering I, R, E, D, H, or Q.'));
         }
         $this->hr();
         $this->main();
@@ -147,23 +146,22 @@ class PluginsShell extends Shell
      */
     protected function _install()
     {
-        $message = "Please provide a plugin source, it can be either an URL or a filesystem path to a ZIP/directory within your server?\n[Q]uit";
-
+        $message = __d('installer', "Please provide a plugin source, it can be either an URL or a filesystem path to a ZIP/directory within your server?\n[Q]uit");
         while (true) {
             $source = $this->in($message);
             if (strtoupper($source) === 'Q') {
-                $this->err('Installation aborted');
+                $this->err(__d('installer', 'Installation aborted'));
                 break;
             } else {
-                $this->out('Starting installation...', 0);
+                $this->out(__d('installer', 'Starting installation...'), 0);
                 $task = $this->dispatchShell("Installer.plugins install -s {$source}");
 
                 if ($task === 0) {
-                    $this->_io->overwrite('Starting installation... successfully installed!', 2);
+                    $this->_io->overwrite(__d('installer', 'Starting installation... successfully installed!'), 2);
                     $this->out();
                     break;
                 } else {
-                    $this->_io->overwrite('Starting installation... failed!', 2);
+                    $this->_io->overwrite(__d('installer', 'Starting installation... failed!'), 2);
                     $this->out();
                 }
             }
@@ -188,44 +186,44 @@ class PluginsShell extends Shell
         $this->out();
         foreach ($allPlugins as $plugin) {
             $allPlugins[$index] = $plugin;
-            $this->out(__d('installer', '[{0,number}] {1}', $index, $plugin->human_name));
+            $this->out(__d('installer', '[{index, number}] {name}', ['index' => $index, 'name' => $plugin->human_name]));
             $index++;
         }
         $this->out();
 
-        $message = "Which plugin would you like to uninstall?\n[Q]uit";
+        $message = __d('installer', "Which plugin would you like to uninstall?\n[Q]uit");
         while (true) {
             $in = $this->in($message);
             if (strtoupper($in) === 'Q') {
-                $this->err('Operation aborted');
+                $this->err(__d('installer', 'Operation aborted'));
                 break;
             } elseif (intval($in) < 1 || !isset($allPlugins[intval($in)])) {
-                $this->err('Invalid option');
+                $this->err(__d('installer', 'Invalid option'));
             } else {
                 $plugin = Plugin::get($allPlugins[$in]->name());
                 $this->hr();
-                $this->out('<info>The following plugin will be uninstalled</info>');
+                $this->out(__d('installer', '<info>The following plugin will be UNINSTALLED</info>'));
                 $this->hr();
-                $this->out(sprintf('Name:        %s', $plugin->name));
-                $this->out(sprintf('Description: %s', $plugin->composer['description']));
-                $this->out(sprintf('Status:      %s', $plugin->status ? 'Active' : 'Disabled'));
-                $this->out(sprintf('Path:        %s', $plugin->path));
+                $this->out(__d('installer', 'Name:        {0}', $plugin->name));
+                $this->out(__d('installer', 'Description: {0}', $plugin->composer['description']));
+                $this->out(__d('installer', 'Status:      {0, select, active={Active} other{Disabled}}', $plugin->status ? 'active' : 'disabled'));
+                $this->out(__d('installer', 'Path:        {0}', $plugin->path));
                 $this->hr();
                 $this->out();
 
-                $confirm = $this->in(sprintf('Please type in "%s" to uninstall', $allPlugins[$in]->name));
+                $confirm = $this->in(__d('installer', 'Please type in "{0}" to uninstall', $allPlugins[$in]->name));
                 if ($confirm === $allPlugins[$in]->name) {
                     $task = $this->dispatchShell("Installer.plugins uninstall -p {$allPlugins[$in]->name}");
 
                     if ($task === 0) {
-                        $this->out('Plugin uninstalled!');
+                        $this->out(__d('installer', 'Plugin uninstalled!'));
                         Plugin::dropCache();
                     } else {
-                        $this->err('Plugin could not be uninstalled.', 2);
+                        $this->err(__d('installer', 'Plugin could not be uninstalled.'), 2);
                         $this->out();
                     }
                 } else {
-                    $this->err('Confirmation failure, operation aborted!');
+                    $this->err(__d('installer', 'Confirmation failure, operation aborted!'));
                 }
                 break;
             }
@@ -248,7 +246,7 @@ class PluginsShell extends Shell
             ->toArray();
 
         if (!count($disabledPlugins)) {
-            $this->err('<info>There are no disabled plugins!</info>');
+            $this->err(__d('installer', '<info>There are no disabled plugins!</info>'));
             $this->out();
             return;
         }
@@ -257,27 +255,27 @@ class PluginsShell extends Shell
         $this->out();
         foreach ($disabledPlugins as $plugin) {
             $disabledPlugins[$index] = $plugin;
-            $this->out(__d('installer', '[{0,number,integer}] {1}', $index, $plugin->human_name));
+            $this->out(__d('installer', '[{index, number, integer}] {name}', ['index' => $index, 'name' => $plugin->human_name]));
             $index++;
         }
         $this->out();
 
-        $message = "Which plugin would you like to activate?\n[Q]uit";
+        $message = __d('installer', "Which plugin would you like to activate?\n[Q]uit");
         while (true) {
             $in = $this->in($message);
             if (strtoupper($in) === 'Q') {
-                $this->err('Operation aborted');
+                $this->err(__d('installer', 'Operation aborted'));
                 break;
             } elseif (intval($in) < 1 || !isset($disabledPlugins[intval($in)])) {
-                $this->err('Invalid option');
+                $this->err(__d('installer', 'Invalid option'));
             } else {
                 $task = $this->dispatchShell("Installer.plugins toggle -p {$disabledPlugins[$in]->name} -s enable");
 
                 if ($task === 0) {
-                    $this->out('Plugin enabled!');
+                    $this->out(__d('installer', 'Plugin enabled!'));
                     Plugin::dropCache();
                 } else {
-                    $this->err('Plugin could not be enabled.', 2);
+                    $this->err(__d('installer', 'Plugin could not be enabled.'), 2);
                     $this->out();
                 }
                 break;
@@ -301,7 +299,7 @@ class PluginsShell extends Shell
             ->toArray();
 
         if (!count($enabledPlugins)) {
-            $this->err('There are no active plugins!');
+            $this->err(__d('installer', '<info>There are no active plugins!</info>'));
             $this->out();
             return;
         }
@@ -310,40 +308,40 @@ class PluginsShell extends Shell
         $this->out();
         foreach ($enabledPlugins as $plugin) {
             $enabledPlugins[$index] = $plugin;
-            $this->out(__d('installer', '[{0,number,integer}] {1}', $index, $plugin->human_name));
+            $this->out(__d('installer', '[{index, number, integer}] {name}', ['index' => $index, 'name' => $plugin->human_name]));
             $index++;
         }
         $this->out();
 
-        $message = "Which plugin would you like to disable?\n[Q]uit";
+        $message = __d('installer', "Which plugin would you like to disable?\n[Q]uit");
         while (true) {
             $in = $this->in($message);
             if (strtoupper($in) === 'Q') {
-                $this->err('Operation aborted');
+                $this->err(__d('installer', 'Operation aborted'));
                 break;
             } elseif (intval($in) < 1 || !isset($enabledPlugins[intval($in)])) {
-                $this->err('Invalid option');
+                $this->err(__d('installer', 'Invalid option'));
             } else {
                 $plugin = Plugin::get($enabledPlugins[$in]->name());
                 $this->hr();
-                $this->out('<info>The following plugin will be DISABLED</info>');
+                $this->out(__d('installer', '<info>The following plugin will be DISABLED</info>'));
                 $this->hr();
-                $this->out(sprintf('Name:        %s', $plugin->name));
-                $this->out(sprintf('Description: %s', $plugin->composer['description']));
-                $this->out(sprintf('Status:      %s', $plugin->status ? 'Active' : 'Disabled'));
-                $this->out(sprintf('Path:        %s', $plugin->path));
+                $this->out(__d('installer', 'Name:        {0}', $plugin->name));
+                $this->out(__d('installer', 'Description: {0}', $plugin->composer['description']));
+                $this->out(__d('installer', 'Status:      {0, select, active={Active} other{Disabled}}', $plugin->status ? 'active' : 'disabled'));
+                $this->out(__d('installer', 'Path:        {0}', $plugin->path));
                 $this->hr();
                 $this->out();
 
-                $confirm = $this->in(sprintf('Please type in "%s" to disable this plugin', $enabledPlugins[$in]->name));
+                $confirm = $this->in(__d('installer', 'Please type in "{0}" to disable this plugin', $enabledPlugins[$in]->name));
                 if ($confirm === $enabledPlugins[$in]->name) {
                     $task = $this->dispatchShell("Installer.plugins toggle -p {$enabledPlugins[$in]->name} -s disable");
 
                     if ($task === 0) {
-                        $this->out('Plugin disabled!');
+                        $this->out(__d('installer', 'Plugin disabled!'));
                         Plugin::dropCache();
                     } else {
-                        $this->err('Plugin could not be disabled.', 2);
+                        $this->err(__d('installer', 'Plugin could not be disabled.'), 2);
                         $this->out();
                     }
                 }

@@ -11,8 +11,10 @@
  */
 namespace Installer\Shell\Task;
 
+use Cake\Core\ClassLoader;
 use Cake\Event\EventManager;
 use Cake\Filesystem\Folder;
+use QuickApps\Core\Plugin;
 
 /**
  * Provides methods for attach and detach listener objects of concrete plugins.
@@ -28,27 +30,36 @@ trait ListenerHandlerTrait
     protected $_listeners = [];
 
     /**
-     * Loads and registers plugin's event listeners classes so plugins may respond
-     * to `beforeInstall`, `afterInstall`, etc.
+     * Loads and registers plugin's namespace and loads its event listeners classes.
+     *
+     * This is used to allow plugins being installed to respond to events before
+     * they are integrated to the system. Events such as `beforeInstall`,
+     * `afterInstall`, etc.
      *
      * @param string $plugin Name of the plugin for which attach listeners
-     * @param string $path Where to look for listener classes
-     * @return void
+     * @param string $path Path to plugin's root directory (which contains "src")
      * @throws \Cake\Error\FatalErrorException On illegal usage of this method
      */
     protected function _attachListeners($plugin, $path)
     {
-        global $classLoader;
+        $path = normalizePath("{$path}/");
+        $eventsPath = normalizePath("{$path}/src/Event/");
 
-        if (file_exists($path) && is_dir($path)) {
+        if (file_exists($eventsPath) && is_dir($eventsPath)) {
             $EventManager = EventManager::instance();
-            $eventsFolder = new Folder($path);
+            $eventsFolder = new Folder($eventsPath);
+            Plugin::load($plugin, [
+                'autoload' => true,
+                'bootstrap' => false,
+                'routes' => false,
+                'path' => $path,
+                'classBase' => 'src',
+                'ignoreMissing' => true,
+            ]);
 
             foreach ($eventsFolder->read(false, false, true)[1] as $classPath) {
                 $className = preg_replace('/\.php$/i', '', basename($classPath));
-                $namespace = $plugin . '\Event\\';
-                $classLoader->addPsr4($namespace, dirname($classPath), true);
-                $fullClassName = $namespace . $className;
+                $fullClassName = implode('\\', [$plugin, 'Event', $className]);
 
                 if (class_exists($fullClassName)) {
                     $handler = new $fullClassName;

@@ -88,7 +88,7 @@ class ThemeActivationTask extends Shell
         // MENTAL NOTE: As theme is "inactive" its listeners are not attached to the
         // system, so we need to manually attach them in order to trigger callbacks.
         if (!$this->params['no-callbacks']) {
-            $this->_attachListeners($plugin->name, "{$plugin->path}/src/Event");
+            $this->_attachListeners($plugin->name, "{$plugin->path}/");
 
             try {
                 $event = $this->trigger("Plugin.{$plugin->name}.beforeActivate");

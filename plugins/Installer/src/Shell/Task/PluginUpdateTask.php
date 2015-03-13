@@ -64,7 +64,7 @@ class PluginUpdateTask extends PluginInstall
 
         if (!$this->params['no-callbacks']) {
             // "before" events occurs even before plugins is moved to its destination
-            $this->_attachListeners($this->_plugin['name'], normalizePath("{$this->_workingDir}/src/Event"));
+            $this->_attachListeners($this->_plugin['name'], "{$this->_workingDir}/");
             try {
                 $event = $this->trigger("Plugin.{$this->_plugin['name']}.beforeUpdate");
                 if ($event->isStopped() || $event->result === false) {
