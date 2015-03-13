@@ -32,6 +32,7 @@ use Cake\Cache\Cache;
 use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
+use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
@@ -40,7 +41,7 @@ use QuickApps\View\ViewModeRegistry;
 
 /**
  * Overwrites core's snapshot() function and emulates its real behaviour.
- * 
+ *
  * @return void
  */
 function snapshot() {
@@ -96,10 +97,7 @@ function snapshot() {
                     foreach ($Folder->read(false, false, true)[1] as $classFile) {
                         $className = basename(preg_replace('/\.php$/', '', $classFile));
                         $namespace = "{$name}\Event\\";
-                        $eventListeners[$namespace . $className] = [
-                            'namespace' => $namespace,
-                            'path' => dirname($classFile),
-                        ];
+                        $eventListeners[] = $namespace . $className;
                     }
                 }
 
@@ -162,6 +160,9 @@ function mockUserSession() {
     return $session;
 }
 
+$snapshot = new File(TMP . 'snapshot.php');
+$snapshot->delete();
+
 require QA_CORE . '/config/bootstrap.php';
 
 Carbon\Carbon::setTestNow(Carbon\Carbon::now());
@@ -194,4 +195,3 @@ ViewModeRegistry::addViewMode([
  */
 Cache::clear(false, '_cake_model_');
 Cache::clear(false, '_cake_core_');
-snapshot();
