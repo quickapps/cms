@@ -11,10 +11,10 @@
  */
 namespace QuickApps\Console;
 
-use Cake\Console\ConsoleInput;
 use Cake\Console\ConsoleIo;
-use Cake\Console\ConsoleOutput;
 use Cake\Console\ShellDispatcher;
+use QuickApps\Console\WebConsoleInput;
+use QuickApps\Console\WebConsoleOutput;
 
 /**
  * Wrapper for CLI shells.
@@ -46,7 +46,7 @@ class WebShellDispatcher extends ShellDispatcher
     protected static $_out = '';
 
     /**
-     * Run the dispatcher
+     * Run the dispatcher.
      *
      * @param string $args Commands to run
      * @return int Result of the shell process. 1 on success, 0 otherwise.
@@ -84,9 +84,9 @@ class WebShellDispatcher extends ShellDispatcher
     {
         $instance = parent::_createShell($className, $shortName);
         $webIo = new ConsoleIo(
-            new ConsoleOutput('php://output'),
-            new ConsoleOutput('php://output'),
-            new ConsoleInput('php://input')
+            new WebConsoleOutput(),
+            new WebConsoleOutput(),
+            new WebConsoleInput()
         );
         $instance->io($webIo);
         return $instance;
