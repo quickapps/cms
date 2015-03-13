@@ -47,7 +47,6 @@ require_once __DIR__ . '/functions.php';
 require_once CORE_PATH . 'config' . DS . 'bootstrap.php';
 
 use Cake\Cache\Cache;
-use Cake\Core\ClassLoader;
 use Cake\Core\Configure\Engine\PhpConfig;
 use Cake\Console\ConsoleErrorHandler;
 use Cake\Core\App;
