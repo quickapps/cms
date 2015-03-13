@@ -201,29 +201,17 @@ if (!count($activePlugins)) {
 }
 
 $EventManager = EventManager::instance();
-$pluginLoader = new ClassLoader();
-$pluginLoader->register();
-
 foreach ($activePlugins as $plugin) {
-    $pluginLoader->addNamespace(
-        str_replace('/', '\\', $plugin->name),
-        $plugin->path .  DS . 'src' . DS
-    );
-
-    $pluginLoader->addNamespace(
-        str_replace('/', '\\', $plugin->name) . '\Test',
-        $plugin->path . DS . 'tests' . DS
-    );
-
     Plugin::load($plugin->name, [
-        'autoload' => false,
+        'autoload' => true,
         'bootstrap' => true,
         'routes' => true,
+        'path' => normalizePath("{$plugin->path}/"),
         'classBase' => 'src',
         'ignoreMissing' => true,
     ]);
 
-    foreach ($plugin->eventListeners as $fullClassName => $eventInfo) {
+    foreach ($plugin->eventListeners as $fullClassName) {
         if (class_exists($fullClassName)) {
             $EventManager->on(new $fullClassName);
         }

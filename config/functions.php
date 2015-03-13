@@ -173,10 +173,7 @@ if (!function_exists('snapshot')) {
                 foreach ($Folder->read(false, false, true)[1] as $classFile) {
                     $className = basename(preg_replace('/\.php$/', '', $classFile));
                     $namespace = "{$plugin->name}\Event\\";
-                    $eventListeners[$namespace . $className] = [
-                        'namespace' => $namespace,
-                        'path' => dirname($classFile),
-                    ];
+                    $eventListeners[] = $namespace . $className;
                 }
             }
 
