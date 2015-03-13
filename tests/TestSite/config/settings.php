@@ -19,7 +19,7 @@ if (getenv('DB') == 'sqlite') {
     $conn = [
         'className' => 'Cake\Database\Connection',
         'driver' => 'Cake\Database\Driver\Sqlite',
-        'log' => true,
+        'log' => false,
     ];
 } elseif (getenv('DB') == 'mysql') {
     $conn = [
@@ -28,7 +28,7 @@ if (getenv('DB') == 'sqlite') {
         'username' => 'travis',
         'password' => '',
         'database' => 'quick_test',
-        'log' => true,
+        'log' => false,
     ];
 } elseif (getenv('DB') == 'pgsql') {
     $conn = [
@@ -39,7 +39,7 @@ if (getenv('DB') == 'sqlite') {
         'username' => 'postgres',
         'password' => '',
         'database' => 'quick_test',
-        'log' => true,
+        'log' => false,
     ];
 }
 
