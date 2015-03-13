@@ -52,7 +52,10 @@ class Plugin extends CakePlugin
         if ($plugin === null) {
             $collection = [];
             foreach ((array)quickapps('plugins') as $plugin) {
-                $collection[] = PackageFactory::create($plugin['name']);
+                $plugin = PackageFactory::create($plugin['name']);
+                if ($plugin instanceof PluginPackage) {
+                    $collection[] = $plugin;
+                }
             }
             return static::cache($cacheKey, collection($collection));
         }
