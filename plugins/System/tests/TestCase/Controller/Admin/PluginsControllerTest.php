@@ -101,7 +101,7 @@ class PluginsControllerTest extends IntegrationTestCase
         ]);
 
         // message generated from plugin's event listener
-        $this->assertResponseContains('This plugin cannot be installed as its NUKED', 'failed when installing nuked plugin');
+        $this->assertResponseContains('This plugin cannot be installed as it is NUKED', 'failed when installing nuked plugin');
         $this->assertResponseOk();
     }
 }
