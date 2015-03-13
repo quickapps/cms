@@ -28,11 +28,11 @@ class CommandListShell extends CakeCommandListShell
     public function main()
     {
         if (empty($this->params['xml'])) {
-            $this->out("<info>Current Paths:</info>", 2);
-            $this->out("* QuickApps Core: " . rtrim(QUICKAPPS_CORE, DS));
-            $this->out("* CakePHP Core:   " . rtrim(CORE_PATH, DS));
-            $this->out("* Site Path:      " . rtrim(SITE_ROOT, DS));
-            $this->out("");
+            $this->out(__('<info>Current Paths:</info>'), 2);
+            $this->out(__('* QuickApps Core: {path}', ['path' => normalizePath(QUICKAPPS_CORE)]));
+            $this->out(__('* CakePHP Core:   {path}', ['path' => normalizePath(CORE_PATH)]));
+            $this->out(__('* Site Path:      {path}', ['path' => normalizePath(SITE_ROOT)]));
+            $this->out('');
 
             $this->out("<info>Available Shells:</info>", 2);
         }
