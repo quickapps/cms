@@ -9,6 +9,5 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-?>
 
-<?php echo $this->element($about); ?>
+echo $this->element($about);

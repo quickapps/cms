@@ -14,10 +14,8 @@
  * Renders the given node in RSS format.
  *
  */
-?>
-
-<?php if (!empty($node->_fields)): ?>
-    <?php foreach ($node->_fields->sortByViewMode($this->inUseViewMode()) as $field): ?>
-        <?php echo $this->render($field); ?>
-    <?php endforeach; ?>
-<?php endif; ?>
+if (!empty($node->_fields)) {
+	foreach ($node->_fields->sortByViewMode($this->inUseViewMode()) as $field) {
+		echo $this->render($field);
+    }
+}

@@ -9,9 +9,7 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-?>
 
-<?php
 echo $this->Menu->render($links, [
     'class' => 'list-group',
     'formatter' => function ($item, $info) {
