@@ -35,11 +35,11 @@ class WebConsoleOutput extends ConsoleOutput
      * Prints a message.
      *
      * @param string $message Message to print.
-     * @return bool True always
+     * @return bool success
      */
     protected function _write($message)
     {
         print $message;
-        return true;
+        return strlen($message);
     }
 }
