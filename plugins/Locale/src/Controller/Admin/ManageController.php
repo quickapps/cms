@@ -150,37 +150,28 @@ class ManageController extends AppController
     {
         $this->loadModel('Locale.Languages');
         $language = $this->Languages->get($id);
-        $unordered = [];
-        $direction = !in_array($direction, ['up', 'down']) ? 'up' : $direction;
-        $updated = false;
-        $position = false;
-        $list = $this->Languages->find()
+        $unordered = $this->Languages->find()
             ->select(['id', 'ordering'])
             ->order(['ordering' => 'ASC'])
-            ->all();
+            ->all()
+            ->extract('id')
+            ->toArray();
 
-        foreach ($list as $k => $l) {
-            if ($l->id === $language->id) {
-                $position = $k;
-            }
-
-            $unordered[] = $l;
+        $position = array_search($language->id, $unordered);
+        if ($position === false) {
+            $this->redirect($this->referer());
         }
 
-        if ($position !== false) {
-            // fix movement orientation from top-down to left-right
-            $direction = $direction == 'up' ? 'down' : 'up';
-            $ordered = array_move($unordered, $position, $direction);
-            $before = md5(serialize($unordered));
-            $after = md5(serialize($ordered));
+        $updated = false;
+        $direction = $direction === 'up' ? 'down' : 'up'; // fix orientation, top-down to left-right
+        $ordered = array_move($unordered, $position, $direction);
+        if (md5(serialize($ordered)) == md5(serialize($unordered))) {
+            $this->redirect($this->referer());
+        }
 
-            if ($before != $after) {
-                foreach ($ordered as $k => $l) {
-                    $l->set('ordering', $k);
-                    if ($this->Languages->save($l)) {
-                        $updated = true;
-                    }
-                }
+        foreach ($ordered as $index => $id) {
+            if ($this->Languages->updateAll(['ordering' => $index], ['id' => $id])) {
+                $updated = true;
             }
         }
 
