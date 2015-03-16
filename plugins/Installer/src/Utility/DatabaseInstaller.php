@@ -266,7 +266,7 @@ class DatabaseInstaller
         }, $Folder->read()[1]);
         $result = !array_intersect($existingSchemas, $newSchemas);
         if (!$result) {
-            $this->error(__d('installer', 'A previous installation of QuickApps CMS already exists, please drop your database tables or change the prefix.'));
+            $this->error(__d('installer', 'A previous installation of QuickAppsCMS already exists, please drop your database tables before continue.'));
         }
         return $result;
     }
