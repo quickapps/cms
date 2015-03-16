@@ -158,27 +158,19 @@ class ManageController extends AppController
             ->toArray();
 
         $position = array_search($language->id, $unordered);
-        if ($position === false) {
+        if (!is_integer($position)) {
             $this->redirect($this->referer());
         }
 
-        $updated = false;
         $direction = $direction === 'up' ? 'down' : 'up'; // fix orientation, top-down to left-right
         $ordered = array_move($unordered, $position, $direction);
-        if (md5(serialize($ordered)) == md5(serialize($unordered))) {
-            $this->redirect($this->referer());
-        }
-
-        foreach ($ordered as $index => $id) {
-            if ($this->Languages->updateAll(['ordering' => $index], ['id' => $id])) {
-                $updated = true;
+        if (md5(serialize($ordered)) != md5(serialize($unordered))) {
+            foreach ($ordered as $ordering => $id) {
+                $this->Languages->updateAll(compact('ordering'), compact('id'));
             }
         }
 
-        if ($updated) {
-            $this->Flash->success(__d('locale', 'Language successfully reordered!'));
-        }
-
+        $this->Flash->success(__d('locale', 'Language successfully reordered!'));
         $this->redirect($this->referer());
     }
 
