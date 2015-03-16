@@ -153,9 +153,10 @@ class BasePackage
     /**
      * Gets composer json information for this package.
      *
-     * @param bool $full Whether to get full composer schema or not, defaults to false
-     * @return array composer.json as an array, an empty array if corrupt or not
-     *  found
+     * @param bool $full Whether to get full composer schema or not. Defaults to
+     *  false, only defined keys in JSON file will be fetched
+     * @return array Package's "composer.json" file as an array, an empty array if
+     *  corrupt or not found
      */
     public function composer($full = false)
     {
