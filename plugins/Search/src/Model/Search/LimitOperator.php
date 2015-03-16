@@ -31,7 +31,7 @@ class LimitOperator extends Operator
 {
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function scope(Query $query, Token $token)
     {

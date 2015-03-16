@@ -19,7 +19,7 @@ class ThirdPartyPackage extends BasePackage
 {
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * ### Example:
      *

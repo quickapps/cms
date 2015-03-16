@@ -23,7 +23,7 @@ class WelcomeMessage extends BaseMessage
 {
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function send()
     {

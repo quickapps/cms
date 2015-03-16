@@ -23,7 +23,7 @@ class BlockedMessage extends BaseMessage
 {
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function send()
     {

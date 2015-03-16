@@ -22,7 +22,7 @@ abstract class SpecificConstraint implements LinkConstraintInterface
     protected $prettyString;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function matches(LinkConstraintInterface $provider)
     {
@@ -37,7 +37,7 @@ abstract class SpecificConstraint implements LinkConstraintInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setPrettyString($prettyString)
     {
@@ -45,7 +45,7 @@ abstract class SpecificConstraint implements LinkConstraintInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getPrettyString()
     {

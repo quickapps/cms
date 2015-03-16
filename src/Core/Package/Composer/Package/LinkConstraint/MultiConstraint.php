@@ -37,7 +37,7 @@ class MultiConstraint implements LinkConstraintInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function matches(LinkConstraintInterface $provider)
     {
@@ -61,7 +61,7 @@ class MultiConstraint implements LinkConstraintInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setPrettyString($prettyString)
     {
@@ -69,7 +69,7 @@ class MultiConstraint implements LinkConstraintInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getPrettyString()
     {
@@ -81,7 +81,7 @@ class MultiConstraint implements LinkConstraintInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __toString()
     {

@@ -22,7 +22,7 @@ class EmptyConstraint implements LinkConstraintInterface
     protected $prettyString;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function matches(LinkConstraintInterface $provider)
     {
@@ -30,7 +30,7 @@ class EmptyConstraint implements LinkConstraintInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setPrettyString($prettyString)
     {
@@ -38,7 +38,7 @@ class EmptyConstraint implements LinkConstraintInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getPrettyString()
     {
@@ -50,7 +50,7 @@ class EmptyConstraint implements LinkConstraintInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __toString()
     {

@@ -45,7 +45,7 @@ class VersionConstraint extends SpecificConstraint
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function versionCompare($a, $b, $operator, $compareBranches = false)
     {
@@ -119,7 +119,7 @@ class VersionConstraint extends SpecificConstraint
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __toString()
     {

@@ -23,7 +23,7 @@ class CanceledMessage extends BaseMessage
 {
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function send()
     {

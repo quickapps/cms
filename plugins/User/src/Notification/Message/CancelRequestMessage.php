@@ -23,7 +23,7 @@ class CancelRequestMessage extends BaseMessage
 {
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function send()
     {

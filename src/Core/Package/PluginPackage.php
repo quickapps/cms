@@ -50,7 +50,7 @@ class PluginPackage extends BasePackage
     protected $_permissions = null;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @return string CamelizedName plugin name
      */
@@ -251,7 +251,7 @@ class PluginPackage extends BasePackage
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function composer($full = false)
     {
@@ -304,7 +304,7 @@ class PluginPackage extends BasePackage
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * It will look for plugin's version in the following places:
      *
