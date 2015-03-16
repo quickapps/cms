@@ -23,7 +23,7 @@ class MultiConstraint implements LinkConstraintInterface
     protected $constraints;
     protected $prettyString;
     protected $conjunctive;
-    
+
     /**
      * Sets operator and version to compare a package with
      *
@@ -47,16 +47,16 @@ class MultiConstraint implements LinkConstraintInterface
                     return true;
                 }
             }
-            
+
             return false;
         }
-        
+
         foreach ($this->constraints as $constraint) {
             if (!$constraint->matches($provider)) {
                 return false;
             }
         }
-        
+
         return true;
     }
 
@@ -76,7 +76,7 @@ class MultiConstraint implements LinkConstraintInterface
         if ($this->prettyString) {
             return $this->prettyString;
         }
-        
+
         return $this->__toString();
     }
 
@@ -89,7 +89,7 @@ class MultiConstraint implements LinkConstraintInterface
         foreach ($this->constraints as $constraint) {
             $constraints[] = $constraint->__toString();
         }
-        
+
         return '[' . implode($this->conjunctive ? ' ' : ' || ', $constraints) . ']';
     }
 }

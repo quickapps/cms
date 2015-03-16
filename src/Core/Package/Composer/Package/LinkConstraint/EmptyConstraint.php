@@ -20,7 +20,7 @@ class EmptyConstraint implements LinkConstraintInterface
 {
 
     protected $prettyString;
-    
+
     /**
      * {@inheritdoc}
      */
@@ -28,7 +28,7 @@ class EmptyConstraint implements LinkConstraintInterface
     {
         return true;
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -45,7 +45,7 @@ class EmptyConstraint implements LinkConstraintInterface
         if ($this->prettyString) {
             return $this->prettyString;
         }
-        
+
         return $this->__toString();
     }
 

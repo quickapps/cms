@@ -32,7 +32,7 @@ abstract class SpecificConstraint implements LinkConstraintInterface
         } elseif ($provider instanceof $this) {
             return $this->matchSpecific($provider);
         }
-        
+
         return true;
     }
 
@@ -52,10 +52,10 @@ abstract class SpecificConstraint implements LinkConstraintInterface
         if ($this->prettyString) {
             return $this->prettyString;
         }
-        
+
         return $this->__toString();
     }
-    
+
     // implementations must implement a method of this format:
     // not declared abstract here because type hinting violates parameter coherence (TODO right word?)
     // public function matchSpecific(<SpecificConstraintType> $provider);

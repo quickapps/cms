@@ -23,7 +23,7 @@ class VersionConstraint extends SpecificConstraint
 
     private $operator;
     private $version;
-    
+
     /**
      * Sets operator and version to compare a package with
      *
@@ -35,11 +35,11 @@ class VersionConstraint extends SpecificConstraint
         if ('=' === $operator) {
             $operator = '==';
         }
-        
+
         if ('<>' === $operator) {
             $operator = '!=';
         }
-        
+
         $this->operator = $operator;
         $this->version = $version;
     }
@@ -54,15 +54,15 @@ class VersionConstraint extends SpecificConstraint
         if ($aIsBranch && $bIsBranch) {
             return $operator == '==' && $a === $b;
         }
-        
+
         // when branches are not comparable, we make sure dev branches never match anything
         if (!$compareBranches && ($aIsBranch || $bIsBranch)) {
             return false;
         }
-        
+
         return version_compare($a, $b, $operator);
     }
-    
+
     /**
      * @param  VersionConstraint $provider           Provider
      * @param  bool              $compareBranches    Whether to compare versions
@@ -74,10 +74,10 @@ class VersionConstraint extends SpecificConstraint
         if (isset($cache[$this->operator][$this->version][$provider->operator][$provider->version][$compareBranches])) {
             return $cache[$this->operator][$this->version][$provider->operator][$provider->version][$compareBranches];
         }
-        
+
         return $cache[$this->operator][$this->version][$provider->operator][$provider->version][$compareBranches] = $this->doMatchSpecific($provider, $compareBranches);
     }
-    
+
     /**
      * @param  VersionConstraint $provider           Provider
      * @param  bool              $compareBranches    Whether to compare versions
@@ -87,34 +87,34 @@ class VersionConstraint extends SpecificConstraint
     {
         $noEqualOp = str_replace('=', '', $this->operator);
         $providerNoEqualOp = str_replace('=', '', $provider->operator);
-        
+
         $isEqualOp = '==' === $this->operator;
         $isNonEqualOp = '!=' === $this->operator;
         $isProviderEqualOp = '==' === $provider->operator;
         $isProviderNonEqualOp = '!=' === $provider->operator;
-        
+
         // '!=' operator is match when other operator is not '==' operator or version is not match
         // these kinds of comparisons always have a solution
         if ($isNonEqualOp || $isProviderNonEqualOp) {
             return !$isEqualOp && !$isProviderEqualOp || $this->versionCompare($provider->version, $this->version, '!=', $compareBranches);
         }
-        
+
         // an example for the condition is <= 2.0 & < 1.0
         // these kinds of comparisons always have a solution
         if ($this->operator != '==' && $noEqualOp == $providerNoEqualOp) {
             return true;
         }
-        
+
         if ($this->versionCompare($provider->version, $this->version, $this->operator, $compareBranches)) {
         // special case, e.g. require >= 1.0 and provide < 1.0
             // 1.0 >= 1.0 but 1.0 is outside of the provided interval
             if ($provider->version == $this->version && $provider->operator == $providerNoEqualOp && $this->operator != $noEqualOp) {
                 return false;
             }
-            
+
             return true;
         }
-        
+
         return false;
     }
 
