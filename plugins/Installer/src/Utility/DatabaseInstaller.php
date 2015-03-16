@@ -348,7 +348,7 @@ class DatabaseInstaller
                     $tableCreated = false;
                 }
             } catch (\Exception $ex) {
-                $this->error(__d('installer', 'Unable to create table "{0}. Details: {1}"', $ex->getMessage()));
+                $this->error(__d('installer', 'Unable to create table "{0}". Details: {1}', $tableName, $ex->getMessage()));
                 $tableCreated = false;
             }
         }
