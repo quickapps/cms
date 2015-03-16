@@ -55,7 +55,7 @@ class FieldCollection extends ArrayObject
     {
         parent::__construct($fields, ArrayObject::STD_PROP_LIST);
         foreach ($fields as $key => $field) {
-            $this->_keysMaps[$field->name] = $key;
+            $this->_keysMap[$field->name] = $key;
         }
     }
 
@@ -95,8 +95,8 @@ class FieldCollection extends ArrayObject
      */
     public function offsetGet($index)
     {
-        if (is_string($index) && isset($this->_keysMaps[$index])) {
-            $index = $this->_keysMaps[$index];
+        if (is_string($index) && isset($this->_keysMap[$index])) {
+            $index = $this->_keysMap[$index];
         }
         return parent::offsetGet($index);
     }
@@ -108,7 +108,7 @@ class FieldCollection extends ArrayObject
      */
     public function machineNames()
     {
-        return array_keys($this->_keysMaps);
+        return array_keys($this->_keysMap);
     }
 
     /**
