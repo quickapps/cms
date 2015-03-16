@@ -165,8 +165,12 @@ class PluginPackage extends BasePackage
      * $plugin->info('settings.some_key');
      * ```
      *
+     * If the given path is not found NULL will be returned
+     *
      * @param string $key Optional path to read from the resulting array
-     * @return array Plugin information
+     * @return mixed Plugin information as an array if no key is given, or the
+     *  requested value if a valid $key was provided, or NULL if $key path is not
+     *  found
      */
     public function &info($key = null)
     {
@@ -182,14 +186,6 @@ class PluginPackage extends BasePackage
 
         if ($getComposer && !isset($this->_info['composer'])) {
             $this->_info['composer'] = $this->composer();
-
-            if ($this->_info['isTheme'] && !isset($this->_info['composer']['extra']['admin'])) {
-                $this->_info['composer']['extra']['admin'] = false;
-            }
-
-            if ($this->_info['isTheme'] && !isset($this->_info['composer']['extra']['regions'])) {
-                $this->_info['composer']['extra']['regions'] = [];
-            }
         }
 
         if ($getSettings && !isset($this->_info['settings'])) {
@@ -204,19 +200,20 @@ class PluginPackage extends BasePackage
             return $this->_info;
         }
 
-        return $this->_getKey($key);
+        return $this->_getKey($parts);
     }
 
     /**
-     * Gets value for the given key.
+     * Gets info value for the given key.
      *
-     * @param string $key The path to read, dot-syntax allowed
+     * @param string|array $key The path to read. String using a dot-syntax, or an
+     *  array result of exploding by `.` symbol
      * @return mixed
      */
     protected function &_getKey($key)
     {
         $default = null;
-        $parts = explode('.', $key);
+        $parts = is_string($key) ? explode('.', $key) : $key;
 
         switch (count($parts)) {
             case 1:
@@ -251,6 +248,21 @@ class PluginPackage extends BasePackage
         }
 
         return $data;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function composer($full = false)
+    {
+        $composer = parent::composer($full);
+        if ($this->isTheme && !isset($composer['extra']['admin'])) {
+            $composer['extra']['admin'] = false;
+        }
+        if ($this->isTheme && !isset($composer['extra']['regions'])) {
+            $composer['extra']['regions'] = [];
+        }
+        return $composer;
     }
 
     /**
