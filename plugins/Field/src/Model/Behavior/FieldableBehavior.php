@@ -438,7 +438,8 @@ class FieldableBehavior extends Behavior
 
     /**
      * Used for reduce BD queries and allow inter-method communication.
-     * Example, it allows to pass some information from beforeDelete() to afterDelete().
+     * Example, it allows to pass some information from beforeDelete() to
+     * afterDelete().
      *
      * @var array
      */
@@ -460,9 +461,9 @@ class FieldableBehavior extends Behavior
      *
      *     <real_table_name>:<bundle>
      *
-     * If `bundle` is set to a callable function, this function receives an entity as
-     * first argument and the table instance as second argument, the callable must
-     * return a string value to use as `bundle`.
+     * If `bundle` is set to a callable function, this function receives an entity
+     * as first argument and the table instance as second argument, the callable
+     * must return a string value to use as `bundle`.
      *
      * ```php
      * // ...
@@ -507,8 +508,9 @@ class FieldableBehavior extends Behavior
     }
 
     /**
-     * Returns a list of events this class is implementing. When the class is registered
-     * in an event manager, each individual method will be associated with the respective event.
+     * Returns a list of events this class is implementing. When the class is
+     * registered in an event manager, each individual method will be associated
+     * with the respective event.
      *
      * @return void
      */
@@ -593,34 +595,32 @@ class FieldableBehavior extends Behavior
      */
     public function beforeFind(Event $event, Query $query, $options, $primary)
     {
-        if (isset($options['fieldable']) && $options['fieldable'] === false) {
+        if ((isset($options['fieldable']) && $options['fieldable'] === false) ||
+            !$this->config('enabled')
+    	) {
             return true;
         }
 
-        if ($this->config('enabled') ||
-            (isset($options['fieldable']) && $options['fieldable'] === true)
-        ) {
-            $query = $this->_scopeQuery($query, $options);
-            $query->formatResults(function ($results) use ($event, $options, $primary) {
-                $results = $results->map(function ($entity) use ($event, $options, $primary) {
-                    if ($entity instanceof EntityInterface) {
-                        $entity = $this->attachEntityFields($entity);
-                        foreach ($entity->get('_fields') as $field) {
-                            $fieldEvent = $this->trigger(["Field.{$field->metadata->handler}.Entity.beforeFind", $event->subject()], $field, $options, $primary);
-                            if ($fieldEvent->result === false) {
-                                $entity = false;
-                                break;
-                            } elseif ($fieldEvent->isStopped()) {
-                                $event->stopPropagation();
-                                return;
-                            }
+        $query = $this->_scopeQuery($query, $options);
+        $query->formatResults(function ($results) use ($event, $options, $primary) {
+            $results = $results->map(function ($entity) use ($event, $options, $primary) {
+                if ($entity instanceof EntityInterface) {
+                    $entity = $this->attachEntityFields($entity);
+                    foreach ($entity->get('_fields') as $field) {
+                        $fieldEvent = $this->trigger(["Field.{$field->metadata->handler}.Entity.beforeFind", $event->subject()], $field, $options, $primary);
+                        if ($fieldEvent->result === false) {
+                            $entity = false; // remove from collection
+                            break;
+                        } elseif ($fieldEvent->isStopped()) {
+                            $event->stopPropagation(); // abort find()
+                            return;
                         }
                     }
-                    return $entity;
-                });
-                return $results->filter();
+                }
+                return $entity;
             });
-        }
+            return $results->filter();
+        });
     }
 
     /**
@@ -898,7 +898,7 @@ class FieldableBehavior extends Behavior
         $instances = $this->_getTableFieldInstances($entity);
 
         foreach ($instances as $instance) {
-            // invoke fields beforeDelete so they can do its stuff
+            // invoke fields beforeDelete so they can do their stuff
             // e.g.: Delete entity information from another table.
             $field = $this->_getMockField($entity, $instance);
             $fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.beforeDelete", $event->subject()], $field, $options);
@@ -965,10 +965,6 @@ class FieldableBehavior extends Behavior
 
     /**
      * Changes behavior's configuration parameters on the fly.
-     *
-     * Useful when using customized `find_interator` callable, allows to change
-     * FieldableBehavior's configuration parameters on each mapper's iteration
-     * depending on your needs.
      *
      * @param array $config Configuration parameters as `key` => `value`
      * @return void
@@ -1217,15 +1213,14 @@ class FieldableBehavior extends Behavior
      */
     protected function _parseFieldName($column)
     {
-        list($entityName, $fieldName) = pluginSplit((string)$column);
+        list($tableName, $fieldName) = pluginSplit((string)$column);
 
         if (!$fieldName) {
-            $fieldName = $entityName;
+            $fieldName = $tableName;
         }
 
         $fieldName = preg_replace('/\s{2,}/', ' ', $fieldName);
         list($fieldName, ) = explode(' ', trim($fieldName));
-
         return $fieldName;
     }
 
@@ -1261,7 +1256,6 @@ class FieldableBehavior extends Behavior
             foreach ($bundle as $b) {
                 $out[] = $this->config('tableAlias') . ':' . (string)$b;
             }
-
             return $out;
         }
 
@@ -1269,13 +1263,14 @@ class FieldableBehavior extends Behavior
     }
 
     /**
-     * Creates a new "Field" for each entity.
+     * Creates a new Virtual "Field" to be attached to the given entity.
      *
-     * This mock Field represents a new property (table column) for your entity.
+     * This mock Field represents a new property (table column) of the entity.
      *
-     * @param \Cake\Datasource\EntityInterface $entity The entity where to attach fields
-     * @param \Field\Model\Entity\FieldInstance $instance The instance where to get the
-     *  information when creating the mock field.
+     * @param \Cake\Datasource\EntityInterface $entity The entity where the
+     *  generated virtual field will be attached
+     * @param \Field\Model\Entity\FieldInstance $instance The instance where to get
+     *  the information when creating the mock field.
      * @return \Field\Model\Entity\Field
      */
     protected function _getMockField(EntityInterface $entity, $instance)
@@ -1324,7 +1319,6 @@ class FieldableBehavior extends Behavior
         $mockField->accessible('*', false);
         $mockField->accessible('value', true);
         $mockField->accessible('raw', true);
-
         return $mockField;
     }
 
@@ -1342,7 +1336,6 @@ class FieldableBehavior extends Behavior
     protected function _guessTableAlias(EntityInterface $entity)
     {
         $tableAlias = $this->config('tableAlias');
-
         if ($this->config('bundle')) {
             $bundle = $this->_resolveBundle($entity);
             if ($bundle === false) {
@@ -1353,7 +1346,6 @@ class FieldableBehavior extends Behavior
 
             $tableAlias = "{$tableAlias}:{$bundle}";
         }
-
         return $tableAlias;
     }
 
@@ -1374,30 +1366,29 @@ class FieldableBehavior extends Behavior
                 return $bundle;
             }
         }
-
         return false;
     }
 
     /**
      * Used to reduce database queries.
      *
-     * @param \Cake\Datasource\EntityInterface $entity An entity used to guess table name
-     * @return \Cake\Datasource\ResultSetInterface Field instances attached to current table as a query result
+     * @param \Cake\Datasource\EntityInterface $entity An entity used to guess
+     *  table name to be used
+     * @return \Cake\Datasource\ResultSetInterface Field instances attached to
+     *  current table as a query result
      */
     protected function _getTableFieldInstances(EntityInterface $entity)
     {
         $tableAlias = $this->_guessTableAlias($entity);
-
         if (isset($this->_cache["TableFieldInstances_{$tableAlias}"])) {
             return $this->_cache["TableFieldInstances_{$tableAlias}"];
-        } else {
-            $FieldInstances = TableRegistry::get('Field.FieldInstances');
-            $this->_cache["TableFieldInstances_{$tableAlias}"] = $FieldInstances->find()
-                ->where(['FieldInstances.table_alias' => $tableAlias])
-                ->order(['ordering' => 'ASC'])
-                ->all();
-
-            return $this->_cache["TableFieldInstances_{$tableAlias}"];
         }
+
+        $FieldInstances = TableRegistry::get('Field.FieldInstances');
+        $this->_cache["TableFieldInstances_{$tableAlias}"] = $FieldInstances->find()
+            ->where(['FieldInstances.table_alias' => $tableAlias])
+            ->order(['ordering' => 'ASC'])
+            ->all();
+        return $this->_cache["TableFieldInstances_{$tableAlias}"];
     }
 }

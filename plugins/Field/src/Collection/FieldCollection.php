@@ -17,16 +17,34 @@ use Cake\Collection\CollectionTrait;
 /**
  * Field Collection.
  *
- * Used for manage fields attached to every entity using `Fieldable` behaviour.
+ * Used for manage fields attached to table entities using `Fieldable` behavior.
  *
- * Allows to handle fields as an array list, but it adds a few useful
- * functionalities such as `sortAs()` method, or access a fields by its numeric
- * index or its machine-name (associative array).
+ * Allows to handle fields as an array list, it also adds a few useful
+ * functionalities such as `sortAs()` method, or accessing a fields by its
+ * numeric index or its machine-name (associative array), see `offsetGet()`.
  */
 class FieldCollection extends ArrayObject
 {
 
     use CollectionTrait;
+
+    /**
+     * Holds a map of machine-names to index keys.
+     *
+     * ### Example:
+     *
+     * ```php
+     * [
+     *     'user-name' => 0,
+     *     'user-phone' => 1,
+     *     'user-age' => 3,
+     *      // ...
+     * ]
+     * ```
+     *
+     * @var array
+     */
+    protected $_keysMap = [];
 
     /**
      * Class constructor.
@@ -36,6 +54,9 @@ class FieldCollection extends ArrayObject
     public function __construct(array $fields = [])
     {
         parent::__construct($fields, ArrayObject::STD_PROP_LIST);
+        foreach ($fields as $key => $field) {
+            $this->_keysMaps[$field->name] = $key;
+        }
     }
 
     /**
@@ -62,7 +83,6 @@ class FieldCollection extends ArrayObject
      * ];
      *
      * $collection = new FieldCollection($fields);
-     *
      * if ($collection[1] === $collection['user-phone']) {
      *    echo "SUCCESS";
      * }
@@ -75,14 +95,9 @@ class FieldCollection extends ArrayObject
      */
     public function offsetGet($index)
     {
-        if (is_string($index)) {
-            foreach ($this as $f) {
-                if ($f->name == $index) {
-                    return $f;
-                }
-            }
+        if (is_string($index) && isset($this->_keysMaps[$index])) {
+            $index = $this->_keysMaps[$index];
         }
-
         return parent::offsetGet($index);
     }
 
@@ -93,11 +108,7 @@ class FieldCollection extends ArrayObject
      */
     public function machineNames()
     {
-        $mn = [];
-        foreach ($this as $f) {
-            $mn[] = $f->name;
-        }
-        return $mn;
+        return array_keys($this->_keysMaps);
     }
 
     /**
