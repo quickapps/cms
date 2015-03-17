@@ -597,7 +597,7 @@ class FieldableBehavior extends Behavior
     {
         if ((isset($options['fieldable']) && $options['fieldable'] === false) ||
             !$this->config('enabled')
-    	) {
+        ) {
             return true;
         }
 
