@@ -248,7 +248,6 @@ class BlocksFixture extends TestFixture
   ],
   6 =>
   [
-    'id' => 7,
     'copy_id' => NULL,
     'delta' => 'sub-menu',
     'handler' => 'User',
