@@ -88,6 +88,7 @@ class BlockHelper extends Helper
                     ]);
                 })
                 ->where(['Blocks.status' => 1])
+                ->order(['BlockRegions.ordering' => 'ASC'])
                 ->all()
                 ->filter(function ($block) {
                     return $block->renderable();
