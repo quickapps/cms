@@ -3,8 +3,8 @@ class BlocksFixture
 {
 
     public $fields = [
-    '_constraints' =>
-    [
+  '_constraints' =>
+  [
     'primary' =>
     [
       'type' => 'primary',
@@ -28,215 +28,230 @@ class BlocksFixture
       [
       ],
     ],
-    ],
-    'id' =>
-    [
+  ],
+  'id' =>
+  [
     'type' => 'integer',
     'unsigned' => false,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => 'Primary Key - Unique block ID.',
     'autoIncrement' => true,
-    'precision' => null,
-    ],
-    'copy_id' =>
-    [
+    'precision' => NULL,
+  ],
+  'copy_id' =>
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => true,
-    'default' => null,
+    'default' => NULL,
     'comment' => 'id of the block this block is a copy of',
-    'precision' => null,
-    'autoIncrement' => null,
-    ],
-    'delta' =>
-    [
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+  'delta' =>
+  [
     'type' => 'string',
     'length' => 30,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => 'unique ID within a handler',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'handler' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'handler' =>
+  [
     'type' => 'string',
     'length' => 100,
     'null' => false,
     'default' => 'Block',
     'comment' => 'Name of the plugin that created this block. Used to generate event name, e.g. "Menu" triggers "Block.Menu.display" when rendering the block',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'title' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'title' =>
+  [
     'type' => 'string',
     'length' => 100,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'description' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'description' =>
+  [
     'type' => 'string',
     'length' => 200,
     'null' => true,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'body' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'body' =>
+  [
     'type' => 'text',
-    'length' => null,
+    'length' => NULL,
     'null' => true,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    ],
-    'visibility' =>
-    [
+    'precision' => NULL,
+  ],
+  'visibility' =>
+  [
     'type' => 'string',
     'length' => 8,
     'null' => false,
     'default' => 'except',
     'comment' => 'indicate how to show blocks on pages. (except = show on all pages except listed pages; only = show only on listed pages; php = use custom PHP code to determine visibility)',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'pages' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'pages' =>
+  [
     'type' => 'text',
-    'length' => null,
+    'length' => NULL,
     'null' => true,
-    'default' => null,
+    'default' => NULL,
     'comment' => 'Contents of the "Pages" block contains either a list of paths on which to include/exclude the block or PHP code, depending on "visibility" setting.',
-    'precision' => null,
-    ],
-    'locale' =>
-    [
+    'precision' => NULL,
+  ],
+  'locale' =>
+  [
     'type' => 'text',
-    'length' => null,
+    'length' => NULL,
     'null' => true,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    ],
-    'settings' =>
-    [
+    'precision' => NULL,
+  ],
+  'settings' =>
+  [
     'type' => 'text',
-    'length' => null,
+    'length' => NULL,
     'null' => true,
-    'default' => null,
+    'default' => NULL,
     'comment' => 'additional information used by this block, used by blocks handlers <> `Block`',
-    'precision' => null,
-    ],
-    'status' =>
-    [
+    'precision' => NULL,
+  ],
+  'status' =>
+  [
     'type' => 'boolean',
-    'length' => null,
+    'length' => NULL,
     'null' => false,
     'default' => '0',
     'comment' => '',
-    'precision' => null,
-    ],
-    ];
+    'precision' => NULL,
+  ],
+];
 
     public $records = [
-    0 =>
-    [
+  0 =>
+  [
     'id' => 1,
-    'copy_id' => null,
+    'copy_id' => NULL,
     'delta' => '1',
     'handler' => 'System',
     'title' => 'Management [menu:1]',
     'description' => 'Associated block for "Management" menu.',
-    'body' => null,
+    'body' => NULL,
     'visibility' => 'except',
-    'pages' => null,
-    'locale' => null,
-    'settings' => null,
+    'pages' => NULL,
+    'locale' => NULL,
+    'settings' => NULL,
     'status' => true,
-    ],
-    1 =>
-    [
+  ],
+  1 =>
+  [
     'id' => 2,
-    'copy_id' => null,
+    'copy_id' => NULL,
     'delta' => '2',
     'handler' => 'System',
     'title' => 'Site Main Menu [menu:2]',
     'description' => 'Associated block for "Site Main Menu" menu.',
-    'body' => null,
+    'body' => NULL,
     'visibility' => 'except',
-    'pages' => null,
-    'locale' => null,
-    'settings' => null,
+    'pages' => NULL,
+    'locale' => NULL,
+    'settings' => NULL,
     'status' => true,
-    ],
-    2 =>
-    [
+  ],
+  2 =>
+  [
     'id' => 3,
-    'copy_id' => null,
+    'copy_id' => NULL,
     'delta' => 'dashboard_recent_content',
     'handler' => 'Node',
     'title' => 'Recent Content',
     'description' => 'Shows a list of latest created contents.',
-    'body' => null,
+    'body' => NULL,
     'visibility' => 'except',
-    'pages' => null,
-    'locale' => null,
-    'settings' => null,
+    'pages' => NULL,
+    'locale' => NULL,
+    'settings' => NULL,
     'status' => true,
-    ],
-    3 =>
-    [
+  ],
+  3 =>
+  [
     'id' => 4,
-    'copy_id' => null,
+    'copy_id' => NULL,
     'delta' => 'dashboard_search',
     'handler' => 'Node',
     'title' => 'Search',
     'description' => 'Quick Search Form',
-    'body' => null,
+    'body' => NULL,
     'visibility' => 'except',
-    'pages' => null,
-    'locale' => null,
-    'settings' => null,
+    'pages' => NULL,
+    'locale' => NULL,
+    'settings' => NULL,
     'status' => true,
-    ],
-    4 =>
-    [
+  ],
+  4 =>
+  [
     'id' => 5,
-    'copy_id' => null,
+    'copy_id' => NULL,
     'delta' => 'language_switcher',
     'handler' => 'Locale',
     'title' => 'Change Language',
     'description' => 'Language switcher block',
-    'body' => null,
+    'body' => NULL,
     'visibility' => 'except',
-    'pages' => null,
-    'locale' => null,
+    'pages' => NULL,
+    'locale' => NULL,
     'settings' => 'a:2:{s:4:"type";s:4:"html";s:5:"flags";b:1;}',
     'status' => true,
-    ],
-    5 =>
-    [
+  ],
+  5 =>
+  [
     'id' => 6,
-    'copy_id' => null,
+    'copy_id' => NULL,
     'delta' => 'categories',
     'handler' => 'Taxonomy',
     'title' => 'Categories',
     'description' => 'List of terms block',
-    'body' => null,
+    'body' => NULL,
     'visibility' => 'except',
-    'pages' => null,
-    'locale' => null,
-    'settings' => null,
+    'pages' => NULL,
+    'locale' => NULL,
+    'settings' => NULL,
     'status' => false,
-    ],
-    ];
+  ],
+  6 =>
+  [
+    'id' => 7,
+    'copy_id' => NULL,
+    'delta' => 'sub-menu',
+    'handler' => 'User',
+    'title' => 'User sub-menu',
+    'description' => 'Provides links to user\'s account, login, logout, etc',
+    'body' => NULL,
+    'visibility' => 'except',
+    'pages' => NULL,
+    'locale' => NULL,
+    'settings' => NULL,
+    'status' => false,
+  ],
+];
 }

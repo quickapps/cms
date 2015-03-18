@@ -30,6 +30,7 @@
         "admin": false,
         "regions": {
             "main-menu": "Main Menu",
+            "sub-menu": "Sub-menu",
             "right-sidebar": "Right Sidebar"
         }
     }

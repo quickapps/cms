@@ -246,5 +246,20 @@ class BlocksFixture extends TestFixture
     'settings' => NULL,
     'status' => false,
   ],
+  6 =>
+  [
+    'id' => 7,
+    'copy_id' => NULL,
+    'delta' => 'sub-menu',
+    'handler' => 'User',
+    'title' => 'User sub-menu',
+    'description' => 'Provides links to user\'s account, login, logout, etc',
+    'body' => NULL,
+    'visibility' => 'except',
+    'pages' => NULL,
+    'locale' => NULL,
+    'settings' => NULL,
+    'status' => false,
+  ],
 ];
 }
