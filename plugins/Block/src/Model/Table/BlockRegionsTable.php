@@ -66,7 +66,7 @@ class BlockRegionsTable extends Table
                 'rule' => function ($value, $context) {
                     $exists = Plugin::get()
                         ->filter(function ($plugin) use ($value) {
-                            return $plugin->name === $value;
+                            return $plugin->isTheme && $plugin->name === $value;
                         })
                         ->first();
                     return !empty($exists);
