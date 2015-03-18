@@ -42,10 +42,17 @@
             <fieldset>
                 <legend><?php echo __d('block', 'Theme Region'); ?></legend>
                 <em class="help-block"><?php echo __d('block', 'Specify in which themes and regions this block is displayed.'); ?></em>
-
                 <?php foreach ($regions as $info): ?>
-                    <?php echo $this->Form->input("region.{$info['theme']}", ['type' => 'select', 'value' => $info['value'], 'label' => $info['theme'], 'options' => $info['regions'], 'empty' => __d('block', '- NONE -')]); ?>
-                    <em class="help-block">(<?php echo __d($info['theme'], $info['description']); ?>)</em>
+                    <?php
+                        echo $this->Form->input("region.{$info['theme_machine_name']}", [
+                            'type' => 'select',
+                            'value' => $info['value'],
+                            'label' => $info['theme_human_name'],
+                            'options' => $info['regions'],
+                            'empty' => __d('block', '- NONE -')
+                        ]);
+                    ?>
+                    <em class="help-block">(<?php echo $info['description']; ?>)</em>
                 <?php endforeach; ?>
 
             </fieldset>

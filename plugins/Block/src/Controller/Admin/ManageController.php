@@ -288,7 +288,8 @@ class ManageController extends AppController
                 }
 
                 return [
-                    'theme' => $theme->human_name,
+                    'theme_machine_name' => $theme->name,
+                    'theme_human_name' => $theme->human_name,
                     'description' => $theme->composer['description'],
                     'regions' => (array)$theme->composer['extra']['regions'],
                     'value' => $value,
@@ -303,8 +304,8 @@ class ManageController extends AppController
      * Any input field that is not a column in the "blocks" table will be moved
      * to the "settings" column. For example, `random_name` becomes `settings.random_name`.
      *
-     * @param null|\Block\Model\Entity\Block $block Optional entity to properly
-     *  fetch associated data when updating
+     * @param null|\Block\Model\Entity\Block $block Optional entity to patch with
+     *  incoming POST data
      * @param array $ignore List of key to ignore, will not be moved under `settings`
      * @return array
      */
@@ -319,18 +320,14 @@ class ManageController extends AppController
             if (in_array($column, $columns)) {
                 if ($column == 'region') {
                     foreach ($value as $theme => $region) {
-                        if (!$block) {
+                        if ($block === null) {
                             $data[$column][] = [
                                 'theme' => $theme,
                                 'region' => $region
                             ];
                         } else {
-                            $tmp = [
-                                'theme' => $theme,
-                                'region' => $region
-                            ];
-
-                            foreach ($block->region as $blockRegion) {
+                            $tmp = ['theme' => $theme, 'region' => $region];
+                            foreach ((array)$block->region as $blockRegion) {
                                 if ($blockRegion->theme == $theme) {
                                     $tmp['id'] = $blockRegion->id;
                                     break;
@@ -345,6 +342,10 @@ class ManageController extends AppController
             } else {
                 $data['settings'][$column] = $value;
             }
+        }
+
+        if ($block !== null) {
+            $this->Blocks->patchEntity($block, $data);
         }
 
         return $data;
