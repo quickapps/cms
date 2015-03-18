@@ -54,8 +54,8 @@ class HtmlHelper extends CakeHtmlHelper
      * - (bool) true: Will include Twitter Bootstrap's CSS & JS files.
      * - (string) "css": Include CSS files only. (By default)
      * - (string) "js": Include JS files only.
-     * - (string) combination of "css" and "js": Equivalent to bool true. will
-     *   include both, JS and CSS files.
+     * - (string) Both "css,js" or "js,css": Equivalent to bool true, will include
+     *   both, JS and CSS files.
      *
      * #### Example:
      *

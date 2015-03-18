@@ -16,6 +16,11 @@ use Cake\ORM\Entity;
 /**
  * Represents a single "block_region" within "region" table.
  *
+ * @property int $id
+ * @property int $block_id
+ * @property int $ordering
+ * @property string $theme
+ * @property string $region
  */
 class BlockRegion extends Entity
 {
