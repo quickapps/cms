@@ -13,8 +13,12 @@
 <!DOCTYPE html>
 <html lang="<?php echo language('code'); ?>">
     <head>
-        <?php echo $this->Html->head(['bootstrap' => true]); ?>
-        <?php echo $this->Html->css('BackendTheme.back-bootstrap.css'); ?>
+        <?php
+            echo $this->Html->head([
+                'bootstrap' => true,
+                'append' => $this->Html->css('back-bootstrap.css'),
+            ]);
+        ?>
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
 

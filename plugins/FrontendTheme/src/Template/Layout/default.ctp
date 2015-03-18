@@ -13,8 +13,12 @@
 <!DOCTYPE html>
 <html lang="<?php echo language('code'); ?>">
     <head>
-        <?php echo $this->Html->head(); ?>
-        <?php echo $this->Html->css(['front-bootstrap.css']); ?>
+        <?php
+            echo $this->Html->head([
+                'bootstrap' => true,
+                'append' => $this->Html->css('front-bootstrap.css'),
+            ]);
+        ?>
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
 
@@ -32,6 +36,27 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <?php echo $this->region('main-menu')->render(); ?>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <?php echo $this->Html->image(user()->avatar(['s' => 20])); ?>
+                                <?php echo user()->username; ?>
+                                <span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu" role="menu">
+                                <?php
+                                    // merges two or more rendered menus (ULs) into a single one
+                                    $menus = $this->region('sub-menu');
+                                    $menus = preg_replace('/\<ul[^>]*\>/i', '<li class="divider"></li>', $menus);
+                                    $menus = str_replace_once('<li class="divider"></li>', '', $menus);
+                                    $menus = str_ireplace('</ul>', '', $menus);
+                                    echo $menus;
+                                ?>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
