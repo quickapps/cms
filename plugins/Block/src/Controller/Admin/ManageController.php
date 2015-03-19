@@ -191,6 +191,7 @@ class ManageController extends AppController
         $new = $this->Blocks->newEntity($original->toArray());
         $new->set(['copy_id' => $original->id, 'delta' => null]);
         $new->unsetProperty('id');
+        $new->isNew(true);
         $new->calculateDelta();
 
         if ($this->Blocks->save($new)) {

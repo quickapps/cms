@@ -130,8 +130,6 @@ class ManageControllerTest extends IntegrationTestCase
     public function testDuplicate()
     {
         $this->get('/admin/block/manage/duplicate/1');
-        debug($this->_controller->response->body());
-        debug($this->_controller->request->session()->read());
         $session = $this->_controller->request->session()->read('Flash');
         $flash = !empty($session['flash']['element']) ? $session['flash']['element'] : '';
         $this->assertTextContains('success', $flash);
