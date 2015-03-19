@@ -75,12 +75,8 @@ class ManageControllerTest extends IntegrationTestCase
             'visibility' => 'except',
             'pages' => ''
         ]);
-        $block = TableRegistry::get('Block.Blocks')
-            ->find()
-            ->where(['title' => 'test block'])
-            ->limit(1)
-            ->first();
-        $this->assertNotEmpty($block);
+        $query = TableRegistry::get('Block.Blocks')->find()->where(['title' => 'test block']);
+        $this->assertEquals(1, $query->count());
     }
 
     /**
@@ -110,9 +106,7 @@ class ManageControllerTest extends IntegrationTestCase
             'pages' => '/',
         ];
         $this->post('/admin/block/manage/edit/1', $data);
-        $query = TableRegistry::get('Block.Blocks')
-            ->find()
-            ->where(['title' => $data['title']]);
+        $query = TableRegistry::get('Block.Blocks')->find()->where(['title' => $data['title']]);
         $this->assertEquals(1, $query->count());
     }
 
@@ -124,12 +118,8 @@ class ManageControllerTest extends IntegrationTestCase
     public function testDeleteNonCustom()
     {
         $this->get('/admin/block/manage/delete/1');
-        $block = TableRegistry::get('Block.Blocks')
-            ->find()
-            ->where(['id' => 1])
-            ->limit(1)
-            ->first();
-        $this->assertNotEmpty($block);
+        $query = TableRegistry::get('Block.Blocks')->find()->where(['id' => 1]);
+        $this->assertEquals(1, $query->count());
     }
 
     /**
@@ -140,11 +130,10 @@ class ManageControllerTest extends IntegrationTestCase
     public function testDuplicate()
     {
         $this->get('/admin/block/manage/duplicate/1');
-        $block = TableRegistry::get('Block.Blocks')
-            ->find()
-            ->where(['copy_id' => 1])
-            ->limit(1)
-            ->first();
-        $this->assertNotEmpty($block);
+        $session = $this->_controller->request->session()->read('Flash');
+        $flash = !empty($session['flash']['element']) ? $session['flash']['element'] : '';
+        $this->assertTextContains('success', $flash);
+        //$query = TableRegistry::get('Block.Blocks')->find()->where(['copy_id' => 1]);
+        //$this->assertEquals(1, $query->count());
     }
 }
