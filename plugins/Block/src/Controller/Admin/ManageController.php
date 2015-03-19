@@ -187,12 +187,9 @@ class ManageController extends AppController
     public function duplicate($id)
     {
         $this->loadModel('Block.Blocks');
-        $original = $this->Blocks->get($id);
+        $original = $this->Blocks->get((int)$id);
         $new = $this->Blocks->newEntity($original->toArray());
-        $new->set([
-            'copy_id' => $original->id,
-            'delta' => null,
-        ]);
+        $new->set(['copy_id' => $original->id, 'delta' => null]);
         $new->unsetProperty('id');
         $new->calculateDelta();
 
