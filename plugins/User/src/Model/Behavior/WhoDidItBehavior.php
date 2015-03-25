@@ -38,9 +38,9 @@ class WhoDidItBehavior extends Behavior
     /**
      * Default configuration.
      *
-     * - idCallable: It can be either a callable method that should return logged
-     *   User's ID or a string representing a `session key` to read the ID. By
-     *   Defaults it's set yo `Auth.id` for reading from Auth's session.
+     * - idCallable: It can be either a *callable* method that should return logged
+     *   User's ID or a *string* representing a `session key` from where to read
+     *   the ID. By Defaults it's set yo `Auth.id` for reading from Auth's session.
      *
      * - createdByField: The name of the "created_by" field in DB. Defaults to
      *   `created_by`.
@@ -75,7 +75,7 @@ class WhoDidItBehavior extends Behavior
         $this->_table = $table;
         parent::__construct($this->_table, $config);
 
-        if ($this->config('auto_bind')) {
+        if ($this->config('autoBind')) {
             if ($this->_table->hasField($this->config('createdByField'))) {
                 $this->_table->belongsTo('CreatedBy', [
                     'className' => $this->config('userModel'),
