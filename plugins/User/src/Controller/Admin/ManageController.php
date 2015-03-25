@@ -142,13 +142,13 @@ class ManageController extends AppController
     {
         $this->loadModel('User.Users');
         $user = $this->Users->get($id, [
-            'fields' => ['id', 'name'],
+            'fields' => ['id', 'name', 'email'],
             'contain' => ['Roles'],
         ]);
 
         if (!in_array(ROLE_ID_ADMINISTRATOR, $user->role_ids)) {
             if ($this->Users->updateAll(['status' => 0], ['id' => $user->id])) {
-                $this->Flash->success(__d('user', 'User {0} was successfully blocked!'), $user->name);
+                $this->Flash->success(__d('user', 'User {0} was successfully blocked!', $user->name));
                 $this->Users->updateToken($user);
                 $this->trigger('User.blocked', $user);
             } else {
@@ -170,11 +170,11 @@ class ManageController extends AppController
     public function activate($id)
     {
         $this->loadModel('User.Users');
-        $user = $this->Users->get($id, ['fields' => ['id', 'name']]);
+        $user = $this->Users->get($id, ['fields' => ['id', 'name', 'email']]);
 
         if ($this->Users->updateAll(['status' => 1], ['id' => $user->id])) {
             $this->trigger('User.activated', $user);
-            $this->Flash->success(__d('user', 'User {0} was successfully activated!'), $user->name);
+            $this->Flash->success(__d('user', 'User {0} was successfully activated!', $user->name));
         } else {
             $this->Flash->danger(__d('user', 'User could not be activated, please try again.'));
         }
@@ -191,11 +191,11 @@ class ManageController extends AppController
     public function passwordInstructions($id)
     {
         $this->loadModel('User.Users');
-        $user = $this->Users->get($id, ['fields' => ['id', 'name']]);
+        $user = $this->Users->get($id, ['fields' => ['id', 'name', 'email']]);
 
         if ($user) {
-            $this->trigger('User.passwordRequest', $user)->result;
-            $this->Flash->success(__d('user', 'Instructions we successfully sent to {0}'), $user->name);
+            $this->trigger('User.passwordRequest', $user);
+            $this->Flash->success(__d('user', 'Instructions we successfully sent to {0}', $user->name));
         } else {
             $this->Flash->danger(__d('user', 'User was not found.'));
         }

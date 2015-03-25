@@ -11,6 +11,7 @@
  */
 namespace User\Notification\Message;
 
+use BadMethodCallException;
 use Cake\Core\InstanceConfigTrait;
 use Cake\Datasource\ModelAwareTrait;
 use Cake\Network\Email\Email;
@@ -117,9 +118,15 @@ class BaseMessage
      * Sends email message to user.
      *
      * @return bool True on success, false otherwise
+     * @throws \BadMethodCallException When "name" or "email" properties are missing
+     *  for the provided User entity
      */
     public function send()
     {
+        if (!$this->_user->has('email') || !$this->_user->has('name')) {
+            throw new BadMethodCallException(__d('user', 'Missing "name" or "email" property when trying to send the email.'));
+        }
+
         if ($this->config('updateToken') === true) {
             $this->loadModel('User.Users');
             $this->_user = $this->Users->updateToken($this->_user);
@@ -136,7 +143,7 @@ class BaseMessage
         $sent = false;
         try {
             $sent = $sender
-                ->to($this->_user->get('email'))
+                ->to($this->_user->get('email'), $this->_user->has('name'))
                 ->subject($subject)
                 ->send($body);
         } catch (\Exception $e) {
