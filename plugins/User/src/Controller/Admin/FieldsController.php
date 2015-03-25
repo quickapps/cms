@@ -46,6 +46,6 @@ class FieldsController extends AppController
         $this->_beforeRender($event);
         $this->Breadcrumb
             ->push('/admin/user/manage')
-            ->push(__d('node', "User's Fields"), '#');
+            ->push(__d('node', 'Virtual Fields'), '#');
     }
 }
