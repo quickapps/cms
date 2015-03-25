@@ -48,7 +48,7 @@ class ManageController extends AppController
     public function index()
     {
         $this->loadModel('Node.Nodes');
-        $nodes = $this->Nodes->find()->contain(['NodeTypes', 'Author']);
+        $nodes = $this->Nodes->find()->contain(['NodeTypes', 'Author', 'ModifiedBy']);
 
         if (!empty($this->request->query['filter']) &&
             $nodes instanceof Query

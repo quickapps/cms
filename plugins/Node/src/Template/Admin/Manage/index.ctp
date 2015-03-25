@@ -30,9 +30,9 @@
         <tr>
             <th><?php echo __d('node', 'Title'); ?></th>
             <th><?php echo __d('node', 'Type'); ?></th>
-            <th class="hidden-xs"><?php echo __d('node', 'Author'); ?></th>
             <th class="hidden-xs hidden-sm"><?php echo __d('node', 'Language'); ?></th>
             <th class="hidden-xs"><?php echo __d('node', 'Created on'); ?></th>
+            <th class="hidden-xs"><?php echo __d('node', 'Modified on'); ?></th>
             <th><?php echo __d('node', 'Actions'); ?></th>
         </tr>
     </thead>
@@ -55,9 +55,23 @@
                     <?php endif; ?>
                 </td>
                 <td><?php echo $node->type; ?></td>
-                <td class="hidden-xs"><?php echo $node->author->name; ?></td>
                 <td class="hidden-xs hidden-sm"><?php echo $node->language ? $node->language : __d('node', '---'); ?></td>
-                <td class="hidden-xs"><?php echo $node->created->format(__d('node', 'Y-m-d H:i:s')); ?></td>
+                <td class="hidden-xs">
+                    <?php
+                        echo __d('node', '{on} <br /> by <em>{author}</em>', [
+                            'on' => $node->created->format(__d('node', 'Y-m-d H:i:s')),
+                            'author' => $node->author->name,
+                        ]);
+                    ?>
+                </td>
+                <td class="hidden-xs">
+                    <?php
+                        echo __d('node', '{on} <br /> by <em>{author}</em>', [
+                            'on' => $node->modified->format(__d('node', 'Y-m-d H:i:s')),
+                            'author' => is_object($node->get('modified_by')) ? $node->get('modified_by')->get('name') : __d('node', '-- unknown --'),
+                        ]);
+                    ?>
+                </td>
                 <td>
                     <div class="btn-group">
                         <?php
