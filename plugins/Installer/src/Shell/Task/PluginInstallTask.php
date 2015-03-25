@@ -361,10 +361,10 @@ class PluginInstallTask extends Shell
             return true;
         }
 
-        if (!$clearDestination && file_exists($destinationPath)) {
+        if (!$clearDestination && is_readable($destinationPath)) {
             $this->err(__d('installer', 'Destination directory already exists, please delete manually this directory: {0}', $destinationPath));
             return false;
-        } elseif ($clearDestination && file_exists($destinationPath)) {
+        } elseif ($clearDestination && is_readable($destinationPath)) {
             $destination = new Folder($destinationPath);
             if (!$destination->delete()) {
                 $this->err(__d('installer', 'Destination directory could not be cleared, please check write permissions: {0}', $destinationPath));
@@ -460,7 +460,7 @@ class PluginInstallTask extends Shell
             $file = new File($this->params['source']);
             $responseBody = $response->body();
 
-            if (file_exists($file->pwd())) {
+            if (is_readable($file->pwd())) {
                 $file->delete();
             }
 
@@ -494,7 +494,7 @@ class PluginInstallTask extends Shell
         $File = new File($file);
         $to = normalizePath($File->folder()->pwd() . '/' . $File->name() . '_unzip/');
 
-        if (file_exists($to)) {
+        if (is_readable($to)) {
             $folder = new Folder($to);
             $folder->delete();
         } else {
@@ -532,11 +532,11 @@ class PluginInstallTask extends Shell
         }
 
         $errors = [];
-        if (!file_exists("{$this->_workingDir}src") || !is_dir("{$this->_workingDir}src")) {
+        if (!is_readable("{$this->_workingDir}src") || !is_dir("{$this->_workingDir}src")) {
             $errors[] = __d('installer', 'Invalid package, missing "src" directory.');
         }
 
-        if (!file_exists("{$this->_workingDir}composer.json")) {
+        if (!is_readable("{$this->_workingDir}composer.json")) {
             $errors[] = __d('installer', 'Invalid package, missing "composer.json" file.');
         } else {
             $jsonErrors = Plugin::validateJson("{$this->_workingDir}composer.json", true);
@@ -572,10 +572,10 @@ class PluginInstallTask extends Shell
                     }
                 }
 
-                if ($this->_plugin['type'] == 'theme') {
-                    if (!file_exists("{$this->_workingDir}webroot/screenshot.png")) {
-                        $errors[] = __d('installer', 'Missing "screenshot.png" file.');
-                    }
+                if ($this->_plugin['type'] == 'theme' &&
+                    !is_readable("{$this->_workingDir}webroot/screenshot.png")
+                ) {
+                    $errors[] = __d('installer', 'Missing "screenshot.png" file.');
                 }
 
                 if (isset($json['require'])) {

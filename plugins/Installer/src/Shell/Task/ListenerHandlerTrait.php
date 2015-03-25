@@ -45,7 +45,7 @@ trait ListenerHandlerTrait
         $path = normalizePath("{$path}/");
         $eventsPath = normalizePath("{$path}/src/Event/");
 
-        if (file_exists($eventsPath) && is_dir($eventsPath)) {
+        if (is_readable($eventsPath) && is_dir($eventsPath)) {
             $EventManager = EventManager::instance();
             $eventsFolder = new Folder($eventsPath);
             Plugin::load($plugin, [

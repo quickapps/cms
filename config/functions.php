@@ -66,7 +66,7 @@ if (!function_exists('snapshot')) {
             'languages' => []
         ];
 
-        if (file_exists(ROOT . '/VERSION.txt')) {
+        if (is_readable(ROOT . '/VERSION.txt')) {
             $versionFile = file(ROOT . '/VERSION.txt');
             $snapshot['version'] = trim(array_pop($versionFile));
         } else {
@@ -157,7 +157,7 @@ if (!function_exists('snapshot')) {
                 $pluginPath = Plugin::scan()[$plugin->name];
             }
 
-            if ($pluginPath === false || !file_exists($pluginPath . '/composer.json')) {
+            if ($pluginPath === false || !is_readable($pluginPath . '/composer.json')) {
                 Debugger::log(sprintf('Plugin "%s" was found in DB but QuickApps CMS was unable to locate its directory in the file system or its "composer.json" file.', $plugin->name));
                 continue;
             }
@@ -188,8 +188,8 @@ if (!function_exists('snapshot')) {
                 'package' => $plugin->package,
                 'isTheme' => $isTheme,
                 'isCore' => $isCore,
-                'hasHelp' => file_exists($pluginPath . '/src/Template/Element/Help/help.ctp'),
-                'hasSettings' => file_exists($pluginPath . '/src/Template/Element/settings.ctp'),
+                'hasHelp' => is_readable($pluginPath . '/src/Template/Element/Help/help.ctp'),
+                'hasSettings' => is_readable($pluginPath . '/src/Template/Element/settings.ctp'),
                 'eventListeners' => $eventListeners,
                 'status' => $status,
                 'path' => $pluginPath,

@@ -15,7 +15,7 @@ use Cake\I18n\I18n;
 use Cake\Routing\Router;
 use QuickApps\Core\Plugin;
 
-if (!file_exists(SITE_ROOT . '/config/settings.php')) {
+if (!is_readable(SITE_ROOT . '/config/settings.php')) {
 /**
  * Redirect everything to installer plugin if we are on a new QuickAppsCMS package.
  */
@@ -63,7 +63,7 @@ if (!file_exists(SITE_ROOT . '/config/settings.php')) {
 /**
  * Load site's routes.
  */
-    if (file_exists(SITE_ROOT . '/config/routes.php')) {
+    if (is_readable(SITE_ROOT . '/config/routes.php')) {
         include_once SITE_ROOT . '/config/routes.php';
     }
 

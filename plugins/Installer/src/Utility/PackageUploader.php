@@ -58,7 +58,7 @@ class PackageUploader
      */
     public function upload()
     {
-        if (!isset($this->_package['tmp_name']) || !file_exists($this->_package['tmp_name'])) {
+        if (!isset($this->_package['tmp_name']) || !is_readable($this->_package['tmp_name'])) {
             $this->_error(__d('installer', 'Invalid package.'));
             return false;
         } elseif (!isset($this->_package['name']) || !str_ends_with(strtolower($this->_package['name']), '.zip')) {
@@ -66,7 +66,7 @@ class PackageUploader
             return false;
         } else {
             $dst = normalizePath(TMP . $this->_package['name']);
-            if (file_exists($dst)) {
+            if (is_readable($dst)) {
                 $file = new File($dst);
                 $file->delete();
             }

@@ -155,7 +155,7 @@ class Plugin extends CakePlugin
      */
     public static function validateJson($json, $errorMessages = false)
     {
-        if (is_string($json) && file_exists($json) && !is_dir($json)) {
+        if (is_string($json) && is_readable($json) && !is_dir($json)) {
             $json = json_decode((new File($json))->read(), true);
         }
 

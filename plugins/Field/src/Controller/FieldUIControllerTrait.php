@@ -123,10 +123,10 @@ trait FieldUIControllerTrait
         $action = $event->subject()->request->params['action'];
         $templatePath = Plugin::classPath($plugin) . "Template/{$controller}/{$action}.ctp";
 
-        if (!file_exists($templatePath)) {
+        if (!is_readable($templatePath)) {
             $alternativeTemplatePath = Plugin::classPath('Field') . 'Template/FieldUI';
 
-            if (file_exists("{$alternativeTemplatePath}/{$action}.ctp")) {
+            if (is_readable("{$alternativeTemplatePath}/{$action}.ctp")) {
                 $this->view = "{$alternativeTemplatePath}/{$action}.ctp";
             }
         }

@@ -108,7 +108,7 @@ class ImageToolbox extends FileToolbox
     {
         $filePath = normalizePath($filePath);
 
-        if (!file_exists($filePath)) {
+        if (!is_readable($filePath)) {
             return false;
         }
 
@@ -116,10 +116,9 @@ class ImageToolbox extends FileToolbox
         $srcPath = dirname($filePath) . DS;
         $dstPath = normalizePath("{$srcPath}/.tmb/");
         $previewInfo = static::getPreviews($previewSize);
-        $tnPath = false;
-
         require_once Plugin::classPath('Field') . 'Lib/class.upload.php';
         $handle = new \upload($srcPath . $srcFileName);
+
         if (empty($previewInfo)) {
             $previews = static::getPreviews();
             $previewInfo = reset($previews);
@@ -128,24 +127,24 @@ class ImageToolbox extends FileToolbox
         $dstFileNameBody = static::removeExt("{$previewInfo['width']}x{$previewInfo['height']}_{$srcFileName}");
         $dstFilePath = normalizePath("{$dstPath}/{$dstFileNameBody}.jpg");
 
-        if (file_exists($dstFilePath)) {
-            $tnPath = $dstFilePath;
-        } else {
-            $handle->image_x = $previewInfo['width'];
-            $handle->image_y = $previewInfo['height'];
-            $handle->image_resize = true;
-            $handle->image_ratio = false;
-            $handle->image_ratio_crop = true;
-            $handle->image_convert = 'jpg';
-            $handle->file_new_name_body = $dstFileNameBody;
-            $handle->process($dstPath);
-
-            if (empty($handle->error)) {
-                $tnPath = $handle->file_dst_pathname;
-            }
+        if (is_readable($dstFilePath)) {
+            return $dstFilePath;
         }
 
-        return $tnPath;
+        $handle->image_x = $previewInfo['width'];
+        $handle->image_y = $previewInfo['height'];
+        $handle->image_resize = true;
+        $handle->image_ratio = false;
+        $handle->image_ratio_crop = true;
+        $handle->image_convert = 'jpg';
+        $handle->file_new_name_body = $dstFileNameBody;
+        $handle->process($dstPath);
+
+        if (empty($handle->error)) {
+            return $handle->file_dst_pathname;
+        }
+
+        return false;
     }
 
     /**
@@ -213,7 +212,7 @@ class ImageToolbox extends FileToolbox
     public static function delete($imagePath)
     {
         $imagePath = normalizePath($imagePath);
-        if (file_exists($imagePath)) {
+        if (is_readable($imagePath)) {
             $original = new File($imagePath);
             static::deleteThumbnails($imagePath);
             $original->delete();

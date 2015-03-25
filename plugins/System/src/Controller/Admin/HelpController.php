@@ -79,7 +79,7 @@ class HelpController extends AppController
             $lookFor = ["help_{$locale}", 'help'];
 
             foreach ($lookFor as $name) {
-                if (file_exists($templatePath . "{$name}.ctp")) {
+                if (is_readable($templatePath . "{$name}.ctp")) {
                     $about = "{$pluginName}.Help/{$name}";
                     break;
                 }

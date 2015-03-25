@@ -13,9 +13,9 @@
 /**
  * Proxy file, includes site's settings (database info, etc).
  */
-if (file_exists(SITE_ROOT . '/config/settings.php')) {
+if (is_readable(SITE_ROOT . '/config/settings.php')) {
 	return require SITE_ROOT . '/config/settings.php';
-} elseif (file_exists(SITE_ROOT . '/config/settings.php.tmp')) {
+} elseif (is_readable(SITE_ROOT . '/config/settings.php.tmp')) {
 	return require SITE_ROOT . '/config/settings.php.tmp';
 } else {
 	return [];

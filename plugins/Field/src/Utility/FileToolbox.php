@@ -93,24 +93,24 @@ class FileToolbox
 
         // If there's an icon matching the exact mimetype, go for it.
         $dashedMime = strtr($mime, ['/' => '-']);
-        if (file_exists("{$iconsDirectory}{$dashedMime}.png")) {
+        if (is_readable("{$iconsDirectory}{$dashedMime}.png")) {
             return "{$dashedMime}.png";
         }
 
         // For a few mimetypes, we can "manually" map to a generic icon.
         $genericMime = (string)static::fileIconMap($mime);
-        if ($genericMime && file_exists("{$iconsDirectory}{$genericMime}.png")) {
+        if ($genericMime && is_readable("{$iconsDirectory}{$genericMime}.png")) {
             return "{$genericMime}.png";
         }
 
         // Use generic icons for each category that provides such icons.
         if (preg_match('/^(audio|image|text|video)\//', $mime, $matches)) {
-            if (file_exists("{$iconsDirectory}{$matches[1]}-x-generic.png")) {
+            if (is_readable("{$iconsDirectory}{$matches[1]}-x-generic.png")) {
                 return "{$matches[1]}-x-generic.png";
             }
         }
 
-        if (file_exists("{$iconsDirectory}/application-octet-stream.png")) {
+        if (is_readable("{$iconsDirectory}/application-octet-stream.png")) {
             return 'application-octet-stream.png';
         }
 

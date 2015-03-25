@@ -73,7 +73,7 @@ class StartupController extends Controller
      */
     public function beforeFilter(Event $event)
     {
-        if (file_exists(SITE_ROOT . '/config/settings.php')) {
+        if (is_readable(SITE_ROOT . '/config/settings.php')) {
             $this->redirect('/');
         }
 
@@ -132,7 +132,7 @@ class StartupController extends Controller
             $code = basename($path);
             $file = $path . '/installer.po';
 
-            if (file_exists($file)) {
+            if (is_readable($file)) {
                 I18n::locale($code); // trick for __d()
                 $languages[$code] = [
                     'url' => "/installer/startup/requirements?locale={$code}",

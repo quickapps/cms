@@ -172,7 +172,7 @@ Request::addDetector('tablet', function($request) {
  * Load some bootstrap-handy information.
  */
 Configure::config('QuickApps', new PhpConfig(TMP));
-if (!file_exists(TMP . 'snapshot.php')) {
+if (!is_readable(TMP . 'snapshot.php')) {
     snapshot();
 } else {
     try {
