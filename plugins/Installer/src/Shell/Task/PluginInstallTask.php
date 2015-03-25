@@ -24,7 +24,7 @@ use QuickApps\Event\HookAwareTrait;
 use User\Utility\AcoManager;
 
 /**
- * Plugins installer.
+ * Plugin installer.
  *
  * @property \System\Model\Table\PluginsTable $Plugins
  * @property \System\Model\Table\OptionsTable $Options
@@ -204,7 +204,7 @@ class PluginInstallTask extends Shell
             'ordering' => 0,
         ], ['validate' => false]);
 
-        // do not move this
+        // do not move this lines
         if (!$this->_copyPackage()) {
             return $this->_reset();
         }
@@ -219,20 +219,23 @@ class PluginInstallTask extends Shell
             return $this->_reset();
         }
 
-        if (!$this->params['no-callbacks']) {
-            try {
-                $event = $this->trigger("Plugin.{$this->_plugin['name']}.afterInstall");
-            } catch (\Exception $ex) {
-                $this->err(__d('installer', '{type, select, theme{The theme} other{The plugin}} was installed but some errors occur.', ['type' => $this->_plugin['type']]));
-            }
-        }
-
-        $pluginName = $this->_plugin['name']; // hold as _finish() erases it
+        // hold these values as _finish() erases them
+        $pluginName = $this->_plugin['name'];
+        $pluginType = $this->_plugin['type'];
         $this->_finish();
 
         if ($this->params['activate']) {
             $this->dispatchShell("Installer.plugins toggle -p {$pluginName} -s enable");
         }
+
+        if (!$this->params['no-callbacks']) {
+            try {
+                $event = $this->trigger("Plugin.{$pluginName}.afterInstall");
+            } catch (\Exception $ex) {
+                $this->err(__d('installer', '{type, select, theme{The theme} other{The plugin}} was installed but some errors occur.', ['type' => $pluginType]));
+            }
+        }
+
         return true;
     }
 
