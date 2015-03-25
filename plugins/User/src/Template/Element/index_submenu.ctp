@@ -11,27 +11,22 @@
  */
 
 $menuItems = [[
-    'title' => '<span class="glyphicon glyphicon-th-list"></span> ' . __d('node', 'User List'),
+    'title' => '<span class="glyphicon glyphicon-th-list"></span> ' . __d('user', 'Users'),
     'url' => '/admin/user/manage/',
     'activation' => 'any',
-    'active' => "/admin/user/manage\n/admin/user/manage/\n/admin/user\n/admin/user/",
+    'active' => "/admin/user/manage\n/admin/user/manage/\n/admin/user\n/admin/user/\n/admin/user/manage/add\n/admin/user/manage/add/",
 ], [
-    'title' => '<span class="glyphicon glyphicon-plus"></span> ' . __d('node', 'New User'),
-    'url' => ['plugin' => 'User', 'controller' => 'manage', 'action' => 'add'],
-    'activation' => 'any',
-    'active' => '/admin/user/manage/add',
-], [
-    'title' => '<span class="glyphicon glyphicon-user"></span> ' . __d('node', 'User Roles'),
+    'title' => '<span class="glyphicon glyphicon-user"></span> ' . __d('user', 'Roles'),
     'url' => ['plugin' => 'User', 'controller' => 'roles', 'action' => 'index'],
     'activation' => 'any',
     'active' => '/admin/user/roles*',
 ], [
-    'title' => '<span class="glyphicon glyphicon-lock"></span> ' . __d('node', 'Permissions'),
+    'title' => '<span class="glyphicon glyphicon-lock"></span> ' . __d('user', 'Permissions'),
     'url' => ['plugin' => 'User', 'controller' => 'permissions', 'action' => 'index'],
     'activation' => 'any',
     'active' => '/admin/user/permissions*',
 ], [
-    'title' => '<span class="glyphicon glyphicon-wrench"></span> ' . __d('node', "User's Fields"),
+    'title' => '<span class="glyphicon glyphicon-wrench"></span> ' . __d('user', 'Virtual Fields'),
     'url' => ['plugin' => 'User', 'controller' => 'fields', 'action' => 'index'],
     'activation' => 'any',
     'active' => '/admin/user/fields*',

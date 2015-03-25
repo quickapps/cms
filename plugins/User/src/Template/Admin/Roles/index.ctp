@@ -13,6 +13,23 @@
 
 <p><?php echo $this->element('User.index_submenu'); ?></p>
 
+<div class="row">
+    <div class="col-md-12">
+        <?php
+            echo $this->Html->link(__d('user','{plus_icon} New Role', ['plus_icon' => '<span class="glyphicon glyphicon-plus"></span>']),
+                [
+                    'plugin' => 'User',
+                    'controller' => 'roles',
+                    'action' => 'add'
+                ], [
+                    'class' => 'btn btn-primary',
+                    'escape' => false,
+                ]
+            );
+        ?>
+    </div>
+</div>
+
 <table class="table table-hover">
     <thead>
         <tr>

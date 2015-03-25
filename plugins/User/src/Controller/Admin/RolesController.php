@@ -44,6 +44,19 @@ class RolesController extends AppController
      */
     public function add()
     {
+        $this->loadModel('User.Roles');
+        $role = $this->Roles->newEntity();
+
+        if ($this->request->data()) {
+            $role = $this->Roles->patchEntity($role, $this->request->data(), ['fieldList' => 'name']);
+            if ($this->Roles->save($role)) {
+                $this->Flash->success(__d('user', 'Role successfully created.'));
+            } else {
+                $this->Flash->danger(__d('user', 'Role could not be created.'));
+            }
+        }
+
+        $this->set(compact('role'));
         $this->Breadcrumb
             ->push('/admin/user/manage')
             ->push(__d('user', 'Roles'), ['plugin' => 'User', 'controller' => 'roles', 'action' => 'index'])
@@ -53,11 +66,28 @@ class RolesController extends AppController
     /**
      * Edits the given role.
      *
-     * @param int $id User's ID
+     * @param int $id Role ID
      * @return void
      */
     public function edit($id)
     {
+        $this->loadModel('User.Roles');
+        $role = $this->Roles->get($id);
+
+        if ($this->request->data()) {
+            if (empty($this->request->data['regenerate_slug'])) {
+                $this->Roles->behaviors()->Sluggable->config(['on' => 'create']);
+            }
+
+            $role = $this->Roles->patchEntity($role, $this->request->data(), ['fieldList' => 'name']);
+            if ($this->Roles->save($role)) {
+                $this->Flash->success(__d('user', 'Role successfully updated.'));
+            } else {
+                $this->Flash->danger(__d('user', 'Role could not be updated.'));
+            }
+        }
+
+        $this->set(compact('role'));
         $this->Breadcrumb
             ->push('/admin/user/manage')
             ->push(__d('user', 'Roles'), ['plugin' => 'User', 'controller' => 'roles', 'action' => 'index'])
@@ -67,7 +97,7 @@ class RolesController extends AppController
     /**
      * Removes the given role.
      *
-     * @param int $id User's ID
+     * @param int $id Role ID
      * @return void Redirects to previous page
      */
     public function delete($id)

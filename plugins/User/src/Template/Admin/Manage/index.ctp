@@ -14,7 +14,21 @@
 <p><?php echo $this->element('User.index_submenu'); ?></p>
 
 <div class="row">
-    <div class="col-md-4 pull-right">
+    <div class="col-md-8">
+        <?php
+            echo $this->Html->link(__d('user','{plus_icon} New User', ['plus_icon' => '<span class="glyphicon glyphicon-plus"></span>']),
+                [
+                    'plugin' => 'User',
+                    'controller' => 'manage',
+                    'action' => 'add'
+                ], [
+                    'class' => 'btn btn-primary',
+                    'escape' => false,
+                ]
+            );
+        ?>
+    </div>
+    <div class="col-md-4">
         <p>
             <?php echo $this->Form->create(null, ['type' => 'get']); ?>
             <div class="input-group">

@@ -45,11 +45,11 @@ class RolesTable extends Table
             ->add('name', [
                 'notEmpty' => [
                     'rule' => 'notEmpty',
-                    'message' => __d('node', 'You need to provide a role name.'),
+                    'message' => __d('user', 'You need to provide a role name.'),
                 ],
                 'length' => [
                     'rule' => ['minLength', 3],
-                    'message' => __d('node', 'Role name need to be at least 3 characters long.'),
+                    'message' => __d('user', 'Role name need to be at least 3 characters long.'),
                 ],
             ]);
 
