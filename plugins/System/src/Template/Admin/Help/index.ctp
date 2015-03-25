@@ -13,7 +13,7 @@
 $menu = [];
 foreach ($plugins as $plugin) {
     $menu[] = [
-        'title' => $plugin,
+        'title' => $plugin->human_name,
         'url' => "/admin/system/help/about/{$plugin}",
     ];
 }

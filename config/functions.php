@@ -163,9 +163,11 @@ if (!function_exists('snapshot')) {
             }
 
             $eventsPath = "{$pluginPath}/src/Event/";
+            $helpFiles = glob($pluginPath . '/src/Template/Element/Help/help*.ctp');
             $isCore = strpos($pluginPath, $corePath) !== false;
             $isTheme = str_ends_with($plugin->name, 'Theme');
-            $status = $isCore ? true : $plugin->status;
+            $status = (bool)$plugin->status;
+            $humanName = (string)Inflector::humanize((string)Inflector::underscore($plugin->name));
             $eventListeners = [];
 
             if (is_dir($eventsPath)) {
@@ -177,7 +179,6 @@ if (!function_exists('snapshot')) {
                 }
             }
 
-            $humanName = (string)Inflector::humanize((string)Inflector::underscore($plugin->name));
             if ($isTheme) {
                 $humanName = trim(str_replace_last('Theme', '', $humanName));
             }
@@ -188,7 +189,7 @@ if (!function_exists('snapshot')) {
                 'package' => $plugin->package,
                 'isTheme' => $isTheme,
                 'isCore' => $isCore,
-                'hasHelp' => is_readable($pluginPath . '/src/Template/Element/Help/help.ctp'),
+                'hasHelp' => !empty($helpFiles),
                 'hasSettings' => is_readable($pluginPath . '/src/Template/Element/settings.ctp'),
                 'eventListeners' => $eventListeners,
                 'status' => $status,

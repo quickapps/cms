@@ -35,7 +35,7 @@ class HelpController extends AppController
      *
      * Album plugin may create its own `help document` by creating this file:
      *
-     *     /plugins/Album/src/Template/Element/help.ctp
+     *     /plugins/Album/src/Template/Element/Help/help.ctp
      *
      * Optionally, plugins are able to define translated versions of help documents.
      * To do this, you must simply define a view element as `help_[code].ctp`, where
@@ -49,14 +49,9 @@ class HelpController extends AppController
      */
     public function index()
     {
-        $plugins = [];
-
-        foreach (Plugin::get() as $plugin) {
-            if ($plugin->status && $plugin->hasHelp) {
-                $plugins[] = $plugin->human_name;
-            }
-        }
-
+        $plugins = Plugin::get()->filter(function ($plugin) {
+            return $plugin->status && $plugin->hasHelp;
+        });
         $this->set('plugins', $plugins);
         $this->Breadcrumb->push('/admin/system/help');
     }
@@ -71,16 +66,14 @@ class HelpController extends AppController
     public function about($pluginName)
     {
         $about = false;
-
         if (Plugin::loaded($pluginName)) {
             $locale = I18n::locale();
             $templatePath = App::path('Template', $pluginName)[0] . 'Element/Help/';
-            $about = false;
             $lookFor = ["help_{$locale}", 'help'];
 
-            foreach ($lookFor as $name) {
-                if (is_readable($templatePath . "{$name}.ctp")) {
-                    $about = "{$pluginName}.Help/{$name}";
+            foreach ($lookFor as $ctp) {
+                if (is_readable($templatePath . "{$ctp}.ctp")) {
+                    $about = "{$pluginName}.Help/{$ctp}";
                     break;
                 }
             }

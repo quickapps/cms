@@ -89,6 +89,7 @@ function snapshot() {
                 $isTheme = (bool)preg_match('/Theme$/', $name);
                 $isCore = strpos($pluginPath, 'cms' . DS . 'plugins') !== false;
                 $eventsPath = "{$pluginPath}/src/Event/";
+                $helpFiles = glob($pluginPath . '/src/Template/Element/Help/help*.ctp');
                 $status = true; // all plugins enabled
                 $eventListeners = [];
 
@@ -107,7 +108,7 @@ function snapshot() {
                     'package' => $package,
                     'isTheme' => $isTheme,
                     'isCore' => $isCore,
-                    'hasHelp' => is_readable($pluginPath . '/src/Template/Element/Help/help.ctp'),
+                    'hasHelp' => !empty($helpFiles),
                     'hasSettings' => is_readable($pluginPath . '/src/Template/Element/settings.ctp'),
                     'eventListeners' => $eventListeners,
                     'status' => $status,
