@@ -138,29 +138,30 @@ class View extends CakeView
      * $this->render($field);
      * ```
      *
-     * When rendering objects the `Render.<ClassName>` event is automatically fired.
-     * For example, when rendering a node entity the following event is fired asking
-     * for its HTML rendering:
+     * When rendering objects the `Render.<ClassName>` event is automatically
+     * triggered. For example, when rendering a Node Entity the following event is
+     * triggered, and event handlers should provide a HTML representation of the
+     * given object, it basically works as the `__toString()` magic method:
      *
      * ```php
-     * // Will trigger: Render.QuickaApps\Node\Model\Entity\Node
-     * $someNode = TableRegistry::get('Nodes')->get(1);
+     * $someNode = TableRegistry::get('Node.Nodes')->get(1);
      * $this->render($someNode);
+     * // triggers: Render.Node\Model\Entity\Node
      * ```
      *
-     * It is not limited to Entity instances only, you can virtually define a `Render`
-     * for any class name.
+     * It is not limited to Entity instances only, you can virtually define a
+     * `Render` for any class name.
      *
      * You can pass an unlimited number of arguments to your `Render` as follow:
      *
      * ```php
-     * $this->render($someObject, arg_1, arg_2, ...., arg_n);
+     * $this->render($someObject, $arg1, $arg2, ...., $argn);
      * ```
      *
      * Your Render event-handler may look as below:
      *
      * ```php
-     * public function renderMyObject(Event $event, $theObject, $arg_1, $arg_2, ..., $arg_n);
+     * public function renderMyObject(Event $event, $theObject, $arg1, $arg2, ..., $argn);
      * ```
      *
      * @param mixed $view View file to render. Or an object to be rendered
