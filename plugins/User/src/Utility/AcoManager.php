@@ -18,6 +18,8 @@ use Cake\Routing\Router;
 use Cake\Utility\Inflector;
 use QuickApps\Core\Plugin;
 use QuickApps\Core\StaticCacheTrait;
+use ReflectionException;
+use ReflectionMethod;
 
 /**
  * A simple class for handling plugin's ACOs.
@@ -214,20 +216,16 @@ class AcoManager
             foreach ($controllers as $controller) {
                 $controller = str_replace([$controllerDir, '.php'], '', $controller);
                 $className = $plugin->name . '\\' . 'Controller\\' . str_replace(DS, '\\', $controller);
+                $methods = static::_controllerMethods($className);
 
-                if (class_exists($className)) {
-                    $methods = get_this_class_methods($className);
-                    if (!empty($methods)) {
-                        $path = explode('Controller\\', $className)[1];
-                        $path = str_replace_last('Controller', '', $path);
-                        $path = str_replace('\\', '/', $path);
+                if (!empty($methods)) {
+                    $path = explode('Controller\\', $className)[1];
+                    $path = str_replace_last('Controller', '', $path);
+                    $path = str_replace('\\', '/', $path);
 
-                        foreach ($methods as $method) {
-                            if (!str_starts_with($method, '_')) {
-                                if ($aco->add("{$path}/{$method}")) {
-                                    $added[] = "{$plugin->name}/{$path}/{$method}";
-                                }
-                            }
+                    foreach ($methods as $method) {
+                        if ($aco->add("{$path}/{$method}")) {
+                            $added[] = "{$plugin->name}/{$path}/{$method}";
                         }
                     }
                 }
@@ -314,6 +312,34 @@ class AcoManager
         }
 
         return $paths;
+    }
+
+    /**
+     * Extracts method names of the given controller class.
+     *
+     * @param string $className Fully qualified name
+     * @return array List of method names
+     */
+    protected static function _controllerMethods($className)
+    {
+        if (!class_exists($className)) {
+            return [];
+        }
+
+        $methods = (array)get_this_class_methods($className);
+        $actions = [];
+        foreach ($methods as $methodName) {
+            try {
+                $method = new ReflectionMethod($className, $methodName);
+                if ($method->isPublic()) {
+                    $actions[] = $methodName;
+                }
+            } catch (\ReflectionException $e) {
+                // error
+            }
+        }
+
+        return $actions;
     }
 
     /**
