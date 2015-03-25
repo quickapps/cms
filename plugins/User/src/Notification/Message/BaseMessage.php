@@ -143,7 +143,7 @@ class BaseMessage
         $sent = false;
         try {
             $sent = $sender
-                ->to($this->_user->get('email'), $this->_user->has('name'))
+                ->to($this->_user->get('email'), $this->_user->get('name'))
                 ->subject($subject)
                 ->send($body);
         } catch (\Exception $e) {
