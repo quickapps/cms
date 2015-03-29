@@ -150,7 +150,7 @@ use QuickApps\Core\Plugin;
                                                         $block->id,
                                                     ], [
                                                         'title' => __d('block', 'Duplicate'),
-                                                        'class' => 'btn btn-default btn-sm glyphicon glyphicon-th-large',
+                                                        'class' => 'btn btn-default btn-sm glyphicon glyphicon-copy',
                                                     ]);
                                                 ?>
                                                 <?php if ($block->handler === 'Block'): ?>
@@ -219,7 +219,7 @@ use QuickApps\Core\Plugin;
                                             $block->id,
                                         ], [
                                             'title' => __d('block', 'Duplicate'),
-                                            'class' => 'btn btn-default btn-sm glyphicon glyphicon-th-large',
+                                            'class' => 'btn btn-default btn-sm glyphicon glyphicon-copy',
                                         ]);
                                     ?>
                                     <?php if ($block->handler === 'Block'): ?>
