@@ -41,6 +41,7 @@
         </div>
     <?php endif; ?>
 <?php echo $this->Form->end(); ?>
+
 <?php
     echo $this->Html->script([
         'Jquery.jquery-ui.min.js',
@@ -49,3 +50,15 @@
         'Menu.links.tree.js'
     ]);
 ?>
+
+<script type="text/javascript">
+    $('form input[type=submit]').on('click', function() {
+        linksChanged = false;
+    });
+
+    $(window).bind('beforeunload', function() {
+        if (linksChanged) {
+            return "<?php echo __d('menu', 'Changes will be lost, are you sure you want to exit this page ?'); ?>";
+        }
+    });
+</script>

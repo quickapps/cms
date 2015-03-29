@@ -44,27 +44,31 @@ class LinksController extends AppController
         if (!empty($this->request->data['tree_order'])) {
             $items = json_decode($this->request->data['tree_order']);
 
-            if ($items) {
+            if (!empty($items)) {
                 unset($items[0]);
                 $entities = [];
 
                 foreach ($items as $key => $item) {
-                    $link = $this->Menus->MenuLinks->newEntity([
-                        'id' => $item->item_id,
+                    $link = $this->Menus->MenuLinks->get($item->item_id);
+                    $link = $this->Menus->MenuLinks->patchEntity($link, [
                         'parent_id' => intval($item->parent_id),
-                        'lft' => ($item->left - 1),
-                        'rght' => ($item->right - 1),
+                        'lft' => intval(($item->left - 1)),
+                        'rght' => intval(($item->right - 1)),
                     ], ['validate' => false]);
-                    $link->isNew(false);
-                    $link->dirty('id', false);
                     $entities[] = $link;
                 }
 
                 $this->Menus->MenuLinks->connection()->transactional(function () use ($entities) {
                     foreach ($entities as $entity) {
-                        $this->Menus->MenuLinks->save($entity, ['atomic' => false]);
+                        $result = $this->Menus->MenuLinks->save($entity);
+                        if (!$result) {
+                            return false;
+                        }
                     }
+
+                    return true;
                 });
+
                 // don't trust "left" and "right" values coming from user's POST
                 $this->Menus->MenuLinks->addBehavior('Tree', ['scope' => ['menu_id' => $menu->id]]);
                 $this->Menus->MenuLinks->recover();
