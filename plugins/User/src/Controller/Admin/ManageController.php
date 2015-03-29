@@ -149,7 +149,7 @@ class ManageController extends AppController
         if (!in_array(ROLE_ID_ADMINISTRATOR, $user->role_ids)) {
             if ($this->Users->updateAll(['status' => 0], ['id' => $user->id])) {
                 $this->Flash->success(__d('user', 'User {0} was successfully blocked!', $user->name));
-                $this->Users->updateToken($user);
+                $user->updateToken();
                 $this->trigger('User.blocked', $user);
             } else {
                 $this->Flash->danger(__d('user', 'User could not be blocked, please try again.'));

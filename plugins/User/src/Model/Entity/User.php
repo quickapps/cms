@@ -28,6 +28,20 @@ class User extends Entity
     use StaticCacheTrait;
 
     /**
+     * Updates this user's Token value.
+     *
+     * The new token is persisted in DB and in this entity property.
+     *
+     * @return $this
+     * @throws \Cake\Error\FatalErrorException When an invalid user entity was given
+     * @see \User\Model\Table\UsersTable::updateToken()
+     */
+    public function updateToken()
+    {
+        return TableRegistry::get('User.Users')->updateToken($this);
+    }
+
+    /**
      * Verifies this user can access the given ACO.
      *
      * @param string $aco An ACO path. e.g. `Plugin/Prefix/Controller/action`

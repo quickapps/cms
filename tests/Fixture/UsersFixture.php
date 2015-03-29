@@ -141,6 +141,15 @@ class UsersFixture extends TestFixture
     'precision' => NULL,
     'fixed' => NULL,
   ],
+  'token_expiration' => 
+  [
+    'type' => 'datetime',
+    'length' => null,
+    'null' => true,
+    'default' => null,
+    'comment' => 'expiration date of user token',
+    'precision' => null,
+  ],
   'status' => 
   [
     'type' => 'boolean',

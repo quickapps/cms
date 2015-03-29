@@ -127,6 +127,15 @@ class UsersFixture
     'precision' => null,
     'fixed' => null,
     ],
+    'token_expiration' =>
+    [
+    'type' => 'datetime',
+    'length' => null,
+    'null' => true,
+    'default' => null,
+    'comment' => 'expiration date of user token',
+    'precision' => null,
+    ],
     'status' =>
     [
     'type' => 'boolean',

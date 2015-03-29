@@ -45,6 +45,13 @@ if (!defined('ROLE_ID_ANONYMOUS')) {
     define('ROLE_ID_ANONYMOUS', 3);
 }
 
+if (!defined('USER_TOKEN_EXPIRATION')) {
+    /**
+     * How much time user tokens are valid. Defaults to 24 hours.
+     */
+    define('USER_TOKEN_EXPIRATION', DAY);
+}
+
 /**
  * Used by CachedAuthorize.
  */

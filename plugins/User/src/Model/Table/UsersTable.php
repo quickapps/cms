@@ -175,7 +175,11 @@ class UsersTable extends Table
         }
 
         $user->set('token', $token);
-        $this->updateAll(['token' => $token], ['id' => $user->id]);
+        $user->set('token_expiration', time() + USER_TOKEN_EXPIRATION);
+        $this->updateAll([
+            'token' => $user->get('token'),
+            'token_expiration' => $user->get('token_expiration'),
+        ], ['id' => $user->id]);
         return $user;
     }
 

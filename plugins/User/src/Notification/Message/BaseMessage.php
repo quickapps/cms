@@ -129,7 +129,7 @@ class BaseMessage
 
         if ($this->config('updateToken') === true) {
             $this->loadModel('User.Users');
-            $this->_user = $this->Users->updateToken($this->_user);
+            $this->_user->updateToken();
         }
 
         $subject = $this->_parseVariables((string)$this->subject());

@@ -142,7 +142,7 @@ class AnonymousAuthenticate extends BaseAuthenticate
             $exists = $Users
                 ->find()
                 ->select(['id', 'username'])
-                ->where(['token' => $token])
+                ->where(['token' => $token, 'token_expiration <=' => time()])
                 ->limit(1)
                 ->first();
 
@@ -154,7 +154,7 @@ class AnonymousAuthenticate extends BaseAuthenticate
                         unset($user['password']);
                     }
                     $controller->Auth->setUser($user);
-                    $Users->updateToken($exists);
+                    $exists->updateToken();
                     return true;
                 }
             }
