@@ -18,9 +18,9 @@
  */
 ?>
 
-<article class="node node-<?php echo $node->node_type_slug; ?> viewmode-<?php echo $this->inUseViewMode(); ?>">
+<article class="node node-<?php echo $node->node_type_slug; ?> viewmode-<?php echo $this->viewMode(); ?>">
     <header>
-        <?php if ($this->inUseViewMode() === 'full'): ?>
+        <?php if ($this->viewMode() === 'full'): ?>
             <h1><?php echo $this->hooktags($node->title); ?></h1>
         <?php else: ?>
             <h2><?php echo $this->Html->link($this->hooktags($node->title), $node->url); ?></h2>
@@ -29,12 +29,12 @@
     </header>
 
     <?php if (!empty($node->_fields)): ?>
-        <?php foreach ($node->_fields->sortByViewMode($this->inUseViewMode()) as $field): ?>
+        <?php foreach ($node->_fields->sortByViewMode($this->viewMode()) as $field): ?>
             <?php echo $this->render($field); ?>
         <?php endforeach; ?>
     <?php endif; ?>
 
-    <?php if ($this->inUseViewMode() === 'full'): ?>
+    <?php if ($this->viewMode() === 'full'): ?>
         <?php echo $this->Comment->render($node); ?>
     <?php endif; ?>
 </article>

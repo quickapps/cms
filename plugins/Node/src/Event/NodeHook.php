@@ -56,7 +56,7 @@ class NodeHook implements EventListenerInterface
      */
     public function dispatcherBeforeDispatch(Event $event, $request, $response)
     {
-        ViewModeRegistry::addViewMode([
+        ViewModeRegistry::add([
             'default' => [
                 'name' => __d('node', 'Default'),
                 'description' => __d('node', 'Default is used as a generic view mode if no other view mode has been defined for your content.'),
@@ -152,7 +152,7 @@ class NodeHook implements EventListenerInterface
     public function renderNode(Event $event, $node, $options = [])
     {
         $View = $event->subject();
-        $viewMode = $View->inUseViewMode();
+        $viewMode = $View->viewMode();
         $html = '';
         $try = [
             "Node.render_node_{$node->node_type_slug}_{$viewMode}",

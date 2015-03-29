@@ -145,7 +145,7 @@ class BlockHook implements EventListenerInterface
     public function displayBlock(Event $event, BLock $block, $options = [])
     {
         $View = $event->subject();
-        $viewMode = $View->inUseViewMode();
+        $viewMode = $View->viewMode();
         $blockRegion = isset($block->region->region) ? 'none' : $block->region->region;
         $cacheKey = "displayBlock_{$blockRegion}_{$viewMode}";
         $cache = static::cache($cacheKey);

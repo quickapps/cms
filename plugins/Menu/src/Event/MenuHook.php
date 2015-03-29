@@ -103,7 +103,7 @@ class MenuHook implements EventListenerInterface
     public function displayBlock(Event $event, Block $block, $options = [])
     {
         $View = $event->subject();
-        $viewMode = $View->inUseViewMode();
+        $viewMode = $View->viewMode();
         $menu = TableRegistry::get('Menu.Menus')
             ->find()
             ->contain(['Blocks'])

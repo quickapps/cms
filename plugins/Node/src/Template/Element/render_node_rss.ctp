@@ -15,7 +15,7 @@
  *
  */
 if (!empty($node->_fields)) {
-	foreach ($node->_fields->sortByViewMode($this->inUseViewMode()) as $field) {
+	foreach ($node->_fields->sortByViewMode($this->viewMode()) as $field) {
 		echo $this->render($field);
     }
 }

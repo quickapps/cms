@@ -168,7 +168,7 @@ require QA_CORE . '/config/bootstrap.php';
 
 Carbon\Carbon::setTestNow(Carbon\Carbon::now());
 
-ViewModeRegistry::addViewMode([
+ViewModeRegistry::add([
     'default' => [
         'name' => __d('node', 'Default'),
         'description' => __d('node', 'Default is used as a generic view mode if no other view mode has been defined for your content.'),

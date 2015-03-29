@@ -28,10 +28,10 @@ class ViewModeRegistryTest extends TestCase
     public function tearDown()
     {
         parent::tearDown();
-        ViewModeRegistry::removeViewMode('test-view-mode');
-        ViewModeRegistry::removeViewMode('test-1');
-        ViewModeRegistry::removeViewMode('test-2');
-        ViewModeRegistry::removeViewMode('test-3');
+        ViewModeRegistry::remove('test-view-mode');
+        ViewModeRegistry::remove('test-1');
+        ViewModeRegistry::remove('test-2');
+        ViewModeRegistry::remove('test-3');
     }
 
     /**
@@ -42,23 +42,23 @@ class ViewModeRegistryTest extends TestCase
      */
     public function testSwitchToInvalidViewModeThrow()
     {
-        ViewModeRegistry::switchViewMode('unexisting-view-mode');
+        ViewModeRegistry::uses('unexisting-view-mode');
     }
 
     /**
-     * test that addViewMode() method works when adding multiple VMs at once.
+     * test that add() method works when adding multiple VMs at once.
      *
      * @return void
      */
     public function testAddViewModeBulk()
     {
-        ViewModeRegistry::addViewMode([
+        ViewModeRegistry::add([
             'test-1' => ['name' => 'Test 1', 'description' => 'Description 1'],
             'test-2' => ['name' => 'Test 2', 'description' => 'Description 2'],
             'test-3' => ['name' => 'Test 3', 'description' => 'Description 3'],
         ]);
-        $this->assertTrue(in_array('test-1', ViewModeRegistry::viewModes()));
-        $this->assertTrue(in_array('test-2', ViewModeRegistry::viewModes()));
-        $this->assertTrue(in_array('test-3', ViewModeRegistry::viewModes()));
+        $this->assertTrue(in_array('test-1', ViewModeRegistry::modes()));
+        $this->assertTrue(in_array('test-2', ViewModeRegistry::modes()));
+        $this->assertTrue(in_array('test-3', ViewModeRegistry::modes()));
     }
 }

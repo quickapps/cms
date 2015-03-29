@@ -27,7 +27,6 @@ class Token
      */
     protected $_data = [
         'string' => null,
-        'previousToken' => null,
         'negated' => false,
         'where' => null,
         'isOperator' => false,
@@ -59,7 +58,7 @@ class Token
     }
 
     /**
-     * Indicates the type of "where()" methods that should be used to scope when
+     * Indicates the type of "where()" ORM method that should be used to scope when
      * using this token: "andWhere()", "orWhere" or just "where()".
      *
      * - `or`: Indicates that `Query::orWhere()` should be used
@@ -74,9 +73,9 @@ class Token
     }
 
     /**
-     * Indicates this token represents an operator.
+     * Indicates if this token represents an operator.
      *
-     * @return boolean True if it's an operator
+     * @return bool True if it's an operator
      */
     public function isOperator()
     {

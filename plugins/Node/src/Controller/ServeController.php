@@ -158,7 +158,7 @@ class ServeController extends AppController
         }
 
         $this->set('node', $node);
-        $this->switchViewMode('full');
+        $this->viewMode('full');
     }
 
     /**
@@ -184,7 +184,7 @@ class ServeController extends AppController
         }
 
         $this->set(compact('nodes', 'criteria'));
-        $this->switchViewMode('search-result');
+        $this->viewMode('search-result');
     }
 
     /**
@@ -209,7 +209,7 @@ class ServeController extends AppController
         }
 
         $this->set(compact('nodes', 'criteria'));
-        $this->switchViewMode('rss');
+        $this->viewMode('rss');
         $this->RequestHandler->renderAs($this, 'rss');
         $this->RequestHandler->respondAs('xml');
     }

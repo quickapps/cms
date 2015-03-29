@@ -56,7 +56,7 @@ class GenericOperator extends Operator
      * - inSlice: Maximum number of elements when using `IN` conjunction,
      *   defaults to 5. Used for security proposes.
      *
-     * Note that wildcard will not works when using `IN` conjunction.
+     * Note that wildcard will NOT works when using `IN` conjunction.
      *
      * @var array
      */

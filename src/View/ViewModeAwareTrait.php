@@ -21,15 +21,19 @@ trait ViewModeAwareTrait
 {
 
     /**
-     * Sets a view mode.
+     * Sets a view mode or get current view mode.
      *
      * @param string|null $slug Slug name of the view mode
      * @return void
-     * @see \QuickApps\View\ViewModeRegistry::switchViewMode()
+     * @see \QuickApps\View\ViewModeRegistry::uses()
      */
-    public function switchViewMode($slug)
+    public function viewMode($slug = null)
     {
-        return ViewModeRegistry::switchViewMode($slug);
+        if ($slug === null) {
+            return ViewModeRegistry::current();
+        }
+
+        return ViewModeRegistry::uses($slug);
     }
 
     /**
@@ -40,24 +44,11 @@ trait ViewModeAwareTrait
      * @param string|null $name Human readable name. e.g.: `My View Mode`
      * @param string|null $description A brief description about for what is this view mode
      * @return void
-     * @see \QuickApps\View\ViewModeRegistry::addViewMode()
+     * @see \QuickApps\View\ViewModeRegistry::add()
      */
     public static function addViewMode($slug, $name = null, $description = null)
     {
-        return ViewModeRegistry::addViewMode($slug, $name, $description);
-    }
-
-    /**
-     * Gets the slug name of in use view mode.
-     *
-     * @param bool $full Set to true to get full information as an array.
-     *  Or set to false (by default) to get slug name only
-     * @return string
-     * @see \QuickApps\View\ViewModeRegistry::inUseViewMode()
-     */
-    public function inUseViewMode($full = false)
-    {
-        return ViewModeRegistry::inUseViewMode();
+        return ViewModeRegistry::add($slug, $name, $description);
     }
 
     /**
@@ -68,11 +59,11 @@ trait ViewModeAwareTrait
      *  get only the slug of all registered view modes. Or set to a string value to
      *  get information for that view mode only.
      * @return array
-     * @see \QuickApps\View\ViewModeRegistry::viewModes()
+     * @see \QuickApps\View\ViewModeRegistry::modes()
      */
     public function viewModes($viewMode = false)
     {
-        return ViewModeRegistry::viewModes($viewMode);
+        return ViewModeRegistry::modes($viewMode);
     }
 
     /**
@@ -103,7 +94,7 @@ trait ViewModeAwareTrait
     public function onViewMode($viewMode, callable $method)
     {
         $viewMode = !is_array($viewMode) ? [$viewMode] : $viewMode;
-        if (in_array($this->inUseViewMode(), $viewMode)) {
+        if (in_array($this->viewMode(), $viewMode)) {
             return $method();
         }
     }
@@ -114,14 +105,14 @@ trait ViewModeAwareTrait
      * ### Usage
      *
      * ```php
-     * $this->switchMode('full');
-     * echo 'before: ' . $this->inUseViewMode();
+     * $this->viewMode('full');
+     * echo 'before: ' . $this->viewMode();
      *
      * echo $this->asViewMode('teaser', function () {
-     *      echo 'callable: ' . $this->inUseViewMode();
+     *      echo 'callable: ' . $this->viewMode();
      * });
      *
-     * echo 'after: ' . $this->inUseViewMode();
+     * echo 'after: ' . $this->viewMode();
      *
      * // output:
      * // before: full
@@ -136,9 +127,9 @@ trait ViewModeAwareTrait
      */
     public function asViewMode($viewMode, callable $method)
     {
-        $prevViewMode = $this->inUseViewMode();
-        $this->switchViewMode($viewMode);
+        $prevViewMode = $this->viewMode();
+        $this->viewMode($viewMode);
         $method();
-        $this->switchViewMode($prevViewMode);
+        $this->viewMode($prevViewMode);
     }
 }

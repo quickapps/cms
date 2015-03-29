@@ -96,7 +96,7 @@ class Controller extends CakeController
         $this->prepareLanguage();
         $location = $this->response->location();
         if (empty($location)) {
-            $this->switchViewMode('default');
+            $this->viewMode('default');
             $this->prepareTheme();
             $this->checkMaintenanceMode();
         }

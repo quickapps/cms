@@ -93,7 +93,7 @@ class FieldHook implements EventListenerInterface
      */
     public function renderField(Event $event, $field, $options = [])
     {
-        $viewMode = $this->inUseViewMode();
+        $viewMode = $this->viewMode();
 
         if (isset($field->metadata->view_modes[$viewMode]) &&
             !$field->metadata->view_modes[$viewMode]['hidden']

@@ -15,7 +15,7 @@ use Cake\Network\Exception\InternalErrorException;
 
 /**
  * ViewModeRegistry is used as a registry for handling view modes, also provides
- * a few utility methods such as inUseViewMode().
+ * a few utility methods such as add() & remove().
  *
  * View modes tells nodes how they should be rendered.
  *
@@ -31,33 +31,34 @@ class ViewModeRegistry
      *
      * @var string
      */
-    protected static $_inUse;
+    protected static $_current;
 
     /**
      * Holds an array list of all registered view modes.
      *
      * @var array
      */
-    protected static $_viewModes = [];
+    protected static $_modes = [];
 
     /**
      * Marks as "in use" the given view mode.
      *
-     * The given view mode must be registered first using `addViewMode`. If you
-     * try to switch to an unexisting (unregistered) view mode this method will throw.
+     * The given view mode must be registered first using `add()`. If you
+     * try to switch to an unexisting (unregistered) view mode this method will
+     * throw and exception.
      *
      * @param string $slug View mode machine name to switch to
      * @return void
      * @throws \Cake\Network\Exception\InternalErrorException When switching to an
      *  unregistered view mode
      */
-    public static function switchViewMode($slug)
+    public static function uses($slug)
     {
-        if (empty(static::$_viewModes[$slug])) {
-            throw new InternalErrorException(__('Illegal usage of ViewModeRegistry::switchViewMode(), view mode "{0}" was not found.', $slug));
+        if (empty(static::$_modes[$slug])) {
+            throw new InternalErrorException(__('Illegal usage of ViewModeRegistry::uses(), view mode "{0}" was not found.', $slug));
         }
 
-        static::$_inUse = $slug;
+        static::$_current = $slug;
     }
 
     /**
@@ -67,7 +68,7 @@ class ViewModeRegistry
      * argument and ignore the others two:
      *
      * ```php
-     * ViewModeRegistry::addViewMode([
+     * ViewModeRegistry::add([
      *     'slug_1' => [
      *         'name' => 'View Mode 1',
      *         'description' => 'Lorem ipsum',
@@ -83,8 +84,8 @@ class ViewModeRegistry
      * and "description" as three separated arguments:
      *
      * ```php
-     * ViewModeRegistry::addViewMode('slug-1', 'View Mode 1', 'Lorem ipsum');
-     * ViewModeRegistry::addViewMode('slug-2', 'View Mode 2', 'Dolor sit amet');
+     * ViewModeRegistry::add('slug-1', 'View Mode 1', 'Lorem ipsum');
+     * ViewModeRegistry::add('slug-2', 'View Mode 2', 'Dolor sit amet');
      * ```
      * @param string|array $slug Slug name of your view mode. e.g.: `my-view mode`,
      *  or an array of view modes to register indexed by slug name
@@ -92,19 +93,19 @@ class ViewModeRegistry
      * @param string|null $description A brief description about for what is this view mode
      * @return void
      */
-    public static function addViewMode($slug, $name = null, $description = null)
+    public static function add($slug, $name = null, $description = null)
     {
         if (is_array($slug) && $name === null && $description === null) {
             foreach ($slug as $s => $more) {
                 if (!empty($more['name']) && !empty($more['description'])) {
-                    static::$_viewModes[$s] = [
+                    static::$_modes[$s] = [
                         'name' => $more['name'],
                         'description' => $more['description'],
                     ];
                 }
             }
         } elseif (is_string($slug)) {
-            static::$_viewModes[$slug] = [
+            static::$_modes[$slug] = [
                 'name' => $name,
                 'description' => $description,
             ];
@@ -117,14 +118,14 @@ class ViewModeRegistry
      * @param string|null $slug View mode's slug
      * @return void
      */
-    public static function removeViewMode($slug = null)
+    public static function remove($slug = null)
     {
         if ($slug === null) {
-            static::$_inUse = null;
-            static::$_viewModes = [];
+            static::$_current = null;
+            static::$_modes = [];
         } else {
-            if (isset(static::$_viewModes[$slug])) {
-                unset(static::$_viewModes[$slug]);
+            if (isset(static::$_modes[$slug])) {
+                unset(static::$_modes[$slug]);
             }
         }
     }
@@ -138,15 +139,15 @@ class ViewModeRegistry
      *  or set to false (by default) to get slug name only
      * @return array|string
      */
-    public static function inUseViewMode($full = false)
+    public static function current($full = false)
     {
-        if (empty(static::$_inUse)) {
+        if (empty(static::$_current)) {
             return '';
         } elseif ($full === false) {
-            return static::$_inUse;
+            return static::$_current;
         }
 
-        return static::$_viewModes[static::$_inUse];
+        return static::$_modes[static::$_current];
     }
 
     /**
@@ -162,14 +163,14 @@ class ViewModeRegistry
      * ### Get a list of View Modes slugs:
      *
      * ```php
-     * ViewModeRegistry::viewModes();
+     * ViewModeRegistry::modes();
      * // output: ['teaser', 'full', ...]
      * ```
      *
      * ### Get a full list of every View Mode:
      *
      * ```php
-     * ViewModeRegistry::viewModes(true);
+     * ViewModeRegistry::modes(true);
      * // output: [
      * //     'teaser' => [
      * //         'name' => 'Human readable for teaser mode',
@@ -186,32 +187,32 @@ class ViewModeRegistry
      * ### Get full information for a particular View Mode:
      *
      * ```php
-     * ViewModeRegistry::viewModes('teaser');
+     * ViewModeRegistry::modes('teaser');
      * // output: [
      * //     'name' => 'Human readable for teaser mode',
      * //     'description' => 'Brief description for teaser view-mode'
      * // ]
      * ```
      *
-     * @param bool|string $viewMode Set to true to get full list. Or false (by default) to
+     * @param bool|string $mode Set to true to get full list. Or false (by default) to
      *  get only the slug of all registered view modes. Or set to a string value to
      *  get information for that view mode only.
      * @return array
      * @throws \Cake\Network\Exception\InternalErrorException When you try to get
      *  information for a particular View Mode that does not exists
      */
-    public static function viewModes($viewMode = false)
+    public static function modes($mode = false)
     {
-        if (is_string($viewMode)) {
-            if (!isset(static::$_viewModes[$viewMode])) {
-                throw new InternalErrorException(__('Illegal usage of ViewModeRegistry::switchViewMode(), view mode "{0}" was not found.', $slug));
+        if (is_string($mode)) {
+            if (!isset(static::$_modes[$mode])) {
+                throw new InternalErrorException(__('Illegal usage of ViewModeRegistry::modes(), view mode "{0}" was not found.', $mode));
             }
 
-            return static::$_viewModes[$viewMode];
-        } elseif (!$viewMode) {
-            return array_keys(static::$_viewModes);
+            return static::$_modes[$mode];
+        } elseif (!$mode) {
+            return array_keys(static::$_modes);
         }
 
-        return static::$_viewModes;
+        return static::$_modes;
     }
 }
