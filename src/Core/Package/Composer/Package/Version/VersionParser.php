@@ -155,7 +155,7 @@ class VersionParser
             if (!empty($matches[$index + 2])) {
                 $version .= '-dev';
             }
-  
+
             return $version;
         }
 
@@ -459,7 +459,7 @@ class VersionParser
         if (preg_match('{^(<>|!=|>=?|<=?|==?)?\s*(.*)}', $constraint, $matches)) {
             try {
                 $version = $this->normalize($matches[2]);
-                
+
                 if (!empty($stabilityModifier) && $this->parseStability($version) === 'stable') {
                     $version .= '-' . $stabilityModifier;
                 } elseif ('<' === $matches[1]) {
