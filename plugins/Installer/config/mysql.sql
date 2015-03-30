@@ -712,6 +712,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `public_profile` tinyint(1) NOT NULL,
   `public_email` tinyint(1) NOT NULL,
   `token` varchar(200) COLLATE utf8_unicode_ci NOT NULL COMMENT 'random unique code, used for pass recovery',
+  `token_expiration` datetime DEFAULT NULL COMMENT 'expiration date of user token',
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `last_login` datetime NOT NULL,
   `created` datetime NOT NULL
