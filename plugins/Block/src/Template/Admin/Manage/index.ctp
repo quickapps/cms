@@ -70,7 +70,7 @@ use QuickApps\Core\Plugin;
                                                         $block->id
                                                     ], [
                                                         'title' => __d('block', 'Duplicate'),
-                                                        'class' => 'btn btn-default btn-sm glyphicon glyphicon-copy',
+                                                        'class' => 'btn btn-default btn-sm glyphicon glyphicon-duplicate',
                                                         'confirm' => __d('block', 'Duplicate this block, are you sure?'),
                                                     ]);
                                                 ?>
@@ -150,7 +150,7 @@ use QuickApps\Core\Plugin;
                                                         $block->id,
                                                     ], [
                                                         'title' => __d('block', 'Duplicate'),
-                                                        'class' => 'btn btn-default btn-sm glyphicon glyphicon-copy',
+                                                        'class' => 'btn btn-default btn-sm glyphicon glyphicon-duplicate',
                                                     ]);
                                                 ?>
                                                 <?php if ($block->handler === 'Block'): ?>
@@ -219,7 +219,7 @@ use QuickApps\Core\Plugin;
                                             $block->id,
                                         ], [
                                             'title' => __d('block', 'Duplicate'),
-                                            'class' => 'btn btn-default btn-sm glyphicon glyphicon-copy',
+                                            'class' => 'btn btn-default btn-sm glyphicon glyphicon-duplicate',
                                         ]);
                                     ?>
                                     <?php if ($block->handler === 'Block'): ?>
