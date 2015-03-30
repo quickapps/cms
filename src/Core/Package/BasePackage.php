@@ -81,7 +81,11 @@ class BasePackage
     {
         $this->_packageName = $package;
         list($this->_vendor, $this->_name) = packageSplit($this->_packageName);
-        $this->_version = $version;
+
+        if ($version !== null) {
+            $this->_version = $version;
+        }
+
         $this->_path = $path;
     }
 
