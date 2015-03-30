@@ -40,13 +40,12 @@ ViewModeRegistry::add([
 ]);
 
 if (is_array(quickapps('node_types'))) {
-    $nodeTypesPattern = implode('|', array_map('preg_quote', quickapps('node_types')));
     Router::connect('/:node_type_slug/:node_slug.html', [
         'plugin' => 'Node',
         'controller' => 'Serve',
         'action' => 'details'
     ], [
-        'node_type_slug' => $nodeTypesPattern,
+        'node_type_slug' => implode('|', array_map('preg_quote', quickapps('node_types'))),
         'node_slug' => '[a-z0-9\-]+',
         'pass' => ['node_type_slug', 'node_slug'],
         '_name' => 'node_details',

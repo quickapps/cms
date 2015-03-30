@@ -15,11 +15,6 @@ use Cake\I18n\I18n;
 use Cake\Routing\Router;
 use QuickApps\Core\Plugin;
 
-/**
- * Prepares the language to be used.
- */
-setLanguage();
-
 if (!is_readable(SITE_ROOT . '/config/settings.php')) {
 /**
  * Redirect everything to installer plugin if we are on a new QuickAppsCMS package.
@@ -38,10 +33,6 @@ if (!is_readable(SITE_ROOT . '/config/settings.php')) {
 /**
  * Generate basic routes.
  */
-    $localePrefix = option('url_locale_prefix');
-    $locales = array_keys(quickapps('languages'));
-    $localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
-
     Router::prefix('admin', function($routes) {
         foreach ((array)Plugin::loaded() as $plugin) {
             $routes->plugin($plugin, function($routes) {
@@ -73,9 +64,11 @@ if (!is_readable(SITE_ROOT . '/config/settings.php')) {
     }
 
 /**
- * Set language prefix (if enabled) on every route.
+ * Set language prefix (if enabled) on every route and link.
  */
-    if ($localePrefix) {
+    if (option('url_locale_prefix')) {
+        $locales = array_keys(quickapps('languages'));
+        $localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
         foreach (Router::routes() as $router) {
             $options = $router->options;
             $options['routeClass'] = empty($options['routeClass']) ? 'Cake\Routing\Route\DashedRoute' : $options['routeClass'];

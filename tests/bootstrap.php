@@ -161,15 +161,24 @@ function mockUserSession() {
     return $session;
 }
 
-$snapshot = new File(TMP . 'snapshot.php');
-$snapshot->delete();
-
-require QA_CORE . '/config/bootstrap.php';
-
-Carbon\Carbon::setTestNow(Carbon\Carbon::now());
-
 /**
  * Clear any previous information.
  */
-Cache::clear(false, '_cake_model_');
-Cache::clear(false, '_cake_core_');
+try {
+    $snapshot = new File(TMP . 'snapshot.php');
+    $snapshot->delete();
+    Cache::clear(false, '_cake_model_');
+    Cache::clear(false, '_cake_core_');
+} catch (\Exception $ex) {
+    // fail
+}
+
+/**
+ * Carbon test now()
+ */
+Carbon\Carbon::setTestNow(Carbon\Carbon::now());
+
+/**
+ * Include QuickAppsCMS's bootstrap
+ */
+require QA_CORE . '/config/bootstrap.php';

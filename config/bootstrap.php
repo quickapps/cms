@@ -199,7 +199,7 @@ if (!count($activePlugins)) {
     die("Ops, something went wrong. Try to clear your site's snapshot and verify write permissions on /tmp directory.");
 }
 
-$EventManager = EventManager::instance();
+$eventManager = EventManager::instance();
 foreach ($activePlugins as $plugin) {
     Plugin::load($plugin->name, [
         'autoload' => true,
@@ -212,7 +212,7 @@ foreach ($activePlugins as $plugin) {
 
     foreach ($plugin->eventListeners as $fullClassName) {
         if (class_exists($fullClassName)) {
-            $EventManager->on(new $fullClassName);
+            $eventManager->on(new $fullClassName);
         }
     }
 }
@@ -221,5 +221,5 @@ foreach ($activePlugins as $plugin) {
  * Connect middleware/dispatcher filters.
  */
 DispatcherFactory::add('Asset');
-DispatcherFactory::add('Routing');
+DispatcherFactory::add('Language');
 DispatcherFactory::add('ControllerFactory');

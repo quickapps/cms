@@ -13,7 +13,6 @@ namespace QuickApps\Controller;
 
 use Cake\Controller\Component\AuthComponent;
 use Cake\Controller\Controller as CakeController;
-use Cake\I18n\I18n;
 use QuickApps\Error\SiteUnderMaintenanceException;
 use QuickApps\Event\HookAwareTrait;
 use QuickApps\View\ViewModeAwareTrait;
