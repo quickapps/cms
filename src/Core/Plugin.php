@@ -113,7 +113,7 @@ class Plugin extends CakePlugin
     }
 
     /**
-     * Checks whether a plugins ins installed on the system regardless of its status.
+     * Checks whether a plugins is installed on the system regardless of its status.
      *
      * @param string $plugin Plugin to check
      * @return bool True if exists, false otherwise
@@ -150,7 +150,7 @@ class Plugin extends CakePlugin
      *  `json_decode(..., true)`, or a string as path to where .json file can be found
      * @param bool $errorMessages If set to true an array of error messages
      *  will be returned, if set to false boolean result will be returned; true on
-     *  success, false on validation failure failure. Defaults to false (boolean result)
+     *  success, false on validation failure. Defaults to false (boolean result)
      * @return array|bool
      */
     public static function validateJson($json, $errorMessages = false)

@@ -21,18 +21,8 @@ class LibraryPackage extends BasePackage
     /**
      * {@inheritdoc}
      *
-     * ### Example:
-     *
-     * ```php
-     * // Unexisting library, returns: empty
-     * $this->version('unexisting-extension');
-     *
-     * // PHP version, returns: PHP_VERSION
-     * $this->version('php');
-     *
-     * // Some PHP extension
-     * $this->version('ext-intl');
-     * ```
+     * Gets library version using `phpversion()` function if possible, an empty
+     * string will be returned if no version could be found (library not installed).
      *
      * @return string Package's version, for instance `1.2.x-dev`
      */
@@ -42,7 +32,9 @@ class LibraryPackage extends BasePackage
             return parent::version();
         }
 
+        $this->_version = '';
         $lib = strtolower($this->_packageName);
+
         if ($lib === 'lib-icu') {
             $lib = 'intl';
         } elseif (stripos($lib, 'ext-') === 0) {

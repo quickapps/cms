@@ -309,20 +309,13 @@ class PluginPackage extends BasePackage
      * It will look for plugin's version in the following places:
      *
      * - Plugin's "composer.json" file.
-     * - Plugin's "VERSION.txt" file (or similar: version.md, etc).
+     * - Plugin's "VERSION.txt" file (or any file matching "/version?(\.\w+)/i").
      * - Composer's "installed.json" file.
      *
      * If not found `dev-master` is returned by default. If plugin is not registered
      * on QuickAppsCMS (not installed) an empty string will be returned instead.
      *
-     * ### Example:
-     *
-     * ```php
-     * $this->version('some-quickapps/plugin');
-     * ```
-     *
-     * @return string Plugin's version, for instance `1.2.x-dev`. If no version
-     *  can be resolved, `dev-version` is returned by default
+     * @return string Plugin's version, for instance `1.2.x-dev`
      */
     public function version()
     {
