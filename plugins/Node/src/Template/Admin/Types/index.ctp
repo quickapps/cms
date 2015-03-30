@@ -11,6 +11,8 @@
  */
 ?>
 
+<p><?php echo $this->element('Node.index_submenu'); ?></p>
+
 <div class="text-right">
     <?php echo $this->Html->link(__d('node', 'Define new content type'), ['plugin' => 'Node', 'controller' => 'types', 'action' => 'add'], ['class' => 'btn btn-primary']); ?>
 </div>

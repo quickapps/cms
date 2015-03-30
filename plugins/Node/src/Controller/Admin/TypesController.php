@@ -35,7 +35,9 @@ class TypesController extends AppController
             ->select(['id', 'slug', 'name', 'description'])
             ->all();
         $this->set('types', $types);
-        $this->Breadcrumb->push('/admin/node/types');
+        $this->Breadcrumb
+            ->push('/admin/node/manage')
+            ->push(__d('node', 'Content Types'), '#');
     }
 
     /**
@@ -69,7 +71,8 @@ class TypesController extends AppController
         $this->set('type', $type);
         $this->set('languages', LocaleToolbox::languagesList());
         $this->Breadcrumb
-            ->push('/admin/node/types')
+            ->push('/admin/node/manage')
+            ->push(__d('node', 'Content Types'), '/admin/node/types')
             ->push(__d('node', 'Creating Content Type'), '#');
     }
 
@@ -111,7 +114,8 @@ class TypesController extends AppController
         $this->set('type', $type);
         $this->set('languages', LocaleToolbox::languagesList());
         $this->Breadcrumb
-            ->push('/admin/node/types')
+            ->push('/admin/node/manage')
+            ->push(__d('node', 'Content Types'), '/admin/node/types')
             ->push(__d('node', 'Editing "{0}" Content Type', $type->name), '');
     }
 

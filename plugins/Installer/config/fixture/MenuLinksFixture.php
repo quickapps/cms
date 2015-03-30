@@ -176,7 +176,7 @@ class MenuLinksFixture
     'id' => 2,
     'menu_id' => 1,
     'lft' => 3,
-    'rght' => 12,
+    'rght' => 10,
     'parent_id' => 0,
     'url' => '/admin/system/structure',
     'description' => null,
@@ -191,8 +191,8 @@ class MenuLinksFixture
     [
     'id' => 3,
     'menu_id' => 1,
-    'lft' => 13,
-    'rght' => 14,
+    'lft' => 11,
+    'rght' => 12,
     'parent_id' => 0,
     'url' => '/admin/node/manage',
     'description' => null,
@@ -200,7 +200,9 @@ class MenuLinksFixture
     'target' => '_self',
     'expanded' => 0,
     'active' => '/admin/node/manage*
-/admin/node/comments*',
+/admin/node/comments*
+/admin/node/types*
+/admin/node/fields*',
     'activation' => 'any',
     'status' => true,
     ],
@@ -208,8 +210,8 @@ class MenuLinksFixture
     [
     'id' => 4,
     'menu_id' => 1,
-    'lft' => 15,
-    'rght' => 16,
+    'lft' => 13,
+    'rght' => 14,
     'parent_id' => 0,
     'url' => '/admin/system/themes',
     'description' => null,
@@ -224,8 +226,8 @@ class MenuLinksFixture
     [
     'id' => 5,
     'menu_id' => 1,
-    'lft' => 17,
-    'rght' => 18,
+    'lft' => 15,
+    'rght' => 16,
     'parent_id' => 0,
     'url' => '/admin/system/plugins',
     'description' => null,
@@ -240,8 +242,8 @@ class MenuLinksFixture
     [
     'id' => 6,
     'menu_id' => 1,
-    'lft' => 19,
-    'rght' => 20,
+    'lft' => 17,
+    'rght' => 18,
     'parent_id' => 0,
     'url' => '/admin/user/manage',
     'description' => null,
@@ -256,8 +258,8 @@ class MenuLinksFixture
     [
     'id' => 7,
     'menu_id' => 1,
-    'lft' => 23,
-    'rght' => 24,
+    'lft' => 21,
+    'rght' => 22,
     'parent_id' => 0,
     'url' => '/admin/system/configuration',
     'description' => null,
@@ -272,8 +274,8 @@ class MenuLinksFixture
     [
     'id' => 8,
     'menu_id' => 1,
-    'lft' => 25,
-    'rght' => 26,
+    'lft' => 23,
+    'rght' => 24,
     'parent_id' => 0,
     'url' => '/admin/system/help',
     'description' => null,
@@ -302,26 +304,10 @@ class MenuLinksFixture
     ],
     9 =>
     [
-    'id' => 10,
+    'id' => 11,
     'menu_id' => 1,
     'lft' => 6,
     'rght' => 7,
-    'parent_id' => 2,
-    'url' => '/admin/node/types',
-    'description' => 'Manage content types.',
-    'title' => 'Content Types',
-    'target' => '_self',
-    'expanded' => 0,
-    'active' => null,
-    'activation' => null,
-    'status' => true,
-    ],
-    10 =>
-    [
-    'id' => 11,
-    'menu_id' => 1,
-    'lft' => 8,
-    'rght' => 9,
     'parent_id' => 2,
     'url' => '/admin/menu/manage',
     'description' => 'Add new menus to your site, edit existing menus, and rename and reorganize menu links.',
@@ -332,12 +318,12 @@ class MenuLinksFixture
     'activation' => null,
     'status' => true,
     ],
-    11 =>
+    10 =>
     [
     'id' => 12,
     'menu_id' => 1,
-    'lft' => 10,
-    'rght' => 11,
+    'lft' => 8,
+    'rght' => 9,
     'parent_id' => 2,
     'url' => '/admin/taxonomy/manage',
     'description' => 'Manage tagging, categorization, and classification of your content.',
@@ -348,12 +334,12 @@ class MenuLinksFixture
     'activation' => null,
     'status' => true,
     ],
-    12 =>
+    11 =>
     [
     'id' => 13,
     'menu_id' => 1,
-    'lft' => 21,
-    'rght' => 22,
+    'lft' => 19,
+    'rght' => 20,
     'parent_id' => 0,
     'url' => '/admin/locale',
     'description' => '',
@@ -364,7 +350,7 @@ class MenuLinksFixture
     'activation' => null,
     'status' => true,
     ],
-    13 =>
+    12 =>
     [
     'id' => 14,
     'menu_id' => 2,
@@ -380,7 +366,7 @@ class MenuLinksFixture
     'activation' => null,
     'status' => true,
     ],
-    14 =>
+    13 =>
     [
     'id' => 15,
     'menu_id' => 2,
@@ -396,7 +382,7 @@ class MenuLinksFixture
     'activation' => null,
     'status' => true,
     ],
-    15 =>
+    14 =>
     [
     'id' => 16,
     'menu_id' => 2,
@@ -412,7 +398,7 @@ class MenuLinksFixture
     'activation' => null,
     'status' => true,
     ],
-    16 =>
+    15 =>
     [
     'id' => 17,
     'menu_id' => 2,

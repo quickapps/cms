@@ -11,6 +11,8 @@
  */
 ?>
 
+<p><?php echo $this->element('Node.index_submenu'); ?></p>
+
 <?php echo $this->Form->create($type); ?>
     <fieldset>
         <legend><?php echo __d('node', 'Content Type Information'); ?></legend>
