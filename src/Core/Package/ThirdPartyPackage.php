@@ -34,19 +34,12 @@ class ThirdPartyPackage extends BasePackage
      */
     public function version()
     {
-        if (strtolower($this->_packageName) === 'cakephp/cakephp') {
-            $this->_version = Configure::version();
-        } elseif (strtolower($this->_packageName) === 'quickapps/cms') {
-            $this->_version = quickapps('version');
-        }
-
         if (parent::version() !== null) {
             return parent::version();
         }
 
         $packages = $this->_packages();
         $this->_version = isset($packages[$this->_packageName]) ? $packages[$this->_packageName] : '';
-
         return $this->_version;
     }
 
