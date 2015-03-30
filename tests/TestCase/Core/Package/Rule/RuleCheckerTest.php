@@ -45,12 +45,10 @@ class RuleCheckerTest extends TestCase
 
         $this->passRules = [
             'quickapps/cms' => '>1.0',
-            'php' => '>4.0',
         ];
 
         $this->failRules = [
             'quickapps/cms' => '<1.0',
-            'php' => '<4.0',
         ];
     }
 
