@@ -9,7 +9,35 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
+
 use Cake\Routing\Router;
+use QuickApps\View\ViewModeRegistry;
+
+/**
+ * Register default view-modes
+ */
+ViewModeRegistry::add([
+    'default' => [
+        'name' => __d('node', 'Default'),
+        'description' => __d('node', 'Default is used as a generic view mode if no other view mode has been defined for your content.'),
+    ],
+    'teaser' => [
+        'name' => __d('node', 'Teaser'),
+        'description' => __d('node', 'Teaser is a really short format that is typically used in main the main page, such as "last news", etc.'),
+    ],
+    'search-result' => [
+        'name' => __d('node', 'Search Result'),
+        'description' => __d('node', 'Search Result is a short format that is typically used in lists of multiple content items such as search results.'),
+    ],
+    'rss' => [
+        'name' => __d('node', 'RSS'),
+        'description' => __d('node', 'RSS is similar to "Search Result" but intended to be used when rendering content as part of a RSS feed list.'),
+    ],
+    'full' => [
+        'name' => __d('node', 'Full'),
+        'description' => __d('node', 'Full content is typically used when the content is displayed on its own page.'),
+    ],
+]);
 
 if (is_array(quickapps('node_types'))) {
     $nodeTypesPattern = implode('|', array_map('preg_quote', quickapps('node_types')));

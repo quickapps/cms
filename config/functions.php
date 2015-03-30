@@ -9,16 +9,19 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
+
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
+use Cake\Error\Debugger;
 use Cake\Event\EventManager;
 use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
-use Cake\Error\Debugger;
-use Cake\Utility\Inflector;
+use Cake\I18n\I18n;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
+use Cake\Routing\Router;
+use Cake\Utility\Inflector;
 use QuickApps\Core\Plugin;
 
 if (!function_exists('snapshot')) {
@@ -309,6 +312,76 @@ if (!function_exists('listeners')) {
         $property->setAccessible(true);
         $listeners = array_keys($property->getValue(EventManager::instance()));
         return $listeners;
+    }
+}
+
+if (!function_exists('setLanguage')) {
+    /**
+     * Prepares the default language to use by the script.
+     *
+     * This function applies the following filters when looking for language to use:
+     *
+     * - GET parameter: If `locale` GET parameter is present in current request, and
+     *   if it's a valid language code, then will be used as current language and
+     *   also will be persisted on `locale` session for further use.
+     *
+     * - URL: If current URL is prefixed with a valid language code and
+     *   `url_locale_prefix` option is enabled, URL's language code will be used.
+     *
+     * - Locale session: If `locale` session exists it will be used.
+     *
+     * - User session: If user is logged in and has selected a valid preferred
+     *   language it will be used.
+     *
+     * - Default: Site's language will be used otherwise.
+     *
+     * ---
+     *
+     * If `url_locale_prefix` option is enabled, and current request's URL has not
+     * language prefix on it, user will be redirected to a locale-prefixed version
+     * of the requested URL (using the language code selected as explained above).
+     *
+     * For example:
+     *
+     *     /article/demo-article.html
+     *
+     * Might redirects to:
+     *
+     *     /en_US/article/demo-article.html
+     *
+     * @return void
+     */
+    function setLanguage()
+    {
+        $locales = array_keys(quickapps('languages'));
+        $request = Router::getRequest();
+        $localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
+        $normalizedURL = str_replace('//', '/', "/{$request->url}"); // starts with "/""
+
+        if (!empty($request->query['locale']) && in_array($request->query['locale'], $locales)) {
+            $request->session()->write('locale', $request->query['locale']);
+            I18n::locale($request->session()->read('locale'));
+        } elseif (option('url_locale_prefix') && preg_match("/\/{$localesPattern}\//", $normalizedURL, $matches)) {
+            I18n::locale($matches[1]);
+        } elseif ($request->session()->check('locale') && in_array($request->session()->read('locale'), $locales)) {
+            I18n::locale($request->session()->read('locale'));
+        } elseif ($request->is('userLoggedIn') && in_array(user()->locale, $locales)) {
+            I18n::locale(user()->locale);
+        } elseif (in_array(option('default_language'), $locales)) {
+            I18n::locale(option('default_language'));
+        } else {
+            I18n::locale(CORE_LOCALE);
+        }
+
+        if (option('url_locale_prefix') &&
+            !$request->is('home') &&
+            !preg_match("/\/{$localesPattern}\//", $normalizedURL)
+        ) {
+            $url = Router::url('/' . I18n::locale() . $normalizedURL, true);
+            http_response_code(200);
+            header("Location: {$url}");
+            die;
+        }
     }
 }
 

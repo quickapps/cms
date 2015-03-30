@@ -33,51 +33,8 @@ class NodeHook implements EventListenerInterface
     {
         return [
             'Render.Node\Model\Entity\Node' => 'renderNode',
-            'Dispatcher.beforeDispatch' => [
-                'callable' => 'dispatcherBeforeDispatch',
-                'priority' => -10,
-            ],
             'Block.Node.display' => 'renderBlock',
         ];
-    }
-
-    /**
-     * Fired before any controller instance is created.
-     *
-     * Here we register some basic view modes, for later use in controllers. We
-     * could register this view modes at "bootstrap.php", but __d() would not work
-     * there as no language has been set yet, so we do it here.
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Cake\Network\Request $request Request object to dispatch
-     * @param \Cake\Network\Response $response Response object to put the results of
-     *  the dispatch into
-     * @return void
-     */
-    public function dispatcherBeforeDispatch(Event $event, $request, $response)
-    {
-        ViewModeRegistry::add([
-            'default' => [
-                'name' => __d('node', 'Default'),
-                'description' => __d('node', 'Default is used as a generic view mode if no other view mode has been defined for your content.'),
-            ],
-            'teaser' => [
-                'name' => __d('node', 'Teaser'),
-                'description' => __d('node', 'Teaser is a really short format that is typically used in main the main page, such as "last news", etc.'),
-            ],
-            'search-result' => [
-                'name' => __d('node', 'Search Result'),
-                'description' => __d('node', 'Search Result is a short format that is typically used in lists of multiple content items such as search results.'),
-            ],
-            'rss' => [
-                'name' => __d('node', 'RSS'),
-                'description' => __d('node', 'RSS is similar to "Search Result" but intended to be used when rendering content as part of a RSS feed list.'),
-            ],
-            'full' => [
-                'name' => __d('node', 'Full'),
-                'description' => __d('node', 'Full content is typically used when the content is displayed on its own page.'),
-            ],
-        ]);
     }
 
     /**

@@ -15,6 +15,11 @@ use Cake\I18n\I18n;
 use Cake\Routing\Router;
 use QuickApps\Core\Plugin;
 
+/**
+ * Prepares the language to be used.
+ */
+setLanguage();
+
 if (!is_readable(SITE_ROOT . '/config/settings.php')) {
 /**
  * Redirect everything to installer plugin if we are on a new QuickAppsCMS package.

@@ -93,7 +93,6 @@ class Controller extends CakeController
     public function __construct($request = null, $response = null)
     {
         parent::__construct($request, $response);
-        $this->prepareLanguage();
         $location = $this->response->location();
         if (empty($location)) {
             $this->viewMode('default');
@@ -152,67 +151,6 @@ class Controller extends CakeController
     public function description($descriptionForLayout)
     {
         $this->set('description_for_layout', $descriptionForLayout);
-    }
-
-    /**
-     * Prepares the default language to use.
-     *
-     * This methods apply the following filters looking for language to use:
-     *
-     * - GET parameter: If `locale` GET parameter is present in current request,
-     *   and if it is a valid language code, it will be used as current language
-     *   and also will be persisted on `locale` session for further use.
-     * - URL: If current URL is prefixed with a valid language code and
-     *   `url_locale_prefix` option is enabled, URL's language code will be used.
-     * - Locale session: If `locale` session exists it will be used.
-     * - User session: If user is logged in and has selected a valid preferred
-     *   language it will be used.
-     * - Default: Site's language will be used otherwise.
-     *
-     * ---
-     *
-     * If `url_locale_prefix` option is enabled, and current request's URL has not
-     * language prefix on it, user will be redirected to a locale-prefixed version
-     * of the requested URL (using the language code selected as explained above).
-     *
-     * For example:
-     *
-     *     /article/demo-article.html
-     *
-     * Might redirects to:
-     *
-     *     /en_US/article/demo-article.html
-     *
-     * @return void
-     */
-    public function prepareLanguage()
-    {
-        $locales = array_keys(quickapps('languages'));
-        $localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
-        $normalizedURL = str_replace('//', '/', "/{$this->request->url}"); // starts with "/""
-
-        if (!empty($this->request->query['locale']) && in_array($this->request->query['locale'], $locales)) {
-            $this->request->session()->write('locale', $this->request->query['locale']);
-            I18n::locale($this->request->session()->read('locale'));
-        } elseif (option('url_locale_prefix') && preg_match("/\/{$localesPattern}\//", $normalizedURL, $matches)) {
-            I18n::locale($matches[1]);
-        } elseif ($this->request->session()->check('locale') && in_array($this->request->session()->read('locale'), $locales)) {
-            I18n::locale($this->request->session()->read('locale'));
-        } elseif ($this->request->is('userLoggedIn') && in_array(user()->locale, $locales)) {
-            I18n::locale(user()->locale);
-        } elseif (in_array(option('default_language'), $locales)) {
-            I18n::locale(option('default_language'));
-        } else {
-            I18n::locale(CORE_LOCALE);
-        }
-
-        if (option('url_locale_prefix') &&
-            !$this->request->is('home') &&
-            !preg_match("/\/{$localesPattern}\//", $normalizedURL)
-        ) {
-            $url = '/' . I18n::locale() . $normalizedURL;
-            $this->redirect($url, 200);
-        }
     }
 
     /**
