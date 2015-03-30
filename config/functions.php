@@ -353,10 +353,14 @@ if (!function_exists('setLanguage')) {
      */
     function setLanguage()
     {
-        $locales = array_keys(quickapps('languages'));
         $request = Router::getRequest();
+        if (!$request) {
+            return;
+        }
+
+        $locales = array_keys(quickapps('languages'));
         $localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
-        $normalizedURL = str_replace('//', '/', "/{$request->url}"); // starts with "/""
+        $normalizedURL = str_replace('//', '/', "/{$request->url}");
 
         if (!empty($request->query['locale']) && in_array($request->query['locale'], $locales)) {
             $request->session()->write('locale', $request->query['locale']);
