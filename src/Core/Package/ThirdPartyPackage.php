@@ -23,24 +23,29 @@ class ThirdPartyPackage extends BasePackage
     /**
      * {@inheritDoc}
      *
-     * Gets package's version from composer's "installed.json".
+     * Gets package's version from composer's "installed.json". By default CakePHP
+     * and QuickAppCMS package versions are handled by their internal version
+     * getters:
+     *
+     * - \Cake\Core\Configure\version() for CakePHP
+     * - quickapps('version') for QuickAppsCMS
      *
      * @return string Package's version, for instance `1.2.x-dev`
      */
     public function version()
     {
-        if (parent::version() !== null) {
-            return parent::version();
-        }
-
         if (strtolower($this->_packageName) === 'cakephp/cakephp') {
             $this->_version = Configure::version();
         } elseif (strtolower($this->_packageName) === 'quickapps/cms') {
             $this->_version = quickapps('version');
-        } else {
-            $packages = $this->_packages();
-            $this->_version = isset($packages[$this->_packageName]) ? $packages[$this->_packageName] : '';
         }
+
+        if (parent::version() !== null) {
+            return parent::version();
+        }
+
+        $packages = $this->_packages();
+        $this->_version = isset($packages[$this->_packageName]) ? $packages[$this->_packageName] : '';
 
         return $this->_version;
     }
