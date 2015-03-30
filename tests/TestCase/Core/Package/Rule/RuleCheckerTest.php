@@ -44,11 +44,13 @@ class RuleCheckerTest extends TestCase
         parent::setUp();
 
         $this->passRules = [
-            'quickapps/cms' => quickapps('version'),
+            'quickapps/cms' => '>1.0',
+            'php' => '>4.0',
         ];
 
         $this->failRules = [
-            'quickapps/cms' => '<>' . quickapps('version'),
+            'quickapps/cms' => '<1.0',
+            'php' => '<4.0',
         ];
     }
 
