@@ -11,6 +11,8 @@
  */
 namespace QuickApps\Core\Package;
 
+use Cake\Core\Configure;
+
 /**
  * Represents a third party package installed using Composer.
  *
@@ -21,12 +23,7 @@ class ThirdPartyPackage extends BasePackage
     /**
      * {@inheritDoc}
      *
-     * ### Example:
-     *
-     * ```php
-     * // Installed package, returns: read from composer's "installed.json"
-     * $this->version('robmorgan/phinx');
-     * ```
+     * Gets package's version from composer's "installed.json".
      *
      * @return string Package's version, for instance `1.2.x-dev`
      */
@@ -36,8 +33,15 @@ class ThirdPartyPackage extends BasePackage
             return parent::version();
         }
 
-        $packages = $this->_packages();
-        $this->_version = isset($packages[$this->_packageName]) ? $packages[$this->_packageName] : '';
+        if (strtolower($this->_packageName) === 'cakephp/cakephp') {
+            $this->_version = Configure::version();
+        } elseif (strtolower($this->_packageName) === 'quickapps/cms') {
+            $this->_version = quickapps('version');
+        } else {
+            $packages = $this->_packages();
+            $this->_version = isset($packages[$this->_packageName]) ? $packages[$this->_packageName] : '';
+        }
+
         return $this->_version;
     }
 

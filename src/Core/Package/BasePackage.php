@@ -11,7 +11,6 @@
  */
 namespace QuickApps\Core\Package;
 
-use Cake\Core\Configure;
 use Cake\Core\InstanceConfigTrait;
 use Cake\Utility\Hash;
 use QuickApps\Core\Package\Composer\JsonSchema;
@@ -84,12 +83,6 @@ class BasePackage
         list($this->_vendor, $this->_name) = packageSplit($this->_packageName);
         $this->_version = $version;
         $this->_path = $path;
-
-        if (strtolower($this->_packageName) === 'cakephp/cakephp') {
-            $this->_version = Configure::version();
-        } elseif (strtolower($this->_packageName) === 'quickapps/cms') {
-            $this->_version = quickapps('version');
-        }
     }
 
     /**
