@@ -72,6 +72,7 @@
 <p>&nbsp;</p>
 
 <fieldset>
+    {no-hooktag}
     <legend><?php echo __d('user', 'Mailing'); ?></legend>
 
     <div class="alert alert-info">
@@ -186,6 +187,7 @@
             </div>
         </div>
     </div>
+    {/no-hooktag}
 </fieldset>
 
 <script>

@@ -38,6 +38,7 @@ class SystemHooktag implements EventListenerInterface
             'Hooktag.url' => 'hooktagURL',
             'Hooktag.date' => 'hooktagDate',
             'Hooktag.locale' => 'hooktagLocale',
+            'Hooktag.no-hooktag' => 'noHooktag',
         ];
     }
 
@@ -185,5 +186,28 @@ class SystemHooktag implements EventListenerInterface
         }
 
         return $out;
+    }
+
+    /**
+     * Used to remove hooktags. Any hooktag within this hooktag's content will not
+     * be converted.
+     *
+     * ### Usage:
+     *
+     *     {no-hooktag}
+     *         This hooktag will not work {some-hooktag /}
+     *     {/no-hooktag}
+     *
+     * @param \Cake\Event\Event $event The event that was fired
+     * @param array $atts An associative array of attributes, or an empty string if
+     *  no attributes are given
+     * @param string $content The enclosed content (if the hooktag is used in its
+     *  enclosing form)
+     * @param string $tag The hooktag tag
+     * @return string
+     */
+    public function noHooktag(Event $event, array $atts, $content, $tag)
+    {
+        return $content;
     }
 }

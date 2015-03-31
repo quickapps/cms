@@ -26,6 +26,7 @@
     ]);
 ?>
 
+{no-hooktag}
 <div class="option-url-prefix">
     <?php
         echo $this->Form->input('link_template', [
@@ -33,7 +34,6 @@
             'type' => 'text',
         ]);
     ?>
-
     <em class="help-block">
         <?php echo __d('taxonomy', '<strong>Experts only</strong>. A string compatible with HtmlHelper::url() used to create each link. Placeholders are:'); ?>
         <ul>
@@ -44,6 +44,7 @@
         <strong><?php echo __d('taxonomy', 'Example'); ?></strong>: <code><?php echo h('<a href="{{url}}"{{attrs}}>{{content}}</a>'); ?></code>
     </em>
 </div>
+{/no-hooktag}
 
 <script>
     $(document).ready(function () {
