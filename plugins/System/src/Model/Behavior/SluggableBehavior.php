@@ -184,7 +184,6 @@ class SluggableBehavior extends Behavior
 
             while ($index > 0) {
                 $nextSlug = "{$initialSlug}{$config['separator']}{$index}";
-
                 if (!in_array($nextSlug, $same)) {
                     $slug = $nextSlug;
                     $index = -1;

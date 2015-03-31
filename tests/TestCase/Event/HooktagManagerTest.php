@@ -23,7 +23,7 @@ class HooktagManagerTest extends TestCase
 
 /**
  * EventManager instance.
- * 
+ *
  * @var \Cake\Event\EventManager
  */
     protected $_eventManager = null;

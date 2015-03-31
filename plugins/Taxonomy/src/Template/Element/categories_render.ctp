@@ -23,6 +23,7 @@ $vocabularies = TableRegistry::get('Taxonomy.Vocabularies')
     ->where(['Vocabularies.id IN' => (array)$block->settings['vocabularies']]);
 ?>
 
+<h2><?php echo $block->title; ?></h2>
 <?php if ($block->settings['show_vocabulary']): ?>
     <ul>
         <?php
