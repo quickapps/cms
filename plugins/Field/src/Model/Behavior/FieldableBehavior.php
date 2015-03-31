@@ -644,14 +644,17 @@ class FieldableBehavior extends Behavior
      * over each attached field for this entity, so you should have a listener like:
      *
      * ```php
-     * class TextField implements EventListenerInterface {
-     *     public function implementedEvents() {
+     * class TextField implements EventListenerInterface
+     * {
+     *     public function implementedEvents()
+     *     {
      *         return [
      *             'Field.TextField.Entity.beforeSave' => 'entityBeforeSave',
      *         ];
      *     }
      *
-     *     public function entityBeforeSave(Event $event, $entity, $field, $options) {
+     *     public function entityBeforeSave(Event $event, $entity, $field, $options)
+     *     {
      *          // alter $field, and do nifty things with $options['_post']
      *          // return FALSE; will halt the operation
      *     }
