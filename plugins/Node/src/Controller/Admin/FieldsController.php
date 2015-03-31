@@ -84,7 +84,8 @@ class FieldsController extends AppController
         $this->_beforeRender($event);
         $this->loadModel('Node.NodeTypes');
         $this->Breadcrumb->push('/admin/node/types');
-        $nodeType = $this->NodeTypes->find()
+        $nodeType = $this->NodeTypes
+            ->find()
             ->where(['slug' => $this->request->query['type']])
             ->first();
 
@@ -93,7 +94,7 @@ class FieldsController extends AppController
                 $this->Breadcrumb
                     ->push('/admin/node/manage')
                     ->push(__d('node', 'Content Types'), '/admin/node/types')
-                    ->push(__d('node', 'Type "{name}"', ['name' => $nodeType->name]), '/admin/node/types/edit/' . $nodeType->slug)
+                    ->push(__d('node', 'Type "{0}"', $nodeType->name), '/admin/node/types/edit/' . $nodeType->slug)
                     ->push(__d('node', 'Fields'), ['plugin' => 'Node', 'controller' => 'fields', 'action' => 'index', 'prefix' => 'admin']);
                 break;
 
@@ -101,7 +102,7 @@ class FieldsController extends AppController
                 $this->Breadcrumb
                     ->push('/admin/node/manage')
                     ->push(__d('node', 'Content Types'), '/admin/node/types')
-                    ->push(__d('node', 'Type "{name}"', ['name' => $nodeType->name]), '/admin/node/types/edit/' . $nodeType->slug)
+                    ->push(__d('node', 'Type "{0}"', $nodeType->name), '/admin/node/types/edit/' . $nodeType->slug)
                     ->push(__d('node', 'Fields'), ['plugin' => 'Node', 'controller' => 'fields', 'action' => 'index', 'prefix' => 'admin'])
                     ->push(__d('node', 'Configure Field "{0}"', $this->viewVars['instance']->label), '#');
                 break;
@@ -110,24 +111,24 @@ class FieldsController extends AppController
                 $this->Breadcrumb
                     ->push('/admin/node/manage')
                     ->push(__d('node', 'Content Types'), '/admin/node/types')
-                    ->push(__d('node', 'Type "{name}"', ['name' => $nodeType->name]), '/admin/node/types/edit/' . $nodeType->slug)
+                    ->push(__d('node', 'Type "{0}"', $nodeType->name), '/admin/node/types/edit/' . $nodeType->slug)
                     ->push(__d('node', 'Attach New Field'), '');
                 break;
 
-            case 'view_mode_list':
+            case 'viewModeList':
                 $this->Breadcrumb
                     ->push('/admin/node/manage')
                     ->push(__d('node', 'Content Types'), '/admin/node/types')
-                    ->push(__d('node', 'Type "{name}"', ['name' => $nodeType->name]), '/admin/node/types/edit/' . $nodeType->slug)
-                    ->push(__d('node', '{0} View Mode', $this->viewVars['viewModeInfo']['name']), '');
+                    ->push(__d('node', 'Type "{0}"', $nodeType->name), '/admin/node/types/edit/' . $nodeType->slug)
+                    ->push(__d('node', 'View Mode "{0}"', $this->viewVars['viewModeInfo']['name']), '');
                 break;
 
-            case 'view_mode_edit':
+            case 'viewModeEdit':
                 $this->Breadcrumb
                     ->push('/admin/node/manage')
                     ->push(__d('node', 'Content Types'), '/admin/node/types')
-                    ->push(__d('node', 'Type "{name}"', ['name' => $nodeType->name]), '/admin/node/types/edit/' . $nodeType->slug)
-                    ->push(__d('node', '{0} View Mode', $this->viewVars['viewModeInfo']['name']), ['plugin' => 'Node', 'controller' => 'fields', 'action' => 'view_mode_list', 'prefix' => 'admin', $this->viewVars['viewMode']])
+                    ->push(__d('node', 'Type "{0}"', $nodeType->name), '/admin/node/types/edit/' . $nodeType->slug)
+                    ->push(__d('node', 'View Mode "{0}"', $this->viewVars['viewModeInfo']['name']), ['plugin' => 'Node', 'controller' => 'fields', 'action' => 'view_mode_list', 'prefix' => 'admin', $this->viewVars['viewMode']])
                     ->push(__d('node', 'Field: {0}', $this->viewVars['instance']->label), '');
                 break;
         }
