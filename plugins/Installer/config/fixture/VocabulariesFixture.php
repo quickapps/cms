@@ -97,5 +97,16 @@ class VocabulariesFixture
     ];
 
     public $records = [
+    0 =>
+    [
+    'id' => 1,
+    'name' => 'Articles Categories',
+    'slug' => 'articles-categories',
+    'description' => '',
+    'ordering' => 0,
+    'locked' => false,
+    'modified' => '2015-03-31 21:20:06',
+    'created' => '2015-03-31 21:20:06',
+    ],
     ];
 }

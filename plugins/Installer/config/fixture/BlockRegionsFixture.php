@@ -148,5 +148,53 @@ class BlockRegionsFixture
     'region' => '',
     'ordering' => 0,
     ],
+    8 =>
+    [
+    'id' => 9,
+    'block_id' => 7,
+    'theme' => 'BackendTheme',
+    'region' => '',
+    'ordering' => 0,
+    ],
+    9 =>
+    [
+    'id' => 10,
+    'block_id' => 7,
+    'theme' => 'FrontendTheme',
+    'region' => 'sub-menu',
+    'ordering' => 0,
+    ],
+    10 =>
+    [
+    'id' => 11,
+    'block_id' => 5,
+    'theme' => 'BackendTheme',
+    'region' => '',
+    'ordering' => 0,
+    ],
+    11 =>
+    [
+    'id' => 12,
+    'block_id' => 5,
+    'theme' => 'FrontendTheme',
+    'region' => 'sub-menu',
+    'ordering' => 0,
+    ],
+    12 =>
+    [
+    'id' => 13,
+    'block_id' => 6,
+    'theme' => 'BackendTheme',
+    'region' => '',
+    'ordering' => 0,
+    ],
+    13 =>
+    [
+    'id' => 14,
+    'block_id' => 6,
+    'theme' => 'FrontendTheme',
+    'region' => 'right-sidebar',
+    'ordering' => 0,
+    ],
     ];
 }

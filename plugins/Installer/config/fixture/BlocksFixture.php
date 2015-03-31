@@ -218,9 +218,9 @@ class BlocksFixture
     'description' => 'Language switcher block',
     'body' => null,
     'visibility' => 'except',
-    'pages' => null,
-    'locale' => null,
-    'settings' => 'a:2:{s:4:"type";s:4:"html";s:5:"flags";b:1;}',
+    'pages' => '',
+    'locale' => '',
+    'settings' => 'a:2:{s:4:"type";s:4:"html";s:5:"flags";s:1:"1";}',
     'status' => true,
     ],
     5 =>
@@ -233,10 +233,10 @@ class BlocksFixture
     'description' => 'List of terms block',
     'body' => null,
     'visibility' => 'except',
-    'pages' => null,
-    'locale' => null,
-    'settings' => null,
-    'status' => false,
+    'pages' => '',
+    'locale' => '',
+    'settings' => 'a:4:{s:12:"vocabularies";a:1:{i:0;s:1:"1";}s:13:"show_counters";s:1:"1";s:15:"show_vocabulary";s:1:"0";s:13:"link_template";s:0:"";}',
+    'status' => true,
     ],
     6 =>
     [
@@ -248,10 +248,10 @@ class BlocksFixture
     'description' => 'Provides links to user\'s account, login, logout, etc',
     'body' => null,
     'visibility' => 'except',
-    'pages' => null,
-    'locale' => null,
+    'pages' => '',
+    'locale' => '',
     'settings' => null,
-    'status' => false,
+    'status' => true,
     ],
     ];
 }

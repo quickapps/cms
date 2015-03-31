@@ -73,5 +73,21 @@ class EntitiesTermsFixture
     ];
 
     public $records = [
+    0 =>
+    [
+    'id' => 1,
+    'entity_id' => 1,
+    'term_id' => 1,
+    'field_instance_id' => 5,
+    'table_alias' => 'nodes',
+    ],
+    1 =>
+    [
+    'id' => 2,
+    'entity_id' => 1,
+    'term_id' => 5,
+    'field_instance_id' => 5,
+    'table_alias' => 'nodes',
+    ],
     ];
 }

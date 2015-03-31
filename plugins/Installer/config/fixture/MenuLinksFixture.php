@@ -354,10 +354,10 @@ class MenuLinksFixture
     [
     'id' => 14,
     'menu_id' => 2,
-    'lft' => 5,
-    'rght' => 6,
+    'lft' => 3,
+    'rght' => 4,
     'parent_id' => 0,
-    'url' => '/article/about.html',
+    'url' => '/page/about.html',
     'description' => '',
     'title' => 'About',
     'target' => '_self',
@@ -367,22 +367,6 @@ class MenuLinksFixture
     'status' => true,
     ],
     13 =>
-    [
-    'id' => 15,
-    'menu_id' => 2,
-    'lft' => 3,
-    'rght' => 4,
-    'parent_id' => 0,
-    'url' => '/article/hooktags.html',
-    'description' => '',
-    'title' => 'Hooktags',
-    'target' => '_self',
-    'expanded' => 0,
-    'active' => null,
-    'activation' => null,
-    'status' => true,
-    ],
-    14 =>
     [
     'id' => 16,
     'menu_id' => 2,
@@ -398,12 +382,12 @@ class MenuLinksFixture
     'activation' => null,
     'status' => true,
     ],
-    15 =>
+    14 =>
     [
     'id' => 17,
     'menu_id' => 2,
-    'lft' => 7,
-    'rght' => 8,
+    'lft' => 5,
+    'rght' => 6,
     'parent_id' => 0,
     'url' => '/find/type:article',
     'description' => '',

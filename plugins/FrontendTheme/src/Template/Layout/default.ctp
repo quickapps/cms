@@ -62,8 +62,20 @@
         </nav>
 
         <div class="container">
-            <?php echo $this->Flash->render(); ?>
-            <?php echo $this->fetch('content'); ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <?php echo $this->Flash->render(); ?>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <?php echo $this->fetch('content'); ?>
+                </div>
+                <div class="col-md-4">
+                    <?php echo $this->region('right-sidebar'); ?>
+                </div>
+            </div>
         </div>
     </body>
 </html>
