@@ -83,31 +83,20 @@ class BlockHook implements EventListenerInterface
     public function implementedEvents()
     {
         return [
-            'Render.Block\Model\Entity\Block' => 'renderBlockEntity',
-            'Block.Block.display' => 'displayBlock',
+            'Render.Block\Model\Entity\Block' => 'renderBlock',
         ];
     }
 
     /**
-     * Delegates block rendering task to its proper handler.
+     * Block rendering dispatcher, renders the given block.
      *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Block\Model\Entity\Block $block The block to be rendered
-     * @return string HTML block rendered
-     */
-    public function renderBlockEntity(Event $event, Block $block)
-    {
-        return $this->trigger(["Block.{$block->handler}.display", $event->subject()], $block)->result;
-    }
-
-    /**
-     * Block rendering handler for blocks created trough administration panel (Custom
-     * Blocks).
+     * This method will delegate the rendering task to block's handler by triggering
+     * the `Block.<handler>.display` event.
      *
-     * This method will look for certain view elements when rendering each block, if
-     * one of this elements is not present it'll look the next one, and so on. These
-     * view elements should be defined by Themes by placing them in
-     * `<MyTheme>/Template/Element`.
+     * If such event does not exists it will look for certain view elements when
+     * rendering each block, if one of this elements is not present it'll look the
+     * next one, and so on. These view elements should be defined by Themes by
+     * placing them in `<MyTheme>/Template/Element`.
      *
      * ### Render block based on theme's region & view-mode
      *
@@ -156,12 +145,17 @@ class BlockHook implements EventListenerInterface
      *  element being rendered
      * @return string The rendered block
      */
-    public function displayBlock(Event $event, Block $block, $options = [])
+    public function renderBlock(Event $event, Block $block, $options = [])
     {
-        $View = $event->subject();
-        $viewMode = $View->viewMode();
+        // plugin should take care of rendering
+        if (in_array("Block.{$block->handler}.display", listeners())) {
+            return $this->trigger(["Block.{$block->handler}.display", $event->subject()], $block, $options)->result;
+        }
+
+        $view = $event->subject();
+        $viewMode = $view->viewMode();
         $blockRegion = isset($block->region->region) ? 'none' : $block->region->region;
-        $cacheKey = "displayBlock_{$blockRegion}_{$viewMode}";
+        $cacheKey = "displayBlock_{$block->id}_{$blockRegion}_{$viewMode}";
         $cache = static::cache($cacheKey);
         $element = 'Block.render_block';
 
@@ -175,13 +169,13 @@ class BlockHook implements EventListenerInterface
             ];
 
             foreach ($try as $possible) {
-                if ($View->elementExists($possible)) {
+                if ($view->elementExists($possible)) {
                     $element = static::cache($cacheKey, $possible);
                     break;
                 }
             }
         }
 
-        return $View->element($element, compact('block', 'options'));
+        return $view->element($element, compact('block', 'options'));
     }
 }

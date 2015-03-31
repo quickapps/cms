@@ -102,8 +102,6 @@ class MenuHook implements EventListenerInterface
      */
     public function displayBlock(Event $event, Block $block, $options = [])
     {
-        $View = $event->subject();
-        $viewMode = $View->viewMode();
         $menu = TableRegistry::get('Menu.Menus')
             ->find()
             ->contain(['Blocks'])
@@ -120,6 +118,8 @@ class MenuHook implements EventListenerInterface
             return $this->trigger(["Menu.{$menu->handler}.display", $event->subject()], $menu, $options)->result;
         }
 
+        $view = $event->subject();
+        $viewMode = $view->viewMode();
         $blockRegion = isset($block->region->region) ? $block->region->region : 'none';
         $cacheKey = "displayBlock_{$blockRegion}_{$viewMode}";
         $cache = static::cache($cacheKey);
@@ -135,13 +135,13 @@ class MenuHook implements EventListenerInterface
             ];
 
             foreach ($try as $possible) {
-                if ($View->elementExists($possible)) {
+                if ($view->elementExists($possible)) {
                     $element = static::cache($cacheKey, $possible);
                     break;
                 }
             }
         }
 
-        return $View->element($element, compact('menu', 'options'));
+        return $view->element($element, compact('menu', 'options'));
     }
 }
