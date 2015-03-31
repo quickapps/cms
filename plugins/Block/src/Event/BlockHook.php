@@ -31,11 +31,11 @@ use QuickApps\Event\HookAwareTrait;
  * defines `Block` has their handler.
  *
  * An external plugin may register a custom block by inserting its information
- * directly in the "blocks" table and setting an appropriate `handler` name.
+ * directly in the "blocks" table and set an appropriate `handler` name.
  *
  * For example, `Taxonomy` plugin may create a new `Categories` block by inserting
- * its information in the "blocks" table, this new block may have `Taxonomy` as
- * handler name.
+ * its information in the "blocks" table, this new block will have `Taxonomy` as
+ * its handler name.
  *
  * Block's handler property is used to compose event's name that is triggered
  * when block is being rendered (or edited). Event's name follows the pattern
@@ -49,7 +49,7 @@ use QuickApps\Event\HookAwareTrait;
  *     Block.Block.display
  *
  * The event described above is handled by this class. In the other hand, for
- * the taxonomy example described above the following event will be triggered
+ * the Taxonomy example described above the following event will be triggered
  * when rendering the `Categories` block:
  *
  *     Block.Taxonomy.display
@@ -83,12 +83,26 @@ class BlockHook implements EventListenerInterface
     public function implementedEvents()
     {
         return [
+            'Render.Block\Model\Entity\Block' => 'renderBlockEntity',
             'Block.Block.display' => 'displayBlock',
         ];
     }
 
     /**
-     * Renders the given block entity.
+     * Delegates block rendering task to its proper handler.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Block\Model\Entity\Block $block The block to be rendered
+     * @return string HTML block rendered
+     */
+    public function renderBlockEntity(Event $event, Block $block)
+    {
+        return $this->trigger(["Block.{$block->handler}.display", $event->subject()], $block)->result;
+    }
+
+    /**
+     * Block rendering handler for blocks created trough administration panel (Custom
+     * Blocks).
      *
      * This method will look for certain view elements when rendering each block, if
      * one of this elements is not present it'll look the next one, and so on. These
@@ -142,7 +156,7 @@ class BlockHook implements EventListenerInterface
      *  element being rendered
      * @return string The rendered block
      */
-    public function displayBlock(Event $event, BLock $block, $options = [])
+    public function displayBlock(Event $event, Block $block, $options = [])
     {
         $View = $event->subject();
         $viewMode = $View->viewMode();

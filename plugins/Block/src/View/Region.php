@@ -12,10 +12,13 @@
 namespace Block\View;
 
 use Block\Model\Entity\Block;
+use Cake\Cache\Cache;
 use Cake\Collection\Collection;
 use Cake\Core\Configure;
+use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
 use QuickApps\Core\Plugin;
+use QuickApps\Core\StaticCacheTrait;
 use QuickApps\View\View;
 
 /**
@@ -25,6 +28,8 @@ use QuickApps\View\View;
  */
 class Region
 {
+
+    use StaticCacheTrait;
 
     /**
      * machine name of this region. e.g. 'left-sidebar'
@@ -71,6 +76,7 @@ class Region
      *    to TRUE. Defaults to NULL which automatically enables when `debug` is
      *    enabled. This option will not work when using QuickAppsCMS's core themes.
      *    (NOTE: This option will alter theme's `composer.json` file)
+     *
      * - `theme`: Name of the theme this regions belongs to. Defaults to auto-detect.
      *
      * @param \QuickApps\View\View $view Instance of View class to use
@@ -86,8 +92,6 @@ class Region
         $this->_machineName = Inflector::slug($name, '-');
         $this->_View = $view;
         $this->_theme = Plugin::get($options['theme']);
-        $this->_View->loadHelper('Block.Block');
-        $this->blocks($this->_View->Block->blocksIn($this->_machineName));
 
         if (isset($this->_theme->composer['extra']['regions'])) {
             $validRegions = array_keys($this->_theme->composer['extra']['regions']);
@@ -109,6 +113,8 @@ class Region
                 }
             }
         }
+
+        $this->_prepareBlocks();
     }
 
     /**
@@ -226,7 +232,7 @@ class Region
     }
 
     /**
-     * Render all blocks within this region.
+     * Render all the blocks within this region.
      *
      * @return string
      */
@@ -238,10 +244,157 @@ class Region
             if ($this->_blockLimit !== null && $i === $this->_blockLimit) {
                 break;
             }
-            $html .= $this->_View->Block->render($block);
+            $html .= $this->_View->render($block, []);
             $i++;
         }
         return $html;
+    }
+
+    /**
+     * Fetches all block entities that could be rendered within this region.
+     *
+     * @return void
+     */
+    protected function _prepareBlocks()
+    {
+        $cacheKey = "{$this->_View->theme}_{$this->_machineName}";
+        $blocksCache = Cache::read($cacheKey, 'blocks');
+
+        if (!$blocksCache) {
+            $Blocks = TableRegistry::get('Block.Blocks');
+            $blocks = $Blocks->find()
+                ->contain(['Roles', 'BlockRegions'])
+                ->matching('BlockRegions', function ($q) {
+                    return $q->where([
+                        'BlockRegions.theme' => $this->_View->theme,
+                        'BlockRegions.region' => $this->_machineName,
+                    ]);
+                })
+                ->where(['Blocks.status' => 1])
+                ->order(['BlockRegions.ordering' => 'ASC'])
+                ->all()
+                ->filter(function ($block) {
+                    return $block->renderable();
+                });
+
+            if (!$all) {
+                $blocks->filter(function ($block) {
+                    // we do a second pass to remove blocks that will never be rendered
+                    return $this->_filterBlock($block);
+                });
+            }
+
+            $blocks->sortBy(function ($block) {
+                return $block->region->ordering;
+            }, SORT_ASC);
+
+            Cache::write($cacheKey, $blocks->toArray(), 'blocks');
+        } else {
+            $blocks = new Collection($blocksCache);
+        }
+
+        $this->blocks($blocks);
+    }
+
+    /**
+     * Checks if the given block can be rendered.
+     *
+     * @param \Block\Model\Entity\Block $block Block entity
+     * @return bool True if can be rendered
+     */
+    protected function _filterBlock(Block $block)
+    {
+        $cacheKey = "allowed_{$block->id}";
+        $cache = static::cache($cacheKey);
+
+        if ($cache !== null) {
+            return $cache;
+        }
+
+        if (!empty($block->locale) &&
+            !in_array(I18n::locale(), (array)$block->locale)
+        ) {
+            return static::cache($cacheKey, false);
+        }
+
+        if (!$block->isAccessible()) {
+            return static::cache($cacheKey, false);
+        }
+
+        $allowed = false;
+        switch ($block->visibility) {
+            case 'except':
+                // Show on all pages except listed pages
+                $allowed = !$this->_urlMatch($block->pages);
+                break;
+            case 'only':
+                // Show only on listed pages
+                $allowed = $this->_urlMatch($block->pages);
+                break;
+            case 'php':
+                // Use custom PHP code to determine visibility
+                $allowed = php_eval($block->pages, [
+                    'view' => &$this->_View,
+                    'block' => &$block
+                ]) === true;
+                break;
+        }
+
+        if (!$allowed) {
+            return static::cache($cacheKey, false);
+        }
+
+        return static::cache($cacheKey, true);
+    }
+
+    /**
+     * Check if a current URL matches any pattern in a set of patterns.
+     *
+     * @param string $patterns String containing a set of patterns
+     * separated by \n, \r or \r\n
+     * @return bool TRUE if the path matches a pattern, FALSE otherwise
+     */
+    protected function _urlMatch($patterns)
+    {
+        if (empty($patterns)) {
+            return false;
+        }
+
+        $request = Router::getRequest();
+        $path = str_starts_with($request->url, '/') ? str_replace_once('/', '', $request->url) : $request->url;
+
+        if (option('url_locale_prefix')) {
+            $patterns = explode("\n", $patterns);
+            $locales = array_keys(quickapps('languages'));
+            $localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
+
+            foreach ($patterns as &$p) {
+                if (!preg_match("/^{$localesPattern}\//", $p)) {
+                    $p = I18n::locale() . '/' . $p;
+                    $p = str_replace('//', '/', $p);
+                }
+            }
+
+            $patterns = implode("\n", $patterns);
+        }
+
+        // Convert path settings to a regular expression.
+        // Therefore replace newlines with a logical or, /* with asterisks and  "/" with the front page.
+        $toReplace = [
+            '/(\r\n?|\n)/', // newlines
+            '/\\\\\*/', // asterisks
+            '/(^|\|)\/($|\|)/' // front '/'
+        ];
+
+        $replacements = [
+            '|',
+            '.*',
+            '\1' . preg_quote(Router::url('/'), '/') . '\2'
+        ];
+
+        $patternsQuoted = preg_quote($patterns, '/');
+        $patterns = '/^(' . preg_replace($toReplace, $replacements, $patternsQuoted) . ')$/';
+        return (bool)preg_match($patterns, $path);
     }
 
     /**

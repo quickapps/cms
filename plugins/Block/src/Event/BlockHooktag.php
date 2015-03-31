@@ -58,7 +58,7 @@ class BlockHooktag implements EventListenerInterface
                 $id = intval($atts[0]);
                 $block = TableRegistry::get('Block.Blocks')->get($id);
                 $event->subject()->loadHelper('Block.Block');
-                $out = $event->subject()->Block->render($block);
+                $out = $event->subject()->render($block);
             } catch (\Exception $ex) {
                 $out = !Configure::read('debug') ?: "<!-- block #{$id} not found -->";
             }

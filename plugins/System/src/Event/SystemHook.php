@@ -44,10 +44,10 @@ class SystemHook implements EventListenerInterface
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Block\Model\Entity\Block $block The block being rendered
-     * @param array $options Array of options for BlockHelper::render() method
+     * @param array $options Array of additional options
      * @return array
      */
-    public function displayBlock(Event $event, $block, $options)
+    public function displayBlock(Event $event, $block, $options = [])
     {
         return $this->trigger(['Block.Menu.display', $event->subject()], $block, $options)->result;
     }
