@@ -111,13 +111,13 @@ class ManageController extends AppController
         $block->accessible('handler', false);
 
         if ($this->request->data()) {
-            $data = $this->_prepareData($block);
             $validator = $block->handler != 'Block' ? $this->Blocks->validator('default') : $this->Blocks->validator('custom');
-            $this->trigger(["Block.{$block->handler}.validate", $this->Blocks], $data, $validator);
-            $errors = $validator->errors($data, false);
+            $this->trigger(["Block.{$block->handler}.validate", $this->Blocks], $this->request->data(), $validator);
+            $errors = $validator->errors($this->request->data(), false);
 
             if (empty($errors)) {
                 $block->accessible('id', false);
+                $data = $this->_prepareData($block);
                 $block = $this->Blocks->patchEntity($block, $data, ['validate' => false]);
                 if ($this->Blocks->save($block)) {
                     $this->Flash->success(__d('block', 'Block updated!'));

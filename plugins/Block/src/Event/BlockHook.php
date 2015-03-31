@@ -41,7 +41,7 @@ use QuickApps\Event\HookAwareTrait;
  * when block is being rendered (or edited). Event's name follows the pattern
  * described below:
  *
- *     Block.<handler>.<display|settings>
+ *     Block.<handler>.<display|settings|...>
  *
  * So all blocks with `Block` as handler will trigger the event below when
  * being rendered:

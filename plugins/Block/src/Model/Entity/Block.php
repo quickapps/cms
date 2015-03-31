@@ -45,13 +45,25 @@ class Block extends Entity
     public function calculateDelta()
     {
         if ($this->isNew() && $this->has('handler') && !$this->get('delta')) {
-            $latest = TableRegistry::get('Block.Blocks')->find()
+            $latest = TableRegistry::get('Block.Blocks')
+                ->find()
                 ->select('id')
                 ->where(['handler' => $this->handler])
                 ->order(['id' => 'DESC'])
                 ->first();
             $lastId = $latest ? $latest->id : 0;
-            $this->set('delta', $lastId + 1);
+            $delta = $lastId;
+            $count = 1;
+            while ($count > 0) {
+                $delta++;
+                $count = TableRegistry::get('Block.Blocks')
+                    ->find()
+                    ->select('id')
+                    ->where(['handler' => $this->handler, 'delta' => $delta])
+                    ->limit(1)
+                    ->count();
+            }
+            $this->set('delta', $delta);
         }
     }
 

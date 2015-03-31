@@ -25,6 +25,13 @@ use \ArrayObject;
 /**
  * Represents "blocks" database table.
  *
+ * The following events related to block life cycle are triggered by this class:
+ *
+ * - Block.<handler>.beforeSave
+ * - Block.<handler>.afterSave
+ * - Block.<handler>.beforeDelete
+ * - Block.<handler>.afterDelete
+ *
  * @property \User\Model\Table\RolesTable $Roles
  * @property \Block\Model\Table\BlocksTable $Blocks
  * @property \Block\Model\Table\BlockRegionsTable $BlockRegions
@@ -270,6 +277,10 @@ class BlocksTable extends Table
      */
     public function beforeSave(Event $event, Block $block, ArrayObject $options = null)
     {
+        if ($block->isNew() && $block->get('handler') !== 'Block' && empty($block->delta)) {
+            $block->calculateDelta();
+        }
+
         $blockEvent = $this->trigger(["Block.{$block->handler}.beforeSave", $event->subject()], $block, $options);
         if ($blockEvent->isStopped() || $blockEvent->result === false) {
             return false;
