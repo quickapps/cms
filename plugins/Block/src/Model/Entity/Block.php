@@ -51,8 +51,7 @@ class Block extends Entity
                 ->where(['handler' => $this->handler])
                 ->order(['id' => 'DESC'])
                 ->first();
-            $lastId = $latest ? $latest->id : 0;
-            $delta = $lastId;
+            $delta = $latest ? $latest->id : 0;
             $count = 1;
             while ($count > 0) {
                 $delta++;
