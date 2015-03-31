@@ -59,7 +59,7 @@ class PluginUninstallTask extends Shell
             ->description(__d('installer', 'Uninstall an existing plugin.'))
             ->addOption('plugin', [
                 'short' => 'p',
-                'help' => __d('system', 'Name of the plugin to uninstall.'),
+                'help' => __d('installer', 'Name of the plugin to uninstall.'),
             ])
             ->addOption('no-callbacks', [
                 'short' => 'c',
@@ -82,7 +82,7 @@ class PluginUninstallTask extends Shell
             try {
                 $result = $this->_runTransactional();
             } catch (\Exception $ex) {
-                $this->err(__d('install', 'Something went wrong. Details: {0}', $ex->getMessage()));
+                $this->err(__d('installer', 'Something went wrong. Details: {0}', $ex->getMessage()));
                 $result = false;
             }
 

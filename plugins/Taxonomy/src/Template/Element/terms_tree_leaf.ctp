@@ -22,7 +22,7 @@
                     'action' => 'edit',
                     $term->id
                 ], [
-                    'title' => __d('menu', 'Edit term'),
+                    'title' => __d('taxonomy', 'Edit term'),
                     'class' => 'btn btn-default btn-xs glyphicon glyphicon-pencil',
                 ]);
             ?>
@@ -33,8 +33,8 @@
                     'action' => 'delete',
                     $term->id
                 ], [
-                    'title' => __d('menu', 'Delete this link'),
-                    'confirm' => __d('menu', 'Remove this term? Children terms will be re-assigned to the immediately superior parent term.'),
+                    'title' => __d('taxonomy', 'Delete this link'),
+                    'confirm' => __d('taxonomy', 'Remove this term? Children terms will be re-assigned to the immediately superior parent term.'),
                     'class' => 'btn btn-default btn-xs glyphicon glyphicon-trash'
                 ]);
             ?>

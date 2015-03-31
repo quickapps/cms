@@ -24,9 +24,7 @@
         <?php echo $this->Form->input('anonymous_name', ['type' => 'checkbox', 'label' => __d('comment', "Anonymous's name")]); ?>
         <em class="help-block">
             <?php
-                echo __d(
-                    'node',
-                    'Anonymous users {0} leave their name.',
+                echo __d('comment', 'Anonymous users {0} leave their name.',
                     $this->Form->input('anonymous_name_required', [
                         'type' => 'select',
                         'label' => false,
@@ -43,9 +41,7 @@
         <?php echo $this->Form->input('anonymous_email', ['type' => 'checkbox', 'label' => __d('comment', "Anonymous's email")]); ?>
         <em class="help-block">
             <?php
-                echo __d(
-                    'node',
-                    'Anonymous users {0} leave an email address.',
+                echo __d('comment', 'Anonymous users {0} leave an email address.',
                     $this->Form->input('anonymous_email_required', [
                         'type' => 'select',
                         'label' => false,
@@ -62,9 +58,7 @@
         <?php echo $this->Form->input('anonymous_web', ['type' => 'checkbox', 'label' => __d('comment', "Anonymous's website")]); ?>
         <em class="help-block">
             <?php
-                echo __d(
-                    'node',
-                    'Anonymous users {0} leave a website URL.',
+                echo __d('comment', 'Anonymous users {0} leave a website URL.',
                     $this->Form->input('anonymous_web_required', [
                         'type' => 'select',
                         'label' => false,
@@ -86,46 +80,46 @@
             array(
                 'type' => 'select',
                 'options' => array(
-                    'plain' => __d('field', 'Plain text'),
-                    'full' => __d('field', 'Full HTML'),
-                    'filtered' => __d('field', 'Filtered HTML'),
-                    'markdown' => __d('field', 'Markdown')
+                    'plain' => __d('comment', 'Plain text'),
+                    'full' => __d('comment', 'Full HTML'),
+                    'filtered' => __d('comment', 'Filtered HTML'),
+                    'markdown' => __d('comment', 'Markdown')
                 ),
-                'label' => __d('field', 'Text processing')
+                'label' => __d('comment', 'Text processing')
             )
         );
     ?>
     <ul>
         <li>
-            <b><?php echo __d('field', 'Plain text'); ?>:</b>
+            <b><?php echo __d('comment', 'Plain text'); ?>:</b>
             <ul>
-                <li><?php echo __d('field', 'No HTML tags allowed.'); ?></li>
-                <li><?php echo __d('field', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
-                <li><?php echo __d('field', 'Lines and paragraphs break automatically.'); ?></li>
+                <li><?php echo __d('comment', 'No HTML tags allowed.'); ?></li>
+                <li><?php echo __d('comment', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
+                <li><?php echo __d('comment', 'Lines and paragraphs break automatically.'); ?></li>
             </ul>
         </li>
 
         <li>
-            <b><?php echo __d('field', 'Full HTML'); ?>:</b>
+            <b><?php echo __d('comment', 'Full HTML'); ?>:</b>
             <ul>
-                <li><?php echo __d('field', 'All HTML tags allowed.'); ?></li>
-                <li><?php echo __d('field', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
+                <li><?php echo __d('comment', 'All HTML tags allowed.'); ?></li>
+                <li><?php echo __d('comment', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
             </ul>
         </li>
 
         <li>
-            <b><?php echo __d('field', 'Filtered HTML'); ?>:</b>
+            <b><?php echo __d('comment', 'Filtered HTML'); ?>:</b>
             <ul>
-                <li><?php echo __d('field', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
-                <li><?php echo __d('field', 'Allowed HTML tags: &lt;a&gt; &lt;em&gt; &lt;strong&gt; &lt;cite&gt; &lt;blockquote&gt; &lt;code&gt; &lt;ul&gt; &lt;ol&gt; &lt;li&gt; &lt;dl&gt; &lt;dt&gt; &lt;dd&gt;'); ?></li>
-                <li><?php echo __d('field', 'Lines and paragraphs break automatically.'); ?></li>
+                <li><?php echo __d('comment', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
+                <li><?php echo __d('comment', 'Allowed HTML tags: &lt;a&gt; &lt;em&gt; &lt;strong&gt; &lt;cite&gt; &lt;blockquote&gt; &lt;code&gt; &lt;ul&gt; &lt;ol&gt; &lt;li&gt; &lt;dl&gt; &lt;dt&gt; &lt;dd&gt;'); ?></li>
+                <li><?php echo __d('comment', 'Lines and paragraphs break automatically.'); ?></li>
             </ul>
         </li>
 
         <li>
-            <b><?php echo __d('field', 'Markdown'); ?>:</b>
+            <b><?php echo __d('comment', 'Markdown'); ?>:</b>
             <ul>
-                <li><?php echo __d('field', '<a href="{0}" target="_blank">Markdown</a> text format allowed only.', 'http://wikipedia.org/wiki/Markdown'); ?></li>
+                <li><?php echo __d('comment', '<a href="{0}" target="_blank">Markdown</a> text format allowed only.', 'http://wikipedia.org/wiki/Markdown'); ?></li>
             </ul>
         </li>
     </ul>

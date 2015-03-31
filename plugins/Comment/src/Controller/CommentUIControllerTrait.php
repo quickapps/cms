@@ -89,13 +89,13 @@ trait CommentUIControllerTrait
         $requestParams = $event->subject()->request->params;
 
         if (!isset($this->_manageTable) || empty($this->_manageTable)) {
-            throw new ForbiddenException(__d('field', 'CommentUIControllerTrait: The property $_manageTable was not found or is empty.'));
+            throw new ForbiddenException(__d('comment', 'CommentUIControllerTrait: The property $_manageTable was not found or is empty.'));
         } elseif (!($this instanceof \Cake\Controller\Controller)) {
-            throw new ForbiddenException(__d('field', 'CommentUIControllerTrait: This trait must be used on instances of Cake\Controller\Controller.'));
+            throw new ForbiddenException(__d('comment', 'CommentUIControllerTrait: This trait must be used on instances of Cake\Controller\Controller.'));
         } elseif (!isset($requestParams['prefix']) || strtolower($requestParams['prefix']) !== 'admin') {
-            throw new ForbiddenException(__d('field', 'CommentUIControllerTrait: This trait must be used on backend-controllers only.'));
+            throw new ForbiddenException(__d('comment', 'CommentUIControllerTrait: This trait must be used on backend-controllers only.'));
         } elseif (!method_exists($this, '_inResponseTo')) {
-            throw new ForbiddenException(__d('field', 'CommentUIControllerTrait: This trait needs you to implement the "_inResponseTo()" method.'));
+            throw new ForbiddenException(__d('comment', 'CommentUIControllerTrait: This trait needs you to implement the "_inResponseTo()" method.'));
         }
 
         $this->_manageTable = Inflector::underscore($this->_manageTable);

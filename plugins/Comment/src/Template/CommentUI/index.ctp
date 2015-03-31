@@ -31,8 +31,8 @@
     <thead>
         <tr>
             <th width="230"><?php echo __d('comment', 'Author'); ?></th>
-            <th><?php echo __d('node', 'Comment'); ?></th>
-            <th><?php echo __d('node', 'In Response To'); ?></th>
+            <th><?php echo __d('comment', 'Comment'); ?></th>
+            <th><?php echo __d('comment', 'In Response To'); ?></th>
         </tr>
     </thead>
     <tbody>

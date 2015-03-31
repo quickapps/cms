@@ -55,24 +55,24 @@
 
                     <?php if ($this->Comment->config('text_processing') === 'plain'): ?>
                         <ul>
-                            <li><?php echo __d('field', 'No HTML tags allowed.'); ?></li>
-                            <li><?php echo __d('field', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
-                            <li><?php echo __d('field', 'Lines and paragraphs break automatically.'); ?></li>
+                            <li><?php echo __d('comment', 'No HTML tags allowed.'); ?></li>
+                            <li><?php echo __d('comment', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
+                            <li><?php echo __d('comment', 'Lines and paragraphs break automatically.'); ?></li>
                         </ul>
                     <?php elseif ($this->Comment->config('text_processing') === 'full'): ?>
                         <ul>
-                            <li><?php echo __d('field', 'All HTML tags allowed.'); ?></li>
-                            <li><?php echo __d('field', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
+                            <li><?php echo __d('comment', 'All HTML tags allowed.'); ?></li>
+                            <li><?php echo __d('comment', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
                         </ul>
                     <?php elseif ($this->Comment->config('text_processing') === 'filtered'): ?>
                         <ul>
-                            <li><?php echo __d('field', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
-                            <li><?php echo __d('field', 'Allowed HTML tags: &lt;a&gt; &lt;em&gt; &lt;strong&gt; &lt;cite&gt; &lt;blockquote&gt; &lt;code&gt; &lt;ul&gt; &lt;ol&gt; &lt;li&gt; &lt;dl&gt; &lt;dt&gt; &lt;dd&gt;'); ?></li>
-                            <li><?php echo __d('field', 'Lines and paragraphs break automatically.'); ?></li>
+                            <li><?php echo __d('comment', 'Web page addresses and e-mail addresses turn into links automatically.'); ?></li>
+                            <li><?php echo __d('comment', 'Allowed HTML tags: &lt;a&gt; &lt;em&gt; &lt;strong&gt; &lt;cite&gt; &lt;blockquote&gt; &lt;code&gt; &lt;ul&gt; &lt;ol&gt; &lt;li&gt; &lt;dl&gt; &lt;dt&gt; &lt;dd&gt;'); ?></li>
+                            <li><?php echo __d('comment', 'Lines and paragraphs break automatically.'); ?></li>
                         </ul>
                     <?php elseif ($this->Comment->config('text_processing') === 'markdown'): ?>
                         <ul>
-                            <li><?php echo __d('field', '<a href="{0}" target="_blank">Markdown</a> text format allowed only.', 'http://wikipedia.org/wiki/Markdown'); ?></li>
+                            <li><?php echo __d('comment', '<a href="{0}" target="_blank">Markdown</a> text format allowed only.', 'http://wikipedia.org/wiki/Markdown'); ?></li>
                         </ul>
                     <?php endif; ?>
 

@@ -28,7 +28,7 @@
                 <div class="panel panel-default" >
                     <div class="panel-heading">
                         <div class="panel-title">
-                            <?php echo __d('backend_theme', 'Sign In'); ?>
+                            <?php echo __d('frontend_theme', 'Sign In'); ?>
                         </div>
                     </div>
 
@@ -39,14 +39,14 @@
                             <p>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                    <?php echo $this->Form->input('username', ['label' => false, 'placeholder' => __d('backend_theme', 'username or email')]); ?>
+                                    <?php echo $this->Form->input('username', ['label' => false, 'placeholder' => __d('frontend_theme', 'username or email')]); ?>
                                 </div>
                             </p>
 
                             <p>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                    <?php echo $this->Form->input('password', ['label' => false, 'placeholder' => __d('backend_theme', 'password')]); ?>
+                                    <?php echo $this->Form->input('password', ['label' => false, 'placeholder' => __d('frontend_theme', 'password')]); ?>
                                 </div>
                             </p>
 
@@ -55,18 +55,18 @@
                                     <div class="checkbox">
                                         <label>
                                             <input type="checkbox" name="remember" value="1">
-                                            <?php echo __d('backend_theme', 'Remember me'); ?>
+                                            <?php echo __d('frontend_theme', 'Remember me'); ?>
                                         </label>
                                     </div>
                                 </div>
                             </p>
 
                             <p>
-                                <?php echo $this->Form->submit(__d('backend_theme', 'Sign in')); ?>
+                                <?php echo $this->Form->submit(__d('frontend_theme', 'Sign in')); ?>
                                 <div class="pull-right">
-                                    <small><?php echo $this->Html->link(__d('backend_theme', 'Forgot password?'), ['plugin' => 'User', 'controller' => 'gateway', 'action' => 'forgot']); ?></small>
+                                    <small><?php echo $this->Html->link(__d('frontend_theme', 'Forgot password?'), ['plugin' => 'User', 'controller' => 'gateway', 'action' => 'forgot']); ?></small>
                                     <br />
-                                    <small><?php echo $this->Html->link(__d('backend_theme', 'Resend activation email?'), ['plugin' => 'User', 'controller' => 'gateway', 'action' => 'activation_email']); ?></small>
+                                    <small><?php echo $this->Html->link(__d('frontend_theme', 'Resend activation email?'), ['plugin' => 'User', 'controller' => 'gateway', 'action' => 'activation_email']); ?></small>
                                 </div>
                             </p>
                         <?php echo $this->Form->end(); ?>

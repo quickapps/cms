@@ -114,7 +114,7 @@
                                 'action' => 'add',
                                 $vocabulary->id
                             ], [
-                                'title' => __d('node', 'Add term'),
+                                'title' => __d('taxonomy', 'Add term'),
                                 'class' => 'btn btn-default glyphicon glyphicon-plus',
                             ]);
                         ?>

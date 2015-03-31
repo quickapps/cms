@@ -266,7 +266,7 @@ class ManageController extends AppController
                 $this->Flash->success(__d('node', 'Translation successfully created and was marked as unpublished. Complete the translation before publishing.'));
                 $this->redirect(['plugin' => 'Node', 'controller' => 'manage', 'action' => 'edit', $newNode->id]);
             } else {
-                $this->Flash->set(__d('system', 'Translation could not be created'), [
+                $this->Flash->set(__d('node', 'Translation could not be created'), [
                     'element' => 'System.installer_errors',
                     'params' => ['errors' => $newNode->errors()],
                 ]);

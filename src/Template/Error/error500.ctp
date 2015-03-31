@@ -24,7 +24,7 @@ use Cake\Core\Configure;
 
 <div class="alert alert-danger">
 	<h1>
-		<?php echo __d('system', 'Error'); ?>
+		<?php echo __('Error'); ?>
 		<br />
 		<small><?php echo __('An Internal Error Has Occurred.'); ?></small>
 	</h1>

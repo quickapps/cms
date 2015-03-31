@@ -235,7 +235,7 @@ class BlocksTable extends Table
             ->add('handler', 'validHandler', [
                 'rule' => 'notEmpty',
                 'on' => 'create',
-                'message' => __d('menu', 'Invalid block handler'),
+                'message' => __d('block', 'Invalid block handler'),
             ]);
     }
 

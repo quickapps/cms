@@ -39,7 +39,7 @@ class PluginUpdateTask extends PluginInstall
             ->description(__d('installer', 'Install a new plugin.'))
             ->addOption('source', [
                 'short' => 's',
-                'help' => __d('system', 'Either a full path within filesystem to a ZIP file, or path to a directory representing an extracted ZIP file, or an URL from where download plugin package.'),
+                'help' => __d('installer', 'Either a full path within filesystem to a ZIP file, or path to a directory representing an extracted ZIP file, or an URL from where download plugin package.'),
             ])
             ->addOption('no-callbacks', [
                 'short' => 'c',

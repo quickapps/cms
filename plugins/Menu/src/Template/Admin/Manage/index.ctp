@@ -36,7 +36,7 @@
                             'action' => 'edit',
                             $menu->id
                         ], [
-                            'title' => __d('node', 'Edit menu information'),
+                            'title' => __d('menu', 'Edit menu information'),
                             'class' => 'btn btn-default glyphicon glyphicon-pencil',
                         ]);
                     ?>
@@ -47,7 +47,7 @@
                             'action' => 'menu',
                             $menu->id
                         ], [
-                            'title' => __d('node', 'Manage links'),
+                            'title' => __d('menu', 'Manage links'),
                             'class' => 'btn btn-default glyphicon glyphicon-link',
                         ]);
                     ?>
@@ -58,7 +58,7 @@
                             'action' => 'add',
                             $menu->id
                         ], [
-                            'title' => __d('node', 'Add link'),
+                            'title' => __d('menu', 'Add link'),
                             'class' => 'btn btn-default glyphicon glyphicon-plus',
                         ]);
                     ?>
@@ -70,8 +70,8 @@
                             'action' => 'delete',
                             $menu->id
                         ], [
-                            'title' => __d('node', 'Delete this menu'),
-                            'confirm' => __d('node', 'Delete this menu ? All links within this menu will be lost.'),
+                            'title' => __d('menu', 'Delete this menu'),
+                            'confirm' => __d('menu', 'Delete this menu ? All links within this menu will be lost.'),
                             'class' => 'btn btn-default glyphicon glyphicon-trash',
                         ]);
                     ?>
@@ -84,7 +84,7 @@
     <?php endforeach; ?>
     <?php else: ?>
         <div class="alert alert-warning">
-            <?php echo __d('taxonomy', 'There are no menus yet, click on "Create new menu" button to add one.'); ?>
+            <?php echo __d('menu', 'There are no menus yet, click on "Create new menu" button to add one.'); ?>
         </div>
     <?php endif; ?>
 </p>

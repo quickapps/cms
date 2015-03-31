@@ -46,7 +46,7 @@ class ThemeActivationTask extends Shell
             ->description(__d('installer', "Changes site's theme."))
             ->addOption('theme', [
                 'short' => 't',
-                'help' => __d('system', 'Name of the theme to change to.'),
+                'help' => __d('installer', 'Name of the theme to change to.'),
             ])
             ->addOption('no-callbacks', [
                 'short' => 'c',

@@ -14,16 +14,16 @@
 <?php if (!empty($languages)): ?>
     <?php echo $this->Form->create($node); ?>
     <fieldset>
-        <legend><?php echo __d('system', 'Translating Content'); ?></legend>
+        <legend><?php echo __d('node', 'Translating Content'); ?></legend>
 
         <div class="form-group">
             <?php echo $this->Form->input('title', ['label' => $node->node_type->title_label . ' *']); ?>
-            <em class="help-block"><?php echo __d('system', 'New title for the translated version.'); ?></em>
+            <em class="help-block"><?php echo __d('node', 'New title for the translated version.'); ?></em>
         </div>
 
         <div class="form-group">
             <?php echo $this->Form->input('language', ['type' => 'select', 'label' => __d('node', 'Translate to'), 'options' => $languages]); ?>
-            <em class="help-block"><?php echo __d('system', 'Select the language to which you desire translate this content.'); ?></em>
+            <em class="help-block"><?php echo __d('node', 'Select the language to which you desire translate this content.'); ?></em>
         </div>
 
         <div class="form-group">
@@ -31,7 +31,7 @@
         </div>
 
         <?php if ($translations->count()): ?>
-        <h3><?php echo __d('system', 'Available Translations'); ?></h3>
+        <h3><?php echo __d('node', 'Available Translations'); ?></h3>
         <ul>
             <?php foreach ($translations as $t): ?>
             <li>

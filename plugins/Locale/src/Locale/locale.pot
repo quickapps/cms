@@ -1,0 +1,215 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2015-03-31 23:29+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Controller/Admin/ManageController.php:68
+msgid "Language was successfully registered!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Controller/Admin/ManageController.php:71
+msgid "Language could not be registered, please check your information"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Controller/Admin/ManageController.php:78
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/index.ctp:16
+msgid "Add new language"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Controller/Admin/ManageController.php:104
+msgid "Language was successfully saved!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Controller/Admin/ManageController.php:107
+msgid "Language could not be saved, please check your information."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Controller/Admin/ManageController.php:114
+msgid "Editing language"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Controller/Admin/ManageController.php:131
+msgid "Default language changed!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Controller/Admin/ManageController.php:133
+msgid "Default language could not be changed."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Controller/Admin/ManageController.php:136
+msgid "You cannot set as default a disabled language."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Controller/Admin/ManageController.php:173
+msgid "Language successfully reordered!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Controller/Admin/ManageController.php:190
+msgid "Language successfully enabled!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Controller/Admin/ManageController.php:192
+msgid "Language could not be enabled, please try again."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Controller/Admin/ManageController.php:212
+msgid "Language successfully disabled!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Controller/Admin/ManageController.php:214
+msgid "Language could not be disabled, please try again."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Controller/Admin/ManageController.php:217
+msgid "You cannot disable this language as it still in use."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Controller/Admin/ManageController.php:236
+msgid "Language successfully removed!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Controller/Admin/ManageController.php:238
+msgid "Language could not be removed, please try again."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Controller/Admin/ManageController.php:241
+msgid "You cannot remove this language as it still in use."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Model/Table/LanguagesTable.php:36
+msgid "This language is already registered."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Model/Table/LanguagesTable.php:52
+msgid "You need to provide a language name."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Model/Table/LanguagesTable.php:56
+msgid "Language name need to be at least 3 characters long."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/add.ctp:16
+msgid "Adding New Language"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/add.ctp:18
+msgid "Choose Language"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/add.ctp:21
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/edit.ctp:31
+msgid "Language Icon"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/add.ctp:25
+msgid "Active"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/add.ctp:29
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/edit.ctp:37
+msgid "Save"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/edit.ctp:16
+msgid "Editing Language"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/edit.ctp:18
+msgid "Language Name"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/edit.ctp:23
+msgid "Left to Right"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/edit.ctp:24
+msgid "Right to Left"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/edit.ctp:26
+msgid "Writing Direction"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/index.ctp:29
+msgid "Name"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/index.ctp:30
+msgid "Path"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/index.ctp:47
+msgid "Disabled"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/index.ctp:51
+msgid "Default language"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/index.ctp:67
+msgid "Move up"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/index.ctp:83
+msgid "Move down"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/index.ctp:98
+msgid "Set as default"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/index.ctp:112
+msgid "Edit"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/index.ctp:127
+msgid "Disable"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/index.ctp:129
+msgid "You are about to disable: \"{0}\". Are you sure ?"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/index.ctp:140
+msgid "Enable"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/index.ctp:152
+msgid "Delete"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/index.ctp:154
+msgid "You are about to delete: \"{0}\". Are you sure ?"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/index.ctp:165
+msgid "Language's order dictates the position in which languages are rendered, for example in \"Language Switcher\" block."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Element/language_switcher_settings.ctp:15
+msgid "Display Mode"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Element/language_switcher_settings.ctp:18
+msgid "Selectbox"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Element/language_switcher_settings.ctp:19
+msgid "HTML list"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Locale/src/Template/Element/language_switcher_settings.ctp:24
+msgid "Show flags when possible."
+msgstr ""
+

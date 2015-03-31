@@ -33,7 +33,7 @@
             <?php echo $this->Form->create(null, ['type' => 'get']); ?>
             <div class="input-group">
                 <?php echo $this->Form->input('filter', ['label' => false]) ?>
-                <span class="input-group-btn"><?php echo $this->Form->submit(__d('node', 'Search Users')); ?></span>
+                <span class="input-group-btn"><?php echo $this->Form->submit(__d('user', 'Search Users')); ?></span>
             </div>
             <?php echo $this->Form->end(); ?>
         </p>

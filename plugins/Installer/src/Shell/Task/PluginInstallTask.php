@@ -113,7 +113,7 @@ class PluginInstallTask extends Shell
             ->description(__d('installer', 'Install a new plugin or theme.'))
             ->addOption('source', [
                 'short' => 's',
-                'help' => __d('system', 'Either a full path within filesystem to a ZIP file, or path to a directory representing an extracted ZIP file, or an URL from where download plugin package.'),
+                'help' => __d('installer', 'Either a full path within filesystem to a ZIP file, or path to a directory representing an extracted ZIP file, or an URL from where download plugin package.'),
             ])
             ->addOption('theme', [
                 'short' => 't',
@@ -148,7 +148,7 @@ class PluginInstallTask extends Shell
             try {
                 $result = $this->_runTransactional();
             } catch (\Exception $ex) {
-                $this->err(__d('install', 'Something went wrong. Details: {0}', $ex->getMessage()));
+                $this->err(__d('installer', 'Something went wrong. Details: {0}', $ex->getMessage()));
                 $result = false;
             }
 

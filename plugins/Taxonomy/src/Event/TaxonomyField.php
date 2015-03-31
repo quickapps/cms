@@ -219,7 +219,7 @@ class TaxonomyField extends BaseHandler
     {
         return [
             'name' => __d('taxonomy', 'Term Reference'),
-            'description' => __d('field', 'Defines terms list based on taxonomy vocabularies.'),
+            'description' => __d('taxonomy', 'Defines terms list based on taxonomy vocabularies.'),
             'hidden' => false,
         ];
     }

@@ -55,11 +55,11 @@ class TermsTable extends Table
             ->add('name', [
                 'notEmpty' => [
                     'rule' => 'notEmpty',
-                    'message' => __d('node', 'You need to provide a name.'),
+                    'message' => __d('taxonomy', 'You need to provide a name.'),
                 ],
                 'length' => [
                     'rule' => ['minLength', 3],
-                    'message' => __d('node', 'Name need to be at least 3 characters long.'),
+                    'message' => __d('taxonomy', 'Name need to be at least 3 characters long.'),
                 ],
             ]);
 

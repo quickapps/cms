@@ -49,7 +49,7 @@ class PluginToggleTask extends Shell
             ->description(__d('installer', 'Enables or disables a plugin.'))
             ->addOption('plugin', [
                 'short' => 'p',
-                'help' => __d('system', 'Name of the plugin to enable/disable.'),
+                'help' => __d('installer', 'Name of the plugin to enable/disable.'),
             ])
             ->addOption('status', [
                 'short' => 's',

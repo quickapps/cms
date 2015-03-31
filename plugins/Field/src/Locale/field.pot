@@ -1,0 +1,1139 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2015-03-31 23:29+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:82
+msgid "FieldUIControllerTrait: The property $_manageTable was not found or is empty."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:84
+msgid "FieldUIControllerTrait: This trait must be used on instances of Cake\\Controller\\Controller."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:86
+msgid "FieldUIControllerTrait: This trait must be used on backend-controllers only."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:154;308
+msgid "There are no field attached yet."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:205;366
+msgid "Field information was saved."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:208;369
+msgid "Your information could not be saved."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:211
+msgid "Field settings could not be saved."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:244
+msgid "Field attached!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:250
+msgid "Field could not be attached"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:279
+msgid "Field detached successfully!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:281
+msgid "Field could not be detached"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:372
+msgid "View mode settings could not be saved."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:514
+msgid "The requested field does not exists."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:531
+msgid "The requested view mode does not exists."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Controller/FileHandlerController.php:47
+msgid "Invalid file extension."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Controller/FileHandlerController.php:65
+msgid "File upload error, details: {0}"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Controller/FileHandlerController.php:95
+msgid "Invalid field instance or file name."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Controller/FileHandlerController.php:121
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Controller/ImageHandlerController.php:97
+msgid "Invalid field instance."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Controller/ImageHandlerController.php:101
+msgid "Invalid file name."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Controller/ImageHandlerController.php:105
+msgid "Invalid image size."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Controller/ImageHandlerController.php:116
+msgid "Thumbnail could not be found, check write permissions?"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/DateField.php:70
+msgid "Invalid date/time, it must match the the pattern: {0}"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/DateField.php:96
+msgid "You must select a date/time."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/DateField.php:101
+msgid "Invalid date/time given."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/DateField.php:136
+msgid "Date"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/DateField.php:137
+msgid "Allows to attach date picker to contents."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/DateField.php:173
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/PublishDateField.php:216
+msgid "Invalid time format."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/DateField.php:180
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/PublishDateField.php:223
+msgid "Invalid date format."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/FileField.php:156
+msgid "You must upload one file at least."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/FileField.php:181
+msgid "You can upload {0} files as maximum."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/FileField.php:203
+msgid "Invalid file extension. Allowed extension are: {0}"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/FileField.php:247
+msgid "Attachment"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/FileField.php:248
+msgid "Allows to upload and attach files to contents."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/ImageField.php:154
+msgid "You must upload one image at least."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/ImageField.php:179
+msgid "You can upload {0} images as maximum."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/ImageField.php:201
+msgid "Invalid image extension. Allowed extension are: {0}"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/ImageField.php:250
+msgid "Image"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/ImageField.php:251
+msgid "Allows to attach image files to contents."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/ListField.php:86
+msgid "Field required."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/ListField.php:123
+msgid "List"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/ListField.php:124
+msgid "Defines list field types, used to create selection lists."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/PublishDateField.php:98
+msgid "Start"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/PublishDateField.php:98
+msgid "Finish"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/PublishDateField.php:99
+msgid "Invalid date/time range, \"{0}\" date must match the the pattern: {1}"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/PublishDateField.php:123
+msgid "You must select a date/time range."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/PublishDateField.php:142
+msgid "Invalid date/time range, \"Start\" date must be before \"Finish\" date."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/PublishDateField.php:178
+msgid "Publishing Date"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/PublishDateField.php:179
+msgid "Allows scheduling of contents by making them available only between certain dates."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/TextField.php:83
+msgid "This field required."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/TextField.php:93
+msgid "This field cannot be left empty."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/TextField.php:108
+msgid "Max. {0,number} characters length."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/TextField.php:116
+msgid "Invalid field."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/TextField.php:160
+msgid "Text"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/TextField.php:161
+msgid "Allow to store text data in database."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Event/TextField.php:229;230
+msgid "Invalid trimmer string."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Behavior/FieldableBehavior.php:687
+msgid "Entities in fieldable tables can only be saved using transaction. Set [atomic = true]"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Behavior/FieldableBehavior.php:897
+msgid "Entities in fieldable tables can only be deleted using transaction. Set [atomic = true]"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Behavior/FieldableBehavior.php:958
+msgid "Entities in fieldable tables can only be deleted using transactions. Set [atomic = true]"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Behavior/FieldableBehavior.php:1346
+msgid "FieldableBehavior: The \"bundle\" option was set to \"{0}\", but this property could not be found on entities being fetched."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:85
+msgid "No more instances of this field can be attached, limit reached."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:89
+msgid "The machine name is already in use."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:105
+msgid "You need to provide a machine name."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:109
+msgid "Machine name need to be at least 3 characters long."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:115
+msgid "Only lowercase letters, numbers and \"-\" symbol are allowed."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:119
+msgid "Invalid table alias."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:120
+msgid "Invalid field type."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:124
+msgid "You need to provide a label."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:128
+msgid "Label need to be at least 3 characters long"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/edit.ctp:32
+msgid "Empty date"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/edit.ctp:74
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/edit.ctp:86
+msgid "Choose Time"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/edit.ctp:75
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/edit.ctp:87
+msgid "Time"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/edit.ctp:76
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/edit.ctp:88
+msgid "Hour"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/edit.ctp:77
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/edit.ctp:89
+msgid "Minute"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/edit.ctp:78
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/edit.ctp:90
+msgid "Second"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/edit.ctp:79
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/edit.ctp:91
+msgid "Milliseconds"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:15
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:15
+msgid "Date Options"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:20
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:20
+msgid "Date format"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:23
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:23
+msgid "This option is not used when localized. e.g.: <code>'Meeting on:' yy-mm-dd</code>, see below for details"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:26
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:26
+msgid "day of month (no leading zero)"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:27
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:27
+msgid "day of month (two digit)"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:28
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:28
+msgid "day of the year (three digit)"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:29
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:29
+msgid "day name short"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:30
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:30
+msgid "day name long"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:31
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:31
+msgid "month of year (no leading zero)"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:32
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:32
+msgid "month of year (two digit)"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:33
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:33
+msgid "month name short"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:34
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:34
+msgid "month name long"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:35
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:35
+msgid "year (two digit)"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:36
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:36
+msgid "year (four digit)"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:37
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:37
+msgid "literal text"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:38
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:38
+msgid "single quote"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:39
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:39
+msgid "Unix timestamp (ms since 01/01/1970)"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:45
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:45
+msgid "Display button bar"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:50
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:50
+msgid "Display month & year menu"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:55
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:55
+msgid "Show week of the year"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:68
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:68
+msgid "Display multiple months"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:140
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:140
+msgid "Localize"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:149
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:149
+msgid "Add a Time picker"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:156
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:156
+msgid "Time Options"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:161
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:161
+msgid "Time format"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:164
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:164
+msgid "e.g.: <code>H:mm:ss:c</code>, see below"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:167
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:167
+msgid "Hour with no leading 0 (24 hour)"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:168
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:168
+msgid "Hour with leading 0 (24 hour)"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:169
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:169
+msgid "Hour with no leading 0 (12 hour)"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:170
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:170
+msgid "Hour with leading 0 (12 hour)"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:171
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:171
+msgid "Minute with no leading 0"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:172
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:172
+msgid "Minute with leading 0"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:173
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:173
+msgid "Second with leading 0"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:174
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:174
+msgid "am or pm for AM/PM"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:175
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:175
+msgid "AM or PM for AM/PM"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:181
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:181
+msgid "Use AM/PM"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/DateField/settings_form.ctp:186
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/settings_form.ctp:186
+msgid "Display seconds"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FieldUI/field_ui_submenu.ctp:31
+msgid "Fields List"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FieldUI/field_ui_submenu.ctp:40
+msgid "Attach New Field"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FieldUI/field_ui_submenu.ctp:49
+msgid "View Modes"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/edit.ctp:83
+msgid "Files must be less than <strong>{0}B</strong>."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/edit.ctp:85
+msgid "Allowed file types: <strong>{0}</strong>."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/edit.ctp:87
+msgid "You can upload up to <strong>{0}</strong> files."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/edit.ctp:122
+msgid "Upload File"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/settings_form.ctp:14
+msgid "Allowed extensions"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/settings_form.ctp:15
+msgid "Comma separated, leave empty to allow any extension. e.g. jpg,gif,png"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/settings_form.ctp:29
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:36
+msgid "Custom"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/settings_form.ctp:34
+msgid "Number of files"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/settings_form.ctp:39
+msgid "Maximum number of files users can upload for this field."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/settings_form.ctp:45
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:51
+msgid "Customized number of files"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/settings_form.ctp:54
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:60
+msgid "Upload folder"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/settings_form.ctp:58
+msgid "Optional subdirectory where files will be stored."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/settings_form.ctp:59
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:65
+msgid "The root directory is: <code>{0}</code>"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/settings_form.ctp:60
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:66
+msgid "For example, \"my-subdirectory\" will maps to <code>{0}my-subdirectory</code>"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/settings_form.ctp:66
+msgid "Enable description field"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/settings_form.ctp:69
+msgid "The description field allows users to enter a description about the uploaded file."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/upload_item.ctp:41
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/upload_item.ctp:51;60
+msgid "Remove"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/upload_item.ctp:45
+msgid "File description"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/upload_libs.ctp:30
+msgid "The file {{file.name}} could not be uploaded: invalid field instance."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/upload_libs.ctp:31
+msgid "The file {{file.name}} could not be uploaded: invalid file extension."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/upload_libs.ctp:32
+msgid "The file {{file.name}} could not be uploaded: internal server error."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/upload_libs.ctp:46
+msgid "Are you sure you want to leave this page?"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/view_mode_form.ctp:14
+msgid "Link to file"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/view_mode_form.ctp:15
+msgid "Table of Files"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/view_mode_form.ctp:16
+msgid "File URL"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/FileField/view_mode_form.ctp:20
+msgid "Files format"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/item_init_script.ctp:26
+msgid "Upload Image"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:19
+msgid "Allowed image extensions"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:22
+msgid "Comma separated. e.g. jpg,gif,png"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:40
+msgid "Number of images"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:45
+msgid "Maximum number of images users can upload for this field."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:64
+msgid "Optional subdirectory where images will be stored."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:72
+msgid "Enable \"title\" attribute"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:75
+msgid "The title attribute is used as a tooltip when the mouse hovers over the image."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:80
+msgid "Enable \"alt\" attribute"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:83
+msgid "The alt attribute may be used by search engines, screen readers, and when the image cannot be loaded."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:88
+msgid "Preview image style"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:90
+msgid "-- No preview --"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:93
+msgid "The preview image will be shown while editing the content."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:96
+msgid "Image Restrictions"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:98
+msgid "Minimum image resolution"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:102;119
+msgid "Width (px)"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:108;126
+msgid "Height (px)"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:113
+msgid "The minimum allowed image size expressed as WIDTHxHEIGHT (e.g. 640x480). Leave blank for no restriction. If a smaller image is uploaded, it will be rejected."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:115
+msgid "Maximum image resolution"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:131
+msgid "The maximum allowed image size expressed as WIDTHxHEIGHT (e.g. 640x480). Leave blank for no restriction. If a larger image is uploaded, it will be rejected."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:134
+msgid "Minimum image ratio"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:135
+msgid "The upload will be invalid if the image apect ratio (e.g. 1.6) is lower. Leave blank for no restriction."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:137
+msgid "Maximum image ratio"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:138
+msgid "The upload will be invalid if the image apect ratio (e.g. 1.6) is greater. Leave blank for no restriction."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:140
+msgid "Minimum image pixels"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:141
+msgid "The upload will be invalid if the image number of pixels is lower. Leave blank for no restriction."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:143
+msgid "Maximum image pixels"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/settings_form.ctp:144
+msgid "The upload will be invalid if the image number of pixels is greater. Leave blank for no restriction."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/upload_item.ctp:67
+msgid "Title"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/upload_item.ctp:68
+msgid "Image title or description"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/upload_item.ctp:76
+msgid "Alt"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/upload_item.ctp:77
+msgid "Alternative text"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/view_mode_form.ctp:16
+msgid "Image style"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/view_mode_form.ctp:19
+msgid "None (original image)"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/view_mode_form.ctp:23
+msgid "Link image to"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/view_mode_form.ctp:26
+msgid "Content"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/view_mode_form.ctp:27
+msgid "Image file"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ImageField/view_mode_form.ctp:29
+msgid "Nothing"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ListField/settings_form.ctp:18
+msgid "Radio buttons"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ListField/settings_form.ctp:19
+msgid "Check boxes"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ListField/settings_form.ctp:22
+msgid "List Type"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ListField/settings_form.ctp:28
+msgid "Options"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ListField/settings_form.ctp:32
+msgid "The possible values this field can contain. Enter one value per line, in the format <code>key|label</code>."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ListField/settings_form.ctp:33
+msgid "The key is the stored value. The label will be used in displayed values and edit forms."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ListField/settings_form.ctp:34
+msgid "The label is optional: if a line contains a single string, it will be used as key and label."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ListField/view_mode_form.ctp:17
+msgid "Default"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/ListField/view_mode_form.ctp:18
+msgid "Key"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/display.ctp:20;27;33
+msgid "Start date: {0}"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/display.ctp:22;29;35
+msgid "Finish date: {0}"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/edit.ctp:21
+msgid "Start Publishing"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/PublishDateField/edit.ctp:30
+msgid "Finish Publishing"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/settings_form.ctp:20
+msgid "Short field [text box]"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/settings_form.ctp:21
+msgid "Long text [text area]"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/settings_form.ctp:23
+msgid "Type of content"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/settings_form.ctp:37;51
+msgid "Plain text"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/settings_form.ctp:38;59
+msgid "Full HTML"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/settings_form.ctp:39;65
+msgid "Filtered HTML"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/settings_form.ctp:40;73
+msgid "Markdown"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/settings_form.ctp:42
+msgid "Text processing"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/settings_form.ctp:53
+msgid "No HTML tags allowed."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/settings_form.ctp:54;61;67
+msgid "Web page addresses and e-mail addresses turn into links automatically."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/settings_form.ctp:55;69
+msgid "Lines and paragraphs break automatically."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/settings_form.ctp:68
+msgid "Allowed HTML tags: &lt;a&gt; &lt;em&gt; &lt;strong&gt; &lt;cite&gt; &lt;blockquote&gt; &lt;code&gt; &lt;ul&gt; &lt;ol&gt; &lt;li&gt; &lt;dl&gt; &lt;dt&gt; &lt;dd&gt;"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/settings_form.ctp:75
+msgid "<a href=\"{0}\" target=\"_blank\">Markdown</a> text format allowed only."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/settings_form.ctp:86
+msgid "Max length"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/settings_form.ctp:90
+msgid "This is only used if your type of content is \"Short text [text box]\". This will limit the subscriber to typing X number of characters in your textbox."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/settings_form.ctp:98
+msgid "Validation rule"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/settings_form.ctp:104
+msgid "Enter your custom regular expression. e.g.: <strong>/^[a-z0-9]{3,}$/i</strong> (Only letters and integers, min 3 characters)"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/settings_form.ctp:112
+msgid "Validation message"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/settings_form.ctp:116
+msgid "This is only used if \"Validation rule\" has been set."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/view_mode_form.ctp:17
+msgid "Display content as"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/view_mode_form.ctp:20;32
+msgid "Plain"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/view_mode_form.ctp:21;31
+msgid "Full"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/view_mode_form.ctp:22;33
+msgid "Trimmed"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/view_mode_form.ctp:31
+msgid "Text will be rendered with no modifications."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/view_mode_form.ctp:32
+msgid "Text will converted to plain text."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/view_mode_form.ctp:33
+msgid "Text will cut to an specific length."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/view_mode_form.ctp:40
+msgid "Trim length or read-more-cutter"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/view_mode_form.ctp:45
+msgid "Numeric value will convert content to plain text and then trim it to the specified number of chars. e.g.: 400"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/Element/TextField/view_mode_form.ctp:46
+msgid "String value will cut the content in two by the specified string, the first part will be displayed. e.g.: &lt;!-- readmore --&gt;"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/attach.ctp:21
+msgid "Attach new field"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/attach.ctp:23
+msgid "Label *"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/attach.ctp:24
+msgid "Human readable name for this field."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/attach.ctp:26
+msgid "Machine Name *"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/attach.ctp:27
+msgid "Lowercase letters, numbers and \"-\" symbol (a-z, 0-9, -)."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/attach.ctp:29
+msgid "Field Type *"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/attach.ctp:38
+msgid "Required"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/attach.ctp:39
+msgid "Is this field required?"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/attach.ctp:41
+msgid "Help Text"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/attach.ctp:42
+msgid "Instructions to present to the user below this field on the editing form. (hooktags are allowed)"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/attach.ctp:44
+msgid "Attach"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/configure.ctp:21
+msgid "Basic Information"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/configure.ctp:27
+msgid "Instructions to present to the user below this field on the editing form."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/configure.ctp:36
+msgid "Advanced"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/configure.ctp:42
+msgid "Save All"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/index.ctp:22
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/viewModeList.ctp:25
+msgid "Field label"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/index.ctp:23
+msgid "Machine name"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/index.ctp:24
+msgid "Handler"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/index.ctp:25
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/viewModeList.ctp:28
+msgid "Actions"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/index.ctp:36
+msgid "This field is locked and you can not edit it."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/index.ctp:53
+msgid "Move Up"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/index.ctp:68
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/viewModeList.ctp:71
+msgid "Move down"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/index.ctp:82
+msgid "Configure"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/index.ctp:94
+msgid "Delete"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/index.ctp:96
+msgid "Delete this field? This can not be undone, all information stored will be lost."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/viewModeEdit.ctp:21
+msgid "View Mode Settings For \"{0}\" [{1}]"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/viewModeEdit.ctp:25
+msgid "Label field visibility"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/viewModeEdit.ctp:27
+msgid "Hidden"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/viewModeEdit.ctp:28
+msgid "Above"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/viewModeEdit.ctp:29
+msgid "Inline"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/viewModeEdit.ctp:33
+msgid "Position of the field label. Set to \"Hidden\" for no label."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/viewModeEdit.ctp:35
+msgid "Hooktags"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/viewModeEdit.ctp:36
+msgid "Whether to parse hooktags in field content or not."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/viewModeEdit.ctp:38
+msgid "Hidden Field"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/viewModeEdit.ctp:39
+msgid "Whether to render this field or not on \"{0}\" view mode."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/viewModeEdit.ctp:47
+msgid "Save changes"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/viewModeList.ctp:26
+msgid "Label visibility"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/viewModeList.ctp:27
+msgid "Field visibility"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/viewModeList.ctp:42
+msgid "hidden"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/viewModeList.ctp:42
+msgid "visible"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/viewModeList.ctp:55
+msgid "Move up"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/viewModeList.ctp:85
+msgid "View mode settings"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Utility/ImageToolbox.php:252
+msgid "Thumbnail"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Utility/ImageToolbox.php:257
+msgid "Medium"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Utility/ImageToolbox.php:262
+msgid "Large"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Utility/TextToolbox.php:314
+msgid "Turn on JavaScript to see the email address."
+msgstr ""
+

@@ -1,0 +1,60 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2015-03-31 23:29+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/default.ctp:31
+msgid "Toggle navigation"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/default.ctp:50
+msgid "My account"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/default.ctp:51
+msgid "Visit website"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/default.ctp:53
+msgid "Sign out"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/login.ctp:31
+msgid "Sign In"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/login.ctp:42
+msgid "username or email"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/login.ctp:49
+msgid "password"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/login.ctp:58
+msgid "Remember me"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/login.ctp:65
+msgid "Sign in"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/login.ctp:67
+msgid "Forgot password?"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/login.ctp:69
+msgid "Resend activation email?"
+msgstr ""
+

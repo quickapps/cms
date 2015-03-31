@@ -64,25 +64,25 @@ class MenuLinksTable extends Table
                         return $full || $internal;
                     }
                 },
-                'message' => __d('node', 'Invalid URL. Internal links must start with "/", e.g. "/article-my-first-article.html"'),
+                'message' => __d('menu', 'Invalid URL. Internal links must start with "/", e.g. "/article-my-first-article.html"'),
                 'provider' => 'table',
             ])
             ->requirePresence('title')
             ->add('title', [
                 'notEmpty' => [
                     'rule' => 'notEmpty',
-                    'message' => __d('node', 'You need to provide a title.'),
+                    'message' => __d('menu', 'You need to provide a title.'),
                 ],
                 'length' => [
                     'rule' => ['minLength', 3],
-                    'message' => __d('node', 'Title need to be at least 3 characters long.'),
+                    'message' => __d('menu', 'Title need to be at least 3 characters long.'),
                 ],
             ])
             ->add('activation', 'validActivation', [
                 'rule' => function ($value, $context) {
                     return in_array($value, ['auto', 'any', 'none', 'php']);
                 },
-                'message' => __d('node', 'Please select an activation method.'),
+                'message' => __d('menu', 'Please select an activation method.'),
                 'provider' => 'table',
             ])
             ->allowEmpty('active')
