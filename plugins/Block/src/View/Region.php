@@ -272,17 +272,7 @@ class Region
                 })
                 ->where(['Blocks.status' => 1])
                 ->order(['BlockRegions.ordering' => 'ASC'])
-                ->all()
-                ->filter(function ($block) {
-                    return $block->renderable();
-                });
-
-            if (!$all) {
-                $blocks->filter(function ($block) {
-                    // we do a second pass to remove blocks that will never be rendered
-                    return $this->_filterBlock($block);
-                });
-            }
+                ->all();
 
             $blocks->sortBy(function ($block) {
                 return $block->region->ordering;
@@ -292,6 +282,11 @@ class Region
         } else {
             $blocks = new Collection($blocksCache);
         }
+
+        // remove blocks that cannot be rendered based on current request.
+        $blocks = $blocks->filter(function ($block) {
+            return $this->_filterBlock($block) && $block->renderable();
+        });
 
         $this->blocks($blocks);
     }
