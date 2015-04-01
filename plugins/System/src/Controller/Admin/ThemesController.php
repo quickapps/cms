@@ -241,13 +241,14 @@ class ThemesController extends AppController
 
         if (!empty($this->request->data)) {
             $this->loadModel('System.Plugins');
-            $settingsEntity = new Entity($this->request->data);
-            $settingsEntity->set('_plugin_name', $themeName);
-            $errors = $this->Plugins->validator('settings')->errors($settingsEntity->toArray(), false);
+            $data = $this->request->data();
+            $validator = $this->Plugins->validator('settings');
+            $this->trigger(["Plugin.{$themeName}.validate", $this->Plugins], $data, $validator);
+            $errors = $validator->errors($data, false);
 
             if (empty($errors)) {
                 $pluginEntity = $this->Plugins->get($themeName);
-                $pluginEntity->set('settings', $this->request->data);
+                $pluginEntity->set('settings', $this->request->data());
 
                 if ($this->Plugins->save($pluginEntity)) {
                     $this->Flash->success(__d('system', 'Theme settings saved!'));
