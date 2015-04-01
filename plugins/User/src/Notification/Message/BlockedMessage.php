@@ -11,7 +11,6 @@
  */
 namespace User\Notification\Message;
 
-use QuickApps\Core\Plugin;
 use User\Model\Entity\User;
 use User\Notification\Message\BaseMessage;
 
@@ -28,10 +27,10 @@ class BlockedMessage extends BaseMessage
     public function send()
     {
         $this
-            ->subject(Plugin::get('User')->settings['message_blocked_subject'])
-            ->body(Plugin::get('User')->settings['message_blocked_body']);
+            ->subject(plugin('User')->settings['message_blocked_subject'])
+            ->body(plugin('User')->settings['message_blocked_body']);
 
-        if (Plugin::get('User')->settings['message_blocked']) {
+        if (plugin('User')->settings['message_blocked']) {
             return parent::send();
         }
         return true;

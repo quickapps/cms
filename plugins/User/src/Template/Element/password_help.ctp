@@ -9,27 +9,25 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-
-use QuickApps\Core\Plugin;
 ?>
 
 <em class="help-block">
     <ul>
-        <li><?php echo __d('user', 'At least {0} characters length.', Plugin::get('User')->settings['password_min_length']); ?></li>
+        <li><?php echo __d('user', 'At least {0} characters length.', plugin('User')->settings['password_min_length']); ?></li>
 
-        <?php if (Plugin::get('User')->settings['password_uppercase']): ?>
+        <?php if (plugin('User')->settings['password_uppercase']): ?>
             <li><?php echo __d('user', 'At least one uppercase character (A-Z).'); ?></li>
         <?php endif; ?>
 
-        <?php if (Plugin::get('User')->settings['password_lowercase']): ?>
+        <?php if plugin('User')->settings['password_lowercase']): ?>
             <li><?php echo __d('user', 'At least one lowercase character (a-z).'); ?></li>
         <?php endif; ?>
 
-        <?php if (Plugin::get('User')->settings['password_number']): ?>
+        <?php if (plugin('User')->settings['password_number']): ?>
             <li><?php echo __d('user', 'At least one numeric character (0-9).'); ?></li>
         <?php endif; ?>
 
-        <?php if (Plugin::get('User')->settings['password_non_alphanumeric']): ?>
+        <?php if (plugin('User')->settings['password_non_alphanumeric']): ?>
             <li><?php echo __d('user', 'At least one non-alphanumeric character (e.g. <code>#$"</code>).'); ?></li>
         <?php endif; ?>
     </ul>

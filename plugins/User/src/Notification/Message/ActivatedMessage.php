@@ -11,7 +11,6 @@
  */
 namespace User\Notification\Message;
 
-use QuickApps\Core\Plugin;
 use User\Model\Entity\User;
 use User\Notification\Message\BaseMessage;
 
@@ -28,10 +27,10 @@ class ActivatedMessage extends BaseMessage
     public function send()
     {
         $this
-            ->subject(Plugin::get('User')->settings['message_activation_subject'])
-            ->body(Plugin::get('User')->settings['message_activation_body']);
+            ->subject(plugin('User')->settings['message_activation_subject'])
+            ->body(plugin('User')->settings['message_activation_body']);
 
-        if (Plugin::get('User')->settings['message_activation']) {
+        if (plugin('User')->settings['message_activation']) {
             return parent::send();
         }
         return true;

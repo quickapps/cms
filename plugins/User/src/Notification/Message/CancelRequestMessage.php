@@ -11,7 +11,6 @@
  */
 namespace User\Notification\Message;
 
-use QuickApps\Core\Plugin;
 use User\Model\Entity\User;
 use User\Notification\Message\BaseMessage;
 
@@ -28,8 +27,8 @@ class CancelRequestMessage extends BaseMessage
     public function send()
     {
         $this
-            ->subject(Plugin::get('User')->settings['message_cancel_request_subject'])
-            ->body(Plugin::get('User')->settings['message_cancel_request_body']);
+            ->subject(plugin('User')->settings['message_cancel_request_subject'])
+            ->body(plugin('User')->settings['message_cancel_request_body']);
         return parent::send();
     }
 }

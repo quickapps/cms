@@ -14,6 +14,7 @@ use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
 use Cake\Error\Debugger;
+use Cake\Error\FatalErrorException;
 use Cake\Event\EventManager;
 use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
@@ -296,6 +297,68 @@ if (!function_exists('option')) {
         }
 
         return $default;
+    }
+}
+
+if (!function_exists('plugin')) {
+    /**
+     * Shortcut for "Plugin::get()".
+     *
+     * ### Example:
+     *
+     * ```php
+     * $specialSetting = plugin('MyPlugin')->settings['special_setting'];
+     * ```
+     *
+     * @param string $plugin Plugin name to get, or null to get a collection of
+     *  all plugin objects
+     * @return \QuickApps\Core\Package\PluginPackage|\Cake\Collection\Collection
+     * @throws \Cake\Error\FatalErrorException When requested plugin was not found
+     * @see \QuickApps\Core\Plugin::get()
+     */
+    function plugin($plugin = null)
+    {
+        return Plugin::get($plugin);
+    }
+}
+
+if (!function_exists('theme')) {
+    /**
+     * Gets the given (or in use) theme as a package object.
+     *
+     * ### Example:
+     *
+     * ```php
+     * // current theme
+     * $bgColor = theme()->settings['background_color'];
+     *
+     * // specific theme
+     * $bgColor = theme('BlueTheme')->settings['background_color'];
+     * ```
+     *
+     * @param string|null $name Name of the theme to get, or null to get the theme
+     *  being used in current request
+     * @return \QuickApps\Core\Package\PluginPackage
+     * @throws \Cake\Error\FatalErrorException When theme could not be found
+     */
+    function theme($name = null)
+    {
+        if ($name === null) {
+            $option = Router::getRequest()->isAdmin() ? 'back_theme' : 'front_theme';
+            $name = option($option);
+        }
+
+        $theme = Plugin::get()
+            ->filter(function ($plugin) use($name) {
+                return $plugin->isTheme && $plugin->name == $name;
+            })
+            ->first();
+
+        if ($theme) {
+            return $theme;
+        }
+
+        throw new FatalErrorException(__('Theme "{0}" was not found', $name));
     }
 }
 

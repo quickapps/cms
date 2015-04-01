@@ -14,7 +14,6 @@ namespace User\Controller;
 use Cake\Cache\Cache;
 use Cake\Event\Event;
 use Locale\Utility\LocaleToolbox;
-use QuickApps\Core\Plugin;
 use User\Controller\AppController;
 
 /**
@@ -53,13 +52,13 @@ class GatewayController extends AppController
 
         if ($this->request->is('post')) {
             $loginBlocking =
-                Plugin::get('User')->settings('failed_login_attempts') &&
-                Plugin::get('User')->settings('failed_login_attempts_block_seconds');
+                plugin('User')->settings('failed_login_attempts') &&
+                plugin('User')->settings('failed_login_attempts_block_seconds');
             $continue = true;
 
             if ($loginBlocking) {
                 Cache::config('users_login', [
-                    'duration' => '+' . Plugin::get('User')->settings('failed_login_attempts_block_seconds') . ' seconds',
+                    'duration' => '+' . plugin('User')->settings('failed_login_attempts_block_seconds') . ' seconds',
                     'path' => TMP,
                     'engine' => 'File',
                     'prefix' => 'qa_',
@@ -69,8 +68,9 @@ class GatewayController extends AppController
                 $cacheName = 'login_failed_' . env('REMOTE_ADDR');
                 $cache = Cache::read($cacheName, 'users_login');
 
-                if ($cache && $cache['attempts'] >= Plugin::get('User')->settings('failed_login_attempts')) {
-                    $this->Flash->warning(__d('user', 'You have reached the maximum number of login attempts. Try again in {0} minutes.', Plugin::settings('User', 'failed_login_attempts_block_seconds') / 60));
+                if ($cache && $cache['attempts'] >= plugin('User')->settings('failed_login_attempts')) {
+                    $blockTime = (int)plugin('User')->settings('failed_login_attempts_block_seconds');
+                    $this->Flash->warning(__d('user', 'You have reached the maximum number of login attempts. Try again in {0} minutes.', $blockTime / 60));
                     $continue = false;
                 }
             }

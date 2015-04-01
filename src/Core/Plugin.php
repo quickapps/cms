@@ -39,6 +39,7 @@ class Plugin extends CakePlugin
      * @param string $plugin Plugin name to get, or null to get a collection of
      *  all plugin objects
      * @return \QuickApps\Core\Package\PluginPackage|\Cake\Collection\Collection
+     * @throws \Cake\Error\FatalErrorException When requested plugin was not found
      */
     public static function get($plugin = null)
     {
