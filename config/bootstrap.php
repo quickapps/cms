@@ -221,5 +221,9 @@ foreach ($activePlugins as $plugin) {
  * Connect middleware/dispatcher filters.
  */
 DispatcherFactory::add('Asset');
-DispatcherFactory::add('Language');
+if (!is_readable(SITE_ROOT . '/config/settings.php')) {
+    DispatcherFactory::add('Routing');
+} else {
+    DispatcherFactory::add('Language');
+}
 DispatcherFactory::add('ControllerFactory');
