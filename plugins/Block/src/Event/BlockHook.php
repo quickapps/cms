@@ -24,8 +24,6 @@ use QuickApps\Event\HookAwareTrait;
 /**
  * Block rendering dispatcher.
  *
- * Handles the `Block.<handler>.display` event.
- *
  * Each block has a `handler` property which identifies the plugin that created
  * that Block, by default all blocks created using backend's administration page
  * defines `Block` has their handler.
