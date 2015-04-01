@@ -119,15 +119,15 @@ class StartupController extends Controller
      */
     public function language()
     {
-        $Folder = new Folder(Plugin::classPath('Installer') . 'Locale');
         $languages = [
             'en_US' => [
                 'url' => '/installer/startup/requirements?locale=en_US',
-                'welcome' => 'Welcome to QuickApps CMS',
+                'welcome' => 'Welcome to QuickAppsCMS',
                 'action' => 'Click here to install in English'
             ]
         ];
 
+        $Folder = new Folder(Plugin::classPath('Installer') . 'Locale');
         foreach ($Folder->read(false, true, true)[0] as $path) {
             $code = basename($path);
             $file = $path . '/installer.po';
@@ -136,14 +136,14 @@ class StartupController extends Controller
                 I18n::locale($code); // trick for __d()
                 $languages[$code] = [
                     'url' => "/installer/startup/requirements?locale={$code}",
-                    'welcome' => __d('installer', 'Welcome to QuickApps CMS'),
+                    'welcome' => __d('installer', 'Welcome to QuickAppsCMS'),
                     'action' => __d('installer', 'Click here to install in English')
                 ];
             }
         }
 
         I18n::locale('en_US');
-        $this->title('Welcome to QuickApps CMS');
+        $this->title('Welcome to QuickAppsCMS');
         $this->set('languages', $languages);
         $this->_step();
     }
