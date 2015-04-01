@@ -9,6 +9,9 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
+
+$this->Form->addWidget('color_picker', ['System.ColorPicker', '_view']);
+$this->Form->addWidget('font_panel', ['System.FontPanel', '_view']);
 ?>
 
 <?php echo $this->Form->create($arrayContext); ?>

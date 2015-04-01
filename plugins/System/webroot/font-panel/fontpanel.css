@@ -1,0 +1,11 @@
+div#jquery-font-panel input{font-size:10px;}
+div#jquery-font-panel {display:none;position:absolute;top:0px;left:0px;width:376px;height:176px;overflow:hidden;background:#EEEFF2;display:none;z-index:1500;border:1px solid #E2E2E3;}
+div#jquery-font-panel div.jquery-font-panel-list{overflow:auto;border:2px solid #bfbfbf;height:152px;}
+div#jquery-font-panel div#jquery-font-panel-list-fonts{position:absolute;top:10px;left:10px;width:180px;}
+div#jquery-font-panel div#jquery-font-panel-list-sizes{position:absolute;top:10px;left:205px;width:60px;}
+div#jquery-font-panel div#jquery-font-panel-list-styles{position:absolute;top:10px;left:280px;width:80px;height:50px;}
+div#jquery-font-panel div#jquery-font-panel-list-weights{position:absolute;top:68px;left:280px;width:80px;height:50px;}
+div#jquery-font-panel div#jquery-font-panel-save{position:absolute;top:130px;left:295px;}
+div#jquery-font-panel-save input{width:36px;padding:0px;text-align:center;}
+div#jquery-font-panel div.jquery-font-panel-list div{padding:4px;border-bottom:2px solid #e1e1e1;background-color:#fefefe;font-size:12px;color:#787878;cursor:pointer;}
+div#jquery-font-panel div.jquery-font-panel-list div.font-panel-list-selected{background-color:#E6EBED;color:#333333;}
