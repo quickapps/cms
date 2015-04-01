@@ -40,7 +40,7 @@ class BlockHooktag implements EventListenerInterface
     /**
      * Implements the "block" hooktag.
      *
-     *     [block 1 /]
+     *     {block 1 /}
      *
      * @param \Cake\Event\Event $event The event that was fired
      * @param array $atts An associative array of attributes, or an empty string if
@@ -53,14 +53,13 @@ class BlockHooktag implements EventListenerInterface
     public function hooktagBlock(Event $event, array $atts, $content, $tag)
     {
         $out = '';
-        if (isset($atts[0]) && intval($atts[0]) > 0) {
+        if (isset($atts[0])) {
+            $id = intval($atts[0]);
             try {
-                $id = intval($atts[0]);
                 $block = TableRegistry::get('Block.Blocks')->get($id);
-                $event->subject()->loadHelper('Block.Block');
                 $out = $event->subject()->render($block);
             } catch (\Exception $ex) {
-                $out = !Configure::read('debug') ?: "<!-- block #{$id} not found -->";
+                $out = !Configure::read('debug') ? '' : "<!-- block #{$id} not found -->";
             }
         }
         return $out;
