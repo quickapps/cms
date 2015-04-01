@@ -64,13 +64,14 @@ class FontPanelWidget implements WidgetInterface
             'escape' => true,
         ];
         $data['value'] = $data['val'];
+        $data['readonly'] = 'readonly';
         unset($data['val']);
         $this->_loadAssets();
 
         $data['class'] = !empty($data['class']) ? "{$data['class']} fontselector" : 'fontselector';
         return $this->_templates->format('input', [
             'name' => $data['name'],
-            'type' => $data['type'],
+            'type' => 'text',
             'attrs' => $this->_templates->formatAttributes(
                 $data,
                 ['name', 'type']
