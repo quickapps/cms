@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: QucikApps CMS\n"
-"POT-Creation-Date: 2015-03-31 23:29+0000\n"
+"POT-Creation-Date: 2015-04-01 00:58+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Oliver Strixner <info@osvision.de>\n"
 "Language-Team:  <info@osvision.de>\n"
@@ -13,8 +13,8 @@ msgstr ""
 "X-Generator: Poedit 1.7.5\n"
 
 #: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Installer/src/Controller/StartupController.php:139
-msgid "Welcome to QuickApps CMS"
-msgstr "Willkommen bei QuickApps CMS"
+msgid "Welcome to QuickAppsCMS"
+msgstr "Willkommen bei QuickAppsCMS"
 
 #: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Installer/src/Controller/StartupController.php:140
 msgid "Click here to install in English"
@@ -914,6 +914,9 @@ msgstr ""
 #: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Installer/src/Utility/ServerTest.php:109;121
 msgid "Test failed"
 msgstr ""
+
+#~ msgid "Welcome to QuickApps CMS"
+#~ msgstr "Willkommen bei QuickApps CMS"
 
 #~ msgid "MySQL extension is not loaded on your server."
 #~ msgstr "MySQL Erweiterung ist auf Ihrem Server nicht geladen"

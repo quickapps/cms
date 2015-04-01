@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-03-31 23:29+0000\n"
+"POT-Creation-Date: 2015-04-01 00:58+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Installer/src/Controller/StartupController.php:139
-msgid "Welcome to QuickApps CMS"
+msgid "Welcome to QuickAppsCMS"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Installer/src/Controller/StartupController.php:140
