@@ -13,7 +13,6 @@ namespace Block\Model\Table;
 
 use Block\Model\Entity\Block;
 use Cake\Cache\Cache;
-use Cake\Database\Schema\Table as Schema;
 use Cake\Event\Event;
 use Cake\ORM\Entity;
 use Cake\ORM\RulesChecker;

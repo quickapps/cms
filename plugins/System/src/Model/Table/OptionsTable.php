@@ -11,7 +11,6 @@
  */
 namespace System\Model\Table;
 
-use Cake\Database\Schema\Table as Schema;
 use Cake\Event\Event;
 use Cake\ORM\Entity;
 use Cake\ORM\Table;
