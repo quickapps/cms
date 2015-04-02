@@ -9,13 +9,13 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace System\Test\TestCase\Model\Behavior;
+namespace QuickApps\Test\TestCase\Model\Behavior;
 
 use Cake\Event\Event;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
-use System\Model\Behavior\SluggableBehavior;
+use QuickApps\Model\Behavior\SluggableBehavior;
 
 /**
  * SluggableBehaviorTest class.
