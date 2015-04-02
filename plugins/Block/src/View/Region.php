@@ -15,6 +15,7 @@ use Block\Model\Entity\Block;
 use Cake\Cache\Cache;
 use Cake\Collection\Collection;
 use Cake\Core\Configure;
+use Cake\I18n\I18n;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
 use QuickApps\Core\Plugin;
