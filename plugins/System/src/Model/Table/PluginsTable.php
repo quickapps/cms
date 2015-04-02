@@ -67,7 +67,7 @@ class PluginsTable extends Table
     public function settingsValidate(Event $event, array $data, ArrayObject $options)
     {
         if (!empty($options['entity'])) {
-            $validator = $this->validator('settings');
+            $validator = $this->validator('default');
             $this->trigger("Plugin.{$options['entity']->name}.settingsValidate", $data, $validator);
             $errors = $validator->errors((array)$data);
             foreach ($errors as $k => $v) {
@@ -84,27 +84,16 @@ class PluginsTable extends Table
      * values.
      *
      * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Cake\ORM\Entity $entity The entity where to put those values
+     * @param \Cake\ORM\Entity $plugin The plugin entity where to put those values
      * @return array
      */
-    public function settingsDefaultValues(Event $event, Entity $entity)
+    public function settingsDefaultValues(Event $event, Entity $plugin)
     {
-        if ($entity->has('name')) {
-            return (array)$this->trigger("Plugin.{$entity->name}.settingsDefaults")->result;
+        if ($plugin->has('name')) {
+            return (array)$this->trigger("Plugin.{$plugin->name}.settingsDefaults", $plugin)->result;
         }
 
         return [];
-    }
-
-    /**
-     * Settings validation rules.
-     *
-     * @param \Cake\Validation\Validator $validator The validator object
-     * @return \Cake\Validation\Validator
-     */
-    public function validationSettings(Validator $validator)
-    {
-        return $validator;
     }
 
     /**
