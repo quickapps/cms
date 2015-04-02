@@ -12,6 +12,7 @@
 namespace QuickApps\View\Helper;
 
 use Cake\View\Helper\FormHelper as CakeFormHelper;
+use Cake\View\View;
 use Cake\View\Widget\WidgetRegistry;
 use QuickApps\Event\HookAwareTrait;
 
@@ -39,6 +40,19 @@ class FormHelper extends CakeFormHelper
      * @var string|null
      */
     protected $_prefix = null;
+
+    /**
+     * Construct the widgets and binds the default context providers
+     *
+     * @param \Cake\View\View $View The View this helper is being attached to.
+     * @param array $config Configuration settings for the helper.
+     */
+    public function __construct(View $View, array $config = [])
+    {
+        parent::__construct($View, $config);
+        $this->addWidget('color_picker', ['ColorPicker', '_view']);
+        $this->addWidget('font_panel', ['FontPanel', '_view']);
+    }
 
     /**
      * {@inheritDoc}
