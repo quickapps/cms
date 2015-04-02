@@ -286,7 +286,7 @@ class ManageController extends AppController
     /**
      * Prepares incoming data from Form's POST and patches the given entity.
      *
-     * @param null|\Block\Model\Entity\Block $block BLock to patch with incoming
+     * @param \Block\Model\Entity\Block $block BLock to patch with incoming
      *  POST data
      * @return \Cake\Datasource\EntityInterface Patched entity
      */
