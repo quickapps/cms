@@ -128,7 +128,8 @@ class SerializableBehavior extends Behavior
      * ### Options:
      *
      * - flatten: Flattens serialized information into plain entity properties,
-     *   for example `settings:some_option`
+     *   for example `settings:some_option` => `value`. Valid only column stores
+     *   array values.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\ORM\Query $query Query object
@@ -159,8 +160,8 @@ class SerializableBehavior extends Behavior
                         }
 
                         $entity->set($column, $newValue);
-                        if (!empty($options['flatten'])) {
-                            foreach ($values as $key => $value) {
+                        if (!empty($options['flatten']) && is_array($entity->get($column))) {
+                            foreach ($entity->get($column) as $key => $value) {
                                 $entity->set("{$column}:{$key}", $value);
                             }
                         }
