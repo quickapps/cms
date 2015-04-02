@@ -61,15 +61,13 @@ class ManageController extends AppController
     {
         $this->loadModel('Block.Blocks');
         $block = $this->Blocks->newEntity();
+        $block->set('region', []);
 
         if ($this->request->data()) {
-            $data = $this->_prepareData();
-            $data['handler'] = 'Block';
-            $validator = $this->Blocks->validator('custom');
-            $errors = $validator->errors($data, false);
+            $block->set('handler', 'Block');
+            $block = $this->_patchEntity($block);
 
-            if (empty($errors)) {
-                $block = $this->Blocks->patchEntity($block, $data, ['validate' => false]);
+            if (!$block->errors()) {
                 $block->calculateDelta();
                 if ($this->Blocks->save($block)) {
                     $this->Flash->success(__d('block', 'Block created.'));
@@ -78,7 +76,6 @@ class ManageController extends AppController
                     $this->Flash->danger(__d('block', 'Block could not be created, please check your information.'));
                 }
             } else {
-                $block->errors($errors);
                 $this->Flash->danger(__d('block', 'Block could not be created, please check your information.'));
             }
         }
@@ -107,18 +104,14 @@ class ManageController extends AppController
     public function edit($id)
     {
         $this->loadModel('Block.Blocks');
-        $block = $this->Blocks->get($id, ['contain' => ['BlockRegions', 'Roles']]);
-        $block->accessible('handler', false);
+        $block = $this->Blocks->get($id, ['flatten' => true, 'contain' => ['BlockRegions', 'Roles']]);
 
         if ($this->request->data()) {
-            $validator = $block->handler != 'Block' ? $this->Blocks->validator('default') : $this->Blocks->validator('custom');
-            $this->trigger(["Block.{$block->handler}.validate", $this->Blocks], $this->request->data(), $validator);
-            $errors = $validator->errors($this->request->data(), false);
+            $block->accessible('id', false);
+            $block->accessible('handler', false);
+            $block = $this->_patchEntity($block);
 
-            if (empty($errors)) {
-                $block->accessible('id', false);
-                $data = $this->_prepareData($block);
-                $block = $this->Blocks->patchEntity($block, $data, ['validate' => false]);
+            if (!$block->errors()) {
                 if ($this->Blocks->save($block)) {
                     $this->Flash->success(__d('block', 'Block updated!'));
                     $this->redirect($this->referer());
@@ -126,12 +119,7 @@ class ManageController extends AppController
                     $this->Flash->success(__d('block', 'Your information could not be saved, please try again.'));
                 }
             } else {
-                $block->errors($errors);
                 $this->Flash->danger(__d('block', 'Block could not be updated, please check your information.'));
-            }
-        } else {
-            foreach ((array)$block->settings as $k => $v) {
-                $block->set($k, $v);
             }
         }
 
@@ -297,55 +285,35 @@ class ManageController extends AppController
     }
 
     /**
-     * Prepares incoming data from Form's POST.
-     *
-     * Any input field that is not a column in the "blocks" table will be moved
-     * to the "settings" column. For example, `random_name` becomes `settings.random_name`.
+     * Prepares incoming data from Form's POST and patches the given entity.
      *
      * @param null|\Block\Model\Entity\Block $block Optional entity to patch with
      *  incoming POST data
-     * @param array $ignore List of key to ignore, will not be moved under `settings`
      * @return array
      */
-    protected function _prepareData($block = null, $ignore = [])
+    protected function _patchEntity($block)
     {
         $this->loadModel('Block.Blocks');
-        $ignore = array_merge($ignore, ['region', 'roles']);
         $data = ['region' => []];
-        $columns = array_merge($this->Blocks->schema()->columns(), $ignore);
 
         foreach ($this->request->data() as $column => $value) {
-            if (in_array($column, $columns)) {
-                if ($column == 'region') {
-                    foreach ($value as $theme => $region) {
-                        if ($block === null) {
-                            $data[$column][] = [
-                                'theme' => $theme,
-                                'region' => $region
-                            ];
-                        } else {
-                            $tmp = ['theme' => $theme, 'region' => $region];
-                            foreach ((array)$block->region as $blockRegion) {
-                                if ($blockRegion->theme == $theme) {
-                                    $tmp['id'] = $blockRegion->id;
-                                    break;
-                                }
-                            }
-                            $data[$column][] = $tmp;
+            if ($column == 'region') {
+                foreach ($value as $theme => $region) {
+                    $tmp = ['theme' => $theme, 'region' => $region];
+                    foreach ((array)$block->region as $blockRegion) {
+                        if ($blockRegion->theme == $theme) {
+                            $tmp['id'] = $blockRegion->id;
+                            break;
                         }
                     }
-                } else {
-                    $data[$column] = $value;
+                    $data[$column][] = $tmp;
                 }
             } else {
-                $data['settings'][$column] = $value;
+                $data[$column] = $value;
             }
         }
 
-        if ($block !== null) {
-            $this->Blocks->patchEntity($block, $data);
-        }
-
-        return $data;
+        $validator = $block->handler !== 'Block' ? 'widget' : 'custom';
+        return $this->Blocks->patchEntity($block, $data, ['validate' => $validator, 'entity' => $block]);
     }
 }

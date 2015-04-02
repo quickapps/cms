@@ -15,6 +15,7 @@ use Block\Model\Entity\Block;
 use Cake\Cache\Cache;
 use Cake\Database\Schema\Table as Schema;
 use Cake\Event\Event;
+use Cake\ORM\Entity;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -40,6 +41,19 @@ class BlocksTable extends Table
 {
 
     use HookAwareTrait;
+
+    /**
+     * Get the Model callbacks this table is interested in.
+     *
+     * @return array
+     */
+    public function implementedEvents()
+    {
+        $events = parent::implementedEvents();
+        $events['Blocks.settings.validate'] = 'settingsValidate';
+        $events['Blocks.settings.defaultValues'] = 'settingsDefaultValues';
+        return $events;
+    }
 
     /**
      * Initialize method.
@@ -127,9 +141,10 @@ class BlocksTable extends Table
     }
 
     /**
-     * Gets a list of all blocks renderable in the given type theme.
+     * Gets a list of all blocks renderable in the given theme type (frontend or
+     * backend).
      *
-     * @param string $type Possible values are: 'front' or 'back'
+     * @param string $type Possible values are 'front' or 'back'
      * @return array Blocks index by region name
      */
     protected function _inTheme($type = 'front')
@@ -181,7 +196,7 @@ class BlocksTable extends Table
      * @param \Cake\Validation\Validator $validator The validator object
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
+    public function validationWidget(Validator $validator)
     {
         return $validator
             ->requirePresence('title')
@@ -242,7 +257,7 @@ class BlocksTable extends Table
      */
     public function validationCustom(Validator $validator)
     {
-        return $this->validationDefault($validator)
+        return $this->validationWidget($validator)
             ->requirePresence('body')
             ->add('body', [
                 'notEmpty' => [
@@ -254,6 +269,51 @@ class BlocksTable extends Table
                     'message' => __d('block', "Block's body need to be at least 3 characters long."),
                 ],
             ]);
+    }
+
+
+    /**
+     * Validates block settings before persisted in DB.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param array $data Information to be validated
+     * @param \ArrayObject $options Options given to pathEntity()
+     * @return void
+     */
+    public function settingsValidate(Event $event, array $data, ArrayObject $options)
+    {
+        if (!empty($options['entity']) && $options['entity']->has('handler')) {
+            $block = $options['entity'];
+
+            if ($block->handler !== 'Block') {
+                $validator = $this->validator('default');
+                $this->trigger("Block.{$block->handler}.settingsValidate", $data, $validator);
+                $errors = $validator->errors((array)$data);
+                foreach ($errors as $k => $v) {
+                    $block->errors("settings:{$k}", $v);
+                }
+            }
+        }
+    }
+
+    /**
+     * Here we set default values for block's settings (used by Widget Blocks).
+     *
+     * Triggers the `Block.<handler>.settingsDefaults` event, event listeners
+     * should catch the event and return an array as `key` => `value` with default
+     * values.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\ORM\Entity $block The block where to put those values
+     * @return array
+     */
+    public function settingsDefaultValues(Event $event, Entity $block)
+    {
+        if ($block->has('handler')) {
+            return (array)$this->trigger("Block.{$block->handler}.settingsDefaults", $block)->result;
+        }
+
+        return [];
     }
 
     /**

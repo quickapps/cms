@@ -27,13 +27,16 @@
                 <?php echo $this->Form->input('body', ['label' => __d('block', 'Body *')]); ?>
                 <em class="help-block"><?php echo __d('block', 'The content of the block as shown to the user.'); ?></em>
             <?php else: ?>
-                <!-- handler: <?php echo $block->handler; ?> -->
+                <!-- handler:<?php echo $block->handler; ?> -->
+                <?php echo $this->Form->prefix('settings:'); ?>
                 <?php $response = $this->trigger("Block.{$block->handler}.settings", $block)->result; ?>
                 <?php if ($response): ?>
                     <hr />
                         <?php echo $response; ?>
                     <hr />
                 <?php endif; ?>
+                <?php echo $this->Form->prefix(); ?>
+                <!-- /handler:<?php echo $block->handler; ?> -->
             <?php endif; ?>
 
             <?php echo $this->Form->input('locale', ['type' => 'select', 'error' => false, 'label' => __d('block', 'Language'), 'options' => $languages, 'multiple' => 'checkbox']); ?>
