@@ -208,7 +208,7 @@ class MenuHelper extends Helper
             return '';
         }
 
-        list($attrs, $options) = $this->_prepareOptions($options);
+        list($options, $attrs) = $this->_prepareOptions($options);
         $this->_rendering = true;
         $this->countItems($items);
         $out = '';
