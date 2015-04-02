@@ -108,6 +108,7 @@ class FormHelper extends CakeFormHelper
      */
     public function label($fieldName, $text = null, array $options = [])
     {
+        $fieldName = $this->_fieldName($fieldName);
         $this->alter(['FormHelper.label', $this->_View], $fieldName, $text, $options);
         return parent::label($fieldName, $text, $options);
     }
@@ -162,6 +163,7 @@ class FormHelper extends CakeFormHelper
             }
         }
 
+        $fieldName = $this->_fieldName($fieldName);
         $this->alter(['FormHelper.input', $this->_View], $fieldName, $options);
         return parent::input($fieldName, $options);
     }
@@ -171,6 +173,7 @@ class FormHelper extends CakeFormHelper
      */
     public function checkbox($fieldName, array $options = [])
     {
+        $fieldName = $this->_fieldName($fieldName);
         $this->alter(['FormHelper.checkbox', $this->_View], $fieldName, $options);
         return parent::checkbox($fieldName, $options);
     }
@@ -180,6 +183,7 @@ class FormHelper extends CakeFormHelper
      */
     public function radio($fieldName, $options = [], array $attributes = [])
     {
+        $fieldName = $this->_fieldName($fieldName);
         $this->alter(['FormHelper.radio', $this->_View], $fieldName, $options, $attributes);
         return parent::radio($fieldName, $options, $attributes);
     }
@@ -197,6 +201,7 @@ class FormHelper extends CakeFormHelper
      */
     public function textarea($fieldName, array $options = [])
     {
+        $fieldName = $this->_fieldName($fieldName);
         $this->alter(['FormHelper.textarea', $this->_View], $fieldName, $options);
         return parent::textarea($fieldName, $options);
     }
@@ -206,6 +211,7 @@ class FormHelper extends CakeFormHelper
      */
     public function hidden($fieldName, array $options = [])
     {
+        $fieldName = $this->_fieldName($fieldName);
         $this->alter(['FormHelper.hidden', $this->_View], $fieldName, $options);
         return parent::hidden($fieldName, $options);
     }
@@ -215,6 +221,7 @@ class FormHelper extends CakeFormHelper
      */
     public function file($fieldName, array $options = [])
     {
+        $fieldName = $this->_fieldName($fieldName);
         $this->alter(['FormHelper.file', $this->_View], $fieldName, $options);
         return parent::file($fieldName, $options);
     }
@@ -260,6 +267,7 @@ class FormHelper extends CakeFormHelper
      */
     public function select($fieldName, $options = [], array $attributes = [])
     {
+        $fieldName = $this->_fieldName($fieldName);
         $this->alter(['FormHelper.select', $this->_View], $fieldName, $options, $attributes);
         return parent::select($fieldName, $options, $attributes);
     }
@@ -269,6 +277,7 @@ class FormHelper extends CakeFormHelper
      */
     public function multiCheckbox($fieldName, $options, array $attributes = [])
     {
+        $fieldName = $this->_fieldName($fieldName);
         $this->alter(['FormHelper.multiCheckbox', $this->_View], $fieldName, $options, $attributes);
         return parent::multiCheckbox($fieldName, $options, $attributes);
     }
@@ -278,6 +287,7 @@ class FormHelper extends CakeFormHelper
      */
     public function day($fieldName = null, array $options = [])
     {
+        $fieldName = $this->_fieldName($fieldName);
         $this->alter(['FormHelper.day', $this->_View], $fieldName, $options);
         return parent::day($fieldName, $options);
     }
@@ -287,6 +297,7 @@ class FormHelper extends CakeFormHelper
      */
     public function year($fieldName, array $options = [])
     {
+        $fieldName = $this->_fieldName($fieldName);
         $this->alter(['FormHelper.year', $this->_View], $fieldName, $options);
         return parent::year($fieldName, $options);
     }
@@ -296,6 +307,7 @@ class FormHelper extends CakeFormHelper
      */
     public function month($fieldName, array $options = [])
     {
+        $fieldName = $this->_fieldName($fieldName);
         $this->alter(['FormHelper.month', $this->_View], $fieldName, $options);
         return parent::month($fieldName, $options);
     }
@@ -305,6 +317,7 @@ class FormHelper extends CakeFormHelper
      */
     public function hour($fieldName, array $options = [])
     {
+        $fieldName = $this->_fieldName($fieldName);
         $this->alter(['FormHelper.hour', $this->_View], $fieldName, $options);
         return parent::hour($fieldName, $options);
     }
@@ -314,6 +327,7 @@ class FormHelper extends CakeFormHelper
      */
     public function minute($fieldName, array $options = [])
     {
+        $fieldName = $this->_fieldName($fieldName);
         $this->alter(['FormHelper.minute', $this->_View], $fieldName, $options);
         return parent::minute($fieldName, $options);
     }
@@ -323,6 +337,7 @@ class FormHelper extends CakeFormHelper
      */
     public function meridian($fieldName, array $options = [])
     {
+        $fieldName = $this->_fieldName($fieldName);
         $this->alter(['FormHelper.meridian', $this->_View], $fieldName, $options);
         return parent::meridian($fieldName, $options);
     }
@@ -332,6 +347,7 @@ class FormHelper extends CakeFormHelper
      */
     public function dateTime($fieldName, array $options = [])
     {
+        $fieldName = $this->_fieldName($fieldName);
         $this->alter(['FormHelper.dateTime', $this->_View], $fieldName, $options);
         return parent::dateTime($fieldName, $options);
     }
@@ -341,6 +357,7 @@ class FormHelper extends CakeFormHelper
      */
     public function time($fieldName, array $options = [])
     {
+        $fieldName = $this->_fieldName($fieldName);
         $this->alter(['FormHelper.time', $this->_View], $fieldName, $options);
         return parent::time($fieldName, $options);
     }
@@ -350,6 +367,7 @@ class FormHelper extends CakeFormHelper
      */
     public function date($fieldName, array $options = [])
     {
+        $fieldName = $this->_fieldName($fieldName);
         $this->alter(['FormHelper.date', $this->_View], $fieldName, $options);
         return parent::date($fieldName, $options);
     }
@@ -398,14 +416,26 @@ class FormHelper extends CakeFormHelper
     }
 
     /**
+     * Add prefix to field name if a prefix was set using prefix().
+     *
+     * @param string $name Field name
+     * @return string Prefixed field name
+     */
+    protected function _fieldName($name)
+    {
+        if (!empty($this->_prefix) && strpos($name, $this->_prefix) !== 0) {
+            $name = "{$this->_prefix}{$name}";
+        }
+
+        return $name;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function widget($name, array $data = [])
     {
         $this->alter(['FormHelper.widget', $this->_View], $name, $data);
-        if (!empty($this->_prefix) && !empty($data['name'])) {
-            $data['name'] = "{$this->_prefix}{$data['name']}";
-        }
         return parent::widget($name, $data);
     }
 }
