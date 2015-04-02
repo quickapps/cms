@@ -47,28 +47,18 @@ class ManageController extends AppController
         $menu->set('handler', 'Menu');
 
         if ($this->request->data()) {
-            $data = $this->_prepareData();
-            $validator = $this->Menus->validator();
-            $this->trigger(["Menu.{$menu->handler}.validate", $this->Menus], $data, $validator);
-            $errors = $validator->errors($data, false);
+            $menu = $this->Menus->patchEntity($menu, $this->request->data(), [
+                'fieldList' => [
+                    'title',
+                    'description',
+                    'settings',
+                ],
+            ]);
 
-            if (empty($errors)) {
-                $menu = $this->Menus->patchEntity($menu, $data, [
-                    'fieldList' => [
-                        'title',
-                        'description',
-                        'settings',
-                    ],
-                ]);
-
-                if ($this->Menus->save($menu, ['atomic' => true])) {
-                    $this->Flash->success(__d('menu', 'Menu has been created, now you can start adding links!'));
-                    $this->redirect(['plugin' => 'Menu', 'controller' => 'links', 'action' => 'add', $menu->id]);
-                } else {
-                    $this->Flash->danger(__d('menu', 'Menu could not be created, please check your information'));
-                }
+            if ($this->Menus->save($menu, ['atomic' => true])) {
+                $this->Flash->success(__d('menu', 'Menu has been created, now you can start adding links!'));
+                $this->redirect(['plugin' => 'Menu', 'controller' => 'links', 'action' => 'add', $menu->id]);
             } else {
-                $menu->errors($errors);
                 $this->Flash->danger(__d('menu', 'Menu could not be created, please check your information'));
             }
         }
@@ -95,28 +85,19 @@ class ManageController extends AppController
         $menu = $this->Menus->get($id);
 
         if ($this->request->data()) {
-            $data = $this->_prepareData();
-            $validator = $this->Menus->validator('default');
-            $errors = $validator->errors($data, false);
+            $menu = $this->Menus->patchEntity($menu, $this->request->data(), [
+                'fieldList' => [
+                    'title',
+                    'description',
+                    'settings',
+                ],
+                'validate' => false
+            ]);
 
-            if (empty($errors)) {
-                $menu = $this->Menus->patchEntity($menu, $data, [
-                    'fieldList' => [
-                        'title',
-                        'description',
-                        'settings',
-                    ],
-                    'validate' => false
-                ]);
-
-                if ($this->Menus->save($menu, ['atomic' => true])) {
-                    $this->Flash->success(__d('menu', 'Menu has been saved!'));
-                    $this->redirect($this->referer());
-                } else {
-                    $this->Flash->danger(__d('menu', 'Menu could not be saved, please check your information'));
-                }
+            if ($this->Menus->save($menu, ['atomic' => true])) {
+                $this->Flash->success(__d('menu', 'Menu has been saved!'));
+                $this->redirect($this->referer());
             } else {
-                $menu->errors($errors);
                 $this->Flash->danger(__d('menu', 'Menu could not be saved, please check your information'));
             }
         }
@@ -147,30 +128,5 @@ class ManageController extends AppController
         }
 
         $this->redirect($this->referer());
-    }
-
-    /**
-     * Prepares incoming data from Form's POST.
-     *
-     * Any input field that is not a column in the "menus" table will be moved to the
-     * "settings" column. For example, `random_name` becomes `settings.random_name`.
-     *
-     * @return array
-     */
-    protected function _prepareData()
-    {
-        $this->loadModel('Block.Blocks');
-        $columns = $this->Blocks->schema()->columns();
-        $data = [];
-
-        foreach ($this->request->data as $coulumn => $value) {
-            if (in_array($coulumn, $columns)) {
-                $data[$coulumn] = $value;
-            } else {
-                $data['settings'][$coulumn] = $value;
-            }
-        }
-
-        return $data;
     }
 }
