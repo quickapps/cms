@@ -105,7 +105,7 @@ class NodesTable extends Table
 
         $this->addBehavior('Timestamp');
         $this->addBehavior('Comment.Commentable');
-        $this->addBehavior('System.Sluggable');
+        $this->addBehavior('Sluggable');
         $this->addBehavior('User.WhoDidIt', [
             'idCallable' => function () {
                 return user()->get('id');

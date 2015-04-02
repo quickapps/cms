@@ -9,7 +9,7 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace System\View\Widget;
+namespace QuickApps\View\Widget;
 
 use Cake\View\Form\ContextInterface;
 use Cake\View\Widget\WidgetInterface;
@@ -17,9 +17,9 @@ use Cake\View\Widget\WidgetInterface;
 /**
  * Color picker input class.
  *
- * Provides a JavaScript color wheel for picking colors.
+ * Provides a JavaScript color panel for picking HEX colors.
  */
-class FontPanelWidget implements WidgetInterface
+class ColorPickerWidget implements WidgetInterface
 {
 
     /**
@@ -64,19 +64,21 @@ class FontPanelWidget implements WidgetInterface
             'escape' => true,
         ];
         $data['value'] = $data['val'];
-        $data['readonly'] = 'readonly';
         unset($data['val']);
         $this->_loadAssets();
 
-        $data['class'] = !empty($data['class']) ? "{$data['class']} fontselector" : 'fontselector';
+        if (empty($data['id'])) {
+            $data['id'] = 'color-picker-' . md5(serialize($data));
+        }
+
         return $this->_templates->format('input', [
             'name' => $data['name'],
-            'type' => 'text',
+            'type' => 'hidden',
             'attrs' => $this->_templates->formatAttributes(
                 $data,
                 ['name', 'type']
             ),
-        ]) . '<p id="' . $data['id'] . '-preview" style="font:' . $data['value'] . ';">Example text</p>';
+        ]) . '<div class="colorSelector"><div class="preview" data-for="' . $data['id'] . '"></div></div>';
     }
 
     /**
@@ -94,8 +96,8 @@ class FontPanelWidget implements WidgetInterface
      */
     protected function _loadAssets()
     {
-        $this->_View->Html->css('System./font-panel/fontpanel.css', ['block' => true]);
-        $this->_View->Html->script('System./font-panel/fontpanel.js', ['block' => true]);
-        $this->_View->Html->script('System./font-panel/font-panel-init.js', ['block' => true]);
+        $this->_View->Html->css('System./color-picker/colorpicker.css', ['block' => true]);
+        $this->_View->Html->script('System./color-picker/colorpicker.js', ['block' => true]);
+        $this->_View->Html->script('System./color-picker/color-picker-init.js', ['block' => true]);
     }
 }

@@ -35,7 +35,7 @@ class FieldValuesTable extends Table
             'foreignKey' => 'field_instance_id'
         ]);
 
-        $this->addBehavior('System.Serializable', [
+        $this->addBehavior('Serializable', [
             'columns' => ['raw']
         ]);
     }

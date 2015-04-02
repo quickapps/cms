@@ -33,12 +33,12 @@ class NodeTypesTable extends Table
      */
     public function initialize(array $config)
     {
-        $this->addBehavior('System.Sluggable', [
+        $this->addBehavior('Sluggable', [
             'label' => 'name',
             'slug' => 'slug',
             'on' => 'insert',
         ]);
-        $this->addBehavior('System.Serializable', [
+        $this->addBehavior('Serializable', [
             'columns' => ['settings', 'defaults']
         ]);
     }

@@ -30,7 +30,7 @@ class OptionsTable extends Table
      */
     public function initialize(array $config)
     {
-        $this->addBehavior('System.Serializable', [
+        $this->addBehavior('Serializable', [
             'columns' => ['value']
         ]);
     }

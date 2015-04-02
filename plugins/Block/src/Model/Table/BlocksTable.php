@@ -83,7 +83,7 @@ class BlocksTable extends Table
             'propertyName' => 'roles',
         ]);
 
-        $this->addBehavior('System.Serializable', [
+        $this->addBehavior('Serializable', [
             'columns' => ['locale', 'settings']
         ]);
     }
@@ -285,7 +285,7 @@ class BlocksTable extends Table
             $block = $options['entity'];
 
             if ($block->handler !== 'Block') {
-                $validator = $this->validator('default');
+                $validator = new Validator();
                 $this->trigger("Block.{$block->handler}.settingsValidate", $data, $validator);
                 $errors = $validator->errors((array)$data);
                 foreach ($errors as $k => $v) {

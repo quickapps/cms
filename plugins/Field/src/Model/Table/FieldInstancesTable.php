@@ -53,7 +53,7 @@ class FieldInstancesTable extends Table
      */
     public function initialize(array $config)
     {
-        $this->addBehavior('System.Serializable', [
+        $this->addBehavior('Serializable', [
             'columns' => ['settings', 'view_modes']
         ]);
     }

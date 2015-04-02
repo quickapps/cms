@@ -9,7 +9,7 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace System\Model\Behavior;
+namespace QuickApps\Model\Behavior;
 
 use Cake\Database\Type;
 use Cake\Datasource\EntityInterface;
@@ -146,10 +146,19 @@ class SerializableBehavior extends Behavior
                 foreach ($this->config('columns') as $column) {
                     if ($entity->has($column)) {
                         $eventName = $this->_table->alias() . ".{$column}.defaultValues";
-                        $defaults = (array)$this->_table->dispatchEvent($eventName, compact('entity'))->result;
-                        $values = Hash::merge($defaults, $entity->get($column));
-                        $entity->set($column, $values);
+                        $defaultValue = $this->_table->dispatchEvent($eventName, compact('entity'))->result;
+                        $currentValue = $entity->get($column);
+                        $newValue = $currentValue;
 
+                        if (is_array($currentValue) && is_array($defaultValue)) {
+                            $newValue = Hash::merge($defaultValue, $currentValue);
+                        } elseif (is_string($currentValue) && $currentValue === '') {
+                            $newValue = $defaultValue;
+                        } elseif (empty($currentValue) && !empty($defaultValue)) {
+                            $newValue = $defaultValue;
+                        }
+
+                        $entity->set($column, $newValue);
                         if (!empty($options['flatten'])) {
                             foreach ($values as $key => $value) {
                                 $entity->set("{$column}:{$key}", $value);

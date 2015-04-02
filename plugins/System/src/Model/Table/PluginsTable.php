@@ -51,7 +51,7 @@ class PluginsTable extends Table
      */
     public function initialize(array $config)
     {
-        $this->addBehavior('System.Serializable', [
+        $this->addBehavior('Serializable', [
             'columns' => ['settings']
         ]);
     }
@@ -66,12 +66,15 @@ class PluginsTable extends Table
      */
     public function settingsValidate(Event $event, array $data, ArrayObject $options)
     {
-        if (!empty($options['entity'])) {
-            $validator = $this->validator('default');
+        if (!empty($options['entity']) && $options['entity']->has('name')) {
+            $validator = new Validator();
             $this->trigger("Plugin.{$options['entity']->name}.settingsValidate", $data, $validator);
-            $errors = $validator->errors((array)$data);
-            foreach ($errors as $k => $v) {
-                $options['entity']->errors("settings:{$k}", $v);
+            $errors = $validator->errors($data, $options['entity']->isNew());
+
+            if (!empty($errors)) {
+                foreach ($errors as $k => $v) {
+                    $options['entity']->errors("settings:{$k}", $v);
+                }
             }
         }
     }
