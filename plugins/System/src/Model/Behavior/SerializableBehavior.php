@@ -12,12 +12,12 @@
 namespace System\Model\Behavior;
 
 use Cake\Database\Type;
+use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Utility\Hash;
-use QuickApps\Event\HookAwareTrait;
 use \ArrayObject;
 
 /**
@@ -97,7 +97,7 @@ class SerializableBehavior extends Behavior
     public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
     {
         foreach ((array)$data as $key => $value) {
-            if (strpos($key, ':')) {
+            if ((int)strpos($key, ':') > 0) {
                 list($column, $subcolumn) = explode(':', $key);
                 $data[$column][$subcolumn] = $value;
                 unset($data[$key]);
@@ -140,6 +140,9 @@ class SerializableBehavior extends Behavior
     {
         $query->formatResults(function ($results) use ($options) {
             return $results->map(function ($entity) use ($options) {
+                if (!($entity instanceof EntityInterface)) {
+                    return $entity;
+                }
                 foreach ($this->config('columns') as $column) {
                     if ($entity->has($column)) {
                         $eventName = $this->_table->alias() . ".{$column}.defaultValues";
@@ -152,9 +155,9 @@ class SerializableBehavior extends Behavior
                                 $entity->set("{$column}:{$key}", $value);
                             }
                         }
-                        return $entity;
                     }
                 }
+                return $entity;
             });
         });
     }
