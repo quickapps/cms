@@ -170,7 +170,7 @@ class PluginsController extends AppController
      * When saving plugin's information `PluginsTable` will trigger the
      * following events:
      *
-     * - `Plugin.<PluginName>.validate`
+     * - `Plugin.<PluginName>.settingsValidate`
      * - `Plugin.<PluginName>.beforeSave`
      * - `Plugin.<PluginName>.afterSave`
      *
@@ -195,46 +195,29 @@ class PluginsController extends AppController
      */
     public function settings($pluginName)
     {
-        $plugin = Plugin::get($pluginName);
-        $arrayContext = [
-            'schema' => [],
-            'defaults' => [],
-            'errors' => [],
-        ];
+        $info = Plugin::get($pluginName);
+        $this->loadModel('System.Plugins');
+        $plugin = $this->Plugins->get($pluginName, ['flatten' => true]);
 
-        if (!$plugin->hasSettings || $plugin->isTheme) {
+        if (!$info->hasSettings || $info->isTheme) {
             throw new NotFoundException(__d('system', 'The requested page was not found.'));
         }
 
         if ($this->request->data()) {
-            $this->loadModel('System.Plugins');
-            $data = $this->request->data();
-            $validator = $this->Plugins->validator('settings');
-            $this->trigger(["Plugin.{$pluginName}.validate", $this->Plugins], $data, $validator);
-            $errors = $validator->errors($data, false);
-
-            if (empty($errors)) {
-                $pluginEntity = $this->Plugins->get($pluginName);
-                $pluginEntity->set('settings', $this->request->data());
-
-                if ($this->Plugins->save($pluginEntity)) {
+            $plugin = $this->Plugins->patchEntity($plugin, $this->request->data(), ['entity' => $plugin]);
+            if (!$plugin->errors()) {
+                if ($this->Plugins->save($plugin)) {
                     $this->Flash->success(__d('system', 'Plugin settings saved!'));
                     $this->redirect($this->referer());
                 }
             } else {
                 $this->Flash->danger(__d('system', 'Plugin settings could not be saved.'));
-                foreach ($errors as $field => $message) {
-                    $arrayContext['errors'][$field] = $message;
-                }
             }
-        } else {
-            $arrayContext['defaults'] = (array)$plugin->settings;
-            $this->request->data = $arrayContext['defaults'];
         }
 
-        $this->set(compact('arrayContext', 'plugin'));
+        $this->set(compact('plugin', 'info'));
         $this->Breadcrumb
             ->push('/admin/system/plugins')
-            ->push(__d('system', 'Settings for "{0}" plugin', $plugin->name), '#');
+            ->push(__d('system', 'Settings for "{0}" plugin', $info->name), '#');
     }
 }

@@ -31,15 +31,69 @@ class PluginsTable extends Table
     use HookAwareTrait;
 
     /**
-     * Alter the schema used by this table.
+     * Get the Model callbacks this table is interested in.
      *
-     * @param \Cake\Database\Schema\Table $table The table definition fetched from database
-     * @return \Cake\Database\Schema\Table the altered schema
+     * @return array
      */
-    protected function _initializeSchema(Schema $table)
+    public function implementedEvents()
     {
-        $table->columnType('settings', 'serialized');
-        return $table;
+        $events = parent::implementedEvents();
+        $events['Plugins.settings.validate'] = 'settingsValidate';
+        $events['Plugins.settings.defaultValues'] = 'settingsDefaultValues';
+        return $events;
+    }
+
+    /**
+     * Initialize a table instance. Called after the constructor.
+     *
+     * @param array $config Configuration options passed to the constructor
+     * @return void
+     */
+    public function initialize(array $config)
+    {
+        $this->addBehavior('System.Serializable', [
+            'columns' => ['settings']
+        ]);
+    }
+
+    /**
+     * Validates plugin settings before persisted in DB.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param array $data Information to be validated
+     * @param \ArrayObject $options Options given to pathEntity()
+     * @return void
+     */
+    public function settingsValidate(Event $event, array $data, ArrayObject $options)
+    {
+        if (!empty($options['entity'])) {
+            $validator = $this->validator('settings');
+            $this->trigger("Plugin.{$options['entity']->name}.settingsValidate", $data, $validator);
+            $errors = $validator->errors((array)$data);
+            foreach ($errors as $k => $v) {
+                $options['entity']->errors("settings:{$k}", $v);
+            }
+        }
+    }
+
+    /**
+     * Here we set default values for plugin's settings.
+     *
+     * Triggers the `Plugin.<PluginName>.settingsDefaults` event, event listeners
+     * should catch the event and return an array as `key` => `value` with default
+     * values.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\ORM\Entity $entity The entity where to put those values
+     * @return array
+     */
+    public function settingsDefaultValues(Event $event, Entity $entity)
+    {
+        if ($entity->has('name')) {
+            return (array)$this->trigger("Plugin.{$entity->name}.settingsDefaults")->result;
+        }
+
+        return [];
     }
 
     /**
@@ -51,36 +105,6 @@ class PluginsTable extends Table
     public function validationSettings(Validator $validator)
     {
         return $validator;
-    }
-
-    /**
-     * Here we set default values for plugin's settings.
-     *
-     * Similar to Field Handlers, plugins may implement the
-     * `Plugin.<PluginName>.settingsDefaults` event to provide default settings
-     * values.
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Cake\ORM\Query $query Query object
-     * @param \ArrayObject $options Additional options as an array
-     * @param bool $primary Whether is find is a primary query or not
-     * @return void
-     */
-    public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary)
-    {
-        $query->formatResults(function ($results) {
-            return $results->map(function ($plugin) {
-                if ($plugin->has('settings') && $plugin->has('name')) {
-                    $settingsDefaults = $this->trigger("Plugin.{$plugin->name}.settingsDefaults")->result;
-                    if (!is_array($settingsDefaults)) {
-                        $settingsDefaults = [];
-                    }
-                    $settings = Hash::merge($settingsDefaults, $plugin->settings);
-                    $plugin->set('settings', $settings);
-                    return $plugin;
-                }
-            });
-        });
     }
 
     /**

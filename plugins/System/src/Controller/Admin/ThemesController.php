@@ -228,45 +228,29 @@ class ThemesController extends AppController
      */
     public function settings($themeName)
     {
-        $theme = Plugin::get($themeName);
-        $arrayContext = [
-            'schema' => [],
-            'defaults' => [],
-            'errors' => [],
-        ];
+        $info = Plugin::get($themeName);
+        $this->loadModel('System.Plugins');
+        $theme = $this->Plugins->get($themeName, ['flatten' => true]);
 
-        if (!$theme->hasSettings || !$theme->isTheme) {
+        if (!$info->hasSettings || !$info->isTheme) {
             throw new NotFoundException(__d('system', 'The requested page was not found.'));
         }
 
-        if (!empty($this->request->data)) {
-            $this->loadModel('System.Plugins');
-            $data = $this->request->data();
-            $validator = $this->Plugins->validator('settings');
-            $this->trigger(["Plugin.{$themeName}.validate", $this->Plugins], $data, $validator);
-            $errors = $validator->errors($data, false);
-
-            if (empty($errors)) {
-                $pluginEntity = $this->Plugins->get($themeName);
-                $pluginEntity->set('settings', $this->request->data());
-
-                if ($this->Plugins->save($pluginEntity)) {
+        if ($this->request->data()) {
+            $theme = $this->Plugins->patchEntity($theme, $this->request->data(), ['entity' => $theme]);
+            if (!$theme->errors()) {
+                if ($this->Plugins->save($theme)) {
                     $this->Flash->success(__d('system', 'Theme settings saved!'));
                     $this->redirect($this->referer());
                 }
             } else {
                 $this->Flash->danger(__d('system', 'Theme settings could not be saved.'));
-                foreach ($errors as $field => $message) {
-                    $arrayContext['errors'][$field] = $message;
-                }
             }
-        } else {
-            $this->request->data = (array)$theme->settings;
         }
 
-        $this->set(compact('arrayContext', 'theme'));
+        $this->set(compact('info', 'theme'));
         $this->Breadcrumb
             ->push('/admin/system/themes')
-            ->push(__d('system', 'Settings for {0} theme', $theme->name), '#');
+            ->push(__d('system', 'Settings for {0} theme', $info->name), '#');
     }
 }

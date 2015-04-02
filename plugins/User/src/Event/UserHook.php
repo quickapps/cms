@@ -47,7 +47,7 @@ class UserHook implements EventListenerInterface
             'User.passwordRequest' => 'passwordRequest',
 
             // plugin
-            'Plugin.User.validate' => 'settingsValidate',
+            'Plugin.User.settingsValidate' => 'settingsValidate',
             'Plugin.User.settingsDefaults' => 'settingsDefaults',
 
             // Blocks

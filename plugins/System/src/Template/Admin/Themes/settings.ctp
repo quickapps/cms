@@ -14,11 +14,14 @@ $this->Form->addWidget('color_picker', ['System.ColorPicker', '_view']);
 $this->Form->addWidget('font_panel', ['System.FontPanel', '_view']);
 ?>
 
-<?php echo $this->Form->create($arrayContext); ?>
+<?php echo $this->Form->create($theme); ?>
     <fieldset>
         <legend><?php echo __d('system', 'Theme Settings'); ?></legend>
 
+        <?php $this->Form->prefix('settings:'); ?>
         <?php echo $this->element("{$theme->name}.settings"); ?>
+        <?php $this->Form->prefix(); ?>
+
         <?php echo $this->Form->submit(__d('system', 'Save all')); ?>
     </fieldset>
 <?php echo $this->Form->end(); ?>
