@@ -27,19 +27,6 @@ class NodeTypesTable extends Table
 {
 
     /**
-     * Alter the schema used by this table.
-     *
-     * @param \Cake\Database\Schema\Table $table The table definition fetched from database
-     * @return \Cake\Database\Schema\Table the altered schema
-     */
-    protected function _initializeSchema(Schema $table)
-    {
-        $table->columnType('settings', 'serialized');
-        $table->columnType('defaults', 'serialized');
-        return $table;
-    }
-
-    /**
      * Initialize a table instance. Called after the constructor.
      *
      * @param array $config Configuration options passed to the constructor
@@ -51,6 +38,9 @@ class NodeTypesTable extends Table
             'label' => 'name',
             'slug' => 'slug',
             'on' => 'insert',
+        ]);
+        $this->addBehavior('System.Serializable', [
+            'columns' => ['settings', 'defaults']
         ]);
     }
 

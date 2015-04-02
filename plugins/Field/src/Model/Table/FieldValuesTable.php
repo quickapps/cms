@@ -11,7 +11,6 @@
  */
 namespace Field\Model\Table;
 
-use Cake\Database\Schema\Table as Schema;
 use Cake\ORM\Table;
 
 /**
@@ -24,18 +23,6 @@ class FieldValuesTable extends Table
 {
 
     /**
-     * Alter the schema used by this table.
-     *
-     * @param \Cake\Database\Schema\Table $table The table definition fetched from database
-     * @return \Cake\Database\Schema\Table the altered schema
-     */
-    protected function _initializeSchema(Schema $table)
-    {
-        $table->columnType('raw', 'serialized');
-        return $table;
-    }
-
-    /**
      * Initialize a table instance. Called after the constructor.
      *
      * @param array $config Configuration options passed to the constructor
@@ -46,6 +33,10 @@ class FieldValuesTable extends Table
         $this->belongsTo('FieldInstances', [
             'className' => 'Field.FieldInstances',
             'foreignKey' => 'field_instance_id'
+        ]);
+
+        $this->addBehavior('System.Serializable', [
+            'columns' => ['raw']
         ]);
     }
 }

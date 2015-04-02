@@ -24,15 +24,16 @@ class OptionsTable extends Table
 {
 
     /**
-     * Alter the schema used by this table.
+     * Initialize a table instance. Called after the constructor.
      *
-     * @param \Cake\Database\Schema\Table $table The table definition fetched from database
-     * @return \Cake\Database\Schema\Table the altered schema
+     * @param array $config Configuration options passed to the constructor
+     * @return void
      */
-    protected function _initializeSchema(Schema $table)
+    public function initialize(array $config)
     {
-        $table->columnType('value', 'serialized');
-        return $table;
+        $this->addBehavior('System.Serializable', [
+            'columns' => ['value']
+        ]);
     }
 
     /**

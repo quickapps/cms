@@ -11,7 +11,6 @@
  */
 namespace Field\Model\Table;
 
-use Cake\Database\Schema\Table as Schema;
 use Cake\Event\Event;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
@@ -47,16 +46,16 @@ class FieldInstancesTable extends Table
     use ViewModeAwareTrait;
 
     /**
-     * Alter the schema used by this table.
+     * Initialize a table instance. Called after the constructor.
      *
-     * @param \Cake\Database\Schema\Table $table The table definition fetched from database
-     * @return \Cake\Database\Schema\Table the altered schema
+     * @param array $config Configuration options passed to the constructor
+     * @return void
      */
-    protected function _initializeSchema(Schema $table)
+    public function initialize(array $config)
     {
-        $table->columnType('settings', 'serialized');
-        $table->columnType('view_modes', 'serialized');
-        return $table;
+        $this->addBehavior('System.Serializable', [
+            'columns' => ['settings', 'view_modes']
+        ]);
     }
 
     /**

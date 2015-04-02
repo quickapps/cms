@@ -69,19 +69,10 @@ class BlocksTable extends Table
             'dependent' => false,
             'propertyName' => 'roles',
         ]);
-    }
 
-    /**
-     * Alter the schema used by this table.
-     *
-     * @param \Cake\Database\Schema\Table $table The table definition fetched from database
-     * @return \Cake\Database\Schema\Table the altered schema
-     */
-    protected function _initializeSchema(Schema $table)
-    {
-        $table->columnType('locale', 'serialized');
-        $table->columnType('settings', 'serialized');
-        return $table;
+        $this->addBehavior('System.Serializable', [
+            'columns' => ['locale', 'settings']
+        ]);
     }
 
     /**
