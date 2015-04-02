@@ -64,7 +64,6 @@ class ManageController extends AppController
         $block->set('region', []);
 
         if ($this->request->data()) {
-            $block->set('handler', 'Block');
             $block = $this->_patchEntity($block);
 
             if (!$block->errors()) {
@@ -311,6 +310,11 @@ class ManageController extends AppController
             } else {
                 $data[$column] = $value;
             }
+        }
+
+        if ($block->isNew()) {
+            $data['handler'] = 'Block';
+            $block->set('handler', 'Block');
         }
 
         $validator = $block->handler !== 'Block' ? 'widget' : 'custom';
