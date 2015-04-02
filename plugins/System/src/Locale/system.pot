@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-04-01 00:58+0000\n"
+"POT-Creation-Date: 2015-04-02 13:16+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -79,20 +79,20 @@ msgstr ""
 msgid "Plugin could not be disabled"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:206
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:239
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:203
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:236
 msgid "The requested page was not found."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:221
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:210
 msgid "Plugin settings saved!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:225
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:214
 msgid "Plugin settings could not be saved."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:238
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:221
 msgid "Settings for \"{0}\" plugin"
 msgstr ""
 
@@ -141,19 +141,19 @@ msgstr ""
 msgid "Details"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:253
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:243
 msgid "Theme settings saved!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:257
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:247
 msgid "Theme settings could not be saved."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:269
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:254
 msgid "Settings for {0} theme"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Model/Behavior/SluggableBehavior.php:111
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Model/Behavior/SluggableBehavior.php:91
 msgid "SluggableBehavior was not able to generate a slug reason: entity's property \"{0}\" not found"
 msgstr ""
 
@@ -356,8 +356,8 @@ msgstr ""
 msgid "Plugin Settings"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/settings.ctp:19
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/settings.ctp:19
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/settings.ctp:22
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/settings.ctp:25
 msgid "Save all"
 msgstr ""
 
@@ -381,7 +381,7 @@ msgstr ""
 msgid "/example/path/to/theme.zip"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/settings.ctp:16
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/settings.ctp:19
 msgid "Theme Settings"
 msgstr ""
 

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-04-01 00:58+0000\n"
+"POT-Creation-Date: 2015-04-02 13:16+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -255,55 +255,55 @@ msgstr ""
 msgid "Role name need to be at least 3 characters long."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:87
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:86
 msgid "e-mail already in use."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:90
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:89
 msgid "Username already in use."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:104
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:103
 msgid "You must provide a name."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:112
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:111
 msgid "Invalid username. Only letters, numbers and \"_\" symbol, and at least three characters long."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:116
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:115
 msgid "e-mail cannot be empty."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:125
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:124
 msgid "Password mismatch."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:131
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:130
 msgid "Invalid URL."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:167
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:166
 msgid "UsersTable::updateToken(), no ID was found for the given entity."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:215
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:214
 msgid "Password must be at least {0} characters long."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:224
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:223
 msgid "Password must contain at least one uppercase character (A-Z)."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:233
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:232
 msgid "Password must contain at least one lowercase character (a-z)."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:242
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:241
 msgid "Password must contain at least one numeric character (1-9)."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:251
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Model/Table/UsersTable.php:250
 msgid "Password must contain at least one non-alphanumeric character (e.g. #%?)."
 msgstr ""
 
@@ -561,23 +561,23 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Template/Element/password_help.ctp:18
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Template/Element/password_help.ctp:16
 msgid "At least {0} characters length."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Template/Element/password_help.ctp:21
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Template/Element/password_help.ctp:19
 msgid "At least one uppercase character (A-Z)."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Template/Element/password_help.ctp:25
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Template/Element/password_help.ctp:23
 msgid "At least one lowercase character (a-z)."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Template/Element/password_help.ctp:29
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Template/Element/password_help.ctp:27
 msgid "At least one numeric character (0-9)."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Template/Element/password_help.ctp:33
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/User/src/Template/Element/password_help.ctp:31
 msgid "At least one non-alphanumeric character (e.g. <code>#$\"</code>)."
 msgstr ""
 

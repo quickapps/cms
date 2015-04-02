@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-04-01 00:58+0000\n"
+"POT-Creation-Date: 2015-04-02 13:16+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -253,39 +253,39 @@ msgstr ""
 msgid "FieldableBehavior: The \"bundle\" option was set to \"{0}\", but this property could not be found on entities being fetched."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:85
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:84
 msgid "No more instances of this field can be attached, limit reached."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:89
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:88
 msgid "The machine name is already in use."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:105
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:104
 msgid "You need to provide a machine name."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:109
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:108
 msgid "Machine name need to be at least 3 characters long."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:115
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:114
 msgid "Only lowercase letters, numbers and \"-\" symbol are allowed."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:119
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:118
 msgid "Invalid table alias."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:120
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:119
 msgid "Invalid field type."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:124
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:123
 msgid "You need to provide a label."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:128
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:127
 msgid "Label need to be at least 3 characters long"
 msgstr ""
 

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-04-01 00:58+0000\n"
+"POT-Creation-Date: 2015-04-02 13:16+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -192,27 +192,27 @@ msgstr ""
 msgid "Node::setDefaults() was unable to get Content Type defaults values."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Model/Table/NodeTypesTable.php:70
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Model/Table/NodeTypesTable.php:59
 msgid "You need to provide a content type name."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Model/Table/NodeTypesTable.php:74
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Model/Table/NodeTypesTable.php:63
 msgid "Name need to be at least 3 characters long."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Model/Table/NodeTypesTable.php:78
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Model/Table/NodeTypesTable.php:67
 msgid "Machine-name cannot be left empty."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Model/Table/NodeTypesTable.php:83
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Model/Table/NodeTypesTable.php:72
 msgid "Invalid machine-name."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Model/Table/NodeTypesTable.php:89
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Model/Table/NodeTypesTable.php:78
 msgid "You need to provide a \"Title Label\"."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Model/Table/NodeTypesTable.php:93
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Model/Table/NodeTypesTable.php:82
 msgid "\"Title Label\" need to be at least 3 characters long."
 msgstr ""
 

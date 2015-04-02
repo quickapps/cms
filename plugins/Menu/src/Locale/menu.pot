@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-04-01 00:58+0000\n"
+"POT-Creation-Date: 2015-04-02 13:16+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -66,35 +66,35 @@ msgstr ""
 msgid "Link could not be removed, please try again"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:65
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:59
 msgid "Menu has been created, now you can start adding links!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:68;72
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:62
 msgid "Menu could not be created, please check your information"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:79
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:69
 msgid "Creating new menu"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:113
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:98
 msgid "Menu has been saved!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:116;120
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:101
 msgid "Menu could not be saved, please check your information"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:127
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:108
 msgid "Editing menu {0}"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:144
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:125
 msgid "Menu has been successfully deleted!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:146
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:127
 msgid "Menu could not be deleted, please try again"
 msgstr ""
 
