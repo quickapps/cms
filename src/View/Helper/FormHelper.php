@@ -34,6 +34,13 @@ class FormHelper extends CakeFormHelper
     protected $_isRendering = false;
 
     /**
+     * Prefix to prepends to every "name" attribute of rendered inputs.
+     *
+     * @var string|null
+     */
+    protected $_prefix = null;
+
+    /**
      * {@inheritDoc}
      */
     public function widgetRegistry(WidgetRegistry $instance = null, $widgets = [])
@@ -366,11 +373,39 @@ class FormHelper extends CakeFormHelper
     }
 
     /**
+     * Sets/Unsets an input prefix.
+     *
+     * ### Example:
+     *
+     * ```php
+     * $this->Form->prefix('settings:');
+     * echo $this->Form->input('site_name');
+     * // outputs: <input type="text" name="settings:site_name" />
+     *
+     * $this->Form->prefix();
+     * echo $this->Form->input('site_title');
+     * // outputs: <input type="text" name="site_title" />
+     * ```
+     *
+     * @param string|null $prefix The prefix to be set, or leave empty to unset any
+     *  previous prefix
+     * @return void
+     */
+    public function prefix($prefix = null)
+    {
+        $this->alter(['FormHelper.prefix', $this->_View], $prefix);
+        $this->_prefix = $prefix;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function widget($name, array $data = [])
     {
         $this->alter(['FormHelper.widget', $this->_View], $name, $data);
+        if (!empty($this->_prefix) && !empty($data['name'])) {
+            $data['name'] = "{$this->_prefix}{$data['name']}";
+        }
         return parent::widget($name, $data);
     }
 }
