@@ -54,6 +54,7 @@ $vocabularies = TableRegistry::get('Taxonomy.Vocabularies')->find('list')->toArr
             'label' => __d('taxonomy', 'Show vocabulary and its terms as tree')
         ]);
     ?>
+    {no-hooktag}
     <?php
         echo $this->Form->input('link_template', [
             'type' => 'text',
@@ -61,6 +62,7 @@ $vocabularies = TableRegistry::get('Taxonomy.Vocabularies')->find('list')->toArr
         ]);
     ?>
     <em class="help-block"><?php echo __d('taxonomy', 'Template to use when rendering each link of the list. Valid placeholders are <code>{{url}}</code>, <code>{{attrs}}</code> and <code>{{content}}</code>. If not provided defaults to: <code>&lt;a href="{{url}}"{{attrs}}&gt;&lt;span&gt;{{content}}&lt;/span&gt;&lt;/a&gt;</code>'); ?></em>
+    {/no-hooktag}
 <?php endif; ?>
 
 
