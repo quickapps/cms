@@ -26,13 +26,6 @@ class SluggableBehavior extends Behavior
 {
 
     /**
-     * Table which this behavior is attached to.
-     *
-     * @var \Cake\ORM\Table
-     */
-    protected $_table;
-
-    /**
      * Flag.
      *
      * @var bool
@@ -67,18 +60,6 @@ class SluggableBehavior extends Behavior
             'unbindSluggable' => 'unbindSluggable',
         ],
     ];
-
-    /**
-     * Constructor.
-     *
-     * @param \Cake\ORM\Table $table The table this behavior is attached to
-     * @param array $config Configuration array for this behavior
-     */
-    public function __construct(Table $table, array $config = [])
-    {
-        $this->_table = $table;
-        parent::__construct($table, $config);
-    }
 
     /**
      * Run before a model is saved, used to set up slug for model.
