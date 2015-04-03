@@ -162,7 +162,7 @@ if (!function_exists('snapshot')) {
             }
 
             if ($pluginPath === false || !is_readable($pluginPath . '/composer.json')) {
-                Debugger::log(sprintf('Plugin "%s" was found in DB but QuickApps CMS was unable to locate its directory in the file system or its "composer.json" file.', $plugin->name));
+                Debugger::log(sprintf('Plugin "%s" was found in DB but QuickAppsCMS was unable to locate its directory in the file system or its "composer.json" file.', $plugin->name));
                 continue;
             }
 

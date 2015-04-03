@@ -42,11 +42,11 @@
 
 <?php if ($bootstrap !== false): ?>
 	<?php if ((is_bool($bootstrap) && $bootstrap === true) || (is_string($bootstrap) && strpos($bootstrap, 'css') !== false)): ?>
-		<?php echo $this->Html->css(['System.bootstrap.css', 'System.bootstrap-theme.css']); ?>
+		<?php echo $this->Html->css(['Bootstrap.bootstrap.css', 'Bootstrap.bootstrap-theme.css']); ?>
 	<?php endif; ?>
 
 	<?php if ((is_bool($bootstrap) && $bootstrap === true) || (is_string($bootstrap) && strpos($bootstrap, 'js') !== false)): ?>
-		<?php echo $this->Html->script('System.bootstrap.js'); ?>
+		<?php echo $this->Html->script('Bootstrap.bootstrap.min.js'); ?>
 	<?php endif; ?>
 
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
