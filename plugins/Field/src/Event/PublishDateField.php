@@ -32,10 +32,11 @@ class PublishDateField extends BaseHandler
     public function entityDisplay(Event $event, Field $field, $options = [])
     {
         $View = $event->subject();
-        $field->raw = array_merge([
+        $extra = array_merge([
             'from' => ['string' => null, 'timestamp' => null],
             'to' => ['string' => null, 'timestamp' => null],
-        ], (array)$field->raw);
+        ], (array)$field->extra);
+        $field->set('extra', $extra);
         return $View->element('Field.PublishDateField/display', compact('field', 'options'));
     }
 
@@ -62,12 +63,12 @@ class PublishDateField extends BaseHandler
     {
         if ($primary &&
             !Router::getRequest()->isAdmin() &&
-            !empty($field->raw['from']['timestamp']) &&
-            !empty($field->raw['to']['timestamp'])
+            !empty($field->extra['from']['timestamp']) &&
+            !empty($field->extra['to']['timestamp'])
         ) {
             $now = time();
-            if ($field->raw['from']['timestamp'] > $now ||
-                $now > $field->raw['to']['timestamp']
+            if ($field->extra['from']['timestamp'] > $now ||
+                $now > $field->extra['to']['timestamp']
             ) {
                 return false;
             }
@@ -80,7 +81,7 @@ class PublishDateField extends BaseHandler
     public function entityBeforeSave(Event $event, Field $field, $options)
     {
         $values = [];
-        $raw = [
+        $extra = [
             'from' => ['string' => null, 'timestamp' => null],
             'to' => ['string' => null, 'timestamp' => null],
         ];
@@ -91,9 +92,9 @@ class PublishDateField extends BaseHandler
                 $date = $options['_post'][$type]['string'];
                 $format = $options['_post'][$type]['format'];
                 if ($date = DateToolbox::createFromFormat($format, $date)) {
-                    $raw[$type]['string'] = $options['_post'][$type]['string'];
-                    $raw[$type]['timestamp'] = date_timestamp_get($date);
-                    $values[] = $raw[$type]['timestamp'] . ' ' . $options['_post'][$type]['string'];
+                    $extra[$type]['string'] = $options['_post'][$type]['string'];
+                    $extra[$type]['timestamp'] = date_timestamp_get($date);
+                    $values[] = $extra[$type]['timestamp'] . ' ' . $options['_post'][$type]['string'];
                 } else {
                     $typeLabel = $type == 'from' ? __d('field', 'Start') : __d('field', 'Finish');
                     $field->metadata->entity->errors(":{$field->name}", __d('field', 'Invalid date/time range, "{0}" date must match the the pattern: {1}', $typeLabel, $format));
@@ -103,7 +104,7 @@ class PublishDateField extends BaseHandler
         }
 
         $field->set('value', implode(' ', $values));
-        $field->set('raw', $raw);
+        $field->set('extra', $extra);
         return true;
     }
 
@@ -175,6 +176,7 @@ class PublishDateField extends BaseHandler
     public function instanceInfo(Event $event)
     {
         return [
+            'type' => 'text',
             'name' => __d('field', 'Publishing Date'),
             'description' => __d('field', 'Allows scheduling of contents by making them available only between certain dates.'),
             'hidden' => false,

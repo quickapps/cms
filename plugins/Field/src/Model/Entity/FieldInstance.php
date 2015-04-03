@@ -23,6 +23,7 @@ use QuickApps\Event\HookAwareTrait;
  * @property string $table_alias
  * @property string $label
  * @property string $description
+ * @property string $type
  * @property bool $required
  * @property array $view_modes
  * @property array $settings

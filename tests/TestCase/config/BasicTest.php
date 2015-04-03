@@ -17,7 +17,8 @@ use Cake\TestSuite\TestCase;
 /**
  * BasicTest class.
  */
-class BasicTest extends TestCase {
+class BasicTest extends TestCase
+{
 
     /**
      * test normalizePath() function.
@@ -130,20 +131,30 @@ class BasicTest extends TestCase {
         $this->assertTrue(str_ends_with('lorem ipsum', 'm'));
         $this->assertFalse(str_ends_with('dolorem sit amet', 'at'));
     }
-
 }
 
 /**
  * Used for testing get_this_class_methods()
  */
-class A {
-    public function foo() {}
-    public function dummy() {}
+class A
+{
+    public function foo()
+    {
+
+    }
+    public function dummy()
+    {
+
+    }
 }
 
 /**
  * Used for testing get_this_class_methods()
  */
-class B extends A {
-    public function bar() {}
+class B extends A
+{
+    public function bar()
+    {
+
+    }
 }

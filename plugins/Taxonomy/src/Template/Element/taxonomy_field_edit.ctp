@@ -25,7 +25,7 @@
             'escape' => false,
             'label' => $label,
             'multiple' => ($field->metadata->settings['type'] === 'checkbox' ? 'checkbox' : true),
-            'value' => $field->raw,
+            'value' => $field->extra,
         ];
 
         if (

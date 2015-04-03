@@ -25,7 +25,7 @@
     if (!empty($field->metadata->errors) && isset($this->request->data[":{$field->name}"])) {
         $selected = $this->request->data[":{$field->name}"];
     } else {
-        $selected = $field->raw;
+        $selected = $field->extra;
     }
 
     if ($field->metadata->settings['type'] === 'checkbox') {
@@ -40,7 +40,7 @@
         $inputOptions = [
             'type' => 'radio',
             'options' => $options,
-            'legend' => $field->label,
+            'label' => $field->label,
             'value' => (is_array($selected) ? array_pop($selected) : $selected), // user may change from checkbox to radio
         ];
     }

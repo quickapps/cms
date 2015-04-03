@@ -12,6 +12,7 @@
 namespace Field\Model\Entity;
 
 use Cake\ORM\Entity;
+use QuickApps\Event\HookAwareTrait;
 use QuickApps\View\ViewModeAwareTrait;
 
 /**
@@ -22,7 +23,7 @@ use QuickApps\View\ViewModeAwareTrait;
  * - name: Machine name of this field. ex. `user-age`. (Schema equivalent: column name)
  * - label: Human readable name of this field e.g.: `User Last name`.
  * - value: Value for this [FieldInstance, Entity] tuple. (Schema equivalent: cell value).
- * - raw: Raw `value`.
+ * - extra: Extra information.
  * - metadata: A mock entity which holds the following properties describing a column
  *   - field_value_id: ID of the value stored in `field_values` table (from where `value` comes from).
  *   - field_instance_id: ID of the field instance (`field_instances` table) attached to Table.
@@ -38,12 +39,13 @@ use QuickApps\View\ViewModeAwareTrait;
  * @property string $name
  * @property string $label
  * @property string $value
- * @property string $raw
+ * @property string $extra
  * @property \Cake\Datasource\EntityInterface $metadata
  */
 class Field extends Entity
 {
 
+    use HookAwareTrait;
     use ViewModeAwareTrait;
 
     /**
@@ -64,13 +66,14 @@ class Field extends Entity
     /**
      * String representation of this field.
      *
-     * By default, `value` property.
+     * Triggers the event `Field.<handler>.Instance.valueToString`, event handlers
+     * should catch this event and return an string of the given field.
      *
      * @return string
      */
     public function __toString()
     {
-        return (string)$this->get('value');
+        return (string)$this->trigger('Field.' . $this->get('metadata')->get('handler') . '.Instance.valueToString', $this)->result;
     }
 
     /**
@@ -85,17 +88,21 @@ class Field extends Entity
             'name' => $this->get('name'),
             'label' => $this->get('label'),
             'value' => $this->get('value'),
-            'raw' => $this->get('raw'),
+            'extra' => $this->get('extra'),
             'metadata' => [
                 'field_value_id' => $this->get('metadata')->get('field_value_id'),
                 'field_instance_id' => $this->get('metadata')->get('field_instance_id'),
+                'field_instance_slug' => $this->get('metadata')->get('field_instance_slug'),
+                'entity_id' => $this->get('metadata')->get('entity_id'),
+                'handler' => $this->get('metadata')->get('handler'),
+                'type' => $this->get('metadata')->get('type'),
+                'entity' => 'Object',
+                'required' => $this->get('metadata')->get('required'),
                 'table_alias' => $this->get('metadata')->get('table_alias'),
                 'description' => $this->get('metadata')->get('description'),
-                'required' => $this->get('metadata')->get('required'),
                 'settings' => $this->get('metadata')->get('settings'),
-                'handler' => $this->get('metadata')->get('handler'),
+                'view_modes' => $this->get('metadata')->get('view_modes'),
                 'errors' => $this->get('metadata')->get('errors'),
-                'entity' => 'Object',
             ],
         ];
     }

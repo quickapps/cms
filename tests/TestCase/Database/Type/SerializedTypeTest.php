@@ -23,7 +23,7 @@ class SerializedTypeTest extends TestCase
 
     /**
      * Instance of the class being tested.
-     * 
+     *
      * @var \QuickApps\Database\Type\SerializedType
      */
     protected $_instance = null;
@@ -78,7 +78,7 @@ class SerializedTypeTest extends TestCase
         $notSerializedString = ' asd89 a9a 99a %%&';
 
         $this->assertEquals($notSerializedString, $this->_instance->toPHP($notSerializedString, $driver));
-    }   
+    }
 
     /**
      * test toDatabase() method when working with arrays.

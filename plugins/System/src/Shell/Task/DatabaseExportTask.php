@@ -135,7 +135,7 @@ class DatabaseExportTask extends Shell
                 }
             }
 
-            // we need raw data for time instead of Time Objects
+            // we need RAW data for time instead of Time Objects
             foreach ($Table->schema()->columns() as $column) {
                 $type = $Table->schema()->columnType($column);
                 if (in_array($type, ['date', 'datetime', 'time'])) {

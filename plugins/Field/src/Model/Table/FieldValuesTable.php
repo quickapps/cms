@@ -36,7 +36,7 @@ class FieldValuesTable extends Table
         ]);
 
         $this->addBehavior('Serializable', [
-            'columns' => ['raw']
+            'columns' => ['extra']
         ]);
     }
 }

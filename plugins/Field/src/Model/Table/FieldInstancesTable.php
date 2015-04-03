@@ -126,6 +126,12 @@ class FieldInstancesTable extends Table
                     'rule' => ['minLength', 3],
                     'message' => __d('field', 'Label need to be at least 3 characters long'),
                 ],
+            ])
+            ->add('type', 'valid_type', [
+                'rule' => function ($value, $context) {
+                    return in_array($value, ['datetime', 'decimal', 'int', 'text', 'varchar', 'serialized']);
+                },
+                'message' => __d('field', 'Invalid data type, valid options are: "datetime", "decimal", "int", "text", "varchar" or "serialized"')
             ]);
 
         return $validator;
@@ -216,6 +222,12 @@ class FieldInstancesTable extends Table
      */
     public function beforeSave(Event $event, FieldInstance $instance, ArrayObject $options = null)
     {
+        if ($instance->isNew()) {
+            $info = $this->trigger("Field.{$instance->handler}.Instance.info")->result;
+            $type = empty($info['type']) || !in_array($info['type'], ['datetime', 'decimal', 'int', 'text', 'varchar', 'serialized']) ? 'varchar' : $info['type'];
+            $instance->set('type', $type);
+        }
+
         $instanceEvent = $this->trigger(["Field.{$instance->handler}.Instance.beforeAttach", $event->subject()], $instance, $options);
         if ($instanceEvent->isStopped() || $instanceEvent->result === false) {
             return false;

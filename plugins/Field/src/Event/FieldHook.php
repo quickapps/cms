@@ -124,12 +124,12 @@ class FieldHook implements EventListenerInterface
      *     [0] => [
      *         'name' => 'Textarea',
      *         'description' => 'Allows to store long texts',
-     *         'hidden' => false
+     *         'hidden' => false,
      *     ],
      *     [1] => [
      *         'name' => 'Secret Field',
      *         'description' => 'This field should only be used internally by plugins',
-     *         'hidden' => true
+     *         'hidden' => true,
      *     ]
      * ];
      * ```
@@ -150,6 +150,7 @@ class FieldHook implements EventListenerInterface
             ) {
                 $fieldHandler = explode('.', $listener)[1];
                 $response = array_merge([
+                    'type' => 'varchar',
                     'name' => null,
                     'description' => null,
                     'hidden' => false,

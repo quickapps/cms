@@ -104,19 +104,19 @@ class TaxonomyField extends BaseHandler
                     }
                 }
             }
-            $field->set('raw', array_unique($termIds));
+            $field->set('extra', array_unique($termIds));
         } else {
             // single value given (radio)
             if (!is_array($options['_post'])) {
                 $options['_post'] = [$options['_post']];
             }
-            $field->set('raw', array_unique($options['_post']));
+            $field->set('extra', array_unique($options['_post']));
         }
 
         $termsNames = $TermsTable
             ->find()
             ->select(['name'])
-            ->where(['id IN' => $field->raw])
+            ->where(['id IN' => $field->extra])
             ->all()
             ->extract('name')
             ->toArray();
@@ -136,14 +136,14 @@ class TaxonomyField extends BaseHandler
         if ($entity->has($pk)) {
             $TermsCache = TableRegistry::get('Taxonomy.EntitiesTerms');
             $tableAlias = Inflector::underscore($event->subject()->alias());
-            $raw = !is_array($field->raw) ? [$field->raw] : $field->raw;
+            $extra = !is_array($field->extra) ? [$field->extra] : $field->extra;
             $TermsCache->deleteAll([
                 'entity_id' => $entity->get($pk),
                 'table_alias' => $tableAlias,
                 'field_instance_id' => $field->metadata->field_instance_id,
             ]);
 
-            foreach ($raw as $termId) {
+            foreach ($extra as $termId) {
                 Cache::delete("t{$termId}", 'terms_count');
                 $cacheEntity = $TermsCache->newEntity([
                     'entity_id' => $entity->get($pk),
@@ -218,6 +218,7 @@ class TaxonomyField extends BaseHandler
     public function instanceInfo(Event $event)
     {
         return [
+            'type' => 'text',
             'name' => __d('taxonomy', 'Term Reference'),
             'description' => __d('taxonomy', 'Defines terms list based on taxonomy vocabularies.'),
             'hidden' => false,

@@ -21,8 +21,14 @@ use Cake\ORM\Entity;
  * @property int $entity_id
  * @property string $field_instance_slug
  * @property string $table_alias
- * @property string $value
- * @property object|array $raw
+ * @property string $type
+ * @property mixed $value
+ * @property object $value_datetime
+ * @property float $value_decimal
+ * @property int $value_int
+ * @property string $value_text
+ * @property string $value_varchar
+ * @property object|array $value_serialized
  */
 class FieldValue extends Entity
 {

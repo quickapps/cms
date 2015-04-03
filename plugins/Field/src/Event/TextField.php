@@ -63,7 +63,8 @@ class TextField extends BaseHandler
      */
     public function entityBeforeSave(Event $event, Field $field, $options)
     {
-        return true;
+        $field->set('extra', null);
+        $field->set('value', $options['_post']);
     }
 
     /**
@@ -157,9 +158,10 @@ class TextField extends BaseHandler
     public function instanceInfo(Event $event)
     {
         return [
+            'type' => 'text',
             'name' => __d('field', 'Text'),
             'description' => __d('field', 'Allow to store text data in database.'),
-            'hidden' => false
+            'hidden' => false,
         ];
     }
 

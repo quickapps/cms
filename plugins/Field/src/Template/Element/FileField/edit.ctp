@@ -48,7 +48,7 @@
     <?php echo $this->Form->input(":{$field->name}.dummy", ['type' => 'hidden', 'value' => 'dummy']); ?>
 
     <ul id="<?php echo $instanceID; ?>-files-list" class="files-list list-unstyled">
-        <?php foreach ((array)$field->raw as $key => $file): ?>
+        <?php foreach ((array)$field->extra as $key => $file): ?>
             <?php
                 if (!is_integer($key)) {
                     continue;
@@ -116,7 +116,7 @@
                         fileTypeExts: '*.<?php echo str_replace(',', ';*.', $field->metadata->settings['extensions']); ?>',
                     <?php endif; ?>
                     queueSizeLimit: 10,
-                    uploadLimit: <?php echo $field->metadata->settings['multi'] - count((array)$field->raw); ?>,
+                    uploadLimit: <?php echo $field->metadata->settings['multi'] - count((array)$field->extra); ?>,
                     fileSizeLimit: '<?php echo ini_get('upload_max_filesize'); ?>B',
                     fileTypeDesc: '<?php echo $field->label; ?>',
                     buttonText: '<?php echo __d('field', 'Upload File'); ?>',

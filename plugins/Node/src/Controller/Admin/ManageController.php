@@ -102,7 +102,7 @@ class ManageController extends AppController
         }
 
         if ($this->request->data()) {
-            $data = $this->request->data;
+            $data = $this->request->data();
             $data['node_type_slug'] = $type->slug;
             $data['node_type_id'] = $type->id;
             $node = $this->Nodes->newEntity($data);
@@ -162,7 +162,7 @@ class ManageController extends AppController
                         $fieldRevision = $_fieldsRevision[$field->name];
                         if ($fieldRevision) {
                             $field->set('value', $fieldRevision->value);
-                            $field->set('raw', $fieldRevision->raw);
+                            $field->set('extra', $fieldRevision->extra);
                         }
                         return $field;
                     });

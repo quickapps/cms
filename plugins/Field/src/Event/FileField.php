@@ -54,18 +54,18 @@ class FileField extends BaseHandler
      */
     public function entityFieldAttached(Event $event, Field $field)
     {
-        $raw = (array)$field->raw;
-        if (!empty($raw)) {
-            $newRaw = [];
-            foreach ($raw as $file) {
-                $newRaw[] = array_merge([
+        $extra = (array)$field->extra;
+        if (!empty($extra)) {
+            $newExtra = [];
+            foreach ($extra as $file) {
+                $newExtra[] = array_merge([
                     'mime_icon' => '',
                     'file_name' => '',
                     'file_size' => '',
                     'description' => '',
                 ], (array)$file);
             }
-            $field->set('raw', $newRaw);
+            $field->set('extra', $newExtra);
         }
     }
 
@@ -78,11 +78,15 @@ class FileField extends BaseHandler
 
     /**
      * {@inheritDoc}
+     *
+     * - extra: Holds a list (array) of files and their in formation (mime-icon,
+     *   file name, etc).
+     *
+     * - value: Holds a text containing all file names separated by space.
      */
     public function entityBeforeSave(Event $event, Field $field, $options)
     {
         $files = (array)$options['_post'];
-
         if (!empty($files)) {
             $value = [];
             foreach ($files as $k => $file) {
@@ -100,7 +104,7 @@ class FileField extends BaseHandler
                 $value[] = trim("{$file['file_name']} {$file['description']}");
             }
             $field->set('value', implode(' ', $value));
-            $field->set('raw', $files);
+            $field->set('extra', $files);
         }
 
         if ($field->metadata->field_value_id) {
@@ -109,7 +113,7 @@ class FileField extends BaseHandler
             try {
                 $prevFiles = (array)TableRegistry::get('Field.FieldValues')
                     ->get($field->metadata->field_value_id)
-                    ->raw;
+                    ->extra;
             } catch (\Exception $ex) {
                 $prevFiles = [];
             }
@@ -212,14 +216,14 @@ class FileField extends BaseHandler
      */
     public function entityAfterValidate(Event $event, Field $field, $options, $validator)
     {
-        // removes the "dummy" input from raw if exists
-        $raw = [];
-        foreach ((array)$field->raw as $k => $v) {
+        // removes the "dummy" input from extra if exists
+        $extra = [];
+        foreach ((array)$field->extra as $k => $v) {
             if (is_integer($k)) {
-                $raw[] = $v;
+                $extra[] = $v;
             }
         }
-        $field->set('raw', $raw);
+        $field->set('extra', $extra);
         return true;
     }
 
@@ -244,6 +248,7 @@ class FileField extends BaseHandler
     public function instanceInfo(Event $event)
     {
         return [
+            'type' => 'text',
             'name' => __d('field', 'Attachment'),
             'description' => __d('field', 'Allows to upload and attach files to contents.'),
             'hidden' => false

@@ -65,7 +65,7 @@ class ListField extends BaseHandler
             $value = implode(' ', array_values($value));
         }
         $field->set('value', $value);
-        $field->set('raw', $options['_post']); // force it to be a string if it is
+        $field->set('extra', $options['_post']);
     }
 
     /**
@@ -120,6 +120,7 @@ class ListField extends BaseHandler
     public function instanceInfo(Event $event)
     {
         return [
+            'type' => 'text',
             'name' => __d('field', 'List'),
             'description' => __d('field', 'Defines list field types, used to create selection lists.'),
             'hidden' => false

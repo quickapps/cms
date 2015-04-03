@@ -58,6 +58,9 @@ class DateField extends BaseHandler
 
     /**
      * {@inheritDoc}
+     *
+     * - extra: Holds string date incoming from POST
+     * - value: Holds datetime information
      */
     public function entityBeforeSave(Event $event, Field $field, $options)
     {
@@ -65,14 +68,14 @@ class DateField extends BaseHandler
             $date = $options['_post']['date'];
             $format = $options['_post']['format'];
             if ($date = DateToolbox::createFromFormat($format, $date)) {
-                $field->set('raw', date_timestamp_get($date));
+                $field->set('extra', $options['_post']['date']);
             } else {
                 $field->metadata->entity->errors(":{$field->name}", __d('field', 'Invalid date/time, it must match the the pattern: {0}', $format));
                 return false;
             }
         }
 
-        $field->set('value', $options['_post']['date']);
+        $field->set('value', date_timestamp_get($date));
         return true;
     }
 
@@ -133,6 +136,7 @@ class DateField extends BaseHandler
     public function instanceInfo(Event $event)
     {
         return [
+            'type' => 'datetime',
             'name' => __d('field', 'Date'),
             'description' => __d('field', 'Allows to attach date picker to contents.'),
             'hidden' => false,

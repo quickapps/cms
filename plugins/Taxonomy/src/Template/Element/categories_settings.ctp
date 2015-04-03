@@ -12,7 +12,9 @@
 
 use Cake\ORM\TableRegistry;
 
-$vocabularies = TableRegistry::get('Taxonomy.Vocabularies')->find('list')->toArray();
+$vocabularies = TableRegistry::get('Taxonomy.Vocabularies')
+    ->find('list')
+    ->toArray();
 ?>
 
 <?php if (!$vocabularies): ?>

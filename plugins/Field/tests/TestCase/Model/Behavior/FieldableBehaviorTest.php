@@ -49,31 +49,13 @@ class FieldableBehaviorTest extends TestCase
      */
     public function testFindUsingCustomFieldsInWhereClause()
     {
-        $matching1 = $this->table
+        $matching = $this->table
             ->find()
-            ->where([':article-introduction LIKE' => '%Lorem%'])
-            ->limit(1)
-            ->first();
-        $matching2 = $this->table
-            ->find('all', ['bundle' => 'art*'])
-            ->where([':article-introduction LIKE' => '%Lorem%'])
-            ->limit(1)
-            ->first();
-        $matching3 = $this->table
-            ->find('all', ['bundle' => 'art?cle'])
-            ->where([':article-introduction LIKE' => '%Lorem%'])
-            ->limit(1)
-            ->first();
-        $matching4 = $this->table
-            ->find('all', ['bundle' => ['article', 'dummy']])
-            ->where([':article-introduction LIKE' => '%Lorem%'])
+            ->where([':article-introduction LIKE' => '%Welcome to QuickAppsCMS%'])
             ->limit(1)
             ->first();
 
-        $this->assertNotEmpty($matching1);
-        $this->assertNotEmpty($matching2);
-        $this->assertNotEmpty($matching3);
-        $this->assertNotEmpty($matching4);
+        $this->assertNotEmpty($matching);
     }
 
     /**

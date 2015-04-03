@@ -59,7 +59,7 @@ class BootstrapHook implements EventListenerInterface
         'inputContainer' => '<div class="form-group {{type}}{{required}}">{{content}}</div>',
         'inputContainerError' => '<div class="form-group has-error has-feedback {{type}}{{required}}">{{content}}<span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>{{error}}</div>',
         'radio' => '<input type="radio" name="{{name}}" value="{{value}}"{{attrs}}> ',
-        'radioWrapper' => '{{label}}<br />',
+        'radioWrapper' => '<br/>{{label}}',
         'submitContainer' => '{{content}}',
     ];
 

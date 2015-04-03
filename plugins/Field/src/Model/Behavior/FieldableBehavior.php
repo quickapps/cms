@@ -11,6 +11,7 @@
  */
 namespace Field\Model\Behavior;
 
+// TODO: update documentation
 use Cake\Database\Expression\Comparison;
 use Cake\Datasource\EntityInterface;
 use Cake\Error\FatalErrorException;
@@ -63,14 +64,14 @@ use QuickApps\Event\HookAwareTrait;
  *          [name] => user-age,
  *          [label] => User Age,
  *          [value] => 22,
- *          [raw] => null,
+ *          [extra] => null,
  *          [metadata] => [ ... ]
  *      ],
  *      [1] => [
  *           [name] => user-phone,
  *           [label] => User Phone,
  *           [value] => null, // no data stored
- *           [raw] => null, // no data stored
+ *           [extra] => null, // no data stored
  *           [metadata] => [ ... ]
  *      ],
  *      ...
@@ -90,7 +91,7 @@ use QuickApps\Event\HookAwareTrait;
  * -  `name`: Machine-name of this field. ex. `article-body` (Schema equivalent: column name).
  * -  `label`: Human readable name of this field e.g.: `User Last name`.
  * -  `value`: Value for this [field, entity] tuple. (Schema equivalent: cell value)
- * -  `raw`: Raw value data.
+ * -  `extra`: Additional information.
  * -  `metadata`: Metadata (an Entity Object).
  *     - `field_value_id`: ID of the value stored in `field_values` table.
  *     - `field_instance_id`: ID of field instance (`field_instances` table)
@@ -565,25 +566,6 @@ class FieldableBehavior extends Behavior
      *     ->where([':article-title' => 'My first article!']);
      * ```
      *
-     * The `bundle` accepts multiples values:
-     *
-     * ```php
-     * // wildcard is "*", e.g. look in all bundles which names starts with "art"
-     * $this->Nodes
-     *     ->find('all', ['bundle' => 'art*']);
-     *     ->where([':article-title' => 'My first article!']);
-     *
-     * // single character match is "?"
-     * $this->Nodes
-     *     ->find('all', ['bundle' => 'arti?les']);
-     *     ->where([':article-title' => 'My first article!']);
-     *
-     * // look in "articles" and "pages" bundles only
-     * $this->Nodes
-     *     ->find('all', ['bundle' => ['articles', 'pages']]);
-     *     ->where([':article-title' => 'My first article!']);
-     * ```
-     *
      * The `bundle` option has no effects if no custom fields are given in the
      * WHERE clause.
      *
@@ -702,8 +684,17 @@ class FieldableBehavior extends Behavior
 
             $field = $this->_getMockField($entity, $instance);
             $options['_post'] = $this->_preparePostData($field);
-            $fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.beforeSave", $event->subject()], $field, $options);
 
+            // auto-magic
+            if (is_array($options['_post'])) {
+                $field->set('extra', $options['_post']);
+                $field->set('value', null);
+            } else {
+                $field->set('extra', null);
+                $field->set('value', $options['_post']);
+            }
+
+            $fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.beforeSave", $event->subject()], $field, $options);
             if ($fieldEvent->result === false) {
                 $this->attachEntityFields($entity);
                 return false;
@@ -719,8 +710,9 @@ class FieldableBehavior extends Behavior
                 'field_instance_slug' => $field->name,
                 'entity_id' => $entity->{$pk},
                 'table_alias' => $tableAlias,
-                'value' => $field->value,
-                'raw' => $field->raw,
+                'type' => $field->metadata['type'],
+                "value_{$field->metadata['type']}" => $field->value,
+                'extra' => $field->extra,
             ]);
 
             if ($entity->isNew() || empty($valueEntity->id)) {
@@ -852,11 +844,7 @@ class FieldableBehavior extends Behavior
                 $postData = $entity->get($postName);
 
                 if (!empty($entityErrors[$postName])) {
-                    if (is_array($postData)) {
-                        $field->set('raw', $postData);
-                    } elseif (is_string($postData)) {
-                        $field->set('value', $postData);
-                    }
+                    $field->set('value', $postData);
                     $field->metadata->set('errors', (array)$entityErrors[$postName]);
                 }
 
@@ -1024,11 +1012,12 @@ class FieldableBehavior extends Behavior
             // restore from $_POST:
             if ($entity->has(":{$instance->slug}")) {
                 $value = $entity->get(":{$instance->slug}");
-
-                if (is_string($value)) {
-                    $mock->set('value', $value);
+                if (is_array($value)) {
+                    $mock->set('extra', $value);
+                    $mock->set('value', null);
                 } else {
-                    $mock->set('raw', $value);
+                    $mock->set('extra', null);
+                    $mock->set('value', $value);
                 }
             }
 
@@ -1080,17 +1069,7 @@ class FieldableBehavior extends Behavior
             ->get('metadata')
             ->get('entity')
             ->get(':' . $field->get('metadata')->get('field_instance_slug'));
-
-        // auto-magic: automatically move POST data to "raw" if an array was sent,
-        // "value" will be set to flattened raw
-        if (is_array($post)) {
-            $field->set('value', implode(' ', array_values(Hash::flatten($post))));
-            $field->set('raw', $post);
-        } else {
-            $field->set('value', $post);
-            $field->set('raw', []);
-        }
-
+        $field->set('value', $post);
         return $post;
     }
 
@@ -1110,20 +1089,15 @@ class FieldableBehavior extends Behavior
             return $query;
         }
 
-        $options['bundle'] = empty($options['bundle']) ? null : $options['bundle'];
-        $bundle = $this->_calculateBundle($options['bundle']);
         $alias = $this->_table->alias();
         $pk = $this->_table->primaryKey();
         $conn = $query->connection(null);
         list(, $driverClass) = namespaceSplit(strtolower(get_class($conn->driver())));
 
-        $whereClause->traverse(function ($expression) use ($pk, $bundle, $alias, $driverClass) {
-            if (!($expression instanceof Comparison)) {
-                return;
-            }
-
-            $subQuery = $this->_virtualQuery($expression, $bundle);
-            if (!$subQuery) {
+        $whereClause->traverse(function ($expression) use ($pk, $alias, $driverClass) {
+            if (!($expression instanceof Comparison) ||
+                !($subQuery = $this->_virtualQuery($expression))
+            ) {
                 return;
             }
 
@@ -1151,11 +1125,12 @@ class FieldableBehavior extends Behavior
      * Creates a sub-query for matching virtual fields.
      *
      * @param \Cake\Database\Expression\Comparison $expression Expression to scope
-     * @param string $bundle Table's bundle to scope. e.g. `articles` for `Nodes` table
+     * @param string|null $bundle Table's bundle to scope. e.g. `articles` for `Nodes`
+     *  table will look over nodes:articles
      * @return \Cake\ORM\Query|bool False if not virtual field was found. The query
      *  object to use otherwise
      */
-    protected function _virtualQuery($expression, $bundle = '*')
+    protected function _virtualQuery($expression, $bundle = null)
     {
         $field = $this->_parseFieldName($expression->getField());
         $value = $expression->getValue();
@@ -1166,32 +1141,25 @@ class FieldableBehavior extends Behavior
         }
 
         $field = str_replace(':', '', $field);
+        $instance = TableRegistry::get('Field.FieldInstances')
+            ->find()
+            ->select(['type', 'table_alias'])
+            ->where(['slug' => $field])
+            ->limit(1)
+            ->first();
+
+        if (!$instance) {
+            return false;
+        }
+
         $subQuery = TableRegistry::get('Field.FieldValues')->find()
             ->select('FieldValues.entity_id')
             ->where([
                 "FieldValues.field_instance_slug" => $field,
-                "FieldValues.value {$conjunction}" => $value
+                "FieldValues.value_{$instance->type} {$conjunction}" => $value,
             ]);
 
-        if ($bundle === '*') {
-            // look in all bundles
-            $subQuery->where([
-                'OR' => [
-                    'FieldValues.table_alias' => $this->config('tableAlias'),
-                    'FieldValues.table_alias LIKE' => $this->config('tableAlias') . ':%',
-                ]
-            ]);
-        } elseif (is_array($bundle)) {
-            // look in multiple bundles
-            $subQuery->where(['FieldValues.table_alias IN' => $bundle]);
-        } elseif (strpos($bundle, '*') !== false || strpos($bundle, '?') !== false) {
-            // look in bundle matching pattern
-            $subQuery->where(['FieldValues.table_alias LIKE' => str_replace(['*', '?'], ['%', '_'], $bundle)]);
-        } else {
-            // look in this specific bundle
-            $subQuery->where(['FieldValues.table_alias' => $bundle]);
-        }
-
+        $subQuery->where(['FieldValues.table_alias' => $instance->table_alias]);
         return $subQuery;
     }
 
@@ -1228,44 +1196,6 @@ class FieldableBehavior extends Behavior
     }
 
     /**
-     * Calculates the bundle name to use.
-     *
-     * ### Example:
-     *
-     * ```php
-     * $this->_calculateBundle('articles');
-     * // returns "<tableName>:articles"
-     *
-     * $this->_calculateBundle(['articles', 'pages']);
-     * // returns ["<tableName>:articles", "<tableName>:pages"]
-     *
-     * $this->_calculateBundle();
-     * // returns "*"
-     * ```
-     *
-     * @param string|null $bundle Bundle to use within the table being managed by this
-     *  behavior. e.g. `articles`. If not given `*` will be returned
-     * @return string|array Bundle name as string if single bundle, or an array
-     *  if multiple bundles were detected
-     */
-    protected function _calculateBundle($bundle = null)
-    {
-        if (empty($bundle)) {
-            return '*';
-        }
-
-        if (is_array($bundle)) {
-            $out = [];
-            foreach ($bundle as $b) {
-                $out[] = $this->config('tableAlias') . ':' . (string)$b;
-            }
-            return $out;
-        }
-
-        return $this->config('tableAlias') . ':' . (string)$bundle;
-    }
-
-    /**
      * Creates a new Virtual "Field" to be attached to the given entity.
      *
      * This mock Field represents a new property (table column) of the entity.
@@ -1280,7 +1210,7 @@ class FieldableBehavior extends Behavior
     {
         $pk = $this->_table->primaryKey();
         $storedValue = TableRegistry::get('Field.FieldValues')->find()
-            ->select(['id', 'value', 'raw'])
+            ->select(['id', "value_{$instance->type}", 'extra'])
             ->where([
                 'FieldValues.field_instance_id' => $instance->id,
                 'FieldValues.table_alias' => $this->_guessTableAlias($entity),
@@ -1293,27 +1223,28 @@ class FieldableBehavior extends Behavior
             'name' => $instance->slug,
             'label' => $instance->label,
             'value' => null,
-            'raw' => null,
+            'extra' => null,
             'metadata' => new Entity([
                 'field_value_id' => null,
                 'field_instance_id' => $instance->id,
                 'field_instance_slug' => $instance->slug,
                 'entity_id' => $entity->{$pk},
+                'handler' => $instance->handler,
+                'type' => $instance->type,
+                'entity' => $entity,
+                'required' => $instance->required,
                 'table_alias' => $this->_guessTableAlias($entity),
                 'description' => $instance->description,
-                'required' => $instance->required,
                 'settings' => $instance->settings,
                 'view_modes' => $instance->view_modes,
-                'handler' => $instance->handler,
                 'errors' => [],
-                'entity' => $entity,
             ])
         ]);
 
         if ($storedValue) {
             $mockField->metadata->accessible('*', true);
-            $mockField->set('value', $storedValue->value);
-            $mockField->set('raw', $storedValue->raw);
+            $mockField->set('value', $storedValue->get("value_{$instance->type}"));
+            $mockField->set('extra', $storedValue->get('extra'));
             $mockField->metadata->set('field_value_id', $storedValue->id);
             $mockField->metadata->accessible('*', false);
         }
@@ -1321,7 +1252,7 @@ class FieldableBehavior extends Behavior
         $mockField->isNew($entity->isNew());
         $mockField->accessible('*', false);
         $mockField->accessible('value', true);
-        $mockField->accessible('raw', true);
+        $mockField->accessible('extra', true);
         return $mockField;
     }
 

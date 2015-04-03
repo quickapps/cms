@@ -16,7 +16,7 @@ use Cake\Core\Configure;
     <?php
         echo $this->Form->input($field, [
             'name' => ":{$field->name}[date]",
-            'value' => $field->value,
+            'value' => $field->extra,
             'class' => 'picker',
             'readonly',
         ]);

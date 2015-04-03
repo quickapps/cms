@@ -146,7 +146,7 @@ class NodesTable extends Table
 
                 foreach ($node->_fields as $vf) {
                     if ($vf->value) {
-                        $words .= ' ' . trim((string)$vf->value);
+                        $words .= ' ' . trim((string)$vf);
                     }
                 }
 
@@ -197,30 +197,32 @@ class NodesTable extends Table
      */
     public function beforeSave(Event $event, $entity, ArrayObject $options = null)
     {
-        if (!$entity->isNew()) {
-            try {
-                $prev = TableRegistry::get('Node.Nodes')->get($entity->id);
-                $hash = $this->_calculateHash($prev);
-                $exists = $this->NodeRevisions->exists([
-                    'NodeRevisions.node_id' => $entity->id,
-                    'NodeRevisions.hash' => $hash,
+        if ($entity->isNew()) {
+            return true;
+        }
+
+        try {
+            $prev = TableRegistry::get('Node.Nodes')->get($entity->id);
+            $hash = $this->_calculateHash($prev);
+            $exists = $this->NodeRevisions->exists([
+                'NodeRevisions.node_id' => $entity->id,
+                'NodeRevisions.hash' => $hash,
+            ]);
+
+            if (!$exists) {
+                $revision = $this->NodeRevisions->newEntity([
+                    'node_id' => $prev->id,
+                    'data' => $prev,
+                    'hash' => $hash,
                 ]);
 
-                if (!$exists) {
-                    $revision = $this->NodeRevisions->newEntity([
-                        'node_id' => $prev->id,
-                        'data' => $prev,
-                        'hash' => $hash,
-                    ]);
-
-                    if (!$this->NodeRevisions->hasBehavior('Timestamp')) {
-                        $this->NodeRevisions->addBehavior('Timestamp');
-                    }
-                    $this->NodeRevisions->save($revision);
+                if (!$this->NodeRevisions->hasBehavior('Timestamp')) {
+                    $this->NodeRevisions->addBehavior('Timestamp');
                 }
-            } catch (\Exception $ex) {
-                // unable to create node's review
+                $this->NodeRevisions->save($revision);
             }
+        } catch (\Exception $ex) {
+            // unable to create node's review
         }
 
         return true;
@@ -303,12 +305,15 @@ class NodesTable extends Table
     {
         $hash = [];
         foreach ($entity->visibleProperties() as $property) {
-            if (strpos($property, 'created') === false && strpos($property, 'modified') === false) {
+            if (strpos($property, 'created') === false &&
+                strpos($property, 'created_by') === false &&
+                strpos($property, 'modified') === false &&
+                strpos($property, 'modified_by') === false
+            ) {
                 if ($property == '_fields') {
                     foreach ($entity->get('_fields') as $field) {
                         if ($field instanceof \Field\Model\Entity\Field) {
-                            $raw = is_object($field->raw) || is_array($field->raw) ? serialize($field->raw) : $field->raw;
-                            $hash[] = $field->value . $raw;
+                            $hash[] = is_object($field->value) || is_array($field->value) ? md5(serialize($field->value)) : md5($field->value);
                         }
                     }
                 } else {

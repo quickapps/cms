@@ -44,7 +44,8 @@ use QuickApps\View\ViewModeRegistry;
  *
  * @return void
  */
-function snapshot() {
+function snapshot()
+{
     $snapshot = [
         'version' => '2.0.0-dev',
         'node_types' => ['article', 'page'],
@@ -130,7 +131,8 @@ function snapshot() {
  *
  * @return array Auth session
  */
-function mockUserSession() {
+function mockUserSession()
+{
     $session = [
         'Auth' => [
             'User' => [

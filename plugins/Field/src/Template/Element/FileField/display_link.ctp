@@ -11,7 +11,7 @@
  */
 ?>
 
-<?php foreach ((array)$field->raw as $file): ?>
+<?php foreach ((array)$field->extra as $file): ?>
 <p>
     <?php if (!empty($file['mime_icon'])): ?>
         <?php echo $this->Html->image(normalizePath("/field/img/file-icons/{$file['mime_icon']}", '/')); ?>

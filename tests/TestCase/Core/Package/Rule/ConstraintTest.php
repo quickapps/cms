@@ -21,10 +21,10 @@ class ConstraintTest extends TestCase
 {
 
    /**
-     * test match() method.
-     *
-     * @return void
-     */
+    * test match() method.
+    *
+    * @return void
+    */
     public function testMatch()
     {
         $tests = [

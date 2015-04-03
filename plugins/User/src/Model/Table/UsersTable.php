@@ -256,7 +256,7 @@ class UsersTable extends Table
     }
 
     /**
-     * Tries to get raw password from the given context.
+     * Tries to get Raw password (unencrypted) from the given context.
      *
      * @param array $context Validation rule's context
      * @return string Raw password
