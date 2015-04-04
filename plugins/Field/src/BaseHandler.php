@@ -237,6 +237,9 @@ class BaseHandler implements EventListenerInterface
     /**
      * Returns an array of information of this field.
      *
+     * - `type` (string): Type of data this field stores, possible values are:
+     *   datetime, decimal, int, text, varchar.
+     *
      * - `name` (string): Human readable name of this field. ex. `Selectbox`
      *   Defaults to class name.
      *
@@ -249,6 +252,9 @@ class BaseHandler implements EventListenerInterface
      * - `maxInstances` (int): Maximum number instances of this field a table
      *   can have. Set to 0 to indicates no limits. Defaults to 0.
      *
+     * - `searchable` (bool): Whether this field can be searched using WHERE
+     *   clauses.
+     *
      * @param \Cake\Event\Event $event The event that was triggered
      * @return array
      */
@@ -257,8 +263,8 @@ class BaseHandler implements EventListenerInterface
         list(, $handlerName) = namespaceSplit(get_class($this));
         return [
             'type' => 'varchar',
-            'name' => $handlerName,
-            'description' => $handlerName,
+            'name' => (string)$handlerName,
+            'description' => (string)$handlerName,
             'hidden' => false,
             'maxInstances' => 0,
             'searchable' => true,
