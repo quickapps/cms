@@ -11,8 +11,10 @@
  */
 namespace Field\Test\TestCase\Model\Behavior;
 
+use Cake\Event\EventManager;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use QuickApps\Core\Plugin;
 
 /**
  * FieldableBehaviorTest class.
@@ -39,6 +41,24 @@ class FieldableBehaviorTest extends TestCase
      */
     public function setUp()
     {
+        $activePlugins = Plugin::get()
+            ->filter(function ($plugin) {
+                $filter = $plugin->status;
+                if ($plugin->isTheme) {
+                    $filter = $filter && in_array($plugin->name, [option('front_theme'), option('back_theme')]);
+                }
+                return $filter;
+            })
+            ->toArray();
+
+        foreach ($activePlugins as $plugin) {
+            foreach ($plugin->eventListeners as $fullClassName) {
+                if (class_exists($fullClassName)) {
+                    EventManager::instance()->on(new $fullClassName);
+                }
+            }
+        }
+
         $this->table = TableRegistry::get('Nodes');
         $this->table->addBehavior('Field.Fieldable');
     }
