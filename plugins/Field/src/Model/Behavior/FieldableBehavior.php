@@ -11,7 +11,6 @@
  */
 namespace Field\Model\Behavior;
 
-// TODO: update documentation
 use Cake\Database\Expression\Comparison;
 use Cake\Datasource\EntityInterface;
 use Cake\Error\FatalErrorException;
@@ -146,27 +145,44 @@ use QuickApps\Event\HookAwareTrait;
  *   ->where(['Users.:first-name LIKE' => 'John%']);
  * ```
  *
- * `Users` table has a custom field attached (first-name), and we are looking for
- * all the users whose `first-name` starts with `John`.
+ * In this example the `Users` table has a custom field attached (first-name), and
+ * we are looking for all the users whose `first-name` starts with `John`.
  *
- * ## Value vs Raw
+ * You can use any conjunction operator valid for your Field's data type (see "Field
+ * Data Types" section).
+ *
+ * ## Value vs Extra
  *
  * In the "Entity Example" above you might notice that each field attached to
- * entities has two properties that looks pretty similar, `value` and `raw`,
- * as both are intended to store information. Here we explain the "why" of this.
+ * entities has two properties that looks pretty similar, `value` and `extra`, as
+ * both are intended to store information. Here we explain the "why" of this.
  *
- * Field Handlers may store complex information or structures. For example,
- * `AlbumField` handler may store a list of photos for each entity. In those cases
- * you should use the `raw` property to store your array list of photos, while
- * `value` property should always store a Human-Readable representation of
- * your field's value.
+ * ### Field Data Types
  *
- * In our `AlbumField` example, we could store an array list of file names and titles
- * for a given entity under the `raw` property. And we could save photo's titles as
- * space-separated values under `value` property:
+ * Field must store information using basic data types such as (int, decimal, etc),
+ * this information will be stored in a cells specific to that data type. Supported
+ * data types are:
+ *
+ * - datetime: For storage of date or datetime values.
+ * - decimal: For storage of floating values.
+ * - int: For storage of integer values.
+ * - text: For storage of long strings.
+ * - varchar: For storage of strings maximum to 255 chars length.
+ *
+ * But in some cases Field Handlers may store complex information or structures not
+ * supported by the basic types listed above, for instance collections of values,
+ * objects, etc.
+ *
+ * ### Example
+ *
+ * For example, an `AlbumField` handler may store a list of photos for each entity.
+ * In those cases you should use the `extra` property to store your array list of
+ * photos. We could store an array list of file names and titles for a given entity
+ * under the `extra` property, and we could save photo’s titles as space- separated
+ * values under `value` property:
  *
  * ```php
- * // raw:
+ * // extra:
  * [photos] => [
  *     ['title' => 'OMG!', 'file' => 'omg.jpg'],
  *     ['title' => 'Look at this, lol', 'file' => 'cats-fighting.gif'],
@@ -177,24 +193,21 @@ use QuickApps\Event\HookAwareTrait;
  * ```
  *
  * In our example when rendering an entity with `AlbumField` attached to it,
- * `AlbumField` should use `raw` information to create a representation of
- * itself, while `value` information would acts like some kind of `words index`
- * when using `Searching over custom fields` feature described above.
+ * `AlbumField` should use `extra` information to create a representation of itself,
+ * while `value` information would acts like some kind of `words index` when using
+ * `Searching over custom fields` feature described above.
  *
  * **Important:**
  *
- * - FieldableBehavior automatically serializes & unserializes the `raw`
- *   property for you, so you should always treat `raw` as an array.
- * - `Search over fields` feature described above uses the `value` property
- *   when looking for matches. So in this way your entities can be found when
- *   using Field's machine-name in WHERE clauses.
- * - Using `raw` is not mandatory, for instance your Field Handler could use
- *   an additional table schema to store entities information and leave `raw`
- *   as NULL. In that case, your Field Handler must take care of joining entities
- *   with that external table of information.
+ * -  FieldableBehavior automatically serializes & unserializes the `extra` property
+ *    for you, so you should always treat `extra` as an array or object.
  *
- * **Summarizing:** `value` is intended to store `plain text` information suitable
- * for searches, while `raw` is intended to store sets of complex information.
+ * -  `Search over custom fields` feature described above uses the `value` property
+ *    when looking for matches. So in this way your entities can be found when using
+ *    Field’s machine-name in WHERE clauses.
+ *
+ * **Summarizing:** `value` is intended to store basic typed information suitable
+ * for searches, while `extra` CAB be used to store sets of complex information.
  *
  * ***
  *
@@ -303,7 +316,8 @@ use QuickApps\Event\HookAwareTrait;
  * `Field.<FieldHandler>.Entity.edit` event, example:
  *
  * ```php
- * public function entityEdit(Event $event, $field) {
+ * public function entityEdit(Event $event, $field)
+ * {
  *     return '<input name=":' . $field->name . '" value="' . $field->value . '" />";
  * }
  * ```
@@ -332,7 +346,6 @@ use QuickApps\Event\HookAwareTrait;
  * The above may produce a $_POST array like below:
  *
  * ```php
- *
  * $_POST = [
  *     :album => [
  *         name => Album Name,
@@ -407,7 +420,8 @@ use QuickApps\Event\HookAwareTrait;
  *
  * ```php
  * // UsersController.php
- * public function edit($id) {
+ * public function edit($id)
+ * {
  *     $this->set('user', $this->Users->get($id));
  * }
  *
@@ -644,11 +658,14 @@ class FieldableBehavior extends Behavior
      * ```
      *
      * You will see `$options` array contains the POST information user just sent
-     * when pressing form submit button.
+     * when pressing form submit button:
      *
-     *     $options['_post']: $_POST information for this [entity, field_instance] tuple.
+     * ```php
+     * // $_POST information for this [entity, field_instance] tuple.
+     * $options['_post']
+     * ```
      *
-     * Field Handlers should **alter** `$field->value` and `$field->raw` according
+     * Field Handlers should **alter** `$field->value` and `$field->extra` according
      * to its needs **using $options['_post']**.
      *
      * **NOTE:** Returning boolean FALSE will halt the whole Entity's save operation.
@@ -1056,8 +1073,8 @@ class FieldableBehavior extends Behavior
     }
 
     /**
-     * Alters the given $field and fetches incoming POST data, both 'value' and
-     * 'raw' properties will be automatically filled for the given $field entity.
+     * Alters the given $field and fetches incoming POST data, the 'value' property
+     * will be automatically filled for the given $field entity.
      *
      * @param \Field\Model\Entity\Field $field The field entity for which
      *  fetch POST information
