@@ -66,14 +66,13 @@ class Field extends Entity
     /**
      * String representation of this field.
      *
-     * Triggers the event `Field.<handler>.Instance.valueToString`, event handlers
-     * should catch this event and return an string of the given field.
+     * Defaults to field's `value` property.
      *
      * @return string
      */
     public function __toString()
     {
-        return (string)$this->trigger('Field.' . $this->get('metadata')->get('handler') . '.Instance.valueToString', $this)->result;
+        return (string)$this->get('value');
     }
 
     /**
