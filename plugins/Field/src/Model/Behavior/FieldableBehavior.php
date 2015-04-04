@@ -1160,7 +1160,7 @@ class FieldableBehavior extends Behavior
         $field = str_replace(':', '', $field);
         $instance = TableRegistry::get('Field.FieldInstances')
             ->find()
-            ->select(['type', 'table_alias'])
+            ->select(['type', 'table_alias', 'handler'])
             ->where(['slug' => $field])
             ->limit(1)
             ->first();
