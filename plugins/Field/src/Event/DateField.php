@@ -74,6 +74,8 @@ class DateField extends BaseHandler
                 return false;
             }
             $field->set('value', date_timestamp_get($date));
+        } else {
+            $field->set('value', null);
         }
 
         return true;
