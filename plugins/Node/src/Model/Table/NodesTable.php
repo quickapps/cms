@@ -144,10 +144,8 @@ class NodesTable extends Table
                     return $words;
                 }
 
-                foreach ($node->_fields as $vf) {
-                    if ($vf->value) {
-                        $words .= ' ' . trim((string)$vf);
-                    }
+                foreach ($node->_fields as $virtualField) {
+                    $words .= " {$virtualField}";
                 }
 
                 return $words;
