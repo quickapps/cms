@@ -70,14 +70,14 @@ class FieldCollection extends ArrayObject
      *         [name] => user-age,
      *         [label] => User Age,
      *         [value] => 22,
-     *         [raw] => null,
+     *         [extra] => null,
      *         [metadata] => [ ... ]
      *     ],
      *     [1] => [
      *         [name] => user-phone,
      *         [label] => User Phone,
      *         [value] => null,
-     *         [raw] => null,
+     *         [extra] => null,
      *         [metadata] => [ ... ]
      *     ]
      * ];
