@@ -109,8 +109,7 @@ class ManageControllerTest extends IntegrationTestCase
             ->where(['title' => 'Test Article'])
             ->limit(1)
             ->first();
-        // TODO: fix this test
-        //$this->assertNotEmpty($node);
+        $this->assertNotEmpty($node);
     }
 
     /**
