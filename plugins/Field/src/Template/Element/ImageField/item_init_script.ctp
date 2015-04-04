@@ -24,7 +24,7 @@ FileField.init({
     },
     uploader: {
         buttonText: '<?php echo __d('field', 'Upload Image'); ?>',
-        uploadLimit:  <?php echo $field->metadata->settings['multi'] - count((array)$field->raw); ?>,
+        uploadLimit:  <?php echo $field->metadata->settings['multi'] - count((array)$field->extra); ?>,
         uploader: '<?php echo $this->Url->build(['plugin' => 'Field', 'controller' => 'image_handler', 'action' => 'upload', 'prefix' => false, $field->name], true); ?>',
         remover: '<?php echo $this->Url->build(['plugin' => 'Field', 'controller' => 'image_handler', 'action' => 'delete', 'prefix' => false, $field->name], true); ?>',
         errorMessages: {
