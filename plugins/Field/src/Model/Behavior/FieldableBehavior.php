@@ -1144,8 +1144,8 @@ class FieldableBehavior extends Behavior
      * @param \Cake\Database\Expression\Comparison $expression Expression to scope
      * @param string|null $bundle Table's bundle to scope. e.g. `articles` for `Nodes`
      *  table will look over nodes:articles
-     * @return \Cake\ORM\Query|bool False if not virtual field was found. The query
-     *  object to use otherwise
+     * @return \Cake\ORM\Query|bool False if not virtual field was found, or search
+     *  feature was disabled for this field. The query object to use otherwise
      */
     protected function _virtualQuery($expression, $bundle = null)
     {
@@ -1165,7 +1165,7 @@ class FieldableBehavior extends Behavior
             ->limit(1)
             ->first();
 
-        if (!$instance) {
+        if (!$instance || !fieldsInfo($instance->handler)['searchable']) {
             return false;
         }
 

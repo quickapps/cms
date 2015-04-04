@@ -261,6 +261,7 @@ class BaseHandler implements EventListenerInterface
             'description' => $handlerName,
             'hidden' => false,
             'maxInstances' => 0,
+            'searchable' => true,
         ];
     }
 

@@ -75,7 +75,6 @@ class FieldHook implements EventListenerInterface
                 'callable' => 'renderField',
                 'priority' => -1
             ],
-            'Field.info' => 'listFields',
         ];
     }
 
@@ -110,59 +109,5 @@ class FieldHook implements EventListenerInterface
         }
 
         return '';
-    }
-
-    /**
-     * Gets a collection of information of every registered field in the system.
-     *
-     * ### Example:
-     *
-     * Using `$this->trigger('Field.info', true)` may produce:
-     *
-     * ```php
-     * [
-     *     [0] => [
-     *         'name' => 'Textarea',
-     *         'description' => 'Allows to store long texts',
-     *         'hidden' => false,
-     *     ],
-     *     [1] => [
-     *         'name' => 'Secret Field',
-     *         'description' => 'This field should only be used internally by plugins',
-     *         'hidden' => true,
-     *     ]
-     * ];
-     * ```
-     *
-     * Some fields may register themselves as hidden when they are intended to be used
-     * exclusively by plugins. So users can not `attach` them to entities using Field UI.
-     *
-     * @param \Cake\Event\Event $event The hook event
-     * @param bool $includeHidden Set to true to include fields marked as hidden
-     * @return \Cake\Collection\Collection A collection of fields information
-     */
-    public function listFields(Event $event, $includeHidden = false)
-    {
-        $fields = [];
-        foreach (listeners() as $listener) {
-            if (str_starts_with($listener, 'Field.') &&
-                str_ends_with($listener, '.Instance.info')
-            ) {
-                $fieldHandler = explode('.', $listener)[1];
-                $response = array_merge([
-                    'type' => 'varchar',
-                    'name' => null,
-                    'description' => null,
-                    'hidden' => false,
-                    'handler' => $fieldHandler,
-                    'maxInstances' => 0,
-                ], (array)$this->trigger($listener)->result);
-                if (!$response['hidden'] || $includeHidden) {
-                    $fields[] = $response;
-                }
-            }
-        }
-
-        return collection($fields);
     }
 }
