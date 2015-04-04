@@ -73,9 +73,9 @@ class DateField extends BaseHandler
                 $field->metadata->entity->errors(":{$field->name}", __d('field', 'Invalid date/time, it must match the the pattern: {0}', $format));
                 return false;
             }
+            $field->set('value', date_timestamp_get($date));
         }
 
-        $field->set('value', date_timestamp_get($date));
         return true;
     }
 
