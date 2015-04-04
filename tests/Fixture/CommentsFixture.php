@@ -186,39 +186,5 @@ class CommentsFixture extends TestFixture
     ];
 
     public $records = [
-    0 =>
-    [
-    'entity_id' => '1',
-    'user_id' => null,
-    'table_alias' => 'nodes',
-    'subject' => 'This is an unstable repository',
-    'body' => 'This is an unstable repository and should be treated as an alpha.',
-    'author_name' => null,
-    'author_email' => null,
-    'author_web' => null,
-    'author_ip' => '192.168.1.1',
-    'parent_id' => null,
-    'rght' => 2,
-    'lft' => 2,
-    'status' => 'approved',
-    'created' => '2014-08-03 05:14:42',
-    ],
-    1 =>
-    [
-    'entity_id' => '1',
-    'user_id' => 1,
-    'table_alias' => 'nodes',
-    'subject' => 'asd ad asd',
-    'body' => 'Lorem Ipsum',
-    'author_name' => '',
-    'author_email' => '',
-    'author_web' => '',
-    'author_ip' => '192.168.1.1',
-    'parent_id' => 1,
-    'rght' => 1,
-    'lft' => 0,
-    'status' => 'approved',
-    'created' => '2014-08-03 08:01:29',
-    ],
     ];
 }

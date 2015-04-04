@@ -106,5 +106,6 @@ class AcosFixture extends TestFixture
     ],
     ];
 
-    public $records = [];
+    public $records = [
+    ];
 }

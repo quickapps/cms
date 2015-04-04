@@ -137,5 +137,60 @@ class TermsFixture extends TestFixture
     ];
 
     public $records = [
+    0 =>
+    [
+    'vocabulary_id' => 1,
+    'lft' => 1,
+    'rght' => 6,
+    'parent_id' => 0,
+    'name' => 'PHP',
+    'slug' => 'php',
+    'created' => '2015-03-31T21:20:39+0000',
+    'modified' => '2015-03-31T21:20:39+0000',
+    ],
+    1 =>
+    [
+    'vocabulary_id' => 1,
+    'lft' => 7,
+    'rght' => 10,
+    'parent_id' => 0,
+    'name' => 'JavaScript',
+    'slug' => 'javascript',
+    'created' => '2015-03-31T21:20:51+0000',
+    'modified' => '2015-03-31T21:20:51+0000',
+    ],
+    2 =>
+    [
+    'vocabulary_id' => 1,
+    'lft' => 2,
+    'rght' => 3,
+    'parent_id' => 1,
+    'name' => 'CakePHP',
+    'slug' => 'cakephp',
+    'created' => '2015-03-31T21:20:56+0000',
+    'modified' => '2015-03-31T21:20:56+0000',
+    ],
+    3 =>
+    [
+    'vocabulary_id' => 1,
+    'lft' => 8,
+    'rght' => 9,
+    'parent_id' => 2,
+    'name' => 'jQuery',
+    'slug' => 'jquery',
+    'created' => '2015-03-31T21:21:01+0000',
+    'modified' => '2015-03-31T21:21:01+0000',
+    ],
+    4 =>
+    [
+    'vocabulary_id' => 1,
+    'lft' => 4,
+    'rght' => 5,
+    'parent_id' => 1,
+    'name' => 'QuickAppsCMS',
+    'slug' => 'quickappscms',
+    'created' => '2015-03-31T21:21:07+0000',
+    'modified' => '2015-03-31T21:21:07+0000',
+    ],
     ];
 }

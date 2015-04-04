@@ -154,5 +154,47 @@ class BlockRegionsFixture extends TestFixture
     'region' => '',
     'ordering' => 0,
     ],
+    8 =>
+    [
+    'block_id' => 7,
+    'theme' => 'BackendTheme',
+    'region' => '',
+    'ordering' => 0,
+    ],
+    9 =>
+    [
+    'block_id' => 7,
+    'theme' => 'FrontendTheme',
+    'region' => 'sub-menu',
+    'ordering' => 0,
+    ],
+    10 =>
+    [
+    'block_id' => 5,
+    'theme' => 'BackendTheme',
+    'region' => '',
+    'ordering' => 0,
+    ],
+    11 =>
+    [
+    'block_id' => 5,
+    'theme' => 'FrontendTheme',
+    'region' => 'sub-menu',
+    'ordering' => 0,
+    ],
+    12 =>
+    [
+    'block_id' => 6,
+    'theme' => 'BackendTheme',
+    'region' => '',
+    'ordering' => 0,
+    ],
+    13 =>
+    [
+    'block_id' => 6,
+    'theme' => 'FrontendTheme',
+    'region' => 'right-sidebar',
+    'ordering' => 0,
+    ],
     ];
 }

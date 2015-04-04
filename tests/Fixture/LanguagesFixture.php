@@ -119,7 +119,6 @@ class LanguagesFixture extends TestFixture
     public $records = [
     0 =>
     [
-    'id' => 1,
     'code' => 'en_US',
     'name' => 'English (US)',
     'direction' => 'ltr',
@@ -129,7 +128,6 @@ class LanguagesFixture extends TestFixture
     ],
     1 =>
     [
-    'id' => 2,
     'code' => 'es_ES',
     'name' => 'Spanish (ES)',
     'direction' => 'ltr',

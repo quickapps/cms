@@ -179,5 +179,6 @@ class UsersFixture extends TestFixture
     ],
     ];
 
-    public $records = [];
+    public $records = [
+    ];
 }

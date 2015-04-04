@@ -164,7 +164,6 @@ class FieldInstancesFixture extends TestFixture
     public $records = [
     0 =>
     [
-    'id' => 1,
     'slug' => 'article-introduction',
     'table_alias' => 'nodes:article',
     'handler' => 'TextField',
@@ -179,7 +178,6 @@ class FieldInstancesFixture extends TestFixture
     ],
     1 =>
     [
-    'id' => 3,
     'slug' => 'article-body',
     'table_alias' => 'nodes:article',
     'handler' => 'TextField',
@@ -194,7 +192,6 @@ class FieldInstancesFixture extends TestFixture
     ],
     2 =>
     [
-    'id' => 4,
     'slug' => 'page-body',
     'table_alias' => 'nodes:page',
     'handler' => 'TextField',
@@ -209,7 +206,6 @@ class FieldInstancesFixture extends TestFixture
     ],
     3 =>
     [
-    'id' => 5,
     'slug' => 'article-category',
     'table_alias' => 'nodes:article',
     'handler' => 'TaxonomyField',

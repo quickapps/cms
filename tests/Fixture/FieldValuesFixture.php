@@ -155,7 +155,6 @@ class FieldValuesFixture extends TestFixture
     public $records = [
     0 =>
     [
-    'id' => 1,
     'field_instance_id' => 1,
     'field_instance_slug' => 'article-introduction',
     'entity_id' => '1',
@@ -166,12 +165,11 @@ class FieldValuesFixture extends TestFixture
     'value_int' => null,
     'value_text' => 'Welcome to QuickAppsCMS. This is an example content.',
     'value_varchar' => null,
-    'extra' => 'a:0:{}',
+    'extra' => '',
     ],
     1 =>
     [
-    'id' => 9,
-    'field_instance_id' => 3,
+    'field_instance_id' => 2,
     'field_instance_slug' => 'article-body',
     'entity_id' => '1',
     'table_alias' => 'nodes:article',
@@ -186,14 +184,13 @@ class FieldValuesFixture extends TestFixture
 <p>Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc</p>
 ',
     'value_varchar' => null,
-    'extra' => 'a:0:{}',
+    'extra' => '',
     ],
     2 =>
     [
-    'id' => 12,
-    'field_instance_id' => 4,
+    'field_instance_id' => 3,
     'field_instance_slug' => 'page-body',
-    'entity_id' => '3',
+    'entity_id' => '2',
     'table_alias' => 'nodes:page',
     'type' => 'text',
     'value_datetime' => null,
@@ -210,8 +207,7 @@ class FieldValuesFixture extends TestFixture
     ],
     3 =>
     [
-    'id' => 13,
-    'field_instance_id' => 5,
+    'field_instance_id' => 4,
     'field_instance_slug' => 'article-category',
     'entity_id' => '1',
     'table_alias' => 'nodes:article',

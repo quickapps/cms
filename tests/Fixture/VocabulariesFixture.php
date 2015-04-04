@@ -111,5 +111,15 @@ class VocabulariesFixture extends TestFixture
     ];
 
     public $records = [
+    0 =>
+    [
+    'name' => 'Articles Categories',
+    'slug' => 'articles-categories',
+    'description' => '',
+    'ordering' => 0,
+    'locked' => false,
+    'modified' => '2015-03-31T21:20:06+0000',
+    'created' => '2015-03-31T21:20:06+0000',
+    ],
     ];
 }

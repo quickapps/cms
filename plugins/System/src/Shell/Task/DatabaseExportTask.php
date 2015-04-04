@@ -51,6 +51,12 @@ class DatabaseExportTask extends Shell
                 'boolean' => true,
                 'default' => false,
             ])
+            ->addOption('fixture', [
+                'short' => 'f',
+                'help' => __d('system', 'Generates Fixture classes suitable for testing environments.'),
+                'boolean' => true,
+                'default' => false,
+            ])
             ->addOption('mode', [
                 'short' => 'm',
                 'help' => __d('system', 'What to export, "full" exports schema and records, or "schema" for schema only.'),
@@ -146,11 +152,14 @@ class DatabaseExportTask extends Shell
             }
 
             $className = Inflector::camelize($table) . 'Fixture';
+            if ($options['fixture'] && in_array($className, ['AcosFixture', 'UsersFixture'])) {
+                $records = [];
+            }
+
             $fields = $this->_arrayToString($fields);
             $records = $this->_arrayToString($records);
 
-            $fixture = "<?php\n";
-            $fixture .= "class {$className}\n";
+            $fixture = $this->_classFileHeader($className);
             $fixture .= "{\n";
             $fixture .= "\n";
             $fixture .= "    public \$fields = {$fields};\n";
@@ -166,6 +175,43 @@ class DatabaseExportTask extends Shell
         $this->out(__d('system', 'Database exported to: {0}', $destination));
 
         return true;
+    }
+
+    /**
+     * Returns correct class file header.
+     *
+     * @param string $className The name of the class withing the file
+     * @return string
+     */
+    protected function _classFileHeader($className)
+    {
+        $header = <<<TEXT
+<?php
+/**
+ * Licensed under The GPL-3.0 License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @since    2.0.0
+ * @author   Christopher Castro <chris@quickapps.es>
+ * @link     http://www.quickappscms.org
+ * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
+ */
+
+TEXT;
+
+        if ($this->params['fixture']) {
+            $header .= <<<TEXT
+namespace QuickApps\Test\Fixture;
+
+use Cake\TestSuite\Fixture\TestFixture;
+
+
+TEXT;
+        }
+
+        $header .= $this->params['fixture'] ? "class {$className} extends TestFixture\n" : "\nclass {$className}\n";
+        return $header;
     }
 
     /**
