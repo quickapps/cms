@@ -247,7 +247,7 @@ class BaseHandler implements EventListenerInterface
      *   Field UI. Defaults to true, users can use it via Field UI.
      *
      * - `maxInstances` (int): Maximum number instances of this field a table
-     *   can have. Set to 0 to indicate no limits. Defaults to 0.
+     *   can have. Set to 0 to indicates no limits. Defaults to 0.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @return array
@@ -256,6 +256,7 @@ class BaseHandler implements EventListenerInterface
     {
         list(, $handlerName) = namespaceSplit(get_class($this));
         return [
+            'type' => 'varchar',
             'name' => $handlerName,
             'description' => $handlerName,
             'hidden' => false,
