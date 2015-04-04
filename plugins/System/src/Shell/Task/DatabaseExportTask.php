@@ -72,15 +72,6 @@ class DatabaseExportTask extends Shell
      * By default, all generated PHP files will be placed in `/tmp/fixture/`
      * directory, this can be changed using the `--destination` argument.
      *
-     * ### Parameters:
-     *
-     * - tables [t]: List of table names to export. If not given all tables will be
-     *   exported.
-     *
-     * - destination [d]: Where to place the exported tables.
-     *
-     * - mode [m]: Possible values are "full" or "schema"
-     *
      * @return bool
      */
     public function main()
@@ -141,6 +132,16 @@ class DatabaseExportTask extends Shell
                 }
             }
 
+            // FIX: We need RAW data for time instead of Time Objects
+            $originalTypes = [];
+            foreach ($Table->schema()->columns() as $column) {
+                $type = $Table->schema()->columnType($column);
+                $originalTypes[$column] = $type;
+                if (in_array($type, ['date', 'datetime', 'time'])) {
+                    $Table->schema()->columnType($column, 'string');
+                }
+            }
+
             if ($options['mode'] === 'full') {
                 foreach ($Table->find('all') as $row) {
                     $row = $row->toArray();
@@ -154,6 +155,11 @@ class DatabaseExportTask extends Shell
             $className = Inflector::camelize($table) . 'Fixture';
             if ($options['fixture'] && in_array($className, ['AcosFixture', 'UsersFixture'])) {
                 $records = [];
+            }
+
+            // undo changes made by "FIX"
+            foreach ($originalTypes as $column => $type) {
+                $fields[$column]['type'] = $type;
             }
 
             $fields = $this->_arrayToString($fields);
