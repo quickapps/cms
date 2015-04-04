@@ -199,7 +199,6 @@ if (!count($activePlugins)) {
     die("Ops, something went wrong. Try to clear your site's snapshot and verify write permissions on /tmp directory.");
 }
 
-$eventManager = EventManager::instance();
 foreach ($activePlugins as $plugin) {
     Plugin::load($plugin->name, [
         'autoload' => true,
@@ -209,10 +208,9 @@ foreach ($activePlugins as $plugin) {
         'classBase' => 'src',
         'ignoreMissing' => true,
     ]);
-
     foreach ($plugin->eventListeners as $fullClassName) {
         if (class_exists($fullClassName)) {
-            $eventManager->on(new $fullClassName);
+            EventManager::instance()->on(new $fullClassName);
         }
     }
 }
