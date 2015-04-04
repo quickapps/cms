@@ -162,6 +162,8 @@ class TextField extends BaseHandler
             'name' => __d('field', 'Text'),
             'description' => __d('field', 'Allow to store text data in database.'),
             'hidden' => false,
+            'maxInstances' => 0,
+            'searchable' => true,
         ];
     }
 

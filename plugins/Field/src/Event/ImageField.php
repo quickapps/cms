@@ -254,7 +254,9 @@ class ImageField extends BaseHandler
             'type' => 'text',
             'name' => __d('field', 'Image'),
             'description' => __d('field', 'Allows to attach image files to contents.'),
-            'hidden' => false
+            'hidden' => false,
+            'maxInstances' => 0,
+            'searchable' => false,
         ];
     }
 

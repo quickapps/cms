@@ -123,7 +123,9 @@ class ListField extends BaseHandler
             'type' => 'text',
             'name' => __d('field', 'List'),
             'description' => __d('field', 'Defines list field types, used to create selection lists.'),
-            'hidden' => false
+            'hidden' => false,
+            'maxInstances' => 0,
+            'searchable' => true,
         ];
     }
 

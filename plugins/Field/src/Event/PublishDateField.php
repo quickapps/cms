@@ -181,6 +181,7 @@ class PublishDateField extends BaseHandler
             'description' => __d('field', 'Allows scheduling of contents by making them available only between certain dates.'),
             'hidden' => false,
             'maxInstances' => 1,
+            'searchable' => false,
         ];
     }
 

@@ -251,7 +251,9 @@ class FileField extends BaseHandler
             'type' => 'text',
             'name' => __d('field', 'Attachment'),
             'description' => __d('field', 'Allows to upload and attach files to contents.'),
-            'hidden' => false
+            'hidden' => false,
+            'maxInstances' => 0,
+            'searchable' => false,
         ];
     }
 

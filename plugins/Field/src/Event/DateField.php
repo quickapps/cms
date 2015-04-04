@@ -142,6 +142,8 @@ class DateField extends BaseHandler
             'name' => __d('field', 'Date'),
             'description' => __d('field', 'Allows to attach date picker to contents.'),
             'hidden' => false,
+            'maxInstances' => 0,
+            'searchable' => false,
         ];
     }
 
