@@ -361,8 +361,7 @@ class SearchableBehavior extends Behavior
     {
         $isNew = $entity->isNew();
         if (($this->config('on') === 'update' && $isNew) ||
-            ($this->config('on') === 'insert' && !$isNew) ||
-            ($this->config('on') !== 'both')
+            ($this->config('on') === 'insert' && !$isNew)
         ) {
             return;
         }
@@ -373,15 +372,17 @@ class SearchableBehavior extends Behavior
                 'entity_id' => $entity->get($this->config('pk')),
                 'table_alias' => $this->config('table_alias'),
             ])
+            ->limit(1)
             ->first();
 
         if (!$dataset) {
-            $dataset = TableRegistry::get('Search.SearchDatasets')->newEntity([
+            $dataset = $Datasets->newEntity([
                 'entity_id' => $entity->get($this->config('pk')),
                 'table_alias' => $this->config('table_alias'),
             ]);
         }
 
+        // We add starting and trailing space to allow LIKE %something-to-match%
         $dataset->set('words', ' ' . $this->_extractEntityWords($entity) . ' ');
         $Datasets->save($dataset);
     }
@@ -640,7 +641,10 @@ class SearchableBehavior extends Behavior
     /**
      * Extracts a list of words to by indexed for given entity.
      *
-     * @param \Cake\Datasource\EntityInterface $entity The text from where extract words
+     * NOTE: Words can be repeated, this allows to search phrases.
+     *
+     * @param \Cake\Datasource\EntityInterface $entity The entity for which generate
+     *  the list of words
      * @return string Space-separated list of words. e.g. `cat dog this that`
      */
     protected function _extractEntityWords($entity)
@@ -662,10 +666,13 @@ class SearchableBehavior extends Behavior
         }
 
         $text = str_replace(["\n", "\r"], '', (string)$text); // remove new lines
+        $text = strip_tags($text); // remove HTML tags, but keep their content
         $text = preg_replace('/[^\p{L}\s]/i', ' ', $text); // letters (any language) ands white spaces only
         $text = trim(preg_replace('/\s{2,}/i', ' ', $text)); // remove double spaces
         $text = strtolower($text); // all to lowercase
-        return $this->_filterText($text);
+        $text = $this->_filterText($text); // filter
+        $text = iconv("UTF-8", "UTF-8//IGNORE", $text); // remove any invalid character
+        return trim($text);
     }
 
     /**
