@@ -132,8 +132,8 @@ class TermsFixture
     'parent_id' => 0,
     'name' => 'PHP',
     'slug' => 'php',
-    'created' => '2015-03-31 21:20:39',
-    'modified' => '2015-03-31 21:20:39',
+    'created' => '2015-03-31T21:20:39+0000',
+    'modified' => '2015-03-31T21:20:39+0000',
     ],
     1 =>
     [
@@ -144,8 +144,8 @@ class TermsFixture
     'parent_id' => 0,
     'name' => 'JavaScript',
     'slug' => 'javascript',
-    'created' => '2015-03-31 21:20:51',
-    'modified' => '2015-03-31 21:20:51',
+    'created' => '2015-03-31T21:20:51+0000',
+    'modified' => '2015-03-31T21:20:51+0000',
     ],
     2 =>
     [
@@ -156,8 +156,8 @@ class TermsFixture
     'parent_id' => 1,
     'name' => 'CakePHP',
     'slug' => 'cakephp',
-    'created' => '2015-03-31 21:20:56',
-    'modified' => '2015-03-31 21:20:56',
+    'created' => '2015-03-31T21:20:56+0000',
+    'modified' => '2015-03-31T21:20:56+0000',
     ],
     3 =>
     [
@@ -168,8 +168,8 @@ class TermsFixture
     'parent_id' => 2,
     'name' => 'jQuery',
     'slug' => 'jquery',
-    'created' => '2015-03-31 21:21:01',
-    'modified' => '2015-03-31 21:21:01',
+    'created' => '2015-03-31T21:21:01+0000',
+    'modified' => '2015-03-31T21:21:01+0000',
     ],
     4 =>
     [
@@ -180,8 +180,8 @@ class TermsFixture
     'parent_id' => 1,
     'name' => 'QuickAppsCMS',
     'slug' => 'quickappscms',
-    'created' => '2015-03-31 21:21:07',
-    'modified' => '2015-03-31 21:21:07',
+    'created' => '2015-03-31T21:21:07+0000',
+    'modified' => '2015-03-31T21:21:07+0000',
     ],
     ];
 }

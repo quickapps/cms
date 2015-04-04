@@ -165,7 +165,7 @@ class FieldInstancesFixture
     ],
     1 =>
     [
-    'id' => 3,
+    'id' => 2,
     'slug' => 'article-body',
     'table_alias' => 'nodes:article',
     'handler' => 'TextField',
@@ -180,7 +180,7 @@ class FieldInstancesFixture
     ],
     2 =>
     [
-    'id' => 4,
+    'id' => 3,
     'slug' => 'page-body',
     'table_alias' => 'nodes:page',
     'handler' => 'TextField',
@@ -195,7 +195,7 @@ class FieldInstancesFixture
     ],
     3 =>
     [
-    'id' => 5,
+    'id' => 4,
     'slug' => 'article-category',
     'table_alias' => 'nodes:article',
     'handler' => 'TaxonomyField',

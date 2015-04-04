@@ -78,7 +78,7 @@ class EntitiesTermsFixture
     'id' => 1,
     'entity_id' => 1,
     'term_id' => 1,
-    'field_instance_id' => 5,
+    'field_instance_id' => 4,
     'table_alias' => 'nodes',
     ],
     1 =>
@@ -86,7 +86,7 @@ class EntitiesTermsFixture
     'id' => 2,
     'entity_id' => 1,
     'term_id' => 5,
-    'field_instance_id' => 5,
+    'field_instance_id' => 4,
     'table_alias' => 'nodes',
     ],
     ];

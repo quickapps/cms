@@ -105,8 +105,8 @@ class VocabulariesFixture
     'description' => '',
     'ordering' => 0,
     'locked' => false,
-    'modified' => '2015-03-31 21:20:06',
-    'created' => '2015-03-31 21:20:06',
+    'modified' => '2015-03-31T21:20:06+0000',
+    'created' => '2015-03-31T21:20:06+0000',
     ],
     ];
 }
