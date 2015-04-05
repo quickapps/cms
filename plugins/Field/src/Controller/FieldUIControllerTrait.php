@@ -18,6 +18,7 @@ use Cake\Network\Exception\ForbiddenException;
 use Cake\Network\Exception\NotFoundException;
 use Cake\ORM\Entity;
 use Cake\ORM\Exception\RecordNotFoundException;
+use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
 use QuickApps\Event\HookAwareTrait;
 use QuickApps\View\ViewModeAwareTrait;
@@ -33,24 +34,19 @@ use QuickApps\View\ViewModeAwareTrait;
  *
  * # Usage:
  *
- * Beside adding `use FieldUIControllerTrait;` to your controller you MUST also
- * indicate the name of the Table being managed. Example:
+ * Beside adding ``use FieldUIControllerTrait;`` to your controller you MUST also
+ * indicate the name of the table being managed using the ``$_manageTable``
+ * property, you must set this property to any valid table alias within your system
+ * (dot notation is also allowed). For example:
  *
  * ```php
  * uses Field\Controller\FieldUIControllerTrait;
  *
  * class MyCleanController extends <Plugin>AppController {
  *     use FieldUIControllerTrait;
- *     // underscored table alias. e.g.: "user_photos"
- *     protected $_manageTable = 'nodes';
+ *     protected $_manageTable = 'Node.Nodes';
  * }
  * ```
- *
- * In order to avoid trait collision you should always `extend` Field UI using this
- * trait over a `clean` controller. This is, a empty controller class with no
- * methods defined. For instance, create a new controller class
- * `MyPlugin\Controller\MyTableFieldManagerController` and use this trait to handle
- * custom fields for "MyTable" database table.
  *
  * # Requirements
  *
@@ -65,6 +61,13 @@ trait FieldUIControllerTrait
     use ViewModeAwareTrait;
 
     /**
+     * Instance of the table being managed.
+     *
+     * @var \Cake\ORM\Table
+     */
+    protected $_table = null;
+
+    /**
      * Validation rules.
      *
      * @param \Cake\Event\Event $event The event instance.
@@ -77,8 +80,9 @@ trait FieldUIControllerTrait
     public function beforeFilter(Event $event)
     {
         $requestParams = $event->subject()->request->params;
-
-        if (!isset($this->_manageTable) || empty($this->_manageTable)) {
+        if (empty($this->_manageTable) ||
+            !($this->_table = TableRegistry::get($this->_manageTable))
+        ) {
             throw new ForbiddenException(__d('field', 'FieldUIControllerTrait: The property $_manageTable was not found or is empty.'));
         } elseif (!($this instanceof Controller)) {
             throw new ForbiddenException(__d('field', 'FieldUIControllerTrait: This trait must be used on instances of Cake\Controller\Controller.'));
@@ -236,6 +240,7 @@ trait FieldUIControllerTrait
             $data = $this->request->data();
             $data['table_alias'] = $this->_manageTable;
             $fieldInstance = $this->FieldInstances->newEntity($data);
+            $this->_validateSlug($field);
             $success = empty($fieldInstance->errors());
 
             if ($success) {
@@ -489,6 +494,24 @@ trait FieldUIControllerTrait
         }
 
         $this->redirect($this->referer());
+    }
+
+    /**
+     * Checks that the given instance's slug do not collide with table's real column
+     * names.
+     *
+     * If collision occurs, an error message will be registered on the given entity.
+     *
+     * @param \Field\Model\Entity\FieldInstance $instance Instance to validate
+     * @return void
+     */
+    protected function _validateSlug($instance)
+    {
+        $slug = $instance->get('slug');
+        $columns = $this->_table->schema()->columns();
+        if (in_array($slug, $columns)) {
+            $instance->errors('slug', __d('field', 'The name "{0}" cannot be used as it collides with table column names.', $slug));
+        }
     }
 
     /**
