@@ -13,6 +13,13 @@
 
 <div class="elfinder"><?php echo __d('wysiwyg', 'Please enable JavaScript to use ElFinder plugin.'); ?></div>
 
+<?php $this->Html->css('/wysiwyg/js/elfinder/css/elfinder.min.css', ['block' => true]); ?>
+<?php $this->Html->css('/wysiwyg/js/elfinder/css/theme.css', ['block' => true]); ?>
+<?php $this->jQuery->theme(['block' => true]); ?>
+
+<?php $this->jQuery->ui(['block' => true]); ?>
+<?php $this->Html->script('/wysiwyg/js/elfinder/js/elfinder.min.js', ['block' => true]); ?>
+
 <script type="text/javascript" charset="utf-8">
     var funcNum = window.location.search.replace(/^.*CKEditorFuncNum=(\d+).*$/, "$1");
 
