@@ -310,7 +310,7 @@ class EavBehavior extends Behavior
         }
 
         $pk = $this->_table->primaryKey();
-        TableRegistry::get('Eav.Values')->deleteAll([
+        TableRegistry::get('Eav.EavValues')->deleteAll([
             'table_alias' => $this->config('tableAlias'),
             'entity_id' => (string)$entity->get($pk),
         ]);
@@ -324,7 +324,7 @@ class EavBehavior extends Behavior
      */
     public function attachEntityAttributes(EntityInterface $entity)
     {
-        $Values = TableRegistry::get('Eav.Values');
+        $Values = TableRegistry::get('Eav.EavValues');
         $pk = $this->_table->primaryKey();
         foreach ($this->config('attributes') as $name => $attrs) {
             if (!$entity->has($name) && $entity->has($pk)) {

@@ -27,7 +27,6 @@ class ValuesTable extends Table
      */
     public function initialize(array $config)
     {
-        $this->table('eav_values');
         $this->addBehavior('Serializable', [
             'columns' => ['extra']
         ]);

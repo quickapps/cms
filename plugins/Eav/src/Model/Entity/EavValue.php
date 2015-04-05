@@ -9,12 +9,12 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Field\Model\Entity;
+namespace Eav\Model\Entity;
 
 use Cake\ORM\Entity;
 
 /**
- * Represents a "value" within the "eav_values" database table.
+ * Represents a "eav_value" within the "eav_values" database table.
  *
  * @property int $id
  * @property int $entity_id
@@ -27,6 +27,6 @@ use Cake\ORM\Entity;
  * @property string $value_varchar
  * @property object|array $extra
  */
-class Value extends Entity
+class EavValue extends Entity
 {
 }

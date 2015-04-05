@@ -277,7 +277,7 @@ class FieldInstancesTable extends Table
     public function afterDelete(Event $event, FieldInstance $instance, ArrayObject $options = null)
     {
         $fullInstance = $this->get($instance->id);
-        $FieldValues = TableRegistry::get('Eav.Values');
+        $FieldValues = TableRegistry::get('Eav.EavValues');
         $FieldValues->deleteAll(['attribute' => $fullInstance->slug, 'table_alias' => $fullInstance->table_alias]);
         $this->trigger(["Field.{$instance->handler}.Instance.afterDetach", $event->subject()], $instance, $options);
     }

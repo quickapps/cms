@@ -20,6 +20,7 @@ use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
+use Eav\Model\Behavior\EavBehavior;
 use Field\Collection\FieldCollection;
 use Field\Error\InvalidBundle;
 use Field\Model\Entity\Field;
@@ -324,7 +325,7 @@ class FieldableBehavior extends EavBehavior
             if ($entity->isNew() || empty($valueEntity->id)) {
                 $this->_cache['createValues'][] = $valueEntity;
             } else {
-                if (!TableRegistry::get('Eav.Values')->save($valueEntity)) {
+                if (!TableRegistry::get('Eav.EavValues')->save($valueEntity)) {
                     $this->attachEntityFields($entity);
                     $event->stopPropagation();
                     return false;
@@ -364,7 +365,7 @@ class FieldableBehavior extends EavBehavior
             foreach ($this->_cache['createValues'] as $valueEntity) {
                 $valueEntity->set('entity_id', $entity->id);
                 $valueEntity->unsetProperty('id');
-                TableRegistry::get('Eav.Values')->save($valueEntity);
+                TableRegistry::get('Eav.EavValues')->save($valueEntity);
             }
             $this->_cache['createValues'] = [];
         }
@@ -424,7 +425,7 @@ class FieldableBehavior extends EavBehavior
         }
 
         // clear all
-        $valuesToDelete = TableRegistry::get('Eav.Values')
+        $valuesToDelete = TableRegistry::get('Eav.EavValues')
             ->find()
             ->where([
                 'table_alias' => $tableAlias,
@@ -434,7 +435,7 @@ class FieldableBehavior extends EavBehavior
             ->all();
 
         foreach ($valuesToDelete as $value) {
-            TableRegistry::get('Eav.Values')->delete($value);
+            TableRegistry::get('Eav.EavValues')->delete($value);
         }
 
         return true;
@@ -643,7 +644,7 @@ class FieldableBehavior extends EavBehavior
     {
         $pk = $this->_table->primaryKey();
         $type = $this->_getType($instance->type);
-        $storedValue = TableRegistry::get('Eav.Values')
+        $storedValue = TableRegistry::get('Eav.EavValues')
             ->find()
             ->select(['id', "value_{$type}", 'extra'])
             ->where([
