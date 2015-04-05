@@ -173,7 +173,7 @@ class FormHelper extends CakeFormHelper
                     $options['required'] = 'required';
                 }
 
-                return $this->input(":{$fieldName->name}", $options);
+                return $this->input($fieldName->name, $options);
             }
         }
 

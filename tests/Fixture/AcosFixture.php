@@ -17,95 +17,95 @@ class AcosFixture extends TestFixture
 {
 
     public $fields = [
-    '_constraints' =>
-    [
-    'primary' =>
+  '_constraints' => 
+  [
+    'primary' => 
     [
       'type' => 'primary',
-      'columns' =>
+      'columns' => 
       [
         0 => 'id',
       ],
-      'length' =>
+      'length' => 
       [
       ],
     ],
-    ],
-    'id' =>
-    [
+  ],
+  'id' => 
+  [
     'type' => 'integer',
     'unsigned' => false,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
     'autoIncrement' => true,
-    'precision' => null,
-    ],
-    'parent_id' =>
-    [
+    'precision' => NULL,
+  ],
+  'parent_id' => 
+  [
     'type' => 'integer',
     'length' => 10,
     'unsigned' => false,
     'null' => true,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'autoIncrement' => null,
-    ],
-    'lft' =>
-    [
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+  'lft' => 
+  [
     'type' => 'integer',
     'length' => 10,
     'unsigned' => false,
     'null' => true,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'autoIncrement' => null,
-    ],
-    'rght' =>
-    [
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+  'rght' => 
+  [
     'type' => 'integer',
     'length' => 10,
     'unsigned' => false,
     'null' => true,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'autoIncrement' => null,
-    ],
-    'plugin' =>
-    [
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+  'plugin' => 
+  [
     'type' => 'string',
     'length' => 255,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'alias' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'alias' => 
+  [
     'type' => 'string',
     'length' => 255,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'alias_hash' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'alias_hash' => 
+  [
     'type' => 'string',
     'length' => 32,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    ];
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+];
 
     public $records = [
-    ];
+];
 }

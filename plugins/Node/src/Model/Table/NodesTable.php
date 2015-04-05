@@ -129,6 +129,7 @@ class NodesTable extends Table
                 return '';
             }
         ]);
+
         $this->addBehavior('Search.Searchable', [
             'fields' => function ($node) {
                 $words = '';

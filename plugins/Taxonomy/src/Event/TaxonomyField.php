@@ -15,6 +15,7 @@ use Cake\Cache\Cache;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
+use Cake\Validation\Validator;
 use Field\BaseHandler;
 use Field\Model\Entity\Field;
 
@@ -140,7 +141,7 @@ class TaxonomyField extends BaseHandler
             $TermsCache->deleteAll([
                 'entity_id' => $entity->get($pk),
                 'table_alias' => $tableAlias,
-                'field_instance_id' => $field->metadata->field_instance_id,
+                'field_instance_id' => $field->metadata->instance_id,
             ]);
 
             foreach ($extra as $termId) {
@@ -149,7 +150,7 @@ class TaxonomyField extends BaseHandler
                     'entity_id' => $entity->get($pk),
                     'term_id' => $termId,
                     'table_alias' => $tableAlias,
-                    'field_instance_id' => $field->metadata->field_instance_id,
+                    'field_instance_id' => $field->metadata->instance_id,
                 ]);
                 $TermsCache->save($cacheEntity);
             }
@@ -159,12 +160,12 @@ class TaxonomyField extends BaseHandler
     /**
      * {@inheritDoc}
      */
-    public function entityBeforeValidate(Event $event, Field $field, $options, $validator)
+    public function entityValidate(Event $event, Field $field, Validator $validator)
     {
         if ($field->metadata->required) {
-            $validator->allowEmpty(":{$field->name}", false, __d('taxonomy', 'Field required.'));
+            $validator->allowEmpty($field->name, false, __d('taxonomy', 'Field required.'));
         } else {
-            $validator->allowEmpty(":{$field->name}", true);
+            $validator->allowEmpty($field->name, true);
         }
 
         if (intval($field->metadata->settings['max_values']) > 0) {
@@ -175,7 +176,7 @@ class TaxonomyField extends BaseHandler
             }
 
             $validator
-                ->add(":{$field->name}", 'validateLimit', [
+                ->add($field->name, 'validateLimit', [
                     'rule' => function ($value, $context) use ($field) {
                         if (!is_array($value)) {
                             $value = explode(',', (string)$value);
@@ -187,29 +188,6 @@ class TaxonomyField extends BaseHandler
         }
 
         return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityAfterValidate(Event $event, Field $field, $options, $validator)
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityBeforeDelete(Event $event, Field $field, $options)
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityAfterDelete(Event $event, Field $field, $options)
-    {
     }
 
     /**
@@ -272,36 +250,6 @@ class TaxonomyField extends BaseHandler
                     'link_template' => '<a href="{{url}}"{{attrs}}>{{content}}</a>',
                 ];
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceBeforeAttach(Event $event, $instance, $options = [])
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceAfterAttach(Event $event, $instance, $options = [])
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceBeforeDetach(Event $event, $instance, $options = [])
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceAfterDetach(Event $event, $instance, $options = [])
-    {
     }
 
     /**

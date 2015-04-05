@@ -17,128 +17,128 @@ class TermsFixture extends TestFixture
 {
 
     public $fields = [
-    '_constraints' =>
-    [
-    'primary' =>
+  '_constraints' => 
+  [
+    'primary' => 
     [
       'type' => 'primary',
-      'columns' =>
+      'columns' => 
       [
         0 => 'id',
       ],
-      'length' =>
+      'length' => 
       [
       ],
     ],
-    'terms_slug' =>
+    'terms_slug' => 
     [
       'type' => 'unique',
-      'columns' =>
+      'columns' => 
       [
         0 => 'slug',
       ],
-      'length' =>
+      'length' => 
       [
       ],
     ],
-    ],
-    'id' =>
-    [
+  ],
+  'id' => 
+  [
     'type' => 'integer',
     'unsigned' => false,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
     'autoIncrement' => true,
-    'precision' => null,
-    ],
-    'vocabulary_id' =>
-    [
+    'precision' => NULL,
+  ],
+  'vocabulary_id' => 
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'autoIncrement' => null,
-    ],
-    'lft' =>
-    [
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+  'lft' => 
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'autoIncrement' => null,
-    ],
-    'rght' =>
-    [
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+  'rght' => 
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'autoIncrement' => null,
-    ],
-    'parent_id' =>
-    [
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+  'parent_id' => 
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'autoIncrement' => null,
-    ],
-    'name' =>
-    [
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+  'name' => 
+  [
     'type' => 'string',
     'length' => 255,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'slug' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'slug' => 
+  [
     'type' => 'string',
     'length' => 255,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'created' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'created' => 
+  [
     'type' => 'datetime',
-    'length' => null,
+    'length' => NULL,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    ],
-    'modified' =>
-    [
+    'precision' => NULL,
+  ],
+  'modified' => 
+  [
     'type' => 'datetime',
-    'length' => null,
+    'length' => NULL,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    ],
-    ];
+    'precision' => NULL,
+  ],
+];
 
     public $records = [
-    0 =>
-    [
+  0 => 
+  [
     'vocabulary_id' => 1,
     'lft' => 1,
     'rght' => 6,
@@ -147,9 +147,9 @@ class TermsFixture extends TestFixture
     'slug' => 'php',
     'created' => '2015-03-31 21:20:39',
     'modified' => '2015-03-31 21:20:39',
-    ],
-    1 =>
-    [
+  ],
+  1 => 
+  [
     'vocabulary_id' => 1,
     'lft' => 7,
     'rght' => 10,
@@ -158,9 +158,9 @@ class TermsFixture extends TestFixture
     'slug' => 'javascript',
     'created' => '2015-03-31 21:20:51',
     'modified' => '2015-03-31 21:20:51',
-    ],
-    2 =>
-    [
+  ],
+  2 => 
+  [
     'vocabulary_id' => 1,
     'lft' => 2,
     'rght' => 3,
@@ -169,9 +169,9 @@ class TermsFixture extends TestFixture
     'slug' => 'cakephp',
     'created' => '2015-03-31 21:20:56',
     'modified' => '2015-03-31 21:20:56',
-    ],
-    3 =>
-    [
+  ],
+  3 => 
+  [
     'vocabulary_id' => 1,
     'lft' => 8,
     'rght' => 9,
@@ -180,9 +180,9 @@ class TermsFixture extends TestFixture
     'slug' => 'jquery',
     'created' => '2015-03-31 21:21:01',
     'modified' => '2015-03-31 21:21:01',
-    ],
-    4 =>
-    [
+  ],
+  4 => 
+  [
     'vocabulary_id' => 1,
     'lft' => 4,
     'rght' => 5,
@@ -191,6 +191,6 @@ class TermsFixture extends TestFixture
     'slug' => 'quickappscms',
     'created' => '2015-03-31 21:21:07',
     'modified' => '2015-03-31 21:21:07',
-    ],
-    ];
+  ],
+];
 }

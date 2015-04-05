@@ -16,7 +16,7 @@
 <?php else: ?>
     <?php
         // considering "max_values" > 1
-        $id = "taxonomy-{$field->metadata->field_instance_id}-{$field->metadata->field_value_id}";
+        $id = "taxonomy-{$field->metadata->instance_id}-{$field->metadata->value_id}";
         $label = (!$field->metadata->required ? $field->label : $field->label . ' *');
         $inputOptions = [
             'type' => 'select',
@@ -50,6 +50,6 @@
     ?>
 
     <!-- taxonomy field -->
-    <?php echo $this->Form->input(":{$field->name}", $inputOptions); ?>
+    <?php echo $this->Form->input($field->name, $inputOptions); ?>
     <em class="help-block"><?php echo $field->metadata->description; ?></em>
 <?php endif; ?>
