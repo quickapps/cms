@@ -118,18 +118,23 @@ class JqueryHelper extends Helper
      * You can indicate UI themes provided by an specific plugin:
      *
      * ```php
+     * // Theme's assets should be located at `MyPlugin/webroot/css/ui/flick/`
      * $this->jQuery->theme('MyPlugin.flick');
      * ```
-     *
-     * Theme's assets should be located at `MyPlugin/webroot/css/ui/flick/`
      *
      * If no plugin syntax is given, **Jquery** plugin will be used by default:
      *
      * ```php
+     * // Theme's assets are located at `Jquery/webroot/css/ui/flick/`
      * $this->jQuery->theme('flick');
      * ```
      *
-     * Theme's assets are located at `Jquery/webroot/css/ui/flick/`
+     * If you want to use default theme ($themeName = null) and provide some options
+     * (second argument), you can do as follow:
+     *
+     * ```php
+     * $this->jQuery->theme(['block' => true]);
+     * ```
      *
      * ### Theme auto-detect
      *
@@ -172,22 +177,26 @@ class JqueryHelper extends Helper
      *
      * - `fullBase` If true the URL will get a full address for the css file.
      *
-     * @param string|null $themeName Name of the theme to load
+     * @param string|array|null $themeName Name of the theme to load, or array
+     *  of options (will replace $options) to use default theme with options
      * @param array $options Array of options and HTML arguments
      * @return string CSS <link /> or <style /> tag, depending on the type of link.
      */
-    public function theme($themeName = null, $options = [])
+    public function theme($themeName = null, array $options = [])
     {
-        if ($themeName === null) {
-            $default = Configure::read('jQueryUI.defaultTheme');
-            $themeName = $default ?: 'Jquery.ui-lightness';
+        if (is_array($themeName)) {
+            $options = $themeName;
+            $themeName = null;
         }
 
+        if ($themeName === null) {
+            $default = Configure::read('jQueryUI.defaultTheme');
+            $themeName = $default ? $default : 'Jquery.ui-lightness';
+        }
         $out = '';
         list($plugin, $theme) = pluginSplit($themeName);
         $plugin = !$plugin ? 'Jquery' : $plugin;
         $out .= (string)$this->_View->Html->css("{$plugin}.ui/{$theme}/theme.css", $options);
-
         if (Configure::read('debug')) {
             $out .= (string)$this->_View->Html->css("{$plugin}.ui/{$theme}/jquery-ui.css", $options);
         } else {
