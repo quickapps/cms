@@ -12,6 +12,7 @@
 namespace Field\Event;
 
 use Cake\Event\Event;
+use Cake\Validation\Validator;
 use Field\BaseHandler;
 use Field\Model\Entity\Field;
 use Field\Utility\DateToolbox;
@@ -44,20 +45,6 @@ class DateField extends BaseHandler
 
     /**
      * {@inheritDoc}
-     */
-    public function entityFieldAttached(Event $event, Field $field)
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityBeforeFind(Event $event, Field $field, $options, $primary)
-    {
-    }
-
-    /**
-     * {@inheritDoc}
      *
      * - extra: Holds string date incoming from POST
      * - value: Holds datetime information
@@ -70,7 +57,7 @@ class DateField extends BaseHandler
             if ($date = DateToolbox::createFromFormat($format, $date)) {
                 $field->set('extra', $options['_post']['date']);
             } else {
-                $field->metadata->entity->errors(":{$field->name}", __d('field', 'Invalid date/time, it must match the the pattern: {0}', $format));
+                $field->metadata->entity->errors($field->name, __d('field', 'Invalid date/time, it must match the the pattern: {0}', $format));
                 return false;
             }
             $field->set('value', date_timestamp_get($date));
@@ -84,22 +71,15 @@ class DateField extends BaseHandler
     /**
      * {@inheritDoc}
      */
-    public function entityAfterSave(Event $event, Field $field, $options)
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityBeforeValidate(Event $event, Field $field, $options, $validator)
+    public function entityValidate(Event $event, Field $field, Validator $validator)
     {
         if (!$field->metadata->required) {
             return true;
         }
 
         $validator
-            ->notEmpty(":{$field->name}", __d('field', 'You must select a date/time.'))
-            ->add(":{$field->name}", 'validDate', [
+            ->notEmpty($field->name, __d('field', 'You must select a date/time.'))
+            ->add($field->name, 'validDate', [
                 'rule' => function ($value, $context) {
                     return DateToolbox::createFromFormat($value['format'], $value['date']) !== false;
                 },
@@ -107,29 +87,6 @@ class DateField extends BaseHandler
             ]);
 
         return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityAfterValidate(Event $event, Field $field, $options, $validator)
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityBeforeDelete(Event $event, Field $field, $options)
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityAfterDelete(Event $event, Field $field, $options)
-    {
     }
 
     /**
@@ -159,15 +116,7 @@ class DateField extends BaseHandler
     /**
      * {@inheritDoc}
      */
-    public function instanceSettingsDefaults(Event $event, $instance, $options = [])
-    {
-        return [];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceSettingsValidate(Event $event, array $settings, $validator)
+    public function instanceSettingsValidate(Event $event, array $settings, Validator $validator)
     {
         $validator
             ->allowEmpty('time_format')
@@ -211,42 +160,5 @@ class DateField extends BaseHandler
                     'hidden' => false,
                 ];
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceViewModeValidate(Event $event, array $settings, $validator)
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceBeforeAttach(Event $event, $instance, $options = [])
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceAfterAttach(Event $event, $instance, $options = [])
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceBeforeDetach(Event $event, $instance, $options = [])
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceAfterDetach(Event $event, $instance, $options = [])
-    {
     }
 }

@@ -13,6 +13,7 @@ namespace Field\Event;
 
 use Cake\Event\Event;
 use Cake\Routing\Router;
+use Cake\Validation\Validator;
 use Field\BaseHandler;
 use Field\Model\Entity\Field;
 use Field\Utility\DateToolbox;
@@ -47,13 +48,6 @@ class PublishDateField extends BaseHandler
     {
         $View = $event->subject();
         return $View->element('Field.PublishDateField/edit', compact('field', 'options'));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityFieldAttached(Event $event, Field $field)
-    {
     }
 
     /**
@@ -97,7 +91,7 @@ class PublishDateField extends BaseHandler
                     $values[] = $extra[$type]['timestamp'] . ' ' . $options['_post'][$type]['string'];
                 } else {
                     $typeLabel = $type == 'from' ? __d('field', 'Start') : __d('field', 'Finish');
-                    $field->metadata->entity->errors(":{$field->name}", __d('field', 'Invalid date/time range, "{0}" date must match the the pattern: {1}', $typeLabel, $format));
+                    $field->metadata->entity->errors($field->name, __d('field', 'Invalid date/time range, "{0}" date must match the the pattern: {1}', $typeLabel, $format));
                     return false;
                 }
             }
@@ -111,21 +105,14 @@ class PublishDateField extends BaseHandler
     /**
      * {@inheritDoc}
      */
-    public function entityAfterSave(Event $event, Field $field, $options)
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityBeforeValidate(Event $event, Field $field, $options, $validator)
+    public function entityValidate(Event $event, Field $field, Validator $validator)
     {
         if ($field->metadata->required) {
-            $validator->notEmpty(":{$field->name}", __d('field', 'You must select a date/time range.'));
+            $validator->notEmpty($field->name, __d('field', 'You must select a date/time range.'));
         }
 
         $validator
-            ->add(":{$field->name}", [
+            ->add($field->name, [
                 'validRange' => [
                     'rule' => function ($value, $context) {
                         if (!empty($value['from']['string']) &&
@@ -145,29 +132,6 @@ class PublishDateField extends BaseHandler
             ]);
 
         return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityAfterValidate(Event $event, Field $field, $options, $validator)
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityBeforeDelete(Event $event, Field $field, $options)
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityAfterDelete(Event $event, Field $field, $options)
-    {
     }
 
     /**
@@ -197,15 +161,7 @@ class PublishDateField extends BaseHandler
     /**
      * {@inheritDoc}
      */
-    public function instanceSettingsDefaults(Event $event, $instance, $options = [])
-    {
-        return [];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceSettingsValidate(Event $event, array $settings, $validator)
+    public function instanceSettingsValidate(Event $event, array $settings, Validator $validator)
     {
         $validator
             ->allowEmpty('time_format')
@@ -249,42 +205,5 @@ class PublishDateField extends BaseHandler
                     'hidden' => false,
                 ];
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceViewModeValidate(Event $event, array $settings, $validator)
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceBeforeAttach(Event $event, $instance, $options = [])
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceAfterAttach(Event $event, $instance, $options = [])
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceBeforeDetach(Event $event, $instance, $options = [])
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceAfterDetach(Event $event, $instance, $options = [])
-    {
     }
 }

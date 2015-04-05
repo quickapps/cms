@@ -25,16 +25,19 @@ use QuickApps\View\ViewModeAwareTrait;
  * - value: Value for this [FieldInstance, Entity] tuple. (Schema equivalent: cell value).
  * - extra: Extra information.
  * - metadata: A mock entity which holds the following properties describing a column
- *   - field_value_id: ID of the value stored in `field_values` table (from where `value` comes from).
- *   - field_instance_id: ID of the field instance (`field_instances` table) attached to Table.
- *   - field_instance_slug: Machine-name of the field instance (`field_instances` table) attached to Table.
+ *   - value_id: ID of the value stored in `field_values` table (from where `value` comes from).
+ *   - instance_id: ID of the field instance (`field_instances` table) attached to Table.
+ *   - instance_name: Machine-name of the field instance (`field_instances` table) attached to Table.
  *   - table_alias: Name of the table this field is attached to. e.g: `users`.
- *   - description: Something about this field: e.g.: `Please enter your name`.
- *   - required: True if required, false otherwise
- *   - settings: Array of additional information handled by this particular field. ex: `max_len`, `min_len`, etc
+ *   - entity_id: ID of the entity to which this field is attached to.
  *   - handler: Name of the `Listener Class` a.k.a. `Field Handler`. ex: `Field\Text`
- *   - errors: Validation error messages
+ *   - type: Type of data stored by this field (datetime, decilmal, etc).
+ *   - required: True if required, false otherwise
+ *   - description: Something about this field: e.g.: `Please enter your name`.
+ *   - settings: Array of additional information handled by this particular field. ex: `max_len`, `min_len`, etc
+ *   - view_modes: View modes settings, describes how field should be rendered.
  *   - entity: Entity object this field is attached to.
+ *   - errors: Validation error messages
  *
  * @property string $name
  * @property string $label
@@ -89,18 +92,18 @@ class Field extends Entity
             'value' => $this->get('value'),
             'extra' => $this->get('extra'),
             'metadata' => [
-                'field_value_id' => $this->get('metadata')->get('field_value_id'),
-                'field_instance_id' => $this->get('metadata')->get('field_instance_id'),
-                'field_instance_slug' => $this->get('metadata')->get('field_instance_slug'),
+                'value_id' => $this->get('metadata')->get('value_id'),
+                'instance_id' => $this->get('metadata')->get('instance_id'),
+                'instance_name' => $this->get('metadata')->get('instance_slug'),
+                'table_alias' => $this->get('metadata')->get('table_alias'),
                 'entity_id' => $this->get('metadata')->get('entity_id'),
                 'handler' => $this->get('metadata')->get('handler'),
                 'type' => $this->get('metadata')->get('type'),
-                'entity' => 'Object',
                 'required' => $this->get('metadata')->get('required'),
-                'table_alias' => $this->get('metadata')->get('table_alias'),
                 'description' => $this->get('metadata')->get('description'),
                 'settings' => $this->get('metadata')->get('settings'),
                 'view_modes' => $this->get('metadata')->get('view_modes'),
+                'entity' => 'Object',
                 'errors' => $this->get('metadata')->get('errors'),
             ],
         ];

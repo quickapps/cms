@@ -15,6 +15,7 @@ use Cake\Event\Event;
 use Cake\Filesystem\File;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
+use Cake\Validation\Validator;
 use Field\BaseHandler;
 use Field\Model\Entity\Field;
 
@@ -71,13 +72,6 @@ class FileField extends BaseHandler
 
     /**
      * {@inheritDoc}
-     */
-    public function entityBeforeFind(Event $event, Field $field, $options, $primary)
-    {
-    }
-
-    /**
-     * {@inheritDoc}
      *
      * - extra: Holds a list (array) of files and their in formation (mime-icon,
      *   file name, etc).
@@ -86,6 +80,16 @@ class FileField extends BaseHandler
      */
     public function entityBeforeSave(Event $event, Field $field, $options)
     {
+        // FIX Removes the "dummy" input from extra if exists, the "dummy" input is
+        // used to force Field Handler to work when empty POST information is sent
+        $extra = [];
+        foreach ((array)$field->extra as $k => $v) {
+            if (is_integer($k)) {
+                $extra[] = $v;
+            }
+        }
+        $field->set('extra', $extra);
+
         $files = (array)$options['_post'];
         if (!empty($files)) {
             $value = [];
@@ -107,12 +111,12 @@ class FileField extends BaseHandler
             $field->set('extra', $files);
         }
 
-        if ($field->metadata->field_value_id) {
+        if ($field->metadata->value_id) {
             $newFileNames = Hash::extract($files, '{n}.file_name');
 
             try {
                 $prevFiles = (array)TableRegistry::get('Field.FieldValues')
-                    ->get($field->metadata->field_value_id)
+                    ->get($field->metadata->value_id)
                     ->extra;
             } catch (\Exception $ex) {
                 $prevFiles = [];
@@ -133,22 +137,15 @@ class FileField extends BaseHandler
     /**
      * {@inheritDoc}
      */
-    public function entityAfterSave(Event $event, Field $field, $options)
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityBeforeValidate(Event $event, Field $field, $options, $validator)
+    public function entityValidate(Event $event, Field $field, Validator $validator)
     {
         if ($field->metadata->required) {
             $validator
-                ->add(":{$field->name}", 'isRequired', [
+                ->add($field->name, 'isRequired', [
                     'rule' => function ($value, $context) use ($field) {
-                        if (isset($context['data'][":{$field->name}"])) {
+                        if (isset($context['data'][$field->name])) {
                             $count = 0;
-                            foreach ($context['data'][":{$field->name}"] as $k => $file) {
+                            foreach ($context['data'][$field->name] as $k => $file) {
                                 if (is_integer($k)) {
                                     $count++;
                                 }
@@ -168,11 +165,11 @@ class FileField extends BaseHandler
         }
 
         $validator
-            ->add(":{$field->name}", 'numberOfFiles', [
+            ->add($field->name, 'numberOfFiles', [
                 'rule' => function ($value, $context) use ($field, $maxFiles) {
-                    if (isset($context['data'][":{$field->name}"])) {
+                    if (isset($context['data'][$field->name])) {
                         $count = 0;
-                        foreach ($context['data'][":{$field->name}"] as $k => $file) {
+                        foreach ($context['data'][$field->name] as $k => $file) {
                             if (is_integer($k)) {
                                 $count++;
                             }
@@ -189,10 +186,10 @@ class FileField extends BaseHandler
             $extensions = $field->metadata->settings['extensions'];
             $extensions = array_map('strtolower', array_map('trim', explode(',', $extensions)));
             $validator
-                ->add(":{$field->name}", 'extensions', [
+                ->add($field->name, 'extensions', [
                     'rule' => function ($value, $context) use ($field, $extensions) {
-                        if (isset($context['data'][":{$field->name}"])) {
-                            foreach ($context['data'][":{$field->name}"] as $k => $file) {
+                        if (isset($context['data'][$field->name])) {
+                            foreach ($context['data'][$field->name] as $k => $file) {
                                 if (is_integer($k)) {
                                     $ext = strtolower(str_replace('.', '', strrchr($file['file_name'], '.')));
                                     if (!in_array($ext, $extensions)) {
@@ -209,37 +206,6 @@ class FileField extends BaseHandler
         }
 
         return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityAfterValidate(Event $event, Field $field, $options, $validator)
-    {
-        // removes the "dummy" input from extra if exists
-        $extra = [];
-        foreach ((array)$field->extra as $k => $v) {
-            if (is_integer($k)) {
-                $extra[] = $v;
-            }
-        }
-        $field->set('extra', $extra);
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityBeforeDelete(Event $event, Field $field, $options)
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityAfterDelete(Event $event, Field $field, $options)
-    {
     }
 
     /**
@@ -283,13 +249,6 @@ class FileField extends BaseHandler
     /**
      * {@inheritDoc}
      */
-    public function instanceSettingsValidate(Event $event, array $settings, $validator)
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function instanceViewModeForm(Event $event, $instance, $options = [])
     {
         $View = $event->subject();
@@ -310,42 +269,5 @@ class FileField extends BaseHandler
                     'formatter' => 'link',
                 ];
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceViewModeValidate(Event $event, array $settings, $validator)
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceBeforeAttach(Event $event, $instance, $options = [])
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceAfterAttach(Event $event, $instance, $options = [])
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceBeforeDetach(Event $event, $instance, $options = [])
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceAfterDetach(Event $event, $instance, $options = [])
-    {
     }
 }

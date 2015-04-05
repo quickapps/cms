@@ -29,7 +29,7 @@
  */
 ?>
 
-<?php $instanceID = "FileField-{$field->metadata->field_instance_id}"; ?>
+<?php $instanceID = "FileField-{$field->metadata->instance_id}"; ?>
 <?php $multi = intval($field->metadata->settings['multi']) > 1; ?>
 <?php echo $this->element('Field.FileField/upload_libs'); ?>
 
@@ -40,7 +40,7 @@
 
     <?php if ($field->metadata->errors): ?>
         <div class="form-group has-error has-feedback">
-            <?php echo $this->Form->error(":{$field->name}"); ?>
+            <?php echo $this->Form->error($field->name); ?>
         </div>
     <?php endif; ?>
 
@@ -105,7 +105,7 @@
         <?php else: ?>
             FileField.init({
                 instance: {
-                    id: <?php echo $field->metadata->field_instance_id; ?>,
+                    id: <?php echo $field->metadata->instance_id; ?>,
                     name: '<?php echo $field->name; ?>',
                     showDescription: <?php echo !empty($field->metadata->settings['description']) ? 'true' : 'false'; ?>,
                 },

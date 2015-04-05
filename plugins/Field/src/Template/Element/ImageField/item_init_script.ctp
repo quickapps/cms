@@ -13,7 +13,7 @@
 
 FileField.init({
     instance: {
-        id: <?php echo $field->metadata->field_instance_id; ?>,
+        id: <?php echo $field->metadata->instance_id; ?>,
         name: '<?php echo $field->name; ?>',
         showDescription: false,
         showThumbnail: <?php echo !empty($field->metadata->settings['preview']) ? 'true' : 'false'; ?>,

@@ -12,6 +12,7 @@
 namespace Field\Event;
 
 use Cake\Event\Event;
+use Cake\Validation\Validator;
 use Field\BaseHandler;
 use Field\Model\Entity\Field;
 use Field\Utility\TextToolbox;
@@ -47,20 +48,6 @@ class TextField extends BaseHandler
     /**
      * {@inheritDoc}
      */
-    public function entityFieldAttached(Event $event, Field $field)
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityBeforeFind(Event $event, Field $field, $options, $primary)
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function entityBeforeSave(Event $event, Field $field, $options)
     {
         $field->set('extra', null);
@@ -70,19 +57,12 @@ class TextField extends BaseHandler
     /**
      * {@inheritDoc}
      */
-    public function entityAfterSave(Event $event, Field $field, $options)
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityBeforeValidate(Event $event, Field $field, $options, $validator)
+    public function entityValidate(Event $event, Field $field, Validator $validator)
     {
         if ($field->metadata->required) {
             $validator
-                ->requirePresence(":{$field->name}", __d('field', 'This field required.'))
-                ->add(":{$field->name}", 'notEmpty', [
+                ->requirePresence($field->name, __d('field', 'This field required.'))
+                ->add($field->name, 'notEmpty', [
                     'rule' => function ($value, $context) use ($field) {
                         if ($field->metadata->settings['type'] === 'textarea') {
                             $clean = html_entity_decode(trim(strip_tags($value)));
@@ -94,7 +74,7 @@ class TextField extends BaseHandler
                     'message' => __d('field', 'This field cannot be left empty.'),
                 ]);
         } else {
-            $validator->allowEmpty(":{$field->name}", true);
+            $validator->allowEmpty($field->name, true);
         }
 
         if ($field->metadata->settings['type'] === 'text' &&
@@ -102,7 +82,7 @@ class TextField extends BaseHandler
             $field->metadata->settings['max_len'] > 0
         ) {
             $validator
-                ->add(":{$field->name}", 'validateLen', [
+                ->add($field->name, 'validateLen', [
                     'rule' => function ($value, $context) use ($field) {
                         return strlen(trim($value)) <= $field->metadata->settings['max_len'];
                     },
@@ -118,7 +98,7 @@ class TextField extends BaseHandler
             }
 
             $validator
-                ->add(":{$field->name}", 'validateReg', [
+                ->add($field->name, 'validateReg', [
                     'rule' => function ($value, $context) use ($field) {
                         return preg_match($field->metadata->settings['validation_rule'], $value) === 1;
                     },
@@ -127,29 +107,6 @@ class TextField extends BaseHandler
         }
 
         return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityAfterValidate(Event $event, Field $field, $options, $validator)
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityBeforeDelete(Event $event, Field $field, $options)
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityAfterDelete(Event $event, Field $field, $options)
-    {
     }
 
     /**
@@ -193,13 +150,6 @@ class TextField extends BaseHandler
     /**
      * {@inheritDoc}
      */
-    public function instanceSettingsValidate(Event $event, array $settings, $validator)
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function instanceViewModeForm(Event $event, $instance, $options = [])
     {
         $View = $event->subject();
@@ -226,42 +176,12 @@ class TextField extends BaseHandler
     /**
      * {@inheritDoc}
      */
-    public function instanceViewModeValidate(Event $event, array $settings, $validator)
+    public function instanceViewModeValidate(Event $event, array $settings, Validator $validator)
     {
         if (!empty($settings['formatter']) && $settings['formatter'] == 'trimmed') {
             $validator
                 ->requirePresence('trim_length', __d('field', 'Invalid trimmer string.'))
                 ->notEmpty('trim_length', __d('field', 'Invalid trimmer string.'));
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceBeforeAttach(Event $event, $instance, $options = [])
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceAfterAttach(Event $event, $instance, $options = [])
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceBeforeDetach(Event $event, $instance, $options = [])
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceAfterDetach(Event $event, $instance, $options = [])
-    {
     }
 }

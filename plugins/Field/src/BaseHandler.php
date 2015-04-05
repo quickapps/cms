@@ -14,6 +14,7 @@ namespace Field;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use Cake\ORM\Entity;
+use Cake\Validation\Validator;
 use Field\Model\Entity\Field;
 use QuickApps\Event\HookAwareTrait;
 use QuickApps\Event\HooktagAwareTrait;
@@ -60,14 +61,13 @@ class BaseHandler implements EventListenerInterface
             // Related to Entity:
             "Field.{$handlerName}.Entity.display" => 'entityDisplay',
             "Field.{$handlerName}.Entity.edit" => 'entityEdit',
-            "Field.{$handlerName}.Entity.fieldAttached" => 'entityFieldAttached',
-            "Field.{$handlerName}.Entity.beforeFind" => 'entityBeforeFind',
+            "Field.{$handlerName}.Entity.find" => 'entityBeforeFind',
+            "Field.{$handlerName}.Entity.validate" => 'entityValidate',
             "Field.{$handlerName}.Entity.beforeSave" => 'entityBeforeSave',
             "Field.{$handlerName}.Entity.afterSave" => 'entityAfterSave',
-            "Field.{$handlerName}.Entity.beforeValidate" => 'entityBeforeValidate',
-            "Field.{$handlerName}.Entity.afterValidate" => 'entityAfterValidate',
             "Field.{$handlerName}.Entity.beforeDelete" => 'entityBeforeDelete',
             "Field.{$handlerName}.Entity.afterDelete" => 'entityAfterDelete',
+            "Field.{$handlerName}.Entity.fieldAttached" => 'entityFieldAttached',
 
             // Related to Instance:
             "Field.{$handlerName}.Instance.info" => 'instanceInfo',
@@ -146,6 +146,22 @@ class BaseHandler implements EventListenerInterface
     {
     }
 
+
+    /**
+     * After an entity is validated as part of save process.
+     *
+     * This is where Field Handlers must validate their information.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Field\Model\Entity\Field $field Field information
+     * @param \Cake\Validation\Validator $validator The validator object
+     * @return bool False will halt the save process
+     */
+    public function entityValidate(Event $event, Field $field, Validator $validator)
+    {
+        return false;
+    }
+
     /**
      * Before each entity is saved.
      *
@@ -179,34 +195,6 @@ class BaseHandler implements EventListenerInterface
      */
     public function entityAfterSave(Event $event, Field $field, $options)
     {
-    }
-
-    /**
-     * Before an entity is validated as part of save process.
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Field\Model\Entity\Field $field Field information
-     * @param array $options Options given as an array
-     * @param \Cake\Validation\Validator $validator The validator object
-     * @return bool False will halt the save process
-     */
-    public function entityBeforeValidate(Event $event, Field $field, $options, $validator)
-    {
-        return false;
-    }
-
-    /**
-     * After an entity is validated as part of save process.
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Field\Model\Entity\Field $field Field information
-     * @param array $options Options given as an array
-     * @param \Cake\Validation\Validator $validator The validator object
-     * @return bool False will halt the save process
-     */
-    public function entityAfterValidate(Event $event, Field $field, $options, $validator)
-    {
-        return false;
     }
 
     /**
@@ -310,7 +298,7 @@ class BaseHandler implements EventListenerInterface
      * @param \Cake\Validation\Validator $validator The validator object
      * @return void
      */
-    public function instanceSettingsValidate(Event $event, array $settings, $validator)
+    public function instanceSettingsValidate(Event $event, array $settings, Validator $validator)
     {
     }
 
@@ -356,7 +344,7 @@ class BaseHandler implements EventListenerInterface
      * @param \Cake\Validation\Validator $validator The validator object
      * @return void
      */
-    public function instanceViewModeValidate(Event $event, array $settings, $validator)
+    public function instanceViewModeValidate(Event $event, array $settings, Validator $validator)
     {
     }
 

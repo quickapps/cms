@@ -12,6 +12,7 @@
 namespace Field\Event;
 
 use Cake\Event\Event;
+use Cake\Validation\Validator;
 use Field\BaseHandler;
 use Field\Model\Entity\Field;
 
@@ -44,20 +45,6 @@ class ListField extends BaseHandler
     /**
      * {@inheritDoc}
      */
-    public function entityFieldAttached(Event $event, Field $field)
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityBeforeFind(Event $event, Field $field, $options, $primary)
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function entityBeforeSave(Event $event, Field $field, $options)
     {
         $value = $options['_post'];
@@ -71,47 +58,17 @@ class ListField extends BaseHandler
     /**
      * {@inheritDoc}
      */
-    public function entityAfterSave(Event $event, Field $field, $options)
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityBeforeValidate(Event $event, Field $field, $options, $validator)
+    public function entityValidate(Event $event, Field $field, Validator $validator)
     {
         if ($field->metadata->required) {
             $validator
-                ->requirePresence(":{$field->name}")
-                ->notEmpty(":{$field->name}", __d('field', 'Field required.'));
+                ->requirePresence($field->name)
+                ->notEmpty($field->name, __d('field', 'Field required.'));
         } else {
-            $validator->allowEmpty(":{$field->name}");
+            $validator->allowEmpty($field->name);
         }
 
         return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityAfterValidate(Event $event, Field $field, $options, $validator)
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityBeforeDelete(Event $event, Field $field, $options)
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityAfterDelete(Event $event, Field $field, $options)
-    {
     }
 
     /**
@@ -141,14 +98,6 @@ class ListField extends BaseHandler
     /**
      * {@inheritDoc}
      */
-    public function instanceSettingsDefaults(Event $event, $instance, $options = [])
-    {
-        return [];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function instanceViewModeForm(Event $event, $instance, $options = [])
     {
         $View = $event->subject();
@@ -169,35 +118,5 @@ class ListField extends BaseHandler
                     'formatter' => 'default',
                 ];
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceBeforeAttach(Event $event, $instance, $options = [])
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceAfterAttach(Event $event, $instance, $options = [])
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceBeforeDetach(Event $event, $instance, $options = [])
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function instanceAfterDetach(Event $event, $instance, $options = [])
-    {
     }
 }

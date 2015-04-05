@@ -22,8 +22,8 @@
         }
     }
 
-    if (!empty($field->metadata->errors) && isset($this->request->data[":{$field->name}"])) {
-        $selected = $this->request->data[":{$field->name}"];
+    if (!empty($field->metadata->errors) && isset($this->request->data[$field->name])) {
+        $selected = $this->request->data[$field->name];
     } else {
         $selected = $field->extra;
     }
@@ -45,7 +45,7 @@
         ];
     }
 
-    echo $this->Form->input(":{$field->name}", $inputOptions);
+    echo $this->Form->input($field->name, $inputOptions);
 ?>
 
 <?php if (!empty($field->metadata->description)): ?>

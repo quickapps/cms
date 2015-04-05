@@ -11,7 +11,6 @@
  */
 namespace Field\Model\Behavior;
 
-use Cake\Database\Expression\Comparison;
 use Cake\Datasource\EntityInterface;
 use Cake\Error\FatalErrorException;
 use Cake\Event\Event;
@@ -20,11 +19,10 @@ use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
-use Cake\Utility\Inflector;
+use Cake\Validation\Validator;
 use Field\Collection\FieldCollection;
 use Field\Error\InvalidBundle;
 use Field\Model\Entity\Field;
-use Field\Model\Entity\FieldValue;
 use QuickApps\Event\HookAwareTrait;
 use \ArrayObject;
 
@@ -44,17 +42,10 @@ use \ArrayObject;
  * **This behavior allows you to add _virtual columns_ to your table schema.**
  * @link https://github.com/quickapps/docs/blob/2.x/en/developers/field-api.rst
  */
-class FieldableBehavior extends Behavior
+class FieldableBehavior extends EavBehavior
 {
 
     use HookAwareTrait;
-
-    /**
-     * Table which this behavior is attached to.
-     *
-     * @var \Cake\ORM\Table
-     */
-    protected $_table;
 
     /**
      * Used for reduce BD queries and allow inter-method communication.
@@ -120,9 +111,7 @@ class FieldableBehavior extends Behavior
      */
     public function __construct(Table $table, array $config = [])
     {
-        if (empty($config['tableAlias'])) {
-            $config['tableAlias'] = Inflector::underscore($table->alias());
-        }
+        $config['deleteUnlinked'] = false;
         parent::__construct($table, $config);
     }
 
@@ -141,8 +130,6 @@ class FieldableBehavior extends Behavior
             'Model.afterSave' => ['callable' => 'afterSave', 'priority' => 15],
             'Model.beforeDelete' => ['callable' => 'beforeDelete', 'priority' => 15],
             'Model.afterDelete' => ['callable' => 'afterDelete', 'priority' => 15],
-            'Model.beforeValidate' => ['callable' => 'beforeValidate', 'priority' => 15],
-            'Model.afterValidate' => ['callable' => 'afterValidate', 'priority' => 15],
         ];
 
         return $events;
@@ -228,14 +215,23 @@ class FieldableBehavior extends Behavior
      *
      * ### Events Triggered:
      *
+     * - `Field.<FieldHandler>.Entity.validate`: It receives three arguments, the
+     *   field entity representing the field being saved, an options array and a
+     *   Validator object. The options array is passed as an ArrayObject, so any
+     *   changes in it will be reflected in every listener and remembered at the end
+     *   of the event so it can be used for the rest of the save operation. The
+     *   validator object should be altered by adding rules that will be used later
+     *   to validate the given field entity, this validator object is used
+     *   exclusively to validate the given field entity.
+     *
      * - `Field.<FieldHandler>.Entity.beforeSave`: It receives two arguments, the
-     *    field entity representing the field being saved and options array. The
-     *    options array is passed as an ArrayObject, so any changes in it will be
-     *    reflected in every listener and remembered at the end of the event so it
-     *    can be used for the rest of the save operation. Returning false in any of
-     *    the Field Handler will abort the saving process. If the Field event is
-     *    stopped using the event API, the Field event object's `result` property
-     *    will be returned.
+     *   field entity representing the field being saved and options array. The
+     *   options array is passed as an ArrayObject, so any changes in it will be
+     *   reflected in every listener and remembered at the end of the event so it
+     *   can be used for the rest of the save operation. Returning false in any of
+     *   the Field Handler will abort the saving process. If the Field event is
+     *   stopped using the event API, the Field event object's `result` property
+     *   will be returned.
      *
      * Here is where we dispatch each custom field's `$_POST` information to its
      * corresponding Field Handler, so they can operate over their values.
@@ -290,7 +286,7 @@ class FieldableBehavior extends Behavior
             throw new FatalErrorException(__d('field', 'Entities in fieldable tables can only be saved using transaction. Set [atomic = true]'));
         }
 
-        if (!$this->_validationEvents($entity, $options)) {
+        if (!$this->_validation($entity)) {
             return false;
         }
 
@@ -299,23 +295,14 @@ class FieldableBehavior extends Behavior
         $this->_cache['createValues'] = [];
 
         foreach ($this->_getTableFieldInstances($entity) as $instance) {
-            if (!$entity->has(":{$instance->slug}")) {
+            if (!$entity->has($instance->slug)) {
                 continue;
             }
 
             $field = $this->_getMockField($entity, $instance);
-            $options['_post'] = $this->_preparePostData($field);
-
-            // auto-magic
-            if (is_array($options['_post'])) {
-                $field->set('extra', $options['_post']);
-                $field->set('value', null);
-            } else {
-                $field->set('extra', null);
-                $field->set('value', $options['_post']);
-            }
-
+            $options['_post'] = $this->_fetchPost($field);
             $fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.beforeSave", $event->subject()], $field, $options);
+
             if ($fieldEvent->result === false) {
                 $this->attachEntityFields($entity);
                 return false;
@@ -325,13 +312,11 @@ class FieldableBehavior extends Behavior
                 return $fieldEvent->result;
             }
 
-            $valueEntity = new FieldValue([
-                'id' => $field->metadata['field_value_id'],
-                'field_instance_id' => $field->metadata['field_instance_id'],
-                'field_instance_slug' => $field->name,
-                'entity_id' => $entity->{$pk},
+            $valueEntity = new Entity([
+                'id' => $field->metadata['value_id'],
                 'table_alias' => $tableAlias,
-                'type' => $field->metadata['type'],
+                'entity_id' => $entity->{$pk},
+                'attribute' => $field->name,
                 "value_{$field->metadata['type']}" => $field->value,
                 'extra' => $field->extra,
             ]);
@@ -339,7 +324,7 @@ class FieldableBehavior extends Behavior
             if ($entity->isNew() || empty($valueEntity->id)) {
                 $this->_cache['createValues'][] = $valueEntity;
             } else {
-                if (!TableRegistry::get('Field.FieldValues')->save($valueEntity)) {
+                if (!TableRegistry::get('Eav.Values')->save($valueEntity)) {
                     $this->attachEntityFields($entity);
                     $event->stopPropagation();
                     return false;
@@ -379,7 +364,7 @@ class FieldableBehavior extends Behavior
             foreach ($this->_cache['createValues'] as $valueEntity) {
                 $valueEntity->set('entity_id', $entity->id);
                 $valueEntity->unsetProperty('id');
-                TableRegistry::get('Field.FieldValues')->save($valueEntity);
+                TableRegistry::get('Eav.Values')->save($valueEntity);
             }
             $this->_cache['createValues'] = [];
         }
@@ -388,94 +373,9 @@ class FieldableBehavior extends Behavior
         foreach ($instances as $instance) {
             $field = $this->_getMockField($entity, $instance);
             $this->trigger(["Field.{$instance->handler}.Entity.afterSave", $event->subject()], $field, $options);
-
-            // remove POST info after saved
-            if ($entity->has(":{$instance->slug}")) {
-                $entity->unsetProperty(":{$instance->slug}");
-            }
         }
 
         return true;
-    }
-
-    /**
-     * Before entity validation process.
-     *
-     * ### Events Triggered:
-     *
-     * - `Field.<FieldHandler>.Entity.beforeValidate`: Will be triggered right
-     *    before any validation is done for the passed entity if the validate key in
-     *    $options is not set to false. Listeners will receive as arguments the
-     *    field entity, the options array and the validation object to be used for
-     *    validating the entity. If the event is stopped the validation result will
-     *    be set to the result of the event itself.
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Cake\Datasource\EntityInterface $entity The entity being validated
-     * @param array $options Additional options given as an array
-     * @param \Cake\Validation\Validator $validator The validator object
-     * @return bool True on success
-     */
-    public function beforeValidate(Event $event, EntityInterface $entity, $options, $validator)
-    {
-        if (!$this->config('enabled')) {
-            return true;
-        }
-
-        $instances = $this->_getTableFieldInstances($entity);
-        foreach ($instances as $instance) {
-            $field = $this->_getMockField($entity, $instance);
-            $fieldEvent = $this->trigger(["Field.{$field->metadata['handler']}.Entity.beforeValidate", $event->subject()], $field, $options, $validator);
-
-            if ($fieldEvent->isStopped()) {
-                $this->attachEntityFields($entity);
-                $event->stopPropagation();
-                return $fieldEvent->result;
-            }
-        }
-    }
-
-    /**
-     * After entity validation process.
-     *
-     * ### Events Triggered:
-     *
-     * - `Field.<FieldHandler>.Entity.afterValidate`: Will be triggered right after
-     *    the `validate()` method is called in the entity. Listeners will receive as
-     *    arguments the the field entity, the options array and the validation
-     *    object to be used for validating the entity. If the event is stopped the
-     *    validation result will be set to the result of the event itself.
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Cake\Datasource\EntityInterface $entity The entity that was validated
-     * @param array $options Additional options given as an array
-     * @param Validator $validator The validator object
-     * @return bool True on success
-     */
-    public function afterValidate(Event $event, EntityInterface $entity, $options, $validator)
-    {
-        if (!$this->config('enabled')) {
-            return true;
-        }
-
-        if ($entity->has('_fields')) {
-            $entityErrors = $entity->errors();
-            foreach ($entity->get('_fields') as $field) {
-                $postName = ":{$field->name}";
-                $postData = $entity->get($postName);
-
-                if (!empty($entityErrors[$postName])) {
-                    $field->set('value', $postData);
-                    $field->metadata->set('errors', (array)$entityErrors[$postName]);
-                }
-
-                $fieldEvent = $this->trigger(["Field.{$field->metadata['handler']}.Entity.afterValidate", $event->subject()], $field, $options, $validator);
-                if ($fieldEvent->isStopped()) {
-                    $event->stopPropagation();
-                    return $fieldEvent->result;
-                }
-            }
-        }
     }
 
     /**
@@ -506,12 +406,11 @@ class FieldableBehavior extends Behavior
             throw new FatalErrorException(__d('field', 'Entities in fieldable tables can only be deleted using transaction. Set [atomic = true]'));
         }
 
-        $tableAlias = $this->_guessTableAlias($entity);
-        $instances = $this->_getTableFieldInstances($entity);
 
+        $tableAlias = $this->_guessTableAlias($entity);
+        $pk = (string)$this->_table->primaryKey();
+        $instances = $this->_getTableFieldInstances($entity);
         foreach ($instances as $instance) {
-            // invoke fields beforeDelete so they can do their stuff
-            // e.g.: Delete entity information from another table.
             $field = $this->_getMockField($entity, $instance);
             $fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.beforeDelete", $event->subject()], $field, $options);
 
@@ -520,24 +419,22 @@ class FieldableBehavior extends Behavior
                 return false;
             }
 
-            $valueToDelete = TableRegistry::get('Field.FieldValues')
-                ->find()
-                ->where([
-                    'entity_id' => $entity->get((string)$this->_table->primaryKey()),
-                    'table_alias' => $tableAlias,
-                ])
-                ->limit(1)
-                ->first();
-
-            if ($valueToDelete) {
-                $success = TableRegistry::get('Field.FieldValues')->delete($valueToDelete);
-                if (!$success) {
-                    return false;
-                }
-            }
-
             // holds in cache field mocks, so we can catch them on afterDelete
-            $this->_cache['fields.beforeDelete'][] = $field;
+            $this->_cache['afterDelete'][] = $field;
+        }
+
+        // clear all
+        $valuesToDelete = TableRegistry::get('Eav.Values')
+            ->find()
+            ->where([
+                'table_alias' => $tableAlias,
+                'entity_id' => $entity->get($pk),
+            ])
+            ->limit(1)
+            ->all();
+
+        foreach ($valuesToDelete as $value) {
+            TableRegistry::get('Eav.Values')->delete($value);
         }
 
         return true;
@@ -567,12 +464,14 @@ class FieldableBehavior extends Behavior
             throw new FatalErrorException(__d('field', 'Entities in fieldable tables can only be deleted using transactions. Set [atomic = true]'));
         }
 
-        if (!empty($this->_cache['fields.beforeDelete']) && is_array($this->_cache['fields.beforeDelete'])) {
-            foreach ($this->_cache['fields.beforeDelete'] as $field) {
+        if (!empty($this->_cache['afterDelete'])) {
+            foreach ((array)$this->_cache['afterDelete'] as $field) {
                 $this->trigger(["Field.{$field->handler}.Entity.afterDelete", $event->subject()], $field, $options);
             }
-            $this->_cache['fields.beforeDelete'] = [];
+            $this->_cache['afterDelete'] = [];
         }
+
+        parent::afterDelete($event, $entity, $options);
     }
 
     /**
@@ -616,23 +515,14 @@ class FieldableBehavior extends Behavior
      */
     public function attachEntityFields(EntityInterface $entity)
     {
-        $_accessible = [];
-        foreach ($entity->visibleProperties() as $property) {
-            $_accessible[$property] = $entity->accessible($property);
-        }
-        $entity->accessible('*', true);
-        foreach ($_accessible as $property => $access) {
-            $entity->accessible($property, $access);
-        }
-
         $_fields = [];
         $instances = $this->_getTableFieldInstances($entity);
         foreach ($instances as $instance) {
             $mock = $this->_getMockField($entity, $instance);
 
             // restore from $_POST:
-            if ($entity->has(":{$instance->slug}")) {
-                $value = $entity->get(":{$instance->slug}");
+            if ($entity->has($instance->slug)) {
+                $value = $entity->get($instance->slug);
                 if (is_array($value)) {
                     $mock->set('extra', $value);
                     $mock->set('value', null);
@@ -654,168 +544,88 @@ class FieldableBehavior extends Behavior
      * Triggers before/after validate events.
      *
      * @param \Cake\Datasource\EntityInterface $entity The entity being validated
-     * @param array $options Options for validation process
      * @return bool True if save operation should continue, false otherwise
      */
-    protected function _validationEvents(EntityInterface $entity, $options = [])
+    protected function _validation(EntityInterface $entity)
     {
-        $validator = $this->_table->validator();
-        $event = $this->_table->dispatchEvent('Model.beforeValidate', compact('entity', 'options', 'validator'));
-        if ($event->result === false) {
-            return false;
+        $validator = new Validator();
+        $instances = $this->_getTableFieldInstances($entity);
+        $hasErrors = false;
+
+        foreach ($instances as $instance) {
+            $field = $this->_getMockField($entity, $instance);
+            $fieldEvent = $this->trigger(["Field.{$field->metadata['handler']}.Entity.validate", $this->_table], $field, $validator);
+            if ($fieldEvent->isStopped()) {
+                $this->attachEntityFields($entity);
+                $event->stopPropagation();
+                return $fieldEvent->result;
+            }
+
+            $errors = $validator->errors($entity->toArray(), $entity->isNew());
+            $entity->errors($errors);
+
+            if (!empty($errors)) {
+                $hasErrors = true;
+                if ($entity->has('_fields')) {
+                    $entityErrors = $entity->errors();
+                    foreach ($entity->get('_fields') as $field) {
+                        $postData = $entity->get($field->name);
+                        if (!empty($entityErrors[$field->name])) {
+                            $field->set('value', $postData);
+                            $field->metadata->set('errors', (array)$entityErrors[$field->name]);
+                        }
+                    }
+                }
+            }
         }
 
-        $errors = $validator->errors($entity->toArray(), $entity->isNew());
-        $entity->errors($errors);
-        $this->_table->dispatchEvent('Model.afterValidate', compact('entity', 'options', 'validator'));
-
-        if (!empty($errors)) {
-            return false;
-        }
-
-        return true;
+        return !$hasErrors;
     }
 
     /**
-     * Alters the given $field and fetches incoming POST data, the 'value' property
-     * will be automatically filled for the given $field entity.
+     * Alters the given $field and fetches incoming POST data, both "value" and
+     * "extra" property will be automatically filled for the given $field entity.
      *
      * @param \Field\Model\Entity\Field $field The field entity for which
      *  fetch POST information
      * @return mixed Raw POST information
      */
-    protected function _preparePostData(Field $field)
+    protected function _fetchPost(Field $field)
     {
         $post = $field
             ->get('metadata')
             ->get('entity')
-            ->get(':' . $field->get('metadata')->get('field_instance_slug'));
-        $field->set('value', $post);
-        return $post;
-    }
+            ->get($field->get('metadata')->get('instance_name'));
 
-    /**
-     * Look for `:<machine-name>` patterns in query's WHERE clause.
-     *
-     * Allows to search entities using custom fields as conditions in WHERE clause.
-     *
-     * @param \Cake\ORM\Query $query The query to scope
-     * @param array $options Array of options
-     * @return \Cake\ORM\Query The modified query object
-     */
-    protected function _scopeQuery(Query $query, $options)
-    {
-        $whereClause = $query->clause('where');
-        if (!$whereClause) {
-            return $query;
+        // auto-magic
+        if (is_array($post)) {
+            $field->set('extra', $post);
+            $field->set('value', null);
+        } else {
+            $field->set('extra', null);
+            $field->set('value', $post);
         }
 
-        $alias = $this->_table->alias();
-        $pk = $this->_table->primaryKey();
-        $conn = $query->connection(null);
-        list(, $driverClass) = namespaceSplit(strtolower(get_class($conn->driver())));
-
-        $whereClause->traverse(function ($expression) use ($pk, $alias, $driverClass) {
-            if (!($subQuery = $this->_virtualQuery($expression))) {
-                return;
-            }
-
-            switch ($driverClass) {
-                case 'sqlite':
-                    $field = "({$alias}.{$pk} || '')";
-                    break;
-                case 'mysql':
-                case 'postgres':
-                case 'sqlserver':
-                default:
-                    $field = "CONCAT({$alias}.{$pk}, '')";
-                    break;
-            }
-
-            $expression->setField($field);
-            $expression->setValue($subQuery);
-            $expression->setOperator('IN');
-        });
-
-        return $query;
+        return $post;
     }
 
     /**
      * Creates a sub-query for matching virtual fields.
      *
      * @param \Cake\Database\Expression\Comparison $expression Expression to scope
-     * @param string|null $bundle Table's bundle to scope. e.g. `articles` for `Nodes`
-     *  table will look over nodes:articles
      * @return \Cake\ORM\Query|bool False if not virtual field was found, or search
      *  feature was disabled for this field. The query object to use otherwise
      */
-    protected function _virtualQuery($expression, $bundle = null)
+    protected function _virtualQuery($expression)
     {
         if (!($expression instanceof Comparison)) {
             return false;
         }
-
         $field = $this->_parseFieldName($expression->getField());
-        $value = $expression->getValue();
-        $conjunction = $expression->getOperator();
-
         if (strpos($field, ':') !== 0) {
             return false;
         }
-
-        $field = str_replace(':', '', $field);
-        $instance = TableRegistry::get('Field.FieldInstances')
-            ->find()
-            ->select(['type', 'table_alias', 'handler'])
-            ->where(['slug' => $field])
-            ->limit(1)
-            ->first();
-
-        if (!$instance || !fieldsInfo($instance->handler)['searchable']) {
-            return false;
-        }
-
-        $subQuery = TableRegistry::get('Field.FieldValues')->find()
-            ->select('FieldValues.entity_id')
-            ->where([
-                "FieldValues.field_instance_slug" => $field,
-                "FieldValues.value_{$instance->type} {$conjunction}" => $value,
-            ]);
-
-        $subQuery->where(['FieldValues.table_alias' => $instance->table_alias]);
-        return $subQuery;
-    }
-
-    /**
-     * Gets a clean field name from query expression.
-     *
-     * ### Example:
-     *
-     * ```php
-     * $this->_parseFieldName('Tablename.:virtual');
-     * // returns ":virtual"
-     *
-     * $this->_parseFieldName('Tablename.non_virtual');
-     * // returns "non_virtual"
-     *
-     * $this->_parseFieldName('my_column');
-     * // returns "my_column"
-     * ```
-     *
-     * @param string $column Column name from query
-     * @return string
-     */
-    protected function _parseFieldName($column)
-    {
-        list($tableName, $fieldName) = pluginSplit((string)$column);
-
-        if (!$fieldName) {
-            $fieldName = $tableName;
-        }
-
-        $fieldName = preg_replace('/\s{2,}/', ' ', $fieldName);
-        list($fieldName, ) = explode(' ', trim($fieldName));
-        return $fieldName;
+        return parent::_virtualQuery($expression);
     }
 
     /**
@@ -832,12 +642,14 @@ class FieldableBehavior extends Behavior
     protected function _getMockField(EntityInterface $entity, $instance)
     {
         $pk = $this->_table->primaryKey();
-        $storedValue = TableRegistry::get('Field.FieldValues')->find()
-            ->select(['id', "value_{$instance->type}", 'extra'])
+        $type = $this->_getType($instance->type);
+        $storedValue = TableRegistry::get('Eav.Values')
+            ->find()
+            ->select(['id', "value_{$type}", 'extra'])
             ->where([
-                'FieldValues.field_instance_id' => $instance->id,
-                'FieldValues.table_alias' => $this->_guessTableAlias($entity),
-                'FieldValues.entity_id' => $entity->get((string)$this->_table->primaryKey())
+                'EavValues.table_alias' => $this->_guessTableAlias($entity),
+                'EavValues.entity_id' => $entity->get((string)$this->_table->primaryKey()),
+                'EavValues.attribute' => $instance->slug,
             ])
             ->limit(1)
             ->first();
@@ -848,34 +660,29 @@ class FieldableBehavior extends Behavior
             'value' => null,
             'extra' => null,
             'metadata' => new Entity([
-                'field_value_id' => null,
-                'field_instance_id' => $instance->id,
-                'field_instance_slug' => $instance->slug,
+                'value_id' => null,
+                'instance_id' => $instance->id,
+                'instance_name' => $instance->slug,
+                'table_alias' => $this->_guessTableAlias($entity),
                 'entity_id' => $entity->{$pk},
                 'handler' => $instance->handler,
                 'type' => $instance->type,
-                'entity' => $entity,
                 'required' => $instance->required,
-                'table_alias' => $this->_guessTableAlias($entity),
                 'description' => $instance->description,
                 'settings' => $instance->settings,
                 'view_modes' => $instance->view_modes,
+                'entity' => $entity,
                 'errors' => [],
             ])
         ]);
 
         if ($storedValue) {
-            $mockField->metadata->accessible('*', true);
-            $mockField->set('value', $storedValue->get("value_{$instance->type}"));
+            $mockField->set('value', $storedValue->get("value_{$type}"));
             $mockField->set('extra', $storedValue->get('extra'));
-            $mockField->metadata->set('field_value_id', $storedValue->id);
-            $mockField->metadata->accessible('*', false);
+            $mockField->metadata->set('value_id', $storedValue->id);
         }
 
         $mockField->isNew($entity->isNew());
-        $mockField->accessible('*', false);
-        $mockField->accessible('value', true);
-        $mockField->accessible('extra', true);
         return $mockField;
     }
 
