@@ -62,14 +62,15 @@ class EavBehavior extends Behavior
      *
      * - `enabled`: Whether this behavior is enabled or not.
      * - `deleteUnlinked`: Whether to delete any unlinked value (values that belongs
-     *   to an unexisting attribute).
+     *   to an unexisting attribute). As this EAV implementation does not use an
+     *   `attributes` table to registers each attribute attached to tables.
      * - `attributes`: Array list of EAV attributes.
      *
      * @var array
      */
     protected $_defaultConfig = [
         'enabled' => true,
-        'deleteInvalids' => true,
+        'deleteUnlinked' => true,
         'attributes' => [],
     ];
 
@@ -90,13 +91,6 @@ class EavBehavior extends Behavior
         'bundle' => null,
         'searchable' => true,
     ];
-
-    /**
-     * Virtual attributes schema.
-     *
-     * @var \Cake\Database\Schema\Table
-     */
-    protected $_schema = null;
 
     /**
      * Constructor.
