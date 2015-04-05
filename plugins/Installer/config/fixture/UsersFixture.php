@@ -14,167 +14,167 @@ class UsersFixture
 {
 
     public $fields = [
-  '_constraints' => 
-  [
-    'primary' => 
+    '_constraints' =>
+    [
+    'primary' =>
     [
       'type' => 'primary',
-      'columns' => 
+      'columns' =>
       [
         0 => 'id',
       ],
-      'length' => 
+      'length' =>
       [
       ],
     ],
-    'users_username' => 
+    'users_username' =>
     [
       'type' => 'unique',
-      'columns' => 
+      'columns' =>
       [
         0 => 'username',
         1 => 'email',
       ],
-      'length' => 
+      'length' =>
       [
       ],
     ],
-  ],
-  'id' => 
-  [
+    ],
+    'id' =>
+    [
     'type' => 'integer',
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
     'autoIncrement' => true,
-    'precision' => NULL,
-  ],
-  'name' => 
-  [
+    'precision' => null,
+    ],
+    'name' =>
+    [
     'type' => 'string',
     'length' => 150,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'username' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'username' =>
+    [
     'type' => 'string',
     'length' => 80,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'password' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'password' =>
+    [
     'type' => 'string',
     'length' => 200,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'email' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'email' =>
+    [
     'type' => 'string',
     'length' => 100,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'web' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'web' =>
+    [
     'type' => 'string',
     'length' => 200,
     'null' => true,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'locale' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'locale' =>
+    [
     'type' => 'string',
     'length' => 5,
     'null' => true,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'public_profile' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'public_profile' =>
+    [
     'type' => 'boolean',
-    'length' => NULL,
+    'length' => null,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-  ],
-  'public_email' => 
-  [
+    'precision' => null,
+    ],
+    'public_email' =>
+    [
     'type' => 'boolean',
-    'length' => NULL,
+    'length' => null,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-  ],
-  'token' => 
-  [
+    'precision' => null,
+    ],
+    'token' =>
+    [
     'type' => 'string',
     'length' => 200,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => 'random unique code, used for pass recovery',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'token_expiration' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'token_expiration' =>
+    [
     'type' => 'datetime',
-    'length' => NULL,
+    'length' => null,
     'null' => true,
-    'default' => NULL,
+    'default' => null,
     'comment' => 'expiration date of user token',
-    'precision' => NULL,
-  ],
-  'status' => 
-  [
+    'precision' => null,
+    ],
+    'status' =>
+    [
     'type' => 'boolean',
-    'length' => NULL,
+    'length' => null,
     'null' => false,
     'default' => '1',
     'comment' => '',
-    'precision' => NULL,
-  ],
-  'last_login' => 
-  [
+    'precision' => null,
+    ],
+    'last_login' =>
+    [
     'type' => 'datetime',
-    'length' => NULL,
+    'length' => null,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-  ],
-  'created' => 
-  [
+    'precision' => null,
+    ],
+    'created' =>
+    [
     'type' => 'datetime',
-    'length' => NULL,
+    'length' => null,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-  ],
-];
+    'precision' => null,
+    ],
+    ];
 
     public $records = [];
 }

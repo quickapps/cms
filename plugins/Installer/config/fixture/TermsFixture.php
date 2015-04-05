@@ -14,128 +14,128 @@ class TermsFixture
 {
 
     public $fields = [
-  '_constraints' => 
-  [
-    'primary' => 
+    '_constraints' =>
+    [
+    'primary' =>
     [
       'type' => 'primary',
-      'columns' => 
+      'columns' =>
       [
         0 => 'id',
       ],
-      'length' => 
+      'length' =>
       [
       ],
     ],
-    'terms_slug' => 
+    'terms_slug' =>
     [
       'type' => 'unique',
-      'columns' => 
+      'columns' =>
       [
         0 => 'slug',
       ],
-      'length' => 
+      'length' =>
       [
       ],
     ],
-  ],
-  'id' => 
-  [
+    ],
+    'id' =>
+    [
     'type' => 'integer',
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
     'autoIncrement' => true,
-    'precision' => NULL,
-  ],
-  'vocabulary_id' => 
-  [
+    'precision' => null,
+    ],
+    'vocabulary_id' =>
+    [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-  'lft' => 
-  [
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'lft' =>
+    [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-  'rght' => 
-  [
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'rght' =>
+    [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-  'parent_id' => 
-  [
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'parent_id' =>
+    [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-  'name' => 
-  [
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'name' =>
+    [
     'type' => 'string',
     'length' => 255,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'slug' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'slug' =>
+    [
     'type' => 'string',
     'length' => 255,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'created' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'created' =>
+    [
     'type' => 'datetime',
-    'length' => NULL,
+    'length' => null,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-  ],
-  'modified' => 
-  [
+    'precision' => null,
+    ],
+    'modified' =>
+    [
     'type' => 'datetime',
-    'length' => NULL,
+    'length' => null,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-  ],
-];
+    'precision' => null,
+    ],
+    ];
 
     public $records = [
-  0 => 
-  [
+    0 =>
+    [
     'id' => 1,
     'vocabulary_id' => 1,
     'lft' => 1,
@@ -145,9 +145,9 @@ class TermsFixture
     'slug' => 'php',
     'created' => '2015-03-31 21:20:39',
     'modified' => '2015-03-31 21:20:39',
-  ],
-  1 => 
-  [
+    ],
+    1 =>
+    [
     'id' => 2,
     'vocabulary_id' => 1,
     'lft' => 7,
@@ -157,9 +157,9 @@ class TermsFixture
     'slug' => 'javascript',
     'created' => '2015-03-31 21:20:51',
     'modified' => '2015-03-31 21:20:51',
-  ],
-  2 => 
-  [
+    ],
+    2 =>
+    [
     'id' => 3,
     'vocabulary_id' => 1,
     'lft' => 2,
@@ -169,9 +169,9 @@ class TermsFixture
     'slug' => 'cakephp',
     'created' => '2015-03-31 21:20:56',
     'modified' => '2015-03-31 21:20:56',
-  ],
-  3 => 
-  [
+    ],
+    3 =>
+    [
     'id' => 4,
     'vocabulary_id' => 1,
     'lft' => 8,
@@ -181,9 +181,9 @@ class TermsFixture
     'slug' => 'jquery',
     'created' => '2015-03-31 21:21:01',
     'modified' => '2015-03-31 21:21:01',
-  ],
-  4 => 
-  [
+    ],
+    4 =>
+    [
     'id' => 5,
     'vocabulary_id' => 1,
     'lft' => 4,
@@ -193,6 +193,6 @@ class TermsFixture
     'slug' => 'quickappscms',
     'created' => '2015-03-31 21:21:07',
     'modified' => '2015-03-31 21:21:07',
-  ],
-];
+    ],
+    ];
 }

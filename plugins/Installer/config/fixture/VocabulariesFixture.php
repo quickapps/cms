@@ -14,102 +14,102 @@ class VocabulariesFixture
 {
 
     public $fields = [
-  '_constraints' => 
-  [
-    'primary' => 
+    '_constraints' =>
+    [
+    'primary' =>
     [
       'type' => 'primary',
-      'columns' => 
+      'columns' =>
       [
         0 => 'id',
       ],
-      'length' => 
+      'length' =>
       [
       ],
     ],
-  ],
-  'id' => 
-  [
+    ],
+    'id' =>
+    [
     'type' => 'integer',
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
     'autoIncrement' => true,
-    'precision' => NULL,
-  ],
-  'name' => 
-  [
+    'precision' => null,
+    ],
+    'name' =>
+    [
     'type' => 'string',
     'length' => 255,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'slug' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'slug' =>
+    [
     'type' => 'string',
     'length' => 255,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'description' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'description' =>
+    [
     'type' => 'text',
-    'length' => NULL,
+    'length' => null,
     'null' => true,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-  ],
-  'ordering' => 
-  [
+    'precision' => null,
+    ],
+    'ordering' =>
+    [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => true,
     'default' => '0',
     'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-  'locked' => 
-  [
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'locked' =>
+    [
     'type' => 'boolean',
-    'length' => NULL,
+    'length' => null,
     'null' => false,
     'default' => '0',
     'comment' => 'if set to 1 users can not delete this vocabulary',
-    'precision' => NULL,
-  ],
-  'modified' => 
-  [
+    'precision' => null,
+    ],
+    'modified' =>
+    [
     'type' => 'datetime',
-    'length' => NULL,
+    'length' => null,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-  ],
-  'created' => 
-  [
+    'precision' => null,
+    ],
+    'created' =>
+    [
     'type' => 'datetime',
-    'length' => NULL,
+    'length' => null,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-  ],
-];
+    'precision' => null,
+    ],
+    ];
 
     public $records = [
-  0 => 
-  [
+    0 =>
+    [
     'id' => 1,
     'name' => 'Articles Categories',
     'slug' => 'articles-categories',
@@ -118,6 +118,6 @@ class VocabulariesFixture
     'locked' => false,
     'modified' => '2015-03-31 21:20:06',
     'created' => '2015-03-31 21:20:06',
-  ],
-];
+    ],
+    ];
 }

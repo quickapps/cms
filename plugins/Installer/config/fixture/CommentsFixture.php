@@ -14,174 +14,174 @@ class CommentsFixture
 {
 
     public $fields = [
-  '_constraints' => 
-  [
-    'primary' => 
+    '_constraints' =>
+    [
+    'primary' =>
     [
       'type' => 'primary',
-      'columns' => 
+      'columns' =>
       [
         0 => 'id',
       ],
-      'length' => 
+      'length' =>
       [
       ],
     ],
-  ],
-  'id' => 
-  [
+    ],
+    'id' =>
+    [
     'type' => 'integer',
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
     'autoIncrement' => true,
-    'precision' => NULL,
-  ],
-  'entity_id' => 
-  [
+    'precision' => null,
+    ],
+    'entity_id' =>
+    [
     'type' => 'string',
     'length' => 50,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'user_id' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'user_id' =>
+    [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => true,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-  'table_alias' => 
-  [
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'table_alias' =>
+    [
     'type' => 'string',
     'length' => 50,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'subject' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'subject' =>
+    [
     'type' => 'string',
     'length' => 200,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'body' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'body' =>
+    [
     'type' => 'text',
-    'length' => NULL,
+    'length' => null,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-  ],
-  'author_name' => 
-  [
+    'precision' => null,
+    ],
+    'author_name' =>
+    [
     'type' => 'string',
     'length' => 100,
     'null' => true,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'author_email' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'author_email' =>
+    [
     'type' => 'string',
     'length' => 100,
     'null' => true,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'author_web' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'author_web' =>
+    [
     'type' => 'string',
     'length' => 200,
     'null' => true,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'author_ip' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'author_ip' =>
+    [
     'type' => 'string',
     'length' => 60,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'parent_id' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'parent_id' =>
+    [
     'type' => 'integer',
     'length' => 4,
     'unsigned' => false,
     'null' => true,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-  'rght' => 
-  [
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'rght' =>
+    [
     'type' => 'integer',
     'length' => 4,
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-  'lft' => 
-  [
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'lft' =>
+    [
     'type' => 'integer',
     'length' => 4,
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-  'status' => 
-  [
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'status' =>
+    [
     'type' => 'string',
     'length' => 20,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => 'pending, approved, spam, trash',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'created' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'created' =>
+    [
     'type' => 'datetime',
-    'length' => NULL,
+    'length' => null,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-  ],
-];
+    'precision' => null,
+    ],
+    ];
 
     public $records = [
-];
+    ];
 }

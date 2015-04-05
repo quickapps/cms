@@ -14,54 +14,54 @@ class NodesRolesFixture
 {
 
     public $fields = [
-  '_constraints' => 
-  [
-    'primary' => 
+    '_constraints' =>
+    [
+    'primary' =>
     [
       'type' => 'primary',
-      'columns' => 
+      'columns' =>
       [
         0 => 'id',
       ],
-      'length' => 
+      'length' =>
       [
       ],
     ],
-  ],
-  'id' => 
-  [
+    ],
+    'id' =>
+    [
     'type' => 'integer',
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
     'autoIncrement' => true,
-    'precision' => NULL,
-  ],
-  'node_id' => 
-  [
+    'precision' => null,
+    ],
+    'node_id' =>
+    [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-  'role_id' => 
-  [
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'role_id' =>
+    [
     'type' => 'integer',
     'length' => 10,
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => 'The user’s role ID from roles table',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-];
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    ];
 
     public $records = [
-];
+    ];
 }

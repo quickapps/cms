@@ -17,123 +17,123 @@ class LanguagesFixture extends TestFixture
 {
 
     public $fields = [
-  '_constraints' => 
-  [
-    'primary' => 
+    '_constraints' =>
+    [
+    'primary' =>
     [
       'type' => 'primary',
-      'columns' => 
+      'columns' =>
       [
         0 => 'id',
       ],
-      'length' => 
+      'length' =>
       [
       ],
     ],
-    'languages_code' => 
+    'languages_code' =>
     [
       'type' => 'unique',
-      'columns' => 
+      'columns' =>
       [
         0 => 'code',
       ],
-      'length' => 
+      'length' =>
       [
       ],
     ],
-  ],
-  'id' => 
-  [
+    ],
+    'id' =>
+    [
     'type' => 'integer',
     'unsigned' => false,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
     'autoIncrement' => true,
-    'precision' => NULL,
-  ],
-  'code' => 
-  [
+    'precision' => null,
+    ],
+    'code' =>
+    [
     'type' => 'string',
     'length' => 12,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => 'Language code, e.g. ’eng’',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'name' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'name' =>
+    [
     'type' => 'string',
     'length' => 64,
     'null' => false,
-    'default' => NULL,
+    'default' => null,
     'comment' => 'Language name in English.',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'direction' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'direction' =>
+    [
     'type' => 'string',
     'length' => 3,
     'null' => false,
     'default' => 'ltr',
     'comment' => 'Direction of language (Left-to-Right , Right-to-Left ).',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'icon' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'icon' =>
+    [
     'type' => 'string',
     'length' => 255,
     'null' => true,
-    'default' => NULL,
+    'default' => null,
     'comment' => '',
-    'precision' => NULL,
-    'fixed' => NULL,
-  ],
-  'status' => 
-  [
+    'precision' => null,
+    'fixed' => null,
+    ],
+    'status' =>
+    [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => false,
     'default' => '0',
     'comment' => 'Enabled flag (1 = Enabled, 0 = Disabled).',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-  'ordering' => 
-  [
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'ordering' =>
+    [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => false,
     'default' => '0',
     'comment' => 'Weight, used in lists of languages.',
-    'precision' => NULL,
-    'autoIncrement' => NULL,
-  ],
-];
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    ];
 
     public $records = [
-  0 => 
-  [
+    0 =>
+    [
     'code' => 'en_US',
     'name' => 'English (US)',
     'direction' => 'ltr',
     'icon' => 'us.gif',
     'status' => 1,
     'ordering' => 0,
-  ],
-  1 => 
-  [
+    ],
+    1 =>
+    [
     'code' => 'es_ES',
     'name' => 'Spanish (ES)',
     'direction' => 'ltr',
     'icon' => 'es.gif',
     'status' => 1,
     'ordering' => 0,
-  ],
-];
+    ],
+    ];
 }
