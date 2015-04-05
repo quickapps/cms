@@ -643,7 +643,7 @@ class FieldableBehavior extends EavBehavior
     protected function _getMockField(EntityInterface $entity, $instance)
     {
         $pk = $this->_table->primaryKey();
-        $type = $this->_getType($instance->type);
+        $type = $this->_mapType($instance->type);
         $storedValue = TableRegistry::get('Eav.EavValues')
             ->find()
             ->select(['id', "value_{$type}", 'extra'])
@@ -667,7 +667,7 @@ class FieldableBehavior extends EavBehavior
                 'table_alias' => $this->_guessTableAlias($entity),
                 'entity_id' => $entity->{$pk},
                 'handler' => $instance->handler,
-                'type' => $instance->type,
+                'type' => $type,
                 'required' => $instance->required,
                 'description' => $instance->description,
                 'settings' => $instance->settings,
