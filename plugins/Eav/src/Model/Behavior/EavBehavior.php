@@ -349,17 +349,27 @@ class EavBehavior extends Behavior
     }
 
     /**
-     * Guess attribute type mapping.
+     * Gets attribute's EAV type.
      *
      * @param string $attrName Attribute name
-     * @return string Possible values are 'datetime', 'decimal', 'int', 'text' or
-     *  'varchar'
+     * @return string Attribute's EAV type
+     * @see \Eav\Model\Behavior\EavBehavior::_mapType()
      */
     protected function _getType($attrName)
     {
         $schema = $this->_schema->column($attrName);
         $type = !empty($schema['type']) ? $schema['type'] : null;
+    }
 
+    /**
+     * Maps schema types to EAV supported types.
+     *
+     * @param string $type A schema type. e.g. "string", "integer"
+     * @return string A EAV type. Possible values are `datetime`, `decimal`, `int`,
+     *  `text` or `varchar`
+     */
+    protected function _mapType($type)
+    {
         switch ($type) {
             case 'date':
             case 'time':

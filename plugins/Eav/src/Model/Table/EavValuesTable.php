@@ -16,7 +16,7 @@ use Cake\ORM\Table;
 /**
  * Represents EAV "values" database table.
  */
-class ValuesTable extends Table
+class EavValuesTable extends Table
 {
 
     /**
