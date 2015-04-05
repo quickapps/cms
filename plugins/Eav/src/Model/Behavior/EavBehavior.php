@@ -416,11 +416,11 @@ class EavBehavior extends Behavior
      * Whether the given attribute can be used in WHERE clauses.
      *
      * @param string $attrName Attribute name
-     * @return string|null
+     * @return bool
      */
     protected function _isSearchable($attrName)
     {
-        return $this->config("attributes.{$attrName}")['searchable'];
+        return (bool)$this->config("attributes.{$attrName}")['searchable'];
     }
 
     /**
