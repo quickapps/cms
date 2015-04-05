@@ -14,7 +14,7 @@ namespace Eav\Model\Table;
 use Cake\ORM\Table;
 
 /**
- * Represents EAV "values" database table.
+ * Represents EAV "eav_values" database table.
  */
 class EavValuesTable extends Table
 {
