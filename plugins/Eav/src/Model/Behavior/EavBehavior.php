@@ -76,13 +76,19 @@ class EavBehavior extends Behavior
     /**
      * Attribute default keys.
      *
-     * - `bundle`: Indicates that an attribute belongs to an specific bundle
+     * - `type`: Data type, valid options are: `datetime`, `decimal`, `int`, `text`
+     *   and `varchar`.
+     *
+     * - `bundle`: Indicates that an attribute belongs to an specific bundle.
+     *
+     * - `searchable`: Whether this attribute can be used in WHERE clauses.
      *
      * @var array
      */
     protected $_attributeKeys = [
         'type' => 'varchar',
         'bundle' => null,
+        'searchable' => true,
     ];
 
     /**
@@ -202,7 +208,10 @@ class EavBehavior extends Behavior
         $field = $expression->getField();
         $column = is_string($field) ? $this->_columnName($field) : false;
         $attributes = array_keys((array)$this->config('attributes'));
-        if (!$column || !in_array($column, $attributes)) {
+        if (empty($column) ||
+            !in_array($column, $attributes) ||
+            !$this->_isSearchable($column)
+        ) {
             return false;
         }
 
@@ -395,12 +404,23 @@ class EavBehavior extends Behavior
     /**
      * Gets attribute's bundle.
      *
-     * @param string $attrName Attribute anme
+     * @param string $attrName Attribute name
      * @return string|null
      */
     protected function _getBundle($attrName)
     {
         return $this->config("attributes.{$attrName}")['bundle'];
+    }
+
+    /**
+     * Whether the given attribute can be used in WHERE clauses.
+     *
+     * @param string $attrName Attribute name
+     * @return string|null
+     */
+    protected function _isSearchable($attrName)
+    {
+        return $this->config("attributes.{$attrName}")['searchable'];
     }
 
     /**
