@@ -30,9 +30,9 @@ use \ArrayObject;
 /**
  * Fieldable Behavior.
  *
- * Allows additional fields to be attached to Tables. Any Table (Nodes, Users, etc.)
- * can use this behavior to make itself `fieldable` and thus allow fields to be
- * attached to it.
+ * A more flexible EAV approach. Allows additional fields to be attached to Tables.
+ * Any Table (Nodes, Users, etc.) can use this behavior to make itself `fieldable`
+ * and thus allow fields to be attached to it.
  *
  * The Field API defines two primary data structures, FieldInstance and FieldValue:
  *
@@ -41,6 +41,7 @@ use \ArrayObject;
  *   tuple of your Table. (Schema equivalent: cell value)
  *
  * **This behavior allows you to add _virtual columns_ to your table schema.**
+ *
  * @link https://github.com/quickapps/docs/blob/2.x/en/developers/field-api.rst
  */
 class FieldableBehavior extends EavBehavior
@@ -69,26 +70,10 @@ class FieldableBehavior extends EavBehavior
      *    Default null (use `tableAlias` option always).
      * - `enabled`: True enables this behavior or false for disable. Default to true.
      *
-     * When using `bundle` feature, `tableAlias` becomes:
-     *
-     *     <real_table_name>:<bundle>
-     *
-     * If `bundle` is set to a callable function, this function receives an entity
-     * as first argument and the table instance as second argument, the callable
-     * must return a string value to use as `bundle`.
-     *
-     * ```php
-     * // ...
-     * 'bundle' => function ($entity, $table) {
-     *     return $entity->type;
-     * },
-     * ```
-     *
-     * Bundles are usually set to dynamic values as the example above, where
-     * we use the `type` property of each entity to generate the `bundle` name. For
-     * example, for the "nodes" table we have "node" entities, but we may have
-     * "article nodes", "page nodes", etc depending on the "type of node" they are;
-     * "article" and "page" **are bundles** of "nodes" table.
+     * Bundles are usually set to dynamic values. For example, for the "nodes" table
+     * we have "node" entities, but we may have "article nodes", "page nodes", etc
+     * depending on the "type of node" they are; "article" and "page" **are
+     * bundles** of "nodes" table.
      *
      * @var array
      */
@@ -169,7 +154,7 @@ class FieldableBehavior extends EavBehavior
      * ```php
      * $this->Nodes
      *     ->find('all', ['bundle' => 'articles'])
-     *     ->where([':article-title' => 'My first article!']);
+     *     ->where(['article-title' => 'My first article!']);
      * ```
      *
      * The `bundle` option has no effects if no custom fields are given in the
@@ -189,7 +174,14 @@ class FieldableBehavior extends EavBehavior
             return true;
         }
 
-        $query = $this->_scopeQuery($query, $options);
+        // workaround for EAV behavior
+        $originalAttributes = (array)$this->config('attributes');
+        $bundle = !empty($options['bundle']) ? $options['bundle'] : null;
+        $this->_config['attributes'] = $this->_getAttributes($bundle);
+        $this->_prepareSchema();
+
+        // scope the Query
+        $query = $this->_scopeQuery($query, $bundle);
         $query->formatResults(function ($results) use ($event, $options, $primary) {
             $results = $results->map(function ($entity) use ($event, $options, $primary) {
                 if ($entity instanceof EntityInterface) {
@@ -209,6 +201,10 @@ class FieldableBehavior extends EavBehavior
             });
             return $results->filter();
         });
+
+        // restore schema
+        $this->_config['attributes'] = $originalAttributes;
+        $this->_prepareSchema();
     }
 
     /**
@@ -292,7 +288,7 @@ class FieldableBehavior extends EavBehavior
         }
 
         $pk = $this->_table->primaryKey();
-        $tableAlias = $this->_guessTableAlias($entity);
+        $tableAlias = $this->config('tableAlias');
         $this->_cache['createValues'] = [];
 
         foreach ($this->_getTableFieldInstances($entity) as $instance) {
@@ -408,7 +404,7 @@ class FieldableBehavior extends EavBehavior
         }
 
 
-        $tableAlias = $this->_guessTableAlias($entity);
+        $tableAlias = $this->config('tableAlias');
         $pk = (string)$this->_table->primaryKey();
         $instances = $this->_getTableFieldInstances($entity);
         foreach ($instances as $instance) {
@@ -611,25 +607,6 @@ class FieldableBehavior extends EavBehavior
     }
 
     /**
-     * Creates a sub-query for matching virtual fields.
-     *
-     * @param \Cake\Database\Expression\Comparison $expression Expression to scope
-     * @return \Cake\ORM\Query|bool False if not virtual field was found, or search
-     *  feature was disabled for this field. The query object to use otherwise
-     */
-    protected function _virtualQuery($expression)
-    {
-        if (!($expression instanceof Comparison)) {
-            return false;
-        }
-        $field = $this->_parseFieldName($expression->getField());
-        if (strpos($field, ':') !== 0) {
-            return false;
-        }
-        return parent::_virtualQuery($expression);
-    }
-
-    /**
      * Creates a new Virtual "Field" to be attached to the given entity.
      *
      * This mock Field represents a new property (table column) of the entity.
@@ -644,14 +621,21 @@ class FieldableBehavior extends EavBehavior
     {
         $pk = $this->_table->primaryKey();
         $type = $this->_mapType($instance->type);
+        $bundle = $this->_resolveBundle($entity);
+        $conditions = [
+            'EavValues.table_alias' => $this->config('tableAlias'),
+            'EavValues.entity_id' => $entity->get((string)$this->_table->primaryKey()),
+            'EavValues.attribute' => $instance->slug,
+        ];
+
+        if ($bundle) {
+            $conditions['EavValues.bundle'] = $bundle;
+        }
+
         $storedValue = TableRegistry::get('Eav.EavValues')
             ->find()
             ->select(['id', "value_{$type}", 'extra'])
-            ->where([
-                'EavValues.table_alias' => $this->_guessTableAlias($entity),
-                'EavValues.entity_id' => $entity->get((string)$this->_table->primaryKey()),
-                'EavValues.attribute' => $instance->slug,
-            ])
+            ->where($conditions)
             ->limit(1)
             ->first();
 
@@ -664,7 +648,8 @@ class FieldableBehavior extends EavBehavior
                 'value_id' => null,
                 'instance_id' => $instance->id,
                 'instance_name' => $instance->slug,
-                'table_alias' => $this->_guessTableAlias($entity),
+                'table_alias' => $this->config('tableAlias'),
+                'bundle' => $bundle,
                 'entity_id' => $entity->{$pk},
                 'handler' => $instance->handler,
                 'type' => $type,
@@ -688,33 +673,6 @@ class FieldableBehavior extends EavBehavior
     }
 
     /**
-     * Gets table alias this behavior is attached to.
-     *
-     * This method requires an entity, so we can properly take care of the `bundle`
-     * option. If this option is not used, then `Table::alias()` is returned.
-     *
-     * @param \Cake\Datasource\EntityInterface $entity From where try to guess `bundle`
-     * @return string Table alias
-     * @throws \Field\Error\InvalidBundle When `bundle` option is used but
-     *  was unable to resolve bundle name
-     */
-    protected function _guessTableAlias(EntityInterface $entity)
-    {
-        $tableAlias = $this->config('tableAlias');
-        if ($this->config('bundle')) {
-            $bundle = $this->_resolveBundle($entity);
-            if ($bundle === false) {
-                throw new InvalidBundle(
-                    __d('field', 'FieldableBehavior: The "bundle" option was set to "{0}", but this property could not be found on entities being fetched.', $this->config('bundle'))
-                );
-            }
-
-            $tableAlias = "{$tableAlias}:{$bundle}";
-        }
-        return $tableAlias;
-    }
-
-    /**
      * Resolves `bundle` name using $entity as context.
      *
      * @param \Cake\Datasource\EntityInterface $entity Entity to use as context when resolving bundle
@@ -726,12 +684,42 @@ class FieldableBehavior extends EavBehavior
         if ($bundle !== null) {
             if (is_callable($bundle)) {
                 $callable = $this->config('bundle');
-                return $callable($entity, $this->_table);
+                return $callable($entity);
             } elseif (is_string($bundle)) {
                 return $bundle;
             }
         }
-        return false;
+        return null;
+    }
+
+    /**
+     * Gets a list of of names of all instances attached to this table. This
+     * includes fields attached to every bundle if not specified.
+     *
+     * @param string $bundle Get only fields within a specific bundle
+     * @return array
+     */
+    protected function _getAttributes($bundle = null)
+    {
+        if ($bundle) {
+            $conditions = ['FieldInstances.table_alias' => $this->config('tableAlias') . ":{$bundle}"];
+        } else {
+            $conditions = ['FieldInstances.table_alias LIKE' => $this->config('tableAlias') . ':%'];
+        }
+
+        $attributes = [];
+        $instances = TableRegistry::get('Field.FieldInstances')
+            ->find()
+            ->select(['slug', 'type'])
+            ->where($conditions)
+            ->all();
+        foreach ($instances as $instance) {
+            $attributes[$instance->get('slug')] = [
+                'type' => $instance->get('type'),
+                'bundle' => $bundle,
+            ];
+        }
+        return $attributes;
     }
 
     /**
@@ -742,18 +730,28 @@ class FieldableBehavior extends EavBehavior
      * @return \Cake\Datasource\ResultSetInterface Field instances attached to
      *  current table as a query result
      */
-    protected function _getTableFieldInstances(EntityInterface $entity)
+    protected function _getTableFieldInstances(EntityInterface $entity = null)
     {
-        $tableAlias = $this->_guessTableAlias($entity);
+        $bundle = $this->_resolveBundle($entity);
+        $tableAlias = $bundle ? $this->config('tableAlias') . ":{$bundle}" : $this->config('tableAlias');
         if (isset($this->_cache["TableFieldInstances_{$tableAlias}"])) {
             return $this->_cache["TableFieldInstances_{$tableAlias}"];
         }
 
-        $FieldInstances = TableRegistry::get('Field.FieldInstances');
-        $this->_cache["TableFieldInstances_{$tableAlias}"] = $FieldInstances->find()
+        $attributes = [];
+        $instances = TableRegistry::get('Field.FieldInstances')
+            ->find()
             ->where(['FieldInstances.table_alias' => $tableAlias])
             ->order(['ordering' => 'ASC'])
             ->all();
+        $this->_cache["TableFieldInstances_{$tableAlias}"] = $instances;
+
+        foreach ($instances as $instance) {
+            $attributes[$instance->get('slug')] = [
+                'type' => $instance->get('type'),
+            ];
+        }
+        $this->_config['attributes'] = $attributes;
         return $this->_cache["TableFieldInstances_{$tableAlias}"];
     }
 }

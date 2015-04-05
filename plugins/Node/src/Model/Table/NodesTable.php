@@ -112,13 +112,13 @@ class NodesTable extends Table
             }
         ]);
         $this->addBehavior('Field.Fieldable', [
-            'bundle' => function ($entity, $table) {
+            'bundle' => function ($entity) {
                 if ($entity->has('node_type_slug')) {
                     return $entity->node_type_slug;
                 }
 
                 if ($entity->has('id')) {
-                    return $table
+                    return $this
                         ->get($entity->id, [
                             'fields' => ['id', 'node_type_slug'],
                             'fieldable' => false,

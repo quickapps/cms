@@ -41,25 +41,7 @@ class FieldableBehaviorTest extends TestCase
      */
     public function setUp()
     {
-        $activePlugins = Plugin::get()
-            ->filter(function ($plugin) {
-                $filter = $plugin->status;
-                if ($plugin->isTheme) {
-                    $filter = $filter && in_array($plugin->name, [option('front_theme'), option('back_theme')]);
-                }
-                return $filter;
-            })
-            ->toArray();
-
-        foreach ($activePlugins as $plugin) {
-            foreach ($plugin->eventListeners as $fullClassName) {
-                if (class_exists($fullClassName)) {
-                    EventManager::instance()->on(new $fullClassName);
-                }
-            }
-        }
-
-        $this->table = TableRegistry::get('Nodes');
+        $this->table = TableRegistry::get('Node.Nodes');
         $this->table->addBehavior('Field.Fieldable');
     }
 
@@ -70,13 +52,20 @@ class FieldableBehaviorTest extends TestCase
      */
     public function testFindUsingCustomFieldsInWhereClause()
     {
-        $matching = $this->table
+        $matching1 = $this->table
             ->find()
-            ->where([':article-introduction LIKE' => '%Welcome to QuickAppsCMS%'])
+            ->where(['article-introduction LIKE' => '%Welcome to QuickAppsCMS%'])
             ->limit(1)
             ->first();
 
-        $this->assertNotEmpty($matching);
+        $matching2 = $this->table
+            ->find('all', ['bundle' => 'article'])
+            ->where(['article-introduction LIKE' => '%Welcome to QuickAppsCMS%'])
+            ->limit(1)
+            ->first();
+
+        $this->assertNotEmpty($matching1);
+        $this->assertNotEmpty($matching2);
     }
 
     /**

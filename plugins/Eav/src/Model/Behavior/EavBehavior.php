@@ -12,6 +12,7 @@
 namespace Eav\Model\Behavior;
 
 use Cake\Database\Expression\Comparison;
+use Cake\Database\Schema\Table as Schema;
 use Cake\Datasource\EntityInterface;
 use Cake\Error\FatalErrorException;
 use Cake\Event\Event;
@@ -19,6 +20,7 @@ use Cake\ORM\Behavior;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
+use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use \ArrayObject;
 
@@ -72,6 +74,18 @@ class EavBehavior extends Behavior
     ];
 
     /**
+     * Attribute default keys.
+     *
+     * - `bundle`: Indicates that an attribute belongs to an specific bundle
+     *
+     * @var array
+     */
+    protected $_attributeKeys = [
+        'type' => 'varchar',
+        'bundle' => null,
+    ];
+
+    /**
      * Virtual attributes schema.
      *
      * @var \Cake\Database\Schema\Table
@@ -88,10 +102,7 @@ class EavBehavior extends Behavior
     {
         $config['tableAlias'] = Inflector::underscore($table->alias());
         parent::__construct($table, $config);
-        $this->_schema = clone $this->_table->schema();
-        foreach ((array)$this->config('attributes') as $name => $attrs) {
-            $this->_schema->addColumn($name, $attrs);
-        }
+        $this->_prepareSchema();
 
         if ($this->config('deleteUnlinked')) {
             TableRegistry::get('Eav.EavValues')->deleteAll([
@@ -138,7 +149,7 @@ class EavBehavior extends Behavior
      * @param \Cake\ORM\Query $query The query to scope
      * @return \Cake\ORM\Query The modified query object
      */
-    protected function _scopeQuery(Query $query)
+    protected function _scopeQuery(Query $query, $bundle = null)
     {
         $whereClause = $query->clause('where');
         if (!$whereClause) {
@@ -188,54 +199,54 @@ class EavBehavior extends Behavior
             return false;
         }
 
-        $field = $this->_parseFieldName($expression->getField());
-        $attributes = array_keys($this->config('attributes'));
-        if (!in_array($field, $attributes)) {
+        $column = $this->_columnName($expression->getField());
+        $attributes = array_keys((array)$this->config('attributes'));
+        if (!in_array($column, $attributes)) {
             return false;
         }
 
         $value = $expression->getValue();
+        $type = $this->_getType($column);
         $conjunction = $expression->getOperator();
-        $type = $this->_getType($field);
+        $bundle = $this->_getBundle($column);
+        $conditions = [
+            'EavValues.table_alias' => $this->config('tableAlias'),
+            "EavValues.attribute" => $column,
+            "EavValues.value_{$type} {$conjunction}" => $value,
+        ];
 
-        $subQuery = TableRegistry::get('Eav.EavValues')->find()
+        if ($bundle) {
+            $conditions['EavValues.bundle'] = $bundle;
+        }
+
+        return TableRegistry::get('Eav.EavValues')
+            ->find()
             ->select('EavValues.entity_id')
-            ->where([
-                "EavValues.attribute" => $field,
-                "EavValues.value_{$type} {$conjunction}" => $value,
-            ]);
-
-        $subQuery->where(['EavValues.table_alias' => $this->config('tableAlias')]);
-        return $subQuery;
+            ->where($conditions);
     }
 
     /**
-     * Gets a clean field name from query expression.
+     * Gets a clean column name from query expression.
      *
      * ### Example:
      *
      * ```php
-     * $this->_parseFieldName('Tablename.:virtual');
-     * // returns ":virtual"
+     * $this->_columnName('Tablename.some_column');
+     * // returns "some_column"
      *
-     * $this->_parseFieldName('Tablename.non_virtual');
-     * // returns "non_virtual"
-     *
-     * $this->_parseFieldName('my_column');
+     * $this->_columnName('my_column');
      * // returns "my_column"
      * ```
      *
      * @param string $column Column name from query
      * @return string
      */
-    protected function _parseFieldName($column)
+    protected function _columnName($column)
     {
         list($tableName, $fieldName) = pluginSplit((string)$column);
-
         if (!$fieldName) {
             $fieldName = $tableName;
         }
-
         $fieldName = preg_replace('/\s{2,}/', ' ', $fieldName);
         list($fieldName, ) = explode(' ', trim($fieldName));
         return $fieldName;
@@ -264,6 +275,7 @@ class EavBehavior extends Behavior
                     ->find()
                     ->where([
                         'table_alias' => $this->config('tableAlias'),
+                        'bundle' => $this->_getBundle($name),
                         'entity_id' => (string)$entity->get($pk),
                         'attribute' => $name,
                     ])
@@ -273,6 +285,7 @@ class EavBehavior extends Behavior
                 if (!$value) {
                     $value = $Values->newEntity([
                         'table_alias' => $this->config('tableAlias'),
+                        'bundle' => $this->_getBundle($name),
                         'entity_id' => (string)$entity->get($pk),
                         'attribute' => $name,
                     ]);
@@ -333,7 +346,9 @@ class EavBehavior extends Behavior
                     ->find()
                     ->where([
                         'table_alias' => $this->config('tableAlias'),
+                        'bundle' => $this->_getBundle($name),
                         'entity_id' => (string)$entity->get($pk),
+                        'attribute' => $name,
                     ])
                     ->limit(1)
                     ->first();
@@ -349,6 +364,22 @@ class EavBehavior extends Behavior
     }
 
     /**
+     * Prepares the virtual schema.
+     *
+     * @return void
+     */
+    protected function _prepareSchema()
+    {
+        $attributes = (array)$this->config('attributes');
+        if ($attributes) {
+            foreach ($attributes as $name => $attrs) {
+                $attributes[$name] += $attrs + $this->_attributeKeys;
+            }
+        }
+        $this->_config['attributes'] = $attributes;
+    }
+
+    /**
      * Gets attribute's EAV type.
      *
      * @param string $attrName Attribute name
@@ -357,8 +388,18 @@ class EavBehavior extends Behavior
      */
     protected function _getType($attrName)
     {
-        $schema = $this->_schema->column($attrName);
-        $type = !empty($schema['type']) ? $schema['type'] : null;
+        return $this->_mapType($this->config("attributes.{$attrName}")['type']);
+    }
+
+    /**
+     * Gets attribute's bundle.
+     *
+     * @param string $attrName Attribute anme
+     * @return string|null
+     */
+    protected function _getBundle($attrName)
+    {
+        return $this->config("attributes.{$attrName}")['bundle'];
     }
 
     /**

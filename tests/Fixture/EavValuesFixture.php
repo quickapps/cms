@@ -71,6 +71,16 @@ class EavValuesFixture extends TestFixture
     'precision' => null,
     'fixed' => null,
     ],
+    'bundle' =>
+    [
+    'type' => 'string',
+    'length' => 50,
+    'null' => true,
+    'default' => null,
+    'comment' => '',
+    'precision' => null,
+    'fixed' => null,
+    ],
     'value_datetime' =>
     [
     'type' => 'datetime',
@@ -136,7 +146,8 @@ class EavValuesFixture extends TestFixture
     [
     'attribute' => 'article-introduction',
     'entity_id' => '1',
-    'table_alias' => 'nodes:article',
+    'table_alias' => 'nodes',
+    'bundle' => 'article',
     'value_datetime' => null,
     'value_decimal' => null,
     'value_int' => null,
@@ -148,7 +159,8 @@ class EavValuesFixture extends TestFixture
     [
     'attribute' => 'article-body',
     'entity_id' => '1',
-    'table_alias' => 'nodes:article',
+    'table_alias' => 'nodes',
+    'bundle' => 'article',
     'value_datetime' => null,
     'value_decimal' => null,
     'value_int' => null,
@@ -165,7 +177,8 @@ class EavValuesFixture extends TestFixture
     [
     'attribute' => 'page-body',
     'entity_id' => '2',
-    'table_alias' => 'nodes:page',
+    'table_alias' => 'nodes',
+    'bundle' => 'page',
     'value_datetime' => null,
     'value_decimal' => null,
     'value_int' => null,
@@ -182,7 +195,8 @@ class EavValuesFixture extends TestFixture
     [
     'attribute' => 'article-category',
     'entity_id' => '1',
-    'table_alias' => 'nodes:article',
+    'table_alias' => 'nodes',
+    'bundle' => 'article',
     'value_datetime' => null,
     'value_decimal' => null,
     'value_int' => null,
