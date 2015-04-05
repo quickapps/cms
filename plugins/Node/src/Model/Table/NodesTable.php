@@ -52,7 +52,7 @@ class NodesTable extends Table
         $events = [
             'Model.beforeSave' => [
                 'callable' => 'beforeSave',
-                'priority' => -10
+                'priority' => 16 // after Fieldable Behavior
             ]
         ];
 
