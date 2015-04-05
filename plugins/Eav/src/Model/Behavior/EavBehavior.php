@@ -199,9 +199,10 @@ class EavBehavior extends Behavior
             return false;
         }
 
-        $column = $this->_columnName($expression->getField());
+        $field = $expression->getField();
+        $column = is_string($field) ? $this->_columnName($field) : false;
         $attributes = array_keys((array)$this->config('attributes'));
-        if (!in_array($column, $attributes)) {
+        if (!$column || !in_array($column, $attributes)) {
             return false;
         }
 
@@ -215,7 +216,7 @@ class EavBehavior extends Behavior
             "EavValues.value_{$type} {$conjunction}" => $value,
         ];
 
-        if ($bundle) {
+        if (!empty($bundle)) {
             $conditions['EavValues.bundle'] = $bundle;
         }
 
@@ -371,7 +372,7 @@ class EavBehavior extends Behavior
     protected function _prepareSchema()
     {
         $attributes = (array)$this->config('attributes');
-        if ($attributes) {
+        if (!empty($attributes)) {
             foreach ($attributes as $name => $attrs) {
                 $attributes[$name] += $attrs + $this->_attributeKeys;
             }

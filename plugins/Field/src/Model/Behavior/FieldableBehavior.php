@@ -137,14 +137,13 @@ class FieldableBehavior extends EavBehavior
      *    fields won't be able to listen this event. If the event is stopped using
      *    the event API, will halt the entire find operation.
      *
-     * You can enable or disable this behavior for a single `find()` operation by
-     * setting `fieldable` to false in the options array for find method. e.g.:
+     * You can enable or disable this behavior for a single `find()` or `get()`
+     * operation by setting `fieldable` to false in the options array for find
+     * method. e.g.:
      *
      * ```php
-     * $this->Nodes
-     *     ->find('all', [
-     *         'fieldable' => false,
-     *     ]);
+     * $nodes = $this->Nodes->find('all', ['fieldable' => false]);
+     * $node = $this->Nodes->get($id, ['fieldable' => false]);
      * ```
      *
      * It also looks for custom fields in WHERE clause. This will search entities in
@@ -554,7 +553,6 @@ class FieldableBehavior extends EavBehavior
             $fieldEvent = $this->trigger(["Field.{$field->metadata['handler']}.Entity.validate", $this->_table], $field, $validator);
             if ($fieldEvent->isStopped()) {
                 $this->attachEntityFields($entity);
-                $event->stopPropagation();
                 return $fieldEvent->result;
             }
 
@@ -701,7 +699,7 @@ class FieldableBehavior extends EavBehavior
      */
     protected function _getAttributes($bundle = null)
     {
-        if ($bundle) {
+        if ($bundle !== null) {
             $conditions = ['FieldInstances.table_alias' => $this->config('tableAlias') . ":{$bundle}"];
         } else {
             $conditions = ['FieldInstances.table_alias LIKE' => $this->config('tableAlias') . ':%'];

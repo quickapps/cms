@@ -163,7 +163,7 @@ class TaxonomyField extends BaseHandler
     public function entityValidate(Event $event, Field $field, Validator $validator)
     {
         if ($field->metadata->required) {
-            $validator->allowEmpty($field->name, false, __d('taxonomy', 'Field required.'));
+            $validator->notEmpty($field->name, __d('taxonomy', 'Field required.'), true);
         } else {
             $validator->allowEmpty($field->name, true);
         }
