@@ -14,98 +14,98 @@ class MenusFixture
 {
 
     public $fields = [
-    '_constraints' =>
-    [
-    'primary' =>
+  '_constraints' => 
+  [
+    'primary' => 
     [
       'type' => 'primary',
-      'columns' =>
+      'columns' => 
       [
         0 => 'id',
       ],
-      'length' =>
+      'length' => 
       [
       ],
     ],
-    ],
-    'id' =>
-    [
+  ],
+  'id' => 
+  [
     'type' => 'integer',
     'unsigned' => false,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
     'autoIncrement' => true,
-    'precision' => null,
-    ],
-    'slug' =>
-    [
+    'precision' => NULL,
+  ],
+  'slug' => 
+  [
     'type' => 'string',
     'length' => 50,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'title' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'title' => 
+  [
     'type' => 'string',
     'length' => 255,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => 'Menu title, displayed at top of block.',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'description' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'description' => 
+  [
     'type' => 'text',
-    'length' => null,
+    'length' => NULL,
     'null' => true,
-    'default' => null,
+    'default' => NULL,
     'comment' => 'Menu description.',
-    'precision' => null,
-    ],
-    'handler' =>
-    [
+    'precision' => NULL,
+  ],
+  'handler' => 
+  [
     'type' => 'string',
     'length' => 100,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => 'Name of the plugin that created this menu.',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'settings' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'settings' => 
+  [
     'type' => 'text',
-    'length' => null,
+    'length' => NULL,
     'null' => true,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    ],
-    ];
+    'precision' => NULL,
+  ],
+];
 
     public $records = [
-    0 =>
-    [
+  0 => 
+  [
     'id' => 1,
     'slug' => 'management',
     'title' => 'Management',
     'description' => 'The Management menu contains links for administrative tasks.',
     'handler' => 'System',
-    'settings' => null,
-    ],
-    1 =>
-    [
+    'settings' => NULL,
+  ],
+  1 => 
+  [
     'id' => 2,
     'slug' => 'site-main-menu',
     'title' => 'Site Main Menu',
     'description' => 'The Site Main Menu is used on many sites to show the major sections of the site, often in a top navigation bar.',
     'handler' => 'System',
-    'settings' => null,
-    ],
-    ];
+    'settings' => NULL,
+  ],
+];
 }

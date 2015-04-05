@@ -14,114 +14,114 @@ class PermissionsFixture
 {
 
     public $fields = [
-    '_constraints' =>
-    [
-    'primary' =>
+  '_constraints' => 
+  [
+    'primary' => 
     [
       'type' => 'primary',
-      'columns' =>
+      'columns' => 
       [
         0 => 'id',
       ],
-      'length' =>
+      'length' => 
       [
       ],
     ],
-    ],
-    'id' =>
-    [
+  ],
+  'id' => 
+  [
     'type' => 'integer',
     'unsigned' => false,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
     'autoIncrement' => true,
-    'precision' => null,
-    ],
-    'aco_id' =>
-    [
+    'precision' => NULL,
+  ],
+  'aco_id' => 
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'autoIncrement' => null,
-    ],
-    'role_id' =>
-    [
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+  'role_id' => 
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'autoIncrement' => null,
-    ],
-    ];
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+];
 
     public $records = [
-    0 =>
-    [
+  0 => 
+  [
     'id' => 1,
     'aco_id' => 79,
     'role_id' => 2,
-    ],
-    1 =>
-    [
+  ],
+  1 => 
+  [
     'id' => 2,
     'aco_id' => 79,
     'role_id' => 3,
-    ],
-    2 =>
-    [
+  ],
+  2 => 
+  [
     'id' => 3,
     'aco_id' => 80,
     'role_id' => 2,
-    ],
-    3 =>
-    [
+  ],
+  3 => 
+  [
     'id' => 4,
     'aco_id' => 80,
     'role_id' => 3,
-    ],
-    4 =>
-    [
+  ],
+  4 => 
+  [
     'id' => 5,
     'aco_id' => 81,
     'role_id' => 2,
-    ],
-    5 =>
-    [
+  ],
+  5 => 
+  [
     'id' => 6,
     'aco_id' => 81,
     'role_id' => 3,
-    ],
-    6 =>
-    [
+  ],
+  6 => 
+  [
     'id' => 7,
     'aco_id' => 82,
     'role_id' => 2,
-    ],
-    7 =>
-    [
+  ],
+  7 => 
+  [
     'id' => 8,
     'aco_id' => 82,
     'role_id' => 3,
-    ],
-    8 =>
-    [
+  ],
+  8 => 
+  [
     'id' => 9,
     'aco_id' => 83,
     'role_id' => 2,
-    ],
-    9 =>
-    [
+  ],
+  9 => 
+  [
     'id' => 10,
     'aco_id' => 83,
     'role_id' => 3,
-    ],
-    ];
+  ],
+];
 }

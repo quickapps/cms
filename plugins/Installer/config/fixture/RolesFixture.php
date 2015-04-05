@@ -14,81 +14,81 @@ class RolesFixture
 {
 
     public $fields = [
-    '_constraints' =>
-    [
-    'primary' =>
+  '_constraints' => 
+  [
+    'primary' => 
     [
       'type' => 'primary',
-      'columns' =>
+      'columns' => 
       [
         0 => 'id',
       ],
-      'length' =>
+      'length' => 
       [
       ],
     ],
-    'roles_name' =>
+    'roles_name' => 
     [
       'type' => 'unique',
-      'columns' =>
+      'columns' => 
       [
         0 => 'name',
       ],
-      'length' =>
+      'length' => 
       [
       ],
     ],
-    ],
-    'id' =>
-    [
+  ],
+  'id' => 
+  [
     'type' => 'integer',
     'unsigned' => false,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
     'autoIncrement' => true,
-    'precision' => null,
-    ],
-    'slug' =>
-    [
+    'precision' => NULL,
+  ],
+  'slug' => 
+  [
     'type' => 'string',
     'length' => 50,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'name' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'name' => 
+  [
     'type' => 'string',
     'length' => 128,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    ];
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+];
 
     public $records = [
-    0 =>
-    [
+  0 => 
+  [
     'id' => 1,
     'slug' => 'administrator',
     'name' => 'Administrator',
-    ],
-    1 =>
-    [
+  ],
+  1 => 
+  [
     'id' => 2,
     'slug' => 'authenticated',
     'name' => 'Authenticated User',
-    ],
-    2 =>
-    [
+  ],
+  2 => 
+  [
     'id' => 3,
     'slug' => 'anonymous',
     'name' => 'Anonymous User',
-    ],
-    ];
+  ],
+];
 }

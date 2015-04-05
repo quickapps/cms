@@ -14,110 +14,110 @@ class NodeTypesFixture
 {
 
     public $fields = [
-    '_constraints' =>
-    [
-    'primary' =>
+  '_constraints' => 
+  [
+    'primary' => 
     [
       'type' => 'primary',
-      'columns' =>
+      'columns' => 
       [
         0 => 'id',
       ],
-      'length' =>
+      'length' => 
       [
       ],
     ],
-    'node_types_slug' =>
+    'node_types_slug' => 
     [
       'type' => 'unique',
-      'columns' =>
+      'columns' => 
       [
         0 => 'slug',
       ],
-      'length' =>
+      'length' => 
       [
       ],
     ],
-    ],
-    'id' =>
-    [
+  ],
+  'id' => 
+  [
     'type' => 'integer',
     'unsigned' => false,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
     'autoIncrement' => true,
-    'precision' => null,
-    ],
-    'slug' =>
-    [
+    'precision' => NULL,
+  ],
+  'slug' => 
+  [
     'type' => 'string',
     'length' => 100,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'name' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'name' => 
+  [
     'type' => 'string',
     'length' => 200,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => 'human-readable name',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'description' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'description' => 
+  [
     'type' => 'string',
     'length' => 255,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'title_label' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'title_label' => 
+  [
     'type' => 'string',
     'length' => 80,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => 'the label displayed for the title field on the edit form.',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'defaults' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'defaults' => 
+  [
     'type' => 'text',
-    'length' => null,
+    'length' => NULL,
     'null' => true,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    ],
-    ];
+    'precision' => NULL,
+  ],
+];
 
     public $records = [
-    0 =>
-    [
+  0 => 
+  [
     'id' => 1,
     'slug' => 'article',
     'name' => 'Article',
     'description' => 'Use <em>Articles</em> for time-sensitive content like news, press releases or blog posts.',
     'title_label' => 'Title',
     'defaults' => 'a:7:{s:6:"status";s:1:"1";s:7:"promote";s:1:"1";s:6:"sticky";s:1:"1";s:11:"author_name";s:1:"1";s:9:"show_date";s:1:"1";s:14:"comment_status";s:1:"1";s:8:"language";s:0:"";}',
-    ],
-    1 =>
-    [
+  ],
+  1 => 
+  [
     'id' => 2,
     'slug' => 'page',
     'name' => 'Basic Page',
     'description' => 'Use <em>Basic Pages</em> for your static content, such as an \'About us\' page.',
     'title_label' => 'Title',
     'defaults' => 'a:7:{s:6:"status";s:1:"1";s:7:"promote";s:1:"0";s:6:"sticky";s:1:"0";s:11:"author_name";s:1:"0";s:9:"show_date";s:1:"0";s:14:"comment_status";s:1:"0";s:8:"language";s:0:"";}',
-    ],
-    ];
+  ],
+];
 }

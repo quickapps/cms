@@ -14,189 +14,189 @@ class NodesFixture
 {
 
     public $fields = [
-    '_constraints' =>
-    [
-    'primary' =>
+  '_constraints' => 
+  [
+    'primary' => 
     [
       'type' => 'primary',
-      'columns' =>
+      'columns' => 
       [
         0 => 'id',
       ],
-      'length' =>
+      'length' => 
       [
       ],
     ],
-    ],
-    'id' =>
-    [
+  ],
+  'id' => 
+  [
     'type' => 'integer',
     'unsigned' => false,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
     'autoIncrement' => true,
-    'precision' => null,
-    ],
-    'node_type_id' =>
-    [
+    'precision' => NULL,
+  ],
+  'node_type_id' => 
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'autoIncrement' => null,
-    ],
-    'node_type_slug' =>
-    [
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+  'node_type_slug' => 
+  [
     'type' => 'string',
     'length' => 100,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'translation_for' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'translation_for' => 
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => true,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'autoIncrement' => null,
-    ],
-    'slug' =>
-    [
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+  'slug' => 
+  [
     'type' => 'string',
     'length' => 100,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'title' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'title' => 
+  [
     'type' => 'string',
     'length' => 250,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'description' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'description' => 
+  [
     'type' => 'string',
     'length' => 200,
     'null' => true,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'promote' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'promote' => 
+  [
     'type' => 'boolean',
-    'length' => null,
+    'length' => NULL,
     'null' => false,
     'default' => '0',
     'comment' => 'Show in front page?',
-    'precision' => null,
-    ],
-    'sticky' =>
-    [
+    'precision' => NULL,
+  ],
+  'sticky' => 
+  [
     'type' => 'boolean',
-    'length' => null,
+    'length' => NULL,
     'null' => false,
     'default' => '0',
     'comment' => 'Show at top of lists',
-    'precision' => null,
-    ],
-    'comment_status' =>
-    [
+    'precision' => NULL,
+  ],
+  'comment_status' => 
+  [
     'type' => 'integer',
     'length' => 2,
     'unsigned' => false,
     'null' => false,
     'default' => '0',
     'comment' => '0=closed, 1=open, 2=readonly',
-    'precision' => null,
-    'autoIncrement' => null,
-    ],
-    'language' =>
-    [
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+  'language' => 
+  [
     'type' => 'string',
     'fixed' => true,
     'length' => 10,
     'null' => true,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    ],
-    'status' =>
-    [
+    'precision' => NULL,
+  ],
+  'status' => 
+  [
     'type' => 'boolean',
-    'length' => null,
+    'length' => NULL,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    ],
-    'created' =>
-    [
+    'precision' => NULL,
+  ],
+  'created' => 
+  [
     'type' => 'datetime',
-    'length' => null,
+    'length' => NULL,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    ],
-    'modified' =>
-    [
+    'precision' => NULL,
+  ],
+  'modified' => 
+  [
     'type' => 'datetime',
-    'length' => null,
+    'length' => NULL,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    ],
-    'created_by' =>
-    [
+    'precision' => NULL,
+  ],
+  'created_by' => 
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => true,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'autoIncrement' => null,
-    ],
-    'modified_by' =>
-    [
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+  'modified_by' => 
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => true,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'autoIncrement' => null,
-    ],
-    ];
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+];
 
     public $records = [
-    0 =>
-    [
+  0 => 
+  [
     'id' => 1,
     'node_type_id' => 1,
     'node_type_slug' => 'article',
-    'translation_for' => null,
+    'translation_for' => NULL,
     'slug' => 'hello-world',
     'title' => '¡Hello World!',
     'description' => 'hello world demo article',
@@ -209,13 +209,13 @@ class NodesFixture
     'modified' => '2015-04-04 03:00:33',
     'created_by' => 1,
     'modified_by' => 1,
-    ],
-    1 =>
-    [
+  ],
+  1 => 
+  [
     'id' => 2,
     'node_type_id' => 2,
     'node_type_slug' => 'page',
-    'translation_for' => null,
+    'translation_for' => NULL,
     'slug' => 'about',
     'title' => 'About',
     'description' => 'about QuickAppsCMS demo page',
@@ -228,6 +228,6 @@ class NodesFixture
     'modified' => '2015-03-31 21:06:50',
     'created_by' => 1,
     'modified_by' => 1,
-    ],
-    ];
+  ],
+];
 }

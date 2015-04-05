@@ -14,60 +14,60 @@ class UsersRolesFixture
 {
 
     public $fields = [
-    '_constraints' =>
-    [
-    'primary' =>
+  '_constraints' => 
+  [
+    'primary' => 
     [
       'type' => 'primary',
-      'columns' =>
+      'columns' => 
       [
         0 => 'id',
       ],
-      'length' =>
+      'length' => 
       [
       ],
     ],
-    ],
-    'id' =>
-    [
+  ],
+  'id' => 
+  [
     'type' => 'integer',
     'unsigned' => false,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
     'autoIncrement' => true,
-    'precision' => null,
-    ],
-    'user_id' =>
-    [
+    'precision' => NULL,
+  ],
+  'user_id' => 
+  [
     'type' => 'integer',
     'length' => 11,
     'unsigned' => false,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    'autoIncrement' => null,
-    ],
-    'role_id' =>
-    [
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+  'role_id' => 
+  [
     'type' => 'integer',
     'length' => 10,
     'unsigned' => false,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => 'The user’s role ID from roles table',
-    'precision' => null,
-    'autoIncrement' => null,
-    ],
-    ];
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+];
 
     public $records = [
-    0 =>
-    [
+  0 => 
+  [
     'id' => 1,
     'user_id' => 1,
     'role_id' => 1,
-    ],
-    ];
+  ],
+];
 }

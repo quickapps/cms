@@ -14,153 +14,153 @@ class FieldInstancesFixture
 {
 
     public $fields = [
-    '_constraints' =>
-    [
-    'primary' =>
+  '_constraints' => 
+  [
+    'primary' => 
     [
       'type' => 'primary',
-      'columns' =>
+      'columns' => 
       [
         0 => 'id',
       ],
-      'length' =>
+      'length' => 
       [
       ],
     ],
-    'field_instances_slug' =>
+    'field_instances_slug' => 
     [
       'type' => 'unique',
-      'columns' =>
+      'columns' => 
       [
         0 => 'slug',
       ],
-      'length' =>
+      'length' => 
       [
       ],
     ],
-    ],
-    'id' =>
-    [
+  ],
+  'id' => 
+  [
     'type' => 'integer',
     'unsigned' => false,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
     'autoIncrement' => true,
-    'precision' => null,
-    ],
-    'slug' =>
-    [
+    'precision' => NULL,
+  ],
+  'slug' => 
+  [
     'type' => 'string',
     'length' => 200,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => 'Machine name, must be unique',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'table_alias' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'table_alias' => 
+  [
     'type' => 'string',
     'length' => 100,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => 'Name of the table to which this field belongs to. eg: comment, node_article. Must be unique',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'handler' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'handler' => 
+  [
     'type' => 'string',
     'length' => 80,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => 'Name of event handler class under the `Field` namespace',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'label' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'label' => 
+  [
     'type' => 'string',
     'length' => 200,
     'null' => false,
-    'default' => null,
+    'default' => NULL,
     'comment' => 'Human readble name, used in views. eg: `First Name` (for a textbox)',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'description' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'description' => 
+  [
     'type' => 'string',
     'length' => 250,
     'null' => true,
-    'default' => null,
+    'default' => NULL,
     'comment' => 'instructions to present to the user below this field on the editing form.',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'required' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'required' => 
+  [
     'type' => 'boolean',
-    'length' => null,
+    'length' => NULL,
     'null' => false,
     'default' => '0',
     'comment' => '',
-    'precision' => null,
-    ],
-    'settings' =>
-    [
+    'precision' => NULL,
+  ],
+  'settings' => 
+  [
     'type' => 'text',
-    'length' => null,
+    'length' => NULL,
     'null' => true,
-    'default' => null,
+    'default' => NULL,
     'comment' => 'Serialized information',
-    'precision' => null,
-    ],
-    'view_modes' =>
-    [
+    'precision' => NULL,
+  ],
+  'view_modes' => 
+  [
     'type' => 'text',
-    'length' => null,
+    'length' => NULL,
     'null' => true,
-    'default' => null,
+    'default' => NULL,
     'comment' => '',
-    'precision' => null,
-    ],
-    'type' =>
-    [
+    'precision' => NULL,
+  ],
+  'type' => 
+  [
     'type' => 'string',
     'length' => 10,
     'null' => false,
     'default' => 'varchar',
     'comment' => 'Data type for this field (datetime, decimal, int, text, varchar)',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'locked' =>
-    [
+    'precision' => NULL,
+    'fixed' => NULL,
+  ],
+  'locked' => 
+  [
     'type' => 'boolean',
-    'length' => null,
+    'length' => NULL,
     'null' => false,
     'default' => '0',
     'comment' => '0: (unlocked) users can edit this instance; 1: (locked) users can not modify this instance using web interface',
-    'precision' => null,
-    ],
-    'ordering' =>
-    [
+    'precision' => NULL,
+  ],
+  'ordering' => 
+  [
     'type' => 'integer',
     'length' => 3,
     'unsigned' => false,
     'null' => false,
     'default' => '0',
     'comment' => '',
-    'precision' => null,
-    'autoIncrement' => null,
-    ],
-    ];
+    'precision' => NULL,
+    'autoIncrement' => NULL,
+  ],
+];
 
     public $records = [
-    0 =>
-    [
+  0 => 
+  [
     'id' => 1,
     'slug' => 'article-introduction',
     'table_alias' => 'nodes:article',
@@ -173,9 +173,9 @@ class FieldInstancesFixture
     'type' => 'text',
     'locked' => false,
     'ordering' => 0,
-    ],
-    1 =>
-    [
+  ],
+  1 => 
+  [
     'id' => 2,
     'slug' => 'article-body',
     'table_alias' => 'nodes:article',
@@ -188,9 +188,9 @@ class FieldInstancesFixture
     'type' => 'text',
     'locked' => false,
     'ordering' => 1,
-    ],
-    2 =>
-    [
+  ],
+  2 => 
+  [
     'id' => 3,
     'slug' => 'page-body',
     'table_alias' => 'nodes:page',
@@ -203,9 +203,9 @@ class FieldInstancesFixture
     'type' => 'text',
     'locked' => false,
     'ordering' => 0,
-    ],
-    3 =>
-    [
+  ],
+  3 => 
+  [
     'id' => 4,
     'slug' => 'article-category',
     'table_alias' => 'nodes:article',
@@ -218,6 +218,6 @@ class FieldInstancesFixture
     'type' => 'text',
     'locked' => false,
     'ordering' => 2,
-    ],
-    ];
+  ],
+];
 }
