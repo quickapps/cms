@@ -33,7 +33,7 @@ class PluginsControllerTest extends IntegrationTestCase
         'app.comments',
         'app.entities_terms',
         'app.field_instances',
-        'app.field_values',
+        'app.eav_values',
         'app.languages',
         'app.menu_links',
         'app.menus',
