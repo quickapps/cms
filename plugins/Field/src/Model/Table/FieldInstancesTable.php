@@ -48,7 +48,7 @@ class FieldInstancesTable extends Table
     /**
      * Used to deleted associated "belongsTo" EavAttributes.
      *
-     * @var null
+     * @var \Cake\Datasource\EntityInterface|null
      */
     protected $_deleted = null;
 
@@ -263,8 +263,10 @@ class FieldInstancesTable extends Table
      */
     public function afterDelete(Event $event, FieldInstance $instance, ArrayObject $options = null)
     {
-        TableRegistry::get('Eav.EavAttribute')->delete($this->_deleted->get('eav_attribute'));
-        $this->trigger(["Field.{$instance->handler}.Instance.afterDetach", $event->subject()], $instance, $options);
-        $this->_deleted = null;
+        if (!empty($this->_deleted)) {
+            TableRegistry::get('Eav.EavAttribute')->delete($this->_deleted->get('eav_attribute'));
+            $this->trigger(["Field.{$instance->handler}.Instance.afterDetach", $event->subject()], $instance, $options);
+            $this->_deleted = null;
+        }
     }
 }
