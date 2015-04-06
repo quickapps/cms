@@ -27,7 +27,6 @@ use QuickApps\View\ViewModeAwareTrait;
  * - metadata: A mock entity which holds the following properties describing a column
  *   - value_id: ID of the value stored in `field_values` table (from where `value` comes from).
  *   - instance_id: ID of the field instance (`field_instances` table) attached to Table.
- *   - instance_name: Machine-name of the field instance (`field_instances` table) attached to Table.
  *   - table_alias: Name of the table this field is attached to. e.g: `users`.
  *   - entity_id: ID of the entity to which this field is attached to.
  *   - handler: Name of the `Listener Class` a.k.a. `Field Handler`. ex: `Field\Text`
@@ -94,11 +93,12 @@ class Field extends Entity
             'metadata' => [
                 'value_id' => $this->get('metadata')->get('value_id'),
                 'instance_id' => $this->get('metadata')->get('instance_id'),
-                'instance_name' => $this->get('metadata')->get('instance_slug'),
-                'table_alias' => $this->get('metadata')->get('table_alias'),
+                'attribute_id' => $this->get('metadata')->get('attribute_id'),
                 'entity_id' => $this->get('metadata')->get('entity_id'),
-                'handler' => $this->get('metadata')->get('handler'),
+                'table_alias' => $this->get('metadata')->get('table_alias'),
                 'type' => $this->get('metadata')->get('type'),
+                'bundle' => $this->get('metadata')->get('bundle'),
+                'handler' => $this->get('metadata')->get('handler'),
                 'required' => $this->get('metadata')->get('required'),
                 'description' => $this->get('metadata')->get('description'),
                 'settings' => $this->get('metadata')->get('settings'),

@@ -34,7 +34,14 @@ class FieldsController extends AppController
      *
      * @var string
      */
-    protected $_manageTable = 'nodes:';
+    protected $_manageTable = 'Node.Nodes';
+
+    /**
+     * Name of the bundle within the table being managed.
+     *
+     * @var string
+     */
+    protected $_bundle = '';
 
     /**
      * Constructor.
@@ -58,7 +65,7 @@ class FieldsController extends AppController
             $this->redirect(['plugin' => 'System', 'controller' => 'dashboard', 'prefix' => 'admin']);
         } else {
             // allows to manage polymorphic entities
-            $this->_manageTable .= $request->query['type'];
+            $this->_bundle = $request->query['type'];
 
             // Make $_GET['type'] persistent
             Router::addUrlFilter(function ($params, $request) {

@@ -27,17 +27,6 @@ class FieldInstancesFixture
       [
       ],
     ],
-    'field_instances_slug' =>
-    [
-      'type' => 'unique',
-      'columns' =>
-      [
-        0 => 'slug',
-      ],
-      'length' =>
-      [
-      ],
-    ],
     ],
     'id' =>
     [
@@ -49,25 +38,16 @@ class FieldInstancesFixture
     'autoIncrement' => true,
     'precision' => null,
     ],
-    'slug' =>
+    'eav_attribute_id' =>
     [
-    'type' => 'string',
-    'length' => 200,
+    'type' => 'integer',
+    'length' => 11,
+    'unsigned' => false,
     'null' => false,
     'default' => null,
-    'comment' => 'Machine name, must be unique',
+    'comment' => '',
     'precision' => null,
-    'fixed' => null,
-    ],
-    'table_alias' =>
-    [
-    'type' => 'string',
-    'length' => 100,
-    'null' => false,
-    'default' => null,
-    'comment' => 'Name of the table to which this field belongs to. eg: comment, node_article. Must be unique',
-    'precision' => null,
-    'fixed' => null,
+    'autoIncrement' => null,
     ],
     'handler' =>
     [
@@ -162,8 +142,7 @@ class FieldInstancesFixture
     0 =>
     [
     'id' => 1,
-    'slug' => 'article-introduction',
-    'table_alias' => 'nodes:article',
+    'eav_attribute_id' => 1,
     'handler' => 'TextField',
     'label' => 'Introduction',
     'description' => 'Brief description',
@@ -177,8 +156,7 @@ class FieldInstancesFixture
     1 =>
     [
     'id' => 2,
-    'slug' => 'article-body',
-    'table_alias' => 'nodes:article',
+    'eav_attribute_id' => 2,
     'handler' => 'TextField',
     'label' => 'Body',
     'description' => '',
@@ -192,8 +170,7 @@ class FieldInstancesFixture
     2 =>
     [
     'id' => 3,
-    'slug' => 'page-body',
-    'table_alias' => 'nodes:page',
+    'eav_attribute_id' => 4,
     'handler' => 'TextField',
     'label' => 'Body',
     'description' => 'Page content',
@@ -207,8 +184,7 @@ class FieldInstancesFixture
     3 =>
     [
     'id' => 4,
-    'slug' => 'article-category',
-    'table_alias' => 'nodes:article',
+    'eav_attribute_id' => 3,
     'handler' => 'TaxonomyField',
     'label' => 'Category',
     'description' => '',

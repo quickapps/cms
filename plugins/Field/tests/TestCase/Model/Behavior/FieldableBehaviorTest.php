@@ -28,8 +28,9 @@ class FieldableBehaviorTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.field_instances',
+        'app.eav_attributes',
         'app.eav_values',
+        'app.field_instances',
         'app.nodes',
         'app.plugins',
     ];

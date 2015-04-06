@@ -61,7 +61,7 @@ class ManageController extends AppController
     {
         $this->loadModel('User.Users');
         $user = $this->Users->newEntity();
-        $user = $this->Users->attachEntityFields($user);
+        $user = $this->Users->attachFields($user);
         $languages = LocaleToolbox::languagesList();
         $roles = $this->Users->Roles->find('list', [
             'conditions' => [

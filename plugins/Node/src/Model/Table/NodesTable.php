@@ -36,7 +36,7 @@ use \ArrayObject;
  * @method void bindFieldable()
  * @method void unbindFieldable()
  * @method \Cake\Datasource\ResultSetDecorator findComments(\Cake\ORM\Query $query, $options)
- * @method \Cake\ORM\Entity attachEntityFields(\Cake\ORM\Entity $entity)
+ * @method \Cake\ORM\Entity attachFields(\Cake\ORM\Entity $entity)
  * @method \Cake\ORM\Query search(string $criteria, \Cake\ORM\Query|null $query = null)
  */
 class NodesTable extends Table

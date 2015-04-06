@@ -46,6 +46,13 @@ class FieldInstancesTable extends Table
     use ViewModeAwareTrait;
 
     /**
+     * Used to deleted associated "belongsTo" EavAttributes.
+     *
+     * @var null
+     */
+    protected $_deleted = null;
+
+    /**
      * Initialize a table instance. Called after the constructor.
      *
      * @param array $config Configuration options passed to the constructor
@@ -55,6 +62,13 @@ class FieldInstancesTable extends Table
     {
         $this->addBehavior('Serializable', [
             'columns' => ['settings', 'view_modes']
+        ]);
+
+        $this->belongsTo('EavAttribute', [
+            'className' => 'Eav.EavAttributes',
+            'foreignKey' => 'eav_attribute_id',
+            'propertyName' => 'eav_attribute',
+            'dependent' => true,
         ]);
     }
 
@@ -70,10 +84,14 @@ class FieldInstancesTable extends Table
         $rules->addCreate(function ($instance, $options) {
             $info = (array)$this->trigger("Field.{$instance->handler}.Instance.info")->result;
             if (isset($info['maxInstances']) && $info['maxInstances'] > 0) {
+                if (!$instance->get('eav_attribute')) {
+                    return false;
+                }
+
                 $count = $this->find()
                     ->where([
-                        'FieldInstances.table_alias' => $instance->table_alias,
-                        'FieldInstances.handler' => $instance->handler,
+                        'EavAttribute.table_alias' => $instance->get('eav_attribute')->get('table_alias'),
+                        'FieldInstance.handler' => $instance->get('handler'),
                     ])
                     ->count();
                 return ($count <= (intval($info['maxInstances']) - 1));
@@ -83,9 +101,6 @@ class FieldInstancesTable extends Table
             'errorField' => 'label',
             'message' => __d('field', 'No more instances of this field can be attached, limit reached.'),
         ]);
-
-        // unique slug
-        $rules->add($rules->isUnique(['slug'], __d('field', 'The machine name is already in use.')));
         return $rules;
     }
 
@@ -98,24 +113,6 @@ class FieldInstancesTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->add('slug', [
-                'notEmpty' => [
-                    'rule' => 'notEmpty',
-                    'message' => __d('field', 'You need to provide a machine name.'),
-                ],
-                'length' => [
-                    'rule' => ['minLength', 3],
-                    'message' => __d('field', 'Machine name need to be at least 3 characters long.'),
-                ],
-                'regExp' => [
-                    'rule' => function ($value, $context) {
-                        return preg_match('/^[a-z\d\-]+$/', $value) > 0;
-                    },
-                    'message' => __d('field', 'Only lowercase letters, numbers and "-" symbol are allowed.'),
-                    'provider' => 'table',
-                ],
-            ])
-            ->notEmpty('table_alias', __d('field', 'Invalid table alias.'))
             ->notEmpty('handler', __d('field', 'Invalid field type.'))
             ->add('label', [
                 'notEmpty' => [
@@ -126,12 +123,6 @@ class FieldInstancesTable extends Table
                     'rule' => ['minLength', 3],
                     'message' => __d('field', 'Label need to be at least 3 characters long'),
                 ],
-            ])
-            ->add('type', 'valid_type', [
-                'rule' => function ($value, $context) {
-                    return in_array($value, ['datetime', 'decimal', 'int', 'text', 'varchar', 'serialized']);
-                },
-                'message' => __d('field', 'Invalid data type, valid options are: "datetime", "decimal", "int", "text", "varchar" or "serialized"')
             ]);
 
         return $validator;
@@ -222,12 +213,6 @@ class FieldInstancesTable extends Table
      */
     public function beforeSave(Event $event, FieldInstance $instance, ArrayObject $options = null)
     {
-        if ($instance->isNew()) {
-            $info = $this->trigger("Field.{$instance->handler}.Instance.info")->result;
-            $type = empty($info['type']) || !in_array($info['type'], ['datetime', 'decimal', 'int', 'text', 'varchar', 'serialized']) ? 'varchar' : $info['type'];
-            $instance->set('type', $type);
-        }
-
         $instanceEvent = $this->trigger(["Field.{$instance->handler}.Instance.beforeAttach", $event->subject()], $instance, $options);
         if ($instanceEvent->isStopped() || $instanceEvent->result === false) {
             return false;
@@ -262,6 +247,8 @@ class FieldInstancesTable extends Table
         if ($instanceEvent->isStopped() || $instanceEvent->result === false) {
             return false;
         }
+
+        $this->_deleted = $this->get($instance->get('id'), ['contain' => ['EavAttribute']]);
         return true;
     }
 
@@ -276,9 +263,8 @@ class FieldInstancesTable extends Table
      */
     public function afterDelete(Event $event, FieldInstance $instance, ArrayObject $options = null)
     {
-        $fullInstance = $this->get($instance->id);
-        $FieldValues = TableRegistry::get('Eav.EavValues');
-        $FieldValues->deleteAll(['attribute' => $fullInstance->slug, 'table_alias' => $fullInstance->table_alias]);
+        TableRegistry::get('Eav.EavAttribute')->delete($this->_deleted->get('eav_attribute'));
         $this->trigger(["Field.{$instance->handler}.Instance.afterDetach", $event->subject()], $instance, $options);
+        $this->_deleted = null;
     }
 }

@@ -30,5 +30,12 @@ class EavValuesTable extends Table
         $this->addBehavior('Serializable', [
             'columns' => ['extra']
         ]);
+
+        $this->belongsTo('EavAttribute', [
+            'className' => 'Eav.EavAttributes',
+            'foreignKey' => 'eav_attribute_id',
+            'propertyName' => 'eav_attribute',
+            'dependent' => false,
+        ]);
     }
 }

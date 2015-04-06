@@ -31,9 +31,10 @@ class ManageControllerTest extends IntegrationTestCase
         'app.blocks',
         'app.blocks_roles',
         'app.comments',
+        'app.eav_attributes',
+        'app.eav_values',
         'app.entities_terms',
         'app.field_instances',
-        'app.eav_values',
         'app.languages',
         'app.menu_links',
         'app.menus',
@@ -99,9 +100,9 @@ class ManageControllerTest extends IntegrationTestCase
             'comment_status' => 1,
 
             // custom fields
-            ':article-introduction' => 'Intro text',
-            ':article-body' => 'Article body',
-            ':article-category' => [],
+            'article-introduction' => 'Intro text',
+            'article-body' => 'Article body',
+            'article-category' => [],
         ]);
         $node = $this->_controller
             ->Nodes
@@ -129,8 +130,8 @@ class ManageControllerTest extends IntegrationTestCase
             'comment_status' => 1,
 
             // custom fields
-            ':article-introduction' => 'Intro text',
-            ':article-body' => 'Article body',
+            'article-introduction' => 'Intro text',
+            'article-body' => 'Article body',
         ]);
 
         $node = $this->_controller

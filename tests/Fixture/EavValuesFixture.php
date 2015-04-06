@@ -41,15 +41,16 @@ class EavValuesFixture extends TestFixture
     'autoIncrement' => true,
     'precision' => null,
     ],
-    'attribute' =>
+    'eav_attribute_id' =>
     [
-    'type' => 'string',
-    'length' => 100,
+    'type' => 'integer',
+    'length' => 11,
+    'unsigned' => false,
     'null' => false,
     'default' => null,
     'comment' => '',
     'precision' => null,
-    'fixed' => null,
+    'autoIncrement' => null,
     ],
     'entity_id' =>
     [
@@ -58,26 +59,6 @@ class EavValuesFixture extends TestFixture
     'null' => false,
     'default' => null,
     'comment' => 'id of the entity in `table`',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'table_alias' =>
-    [
-    'type' => 'string',
-    'length' => 100,
-    'null' => false,
-    'default' => null,
-    'comment' => '',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'bundle' =>
-    [
-    'type' => 'string',
-    'length' => 50,
-    'null' => true,
-    'default' => null,
-    'comment' => '',
     'precision' => null,
     'fixed' => null,
     ],
@@ -144,10 +125,8 @@ class EavValuesFixture extends TestFixture
     public $records = [
     0 =>
     [
-    'attribute' => 'article-introduction',
+    'eav_attribute_id' => 1,
     'entity_id' => '1',
-    'table_alias' => 'nodes',
-    'bundle' => 'article',
     'value_datetime' => null,
     'value_decimal' => null,
     'value_int' => null,
@@ -157,10 +136,8 @@ class EavValuesFixture extends TestFixture
     ],
     1 =>
     [
-    'attribute' => 'article-body',
+    'eav_attribute_id' => 2,
     'entity_id' => '1',
-    'table_alias' => 'nodes',
-    'bundle' => 'article',
     'value_datetime' => null,
     'value_decimal' => null,
     'value_int' => null,
@@ -175,10 +152,8 @@ class EavValuesFixture extends TestFixture
     ],
     2 =>
     [
-    'attribute' => 'page-body',
+    'eav_attribute_id' => 4,
     'entity_id' => '2',
-    'table_alias' => 'nodes',
-    'bundle' => 'page',
     'value_datetime' => null,
     'value_decimal' => null,
     'value_int' => null,
@@ -193,10 +168,8 @@ class EavValuesFixture extends TestFixture
     ],
     3 =>
     [
-    'attribute' => 'article-category',
+    'eav_attribute_id' => 3,
     'entity_id' => '1',
-    'table_alias' => 'nodes',
-    'bundle' => 'article',
     'value_datetime' => null,
     'value_decimal' => null,
     'value_int' => null,

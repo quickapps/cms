@@ -55,42 +55,32 @@ class EavBehavior extends Behavior
 {
 
     /**
-     * Default configuration.
+     * Table alias.
      *
-     * These are merged with user-provided configuration when the behavior is used.
-     * Available options are:
-     *
-     * - `enabled`: Whether this behavior is enabled or not.
-     * - `deleteUnlinked`: Whether to delete any unlinked value (values that belongs
-     *   to an unexisting attribute). As this EAV implementation does not use an
-     *   `attributes` table to registers each attribute attached to tables.
-     * - `attributes`: Array list of EAV attributes.
-     *
-     * @var array
+     * @var string
      */
-    protected $_defaultConfig = [
-        'enabled' => true,
-        'deleteUnlinked' => true,
-        'attributes' => [],
-    ];
+    protected $_tableAlias = null;
 
     /**
-     * Attribute default keys.
-     *
-     * - `type`: Data type, valid options are: `datetime`, `decimal`, `int`, `text`
-     *   and `varchar`.
-     *
-     * - `bundle`: Indicates that an attribute belongs to an specific bundle.
-     *
-     * - `searchable`: Whether this attribute can be used in WHERE clauses.
+     * Attributes index by attribute name.
      *
      * @var array
      */
-    protected $_attributeKeys = [
-        'type' => 'varchar',
-        'bundle' => null,
-        'searchable' => true,
-    ];
+    protected $_attributes = [];
+
+    /**
+     * EavValues table model.
+     *
+     * @var \Eav\Model\Table\EavValuesTable
+     */
+    public $Values = null;
+
+    /**
+     * EavAttributes table model.
+     *
+     * @var \Eav\Model\Table\EavAttributesTable
+     */
+    public $Attributes = null;
 
     /**
      * Constructor.
@@ -100,16 +90,10 @@ class EavBehavior extends Behavior
      */
     public function __construct(Table $table, array $config = [])
     {
-        $config['tableAlias'] = Inflector::underscore($table->alias());
+        $this->_tableAlias = Inflector::underscore($table->alias());
+        $this->_initModels();
         parent::__construct($table, $config);
-        $this->_prepareSchema();
-
-        if ($this->config('deleteUnlinked')) {
-            TableRegistry::get('Eav.EavValues')->deleteAll([
-                'table_alias' => $this->config('tableAlias'),
-                'attribute NOT IN' => array_keys($this->config('attributes'))
-            ]);
-        }
+        $this->_fetchAttributes();
     }
 
     /**
@@ -124,9 +108,7 @@ class EavBehavior extends Behavior
      */
     public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary)
     {
-        if ((isset($options['eav']) && $options['eav'] === false) ||
-            !$this->config('enabled')
-        ) {
+        if ((isset($options['eav']) && $options['eav'] === false)) {
             return true;
         }
 
@@ -147,6 +129,7 @@ class EavBehavior extends Behavior
      * Allows to search entities using custom fields as conditions in WHERE clause.
      *
      * @param \Cake\ORM\Query $query The query to scope
+     * @param  string|null $bundle Consider attributes only for a specific bundle
      * @return \Cake\ORM\Query The modified query object
      */
     protected function _scopeQuery(Query $query, $bundle = null)
@@ -161,8 +144,8 @@ class EavBehavior extends Behavior
         $conn = $query->connection(null);
         list(, $driverClass) = namespaceSplit(strtolower(get_class($conn->driver())));
 
-        $whereClause->traverse(function ($expression) use ($pk, $alias, $driverClass) {
-            if (!($subQuery = $this->_virtualQuery($expression))) {
+        $whereClause->traverse(function ($expression) use ($pk, $alias, $driverClass, $bundle) {
+            if (!($subQuery = $this->_virtualQuery($expression, $bundle))) {
                 return;
             }
 
@@ -190,10 +173,11 @@ class EavBehavior extends Behavior
      * Creates a sub-query for matching virtual fields.
      *
      * @param \Cake\Database\Expression\Comparison $expression Expression to scope
+     * @param  string|null $bundle Consider attributes only for a specific bundle
      * @return \Cake\ORM\Query|bool False if not virtual field was found, or search
      *  feature was disabled for this field. The query object to use otherwise
      */
-    protected function _virtualQuery($expression)
+    protected function _virtualQuery($expression, $bundle = null)
     {
         if (!($expression instanceof Comparison)) {
             return false;
@@ -201,7 +185,7 @@ class EavBehavior extends Behavior
 
         $field = $expression->getField();
         $column = is_string($field) ? $this->_columnName($field) : false;
-        $attributes = array_keys((array)$this->config('attributes'));
+        $attributes = array_keys($this->_attributes);
         if (empty($column) ||
             !in_array($column, $attributes) ||
             !$this->_isSearchable($column)
@@ -211,20 +195,21 @@ class EavBehavior extends Behavior
 
         $value = $expression->getValue();
         $type = $this->_getType($column);
+        $bundle = $bundle !== null ? $bundle : $this->_getBundle($column);
         $conjunction = $expression->getOperator();
-        $bundle = $this->_getBundle($column);
         $conditions = [
-            'EavValues.table_alias' => $this->config('tableAlias'),
-            "EavValues.attribute" => $column,
+            'EavAttribute.table_alias' => $this->_tableAlias,
+            "EavAttribute.name" => $column,
             "EavValues.value_{$type} {$conjunction}" => $value,
         ];
 
         if (!empty($bundle)) {
-            $conditions['EavValues.bundle'] = $bundle;
+            $conditions['EavAttribute.bundle'] = $bundle;
         }
 
-        return TableRegistry::get('Eav.EavValues')
+        return $this->Values
             ->find()
+            ->contain(['EavAttribute'])
             ->select('EavValues.entity_id')
             ->where($conditions);
     }
@@ -266,19 +251,14 @@ class EavBehavior extends Behavior
      */
     public function afterSave(Event $event, EntityInterface $entity, $options)
     {
-        if (!$this->config('enabled')) {
-            return;
-        }
-
-        $Values = TableRegistry::get('Eav.EavValues');
         $pk = $this->_table->primaryKey();
-        foreach ($this->config('attributes') as $name => $attrs) {
+        foreach ($this->_attributes as $name => $attr) {
             if ($entity->has($name) && $entity->has($pk)) {
                 $type = $this->_getType($name);
-                $value = $Values
+                $value = $this->Values
                     ->find()
                     ->where([
-                        'table_alias' => $this->config('tableAlias'),
+                        'table_alias' => $this->_tableAlias,
                         'bundle' => $this->_getBundle($name),
                         'entity_id' => (string)$entity->get($pk),
                         'attribute' => $name,
@@ -287,14 +267,13 @@ class EavBehavior extends Behavior
                     ->first();
 
                 if (!$value) {
-                    $value = $Values->newEntity([
-                        'table_alias' => $this->config('tableAlias'),
-                        'bundle' => $this->_getBundle($name),
+                    $value = $this->Values->newEntity([
+                        'eav_attribute_id' => $attr->get('id'),
                         'entity_id' => (string)$entity->get($pk),
-                        'attribute' => $name,
                     ]);
                 }
 
+                // set the rest to NULL
                 foreach (['datetime', 'decimal', 'int', 'text', 'varchar'] as $suffix) {
                     if ($type != $suffix) {
                         $value->set("value_{$suffix}", null);
@@ -302,13 +281,14 @@ class EavBehavior extends Behavior
                         $value->set("value_{$suffix}", $entity->get($name));
                     }
                 }
-                $Values->save($value);
+                $this->Values->save($value);
             }
         }
     }
 
     /**
-     * After an entity was removed from database.
+     * After an entity was removed from database. Here is when EAV values are
+     * removed from DB.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\Datasource\EntityInterface $entity The entity that was deleted
@@ -318,19 +298,23 @@ class EavBehavior extends Behavior
      */
     public function afterDelete(Event $event, EntityInterface $entity, $options)
     {
-        if (!$this->config('enabled')) {
-            return;
-        }
-
         if (!$options['atomic']) {
             throw new FatalErrorException(__d('field', 'Entities in fieldable tables can only be deleted using transactions. Set [atomic = true]'));
         }
 
         $pk = $this->_table->primaryKey();
-        TableRegistry::get('Eav.EavValues')->deleteAll([
-            'table_alias' => $this->config('tableAlias'),
-            'entity_id' => (string)$entity->get($pk),
-        ]);
+        $valuesToDelete = $this->Values
+            ->find()
+            ->contain(['EavAttribute'])
+            ->where([
+                'EavAttribute.table_alias' => $this->_tableAlias,
+                'EavValues.entity_id' => $entity->get($pk),
+            ])
+            ->all();
+
+        foreach ($valuesToDelete as $value) {
+            $this->Values->delete($value);
+        }
     }
 
     /**
@@ -341,18 +325,18 @@ class EavBehavior extends Behavior
      */
     public function attachEntityAttributes(EntityInterface $entity)
     {
-        $Values = TableRegistry::get('Eav.EavValues');
         $pk = $this->_table->primaryKey();
-        foreach ($this->config('attributes') as $name => $attrs) {
+        foreach ($this->_attributes as $name => $attr) {
             if (!$entity->has($name) && $entity->has($pk)) {
                 $type = $this->_getType($name);
-                $value = $Values
+                $value = $this->Values
                     ->find()
+                    ->select("value_{$type}")
                     ->where([
-                        'table_alias' => $this->config('tableAlias'),
-                        'bundle' => $this->_getBundle($name),
-                        'entity_id' => (string)$entity->get($pk),
-                        'attribute' => $name,
+                        'EavAttribute.table_alias' => $this->_tableAlias,
+                        'EavAttribute.bundle' => $this->_getBundle($name),
+                        'EavAttribute.attribute' => $name,
+                        'EavValues.entity_id' => (string)$entity->get($pk),
                     ])
                     ->limit(1)
                     ->first();
@@ -368,19 +352,67 @@ class EavBehavior extends Behavior
     }
 
     /**
-     * Prepares the virtual schema.
+     * Initializes Values and Attributes tables if there were not set before.
      *
      * @return void
      */
-    protected function _prepareSchema()
+    protected function _initModels()
     {
-        $attributes = (array)$this->config('attributes');
-        if (!empty($attributes)) {
-            foreach ($attributes as $name => $attrs) {
-                $attributes[$name] += $attrs + $this->_attributeKeys;
+        if (empty($this->Values)) {
+            $this->Values = TableRegistry::get('Eav.EavValues');
+        }
+
+        if (empty($this->Attributes)) {
+            $this->Attributes = TableRegistry::get('Eav.EavAttributes');
+        }
+    }
+
+    /**
+     * Gets a list of attribute names.
+     *
+     * @param string $bundle Filter by bundle name
+     * @return array
+     */
+    protected function _getAttributeNames($bundle = null)
+    {
+        if (empty($this->_attributes)) {
+            $this->_fetchAttributes();
+        }
+
+        if ($bundle === null) {
+            return array_keys($this->_attributes);
+        }
+
+        $names = [];
+        foreach ($this->_attributes as $name => $attr) {
+            if ($attr->get('bundle') === $bundle) {
+                $name[] = $name;
             }
         }
-        $this->_config['attributes'] = $attributes;
+
+        return $names;
+    }
+
+    /**
+     * Fetch attributes information for the table. This includes attributes across
+     * all bundles.
+     *
+     * @return void
+     */
+    protected function _fetchAttributes()
+    {
+        if (!empty($this->_attributes)) {
+            return;
+        }
+
+        $attrs = $this->Attributes
+            ->find()
+            ->where(['EavAttributes.table_alias' => $this->_tableAlias])
+            ->all()
+            ->toArray();
+        foreach ($attrs as $attr) {
+            $this->_attributes[$attr->get('name')] = $attr;
+        }
     }
 
     /**
@@ -392,7 +424,7 @@ class EavBehavior extends Behavior
      */
     protected function _getType($attrName)
     {
-        return $this->_mapType($this->config("attributes.{$attrName}")['type']);
+        return $this->_mapType($this->_attributes[$attrName]->get('type'));
     }
 
     /**
@@ -403,7 +435,7 @@ class EavBehavior extends Behavior
      */
     protected function _getBundle($attrName)
     {
-        return $this->config("attributes.{$attrName}")['bundle'];
+        return $this->_attributes[$attrName]->get('bundle');
     }
 
     /**
@@ -414,7 +446,7 @@ class EavBehavior extends Behavior
      */
     protected function _isSearchable($attrName)
     {
-        return (bool)$this->config("attributes.{$attrName}")['searchable'];
+        return (bool)$this->_attributes[$attrName]->get('searchable');
     }
 
     /**

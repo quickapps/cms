@@ -119,7 +119,7 @@ class ManageController extends AppController
             $node->set('node_type', $type);
         }
 
-        $node = $this->Nodes->attachEntityFields($node);
+        $node = $this->Nodes->attachFields($node);
         $languages = LocaleToolbox::languagesList();
         $roles = $this->Nodes->Roles->find('list');
 
@@ -157,7 +157,7 @@ class ManageController extends AppController
                 if (!empty($node->_fields)) {
                     // Merge previous data for each field, we just load the data (metadata keeps to the latests configured).
                     $_fieldsRevision = $node->_fields;
-                    $node = $this->Nodes->attachEntityFields($node);
+                    $node = $this->Nodes->attachFields($node);
                     $node->_fields = $node->_fields->map(function ($field, $key) use ($_fieldsRevision) {
                         $fieldRevision = $_fieldsRevision[$field->name];
                         if ($fieldRevision) {

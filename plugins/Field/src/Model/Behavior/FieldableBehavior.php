@@ -59,6 +59,13 @@ class FieldableBehavior extends EavBehavior
     protected $_cache = [];
 
     /**
+     * List of field instances indexed by bundle name.
+     *
+     * @var array
+     */
+    protected $_instances = [];
+
+    /**
      * Default configuration.
      *
      * These are merged with user-provided configuration when the behavior is used.
@@ -78,12 +85,11 @@ class FieldableBehavior extends EavBehavior
      * @var array
      */
     protected $_defaultConfig = [
-        'tableAlias' => null,
         'bundle' => null,
         'enabled' => true,
         'implementedMethods' => [
             'configureFieldable' => 'configureFieldable',
-            'attachEntityFields' => 'attachEntityFields',
+            'attachFields' => 'attachEntityFields',
             'unbindFieldable' => 'unbindFieldable',
             'bindFieldable' => 'bindFieldable',
         ],
@@ -97,7 +103,12 @@ class FieldableBehavior extends EavBehavior
      */
     public function __construct(Table $table, array $config = [])
     {
-        $config['deleteUnlinked'] = false;
+        $this->Attributes = TableRegistry::get('Eav.EavAttributes');
+        $this->Attributes->hasOne('Instance', [
+            'className' => 'Field.FieldInstances',
+            'foreignKey' => 'eav_attribute_id',
+            'propertyName' => 'instance',
+        ]);
         parent::__construct($table, $config);
     }
 
@@ -173,13 +184,8 @@ class FieldableBehavior extends EavBehavior
             return true;
         }
 
-        // workaround for EAV behavior
-        $originalAttributes = (array)$this->config('attributes');
-        $bundle = !empty($options['bundle']) ? $options['bundle'] : null;
-        $this->_config['attributes'] = $this->_getAttributes($bundle);
-        $this->_prepareSchema();
-
         // scope the Query
+        $bundle = !empty($options['bundle']) ? $options['bundle'] : null;
         $query = $this->_scopeQuery($query, $bundle);
         $query->formatResults(function ($results) use ($event, $options, $primary) {
             $results = $results->map(function ($entity) use ($event, $options, $primary) {
@@ -200,10 +206,6 @@ class FieldableBehavior extends EavBehavior
             });
             return $results->filter();
         });
-
-        // restore schema
-        $this->_config['attributes'] = $originalAttributes;
-        $this->_prepareSchema();
     }
 
     /**
@@ -287,15 +289,14 @@ class FieldableBehavior extends EavBehavior
         }
 
         $pk = $this->_table->primaryKey();
-        $tableAlias = $this->config('tableAlias');
         $this->_cache['createValues'] = [];
 
-        foreach ($this->_getTableFieldInstances($entity) as $instance) {
-            if (!$entity->has($instance->slug)) {
+        foreach ($this->_getInstances($entity) as $instance) {
+            if (!$entity->has($instance->get('eav_attribute')->get('name'))) {
                 continue;
             }
 
-            $field = $this->_getMockField($entity, $instance);
+            $field = $this->_prepareMockField($entity, $instance);
             $options['_post'] = $this->_fetchPost($field);
             $fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.beforeSave", $event->subject()], $field, $options);
 
@@ -308,19 +309,24 @@ class FieldableBehavior extends EavBehavior
                 return $fieldEvent->result;
             }
 
-            $valueEntity = new Entity([
-                'id' => $field->metadata['value_id'],
-                'table_alias' => $tableAlias,
-                'entity_id' => $entity->{$pk},
-                'attribute' => $field->name,
-                "value_{$field->metadata['type']}" => $field->value,
-                'extra' => $field->extra,
-            ]);
+            $data = [
+                'eav_attribute_id' => $field->get('metadata')->get('attribute_id'),
+                'entity_id' => $entity->get($pk),
+                "value_{$field->metadata['type']}" => $field->get('value'),
+                'extra' => $field->get('extra'),
+            ];
 
-            if ($entity->isNew() || empty($valueEntity->id)) {
+            if ($field->get('metadata')->get('value_id')) {
+                $valueEntity = $this->Values->get($field->get('metadata')->get('value_id'));
+                $valueEntity = $this->Values->patchEntity($valueEntity, $data, ['validate' => false]);
+            } else {
+                $valueEntity = $this->Values->newEntity($data, ['validate' => false]);
+            }
+
+            if ($entity->isNew() || $valueEntity->isNew()) {
                 $this->_cache['createValues'][] = $valueEntity;
             } else {
-                if (!TableRegistry::get('Eav.EavValues')->save($valueEntity)) {
+                if (!$this->Values->save($valueEntity)) {
                     $this->attachEntityFields($entity);
                     $event->stopPropagation();
                     return false;
@@ -356,18 +362,18 @@ class FieldableBehavior extends EavBehavior
 
         // as we don't know entity's ID on beforeSave, we must delay EntityValues
         // storage; all this occurs inside a transaction so we are safe
+        $pk = $this->_table->primaryKey();
         if (!empty($this->_cache['createValues'])) {
             foreach ($this->_cache['createValues'] as $valueEntity) {
-                $valueEntity->set('entity_id', $entity->id);
+                $valueEntity->set('entity_id', $entity->get($pk));
                 $valueEntity->unsetProperty('id');
-                TableRegistry::get('Eav.EavValues')->save($valueEntity);
+                $this->Values->save($valueEntity);
             }
             $this->_cache['createValues'] = [];
         }
 
-        $instances = $this->_getTableFieldInstances($entity);
-        foreach ($instances as $instance) {
-            $field = $this->_getMockField($entity, $instance);
+        foreach ($this->_getInstances($entity) as $instance) {
+            $field = $this->_prepareMockField($entity, $instance);
             $this->trigger(["Field.{$instance->handler}.Entity.afterSave", $event->subject()], $field, $options);
         }
 
@@ -402,12 +408,9 @@ class FieldableBehavior extends EavBehavior
             throw new FatalErrorException(__d('field', 'Entities in fieldable tables can only be deleted using transaction. Set [atomic = true]'));
         }
 
-
-        $tableAlias = $this->config('tableAlias');
         $pk = (string)$this->_table->primaryKey();
-        $instances = $this->_getTableFieldInstances($entity);
-        foreach ($instances as $instance) {
-            $field = $this->_getMockField($entity, $instance);
+        foreach ($this->_getInstances($entity) as $instance) {
+            $field = $this->_prepareMockField($entity, $instance);
             $fieldEvent = $this->trigger(["Field.{$instance->handler}.Entity.beforeDelete", $event->subject()], $field, $options);
 
             if ($fieldEvent->isStopped()) {
@@ -417,20 +420,6 @@ class FieldableBehavior extends EavBehavior
 
             // holds in cache field mocks, so we can catch them on afterDelete
             $this->_cache['afterDelete'][] = $field;
-        }
-
-        // clear all
-        $valuesToDelete = TableRegistry::get('Eav.EavValues')
-            ->find()
-            ->where([
-                'table_alias' => $tableAlias,
-                'entity_id' => $entity->get($pk),
-            ])
-            ->limit(1)
-            ->all();
-
-        foreach ($valuesToDelete as $value) {
-            TableRegistry::get('Eav.EavValues')->delete($value);
         }
 
         return true;
@@ -512,13 +501,13 @@ class FieldableBehavior extends EavBehavior
     public function attachEntityFields(EntityInterface $entity)
     {
         $_fields = [];
-        $instances = $this->_getTableFieldInstances($entity);
+        $instances = $this->_getInstances($entity);
         foreach ($instances as $instance) {
-            $mock = $this->_getMockField($entity, $instance);
+            $mock = $this->_prepareMockField($entity, $instance);
 
             // restore from $_POST:
-            if ($entity->has($instance->slug)) {
-                $value = $entity->get($instance->slug);
+            if ($entity->has($mock->get('name'))) {
+                $value = $entity->get($mock->get('name'));
                 if (is_array($value)) {
                     $mock->set('extra', $value);
                     $mock->set('value', null);
@@ -545,11 +534,10 @@ class FieldableBehavior extends EavBehavior
     protected function _validation(EntityInterface $entity)
     {
         $validator = new Validator();
-        $instances = $this->_getTableFieldInstances($entity);
         $hasErrors = false;
 
-        foreach ($instances as $instance) {
-            $field = $this->_getMockField($entity, $instance);
+        foreach ($this->_getInstances($entity) as $instance) {
+            $field = $this->_prepareMockField($entity, $instance);
             $fieldEvent = $this->trigger(["Field.{$field->metadata['handler']}.Entity.validate", $this->_table], $field, $validator);
             if ($fieldEvent->isStopped()) {
                 $this->attachEntityFields($entity);
@@ -578,6 +566,59 @@ class FieldableBehavior extends EavBehavior
     }
 
     /**
+     * Fetch attributes information for the table. This includes attributes across
+     * all bundles.
+     *
+     * @return void
+     */
+    protected function _fetchAttributes()
+    {
+        if (!empty($this->_attributes)) {
+            return;
+        }
+
+        $attrs = $this->Attributes
+            ->find()
+            ->contain(['Instance'])
+            ->where(['EavAttributes.table_alias' => $this->_tableAlias])
+            ->all()
+            ->toArray();
+        foreach ($attrs as $attr) {
+            $this->_attributes[$attr->get('name')] = $attr;
+        }
+    }
+
+    /**
+     * Gets all field instances that should be attached to the given entity, this
+     * entity will be used as context to calculate the proper bundle.
+     *
+     * @param \Cake\Datasource\EntityInterface $entity Entity context
+     * @return array
+     */
+    protected function _getInstances(EntityInterface $entity)
+    {
+        $this->_fetchAttributes();
+        $bundle = $this->_resolveBundle($entity);
+
+        if (isset($this->_instances["{$bundle}"])) {
+            return $this->_instances["{$bundle}"];
+        }
+
+        $ids = [];
+        foreach ($this->_attributes as $name => $attr) {
+            $instance = $attr->get('instance');
+            $instance->set('eav_attribute', $attr);
+            $this->_instances[$attr->get('bundle')][] = $instance;
+        }
+
+        if (empty($this->_instances["{$bundle}"])) {
+            $this->_instances["{$bundle}"] = [];
+        }
+
+        return $this->_instances["{$bundle}"];
+    }
+
+    /**
      * Alters the given $field and fetches incoming POST data, both "value" and
      * "extra" property will be automatically filled for the given $field entity.
      *
@@ -590,7 +631,7 @@ class FieldableBehavior extends EavBehavior
         $post = $field
             ->get('metadata')
             ->get('entity')
-            ->get($field->get('metadata')->get('instance_name'));
+            ->get($field->get('name'));
 
         // auto-magic
         if (is_array($post)) {
@@ -615,49 +656,52 @@ class FieldableBehavior extends EavBehavior
      *  the information when creating the mock field.
      * @return \Field\Model\Entity\Field
      */
-    protected function _getMockField(EntityInterface $entity, $instance)
+    protected function _prepareMockField(EntityInterface $entity, $instance)
     {
         $pk = $this->_table->primaryKey();
         $type = $this->_mapType($instance->type);
         $bundle = $this->_resolveBundle($entity);
         $conditions = [
-            'EavValues.table_alias' => $this->config('tableAlias'),
+            'EavAttribute.table_alias' => $this->_tableAlias,
+            'EavAttribute.name' => $instance->get('eav_attribute')->get('name'),
             'EavValues.entity_id' => $entity->get((string)$this->_table->primaryKey()),
-            'EavValues.attribute' => $instance->slug,
         ];
 
         if ($bundle) {
-            $conditions['EavValues.bundle'] = $bundle;
+            $conditions['EavAttribute.bundle'] = $bundle;
         }
 
-        $storedValue = TableRegistry::get('Eav.EavValues')
+        $storedValue = $this->Values
             ->find()
+            ->contain(['EavAttribute'])
             ->select(['id', "value_{$type}", 'extra'])
             ->where($conditions)
             ->limit(1)
             ->first();
 
+        $metadata = new Entity([
+            'value_id' => null,
+            'instance_id' => $instance->id,
+            'attribute_id' => $instance->get('eav_attribute')->get('id'),
+            'entity_id' => $entity->get($pk),
+            'table_alias' => $instance->get('eav_attribute')->get('table_alias'),
+            'type' => $instance->get('eav_attribute')->get('type'),
+            'bundle' => $instance->get('eav_attribute')->get('bundle'),
+            'handler' => $instance->get('handler'),
+            'required' => $instance->required,
+            'description' => $instance->description,
+            'settings' => $instance->settings,
+            'view_modes' => $instance->view_modes,
+            'entity' => $entity,
+            'errors' => [],
+        ]);
+
         $mockField = new Field([
-            'name' => $instance->slug,
+            'name' => $instance->get('eav_attribute')->get('name'),
             'label' => $instance->label,
             'value' => null,
             'extra' => null,
-            'metadata' => new Entity([
-                'value_id' => null,
-                'instance_id' => $instance->id,
-                'instance_name' => $instance->slug,
-                'table_alias' => $this->config('tableAlias'),
-                'bundle' => $bundle,
-                'handler' => $instance->handler,
-                'entity_id' => $entity->{$pk},
-                'type' => $type,
-                'required' => $instance->required,
-                'description' => $instance->description,
-                'settings' => $instance->settings,
-                'view_modes' => $instance->view_modes,
-                'entity' => $entity,
-                'errors' => [],
-            ])
+            'metadata' => $metadata,
         ]);
 
         if ($storedValue) {
@@ -688,68 +732,5 @@ class FieldableBehavior extends EavBehavior
             }
         }
         return null;
-    }
-
-    /**
-     * Gets a list of of names of all instances attached to this table. This
-     * includes fields attached to every bundle if not specified.
-     *
-     * @param string $bundle Get only fields within a specific bundle
-     * @return array
-     */
-    protected function _getAttributes($bundle = null)
-    {
-        if ($bundle !== null) {
-            $conditions = ['FieldInstances.table_alias' => $this->config('tableAlias') . ":{$bundle}"];
-        } else {
-            $conditions = ['FieldInstances.table_alias LIKE' => $this->config('tableAlias') . ':%'];
-        }
-
-        $attributes = [];
-        $instances = TableRegistry::get('Field.FieldInstances')
-            ->find()
-            ->select(['slug', 'type'])
-            ->where($conditions)
-            ->all();
-        foreach ($instances as $instance) {
-            $attributes[$instance->get('slug')] = [
-                'type' => $instance->get('type'),
-                'bundle' => $bundle,
-            ];
-        }
-        return $attributes;
-    }
-
-    /**
-     * Used to reduce database queries.
-     *
-     * @param \Cake\Datasource\EntityInterface $entity An entity used to guess
-     *  table name to be used
-     * @return \Cake\Datasource\ResultSetInterface Field instances attached to
-     *  current table as a query result
-     */
-    protected function _getTableFieldInstances(EntityInterface $entity = null)
-    {
-        $bundle = $this->_resolveBundle($entity);
-        $tableAlias = $bundle ? $this->config('tableAlias') . ":{$bundle}" : $this->config('tableAlias');
-        if (isset($this->_cache["TableFieldInstances_{$tableAlias}"])) {
-            return $this->_cache["TableFieldInstances_{$tableAlias}"];
-        }
-
-        $attributes = [];
-        $instances = TableRegistry::get('Field.FieldInstances')
-            ->find()
-            ->where(['FieldInstances.table_alias' => $tableAlias])
-            ->order(['ordering' => 'ASC'])
-            ->all();
-        $this->_cache["TableFieldInstances_{$tableAlias}"] = $instances;
-
-        foreach ($instances as $instance) {
-            $attributes[$instance->get('slug')] = [
-                'type' => $instance->get('type'),
-            ];
-        }
-        $this->_config['attributes'] = $attributes;
-        return $this->_cache["TableFieldInstances_{$tableAlias}"];
     }
 }

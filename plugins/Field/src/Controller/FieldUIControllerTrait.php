@@ -34,8 +34,8 @@ use QuickApps\View\ViewModeAwareTrait;
  *
  * # Usage:
  *
- * Beside adding ``use FieldUIControllerTrait;`` to your controller you MUST also
- * indicate the name of the table being managed using the ``$_manageTable``
+ * Beside adding `use FieldUIControllerTrait;` to your controller you MUST also
+ * indicate the name of the table being managed using the `$_manageTable`
  * property, you must set this property to any valid table alias within your system
  * (dot notation is also allowed). For example:
  *
@@ -45,6 +45,19 @@ use QuickApps\View\ViewModeAwareTrait;
  * class MyCleanController extends <Plugin>AppController {
  *     use FieldUIControllerTrait;
  *     protected $_manageTable = 'Node.Nodes';
+ * }
+ * ```
+ *
+ * Optionally you can indicate a bundle within your table to manage by declaring the
+ * `$_bundle` property:
+ *
+ * ```php
+ * uses Field\Controller\FieldUIControllerTrait;
+ *
+ * class MyCleanController extends <Plugin>AppController {
+ *     use FieldUIControllerTrait;
+ *     protected $_manageTable = 'Node.Nodes';
+ *     protected $_bundle = 'articles';
  * }
  * ```
  *
@@ -68,6 +81,13 @@ trait FieldUIControllerTrait
     protected $_table = null;
 
     /**
+     * Table alias name.
+     *
+     * @var string
+     */
+    protected $_tableAlias = null;
+
+    /**
      * Validation rules.
      *
      * @param \Cake\Event\Event $event The event instance.
@@ -89,6 +109,8 @@ trait FieldUIControllerTrait
         } elseif (!isset($requestParams['prefix']) || strtolower($requestParams['prefix']) !== 'admin') {
             throw new ForbiddenException(__d('field', 'FieldUIControllerTrait: This trait must be used on backend-controllers only.'));
         }
+
+        $this->_tableAlias = Inflector::underscore($this->_table->alias());
     }
 
     /**
@@ -148,12 +170,7 @@ trait FieldUIControllerTrait
     public function index()
     {
         $this->loadModel('Field.FieldInstances');
-        $instances = $this->FieldInstances
-            ->find()
-            ->where(['table_alias' => $this->_manageTable])
-            ->order(['ordering' => 'ASC'])
-            ->all();
-
+        $instances = $this->_getInstances();
         if (count($instances) == 0) {
             $this->Flash->warning(__d('field', 'There are no field attached yet.'));
         }
@@ -188,7 +205,7 @@ trait FieldUIControllerTrait
 
         if ($this->request->data()) {
             $instance->accessible('*', true);
-            $instance->accessible(['id', 'table_alias', 'handler', 'ordering'], false);
+            $instance->accessible(['id', 'eav_attribute', 'handler', 'ordering'], false);
 
             foreach ($this->request->data as $k => $v) {
                 if (str_starts_with($k, '_')) {
@@ -237,14 +254,22 @@ trait FieldUIControllerTrait
         $this->loadModel('Field.FieldInstances');
 
         if ($this->request->data()) {
+            $handler = $this->request->data('handler');
+            $info = fieldsInfo($handler);
+            $type = !empty($info['type']) ? $info['type'] : null;
             $data = $this->request->data();
-            $data['table_alias'] = $this->_manageTable;
-            $fieldInstance = $this->FieldInstances->newEntity($data);
-            $this->_validateSlug($field);
-            $success = empty($fieldInstance->errors());
+            $data['eav_attribute'] = array_merge([
+                'table_alias' => $this->_tableAlias,
+                'bundle' => $this->_getBundle(),
+                'type' => $type,
+            ], (array)$this->request->data('eav_attribute'));
+
+            $fieldInstance = $this->FieldInstances->newEntity($data, ['associated' => ['EavAttribute']]);
+            $this->_validateSlug($fieldInstance);
+            $success = empty($fieldInstance->errors()) && empty($fieldInstance->get('eav_attribute')->errors());
 
             if ($success) {
-                $success = $this->FieldInstances->save($fieldInstance);
+                $success = $this->FieldInstances->save($fieldInstance, ['associated' => ['EavAttribute']]);
                 if ($success) {
                     $this->Flash->success(__d('field', 'Field attached!'));
                     $this->redirect($this->referer());
@@ -303,11 +328,7 @@ trait FieldUIControllerTrait
     {
         $this->_validateViewMode($viewMode);
         $this->loadModel('Field.FieldInstances');
-        $instances = $this->FieldInstances
-            ->find()
-            ->where(['table_alias' => $this->_manageTable])
-            ->order(['ordering' => 'ASC'])
-            ->all();
+        $instances = $this->_getInstances();
 
         if (count($instances) === 0) {
             $this->Flash->warning(__d('field', 'There are no field attached yet.'));
@@ -410,11 +431,7 @@ trait FieldUIControllerTrait
         $unordered = [];
         $position = false;
         $k = 0;
-        $list = $this->FieldInstances->find()
-            ->select(['id', 'view_modes'])
-            ->where(['table_alias' => $instance->table_alias])
-            ->order(['ordering' => 'ASC'])
-            ->all()
+        $list = $this->_getInstances()
             ->sortBy(function ($fieldInstance) use ($viewMode) {
                 if (isset($fieldInstance->view_modes[$viewMode]['ordering'])) {
                     return $fieldInstance->view_modes[$viewMode]['ordering'];
@@ -466,11 +483,7 @@ trait FieldUIControllerTrait
         $unordered = [];
         $direction = !in_array($direction, ['up', 'down']) ? 'up' : $direction;
         $position = false;
-        $list = $this->FieldInstances->find()
-            ->select(['id', 'label', 'ordering'])
-            ->where(['table_alias' => $instance->table_alias])
-            ->order(['ordering' => 'ASC'])
-            ->all();
+        $list = $this->_getInstances();
 
         foreach ($list as $k => $field) {
             if ($field->id === $instance->id) {
@@ -497,6 +510,34 @@ trait FieldUIControllerTrait
     }
 
     /**
+     * Returns all field instances attached to the table being managed.
+     *
+     * @return \Cake\Datasource\ResultSetInterface
+     */
+    protected function _getInstances()
+    {
+        $conditions = ['EavAttribute.table_alias' => $this->_tableAlias];
+        if (isset($this->_bundle)) {
+            if (empty($this->_bundle)) {
+                $conditions['EavAttribute.bundle'] = $this->_bundle;
+            } else {
+                $conditions['EavAttribute.bundle LIKE'] = $this->_bundle;
+            }
+        }
+
+        $this->loadModel('Field.FieldInstances');
+        return $this->FieldInstances
+            ->find()
+            ->contain(['EavAttribute'])
+            ->where([
+                'EavAttribute.table_alias' => $this->_tableAlias,
+                'EavAttribute.bundle' => $this->_bundle,
+            ])
+            ->order(['FieldInstances.ordering' => 'ASC'])
+            ->all();
+    }
+
+    /**
      * Checks that the given instance's slug do not collide with table's real column
      * names.
      *
@@ -507,11 +548,25 @@ trait FieldUIControllerTrait
      */
     protected function _validateSlug($instance)
     {
-        $slug = $instance->get('slug');
+        $slug = $instance->get('eav_attribute')->get('name');
         $columns = $this->_table->schema()->columns();
         if (in_array($slug, $columns)) {
-            $instance->errors('slug', __d('field', 'The name "{0}" cannot be used as it collides with table column names.', $slug));
+            $instance->get('eav_attribute')->errors('name', __d('field', 'The name "{0}" cannot be used as it collides with table column names.', $slug));
         }
+    }
+
+    /**
+     * Gets bundle name.
+     *
+     * @return string|null
+     */
+    protected function _getBundle()
+    {
+        if (!empty($this->_bundle)) {
+            return $this->_bundle;
+        }
+
+        return null;
     }
 
     /**
