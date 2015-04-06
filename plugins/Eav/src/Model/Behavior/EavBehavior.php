@@ -12,7 +12,6 @@
 namespace Eav\Model\Behavior;
 
 use Cake\Database\Expression\Comparison;
-use Cake\Database\Schema\Table as Schema;
 use Cake\Datasource\EntityInterface;
 use Cake\Error\FatalErrorException;
 use Cake\Event\Event;
@@ -20,7 +19,6 @@ use Cake\ORM\Behavior;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
-use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use \ArrayObject;
 
@@ -64,9 +62,57 @@ class EavBehavior extends Behavior
     /**
      * Attributes index by attribute name.
      *
+     * ```php
+     * [
+     *     'user-age' => [
+     *         'type' => 'int',
+     *         'searchable' => true
+     *     ],
+     *     'user-phone' => [
+     *         'type' => 'string',
+     *         'searchable' => true
+     *     ]
+     * ]
+     * ```
+     *
      * @var array
      */
     protected $_attributes = [];
+
+    /**
+     * Attributes index by bundle, and by name within each bundle.
+     *
+     * ```php
+     * [
+     *     'administrator' => [
+     *         'admin-address' => [
+     *             'type' => 'varchar',
+     *             'searchable' => false
+     *         ],
+     *         'admin-phone' => [
+     *             'type' => 'varchar',
+     *             'searchable' => true
+     *         ]
+     *     ],
+     *     'editor' => [
+     *         'editor-last-login' => [
+     *             'type' => 'datetime',
+     *             'searchable' => false,
+     *         ]
+     *     ]
+     * ]
+     * ```
+     *
+     * @var array
+     */
+    protected $_attributesByBundle = [];
+
+    /**
+     * List of all valid attributes keys.
+     *
+     * @var array
+     */
+    protected $_attributesKeys = [];
 
     /**
      * EavValues table model.
@@ -90,7 +136,7 @@ class EavBehavior extends Behavior
      */
     public function __construct(Table $table, array $config = [])
     {
-        $this->_tableAlias = Inflector::underscore($table->alias());
+        $this->_tableAlias = (string)Inflector::underscore($table->alias());
         $this->_initModels();
         parent::__construct($table, $config);
         $this->_fetchAttributes();
@@ -113,7 +159,7 @@ class EavBehavior extends Behavior
         }
 
         $query = $this->_scopeQuery($query);
-        $query->formatResults(function ($results) use ($event, $options, $primary) {
+        return $query->formatResults(function ($results) use ($event, $options, $primary) {
             return $results->map(function ($entity) use ($event, $options, $primary) {
                 if ($entity instanceof EntityInterface) {
                     $entity = $this->attachEntityAttributes($entity);
@@ -185,9 +231,8 @@ class EavBehavior extends Behavior
 
         $field = $expression->getField();
         $column = is_string($field) ? $this->_columnName($field) : false;
-        $attributes = array_keys($this->_attributes);
         if (empty($column) ||
-            !in_array($column, $attributes) ||
+            !in_array($column, $this->_attributesKeys) ||
             !$this->_isSearchable($column)
         ) {
             return false;
@@ -397,12 +442,12 @@ class EavBehavior extends Behavior
      * Fetch attributes information for the table. This includes attributes across
      * all bundles.
      *
-     * @return void
+     * @return array The fetched attributes
      */
     protected function _fetchAttributes()
     {
-        if (!empty($this->_attributes)) {
-            return;
+        if (!empty($this->_attributesKeys)) {
+            return $this->_attributes;
         }
 
         $attrs = $this->Attributes
@@ -411,8 +456,11 @@ class EavBehavior extends Behavior
             ->all()
             ->toArray();
         foreach ($attrs as $attr) {
+            $this->_attributesByBundle[$attr->get('bundle')][$attr->get('name')] = $attr;
             $this->_attributes[$attr->get('name')] = $attr;
+            $this->_attributesKeys[] = $attr->get('name');
         }
+        return $this->_attributes;
     }
 
     /**
