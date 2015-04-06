@@ -379,10 +379,8 @@ class EavBehavior extends Behavior
                 $value = $this->Values
                     ->find()
                     ->where([
-                        'table_alias' => $this->_tableAlias,
-                        'bundle' => $this->_getBundle($name),
-                        'entity_id' => (string)$entity->get($pk),
-                        'attribute' => $name,
+                        'eav_attribute_id' => $attr->get('id'),
+                        'entity_id' => $this->_getEntityId($entity),
                     ])
                     ->limit(1)
                     ->first();
@@ -390,7 +388,7 @@ class EavBehavior extends Behavior
                 if (!$value) {
                     $value = $this->Values->newEntity([
                         'eav_attribute_id' => $attr->get('id'),
-                        'entity_id' => (string)$entity->get($pk),
+                        'entity_id' => $this->_getEntityId($entity),
                     ]);
                 }
 
@@ -423,13 +421,12 @@ class EavBehavior extends Behavior
             throw new FatalErrorException(__d('field', 'Entities in fieldable tables can only be deleted using transactions. Set [atomic = true]'));
         }
 
-        $pk = $this->_table->primaryKey();
         $valuesToDelete = $this->Values
             ->find()
             ->contain(['EavAttribute'])
             ->where([
                 'EavAttribute.table_alias' => $this->_tableAlias,
-                'EavValues.entity_id' => $entity->get($pk),
+                'EavValues.entity_id' => $this->_getEntityId($entity),
             ])
             ->all();
 
@@ -549,8 +546,11 @@ class EavBehavior extends Behavior
     /**
      * Calculates entity's primary key.
      *
-     * If PK is composed of multiple columns, then they will be merged with `:`
-     * symbol.
+     * If PK is composed of multiple columns they will be merged with `:` symbol.
+     * For example, consider `Users` table with composed PK <nick, email>, then for
+     * certain User entity this method could return:
+     *
+     *     john-locke:john@the-island.com
      *
      * @param \Cake\Datasource\EntityInterface $entity The entity
      * @return string
@@ -602,7 +602,7 @@ class EavBehavior extends Behavior
     }
 
     /**
-     * Maps schema types to EAV supported types.
+     * Maps schema data types to EAV's supported types.
      *
      * - datetime: "date", "time", "datetime"
      * - decimal: "dec", "float", "decimal"
