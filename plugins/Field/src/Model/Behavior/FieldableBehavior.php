@@ -63,16 +63,19 @@ class FieldableBehavior extends EavBehavior
      * These are merged with user-provided configuration when the behavior is used.
      * Available options are:
      *
-     * - `tableAlias`: Name of the table being managed. Defaults to null (auto-detect).
+     * - `tableAlias`: Name of the table being managed. Defaults to null (auto-
+     *   detect).
+     *
      * - `bundle`: Bundle within this the table. Can be a string or a callable
-     *    method that must return a string to use as bundle.
-     *    Default null (use `tableAlias` option always).
-     * - `enabled`: True enables this behavior or false for disable. Default to true.
+     *   method that must return a string to use as bundle. Default null.
+     *
+     * - `enabled`: True enables this behavior or false for disable. Default to
+     *   true.
      *
      * Bundles are usually set to dynamic values. For example, for the "nodes" table
      * we have "node" entities, but we may have "article nodes", "page nodes", etc
-     * depending on the "type of node" they are; "article" and "page" **are
-     * bundles** of "nodes" table.
+     * depending on the "type of node" they are; is said that "article" and "page"
+     * **are bundles** of "nodes" table.
      *
      * @var array
      */
@@ -141,8 +144,8 @@ class FieldableBehavior extends EavBehavior
      *    the event API, will halt the entire find operation.
      *
      * You can enable or disable this behavior for a single `find()` or `get()`
-     * operation by setting `fieldable` to false in the options array for find
-     * method. e.g.:
+     * operation by setting `fieldable` or `eav` to false in the options array for
+     * find method. e.g.:
      *
      * ```php
      * $nodes = $this->Nodes->find('all', ['fieldable' => false]);
@@ -173,32 +176,32 @@ class FieldableBehavior extends EavBehavior
         if ((isset($options['fieldable']) && $options['fieldable'] === false) ||
             !$this->config('enabled')
         ) {
-            return;
+            return true;
+        }
+        return parent::beforeFind($event, $query, $options, $primary);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * Attaches entity's field under the `fields` property, this method is invoked
+     * by `beforeFind()` when iterating result sets.
+     */
+    public function attachEntityAttributes(EntityInterface $entity, array $options = [])
+    {
+        $entity = $this->attachEntityFields($entity);
+        extract($options);
+
+        foreach ($entity->get('_fields') as $field) {
+            $fieldEvent = $this->trigger(["Field.{$field->get('metadata')->get('handler')}.Entity.beforeFind", $event->subject()], $field, $options, $primary);
+            if ($fieldEvent->result === false) {
+                return false; // remove entity from collection
+            } elseif ($fieldEvent->isStopped()) {
+                return null; // abort find() operation
+            }
         }
 
-        $bundle = !empty($options['bundle']) ? $options['bundle'] : null;
-        $query = $this->_scopeQuery($query, $bundle);
-        $query->formatResults(function ($results) use ($event, $options, $primary) {
-            $results = $results->map(function ($entity) use ($event, $options, $primary) {
-                if (!($entity instanceof EntityInterface)) {
-                    return $entity;
-                }
-
-                $entity = $this->attachEntityFields($entity);
-                foreach ($entity->get('_fields') as $field) {
-                    $fieldEvent = $this->trigger(["Field.{$field->get('metadata')->get('handler')}.Entity.beforeFind", $event->subject()], $field, $options, $primary);
-                    if ($fieldEvent->result === false) {
-                        $entity = false; // remove from collection
-                        break;
-                    } elseif ($fieldEvent->isStopped()) {
-                        $event->stopPropagation(); // abort find()
-                        return;
-                    }
-                }
-                return $entity;
-            });
-            return $results->filter();
-        });
+        return $entity;
     }
 
     /**

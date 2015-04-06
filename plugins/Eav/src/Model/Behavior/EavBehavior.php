@@ -31,19 +31,15 @@ use \ArrayObject;
  * ### Usage:
  *
  * ```php
- * $this->addBehavior('Eav.Eav', [
- *     'attributes' => [
- *         'user_age' => ['type' => 'integer'],
- *         'user_phone' => ['type' => 'string'],
- *     ]
- * ]);
+ * $this->addBehavior('Eav.Eav');
+ * $this->addColumn('user-age', ['type' => 'integer']);
  * ```
  *
  * Using virtual attributes in WHERE clauses:
  *
  * ```php
- * $users = $this->Users->find()
- *     ->where(['user_age >' => 18])
+ * $adults = $this->Users->find()
+ *     ->where(['user-age >' => 18])
  *     ->all();
  * ```
  *
@@ -108,11 +104,11 @@ class EavBehavior extends Behavior
     protected $_attributesByBundle = [];
 
     /**
-     * List of all valid attributes keys.
+     * List of all valid attributes names.
      *
      * @var array
      */
-    protected $_attributesKeys = [];
+    protected $_attributeNames = [];
 
     /**
      * EavValues table model.
@@ -166,9 +162,15 @@ class EavBehavior extends Behavior
      * @param string $name Column name. e.g. `user-age`
      * @param array $options Column configuration options
      * @return bool True on success
+     * @throws \Cake\Error\FatalErrorException When provided column name collides
+     *  with existing column names
      */
     public function addColumn($name, array $options = [])
     {
+        if (in_array($name, $thid->_table->schema()->columns())) {
+            throw new FatalErrorException(__d('eav', 'The column name "{0}" cannot be used as it is already defined in the table "{1}"', $name, $this->_table->alias()));
+        }
+
         $data = $options + [
             'type' => 'varchar',
             'bundle' => null,
@@ -202,6 +204,12 @@ class EavBehavior extends Behavior
      * Modifies the query object in order to merge custom fields records into each
      * entity under the `_fields` property.
      *
+     * This method iterates over each retrieved entity and invokes the
+     * `attachEntityAttributes()` method. This method should return the altered
+     * entity object with its virtual properties, however if this method returns
+     * FALSE the entity will be removed from the resulting collection. And if this
+     * method returns NULL will stop the find() operation.
+     *
      * @param \Cake\Event\Event $event The beforeFind event that was triggered
      * @param \Cake\ORM\Query $query The original query to modify
      * @param \ArrayObject $options Additional options given as an array
@@ -210,15 +218,21 @@ class EavBehavior extends Behavior
      */
     public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary)
     {
-        if ((isset($options['eav']) && $options['eav'] === false)) {
+        if (isset($options['eav']) && $options['eav'] === false) {
             return true;
         }
 
-        $query = $this->_scopeQuery($query);
+        $bundle = !empty($options['bundle']) ? $options['bundle'] : null;
+        $query = $this->_scopeQuery($query, $bundle);
         return $query->formatResults(function ($results) use ($event, $options, $primary) {
             return $results->map(function ($entity) use ($event, $options, $primary) {
                 if ($entity instanceof EntityInterface) {
-                    $entity = $this->attachEntityAttributes($entity);
+                    $entity = $this->attachEntityAttributes($entity, compact('event', 'query', 'options', 'primary'));
+                }
+
+                if ($entity === null) {
+                    $event->stopPropagation();
+                    return;
                 }
                 return $entity;
             });
@@ -239,26 +253,33 @@ class EavBehavior extends Behavior
             return $query;
         }
 
-        $alias = $this->_table->alias();
-        $pk = $this->_table->primaryKey();
         $conn = $query->connection(null);
         list(, $driverClass) = namespaceSplit(strtolower(get_class($conn->driver())));
+        $alias = $this->_table->alias();
+        $pk = $this->_table->primaryKey();
+        if (!is_array($pk)) {
+            $pk = [$pk];
+        }
+        $pk = array_map(function ($key) use ($alias) {
+            return "{$alias}.{$key}";
+        }, $pk);
 
         $whereClause->traverse(function ($expression) use ($pk, $alias, $driverClass, $bundle) {
             if (!($subQuery = $this->_virtualQuery($expression, $bundle))) {
                 return;
             }
 
-            // TODO: support for multi PK, change `eav_values.entity_id` type to "varchar"
             switch ($driverClass) {
                 case 'sqlite':
-                    $field = "({$alias}.{$pk} || '')";
+                    $pk = implode(' || ', $pk);
+                    $field = "({$pk} || '')";
                     break;
                 case 'mysql':
                 case 'postgres':
                 case 'sqlserver':
                 default:
-                    $field = "CONCAT({$alias}.{$pk}, '')";
+                    $pk = implode(', ', $pk);
+                    $field = "CONCAT({$pk}, '')";
                     break;
             }
 
@@ -287,7 +308,7 @@ class EavBehavior extends Behavior
         $field = $expression->getField();
         $column = is_string($field) ? $this->_columnName($field) : false;
         if (empty($column) ||
-            !in_array($column, $this->_attributesKeys) ||
+            !in_array($column, $this->_attributeNames) ||
             !$this->_isSearchable($column)
         ) {
             return false;
@@ -418,16 +439,23 @@ class EavBehavior extends Behavior
     }
 
     /**
-     * The method which actually fetches custom fields.
+     * The method which actually fetches custom fields, invoked by `beforeFind()`
+     * for each entity in the collection.
+     *
+     * - Returning FALSE indicates the entity should be removed from the resulting
+     *   collection.
+     *
+     * - Returning NULL will stop the entire find() operation.
      *
      * @param \Cake\Datasource\EntityInterface $entity The entity where to fetch fields
-     * @return \Cake\Datasource\EntityInterface
+     * @param array $options Arguments given to `beforeFind()` method, possible keys
+     *  are "event", "query", "options", "primary"
+     * @return \Cake\Datasource\EntityInterface|false|null
      */
-    public function attachEntityAttributes(EntityInterface $entity)
+    public function attachEntityAttributes(EntityInterface $entity, array $options = [])
     {
-        $pk = $this->_table->primaryKey();
         foreach ($this->_attributes as $name => $attr) {
-            if (!$entity->has($name) && $entity->has($pk)) {
+            if (!$entity->has($name)) {
                 $type = $this->_getType($name);
                 $value = $this->Values
                     ->find()
@@ -436,7 +464,7 @@ class EavBehavior extends Behavior
                         'EavAttribute.table_alias' => $this->_tableAlias,
                         'EavAttribute.bundle' => $this->_getBundle($name),
                         'EavAttribute.attribute' => $name,
-                        'EavValues.entity_id' => (string)$entity->get($pk),
+                        'EavValues.entity_id' => $this->_getEntityId($entity),
                     ])
                     ->limit(1)
                     ->first();
@@ -501,7 +529,7 @@ class EavBehavior extends Behavior
      */
     protected function _fetchAttributes()
     {
-        if (!empty($this->_attributesKeys)) {
+        if (!empty($this->_attributeNames)) {
             return $this->_attributes;
         }
 
@@ -513,7 +541,7 @@ class EavBehavior extends Behavior
         foreach ($attrs as $attr) {
             $this->_attributesByBundle[$attr->get('bundle')][$attr->get('name')] = $attr;
             $this->_attributes[$attr->get('name')] = $attr;
-            $this->_attributesKeys[] = $attr->get('name');
+            $this->_attributeNames[] = $attr->get('name');
         }
         return $this->_attributes;
     }
@@ -576,6 +604,12 @@ class EavBehavior extends Behavior
     /**
      * Maps schema types to EAV supported types.
      *
+     * - datetime: "date", "time", "datetime"
+     * - decimal: "dec", "float", "decimal"
+     * - int: "integer", "int", "bool", "boolean"
+     * - text: "text"
+     * - varchar: "string", "varchar", "char"
+     *
      * @param string $type A schema type. e.g. "string", "integer"
      * @return string A EAV type. Possible values are `datetime`, `decimal`, `int`,
      *  `text` or `varchar`
@@ -589,14 +623,18 @@ class EavBehavior extends Behavior
                 return 'datetime';
             case 'dec':
             case 'decimal':
+            case 'float':
                 return 'decimal';
             case 'int':
             case 'integer':
+            case 'boolean':
+            case 'bool':
                 return 'int';
             case 'text':
                 return 'text';
             case 'string':
             case 'varchar':
+            case 'char':
             default:
                 return 'varchar';
         }
