@@ -281,7 +281,6 @@ class FieldableBehavior extends EavBehavior
             return false;
         }
 
-        $pk = $this->_table->primaryKey();
         $this->_cache['createValues'] = [];
         foreach ($this->_attributesForEntity($entity) as $attr) {
             if (!$entity->has($attr->get('name'))) {
@@ -303,7 +302,7 @@ class FieldableBehavior extends EavBehavior
 
             $data = [
                 'eav_attribute_id' => $field->get('metadata')->get('attribute_id'),
-                'entity_id' => $entity->get($pk),
+                'entity_id' => $this->_getEntityId($entity),
                 "value_{$field->metadata['type']}" => $field->get('value'),
                 'extra' => $field->get('extra'),
             ];
@@ -352,10 +351,9 @@ class FieldableBehavior extends EavBehavior
 
         // as we don't know entity's ID on beforeSave, we must delay values storage;
         // all this occurs inside a transaction so we are safe
-        $pk = $this->_table->primaryKey();
         if (!empty($this->_cache['createValues'])) {
             foreach ($this->_cache['createValues'] as $valueEntity) {
-                $valueEntity->set('entity_id', $entity->get($pk));
+                $valueEntity->set('entity_id', $this->_getEntityId($entity));
                 $valueEntity->unsetProperty('id');
                 $this->Values->save($valueEntity);
             }
@@ -646,7 +644,7 @@ class FieldableBehavior extends EavBehavior
                 'value_id' => null,
                 'instance_id' => $attribute->get('instance')->get('id'),
                 'attribute_id' => $attribute->get('id'),
-                'entity_id' => $entity->get($this->_table->primaryKey()),
+                'entity_id' => $this->_getEntityId($entity),
                 'table_alias' => $attribute->get('table_alias'),
                 'type' => $type,
                 'bundle' => $attribute->get('bundle'),

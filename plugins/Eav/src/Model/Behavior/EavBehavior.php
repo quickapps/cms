@@ -249,6 +249,7 @@ class EavBehavior extends Behavior
                 return;
             }
 
+            // TODO: support for multi PK, change `eav_values.entity_id` type to "varchar"
             switch ($driverClass) {
                 case 'sqlite':
                     $field = "({$alias}.{$pk} || '')";
@@ -515,6 +516,27 @@ class EavBehavior extends Behavior
             $this->_attributesKeys[] = $attr->get('name');
         }
         return $this->_attributes;
+    }
+
+    /**
+     * Calculates entity's primary key.
+     *
+     * If PK is composed of multiple columns, then they will be merged with `:`
+     * symbol.
+     *
+     * @param \Cake\Datasource\EntityInterface $entity The entity
+     * @return string
+     */
+    protected function _getEntityId(EntityInterface $entity)
+    {
+        $pk = [];
+        $keys = $this->_table->primaryKey();
+        $keys = !is_array($keys) ? [$keys] : $keys;
+
+        foreach ($keys as $key) {
+            $pk[] = $entity->get($key);
+        }
+        return implode(':', $pk);
     }
 
     /**
