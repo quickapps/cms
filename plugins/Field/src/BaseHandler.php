@@ -159,7 +159,7 @@ class BaseHandler implements EventListenerInterface
      */
     public function entityValidate(Event $event, Field $field, Validator $validator)
     {
-        return false;
+        return true;
     }
 
     /**
@@ -351,7 +351,7 @@ class BaseHandler implements EventListenerInterface
     /**
      * Before an new instance of this field is attached to a database table.
      *
-     * Stopping this event will abort the attach operation.
+     * Stopping this event or returning false will abort the attach operation.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Field\Model\Entity\FieldInstance $instance Instance information
@@ -360,7 +360,7 @@ class BaseHandler implements EventListenerInterface
      */
     public function instanceBeforeAttach(Event $event, $instance, $options = [])
     {
-        return false;
+        return true;
     }
 
     /**
@@ -385,7 +385,7 @@ class BaseHandler implements EventListenerInterface
      */
     public function instanceBeforeDetach(Event $event, $instance, $options = [])
     {
-        return false;
+        return true;
     }
 
     /**
