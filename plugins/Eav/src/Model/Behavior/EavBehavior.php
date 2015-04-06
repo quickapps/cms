@@ -128,6 +128,12 @@ class EavBehavior extends Behavior
      */
     public $Attributes = null;
 
+    protected $_defaultConfig = [
+        'implementedMethods' => [
+            'addColumn' => 'addColumn',
+        ],
+    ];
+
     /**
      * Constructor.
      *
@@ -140,6 +146,56 @@ class EavBehavior extends Behavior
         $this->_initModels();
         parent::__construct($table, $config);
         $this->_fetchAttributes();
+    }
+
+    /**
+     * Registers a new EAV column or update if already exists.
+     *
+     * ### Usage:
+     *
+     * ```php
+     * $this->Users->addColumn('user-age', [
+     *     'type' => 'integer',
+     *     'bundle' => 'some-bundle-name',
+     *     'extra' => [
+     *         'option1' => 'value1'
+     *     ]
+     * ]);
+     * ```
+     *
+     * @param string $name Column name. e.g. `user-age`
+     * @param array $options Column configuration options
+     * @return bool True on success
+     */
+    public function addColumn($name, array $options = [])
+    {
+        $data = $options + [
+            'type' => 'varchar',
+            'bundle' => null,
+            'searchable' => true,
+            'extra' => null,
+        ];
+
+        $data['type'] = $this->_mapType($data['type']);
+        $data['name'] = $name;
+        $data['table_alias'] = $this->_tableAlias;
+        $attr = $this->Attributes
+            ->find()
+            ->where([
+                'name' => $data['name'],
+                'table_alias' => $data['table_alias'],
+                'bundle' => $data['bundle'],
+            ])
+            ->limit(1)
+            ->first();
+
+        if ($attr) {
+            $attr = $this->Attributes->patchEntity($attr, $data);
+        } else {
+            $attr = $this->Attributes->newEntity($data);
+        }
+
+        return (bool)$this->Attributes->save($attr);
     }
 
     /**
@@ -170,9 +226,7 @@ class EavBehavior extends Behavior
     }
 
     /**
-     * Look for `:<machine-name>` patterns in query's WHERE clause.
-     *
-     * Allows to search entities using custom fields as conditions in WHERE clause.
+     * Look for virtual columns in query's WHERE clause.
      *
      * @param \Cake\ORM\Query $query The query to scope
      * @param  string|null $bundle Consider attributes only for a specific bundle
