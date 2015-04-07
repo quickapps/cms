@@ -56,7 +56,9 @@
         <?php
             echo $this->Form->input('path', [
                 'label' => __d('system', 'Server directory or ZIP file'),
-                'placeholder' => __d('system', '/example/path/to/package.zip')
+                'placeholder' => __d('system', '/example/path/to/package.zip'),
+                'value' => !empty($this->request->query['directory']) ? $this->request->query['directory'] : null,
+                'class' => 'from-directory',
             ]);
 
             echo $this->Form->input('activate', [
@@ -69,3 +71,9 @@
         ?>
     <?php echo $this->Form->end(); ?>
 </fieldset>
+
+<?php if (!empty($this->request->query['directory'])): ?>
+<script type="text/javascript">
+    $('input.from-directory').focus();
+</script>
+<?php endif; ?>

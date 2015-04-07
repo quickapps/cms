@@ -32,7 +32,7 @@ $classes[] = $plugin->isCore ? 'panel-core' : 'panel-third-party';
                 ]);
             ?>
 
-            <?php if ($plugin->status && $plugin->infohasHelp): ?>
+            <?php if ($plugin->status && $plugin->hasHelp): ?>
                 <?php
                     echo $this->Html->link('', [
                         'plugin' => 'System',

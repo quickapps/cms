@@ -64,6 +64,7 @@ class ThemesController extends AppController
         $frontCount = count($frontThemes->toArray());
         $backCount = count($backThemes->toArray());
 
+        $this->_awaitingPlugins('theme');
         $this->set(compact('frontCount', 'backCount', 'frontThemes', 'backThemes'));
         $this->Breadcrumb->push('/admin/system/themes');
     }

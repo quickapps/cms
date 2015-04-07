@@ -43,6 +43,7 @@ class PluginsController extends AppController
             return !$plugin->status;
         })->toArray());
 
+        $this->_awaitingPlugins();
         $this->set(compact('plugins', 'all', 'enabled', 'disabled'));
         $this->Breadcrumb->push('/admin/system/plugins');
     }
