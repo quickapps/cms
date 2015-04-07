@@ -685,12 +685,23 @@ class MenuHelper extends Helper
             $url = str_replace_once($this->_baseUrl(), '', $url);
         }
 
-        if (option('url_locale_prefix')) {
-            if (!preg_match('/^\/' . $this->_localesPattern() . '/', $url)) {
-                $url = '/' . I18n::locale() . $url;
-            }
-        }
+        return $this->_urlLocalePrefix($url);
+    }
 
+    /**
+     * Prepends language code to the given URL if the "url_locale_prefix" directive
+     * is enabled.
+     *
+     * @param string $url The URL to fix
+     * @return string Locale prefixed URL
+     */
+    protected function _urlLocalePrefix($url)
+    {
+        if (option('url_locale_prefix') &&
+            !preg_match('/^\/' . $this->_localesPattern() . '/', $url)
+        ) {
+            $url = '/' . I18n::locale() . $url;
+        }
         return $url;
     }
 
@@ -730,12 +741,7 @@ class MenuHelper extends Helper
             $p = $this->_View->Url->build('/') . $p;
             $p = str_replace('//', '/', $p);
             $p = str_replace($request->base, '', $p);
-
-            if (option('url_locale_prefix') &&
-                !preg_match('/^\/' . $this->_localesPattern() . '\//', $p, $matches)
-            ) {
-                $p = '/' . I18n::locale() . $p;
-            }
+            $p = $this->_urlLocalePrefix($p);
         }
 
         $patterns = implode("\n", $patterns);
