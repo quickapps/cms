@@ -13,7 +13,7 @@
 use Cake\ORM\TableRegistry;
 
 $nodes = TableRegistry::get('Node.Nodes')
-    ->find()
+    ->find('all', ['fieldable' => false])
     ->order(['created' => 'DESC'])
     ->limit(10)
     ->all();
