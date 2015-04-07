@@ -279,7 +279,7 @@ class EavBehavior extends Behavior
                 case 'sqlserver':
                 default:
                     $concat = implode(', ', $pk);
-                    $field = "CONCAT({$CONCAT}, '')";
+                    $field = "CONCAT({$concat}, '')";
                     break;
             }
 
