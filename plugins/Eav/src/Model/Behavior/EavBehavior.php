@@ -221,8 +221,11 @@ class EavBehavior extends Behavior
             return true;
         }
 
-        $bundle = !empty($options['bundle']) ? $options['bundle'] : null;
-        $query = $this->_scopeQuery($query, $bundle);
+        if (!isset($options['bundle'])) {
+            $options['bundle'] = null;
+        }
+
+        $query = $this->_scopeQuery($query, $options['bundle']);
         return $query->formatResults(function ($results) use ($event, $options, $primary) {
             return $results->map(function ($entity) use ($event, $options, $primary) {
                 if ($entity instanceof EntityInterface) {
@@ -315,7 +318,6 @@ class EavBehavior extends Behavior
 
         $value = $expression->getValue();
         $type = $this->_getType($column);
-        $bundle = $bundle !== null ? $bundle : $this->_getBundle($column);
         $conjunction = $expression->getOperator();
         $conditions = [
             'EavAttribute.table_alias' => $this->_tableAlias,
@@ -371,9 +373,8 @@ class EavBehavior extends Behavior
      */
     public function afterSave(Event $event, EntityInterface $entity, $options)
     {
-        $pk = $this->_table->primaryKey();
         foreach ($this->_attributes() as $name => $attr) {
-            if ($entity->has($name) && $entity->has($pk)) {
+            if ($entity->has($name)) {
                 $type = $this->_getType($name);
                 $value = $this->Values
                     ->find()
@@ -451,6 +452,11 @@ class EavBehavior extends Behavior
     public function attachEntityAttributes(EntityInterface $entity, array $options = [])
     {
         foreach ($this->_attributes() as $name => $attr) {
+            $bundle = $this->_getBundle($name);
+            if (!empty($options['bundle']) && $bundle != $options['bundle']) {
+                continue;
+            }
+
             if (!$entity->has($name)) {
                 $type = $this->_getType($name);
                 $value = $this->Values
@@ -458,7 +464,7 @@ class EavBehavior extends Behavior
                     ->select("value_{$type}")
                     ->where([
                         'EavAttribute.table_alias' => $this->_tableAlias,
-                        'EavAttribute.bundle' => $this->_getBundle($name),
+                        'EavAttribute.bundle' => $bundle,
                         'EavAttribute.attribute' => $name,
                         'EavValues.entity_id' => $this->_getEntityId($entity),
                     ])

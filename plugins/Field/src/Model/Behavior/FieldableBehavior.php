@@ -184,16 +184,27 @@ class FieldableBehavior extends EavBehavior
     /**
      * {@inheritDoc}
      *
-     * Attaches entity's field under the `fields` property, this method is invoked
-     * by `beforeFind()` when iterating result sets.
+     * Attaches entity's field under the `_fields` property, this method is invoked
+     * by `beforeFind()` when iterating results sets.
+     *
+     * When `bundle` option is used the Entity will be removed from the collection
+     * if it does not belongs to that bundle.
      */
     public function attachEntityAttributes(EntityInterface $entity, array $options = [])
     {
         $entity = $this->attachEntityFields($entity);
-        extract($options);
+        $entityBundle = $this->_resolveBundle($entity);
+        if (!empty($options['bundle']) && $options['bundle'] !== $entityBundle) {
+            return false;
+        }
 
         foreach ($entity->get('_fields') as $field) {
-            $fieldEvent = $this->trigger(["Field.{$field->get('metadata')->get('handler')}.Entity.beforeFind", $event->subject()], $field, $options, $primary);
+            $fieldEvent = $this->trigger(
+                ["Field.{$field->get('metadata')->get('handler')}.Entity.beforeFind", $options['event']->subject()],
+                $field,
+                $options['options'],
+                $options['primary']
+            );
             if ($fieldEvent->result === false) {
                 return false; // remove entity from collection
             } elseif ($fieldEvent->isStopped()) {
@@ -682,14 +693,10 @@ class FieldableBehavior extends EavBehavior
     protected function _resolveBundle(EntityInterface $entity)
     {
         $bundle = $this->config('bundle');
-        if ($bundle !== null) {
-            if (is_callable($bundle)) {
-                $callable = $this->config('bundle');
-                return (string)$callable($entity);
-            } elseif (is_string($bundle)) {
-                return $bundle;
-            }
+        if (is_callable($bundle)) {
+            $callable = $this->config('bundle');
+            $bundle = $callable($entity);
         }
-        return '';
+        return (string)$bundle;
     }
 }
