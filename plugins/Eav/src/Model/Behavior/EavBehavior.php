@@ -167,7 +167,7 @@ class EavBehavior extends Behavior
      */
     public function addColumn($name, array $options = [])
     {
-        if (in_array($name, $thid->_table->schema()->columns())) {
+        if (in_array($name, (array)$this->_table->schema()->columns())) {
             throw new FatalErrorException(__d('eav', 'The column name "{0}" cannot be used as it is already defined in the table "{1}"', $name, $this->_table->alias()));
         }
 
@@ -271,15 +271,15 @@ class EavBehavior extends Behavior
 
             switch ($driverClass) {
                 case 'sqlite':
-                    $pk = implode(' || ', $pk);
-                    $field = "({$pk} || '')";
+                    $concat = implode(' || ', $pk);
+                    $field = "({$concat} || '')";
                     break;
                 case 'mysql':
                 case 'postgres':
                 case 'sqlserver':
                 default:
-                    $pk = implode(', ', $pk);
-                    $field = "CONCAT({$pk}, '')";
+                    $concat = implode(', ', $pk);
+                    $field = "CONCAT({$CONCAT}, '')";
                     break;
             }
 
@@ -447,7 +447,7 @@ class EavBehavior extends Behavior
      * @param \Cake\Datasource\EntityInterface $entity The entity where to fetch fields
      * @param array $options Arguments given to `beforeFind()` method, possible keys
      *  are "event", "query", "options", "primary"
-     * @return \Cake\Datasource\EntityInterface|false|null
+     * @return bool|null|\Cake\Datasource\EntityInterface
      */
     public function attachEntityAttributes(EntityInterface $entity, array $options = [])
     {
