@@ -88,7 +88,7 @@ class Plugin extends CakePlugin
      * If $ignoreThemes is set to true `DarkGreenTheme` will not be part of the result
      *
      * @param bool $ignoreThemes Whether include themes as well or not
-     * @return array Associative array as `PluginName` => `full/path/to/PluginName`
+     * @return array Associative array as `PluginName` => `/full/path/to/PluginName`
      */
     public static function scan($ignoreThemes = false)
     {
