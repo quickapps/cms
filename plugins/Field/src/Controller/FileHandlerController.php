@@ -28,13 +28,13 @@ class FileHandlerController extends AppController
     /**
      * Uploads a new file for the given FileField instance.
      *
-     * @param string $instanceSlug Machine-name of the instance, a.k.a "slug"
+     * @param string $name EAV attribute name
      * @throws \Cake\Network\Exception\NotFoundException When invalid slug is given,
      *  or when upload process could not be completed
      */
-    public function upload($instanceSlug)
+    public function upload($name)
     {
-        $instance = $this->_getInstance($instanceSlug);
+        $instance = $this->_getInstance($name);
         require_once Plugin::classPath('Field') . 'Lib/class.upload.php';
         $uploader = new \upload($this->request->data['Filedata']);
 
@@ -74,25 +74,20 @@ class FileHandlerController extends AppController
      *
      * File name must be passes as `file` GET parameter.
      *
-     * @param string $instanceSlug Machine-name of the instance, a.k.a "slug"
+     * @param string $name EAV attribute name
      * @return void
-     * @throws \Cake\Network\Exception\NotFoundException When invalid slug is given
+     * @throws \Cake\Network\Exception\NotFoundException When invalid attribute name
+     *  is given
      */
-    public function delete($instanceSlug)
+    public function delete($name)
     {
         $this->loadModel('Field.FieldInstances');
-        $instance = $this->FieldInstances
-            ->find()
-            ->where(['slug' => $instanceSlug])
-            ->limit(1)
-            ->first();
+        $instance = $this->_getInstance($name);
 
         if ($instance && !empty($this->request->query['file'])) {
             $file = normalizePath(WWW_ROOT . "/files/{$instance->settings['upload_folder']}/{$this->request->query['file']}", DS);
             $file = new File($file);
             $file->delete();
-        } else {
-            $this->_error(__d('field', 'Invalid field instance or file name.'), 503);
         }
 
         $response = '';
@@ -103,17 +98,18 @@ class FileHandlerController extends AppController
     /**
      * Get field instance information.
      *
-     * @param string $slug Filed instance slug
+     * @param string $name EAV attribute name
      * @return \Field\Model\Entity\FieldInstance
-     * @throws \Cake\Network\Exception\NotFoundException When no instance could be
-     *  found
+     * @throws \Cake\Network\Exception\NotFoundException When invalid attribute name
+     *  is given
      */
-    protected function _getInstance($slug)
+    protected function _getInstance($name)
     {
         $this->loadModel('Field.FieldInstances');
         $instance = $this->FieldInstances
             ->find()
-            ->where(['slug' => $slug])
+            ->contain(['EavAttribute'])
+            ->where(['EavAttribute.name' => $name])
             ->limit(1)
             ->first();
 

@@ -26,9 +26,9 @@ class ImageHandlerController extends FileHandlerController
     /**
      * {@inheritDoc}
      */
-    public function upload($instanceSlug)
+    public function upload($name)
     {
-        $instance = $this->_getInstance($instanceSlug);
+        $instance = $this->_getInstance($name);
         require_once Plugin::classPath('Field') . 'Lib/class.upload.php';
         $uploader = new \upload($this->request->data['Filedata']);
         $maps = [
@@ -49,23 +49,17 @@ class ImageHandlerController extends FileHandlerController
         }
 
         $uploader->allowed = 'image/*';
-        parent::upload($instanceSlug, $uploader);
+        parent::upload($name, $uploader);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function delete($instanceSlug)
+    public function delete($name)
     {
-        parent::delete($instanceSlug);
+        parent::delete($name);
         $this->loadModel('Field.FieldInstances');
-        $instance = $this->FieldInstances
-            ->find()
-            ->select(['slug', 'settings'])
-            ->where(['slug' => $instanceSlug])
-            ->limit(1)
-            ->first();
-
+        $instance = $this->_getInstance($name);
         ImageToolbox::deleteThumbnails(WWW_ROOT . "/files/{$instance->settings['upload_folder']}/{$this->request->query['file']}");
     }
 
@@ -79,19 +73,15 @@ class ImageHandlerController extends FileHandlerController
      *
      * If any of these variables is not present an exception will be throw.
      *
-     * @param string $instanceSlug Filed instance's machine-name
+     * @param string $name EAV attribute name
      * @return \Cake\Network\Response
      * @throws \Cake\Network\Exception\NotFoundException When field instance
      *  is not found.
      */
-    public function thumbnail($instanceSlug)
+    public function thumbnail($name)
     {
         $this->loadModel('Field.FieldInstances');
-        $instance = $this->FieldInstances
-            ->find()
-            ->where(['slug' => $instanceSlug])
-            ->limit(1)
-            ->first();
+        $instance = $this->_getInstance($name);
 
         if (!$instance) {
             throw new NotFoundException(__d('field', 'Invalid field instance.'), 400);
