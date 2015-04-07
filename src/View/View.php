@@ -54,13 +54,15 @@ class View extends CakeView
     protected $_regions = [];
 
     /**
-     * Constructor
+     * {@inheritDoc}
      *
-     * @param \Cake\Network\Request|null $request Request instance.
-     * @param \Cake\Network\Response|null $response Response instance.
-     * @param \Cake\Event\EventManager|null $eventManager Event manager instance.
-     * @param array $viewOptions View options. See View::$_passedVars for list of
-     *  options which get set as class properties.
+     * The following helpers will be automatically loaded:
+     *
+     * - Url
+     * - Html
+     * - Form
+     * - Menu
+     * - jQuery
      */
     public function __construct(
         Request $request = null,
@@ -82,12 +84,12 @@ class View extends CakeView
     }
 
     /**
-     * Defines a new theme region.
+     * Defines a new theme region to be rendered.
      *
      * ### Usage:
      *
-     * Merge `left-sidebar` and `right-sidebar` regions together, the resulting region
-     * limits the number of blocks it can holds to `3`:
+     * Merge `left-sidebar` and `right-sidebar` regions together, the resulting
+     * region limits the number of blocks it can holds to `3`:
      *
      * ```php
      * echo $this->region('left-sidebar')
@@ -98,12 +100,13 @@ class View extends CakeView
      * ### Valid options are:
      *
      * - `fixMissing`: When creating a region that is not defined by the theme, it
-     *    will try to fix it by adding it to theme's regions if this option is set
-     *    to TRUE. Defaults to NULL which automatically enables when `debug` is
-     *    enabled. This option will not work when using QuickAppsCMS's core themes.
-     *    (NOTE: This option will alter theme's `composer.json` file).
+     *   will try to fix it by adding it to theme's regions if this option is set to
+     *   TRUE. Defaults to NULL which automatically enables when `debug` is enabled.
+     *   This option will not work when using QuickAppsCMS's core themes. (NOTE:
+     *   This option will alter theme's `composer.json` file).
      *
-     * - `theme`: Name of the theme this regions belongs to. Defaults to auto-detect.
+     * - `theme`: Name of the theme this regions belongs to. Defaults to auto-
+     *   detect.
      *
      * @param string $name Theme's region machine-name. e.g. `left-sidebar`
      * @param array $options Additional options for region being created
@@ -122,8 +125,9 @@ class View extends CakeView
     }
 
     /**
-     * Overrides Cake's view rendering method. Allows the usage of
-     * `$this->render($someObject)` in views.
+     * {@inheritDoc}
+     *
+     * Overrides Cake's view rendering method. Allows to "render" objects.
      *
      * **Example:**
      *
@@ -163,16 +167,10 @@ class View extends CakeView
      * ```php
      * public function renderMyObject(Event $event, $theObject, $arg1, $arg2, ..., $argn);
      * ```
-     *
-     * @param mixed $view View file to render. Or an object to be rendered
-     * @param mixed $layout Layout file to use when rendering view file. Or extra
-     *  array of options for object rendering
-     * @return string HTML output of object-rendering or view file
      */
     public function render($view = null, $layout = null)
     {
-        $html = "";
-
+        $html = '';
         if (is_object($view)) {
             $className = get_class($view);
             $args = func_get_args();
@@ -199,36 +197,21 @@ class View extends CakeView
     }
 
     /**
-     * Overrides Cake's `View::element()` method.
+     * {@inheritDoc}
      *
-     * @param string $name Name of template file in the/app/Template/Element/ folder,
-     *  or `MyPlugin.template` to use the template element from MyPlugin. If the element
-     *  is not found in the plugin, the normal view path cascade will be searched.
-     * @param array $data Array of data to be made available to the rendered view (i.e. the Element)
-     * @param array $options Array of options. Possible keys are:
-     * - `cache` - Can either be `true`, to enable caching using the config in View::$elementCache. Or an array
-     *   If an array, the following keys can be used:
-     *   - `config` - Used to store the cached element in a custom cache configuration.
-     *   - `key` - Used to define the key used in the Cache::write(). It will be prefixed with `element_`
-     * - `callbacks` - Set to true to fire beforeRender and afterRender helper callbacks for this element.
-     *   Defaults to false.
-     * - `ignoreMissing` - Used to allow missing elements. Set to true to not trigger notices.
-     * @return string Rendered Element
+     * Triggers the alter-event `View.element` (Alter.View.element).
      */
     public function element($name, array $data = [], array $options = [])
     {
         $this->alter('View.element', $name, $data, $options);
-        $html = parent::element($name, $data, $options);
-        return $html;
+        return parent::element($name, $data, $options);
     }
 
     /**
-     * Overrides Cake's `View::_getLayoutFileName()` method.
+     * {@inheritDoc}
      *
-     * Adds fallback functionality.
-     *
-     * @param string $name The name of the layout to find.
-     * @return string Filename for layout file (.ctp).
+     * Adds fallback functionality, if layout is not found it uses QuickAppsCMS's
+     * `default.ctp` as it will always exists.
      */
     protected function _getLayoutFileName($name = null)
     {
@@ -245,34 +228,14 @@ class View extends CakeView
      * Sets title for layout.
      *
      * It sets `title_for_layout` view variable, if no previous title was set on
-     * controller. It will try to extract title from the Node being rendered (if not
-     * empty). Otherwise, site's title will be used.
+     * controller. Site's title will be used if not found.
      *
      * @return void
      */
     protected function _setTitle()
     {
         if (empty($this->viewVars['title_for_layout'])) {
-            $title = '';
-
-            if (!empty($this->viewVars['node']) &&
-                ($this->viewVars['node'] instanceof \Node\Model\Entity\Node) &&
-                !empty($this->viewVars['node']->title)
-            ) {
-                $title = $this->viewVars['node']->title;
-            } else {
-                foreach ($this->viewVars as $var) {
-                    if (is_object($var) &&
-                        ($var instanceof \Node\Model\Entity\Node) &&
-                        !empty($var->title)
-                    ) {
-                        $title = $var->title;
-                        break;
-                    }
-                }
-            }
-
-            $title = empty($title) ? option('site_title') : $title;
+            $title = option('site_title');
             $this->assign('title', $title);
             $this->set('title_for_layout', $title);
         } else {
@@ -284,34 +247,14 @@ class View extends CakeView
      * Sets meta-description for layout.
      *
      * It sets `description_for_layout` view-variable, and appends meta-description
-     * tag to `meta` block. It will try to extract meta-description from the Node
-     * being rendered (if not empty). Otherwise, site's description will be used.
+     * tag to `meta` block. Site's description will be used if not found.
      *
      * @return void
      */
     protected function _setDescription()
     {
         if (empty($this->viewVars['description_for_layout'])) {
-            $description = '';
-
-            if (!empty($this->viewVars['node']) &&
-                ($this->viewVars['node'] instanceof \Node\Model\Entity\Node) &&
-                !empty($this->viewVars['node']->description)
-            ) {
-                $description = $this->viewVars['node']->description;
-            } else {
-                foreach ($this->viewVars as $var) {
-                    if (is_object($var) &&
-                        ($var instanceof \Node\Model\Entity\Node) &&
-                        !empty($var->description)
-                    ) {
-                        $description = $var->description;
-                        break;
-                    }
-                }
-            }
-
-            $description = empty($description) ? option('site_description') : $description;
+            $description = option('site_description');
             $this->assign('description', $description);
             $this->set('description_for_layout', $description);
             $this->append('meta', $this->Html->meta('description', $description));
