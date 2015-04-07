@@ -614,35 +614,50 @@ class MenuHelper extends Helper
             return $callable($this->_View->request, $item);
         }
 
-        switch ($item->activation) {
-            case 'any':
-                return $this->_urlMatch($item->active);
-            case 'none':
-                return !$this->_urlMatch($item->active);
-            case 'php':
-                return php_eval($item->active, [
-                    'view', &$this->_View,
-                    'item', &$item,
-                ]) === true;
-            case 'auto':
-            default:
-                $itemUrl = $this->_sanitizeUrl($item->url);
-                $isInternal =
-                    $itemUrl !== '/' &&
-                    str_ends_with($itemUrl, str_replace_once($this->_baseUrl(), '', env('REQUEST_URI')));
-                $isIndex =
-                    $itemUrl === '/' &&
-                    $this->_View->request->isHome();
-                $isExact =
-                    str_replace('//', '/', "{$itemUrl}/") === str_replace('//', '/', "/{$this->_View->request->url}/") ||
-                    ($itemUrl == env('REQUEST_URI'));
-
-                if ($this->config('breadcrumbGuessing')) {
-                    return ($isInternal || $isIndex || $isExact || in_array($itemUrl, $this->_crumbUrls()));
-                }
-
-                return ($isInternal || $isIndex || $isExact);
+        if ($item->activation == 'any') {
+            return $this->_urlMatch($item->active);
+        } elseif ($item->activation == 'none') {
+            return !$this->_urlMatch($item->active);
+        } elseif ($item->activation == 'php') {
+            return php_eval($item->active, [
+                'view', &$this->_View,
+                'item', &$item,
+            ]) === true;
         }
+
+        $itemUrl = $this->_sanitizeUrl($item->url);
+        static $requestURI = null;
+        static $requestURL = null;
+
+        if (empty($requestURI)) {
+            $requestURI = str_replace_once($this->_baseUrl(), '', env('REQUEST_URI'));
+        }
+
+        if (empty($requestURL)) {
+            $requestURL = str_replace('//', '/', "/{$this->_View->request->url}/");
+        }
+
+        // is internal URL
+        if ($itemUrl !== '/' && str_ends_with($itemUrl, $requestURI)) {
+            return true;
+        }
+
+        // is site's index page (a.k.a. font page)
+        if ($itemUrl === '/' && $this->_View->request->isHome()) {
+            return true;
+        }
+
+        // exact matching
+        if (str_replace('//', '/', "{$itemUrl}/") === $requestURL || $itemUrl == env('REQUEST_URI')) {
+            return true;
+        }
+
+        // in breadcrumb list
+        if ($this->config('breadcrumbGuessing') && in_array($itemUrl, $this->_crumbUrls())) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -685,12 +700,23 @@ class MenuHelper extends Helper
             $url = str_replace_once($this->_baseUrl(), '', $url);
         }
 
-        if (option('url_locale_prefix')) {
-            if (!preg_match('/^\/' . $this->_localesPattern() . '/', $url)) {
-                $url = '/' . I18n::locale() . $url;
-            }
-        }
+        return $this->_urlLocalePrefix($url);
+    }
 
+    /**
+     * Prepends language code to the given URL if the "url_locale_prefix" directive
+     * is enabled.
+     *
+     * @param string $url The URL to fix
+     * @return string Locale prefixed URL
+     */
+    protected function _urlLocalePrefix($url)
+    {
+        if (option('url_locale_prefix') &&
+            !preg_match('/^\/' . $this->_localesPattern() . '/', $url)
+        ) {
+            $url = '/' . I18n::locale() . $url;
+        }
         return $url;
     }
 
@@ -730,12 +756,7 @@ class MenuHelper extends Helper
             $p = $this->_View->Url->build('/') . $p;
             $p = str_replace('//', '/', $p);
             $p = str_replace($request->base, '', $p);
-
-            if (option('url_locale_prefix') &&
-                !preg_match('/^\/' . $this->_localesPattern() . '\//', $p, $matches)
-            ) {
-                $p = '/' . I18n::locale() . $p;
-            }
+            $p = $this->_urlLocalePrefix($p);
         }
 
         $patterns = implode("\n", $patterns);
