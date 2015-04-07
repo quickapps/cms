@@ -124,6 +124,13 @@ class MenuHelper extends Helper
     protected $_rendering = false;
 
     /**
+     * Other helpers used by this helper.
+     *
+     * @var array
+     */
+    public $helpers = ['Menu.Link'];
+
+    /**
      * Constructor.
      *
      * @param View $View The View this helper is being attached to
@@ -137,6 +144,7 @@ class MenuHelper extends Helper
             };
         }
         parent::__construct($View, $config);
+        $this->Link->config($config);
     }
 
     /**
@@ -277,7 +285,7 @@ class MenuHelper extends Helper
         $return = $this->formatTemplate('child', [
             'attrs' => $this->templater()->formatAttributes($attrs['child']),
             'content' => $this->formatTemplate('link', [
-                'url' => $this->_url($item->url),
+                'url' => $this->Link->url($item->url),
                 'attrs' => $this->templater()->formatAttributes($attrs['link']),
                 'content' => $item->title,
             ]),
@@ -533,7 +541,7 @@ class MenuHelper extends Helper
             $info = [
                 'index' => $this->_index,
                 'total' => $this->_count,
-                'active' => $this->_isActive($item),
+                'active' => $this->Link->isActive($item),
                 'depth' => $depth,
                 'hasChildren' => !empty($children),
                 'children' => $children,
@@ -542,227 +550,6 @@ class MenuHelper extends Helper
         }
 
         return $content;
-    }
-
-    /**
-     * Returns a safe URL string for later use with HtmlHelper.
-     *
-     * @param string|array $url URL given as string or an array compatible
-     *  with `Router::url()`
-     * @return string
-     */
-    protected function _url($url)
-    {
-        static $locales = null;
-
-        if (empty($locales)) {
-            $locales = implode(
-                '|',
-                array_map(
-                    'preg_quote',
-                    array_keys(quickapps('languages'))
-                )
-            );
-        }
-
-        if (option('url_locale_prefix') &&
-            is_string($url) &&
-            str_starts_with($url, '/') &&
-            !preg_match('/^\/(' . $locales . ')/', $url)
-        ) {
-            $locale = I18n::locale();
-            $url = "/{$locale}{$url}";
-            $full = true;
-        } else {
-            $full = false;
-        }
-
-        try {
-            $url = Router::url($url, $full);
-        } catch (\Exception $e) {
-            $url = '';
-        }
-
-        return $url;
-    }
-
-    /**
-     * Checks if the given item should be marked as active.
-     *
-     * If `$item->activation` is a callable function it will be used to determinate
-     * if the link should be active or not, returning true from callable indicates
-     * link should be active, false indicates it should not be marked as active.
-     * Callable receives current request object as first argument and $item as second.
-     *
-     * `$item->url` property MUST exists if  "activation" is not a callable, and can
-     * be either:
-     *
-     * - A string representing an external or internal URL (all internal links must
-     *   starts with "/"). e.g. `/user/login`
-     * - An array compatible with \Cake\Routing\Router::url().
-     *   e.g. `['controller' => 'users', 'action' => 'login']`
-     *
-     * Both examples are equivalent.
-     *
-     * @param \Cake\ORM\Entity $item A menu's item
-     * @return bool
-     */
-    protected function _isActive($item)
-    {
-        if (is_callable($item->activation)) {
-            $callable = $item->activation;
-            return $callable($this->_View->request, $item);
-        }
-
-        switch ($item->activation) {
-            case 'any':
-                return $this->_urlMatch($item->active);
-            case 'none':
-                return !$this->_urlMatch($item->active);
-            case 'php':
-                return php_eval($item->active, [
-                    'view', &$this->_View,
-                    'item', &$item,
-                ]) === true;
-            case 'auto':
-            default:
-                $itemUrl = $this->_sanitizeUrl($item->url);
-                $isInternal =
-                    $itemUrl !== '/' &&
-                    str_ends_with($itemUrl, str_replace_once($this->_baseUrl(), '', env('REQUEST_URI')));
-                $isIndex =
-                    $itemUrl === '/' &&
-                    $this->_View->request->isHome();
-                $isExact =
-                    str_replace('//', '/', "{$itemUrl}/") === str_replace('//', '/', "/{$this->_View->request->url}/") ||
-                    ($itemUrl == env('REQUEST_URI'));
-
-                if ($this->config('breadcrumbGuessing')) {
-                    return ($isInternal || $isIndex || $isExact || in_array($itemUrl, $this->_crumbUrls()));
-                }
-
-                return ($isInternal || $isIndex || $isExact);
-        }
-    }
-
-    /**
-     * Gets a list of all URLs present in current crumbs path.
-     *
-     * @return array List of URLs
-     */
-    protected function _crumbUrls()
-    {
-        static $crumbs = null;
-        if ($crumbs === null) {
-            $crumbs = BreadcrumbRegistry::getUrls();
-            foreach ($crumbs as &$crumb) {
-                $crumb = $this->_sanitizeUrl($crumb);
-            }
-        }
-
-        return $crumbs;
-    }
-
-    /**
-     * Sanitizes the given URL by making sure it's suitable for menu links.
-     *
-     * @param string $url Item's URL to sanitize
-     * @return string Valid URL, empty string on error
-     */
-    protected function _sanitizeUrl($url)
-    {
-        try {
-            $url = Router::url($url);
-        } catch (\Exception $ex) {
-            return '';
-        }
-
-        if (!str_starts_with($url, '/')) {
-            return $url;
-        }
-
-        if (str_starts_with($url, $this->_baseUrl())) {
-            $url = str_replace_once($this->_baseUrl(), '', $url);
-        }
-
-        return $this->_urlLocalePrefix($url);
-    }
-
-    /**
-     * Prepends language code to the given URL if the "url_locale_prefix" directive
-     * is enabled.
-     *
-     * @param string $url The URL to fix
-     * @return string Locale prefixed URL
-     */
-    protected function _urlLocalePrefix($url)
-    {
-        if (option('url_locale_prefix') &&
-            !preg_match('/^\/' . $this->_localesPattern() . '/', $url)
-        ) {
-            $url = '/' . I18n::locale() . $url;
-        }
-        return $url;
-    }
-
-    /**
-     * Calculates site's base URL.
-     *
-     * @return string Site's base URL
-     */
-    protected function _baseUrl()
-    {
-        static $base = null;
-        if ($base === null) {
-            $base = $this->_View->request->base ? $this->_View->request->base : '/';
-        }
-        return $base;
-    }
-
-    /**
-     * Check if a path matches any pattern in a set of patterns.
-     *
-     * @param string $patterns String containing a set of patterns separated by \n,
-     *  \r or \r\n
-     * @param mixed $path String as path to match. Or false to use current page URL
-     * @return bool TRUE if the path matches a pattern, FALSE otherwise
-     */
-    protected function _urlMatch($patterns, $path = false)
-    {
-        if (empty($patterns)) {
-            return false;
-        }
-
-        $request = $this->_View->request;
-        $path = !$path ? '/' . $request->url : $path;
-        $patterns = explode("\n", $patterns);
-
-        foreach ($patterns as &$p) {
-            $p = $this->_View->Url->build('/') . $p;
-            $p = str_replace('//', '/', $p);
-            $p = str_replace($request->base, '', $p);
-            $p = $this->_urlLocalePrefix($p);
-        }
-
-        $patterns = implode("\n", $patterns);
-
-        // Convert path settings to a regular expression.
-        // Therefore replace newlines with a logical or, /* with asterisks and "/" with the front page.
-        $toReplace = array(
-            '/(\r\n?|\n)/', // newlines
-            '/\\\\\*/', // asterisks
-            '/(^|\|)\/($|\|)/' // front '/'
-        );
-
-        $replacements = array(
-            '|',
-            '.*',
-            '\1' . preg_quote($this->_View->Url->build('/'), '/') . '\2'
-        );
-
-        $patternsQuoted = preg_quote($patterns, '/');
-        $patterns = '/^(' . preg_replace($toReplace, $replacements, $patternsQuoted) . ')$/';
-        return (bool)preg_match($patterns, $path);
     }
 
     /**
@@ -783,38 +570,6 @@ class MenuHelper extends Helper
                 $this->_count($item->children);
             }
         }
-    }
-
-    /**
-     * Returns a regular expression that is used to verify if an URL starts
-     * or not with a language prefix.
-     *
-     * ## Example:
-     *
-     * ```
-     * (en\-us|fr|es|it)
-     * ```
-     *
-     * @return string
-     */
-    protected function _localesPattern()
-    {
-        $cacheKey = '_localesPattern';
-        $cache = static::cache($cacheKey);
-        if ($cache) {
-            return $cache;
-        }
-
-        $pattern = '(' . implode(
-            '|',
-            array_map(
-                'preg_quote',
-                array_keys(
-                    quickapps('languages')
-                )
-            )
-        ) . ')';
-        return static::cache($cacheKey, $pattern);
     }
 
     /**
