@@ -555,7 +555,7 @@ class FieldableBehavior extends EavBehavior
     protected function _attributesForEntity(EntityInterface $entity)
     {
         $bundle = $this->_resolveBundle($entity);
-        $this->_fetchAttributes();
+        $this->_attributes();
 
         $out = [];
         if (empty($bundle)) {

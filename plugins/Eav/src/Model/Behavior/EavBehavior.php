@@ -141,7 +141,6 @@ class EavBehavior extends Behavior
         $this->_tableAlias = (string)Inflector::underscore($table->alias());
         $this->_initModels();
         parent::__construct($table, $config);
-        $this->_fetchAttributes();
     }
 
     /**
@@ -308,7 +307,7 @@ class EavBehavior extends Behavior
         $field = $expression->getField();
         $column = is_string($field) ? $this->_columnName($field) : false;
         if (empty($column) ||
-            !in_array($column, $this->_attributeNames) ||
+            !in_array($column, $this->_getAttributeNames()) ||
             !$this->_isSearchable($column)
         ) {
             return false;
@@ -373,7 +372,7 @@ class EavBehavior extends Behavior
     public function afterSave(Event $event, EntityInterface $entity, $options)
     {
         $pk = $this->_table->primaryKey();
-        foreach ($this->_attributes as $name => $attr) {
+        foreach ($this->_attributes() as $name => $attr) {
             if ($entity->has($name) && $entity->has($pk)) {
                 $type = $this->_getType($name);
                 $value = $this->Values
@@ -451,7 +450,7 @@ class EavBehavior extends Behavior
      */
     public function attachEntityAttributes(EntityInterface $entity, array $options = [])
     {
-        foreach ($this->_attributes as $name => $attr) {
+        foreach ($this->_attributes() as $name => $attr) {
             if (!$entity->has($name)) {
                 $type = $this->_getType($name);
                 $value = $this->Values
@@ -474,6 +473,30 @@ class EavBehavior extends Behavior
             }
         }
         return $entity;
+    }
+
+    /**
+     * Gets all attributes added to this table.
+     *
+     * @return array
+     */
+    protected function _attributes()
+    {
+        if (!empty($this->_attributeNames)) {
+            return $this->_attributes;
+        }
+
+        $attrs = $this->Attributes
+            ->find()
+            ->where(['EavAttributes.table_alias' => $this->_tableAlias])
+            ->all()
+            ->toArray();
+        foreach ($attrs as $attr) {
+            $this->_attributesByBundle[$attr->get('bundle')][$attr->get('name')] = $attr;
+            $this->_attributes[$attr->get('name')] = $attr;
+            $this->_attributeNames[] = $attr->get('name');
+        }
+        return $this->_attributes;
     }
 
     /**
@@ -501,7 +524,7 @@ class EavBehavior extends Behavior
     protected function _getAttributeNames($bundle = null)
     {
         if (empty($this->_attributes)) {
-            $this->_fetchAttributes();
+            $this->_attributes = $this->_attributes();
         }
 
         if ($bundle === null) {
@@ -511,36 +534,11 @@ class EavBehavior extends Behavior
         $names = [];
         foreach ($this->_attributes as $name => $attr) {
             if ($attr->get('bundle') === $bundle) {
-                $name[] = $name;
+                $names[] = $name;
             }
         }
 
         return $names;
-    }
-
-    /**
-     * Fetch attributes information for the table. This includes attributes across
-     * all bundles.
-     *
-     * @return array The fetched attributes
-     */
-    protected function _fetchAttributes()
-    {
-        if (!empty($this->_attributeNames)) {
-            return $this->_attributes;
-        }
-
-        $attrs = $this->Attributes
-            ->find()
-            ->where(['EavAttributes.table_alias' => $this->_tableAlias])
-            ->all()
-            ->toArray();
-        foreach ($attrs as $attr) {
-            $this->_attributesByBundle[$attr->get('bundle')][$attr->get('name')] = $attr;
-            $this->_attributes[$attr->get('name')] = $attr;
-            $this->_attributeNames[] = $attr->get('name');
-        }
-        return $this->_attributes;
     }
 
     /**
@@ -576,7 +574,7 @@ class EavBehavior extends Behavior
      */
     protected function _getType($attrName)
     {
-        return $this->_mapType($this->_attributes[$attrName]->get('type'));
+        return $this->_mapType($this->_attributes()[$attrName]->get('type'));
     }
 
     /**
@@ -587,7 +585,7 @@ class EavBehavior extends Behavior
      */
     protected function _getBundle($attrName)
     {
-        return $this->_attributes[$attrName]->get('bundle');
+        return $this->_attributes()[$attrName]->get('bundle');
     }
 
     /**
@@ -598,7 +596,7 @@ class EavBehavior extends Behavior
      */
     protected function _isSearchable($attrName)
     {
-        return (bool)$this->_attributes[$attrName]->get('searchable');
+        return (bool)$this->_attributes()[$attrName]->get('searchable');
     }
 
     /**
