@@ -57,23 +57,25 @@ trait StaticCacheTrait
      * #### Reading cache:
      *
      * ```php
-     * static::cache('user_name'); // returns: John
+     * static::cache('user_name');
+     * // returns: John
      *
-     * static::cache('unexisting_key'); // returns: null
-     * ```
+     * static::cache('unexisting_key');
+     * // returns: null
      *
-     * #### Reading the entire cache:
-     *
-     * ```php
-     * static::cache(); // returns: ['user_name' => 'John', 'user_last' => 'Locke']
+     * static::cache();
+     * // Reads the entire cache
+     * // returns: ['user_name' => 'John', 'user_last' => 'Locke']
      * ```
      *
      * #### Searching keys:
      *
      * ```php
-     * static::cache(null, 'Locke'); // returns: user_last
+     * static::cache(null, 'Locke');
+     * // returns: user_last
      *
-     * static::cache(null, 'Unexisting'); // returns: null
+     * static::cache(null, 'Unexisting Value');
+     * // returns: null
      * ```
      *
      * @param null|string $key Cache key to read or write, set both $key and $value

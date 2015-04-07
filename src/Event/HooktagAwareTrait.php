@@ -14,7 +14,7 @@ namespace QuickApps\Event;
 use QuickApps\Event\HooktagManager;
 
 /**
- * Adds hooktags parsing functionality to any object.
+ * Adds hooktags parsing functionality to any class.
  *
  * A Hooktag is a QuickApps-specific code that lets you do nifty things with
  * very little effort. Hooktags can for example print current language code or
