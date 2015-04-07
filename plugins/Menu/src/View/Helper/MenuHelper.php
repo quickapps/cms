@@ -12,14 +12,11 @@
 namespace Menu\View\Helper;
 
 use Cake\Error\FatalErrorException;
-use Cake\I18n\I18n;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
-use Cake\Routing\Router;
 use Cake\Utility\Hash;
 use Cake\View\StringTemplateTrait;
 use Cake\View\View;
-use Menu\View\BreadcrumbRegistry;
 use QuickApps\Core\Plugin;
 use QuickApps\View\Helper;
 
