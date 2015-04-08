@@ -45,7 +45,7 @@
     <?php endif; ?>
 
     <?php // forces field handler to work when no files are send ?>
-    <?php echo $this->Form->input(":{$field->name}.dummy", ['type' => 'hidden', 'value' => 'dummy']); ?>
+    <?php echo $this->Form->input("{$field->name}.dummy", ['type' => 'hidden', 'value' => 'dummy']); ?>
 
     <ul id="<?php echo $instanceID; ?>-files-list" class="files-list list-unstyled">
         <?php foreach ((array)$field->extra as $key => $file): ?>
@@ -66,7 +66,7 @@
                             show_icon: <?php echo !empty($file['mime_icon']) ? 'true' : 'false'; ?>,
                             show_description: <?php echo $field->metadata->settings['description'] ? 'true' : 'false'; ?>,
                         };
-                        $('#<?php echo $instanceID; ?> li.item-<?php echo $key; ?>').html(FileField.renderItem(<?php echo $field->metadata->field_instance_id; ?>, $.extend(fileSettings, view)));
+                        $('#<?php echo $instanceID; ?> li.item-<?php echo $key; ?>').html(FileField.renderItem(<?php echo $field->metadata->instance_id; ?>, $.extend(fileSettings, view)));
                     });
                 </script>
             </li>

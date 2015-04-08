@@ -65,7 +65,7 @@
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon"><?php echo __d('field', 'Title'); ?></span>
-                            <input type="text" name=":{{instance_name}}[{{number}}][title]" value="{{title}}" class="file-description form-control input-sm" placeholder="<?php echo __d('field', 'Image title or description'); ?>" />
+                            <input type="text" name="{{instance_name}}[{{number}}][title]" value="{{title}}" class="file-description form-control input-sm" placeholder="<?php echo __d('field', 'Image title or description'); ?>" />
                         </div>
                     </div>
                     {{/show_title}}
@@ -74,16 +74,16 @@
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon"><?php echo __d('field', 'Alt'); ?></span>
-                            <input type="text" name=":{{instance_name}}[{{number}}][alt]" value="{{alt}}" class="file-description form-control input-sm" placeholder="<?php echo __d('field', 'Alternative text'); ?>" />
+                            <input type="text" name="{{instance_name}}[{{number}}][alt]" value="{{alt}}" class="file-description form-control input-sm" placeholder="<?php echo __d('field', 'Alternative text'); ?>" />
                         </div>
                     </div>
                 </div>
                 {{/show_alt}}
             </div>
 
-            <input type="hidden" name=":{{instance_name}}[{{number}}][mime_icon]" value="{{mime_icon}}" class="mime-icon" />
-            <input type="hidden" name=":{{instance_name}}[{{number}}][file_name]" value="{{file_name}}" class="file-name" />
-            <input type="hidden" name=":{{instance_name}}[{{number}}][file_size]" value="{{file_size}}" class="file-size" />
+            <input type="hidden" name="{{instance_name}}[{{number}}][mime_icon]" value="{{mime_icon}}" class="mime-icon" />
+            <input type="hidden" name="{{instance_name}}[{{number}}][file_name]" value="{{file_name}}" class="file-name" />
+            <input type="hidden" name="{{instance_name}}[{{number}}][file_size]" value="{{file_size}}" class="file-size" />
         </div>
     </script>
 

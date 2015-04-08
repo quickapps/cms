@@ -91,8 +91,8 @@ class ImageField extends BaseHandler
             }
         }
         $field->set('extra', $extra);
-
         $files = (array)$options['_post'];
+
         if (!empty($files)) {
             $value = [];
             foreach ($files as $k => $file) {
