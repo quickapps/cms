@@ -56,24 +56,11 @@ class EavBehavior extends Behavior
     protected $_tableAlias = null;
 
     /**
-     * Attributes index by attribute name.
-     *
-     * ```php
-     * [
-     *     'user-age' => [
-     *         'type' => 'int',
-     *         'searchable' => true
-     *     ],
-     *     'user-phone' => [
-     *         'type' => 'string',
-     *         'searchable' => true
-     *     ]
-     * ]
-     * ```
+     * List of real column names of table.
      *
      * @var array
      */
-    protected $_attributes = [];
+    protected $_schemaColumns = [];
 
     /**
      * Attributes index by bundle, and by name within each bundle.
@@ -101,14 +88,7 @@ class EavBehavior extends Behavior
      *
      * @var array
      */
-    protected $_attributesByBundle = [];
-
-    /**
-     * List of all valid attributes names.
-     *
-     * @var array
-     */
-    protected $_attributeNames = [];
+    protected $_attributes = [];
 
     /**
      * EavValues table model.
@@ -124,6 +104,11 @@ class EavBehavior extends Behavior
      */
     public $Attributes = null;
 
+    /**
+     * Default configuration.
+     *
+     * @var array
+     */
     protected $_defaultConfig = [
         'implementedMethods' => [
             'addColumn' => 'addColumn',
@@ -139,6 +124,7 @@ class EavBehavior extends Behavior
     public function __construct(Table $table, array $config = [])
     {
         $this->_tableAlias = (string)Inflector::underscore($table->alias());
+        $this->_schemaColumns = (array)$table->schema()->columns();
         $this->_initModels();
         parent::__construct($table, $config);
     }
@@ -166,7 +152,7 @@ class EavBehavior extends Behavior
      */
     public function addColumn($name, array $options = [])
     {
-        if (in_array($name, (array)$this->_table->schema()->columns())) {
+        if (in_array($name, $this->_schemaColumns)) {
             throw new FatalErrorException(__d('eav', 'The column name "{0}" cannot be used as it is already defined in the table "{1}"', $name, $this->_table->alias()));
         }
 
@@ -308,8 +294,9 @@ class EavBehavior extends Behavior
         }
 
         $field = $expression->getField();
-        $column = is_string($field) ? $this->_columnName($field) : false;
+        $column = is_string($field) ? $this->_columnName($field) : '';
         if (empty($column) ||
+            in_array($column, $this->_schemaColumns) || // ignore real columns
             !in_array($column, $this->_getAttributeNames()) ||
             !$this->_isSearchable($column)
         ) {
@@ -484,25 +471,33 @@ class EavBehavior extends Behavior
     /**
      * Gets all attributes added to this table.
      *
+     * @param string|null $bundle Get attributes within given bundle, or all of
+     *  them regardless of the bundle if not provided
      * @return array
      */
-    protected function _attributes()
+    protected function _attributes($bundle = null)
     {
-        if (!empty($this->_attributeNames)) {
-            return $this->_attributes;
+        $key = empty($bundle) ? ':all:' : $bundle;
+        if (isset($this->_attributes[$key])) {
+            return $this->_attributes[$key];
+        }
+
+        $this->_attributes[$key] = [];
+        $conditions = ['EavAttributes.table_alias' => $this->_tableAlias];
+        if (!empty($bundle)) {
+            $conditions['EavAttributes.bundle'] = $bundle;
         }
 
         $attrs = $this->Attributes
             ->find()
-            ->where(['EavAttributes.table_alias' => $this->_tableAlias])
+            ->where($conditions)
             ->all()
             ->toArray();
         foreach ($attrs as $attr) {
-            $this->_attributesByBundle[$attr->get('bundle')][$attr->get('name')] = $attr;
-            $this->_attributes[$attr->get('name')] = $attr;
-            $this->_attributeNames[] = $attr->get('name');
+            $this->_attributes[$key][$attr->get('name')] = $attr;
         }
-        return $this->_attributes;
+
+        return $this->_attributes($bundle);
     }
 
     /**
@@ -529,22 +524,8 @@ class EavBehavior extends Behavior
      */
     protected function _getAttributeNames($bundle = null)
     {
-        if (empty($this->_attributes)) {
-            $this->_attributes = $this->_attributes();
-        }
-
-        if ($bundle === null) {
-            return array_keys($this->_attributes);
-        }
-
-        $names = [];
-        foreach ($this->_attributes as $name => $attr) {
-            if ($attr->get('bundle') === $bundle) {
-                $names[] = $name;
-            }
-        }
-
-        return $names;
+        $attributes = $this->_attributes($bundle);
+        return array_keys($attributes);
     }
 
     /**

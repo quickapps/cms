@@ -192,12 +192,12 @@ class FieldableBehavior extends EavBehavior
      */
     public function attachEntityAttributes(EntityInterface $entity, array $options = [])
     {
-        $entity = $this->attachEntityFields($entity);
         $entityBundle = $this->_resolveBundle($entity);
         if (!empty($options['bundle']) && $options['bundle'] !== $entityBundle) {
             return false;
         }
 
+        $entity = $this->attachEntityFields($entity);
         foreach ($entity->get('_fields') as $field) {
             $fieldEvent = $this->trigger(
                 ["Field.{$field->get('metadata')->get('handler')}.Entity.beforeFind", $options['event']->subject()],
@@ -566,16 +566,8 @@ class FieldableBehavior extends EavBehavior
     protected function _attributesForEntity(EntityInterface $entity)
     {
         $bundle = $this->_resolveBundle($entity);
-        $this->_attributes();
 
-        $out = [];
-        if (empty($bundle)) {
-            $out = $this->_attributes;
-        } elseif (isset($this->_attributesByBundle[$bundle])) {
-            $out = (array)$this->_attributesByBundle[$bundle];
-        }
-
-        foreach ($out as $name => $attr) {
+        foreach ($this->_attributes($bundle) as $name => $attr) {
             if (!$attr->has('instance')) {
                 $instance = $this->Attributes->Instance
                     ->find()
@@ -586,7 +578,7 @@ class FieldableBehavior extends EavBehavior
             }
         }
 
-        return $out;
+        return $this->_attributes($bundle);
     }
 
     /**
