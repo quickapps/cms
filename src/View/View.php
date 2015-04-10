@@ -72,9 +72,9 @@ class View extends CakeView
     ) {
         $defaultOptions = [
             'helpers' => [
-                'Url' => ['className' => 'QuickApps\View\Helper\UrlHelper'],
-                'Html' => ['className' => 'QuickApps\View\Helper\HtmlHelper'],
                 'Form' => ['className' => 'QuickApps\View\Helper\FormHelper'],
+                'Html' => ['className' => 'QuickApps\View\Helper\HtmlHelper'],
+                'Url' => ['className' => 'QuickApps\View\Helper\UrlHelper'],
                 'Menu' => ['className' => 'Menu\View\Helper\MenuHelper'],
                 'jQuery' => ['className' => 'Jquery\View\Helper\JqueryHelper'],
             ]
@@ -194,6 +194,20 @@ class View extends CakeView
         }
 
         return $this->hooktags($html);
+    }
+
+
+    /**
+     * {@inheritDoc}
+     *
+     * Redirects CakePHP's helpers to QuickAppsCMS's helpers. For example, when
+     * using `$this->Form` it will load `QuickApps\View\Helper\FormHelper` instead
+     * of CakePHP's.
+     */
+    public function loadHelper($name, array $config = [])
+    {
+        // TODO: View::loadHelper()
+        return parent::loadHelper($name, $config);
     }
 
     /**

@@ -34,7 +34,7 @@ class CommandListShell extends CakeCommandListShell
             $this->out(__('* Site Path:      {path}', ['path' => normalizePath(SITE_ROOT)]));
             $this->out('');
 
-            $this->out("<info>Available Shells:</info>", 2);
+            $this->out(__('<info>Available Shells:</info>'), 2);
         }
 
         $shellList = $this->Command->getShellList();
@@ -65,13 +65,13 @@ class CommandListShell extends CakeCommandListShell
                 $plugin = 'CAKEPHP';
             }
 
-            $this->out(sprintf('[<info>%s</info>] %s', $plugin, implode(', ', $commands)));
+            $this->out(__('[<info>{0}</info>] {1}', $plugin, implode(', ', $commands)));
         }
 
         $this->out();
-        $this->out("To run an quickapps or cakephp command, type <info>`qs shell_name [args]`</info>");
-        $this->out("To run a plugin command, type <info>`qs Plugin.shell_name [args]`</info>");
-        $this->out("To get help on a specific command, type <info>`qs shell_name --help`</info>", 2);
+        $this->out(__('To run an QuickAppsCMS or CakePHP command, type <info>"qs shell_name [args]"</info>'));
+        $this->out(__('To run a Plugin command, type <info>"qs PluginName.shell_name [args]"</info>'));
+        $this->out(__('To get help on a specific command, type <info>"qs shell_name --help"</info>'), 2);
     }
 
     /**
@@ -82,12 +82,12 @@ class CommandListShell extends CakeCommandListShell
     public function getOptionParser()
     {
         $parser = parent::getOptionParser();
-        $parser->description(
-            'Get the list of available shells for this QuickApps CMS installation.'
-        )->addOption('xml', [
-            'help' => 'Get the listing as XML.',
-            'boolean' => true
-        ]);
+        $parser
+            ->description(__('Get the list of available shells for this QuickAppsCMS installation.'))
+            ->addOption('xml', [
+                'help' => __('Get the listing as XML.'),
+                'boolean' => true,
+            ]);
 
         return $parser;
     }
@@ -100,9 +100,9 @@ class CommandListShell extends CakeCommandListShell
     protected function _welcome()
     {
         $this->out();
-        $this->out(sprintf('<info>Welcome to QuickApps CMS %s Console</info>', 'v' . quickapps('version')));
+        $this->out(__('<info>Welcome to QuickApps CMS v{0} Console</info>', quickapps('version')));
         $this->hr();
-        $this->out(sprintf('Site Title: %s', option('site_title')));
+        $this->out(__('Site Title: {0}', option('site_title')));
         $this->hr();
         $this->out();
     }
