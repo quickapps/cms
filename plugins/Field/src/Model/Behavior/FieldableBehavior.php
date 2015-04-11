@@ -41,6 +41,18 @@ use \ArrayObject;
  *
  * **This behavior allows you to add _virtual columns_ to your table schema.**
  *
+ * ***
+ *
+ * ### Events triggered by this behavior:
+ *
+ * - Field.<handler>.Entity.beforeFind
+ * - Field.<handler>.Entity.fieldAttached
+ * - Field.<handler>.Entity.validate
+ * - Field.<handler>.Entity.beforeSave
+ * - Field.<handler>.Entity.afterSave
+ * - Field.<handler>.Entity.beforeDelete
+ * - Field.<handler>.Entity.afterDelete
+ *
  * @link https://github.com/quickapps/docs/blob/2.x/en/developers/field-api.rst
  */
 class FieldableBehavior extends EavBehavior
@@ -347,10 +359,10 @@ class FieldableBehavior extends EavBehavior
      * ### Events Triggered:
      *
      * - `Field.<FieldHandler>.Entity.afterSave`: Will be triggered after a
-     *    successful insert or save, listeners will receive two arguments, the field
-     *    entity and the options array. The type of operation performed (insert or
-     *    update) can be infer by checking the entity's method `isNew`, true meaning
-     *    an insert and false an update.
+     *   successful insert or save, listeners will receive two arguments, the field
+     *   entity and the options array. The type of operation performed (insert or
+     *   update) can be infer by checking the field entity's method `isNew`, true
+     *   meaning an insert and false an update.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\Datasource\EntityInterface $entity The entity that was saved
