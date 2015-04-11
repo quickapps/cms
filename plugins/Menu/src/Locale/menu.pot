@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-04-02 13:16+0000\n"
+"POT-Creation-Date: 2015-04-11 23:23+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -403,7 +403,7 @@ msgstr ""
 msgid "Remove this link? Children links will be re-assigned to the immediately superior parent link."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Menu/src/View/Helper/MenuHelper.php:201
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Menu/src/View/Helper/MenuHelper.php:206
 msgid "Loop detected, MenuHelper already rendering."
 msgstr ""
 

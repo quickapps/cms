@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-04-02 13:16+0000\n"
+"POT-Creation-Date: 2015-04-11 23:24+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Search/src/Model/Behavior/SearchableBehavior.php:474
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Search/src/Model/Behavior/SearchableBehavior.php:475
 msgid "Error while processing the \"{0}\" token in the search criteria."
 msgstr ""
 

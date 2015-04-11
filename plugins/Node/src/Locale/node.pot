@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-04-02 13:16+0000\n"
+"POT-Creation-Date: 2015-04-11 23:24+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/ServeController.php:124;150
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:185
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:187
 msgid "The requested page was not found."
 msgstr ""
 
@@ -38,89 +38,89 @@ msgstr ""
 msgid "Comments"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/FieldsController.php:96;104;113;121;129
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/FieldsController.php:103;111;120;128;136
 #: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/TypesController.php:40;75;118
 #: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Template/Element/index_submenu.ctp:19
 msgid "Content Types"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/FieldsController.php:97;105;114;122;130
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/FieldsController.php:104;112;121;129;137
 msgid "Type \"{0}\""
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/FieldsController.php:98;106
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/FieldsController.php:105;113
 msgid "Fields"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/FieldsController.php:107
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/FieldsController.php:114
 msgid "Configure Field \"{0}\""
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/FieldsController.php:115
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/FieldsController.php:122
 msgid "Attach New Field"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/FieldsController.php:123;131
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/FieldsController.php:130;138
 msgid "View Mode \"{0}\""
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/FieldsController.php:132
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/FieldsController.php:139
 msgid "Field: {0}"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:79;129
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:81;131
 msgid "Create new content"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:101
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:103
 msgid "The specified content type does not exists."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:111
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:113
 msgid "Content created!."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:114;208
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:116;210
 msgid "Something went wrong, please check your information."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:205
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:207
 msgid "Information was saved!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:217
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:219
 msgid "Editing content"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:232
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:234
 msgid "You cannot translate this content."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:266
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:268
 msgid "Translation successfully created and was marked as unpublished. Complete the translation before publishing."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:269
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:271
 msgid "Translation could not be created"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:279
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:281
 msgid "Translating content"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:294
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:296
 msgid "Content was successfully removed!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:296
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:298
 msgid "Unable to remove this content, please try again."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:317
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:319
 msgid "Revision was successfully removed!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:319
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Controller/Admin/ManageController.php:321
 msgid "Unable to remove this revision, please try again."
 msgstr ""
 
@@ -216,11 +216,11 @@ msgstr ""
 msgid "\"Title Label\" need to be at least 3 characters long."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Model/Table/NodesTable.php:179
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Model/Table/NodesTable.php:178
 msgid "You need to provide a title."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Model/Table/NodesTable.php:183
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Node/src/Model/Table/NodesTable.php:182
 msgid "Title need to be at least 3 characters long."
 msgstr ""
 

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-04-02 13:16+0000\n"
+"POT-Creation-Date: 2015-04-11 23:24+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -34,11 +34,11 @@ msgstr ""
 msgid "Please enable JavaScript to use ElFinder plugin."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Wysiwyg/src/Template/Admin/Finder/index.ctp:42
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Wysiwyg/src/Template/Admin/Finder/index.ctp:49
 msgid "M d, Y h:i A"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Wysiwyg/src/Template/Admin/Finder/index.ctp:43
+#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Wysiwyg/src/Template/Admin/Finder/index.ctp:50
 msgid "$1 H:m:i"
 msgstr ""
 
