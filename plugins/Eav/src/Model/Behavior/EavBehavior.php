@@ -186,14 +186,17 @@ class EavBehavior extends Behavior
     }
 
     /**
-     * Modifies the query object in order to merge custom fields records into each
-     * entity under the `_fields` property.
+     * Attaches virtual properties to entities.
      *
      * This method iterates over each retrieved entity and invokes the
      * `attachEntityAttributes()` method. This method should return the altered
      * entity object with its virtual properties, however if this method returns
      * FALSE the entity will be removed from the resulting collection. And if this
      * method returns NULL will stop the find() operation.
+     *
+     * This method is also responsible of looking for virtual columns in WHERE
+     * clause (if applicable) and properly scope the Query object. Query scoping is
+     * performed by the `_scopeQuery()` method.
      *
      * @param \Cake\Event\Event $event The beforeFind event that was triggered
      * @param \Cake\ORM\Query $query The original query to modify
