@@ -93,7 +93,7 @@ class LinksController extends AppController
     }
 
     /**
-     * Add a new link to the given menu.
+     * Adds a new link to the given menu.
      *
      * @param int $menuId Menu's ID for which add a link
      * @return void
@@ -109,7 +109,9 @@ class LinksController extends AppController
             'status' => 1,
             'menu_id' => $menuId
         ]);
-        $this->Menus->MenuLinks->addBehavior('Tree', ['scope' => ['menu_id' => $menu->id]]);
+        $this->Menus->MenuLinks->addBehavior('Tree', [
+            'scope' => ['menu_id' => $menu->id]
+        ]);
 
         if ($this->request->data()) {
             $link = $this->Menus->MenuLinks->patchEntity($link, $this->request->data, [
@@ -146,7 +148,11 @@ class LinksController extends AppController
             ->select(['id', 'slug', 'node_type_slug', 'title'])
             ->all();
         foreach ($contents as $content) {
-            $contentLinks[$content->get('url')] = __d('menu', '{0} [{1}]', $content->title, $content->node_type_slug);
+            $contentLinks[stripLanguagePrefix($content->get('url'))] = __d(
+                'menu',
+                '{title} [{content_type}]',
+                ['title' => $content->title, 'content_type' => $content->node_type_slug]
+            );
         }
 
         $parentsTree = $this->Menus->MenuLinks
