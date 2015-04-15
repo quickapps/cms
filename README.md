@@ -12,7 +12,7 @@
 Free open source content management system for PHP, released under GPL License
 and powered by [CakePHP 3.0](http://cakephp.org) MVC framework.
 
-This is an unstable repository and should be treated as an alpha.
+**This is an unstable repository and should be treated as an alpha.**
 
 ## Requirements
 
@@ -30,7 +30,7 @@ This is an unstable repository and should be treated as an alpha.
    * SQLite 3
 * Write permission in your server
 
-## Installing QuickApps CMS
+## Installing QuickAppsCMS
 
 You must install QuickAppsCMS using [composer](http://getcomposer.org).
 QuickApps CMS is designed to run as a stand alone application, so you must
