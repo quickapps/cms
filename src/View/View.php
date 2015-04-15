@@ -196,20 +196,6 @@ class View extends CakeView
         return $this->hooktags($html);
     }
 
-
-    /**
-     * {@inheritDoc}
-     *
-     * Redirects CakePHP's helpers to QuickAppsCMS's helpers. For example, when
-     * using `$this->Form` it will load `QuickApps\View\Helper\FormHelper` instead
-     * of CakePHP's.
-     */
-    public function loadHelper($name, array $config = [])
-    {
-        // TODO: View::loadHelper()
-        return parent::loadHelper($name, $config);
-    }
-
     /**
      * {@inheritDoc}
      *
