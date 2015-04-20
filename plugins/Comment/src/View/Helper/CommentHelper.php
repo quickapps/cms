@@ -35,13 +35,13 @@ class CommentHelper extends Helper
      *
      * The following events will be triggered:
      *
-     * - `CommentHelper.beforeRender`: Triggered before default rendering
-     *   operation starts. By stopping this event, you can return the final
-     *   value of the rendering operation.
-     * - `CommentHelper.afterRender`: Triggered after default rendering
-     *   operation is completed. Listeners will receive the rendered output. By
-     *   stopping this event, you can return the final value of the rendering
-     *   operation.
+     * - `CommentHelper.beforeRender`: Triggered before default rendering operation
+     *   starts. By stopping this event, you can return the final value of the
+     *   rendering operation.
+     *
+     * - `CommentHelper.afterRender`: Triggered after default rendering operation is
+     *   completed. Listeners will receive the rendered output. By stopping this
+     *   event, you can return the final value of the rendering operation.
      *
      * @param \Cake\ORM\Entity $entity Any valid entity
      * @return string
@@ -124,14 +124,13 @@ class CommentHelper extends Helper
     }
 
     /**
-     * Renders "Are You Human" form element.
+     * Renders "Are You A Human" form element.
      *
      * @return string HTML
      */
     public function captcha()
     {
         $out = '';
-
         if ($this->config('use_ayah') &&
             $this->config('ayah_publisher_key') &&
             $this->config('ayah_scoring_key')
