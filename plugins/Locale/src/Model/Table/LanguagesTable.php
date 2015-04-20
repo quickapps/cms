@@ -47,8 +47,8 @@ class LanguagesTable extends Table
     {
         $validator
             ->add('name', [
-                'notEmpty' => [
-                    'rule' => 'notEmpty',
+                'notBlank' => [
+                    'rule' => 'notBlank',
                     'message' => __d('locale', 'You need to provide a language name.'),
                 ],
                 'length' => [

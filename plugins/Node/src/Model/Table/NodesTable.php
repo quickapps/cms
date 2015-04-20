@@ -173,8 +173,8 @@ class NodesTable extends Table
     {
         $validator
             ->add('title', [
-                'notEmpty' => [
-                    'rule' => 'notEmpty',
+                'notBlank' => [
+                    'rule' => 'notBlank',
                     'message' => __d('node', 'You need to provide a title.'),
                 ],
                 'length' => [

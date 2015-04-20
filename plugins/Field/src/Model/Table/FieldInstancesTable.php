@@ -115,8 +115,8 @@ class FieldInstancesTable extends Table
         $validator
             ->notEmpty('handler', __d('field', 'Invalid field type.'))
             ->add('label', [
-                'notEmpty' => [
-                    'rule' => 'notEmpty',
+                'notBlank' => [
+                    'rule' => 'notBlank',
                     'message' => __d('field', 'You need to provide a label.'),
                 ],
                 'length' => [

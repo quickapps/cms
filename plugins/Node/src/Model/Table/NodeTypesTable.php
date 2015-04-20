@@ -54,8 +54,8 @@ class NodeTypesTable extends Table
         $validator
             ->requirePresence('name')
             ->add('name', [
-                'notEmpty' => [
-                    'rule' => 'notEmpty',
+                'notBlank' => [
+                    'rule' => 'notBlank',
                     'message' => __d('node', 'You need to provide a content type name.'),
                 ],
                 'length' => [
@@ -73,8 +73,8 @@ class NodeTypesTable extends Table
             ])
             ->requirePresence('title_label')
             ->add('title_label', [
-                'notEmpty' => [
-                    'rule' => 'notEmpty',
+                'notBlank' => [
+                    'rule' => 'notBlank',
                     'message' => __d('node', 'You need to provide a "Title Label".'),
                 ],
                 'length' => [

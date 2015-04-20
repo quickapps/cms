@@ -43,8 +43,8 @@ class RolesTable extends Table
         $validator
             ->requirePresence('name')
             ->add('name', [
-                'notEmpty' => [
-                    'rule' => 'notEmpty',
+                'notBlank' => [
+                    'rule' => 'notBlank',
                     'message' => __d('user', 'You need to provide a role name.'),
                 ],
                 'length' => [
