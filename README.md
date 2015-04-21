@@ -2,11 +2,10 @@
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/quickapps/cms/badges/quality-score.png?b=2.0)](https://scrutinizer-ci.com/g/quickapps/cms/?branch=2.0)
 [![Build Status](https://travis-ci.org/quickapps/cms.svg?branch=2.0)](https://travis-ci.org/quickapps/cms)
-[![Latest Stable Version](https://poser.pugx.org/quickapps/cms/v/stable.svg)](https://packagist.org/packages/quickapps/cms)
-[![Total Downloads](https://poser.pugx.org/quickapps/cms/downloads.svg)](https://packagist.org/packages/quickapps/cms)
-[![Latest Unstable Version](https://poser.pugx.org/quickapps/cms/v/unstable.svg)](https://packagist.org/packages/quickapps/cms)
-[![License](https://poser.pugx.org/quickapps/cms/license.svg)](https://packagist.org/packages/quickapps/cms)
-
+[![Latest Stable Version](https://poser.pugx.org/quickapps/cms/v/stable)](https://packagist.org/packages/quickapps/cms)
+[![Total Downloads](https://poser.pugx.org/quickapps/cms/downloads)](https://packagist.org/packages/quickapps/cms)
+[![Latest Unstable Version](https://poser.pugx.org/quickapps/cms/v/unstable)](https://packagist.org/packages/quickapps/cms)
+[![License](https://poser.pugx.org/quickapps/cms/license)](https://packagist.org/packages/quickapps/cms)
 [![QuickAppsCMS](http://quickappscms.org/system/img/logo.png)](http://www.quickappscms.org)
 
 Free open source content management system for PHP, released under GPL License
