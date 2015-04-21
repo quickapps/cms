@@ -6,6 +6,7 @@
 [![Total Downloads](https://poser.pugx.org/quickapps/cms/downloads)](https://packagist.org/packages/quickapps/cms)
 [![Latest Unstable Version](https://poser.pugx.org/quickapps/cms/v/unstable)](https://packagist.org/packages/quickapps/cms)
 [![License](https://poser.pugx.org/quickapps/cms/license)](https://packagist.org/packages/quickapps/cms)
+
 [![QuickAppsCMS](http://quickappscms.org/system/img/logo.png)](http://www.quickappscms.org)
 
 Free open source content management system for PHP, released under GPL License
