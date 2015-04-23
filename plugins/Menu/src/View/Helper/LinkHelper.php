@@ -227,17 +227,17 @@ class LinkHelper extends Helper
 
         // Convert path settings to a regular expression.
         // Therefore replace newlines with a logical or, /* with asterisks and "/" with the front page.
-        $toReplace = array(
+        $toReplace = [
             '/(\r\n?|\n)/', // newlines
             '/\\\\\*/', // asterisks
             '/(^|\|)\/($|\|)/' // front '/'
-        );
+        ];
 
-        $replacements = array(
+        $replacements = [
             '|',
             '.*',
             '\1' . preg_quote($this->_View->Url->build('/'), '/') . '\2'
-        );
+        ];
 
         $patternsQuoted = preg_quote($patterns, '/');
         $patterns = '/^(' . preg_replace($toReplace, $replacements, $patternsQuoted) . ')$/';

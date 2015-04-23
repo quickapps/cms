@@ -70,7 +70,7 @@ class VersionConstraint extends SpecificConstraint
      */
     public function matchSpecific(VersionConstraint $provider, $compareBranches = false)
     {
-        static $cache = array();
+        static $cache = [];
         if (isset($cache[$this->operator][$this->version][$provider->operator][$provider->version][$compareBranches])) {
             return $cache[$this->operator][$this->version][$provider->operator][$provider->version][$compareBranches];
         }

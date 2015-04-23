@@ -75,8 +75,8 @@ class CachedAuthorize extends BaseAuthorize
         $plugin = empty($request['plugin']) ? null : Inflector::camelize($request['plugin']) . '/';
         $prefix = empty($request->params['prefix']) ? '' : Inflector::camelize($request->params['prefix']) . '/';
         $path = str_replace(
-            array(':controller', ':action', ':plugin/', ':prefix/'),
-            array(Inflector::camelize($request['controller']), $request['action'], $plugin, $prefix),
+            [':controller', ':action', ':plugin/', ':prefix/'],
+            [Inflector::camelize($request['controller']), $request['action'], $plugin, $prefix],
             $path
         );
         $path = str_replace('//', '/', $path);

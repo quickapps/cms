@@ -162,7 +162,7 @@ class PaginatorHelper extends CakePaginatorHelper
     /**
      * {@inheritDoc}
      */
-    public function last($last = 'last >>', array $options = array())
+    public function last($last = 'last >>', array $options = [])
     {
         $this->alter(['PaginatorHelper.last', $this->_View], $last, $options);
         return parent::last($last, $options);

@@ -202,21 +202,21 @@ class VersionParser
     {
         $name = trim($name);
 
-        if (in_array($name, array(
+        if (in_array($name, [
             'master',
             'trunk',
             'default'
-        ))) {
+        ])) {
             return $this->normalize($name);
         }
 
         if (preg_match('#^v?(\d+)(\.(?:\d+|[xX*]))?(\.(?:\d+|[xX*]))?(\.(?:\d+|[xX*]))?$#i', $name, $matches)) {
             $version = '';
             for ($i = 1; $i < 5; $i++) {
-                $version .= isset($matches[$i]) ? str_replace(array(
+                $version .= isset($matches[$i]) ? str_replace([
                     '*',
                     'X'
-                ), 'x', $matches[$i]) : '.x';
+                ], 'x', $matches[$i]) : '.x';
             }
 
             return str_replace('x', '9999999', $version) . '-dev';
@@ -234,7 +234,7 @@ class VersionParser
      */
     public function parseLinks($source, $sourceVersion, $description, $links)
     {
-        $res = array();
+        $res = [];
         foreach ($links as $target => $constraint) {
             if ('self.version' === $constraint) {
                 $parsedConstraint = $this->parseConstraints($sourceVersion);
@@ -265,11 +265,11 @@ class VersionParser
         }
 
         $orConstraints = preg_split('{\s*\|\|?\s*}', trim($constraints));
-        $orGroups = array();
+        $orGroups = [];
         foreach ($orConstraints as $constraints) {
             $andConstraints = preg_split('{(?<!^|as|[=>< ,]) *(?<!-)[, ](?!-) *(?!,|as|$)}', $constraints);
             if (count($andConstraints) > 1) {
-                $constraintObjects = array();
+                $constraintObjects = [];
                 foreach ($andConstraints as $constraint) {
                     $constraintObjects = array_merge($constraintObjects, $this->parseConstraint($constraint));
                 }
@@ -312,9 +312,9 @@ class VersionParser
         }
 
         if (preg_match('{^[xX*](\.[xX*])*$}i', $constraint)) {
-            return array(
+            return [
                 new EmptyConstraint
-            );
+            ];
         }
 
         $versionRegex = '(\d+)(?:\.(\d+))?(?:\.(\d+))?(?:\.(\d+))?' . self::$modifierRegex;
@@ -361,10 +361,10 @@ class VersionParser
             $highVersion = $this->manipulateVersionString($matches, $highPosition, 1) . '-dev';
             $upperBound = new VersionConstraint('<', $highVersion);
 
-            return array(
+            return [
                 $lowerBound,
                 $upperBound
-            );
+            ];
         }
 
         // match caret constraints
@@ -392,10 +392,10 @@ class VersionParser
             $highVersion = $this->manipulateVersionString($matches, $position, 1) . '-dev';
             $upperBound = new VersionConstraint('<', $highVersion);
 
-            return array(
+            return [
                 $lowerBound,
                 $upperBound
-            );
+            ];
         }
 
         // match wildcard constraints
@@ -412,15 +412,15 @@ class VersionParser
             $highVersion = $this->manipulateVersionString($matches, $position, 1) . "-dev";
 
             if ($lowVersion === "0.0.0.0-dev") {
-                return array(
+                return [
                 new VersionConstraint('<', $highVersion)
-                );
+                ];
             }
 
-            return array(
+            return [
                 new VersionConstraint('>=', $lowVersion),
                 new VersionConstraint('<', $highVersion)
-            );
+            ];
         }
 
         // match hyphen constraints
@@ -438,21 +438,21 @@ class VersionParser
                 $highVersion = $this->normalize($matches['to']);
                 $upperBound = new VersionConstraint('<=', $highVersion);
             } else {
-                $highMatch = array(
+                $highMatch = [
                     '',
                     $matches[10],
                     $matches[11],
                     $matches[12],
                     $matches[13]
-                );
+                ];
                 $highVersion = $this->manipulateVersionString($highMatch, empty($matches[11]) ? 1 : 2, 1) . '-dev';
                 $upperBound = new VersionConstraint('<', $highVersion);
             }
 
-            return array(
+            return [
                 $lowerBound,
                 $upperBound
-            );
+            ];
         }
 
         // match operators constraints
@@ -468,9 +468,9 @@ class VersionParser
                     }
                 }
 
-                return array(
+                return [
                     new VersionConstraint($matches[1] ?: '=', $version)
-                );
+                ];
             } catch (\Exception $e) {
                 // no-catch
             }
@@ -549,7 +549,7 @@ class VersionParser
     public function parseNameVersionPairs(array $pairs)
     {
         $pairs = array_values($pairs);
-        $result = array();
+        $result = [];
 
         for ($i = 0, $count = count($pairs); $i < $count; $i++) {
             $pair = preg_replace('{^([^=: ]+)[=: ](.*)$}', '$1 $2', trim($pairs[$i]));
@@ -560,14 +560,14 @@ class VersionParser
 
             if (strpos($pair, ' ')) {
                 list($name, $version) = explode(" ", $pair, 2);
-                $result[] = array(
+                $result[] = [
                     'name' => $name,
                     'version' => $version
-                );
+                ];
             } else {
-                $result[] = array(
+                $result[] = [
                     'name' => $pair
-                );
+                ];
             }
         }
 

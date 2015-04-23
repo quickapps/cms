@@ -142,7 +142,7 @@ class HtmlHelper extends CakeHtmlHelper
     /**
      * {@inheritDoc}
      */
-    public function css($path, array $options = array())
+    public function css($path, array $options = [])
     {
         $this->alter(['HtmlHelper.css', $this->_View], $path, $options);
         return parent::css($path, $options);
@@ -151,7 +151,7 @@ class HtmlHelper extends CakeHtmlHelper
     /**
      * {@inheritDoc}
      */
-    public function script($url, array $options = array())
+    public function script($url, array $options = [])
     {
         $this->alter(['HtmlHelper.script', $this->_View], $url, $options);
         return parent::script($url, $options);
@@ -160,7 +160,7 @@ class HtmlHelper extends CakeHtmlHelper
     /**
      * {@inheritDoc}
      */
-    public function scriptBlock($script, array $options = array())
+    public function scriptBlock($script, array $options = [])
     {
         $this->alter(['HtmlHelper.scriptBlock', $this->_View], $script, $options);
         return parent::scriptBlock($script, $options);
@@ -169,7 +169,7 @@ class HtmlHelper extends CakeHtmlHelper
     /**
      * {@inheritDoc}
      */
-    public function scriptStart(array $options = array())
+    public function scriptStart(array $options = [])
     {
         $this->alter(['HtmlHelper.scriptStart', $this->_View], $options);
         return parent::scriptStart($options);
@@ -214,7 +214,7 @@ class HtmlHelper extends CakeHtmlHelper
     /**
      * {@inheritDoc}
      */
-    public function image($path, array $options = array())
+    public function image($path, array $options = [])
     {
         $this->alter(['HtmlHelper.image', $this->_View], $path, $options);
         return parent::image($path, $options);

@@ -85,7 +85,7 @@ class MultiConstraint implements LinkConstraintInterface
      */
     public function __toString()
     {
-        $constraints = array();
+        $constraints = [];
         foreach ($this->constraints as $constraint) {
             $constraints[] = $constraint->__toString();
         }

@@ -133,7 +133,7 @@ class MenuHelper extends Helper
      * @param View $View The View this helper is being attached to
      * @param array $config Configuration settings for the helper
      */
-    public function __construct(View $View, $config = array())
+    public function __construct(View $View, $config = [])
     {
         if (empty($config['formatter'])) {
             $this->_defaultConfig['formatter'] = function ($entity, $info) {

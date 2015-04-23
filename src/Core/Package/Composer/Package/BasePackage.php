@@ -55,6 +55,6 @@ abstract class BasePackage implements PackageInterface
         $this->prettyName = $name;
         $this->name = strtolower($name);
         $this->id = -1;
-        $this->transportOptions = array();
+        $this->transportOptions = [];
     }
 }
