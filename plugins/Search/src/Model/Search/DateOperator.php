@@ -13,6 +13,7 @@ namespace Search\Model\Search;
 
 use Cake\ORM\Query;
 use Cake\ORM\Table;
+use Search\Model\Search\RangeOperator;
 use Search\Operator;
 use Search\Token;
 
@@ -28,7 +29,7 @@ use Search\Token;
  *
  * Dates must be in YEAR-MONTH-DATE format. e.g. `2014-12-30`
  */
-class DateOperator extends Operator
+class DateOperator extends RangeOperator
 {
 
     /**
@@ -46,39 +47,6 @@ class DateOperator extends Operator
     ];
 
     /**
-     * {@inheritDoc}
-     */
-    public function scope(Query $query, Token $token)
-    {
-        $tableAlias = $this->_table->alias();
-        $column = $this->config('field');
-        $range = $this->_parseRange($token->value());
-
-        if ($range['lower'] !== $range['upper']) {
-            $conjunction = $token->negated() ? 'AND NOT' : 'AND';
-            $conditions = [
-                "{$conjunction}" => [
-                    "{$tableAlias}.{$column} >=" => $range['lower'],
-                    "{$tableAlias}.{$column} <=" => $range['upper'],
-                ]
-            ];
-        } else {
-            $cmp = $token->negated() ? '<=' : '>=';
-            $conditions = ["{$tableAlias}.{$column} {$cmp}" => $range['lower']];
-        }
-
-        if ($token->where() === 'or') {
-            $query->orWhere($conditions);
-        } elseif ($token->where() === 'and') {
-            $query->andWhere($conditions);
-        } else {
-            $query->where($conditions);
-        }
-
-        return $query;
-    }
-
-    /**
      * Parses and extracts lower and upper date values from the given range given
      * as `lower..upper`.
      *
@@ -92,15 +60,9 @@ class DateOperator extends Operator
      */
     protected function _parseRange($value)
     {
-        if (strpos($value, '..') !== false) {
-            list($lower, $upper) = explode('..', $value);
-        } else {
-            $lower = $upper = $value;
-        }
-
-        $lower = $this->_normalize($lower);
-        $upper = $this->_normalize($upper);
-
+        $range = parent::_parseRange($value);
+        $lower = $this->_normalize($range['lower']);
+        $upper = $this->_normalize($range['upper']);
         if (strtotime($lower) > strtotime($upper)) {
             list($lower, $upper) = [$upper, $lower];
         }
