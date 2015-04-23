@@ -64,13 +64,9 @@ class OrderOperator extends Operator
 
         foreach (explode(';', $value) as $segment) {
             $parts = explode(',', $segment);
-            if (count($parts) === 2 &&
-                in_array($parts[1], ['asc', 'desc']) &&
-                in_array($parts[0], $fields)
-            ) {
-                $field = $parts[0];
-                $dir = $parts[1];
-                $query->order(["{$tableAlias}.{$field}" => $dir]);
+            if (in_array($parts[0], $fields)) {
+                $dir = empty($parts[1]) || !in_array($parts[1], ['asc', 'desc']) ? 'asc' : $parts[1];
+                $query->order(["{$tableAlias}.{$parts[0]}" => $dir]);
             }
         }
 

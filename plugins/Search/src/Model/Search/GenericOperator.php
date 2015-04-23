@@ -35,7 +35,8 @@ class GenericOperator extends Operator
      *
      * - field: Name of the table column which should be scoped.
      *
-     * - conjunction: Defaults to `auto`, accepted values are:
+     * - conjunction: Indicates which conjunction type should be used when scoping
+     *   the column. Defaults to `auto`, accepted values are:
      *
      *   - `LIKE`: Useful when matching string values, accepts wildcard `*` for
      *     matching "any" sequence of chars and `!` for matching any single char.
@@ -71,14 +72,14 @@ class GenericOperator extends Operator
      */
     public function scope(Query $query, Token $token)
     {
-        $field = $this->config('field');
-        if (!$field || empty($token->value())) {
+        $column = $this->config('field');
+        if (!$column || empty($token->value())) {
             return $query;
         }
 
         list($conjunction, $value) = $this->_prepareConjunction($token);
         $tableAlias = $this->_table->alias();
-        $conditions = ["{$tableAlias}.{$field} {$conjunction}" => $value];
+        $conditions = ["{$tableAlias}.{$column} {$conjunction}" => $value];
 
         if ($token->where() === 'or') {
             $query->orWhere($conditions);
@@ -92,18 +93,19 @@ class GenericOperator extends Operator
     }
 
     /**
-     * Calculates the conjunction to use and the value to use with this conjunction
+     * Calculates the conjunction to use and the value to use with such conjunction
      * based on the given token.
      *
      * @param \Search\Token $token Token for which calculating the conjunction
-     * @return string
+     * @return array Numeric index array, where the first key (0) is the
+     *  conjunction, and the second (1) is the value.
      */
     protected function _prepareConjunction($token)
     {
         $value = $token->value();
         $conjunction = strtolower($this->config('conjunction'));
         if ($conjunction == 'auto') {
-            $conjunction = strpos($value, ',') ? 'in' : 'like';
+            $conjunction = strpos($value, ',') !== false ? 'in' : 'like';
         }
 
         if ($conjunction == 'in') {

@@ -95,32 +95,6 @@ class Token
     }
 
     /**
-     * Alias for operatorName().
-     *
-     * @return string
-     */
-    public function name()
-    {
-        if ($this->isOperator()) {
-            return $this->_data['operatorName'];
-        }
-        return $this->_data['string'];
-    }
-
-    /**
-     * Alias for operatorArguments().
-     *
-     * @return string
-     */
-    public function value()
-    {
-        if ($this->isOperator()) {
-            return $this->_data['operatorArguments'];
-        }
-        return $this->_data['string'];
-    }
-
-    /**
      * Gets operator's argument.
      *
      * Should be used only when this token is an operator.
@@ -133,7 +107,35 @@ class Token
     }
 
     /**
-     * Indicates this token was negated using "-".
+     * Gets operator's name (if this token is an operator), or string
+     * representation of this token (if ain't operator).
+     *
+     * @return string
+     */
+    public function name()
+    {
+        if ($this->isOperator()) {
+            return $this->_data['operatorName'];
+        }
+        return $this->_data['string'];
+    }
+
+    /**
+     * Gets operator's value (if this token is an operator), or string
+     * representation of this token (if ain't operator).
+     *
+     * @return string
+     */
+    public function value()
+    {
+        if ($this->isOperator()) {
+            return $this->_data['operatorArguments'];
+        }
+        return $this->_data['string'];
+    }
+
+    /**
+     * Indicates this token was negated using "-" symbol. e.g. `-"no this phrase"`
      *
      * @return boolean True if it's negated
      */
