@@ -74,7 +74,7 @@ use QuickApps\Core\Plugin;
                                                         'confirm' => __d('block', 'Duplicate this block, are you sure?'),
                                                     ]);
                                                 ?>
-                                                <?php if ($block->handler === 'Block'): ?>
+                                                <?php if ($block->handler === 'Block' || !empty($block->copy_id)): ?>
                                                     <?php
                                                         echo $this->Html->link('', [
                                                             'plugin' => 'Block',
@@ -153,7 +153,7 @@ use QuickApps\Core\Plugin;
                                                         'class' => 'btn btn-default btn-sm glyphicon glyphicon-duplicate',
                                                     ]);
                                                 ?>
-                                                <?php if ($block->handler === 'Block'): ?>
+                                                <?php if ($block->handler === 'Block' || !empty($block->copy_id)): ?>
                                                     <?php
                                                         echo $this->Html->link('', [
                                                             'plugin' => 'Block',
@@ -222,7 +222,7 @@ use QuickApps\Core\Plugin;
                                             'class' => 'btn btn-default btn-sm glyphicon glyphicon-duplicate',
                                         ]);
                                     ?>
-                                    <?php if ($block->handler === 'Block'): ?>
+                                    <?php if ($block->handler === 'Block' || !empty($block->copy_id)): ?>
                                         <?php
                                             echo $this->Html->link('', [
                                                 'plugin' => 'Block',

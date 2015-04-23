@@ -148,10 +148,12 @@ class ManageController extends AppController
     {
         $this->loadModel('Block.Blocks');
         $block = $this->Blocks->find()
-            ->where(['id' => $id, 'handler' => 'Block'])
+            ->where(['id' => $id])
             ->first();
 
-        if ($block) {
+        if ($block &&
+            ($block->handler == 'Block' || !empty($block->copy_id))
+        ) {
             if ($this->Blocks->delete($block)) {
                 $this->Flash->success(__d('block', 'Block was successfully removed!'));
             } else {
