@@ -44,12 +44,14 @@ class ManageController extends AppController
     {
         $this->loadModel('Menu.Menus');
         $menu = $this->Menus->newEntity();
-        $menu->set('handler', 'Menu');
 
         if ($this->request->data()) {
-            $menu = $this->Menus->patchEntity($menu, $this->request->data(), [
+            $data = $this->request->data();
+            $data['handler'] = 'Menu';
+            $menu = $this->Menus->patchEntity($menu, $data, [
                 'fieldList' => [
                     'title',
+                    'handler',
                     'description',
                     'settings',
                 ],
