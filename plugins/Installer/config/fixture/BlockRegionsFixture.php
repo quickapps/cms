@@ -13,6 +13,8 @@
 class BlockRegionsFixture
 {
 
+    public $table = 'block_regions';
+
     public $fields = [
     '_constraints' =>
     [

@@ -16,6 +16,8 @@ use Cake\TestSuite\Fixture\TestFixture;
 class EavValuesFixture extends TestFixture
 {
 
+    public $table = 'eav_values';
+
     public $fields = [
     '_constraints' =>
     [

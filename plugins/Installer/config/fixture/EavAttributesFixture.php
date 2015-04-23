@@ -13,6 +13,8 @@
 class EavAttributesFixture
 {
 
+    public $table = 'eav_attributes';
+
     public $fields = [
     '_constraints' =>
     [

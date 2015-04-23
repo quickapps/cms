@@ -16,6 +16,8 @@ use Cake\TestSuite\Fixture\TestFixture;
 class NodeTypesFixture extends TestFixture
 {
 
+    public $table = 'node_types';
+
     public $fields = [
     '_constraints' =>
     [

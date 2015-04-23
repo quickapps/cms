@@ -16,6 +16,8 @@ use Cake\TestSuite\Fixture\TestFixture;
 class TermsFixture extends TestFixture
 {
 
+    public $table = 'terms';
+
     public $fields = [
     '_constraints' =>
     [

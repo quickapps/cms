@@ -13,6 +13,8 @@
 class VocabulariesFixture
 {
 
+    public $table = 'vocabularies';
+
     public $fields = [
     '_constraints' =>
     [

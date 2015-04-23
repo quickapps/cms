@@ -16,6 +16,8 @@ use Cake\TestSuite\Fixture\TestFixture;
 class MenusFixture extends TestFixture
 {
 
+    public $table = 'menus';
+
     public $fields = [
     '_constraints' =>
     [

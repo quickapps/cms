@@ -16,6 +16,8 @@ use Cake\TestSuite\Fixture\TestFixture;
 class NodesRolesFixture extends TestFixture
 {
 
+    public $table = 'nodes_roles';
+
     public $fields = [
     '_constraints' =>
     [

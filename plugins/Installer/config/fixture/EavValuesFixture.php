@@ -13,6 +13,8 @@
 class EavValuesFixture
 {
 
+    public $table = 'eav_values';
+
     public $fields = [
     '_constraints' =>
     [

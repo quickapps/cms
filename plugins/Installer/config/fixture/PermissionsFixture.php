@@ -13,6 +13,8 @@
 class PermissionsFixture
 {
 
+    public $table = 'permissions';
+
     public $fields = [
     '_constraints' =>
     [

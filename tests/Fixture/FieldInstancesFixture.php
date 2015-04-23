@@ -16,6 +16,8 @@ use Cake\TestSuite\Fixture\TestFixture;
 class FieldInstancesFixture extends TestFixture
 {
 
+    public $table = 'field_instances';
+
     public $fields = [
     '_constraints' =>
     [

@@ -13,6 +13,8 @@
 class FieldInstancesFixture
 {
 
+    public $table = 'field_instances';
+
     public $fields = [
     '_constraints' =>
     [

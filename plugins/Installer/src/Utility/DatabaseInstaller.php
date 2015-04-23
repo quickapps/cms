@@ -323,10 +323,15 @@ class DatabaseInstaller
 
         require $path;
         $className = str_replace('.php', '', basename($path));
-        $tableName = (string)Inflector::underscore(str_replace_last('Fixture', '', $className));
         $fixture = new $className;
         $fields = (array)$fixture->fields;
         $constraints = [];
+
+        if (!empty($fixture->table)) {
+            $tableName = $fixture->table;
+        } else {
+            $tableName = (string)Inflector::underscore(str_replace_last('Fixture', '', $className));
+        }
 
         if (isset($fields['_constraints'])) {
             $constraints = $fields['_constraints'];

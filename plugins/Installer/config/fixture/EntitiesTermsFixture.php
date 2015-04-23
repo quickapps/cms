@@ -13,6 +13,8 @@
 class EntitiesTermsFixture
 {
 
+    public $table = 'entities_terms';
+
     public $fields = [
     '_constraints' =>
     [

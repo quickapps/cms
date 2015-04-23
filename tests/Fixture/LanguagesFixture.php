@@ -16,6 +16,8 @@ use Cake\TestSuite\Fixture\TestFixture;
 class LanguagesFixture extends TestFixture
 {
 
+    public $table = 'languages';
+
     public $fields = [
     '_constraints' =>
     [

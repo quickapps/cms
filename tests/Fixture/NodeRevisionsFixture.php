@@ -16,6 +16,8 @@ use Cake\TestSuite\Fixture\TestFixture;
 class NodeRevisionsFixture extends TestFixture
 {
 
+    public $table = 'node_revisions';
+
     public $fields = [
     '_constraints' =>
     [

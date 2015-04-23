@@ -13,6 +13,8 @@
 class UsersRolesFixture
 {
 
+    public $table = 'users_roles';
+
     public $fields = [
     '_constraints' =>
     [

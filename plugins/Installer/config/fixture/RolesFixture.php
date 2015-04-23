@@ -13,6 +13,8 @@
 class RolesFixture
 {
 
+    public $table = 'roles';
+
     public $fields = [
     '_constraints' =>
     [

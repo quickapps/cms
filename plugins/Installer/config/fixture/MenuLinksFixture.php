@@ -13,6 +13,8 @@
 class MenuLinksFixture
 {
 
+    public $table = 'menu_links';
+
     public $fields = [
     '_constraints' =>
     [

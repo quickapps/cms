@@ -13,6 +13,8 @@
 class NodesFixture
 {
 
+    public $table = 'nodes';
+
     public $fields = [
     '_constraints' =>
     [

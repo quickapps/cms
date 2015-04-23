@@ -16,6 +16,8 @@ use Cake\TestSuite\Fixture\TestFixture;
 class CommentsFixture extends TestFixture
 {
 
+    public $table = 'comments';
+
     public $fields = [
     '_constraints' =>
     [

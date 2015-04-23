@@ -16,6 +16,8 @@ use Cake\TestSuite\Fixture\TestFixture;
 class OptionsFixture extends TestFixture
 {
 
+    public $table = 'options';
+
     public $fields = [
     '_constraints' =>
     [

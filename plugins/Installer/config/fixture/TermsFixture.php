@@ -13,6 +13,8 @@
 class TermsFixture
 {
 
+    public $table = 'terms';
+
     public $fields = [
     '_constraints' =>
     [

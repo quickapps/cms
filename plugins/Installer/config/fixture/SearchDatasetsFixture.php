@@ -13,6 +13,8 @@
 class SearchDatasetsFixture
 {
 
+    public $table = 'search_datasets';
+
     public $fields = [
     '_constraints' =>
     [

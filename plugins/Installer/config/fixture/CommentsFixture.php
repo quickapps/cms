@@ -13,6 +13,8 @@
 class CommentsFixture
 {
 
+    public $table = 'comments';
+
     public $fields = [
     '_constraints' =>
     [

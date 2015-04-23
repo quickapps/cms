@@ -13,6 +13,8 @@
 class PluginsFixture
 {
 
+    public $table = 'plugins';
+
     public $fields = [
     '_constraints' =>
     [

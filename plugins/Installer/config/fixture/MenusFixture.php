@@ -13,6 +13,8 @@
 class MenusFixture
 {
 
+    public $table = 'menus';
+
     public $fields = [
     '_constraints' =>
     [

@@ -16,6 +16,8 @@ use Cake\TestSuite\Fixture\TestFixture;
 class BlockRegionsFixture extends TestFixture
 {
 
+    public $table = 'block_regions';
+
     public $fields = [
     '_constraints' =>
     [

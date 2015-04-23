@@ -11,7 +11,6 @@
  */
 namespace Menu\Test\TestCase\Controller\Admin;
 
-use Cake\ORM\TableRegistry;
 use Cake\TestSuite\IntegrationTestCase;
 
 /**

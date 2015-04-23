@@ -13,6 +13,8 @@
 class OptionsFixture
 {
 
+    public $table = 'options';
+
     public $fields = [
     '_constraints' =>
     [

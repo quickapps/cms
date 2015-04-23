@@ -168,6 +168,8 @@ class DatabaseExportTask extends Shell
             $fixture = $this->_classFileHeader($className);
             $fixture .= "{\n";
             $fixture .= "\n";
+            $fixture .= "    public \$table = '{$table}';\n";
+            $fixture .= "\n";
             $fixture .= "    public \$fields = {$fields};\n";
             $fixture .= "\n";
             $fixture .= "    public \$records = {$records};\n";

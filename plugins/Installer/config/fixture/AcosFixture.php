@@ -13,6 +13,8 @@
 class AcosFixture
 {
 
+    public $table = 'acos';
+
     public $fields = [
     '_constraints' =>
     [

@@ -13,6 +13,8 @@
 class NodeRevisionsFixture
 {
 
+    public $table = 'node_revisions';
+
     public $fields = [
     '_constraints' =>
     [

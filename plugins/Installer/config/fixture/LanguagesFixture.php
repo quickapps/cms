@@ -13,6 +13,8 @@
 class LanguagesFixture
 {
 
+    public $table = 'languages';
+
     public $fields = [
     '_constraints' =>
     [

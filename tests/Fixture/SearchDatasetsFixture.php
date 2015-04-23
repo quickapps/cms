@@ -16,6 +16,8 @@ use Cake\TestSuite\Fixture\TestFixture;
 class SearchDatasetsFixture extends TestFixture
 {
 
+    public $table = 'search_datasets';
+
     public $fields = [
     '_constraints' =>
     [
