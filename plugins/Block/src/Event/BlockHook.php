@@ -18,6 +18,7 @@ use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use Cake\Event\EventManager;
 use Cake\Utility\Hash;
+use Cake\Utility\Inflector;
 use QuickApps\Core\StaticCacheTrait;
 use QuickApps\Event\HookAwareTrait;
 
@@ -89,7 +90,10 @@ class BlockHook implements EventListenerInterface
      * Block rendering dispatcher, renders the given block.
      *
      * This method will delegate the rendering task to block's handler by triggering
-     * the `Block.<handler>.display` event.
+     * the `Block.<handler>.display` event, or the event
+     * `Block.<handler>.display<CamelizedDelta>`, where "CamelizedDelta" is delta's
+     * CamelizedName, e.g.: `Block.<handler>.displayMyDeltaName` (for block's delta
+     * `my-delta-name`).
      *
      * If such event does not exists it will look for certain view elements when
      * rendering each block, if one of this elements is not present it'll look the
@@ -146,7 +150,10 @@ class BlockHook implements EventListenerInterface
     public function renderBlock(Event $event, Block $block, $options = [])
     {
         // plugin should take care of rendering
-        if (in_array("Block.{$block->handler}.display", listeners())) {
+        $eventName = Inflector::variable('display_' . $block->get('delta'));
+        if (in_array("Block.{$block->handler}.{$eventName}", listeners())) {
+            return $this->trigger(["Block.{$block->handler}.{$eventName}", $event->subject()], $block, $options)->result;
+        } elseif (in_array("Block.{$block->handler}.display", listeners())) {
             return $this->trigger(["Block.{$block->handler}.display", $event->subject()], $block, $options)->result;
         }
 

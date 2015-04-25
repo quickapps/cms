@@ -17,6 +17,7 @@ use Cake\Event\Event;
 use Cake\ORM\Entity;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\Utility\Inflector;
 use Cake\Validation\Validator;
 use QuickApps\Core\Plugin;
 use QuickApps\Event\HookAwareTrait;
@@ -286,7 +287,13 @@ class BlocksTable extends Table
 
             if ($block->handler !== 'Block') {
                 $validator = new Validator();
-                $this->trigger("Block.{$block->handler}.settingsValidate", $data, $validator);
+                $eventName = Inflector::variable('settingsValidate_' . $block->get('delta'));
+                if (in_array("Block.{$block->handler}.{$eventName}", listeners())) {
+                    $this->trigger("Block.{$block->handler}.{$eventName}", $data, $validator);
+                } else {
+                    $this->trigger("Block.{$block->handler}.settingsValidate", $data, $validator);
+                }
+
                 $errors = $validator->errors((array)$data);
                 foreach ($errors as $k => $v) {
                     $block->errors("settings:{$k}", $v);
@@ -309,7 +316,12 @@ class BlocksTable extends Table
     public function settingsDefaultValues(Event $event, Entity $block)
     {
         if ($block->has('handler')) {
-            return (array)$this->trigger("Block.{$block->handler}.settingsDefaults", $block)->result;
+            $eventName = Inflector::variable('settingsDefaults_' . $block->get('delta'));
+            if (in_array("Block.{$block->handler}.{$eventName}", listeners())) {
+                return (array)$this->trigger("Block.{$block->handler}.{$eventName}", $block)->result;
+            } else {
+                return (array)$this->trigger("Block.{$block->handler}.settingsDefaults", $block)->result;
+            }
         }
 
         return [];
@@ -331,7 +343,13 @@ class BlocksTable extends Table
             $block->calculateDelta();
         }
 
-        $blockEvent = $this->trigger(["Block.{$block->handler}.beforeSave", $event->subject()], $block, $options);
+        $eventName = Inflector::variable('beforeSave_' . $block->get('delta'));
+        if (in_array("Block.{$block->handler}.{$eventName}", listeners())) {
+            $blockEvent = $this->trigger(["Block.{$block->handler}.{$eventName}", $event->subject()], $block, $options);
+        } else {
+            $blockEvent = $this->trigger(["Block.{$block->handler}.beforeSave", $event->subject()], $block, $options);
+        }
+
         if ($blockEvent->isStopped() || $blockEvent->result === false) {
             return false;
         }
@@ -351,7 +369,13 @@ class BlocksTable extends Table
      */
     public function afterSave(Event $event, Block $block, ArrayObject $options = null)
     {
-        $this->trigger(["Block.{$block->handler}.afterSave", $event->subject()], $block, $options);
+        $eventName = Inflector::variable('afterSave_' . $block->get('delta'));
+        if (in_array("Block.{$block->handler}.{$eventName}", listeners())) {
+            $this->trigger(["Block.{$block->handler}.{$eventName}", $event->subject()], $block, $options);
+        } else {
+            $this->trigger(["Block.{$block->handler}.afterSave", $event->subject()], $block, $options);
+        }
+
         $this->clearCache();
     }
 
@@ -366,7 +390,13 @@ class BlocksTable extends Table
      */
     public function beforeDelete(Event $event, Block $block, ArrayObject $options = null)
     {
-        $blockEvent = $this->trigger(["Block.{$block->handler}.beforeDelete", $event->subject()], $block, $options);
+        $eventName = Inflector::variable('beforeDelete_' . $block->get('delta'));
+        if (in_array("Block.{$block->handler}.{$eventName}", listeners())) {
+            $blockEvent = $this->trigger(["Block.{$block->handler}.{$eventName}", $event->subject()], $block, $options);
+        } else {
+            $blockEvent = $this->trigger(["Block.{$block->handler}.beforeDelete", $event->subject()], $block, $options);
+        }
+
         if ($blockEvent->isStopped() || $blockEvent->result === false) {
             return false;
         }
@@ -386,7 +416,12 @@ class BlocksTable extends Table
      */
     public function afterDelete(Event $event, Block $block, ArrayObject $options = null)
     {
-        $this->trigger(["Block.{$block->handler}.afterDelete", $event->subject()], $block, $options);
+        $eventName = Inflector::variable('afterDelete_' . $block->get('delta'));
+        if (in_array("Block.{$block->handler}.{$eventName}", listeners())) {
+            $this->trigger(["Block.{$block->handler}.{$eventName}", $event->subject()], $block, $options);
+        } else {
+            $this->trigger(["Block.{$block->handler}.afterDelete", $event->subject()], $block, $options);
+        }
         $this->clearCache();
     }
 
