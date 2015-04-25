@@ -35,7 +35,7 @@
                         <?php echo $response; ?>
                     <hr />
                 <?php endif; ?>
-                <?php echo $this->Form->prefix(); ?>
+                <?php echo $this->Form->prefix(''); ?>
                 <!-- /handler:<?php echo $block->handler; ?> -->
             <?php endif; ?>
 

@@ -405,7 +405,7 @@ class FormHelper extends CakeFormHelper
     }
 
     /**
-     * Sets/Unsets an input prefix.
+     * Sets/Read input prefix.
      *
      * ### Example:
      *
@@ -414,9 +414,12 @@ class FormHelper extends CakeFormHelper
      * echo $this->Form->input('site_name');
      * // outputs: <input type="text" name="settings:site_name" />
      *
-     * $this->Form->prefix();
-     * echo $this->Form->input('site_title');
-     * // outputs: <input type="text" name="site_title" />
+     * echo $this->Form->prefix();
+     * // outputs: "settings:"
+     *
+     * $this->Form->prefix('');
+     * echo $this->Form->prefix();
+     * // outputs: <empty string>
      * ```
      *
      * @param string|null $prefix The prefix to be set, or leave empty to unset any
@@ -426,6 +429,9 @@ class FormHelper extends CakeFormHelper
     public function prefix($prefix = null)
     {
         $this->alter(['FormHelper.prefix', $this->_View], $prefix);
+        if ($prefix === null) {
+            return $this->_prefix;
+        }
         $this->_prefix = $prefix;
     }
 
