@@ -13,6 +13,7 @@ namespace Comment\View\Helper;
 
 use Cake\Network\Exception\InternalErrorException;
 use Cake\ORM\Entity;
+use Captcha\CaptchaManager;
 use QuickApps\Core\Plugin;
 use QuickApps\Event\HookAwareTrait;
 use QuickApps\View\Helper;
@@ -64,7 +65,7 @@ class CommentHelper extends Helper
 
         $out = '';
         if ($this->config('visibility') > 0) {
-            $out .= $this->_View->element('Comment.render_comments');
+            $out .= $this->_View->element('Comment.render_comments_list');
             if ($this->config('visibility') === 1) {
                 $out .= $this->_View->element('Comment.render_comments_form');
             }
@@ -81,8 +82,8 @@ class CommentHelper extends Helper
     /**
      * Shortcut for generate form-input's options.
      *
-     * It take cares of adding an asterisk "*" to each required filed label,
-     * it also adds the "required" attribute.
+     * It take cares of adding an asterisk "*" to each required filed label, it also
+     * adds the "required" attribute.
      *
      * @param string $input Input name (author_name, author_email, author_web, subject or body)
      * @return array
@@ -124,22 +125,15 @@ class CommentHelper extends Helper
     }
 
     /**
-     * Renders "Are You A Human" form element.
+     * Renders CAPTCHA form element.
      *
      * @return string HTML
      */
     public function captcha()
     {
-        $out = '';
-        if ($this->config('use_ayah') &&
-            $this->config('ayah_publisher_key') &&
-            $this->config('ayah_scoring_key')
-        ) {
-            require_once Plugin::classPath('Comment') . 'Lib/ayah.php';
-            $ayah = new \AYAH();
-            $out = $this->_View->element('Comment.captcha_ayah', ['ayah' => $ayah]);
+        if ($this->config('use_captcha')) {
+            return CaptchaManager::adapter()->render($this->_View);
         }
-
-        return $out;
+        return '';
     }
 }

@@ -17,6 +17,7 @@ use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Cake\Validation\Validator;
+use Captcha\CaptchaManager;
 use Comment\Model\Entity\Comment;
 use Field\Utility\TextToolbox;
 use QuickApps\Core\Plugin;
@@ -61,31 +62,38 @@ class CommentComponent extends Component
     /**
      * Default configuration.
      *
-     * - `redirectOnSuccess`: Set to true to redirect to `referer` page on success.
-     *    Set to false for no redirection, or set to an array|string compatible with
-     *    `Controller::redirect()` method.
-     * - `successMessage`: Custom success alert-message. Or a callable method which
-     *    must return a customized message.
-     * - `errorMessage`: Custom error alert-message. Or a callable method which must
-     *    return a customized message.
-     * - `arrayContext`: Information for the ArrayContext provider used by FormHelper
-     *    when rendering comments form.
-     * - `validator`: A custom validator object, if not provided it automatically
-     *    creates one for you using the information below:
-     * - `settings`: Array of additional settings parameters, will be merged with
-     *    those coming from Comment Plugin's configuration panel (at backend).
+     * - redirectOnSuccess: Set to true to redirect to `referer` page on success.
+     *   Set to false for no redirection, or set to an array|string compatible with
+     *   `Controller::redirect()` method.
+     *
+     * - successMessage: Custom success alert-message. Or a callable method which
+     *   must return a customized message.
+     *
+     * - errorMessage: Custom error alert-message. Or a callable method which must
+     *   return a customized message.
+     *
+     * - arrayContext: Information for the ArrayContext provider used by FormHelper
+     *   when rendering comments form.
+     *
+     * - validator: A custom validator object, if not provided it automatically
+     *   creates one for you using the information below:
+     *
+     * - settings: Array of additional settings parameters, will be merged with
+     *   those coming from Comment Plugin's configuration panel (at backend).
      *
      * When defining `successMessage` or `errorMessage` as callable functions you
      * should expect two arguments. A comment entity as first argument and the
      * controller instance this component is attached to as second argument:
      *
-     *     $options['successMessage'] = function ($comment, $controller) {
-     *         return 'My customized success message';
-     *     }
+     * ```php
+     * $options['successMessage'] = function ($comment, $controller) {
+     *     return 'My customized success message';
+     * }
      *
-     *     $options['errorMessage'] = function ($comment, $controller) {
-     *         return 'My customized error message';
-     *     }
+     * $options['errorMessage'] = function ($comment, $controller) {
+     *     return 'My customized error message';
+     * }
+     * ```
      *
      * @var array
      */
@@ -140,10 +148,10 @@ class CommentComponent extends Component
             ) {
                 return __d('comment', 'Comment saved!');
             }
-
             return __d('comment', 'Your comment is awaiting moderation.');
         };
         parent::__construct($collection, $config);
+        $this->_controller = $this->_registry->getController();
         $this->_loadSettings();
     }
 
@@ -155,46 +163,8 @@ class CommentComponent extends Component
      */
     public function beforeFilter(Event $event)
     {
-        $this->_controller = $event->subject();
         $this->_controller->set('__commentComponentLoaded__', true);
         $this->_controller->set('_commentFormContext', $this->config('arrayContext'));
-
-        if ($this->config('use_ayah') &&
-            $this->config('ayah_publisher_key') &&
-            $this->config('ayah_scoring_key')
-        ) {
-            // @codingStandardsIgnoreStart
-            /**
-             * @ignore
-             */
-            define('AYAH_PUBLISHER_KEY', $this->config('ayah_publisher_key'));
-
-            /**
-             * @ignore
-             */
-            define('AYAH_SCORING_KEY', $this->config('ayah_scoring_key'));
-
-            /**
-             * @ignore
-             */
-            define('AYAH_WEB_SERVICE_HOST', 'ws.areyouahuman.com');
-
-            /**
-             * @ignore
-             */
-            define('AYAH_TIMEOUT', 0);
-
-            /**
-             * @ignore
-             */
-            define('AYAH_DEBUG_MODE', false);
-
-            /**
-             * @ignore
-             */
-            define('AYAH_USE_CURL', true);
-            // @codingStandardsIgnoreEnd
-        }
     }
 
     /**
@@ -356,7 +326,6 @@ class CommentComponent extends Component
         }
 
         $this->_controller->Flash->success($successMessage, ['key' => 'commentsForm']);
-
         if ($this->config('redirectOnSuccess')) {
             $redirectTo = $this->config('redirectOnSuccess') === true ? $this->_controller->referer() : $this->config('redirectOnSuccess');
             $this->_controller->redirect($redirectTo);
@@ -501,16 +470,11 @@ class CommentComponent extends Component
             $validator = new Validator();
         }
 
-        if ($this->config('settings.use_ayah') &&
-            $this->config('settings.ayah_publisher_key') &&
-            $this->config('settings.ayah_scoring_key')
-        ) {
-            require_once Plugin::classPath('Comment') . 'Lib/ayah.php';
-            $ayah = new \AYAH();
+        if ($this->config('settings.use_captcha')) {
             $validator
                 ->add('body', 'humanCheck', [
-                    'rule' => function ($value, $context) use ($ayah) {
-                        return $ayah->scoreResult();
+                    'rule' => function ($value, $context) {
+                        return CaptchaManager::adapter()->validate($this->_controller->request);
                     },
                     'message' => __d('comment', 'We were not able to verify you as human. Please try again.'),
                     'provider' => 'table',

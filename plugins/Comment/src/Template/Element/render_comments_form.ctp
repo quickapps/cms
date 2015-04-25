@@ -11,7 +11,7 @@
  */
 
 /**
- * Renders the `post new comment` form.
+ * Renders the "post new comment" form.
  */
 ?>
 

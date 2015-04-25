@@ -130,15 +130,16 @@
 
 <fieldset>
     <legend><?php echo __d('comment', 'CAPTCHA Protection'); ?></legend>
-
-    <?php echo $this->Form->input('use_ayah', ['id' => 'use-ayah', 'type' => 'checkbox', 'label' => __d('comment', 'Enable Human Verification'), 'onclick' => 'toggleAyahOptions();']); ?>
-    <em class="help-block"><?php echo __d('comment', 'Service provided by "Are You A Human", <a href="{0}" target="_blank">register</a> and get your keys', 'http://areyouahuman.com/'); ?></em>
-    <div class="ayah-options">
-        <?php echo $this->Form->input('ayah_publisher_key', ['type' => 'text', 'label' => __d('comment', 'Publisher Key *')]); ?>
-        <em class="help-block"><?php echo __d('comment', 'e.g. 310203ef720d21451c2516f2633c645acadc225a'); ?></em>
-
-        <?php echo $this->Form->input('ayah_scoring_key', ['type' => 'text', 'label' => __d('comment', 'Scoring Key *')]); ?>
-        <em class="help-block"><?php echo __d('comment', 'e.g. 6233426d2e41a5c37d11c65202fa23c1fca50520'); ?></em>
+    <?php
+        echo $this->Form->input('use_captcha', [
+            'id' => 'use-captcha',
+            'type' => 'checkbox',
+            'label' => __d('comment', 'Enable Human Verification'),
+            'onclick' => 'toggleCaptchaOptions();'
+        ]);
+    ?>
+    <div class="captcha-options">
+        <?php echo __d('comment', 'You can configure CAPTCHA parameters by clicking <a href="{0}">this link</a>.', $this->Url->build('/admin/system/plugins/settings/Captcha')); ?>
     </div>
 </fieldset>
 
@@ -184,20 +185,16 @@
         }
     }
 
-    function toggleAyahOptions() {
-        if ($('#use-ayah').is(':checked')) {
-            $('.ayah-options').show();
-            $('#ayah-publisher-key').attr('required', 'required');
-            $('#ayah-scoring-key').attr('required', 'required');
+    function toggleCaptchaOptions() {
+        if ($('#use-captcha').is(':checked')) {
+            $('.captcha-options').show();
         } else {
-            $('.ayah-options').hide();
-            $('#ayah-publisher-key').removeAttr('required');
-            $('#ayah-scoring-key').removeAttr('required');
+            $('.captcha-options').hide();
         }
     }
 
     $(document).ready(function () {
-        toggleAyahOptions();
+        toggleCaptchaOptions();
         toggleAnonymousCommentOptions();
         toggleAkismetOptions();
     });
