@@ -96,23 +96,15 @@ class SerializableBehavior extends Behavior
      */
     public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
     {
-        foreach ((array)$data as $key => $value) {
-            if ((int)strpos($key, ':') > 0) {
-                list($column, $subcolumn) = explode(':', $key);
-                $data[$column][$subcolumn] = $value;
-                unset($data[$key]);
-            }
-        }
-
-        if (!$options['validate']) {
-            return;
-        }
-
+        $dataArray = Hash::expand((array)$data, ':');
         foreach ($this->config('columns') as $column) {
-            if (isset($data[$column])) {
-                $eventName = $this->_table->alias() . ".{$column}.validate";
-                $columnData = (array)$data[$column];
-                $this->_table->dispatchEvent($eventName, compact('columnData', 'options'));
+            if (isset($dataArray[$column])) {
+                $data[$column] = $dataArray[$column];
+                if ($options['validate']) {
+                    $eventName = $this->_table->alias() . ".{$column}.validate";
+                    $columnData = (array)$dataArray[$column];
+                    $this->_table->dispatchEvent($eventName, compact('columnData', 'options'));
+                }
             }
         }
     }
@@ -161,8 +153,9 @@ class SerializableBehavior extends Behavior
 
                         $entity->set($column, $newValue);
                         if (!empty($options['flatten']) && is_array($entity->get($column))) {
-                            foreach ($entity->get($column) as $key => $value) {
-                                $entity->set("{$column}:{$key}", $value);
+                            $array = Hash::flatten([$column => $entity->get($column)], ':');
+                            foreach ($array as $key => $value) {
+                                $entity->set($key, $value);
                             }
                         }
                     }
