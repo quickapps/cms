@@ -271,7 +271,7 @@ class CommentComponent extends Component
             if ($this->config('settings.use_akismet')) {
                 $newStatus = $this->_akismetStatus($data);
                 $comment->set('status', $newStatus);
-                
+
                 if ($newStatus == 'spam' &&
                     $this->config('settings.akismet_action') != 'mark'
                 ) {
