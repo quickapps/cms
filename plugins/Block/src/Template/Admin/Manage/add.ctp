@@ -23,7 +23,7 @@
             <?php echo $this->Form->input('status', ['type' => 'checkbox', 'label' => __d('block', 'Published')]); ?>
             <em class="help-block"><?php echo __d('block', 'Check this to enable this block.'); ?></em>
 
-            <?php echo $this->Form->input('body', ['label' => __d('block', 'Body *')]); ?>
+            <?php echo $this->Form->input('body', ['label' => __d('block', 'Body *'), 'class' => 'ckeditor']); ?>
             <em class="help-block"><?php echo __d('block', 'The content of the block as shown to the user.'); ?></em>
 
             <?php echo $this->Form->input('locale', ['type' => 'select', 'error' => false, 'label' => __d('block', 'Language'), 'options' => $languages, 'multiple' => 'checkbox']); ?>
