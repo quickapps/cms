@@ -31,8 +31,8 @@ before_script:
   - set +H
 
 script:
-  - sh -c "if [ '$PHPCS' != '1' ]; then phpunit --debug; fi"
-  - sh -c "if [ '$PHPCS' = '1' ]; then vendor/bin/phpcs -p -n --ignore=*/Lib/*,*fixture/* --extensions=php --standard=vendor/cakephp/cakephp-codesniffer/CakePHP ./src ./plugins; fi"
+  - sh -c "if [ '$PHPCS' != '1' ]; then phpunit; fi"
+  - sh -c "if [ '$PHPCS' = '1' ]; then vendor/bin/phpcs -p -n --ignore=*/Lib/*,*fixture/*,*webroot/* --extensions=php --standard=vendor/cakephp/cakephp-codesniffer/CakePHP ./src ./plugins; fi"
 
 notifications:
   email: false
