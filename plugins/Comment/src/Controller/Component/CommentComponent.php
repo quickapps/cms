@@ -13,6 +13,7 @@ namespace Comment\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Controller\ComponentRegistry;
+use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
@@ -209,10 +210,10 @@ class CommentComponent extends Component
     /**
      * Adds a new comment for the given entity.
      *
-     * @param \Cake\ORM\Entity $entity The entity where to attach new comment
+     * @param \Cake\Datasource\EntityInterface $entity The entity where to attach new comment
      * @return bool True on success, false otherwise
      */
-    public function post($entity)
+    public function post(EntityInterface $entity)
     {
         $pk = (string)TableRegistry::get($entity->source())->primaryKey();
         if (empty($this->_controller->request->data['comment']) ||
@@ -318,7 +319,7 @@ class CommentComponent extends Component
      * @param \Cake\Datasource\EntityInterface $comment Comment that was just saved
      * @return void
      */
-    protected function _afterSave($comment)
+    protected function _afterSave(EntityInterface $comment)
     {
         $successMessage = $this->config('successMessage');
         if (is_callable($successMessage)) {
@@ -336,10 +337,10 @@ class CommentComponent extends Component
      * Extract data from request and prepares for inserting a new comment for
      * the given entity.
      *
-     * @param \Cake\ORM\Entity $entity Entity used to guess table name
+     * @param \Cake\Datasource\EntityInterface $entity Entity used to guess table name
      * @return array
      */
-    protected function _getRequestData($entity)
+    protected function _getRequestData(EntityInterface $entity)
     {
         $pk = (string)TableRegistry::get($entity->source())->primaryKey();
         $data = [];
@@ -386,7 +387,7 @@ class CommentComponent extends Component
      * @param \Cake\Datasource\EntityInterface $entity The entity
      * @return string Table alias
      */
-    protected function _getTableAlias($entity)
+    protected function _getTableAlias(EntityInterface $entity)
     {
         $alias = $entity->source();
         if (mb_strpos($alias, '.') !== false) {

@@ -13,7 +13,7 @@ namespace Captcha\Adapter;
 
 use Cake\Core\InstanceConfigTrait;
 use Cake\Network\Request;
-use QuickApps\View\View;
+use Cake\View\View;
 
 /**
  * Base CAPTCHA adapter class.
@@ -62,8 +62,8 @@ class BaseAdapter
      * Renders Form input elements for holding configurable parameters that users
      * can tweak (private key, public key, etc).
      *
-     * @param \QuickApps\View\View $view The view instance for which form elements
-     *  should be rendered
+     * @param \Cake\View\View $view The view instance for which form elements should
+     *  be rendered
      * @return string HTML containing form inputs (text boxes, check boxes, etc)
      */
     public function settings(View $view)
@@ -74,8 +74,8 @@ class BaseAdapter
     /**
      * Renders the CAPTCHA element for later use in web form.
      *
-     * @param \QuickApps\View\View $view The view instance for which the CAPTCHA
-     *  should be rendered
+     * @param \Cake\View\View $view The view instance for which the CAPTCHA should
+     *  be rendered
      * @return string HTML
      */
     public function render(View $view)
