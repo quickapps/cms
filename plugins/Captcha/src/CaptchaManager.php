@@ -55,12 +55,11 @@ class CaptchaManager
     protected static $_adapters = [];
 
     /**
-     * Gets an instance of the given adapter name, or the latest registered adapter
-     * if not given.
+     * Gets an instance of the given adapter name (or default adapter if not given).
      *
      * @param string|null $name Name of the adapter, or null to use default adapter
-     *  selected in Captcha plugin's setting page. Or latest registered adapter will
-     *  be used if not default adapter has been selected
+     *  selected in Captcha plugin's setting page. The latest registered adapter
+     *  will be used if no default adapter has been selected yet
      * @param array $config Options to be passed to Adapter's `config()` method, if
      *  not given it will try to get such parameters from Captcha plugin's settings
      * @return \Captcha\Adapter\BaseAdapter
@@ -80,7 +79,7 @@ class CaptchaManager
         }
 
         if (empty($config)) {
-            $config = (array)Plugin::get('Captcha')->settings[$name];
+            $config = (array)Plugin::get('Captcha')->settings($name);
         }
 
         if (is_string($class) && class_exists($class)) {

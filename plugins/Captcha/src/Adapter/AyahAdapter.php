@@ -13,9 +13,9 @@ namespace Captcha\Adapter;
 
 use Cake\Core\Configure;
 use Cake\Network\Request;
+use Cake\View\View;
 use Captcha\Adapter\BaseAdapter;
 use QuickApps\Core\Plugin;
-use QuickApps\View\View;
 
 /**
  * Provides "Are You A Human" CAPTCHA.
