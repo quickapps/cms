@@ -18,10 +18,10 @@ use Cake\Routing\Router;
 
 //error_reporting(0);
 $pp = Plugin::classPath('Wysiwyg');
-require $pp . 'Lib/elFinderConnector.class.php';
-require $pp . 'Lib/elFinder.class.php';
-require $pp . 'Lib/elFinderVolumeDriver.class.php';
-require $pp . 'Lib/elFinderVolumeLocalFileSystem.class.php';
+require $pp . 'Lib/ElFinder/elFinderConnector.class.php';
+require $pp . 'Lib/ElFinder/elFinder.class.php';
+require $pp . 'Lib/ElFinder/elFinderVolumeDriver.class.php';
+require $pp . 'Lib/ElFinder/elFinderVolumeLocalFileSystem.class.php';
 
 /**
  * Simple function to demonstrate how to control file access using "accessControl" callback.
