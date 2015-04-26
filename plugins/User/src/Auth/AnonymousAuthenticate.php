@@ -148,7 +148,7 @@ class AnonymousAuthenticate extends BaseAuthenticate
 
             if ($exists) {
                 $user = $this->_findUser($exists->username);
-                if ($user) {
+                if (is_array($user)) {
                     $controller = $this->_registry->getController();
                     if (isset($user['password'])) {
                         unset($user['password']);

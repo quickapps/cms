@@ -37,9 +37,9 @@ class FormHelper extends CakeFormHelper
     /**
      * Prefix to prepends to every "name" attribute of rendered inputs.
      *
-     * @var string|null
+     * @var string
      */
-    protected $_prefix = null;
+    protected $_prefix = '';
 
     /**
      * Construct the widgets and binds the default context providers
@@ -424,15 +424,15 @@ class FormHelper extends CakeFormHelper
      *
      * @param string|null $prefix The prefix to be set, or leave empty to unset any
      *  previous prefix
-     * @return void
+     * @return string Actual prefix always
      */
     public function prefix($prefix = null)
     {
         $this->alter(['FormHelper.prefix', $this->_View], $prefix);
-        if ($prefix === null) {
-            return $this->_prefix;
+        if ($prefix !== null) {
+            $this->_prefix = $prefix;
         }
-        $this->_prefix = $prefix;
+        return $this->_prefix;
     }
 
     /**

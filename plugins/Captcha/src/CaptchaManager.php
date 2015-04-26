@@ -69,7 +69,7 @@ class CaptchaManager
     public static function adapter($name = null, array $config = [])
     {
         $class = null;
-        if ($name == null) {
+        if ($name === null) {
             $default = (string)Plugin::get('Captcha')->settings('default_adapter');
             if (!empty($default)) {
                 return static::adapter($default, $config);
@@ -89,7 +89,7 @@ class CaptchaManager
         }
 
         if ($class instanceof BaseAdapter) {
-            if (!$created) {
+            if (!isset($created)) {
                 $class->config($config);
             }
             return $class;

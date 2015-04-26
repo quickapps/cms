@@ -14,7 +14,6 @@ namespace Comment\View\Helper;
 use Cake\Network\Exception\InternalErrorException;
 use Cake\ORM\Entity;
 use Captcha\CaptchaManager;
-use QuickApps\Core\Plugin;
 use QuickApps\Event\HookAwareTrait;
 use QuickApps\View\Helper;
 
