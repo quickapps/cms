@@ -77,15 +77,18 @@ class Plugin extends CakePlugin
      *
      * ```php
      * [
-     *     'Users' => '/full/path/plugins/Users',
-     *     'ThemeManager' => '/full/path/plugins/ThemeManager',
+     *     'Users' => '/full/path/plugins/Users/',
+     *     'ThemeManager' => '/full/path/plugins/ThemeManager/',
      *     ...
-     *     'MySuperPlugin' => '/full/path/plugins/MySuperPlugin',
-     *     'DarkGreenTheme' => '/full/path/plugins/DarkGreenTheme',
+     *     'MySuperPlugin' => '/full/path/plugins/MySuperPlugin/',
+     *     'DarkGreenTheme' => '/full/path/plugins/DarkGreenTheme/',
      * ]
      * ```
      *
-     * If $ignoreThemes is set to true `DarkGreenTheme` will not be part of the result
+     * If $ignoreThemes is set to true `DarkGreenTheme` will not be part of the
+     * result.
+     *
+     * NOTE: All paths includes trailing slash.
      *
      * @param bool $ignoreThemes Whether include themes as well or not
      * @return array Associative array as `PluginName` => `/full/path/to/PluginName`
@@ -106,7 +109,15 @@ class Plugin extends CakePlugin
                     if ($ignoreThemes && str_ends_with($name, 'Theme')) {
                         continue;
                     }
-                    $cache[$name] = normalizePath($dir);
+                    $cache[$name] = normalizePath("{$dir}/");
+                }
+            }
+
+            // look for Cake plugins installed using Composer
+            if (file_exists(VENDOR_INCLUDE_PATH . 'cakephp-plugins.php')) {
+                $cakePlugins = (array)include VENDOR_INCLUDE_PATH . 'cakephp-plugins.php';
+                if (!empty($cakePlugins['plugins'])) {
+                    $cache = Hash::merge($cache, $cakePlugins['plugins']);
                 }
             }
         }
