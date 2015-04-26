@@ -71,8 +71,8 @@ class WysiwygHook implements EventListenerInterface
             if (!static::$_scriptsLoaded) {
                 static::$_scriptsLoaded = true;
                 $filebrowserBrowseUrl = $_View->Url->build(['plugin' => 'Wysiwyg', 'controller' => 'finder']);
-                $_View->Html->script('Wysiwyg.ckeditor/ckeditor.js', ['block' => true]);
-                $_View->Html->script('Wysiwyg.ckeditor/adapters/jquery.js', ['block' => true]);
+                $_View->Html->script('Wysiwyg./ckeditor/ckeditor.js', ['block' => true]);
+                $_View->Html->script('Wysiwyg./ckeditor/adapters/jquery.js', ['block' => true]);
                 $_View->Html->scriptBlock('$(document).ready(function () {
                     CKEDITOR.editorConfig = function(config) {
 						config.filebrowserBrowseUrl = "' . $filebrowserBrowseUrl . '";
@@ -107,6 +107,6 @@ class WysiwygHook implements EventListenerInterface
 
         $View->Html->scriptBlock('var linksToNodesItems = ' . json_encode($items) . ';', ['block' => true]);
         $View->Html->scriptBlock('var linksToNodesLabel = "' . __d('wysiwyg', 'Link to content') . '";', ['block' => true]);
-        $View->Html->script('Wysiwyg.links.js', ['block' => true]);
+        $View->Html->script('Wysiwyg.ckeditor.node.links.js', ['block' => true]);
     }
 }

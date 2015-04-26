@@ -11,19 +11,17 @@
  */
 ?>
 
-<div class="elfinder"><?php echo __d('wysiwyg', 'Please enable JavaScript to use ElFinder plugin.'); ?></div>
+<div class="elfinder"><?php echo __d('wysiwyg', 'Please enable JavaScript to use elFinder plugin.'); ?></div>
 
-<?php $this->Html->css('/wysiwyg/js/elfinder/css/elfinder.min.css', ['block' => true]); ?>
-<?php $this->Html->css('/wysiwyg/js/elfinder/css/theme.css', ['block' => true]); ?>
+<?php $this->Html->css('Wysiwyg./elfinder/css/elfinder.min.css', ['block' => true]); ?>
+<?php $this->Html->css('Wysiwyg./elfinder/css/theme.css', ['block' => true]); ?>
+<?php $this->Html->script('Wysiwyg./elfinder/js/elfinder.min.js', ['block' => true]); ?>
 <?php $this->jQuery->theme(['block' => true]); ?>
-
 <?php $this->jQuery->ui(['block' => true]); ?>
-<?php $this->Html->script('/wysiwyg/js/elfinder/js/elfinder.min.js', ['block' => true]); ?>
 
 <script type="text/javascript" charset="utf-8">
-    var funcNum = window.location.search.replace(/^.*CKEditorFuncNum=(\d+).*$/, "$1");
-
-    function filterURL(url) {
+    function filterURL(url)
+    {
         if (url.match(/\/webroot\//i)) {
             var url = decodeURIComponent(url);
             var p = url.split('file=')[1];
@@ -43,7 +41,17 @@
         return url;
     }
 
+    function getUrlParam(paramName)
+    {
+        var reParam = new RegExp('(?:[\?&]|&amp;)' + paramName + '=([^&]+)', 'i') ;
+        var match = window.location.search.match(reParam) ;
+        return (match && match.length > 1) ? match[1] : '' ;
+    }
+
     $(document).ready(function() {
+        var funcNum = getUrlParam('CKEditorFuncNum');
+        var beeper = $(document.createElement('audio')).hide().appendTo('body')[0];
+
         $('div.elfinder').elfinder({
             url : '<?php echo $this->Url->build(['plugin' => 'Wysiwyg', 'controller' => 'finder', 'action' => 'connector', 'prefix' => 'admin']); ?>',
             dateFormat: '<?php echo __d('wysiwyg', 'M d, Y h:i A'); ?>',
@@ -55,10 +63,16 @@
                 path: '/',
                 secure: false,
             },
-            getFileCallback : function(url) {
-                window.opener.CKEDITOR.tools.callFunction(funcNum, filterURL(url));
+            getFileCallback: function(file) {
+                window.opener.CKEDITOR.tools.callFunction(funcNum, filterURL(file.url));
                 window.close();
             }
-        }).elfinder('instance');
+        })
+        .elfinder('instance')
+        .bind('rm', function(e) {
+            e.stopPropagation();
+            var play  = beeper.canPlayType && beeper.canPlayType('audio/wav; codecs="1"');
+            play && play != '' && play != 'no' && $(beeper).html('<source src="<?php echo $this->Url->build('/Wysiwyg/js/elfinder/sounds/rm.wav'); ?>" type="audio/wav">')[0].play()
+        });
     });
 </script>

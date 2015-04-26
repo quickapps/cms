@@ -31,7 +31,8 @@ require $pp . 'Lib/elFinderVolumeLocalFileSystem.class.php';
  * @param string $path  file path relative to volume root directory started with directory separator
  * @return bool|null
  **/
-function access($attr, $path, $data, $volume) {
+function access($attr, $path, $data, $volume)
+{
     if (strpos(basename($path), '.') === 0) {
         return !($attr == 'read' || $attr == 'write');
     }
@@ -53,7 +54,7 @@ function access($attr, $path, $data, $volume) {
 
 $opts = [
     'locale' => 'en_US.UTF-8',
-    'debug' => true,
+    'debug' => Configure::read('debug'),
     'roots' => [[
         'alias' => __d('wysiwyg', 'Site Files'),
         'driver' => 'LocalFileSystem',
