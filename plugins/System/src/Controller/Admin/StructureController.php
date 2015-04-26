@@ -21,22 +21,21 @@ class StructureController extends AppController
 {
 
     /**
-     * Main action for dashboard.
+     * Index.
      *
      * @return void
      */
     public function index()
     {
         $this->loadModel('Menu.MenuLinks');
-        $links = $this->MenuLinks->find('threaded')
+        $links = $this->MenuLinks
+            ->find('threaded')
             ->where([
-                    'parent_id IN' => \Cake\ORM\TableRegistry::get('Menu.MenuLinks')
-                        ->find()
-                        ->select(['id'])
-                        ->where(['title' => 'Structure'])
-                        ->extract('id')
-                        ->toArray()
-                ])
+                'parent_id IN' => $this->MenuLinks
+                    ->find()
+                    ->select(['id'])
+                    ->where(['url' => '/admin/system/structure'])
+            ])
             ->all();
 
         $this->set('links', $links);
