@@ -188,7 +188,12 @@ use QuickApps\Core\Plugin;
 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#unused-blocks"><?php echo __d('block', 'Unused or Unassigned Blocks'); ?></a></h4>
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#unused-blocks">
+                        <?php echo __d('block', 'Unused or Unassigned Blocks'); ?>
+                        <span class="badge"><?php echo count($unused->toArray()); ?></span>
+                    </a>
+                </h4>
             </div>
             <div id="unused-blocks" class="panel-collapse collapse">
                 <div class="panel-body">
