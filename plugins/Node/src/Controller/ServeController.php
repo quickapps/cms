@@ -91,6 +91,7 @@ class ServeController extends AppController
             ->limit((int)option('site_nodes_home'));
 
         $this->set('nodes', $nodes);
+        $this->viewMode('teaser');
     }
 
     /**
