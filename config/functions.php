@@ -565,15 +565,21 @@ if (!function_exists('str_replace_once')) {
      * // out: aAABBBCCC
      * ```
      *
-     * @param string $search The value being searched for
+     * @param string|array $search The value being searched for
      * @param string $replace The replacement value that replaces found search value
      * @param string $subject The string being searched and replaced on
      * @return string A string with the replaced value
      */
     function str_replace_once($search, $replace, $subject)
     {
-        if (strpos($subject, $search) !== false) {
-            return substr_replace($subject, $replace, strpos($subject, $search), strlen($search));
+        if (!is_array($search)) {
+            $search = [$search];
+        }
+
+        foreach ($search as $s) {
+            if (strpos($subject, $s) !== false) {
+                return substr_replace($subject, $replace, strpos($subject, $s), strlen($s));
+            }
         }
 
         return $subject;
@@ -591,17 +597,24 @@ if (!function_exists('str_replace_last')) {
      * // out: AAaBBBCCC
      * ```
      *
-     * @param string $search The value being searched for
+     * @param string|array $search The value being searched for
      * @param string $replace The replacement value that replaces found search value
      * @param string $subject The string being searched and replaced on
      * @return string A string with the replaced value
      */
     function str_replace_last($search, $replace, $subject)
     {
-        $pos = strrpos($subject, $search);
-        if($pos !== false) {
-            $subject = substr_replace($subject, $replace, $pos, strlen($search));
+        if (!is_array($search)) {
+            $search = [$search];
         }
+
+        foreach ($search as $s) {
+            $pos = strrpos($subject, $s);
+            if ($pos !== false) {
+                $subject = substr_replace($subject, $replace, $pos, strlen($s));
+            }
+        }
+
         return $subject;
     }
 }
