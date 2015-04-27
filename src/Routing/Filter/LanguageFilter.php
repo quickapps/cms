@@ -78,7 +78,8 @@ class LanguageFilter extends RoutingFilter
 
         $locales = array_keys(quickapps('languages'));
         $localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
-        $normalizedURL = str_replace('//', '/', "/{$request->url}");
+        $rawUrl = str_replace_once($request->base, '', env('REQUEST_URI'));
+        $normalizedURL = str_replace('//', '/', "/{$rawUrl}");
 
         if (!empty($request->query['locale']) && in_array($request->query['locale'], $locales)) {
             $request->session()->write('locale', $request->query['locale']);
