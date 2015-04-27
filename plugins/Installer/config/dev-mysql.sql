@@ -465,7 +465,7 @@ CREATE TABLE IF NOT EXISTS `menu_links` (
   `active` text COLLATE utf8_unicode_ci COMMENT 'php code, or regular expression. based on active_on_type',
   `activation` varchar(5) COLLATE utf8_unicode_ci DEFAULT 'auto' COMMENT 'php: on php return TRUE. auto: auto-detect; any: request''s URL matches any in "active" column; none: request''s URL matches none of listed in "active" column',
   `status` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `menu_links`
@@ -473,20 +473,34 @@ CREATE TABLE IF NOT EXISTS `menu_links` (
 
 INSERT INTO `menu_links` (`id`, `menu_id`, `lft`, `rght`, `parent_id`, `url`, `description`, `title`, `target`, `expanded`, `active`, `activation`, `status`) VALUES
 (1, 1, 1, 2, 0, '/admin/system/dashboard', NULL, 'Dashboard', '_self', 1, '/admin/system/dashboard\r\n/admin\r\n/admin/', 'any', 1),
-(2, 1, 3, 10, 0, '/admin/system/structure', NULL, 'Structure', '_self', 0, NULL, 'auto', 1),
-(3, 1, 11, 12, 0, '/admin/node/manage', NULL, 'Content', '_self', 0, '/admin/node/manage*\r\n/admin/node/comments*\r\n/admin/node/types*\r\n/admin/node/fields*', 'any', 1),
-(4, 1, 13, 14, 0, '/admin/system/themes', NULL, 'Themes', '_self', 0, NULL, NULL, 1),
-(5, 1, 15, 16, 0, '/admin/system/plugins', NULL, 'Plugins', '_self', 0, NULL, NULL, 1),
-(6, 1, 17, 18, 0, '/admin/user/manage', NULL, 'Users', '_self', 0, NULL, NULL, 1),
-(7, 1, 21, 22, 0, '/admin/system/configuration', NULL, 'Configuration', '_self', 0, NULL, NULL, 1),
-(8, 1, 23, 24, 0, '/admin/system/help', NULL, 'Help', '_self', 0, NULL, NULL, 1),
+(2, 1, 3, 10, 0, '/admin/system/structure', '', 'Structure', '_self', 1, '', 'auto', 1),
+(3, 1, 11, 20, 0, '/admin/node/manage', '', 'Content', '_self', 1, '/admin/node/manage*\r\n/admin/node/comments*\r\n/admin/node/types*\r\n/admin/node/fields*', 'any', 1),
+(4, 1, 21, 26, 0, '/admin/system/themes', '', 'Appearance', '_self', 1, 'admin/system/themes*', 'any', 1),
+(5, 1, 27, 32, 0, '/admin/system/plugins', '', 'Extensions', '_self', 1, 'admin/system/plugins*', 'any', 1),
+(6, 1, 33, 42, 0, '/admin/user/manage', '', 'Users', '_self', 1, '/admin/user*', 'any', 1),
+(7, 1, 49, 50, 0, '/admin/system/configuration', '', 'Configuration', '_self', 0, '/admin/system/configuration*', 'any', 1),
+(8, 1, 51, 52, 0, '/admin/system/help', '', 'Help', '_self', 0, '/admin/system/help*', 'any', 1),
 (9, 1, 4, 5, 2, '/admin/block/manage', 'Configure what block content appears in your site''s sidebars and other regions.', 'Blocks', '_self', 0, NULL, NULL, 1),
 (11, 1, 6, 7, 2, '/admin/menu/manage', 'Add new menus to your site, edit existing menus, and rename and reorganize menu links.', 'Menus', '_self', 0, NULL, NULL, 1),
-(12, 1, 8, 9, 2, '/admin/taxonomy/manage', 'Manage tagging, categorization, and classification of your content.', 'Taxonomy', '_self', 0, NULL, NULL, 1),
-(13, 1, 19, 20, 0, '/admin/locale', '', 'Languages', '_self', 0, NULL, NULL, 1),
+(12, 1, 8, 9, 2, '/admin/taxonomy/vocabularies', 'Manage tagging, categorization, and classification of your content.', 'Taxonomy', '_self', 0, NULL, NULL, 1),
+(13, 1, 43, 48, 0, '/admin/locale/', '', 'Languages', '_self', 1, '/admin/locale/*', 'any', 1),
 (14, 2, 3, 4, 0, '/page/about.html', '', 'About', '_self', 0, NULL, NULL, 1),
 (16, 2, 1, 2, 0, '/', '', 'Home', '_self', 0, NULL, NULL, 1),
-(17, 2, 5, 6, 0, '/find/type:article', '', 'Blog', '_self', 0, '/article/*.html\r\n/find/*type:article*', 'any', 1);
+(17, 2, 5, 6, 0, '/find/type:article', '', 'Blog', '_self', 0, '/article/*.html\r\n/find/*type:article*', 'any', 1),
+(18, 1, 12, 13, 3, '/admin/node/manage/index', '', 'Contents List', '', 0, '', 'auto', 1),
+(19, 1, 14, 15, 3, '/admin/node/manage/create', '', 'Create New Content', '', 0, '', 'auto', 1),
+(20, 1, 16, 17, 3, '/admin/node/types', '', 'Content Types', '', 0, '/admin/node/fields*', 'any', 1),
+(21, 1, 18, 19, 3, '/admin/node/comments/', '', 'Comments', '', 0, '', 'auto', 1),
+(22, 1, 22, 23, 4, '/admin/system/themes/index', '', 'Themes', '', 0, '/admin/system/themes\r\n/admin/system/themes/index', 'any', 1),
+(23, 1, 24, 25, 4, '/admin/system/themes/install', '', 'Install New Theme', '', 0, '', 'auto', 1),
+(24, 1, 28, 29, 5, '/admin/system/plugins/index', '', 'Plugins', '', 0, '', 'auto', 1),
+(25, 1, 30, 31, 5, '/admin/system/plugins/install', '', 'Install New Plugin', '', 0, '', 'auto', 1),
+(26, 1, 34, 35, 6, '/admin/user/manage/index', '', 'Users List', '', 0, '', 'auto', 1),
+(27, 1, 36, 37, 6, '/admin/user/roles', '', 'User Roles', '', 0, '', 'auto', 1),
+(28, 1, 38, 39, 6, '/admin/user/permissions', '', 'Permissions', '', 0, '', 'auto', 1),
+(29, 1, 44, 45, 13, '/admin/locale/manage/index', '', 'Installed Languages', '', 0, '', 'auto', 1),
+(30, 1, 46, 47, 13, '/admin/locale/manage/add', '', 'Add New Language', '', 0, '', 'auto', 1),
+(31, 1, 40, 41, 6, '/admin/user/fields', '', 'Virtual Fields', '', 0, '/admin/user/fields*', 'any', 1);
 
 -- --------------------------------------------------------
 
@@ -1028,7 +1042,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 -- AUTO_INCREMENT for table `menu_links`
 --
 ALTER TABLE `menu_links`
-MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
+MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT for table `nodes`
 --
