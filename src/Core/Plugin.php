@@ -117,7 +117,7 @@ class Plugin extends CakePlugin
             if (file_exists(VENDOR_INCLUDE_PATH . 'cakephp-plugins.php')) {
                 $cakePlugins = (array)include VENDOR_INCLUDE_PATH . 'cakephp-plugins.php';
                 if (!empty($cakePlugins['plugins'])) {
-                    $cache = Hash::merge($cache, $cakePlugins['plugins']);
+                    $cache = Hash::merge($cakePlugins['plugins'], $cache);
                 }
             }
         }
