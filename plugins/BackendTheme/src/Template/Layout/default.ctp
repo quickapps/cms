@@ -70,6 +70,25 @@
         </nav>
 
         <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-search">
+                <?php echo $this->Form->create(null, ['type' => 'get', 'url' => '/admin/node/manage/index']); ?>
+                    <div class="input-group">
+                        <?php
+                            echo $this->Form->input('filter', [
+                                'label' => false,
+                                'required',
+                                'placeholder' => __d('backend_theme', 'Search Content...'),
+                            ]);
+                        ?>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">
+                                <span class="fa fa-search"></span>
+                            </button>
+                        </span>
+                    </div>
+                <?php echo $this->Form->end(); ?>
+            </div>
+
             <div class="sidebar-nav navbar-collapse">
                 <?php echo $this->region('main-menu')->render(); ?>
             </div>
