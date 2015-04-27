@@ -577,7 +577,7 @@ if (!function_exists('str_replace_once')) {
         }
 
         foreach ($search as $s) {
-            if (strpos($subject, $s) !== false) {
+            if ($s !== '' && strpos($subject, $s) !== false) {
                 return substr_replace($subject, $replace, strpos($subject, $s), strlen($s));
             }
         }
@@ -609,9 +609,8 @@ if (!function_exists('str_replace_last')) {
         }
 
         foreach ($search as $s) {
-            $pos = strrpos($subject, $s);
-            if ($pos !== false) {
-                $subject = substr_replace($subject, $replace, $pos, strlen($s));
+            if ($s !== '' && strrpos($subject, $s) !== false) {
+                $subject = substr_replace($subject, $replace, strrpos($subject, $s), strlen($s));
             }
         }
 
